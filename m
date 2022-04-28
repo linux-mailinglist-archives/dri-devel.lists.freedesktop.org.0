@@ -1,64 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6331E5130F9
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 12:11:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E2451313C
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 12:25:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3084510F8F0;
-	Thu, 28 Apr 2022 10:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0594110F825;
+	Thu, 28 Apr 2022 10:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B780110F8F5
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 10:11:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 68E3E210DF;
- Thu, 28 Apr 2022 10:11:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651140673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/KslfQX88wLF82N4J7f048qhuaPlJ9b6cf1qTvn+pSU=;
- b=U6yswSfH3BlfvB6lbKvmfDzXBBY8o4NP1SBw7IaYV72d/soq/c+21u95JikK4rogFogCsP
- c1mt+w7xR/PmSLTtaBQLtouXguW5V7xoVhD2yo9gRbRrQPvPVx9shAh24kpKIiSdY14mSQ
- /c4Tg68CUBFlH5/ZHTitxOgQmFghScc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651140673;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/KslfQX88wLF82N4J7f048qhuaPlJ9b6cf1qTvn+pSU=;
- b=XwbB4t2lAIPPTCGRwWvUzlmBuR+FY3cS/2bceyq+N12/Bu1vmI2RDZB5QF35P5K2NfcpST
- 76opv6xUPp97PaCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D19413AF8;
- Thu, 28 Apr 2022 10:11:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hrrrEUFoamKiYQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 28 Apr 2022 10:11:13 +0000
-Message-ID: <dea44adb-b270-3fd4-c9a1-d58ee028154e@suse.de>
-Date: Thu, 28 Apr 2022 12:11:12 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16CB610F844;
+ Thu, 28 Apr 2022 10:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651141512; x=1682677512;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=xK9+17CJzdcg/ctqZT/S+mhT3On/uQf2HhqLBHv7dHs=;
+ b=j3IxZqQnEAIRUsDkPzX18E3STZUoycLRP6LSqoG8sVi84AYJwsVlROSt
+ FfvkEiAqmXKg75Epr5XVadN9pWxiCejtMZ7dd1fN1IOLHWT0GpAICQtJl
+ DHRF1LK6h3d5bYr5Gd5rRmSjJXUovHJI94MOLq+EPSZpne2tDkItxnN/+
+ GLwMigpAmdzsvKotUkKauScS4ogS8AtTcp7q06odb4h+E87PayBB+Cidc
+ fEX76fUu7jroNrB6eF/I1X6axlAs6BF8qfUPMYwSX8wMBqwyvduCoh599
+ bBK1xzN/9vm/yVI/M4kIAICQQRlHrrSbhF+To4WMpd/AaHDDCazGQPaWo g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="248169634"
+X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="248169634"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 03:25:11 -0700
+X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="629482568"
+Received: from mallen2-mobl1.ger.corp.intel.com (HELO [10.252.7.129])
+ ([10.252.7.129])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 03:25:09 -0700
+Message-ID: <c1344274-343e-ddc0-3d03-a5b69e16b182@intel.com>
+Date: Thu, 28 Apr 2022 11:25:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm: handle kernel fences in
- drm_gem_plane_helper_prepare_fb v2
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20220428094016.1401-1-christian.koenig@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220428094016.1401-1-christian.koenig@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------MNK0BUfNh4A5LHBefVB8lwFG"
+ Thunderbird/91.7.0
+Subject: Re: [Intel-gfx] [PATCH v2] drm/doc: add rfc section for small BAR uapi
+Content-Language: en-GB
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220420171328.57253-1-matthew.auld@intel.com>
+ <c8875f46-c0f7-1e3e-d48c-165dbc9d8b55@linux.intel.com>
+ <896cba53-4c94-6de2-e8a3-ace648386576@intel.com>
+ <effe7753-8948-a287-bbc6-db4675cba017@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <effe7753-8948-a287-bbc6-db4675cba017@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,252 +63,439 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>, mesa-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------MNK0BUfNh4A5LHBefVB8lwFG
-Content-Type: multipart/mixed; boundary="------------LHjwyB5Xts0HcpMVGszorqtd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <dea44adb-b270-3fd4-c9a1-d58ee028154e@suse.de>
-Subject: Re: [PATCH] drm: handle kernel fences in
- drm_gem_plane_helper_prepare_fb v2
-References: <20220428094016.1401-1-christian.koenig@amd.com>
-In-Reply-To: <20220428094016.1401-1-christian.koenig@amd.com>
+On 28/04/2022 09:55, Tvrtko Ursulin wrote:
+> 
+> On 27/04/2022 18:36, Matthew Auld wrote:
+>> On 27/04/2022 09:36, Tvrtko Ursulin wrote:
+>>>
+>>> On 20/04/2022 18:13, Matthew Auld wrote:
+>>>> Add an entry for the new uapi needed for small BAR on DG2+.
+>>>>
+>>>> v2:
+>>>>    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
+>>>>    - Rework error capture interactions, including no longer needing
+>>>>      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
+>>>>    - Add probed_cpu_visible_size. (Lionel)
+>>>>
+>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> Cc: Jordan Justen <jordan.l.justen@intel.com>
+>>>> Cc: Kenneth Graunke <kenneth@whitecape.org>
+>>>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+>>>> Cc: mesa-dev@lists.freedesktop.org
+>>>> ---
+>>>>   Documentation/gpu/rfc/i915_small_bar.h   | 190 
+>>>> +++++++++++++++++++++++
+>>>>   Documentation/gpu/rfc/i915_small_bar.rst |  58 +++++++
+>>>>   Documentation/gpu/rfc/index.rst          |   4 +
+>>>>   3 files changed, 252 insertions(+)
+>>>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
+>>>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
+>>>>
+>>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.h 
+>>>> b/Documentation/gpu/rfc/i915_small_bar.h
+>>>> new file mode 100644
+>>>> index 000000000000..7bfd0cf44d35
+>>>> --- /dev/null
+>>>> +++ b/Documentation/gpu/rfc/i915_small_bar.h
+>>>> @@ -0,0 +1,190 @@
+>>>> +/**
+>>>> + * struct __drm_i915_memory_region_info - Describes one region as 
+>>>> known to the
+>>>> + * driver.
+>>>> + *
+>>>> + * Note this is using both struct drm_i915_query_item and struct 
+>>>> drm_i915_query.
+>>>> + * For this new query we are adding the new query id 
+>>>> DRM_I915_QUERY_MEMORY_REGIONS
+>>>> + * at &drm_i915_query_item.query_id.
+>>>> + */
+>>>> +struct __drm_i915_memory_region_info {
+>>>> +    /** @region: The class:instance pair encoding */
+>>>> +    struct drm_i915_gem_memory_class_instance region;
+>>>> +
+>>>> +    /** @rsvd0: MBZ */
+>>>> +    __u32 rsvd0;
+>>>> +
+>>>> +    /** @probed_size: Memory probed by the driver (-1 = unknown) */
+>>>> +    __u64 probed_size;
+>>>> +
+>>>> +    /** @unallocated_size: Estimate of memory remaining (-1 = 
+>>>> unknown) */
+>>>> +    __u64 unallocated_size;
+>>>> +
+>>>> +    union {
+>>>> +        /** @rsvd1: MBZ */
+>>>> +        __u64 rsvd1[8];
+>>>> +        struct {
+>>>> +            /**
+>>>> +             * @probed_cpu_visible_size: Memory probed by the driver
+>>>> +             * that is CPU accessible. (-1 = unknown).
+>>>> +             *
+>>>> +             * This will be always be <= @probed_size, and the
+>>>> +             * remainder(if there is any) will not be CPU
+>>>> +             * accessible.
+>>>> +             */
+>>>> +            __u64 probed_cpu_visible_size;
+>>>
+>>> Would unallocated_cpu_visible_size be useful, to follow the total 
+>>> unallocated_size?
+>>
+>> Make sense. But I don't think unallocated_size has actually been 
+>> properly wired up yet. It still just gives the same value as 
+>> probed_size. IIRC for unallocated_size we still need a real 
+>> user/usecase/umd, before wiring that up for real with the existing 
+>> avail tracking. Once we have that we can also add 
+>> unallocated_cpu_visible_size.
+> 
+> So this does nothing at the moment:
+> 
+>   info.unallocated_size = mr->avail;
+> 
+> Right, it is set to "mem->avail = mem->total;" at region init time and I 
+> indeed can't find it ever getting modified. Okay.
+> 
+>>> Btw, have we ever considered whether unallocated_size should require 
+>>> CAP_SYS_ADMIN/PERFMON or something?
+>>
+>> Note sure. But just in case we do add it for real at some point, why 
+>> the added restriction?
+> 
+> To avoid a side channel, albeit perhaps a very weak one. For engine 
+> utilization we require CAP_SYS_PERFMON, but that is implied by the perf 
+> core API. It's open for discussion. I guess it may make sense to limit 
+> it also because it is questionable the field(s) are even useful.
+> 
+>>
+>>>
+>>>> +        };
+>>>> +    };
+>>>> +};
+>>>> +
+>>>> +/**
+>>>> + * struct __drm_i915_gem_create_ext - Existing gem_create 
+>>>> behaviour, with added
+>>>> + * extension support using struct i915_user_extension.
+>>>> + *
+>>>> + * Note that new buffer flags should be added here, at least for 
+>>>> the stuff that
+>>>> + * is immutable. Previously we would have two ioctls, one to create 
+>>>> the object
+>>>> + * with gem_create, and another to apply various parameters, 
+>>>> however this
+>>>> + * creates some ambiguity for the params which are considered 
+>>>> immutable. Also in
+>>>> + * general we're phasing out the various SET/GET ioctls.
+>>>> + */
+>>>> +struct __drm_i915_gem_create_ext {
+>>>> +    /**
+>>>> +     * @size: Requested size for the object.
+>>>> +     *
+>>>> +     * The (page-aligned) allocated size for the object will be 
+>>>> returned.
+>>>> +     *
+>>>> +     * Note that for some devices we have might have further minimum
+>>>> +     * page-size restrictions(larger than 4K), likefor device 
+>>>> local-memory.
+>>>> +     * However in general the final size here should always reflect 
+>>>> any
+>>>> +     * rounding up, if for example using the 
+>>>> I915_GEM_CREATE_EXT_MEMORY_REGIONS
+>>>> +     * extension to place the object in device local-memory.
+>>>> +     */
+>>>> +    __u64 size;
+>>>> +    /**
+>>>> +     * @handle: Returned handle for the object.
+>>>> +     *
+>>>> +     * Object handles are nonzero.
+>>>> +     */
+>>>> +    __u32 handle;
+>>>> +    /**
+>>>> +     * @flags: Optional flags.
+>>>> +     *
+>>>> +     * Supported values:
+>>>> +     *
+>>>> +     * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the 
+>>>> kernel that
+>>>> +     * the object will need to be accessed via the CPU.
+>>>> +     *
+>>>> +     * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, 
+>>>> and
+>>>> +     * only strictly required on platforms where only some of the 
+>>>> device
+>>>> +     * memory is directly visible or mappable through the CPU, like 
+>>>> on DG2+.
+>>>> +     *
+>>>> +     * One of the placements MUST also be I915_MEMORY_CLASS_SYSTEM, to
+>>>> +     * ensure we can always spill the allocation tosystem memory, 
+>>>> if we
+>>>> +     * can't place the object in the mappable part of
+>>>> +     * I915_MEMORY_CLASS_DEVICE.
+>>>> +     *
+>>>> +     * Note that since the kernel only supports flat-CCS on objects 
+>>>> that can
+>>>> +     * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore 
+>>>> don't
+>>>> +     * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
+>>>> +     * flat-CCS.
+>>>> +     *
+>>>> +     * Without this hint, the kernel will assume that non-mappable
+>>>> +     * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note 
+>>>> that the
+>>>> +     * kernel can still migrate the object to the mappable part, as 
+>>>> a last
+>>>> +     * resort, if userspace ever CPU faults this object, but this 
+>>>> might be
+>>>> +     * expensive, and so ideally should be avoided.
+>>>> +     */
+>>>
+>>> So "needs_cpu_access" flag could almost be viewed as a sub-region 
+>>> placement priority? What I mean is this:
+>>>
+>>> 1)
+>>> placements=device,system flags=
+>>>
+>>> This results in placement priorities: device, device_cpu_mappable, 
+>>> system.
+>>
+>> Yup.
+>>
+>>>
+>>> 2)
+>>> placements=device,system flags=needs_cpu_access
+>>>
+>>> This results in placement priorities: device_cpu_mappable, device, 
+>>> system.
+>>
+>> Here it would only be: device_cpu_mappable, system. We would 
+>> completely ignore "device" in this case.
+>>
+>>>
+>>> Is this correct?
+>>>
+>>> The benefit of the flag is that i915 can place the object to the 
+>>> right place from the start instead of on the first CPU access? Is 
+>>> that worth it or is there more to it?
+>>
+>> Yeah, the object will only be placed somewhere that is also CPU 
+>> mappable, with the flag set.
+> 
+> Hm, wouldn't it be more efficient to be able to migrate it over to 
+> non-mappable in cases when mappable is over-subscribed?
 
---------------LHjwyB5Xts0HcpMVGszorqtd
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Not sure. As an alternative strategy, I guess that might be interesting, 
+and if userspace wants something like that we can always add a new flag 
+I guess? It's a toss up whether just using system memory is better/worse 
+than incurring an extra move at fault time?
 
-SGkNCg0KQW0gMjguMDQuMjIgdW0gMTE6NDAgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBkcm1fZ2VtX3BsYW5lX2hlbHBlcl9wcmVwYXJlX2ZiKCkgd2FzIHVzaW5nDQo+IGRybV9h
-dG9taWNfc2V0X2ZlbmNlX2Zvcl9wbGFuZSgpIHdoaWNoIGlnbm9yZXMgYWxsIGltcGxpY2l0
-IGZlbmNlcyB3aGVuIGFuDQo+IGV4cGxpY2l0IGZlbmNlIGlzIGFscmVhZHkgc2V0LiBUaGF0
-J3MgcmF0aGVyIHVuZm9ydHVuYXRlIHdoZW4gdGhlIGZiIHN0aWxsDQo+IGhhcyBhIGtlcm5l
-bCBmZW5jZSB3ZSBuZWVkIHRvIHdhaXQgZm9yIHRvIGF2b2lkIHByZXNlbnRpbmcgZ2FyYmFn
-ZSBvbiB0aGUNCj4gc2NyZWVuLg0KPiANCj4gU28gaW5zdGVhZCB1cGRhdGUgdGhlIGZlbmNl
-IGluIHRoZSBwbGFuZSBzdGF0ZSBkaXJlY3RseS4gV2hpbGUgYXQgaXQgYWxzbw0KPiB0YWtl
-IGNhcmUgb2YgYWxsIHBvdGVudGlhbCBHRU0gb2JqZWN0cyBhbmQgbm90IGp1c3QgdGhlIGZp
-cnN0IG9uZS4NCj4gDQo+IEFsc28gcmVtb3ZlIHRoZSBub3cgdW51c2VkIGRybV9hdG9taWNf
-c2V0X2ZlbmNlX2Zvcl9wbGFuZSgpIGZ1bmN0aW9uLCBuZXcNCj4gZHJpdmVycyBzaG91bGQg
-cHJvYmFibHkgdXNlIHRoZSBhdG9taWMgaGVscGVycyBkaXJlY3RseS4NCj4gDQo+IHYyOiBp
-bXByb3ZlIGtlcm5lbGRvYywgdXNlIGxvY2FsIHZhcmlhYmxlIGFuZCBudW1fcGxhbmVzLCBX
-QVJOX09OX09OQ0UNCj4gICAgICBvbiBtaXNzaW5nIHBsYW5lcy4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4g
-UmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+ICh2
-MSkNCg0KQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-Pg0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3VhcGkuYyAgICAg
-ICB8IDQ3ICsrLS0tLS0tLS0tLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9h
-dG9taWNfaGVscGVyLmMgfCA3MyArKysrKysrKysrKysrKysrKysrLS0tLS0tDQo+ICAgaW5j
-bHVkZS9kcm0vZHJtX2F0b21pY191YXBpLmggICAgICAgICAgIHwgIDIgLQ0KPiAgIGluY2x1
-ZGUvZHJtL2RybV9wbGFuZS5oICAgICAgICAgICAgICAgICB8ICA0ICstDQo+ICAgNCBmaWxl
-cyBjaGFuZ2VkLCA2MiBpbnNlcnRpb25zKCspLCA2NCBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMNCj4gaW5kZXggYzYzOTRiYTEzYjI0Li40MzRm
-M2Q0Y2I4YTIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3Vh
-cGkuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMNCj4gQEAg
-LTI1NCw0MyArMjU0LDYgQEAgZHJtX2F0b21pY19zZXRfZmJfZm9yX3BsYW5lKHN0cnVjdCBk
-cm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlLA0KPiAgIH0NCj4gICBFWFBPUlRfU1lNQk9M
-KGRybV9hdG9taWNfc2V0X2ZiX2Zvcl9wbGFuZSk7DQo+ICAgDQo+IC0vKioNCj4gLSAqIGRy
-bV9hdG9taWNfc2V0X2ZlbmNlX2Zvcl9wbGFuZSAtIHNldCBmZW5jZSBmb3IgcGxhbmUNCj4g
-LSAqIEBwbGFuZV9zdGF0ZTogYXRvbWljIHN0YXRlIG9iamVjdCBmb3IgdGhlIHBsYW5lDQo+
-IC0gKiBAZmVuY2U6IGRtYV9mZW5jZSB0byB1c2UgZm9yIHRoZSBwbGFuZQ0KPiAtICoNCj4g
-LSAqIEhlbHBlciB0byBzZXR1cCB0aGUgcGxhbmVfc3RhdGUgZmVuY2UgaW4gY2FzZSBpdCBp
-cyBub3Qgc2V0IHlldC4NCj4gLSAqIEJ5IHVzaW5nIHRoaXMgZHJpdmVycyBkb2Vzbid0IG5l
-ZWQgdG8gd29ycnkgaWYgdGhlIHVzZXIgY2hvb3NlDQo+IC0gKiBpbXBsaWNpdCBvciBleHBs
-aWNpdCBmZW5jaW5nLg0KPiAtICoNCj4gLSAqIFRoaXMgZnVuY3Rpb24gd2lsbCBub3Qgc2V0
-IHRoZSBmZW5jZSB0byB0aGUgc3RhdGUgaWYgaXQgd2FzIHNldA0KPiAtICogdmlhIGV4cGxp
-Y2l0IGZlbmNpbmcgaW50ZXJmYWNlcyBvbiB0aGUgYXRvbWljIGlvY3RsLiBJbiB0aGF0IGNh
-c2UgaXQgd2lsbA0KPiAtICogZHJvcCB0aGUgcmVmZXJlbmNlIHRvIHRoZSBmZW5jZSBhcyB3
-ZSBhcmUgbm90IHN0b3JpbmcgaXQgYW55d2hlcmUuDQo+IC0gKiBPdGhlcndpc2UsIGlmICZk
-cm1fcGxhbmVfc3RhdGUuZmVuY2UgaXMgbm90IHNldCB0aGlzIGZ1bmN0aW9uIHdlIGp1c3Qg
-c2V0IGl0DQo+IC0gKiB3aXRoIHRoZSByZWNlaXZlZCBpbXBsaWNpdCBmZW5jZS4gSW4gYm90
-aCBjYXNlcyB0aGlzIGZ1bmN0aW9uIGNvbnN1bWVzIGENCj4gLSAqIHJlZmVyZW5jZSBmb3Ig
-QGZlbmNlLg0KPiAtICoNCj4gLSAqIFRoaXMgd2F5IGV4cGxpY2l0IGZlbmNpbmcgY2FuIGJl
-IHVzZWQgdG8gb3ZlcnJ1bGUgaW1wbGljaXQgZmVuY2luZywgd2hpY2ggaXMNCj4gLSAqIGlt
-cG9ydGFudCB0byBtYWtlIGV4cGxpY2l0IGZlbmNpbmcgdXNlLWNhc2VzIHdvcms6IE9uZSBl
-eGFtcGxlIGlzIHVzaW5nIG9uZQ0KPiAtICogYnVmZmVyIGZvciAyIHNjcmVlbnMgd2l0aCBk
-aWZmZXJlbnQgcmVmcmVzaCByYXRlcy4gSW1wbGljaXQgZmVuY2luZyB3aWxsDQo+IC0gKiBj
-bGFtcCByZW5kZXJpbmcgdG8gdGhlIHJlZnJlc2ggcmF0ZSBvZiB0aGUgc2xvd2VyIHNjcmVl
-biwgd2hlcmVhcyBleHBsaWNpdA0KPiAtICogZmVuY2UgYWxsb3dzIDIgaW5kZXBlbmRlbnQg
-cmVuZGVyIGFuZCBkaXNwbGF5IGxvb3BzIG9uIGEgc2luZ2xlIGJ1ZmZlci4gSWYgYQ0KPiAt
-ICogZHJpdmVyIGFsbG93cyBvYmV5cyBib3RoIGltcGxpY2l0IGFuZCBleHBsaWNpdCBmZW5j
-ZXMgZm9yIHBsYW5lIHVwZGF0ZXMsIHRoZW4NCj4gLSAqIGl0IHdpbGwgYnJlYWsgYWxsIHRo
-ZSBiZW5lZml0cyBvZiBleHBsaWNpdCBmZW5jaW5nLg0KPiAtICovDQo+IC12b2lkDQo+IC1k
-cm1fYXRvbWljX3NldF9mZW5jZV9mb3JfcGxhbmUoc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAq
-cGxhbmVfc3RhdGUsDQo+IC0JCQkgICAgICAgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpDQo+
-IC17DQo+IC0JaWYgKHBsYW5lX3N0YXRlLT5mZW5jZSkgew0KPiAtCQlkbWFfZmVuY2VfcHV0
-KGZlbmNlKTsNCj4gLQkJcmV0dXJuOw0KPiAtCX0NCj4gLQ0KPiAtCXBsYW5lX3N0YXRlLT5m
-ZW5jZSA9IGZlbmNlOw0KPiAtfQ0KPiAtRVhQT1JUX1NZTUJPTChkcm1fYXRvbWljX3NldF9m
-ZW5jZV9mb3JfcGxhbmUpOw0KPiAtDQo+ICAgLyoqDQo+ICAgICogZHJtX2F0b21pY19zZXRf
-Y3J0Y19mb3JfY29ubmVjdG9yIC0gc2V0IENSVEMgZm9yIGNvbm5lY3Rvcg0KPiAgICAqIEBj
-b25uX3N0YXRlOiBhdG9taWMgc3RhdGUgb2JqZWN0IGZvciB0aGUgY29ubmVjdG9yDQo+IEBA
-IC0xMDc3LDEwICsxMDQwLDEwIEBAIGludCBkcm1fYXRvbWljX3NldF9wcm9wZXJ0eShzdHJ1
-Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUsDQo+ICAgICoNCj4gICAgKiBBcyBhIGNvbnRy
-YXN0LCB3aXRoIGltcGxpY2l0IGZlbmNpbmcgdGhlIGtlcm5lbCBrZWVwcyB0cmFjayBvZiBh
-bnkNCj4gICAgKiBvbmdvaW5nIHJlbmRlcmluZywgYW5kIGF1dG9tYXRpY2FsbHkgZW5zdXJl
-cyB0aGF0IHRoZSBhdG9taWMgdXBkYXRlIHdhaXRzDQo+IC0gKiBmb3IgYW55IHBlbmRpbmcg
-cmVuZGVyaW5nIHRvIGNvbXBsZXRlLiBGb3Igc2hhcmVkIGJ1ZmZlcnMgcmVwcmVzZW50ZWQg
-d2l0aA0KPiAtICogYSAmc3RydWN0IGRtYV9idWYgdGhpcyBpcyB0cmFja2VkIGluICZzdHJ1
-Y3QgZG1hX3Jlc3YuDQo+IC0gKiBJbXBsaWNpdCBzeW5jaW5nIGlzIGhvdyBMaW51eCB0cmFk
-aXRpb25hbGx5IHdvcmtlZCAoZS5nLiBEUkkyLzMgb24gWC5vcmcpLA0KPiAtICogd2hlcmVh
-cyBleHBsaWNpdCBmZW5jaW5nIGlzIHdoYXQgQW5kcm9pZCB3YW50cy4NCj4gKyAqIGZvciBh
-bnkgcGVuZGluZyByZW5kZXJpbmcgdG8gY29tcGxldGUuIFRoaXMgaXMgdXN1YWxseSB0cmFj
-a2VkIGluICZzdHJ1Y3QNCj4gKyAqIGRtYV9yZXN2IHdoaWNoIGNhbiBhbHNvIGNvbnRhaW4g
-bWFuZGF0b3J5IGtlcm5lbCBmZW5jZXMuIEltcGxpY2l0IHN5bmNpbmcNCj4gKyAqIGlzIGhv
-dyBMaW51eCB0cmFkaXRpb25hbGx5IHdvcmtlZCAoZS5nLiBEUkkyLzMgb24gWC5vcmcpLCB3
-aGVyZWFzIGV4cGxpY2l0DQo+ICsgKiBmZW5jaW5nIGlzIHdoYXQgQW5kcm9pZCB3YW50cy4N
-Cj4gICAgKg0KPiAgICAqICJJTl9GRU5DRV9GROKAnToNCj4gICAgKglVc2UgdGhpcyBwcm9w
-ZXJ0eSB0byBwYXNzIGEgZmVuY2UgdGhhdCBEUk0gc2hvdWxkIHdhaXQgb24gYmVmb3JlDQo+
-IEBAIC0xMDk1LDcgKzEwNTgsNyBAQCBpbnQgZHJtX2F0b21pY19zZXRfcHJvcGVydHkoc3Ry
-dWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlLA0KPiAgICAqDQo+ICAgICoJT24gdGhlIGRy
-aXZlciBzaWRlIHRoZSBmZW5jZSBpcyBzdG9yZWQgb24gdGhlIEBmZW5jZSBwYXJhbWV0ZXIg
-b2YNCj4gICAgKgkmc3RydWN0IGRybV9wbGFuZV9zdGF0ZS4gRHJpdmVycyB3aGljaCBhbHNv
-IHN1cHBvcnQgaW1wbGljaXQgZmVuY2luZw0KPiAtICoJc2hvdWxkIHNldCB0aGUgaW1wbGlj
-aXQgZmVuY2UgdXNpbmcgZHJtX2F0b21pY19zZXRfZmVuY2VfZm9yX3BsYW5lKCksDQo+ICsg
-KglzaG91bGQgZXh0cmFjdCB0aGUgaW1wbGljaXQgZmVuY2UgdXNpbmcgZHJtX2dlbV9wbGFu
-ZV9oZWxwZXJfcHJlcGFyZV9mYigpLA0KPiAgICAqCXRvIG1ha2Ugc3VyZSB0aGVyZSdzIGNv
-bnNpc3RlbnQgYmVoYXZpb3VyIGJldHdlZW4gZHJpdmVycyBpbiBwcmVjZWRlbmNlDQo+ICAg
-ICoJb2YgaW1wbGljaXQgdnMuIGV4cGxpY2l0IGZlbmNpbmcuDQo+ICAgICoNCj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2F0b21pY19oZWxwZXIuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZ2VtX2F0b21pY19oZWxwZXIuYw0KPiBpbmRleCBhNmQ4OWFlZDBi
-ZGEuLmE1MDI2ZjYxNzczOSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9n
-ZW1fYXRvbWljX2hlbHBlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2F0
-b21pY19oZWxwZXIuYw0KPiBAQCAtMSw2ICsxLDcgQEANCj4gICAvLyBTUERYLUxpY2Vuc2Ut
-SWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcg0KPiAgIA0KPiAgICNpbmNsdWRlIDxsaW51
-eC9kbWEtcmVzdi5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L2RtYS1mZW5jZS1jaGFpbi5oPg0K
-PiAgIA0KPiAgICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19zdGF0ZV9oZWxwZXIuaD4NCj4g
-ICAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfdWFwaS5oPg0KPiBAQCAtMTM3LDI5ICsxMzgs
-NjcgQEANCj4gICAgKg0KPiAgICAqIFRoaXMgZnVuY3Rpb24gaXMgdGhlIGRlZmF1bHQgaW1w
-bGVtZW50YXRpb24gZm9yIEdFTSBkcml2ZXJzIG9mDQo+ICAgICogJmRybV9wbGFuZV9oZWxw
-ZXJfZnVuY3MucHJlcGFyZV9mYiBpZiBubyBjYWxsYmFjayBpcyBwcm92aWRlZC4NCj4gLSAq
-DQo+IC0gKiBTZWUgZHJtX2F0b21pY19zZXRfZmVuY2VfZm9yX3BsYW5lKCkgZm9yIGEgZGlz
-Y3Vzc2lvbiBvZiBpbXBsaWNpdCBhbmQNCj4gLSAqIGV4cGxpY2l0IGZlbmNpbmcgaW4gYXRv
-bWljIG1vZGVzZXQgdXBkYXRlcy4NCj4gICAgKi8NCj4gLWludCBkcm1fZ2VtX3BsYW5lX2hl
-bHBlcl9wcmVwYXJlX2ZiKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLCBzdHJ1Y3QgZHJtX3Bs
-YW5lX3N0YXRlICpzdGF0ZSkNCj4gK2ludCBkcm1fZ2VtX3BsYW5lX2hlbHBlcl9wcmVwYXJl
-X2ZiKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPiArCQkJCSAgICBzdHJ1Y3QgZHJtX3Bs
-YW5lX3N0YXRlICpzdGF0ZSkNCj4gICB7DQo+IC0Jc3RydWN0IGRybV9nZW1fb2JqZWN0ICpv
-Ymo7DQo+IC0Jc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7DQo+ICsJc3RydWN0IGRtYV9mZW5j
-ZSAqZmVuY2UgPSBkbWFfZmVuY2VfZ2V0KHN0YXRlLT5mZW5jZSk7DQo+ICsJZW51bSBkbWFf
-cmVzdl91c2FnZSB1c2FnZTsNCj4gKwlzaXplX3QgaTsNCj4gICAJaW50IHJldDsNCj4gICAN
-Cj4gICAJaWYgKCFzdGF0ZS0+ZmIpDQo+ICAgCQlyZXR1cm4gMDsNCj4gICANCj4gLQlvYmog
-PSBkcm1fZ2VtX2ZiX2dldF9vYmooc3RhdGUtPmZiLCAwKTsNCj4gLQlyZXQgPSBkbWFfcmVz
-dl9nZXRfc2luZ2xldG9uKG9iai0+cmVzdiwgRE1BX1JFU1ZfVVNBR0VfV1JJVEUsICZmZW5j
-ZSk7DQo+IC0JaWYgKHJldCkNCj4gLQkJcmV0dXJuIHJldDsNCj4gLQ0KPiAtCS8qIFRPRE86
-IGRybV9hdG9taWNfc2V0X2ZlbmNlX2Zvcl9wbGFuZSgpIHNob3VsZCBiZSBjaGFuZ2VkIHRv
-IGJlIGFibGUNCj4gLQkgKiB0byBoYW5kbGUgbW9yZSBmZW5jZXMgaW4gZ2VuZXJhbCBmb3Ig
-bXVsdGlwbGUgQk9zIHBlciBmYi4NCj4gKwkvKg0KPiArCSAqIE9ubHkgYWRkIHRoZSBrZXJu
-ZWwgZmVuY2VzIGhlcmUgaWYgdGhlcmUgaXMgYWxyZWFkeSBhIGZlbmNlIHNldCB2aWENCj4g
-KwkgKiBleHBsaWNpdCBmZW5jaW5nIGludGVyZmFjZXMgb24gdGhlIGF0b21pYyBpb2N0bC4N
-Cj4gKwkgKg0KPiArCSAqIFRoaXMgd2F5IGV4cGxpY2l0IGZlbmNpbmcgY2FuIGJlIHVzZWQg
-dG8gb3ZlcnJ1bGUgaW1wbGljaXQgZmVuY2luZywNCj4gKwkgKiB3aGljaCBpcyBpbXBvcnRh
-bnQgdG8gbWFrZSBleHBsaWNpdCBmZW5jaW5nIHVzZS1jYXNlcyB3b3JrOiBPbmUNCj4gKwkg
-KiBleGFtcGxlIGlzIHVzaW5nIG9uZSBidWZmZXIgZm9yIDIgc2NyZWVucyB3aXRoIGRpZmZl
-cmVudCByZWZyZXNoDQo+ICsJICogcmF0ZXMuIEltcGxpY2l0IGZlbmNpbmcgd2lsbCBjbGFt
-cCByZW5kZXJpbmcgdG8gdGhlIHJlZnJlc2ggcmF0ZSBvZg0KPiArCSAqIHRoZSBzbG93ZXIg
-c2NyZWVuLCB3aGVyZWFzIGV4cGxpY2l0IGZlbmNlIGFsbG93cyAyIGluZGVwZW5kZW50DQo+
-ICsJICogcmVuZGVyIGFuZCBkaXNwbGF5IGxvb3BzIG9uIGEgc2luZ2xlIGJ1ZmZlci4gSWYg
-YSBkcml2ZXIgYWxsb3dzDQo+ICsJICogb2JleXMgYm90aCBpbXBsaWNpdCBhbmQgZXhwbGlj
-aXQgZmVuY2VzIGZvciBwbGFuZSB1cGRhdGVzLCB0aGVuIGl0DQo+ICsJICogd2lsbCBicmVh
-ayBhbGwgdGhlIGJlbmVmaXRzIG9mIGV4cGxpY2l0IGZlbmNpbmcuDQo+ICAgCSAqLw0KPiAt
-CWRybV9hdG9taWNfc2V0X2ZlbmNlX2Zvcl9wbGFuZShzdGF0ZSwgZmVuY2UpOw0KPiArCXVz
-YWdlID0gZmVuY2UgPyBETUFfUkVTVl9VU0FHRV9LRVJORUwgOiBETUFfUkVTVl9VU0FHRV9X
-UklURTsNCj4gKw0KPiArCWZvciAoaSA9IDA7IGkgPCBzdGF0ZS0+ZmItPmZvcm1hdC0+bnVt
-X3BsYW5lczsgKytpKSB7DQo+ICsJCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqID0gZHJt
-X2dlbV9mYl9nZXRfb2JqKHN0YXRlLT5mYiwgaSk7DQo+ICsJCXN0cnVjdCBkbWFfZmVuY2Ug
-Km5ldzsNCj4gKw0KPiArCQlpZiAoV0FSTl9PTl9PTkNFKCFvYmopKQ0KPiArCQkJY29udGlu
-dWU7DQo+ICsNCj4gKwkJcmV0ID0gZG1hX3Jlc3ZfZ2V0X3NpbmdsZXRvbihvYmotPnJlc3Ys
-IHVzYWdlLCAmbmV3KTsNCj4gKwkJaWYgKHJldCkNCj4gKwkJCWdvdG8gZXJyb3I7DQo+ICsN
-Cj4gKwkJaWYgKG5ldyAmJiBmZW5jZSkgew0KPiArCQkJc3RydWN0IGRtYV9mZW5jZV9jaGFp
-biAqY2hhaW4gPSBkbWFfZmVuY2VfY2hhaW5fYWxsb2MoKTsNCj4gKw0KPiArCQkJaWYgKCFj
-aGFpbikgew0KPiArCQkJCXJldCA9IC1FTk9NRU07DQo+ICsJCQkJZ290byBlcnJvcjsNCj4g
-KwkJCX0NCj4gKw0KPiArCQkJZG1hX2ZlbmNlX2NoYWluX2luaXQoY2hhaW4sIGZlbmNlLCBu
-ZXcsIDEpOw0KPiArCQkJZmVuY2UgPSAmY2hhaW4tPmJhc2U7DQo+ICsNCj4gKwkJfSBlbHNl
-IGlmIChuZXcpIHsNCj4gKwkJCWZlbmNlID0gbmV3Ow0KPiArCQl9DQo+ICsJfQ0KPiArDQo+
-ICsJZG1hX2ZlbmNlX3B1dChzdGF0ZS0+ZmVuY2UpOw0KPiArCXN0YXRlLT5mZW5jZSA9IGZl
-bmNlOw0KPiAgIAlyZXR1cm4gMDsNCj4gKw0KPiArZXJyb3I6DQo+ICsJZG1hX2ZlbmNlX3B1
-dChmZW5jZSk7DQo+ICsJcmV0dXJuIHJldDsNCj4gICB9DQo+ICAgRVhQT1JUX1NZTUJPTF9H
-UEwoZHJtX2dlbV9wbGFuZV9oZWxwZXJfcHJlcGFyZV9mYik7DQo+ICAgDQo+IEBAIC0xNjgs
-MTMgKzIwNywxMyBAQCBFWFBPUlRfU1lNQk9MX0dQTChkcm1fZ2VtX3BsYW5lX2hlbHBlcl9w
-cmVwYXJlX2ZiKTsNCj4gICAgKiBAcGlwZTogU2ltcGxlIGRpc3BsYXkgcGlwZQ0KPiAgICAq
-IEBwbGFuZV9zdGF0ZTogUGxhbmUgc3RhdGUNCj4gICAgKg0KPiAtICogVGhpcyBmdW5jdGlv
-biB1c2VzIGRybV9nZW1fcGxhbmVfaGVscGVyX3ByZXBhcmVfZmIoKSB0byBleHRyYWN0IHRo
-ZSBleGNsdXNpdmUgZmVuY2UNCj4gLSAqIGZyb20gJmRybV9nZW1fb2JqZWN0LnJlc3YgYW5k
-IGF0dGFjaGVzIGl0IHRvIHBsYW5lIHN0YXRlIGZvciB0aGUgYXRvbWljDQo+ICsgKiBUaGlz
-IGZ1bmN0aW9uIHVzZXMgZHJtX2dlbV9wbGFuZV9oZWxwZXJfcHJlcGFyZV9mYigpIHRvIGV4
-dHJhY3QgdGhlIGZlbmNlcw0KPiArICogZnJvbSAmZHJtX2dlbV9vYmplY3QucmVzdiBhbmQg
-YXR0YWNoZXMgdGhlbSB0byB0aGUgcGxhbmUgc3RhdGUgZm9yIHRoZSBhdG9taWMNCj4gICAg
-KiBoZWxwZXIgdG8gd2FpdCBvbi4gVGhpcyBpcyBuZWNlc3NhcnkgdG8gY29ycmVjdGx5IGlt
-cGxlbWVudCBpbXBsaWNpdA0KPiAgICAqIHN5bmNocm9uaXphdGlvbiBmb3IgYW55IGJ1ZmZl
-cnMgc2hhcmVkIGFzIGEgc3RydWN0ICZkbWFfYnVmLiBEcml2ZXJzIGNhbiB1c2UNCj4gICAg
-KiB0aGlzIGFzIHRoZWlyICZkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZV9mdW5jcy5wcmVwYXJl
-X2ZiIGNhbGxiYWNrLg0KPiAgICAqDQo+IC0gKiBTZWUgZHJtX2F0b21pY19zZXRfZmVuY2Vf
-Zm9yX3BsYW5lKCkgZm9yIGEgZGlzY3Vzc2lvbiBvZiBpbXBsaWNpdCBhbmQNCj4gKyAqIFNl
-ZSBkcm1fZ2VtX3BsYW5lX2hlbHBlcl9wcmVwYXJlX2ZiKCkgZm9yIGEgZGlzY3Vzc2lvbiBv
-ZiBpbXBsaWNpdCBhbmQNCj4gICAgKiBleHBsaWNpdCBmZW5jaW5nIGluIGF0b21pYyBtb2Rl
-c2V0IHVwZGF0ZXMuDQo+ICAgICovDQo+ICAgaW50IGRybV9nZW1fc2ltcGxlX2Rpc3BsYXlf
-cGlwZV9wcmVwYXJlX2ZiKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSwN
-Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9hdG9taWNfdWFwaS5oIGIvaW5jbHVk
-ZS9kcm0vZHJtX2F0b21pY191YXBpLmgNCj4gaW5kZXggOGNlYzUyYWQxMjc3Li40YzZkMzlk
-N2JkYjIgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9hdG9taWNfdWFwaS5oDQo+
-ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9hdG9taWNfdWFwaS5oDQo+IEBAIC00OSw4ICs0OSw2
-IEBAIGRybV9hdG9taWNfc2V0X2NydGNfZm9yX3BsYW5lKHN0cnVjdCBkcm1fcGxhbmVfc3Rh
-dGUgKnBsYW5lX3N0YXRlLA0KPiAgIAkJCSAgICAgIHN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7
-DQo+ICAgdm9pZCBkcm1fYXRvbWljX3NldF9mYl9mb3JfcGxhbmUoc3RydWN0IGRybV9wbGFu
-ZV9zdGF0ZSAqcGxhbmVfc3RhdGUsDQo+ICAgCQkJCSBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVy
-ICpmYik7DQo+IC12b2lkIGRybV9hdG9taWNfc2V0X2ZlbmNlX2Zvcl9wbGFuZShzdHJ1Y3Qg
-ZHJtX3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZSwNCj4gLQkJCQkgICAgc3RydWN0IGRtYV9m
-ZW5jZSAqZmVuY2UpOw0KPiAgIGludCBfX211c3RfY2hlY2sNCj4gICBkcm1fYXRvbWljX3Nl
-dF9jcnRjX2Zvcl9jb25uZWN0b3Ioc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5f
-c3RhdGUsDQo+ICAgCQkJCSAgc3RydWN0IGRybV9jcnRjICpjcnRjKTsNCj4gZGlmZiAtLWdp
-dCBhL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5oIGIvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgN
-Cj4gaW5kZXggMjYyOGM3Y2RlMmRhLi44OWVhNTQ2NTJlODcgMTAwNjQ0DQo+IC0tLSBhL2lu
-Y2x1ZGUvZHJtL2RybV9wbGFuZS5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5o
-DQo+IEBAIC03NCw5ICs3NCw3IEBAIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgew0KPiAgIAkg
-Kg0KPiAgIAkgKiBPcHRpb25hbCBmZW5jZSB0byB3YWl0IGZvciBiZWZvcmUgc2Nhbm5pbmcg
-b3V0IEBmYi4gVGhlIGNvcmUgYXRvbWljDQo+ICAgCSAqIGNvZGUgd2lsbCBzZXQgdGhpcyB3
-aGVuIHVzZXJzcGFjZSBpcyB1c2luZyBleHBsaWNpdCBmZW5jaW5nLiBEbyBub3QNCj4gLQkg
-KiB3cml0ZSB0aGlzIGZpZWxkIGRpcmVjdGx5IGZvciBhIGRyaXZlcidzIGltcGxpY2l0IGZl
-bmNlLCB1c2UNCj4gLQkgKiBkcm1fYXRvbWljX3NldF9mZW5jZV9mb3JfcGxhbmUoKSB0byBl
-bnN1cmUgdGhhdCBhbiBleHBsaWNpdCBmZW5jZSBpcw0KPiAtCSAqIHByZXNlcnZlZC4NCj4g
-KwkgKiB3cml0ZSB0aGlzIGZpZWxkIGRpcmVjdGx5IGZvciBhIGRyaXZlcidzIGltcGxpY2l0
-IGZlbmNlLg0KPiAgIAkgKg0KPiAgIAkgKiBEcml2ZXJzIHNob3VsZCBzdG9yZSBhbnkgaW1w
-bGljaXQgZmVuY2UgaW4gdGhpcyBmcm9tIHRoZWlyDQo+ICAgCSAqICZkcm1fcGxhbmVfaGVs
-cGVyX2Z1bmNzLnByZXBhcmVfZmIgY2FsbGJhY2suIFNlZSBkcm1fZ2VtX3BsYW5lX2hlbHBl
-cl9wcmVwYXJlX2ZiKCkNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
-dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
-IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
-
---------------LHjwyB5Xts0HcpMVGszorqtd--
-
---------------MNK0BUfNh4A5LHBefVB8lwFG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJqaEAFAwAAAAAACgkQlh/E3EQov+Dn
-AxAAkUV3dtBtYowVc9VI6XukDDmJeoDj3xTq4HSIK7xRvbAmDin/J8wfs6JCw+NGKLihI9BidBRZ
-aW0utf/79opzyj1Fc3J3KPtEqz+K80x+bL3lRzF5WUkoIO2X5FK1XiaHPZaTin/oMvvfwp552Pqe
-APFeG5GdlcFvN/+YxyO5y4K72sNnK5X42uFIgZ+4qVfhbT5BpyT7gTIIG83xAJiwHaI4GVFNQ4cy
-y0245CBHPYvTCORAN44VC7nBUpkB7qjzZsa12enPUUGjcjfYNRF7bVvO/5EtIVbKNf53D0kIp+S7
-1D+Ll3r1JZROzOliqdneeu43XXixZclZtwZiRBZLhlGQh8JIfK52Rl/nECpUg3LMdHyBS7AP6FBc
-atRnXii/83G+z85PZlSukN58eGkCSKL7bI6AApZcV4IcsJjHTbai5G1Cdli3H+Zb+YZE5NxXdL5a
-yNPlFZFksEEuePzNYeALkZHTl1tdhXfKwOBqpxlNb3ajH/KwwCsLsvTyv2vmtji3gV3LSEL0bfcD
-t2f25/twOk+G0zxYIRhl6cOSigapSAK2YOdAJrhxJep8zjpicVO+ocpbsGhyUdXL+I0T1RbbEBah
-EFwmzQeujKdUfLltZBqn3PSogXyJqaYUBc8FtHggRMN2we2/QkFCfApu4/i4HeEXLWeMPBgbjqs3
-/Sw=
-=gvcc
------END PGP SIGNATURE-----
-
---------------MNK0BUfNh4A5LHBefVB8lwFG--
+> 
+>>>> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
+>>>> +    __u32 flags;
+>>>> +    /**
+>>>> +     * @extensions: The chain of extensions to apply to this object.
+>>>> +     *
+>>>> +     * This will be useful in the future when we need to support 
+>>>> several
+>>>> +     * different extensions, and we need to apply more than one when
+>>>> +     * creating the object. See struct i915_user_extension.
+>>>> +     *
+>>>> +     * If we don't supply any extensions then we get the same old 
+>>>> gem_create
+>>>> +     * behaviour.
+>>>> +     *
+>>>> +     * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usagesee
+>>>> +     * struct drm_i915_gem_create_ext_memory_regions.
+>>>> +     *
+>>>> +     * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+>>>> +     * struct drm_i915_gem_create_ext_protected_content.
+>>>> +     */
+>>>> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+>>>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+>>>> +    __u64 extensions;
+>>>> +};
+>>>> +
+>>>> +#define DRM_I915_QUERY_VMA_INFO    5
+>>>> +
+>>>> +/**
+>>>> + * struct __drm_i915_query_vma_info
+>>>> + *
+>>>> + * Given a vm and GTT address, lookup the corresponding vma, 
+>>>> returning its set
+>>>> + * of attributes.
+>>>> + *
+>>>> + * .. code-block:: C
+>>>> + *
+>>>> + *    struct drm_i915_query_vma_info info = {};
+>>>> + *    struct drm_i915_query_item item = {
+>>>> + *        .data_ptr = (uintptr_t)&info,
+>>>> + *        .query_id = DRM_I915_QUERY_VMA_INFO,
+>>>> + *    };
+>>>> + *    struct drm_i915_query query = {
+>>>> + *        .num_items = 1,
+>>>> + *        .items_ptr = (uintptr_t)&item,
+>>>> + *    };
+>>>> + *    int err;
+>>>> + *
+>>>> + *    // Unlike some other types of queries, there is noneed to 
+>>>> first query
+>>>> + *    // the size of the data_ptr blob here, since we already know 
+>>>> ahead of
+>>>> + *    // time how big this needs to be.
+>>>> + *    item.length = sizeof(info);
+>>>> + *
+>>>> + *    // Next we fill in the vm_id and ppGTT address of the vma we 
+>>>> wish
+>>>> + *    // to query, before then firing off the query.
+>>>> + *    info.vm_id = vm_id;
+>>>> + *    info.offset = gtt_address;
+>>>> + *    err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
+>>>> + *    if (err || item.length < 0) ...
+>>>> + *
+>>>> + *    // If all went well we can now inspect the returned attributes.
+>>>> + *    if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
+>>>> + */
+>>>> +struct __drm_i915_query_vma_info {
+>>>> +    /**
+>>>> +     * @vm_id: The given vm id that contains the vma. The id is the 
+>>>> value
+>>>> +     * returned by the DRM_I915_GEM_VM_CREATE. See struct
+>>>> +     * drm_i915_gem_vm_control.vm_id.
+>>>> +     */
+>>>> +    __u32 vm_id;
+>>>> +    /** @pad: MBZ. */
+>>>> +    __u32 pad;
+>>>> +    /**
+>>>> +     * @offset: The corresponding ppGTT address of the vma which 
+>>>> the kernel
+>>>> +     * will use to perform the lookup.
+>>>> +     */
+>>>> +    __u64 offset;
+>>>> +    /**
+>>>> +     * @attributes: The returned attributes for thegiven vma.
+>>>> +     *
+>>>> +     * Possible values:
+>>>> +     *
+>>>> +     * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set ifthe pages 
+>>>> backing the
+>>>> +     * vma are currently CPU accessible. If this isnot set then the 
+>>>> vma is
+>>>> +     * currently backed by I915_MEMORY_CLASS_DEVICEmemory, which 
+>>>> the CPU
+>>>> +     * cannot directly access(this is only possibleon discrete 
+>>>> devices with
+>>>> +     * a small BAR). Attempting to MMAP and fault such an object will
+>>>> +     * require the kernel first synchronising any GPU work tied to the
+>>>> +     * object, before then migrating the pages, either to the CPU 
+>>>> accessible
+>>>> +     * part of I915_MEMORY_CLASS_DEVICE, or 
+>>>> I915_MEMORY_CLASS_SYSTEM, if the
+>>>> +     * placements permit it. See 
+>>>> I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
+>>>> +     *
+>>>> +     * Note that this is inherently racy.
+>>>> +     */
+>>>> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
+>>>> +    __u64 attributes;
+>>>> +    /** @rsvd: MBZ */
+>>>> +    __u32 rsvd[4];
+>>>> +};
+>>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst 
+>>>> b/Documentation/gpu/rfc/i915_small_bar.rst
+>>>> new file mode 100644
+>>>> index 000000000000..be3d9bcdd86d
+>>>> --- /dev/null
+>>>> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
+>>>> @@ -0,0 +1,58 @@
+>>>> +==========================
+>>>> +I915 Small BAR RFC Section
+>>>> +==========================
+>>>> +Starting from DG2 we will have resizable BAR support for device 
+>>>> local-memory(i.e
+>>>> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size 
+>>>> might still be
+>>>> +smaller than the total probed_size. In such cases, only some subset of
+>>>> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the 
+>>>> first 256M),
+>>>> +while the remainder is only accessible via the GPU.
+>>>> +
+>>>> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
+>>>> +----------------------------------------------
+>>>> +New gem_create_ext flag to tell the kernel that a BO will require 
+>>>> CPU access.
+>>>> +This becomes important when placing an object in 
+>>>> I915_MEMORY_CLASS_DEVICE, where
+>>>> +underneath the device has a small BAR, meaning only some portion of 
+>>>> it is CPU
+>>>> +accessible. Without this flag the kernel will assume that CPU 
+>>>> access is not
+>>>> +required, and prioritize using the non-CPU visible portion of
+>>>> +I915_MEMORY_CLASS_DEVICE.
+>>>> +
+>>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+>>>> +   :functions: __drm_i915_gem_create_ext
+>>>> +
+>>>> +probed_cpu_visible_size attribute
+>>>> +---------------------------------
+>>>> +New struct__drm_i915_memory_region attribute which returns the 
+>>>> total size of the
+>>>> +CPU accessible portion, for the particular region. This should only be
+>>>> +applicable for I915_MEMORY_CLASS_DEVICE.
+>>>> +
+>>>> +Vulkan will need this as part of creating a separate VkMemoryHeap 
+>>>> with the
+>>>> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU 
+>>>> visible portion,
+>>>> +where the total size of the heap needs to be known.
+>>>> +
+>>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+>>>> +   :functions: __drm_i915_memory_region_info
+>>>> +
+>>>> +DRM_I915_QUERY_VMA_INFO query
+>>>> +-----------------------------
+>>>> +Query the attributes of some vma. Given a vm and GTT offset, find the
+>>>> +respective vma, and return its set of attributes. For now we only 
+>>>> support
+>>>> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the object/vma is
+>>>> +currently placed in memory that is accessible by the CPU. This 
+>>>> should always be
+>>>> +set on devices where the CPU probed_cpu_visible_size of 
+>>>> I915_MEMORY_CLASS_DEVICE
+>>>> +matches the probed_size. If this is not set then CPU faulting the 
+>>>> object will
+>>>> +likely first require migrating the pages.
+>>>
+>>> I think there should be justification for the new query documented as 
+>>> well. (Why on top of what.)
+>>
+>> Yeah, I'm wondering now if we can just drop this part of the uapi, for 
+>> now at least, and focus on landing the new flag stuff first.
+>>
+>>>
+>>> Without it personally I can't immediately understand why the 
+>>> disconnect between the object based and VMA based API. Userspace has 
+>>> to do some intervening operations like either execbuf, or vm bind in 
+>>> the future, to make this query usable after object creation. So 
+>>> question is why wouldn't it know already which placements it allowed 
+>>> and so would i915 auto-migrate or not for this particular object. No? 
+>>> Or in other words why this wouldn't be an object based query since 
+>>> the question it is answering is about the object backing store and 
+>>> not the VMA.
+>>
+>> Yeah, just using the object handle or so I guess would also work. 
+>> Thanks for the comments.
+> 
+> I saw other folks have said the same so omitting for now sounds good to 
+> me indeed.
+> 
+> Regards,
+> 
+> Tvrtko
