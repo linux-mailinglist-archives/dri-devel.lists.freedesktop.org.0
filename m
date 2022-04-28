@@ -2,57 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD14F512F3F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 11:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C8C512F56
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 11:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7590E10F995;
-	Thu, 28 Apr 2022 09:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27B0B10FA28;
+	Thu, 28 Apr 2022 09:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5658C10F999
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 09:04:50 +0000 (UTC)
-X-UUID: d5e5e1c15be14701b430ec2da8fe5c9b-20220428
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:69eef4ef-c1ba-4872-944b-ca2a8e8aa176, OB:0,
- LO
- B:20,IP:0,URL:8,TC:0,Content:7,EDM:0,RT:0,SF:54,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:69
-X-CID-INFO: VERSION:1.1.4, REQID:69eef4ef-c1ba-4872-944b-ca2a8e8aa176, OB:0,
- LOB:
- 20,IP:0,URL:8,TC:0,Content:7,EDM:0,RT:0,SF:54,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:69
-X-CID-META: VersionHash:faefae9, CLOUDID:54cdcec6-85ee-4ac1-ac05-bd3f1e72e732,
- C
- OID:ad54640fc53c,Recheck:0,SF:28|16|19|48,TC:nil,Content:4,EDM:-3,File:nil
- ,QS:0,BEC:nil
-X-UUID: d5e5e1c15be14701b430ec2da8fe5c9b-20220428
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1875380680; Thu, 28 Apr 2022 17:04:46 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 28 Apr 2022 17:04:45 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 28 Apr 2022 17:04:44 +0800
-Message-ID: <294e27863c250287ca2a8a9a65465b88b99d95fb.camel@mediatek.com>
-Subject: Re: [PATCH v3, 1/1] drm/mediatek: add lut diff flag for new gamma
- hardware support
-From: yongqiang.niu <yongqiang.niu@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 28 Apr 2022 17:04:44 +0800
-In-Reply-To: <ca8309f7fcfe0a307ec465f082361a3d9842d1ec.camel@mediatek.com>
-References: <20220428070403.12968-1-yongqiang.niu@mediatek.com>
- <20220428070403.12968-2-yongqiang.niu@mediatek.com>
- <ca8309f7fcfe0a307ec465f082361a3d9842d1ec.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7C210FA28
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 09:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651137099;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ev0V3dh1Yk75AssijLWz6pZJn0r8SgSUi6JEJ9qm3Yk=;
+ b=E/mqXG4R9h6a2OmfzBnWu6bwHmf2tb4maFRRHxif3jOD/g39fidOUnctEtzZDjVEFcjf4V
+ wCwCBSLtr8p2w8OVwAJ1ILIyKhqM3H9r8DfidHMMm9z69QM/aW8S+IM9b6RmG4p3smtA2Q
+ TqMaS5zQ2pkZj/zCRnLiTfk6MGDyKak=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-433-CB5gkNNxPTOfI-wuUUXQ0g-1; Thu, 28 Apr 2022 05:11:38 -0400
+X-MC-Unique: CB5gkNNxPTOfI-wuUUXQ0g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k41-20020a05600c1ca900b0039415d40dbbso265307wms.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 02:11:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Ev0V3dh1Yk75AssijLWz6pZJn0r8SgSUi6JEJ9qm3Yk=;
+ b=i4A4A1xif/uS/+1qke2MUh8rSPVJ36psygbDrdraG7wV5yYHvDe5Riv5Kv/cxkJLdM
+ D8r7lCeY+DSdVaHnRBFVZ6/4Utlxj8V3TLi7kd/BzvRgqqtUAXSatiUMg0ue1PTylFWm
+ PdmlgI/DXLkJWTo9Rsi8Q28T+A+/qeVM4x/nYVp1dOI8Ubzt+eBS019SDwCbXHGo7FDw
+ RTQA1RIYbFy0c/Ic6UWQl1wNTlARDpwkNM+YN0yzeu9OHkhXT+ZtG6PSGFXkwV1pTwXE
+ ZJO2siY/MDbQVK7F6a34Q0Yk4QDFHfIdP19hL2RG04OfjaN8KJtVY/qeno4c+jk22cXj
+ nffg==
+X-Gm-Message-State: AOAM533Lsof1QTt/u0CrT4g27sPYMkUI6tylynVIYj8k7UBvv+g9ehh2
+ TnDw+pRVGHqEJI+Yu+EyBw6PywUgbNpNv34r5aHVhoqjIBjuiJh9RzlaBbmRszf+6OZpE1zZjqI
+ OmkFRPGZFID9jOjxW4BbkDbM0Whdx
+X-Received: by 2002:a1c:f415:0:b0:37f:ab4d:1df2 with SMTP id
+ z21-20020a1cf415000000b0037fab4d1df2mr38264529wma.75.1651137097334; 
+ Thu, 28 Apr 2022 02:11:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxli1ru5EtzorJANXnGcbADNMy0+tRE2gZ3UT2MrzMXCufukyc2wlVDBGNCEj1I2BummVcvXQ==
+X-Received: by 2002:a1c:f415:0:b0:37f:ab4d:1df2 with SMTP id
+ z21-20020a1cf415000000b0037fab4d1df2mr38264512wma.75.1651137097145; 
+ Thu, 28 Apr 2022 02:11:37 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ c11-20020a05600c0a4b00b0037c91e085ddsm4479447wmq.40.2022.04.28.02.11.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 02:11:36 -0700 (PDT)
+Message-ID: <8181a700-4955-cbdb-553f-311d790c603f@redhat.com>
+Date: Thu, 28 Apr 2022 11:11:36 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3] drm/display: Select DP helper for DRM_DP_AUX_CHARDEV
+ and DRM_DP_CEC
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude Paul <lyude@redhat.com>
+References: <20220428082244.390859-1-javierm@redhat.com>
+ <c2ce3927-44ac-45cb-9ced-cfd3f9a184a6@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <c2ce3927-44ac-45cb-9ced-cfd3f9a184a6@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,199 +90,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, Dennis YC
- Hsieh <dennis-yc.hsieh@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-04-28 at 16:35 +0800, CK Hu wrote:
-> Hi, Yongqiang:
+On 4/28/22 10:42, Thomas Zimmermann wrote:
+> Hi
 > 
-> On Thu, 2022-04-28 at 15:04 +0800, Yongqiang Niu wrote:
-> > From: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com
-> > >
-> > 
-> > mt8183 gamma module usage is different with before soc,
-> > gamma odd(index start from 0) lut value set to hardware
-> > register should be
-> > the difference of current lut value with last lut value.
-> > 
-> > for example, chrome os user space set lut
-> > like this(only r chanel for example):
-> > 2 4 6 8 10 12.
-> > 1) mt8183 gamma driver should set the gamma lut to hardware
-> > register like this:
-> > 2 [2] 6 [8] 10 [2]
-> 
-> I don't know why you do not modify this to
-> 
-> 2 [2] 6 [2] 10 [2]
-> 
-> With this modification,
-> 
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-this is a type error, fixed in v4
-> 
-> 
-> > the value with [] is the difference value
-> > 2)gamma hardware process display data with original lut
-> > 
-> > Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  2 +-
-> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
-> >  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 34 +++++++++++++++++++
-> > ----
-> >  3 files changed, 30 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > index f46d4ab73d6a..0f9d7efb61d7 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> > @@ -66,7 +66,7 @@ void mtk_aal_gamma_set(struct device *dev, struct
-> > drm_crtc_state *state)
-> >  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
-> >  
-> >  	if (aal->data && aal->data->has_gamma)
-> > -		mtk_gamma_set_common(aal->regs, state);
-> > +		mtk_gamma_set_common(aal->regs, state, false);
-> >  }
-> >  
-> >  void mtk_aal_start(struct device *dev)
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > index 86c3068894b1..3380651c6707 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> > @@ -51,7 +51,7 @@ void mtk_gamma_config(struct device *dev,
-> > unsigned
-> > int w,
-> >  		      unsigned int h, unsigned int vrefresh,
-> >  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
-> >  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
-> > *state);
-> > -void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state);
-> > +void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state, bool lut_diff);
-> >  void mtk_gamma_start(struct device *dev);
-> >  void mtk_gamma_stop(struct device *dev);
-> >  
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > index 3a5815ab4079..bbd558a036ec 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> > @@ -27,6 +27,7 @@
-> >  
-> >  struct mtk_disp_gamma_data {
-> >  	bool has_dither;
-> > +	bool lut_diff;
-> >  };
-> >  
-> >  /*
-> > @@ -53,12 +54,13 @@ void mtk_gamma_clk_disable(struct device *dev)
-> >  	clk_disable_unprepare(gamma->clk);
-> >  }
-> >  
-> > -void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state)
-> > +void mtk_gamma_set_common(void __iomem *regs, struct
-> > drm_crtc_state
-> > *state, bool lut_diff)
-> >  {
-> >  	unsigned int i, reg;
-> >  	struct drm_color_lut *lut;
-> >  	void __iomem *lut_base;
-> >  	u32 word;
-> > +	u32 diff[3] = {0};
-> >  
-> >  	if (state->gamma_lut) {
-> >  		reg = readl(regs + DISP_GAMMA_CFG);
-> > @@ -67,9 +69,20 @@ void mtk_gamma_set_common(void __iomem *regs,
-> > struct drm_crtc_state *state)
-> >  		lut_base = regs + DISP_GAMMA_LUT;
-> >  		lut = (struct drm_color_lut *)state->gamma_lut->data;
-> >  		for (i = 0; i < MTK_LUT_SIZE; i++) {
-> > -			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) <<
-> > 20) +
-> > -				(((lut[i].green >> 6) & LUT_10BIT_MASK)
-> > << 10) +
-> > -				((lut[i].blue >> 6) & LUT_10BIT_MASK);
-> > +
-> > +			if (!lut_diff || (i % 2 == 0)) {
-> > +				word = (((lut[i].red >> 6) &
-> > LUT_10BIT_MASK) << 20) +
-> > +					(((lut[i].green >> 6) &
-> > LUT_10BIT_MASK) << 10) +
-> > +					((lut[i].blue >> 6) &
-> > LUT_10BIT_MASK);
-> > +			} else {
-> > +				diff[0] = (lut[i].red >> 6) - (lut[i -
-> > 1].red >> 6);
-> > +				diff[1] = (lut[i].green >> 6) - (lut[i
-> > - 1].green >> 6);
-> > +				diff[2] = (lut[i].blue >> 6) - (lut[i -
-> > 1].blue >> 6);
-> > +
-> > +				word = ((diff[0] & LUT_10BIT_MASK) <<
-> > 20) +
-> > +					((diff[1] & LUT_10BIT_MASK) <<
-> > 10) +
-> > +					(diff[2] & LUT_10BIT_MASK);
-> > +			}
-> >  			writel(word, (lut_base + i * 4));
-> >  		}
-> >  	}
-> > @@ -78,8 +91,12 @@ void mtk_gamma_set_common(void __iomem *regs,
-> > struct drm_crtc_state *state)
-> >  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
-> > *state)
-> >  {
-> >  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-> > +	bool lut_diff = false;
-> > +
-> > +	if (gamma->data)
-> > +		lut_diff = gamma->data->lut_diff;
-> >  
-> > -	mtk_gamma_set_common(gamma->regs, state);
-> > +	mtk_gamma_set_common(gamma->regs, state, lut_diff);
-> >  }
-> >  
-> >  void mtk_gamma_config(struct device *dev, unsigned int w,
-> > @@ -176,10 +193,15 @@ static const struct mtk_disp_gamma_data
-> > mt8173_gamma_driver_data = {
-> >  	.has_dither = true,
-> >  };
-> >  
-> > +static const struct mtk_disp_gamma_data mt8183_gamma_driver_data =
-> > {
-> > +	.lut_diff = true,
-> > +};
-> > +
-> >  static const struct of_device_id mtk_disp_gamma_driver_dt_match[]
-> > =
-> > {
-> >  	{ .compatible = "mediatek,mt8173-disp-gamma",
-> >  	  .data = &mt8173_gamma_driver_data},
-> > -	{ .compatible = "mediatek,mt8183-disp-gamma"},
-> > +	{ .compatible = "mediatek,mt8183-disp-gamma",
-> > +	  .data = &mt8183_gamma_driver_data},
-> >  	{},
-> >  };
-> >  MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
-> 
-> 
+[snip]
+
+>>   drivers/gpu/drm/display/Kconfig | 6 ++++--
+>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+>> index f84f1b0cd23f..1b6e6af37546 100644
+>> --- a/drivers/gpu/drm/display/Kconfig
+>> +++ b/drivers/gpu/drm/display/Kconfig
+>> @@ -31,7 +31,8 @@ config DRM_DISPLAY_HDMI_HELPER
+>>   
+>>   config DRM_DP_AUX_CHARDEV
+>>   	bool "DRM DP AUX Interface"
+>> -	depends on DRM
+>> +	depends on DRM && DRM_DISPLAY_HELPER
+>> +	select DRM_DISPLAY_DP_HELPER
+>
+
+My rationale was that since DRM_DISPLAY_DP_HELPER is not a user-visible
+symbol but DRM_DP_{AUX_CHARDEV,CEC} are, the latter should be able to
+be enabled by the user without relying on other drivers to select the
+required symbols (I would argue that even should select DP_HELPER but
+that can't be done or otherwise the helper couldn't be built as module).
+
+In other words, either DRM_DP_{AUX_CHARDEV,CEC} can be user selectable
+as a standalone symbol or can't and will only be visible if other driver
+selects their required symbols.
+
+In which case, why not just do this non-user visible and just make the
+drivers using their helpers to select it directly? That is one of the
+options I proposed before.
+
+So I believe this is the less intrusive change that will preserve the
+current behaviour as much as possible.
+
+I don't have a strong opinion though and if you prefer I can change to
+be a depends instead.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
