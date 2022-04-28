@@ -1,45 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A7513DA7
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 23:31:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A85E513DAE
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 23:34:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A9510EB1F;
-	Thu, 28 Apr 2022 21:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCD710EB8D;
+	Thu, 28 Apr 2022 21:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6911710EB1F
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 21:31:43 +0000 (UTC)
-Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id AF7B183108;
- Thu, 28 Apr 2022 23:31:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1651181501;
- bh=gjXAa9d6LB9cKyN20kpaWSeUxh/Gi0C5nYh01w7v0f8=;
- h=From:To:Cc:Subject:Date:From;
- b=fr0Mbr262xffHmuKCzBclWxsVW1dJx6ByDQ+aBsIi13D8XYGlsVNsNxJ2nh/iCHwi
- 2FgE4978HJHMCTeuO8+S5e0gOiSlLFJ3ibtD9cpQPzaTG+kT5EaK03rC+bik0JlxUd
- 4p2mVdw0/NJ+Ydl6b1eZkocwjcSzWNRMyGm08hamg00oLxNulYpuZbaGp6TiyLYSNk
- JSxziyiF0uxspaUl+k3D9bbkz+/Ik1cGFyiGpMO4lv+lt+4XB/OS0LprqVw462YpdK
- ki7SbuNL5PaEYU5z3sWQSdnyXkLGDMNZ5N18+WCgtBzDVdFlxPyQd57zWAJ7frocWR
- eos0OKvh9RN+Q==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4] drm/bridge: tc358767: Fix (e)DP bridge endpoint parsing in
- dedicated function
-Date: Thu, 28 Apr 2022 23:31:32 +0200
-Message-Id: <20220428213132.447890-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 564AB10EB88
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 21:34:40 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id l19so8343844ljb.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 14:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=LUO8kGdNJXZTMb0WmkKFEGqEheFIy7DQPZG/Z0cgjoA=;
+ b=lNXfvFzsxPyNTjxt6InfLkA3RG4El1r+Dc1kSWwGQOqo5rTHIVKAcGiG2EAStEhtbN
+ lLWdMkaxjIIaDN6p/4VLMxFptvRzt/Ii9XjWyyxPeS8dAhGR6fQEJeN22LqjwUntOYAf
+ +o62I+wXaGNPvyAJ0QXgF2vGwC5QjRqKv6FO/Y14/92WM6k43fXeraLYmUAyg/lHFhw1
+ iSpQtj42ZCDnQmUwkDTp457UV1URd64cyklxDTqVe8cVTEtBG+4Ck13hwB01fMhxdC1e
+ rKq3/yuBpYGOlRi77nnPM6KlqtqcQOg/KORapBbNifPSmoztQ13/d9VWBSFMyPKxCV75
+ 0N9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LUO8kGdNJXZTMb0WmkKFEGqEheFIy7DQPZG/Z0cgjoA=;
+ b=AemPl8CyCLk3qGKLoeXWuemI/VTNFogQSiJhUBCLloXNva1q8tEj5eahWnQfK7ZjnU
+ b85ZDGfA7/leZWYjY4ZSK1dEEvf7JHFWZGVPHLdD8NjZDqU+ovTgj/Bkt+H2qUhb2KPz
+ f996YU7Wy5IsenkIFi9e3MabnPuME8RQyouXaVXJh8ktwxxLIYpBZK1W56MfnciQEBiw
+ xtf3UYH6FxQPKOsyVRx6EhPFUCSYv7j1nTmneGjBBfs+SuRKThUEHF26U045bXygCUmM
+ UymjYu2GIgPQH7V/k76GBiMNs5j5yC57KOwiR65wz/63ZZmfOcDlvdh+SMxeV4HNYZer
+ Sihw==
+X-Gm-Message-State: AOAM5314EoPnwfYf+qhTJp1YfmseSZrP0DDI0ZmadCM/L2+VL47d08/2
+ F7pYayOw4oOdeocBcJA6f2Vq3w==
+X-Google-Smtp-Source: ABdhPJy4VZqBBFOSxpowqFsDu0aJsJZvoxMi0KRblL784nZybddRajmHphO+K/QrlPfQvi8IB3sdsQ==
+X-Received: by 2002:a2e:9c03:0:b0:24a:fe64:2c12 with SMTP id
+ s3-20020a2e9c03000000b0024afe642c12mr22792679lji.101.1651181678375; 
+ Thu, 28 Apr 2022 14:34:38 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ y16-20020a199150000000b00472012f5d72sm95626lfj.98.2022.04.28.14.34.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 14:34:37 -0700 (PDT)
+Message-ID: <81490e39-2cd1-02ce-508f-936bbd4e994b@linaro.org>
+Date: Fri, 29 Apr 2022 00:34:36 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2] drm/msm/dpu: remove unused refcount for encoder_phys_wb
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+References: <1651169759-29760-1-git-send-email-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1651169759-29760-1-git-send-email-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,52 +73,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Per toshiba,tc358767.yaml DT binding document, port@2 the output (e)DP
-port is optional. In case this port is not described in DT, the bridge
-driver operates in DPI-to-DP mode. The drm_of_find_panel_or_bridge()
-call in tc_probe_edp_bridge_endpoint() returns -ENODEV in case port@2
-is not present in DT and this specific return value is incorrectly
-propagated outside of tc_probe_edp_bridge_endpoint() function. All
-other error values must be propagated and are propagated correctly.
+On 28/04/2022 21:15, Abhinav Kumar wrote:
+> Remove the unused local variable refcount for encoder_phys_wb
+> as the one part of wb_enc is used directly.
+> 
+> changes in v2:
+> 	- remove usage of ret variable also
+> 	- remove the if (ret) code as it was dead-code anyway
+> 
+> Fixes: 0ce51f19453e ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Return 0 in case the port@2 is missing instead, that reinstates the
-original behavior before the commit this patch fixes.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Fixes: 8478095a8c4b ("drm/bridge: tc358767: Move (e)DP bridge endpoint parsing into dedicated function")
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/bridge/tc358767.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 15 +++------------
+>   1 file changed, 3 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> index cb5c7da53c29..f4a79715a02e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> @@ -406,22 +406,13 @@ static void dpu_encoder_phys_wb_irq_ctrl(
+>   {
+>   
+>   	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys);
+> -	int ret = 0;
+> -	int refcount;
+> -
+> -	refcount = atomic_read(&wb_enc->wbirq_refcount);
+>   
+> -	if (enable && atomic_inc_return(&wb_enc->wbirq_refcount) == 1) {
+> +	if (enable && atomic_inc_return(&wb_enc->wbirq_refcount) == 1)
+>   		dpu_core_irq_register_callback(phys->dpu_kms,
+>   				phys->irq[INTR_IDX_WB_DONE], dpu_encoder_phys_wb_done_irq, phys);
+> -		if (ret)
+> -			atomic_dec_return(&wb_enc->wbirq_refcount);
+> -	} else if (!enable &&
+> -			atomic_dec_return(&wb_enc->wbirq_refcount) == 0) {
+> +	else if (!enable &&
+> +			atomic_dec_return(&wb_enc->wbirq_refcount) == 0)
+>   		dpu_core_irq_unregister_callback(phys->dpu_kms, phys->irq[INTR_IDX_WB_DONE]);
+> -		if (ret)
+> -			atomic_inc_return(&wb_enc->wbirq_refcount);
+> -	}
+>   }
+>   
+>   static void dpu_encoder_phys_wb_atomic_mode_set(
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 0336b14d9e94..ad1d6e383966 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1955,7 +1955,7 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
- 		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
- 	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
- 
--	return ret;
-+	return 0;
- }
- 
- static int tc_probe_bridge_endpoint(struct tc_data *tc)
+
 -- 
-2.35.1
-
+With best wishes
+Dmitry
