@@ -2,53 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A45512C36
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A69512D1C
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F7D10E362;
-	Thu, 28 Apr 2022 07:05:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21ACE10E264;
+	Thu, 28 Apr 2022 07:37:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9AFF10E370
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:05:00 +0000 (UTC)
-X-UUID: 4ed0c71f141b4b10be7e01444a57e674-20220428
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:5f51269b-0e32-4805-9432-1135a3552920, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:-20
-X-CID-META: VersionHash:faefae9, CLOUDID:6fe4c9c6-85ee-4ac1-ac05-bd3f1e72e732,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 4ed0c71f141b4b10be7e01444a57e674-20220428
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 108586444; Thu, 28 Apr 2022 15:04:54 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 28 Apr 2022 15:04:53 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 28 Apr 2022 15:04:30 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 28 Apr 2022 15:04:28 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v3,
- 1/1] drm/mediatek: add lut diff flag for new gamma hardware support
-Date: Thu, 28 Apr 2022 15:04:03 +0800
-Message-ID: <20220428070403.12968-2-yongqiang.niu@mediatek.com>
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 797BF10E77C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:20:37 +0000 (UTC)
+X-UUID: 25166f14839c4c339da2f87ce93fc79c-20220428
+X-UUID: 25166f14839c4c339da2f87ce93fc79c-20220428
+Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
+ (envelope-from <pengfuyuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 172391909; Thu, 28 Apr 2022 15:18:57 +0800
+X-ns-mid: postfix-626A403B-5208465640
+Received: from localhost.localdomain (unknown [172.20.4.120])
+ by cs2c.com.cn (NSMail) with ESMTPA id 4A2533844000;
+ Thu, 28 Apr 2022 07:20:27 +0000 (UTC)
+From: pengfuyuan <pengfuyuan@kylinos.cn>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] gpu/drm/radeon: Fix spelling typo in comments
+Date: Thu, 28 Apr 2022 15:20:00 +0800
+Message-Id: <20220428072000.6542-1-pengfuyuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220428070403.12968-1-yongqiang.niu@mediatek.com>
-References: <20220428070403.12968-1-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+X-Mailman-Approved-At: Thu, 28 Apr 2022 07:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,150 +42,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>,
- devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
+Cc: David Airlie <airlied@linux.ie>, Xinhui.Pan@amd.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+ pengfuyuan <pengfuyuan@kylinos.cn>, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>
+Fix spelling typo in comments.
 
-mt8183 gamma module usage is different with before soc,
-gamma odd(index start from 0) lut value set to hardware
-register should be
-the difference of current lut value with last lut value.
-
-for example, chrome os user space set lut
-like this(only r chanel for example):
-2 4 6 8 10 12.
-1) mt8183 gamma driver should set the gamma lut to hardware
-register like this:
-2 [2] 6 [8] 10 [2]
-the value with [] is the difference value
-2)gamma hardware process display data with original lut
-
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  2 +-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 34 +++++++++++++++++++----
- 3 files changed, 30 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/radeon/atombios.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-index f46d4ab73d6a..0f9d7efb61d7 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-@@ -66,7 +66,7 @@ void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/atombios.h
+index bd5dc09e860f..e00d6adf7262 100644
+--- a/drivers/gpu/drm/radeon/atombios.h
++++ b/drivers/gpu/drm/radeon/atombios.h
+@@ -3599,7 +3599,7 @@ typedef struct  _ATOM_LCD_RTS_RECORD
+   UCHAR     ucRTSValue;
+ }ATOM_LCD_RTS_RECORD;
  
- 	if (aal->data && aal->data->has_gamma)
--		mtk_gamma_set_common(aal->regs, state);
-+		mtk_gamma_set_common(aal->regs, state, false);
- }
- 
- void mtk_aal_start(struct device *dev)
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 86c3068894b1..3380651c6707 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -51,7 +51,7 @@ void mtk_gamma_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
- void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
--void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state);
-+void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool lut_diff);
- void mtk_gamma_start(struct device *dev);
- void mtk_gamma_stop(struct device *dev);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 3a5815ab4079..bbd558a036ec 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -27,6 +27,7 @@
- 
- struct mtk_disp_gamma_data {
- 	bool has_dither;
-+	bool lut_diff;
- };
- 
- /*
-@@ -53,12 +54,13 @@ void mtk_gamma_clk_disable(struct device *dev)
- 	clk_disable_unprepare(gamma->clk);
- }
- 
--void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state)
-+void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool lut_diff)
+-//!! If the record below exits, it shoud always be the first record for easy use in command table!!! 
++//!! If the record below exits, it should always be the first record for easy use in command table!!!
+ // The record below is only used when LVDS_Info is present. From ATOM_LVDS_INFO_V12, use ucLCDPanel_SpecialHandlingCap instead.
+ typedef struct  _ATOM_LCD_MODE_CONTROL_CAP
  {
- 	unsigned int i, reg;
- 	struct drm_color_lut *lut;
- 	void __iomem *lut_base;
- 	u32 word;
-+	u32 diff[3] = {0};
+@@ -3823,7 +3823,7 @@ typedef struct _ATOM_DPCD_INFO
+ // Note1: This table is filled by SetBiosReservationStartInFB in CoreCommSubs.asm
+ //        at running time.   
+ // note2: From RV770, the memory is more than 32bit addressable, so we will change 
+-//        ucTableFormatRevision=1,ucTableContentRevision=4, the strcuture remains 
++//        ucTableFormatRevision=1,ucTableContentRevision=4, the structure remains
+ //        exactly same as 1.1 and 1.2 (1.3 is never in use), but ulStartAddrUsedByFirmware 
+ //        (in offset to start of memory address) is KB aligned instead of byte aligend.
+ /***********************************************************************************/	
+@@ -3858,7 +3858,7 @@ typedef struct _ATOM_VRAM_USAGE_BY_FIRMWARE
+   ATOM_FIRMWARE_VRAM_RESERVE_INFO	asFirmwareVramReserveInfo[ATOM_MAX_FIRMWARE_VRAM_USAGE_INFO];
+ }ATOM_VRAM_USAGE_BY_FIRMWARE;
  
- 	if (state->gamma_lut) {
- 		reg = readl(regs + DISP_GAMMA_CFG);
-@@ -67,9 +69,20 @@ void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state)
- 		lut_base = regs + DISP_GAMMA_LUT;
- 		lut = (struct drm_color_lut *)state->gamma_lut->data;
- 		for (i = 0; i < MTK_LUT_SIZE; i++) {
--			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
--				(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
--				((lut[i].blue >> 6) & LUT_10BIT_MASK);
-+
-+			if (!lut_diff || (i % 2 == 0)) {
-+				word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
-+					(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
-+					((lut[i].blue >> 6) & LUT_10BIT_MASK);
-+			} else {
-+				diff[0] = (lut[i].red >> 6) - (lut[i - 1].red >> 6);
-+				diff[1] = (lut[i].green >> 6) - (lut[i - 1].green >> 6);
-+				diff[2] = (lut[i].blue >> 6) - (lut[i - 1].blue >> 6);
-+
-+				word = ((diff[0] & LUT_10BIT_MASK) << 20) +
-+					((diff[1] & LUT_10BIT_MASK) << 10) +
-+					(diff[2] & LUT_10BIT_MASK);
-+			}
- 			writel(word, (lut_base + i * 4));
- 		}
- 	}
-@@ -78,8 +91,12 @@ void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state)
- void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+-// change verion to 1.5, when allow driver to allocate the vram area for command table access. 
++// change version to 1.5, when allow driver to allocate the vram area for command table access.
+ typedef struct _ATOM_FIRMWARE_VRAM_RESERVE_INFO_V1_5
  {
- 	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-+	bool lut_diff = false;
-+
-+	if (gamma->data)
-+		lut_diff = gamma->data->lut_diff;
+   ULONG   ulStartAddrUsedByFirmware;
+@@ -5973,7 +5973,7 @@ typedef struct _ATOM_ASIC_INTERNAL_SS_INFO_V3
+ #define CLEAR_ATOM_S7_DOS_8BIT_DAC_EN         ((ATOM_DOS_MODE_INFO_DEF << 8 )|ATOM_S7_DOS_8BIT_DAC_EN_SHIFT | ATOM_FLAG_CLEAR )
  
--	mtk_gamma_set_common(gamma->regs, state);
-+	mtk_gamma_set_common(gamma->regs, state, lut_diff);
- }
+ /****************************************************************************/	
+-//Portion II: Definitinos only used in Driver
++//Portion II: Definitions only used in Driver
+ /****************************************************************************/
  
- void mtk_gamma_config(struct device *dev, unsigned int w,
-@@ -176,10 +193,15 @@ static const struct mtk_disp_gamma_data mt8173_gamma_driver_data = {
- 	.has_dither = true,
- };
+ // Macros used by driver
+@@ -7162,7 +7162,7 @@ typedef struct _DP_ENCODER_SERVICE_PARAMETERS
  
-+static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
-+	.lut_diff = true,
-+};
-+
- static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = &mt8173_gamma_driver_data},
--	{ .compatible = "mediatek,mt8183-disp-gamma"},
-+	{ .compatible = "mediatek,mt8183-disp-gamma",
-+	  .data = &mt8183_gamma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
+ // ucAction
+ #define ATOM_DP_ACTION_GET_SINK_TYPE							0x01
+-/* obselete */
++/* obsolete */
+ #define ATOM_DP_ACTION_TRAINING_START							0x02
+ #define ATOM_DP_ACTION_TRAINING_COMPLETE					0x03
+ #define ATOM_DP_ACTION_TRAINING_PATTERN_SEL				0x04
 -- 
 2.25.1
 
