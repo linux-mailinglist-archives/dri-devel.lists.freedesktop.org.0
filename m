@@ -1,66 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1371D514348
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:27:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD61514356
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:34:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F26410FCF7;
-	Fri, 29 Apr 2022 07:27:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 870EE10FCDF;
+	Fri, 29 Apr 2022 07:34:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C5D10FCF7
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:27:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 662A91F37F;
- Fri, 29 Apr 2022 07:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651217255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 276CA10FCD7
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:34:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651217645;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G13O3XnUu/L4LLGheRPalfSPMx0kK8p2Hk4oDfB73pw=;
- b=ZB/OWhKsamYck4/fs/df5IqG3vhXVX61YuJutyj0WbXVTmtROVJ6bMgvLjdUii0aU7Tant
- DFQflQ5E71KSP3RLdZPanmaXEaVNXlQzXHyd5DlIrTJxLuZJyFCZWSUQ9+cac+r5CcFHwB
- 37IdrIOkcjPUujI44HFa6v0EQYaslb0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651217255;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G13O3XnUu/L4LLGheRPalfSPMx0kK8p2Hk4oDfB73pw=;
- b=2cLmWfWd4uW4NuPAz5Ec+cWQqNz5dp1xiSgvlevz5/fXL/I/d09QtKSD18TMobBR7avmdB
- gQD6J265GCd+L4Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 38CB013AE0;
- Fri, 29 Apr 2022 07:27:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id N0KxDGeTa2JvRgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 29 Apr 2022 07:27:35 +0000
-Message-ID: <91f562b5-1b8e-1445-b6b5-5aeb6cd7668a@suse.de>
-Date: Fri, 29 Apr 2022 09:27:34 +0200
+ bh=OcIvWzPcJnww0zTz6xq/G3xwoPRJB4jNoVaJfsinXWU=;
+ b=DS/DWeDoqY5YrXeKtSP9PopafGEoEeQI5/qEzc0trPVNjA8inhZrFZ/aIXbWrYuAMZZ25u
+ A8NmsgnxfLE7zXOWPFCbWEOuYezLKPEXcdGyG4HQzWE/mUqanFELIGJwU8dTCs4MoVwjpK
+ +0DFcsNxOnpipWZPDNOHLgwxxj0j2DA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-wrhP_jBTOj2Kn5Yel_KSIw-1; Fri, 29 Apr 2022 03:34:03 -0400
+X-MC-Unique: wrhP_jBTOj2Kn5Yel_KSIw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s8-20020adf9788000000b0020adb01dc25so2735119wrb.20
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 00:34:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OcIvWzPcJnww0zTz6xq/G3xwoPRJB4jNoVaJfsinXWU=;
+ b=WR4rgl6qAcZ9FPF00BfvVnGJOBXYGBxOj3T/pI/fCyP88QsJSmODMY1ukd8QeaJOew
+ t6/D7/XXuoMzJ4GUMIWIMATjwd0Vm0I4nlv8QWN4VEqo0k7GJNBOroJL1zYeVvLsRGoq
+ 9kNI/qJvtVe7OdIXA0DtnzXqoeP33Xe1cOcDs4FjGhDSeVRxikBuSCdUOtjcgawE35qq
+ ojw3QuEPrKPNgyDDcHbxJ11jt8z03V3Geff12rJJPsFuxR61JdQp1vUW2w+NqM5HcIIj
+ D7YDvaBhAT3dyM1b/gXnOlYtGqLf8o5iWADlRv3Ne4RclJKWWC/xah7SJ0/4l8dWNhxX
+ vq3g==
+X-Gm-Message-State: AOAM5300dUrRqfge2zDHi0dYd+8ASvqKj/85HdNzkawbvt5G0n8uoYPN
+ gSYCic0VBcx/vTFulJmNlRsroG7vgMXQtuXFNEX2MSlqHyFll5exUThgsMftZ5A7N3ivKrkkGHP
+ ZcglTX8OZwMVkS7TQ9kjGSizR+uyd
+X-Received: by 2002:adf:d1c9:0:b0:203:c225:d042 with SMTP id
+ b9-20020adfd1c9000000b00203c225d042mr29168273wrd.630.1651217642692; 
+ Fri, 29 Apr 2022 00:34:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKeChGxDtUOIOIVUKYT/bPfzc5CwFC1QoimsKjIsxsaE/PpQ3Tz6m0jAjbCqtV0ydl1Zka6A==
+X-Received: by 2002:adf:d1c9:0:b0:203:c225:d042 with SMTP id
+ b9-20020adfd1c9000000b00203c225d042mr29168261wrd.630.1651217642460; 
+ Fri, 29 Apr 2022 00:34:02 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ 3-20020a5d47a3000000b0020aa79d55b5sm2001749wrb.35.2022.04.29.00.34.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 00:34:02 -0700 (PDT)
+Message-ID: <00a89131-9cb6-4022-b7fd-7531c980ec32@redhat.com>
+Date: Fri, 29 Apr 2022 09:34:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3 4/5] fbdev: Rename pagelist to pagereflist for deferred
- I/O
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- deller@gmx.de, airlied@linux.ie, maarten.lankhorst@linux.intel.com
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 5/5] fbdev: Use pageref offset for deferred-I/O
+ writeback
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, deller@gmx.de,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com
 References: <20220426120359.17437-1-tzimmermann@suse.de>
- <20220426120359.17437-5-tzimmermann@suse.de>
- <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------s3Wxp8c3NtGZUzGO6WyX35Ui"
+ <20220426120359.17437-6-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220426120359.17437-6-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,78 +90,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------s3Wxp8c3NtGZUzGO6WyX35Ui
-Content-Type: multipart/mixed; boundary="------------cFqm7jIwNKpW6APDWTq8bPrU";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- deller@gmx.de, airlied@linux.ie, maarten.lankhorst@linux.intel.com
-Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Message-ID: <91f562b5-1b8e-1445-b6b5-5aeb6cd7668a@suse.de>
-Subject: Re: [PATCH v3 4/5] fbdev: Rename pagelist to pagereflist for deferred
- I/O
-References: <20220426120359.17437-1-tzimmermann@suse.de>
- <20220426120359.17437-5-tzimmermann@suse.de>
- <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
-In-Reply-To: <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
+On 4/26/22 14:03, Thomas Zimmermann wrote:
+> Use pageref->offset instead of page->index for deferred-I/O writeback
+> where appropriate. Distinguishes between file-mapping offset and video-
+> memory offset. While at it, also remove unnecessary references to
+> struct page.
+> 
+> Fbdev's deferred-I/O code uses the two related page->index and
+> pageref->offset. The former is the page offset in the mapped file,
+> the latter is the byte offset in the video memory (or fbdev screen
+> buffer). It's the same value for fbdev drivers, but for DRM the values
+> can be different. Because GEM buffer objects are mapped at an offset
+> in the DRM device file, page->index has this offset added to it as well.
+> We currently don't hit this case in DRM, because all affected mappings
+> of GEM memory are performed with an internal, intermediate shadow buffer.
+> 
+> The value of page->index is required by page_mkclean(), which we
+> call to reset the mappings during the writeback phase of the deferred
+> I/O. The value of pageref->offset is for conveniently getting an offset
+> into video memory in fb helpers.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
 
---------------cFqm7jIwNKpW6APDWTq8bPrU
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for including this patch.
 
-SGkNCg0KQW0gMjkuMDQuMjIgdW0gMDk6MjEgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IE9uIDQvMjYvMjIgMTQ6MDMsIFRob21h
-cyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gUmVuYW1lIHZhcmlvdXMgaW5zdGFuY2VzIG9mIHBh
-Z2VsaXN0IHRvIHBhZ2VyZWZsaXN0LiBUaGUgbGlzdCBub3cNCj4+IHN0b3JlcyBwYWdlcmVm
-IHN0cnVjdHVyZXMsIHNvIHRoZSBuZXcgbmFtZSBpcyBtb3JlIGFwcHJvcHJpYXRlLg0KPj4N
-Cj4+IEluIHRoZWlyIHdyaXRlLWJhY2sgaGVscGVycywgc2V2ZXJhbCBmYmRldiBkcml2ZXJz
-IHJlZmVyIHRvIHRoZQ0KPj4gcGFnZXJlZiBsaXN0IGluIHN0cnVjdCBmYl9kZWZlcnJlZF9p
-byBpbnN0ZWFkIG9mIHVzaW5nIHRoZSBvbmUNCj4+IHN1cHBsaWVkIGFzIGFyZ3VtZW50IHRv
-IHRoZSBmdW5jdGlvbi4gQ29udmVydCB0aGVtIG92ZXIgdG8gdGhlDQo+PiBzdXBwbGllZCBv
-bmUuIEl0J3MgdGhlIHNhbWUgaW5zdGFuY2UsIHNvIG5vIGNoYW5nZSBvZiBiZWhhdmlvcg0K
-Pj4gb2NjdXJzLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPg0KPj4gU3VnZ2VzdGVkLWJ5OiBTYW0gUmF2bmJvcmcgPHNh
-bUByYXZuYm9yZy5vcmc+DQo+IA0KPiBJIHRob3VndCB0aGUgY29udmVudGlvbiB3YXMgdG8g
-aGF2ZSBTdWdnZXN0ZWQtYnkgYmVmb3JlIHlvdXIgUy1vLUIuDQoNCkkgYWx3YXlzIHRob3Vn
-aHQgdGhhdCB0aGUgY29udmVudGlvbiB3YXMgdGhhdCB0aGUgYXV0aG9ycyBTLW8tQiBnb2Vz
-IA0KZmlyc3QuIEJ1dCAnZ2l0IGxvZycgaW5kZWVkIGluZGljYXRlcyBvdGhlcndpc2UuIEkg
-d2lsbCBjaGFuZ2UgdGhpcyANCmJlZm9yZSBtZXJnaW5nIHRoZSBwYXRjaC4NCg0KPiANCj4g
-VGhlIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWUuDQo+IA0KPiBSZXZpZXdlZC1ieTogSmF2aWVy
-IE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KDQpUaGFua3MN
-Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+[snip]
 
+>  	list_for_each_entry(pageref, pagereflist, list) {
+> -		struct page *page = pageref->page;
+> -		start = page->index << PAGE_SHIFT;
+> +		start = pageref->offset;
 
---------------cFqm7jIwNKpW6APDWTq8bPrU--
+It also has the side effect that makes the code easier to read and as you
+said in the change description, eliminates the references to struct page.
 
---------------s3Wxp8c3NtGZUzGO6WyX35Ui
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
------BEGIN PGP SIGNATURE-----
+-- 
+Best regards,
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJrk2YFAwAAAAAACgkQlh/E3EQov+DY
-lBAAxJ5W7Rkt9gQ3/7mjo0W9Mn9lXSbDGKLvtVmxWxobxQz+bDuF/1/lB02IDQGRcy/4DKLgHLXo
-5mCxeuwVAiH/suX1YVOtIuFRzDEQYItfMCKhnx7yUeaJoNCYbyW36XsUV5Kbwi7AR9+69nxNr7Au
-uWoDYzVVu1fiotaQvFupTJvrRTzpk8/nrmoLclvGkBBB6UgXOl2XAz0U1ErZqn+b0wdFbejXy2lN
-dOHW0JUxZ8S3ZRSWmVWyfAgO8SVQWWB4XrL/TZz50788M1IlTz5U8vZryxaWVNQ7/CAowTSoCPz2
-ESVLmy6unZEXHqSskEtmcAYpF/KyROss+L3/9eRV6Sn9HMVtjuKS9k71FOxsYVXaECU2bK3HXBuh
-QfVKUBxOS301wHa//Qb5eVZbMF1YYTubn1vlwrU1lfM9HeLD1z93uQwXKupbXovbs9/ptJVSjg7M
-b4GncZaEQ1fAWmk3RfRZSu6OMh6DFf7k8KW7Uf8x/Ywx4lp/CXgGXlkR8vzKeQcPGkBg3u8g8OY+
-oKaFxYQkeSNgBiGZMOkl6Nwa9GlVZb4qP82VVbE6aICFi6jmdCY5OSP2cxwOBG8r443d2p5saN2M
-ZUEApQloOjc8aGaSuGsDrAYKYtoW7LFP+UjoMXdhtTMOm5kD7twUBbci/h7evcTnrZTN/vRhParQ
-5Qg=
-=qNSB
------END PGP SIGNATURE-----
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
---------------s3Wxp8c3NtGZUzGO6WyX35Ui--
