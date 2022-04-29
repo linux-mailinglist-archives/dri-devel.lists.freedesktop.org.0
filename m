@@ -1,85 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C973E514358
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:38:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F84951435C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:39:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B32BC10FD85;
-	Fri, 29 Apr 2022 07:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 093BC10FD97;
+	Fri, 29 Apr 2022 07:39:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41E8B10FD85
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:38:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651217890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Sn4pMYCmP9rxbFuOxBBTfXkTBUlRDnMPeAj96w8G82w=;
- b=UxaOw2jMBJhweksb1UB+8YmYNaWhDLxXGWSkSnWzjSl/M4IJ3j+ix4L3XzoYqsCtbyDEDg
- uV/rIYuRhfY+144lADvQoag6anumnkzAbQJGWCYPfHPEH+7VCf9fM4NPpDilubRvZjMDid
- wwf+J9iawzPX8v66V6YYWxK+5GNxR/w=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-jwsDdr_pMLuxDQY_0dh2Aw-1; Fri, 29 Apr 2022 03:38:04 -0400
-X-MC-Unique: jwsDdr_pMLuxDQY_0dh2Aw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d28-20020adf9b9c000000b0020ad4a50e14so2754544wrc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 00:38:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Sn4pMYCmP9rxbFuOxBBTfXkTBUlRDnMPeAj96w8G82w=;
- b=vuggvhVe99gfyjl428M+QVBrHkBmL0rMopvn7cXt+jEtIaK7bvRZ8ZanewR3t+FexE
- aHuvu2oSNCk0IWcs5SSdkUkJyLlv2QRfmEnkeLKHsul8U+V+s8/6sEK6pyZGjCcEHQ11
- HWda6ijliTW0BNqw7isS4qmMFsyqrQptk59d2Yicq5brzRHHyvvlAPRF6kHpXmq64HPD
- r9TqnnATF02cE7sjenuAOk2MofvRwNnHsEiMprXG9cS4wKtBjsN8Aiy2SdkDK0ZxsvXp
- u9Ppj00e+FiVx4++prrT+58Qm+TiuGQ68QdM71ys0+K10OxUYovfVdnyy6Nq7+sSitKC
- mubw==
-X-Gm-Message-State: AOAM530ESojPlI45Thhc80zn27RljotYeVC7/EjDrUszxbbBrGQsJgyr
- +kDMgc/CwHr8AeRdTjp4FUp+q/HIRSGQQKujvxkReeINttLq3PyzEq1YuWMidLbXrMkxqzTRDlo
- TeAF1KAIGxJbZzqw5ROJAEwA7LWB1
-X-Received: by 2002:a5d:6d81:0:b0:20c:4c82:7239 with SMTP id
- l1-20020a5d6d81000000b0020c4c827239mr472037wrs.254.1651217883273; 
- Fri, 29 Apr 2022 00:38:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzyit0aCIjTyFDElOW1X8rM+bZwRMXA3FEqwxP6W9A3I3zSFPQgJfGjftv7TUU0fTJmPW3u3w==
-X-Received: by 2002:a5d:6d81:0:b0:20c:4c82:7239 with SMTP id
- l1-20020a5d6d81000000b0020c4c827239mr472018wrs.254.1651217883025; 
- Fri, 29 Apr 2022 00:38:03 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- o10-20020a5d47ca000000b0020a992ce354sm2046162wrc.76.2022.04.29.00.38.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 00:38:02 -0700 (PDT)
-Message-ID: <4265064b-9250-c05e-6d54-cf97c7f1cf4e@redhat.com>
-Date: Fri, 29 Apr 2022 09:38:01 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6CEF10FD93
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:39:47 +0000 (UTC)
+X-UUID: bf0dd4b2313a435e8a4f6654082b01f4-20220429
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:d840cc8d-efa0-4251-b066-4296357a077b, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:3eeaefc6-85ee-4ac1-ac05-bd3f1e72e732,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: bf0dd4b2313a435e8a4f6654082b01f4-20220429
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1787033799; Fri, 29 Apr 2022 15:39:42 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 29 Apr 2022 15:39:41 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 29 Apr 2022 15:39:40 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 29 Apr 2022 15:39:40 +0800
+Message-ID: <0fb7b063fc246c89430ddf310406ae954a3e3650.camel@mediatek.com>
+Subject: Re: [PATCH v18 04/21] soc: mediatek: add mtk-mmsys support for
+ mt8195 vdosys1
+From: CK Hu <ck.hu@mediatek.com>
+To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Fri, 29 Apr 2022 15:39:40 +0800
+In-Reply-To: <20220428105408.11189-5-nancy.lin@mediatek.com>
+References: <20220428105408.11189-1-nancy.lin@mediatek.com>
+ <20220428105408.11189-5-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 4/5] fbdev: Rename pagelist to pagereflist for deferred
- I/O
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, deller@gmx.de,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com
-References: <20220426120359.17437-1-tzimmermann@suse.de>
- <20220426120359.17437-5-tzimmermann@suse.de>
- <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
- <91f562b5-1b8e-1445-b6b5-5aeb6cd7668a@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <91f562b5-1b8e-1445-b6b5-5aeb6cd7668a@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,48 +66,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/29/22 09:27, Thomas Zimmermann wrote:
-> Hi
+Hi, Nancy:
+
+On Thu, 2022-04-28 at 18:53 +0800, Nancy.Lin wrote:
+> Add mt8195 vdosys1 routing table to the driver data of mtk-mmsys.
 > 
-> Am 29.04.22 um 09:21 schrieb Javier Martinez Canillas:
->> Hello Thomas,
->>
->> On 4/26/22 14:03, Thomas Zimmermann wrote:
->>> Rename various instances of pagelist to pagereflist. The list now
->>> stores pageref structures, so the new name is more appropriate.
->>>
->>> In their write-back helpers, several fbdev drivers refer to the
->>> pageref list in struct fb_deferred_io instead of using the one
->>> supplied as argument to the function. Convert them over to the
->>> supplied one. It's the same instance, so no change of behavior
->>> occurs.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
->>
->> I thougt the convention was to have Suggested-by before your S-o-B.
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> ---
+>  drivers/soc/mediatek/mt8195-mmsys.h    | 136
+> +++++++++++++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.c       |   2 +
+>  include/linux/soc/mediatek/mtk-mmsys.h |   9 ++
+>  3 files changed, 147 insertions(+)
 > 
-> I always thought that the convention was that the authors S-o-B goes 
-> first. But 'git log' indeed indicates otherwise. I will change this 
-> before merging the patch.
-> 
+> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
+> b/drivers/soc/mediatek/mt8195-mmsys.h
+> index abfe94a30248..51031d75e81e 100644
+> --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> @@ -75,6 +75,70 @@
+>  #define MT8195_SOUT_DSC_WRAP1_OUT_TO_SINA_VIRTUAL0		(2 <<
+> 16)
+>  #define MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE			
+> (3 << 16)
+>  
+> +#define MT8195_VDO1_VPP_MERGE0_P0_SEL_IN			0xf04
+> +#define MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0			
+> 1
+> +
+> +#define MT8195_VDO1_VPP_MERGE0_P1_SEL_IN			0xf08
+> +#define MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1			
+> 1
+> +
+> +#define MT8195_VDO1_DISP_DPI1_SEL_IN				0xf10
+> +#define MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT			
+> 0
+> +
+> +#define MT8195_VDO1_DISP_DP_INTF0_SEL_IN			0xf14
+> +#define MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT		
+> 0
+> +
+> +#define MT8195_VDO1_MERGE4_SOUT_SEL				0xf18
+> +#define MT8195_MERGE4_SOUT_TO_DPI1_SEL				
+> 	2
+> +#define MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL				
+> 3
+> +
+> +#define MT8195_VDO1_MIXER_IN1_SEL_IN				0xf24
+> +#define MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT		
+> 	1
+> +
+> +#define MT8195_VDO1_MIXER_IN2_SEL_IN				0xf28
+> +#define MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT		
+> 	1
+> +
+> +#define MT8195_VDO1_MIXER_IN3_SEL_IN				0xf2c
+> +#define MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT		
+> 	1
+> +
+> +#define MT8195_VDO1_MIXER_IN4_SEL_IN				0xf30
+> +#define MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT		
+> 	1
+> +
+> +#define MT8195_VDO1_MIXER_OUT_SOUT_SEL				
+> 0xf34
+> +#define MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL			
+> 	1
+> +
+> +#define MT8195_VDO1_VPP_MERGE1_P0_SEL_IN			0xf3c
+> +#define MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2			
+> 1
+> +
+> +#define MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL			0xf40
+> +#define MT8195_SOUT_TO_MIXER_IN1_SEL					
+> 1
+> +
+> +#define MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL			0xf44
+> +#define MT8195_SOUT_TO_MIXER_IN2_SEL					
+> 1
+> +
+> +#define MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL			0xf48
+> +#define MT8195_SOUT_TO_MIXER_IN3_SEL					
+> 1
+> +
+> +#define MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL			0xf4c
+> +#define MT8195_SOUT_TO_MIXER_IN4_SEL					
+> 1
+> +
+> +#define MT8195_VDO1_MERGE4_ASYNC_SEL_IN				
+> 0xf50
+> +#define MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT		
+> 	1
+> +
+> +#define MT8195_VDO1_MIXER_IN1_SOUT_SEL				
+> 0xf58
+> +#define MT8195_MIXER_IN1_SOUT_TO_DISP_MIXER				
+> 0
+> +
+> +#define MT8195_VDO1_MIXER_IN2_SOUT_SEL				
+> 0xf5c
+> +#define MT8195_MIXER_IN2_SOUT_TO_DISP_MIXER				
+> 0
+> +
+> +#define MT8195_VDO1_MIXER_IN3_SOUT_SEL				
+> 0xf60
+> +#define MT8195_MIXER_IN3_SOUT_TO_DISP_MIXER				
+> 0
+> +
+> +#define MT8195_VDO1_MIXER_IN4_SOUT_SEL				
+> 0xf64
+> +#define MT8195_MIXER_IN4_SOUT_TO_DISP_MIXER				
+> 0
+> +
+> +#define MT8195_VDO1_MIXER_SOUT_SEL_IN				
+> 0xf68
+> +#define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			
+> 0
+> +
+>  static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] =
+> {
+>  	{
+>  		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> @@ -364,6 +428,78 @@ static const struct mtk_mmsys_routes
+> mmsys_mt8195_routing_table[] = {
+>  		DDP_COMPONENT_DSC1, DDP_COMPONENT_MERGE0,
+>  		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DSC_WRAP1_OUT_TO_MASK,
+>  		MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE
+> +	}, {
+> +		DDP_COMPONENT_MDP_RDMA0, DDP_COMPONENT_MERGE1,
+> +		MT8195_VDO1_VPP_MERGE0_P0_SEL_IN, GENMASK(0, 0),
+> +		MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0
+> +	}, {
+> +		DDP_COMPONENT_MDP_RDMA1, DDP_COMPONENT_MERGE1,
+> +		MT8195_VDO1_VPP_MERGE0_P1_SEL_IN, GENMASK(0, 0),
+> +		MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1
+> +	}, {
+> +		DDP_COMPONENT_MDP_RDMA2, DDP_COMPONENT_MERGE2,
+> +		MT8195_VDO1_VPP_MERGE1_P0_SEL_IN, GENMASK(0, 0),
+> +		MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2
+> +	}, {
+> +		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> +		MT8195_SOUT_TO_MIXER_IN1_SEL
+> +	}, {
+> +		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> +		MT8195_SOUT_TO_MIXER_IN2_SEL
+> +	}, {
+> +		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> +		MT8195_SOUT_TO_MIXER_IN3_SEL
+> +	}, {
+> +		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> +		MT8195_SOUT_TO_MIXER_IN4_SEL
+> +	}, {
+> +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
+> +		MT8195_VDO1_MIXER_OUT_SOUT_SEL, GENMASK(0, 0),
+> +		MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL
+> +	}, {
+> +		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MIXER_IN1_SEL_IN, GENMASK(0, 0),
+> +		MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT
+> +	}, {
+> +		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MIXER_IN2_SEL_IN, GENMASK(0, 0),
+> +		MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT
+> +	}, {
+> +		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MIXER_IN3_SEL_IN, GENMASK(0, 0),
+> +		MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT
+> +	}, {
+> +		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
+> +		MT8195_VDO1_MIXER_IN4_SEL_IN, GENMASK(0, 0),
+> +		MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT
+> +	}, {
+> +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
+> +		MT8195_VDO1_MIXER_SOUT_SEL_IN, GENMASK(2, 0),
+> +		MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER
+> +	}, {
+> +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
+> +		MT8195_VDO1_MERGE4_ASYNC_SEL_IN, GENMASK(2, 0),
+> +		MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT
+> +	}, {
+> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
+> +		MT8195_VDO1_DISP_DPI1_SEL_IN, GENMASK(1, 0),
+> +		MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT
+> +	}, {
+> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
+> +		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
+> +		MT8195_MERGE4_SOUT_TO_DPI1_SEL
+> +	}, {
+> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
+> +		MT8195_VDO1_DISP_DP_INTF0_SEL_IN, GENMASK(1, 0),
+> +		MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT
+> +	}, {
+> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
+> +		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
+> +		MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL
+>  	}
+>  };
+>  
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> b/drivers/soc/mediatek/mtk-mmsys.c
+> index 548efed8dc1c..03c75a82c8d3 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -146,6 +146,8 @@ static const struct mtk_mmsys_driver_data
+> mt8195_vdosys0_driver_data = {
+>  static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data
+> = {
+>  	.io_start = 0x1c100000,
+>  	.clk_driver = "clk-mt8195-vdo1",
+> +	.routes = mmsys_mt8195_routing_table,
 
-The way I understand it, is that besides other things it indicates a
-chronological order of events. So the S-o-B will go first, followed
-by any Reviewed-by, Acked-by, etc gathered.
+I think vdo0 and vdo1 are independent, so the routing table would also
+be independent. Merge these two table into one would waste time to
+search routing of other mmsys.
 
-But if someone suggests a change to you, that means the suggestion
-happened before you wrote the patch and is expected to go first.
+> +	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
+>  };
+>  
+>  static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
+> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
+> b/include/linux/soc/mediatek/mtk-mmsys.h
+> index fb719fd1281c..b4388ba43341 100644
+> --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> @@ -28,7 +28,16 @@ enum mtk_ddp_comp_id {
+>  	DDP_COMPONENT_DSI1,
+>  	DDP_COMPONENT_DSI2,
+>  	DDP_COMPONENT_DSI3,
+> +	DDP_COMPONENT_ETHDR_MIXER,
+>  	DDP_COMPONENT_GAMMA,
+> +	DDP_COMPONENT_MDP_RDMA0,
+> +	DDP_COMPONENT_MDP_RDMA1,
+> +	DDP_COMPONENT_MDP_RDMA2,
+> +	DDP_COMPONENT_MDP_RDMA3,
+> +	DDP_COMPONENT_MDP_RDMA4,
+> +	DDP_COMPONENT_MDP_RDMA5,
+> +	DDP_COMPONENT_MDP_RDMA6,
+> +	DDP_COMPONENT_MDP_RDMA7,
 
--- 
-Best regards,
+These new component is not strongly related to mt8195 (maybe other SoC
+has these component), so I would like adding these new component to
+another patch.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Regards,
+CK
+
+>  	DDP_COMPONENT_MERGE0,
+>  	DDP_COMPONENT_MERGE1,
+>  	DDP_COMPONENT_MERGE2,
 
