@@ -2,49 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C800B515256
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 19:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45DF5152EB
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 19:48:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3B110EF34;
-	Fri, 29 Apr 2022 17:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D06F310F6FA;
+	Fri, 29 Apr 2022 17:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74DB910EF30;
- Fri, 29 Apr 2022 17:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651253585; x=1682789585;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=AAeCVLq67fbPpU2hdLLfqt87mXaUOFhdwYJlRnNQsdY=;
- b=Rit82nG8e1HKesgg/MzWGRzGxVRIxJErvUxUjuaqanjKYmgcZFuXfHDl
- zcwzIl0gTQZFF4bIvcO3wwWwvM9hJcv/E0BPFnvZmwu2Mvfk2+hzkmv6Y
- 0kedxhbhYQKhJsFox1C7dTkMGtZqbJ1m7gP5Hod5V98IO7IPSPbdpsnAZ
- ssmh/A6YHgbvv/l0AH+otTFqra+DyROiXZutb8FWTJk4Z09IXhga5Tu+Y
- P74h1tim0yhe9f1ealOzKJvLQq8g4QY7zq08i0gb4xOwe779dzjzjx80+
- OAH8y0emGbEIp059CvAfsVpzqoT6wLsdoN6TQ4WM5NngWmu4O20JShZ+Q g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10332"; a="329657336"
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; d="scan'208";a="329657336"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 10:31:13 -0700
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; d="scan'208";a="534590294"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 10:31:10 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 4/4] drm/i915/selftest: Clear the output buffers before GPU
- writes
-Date: Fri, 29 Apr 2022 23:02:01 +0530
-Message-Id: <20220429173201.20499-5-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220429173201.20499-1-ramalingam.c@intel.com>
-References: <20220429173201.20499-1-ramalingam.c@intel.com>
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE91810F6FA
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 17:48:38 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id l16so1998904oil.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 10:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=m5t7cdt/CWgC/r7ZaFwRZ/Pe0JhVgK8SGggmxnAqq8E=;
+ b=OnQlHi3ErSMC6qSiLPAQK9tsaNNmGUsK/yx8P84vl8ZH25FjCToTTPCP6xYzUtp823
+ nQu8zFOChn7TRclx0bhUluxvWGG31ISy3vYfQGsDQqCS3EjmUrqIVRNyq2psGtG3IDpi
+ 1W6Ytq3a5RYAKQBAidu7fUxQYTQpt+5vW3SEkCPANbWWQlmsLBqc9x1cEkbQPaLnW01H
+ /gSIWuD7kQ5j7LODOU/HAxL6B5EQxZzhqJDbdqVUp7cmUle2rokPIwVHwnAzyzTxiKGl
+ riWnsbp5SbzhiGJgU3qP8CBvVkoxV+4fTE0nup4rFZ2hllcAmSpZXHHWttMly/Jd1ESk
+ NA5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=m5t7cdt/CWgC/r7ZaFwRZ/Pe0JhVgK8SGggmxnAqq8E=;
+ b=ztMQp+ECxCxhkMVrsqmsPLptJAH7P8GlysVtZVH5irzeThzGkhGhtg+27y31cbaXZZ
+ 9pOO8L/FOJaVyw7Bkd8GCl8OmFWlb2ILuYjSZFtUOdIYEBUNvzbzh9iu8htWK0aT1Zjv
+ PwJJxsI4iQNSJ3oW2kqGqTmiOIwy4ntYG6+KtRTesNj8YnzhKSbo+V/B7RFkw+82H28Q
+ xgBahRVC8OIMJonlsIQD888COurr3yUQdzd3JR492Ai1USFLP9c3NEth45XzYzwP+vuv
+ LU3Drxwp27joFBeomW1CCw0L6YdVcu2lDdqUckfh8/IgrmDaqpVaSMCleoHXDczTa7/E
+ 5oJA==
+X-Gm-Message-State: AOAM530ublHCEEt9fDWolvAHxV+KGgLiJTPHNXJWF5d7Vz6WMCAGbi/o
+ yNkk6ylJkZvhkJy0FCt0EzCcDutK04JKKA==
+X-Google-Smtp-Source: ABdhPJxkF8A90UBe5FIUXgDpVBp8codcF4hzbNyKrz59fIRSWDCgfC0jKHUvcyNxHQ5kW9qHkRB58A==
+X-Received: by 2002:a05:6808:11ca:b0:2d4:6861:2a9e with SMTP id
+ p10-20020a05680811ca00b002d468612a9emr282421oiv.114.1651254518245; 
+ Fri, 29 Apr 2022 10:48:38 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ b7-20020a9d5d07000000b00605e7b6b19dsm1261051oti.39.2022.04.29.10.48.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 10:48:37 -0700 (PDT)
+Message-ID: <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+Date: Fri, 29 Apr 2022 10:48:33 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,102 +86,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, CQ Tang <cq.tang@intel.com>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+On 4/28/22 06:44, Arnd Bergmann wrote:
+> On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>> On 4/24/22 01:52, Arnd Bergmann wrote:
+>>>> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> into the defconfig file, otherwise the multiplatform target defaults to
+>>>> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+>>>> you also need to enable CONFIG_ARCH_MULTI_V4T.
+>>>>
+>>>> This is slightly unfortunate, but I don't see any way to avoid it, and the
+>>>> modified defconfig will still work fine with older kernel trees.
+>>>>
+>>>
+>>> Yes, that works. I changed it in my configuration.
+>>
+>> Ok, great!. I managed to boot the z2 machine with PCMCIA support
+>> and it gets around the issue with my patch, correctly detecting the
+>> CF card.
+> 
+> Hi Guenter,
+> 
+> I have now sent out a fix that I'm happy with, and applied it to the
+> pxa-multiplatform-5.18 branch of the soc tree as well as the
+> combined arm/multiplatform tree.
+> 
+> I have not merged this new version into the for-next branch
+> since I would like to see if there are any other regressions first.
+> 
+> Can you run your boot tests on the arm/multiplatform branch
+> and let me know if that fixes everything you found? If that
+> takes a lot of manual steps on your side, I'd just wait for the
+> build bots and merge it after all there are no new compile-time
+> issues.
+> 
 
-When testing whether we can get the GPU to leak information about
-non-privileged state, we first need to ensure that the output buffer is
-set to a known value as the HW may opt to skip the write into memory for
-a non-privileged read of a sensitive register. We chose POISON_INUSE (0x5a)
-so that is both non-zero and distinct from the poison values used during
-the test.
+I tried the pxa-multiplatform-5.18 branch. Its failures match
+those in v5.18-rc1.
 
-v2:
-  Use i915_gem_object_pin_map_unlocked
+Should I try soc/arm/multiplatform as well ?
 
-Reported-by: CQ Tang <cq.tang@intel.com>
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: CQ Tang <cq.tang@intel.com>
-cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/selftest_lrc.c | 32 ++++++++++++++++++++++----
- 1 file changed, 28 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-index 51e4b7092d4f..9c8e8321c633 100644
---- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-@@ -1346,6 +1346,30 @@ static int compare_isolation(struct intel_engine_cs *engine,
- 	return err;
- }
- 
-+static struct i915_vma *
-+create_result_vma(struct i915_address_space *vm, unsigned long sz)
-+{
-+	struct i915_vma *vma;
-+	void *ptr;
-+
-+	vma = create_user_vma(vm, sz);
-+	if (IS_ERR(vma))
-+		return vma;
-+
-+	/* Set the results to a known value distinct from the poison */
-+	ptr = i915_gem_object_pin_map_unlocked(vma->obj, I915_MAP_WC);
-+	if (IS_ERR(ptr)) {
-+		i915_vma_put(vma);
-+		return ERR_CAST(ptr);
-+	}
-+
-+	memset(ptr, POISON_INUSE, vma->size);
-+	i915_gem_object_flush_map(vma->obj);
-+	i915_gem_object_unpin_map(vma->obj);
-+
-+	return vma;
-+}
-+
- static int __lrc_isolation(struct intel_engine_cs *engine, u32 poison)
- {
- 	u32 *sema = memset32(engine->status_page.addr + 1000, 0, 1);
-@@ -1364,13 +1388,13 @@ static int __lrc_isolation(struct intel_engine_cs *engine, u32 poison)
- 		goto err_A;
- 	}
- 
--	ref[0] = create_user_vma(A->vm, SZ_64K);
-+	ref[0] = create_result_vma(A->vm, SZ_64K);
- 	if (IS_ERR(ref[0])) {
- 		err = PTR_ERR(ref[0]);
- 		goto err_B;
- 	}
- 
--	ref[1] = create_user_vma(A->vm, SZ_64K);
-+	ref[1] = create_result_vma(A->vm, SZ_64K);
- 	if (IS_ERR(ref[1])) {
- 		err = PTR_ERR(ref[1]);
- 		goto err_ref0;
-@@ -1392,13 +1416,13 @@ static int __lrc_isolation(struct intel_engine_cs *engine, u32 poison)
- 	}
- 	i915_request_put(rq);
- 
--	result[0] = create_user_vma(A->vm, SZ_64K);
-+	result[0] = create_result_vma(A->vm, SZ_64K);
- 	if (IS_ERR(result[0])) {
- 		err = PTR_ERR(result[0]);
- 		goto err_ref1;
- 	}
- 
--	result[1] = create_user_vma(A->vm, SZ_64K);
-+	result[1] = create_result_vma(A->vm, SZ_64K);
- 	if (IS_ERR(result[1])) {
- 		err = PTR_ERR(result[1]);
- 		goto err_result0;
--- 
-2.20.1
-
+Guenter
