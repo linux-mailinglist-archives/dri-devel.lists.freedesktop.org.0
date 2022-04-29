@@ -1,55 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E96B515790
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 00:00:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50627515851
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 00:22:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F06B10F0DC;
-	Fri, 29 Apr 2022 22:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4064410E937;
+	Fri, 29 Apr 2022 22:22:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70DCA10F0DC;
- Fri, 29 Apr 2022 22:00:14 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id x18so12446800wrc.0;
- Fri, 29 Apr 2022 15:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3YvJQ8AnVTjfxXBmIcp4SKnbUwO/iQ1O2/sNT7auhlc=;
- b=Mt/mI0/OBXBeNhi9sXshjI8jxnT5wdIT8DJ3pLbrSH5vmO4Cd5tRHisCYP9Szu+M+e
- 1i0MOQGIeOEWLLM3DbI++ffIRdM44r//1bhYJnM6WYFAHuH3hMxgSCZorYLY4YIrIBxz
- yvbIRpUHCuKQUB09fySYM8xYFW9V6VOqhuQcuIN6uTngS6JELu22Q2qtRXnVoKAf0kHg
- hBThL82Tc+5LAJLkfrQVwIEPTlxUkGrbzDzmTFjMCJwy4Y37aDoiJg0ZKRVbjeKb1ZnO
- f/niq1HPBVrZPWO5rTcaDsnvzYy6UkSn5Umu4KvCn+aKuwQF4uk90AUGy+Hh2abxlefT
- B8Qw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8B910E32F
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 22:22:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651270934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ATKyFNAAAkRRTMtWxAFMAqDXlfz2eEkoQ0lWbdsfdDE=;
+ b=DwQYV3FePSX6Qla3J0/FYZ0+WO4dSHSXBBgbvv3/W1yHxG0vZIy/YkqtffXonsZPk/C9fa
+ pMuSk47iMnFODYdCvFj73U35C+Ub6BIS4xwPHeuOz6ay6hEMisrpNi4ndRq1xR1gMwpOID
+ L329yMBQR2hpQEgZRjlJJ0FCD4KVO2A=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-623--HrG_ETDOsew6C8O3LDyRg-1; Fri, 29 Apr 2022 18:22:13 -0400
+X-MC-Unique: -HrG_ETDOsew6C8O3LDyRg-1
+Received: by mail-io1-f72.google.com with SMTP id
+ u18-20020a5d8712000000b0064c7a7c497aso7351414iom.18
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 15:22:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3YvJQ8AnVTjfxXBmIcp4SKnbUwO/iQ1O2/sNT7auhlc=;
- b=TTkRq7Jkun+Plk+BGzybaXFnCVt0tL1F6o61Z5KeGKt9xCxlIghjQCXxJxHsWnXD9P
- YaXA/hjO7FoTEktQKRvcSDBhtXhfK557OXVa4bb9hfGL/TB2YLYAuIDxCQCZNyCIGhm/
- XHVpUZOqfU08IGtDchFHCOO/R8U7s8p+UR2TpWU9BurISEHwwB45oZNFF1UOmPyf5B8I
- x85cd7VzvqdCfA7SYiRxBhIAchssElN+WShc6PkwcCLexUuB2Mz4RdiFNvPqgao0TN11
- KOdkdNuW0gmk0Z9N6RCHeVZmbw+Vjp/EsI15YtpZAaDmRVJ58rxh+CMrXH4s6GkaCeJz
- MNhg==
-X-Gm-Message-State: AOAM533KZFQHBVlq4+djCF6/YUwD2kv6NtgyUJyQLKz9Bb4+7GDMVMyP
- NOGD5UTzk0ezwFlmpYOhUpctuDHRKQT4N6BhZJM=
-X-Google-Smtp-Source: ABdhPJzfbZNuQ24oj/IbRhwz5VVFSzob3RDgay6MXgeZTuyPfwNUqu7QRyHY+WjpuSo4eoDsyxQebCkk3u3qwldIH24=
-X-Received: by 2002:a05:6000:18c5:b0:207:ac0d:f32 with SMTP id
- w5-20020a05600018c500b00207ac0d0f32mr789629wrq.574.1651269612858; Fri, 29 Apr
- 2022 15:00:12 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ATKyFNAAAkRRTMtWxAFMAqDXlfz2eEkoQ0lWbdsfdDE=;
+ b=sepfTAC+1uNTvNV/HkdZGS11oMCxpfjfLZqc3BSrmwPQWT8RC1SkNb3+3/Dg1lxZkk
+ 8DR73e9Eu1TLWH/s9xkXXH6K2VNzcoL6Thhdi0lWbNZef9+JooY3YAEJm+B+4OWHelq+
+ vCvrOk1fS+wfxm2epBWk7/y3ljG7xgH/TH5y2gnbbKe4yMx08h0l0iHvpyHZwrma1crJ
+ DGbh5LLN6yrkKWQAeLOFNJxMPZmXCRNabEaKO7t2ieizLiDJB8SxayTVKHbZz9YNChOX
+ D36O72mCYvhB5fm86jevkU5dKRnLlz6tlSzg+Ty98n7F7QVQQ8JLYlRez5Q7KfI7w+FN
+ zzZQ==
+X-Gm-Message-State: AOAM531vskyi69ecdKN/WF3rhkmG+56VsAIxregBuylilzzPxXfdzVjp
+ Sn/h8IPdQSLTv/2q4irgybbE3SqwQ7BHagp3xgA/Y4uPNzBl6I5P9ZB45BXv57H04Hp03N0V2Fr
+ eCGY4o55dH+PjyalxJuAQPWVW+tsG
+X-Received: by 2002:a05:6638:4604:b0:32b:4eab:7394 with SMTP id
+ bw4-20020a056638460400b0032b4eab7394mr636125jab.18.1651270932497; 
+ Fri, 29 Apr 2022 15:22:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPQNrRSGnW48FBq1t2/hjh8q51j2JzUcOvWsug9aMrqr32bPZVspTaleHuRHvQdSR9CF/bGw==
+X-Received: by 2002:a05:6638:4604:b0:32b:4eab:7394 with SMTP id
+ bw4-20020a056638460400b0032b4eab7394mr636115jab.18.1651270932123; 
+ Fri, 29 Apr 2022 15:22:12 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ e71-20020a02864d000000b0032b3a78176bsm897885jai.47.2022.04.29.15.22.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 15:22:11 -0700 (PDT)
+Date: Fri, 29 Apr 2022 16:22:09 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 0/7] Make the rest of the VFIO driver interface use
+ vfio_device
+Message-ID: <20220429162209.2ec03e4f.alex.williamson@redhat.com>
+In-Reply-To: <20220429173149.GA167483@nvidia.com>
+References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
+ <20220429173149.GA167483@nvidia.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220429215324.3729441-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220429215324.3729441-1-dmitry.baryshkov@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 29 Apr 2022 15:00:02 -0700
-Message-ID: <CAF6AEGu+Ve1i_WHwcyXkGZKnv0aOiQNW7NCv=ToDpoorsn=TgA@mail.gmail.com>
-Subject: Re: [PATCH v2] MAINTAINERS: Add Dmitry as MSM DRM driver co-maintainer
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +85,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Eric Farman <farman@linux.ibm.com>,
+ dri-devel@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-s390@vger.kernel.org, "Liu, Yi
+ L" <yi.l.liu@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, "Tian, 
+ Kevin" <kevin.tian@intel.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 29, 2022 at 2:53 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> For the past several releases I have been assisting Rob by writing,
-> collecting, testing and integrating patches for non-GPU and non-core
-> parts of MSM DRM driver, while Rob is more interested in improving the
-> GPU-related part. Let's note this in the MAINTAINERS file.
->
-> While we are at it, per Rob's suggestion let's also promote Abhinav
-> Kumar to M: (as he is actively working on the driver) and switch Sean
-> Paul to R: (since he isn't doing much on msm these days).
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Fri, 29 Apr 2022 14:31:49 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Acked-by: Rob Clark <robdclark@gmail.com>
+> On Thu, Apr 21, 2022 at 01:28:31PM -0300, Jason Gunthorpe wrote:
+> > Prior series have transformed other parts of VFIO from working on struct
+> > device or struct vfio_group into working directly on struct
+> > vfio_device. Based on that work we now have vfio_device's readily
+> > available in all the drivers.
+> > 
+> > Update the rest of the driver facing API to use vfio_device as an input.
+> > 
+> > The following are switched from struct device to struct vfio_device:
+> >   vfio_register_notifier()
+> >   vfio_unregister_notifier()
+> >   vfio_pin_pages()
+> >   vfio_unpin_pages()
+> >   vfio_dma_rw()
+> > 
+> > The following group APIs are obsoleted and removed by just using struct
+> > vfio_device with the above:
+> >   vfio_group_pin_pages()
+> >   vfio_group_unpin_pages()
+> >   vfio_group_iommu_domain()
+> >   vfio_group_get_external_user_from_dev()
+> > 
+> > To retain the performance of the new device APIs relative to their group
+> > versions optimize how vfio_group_add_container_user() is used to avoid
+> > calling it when the driver must already guarantee the device is open and
+> > the container_users incrd.
+> > 
+> > The remaining exported VFIO group interfaces are only used by kvm, and are
+> > addressed by a parallel series.
+> > 
+> > This series is based on Christoph's gvt rework here:
+> > 
+> >  https://lore.kernel.org/all/5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com/
+> > 
+> > and so will need the PR merged first.  
+> 
+> Hi Alex,
+> 
+> Since all the shared branch PRs are ready, do you have any remarks on
+> this series and the others before I rebase and repost them?
 
-> ---
->  MAINTAINERS | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+Only the nit in the commit log:
+https://lore.kernel.org/all/20220429142820.6afe7bbe.alex.williamson@redhat.com/ 
+
+> This one has a few changes to the commit messages outstanding, but v2
+> didn't have any code changes.
+> 
+> Also, what order would like the different series in - they conflict
+> with each other a little bit. I suggest this:
+> 
+> - mdev group removal (this one)
+> - Remove vfio_device_get_from_dev()
+>   https://lore.kernel.org/r/0-v1-7f2292e6b2ba+44839-vfio_get_from_dev_jgg@nvidia.com
+> - Remove group from kvm
+>   https://lore.kernel.org/r/0-v1-33906a626da1+16b0-vfio_kvm_no_group_jgg@nvidia.com
+
+I think you mean (v2):
+
+https://lore.kernel.org/all/0-v2-6a528653a750+1578a-vfio_kvm_no_group_jgg@nvidia.com/
+
+Otherwise, thanks for sorting these out for me.
+
+> All of them seem to have got enough reviews now.
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 61d9f114c37f..782934f318d4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6254,8 +6254,9 @@ F:        drivers/gpu/drm/tiny/panel-mipi-dbi.c
->
->  DRM DRIVER FOR MSM ADRENO GPU
->  M:     Rob Clark <robdclark@gmail.com>
-> -M:     Sean Paul <sean@poorly.run>
-> -R:     Abhinav Kumar <quic_abhinavk@quicinc.com>
-> +M:     Abhinav Kumar <quic_abhinavk@quicinc.com>
-> +M:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> +R:     Sean Paul <sean@poorly.run>
->  L:     linux-arm-msm@vger.kernel.org
->  L:     dri-devel@lists.freedesktop.org
->  L:     freedreno@lists.freedesktop.org
-> --
-> 2.35.1
->
+> I have one more series on this group topic and a few little patches still
+> 
+> It would be great if you could merge the gvt and iommu series together
+> into your tree toward linux-next so I can post patches against a
+> stable commit ID so the build-bots can test them.
+
+Please check my vfio next branch and see if this matches what you're
+looking for:
+
+https://github.com/awilliam/linux-vfio/commits/next
+
+I'll look for any fallout from Stephen and build bots on Monday's
+linux-next compilation.  Thanks,
+
+Alex
+
