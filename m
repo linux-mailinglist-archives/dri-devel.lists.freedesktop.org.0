@@ -1,54 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE035154E8
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 21:55:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 838DE515524
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:05:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3264710EF2D;
-	Fri, 29 Apr 2022 19:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8888610F880;
+	Fri, 29 Apr 2022 20:05:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C591810EF2D
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 19:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651262128; x=1682798128;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=L+bB5VG7en+mvHiYzW/hL0EPJC9CFmfyr3aZpk0g7F0=;
- b=fA9tXvinwJV1Uh4H6O1QBlnVnVEwNGvgnLxHWsutMeNZBMXSJvJ2qLAf
- WD8RuP3/950TF4Z1098/XZFmdXRzRKxDXbKqqJ/sCLblGLB2kjtRQnRlb
- KAwoAcg2lQc30fo57O77VWxxVzzqUhMBs0U49cyQ7yFAXtF+KUMiFpVSr E=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 29 Apr 2022 12:55:27 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 12:55:27 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 29 Apr 2022 12:55:26 -0700
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 29 Apr 2022 12:55:25 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm: drm_gem.h: Add explicit includes for DEFINE_DRM_GEM_FOPS
-Date: Fri, 29 Apr 2022 13:55:12 -0600
-Message-ID: <1651262112-29664-1-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85E6D10F880
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:05:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651262704;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kcovE1w1Q2ySPHOXXOrSnghDbs+C0kl65FGWnu24ba4=;
+ b=UxUocnV4p95fFS/e2p60V+ZiPpUtABQ61AcdSs8jBvW3Ui+J8jgQ/XzeNI0WoyVS6dbFui
+ WUT7UJF0MSzL8lZwtLeINQs2MnpKvKcA9y1z+be8G7/iiNNKaH5NqnxC+/UiKO0ue/WLEc
+ aXpzMkRGI6IZ/MkcZ4H83WE//B7I0vk=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-452-EYC8U-DBN9qwl6o4EP3L_g-1; Fri, 29 Apr 2022 16:05:01 -0400
+X-MC-Unique: EYC8U-DBN9qwl6o4EP3L_g-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ s3-20020a05622a1a8300b002f3692d5a18so6402544qtc.21
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:05:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=kcovE1w1Q2ySPHOXXOrSnghDbs+C0kl65FGWnu24ba4=;
+ b=dcMKyXLll+EbKkZWprwU0wkDRz43/Fal26ytEjGsRwVIP03y+vkoik6rDVS6pUfZNz
+ FAvA6IKPyZuEXrLGTCnOU2ym4/1TpU29cZ1Iv5iGzNdGN6BLlMVtNMrAdEAdj3DMPcit
+ xafJfkZTpoRL+LPhPfLRojTH77HCWezp/n4ck3w2Q0QrER9Y/wQLRVgFSVtGCWXK5GXi
+ mQBYhA6/IBNzlDkG+1CtOjpcj4jm+8J7FY9IC/ZK17LyabBGnX3v8MhLr+Whu37REYtD
+ v6XvSvNziG/8glhT/l+ENlCk6BTS/4agpZTdcW1LS3ZmIQUM0pQ7AEMFXew37l3xk/zn
+ i2qw==
+X-Gm-Message-State: AOAM533coLQn9twLgPGFxEgb/oGvf4toz9d56PdoJFMka5IFRbsF06Vz
+ hRoRLsdg6+iR4JSlEaMY52UWyPisXVkccWJAygadPQay5YyyQxMqkK+2F7OfIueFYkUQ1Z6NE53
+ HVFuT61Yo/4T9SlZfKJERLl/mWAAu
+X-Received: by 2002:a05:620a:470d:b0:69f:b40e:4980 with SMTP id
+ bs13-20020a05620a470d00b0069fb40e4980mr624214qkb.18.1651262700560; 
+ Fri, 29 Apr 2022 13:05:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvhd/Pz3dnN/kOghuRQrdjTAxwOX9z2qV4xiYISPavIPxL9eNwnZkwzFKpy8xIW42Aw65MvA==
+X-Received: by 2002:a05:620a:470d:b0:69f:b40e:4980 with SMTP id
+ bs13-20020a05620a470d00b0069fb40e4980mr624198qkb.18.1651262700355; 
+ Fri, 29 Apr 2022 13:05:00 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ q19-20020ac84513000000b002f39b99f671sm81839qtn.11.2022.04.29.13.04.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 13:04:59 -0700 (PDT)
+Message-ID: <5e89bb2eebbe173e1fa4d1c5abc977fb0ae433d9.camel@redhat.com>
+Subject: Re: [PATCH 3/4] drm/nouveau: use drm_gem_plane_helper_prepare_fb
+From: Lyude Paul <lyude@redhat.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
+Date: Fri, 29 Apr 2022 16:04:58 -0400
+In-Reply-To: <20220429134230.24334-3-christian.koenig@amd.com>
+References: <20220429134230.24334-1-christian.koenig@amd.com>
+ <20220429134230.24334-3-christian.koenig@amd.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +88,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Maxime Ripard <maxime@cerno.tech>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Karol Herbst <kherbst@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DEFINE_DRM_GEM_FOPS() references drm functions from other headers.  For
-example drm_open() is defined in drm_file.h and drm_ioctl() is defined
-in drm_ioctl.h.  Since drm_gem.h doesn't include these headers, it
-relies on an implicit include from the .c file to have included these
-required headers before DEFINE_DRM_GEM_FOPS() gets used.  Relying on
-these implicit includes can cause build failures for new code that
-doesn't know about these requirements, and can lead to future problems
-if the headers ever get restructured as there will be a need to update
-every downstream file that includes drm_gem.h.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Lets fix this explicitly including the required headers in drm_gem.h so
-that code that includes drm_gem.h does not need to worry about these
-implicit dependencies.
+Also consider this as permission to push this to drm-misc-next
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
----
- include/drm/drm_gem.h | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, 2022-04-29 at 15:42 +0200, Christian König wrote:
+> Instead of manually adjusting the plane state.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/nouveau/dispnv50/wndw.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> index 8642b84ea20c..bb8a4601e0d9 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> @@ -32,6 +32,7 @@
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+>  #include <drm/drm_fourcc.h>
+>  
+>  #include "nouveau_bo.h"
+> @@ -558,9 +559,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct
+> drm_plane_state *state)
+>                         asyw->image.handle[0] = ctxdma->object.handle;
+>         }
+>  
+> -       ret = dma_resv_get_singleton(nvbo->bo.base.resv,
+> -                                    DMA_RESV_USAGE_WRITE,
+> -                                    &asyw->state.fence);
+> +       ret = drm_gem_plane_helper_prepare_fb(plane, state);
+>         if (ret)
+>                 return ret;
+>  
 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 9d7c61a..1cbe3d8 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -37,6 +37,8 @@
- #include <linux/kref.h>
- #include <linux/dma-resv.h>
- 
-+#include <drm/drm_file.h>
-+#include <drm/drm_ioctl.h>
- #include <drm/drm_vma_manager.h>
- 
- struct iosys_map;
 -- 
-2.7.4
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
