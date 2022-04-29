@@ -1,57 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05EC514B3A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 15:52:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0404514BD1
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 15:54:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 040CD10EC9B;
-	Fri, 29 Apr 2022 13:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9F4E10E82A;
+	Fri, 29 Apr 2022 13:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F46E10EC9B;
- Fri, 29 Apr 2022 13:52:10 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id y3so5782789qtn.8;
- Fri, 29 Apr 2022 06:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qqmh4QicnWPaJCJC7c88rxJhni8pNLr/gnKY6HjMk8A=;
- b=i5fIr3cePj+cTj9SbN9xwnGYEAJ2an2z+oBClMzCZFrn/n5tewtHlZKxWwn0AFPzQ6
- GA66hZU7t6t7hIwdV9XLtTsIDsRfcXAv5oEZ1qYB3sH9rKnjkVRgt4+E0qv+cljZQyU7
- awvO27agZ8rjQxHfD/Q9/pShKQN1OfwnD8udJSzq/BoFNy7O94e5z4GAXd+usRu6Alkc
- Aw3laLxXLc7c22HbtSean9BqI6Gbyco7PEzsDYnw+nCdqeHfWtzPfVL9TRMov5DW1MQ/
- p0ha0jVFbxe8jCqffvt53Z2eOaSqmtVGGJ//lY/0bWVB0MfNhDA+L7BEXuWDnbNz8K+A
- h+Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qqmh4QicnWPaJCJC7c88rxJhni8pNLr/gnKY6HjMk8A=;
- b=DQr1eyFliEm7525d6mzj5grU4Jz77OqSjRWJkNvctYbLaNVdzGU132O1EYzN43QgiR
- VhkWt+G6M6sbJ7yZIa7VS8be0D5mwKIrfMptbFH4Gl0+HgTno0QmMKp0dcKaRtl4rro8
- qItwH56luBTGROVVld+Zd2hq6+n3eLq90E62MlYghwyM3/dUCKG/jBT+kThcHNyoBZDI
- aNfTZcvyChazhuo6CdZmAFEkkhgBcCJ9xmiduG0RHPr9jDue/scfvIHYwYQ/K3gZgPE0
- abKyMh5gc6wF91xIRMZGJUCEL+8QcuEx1LGYo/gJ2L5eSwTUpTXBwHvoQRWcsk+2q8KA
- OHWg==
-X-Gm-Message-State: AOAM530Cfv+KQoNzKmRDsxQqokqQZhLEflN4ooKFS17VPeYhk0BOxKMS
- sys4cAH7XBCr+W5iGxxouQzGl6XbguoiB6JnEUUeOYliD1U=
-X-Google-Smtp-Source: ABdhPJwa5yJIzbTjva35jH/1X3nJ7ehTFRtH4t2+aU/TjOrvcRzlyOcoXELjq3LAfBBBj2jOoQZZ5Y/AgTlVHE3m0Ds=
-X-Received: by 2002:a05:622a:6115:b0:2f1:d8fa:84aa with SMTP id
- hg21-20020a05622a611500b002f1d8fa84aamr27670309qtb.689.1651240329189; Fri, 29
- Apr 2022 06:52:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220425152317.4275-1-ramalingam.c@intel.com>
- <20220425152317.4275-4-ramalingam.c@intel.com>
-In-Reply-To: <20220425152317.4275-4-ramalingam.c@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 29 Apr 2022 14:51:42 +0100
-Message-ID: <CAM0jSHOvfE5i-ET2OmC926p59jLL0=vg_vxanFFG41H-aVhADQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/gt: Clear SET_PREDICATE_RESULT
- prior to executing the ring
-To: Ramalingam C <ramalingam.c@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E88510E82A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:54:47 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nkR53-0007Sx-Jf; Fri, 29 Apr 2022 15:54:45 +0200
+Message-ID: <8bc30c8c4344f02491fe2970fe82497dcfc9493f.camel@pengutronix.de>
+Subject: Re: [PATCH v2] drm: mxsfb: Implement LCDIF scanout CRC32 support
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Fri, 29 Apr 2022 15:54:42 +0200
+In-Reply-To: <20220411203531.774958-1-marex@denx.de>
+References: <20220411203531.774958-1-marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,35 +47,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Apr 2022 at 16:22, Ramalingam C <ramalingam.c@intel.com> wrote:
->
-> From: Chris Wilson <chris.p.wilson@intel.com>
->
-> Userspace may leave predication enabled upon return from the batch
-> buffer, which has the consequent of preventing all operation from the
-> ring from being executed, including all the synchronisation, coherency
-> control, arbitration and user signaling. This is more than just a local
-> gpu hang in one client, as the user has the ability to prevent the
-> kernel from applying critical workarounds and can cause a full GT reset.
->
-> We could simply execute MI_SET_PREDICATE upon return from the user
-> batch, but this has the repercussion of modifying the user's context
-> state. Instead, we opt to execute a fixup batch which by mixing
-> predicated operations can determine the state of the
-> SET_PREDICATE_RESULT register and restore it prior to the next userspace
-> batch. This allows us to protect the kernel's ring without changing the
-> uABI.
->
-> Suggested-by: Zbigniew Kempczynski <zbigniew.kempczynski@intel.com>
-> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
-> Cc: Zbigniew Kempczynski <zbigniew.kempczynski@intel.com>
-> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Am Montag, dem 11.04.2022 um 22:35 +0200 schrieb Marek Vasut:
+> The LCDIF controller as present in i.MX28/i.MX6SX/i.MX8M Mini/Nano has
+> CRC_STAT register, which contains CRC32 of the frame as it was clocked
+> out of the DPI interface of the LCDIF. This is most likely meant as a
+> functional safety feature.
+> 
+> Unfortunately, there is zero documentation on how the CRC32 is calculated,
+> there is no documentation of the polynomial, the init value, nor on which
+> data is the checksum applied.
+> 
+> By applying brute-force on 8 pixel / 2 line frame, which is the minimum
+> size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
+> 0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
+> of the entire frame and the resulting CRC has to be also bitrev32()ed.
+> 
+> Doing this calculation in kernel for each frame is unrealistic due to the
+> CPU demand, so attach the CRC collected from hardware to a frame instead.
+> The DRM subsystem already has an interface for this purpose and the CRC
+> can be accessed e.g. via debugfs:
+> "
+> $ echo auto > /sys/kernel/debug/dri/1/crtc-0/crc/control
+> $ cat /sys/kernel/debug/dri/1/crtc-0/crc/data
+> 0x0000408c 0xa4e5cdd8
+> 0x0000408d 0x72f537b4
+> "
+> The per-frame CRC can be used by userspace e.g. during automated testing,
+> to verify that whatever buffer was sent to be scanned out was actually
+> scanned out of the LCDIF correctly.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+
+I'm not really an expert with this CRC stuff and don't have the
+bandwidth to dig very deep into it right now, but the change looks sane
+to me.
+
+Acked-by: Lucas Stach <l.stach@pengutronix.de>
+
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+> ---
+> V2: Check crtc for non-NULL before dereferencing it in mxsfb_crtc_set_crc_source
+> ---
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 15 +++++++-
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  3 ++
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 61 ++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
+>  4 files changed, 75 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> index 94cafff7f68d5..ccf4107476ecc 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> @@ -9,6 +9,7 @@
+>   */
+>  
+>  #include <linux/clk.h>
+> +#include <linux/crc32.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+> @@ -52,6 +53,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+>  		.hs_wdth_shift	= 24,
+>  		.has_overlay	= false,
+>  		.has_ctrl2	= false,
+> +		.has_crc32	= false,
+>  	},
+>  	[MXSFB_V4] = {
+>  		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
+> @@ -61,6 +63,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+>  		.hs_wdth_shift	= 18,
+>  		.has_overlay	= false,
+>  		.has_ctrl2	= true,
+> +		.has_crc32	= true,
+>  	},
+>  	[MXSFB_V6] = {
+>  		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
+> @@ -70,6 +73,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+>  		.hs_wdth_shift	= 18,
+>  		.has_overlay	= true,
+>  		.has_ctrl2	= true,
+> +		.has_crc32	= true,
+>  	},
+>  };
+>  
+> @@ -145,12 +149,19 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
+>  {
+>  	struct drm_device *drm = data;
+>  	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+> -	u32 reg;
+> +	u32 reg, crc;
+> +	u64 vbc;
+>  
+>  	reg = readl(mxsfb->base + LCDC_CTRL1);
+>  
+> -	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
+> +	if (reg & CTRL1_CUR_FRAME_DONE_IRQ) {
+>  		drm_crtc_handle_vblank(&mxsfb->crtc);
+> +		if (mxsfb->crc_active) {
+> +			crc = readl(mxsfb->base + LCDC_V4_CRC_STAT);
+> +			vbc = drm_crtc_accurate_vblank_count(&mxsfb->crtc);
+> +			drm_crtc_add_crc_entry(&mxsfb->crtc, true, vbc, &crc);
+> +		}
+> +	}
+>  
+>  	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+>  
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> index ddb5b0417a82c..d160d921b25fc 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+> @@ -23,6 +23,7 @@ struct mxsfb_devdata {
+>  	unsigned int	hs_wdth_shift;
+>  	bool		has_overlay;
+>  	bool		has_ctrl2;
+> +	bool		has_crc32;
+>  };
+>  
+>  struct mxsfb_drm_private {
+> @@ -44,6 +45,8 @@ struct mxsfb_drm_private {
+>  	struct drm_encoder		encoder;
+>  	struct drm_connector		*connector;
+>  	struct drm_bridge		*bridge;
+> +
+> +	bool				crc_active;
+>  };
+>  
+>  static inline struct mxsfb_drm_private *
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index c7f14ef1edc25..323087944ac56 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -454,6 +454,41 @@ static void mxsfb_crtc_disable_vblank(struct drm_crtc *crtc)
+>  	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+>  }
+>  
+> +static int mxsfb_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+> +{
+> +	struct mxsfb_drm_private *mxsfb;
+> +
+> +	if (!crtc)
+> +		return -ENODEV;
+> +
+> +	mxsfb = to_mxsfb_drm_private(crtc->dev);
+> +
+> +	if (source && strcmp(source, "auto") == 0)
+> +		mxsfb->crc_active = true;
+> +	else if (!source)
+> +		mxsfb->crc_active = false;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int mxsfb_crtc_verify_crc_source(struct drm_crtc *crtc,
+> +					const char *source, size_t *values_cnt)
+> +{
+> +	if (!crtc)
+> +		return -ENODEV;
+> +
+> +	if (source && strcmp(source, "auto") != 0) {
+> +		DRM_DEBUG_DRIVER("Unknown CRC source %s for %s\n",
+> +				 source, crtc->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*values_cnt = 1;
+> +	return 0;
+> +}
+> +
+>  static const struct drm_crtc_helper_funcs mxsfb_crtc_helper_funcs = {
+>  	.atomic_check = mxsfb_crtc_atomic_check,
+>  	.atomic_flush = mxsfb_crtc_atomic_flush,
+> @@ -472,6 +507,19 @@ static const struct drm_crtc_funcs mxsfb_crtc_funcs = {
+>  	.disable_vblank = mxsfb_crtc_disable_vblank,
+>  };
+>  
+> +static const struct drm_crtc_funcs mxsfb_crtc_with_crc_funcs = {
+> +	.reset = drm_atomic_helper_crtc_reset,
+> +	.destroy = drm_crtc_cleanup,
+> +	.set_config = drm_atomic_helper_set_config,
+> +	.page_flip = drm_atomic_helper_page_flip,
+> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> +	.enable_vblank = mxsfb_crtc_enable_vblank,
+> +	.disable_vblank = mxsfb_crtc_disable_vblank,
+> +	.set_crc_source = mxsfb_crtc_set_crc_source,
+> +	.verify_crc_source = mxsfb_crtc_verify_crc_source,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Encoder
+>   */
+> @@ -655,9 +703,16 @@ int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
+>  	}
+>  
+>  	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
+> -	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
+> -					&mxsfb->planes.primary, NULL,
+> -					&mxsfb_crtc_funcs, NULL);
+> +	if (mxsfb->devdata->has_crc32) {
+> +		ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
+> +						&mxsfb->planes.primary, NULL,
+> +						&mxsfb_crtc_with_crc_funcs,
+> +						NULL);
+> +	} else {
+> +		ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
+> +						&mxsfb->planes.primary, NULL,
+> +						&mxsfb_crtc_funcs, NULL);
+> +	}
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> index 694fea13e893e..cf813a1da1d78 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+> @@ -26,6 +26,7 @@
+>  #define LCDC_VDCTRL2			0x90
+>  #define LCDC_VDCTRL3			0xa0
+>  #define LCDC_VDCTRL4			0xb0
+> +#define LCDC_V4_CRC_STAT		0x1a0
+>  #define LCDC_V4_DEBUG0			0x1d0
+>  #define LCDC_V3_DEBUG0			0x1f0
+>  #define LCDC_AS_CTRL			0x210
+
+
