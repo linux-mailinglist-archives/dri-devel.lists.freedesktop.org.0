@@ -1,69 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F4082514514
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:07:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D0E514527
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A09510FBB7;
-	Fri, 29 Apr 2022 09:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7379510FB9B;
+	Fri, 29 Apr 2022 09:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2D5B10FBB5;
- Fri, 29 Apr 2022 09:06:55 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id y32so12894741lfa.6;
- Fri, 29 Apr 2022 02:06:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Xslli2oC+CEIe2Dm8B8YP3vPRWQprqmevs/XUvccdmc=;
- b=h/rfavDrD6HUt54tmq3UgjY4xZZxtG5c/QKFeMoOALJV3DlIIsCin4TuvP8OAeJUea
- Znlun/8tCVOpd8T50j9JctQAGT7FqVH4hTox3CtLWB/NTmfrxPw2g+HmaUznHu2p5vAM
- Dpy5KtsipQE5DEK++erUf3UIi0l76e/PeD46sXhoLYRJrlmDa/XLY0+3SeYLkZbmPEB2
- De5StssQd+6huZNmRKIhViC9WTufD1+7LxQ5duV2XX5ODzYLXgNKkv/qrxB4ZSgyvnnx
- cLsB+mf8hRe6BKGsSCUjXrbbX34z0IFW+FS2ULVZ0S0ioBnK3K9wGQrlH6czu0nubaqR
- 0eDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Xslli2oC+CEIe2Dm8B8YP3vPRWQprqmevs/XUvccdmc=;
- b=A//ZHDeiDjCsTwy3rFuU2390tZUhW8wY4bcLX/8rn0984JTvIwYTegZbIsKP0qpW/b
- w9FsAnog21uckt8ithHOPWbQfamO9NPGzRkiznx6NS9iR/wbcf5QVgONW9EF8m5f/ZWP
- mwrf7tcWV0+d21TIlEjYANzetDT1iS6Bwxa0qYZS8w1JquPck67WdC9fr+ygav5Ex3vE
- gHO183yVLzw3ArjXkkXmSPcTvGGPwPT8LMuScvPqHGlLjQPtaKHIG6X3b7iwZAW2WtcI
- VL+MC2KP0z7KLDhIn7dLhnQDNQZDTcP+6c3w7bcnW1avqOR2386iEfQc4eAnZ9WFdN/w
- fMUw==
-X-Gm-Message-State: AOAM532UmyMYbN/lU3Kg7mh5sM78/EAr6WnObsKkdemEQniNbz53TJ0M
- K2zqiZ3ul4jRKwmTOTEeFlI=
-X-Google-Smtp-Source: ABdhPJyqGtGZrM4V/BrVb6zwV2n+CyHrxnf4IhfL+ujWo/GnkuV3CdlhwHs3aQVcjEAioAQrVsBHXQ==
-X-Received: by 2002:a05:6512:550:b0:472:2aa3:60d5 with SMTP id
- h16-20020a056512055000b004722aa360d5mr9167075lfl.270.1651223213798; 
- Fri, 29 Apr 2022 02:06:53 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- v28-20020ac25b1c000000b0047201534505sm185769lfn.282.2022.04.29.02.06.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 02:06:53 -0700 (PDT)
-Date: Fri, 29 Apr 2022 12:06:51 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-Message-ID: <20220429120651.5a39ec03@eldfell>
-In-Reply-To: <vdb4oRbKTPYjAGPcmjKfhcDQbMb1VuiJwF99I3UwkwUAsyEvvq5x7yKdP0mx5tEeNc2idU_qBSlbMM4dlv7apLeDvG3PIAkvRMjwVNKZGCk=@emersion.fr>
-References: <CADnq5_OGtERRYUPLskgjVD4eLbb2PxKdzcr+xmR2mRMAK73Log@mail.gmail.com>
- <CADnq5_M2zLedFmAS+udyg1zRavv-aCm1hRY+t=qW7wD33JEALg@mail.gmail.com>
- <a42f03bf-bf85-b08e-fa4f-e36a226922bc@redhat.com>
- <CADnq5_MAx47Ju7_cOt-8rn3V0zRyH5MZNG_4GY+nUiVw6-+h-A@mail.gmail.com>
- <875yncezdt.fsf@intel.com> <YmlNQgaxU7fYnTh6@phenom.ffwll.local>
- <87fslytxk5.fsf@intel.com> <YmlSm/TC1a/0V00S@phenom.ffwll.local>
- <0f8e771c-bf0d-f20b-50da-dc84f760ff82@redhat.com>
- <vdb4oRbKTPYjAGPcmjKfhcDQbMb1VuiJwF99I3UwkwUAsyEvvq5x7yKdP0mx5tEeNc2idU_qBSlbMM4dlv7apLeDvG3PIAkvRMjwVNKZGCk=@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E5A10FB9B
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 09:14:11 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D4B081F891;
+ Fri, 29 Apr 2022 09:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651223649; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+nyhT3dLkkFuRwQR16FxYEjv/si9LeGS52nxdq1BTSI=;
+ b=De5hpi7h1Swr/YmFIUYHtH7KHtiwsBPvG4yMaNcc4ez54xqjBQ86oLjx9fKkJalMjjn6M0
+ 3hP7Dh6h/AaLpVQAmM37Xg9Xl5IbR55seLPaddUGgbTeyXKT/vOMA2jq7dZc/PCucPxhfE
+ VV+64MeqN7P68jD3SNctdHt/rjHpN94=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651223649;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+nyhT3dLkkFuRwQR16FxYEjv/si9LeGS52nxdq1BTSI=;
+ b=7h00ud4S5BsLuRyeRdwlMfa/15AkmnLlC/ft7SgFEZaXNj5HN0Tw4mp3oTZCx8u6t73/eF
+ k3GAsOATHG9ZkJDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE40913446;
+ Fri, 29 Apr 2022 09:14:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OROKKWGsa2IDewAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 29 Apr 2022 09:14:09 +0000
+Message-ID: <7ce2f8e1-9cf2-4d89-99c2-b4280e4758ba@suse.de>
+Date: Fri, 29 Apr 2022 11:14:09 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/NO2vwWo8=Anp2ln._F=rQh0";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [RFC PATCH v4 02/11] drm/fb-helper: Set FBINFO_MISC_FIRMWARE flag
+ for DRIVER_FIRMWARE fb
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220429084253.1085911-1-javierm@redhat.com>
+ <20220429084253.1085911-3-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220429084253.1085911-3-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------2UW6C8bX1bdqZGPtnDh7XxPw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,80 +71,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/NO2vwWo8=Anp2ln._F=rQh0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------2UW6C8bX1bdqZGPtnDh7XxPw
+Content-Type: multipart/mixed; boundary="------------PX7QTzUWG0KO3ZVC40N5d82M";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-ID: <7ce2f8e1-9cf2-4d89-99c2-b4280e4758ba@suse.de>
+Subject: Re: [RFC PATCH v4 02/11] drm/fb-helper: Set FBINFO_MISC_FIRMWARE flag
+ for DRIVER_FIRMWARE fb
+References: <20220429084253.1085911-1-javierm@redhat.com>
+ <20220429084253.1085911-3-javierm@redhat.com>
+In-Reply-To: <20220429084253.1085911-3-javierm@redhat.com>
 
-On Fri, 29 Apr 2022 08:59:24 +0000
-Simon Ser <contact@emersion.fr> wrote:
+--------------PX7QTzUWG0KO3ZVC40N5d82M
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> On Friday, April 29th, 2022 at 10:55, Hans de Goede <hdegoede@redhat.com>=
- wrote:
->=20
-> > I believe that we can fix the new interface, the plan is for there
-> > to be some helper code to proxy the new connector properties to what
-> > is still a good old backlight-device internally in the kernel,.
-> >
-> > This proxy-ing code could take a minimum value below which it should
-> > not go when things are set through the properties and then if e.g.
-> > the /sys/class/backlight interface offers range of 0-65535 and the
-> > kms driver asks the proxying helper for a minimum of 500, show this
-> > as 0-65035 on the property, simply adding 500 before sending the
-> > value to the backlight-device on writes (and subtracting 500 on reads,
-> > clamping to 0 as lowest value reported on reads).
-> >
-> > This way apps using the new API can never go below 500 (in this
-> > example) and for old API users nothing changes.
-> >
-> > Given that Jani seems to be in favor of enforcing some minimal value
-> > inside the i915 code going forward and also what Alex said that the
-> > amdgpu code already enforces its own minimum if the video BIOS tables
-> > don't provide one, it seems that there is consensus that we want 0
-> > to mean minimum brightness at which the screen is still somewhat
-> > readable and that we want to enforce this at the kernel level.
-> >
-> > Which also means the weird hint property which I came up with won't
-> > be necessary as we now have a clean definition of what brightness
-> > 0 is supposed to mean (in the new API) and any cases where this is not
-> > the case are kernel bugs and should be fixed in the kernel. =20
->=20
-> Looks like a good approach to me from user-space PoV!
+SGkNCg0KQW0gMjkuMDQuMjIgdW0gMTA6NDIgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IFRoZSBEUklWRVJfRklSTVdBUkUgZmxhZyBkZW5vdGVzIHRoYXQgYSBEUk0g
+ZHJpdmVyIHVzZXMgYSBmcmFtZWJ1ZmZlcg0KPiB0aGF0IHdhcyBpbml0aWFsaXplZCBhbmQg
+cHJvdmlkZWQgYnkgdGhlIHN5c3RlbSBmaXJtd2FyZSBmb3Igc2Nhbm91dC4NCj4gDQo+IElu
+ZGljYXRlIHRvIHRoZSBmYmRldiBzdWJzeXN0ZW0gdGhhdCB0aGUgcmVnaXN0ZXJlZCBmcmFt
+ZWJ1ZmZlciBpcyBhDQo+IEZCSU5GT19NSVNDX0ZJUk1XQVJFLCBzbyB0aGF0IGl0IGNhbiBo
+YW5kbGUgYWNjb3JkaW5nbHkuIEZvciBleGFtcGxlLA0KPiB3b2xkIGhvdC11bnBsdWcgdGhl
+IGFzc29jaWF0ZWQgZGV2aWNlIGlmIGFza2VkIHRvIHJlbW92ZSBjb25mbGljdGluZw0KPiBm
+cmFtZWJ1ZmZlcnMuDQo+IA0KPiBTdWdnZXN0ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
+emltbWVybWFubkBzdXNlLmRlPg0KPiBTaWduZWQtb2ZmLWJ5OiBKYXZpZXIgTWFydGluZXog
+Q2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4gLS0tDQo+IA0KPiAobm8gY2hhbmdl
+cyBzaW5jZSB2MSkNCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyB8
+IDQgKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykNCj4gDQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIGIvZHJpdmVycy9n
+cHUvZHJtL2RybV9mYl9oZWxwZXIuYw0KPiBpbmRleCBkMjY1YTczMzEzYzkuLjc2ZGQxMTg4
+ODYyMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0K
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+IEBAIC0xODkxLDYg
+KzE4OTEsMTAgQEAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2so
+c3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwNCj4gICAJCS8qIGRvbid0IGxlYWsg
+YW55IHBoeXNpY2FsIGFkZHJlc3NlcyB0byB1c2Vyc3BhY2UgKi8NCj4gICAJCWluZm8tPmZs
+YWdzIHw9IEZCSU5GT19ISURFX1NNRU1fU1RBUlQ7DQo+ICAgDQo+ICsJLyogSW5kaWNhdGUg
+dGhhdCB0aGUgZnJhbWVidWZmZXIgaXMgcHJvdmlkZWQgYnkgdGhlIGZpcm13YXJlICovDQo+
+ICsJaWYgKGRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfRklSTVdBUkUpKQ0K
+PiArCQlpbmZvLT5mbGFncyB8PSBGQklORk9fTUlTQ19GSVJNV0FSRTsNCj4gKw0KDQpQYXRj
+aGVzIDEgdG8gMyBzaG91bGQgYmUgc3F1YXNoZWQgaW50byBvbmUgYmVmb3JlIGxhbmRpbmcu
+DQoNCldlIGNhbiBkbyB0aGlzIHdpdGggRFJJVkVSX0ZJUk1XQVJFLiBBbHRlcm5hdGl2ZWx5
+LCBJJ2Qgc3VnZ2VzdCB0byB3ZSANCmNvdWxkIGFsc28gdXNlZCB0aGUgZXhpc3RpbmcgZmlu
+YWwgcGFyYW1ldGVyIG9mIA0KZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoKSB0byBwYXNzIGEg
+ZmxhZyB0aGF0IGRlc2lnbmF0ZXMgYSBmaXJtd2FyZSBkZXZpY2UuDQoNCj4gICAJLyogTmVl
+ZCB0byBkcm9wIGxvY2tzIHRvIGF2b2lkIHJlY3Vyc2l2ZSBkZWFkbG9jayBpbg0KPiAgIAkg
+KiByZWdpc3Rlcl9mcmFtZWJ1ZmZlci4gVGhpcyBpcyBvayBiZWNhdXNlIHRoZSBvbmx5IHRo
+aW5nIGxlZnQgdG8gZG8gaXMNCj4gICAJICogcmVnaXN0ZXIgdGhlIGZiZGV2IGVtdWxhdGlv
+biBpbnN0YW5jZSBpbiBrZXJuZWxfZmJfaGVscGVyX2xpc3QuICovDQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
+LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
+cjogSXZvIFRvdGV2DQo=
 
-Yes!
+--------------PX7QTzUWG0KO3ZVC40N5d82M--
 
-
-Thanks,
-pq
-
-
---Sig_/NO2vwWo8=Anp2ln._F=rQh0
-Content-Type: application/pgp-signature
+--------------2UW6C8bX1bdqZGPtnDh7XxPw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmJrqqsACgkQI1/ltBGq
-qqfRaBAAnMwp1UOQ4x55M1Ye04q5+hxXjXcgiFs2VchYolTuzWkDJilHchHJQCcj
-mGii5+3Xi9mpS4DsMExKB0eL6H94FaSsYP14uoPbtlSjWW7Cd5DhmCDDD9/k0ftf
-UmCdo+gIDVJigENko0v0lOXgnQiSAn/Xvuf50Ifob4kThhKGqtjUnSzKhi3GP98I
-KPouXnxK/EYeWK1oWAhP7YX8y608V/GZDPePvrPXgGOMjBNHppFhJulX4VGcT3ib
-6Q3EmgzX9fT9Is32iGgRnC9EssXTSh5+AD+c0eTX8Dsb2wKQ26fBqVCVNnt4Aogl
-lYxl55k6vs/374eN0uCkU2WUBsdEr7aMl7GWeM+pPzZmNTwIH3fntfUsAVOLcCgR
-p9fEir5kueoiX6rgt0sodEqX/cl2q1VCepdlxe4L31UScPqmj0k8TszPwL11LZzV
-50NxODUI3GWlafUY510XuOPvaRAi4hCPalMfThj5Nt24rnK8s3O0qsOWeN/7Hza3
-mUuDdsy6l3HRVuot9/i6hBjcgVUGgC2n2fcvwEq4L6FSDuk1pCl18w+FfDX9dmIr
-KF1foMfr0R12Ts9ds+dsBDfFj0al52Hm8GVxHVSPxBkaGFlb1MN7p1BkYU1BYnSH
-gqK9ID/GRxIBvYt5LehBXV9V5Tv7TqqDBbnw6Q13GOJTeyHFNe8=
-=TeDJ
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJrrGEFAwAAAAAACgkQlh/E3EQov+Cm
+fw/8C0nMZQ9hpHezcO3YkbQjSVDI3XKUx2DpqpADdq2uo8I1KJ6UcIUaJVL7TrW3xKFGFqVGUuoF
+T2Pd8LFt85572TI9FGKSLlzEDhcVMVV2uc3RNo3l+xEh/22DMh9hqtD4KUWS1e2vnIWevoeV5C9o
+yA2CowzWl7tVaUTgSGGSVTdW+qaSrwJ1Z4zATYjm8lJVBtAHM3htgufP3Nx7f9FHuH0WC8b1vkVn
+XgwytNq3VE+4TvngnmEohkSRvlvH3bJThlksAIETemUXalJRuzQ97gpe6cH5thqMwEjxiKtQ71QY
+8ApO1MrVS6GgVyULlZlgZQpMMeRc3T6oDfW8nj1fX5U6wTI74/rDCboMtbxC/FDQa6hCU6lHhdWS
+skmU38bDXLMX3ANkgqFFdumaNe9JKujdaJ3RPH0DXJ9e0Ll4BVpUoOLCEsRzBrh8tCM2xTjupZJM
+pPoPeVYlh/NaoHZScvATWCAJaSMd807E/qBDBXSvZjxaHVV7C/1xr4/v+NYkRG62Uri4YHz5hTLH
+GyhO8vYyU+TjnzDgZ++PP5lAXpFk5sDJ7kqNv8jIY0ESp0zRrNCzTMK8oQy1SNIOt66Pd9i8XeNL
+IR8mp4vUiu0M3qs8K3KCF7jhbTOL/1Q9XmFhYB1AzkAKsg9oIavbpuKxbK+R0SDZhco7lSQYSIvt
+yEc=
+=rVnu
 -----END PGP SIGNATURE-----
 
---Sig_/NO2vwWo8=Anp2ln._F=rQh0--
+--------------2UW6C8bX1bdqZGPtnDh7XxPw--
