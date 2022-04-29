@@ -1,64 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9DF514340
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:24:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1371D514348
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:27:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5810410FCC2;
-	Fri, 29 Apr 2022 07:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F26410FCF7;
+	Fri, 29 Apr 2022 07:27:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 088C310FCC2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:24:42 +0000 (UTC)
-X-UUID: 6050ac08d3544f798677cd9acce8ab05-20220429
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:87eee3b3-3b8a-4d4e-b00f-33b2bceb8607, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.4, REQID:87eee3b3-3b8a-4d4e-b00f-33b2bceb8607, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:faefae9, CLOUDID:a05befc6-85ee-4ac1-ac05-bd3f1e72e732,
- C
- OID:IGNORED,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil,QS:0
- ,BEC:nil
-X-UUID: 6050ac08d3544f798677cd9acce8ab05-20220429
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1441258883; Fri, 29 Apr 2022 15:24:35 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 29 Apr 2022 15:24:34 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Apr 2022 15:24:34 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 29 Apr 2022 15:24:34 +0800
-Message-ID: <2003dbbd3243f935788316560bf64196bb97ffe4.camel@mediatek.com>
-Subject: Re: [PATCH v4, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
- transfer
-From: CK Hu <ck.hu@mediatek.com>
-To: xinlei.lee <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>
-Date: Fri, 29 Apr 2022 15:24:34 +0800
-In-Reply-To: <7a1f4de98a349d0910d45a92d09d112773cd5fc0.camel@mediatek.com>
-References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
- <1649644308-8455-4-git-send-email-xinlei.lee@mediatek.com>
- <fb3d631cd1e86ee12dff5ee3bc1b82b12cb2cb10.camel@mediatek.com>
- <7a1f4de98a349d0910d45a92d09d112773cd5fc0.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03C5D10FCF7
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:27:36 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 662A91F37F;
+ Fri, 29 Apr 2022 07:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651217255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G13O3XnUu/L4LLGheRPalfSPMx0kK8p2Hk4oDfB73pw=;
+ b=ZB/OWhKsamYck4/fs/df5IqG3vhXVX61YuJutyj0WbXVTmtROVJ6bMgvLjdUii0aU7Tant
+ DFQflQ5E71KSP3RLdZPanmaXEaVNXlQzXHyd5DlIrTJxLuZJyFCZWSUQ9+cac+r5CcFHwB
+ 37IdrIOkcjPUujI44HFa6v0EQYaslb0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651217255;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G13O3XnUu/L4LLGheRPalfSPMx0kK8p2Hk4oDfB73pw=;
+ b=2cLmWfWd4uW4NuPAz5Ec+cWQqNz5dp1xiSgvlevz5/fXL/I/d09QtKSD18TMobBR7avmdB
+ gQD6J265GCd+L4Ag==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 38CB013AE0;
+ Fri, 29 Apr 2022 07:27:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id N0KxDGeTa2JvRgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 29 Apr 2022 07:27:35 +0000
+Message-ID: <91f562b5-1b8e-1445-b6b5-5aeb6cd7668a@suse.de>
+Date: Fri, 29 Apr 2022 09:27:34 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3 4/5] fbdev: Rename pagelist to pagereflist for deferred
+ I/O
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ deller@gmx.de, airlied@linux.ie, maarten.lankhorst@linux.intel.com
+References: <20220426120359.17437-1-tzimmermann@suse.de>
+ <20220426120359.17437-5-tzimmermann@suse.de>
+ <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------s3Wxp8c3NtGZUzGO6WyX35Ui"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,193 +73,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Xinlei:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------s3Wxp8c3NtGZUzGO6WyX35Ui
+Content-Type: multipart/mixed; boundary="------------cFqm7jIwNKpW6APDWTq8bPrU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ deller@gmx.de, airlied@linux.ie, maarten.lankhorst@linux.intel.com
+Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <91f562b5-1b8e-1445-b6b5-5aeb6cd7668a@suse.de>
+Subject: Re: [PATCH v3 4/5] fbdev: Rename pagelist to pagereflist for deferred
+ I/O
+References: <20220426120359.17437-1-tzimmermann@suse.de>
+ <20220426120359.17437-5-tzimmermann@suse.de>
+ <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
+In-Reply-To: <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
 
-On Fri, 2022-04-15 at 09:58 +0800, xinlei.lee wrote:
-> On Wed, 2022-04-13 at 16:31 +0800, CK Hu wrote:
-> > Hi, Xinlei:
-> > 
-> > On Mon, 2022-04-11 at 10:31 +0800, xinlei.lee@mediatek.com wrote:
-> > > From: Jitao Shi <jitao.shi@mediatek.com>
-> > > 
-> > > To comply with the panel sequence, hold the mipi signal to LP00
-> > > before the dcs cmds transmission,
-> > > and pull the mipi signal high from LP00 to LP11 until the start
-> > > of
-> > > the dcs cmds transmission.
-> > > The normal panel timing is :
-> > > (1) pp1800 DC pull up
-> > > (2) avdd & avee AC pull high
-> > > (3) lcm_reset pull high -> pull low -> pull high
-> > > (4) Pull MIPI signal high (LP11) -> initial code -> send video
-> > > data(HS mode)
-> > > The power-off sequence is reversed.
-> > > If dsi is not in cmd mode, then dsi will pull the mipi signal
-> > > high
-> > > in
-> > > the mtk_output_dsi_enable function.
-> > > 
-> > > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
-> > > drm_panel_bridge
-> > > API")
-> > > 
-> > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > > ---
-> > >  drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++---
-> > > --
-> > > --
-> > >  1 file changed, 21 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > index cf76c53a1af6..9ad6f08c8bfe 100644
-> > > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > @@ -203,6 +203,7 @@ struct mtk_dsi {
-> > >  	struct mtk_phy_timing phy_timing;
-> > >  	int refcount;
-> > >  	bool enabled;
-> > > +	bool lanes_ready;
-> > >  	u32 irq_data;
-> > >  	wait_queue_head_t irq_wait_queue;
-> > >  	const struct mtk_dsi_driver_data *driver_data;
-> > > @@ -654,13 +655,6 @@ static int mtk_dsi_poweron(struct mtk_dsi
-> > > *dsi)
-> > >  	mtk_dsi_config_vdo_timing(dsi);
-> > >  	mtk_dsi_set_interrupt_enable(dsi);
-> > >  
-> > > -	mtk_dsi_rxtx_control(dsi);
-> > > -	usleep_range(30, 100);
-> > > -	mtk_dsi_reset_dphy(dsi);
-> > > -	mtk_dsi_clk_ulp_mode_leave(dsi);
-> > > -	mtk_dsi_lane0_ulp_mode_leave(dsi);
-> > > -	mtk_dsi_clk_hs_mode(dsi, 0);
-> > > -
-> > >  	return 0;
-> > >  err_disable_engine_clk:
-> > >  	clk_disable_unprepare(dsi->engine_clk);
-> > > @@ -689,6 +683,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi
-> > > *dsi)
-> > >  	clk_disable_unprepare(dsi->digital_clk);
-> > >  
-> > >  	phy_power_off(dsi->phy);
-> > > +
-> > > +	dsi->lanes_ready = false;
-> > > +}
-> > > +
-> > > +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
-> > > +{
-> > > +	if (!dsi->lanes_ready) {
-> > > +		dsi->lanes_ready = true;
-> > > +		mtk_dsi_rxtx_control(dsi);
-> > > +		usleep_range(30, 100);
-> > > +		mtk_dsi_reset_dphy(dsi);
-> > > +		mtk_dsi_clk_ulp_mode_leave(dsi);
-> > > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
-> > > +		mtk_dsi_clk_hs_mode(dsi, 0);
-> > > +		msleep(20);
-> > > +	} else
-> > > +		DRM_DEBUG("The dsi_lane is ready\n");
+--------------cFqm7jIwNKpW6APDWTq8bPrU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Once mtk_dsi_host_transfer() call this function first, then
-mtk_output_dsi_enable() would call again. This function would be called
-twice in normal sequence, so I think this debug information is not
-necessary.
+SGkNCg0KQW0gMjkuMDQuMjIgdW0gMDk6MjEgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IE9uIDQvMjYvMjIgMTQ6MDMsIFRob21h
+cyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gUmVuYW1lIHZhcmlvdXMgaW5zdGFuY2VzIG9mIHBh
+Z2VsaXN0IHRvIHBhZ2VyZWZsaXN0LiBUaGUgbGlzdCBub3cNCj4+IHN0b3JlcyBwYWdlcmVm
+IHN0cnVjdHVyZXMsIHNvIHRoZSBuZXcgbmFtZSBpcyBtb3JlIGFwcHJvcHJpYXRlLg0KPj4N
+Cj4+IEluIHRoZWlyIHdyaXRlLWJhY2sgaGVscGVycywgc2V2ZXJhbCBmYmRldiBkcml2ZXJz
+IHJlZmVyIHRvIHRoZQ0KPj4gcGFnZXJlZiBsaXN0IGluIHN0cnVjdCBmYl9kZWZlcnJlZF9p
+byBpbnN0ZWFkIG9mIHVzaW5nIHRoZSBvbmUNCj4+IHN1cHBsaWVkIGFzIGFyZ3VtZW50IHRv
+IHRoZSBmdW5jdGlvbi4gQ29udmVydCB0aGVtIG92ZXIgdG8gdGhlDQo+PiBzdXBwbGllZCBv
+bmUuIEl0J3MgdGhlIHNhbWUgaW5zdGFuY2UsIHNvIG5vIGNoYW5nZSBvZiBiZWhhdmlvcg0K
+Pj4gb2NjdXJzLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
+emltbWVybWFubkBzdXNlLmRlPg0KPj4gU3VnZ2VzdGVkLWJ5OiBTYW0gUmF2bmJvcmcgPHNh
+bUByYXZuYm9yZy5vcmc+DQo+IA0KPiBJIHRob3VndCB0aGUgY29udmVudGlvbiB3YXMgdG8g
+aGF2ZSBTdWdnZXN0ZWQtYnkgYmVmb3JlIHlvdXIgUy1vLUIuDQoNCkkgYWx3YXlzIHRob3Vn
+aHQgdGhhdCB0aGUgY29udmVudGlvbiB3YXMgdGhhdCB0aGUgYXV0aG9ycyBTLW8tQiBnb2Vz
+IA0KZmlyc3QuIEJ1dCAnZ2l0IGxvZycgaW5kZWVkIGluZGljYXRlcyBvdGhlcndpc2UuIEkg
+d2lsbCBjaGFuZ2UgdGhpcyANCmJlZm9yZSBtZXJnaW5nIHRoZSBwYXRjaC4NCg0KPiANCj4g
+VGhlIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWUuDQo+IA0KPiBSZXZpZXdlZC1ieTogSmF2aWVy
+IE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KDQpUaGFua3MN
+Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
+MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-> > >  }
-> > >  
-> > >  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
-> > > @@ -696,6 +707,7 @@ static void mtk_output_dsi_enable(struct
-> > > mtk_dsi
-> > > *dsi)
-> > >  	if (dsi->enabled)
-> > >  		return;
-> > >  
-> > > +	mtk_dsi_lane_ready(dsi);
-> > >  	mtk_dsi_set_mode(dsi);
-> > >  	mtk_dsi_clk_hs_mode(dsi, 1);
-> > >  
-> > > @@ -1001,6 +1013,8 @@ static ssize_t mtk_dsi_host_transfer(struct
-> > > mipi_dsi_host *host,
-> > >  	if (MTK_DSI_HOST_IS_READ(msg->type))
-> > >  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
-> > >  
-> > > +	mtk_dsi_lane_ready(dsi);
-> > 
-> > In [1], YT has move mtk_dsi_lane_ready() before panel prepare for
-> > dsi-
-> > > panel case. Now you move mtk_dsi_lane_ready() after panel
-> > > prepare,
-> > 
-> > this may break dsi->panel case. Please provide a solution for both
-> > case.
-> > 
-> > [1] 
-> > 
-> 
-> 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dsi.c?h=v5.18-rc2&id=0707632b5bacc490f58dfbad741d586c06595ff3
-> > 
-> > Regards,
-> > CK
-> > 
-> > > +
-> > >  	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
-> > >  	if (ret)
-> > >  		goto restore_dsi_mode;
-> > 
-> > 
-> 
-> Hi CK:
-> 
-> Because the order of dsi->panel in [1] is as follows (tv101 panel as
-> an
-> example):
-> 1. dsi_poweron (lane_ready)
-> 2. panel_prepare
-> 3. panel_prepare_power
-> 4. panel_init_cmd
-> 5. dsi_host_transfer (actually send panel initial code)
-> 
-> This modified order:
-> 1. dsi_poweron
-> 2. panel_prepare
-> 3. panel_prepare_power
-> 4. panel_init_cmd
-> 5. dsi_host_transfer (lane_ready)
-> 
-> It can be seen that the lane_ready is delayed closer to before
-> sending
-> the initial code, which is necessary for some panels with stricter
-> timing requirements.
-> And if this screen does not need to send initial code, it will also
-> do
-> lane_ready in output_dsi_enable, so that dsi can complete LP00->LP11-
-> > HS mode.
 
-Understand. You call mtk_dsi_lane_ready() in both
-mtk_output_dsi_enable() and mtk_dsi_host_transfer(). The panel prepare
-may call mtk_dsi_host_transfer() and mtk_dsi_lane_ready() would be
-called.
+--------------cFqm7jIwNKpW6APDWTq8bPrU--
 
-Regards,
-CK
+--------------s3Wxp8c3NtGZUzGO6WyX35Ui
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> 
-> [1] 
-> 
-> 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dsi.c?h=v5.18-rc2&id=0707632b5bacc490f58dfbad741d586c06595ff3
-> 
-> Best Regards!
-> xinlei
-> 
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJrk2YFAwAAAAAACgkQlh/E3EQov+DY
+lBAAxJ5W7Rkt9gQ3/7mjo0W9Mn9lXSbDGKLvtVmxWxobxQz+bDuF/1/lB02IDQGRcy/4DKLgHLXo
+5mCxeuwVAiH/suX1YVOtIuFRzDEQYItfMCKhnx7yUeaJoNCYbyW36XsUV5Kbwi7AR9+69nxNr7Au
+uWoDYzVVu1fiotaQvFupTJvrRTzpk8/nrmoLclvGkBBB6UgXOl2XAz0U1ErZqn+b0wdFbejXy2lN
+dOHW0JUxZ8S3ZRSWmVWyfAgO8SVQWWB4XrL/TZz50788M1IlTz5U8vZryxaWVNQ7/CAowTSoCPz2
+ESVLmy6unZEXHqSskEtmcAYpF/KyROss+L3/9eRV6Sn9HMVtjuKS9k71FOxsYVXaECU2bK3HXBuh
+QfVKUBxOS301wHa//Qb5eVZbMF1YYTubn1vlwrU1lfM9HeLD1z93uQwXKupbXovbs9/ptJVSjg7M
+b4GncZaEQ1fAWmk3RfRZSu6OMh6DFf7k8KW7Uf8x/Ywx4lp/CXgGXlkR8vzKeQcPGkBg3u8g8OY+
+oKaFxYQkeSNgBiGZMOkl6Nwa9GlVZb4qP82VVbE6aICFi6jmdCY5OSP2cxwOBG8r443d2p5saN2M
+ZUEApQloOjc8aGaSuGsDrAYKYtoW7LFP+UjoMXdhtTMOm5kD7twUBbci/h7evcTnrZTN/vRhParQ
+5Qg=
+=qNSB
+-----END PGP SIGNATURE-----
+
+--------------s3Wxp8c3NtGZUzGO6WyX35Ui--
