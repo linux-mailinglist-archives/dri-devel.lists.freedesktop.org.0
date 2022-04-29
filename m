@@ -2,80 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838DE515524
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BFF515528
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:06:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8888610F880;
-	Fri, 29 Apr 2022 20:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B157B10F91F;
+	Fri, 29 Apr 2022 20:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85E6D10F880
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:05:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651262704;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kcovE1w1Q2ySPHOXXOrSnghDbs+C0kl65FGWnu24ba4=;
- b=UxUocnV4p95fFS/e2p60V+ZiPpUtABQ61AcdSs8jBvW3Ui+J8jgQ/XzeNI0WoyVS6dbFui
- WUT7UJF0MSzL8lZwtLeINQs2MnpKvKcA9y1z+be8G7/iiNNKaH5NqnxC+/UiKO0ue/WLEc
- aXpzMkRGI6IZ/MkcZ4H83WE//B7I0vk=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-452-EYC8U-DBN9qwl6o4EP3L_g-1; Fri, 29 Apr 2022 16:05:01 -0400
-X-MC-Unique: EYC8U-DBN9qwl6o4EP3L_g-1
-Received: by mail-qt1-f198.google.com with SMTP id
- s3-20020a05622a1a8300b002f3692d5a18so6402544qtc.21
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:05:00 -0700 (PDT)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
+ [209.85.160.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34ECE10F91F
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:06:33 +0000 (UTC)
+Received: by mail-oa1-f50.google.com with SMTP id
+ 586e51a60fabf-e656032735so9245466fac.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:06:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=kcovE1w1Q2ySPHOXXOrSnghDbs+C0kl65FGWnu24ba4=;
- b=dcMKyXLll+EbKkZWprwU0wkDRz43/Fal26ytEjGsRwVIP03y+vkoik6rDVS6pUfZNz
- FAvA6IKPyZuEXrLGTCnOU2ym4/1TpU29cZ1Iv5iGzNdGN6BLlMVtNMrAdEAdj3DMPcit
- xafJfkZTpoRL+LPhPfLRojTH77HCWezp/n4ck3w2Q0QrER9Y/wQLRVgFSVtGCWXK5GXi
- mQBYhA6/IBNzlDkG+1CtOjpcj4jm+8J7FY9IC/ZK17LyabBGnX3v8MhLr+Whu37REYtD
- v6XvSvNziG/8glhT/l+ENlCk6BTS/4agpZTdcW1LS3ZmIQUM0pQ7AEMFXew37l3xk/zn
- i2qw==
-X-Gm-Message-State: AOAM533coLQn9twLgPGFxEgb/oGvf4toz9d56PdoJFMka5IFRbsF06Vz
- hRoRLsdg6+iR4JSlEaMY52UWyPisXVkccWJAygadPQay5YyyQxMqkK+2F7OfIueFYkUQ1Z6NE53
- HVFuT61Yo/4T9SlZfKJERLl/mWAAu
-X-Received: by 2002:a05:620a:470d:b0:69f:b40e:4980 with SMTP id
- bs13-20020a05620a470d00b0069fb40e4980mr624214qkb.18.1651262700560; 
- Fri, 29 Apr 2022 13:05:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvhd/Pz3dnN/kOghuRQrdjTAxwOX9z2qV4xiYISPavIPxL9eNwnZkwzFKpy8xIW42Aw65MvA==
-X-Received: by 2002:a05:620a:470d:b0:69f:b40e:4980 with SMTP id
- bs13-20020a05620a470d00b0069fb40e4980mr624198qkb.18.1651262700355; 
- Fri, 29 Apr 2022 13:05:00 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- q19-20020ac84513000000b002f39b99f671sm81839qtn.11.2022.04.29.13.04.59
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2lI/TWi2tf2Q7JmUZ2/HVxcNVVbUFx/NU2eKJt3txIU=;
+ b=KvaMhGwHPQ1WqWfMbXLgG8zVyPhBSk0JR79P3hCa9w3DY7/LnZ0norhaYuyOykI+/n
+ HtqW2xzYpzCDLkkiCnXdwLjmbczD7n4BHrpEXgV6lRhDVemq2/lEsJQKc1Lhj5i3UIJO
+ 7T4JBJZOh+skkfZmEY58WIvuQLTKNRlTZYm+TJ67Hwz6BoWhvXZ3l/KhEoKxw8J+ldrH
+ ZdwTV1Rw678lP37NQympVoc8eeZpAJXwyngAJW1Nem6TLHdmDcbhG07biqFWSzRHA6Qo
+ IshUyNAnNm2ED+jbUmWEvdEAjGb302Pubjsh6OexrUmF44JHneoJlR3tVy67bJk3Ql98
+ +MdA==
+X-Gm-Message-State: AOAM531s3BsK9Fg+e7AkF412yfIfE7S3rWsRJVAkXDLT0znCNStTqRLC
+ BlN9wi7D/BUzTrLUdT+uzg==
+X-Google-Smtp-Source: ABdhPJylIgWmSsuu4I/a3zDRexm1IDuitX9f8YLbudWq18PfZJulvaKEhEYxJPJKLMbOHCK/46tOnA==
+X-Received: by 2002:a05:6870:61d4:b0:df:b74:8de5 with SMTP id
+ b20-20020a05687061d400b000df0b748de5mr467807oah.37.1651262792205; 
+ Fri, 29 Apr 2022 13:06:32 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ o22-20020a9d7656000000b0060603221258sm65246otl.40.2022.04.29.13.06.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 13:04:59 -0700 (PDT)
-Message-ID: <5e89bb2eebbe173e1fa4d1c5abc977fb0ae433d9.camel@redhat.com>
-Subject: Re: [PATCH 3/4] drm/nouveau: use drm_gem_plane_helper_prepare_fb
-From: Lyude Paul <lyude@redhat.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Date: Fri, 29 Apr 2022 16:04:58 -0400
-In-Reply-To: <20220429134230.24334-3-christian.koenig@amd.com>
-References: <20220429134230.24334-1-christian.koenig@amd.com>
- <20220429134230.24334-3-christian.koenig@amd.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ Fri, 29 Apr 2022 13:06:31 -0700 (PDT)
+Received: (nullmailer pid 2776081 invoked by uid 1000);
+ Fri, 29 Apr 2022 20:06:30 -0000
+Date: Fri, 29 Apr 2022 15:06:30 -0500
+From: Rob Herring <robh@kernel.org>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH v5 1/4] dt-bindings: display: mediatek: dsi: Convert
+ dsi_dtbinding to .yaml
+Message-ID: <YmxFRuBWmPaCyw0I@robh.at.kernel.org>
+References: <20220428133753.8348-1-rex-bc.chen@mediatek.com>
+ <20220428133753.8348-2-rex-bc.chen@mediatek.com>
+ <1651177993.334386.220464.nullmailer@robh.at.kernel.org>
+ <9f601c458bd3401b216992e8dd72485a10f34597.camel@mediatek.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9f601c458bd3401b216992e8dd72485a10f34597.camel@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,56 +66,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Karol Herbst <kherbst@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
+ airlied@linux.ie, cellopoint.kai@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, xinlei.lee@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-Also consider this as permission to push this to drm-misc-next
-
-On Fri, 2022-04-29 at 15:42 +0200, Christian König wrote:
-> Instead of manually adjusting the plane state.
+On Fri, Apr 29, 2022 at 09:55:37AM +0800, Rex-BC Chen wrote:
+> On Thu, 2022-04-28 at 15:33 -0500, Rob Herring wrote:
+> > On Thu, 28 Apr 2022 21:37:50 +0800, Rex-BC Chen wrote:
+> > > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > > 
+> > > Convert mediatek,dsi.txt to mediatek,dsi.yaml format
+> > > 
+> > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> > > ---
+> > >  .../display/mediatek/mediatek,dsi.txt         |  62 ---------
+> > >  .../display/mediatek/mediatek,dsi.yaml        | 122
+> > > ++++++++++++++++++
+> > >  2 files changed, 122 insertions(+), 62 deletions(-)
+> > >  delete mode 100644
+> > > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> > >  create mode 100644
+> > > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> > > l
+> > > 
+> > 
+> > Running 'make dtbs_check' with the schema in this patch gives the
+> > following warnings. Consider if they are expected or the schema is
+> > incorrect. These may not be new warnings.
+> > 
+> > Note that it is not yet a requirement to have 0 warnings for
+> > dtbs_check.
+> > This will change in the future.
+> > 
+> > Full log is available here: 
+> > https://urldefense.com/v3/__https://patchwork.ozlabs.org/patch/__;!!CTRNKA9wMg0ARbw!wKbRsUmeUS_4mtOwj1t30buVNEilHYYhsUmEd5MvZ7P9VyDXg6cikERof47mkwETQzFL$
+> >  
+> > 
+> > 
+> > dsi@1400c000: compatible: ['mediatek,mt7623-dsi', 'mediatek,mt2701-
+> > dsi'] is too long
+> > 	arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dtb
+> > 	arch/arm/boot/dts/mt7623n-rfb-emmc.dtb
+> > 
+> > dsi@14014000: #address-cells:0:0: 2 was expected
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-
+> > sku2.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku1.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku6.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku7.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-
+> > sku16.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
+> > sku0.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
+> > sku1.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb
+> > 
+> > dsi@14014000: 'port' is a required property
+> > 	arch/arm64/boot/dts/mediatek/mt8183-evb.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-
+> > sku2.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku1.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku6.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku7.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-
+> > sku16.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
+> > sku0.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
+> > sku1.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb
+> > 
+> > dsi@14014000: #size-cells:0:0: 2 was expected
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-
+> > sku2.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku1.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku6.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
+> > sku7.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-
+> > sku16.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
+> > sku0.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
+> > sku1.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb
+> > 
+> > dsi@1401b000: 'port' is a required property
+> > 	arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb
+> > 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb
+> > 
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/nouveau/dispnv50/wndw.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> Hello Rob,
 > 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-> b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-> index 8642b84ea20c..bb8a4601e0d9 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-> @@ -32,6 +32,7 @@
->  
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_gem_atomic_helper.h>
->  #include <drm/drm_fourcc.h>
->  
->  #include "nouveau_bo.h"
-> @@ -558,9 +559,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct
-> drm_plane_state *state)
->                         asyw->image.handle[0] = ctxdma->object.handle;
->         }
->  
-> -       ret = dma_resv_get_singleton(nvbo->bo.base.resv,
-> -                                    DMA_RESV_USAGE_WRITE,
-> -                                    &asyw->state.fence);
-> +       ret = drm_gem_plane_helper_prepare_fb(plane, state);
->         if (ret)
->                 return ret;
->  
+> Thanks for your comments.
+> The purpose of this series is not to fix dts for previous SoCs.
+> Therefore, if there is a chance, we could send another series to fix
+> them.
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Conversions often find that the actual dts files vary a bit more than 
+the binding doc said. You should look at the warnings and decide if they 
+should be fixed or the schema relaxed. It's a judgement call. I have no 
+idea if you did that already or not, so I send this out on conversions. 
+The check runs automatically, but sending it I review briefly.
 
+Rob
