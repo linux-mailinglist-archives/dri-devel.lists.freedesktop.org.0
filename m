@@ -1,83 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8739B51432F
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:21:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9DF514340
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 450C510FCC5;
-	Fri, 29 Apr 2022 07:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5810410FCC2;
+	Fri, 29 Apr 2022 07:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B049910FCC5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651216889;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KhufJyVKGuqE38/lC9MCkIJ+lznHw0RTCwOxniA4aiU=;
- b=bPfw/uPcSRlpZ4pWXmmKoCOWeY7wJ9DjOm3HrZ4n8k96FZa5Z8G6ndY0juDOahTs3YNAQV
- ThxDXQD95ghtB4EN1q65CfG3/c3up5jJExsXW8wQkI+f4GNywEGI3zrLBOo1dhnbiBnwNp
- 0pBRnEY/Vp3VvaCw2bKtLUFZUbuj3+g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-Ar1U6ekqN2WYZO6prqUi2Q-1; Fri, 29 Apr 2022 03:21:28 -0400
-X-MC-Unique: Ar1U6ekqN2WYZO6prqUi2Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 125-20020a1c0283000000b003928cd3853aso5410622wmc.9
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 00:21:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KhufJyVKGuqE38/lC9MCkIJ+lznHw0RTCwOxniA4aiU=;
- b=C76I9sxGzW6kFgBSCdO/HMQKdCaLFot8yApRbnoZ1eM40JzHlgNOu01UVPfakcSqU2
- kgDjU/jClMYc1jvN73LqKHsmC3d8E5FDmy+jmXTMmzEvst2MON3RRi0LhGJjFyJC1tpT
- mXuuuErDdFEMnOTnj2OmsLL0Z6mAtSeuG8J9Y8owuSvqtHk7mo5G/gRk3xfEZwgSzXie
- VfS4qJi0zmc3wLNmYC0+vvPfepopUKvxbc+cbghUfKDZDbP7VwTo/G+J7oc+8FkWt8nl
- b7XuPyjYsJpHswaM3xp8lvj6Mo5u4jdXzi9alLR8jwyQCeF2qVsLPmfIF6fQrLlys/tx
- 2PSw==
-X-Gm-Message-State: AOAM5316pIx9Dj1F99p2+iSyKX978fzbBpGxTl4ZyiUrchJWL3mOWq4L
- miC5iUnbG//E0tXm+YJ0ZCEhRFNp6YWGViXdboW7lZeXfX/d/UEmCaAPuIhFvjzmyod9czYbnhz
- nD8hkkHJvhanHDXLHZk0vgqyu9Mzn
-X-Received: by 2002:a05:6000:178a:b0:20a:b841:e245 with SMTP id
- e10-20020a056000178a00b0020ab841e245mr28718381wrg.480.1651216887013; 
- Fri, 29 Apr 2022 00:21:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPIPWeMcZ7+EpP1llYZtueltVMigG+lBk12vAwzoZab7JmQCjpZ7LD1dreGefOAYkwb4N7lA==
-X-Received: by 2002:a05:6000:178a:b0:20a:b841:e245 with SMTP id
- e10-20020a056000178a00b0020ab841e245mr28718361wrg.480.1651216886766; 
- Fri, 29 Apr 2022 00:21:26 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- k14-20020a05600c1c8e00b00393e9293064sm6276797wms.35.2022.04.29.00.21.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 00:21:26 -0700 (PDT)
-Message-ID: <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
-Date: Fri, 29 Apr 2022 09:21:25 +0200
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 088C310FCC2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:24:42 +0000 (UTC)
+X-UUID: 6050ac08d3544f798677cd9acce8ab05-20220429
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:87eee3b3-3b8a-4d4e-b00f-33b2bceb8607, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.4, REQID:87eee3b3-3b8a-4d4e-b00f-33b2bceb8607, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:faefae9, CLOUDID:a05befc6-85ee-4ac1-ac05-bd3f1e72e732,
+ C
+ OID:IGNORED,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil,QS:0
+ ,BEC:nil
+X-UUID: 6050ac08d3544f798677cd9acce8ab05-20220429
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1441258883; Fri, 29 Apr 2022 15:24:35 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 29 Apr 2022 15:24:34 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 29 Apr 2022 15:24:34 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 29 Apr 2022 15:24:34 +0800
+Message-ID: <2003dbbd3243f935788316560bf64196bb97ffe4.camel@mediatek.com>
+Subject: Re: [PATCH v4, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
+ transfer
+From: CK Hu <ck.hu@mediatek.com>
+To: xinlei.lee <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>
+Date: Fri, 29 Apr 2022 15:24:34 +0800
+In-Reply-To: <7a1f4de98a349d0910d45a92d09d112773cd5fc0.camel@mediatek.com>
+References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
+ <1649644308-8455-4-git-send-email-xinlei.lee@mediatek.com>
+ <fb3d631cd1e86ee12dff5ee3bc1b82b12cb2cb10.camel@mediatek.com>
+ <7a1f4de98a349d0910d45a92d09d112773cd5fc0.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 4/5] fbdev: Rename pagelist to pagereflist for deferred
- I/O
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, deller@gmx.de,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com
-References: <20220426120359.17437-1-tzimmermann@suse.de>
- <20220426120359.17437-5-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220426120359.17437-5-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,36 +71,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+Hi, Xinlei:
 
-On 4/26/22 14:03, Thomas Zimmermann wrote:
-> Rename various instances of pagelist to pagereflist. The list now
-> stores pageref structures, so the new name is more appropriate.
+On Fri, 2022-04-15 at 09:58 +0800, xinlei.lee wrote:
+> On Wed, 2022-04-13 at 16:31 +0800, CK Hu wrote:
+> > Hi, Xinlei:
+> > 
+> > On Mon, 2022-04-11 at 10:31 +0800, xinlei.lee@mediatek.com wrote:
+> > > From: Jitao Shi <jitao.shi@mediatek.com>
+> > > 
+> > > To comply with the panel sequence, hold the mipi signal to LP00
+> > > before the dcs cmds transmission,
+> > > and pull the mipi signal high from LP00 to LP11 until the start
+> > > of
+> > > the dcs cmds transmission.
+> > > The normal panel timing is :
+> > > (1) pp1800 DC pull up
+> > > (2) avdd & avee AC pull high
+> > > (3) lcm_reset pull high -> pull low -> pull high
+> > > (4) Pull MIPI signal high (LP11) -> initial code -> send video
+> > > data(HS mode)
+> > > The power-off sequence is reversed.
+> > > If dsi is not in cmd mode, then dsi will pull the mipi signal
+> > > high
+> > > in
+> > > the mtk_output_dsi_enable function.
+> > > 
+> > > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
+> > > drm_panel_bridge
+> > > API")
+> > > 
+> > > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > > ---
+> > >  drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++---
+> > > --
+> > > --
+> > >  1 file changed, 21 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > index cf76c53a1af6..9ad6f08c8bfe 100644
+> > > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > > @@ -203,6 +203,7 @@ struct mtk_dsi {
+> > >  	struct mtk_phy_timing phy_timing;
+> > >  	int refcount;
+> > >  	bool enabled;
+> > > +	bool lanes_ready;
+> > >  	u32 irq_data;
+> > >  	wait_queue_head_t irq_wait_queue;
+> > >  	const struct mtk_dsi_driver_data *driver_data;
+> > > @@ -654,13 +655,6 @@ static int mtk_dsi_poweron(struct mtk_dsi
+> > > *dsi)
+> > >  	mtk_dsi_config_vdo_timing(dsi);
+> > >  	mtk_dsi_set_interrupt_enable(dsi);
+> > >  
+> > > -	mtk_dsi_rxtx_control(dsi);
+> > > -	usleep_range(30, 100);
+> > > -	mtk_dsi_reset_dphy(dsi);
+> > > -	mtk_dsi_clk_ulp_mode_leave(dsi);
+> > > -	mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > > -	mtk_dsi_clk_hs_mode(dsi, 0);
+> > > -
+> > >  	return 0;
+> > >  err_disable_engine_clk:
+> > >  	clk_disable_unprepare(dsi->engine_clk);
+> > > @@ -689,6 +683,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > > *dsi)
+> > >  	clk_disable_unprepare(dsi->digital_clk);
+> > >  
+> > >  	phy_power_off(dsi->phy);
+> > > +
+> > > +	dsi->lanes_ready = false;
+> > > +}
+> > > +
+> > > +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
+> > > +{
+> > > +	if (!dsi->lanes_ready) {
+> > > +		dsi->lanes_ready = true;
+> > > +		mtk_dsi_rxtx_control(dsi);
+> > > +		usleep_range(30, 100);
+> > > +		mtk_dsi_reset_dphy(dsi);
+> > > +		mtk_dsi_clk_ulp_mode_leave(dsi);
+> > > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > > +		mtk_dsi_clk_hs_mode(dsi, 0);
+> > > +		msleep(20);
+> > > +	} else
+> > > +		DRM_DEBUG("The dsi_lane is ready\n");
+
+Once mtk_dsi_host_transfer() call this function first, then
+mtk_output_dsi_enable() would call again. This function would be called
+twice in normal sequence, so I think this debug information is not
+necessary.
+
+> > >  }
+> > >  
+> > >  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+> > > @@ -696,6 +707,7 @@ static void mtk_output_dsi_enable(struct
+> > > mtk_dsi
+> > > *dsi)
+> > >  	if (dsi->enabled)
+> > >  		return;
+> > >  
+> > > +	mtk_dsi_lane_ready(dsi);
+> > >  	mtk_dsi_set_mode(dsi);
+> > >  	mtk_dsi_clk_hs_mode(dsi, 1);
+> > >  
+> > > @@ -1001,6 +1013,8 @@ static ssize_t mtk_dsi_host_transfer(struct
+> > > mipi_dsi_host *host,
+> > >  	if (MTK_DSI_HOST_IS_READ(msg->type))
+> > >  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
+> > >  
+> > > +	mtk_dsi_lane_ready(dsi);
+> > 
+> > In [1], YT has move mtk_dsi_lane_ready() before panel prepare for
+> > dsi-
+> > > panel case. Now you move mtk_dsi_lane_ready() after panel
+> > > prepare,
+> > 
+> > this may break dsi->panel case. Please provide a solution for both
+> > case.
+> > 
+> > [1] 
+> > 
 > 
-> In their write-back helpers, several fbdev drivers refer to the
-> pageref list in struct fb_deferred_io instead of using the one
-> supplied as argument to the function. Convert them over to the
-> supplied one. It's the same instance, so no change of behavior
-> occurs.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dsi.c?h=v5.18-rc2&id=0707632b5bacc490f58dfbad741d586c06595ff3
+> > 
+> > Regards,
+> > CK
+> > 
+> > > +
+> > >  	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
+> > >  	if (ret)
+> > >  		goto restore_dsi_mode;
+> > 
+> > 
+> 
+> Hi CK:
+> 
+> Because the order of dsi->panel in [1] is as follows (tv101 panel as
+> an
+> example):
+> 1. dsi_poweron (lane_ready)
+> 2. panel_prepare
+> 3. panel_prepare_power
+> 4. panel_init_cmd
+> 5. dsi_host_transfer (actually send panel initial code)
+> 
+> This modified order:
+> 1. dsi_poweron
+> 2. panel_prepare
+> 3. panel_prepare_power
+> 4. panel_init_cmd
+> 5. dsi_host_transfer (lane_ready)
+> 
+> It can be seen that the lane_ready is delayed closer to before
+> sending
+> the initial code, which is necessary for some panels with stricter
+> timing requirements.
+> And if this screen does not need to send initial code, it will also
+> do
+> lane_ready in output_dsi_enable, so that dsi can complete LP00->LP11-
+> > HS mode.
 
-I thougt the convention was to have Suggested-by before your S-o-B.
+Understand. You call mtk_dsi_lane_ready() in both
+mtk_output_dsi_enable() and mtk_dsi_host_transfer(). The panel prepare
+may call mtk_dsi_host_transfer() and mtk_dsi_lane_ready() would be
+called.
 
-The patch looks good to me.
+Regards,
+CK
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+> 
+> [1] 
+> 
+> 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dsi.c?h=v5.18-rc2&id=0707632b5bacc490f58dfbad741d586c06595ff3
+> 
+> Best Regards!
+> xinlei
+> 
 
