@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C07515081
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 18:13:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B21825150A9
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 18:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0051110E048;
-	Fri, 29 Apr 2022 16:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8A3810E9A4;
+	Fri, 29 Apr 2022 16:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6E4410E048;
- Fri, 29 Apr 2022 16:13:49 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-e5ca5c580fso8597375fac.3; 
- Fri, 29 Apr 2022 09:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18EF510E9A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 16:21:33 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id gh6so16485602ejb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 09:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Un+8uBdSonMBArNllHw60eJ9+stkGa05/rjOsT5H7mQ=;
- b=CcsvnPcyaByh/nvf5QgMaDK4KDq+1ywC2wyRQgS4Z5PIcHl5NrA1xwhpD70O4uFRMj
- tR9E0NJzMirunOscfIp2SGOnQC9aQf02NR7/CYUFnAs0ToijQawWAhKZRTqfUyRcyyMT
- ZMMZvCLOqxPLWM+uRhg201zcAlgjQPdiXnmYx3MX7/S2+D4Wd+ci2wMTk/kZ9TI8hyxZ
- I/jagVFQQb2Rg3XnXZS2BANG+rqq0zT9YRRfiqeNEu1niItjVsmAIFGia9DoklrES8mU
- Psvu0isGTybgzYHeh/pslkmrhbzskYlNW47ViTWVY9Wx3JNxGP05H39qOCX0Bf5TutYa
- j4QQ==
+ :cc; bh=/i96WVpRgOiedaJPGvdPTgpbnsmRjq9OCgYpWZ3z/Tg=;
+ b=EpTcT0njbF1gKIlcMS6t8ZZuyXjeSUeO22i8GJW9dw3H99A25xCRV4aPVEz6ann8Gj
+ nKDuvRRsMR/hbBPXxXrbNsULZ8FMSZ0bGnIA/dQB6VYpzFqcGqWKr7UZjVEZiO5UXsQI
+ aeZXdoH+DGhJVPfrqpxRktng8xk2SJx9FnGOE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Un+8uBdSonMBArNllHw60eJ9+stkGa05/rjOsT5H7mQ=;
- b=IHdVBjFNAsmUuAPqqcFXWrX/xTIeJehtVETI0w9JlbyxdUo4e1rUs2QH3FXLgP847I
- LzwkxrK1S/t5Jm6dtgcFnXJ/F8wtRoG4HkMJLvEzpBG5Z4sR74aNMACaErEZ8FgOkkUH
- OLkMuP3lbScB0UCsVbdWKgpCrD8CWKYDp0e1AGLFCzn5i6yVUs4/Qd1nFOJ2QxV7xFnG
- B8W9Uuor7JqPc3m6ZpnYZvxWWeR4esbM8bmUF47RLT5CdVhEIgwic+LwVEyuGWk+4c6t
- a6n1DH5HmTbXDtM6Ej8ZmMkiOSSZ22ZBlzJt0vMJDGyiarGCNhzxITwrcddSsHEqsDhK
- wvLg==
-X-Gm-Message-State: AOAM531v1iPhsivbKXWiwB4dYW18whufPMaTFoSC0fxac9BlMjK1XxtK
- OOBD3Mds50vDmpmnvdRPYDt037CPO4D9HJxJCzs=
-X-Google-Smtp-Source: ABdhPJxOiBo4M/pvZvo6hhugzdJ2Op2OmRYRd++GDtCarikTTq3eyAiFl/sdq1eGPRIPu01vIKYQK69XBKFGhqKtPjc=
-X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
- z3-20020a056870d68300b000deeaa23550mr24878oap.253.1651248829146; Fri, 29 Apr
- 2022 09:13:49 -0700 (PDT)
+ bh=/i96WVpRgOiedaJPGvdPTgpbnsmRjq9OCgYpWZ3z/Tg=;
+ b=MdZmSXzoWZjWvaTBwwY3JR8Ar2LIaFGnkkYoV6ipo8bi4MYfaGQoaE/aGm9NCCT97n
+ DXXUw0TYgMn7rtOHv980Ye515VTCW3lq1kHuOf2TrL5emyfWcoiYmatHHKH7i5Y2yipq
+ 0howxEa8R0W4MfuAhZQaJjxsmkd1VC9++RXm6nWIhWweLlB7VBRPBzaXP0V6fdx90Iod
+ hFugy78Ti0rMifwySwD707imVt4pCNT9MCE9it4S9AkmbiZCcLr2/enr6w9Joqr/QPyG
+ 4fe6yzAsNp35Hu3Bfz9NilHpTtOh5/vydsGgm12X/qOEgaUtq9nNGpP5oFHncRMgta4Y
+ ny8Q==
+X-Gm-Message-State: AOAM530lPLaRudbJgQHD//g22Zyjic3tPcLQio/SViTLtzNPNo35HwO3
+ zrDdgxw51K/LaYxUEvpaQHsbrbrqEWYhE8Ej
+X-Google-Smtp-Source: ABdhPJw2XLOEQ77G7M4DVRLJfAAc+zjRxq6jSiiV5yfXtciCki5oagFad3HOG7+9T9lmVlNDwpLLXg==
+X-Received: by 2002:a17:906:1c12:b0:6f3:9eed:e0 with SMTP id
+ k18-20020a1709061c1200b006f39eed00e0mr102905ejg.656.1651249291342; 
+ Fri, 29 Apr 2022 09:21:31 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com.
+ [209.85.221.46]) by smtp.gmail.com with ESMTPSA id
+ n9-20020aa7c689000000b0042617ba639csm3133680edq.38.2022.04.29.09.21.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 09:21:30 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id q23so11454313wra.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 09:21:29 -0700 (PDT)
+X-Received: by 2002:adf:f50d:0:b0:20a:e096:ef with SMTP id
+ q13-20020adff50d000000b0020ae09600efmr17962780wro.679.1651249289469; 
+ Fri, 29 Apr 2022 09:21:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220429160604.2608782-1-richard.gong@amd.com>
-In-Reply-To: <20220429160604.2608782-1-richard.gong@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 29 Apr 2022 12:13:38 -0400
-Message-ID: <CADnq5_OoyRmM+tWZ_nipfnNyxFVnyUH+R8Pc4-u2akeffXgssg@mail.gmail.com>
-Subject: Re: [PATCHv5] drm/amdgpu: vi: disable ASPM on Intel Alder Lake based
- systems
-To: Richard Gong <richard.gong@amd.com>
+References: <20220429055145.3852271-1-chi.minghao@zte.com.cn>
+In-Reply-To: <20220429055145.3852271-1-chi.minghao@zte.com.cn>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 29 Apr 2022 09:21:17 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vo+1O=m_-Wf5z6fxcXAtRabQu3u7tc3pt8Q645b1n1VA@mail.gmail.com>
+Message-ID: <CAD=FV=Vo+1O=m_-Wf5z6fxcXAtRabQu3u7tc3pt8Q645b1n1VA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: simplify the return expression of
+ ps8640_bridge_host_attach
+To: jing yangyang <cgel.zte@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,92 +72,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Dave Airlie <airlied@linux.ie>,
- xinhui pan <xinhui.pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, "Limonciello,
- Mario" <mario.limonciello@amd.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Zeal Robot <zealci@zte.com.cn>,
+ LKML <linux-kernel@vger.kernel.org>, Minghao Chi <chi.minghao@zte.com.cn>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Hi,
 
-On Fri, Apr 29, 2022 at 12:08 PM Richard Gong <richard.gong@amd.com> wrote:
+On Thu, Apr 28, 2022 at 10:51 PM <cgel.zte@gmail.com> wrote:
 >
-> Active State Power Management (ASPM) feature is enabled since kernel 5.14.
-> There are some AMD Volcanic Islands (VI) GFX cards, such as the WX3200 and
-> RX640, that do not work with ASPM-enabled Intel Alder Lake based systems.
-> Using these GFX cards as video/display output, Intel Alder Lake based
-> systems will freeze after suspend/resume.
+> From: Minghao Chi <chi.minghao@zte.com.cn>
 >
-> The issue was originally reported on one system (Dell Precision 3660 with
-> BIOS version 0.14.81), but was later confirmed to affect at least 4
-> pre-production Alder Lake based systems.
+> Simplify the return expression.
 >
-> Add an extra check to disable ASPM on Intel Alder Lake based systems with
-> the problematic AMD Volcanic Islands GFX cards.
->
-> Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Richard Gong <richard.gong@amd.com>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 > ---
-> v5: added vi to commit header and updated commit message
->     rolled back guard with the preprocessor as did in v2 to correct build
->     error on non-x86 systems
-> v4: s/CONFIG_X86_64/CONFIG_X86
->     enhanced check logic
-> v3: s/intel_core_aspm_chk/aspm_support_quirk_check
->     correct build error with W=1 option
-> v2: correct commit description
->     move the check from chip family to problematic platform
-> ---
->  drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c b/drivers/gpu/drm/amd/amdgpu/vi.c
-> index 039b90cdc3bc..45f0188c4273 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
-> @@ -81,6 +81,10 @@
->  #include "mxgpu_vi.h"
->  #include "amdgpu_dm.h"
->
-> +#if IS_ENABLED(CONFIG_X86)
-> +#include <asm/intel-family.h>
-> +#endif
-> +
->  #define ixPCIE_LC_L1_PM_SUBSTATE       0x100100C6
->  #define PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK       0x00000001L
->  #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK   0x00000002L
-> @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct amdgpu_device *adev)
->                 WREG32_PCIE(ixPCIE_LC_CNTL, data);
->  }
->
-> +static bool aspm_support_quirk_check(void)
-> +{
-> +#if IS_ENABLED(CONFIG_X86)
-> +       struct cpuinfo_x86 *c = &cpu_data(0);
-> +
-> +       return !(c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
-> +#else
-> +       return true;
-> +#endif
-> +}
-> +
->  static void vi_program_aspm(struct amdgpu_device *adev)
->  {
->         u32 data, data1, orig;
->         bool bL1SS = false;
->         bool bClkReqSupport = true;
->
-> -       if (!amdgpu_device_should_use_aspm(adev))
-> +       if (!amdgpu_device_should_use_aspm(adev) || !aspm_support_quirk_check())
->                 return;
->
->         if (adev->flags & AMD_IS_APU ||
-> --
-> 2.25.1
->
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
