@@ -1,61 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A723517102
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:52:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0221D5170F9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E6F10EF67;
-	Mon,  2 May 2022 13:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047F910EF49;
+	Mon,  2 May 2022 13:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 451 seconds by postgrey-1.36 at gabe;
- Fri, 29 Apr 2022 09:03:56 UTC
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net
- (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
- by gabe.freedesktop.org (Postfix) with SMTP id B484210E737;
- Fri, 29 Apr 2022 09:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id:MIME-Version:Content-Transfer-Encoding; bh=amePFdXDy6
- eKXcLqyO+aJjWEC77R1KGfpX+ipQ86EH0=; b=qBo1feLTejqDETkmTn2w/8cBe1
- 0+0nMtNrgMmP84QHlG16UoWRSS5eQawwHI96CxFzxYp5XSQEd+KYvf67IZGu7DeZ
- RNCnTL2hvTA/SZUY7IfOAKUwDdY8j1Wqw6tAn5yFDcs4u96t2YKAZnvIcyV/622J
- 3C8h7cBLVicVrJ11E=
-Received: from localhost.localdomain (unknown [10.102.183.96])
- by app1 (Coremail) with SMTP id XAUFCgAXHnYhqGtibix3EQ--.46279S4;
- Fri, 29 Apr 2022 16:56:05 +0800 (CST)
-From: Xin Xiong <xiongx18@fudan.edu.cn>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Matthew Dawson <matthew@mjdsystems.ca>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/radeon: fix reference count leak in cik_sdma_ib_test()
-Date: Fri, 29 Apr 2022 16:53:32 +0800
-Message-Id: <20220429085331.2515-1-xiongx18@fudan.edu.cn>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 2264 seconds by postgrey-1.36 at gabe;
+ Fri, 29 Apr 2022 14:29:14 UTC
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFB6110ED62;
+ Fri, 29 Apr 2022 14:29:14 +0000 (UTC)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TBZSqW029789;
+ Fri, 29 Apr 2022 13:51:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=JsP9DZ13GY9p4Te/4OhuyLur42PMbft/qLBbv9gdVfA=;
+ b=NdBt+3oWgMAh6kkB5ONjj6VT9226CnPF3qib/HpQq0itE/3j34BjXwWM5FT6Ri6Ob4Eg
+ pn9x+wVa57SeWNcXePpggb2jaoFu2r463WXTlBY/ycXqyQdgWD6DAweWjdfGwvHHLcZ4
+ 0BELjPDh2ikuzvNHGlgfWPu6yMBFNX073G7yzY25Bcn7gcZPR+GB66j2hfmXoZUMtn6D
+ 03zaAaVsCxCRP24JO38Ldtq0xJFFZa7JoHLu59iMa8vi+lR0tsQqecuKMCprks0W0qi4
+ 3Llkk2yFvVhDIASkWVZs+XT9/c41zqI9nHmIeO//3VK8NM1MYLngreFg61Ftcqjk7q9H NA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqv5rjk2f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Apr 2022 13:51:24 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23TDVxnB015749;
+ Fri, 29 Apr 2022 13:51:24 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fqv5rjk1c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Apr 2022 13:51:24 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TDQlvl014243;
+ Fri, 29 Apr 2022 13:51:21 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3fm93916w4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Apr 2022 13:51:21 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23TDpJ9F38273394
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Apr 2022 13:51:19 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 17FDA4C040;
+ Fri, 29 Apr 2022 13:51:19 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A8D314C044;
+ Fri, 29 Apr 2022 13:51:18 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 29 Apr 2022 13:51:18 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: [RFC v2 08/39] drm: handle HAS_IOPORT dependencies
+Date: Fri, 29 Apr 2022 15:50:13 +0200
+Message-Id: <20220429135108.2781579-16-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220429135108.2781579-1-schnelle@linux.ibm.com>
+References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: XAUFCgAXHnYhqGtibix3EQ--.46279S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cw47JFykXFyrAr4fGrWkXrb_yoW8Cr47pr
- WS9r9Fyr92yw42gw47ta9rWFyYkw18Ja1xWr4DC398Cw45Zw1vqF13ZryvqryUJrykZryS
- vF1kWw48Z3W8AF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9C14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
- 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
- YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2
- IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
- 6r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
- AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IY
- s7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
- 0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQZ23UUUUU=
-X-CM-SenderInfo: arytiiqsuqiimz6i3vldqovvfxof0/1tbiAhALEFKp2mkXjwAAsZ
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Z2_b3Ep6jzQYlZLubaqzG5wd29WjJfWI
+X-Proofpoint-ORIG-GUID: 2dZ9-j-Mnz9uF8ZFVdGA_r1MSqumR5yW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-29_06,2022-04-28_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ clxscore=1011 malwarescore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 adultscore=0 spamscore=0
+ mlxlogscore=708 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204290078
 X-Mailman-Approved-At: Mon, 02 May 2022 13:52:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,62 +98,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xin Tan <tanxin.ctf@gmail.com>, yuanxzhang@fudan.edu.cn,
- Xin Xiong <xiongx18@fudan.edu.cn>
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ linux-pci@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The issue takes place in several error handling paths in
-cik_sdma_ib_test(). For example, when radeon_fence_wait_timeout()
-returns a value no greater than zero, the function simply returns an
-error code, forgetting to decrease the reference count of the object
-"ib", which is incremented by radeon_ib_get() earlier. This may
-result in memory leaks.
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them. In the bochs driver there is optional MMIO
+support detected at runtime, warn if this isn't taken when
+HAS_IOPORT is not defined.
 
-Fix it by decrementing the reference count of "ib" in those paths.
+There is also a direct and hard coded use in cirrus.c which according to
+the comment is only necessary during resume.  Let's just skip this as
+for example s390 which doesn't have I/O port support also doesen't
+support suspend/resume.
 
-Fixes: 04db4caf5c83 ("drm/radeon: Avoid double gpu reset by adding a timeout on IB ring tests.")
-Signed-off-by: Xin Xiong <xiongx18@fudan.edu.cn>
-Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 ---
- drivers/gpu/drm/radeon/cik_sdma.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/qxl/Kconfig   |  1 +
+ drivers/gpu/drm/tiny/bochs.c  | 19 +++++++++++++++++++
+ drivers/gpu/drm/tiny/cirrus.c |  2 ++
+ 3 files changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/radeon/cik_sdma.c b/drivers/gpu/drm/radeon/cik_sdma.c
-index 919b14845c3c..d0e7323cdd42 100644
---- a/drivers/gpu/drm/radeon/cik_sdma.c
-+++ b/drivers/gpu/drm/radeon/cik_sdma.c
-@@ -732,18 +732,18 @@ int cik_sdma_ib_test(struct radeon_device *rdev, struct radeon_ring *ring)
+diff --git a/drivers/gpu/drm/qxl/Kconfig b/drivers/gpu/drm/qxl/Kconfig
+index ca3f51c2a8fe..d0e0d440c8d9 100644
+--- a/drivers/gpu/drm/qxl/Kconfig
++++ b/drivers/gpu/drm/qxl/Kconfig
+@@ -2,6 +2,7 @@
+ config DRM_QXL
+ 	tristate "QXL virtual GPU"
+ 	depends on DRM && PCI && MMU
++	depends on HAS_IOPORT
+ 	select DRM_KMS_HELPER
+ 	select DRM_TTM
+ 	select DRM_TTM_HELPER
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index ed971c8bb446..9acc726d99ec 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
  
- 	r = radeon_ib_schedule(rdev, &ib, NULL, false);
- 	if (r) {
--		radeon_ib_free(rdev, &ib);
- 		DRM_ERROR("radeon: failed to schedule ib (%d).\n", r);
--		return r;
-+		goto out;
++#include <asm/bug.h>
+ #include <linux/pci.h>
+ 
+ #include <drm/drm_aperture.h>
+@@ -102,7 +103,11 @@ static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
+ 
+ 		writeb(val, bochs->mmio + offset);
+ 	} else {
++#ifdef HAS_IOPORT
+ 		outb(val, ioport);
++#else
++		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
++#endif
  	}
- 	r = radeon_fence_wait_timeout(ib.fence, false, usecs_to_jiffies(
- 		RADEON_USEC_IB_TEST_TIMEOUT));
- 	if (r < 0) {
- 		DRM_ERROR("radeon: fence wait failed (%d).\n", r);
--		return r;
-+		goto out;
- 	} else if (r == 0) {
- 		DRM_ERROR("radeon: fence wait timed out.\n");
--		return -ETIMEDOUT;
-+		r = -ETIMEDOUT;
-+		goto out;
- 	}
- 	r = 0;
- 	for (i = 0; i < rdev->usec_timeout; i++) {
-@@ -758,6 +758,7 @@ int cik_sdma_ib_test(struct radeon_device *rdev, struct radeon_ring *ring)
- 		DRM_ERROR("radeon: ib test failed (0x%08X)\n", tmp);
- 		r = -EINVAL;
- 	}
-+out:
- 	radeon_ib_free(rdev, &ib);
- 	return r;
  }
+ 
+@@ -116,7 +121,12 @@ static u8 bochs_vga_readb(struct bochs_device *bochs, u16 ioport)
+ 
+ 		return readb(bochs->mmio + offset);
+ 	} else {
++#ifdef HAS_IOPORT
+ 		return inb(ioport);
++#else
++		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
++		return 0xff;
++#endif
+ 	}
+ }
+ 
+@@ -129,8 +139,13 @@ static u16 bochs_dispi_read(struct bochs_device *bochs, u16 reg)
+ 
+ 		ret = readw(bochs->mmio + offset);
+ 	} else {
++#ifdef HAS_IOPORT
+ 		outw(reg, VBE_DISPI_IOPORT_INDEX);
+ 		ret = inw(VBE_DISPI_IOPORT_DATA);
++#else
++		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
++		ret = 0xffff;
++#endif
+ 	}
+ 	return ret;
+ }
+@@ -142,8 +157,12 @@ static void bochs_dispi_write(struct bochs_device *bochs, u16 reg, u16 val)
+ 
+ 		writew(val, bochs->mmio + offset);
+ 	} else {
++#ifdef HAS_IOPORT
+ 		outw(reg, VBE_DISPI_IOPORT_INDEX);
+ 		outw(val, VBE_DISPI_IOPORT_DATA);
++#else
++		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
++#endif
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+index c8e791840862..0dc4788c5399 100644
+--- a/drivers/gpu/drm/tiny/cirrus.c
++++ b/drivers/gpu/drm/tiny/cirrus.c
+@@ -306,8 +306,10 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
+ 
+ 	cirrus_set_start_address(cirrus, 0);
+ 
++#ifdef CONFIG_HAS_IOPORT
+ 	/* Unblank (needed on S3 resume, vgabios doesn't do it then) */
+ 	outb(0x20, 0x3c0);
++#endif
+ 
+ 	drm_dev_exit(idx);
+ 	return 0;
 -- 
-2.25.1
+2.32.0
 
