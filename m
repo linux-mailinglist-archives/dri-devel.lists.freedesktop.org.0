@@ -2,46 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B46851452E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC5B514551
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:23:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 754FE10FBA3;
-	Fri, 29 Apr 2022 09:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6942610E181;
+	Fri, 29 Apr 2022 09:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9425C10F657;
- Fri, 29 Apr 2022 09:15:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9034A6220B;
- Fri, 29 Apr 2022 09:15:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FF0C385A4;
- Fri, 29 Apr 2022 09:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651223711;
- bh=Rt1ur9nS0pMhrSDXxpNKo8guUozgMtHYvzS6ezjQrAo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=KhNi1SPdn2Ww7LL6ne7QFCiwphU1Ky3CyPMi5kXt7eVyc8pn5ABDLHMMV1U+VV2iD
- 32FZV4TzdxhpbxNo7QVounT3axefuUxPhJtcO1a7qpBPZMii7neI39Vk26ok/u6Whz
- O2RkSNk2Hw083dSUG1MhMcjAK8f6xGrjj/uyX9fQ87uwMDTlkvcVdiDU2YAp59ToKE
- mXLtn8rfDHCAANvuQ+g1fh3STE1J1CEr9M7LWC5zXqS5XDigR6BVsAiEb2npt0YNYP
- NI6fpYMJCK/Ae0YL56MP8Kp2+Wb8S0gyciOKbjqjpNjwiN3EGfu9GcBXtdpwtsVwT/
- u24iKzomoPJ/Q==
-Date: Fri, 29 Apr 2022 10:15:03 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] module: add a function to add module references
-Message-ID: <20220429101503.4048db5b@sal.lan>
-In-Reply-To: <YmuiKcHgl+nABvo/@kroah.com>
-References: <cover.1651212016.git.mchehab@kernel.org>
- <a078eb2e46d00ec59c8a91ea0afa5190730c9e58.1651212016.git.mchehab@kernel.org>
- <YmuZovuDaCYDDG4c@phenom.ffwll.local>
- <20220429090757.1acb943a@sal.lan> <YmuiKcHgl+nABvo/@kroah.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A95FA10E737
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 09:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651224188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iZBpHvY6ZYQxOxDMB34W2/6DBju5lgDw8kQdarO8pfI=;
+ b=hhIBKOvUL3ESQDCdcG5I30NRkcvep1WrdCp4zlwbYLRgiwK+WMUiqBJu5d/k7ct1nrGJkc
+ QAusvk94x3ItUz6eqc/7/OppxkLkMODNzi6lEMpiWMP2UG+hFhmsBP650PUjiQ9zFAdE8M
+ 5EBff5tAhihk9jY63tjyr4n+gGxBmE4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-600-JjjZk7AKMie7PpYMkB6aEQ-1; Fri, 29 Apr 2022 05:23:07 -0400
+X-MC-Unique: JjjZk7AKMie7PpYMkB6aEQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ b10-20020adfc74a000000b0020ab029d5edso2826771wrh.18
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 02:23:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iZBpHvY6ZYQxOxDMB34W2/6DBju5lgDw8kQdarO8pfI=;
+ b=OdU2BefILGDqiBHV1/Zb9u7h7KtrOmdNYNRyoake8ijjgbkW/+IodEuTBe3P15CYbe
+ Ir73ggGgF+S3ozhRUUonrAQj/q/kssEvWgfamru6US/Z47iuojppStExgf24ySphQ2o2
+ sV6RLvjwhxU5cErGQK7fik3iu5TwVt8gq8Ekom3m3O1E2OctRV5t7ck/ftN6E9yH0GeQ
+ Bqy4C5Chw9OcE9kLcVwtxri/KMwIsbQjKSmO/yiVGOE/Bp8a/GnIdplHCHTkfJ1848PQ
+ W4ufpRF2VUhLBa9EqvEgDrXfBL2sGDisEIw7H6KGnAt86eVefggg24LKeY8uwfCVfaI3
+ DSTQ==
+X-Gm-Message-State: AOAM531mtmrcn+zZKKgW/oUUZTvfE954MJy1y1PB66WC4rNwxod3yDNF
+ PxzsuLMU2briFH+N1zU39RwHINjPLyEzcy3oNWHRbuHXkdIIrNm5HwqfTHVnYxBpR7VkUquqOdy
+ pjVkRQM2U143yKia1XaQUnqfufj4o
+X-Received: by 2002:a5d:5284:0:b0:20a:d859:3d6a with SMTP id
+ c4-20020a5d5284000000b0020ad8593d6amr21037368wrv.403.1651224186195; 
+ Fri, 29 Apr 2022 02:23:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzM9Kw7u0Y6NciFxMlSl1ar6JMt7qq9Xhix3AmpT6YAzzVEjfV07s1Es4bMZUziOtUFGATvQ==
+X-Received: by 2002:a5d:5284:0:b0:20a:d859:3d6a with SMTP id
+ c4-20020a5d5284000000b0020ad8593d6amr21037352wrv.403.1651224185968; 
+ Fri, 29 Apr 2022 02:23:05 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ k23-20020adfb357000000b0020ad7c36332sm1918444wrd.110.2022.04.29.02.23.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 02:23:05 -0700 (PDT)
+Message-ID: <476d57e5-69dd-94b5-779f-230e091ae62f@redhat.com>
+Date: Fri, 29 Apr 2022 11:23:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH v4 02/11] drm/fb-helper: Set FBINFO_MISC_FIRMWARE flag
+ for DRIVER_FIRMWARE fb
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220429084253.1085911-1-javierm@redhat.com>
+ <20220429084253.1085911-3-javierm@redhat.com>
+ <7ce2f8e1-9cf2-4d89-99c2-b4280e4758ba@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <7ce2f8e1-9cf2-4d89-99c2-b4280e4758ba@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,113 +90,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kai Vehmanen <kai.vehmanen@intel.com>, intel-gfx@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Luis Chamberlain <mcgrof@kernel.org>, mauro.chehab@intel.com,
- Dan Williams <dan.j.williams@intel.com>, linux-modules@vger.kernel.org,
- Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HI Greg,
+Hello Thomas,
 
-Em Fri, 29 Apr 2022 10:30:33 +0200
-Greg KH <gregkh@linuxfoundation.org> escreveu:
-
-> On Fri, Apr 29, 2022 at 09:07:57AM +0100, Mauro Carvalho Chehab wrote:
-> > Hi Daniel,
-> > 
-> > Em Fri, 29 Apr 2022 09:54:10 +0200
-> > Daniel Vetter <daniel@ffwll.ch> escreveu:
-> >   
-> > > On Fri, Apr 29, 2022 at 07:31:15AM +0100, Mauro Carvalho Chehab wrote:  
-> > > > Sometimes, device drivers are bound using indirect references,
-> > > > which is not visible when looking at /proc/modules or lsmod.
-> > > > 
-> > > > Add a function to allow setting up module references for such
-> > > > cases.
-> > > > 
-> > > > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>    
-> > > 
-> > > This sounds like duct tape at the wrong level. We should have a
-> > > device_link connecting these devices, and maybe device_link internally
-> > > needs to make sure the respective driver modules stay around for long
-> > > enough too. But open-coding this all over the place into every driver that
-> > > has some kind of cross-driver dependency sounds terrible.
-> > > 
-> > > Or maybe the bug is that the snd driver keeps accessing the hw/component
-> > > side when that is just plain gone. Iirc there's still fundamental issues
-> > > there on the sound side of things, which have been attempted to paper over
-> > > by timeouts and stuff like that in the past instead of enforcing a hard
-> > > link between the snd and i915 side.  
-> > 
-> > I agree with you that the device link between snd-hda and the DRM driver
-> > should properly handle unbinding on both directions. This is something
-> > that require further discussions with ALSA and DRM people, and we should
-> > keep working on it.
-> > 
-> > Yet, the binding between those drivers do exist, but, despite other
-> > similar inter-driver bindings being properly reported by lsmod, this one
-> > is invisible for userspace.
-> > 
-> > What this series does is to make such binding visible. As simple as that.  
+On 4/29/22 11:14, Thomas Zimmermann wrote:
+> Hi
 > 
-> It also increases the reference count, and creates a user/kernel api
-> with the symlinks, right?  Will the reference count increase prevent the
-> modules from now being unloadable?
+> Am 29.04.22 um 10:42 schrieb Javier Martinez Canillas:
+>> The DRIVER_FIRMWARE flag denotes that a DRM driver uses a framebuffer
+>> that was initialized and provided by the system firmware for scanout.
+>>
+>> Indicate to the fbdev subsystem that the registered framebuffer is a
+>> FBINFO_MISC_FIRMWARE, so that it can handle accordingly. For example,
+>> wold hot-unplug the associated device if asked to remove conflicting
+>> framebuffers.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> ---
+>>
+>> (no changes since v1)
+>>
+>>   drivers/gpu/drm/drm_fb_helper.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+>> index d265a73313c9..76dd11888621 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -1891,6 +1891,10 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
+>>   		/* don't leak any physical addresses to userspace */
+>>   		info->flags |= FBINFO_HIDE_SMEM_START;
+>>   
+>> +	/* Indicate that the framebuffer is provided by the firmware */
+>> +	if (drm_core_check_feature(dev, DRIVER_FIRMWARE))
+>> +		info->flags |= FBINFO_MISC_FIRMWARE;
+>> +
+> 
+> Patches 1 to 3 should be squashed into one before landing.
 >
-> This feels like a very "weak" link between modules that should not be
-> needed if reference counting is implemented properly (so that things are
-> cleaned up in the correct order.)
 
-The refcount increment exists even without this patch, as
-hda_component_master_bind() at sound/hda/hdac_component.c uses 
-try_module_get() when it creates the device link.
+I actually considered this but then decided to go with the each change
+goes into its own patch approach. But I'll squash it in next revisions.
+ 
+> We can do this with DRIVER_FIRMWARE. Alternatively, I'd suggest to we 
+> could also used the existing final parameter of 
+> drm_fbdev_generic_setup() to pass a flag that designates a firmware device.
+> 
 
-This series won't change anything with that regards. The only difference
-is that it will now properly report userspace that snd-hda will be
-using something inside the DRM driver (basically, it uses the DRM driver
-to power-control the HDA hardware on modern CPU/GPUs).
+By existing final parameter you mean @preferred_bpp ? That doesn't seem
+correct. I also like that by using DRIVER_FIRMWARE it is completely data
+driven and transparent to the DRM driver.
 
--
+Or do you envision a case where a driver would be DRIVER_FIRMWARE but we
+wouldn't want the emulated fbdev to also be FBINFO_MISC_FIRMWARE ?
 
-Btw, this is not the only case where userspace invisible bindings between
-two driver happen within the Kernel. On media, DVB drivers attach
-the frontend/tuner drivers using I2C bus on a way where lsmod doesn't
-current report any dependencies. See, for instance, PCTV 290e driver
-(partial) dependency chain:
+-- 
+Best regards,
 
-	$ lsmod
-	Module                  Size  Used by
-	rc_pinnacle_pctv_hd    16384  0
-	em28xx_rc              20480  0
-	tda18271               53248  1
-	cxd2820r               45056  1
-	em28xx_dvb             36864  0
-	dvb_core              155648  2 cxd2820r,em28xx_dvb
-	em28xx                106496  2 em28xx_rc,em28xx_dvb
-	tveeprom               28672  1 em28xx
-	videobuf2_vmalloc      20480  1 uvcvideo
-	videobuf2_memops       20480  1 videobuf2_vmalloc
-	videobuf2_common       69632  4 videobuf2_vmalloc,videobuf2_v4l2,uvcvideo,videobuf2_memops
-	videodev              266240  4 videobuf2_v4l2,uvcvideo,videobuf2_common,em28xx
-	mc                     65536  6 videodev,videobuf2_v4l2,uvcvideo,dvb_core,videobuf2_common,em28xx
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-In the above example, tda18271 is an I2C tuner driver which talks
-to the hardware via the I2C bus registered by the em28xx driver.
-It is loaded during em28xx probing time.
-
-Again, lsmod doesn't show such dependencies. One can't remove the
-tuner driver without first removing the em28xx driver, which is
-the one that increments its refcount.
-
--
-
-Back to the snd-hda issue, the problem is not with refcount. It is, instead,
-to provide a way for userspace to know what's the correct order to 
-remove/unbind modules.
-
-Regards,
-Mauro
