@@ -1,59 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F84951435C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:39:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B3251436A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 093BC10FD97;
-	Fri, 29 Apr 2022 07:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F8310FC66;
+	Fri, 29 Apr 2022 07:47:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6CEF10FD93
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:39:47 +0000 (UTC)
-X-UUID: bf0dd4b2313a435e8a4f6654082b01f4-20220429
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:d840cc8d-efa0-4251-b066-4296357a077b, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:3eeaefc6-85ee-4ac1-ac05-bd3f1e72e732,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: bf0dd4b2313a435e8a4f6654082b01f4-20220429
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1787033799; Fri, 29 Apr 2022 15:39:42 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 29 Apr 2022 15:39:41 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Apr 2022 15:39:40 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 29 Apr 2022 15:39:40 +0800
-Message-ID: <0fb7b063fc246c89430ddf310406ae954a3e3650.camel@mediatek.com>
-Subject: Re: [PATCH v18 04/21] soc: mediatek: add mtk-mmsys support for
- mt8195 vdosys1
-From: CK Hu <ck.hu@mediatek.com>
-To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Fri, 29 Apr 2022 15:39:40 +0800
-In-Reply-To: <20220428105408.11189-5-nancy.lin@mediatek.com>
-References: <20220428105408.11189-1-nancy.lin@mediatek.com>
- <20220428105408.11189-5-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5BA10FC66
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:47:36 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id g6so13890105ejw.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 00:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=VUCWa3lSIaNzDwHCn+z/F0FVFVoykexDHXhwFfLqcXs=;
+ b=Hb9Qr18ymp5oDvIwpneOgr2tAoqL9sBJ7zKZgSyrpcbSV5mYNUK9omsjGB2BUHy+wF
+ hvNETRF2PNhs7QD9/wvRRjDcTsr8N9DePY6cH8hHGqe1tUFA4SY2HS0R26d67pVic+WS
+ nfGHe2KFkWF9WqSUjRo8/UlNwH/umWyfvVFqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=VUCWa3lSIaNzDwHCn+z/F0FVFVoykexDHXhwFfLqcXs=;
+ b=L5hzJCS2bxV9lr9nIpXF8NNU2R8QHcD1DLNS6SyA92YN6/p5H3VoiDo4TVzjEnz0rm
+ JHIYuhRVVb2oxar752bDuRpBS5DlaYa1NW2CUhe5jrGfsrJ7coC33T3MwEUE/zKEp/be
+ cK4X9HMmTrtDr9W97MTMIH0ZW7/rwhBbCUmur2Bq4i3+DUDFD9BOZBxNvF5ITxuxoo82
+ 5B9Yqf+QXC9/HWEw4MzMo4X3uzg6ID/qbZfyrbjesNTTLVeUQ+0GLte9HIhqpCUSmgjS
+ iK0zmFnb0Pd7Y6NNXHkSTJRj/Aa9sf6jQQaGofVjTXgrZbVaHShgAulkBQBGl9v8vnSU
+ Kocw==
+X-Gm-Message-State: AOAM532J3sxNv0Q6Bnify8aJNPWnzQkiOJr7RRwv9Qwtsqg8W9nK0eK6
+ EdtnoB7dvNoRvGAkyLa4tV7dkg==
+X-Google-Smtp-Source: ABdhPJx0LzJCI67IHW7p4FMMHHkPQKC/N0VzjjyRtPZ0oOI21KH7mh9tFSrg8s64jQaUV9HW5qz+Kw==
+X-Received: by 2002:a17:907:3f8f:b0:6f3:d4a0:e80c with SMTP id
+ hr15-20020a1709073f8f00b006f3d4a0e80cmr8378065ejc.709.1651218453598; 
+ Fri, 29 Apr 2022 00:47:33 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ hv6-20020a17090760c600b006f3ef214e34sm389502ejc.154.2022.04.29.00.47.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 00:47:32 -0700 (PDT)
+Date: Fri, 29 Apr 2022 09:47:31 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v3 0/5] Fix some race conditions that exists between
+ fbmem and sysfb
+Message-ID: <YmuYE2t51lPIRT8p@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Borislav Petkov <bp@suse.de>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Hans de Goede <hdegoede@redhat.com>, Helge Deller <deller@gmx.de>,
+ Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Miaoqian Lin <linmq006@gmail.com>, Peter Jones <pjones@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Yizhuo Zhai <yzhai003@ucr.edu>,
+ Zhen Lei <thunder.leizhen@huawei.com>, linux-doc@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+References: <20220420085303.100654-1-javierm@redhat.com>
+ <535ebbe4-605c-daf5-1afb-f5225e4bb3a8@suse.de>
+ <093d742f-4c87-2ff3-e9fe-153cd734f8e4@suse.de>
+ <220929be-91c4-d19c-b04f-312c5f7e9e40@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <220929be-91c4-d19c-b04f-312c5f7e9e40@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,269 +89,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, "jason-jh .
- lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+Cc: Miaoqian Lin <linmq006@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Zhen Lei <thunder.leizhen@huawei.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Yizhuo Zhai <yzhai003@ucr.edu>,
+ Hans de Goede <hdegoede@redhat.com>, linux-fbdev@vger.kernel.org,
+ Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>, Johan Hovold <johan@kernel.org>,
+ Borislav Petkov <bp@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Nancy:
-
-On Thu, 2022-04-28 at 18:53 +0800, Nancy.Lin wrote:
-> Add mt8195 vdosys1 routing table to the driver data of mtk-mmsys.
+On Mon, Apr 25, 2022 at 11:49:13AM +0200, Javier Martinez Canillas wrote:
+> Hello Thomas,
 > 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> ---
->  drivers/soc/mediatek/mt8195-mmsys.h    | 136
-> +++++++++++++++++++++++++
->  drivers/soc/mediatek/mtk-mmsys.c       |   2 +
->  include/linux/soc/mediatek/mtk-mmsys.h |   9 ++
->  3 files changed, 147 insertions(+)
+> Thanks for the feedback. It was very useful.
 > 
-> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
-> b/drivers/soc/mediatek/mt8195-mmsys.h
-> index abfe94a30248..51031d75e81e 100644
-> --- a/drivers/soc/mediatek/mt8195-mmsys.h
-> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
-> @@ -75,6 +75,70 @@
->  #define MT8195_SOUT_DSC_WRAP1_OUT_TO_SINA_VIRTUAL0		(2 <<
-> 16)
->  #define MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE			
-> (3 << 16)
->  
-> +#define MT8195_VDO1_VPP_MERGE0_P0_SEL_IN			0xf04
-> +#define MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0			
-> 1
-> +
-> +#define MT8195_VDO1_VPP_MERGE0_P1_SEL_IN			0xf08
-> +#define MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1			
-> 1
-> +
-> +#define MT8195_VDO1_DISP_DPI1_SEL_IN				0xf10
-> +#define MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT			
-> 0
-> +
-> +#define MT8195_VDO1_DISP_DP_INTF0_SEL_IN			0xf14
-> +#define MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT		
-> 0
-> +
-> +#define MT8195_VDO1_MERGE4_SOUT_SEL				0xf18
-> +#define MT8195_MERGE4_SOUT_TO_DPI1_SEL				
-> 	2
-> +#define MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL				
-> 3
-> +
-> +#define MT8195_VDO1_MIXER_IN1_SEL_IN				0xf24
-> +#define MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT		
-> 	1
-> +
-> +#define MT8195_VDO1_MIXER_IN2_SEL_IN				0xf28
-> +#define MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT		
-> 	1
-> +
-> +#define MT8195_VDO1_MIXER_IN3_SEL_IN				0xf2c
-> +#define MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT		
-> 	1
-> +
-> +#define MT8195_VDO1_MIXER_IN4_SEL_IN				0xf30
-> +#define MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT		
-> 	1
-> +
-> +#define MT8195_VDO1_MIXER_OUT_SOUT_SEL				
-> 0xf34
-> +#define MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL			
-> 	1
-> +
-> +#define MT8195_VDO1_VPP_MERGE1_P0_SEL_IN			0xf3c
-> +#define MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2			
-> 1
-> +
-> +#define MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL			0xf40
-> +#define MT8195_SOUT_TO_MIXER_IN1_SEL					
-> 1
-> +
-> +#define MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL			0xf44
-> +#define MT8195_SOUT_TO_MIXER_IN2_SEL					
-> 1
-> +
-> +#define MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL			0xf48
-> +#define MT8195_SOUT_TO_MIXER_IN3_SEL					
-> 1
-> +
-> +#define MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL			0xf4c
-> +#define MT8195_SOUT_TO_MIXER_IN4_SEL					
-> 1
-> +
-> +#define MT8195_VDO1_MERGE4_ASYNC_SEL_IN				
-> 0xf50
-> +#define MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT		
-> 	1
-> +
-> +#define MT8195_VDO1_MIXER_IN1_SOUT_SEL				
-> 0xf58
-> +#define MT8195_MIXER_IN1_SOUT_TO_DISP_MIXER				
-> 0
-> +
-> +#define MT8195_VDO1_MIXER_IN2_SOUT_SEL				
-> 0xf5c
-> +#define MT8195_MIXER_IN2_SOUT_TO_DISP_MIXER				
-> 0
-> +
-> +#define MT8195_VDO1_MIXER_IN3_SOUT_SEL				
-> 0xf60
-> +#define MT8195_MIXER_IN3_SOUT_TO_DISP_MIXER				
-> 0
-> +
-> +#define MT8195_VDO1_MIXER_IN4_SOUT_SEL				
-> 0xf64
-> +#define MT8195_MIXER_IN4_SOUT_TO_DISP_MIXER				
-> 0
-> +
-> +#define MT8195_VDO1_MIXER_SOUT_SEL_IN				
-> 0xf68
-> +#define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			
-> 0
-> +
->  static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] =
-> {
->  	{
->  		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
-> @@ -364,6 +428,78 @@ static const struct mtk_mmsys_routes
-> mmsys_mt8195_routing_table[] = {
->  		DDP_COMPONENT_DSC1, DDP_COMPONENT_MERGE0,
->  		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DSC_WRAP1_OUT_TO_MASK,
->  		MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE
-> +	}, {
-> +		DDP_COMPONENT_MDP_RDMA0, DDP_COMPONENT_MERGE1,
-> +		MT8195_VDO1_VPP_MERGE0_P0_SEL_IN, GENMASK(0, 0),
-> +		MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0
-> +	}, {
-> +		DDP_COMPONENT_MDP_RDMA1, DDP_COMPONENT_MERGE1,
-> +		MT8195_VDO1_VPP_MERGE0_P1_SEL_IN, GENMASK(0, 0),
-> +		MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1
-> +	}, {
-> +		DDP_COMPONENT_MDP_RDMA2, DDP_COMPONENT_MERGE2,
-> +		MT8195_VDO1_VPP_MERGE1_P0_SEL_IN, GENMASK(0, 0),
-> +		MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2
-> +	}, {
-> +		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL, GENMASK(1, 0),
-> +		MT8195_SOUT_TO_MIXER_IN1_SEL
-> +	}, {
-> +		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL, GENMASK(1, 0),
-> +		MT8195_SOUT_TO_MIXER_IN2_SEL
-> +	}, {
-> +		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL, GENMASK(1, 0),
-> +		MT8195_SOUT_TO_MIXER_IN3_SEL
-> +	}, {
-> +		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL, GENMASK(1, 0),
-> +		MT8195_SOUT_TO_MIXER_IN4_SEL
-> +	}, {
-> +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
-> +		MT8195_VDO1_MIXER_OUT_SOUT_SEL, GENMASK(0, 0),
-> +		MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL
-> +	}, {
-> +		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MIXER_IN1_SEL_IN, GENMASK(0, 0),
-> +		MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT
-> +	}, {
-> +		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MIXER_IN2_SEL_IN, GENMASK(0, 0),
-> +		MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT
-> +	}, {
-> +		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MIXER_IN3_SEL_IN, GENMASK(0, 0),
-> +		MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT
-> +	}, {
-> +		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
-> +		MT8195_VDO1_MIXER_IN4_SEL_IN, GENMASK(0, 0),
-> +		MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT
-> +	}, {
-> +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
-> +		MT8195_VDO1_MIXER_SOUT_SEL_IN, GENMASK(2, 0),
-> +		MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER
-> +	}, {
-> +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
-> +		MT8195_VDO1_MERGE4_ASYNC_SEL_IN, GENMASK(2, 0),
-> +		MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT
-> +	}, {
-> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
-> +		MT8195_VDO1_DISP_DPI1_SEL_IN, GENMASK(1, 0),
-> +		MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT
-> +	}, {
-> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
-> +		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
-> +		MT8195_MERGE4_SOUT_TO_DPI1_SEL
-> +	}, {
-> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
-> +		MT8195_VDO1_DISP_DP_INTF0_SEL_IN, GENMASK(1, 0),
-> +		MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT
-> +	}, {
-> +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
-> +		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
-> +		MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL
->  	}
->  };
->  
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c
-> b/drivers/soc/mediatek/mtk-mmsys.c
-> index 548efed8dc1c..03c75a82c8d3 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -146,6 +146,8 @@ static const struct mtk_mmsys_driver_data
-> mt8195_vdosys0_driver_data = {
->  static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data
-> = {
->  	.io_start = 0x1c100000,
->  	.clk_driver = "clk-mt8195-vdo1",
-> +	.routes = mmsys_mt8195_routing_table,
+> On 4/25/22 11:15, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 25.04.22 um 10:54 schrieb Thomas Zimmermann:
+> >> Hi
+> >>
+> >> Am 20.04.22 um 10:52 schrieb Javier Martinez Canillas:
+> >>> Hello,
+> >>>
+> >>> The patches in this series are mostly changes suggested by Daniel Vetter
+> >>> to fix some race conditions that exists between the fbdev core (fbmem)
+> >>> and sysfb with regard to device registration and removal.
+> >>>
+> >>> For example, it is currently possible for sysfb to register a platform
+> >>> device after a real DRM driver was registered and requested to remove the
+> >>> conflicting framebuffers.
+> >>>
+> >>> A symptom of this issue, was worked around with by commit fb561bf9abde
+> >>> ("fbdev: Prevent probing generic drivers if a FB is already registered")
+> >>> but that's really a hack and should be reverted.
+> >>
+> >> As I mentioned on IRC, I think this series should be merged for the 
+> >> reasons I give in the other comments.
+> >>
+> 
+> You meant that should *not* get merged, as we discussed over IRC.
+> 
+> >>>
+> >>> This series attempt to fix it more properly and revert the mentioned 
+> >>> hack.
+> >>> That will also unblock a pending patch to not make the num_registered_fb
+> >>> variable visible to drivers anymore, since that's internal to fbdev core.
+> >>
+> >> Here's as far as I understand the problem:
+> >>
+> >>   1) build DRM/fbdev and sysfb code into the kernel
+> >>   2) during boot, load the DRM/fbdev modules and have them acquire I/O 
+> >> ranges
+> >>   3) afterwards load sysfb and have it register platform devices for the 
+> >> generic framebuffers
+> >>   4) these devices now conflict with the already-registered DRM/fbdev 
+> >> devices
+> >>
+> 
+> That's correct, yes.
+> 
+> >> If that is the problem here, let's simply set a sysfb_disable flag in 
+> >> sysfb code when the first DRM/fbdev driver first loads. With the flag 
+> >> set, sysfb won't create any platform devices. We assume that there are 
+> >> now DRM/fbdev drivers for the framebuffers and sysfb won't be needed.
+> >>
+> >> We can set the flag internally from drm_aperture_detach_drivers() [1] 
+> >> and do_remove_conflicting_framebuffers() [2].
+> > 
+> > And further thinking about it, it would be better to set such a flag 
+> > after successfully registering a DRM/fbdev device.  So we know that 
+> > there's at least one working display in the system. We don't have to 
+> > rely on generic framebuffers after that.
+> >
+> 
+> Exactly, should be done when the device is registered rather than when
+> the driver is registered or a call is made to remove the conflicting FB.
+> 
+> I'll rework this series with only the bits for sysfb_disable() and drop
+> the rest. We can go back to the discussion of the remaining parts later
+> if that makes sense (I still think that patch 3/5 is a better approach,
+> but let's defer that for a different series).
 
-I think vdo0 and vdo1 are independent, so the routing table would also
-be independent. Merge these two table into one would waste time to
-search routing of other mmsys.
-
-> +	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
->  };
->  
->  static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
-> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
-> b/include/linux/soc/mediatek/mtk-mmsys.h
-> index fb719fd1281c..b4388ba43341 100644
-> --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> @@ -28,7 +28,16 @@ enum mtk_ddp_comp_id {
->  	DDP_COMPONENT_DSI1,
->  	DDP_COMPONENT_DSI2,
->  	DDP_COMPONENT_DSI3,
-> +	DDP_COMPONENT_ETHDR_MIXER,
->  	DDP_COMPONENT_GAMMA,
-> +	DDP_COMPONENT_MDP_RDMA0,
-> +	DDP_COMPONENT_MDP_RDMA1,
-> +	DDP_COMPONENT_MDP_RDMA2,
-> +	DDP_COMPONENT_MDP_RDMA3,
-> +	DDP_COMPONENT_MDP_RDMA4,
-> +	DDP_COMPONENT_MDP_RDMA5,
-> +	DDP_COMPONENT_MDP_RDMA6,
-> +	DDP_COMPONENT_MDP_RDMA7,
-
-These new component is not strongly related to mt8195 (maybe other SoC
-has these component), so I would like adding these new component to
-another patch.
-
-Regards,
-CK
-
->  	DDP_COMPONENT_MERGE0,
->  	DDP_COMPONENT_MERGE1,
->  	DDP_COMPONENT_MERGE2,
-
+We need to kill sysfb _before_ the driver loads, otherwise you can have
+two drivers fighting over each another. And yes that means you might end
+up with black screen if the driver load goes wrong, but the two drivers
+fighting over each another can also result in black screens. And the
+latter isn't fixable any other way (in general at least) than by making
+sure the fw stuff is gone before driver load starts in earnest.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
