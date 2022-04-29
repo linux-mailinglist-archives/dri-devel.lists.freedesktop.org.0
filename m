@@ -2,84 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FFF51478A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 12:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B888514860
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 13:41:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1FCE10FC8C;
-	Fri, 29 Apr 2022 10:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327EF10E901;
+	Fri, 29 Apr 2022 11:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E8CE10FC8E
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 10:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651229424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UJJtQxv1WQFSKERn7SwPf179LKVZ2H2eHmmNQIPl4mc=;
- b=HhzrN00caam06dOaN9UJTUpg2niHPpyKOef7u3yh0MrjtNqN4aGgNoBNdPIP01ET24h9sw
- PHwXI+2+7sRE1VO/mlrH30m51L59VKJsbBG8rh3ljacSglfkR38Gts1Xsaz9uw+/42PwsM
- izAFKdwfYtgmVZk0eblPuVyrYy1epPA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-BPdn6A7xMNGMw4bjbKQyew-1; Fri, 29 Apr 2022 06:50:23 -0400
-X-MC-Unique: BPdn6A7xMNGMw4bjbKQyew-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i131-20020a1c3b89000000b00393fbb0718bso4580730wma.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 03:50:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UJJtQxv1WQFSKERn7SwPf179LKVZ2H2eHmmNQIPl4mc=;
- b=xh8mbDUgLhjVj6uMVVKoRvmBDGz7tSWnh0cq/cKHupWMrN/KGDE9CXJtFwj7zd6lnF
- Hkm2/HdJCqumyYqkjEwi4nJ+nOSQC6BgdCzqFA4mgE7h8jJsBNTovcdMrEFwhvTRedrW
- GRhkhSoy6wdFw8Qu4ejmK4Voe5L5akL6FGfKoPw++n6l7p3H2VHesTEXeCdwtLFTvohC
- 1C0F6/2iGuSXQj3V/f47+3S2qEB3ifw79fsNt5WSa0J1V/d77aiqnUIOeURNqhQ9G3qU
- A9CdW7AsSxjfHfQD8R4UJhrHyOXoq0nd1muPU1DTi4a/RIT2nIGIOMFQzgkK8BzuEqrd
- Khzw==
-X-Gm-Message-State: AOAM531zlyqN0CXLgdMeyFNW6HmKG72ZK4UBSASJPEAz5wZPlCT1JnJE
- Ii99cQHncaRiCx01Al8xF8QsrmaoF5FTAMG7CRv7gcP879DwOhnDFfKkihD2YNKoAhxSZHPDZKM
- kG3wIX3M0sr+QKSoDJQCl2ThRUjOs
-X-Received: by 2002:a05:6000:108e:b0:20a:d9a9:ad31 with SMTP id
- y14-20020a056000108e00b0020ad9a9ad31mr20866792wrw.331.1651229421998; 
- Fri, 29 Apr 2022 03:50:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkqNVsWWkg3kncGIxxxi5dpKG8+ouBhLBj9X3lIkscb9aTewE6sU4DUEzKMvU1g4f9U0sb6w==
-X-Received: by 2002:a05:6000:108e:b0:20a:d9a9:ad31 with SMTP id
- y14-20020a056000108e00b0020ad9a9ad31mr20866760wrw.331.1651229421574; 
- Fri, 29 Apr 2022 03:50:21 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- p125-20020a1c2983000000b0038e6c62f527sm2703007wmp.14.2022.04.29.03.50.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 03:50:21 -0700 (PDT)
-Message-ID: <8671b156-af04-c728-d7bb-1019badbd13a@redhat.com>
-Date: Fri, 29 Apr 2022 12:50:20 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7876C10E1C4;
+ Fri, 29 Apr 2022 11:41:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651232508; x=1682768508;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=VdQFpZNA7FpnPQsSDUTNKVused4DCQuyzq+ujv2qbtY=;
+ b=JXY74f/9Wa+a4/cx70l6z0CgqlxFaZEgCvKRxRUaHXUQW4t6lUGrvLCn
+ C9q/s+Bm/fspkGq0VuNukxwdLs2o8c59niPPUBsae4+eBYy5d7wlR+Zrh
+ lyNE2CTps451WLsJEuJiUMyd1DsaXdI5sVV4+OkMh+bkQV2pCQd6dhtn6
+ 2pmR3aBRTU/E40alCCoZfWEmLfYf3NNo8SQp2uBghdkKGiXYKtyYG4IWW
+ IxAP/iHBlJypqIEbWo+TY9o94tnIe6WuPWJAshXsj1BgjU9HU9Wg4WlNc
+ NAVbT10SbmgQexm+FVOA2cXWbAmeiRCqVf9DC1YytEZjTgS8bpNnVLkke g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="264209368"
+X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; d="scan'208";a="264209368"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2022 04:41:47 -0700
+X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; d="scan'208";a="534445175"
+Received: from agerasym-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.133.25])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2022 04:41:45 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/edid: fix kernel-doc parameter name mismatches
+In-Reply-To: <20220426091913.1339941-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220426091913.1339941-1-jani.nikula@intel.com>
+Date: Fri, 29 Apr 2022 14:41:43 +0300
+Message-ID: <87r15grua0.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v4 02/11] drm/fb-helper: Set FBINFO_MISC_FIRMWARE flag
- for DRIVER_FIRMWARE fb
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20220429084253.1085911-1-javierm@redhat.com>
- <20220429084253.1085911-3-javierm@redhat.com>
- <7ce2f8e1-9cf2-4d89-99c2-b4280e4758ba@suse.de>
- <476d57e5-69dd-94b5-779f-230e091ae62f@redhat.com>
- <82dc11b4-d8da-e9e9-8181-5695fbd806de@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <82dc11b4-d8da-e9e9-8181-5695fbd806de@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,66 +56,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/29/22 12:20, Thomas Zimmermann wrote:
-> Hi Javier
-
-[snip]
-
->>   
->>> We can do this with DRIVER_FIRMWARE. Alternatively, I'd suggest to we
->>> could also used the existing final parameter of
->>> drm_fbdev_generic_setup() to pass a flag that designates a firmware device.
->>>
->>
->> By existing final parameter you mean @preferred_bpp ? That doesn't seem
->> correct. I also like that by using DRIVER_FIRMWARE it is completely data
->> driven and transparent to the DRM driver.
-> 
-> DRIVER_FIRMWARE is an indirection and only used here. (Just like 
-> FBINFO_MISC_FIRMWARE is a bad interface for marking framebuffers that 
-> can be unplugged.) If a driver supports hot-unplugging, it should simply 
-> register itself with aperture helpers, regardless of whether it's a 
-> firmware framebuffer or not.
+On Tue, 26 Apr 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> Fix the below drm/edid kernel-doc warnings:
 >
-
-That's fair, and if in practice will only be used by one driver (simpledrm)
-then that would also allow us to drop patches 1 and 2 from this series.
-
-IOW, we wouldn't really need a DRIVER_FIRMWARE capability flag.
- 
-> Of preferred_bpp, we really only use the lowest byte. All other bits are 
-> up for grabbing.  The argument is a workaround for handling 
-> mode_config.prefered_depth correctly.
+> drivers/gpu/drm/drm_edid.c:1589: warning: Function parameter or member '_edid' not described in 'drm_edid_header_is_valid'
+> drivers/gpu/drm/drm_edid.c:1589: warning: Excess function parameter 'raw_edid' description in 'drm_edid_header_is_valid'
+> drivers/gpu/drm/drm_edid.c:1737: warning: Function parameter or member '_block' not described in 'drm_edid_block_valid'
+> drivers/gpu/drm/drm_edid.c:1737: warning: Excess function parameter 'raw_edid' description in 'drm_edid_block_valid'
+> drivers/gpu/drm/drm_edid.c:2136: warning: Function parameter or member 'read_block' not described in 'drm_do_get_edid'
+> drivers/gpu/drm/drm_edid.c:2136: warning: Function parameter or member 'context' not described in 'drm_do_get_edid'
+> drivers/gpu/drm/drm_edid.c:2136: warning: Excess function parameter 'get_edid_block' description in 'drm_do_get_edid'
+> drivers/gpu/drm/drm_edid.c:2136: warning: Excess function parameter 'data' description in 'drm_do_get_edid'
 >
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> References: https://lore.kernel.org/r/20220406154431.567414c3@canb.auug.org.au
+> References: https://lore.kernel.org/r/20220420162431.2b28ddea@canb.auug.org.au
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Yeah, but I didn't want to abuse that argument or package data in an int.
+Pushed both to drm-misc-next with Simon's irc r-b. Thanks for the report
+& review.
 
- 
-> Eventually, preferred_depth should be replaced by something like 
-> 'preferred_format', which will hold the driver's preferred format in 
-> 4CC.  We won't need preferred_bpp then. So we could turn preferred_bpp 
-> into a flags argument.
+BR,
+Jani.
+
+> ---
+>  drivers/gpu/drm/drm_edid.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-
-That's a good point, maybe we could start from there and do this cleanup
-as a preparatory change of this series ? Then the patches would only be
-1) renaming preferred_bpp (that would be unused at this point) to flags
-and 2) make simpledrm to set FBDEV_FIRMWARE flag or something like that.
-
-Another option is to add a third flags param to drm_fbdev_generic_setup()
-and make all drivers to set 0 besides simpledrm. That way marking the fb
-as FBINFO_MISC_FIRMWARE won't be blocked by the preferred_depth cleanup.
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 7a8482b75071..6446f5d3944b 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1610,7 +1610,7 @@ static void edid_header_fix(void *edid)
+>  
+>  /**
+>   * drm_edid_header_is_valid - sanity check the header of the base EDID block
+> - * @raw_edid: pointer to raw base EDID block
+> + * @_edid: pointer to raw base EDID block
+>   *
+>   * Sanity check the header of the base EDID block.
+>   *
+> @@ -1827,7 +1827,7 @@ static void edid_block_dump(const char *level, const void *block, int block_num)
+>  
+>  /**
+>   * drm_edid_block_valid - Sanity check the EDID block (base or extension)
+> - * @raw_edid: pointer to raw EDID block
+> + * @_block: pointer to raw EDID block
+>   * @block_num: type of block to validate (0 for base, extension otherwise)
+>   * @print_bad_edid: if true, dump bad EDID blocks to the console
+>   * @edid_corrupt: if true, the header or checksum is invalid
+> @@ -2112,8 +2112,8 @@ static enum edid_block_status edid_block_read(void *block, unsigned int block_nu
+>  /**
+>   * drm_do_get_edid - get EDID data using a custom EDID block read function
+>   * @connector: connector we're probing
+> - * @get_edid_block: EDID block read function
+> - * @data: private data passed to the block read function
+> + * @read_block: EDID block read function
+> + * @context: private data passed to the block read function
+>   *
+>   * When the I2C adapter connected to the DDC bus is hidden behind a device that
+>   * exposes a different interface to read EDID blocks this function can be used
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Jani Nikula, Intel Open Source Graphics Center
