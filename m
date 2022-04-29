@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19FC514504
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AC1514506
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A5110FBE7;
-	Fri, 29 Apr 2022 09:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94EF310FC21;
+	Fri, 29 Apr 2022 09:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80E7110FBE7
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 09:02:44 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id f14so5256842qtq.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 02:02:44 -0700 (PDT)
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
+ [IPv6:2607:f8b0:4864:20::f2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB97610FC19;
+ Fri, 29 Apr 2022 09:03:16 +0000 (UTC)
+Received: by mail-qv1-xf2b.google.com with SMTP id jt15so4905014qvb.13;
+ Fri, 29 Apr 2022 02:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+89oAO86ydiGvNRr1qXWqQmX8G4rgyRzRmQYlJDSQoA=;
- b=ZcnXwo5//6N+ci+nwO9q5ypjPV7l4e8pTAmI/Nq4g1mbnh67hm6vSaKJ5N32g054oq
- S+norkfORNSyzH3+Kkp6DZJbPDLHbu3Tfv1BfyEqEhGKDItjU1hWsID6fuMHWi7OBSX5
- F6jl4Rp+/eokugIe8+0MxkogWj/TNCQ32fjjnjDmTDBWMiPWbGANhh0/8qeTnU4c4BBD
- ssQ4gJz5DSCfCGwdXPuJte64Akr5593hqBQNldjyn2VfHA+Be65sk/XnRaiFjvsukpPL
- bgLJPNK8J/Y/hJM1GXPfI2Zn5nIOmuqkbYqf2t+56JMuEl7sBVELqf++ZVtFCFXF68xS
- fCvg==
+ bh=qoxSXQJ9/dxQQK4MVZhhkXxfBiLYXcuDgG7pQcSbp24=;
+ b=qwYRTKhQT/k6kRH/sIvie4o3m09yMCZ0af+PONrrDG4vjbZgGBVZIlqkSCyJIJbm4L
+ Za3E7j8wM3DvURSzIFVADYcRS7YRyZefkdx9DxC/f8sHSn+vZhxWBhkyaLl49l3cUf9F
+ NMDASElKrvx3w7dCZ0jZ1PdzhrNwzr/ecS6b8bpQznlo0CRse27sxu39b7wIw0bEp0v3
+ 67zffhdAMXD6ifrRlWDSLt5ZIzzCdkSU+WBf4Lv1JYRO2DT9xnIIisXCADiCrWktMlTk
+ zwwJTDIshEN/uyLpfDzug5GqrE2L4CnP4GKroovL6eLRDzzvZjnnsttvTpLZqYvlq0DY
+ iCDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+89oAO86ydiGvNRr1qXWqQmX8G4rgyRzRmQYlJDSQoA=;
- b=CAXwI2Da0YIgeO/LPk9/Bnku+j3BvBwIxV9aCxAQ7UuJ4p0BGLzOKn4m7GGPwxdrsf
- HbcBV2mWxHubs2mdCmf8uK4DTH3vQfZraU7nxVZQ05vvQqdHr8mEAt69U+1WevuTeLDm
- 2qu/+8/V44DtVHhc2AXCm2hU54BK0WtHcuPuWmKvXBC5untauADPn8dBkrMD2WcwX/HW
- QMHLdyJEhwYHYoZ8M2XM7g4wY9s/XuPzkN0ErzPEPdNJ00UV+vcqBy6VXuiMJafUnqk4
- PccAiNH5twazbtCarFqj/xX3bn9eWi8iCSc1O4PVM4uVAiPvyFjGoTTtPFsUa/kPhEOQ
- ePaA==
-X-Gm-Message-State: AOAM530a0oBk3tTlaa9ktC5ZRCYLBZloO2moZPj2cvfpSC8SpCQAXes/
- Q8GVAUu+z/IXdspgCUSf0HS9qMKZLjA=
-X-Google-Smtp-Source: ABdhPJynceQU4nOjvDSdCTj0nX15G3svB7MoLxViEaLi23HhcHfplcwlFq24cdyu7s5htm2/AdsXtw==
-X-Received: by 2002:a05:622a:2c4:b0:2f3:8743:6fc7 with SMTP id
- a4-20020a05622a02c400b002f387436fc7mr7208668qtx.187.1651222963712; 
- Fri, 29 Apr 2022 02:02:43 -0700 (PDT)
+ bh=qoxSXQJ9/dxQQK4MVZhhkXxfBiLYXcuDgG7pQcSbp24=;
+ b=vQhjhaHRiCA61JDgH4vWBbM9VV/sRuxu/mhKGDUchdpUVb1JN45A0p4f+EtcyBC9mU
+ Xhp07OkYuFd/choKmzRhk84SHs+D+uRCxdwsUDwbj27G67dwXW53kv3NiZEz3ZQazXkM
+ 5kS8aCki0XMMJsU8jV0PEeCd1aEuT0kpCeyjByZz3WZ1M4D9iPC/nqGBviMjIaH+CyDt
+ 4kYVJ8qgexKSUhAnhe3vGLCDOSuDRUTAREiYrtrR6Z+zdjPgIlvHxicjwyxC4cidSe3u
+ s0BrBj+Pq8ymFLKJtcLyllwGvhX8iR1fgFG8SUP0p2O9YrqC51CHJNzRcRGU6fux04K2
+ E6IA==
+X-Gm-Message-State: AOAM532vGUR/8wc16sGXf4yzWgP017A8HAL2Ake0wNmntoWw4eaGYZT+
+ HZMLurvqunzgyOca+s/+qWE=
+X-Google-Smtp-Source: ABdhPJyp7C79PxBF7uZn3lregSoa281RnSLQCXE+KUZc7B+ARBEKAZjda80oBT+xOEEB9jnpuieyQA==
+X-Received: by 2002:a05:6214:238e:b0:435:3700:d65 with SMTP id
+ fw14-20020a056214238e00b0043537000d65mr26126189qvb.65.1651222995596; 
+ Fri, 29 Apr 2022 02:03:15 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- b28-20020a05620a271c00b0069f52b96667sm1188580qkp.53.2022.04.29.02.02.41
+ p14-20020a05622a13ce00b002f20a695972sm1556709qtk.14.2022.04.29.02.03.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 02:02:43 -0700 (PDT)
+ Fri, 29 Apr 2022 02:03:15 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: chi.minghao@zte.com.cn
-To: tomba@kernel.org
-Subject: [PATCH] drm: omapdrm: simplify the return expression of
- dss_setup_default_clock()
-Date: Fri, 29 Apr 2022 09:02:38 +0000
-Message-Id: <20220429090238.3852941-1-chi.minghao@zte.com.cn>
+To: bskeggs@redhat.com
+Subject: [PATCH] drm/nouveau: simplify the return expression of
+ nouveau_debugfs_init()
+Date: Fri, 29 Apr 2022 09:03:09 +0000
+Message-Id: <20220429090309.3853003-1-chi.minghao@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,9 +69,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Zeal Robot <zealci@zte.com.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Minghao Chi <chi.minghao@zte.com.cn>
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
+ Minghao Chi <chi.minghao@zte.com.cn>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -82,34 +82,34 @@ Simplify the return expression.
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 ---
- drivers/gpu/drm/omapdrm/dss/dss.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-index 0399f3390a0a..2f13805d85ba 100644
---- a/drivers/gpu/drm/omapdrm/dss/dss.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-@@ -672,7 +672,6 @@ static int dss_setup_default_clock(struct dss_device *dss)
- 	unsigned long max_dss_fck, prate;
- 	unsigned long fck;
- 	unsigned int fck_div;
--	int r;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+index 1cbe01048b93..76b621f99916 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
++++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+@@ -255,19 +255,13 @@ nouveau_drm_debugfs_init(struct drm_minor *minor)
+ int
+ nouveau_debugfs_init(struct nouveau_drm *drm)
+ {
+-	int ret;
+-
+ 	drm->debugfs = kzalloc(sizeof(*drm->debugfs), GFP_KERNEL);
+ 	if (!drm->debugfs)
+ 		return -ENOMEM;
  
- 	max_dss_fck = dss->feat->fck_freq_max;
- 
-@@ -687,11 +686,7 @@ static int dss_setup_default_clock(struct dss_device *dss)
- 		    * dss->feat->dss_fck_multiplier;
- 	}
- 
--	r = dss_set_fck_rate(dss, fck);
--	if (r)
--		return r;
+-	ret = nvif_object_ctor(&drm->client.device.object, "debugfsCtrl", 0,
++	return nvif_object_ctor(&drm->client.device.object, "debugfsCtrl", 0,
+ 			       NVIF_CLASS_CONTROL, NULL, 0,
+ 			       &drm->debugfs->ctrl);
+-	if (ret)
+-		return ret;
 -
 -	return 0;
-+	return dss_set_fck_rate(dss, fck);
  }
  
- void dss_set_venc_output(struct dss_device *dss, enum omap_dss_venc_type type)
+ void
 -- 
 2.25.1
 
