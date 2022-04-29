@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771915141E8
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 07:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806D85141EA
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 07:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057C010FB4F;
-	Fri, 29 Apr 2022 05:48:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A724010FB5D;
+	Fri, 29 Apr 2022 05:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 713DB10FB4F
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 05:47:59 +0000 (UTC)
-Received: by mail-qv1-xf33.google.com with SMTP id iy15so4699805qvb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 22:47:59 -0700 (PDT)
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DFC10FB5D;
+ Fri, 29 Apr 2022 05:48:49 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id b20so2601445qkc.6;
+ Thu, 28 Apr 2022 22:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dmvctIow+IO8H7sfWVaNo+LfAgPKgXEAs61yE8oSiDQ=;
- b=oWiP1HCeTyemawgY2i30abE82xuGfAhqLYQ4az+d0RtVLrsc1W7y1QyPjWaHLwJNqQ
- v5cN/pTLQDNQO5acKAGmD1z2ODP3qmycMQLZ5D9JNR7gMrkfrGRuQ8hrjv7HIobEx++B
- Hxqv+O+18Bf1gmt8Y262IYlcex1TU7dElzqAlLPr+o57Rpgy35WLiShRzSPommRWRdsy
- OL2yD7pyRm0Dl3wMgkfvT3jrGH+LpEOb6zfnL0x8UHw8WPKo1Z4mMY7lBAvMNWqraoYy
- Eck7aVOyDPlrVnNMNNRGRSzvRyaxJ95QvJduLeLtXefZykn8XfJjjTSuLOOT73isEZUM
- DzRg==
+ bh=VRas45N/HJjKkopTpxGekJncxjNBlwm6mL3yMYGLlOo=;
+ b=bc+WNUXF3c5mK3q/tzF4v4JoBy26gajoLNbPDLWyfH0Lj6WYdJCxKSXW7DRkKEfxgf
+ eSEzGQdfD/gk0CK8kbNcBllob6euxIALNnI86XDvGYieK8qr6dgKhAr4DPTyuIki6NMd
+ s7c+4cyP9+Q0UgielsvHPBfJh9ZV40Cfgxmh1e0ER1mRiE0QdJwHJMD4rD/GH7huQooE
+ jhQu3o4gi7C6/IirN9RyFP1WgfX8UC1XCs2p8f+dEwDsdTn1WFODIQ4ZkA+O5mH7iFZh
+ znNNYvUVBQBlraSHDLPriOhQZGoLQ5WSWZctA46uRE02fbX20QJAD2G3X1XrEZguVEXo
+ vRdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dmvctIow+IO8H7sfWVaNo+LfAgPKgXEAs61yE8oSiDQ=;
- b=k/7h+2CDjYgmFjJ9U6LZMZvcJhQmvvGRjbMZtpdjjC6vJATx84esgwCIeL2NtxlGkp
- g9o4NQqWdrdXuivjQWYrkZHQcKt7+AIUNWlWnhyqBLsHANzCuI98wk+8qWaCvkTj3B82
- iryCNZk6O/fzAr5Ajl+C/5W0+P67cK/YghlqNxE+809Iut/Yh8WsJYuwMcpdsJYGJvap
- YwsVWiTXxBWxBOQSpptziJSbdZoh7mYBDwL/ZIiILqBLenowsyJeaTgz7NW3sHlbd8Wn
- ms+UluA1KxxcuCjgADyiSyp2Eann1K1qENilT5XIeQ7Dm+kaMqM+ZokIIktXQA054pNu
- UUOw==
-X-Gm-Message-State: AOAM530rUrSYvvMDvXfaNZ+fgE1gPd7LpOHZMz2LGkR1Obq1sp0qdoC3
- oMgCXbS5VlyZQ2/ueEyvQgI=
-X-Google-Smtp-Source: ABdhPJywgs83ZsnO6SkmFFnrihPXpXj6JdK9JpVZwtn37Q80rvE/ZAmW9KtZfoLczSxU8F+4hfgL0g==
-X-Received: by 2002:ad4:444a:0:b0:456:52bc:41cb with SMTP id
- l10-20020ad4444a000000b0045652bc41cbmr8229203qvt.54.1651211278445; 
- Thu, 28 Apr 2022 22:47:58 -0700 (PDT)
+ bh=VRas45N/HJjKkopTpxGekJncxjNBlwm6mL3yMYGLlOo=;
+ b=hUv1MVXwEndAozJTt7MU0h0Fl4bedasDqjjE0uEtUm/kLuRH0jXcwUB28VkzPjDEUy
+ m2i4LQgNietnLc3qQ2njzoDrHtqPUyl9EJ7wzsVLZyUi4rDfmf47iqR1K17EaZ6QDc4W
+ B19mSdgrpgGIk1oAqCDSrXQ88VbQm7KlHL7f0jsii64LQL0IjjJ+llz6yyGUB1BVWKsE
+ 6NK9uUl41ZjGU/y10pGd78PjEmC1Yj5OtEgmZ+yu8fMQvEmg4tS/C/J4ToRFvfS4+VFp
+ Ltn16wYy5wMZMaY7MsZHMToWoUhRnASLoIubH4ENPAaBuYdHOiOZVm5dX9hotn8fm//Q
+ tUow==
+X-Gm-Message-State: AOAM5301uA+pEXX9hWRDkwZYYWV4ICpeel9C1S0bCrEkrxP31VCEwVoJ
+ Cncig6Xoxep9lwf/hjdpGV4=
+X-Google-Smtp-Source: ABdhPJynkP2gD+cmS0OSm3ZZXXts2/yMMSLbyMogjKxpLWkfcaqVfWGHjqXfHnAWLyGQEmJ9Yc/AzQ==
+X-Received: by 2002:a05:620a:1981:b0:507:4a52:f310 with SMTP id
+ bm1-20020a05620a198100b005074a52f310mr22121345qkb.611.1651211328690; 
+ Thu, 28 Apr 2022 22:48:48 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- o20-20020a05620a0d5400b0069c71a71ed3sm925303qkl.33.2022.04.28.22.47.55
+ y18-20020ac85f52000000b002ed08a7dc8dsm1234094qta.13.2022.04.28.22.48.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 22:47:58 -0700 (PDT)
+ Thu, 28 Apr 2022 22:48:48 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: chi.minghao@zte.com.cn
-To: deller@gmx.de
-Subject: [PATCH] omapfb: simplify the return expression of dsi_init_pll_data()
-Date: Fri, 29 Apr 2022 05:47:51 +0000
-Message-Id: <20220429054751.3851851-1-chi.minghao@zte.com.cn>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amdgpu: simplify the return expression of
+ iceland_ih_hw_init
+Date: Fri, 29 Apr 2022 05:48:41 +0000
+Message-Id: <20220429054841.3851915-1-chi.minghao@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,9 +69,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>,
+Cc: airlied@linux.ie, Zeal Robot <zealci@zte.com.cn>, Xinhui.Pan@amd.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Minghao Chi <chi.minghao@zte.com.cn>, linux-omap@vger.kernel.org
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ Minghao Chi <chi.minghao@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -81,35 +83,29 @@ Simplify the return expression.
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 ---
- drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/iceland_ih.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
-index c5f89129dcdd..531b36d2232b 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi_pll.c
-@@ -173,7 +173,6 @@ static int dsi_init_pll_data(struct platform_device *pdev, struct hdmi_pll_data
+diff --git a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+index ddfe4eaeea05..aecad530b10a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
++++ b/drivers/gpu/drm/amd/amdgpu/iceland_ih.c
+@@ -308,14 +308,9 @@ static int iceland_ih_sw_fini(void *handle)
+ 
+ static int iceland_ih_hw_init(void *handle)
  {
- 	struct dss_pll *pll = &hpll->pll;
- 	struct clk *clk;
 -	int r;
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
  
- 	clk = devm_clk_get(&pdev->dev, "sys_clk");
- 	if (IS_ERR(clk)) {
-@@ -203,12 +202,7 @@ static int dsi_init_pll_data(struct platform_device *pdev, struct hdmi_pll_data
- 	}
- 
- 	pll->ops = &dsi_pll_ops;
--
--	r = dss_pll_register(pll);
+-	r = iceland_ih_irq_init(adev);
 -	if (r)
 -		return r;
 -
 -	return 0;
-+	return dss_pll_register(pll);
++	return iceland_ih_irq_init(adev);
  }
  
- int hdmi_pll_init(struct platform_device *pdev, struct hdmi_pll_data *pll,
+ static int iceland_ih_hw_fini(void *handle)
 -- 
 2.25.1
 
