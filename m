@@ -2,47 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAD651425E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 08:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8739B51432F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 09:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C53AF10FB9F;
-	Fri, 29 Apr 2022 06:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 450C510FCC5;
+	Fri, 29 Apr 2022 07:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8073E10FB92;
- Fri, 29 Apr 2022 06:31:28 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B1CBF61D94;
- Fri, 29 Apr 2022 06:31:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21056C385AF;
- Fri, 29 Apr 2022 06:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651213887;
- bh=gGK7/gBcj48QlxuUQ6aLxtWNQgyWkYr7fybLKh0KD5c=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MbmY5wfpkIXYzVOY7GrWXGECIEPh4shZM0RuPaXg/0Pj3b62Ok4OxUHJfO1disdc6
- v/aNccc7zhdMTWUjzv5GKqeWAEITIiynZ6Aq6cIGLE+EBCAx5+L476WZThSPpLXa6t
- 93I/1eyw5mATjnSM7HXiPsJTeYs7BRTIDy+YKdEK0lfz70yTYjYuZudGITkfd12rPj
- 4lgICGJ6SnFQQabh9SmD4Y5XX1+q+ES4gWn9BshAcmn1NlMVOiDEhdEBaY1ksWxClF
- c+WWMHte6ENzDZX0deLkyoqvooI1c0bqPgRHYQWbVS/NqRZTJerGzZEl3CfpyzrvSW
- g26ODSGzqn1EA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
- (envelope-from <mchehab@kernel.org>)
- id 1nkK9z-001Qml-NN; Fri, 29 Apr 2022 07:31:23 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 2/2] ALSA: hda - identify when audio is provided by a video
- driver
-Date: Fri, 29 Apr 2022 07:31:16 +0100
-Message-Id: <5c3a968858a05c27e299eadf2a925d4aa91ac17a.1651212016.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1651212016.git.mchehab@kernel.org>
-References: <cover.1651212016.git.mchehab@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B049910FCC5
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 07:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651216889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KhufJyVKGuqE38/lC9MCkIJ+lznHw0RTCwOxniA4aiU=;
+ b=bPfw/uPcSRlpZ4pWXmmKoCOWeY7wJ9DjOm3HrZ4n8k96FZa5Z8G6ndY0juDOahTs3YNAQV
+ ThxDXQD95ghtB4EN1q65CfG3/c3up5jJExsXW8wQkI+f4GNywEGI3zrLBOo1dhnbiBnwNp
+ 0pBRnEY/Vp3VvaCw2bKtLUFZUbuj3+g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-210-Ar1U6ekqN2WYZO6prqUi2Q-1; Fri, 29 Apr 2022 03:21:28 -0400
+X-MC-Unique: Ar1U6ekqN2WYZO6prqUi2Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 125-20020a1c0283000000b003928cd3853aso5410622wmc.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 00:21:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KhufJyVKGuqE38/lC9MCkIJ+lznHw0RTCwOxniA4aiU=;
+ b=C76I9sxGzW6kFgBSCdO/HMQKdCaLFot8yApRbnoZ1eM40JzHlgNOu01UVPfakcSqU2
+ kgDjU/jClMYc1jvN73LqKHsmC3d8E5FDmy+jmXTMmzEvst2MON3RRi0LhGJjFyJC1tpT
+ mXuuuErDdFEMnOTnj2OmsLL0Z6mAtSeuG8J9Y8owuSvqtHk7mo5G/gRk3xfEZwgSzXie
+ VfS4qJi0zmc3wLNmYC0+vvPfepopUKvxbc+cbghUfKDZDbP7VwTo/G+J7oc+8FkWt8nl
+ b7XuPyjYsJpHswaM3xp8lvj6Mo5u4jdXzi9alLR8jwyQCeF2qVsLPmfIF6fQrLlys/tx
+ 2PSw==
+X-Gm-Message-State: AOAM5316pIx9Dj1F99p2+iSyKX978fzbBpGxTl4ZyiUrchJWL3mOWq4L
+ miC5iUnbG//E0tXm+YJ0ZCEhRFNp6YWGViXdboW7lZeXfX/d/UEmCaAPuIhFvjzmyod9czYbnhz
+ nD8hkkHJvhanHDXLHZk0vgqyu9Mzn
+X-Received: by 2002:a05:6000:178a:b0:20a:b841:e245 with SMTP id
+ e10-20020a056000178a00b0020ab841e245mr28718381wrg.480.1651216887013; 
+ Fri, 29 Apr 2022 00:21:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPIPWeMcZ7+EpP1llYZtueltVMigG+lBk12vAwzoZab7JmQCjpZ7LD1dreGefOAYkwb4N7lA==
+X-Received: by 2002:a05:6000:178a:b0:20a:b841:e245 with SMTP id
+ e10-20020a056000178a00b0020ab841e245mr28718361wrg.480.1651216886766; 
+ Fri, 29 Apr 2022 00:21:26 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020a05600c1c8e00b00393e9293064sm6276797wms.35.2022.04.29.00.21.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 00:21:26 -0700 (PDT)
+Message-ID: <ac24d81e-f6c5-0763-909a-c15d223f1ea9@redhat.com>
+Date: Fri, 29 Apr 2022 09:21:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 4/5] fbdev: Rename pagelist to pagereflist for deferred
+ I/O
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, deller@gmx.de,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com
+References: <20220426120359.17437-1-tzimmermann@suse.de>
+ <20220426120359.17437-5-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220426120359.17437-5-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,58 +90,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Kai Vehmanen <kai.vehmanen@intel.com>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, Takashi Iwai <tiwai@suse.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- David Airlie <airlied@linux.ie>, mauro.chehab@intel.com,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
+Cc: linux-fbdev@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some devices, the hda driver needs to hook into a video driver,
-in order to be able to properly access the audio hardware and/or
-the power management function.
+Hello Thomas,
 
-That's the case of several snd_hda_intel devices that depends on
-i915 driver.
+On 4/26/22 14:03, Thomas Zimmermann wrote:
+> Rename various instances of pagelist to pagereflist. The list now
+> stores pageref structures, so the new name is more appropriate.
+> 
+> In their write-back helpers, several fbdev drivers refer to the
+> pageref list in struct fb_deferred_io instead of using the one
+> supplied as argument to the function. Convert them over to the
+> supplied one. It's the same instance, so no change of behavior
+> occurs.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
 
-Currently, this dependency is hidden from /proc/modules and
-from lsmod, making harder to identify the need to unbind the
-audio driver before being able to unbind the i915 driver.
+I thougt the convention was to have Suggested-by before your S-o-B.
 
-Add a reference for it at the module dependency, in order to
-allow userspace to identify it, and print a message on such
-cases.
+The patch looks good to me.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-See [PATCH 0/2] at: https://lore.kernel.org/all/cover.1651212016.git.mchehab@kernel.org/
-
- sound/hda/hdac_component.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/sound/hda/hdac_component.c b/sound/hda/hdac_component.c
-index bb37e7e0bd79..103c6be8be1e 100644
---- a/sound/hda/hdac_component.c
-+++ b/sound/hda/hdac_component.c
-@@ -211,6 +211,14 @@ static int hdac_component_master_bind(struct device *dev)
- 	}
- 
- 	complete_all(&acomp->master_bind_complete);
-+
-+	if (acomp->ops->owner && acomp->ops->owner->name) {
-+		dev_info(dev, "audio component provided by %s driver\n",
-+			 acomp->ops->owner->name);
-+		module_add_named_dependency(acomp->ops->owner->name,
-+					    dev->driver->owner);
-+	}
-+
- 	return 0;
- 
-  module_put:
 -- 
-2.35.1
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
