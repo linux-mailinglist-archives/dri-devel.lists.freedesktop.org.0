@@ -2,82 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC5B514551
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E9751456E
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 11:29:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6942610E181;
-	Fri, 29 Apr 2022 09:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C79F610F020;
+	Fri, 29 Apr 2022 09:29:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A95FA10E737
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 09:23:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651224188;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iZBpHvY6ZYQxOxDMB34W2/6DBju5lgDw8kQdarO8pfI=;
- b=hhIBKOvUL3ESQDCdcG5I30NRkcvep1WrdCp4zlwbYLRgiwK+WMUiqBJu5d/k7ct1nrGJkc
- QAusvk94x3ItUz6eqc/7/OppxkLkMODNzi6lEMpiWMP2UG+hFhmsBP650PUjiQ9zFAdE8M
- 5EBff5tAhihk9jY63tjyr4n+gGxBmE4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-JjjZk7AKMie7PpYMkB6aEQ-1; Fri, 29 Apr 2022 05:23:07 -0400
-X-MC-Unique: JjjZk7AKMie7PpYMkB6aEQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- b10-20020adfc74a000000b0020ab029d5edso2826771wrh.18
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 02:23:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iZBpHvY6ZYQxOxDMB34W2/6DBju5lgDw8kQdarO8pfI=;
- b=OdU2BefILGDqiBHV1/Zb9u7h7KtrOmdNYNRyoake8ijjgbkW/+IodEuTBe3P15CYbe
- Ir73ggGgF+S3ozhRUUonrAQj/q/kssEvWgfamru6US/Z47iuojppStExgf24ySphQ2o2
- sV6RLvjwhxU5cErGQK7fik3iu5TwVt8gq8Ekom3m3O1E2OctRV5t7ck/ftN6E9yH0GeQ
- Bqy4C5Chw9OcE9kLcVwtxri/KMwIsbQjKSmO/yiVGOE/Bp8a/GnIdplHCHTkfJ1848PQ
- W4ufpRF2VUhLBa9EqvEgDrXfBL2sGDisEIw7H6KGnAt86eVefggg24LKeY8uwfCVfaI3
- DSTQ==
-X-Gm-Message-State: AOAM531mtmrcn+zZKKgW/oUUZTvfE954MJy1y1PB66WC4rNwxod3yDNF
- PxzsuLMU2briFH+N1zU39RwHINjPLyEzcy3oNWHRbuHXkdIIrNm5HwqfTHVnYxBpR7VkUquqOdy
- pjVkRQM2U143yKia1XaQUnqfufj4o
-X-Received: by 2002:a5d:5284:0:b0:20a:d859:3d6a with SMTP id
- c4-20020a5d5284000000b0020ad8593d6amr21037368wrv.403.1651224186195; 
- Fri, 29 Apr 2022 02:23:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzM9Kw7u0Y6NciFxMlSl1ar6JMt7qq9Xhix3AmpT6YAzzVEjfV07s1Es4bMZUziOtUFGATvQ==
-X-Received: by 2002:a5d:5284:0:b0:20a:d859:3d6a with SMTP id
- c4-20020a5d5284000000b0020ad8593d6amr21037352wrv.403.1651224185968; 
- Fri, 29 Apr 2022 02:23:05 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- k23-20020adfb357000000b0020ad7c36332sm1918444wrd.110.2022.04.29.02.23.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 02:23:05 -0700 (PDT)
-Message-ID: <476d57e5-69dd-94b5-779f-230e091ae62f@redhat.com>
-Date: Fri, 29 Apr 2022 11:23:04 +0200
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E58710E737
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 09:29:33 +0000 (UTC)
+X-UUID: a3ea853324c94ca4bfb78243e683d695-20220429
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:3cd316e4-3b8a-410c-afbc-895f551c71d9, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.4, REQID:3cd316e4-3b8a-410c-afbc-895f551c71d9, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:faefae9, CLOUDID:9dd32c2f-6199-437e-8ab4-9920b4bc5b76,
+ C
+ OID:IGNORED,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil,QS:0
+ ,BEC:nil
+X-UUID: a3ea853324c94ca4bfb78243e683d695-20220429
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 815787111; Fri, 29 Apr 2022 17:29:25 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 29 Apr 2022 17:29:23 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 29 Apr 2022 17:29:23 +0800
+Message-ID: <f3a64f5c9b1e208177cc89cee617453a67c6b532.camel@mediatek.com>
+Subject: Re: [PATCH v18 08/21] soc: mediatek: add mtk-mutex support for
+ mt8195 vdosys1
+From: CK Hu <ck.hu@mediatek.com>
+To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Fri, 29 Apr 2022 17:29:23 +0800
+In-Reply-To: <20220428105408.11189-9-nancy.lin@mediatek.com>
+References: <20220428105408.11189-1-nancy.lin@mediatek.com>
+ <20220428105408.11189-9-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v4 02/11] drm/fb-helper: Set FBINFO_MISC_FIRMWARE flag
- for DRIVER_FIRMWARE fb
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20220429084253.1085911-1-javierm@redhat.com>
- <20220429084253.1085911-3-javierm@redhat.com>
- <7ce2f8e1-9cf2-4d89-99c2-b4280e4758ba@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <7ce2f8e1-9cf2-4d89-99c2-b4280e4758ba@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,70 +68,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+Hi, Nancy:
 
-On 4/29/22 11:14, Thomas Zimmermann wrote:
-> Hi
+On Thu, 2022-04-28 at 18:53 +0800, Nancy.Lin wrote:
+> Add mtk-mutex support for mt8195 vdosys1.
+> The vdosys1 path component contains ovl_adaptor, merge5,
+> and dp_intf1. Ovl_adaptor is composed of several sub-elements
+> which include MDP_RDMA0~7, MERGE0~3, and ETHDR.
 > 
-> Am 29.04.22 um 10:42 schrieb Javier Martinez Canillas:
->> The DRIVER_FIRMWARE flag denotes that a DRM driver uses a framebuffer
->> that was initialized and provided by the system firmware for scanout.
->>
->> Indicate to the fbdev subsystem that the registered framebuffer is a
->> FBINFO_MISC_FIRMWARE, so that it can handle accordingly. For example,
->> wold hot-unplug the associated device if asked to remove conflicting
->> framebuffers.
->>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->>
->> (no changes since v1)
->>
->>   drivers/gpu/drm/drm_fb_helper.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->> index d265a73313c9..76dd11888621 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -1891,6 +1891,10 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
->>   		/* don't leak any physical addresses to userspace */
->>   		info->flags |= FBINFO_HIDE_SMEM_START;
->>   
->> +	/* Indicate that the framebuffer is provided by the firmware */
->> +	if (drm_core_check_feature(dev, DRIVER_FIRMWARE))
->> +		info->flags |= FBINFO_MISC_FIRMWARE;
->> +
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> ---
+>  drivers/soc/mediatek/mtk-mutex.c | 37
+> ++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 > 
-> Patches 1 to 3 should be squashed into one before landing.
->
+> diff --git a/drivers/soc/mediatek/mtk-mutex.c
+> b/drivers/soc/mediatek/mtk-mutex.c
+> index 981d56967e7a..78197ebf5595 100644
+> --- a/drivers/soc/mediatek/mtk-mutex.c
+> +++ b/drivers/soc/mediatek/mtk-mutex.c
+> @@ -110,6 +110,24 @@
+>  #define MT8195_MUTEX_MOD_DISP_DP_INTF0		21
+>  #define MT8195_MUTEX_MOD_DISP_PWM0		27
+>  
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA0	0
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA1	1
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA2	2
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA3	3
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA4	4
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA5	5
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA6	6
+> +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA7	7
+> +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE0	8
+> +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE1	9
+> +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE2	10
+> +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE3	11
+> +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE4	12
+> +#define MT8195_MUTEX_MOD_DISP1_DISP_MIXER	18
+> +#define MT8195_MUTEX_MOD_DISP1_DPI0		25
+> +#define MT8195_MUTEX_MOD_DISP1_DPI1		26
+> +#define MT8195_MUTEX_MOD_DISP1_DP_INTF0		27
+> +
+>  #define MT2712_MUTEX_MOD_DISP_PWM2		10
+>  #define MT2712_MUTEX_MOD_DISP_OVL0		11
+>  #define MT2712_MUTEX_MOD_DISP_OVL1		12
+> @@ -313,6 +331,21 @@ static const unsigned int
+> mt8195_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+>  	[DDP_COMPONENT_DSI0] = MT8195_MUTEX_MOD_DISP_DSI0,
+>  	[DDP_COMPONENT_PWM0] = MT8195_MUTEX_MOD_DISP_PWM0,
+>  	[DDP_COMPONENT_DP_INTF0] = MT8195_MUTEX_MOD_DISP_DP_INTF0,
+> +	[DDP_COMPONENT_MDP_RDMA0] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA0,
+> +	[DDP_COMPONENT_MDP_RDMA1] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA1,
+> +	[DDP_COMPONENT_MDP_RDMA2] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA2,
+> +	[DDP_COMPONENT_MDP_RDMA3] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA3,
+> +	[DDP_COMPONENT_MDP_RDMA4] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA4,
+> +	[DDP_COMPONENT_MDP_RDMA5] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA5,
+> +	[DDP_COMPONENT_MDP_RDMA6] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA6,
+> +	[DDP_COMPONENT_MDP_RDMA7] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA7,
+> +	[DDP_COMPONENT_MERGE1] = MT8195_MUTEX_MOD_DISP1_VPP_MERGE0,
+> +	[DDP_COMPONENT_MERGE2] = MT8195_MUTEX_MOD_DISP1_VPP_MERGE1,
+> +	[DDP_COMPONENT_MERGE3] = MT8195_MUTEX_MOD_DISP1_VPP_MERGE2,
+> +	[DDP_COMPONENT_MERGE4] = MT8195_MUTEX_MOD_DISP1_VPP_MERGE3,
+> +	[DDP_COMPONENT_ETHDR_MIXER] =
+> MT8195_MUTEX_MOD_DISP1_DISP_MIXER,
+> +	[DDP_COMPONENT_MERGE5] = MT8195_MUTEX_MOD_DISP1_VPP_MERGE4,
+> +	[DDP_COMPONENT_DP_INTF1] = MT8195_MUTEX_MOD_DISP1_DP_INTF0,
+>  };
+>  
+>  static const unsigned int mt2712_mutex_sof[DDP_MUTEX_SOF_MAX] = {
+> @@ -498,6 +531,9 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>  	case DDP_COMPONENT_DP_INTF0:
+>  		sof_id = MUTEX_SOF_DP_INTF0;
+>  		break;
+> +	case DDP_COMPONENT_DP_INTF1:
+> +		sof_id = MUTEX_SOF_DP_INTF1;
 
-I actually considered this but then decided to go with the each change
-goes into its own patch approach. But I'll squash it in next revisions.
- 
-> We can do this with DRIVER_FIRMWARE. Alternatively, I'd suggest to we 
-> could also used the existing final parameter of 
-> drm_fbdev_generic_setup() to pass a flag that designates a firmware device.
-> 
+This is not strongly related to mt8195, so move this to an independent
+patch.
 
-By existing final parameter you mean @preferred_bpp ? That doesn't seem
-correct. I also like that by using DRIVER_FIRMWARE it is completely data
-driven and transparent to the DRM driver.
+> +		break;
+>  	default:
+>  		if (mtx->data->mutex_mod[id] < 32) {
+>  			offset = DISP_REG_MUTEX_MOD(mtx->data-
+> >mutex_mod_reg,
+> @@ -538,6 +574,7 @@ void mtk_mutex_remove_comp(struct mtk_mutex
+> *mutex,
+>  	case DDP_COMPONENT_DPI0:
+>  	case DDP_COMPONENT_DPI1:
+>  	case DDP_COMPONENT_DP_INTF0:
+> +	case DDP_COMPONENT_DP_INTF1:
 
-Or do you envision a case where a driver would be DRIVER_FIRMWARE but we
-wouldn't want the emulated fbdev to also be FBINFO_MISC_FIRMWARE ?
+Ditto.
 
--- 
-Best regards,
+Regards,
+CK
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+>  		writel_relaxed(MUTEX_SOF_SINGLE_MODE,
+>  			       mtx->regs +
+>  			       DISP_REG_MUTEX_SOF(mtx->data-
+> >mutex_sof_reg,
 
