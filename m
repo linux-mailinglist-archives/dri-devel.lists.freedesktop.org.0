@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15FB5158D0
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 01:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8615515916
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 01:34:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3670710E46B;
-	Fri, 29 Apr 2022 23:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3CBE10E0D5;
+	Fri, 29 Apr 2022 23:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92CC510E46B
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 23:09:26 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id z8so10054907oix.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 16:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=43bhXKjvki5l9d/uYFdijwNa1GUErzr1H3q463hR+XU=;
- b=OUSt6wkRUbg0ovBrwSGrseeTfVqA3atJE26IGGL8DNDKMbVWyzV7fWqixesYb9S/mA
- rgBp/vgWVmZ/2SlxqdaVKFisC/DX2eo4pEgNEmTUveV61siwDvexnXReKJ4KInzJ+JVf
- qFRYIk57Zf7KE5IqQd6E9kuwLyNvXqeY18u9sXPldsZHCbpZQ9kw31XwNt/jpYsmggt1
- 3DzogSdIaSMtewj0hqjuAW3EwbG0+z+yCYsMAftASTL8pYSQ3/TIzpEEpEvE1aCdKITD
- c0o8+XWDHiHzhST5JtA4/c6tGuJLD552k5cdjIV4SeeCvbAOGItN9qS8zGZ2A17U8O+I
- msTw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58C9810E0D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 23:34:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651275255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ar7bv9Ds/mGpliWhlGg7SQ2ekS3zcsAZNZU6PdnuDmw=;
+ b=N0ABbmwn3aCdc6GUX7nD37wrBuqHoPW+62N49QasXolA8TxxlTmqiUNhf7wgJRNPnypU1m
+ s6v8Qf+YL+Wf6NKMzvSu26Se4hJG5C8qGSBuRvoW1HAukwDCMkcVGlZzby7YU1DOoBubQ1
+ O3LacJicZ/rdr/2TjCP3SI1wioNUWd4=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-101-whMN2X-rM36FgEVsQY772Q-1; Fri, 29 Apr 2022 19:34:14 -0400
+X-MC-Unique: whMN2X-rM36FgEVsQY772Q-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ p3-20020a05621421e300b004562c4a6b08so7050097qvj.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 16:34:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=43bhXKjvki5l9d/uYFdijwNa1GUErzr1H3q463hR+XU=;
- b=SW7dYdQK/oLd1rFvQidVGq1fPIMX3aVbxEurOy5GX7x0g1NkZgVPz5zeZbm/XWk4yf
- tpDFOZLIuSwYHkkZTunp5rnL5EUVzYTPdJYRNEb1JbDbCYhpyg5MfdT908xyXj491gXE
- T9a2QRahC+d6jY6hXJ108Xw+sPc/tVJCTAB/9Rkay8Iw94iKh+hMG1mst8F6zVxyKBe/
- NemB0LYVCrG+LG8grwO1Gl4c4If//7aQ10vrPOeuOqc0uiVeVj8nsMgNuZ8b81AWenPU
- 13xHRUs/sMbLrBclGEoPl2SScZt5CTMDoEF4LGpdYe26CQOpj+HqGXkDacNNRbo2WJgQ
- L/LQ==
-X-Gm-Message-State: AOAM531Oaom3RCPMH3Q+N4hxQ9IPYYOBeOle8tfKH/aJyV6SOfLJy+mo
- mnLG2gP8hNVlga7WKrTw20A=
-X-Google-Smtp-Source: ABdhPJwXwAJF7RkFvU52UI/VP0gJxz700pwOLyrX7CYTkoQTpT4bc4rvMjOD84iMZwh8LrG+2Nl3bg==
-X-Received: by 2002:a05:6808:17a7:b0:325:c561:31fb with SMTP id
- bg39-20020a05680817a700b00325c56131fbmr1544693oib.75.1651273765807; 
- Fri, 29 Apr 2022 16:09:25 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- w1-20020a9d77c1000000b0060603221242sm230484otl.18.2022.04.29.16.09.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 16:09:24 -0700 (PDT)
-Message-ID: <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
-Date: Fri, 29 Apr 2022 16:09:19 -0700
+ bh=ar7bv9Ds/mGpliWhlGg7SQ2ekS3zcsAZNZU6PdnuDmw=;
+ b=xgsIjbDuCPkgu6w+DHpYWHOkJStMyeOYidOSWYblWdJWxU+Zipcqv29D0NUEiyUvPC
+ edoTUd4QzzkHbTxV28mg3+hXR5sYmPzmrDHfSDzydfcoooSdBS/okIfXjp66qrTlly0J
+ CqXjnJ9nmFsBU4L0FrhMDofTZbY579pYvdVmh6cJ52bSIWxPnpTuJq0xuqnLdS9jSoIx
+ KNWsj2a0TAJRksPNV84gzW+Q5ee+YyWq2OVHVNdty/BDugtlhjDgo+qw3u0xq/1SrC0r
+ VqSS/orekt0quzobmlZTJcacp0WKVC6KmN7UOdqd+MKaf3zs0hb2Y7RRXzKnCssJHTd2
+ m4vA==
+X-Gm-Message-State: AOAM530dIj2jTOBT0oFHaiaDux7IrPnvRVOazEjBEdUU2bGPqwuBxUft
+ /EJI9C/3FCtRZqTud5bJzXBm8KI8WCoip1ZAOdeHpvO2m7N6w2cQ3WQujgnWsJDccYazkQB2ATX
+ TFSB/VnNm+MwlbAs5WKq/lnC5ZmE5
+X-Received: by 2002:ac8:7d8e:0:b0:2f1:e909:7a1 with SMTP id
+ c14-20020ac87d8e000000b002f1e90907a1mr1661744qtd.385.1651275253944; 
+ Fri, 29 Apr 2022 16:34:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyv1TxrZ5KpYRhFdGoRK2qJPMaRJPy/bi7ZrHm429iJA0C8uCsr28ut0P8esRA+87kLXtTYJg==
+X-Received: by 2002:ac8:7d8e:0:b0:2f1:e909:7a1 with SMTP id
+ c14-20020ac87d8e000000b002f1e90907a1mr1661729qtd.385.1651275253738; 
+ Fri, 29 Apr 2022 16:34:13 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ i13-20020a05620a144d00b0069fc13ce253sm307715qkl.132.2022.04.29.16.34.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 16:34:13 -0700 (PDT)
+Message-ID: <5615f5c31fda5e9faaa9d3e4cab7fb23271ec745.camel@redhat.com>
+Subject: Re: [PATCH 0/3] HDR aux backlight range calculation
+From: Lyude Paul <lyude@redhat.com>
+To: Jouni =?ISO-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>, 
+ dri-devel@lists.freedesktop.org
+Date: Fri, 29 Apr 2022 19:34:11 -0400
+In-Reply-To: <20220426123044.320415-1-jouni.hogander@intel.com>
+References: <20220426123044.320415-1-jouni.hogander@intel.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
- <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net>
- <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
- <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
- <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
- <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
- <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
- <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,55 +87,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
- Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Mika Kahola <mika.kahola@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/29/22 14:46, Arnd Bergmann wrote:
-> On Fri, Apr 29, 2022 at 10:23 PM Guenter Roeck <linux@roeck-us.net> wrote:
->> On 4/29/22 10:48, Guenter Roeck wrote:
->>>
->>> I tried the pxa-multiplatform-5.18 branch. Its failures match
->>> those in v5.18-rc1.
->>>
->>
->> Uuh, wait, the build wasn't complete. There are still some
->> failures. I'll report later.
+Cool! Tested this on three different laptops, and it seems to work great on
+all of them. so, this series is:
+
+Tested-by: Lyude Paul <lyude@redhat.com>
+
+Would review, but I basically have the same comments as jani
+
+On Tue, 2022-04-26 at 15:30 +0300, Jouni Högander wrote:
+> This patch set splits out static hdr metadata backlight range parsing
+> from gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c into gpu/drm/drm-edid.c as
+> a new function. This new function is then used in admgpu_dm.c and
+> intel_dp_aux_backlight.c
 > 
-> Sorry about the breakage, I got a few more reports about minor build errors
-> and warnings, the newly uploaded branches should address all of the ones
-> I got reports for.
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Mika Kahola <mika.kahola@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> 
+> Jouni Högander (3):
+>   drm: New function to get luminance range based on static hdr metadata
+>   drm/amdgpu_dm: Use split out luminance calculation function
+>   drm/i915: Use luminance range from static hdr metadata
+> 
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 35 ++----------
+>  drivers/gpu/drm/drm_edid.c                    | 55 +++++++++++++++++++
+>  .../drm/i915/display/intel_dp_aux_backlight.c |  9 ++-
+>  include/drm/drm_edid.h                        |  4 ++
+>  4 files changed, 70 insertions(+), 33 deletions(-)
 > 
 
-Unless I am missing something the failures are the same as before. See
-https://kerneltests.org/builders/qemu-arm-testing/builds/74/steps/qemubuildcommand/logs/stdio
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-This is with v5.18-rc1-49-ge8ab9a9a2745 which is the tip of
-soc/pxa-multiplatform-5.18.
-
-Should I check a different branch ?
-
-Thanks,
-Guenter
