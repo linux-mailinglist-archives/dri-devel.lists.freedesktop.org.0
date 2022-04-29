@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73D85141EB
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 07:49:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018E75141F3
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 07:49:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7E3210FB2A;
-	Fri, 29 Apr 2022 05:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E01DC10FB64;
+	Fri, 29 Apr 2022 05:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
- [IPv6:2607:f8b0:4864:20::831])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A7110FB2A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 05:49:18 +0000 (UTC)
-Received: by mail-qt1-x831.google.com with SMTP id f14so5049892qtq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 22:49:18 -0700 (PDT)
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
+ [IPv6:2607:f8b0:4864:20::f33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3431410FB64
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 05:49:55 +0000 (UTC)
+Received: by mail-qv1-xf33.google.com with SMTP id a5so4735473qvx.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 22:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=zlsCs+x0DoSzsNw/NRm1xCc/AUcSv2O7P/MFQ0HV3jM=;
- b=WPvzeyMCxQq+nyaYg6JoXj2g141ThYO8ykqXrGAh6WJbIeGAdJlGjxTttbNhJ5Ci/5
- hUMIkDwQ6IVgwgwt48IoAIvKUoEHt/hPKZim6SnYZdJSaEN9/7WhgeGdrHTcHYrMU3pN
- oXj18MJ95T3QHg3PHaO/tm8rBt6eqKEkmSwhq/F+inkgqVLD3KM/4gU/eBvjjbJbP4pV
- /HftgeXlypiOi2XPOEZm76QbRwJQH+H4f901hN83cHteRfoGGv8XE33nh6AwPXv9Y4J+
- 0NTzEsV6Nd8KFi0FDJeGsuZbRL1tfOOi54+dBYir5WbPYCPGlIzveUs2t9djyHwfYbj0
- 8SJA==
+ bh=endm34N778Y0yPQpBj2UP5snb4XdIvtKjFf8w3OhWl8=;
+ b=LLeap5fbMQ7b+CBIddQvpBa4S02DmgF9iWKlwwlY7N/Ft27Cf49xhkkH0FUBnoepSd
+ yg2kvR+WLjB1EXt1DIp5XFbBMTOMYuts6P64qmU+fN3/kRke/u3r77g+atqGw9Ne6b3X
+ f+HWlYDHVmhXMoKop4bbdBqyL+UgbHod2Y5HuaLbnx0AXMg23T6jwfHUYi6hfxZY+d6c
+ P4e5BsNc6sozibBpMFDVLvCdij+x3IFCtgHc0seTmei1OZxmy2i3fq/5RoD/tIazF/7z
+ nmyqLRu2GeTAwFVCYr+bLOiLCvNxB7J3ygB07QJ5YoDBBBo9i6ptDB7l2Yro46eMvRNa
+ 0fRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=zlsCs+x0DoSzsNw/NRm1xCc/AUcSv2O7P/MFQ0HV3jM=;
- b=tkUYzg9Q89zG9aga+11sfW3HTMfRzYftR1fVV2o8EwHIz70dYZ7K8375E2u26hCUV5
- JwVRDQCTA4/r9z6tHJVgzymDQnhwIFPLNnkCQ7d/UqjX/59b5/U3hXL44TYQbB9PwJGR
- fibSI9loAQROfLRbw94FhHtU4TZwXLXAKwblnMbODjjEYAiEyHXrSDu87vaC4jVE/5Ob
- jYz9Ytnx4AJDYzdwZFs2Xw7DO8o4xQl0FzzOVhBrJ1vbvqEr+jzz/XhD6HQFDqWHNvLk
- 94VCndy3e24Htn3NG/qBtWFqZPR5twdpd589NRph8OgtFZZRfNZdRW0KWlt/SRRKKhh7
- hFbw==
-X-Gm-Message-State: AOAM533mmWlBG1bBp+BkOUArhBqTGJ833o7dwt9fo+rRCXqmgVCstpDo
- 9YvoCQ3zc+Xlr8NpMmXLHXE=
-X-Google-Smtp-Source: ABdhPJzmlNPH5wsdYHzUvy/XFcXzD0gwvs8dgEJ4del5pjnf1RgkLakypwFzuwMeEGO7YaBUniCMng==
-X-Received: by 2002:ac8:5551:0:b0:2f1:ea20:40a with SMTP id
- o17-20020ac85551000000b002f1ea20040amr25493636qtr.139.1651211357222; 
- Thu, 28 Apr 2022 22:49:17 -0700 (PDT)
+ bh=endm34N778Y0yPQpBj2UP5snb4XdIvtKjFf8w3OhWl8=;
+ b=FsOOSp95Mem3EZwYUqTznRASkOhbvqoMDE9bmox45H60zdLQg+zr1qV0LLsBfmR5AY
+ iAAhNa3lPPZRCDcyD6BcGxOLr1+yXXJIA33T1hzv5T974hu0SkTJQqSHmfo04XbuTAjh
+ kVEhaUULwZh+dHF2Bq28wZ+T83uThuuazHf9znB2CYS/pdhydEWrz1iBmcvEtZW5K4dy
+ DhORW1gmJQcBaeApUGiblQbiDzc+QhJv5H8xBix8sxbATWwPsNhjkMwfgjnmRqQ4ZpR7
+ y59MGslv9OAeUKqnxrzUjRJ++SSNpVMGQOaiK6uGOCVa1QQnD63IKLPVqw8XCdAFRdha
+ 9QZA==
+X-Gm-Message-State: AOAM532CTclOLSfnuJDwOomAlU5kt65o9goitZsbrVRmekj/MI/XCrm1
+ 6zQ8VpUNW08kFQW1dC5oeyc=
+X-Google-Smtp-Source: ABdhPJwBF67M3QN/ElCsgdd6o9uNM8BS8M4Da5QnAkLxYu3P+S576fZbIGm6W9QO+sY2j1Q+QAT6cg==
+X-Received: by 2002:ad4:576a:0:b0:456:54f0:824f with SMTP id
+ r10-20020ad4576a000000b0045654f0824fmr6965315qvx.31.1651211394421; 
+ Thu, 28 Apr 2022 22:49:54 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- h5-20020a05622a170500b002f3818c7b92sm1136547qtk.49.2022.04.28.22.49.14
+ h23-20020ac85697000000b002f387e4000dsm1146595qta.11.2022.04.28.22.49.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 22:49:16 -0700 (PDT)
+ Thu, 28 Apr 2022 22:49:54 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: chi.minghao@zte.com.cn
-To: airlied@linux.ie
-Subject: [PATCH] drm/virtio: simplify the return expression
-Date: Fri, 29 Apr 2022 05:49:11 +0000
-Message-Id: <20220429054911.3851977-1-chi.minghao@zte.com.cn>
+To: emma@anholt.net
+Subject: [PATCH] drm/vc4: simplify the return expression of vc4_prepare_fb()
+Date: Fri, 29 Apr 2022 05:49:45 +0000
+Message-Id: <20220429054945.3852039-1-chi.minghao@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,9 +68,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Zeal Robot <zealci@zte.com.cn>,
+Cc: airlied@linux.ie, Zeal Robot <zealci@zte.com.cn>,
  linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
- virtualization@lists.linux-foundation.org, kraxel@redhat.com
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -81,34 +81,34 @@ Simplify the return expression.
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 ---
- drivers/gpu/drm/virtio/virtgpu_prime.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-index 55d80b77d9b0..44425f20d91a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -90,7 +90,6 @@ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
- int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_object *bo)
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 920a9eefe426..b3438f4a81ce 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -1350,7 +1350,6 @@ static int vc4_prepare_fb(struct drm_plane *plane,
+ 			  struct drm_plane_state *state)
  {
+ 	struct vc4_bo *bo;
 -	int ret;
- 	struct virtio_gpu_object_array *objs;
  
- 	objs = virtio_gpu_array_alloc(1);
-@@ -98,11 +97,8 @@ int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
- 		return -ENOMEM;
+ 	if (!state->fb)
+ 		return 0;
+@@ -1362,11 +1361,7 @@ static int vc4_prepare_fb(struct drm_plane *plane,
+ 	if (plane->state->fb == state->fb)
+ 		return 0;
  
- 	virtio_gpu_array_add_obj(objs, &bo->base.base);
--	ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, objs);
+-	ret = vc4_bo_inc_usecnt(bo);
 -	if (ret)
 -		return ret;
- 
+-
 -	return 0;
-+	return virtio_gpu_cmd_resource_assign_uuid(vgdev, objs);
++	return vc4_bo_inc_usecnt(bo);
  }
  
- struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
+ static void vc4_cleanup_fb(struct drm_plane *plane,
 -- 
 2.25.1
 
