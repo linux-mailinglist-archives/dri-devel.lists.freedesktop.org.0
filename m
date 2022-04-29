@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5417514AED
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 15:42:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE252514AEE
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 15:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE51110EC3B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B529110EC55;
 	Fri, 29 Apr 2022 13:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 362B210E887
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:42:37 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id k2so10859239wrd.5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 06:42:37 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC6110ED35;
+ Fri, 29 Apr 2022 13:42:38 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id e2so10856441wrh.7;
+ Fri, 29 Apr 2022 06:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+0RT6wkMwjHddK5IvHEpRi9BBKSKu9G1PdCalYT+pBI=;
- b=BldXf8IcqKrXADPsoQqlGMMFC3sG+u2Xv8G8//5oRRFCHoHSOXEaeZIazhRO5q5BUC
- amuXGaPGXmlznHhoLBCssZNqfhPyK0ry8iG6BrtaQFuaLmbEZ/MgywF/pAVrOSUHX/UQ
- Wqy6dfNLosCWZnenxIScVppt6btO/HW8UcPZRNSrVJ7Hi+0JJD76WAFNfuXx5Hmk54yH
- 2InJbm6+Wp/bGeJQcLspO8g4u6Vj4vBH2038Y8bt5VbRS3XGNvvqjeVhjxzpXdljrnZC
- j3wsIM889sBOYbxSoj/EnVZDznQ4GxyKzfkh0ug3pnbRl7tfYaSkV5jGOgAfAbc5NKrt
- hz1A==
+ bh=LNM1AEcQA1TC9gdIDYx11HgLW6iNh6oI5PWYGXlZlcE=;
+ b=p/2OcZKTlgGP3GKgPfjNkt19DmFAK1dTdwQk5tAt0UhUE0cUd2X+fBDeOjf+Ffhe20
+ r8F0++xJoGDy/lMVhaIPOSxtSuqyIcMOJ9HBLV9NNr7ObSnlU/diKZ9ipcFVjv+TTqwY
+ HE/caSuK0kXPP4K+O8GyFhmXAMiv904Z47g6SsMj2bYVIX2t8W2ahVQId9UJdCHOXHE8
+ 2U49sCmK/Nk/Tc6wLGAUPWscFd7MfUUBsdWJApCLS9hINYejWXiyU5eYW/MRgg3YVVVP
+ 2ZzMvonSIH2W5qf9YEGGIDN+6ilSubR8i/SSkOWBWbqb76P1XR13wDBLfICZ2vArmoJZ
+ b12A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+0RT6wkMwjHddK5IvHEpRi9BBKSKu9G1PdCalYT+pBI=;
- b=lzlN9rkn8I6qNNBeTpYrtAz507fCEeQnLvrmQS8RQP9Gwp9f9QbQ7nAarppeSnLrkD
- qabluiiXsrdxvZ14XzYfgIK7THW4Pp2rExtjNg+xx1ZbiiHzMFfDUk8QQWtkwcR7cJM/
- npnnUfOMKmP+gZ46mr9pXSYgUXqXm+IyIYRKl/xcgTExW3AIymLoiB/AtTBVqBH4Xk8I
- eS+lOwruYqE5VZTvYHGNBmvih4e2kvInUBwKPRhmyHNPyUUjPm42HmERyYHq8yEzUPQv
- vrNHmoLqGzV2y9G7KJD8t98g+CKTWF9Cve/Uc9oVnLBeJathh9RwSUHmF34cx36e1gOJ
- 0i7Q==
-X-Gm-Message-State: AOAM5310dDGKgSYkd4CGUjisd48WK6mIkSgyCPcK/5yzRV+07qVWjNfV
- D82XvpODlnRgS5budrsKmCo=
-X-Google-Smtp-Source: ABdhPJypa2lUBF3qjxgPDH/DlljKKnKMy4Scpo6bEJgMdKbZ8PzxYtyk596rTwAMQNWfb0PMWh2IXQ==
-X-Received: by 2002:a5d:6481:0:b0:20c:40dd:59f5 with SMTP id
- o1-20020a5d6481000000b0020c40dd59f5mr5200278wri.230.1651239755829; 
- Fri, 29 Apr 2022 06:42:35 -0700 (PDT)
+ bh=LNM1AEcQA1TC9gdIDYx11HgLW6iNh6oI5PWYGXlZlcE=;
+ b=5e+R2TBDWa1MaZtN7Hds9JnXo3RLuCZgQnnOV2nrYMIwcUyFicMvRLMPlZe3I+GWyO
+ AW7P4BiqZIUOowRcngMq78JKSE01Jvt5t2O1SoRWSXjM2JgEs+zjkcwhkqkeAT7lH4Kg
+ 1ciApGF9X06O0j5f6ZPXek8G4AEerh0+buUw7EebiFVWmz3rdJ+eTjA+Crxkq4/z7xfR
+ f/bN7NBMWjXaeYMqlNh2mT3kdrCCT+mNDhbV5oAhDlAsEtMnajFPAEaTERIgv/7IQHjc
+ o4QoQVLgyW9JJZ+BP1dxVy3jkhOyF1CghTRLjcSIAHZJBgFLODSlukkHIRpqwd5jsJgl
+ +eBQ==
+X-Gm-Message-State: AOAM532fAd3azCRRRcVQg2DaYvOnPY+q5a+l/zqomuC49grV1oE66rIw
+ E9acc7oP+VbTcuIJDOoGaCI=
+X-Google-Smtp-Source: ABdhPJwU7PzmmCxcteLi5KWHy5fqWgZ5rFNEm/7Iy4Q7eBRKgkHL9WPdF7q8HZOW2aG5+mwxhSn5aw==
+X-Received: by 2002:a5d:5966:0:b0:20a:e810:5e9d with SMTP id
+ e38-20020a5d5966000000b0020ae8105e9dmr14033832wri.240.1651239756938; 
+ Fri, 29 Apr 2022 06:42:36 -0700 (PDT)
 Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
  by smtp.gmail.com with ESMTPSA id
- u19-20020a05600c19d300b00393f081d49fsm7301227wmq.2.2022.04.29.06.42.34
+ u19-20020a05600c19d300b00393f081d49fsm7301227wmq.2.2022.04.29.06.42.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 06:42:35 -0700 (PDT)
+ Fri, 29 Apr 2022 06:42:36 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel.vetter@ffwll.ch,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/nouveau: use drm_gem_plane_helper_prepare_fb
-Date: Fri, 29 Apr 2022 15:42:29 +0200
-Message-Id: <20220429134230.24334-3-christian.koenig@amd.com>
+Subject: [PATCH 4/4] drm/qxl: add drm_gem_plane_helper_prepare_fb
+Date: Fri, 29 Apr 2022 15:42:30 +0200
+Message-Id: <20220429134230.24334-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220429134230.24334-1-christian.koenig@amd.com>
 References: <20220429134230.24334-1-christian.koenig@amd.com>
@@ -73,46 +73,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>,
+Cc: spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ virtualization@lists.linux-foundation.org,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Karol Herbst <kherbst@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of manually adjusting the plane state.
+We could need to wait for the pin to complete here.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: virtualization@lists.linux-foundation.org
+Cc: spice-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/nouveau/dispnv50/wndw.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/qxl/qxl_display.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index 8642b84ea20c..bb8a4601e0d9 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -32,6 +32,7 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 9a9c29b1d3e1..9a64fa4c7530 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -34,6 +34,7 @@
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
 +#include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_fourcc.h>
  
- #include "nouveau_bo.h"
-@@ -558,9 +559,7 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- 			asyw->image.handle[0] = ctxdma->object.handle;
+ #include "qxl_drv.h"
+ #include "qxl_object.h"
+@@ -829,6 +830,7 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
+ 	struct qxl_device *qdev = to_qxl(plane->dev);
+ 	struct drm_gem_object *obj;
+ 	struct qxl_bo *user_bo;
++	int ret;
+ 
+ 	if (!new_state->fb)
+ 		return 0;
+@@ -852,7 +854,11 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
+ 		qxl_free_cursor(old_cursor_bo);
  	}
  
--	ret = dma_resv_get_singleton(nvbo->bo.base.resv,
--				     DMA_RESV_USAGE_WRITE,
--				     &asyw->state.fence);
-+	ret = drm_gem_plane_helper_prepare_fb(plane, state);
- 	if (ret)
- 		return ret;
+-	return qxl_bo_pin(user_bo);
++	ret = qxl_bo_pin(user_bo);
++	if (ret)
++		return ret;
++
++	return drm_gem_plane_helper_prepare_fb(plane, new_state);
+ }
  
+ static void qxl_plane_cleanup_fb(struct drm_plane *plane,
 -- 
 2.25.1
 
