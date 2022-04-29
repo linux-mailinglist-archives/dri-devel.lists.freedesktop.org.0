@@ -1,56 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11920514F35
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 17:22:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BAB514FD8
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 17:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A5510E618;
-	Fri, 29 Apr 2022 15:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9D6F10E4DD;
+	Fri, 29 Apr 2022 15:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0A7E10E550;
- Fri, 29 Apr 2022 15:22:06 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- bg34-20020a056820082200b0035e7cd94e46so1462532oob.1; 
- Fri, 29 Apr 2022 08:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6+DTHrGocYEnsx8UpZfYt0DEA/hgChvlIlx/pAh4pkU=;
- b=KQVtVPETgJvBSDysXxszhyiXYd/K/cQ8EVxwrm8J3VbKGHlQsZR2b08U9l6ymbOL7C
- RMkxD8tL1dIO2zOexnCXA7CwqgVjaQVqDTtcsHJHw9YWXJCCs5X6L7FYOuUAXaP8+Bl6
- C8eYmizVHCJULnI8LszL5U3K2G+6EmMqUQPQ3d7QRWjdnBBDMUarfUBzkwmCMztScKu2
- bnYB4yXkUGotg+PrUiv4UqZgpqcrCq0fPJsVZkfBKhvpaS3Dp5rC8wJxtEJnVh/IlO2Y
- e0rGD6Ke3q0ZcqCNEPEcpHkjFdbuF4t3yl5NYFtxOFDKIaDYKwlhDcXvARKb+fN0Yq43
- L6cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6+DTHrGocYEnsx8UpZfYt0DEA/hgChvlIlx/pAh4pkU=;
- b=EKfYsKlugiZQluiqnZ7JHvWvREGhhu9Ke8m8RJmmIxKSmHdDdplvLTGM4mCVeaIt1G
- QudY4WNL5udkUcCrpLge+nppGLeG++BdsiBxKmhUu393NDhDNzGr892UDSKtkEZa6HHr
- K1f55xn+Qp4vO/NRz0LNj5594GTHyxw3ijOawsSdqkWOZV8rBTg/x/407Sxm/iRVNEHs
- 5pUrARqWlhl+D0vw8p/GXgCSv1hZB5755brl/RwCjNZjBTfqfsfKC9zliQIf18DG695L
- ulmg/PK6MWkuB2neX3SIpOPObqdzulmZ/wjj+jMl5QmZBY2drJH367d0tHwg53MnX7dC
- ibIg==
-X-Gm-Message-State: AOAM532c9GN1KanLHuuYsyqC6AkyHx76dr4Cbo9XbplORpP3cv766atN
- astU1PUGVO9rTHNaiKK0geycpXrgv66kHads8MA=
-X-Google-Smtp-Source: ABdhPJyaaaTDzP9DdMpdCfjPvWy/5Fazu0kIMb5JMRStfSaX8RLGOvvToLXZnNaJ71B04V9OrLAGHviQK/eeA1RaMDM=
-X-Received: by 2002:a4a:e2ca:0:b0:35e:b623:8799 with SMTP id
- l10-20020a4ae2ca000000b0035eb6238799mr1491020oot.68.1651245726093; Fri, 29
- Apr 2022 08:22:06 -0700 (PDT)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1A5710E4DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 15:46:52 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id A55A9320092B;
+ Fri, 29 Apr 2022 11:46:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 29 Apr 2022 11:46:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1651247208; x=1651333608; bh=/d5J8Yluhs
+ WZqBasVmfZfu+Hpk3XUUKrCMi3sFOjTuA=; b=isxxs8gPLBcp/opk9Jo3aCAskk
+ dh79sDj/bqi9/7zBcupVL/4U4Qwuon7+87/r3l91RgYfiI3SeFJW9atga+bjHNqq
+ PCWljj2izlX6uV123ZdHLMmDTXNqoNNXpe5qYXPU30ba4Wxq2lMCDCPY41CyY6dL
+ 8YilIFkiFsXHvA2rRjofjqLwaT79MBZWQxs2yNRC7L9B4MzejYq2gTPLI73vXuVe
+ JgsIn33Zdji3cERQwFexqmJYc/rl+JZOTwVo8bnOW97qit7XMhrtylTPCEVQIe2a
+ Jld+YmUgDdl9rg45bSW/gFRTb1ofZNz/7UYt/qpjToGg+FrwE996Evp5+1Bw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651247208; x=
+ 1651333608; bh=/d5J8YluhsWZqBasVmfZfu+Hpk3XUUKrCMi3sFOjTuA=; b=C
+ VHxqQLDsuOCsD5TpfGhnjkoi9txSQM2pnLc6U4SWugN9Rpa9XaR3yCeb3ftR0YLO
+ vhWfVN5npdA/N40jLxxqYCHemcIubCkbJ/LuRrrlWeLNGZ2YhoEluMi8eNMBw0RU
+ CKUcaZBNMU6TzGeE3O4irkSJKVzhWBmudLK7LAiomH74XGuQ2jE3HfPYg1OXikWZ
+ 8WwlSTdOtsXPhHqpw5OTzv10zWYEHq0n5gQ6rkwqyjnkHIvaLs2SzPGyjTVB0/wl
+ S78GZS32fixhvcge/KDzMJIrwfY4hLrIe+yxTJLdbSIaUSiN4IpeQnIA8QxlBicD
+ gVcxSCdshJ6aABXqrYqCA==
+X-ME-Sender: <xms:ZghsYhjxYocn1atEsHAPnScDfrGtn30pMCejDGTr-9OayRJJhiZnDg>
+ <xme:ZghsYmBT0uPmkIU4DVClgflKiKClI4fr-0WfQdlhvEgqIqip5dgj9fTtaLLvl8HVm
+ el9tG9eZD2OQA5LVf8>
+X-ME-Received: <xmr:ZghsYhEYVgs31vGE3mUCw2wjUm06wcZ0U1wEgSwGTujX21ceqf73djUlTj21TwCw7KXsIuWyxqWgj37kL2s3QH4St0P1VpslqZvUXg0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudelgdeltdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ZwhsYmTx1l-Q-ydM1y7IyA5VpzdR62mXEEvujQp9ydDqLJX9_8KzCA>
+ <xmx:ZwhsYuxj2GdWWHn4EUVNFFGoXEz_cCFHmABC_UIHyRg_FHhQ3yApdg>
+ <xmx:ZwhsYs4vX-dmO8ldHrl5XpxuF8bMpO-yBEKwd-waBTme6IizMgKsmw>
+ <xmx:aAhsYiiUE0I-fgqRrtoLPrVPo8DfkmXwUPNDEpzziJIA5pszRc_WyA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 29 Apr 2022 11:46:46 -0400 (EDT)
+Date: Fri, 29 Apr 2022 17:46:45 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
+ bridge"
+Message-ID: <20220429154645.47tsii47vjxqklca@houat>
+References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
+ <20220420231230.58499-2-bjorn.andersson@linaro.org>
+ <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
+ <20220421082358.ivpmtak3ednvddrc@houat>
+ <YmEdAVwZuA7Wo1Ch@aptenodytes> <YmelPCcWCCjALtRU@aptenodytes>
+ <CAMty3ZBwguzvC8A9xA5c0enfoFRGS=4wWCzpfakTUXrsRS9GyA@mail.gmail.com>
+ <20220427143410.bectqumq62qmlv5x@houat>
+ <CAMty3ZDk-M3hW97_GY4-z=f+cKs1Sg4Jbq5L7L4zHgXURhFuZA@mail.gmail.com>
+ <YmsSdmOEpSz4okt2@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20220429015114.29795-1-pengfuyuan@kylinos.cn>
-In-Reply-To: <20220429015114.29795-1-pengfuyuan@kylinos.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 29 Apr 2022 11:21:55 -0400
-Message-ID: <CADnq5_OvRxCdQw6LnorswgYSByGjDJAyWcX-ZvUbLHkG6Xim9Q@mail.gmail.com>
-Subject: Re: [PATCH] gpu/drm/radeon: Fix spelling typo in comments
-To: pengfuyuan <pengfuyuan@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ghqgl77x4k7agxtg"
+Content-Disposition: inline
+In-Reply-To: <YmsSdmOEpSz4okt2@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,75 +90,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-On Fri, Apr 29, 2022 at 9:04 AM pengfuyuan <pengfuyuan@kylinos.cn> wrote:
->
-> Fix spelling typo in comments.
->
-> Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
-> ---
->  drivers/gpu/drm/radeon/atombios.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/atombios.h
-> index bd5dc09e860f..da35a970fcc0 100644
-> --- a/drivers/gpu/drm/radeon/atombios.h
-> +++ b/drivers/gpu/drm/radeon/atombios.h
-> @@ -3599,7 +3599,7 @@ typedef struct  _ATOM_LCD_RTS_RECORD
->    UCHAR     ucRTSValue;
->  }ATOM_LCD_RTS_RECORD;
->
-> -//!! If the record below exits, it shoud always be the first record for easy use in command table!!!
-> +//!! If the record below exists, it should always be the first record for easy use in command table!!!
->  // The record below is only used when LVDS_Info is present. From ATOM_LVDS_INFO_V12, use ucLCDPanel_SpecialHandlingCap instead.
->  typedef struct  _ATOM_LCD_MODE_CONTROL_CAP
->  {
-> @@ -3823,7 +3823,7 @@ typedef struct _ATOM_DPCD_INFO
->  // Note1: This table is filled by SetBiosReservationStartInFB in CoreCommSubs.asm
->  //        at running time.
->  // note2: From RV770, the memory is more than 32bit addressable, so we will change
-> -//        ucTableFormatRevision=1,ucTableContentRevision=4, the strcuture remains
-> +//        ucTableFormatRevision=1,ucTableContentRevision=4, the structure remains
->  //        exactly same as 1.1 and 1.2 (1.3 is never in use), but ulStartAddrUsedByFirmware
->  //        (in offset to start of memory address) is KB aligned instead of byte aligend.
->  /***********************************************************************************/
-> @@ -3858,7 +3858,7 @@ typedef struct _ATOM_VRAM_USAGE_BY_FIRMWARE
->    ATOM_FIRMWARE_VRAM_RESERVE_INFO      asFirmwareVramReserveInfo[ATOM_MAX_FIRMWARE_VRAM_USAGE_INFO];
->  }ATOM_VRAM_USAGE_BY_FIRMWARE;
->
-> -// change verion to 1.5, when allow driver to allocate the vram area for command table access.
-> +// change version to 1.5, when allow driver to allocate the vram area for command table access.
->  typedef struct _ATOM_FIRMWARE_VRAM_RESERVE_INFO_V1_5
->  {
->    ULONG   ulStartAddrUsedByFirmware;
-> @@ -5973,7 +5973,7 @@ typedef struct _ATOM_ASIC_INTERNAL_SS_INFO_V3
->  #define CLEAR_ATOM_S7_DOS_8BIT_DAC_EN         ((ATOM_DOS_MODE_INFO_DEF << 8 )|ATOM_S7_DOS_8BIT_DAC_EN_SHIFT | ATOM_FLAG_CLEAR )
->
->  /****************************************************************************/
-> -//Portion II: Definitinos only used in Driver
-> +//Portion II: Definitions only used in Driver
->  /****************************************************************************/
->
->  // Macros used by driver
-> @@ -7162,7 +7162,7 @@ typedef struct _DP_ENCODER_SERVICE_PARAMETERS
->
->  // ucAction
->  #define ATOM_DP_ACTION_GET_SINK_TYPE                                                   0x01
-> -/* obselete */
-> +/* obsolete */
->  #define ATOM_DP_ACTION_TRAINING_START                                                  0x02
->  #define ATOM_DP_ACTION_TRAINING_COMPLETE                                       0x03
->  #define ATOM_DP_ACTION_TRAINING_PATTERN_SEL                            0x04
-> --
-> 2.25.1
->
+--ghqgl77x4k7agxtg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 29, 2022 at 01:17:26AM +0300, Laurent Pinchart wrote:
+> Hi Jagan,
+>=20
+> On Thu, Apr 28, 2022 at 02:09:42PM +0530, Jagan Teki wrote:
+> > On Wed, Apr 27, 2022 at 8:04 PM Maxime Ripard wrote:
+> > > On Tue, Apr 26, 2022 at 01:40:31PM +0530, Jagan Teki wrote:
+> > > > On Tue, Apr 26, 2022 at 1:24 PM Paul Kocialkowski wrote:
+> > > > > On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
+> > > > > > On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
+> > > > > > > On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
+> > > > > > > > + Linus
+> > > > > > > > + Marek
+> > > > > > > > + Laurent
+> > > > > > > > + Robert
+> > > > > > > >
+> > > > > > > > On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson wrote:
+> > > > > > > > >
+> > > > > > > > > Commit '80253168dbfd ("drm: of: Lookup if child node has =
+panel or
+> > > > > > > > > bridge")' attempted to simplify the case of expressing a =
+simple panel
+> > > > > > > > > under a DSI controller, by assuming that the first non-gr=
+aph child node
+> > > > > > > > > was a panel or bridge.
+> > > > > > > > >
+> > > > > > > > > Unfortunately for non-trivial cases the first child node =
+might not be a
+> > > > > > > > > panel or bridge.  Examples of this can be a aux-bus in th=
+e case of
+> > > > > > > > > DisplayPort, or an opp-table represented before the panel=
+ node.
+> > > > > > > > >
+> > > > > > > > > In these cases the reverted commit prevents the caller fr=
+om ever finding
+> > > > > > > > > a reference to the panel.
+> > > > > > > > >
+> > > > > > > > > This reverts commit '80253168dbfd ("drm: of: Lookup if ch=
+ild node has
+> > > > > > > > > panel or bridge")', in favor of using an explicit graph r=
+eference to the
+> > > > > > > > > panel in the trivial case as well.
+> > > > > > > >
+> > > > > > > > This eventually breaks many child-based devm_drm_of_get_bri=
+dge
+> > > > > > > > switched drivers.  Do you have any suggestions on how to pr=
+oceed to
+> > > > > > > > succeed in those use cases as well?
+> > > > > > >
+> > > > > > > I guess we could create a new helper for those, like
+> > > > > > > devm_drm_of_get_bridge_with_panel, or something.
+> > > > > >
+> > > > > > Oh wow I feel stupid for not thinking about that.
+> > > > > >
+> > > > > > Yeah I agree that it seems like the best option.
+> > > > >
+> > > > > Should I prepare a patch with such a new helper?
+> > > > >
+> > > > > The idea would be to keep drm_of_find_panel_or_bridge only for th=
+e of graph
+> > > > > case and add one for the child node case, maybe:
+> > > > > drm_of_find_child_panel_or_bridge.
+> > > > >
+> > > > > I really don't have a clear idea of which driver would need to be=
+ switched
+> > > > > over though. Could someone (Jagan?) let me know where it would be=
+ needed?
+> > > >
+> > > > sun6i_mipi_dsi
+> > >
+> > > It doesn't look like sun6i_mipi_dsi is using devm_drm_of_get_bridge a=
+t all?
+> >=20
+> > Correct, patch for this on the mailing list.
+>=20
+> I've lost track of how we're solving the fallout of this for v5.18. I
+> have received a report that the original commit (80253168dbfd) also
+> broke the rcar-du driver. Could you please provide a git branch (based
+> on drm-fixes or drm-misc-fixes) with any patch that you plan to get
+> merged in v5.18, to let me test them locally ?
+
+Was that report about 5.18 or drm-misc-next? It appears that all the
+drivers conversions are in drm-misc-next.
+
+Maxime
+
+--ghqgl77x4k7agxtg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYmwIZQAKCRDj7w1vZxhR
+xUSxAP0W8CT7NRIxaS0BWav4gaH703LpfB2h2UXNaxJd0YlZxQEAs6gyeTVM2A9o
+JpaWNJeWb2uCFoDefSFhbzQgf8xfFQI=
+=5sis
+-----END PGP SIGNATURE-----
+
+--ghqgl77x4k7agxtg--
