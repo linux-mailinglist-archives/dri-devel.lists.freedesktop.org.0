@@ -1,50 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F755156C3
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 23:23:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1494515741
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 23:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7025910F642;
-	Fri, 29 Apr 2022 21:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B719F10FAC6;
+	Fri, 29 Apr 2022 21:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1233C10F642;
- Fri, 29 Apr 2022 21:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651267410; x=1682803410;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=CzkvMQ+mbI3q7SVPTDZ648LAoSaCp1d1qTEy1w2C7Yk=;
- b=YdsNGSde3lVUbZ7Y4uwRx+zaLqGnvUmNRF0aC77tpw0ZCV+t92zSSHrX
- igCUQA+5XgdqDEJmyBzYxDSBxshWaPBQsU4Aoy7TCSCj8US32oslemZLU
- wPlCcSXQuYLNw/G3oB0HfoGWdieCF0BAX8+P1V1dLimRBL0wLkIOxdzeQ
- XK08k7uPiGG/VZsYJV6I02aInaZpWvSSLYeyxFYBJlwoebS/UzSHFNTW/
- n/Xjvo5RxDjll+ii0eqfOM+fTbvyj0EznmIMgsAh7FhVJlSSoBImnm2ej
- hFyut7+lrVifCdOk7iWij944CQHBwEa4UXnbEKNTPwPQfpEd5UGWl2QVA w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10332"; a="291949374"
-X-IronPort-AV: E=Sophos;i="5.91,186,1647327600"; d="scan'208";a="291949374"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 14:23:29 -0700
-X-IronPort-AV: E=Sophos;i="5.91,186,1647327600"; d="scan'208";a="662541406"
-Received: from ritikash-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.209.8.78])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 14:23:29 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32A8610FAC6
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 21:47:09 +0000 (UTC)
+Received: from mail-yb1-f171.google.com ([209.85.219.171]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1M4JVv-1nkpZK2tHN-000HYa for <dri-devel@lists.freedesktop.org>; Fri, 29
+ Apr 2022 23:47:07 +0200
+Received: by mail-yb1-f171.google.com with SMTP id m128so16731305ybm.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 14:47:07 -0700 (PDT)
+X-Gm-Message-State: AOAM531jJ055qbBVrbsofWI98tmD/cewt4PXc8i1xJlkbVZYwL56A5sr
+ x+hG/Sry/YpBNp9OHdW6qHufExW7USG6XDwYTDw=
+X-Google-Smtp-Source: ABdhPJwtcBUeQCwBE/wHCTNSMt9GmZKG8b0zElf3XSRBB+ltEsvmy5fENkUQ3EnsgyBJ9WDIgobY6XmBd5vZorZaAUk=
+X-Received: by 2002:a25:d3c2:0:b0:645:74df:f43d with SMTP id
+ e185-20020a25d3c2000000b0064574dff43dmr1535991ybf.394.1651268826333; Fri, 29
+ Apr 2022 14:47:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220428041926.1483683-1-matthew.d.roper@intel.com>
-References: <20220428041926.1483683-1-matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 0/4] i915: Turn on compute engine support
-From: Jordan Justen <jordan.l.justen@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Fri, 29 Apr 2022 14:23:24 -0700
-Message-ID: <165126740410.678423.2670480013006486900@jljusten-skl>
-User-Agent: alot/0.10
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+In-Reply-To: <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 29 Apr 2022 23:46:50 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+Message-ID: <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:br5MSFOmOKgU8puftmDldSg/HPXXW08+VaR166hX+nYcBtlWgwI
+ s0JGSIRZl/mfAXzsTnvvTCF/z+2CsAQHDx5r9Vr1LWd/P6bTrk4Qcnbi3uvM0OqrrcDaYWX
+ 6Pu64hfcl5+09gkmfdyXUQsw8JHjEu6mNKG1eLa35sx2KO1RWzof/C68vLQkDRmARWYSmsm
+ zydnalDwbXX8tu67fU3QQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:m1eNdovUjbE=:Q9wTAlkTm1v82g4EJ8iFvr
+ lMSKVMBzFKs/PFNCitw1jlXeyYwaT/Z+6cDalgvmAc1MwaBgUHcXEW4AS0r2ZkWLIIfwDHCoF
+ ikjV6ew5O5TeBEY/lUxJCURuUA+48qkzKKlBgzRCsbOgHRGhez8IHtNZtE4eL1DaYIjlBkio6
+ SbXlb/1HtiWWIpx6aofxDvCm2uQMFIWYJMcP5HFRYq1YcYf3pWqwVq4WQdKjofTp+9B0VC+L5
+ q0rxLQMrrWCfLLl99n3ZqlVDw8/jO25v8gQsEcusW5/zsfbpTABXNJkcZi69oUIIQ18rj01ss
+ ttD1jTUUULrTQFQ4FLUG/l4TJqUoTcrlNv+sbn/Kkov8YHatYcuuDx0jVRcnLZ35vh76KSkzZ
+ 1QZdrXUtP00L+JeNWE5mSzCPOMRHM/aEZKYnNUinVRcLeWZM1jOXLsABM9ucPujbadJaLn5Ok
+ fL35agX9UxC5Euylk4Hl46FhRee4Q/AVo1x+WZ1MCLu0zq7doWq0oHR2JemPZ+pneZCMq4EBn
+ icL6vNHYZjuts/HYReLNQUMINXHaQn6CTrMzF0UDULVE/r1asUzIY6YwiaWzveAq6eON3XaOV
+ HufMnya+QUvWLDpmQzGexE5JF35/5eZ08LkTmA66psD0qWpAjxjcRAXLbgepRo1az7DJyrr2w
+ jp01idPnUxeXPq7SGrRRyZ574mSm5t0GffbNHIn8KNOSNQ7Q+b/byMjjSku6/YnWLWfLl2m/l
+ R9DLaidyDU1192fJhwsGjyXBhHiiOj+OncvBaIcqDK4It+4Jb+knY+5z/D2EtTZVXB6WSgo3m
+ T6rzIX+bBJtZiAmeWZK0Bu2jpflAUTa6ebaaXnkTU2wM0Ukl3s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,74 +77,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ Arnd Bergmann <arnd@arndb.de>, Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I did some light testing with our anvil (Vulkan) and iris (OpenGL)
-Mesa drivers after applying these patches on top of drm-tip tagged
-intel/CI_DRM_11574. All the unit tests that I tried passed. I also ran
-the gl_manhattan31 benchmark which used the compute engine for iris
-compute shader ops.
-
-Series:
-
-Reviewed-by: Jordan Justen <jordan.l.justen@intel.com>
-Tested-by: Jordan Justen <jordan.l.justen@intel.com>
-
--Jordan
-
-On 2022-04-27 21:19:22, Matt Roper wrote:
-> Now that the necessary GuC-based hardware workarounds have landed, we're
-> finally ready to actually enable compute engines for use by userspace.
-> All of the "under-the-hood" heavy lifting already landed a while back in
-> other series so all that remains now is to add I915_ENGINE_CLASS_COMPUTE
-> to the uapi enum and add the CCS engines to the engine lists for the
-> Xe_HP SDV and DG2.
->=20
-> Userspace (Mesa) is linked in the ABI patch.  Existing IGT tests (e.g.,
-> i915_hangman) provide test coverage for general engine behavior since com=
-pute
-> engines should follow the same general rules as other engines.  We've also
-> recently added some additional subtests like
-> igt@gem_reset_stats@shared-reset-domain to cover the user-visible impacts=
- of
-> the compute engines sharing the same hardware reset domain as the render
-> engine.
->=20
-> v2:
->  - Update TLB invalidation register for compute engines and move it to a
->    separate patch since it isn't related to the new uapi.  (Tvrtko,
->    Prathap)
->  - Move new kerneldoc for pre-existing engine classes to a separate
->    patch.  (Andi)
->  - Drop the compute UMD merge request link for now because it also
->    included some additional multi-tile uapi that we're not ready to
->    upstream just yet.  Even if they don't have a disentangled MR ready
->    for reference, we still have the Mesa MR as a key userspace consumer.
->    (Tvrtko)
->=20
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->=20
-> Daniele Ceraolo Spurio (1):
->   drm/i915: Xe_HP SDV and DG2 have up to 4 CCS engines
->=20
-> Matt Roper (3):
->   drm/i915/uapi: Add kerneldoc for engine class enum
->   drm/i915/xehp: Add register for compute engine's MMIO-based TLB
->     invalidation
->   drm/i915/xehp: Add compute engine ABI
->=20
->  drivers/gpu/drm/i915/gt/intel_engine_user.c |  2 +-
->  drivers/gpu/drm/i915/gt/intel_gt.c          |  1 +
->  drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  1 +
->  drivers/gpu/drm/i915/i915_drm_client.c      |  1 +
->  drivers/gpu/drm/i915/i915_drm_client.h      |  2 +-
->  drivers/gpu/drm/i915/i915_pci.c             |  6 +-
->  include/uapi/drm/i915_drm.h                 | 62 +++++++++++++++++++--
->  7 files changed, 65 insertions(+), 10 deletions(-)
->=20
-> --=20
-> 2.35.1
+On Fri, Apr 29, 2022 at 10:23 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> On 4/29/22 10:48, Guenter Roeck wrote:
+> >
+> > I tried the pxa-multiplatform-5.18 branch. Its failures match
+> > those in v5.18-rc1.
+> >
 >
+> Uuh, wait, the build wasn't complete. There are still some
+> failures. I'll report later.
+
+Sorry about the breakage, I got a few more reports about minor build errors
+and warnings, the newly uploaded branches should address all of the ones
+I got reports for.
+
+        Arnd
