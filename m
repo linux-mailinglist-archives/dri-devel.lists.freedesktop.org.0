@@ -1,80 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3699F5158C6
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 01:04:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A15FB5158D0
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 01:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2CF10E27E;
-	Fri, 29 Apr 2022 23:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3670710E46B;
+	Fri, 29 Apr 2022 23:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA51110E27E
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 23:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651273467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P4DG5k7BAzkTCilt7w3+yZz+mLZhkxC8TdQc8ihe/QE=;
- b=bRXO+DgdmSqTNB0EMCbjAs3XbqAJjKa2bEyEh9lqz/Rye8CQtX+QVm8lKfM/ls1WxZQM/Q
- xuH0L1OfyZq6HddqJlPqGEt7iF+vjMsE3l7yU5wBS6YZgt7WPz/OOap+NYI2ISdIZZXCKJ
- kTE2JK6aIdc39uuymsFVEMa52jOokOM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-hdaCsQK1NkuC8WeD9C_Cfg-1; Fri, 29 Apr 2022 19:04:26 -0400
-X-MC-Unique: hdaCsQK1NkuC8WeD9C_Cfg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- jx10-20020a0562142b0a00b00456531ba83dso6490877qvb.16
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 16:04:26 -0700 (PDT)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92CC510E46B
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 23:09:26 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id z8so10054907oix.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 16:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=43bhXKjvki5l9d/uYFdijwNa1GUErzr1H3q463hR+XU=;
+ b=OUSt6wkRUbg0ovBrwSGrseeTfVqA3atJE26IGGL8DNDKMbVWyzV7fWqixesYb9S/mA
+ rgBp/vgWVmZ/2SlxqdaVKFisC/DX2eo4pEgNEmTUveV61siwDvexnXReKJ4KInzJ+JVf
+ qFRYIk57Zf7KE5IqQd6E9kuwLyNvXqeY18u9sXPldsZHCbpZQ9kw31XwNt/jpYsmggt1
+ 3DzogSdIaSMtewj0hqjuAW3EwbG0+z+yCYsMAftASTL8pYSQ3/TIzpEEpEvE1aCdKITD
+ c0o8+XWDHiHzhST5JtA4/c6tGuJLD552k5cdjIV4SeeCvbAOGItN9qS8zGZ2A17U8O+I
+ msTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=P4DG5k7BAzkTCilt7w3+yZz+mLZhkxC8TdQc8ihe/QE=;
- b=OuVtnLTqZR/TWRYw222pm0sfgEdROeuRT/bkxbnaGuExydHiVfwJx20zo/d6Cu8808
- SeXe5GCq5vjk2WwH4tlx/eKUrnVTJJiTSO6RNpJ7Rkww02mnairhN1cfi8hFoMyNGQ29
- Nf/JW2Z/GNpVcRJr3WIePRAAQXq7y7IXc8tdA8JJgyBHWe5EFN2y0YZYw7ZTAAMcoBRF
- 2Xya58rVcWmud2TurfoT7yMyX9Yfoc67Szckzzvp143SYKOg4YVVTNNb4PofCpYJNikd
- J5gSOKsI8vqffwT6m8IC3aU1+tabv2Idj1opOXCDUyRNGHQrcTMR4MhS01iOI86Q2RDL
- ytOw==
-X-Gm-Message-State: AOAM533LceTehKCk0UuYK5+qexjxIx7DlW0E32mg8hDMH4S866PjcbNe
- lXmPdSfVQV09pcDQfnwNVWuu1nCntrqdgIrnbTuUlPm9ol5OPgZ2b80ELKE2FM07oAitrZqKGhn
- B2tWknXbVL2iI9wOs1gAohojEi4ow
-X-Received: by 2002:a05:620a:270d:b0:69e:bfab:6455 with SMTP id
- b13-20020a05620a270d00b0069ebfab6455mr1098640qkp.360.1651273465336; 
- Fri, 29 Apr 2022 16:04:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxjyTtWGxFWkywX29LJU3vdElYL7Z7LeKNxBjx+Ua2YNeiggKBgD3lab+S7LtyztkQjnq3puw==
-X-Received: by 2002:a05:620a:270d:b0:69e:bfab:6455 with SMTP id
- b13-20020a05620a270d00b0069ebfab6455mr1098617qkp.360.1651273465023; 
- Fri, 29 Apr 2022 16:04:25 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- b24-20020ac86bd8000000b002f39b99f67esm320893qtt.24.2022.04.29.16.04.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 16:04:24 -0700 (PDT)
-Message-ID: <a16299814fbbb4cad99f7c7bc9b83c7c31b63a69.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/subdev/bus: Ratelimit logging for fault errors
-From: Lyude Paul <lyude@redhat.com>
-To: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 29 Apr 2022 19:04:23 -0400
-In-Reply-To: <CACO55tuY6ACoW5jgRk8jCVZ_ZZDEBXczkaiTSpFDvw2h81r=xA@mail.gmail.com>
-References: <20220429195350.85620-1-lyude@redhat.com>
- <CACO55tuY6ACoW5jgRk8jCVZ_ZZDEBXczkaiTSpFDvw2h81r=xA@mail.gmail.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ bh=43bhXKjvki5l9d/uYFdijwNa1GUErzr1H3q463hR+XU=;
+ b=SW7dYdQK/oLd1rFvQidVGq1fPIMX3aVbxEurOy5GX7x0g1NkZgVPz5zeZbm/XWk4yf
+ tpDFOZLIuSwYHkkZTunp5rnL5EUVzYTPdJYRNEb1JbDbCYhpyg5MfdT908xyXj491gXE
+ T9a2QRahC+d6jY6hXJ108Xw+sPc/tVJCTAB/9Rkay8Iw94iKh+hMG1mst8F6zVxyKBe/
+ NemB0LYVCrG+LG8grwO1Gl4c4If//7aQ10vrPOeuOqc0uiVeVj8nsMgNuZ8b81AWenPU
+ 13xHRUs/sMbLrBclGEoPl2SScZt5CTMDoEF4LGpdYe26CQOpj+HqGXkDacNNRbo2WJgQ
+ L/LQ==
+X-Gm-Message-State: AOAM531Oaom3RCPMH3Q+N4hxQ9IPYYOBeOle8tfKH/aJyV6SOfLJy+mo
+ mnLG2gP8hNVlga7WKrTw20A=
+X-Google-Smtp-Source: ABdhPJwXwAJF7RkFvU52UI/VP0gJxz700pwOLyrX7CYTkoQTpT4bc4rvMjOD84iMZwh8LrG+2Nl3bg==
+X-Received: by 2002:a05:6808:17a7:b0:325:c561:31fb with SMTP id
+ bg39-20020a05680817a700b00325c56131fbmr1544693oib.75.1651273765807; 
+ Fri, 29 Apr 2022 16:09:25 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ w1-20020a9d77c1000000b0060603221242sm230484otl.18.2022.04.29.16.09.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 16:09:24 -0700 (PDT)
+Message-ID: <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
+Date: Fri, 29 Apr 2022 16:09:19 -0700
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+ <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,149 +89,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2022-04-30 at 00:56 +0200, Karol Herbst wrote:
-> On Fri, Apr 29, 2022 at 9:54 PM Lyude Paul <lyude@redhat.com> wrote:
-> > 
-> > There's plenty of ways to fudge the GPU when developing on nouveau by
-> > mistake, some of which can result in nouveau seriously spamming dmesg with
-> > fault errors. This can be somewhat annoying, as it can quickly overrun the
-> > message buffer (or your terminal emulator's buffer) and get rid of
-> > actually
-> > useful feedback from the driver. While working on my new atomic only MST
-> > branch, I ran into this issue a couple of times.
-> > 
-> > So, let's fix this by adding nvkm_error_ratelimited(), and using it to
-> > ratelimit errors from faults. This should be fine for developers, since
-> > it's nearly always only the first few faults that we care about seeing.
-> > Plus, you can turn off rate limiting in the kernel if you really need to.
-> > 
+On 4/29/22 14:46, Arnd Bergmann wrote:
+> On Fri, Apr 29, 2022 at 10:23 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 4/29/22 10:48, Guenter Roeck wrote:
+>>>
+>>> I tried the pxa-multiplatform-5.18 branch. Its failures match
+>>> those in v5.18-rc1.
+>>>
+>>
+>> Uuh, wait, the build wasn't complete. There are still some
+>> failures. I'll report later.
 > 
-> good idea :)
-> 
-> Although I think we ultimately need a detection of "GPU state is
-> trashed" where we cease to do anything and disable interrupts as some
-> of those issues actually cause the kernel to get DOSed by nouveau
-> spamming/handling interrupts. Not sure if we should go with this patch
-> in the meantime, or if we should just go straight ahead and disable
-> interrupts, which would also stop the spam.
-> 
-> Do you know if this patch here is enough to get the system to reboot
-> normally or is it only spamming less?
-
-I'd have to try to come up with a setup that can hit this again, although it
-might not be that hard - last time I hit this it was because I was programming
-the wrong PBN values for MST payloads into nvidia's hardware.
-
-So I can't remember for sure if I could reboot, but I do know I could actually
-log into the system easily and do stuff with ratelimiting applied so it's
-definitely better then the current situation.
-
-> 
-> > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > ---
-> >  drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h |  2 ++
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c    | 14 +++++++-------
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c     |  6 +++---
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c     |  6 +++---
-> >  4 files changed, 15 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > index 1665738948fb..96113c8bee8c 100644
-> > --- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > +++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > @@ -62,4 +62,6 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
-> >  #define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,   info, f, ##a)
-> >  #define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,   info, f, ##a)
-> >  #define nvkm_spam(s,f,a...)  nvkm_printk((s),  SPAM,    dbg, f, ##a)
-> > +
-> > +#define nvkm_error_ratelimited(s,f,a...) nvkm_printk((s), ERROR,
-> > err_ratelimited, f, ##a)
-> >  #endif
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > index 53a6651ac225..80b5aaceeaad 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > @@ -35,13 +35,13 @@ gf100_bus_intr(struct nvkm_bus *bus)
-> >                 u32 addr = nvkm_rd32(device, 0x009084);
-> >                 u32 data = nvkm_rd32(device, 0x009088);
-> > 
-> > -               nvkm_error(subdev,
-> > -                          "MMIO %s of %08x FAULT at %06x [ %s%s%s]\n",
-> > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > -                          (addr & 0x00fffffc),
-> > -                          (stat & 0x00000002) ? "!ENGINE " : "",
-> > -                          (stat & 0x00000004) ? "PRIVRING " : "",
-> > -                          (stat & 0x00000008) ? "TIMEOUT " : "");
-> > +               nvkm_error_ratelimited(subdev,
-> > +                                      "MMIO %s of %08x FAULT at %06x [
-> > %s%s%s]\n",
-> > +                                      (addr & 0x00000002) ? "write" :
-> > "read", data,
-> > +                                      (addr & 0x00fffffc),
-> > +                                      (stat & 0x00000002) ? "!ENGINE " :
-> > "",
-> > +                                      (stat & 0x00000004) ? "PRIVRING " :
-> > "",
-> > +                                      (stat & 0x00000008) ? "TIMEOUT " :
-> > "");
-> > 
-> >                 nvkm_wr32(device, 0x009084, 0x00000000);
-> >                 nvkm_wr32(device, 0x001100, (stat & 0x0000000e));
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > index ad8da523bb22..c75e463f3501 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > @@ -45,9 +45,9 @@ nv31_bus_intr(struct nvkm_bus *bus)
-> >                 u32 addr = nvkm_rd32(device, 0x009084);
-> >                 u32 data = nvkm_rd32(device, 0x009088);
-> > 
-> > -               nvkm_error(subdev, "MMIO %s of %08x FAULT at %06x\n",
-> > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > -                          (addr & 0x00fffffc));
-> > +               nvkm_error_ratelimited(subdev, "MMIO %s of %08x FAULT at
-> > %06x\n",
-> > +                                      (addr & 0x00000002) ? "write" :
-> > "read", data,
-> > +                                      (addr & 0x00fffffc));
-> > 
-> >                 stat &= ~0x00000008;
-> >                 nvkm_wr32(device, 0x001100, 0x00000008);
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > index 3a1e45adeedc..2055d0b100d3 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > @@ -60,9 +60,9 @@ nv50_bus_intr(struct nvkm_bus *bus)
-> >                 u32 addr = nvkm_rd32(device, 0x009084);
-> >                 u32 data = nvkm_rd32(device, 0x009088);
-> > 
-> > -               nvkm_error(subdev, "MMIO %s of %08x FAULT at %06x\n",
-> > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > -                          (addr & 0x00fffffc));
-> > +               nvkm_error_ratelimited(subdev, "MMIO %s of %08x FAULT at
-> > %06x\n",
-> > +                                      (addr & 0x00000002) ? "write" :
-> > "read", data,
-> > +                                      (addr & 0x00fffffc));
-> > 
-> >                 stat &= ~0x00000008;
-> >                 nvkm_wr32(device, 0x001100, 0x00000008);
-> > --
-> > 2.35.1
-> > 
+> Sorry about the breakage, I got a few more reports about minor build errors
+> and warnings, the newly uploaded branches should address all of the ones
+> I got reports for.
 > 
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Unless I am missing something the failures are the same as before. See
+https://kerneltests.org/builders/qemu-arm-testing/builds/74/steps/qemubuildcommand/logs/stdio
 
+This is with v5.18-rc1-49-ge8ab9a9a2745 which is the tip of
+soc/pxa-multiplatform-5.18.
+
+Should I check a different branch ?
+
+Thanks,
+Guenter
