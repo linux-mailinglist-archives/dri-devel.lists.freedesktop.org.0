@@ -1,59 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BFF515528
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:06:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED9F51557F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:24:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B157B10F91F;
-	Fri, 29 Apr 2022 20:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BECF410FA38;
+	Fri, 29 Apr 2022 20:23:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
- [209.85.160.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34ECE10F91F
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:06:33 +0000 (UTC)
-Received: by mail-oa1-f50.google.com with SMTP id
- 586e51a60fabf-e656032735so9245466fac.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:06:33 -0700 (PDT)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2F0F10FA38
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:23:57 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-d39f741ba0so9211083fac.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=SFIOKWJe2JhWRyQ+23tvbYEj6baZGKnP/u3z5kRMOi8=;
+ b=BahK7/YeJ4+uX3TzsNp83MyBHnpLrE/qMu4xIBQ+ZS6zy01DaiHuUoeMxTPloX76K5
+ Ubgax4WkYffJVNJHfHbej2xMadXBqbARWF06vNjo4iI2fpzfmtqnvbFUit+eVhoT1JhV
+ L/oOL5XftssttI+3dl8EE8ip+1SLDGWPYT/KGiBuWq9m2dSZpPqkNlOUQZQhXWucL9yn
+ 1fTqb9x/Wr6wFFu0woyAx4hT7nL1jqWbVXQZqXhqHEX6+b6K6K/EYkfUjIg0dufd9cmz
+ QpF+Wag/CjwN6tGuBEbwsUj/v1JxGTP/6FWWqjwteWqgFXZ5FfZeR3y6GbuGNkqHg17F
+ kvWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2lI/TWi2tf2Q7JmUZ2/HVxcNVVbUFx/NU2eKJt3txIU=;
- b=KvaMhGwHPQ1WqWfMbXLgG8zVyPhBSk0JR79P3hCa9w3DY7/LnZ0norhaYuyOykI+/n
- HtqW2xzYpzCDLkkiCnXdwLjmbczD7n4BHrpEXgV6lRhDVemq2/lEsJQKc1Lhj5i3UIJO
- 7T4JBJZOh+skkfZmEY58WIvuQLTKNRlTZYm+TJ67Hwz6BoWhvXZ3l/KhEoKxw8J+ldrH
- ZdwTV1Rw678lP37NQympVoc8eeZpAJXwyngAJW1Nem6TLHdmDcbhG07biqFWSzRHA6Qo
- IshUyNAnNm2ED+jbUmWEvdEAjGb302Pubjsh6OexrUmF44JHneoJlR3tVy67bJk3Ql98
- +MdA==
-X-Gm-Message-State: AOAM531s3BsK9Fg+e7AkF412yfIfE7S3rWsRJVAkXDLT0znCNStTqRLC
- BlN9wi7D/BUzTrLUdT+uzg==
-X-Google-Smtp-Source: ABdhPJylIgWmSsuu4I/a3zDRexm1IDuitX9f8YLbudWq18PfZJulvaKEhEYxJPJKLMbOHCK/46tOnA==
-X-Received: by 2002:a05:6870:61d4:b0:df:b74:8de5 with SMTP id
- b20-20020a05687061d400b000df0b748de5mr467807oah.37.1651262792205; 
- Fri, 29 Apr 2022 13:06:32 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- o22-20020a9d7656000000b0060603221258sm65246otl.40.2022.04.29.13.06.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 13:06:31 -0700 (PDT)
-Received: (nullmailer pid 2776081 invoked by uid 1000);
- Fri, 29 Apr 2022 20:06:30 -0000
-Date: Fri, 29 Apr 2022 15:06:30 -0500
-From: Rob Herring <robh@kernel.org>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Subject: Re: [PATCH v5 1/4] dt-bindings: display: mediatek: dsi: Convert
- dsi_dtbinding to .yaml
-Message-ID: <YmxFRuBWmPaCyw0I@robh.at.kernel.org>
-References: <20220428133753.8348-1-rex-bc.chen@mediatek.com>
- <20220428133753.8348-2-rex-bc.chen@mediatek.com>
- <1651177993.334386.220464.nullmailer@robh.at.kernel.org>
- <9f601c458bd3401b216992e8dd72485a10f34597.camel@mediatek.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=SFIOKWJe2JhWRyQ+23tvbYEj6baZGKnP/u3z5kRMOi8=;
+ b=x/0J3BjnYbVyxLty0ID8O8rM/hzworjP76R0tvET3VwqSFwjDG7VFbiRxLzj2ejvKW
+ Mlh/aLNUKNqRyxKDIo6TtX9InIQtiEvNU/ENk1Q+xW9I0s/I4dt+Nx8S8ewVKc3i6gVk
+ ++JmME86afiZmuv5fWACXpprT+tpNxkJNE9Z6cQ9rQY2j05qXpy1CQVhKWSE7m6G8pwA
+ 2WC21EFlp0y/UmA1H/LJkZkfy534JJwBELiwoz4PkGTUBTyvogcXVQBRYMHM8bXKf6VR
+ waDxnUjPTLMmWITCE3k+6NJ+lKqHUj8bo3el+EhnIk7RzuTPD2Dc/l4PWHSiFwgChY/k
+ tg5Q==
+X-Gm-Message-State: AOAM532OoNrPUoJ/bwEvxSK+GBX6R3mW28ZVAppqQVnuNofH0WZ8ptBz
+ u9R17Zzdpdq9Agq5gIsplmc=
+X-Google-Smtp-Source: ABdhPJzws2nk+8IQUdLMQ/UW+L134oqTe0mAkrmJ+izKxrmouBw2DYvgJERUyyz49n7YZEOnnZehOg==
+X-Received: by 2002:a05:6870:60a1:b0:e2:b6b8:3e67 with SMTP id
+ t33-20020a05687060a100b000e2b6b83e67mr2057906oae.137.1651263837158; 
+ Fri, 29 Apr 2022 13:23:57 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020a4ae28e000000b0035eb4e5a6cfsm1153965oot.37.2022.04.29.13.23.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Apr 2022 13:23:56 -0700 (PDT)
+Message-ID: <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+Date: Fri, 29 Apr 2022 13:23:52 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9f601c458bd3401b216992e8dd72485a10f34597.camel@mediatek.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+In-Reply-To: <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,161 +88,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com, devicetree@vger.kernel.org,
- airlied@linux.ie, cellopoint.kai@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, xinlei.lee@mediatek.com
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 29, 2022 at 09:55:37AM +0800, Rex-BC Chen wrote:
-> On Thu, 2022-04-28 at 15:33 -0500, Rob Herring wrote:
-> > On Thu, 28 Apr 2022 21:37:50 +0800, Rex-BC Chen wrote:
-> > > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > > 
-> > > Convert mediatek,dsi.txt to mediatek,dsi.yaml format
-> > > 
-> > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> > > ---
-> > >  .../display/mediatek/mediatek,dsi.txt         |  62 ---------
-> > >  .../display/mediatek/mediatek,dsi.yaml        | 122
-> > > ++++++++++++++++++
-> > >  2 files changed, 122 insertions(+), 62 deletions(-)
-> > >  delete mode 100644
-> > > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
-> > > l
-> > > 
-> > 
-> > Running 'make dtbs_check' with the schema in this patch gives the
-> > following warnings. Consider if they are expected or the schema is
-> > incorrect. These may not be new warnings.
-> > 
-> > Note that it is not yet a requirement to have 0 warnings for
-> > dtbs_check.
-> > This will change in the future.
-> > 
-> > Full log is available here: 
-> > https://urldefense.com/v3/__https://patchwork.ozlabs.org/patch/__;!!CTRNKA9wMg0ARbw!wKbRsUmeUS_4mtOwj1t30buVNEilHYYhsUmEd5MvZ7P9VyDXg6cikERof47mkwETQzFL$
-> >  
-> > 
-> > 
-> > dsi@1400c000: compatible: ['mediatek,mt7623-dsi', 'mediatek,mt2701-
-> > dsi'] is too long
-> > 	arch/arm/boot/dts/mt7623n-bananapi-bpi-r2.dtb
-> > 	arch/arm/boot/dts/mt7623n-rfb-emmc.dtb
-> > 
-> > dsi@14014000: #address-cells:0:0: 2 was expected
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-
-> > sku2.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku1.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku6.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku7.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-
-> > sku16.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
-> > sku0.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
-> > sku1.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb
-> > 
-> > dsi@14014000: 'port' is a required property
-> > 	arch/arm64/boot/dts/mediatek/mt8183-evb.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-
-> > sku2.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku1.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku6.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku7.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-
-> > sku16.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
-> > sku0.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
-> > sku1.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb
-> > 
-> > dsi@14014000: #size-cells:0:0: 2 was expected
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-
-> > sku2.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku1.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku6.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-
-> > sku7.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-
-> > sku16.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
-> > sku0.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-
-> > sku1.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb
-> > 
-> > dsi@1401b000: 'port' is a required property
-> > 	arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb
-> > 	arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb
-> > 
+On 4/29/22 10:48, Guenter Roeck wrote:
+> On 4/28/22 06:44, Arnd Bergmann wrote:
+>> On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>>> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> On 4/24/22 01:52, Arnd Bergmann wrote:
+>>>>> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>>> into the defconfig file, otherwise the multiplatform target defaults to
+>>>>> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+>>>>> you also need to enable CONFIG_ARCH_MULTI_V4T.
+>>>>>
+>>>>> This is slightly unfortunate, but I don't see any way to avoid it, and the
+>>>>> modified defconfig will still work fine with older kernel trees.
+>>>>>
+>>>>
+>>>> Yes, that works. I changed it in my configuration.
+>>>
+>>> Ok, great!. I managed to boot the z2 machine with PCMCIA support
+>>> and it gets around the issue with my patch, correctly detecting the
+>>> CF card.
+>>
+>> Hi Guenter,
+>>
+>> I have now sent out a fix that I'm happy with, and applied it to the
+>> pxa-multiplatform-5.18 branch of the soc tree as well as the
+>> combined arm/multiplatform tree.
+>>
+>> I have not merged this new version into the for-next branch
+>> since I would like to see if there are any other regressions first.
+>>
+>> Can you run your boot tests on the arm/multiplatform branch
+>> and let me know if that fixes everything you found? If that
+>> takes a lot of manual steps on your side, I'd just wait for the
+>> build bots and merge it after all there are no new compile-time
+>> issues.
+>>
 > 
-> Hello Rob,
+> I tried the pxa-multiplatform-5.18 branch. Its failures match
+> those in v5.18-rc1.
 > 
-> Thanks for your comments.
-> The purpose of this series is not to fix dts for previous SoCs.
-> Therefore, if there is a chance, we could send another series to fix
-> them.
 
-Conversions often find that the actual dts files vary a bit more than 
-the binding doc said. You should look at the warnings and decide if they 
-should be fixed or the schema relaxed. It's a judgement call. I have no 
-idea if you did that already or not, so I send this out on conversions. 
-The check runs automatically, but sending it I review briefly.
+Uuh, wait, the build wasn't complete. There are still some
+failures. I'll report later.
 
-Rob
+Guenter
