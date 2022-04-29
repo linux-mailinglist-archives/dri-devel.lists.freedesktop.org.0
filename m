@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B888514860
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 13:41:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFD651491F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 14:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 327EF10E901;
-	Fri, 29 Apr 2022 11:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBEB10E3F6;
+	Fri, 29 Apr 2022 12:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7876C10E1C4;
- Fri, 29 Apr 2022 11:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651232508; x=1682768508;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=VdQFpZNA7FpnPQsSDUTNKVused4DCQuyzq+ujv2qbtY=;
- b=JXY74f/9Wa+a4/cx70l6z0CgqlxFaZEgCvKRxRUaHXUQW4t6lUGrvLCn
- C9q/s+Bm/fspkGq0VuNukxwdLs2o8c59niPPUBsae4+eBYy5d7wlR+Zrh
- lyNE2CTps451WLsJEuJiUMyd1DsaXdI5sVV4+OkMh+bkQV2pCQd6dhtn6
- 2pmR3aBRTU/E40alCCoZfWEmLfYf3NNo8SQp2uBghdkKGiXYKtyYG4IWW
- IxAP/iHBlJypqIEbWo+TY9o94tnIe6WuPWJAshXsj1BgjU9HU9Wg4WlNc
- NAVbT10SbmgQexm+FVOA2cXWbAmeiRCqVf9DC1YytEZjTgS8bpNnVLkke g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="264209368"
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; d="scan'208";a="264209368"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 04:41:47 -0700
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600"; d="scan'208";a="534445175"
-Received: from agerasym-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.133.25])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 04:41:45 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] drm/edid: fix kernel-doc parameter name mismatches
-In-Reply-To: <20220426091913.1339941-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220426091913.1339941-1-jani.nikula@intel.com>
-Date: Fri, 29 Apr 2022 14:41:43 +0300
-Message-ID: <87r15grua0.fsf@intel.com>
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
+ [IPv6:2607:f8b0:4864:20::f30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9CC10E3F6;
+ Fri, 29 Apr 2022 12:21:30 +0000 (UTC)
+Received: by mail-qv1-xf30.google.com with SMTP id kj18so5189711qvb.6;
+ Fri, 29 Apr 2022 05:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Yna8wfxABGYcAzA/m8WI3a3vsuDJiblFDn19JsbFVRw=;
+ b=mtBUQ22TZn8EatYDxTYLdotsO7yJQYU4occVzmST8szXuuUBtaDiUfdLmtdVJgzQKN
+ 4O/+9oJLN1wjn7P1fz5QRDkRyv482CavphlzEDp/uHAM8efgaN/wepFB7bx6zxkvvK1S
+ VpzrdArd7/AkVbG6uBRAYQ6pOy3tmwPcPQgVaEROhw2CcHTb+FF6aqwVSOBFi6Iw8KmG
+ 62eGFYC/PmNzdmAr+0kENSVG4fK5BNGPMlHTQJQBYfX6ZT5FvbpPm3VLbpdBN6o2/XRL
+ nZ3IRHqsl2dBfm1Xrs26iuZ8LW93tlGlXiOMJOUs7ADgVNfp2uhG2ejsIOrkcsnCYL3f
+ 8bJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Yna8wfxABGYcAzA/m8WI3a3vsuDJiblFDn19JsbFVRw=;
+ b=YvkVZvG6sLYOoM1QCIfaP9mT+AJ9YaUWJnJgLZHxZz53x1fJ+KziN9s2dgCJhcCTVn
+ 2XrJ2DLyho6XiYzarwAJOY6+bRSNn/icP4CW/uXRa8EE8H0UZ4GWP626r3CjLEbwPSfL
+ tljozeGv/jWMCTGZIPv90D/9JczKu3pyAB1f02reGWKoXXQoKYJPhWit0It/0U3O7+9N
+ aRiDjln237kupyE9CsFb0ENwrOgJ4IZBdrkpIIhCRFGq8RYhUlN2sdOzHs70oD9DUU+f
+ p2IQ2uPvfNY/IO5Uy+wpXgk3YS9O3dvdrEk2NLnRI/oPp0N3cRkUOum82+8m2fGTPWJ5
+ QWdQ==
+X-Gm-Message-State: AOAM533ukF2cvI9WRqIm+Ab6ggpbEvWhzo6dsWLzXe3oXQyb10+5L+Mq
+ 3YXwW/tCgudKf4hejn6Fvc+XyxEMXhfZ5VSQ9+A=
+X-Google-Smtp-Source: ABdhPJzw+2DEPrXqQevHuO9GHfmBTFnh+ki0GlhRcwAbobZhNKA9A0XYMVVgk810ZaNXFo/JjXG8qtMLgV71ZYYU3cw=
+X-Received: by 2002:a05:6214:2344:b0:429:4d92:cec2 with SMTP id
+ hu4-20020a056214234400b004294d92cec2mr26759380qvb.0.1651234889713; Fri, 29
+ Apr 2022 05:21:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220425152317.4275-1-ramalingam.c@intel.com>
+ <20220425152317.4275-2-ramalingam.c@intel.com>
+In-Reply-To: <20220425152317.4275-2-ramalingam.c@intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 29 Apr 2022 13:21:03 +0100
+Message-ID: <CAM0jSHNff+p6ER=hLfNSK3Zo6DNr6jNcPStmOFMDtrz8HdZWEQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915/xehpsdv/dg1/tgl: Fix issue with
+ LRI relative addressing
+To: Ramalingam C <ramalingam.c@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,70 +64,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, intel-gfx@lists.freedesktop.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Apr 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> Fix the below drm/edid kernel-doc warnings:
+On Mon, 25 Apr 2022 at 16:22, Ramalingam C <ramalingam.c@intel.com> wrote:
 >
-> drivers/gpu/drm/drm_edid.c:1589: warning: Function parameter or member '_edid' not described in 'drm_edid_header_is_valid'
-> drivers/gpu/drm/drm_edid.c:1589: warning: Excess function parameter 'raw_edid' description in 'drm_edid_header_is_valid'
-> drivers/gpu/drm/drm_edid.c:1737: warning: Function parameter or member '_block' not described in 'drm_edid_block_valid'
-> drivers/gpu/drm/drm_edid.c:1737: warning: Excess function parameter 'raw_edid' description in 'drm_edid_block_valid'
-> drivers/gpu/drm/drm_edid.c:2136: warning: Function parameter or member 'read_block' not described in 'drm_do_get_edid'
-> drivers/gpu/drm/drm_edid.c:2136: warning: Function parameter or member 'context' not described in 'drm_do_get_edid'
-> drivers/gpu/drm/drm_edid.c:2136: warning: Excess function parameter 'get_edid_block' description in 'drm_do_get_edid'
-> drivers/gpu/drm/drm_edid.c:2136: warning: Excess function parameter 'data' description in 'drm_do_get_edid'
+> From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 >
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> References: https://lore.kernel.org/r/20220406154431.567414c3@canb.auug.org.au
-> References: https://lore.kernel.org/r/20220420162431.2b28ddea@canb.auug.org.au
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
-Pushed both to drm-misc-next with Simon's irc r-b. Thanks for the report
-& review.
-
-BR,
-Jani.
-
-> ---
->  drivers/gpu/drm/drm_edid.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> When bit 19 of MI_LOAD_REGISTER_IMM instruction opcode is set on tgl+
+> devices, HW does not care about certain register address offsets, but
+> instead check the following for valid address ranges on specific engines:
+>         RCS && CCS: BITS(0 - 10)
+>         BCS: BITS(0 - 11)
+>         VECS && VCS: BITS(0 - 13)
+> Also, tgl+ now support relative addressing for BCS engine - So, this
+> patch fixes issue with live_gt_lrc selftest that is failing where there is
+> mismatch between LRC register layout generated during init and HW
+> default register offsets.
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 7a8482b75071..6446f5d3944b 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1610,7 +1610,7 @@ static void edid_header_fix(void *edid)
->  
->  /**
->   * drm_edid_header_is_valid - sanity check the header of the base EDID block
-> - * @raw_edid: pointer to raw base EDID block
-> + * @_edid: pointer to raw base EDID block
->   *
->   * Sanity check the header of the base EDID block.
->   *
-> @@ -1827,7 +1827,7 @@ static void edid_block_dump(const char *level, const void *block, int block_num)
->  
->  /**
->   * drm_edid_block_valid - Sanity check the EDID block (base or extension)
-> - * @raw_edid: pointer to raw EDID block
-> + * @_block: pointer to raw EDID block
->   * @block_num: type of block to validate (0 for base, extension otherwise)
->   * @print_bad_edid: if true, dump bad EDID blocks to the console
->   * @edid_corrupt: if true, the header or checksum is invalid
-> @@ -2112,8 +2112,8 @@ static enum edid_block_status edid_block_read(void *block, unsigned int block_nu
->  /**
->   * drm_do_get_edid - get EDID data using a custom EDID block read function
->   * @connector: connector we're probing
-> - * @get_edid_block: EDID block read function
-> - * @data: private data passed to the block read function
-> + * @read_block: EDID block read function
-> + * @context: private data passed to the block read function
->   *
->   * When the I2C adapter connected to the DDC bus is hidden behind a device that
->   * exposes a different interface to read EDID blocks this function can be used
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+> cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
