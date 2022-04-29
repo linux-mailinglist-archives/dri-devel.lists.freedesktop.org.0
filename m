@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803465141F6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 07:51:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DBD5141F7
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 07:51:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5F510FB70;
-	Fri, 29 Apr 2022 05:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D470810FB79;
+	Fri, 29 Apr 2022 05:51:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0659910FB70
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 05:51:20 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id q13so4724015qvk.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 22:51:19 -0700 (PDT)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D638710FB79
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 05:51:52 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id b189so5172107qkf.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 22:51:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=aDJuHsnb5EzH/lpZ47Oj8fmkH3usiQ2wqUINLtDi+c8=;
- b=Ye/6eHlQjd1t3TB0u3vmRazBP4a7XLeXMdJ1Rnhm3IbbOnJVrjRTMYYoH7mFIDlD98
- C0A1qidM9UjvmMemSlGxoli2t6CpOcGjR4bfXGEXmsu00Jp6xe53RvfkJ05P396gZ/rQ
- NJw/pMooJ2VKutmKBIYcuyGId2tVz/6m/Ebwltc/is+lAUfoHhhnY173siIkMqVxCHse
- hdrXVD+mxKCeoWqZ4BCMEPurb2KQaHudSQB6jFpFknCl7lyVD+u55HTBu+ZLVRw6lAhJ
- Mwb8WL6EV+5/jRpXwXdduh2t8j2oE3CFyE/el9k2vmvPZfo8huvRw82DQbMgLabJqrQY
- QSQw==
+ bh=wSVXGhpX7+3tqTsq9MsK0eHVkHax9CnVVMbIrKRPdDw=;
+ b=fmuuBxFPSBAuf+kR6aW1QBSGWJabwOZqrtp+tpz8nO9W07mEM7T5UqX7YlGIDU52uA
+ r410eXWTSmmOVPL3oT5WdLurXJUG+4WpD6TOgFXT99mnpN3c1CzrIODqw3etBrD9tG4M
+ 71ZSSkIUnhgoAP0D8l7lucky9atri3irfM3+q5ROXnCL9t1EX/jdeDV8y0KbLnBvFtfm
+ yXXGTTG4ZtFRqauo88uIdVYM60Fwhy8f9u3kNs6yT0YrZCnNg38lighR/t2Ao1LjPK07
+ NZGGkpkUhEEa7VoEcAGWkBN4Pni6oCucvOH/HbTieiw+RaS2DUNeDmMQ3VQ4+jMeuVN+
+ JdLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=aDJuHsnb5EzH/lpZ47Oj8fmkH3usiQ2wqUINLtDi+c8=;
- b=bwCgkMtA+7fM/gkgeacufupmen5TqDHsvwmIAxqivP7vVP15HPxDFB/fYICO5hYBWP
- y5cQH+fWYDEu/cxy0MAkTuU+HyT1+JWvVIWntQy8maizh1y3/iyh+d7enZdtLYnknRpM
- PuBRdLM8lkdIvrXFfuc/fGJHYphLIB0Wk2oMgTYyvPjAjVB9TiXKChdo54P21ONwQRPP
- /QYnA9YAh0INEv1/F7o8I+N3lMBnM3Z4n1haYdmWPhxvq+WLswwTHYK+NJW5OzjjNRyK
- nXNbBnn0Guk+oyy6kewcIruNXYJQIgMGe7wbVbcNrdSFfxmrotzaa5wPAzI9UNt9P8xe
- UWLg==
-X-Gm-Message-State: AOAM531AfcUFiHcorQWqysDwZhdj12EAwgH0bDpTmJMVcYOVHjJ5lg+Y
- bK5TESJztMmabu0hgNPlTKw=
-X-Google-Smtp-Source: ABdhPJwixi6jHMC7bGvPnpTqiNSXfVsJOyc9CaKMVWXZvsnUu8ogEfLH6vW++steXpoKW/9kxxCI4g==
-X-Received: by 2002:ad4:4345:0:b0:456:915e:9bcc with SMTP id
- q5-20020ad44345000000b00456915e9bccmr5240086qvs.109.1651211479166; 
- Thu, 28 Apr 2022 22:51:19 -0700 (PDT)
+ bh=wSVXGhpX7+3tqTsq9MsK0eHVkHax9CnVVMbIrKRPdDw=;
+ b=QuaUaragFyT3uTm6glgss4Gjy9+YOqBd1lGMuB8qiV7ITyI3Z+Vt3wjdUfGXvEDelR
+ m7Fv19engeHIaH9E+RivXuURNdtex6+9pRIL2cTPmuv85y7P0nIt8y2J0PYY3YEcpMFA
+ dZITuRjLG3dDLH3dHSCrFJIMZvZz9kIr8tivgt+z30zthGO3m5v4HISUWi0+ObvpbXL6
+ 0rnUyehcxz8uUTvNjiCfRedKG1R9RMZZm2/o1a/oQk2OhcGp/19S8bDH0S/sSu0zBozz
+ IhQHhg3oYkm+2OvahiHceBCVzVA979OnS8mWgFHxPUuUYIKXbmnrv8yfeiAr7Bg3hnH4
+ d5vw==
+X-Gm-Message-State: AOAM532hNxbbS/ZsgWGrBrRibFgBlglPWRrYnJjPUd+vXi9wdPMRGLp+
+ ovtak8fvYVrXnimQP3z8n3I=
+X-Google-Smtp-Source: ABdhPJw1gCc2UXxhJhiT71GwoRlCH57dMMt23E72MDXt2Kf+ewwW3RM2u1ZV1h3f73kB1kw5bbJHHQ==
+X-Received: by 2002:a05:620a:4114:b0:69f:9b84:82a0 with SMTP id
+ j20-20020a05620a411400b0069f9b8482a0mr5857387qko.675.1651211511982; 
+ Thu, 28 Apr 2022 22:51:51 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- f10-20020a05622a104a00b002f35726ccd8sm1194328qte.86.2022.04.28.22.51.16
+ w3-20020ac87e83000000b002f33b2cfe62sm1277312qtj.66.2022.04.28.22.51.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 22:51:18 -0700 (PDT)
+ Thu, 28 Apr 2022 22:51:51 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: chi.minghao@zte.com.cn
-To: deller@gmx.de
-Subject: [PATCH] omapfb: simplify the return expression of nec_8048_connect()
-Date: Fri, 29 Apr 2022 05:51:12 +0000
-Message-Id: <20220429055112.3852209-1-chi.minghao@zte.com.cn>
+To: dianders@chromium.org
+Subject: [PATCH] drm/bridge: simplify the return expression of
+ ps8640_bridge_host_attach
+Date: Fri, 29 Apr 2022 05:51:45 +0000
+Message-Id: <20220429055145.3852271-1-chi.minghao@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,9 +69,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Minghao Chi <chi.minghao@zte.com.cn>, linux-omap@vger.kernel.org
+Cc: narmstrong@baylibre.com, Zeal Robot <zealci@zte.com.cn>,
+ linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -81,32 +82,34 @@ Simplify the return expression.
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 ---
- .../fbdev/omap2/omapfb/displays/panel-nec-nl8048hl11.c     | 7 +------
+ drivers/gpu/drm/bridge/parade-ps8640.c | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-nec-nl8048hl11.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-nec-nl8048hl11.c
-index be9910ff6e62..b407173e27b1 100644
---- a/drivers/video/fbdev/omap2/omapfb/displays/panel-nec-nl8048hl11.c
-+++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-nec-nl8048hl11.c
-@@ -117,16 +117,11 @@ static int nec_8048_connect(struct omap_dss_device *dssdev)
- {
- 	struct panel_drv_data *ddata = to_panel_data(dssdev);
- 	struct omap_dss_device *in = ddata->in;
--	int r;
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index edb939b14c04..e2467e58b5b7 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -542,7 +542,6 @@ static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridg
+ 	struct device_node *in_ep, *dsi_node;
+ 	struct mipi_dsi_device *dsi;
+ 	struct mipi_dsi_host *host;
+-	int ret;
+ 	const struct mipi_dsi_device_info info = { .type = "ps8640",
+ 						   .channel = 0,
+ 						   .node = NULL,
+@@ -577,11 +576,7 @@ static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridg
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->lanes = NUM_MIPI_LANES;
  
- 	if (omapdss_device_is_connected(dssdev))
- 		return 0;
- 
--	r = in->ops.dpi->connect(in, dssdev);
--	if (r)
--		return r;
+-	ret = devm_mipi_dsi_attach(dev, dsi);
+-	if (ret)
+-		return ret;
 -
 -	return 0;
-+	return in->ops.dpi->connect(in, dssdev);
++	return devm_mipi_dsi_attach(dev, dsi);
  }
  
- static void nec_8048_disconnect(struct omap_dss_device *dssdev)
+ static int ps8640_probe(struct i2c_client *client)
 -- 
 2.25.1
-
 
