@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1494515741
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 23:47:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E3351576D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 23:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B719F10FAC6;
-	Fri, 29 Apr 2022 21:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6051E10FAC9;
+	Fri, 29 Apr 2022 21:53:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A8610FAC6
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 21:47:09 +0000 (UTC)
-Received: from mail-yb1-f171.google.com ([209.85.219.171]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1M4JVv-1nkpZK2tHN-000HYa for <dri-devel@lists.freedesktop.org>; Fri, 29
- Apr 2022 23:47:07 +0200
-Received: by mail-yb1-f171.google.com with SMTP id m128so16731305ybm.5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 14:47:07 -0700 (PDT)
-X-Gm-Message-State: AOAM531jJ055qbBVrbsofWI98tmD/cewt4PXc8i1xJlkbVZYwL56A5sr
- x+hG/Sry/YpBNp9OHdW6qHufExW7USG6XDwYTDw=
-X-Google-Smtp-Source: ABdhPJwtcBUeQCwBE/wHCTNSMt9GmZKG8b0zElf3XSRBB+ltEsvmy5fENkUQ3EnsgyBJ9WDIgobY6XmBd5vZorZaAUk=
-X-Received: by 2002:a25:d3c2:0:b0:645:74df:f43d with SMTP id
- e185-20020a25d3c2000000b0064574dff43dmr1535991ybf.394.1651268826333; Fri, 29
- Apr 2022 14:47:06 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68A910FAC9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 21:53:27 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id 4so11957868ljw.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 14:53:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mx96GF5mK2X2Q9SZlgJmIqotjYYuzoJNpzCjKgQvXXc=;
+ b=zQM1rexPb+PuCeQE3rGh8yDNn0rfbjhAYBLT/pCtmSftZ+l8negFH45+12uqdbCIq7
+ f34QunA7P3tbi4Aj6F5SfdH+TkMNhRqgq8CdqyqgPFwl9hqHQZ7aDS74hCPXut+oQ+i3
+ 45IP3qxP5JBqEWQYkrdBjSgiB4DST48lDrtg5Th3IAc+pXs4CkrqjruPfX6ITKBkjQxa
+ 2ER8y2fZR3jsN/0pP7bw6uMwKxUrMSLPWZPM7xcYczbEw5DmzN/0fPvwkoGqX3Ce1qpK
+ gwUO8OpBVBBZADCHddKhbknM5suUAADtHI4x/Jt6039iFbzxsJgAZwsJonAX9maOEcbq
+ uvKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mx96GF5mK2X2Q9SZlgJmIqotjYYuzoJNpzCjKgQvXXc=;
+ b=mcH1fVVNnuPxna/ZvBkmIdVpvHG+Kljw/YE2VewqZZ/96Lm1Uun6yWIj3D4j3SmLdy
+ dRHCnSUsLYcqV9dAOjosBoE27WJglGsPG5dSKI/ZYC5qtXjaM91c9xVjfL52TJ9Q8pmf
+ 4iin4k8ui0dmTdzbXp3YwsoX+y3XuFiecN3S6F8xmQKO0pznsTmyWtqi+kV2GTeDopkx
+ 4qSPe1dbCpwDvH4rPsVYw/14/Zu/2XvsgNmhdE7VgyvTaXQ/+IqlzZ+ssQj7pvVKtJU8
+ z2GJk0ZXGotHhW7DW+3T3hLwce091vGBa5sS/9GkGucuTcGTOmla7p1GSaR2+tl52XZO
+ KVBQ==
+X-Gm-Message-State: AOAM533N22LmHVI8+L41rccw/HIOvy/d0qTwWGLB3P1m73sOcA1Jtv6g
+ 3J+ntLvQmDaeiUZww0QV7iG1QA==
+X-Google-Smtp-Source: ABdhPJxTCMaDPQsKPWv6eVS+a/KAs7Y2FdPT/TsKt8CoWZ8/JPGV9PwjBnt3nTK4XNlR4U+ne07m7Q==
+X-Received: by 2002:a2e:b8c3:0:b0:24f:3395:16e8 with SMTP id
+ s3-20020a2eb8c3000000b0024f339516e8mr801971ljp.378.1651269206070; 
+ Fri, 29 Apr 2022 14:53:26 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ 11-20020ac2568b000000b0047255d21182sm32637lfr.177.2022.04.29.14.53.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 14:53:25 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] MAINTAINERS: Add Dmitry as MSM DRM driver co-maintainer
+Date: Sat, 30 Apr 2022 00:53:24 +0300
+Message-Id: <20220429215324.3729441-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
- <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net>
- <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
- <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
- <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
- <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
- <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
-In-Reply-To: <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 29 Apr 2022 23:46:50 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
-Message-ID: <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:br5MSFOmOKgU8puftmDldSg/HPXXW08+VaR166hX+nYcBtlWgwI
- s0JGSIRZl/mfAXzsTnvvTCF/z+2CsAQHDx5r9Vr1LWd/P6bTrk4Qcnbi3uvM0OqrrcDaYWX
- 6Pu64hfcl5+09gkmfdyXUQsw8JHjEu6mNKG1eLa35sx2KO1RWzof/C68vLQkDRmARWYSmsm
- zydnalDwbXX8tu67fU3QQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:m1eNdovUjbE=:Q9wTAlkTm1v82g4EJ8iFvr
- lMSKVMBzFKs/PFNCitw1jlXeyYwaT/Z+6cDalgvmAc1MwaBgUHcXEW4AS0r2ZkWLIIfwDHCoF
- ikjV6ew5O5TeBEY/lUxJCURuUA+48qkzKKlBgzRCsbOgHRGhez8IHtNZtE4eL1DaYIjlBkio6
- SbXlb/1HtiWWIpx6aofxDvCm2uQMFIWYJMcP5HFRYq1YcYf3pWqwVq4WQdKjofTp+9B0VC+L5
- q0rxLQMrrWCfLLl99n3ZqlVDw8/jO25v8gQsEcusW5/zsfbpTABXNJkcZi69oUIIQ18rj01ss
- ttD1jTUUULrTQFQ4FLUG/l4TJqUoTcrlNv+sbn/Kkov8YHatYcuuDx0jVRcnLZ35vh76KSkzZ
- 1QZdrXUtP00L+JeNWE5mSzCPOMRHM/aEZKYnNUinVRcLeWZM1jOXLsABM9ucPujbadJaLn5Ok
- fL35agX9UxC5Euylk4Hl46FhRee4Q/AVo1x+WZ1MCLu0zq7doWq0oHR2JemPZ+pneZCMq4EBn
- icL6vNHYZjuts/HYReLNQUMINXHaQn6CTrMzF0UDULVE/r1asUzIY6YwiaWzveAq6eON3XaOV
- HufMnya+QUvWLDpmQzGexE5JF35/5eZ08LkTmA66psD0qWpAjxjcRAXLbgepRo1az7DJyrr2w
- jp01idPnUxeXPq7SGrRRyZ574mSm5t0GffbNHIn8KNOSNQ7Q+b/byMjjSku6/YnWLWfLl2m/l
- R9DLaidyDU1192fJhwsGjyXBhHiiOj+OncvBaIcqDK4It+4Jb+knY+5z/D2EtTZVXB6WSgo3m
- T6rzIX+bBJtZiAmeWZK0Bu2jpflAUTa6ebaaXnkTU2wM0Ukl3s=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,45 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
- Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
- Arnd Bergmann <arnd@arndb.de>, Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Daniel Mack <daniel@zonque.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 29, 2022 at 10:23 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 4/29/22 10:48, Guenter Roeck wrote:
-> >
-> > I tried the pxa-multiplatform-5.18 branch. Its failures match
-> > those in v5.18-rc1.
-> >
->
-> Uuh, wait, the build wasn't complete. There are still some
-> failures. I'll report later.
+For the past several releases I have been assisting Rob by writing,
+collecting, testing and integrating patches for non-GPU and non-core
+parts of MSM DRM driver, while Rob is more interested in improving the
+GPU-related part. Let's note this in the MAINTAINERS file.
 
-Sorry about the breakage, I got a few more reports about minor build errors
-and warnings, the newly uploaded branches should address all of the ones
-I got reports for.
+While we are at it, per Rob's suggestion let's also promote Abhinav
+Kumar to M: (as he is actively working on the driver) and switch Sean
+Paul to R: (since he isn't doing much on msm these days).
 
-        Arnd
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ MAINTAINERS | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 61d9f114c37f..782934f318d4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6254,8 +6254,9 @@ F:	drivers/gpu/drm/tiny/panel-mipi-dbi.c
+ 
+ DRM DRIVER FOR MSM ADRENO GPU
+ M:	Rob Clark <robdclark@gmail.com>
+-M:	Sean Paul <sean@poorly.run>
+-R:	Abhinav Kumar <quic_abhinavk@quicinc.com>
++M:	Abhinav Kumar <quic_abhinavk@quicinc.com>
++M:	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++R:	Sean Paul <sean@poorly.run>
+ L:	linux-arm-msm@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ L:	freedreno@lists.freedesktop.org
+-- 
+2.35.1
+
