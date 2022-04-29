@@ -1,44 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F20B51562A
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:57:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB995156BE
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 23:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A9210FAA2;
-	Fri, 29 Apr 2022 20:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1960410FAC4;
+	Fri, 29 Apr 2022 21:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3C410FAA1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:56:55 +0000 (UTC)
-Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F53E10FAC4
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 21:21:57 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id AB71A83E3C;
- Fri, 29 Apr 2022 22:56:53 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id B6D1483C5E;
+ Fri, 29 Apr 2022 23:21:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1651265814;
- bh=OGq15KDTpkUSK5PiLKf+yAW9ki4x7Xh8sosZqlHxPBc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uD6X/uaHgwEkHFzcQCdp55xWalX0zPMHhf81VkhHK9iXJjY/Ysr8SEeXkXD3htlvH
- TdNYxRNQWsy2kEJM6hDXc4iWE8GsYFJsTcFTfWmEZBZu8m/T6yUDQYWq4ZhQzxy8Jr
- GhGWiTJm5JYvP+4MF7GgxbTraSb5+yBjX2da83uC84Ve35sVdruyr4LzUM5aRSQVXn
- kAqCWQxO8esc2YYggxxBFSfN30CudQSRg3wouKxDfJnxafEvt17R7OqBT+u8mn4o9b
- SDtWpGXl2VM75WGoql9hls5HhlpY6UFqoXNoGoskwEhoIbVMgGu08fuvXE7vLBHUfD
- qlwDMjXv96hCQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/bridge: tc358767: Add DSI-to-(e)DP mode support
-Date: Fri, 29 Apr 2022 22:56:44 +0200
-Message-Id: <20220429205644.245480-2-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220429205644.245480-1-marex@denx.de>
-References: <20220429205644.245480-1-marex@denx.de>
+ s=phobos-20191101; t=1651267315;
+ bh=d7QGIUWtabMQ8mr/wqIBGKKjIjQBYuO+QeYfvFF0Nys=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=j6zCSBseIEUaEfYGaq0QWHaEse/h7TGEc23XEyyIoObVu4mHzWTTHZjrKY7VB/9BN
+ LhMRWdFafn/v5873YGcwPNr5GYuqlNFglP4G53MaXN/mcOOvclizgYDgZSo4FscAfa
+ pIN0nPGuhvZuwBoe30SICxCD2+dqkcVr0qfc/MMqkV4MpqAucZMdTrRsciKb4L0pxI
+ kOUT2/E8ycgYh95qp/MnR0zZkGEKvSGnRIs9x6XXmQPAGS6M7VvMecd62tnvVns7P+
+ BCG4RrV+2cF/GqomFUZBWq6gDAJgsKhaLb0BzZwBQy+npSYy48fi21j0g0Lex07XQd
+ ubn14+wUjZhvQ==
+Message-ID: <e17c8c20-1c85-60f9-ed75-ac5d18f197db@denx.de>
+Date: Fri, 29 Apr 2022 23:21:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2] drm: mxsfb: Implement LCDIF scanout CRC32 support
+Content-Language: en-US
+To: Stefan Agner <stefan@agner.ch>
+References: <20220411203531.774958-1-marex@denx.de>
+ <efa4cf7bc24ed9b217f1bbaff9b652d4@agner.ch>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <efa4cf7bc24ed9b217f1bbaff9b652d4@agner.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,118 +57,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, Robby Cai <robby.cai@nxp.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement DSI-to-e(DP) mode, which is a mix of currently supported
-DSI-to-DPI and DPI-to-(e)DP modes. The input side is configured as
-either DSI or DPI, the DP AUX channel is registered for both input
-side options, and the DSI host is attached for both DPI and (e)DP
-output side options.
+On 4/29/22 16:08, Stefan Agner wrote:
+> On 2022-04-11 22:35, Marek Vasut wrote:
+>> The LCDIF controller as present in i.MX28/i.MX6SX/i.MX8M Mini/Nano has
+>> CRC_STAT register, which contains CRC32 of the frame as it was clocked
+>> out of the DPI interface of the LCDIF. This is most likely meant as a
+>> functional safety feature.
+>>
+>> Unfortunately, there is zero documentation on how the CRC32 is calculated,
+>> there is no documentation of the polynomial, the init value, nor on which
+>> data is the checksum applied.
+>>
+>> By applying brute-force on 8 pixel / 2 line frame, which is the minimum
+>> size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
+>> 0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
+>> of the entire frame and the resulting CRC has to be also bitrev32()ed.
+>>
+>> Doing this calculation in kernel for each frame is unrealistic due to the
+>> CPU demand, so attach the CRC collected from hardware to a frame instead.
+>> The DRM subsystem already has an interface for this purpose and the CRC
+>> can be accessed e.g. via debugfs:
+>> "
+>> $ echo auto > /sys/kernel/debug/dri/1/crtc-0/crc/control
+>> $ cat /sys/kernel/debug/dri/1/crtc-0/crc/data
+>> 0x0000408c 0xa4e5cdd8
+>> 0x0000408d 0x72f537b4
+>> "
+>> The per-frame CRC can be used by userspace e.g. during automated testing,
+>> to verify that whatever buffer was sent to be scanned out was actually
+>> scanned out of the LCDIF correctly.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Peng Fan <peng.fan@nxp.com>
+>> Cc: Robby Cai <robby.cai@nxp.com>
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Stefan Agner <stefan@agner.ch>
+>> ---
+>> V2: Check crtc for non-NULL before dereferencing it in mxsfb_crtc_set_crc_source
+>> ---
+>>   drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 15 +++++++-
+>>   drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  3 ++
+>>   drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 61 ++++++++++++++++++++++++++++--
+>>   drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
+>>   4 files changed, 75 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> index 94cafff7f68d5..ccf4107476ecc 100644
+>> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> @@ -9,6 +9,7 @@
+>>    */
+>>   
+>>   #include <linux/clk.h>
+>> +#include <linux/crc32.h>
+> 
+> Doesn't look like this is used?
 
-One notable detail is that the DSI-to-(e)DP mode requires the Pixel
-PLL to be always enabled, which is not needed for DPI-to-(e)DP mode
-which gets the matching clock direct from DPI Pixel Clock instead.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/bridge/tc358767.c | 40 +++++++++++++++++++++++--------
- 1 file changed, 30 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index e72dd5cd9700..798da0e4d086 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -309,6 +309,9 @@ struct tc_data {
- 	/* do we have IRQ */
- 	bool			have_irq;
- 
-+	/* Input connector type, DSI and not DPI. */
-+	bool			input_connector_dsi;
-+
- 	/* HPD pin number (0 or 1) or -ENODEV */
- 	int			hpd_pin;
- };
-@@ -1353,8 +1356,18 @@ static int tc_edp_stream_enable(struct tc_data *tc)
- 
- 	dev_dbg(tc->dev, "enable video stream\n");
- 
--	/* PXL PLL setup */
--	if (tc_test_pattern) {
-+	/*
-+	 * Pixel PLL must be enabled for DSI input mode and test pattern.
-+	 *
-+	 * Per TC9595XBG datasheet Revision 0.1 2018-12-27 Figure 4.18
-+	 * "Clock Mode Selection and Clock Sources", either Pixel PLL
-+	 * or DPI_PCLK supplies StrmClk. DPI_PCLK is only available in
-+	 * case valid Pixel Clock are supplied to the chip DPI input.
-+	 * In case built-in test pattern is desired OR DSI input mode
-+	 * is used, DPI_PCLK is not available and thus Pixel PLL must
-+	 * be used instead.
-+	 */
-+	if (tc->input_connector_dsi || tc_test_pattern) {
- 		ret = tc_pxl_pll_en(tc, clk_get_rate(tc->refclk),
- 				    1000 * tc->mode.clock);
- 		if (ret)
-@@ -1394,7 +1407,10 @@ static int tc_edp_stream_enable(struct tc_data *tc)
- 		return ret;
- 
- 	/* Set input interface */
--	return tc_dpi_rx_enable(tc);
-+	if (tc->input_connector_dsi)
-+		return tc_dsi_rx_enable(tc);
-+	else
-+		return tc_dpi_rx_enable(tc);
- }
- 
- static int tc_edp_stream_disable(struct tc_data *tc)
-@@ -2004,14 +2020,18 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
- 		mode |= BIT(endpoint.port);
- 	}
- 
--	if (mode == mode_dpi_to_edp || mode == mode_dpi_to_dp)
-+	if (mode == mode_dpi_to_edp || mode == mode_dpi_to_dp) {
-+		tc->input_connector_dsi = false;
- 		return tc_probe_edp_bridge_endpoint(tc);
--	else if (mode == mode_dsi_to_dpi)
-+	} else if (mode == mode_dsi_to_dpi) {
-+		tc->input_connector_dsi = true;
- 		return tc_probe_dpi_bridge_endpoint(tc);
--	else if (mode == mode_dsi_to_edp || mode == mode_dsi_to_dp)
--		dev_warn(dev, "The mode DSI-to-(e)DP is not supported!\n");
--	else
--		dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
-+	} else if (mode == mode_dsi_to_edp || mode == mode_dsi_to_dp) {
-+		tc->input_connector_dsi = true;
-+		return tc_probe_edp_bridge_endpoint(tc);
-+	}
-+
-+	dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
- 
- 	return -EINVAL;
- }
-@@ -2149,7 +2169,7 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 
- 	i2c_set_clientdata(client, tc);
- 
--	if (tc->bridge.type == DRM_MODE_CONNECTOR_DPI) { /* DPI output */
-+	if (tc->input_connector_dsi) {			/* DSI input */
- 		ret = tc_mipi_dsi_host_attach(tc);
- 		if (ret) {
- 			drm_bridge_remove(&tc->bridge);
--- 
-2.35.1
-
+Doh, testing remnant, dropped, thanks.
