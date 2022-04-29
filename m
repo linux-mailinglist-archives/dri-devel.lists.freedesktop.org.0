@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED9F51557F
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BEF515590
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECF410FA38;
-	Fri, 29 Apr 2022 20:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECAAD10FA6F;
+	Fri, 29 Apr 2022 20:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2F0F10FA38
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:23:57 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so9211083fac.13
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=SFIOKWJe2JhWRyQ+23tvbYEj6baZGKnP/u3z5kRMOi8=;
- b=BahK7/YeJ4+uX3TzsNp83MyBHnpLrE/qMu4xIBQ+ZS6zy01DaiHuUoeMxTPloX76K5
- Ubgax4WkYffJVNJHfHbej2xMadXBqbARWF06vNjo4iI2fpzfmtqnvbFUit+eVhoT1JhV
- L/oOL5XftssttI+3dl8EE8ip+1SLDGWPYT/KGiBuWq9m2dSZpPqkNlOUQZQhXWucL9yn
- 1fTqb9x/Wr6wFFu0woyAx4hT7nL1jqWbVXQZqXhqHEX6+b6K6K/EYkfUjIg0dufd9cmz
- QpF+Wag/CjwN6tGuBEbwsUj/v1JxGTP/6FWWqjwteWqgFXZ5FfZeR3y6GbuGNkqHg17F
- kvWg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD9110FA6F
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:28:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651264105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n8HsfkpqhssnZoIsPQ1O3oVRAyXbkapxW4GnxH0gSv4=;
+ b=OXyk+ZlA2xofIDLIpoh4YJ+rLWv81XKCIyy/IB39BgGEe31RKH4WNLCYpEDcIa1ShrAN2n
+ Df/3G8VM/wCkyyVQ1ZiPCi2WCGcyyQGgVCm4XzcCAkmyd+sygyQJLNjtrtFnsUkDESUdmC
+ f8FSupPV971Lb1Wl1zABlpBDfU5IZDE=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-228-B-hhozY9PhyQMP1p_HnfKA-1; Fri, 29 Apr 2022 16:28:24 -0400
+X-MC-Unique: B-hhozY9PhyQMP1p_HnfKA-1
+Received: by mail-io1-f72.google.com with SMTP id
+ 204-20020a6b01d5000000b00657bb7a0f33so5328398iob.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=SFIOKWJe2JhWRyQ+23tvbYEj6baZGKnP/u3z5kRMOi8=;
- b=x/0J3BjnYbVyxLty0ID8O8rM/hzworjP76R0tvET3VwqSFwjDG7VFbiRxLzj2ejvKW
- Mlh/aLNUKNqRyxKDIo6TtX9InIQtiEvNU/ENk1Q+xW9I0s/I4dt+Nx8S8ewVKc3i6gVk
- ++JmME86afiZmuv5fWACXpprT+tpNxkJNE9Z6cQ9rQY2j05qXpy1CQVhKWSE7m6G8pwA
- 2WC21EFlp0y/UmA1H/LJkZkfy534JJwBELiwoz4PkGTUBTyvogcXVQBRYMHM8bXKf6VR
- waDxnUjPTLMmWITCE3k+6NJ+lKqHUj8bo3el+EhnIk7RzuTPD2Dc/l4PWHSiFwgChY/k
- tg5Q==
-X-Gm-Message-State: AOAM532OoNrPUoJ/bwEvxSK+GBX6R3mW28ZVAppqQVnuNofH0WZ8ptBz
- u9R17Zzdpdq9Agq5gIsplmc=
-X-Google-Smtp-Source: ABdhPJzws2nk+8IQUdLMQ/UW+L134oqTe0mAkrmJ+izKxrmouBw2DYvgJERUyyz49n7YZEOnnZehOg==
-X-Received: by 2002:a05:6870:60a1:b0:e2:b6b8:3e67 with SMTP id
- t33-20020a05687060a100b000e2b6b83e67mr2057906oae.137.1651263837158; 
- Fri, 29 Apr 2022 13:23:57 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- k14-20020a4ae28e000000b0035eb4e5a6cfsm1153965oot.37.2022.04.29.13.23.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 13:23:56 -0700 (PDT)
-Message-ID: <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
-Date: Fri, 29 Apr 2022 13:23:52 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=n8HsfkpqhssnZoIsPQ1O3oVRAyXbkapxW4GnxH0gSv4=;
+ b=VZwee8K19jNu85OnYWK6D5ZC40UCZoYrMsfZM3WiUJfZ59+h9J6zdOZp8FvlKvknuv
+ dDpXXmjnq+UPPz8KpPXu+zlGM6/Cr4P97BlsSxbFNHvJizyAcZmTdkvCeE3jQ3LmnxuZ
+ GuZHTKi0LOTMLEpq6tAe63GeeO2UXcQIzi8LMFxrzl9psTJmQifvvc5IfGWz+0FqDbzA
+ H6ZnUpfhrPXyFzmr59+gOH2FiGhjbiG+GEmgm4iztcyf3a6LkumHy9OOy+LYdPVz56MZ
+ jkNj+rgFa3qP1UZmVZgupj7IgCb5FuQTWuog9XGEOPYh3fV7IDHXdTMUhEIxhWiAaSVS
+ ZUCw==
+X-Gm-Message-State: AOAM533M8Jg2W6E7vRmqB1DzCVnJ8Z173/uoCk5vQniGi7UnL/TtXV/Q
+ ZOVk0cwHjY4r1abWx3sQdB3PxVO+ZX1mfvCGmjHAmDtwQU3QqcUMl1iPWKDN821hp7T4tJ1kFv5
+ 9Jgwu2jdQOik0kfYPyQOdhbjzVp/I
+X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id
+ a65-20020a6bca44000000b00657b54a5c53mr445922iog.108.1651264103324; 
+ Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXw055Zf6CAZcffMOqFXVe3D8deItwuTS9dyUJRlHujGyFKq6cxPYeLOoiZHbK09XyaEEw5w==
+X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id
+ a65-20020a6bca44000000b00657b54a5c53mr445889iog.108.1651264103032; 
+ Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ j7-20020a02cb07000000b0032b3a7817b2sm836302jap.118.2022.04.29.13.28.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 13:28:22 -0700 (PDT)
+Date: Fri, 29 Apr 2022 14:28:20 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 7/7] vfio: Remove calls to
+ vfio_group_add_container_user()
+Message-ID: <20220429142820.6afe7bbe.alex.williamson@redhat.com>
+In-Reply-To: <7-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
+References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
+ <7-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-To: Arnd Bergmann <arnd@arndb.de>
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
- <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net>
- <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
- <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
- <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
- <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
-In-Reply-To: <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,73 +85,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
- Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, "Tian, Kevin" <kevin.tian@intel.com>,
+ dri-devel@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-s390@vger.kernel.org, "Liu, Yi L" <yi.l.liu@intel.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/29/22 10:48, Guenter Roeck wrote:
-> On 4/28/22 06:44, Arnd Bergmann wrote:
->> On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
->>> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
->>>> On 4/24/22 01:52, Arnd Bergmann wrote:
->>>>> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>>>> into the defconfig file, otherwise the multiplatform target defaults to
->>>>> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
->>>>> you also need to enable CONFIG_ARCH_MULTI_V4T.
->>>>>
->>>>> This is slightly unfortunate, but I don't see any way to avoid it, and the
->>>>> modified defconfig will still work fine with older kernel trees.
->>>>>
->>>>
->>>> Yes, that works. I changed it in my configuration.
->>>
->>> Ok, great!. I managed to boot the z2 machine with PCMCIA support
->>> and it gets around the issue with my patch, correctly detecting the
->>> CF card.
->>
->> Hi Guenter,
->>
->> I have now sent out a fix that I'm happy with, and applied it to the
->> pxa-multiplatform-5.18 branch of the soc tree as well as the
->> combined arm/multiplatform tree.
->>
->> I have not merged this new version into the for-next branch
->> since I would like to see if there are any other regressions first.
->>
->> Can you run your boot tests on the arm/multiplatform branch
->> and let me know if that fixes everything you found? If that
->> takes a lot of manual steps on your side, I'd just wait for the
->> build bots and merge it after all there are no new compile-time
->> issues.
->>
-> 
-> I tried the pxa-multiplatform-5.18 branch. Its failures match
-> those in v5.18-rc1.
-> 
+On Thu, 21 Apr 2022 13:28:38 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Uuh, wait, the build wasn't complete. There are still some
-failures. I'll report later.
+> When the open_device() op is called the container_users is incremented and
+> held incremented until close_device(). Thus, so long as drivers call
+> functions within their open_device()/close_device() region they do not
+> need to worry about the container_users.
+> 
+> These functions can all only be called between open_device() and
+> close_device():
+> 
+>   vfio_pin_pages()
+>   vfio_unpin_pages()
+>   vfio_dma_rw()
+>   vfio_register_notifier()
+>   vfio_unregister_notifier()
+> 
+> Eliminate the calls to vfio_group_add_container_user() and add
+> vfio_assert_device_open() to detect driver mis-use.
 
-Guenter
+A comment here explaining that decrementing open_count is pushed until
+after close_device to support this feature would help to explain the
+somewhat subtle change in vfio_group_get_device_fd().
+
+Otherwise the series looks ok with fixes noted by previous reviews.
+Thanks,
+
+Alex
+
