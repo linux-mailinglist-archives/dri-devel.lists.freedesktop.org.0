@@ -1,78 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BEF515590
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:28:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3DC515606
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 22:45:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECAAD10FA6F;
-	Fri, 29 Apr 2022 20:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C157210E0AE;
+	Fri, 29 Apr 2022 20:45:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD9110FA6F
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:28:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651264105;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n8HsfkpqhssnZoIsPQ1O3oVRAyXbkapxW4GnxH0gSv4=;
- b=OXyk+ZlA2xofIDLIpoh4YJ+rLWv81XKCIyy/IB39BgGEe31RKH4WNLCYpEDcIa1ShrAN2n
- Df/3G8VM/wCkyyVQ1ZiPCi2WCGcyyQGgVCm4XzcCAkmyd+sygyQJLNjtrtFnsUkDESUdmC
- f8FSupPV971Lb1Wl1zABlpBDfU5IZDE=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-228-B-hhozY9PhyQMP1p_HnfKA-1; Fri, 29 Apr 2022 16:28:24 -0400
-X-MC-Unique: B-hhozY9PhyQMP1p_HnfKA-1
-Received: by mail-io1-f72.google.com with SMTP id
- 204-20020a6b01d5000000b00657bb7a0f33so5328398iob.4
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=n8HsfkpqhssnZoIsPQ1O3oVRAyXbkapxW4GnxH0gSv4=;
- b=VZwee8K19jNu85OnYWK6D5ZC40UCZoYrMsfZM3WiUJfZ59+h9J6zdOZp8FvlKvknuv
- dDpXXmjnq+UPPz8KpPXu+zlGM6/Cr4P97BlsSxbFNHvJizyAcZmTdkvCeE3jQ3LmnxuZ
- GuZHTKi0LOTMLEpq6tAe63GeeO2UXcQIzi8LMFxrzl9psTJmQifvvc5IfGWz+0FqDbzA
- H6ZnUpfhrPXyFzmr59+gOH2FiGhjbiG+GEmgm4iztcyf3a6LkumHy9OOy+LYdPVz56MZ
- jkNj+rgFa3qP1UZmVZgupj7IgCb5FuQTWuog9XGEOPYh3fV7IDHXdTMUhEIxhWiAaSVS
- ZUCw==
-X-Gm-Message-State: AOAM533M8Jg2W6E7vRmqB1DzCVnJ8Z173/uoCk5vQniGi7UnL/TtXV/Q
- ZOVk0cwHjY4r1abWx3sQdB3PxVO+ZX1mfvCGmjHAmDtwQU3QqcUMl1iPWKDN821hp7T4tJ1kFv5
- 9Jgwu2jdQOik0kfYPyQOdhbjzVp/I
-X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id
- a65-20020a6bca44000000b00657b54a5c53mr445922iog.108.1651264103324; 
- Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXw055Zf6CAZcffMOqFXVe3D8deItwuTS9dyUJRlHujGyFKq6cxPYeLOoiZHbK09XyaEEw5w==
-X-Received: by 2002:a6b:ca44:0:b0:657:b54a:5c53 with SMTP id
- a65-20020a6bca44000000b00657b54a5c53mr445889iog.108.1651264103032; 
- Fri, 29 Apr 2022 13:28:23 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- j7-20020a02cb07000000b0032b3a7817b2sm836302jap.118.2022.04.29.13.28.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Apr 2022 13:28:22 -0700 (PDT)
-Date: Fri, 29 Apr 2022 14:28:20 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 7/7] vfio: Remove calls to
- vfio_group_add_container_user()
-Message-ID: <20220429142820.6afe7bbe.alex.williamson@redhat.com>
-In-Reply-To: <7-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
- <7-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E908910E0AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 20:45:34 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 8154883966;
+ Fri, 29 Apr 2022 22:45:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1651265132;
+ bh=1hMQWhYJvitbS0AuUYuke6rlAOcNJcirQPcQaOnRSio=;
+ h=From:To:Cc:Subject:Date:From;
+ b=T9TNLvGO2nX0drQsY4iasaa/0KU22ngEEgEDiZuQk8vymlfwxIMLq7OCGdgYItIAx
+ O7jyR/JbIWH5gkdC24AJIkmyrsVk1SY7dmNexpeirw5M4iX5pbxJZa7I59fUmuKCoi
+ dzj8Ep9DYChTnwWc3/gZm14VUoVU1KOqeHoJSpXO4wrq9zku9WwifpcHBhs8h4RGV2
+ 8pTKuwQSajbP/K9IRcTWx7r4PTu76pp/creiVAY0nYzmXCAhgPOdC3a9x4ukL3nTSB
+ BN27Fff0NVuvb6ZDyNsI0sXQZvgYHmibDYOM58Nne31/EpQA20M1ANsicLkJqOV4sy
+ 0JY0uuoWtFJIA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/stm: dsi: Enable wrapper glue regulator early
+Date: Fri, 29 Apr 2022 22:45:19 +0200
+Message-Id: <20220429204519.241549-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,53 +51,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "Tian, Kevin" <kevin.tian@intel.com>,
- dri-devel@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, "Liu, Yi L" <yi.l.liu@intel.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
+Cc: Marek Vasut <marex@denx.de>, Antonio Borneo <antonio.borneo@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, robert.foss@linaro.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Apr 2022 13:28:38 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Certain DSI bridge chips like TC358767/TC358867/TC9595 expect the DSI D0
+data lane to be in LP-11 state when released from reset. Currently the
+STM32MP157 DSI host wrapper glue logic keeps D0 data lane in LP-00 state
+until DSI init happens, which confuses the TC358767 into entering some
+sort of test mode and the chip cannot be brought out of this test mode
+in any way.
 
-> When the open_device() op is called the container_users is incremented and
-> held incremented until close_device(). Thus, so long as drivers call
-> functions within their open_device()/close_device() region they do not
-> need to worry about the container_users.
-> 
-> These functions can all only be called between open_device() and
-> close_device():
-> 
->   vfio_pin_pages()
->   vfio_unpin_pages()
->   vfio_dma_rw()
->   vfio_register_notifier()
->   vfio_unregister_notifier()
-> 
-> Eliminate the calls to vfio_group_add_container_user() and add
-> vfio_assert_device_open() to detect driver mis-use.
+Enable the wrapper glue logic regulator in probe callback already and
+disable it in remove callback to satisfy this requirement. The D0 data
+lane is in LP-11 mode when the TC358767 bridge chip is brought up and
+the chip is not confused anymore.
 
-A comment here explaining that decrementing open_count is pushed until
-after close_device to support this feature would help to explain the
-somewhat subtle change in vfio_group_get_device_fd().
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Antonio Borneo <antonio.borneo@foss.st.com>
+Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+---
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 30 +++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-Otherwise the series looks ok with fixes noted by previous reviews.
-Thanks,
-
-Alex
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index 89897d5f5c72..c403633ffeae 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -194,16 +194,29 @@ static int dsi_pll_get_params(struct dw_mipi_dsi_stm *dsi,
+ 	return 0;
+ }
+ 
++static int dw_mipi_dsi_phy_regulator_on(struct dw_mipi_dsi_stm *dsi)
++{
++	u32 val;
++
++	/* Enable the regulator */
++	dsi_set(dsi, DSI_WRPCR, WRPCR_REGEN | WRPCR_BGREN);
++	return readl_poll_timeout(dsi->base + DSI_WISR, val, val & WISR_RRS,
++				  SLEEP_US, TIMEOUT_US);
++}
++
++static void dw_mipi_dsi_phy_regulator_off(struct dw_mipi_dsi_stm *dsi)
++{
++	/* Disable the regulator */
++	dsi_clear(dsi, DSI_WRPCR, WRPCR_REGEN | WRPCR_BGREN);
++}
++
+ static int dw_mipi_dsi_phy_init(void *priv_data)
+ {
+ 	struct dw_mipi_dsi_stm *dsi = priv_data;
+ 	u32 val;
+ 	int ret;
+ 
+-	/* Enable the regulator */
+-	dsi_set(dsi, DSI_WRPCR, WRPCR_REGEN | WRPCR_BGREN);
+-	ret = readl_poll_timeout(dsi->base + DSI_WISR, val, val & WISR_RRS,
+-				 SLEEP_US, TIMEOUT_US);
++	ret = dw_mipi_dsi_phy_regulator_on(dsi);
+ 	if (ret)
+ 		DRM_DEBUG_DRIVER("!TIMEOUT! waiting REGU, let's continue\n");
+ 
+@@ -499,8 +512,16 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	dsi->hw_version = dsi_read(dsi, DSI_VERSION) & VERSION;
++
++	ret = dw_mipi_dsi_phy_regulator_on(dsi);
+ 	clk_disable_unprepare(pclk);
+ 
++	if (ret) {
++		DRM_ERROR("%s: Failed to enable wrapper regulator, ret=%d\n",
++			  __func__, ret);
++		goto err_dsi_probe;
++	}
++
+ 	if (dsi->hw_version != HWVER_130 && dsi->hw_version != HWVER_131) {
+ 		ret = -ENODEV;
+ 		DRM_ERROR("bad dsi hardware version\n");
+@@ -542,6 +563,7 @@ static int dw_mipi_dsi_stm_remove(struct platform_device *pdev)
+ 	struct dw_mipi_dsi_stm *dsi = platform_get_drvdata(pdev);
+ 
+ 	dw_mipi_dsi_remove(dsi->dsi);
++	dw_mipi_dsi_phy_regulator_off(dsi);
+ 	clk_disable_unprepare(dsi->pllref_clk);
+ 	regulator_disable(dsi->vdd_supply);
+ 
+-- 
+2.35.1
 
