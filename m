@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB275514988
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 14:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B0A514A40
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 15:08:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B05810E867;
-	Fri, 29 Apr 2022 12:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9717E10ECD6;
+	Fri, 29 Apr 2022 13:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921D110E81D;
- Fri, 29 Apr 2022 12:37:04 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id o18so5551014qtk.7;
- Fri, 29 Apr 2022 05:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zti6YLLkUsZkekq1rWuAp83UXdMyT1qHJ6+UnS1DJPg=;
- b=lQ5OKC2xytA1QhtjTZavhchSjmIzO2pqa1CF4lvvCmRh1qXWvBhvtSjHGzqkMCXaH7
- bKUmwiSJTx1GQKxV6RSosw2eysbFEGd2ck5dMpla8vo/faRPvWjvZ/sG1pRhBIir3OEL
- wiACct1c13yo5j3nfSFHwNYLwkkQ4wYZGZ0zsyUtm0zwhAdv9ubl11P0c3fSRlwDLaip
- Pbyxjs3J4U6cm1MlfIlC1s2T/IDmK71ZtSNxHkVNtXF0Tl8ztsqRwVywxzInR7afZkEC
- u10IOtwvHyxIXQ8gqtUcMHlpvH6nvbCLXJ+rUKyDKjVeZ9urZPtsKL5J4oNQBkr1i8T+
- FyRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zti6YLLkUsZkekq1rWuAp83UXdMyT1qHJ6+UnS1DJPg=;
- b=DK6uw51Ucq7CXW7Q4aeHMaG3knB5lrzggCF2R2i0JVaMH7D8nCKAFlSP8PLBStal1u
- CrYf8NOgHqaSFqKaiw0HRNo92YSzeDfCae9ex1KnPCbCG25zd+zcigM+cIx16LXEuG06
- Ojxn4abagbp2UddK40PgVpE2HfgOnVlkA0GhfZbt75Hd04WqYqvdwEc9kOSkxuJIOYSx
- zIIDLqKmOpI/uAA3niHm1F7rH5iiTqevFtqg0Rp9WwzlnOhSQcv5AGDPbknjdYcQSKdV
- QFbaTPd+fYoLiAJTf864VpkzEEMWUEdUYp3D2yQPDInCd2Ib3eFVOEhZfU3S4kpdxAhj
- 6veQ==
-X-Gm-Message-State: AOAM533al5TBSsVwye/oXn0YXopz/hy0i6PsdqVuEDzO4kYEtlV0umV7
- 9FUIHp2leArEWhjkBoFpHjbl2Wiz88SWQwfYiMC8xKB6yaU=
-X-Google-Smtp-Source: ABdhPJwd8ju3TQ8iNiOOGqLH6RHFXqU6m45Ht6CdW+ypD6ZeMjtYMqLPMplfx3OgiFHokIB4z6LJsdXkEVviI4VuPBs=
-X-Received: by 2002:ac8:7dc2:0:b0:2f3:729b:75e3 with SMTP id
- c2-20020ac87dc2000000b002f3729b75e3mr15294828qte.197.1651235823742; Fri, 29
- Apr 2022 05:37:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220425152317.4275-1-ramalingam.c@intel.com>
- <20220425152317.4275-3-ramalingam.c@intel.com>
-In-Reply-To: <20220425152317.4275-3-ramalingam.c@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 29 Apr 2022 13:36:37 +0100
-Message-ID: <CAM0jSHOETX4dVC9uDy=pxPxKnQrbXB97V0jLh0td98i8yWpaPw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/i915/selftests: Skip poisoning
- SET_PREDICATE_RESULT on dg2
-To: Ramalingam C <ramalingam.c@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6AC10ECD6
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:08:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 222086227E
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:08:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 830C0C385A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 13:08:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651237706;
+ bh=BuEnUpHRCa5BLuX1gOIqogPw04iu7jxZ2fflNgRGyxQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=DJBTw2xT8WJRYNVackXyrAM2Wb5/pN0akHcKM8ht0h3EF36Utu5g+xZ4kTDQl0V65
+ KbaihXU//U7UrV8mST5MnEu3WWu9+BgVZ4oxlJC9A4bgWvSw4rB5o1M6Rm4unGvPSm
+ DSIawc35bYjfL5DRy/J9AQq/6H1Ls6mRS1ss+hf3Sio4PZaSXOdtVDprhJAnnUYKHk
+ PbkBcCidIXdrOgkRt6eoOaH0DlD1iho6UpAjOzq+u+IlPJXy98sNqQ5fMQtc7Jm4UP
+ 0pfZaFzGAI11o/cP+9Xct5J8jR5661swM+LPoQstiVfAecfHR/iPaEPMHTp2JxKkw9
+ bSEQ3ZqTPqxvA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 64D26C05FD0; Fri, 29 Apr 2022 13:08:26 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201991] amdgpu: clock management is disabled for the 4K
+ resolution with polaris 10
+Date: Fri, 29 Apr 2022 13:08:26 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201991-2300-W97rF4HDeC@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201991-2300@https.bugzilla.kernel.org/>
+References: <bug-201991-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,27 +71,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>, CQ Tang <cq.tang@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Apr 2022 at 16:22, Ramalingam C <ramalingam.c@intel.com> wrote:
->
-> From: Chris Wilson <chris.p.wilson@intel.com>
->
-> When predication is enabled all commands baring a few (such as MI_BB_END)
-> are nop'ed. If we accidentally enable predication while poisoning the
-> context, not only is the rest of the poisoning skipped (thus disabling
-> the test), but the closing instructions of the poison request are
-> nop'ed. Not only do we then not signal the waiting context, but we even
-> prevent re-enabling arbitration and the GPU will not perform a context
-> switch at the end of the request.
->
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Suggested-by: CQ Tang <cq.tang@intel.com>
-> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201991
+
+Alex Deucher (alexdeucher@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
+
+--- Comment #5 from Alex Deucher (alexdeucher@gmail.com) ---
+The driver set minimum required clocks to meet the required bandwidth and
+voltage  for the attached displays.  When you enable overclocking (via the =
+bit
+in ppfeaturemask), that gets partially disabled to allow the user to manual=
+ly
+adjust the clocks at their own risk.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
