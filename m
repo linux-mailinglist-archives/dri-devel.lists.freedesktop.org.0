@@ -1,64 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47614514468
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 10:40:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDDF514480
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 10:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A16C10F972;
-	Fri, 29 Apr 2022 08:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B296710F981;
+	Fri, 29 Apr 2022 08:43:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1425A10F972
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 08:40:09 +0000 (UTC)
-X-UUID: 75d66c00ff8740f6b04560fa4a7d89f4-20220429
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:e79d34fc-1e4f-45bb-b3b4-f21ad9f0f17d, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.4, REQID:e79d34fc-1e4f-45bb-b3b4-f21ad9f0f17d, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:faefae9, CLOUDID:79b2f2c6-85ee-4ac1-ac05-bd3f1e72e732,
- C
- OID:IGNORED,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil,QS:0
- ,BEC:nil
-X-UUID: 75d66c00ff8740f6b04560fa4a7d89f4-20220429
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 946710709; Fri, 29 Apr 2022 16:40:04 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 29 Apr 2022 16:40:03 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 Apr 2022 16:40:02 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 29 Apr 2022 16:40:02 +0800
-Message-ID: <3495576e99dae8aea9e5814849d896fe1dd8d831.camel@mediatek.com>
-Subject: Re: [PATCH v18 05/21] soc: mediatek: add mtk-mmsys config API for
- mt8195 vdosys1
-From: CK Hu <ck.hu@mediatek.com>
-To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Fri, 29 Apr 2022 16:40:02 +0800
-In-Reply-To: <20220428105408.11189-6-nancy.lin@mediatek.com>
-References: <20220428105408.11189-1-nancy.lin@mediatek.com>
- <20220428105408.11189-6-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053C210FC87
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 08:43:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651221793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=O+D/lXpklfq+8wvoJL4WqSLyZYHeykKORq3ghDDfCNk=;
+ b=RN9r+OlsnRvDMnCU8jH7f1JOrhCHJtZUBjarzfIIm8EWz59Jy/aOzgbzhD9P1qdJPOvoks
+ PQQ2hEAQ0v0nlYIobM2bSSerN0lTcyXkswT/sJbGNkAqEak+BbeIpOZ11yiScc8PIbZ3UJ
+ Bs0MJUkIkTCSTazFwmsqCkGpBtF/XhY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-o7kUYd29OG-6fBoiMv9M6w-1; Fri, 29 Apr 2022 04:43:08 -0400
+X-MC-Unique: o7kUYd29OG-6fBoiMv9M6w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v191-20020a1cacc8000000b0038ce818d2efso2714773wme.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 01:43:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O+D/lXpklfq+8wvoJL4WqSLyZYHeykKORq3ghDDfCNk=;
+ b=IpSpXfqf+uQoi1lxMi3unkJ074MKVdJGsFZL8aYbq2EARESBzOTVPu/PARDnhItNPq
+ tYJ/OWFotlukx/LB1znShBxlEBE3c91qZEaTfHpXh/8vBp9WiC2FE+OqWPm+jk+L2LT7
+ 5SSDW2U9LsC1UYQcK9Mrp7tfSOf7buxUj3X9yB1gFzN4pDTqiKcjuf7/CkdxoJ5IabBI
+ nz04fc0tkEoG7l3nXqOOmBYjkCJlKZMl86K1IdHwqHFnlRid/e7HPGx3JrSniTa8xnBR
+ 737Y7rDBYhNQZTBC9kUaQaSNKodrmFKuwqvqUxfxIoEPLiII/kmSb+ed4Ai+0kZ1RuZm
+ WB5g==
+X-Gm-Message-State: AOAM531dtRRqwYClwNnqrlWg8awEbF6R5Ln5QpylMdXYxjJ+susiQAff
+ Fz4o0ZnlJARf8xDidoQr21OVZCHjFoUB2h5jJnwk0tnBVMugpG8JQA5OXBOieLTHbNF0scQzxRW
+ CFEdylDN9UM68ZgVYj1TvjLb3IpIC
+X-Received: by 2002:a05:600c:1f0e:b0:392:8b04:9b26 with SMTP id
+ bd14-20020a05600c1f0e00b003928b049b26mr2125578wmb.106.1651221786806; 
+ Fri, 29 Apr 2022 01:43:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFPu5i9uIaA8HyARC22sqTOXWCEAPFZw0X8BSM+9g/zQpViY352JC38fzukmqcZeLoqR+Pfw==
+X-Received: by 2002:a05:600c:1f0e:b0:392:8b04:9b26 with SMTP id
+ bd14-20020a05600c1f0e00b003928b049b26mr2125550wmb.106.1651221786551; 
+ Fri, 29 Apr 2022 01:43:06 -0700 (PDT)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ f7-20020a05600c4e8700b00393f1393abfsm7199256wmq.41.2022.04.29.01.43.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 01:43:06 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v4 00/11] Fix some race between sysfb device registration
+ and drivers probe
+Date: Fri, 29 Apr 2022 10:42:42 +0200
+Message-Id: <20220429084253.1085911-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,160 +82,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, "jason-jh .
- lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Miaoqian Lin <linmq006@gmail.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Peter Jones <pjones@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, Borislav Petkov <bp@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Johan Hovold <johan@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Zhen Lei <thunder.leizhen@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Nancy:
+Hello,
 
-On Thu, 2022-04-28 at 18:53 +0800, Nancy.Lin wrote:
-> Add four mmsys config APIs. The config APIs are used for config
-> mmsys reg. Some mmsys regs need to be set according to the
-> HW engine binding to the mmsys simultaneously.
-> 
-> 1. mtk_mmsys_merge_async_config: config merge async width/height.
->    async is used for cross-clock domain synchronization.
-> 2. mtk_mmsys_hdr_confing: config hdr backend async width/height.
-> 3. mtk_mmsys_mixer_in_config and mtk_mmsys_mixer_in_config:
->    config mixer related settings.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
->  drivers/soc/mediatek/mt8195-mmsys.h    |  6 ++++
->  drivers/soc/mediatek/mtk-mmsys.c       | 43
-> ++++++++++++++++++++++++++
->  include/linux/soc/mediatek/mtk-mmsys.h |  9 ++++++
->  3 files changed, 58 insertions(+)
-> 
-> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
-> b/drivers/soc/mediatek/mt8195-mmsys.h
-> index 51031d75e81e..5469073e3073 100644
-> --- a/drivers/soc/mediatek/mt8195-mmsys.h
-> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
-> @@ -139,6 +139,12 @@
->  #define MT8195_VDO1_MIXER_SOUT_SEL_IN				
-> 0xf68
->  #define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			
-> 0
->  
-> +#define MT8195_VDO1_MERGE0_ASYNC_CFG_WD	0xe30
-> +#define MT8195_VDO1_HDRBE_ASYNC_CFG_WD	0xe70
-> +#define MT8195_VDO1_HDR_TOP_CFG		0xd00
-> +#define MT8195_VDO1_MIXER_IN1_ALPHA	0xd30
-> +#define MT8195_VDO1_MIXER_IN1_PAD	0xd40
+The patches in this series contain mostly changes suggested by Daniel Vetter
+Thomas Zimmermann. They aim to fix existing races between the Generic System
+Framebuffer (sysfb) infrastructure and the fbdev and DRM device registration.
 
-I would like to sort these by value.
+For example, it is currently possible for sysfb to register a platform
+device after a real DRM driver was registered and requested to remove the
+conflicting framebuffers. Or is possible for a simple{fb,drm} to match with
+a device previously registered by sysfb, even after a real driver is present.
 
-> +
->  static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] =
-> {
->  	{
->  		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c
-> b/drivers/soc/mediatek/mtk-mmsys.c
-> index 03c75a82c8d3..7b262cefef85 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -280,6 +280,49 @@ static const struct reset_control_ops
-> mtk_mmsys_reset_ops = {
->  	.reset = mtk_mmsys_reset,
->  };
->  
-> +static void mtk_mmsys_write_reg(struct device *dev, u32 offset, u32
-> mask, u32 val)
-> +{
-> +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
-> +	u32 tmp;
-> +
-> +	tmp = readl(mmsys->regs + offset);
-> +	tmp = (tmp & ~mask) | val;
-> +	writel(tmp, mmsys->regs + offset);
-> +}
+A symptom of this issue, was worked around with by commit fb561bf9abde
+("fbdev: Prevent probing generic drivers if a FB is already registered")
+but that's really a hack and should be reverted.
 
-It looks like that mtk_mmsys_ddp_connect() and
-mtk_mmsys_ddp_disconnect() could call this function to simplify code.
-So I would like this function to be an independent patch which also
-simplify mtk_mmsys_ddp_connect() and mtk_mmsys_ddp_disconnect().
+This series attempt to fix it more correctly and revert the mentioned hack.
+That will also allow to make the num_registered_fb variable not visible to
+drivers anymore, since that's internal to fbdev core.
 
-Regards,
-CK
+Even though the series is a v4, I've marked it as RFC again since some of
+the patches are controversial and the approach will need more discussion.
 
-> +
-> +void mtk_mmsys_merge_async_config(struct device *dev, int idx, int
-> width, int height)
-> +{
-> +	mtk_mmsys_write_reg(dev, MT8195_VDO1_MERGE0_ASYNC_CFG_WD + 0x10
-> * idx,
-> +			    ~0, height << 16 | width);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mmsys_merge_async_config);
-> +
-> +void mtk_mmsys_hdr_confing(struct device *dev, int be_width, int
-> be_height)
-> +{
-> +	mtk_mmsys_write_reg(dev, MT8195_VDO1_HDRBE_ASYNC_CFG_WD, ~0,
-> +			    be_height << 16 | be_width);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mmsys_hdr_confing);
-> +
-> +void mtk_mmsys_mixer_in_config(struct device *dev, int idx, bool
-> alpha_sel, u16 alpha,
-> +			       u8 mode, u32 biwidth)
-> +{
-> +	mtk_mmsys_write_reg(dev, MT8195_VDO1_MIXER_IN1_ALPHA + (idx -
-> 1) * 4, ~0,
-> +			    alpha << 16 | alpha);
-> +	mtk_mmsys_write_reg(dev, MT8195_VDO1_HDR_TOP_CFG, BIT(19 +
-> idx),
-> +			    alpha_sel << (19 + idx));
-> +	mtk_mmsys_write_reg(dev, MT8195_VDO1_MIXER_IN1_PAD + (idx - 1)
-> * 4,
-> +			    GENMASK(31, 16) | GENMASK(1, 0), biwidth <<
-> 16 | mode);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mmsys_mixer_in_config);
-> +
-> +void mtk_mmsys_mixer_in_channel_swap(struct device *dev, int idx,
-> bool channel_swap)
-> +{
-> +	mtk_mmsys_write_reg(dev, MT8195_VDO1_MIXER_IN1_PAD + (idx - 1)
-> * 4, BIT(4),
-> +			    channel_swap << 4);
-> +}
-> +EXPORT_SYMBOL_GPL(mtk_mmsys_mixer_in_channel_swap);
-> +
->  static int mtk_mmsys_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
-> b/include/linux/soc/mediatek/mtk-mmsys.h
-> index b4388ba43341..fe620929b0f9 100644
-> --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> @@ -73,4 +73,13 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
->  			      enum mtk_ddp_comp_id cur,
->  			      enum mtk_ddp_comp_id next);
->  
-> +void mtk_mmsys_merge_async_config(struct device *dev, int idx, int
-> width, int height);
-> +
-> +void mtk_mmsys_hdr_confing(struct device *dev, int be_width, int
-> be_height);
-> +
-> +void mtk_mmsys_mixer_in_config(struct device *dev, int idx, bool
-> alpha_sel, u16 alpha,
-> +			       u8 mode, u32 biwidth);
-> +
-> +void mtk_mmsys_mixer_in_channel_swap(struct device *dev, int idx,
-> bool channel_swap);
-> +
->  #endif /* __MTK_MMSYS_H */
+Patches 1-3 add a new DRIVER_FIRMWARE capability to denote that a DRM driver
+uses a firmware provided framebuffer, to mark the emulated fbdev registered
+also as a firmware provided framebuffer.
+
+Pach 4 is just a simple cleanup in preparation for later patches.
+
+Patch 5 add a sysfb_disable() and sysfb_try_unregister() helpers to allow
+disabling sysfb and attempt to unregister registered devices respectively.
+
+Patch 6 changes how is dealt with conflicting framebuffers unregistering,
+rather than having a variable to determine if a lock should be take, it
+just drops the lock before unregistering the platform device.
+
+Patch 7 changes the fbdev core to not attempt to unregister devices that
+were registered by sysfb, let the same code doing the registration to also
+handle the unregistration.
+
+Patch 8 fixes the race that exists between sysfb devices registration and
+fbdev framebuffer devices registration.
+
+Patch 9 does the same but to fix the race that exists between sysfb and
+the DRM subsystem.
+
+Patch 10 is the revert patch that was posted by Daniel before but dropped
+from his set and finally patch 11 is the one that makes num_registered_fb
+private to fbmem.c and not allow drivers to use it anymore.
+
+The patches were tested on a rpi4 with the vc4, simpledrm and simplefb
+drivers, using different combinations of built-in and as a module. But
+being an RFC, I didn't test all possible cases.
+
+Best regards,
+Javier
+
+Changes in v4:
+- Make sysfb_disable() to also attempt to unregister a device.
+- Drop call to sysfb_disable() in fbmem since is done in other places now.
+- Add patch to make registered_fb[] private.
+- Add patches that introduce the DRM_FIRMWARE capability and usage.
+
+Changes in v3:
+- Add Thomas Zimmermann's Reviewed-by tag to patch #1.
+- Call sysfb_disable() when a fbdev framebuffer is registered rather
+  than when conflicting framebuffers are removed (Thomas Zimmermann).
+- Drop Daniel Vetter's Reviewed-by tag since patch changed a lot.
+- Call sysfb_disable() when a DRM device is registered rather than
+  when conflicting framebuffers are removed (Thomas Zimmermann).
+- Rebase on top of latest drm-misc-next branch.
+
+Changes in v2:
+- Rebase on top of latest drm-misc-next and fix conflicts (Daniel Vetter).
+- Add kernel-doc comments and include in other_interfaces.rst (Daniel Vetter).
+- Explain in the commit message that fbmem has to unregister the device
+  as fallback if a driver registered the device itself (Daniel Vetter).
+- Also explain that fallback in a comment in the code (Daniel Vetter).
+- Don't encode in fbmem the assumption that sysfb will always register
+  platform devices (Daniel Vetter).
+- Add a FIXME comment about drivers registering devices (Daniel Vetter).
+- Explain in the commit message that fbmem has to unregister the device
+  as fallback if a driver registered the device itself (Daniel Vetter).
+- Also explain that fallback in a comment in the code (Daniel Vetter).
+- Don't encode in fbmem the assumption that sysfb will always register
+  platform devices (Daniel Vetter).
+- Add a FIXME comment about drivers registering devices (Daniel Vetter).
+- Drop RFC prefix since patches were already reviewed by Daniel Vetter.
+- Add Daniel Reviewed-by tags to the patches.
+
+Daniel Vetter (2):
+  Revert "fbdev: Prevent probing generic drivers if a FB is already
+    registered"
+  fbdev: Make registered_fb[] private to fbmem.c
+
+Javier Martinez Canillas (9):
+  drm: Add a capability flag for simple framebuffer drivers
+  drm/fb-helper: Set FBINFO_MISC_FIRMWARE flag for DRIVER_FIRMWARE fb
+  drm/simpledrm: Set the DRM_FIRMWARE capability
+  firmware: sysfb: Make sysfb_create_simplefb() return a pdev pointer
+  firmware: sysfb: Add helpers to unregister a pdev and disable
+    registration
+  fbdev: Restart conflicting fb removal loop when unregistering devices
+  fbdev: Make sysfb to unregister its own registered devices
+  fbdev: Fix race between sysfb and framebuffer devices registration
+  drm: Fix race between sysfb and DRM devices registration
+
+ .../driver-api/firmware/other_interfaces.rst  |  6 ++
+ drivers/firmware/sysfb.c                      | 91 +++++++++++++++++--
+ drivers/firmware/sysfb_simplefb.c             | 16 ++--
+ drivers/gpu/drm/drm_drv.c                     | 12 +++
+ drivers/gpu/drm/drm_fb_helper.c               |  4 +
+ drivers/gpu/drm/tiny/simpledrm.c              |  2 +-
+ drivers/video/fbdev/core/fbmem.c              | 67 +++++++++++---
+ drivers/video/fbdev/efifb.c                   | 11 ---
+ drivers/video/fbdev/simplefb.c                | 11 ---
+ include/drm/drm_drv.h                         |  6 ++
+ include/linux/fb.h                            |  8 +-
+ include/linux/sysfb.h                         | 29 +++++-
+ 12 files changed, 201 insertions(+), 62 deletions(-)
+
+-- 
+2.35.1
 
