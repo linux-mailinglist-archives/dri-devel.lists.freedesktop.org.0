@@ -2,66 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D083B51547C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 21:30:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E870D5154BB
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Apr 2022 21:38:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48DA310EA64;
-	Fri, 29 Apr 2022 19:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9958110E131;
+	Fri, 29 Apr 2022 19:38:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E7A10E135
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 19:30:14 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id l19so11662414ljb.7
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 12:30:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EpAcbnx+U/L1NwXa16pvqhPXcqBubVwUeHlDIja2sKs=;
- b=fVBaXJcaF9JmA9kT3gJGJ1d182xVAxExs/K2C2cpg9fOUq9K4LgvkN5/2cWKEV8XX1
- vdk0G98yxS2sLJ8zWaB7rhdyyJXKLgvzNqBV6A8afXlXuOH91elyLLmUDaTqdKe4V69x
- AAvZ50gl//UGXVXDm7KrqMLY7C8sZcSZWv2FS0leIXeR83qD9QrBN8p2fl+Pq8HASr1G
- TKXvllgu1hI2pYC43JwELnhiq4v7YL5/ugckF8nanpl/WTJIHkmE7zH4QJz9h7FqOUVT
- 0Jz3z+e4DkBb7K3Koshx7MxQKB7Q04DFmhKx0W84Bksadz0n4fPxx9SVm6StU8NgbLlo
- 18pg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4F4910E131
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 19:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651261114;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RRnqrZ5q9hLwmm3bRLQsIsvIf5Pjk0qeqlvtwwtHCyY=;
+ b=QTYZPPsHHdFD3VCVOS30FBZ+Ak8J/I64WGfV3BpX3nvBv+UoTrx0LSamVHaTRwB91utYSS
+ +C3FL+bOBVN/ohqBcHAcUJBvK+AI7P8+/ULypFVb7bsZ1Lt+txK8gstGAfVp+c3Iq2YDTm
+ 0W/tRgwwWsusR7vjKNhqS3oG5ugPhIk=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-339-xySoTSpoNTiP0morZsmVIw-1; Fri, 29 Apr 2022 15:38:33 -0400
+X-MC-Unique: xySoTSpoNTiP0morZsmVIw-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ f24-20020a05622a1a1800b002f396578cbbso1593644qtb.18
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Apr 2022 12:38:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=EpAcbnx+U/L1NwXa16pvqhPXcqBubVwUeHlDIja2sKs=;
- b=IDp9R+EDmeN4nekqfHfOAoQ3nRURry4dO2W3Fn5FGX0HCcUn/tKgIi70kA0SWpw8mN
- 4VncTljGODJKPgv9DE5uO0UTCOp6nj4oMyfhx5ZPz5s5mQ+RDfVHGzxNHP711piWC5MD
- 3DjDLLNh6a/Ph4wzzH62i2mUvgRv63iFphWXa4TpOfjFKp27YuGNRSB9GIsHG4kwRGQL
- Ul7QzMh1iGFrmsKAvOpMVDgarsHpk2zr10SNL/gPjeWM0MaSyDq5ixOTetmJSRmohdQQ
- zJgN8eUCX1dqbVTEmfk9Acp08N5f5U0FEz2B/rk6j+Wl4lz+aQaTO4PbYhoUT2N8DGNb
- aM2Q==
-X-Gm-Message-State: AOAM532dVdoN/JGzuViNkYv+nd9dz/gVCWKt6/J6rnVf2ABoeFvXLHgW
- Ge9eZPD0i/JtgMVK2L3eTg0=
-X-Google-Smtp-Source: ABdhPJyG5g1UMJHbAE7oQdPUIBwsTGD8b2GZt4x0YMEODqQnagM+tQa4NgqWxwqwNFjLTVjBd5ZQlA==
-X-Received: by 2002:a2e:8502:0:b0:24f:1036:b405 with SMTP id
- j2-20020a2e8502000000b0024f1036b405mr465514lji.220.1651260612572; 
- Fri, 29 Apr 2022 12:30:12 -0700 (PDT)
-Received: from [10.0.0.42] (91-159-150-230.elisa-laajakaista.fi.
- [91.159.150.230]) by smtp.gmail.com with ESMTPSA id
- d3-20020ac24c83000000b0047255d2115dsm5721lfl.140.2022.04.29.12.30.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Apr 2022 12:30:12 -0700 (PDT)
-Message-ID: <7e47c5fa-4cff-b12f-20ce-2e62b62ec538@gmail.com>
-Date: Fri, 29 Apr 2022 22:36:53 +0300
+ bh=RRnqrZ5q9hLwmm3bRLQsIsvIf5Pjk0qeqlvtwwtHCyY=;
+ b=Acc+qcXAH5kJ95aCS5tbRplEANuVrsNpU7goS7Ygz4rZ6uHYQdI/dD5mpFNDEc9uIF
+ P7bwV6kAicVOs4tcyfuh53Fwo99oaouTjdsK2wNWeJpk/hh7OP8Q9tAuaBL3NL2bODC+
+ tlnKgzWYLtu6aG5NOJnZ6fJB0utmmZUygCsYdSC7CVkr9RiMzAiXbbS2FyEAtV7/XZ+l
+ wGwm7uVDhUf/ik2k2xIJYtTnpQO1Cn/9C4btaphQv3e0JavcjnTtGR64hwcTf7f97bbz
+ eGH1fGvVnR0/+T3of++Hk9lrnpQmWK/nzyA99n2MPiq2FGM0dD5VZmeks8onLWfaeabu
+ j/Rg==
+X-Gm-Message-State: AOAM532pfg7grSt0b9ZKnAm6Gg3ASoK4TldBY8lamPQgtkV4fRstIF/n
+ DfzzwgWWbqaGD3PrxX4etW4DwlPxdY086LPwoOEHphEUP5tK2IZ9uZaLuo3q3jrMXyqSVATmbOD
+ ddMcAYoLl3roIQF6y7KnIgrz1aegm
+X-Received: by 2002:a05:620a:4591:b0:69f:6dfe:fd0e with SMTP id
+ bp17-20020a05620a459100b0069f6dfefd0emr533995qkb.724.1651261113282; 
+ Fri, 29 Apr 2022 12:38:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzvpTuihk+7r9mupR+7j1In7Ensxviuu8Omgt416FUHuMAFpt/XdDBc0YeMc2lCqNb9b70ag==
+X-Received: by 2002:a05:620a:4591:b0:69f:6dfe:fd0e with SMTP id
+ bp17-20020a05620a459100b0069f6dfefd0emr533983qkb.724.1651261113089; 
+ Fri, 29 Apr 2022 12:38:33 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ k16-20020ac84790000000b002f39b99f6c1sm53375qtq.91.2022.04.29.12.38.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Apr 2022 12:38:32 -0700 (PDT)
+Message-ID: <baf0a304698c7136c95c3fbb13c90529a51b9e06.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau: simplify the return expression of
+ nouveau_debugfs_init()
+From: Lyude Paul <lyude@redhat.com>
+To: cgel.zte@gmail.com, bskeggs@redhat.com
+Date: Fri, 29 Apr 2022 15:38:31 -0400
+In-Reply-To: <20220429090309.3853003-1-chi.minghao@zte.com.cn>
+References: <20220429090309.3853003-1-chi.minghao@zte.com.cn>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 22/41] ARM: omap1: move plat/dma.c to mach/omap-dma.c
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, linux-omap@vger.kernel.org,
- tony@atomide.com, aaro.koskinen@iki.fi, jmkrzyszt@gmail.com
-References: <20220419133723.1394715-1-arnd@kernel.org>
- <20220419133723.1394715-23-arnd@kernel.org>
-From: =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20220419133723.1394715-23-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,72 +87,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-fbdev@vger.kernel.org,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Kevin Hilman <khilman@kernel.org>, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, Felipe Balbi <balbi@kernel.org>,
- Paul Walmsley <paul@pwsan.com>, Jingoo Han <jingoohan1@gmail.com>,
- linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
+ Minghao Chi <chi.minghao@zte.com.cn>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
+Will push to drm-misc-next in a bit
 
-On 4/19/22 16:37, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+(Kind of impressed that a bot managed to catch this, considering the route
+from here to the code capable of returning < 0 or 0 was definitely not
+obvious)
+
+On Fri, 2022-04-29 at 09:03 +0000, cgel.zte@gmail.com wrote:
+> From: Minghao Chi <chi.minghao@zte.com.cn>
 > 
-> Most of the interface functions in plat/dma.c are only used from the
-> USB driver, which is practically OMAP1 specific, except for compile
-> testing.
+> Simplify the return expression.
 > 
-> The omap_get_plat_info(), omap_request_dma() and omap_free_dma()
-> functions are never called on omap2 because of runtime checks.
-
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 > ---
->  arch/arm/mach-omap1/Makefile                        | 2 +-
->  arch/arm/{plat-omap/dma.c => mach-omap1/omap-dma.c} | 0
->  arch/arm/plat-omap/Makefile                         | 2 +-
->  3 files changed, 2 insertions(+), 2 deletions(-)
->  rename arch/arm/{plat-omap/dma.c => mach-omap1/omap-dma.c} (100%)
+>  drivers/gpu/drm/nouveau/nouveau_debugfs.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 > 
-> diff --git a/arch/arm/mach-omap1/Makefile b/arch/arm/mach-omap1/Makefile
-> index 450bbf552b57..0615cb0ba580 100644
-> --- a/arch/arm/mach-omap1/Makefile
-> +++ b/arch/arm/mach-omap1/Makefile
-> @@ -5,7 +5,7 @@
->  
->  # Common support
->  obj-y := io.o id.o sram-init.o sram.o time.o irq.o mux.o flash.o \
-> -	 serial.o devices.o dma.o fb.o
-> +	 serial.o devices.o dma.o omap-dma.o fb.o
->  obj-y += clock.o clock_data.o opp_data.o reset.o pm_bus.o timer.o
->  
->  ifneq ($(CONFIG_SND_SOC_OMAP_MCBSP),)
-> diff --git a/arch/arm/plat-omap/dma.c b/arch/arm/mach-omap1/omap-dma.c
-> similarity index 100%
-> rename from arch/arm/plat-omap/dma.c
-> rename to arch/arm/mach-omap1/omap-dma.c
-> diff --git a/arch/arm/plat-omap/Makefile b/arch/arm/plat-omap/Makefile
-> index 68ccec9de106..5d55295a14ee 100644
-> --- a/arch/arm/plat-omap/Makefile
-> +++ b/arch/arm/plat-omap/Makefile
-> @@ -6,4 +6,4 @@
->  ccflags-$(CONFIG_ARCH_MULTIPLATFORM) := -I$(srctree)/arch/arm/plat-omap/include
->  
->  # Common support
-> -obj-y := sram.o dma.o
-> +obj-y := sram.o
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+> b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+> index 1cbe01048b93..76b621f99916 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+> @@ -255,19 +255,13 @@ nouveau_drm_debugfs_init(struct drm_minor *minor)
+>  int
+>  nouveau_debugfs_init(struct nouveau_drm *drm)
+>  {
+> -       int ret;
+> -
+>         drm->debugfs = kzalloc(sizeof(*drm->debugfs), GFP_KERNEL);
+>         if (!drm->debugfs)
+>                 return -ENOMEM;
+>  
+> -       ret = nvif_object_ctor(&drm->client.device.object, "debugfsCtrl", 0,
+> +       return nvif_object_ctor(&drm->client.device.object, "debugfsCtrl",
+> 0,
+>                                NVIF_CLASS_CONTROL, NULL, 0,
+>                                &drm->debugfs->ctrl);
+> -       if (ret)
+> -               return ret;
+> -
+> -       return 0;
+>  }
+>  
+>  void
 
 -- 
-Péter
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
