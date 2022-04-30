@@ -1,71 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41132515BE9
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 11:23:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBD9515C40
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 12:31:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE2A10E07B;
-	Sat, 30 Apr 2022 09:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE2C10E00B;
+	Sat, 30 Apr 2022 10:31:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFAF10E069
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Apr 2022 09:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651310622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vtuxsDJkfuXL6miXD7Jn/4A4oW+gIOESPprjyWMnzo4=;
- b=cSZVUBLNeDi+HGB9VaQDAec4GCQAm4lefFLnJmEQo3qnADS810p9FrPJspSgWyayhsTIwv
- FfqQjN782TGRySqMPq4MvsBtj3me/98NAocPaEjQHfO2mOiIuLc6rpWj1sv++8j/5LgVrm
- vbdO3pTR1p8dk/YcGG7k54FcIozBfVI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-ga9mnKvWO7qpKSjMX3j21Q-1; Sat, 30 Apr 2022 05:23:38 -0400
-X-MC-Unique: ga9mnKvWO7qpKSjMX3j21Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s14-20020adfa28e000000b0020ac7532f08so3938192wra.15
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Apr 2022 02:23:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vtuxsDJkfuXL6miXD7Jn/4A4oW+gIOESPprjyWMnzo4=;
- b=YznFb6Q3bP+8Yi6mpsHLwvmyNZH8NCNDdtx8Q2zRh+4grGo/e0P4OWHpuwfVyIGfCh
- Kwk5lsedBPMYj9FJzAPPypDrtKcNuz1xsjOk45kaeB20bdrS3fvx3sE3mMAFAg4/w765
- LWlhX0oJL8RpAcg9i50bjnIPeGlZM8tZAftwWwYDy6P0utvV3Cr66pydIOV5wWiwtwvU
- Ji/E7wQ4xqlA83ZEdJf6X0Hp+RAW3wlmGVGOytPKdcahxxbhwyasrjXueppaQ8nD5ZVV
- wiIqpYdPR5H2tHz9fYME3oNPILjQXKtGN4xGz+kxfQtH3jbDwpuZV//JpFQ4Kvc1BR4l
- LQ8Q==
-X-Gm-Message-State: AOAM533XLrMcUMP8TYTjYyifrObv/tNh8b7Vwm7O/TyAusfPkftbwVdu
- SjjEyU0YmC5Se57Qh+HdId+Vv4PBZTy5eXu1ozxQTD0X/I2MBLlDa7XBanTLgl1CselUamu/V8n
- C6cPpliby9qf9IRwqvL8N6prLSZ9iIahdk7GQfGZ/WvmU
-X-Received: by 2002:a5d:63ce:0:b0:20a:da1f:aac5 with SMTP id
- c14-20020a5d63ce000000b0020ada1faac5mr2414833wrw.589.1651310617258; 
- Sat, 30 Apr 2022 02:23:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhbPMzvtiZB7DFBDu/2Xo3/oLs+WbuEtAxdifccx6w8NMhRTQ2NwYInGVxhJwprDQmVu6Y/wqTwaouLsZZLVI=
-X-Received: by 2002:a5d:63ce:0:b0:20a:da1f:aac5 with SMTP id
- c14-20020a5d63ce000000b0020ada1faac5mr2414820wrw.589.1651310616990; Sat, 30
- Apr 2022 02:23:36 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B05AD10E00B;
+ Sat, 30 Apr 2022 10:31:11 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2CC0BB81F1D;
+ Sat, 30 Apr 2022 10:31:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D37C385AF;
+ Sat, 30 Apr 2022 10:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651314668;
+ bh=6mrXqkGtPpcgemTiiATDVZ7XE8ok/9wW2Vk/4+SypUc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=p9m2Rbz/wxewOHRcZURI01kopZP08YV0c/d/09+uMir1kdo2NQlLMHJLQToHFbJVw
+ wQBe6xXi3E3fWWxujyrx05cGG1K4BFWIIn3br0xrw/iwy1ozkP8jKjiUd8SZdn6HEm
+ CGE/IVxSjWOGhzAJ28YK4YP8AP7Yb3XLEDS94Vk3cJcZYiXfoEPFqIm+RXrecqVhS1
+ r3IBmmVN8oawA4C6KaFPKZSFCFZCK7OQ9Dkvp5IaVNQwZ4qTILjd6ErKbDiOxtUoB5
+ t8RIicrGR9E0TTkNq+q1y3Iik0kkx+sBCVQvd0aLSRl69Hf0KFAWuP4DrX17wcI36S
+ yRN/hoQXLypeQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+ (envelope-from <mchehab@kernel.org>)
+ id 1nkkNQ-001lBL-FK; Sat, 30 Apr 2022 11:31:00 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Subject: [PATCH v2 0/2] Let userspace know when snd-hda-intel needs i915
+Date: Sat, 30 Apr 2022 11:30:57 +0100
+Message-Id: <cover.1651314499.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220429195350.85620-1-lyude@redhat.com>
- <CACO55tuY6ACoW5jgRk8jCVZ_ZZDEBXczkaiTSpFDvw2h81r=xA@mail.gmail.com>
- <a16299814fbbb4cad99f7c7bc9b83c7c31b63a69.camel@redhat.com>
-In-Reply-To: <a16299814fbbb4cad99f7c7bc9b83c7c31b63a69.camel@redhat.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Sat, 30 Apr 2022 11:23:26 +0200
-Message-ID: <CACO55ttVm0fkUd91E_FHUdvP5HDDk3+qKyJoRYVPGmp-TukNAA@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/subdev/bus: Ratelimit logging for fault errors
-To: Lyude Paul <lyude@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,157 +52,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: mauro.chehab@linux.intel.com, alsa-devel@alsa-project.org,
+ Kai Vehmanen <kai.vehmanen@intel.com>, Greg KH <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, David Airlie <airlied@linux.ie>,
+ linux-modules@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 30, 2022 at 1:04 AM Lyude Paul <lyude@redhat.com> wrote:
->
-> On Sat, 2022-04-30 at 00:56 +0200, Karol Herbst wrote:
-> > On Fri, Apr 29, 2022 at 9:54 PM Lyude Paul <lyude@redhat.com> wrote:
-> > >
-> > > There's plenty of ways to fudge the GPU when developing on nouveau by
-> > > mistake, some of which can result in nouveau seriously spamming dmesg with
-> > > fault errors. This can be somewhat annoying, as it can quickly overrun the
-> > > message buffer (or your terminal emulator's buffer) and get rid of
-> > > actually
-> > > useful feedback from the driver. While working on my new atomic only MST
-> > > branch, I ran into this issue a couple of times.
-> > >
-> > > So, let's fix this by adding nvkm_error_ratelimited(), and using it to
-> > > ratelimit errors from faults. This should be fine for developers, since
-> > > it's nearly always only the first few faults that we care about seeing.
-> > > Plus, you can turn off rate limiting in the kernel if you really need to.
-> > >
-> >
-> > good idea :)
-> >
-> > Although I think we ultimately need a detection of "GPU state is
-> > trashed" where we cease to do anything and disable interrupts as some
-> > of those issues actually cause the kernel to get DOSed by nouveau
-> > spamming/handling interrupts. Not sure if we should go with this patch
-> > in the meantime, or if we should just go straight ahead and disable
-> > interrupts, which would also stop the spam.
-> >
-> > Do you know if this patch here is enough to get the system to reboot
-> > normally or is it only spamming less?
->
-> I'd have to try to come up with a setup that can hit this again, although it
-> might not be that hard - last time I hit this it was because I was programming
-> the wrong PBN values for MST payloads into nvidia's hardware.
->
-> So I can't remember for sure if I could reboot, but I do know I could actually
-> log into the system easily and do stuff with ratelimiting applied so it's
-> definitely better then the current situation.
->
+Currently, kernel/module annotates module dependencies when
+request_symbol is used, but it doesn't cover more complex inter-driver
+dependencies that are subsystem and/or driver-specific.
 
-I can play around with your patch a little, as with broken
-multithreading and OpenCL I can trash my entire machine within split
-seconds quite reliably :)
+In the case of hdmi sound, depending on the CPU/GPU, sometimes the
+snd_hda_driver can talk directly with the hardware, but sometimes, it
+uses the i915 driver. When the snd_hda_driver uses i915, it should
+first be unbind/rmmod, as otherwise trying to unbind/rmmod the i915
+driver cause driver issues, as as reported by CI tools with different
+GPU models:
 
-> >
-> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > ---
-> > >  drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h |  2 ++
-> > >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c    | 14 +++++++-------
-> > >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c     |  6 +++---
-> > >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c     |  6 +++---
-> > >  4 files changed, 15 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > index 1665738948fb..96113c8bee8c 100644
-> > > --- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > +++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > @@ -62,4 +62,6 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
-> > >  #define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,   info, f, ##a)
-> > >  #define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,   info, f, ##a)
-> > >  #define nvkm_spam(s,f,a...)  nvkm_printk((s),  SPAM,    dbg, f, ##a)
-> > > +
-> > > +#define nvkm_error_ratelimited(s,f,a...) nvkm_printk((s), ERROR,
-> > > err_ratelimited, f, ##a)
-> > >  #endif
-> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > index 53a6651ac225..80b5aaceeaad 100644
-> > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > @@ -35,13 +35,13 @@ gf100_bus_intr(struct nvkm_bus *bus)
-> > >                 u32 addr = nvkm_rd32(device, 0x009084);
-> > >                 u32 data = nvkm_rd32(device, 0x009088);
-> > >
-> > > -               nvkm_error(subdev,
-> > > -                          "MMIO %s of %08x FAULT at %06x [ %s%s%s]\n",
-> > > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > > -                          (addr & 0x00fffffc),
-> > > -                          (stat & 0x00000002) ? "!ENGINE " : "",
-> > > -                          (stat & 0x00000004) ? "PRIVRING " : "",
-> > > -                          (stat & 0x00000008) ? "TIMEOUT " : "");
-> > > +               nvkm_error_ratelimited(subdev,
-> > > +                                      "MMIO %s of %08x FAULT at %06x [
-> > > %s%s%s]\n",
-> > > +                                      (addr & 0x00000002) ? "write" :
-> > > "read", data,
-> > > +                                      (addr & 0x00fffffc),
-> > > +                                      (stat & 0x00000002) ? "!ENGINE " :
-> > > "",
-> > > +                                      (stat & 0x00000004) ? "PRIVRING " :
-> > > "",
-> > > +                                      (stat & 0x00000008) ? "TIMEOUT " :
-> > > "");
-> > >
-> > >                 nvkm_wr32(device, 0x009084, 0x00000000);
-> > >                 nvkm_wr32(device, 0x001100, (stat & 0x0000000e));
-> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > index ad8da523bb22..c75e463f3501 100644
-> > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > @@ -45,9 +45,9 @@ nv31_bus_intr(struct nvkm_bus *bus)
-> > >                 u32 addr = nvkm_rd32(device, 0x009084);
-> > >                 u32 data = nvkm_rd32(device, 0x009088);
-> > >
-> > > -               nvkm_error(subdev, "MMIO %s of %08x FAULT at %06x\n",
-> > > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > > -                          (addr & 0x00fffffc));
-> > > +               nvkm_error_ratelimited(subdev, "MMIO %s of %08x FAULT at
-> > > %06x\n",
-> > > +                                      (addr & 0x00000002) ? "write" :
-> > > "read", data,
-> > > +                                      (addr & 0x00fffffc));
-> > >
-> > >                 stat &= ~0x00000008;
-> > >                 nvkm_wr32(device, 0x001100, 0x00000008);
-> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > index 3a1e45adeedc..2055d0b100d3 100644
-> > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > @@ -60,9 +60,9 @@ nv50_bus_intr(struct nvkm_bus *bus)
-> > >                 u32 addr = nvkm_rd32(device, 0x009084);
-> > >                 u32 data = nvkm_rd32(device, 0x009088);
-> > >
-> > > -               nvkm_error(subdev, "MMIO %s of %08x FAULT at %06x\n",
-> > > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > > -                          (addr & 0x00fffffc));
-> > > +               nvkm_error_ratelimited(subdev, "MMIO %s of %08x FAULT at
-> > > %06x\n",
-> > > +                                      (addr & 0x00000002) ? "write" :
-> > > "read", data,
-> > > +                                      (addr & 0x00fffffc));
-> > >
-> > >                 stat &= ~0x00000008;
-> > >                 nvkm_wr32(device, 0x001100, 0x00000008);
-> > > --
-> > > 2.35.1
-> > >
-> >
->
-> --
-> Cheers,
->  Lyude Paul (she/her)
->  Software Engineer at Red Hat
->
+	https://intel-gfx-ci.01.org/tree/drm-tip/IGT_6415/fi-tgl-1115g4/igt@core_hotunplug@unbind-rebind.html
+	https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_11495/bat-adlm-1/igt@i915_module_load@reload.html
+
+In the past, just a few CPUs were doing such bindings, but this issue now
+applies to all "modern" Intel CPUs  that have onboard graphics, as well as
+to the  newer discrete GPUs.
+
+With the discrete GPU case, the HDA controller is physically separate and
+requires i915 to power on the hardware for all hardware  access. In this
+case, the issue is hit basicly 100% of the time.
+
+With on-board graphics, i915 driver is needed only when the display
+codec is accessed. If i915 is unbind during runtime suspend, while
+snd-hda-intel is still bound, nothing bad happens, but unbinding i915
+on other situations may also cause issues.
+
+So, add support at kernel/modules to allow snd-hda drivers to properly
+annotate when a dependency on a DRM driver dependencies exists,
+and add a call to such new function at the snd-hda driver when it
+successfully binds into the DRM driver.
+
+This would allow userspace tools to check and properly remove the
+audio driver before trying to remove or unbind the GPU driver.
+
+It should be noticed that this series conveys the hidden module
+dependencies. Other changes are needed in order to allow
+removing or unbinding the i915 driver while keeping the snd-hda-intel
+driver loaded/bound. With that regards, there are some discussions on
+how to improve this at alsa-devel a while  back:
+
+https://mailman.alsa-project.org/pipermail/alsa-devel/2021-September/190099.html
+
+So, future improvements on both in i915 and the audio drivers could be made.
+E.g. with  discrete GPUs, it's the only codec of the card, so it seems feasible
+to detach the ALSA card if i915 is bound (using infra made for VGA
+switcheroo), but,  until these improvements are done and land in
+upstream, audio drivers needs to be unbound if i915 driver goes unbind.
+
+Yet, even if such fixes got merged, this series is still needed, as it makes
+such dependencies more explicit and easier to debug.
+
+PS.: This series was generated against next-20220428.
+
+---
+
+v2: the dependencies are now handled directly at try_module_get().
+
+
+Mauro Carvalho Chehab (2):
+  module: update dependencies at try_module_get()
+  ALSA: hda - identify when audio is provided by a video driver
+
+ include/linux/module.h     |  4 +++-
+ kernel/module/main.c       | 35 +++++++++++++++++++++++++++++++++--
+ sound/hda/hdac_component.c |  2 +-
+ 3 files changed, 37 insertions(+), 4 deletions(-)
+
+-- 
+2.35.1
+
 
