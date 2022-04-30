@@ -1,53 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C000515FE5
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 20:43:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7456515FF1
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 20:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2817510E15C;
-	Sat, 30 Apr 2022 18:43:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F57310E84A;
+	Sat, 30 Apr 2022 18:58:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D47410E06E;
- Sat, 30 Apr 2022 18:43:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651344215; x=1682880215;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=oWYIihokUaJM/i9/QmGaXX3gl+K8rlFxtNay5clvk0I=;
- b=VUtEWa0ssPUBeV3Jrub/2PePGnUp5LPRzfQj7JOg0Tfa77WlEZk//+vV
- gljgn/LouD+0aiyo7qLns4bSD8PGLDniXrUM8xnImoFK/UKQoyqhyOO/m
- 1BPLI1yXIN3rQ97yeqob0OlRE4rxXHuTZgyU84PVHvVIFcLinDrb6nwmm
- u3tPyQumjBxKwWVR6aSD9d/dslwQh3DkKmTXMLF0+D0xiYheIZ7BAmm0q
- K+27FS0s+geHuOzyuLRhAPbs3r5Wb40aTSDWVBuZNiwpHpTVE+2DBxhwG
- Ql/9SLoejbPUHqYv7urofd6026TpK7JYfPS2PTS61Rl5TmKpxxFKNTNex A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10333"; a="246826918"
-X-IronPort-AV: E=Sophos;i="5.91,188,1647327600"; d="scan'208";a="246826918"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2022 11:43:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,188,1647327600"; d="scan'208";a="732688331"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by orsmga005.jf.intel.com with ESMTP; 30 Apr 2022 11:43:30 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nks41-0007VT-Fq;
- Sat, 30 Apr 2022 18:43:29 +0000
-Date: Sun, 1 May 2022 02:42:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH v3 2/2] ALSA: hda - identify when audio is provided by a
- video driver
-Message-ID: <202205010257.ZFhZYEG9-lkp@intel.com>
-References: <6b5f1e2cec0137d5aab089a7e7497972ff5addb1.1651326000.git.mchehab@kernel.org>
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D028A10E84A
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Apr 2022 18:58:10 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8DCB63F66E;
+ Sat, 30 Apr 2022 20:58:08 +0200 (CEST)
+Date: Sat, 30 Apr 2022 20:58:07 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2] drm/msm/dsi: use RMW cycles in dsi_update_dsc_timing
+Message-ID: <20220430185807.yn2j2coyc77qzx2o@SoMainline.org>
+References: <20220430175533.3817792-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6b5f1e2cec0137d5aab089a7e7497972ff5addb1.1651326000.git.mchehab@kernel.org>
+In-Reply-To: <20220430175533.3817792-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,107 +42,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kbuild-all@lists.01.org,
- mauro.chehab@linux.intel.com, David Airlie <airlied@linux.ie>,
- Greg KH <greg@kroah.com>, intel-gfx@lists.freedesktop.org,
- llvm@lists.linux.dev, Lucas De Marchi <lucas.demarchi@intel.com>,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@intel.com>,
- linux-modules@vger.kernel.org,
- Pierre-Louis Bossart <pierre-louis.bossart@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro,
+On 2022-04-30 20:55:33, Dmitry Baryshkov wrote:
+> The downstream uses read-modify-write for updating command mode
+> compression registers. Let's follow this approach. This also fixes the
+> following warning:
+> 
+> drivers/gpu/drm/msm/dsi/dsi_host.c:918:23: warning: variable 'reg_ctrl' set but not used [-Wunused-but-set-variable]
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I love your patch! Yet something to improve:
+I pointed this out in review multiple times, so you'll obviously get my:
 
-[auto build test ERROR on mcgrof/modules-next]
-[also build test ERROR on linus/master v5.18-rc4 next-20220429]
-[cannot apply to tiwai-sound/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/Let-userspace-know-when-snd-hda-intel-needs-i915/20220430-214332
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-config: riscv-buildonly-randconfig-r003-20220428 (https://download.01.org/0day-ci/archive/20220501/202205010257.ZFhZYEG9-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 400775649969b9baf3bc2a510266e7912bb16ae9)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/32f6557b5cc77c3cc2fcf6e68f11d989e31c954d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mauro-Carvalho-Chehab/Let-userspace-know-when-snd-hda-intel-needs-i915/20220430-214332
-        git checkout 32f6557b5cc77c3cc2fcf6e68f11d989e31c954d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash sound/hda/
+(But are you sure there's nothing else to clear in the 1st CTRL
+register, only the lowest 16 bits?  That should mean `reg` never
+contains anything in 0xffff0000)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+However, this seems to indicate that the DSC patch series has been
+approved and merged somehow??
 
-All errors (new ones prefixed by >>):
-
->> sound/hda/hdac_component.c:202:7: error: call to undeclared function '__try_module_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           if (!__try_module_get(acomp->ops->owner, dev->driver->owner)) {
-                ^
-   sound/hda/hdac_component.c:202:7: note: did you mean 'try_module_get'?
-   include/linux/module.h:759:20: note: 'try_module_get' declared here
-   static inline bool try_module_get(struct module *module)
-                      ^
-   1 error generated.
-
-
-vim +/__try_module_get +202 sound/hda/hdac_component.c
-
-   183	
-   184	static int hdac_component_master_bind(struct device *dev)
-   185	{
-   186		struct drm_audio_component *acomp = hdac_get_acomp(dev);
-   187		int ret;
-   188	
-   189		if (WARN_ON(!acomp))
-   190			return -EINVAL;
-   191	
-   192		ret = component_bind_all(dev, acomp);
-   193		if (ret < 0)
-   194			return ret;
-   195	
-   196		if (WARN_ON(!(acomp->dev && acomp->ops))) {
-   197			ret = -EINVAL;
-   198			goto out_unbind;
-   199		}
-   200	
-   201		/* pin the module to avoid dynamic unbinding, but only if given */
- > 202		if (!__try_module_get(acomp->ops->owner, dev->driver->owner)) {
-   203			ret = -ENODEV;
-   204			goto out_unbind;
-   205		}
-   206	
-   207		if (acomp->audio_ops && acomp->audio_ops->master_bind) {
-   208			ret = acomp->audio_ops->master_bind(dev, acomp);
-   209			if (ret < 0)
-   210				goto module_put;
-   211		}
-   212	
-   213		complete_all(&acomp->master_bind_complete);
-   214		return 0;
-   215	
-   216	 module_put:
-   217		module_put(acomp->ops->owner);
-   218	out_unbind:
-   219		component_unbind_all(dev, acomp);
-   220		complete_all(&acomp->master_bind_complete);
-   221	
-   222		return ret;
-   223	}
-   224	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> ---
+> 
+> Changes since v1:
+>  - Fix c&p error and apply mask clear to reg_ctrl2 instead of reg_ctrl
+>    (Abhinav)
+> 
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index c983698d1384..a95d5df52653 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -961,10 +961,13 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+>  		reg_ctrl = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
+>  		reg_ctrl2 = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
+>  
+> +		reg_ctrl &= ~0xffff;
+>  		reg_ctrl |= reg;
+> +
+> +		reg_ctrl2 &= ~DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
+>  		reg_ctrl2 |= DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(bytes_in_slice);
+>  
+> -		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg);
+> +		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg_ctrl);
+>  		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2, reg_ctrl2);
+>  	} else {
+>  		dsi_write(msm_host, REG_DSI_VIDEO_COMPRESSION_MODE_CTRL, reg);
+> -- 
+> 2.35.1
+> 
