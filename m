@@ -2,42 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E362515CA1
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 14:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61AB8515D00
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 14:41:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752F210E05C;
-	Sat, 30 Apr 2022 12:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C50B610E37F;
+	Sat, 30 Apr 2022 12:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF6110E02E;
- Sat, 30 Apr 2022 12:05:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0D1A160AE6;
- Sat, 30 Apr 2022 12:05:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9E4C385AA;
- Sat, 30 Apr 2022 12:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1651320303;
- bh=tWlItz5i5kXdXuKnvQvNpU5f7HV/eMhhZ4OfG79KfB4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EWPWQ/+A8KiWNeEnnCkAKXMPSezGdtzp5Pu/mRwQ/MU866OQbmFsojF7i409gTuJu
- COUJKad1RdoM48RcXRCz1/y234ep+r8F5hVv3U8qnSyXd89g/SqzfONVpSS2CCu9eN
- CMKtf9Kko8TmVqrBl0bJ24rI3PoZ2XY2ikw7YirU=
-Date: Sat, 30 Apr 2022 14:04:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 1/2] module: update dependencies at try_module_get()
-Message-ID: <Ym0l6yeTWCCAeww8@kroah.com>
-References: <cover.1651314499.git.mchehab@kernel.org>
- <3c7547d551558c9da02038dda45992f91b1f5141.1651314499.git.mchehab@kernel.org>
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B357310E37F
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Apr 2022 12:41:36 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ y14-20020a9d460e000000b00605ee347da1so4320160ote.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Apr 2022 05:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+4KmgQYfIuFm8h1U7R2YwSpU4hiAkXj3VbXO1u4n31Y=;
+ b=bOMCzvCOAKpdv9fXaje9jMI1pqeKHqZONG1kyrwpEn5SRSjZ3gWLYQa3I3V8E0XTqe
+ 23L3GQAWJeNEVk7g8b+1UkAgEnQmLz3wKCy7oL9ps0rKBiKWBGcNJePTi8yZdc7eAm1K
+ drdd70QPm41ZeopLgQmmcBSPYqUdoh6aLM9KWSTIn7/lTrG/Cl6+v62W2AmGpZwfQKuG
+ nJsb/pkjFRynFoTYu5l6pn8u9pt2CaT1jCMhsjk/5NBUgOkrkYq3BZENTznAZdLbqTNg
+ OGQz6xI5kVYIDfriuLeWqba0UWos0/qt3bWMGA48AnxKNk/33rWth8ALS3TZQJlUqq9u
+ /Xfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+4KmgQYfIuFm8h1U7R2YwSpU4hiAkXj3VbXO1u4n31Y=;
+ b=1g7u9plKKj3kYANKoqf5IU7S3OjYDXBP0+mRYLdDcOnEHMUAmZso3/uXiGuPetSggW
+ ALByAi5fod16CN17WkFuzoQZt9VZh7sj4O1IrYNE7e+T+Pq7xv3qn7ITe8+bmn4QFT41
+ 0Cv+vXlbOy1XgLZZ7WmRyvQBfOTCyPkSupGaolmToxo2xEfd4Zt66CZ54yEzJKaZCf+r
+ BgC+1NP3hnMsEQLmoJlqaosfj/R2I4Z+4Jm4Zsk/q4WTO1dBONbEyXm7PBSisi2MDlmk
+ DU3lrLrIARaLOLFkquMnuaC8+O9HZ0GHQnUQa6ce+fRFYN5GBkHH4eLTHgfz9N+WK4Lz
+ St/g==
+X-Gm-Message-State: AOAM533ITwP4gRGRchBpsUI6SaEdM1YlaGYCw9uonfbMP9bggY7blifs
+ mj2Jo5SLLBaV+zm1DQIVMVQ=
+X-Google-Smtp-Source: ABdhPJx/RnInjVQBRODIzLjFN1nUE8Qwa3akS1eWhsyayobpVL5cALhdflWKmFg+xyGlLB5eP7Dd1w==
+X-Received: by 2002:a9d:6957:0:b0:605:de97:1ac9 with SMTP id
+ p23-20020a9d6957000000b00605de971ac9mr1368958oto.83.1651322495923; 
+ Sat, 30 Apr 2022 05:41:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ c5-20020a056870b28500b000e686d13881sm3932471oao.27.2022.04.30.05.41.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Apr 2022 05:41:35 -0700 (PDT)
+Message-ID: <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
+Date: Sat, 30 Apr 2022 05:41:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c7547d551558c9da02038dda45992f91b1f5141.1651314499.git.mchehab@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+ <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+ <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
+ <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,96 +92,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, mauro.chehab@linux.intel.com,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@intel.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- linux-modules@vger.kernel.org,
- Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 30, 2022 at 11:30:58AM +0100, Mauro Carvalho Chehab wrote:
-> Sometimes, device drivers are bound into each other via try_module_get(),
-> making such references invisible when looking at /proc/modules or lsmod.
+On 4/30/22 01:04, Arnd Bergmann wrote:
+> On Sat, Apr 30, 2022 at 1:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 4/29/22 14:46, Arnd Bergmann wrote:
+>>> On Fri, Apr 29, 2022 at 10:23 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> On 4/29/22 10:48, Guenter Roeck wrote:
+>>>>>
+>>>>> I tried the pxa-multiplatform-5.18 branch. Its failures match
+>>>>> those in v5.18-rc1.
+>>>>>
+>>>>
+>>>> Uuh, wait, the build wasn't complete. There are still some
+>>>> failures. I'll report later.
+>>>
+>>> Sorry about the breakage, I got a few more reports about minor build errors
+>>> and warnings, the newly uploaded branches should address all of the ones
+>>> I got reports for.
+>>>
+>>
+>> Unless I am missing something the failures are the same as before. See
+>> https://kerneltests.org/builders/qemu-arm-testing/builds/74/steps/qemubuildcommand/logs/stdio
+>>
+>> This is with v5.18-rc1-49-ge8ab9a9a2745 which is the tip of
+>> soc/pxa-multiplatform-5.18.
+>>
+>> Should I check a different branch ?
 > 
-> Add a function to allow setting up module references for such
-> cases, and call it when try_module_get() is used.
+> I only addressed the pcmcia probe failure that you reported for the
+> final pxa patch, which
+> previously caused a NULL pointer reference here:
 > 
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
+> [    1.405319] PC is at pcmcia_init_one+0xf8/0x27c
+> [    1.405476] LR is at devres_add+0x40/0x6c
+> [    1.405611] pc : [<c04bdea0>]    lr : [<c044d808>]    psr: a0000113
+> [    1.405846] sp : c48a5d00  ip : c15f4220  fp : 60000113
+> [    1.406026] r10: 00000000  r9 : c48b000e  r8 : c48b0000
+> [    1.406195] r7 : feeb0000  r6 : feeb000e  r5 : c15ec090  r4 : c15ec020
+> [    1.406395] r3 : 00000002  r2 : 00000000  r1 : c15f4200  r0 : feeb000e
 > 
-> See [PATCH v2 0/2] at: https://lore.kernel.org/all/cover.1651314499.git.mchehab@kernel.org/
+> This now seems to work:
 > 
->  include/linux/module.h |  4 +++-
->  kernel/module/main.c   | 35 +++++++++++++++++++++++++++++++++--
->  2 files changed, 36 insertions(+), 3 deletions(-)
+> [    1.435846] pcmcia_socket pcmcia_socket1: pccard: PCMCIA card
+> inserted into slot 1
+> [    1.456350] pcmcia_socket pcmcia_socket0: pccard: PCMCIA card
+> inserted into slot 0
+> [    1.457489] pcmcia 0.0: pcmcia: registering new device pcmcia0.0 (IRQ: 217)
+> [    1.460275] pata_pcmcia: probe of 0.0 failed with error -12
 > 
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index 46d4d5f2516e..836851baaad4 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -620,7 +620,9 @@ extern void __module_get(struct module *module);
->  
->  /* This is the Right Way to get a module: if it fails, it's being removed,
->   * so pretend it's not there. */
-> -extern bool try_module_get(struct module *module);
-> +extern bool __try_module_get(struct module *module, struct module *this);
-> +
-> +#define try_module_get(mod) __try_module_get(mod, THIS_MODULE)
->  
->  extern void module_put(struct module *module);
->  
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index 05a42d8fcd7a..9f4416381e65 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -631,6 +631,35 @@ static int ref_module(struct module *a, struct module *b)
->  	return 0;
->  }
->  
-> +static int ref_module_dependency(struct module *mod,
-> +				       struct module *this)
+> So it sounds like there are additional bugs that I have to look at. I
+> probably won't
+> be able to do that in time for the merge window. The logs contain a number of
+> warnings, but I have no idea which ones of those are preexisting issue. I had
+> a look at
+> 
+> [    0.689982] pxa-dma pxa-dma.0: error -ENXIO: IRQ index 1 not found
+> 
+Yes, those messages are indeed old.
 
-This can be on one line, right?
+> and concluded that it must have done this for a long time. In my own qemu
+> instance, I see a crash from iWMMXt, but that works fine on your machine.
+> OTOH, your failed instances all look like they either time out or
+> failed to find a
+> rootfs. I tried passing an MMC device as root, and that works here.
+> 
 
-> +{
-> +	int ret;
-> +
-> +	if (!this || !this->name) {
-> +		return -EINVAL;
-> +	}
+Booting from mmc works for me as well. Booting from pcmcia worked before,
+so I assume that there must be some regression.
 
-Did you run checkpatch on this?  Please do :)
-
-> +
-> +	if (mod == this)
-> +		return 0;
-
-How can this happen?
-
-When people mistakenly call try_module_get(THIS_MODULE)?  We should
-throw up a big warning when that happens anyway as that's always wrong.
-
-But that's a different issue from this change, sorry for the noise.
-
-> +
-> +	mutex_lock(&module_mutex);
-> +
-> +	ret = ref_module(this, mod);
-> +
-> +#ifdef CONFIG_MODULE_UNLOAD
-> +	if (ret)
-> +		goto ret;
-> +
-> +	ret = sysfs_create_link(mod->holders_dir,
-> +				&this->mkobj.kobj, this->name);
-
-Meta comment, why do we only create links if we can unload things?
-
-thanks,
-
-greg k-h
+Guenter
