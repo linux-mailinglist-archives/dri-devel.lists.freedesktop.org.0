@@ -2,46 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399F7515F72
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 19:11:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E6E515FA1
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Apr 2022 19:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC10110E7DD;
-	Sat, 30 Apr 2022 17:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB4110E879;
+	Sat, 30 Apr 2022 17:39:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1AC10E728;
- Sat, 30 Apr 2022 17:10:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2229CB800E2;
- Sat, 30 Apr 2022 17:10:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C82E2C385AC;
- Sat, 30 Apr 2022 17:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651338651;
- bh=7Q7phQTT380eAyC4pna502Skfk1vzTEtTNmA1K869r0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lmhHSkgN6SJu7W4wB+ucUrBjvZo8z0l460AEAQjsgfNd5JfX2DEAsTn3S6Uvo0yAq
- 0zn9heKMP4uN52wwlOMVgMS+pfaWDa52qGhz4X/UQIFoRv/uWtLMPNlcVI/oM5pwDu
- gFqP84DWRdqCWqWZ9qRcTvL3nXuC7RU61QBlmL7SsaSr8rUkVtLuFccLFuDfXg4Px3
- /X0tCjMBYgIFeDBrIrlELcr/CScCik3+ha5rPRf4nBnX+v5vjjs08w4LIe28IA7GgV
- zz8Xqo3X+OTqjh4Jv9ZNNNjCzMNYjV0ie6/NkGGP8tpWTpeIGtrGkAopcmZadVKO9z
- UaIdwvKJ/y8RQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
- (envelope-from <mchehab@kernel.org>)
- id 1nkqcJ-001tIM-D5; Sat, 30 Apr 2022 18:10:47 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH v4 2/2] ALSA: hda - identify when audio is provided by a video
- driver
-Date: Sat, 30 Apr 2022 18:10:46 +0100
-Message-Id: <d0b23b803e4a1e748b09c5b94f84231ef96f66ec.1651338466.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1651338466.git.mchehab@kernel.org>
-References: <cover.1651338466.git.mchehab@kernel.org>
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27F710E879
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Apr 2022 17:39:12 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id w19so19009363lfu.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Apr 2022 10:39:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=PJUZmqtC/NlHzYBP/fTYOLhJquf+nkTxythqoIbiJuM=;
+ b=pd1meebuNyXZNSecDYOignWtnc4uipjWvxFVlqwUedoes11qQYqEUl9XeZ4L7Skj3t
+ bLLLLu2wiGS6Cs0JoyCGacW6QOGboQ41b+SY9PYZXeNRjdtE1j2SMREQnjml6+N7IYzk
+ PBfcaDqxY1h0MCi0KzIUq9r6DG6YsQupIFvCaOEBgVu9Cm4L0+T3uH2cGDnllzeTqDXU
+ gqvZzVGAPULEuUYHszaJjNXXqTo0QNuudXw/28OZD68EAmaFaBroBsrDk5WMjqNKx7j8
+ vSQZPVHMZsjE599NJs1tD5I4dQ3gF+RKnkcLW8Bzadp25d/77/lE/N1PekRlxmOEoPeA
+ AqRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PJUZmqtC/NlHzYBP/fTYOLhJquf+nkTxythqoIbiJuM=;
+ b=CyuJUQ96nWwRJ7O9E7dlg6N/dnvf+tuUiCZH9RIuIInfrNleUqHwRSV7CjOplClv66
+ CVuBRWLm6qvA/Z0yUhYHHMJOfLArOypjwwBYkd8vfugZhJTVlKZqyQuexCv88kWVvujs
+ N6Rncq97KPdyXn8uS1hBpcCYJMU1OIbksYNjfJ3pmwBNBltyJ+dnfamtZdpLIMzEC9lF
+ mzRd73IWB53w1yNZFciO3HArraup7o5/IhqvJ1sy0fyuBCj0tjEbRiRFC7CzkSbN/hK6
+ P3ulV4bk63Uabe/SrhkJtyVsSrh3h+lfLJDaWYt4w8QywpGFdtRX2WsCt84MM26xFUJz
+ kcig==
+X-Gm-Message-State: AOAM531NPdopLFKDMsTW7bWAbaKTjxGOzriMCdHznc43LKTjnENwV1WS
+ 6AUyKSMLEV4Ot2SVgXJ2Q1TDRQ==
+X-Google-Smtp-Source: ABdhPJyE49bxeXuAVwnhwbGgtx0PpXMHqSkwfcWTqNFrKFCTOstMHHYjG2ux6kczABK3kiJkuT6HfA==
+X-Received: by 2002:a19:c511:0:b0:471:fc54:8a5 with SMTP id
+ w17-20020a19c511000000b00471fc5408a5mr3676482lfe.454.1651340350988; 
+ Sat, 30 Apr 2022 10:39:10 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ r5-20020a2e8e25000000b0024f3d1dae89sm589670ljk.17.2022.04.30.10.39.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Apr 2022 10:39:10 -0700 (PDT)
+Message-ID: <d80dea48-5618-95be-67a4-e6ba12b4d05e@linaro.org>
+Date: Sat, 30 Apr 2022 20:39:09 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/msm/dsi: use RMW cycles in dsi_update_dsc_timing
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220430081101.3763847-1-dmitry.baryshkov@linaro.org>
+ <37f83a5e-a966-3da3-ea32-3478f77e98e8@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <37f83a5e-a966-3da3-ea32-3478f77e98e8@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,49 +76,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, mauro.chehab@linux.intel.com,
- David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@intel.com>,
- linux-modules@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-kernel@vger.kernel.org,
- Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some devices, the hda driver needs to hook into a video driver,
-in order to be able to properly access the audio hardware and/or
-the power management function.
+On 30/04/2022 18:16, Abhinav Kumar wrote:
+> 
+> 
+> On 4/30/2022 1:11 AM, Dmitry Baryshkov wrote:
+>> The downstream uses read-modify-write for updating command mode
+>> compression registers. Let's follow this approach. This also fixes the
+>> following warning:
+>>
+>> drivers/gpu/drm/msm/dsi/dsi_host.c:918:23: warning: variable 
+>> 'reg_ctrl' set but not used [-Wunused-but-set-variable]
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
+>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> index c983698d1384..a5619ad82a53 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> @@ -961,10 +961,12 @@ static void dsi_update_dsc_timing(struct 
+>> msm_dsi_host *msm_host, bool is_cmd_mod
+>>           reg_ctrl = dsi_read(msm_host, 
+>> REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
+>>           reg_ctrl2 = dsi_read(msm_host, 
+>> REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
+>> +        reg_ctrl &= ~0xffff;
+>>           reg_ctrl |= reg;
+>> +        reg_ctrl &= 
+>> ~DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
+> 
+> Shoulnt this be
+> 
+> reg_ctrl2 &= ~DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
+> 
+> You seem to have used reg_ctrl which is wrong.
+> 
 
-That's the case of several snd_hda_intel devices that depends on
-i915 driver.
+Yes. Dummy c&p. I'll post v2 asap.
 
-Ensure that a proper reference between the snd-hda driver needing
-such binding is shown at /proc/modules, in order to allow userspace
-to know about such binding.
+>>           reg_ctrl2 |= 
+>> DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(bytes_in_slice);
+>> -        dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg);
+>> +        dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, 
+>> reg_ctrl);
+>>           dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2, 
+>> reg_ctrl2);
+>>       } else {
+>>           dsi_write(msm_host, REG_DSI_VIDEO_COMPRESSION_MODE_CTRL, reg);
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
 
-See [PATCH v4 0/2] at: https://lore.kernel.org/all/cover.1651338466.git.mchehab@kernel.org/
-
- sound/hda/hdac_component.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/hda/hdac_component.c b/sound/hda/hdac_component.c
-index bb37e7e0bd79..30e130457272 100644
---- a/sound/hda/hdac_component.c
-+++ b/sound/hda/hdac_component.c
-@@ -199,7 +199,7 @@ static int hdac_component_master_bind(struct device *dev)
- 	}
- 
- 	/* pin the module to avoid dynamic unbinding, but only if given */
--	if (!try_module_get(acomp->ops->owner)) {
-+	if (!__try_module_get(acomp->ops->owner, dev->driver->owner)) {
- 		ret = -ENODEV;
- 		goto out_unbind;
- 	}
 -- 
-2.35.1
-
+With best wishes
+Dmitry
