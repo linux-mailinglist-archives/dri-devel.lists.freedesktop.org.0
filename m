@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44517516807
-	for <lists+dri-devel@lfdr.de>; Sun,  1 May 2022 23:34:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 644D1516810
+	for <lists+dri-devel@lfdr.de>; Sun,  1 May 2022 23:35:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2D8210E11E;
-	Sun,  1 May 2022 21:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A48510E08B;
+	Sun,  1 May 2022 21:35:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0529F10E11E
- for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 21:34:25 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id g28so23269070ybj.10
- for <dri-devel@lists.freedesktop.org>; Sun, 01 May 2022 14:34:25 -0700 (PDT)
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D3410E08B
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 21:35:38 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-2f863469afbso107506707b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 May 2022 14:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XHDe8NwwI9SjN9yPCfdFZVh4P/kcPQDXEmbvi28Ry+g=;
- b=UhniDGJRP7jnhKBKyFEU7Wm1oj19NfJgHgLTwiUZocIMzFuZcy6/C6VzBVOL++cBvj
- LrIdaNUAfF6A3gJNASrFvHnAKvQMpgaI3a+ALVbDTJ8eikxSpYzLlQUmI4nPbtXjDg4D
- 61l+wu6AHbkliq+H0f8Ajl6wMDIrIDWbHXSKpPcelWQXQMMNGkpdczkhdkUi7iNKqqom
- f4kY22N5GzwsoRBTgxLB4z0sMMH1XkpdSeUqQXDWgVrNldazzOzczD605y1f7K81V1C4
- 4ugAXmyrIfWO1yaViycscWtZgLZGrFY+/HbQHeYpwIpBVHoKMccEQ7oDjW2RE/A2D6ol
- 0zew==
+ :cc; bh=T254pOQ0OrSDi8zN/59MRP0JPU9NfQ5B5Rmbgtdrkko=;
+ b=wlpA+CfyvX91ALnfVCMPP166Rc0Mpatt42DsMvCkWJmeZUVRfB6mnUYecnMGRNYbhI
+ ld8YsssomjW9oCtQmr15blAmBLS+t4KouSWHxbIZVjnsq1DnJlp8Fx6XNCVuGUF0GS/N
+ 6klXRU6dGXOQupaFrwlX9Yah5rEs29v06x/UCbuJ/f0GQoJQPiBvrEccSjVf/VH42K7p
+ RwLGlqfP5o3h1uwBR8xQuBvPKaAX5Sq4RHEUwFvP/y5fx9owfyl5p9sMhmOT/ahPJUD6
+ 7q+tV1u5MOsspWP4YhNR748kjKGgc9lX4NNszXKAVeEM0jxtUxFRG3LYR6gGsd4NYws0
+ Yv1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XHDe8NwwI9SjN9yPCfdFZVh4P/kcPQDXEmbvi28Ry+g=;
- b=gYuwyEYilKe4DxQ4HRInXiaHtmCwleKm7xQmjQlf3klUVTArO0BCVhjXwHsjNYt/eh
- 6e1HLKQGlNAeINbn4Rzg0nn81ezGWy72eCZQ64P/I3fdZUUUHZG0GhKEzMqiMBiTWcvY
- 7N+P4bjOtsQobEGpf87A73I4ZHkRwxHTOwyKRbz+Z6twXVcn+ezNI8rFxY3/u83wn6Ap
- +wsP6SwiP+JCYBrwdMUTMvlIIgIXt+bYDick5j1GCpijn/6rALT21cORIsW9JVjkwCxW
- kWSD/MK/LDP0iTeQHAJbqw+zLhhF2Ro3ga8y5YYnpBQ7hBW5RCP3NQS5o0i//Hje5JrX
- F7/w==
-X-Gm-Message-State: AOAM530eoxW11wvmyZTDOp2EXwRkS1CowRBq6TVixEPV/6lFURd2JyoR
- UpS5zL7wW2oKh47PQXKFWK2u2W5BCFRQjsVMpx2Ung==
-X-Google-Smtp-Source: ABdhPJwyu4GO9ZTopFM1Qtp9g0AYWW/G2gCL2Rkf2k0emOIuL58PKSUnjfCPuXZtMMqa2spe4DyjerPL+kd11/8NfmU=
-X-Received: by 2002:a25:aa94:0:b0:648:62f2:ef4e with SMTP id
- t20-20020a25aa94000000b0064862f2ef4emr8160978ybi.626.1651440865094; Sun, 01
- May 2022 14:34:25 -0700 (PDT)
+ bh=T254pOQ0OrSDi8zN/59MRP0JPU9NfQ5B5Rmbgtdrkko=;
+ b=ZAEvVU7g4gnYGpeClKXux6vPsvD/ButzrXkHHsO1FDlGE0gAswwmjVWo0WrDI9sDmt
+ PBviK0XJzVML9itW+sOCUcTYhcFqrzQmPEyBM+pFMF7zamw1IDvhgcnSe8/CUvoTRbnh
+ B3vxsfu4jhWJ5ICLWxmZEhNnhfS52et9pGQUHA5oMksgpOCDte/EMSXDCBmUCiz2IoCr
+ heonaHFZO7fOF6zuHalM6xfaJ4Ro5DhoGkyEBerCk+BWVC/9ay8MiwRDaSCUg/L1d3lY
+ o8YvEnBcyNgwpyYnWLvBH5IS++oTkdGHQ/KY4StFUI92mwoXqmST0p69Ow9/0bpYszXW
+ an3Q==
+X-Gm-Message-State: AOAM532qk2iLTzfg34iv+eWlOO5KHx/EG+5w+SV7DSUYWdGPlJHc1d5t
+ 97Xtx3fWi8tL5yh4AXcp7HcAzRYMdksheGUq5l3AeQ==
+X-Google-Smtp-Source: ABdhPJyiNIf7FX2G9hbcHdCnWtNprAICIXfmTZ2O7M9XljL3Duwj1WbWX/AgvgI1z1Nmh9oOd4l1d7OyIUiw7QC5qEY=
+X-Received: by 2002:a0d:ddc6:0:b0:2f8:a506:a5c0 with SMTP id
+ g189-20020a0dddc6000000b002f8a506a5c0mr9543818ywe.140.1651440937377; Sun, 01
+ May 2022 14:35:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220419163810.2118169-16-arnd@kernel.org>
-In-Reply-To: <20220419163810.2118169-16-arnd@kernel.org>
+ <20220419163810.2118169-18-arnd@kernel.org>
+In-Reply-To: <20220419163810.2118169-18-arnd@kernel.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 1 May 2022 23:34:13 +0200
-Message-ID: <CACRpkdbdCzeWgLOhQfEPVz6fYMqDeTYtqQ3uunj1MK+RGcZZKA@mail.gmail.com>
-Subject: Re: [PATCH 15/48] ARM: pxa: tosa: use gpio descriptor for audio
+Date: Sun, 1 May 2022 23:35:26 +0200
+Message-ID: <CACRpkda10Cv9W07FjO4Ww58V_cgP05Thz-7cv6aF=QC8iW2vDA@mail.gmail.com>
+Subject: Re: [PATCH 17/48] ARM: pxa: corgi: use gpio descriptors for audio
 To: Arnd Bergmann <arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,7 +86,7 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 19, 2022 at 6:40 PM Arnd Bergmann <arnd@kernel.org> wrote:
+On Tue, Apr 19, 2022 at 6:41 PM Arnd Bergmann <arnd@kernel.org> wrote:
 
 > From: Arnd Bergmann <arnd@arndb.de>
 >
@@ -93,8 +94,8 @@ On Tue, Apr 19, 2022 at 6:40 PM Arnd Bergmann <arnd@kernel.org> wrote:
 > from the header. Change it to use a lookup table.
 >
 > Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
 > Cc: alsa-devel@alsa-project.org
+> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
 Looks good to me!
