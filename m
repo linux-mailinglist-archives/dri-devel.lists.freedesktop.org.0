@@ -2,36 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766F6516270
-	for <lists+dri-devel@lfdr.de>; Sun,  1 May 2022 09:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA55516390
+	for <lists+dri-devel@lfdr.de>; Sun,  1 May 2022 12:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3ED010F324;
-	Sun,  1 May 2022 07:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 217C910EAC8;
+	Sun,  1 May 2022 10:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A4B10F324;
- Sun,  1 May 2022 07:14:34 +0000 (UTC)
-Received: from [192.168.0.2] (ip5f5aed6d.dynamic.kabel-deutschland.de
- [95.90.237.109])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 9AF5F61EA1923;
- Sun,  1 May 2022 09:14:32 +0200 (CEST)
-Message-ID: <232384f1-c888-33f7-07dd-b99545f1b115@molgen.mpg.de>
-Date: Sun, 1 May 2022 09:14:32 +0200
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4CA10EAC8
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 10:10:25 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id bu29so21029287lfb.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 May 2022 03:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G27wgdd/ZwvOWQ526mQM89rV7+V8FgRW2sR7NATsocw=;
+ b=kU7AbjSRYqZGWt/IVMwirjrR6WpiCwboMH7bfBW5Rbpiby5hLkOivzIvjZ48wggzwm
+ 6AIffeWAwUsAeYXghedDZ9aAo0r6mXKoIv5vT6MpGL1TR45V9yNW12ayqvq24ZeZ2vEq
+ sJHCqB06x+AJ4oaxHOJ1YNP8CIYuPTSUioee+YWuvYHyC2flphjSGKyzBu2cvxs6DpoT
+ Vt0veVNY19khJQrPMl2Bo+eZFMBgq4btzYntwMjbIf9SJdXo6Bf6SiL+RynUYXjIaONu
+ Dcp85ceB/yXnWmwQ7NjTbd7QlzulLQNZ0bOgB64mY8a7wQvRrqPidA5yZxSmNUgYSE2d
+ BOqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=G27wgdd/ZwvOWQ526mQM89rV7+V8FgRW2sR7NATsocw=;
+ b=GsFh5nUa592RiakKG26I7l2Sy1a+ZsGlsrFpb14RGtd5+z2IiMEQCzVn9tIZ9iXmf3
+ kMuRnr2IGtqv4cQgd81oUQ2QBMsRzWhni6zzxV3Ldx+GsfKWnv2SWEe+gMuVZQeEB+Q/
+ cC6OVijx/t03dMnfWn9KjBa4791n1l3nS48IVqgxsW49gDNGOCDVC+daj12UgvX7wSU0
+ GyDQBOOi09zbg5xt9XEXC5GmIOITHrYgjR7jfM/WUc888HEdPuiBjYD/SjIzI3ESsnSZ
+ vtch5a1hC/w7PhIYKN7sBzhgadi155YiNM/tTAl8nd+yBi0bmL+QyS/FvRBf123t6sRZ
+ gOEA==
+X-Gm-Message-State: AOAM531nFQZIywr4ajj4Ig4J0hCFPoUwJhUXOX4b7rZkWrih2DmzPb0I
+ eaug9cBwhjbRou7CEAxU4CqTTg==
+X-Google-Smtp-Source: ABdhPJxrVlSOlP2q+CFvx6DhukQA7dZ/3Eu8p4Ke5TIuXemYFkOZUSArjyxTEullMVARludl7N4Igw==
+X-Received: by 2002:a05:6512:3e13:b0:471:f6a9:85d3 with SMTP id
+ i19-20020a0565123e1300b00471f6a985d3mr5796824lfv.120.1651399823711; 
+ Sun, 01 May 2022 03:10:23 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ h7-20020a2ea487000000b0024f3d1dae7csm766412lji.4.2022.05.01.03.10.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 May 2022 03:10:23 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 0/3] drm/msm: fixes for KMS iommu handling
+Date: Sun,  1 May 2022 13:10:19 +0300
+Message-Id: <20220501101022.3931295-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCHv5] drm/amdgpu: vi: disable ASPM on Intel Alder Lake based
- systems
-Content-Language: en-US
-To: Richard Gong <richard.gong@amd.com>
-References: <20220429160604.2608782-1-richard.gong@amd.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20220429160604.2608782-1-richard.gong@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,95 +67,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, airlied@linux.ie, xinhui.pan@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, mario.limonciello@amd.com
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Richard,
+This series started from the applied and then reverted [2] patch by
+Robin Murphy [1]. After the MDSS rework [3] has landed it is now
+possible to reapply the extended version of the original patch. While we
+are at it, also rework the IOMMU init code for DPU and MDP5 drivers.
 
+For MDP5 this moves iommu_domain_alloc() call and removes struct
+mdp5_cfg_platform remains.
 
-Am 29.04.22 um 18:06 schrieb Richard Gong:
-> Active State Power Management (ASPM) feature is enabled since kernel 5.14.
-> There are some AMD Volcanic Islands (VI) GFX cards, such as the WX3200 and
-> RX640, that do not work with ASPM-enabled Intel Alder Lake based systems.
-> Using these GFX cards as video/display output, Intel Alder Lake based
-> systems will freeze after suspend/resume.
+For DPU this allows specifying the iommus = <...> either in the DPU
+device (like all DPU devices do) or in the MDSS device (like MDP5
+devices do).
 
-As replied in v4 just now, “freeze” is misleading if you can still run 
-`dmesg` after resume.
+[1] https://patchwork.freedesktop.org/patch/480707/
+[2] https://patchwork.freedesktop.org/patch/482453/
+[3] https://patchwork.freedesktop.org/series/98525/
 
+Dmitry Baryshkov (3):
+  drm/msm/dpu: check both DPU and MDSS devices for the IOMMU
+  drm/msm/mdp5: move iommu_domain_alloc() call close to its usage
+  drm/msm: Stop using iommu_present()
 
-Kind regards,
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 14 +++++++++++---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 16 ----------------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h |  6 ------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  6 ++++--
+ drivers/gpu/drm/msm/msm_drv.c            | 10 ++++++++--
+ 5 files changed, 23 insertions(+), 29 deletions(-)
 
-Paul
-
-
-> The issue was originally reported on one system (Dell Precision 3660 with
-> BIOS version 0.14.81), but was later confirmed to affect at least 4
-> pre-production Alder Lake based systems.
-> 
-> Add an extra check to disable ASPM on Intel Alder Lake based systems with
-> the problematic AMD Volcanic Islands GFX cards.
-> 
-> Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Richard Gong <richard.gong@amd.com>
-> ---
-> v5: added vi to commit header and updated commit message
->      rolled back guard with the preprocessor as did in v2 to correct build
->      error on non-x86 systems
-> v4: s/CONFIG_X86_64/CONFIG_X86
->      enhanced check logic
-> v3: s/intel_core_aspm_chk/aspm_support_quirk_check
->      correct build error with W=1 option
-> v2: correct commit description
->      move the check from chip family to problematic platform
-> ---
->   drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
->   1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c b/drivers/gpu/drm/amd/amdgpu/vi.c
-> index 039b90cdc3bc..45f0188c4273 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
-> @@ -81,6 +81,10 @@
->   #include "mxgpu_vi.h"
->   #include "amdgpu_dm.h"
->   
-> +#if IS_ENABLED(CONFIG_X86)
-> +#include <asm/intel-family.h>
-> +#endif
-> +
->   #define ixPCIE_LC_L1_PM_SUBSTATE	0x100100C6
->   #define PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK	0x00000001L
->   #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK	0x00000002L
-> @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct amdgpu_device *adev)
->   		WREG32_PCIE(ixPCIE_LC_CNTL, data);
->   }
->   
-> +static bool aspm_support_quirk_check(void)
-> +{
-> +#if IS_ENABLED(CONFIG_X86)
-> +	struct cpuinfo_x86 *c = &cpu_data(0);
-> +
-> +	return !(c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
-> +#else
-> +	return true;
-> +#endif
-> +}
-> +
->   static void vi_program_aspm(struct amdgpu_device *adev)
->   {
->   	u32 data, data1, orig;
->   	bool bL1SS = false;
->   	bool bClkReqSupport = true;
->   
-> -	if (!amdgpu_device_should_use_aspm(adev))
-> +	if (!amdgpu_device_should_use_aspm(adev) || !aspm_support_quirk_check())
->   		return;
->   
->   	if (adev->flags & AMD_IS_APU ||
+-- 
+2.35.1
