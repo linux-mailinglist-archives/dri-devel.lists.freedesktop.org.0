@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC555168C2
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 00:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4905168CE
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 00:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B684910E8C5;
-	Sun,  1 May 2022 22:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9764B10EC60;
+	Sun,  1 May 2022 22:54:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784A010E8C3
- for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 22:44:23 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id w19so22631464lfu.11
- for <dri-devel@lists.freedesktop.org>; Sun, 01 May 2022 15:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OM6ALmN8lQBWnqMJ3fhfO0WQxWZlF29n0KI4ZAgO+80=;
- b=jEzpdeOm+Lh9Ilu9iPWm+ZEKmUIcUdhy50/Y/GIM4K7Tpd6BZeSA6MAqFQyIu3vF4/
- wXhpUBdjC0diMUxagyszXiN4nNc4R5khPg7fLvn/oKPCWgoIoiRFRuHcAfMXJyqvedBK
- w28PZRrA+Zyulq52I8zl35d1la4uvMIQWDTt9zD8CD/KYVeuuUWtuUayxUm27blTIDmh
- aVFUOaH/ncsRKudKcC+zUcgC4dvtgMntwKyr1j54YkaCzNV0uUY8ZxZeUvH3KtV/wTfg
- g6c9aR/IldfTUGvWhHEIPr9meMudamQ6vkDIjPHPswwn8VxaYX8QtaExnskCpMuCmV6p
- wTJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OM6ALmN8lQBWnqMJ3fhfO0WQxWZlF29n0KI4ZAgO+80=;
- b=yyOYltRLA4TtIM1AI7N7rR/AoX+SshF1dPW58nraj+pw+scVX8y4JXqy+M1CkQO/AB
- rkfzi0GWVccdApzMnpEKHptuBE1BKKPAeVWUQyg4P8nvZVmlLc5+rOGlef0Zonxk3HP4
- fsPel9KfzFr1I0PZZ0BbeSCHGoJTpOKWtbk1ElBmcjd0e66xWX+ctbaDWDcxUKxdW/gI
- O0fCrCtVBjw+THSmV0Og3Ig7LtvAjxesgiH9FB3Zs1boDmA87k9/n0MVnoWq01Q5Lm5+
- vMsaUTPqttenHatQClyYdvTlHpkovOLr1sNwJxCA4LYfjRKPmfAts46fjG5F2rNGLlw5
- 0ykw==
-X-Gm-Message-State: AOAM533vTTBQw1Dz0amM+4VWnS910uSnsBWeZAIHtF7tQK4VDA5eRczQ
- 8teatwj5wUu/UhaSYRJfMQ+dMQ==
-X-Google-Smtp-Source: ABdhPJwiaw+a1eMfscbN670lGUnI0KbhPhgv0XJpNMacDnuJ7fnOb8hlcHjcOYzrMVnNwMxhtE8SMw==
-X-Received: by 2002:a19:5f0e:0:b0:44b:111:1622 with SMTP id
- t14-20020a195f0e000000b0044b01111622mr7494944lfb.161.1651445061566; 
- Sun, 01 May 2022 15:44:21 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- p15-20020a2e9a8f000000b0024f3d1daed6sm897430lji.94.2022.05.01.15.44.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 May 2022 15:44:21 -0700 (PDT)
-Message-ID: <4e308633-cb0d-7050-9ee0-421190683eac@linaro.org>
-Date: Mon, 2 May 2022 01:44:20 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6490D10EC60
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 22:54:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 891C56112B
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 22:54:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC2B7C385B3
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 22:54:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651445687;
+ bh=XYah/6Osmyojc17k6cqZ+vX1jwgljOTNKYJ/JeSQBfk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=px2suCI3Pu/bkCRbO5tygyBgCnMM71GOuMyeL9LyUC+OsRZ4FVjr/8GI6djLshrvc
+ M19tpJz53lIURMRhXPy2XW85ZAeHo7k74/Oy2bhXdQVTSPw6UIEz6iBkcW0n4OEGuc
+ SaRoGwLbS3qfyOEVT2ycxXzpFEqlwxiWGPFYsGEPzCagLtS4lZaENeuXI3lFeMNtS7
+ Vck9W34Ic6AROOfxEwL89jMHFFypiHlT/chDQNttnQTa/mJMgZNyERq0ioqK61Lwc4
+ GFuttc2DxKBcnMDQw89NpfG1DJ82UTeiCdmMi6tbiSSm5DOnpRgbA/VuH0chgtxE71
+ 49iYHjxXsDnog==
+Received: by mail-yb1-f180.google.com with SMTP id m128so23501232ybm.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 May 2022 15:54:47 -0700 (PDT)
+X-Gm-Message-State: AOAM533qgImF8OsBqGGIohiZR/dF+IJBeBoHE7W5LuBdCAOlU88VkMPF
+ kyZDvBX2JViVzrN09eSar4UDh7hKSxT6OdRa/Q==
+X-Google-Smtp-Source: ABdhPJyuplDBOy1HzgzBEurySzDISvnf65i4g3J7NP8mPSls5NwNyrHXj98ge6hOrTKJlam+L9WwpviYEfc1OEFPVok=
+X-Received: by 2002:a25:d194:0:b0:645:7892:43b0 with SMTP id
+ i142-20020a25d194000000b00645789243b0mr8501223ybg.35.1651445686885; Sun, 01
+ May 2022 15:54:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2] drm/msm/dsi: use RMW cycles in dsi_update_dsc_timing
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20220430175533.3817792-1-dmitry.baryshkov@linaro.org>
- <20220430185807.yn2j2coyc77qzx2o@SoMainline.org>
- <02114b24-f954-f145-4918-01cc3def65ac@linaro.org>
- <20220501204102.3xijmadbcrxwyu3x@SoMainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220501204102.3xijmadbcrxwyu3x@SoMainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
+ <20220419094143.9561-9-jason-jh.lin@mediatek.com>
+ <402f0e60-8d3c-850d-84ff-af5424b72b73@gmail.com>
+In-Reply-To: <402f0e60-8d3c-850d-84ff-af5424b72b73@gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 2 May 2022 06:54:35 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-jiX_BhaZ5+skRu4RSZLjcHJerVtwH34fz4N6_jbVK0w@mail.gmail.com>
+Message-ID: <CAAOTY_-jiX_BhaZ5+skRu4RSZLjcHJerVtwH34fz4N6_jbVK0w@mail.gmail.com>
+Subject: Re: [PATCH v20 8/8] soc: mediatek: remove DDP_DOMPONENT_DITHER from
+ enum
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,147 +63,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, DTML <devicetree@vger.kernel.org>,
+ "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/05/2022 23:41, Marijn Suijten wrote:
-> On 2022-04-30 22:28:42, Dmitry Baryshkov wrote:
->> On 30/04/2022 21:58, Marijn Suijten wrote:
->>> On 2022-04-30 20:55:33, Dmitry Baryshkov wrote:
->>>> The downstream uses read-modify-write for updating command mode
->>>> compression registers. Let's follow this approach. This also fixes the
->>>> following warning:
->>>>
->>>> drivers/gpu/drm/msm/dsi/dsi_host.c:918:23: warning: variable 'reg_ctrl' set but not used [-Wunused-but-set-variable]
->>>>
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>>> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
->>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>
->>> I pointed this out in review multiple times, so you'll obviously get my:
->>
->> I think I might have also pointed this out once (and then forgot to
->> check that the issue was fixed by Vinod).
->>
->>>
->>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>
->>> (But are you sure there's nothing else to clear in the 1st CTRL
->>> register, only the lowest 16 bits?  That should mean `reg` never
->>> contains anything in 0xffff0000)
->>
->> Judging from the downstream the upper half conains the same fields, but
->> used for other virtual channel. I didn't research what's the difference
->> yet. All the dtsi files that I have here at hand use
->> 'qcom,mdss-dsi-virtual-channel-id = <0>;'
-> 
-> As replied to Abhinav I'm simply asking whether we should be strict
-> and add `reg & 0xffff` to prevent accidentally writing the top 16 bits,
-> which are stream 1.  It doesn't seem like the current code can hit that
-> though, with all the macros using masks internally already; but it's
-> still a little scary since we're assuming the registers for VIDEO are
-> identical to CMD (as mentioned in the reply to Abhinav: I wonder if it's
-> possible to declare a a pair of bitfields as a single layout in the XML,
-> and reuse that across CMD's stream 0/1 and the VIDEO register).
-> 
->>> However, this seems to indicate that the DSC patch series has been
->>> approved and merged somehow??
->>
->> Pending inclusion, yes. If Vinod missed or ignored any other review
->> points, please excuse Abhinav and me not noticing that.
-> 
-> Vinod replied to most of the comments so I'll double-check if they were
-> applied in the way requested.  Note that I don't always post a full
-> review up-front if it gets too noisy: I'll simply start out with the
-> most glaring issues and go in more detail in further revisions to
-> prevent drowning everyone in comments.
-> 
->> Can you please take a look at the latest revision posted, if there are
->> any other missing points. Let's decide if there are grave issues or we
->> can work them through.
-> 
-> Thanks, I'll queue that up this week.  One of my thus-far-unaddressed
-> issues with the patches which can't be addressed in hindsight is the
-> relatively lackluster commit messages: most happen to be repeating the
-> title in a slightly different way without any additional clarification,
-> which doesn't fit the upstream spirit at all.
-> I understand that the reference manuals can't be quoted nor am I asking
-> to, but a little more insight in the process and details of each patch
-> goes a very long way.  Explain how certain calculations work or came to
-> be, link to public sources detailing the protocol, explain design
-> decisions or document how to use/test the feature and describe possible
-> limitations.
-> I usually link contributors to [1], but it's a bit of an odd read at
-> times.
-> 
-> [1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
-> 
-> In any case, given that you've already sent this patch and another three
-> patches [2] fixing/cleaning up the series tells me it's far from ready.
-> Most of this should just be handled - or have been handled - in review
-> and amended?
+Hi, Matthias:
 
-During the review time we agreed that [2] would come as a separate 
-change It is an API change that would make using panel-bridge easier, 
-but isn't otherwise required.
+Matthias Brugger <matthias.bgg@gmail.com> =E6=96=BC 2022=E5=B9=B44=E6=9C=88=
+22=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:42=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+>
+>
+> On 19/04/2022 11:41, jason-jh.lin wrote:
+> > After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
+> > mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
+> >
+> > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+>
+> Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
+>
+> Chun-Kuang, I think it would make sense to take that through your tree as=
+ it
+> depends on the previous patches.
+>
+> I provide you a stable tag so that you can take it:
+> v5.18-next-vdso0-stable-tag
 
-I have been working towards more logical drm_bridge/drm_bridge_connector 
-chains employing panel-bridge and display-connector where required, [2] 
-is a part of that effort (as well as few other patches that hit 
-dri-devel in the last few days).
+After I take this tag, I find one checkpatch warning:
 
-> 
-> [2]: https://lore.kernel.org/linux-arm-msm/20220501151220.3999164-1-dmitry.baryshkov@linaro.org/T/#t
-> 
-> I'll look through v14 again this week and let you know.
-> 
-> - Marijn
-> 
->>>
->>>> ---
->>>>
->>>> Changes since v1:
->>>>    - Fix c&p error and apply mask clear to reg_ctrl2 instead of reg_ctrl
->>>>      (Abhinav)
->>>>
->>>> ---
->>>>    drivers/gpu/drm/msm/dsi/dsi_host.c | 5 ++++-
->>>>    1 file changed, 4 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>> index c983698d1384..a95d5df52653 100644
->>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>> @@ -961,10 +961,13 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->>>>    		reg_ctrl = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
->>>>    		reg_ctrl2 = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
->>>>    
->>>> +		reg_ctrl &= ~0xffff;
->>>>    		reg_ctrl |= reg;
->>>> +
->>>> +		reg_ctrl2 &= ~DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
->>>>    		reg_ctrl2 |= DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(bytes_in_slice);
->>>>    
->>>> -		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg);
->>>> +		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg_ctrl);
->>>>    		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2, reg_ctrl2);
->>>>    	} else {
->>>>    		dsi_write(msm_host, REG_DSI_VIDEO_COMPRESSION_MODE_CTRL, reg);
->>>> -- 
->>>> 2.35.1
->>>>
->>
->>
->> -- 
->> With best wishes
->> Dmitry
+WARNING: DT compatible string "mediatek,mt8195-mmsys" appears
+un-documented -- check ./Documentation/devicetree/bindings/
+#670: FILE: drivers/soc/mediatek/mtk-mmsys.c:390:
++               .compatible =3D "mediatek,mt8195-mmsys",
 
+I think this tag lost one binding patch, it's better that this tag has
+no this warning.
 
--- 
-With best wishes
-Dmitry
+Regards,
+Chun-Kuang.
+
+>
+> Regards,
+> Matthias
+>
+> > ---
+> >   include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
+> >   1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc=
+/mediatek/mtk-mmsys.h
+> > index 59117d970daf..fb719fd1281c 100644
+> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> > @@ -16,8 +16,7 @@ enum mtk_ddp_comp_id {
+> >       DDP_COMPONENT_CCORR,
+> >       DDP_COMPONENT_COLOR0,
+> >       DDP_COMPONENT_COLOR1,
+> > -     DDP_COMPONENT_DITHER,
+> > -     DDP_COMPONENT_DITHER0 =3D DDP_COMPONENT_DITHER,
+> > +     DDP_COMPONENT_DITHER0,
+> >       DDP_COMPONENT_DITHER1,
+> >       DDP_COMPONENT_DP_INTF0,
+> >       DDP_COMPONENT_DP_INTF1,
