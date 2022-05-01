@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECDA516836
-	for <lists+dri-devel@lfdr.de>; Sun,  1 May 2022 23:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1008D516842
+	for <lists+dri-devel@lfdr.de>; Sun,  1 May 2022 23:45:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9CD010E33C;
-	Sun,  1 May 2022 21:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B3510E310;
+	Sun,  1 May 2022 21:45:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F204B10E33C
- for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 21:45:18 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id e12so23266854ybc.11
- for <dri-devel@lists.freedesktop.org>; Sun, 01 May 2022 14:45:18 -0700 (PDT)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5C8510E310
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 May 2022 21:45:49 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-2f7d7e3b5bfso131652017b3.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 May 2022 14:45:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2Zs9ZXFuA5R/0ymMTjHB7/FZWKOdSvop8pXLfIOyulA=;
- b=jIUUFw/Dk0bJvSpV2KhChXMwtNlLYqsYYK4oY1ZrIaM5CwokwxvKI2nY/2x/UYhhSZ
- cnYvPcNR4I1+2mQEXOx+fTBIepxbMOgfBDYzGHDeV47Jl9VtWIb/nS+yTlzYid021q5y
- 4rk1aenFHUTcFpOe8yZyA6PrfG7AdYTLzyJZCxoXrUBdmiOH7kD+EpptUWvO22jzMcIN
- xSCS+MFyhpSsWhXxvfUnHSHIueURSlmIpP3ceYNATHQiGd7mRdyumFBzg7HidVpGXR/K
- HmLBNFjobzv+Lfi/mc0Jdu1mADUOwm6Q+P8Sv4LOYfSplf9TRRKfiG/zS7FqqwYnszNe
- 9g7g==
+ :cc; bh=o3VTjpYc9+BjQELkkDsO6dDpNInM+ADeLzZMH34mpi4=;
+ b=IlP4JxWiKPX4bdEFyXCD3r8ZIjy820mwzPJu5QBfX6JOIDpKbziHZBpvkLwS1biul5
+ Vimbnc6q3YqDRk8Lv5gWl87dhWqMWENdviVtYTsAxbIk9GG8htKIqqRPSBp/+9HtETZK
+ b/t8bZ+U1wIG7y6zWRcffdetv4BAhU7UA2QEHAQwMXONuSvmCO2rY+CtjgbI5/Ma6YlU
+ kWAGtHNrt343kNKsGD+I2Y/6PvJNoiyDTUg4ZMBuoELLk6FST+Q8DrxXYDX/Mansop6f
+ o3Bzc8R/DTDYkzc4Hc1n9ke1F4dA09COrrypaspfm37rYZnvy7T/tJTY1N+SNxQtplpo
+ NoAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2Zs9ZXFuA5R/0ymMTjHB7/FZWKOdSvop8pXLfIOyulA=;
- b=rwz/EjzhqkeN3CePpfpF41C68Xm/XmXgn/VEsu2ljR+WpzcejfdlaeP1IUNbJzEqur
- xI+YA/q6JF1Q7tQT4DZmecl0ZlwYye4SmRvuhxyut5rz+LnBP4pnLXu6P0E9E7KLWF/X
- 3jx6vdvvOq2PdKWGbBiKwq/2e3ZUbHX+fNbq7Bdh1MBnpmOLKZZ5muejV2wTGmqawyj1
- 22WcPgdd2PnvHk+iQxtU1tIzT/phhPVVmUppp9v1s+9CByMHREGx1HEygjnQ+aBdssFP
- Yn2KdTaSfLFSILeYc+mke5OB2z0XKNqwMxS/HWanbpgRqUHZIr4jSXgZBiDzt4vV0qSs
- HX5w==
-X-Gm-Message-State: AOAM530LQAldydGuuXDxzhM9LLnXnZsjEOjs9WGxmnKdNbmWFiI4KiVI
- kfZnivJUMeJ4U47nEGPz3psk9BGbclRqp8yYzk5XIA==
-X-Google-Smtp-Source: ABdhPJz9eJE7cneK+kxH13EYMup9tW/2JAXx6cXKgLkzm/eVQ61nD3w0biIeuzEawWWGZ8vTkmgdM3jCm2iwQFey2JY=
-X-Received: by 2002:a25:e684:0:b0:645:d429:78e9 with SMTP id
- d126-20020a25e684000000b00645d42978e9mr8658475ybh.369.1651441518148; Sun, 01
- May 2022 14:45:18 -0700 (PDT)
+ bh=o3VTjpYc9+BjQELkkDsO6dDpNInM+ADeLzZMH34mpi4=;
+ b=RFjgPEaS1J4ag7Lq1V8pKSfABZmWIwRfWSAP5pgyulW+B198QP+s2WkoX4/eIfYtwg
+ nDltg/QZh293AQ0QCwAzcp/mXgk5wDl34pfDCcH/f3dc/k/0DN1b+IyUx6TLo/QjuPcp
+ fg/b+fXtjsVeuUDQRQxjB8zsKqAhSpaXr/pRPuR55x+jYw94csJO6NtEhDj7hybcovY9
+ QJThCkGQpFfHB90Jtt3nN9RkQ0G7/y8ix51p2u3xJDWMG8Le+Cb4/sTtghO+9BOQh/4C
+ g1GIS96ZOu19GxfTQOmpaEjZp9cbeULUZHWqQLMsEoEX13G4/M9ELUEBIgDM/oj8oFXc
+ VJkg==
+X-Gm-Message-State: AOAM5327GB0z69S9Bw6Yit289q3Z6zXq5Q0yXtzkaajriEBhr/hYtyX6
+ T8i9nnZ0iOOBTnz4w84Qd5xbXCSSJUI8DPD2v4Iqsw==
+X-Google-Smtp-Source: ABdhPJwxWmrDPa3pAAvzVAJiLkxc6AUbWqJKUhGlchnr506qlQhemC8j8o9s5HTpW2MMnSqOK1sjRziG/+tL7yd80+w=
+X-Received: by 2002:a0d:e5c6:0:b0:2f8:c866:7af9 with SMTP id
+ o189-20020a0de5c6000000b002f8c8667af9mr9171844ywe.268.1651441549128; Sun, 01
+ May 2022 14:45:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220419163810.2118169-22-arnd@kernel.org>
-In-Reply-To: <20220419163810.2118169-22-arnd@kernel.org>
+ <20220419163810.2118169-23-arnd@kernel.org>
+In-Reply-To: <20220419163810.2118169-23-arnd@kernel.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 1 May 2022 23:45:06 +0200
-Message-ID: <CACRpkdZsSdOSq=sdxDZMb8QJCRsrxm280RvYzH2Ns9L5+RtU8g@mail.gmail.com>
-Subject: Re: [PATCH 21/48] ARM: pxa: eseries: use gpio lookup for audio
+Date: Sun, 1 May 2022 23:45:37 +0200
+Message-ID: <CACRpkdbHyjJ+nbaU0=JSs6yDzFfNnqCJqGiKG_LW4HyAJBw8aw@mail.gmail.com>
+Subject: Re: [PATCH 22/48] ARM: pxa: z2: use gpio lookup for audio device
 To: Arnd Bergmann <arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,24 +90,19 @@ On Tue, Apr 19, 2022 at 6:41 PM Arnd Bergmann <arnd@kernel.org> wrote:
 
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> The three eseries machines have very similar drivers for audio, all
-> using the mach/eseries-gpio.h header for finding the gpio numbers.
+> The audio device is allocated by the audio driver, and it uses a gpio
+> number from the mach/z2.h header file.
 >
-> Change these to use gpio descriptors to avoid the header file
-> dependency.
->
-> I convert the _OFF gpio numbers into GPIO_ACTIVE_LOW ones for
-> consistency here.
+> Change it to use a gpio lookup table for the device allocated by the
+> driver to keep the header file local to the machine.
 >
 > Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 > Cc: alsa-devel@alsa-project.org
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Nice use of active low. Maybe I would simply have dropped
-the _OFF suffix on these GPIO lines as it can be confusing now
-that their active level is encoded but no big deal.
+Looks good to me!
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
