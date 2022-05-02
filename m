@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BBF517586
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:11:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 906D751757E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:10:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6181D10F03F;
-	Mon,  2 May 2022 17:11:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7E810EFFC;
+	Mon,  2 May 2022 17:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2033 seconds by postgrey-1.36 at gabe;
- Mon, 02 May 2022 17:10:59 UTC
-Received: from na01-obe.outbound.protection.outlook.com (unknown
- [52.101.57.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C4E10F03F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:10:59 +0000 (UTC)
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-centralusazon11021023.outbound.protection.outlook.com [52.101.62.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42AB310EFFC
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:10:25 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fkkIzjsJANnG9Sl44ODMcf9Tf9vWbHeI9vlmqtj06ivqEcA1dltckYq+nk75Aso4bhPVnMahV6jZ+/AcMzXNDFoaRo9d/mSTl6Jnqm+DP1ARxP2Ph8P/704XzTKHtG0NclHyleZ1R0IMG1zB9u/XKsydjws4FW0GBw9l2edFKPzMLAkHlq/wGd6vn6P7mdPwpHmY5sf28MPVir8CAPYFEega5xPXyKUiUHBEcSC7IOrDU2IqHs64dlIbBkSokbRy3CbbiH9p6nxwxZPR4LvkFvEz85vy5jNK/imyurzYWqWODkot5ngdkH4q6VNhqali/fSNEn+NVOcOlHSaUNDPLw==
+ b=fXeGM/Yn3vTkGXEVZbgoDbXVS453XKfofvLl0ME6CjFWshperRku/Gymuk1OLfJ2vjvE2n4JGUAXRMcXL/8k47osJoYLHpWvOYdRi8EZxx0MnxkyxmqeaXR9ckDg5R0J0In3UF4iiPRiw6xvxuC62rpEmxxcImKAchLmI2R1Q4rKQZPuLqHUr2oVP7weyozrBCxvIbpwdL0o8GGZsVDgqM9DAcQ3e+rz9a9fIvPVSFPw4fLCrav8LLopB0dFlFICH99rCRDT7w7N2FYYMEVvEkEHTtC+jwftoWAffMy2IP582FrLY+NHcW7gRQU36xH/E21as8PbHHnaETiNtaD0mQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9t+A4uN1sq4GLloROfjHSsKjKH/3OhaJ3pY+r2HBBuc=;
- b=DUumBBE/Qae3ua7HdSBJ4HDuzQT1pPgU0knyRBcDKKuhrdNzYYpI6NF1L5TFya6orufdEqUBJnMEX3xDPLgF7CzAz6ZE+sKKmiQuIOIZIGFW3Zx2gOYyabpq0qJaNCR+5rSeMA+Cu7Af+QDggO0CFQF+TRfeTepnwEqqk4ZoQBZrwyqDtqbUIlHhySGmtqLMH6Zkry8iurS3etxrDUIeiQEqtVqLAMRKqMql46qRCP73fK1yKVGSTL24Lvmjo3zYMa44vSBZJtV1AwwOtm/8e6z4GYhAbquxJ7N1UsptN3LkjYKp3O95UgDtP+6Sq+c1wW/YMZFo+wTORwnTyfmKRQ==
+ bh=ytivPx2Fi0zh0pzgjLEVsEvdq2udsv2fA2ABb9V+3gg=;
+ b=dvTcIO8rd9GKEXHDn9ofFNScctEl+WtzgU8S95+YDB9ktdYjkNvJgSrONT6WwAIDuI/20SqZrtJiDcwAyymB5carPKE4rdOMvPfYT8iy3q40qpnChwWBmNvtv2kknajKeehMdXP/5YQi5Wl/avvWk9mypBrSJyZVjYxLOvggRqz2gWt7GQzo9A/XNl2Y3q0lunrTKfEhQt/YQKJ+zqildPByqt1mNMRzvzbWGKVVgP+8NIMQuJIx8g1GRdZHPt/RUMZqmWZcngFS0oQflWZtrv74ll69bY5qwU7qSbfcFXPVVNDFrgLbzrAKjOGD6FsmTDZnZU4gjy2Pk4tp+alQdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9t+A4uN1sq4GLloROfjHSsKjKH/3OhaJ3pY+r2HBBuc=;
- b=j1rOwVq93nviGk/JnjkD+A1KwuPiDoV2HTNK0fbIb0sE65zQ2HGNqm1qe2Bn5k9GyZR8885bc4NnkkZgeQ3yYLFsIwpIo9X1IbvgC1A3qUZbA04jmpk1lWl41fHUj5y/BcSzo+8kUCkW/EsjjtStoE4DGLnnxRCt+4uHyRffynk=
+ bh=ytivPx2Fi0zh0pzgjLEVsEvdq2udsv2fA2ABb9V+3gg=;
+ b=SeJ8197/258+ocVAEyT8vXZUqOu1OcYDazXcTPC7Pwy8YYTMJXpP+fENjZgbtpFaTV2Q225wmgArcBHO9W08U8sVYK0D4JFxYdmteKCSqrd1WHD3eFycPrgLAsfDSUG1Gd4PbGRenOhZetjhZzdRb3dzm0fe31dbuVA6EUIZeOg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
  by DM6PR21MB1180.namprd21.prod.outlook.com (2603:10b6:5:161::30) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.4; Mon, 2 May
- 2022 16:37:03 +0000
+ 2022 16:37:05 +0000
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::588e:9ede:461a:2372]) by DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::588e:9ede:461a:2372%4]) with mapi id 15.20.5250.004; Mon, 2 May 2022
- 16:37:03 +0000
+ 16:37:05 +0000
 From: Michael Kelley <mikelley@microsoft.com>
 To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
  wei.liu@kernel.org, linux-kernel@vger.kernel.org,
@@ -49,10 +47,10 @@ To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
  jejb@linux.ibm.com, martin.petersen@oracle.com, deller@gmx.de,
  dri-devel@lists.freedesktop.org, linux-scsi@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-Subject: [PATCH 1/4] Drivers: hv: vmbus: Remove support for Hyper-V 2008 and
- Hyper-V 2008R2/Win7
-Date: Mon,  2 May 2022 09:36:28 -0700
-Message-Id: <1651509391-2058-2-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH 2/4] scsi: storvsc: Remove support for Hyper-V 2008 and
+ 2008R2/Win7
+Date: Mon,  2 May 2022 09:36:29 -0700
+Message-Id: <1651509391-2058-3-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1651509391-2058-1-git-send-email-mikelley@microsoft.com>
 References: <1651509391-2058-1-git-send-email-mikelley@microsoft.com>
@@ -63,58 +61,58 @@ X-ClientProxiedBy: MW2PR2101CA0020.namprd21.prod.outlook.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ebb8b28d-41b6-4f1f-0835-08da2c59fd06
+X-MS-Office365-Filtering-Correlation-Id: 3c6e24e8-c2d8-489e-304a-08da2c59fdd4
 X-MS-TrafficTypeDiagnostic: DM6PR21MB1180:EE_
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM6PR21MB11807A9135F5A33DD571EE66D7C19@DM6PR21MB1180.namprd21.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM6PR21MB11809B154B4ED923D918FF92D7C19@DM6PR21MB1180.namprd21.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NJXUOFiQvyo+D5QJoq9WT1xTdM/rkRwMcrl1ng4HLjR2SGemsQ1Fxhq56j1TmJizwm7VhdbPD/9HOGycbkTuB4d2fH1U2btk4vAbdGuNV9TodAc1exxrIonODPiEuqRXKSTt0utMH6Yiy/5qedkxKdkyQfDliAC7XL1YvrA0qAAb6j9JNYLYMm1WYHMO1l221VmS1pwwp8brvA2Iid9IyZjhyI6CBMBSVS3pL1ZSP2cljPaDIyCUGJkU8VZtlz3UrDxhxe3SyXPwhvK0dcf0PJwf0ulPsVDyTGUhkfEXSRqXu2k3dM/iNI+tZd72fBuPg971XRyjXeKMnDATPT5lyko9veM32erqZLa5y0VGzG8x+tuHN/a8GGBRHbqFmBpG2xYSKlJJLz4LlFRcXKK3x6lLF75jlrwc7s12Z6h/ErGR8eBcuJEMvufL7WZJAebnm/B4gBYia29mEYTSnkqnAzJgoMdw7n+F9HPauGpIxmacT519IRiRvrMSHeKNV6CExnTsZD2Vz5BkU9Cy+sjP6xHZeMG2ABFmJeulix9/ZKyUTHwyErPd0jj54fNf4ckY4sF7HDUUe8/9XzT5V+SlZXKIy56hSrdFjMtWDHMlt4gl7ZRAHc1I+/xTu3vugBsbQ0zFS6NQlxovMsZ/rFI+PPrr2RRuc5aq4ea9HnZcGm1YlC27MXJ2kmbcUbfoqDsGSVFnaitjiKlJg88/lq2+tZJoDS4uN3/gEEDkAQixzwhygMoeZRlxzCpAg4r/De7H2VxxrS/sIdERzFFd5C5H3w==
+X-Microsoft-Antispam-Message-Info: uTvmrdHQGx3RMtd4HtuYkPx5sXDZ1Qaq+SD+c94b7FWIhailGpaFV48bR8M9354B8VdXVIT0aRmQp7rOwQhd0hlcOYzD+mtV6upDpOf5MkgR9B3L5HKW8KcbwRM+/0iVDqHA+FPFOzJDIgI1c0v3cRwGZTLv4BMccMKX4BxC2WhRGIO9OeceM7Y/7wgRdYnQKbP9IgZmeQ49JE5hglokcM3qx1abr6vHs0YntHJl60bejyFkXASAcqXM2l0RuytiimzM+fQ/RQbGUzTC6RDEZHliSyNsr743n6RVqRJPb93ojN7KTaCEnTIoNbqun/cK25uMltg5CtEST23YkYVim27rUvAyJ4yADm6vFB5SBTjRXFrqCAt5wA90aSx9Yc/+xtmpG7YLoD97jtm0Y8ugV8ASXX43jFaVMKiBOIUJM8gFQrCPa8k/1mBF1vXORS1nEwvoS3/ZOYO3213ocV0xPuO9FB2OfRLHxCoL+QTtdg6CCDJ+zdz0/T8HQ0R9MPOVnox/FVrt7xn2RLnrkBHgTl10InKBtsbEhGYzDqQdjj6diOLsPtH3a/n8jK2jZljkKAtOc6L5fIYEg/PsfOb+W55YR26NEOVTHxW6RASgDEjGANo65HmnNx/q+PHQBjv/h8+nYmlEhTk3oi3BSfpe6Sjb5P8YvehsUCQGNWy2W5LufHTik/F6mNghJcrMqbZ6chZp9ZUSAJMAGZy3E4Vz08St1KHJ3akFv7cxJ0NRaK2RfOXV9X1O//AJHwejGglCK6CrUDnSxTyFL/wFNIi3Zw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR21MB1370.namprd21.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(451199009)(82950400001)(7416002)(10290500003)(66946007)(6486002)(66556008)(66476007)(2616005)(107886003)(6512007)(26005)(921005)(5660300002)(6506007)(83380400001)(508600001)(82960400001)(86362001)(6666004)(316002)(8936002)(38350700002)(38100700002)(186003)(52116002)(4326008)(36756003)(8676002)(2906002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2ckJIgJixQjXfAA0va3Cvg19wP8StWisivfjXaidoxwYgQ7T7MxaLkX/G5SM?=
- =?us-ascii?Q?WfPv4AnDUV6HQi3gpX5r57eJwmRbm/4AaAOsio3P6DPXYyba6AFR5ogIEV/a?=
- =?us-ascii?Q?Fyhc2OzysoedpVvyhuBMDYhAN2Dxky+UY9jH37rHME1iyuu8pd1eJfidXvSF?=
- =?us-ascii?Q?Y6uu2yBcb4qUG400S8Wmd+AeEcKDadQDTBtFVQJ7k9VK9QfLLyGM0vhq9+FO?=
- =?us-ascii?Q?hL35p4y3DETrC7G8PHY+31oTqFYdmDqV3/ebXSKFXex4eixs4oTBM97keBWt?=
- =?us-ascii?Q?LuDJEkih1rFLMZgHogL97apqO1T8xmp0ItGSrWWc7bUc8PphWIvHiNdC4RgT?=
- =?us-ascii?Q?ynQpxGhHjyToWuzU05QAL710ZtTeli+gNu2q6bKb0ngu1Fp/dPlF/HS1jc0o?=
- =?us-ascii?Q?UQjBLLtzBvAb0BrwwkRODNVseM601CSOIeLrDHNfqVQutSjUNqdz9xui/f6T?=
- =?us-ascii?Q?G/y2Zw1U3W+R4IrN5ydI+KT3nzfx+zs1gFPG7/M9KmiTb6lE9R6AYduNbeVV?=
- =?us-ascii?Q?Rn5rYga/69fvXFK8J83mFTvAhb+5PDXRX5eM/GrudJsqPveU57v4sGmLQUTP?=
- =?us-ascii?Q?PAKneCZCSe3KDlTORW+VJE8Xk22tcLMmpAmcTfGd5H0VP1vVVIP1/PUuA6Lq?=
- =?us-ascii?Q?T9FFFAQ7i44jmJSZXTtiK6ayPLoFy7NhZhCgmtCMXfgWYKyGflIK2JpaWAD3?=
- =?us-ascii?Q?4Ds6NDkHEGkBDBf64WxR92o9XZ1wfpXDE5KRuuYRzQ0umfY4frajbkXINMuh?=
- =?us-ascii?Q?+cOGfONkZrJzz2Bg+Tb5YPIZnUwF/PqRgD1WnUAA879zvorkMmiUT5u21EIE?=
- =?us-ascii?Q?V5Xk4VeBHxIXeLuVwlufXQfIJhtSTgOusl2qx4sjZ5u47gVkbZTNPocp7QgA?=
- =?us-ascii?Q?/JKoZHJrLUnfoa/jAx45lhTPayQliUwnbPnm/D8OyKm0j70QSlieg6Sgl4Zr?=
- =?us-ascii?Q?NtbpR9+6qAOsN2CuUINtPY2lOU9rxZY9eV+i+kQhYi7ZvMu/KovDt09RD4eA?=
- =?us-ascii?Q?URnX+05pwZI0BidPVK0Crkw6dtrM817Xsknf6FqQUgWio+NtL0TKNoPU5zT0?=
- =?us-ascii?Q?FVwr9pC/YHhwpaL/5dnB2q9nd/DAu+oLGXLfaQ4SvCL0QY+7Ba5vnG/xgqFI?=
- =?us-ascii?Q?A1a8Ti6Gjq4yksnL1W18QJrYdnLC+yVaehSuTYaavI5HesbU9L4hRE10kuah?=
- =?us-ascii?Q?3a/jW5zwOSU0x+jsUeR5HHXQ2ovK2vw/srLX2c0LeU9NN6phDe2/Ri2aTBuH?=
- =?us-ascii?Q?I2NnSpIo3Ft631vsIWoK/juU7MJidHuIlwDKfDFQSp26N5fKJuSF9OECbo7+?=
- =?us-ascii?Q?RPNCmNfCtkX41N1buO8U564QLxaBJTnhrzzATjBXbmcBi2DZDgt27+lCogcr?=
- =?us-ascii?Q?iaq/LLhxAHBrc1NQXNeA5ZdMAHpn9Vij8E0vqlZYKK2B+N5rMl2Rr0ugWqFv?=
- =?us-ascii?Q?1xzW0sqjhQ1PVDe45J6WyYZ06tkHSlfNnzsf4SUojX032U96Jgs+XM0Xjd8o?=
- =?us-ascii?Q?QCkyXkzVqQVqiTciErCvdnhpr95PdN7PJAVoWb78al5sh95VWNAji20NONLA?=
- =?us-ascii?Q?WRKKV9HLdpQAlp2u8/F09l5XYyHuy1Mq0AqfCuRB4tzL3GrQTbrZjm90cKNU?=
- =?us-ascii?Q?+leODNkS0aaLli5wOigIcDllUGV6q5GhIwnLBLK6o1V92WBOROB8EH7oZesn?=
- =?us-ascii?Q?5orQlnGMMGBuhT6Mq56MWMoNgLKxqkUf8gZ6/pNbNpPqQuJJDp+sUYVFsJG9?=
- =?us-ascii?Q?sBZ6y25sF6w6YKGZh75D/pfQjbK1OHw=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lWqkYgYyAUvuOCS9EBSIqtK2nYtEmnrzJmq/gHmhNP6uO/bgxzQJIUtaay/s?=
+ =?us-ascii?Q?/fbUdOICFmLKS4po6ftYGXfj7iHjtmdinW07CV3XOxLWS6XT67ASGeaiDa9s?=
+ =?us-ascii?Q?vzTM0RbXqphYefnU0SFC4oF9bKOt5fbngf+oq4Khku8WN9nsHkf+hKFtcdho?=
+ =?us-ascii?Q?ESlK6lm7d3UL7h7JJ6nIVUtzR0wBeD8lD7hFTAlCd3xaEB8F/ehjBPNSkPk9?=
+ =?us-ascii?Q?hV8lAB9o7PgjyqTK9L/3y8O6TNeGjCxuG4mHORvIDFHlbPK6BBUEl8Z7S++E?=
+ =?us-ascii?Q?hGuUrfNaHYRNLTyZOVV7f4JsDJSLLLuE4QBHmNzP4i++gmazcwt24qxA5ZoX?=
+ =?us-ascii?Q?ORxRUM/Uho76Bgdb4G2CuAJw443vdod1UWLYDQy27vC2NBlH6ZG0MTsO5obZ?=
+ =?us-ascii?Q?9HanZpIqz93pd++xR85Pu0cpjfjKB3Ih3uc3/7a7K96vLzkWFFDJMrFFQx7u?=
+ =?us-ascii?Q?A+vJfH/gkSWk9ndismBksTajPG2cVfnVuNNlKeoSF9W0cbnpKuqlfpF9tS5E?=
+ =?us-ascii?Q?T27hX+bt5xlrsrOZ9oVeySGrx0xyEUo3i8Cim59Y1XiGymREKdvUnL8HF8hl?=
+ =?us-ascii?Q?htFNAPGg9+NM+9WAHsqiEdKqfPlGYxSgsI8nV+c9AXy4P59ZYA79A+Zm+DVV?=
+ =?us-ascii?Q?duZcgp/JPIa6FNe5L3MRKtwdqQWAZvR9+R1pcmTHFOutjEe/qtxjEL6ZPvW9?=
+ =?us-ascii?Q?iJ7dt5gzzJbx7mi/t55ah043yKQKdegx2AQNoEYHJ5gtDX7WC4AXqC2KWP3U?=
+ =?us-ascii?Q?jXnl5E9LnkUz0hEJYZMoPa6iDDw6NPyC7giIC1IuhUvX+jLipt0dp+cZIUYZ?=
+ =?us-ascii?Q?kBTK8uHac+8YFtraNNqgmFYpyT/PzSF1gjsV8xtkjRItVHOTiTP4s0hp8BB3?=
+ =?us-ascii?Q?MKwOV9/K+O8R+L7L2x6jKkkv55GiGyGfAvZ+mhKgrTMzSvSGDkY9Gs+Sv3ss?=
+ =?us-ascii?Q?OKx3Sl48faLWnIcbbVoj2IwzdaSza0NnzbOuLY26k14JJjgxn433rC+5Cbae?=
+ =?us-ascii?Q?GLTg4qNftGPsW/97PLosZi0Xj3Hz2M48bRbOkTTJ5iajom/idMZl+yTi1+w9?=
+ =?us-ascii?Q?a84mbrw+haoXwwtCacIg5jSUxIqsd+Ih2rgKrTlFBjN6nCqRozFvTAyVy1xt?=
+ =?us-ascii?Q?QHOA6nYAftSZm8ccO0s3W7xMMUcmYpkwxZkU/yoITRFkx291ZSv8HueYXH13?=
+ =?us-ascii?Q?JVJiL1ucRWldKV5xgprIj5YSd7G0r1LuXHEQ/kNUBPIpNbcMsM0+atMPSG//?=
+ =?us-ascii?Q?oskYCKNJS/6SNFus8VjTrwdXOcHvKqWiB7kPDbjOjpwTXu6hUH4N8z0/ppAR?=
+ =?us-ascii?Q?RC2s1L73KF/iUtzhjsYJ694WLqoTIGqZWQyrhAWHQuGVzn+Wf8VsKWJKAFwd?=
+ =?us-ascii?Q?3LK/INN57doWDzyNHTOepJ3+I+SJK9inrWoE8+byR1e9d18LyVb8PG+n72rr?=
+ =?us-ascii?Q?Lx1dHiBxgqBn+0du9SHq4blgPpSjLprEttN3w2io0MMICYiziR1botTKZ4wU?=
+ =?us-ascii?Q?luohHvWOhM+ywgMMvLxF+I2fu+LTF+wHvJnbnbrALGHJpOIJkDZpqSyz4H3L?=
+ =?us-ascii?Q?d9xTAmJ5auZsANdI1AMDRLJQa6JIfythvCYBzh5thbGP4mjYFAgaPIbO0MQ7?=
+ =?us-ascii?Q?15/RW3r5jGns6oRadjmoPar+14OqePfuma9Tq1N9PmYLtRwti5rV9ytD86O6?=
+ =?us-ascii?Q?ebC15KwegYkn/4ZW56ygvKWVK2zCWMvK7ida9kJ9wTxBtmpvIgejMgZRPcpA?=
+ =?us-ascii?Q?6+SlSbz0s2xv1r4bCPT/xpjOcGnS6DM=3D?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebb8b28d-41b6-4f1f-0835-08da2c59fd06
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c6e24e8-c2d8-489e-304a-08da2c59fdd4
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2022 16:37:03.5988 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2022 16:37:04.9349 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K5j6gi+tXXVNWcnrcjHf3mJFxkX5oBGwa8b1VKGRcbAd2lmXzuPoJLLbEpgOh4aNFEs5mTuxnhupdZ+qA8AtDA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: OfNVCpaU+l66aGCc36zamzFKraHVbFxuDEQDiM8tFmNGBuSSZRMgiWaW1UktYjmUsg39h9Rlksd0588MMXFY6A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -132,213 +130,79 @@ Cc: mikelley@microsoft.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VMbus driver has special case code for running on the first released
-versions of Hyper-V: 2008 and 2008 R2/Windows 7. These versions are now
-out of support (except for extended security updates) and lack the
-performance features needed for effective production usage of Linux
-guests.
+The storvsc driver has special case code for running on the first released
+versions of Hyper-V: 2008 and 2008 R2/Windows 7.  These versions are now
+out of support (except for extended security updates) and lack support
+for performance features like multiple VMbus channels that are needed for
+effective production usage of Linux guests.
 
-Simplify the code by removing the negotiation of the VMbus protocol
-versions required for these releases of Hyper-V, and by removing the
-special case code for handling these VMbus protocol versions.
+The negotiation of the VMbus protocol versions required by these old
+Hyper-V versions has been removed from the VMbus driver.  So now remove
+the handling of these VMbus protocol versions from the storvsc driver.
 
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
 ---
- drivers/hv/channel_mgmt.c | 29 +++++++++--------------
- drivers/hv/connection.c   |  6 ++---
- drivers/hv/vmbus_drv.c    | 60 ++++++++++-------------------------------------
- include/linux/hyperv.h    | 10 +++++---
- 4 files changed, 33 insertions(+), 72 deletions(-)
+ drivers/scsi/storvsc_drv.c | 36 +++++++++---------------------------
+ 1 file changed, 9 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 85a2142..575459a 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -713,15 +713,13 @@ static bool hv_cpuself_used(u32 cpu, struct vmbus_channel *chn)
- static int next_numa_node_id;
+diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+index 9a0bba5..5585e9d 100644
+--- a/drivers/scsi/storvsc_drv.c
++++ b/drivers/scsi/storvsc_drv.c
+@@ -1966,34 +1966,16 @@ static int storvsc_probe(struct hv_device *device,
+ 	bool is_fc = ((dev_id->driver_data == SFC_GUID) ? true : false);
+ 	int target = 0;
+ 	struct storvsc_device *stor_device;
+-	int max_luns_per_target;
+-	int max_targets;
+-	int max_channels;
+ 	int max_sub_channels = 0;
  
- /*
-- * Starting with Win8, we can statically distribute the incoming
-- * channel interrupt load by binding a channel to VCPU.
-+ * We can statically distribute the incoming channel interrupt load
-+ * by binding a channel to VCPU.
-  *
-- * For pre-win8 hosts or non-performance critical channels we assign the
-- * VMBUS_CONNECT_CPU.
-- *
-- * Starting with win8, performance critical channels will be distributed
-- * evenly among all the available NUMA nodes.  Once the node is assigned,
-- * we will assign the CPU based on a simple round robin scheme.
-+ * For non-performance critical channels we assign the VMBUS_CONNECT_CPU.
-+ * Performance critical channels will be distributed evenly among all
-+ * the available NUMA nodes.  Once the node is assigned, we will assign
-+ * the CPU based on a simple round robin scheme.
-  */
- static void init_vp_index(struct vmbus_channel *channel)
- {
-@@ -732,13 +730,10 @@ static void init_vp_index(struct vmbus_channel *channel)
- 	u32 target_cpu;
- 	int numa_node;
- 
--	if ((vmbus_proto_version == VERSION_WS2008) ||
--	    (vmbus_proto_version == VERSION_WIN7) || (!perf_chn) ||
-+	if (!perf_chn ||
- 	    !alloc_cpumask_var(&available_mask, GFP_KERNEL)) {
- 		/*
--		 * Prior to win8, all channel interrupts are
--		 * delivered on VMBUS_CONNECT_CPU.
--		 * Also if the channel is not a performance critical
-+		 * If the channel is not a performance critical
- 		 * channel, bind it to VMBUS_CONNECT_CPU.
- 		 * In case alloc_cpumask_var() fails, bind it to
- 		 * VMBUS_CONNECT_CPU.
-@@ -931,11 +926,9 @@ static void vmbus_setup_channel_state(struct vmbus_channel *channel,
+ 	/*
+-	 * Based on the windows host we are running on,
+-	 * set state to properly communicate with the host.
++	 * We support sub-channels for storage on SCSI and FC controllers.
++	 * The number of sub-channels offerred is based on the number of
++	 * VCPUs in the guest.
  	 */
- 	channel->sig_event = VMBUS_EVENT_CONNECTION_ID;
- 
--	if (vmbus_proto_version != VERSION_WS2008) {
--		channel->is_dedicated_interrupt =
--				(offer->is_dedicated_interrupt != 0);
--		channel->sig_event = offer->connection_id;
--	}
-+	channel->is_dedicated_interrupt =
-+			(offer->is_dedicated_interrupt != 0);
-+	channel->sig_event = offer->connection_id;
- 
- 	memcpy(&channel->offermsg, offer,
- 	       sizeof(struct vmbus_channel_offer_channel));
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index a3d8be8..6218bbf 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -47,6 +47,8 @@ struct vmbus_connection vmbus_connection = {
- 
- /*
-  * Table of VMBus versions listed from newest to oldest.
-+ * VERSION_WIN7 and VERSION_WS2008 are no longer supported in
-+ * Linux guests and are not listed.
-  */
- static __u32 vmbus_versions[] = {
- 	VERSION_WIN10_V5_3,
-@@ -56,9 +58,7 @@ struct vmbus_connection vmbus_connection = {
- 	VERSION_WIN10_V4_1,
- 	VERSION_WIN10,
- 	VERSION_WIN8_1,
--	VERSION_WIN8,
--	VERSION_WIN7,
--	VERSION_WS2008
-+	VERSION_WIN8
- };
- 
- /*
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 14de170..9c1b3620 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1263,23 +1263,17 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	unsigned long *recv_int_page;
- 	u32 maxbits, relid;
- 
+-
 -	if (vmbus_proto_version < VERSION_WIN8) {
--		maxbits = MAX_NUM_CHANNELS_SUPPORTED;
--		recv_int_page = vmbus_connection.recv_int_page;
+-		max_luns_per_target = STORVSC_IDE_MAX_LUNS_PER_TARGET;
+-		max_targets = STORVSC_IDE_MAX_TARGETS;
+-		max_channels = STORVSC_IDE_MAX_CHANNELS;
 -	} else {
+-		max_luns_per_target = STORVSC_MAX_LUNS_PER_TARGET;
+-		max_targets = STORVSC_MAX_TARGETS;
+-		max_channels = STORVSC_MAX_CHANNELS;
 -		/*
--		 * When the host is win8 and beyond, the event page
--		 * can be directly checked to get the id of the channel
--		 * that has the interrupt pending.
+-		 * On Windows8 and above, we support sub-channels for storage
+-		 * on SCSI and FC controllers.
+-		 * The number of sub-channels offerred is based on the number of
+-		 * VCPUs in the guest.
 -		 */
--		void *page_addr = hv_cpu->synic_event_page;
--		union hv_synic_event_flags *event
--			= (union hv_synic_event_flags *)page_addr +
--						 VMBUS_MESSAGE_SINT;
-+	/*
-+	 * The event page can be directly checked to get the id of
-+	 * the channel that has the interrupt pending.
-+	 */
-+	void *page_addr = hv_cpu->synic_event_page;
-+	union hv_synic_event_flags *event
-+		= (union hv_synic_event_flags *)page_addr +
-+					 VMBUS_MESSAGE_SINT;
- 
--		maxbits = HV_EVENT_FLAGS_COUNT;
--		recv_int_page = event->flags;
+-		if (!dev_is_ide)
+-			max_sub_channels =
+-				(num_cpus - 1) / storvsc_vcpus_per_sub_channel;
 -	}
-+	maxbits = HV_EVENT_FLAGS_COUNT;
-+	recv_int_page = event->flags;
++	if (!dev_is_ide)
++		max_sub_channels =
++			(num_cpus - 1) / storvsc_vcpus_per_sub_channel;
  
- 	if (unlikely(!recv_int_page))
- 		return;
-@@ -1351,40 +1345,10 @@ static void vmbus_isr(void)
- {
- 	struct hv_per_cpu_context *hv_cpu
- 		= this_cpu_ptr(hv_context.cpu_context);
--	void *page_addr = hv_cpu->synic_event_page;
-+	void *page_addr;
- 	struct hv_message *msg;
--	union hv_synic_event_flags *event;
--	bool handled = false;
--
--	if (unlikely(page_addr == NULL))
--		return;
--
--	event = (union hv_synic_event_flags *)page_addr +
--					 VMBUS_MESSAGE_SINT;
--	/*
--	 * Check for events before checking for messages. This is the order
--	 * in which events and messages are checked in Windows guests on
--	 * Hyper-V, and the Windows team suggested we do the same.
--	 */
--
--	if ((vmbus_proto_version == VERSION_WS2008) ||
--		(vmbus_proto_version == VERSION_WIN7)) {
--
--		/* Since we are a child, we only need to check bit 0 */
--		if (sync_test_and_clear_bit(0, event->flags))
--			handled = true;
--	} else {
--		/*
--		 * Our host is win8 or above. The signaling mechanism
--		 * has changed and we can directly look at the event page.
--		 * If bit n is set then we have an interrup on the channel
--		 * whose id is n.
--		 */
--		handled = true;
--	}
+ 	scsi_driver.can_queue = max_outstanding_req_per_channel *
+ 				(max_sub_channels + 1) *
+@@ -2046,9 +2028,9 @@ static int storvsc_probe(struct hv_device *device,
+ 		break;
  
--	if (handled)
--		vmbus_chan_sched(hv_cpu);
-+	vmbus_chan_sched(hv_cpu);
+ 	case SCSI_GUID:
+-		host->max_lun = max_luns_per_target;
+-		host->max_id = max_targets;
+-		host->max_channel = max_channels - 1;
++		host->max_lun = STORVSC_MAX_LUNS_PER_TARGET;
++		host->max_id = STORVSC_MAX_TARGETS;
++		host->max_channel = STORVSC_MAX_CHANNELS - 1;
+ 		break;
  
- 	page_addr = hv_cpu->synic_message_page;
- 	msg = (struct hv_message *)page_addr + VMBUS_MESSAGE_SINT;
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index fe2e017..9a4ac13 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -230,15 +230,19 @@ static inline u32 hv_get_avail_to_write_percent(
-  * two 16 bit quantities: major_number. minor_number.
-  *
-  * 0 . 13 (Windows Server 2008)
-- * 1 . 1  (Windows 7)
-- * 2 . 4  (Windows 8)
-- * 3 . 0  (Windows 8 R2)
-+ * 1 . 1  (Windows 7, WS2008 R2)
-+ * 2 . 4  (Windows 8, WS2012)
-+ * 3 . 0  (Windows 8.1, WS2012 R2)
-  * 4 . 0  (Windows 10)
-  * 4 . 1  (Windows 10 RS3)
-  * 5 . 0  (Newer Windows 10)
-  * 5 . 1  (Windows 10 RS4)
-  * 5 . 2  (Windows Server 2019, RS5)
-  * 5 . 3  (Windows Server 2022)
-+ *
-+ * The WS2008 and WIN7 versions are listed here for
-+ * completeness but are no longer supported in the
-+ * Linux kernel.
-  */
- 
- #define VERSION_WS2008  ((0 << 16) | (13))
+ 	default:
 -- 
 1.8.3.1
 
