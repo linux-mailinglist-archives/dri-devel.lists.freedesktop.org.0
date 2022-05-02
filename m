@@ -2,73 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D3C5174FA
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:51:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FB8517529
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:55:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0D210F167;
-	Mon,  2 May 2022 16:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C81AF10EA12;
+	Mon,  2 May 2022 16:55:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0FF10F167
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 16:51:37 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id l16so8506508oil.6
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 09:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=WQqGy9/cAtVs0rYLMmKAdIwpOUTHX81bUyFE+Uvv2gE=;
- b=NcXfUDSWHsIAofMX/GKhg1VN4gKrGgzzc/Kb/ahx4U1bLirmQsRQkwYr9kPzv9BrUI
- XyokdoAYCCDvYD1v+EHnatssF+T8x8GdlO1M+uq+j0Qgsej/GuduhNlhQHgXqevnRBDT
- fOCWLNBmTJpm3VfQlSzhf/m8/BI1H4ry+oczo5XCLDWu5YcXjeEOIV8Vlvs1BSUk+rlr
- gF2rmTZKI9EsC+45WyhPEsqtmgcSNb8vQOGshtfU/FSxHRTfiQYv3tvbz9wuRalASvZR
- T28f5WI3egA6226XuKPIdX+8we5ZyVhXngq/+FRYFTn4Onkwi/RgBGsOVXB1HrGbFvLy
- 6yKw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1E3A10EA12
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 16:55:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651510514;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xIzcVGz7jvv3xeuZxkzYe3VCF5DB6mpSZGaw7yGILbk=;
+ b=SDtSlUc13IxTk2d2uTpkbrEQb/AR1rEp0VgyNjrMKfMcEiyDlCtE+CyXywytNhHzm+klds
+ MisVw+JGvj128/KoQIwEr+PMcuKp9u6W3E6Kwden5jQCyujWR7MLkLJQw9egWYhqhUpKCt
+ 0Ebtdxi7axwZGY4J0aXvWLAEx2TDTRE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-552-UgyHsTuUO8uF9QcrPCUnsg-1; Mon, 02 May 2022 12:55:13 -0400
+X-MC-Unique: UgyHsTuUO8uF9QcrPCUnsg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o11-20020adfca0b000000b0020adc114131so5478059wrh.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 09:55:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WQqGy9/cAtVs0rYLMmKAdIwpOUTHX81bUyFE+Uvv2gE=;
- b=p7JZga6Bux01rQb6oPXDgnj58M9ZoExQfWnIKSU9sWcC6oqSLJsjZUXMX279NzPk7l
- U+u0yezrcMsJniRZWAcg8WA6ng5LscVNWKbldOb3jqzDBykJVgPtb2JK9r3iFY3/BZgm
- 41X6cEG7Nu6Hj/S6yth5mQtf+UBohyp1V9k/jdEqMW30DbDrDa2KSf3xk5Kcvd+fj4GB
- LKlSElgSDGRHlen2dyHNFct5updo+QVbmIQGF5Qr0rJsfOYlYNzZ9LlPm6rF1AoNYAS1
- 8Tbn83FKZN8kD+pQ9sWb76rU68p2q0h5qPeGhxBWcBk6o8EWzQ6l3YhdPdRI6d8wer5i
- EDgw==
-X-Gm-Message-State: AOAM531YxGzFRuFVrArf5CG2K6kwyGeGuOGDhJThro3y9636R/G1AEyp
- EadgE5ww4U16FYoRgLv+NXtm1A==
-X-Google-Smtp-Source: ABdhPJxGUGnYgijgOuwgEEEHawCtTKNkif8bNgtzd1O6MMWsWF1x8UKYWT5NJqYOoLdQVxWq53KdlQ==
-X-Received: by 2002:a05:6808:2396:b0:325:b6e:6cf0 with SMTP id
- bp22-20020a056808239600b003250b6e6cf0mr22930oib.288.1651510297242; 
- Mon, 02 May 2022 09:51:37 -0700 (PDT)
-Received: from ripper.. (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186]) by smtp.gmail.com with ESMTPSA id
- h11-20020a4add8b000000b0035eb4e5a6ccsm4029422oov.34.2022.05.02.09.51.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 09:51:36 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: [PATCH v4 5/5] drm/msm/dp: Implement hpd_notify()
-Date: Mon,  2 May 2022 09:53:16 -0700
-Message-Id: <20220502165316.4167199-6-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220502165316.4167199-1-bjorn.andersson@linaro.org>
-References: <20220502165316.4167199-1-bjorn.andersson@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xIzcVGz7jvv3xeuZxkzYe3VCF5DB6mpSZGaw7yGILbk=;
+ b=gysNnIdfjffYGxM8Tu4YBxMUflsk/nmTZRHJK2I7D72kpnbXXuAatUuqWNTaVgr839
+ Y/v6mnMvMt/18i1tidW4o+EpEo17AFGh4DF7MV5Ot+a6LJI3UM77PhxvvJYXDKOvAM/8
+ qPkgBqFm+efqeW1XiP5JHMCF063Xa+lYpL/gEGc3lBuPvry7DajOWaiA6mVfpxCH+BcS
+ s2wZl998pK6bD5fp7NFCWq7C/KYyzYZmO5VqYx6cVHDVIvFv7WSKh0naqQqfJ7+dYLi0
+ LeXxQlhi7vzlfnpOjtTCtIqtV+DJmu0v6UgiBC6nKwDCvneP7HP3Ir6vFDnHkmPJm8cL
+ tf2Q==
+X-Gm-Message-State: AOAM533FDsdNwFTJqiUGOJLoJXR2lQxwNLGd3NmktLBdS5ZNJXZ8ajuP
+ KT4d76RxkbH2dHfFMKZSjuYQiXjUn1g/rivWQulQ+0aWpsDuGh4DqCkQHNSppkcGOZkAo1nUg83
+ plNPNo2+BSnNqi100rs1dIAXZHxq8
+X-Received: by 2002:a05:600c:220e:b0:394:2695:ce9b with SMTP id
+ z14-20020a05600c220e00b003942695ce9bmr63527wml.64.1651510512505; 
+ Mon, 02 May 2022 09:55:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXHCdnrBQZAdylY92wBiX6hj/7UIQj39kbqjBAbaznjJ5J3GoSPQN7nxolvY6RoRBArA57Pw==
+X-Received: by 2002:a05:600c:220e:b0:394:2695:ce9b with SMTP id
+ z14-20020a05600c220e00b003942695ce9bmr63506wml.64.1651510512248; 
+ Mon, 02 May 2022 09:55:12 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ q29-20020adfb19d000000b0020c5253d8e9sm7222672wra.53.2022.05.02.09.55.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 09:55:11 -0700 (PDT)
+Message-ID: <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
+Date: Mon, 2 May 2022 18:55:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 1/3] drm: Remove superfluous arg when calling to
+ drm_fbdev_generic_setup()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220502153900.408522-1-javierm@redhat.com>
+ <20220502153900.408522-2-javierm@redhat.com>
+ <YnABjdpGC166yIY7@pendragon.ideasonboard.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YnABjdpGC166yIY7@pendragon.ideasonboard.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,134 +90,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Qualcomm DisplayPort driver contains traces of the necessary
-plumbing to hook up USB HPD, in the form of the dp_hpd module and the
-dp_usbpd_cb struct. Use this as basis for implementing the
-hpd_notify() callback, by amending the dp_hpd module with the
-missing logic.
+Hello Laurent,
 
-Overall the solution is similar to what's done downstream, but upstream
-all the code to disect the HPD notification lives on the calling side of
-drm_connector_oob_hotplug_event().
+On 5/2/22 18:06, Laurent Pinchart wrote:
+> Hi Javier,
+> 
+> Thank you for the patch.
+> 
+> On Mon, May 02, 2022 at 05:38:58PM +0200, Javier Martinez Canillas wrote:
+>> The drm_fbdev_generic_setup() function already sets the preferred bits per
+>> pixel for the device to dev->mode_config.preferred_depth, if preferred_bpp
+>> value is zero.
+>>
+>> Passing the same value to the function is unnecessary. Let's cleanup that
+>> in the two drivers that do it.
+> 
+> This looks fine, so
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> but why do we have two different mechanisms to set the preferred depth ?
+> Could we get all drivers to set dev->mode_config.preferred_depth and
 
-drm_connector_oob_hotplug_event() performs the lookup of the
-drm_connector based on fwnode, hence the need to assign the fwnode in
-dp_drm_connector_init().
+Yes, that's the plan and the reason why when we were discussing with Thomas
+about how to pass this option to the FB helper layer, we agreed on reusing
+the @preferred_bpp parameter rather than adding a third parameter to
+drm_fbdev_generic_setup(). Since in the future drivers shouldn't pass that
+information to the FB helper and just get it from the default mode config.
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
+But doing that would require more auditing to all drivers and it could add
+regressions while patches 1/2 and 2/2 in this series shouldn't cause any
+behavioral changes.
 
-Changes since v3:
-- Implements hpd_notify instead of oob_hotplug_event
-- Rebased on new cleanup patch from Dmitry
-- Set hpd_state to ST_MAINLINK_READY when dp_display_usbpd_configure() succeeds
+> drop the depth option to drm_fbdev_generic_setup() ? There's a FIXME
+> comment in drm_fbdev_generic_setup() that could be related.
+>
 
- drivers/gpu/drm/msm/dp/dp_display.c | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_display.h |  1 +
- drivers/gpu/drm/msm/dp/dp_drm.c     |  3 +++
- drivers/gpu/drm/msm/dp/dp_drm.h     |  2 ++
- 4 files changed, 32 insertions(+)
+A FIXME makes sense, I'll add that to when posting a v3.
+ Best regards,
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index b447446d75e9..080294ac6144 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -83,6 +83,8 @@ struct dp_display_private {
- 	bool hpd_irq_on;
- 	bool audio_supported;
- 
-+	bool connected;
-+
- 	struct drm_device *drm_dev;
- 	struct platform_device *pdev;
- 	struct dentry *root;
-@@ -1271,6 +1273,7 @@ static int dp_display_probe(struct platform_device *pdev)
- 	if (!desc)
- 		return -EINVAL;
- 
-+	dp->dp_display.dev = &pdev->dev;
- 	dp->pdev = pdev;
- 	dp->name = "drm_dp";
- 	dp->dp_display.connector_type = desc->connector_type;
-@@ -1760,3 +1763,26 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
- 	dp_display->dp_mode.h_active_low =
- 		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
- }
-+
-+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-+			  enum drm_connector_status status)
-+{
-+	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-+	struct msm_dp *dp = dp_bridge->dp_display;
-+	struct dp_display_private *dp_display = container_of(dp, struct dp_display_private, dp_display);
-+	int ret;
-+
-+	drm_dbg_dp(dp_display->drm_dev, "status: %d connected: %d\n", status, dp_display->connected);
-+
-+	if (!dp_display->connected && status == connector_status_connected) {
-+		dp_display->connected = true;
-+		ret = dp_display_usbpd_configure(dp_display);
-+		if (!ret)
-+			dp_display->hpd_state = ST_MAINLINK_READY;
-+	} else if (status != connector_status_connected) {
-+		dp_display->connected = false;
-+		dp_display_notify_disconnect(dp_display);
-+	} else {
-+		dp_display_usbpd_attention(dp_display);
-+	}
-+}
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index 4f9fe4d7610b..2d2614bc5a14 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.h
-+++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -11,6 +11,7 @@
- #include "disp/msm_disp_snapshot.h"
- 
- struct msm_dp {
-+	struct device *dev;
- 	struct drm_device *drm_dev;
- 	struct device *codec_dev;
- 	struct drm_bridge *bridge;
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 62d58b9c4647..821cfd37b1fb 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -68,6 +68,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
- 	.mode_valid   = dp_bridge_mode_valid,
- 	.get_modes    = dp_bridge_get_modes,
- 	.detect       = dp_bridge_detect,
-+	.hpd_notify   = dp_bridge_hpd_notify,
- };
- 
- struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-@@ -138,6 +139,8 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
- 	if (IS_ERR(connector))
- 		return connector;
- 
-+	connector->fwnode = fwnode_handle_get(dev_fwnode(dp_display->dev));
-+
- 	drm_connector_attach_encoder(connector, dp_display->encoder);
- 
- 	return connector;
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-index f4b1ed1e24f7..3b7480a86844 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.h
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-@@ -32,5 +32,7 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
- void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
- 			const struct drm_display_mode *mode,
- 			const struct drm_display_mode *adjusted_mode);
-+void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-+			  enum drm_connector_status status);
- 
- #endif /* _DP_DRM_H_ */
--- 
-2.35.1
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
