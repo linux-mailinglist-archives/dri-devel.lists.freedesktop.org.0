@@ -1,66 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393A2517552
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:04:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3D2517576
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 534DD10E27B;
-	Mon,  2 May 2022 17:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A988B10EA81;
+	Mon,  2 May 2022 17:09:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A052810E27B
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:04:19 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id k2so20326961wrd.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 10:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=IKIkKWLuV1OGwYFULnAsOkM2G0PGs69FkOVI5N/cNnw=;
- b=E00mffjDjTe6c/+9iDlEB1wdjEcT0U7DrFgxMpBPQJx9s+IQ4i+hMTICCKe1dASuRK
- vv17Che0ajGuui4mx+K4r1+z9SF2TndTWwcLkPj7BMuHQVSLA/G8SdWC1WOJcaezXcEO
- b/Tooz0sFb9G1wLn4RiJVFlcskkBXXUmyjKYwz7a9+TwyRGdWnAuwzUf0fCiUkO4ygoB
- YD8aLEPqcUpn/YjO2ONOe5YijCPdvSc8VQbjgldKdr1xt9IDzvQxyEeVTIAnEu+JSpYf
- STMZn12f6RylbjtgqkIXpQn6ujutZoG6Wz/zFfehbOoE6scGhaR9O9vV+mvz4mPPLlYt
- 5d8A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D56B910EA81
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651511361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mOc6bJLdhzaHvygq2HwvrbnheC0kFV7hKHsyBw5EeLA=;
+ b=ZGn1dRozBNCxlTNUHfrJ+7j+4xLsQd068MsY3iR5h5Adkd5z6xNBQebGiGe+XNtZFJArmF
+ hI19c6YFBKYDTOYGfu5YnOMtLYp9jQSeT/mZT3XbSPlKRH/rXqhB+3N+pEtNTkw2zloMgA
+ 1W3CAArGG5P84WjzZ6gULteg9Dvr1JU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-668-7hxmFztwPX6USLXN8Al0xA-1; Mon, 02 May 2022 13:09:20 -0400
+X-MC-Unique: 7hxmFztwPX6USLXN8Al0xA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ u3-20020a05600c210300b0039430c7665eso1768971wml.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 10:09:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=IKIkKWLuV1OGwYFULnAsOkM2G0PGs69FkOVI5N/cNnw=;
- b=NRd3I+8BI7o+FMiMObE5DGdhlxtW6/9dZhbuFmVlfdjJJes3j8/fAQSf7Kmw3tBuuS
- 30mcYBDeQQCWpZNsUQhUFYSbBXtFA6D2x6ddf5U0RsL63PQDFOL8L6Y3/3T9erDPV2A7
- k+qyV0va5IRH6Be8K0gePCAT+My2vYgieEnKlIwGgqO7YDS0ijM+9AWj8NOtMpZK51Jx
- 9bMpixvRYzgDUhW3xKg4+YVgFRMGfD4nDgmkpsGD/rqIUnMbxLTkT0Bn6EGw30DsBNUo
- S587rGEIiK/7XRo75Qbyp7Nt40J8yK/1x4atDwrpdnUhdme0UrG/PJxlHLkpcU3oyMQ0
- 2SaA==
-X-Gm-Message-State: AOAM532OM1bPWjD7oYOfTbLWkPy1DIW/z48goAwf0x1TTwb2qobuENmu
- vUmsohJ96nd3jg4WDFbH6u/5YAe3s/8=
-X-Google-Smtp-Source: ABdhPJyY68uLuAzWuSiv8NzwPVrip8vAdDKoe4nwXxnPu/iAX4m8EhrXazWqZbj5vHpF7sAHIxdztA==
-X-Received: by 2002:a5d:5885:0:b0:20c:7048:2951 with SMTP id
- n5-20020a5d5885000000b0020c70482951mr1354652wrf.28.1651511058007; 
- Mon, 02 May 2022 10:04:18 -0700 (PDT)
-Received: from orome ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- k8-20020adfc708000000b0020c5253d8easm9375256wrg.54.2022.05.02.10.04.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 10:04:16 -0700 (PDT)
-Date: Mon, 2 May 2022 19:04:13 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH v2 0/4] drm/nvdla: Add driver support for NVDLA
-Message-ID: <YnAPDRZMc88cDdYS@orome>
-References: <20220426060808.78225-1-cai.huoqing@linux.dev>
- <YmqgailZKIuY7zTZ@orome>
- <beacfd71-ebd0-7fde-187f-34b7a42a47de@kapsi.fi>
- <20220429032810.GA10104@chq-T47>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mOc6bJLdhzaHvygq2HwvrbnheC0kFV7hKHsyBw5EeLA=;
+ b=45ti6edXsTJbBtT9eMOcX5zsCFLBW5v4n80UhLrrt5lIR3ldk26EX/TCZDHAizrZGI
+ rdyXuVcppjPViz2JgJI54RKBR7keP1+giZ1AFRjo8vBl+Doz/JNn6InH9LTdewvAhIea
+ lUON+Kz9GyiwoyQVQxABlt6gTiMGZEvdsuzKUTNw5PaW3LXL6H2nsoMVvefYYNJ+40o4
+ r9EdchvhzDDAHjyfDQASbtx76pnuRQkiWM40iimlOY/XOBw5m8l9U5XAFcamohsgIM6j
+ wVC5FESGEI2JkCfQspYdsTnZugEtmZpMChQIlbApqAHhKTWpnniSetRymV31iArxbCS0
+ Y80A==
+X-Gm-Message-State: AOAM5312ZH7c/E7VXFAKDwgy9GhktkQC6N/SKrv8lYwosW+IU1Gdyhnf
+ haeLwbUbKxbLQ9JbaZK7Shk1K0T+3bPkmxciLaCiUXkrLcuclu4LbwP1lCDjP66CkIHa+JEjzdN
+ rvvoY5eVo6rcWua0fuzmd339/ZX3E
+X-Received: by 2002:a05:600c:3b1b:b0:394:33f2:62ef with SMTP id
+ m27-20020a05600c3b1b00b0039433f262efmr81447wms.69.1651511359570; 
+ Mon, 02 May 2022 10:09:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyD8kvUwaOP/LYdIp3y9tWwzlSjcjMNajFy22460RiURhJLGu+0f+kRklg0gioUgoCGg53/sQ==
+X-Received: by 2002:a05:600c:3b1b:b0:394:33f2:62ef with SMTP id
+ m27-20020a05600c3b1b00b0039433f262efmr81438wms.69.1651511359318; 
+ Mon, 02 May 2022 10:09:19 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ z24-20020a1cf418000000b003942a244edcsm6713522wma.33.2022.05.02.10.09.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 10:09:18 -0700 (PDT)
+Message-ID: <9556f080-d309-f396-6d28-1190bc94cc38@redhat.com>
+Date: Mon, 2 May 2022 19:09:17 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xESg3apyTC1nCRXH"
-Content-Disposition: inline
-In-Reply-To: <20220429032810.GA10104@chq-T47>
-User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 3/3] drm: Allow simpledrm to setup its emulated FB as
+ firmware provided
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220502153900.408522-1-javierm@redhat.com>
+ <20220502153900.408522-4-javierm@redhat.com>
+ <YnAEDlikr+d8cvy4@pendragon.ideasonboard.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YnAEDlikr+d8cvy4@pendragon.ideasonboard.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,124 +90,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Jon Hunter <jonathanh@nvidia.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Laurent,
 
---xESg3apyTC1nCRXH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/2/22 18:17, Laurent Pinchart wrote:
+> Hi Javier,
+> 
+> Thank you for the patch.
+> 
+> On Mon, May 02, 2022 at 05:39:00PM +0200, Javier Martinez Canillas wrote:
+>> Indicate to fbdev subsystem that the registered framebuffer is provided by
+>> the system firmware, so that it can handle accordingly. For example, would
+>> unregister the FB devices if asked to remove the conflicting framebuffers.
+>>
+>> Add a new DRM_FB_FW field to drm_fbdev_generic_setup() options parameter.
+>> Drivers can use this to indicate the FB helper initialization that the FB
+>> registered is provided by the firmware, so it can be configured as such.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>
+>> (no changes since v1)
+>>
+>>  drivers/gpu/drm/drm_fb_helper.c  |  9 +++++++++
+>>  drivers/gpu/drm/tiny/simpledrm.c |  2 +-
+>>  include/drm/drm_fb_helper.h      | 10 ++++++++++
+>>  3 files changed, 20 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+>> index fd0084ad77c3..775e47c5de1f 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -1891,6 +1891,10 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
+>>  		/* don't leak any physical addresses to userspace */
+>>  		info->flags |= FBINFO_HIDE_SMEM_START;
+>>  
+>> +	/* Indicate that the framebuffer is provided by the firmware */
+>> +	if (fb_helper->firmware)
+>> +		info->flags |= FBINFO_MISC_FIRMWARE;
+>> +
+>>  	/* Need to drop locks to avoid recursive deadlock in
+>>  	 * register_framebuffer. This is ok because the only thing left to do is
+>>  	 * register the fbdev emulation instance in kernel_fb_helper_list. */
+>> @@ -2512,6 +2516,8 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
+>>   *
+>>   * * DRM_FB_BPP: bits per pixel for the device. If the field is not set,
+>>   *   @dev->mode_config.preferred_depth is used instead.
+>> + * * DRM_FB_FW: if the framebuffer for the device is provided by the
+>> + *   system firmware.
+>>   *
+>>   * This function sets up generic fbdev emulation for drivers that supports
+>>   * dumb buffers with a virtual address and that can be mmap'ed.
+>> @@ -2538,6 +2544,7 @@ void drm_fbdev_generic_setup(struct drm_device *dev, unsigned int options)
+>>  {
+>>  	struct drm_fb_helper *fb_helper;
+>>  	unsigned int preferred_bpp = DRM_FB_GET_OPTION(DRM_FB_BPP, options);
+>> +	bool firmware = DRM_FB_GET_OPTION(DRM_FB_FW, options);
+>>  	int ret;
+>>  
+>>  	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
+>> @@ -2570,6 +2577,8 @@ void drm_fbdev_generic_setup(struct drm_device *dev, unsigned int options)
+>>  		preferred_bpp = 32;
+>>  	fb_helper->preferred_bpp = preferred_bpp;
+>>  
+>> +	fb_helper->firmware = firmware;
+> 
+> I'd get rid of the local variable and write
+>
 
-On Fri, Apr 29, 2022 at 11:28:10AM +0800, Cai Huoqing wrote:
-> On 28 4=E6=9C=88 22 18:56:07, Mikko Perttunen wrote:
-> > On 4/28/22 17:10, Thierry Reding wrote:
-> > > On Tue, Apr 26, 2022 at 02:07:57PM +0800, Cai Huoqing wrote:
-> > > > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
-> > > > which is integrated into NVIDIA Jetson AGX Xavier,
-> > > > so add driver support for this accelerator."
-> > >=20
-> > > Hi,
-> > >=20
-> > > nice to see this work going on. For subsequent revisions, can you ple=
-ase
-> > > also Cc the Tegra mailing list (linux-tegra@vger.kernel.org) as well =
-as
-> > > the Tegra platform maintainers (that's Jon Hunter and myself). This w=
-ill
-> > > make sure that more people with an interest in this will see your wor=
-k.
-> > > Not everyone follows dri-devel, linaro-mm-sig or linux-media.
-> > >=20
-> > > Thanks,
-> > > Thierry
-> >=20
-> > From a quick glance it looks like this driver pokes DLA hardware direct=
-ly
-> > which is not the intended programming model on Tegra hardware (there are
-> > Falcon microcontrollers that offload task scheduling and synchronization
-> > from the CPU). The hardware is also behind the Host1x bus so a simple
-> > platform device is not sufficient.
-> >=20
-> > Was this driver developed against some platform with OpenDLA hardware (=
-i.e.
-> > not Tegra)?
-> >=20
-> > If so, we'd need to verify if the hardware matches the hardware in Tegr=
-a194.
-> > Also, this driver may not be ideal for Tegra platforms since we would l=
-ack
-> > the hardware scheduling and synchronization facilities. It is likely
-> > necessary to have separate drivers for OpenDLA and Tegra's DLA integrat=
-ion.
-> >=20
-> > Thanks,
-> > Mikko
-> >=20
-> Tegra DLA seems to work with a slave coprocessor, the host driver just
-> impelement message queue, share buffer, notification... The hardware
-> detail of DLA maybe in the slave driver(not linux OS?).
->=20
-> Sure, This driver just support for the SOCs or FPGAs that OPENDLA
-> inside. I will change this kind of description "integrated into NVIDIA Je=
-tson AGX Xavier"
-> this driver dont support for Tegra directly.
+I actually considered that but then decided to add a local variable to
+have both options set in the same place, since I thought that would be
+easier to read and also consistent with how preferred_bpp is handled.
 
-Yes, I think it would be good to make it clear that this is not going to
-work with the Tegra instantiations so that people don't get confused.
+Maybe I could go the other way around and rework patch 2/3 to also not
+require a preferred_bpp local variable ? That patch won't be as small
+as it's now though. -- 
+Best regards,
 
-I think it would be ideal, though, if we could reuse as much of this
-driver as possible to work with other instantiations. The only reference
-to OpenDLA that I can find and which seems somehow relevant to this is
-here:
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-	https://github.com/SCLUO/ITRI-OpenDLA
-
-Is that the version that you're using? Or is the version that you're
-using at least compatible with that one? Apart from that and the Tegra
-instantiations, are you aware of any other derivatives that we need to
-account for? I'm worried that this might fragment to the point where it
-becomes unmaintainable in upstream Linux.
-
-Even if this doesn't concern the Tegra instantiation, I think most of my
-other comments remain valid. Things like global variables will get in
-the way of multiple FPGA instantiations as well, for example.
-
-You will also need to provide the device tree bindings for the
-particular instantiation that you're working on. Typically this would be
-identified by a vendor-specific compatible string for your particular
-board, but if it stems from a "canonical" FPGA mapping, matching on that
-compatible string might also be an option. In either case, when you send
-out the DT bindings, please include the devicetree@vger.kernel.org
-mailing list so that they can be properly reviewed.
-
-Thierry
-
---xESg3apyTC1nCRXH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJwDwoACgkQ3SOs138+
-s6HQBA/9G4mT1YRxO1XmbGtYRMlb5WwgJE5DE02upNSHm7Ixb2KSRxQqcdLPG/rQ
-ip5zcasTrh9hLKISslL9+mRphslV8obFPSF9tDhQ/SINiIRM/9CYvI4vkr/qe38t
-C6GU4tlQwn/IJIy1i4jaDVxdFEtQzXEAucfG1lLee1L46jYUpykk3cTKFCZM8xND
-HTrWnKdCUsjb9it08g68ItVxkq2v5lG2HKT+j4LJeEA82i4iS34/H42QOyQ7yQi9
-0CsRDMq/BC7Nu8bSCKzwMAp6FiO9ZSXBPb5Bvpy1gbZRKMX0OvQe2u0/wk2DI0zG
-G70ioJZUh8lq7Dtx6TnFTaYskxKFipHfni4oBOMXD4GQJ9YPlPG5NMNTDPLvL+Co
-OqwgDr3EFKee6efZwsJbzYF+2sculK4syW9OHZDvP8RuhqW2qCiWBBQxqj9SY/hB
-LJ33BUv7iCer3fpSORrmmT2rNRzCw0xqiOWniofQTdKZUDtphrjwxW9wT+FbnFNw
-/mrXZGsB8UY8sKQyhR3FDL74g6QYb9wrpq9mJ4jKD/Py3Yd00v00GjgeDHmb7V/d
-weu2Nrx1NG83vW4rBqGd4qnOZbMQtEesVgaa3SYmH5lyJSzAnCB9QT5PPR3xL8o3
-96I0sU2UqMHqWjCMqKFLD8886Oovi3Jo4uuXONTL95ZIDoScJaw=
-=Kefv
------END PGP SIGNATURE-----
-
---xESg3apyTC1nCRXH--
