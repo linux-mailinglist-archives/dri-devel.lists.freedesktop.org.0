@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96344517789
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4495177F6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 22:21:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 349EA10F3E3;
-	Mon,  2 May 2022 19:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80B9A10F40D;
+	Mon,  2 May 2022 20:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B254B10F3D6;
- Mon,  2 May 2022 19:42:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651520549; x=1683056549;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=zYjez573UrKkzsa+HJyhwHINyzK1lJ8J44CtLD+jSoI=;
- b=Dh2JlGp6Ji+Eg3HR3JxgBzXRlCEKj8Tl6dhVrMt3kRng1N1Tank66Nlq
- /sxJ4d9fD7mbkcO8jb65YvHVv3AExuOTekgSdaxzivFPWrzI/+c8KrORj
- Mjo9QNm7Y0E/4XBaUGMdBLhM4pT3wjx/kd8+wccVU5fas2nYq5wVuHdPt
- zrz0fByEj5Y/cjQ6Y/cmPyY1HU3Swz4J2+hFdS6Dg7W0jl9T6as/qZx0C
- csw5tVR+5brYoTEZn9ZcoJFq0m6K5CJpkJYW+qVsJA990suhkf+gDzyEa
- 5ADXm7dY+cx3U/L7QuoGDh9J+Um/oTRJWYd+Bi5TLzXnh+8CeDYy6ejZb Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="267465820"
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="267465820"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 12:42:29 -0700
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="631223862"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 12:42:29 -0700
-Date: Mon, 2 May 2022 12:42:28 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
-Message-ID: <YnA0JKqlvzFBQva1@mdroper-desk1.amr.corp.intel.com>
-References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
- <20220502163417.2635462-4-matthew.d.roper@intel.com>
- <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
- <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
- <YnAn7sXti/SIitVo@mdroper-desk1.amr.corp.intel.com>
- <20220502192729.prja6pz5kz42aiiu@ldmartin-desk2.jf.intel.com>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C94DE10F40C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 20:21:48 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id a10so16291027oif.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 13:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=Hnmgk1ySV+moaLIfrdDLqyWaX7EZfxJDQNVTelHhwlk=;
+ b=gydCa1XT3apUAkWqXWGcIv8NATUn3b5OIjEgWQojw1AQGHzMfpZeo9joN/mAtp6vF4
+ RATtUVBlgARss+TIibRbANVlifmimy169eXr6DHY32MIJqavLG7QyZWzHaVCqkKbsbGH
+ bTsbNB8No7BI70qEq7TAxEiYAo+mL6p0QUQVo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=Hnmgk1ySV+moaLIfrdDLqyWaX7EZfxJDQNVTelHhwlk=;
+ b=r3buncYHx6L4NvnKM9WmL22uQ9dVEFM2etA9LKssI8HO5700dUZJgGT9qj1gHd6fFC
+ 1cPT2Nose37C5dD6b6UX+iMEaPrjxeL4aqxjQw5sGDpz90MHUsMKD0bEoBG4Zuwto0ui
+ 5GyBc1x4KytRd8ENG6jKc2CN6yE4kEXbZFWlJ/5gvF6lXMU7MJ6tZA5N1qpDqxPOW9aU
+ AKHo5pAqOrMYac+1qaeN8g46gFC4WqR3ptGsWaPva7XTTPSl4DWMDq+GjCBhXzW/RM3D
+ PNyVPHTVyYsR9TR5AF53P2h/VTnYyLQhkiKhHH2mxa556URiiqTqfTqiilr7VtbvdaIx
+ kK5g==
+X-Gm-Message-State: AOAM530zyG6Q6pFGEo3Eb9IboUydgJh2IzrJuf/ZrcVXEtaBnUdtYr9N
+ 1RdNJuwc+3dSEFvK0GdZFGLO5ENg9Mmr+4YfNIMkBQ==
+X-Google-Smtp-Source: ABdhPJz7Vn608xLnAEGnfBR/CF4+B1u6SgDOO8wJhOwh61lwA74hFrR7wESd2zWhIRSmS2D8o8Hov5xpX/cGP4R/d9s=
+X-Received: by 2002:a05:6808:1296:b0:325:8fb:68f3 with SMTP id
+ a22-20020a056808129600b0032508fb68f3mr389482oiw.193.1651522908083; Mon, 02
+ May 2022 13:21:48 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 2 May 2022 13:21:47 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220502192729.prja6pz5kz42aiiu@ldmartin-desk2.jf.intel.com>
+In-Reply-To: <20220430005210.339-1-quic_jesszhan@quicinc.com>
+References: <20220430005210.339-1-quic_jesszhan@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 2 May 2022 13:21:47 -0700
+Message-ID: <CAE-0n53rPrJwK+6BfdeDR-LYmLTrdbvagrQZzGtM34OWtW8aVA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dpu: Clean up CRC debug logs
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,121 +63,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, dmitry.baryshkov@linaro.org, quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 02, 2022 at 12:27:29PM -0700, Lucas De Marchi wrote:
-> On Mon, May 02, 2022 at 11:50:22AM -0700, Matt Roper wrote:
-> > On Mon, May 02, 2022 at 11:39:48AM -0700, Lucas De Marchi wrote:
-> > > On Mon, May 02, 2022 at 09:50:23AM -0700, Matt Roper wrote:
-> > > > On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
-> > > > > From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> > > > >
-> > > > > Bspec: 45101, 72161
-> > > > > Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> > > > > Signed-off-by: Fei Yang <fei.yang@intel.com>
-> > > > > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
-> > > > >  drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
-> > > > >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
-> > > > >  drivers/gpu/drm/i915/i915_drv.h             |  2 ++
-> > > > >  drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
-> > > > >  drivers/gpu/drm/i915/intel_device_info.h    |  1 +
-> > > > >  6 files changed, 39 insertions(+), 5 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > > > > index b06611c1d4ad..7853ea194ea6 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > > > > @@ -221,6 +221,7 @@ struct intel_gt {
-> > > > >
-> > > > >  	struct {
-> > > > >  		u8 uc_index;
-> > > > > +		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
-> > > > >  	} mocs;
-> > > > >
-> > > > >  	struct intel_pxp pxp;
-> > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> > > > > index c4c37585ae8c..265812589f87 100644
-> > > > > --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
-> > > > > +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> > > > > @@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
-> > > > >  	unsigned int n_entries;
-> > > > >  	const struct drm_i915_mocs_entry *table;
-> > > > >  	u8 uc_index;
-> > > > > +	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
-> > > > >  	u8 unused_entries_index;
-> > > > >  };
-> > > > >
-> > > > > @@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
-> > > > >
-> > > > >  /* Helper defines */
-> > > > >  #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
-> > > > > +#define PVC_NUM_MOCS_ENTRIES	3
-> > > >
-> > > > Should this be 4?  The value here should reflect the number of entries
-> > > > that can defined in hardware rather than the size of the table we're
-> > > > asked to program.  Since there are two registers (each with a high and a
-> > > > low entry), that would imply we should set 4 here to ensure that the
-> > > > fourth entry is initialized according to unused_entries_index rather
-> > > > than left at whatever the hardware defaults might be.
-> > > 
-> > > not sure I understand what you mean here. The n_entries specifies, as
-> > > you said, the number of entries we can have. Bspec 45101 shows entries
-> > > for indexes 0, 1 and 2. As does the pvc_mocs_table below.
-> > > 
-> > > Also, from bspec 44509:
-> > > "For PVC, only 3 MOCS states are supported. The allowed index values are
-> > > in range [0, 2]..."
-> > > 
-> > > So, I don't think we want to program any fourth entry.
-> > 
-> > We don't have a choice; the fourth entry lives in the same register as
-> > the third entry, so no matter what we're writing _something_ to those
-> > bits.  The question is whether we should write all 0's or whether we
-> > should treat it like other platforms and ensure it's initialized to the
-> > unused entry values.  Entry #4 isn't supposed to be used, but if buggy
-> > userspace tries to use it, we probably still want well-defined behavior,
-> > just like it an invalid entry gets used on any other platform.
-> 
-> Now I understand what you were talking about:  each register houses 2
-> entries. For PVC we have LNCFCMOCS0 and LNCFCMOCS1. Humn... looking at
-> for_each_l3cc(), that is actually handled and the rest of the register
-> is initialized with the value pointed by unused_entries_index.
+Quoting Jessica Zhang (2022-04-29 17:52:10)
+> Currently, dpu_hw_lm_collect_misr returns EINVAL if CRC is disabled.
+> This causes a lot of spam in the DRM debug logs as it's called for every
+> vblank.
+>
+> Instead of returning EINVAL when CRC is disabled in
+> dpu_hw_lm_collect_misr, let's return ENODATA and add an extra ENODATA check
+> before the debug log in dpu_crtc_get_crc.
+>
+> Changes since V1:
+> - Added reported-by and suggested-by tags
+>
+> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Suggested-by: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Tested-by: Jessica Zhang <quic_jesszhan@quicinc.com> # RB5  (qrb5165)
+> ---
 
-Yep, you're right.  It looks like we still do a get_entry_l3cc() for the
-upper entry of the final register, and that will return the unused_entry
-value if it's out of bounds.  In that case I don't have any concerns
-here.
-
-
-Matt
-
-> 
-> Such situation would only happen for the last entry, which implies the
-> handling for odd size works for this as well.
-> 
-> Lucas De Marchi
-> 
-> > 
-> > 
-> > Matt
-> > 
-> > > 
-> > > Lucas De Marchi
-> > 
-> > -- 
-> > Matt Roper
-> > Graphics Software Engineer
-> > VTT-OSGC Platform Enablement
-> > Intel Corporation
-> > (916) 356-2795
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
