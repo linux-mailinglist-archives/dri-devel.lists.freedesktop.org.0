@@ -1,78 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681A051700C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:10:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF87517025
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:20:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C61510EC22;
-	Mon,  2 May 2022 13:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 586FD10EB45;
+	Mon,  2 May 2022 13:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 027CE10EC22
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 13:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651497012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 584BD10EB45
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 13:20:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DA987210E3;
+ Mon,  2 May 2022 13:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651497623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9jDUUd5wUXo34iLbUpw6jbiGIGpSLkimligm8emfXD8=;
- b=YLTuc9uMgCqtdFWRk86x5oOJJBU/384cB9nj1KaHLkdeN7ulYmoDTJYFgHqqsdx5uQzgeH
- Zs6x/mDHV4fj1LCJH/uaRjvu6AFol/1jaV+tKxEbZb0HajqiHTrfdNy9yF8qKoJ/Ziyhvd
- +n6jpvwIkroDNXjpeEejOmp3OesLePA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-fpiPrYamMfqhHOXic2_Buw-1; Mon, 02 May 2022 09:10:03 -0400
-X-MC-Unique: fpiPrYamMfqhHOXic2_Buw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bh7-20020a05600c3d0700b003940829b48dso7486492wmb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 06:10:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9jDUUd5wUXo34iLbUpw6jbiGIGpSLkimligm8emfXD8=;
- b=mWfT1oy4rEVejsFtlJX+JTeXLjchh9pmeiDswxxFrY8qRgFah79ULKs7bJ1j0hDNb9
- xiHNUGiPizlZ+DSrW3L07XLcGvncVB9Ku3++hd6EcVf0sAj+BPTZjkKoDG0P4OIW8ENW
- FFJ5llNb7VWrKCfHOTFIE+GgKMXGMIwn0ULo49ENsHbFCHuI8ODua5Ipwsp62FexXZLo
- pl8M3/nsGtQyt+mPSuR8hq2ZWlf7mJFZa04B3AFeN9KC++t+a8WHpn4vLxxii9LM128/
- 6MjhWCFw37laensGuNCgBZxHCR44xFSAou5rvQWKude11tSzv5DYtydLyADbYWeClBPm
- lbeQ==
-X-Gm-Message-State: AOAM532tZxMp5/EyrGE4+MWoiNF6Ro079UiTp29ZW9JHRCwZl5S9qGZo
- EOufXeubSqbBnEry6INfXk8rtvjlkbVdmtQGbWxkcQ/Nazzuvr4E6oryPP3X/IIlP3qR8VtBZ2U
- WgPLfDNTusPUXv6xm7WIVeK48b6uS
-X-Received: by 2002:adf:d1c9:0:b0:203:c225:d042 with SMTP id
- b9-20020adfd1c9000000b00203c225d042mr9246069wrd.630.1651497001633; 
- Mon, 02 May 2022 06:10:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOkTguHAtECK69/s/1UYa4VaS8/fQLKinHt0F/MRa24f9/shVWIWvvemP/4uJ44EqjTVqlaQ==
-X-Received: by 2002:adf:d1c9:0:b0:203:c225:d042 with SMTP id
- b9-20020adfd1c9000000b00203c225d042mr9246054wrd.630.1651497001394; 
- Mon, 02 May 2022 06:10:01 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- y16-20020adfc7d0000000b0020adc114136sm9302081wrg.0.2022.05.02.06.10.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 06:10:01 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] fbdev: Make fb_release() return -ENODEV if fbdev was
- unregistered
-Date: Mon,  2 May 2022 15:09:44 +0200
-Message-Id: <20220502130944.363776-3-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220502130944.363776-1-javierm@redhat.com>
-References: <20220502130944.363776-1-javierm@redhat.com>
+ bh=d2Ek6JLvpHBKhP9xYjX+TNERo7MBjYhMMbP3fK5HvYQ=;
+ b=amXr9iXgmhXMym3/MvAWFma/GlvWTX7dVs4HHaCPxfkUJDzwkqoU3Ih/XFUizusV+PaB2b
+ 2/Kr0uU+F06Gqh0nQSrQsaBk807NIsTlSunRiPNOH6SaPsiCs4w5h+k/xbSa2TnerTzdlF
+ pCcrCdkqhYh7HrvPCnAJDnOlbJ9kfbA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651497623;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=d2Ek6JLvpHBKhP9xYjX+TNERo7MBjYhMMbP3fK5HvYQ=;
+ b=ttDojIWHIPmEPHkL6F/jIP5EWJSbGL8YHK50uR+2k5VqBgHE1hF5t5G0Aw/znHGG9wwkqh
+ EurWKJiuigRCUkBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 99E19133E5;
+ Mon,  2 May 2022 13:20:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id wC+VJJfab2LXEgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 02 May 2022 13:20:23 +0000
+Message-ID: <193c9eef-af13-219c-e5e0-2cc9469bf562@suse.de>
+Date: Mon, 2 May 2022 15:20:23 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 2/2] fbdev: Make fb_release() return -ENODEV if fbdev was
+ unregistered
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220502130944.363776-1-javierm@redhat.com>
+ <20220502130944.363776-3-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220502130944.363776-3-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------iz1bNvbGdLcki36S08vCV0oM"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,48 +71,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Helge Deller <deller@gmx.de>, Zheyu Ma <zheyuma97@gmail.com>,
- Changcheng Deng <deng.changcheng@zte.com.cn>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>, Zhen Lei <thunder.leizhen@huawei.com>,
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Zheyu Ma <zheyuma97@gmail.com>, Changcheng Deng <deng.changcheng@zte.com.cn>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
  Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A reference to the framebuffer device struct fb_info is stored in the file
-private data, but this reference could no longer be valid and must not be
-accessed directly. Instead, the file_fb_info() accessor function must be
-used since it does sanity checking to make sure that the fb_info is valid.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------iz1bNvbGdLcki36S08vCV0oM
+Content-Type: multipart/mixed; boundary="------------q1K1zep9Mqp7z0IfDOIbTW60";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Zheyu Ma <zheyuma97@gmail.com>, Changcheng Deng
+ <deng.changcheng@zte.com.cn>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Guenter Roeck <linux@roeck-us.net>
+Message-ID: <193c9eef-af13-219c-e5e0-2cc9469bf562@suse.de>
+Subject: Re: [PATCH 2/2] fbdev: Make fb_release() return -ENODEV if fbdev was
+ unregistered
+References: <20220502130944.363776-1-javierm@redhat.com>
+ <20220502130944.363776-3-javierm@redhat.com>
+In-Reply-To: <20220502130944.363776-3-javierm@redhat.com>
 
-This can happen for example if the fbdev driver was one that is using a
-framebuffer provided by the system firmware. In that case, the fbdev core
-could unregister the framebuffer device if a real video driver is probed.
+--------------q1K1zep9Mqp7z0IfDOIbTW60
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Reported-by: Maxime Ripard <maxime@cerno.tech>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+DQoNCkFtIDAyLjA1LjIyIHVtIDE1OjA5IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
+bGFzOg0KPiBBIHJlZmVyZW5jZSB0byB0aGUgZnJhbWVidWZmZXIgZGV2aWNlIHN0cnVjdCBm
+Yl9pbmZvIGlzIHN0b3JlZCBpbiB0aGUgZmlsZQ0KPiBwcml2YXRlIGRhdGEsIGJ1dCB0aGlz
+IHJlZmVyZW5jZSBjb3VsZCBubyBsb25nZXIgYmUgdmFsaWQgYW5kIG11c3Qgbm90IGJlDQo+
+IGFjY2Vzc2VkIGRpcmVjdGx5LiBJbnN0ZWFkLCB0aGUgZmlsZV9mYl9pbmZvKCkgYWNjZXNz
+b3IgZnVuY3Rpb24gbXVzdCBiZQ0KPiB1c2VkIHNpbmNlIGl0IGRvZXMgc2FuaXR5IGNoZWNr
+aW5nIHRvIG1ha2Ugc3VyZSB0aGF0IHRoZSBmYl9pbmZvIGlzIHZhbGlkLg0KPiANCj4gVGhp
+cyBjYW4gaGFwcGVuIGZvciBleGFtcGxlIGlmIHRoZSBmYmRldiBkcml2ZXIgd2FzIG9uZSB0
+aGF0IGlzIHVzaW5nIGENCj4gZnJhbWVidWZmZXIgcHJvdmlkZWQgYnkgdGhlIHN5c3RlbSBm
+aXJtd2FyZS4gSW4gdGhhdCBjYXNlLCB0aGUgZmJkZXYgY29yZQ0KPiBjb3VsZCB1bnJlZ2lz
+dGVyIHRoZSBmcmFtZWJ1ZmZlciBkZXZpY2UgaWYgYSByZWFsIHZpZGVvIGRyaXZlciBpcyBw
+cm9iZWQuDQo+IA0KPiBSZXBvcnRlZC1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5v
+LnRlY2g+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2
+aWVybUByZWRoYXQuY29tPg0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6
+aW1tZXJtYW5uQHN1c2UuZGU+DQoNClRoaXMgc2VlbXMgbGlrZSB0aGUgY29ycmVjdCB0aGlu
+ZyB0byBkbyBpbiBhbnkgY2FzZS4gVGhhbmtzIGZvciB0aGUgDQpwYXRjaC4gQmVmb3JlIG1l
+cmdpbmcsIHlvdSBzaG91bGQgYWxzbyBhZGQNCg0KRml4ZXM6IDI3NTk5YWFjYmFlZiAoImZi
+ZGV2OiBIb3QtdW5wbHVnIGZpcm13YXJlIGZiIGRldmljZXMgb24gZm9yY2VkIA0KcmVtb3Zh
+bCIpDQpSZXBvcnRlZC1ieTogSnVueGlhbyBDaGFuZyA8anVueGlhby5jaGFuZ0BpbnRlbC5j
+b20+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gLS0tDQo+IA0KPiAgIGRyaXZlcnMv
+dmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jIHwgNSArKysrLQ0KPiAgIDEgZmlsZSBjaGFuZ2Vk
+LCA0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYv
+Y29yZS9mYm1lbS5jDQo+IGluZGV4IDIwZDg5MjlkZjc5Zi4uZDY4MDk3MTA1ZjkzIDEwMDY0
+NA0KPiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYw0KPiArKysgYi9k
+cml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYw0KPiBAQCAtMTQzOSw3ICsxNDM5LDEw
+IEBAIGZiX3JlbGVhc2Uoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZpbGUgKmZpbGUp
+DQo+ICAgX19hY3F1aXJlcygmaW5mby0+bG9jaykNCj4gICBfX3JlbGVhc2VzKCZpbmZvLT5s
+b2NrKQ0KPiAgIHsNCj4gLQlzdHJ1Y3QgZmJfaW5mbyAqIGNvbnN0IGluZm8gPSBmaWxlLT5w
+cml2YXRlX2RhdGE7DQo+ICsJc3RydWN0IGZiX2luZm8gKiBjb25zdCBpbmZvID0gZmlsZV9m
+Yl9pbmZvKGZpbGUpOw0KPiArDQo+ICsJaWYgKCFpbmZvKQ0KPiArCQlyZXR1cm4gLUVOT0RF
+VjsNCj4gICANCj4gICAJbG9ja19mYl9pbmZvKGluZm8pOw0KPiAgIAlpZiAoaW5mby0+ZmJv
+cHMtPmZiX3JlbGVhc2UpDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
+RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
- drivers/video/fbdev/core/fbmem.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+--------------q1K1zep9Mqp7z0IfDOIbTW60--
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 20d8929df79f..d68097105f93 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1439,7 +1439,10 @@ fb_release(struct inode *inode, struct file *file)
- __acquires(&info->lock)
- __releases(&info->lock)
- {
--	struct fb_info * const info = file->private_data;
-+	struct fb_info * const info = file_fb_info(file);
-+
-+	if (!info)
-+		return -ENODEV;
- 
- 	lock_fb_info(info);
- 	if (info->fbops->fb_release)
--- 
-2.35.1
+--------------iz1bNvbGdLcki36S08vCV0oM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJv2pcFAwAAAAAACgkQlh/E3EQov+AA
+lRAAs9/I2Ec7f8mNoik0X1EWbynPc59K/6jn7nozsTzUx5/rlqt+e+JHAG1YFmij8tuCaS3qVJC3
+WxtXCy2/UDPeCljwWxikOf47gPWrOEIQgB2IVYFT/vD9RCptLiNWfGdluUuwcqE8TeV2LbgI0XKi
+h5STdRPudu4NxX5VUdo7MjapwOJA6n2NcRvATKicaTJPsSKAc66B+8vIzlMjCHlj908zGOfjR7Op
+ZU7n47LMQJJLDKlTFmfhDK04FApaI7V2Hh1inLRQUXMKbSkyWQqZsOTg/USxOdalOdzVAN8gDaPR
+vzo5pzbFMv9jfaPkgqCTqM4s720FD3on2+Xb+IB7T7dOZMuBfild5BeZ5Havxx8o/qBnQgHWq/zI
+34oipAxGZjK9NHAH1FGgswtDhheI8DVBE75Pe2sMkWtAT9j2bl4Mieb7qZDa0iMxkTry5OG6o/fJ
+5Z9Y3ZInNityIZDooom+a2LLYpeQa8tWZFRC7V9e8Z0hlX4uWYbFeHOCKCmX0XAJ+oF8C6K0lsP2
++tMjYdUla5aRwNIMUv2/KNKfntqMPf3hUoFhTdgky/3/2tVyFpnhvhMscANbNpD5M09jghyo6jSn
+7q58EbVMH0NQGCMl4Z0JSndaMqNm5vaj+oXuiPKuxn+ysjDU0eadlTSfOvVVng9wPn59Td7UPVsx
+uc0=
+=hMuj
+-----END PGP SIGNATURE-----
+
+--------------iz1bNvbGdLcki36S08vCV0oM--
