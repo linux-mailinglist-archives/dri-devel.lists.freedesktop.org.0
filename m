@@ -1,83 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3D2517576
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:09:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DA551757B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A988B10EA81;
-	Mon,  2 May 2022 17:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D0810EEB6;
+	Mon,  2 May 2022 17:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D56B910EA81
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651511361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mOc6bJLdhzaHvygq2HwvrbnheC0kFV7hKHsyBw5EeLA=;
- b=ZGn1dRozBNCxlTNUHfrJ+7j+4xLsQd068MsY3iR5h5Adkd5z6xNBQebGiGe+XNtZFJArmF
- hI19c6YFBKYDTOYGfu5YnOMtLYp9jQSeT/mZT3XbSPlKRH/rXqhB+3N+pEtNTkw2zloMgA
- 1W3CAArGG5P84WjzZ6gULteg9Dvr1JU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-7hxmFztwPX6USLXN8Al0xA-1; Mon, 02 May 2022 13:09:20 -0400
-X-MC-Unique: 7hxmFztwPX6USLXN8Al0xA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- u3-20020a05600c210300b0039430c7665eso1768971wml.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 10:09:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mOc6bJLdhzaHvygq2HwvrbnheC0kFV7hKHsyBw5EeLA=;
- b=45ti6edXsTJbBtT9eMOcX5zsCFLBW5v4n80UhLrrt5lIR3ldk26EX/TCZDHAizrZGI
- rdyXuVcppjPViz2JgJI54RKBR7keP1+giZ1AFRjo8vBl+Doz/JNn6InH9LTdewvAhIea
- lUON+Kz9GyiwoyQVQxABlt6gTiMGZEvdsuzKUTNw5PaW3LXL6H2nsoMVvefYYNJ+40o4
- r9EdchvhzDDAHjyfDQASbtx76pnuRQkiWM40iimlOY/XOBw5m8l9U5XAFcamohsgIM6j
- wVC5FESGEI2JkCfQspYdsTnZugEtmZpMChQIlbApqAHhKTWpnniSetRymV31iArxbCS0
- Y80A==
-X-Gm-Message-State: AOAM5312ZH7c/E7VXFAKDwgy9GhktkQC6N/SKrv8lYwosW+IU1Gdyhnf
- haeLwbUbKxbLQ9JbaZK7Shk1K0T+3bPkmxciLaCiUXkrLcuclu4LbwP1lCDjP66CkIHa+JEjzdN
- rvvoY5eVo6rcWua0fuzmd339/ZX3E
-X-Received: by 2002:a05:600c:3b1b:b0:394:33f2:62ef with SMTP id
- m27-20020a05600c3b1b00b0039433f262efmr81447wms.69.1651511359570; 
- Mon, 02 May 2022 10:09:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyD8kvUwaOP/LYdIp3y9tWwzlSjcjMNajFy22460RiURhJLGu+0f+kRklg0gioUgoCGg53/sQ==
-X-Received: by 2002:a05:600c:3b1b:b0:394:33f2:62ef with SMTP id
- m27-20020a05600c3b1b00b0039433f262efmr81438wms.69.1651511359318; 
- Mon, 02 May 2022 10:09:19 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- z24-20020a1cf418000000b003942a244edcsm6713522wma.33.2022.05.02.10.09.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 10:09:18 -0700 (PDT)
-Message-ID: <9556f080-d309-f396-6d28-1190bc94cc38@redhat.com>
-Date: Mon, 2 May 2022 19:09:17 +0200
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8A310EED0
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:09:49 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 0FDE883B2C;
+ Mon,  2 May 2022 19:09:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1651511387;
+ bh=Xs/ogZdpiDbfzmP8/CK6qS2/VcQw+slvnkX0Re7SruM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JKIXuNr8RLGBCcYLvoFWO6cqWUqi/Jtoo6vbSz+4jTLw0ReL7vezFbqotCqxLhSrO
+ 3yRFJoOcmIlGQYYVDN9qmU2iEGqeMZpgN4SnITlftkOkP4H13Kgk/la9z2SpwY5TVA
+ mrZz07OXRLtf+uFAIR1X720RJ6jiK0usCiZ3mFUh15Jz7dopIT4toYBkyfbNXfN577
+ ALLMExnBhRXqRGhyX1D6rH/647Un+ccUirsU50vDN3FiCwFhpYDpCJELw5ieHBXHWX
+ eo/gLjseH7OGav0vnCHtNXS9LhaDkzoPCDjza9bpCEY1hDvacWSMQ4IOMQ3ZPnxrMC
+ T2aAIJlh4MCQA==
+Message-ID: <f2707614-986d-d4cc-465a-3c2e5e3890d5@denx.de>
+Date: Mon, 2 May 2022 19:09:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 3/3] drm: Allow simpledrm to setup its emulated FB as
- firmware provided
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220502153900.408522-1-javierm@redhat.com>
- <20220502153900.408522-4-javierm@redhat.com>
- <YnAEDlikr+d8cvy4@pendragon.ideasonboard.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YnAEDlikr+d8cvy4@pendragon.ideasonboard.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement
+ simple Freescale i.MX8MP LDB bridge
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Robert Foss <robert.foss@linaro.org>
+References: <20220426193645.244792-1-marex@denx.de>
+ <CAG3jFysWizvFkbMVexRqPC=5fDa3-VFnxS2zsvBKSKdL4zzxeg@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAG3jFysWizvFkbMVexRqPC=5fDa3-VFnxS2zsvBKSKdL4zzxeg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,90 +58,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Laurent,
-
-On 5/2/22 18:17, Laurent Pinchart wrote:
-> Hi Javier,
-> 
-> Thank you for the patch.
-> 
-> On Mon, May 02, 2022 at 05:39:00PM +0200, Javier Martinez Canillas wrote:
->> Indicate to fbdev subsystem that the registered framebuffer is provided by
->> the system firmware, so that it can handle accordingly. For example, would
->> unregister the FB devices if asked to remove the conflicting framebuffers.
+On 5/2/22 16:46, Robert Foss wrote:
+> On Tue, 26 Apr 2022 at 21:37, Marek Vasut <marex@denx.de> wrote:
 >>
->> Add a new DRM_FB_FW field to drm_fbdev_generic_setup() options parameter.
->> Drivers can use this to indicate the FB helper initialization that the FB
->> registered is provided by the firmware, so it can be configured as such.
+>> The i.MX8MP contains two syscon registers which are responsible
+>> for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
+>> which represents this serializer as a bridge.
 >>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Maxime Ripard <maxime@cerno.tech>
+>> Cc: Peng Fan <peng.fan@nxp.com>
+>> Cc: Rob Herring <robh+dt@kernel.org>
+>> Cc: Robby Cai <robby.cai@nxp.com>
+>> Cc: Robert Foss <robert.foss@linaro.org>
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: devicetree@vger.kernel.org
+>> To: dri-devel@lists.freedesktop.org
 >> ---
+>> V2: - Consistently use fsl,imx8mp-ldb as compatible
+>>      - Drop items: from compatible:
+>>      - Replace minItems with maxItems in clocks:
+>>      - Drop quotes from clock-names const: ldb
+>>      - Rename syscon to fsl,syscon
+>>      - Use generic name of ldb-lvds in example
+>> V3: - Add AB from Sam
+>>      - Consistently use MX8MP
+>> V4: - Rename to fsl-ldb all over the place
+>>      - Put the LDB node under media block controller in the example
+>> ---
+>>   .../bindings/display/bridge/fsl,ldb.yaml      | 92 +++++++++++++++++++
+>>   1 file changed, 92 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
 >>
->> (no changes since v1)
->>
->>  drivers/gpu/drm/drm_fb_helper.c  |  9 +++++++++
->>  drivers/gpu/drm/tiny/simpledrm.c |  2 +-
->>  include/drm/drm_fb_helper.h      | 10 ++++++++++
->>  3 files changed, 20 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->> index fd0084ad77c3..775e47c5de1f 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -1891,6 +1891,10 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
->>  		/* don't leak any physical addresses to userspace */
->>  		info->flags |= FBINFO_HIDE_SMEM_START;
->>  
->> +	/* Indicate that the framebuffer is provided by the firmware */
->> +	if (fb_helper->firmware)
->> +		info->flags |= FBINFO_MISC_FIRMWARE;
+>> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+>> new file mode 100644
+>> index 000000000000..77f174eee424
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+>> @@ -0,0 +1,92 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
->>  	/* Need to drop locks to avoid recursive deadlock in
->>  	 * register_framebuffer. This is ok because the only thing left to do is
->>  	 * register the fbdev emulation instance in kernel_fb_helper_list. */
->> @@ -2512,6 +2516,8 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
->>   *
->>   * * DRM_FB_BPP: bits per pixel for the device. If the field is not set,
->>   *   @dev->mode_config.preferred_depth is used instead.
->> + * * DRM_FB_FW: if the framebuffer for the device is provided by the
->> + *   system firmware.
->>   *
->>   * This function sets up generic fbdev emulation for drivers that supports
->>   * dumb buffers with a virtual address and that can be mmap'ed.
->> @@ -2538,6 +2544,7 @@ void drm_fbdev_generic_setup(struct drm_device *dev, unsigned int options)
->>  {
->>  	struct drm_fb_helper *fb_helper;
->>  	unsigned int preferred_bpp = DRM_FB_GET_OPTION(DRM_FB_BPP, options);
->> +	bool firmware = DRM_FB_GET_OPTION(DRM_FB_FW, options);
->>  	int ret;
->>  
->>  	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
->> @@ -2570,6 +2577,8 @@ void drm_fbdev_generic_setup(struct drm_device *dev, unsigned int options)
->>  		preferred_bpp = 32;
->>  	fb_helper->preferred_bpp = preferred_bpp;
->>  
->> +	fb_helper->firmware = firmware;
+>> +title: Freescale i.MX8MP DPI to LVDS bridge chip
+>> +
+>> +maintainers:
+>> +  - Marek Vasut <marex@denx.de>
+>> +
+>> +description: |
+>> +  The i.MX8MP mediamix contains two registers which are responsible
+>> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
+>> +  those registers as bridge within the DT.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: fsl,imx8mp-ldb
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    const: ldb
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: Video port for DPI input.
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: Video port for LVDS Channel-A output (panel or bridge).
+>> +
+>> +      port@2:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: Video port for LVDS Channel-B output (panel or bridge).
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - clocks
+>> +  - ports
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/imx8mp-clock.h>
+>> +
+>> +    blk-ctrl {
+>> +        bridge {
+>> +            compatible = "fsl,imx8mp-ldb";
+>> +            clocks = <&clk IMX8MP_CLK_MEDIA_LDB>;
+>> +            clock-names = "ldb";
+>> +
+>> +            ports {
+>> +                #address-cells = <1>;
+>> +                #size-cells = <0>;
+>> +
+>> +                port@0 {
+>> +                    reg = <0>;
+>> +
+>> +                    ldb_from_lcdif2: endpoint {
+>> +                        remote-endpoint = <&lcdif2_to_ldb>;
+>> +                    };
+>> +                };
+>> +
+>> +                port@1 {
+>> +                    reg = <1>;
+>> +
+>> +                    ldb_lvds_ch0: endpoint {
+>> +                        remote-endpoint = <&ldb_to_lvdsx4panel>;
+>> +                    };
+>> +                };
+>> +
+>> +                port@2 {
+>> +                    reg = <2>;
+>> +
+>> +                    ldb_lvds_ch1: endpoint {
+>> +                    };
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> --
 > 
-> I'd get rid of the local variable and write
->
+> Applied series to drm-misc-next.
 
-I actually considered that but then decided to add a local variable to
-have both options set in the same place, since I thought that would be
-easier to read and also consistent with how preferred_bpp is handled.
-
-Maybe I could go the other way around and rework patch 2/3 to also not
-require a preferred_bpp local variable ? That patch won't be as small
-as it's now though. -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+You probably wanted an AB/RB from Lucas on this, maybe a fixup patch 
+will be needed.
