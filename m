@@ -1,34 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD32F517A68
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 01:07:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F62517A6C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 01:07:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9F510EDE3;
-	Mon,  2 May 2022 23:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9571710EE02;
+	Mon,  2 May 2022 23:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2587 seconds by postgrey-1.36 at gabe;
- Mon, 02 May 2022 23:07:20 UTC
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A939E10EDE3
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 23:07:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE8810EE0F
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 23:07:27 +0000 (UTC)
 Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
  helo=phil.lan)
  by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1nleSe-0005bu-O7; Tue, 03 May 2022 00:24:08 +0200
+ id 1nleSf-0005bu-2T; Tue, 03 May 2022 00:24:09 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- inki.dae@samsung.com
-Subject: Re: (subset) [PATCH 0/5] Replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-Date: Tue,  3 May 2022 00:24:02 +0200
-Message-Id: <165153020899.255051.7449667943189045907.b4-ty@sntech.de>
+To: Robin Murphy <robin.murphy@arm.com>,
+	hjc@rock-chips.com
+Subject: Re: [PATCH] drm/rockchip: Refactor IOMMU initialisation
+Date: Tue,  3 May 2022 00:24:03 +0200
+Message-Id: <165153020898.255051.11175155714135351840.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220421170725.903361-1-jose.exposito89@gmail.com>
-References: <20220421170725.903361-1-jose.exposito89@gmail.com>
+In-Reply-To: <94eee7ab434fe11eb0787f691e9f1ab03a2e91be.1649168685.git.robin.murphy@arm.com>
+References: <94eee7ab434fe11eb0787f691e9f1ab03a2e91be.1649168685.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -44,33 +41,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- alim.akhtar@samsung.com, linux-samsung-soc@vger.kernel.org,
- jy0922.shim@samsung.com, samuel@sholland.org, krzk@kernel.org,
- linux-rockchip@lists.infradead.org, wens@csie.org, hjc@rock-chips.com,
- alain.volmat@foss.st.com, linux-sunxi@lists.linux.dev, broonie@kernel.org,
- linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
- lgirdwood@gmail.com, kyungmin.park@samsung.com
+Cc: linux-rockchip@lists.infradead.org, s.hauer@pengutronix.de,
+ iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Apr 2022 19:07:20 +0200, José Expósito wrote:
-> After implementing a similar change in the VC4 driver [1], as suggested
-> by Laurent in the ToDo list [2], I noticed that a similar pattern is
-> used in the Exynos, Rockchip, STI and sun4i drivers.
-> 
-> This patchset replaces drm_detect_hdmi_monitor() with is_hdmi in the
-> mentioned drivers.
-> 
-> [...]
+On Tue, 5 Apr 2022 15:32:50 +0100, Robin Murphy wrote:
+> Defer the IOMMU domain setup until after successfully binding
+> components, so we can figure out IOMMU support directly from the VOP
+> devices themselves, rather than manually inferring it from the DT (which
+> also fails to account for whether the IOMMU driver is actually loaded).
+> Although this is somewhat of a logical cleanup, the main motivation is
+> to prepare for a change in the iommu_domain_alloc() interface.
 
 Applied, thanks!
 
-[2/5] drm/rockchip: inno_hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
-      commit: d449222dd533ca83a3a2f88aafe06fdd8d589280
-[3/5] drm/rockchip: rk3066_hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
-      commit: d2eabdb64474c2101953859601794f1ea08ec1d9
+[1/1] drm/rockchip: Refactor IOMMU initialisation
+      commit: 421be3ee36a497949a4b564cd1e4f7f9fe755f57
+
+Additionally tested on rk3288, rk3399 and px30.
 
 Best regards,
 -- 
