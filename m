@@ -2,71 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C9B517750
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1081B51776F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD50110F3BB;
-	Mon,  2 May 2022 19:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F22610F3CB;
+	Mon,  2 May 2022 19:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E433110F3BA
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 19:21:25 +0000 (UTC)
-Received: from mail-yw1-f177.google.com ([209.85.128.177]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MUpCz-1nLW2E1nNJ-00Qfwa for <dri-devel@lists.freedesktop.org>; Mon, 02 May
- 2022 21:21:23 +0200
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-2f7b815ac06so159017367b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 12:21:23 -0700 (PDT)
-X-Gm-Message-State: AOAM531qL2Ow2UTq3MqGahlqrEEWYr7ywQFUmJXD6wgUkp5ET3oBiZ8S
- gtPTcRG2xpohFov32wWnhmXquINNIRcwkAbyQTk=
-X-Google-Smtp-Source: ABdhPJwUfMAOks7BnV4AzKQEtr1EDQTOee83IkNCHoU3D+nfieXOKuWmJ4Tp85gou+YPOwWYc3gRkPoRLjpjhxYBTNE=
-X-Received: by 2002:a81:ad7:0:b0:2e6:84de:3223 with SMTP id
- 206-20020a810ad7000000b002e684de3223mr12927652ywk.209.1651519282261; Mon, 02
- May 2022 12:21:22 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3590210F3CF;
+ Mon,  2 May 2022 19:27:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651519652; x=1683055652;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=MXy31iYDJhjRb3PuH0URSntfyDZsIDRb0SNQz+XwmoE=;
+ b=Rrcoykce1aw3SafnfOpsiAi44gmv7JA4ID4QMAOfLhMhQKf0dcmOV0lf
+ xVkTjFezK/TUtp4efDV9rAE47kRH91Yo9v6JfQFgnYKOrm6L4bu1pXicL
+ p5JESDGWacTQOR2qNFcUsqSSbyBajClWIMoKH+EVLsWFlucBDTHOjZ9s6
+ iRV+rzlS6NXWUqvBlTC5Yl8la9wTshype2pc5SVNMk6OH9h9sQJk0c9le
+ C3nrHkoHw2uUjBAUvMlUVnM/ircW8zH6mq/78C5AVA/lQ7lXAse50kfK6
+ 1jkP1HXyNjr5pcLUCs+YUjvNVxIUQX/kAyVaj6UJjRKcmnQTgwJNP6/2d A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="330301910"
+X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="330301910"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 12:27:31 -0700
+X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="561888366"
+Received: from ldmartin-desk2.jf.intel.com ([134.134.244.76])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 12:27:31 -0700
+Date: Mon, 2 May 2022 12:27:29 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
+Message-ID: <20220502192729.prja6pz5kz42aiiu@ldmartin-desk2.jf.intel.com>
+References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+ <20220502163417.2635462-4-matthew.d.roper@intel.com>
+ <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
+ <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
+ <YnAn7sXti/SIitVo@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422234150.GA3442771@roeck-us.net>
- <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
- <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
- <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
- <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
- <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
- <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
- <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
- <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
- <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
- <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
- <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
- <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
-In-Reply-To: <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 2 May 2022 21:21:05 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
-Message-ID: <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:4IgGDGhsMzzZ1jXS7BJ7Ibmpz+JjYgfslv08tHTi9gJQkTr6OuW
- qTY3+8+xAtYjIPli+A+oAKqxVcb6Oij5RQQ6Ac+ovkUidIgM+M01mb48LNPqSE+Mf+LFYI7
- GpkWP/abTDTMN4xbMVcygGYoWxdwtvMmg1bSVOhDnXHrc8wMJHsRhmh3JVAYOfDAhTJNqTh
- mqBwnIvengP3ERjzEz4Vg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6+6hE9aIM6o=:LR2wMJuAqEHOsg8kvPEhkY
- 0OrnM/uwLwrx/AOosOCe6SeXBUnW627c0CfYMhQswb/nAvr6nT7NLFZfFArbzlWL582IVTNAW
- EYGe6uZH/QZm0h5f6wfALR4JDhRQ2GxiviFFbcE8LljnSD9zmROorXT4xftOOJMF1FjVpsUq2
- qWVSguLq6eKvVeUkip0caj3G8YQ/sGHYj5uOt4pYD+tIj4efIOo6n6v5vOIRLcQBx1980op8B
- 2bvxjXNMXyju49oaMEMBpemUTCYI5qk3ef5wvpLLgjQj8VpltUIWROFcch1irZBHPZMyAxYB2
- iBlLk+rug0kv1qKelJ33c06RgGIH9WT8x1EoRh1PS74w+3m+vF3o9K+TbdwKUn/bhWHLcVNFQ
- TLxWsPJ0X75t+NFSsG36uibc2LPDtZXOmNS64b0JAxR241GOMV6cLjLRgrl1kg9xv4vp3qtNt
- QqNzEqQ23MJkraccLjnP8I3cFNmnM5w4DWfDu0l52HcZYK0Hi5nqiFZ7NcUrO6Bw/+blDoQqW
- b4Fd0KU9iWTP9lnhLFLueRl3LD7NhKCsLTkiREK+U7qPD1jUR5J72sUt+ZhcfgTVqmMOX2vZ4
- o+SXDh5lcOToDASYBlBDayLPtKGp+k24usB2Or93oV3bQ7/R0/XBKZR+kQQ1pF1naGlo1KqwJ
- uWS1EAKGH05BBRblDizyDQYQ03ncVyB/VV5wR9rWJLujxliYpYfFq9As5GATW15LDAa8=
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <YnAn7sXti/SIitVo@mdroper-desk1.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,62 +59,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
- Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
- Arnd Bergmann <arnd@arndb.de>, Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Daniel Mack <daniel@zonque.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 2, 2022 at 6:26 PM Guenter Roeck <linux@roeck-us.net> wrote:
+On Mon, May 02, 2022 at 11:50:22AM -0700, Matt Roper wrote:
+>On Mon, May 02, 2022 at 11:39:48AM -0700, Lucas De Marchi wrote:
+>> On Mon, May 02, 2022 at 09:50:23AM -0700, Matt Roper wrote:
+>> > On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
+>> > > From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+>> > >
+>> > > Bspec: 45101, 72161
+>> > > Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+>> > > Signed-off-by: Fei Yang <fei.yang@intel.com>
+>> > > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>> > > ---
+>> > >  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
+>> > >  drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
+>> > >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
+>> > >  drivers/gpu/drm/i915/i915_drv.h             |  2 ++
+>> > >  drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
+>> > >  drivers/gpu/drm/i915/intel_device_info.h    |  1 +
+>> > >  6 files changed, 39 insertions(+), 5 deletions(-)
+>> > >
+>> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> > > index b06611c1d4ad..7853ea194ea6 100644
+>> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> > > @@ -221,6 +221,7 @@ struct intel_gt {
+>> > >
+>> > >  	struct {
+>> > >  		u8 uc_index;
+>> > > +		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+>> > >  	} mocs;
+>> > >
+>> > >  	struct intel_pxp pxp;
+>> > > diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
+>> > > index c4c37585ae8c..265812589f87 100644
+>> > > --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
+>> > > +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
+>> > > @@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
+>> > >  	unsigned int n_entries;
+>> > >  	const struct drm_i915_mocs_entry *table;
+>> > >  	u8 uc_index;
+>> > > +	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+>> > >  	u8 unused_entries_index;
+>> > >  };
+>> > >
+>> > > @@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
+>> > >
+>> > >  /* Helper defines */
+>> > >  #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
+>> > > +#define PVC_NUM_MOCS_ENTRIES	3
+>> >
+>> > Should this be 4?  The value here should reflect the number of entries
+>> > that can defined in hardware rather than the size of the table we're
+>> > asked to program.  Since there are two registers (each with a high and a
+>> > low entry), that would imply we should set 4 here to ensure that the
+>> > fourth entry is initialized according to unused_entries_index rather
+>> > than left at whatever the hardware defaults might be.
+>>
+>> not sure I understand what you mean here. The n_entries specifies, as
+>> you said, the number of entries we can have. Bspec 45101 shows entries
+>> for indexes 0, 1 and 2. As does the pvc_mocs_table below.
+>>
+>> Also, from bspec 44509:
+>> "For PVC, only 3 MOCS states are supported. The allowed index values are
+>> in range [0, 2]..."
+>>
+>> So, I don't think we want to program any fourth entry.
 >
-> With v5.18-rc1-49-gcb813018b5c1, I still get:
+>We don't have a choice; the fourth entry lives in the same register as
+>the third entry, so no matter what we're writing _something_ to those
+>bits.  The question is whether we should write all 0's or whether we
+>should treat it like other platforms and ensure it's initialized to the
+>unused entry values.  Entry #4 isn't supposed to be used, but if buggy
+>userspace tries to use it, we probably still want well-defined behavior,
+>just like it an invalid entry gets used on any other platform.
+
+Now I understand what you were talking about:  each register houses 2
+entries. For PVC we have LNCFCMOCS0 and LNCFCMOCS1. Humn... looking at
+for_each_l3cc(), that is actually handled and the rest of the register
+is initialized with the value pointed by unused_entries_index.
+
+Such situation would only happen for the last entry, which implies the
+handling for odd size works for this as well.
+
+Lucas De Marchi
+
 >
-> [    0.797668] RAMDISK: Couldn't find valid RAM disk image starting at 0.
-> [    0.805262] /dev/root: Can't open blockdev
-> [    0.805487] VFS: Cannot open root device "(null)" or unknown-block(0,0): error -6
-> [    0.805674] Please append a correct "root=" boot option; here are the available partitions:
 >
-> when trying to boot z2 from initrd.
+>Matt
 >
-> The other problems are gone.
-
-Ok, progress!
-
-What is your qemu command line? I see that z2 has no pcmcia device, so
-I tried booting
-from MMC, but this already fails with 5.18-rc1 without any of my
-patches, giving me
-
-[    0.697481] Creating 3 MTD partitions on "physmap-flash":
-[    0.698161] 0x000000000000-0x000000040000 : "U-Boot Bootloader"
-[    0.702815] 0x000000040000-0x000000060000 : "U-Boot Environment"
-[    0.706541] 0x000000060000-0x000000800000 : "Flash"
-[    0.718066] pxa2xx-mci pxa2xx-mci.0: incomplete constraints, dummy
-supplies not allowed
-[    0.718501] pxa2xx-mci pxa2xx-mci.0: incomplete constraints, dummy
-supplies not allowed
-
-Do  you have MMC or some other rootfs working without my patch series?
-
-     Arnd
+>>
+>> Lucas De Marchi
+>
+>-- 
+>Matt Roper
+>Graphics Software Engineer
+>VTT-OSGC Platform Enablement
+>Intel Corporation
+>(916) 356-2795
