@@ -1,69 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108B45176D2
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 20:48:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCE35176D6
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 20:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD7E10E02A;
-	Mon,  2 May 2022 18:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F85210E239;
+	Mon,  2 May 2022 18:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808CD10F231;
- Mon,  2 May 2022 18:48:19 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D32E10E298;
+ Mon,  2 May 2022 18:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651517299; x=1683053299;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=OS7wVN6FsZIpsdrb+pPc8ueVcajbbqorQEJRrZbTxew=;
- b=emyLdKZGDRBNKpI/+MI7H256H0K6u7hTL91Si0d4UbYDRxFFZ1EXYt3v
- eqQyyUCNK8AHjt2md/Jh1jboqlQaFwAzsp2UD3px3OtO6rJ2CfgxTz7LO
- WE9vgiDXu9u77fHSBryK0KvBlYjo7RJxJ9IbzoXJW2t6MrkdOr3N9IOF2
- ECgNAzmZb0CSe5VJGREaQthWlN9+j2mEXMGNOxEYHFksoVi09lGuAbMB0
- oYnbz1O7r19gx1vypxt6au6VTF/KiPci8g7rO+ixTMH4mh07VgCkQu8kr
- 4fYj+bnIDcg3wt2SG5UgVO39TkeF5wS31tL6d+6TMTPvXO1XSWmpbYEbG w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="327845411"
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="327845411"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 11:48:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="707733560"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga001.fm.intel.com with ESMTP; 02 May 2022 11:48:18 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 2 May 2022 11:48:18 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 2 May 2022 11:48:17 -0700
-Received: from fmsmsx612.amr.corp.intel.com ([10.18.126.92]) by
- fmsmsx612.amr.corp.intel.com ([10.18.126.92]) with mapi id 15.01.2308.027;
- Mon, 2 May 2022 11:48:17 -0700
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "Roper, Matthew D" <matthew.d.roper@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH 11/11] drm/i915/pvc: read fuses for link copy engines
-Thread-Topic: [PATCH 11/11] drm/i915/pvc: read fuses for link copy engines
-Thread-Index: AQHYXkKNdF4XsRFkbUmhmbjmGjSyjK0MY26A
-Date: Mon, 2 May 2022 18:48:17 +0000
-Message-ID: <4b3ccda4494a6b467297d95f148666860068b760.camel@intel.com>
+ t=1651517424; x=1683053424;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=jlXjmVwk0nBEDMK5ylpSRYQqanHX14OGzl7Tz0Es8B8=;
+ b=h6sFKmKyLg8J09rX+NY2bzI0nOZf5YDWNnZJv2SCXt+fjP4MJ0Fs7vlo
+ 6MHK+87kYGOP5U5F2ri8NpYiZElQPdV3rmFkhtdcFVNvAbA/3TsEInFmp
+ /Egj9FOrYGODpHmQ2rP7Ced7kYpBJt0GCyrqhMQODDjAnt9P++tOaFffv
+ USH0PeFY0VBKh6KHCP/goMhicHv4KpK+/QmCoP9dDGpQcma/wOwfmPVQn
+ +RzPEIP/NzOC6SgKqW/c7u6nWbEen5hVfwk+6Z3Fyy7Db8VXcCSiSfVW2
+ HBnYUZMijfRWkSWpP9BaUpIVtfJTLkl0lsZxgKvLmfi8wqR/dWxsChLF+ A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="292483676"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="292483676"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 11:50:23 -0700
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="652946850"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 11:50:23 -0700
+Date: Mon, 2 May 2022 11:50:22 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
+Message-ID: <YnAn7sXti/SIitVo@mdroper-desk1.amr.corp.intel.com>
 References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
- <20220502163417.2635462-12-matthew.d.roper@intel.com>
-In-Reply-To: <20220502163417.2635462-12-matthew.d.roper@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <63750D2CC3C7394EB8F1862974047D1A@intel.com>
-Content-Transfer-Encoding: base64
+ <20220502163417.2635462-4-matthew.d.roper@intel.com>
+ <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
+ <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,50 +59,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIyLTA1LTAyIGF0IDA5OjM0IC0wNzAwLCBNYXR0IFJvcGVyIHdyb3RlOg0KPiBG
-cm9tOiBMdWNhcyBEZSBNYXJjaGkgPGx1Y2FzLmRlbWFyY2hpQGludGVsLmNvbT4NCj4gDQo+IFRo
-ZSBuZXcgTGluayBDb3B5IGVuZ2luZXMgaW4gUFZDIG1heSBiZSBmdXNlZCBvZmYgYWNjb3JkaW5n
-IHRvIHRoZQ0KPiBtc2xpY2VfbWFzay4gRWFjaCBiaXQgb2YgdGhlIE1FTUwzX0VOX01BU0sgd2Ug
-cmVhZCBmcm9tIHRoZQ0KPiBHRU4xMF9NSVJST1JfRlVTRTMgcmVnaXN0ZXIgZGlzYWJsZXMgYSBw
-YWlyIG9mIGxpbmsgY29weSBlbmdpbmVzLg0KDQpSZXZpZXdlZC1ieTogSm9zw6kgUm9iZXJ0byBk
-ZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRlbC5jb20+DQoNCj4gDQo+IEJzcGVjOiA0NDQ4Mw0KPiBD
-YzogTWF0dCBSb3BlciA8bWF0dGhldy5kLnJvcGVyQGludGVsLmNvbT4NCj4gU2lnbmVkLW9mZi1i
-eTogTHVjYXMgRGUgTWFyY2hpIDxsdWNhcy5kZW1hcmNoaUBpbnRlbC5jb20+DQo+IFNpZ25lZC1v
-ZmYtYnk6IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+DQo+IC0tLQ0KPiAg
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfZW5naW5lX2NzLmMgfCAyOCArKysrKysrKysr
-KysrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKykNCj4gDQo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9lbmdpbmVfY3MuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2VuZ2luZV9jcy5jDQo+IGluZGV4IGM2ZTkz
-ZGIxMzRiMS4uZDEwY2RlZmY1MDcyIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9ndC9pbnRlbF9lbmdpbmVfY3MuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9p
-bnRlbF9lbmdpbmVfY3MuYw0KPiBAQCAtNjg2LDYgKzY4NiwzMyBAQCBzdGF0aWMgdm9pZCBlbmdp
-bmVfbWFza19hcHBseV9jb21wdXRlX2Z1c2VzKHN0cnVjdCBpbnRlbF9ndCAqZ3QpDQo+ICAJfQ0K
-PiAgfQ0KPiAgDQo+ICtzdGF0aWMgdm9pZCBlbmdpbmVfbWFza19hcHBseV9jb3B5X2Z1c2VzKHN0
-cnVjdCBpbnRlbF9ndCAqZ3QpDQo+ICt7DQo+ICsJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5
-MTUgPSBndC0+aTkxNTsNCj4gKwlzdHJ1Y3QgaW50ZWxfZ3RfaW5mbyAqaW5mbyA9ICZndC0+aW5m
-bzsNCj4gKwl1bnNpZ25lZCBsb25nIG1lbWwzX21hc2s7DQo+ICsJdTggcXVhZDsNCj4gKw0KPiAr
-CW1lbWwzX21hc2sgPSBpbnRlbF91bmNvcmVfcmVhZChndC0+dW5jb3JlLCBHRU4xMF9NSVJST1Jf
-RlVTRTMpOw0KPiArCW1lbWwzX21hc2sgPSBSRUdfRklFTERfR0VUKEdFTjEyX01FTUwzX0VOX01B
-U0ssIG1lbWwzX21hc2spOw0KPiArDQo+ICsJLyoNCj4gKwkgKiBMaW5rIENvcHkgZW5naW5lcyBt
-YXkgYmUgZnVzZWQgb2ZmIGFjY29yZGluZyB0byBtZW1sM19tYXNrLiBFYWNoDQo+ICsJICogYml0
-IGlzIGEgcXVhZCB0aGF0IGhvdXNlcyAyIExpbmsgQ29weSBhbmQgdHdvIFN1YiBDb3B5IGVuZ2lu
-ZXMuDQo+ICsJICovDQo+ICsJZm9yX2VhY2hfY2xlYXJfYml0KHF1YWQsICZtZW1sM19tYXNrLCBH
-RU4xMl9NQVhfTVNMSUNFUykgew0KPiArCQlpbnRlbF9lbmdpbmVfbWFza190IG1hc2sgPSBHRU5N
-QVNLKEJDUzEgKyBxdWFkICogMiArIDEsDQo+ICsJCQkJCQkgICBCQ1MxICsgcXVhZCAqIDIpOw0K
-PiArDQo+ICsJCWlmIChtYXNrICYgaW5mby0+ZW5naW5lX21hc2spIHsNCj4gKwkJCWRybV9kYmco
-Jmk5MTUtPmRybSwgImJjcyV1IGZ1c2VkIG9mZlxuIiwgcXVhZCAqIDIgKyAxKTsNCj4gKwkJCWRy
-bV9kYmcoJmk5MTUtPmRybSwgImJjcyV1IGZ1c2VkIG9mZlxuIiwgcXVhZCAqIDIgKyAyKTsNCj4g
-Kw0KPiArCQkJaW5mby0+ZW5naW5lX21hc2sgJj0gfm1hc2s7DQo+ICsJCX0NCj4gKwl9DQo+ICt9
-DQo+ICsNCj4gIC8qDQo+ICAgKiBEZXRlcm1pbmUgd2hpY2ggZW5naW5lcyBhcmUgZnVzZWQgb2Zm
-IGluIG91ciBwYXJ0aWN1bGFyIGhhcmR3YXJlLg0KPiAgICogTm90ZSB0aGF0IHdlIGhhdmUgYSBj
-YXRjaC0yMiBzaXR1YXRpb24gd2hlcmUgd2UgbmVlZCB0byBiZSBhYmxlIHRvIGFjY2Vzcw0KPiBA
-QCAtNzY4LDYgKzc5NSw3IEBAIHN0YXRpYyBpbnRlbF9lbmdpbmVfbWFza190IGluaXRfZW5naW5l
-X21hc2soc3RydWN0IGludGVsX2d0ICpndCkNCj4gIAlHRU1fQlVHX09OKHZlYm94X21hc2sgIT0g
-VkVCT1hfTUFTSyhndCkpOw0KPiAgDQo+ICAJZW5naW5lX21hc2tfYXBwbHlfY29tcHV0ZV9mdXNl
-cyhndCk7DQo+ICsJZW5naW5lX21hc2tfYXBwbHlfY29weV9mdXNlcyhndCk7DQo+ICANCj4gIAly
-ZXR1cm4gaW5mby0+ZW5naW5lX21hc2s7DQo+ICB9DQoNCg==
+On Mon, May 02, 2022 at 11:39:48AM -0700, Lucas De Marchi wrote:
+> On Mon, May 02, 2022 at 09:50:23AM -0700, Matt Roper wrote:
+> > On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
+> > > From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+> > > 
+> > > Bspec: 45101, 72161
+> > > Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+> > > Signed-off-by: Fei Yang <fei.yang@intel.com>
+> > > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
+> > >  drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
+> > >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
+> > >  drivers/gpu/drm/i915/i915_drv.h             |  2 ++
+> > >  drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
+> > >  drivers/gpu/drm/i915/intel_device_info.h    |  1 +
+> > >  6 files changed, 39 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> > > index b06611c1d4ad..7853ea194ea6 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> > > @@ -221,6 +221,7 @@ struct intel_gt {
+> > > 
+> > >  	struct {
+> > >  		u8 uc_index;
+> > > +		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+> > >  	} mocs;
+> > > 
+> > >  	struct intel_pxp pxp;
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
+> > > index c4c37585ae8c..265812589f87 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
+> > > @@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
+> > >  	unsigned int n_entries;
+> > >  	const struct drm_i915_mocs_entry *table;
+> > >  	u8 uc_index;
+> > > +	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+> > >  	u8 unused_entries_index;
+> > >  };
+> > > 
+> > > @@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
+> > > 
+> > >  /* Helper defines */
+> > >  #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
+> > > +#define PVC_NUM_MOCS_ENTRIES	3
+> > 
+> > Should this be 4?  The value here should reflect the number of entries
+> > that can defined in hardware rather than the size of the table we're
+> > asked to program.  Since there are two registers (each with a high and a
+> > low entry), that would imply we should set 4 here to ensure that the
+> > fourth entry is initialized according to unused_entries_index rather
+> > than left at whatever the hardware defaults might be.
+> 
+> not sure I understand what you mean here. The n_entries specifies, as
+> you said, the number of entries we can have. Bspec 45101 shows entries
+> for indexes 0, 1 and 2. As does the pvc_mocs_table below.
+> 
+> Also, from bspec 44509:
+> "For PVC, only 3 MOCS states are supported. The allowed index values are
+> in range [0, 2]..."
+> 
+> So, I don't think we want to program any fourth entry.
+
+We don't have a choice; the fourth entry lives in the same register as
+the third entry, so no matter what we're writing _something_ to those
+bits.  The question is whether we should write all 0's or whether we
+should treat it like other platforms and ensure it's initialized to the
+unused entry values.  Entry #4 isn't supposed to be used, but if buggy
+userspace tries to use it, we probably still want well-defined behavior,
+just like it an invalid entry gets used on any other platform.
+
+
+Matt
+
+> 
+> Lucas De Marchi
+
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
