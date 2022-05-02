@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7277351758B
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60864517593
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7332010F100;
-	Mon,  2 May 2022 17:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C82B310F194;
+	Mon,  2 May 2022 17:15:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 538AB10F100
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:12:07 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id w1so26335912lfa.4
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 10:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tfJfzW5D4/+mvV5ypqeVXDbthQVO2IvgikDBXjGyA60=;
- b=Jk1QN88CqvFdk0UuRuqURJ4UVhpx8OAxnd0T493cwxqjOVXjBnAeoL1MaFMAWTRShO
- dZ69nMzm3LLz5RUjb3A+97DsAxCv5FfIKrQtCD+1CGB0FUNIw5/8axd156kxWuRCeJAZ
- qyxq3e4bZo9MffWtnlr78MZyevS6X1fzaRemUL6vVl5nTs5Gk2ei10hH7srkUh+vhLGA
- YmqbDDOGu3AlNL7Besk0vVhmRFs2Bfg/pA/5v7itsUmoF+AIeMFjnzmVuDZTq/vYdR8K
- hfUwI06aYWpby8NTV7c+BS5wj+dBKJASQ4UK7G8Vsukj6jPKM2qko9QQ955jz4T32Yxs
- 5LWg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D551A10F194
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651511719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TNhZbt5WmLs9YdL2p377OAwSFXloJynsUEcZgN+34jM=;
+ b=EAiKspRfImrtcdZ4wf21vE6xt7sOY+yxJ3xGIV+upESPXrZzXDskjMOjTuKmei09lnIb7P
+ +3En3/EQeIiZjR4pRcUzqhto8e6FjjGSAqs8N+CLpr9PU2jpeG2EiB75h4iNP7Igm4jbdE
+ rJ4DCmroYMklNlhC/MOcN1c+40i/lVM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-655-7hifPmKXM-C1pRWYUnqPPw-1; Mon, 02 May 2022 13:15:18 -0400
+X-MC-Unique: 7hifPmKXM-C1pRWYUnqPPw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i131-20020a1c3b89000000b00393fbb0718bso9085799wma.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 10:15:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=tfJfzW5D4/+mvV5ypqeVXDbthQVO2IvgikDBXjGyA60=;
- b=h4ub9RYHQAMxoGr8AjRyc33HNsTvA7rbn38YDruGmHmD3C8bEjo1ZkWh9zFRCmC4zw
- qE0VTajzEhlmVYt/ht2JuooyTwUGk69cVTZXM29G5GwvxhXqwqdB7cmIHGbW8ijJVjoW
- V+lni0eKrn24cGGE84zpbilwe+92V6Nfn1lpgQEEyKM6gl2Z3T3RjXTRDNDhTEUeFMai
- v7BLlx5pl1ntyzSYkkAYtbrX8v4aUr1neE44MChqw7eUEJ7EAZuLDPmLMeVoaUHgn/VI
- nEK53vEk4LA/3Q9ys3iLFEEyJoF2S06Q0iOZy10Nx0hUrVVzWhtN7boLRfqCMO1lJzEd
- wbjw==
-X-Gm-Message-State: AOAM531yE1E0HWHe6GAuweuSxL2arP7Kx+ZYt6r1LJHZvpCgwEvgcEk3
- xpqMZ07IXRFXPvkUdoQ5T5fjYQ==
-X-Google-Smtp-Source: ABdhPJxK9FbHHdv2wyG8oI74ITCgks3MnQGVEBJhOGVP3JLuuzGptrCfLdlnkkol35ZbWzze7LqIEQ==
-X-Received: by 2002:a05:6512:448:b0:472:3c0e:cf7f with SMTP id
- y8-20020a056512044800b004723c0ecf7fmr9457323lfk.279.1651511525368; 
- Mon, 02 May 2022 10:12:05 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
+ bh=TNhZbt5WmLs9YdL2p377OAwSFXloJynsUEcZgN+34jM=;
+ b=sLuPQgC7DS/ODUYh4ixsj6JBlzEtC28b1c66g0z0YR3LIqweyl2CgZ0AzCoV4z1h1g
+ RqZrj47wA3AzdNQuTBcuCxJR5gH7HG0EIDtXY8S/mdMoXs7gu1ATRcHFtPIdl3g3BsCq
+ h7cOwmnlFOC7ighlM8f8shCAI8vgKGAW5ODWDBfCUFWAK188H9m0PA0p2GYUlHwbr62C
+ Laogu6ETg4ArrwnuD5kEvi0p9XLkb1pE1IO8rYOHV2ID7V962+sBTlkoeE4mV17tfPy+
+ kPR6/N9kVMIQ8b8QiLA2dKE/yCX5O03ku1rLUMIjAFX9p0gGP79GEh3tC4/EbhuB53ld
+ GyBg==
+X-Gm-Message-State: AOAM532zTkxlVIZYgap9TRv4Ybsn8tz5sPEHazsqLJ8r/+I3FVlF4D8t
+ hJATM1qK5J/jt8OmcEUbvXAIDqwcC7VaKliT337SdqB8LqXzbVvV0dXeMKDqe+iTf7iihJHllV3
+ D7WkSOUcthD+RjqRickdOFFGJxvKI
+X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
+ b9-20020adfd1c9000000b00203c4f8dd17mr10068563wrd.633.1651511717578; 
+ Mon, 02 May 2022 10:15:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsIQ70V0swN3ajpzcihZtgWd7Y7xEQmDVKoinoDZrZIjQMH2cqaPWdg9iqJElhYFpe1gjTzA==
+X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
+ b9-20020adfd1c9000000b00203c4f8dd17mr10068550wrd.633.1651511717373; 
+ Mon, 02 May 2022 10:15:17 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- be40-20020a05651c172800b0024f3d1daec5sm1108268ljb.77.2022.05.02.10.12.04
+ u21-20020adfa195000000b0020c5253d8c4sm7520081wru.16.2022.05.02.10.15.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 10:12:05 -0700 (PDT)
-Message-ID: <f9dbdfc1-117c-b713-7f1d-40de9726baa1@linaro.org>
-Date: Mon, 2 May 2022 20:12:04 +0300
+ Mon, 02 May 2022 10:15:17 -0700 (PDT)
+Message-ID: <bc6b6598-0e09-1a43-4086-e4164ab42a20@redhat.com>
+Date: Mon, 2 May 2022 19:15:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2] drm/msm/disp/dpu1: avoid clearing hw interrupts if
- hw_intr is null during drm uninit
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1651509846-4842-1-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1651509846-4842-1-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 1/3] drm: Remove superfluous arg when calling to
+ drm_fbdev_generic_setup()
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220502153900.408522-1-javierm@redhat.com>
+ <20220502153900.408522-2-javierm@redhat.com>
+ <YnABjdpGC166yIY7@pendragon.ideasonboard.com>
+ <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
+In-Reply-To: <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,64 +91,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, dianders@chromium.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org, swboyd@chromium.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/05/2022 19:44, Vinod Polimera wrote:
-> If edp modeset init is failed due to panel being not ready and
-> probe defers during drm bind, avoid clearing irqs and derefernce
-> hw_intr when hw_intr is null.
-> 
-> BUG: Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-> 
-> Call trace:
->   dpu_core_irq_uninstall+0x50/0xb0
->   dpu_irq_uninstall+0x18/0x24
->   msm_drm_uninit+0xd8/0x16c
->   msm_drm_bind+0x580/0x5fc
->   try_to_bring_up_master+0x168/0x1c0
->   __component_add+0xb4/0x178
->   component_add+0x1c/0x28
->   dp_display_probe+0x38c/0x400
->   platform_probe+0xb0/0xd0
->   really_probe+0xcc/0x2c8
->   __driver_probe_device+0xbc/0xe8
->   driver_probe_device+0x48/0xf0
->   __device_attach_driver+0xa0/0xc8
->   bus_for_each_drv+0x8c/0xd8
->   __device_attach+0xc4/0x150
->   device_initial_probe+0x1c/0x28
-> 
-> Changes in V2:
-> - Update commit message and coreect fixes tag.
-> 
-> Fixes: f25f656608e3 ("drm/msm/dpu: merge struct dpu_irq into struct dpu_hw_intr")
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+On 5/2/22 18:55, Javier Martinez Canillas wrote:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+[snip]
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 3 +++
->   1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index c515b7c..ab28577 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -599,6 +599,9 @@ void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms)
->   {
->   	int i;
->   
-> +	if (!dpu_kms->hw_intr)
-> +		return;
-> +
->   	pm_runtime_get_sync(&dpu_kms->pdev->dev);
->   	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++)
->   		if (!list_empty(&dpu_kms->hw_intr->irq_cb_tbl[i]))
+>> drop the depth option to drm_fbdev_generic_setup() ? There's a FIXME
+>> comment in drm_fbdev_generic_setup() that could be related.
+>>
+> 
+> A FIXME makes sense, I'll add that to when posting a v3.
 
+There's actually a FIXME already in drm_fbdev_generic_setup(), so it's
+a documented issue [0]:
+
+void drm_fbdev_generic_setup(struct drm_device *dev,
+			     unsigned int preferred_bpp)
+{
+...
+	/*
+	 * FIXME: This mixes up depth with bpp, which results in a glorious
+	 * mess, resulting in some drivers picking wrong fbdev defaults and
+	 * others wrong preferred_depth defaults.
+	 */
+	if (!preferred_bpp)
+		preferred_bpp = dev->mode_config.preferred_depth;
+	if (!preferred_bpp)
+		preferred_bpp = 32;
+	fb_helper->preferred_bpp = preferred_bpp;
+...
+}
+
+[0]: https://elixir.bootlin.com/linux/v5.18-rc5/source/drivers/gpu/drm/drm_fb_helper.c#L2553
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
