@@ -1,58 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C2851759A
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:17:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7277351758B
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7DD610F1C7;
-	Mon,  2 May 2022 17:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7332010F100;
+	Mon,  2 May 2022 17:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 404 seconds by postgrey-1.36 at gabe;
- Mon, 02 May 2022 17:17:45 UTC
-Received: from forward107p.mail.yandex.net (forward107p.mail.yandex.net
- [IPv6:2a02:6b8:0:1472:2741:0:8b7:115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB5510F1CB;
- Mon,  2 May 2022 17:17:45 +0000 (UTC)
-Received: from forward101q.mail.yandex.net (forward101q.mail.yandex.net
- [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb98])
- by forward107p.mail.yandex.net (Yandex) with ESMTP id 6AA90556E59B;
- Mon,  2 May 2022 20:10:59 +0300 (MSK)
-Received: from vla1-166bfab327a3.qloud-c.yandex.net
- (vla1-166bfab327a3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3007:0:640:166b:fab3])
- by forward101q.mail.yandex.net (Yandex) with ESMTP id 6613D13E80002;
- Mon,  2 May 2022 20:10:59 +0300 (MSK)
-Received: from vla3-3dd1bd6927b2.qloud-c.yandex.net
- (vla3-3dd1bd6927b2.qloud-c.yandex.net [2a02:6b8:c15:350f:0:640:3dd1:bd69])
- by vla1-166bfab327a3.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- TVcvmXr5ZA-AxgKLj8a; Mon, 02 May 2022 20:10:59 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lach.pw; s=mail;
- t=1651511459; bh=Agoq4DRar/aNcme/ep3h/Ph9puEsY2Ulitbie9lM8hE=;
- h=In-Reply-To:References:Date:Subject:Cc:To:From:Message-Id;
- b=hp1HvciOXsQY1mQw5MW7itL9JqwMvVo0pNZPz/tzCcJaHaD0DXBXN6Qbo8Bv/+Wti
- CWxJig41NJgQCkv5/S1e0xX00OKSZQ9TfQKyxE61LdlECV+X+QJr5J8cWkAiKqKpnw
- HV2w/MDwpnH/k5SiMrAJMbSyIhd7HJuqBD7jaass=
-Authentication-Results: vla1-166bfab327a3.qloud-c.yandex.net;
- dkim=pass header.i=@lach.pw
-Received: by vla3-3dd1bd6927b2.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id xTgxo8AHyR-AuMSB13b; Mon, 02 May 2022 20:10:58 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Yaroslav Bolyukin <iam@lach.pw>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Subject: [RESEND PATCH v2 2/2] drm/amd: use fixed dsc bits-per-pixel from edid
-Date: Mon,  2 May 2022 20:10:31 +0300
-Message-Id: <20220502171031.11797-2-iam@lach.pw>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220502171031.11797-1-iam@lach.pw>
-References: <20220220151940.58327-1-iam@lach.pw>
- <20220502171031.11797-1-iam@lach.pw>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 538AB10F100
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:12:07 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id w1so26335912lfa.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 10:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=tfJfzW5D4/+mvV5ypqeVXDbthQVO2IvgikDBXjGyA60=;
+ b=Jk1QN88CqvFdk0UuRuqURJ4UVhpx8OAxnd0T493cwxqjOVXjBnAeoL1MaFMAWTRShO
+ dZ69nMzm3LLz5RUjb3A+97DsAxCv5FfIKrQtCD+1CGB0FUNIw5/8axd156kxWuRCeJAZ
+ qyxq3e4bZo9MffWtnlr78MZyevS6X1fzaRemUL6vVl5nTs5Gk2ei10hH7srkUh+vhLGA
+ YmqbDDOGu3AlNL7Besk0vVhmRFs2Bfg/pA/5v7itsUmoF+AIeMFjnzmVuDZTq/vYdR8K
+ hfUwI06aYWpby8NTV7c+BS5wj+dBKJASQ4UK7G8Vsukj6jPKM2qko9QQ955jz4T32Yxs
+ 5LWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tfJfzW5D4/+mvV5ypqeVXDbthQVO2IvgikDBXjGyA60=;
+ b=h4ub9RYHQAMxoGr8AjRyc33HNsTvA7rbn38YDruGmHmD3C8bEjo1ZkWh9zFRCmC4zw
+ qE0VTajzEhlmVYt/ht2JuooyTwUGk69cVTZXM29G5GwvxhXqwqdB7cmIHGbW8ijJVjoW
+ V+lni0eKrn24cGGE84zpbilwe+92V6Nfn1lpgQEEyKM6gl2Z3T3RjXTRDNDhTEUeFMai
+ v7BLlx5pl1ntyzSYkkAYtbrX8v4aUr1neE44MChqw7eUEJ7EAZuLDPmLMeVoaUHgn/VI
+ nEK53vEk4LA/3Q9ys3iLFEEyJoF2S06Q0iOZy10Nx0hUrVVzWhtN7boLRfqCMO1lJzEd
+ wbjw==
+X-Gm-Message-State: AOAM531yE1E0HWHe6GAuweuSxL2arP7Kx+ZYt6r1LJHZvpCgwEvgcEk3
+ xpqMZ07IXRFXPvkUdoQ5T5fjYQ==
+X-Google-Smtp-Source: ABdhPJxK9FbHHdv2wyG8oI74ITCgks3MnQGVEBJhOGVP3JLuuzGptrCfLdlnkkol35ZbWzze7LqIEQ==
+X-Received: by 2002:a05:6512:448:b0:472:3c0e:cf7f with SMTP id
+ y8-20020a056512044800b004723c0ecf7fmr9457323lfk.279.1651511525368; 
+ Mon, 02 May 2022 10:12:05 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ be40-20020a05651c172800b0024f3d1daec5sm1108268ljb.77.2022.05.02.10.12.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 10:12:05 -0700 (PDT)
+Message-ID: <f9dbdfc1-117c-b713-7f1d-40de9726baa1@linaro.org>
+Date: Mon, 2 May 2022 20:12:04 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2] drm/msm/disp/dpu1: avoid clearing hw interrupts if
+ hw_intr is null during drm uninit
+Content-Language: en-GB
+To: Vinod Polimera <quic_vpolimer@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <1651509846-4842-1-git-send-email-quic_vpolimer@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1651509846-4842-1-git-send-email-quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,71 +76,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Leo Li <sunpeng.li@amd.com>, "Lin,
- Wayne" <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Yaroslav Bolyukin <iam@lach.pw>
+Cc: quic_kalyant@quicinc.com, dianders@chromium.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VESA vendor header from DisplayID spec may contain fixed bit per pixel
-rate, it should be respected by drm driver
+On 02/05/2022 19:44, Vinod Polimera wrote:
+> If edp modeset init is failed due to panel being not ready and
+> probe defers during drm bind, avoid clearing irqs and derefernce
+> hw_intr when hw_intr is null.
+> 
+> BUG: Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+> 
+> Call trace:
+>   dpu_core_irq_uninstall+0x50/0xb0
+>   dpu_irq_uninstall+0x18/0x24
+>   msm_drm_uninit+0xd8/0x16c
+>   msm_drm_bind+0x580/0x5fc
+>   try_to_bring_up_master+0x168/0x1c0
+>   __component_add+0xb4/0x178
+>   component_add+0x1c/0x28
+>   dp_display_probe+0x38c/0x400
+>   platform_probe+0xb0/0xd0
+>   really_probe+0xcc/0x2c8
+>   __driver_probe_device+0xbc/0xe8
+>   driver_probe_device+0x48/0xf0
+>   __device_attach_driver+0xa0/0xc8
+>   bus_for_each_drv+0x8c/0xd8
+>   __device_attach+0xc4/0x150
+>   device_initial_probe+0x1c/0x28
+> 
+> Changes in V2:
+> - Update commit message and coreect fixes tag.
+> 
+> Fixes: f25f656608e3 ("drm/msm/dpu: merge struct dpu_irq into struct dpu_hw_intr")
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 
-Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
-Reviewed-by: Wayne Lin <Wayne.Lin@amd.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 2 ++
- drivers/gpu/drm/amd/display/dc/core/dc_stream.c           | 3 ++-
- drivers/gpu/drm/amd/display/dc/dc_types.h                 | 3 +++
- 3 files changed, 7 insertions(+), 1 deletion(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index f5f39984702f..5565d55f56f9 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -119,6 +119,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 
- 	edid_caps->edid_hdmi = connector->display_info.is_hdmi;
- 
-+	edid_caps->dsc_fixed_bits_per_pixel_x16 = connector->display_info.dp_dsc_bpp;
-+
- 	sad_count = drm_edid_to_sad((struct edid *) edid->raw_edid, &sads);
- 	if (sad_count <= 0)
- 		return result;
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-index c4e871f358ab..65c90e432a39 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-@@ -105,6 +105,8 @@ static bool dc_stream_construct(struct dc_stream_state *stream,
- 
- 	/* EDID CAP translation for HDMI 2.0 */
- 	stream->timing.flags.LTE_340MCSC_SCRAMBLE = dc_sink_data->edid_caps.lte_340mcsc_scramble;
-+	stream->timing.dsc_fixed_bits_per_pixel_x16 =
-+		dc_sink_data->edid_caps.dsc_fixed_bits_per_pixel_x16;
- 
- 	memset(&stream->timing.dsc_cfg, 0, sizeof(stream->timing.dsc_cfg));
- 	stream->timing.dsc_cfg.num_slices_h = 0;
-@@ -773,4 +775,3 @@ void dc_stream_log(const struct dc *dc, const struct dc_stream_state *stream)
- 		}
- 	}
- }
--
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_types.h b/drivers/gpu/drm/amd/display/dc/dc_types.h
-index 2ba9f528c0fe..e53c414b6c93 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_types.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_types.h
-@@ -228,6 +228,9 @@ struct dc_edid_caps {
- 	bool edid_hdmi;
- 	bool hdr_supported;
- 
-+	/* DisplayPort caps */
-+	uint32_t dsc_fixed_bits_per_pixel_x16;
-+
- 	struct dc_panel_patch panel_patch;
- };
- 
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> index c515b7c..ab28577 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> @@ -599,6 +599,9 @@ void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms)
+>   {
+>   	int i;
+>   
+> +	if (!dpu_kms->hw_intr)
+> +		return;
+> +
+>   	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+>   	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++)
+>   		if (!list_empty(&dpu_kms->hw_intr->irq_cb_tbl[i]))
+
+
 -- 
-2.35.1
-
+With best wishes
+Dmitry
