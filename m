@@ -1,135 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0055176F9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 20:54:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C9B517750
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9291110E434;
-	Mon,  2 May 2022 18:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD50110F3BB;
+	Mon,  2 May 2022 19:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9202C10E229;
- Mon,  2 May 2022 18:54:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SkZ8BVx75dVOYx7s3UdW5LZoPxDr2Sr7vURldrGnbyPwMhskHNu3Q1cP+UC86Fwx4c8oEmQUSYOy9dVrNAgT3aVUO/Gm0Oi6gho0oeKljMKLWAbuiqxm18kVPSqjsvcDeXzLc9aHa6z4M/nyWT1MWorhm2uuIBaOwpOWnalvzs+7kKbnM5LSh1g9GnWM4YJjJb2n073ddabfhfaYTI6B40/B5UD1B9WJdQqrIkQekAeVwQsPsRvCHEyd8ZTpsYdXT4KtFjGRd15pvxXgfprZbljFXDg740jx2S30ie+S2qssx0b5DGBJEWLjiuaztjU89+Wk6HJgtG8vJ2G7EgE3yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YaMCqRZh/ZrGxf3ijdLLITQFTzPtj9HKFXhH6UXSvT0=;
- b=aw9aAlAKaimw9O4HJsjTw6BIQ1lz3no54uJx2mgYdDw6+UY26zTpp99kGFRG6Nexn0QbeYwY1AhtOC2KDO1K+Y4//kHQza4rsN1hEanl2VI//uMtrpW2yiFaHbDrb/rAOQeYpvNsF7MnWVO4s6hsN/bkN+3S0BGlrZfFyXiL4z+RdKT3xjP9gorBySPfwl13krTDU5AMHkHBCWwmlQnsCdds8meqBHjV3XuhE7SsMxJKS5OoFZrD/XAY/926yibplTPPuMqMui51w8ZpjIKPws5sjyROI0WznP85UPuY+Xok3DcGfMLdw217J7siAo/j0TG9CRFOo2DIAqz+josEFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YaMCqRZh/ZrGxf3ijdLLITQFTzPtj9HKFXhH6UXSvT0=;
- b=0AdGINl6TXdMTDpk9pcm4fnbyXrBvJ3rQsEeBC872i+krt+DqqPMTHZhDNvvy9dgM9YVk01gYSk8YNzW9XkM8/MtBTQfnFj0qNUGoGYFbB63WVPca+XBYPaN6oU8fqp56Ih4pJT64Pli4nF4JIY1c0q1Xnd2jP2X5MelHB+18tk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by PH7PR12MB5758.namprd12.prod.outlook.com (2603:10b6:510:1d1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Mon, 2 May
- 2022 18:54:37 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::540e:d76a:bdf0:ed0d]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::540e:d76a:bdf0:ed0d%6]) with mapi id 15.20.5206.013; Mon, 2 May 2022
- 18:54:37 +0000
-Message-ID: <642bd366-7918-0f0f-a6fb-e6422eb7501d@amd.com>
-Date: Mon, 2 May 2022 14:54:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [Intel-gfx] [V2 3/3] drm/amd/display: Move connector debugfs to
- drm
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-To: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "Sharma, Swati2" <swati2.sharma@intel.com>
-References: <20220411095129.1652096-1-bhanuprakash.modem@intel.com>
- <20220411095129.1652096-4-bhanuprakash.modem@intel.com>
- <DM6PR11MB31778321FCA58010AE44D867BAFC9@DM6PR11MB3177.namprd11.prod.outlook.com>
- <29f40e83-a9a8-c0ac-1702-f9d0bf0f8861@intel.com>
- <8a9ba046-5e2c-442f-aec2-f1683097d100@amd.com>
- <576d5993-8108-218e-45a0-bab1ae4ca84b@intel.com>
- <b87db6af-a2a0-8fba-b204-140db03ab79b@amd.com>
-In-Reply-To: <b87db6af-a2a0-8fba-b204-140db03ab79b@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0048.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:82::32) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E433110F3BA
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 19:21:25 +0000 (UTC)
+Received: from mail-yw1-f177.google.com ([209.85.128.177]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MUpCz-1nLW2E1nNJ-00Qfwa for <dri-devel@lists.freedesktop.org>; Mon, 02 May
+ 2022 21:21:23 +0200
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-2f7b815ac06so159017367b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 12:21:23 -0700 (PDT)
+X-Gm-Message-State: AOAM531qL2Ow2UTq3MqGahlqrEEWYr7ywQFUmJXD6wgUkp5ET3oBiZ8S
+ gtPTcRG2xpohFov32wWnhmXquINNIRcwkAbyQTk=
+X-Google-Smtp-Source: ABdhPJwUfMAOks7BnV4AzKQEtr1EDQTOee83IkNCHoU3D+nfieXOKuWmJ4Tp85gou+YPOwWYc3gRkPoRLjpjhxYBTNE=
+X-Received: by 2002:a81:ad7:0:b0:2e6:84de:3223 with SMTP id
+ 206-20020a810ad7000000b002e684de3223mr12927652ywk.209.1651519282261; Mon, 02
+ May 2022 12:21:22 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 37c421ce-1306-4691-d77f-08da2c6d34ab
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5758:EE_
-X-Microsoft-Antispam-PRVS: <PH7PR12MB57587C72F76194AAF31834268CC19@PH7PR12MB5758.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lcEPZQ5ngyUKL+SzIFLFBZkF74bbM0SxeoHZBHb8aTmuzXacGBPIhcuvyHK7WzL7s3EbzmYIRmR1+BQrsamPWkyrlqoFx/rIOAsIoxak1z/Fb/FtMT9ik9PAMWhUpKJ5AzzoC6pWjxN5Hsg7BFJeoTPFPzp7JLuMtHTbKVqxgQXlJQRgJaLDsJpt0vNxkb/JN+eHDEC2agO1MLt56hT8U+T1fcYs+rAi+UwdvGwpdV2WBAd4KNsrYAWtWr5tL0MJ+C1528F+mD+FA3kzzDDW6yS4SXLPYp0L9gYbAO5aKvLLqyCiMBfBreyNV3qpNvrA0KeCOeRi5chG1/kpQp2D5ucauRZbF75otX/69ghlOQb8V+9IhNf2ZZfH3ylGcaEUXtzenh8fY/ZS39wD3ebHEuCwSfPHEbh4e9vNIFGdJp2ojQK2Us5NmFI20hYKqpCq+TNka3CRfYRLVsBRgZHqLAZEng+OiUOUKr9BCykImfy9ySSG9WPf3iut0VlwWEdXPiTrHrJr+SWu6yqEO75xg06B7uEy/cExZ1MdasN2w0LCl51h1OQCvlt85qtNosTxx3WLCnSnlW3YrOjApFdTUDfyAMhKiBmS77VPYWyoHjZTFgZEKTTbUWXKmmaomAHFExgE8hXrE7A+8wWofpQ4Nez+RZMOg93O6th1HpPDjq4C0yA/J27Zpgy9s+64Cgak0EVZ91hFvmCNxxCp5lXvTuWS6XreG1ViqJ6rFnZDf+NkulDgQT3w22fDdq0dx+HS
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(31696002)(6486002)(5660300002)(45080400002)(966005)(2906002)(508600001)(36756003)(110136005)(44832011)(38100700002)(316002)(83380400001)(2616005)(66556008)(66476007)(4326008)(66946007)(8676002)(6666004)(186003)(86362001)(921005)(31686004)(6512007)(6506007)(26005)(53546011)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3RjU1lhZUR3UDM2elBqVjNtVHl5QTY5LzhjM2JOWkV0ZHJuQ3IzQVp6K2JL?=
- =?utf-8?B?WG9aczhWWUNCbFJyRTUxckRxMjY1bVhYRDRBNHo0QWdobUFEcU5DRm1xUVpB?=
- =?utf-8?B?LzVsbWxKV1VGU3BDUXFXUkw2akorNEYrVzBDM3NxTktoNU90UzZqUC9aWlI4?=
- =?utf-8?B?YnQ2cWRhYkJQSnhGWVRCRU1PODdJTVNMeHNtTEUwc1ZwMVdXT2p5dkwwd2dy?=
- =?utf-8?B?QzJ5Z0FjMjFMMXU3V00ydUo5REgzRm9ER0oxVHNkT2R6TG56K2Fkakk0M09y?=
- =?utf-8?B?bllpTDF2Y21sTHcrcVp0a3R0bW52aWRWU01GVEk2U21jUXBYclN6Z1J2RCto?=
- =?utf-8?B?Qy8ra3lPTGdOL3ZBd3VpMkZncVR5UlFEa1Fkd0tVS0JyR25pRFZiWWsrK2la?=
- =?utf-8?B?aFgybjE5a1o3VFlUbGFtcGc2ZW9XL2Q0MWN5US9ZNG9vQ3MxU1lTQ3ZZTkht?=
- =?utf-8?B?L0VnaGhoUW1ZTUpTVmpkZEJZWFlUZnNZUERtSDZsaUU2cWhzbDBjZWZDOFJx?=
- =?utf-8?B?UjdoL1d6Um5rc2M4Tk1YNzJiak5PTVh2TTdycGsvWHhiZkJZZ3VwU0I0TDhO?=
- =?utf-8?B?bUdOSk5XeUpLRDVWaHFPNkxDS3RBd282b0JoU1RZYzNsNFlxMWNYN0g0SGsw?=
- =?utf-8?B?bUtabnV0TVIwcjFwRkxYVllOOHZwdTJUbEFOVGJ1dmFTcWNGTTNFTkd0MzFS?=
- =?utf-8?B?Yi96YmVlaXU2dmg0SDVvTXJydTI2K1J2dnE5V1VEdnlQSjlic3cvVjc4dzVn?=
- =?utf-8?B?czR1RUFnMjlKVy9CUlh6MStkTUNETFhOaXN5RXJueTZFQlord0h0QkVrZGRq?=
- =?utf-8?B?ZnNhKzJZaFBSZFZldnJONlFad3hSU0Jrdlg0SmNzM2dKWVV4SExYOXhuYkVO?=
- =?utf-8?B?RlUrcVNhVVNWUk92aHZzQVp6djNCek9oQVBTa21OYnBJUFhCYmI1YlJ4WE1z?=
- =?utf-8?B?QWNpQ1NIRGYzdG9RdmQybnFqdDVnUVdXK0MvdjlvbllMSzNxU1FVcUpqd01R?=
- =?utf-8?B?Nm5tSmpxbVBZc2x0bVZnZTRYVHhDUzdla2dySHBUNjVDajdFaGtzMG1reUcz?=
- =?utf-8?B?bmtTdk5LSW9zOE44S3QvK0RhanNlUktiNzdnSDRZNDlLaFdCUjRZNm1HTTRm?=
- =?utf-8?B?WnlBaFlZS0ZpZGgrbWFseXJEeEFkS0F2K0E1em1BeWtLWDl5dmZLSjdBeFVS?=
- =?utf-8?B?aiszd1JDNlprM2N6Mk1lcTJ2QVNGaUVwNHFJM0YvZjNLak8vQjNtcUpXRUxF?=
- =?utf-8?B?K0M0SndJZGhtVHZ1TVVOQko5c1Z6MThrWmEwdGxUejF6bXp4eVR5WGNSbCs0?=
- =?utf-8?B?Q3ZMOXMwZ21nU1pOQUxGNmhzWDFWWTdYdVdYWkNFZk9LV0drRWtEcWIvZFBB?=
- =?utf-8?B?TG9IRkJSTnZOOHVhMUpmbGxTdVJ6S3Y5TXhGSUFKNDBMMGJVeFMrK1lhQU1k?=
- =?utf-8?B?a3FBQlhyTFdPeis1dmh0d1cvNGtqTk1kY0htM2V3WFdsbHpDNk9lZVBZbHBI?=
- =?utf-8?B?aTRBNTU5TTYxTi9rQTcrSk9vWGNxbmwxSTg4TGZpbEJHNkhna1hpeGF6V0E2?=
- =?utf-8?B?bVNYejZxdjg5U0ROeldUOXdJZ0NPK1ZMRHAwYmlqakhIRjdmUjk0QVJ3eW0x?=
- =?utf-8?B?eWQ2R09sMjRoOHVvcmxGOW5CeG9kWVh6WkI2ZzhhTERkc2hKMFExYTh3dUdz?=
- =?utf-8?B?em5JK3FUdlVDQUcyRmpCVTRPdHJKVTRneGk3ZlNVdUxHU2tnV09RR0ZRQS9H?=
- =?utf-8?B?dW5KT2x4RmhWQnpwWERIS2ltSlFDd3hHc3YvQmh6RytEaVZIdUNDQ1NJYXlW?=
- =?utf-8?B?TGZNaC83ZXFqSnFPUGVTMzBNWUh1a2RhYUJFaFZubis2TExvM3EvNlVOOFRC?=
- =?utf-8?B?L2xwc3Ewb1NWanZRaXFlWUFUY3IwUkRSQjZiNklvSmMwZ2psaEhJL3A2NVRR?=
- =?utf-8?B?MmpYbnpWdUQ3cTgrenZnb1FjbTF3T2s3TWsxOXNJbzhzL1RGeW5CZTRSYXZI?=
- =?utf-8?B?bVc5L0QyYkphT2lLRmpGRWJGT25UWEFESW1BdDcvUWV2WTRPVmt0Ulk3QzJ4?=
- =?utf-8?B?K29YMjh6YWlHRTZBdzM0cWYvVjZiU21KUW5KczE1NG1XM1pSeDQ1TFptSXBk?=
- =?utf-8?B?bDJBeTdzODNVVDhzRzkzcS9pRFdaM01lVXVWWWtMK2dLTWRyU0hvUVhiVGFE?=
- =?utf-8?B?ZUtuWDNja0UxNkptSmVRdDE1MVVlNlBHQzRwdHNvSWpxMlRCMWRIZEIzbTNK?=
- =?utf-8?B?ZlNiK2Q3ckR5MEhlY2FzWEJQcEhleGVSTHljemFBM1Q1ckFvcXhEcXZZZmhI?=
- =?utf-8?B?dnpHQkVmbk9ZSWpnWXpUTEJZYWFHSXFqNkdhWk9zeWlUQm8ySHB1Zz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37c421ce-1306-4691-d77f-08da2c6d34ab
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2022 18:54:37.4956 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 90DVaL8JTHnEWyD1jkhR1PO0HvEC4t4M4dVvgBPeOdQnrr3M01umlriVoJCqEL9z0noUsHDD49IfyYPKcunmWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5758
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+ <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+ <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
+ <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
+ <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
+ <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
+ <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
+ <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
+In-Reply-To: <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 2 May 2022 21:21:05 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
+Message-ID: <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:4IgGDGhsMzzZ1jXS7BJ7Ibmpz+JjYgfslv08tHTi9gJQkTr6OuW
+ qTY3+8+xAtYjIPli+A+oAKqxVcb6Oij5RQQ6Ac+ovkUidIgM+M01mb48LNPqSE+Mf+LFYI7
+ GpkWP/abTDTMN4xbMVcygGYoWxdwtvMmg1bSVOhDnXHrc8wMJHsRhmh3JVAYOfDAhTJNqTh
+ mqBwnIvengP3ERjzEz4Vg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6+6hE9aIM6o=:LR2wMJuAqEHOsg8kvPEhkY
+ 0OrnM/uwLwrx/AOosOCe6SeXBUnW627c0CfYMhQswb/nAvr6nT7NLFZfFArbzlWL582IVTNAW
+ EYGe6uZH/QZm0h5f6wfALR4JDhRQ2GxiviFFbcE8LljnSD9zmROorXT4xftOOJMF1FjVpsUq2
+ qWVSguLq6eKvVeUkip0caj3G8YQ/sGHYj5uOt4pYD+tIj4efIOo6n6v5vOIRLcQBx1980op8B
+ 2bvxjXNMXyju49oaMEMBpemUTCYI5qk3ef5wvpLLgjQj8VpltUIWROFcch1irZBHPZMyAxYB2
+ iBlLk+rug0kv1qKelJ33c06RgGIH9WT8x1EoRh1PS74w+3m+vF3o9K+TbdwKUn/bhWHLcVNFQ
+ TLxWsPJ0X75t+NFSsG36uibc2LPDtZXOmNS64b0JAxR241GOMV6cLjLRgrl1kg9xv4vp3qtNt
+ QqNzEqQ23MJkraccLjnP8I3cFNmnM5w4DWfDu0l52HcZYK0Hi5nqiFZ7NcUrO6Bw/+blDoQqW
+ b4Fd0KU9iWTP9lnhLFLueRl3LD7NhKCsLTkiREK+U7qPD1jUR5J72sUt+ZhcfgTVqmMOX2vZ4
+ o+SXDh5lcOToDASYBlBDayLPtKGp+k24usB2Or93oV3bQ7/R0/XBKZR+kQQ1pF1naGlo1KqwJ
+ uWS1EAKGH05BBRblDizyDQYQ03ncVyB/VV5wR9rWJLujxliYpYfFq9As5GATW15LDAa8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,103 +79,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ Arnd Bergmann <arnd@arndb.de>, Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, May 2, 2022 at 6:26 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> With v5.18-rc1-49-gcb813018b5c1, I still get:
+>
+> [    0.797668] RAMDISK: Couldn't find valid RAM disk image starting at 0.
+> [    0.805262] /dev/root: Can't open blockdev
+> [    0.805487] VFS: Cannot open root device "(null)" or unknown-block(0,0): error -6
+> [    0.805674] Please append a correct "root=" boot option; here are the available partitions:
+>
+> when trying to boot z2 from initrd.
+>
+> The other problems are gone.
 
+Ok, progress!
 
-On 2022-05-02 10:29, Harry Wentland wrote:
-> 
-> 
-> On 2022-05-02 10:27, Modem, Bhanuprakash wrote:
->> On Mon-02-05-2022 07:08 pm, Harry Wentland wrote:
->>>
->>>
->>> On 2022-05-02 09:28, Modem, Bhanuprakash wrote:
->>>> On Fri-29-04-2022 08:02 pm, Murthy, Arun R wrote:
->>>>>
->>>>>
->>>>>> -----Original Message-----
->>>>>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of
->>>>>> Bhanuprakash Modem
->>>>>> Sent: Monday, April 11, 2022 3:21 PM
->>>>>> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
->>>>>> amd-
->>>>>> gfx@lists.freedesktop.org; jani.nikula@linux.intel.com;
->>>>>> ville.syrjala@linux.intel.com; harry.wentland@amd.com; Sharma, Swati2
->>>>>> <swati2.sharma@intel.com>
->>>>>> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->>>>>> Subject: [Intel-gfx] [V2 3/3] drm/amd/display: Move connector
->>>>>> debugfs to
->>>>>> drm
->>>>>>
->>>>>> As drm_connector already have the display_info, instead of creating
->>>>>> "output_bpc" debugfs in vendor specific driver, move the logic to the
->>>>>> drm
->>>>>> layer.
->>>>>>
->>>>>> This patch will also move "Current" bpc to the crtc debugfs from
->>>>>> connector
->>>>>> debugfs, since we are getting this info from crtc_state.
->>>>>>
->>>>>> Cc: Harry Wentland <harry.wentland@amd.com>
->>>>>> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->>>>>> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
->>>>>> Reported-by: kernel test robot <lkp@intel.com>
->>>>>> ---
->>>>> Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
->>>>
->>>> Thanks Arun,
->>>>
->>>> @Harry/@Rodrigo, If this change sounds good to you, can you please help
->>>> to push it?
->>>>
->>>
->>> This changes the output_bpc debugfs behavior on amdgpu and breaks
->>> the amd_max_bpc IGT test. I don't think we should merge this as-is.
->>
->> Yeah, I have floated the IGT changes to support this series:
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fseries%2F102387%2F&amp;data=05%7C01%7Charry.wentland%40amd.com%7C8cb627c63b194b3b82f808da2c4839b0%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637870985961376064%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=kn26Et7wc9IUkYhSG3R%2FXVKIJoqyKlQ1%2FNcduVh9Fuo%3D&amp;reserved=0
->>
->>
->> With this IGT change, we can merge this series as-is. I would like to
->> request you to review IGT patches too.
->>
->>>
->>> This patch also seems dependent on patch 1 of the series. Shouldn't
->>> they be merged together (please don't merge them as-is, though)?
->>
->> Yes, as other patches in this series are already reviewed, I think we
->> need to plan to merge all patches in this series together (If above IGT
->> & this patch looks good to you).
->>
-> 
-> Thanks for the context again and apologies I haven't had the time to
-> have a closer look so far. I'll go over these and the IGT patches today
-> and get back to you.
-> 
+What is your qemu command line? I see that z2 has no pcmcia device, so
+I tried booting
+from MMC, but this already fails with 5.18-rc1 without any of my
+patches, giving me
 
-Both the kernel and IGT series look good to me.
+[    0.697481] Creating 3 MTD partitions on "physmap-flash":
+[    0.698161] 0x000000000000-0x000000040000 : "U-Boot Bootloader"
+[    0.702815] 0x000000040000-0x000000060000 : "U-Boot Environment"
+[    0.706541] 0x000000060000-0x000000800000 : "Flash"
+[    0.718066] pxa2xx-mci pxa2xx-mci.0: incomplete constraints, dummy
+supplies not allowed
+[    0.718501] pxa2xx-mci pxa2xx-mci.0: incomplete constraints, dummy
+supplies not allowed
 
-I recommend you merge the entire kernel set as one into drm-next. We
-can pull it into amd-staging-drm-next so as not to break our CI once
-the IGT patches land.
+Do  you have MMC or some other rootfs working without my patch series?
 
-Harry
-
-> Harry
-> 
->> - Bhanu
->>
->>>
->>> Harry
->>>
->>>> - Bhanu
->>>>
->>>>>
->>>>> Thanks and Regards,
->>>>> Arun R Murthy
->>>>> --------------------
->>>>
->>
+     Arnd
