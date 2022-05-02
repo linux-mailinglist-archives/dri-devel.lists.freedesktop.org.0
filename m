@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EB75171E0
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC7B5171FD
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:52:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 338DD10F04E;
-	Mon,  2 May 2022 14:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE74110F0B9;
+	Mon,  2 May 2022 14:52:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4DEC10F04C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 14:46:56 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id 6so222961pgb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 07:46:56 -0700 (PDT)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5E9C10F0B8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 14:52:25 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id 15so11866420pgf.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 07:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sH5HId0vlC1xFmCEMdsYdCLg1XTY++Kn19PHmHPWDzE=;
- b=Fj4fa9eKpis1H4ywew58SdhVIaslFKScO2M7KBemKi+uMMHRgjA1rfBTN+5Cyd6W4x
- +QlWVtWjykjZL8OCuu+DUF1JoXxzyPt0ebLiu7otFgHv9xTvO8lvAHDaeiq9cUKgJp32
- kXdYhQlWOGUgaZdvNntTV2VrH86fV9X/o3BN/v/sPLsgKdsAtwZ3sir2qtX8cnazNvIC
- lFVt4uoJmo7wrHkbsB/jnGWvEP73iSu02L+Hjcg5gWiqN0po5YAy2hMEbM4tWJtabdBR
- vTLun67wbqlKUG0ZGnik0MT77wptFARh3msmaRNBjjR7y6JkXW/rXPLY2pljiVodCdZv
- vitQ==
+ :cc:content-transfer-encoding;
+ bh=BBG2ILGkJ92p9VECWvvWCJ7Ibpu89EQ+1rUwITUOrTY=;
+ b=ltbv20WhVsdoqcSh4ZZWp26Bwv1400rOc1UGKY/LaX7tIJhjw6auR/t+Vz2PeR16Sp
+ 9qIM3P+jKrD6ztP8y9QYEuNZ8MefUIJIVAHohKBjHE9EcGIVOWBEknNNF8lhIeq5nsMa
+ jBorxa8SWfDqEGo86I1CK8pwFD2EglAhS2SM4Gu2nFDdbZQqd8AJt9x7nv7sEYSLbBSQ
+ EpLIDaybv27YEpt6+in2onthC87NtWUlsTSeddNdurxiqZnpbfTR8ePCJW6X89qJDHZ7
+ kQyypdGw0oO/vEEvMJVQG/ifsqgNDibVzEVU3185BbgtEzNJNtOGUhoUaAP5LZ88oi13
+ GmRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sH5HId0vlC1xFmCEMdsYdCLg1XTY++Kn19PHmHPWDzE=;
- b=Ko0DWkHogGSsayzLIsqxvt/fjxvElR9hS2gpyn5rDOkr7OxTatc9Z2wgRV1g5GgJEi
- fmq+f/+IkNk4uunI18bdCdb0YoM9DCGy71MiOTI1qVly+HYjB9YmdGu8SWurblAp1IRZ
- AIBXov5LTXwbtWTK5fPxOJrpyl9CmuYDWPc6AH263p+F8g4wxIi+Lk4kjsCBfZsIX2x3
- uFDT4TtCMDg+ARG24Cd5SeK7GR9oeTSKfGmOSgBv+491lKYP8tb6rD4NUlcUM/kyWndW
- YDi2RR97UbzrEGSkQl3qk+XItBwDQ403zwM0oSEUzKhXCkC6b24vtfvIapPbfwfMhKjb
- q0qg==
-X-Gm-Message-State: AOAM532pfX2a0EGVFkDqb1xw8FHjERIpLKX4qGkvGjJpcUwVEBrKf0y1
- s2T8LPBKqfUcBCk+RfZT9iCSFPWIfK1/k3dbJQn/tw==
-X-Google-Smtp-Source: ABdhPJzEj/u9Ig4lchzzzuxYohSp+/WQPurGWexw7b3W7kga8xhSNrUNKj50YZZn0wqp2tTiZB/MQI13j7jbN/Af5/Y=
-X-Received: by 2002:a62:6d47:0:b0:4fe:15fa:301d with SMTP id
- i68-20020a626d47000000b004fe15fa301dmr11718975pfc.29.1651502816203; Mon, 02
- May 2022 07:46:56 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BBG2ILGkJ92p9VECWvvWCJ7Ibpu89EQ+1rUwITUOrTY=;
+ b=6wtRAVNbgmI5KTAcIrTRlE6B2M1kC1OXJZhlkss55SeMTbtUO2xf9KAYIXcvWjNBF3
+ Zgc+pdtwi4uvFslZvPa+xUv5UjIIod36ti9+T6NwzKej/mpm7uxzfdTiA9bZzyFkpEAC
+ ZoNYnbaGT8kdK0CDN74qa189/6W/Kj/IDtZ8mjpZi0weL5nG2Jmk4peEyfVfvhSar18d
+ tmJsokWCwYNGpperBIX4gQcBOo4AoqUoblgHVPyW011jZPTM/Vrl9tGTvgXJP+4S96NQ
+ 32uANELK151RTSHBQ9ioKXoRGt7QAOh2gs/1hATgm54MNAw9N8BBsreBw2/NXx2Z3Snr
+ 0cJg==
+X-Gm-Message-State: AOAM5330ECPJndQsMgOhS+ZK0BnO8HQzNljpEEF5XFFToGAaLxY0pFj9
+ 37pxzBeRQVCcz8iQYE742fwrjoA7yKDfk1JUb2AuIIyKaJ8=
+X-Google-Smtp-Source: ABdhPJw2EDXi+cKh8Jwf5zfSJQuCKKutusV1Jmer7TGMBP44C34yJPLQPa0w1GC023klV8EmEnEGUWN0OYdIg5tRGfA=
+X-Received: by 2002:a65:6047:0:b0:3c1:43c9:a4d9 with SMTP id
+ a7-20020a656047000000b003c143c9a4d9mr10130615pgp.324.1651503145403; Mon, 02
+ May 2022 07:52:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220426193645.244792-1-marex@denx.de>
-In-Reply-To: <20220426193645.244792-1-marex@denx.de>
+References: <20220428162803.185275-1-u.kleine-koenig@pengutronix.de>
+ <YmrYAwNqDDOd26Jn@pendragon.ideasonboard.com>
+In-Reply-To: <YmrYAwNqDDOd26Jn@pendragon.ideasonboard.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 2 May 2022 16:46:45 +0200
-Message-ID: <CAG3jFysWizvFkbMVexRqPC=5fDa3-VFnxS2zsvBKSKdL4zzxeg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement
- simple Freescale i.MX8MP LDB bridge
-To: Marek Vasut <marex@denx.de>
+Date: Mon, 2 May 2022 16:52:14 +0200
+Message-ID: <CAG3jFysBQoG=Y_R=RRCCb5CYfvKD+6=QGTc+qXPh68rpio3apA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: tfp410: Make tfp410_fini() return void
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,147 +65,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: kernel@pengutronix.de, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Apr 2022 at 21:37, Marek Vasut <marex@denx.de> wrote:
+On Thu, 28 Apr 2022 at 20:08, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> The i.MX8MP contains two syscon registers which are responsible
-> for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
-> which represents this serializer as a bridge.
+> Hi Uwe,
 >
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Robby Cai <robby.cai@nxp.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V2: - Consistently use fsl,imx8mp-ldb as compatible
->     - Drop items: from compatible:
->     - Replace minItems with maxItems in clocks:
->     - Drop quotes from clock-names const: ldb
->     - Rename syscon to fsl,syscon
->     - Use generic name of ldb-lvds in example
-> V3: - Add AB from Sam
->     - Consistently use MX8MP
-> V4: - Rename to fsl-ldb all over the place
->     - Put the LDB node under media block controller in the example
-> ---
->  .../bindings/display/bridge/fsl,ldb.yaml      | 92 +++++++++++++++++++
->  1 file changed, 92 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+> Thank you for the patch.
 >
-> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
-> new file mode 100644
-> index 000000000000..77f174eee424
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
-> @@ -0,0 +1,92 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX8MP DPI to LVDS bridge chip
-> +
-> +maintainers:
-> +  - Marek Vasut <marex@denx.de>
-> +
-> +description: |
-> +  The i.MX8MP mediamix contains two registers which are responsible
-> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
-> +  those registers as bridge within the DT.
-> +
-> +properties:
-> +  compatible:
-> +    const: fsl,imx8mp-ldb
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: ldb
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Video port for DPI input.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Video port for LVDS Channel-A output (panel or bridge).
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Video port for LVDS Channel-B output (panel or bridge).
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - clocks
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mp-clock.h>
-> +
-> +    blk-ctrl {
-> +        bridge {
-> +            compatible = "fsl,imx8mp-ldb";
-> +            clocks = <&clk IMX8MP_CLK_MEDIA_LDB>;
-> +            clock-names = "ldb";
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +
-> +                    ldb_from_lcdif2: endpoint {
-> +                        remote-endpoint = <&lcdif2_to_ldb>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +
-> +                    ldb_lvds_ch0: endpoint {
-> +                        remote-endpoint = <&ldb_to_lvdsx4panel>;
-> +                    };
-> +                };
-> +
-> +                port@2 {
-> +                    reg = <2>;
-> +
-> +                    ldb_lvds_ch1: endpoint {
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
+> On Thu, Apr 28, 2022 at 06:28:03PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > tfp410_fini() always returns zero. Make it return no value which makes =
+it
+> > easier to see in the callers that there is no error to handle.
+> >
+> > Also the return value of i2c and platform driver remove callbacks is
+> > ignored anyway. This prepares making i2c and platform remove callbacks
+> > return void, too.
+> >
+> > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-tfp410.c | 12 +++++++-----
+> >  1 file changed, 7 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridg=
+e/ti-tfp410.c
+> > index ba3fa2a9b8a4..756b3e6e776b 100644
+> > --- a/drivers/gpu/drm/bridge/ti-tfp410.c
+> > +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+> > @@ -341,13 +341,11 @@ static int tfp410_init(struct device *dev, bool i=
+2c)
+> >       return 0;
+> >  }
+> >
+> > -static int tfp410_fini(struct device *dev)
+> > +static void tfp410_fini(struct device *dev)
+> >  {
+> >       struct tfp410 *dvi =3D dev_get_drvdata(dev);
+> >
+> >       drm_bridge_remove(&dvi->bridge);
+> > -
+> > -     return 0;
+> >  }
+> >
+> >  static int tfp410_probe(struct platform_device *pdev)
+> > @@ -357,7 +355,9 @@ static int tfp410_probe(struct platform_device *pde=
+v)
+> >
+> >  static int tfp410_remove(struct platform_device *pdev)
+> >  {
+> > -     return tfp410_fini(&pdev->dev);
+> > +     tfp410_fini(&pdev->dev);
+> > +
+> > +     return 0;
+> >  }
+> >
+> >  static const struct of_device_id tfp410_match[] =3D {
+> > @@ -394,7 +394,9 @@ static int tfp410_i2c_probe(struct i2c_client *clie=
+nt,
+> >
+> >  static int tfp410_i2c_remove(struct i2c_client *client)
+> >  {
+> > -     return tfp410_fini(&client->dev);
+> > +     tfp410_fini(&client->dev);
+> > +
+> > +     return 0;
+> >  }
+> >
+> >  static const struct i2c_device_id tfp410_i2c_ids[] =3D {
+> >
+> > base-commit: 3123109284176b1532874591f7c81f3837bbdc17
+>
 > --
+> Regards,
+>
+> Laurent Pinchart
 
-Applied series to drm-misc-next.
+Applied to drm-misc-next.
