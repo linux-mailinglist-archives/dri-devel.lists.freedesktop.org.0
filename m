@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A88517153
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2D4517180
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:26:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 521C710E72B;
-	Mon,  2 May 2022 14:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B73B10EC61;
+	Mon,  2 May 2022 14:26:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E29B10E894;
- Mon,  2 May 2022 14:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651500879; x=1683036879;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IW+Mnok42lROVoAYAnarmztOZNy49bHnFCCaqVYee78=;
- b=deJEPi1s5Zr3kCWFW0llH+5XBbyxFCEWEEIkHtB2qtplSa3BiVpicqD4
- pty+PDjx9sikDaEfIAz5zHYIcdsl2KWuAsJZ/DfhqCVsPqNucO4yCtb2g
- jE12ryWaEhNuWSQB7YOKVZySE4YW5424/20WuTGKyV5zWBZtwpHj3jj13
- ne/6izbW691fEyqmXH9F43r5dIBhGBMqKfdJhyhKR25CRYRWO6GZR6cJ8
- UtkKBxIKMHtz8oCbaMwEJ5FqMQncgMTaCOSqbnXD93dIL7BTRT3SbF0cO
- dXImXshvuCE7Z0w+9Mis+od16orNfinKjUHpKnYo3vQ0oCpLuJPEGdste A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="264811605"
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="264811605"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 07:14:08 -0700
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="546375388"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 07:14:05 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3] uapi/drm/i915: Document memory residency and Flat-CCS
- capability of obj
-Date: Mon,  2 May 2022 19:45:08 +0530
-Message-Id: <20220502141508.2327-1-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A971010EBD3
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 14:26:02 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8BE2C210DF;
+ Mon,  2 May 2022 14:25:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651501528; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=xNCGY8QViDXqWEuRDj2XxHZSR5gxsyut1mXzdr0vUdE=;
+ b=KcYoFW3Cb4FAMifJvlHQGeG8wid4JTSY/lEPCNm835djVF1NEeODfUG1/J2MQ/SHp2VQzC
+ y9RGwAcFw6vD2lRgLraJZ84/O+tEvmk3I7qAl1rSkHmVGt+2QihA0Fd/VleHEKPoPbxEhw
+ qBg3Wk7ssOb2u116KYFSKjBhU0QWEQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651501528;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=xNCGY8QViDXqWEuRDj2XxHZSR5gxsyut1mXzdr0vUdE=;
+ b=iG7LatO4wGL0hnAiYq+w57AJ5AheUboOrdDvIKL+S53TmqBiLLfyvGerZKxIxwBk9Iuraq
+ eOsvwi/k6DITldAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 69A5A13491;
+ Mon,  2 May 2022 14:25:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id YQkPGdjpb2J4MgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 02 May 2022 14:25:28 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Subject: [PATCH 0/3] drm/{ast,
+ mgag200}: Protect I/O regs against concurrent access
+Date: Mon,  2 May 2022 16:25:11 +0200
+Message-Id: <20220502142514.2174-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,68 +63,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, mesa-dev@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Capture the impact of memory region preference list of the objects, on
-their memory residency and Flat-CCS capability.
+Protect access to I/O registers in ast and mgag200 via lock. Commit-
+tail functions and get-modes operations use the same registers and can
+interfere with each other. This can result in failed mode-setting
+operations.
 
-v2:
-  Fix the Flat-CCS capability of an obj with {lmem, smem} preference
-  list [Thomas]
-v3:
-  Reworded the doc [Matt]
+As both drivers use fully managed cleanup, the patchset adds a new helper
+that initializes a mutex with auto-cleanup.
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-cc: Matthew Auld <matthew.auld@intel.com>
-cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-cc: Jon Bloomfield <jon.bloomfield@intel.com>
-cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-cc: Kenneth Graunke <kenneth@whitecape.org>
-cc: mesa-dev@lists.freedesktop.org
-cc: Jordan Justen <jordan.l.justen@intel.com>
-cc: Tony Ye <tony.ye@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
----
- include/uapi/drm/i915_drm.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Thomas Zimmermann (3):
+  drm: Add DRM-managed mutex_init()
+  drm/ast: Protect concurrent access to I/O registers with lock
+  drm/mgag200: Protect concurrent access to I/O registers with lock
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index a2def7b27009..b7e1c2fe08dc 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3443,6 +3443,22 @@ struct drm_i915_gem_create_ext {
-  * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
-  * along with the final object size in &drm_i915_gem_create_ext.size, which
-  * should account for any rounding up, if required.
-+ *
-+ * Note that userspace has no means of knowing the current backing region
-+ * for objects where @num_regions is larger than one. The kernel will only
-+ * ensure that the priority order of the @regions array is honoured, either
-+ * when initially placing the object, or when moving memory around due to
-+ * memory pressure
-+ *
-+ * On Flat-CCS capable HW, compression is supported for the objects residing
-+ * in I915_MEMORY_CLASS_DEVICE. When such objects (compressed) has other
-+ * memory class in @regions and migrated (by I915, due to memory
-+ * constrain) to the non I915_MEMORY_CLASS_DEVICE region, then I915 needs to
-+ * decompress the content. But I915 dosen't have the required information to
-+ * decompress the userspace compressed objects.
-+ *
-+ * So I915 supports Flat-CCS, only on the objects which can reside only on
-+ * I915_MEMORY_CLASS_DEVICE regions.
-  */
- struct drm_i915_gem_create_ext_memory_regions {
- 	/** @base: Extension link. See struct i915_user_extension. */
+ drivers/gpu/drm/ast/ast_drv.h          |  1 +
+ drivers/gpu/drm/ast/ast_main.c         |  4 +++
+ drivers/gpu/drm/ast/ast_mode.c         | 48 ++++++++++++++++++++++++--
+ drivers/gpu/drm/drm_managed.c          | 27 +++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_drv.c  |  6 ++++
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  1 +
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 14 ++++++++
+ include/drm/drm_managed.h              |  3 ++
+ 8 files changed, 101 insertions(+), 3 deletions(-)
+
+
+base-commit: 3ae2e00290c290713e21118220a817a24b44d39f
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
 -- 
-2.20.1
+2.36.0
 
