@@ -1,43 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B87A51798C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 23:56:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 712795179B0
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 00:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF48210E7BB;
-	Mon,  2 May 2022 21:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B8D610F035;
+	Mon,  2 May 2022 22:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A01D410E7BB
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 21:56:19 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 607113F549;
- Mon,  2 May 2022 23:56:17 +0200 (CEST)
-Date: Mon, 2 May 2022 23:56:16 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH v2] drm/msm/dsi: use RMW cycles in
- dsi_update_dsc_timing
-Message-ID: <20220502215616.jwpi3dr6ryembsfr@SoMainline.org>
-References: <20220430175533.3817792-1-dmitry.baryshkov@linaro.org>
- <20220430185807.yn2j2coyc77qzx2o@SoMainline.org>
- <b4a3bfed-a842-b4ee-d9a5-5adf5b59c09b@quicinc.com>
- <20220501200635.ekl3fw47dv2zytt3@SoMainline.org>
- <d6a78564-745c-7301-1b57-efc35757fbfd@quicinc.com>
- <20220502083442.t365cfmivlga557g@SoMainline.org>
- <f8986d6d-2c2b-a0a0-d63c-d4670f6864ff@linaro.org>
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DEDD10F035
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 22:02:45 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id q185so19991572ljb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 15:02:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DRg345qlmHZAutVgm3n8hsU+OaMYpjvZXMdM8MOZnjo=;
+ b=ga3FaG/X/ohjFMc4Jujlc2ehmmBpUcz2YJkY3fsJ2gyyb7p5hEbT98qbNLFwL8OYp4
+ RE6Q1ZWxI2k5jUmRfvnLsWAn7XmAo9br8fsMyjpckUVbYialm6bA9iuxQWNywMB7IW4A
+ z6GinRfsS7w52iylRW23sd/cvPHWm86Fsk7OSbkRmZVkiXJRHs2irI+h2hj+Fn34QgDl
+ LK2WF+scf4icvuUIe7tYyegROsLIw4YfQA7k1u8vFEctfDHb6sORERCBpcVrVT/qS35d
+ LY9E0FucDPXtrMsCmaPWF7c6QmcpFnOmAHi4174dVN5CXEcQDdPIrdchKzV8w4Ca7leK
+ 3qiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DRg345qlmHZAutVgm3n8hsU+OaMYpjvZXMdM8MOZnjo=;
+ b=Ymq1EzPl7Ts07Hc36ULHr+dz8jkLez2BhcKjuskeO6hn3/9arE+twTDMYzps9Av5IT
+ pGKROtXFikLRnQ2DxeZLnzggtTMp/9lvJepAiagtRJTtNPycWdczmKNLFxogCjDJLDYc
+ JL7DHL6W+TuRrP6ztwmm7dCmYWGgRWAwjfZNfeXh/l7qHFM0kyoVoW4TWAvwnOXHAOzR
+ rdW4P4tpFyBLNZ+887CGgccn0uU/Ubckx1vzfoGVFGvv7/6H10qtdAxlf9RAUtzOIgJq
+ 5Zdt3LhHKCXJJU5R0jYqOWMasrrq1hlOCK/xN4SaneZPpWZ2nRSCV104eKZYYoqm2k6c
+ Ityg==
+X-Gm-Message-State: AOAM530MWpgKt1yjnojHzp99il3R8DY4+AYvRactktfrfWbZobpd/txm
+ ta5xNQHNMJMvy33A6PXiSN76fw==
+X-Google-Smtp-Source: ABdhPJy6WNB6x1qrzJ4sPQwweY1VOjh4o2BX1ltnVAoPkxi15Di0ZVsfPq77IUaAOO6EguhKxxYqzQ==
+X-Received: by 2002:a2e:8317:0:b0:24f:1578:2872 with SMTP id
+ a23-20020a2e8317000000b0024f15782872mr8548271ljh.129.1651528963403; 
+ Mon, 02 May 2022 15:02:43 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020ac25389000000b0047255d21127sm803876lfh.86.2022.05.02.15.02.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 15:02:42 -0700 (PDT)
+Message-ID: <f01f5ace-4ae9-2b65-2ce8-fb2cdc0a5af1@linaro.org>
+Date: Tue, 3 May 2022 01:02:42 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f8986d6d-2c2b-a0a0-d63c-d4670f6864ff@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/msm/dsi: pll_7nm: remove unsupported dividers for DSI
+ pixel clock
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>
+References: <20220501195620.4135080-1-dmitry.baryshkov@linaro.org>
+ <CAE-0n51uV-BpuPSrTFiN2wvzh3+==WMU85j8kdi-td0X4xs8kg@mail.gmail.com>
+ <20220502214235.s5plebunh4ttjhge@SoMainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220502214235.s5plebunh4ttjhge@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,84 +77,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, kernel test robot <lkp@intel.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-02 13:02:09, Dmitry Baryshkov wrote:
-> [snip]
-> > How would you represent this in XML?  I was hoping for a method that
-> > allows to construct the value in a generic way, without register names,
-> > and then simply have a "register macro" that moves (and perhaps masks)
-> > the preconstructed value into the right place.  A bit like how `enum`s
-> > are currently set up in XML, but with bit ranges for the values and
-> > macros to set a value.
-> > 
-> > I think I've _partially_ found what I was looking for: a `<bitset>`.
-> > However, I don't know if we can utilize this multiple times within a
-> > single `reg32`, once with an offset for stream1.  Alas, it's just
-> > bikeshedding at this point.
+On 03/05/2022 00:42, Marijn Suijten wrote:
+> On 2022-05-02 13:47:51, Stephen Boyd wrote:
+>> Quoting Dmitry Baryshkov (2022-05-01 12:56:20)
+>>> Remove dividers that are not recommended for DSI DPHY mode when setting
+>>
+>> Is "DPHY" intentional or just "PHY" should be here?
+>>
+>>> up the clock tree for the DSI pixel clock.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>
+>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+>>
+>>>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 10 ++++------
+>>>   1 file changed, 4 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+>>> index 6e506feb111f..66ed1919a1db 100644
+>>> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+>>> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+>>> @@ -687,15 +687,13 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
+>>>                  snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_7nm->phy->id);
+>>>                  snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
+>>>                  snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
+>>> -               snprintf(parent3, 32, "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
+>>> -               snprintf(parent4, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
+>>>
+>>>                  hw = devm_clk_hw_register_mux(dev, clk_name,
+>>>                                          ((const char *[]){
+>>> -                                       parent, parent2, parent3, parent4
+>>> -                                       }), 4, 0, pll_7nm->phy->base +
+>>> +                                       parent, parent2,
+>>> +                                       }), 2, 0, pll_7nm->phy->base +
+>>>                                          REG_DSI_7nm_PHY_CMN_CLK_CFG1,
+>>> -                                       0, 2, 0, NULL);
+>>> +                                       0, 1, 0, NULL);
+>>
+>> Can you followup with a patch to move to clk_parent_data instead of
+>> strings?
 > 
-> Unfortunately the following naïve patch doesn't work, stream1 bits are 
-> still defined in the 0:15 bit space. One would have to modify rnn tool 
-> to make sure that it takes into account the low/high parts of the 
-> bitfield when generating offsets/masks.
-> 
-> diff --git a/src/freedreno/registers/dsi/dsi.xml 
-> b/src/freedreno/registers/dsi/dsi.xml
-> index f2eef4ff41ae..b0166628ad0a 100644
-> --- a/src/freedreno/registers/dsi/dsi.xml
-> +++ b/src/freedreno/registers/dsi/dsi.xml
-> @@ -361,22 +361,19 @@ 
-> xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
->                  <bitfield name="MAJOR" low="24" high="31" type="uint"/>
->          </reg32>
->          <reg32 offset="0x002d4" name="CPHY_MODE_CTRL"/>
-> -       <reg32 offset="0x0029c" name="VIDEO_COMPRESSION_MODE_CTRL">
-> -               <bitfield name="WC" low="16" high="31" type="uint"/>
-> +       <bitset name="COMPRESSION_MODE_CTRL" inline="true">
->                  <bitfield name="DATATYPE" low="8" high="13" type="uint"/>
->                  <bitfield name="PKT_PER_LINE" low="6" high="7" 
-> type="uint"/>
->                  <bitfield name="EOL_BYTE_NUM" low="4" high="5" 
-> type="uint"/>
->                  <bitfield name="EN" pos="0" type="boolean"/>
-> +       </bitset>
-> +       <reg32 offset="0x0029c" name="VIDEO_COMPRESSION_MODE_CTRL">
-> +               <bitfield name="WC" low="16" high="31" type="uint"/>
-> +               <bitfield name="STREAM0" low="0" high="15" 
-> type="COMPRESSION_MODE_CTRL"/>
->          </reg32>
->          <reg32 offset="0x002a4" name="COMMAND_COMPRESSION_MODE_CTRL">
-> -               <bitfield name="STREAM1_DATATYPE" low="24" high="29" 
-> type="uint"/>
-> -               <bitfield name="STREAM1_PKT_PER_LINE" low="22" high="23" 
-> type="uint"/>
-> -               <bitfield name="STREAM1_EOL_BYTE_NUM" low="20" high="21" 
-> type="uint"/>
-> -               <bitfield name="STREAM1_EN" pos="16" type="boolean"/>
-> -               <bitfield name="STREAM0_DATATYPE" low="8" high="13" 
-> type="uint"/>
-> -               <bitfield name="STREAM0_PKT_PER_LINE" low="6" high="7" 
-> type="uint"/>
-> -               <bitfield name="STREAM0_EOL_BYTE_NUM" low="4" high="5" 
-> type="uint"/>
-> -               <bitfield name="STREAM0_EN" pos="0" type="boolean"/>
-> +               <bitfield name="STREAM1" low="16" high="31" 
-> type="COMPRESSION_MODE_CTRL"/>
-> +               <bitfield name="STREAM0" low="0" high="15" 
-> type="COMPRESSION_MODE_CTRL"/>
->          </reg32>
->          <reg32 offset="0x002a8" name="COMMAND_COMPRESSION_MODE_CTRL2">
->                  <bitfield name="STREAM1_SLICE_WIDTH" low="16" high="31" 
-> type="uint"/>
+> Dmitry and I discussed this a while ago, and I actually have patches in
+> progress converting this.  Dmitry, if you haven't started on the
+> conversion yet, perhaps it's efficient if I respin my efforts and submit
+> them soon?
 
-This is approximately what I was aiming for.  `inline="true"` does
-"inline" all the individual bitfields so that they're prefixed with the
-reg32+bitfield name again, right?  That's what I wanted to avoid :)
+Yes, please. I'm under the pile of other things. Your patches will be 
+appreciated. You don't have to convert all PHYs at once.
 
-- Marijn
+-- 
+With best wishes
+Dmitry
