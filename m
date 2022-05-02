@@ -1,53 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E96B5174CA
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:45:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C93FB5174EB
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:50:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF9D10F124;
-	Mon,  2 May 2022 16:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C81910F12D;
+	Mon,  2 May 2022 16:50:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 261C910F12D;
- Mon,  2 May 2022 16:45:41 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98AF110F0C4;
+ Mon,  2 May 2022 16:50:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651509941; x=1683045941;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=urEYlcJWHthvNZxMK8DIFey3lc2i6h8I94/72RJ3Cts=;
- b=adDkxFln8xC4wXaQbDBdueSlLwxSTRLufTIuZ+LsC7QqyBc7RNC4oGr/
- 0r1XrUsCnqW/gpLCol4lA8NYc4RuZIJNgTmKmpPU4QZibEZ4WkjYtzkr1
- L8nPLkOXRSuoh4PC38A/VjzBgxGh1xmN1cLPdE2kpMEt74/0H35RuOvwq
- c+W8k7akuSJun+WTyKeIiuCvP/3ARaXDL42dWRdu0OUWefVvwT0eq74PG
- jKD7WK3m5OvvJIiv4YCwzjzysNwWMnX6k+iQNWnCH9LAZGB7Y6c9OFsN9
- o6HgI1bAYZ5iX9h/dQBOTJ0Jnhdea5UMMh8eIiMaJR43YUxdqrjtEiEFX g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="267135257"
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="267135257"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 09:45:40 -0700
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="561813232"
-Received: from wagoleb-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.155.30])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 09:45:38 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 1/3] drm/i915/gt: BUG_ON unexpected NULL at
- scatterlist walking
-In-Reply-To: <20220502142618.2704-2-ramalingam.c@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220502142618.2704-1-ramalingam.c@intel.com>
- <20220502142618.2704-2-ramalingam.c@intel.com>
-Date: Mon, 02 May 2022 19:45:35 +0300
-Message-ID: <87v8unrihc.fsf@intel.com>
+ t=1651510225; x=1683046225;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2m5fGcBQ62sP3q9J8q+TJb9kajFVsQS1N5Iu1uitji4=;
+ b=EGmyCVyptilw2W7AIKalGYge8oQtmTP1qp92G3KltG/HPX8d6tmDEdUE
+ rIFqIwDnyjc6MpZaDctq1OxQC3qtrOqQ+NEaFA8/jDTLJSX4je+EEgtCa
+ b6JQqqsqOam+tXj7+GE4q8mqr1ua/5btOmqTFFbd7db0syH3v7R3bVCtD
+ e6wM7ggxq3Nkdc8UqlM90FpFqVzB7ZphbhDHxabvFeNVTZs1gi1RPyHv6
+ BB7CHwSCyX1MaMS4EYxMtcao46s/xbdVZwBoZwSO34sDg9k3UH3aiaJPq
+ 5yeECFul0IaYKc3qg+zA4C89XASXMRVmSa8D70jm5Ok0Am3Qgy/LZFefF g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="267415478"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="267415478"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 09:50:25 -0700
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="516181077"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 09:50:24 -0700
+Date: Mon, 2 May 2022 09:50:23 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
+Message-ID: <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
+References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+ <20220502163417.2635462-4-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220502163417.2635462-4-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,71 +57,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Fei Yang <fei.yang@intel.com>, Ayaz A Siddiqui <ayaz.siddiqui@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 02 May 2022, Ramalingam C <ramalingam.c@intel.com> wrote:
-> While locating the start of ccs scatterlist in smem scatterlist, that has
-> to be the size of lmem obj size + corresponding ccs data size, report bug
-> if scatterlist terminate before that length.
->
-> v2:
->   s/GEM_BUG_ON/BUG_ON with more commenting [Matt]
-> v3:
->   Converted GEM_BUG_ON into BUG_ON with more documentation [Matt]
->
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com> (v1)
+On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
+> From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+> 
+> Bspec: 45101, 72161
+> Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+> Signed-off-by: Fei Yang <fei.yang@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_migrate.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 9d552f30b627..168d17b6f48a 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -687,6 +687,16 @@ static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
->  		bytes_to_cpy -= len;
+>  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
+>  drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
+>  drivers/gpu/drm/i915/i915_drv.h             |  2 ++
+>  drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
+>  drivers/gpu/drm/i915/intel_device_info.h    |  1 +
+>  6 files changed, 39 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> index b06611c1d4ad..7853ea194ea6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> @@ -221,6 +221,7 @@ struct intel_gt {
 >  
->  		it->sg = __sg_next(it->sg);
+>  	struct {
+>  		u8 uc_index;
+> +		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+>  	} mocs;
+>  
+>  	struct intel_pxp pxp;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
+> index c4c37585ae8c..265812589f87 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
+> @@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
+>  	unsigned int n_entries;
+>  	const struct drm_i915_mocs_entry *table;
+>  	u8 uc_index;
+> +	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+>  	u8 unused_entries_index;
+>  };
+>  
+> @@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
+>  
+>  /* Helper defines */
+>  #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
+> +#define PVC_NUM_MOCS_ENTRIES	3
+
+Should this be 4?  The value here should reflect the number of entries
+that can defined in hardware rather than the size of the table we're
+asked to program.  Since there are two registers (each with a high and a
+low entry), that would imply we should set 4 here to ensure that the
+fourth entry is initialized according to unused_entries_index rather
+than left at whatever the hardware defaults might be.
+
+
+Matt
+
+>  
+>  /* (e)LLC caching options */
+>  /*
+> @@ -394,6 +396,17 @@ static const struct drm_i915_mocs_entry dg2_mocs_table_g10_ax[] = {
+>  	MOCS_ENTRY(3, 0, L3_3_WB | L3_LKUP(1)),
+>  };
+>  
+> +static const struct drm_i915_mocs_entry pvc_mocs_table[] = {
+> +	/* Error */
+> +	MOCS_ENTRY(0, 0, L3_3_WB),
 > +
-> +		/*
-> +		 * On Flat-CCS capable platform when we back the lmem pages with
-> +		 * smem pages we add extra pages at the end of the smem
-> +		 * scatterlist, to store the ccs data corresponding to the lmem
-> +		 * pages. get_ccs_sg_sgt() is called to get the pointer for the
-> +		 * start of the extra pages added at the end of smem scatterlist.
-> +		 * So scatterlist can't end at or before bytes_to_cpy.
-> +		 */
-> +		BUG_ON(!it->sg);
-
-Why would you have to bring the entire kernel down in this case? Why not
-just let it oops on the NULL pointer dereference?
-
-I'd prefer nuking *all* of the current BUG/BUG_ON in the driver, and not
-add any single one back.
-
-
-BR,
-Jani.
-
-
->  		it->dma = sg_dma_address(it->sg);
->  		it->max = it->dma + sg_dma_len(it->sg);
->  	} while (bytes_to_cpy);
-> @@ -748,8 +758,10 @@ intel_context_migrate_copy(struct intel_context *ce,
->  		 * Need to fix it.
->  		 */
->  		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
-> -		if (ccs_bytes_to_cpy)
-> +		if (ccs_bytes_to_cpy) {
-> +			WARN_ON(abs(src_sz - dst_sz) < ccs_bytes_to_cpy);
->  			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
-> +		}
->  	}
+> +	/* UC */
+> +	MOCS_ENTRY(1, 0, L3_1_UC),
+> +
+> +	/* WB */
+> +	MOCS_ENTRY(2, 0, L3_3_WB),
+> +};
+> +
+>  enum {
+>  	HAS_GLOBAL_MOCS = BIT(0),
+>  	HAS_ENGINE_MOCS = BIT(1),
+> @@ -423,7 +436,14 @@ static unsigned int get_mocs_settings(const struct drm_i915_private *i915,
+>  	memset(table, 0, sizeof(struct drm_i915_mocs_table));
 >  
->  	src_offset = 0;
+>  	table->unused_entries_index = I915_MOCS_PTE;
+> -	if (IS_DG2(i915)) {
+> +	if (IS_PONTEVECCHIO(i915)) {
+> +		table->size = ARRAY_SIZE(pvc_mocs_table);
+> +		table->table = pvc_mocs_table;
+> +		table->n_entries = PVC_NUM_MOCS_ENTRIES;
+> +		table->uc_index = 1;
+> +		table->wb_index = 2;
+> +		table->unused_entries_index = 2;
+> +	} else if (IS_DG2(i915)) {
+>  		if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_B0)) {
+>  			table->size = ARRAY_SIZE(dg2_mocs_table_g10_ax);
+>  			table->table = dg2_mocs_table_g10_ax;
+> @@ -622,6 +642,8 @@ void intel_set_mocs_index(struct intel_gt *gt)
+>  
+>  	get_mocs_settings(gt->i915, &table);
+>  	gt->mocs.uc_index = table.uc_index;
+> +	if (HAS_L3_CCS_READ(gt->i915))
+> +		gt->mocs.wb_index = table.wb_index;
+>  }
+>  
+>  void intel_mocs_init(struct intel_gt *gt)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index a05c4b99b3fb..a656d9c2ca2b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -1994,7 +1994,7 @@ void intel_engine_apply_whitelist(struct intel_engine_cs *engine)
+>  static void
+>  engine_fake_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+>  {
+> -	u8 mocs;
+> +	u8 mocs_w, mocs_r;
+>  
+>  	/*
+>  	 * RING_CMD_CCTL are need to be programed to un-cached
+> @@ -2002,11 +2002,18 @@ engine_fake_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+>  	 * Streamers on Gen12 onward platforms.
+>  	 */
+>  	if (GRAPHICS_VER(engine->i915) >= 12) {
+> -		mocs = engine->gt->mocs.uc_index;
+> +		if (HAS_L3_CCS_READ(engine->i915) &&
+> +		    engine->class == COMPUTE_CLASS)
+> +			mocs_r = engine->gt->mocs.wb_index;
+> +		else
+> +			mocs_r = engine->gt->mocs.uc_index;
+> +
+> +		mocs_w = engine->gt->mocs.uc_index;
+> +
+>  		wa_masked_field_set(wal,
+>  				    RING_CMD_CCTL(engine->mmio_base),
+>  				    CMD_CCTL_MOCS_MASK,
+> -				    CMD_CCTL_MOCS_OVERRIDE(mocs, mocs));
+> +				    CMD_CCTL_MOCS_OVERRIDE(mocs_w, mocs_r));
+>  	}
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 2dddc27a1b0e..8c8e7308502b 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1369,6 +1369,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>  
+>  #define HAS_LSPCON(dev_priv) (IS_DISPLAY_VER(dev_priv, 9, 10))
+>  
+> +#define HAS_L3_CCS_READ(i915) (INTEL_INFO(i915)->has_l3_ccs_read)
+> +
+>  /* DPF == dynamic parity feature */
+>  #define HAS_L3_DPF(dev_priv) (INTEL_INFO(dev_priv)->has_l3_dpf)
+>  #define NUM_L3_SLICES(dev_priv) (IS_HSW_GT3(dev_priv) ? \
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 498708b33924..07722cdf63ac 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -1076,7 +1076,8 @@ static const struct intel_device_info ats_m_info = {
+>  
+>  #define XE_HPC_FEATURES \
+>  	XE_HP_FEATURES, \
+> -	.dma_mask_size = 52
+> +	.dma_mask_size = 52, \
+> +	.has_l3_ccs_read = 1
+>  
+>  __maybe_unused
+>  static const struct intel_device_info pvc_info = {
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+> index e7d2cf7d65c8..09e33296157a 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.h
+> +++ b/drivers/gpu/drm/i915/intel_device_info.h
+> @@ -150,6 +150,7 @@ enum intel_ppgtt_type {
+>  	func(has_heci_pxp); \
+>  	func(has_heci_gscfi); \
+>  	func(has_guc_deprivilege); \
+> +	func(has_l3_ccs_read); \
+>  	func(has_l3_dpf); \
+>  	func(has_llc); \
+>  	func(has_logical_ring_contexts); \
+> -- 
+> 2.35.1
+> 
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
