@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4481A51744E
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF0A517454
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:34:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3494810E53F;
-	Mon,  2 May 2022 16:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466AB10F05E;
+	Mon,  2 May 2022 16:34:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 414A610E8C6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6607B10F025;
  Mon,  2 May 2022 16:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1651509261; x=1683045261;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=zuekNP4ZMtBZXkwlyAT3R9hLnIUVAmwJpjtwlKdQUZU=;
- b=kZQ1lTX+0McgSnsOHrqKYHvyKryqQibz1Opfl4E8yCaD90Ma54NtoMEn
- h7sqJrglSJknSEH0NQ4104+5TYka0mMGl9EM0DqFTT0ic3VKEuViBmXxf
- heQvXWjZsRE3yMmiX+NP2dYrBHFiI5yAgyGbMhCFepA2TKrx9avXWk1bN
- a4E+3QydIsPbEmn/sMSyIUrKTYRubishuBnDRtG0g9odRQwwsuYpnTY8J
- ReUYDOA06J3amXfXDVinMxmqak9PS/YBUjz8mun1FhZFt+oxfx/SYN6Ou
- x7WL1qUbbQEWP6gLAfPRMa18IDzlomuM0BqocB6QkhheO0JzYA7M/ARY9 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="266104994"
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="266104994"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=xZIcIY/rcqnqG1AtNPqmr8fGr4epQ12bWcgLjjVnv9o=;
+ b=OFy44fZlBHBP2KFBq5VNhtfxPKqmXZnNpahupU5vBkjDkHsh3Qx7lw+M
+ AaGJui4jLVFMiWNHIes3sOd2znFPiH4g+1fDYmK1pcxcVv3N2cAB1Wk6c
+ vu+fDSlDC5PUN/FN1YEYgpNXWpyNPu7rdccrJxIvGal6t1KFN9GHFKcim
+ SgUIPYDMpCKDc3OtFRW0Wfj9au5/R+JBtwBZfg6h3VkNL0ywR6i2dSNbs
+ zZyuQaVtMDxd/P42H+1DGPeya6V5RNIvHwv5W72lQyMCb/FXffkOAhfq9
+ hA5vlfk4K9K82qXjgvs+IjwKEfumkWrV6oUe1cQv925X1DrknLuDlibYs A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="266104995"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="266104995"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 May 2022 09:34:20 -0700
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="583781807"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="583781811"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 May 2022 09:34:20 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 00/11] i915: Introduce Ponte Vecchio
-Date: Mon,  2 May 2022 09:34:06 -0700
-Message-Id: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+Subject: [PATCH 01/11] drm/i915/pvc: add initial Ponte Vecchio definitions
+Date: Mon,  2 May 2022 09:34:07 -0700
+Message-Id: <20220502163417.2635462-2-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,64 +55,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Stuart Summers <stuart.summers@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ponte Vecchio (PVC) is a new GPU based on the Xe_HPC architecture.  As a
-compute-focused platform, PVC has compute engines and enhanced copy
-engines, but no render engine (there is no geometry pipeline) and no
-display.
+From: Stuart Summers <stuart.summers@intel.com>
 
-This is just a handful of early enablement patches, including some
-initial support for the new copy engines (although we're not yet adding
-those to the platform's engine list or exposing them to userspace just
-yet).
+Additional blitter and media engines will be enabled later.
 
+Bspec: 44481, 44482
+Signed-off-by: Stuart Summers <stuart.summers@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/i915_drv.h          |  2 ++
+ drivers/gpu/drm/i915/i915_pci.c          | 21 +++++++++++++++++++++
+ drivers/gpu/drm/i915/intel_device_info.c |  1 +
+ drivers/gpu/drm/i915/intel_device_info.h |  1 +
+ 4 files changed, 25 insertions(+)
 
-Ayaz A Siddiqui (1):
-  drm/i915/pvc: Define MOCS table for PVC
-
-John Harrison (1):
-  drm/i915/pvc: Reduce stack usage in reset selftest with extra blitter
-    engine
-
-Lucas De Marchi (2):
-  drm/i915/pvc: skip all copy engines from aux table invalidate
-  drm/i915/pvc: read fuses for link copy engines
-
-Matt Roper (5):
-  drm/i915/pvc: Add forcewake support
-  drm/i915/pvc: Read correct RP_STATE_CAP register
-  drm/i915/pvc: Engines definitions for new copy engines
-  drm/i915/pvc: Interrupt support for new copy engines
-  drm/i915/pvc: Reset support for new copy engines
-
-Stuart Summers (2):
-  drm/i915/pvc: add initial Ponte Vecchio definitions
-  drm/i915/pvc: Remove additional 3D flags from PIPE_CONTROL
-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  20 ++-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  92 +++++++++++
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |  10 +-
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  12 +-
- drivers/gpu/drm/i915/gt/intel_gt_irq.c        |  16 ++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  56 ++++---
- drivers/gpu/drm/i915/gt/intel_gt_types.h      |   1 +
- drivers/gpu/drm/i915/gt/intel_mocs.c          |  24 ++-
- drivers/gpu/drm/i915/gt/intel_rps.c           |   4 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c   |  13 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   9 +-
- drivers/gpu/drm/i915/gvt/cmd_parser.c         |   2 +-
- drivers/gpu/drm/i915/i915_drv.h               |   6 +
- drivers/gpu/drm/i915/i915_pci.c               |  23 +++
- drivers/gpu/drm/i915/i915_reg.h               |   9 ++
- drivers/gpu/drm/i915/intel_device_info.c      |   1 +
- drivers/gpu/drm/i915/intel_device_info.h      |   5 +-
- drivers/gpu/drm/i915/intel_uncore.c           | 150 +++++++++++++++++-
- drivers/gpu/drm/i915/selftests/intel_uncore.c |   2 +
- 19 files changed, 417 insertions(+), 38 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 24111bf42ce0..2dddc27a1b0e 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1062,6 +1062,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ #define IS_ALDERLAKE_P(dev_priv) IS_PLATFORM(dev_priv, INTEL_ALDERLAKE_P)
+ #define IS_XEHPSDV(dev_priv) IS_PLATFORM(dev_priv, INTEL_XEHPSDV)
+ #define IS_DG2(dev_priv)	IS_PLATFORM(dev_priv, INTEL_DG2)
++#define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, INTEL_PONTEVECCHIO)
++
+ #define IS_DG2_G10(dev_priv) \
+ 	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10)
+ #define IS_DG2_G11(dev_priv) \
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index 7739d6c33481..498708b33924 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -1074,6 +1074,27 @@ static const struct intel_device_info ats_m_info = {
+ 	.require_force_probe = 1,
+ };
+ 
++#define XE_HPC_FEATURES \
++	XE_HP_FEATURES, \
++	.dma_mask_size = 52
++
++__maybe_unused
++static const struct intel_device_info pvc_info = {
++	XE_HPC_FEATURES,
++	XE_HPM_FEATURES,
++	DGFX_FEATURES,
++	.graphics.rel = 60,
++	.media.rel = 60,
++	PLATFORM(INTEL_PONTEVECCHIO),
++	.display = { 0 },
++	.has_flat_ccs = 0,
++	.platform_engine_mask =
++		BIT(BCS0) |
++		BIT(VCS0) |
++		BIT(CCS0) | BIT(CCS1) | BIT(CCS2) | BIT(CCS3),
++	.require_force_probe = 1,
++};
++
+ #undef PLATFORM
+ 
+ /*
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index 63e05cd15a90..f0bf23726ed8 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -72,6 +72,7 @@ static const char * const platform_names[] = {
+ 	PLATFORM_NAME(ALDERLAKE_P),
+ 	PLATFORM_NAME(XEHPSDV),
+ 	PLATFORM_NAME(DG2),
++	PLATFORM_NAME(PONTEVECCHIO),
+ };
+ #undef PLATFORM_NAME
+ 
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index 20c351c8d5bd..e7d2cf7d65c8 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -88,6 +88,7 @@ enum intel_platform {
+ 	INTEL_ALDERLAKE_P,
+ 	INTEL_XEHPSDV,
+ 	INTEL_DG2,
++	INTEL_PONTEVECCHIO,
+ 	INTEL_MAX_PLATFORMS
+ };
+ 
 -- 
 2.35.1
 
