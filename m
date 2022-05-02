@@ -1,74 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED3E5178C3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 23:03:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9445178C2
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 23:03:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4BF10F4AC;
-	Mon,  2 May 2022 21:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D9C10E5C4;
+	Mon,  2 May 2022 21:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59ED610F4AC
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 21:03:46 +0000 (UTC)
-Received: from mail-yw1-f174.google.com ([209.85.128.174]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MQeDw-1nRE0M05kU-00NkZe for <dri-devel@lists.freedesktop.org>; Mon, 02
- May 2022 23:03:44 +0200
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-2f7b815ac06so161678947b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 14:03:43 -0700 (PDT)
-X-Gm-Message-State: AOAM5332KUQ9ptRPctESZauW0rBOieQLaxBK4fkUoOo7Talqj9HUY0xt
- nkTgczfnHsKxmtvPYmT1Vs3wJ+sOp+ArB+HMiDk=
-X-Google-Smtp-Source: ABdhPJxEvI0WTai1d3ZR4KU3iW8w7Gb+IOi/NcLSYY9Kzki6UUTmpSHsKHSdyZ16RsjoU/k3UwknsKUnnDH1BVJBWs0=
-X-Received: by 2002:a81:ad7:0:b0:2e6:84de:3223 with SMTP id
- 206-20020a810ad7000000b002e684de3223mr13273488ywk.209.1651525422593; Mon, 02
- May 2022 14:03:42 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90F9A10E5C4;
+ Mon,  2 May 2022 21:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651525411; x=1683061411;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=oyTLKG4ZgxZ9sVXPBSjZZSFgBrcDWsWUKNWXpkOx5uU=;
+ b=XznhtWd1WCl0QNQ2YoCEvWppMzevxuWJjoKM1MLwkkCtj/rT5iSXNOqB
+ sPFWVyT9DHYhSsmmC+pZAUv6GMdmoKRrDkSORkgG2nuoAM6l8NjTPuxkk
+ z4cDanjp92AIYGu0ky5YmBOY8w19YIT1k2HZnIJ90rKW6JVa8pKosHp7r
+ DliWGC0MjknOjj0stVAWPmAbnTg20MBUXqybEBtPufoJ/FjlwOq+Mf8nK
+ dadLs9VCWCRGpOcqJ6p2LL2q3KIlQQXmTzb/JxEs5O6YJYXCbCQ+vr9g9
+ z9ACanae+W9GSvHAZ/vh/NccdKlfeBuKFEZNDCz/RsJKqTqKvqn4sds/o Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="247877006"
+X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="247877006"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 14:03:31 -0700
+X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="663696114"
+Received: from alwohlse-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.209.11.126])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 14:03:30 -0700
+Date: Mon, 2 May 2022 14:03:28 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
+Message-ID: <20220502210328.x6jvlln2e6x7zxlc@ldmartin-desk2>
+References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+ <20220502163417.2635462-4-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
- <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
- <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
- <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
- <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
- <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
- <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
- <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
- <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
- <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
- <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
- <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
- <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
- <c001d58e-9a78-6338-a533-d0f215b3dfd1@roeck-us.net>
-In-Reply-To: <c001d58e-9a78-6338-a533-d0f215b3dfd1@roeck-us.net>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 2 May 2022 23:03:26 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1X3YH0RqqmqgqFAaY94yreD-PfY-pvyMf+xU3nGeqvsg@mail.gmail.com>
-Message-ID: <CAK8P3a1X3YH0RqqmqgqFAaY94yreD-PfY-pvyMf+xU3nGeqvsg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:YYh/4Fm5MokcW/C+CbjKl98RURmAkSJf3jKF2Flve+nuiwG2aSI
- 7hfr3dhQR+MvCYFRv17b9doimRz+tqoQ/8tJBQUdU2XsO7bDABBLAWYvOS9kYo7nEbZ+JSb
- Hj6LbBrNzFZZuEyYbvHr1Y94qwNXKfjN6mqQioVbfotKgBjohhqO0aiRMaHrbqUI5jUkkZO
- Q9hQ2yis12eBofBHozz6Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EGAEHbRCIr4=:KLZMeaBSva4i5+dUJ86w0B
- kZC6EEDO6v4tjFGJQsQYWj4WhQ4EHB7uYkQgRrqfQbJn2AmM0ggFd8awbAE/7bqKxPDUm9sI4
- wWeMyq6OGxB8z11417waq+CfWxeB7GLNNQx7wyNPyoX6g0Se3Cst91yjHDJBMHKOUrA9xs/pR
- jNhSZMi0DMDh6pbEGVXJpxjP0t/uxNVNvKOwn7nVt+BWKdOHK1Fnh1fyO6yiLTofgoiJcrTkl
- pkZP5XZpGJ3NJ+aAJL4x25IuOaqbq7dD9JbpGV3kCgfe30ArEM8GGtcgpC9vZwJj+7ojcebJu
- RSDYqeeFJAX8vlrOqGwD8Ylv4He6Q7DuQrxa1SkFytKdqeQSC71nb6ZTU67L+xQc4UoWZTiOl
- D6cg6kwVowaJRpEMIPPWnFor8Nxpazv1nLWXSCwhrllGA5f8gTTTrrPrUZHeIGdvraw03YcC4
- ye7QdWzAzQZxPOQzhV/qNaWpsbwKOaMRpWDTNbMuAk5ir6ghJACFEXZhrHJxT40pPJ/d0ZDn3
- +vBxHTSZpcLEaZvK0++l0GRlPQQpNcvXApUqAgDyvzwoEpWTHqrXfmoR0H8SUknHd6BPKIW3N
- HEPtd9cnw3lw6HJgSPTuZ55Y/ASdvoRp6vOTLU4pS2NSCdj8DBAiYmyfC/sP9A8LnWTxXfgm3
- E78ovZM39tzfewyO7mr27G7VBKAVkG0qv/IS9e64FIl4DpPnd8XXVO0l/uKetln4O8T9nBYak
- 9OR6MqR/8Ra8a1H39wlTL1P4nPbLn+PmNHNV2CazndYbhEuRJVaezVIZaYkABG9ME7jU0F6Al
- o/9OeFXYwo6nV/FY9IFiZedwVWrSUTeH7EPT2N0a4kpgv+x95U=
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220502163417.2635462-4-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,116 +57,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
- Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
- Arnd Bergmann <arnd@arndb.de>, Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Daniel Mack <daniel@zonque.org>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Ayaz A Siddiqui <ayaz.siddiqui@intel.com>, Fei Yang <fei.yang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 2, 2022 at 10:35 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 5/2/22 12:21, Arnd Bergmann wrote:
-> >
+On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
+>From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
 >
-> To boot from initrd:
+>Bspec: 45101, 72161
+>Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+>Signed-off-by: Fei Yang <fei.yang@intel.com>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>---
+> drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
+> drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
+> drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
+> drivers/gpu/drm/i915/i915_drv.h             |  2 ++
+> drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
+> drivers/gpu/drm/i915/intel_device_info.h    |  1 +
+> 6 files changed, 39 insertions(+), 5 deletions(-)
 >
-> qemu-system-arm -M z2 -kernel \
->       arch/arm/boot/zImage -no-reboot -initrd \
->       rootfs-armv5.cpio --append \
->       "panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyS0" -nographic \
->       -monitor null -serial stdio
+>diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>index b06611c1d4ad..7853ea194ea6 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>+++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>@@ -221,6 +221,7 @@ struct intel_gt {
 >
-> where rootfs-armv5.cpio is from my repository at github.com.
->
-> https://github.com/groeck/linux-build-test/blob/master/rootfs/arm/rootfs-armv5.cpio.gz
->
+> 	struct {
+> 		u8 uc_index;
+>+		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
 
-Ok, that works here with any configuration, I don't see a regression.
-Could this be a problem with the size increase? The machine only has
-32MB of RAM, so it's possible that the multiplatform-enabled kernel
-with DT support etc pushes it over the edge, especially with an initramfs.
+I don't like much writting the bspec in code like this. For commit
+message it's acceptable/desired, but for code I think it's not great as
+1) it's not something generally available and 2) it will likely get
+outdated so one would have to rely on git log/blame to see when this was
+actually valid.
 
-My configuration is clearly a bit different from yours, so I tried giving it
-a larger initramfs file, which randomly crashes elsewhere for me:
 
-[    0.648659] pxa2xx-uart.0: ttyS0 at MMIO 0x40100000 (irq = 38,
-base_baud = 928571) is a UART1
-[    0.697984] kworker/u2:0 invoked oom-killer:
-gfp_mask=0x100cca(GFP_HIGHUSER_MOVABLE), order=0, oom_score_adj=0
-[    0.698278] CPU: 0 PID: 7 Comm: kworker/u2:0 Not tainted
-5.18.0-rc1-00109-gee927ad51300-dirty #52
-[    0.698382] Hardware name: Zipit Z2
-[    0.698520] Workqueue: events_unbound async_run_entry_fn
-[    0.699063]  unwind_backtrace from show_stack+0x18/0x1c
-[    0.699148]  show_stack from dump_header+0x68/0x254
-[    0.699186]  dump_header from out_of_memory+0x474/0x4f0
-[    0.699208]  out_of_memory from __alloc_pages+0xa0c/0xb84
-[    0.699227]  __alloc_pages from shmem_getpage_gfp.constprop.0+0x270/0x9e0
-[    0.699247]  shmem_getpage_gfp.constprop.0 from
-generic_perform_write+0xd8/0x210
-[    0.699268]  generic_perform_write from __generic_file_write_iter+0x130/0x198
-[    0.699286]  __generic_file_write_iter from generic_file_write_iter+0x64/0xd0
-[    0.699302]  generic_file_write_iter from __kernel_write+0x114/0x2b0
-[    0.699321]  __kernel_write from kernel_write+0x68/0x194
-[    0.699337]  kernel_write from xwrite+0x3c/0x78
-[    0.699363]  xwrite from do_copy+0xc0/0x11c
-[    0.699381]  do_copy from write_buffer+0x2c/0x44
-[    0.699397]  write_buffer from flush_buffer+0x3c/0xa0
-[    0.699413]  flush_buffer from __gunzip+0x2a4/0x364
-[    0.699434]  __gunzip from gunzip+0x2c/0x34
-[    0.699449]  gunzip from unpack_to_rootfs+0x19c/0x304
-[    0.699465]  unpack_to_rootfs from do_populate_rootfs+0x6c/0x1dc
-[    0.699483]  do_populate_rootfs from async_run_entry_fn+0x44/0x1a0
-[    0.699502]  async_run_entry_fn from process_one_work+0x1e8/0x544
-[    0.699520]  process_one_work from worker_thread+0x34/0x578
-[    0.699579]  worker_thread from kthread+0xdc/0x114
-[    0.699599]  kthread from ret_from_fork+0x14/0x2c
-[    0.699651] Exception stack(0xc2821fb0 to 0xc2821ff8)
-[    0.699711] 1fa0:                                     00000000
-00000000 00000000 00000000
-[    0.699731] 1fc0: 00000000 00000000 00000000 00000000 00000000
-00000000 00000000 00000000
-[    0.699744] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[    0.699801] Mem-Info:
-[    0.699889] active_anon:90 inactive_anon:674 isolated_anon:0
-[    0.699889]  active_file:0 inactive_file:0 isolated_file:0
-[    0.699889]  unevictable:0 dirty:0 writeback:0
-[    0.699889]  slab_reclaimable:0 slab_unreclaimable:1691
-[    0.699889]  mapped:0 shmem:771 pagetables:0 bounce:0
-[    0.699889]  kernel_misc_reclaimable:0
-[    0.699889]  free:207 free_pcp:37 free_cma:0
-[    0.699986] Node 0 active_anon:360kB inactive_anon:2696kB
-active_file:0kB inactive_file:0kB unevictable:0kB isolated(anon):0kB
-isolated(file):0kB mapped:0kB dirty:0kB writeback:0kB shmem:3084kB
-writeback_tmp:0kB kernel_stack:192kB pagetables:0kB all_unreclaimable?
-yes
-[    0.700116] Normal free:828kB boost:1024kB min:1464kB low:1572kB
-high:1680kB reserved_highatomic:0KB active_anon:360kB
-inactive_anon:2696kB active_file:0kB inactive_file:0kB unevictable:0kB
-writepending:0kB present:32768kB managed:12232kB mlocked:0kB
-bounce:0kB free_pcp:148kB local_pcp:148kB free_cma:0kB
-[    0.700177] lowmem_reserve[]: 0 0
-[    0.700247] Normal: 3*4kB (UM) 2*8kB (UM) 2*16kB (M) 0*32kB 0*64kB
-0*128kB 1*256kB (M) 1*512kB (M) 0*1024kB = 828kB
+> 	} mocs;
+>
+> 	struct intel_pxp pxp;
+>diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
+>index c4c37585ae8c..265812589f87 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_mocs.c
+>+++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
+>@@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
+> 	unsigned int n_entries;
+> 	const struct drm_i915_mocs_entry *table;
+> 	u8 uc_index;
+>+	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+> 	u8 unused_entries_index;
+> };
+>
+>@@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
+>
+> /* Helper defines */
+> #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
+>+#define PVC_NUM_MOCS_ENTRIES	3
+>
+> /* (e)LLC caching options */
+> /*
+>@@ -394,6 +396,17 @@ static const struct drm_i915_mocs_entry dg2_mocs_table_g10_ax[] = {
+> 	MOCS_ENTRY(3, 0, L3_3_WB | L3_LKUP(1)),
+> };
+>
+>+static const struct drm_i915_mocs_entry pvc_mocs_table[] = {
+>+	/* Error */
+>+	MOCS_ENTRY(0, 0, L3_3_WB),
+>+
+>+	/* UC */
+>+	MOCS_ENTRY(1, 0, L3_1_UC),
+>+
+>+	/* WB */
+>+	MOCS_ENTRY(2, 0, L3_3_WB),
+>+};
+>+
+> enum {
+> 	HAS_GLOBAL_MOCS = BIT(0),
+> 	HAS_ENGINE_MOCS = BIT(1),
+>@@ -423,7 +436,14 @@ static unsigned int get_mocs_settings(const struct drm_i915_private *i915,
+> 	memset(table, 0, sizeof(struct drm_i915_mocs_table));
+>
+> 	table->unused_entries_index = I915_MOCS_PTE;
+>-	if (IS_DG2(i915)) {
+>+	if (IS_PONTEVECCHIO(i915)) {
+>+		table->size = ARRAY_SIZE(pvc_mocs_table);
+>+		table->table = pvc_mocs_table;
+>+		table->n_entries = PVC_NUM_MOCS_ENTRIES;
+>+		table->uc_index = 1;
+>+		table->wb_index = 2;
+>+		table->unused_entries_index = 2;
+>+	} else if (IS_DG2(i915)) {
+> 		if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_B0)) {
+> 			table->size = ARRAY_SIZE(dg2_mocs_table_g10_ax);
+> 			table->table = dg2_mocs_table_g10_ax;
+>@@ -622,6 +642,8 @@ void intel_set_mocs_index(struct intel_gt *gt)
+>
+> 	get_mocs_settings(gt->i915, &table);
+> 	gt->mocs.uc_index = table.uc_index;
+>+	if (HAS_L3_CCS_READ(gt->i915))
+>+		gt->mocs.wb_index = table.wb_index;
+> }
+>
+> void intel_mocs_init(struct intel_gt *gt)
+>diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>index a05c4b99b3fb..a656d9c2ca2b 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>@@ -1994,7 +1994,7 @@ void intel_engine_apply_whitelist(struct intel_engine_cs *engine)
+> static void
+> engine_fake_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+> {
+>-	u8 mocs;
+>+	u8 mocs_w, mocs_r;
+>
+> 	/*
+> 	 * RING_CMD_CCTL are need to be programed to un-cached
+>@@ -2002,11 +2002,18 @@ engine_fake_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+> 	 * Streamers on Gen12 onward platforms.
+> 	 */
+> 	if (GRAPHICS_VER(engine->i915) >= 12) {
+>-		mocs = engine->gt->mocs.uc_index;
+>+		if (HAS_L3_CCS_READ(engine->i915) &&
+>+		    engine->class == COMPUTE_CLASS)
+>+			mocs_r = engine->gt->mocs.wb_index;
+>+		else
+>+			mocs_r = engine->gt->mocs.uc_index;
 
-       Arnd
+shouldn't we add a warning in get_mocs_settings() if HAS_L3_CCS_READ(engine->i915)
+and mocs.wb_index is 0 (since index 0 shouldn't really be used in latest
+platforms)?
+
+Lucas De Marchi
+
+>+
+>+		mocs_w = engine->gt->mocs.uc_index;
+>+
+> 		wa_masked_field_set(wal,
+> 				    RING_CMD_CCTL(engine->mmio_base),
+> 				    CMD_CCTL_MOCS_MASK,
+>-				    CMD_CCTL_MOCS_OVERRIDE(mocs, mocs));
+>+				    CMD_CCTL_MOCS_OVERRIDE(mocs_w, mocs_r));
+> 	}
+> }
+>
+>diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+>index 2dddc27a1b0e..8c8e7308502b 100644
+>--- a/drivers/gpu/drm/i915/i915_drv.h
+>+++ b/drivers/gpu/drm/i915/i915_drv.h
+>@@ -1369,6 +1369,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>
+> #define HAS_LSPCON(dev_priv) (IS_DISPLAY_VER(dev_priv, 9, 10))
+>
+>+#define HAS_L3_CCS_READ(i915) (INTEL_INFO(i915)->has_l3_ccs_read)
+>+
+> /* DPF == dynamic parity feature */
+> #define HAS_L3_DPF(dev_priv) (INTEL_INFO(dev_priv)->has_l3_dpf)
+> #define NUM_L3_SLICES(dev_priv) (IS_HSW_GT3(dev_priv) ? \
+>diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+>index 498708b33924..07722cdf63ac 100644
+>--- a/drivers/gpu/drm/i915/i915_pci.c
+>+++ b/drivers/gpu/drm/i915/i915_pci.c
+>@@ -1076,7 +1076,8 @@ static const struct intel_device_info ats_m_info = {
+>
+> #define XE_HPC_FEATURES \
+> 	XE_HP_FEATURES, \
+>-	.dma_mask_size = 52
+>+	.dma_mask_size = 52, \
+>+	.has_l3_ccs_read = 1
+>
+> __maybe_unused
+> static const struct intel_device_info pvc_info = {
+>diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+>index e7d2cf7d65c8..09e33296157a 100644
+>--- a/drivers/gpu/drm/i915/intel_device_info.h
+>+++ b/drivers/gpu/drm/i915/intel_device_info.h
+>@@ -150,6 +150,7 @@ enum intel_ppgtt_type {
+> 	func(has_heci_pxp); \
+> 	func(has_heci_gscfi); \
+> 	func(has_guc_deprivilege); \
+>+	func(has_l3_ccs_read); \
+> 	func(has_l3_dpf); \
+> 	func(has_llc); \
+> 	func(has_logical_ring_contexts); \
+>-- 
+>2.35.1
+>
