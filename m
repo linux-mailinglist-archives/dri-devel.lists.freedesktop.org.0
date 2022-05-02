@@ -1,79 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D95517772
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:28:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 294EB517777
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:32:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4446310EAA9;
-	Mon,  2 May 2022 19:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76AC910F3E7;
+	Mon,  2 May 2022 19:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73FF610E1E2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 19:28:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1276810F3E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 19:32:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651519730;
+ s=mimecast20190719; t=1651519960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ybrD/7h5J3fSITXfW6xwvBBTYoCzdyhOVw3+IuZ9Mdo=;
- b=iQxTKB0OQasHTRRbuLgl2BEVWPvl8cs0yxcZ5mWCzJ+2pqc3MyGZw9teNrvSBRD0rfTcfs
- zj0N7Orsym+2mwFw5JrSoVmydeResL7QFyNqlt/+fWndvJQ9uVnFipDCSFHEqSCeEK5A5V
- pqbQ5/LNm7I86IfXAHIedn9Iw2z5YXM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nbzfCdBFw8cpcp6GNfnwnh69uQicOecp+JCBFEKL4KQ=;
+ b=UUPmXtcxnlgBTwaI65TAL08jjo0I07Wr+ZP61jIpoNCVz1Wcsj+Vt3zXePof2uUebndmWA
+ 3k0sf41gdm5zBXNk5kDlIWDIyt14l2Jby0XU9B7zQMXqxqDoxzoVyWQ0/aJDOg0Hdm9WLe
+ FujPqTTcADzZd8CJqnjFiabG2AK73cs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-241-J6au19XUNxaQNzNBVgyh4w-1; Mon, 02 May 2022 15:28:49 -0400
-X-MC-Unique: J6au19XUNxaQNzNBVgyh4w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bh7-20020a05600c3d0700b003940829b48dso131375wmb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 12:28:49 -0700 (PDT)
+ us-mta-657-ussGqln4PyqpE74siAeGmA-1; Mon, 02 May 2022 15:32:39 -0400
+X-MC-Unique: ussGqln4PyqpE74siAeGmA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ w11-20020adf8bcb000000b0020c550ba8d7so2052032wra.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 12:32:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ybrD/7h5J3fSITXfW6xwvBBTYoCzdyhOVw3+IuZ9Mdo=;
- b=4c6wGYvhEVzy8qjvZ79/zBw2H7SljyVuIkCvMakW+lpL8Hj4xJtRjATFziSBugfXrX
- VJSwyKzcCMw+6ObL2iFDv6olNAxyoKN8acmHZ1P9RmeanWYZhJGOQU5/5UvlQjgf1jQm
- h5CgQ92I5dv9WNrLUuFGwqRwpzRzbojn7CbmwvwOFAgPyh5wjnlz58pWvQmBGfUSzj3U
- F25nwTv2a57gEIl0t/1uaalG6326zM5f6y0yoTLAtS3idmFH+e5Wiinf8nS3+oPLvHuo
- 1s8vH6cU8i3p241hlnTmHmT21yG7GfWOhQYD7HUX82xTh1c0cVxXpiuVyTRwjY8C7XGm
- /8nw==
-X-Gm-Message-State: AOAM531m6MbKtLjKviY+JRl+egzIcbnWpI3T+wr3Dk8NzQzZOHWEni2o
- QmbdYDFwlwxkcV5BIhKL77rujD7xc+69H7Lp6xRUlt9SgTuojRHj4uQ9tga0/AUUWPHdmD0AmSW
- W4VwSugTnnLWfdttEjIWcsC4aTe6Y
-X-Received: by 2002:a1c:2185:0:b0:38f:f4ed:f964 with SMTP id
- h127-20020a1c2185000000b0038ff4edf964mr455160wmh.115.1651519728173; 
- Mon, 02 May 2022 12:28:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6PH/40SaNl+msWDc9MMOxGWhQ4paAp4y0QHAm2sPRM41zGPMEJK26hBMq+1sXlgAvBf3d/A==
-X-Received: by 2002:a1c:2185:0:b0:38f:f4ed:f964 with SMTP id
- h127-20020a1c2185000000b0038ff4edf964mr455146wmh.115.1651519727953; 
- Mon, 02 May 2022 12:28:47 -0700 (PDT)
+ bh=nbzfCdBFw8cpcp6GNfnwnh69uQicOecp+JCBFEKL4KQ=;
+ b=mFJ+eBdsMNXcr37zRZVE5NY4sKvuH02lBHlglI9ahyLNWdqbt7mZPtS95v74hbr+Oj
+ JKaR9rgOMxkRrSAjmaOK6jYxa+TxUuiKOc94iR7kkXHjCxZSkj7d9S7Ny/wIcRZkgYZQ
+ OmBTEjQpmXi4qKowZOLl6EZ3VWEyw7bBgZYOXKJ1ew/Xsz/yOEEraPFHz9jLgjBHTSnY
+ qe3UGwb4lrSWf7/YBE8puwlwA4DqCO1n6Zsc8JljcSLpD2seOPy37VqKiaQAihoR/CGI
+ +yBLHNnIkgNsu21Y164H2qEq60uOQVo36/YwfYaKGxfDGNZMNyVvTmIvpmADtJIwktho
+ k9JA==
+X-Gm-Message-State: AOAM533Ud3VMf+AuJLxKm2OPxSdkIh4FeKzCjSTUlssxmxSPl/7Hz6g+
+ Z+YHzYrjBy5vSlgOuvOONv/ruRV6EfgaGFNSXO8HlpUlkexmePpivuraMR5Qqc01kePBoWvxyWU
+ 5zBnQab22rUYKK5MfwN/55beht+Y9
+X-Received: by 2002:a05:6000:1f91:b0:20c:54e5:fbbb with SMTP id
+ bw17-20020a0560001f9100b0020c54e5fbbbmr9326946wrb.557.1651519957823; 
+ Mon, 02 May 2022 12:32:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwVs7B+6rPqXsNNGufzXcbZnvxHD2Rc2poBCZFUtJFhTChFFutVIbK6j6FDqD2fufd2ssjz+A==
+X-Received: by 2002:a05:6000:1f91:b0:20c:54e5:fbbb with SMTP id
+ bw17-20020a0560001f9100b0020c54e5fbbbmr9326938wrb.557.1651519957563; 
+ Mon, 02 May 2022 12:32:37 -0700 (PDT)
 Received: from [192.168.1.129] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a1ced01000000b003942a244f4fsm54753wmh.40.2022.05.02.12.28.46
+ a25-20020adfb519000000b0020c5253d920sm10135342wrd.108.2022.05.02.12.32.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 12:28:47 -0700 (PDT)
-Message-ID: <21db3772-b85a-59ff-df17-9056b3099977@redhat.com>
-Date: Mon, 2 May 2022 21:28:45 +0200
+ Mon, 02 May 2022 12:32:37 -0700 (PDT)
+Message-ID: <5691bc75-4085-d70d-a0ad-2dc450065c81@redhat.com>
+Date: Mon, 2 May 2022 21:32:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 1/3] drm: Remove superfluous arg when calling to
- drm_fbdev_generic_setup()
+Subject: Re: [PATCH v2 3/3] drm: Allow simpledrm to setup its emulated FB as
+ firmware provided
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20220502153900.408522-1-javierm@redhat.com>
- <20220502153900.408522-2-javierm@redhat.com>
- <YnABjdpGC166yIY7@pendragon.ideasonboard.com>
- <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
- <bc6b6598-0e09-1a43-4086-e4164ab42a20@redhat.com>
- <YnAkwRL7b++a0omG@pendragon.ideasonboard.com>
+ <20220502153900.408522-4-javierm@redhat.com>
+ <YnAEDlikr+d8cvy4@pendragon.ideasonboard.com>
+ <9556f080-d309-f396-6d28-1190bc94cc38@redhat.com>
+ <YnAcj9O3l/qLc5ss@pendragon.ideasonboard.com>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YnAkwRL7b++a0omG@pendragon.ideasonboard.com>
+In-Reply-To: <YnAcj9O3l/qLc5ss@pendragon.ideasonboard.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,35 +93,39 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- virtualization@lists.linux-foundation.org
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/2/22 20:36, Laurent Pinchart wrote:
-> On Mon, May 02, 2022 at 07:15:16PM +0200, Javier Martinez Canillas wrote:
->> On 5/2/22 18:55, Javier Martinez Canillas wrote:
->>
->> [snip]
->>
->>>> drop the depth option to drm_fbdev_generic_setup() ? There's a FIXME
->>>> comment in drm_fbdev_generic_setup() that could be related.
->>>
->>> A FIXME makes sense, I'll add that to when posting a v3.
->>
->> There's actually a FIXME already in drm_fbdev_generic_setup(), so it's
->> a documented issue [0]:
-> 
-> That's what I meant by "there's a FIXME" :-) It doesn't have to be
-> addressed by this series, but it would be good to fix it.
->
+Hello Laurent,
 
-doh, I misread your original email. Yes, it's the same issue as you
-said and something that I plan to look at some point as a follow-up.
- 
-I hope that we could just replace fbcon with a kms/systemd-consoled/foo
-user-space implementation before fixing all the stuff in the DRM fbdev
-emulation layer :)
+On 5/2/22 20:01, Laurent Pinchart wrote:
+> Hi Javier,
+
+[snip]
+
+>>>> +	fb_helper->firmware = firmware;
+>>>
+>>> I'd get rid of the local variable and write
+>>>
+>>
+>> I actually considered that but then decided to add a local variable to
+>> have both options set in the same place, since I thought that would be
+>> easier to read and also consistent with how preferred_bpp is handled.
+>>
+>> Maybe I could go the other way around and rework patch 2/3 to also not
+>> require a preferred_bpp local variable ? That patch won't be as small
+>> as it's now though. -- 
+> 
+> Up to you, or you could ignore the comment, it's minor. If you want to
+> keep the variable, you could also make it const, it's a good practice to
+> show it isn't intended to be modified.
+> 
+
+Right. I'll also do the same for the preferred_bpp variable in patch 2/3
+if I choose to keep them in v3.
+
+Thanks again for your feedback and comments!
 
 -- 
 Best regards,
