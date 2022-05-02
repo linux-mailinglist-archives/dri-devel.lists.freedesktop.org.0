@@ -2,66 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6609F517006
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D63517008
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92BF10EA0F;
-	Mon,  2 May 2022 13:10:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C31010EBDA;
+	Mon,  2 May 2022 13:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EA2D10EA0F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 13:10:02 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC5C410EBDA
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 13:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651497001;
+ s=mimecast20190719; t=1651497004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=M98yuoliII0uhmAHMZF66gc9CngyxoP5h99A2Tsi4xY=;
- b=DuM8xXOF7r0k+wJi7Q/1EKl/6MLfb8/yL9e19zOkSckNhLq/n0Ye94Rflq0wbRfDLTSJay
- 6+RXTzGqDCOXqcoFtUUQYLbTNZcBlv8R+lkumsbhDE3loAkkJee1SzLaSNvS2BFDMaaD09
- ei8+DfH2xMFFfCWKhLYdJ+xZpFYXJtY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6WaotQP90v4LJiFV9U7D4wGlm3uQ+5ZZcBUavInrV48=;
+ b=Tzin1PEe+V4rBQFV/H16r/+7bgyqJ4QMSDc8YHH1VMsfFbJKVbshY3lb73Sl87C06Qyu6B
+ n5q8JjbFl0ehwCB5ywjSjvuSo2/gphrf7hNN4CIDenMitudip4SkU2kyjd6Gdo7+u8aFOB
+ xloLKeVoBDizi7OorOwE6BHm8qMxtxk=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344-k8AG8bxtNQqr85pKClM-wQ-1; Mon, 02 May 2022 09:10:00 -0400
-X-MC-Unique: k8AG8bxtNQqr85pKClM-wQ-1
+ us-mta-607-PuRCz2wxPISIFIxN756TJg-1; Mon, 02 May 2022 09:10:01 -0400
+X-MC-Unique: PuRCz2wxPISIFIxN756TJg-1
 Received: by mail-wr1-f69.google.com with SMTP id
- b10-20020adfc74a000000b0020ab029d5edso5263374wrh.18
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 06:10:00 -0700 (PDT)
+ l7-20020adfbd87000000b0020ac0a4d23dso5320163wrh.17
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 06:10:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=M98yuoliII0uhmAHMZF66gc9CngyxoP5h99A2Tsi4xY=;
- b=NZEHsoHXYSS6lUOtbdDT3RjY8LRrjYBdtbBiptDhHEgNZt3hW5bspHzdBDKowkuXOv
- L38Ik23Mw10kPro2GdIlw4OjZReg72/vj2ho+eSkXKcTo1w+MhngPI5s2+ZcHJ+khuAC
- Lq4TCOXt8/PKE0e48tnBx6QikwL9Ptlb1sxYqRmwOHKij3v+AMTgdaiPLV4ljF3R0bQc
- d3gZCTjDAe8c0apI6OBWeuC4+fgnhb7pzYg9oKFIikPdDYLVI6UB8IgTK8XRbqXer1qx
- KeaRiWoHk5ec57yA3l6QjmiYz5i9ypJXMtMb8BB6afrT++1mlMyf7ulkL6DxXC1jBFtV
- vJbA==
-X-Gm-Message-State: AOAM533iD+mxFIVJfx1jacu6Ld7tZhGILiZ+SrXCAZXmfaCaO8gC6RUq
- pG3oJBsjgea9UgEfL3vToCy5lUseS8q2X8ulAeXMXo3dYsDPZUHGjz0S6RZpsGKdNtwWNx9Q/73
- osbof7D/xT7sLIyrmt+2mV7VFmJSz
-X-Received: by 2002:a5d:4302:0:b0:206:4b2:8690 with SMTP id
- h2-20020a5d4302000000b0020604b28690mr9494459wrq.224.1651496999235; 
- Mon, 02 May 2022 06:09:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKVP2T2hazdS7uD0pMN5Q6bcG0ygMlmFscepv/VzzVywZGxoSQ2B+d0TgKpqI/Cu+rYnhltw==
-X-Received: by 2002:a5d:4302:0:b0:206:4b2:8690 with SMTP id
- h2-20020a5d4302000000b0020604b28690mr9494444wrq.224.1651496999021; 
- Mon, 02 May 2022 06:09:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6WaotQP90v4LJiFV9U7D4wGlm3uQ+5ZZcBUavInrV48=;
+ b=L4g2x4EOScI/of913zKW0J7wmjv5axbnUZ3SDJOgPio063h6KOVCJuuPDuYT2pJRiI
+ Glz+zk0YsKMRe5oqxhRUuqbmy+cCCNlVdNbV/qr1OF3baL/+2lABC7BlNLGDsejJeG/b
+ WwhZvK7fthFBTPclxFKKZ+ImEznQb9yujwya48wr/tyn0oWqOROEtAPspeEhRZduxDRv
+ 7MMnqgjBqR/RPU5sjNzpp6VcAiYzMGi9nvOjdE0XLSrKKl9566YGRENuADHH0duhCHTX
+ YEiSklSmOuLj6CDH3SPzwawHkcMfSgoarnkogPsoFwNixjc9A+yN2u8jXiV1TE61lyOo
+ Yeyg==
+X-Gm-Message-State: AOAM5312AyVAZ+QvH91/kBStmgN6/isYyad1JFPtCp++szIGhWjFfyjT
+ PNqfBvkow1vm5WSlHVobDN8yPWV3oJBL0PQi05G36APKVJlvxSde51v7LPLOF54YesKBORxnTgZ
+ S6ZmR8alfdYQyiZ/nPZvraCfg8syY
+X-Received: by 2002:a05:6000:1707:b0:20c:660c:7c78 with SMTP id
+ n7-20020a056000170700b0020c660c7c78mr2875392wrc.150.1651497000465; 
+ Mon, 02 May 2022 06:10:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjmpu5DF0NDgIenLWQrfwWpzc9ggipOyyqoLLJb25FhgbRN0nzSaLoP3BCeGiVSQj+kuDHOA==
+X-Received: by 2002:a05:6000:1707:b0:20c:660c:7c78 with SMTP id
+ n7-20020a056000170700b0020c660c7c78mr2875372wrc.150.1651497000266; 
+ Mon, 02 May 2022 06:10:00 -0700 (PDT)
 Received: from minerva.home ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- y16-20020adfc7d0000000b0020adc114136sm9302081wrg.0.2022.05.02.06.09.58
+ y16-20020adfc7d0000000b0020adc114136sm9302081wrg.0.2022.05.02.06.09.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 06:09:58 -0700 (PDT)
+ Mon, 02 May 2022 06:09:59 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] fbdev: Fix a NULL pointer dereference in fb_release()
-Date: Mon,  2 May 2022 15:09:42 +0200
-Message-Id: <20220502130944.363776-1-javierm@redhat.com>
+Subject: [PATCH 1/2] fbdev: Check in file_fb_info() if the fb_info was already
+ been freed
+Date: Mon,  2 May 2022 15:09:43 +0200
+Message-Id: <20220502130944.363776-2-javierm@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220502130944.363776-1-javierm@redhat.com>
+References: <20220502130944.363776-1-javierm@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
@@ -83,38 +87,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Xiyu Yang <xiyuyang19@fudan.edu.cn>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, Changcheng Deng <deng.changcheng@zte.com.cn>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
  Maxime Ripard <maxime@cerno.tech>, Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Guenter Roeck <linux@roeck-us.net>
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+If real driver probes, the fbdev core kicks out all drivers that are using
+a framebuffer that were provided by the system firmware. But it could be a
+user-space process still has a file descriptor for the fbdev device node.
 
-This small series contains fixes for two bugs I found in fbmem.c, that may
-explain a bug reported in the rpi4 [0] when using simplefb and vc4 drivers.
+This can lead to a NULL pointer dereference, if the framebuffer device is
+unregistered and associated data freed, but later in the .release callback
+is attempted to access its struct fb_info.
 
-I was not able to reproduce the mentioned bug, but looking at the code I
-think that it might explain the issue.
+To prevent this, make file_fb_info() to also check the fb_info reference
+counter and just return NULL if this equals zero. Since that means it has
+already been freed.
 
-I've tested these patches in a rpi4 with both simplefb and vc4 drivers
-built-in and did not find any regression.
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-[0]: https://github.com/raspberrypi/linux/issues/5011
+ drivers/video/fbdev/core/fbmem.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Best regards,
-Javier
-
-
-Javier Martinez Canillas (2):
-  fbdev: Check in file_fb_info() if the fb_info was already been freed
-  fbdev: Make fb_release() return -ENODEV if fbdev was unregistered
-
- drivers/video/fbdev/core/fbmem.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 84427470367b..20d8929df79f 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -751,8 +751,13 @@ static struct fb_info *file_fb_info(struct file *file)
+ 	int fbidx = iminor(inode);
+ 	struct fb_info *info = registered_fb[fbidx];
+ 
+-	if (info != file->private_data)
+-		info = NULL;
++	if (!info)
++		return NULL;
++
++	/* check that the fb_info has not changed or was already freed */
++	if (info != file->private_data || refcount_read(&info->count) == 0)
++		return NULL;
++
+ 	return info;
+ }
+ 
 -- 
 2.35.1
 
