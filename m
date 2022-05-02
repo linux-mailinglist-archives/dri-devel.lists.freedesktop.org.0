@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84CE5176A1
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 20:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F042A5176AC
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 20:39:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 716A610F2A3;
-	Mon,  2 May 2022 18:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5EAE10EF03;
+	Mon,  2 May 2022 18:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADAE110F325
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 18:36:51 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 169A5484;
- Mon,  2 May 2022 20:36:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1651516610;
- bh=yaoaNhOAhbbsbhLLMHBGWoGvporF5ND1Yq8X+9irqbw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uY4m9h5inCrZ1g09AnkLj5YrOdPggXhfWf6LuWwcQk8AGinR5Uhfe1vHnUYY+i2QJ
- ftm1w2Dugb49XtnuH9+62iewsyI/iXtGXZ0wRhKnq6Zm9lQxeUq99el/FEdH2rvuUZ
- 4hX/7H0ZU9x2SoQFz2VJNwjQxp0r7vwwcMAhgMIY=
-Date: Mon, 2 May 2022 21:36:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 1/3] drm: Remove superfluous arg when calling to
- drm_fbdev_generic_setup()
-Message-ID: <YnAkwRL7b++a0omG@pendragon.ideasonboard.com>
-References: <20220502153900.408522-1-javierm@redhat.com>
- <20220502153900.408522-2-javierm@redhat.com>
- <YnABjdpGC166yIY7@pendragon.ideasonboard.com>
- <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
- <bc6b6598-0e09-1a43-4086-e4164ab42a20@redhat.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA43410EF03;
+ Mon,  2 May 2022 18:39:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651516790; x=1683052790;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wSx2snvDTKh1F7GlIS6ClioHHCNt24Ogh9KCnHJ8ku8=;
+ b=kol4722tR5ZMmyOzAsub4s87CYYHygFM86M8soUUXIfpmpQFRJnsmMrQ
+ T5c+PYnNU0BYNvoHuzM/zKuhi2ViBFFY3T6NPn5OrZ9ULPWxOXA3Un7pS
+ xhaJInj44g5ZbFNU1Ze/Ji7EHx9TLknmkHJaTy5Nr1PhZk3DGcMhhPWbU
+ NTvkOAc/zl/lTF2XKnvNyAsMFz1tEK1eonqAcErERHoPAyD/S2tTt1oZa
+ HEZ+nZAaFX1nI6B1mM/3Wd5rgIaVDMT9k3jmuHKbAMjyq6KQ6xYLZxA+6
+ Ug5HAydnha0nslx6Jo1IqY9MjZQ46Zn6CKqZAcDifTjlEucvzab4c93xA A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="247207513"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="247207513"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 11:39:50 -0700
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="690617253"
+Received: from ldmartin-desk2.jf.intel.com ([134.134.244.76])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 11:39:50 -0700
+Date: Mon, 2 May 2022 11:39:48 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
+Message-ID: <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
+References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+ <20220502163417.2635462-4-matthew.d.roper@intel.com>
+ <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <bc6b6598-0e09-1a43-4086-e4164ab42a20@redhat.com>
+In-Reply-To: <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,48 +57,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- virtualization@lists.linux-foundation.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 02, 2022 at 07:15:16PM +0200, Javier Martinez Canillas wrote:
-> On 5/2/22 18:55, Javier Martinez Canillas wrote:
-> 
-> [snip]
-> 
-> >> drop the depth option to drm_fbdev_generic_setup() ? There's a FIXME
-> >> comment in drm_fbdev_generic_setup() that could be related.
-> > 
-> > A FIXME makes sense, I'll add that to when posting a v3.
-> 
-> There's actually a FIXME already in drm_fbdev_generic_setup(), so it's
-> a documented issue [0]:
+On Mon, May 02, 2022 at 09:50:23AM -0700, Matt Roper wrote:
+>On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
+>> From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+>>
+>> Bspec: 45101, 72161
+>> Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+>> Signed-off-by: Fei Yang <fei.yang@intel.com>
+>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
+>>  drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
+>>  drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
+>>  drivers/gpu/drm/i915/i915_drv.h             |  2 ++
+>>  drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
+>>  drivers/gpu/drm/i915/intel_device_info.h    |  1 +
+>>  6 files changed, 39 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> index b06611c1d4ad..7853ea194ea6 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>> @@ -221,6 +221,7 @@ struct intel_gt {
+>>
+>>  	struct {
+>>  		u8 uc_index;
+>> +		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+>>  	} mocs;
+>>
+>>  	struct intel_pxp pxp;
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
+>> index c4c37585ae8c..265812589f87 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
+>> @@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
+>>  	unsigned int n_entries;
+>>  	const struct drm_i915_mocs_entry *table;
+>>  	u8 uc_index;
+>> +	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
+>>  	u8 unused_entries_index;
+>>  };
+>>
+>> @@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
+>>
+>>  /* Helper defines */
+>>  #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
+>> +#define PVC_NUM_MOCS_ENTRIES	3
+>
+>Should this be 4?  The value here should reflect the number of entries
+>that can defined in hardware rather than the size of the table we're
+>asked to program.  Since there are two registers (each with a high and a
+>low entry), that would imply we should set 4 here to ensure that the
+>fourth entry is initialized according to unused_entries_index rather
+>than left at whatever the hardware defaults might be.
 
-That's what I meant by "there's a FIXME" :-) It doesn't have to be
-addressed by this series, but it would be good to fix it.
+not sure I understand what you mean here. The n_entries specifies, as
+you said, the number of entries we can have. Bspec 45101 shows entries
+for indexes 0, 1 and 2. As does the pvc_mocs_table below.
 
-> void drm_fbdev_generic_setup(struct drm_device *dev,
-> 			     unsigned int preferred_bpp)
-> {
-> ...
-> 	/*
-> 	 * FIXME: This mixes up depth with bpp, which results in a glorious
-> 	 * mess, resulting in some drivers picking wrong fbdev defaults and
-> 	 * others wrong preferred_depth defaults.
-> 	 */
-> 	if (!preferred_bpp)
-> 		preferred_bpp = dev->mode_config.preferred_depth;
-> 	if (!preferred_bpp)
-> 		preferred_bpp = 32;
-> 	fb_helper->preferred_bpp = preferred_bpp;
-> ...
-> }
-> 
-> [0]: https://elixir.bootlin.com/linux/v5.18-rc5/source/drivers/gpu/drm/drm_fb_helper.c#L2553
+Also, from bspec 44509:
+"For PVC, only 3 MOCS states are supported. The allowed index values are
+in range [0, 2]..."
 
--- 
-Regards,
+So, I don't think we want to program any fourth entry.
 
-Laurent Pinchart
+Lucas De Marchi
