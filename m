@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7049516B74
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 09:54:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B862516BA2
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 10:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36EE10E63D;
-	Mon,  2 May 2022 07:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8606210EAA0;
+	Mon,  2 May 2022 08:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B8610E63D;
- Mon,  2 May 2022 07:54:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651478086; x=1683014086;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Bhj8xnIHbQKQwuh5VEtKknLbA4o/PcKSJK9KlpEI8vQ=;
- b=en7mFU2ey6DJvIYWQ0gFGiaj3VOvKMoDCWrsFBc31hOucNg4eAYfvwKJ
- xP6J0rhFFurr3gV1a7xu3VvsnJlrrUZxikfePbCfU+9C97xPjF1fIm1Qe
- VeHIvoQQAQ8lNWZ3jwRUlaNXAGvlpMmw18lvNHgTax5ucN8AQ8sycsFZq
- t1T6XjPJYBh9tDXopx6N3ZUU5kjxHktptGZ/BfbHGLEVTaiM23VR17F8h
- HOCQh7Z2zILdB7o0wfXzX7204Bganqxiv48Gu68ETgiOAZcvjFxT/yPt7
- L7GrSDe1zsDJL0YAEf9yacv3O2XerbcbqRr9O67MrQYPT7nkylhiHdACz g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10334"; a="247060664"
-X-IronPort-AV: E=Sophos;i="5.91,190,1647327600"; d="scan'208";a="247060664"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 00:54:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,190,1647327600"; d="scan'208";a="535741289"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga006.jf.intel.com with ESMTP; 02 May 2022 00:54:45 -0700
-Received: from [10.249.133.93] (unknown [10.249.133.93])
- by linux.intel.com (Postfix) with ESMTP id CA32F580897;
- Mon,  2 May 2022 00:54:41 -0700 (PDT)
-Message-ID: <5a026a09-e0de-6ade-cd70-b549ca646b95@intel.com>
-Date: Mon, 2 May 2022 10:54:40 +0300
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2CA010EAA0
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 08:02:50 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2f7ca2ce255so139504987b3.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 01:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kNgrc/VKR7lFM4tEidPV/eyB0oBiyvx07OI/aA9mkMw=;
+ b=BNZKbI7vegP9f+sEQUwSakGY9nNSsydVRRq3ICUhttL+PP95SHE69AT16CxMDwYufP
+ JCdTwmXwjbjd1eceHlSgWcj1pGaKeinO66JIOV6PoqB6wk8MCBuOUBupHr8Q1+TKAY0H
+ 1iWf4mC+Kw/mkynajBSr3767fV5G1HQaRKx63oX+UWz/VBdNowUd0wYH6rXydOR9wBxn
+ MtBa5wpPc78Z8UcsrkcbkBNTSPVtuBj60cDUbH/7BRAdK3a/SHzXh83EMGGMPdqu3Ch/
+ QQ0QihImwOevG/lBO4D7Zq/cMuHtOXtbf2M5wxwaZ6+MWqtiL7Qy5FsjVfZvzA6EHPky
+ h1kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kNgrc/VKR7lFM4tEidPV/eyB0oBiyvx07OI/aA9mkMw=;
+ b=VsZkb572VchHbwWtplPLGWD0EWeVXoul5gi0i06gQa0Q1pWAVAAVJjjER54IAu4NJh
+ WxTPG09FwyGQ5fW+Om0kSu4TqO8baOXm3A1T7RLwLB8Tp2jWv7XM0OBnHU8DvNarAkQt
+ HmeWvdYJXUJvGwlrTDMh8durvEY+uyX5Jyq+8IUnfbSLJflnPEZq3xHZOwob2WYbMMR4
+ BkM5hsvg4dHZ5p6kZ6xgTl3sziHST7U7xmzyrMXlAD97Rfq5+ioqLFGLtk/eRmGEt1fb
+ RM7aQf5r4zs/1bhoFMKy7ofdbdGH2anGiQRTwnvTtzuCDfUrEV2GF8HVowMSJpL/Y2kD
+ jnvQ==
+X-Gm-Message-State: AOAM532+VBjb0/3KrIAryj4D7qhehfjVIcsdyDAIRSdQDjTjjCfHg3gJ
+ adIGhs1o8mWUOeNtdDdqCZSB+GmWTp+hn2D/PiVnpw==
+X-Google-Smtp-Source: ABdhPJw05mScvDsGdfNP9v1I4CajFpxeIsq0RKFnzjXgJ1hZ2N/oi1FD8xi2zm1InjRr5MlgkboRnEKoBO6iVhJXDDs=
+X-Received: by 2002:a81:4ed0:0:b0:2f7:cec6:e5f2 with SMTP id
+ c199-20020a814ed0000000b002f7cec6e5f2mr10940362ywb.490.1651478570081; Mon, 02
+ May 2022 01:02:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2] drm/doc: add rfc section for small BAR uapi
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220420171328.57253-1-matthew.auld@intel.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <20220420171328.57253-1-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220430175533.3817792-1-dmitry.baryshkov@linaro.org>
+ <20220430185807.yn2j2coyc77qzx2o@SoMainline.org>
+ <b4a3bfed-a842-b4ee-d9a5-5adf5b59c09b@quicinc.com>
+ <20220501200635.ekl3fw47dv2zytt3@SoMainline.org>
+ <d6a78564-745c-7301-1b57-efc35757fbfd@quicinc.com>
+In-Reply-To: <d6a78564-745c-7301-1b57-efc35757fbfd@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 2 May 2022 11:02:38 +0300
+Message-ID: <CAA8EJpoU+TDTeoDcgYUGqc=a7O_9O3BAsmP6yejXfyz6sKxENA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2] drm/msm/dsi: use RMW cycles in
+ dsi_update_dsc_timing
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,327 +68,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, mesa-dev@lists.freedesktop.org,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: Sean Paul <sean@poorly.run>, kernel test robot <lkp@intel.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/04/2022 20:13, Matthew Auld wrote:
-> Add an entry for the new uapi needed for small BAR on DG2+.
+On Mon, 2 May 2022 at 02:56, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> v2:
->    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
->    - Rework error capture interactions, including no longer needing
->      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
->    - Add probed_cpu_visible_size. (Lionel)
 >
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
-> Cc: mesa-dev@lists.freedesktop.org
-> ---
->   Documentation/gpu/rfc/i915_small_bar.h   | 190 +++++++++++++++++++++++
->   Documentation/gpu/rfc/i915_small_bar.rst |  58 +++++++
->   Documentation/gpu/rfc/index.rst          |   4 +
->   3 files changed, 252 insertions(+)
->   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
->   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
 >
-> diff --git a/Documentation/gpu/rfc/i915_small_bar.h b/Documentation/gpu/rfc/i915_small_bar.h
-> new file mode 100644
-> index 000000000000..7bfd0cf44d35
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/i915_small_bar.h
-> @@ -0,0 +1,190 @@
-> +/**
-> + * struct __drm_i915_memory_region_info - Describes one region as known to the
-> + * driver.
-> + *
-> + * Note this is using both struct drm_i915_query_item and struct drm_i915_query.
-> + * For this new query we are adding the new query id DRM_I915_QUERY_MEMORY_REGIONS
-> + * at &drm_i915_query_item.query_id.
-> + */
-> +struct __drm_i915_memory_region_info {
-> +	/** @region: The class:instance pair encoding */
-> +	struct drm_i915_gem_memory_class_instance region;
-> +
-> +	/** @rsvd0: MBZ */
-> +	__u32 rsvd0;
-> +
-> +	/** @probed_size: Memory probed by the driver (-1 = unknown) */
-> +	__u64 probed_size;
-> +
-> +	/** @unallocated_size: Estimate of memory remaining (-1 = unknown) */
-> +	__u64 unallocated_size;
-> +
-> +	union {
-> +		/** @rsvd1: MBZ */
-> +		__u64 rsvd1[8];
-> +		struct {
-> +			/**
-> +			 * @probed_cpu_visible_size: Memory probed by the driver
-> +			 * that is CPU accessible. (-1 = unknown).
-> +			 *
-> +			 * This will be always be <= @probed_size, and the
-> +			 * remainder(if there is any) will not be CPU
-> +			 * accessible.
-> +			 */
-> +			__u64 probed_cpu_visible_size;
-> +		};
+> On 5/1/2022 1:06 PM, Marijn Suijten wrote:
+> > On 2022-04-30 12:25:57, Abhinav Kumar wrote:
+> >>
+> >>
+> >> On 4/30/2022 11:58 AM, Marijn Suijten wrote:
+> >>> On 2022-04-30 20:55:33, Dmitry Baryshkov wrote:
+> >>>> The downstream uses read-modify-write for updating command mode
+> >>>> compression registers. Let's follow this approach. This also fixes the
+> >>>> following warning:
+> >>>>
+> >>>> drivers/gpu/drm/msm/dsi/dsi_host.c:918:23: warning: variable 'reg_ctrl' set but not used [-Wunused-but-set-variable]
+> >>>>
+> >>>> Reported-by: kernel test robot <lkp@intel.com>
+> >>>> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
+> >>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>
+> >>> I pointed this out in review multiple times, so you'll obviously get my:
+> >>>
+> >>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >>>
+> >>> (But are you sure there's nothing else to clear in the 1st CTRL
+> >>> register, only the lowest 16 bits?  That should mean `reg` never
+> >>> contains anything in 0xffff0000)
+> >>
+> >> The top 16 bits contain information for stream 1.
+> >>
+> >> Stream 1 is unused. And whatever is the reset value we should retain that.
+> >>
+> >> So this patch is correct.
+> >
+> > I was not debating the correctness of this patch, quite the contrary:
+> > it's already much better than it was before.
+> >
+> > I'm simply asking whether we should prevent `reg` (not `reg_ctrl`!)
+> > from having anything in the top 16 bits, which would overwrite the reset
+> > value for stream 1 which you correctly say should be retained as it is.
+> > It seems unlikely that this happens, but better be safe than sorry?
+>
+> Wouln't this macro already make sure that 'reg' doesnt have anything in
+> the top 16 bits? Its doing a & with 0x00003f00
+>
+> #define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK
+> 0x00003f00
+> #define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT   8
+> static inline uint32_t
+> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(uint32_t val)
+> {
+>      return ((val) <<
+> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT) &
+> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK;
+> }
+>
+> Did you have anything else in mind? If so, please suggest.
+>
+> >
+> > Looking at the DSI register definition for DSC [1] again, I wonder if
+> > there's support for defining a common bitfield layout and reusing it
+> > thrice: the two channels for CMD mode and a single use for VIDEO.  Don't
+> > think that'd make the kernel code better though if even possible at all.
+> >
+>
+> We can have a common bitfield layout for the two channels for command mode.
+>
+> So we can do something like below for common fields:
+>
+> -static inline uint32_t
+> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(uint32_t val)
+> +static inline uint32_t
+> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM_DATATYPE(uint32_t val, uint32_t
+> stream_id)
+>   {
+> -       return ((val) <<
+> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT) &
+> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK;
+> +       return ((val) <<
+> (DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT + (stream_id
+> * 16)) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK;
+>   }
+
+NAK. Please express this in the xml source. This file is autogenerated.
+
+>
+> Video mode can also use all of these except for WC as that field is not
+> present for cmd modes.
+>
+> This can go as a separate change .
+>
+> I can push this and perhaps get a Tested-by from Vinod as I dont have a
+> setup to re-validate this.
+>
+> Thanks
+>
+> Abhinav
+> > [1]: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14967/diffs
+> >
+> > - Marijn
+> >
+> >>>
+> >>> However, this seems to indicate that the DSC patch series has been
+> >>> approved and merged somehow??
+> >>>
+> >>>> ---
+> >>>>
+> >>>> Changes since v1:
+> >>>>    - Fix c&p error and apply mask clear to reg_ctrl2 instead of reg_ctrl
+> >>>>      (Abhinav)
+> >>>>
+> >>>> ---
+> >>>>    drivers/gpu/drm/msm/dsi/dsi_host.c | 5 ++++-
+> >>>>    1 file changed, 4 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> >>>> index c983698d1384..a95d5df52653 100644
+> >>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> >>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> >>>> @@ -961,10 +961,13 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+> >>>>                    reg_ctrl = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
+> >>>>                    reg_ctrl2 = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
+> >>>>
+> >>>> +          reg_ctrl &= ~0xffff;
+> >>>>                    reg_ctrl |= reg;
+> >>>> +
+> >>>> +          reg_ctrl2 &= ~DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
+> >>>>                    reg_ctrl2 |= DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(bytes_in_slice);
+> >>>>
+> >>>> -          dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg);
+> >>>> +          dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg_ctrl);
+> >>>>                    dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2, reg_ctrl2);
+> >>>>            } else {
+> >>>>                    dsi_write(msm_host, REG_DSI_VIDEO_COMPRESSION_MODE_CTRL, reg);
+> >>>> --
+> >>>> 2.35.1
+> >>>>
 
 
-Trying to implement userspace support in Vulkan for this, I have an 
-additional question about the value of probed_cpu_visible_size.
 
-When is it set to -1?
-
-I'm guessing before there is support for this value it'll be 0 (MBZ).
-
-After after it should either be the entire lmem or something smaller.
-
-
--Lionel
-
-
-> +	};
-> +};
-> +
-> +/**
-> + * struct __drm_i915_gem_create_ext - Existing gem_create behaviour, with added
-> + * extension support using struct i915_user_extension.
-> + *
-> + * Note that new buffer flags should be added here, at least for the stuff that
-> + * is immutable. Previously we would have two ioctls, one to create the object
-> + * with gem_create, and another to apply various parameters, however this
-> + * creates some ambiguity for the params which are considered immutable. Also in
-> + * general we're phasing out the various SET/GET ioctls.
-> + */
-> +struct __drm_i915_gem_create_ext {
-> +	/**
-> +	 * @size: Requested size for the object.
-> +	 *
-> +	 * The (page-aligned) allocated size for the object will be returned.
-> +	 *
-> +	 * Note that for some devices we have might have further minimum
-> +	 * page-size restrictions(larger than 4K), like for device local-memory.
-> +	 * However in general the final size here should always reflect any
-> +	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
-> +	 * extension to place the object in device local-memory.
-> +	 */
-> +	__u64 size;
-> +	/**
-> +	 * @handle: Returned handle for the object.
-> +	 *
-> +	 * Object handles are nonzero.
-> +	 */
-> +	__u32 handle;
-> +	/**
-> +	 * @flags: Optional flags.
-> +	 *
-> +	 * Supported values:
-> +	 *
-> +	 * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the kernel that
-> +	 * the object will need to be accessed via the CPU.
-> +	 *
-> +	 * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, and
-> +	 * only strictly required on platforms where only some of the device
-> +	 * memory is directly visible or mappable through the CPU, like on DG2+.
-> +	 *
-> +	 * One of the placements MUST also be I915_MEMORY_CLASS_SYSTEM, to
-> +	 * ensure we can always spill the allocation to system memory, if we
-> +	 * can't place the object in the mappable part of
-> +	 * I915_MEMORY_CLASS_DEVICE.
-> +	 *
-> +	 * Note that since the kernel only supports flat-CCS on objects that can
-> +	 * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore don't
-> +	 * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
-> +	 * flat-CCS.
-> +	 *
-> +	 * Without this hint, the kernel will assume that non-mappable
-> +	 * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note that the
-> +	 * kernel can still migrate the object to the mappable part, as a last
-> +	 * resort, if userspace ever CPU faults this object, but this might be
-> +	 * expensive, and so ideally should be avoided.
-> +	 */
-> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
-> +	__u32 flags;
-> +	/**
-> +	 * @extensions: The chain of extensions to apply to this object.
-> +	 *
-> +	 * This will be useful in the future when we need to support several
-> +	 * different extensions, and we need to apply more than one when
-> +	 * creating the object. See struct i915_user_extension.
-> +	 *
-> +	 * If we don't supply any extensions then we get the same old gem_create
-> +	 * behaviour.
-> +	 *
-> +	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
-> +	 * struct drm_i915_gem_create_ext_memory_regions.
-> +	 *
-> +	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
-> +	 * struct drm_i915_gem_create_ext_protected_content.
-> +	 */
-> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
-> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-> +	__u64 extensions;
-> +};
-> +
-> +#define DRM_I915_QUERY_VMA_INFO	5
-> +
-> +/**
-> + * struct __drm_i915_query_vma_info
-> + *
-> + * Given a vm and GTT address, lookup the corresponding vma, returning its set
-> + * of attributes.
-> + *
-> + * .. code-block:: C
-> + *
-> + *	struct drm_i915_query_vma_info info = {};
-> + *	struct drm_i915_query_item item = {
-> + *		.data_ptr = (uintptr_t)&info,
-> + *		.query_id = DRM_I915_QUERY_VMA_INFO,
-> + *	};
-> + *	struct drm_i915_query query = {
-> + *		.num_items = 1,
-> + *		.items_ptr = (uintptr_t)&item,
-> + *	};
-> + *	int err;
-> + *
-> + *	// Unlike some other types of queries, there is no need to first query
-> + *	// the size of the data_ptr blob here, since we already know ahead of
-> + *	// time how big this needs to be.
-> + *	item.length = sizeof(info);
-> + *
-> + *	// Next we fill in the vm_id and ppGTT address of the vma we wish
-> + *	// to query, before then firing off the query.
-> + *	info.vm_id = vm_id;
-> + *	info.offset = gtt_address;
-> + *	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
-> + *	if (err || item.length < 0) ...
-> + *
-> + *	// If all went well we can now inspect the returned attributes.
-> + *	if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
-> + */
-> +struct __drm_i915_query_vma_info {
-> +	/**
-> +	 * @vm_id: The given vm id that contains the vma. The id is the value
-> +	 * returned by the DRM_I915_GEM_VM_CREATE. See struct
-> +	 * drm_i915_gem_vm_control.vm_id.
-> +	 */
-> +	__u32 vm_id;
-> +	/** @pad: MBZ. */
-> +	__u32 pad;
-> +	/**
-> +	 * @offset: The corresponding ppGTT address of the vma which the kernel
-> +	 * will use to perform the lookup.
-> +	 */
-> +	__u64 offset;
-> +	/**
-> +	 * @attributes: The returned attributes for the given vma.
-> +	 *
-> +	 * Possible values:
-> +	 *
-> +	 * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set if the pages backing the
-> +	 * vma are currently CPU accessible. If this is not set then the vma is
-> +	 * currently backed by I915_MEMORY_CLASS_DEVICE memory, which the CPU
-> +	 * cannot directly access(this is only possible on discrete devices with
-> +	 * a small BAR). Attempting to MMAP and fault such an object will
-> +	 * require the kernel first synchronising any GPU work tied to the
-> +	 * object, before then migrating the pages, either to the CPU accessible
-> +	 * part of I915_MEMORY_CLASS_DEVICE, or I915_MEMORY_CLASS_SYSTEM, if the
-> +	 * placements permit it. See I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
-> +	 *
-> +	 * Note that this is inherently racy.
-> +	 */
-> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
-> +	__u64 attributes;
-> +	/** @rsvd: MBZ */
-> +	__u32 rsvd[4];
-> +};
-> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst b/Documentation/gpu/rfc/i915_small_bar.rst
-> new file mode 100644
-> index 000000000000..be3d9bcdd86d
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
-> @@ -0,0 +1,58 @@
-> +==========================
-> +I915 Small BAR RFC Section
-> +==========================
-> +Starting from DG2 we will have resizable BAR support for device local-memory(i.e
-> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size might still be
-> +smaller than the total probed_size. In such cases, only some subset of
-> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the first 256M),
-> +while the remainder is only accessible via the GPU.
-> +
-> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
-> +----------------------------------------------
-> +New gem_create_ext flag to tell the kernel that a BO will require CPU access.
-> +This becomes important when placing an object in I915_MEMORY_CLASS_DEVICE, where
-> +underneath the device has a small BAR, meaning only some portion of it is CPU
-> +accessible. Without this flag the kernel will assume that CPU access is not
-> +required, and prioritize using the non-CPU visible portion of
-> +I915_MEMORY_CLASS_DEVICE.
-> +
-> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
-> +   :functions: __drm_i915_gem_create_ext
-> +
-> +probed_cpu_visible_size attribute
-> +---------------------------------
-> +New struct__drm_i915_memory_region attribute which returns the total size of the
-> +CPU accessible portion, for the particular region. This should only be
-> +applicable for I915_MEMORY_CLASS_DEVICE.
-> +
-> +Vulkan will need this as part of creating a separate VkMemoryHeap with the
-> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU visible portion,
-> +where the total size of the heap needs to be known.
-> +
-> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
-> +   :functions: __drm_i915_memory_region_info
-> +
-> +DRM_I915_QUERY_VMA_INFO query
-> +-----------------------------
-> +Query the attributes of some vma. Given a vm and GTT offset, find the
-> +respective vma, and return its set of attributes. For now we only support
-> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the object/vma is
-> +currently placed in memory that is accessible by the CPU. This should always be
-> +set on devices where the CPU probed_cpu_visible_size of I915_MEMORY_CLASS_DEVICE
-> +matches the probed_size. If this is not set then CPU faulting the object will
-> +likely first require migrating the pages.
-> +
-> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
-> +   :functions: __drm_i915_query_vma_info
-> +
-> +Error Capture restrictions
-> +--------------------------
-> +With error capture we have two new restrictions:
-> +
-> +    1) Error capture is best effort on small BAR systems; if the pages are not
-> +    CPU accessible, at the time of capture, then the kernel is free to skip
-> +    trying to capture them.
-> +
-> +    2) On discrete we now reject error capture on recoverable contexts. In the
-> +    future the kernel may want to blit during error capture, when for example
-> +    something is not currently CPU accessible.
-> diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-> index 91e93a705230..5a3bd3924ba6 100644
-> --- a/Documentation/gpu/rfc/index.rst
-> +++ b/Documentation/gpu/rfc/index.rst
-> @@ -23,3 +23,7 @@ host such documentation:
->   .. toctree::
->   
->       i915_scheduler.rst
-> +
-> +.. toctree::
-> +
-> +    i915_small_bar.rst
-
-
+-- 
+With best wishes
+Dmitry
