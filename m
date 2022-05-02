@@ -2,83 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60864517593
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBF55175C2
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82B310F194;
-	Mon,  2 May 2022 17:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B06010EAFF;
+	Mon,  2 May 2022 17:29:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D551A10F194
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651511719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TNhZbt5WmLs9YdL2p377OAwSFXloJynsUEcZgN+34jM=;
- b=EAiKspRfImrtcdZ4wf21vE6xt7sOY+yxJ3xGIV+upESPXrZzXDskjMOjTuKmei09lnIb7P
- +3En3/EQeIiZjR4pRcUzqhto8e6FjjGSAqs8N+CLpr9PU2jpeG2EiB75h4iNP7Igm4jbdE
- rJ4DCmroYMklNlhC/MOcN1c+40i/lVM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-7hifPmKXM-C1pRWYUnqPPw-1; Mon, 02 May 2022 13:15:18 -0400
-X-MC-Unique: 7hifPmKXM-C1pRWYUnqPPw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i131-20020a1c3b89000000b00393fbb0718bso9085799wma.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 10:15:18 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B21B10E10A;
+ Mon,  2 May 2022 17:29:18 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id 202so1913875pgc.9;
+ Mon, 02 May 2022 10:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oyJeFqHoGWWfsmN7ZUpT0hPaBi24D+V4aGuy1zcw08U=;
+ b=gkB3nWHWQfhKPTtg6lYd+R/7QE9aVQPHgvJtP+ctJQ0SBARAm7Sc7BRdc6cdk3juc9
+ ZJdHsXlMexuGv8fVXyAYNdbL/cNP1soLaojegZvIp/Awj7Dhg00wO+PQQf+HTXhpWFWX
+ BzndP2dJuMu3QU8Y6BoKOlHozEp6gaKV1lw3z1bfaBfebkKOXlj5HP4RJe6UhiYNu+qs
+ MMEwC3mX6ypQIuWLK1Sb966deUIyH3tr6ez3WGKHDXFNwUe3FH5Y5b+JZ2sfCfzm9yhJ
+ v1Pq1TmVb6qarjhBSpK1euW2N1S6uD9l+AbLaWM12sudV1HwnJTQ/3xjJhXnxN3lX6bR
+ FOXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=TNhZbt5WmLs9YdL2p377OAwSFXloJynsUEcZgN+34jM=;
- b=sLuPQgC7DS/ODUYh4ixsj6JBlzEtC28b1c66g0z0YR3LIqweyl2CgZ0AzCoV4z1h1g
- RqZrj47wA3AzdNQuTBcuCxJR5gH7HG0EIDtXY8S/mdMoXs7gu1ATRcHFtPIdl3g3BsCq
- h7cOwmnlFOC7ighlM8f8shCAI8vgKGAW5ODWDBfCUFWAK188H9m0PA0p2GYUlHwbr62C
- Laogu6ETg4ArrwnuD5kEvi0p9XLkb1pE1IO8rYOHV2ID7V962+sBTlkoeE4mV17tfPy+
- kPR6/N9kVMIQ8b8QiLA2dKE/yCX5O03ku1rLUMIjAFX9p0gGP79GEh3tC4/EbhuB53ld
- GyBg==
-X-Gm-Message-State: AOAM532zTkxlVIZYgap9TRv4Ybsn8tz5sPEHazsqLJ8r/+I3FVlF4D8t
- hJATM1qK5J/jt8OmcEUbvXAIDqwcC7VaKliT337SdqB8LqXzbVvV0dXeMKDqe+iTf7iihJHllV3
- D7WkSOUcthD+RjqRickdOFFGJxvKI
-X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
- b9-20020adfd1c9000000b00203c4f8dd17mr10068563wrd.633.1651511717578; 
- Mon, 02 May 2022 10:15:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwsIQ70V0swN3ajpzcihZtgWd7Y7xEQmDVKoinoDZrZIjQMH2cqaPWdg9iqJElhYFpe1gjTzA==
-X-Received: by 2002:adf:d1c9:0:b0:203:c4f8:dd17 with SMTP id
- b9-20020adfd1c9000000b00203c4f8dd17mr10068550wrd.633.1651511717373; 
- Mon, 02 May 2022 10:15:17 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- u21-20020adfa195000000b0020c5253d8c4sm7520081wru.16.2022.05.02.10.15.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 10:15:17 -0700 (PDT)
-Message-ID: <bc6b6598-0e09-1a43-4086-e4164ab42a20@redhat.com>
-Date: Mon, 2 May 2022 19:15:16 +0200
+ bh=oyJeFqHoGWWfsmN7ZUpT0hPaBi24D+V4aGuy1zcw08U=;
+ b=peKOFy2ug5wbyJtNq86aWeR/9teM88t4xmacKUzQTS/O0CjTxp3Sp2mIabqNDRYkyM
+ MueCU7YFLTs/8/DNK4t2rF0vM0L1U7Pp+DpwNE26euJnyNT6d+8Qxu1kUBJz6eSWE9wy
+ iE1w0okP9j6a501HUcc/Rg6gfkkGSxXSxjxhGUNwIv7scq3GoBYByttbd5lNchPmlXFW
+ fLtqDpqDodD6Zo6KCBGXgLj6V058uhP/DPac00hQFjWhbo+PiOMkTwBvLTlNijDF5N09
+ qCg27ZUcn4mdUail7biCc8GjOzwBxRJvNDhRmG4737cnpSA6h/nHfS8dGKX1BUCt8GTS
+ KvvQ==
+X-Gm-Message-State: AOAM532wc1751pW5aylWP4oDZZomLLP1VVeKumqo9MIGNVl8aps3SQd8
+ iEXcM3WDvzguTq/0sQ1t9TY4A6zpzlU=
+X-Google-Smtp-Source: ABdhPJyHf2OnaMoWX9/L1t52Z6eiweABLqlfrwiAvsNXVNVXwVpwyq5gx/jIDQrFotPphBbhdWbNHw==
+X-Received: by 2002:a63:1c0d:0:b0:3ab:1a76:953f with SMTP id
+ c13-20020a631c0d000000b003ab1a76953fmr10499701pgc.73.1651512557459; 
+ Mon, 02 May 2022 10:29:17 -0700 (PDT)
+Received: from localhost ([172.19.27.22]) by smtp.gmail.com with ESMTPSA id
+ j14-20020aa7800e000000b0050dc762816bsm4942208pfi.69.2022.05.02.10.29.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 May 2022 10:29:16 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Limit command submission when no IOMMU
+Date: Mon,  2 May 2022 10:29:08 -0700
+Message-Id: <20220502172908.3569799-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 1/3] drm: Remove superfluous arg when calling to
- drm_fbdev_generic_setup()
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220502153900.408522-1-javierm@redhat.com>
- <20220502153900.408522-2-javierm@redhat.com>
- <YnABjdpGC166yIY7@pendragon.ideasonboard.com>
- <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
-In-Reply-To: <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,49 +66,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- virtualization@lists.linux-foundation.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Luca Weiss <luca@z3ntu.xyz>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/2/22 18:55, Javier Martinez Canillas wrote:
+From: Rob Clark <robdclark@chromium.org>
 
-[snip]
+Running the GPU without an IOMMU is not really a supported (or sane)
+configuration.  Yet it can be useful during SoC bringup (ie. if the
+iommu driver doesn't work yet).
 
-> 
->> drop the depth option to drm_fbdev_generic_setup() ? There's a FIXME
->> comment in drm_fbdev_generic_setup() that could be related.
->>
-> 
-> A FIXME makes sense, I'll add that to when posting a v3.
+Lets limit it to users who already have /dev/mem access, to avoid the
+chance that a user accidentially configures kernel without IOMMU
+support.
 
-There's actually a FIXME already in drm_fbdev_generic_setup(), so it's
-a documented issue [0]:
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-void drm_fbdev_generic_setup(struct drm_device *dev,
-			     unsigned int preferred_bpp)
-{
-...
-	/*
-	 * FIXME: This mixes up depth with bpp, which results in a glorious
-	 * mess, resulting in some drivers picking wrong fbdev defaults and
-	 * others wrong preferred_depth defaults.
-	 */
-	if (!preferred_bpp)
-		preferred_bpp = dev->mode_config.preferred_depth;
-	if (!preferred_bpp)
-		preferred_bpp = 32;
-	fb_helper->preferred_bpp = preferred_bpp;
-...
-}
-
-[0]: https://elixir.bootlin.com/linux/v5.18-rc5/source/drivers/gpu/drm/drm_fb_helper.c#L2553
-
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 23b68bc945f6..9cd8c8708990 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -734,6 +734,11 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
++	if (unlikely(!ctx->aspace) && !capable(CAP_SYS_RAWIO)) {
++		DRM_ERROR_RATELIMITED("IOMMU support or CAP_SYS_RAWIO required!\n");
++		return -EPERM;
++	}
++
+ 	/* for now, we just have 3d pipe.. eventually this would need to
+ 	 * be more clever to dispatch to appropriate gpu module:
+ 	 */
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.35.1
 
