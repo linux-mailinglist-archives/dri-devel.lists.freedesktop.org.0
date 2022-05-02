@@ -1,52 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCE35176D6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 20:50:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB6D5176DA
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 20:51:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F85210E239;
-	Mon,  2 May 2022 18:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440C710E3AA;
+	Mon,  2 May 2022 18:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D32E10E298;
- Mon,  2 May 2022 18:50:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651517424; x=1683053424;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jlXjmVwk0nBEDMK5ylpSRYQqanHX14OGzl7Tz0Es8B8=;
- b=h6sFKmKyLg8J09rX+NY2bzI0nOZf5YDWNnZJv2SCXt+fjP4MJ0Fs7vlo
- 6MHK+87kYGOP5U5F2ri8NpYiZElQPdV3rmFkhtdcFVNvAbA/3TsEInFmp
- /Egj9FOrYGODpHmQ2rP7Ced7kYpBJt0GCyrqhMQODDjAnt9P++tOaFffv
- USH0PeFY0VBKh6KHCP/goMhicHv4KpK+/QmCoP9dDGpQcma/wOwfmPVQn
- +RzPEIP/NzOC6SgKqW/c7u6nWbEen5hVfwk+6Z3Fyy7Db8VXcCSiSfVW2
- HBnYUZMijfRWkSWpP9BaUpIVtfJTLkl0lsZxgKvLmfi8wqR/dWxsChLF+ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="292483676"
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="292483676"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 11:50:23 -0700
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="652946850"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 11:50:23 -0700
-Date: Mon, 2 May 2022 11:50:22 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
-Message-ID: <YnAn7sXti/SIitVo@mdroper-desk1.amr.corp.intel.com>
-References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
- <20220502163417.2635462-4-matthew.d.roper@intel.com>
- <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
- <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2041.outbound.protection.outlook.com [40.107.100.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F3310E298;
+ Mon,  2 May 2022 18:51:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kvocC3bSgSfVNcCkKz8w25358xp2UIF77kHjpqzEhEkZn4BRGz3wJpd/VvmMfwnsoNQWVBARSgbRdyXmzyYb3zwrJewcWQAh8f16apvaAl7CBSLWIbhj39+yPBxBNq0GS+GCtHL9GXymOIWc97YT9pO1lHwtndgDm1c2nlxHRrKF1/phWpBRonY4WctrdRAagKdT5lkEUOmaZJyjI+i9Fa98KHabd8z/EZ3uvm+ueKBXExCTFDh41xKAG0+cqEephMy9907KXwc2V+MNttKn659eby8mVde8vNY654tc4prEweK7I95Suq7HP/3zq2mxq6uGl47i4gFahHbp5OP91w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9kHSIiysYYem5+LQC8a7A6MfooTTxIl32Z4ss/4+ISU=;
+ b=Pc+dYC3HIDzSniJPq8ew+3Af5N0pLpzszPEMyHcc3bDP1Kp3yiRBAVIaf+munTEop4z/MHAQWbz4WJut89hKTmRqiL0qQee7VLc+RRHq9n5w0m3Icp7YOzzNQTdI7+lGtuvFkWTPiXCE4yvjgQT6YY75N/Rzho+ZaSOFMLL7bgw36VQRU8pof9By+yPE1+glvDljnx13MFuE4TMpbvbtv9INkI+1m3rJIMmcAMgW2WNDow+keX3NUox9f58jy683QIB3du0U1SF8/bepQxXRW5NFv3+3lgkf9DbirL+9pXVthYUtZ3ctW1P3dwOBiRW9O0F5uuVSQHaWfeeJmM/QjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9kHSIiysYYem5+LQC8a7A6MfooTTxIl32Z4ss/4+ISU=;
+ b=dlk5I9ki1EMktRw40QXR7sAhVE9XTDUqsHEtLemmC90WgxXmlLMsmbE60AfYJCTZRvg+4JXwUgYsJsprW6rIyvK+sUO2S3JdrJtb2KvdZ2XHqg+il3VHmN1jEKIc3Abs+/W6nESpKqZYaRYT0BQXn2hNWMOPg+ixFMDxT+xJiM8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by BY5PR12MB4901.namprd12.prod.outlook.com (2603:10b6:a03:1c5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.14; Mon, 2 May
+ 2022 18:51:28 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::540e:d76a:bdf0:ed0d]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::540e:d76a:bdf0:ed0d%6]) with mapi id 15.20.5206.013; Mon, 2 May 2022
+ 18:51:28 +0000
+Message-ID: <c0ff5e0e-4c39-5482-bb02-410660bcced2@amd.com>
+Date: Mon, 2 May 2022 14:51:13 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [V2 1/3] drm/debug: Expose connector's max supported bpc via
+ debugfs
+Content-Language: en-US
+To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ ville.syrjala@linux.intel.com, swati2.sharma@intel.com
+References: <20220411095129.1652096-1-bhanuprakash.modem@intel.com>
+ <20220411095129.1652096-2-bhanuprakash.modem@intel.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20220411095129.1652096-2-bhanuprakash.modem@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT3PR01CA0057.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:82::27) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 48e5c2d9-6c27-4237-f893-08da2c6cc362
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4901:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB4901037542B8F3004FA6BA158CC19@BY5PR12MB4901.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tjug0WryImE+/aJEgQO9NTDXZwJw191wChzXT3a5/eCaZnhkZdxieuPzOl5zkHObKf0x/eCwphEf7DLpOeaI4QAx81I0wHhLD6a43NgyTY5ti6CRJelZeuahFlC3yQ7HZ1Fo4dJhk4yIWx5iSn0/8K4UrrkzXo/qopcDkXSBgD+HCz71GflVM2L4EsScxTzfvY2TR65ZTx6vS7bApLSoSEgNSjZ7AGQzB0GxhtgVmh835K1f/ZQ1E56nUN6Ugc9Q8FxwWkHVyuopphRAvRSLPoImotjTmbL/2rYEwoTqpd372VTgAYmN3VuPd0ChmSVAnGpfUMoQJN1VjuDprnrXvDoBvekcQtpdRTzhNxW0ojcPkKX1m67EGlm6I1jJFWi4lrYrxjsVsl/AvyGA/KVwY+8Mu0qrlxGWHEhFIQqUiaFNqQf6XERkk+TQTGvaU830UOw/PtjrE6FdFJLI18Z11UZKyajTGJF37JTH2kKVrdhTlUa4QbW9qsNexODZ8FKBOCQiEGcWLczSifhK0vJ3VVoAklRnl1TfrJ72RpqjpVGBFJ+95nfEc/9oMkGUB342vZ6FLg6wdgvjfF1uIivK5capAqWADPEgNQ1JfywRVdNqRlSGqAMrtBUUSV9iv2OTNbxHcQ1v76S2p/RTt8pVq/ZH2/VC3m9IEBe7DCrNvQTkw7kvQ8NaDl4vDD1qLTWzL6JXkdTKiSwFCmqFDmRUY88Z8S00xAYYAvOOXUjGUq3kIAeX61hZpGbTAU7E/IMQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(44832011)(36756003)(31686004)(186003)(53546011)(38100700002)(6506007)(5660300002)(316002)(66946007)(8676002)(8936002)(6666004)(66476007)(66556008)(508600001)(86362001)(2906002)(2616005)(31696002)(26005)(6486002)(6512007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b294ZHZrRVlsTGMreDVvbjlEYW50b1dnVlF0S25rUVUyK3ZySFFsdW1XTldH?=
+ =?utf-8?B?OEl0Qk8xZGNKbnRCT3hpY3ZoOWwvTU0zOGl1QjhkZWh6UlprbmR5L094Z1VP?=
+ =?utf-8?B?NmhJczV0TGNvZTkvbUh1YjJLSU4rc1QxUkx0cHBEUU96QndISWZEME1xWlZ3?=
+ =?utf-8?B?blpYNVduMjRhTlFpYTZjUm1STGYzN3VaRW12UnZyMU5NSHRqemlnbDlJUEMv?=
+ =?utf-8?B?YWJXYjlDSlQ0dWw1R0xqSXhSOFFtb1R0b2VUaUIrWnIzTVduNWFLa2pxK3du?=
+ =?utf-8?B?Y3BYbSs1cTJFaEVrOGM5N3RzSFd6SktqY3l6dmNXUWtsUFpHejZ1UUpUSUI2?=
+ =?utf-8?B?NXc5STMrV0xmeENpU29yRHpWNGUzTFBMNHlmbVIyeTI0VVdPMklXN0kxWHVp?=
+ =?utf-8?B?WTlZS0c1aTh5MGs0Q2VNZkFpa241ejFBSGdBL2Y2RERqaTRBa3o1MFNUSW9j?=
+ =?utf-8?B?T0FqMFQxdmtWWHcwS010STJjdyt5RWxhUm94U2VKMXB1QmFzSWdRNFdVVW85?=
+ =?utf-8?B?SjVtOEJKTnJhOGd6ZDIxc25sbkxkRTZBenJPdk9GbGppSUVWSS9pUUpRYTFx?=
+ =?utf-8?B?MnV6cHgvR2wzeCtabUdPVWpGODVXazVQRFhmSy85TDdtWDdaZ0h1MkZIdVk2?=
+ =?utf-8?B?Wmc2MTVkQjhzV01vQWx3eU1lOHd6SkkwWDlsWHBzUEtNV3FOTTVCVk9nSjNT?=
+ =?utf-8?B?K0lXcGpxV2owS0c0ZVdOYjd5aVJZWVNaemdWNXh0Rjg5L203VnV6OWF0dUEz?=
+ =?utf-8?B?aDcyU1FlVTAyWlhyN0xkbnRVNzhORWxBSlZzYlpvbHQzVXdzSXlIWHZnRE1V?=
+ =?utf-8?B?cGRLdGxWRHdtdWJablMrbTBjS0ZDdXBHNXZycnlnMUZ4emg4eHQwYWUxQXJJ?=
+ =?utf-8?B?ZnVmUkRDS3pLcFBiYmtiTmRYL3M1TTFwRjhjcjJxTnNqbEdQNjhTblluUU5t?=
+ =?utf-8?B?ODM0blVncTlVeERSQ2VNbVhlMGpudTFqUHplLzMrcndqVFpXN3dTNm02NjJS?=
+ =?utf-8?B?L09LSUprTjJmTjVsRlBZRFpxNmNUYllnTVZqamtybGFMOHd6T0lhTWpERWpK?=
+ =?utf-8?B?U0h6ZUFQZmFKTzJ1ZzNjQzZXdWNlTXVHRkUvSXBQVFNoaW9LUjFKKytXN3Vj?=
+ =?utf-8?B?QUUrc2hqT0NrSXBNOGtIN0I0cUpiWXBpSEdOekZ3N1hPcVdHMFo0R3FkWU5x?=
+ =?utf-8?B?bHMxeklyZnV5WWcrUnE4NUdhaFUzbkZ6SVVoVDMzT2dUdXI2U2p1OG1vaFYw?=
+ =?utf-8?B?U204bjNjL2FEb0VIRlA0Y09BcG9VYitnQUFZbndYNlJPR1RMWmxqSUNvemJR?=
+ =?utf-8?B?aVRuam01eVVYdytzOHA5c0VBVUNuTEdTb2RUd2t5djBSdmo0SUlSL0k4NFc5?=
+ =?utf-8?B?d0RHOTVuc1FDTllPcjhVWUdBK09BSHdGVHJTTFFXMFZmQnZBNmlvRVZKRndB?=
+ =?utf-8?B?N2xXdEVaeTNJZ290Wnl0SXNpR3lKaEdOQlRUSGVUb3BtbkNiYUFmcmw3VkYr?=
+ =?utf-8?B?YlpoMEpLS2U5TE84TW9YMUIrUHlFQlhQWTBnOTlEUkxQK09RQTRHL1dKalJD?=
+ =?utf-8?B?ZElqSmNJclJSd2l2NSs5MHp3L2oyNkdVRVAvaEpiWjcvc2VkZ2dpU0VxbE0w?=
+ =?utf-8?B?ZnBkMjB3dGg5TlAyQzBEK1ZRZkFuZUZ2ZytZem1SS2theWhjQ0p4WnVtek5L?=
+ =?utf-8?B?eExzWXJIYngrSStWeDBLclFOV0FZL2NjRS94cHZzMmVDSjB2OW0rWFFONUtm?=
+ =?utf-8?B?RmRneEw3bGEyVGtxbm94blZoZjdGUjN4Z1p1RGVMRXpVd1d2bXhIWmhiU000?=
+ =?utf-8?B?ZlRHQlJSS0hFOGtNZHZ3N1ppb0VzSTdIZzRNby9pMnFXcjdnSitHa0hsbW5B?=
+ =?utf-8?B?cTNJdFNIL3huSmlCNk53TUx2elBwbGZUTE1ab0FVQmtwWTdEblU2Q3NjV1dQ?=
+ =?utf-8?B?a1ZtbVZjN2QrY1BOWjFZd25Sa08yYlZUUndlWG1RT2QxVldYeFplN3lOZVZx?=
+ =?utf-8?B?T3VwOGZTTXdHbjlaTnVZdEg4cXRFK1NwM2pWa1kxR2hsRkM4dDB2d3hFUFgx?=
+ =?utf-8?B?Vm9vVWR6VlZWcGZ0L1lheithUWhFZUgxaDB3eDRFMFB1WitubHM5SG5SaG1D?=
+ =?utf-8?B?TUZZVjBhL1NXWmxnOGJQakI3OEsyZ0hSZHV2ZDJVZzVqeFlYWlRtTWtjN1J5?=
+ =?utf-8?B?WEhsSTk5SXRPQkk1OHA2Z3F0cmpMcmlqdWJlZ05jdUhUbkFUR1lLYVdtemJ2?=
+ =?utf-8?B?bmVGdVUwRWtQRnB0Q3lvNnBWTm56eFc1QUhmdjZtam5hbU1XQzdOdktHekRZ?=
+ =?utf-8?B?TEJIRUZKbXNkaTRQODk0Rk1rL2dIOEtRMEZ5OWFLMVlrbGxCSHJ6dz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48e5c2d9-6c27-4237-f893-08da2c6cc362
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2022 18:51:27.9499 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VDChZ5dVqBNMZywlfTE9DJG1SdQZyt3g1wK0lyP7nBAxjjRt/Rv8A5onXM+BktXFcFW2DEPCPnEZow9I5BW4Ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4901
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,92 +133,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 02, 2022 at 11:39:48AM -0700, Lucas De Marchi wrote:
-> On Mon, May 02, 2022 at 09:50:23AM -0700, Matt Roper wrote:
-> > On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
-> > > From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> > > 
-> > > Bspec: 45101, 72161
-> > > Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> > > Signed-off-by: Fei Yang <fei.yang@intel.com>
-> > > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
-> > >  drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
-> > >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
-> > >  drivers/gpu/drm/i915/i915_drv.h             |  2 ++
-> > >  drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
-> > >  drivers/gpu/drm/i915/intel_device_info.h    |  1 +
-> > >  6 files changed, 39 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > > index b06611c1d4ad..7853ea194ea6 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > > @@ -221,6 +221,7 @@ struct intel_gt {
-> > > 
-> > >  	struct {
-> > >  		u8 uc_index;
-> > > +		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
-> > >  	} mocs;
-> > > 
-> > >  	struct intel_pxp pxp;
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> > > index c4c37585ae8c..265812589f87 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
-> > > @@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
-> > >  	unsigned int n_entries;
-> > >  	const struct drm_i915_mocs_entry *table;
-> > >  	u8 uc_index;
-> > > +	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
-> > >  	u8 unused_entries_index;
-> > >  };
-> > > 
-> > > @@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
-> > > 
-> > >  /* Helper defines */
-> > >  #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
-> > > +#define PVC_NUM_MOCS_ENTRIES	3
-> > 
-> > Should this be 4?  The value here should reflect the number of entries
-> > that can defined in hardware rather than the size of the table we're
-> > asked to program.  Since there are two registers (each with a high and a
-> > low entry), that would imply we should set 4 here to ensure that the
-> > fourth entry is initialized according to unused_entries_index rather
-> > than left at whatever the hardware defaults might be.
+On 2022-04-11 05:51, Bhanuprakash Modem wrote:
+> It's useful to know the connector's max supported bpc for IGT
+> testing. Expose it via a debugfs file on the connector "output_bpc".
 > 
-> not sure I understand what you mean here. The n_entries specifies, as
-> you said, the number of entries we can have. Bspec 45101 shows entries
-> for indexes 0, 1 and 2. As does the pvc_mocs_table below.
+> Example: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
 > 
-> Also, from bspec 44509:
-> "For PVC, only 3 MOCS states are supported. The allowed index values are
-> in range [0, 2]..."
+> V2:
+> * Fix typo in comments (Harry)
 > 
-> So, I don't think we want to program any fourth entry.
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 
-We don't have a choice; the fourth entry lives in the same register as
-the third entry, so no matter what we're writing _something_ to those
-bits.  The question is whether we should write all 0's or whether we
-should treat it like other platforms and ensure it's initialized to the
-unused entry values.  Entry #4 isn't supposed to be used, but if buggy
-userspace tries to use it, we probably still want well-defined behavior,
-just like it an invalid entry gets used on any other platform.
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
+Harry
 
-Matt
-
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
-> Lucas De Marchi
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 7f1b82dbaebb..fb04b7a984de 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -395,6 +395,23 @@ static int vrr_range_show(struct seq_file *m, void *data)
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(vrr_range);
+>  
+> +/*
+> + * Returns Connector's max supported bpc through debugfs file.
+> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
+> + */
+> +static int output_bpc_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_connector *connector = m->private;
+> +
+> +	if (connector->status != connector_status_connected)
+> +		return -ENODEV;
+> +
+> +	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(output_bpc);
+> +
+>  static const struct file_operations drm_edid_fops = {
+>  	.owner = THIS_MODULE,
+>  	.open = edid_open,
+> @@ -437,6 +454,10 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+>  	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
+>  			    &vrr_range_fops);
+>  
+> +	/* max bpc */
+> +	debugfs_create_file("output_bpc", 0444, root, connector,
+> +			    &output_bpc_fops);
+> +
+>  	if (connector->funcs->debugfs_init)
+>  		connector->funcs->debugfs_init(connector, root);
+>  }
