@@ -1,31 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF79517A69
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 01:07:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8764F517A6D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 01:07:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC8C10EDF3;
-	Mon,  2 May 2022 23:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B191D10EE0F;
+	Mon,  2 May 2022 23:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1FC810EDF3
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 23:07:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4686910EE22
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 23:07:29 +0000 (UTC)
 Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
  helo=phil.lan)
  by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1nleSf-0005bu-N0; Tue, 03 May 2022 00:24:09 +0200
+ id 1nleSg-0005bu-0w; Tue, 03 May 2022 00:24:10 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wenst@chromium.org>, Sandy Huang <hjc@rock-chips.com>
-Subject: Re: [PATCH] drm/rockchip: Support YUV formats with U/V swapped
-Date: Tue,  3 May 2022 00:24:05 +0200
-Message-Id: <165153020899.255051.8265541516247012144.b4-ty@sntech.de>
+To: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Yang Yingliang <yangyingliang@huawei.com>,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH] drm/rockchip: vop: fix possible null-ptr-deref in
+ vop_bind()
+Date: Tue,  3 May 2022 00:24:06 +0200
+Message-Id: <165153020898.255051.10275204034959482615.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220114074038.2633848-1-wenst@chromium.org>
-References: <20220114074038.2633848-1-wenst@chromium.org>
+In-Reply-To: <20220422032854.2995175-1-yangyingliang@huawei.com>
+References: <20220422032854.2995175-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -41,25 +43,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: hjc@rock-chips.com, markyao0591@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Jan 2022 15:40:38 +0800, Chen-Yu Tsai wrote:
-> The VOP in Rockchip SoCs that support YUV planes also support swapping
-> of the U and V elements. Supporting the swapped variants, especially
-> NV21, would be beneficial for multimedia applications, as the hardware
-> video decoders only output NV21, and supporting this pixel format in
-> the display pipeline would allow the decoded video frames to be output
-> directly.
-> 
-> [...]
+On Fri, 22 Apr 2022 11:28:54 +0800, Yang Yingliang wrote:
+> It will cause null-ptr-deref in resource_size(), if platform_get_resource()
+> returns NULL, move calling resource_size() after devm_ioremap_resource() that
+> will check 'res' to avoid null-ptr-deref.
 
 Applied, thanks!
 
-[1/1] drm/rockchip: Support YUV formats with U/V swapped
-      commit: 3fa50896c35982afb59ad5bcbe04ec2e91bb54a5
+[1/1] drm/rockchip: vop: fix possible null-ptr-deref in vop_bind()
+      commit: f8c242908ad15bbd604d3bcb54961b7d454c43f8
 
 Best regards,
 -- 
