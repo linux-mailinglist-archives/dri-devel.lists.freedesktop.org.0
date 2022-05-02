@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C310C51787D
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 22:47:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 559585178B1
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 22:59:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92C9610EB79;
-	Mon,  2 May 2022 20:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C50410F45D;
+	Mon,  2 May 2022 20:59:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6DF10EED5
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 20:47:53 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id r8so16394116oib.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 13:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=TBXtHVCDgkha/h8EfsB/475w9tiwkpoYNEwBRkAE28Q=;
- b=nlwo0h4uJ3b9sJudkA4OAqMVOoDVvYkR7QwkYtkpoxqAfflehecyGBcje5DXj3uDvn
- l5czy/KAeS6W1newa/ZkeMvseIB6+8VOK2MFZbySZyoia8d4VI5D18CIKZLV5edA0lIp
- vyP1NUNeTVfaqy4I6z8iUxqG9yEe0tX3ECR88=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=TBXtHVCDgkha/h8EfsB/475w9tiwkpoYNEwBRkAE28Q=;
- b=SU86qQwqY+kqQg5buirI1GfwiMhcudSwP8LIKRYiIm4wpWtHZ3SpD2wj8HI2VFSpY7
- qWuoB24O29HsHPkXR2oV3z3dgvT7JGeqPZtpANcRW6mFniFjwOxt2Z1QgLqDH/8jFSB0
- Ugkb/Fvz5Ig02V+aiWrAtqrTEOA0vY1zHdnNWIFLDB/gx2HSQuNzXpXmidtGFGjVbRSF
- gJuTJ3dWxIH2MKZrxnajq2TpS7qWmgkbzbdb/ZmNmO5i8iGtPxL4r0dljf7Ng0wzTXU/
- FWjHoJ42UAnT93wh1eZFQE4WDLTTSOXZqUCKMmcGssBcQcZXXWDC6UJ8ZNC/u/I0X1vT
- XfOA==
-X-Gm-Message-State: AOAM532YPDlzb7hzB0ReCW6oDPttEuqfvtqYS/1YYAJqGn3+odavpR7P
- QglFNK4KJ2CIFkPUXXFzVAw3XXCWiGqtBZeopSPACJ2KSLI=
-X-Google-Smtp-Source: ABdhPJwJZV4OIei+weQ172CpfVAhfT8STbQ4S9q4PIxCXEbnTrZydvgCzRN89/H2aDd28y5efxt2iRIr5LHChV0JNLc=
-X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
- n62-20020acabd41000000b002ecff42814fmr469774oif.63.1651524472308; Mon, 02 May
- 2022 13:47:52 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 2 May 2022 13:47:51 -0700
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4511610F458;
+ Mon,  2 May 2022 20:59:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651525177; x=1683061177;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=HEKYkHkyPs9/E1vYJnvUY+TkTJlrFJSQVXyry3UZj/Q=;
+ b=ET07GPbbfy+XTe3T8KqpHMgHcw4esCmMjMCQL5XDo/bLlvZlUHWbKA/Y
+ k1qUqx+kxwQna3QksCQ7DRzb8QEAGa97QSMSfpwjjzxedEpaiMdPpwgSI
+ YyLTEfcXb/V+2fU3KL0g+x6hIvI902F+z6pG4fo7GLC3yc+vqU4DRrmHi I=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 02 May 2022 13:59:37 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 13:59:36 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 2 May 2022 13:59:36 -0700
+Received: from [10.38.244.235] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 2 May 2022
+ 13:59:33 -0700
+Message-ID: <16f739a9-275e-1fbb-a235-c95b5b064c67@quicinc.com>
+Date: Mon, 2 May 2022 13:59:31 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220501195620.4135080-1-dmitry.baryshkov@linaro.org>
-References: <20220501195620.4135080-1-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 2 May 2022 13:47:51 -0700
-Message-ID: <CAE-0n51uV-BpuPSrTFiN2wvzh3+==WMU85j8kdi-td0X4xs8kg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dsi: pll_7nm: remove unsupported dividers for DSI
- pixel clock
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dpu: add missing break statement for
+ update_pending_flush_wb()
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <freedreno@lists.freedesktop.org>
+References: <1651469981-21469-1-git-send-email-quic_abhinavk@quicinc.com>
+ <CAE-0n526pBHnVZYYksDiRtYr7E=BtMB1VectX-ew8msLNWXh1w@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAE-0n526pBHnVZYYksDiRtYr7E=BtMB1VectX-ew8msLNWXh1w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,47 +65,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-05-01 12:56:20)
-> Remove dividers that are not recommended for DSI DPHY mode when setting
 
-Is "DPHY" intentional or just "PHY" should be here?
 
-> up the clock tree for the DSI pixel clock.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+On 5/2/2022 1:45 PM, Stephen Boyd wrote:
+> Quoting Abhinav Kumar (2022-05-01 22:39:41)
+>> Add missing break statement for dpu_hw_ctl_update_pending_flush_wb().
+>> Otherwise this leads to below build warning.
+>>
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c:273:2:
+>> warning: unannotated fall-through between switch labels
+>>             default:
+>>             ^
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c:273:2:
+>> note: insert 'break;' to avoid fall-through
+>>             default:
+>>             ^
+>>             break;
+>> 1 warning generated.
+>>
+>> Fixes: 2e0086d8c61d ("drm/msm/dpu: add changes to support writeback in hw_ctl")
+> 
+> What commit is this?
+This seems incorrect. Looks like i put this from my local tree.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Should be
 
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index 6e506feb111f..66ed1919a1db 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -687,15 +687,13 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
->                 snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_7nm->phy->id);
->                 snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
->                 snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
-> -               snprintf(parent3, 32, "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
-> -               snprintf(parent4, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
->
->                 hw = devm_clk_hw_register_mux(dev, clk_name,
->                                         ((const char *[]){
-> -                                       parent, parent2, parent3, parent4
-> -                                       }), 4, 0, pll_7nm->phy->base +
-> +                                       parent, parent2,
-> +                                       }), 2, 0, pll_7nm->phy->base +
->                                         REG_DSI_7nm_PHY_CMN_CLK_CFG1,
-> -                                       0, 2, 0, NULL);
-> +                                       0, 1, 0, NULL);
+Fixes: 86e601c2317f ("drm/msm/dpu: add changes to support writeback in 
+hw_ctl")
 
-Can you followup with a patch to move to clk_parent_data instead of
-strings?
+> 
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+> 
+> Patch contents look sane
+> 
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
