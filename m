@@ -1,51 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DA551757B
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:09:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5F65175A9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 19:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81D0810EEB6;
-	Mon,  2 May 2022 17:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A7410EB2C;
+	Mon,  2 May 2022 17:18:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE8A310EED0
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:09:49 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 0FDE883B2C;
- Mon,  2 May 2022 19:09:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1651511387;
- bh=Xs/ogZdpiDbfzmP8/CK6qS2/VcQw+slvnkX0Re7SruM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JKIXuNr8RLGBCcYLvoFWO6cqWUqi/Jtoo6vbSz+4jTLw0ReL7vezFbqotCqxLhSrO
- 3yRFJoOcmIlGQYYVDN9qmU2iEGqeMZpgN4SnITlftkOkP4H13Kgk/la9z2SpwY5TVA
- mrZz07OXRLtf+uFAIR1X720RJ6jiK0usCiZ3mFUh15Jz7dopIT4toYBkyfbNXfN577
- ALLMExnBhRXqRGhyX1D6rH/647Un+ccUirsU50vDN3FiCwFhpYDpCJELw5ieHBXHWX
- eo/gLjseH7OGav0vnCHtNXS9LhaDkzoPCDjza9bpCEY1hDvacWSMQ4IOMQ3ZPnxrMC
- T2aAIJlh4MCQA==
-Message-ID: <f2707614-986d-d4cc-465a-3c2e5e3890d5@denx.de>
-Date: Mon, 2 May 2022 19:09:46 +0200
+X-Greylist: delayed 450 seconds by postgrey-1.36 at gabe;
+ Mon, 02 May 2022 17:18:27 UTC
+Received: from forward103j.mail.yandex.net (forward103j.mail.yandex.net
+ [IPv6:2a02:6b8:0:801:2::106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAA210EB2C;
+ Mon,  2 May 2022 17:18:27 +0000 (UTC)
+Received: from forward101q.mail.yandex.net (forward101q.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb98])
+ by forward103j.mail.yandex.net (Yandex) with ESMTP id 22C80100A0A;
+ Mon,  2 May 2022 20:10:55 +0300 (MSK)
+Received: from vla1-692e383ae130.qloud-c.yandex.net
+ (vla1-692e383ae130.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:4e82:0:640:692e:383a])
+ by forward101q.mail.yandex.net (Yandex) with ESMTP id 1D94E13E80013;
+ Mon,  2 May 2022 20:10:55 +0300 (MSK)
+Received: from vla3-3dd1bd6927b2.qloud-c.yandex.net
+ (vla3-3dd1bd6927b2.qloud-c.yandex.net [2a02:6b8:c15:350f:0:640:3dd1:bd69])
+ by vla1-692e383ae130.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ wAlxiCjCOW-Arg8C3hQ; Mon, 02 May 2022 20:10:55 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lach.pw; s=mail;
+ t=1651511455; bh=EL8vW3m6OCPjznoXCXY4p2BDvFflry15CcmJdzjBFzA=;
+ h=In-Reply-To:References:Date:Subject:Cc:To:From:Message-Id;
+ b=RPvmFqyXyvXTbC7t2B4nTfJalnZxzc+ZnNhCz/ep8OGSnG0IjIKX1qMACxgxOCGil
+ lxgKYO5D8uCFhUUwa9VNVNUD08ctt9zK+iVWnseEnYmWJgpGb86KnMj4bsF4jwceOQ
+ NbqsrEgGtiuYr7bGiUu85sqiRrFPQCTzAQgkBBi4=
+Authentication-Results: vla1-692e383ae130.qloud-c.yandex.net;
+ dkim=pass header.i=@lach.pw
+Received: by vla3-3dd1bd6927b2.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id xTgxo8AHyR-ApMSX4BE; Mon, 02 May 2022 20:10:52 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Yaroslav Bolyukin <iam@lach.pw>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: [RESEND PATCH v2 1/2] drm/edid: parse DRM VESA dsc bpp target
+Date: Mon,  2 May 2022 20:10:30 +0300
+Message-Id: <20220502171031.11797-1-iam@lach.pw>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220220151940.58327-1-iam@lach.pw>
+References: <20220220151940.58327-1-iam@lach.pw>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement
- simple Freescale i.MX8MP LDB bridge
-Content-Language: en-US
-To: Robert Foss <robert.foss@linaro.org>
-References: <20220426193645.244792-1-marex@denx.de>
- <CAG3jFysWizvFkbMVexRqPC=5fDa3-VFnxS2zsvBKSKdL4zzxeg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAG3jFysWizvFkbMVexRqPC=5fDa3-VFnxS2zsvBKSKdL4zzxeg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,151 +64,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Leo Li <sunpeng.li@amd.com>, "Lin,
+ Wayne" <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yaroslav Bolyukin <iam@lach.pw>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/2/22 16:46, Robert Foss wrote:
-> On Tue, 26 Apr 2022 at 21:37, Marek Vasut <marex@denx.de> wrote:
->>
->> The i.MX8MP contains two syscon registers which are responsible
->> for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
->> which represents this serializer as a bridge.
->>
->> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Maxime Ripard <maxime@cerno.tech>
->> Cc: Peng Fan <peng.fan@nxp.com>
->> Cc: Rob Herring <robh+dt@kernel.org>
->> Cc: Robby Cai <robby.cai@nxp.com>
->> Cc: Robert Foss <robert.foss@linaro.org>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: devicetree@vger.kernel.org
->> To: dri-devel@lists.freedesktop.org
->> ---
->> V2: - Consistently use fsl,imx8mp-ldb as compatible
->>      - Drop items: from compatible:
->>      - Replace minItems with maxItems in clocks:
->>      - Drop quotes from clock-names const: ldb
->>      - Rename syscon to fsl,syscon
->>      - Use generic name of ldb-lvds in example
->> V3: - Add AB from Sam
->>      - Consistently use MX8MP
->> V4: - Rename to fsl-ldb all over the place
->>      - Put the LDB node under media block controller in the example
->> ---
->>   .../bindings/display/bridge/fsl,ldb.yaml      | 92 +++++++++++++++++++
->>   1 file changed, 92 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
->> new file mode 100644
->> index 000000000000..77f174eee424
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
->> @@ -0,0 +1,92 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Freescale i.MX8MP DPI to LVDS bridge chip
->> +
->> +maintainers:
->> +  - Marek Vasut <marex@denx.de>
->> +
->> +description: |
->> +  The i.MX8MP mediamix contains two registers which are responsible
->> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
->> +  those registers as bridge within the DT.
->> +
->> +properties:
->> +  compatible:
->> +    const: fsl,imx8mp-ldb
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    const: ldb
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Video port for DPI input.
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Video port for LVDS Channel-A output (panel or bridge).
->> +
->> +      port@2:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Video port for LVDS Channel-B output (panel or bridge).
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +required:
->> +  - compatible
->> +  - clocks
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/imx8mp-clock.h>
->> +
->> +    blk-ctrl {
->> +        bridge {
->> +            compatible = "fsl,imx8mp-ldb";
->> +            clocks = <&clk IMX8MP_CLK_MEDIA_LDB>;
->> +            clock-names = "ldb";
->> +
->> +            ports {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +
->> +                port@0 {
->> +                    reg = <0>;
->> +
->> +                    ldb_from_lcdif2: endpoint {
->> +                        remote-endpoint = <&lcdif2_to_ldb>;
->> +                    };
->> +                };
->> +
->> +                port@1 {
->> +                    reg = <1>;
->> +
->> +                    ldb_lvds_ch0: endpoint {
->> +                        remote-endpoint = <&ldb_to_lvdsx4panel>;
->> +                    };
->> +                };
->> +
->> +                port@2 {
->> +                    reg = <2>;
->> +
->> +                    ldb_lvds_ch1: endpoint {
->> +                    };
->> +                };
->> +            };
->> +        };
->> +    };
->> --
-> 
-> Applied series to drm-misc-next.
+As per DisplayID v2.0 Errata E9 spec "DSC pass-through timing support"
+VESA vendor-specific data block may contain target DSC bits per pixel
+fields
 
-You probably wanted an AB/RB from Lucas on this, maybe a fixup patch 
-will be needed.
+Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+---
+ drivers/gpu/drm/drm_edid.c  | 33 ++++++++++++++++++++++-----------
+ include/drm/drm_connector.h |  6 ++++++
+ include/drm/drm_displayid.h |  4 ++++
+ 3 files changed, 32 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index bc43e1b32092..e2ced222a081 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5433,7 +5433,7 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+ 	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
+ 		return;
+ 
+-	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
++	if (block->num_bytes < 5) {
+ 		drm_dbg_kms(connector->dev, "Unexpected VESA vendor block size\n");
+ 		return;
+ 	}
+@@ -5453,20 +5453,29 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+ 		break;
+ 	}
+ 
+-	if (!info->mso_stream_count) {
+-		info->mso_pixel_overlap = 0;
+-		return;
++	info->mso_pixel_overlap = 0;
++
++	if (info->mso_stream_count) {
++		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
++		if (info->mso_pixel_overlap > 8) {
++			drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value %u\n",
++				info->mso_pixel_overlap);
++			info->mso_pixel_overlap = 8;
++		}
++
++		drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n",
++			info->mso_stream_count, info->mso_pixel_overlap);
+ 	}
+ 
+-	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+-	if (info->mso_pixel_overlap > 8) {
+-		drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value %u\n",
+-			    info->mso_pixel_overlap);
+-		info->mso_pixel_overlap = 8;
++	if (block->num_bytes < 7) {
++		/* DSC bpp is optional */
++		return;
+ 	}
+ 
+-	drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n",
+-		    info->mso_stream_count, info->mso_pixel_overlap);
++	info->dp_dsc_bpp = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT, vesa->dsc_bpp_int) * 16 +
++		FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
++
++	drm_dbg_kms(connector->dev, "DSC bits per pixel %u\n", info->dp_dsc_bpp);
+ }
+ 
+ static void drm_update_mso(struct drm_connector *connector, const struct edid *edid)
+@@ -5511,6 +5520,8 @@ drm_reset_display_info(struct drm_connector *connector)
+ 
+ 	info->mso_stream_count = 0;
+ 	info->mso_pixel_overlap = 0;
++
++	info->dp_dsc_bpp = 0;
+ }
+ 
+ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 3ac4bf87f257..77ce9515afc4 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -634,6 +634,12 @@ struct drm_display_info {
+ 	 * @mso_pixel_overlap: eDP MSO segment pixel overlap, 0-8 pixels.
+ 	 */
+ 	u8 mso_pixel_overlap;
++
++	/**
++	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
++	 * DST bits per pixel in 6.4 fixed point format. 0 means undefined
++	 */
++	u16 dp_dsc_bpp;
+ };
+ 
+ int drm_display_info_set_bus_formats(struct drm_display_info *info,
+diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+index 7ffbd9f7bfc7..1be6deddcce3 100644
+--- a/include/drm/drm_displayid.h
++++ b/include/drm/drm_displayid.h
+@@ -131,12 +131,16 @@ struct displayid_detailed_timing_block {
+ 
+ #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+ #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
++#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
++#define DISPLAYID_VESA_DSC_BPP_FRACT GENMASK(3, 0)
+ 
+ struct displayid_vesa_vendor_specific_block {
+ 	struct displayid_block base;
+ 	u8 oui[3];
+ 	u8 data_structure_type;
+ 	u8 mso;
++	u8 dsc_bpp_int;
++	u8 dsc_bpp_fract;
+ } __packed;
+ 
+ /* DisplayID iteration */
+
+base-commit: 6a47a16dcef3fdda79a95452964d001a620db473
+-- 
+2.35.1
+
