@@ -2,36 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2EB51795C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 23:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5980A517969
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 23:50:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F7C510F435;
-	Mon,  2 May 2022 21:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C52510EFFE;
+	Mon,  2 May 2022 21:50:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B29CC10F435;
- Mon,  2 May 2022 21:42:39 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 766C23F353;
- Mon,  2 May 2022 23:42:36 +0200 (CEST)
-Date: Mon, 2 May 2022 23:42:35 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH] drm/msm/dsi: pll_7nm: remove unsupported dividers for
- DSI pixel clock
-Message-ID: <20220502214235.s5plebunh4ttjhge@SoMainline.org>
-References: <20220501195620.4135080-1-dmitry.baryshkov@linaro.org>
- <CAE-0n51uV-BpuPSrTFiN2wvzh3+==WMU85j8kdi-td0X4xs8kg@mail.gmail.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 517E810EFCE;
+ Mon,  2 May 2022 21:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651528235; x=1683064235;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=8eNPmbau/4LfoRHP9yxK2IXwC14LYshXbF7oIlGvJMI=;
+ b=WfmZzAHcYz7fc/KG+0cbzLmimB23GIVF9FG24BEldiw3wNzh9H0M2i2z
+ 0vH3F+TqTUFTdy8lwRW4SVkHq+PLjLuks8hxcrrNkqjUpjxDrU+zruQsx
+ rIft05tm9+ekCXNLHLJcc1XkrgqS0Kt8V135YU9CRNDCwq+HobRpEtNwR E=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 02 May 2022 14:50:34 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 14:50:34 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 2 May 2022 14:50:34 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 2 May 2022 14:50:33 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH] drm/msm/dp: fix event thread stuck in wait_event after
+ kthread_sop()
+Date: Mon, 2 May 2022 14:50:23 -0700
+Message-ID: <1651528223-882-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n51uV-BpuPSrTFiN2wvzh3+==WMU85j8kdi-td0X4xs8kg@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,56 +62,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-02 13:47:51, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-05-01 12:56:20)
-> > Remove dividers that are not recommended for DSI DPHY mode when setting
-> 
-> Is "DPHY" intentional or just "PHY" should be here?
-> 
-> > up the clock tree for the DSI pixel clock.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> 
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> 
-> >  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 10 ++++------
-> >  1 file changed, 4 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> > index 6e506feb111f..66ed1919a1db 100644
-> > --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> > +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> > @@ -687,15 +687,13 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
-> >                 snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_7nm->phy->id);
-> >                 snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
-> >                 snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
-> > -               snprintf(parent3, 32, "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
-> > -               snprintf(parent4, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
-> >
-> >                 hw = devm_clk_hw_register_mux(dev, clk_name,
-> >                                         ((const char *[]){
-> > -                                       parent, parent2, parent3, parent4
-> > -                                       }), 4, 0, pll_7nm->phy->base +
-> > +                                       parent, parent2,
-> > +                                       }), 2, 0, pll_7nm->phy->base +
-> >                                         REG_DSI_7nm_PHY_CMN_CLK_CFG1,
-> > -                                       0, 2, 0, NULL);
-> > +                                       0, 1, 0, NULL);
-> 
-> Can you followup with a patch to move to clk_parent_data instead of
-> strings?
+Event thread supposed to exit from its while loop after kthread_stop().
+However there may has possibility that event thread is pending in the
+middle of wait_event due to condition checking never become true.
+To make sure event thread exit its loop after kthread_stop(), this
+patch OR kthread_should_stop() into wait_event's condition checking
+so that event thread will exit its loop after kernal_stop().
 
-Dmitry and I discussed this a while ago, and I actually have patches in
-progress converting this.  Dmitry, if you haven't started on the
-conversion yet, perhaps it's efficient if I respin my efforts and submit
-them soon?
+Fixes: 570d3e5d28db ("drm/msm/dp: stop event kernel thread when DP unbind")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-- Marijn
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index c388323..5200a58 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1106,12 +1106,17 @@ static int hpd_event_thread(void *data)
+ 	while (!kthread_should_stop()) {
+ 		if (timeout_mode) {
+ 			wait_event_timeout(dp_priv->event_q,
+-				(dp_priv->event_pndx == dp_priv->event_gndx),
+-						EVENT_TIMEOUT);
++				((dp_priv->event_pndx == dp_priv->event_gndx) ||
++					kthread_should_stop()), EVENT_TIMEOUT);
+ 		} else {
+ 			wait_event_interruptible(dp_priv->event_q,
+-				(dp_priv->event_pndx != dp_priv->event_gndx));
++				((dp_priv->event_pndx != dp_priv->event_gndx) ||
++					kthread_should_stop()));
+ 		}
++
++		if(kthread_should_stop())
++			break;
++
+ 		spin_lock_irqsave(&dp_priv->event_lock, flag);
+ 		todo = &dp_priv->event_list[dp_priv->event_gndx];
+ 		if (todo->delay) {
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
