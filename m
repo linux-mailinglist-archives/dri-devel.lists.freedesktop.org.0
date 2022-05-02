@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928ED5171C6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EB75171E0
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A0C10F001;
-	Mon,  2 May 2022 14:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 338DD10F04E;
+	Mon,  2 May 2022 14:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D69710F004
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 14:40:04 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- w5-20020a17090aaf8500b001d74c754128so16308643pjq.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 07:40:04 -0700 (PDT)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4DEC10F04C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 14:46:56 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id 6so222961pgb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 07:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UpUy8a2LGTGKAB1XvqmqE3EV2zftEVageSYqcaWSjV4=;
- b=BnVlJ/lPIQXcYp3dPFroPdhD3nvyMU/t7gqwe4fNv8tUug+20DPAlBv6FqPEL2/HF+
- d3iCEXSUksKjESBER9VK3AumPu4O3Eork+FwgQJiDF/NWTt9X5h1UF84wB1B5ptTFsGg
- g9I4AHrkIIv0zTrgRzi0b7RFGovc7RsCYtm4qpU40pXo6nZBfw0ssQqxMiAXw4p1VAuV
- /ZQNyi5JzTXvBR63pgp8OInR8mNRgchcZjH7HTsGY5wOIIxf3+bPhVbjy/qP4hqC/ls5
- /QRY+GnFlUT7G3cbub4jlh3v1QtFZEqMvkPXsCQgZUgTIXmUNnXkYF8uiN0Mp3WG9Mqg
- 1uug==
+ :cc; bh=sH5HId0vlC1xFmCEMdsYdCLg1XTY++Kn19PHmHPWDzE=;
+ b=Fj4fa9eKpis1H4ywew58SdhVIaslFKScO2M7KBemKi+uMMHRgjA1rfBTN+5Cyd6W4x
+ +QlWVtWjykjZL8OCuu+DUF1JoXxzyPt0ebLiu7otFgHv9xTvO8lvAHDaeiq9cUKgJp32
+ kXdYhQlWOGUgaZdvNntTV2VrH86fV9X/o3BN/v/sPLsgKdsAtwZ3sir2qtX8cnazNvIC
+ lFVt4uoJmo7wrHkbsB/jnGWvEP73iSu02L+Hjcg5gWiqN0po5YAy2hMEbM4tWJtabdBR
+ vTLun67wbqlKUG0ZGnik0MT77wptFARh3msmaRNBjjR7y6JkXW/rXPLY2pljiVodCdZv
+ vitQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UpUy8a2LGTGKAB1XvqmqE3EV2zftEVageSYqcaWSjV4=;
- b=ukygGU5H046mB8ioANoi8so5QEo3LD+h9enQzWr+mOzpHTXpjo/SimeuOqYsjwO/Ht
- 6pnxV6K5aWxC6Qwtn8QU9q/wzoz52yc0XGSSC2+rrOb3MZDvoXwPFxkQ4M+7JipOFlTQ
- xsQ+/QdDYfwZxa85J3dD4D6mWbyRnyvuhzr8SJfjXcuFVpuENkY2fe2k8Zmpr+pbTD2e
- yitU4mmPnx7CARBRUaL7+wk7+G41pOTDptMaMi8x2K2sdQrfdpA/ujsFXVPatAQzNn/e
- i953VyyCW958hPRDlIi/uFfRYj/BEdxCx03hyxfvrMbzegt4hIodzSdMCeacqsOkOCrz
- FpzQ==
-X-Gm-Message-State: AOAM532/wQrxtMBEZ6mzkcP4mRVOtevE6/71Qp9U+ueX873ikvLy70Tz
- q24MMaIosFMhL88nPi9NgZhZU9ZzgipiWfOB9LZopjY8RxU=
-X-Google-Smtp-Source: ABdhPJyGk1Y+Z0yzBRpwaavA333ksRfujeF06Ys8IMOVOBLnFOU3i4i1W2PpwI7FUNle3WRDM6tEKM4cl6XzkFydyWk=
-X-Received: by 2002:a17:903:2350:b0:15e:93de:763a with SMTP id
- c16-20020a170903235000b0015e93de763amr9336775plh.117.1651502403846; Mon, 02
- May 2022 07:40:03 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=sH5HId0vlC1xFmCEMdsYdCLg1XTY++Kn19PHmHPWDzE=;
+ b=Ko0DWkHogGSsayzLIsqxvt/fjxvElR9hS2gpyn5rDOkr7OxTatc9Z2wgRV1g5GgJEi
+ fmq+f/+IkNk4uunI18bdCdb0YoM9DCGy71MiOTI1qVly+HYjB9YmdGu8SWurblAp1IRZ
+ AIBXov5LTXwbtWTK5fPxOJrpyl9CmuYDWPc6AH263p+F8g4wxIi+Lk4kjsCBfZsIX2x3
+ uFDT4TtCMDg+ARG24Cd5SeK7GR9oeTSKfGmOSgBv+491lKYP8tb6rD4NUlcUM/kyWndW
+ YDi2RR97UbzrEGSkQl3qk+XItBwDQ403zwM0oSEUzKhXCkC6b24vtfvIapPbfwfMhKjb
+ q0qg==
+X-Gm-Message-State: AOAM532pfX2a0EGVFkDqb1xw8FHjERIpLKX4qGkvGjJpcUwVEBrKf0y1
+ s2T8LPBKqfUcBCk+RfZT9iCSFPWIfK1/k3dbJQn/tw==
+X-Google-Smtp-Source: ABdhPJzEj/u9Ig4lchzzzuxYohSp+/WQPurGWexw7b3W7kga8xhSNrUNKj50YZZn0wqp2tTiZB/MQI13j7jbN/Af5/Y=
+X-Received: by 2002:a62:6d47:0:b0:4fe:15fa:301d with SMTP id
+ i68-20020a626d47000000b004fe15fa301dmr11718975pfc.29.1651502816203; Mon, 02
+ May 2022 07:46:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220423120854.1503163-1-alvin@pqrs.dk>
-In-Reply-To: <20220423120854.1503163-1-alvin@pqrs.dk>
+References: <20220426193645.244792-1-marex@denx.de>
+In-Reply-To: <20220426193645.244792-1-marex@denx.de>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 2 May 2022 16:39:53 +0200
-Message-ID: <CAG3jFysm2haeZ9jVkK96n1_vVjVkwRtLqOvM-r-F5qmQ7YDQpg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] drm: bridge: adv7511: CEC support for ADV7535
-To: =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alvin@pqrs.dk>
+Date: Mon, 2 May 2022 16:46:45 +0200
+Message-ID: <CAG3jFysWizvFkbMVexRqPC=5fDa3-VFnxS2zsvBKSKdL4zzxeg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement
+ simple Freescale i.MX8MP LDB bridge
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,45 +63,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 23 Apr 2022 at 14:09, Alvin =C5=A0ipraga <alvin@pqrs.dk> wrote:
+On Tue, 26 Apr 2022 at 21:37, Marek Vasut <marex@denx.de> wrote:
 >
-> From: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
+> The i.MX8MP contains two syscon registers which are responsible
+> for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
+> which represents this serializer as a bridge.
 >
-> Changes:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+> V2: - Consistently use fsl,imx8mp-ldb as compatible
+>     - Drop items: from compatible:
+>     - Replace minItems with maxItems in clocks:
+>     - Drop quotes from clock-names const: ldb
+>     - Rename syscon to fsl,syscon
+>     - Use generic name of ldb-lvds in example
+> V3: - Add AB from Sam
+>     - Consistently use MX8MP
+> V4: - Rename to fsl-ldb all over the place
+>     - Put the LDB node under media block controller in the example
+> ---
+>  .../bindings/display/bridge/fsl,ldb.yaml      | 92 +++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
 >
-> v1->v2:
->   - add Robert's r-b
->   - fix up 'case XXX...YYY+14' statements to read nicer in the 2nd patch
->
->
-> We have an ADV7535 which is nominally supported by this driver. These
-> two patches fix up the driver to get CEC working too.
->
-> The first adds the basic support by correcting some register offsets.
->
-> The second addresses an issue we saw with CEC RX on the ADV7535. It
-> hasn't been tested with the other chips (e.g. ADV7533), although it
-> should be compatible. I'm sending it against drm-misc-next because the
-> issue wasn't reported for other chips, and ADV7535 didn't have CEC
-> support before. But feel free to take it into -fixes instead.
->
->
-> Alvin =C5=A0ipraga (2):
->   drm: bridge: adv7511: enable CEC support for ADV7535
->   drm: bridge: adv7511: use non-legacy mode for CEC RX
->
->  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  27 ++++-
->  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 116 +++++++++++++------
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  19 ++-
->  3 files changed, 116 insertions(+), 46 deletions(-)
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+> new file mode 100644
+> index 000000000000..77f174eee424
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8MP DPI to LVDS bridge chip
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +description: |
+> +  The i.MX8MP mediamix contains two registers which are responsible
+> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
+> +  those registers as bridge within the DT.
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8mp-ldb
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: ldb
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for DPI input.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-A output (panel or bridge).
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-B output (panel or bridge).
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8mp-clock.h>
+> +
+> +    blk-ctrl {
+> +        bridge {
+> +            compatible = "fsl,imx8mp-ldb";
+> +            clocks = <&clk IMX8MP_CLK_MEDIA_LDB>;
+> +            clock-names = "ldb";
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +
+> +                    ldb_from_lcdif2: endpoint {
+> +                        remote-endpoint = <&lcdif2_to_ldb>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +
+> +                    ldb_lvds_ch0: endpoint {
+> +                        remote-endpoint = <&ldb_to_lvdsx4panel>;
+> +                    };
+> +                };
+> +
+> +                port@2 {
+> +                    reg = <2>;
+> +
+> +                    ldb_lvds_ch1: endpoint {
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> --
 
-Applied to drm-misc-next.
+Applied series to drm-misc-next.
