@@ -2,112 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D15517430
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:22:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ED451743E
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:26:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF7A610EDF1;
-	Mon,  2 May 2022 16:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A6110EFBF;
+	Mon,  2 May 2022 16:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D5E10ED31;
- Mon,  2 May 2022 16:22:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i3hRw9fhEP7fu9qW3vp/YOyrd5nADwZNYFviPHjhE6hxI/JItQ+/fTa3RNeegiljfI8oDJLWDW16Fxiv2ACB+b2hjzGnqacuEKXkxvZaePCh+PGWLLAyHZJiwkM63t6u3BjSjY/SuoRuciJbm2HY4eVXpI4ZiEzqAj6kDYGi2/yAVPZhpN3rabRrVcf5jtFkIk0dKkV3xgVxcCKKoV+0IkHNhslpEfbe3PO9apbN2d2t4Vc0gb0sKs2wl0/9k488xl6DpWxoqI7/pc/VIx17drpemC0A5ATBZI2qiKZsO2ZaS1cz75EcizLSlCg6KkJ71SgLAlIz7WiIUVmjuWb2kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b1FqS86lV6wC9xGaMtJX1UuHTZtydUY4mJK3cOUwIqM=;
- b=G/RgCxpY+m6TC3geg2YvuNnrnMTrIXYO1CyZVq1IAyCYt4bwOuuleUMF2dUKfW8vxGP+yj6hx/wf8PIONZ8nn3BW25Ku0VUWs/U71VGntdGXByecjd9zX8dcMTw7N9wJxmlDvmIVaGr69gLIUAI3IB3Ro6bVE7Nlx7az2MxlrgeyKkBqinJOZqvoQQkh8D/Cf6TbxqlfTLLW80kO55ivKyDlLwhQxx35blN6vhhwK5gul/qDQmYrNmFlo+XuD3VOMAwS+T1DN/jcTvW9Ozpit4BzDieKYI/1r92YfTk9SCoGj4Di9/R3bUwVI5tkK4/YlVA03SBSxBsELThk8l3CSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b1FqS86lV6wC9xGaMtJX1UuHTZtydUY4mJK3cOUwIqM=;
- b=NaMOYnekRXeNmqZICda/3kRi5fB3nxQgla7MdeLO0g4f/Jo0bSL8AtAjVi4GDxdr0LfqTzokL5p+D6ionpbaeCoia7s8WEfOPobJzaW35pnA85/CxDPqkc2UOQjbgrGV6wXVxEgWzhFB8zf98DeeNESfSNPRBPMwTCCHO5s9YFOFOWU28sWJAScCGnyNhqfRKMMGyGxU78NrfIXZx3EhnbgjDgJn+cs1h61Wmc2/Fp06/L9PBEyRlG6kWqMjoUiQ060Ppb+kjyXgynd1QahY8zVcV2Nv3AiSJ+PosUreVjT8z0pt4zAmkU2ejdow2SKr2Rar0NDx3EW5CHTwOEhNGA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by MN2PR12MB4831.namprd12.prod.outlook.com (2603:10b6:208:1b9::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Mon, 2 May
- 2022 16:22:08 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5206.024; Mon, 2 May 2022
- 16:22:08 +0000
-Date: Mon, 2 May 2022 13:22:06 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v2 7/7] vfio: Remove calls to
- vfio_group_add_container_user()
-Message-ID: <20220502162206.GA439065@nvidia.com>
-References: <0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
- <7-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com>
- <20220429142820.6afe7bbe.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220429142820.6afe7bbe.alex.williamson@redhat.com>
-X-ClientProxiedBy: MN2PR16CA0017.namprd16.prod.outlook.com
- (2603:10b6:208:134::30) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44D1110EFDE
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 16:26:18 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id 12so15653475oix.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 09:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=64QIA6q/Jq1SXZtvXAHmkaqaem8y9EOcss9DFzQHU9s=;
+ b=lSCTdreNcz/0Ozt6K1HBv4cRzX5rD5YkQNxljOsfS8tDiCYDoI+IPMQxP7X/EZIUm6
+ nEUbOImYvwji0WLPLOr7WKakqkxdg7JpvGJPTfUXZcQQCuBLI6CBT8jIjTQ6snEColp+
+ 42NQ0U8dK6CrK0vLyvJNfr+ZWyi1wOVvde/g8GkgMS8kO99Le/sMzMeHcBDeFPgZnh0r
+ LROiIiUnXvzBr+1b680itD4douFeeTEs3uEVAyKivH87Mp4cNraXu5PlswZdijptsHiy
+ E/tGZIauqoE0htLx1qKBecZCr69Lv4Vi0nEVaQXlcbRczQ9R4I77j4rRVkbcch1Z44Nq
+ l6TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=64QIA6q/Jq1SXZtvXAHmkaqaem8y9EOcss9DFzQHU9s=;
+ b=MOkDmaxZN0kMqMsSyk5JVxFvSx0w9Oln8iCF9uJmz4BGTsx5YmAXtUqd0Et6eHbFGU
+ lCvNPthzdsajMfAq30Buyo2BfbAcKtvxT9KWuenOmBAonGOVyXaowyybkBX0gWv92YR/
+ GHWiKnzBRloRui2GCsav1bvytqtIkhal2oBvlEy8DmA10Hf5oucp+oiPDW81r86Ss7jS
+ bEJNtM8JL4lMsq3k1Y9QswKcEX20cjwZYcrUCkM4yGEDt/DOG63/XAo2FDel4YyipLwg
+ abfWczMnzHSpI9yHOBNiH6I+OQIx06XPElSiI3fRpJyQAzqkBgtcLA7991+E2j3GKfwp
+ dsYQ==
+X-Gm-Message-State: AOAM532x046o9pAWv8mndiJocYPIQL/XN+IHeS0ZH1/MR04E4gcwVt3z
+ 1uCgFa0XqH+PV5nlYNwvojQ=
+X-Google-Smtp-Source: ABdhPJw9C3TtXs+N7Y0xL4doHaW0x+AFJyxcg+z0+P8jqToBpOw3SVN62D2BXqS+EDk7pkn5yUYINw==
+X-Received: by 2002:a05:6808:140f:b0:322:cbe9:8d29 with SMTP id
+ w15-20020a056808140f00b00322cbe98d29mr7789910oiv.220.1651508777476; 
+ Mon, 02 May 2022 09:26:17 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ l39-20020a0568302b2700b0060603221256sm3008945otv.38.2022.05.02.09.26.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 09:26:16 -0700 (PDT)
+Message-ID: <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
+Date: Mon, 2 May 2022 09:26:12 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e24affbf-ad42-4320-23eb-08da2c57e717
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4831:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB483171091609438BF527C94FC2C19@MN2PR12MB4831.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iKknk6/agnHhZ3g5mT4jvLq968oMZXfi9Ta1xl0soQ1kcPN+Z7gVxZ+x6CU8K97WH0DJxzUwwPpMu1d8Db1Zig1FGxtMsX7YKCcKUTzHg8ouuGHKKVIHY8Eo82b087ZBbkGzmkN6b3DFjmbOxPxWqr8yD5lOeze+Hsytf064Wo/KTCDGtciCqAjJpkFsw5aE1lLqbGjUOKQhcGWe6Zv+u7ddTEL1h1DYOY4vg4V2kPVHgHhvk7jnwdZJzKoopxPrxWaU6BlkFaJWHmLX7L8VA0FGo2zmQwkYXOtHHV+kQJYhDBBOf8mV0PHotnPTMKJ/U6bEjIwTOPrjHO3r0F/mGn0gKB50l/HuElOr0KEmmvFofo4mjzwHSFuNw4SxooALcaScqozpzJ/54ULn3kOdY9I7jY3PCtfBtrlQcVbERm9bLK3x5r0Zrk23vUmxG3EvE+VI7hIjtVQJX84lQ7ecT012RJcwjxlLvlvwKsYcDDDte07ZEtMV1KNUnKXY+YTfXU/rO9ZQx+Vy6zodGDJjzCmrmVQmbfulIrT/XriwZtKcmXGKeKBDPSRKLvWZsEDOaujnLbUqKCq9gRs5gZMLD779h9vTX2euZ2glmEN7hUUgxq+6v7ZjV9dubCfx1zIcGROLI9NWALqqNz2npLQS8Vtp0grG1Xf0HdYy4Wwrqz+ZW6mY6QRkMZsJKGhlv5frH0tKKbaUhZ/FNJDO6B9RHQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(83380400001)(186003)(2616005)(1076003)(2906002)(36756003)(26005)(6512007)(8936002)(7416002)(7406005)(6506007)(5660300002)(508600001)(66946007)(66476007)(66556008)(4326008)(33656002)(86362001)(8676002)(6916009)(316002)(54906003)(38100700002)(6486002)(27376004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/J/PRIdLivh2byLEaDC1AIzcXLJCETqfg4hOYPfwtdWCJb/gEMYHE7e/WVzg?=
- =?us-ascii?Q?dEOL2kRH09ZMYZGqo1si+ftF33sEFyOyY7N0yEsXiDhF5VvHlxJPlAuxZfiS?=
- =?us-ascii?Q?mbmWRsxbcKapxjL6DqrQRpNSCnLB0TlmIBBaI8mC1OvR36w49pPaErkcMHfN?=
- =?us-ascii?Q?wZJmbgNiH/rJUDfQLBX4kTUuE+krGbHbWD8GDS4pkP1UjGI+o9a46VlqYmdt?=
- =?us-ascii?Q?/Q2uGqZe6csEnICFLJd8/3AQKy9mpLiZtpd9eU3Pdj2Oc7UBgfnvtyiVP003?=
- =?us-ascii?Q?2+N9r5rkl3sW2lQB0zcC0bYyeOO5oF0aOUruu4mCdU01ky5iq2sgHM78OiFv?=
- =?us-ascii?Q?K2HsDEZQ3bNlj2agFkxjA7t/X0GpuAZqqf8QaDYkHk5UO3Hf1Jw8wCuNuY1C?=
- =?us-ascii?Q?kXqcpsn+5JCrVOcIsXFMwcSvJ55US9MmvzJg92W6EwmGL8wHubCqkE28KdMp?=
- =?us-ascii?Q?ya38zBSts2yWhgt3AGemtKKG+GjA2fTVy1tAX7PQRcFidjj56c2BXOklvECZ?=
- =?us-ascii?Q?gXHWti0RO3B2Fw+OQLg5ZMoHQ6pw7ygsjXUhSTNaFBTHyA35kEsSHJ0tkWDd?=
- =?us-ascii?Q?t1NJtEiLDA73+LoEWUvRVB4e4JDZIdr3o2J5OAUr9dXhA6wyJm9w2G7omgE+?=
- =?us-ascii?Q?FpLPY7c844B1KVPML1snIh7JiJiP+9ef7QTut7GLAFD/9pItdCzBFUGE6+8g?=
- =?us-ascii?Q?IoqUQIB7cqiUeWXmbRqVOoVJkhoZZjjfDtacXEwnlIg4XShJLJu19MBLhikN?=
- =?us-ascii?Q?2DiLjGVd6jMYIPw/NYn4eiYqmSJqCvCy/yMMT44+CugBfhgi2judLAOCdvpx?=
- =?us-ascii?Q?dfV2CCTuHRilKyH6SxCxHluD8WdA5LHkQL4/NrUtIL+IjasKFklDPB7oj/6F?=
- =?us-ascii?Q?RqGxCH4rULTl93JxvHO2/exiKnhOSNUPDY0EzIViZ4SQ2bwMk6B71rwyNj6D?=
- =?us-ascii?Q?9hFlPrmZ5IG17XX6E5Lz+Kzu9YLsEPY7gcd06q+PNSqZj5iofI30h8maM4ya?=
- =?us-ascii?Q?uShqbUYpXdR+pE/TDrjhWMZU7zXrUWnlle3yXQDFeTNnq/Bf4FZ/zdXmFMbh?=
- =?us-ascii?Q?sHn5ntTNDRxnGHqmfaKb7YLN6sdHRdXYs/kk/hLVxkYEv1M8vT/IJAhmpUcg?=
- =?us-ascii?Q?bwU469qI+2m2/utYBYqD5LDkrq712jEWl/amHfO98QWNdu8jnsGVjPaY3ebR?=
- =?us-ascii?Q?hokJYOEt72DMTkAzSXcqmN0xgZOnO+XganlyMQQ0NhIf7uNqkqiswGXsidNh?=
- =?us-ascii?Q?SaHY7zIWaL9HX6A6aOClE9dkHGINmbZuUy01OPvv9bIl5DtLSEZCR5aAE00t?=
- =?us-ascii?Q?UI4ySFx4ir8ovXRANi5vScTFM3594HaiyIzvm0XZSLQn+xdIJkUvvUlgZROX?=
- =?us-ascii?Q?ktwxJpKy+OByb6dcIuX9HFUCEFmYDC0IJKEeSjbidayQo1FqdUU5iEa6VAtI?=
- =?us-ascii?Q?q0PPukhEGfDNNckWxiUd5oU0b4nFRiyyB1k14lhqsAjKzr9F5NRSOXVCoDzg?=
- =?us-ascii?Q?Mf+oSMqwewmLfECGQBJzyMlC/Pej7F3QqYury2M+ZwmAcTjGKUrN/yUpyQnS?=
- =?us-ascii?Q?X56AGh9sp07UWZK/0yVmbCGIfm3Nse0Jbqjhh3cUKmc4iHdw4BVMtcEAhvdv?=
- =?us-ascii?Q?s1kM7rA/vcjLSAN/KQeLRrSiwGT5LeVCHn51/0dLZyamVbSLca7YVjeLoa1I?=
- =?us-ascii?Q?5B8ZTgRSrGOnTJ49BzLFEKEYcycPYIQZYdsN5tzFV8LBt53mp2zrMo94bD56?=
- =?us-ascii?Q?5qkh6PLPhA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e24affbf-ad42-4320-23eb-08da2c57e717
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2022 16:22:08.0457 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 48VJowsjFYyFFQCafcNgN2X795LNXGTYUygKbG4gPMDzUijXyH++m3NQ6n5aLI3T
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4831
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+ <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+ <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
+ <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
+ <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
+ <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
+ <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,58 +90,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, "Tian, Kevin" <kevin.tian@intel.com>,
- dri-devel@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, "Liu, Yi L" <yi.l.liu@intel.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Jason Herne <jjherne@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 29, 2022 at 02:28:20PM -0600, Alex Williamson wrote:
-> On Thu, 21 Apr 2022 13:28:38 -0300
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
+On 4/30/22 07:23, Arnd Bergmann wrote:
+> On Sat, Apr 30, 2022 at 3:32 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>>
+>> On Sat, Apr 30, 2022 at 2:41 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>> On 4/30/22 01:04, Arnd Bergmann wrote:
+>>>> and concluded that it must have done this for a long time. In my own qemu
+>>>> instance, I see a crash from iWMMXt, but that works fine on your machine.
+>>>> OTOH, your failed instances all look like they either time out or
+>>>> failed to find a
+>>>> rootfs. I tried passing an MMC device as root, and that works here.
+>>>>
+>>>
+>>> Booting from mmc works for me as well. Booting from pcmcia worked before,
+>>> so I assume that there must be some regression.
+>>
+>> Ok, got it, and managed to reproduce the hang now. My "ARM: pxa/sa1100: move
+>> I/O space to PCI_IOBASE" patch managed to get it to the point of detecting
+>> the pcmcia device instead of crashing, so I assumed it was enough when it
+>> clearly was not. Before that patch, it still works, afterwards it hangs with
+>> "pata_pcmcia: probe of 0.0 failed with error -12" as mentioned above. I'll
+>> have another look.
 > 
-> > When the open_device() op is called the container_users is incremented and
-> > held incremented until close_device(). Thus, so long as drivers call
-> > functions within their open_device()/close_device() region they do not
-> > need to worry about the container_users.
-> > 
-> > These functions can all only be called between open_device() and
-> > close_device():
-> > 
-> >   vfio_pin_pages()
-> >   vfio_unpin_pages()
-> >   vfio_dma_rw()
-> >   vfio_register_notifier()
-> >   vfio_unregister_notifier()
-> > 
-> > Eliminate the calls to vfio_group_add_container_user() and add
-> > vfio_assert_device_open() to detect driver mis-use.
+> Got it: as the PCMCIA bus on this machine is the only thing with an I/O space,
+> I assigned it port number range 0-0x1000, with an io_offset of 0, but this
+> was apparently unexpected and triggered this sanity check:
 > 
-> A comment here explaining that decrementing open_count is pushed until
-> after close_device to support this feature would help to explain the
-> somewhat subtle change in vfio_group_get_device_fd().
+> static int static_find_io(struct pcmcia_socket *s, unsigned int attr,
+>                          unsigned int *base, unsigned int num,
+>                          unsigned int align, struct resource **parent)
+> {
+>        if (!s->io_offset)
+>                return -EINVAL;
+>        ...
+>        return 0;
+> }
+> 
+> I moved the devices around now, giving zeus/viper I/O space an offset of
+> zero, and moving PCMCIA to offset 0x10000 and 0x11000 for the two slots,
+> which now works because the io_offset is nonzero. I've regenerated the
+> branches again, and confirmed the for-next branch still boots from pcmcia.
+> 
 
-I changed it like this:
 
-Eliminate the calls to vfio_group_add_container_user() and add
-vfio_assert_device_open() to detect driver mis-use. This causes the
-close_device() op to check device->open_count so always leave it elevated
-while calling the op.
+With v5.18-rc1-49-gcb813018b5c1, I still get:
 
-Thanks,
-Jason
+[    0.797668] RAMDISK: Couldn't find valid RAM disk image starting at 0.
+[    0.805262] /dev/root: Can't open blockdev
+[    0.805487] VFS: Cannot open root device "(null)" or unknown-block(0,0): error -6
+[    0.805674] Please append a correct "root=" boot option; here are the available partitions:
+
+when trying to boot z2 from initrd.
+
+The other problems are gone.
+
+Guenter
