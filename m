@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2345171B2
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9645171C3
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:39:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6B5F10EFF7;
-	Mon,  2 May 2022 14:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E9310EFF8;
+	Mon,  2 May 2022 14:39:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DBB10EFF7
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 14:37:59 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id p8so12440659pfh.8
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 07:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=74bxgGuHU9jSk3+QuQXZKRvlg8V04rNVxn+TIhl3ghI=;
- b=US2i16G1FslRkGzUxXxBxn5PpAczH/bRPVsvbNYjBDpAbIud3dKvEm6qAcX8D/oZ5Z
- Tk9hvG3m4vnc71cxDEuZQRK/OOh4iXy1/kZVMLznQYGfhpbxBzLaTpJr7xzbcITYCPoR
- d+Qx9Lsf6E7YpfDfJwEzuvPwbx3SMTstl+zX30Yzd5dIFyfrgjAqTESfzPSnxoKc66Pw
- HYpEOptx+COAhLTNA1avuz+BaGoEm9EBzevRp4pdPJWXXZn1dLx6adODGE0pH46ilwUT
- k2Ush7C83FevsksKSoImxQFzDDSLTI0oI+vQAzXUD4dl+j++RxPC9LjzqYDQy2FMVMrR
- uAdw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DABE10EFF8
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 14:39:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651502388;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=58rLakAFNoJNnG5Di+FTawUYlxOYFnmmF/e8CRlldJQ=;
+ b=XaWBx3UaLYto3CrEY2g6TqTneyKwqD1dLY5r/sR57GfbRtQ87lEquDK1MHtb58MhwYOsL4
+ 2ssNFwItwzrpMxYQ5AqlIR8CeOx8JvFPgn3FfiBqsEIxHJn0jdsPYP1my7AsFxUwVDbTv0
+ fs0n5l7wMCRkj/ZPxpkmM6HoDDFv3Xw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-314-b6I-6TIrMMatGFUaghQByw-1; Mon, 02 May 2022 10:39:44 -0400
+X-MC-Unique: b6I-6TIrMMatGFUaghQByw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k16-20020a7bc310000000b0038e6cf00439so4650794wmj.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 07:39:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=74bxgGuHU9jSk3+QuQXZKRvlg8V04rNVxn+TIhl3ghI=;
- b=inmEXhUUhxM2zXWW+HAJiLGM7zjbv/2e9gr0ZPzCqJNiHX7JL8X5XL8aEFbrvzD2MO
- QqHfUsyBSw9W0lSgey5Sfq0iABChVOVmOuKymjxhDsJWgg+DXRGA3DcdogE9y2+c7PAw
- ug0NWYLJK5QxSWMb0MZ0wFkUae5tqGduXU3SEQXF58LLcd2GFa9ZoXxjz0pmnRtuu6Ff
- 3BpPpt8UJCjri+lU9qDIYeeZdrIU+yjftTVLoDA7Vzze/BmnHzu+X+u0x4ZWYEmZnS+h
- ZcMoPRBRwLucp16/Ru5SgCzmz79ma3K/r/YWPwLEIzULScOu2fbddOQnOT5AQYdZlfX3
- 2/qQ==
-X-Gm-Message-State: AOAM532IBsBzFl6b9di6xEHmYb9EmTnv+kch2+n306oLWt+tuiZ0TZgf
- wXI/u2ZlIR4V9+hPilpDsgYMVz/CKEQcDWU1t2mgTw==
-X-Google-Smtp-Source: ABdhPJxO8+87e2lHNCFbPay2aHSBemsxX2KpF1wpvTcg1JbtYVs08QwN6sikfE7I6JCo0Vr2Ph9NRx2sMzw7tPml9ys=
-X-Received: by 2002:a62:6d47:0:b0:4fe:15fa:301d with SMTP id
- i68-20020a626d47000000b004fe15fa301dmr11688627pfc.29.1651502278898; Mon, 02
- May 2022 07:37:58 -0700 (PDT)
+ bh=58rLakAFNoJNnG5Di+FTawUYlxOYFnmmF/e8CRlldJQ=;
+ b=hb28v7D3m5YkXE3o0BBHiGP9BIOq5TIuFNudqhY6YOyq80QBaRXEa0iVsKPuCgN6DG
+ 4ktOn8hVFVDxINNdJmGgoOjQ+EaIeBR9XD344BpK5R0FIpScU36ZnEDAZTfMqV0bWmFW
+ r9nUbAcavifZzl8k82sjNt/8h+AN8VKO0qZDczm9BtUeIWuLQGEcpxxth0Pn5xEtApYV
+ y2d7mn9KyKmAqhuyF7apPYBpGQW8vyclg81IjFbqwWX03Cgmy1BW1PGmLCWkz/gPdNWi
+ WDH8mTnNSijTkLwtlV1yD/diAxpJmlJ1pZwIg216UWwY5oO/LU1RlsUIESoIxFxB8EXD
+ Gaew==
+X-Gm-Message-State: AOAM530azr7o5Okn1fLq3+rLZll7eePI/fmmKb/zLov9kKKkbHwXYl7V
+ +y5f0vIs3G8BCR2mN+Y2JMl1sJ1QwDWz7n0EzxqIOW1T/MrRZLt6AFivjItJFA/0P49iTaqdWHb
+ FKnwAPZ0NjFUkWlXbTN6HECmFyEM4I+DCFfwWhW9GdhP4
+X-Received: by 2002:a7b:cb47:0:b0:393:dd9f:e64a with SMTP id
+ v7-20020a7bcb47000000b00393dd9fe64amr15053005wmj.170.1651502383716; 
+ Mon, 02 May 2022 07:39:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxeSqSrtlczNXNP5eDjRGWp+ntWxu/JB9aqmsfOg0rqpKIibXazTKglVMoMhIkmYF6H1Dn/NKWLxpLeWCbfFDQ=
+X-Received: by 2002:a7b:cb47:0:b0:393:dd9f:e64a with SMTP id
+ v7-20020a7bcb47000000b00393dd9fe64amr15052989wmj.170.1651502383468; Mon, 02
+ May 2022 07:39:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220425134424.1150965-1-treapking@chromium.org>
-In-Reply-To: <20220425134424.1150965-1-treapking@chromium.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 2 May 2022 16:37:48 +0200
-Message-ID: <CAG3jFys-qNAER4xVhbNqE9xbsjTMEbaBR291Kc1M1SKkH5oE1w@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: it6505: Send DPCD SET_POWER to downstream
-To: Pin-Yen Lin <treapking@chromium.org>
+References: <20220420095720.3331609-1-kherbst@redhat.com>
+In-Reply-To: <20220420095720.3331609-1-kherbst@redhat.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Mon, 2 May 2022 16:39:32 +0200
+Message-ID: <CACO55tv6rKETHhx=1yJ7Gf91sq1cDHyNgZxEdaN48PFBRdKu2g@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/i915: Fix race in __i915_vma_remove_closed
+To: LKML <linux-kernel@vger.kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,100 +76,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Allen Chen <allen.chen@ite.com.tw>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Hermes Wu <hermes.wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Apr 2022 at 15:44, Pin-Yen Lin <treapking@chromium.org> wrote:
+friendly ping.
+
+I am not even myself completely convinced that this is the correct
+patch and it might just workaround some issues, but list_debug.c does
+check if a list was already deleted and throws an error if it was and
+this patch indeed fixes this one issue as multiple threads could enter
+__i915_vma_remove_closed on the same vma.
+
+
+On Wed, Apr 20, 2022 at 11:57 AM Karol Herbst <kherbst@redhat.com> wrote:
 >
-> Send DPCD SET_POWER command to downstream in .atomic_disable to make the
-> downstream monitor enter the power down mode, so the device suspend won't
-> be affected.
+> i915_vma_reopen checked if the vma is closed before without taking the
+> lock. So multiple threads could attempt removing the vma.
 >
-> Fixes: b5c84a9edcd418 ("drm/bridge: add it6505 driver")
-> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+> Instead the lock needs to be taken before actually checking.
+>
+> v2: move struct declaration
+>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5732
+> Signed-off-by: Karol Herbst <kherbst@redhat.com>
 > ---
+>  drivers/gpu/drm/i915/i915_vma.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 >
->  drivers/gpu/drm/bridge/ite-it6505.c | 29 ++++++++++++++++++-----------
->  1 file changed, 18 insertions(+), 11 deletions(-)
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 162e8d83691b..2efdad2b43fa 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -1615,17 +1615,17 @@ void i915_vma_close(struct i915_vma *vma)
 >
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 8fed30df08b0..4b673c4792d7 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -737,8 +737,9 @@ static int it6505_drm_dp_link_probe(struct drm_dp_aux *aux,
->         return 0;
->  }
->
-> -static int it6505_drm_dp_link_power_up(struct drm_dp_aux *aux,
-> -                                      struct it6505_drm_dp_link *link)
-> +static int it6505_drm_dp_link_set_power(struct drm_dp_aux *aux,
-> +                                       struct it6505_drm_dp_link *link,
-> +                                       u8 mode)
+>  static void __i915_vma_remove_closed(struct i915_vma *vma)
 >  {
->         u8 value;
->         int err;
-> @@ -752,18 +753,20 @@ static int it6505_drm_dp_link_power_up(struct drm_dp_aux *aux,
->                 return err;
->
->         value &= ~DP_SET_POWER_MASK;
-> -       value |= DP_SET_POWER_D0;
-> +       value |= mode;
->
->         err = drm_dp_dpcd_writeb(aux, DP_SET_POWER, value);
->         if (err < 0)
->                 return err;
->
-> -       /*
-> -        * According to the DP 1.1 specification, a "Sink Device must exit the
-> -        * power saving state within 1 ms" (Section 2.5.3.1, Table 5-52, "Sink
-> -        * Control Field" (register 0x600).
-> -        */
-> -       usleep_range(1000, 2000);
-> +       if (mode == DP_SET_POWER_D0) {
-> +               /*
-> +                * According to the DP 1.1 specification, a "Sink Device must
-> +                * exit the power saving state within 1 ms" (Section 2.5.3.1,
-> +                * Table 5-52, "Sink Control Field" (register 0x600).
-> +                */
-> +               usleep_range(1000, 2000);
-> +       }
->
->         return 0;
->  }
-> @@ -2624,7 +2627,8 @@ static enum drm_connector_status it6505_detect(struct it6505 *it6505)
->         if (it6505_get_sink_hpd_status(it6505)) {
->                 it6505_aux_on(it6505);
->                 it6505_drm_dp_link_probe(&it6505->aux, &it6505->link);
-> -               it6505_drm_dp_link_power_up(&it6505->aux, &it6505->link);
-> +               it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> +                                            DP_SET_POWER_D0);
->                 it6505->auto_train_retry = AUTO_TRAIN_RETRY;
->
->                 if (it6505->dpcd[0] == 0) {
-> @@ -2960,8 +2964,11 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
->
->         DRM_DEV_DEBUG_DRIVER(dev, "start");
->
-> -       if (it6505->powered)
-> +       if (it6505->powered) {
->                 it6505_video_disable(it6505);
-> +               it6505_drm_dp_link_set_power(&it6505->aux, &it6505->link,
-> +                                            DP_SET_POWER_D3);
-> +       }
+> -       struct intel_gt *gt = vma->vm->gt;
+> -
+> -       spin_lock_irq(&gt->closed_lock);
+>         list_del_init(&vma->closed_link);
+> -       spin_unlock_irq(&gt->closed_lock);
 >  }
 >
->  static enum drm_connector_status
+>  void i915_vma_reopen(struct i915_vma *vma)
+>  {
+> +       struct intel_gt *gt = vma->vm->gt;
+> +
+> +       spin_lock_irq(&gt->closed_lock);
+>         if (i915_vma_is_closed(vma))
+>                 __i915_vma_remove_closed(vma);
+> +       spin_unlock_irq(&gt->closed_lock);
+>  }
+>
+>  static void force_unbind(struct i915_vma *vma)
+> @@ -1641,6 +1641,7 @@ static void force_unbind(struct i915_vma *vma)
+>  static void release_references(struct i915_vma *vma, bool vm_ddestroy)
+>  {
+>         struct drm_i915_gem_object *obj = vma->obj;
+> +       struct intel_gt *gt = vma->vm->gt;
+>
+>         GEM_BUG_ON(i915_vma_is_active(vma));
+>
+> @@ -1651,7 +1652,9 @@ static void release_references(struct i915_vma *vma, bool vm_ddestroy)
+>
+>         spin_unlock(&obj->vma.lock);
+>
+> +       spin_lock_irq(&gt->closed_lock);
+>         __i915_vma_remove_closed(vma);
+> +       spin_unlock_irq(&gt->closed_lock);
+>
+>         if (vm_ddestroy)
+>                 i915_vm_resv_put(vma->vm);
 > --
-> 2.36.0.rc2.479.g8af0fa9b8e-goog
+> 2.35.1
 >
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-Applied to drm-misc-next.
