@@ -1,44 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388E05174C8
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:44:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E96B5174CA
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 18:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E61D410F0EE;
-	Mon,  2 May 2022 16:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF9D10F124;
+	Mon,  2 May 2022 16:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E679110F0E4;
- Mon,  2 May 2022 16:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651509883; x=1683045883;
- h=from:to:cc:subject:date:message-id;
- bh=/hBP51dakvyFvptK3SaVoqwhUb9b+sUY7FBEgdyP/G0=;
- b=hyPm767w2Y6qJH/Q7FTsMJK1LB4mEBeX5HVhp+DL0BUq34mzquY69SiZ
- V7m90xKJwq8exLjXVZ6rLb1sIs/hyFXD3DKLA/nMipn84yXJWvqNclD0Y
- c3agREp+YRM/fCGXVH7f8jLsreNxEU3VYW651gxcJ0yYi7qS9uee/0i2n c=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 02 May 2022 09:44:42 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 02 May 2022 09:44:25 -0700
-X-QCInternal: smtphost
-Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg02-blr.qualcomm.com with ESMTP; 02 May 2022 22:14:11 +0530
-Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 8727E28A6; Mon,  2 May 2022 22:14:09 +0530 (IST)
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH v2] drm/msm/disp/dpu1: avoid clearing hw interrupts if hw_intr
- is null during drm uninit
-Date: Mon,  2 May 2022 22:14:06 +0530
-Message-Id: <1651509846-4842-1-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261C910F12D;
+ Mon,  2 May 2022 16:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651509941; x=1683045941;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=urEYlcJWHthvNZxMK8DIFey3lc2i6h8I94/72RJ3Cts=;
+ b=adDkxFln8xC4wXaQbDBdueSlLwxSTRLufTIuZ+LsC7QqyBc7RNC4oGr/
+ 0r1XrUsCnqW/gpLCol4lA8NYc4RuZIJNgTmKmpPU4QZibEZ4WkjYtzkr1
+ L8nPLkOXRSuoh4PC38A/VjzBgxGh1xmN1cLPdE2kpMEt74/0H35RuOvwq
+ c+W8k7akuSJun+WTyKeIiuCvP/3ARaXDL42dWRdu0OUWefVvwT0eq74PG
+ jKD7WK3m5OvvJIiv4YCwzjzysNwWMnX6k+iQNWnCH9LAZGB7Y6c9OFsN9
+ o6HgI1bAYZ5iX9h/dQBOTJ0Jnhdea5UMMh8eIiMaJR43YUxdqrjtEiEFX g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="267135257"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="267135257"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 09:45:40 -0700
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="561813232"
+Received: from wagoleb-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.155.30])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 09:45:38 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ramalingam C <ramalingam.c@intel.com>, intel-gfx
+ <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 1/3] drm/i915/gt: BUG_ON unexpected NULL at
+ scatterlist walking
+In-Reply-To: <20220502142618.2704-2-ramalingam.c@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220502142618.2704-1-ramalingam.c@intel.com>
+ <20220502142618.2704-2-ramalingam.c@intel.com>
+Date: Mon, 02 May 2022 19:45:35 +0300
+Message-ID: <87v8unrihc.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,59 +60,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_abhinavk@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If edp modeset init is failed due to panel being not ready and
-probe defers during drm bind, avoid clearing irqs and derefernce
-hw_intr when hw_intr is null.
+On Mon, 02 May 2022, Ramalingam C <ramalingam.c@intel.com> wrote:
+> While locating the start of ccs scatterlist in smem scatterlist, that has
+> to be the size of lmem obj size + corresponding ccs data size, report bug
+> if scatterlist terminate before that length.
+>
+> v2:
+>   s/GEM_BUG_ON/BUG_ON with more commenting [Matt]
+> v3:
+>   Converted GEM_BUG_ON into BUG_ON with more documentation [Matt]
+>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com> (v1)
+> ---
+>  drivers/gpu/drm/i915/gt/intel_migrate.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 9d552f30b627..168d17b6f48a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -687,6 +687,16 @@ static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
+>  		bytes_to_cpy -= len;
+>  
+>  		it->sg = __sg_next(it->sg);
+> +
+> +		/*
+> +		 * On Flat-CCS capable platform when we back the lmem pages with
+> +		 * smem pages we add extra pages at the end of the smem
+> +		 * scatterlist, to store the ccs data corresponding to the lmem
+> +		 * pages. get_ccs_sg_sgt() is called to get the pointer for the
+> +		 * start of the extra pages added at the end of smem scatterlist.
+> +		 * So scatterlist can't end at or before bytes_to_cpy.
+> +		 */
+> +		BUG_ON(!it->sg);
 
-BUG: Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+Why would you have to bring the entire kernel down in this case? Why not
+just let it oops on the NULL pointer dereference?
 
-Call trace:
- dpu_core_irq_uninstall+0x50/0xb0
- dpu_irq_uninstall+0x18/0x24
- msm_drm_uninit+0xd8/0x16c
- msm_drm_bind+0x580/0x5fc
- try_to_bring_up_master+0x168/0x1c0
- __component_add+0xb4/0x178
- component_add+0x1c/0x28
- dp_display_probe+0x38c/0x400
- platform_probe+0xb0/0xd0
- really_probe+0xcc/0x2c8
- __driver_probe_device+0xbc/0xe8
- driver_probe_device+0x48/0xf0
- __device_attach_driver+0xa0/0xc8
- bus_for_each_drv+0x8c/0xd8
- __device_attach+0xc4/0x150
- device_initial_probe+0x1c/0x28
+I'd prefer nuking *all* of the current BUG/BUG_ON in the driver, and not
+add any single one back.
 
-Changes in V2:
-- Update commit message and coreect fixes tag.
 
-Fixes: f25f656608e3 ("drm/msm/dpu: merge struct dpu_irq into struct dpu_hw_intr")
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 3 +++
- 1 file changed, 3 insertions(+)
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index c515b7c..ab28577 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -599,6 +599,9 @@ void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms)
- {
- 	int i;
- 
-+	if (!dpu_kms->hw_intr)
-+		return;
-+
- 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
- 	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++)
- 		if (!list_empty(&dpu_kms->hw_intr->irq_cb_tbl[i]))
+
+>  		it->dma = sg_dma_address(it->sg);
+>  		it->max = it->dma + sg_dma_len(it->sg);
+>  	} while (bytes_to_cpy);
+> @@ -748,8 +758,10 @@ intel_context_migrate_copy(struct intel_context *ce,
+>  		 * Need to fix it.
+>  		 */
+>  		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
+> -		if (ccs_bytes_to_cpy)
+> +		if (ccs_bytes_to_cpy) {
+> +			WARN_ON(abs(src_sz - dst_sz) < ccs_bytes_to_cpy);
+>  			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
+> +		}
+>  	}
+>  
+>  	src_offset = 0;
+
 -- 
-2.7.4
-
+Jani Nikula, Intel Open Source Graphics Center
