@@ -1,161 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9D3517050
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:29:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B835170A3
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 15:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7219110E91F;
-	Mon,  2 May 2022 13:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3AB510EC9D;
+	Mon,  2 May 2022 13:36:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1FD10E554;
- Mon,  2 May 2022 13:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651498137; x=1683034137;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=jdU0l8k+kDnC1WDsAs7nQrtZ6E20Cy/7R/0o6oQB0rU=;
- b=ZHsZhOPAQHwKhnytkKCSCTa0wcQhWID91Iu/3aVcX33WWVBSjqHdYZQx
- Q5hninQE6o6+457t+29slDuNix6RouU5Z6HjD+jOH7jx1BOmo94WyTZ/q
- s1ft57P55Cl23YGABa9mbEw99dxr6FxlVljHjTwHpC/fCuuTqNfnrFs4w
- ukZMnzqKJWUrM0jYGUhwVlZKlQWxq5gf7GJAGu7DUj4f91tT598vpUdHw
- tXQ7QG25U8wFbuvAJvRL6YIhgv8PPBXDOL2fMTTbe9mVpxWCzmORaLap6
- b5H0cl8LunTYa6o1J3Hm/ji0VPhISf7/QZxgSiBjRDfdNfxdpxUQlp+Je A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10334"; a="353641042"
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="353641042"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 06:28:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="546330329"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga002.jf.intel.com with ESMTP; 02 May 2022 06:28:55 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 2 May 2022 06:28:54 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 2 May 2022 06:28:54 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 2 May 2022 06:28:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oabA+4PzUGKoro4VFBnP/MHxlp12KcBriSN90VwCT8q6rGirPMYCEu9g3AjDFHBKrmQPWaGB8rjBS+cYAmf9NNH+LYRi0CVAZEaFrlamplbj7fcm55CE1j89u0CLNEuacvbeo+aF10nXFcsmKZ8HFvIFKqApZaKKiLhjXXI7V+B82sXWL1QzSNDaTw5aZmi5OCAYN2DIzcgeXRTpKyJfuu33ClF4lZbb3Xqg2XHY/B6Wm+wJJu1CW03yYNb0G5pOkaSBqfNwm5Pz+lauPfNtR/2bjBYeGmIavcdQNHv55KyOzCIsN0Ly1qBUHpyNie2mD5xz50AcjfgH9PfgS5IB1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CnpF69ecwZK9ZSVvkTQwqCSVm1dTSDwHwkujn7La35c=;
- b=lxr+TzGWwKVHW1+5SOWhcwMm4+EvBBGIx3jGOfFjSalw5apS9iw2QWQ1gvMr4PD1UN3k7YcoV5NFvDzkEg9C/j6bsj43gQaVpIaMk7V0+WhE6hPGrQ9pOXDCOAb4WyyecOInHQR9xn+mNzK4U3vz3Bfgzkuzx/ipC5bxg/3dTk9CkbqtWARqHD80KnIVjgtMA4L7GjJWDzjkNkb8d/I0cV77xwZk1g6MOsWCRVpnCXHz40p0N7WFoVuCcgNOkK5TvEyiHd6YiDJF3BDPwT1+xFNTP1GTk5zNZ0ZWMR1UiKwd3pPWM1YUKgbTETxCluT45ZCMXpch0TdZGI5E1oyGOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM8PR11MB5719.namprd11.prod.outlook.com (2603:10b6:8:10::6) by
- DM6PR11MB3916.namprd11.prod.outlook.com (2603:10b6:5:5::25) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5186.15; Mon, 2 May 2022 13:28:52 +0000
-Received: from DM8PR11MB5719.namprd11.prod.outlook.com
- ([fe80::905:c4c3:7416:d3e9]) by DM8PR11MB5719.namprd11.prod.outlook.com
- ([fe80::905:c4c3:7416:d3e9%8]) with mapi id 15.20.5206.024; Mon, 2 May 2022
- 13:28:52 +0000
-Message-ID: <29f40e83-a9a8-c0ac-1702-f9d0bf0f8861@intel.com>
-Date: Mon, 2 May 2022 18:58:40 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [Intel-gfx] [V2 3/3] drm/amd/display: Move connector debugfs to
- drm
-Content-Language: en-US
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>, "Sharma, Swati2"
- <swati2.sharma@intel.com>
-References: <20220411095129.1652096-1-bhanuprakash.modem@intel.com>
- <20220411095129.1652096-4-bhanuprakash.modem@intel.com>
- <DM6PR11MB31778321FCA58010AE44D867BAFC9@DM6PR11MB3177.namprd11.prod.outlook.com>
-From: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>
-Organization: Intel
-In-Reply-To: <DM6PR11MB31778321FCA58010AE44D867BAFC9@DM6PR11MB3177.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN0PR01CA0038.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:49::7) To DM8PR11MB5719.namprd11.prod.outlook.com
- (2603:10b6:8:10::6)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF5E10ECC6
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 13:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651498584;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wk6mLWRRViFXWkx+VvGzbw9fqjF1MLHsTTjWqUZV74g=;
+ b=BSKvXyA5xSSH70wsc5yyTOKKMd/Z/yTNOZS2AdX1Qn6+XmXHLw92Jui6WSfbFMWpVdXiN1
+ o1a+AznVsrjGr6yCgEf/MxV1pdxXGBLinEMypIV1CwyEe6iW+QB94P+dBrVAS8n6d0IDqU
+ 8CwiKvlRnBsrmmMZ1txN+Hed2eeOBdQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-30-HZ-fS6h5MUSGQQsgN-ESjA-1; Mon, 02 May 2022 09:36:23 -0400
+X-MC-Unique: HZ-fS6h5MUSGQQsgN-ESjA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ g3-20020a7bc4c3000000b0039409519611so4483916wmk.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 06:36:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wk6mLWRRViFXWkx+VvGzbw9fqjF1MLHsTTjWqUZV74g=;
+ b=YNZsPtR6OsUsM/gWhtu9MxO+Tt+3ZnL1A8jFFIhSFwYZ9/0P5Ta6nKLhd9NSN1LEee
+ Bf27gdSfmpJpeQ2CB9PrWwwGxsit/616yA3csU10sFx1/j1Vj7bBj57QMBFavsbO5sk2
+ 5d2YJEmsz+hwe8x5l3a8LAzADiIksTyJ5pDHpxoTUqOK1+8DAdwksRXeWz4iDJML1Q56
+ 3GeHKJKQi/1rd8uVPSeA4QPXsMdSWJke9fbn55JGikHkrFs53hnW0SqKoPpVAc3bOqWX
+ F9f0PKWlnP85tFuedpNcO5hP6BzEThqIyeCDqcbMNSf3SlJ/U/u2QjxN0Biv73gD5HkO
+ qHNA==
+X-Gm-Message-State: AOAM532HF5CSjukYMSADQ/rShZ0zSRjgmFfcE56DZ2LIkY7Ql3MkY0Ao
+ bm05/ei8+GBwWUIjLRbwZD1EHTa4TL/vyFOKtn6spuhfnBLUoHnNMks50YMvV8XubvBzKr+CEso
+ /KOYtEceADX8zIjSwuCsUp8npvDnz
+X-Received: by 2002:a05:600c:3b14:b0:394:1f06:37eb with SMTP id
+ m20-20020a05600c3b1400b003941f0637ebmr10884562wms.193.1651498582008; 
+ Mon, 02 May 2022 06:36:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEwL5W5ENYx/Gaa49NDx4yx3cjiPFzGsI/Mcnz7WEwp1islY54iqn0IFPIaaasmsyn0xwuUA==
+X-Received: by 2002:a05:600c:3b14:b0:394:1f06:37eb with SMTP id
+ m20-20020a05600c3b1400b003941f0637ebmr10884551wms.193.1651498581801; 
+ Mon, 02 May 2022 06:36:21 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ v22-20020adf8b56000000b0020c5253d8d4sm7047386wra.32.2022.05.02.06.36.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 06:36:21 -0700 (PDT)
+Message-ID: <c556b0f7-b3b9-17fd-7349-45cfb2dfe1d8@redhat.com>
+Date: Mon, 2 May 2022 15:36:20 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd3206bd-707a-45d5-06b9-08da2c3fb2e6
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3916:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR11MB39161995B58B7D62E2DE416E8DC19@DM6PR11MB3916.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UuiuK1J7oTUHT5X/drdRgoBOpoo8EEphXE7VBwrYx+0IbQn7k45q0vbokWTE6jvX7ye4slWuLR68COQeQsXtytQgFa8wCMWiFEI9Adw/xRoZ3i99wPyLBUcY81XEg3z0ZWKM/zpO5sdQM6QZCzjvWoP40HxTpferzH+z5B0z+PGhu61F2BRqh5dkge6LVRly3ZVV2ZSwYCUxeqTijCBo6G+V6js9E4zTaRpIQXTyFYEcYCJZZmMqMEX1HSmLMchlViNXisSVZzH+ldY10gCSwV/7RBbnETEjXxKWE3CoE35PXiobUxP7A1i/7uLsnhzh6y7fZgDygn4JrewNh8WJaFYcRJ+sjZQr6owDYqZKXH4kmgsagjpQP9kgDU1Mc7AmRInRKEWXXKRfoyVNw537W0ASI/pAuqTUHtTk1LoWKVHqL5m9zxDEFHM5Q78OAkwjL5kxwpkNmrMOJ+1Ewgs8WSjsnK/OA7xbJHJFPHfrNkWi76tfHy3sV2TO4M3McR15ua2mZVCQM1B7cJcbBRGZE3A1QoMjvp785uxkddeAiHi8k+Ah0qNbVIvosiDB/XEdb21tuZgxcvVCXTqt3og+JtA75Caqmow85S34u43K4N0Lx6YhXTbBJa8jY2mCrDRxxw0VGR4H/uMyy61agnsoQ3DVfQD+vsA2eUdzZpyP8HJyxFhBqhb5s2CuH/Sea+RUbklWr2IUzj6UeEyxDlzD7a4Fid6PzklXl6uQZVXS2Mt9BWSTjsuPHk8DdUZaFShn
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5719.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6486002)(110136005)(31686004)(186003)(2616005)(2906002)(36756003)(83380400001)(8936002)(5660300002)(66946007)(31696002)(4326008)(86362001)(8676002)(6636002)(316002)(66556008)(921005)(66476007)(82960400001)(6512007)(26005)(38100700002)(6506007)(53546011)(508600001)(36916002)(6666004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWpsemttQitHZlZPbmNFbzUwT1IrZStKdllTZkFDb3ppYy9EaG82eERNWFF5?=
- =?utf-8?B?RnlBd01heTRYcExwb3d6ZmZibFp4bWNvWTVPUzR6SHNyaFlRTEpOdjRRcS90?=
- =?utf-8?B?TnpQbWx5RWFzOWhncTNUMHllUGN6NnFNSE9iMjcyV1JwTkpEQWdHTWZIUCs2?=
- =?utf-8?B?aXJvb3BBcStWSk9mbldDcEtIbmdJRUJFSU9wQ2lsRW11b2VmdUVRdHlWY3Js?=
- =?utf-8?B?b1hpaDIybGtUUFljdlluM1RlSkVlcnVrU1NSUXM1Smx6TWV1QkF3S2dUQ0dP?=
- =?utf-8?B?ZE53Q0pHejVUYytVcElXWWI2bDBCZU5zTHhzQVEzRUdkYXZraU53NzNUS0JU?=
- =?utf-8?B?ejJGSHhwVGdHaFNwa3RwNm1DQk85L1FVc0swUjJ3d1BkaThtSnprcmJrVkRm?=
- =?utf-8?B?Q2tRS3J6RjBieHZIeDhva1FQd3dxUkVYWFdLVkRRd2FYSmhEcXhFUVJvZ1F4?=
- =?utf-8?B?YkhoejhhNGZUeE1qQ2gzbzNJK2pSdmE4WUhsaVNWOEhTSThHTm5nRkx6bXJu?=
- =?utf-8?B?SXBYTnRaNDdodWt5RnRxajUrdjdOWStyQk85dlFBejlsTUd6aTVDbVZ4dGo3?=
- =?utf-8?B?cVE2SWM3VUs3dFF2M1AyNnlCS2x4RERzcEsrR0NkWmtpQXJQUlRaVENveE41?=
- =?utf-8?B?ckt3Ukl3WHVBbi9nQkR2RHJteko1STc5ZitRUkhlYzRpb1BLUVFWNFp0dE9X?=
- =?utf-8?B?cStNQjl3eTNGSmdJeTJsWWN0T29xNGlpWkdWVVVzMisvVFUrSFovNUdySWFE?=
- =?utf-8?B?ZmFkUkFyR2RJa0FkY3d5NDRFUXppWTRkdUdIZDVLbGxaajE5bVhMQnZxWDBy?=
- =?utf-8?B?cldSemVuTlJEb05DYXRUWHJjY0FMZU9zVEhPWVdSV0VDT1FWb3VjbE1xYmFY?=
- =?utf-8?B?b25XZWcydWR4U2JGT005ZnlnS3JBdmkzWEdCbXVTNTB1c1JycUV6ckg2YVVY?=
- =?utf-8?B?dW15cXk5MFpneFp3NUV1eTdDYXFXV3czeDVWVUJIdGxGZXZxcWdpZGsrNWRw?=
- =?utf-8?B?aDJuN0NVZDJHZkVyNnZ5MW1zZlkrRHpFY1NzK1JsM1dVNHFJZC9nSm1sc3Bj?=
- =?utf-8?B?aFRNYmg2WEFTVVp5R3J6aEZGeXY3dzd6WUswNGNMOExIME84SWVsWXRma2lB?=
- =?utf-8?B?bVg0NXNVWTg0Kzh0b3VRV044YmhNVi9JeEN4WFpvUFcvWURLbnUwTmllQURV?=
- =?utf-8?B?cERtS0k0a1hwUFhGK2didmY4aWt1T1VMZjZmL0t2SC9MVzhHTGFnaG9Wb1hF?=
- =?utf-8?B?RGR1TmJNVTdSQkZ0N0VVZU9LMzN1OFVOdzBlVUdxZVkxT3AxYnBsZVlXQXly?=
- =?utf-8?B?NDEraVNmZ3cxRDFxUmdRMFRsYzVaL3pHQklSYktaSG5QSGdEZFlZWEJZRG1G?=
- =?utf-8?B?QW51MFBBQVNUdFpJbEdxV3VZRmpxMUl3cGF1R1FDM3FrVnRHMGJ4SzlXbjhn?=
- =?utf-8?B?MlJLaEZIZ3VMTndTMHU0S2NzM25ObW9UbDhVT0QwZ0xvUXVHQ2JVRC9lcTFq?=
- =?utf-8?B?VngvcTlzNTB5cEVFb2FCcXRoZ01WSnk3UllBbGpQZXpyTWdQVURleUpNVjQv?=
- =?utf-8?B?emhMWm1TWHlhSUtZdWVZSDdWV3J3WUV0b1gxbUhZd0pFYUl5NkJVSVV0bi9Y?=
- =?utf-8?B?WmJlQmZpUnRIZXN6a1AzLzBUdkFzYU8zTnc4bnVlNXpTTk9jenp2dVZaZXo5?=
- =?utf-8?B?cjc0aE8rRS85ME00dDFDRDRLZkpmbXVUZ0w5eXBnSjNCV1lVZFVSMjE5L2pX?=
- =?utf-8?B?S0Z1aW4vM0E2K2c2S0RlYWhWbUxSZjJ0eFQxdUYvN0dwQXBscjkwQmtxTTZW?=
- =?utf-8?B?Y1VnbU9mTFlKQlRGVVF1RnhvdUdCb0F3ZWxITFZnMU1YMnJvbGtvb3Z5VWty?=
- =?utf-8?B?OFFNanFsdGd6a0l2UWlmT2RvRGNtVmJLYkNqbnUycDArcEI4dFZpVThreE5a?=
- =?utf-8?B?SWdXZ1d5TmxpU3pJaUtmL05LdmNNV1U2b2c3QUxhY3VmVjNvbG5FS3A3V3hl?=
- =?utf-8?B?V2hPYWZLVHZndHFhdURraldJTldtSERubndQaURqRHBzVVdmUlhtRzlheXl2?=
- =?utf-8?B?NnRkKzZTRWQzQzBGcWhJRVlEZFlCcWNmc2U3bFE0SXJ0a05HQVIxQWJGK0Q0?=
- =?utf-8?B?VGx0aW5xeC8wQ1pxQTh2SlJ2YU5pS01XKzZHTlplVytrbXN2MnBHblBRVnZM?=
- =?utf-8?B?RVZ5TUFzckEwdUo1aFFjTnoyWWxFQ1lIK1EvejFrd1VyMHc2MTdYSWI4NWNj?=
- =?utf-8?B?YkkwVHNPNW9DWVI0azNBNUtWRlZBM3Bja2VKRXk0ZXI5V3IyYksrdVhONW1L?=
- =?utf-8?B?dVk2OEs2cGs0bFBjUEVZby81YzFkTHJVaGRzZ3JRKzFuRnZzcUR4Uno5dUtR?=
- =?utf-8?Q?zH4cqiwBW9F3LB8Y=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd3206bd-707a-45d5-06b9-08da2c3fb2e6
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5719.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2022 13:28:52.6858 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JqYxuil5qAhlo4cCSfd9biMJmxP5qBPrN+VtZgEI9Jqf8RIpiVr4/h7fAbEiD/KzCq8cWiIyb2EzWmXmN6wB2mdUbcxVzVX1RB5oQTll8Us=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3916
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 1/2] fbdev: Check in file_fb_info() if the fb_info was
+ already been freed
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220502130944.363776-1-javierm@redhat.com>
+ <20220502130944.363776-2-javierm@redhat.com>
+ <fa010244-b250-ea6d-275e-bfbe1bd8f212@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <fa010244-b250-ea6d-275e-bfbe1bd8f212@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,48 +90,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Helge Deller <deller@gmx.de>, Changcheng Deng <deng.changcheng@zte.com.cn>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri-29-04-2022 08:02 pm, Murthy, Arun R wrote:
+Hello Thomas,
+
+On 5/2/22 15:26, Thomas Zimmermann wrote:
+> Hi
 > 
-> 
->> -----Original Message-----
->> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of
->> Bhanuprakash Modem
->> Sent: Monday, April 11, 2022 3:21 PM
->> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; amd-
->> gfx@lists.freedesktop.org; jani.nikula@linux.intel.com;
->> ville.syrjala@linux.intel.com; harry.wentland@amd.com; Sharma, Swati2
->> <swati2.sharma@intel.com>
->> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->> Subject: [Intel-gfx] [V2 3/3] drm/amd/display: Move connector debugfs to
->> drm
+> Am 02.05.22 um 15:09 schrieb Javier Martinez Canillas:
+>> If real driver probes, the fbdev core kicks out all drivers that are using
+>> a framebuffer that were provided by the system firmware. But it could be a
+>> user-space process still has a file descriptor for the fbdev device node.
 >>
->> As drm_connector already have the display_info, instead of creating
->> "output_bpc" debugfs in vendor specific driver, move the logic to the drm
->> layer.
+>> This can lead to a NULL pointer dereference, if the framebuffer device is
+>> unregistered and associated data freed, but later in the .release callback
+>> is attempted to access its struct fb_info.
 >>
->> This patch will also move "Current" bpc to the crtc debugfs from connector
->> debugfs, since we are getting this info from crtc_state.
+>> To prevent this, make file_fb_info() to also check the fb_info reference
+>> counter and just return NULL if this equals zero. Since that means it has
+>> already been freed.
 >>
->> Cc: Harry Wentland <harry.wentland@amd.com>
->> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
->> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 >> ---
-> Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
-
-Thanks Arun,
-
-@Harry/@Rodrigo, If this change sounds good to you, can you please help 
-to push it?
-
-- Bhanu
-
+>>
+>>   drivers/video/fbdev/core/fbmem.c | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+>> index 84427470367b..20d8929df79f 100644
+>> --- a/drivers/video/fbdev/core/fbmem.c
+>> +++ b/drivers/video/fbdev/core/fbmem.c
+>> @@ -751,8 +751,13 @@ static struct fb_info *file_fb_info(struct file *file)
+>>   	int fbidx = iminor(inode);
+>>   	struct fb_info *info = registered_fb[fbidx];
+>>   
+>> -	if (info != file->private_data)
+>> -		info = NULL;
+>> +	if (!info)
+>> +		return NULL;
+>> +
+>> +	/* check that the fb_info has not changed or was already freed */
+>> +	if (info != file->private_data || refcount_read(&info->count) == 0)
+>> +		return NULL;
+>> +
 > 
-> Thanks and Regards,
-> Arun R Murthy
-> --------------------
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> However, I'm having problems with the semantics of these variables: if 
+> we have an info from registered_fb[fbinx] and the refcount in 
+> info->count is still 0, isn't that a consistency problem? If so, we 
+> should print a WARN_ON().
+>
+
+That's a good point. Maybe we are being too paranoid here? If the fb_info
+was set to NULL then the existing if (info != file->private_data) check
+will already catch that issue.
+
+In other words, now that fb_release() is getting the fb_info with the
+file_fb_info() function instead of file->private_data directly, the NULL
+pointer dereference should not happen anymore.
+
+I think that will just drop this patch, the less we touch the fbdev code
+the better IMO.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
