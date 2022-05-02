@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680E2517176
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:25:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05991517178
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 16:25:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1D210EA0D;
-	Mon,  2 May 2022 14:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9E010EAFA;
+	Mon,  2 May 2022 14:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9C2310EAE5;
- Mon,  2 May 2022 14:25:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDD6110EAE5;
+ Mon,  2 May 2022 14:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651501520; x=1683037520;
+ t=1651501522; x=1683037522;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lmrkCkSOzRx75b/qd0IzsSxfldz6iz4JB2FM6uQB8V0=;
- b=HVAUd7H7NDKm2djUyQkEkbTLKz6UGUFxZZgpFQIfgfB9rh3EeS6HhUdU
- xO6We6nqLCfkedr3Cx+PspM9Mq9mTokk8YQdfYoUK+c4YREE9XT3CgvUV
- Ao8CjiWcW+n6/QG51bIOjACO9ejBBWYkOHVZbxeW0t56foV4DMpNEwsUO
- WiGzlraWwvjjX6L5uQ5FkNtBJnpriL5edeYK+Sco+9oVN+SKyuv1VHAXx
- vnSGBc3DE++dMjqNq8kNNefJyn15N7fvaQX5d4N3ZxcRkfDL7E+pWPCeu
- 8LmwYXFHqOQPCllFO0r8aobRneiMUrUblV7vJfWvzq0ajj/gUXF/xxNU8 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="292403402"
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="292403402"
+ bh=EEaU8Hnu6gEBqEeIu4c5spdZwajT4yqEHVZvMrlOhVg=;
+ b=manM31nLmv20KgFdkg1r1VpCEjO/C2ny39ckch+7GGs1dS0vJVzigJbs
+ 2MvqSU9qP+qrjzs96vPMsDLxL1c7HGBGSLx39D0JekYvn1aBUXSdJEwMu
+ s8HAdileH+VjfppdrKF1/pzltysb+DnUe/QO5PibiEky8wSUJ4Mb3tJqS
+ JDKspXDoDDmRNsAoxvo5E/bhyl7VH1IuGoofgB/lQJe+/K8zEst+XeKNH
+ UIQbzAQf2t/bsMmuUVKXdTaNg0ocybtNPgFn8BJW9y316PmzF5roFRQuw
+ IiZnhzGSXt1lQtQZyhZC6bIJuiwD/mCeaMKSXM4WKLCGVuPB9ZtzI6HX9 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="292403408"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="292403408"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 07:25:20 -0700
-X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="516111172"
+ 02 May 2022 07:25:22 -0700
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; d="scan'208";a="516111197"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 07:25:18 -0700
+ 02 May 2022 07:25:20 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 2/3] drm/i915/gt: optimize the ccs_sz calculation per chunk
-Date: Mon,  2 May 2022 19:56:17 +0530
-Message-Id: <20220502142618.2704-3-ramalingam.c@intel.com>
+Subject: [PATCH v3 3/3] drm/i915/gt: Document the eviction of the Flat-CCS
+ objects
+Date: Mon,  2 May 2022 19:56:18 +0530
+Message-Id: <20220502142618.2704-4-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220502142618.2704-1-ramalingam.c@intel.com>
 References: <20220502142618.2704-1-ramalingam.c@intel.com>
@@ -56,115 +57,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calculate the ccs_sz that needs to be emitted based on the src
-and dst pages emitted per chunk. And handle the return value of emit_pte
-for the ccs pages.
+Capture the eviction details for Flat-CCS capable, lmem objects.
 
 v2:
-  ccs_sz moved to the reduced scope [Matt]
+  Fix the Flat-ccs capbility of lmem obj with smem residency
+  possibility [Thomas]
+v3:
+  Fixed the suggestions [Matt]
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+cc: Matthew Auld <matthew.auld@intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c | 36 +++++++++----------------
- 1 file changed, 13 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 168d17b6f48a..fc6975e55fae 100644
+index fc6975e55fae..509955885b93 100644
 --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
 +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -647,17 +647,9 @@ static int scatter_list_length(struct scatterlist *sg)
+@@ -485,16 +485,21 @@ static bool wa_1209644611_applies(int ver, u32 size)
+  * And CCS data can be copied in and out of CCS region through
+  * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
+  *
+- * When we exhaust the lmem, if the object's placements support smem, then we can
+- * directly decompress the compressed lmem object into smem and start using it
+- * from smem itself.
++ * I915 supports Flat-CCS on lmem only objects. When an objects has smem in
++ * its preference list, on memory pressure, i915 needs to migrate the lmem
++ * content into smem. If the lmem object is Flat-CCS compressed by userspace,
++ * then i915 needs to decompress it. But I915 lack the required information
++ * for such decompression. Hence I915 supports Flat-CCS only on lmem only objects.
+  *
+- * But when we need to swapout the compressed lmem object into a smem region
+- * though objects' placement doesn't support smem, then we copy the lmem content
+- * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
+- * When the object is referred, lmem content will be swaped in along with
+- * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
+- * location.
++ * When we exhaust the lmem, Flat-CCS capable objects' lmem backing memory can
++ * be temporarily evicted to smem, along with the auxiliary CCS state, where
++ * it can be potentially swapped-out at a later point, if required.
++ * If userspace later touches the evicted pages, then we always move
++ * the backing memory back to lmem, which includes restoring the saved CCS state,
++ * and potentially performing any required swap-in.
++ *
++ * For the migration of the lmem objects with smem in placement list, such as
++ * {lmem, smem}, objects are treated as non Flat-CCS capable objects.
+  */
  
- static void
- calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
--		   int *src_sz, int *ccs_sz, u32 bytes_to_cpy,
--		   u32 ccs_bytes_to_cpy)
-+		   int *src_sz, u32 bytes_to_cpy, u32 ccs_bytes_to_cpy)
- {
- 	if (ccs_bytes_to_cpy) {
--		/*
--		 * We can only copy the ccs data corresponding to
--		 * the CHUNK_SZ of lmem which is
--		 * GET_CCS_BYTES(i915, CHUNK_SZ))
--		 */
--		*ccs_sz = min_t(int, ccs_bytes_to_cpy, GET_CCS_BYTES(i915, CHUNK_SZ));
--
- 		if (!src_is_lmem)
- 			/*
- 			 * When CHUNK_SZ is passed all the pages upto CHUNK_SZ
-@@ -717,10 +709,10 @@ intel_context_migrate_copy(struct intel_context *ce,
- 	struct drm_i915_private *i915 = ce->engine->i915;
- 	u32 ccs_bytes_to_cpy = 0, bytes_to_cpy;
- 	enum i915_cache_level ccs_cache_level;
--	int src_sz, dst_sz, ccs_sz;
- 	u32 src_offset, dst_offset;
- 	u8 src_access, dst_access;
- 	struct i915_request *rq;
-+	int src_sz, dst_sz;
- 	bool ccs_is_src;
- 	int err;
- 
-@@ -803,7 +795,7 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
--		calculate_chunk_sz(i915, src_is_lmem, &src_sz, &ccs_sz,
-+		calculate_chunk_sz(i915, src_is_lmem, &src_sz,
- 				   bytes_to_cpy, ccs_bytes_to_cpy);
- 
- 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
-@@ -837,37 +829,35 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		bytes_to_cpy -= len;
- 
- 		if (ccs_bytes_to_cpy) {
-+			int ccs_sz;
-+
- 			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
- 			if (err)
- 				goto out_rq;
- 
-+			ccs_sz = GET_CCS_BYTES(i915, len);
- 			err = emit_pte(rq, &it_ccs, ccs_cache_level, false,
- 				       ccs_is_src ? src_offset : dst_offset,
- 				       ccs_sz);
-+			if (err < 0)
-+				goto out_rq;
-+			if (err < ccs_sz) {
-+				err = -EINVAL;
-+				goto out_rq;
-+			}
- 
- 			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
- 			if (err)
- 				goto out_rq;
- 
--			/*
--			 * Using max of src_sz and dst_sz, as we need to
--			 * pass the lmem size corresponding to the ccs
--			 * blocks we need to handle.
--			 */
--			ccs_sz = max_t(int, ccs_is_src ? ccs_sz : src_sz,
--				       ccs_is_src ? dst_sz : ccs_sz);
--
- 			err = emit_copy_ccs(rq, dst_offset, dst_access,
--					    src_offset, src_access, ccs_sz);
-+					    src_offset, src_access, len);
- 			if (err)
- 				goto out_rq;
- 
- 			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
- 			if (err)
- 				goto out_rq;
--
--			/* Converting back to ccs bytes */
--			ccs_sz = GET_CCS_BYTES(rq->engine->i915, ccs_sz);
- 			ccs_bytes_to_cpy -= ccs_sz;
- 		}
- 
+ static inline u32 *i915_flush_dw(u32 *cmd, u32 flags)
 -- 
 2.20.1
 
