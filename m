@@ -1,52 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1081B51776F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:27:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D95517772
+	for <lists+dri-devel@lfdr.de>; Mon,  2 May 2022 21:28:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F22610F3CB;
-	Mon,  2 May 2022 19:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4446310EAA9;
+	Mon,  2 May 2022 19:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3590210F3CF;
- Mon,  2 May 2022 19:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651519652; x=1683055652;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=MXy31iYDJhjRb3PuH0URSntfyDZsIDRb0SNQz+XwmoE=;
- b=Rrcoykce1aw3SafnfOpsiAi44gmv7JA4ID4QMAOfLhMhQKf0dcmOV0lf
- xVkTjFezK/TUtp4efDV9rAE47kRH91Yo9v6JfQFgnYKOrm6L4bu1pXicL
- p5JESDGWacTQOR2qNFcUsqSSbyBajClWIMoKH+EVLsWFlucBDTHOjZ9s6
- iRV+rzlS6NXWUqvBlTC5Yl8la9wTshype2pc5SVNMk6OH9h9sQJk0c9le
- C3nrHkoHw2uUjBAUvMlUVnM/ircW8zH6mq/78C5AVA/lQ7lXAse50kfK6
- 1jkP1HXyNjr5pcLUCs+YUjvNVxIUQX/kAyVaj6UJjRKcmnQTgwJNP6/2d A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="330301910"
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="330301910"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 12:27:31 -0700
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="561888366"
-Received: from ldmartin-desk2.jf.intel.com ([134.134.244.76])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 12:27:31 -0700
-Date: Mon, 2 May 2022 12:27:29 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 03/11] drm/i915/pvc: Define MOCS table for PVC
-Message-ID: <20220502192729.prja6pz5kz42aiiu@ldmartin-desk2.jf.intel.com>
-References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
- <20220502163417.2635462-4-matthew.d.roper@intel.com>
- <YnALz9E2cNkAVnK0@mdroper-desk1.amr.corp.intel.com>
- <20220502183948.2kjtwbqrixjbuc5j@ldmartin-desk2.jf.intel.com>
- <YnAn7sXti/SIitVo@mdroper-desk1.amr.corp.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73FF610E1E2
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 19:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651519730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ybrD/7h5J3fSITXfW6xwvBBTYoCzdyhOVw3+IuZ9Mdo=;
+ b=iQxTKB0OQasHTRRbuLgl2BEVWPvl8cs0yxcZ5mWCzJ+2pqc3MyGZw9teNrvSBRD0rfTcfs
+ zj0N7Orsym+2mwFw5JrSoVmydeResL7QFyNqlt/+fWndvJQ9uVnFipDCSFHEqSCeEK5A5V
+ pqbQ5/LNm7I86IfXAHIedn9Iw2z5YXM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-241-J6au19XUNxaQNzNBVgyh4w-1; Mon, 02 May 2022 15:28:49 -0400
+X-MC-Unique: J6au19XUNxaQNzNBVgyh4w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bh7-20020a05600c3d0700b003940829b48dso131375wmb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 12:28:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ybrD/7h5J3fSITXfW6xwvBBTYoCzdyhOVw3+IuZ9Mdo=;
+ b=4c6wGYvhEVzy8qjvZ79/zBw2H7SljyVuIkCvMakW+lpL8Hj4xJtRjATFziSBugfXrX
+ VJSwyKzcCMw+6ObL2iFDv6olNAxyoKN8acmHZ1P9RmeanWYZhJGOQU5/5UvlQjgf1jQm
+ h5CgQ92I5dv9WNrLUuFGwqRwpzRzbojn7CbmwvwOFAgPyh5wjnlz58pWvQmBGfUSzj3U
+ F25nwTv2a57gEIl0t/1uaalG6326zM5f6y0yoTLAtS3idmFH+e5Wiinf8nS3+oPLvHuo
+ 1s8vH6cU8i3p241hlnTmHmT21yG7GfWOhQYD7HUX82xTh1c0cVxXpiuVyTRwjY8C7XGm
+ /8nw==
+X-Gm-Message-State: AOAM531m6MbKtLjKviY+JRl+egzIcbnWpI3T+wr3Dk8NzQzZOHWEni2o
+ QmbdYDFwlwxkcV5BIhKL77rujD7xc+69H7Lp6xRUlt9SgTuojRHj4uQ9tga0/AUUWPHdmD0AmSW
+ W4VwSugTnnLWfdttEjIWcsC4aTe6Y
+X-Received: by 2002:a1c:2185:0:b0:38f:f4ed:f964 with SMTP id
+ h127-20020a1c2185000000b0038ff4edf964mr455160wmh.115.1651519728173; 
+ Mon, 02 May 2022 12:28:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6PH/40SaNl+msWDc9MMOxGWhQ4paAp4y0QHAm2sPRM41zGPMEJK26hBMq+1sXlgAvBf3d/A==
+X-Received: by 2002:a1c:2185:0:b0:38f:f4ed:f964 with SMTP id
+ h127-20020a1c2185000000b0038ff4edf964mr455146wmh.115.1651519727953; 
+ Mon, 02 May 2022 12:28:47 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ l1-20020a1ced01000000b003942a244f4fsm54753wmh.40.2022.05.02.12.28.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 May 2022 12:28:47 -0700 (PDT)
+Message-ID: <21db3772-b85a-59ff-df17-9056b3099977@redhat.com>
+Date: Mon, 2 May 2022 21:28:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <YnAn7sXti/SIitVo@mdroper-desk1.amr.corp.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 1/3] drm: Remove superfluous arg when calling to
+ drm_fbdev_generic_setup()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220502153900.408522-1-javierm@redhat.com>
+ <20220502153900.408522-2-javierm@redhat.com>
+ <YnABjdpGC166yIY7@pendragon.ideasonboard.com>
+ <5dd80287-1b09-d02c-9f67-5a0bb0a4566c@redhat.com>
+ <bc6b6598-0e09-1a43-4086-e4164ab42a20@redhat.com>
+ <YnAkwRL7b++a0omG@pendragon.ideasonboard.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YnAkwRL7b++a0omG@pendragon.ideasonboard.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,104 +93,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 02, 2022 at 11:50:22AM -0700, Matt Roper wrote:
->On Mon, May 02, 2022 at 11:39:48AM -0700, Lucas De Marchi wrote:
->> On Mon, May 02, 2022 at 09:50:23AM -0700, Matt Roper wrote:
->> > On Mon, May 02, 2022 at 09:34:09AM -0700, Matt Roper wrote:
->> > > From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
->> > >
->> > > Bspec: 45101, 72161
->> > > Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
->> > > Signed-off-by: Fei Yang <fei.yang@intel.com>
->> > > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
->> > > ---
->> > >  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
->> > >  drivers/gpu/drm/i915/gt/intel_mocs.c        | 24 ++++++++++++++++++++-
->> > >  drivers/gpu/drm/i915/gt/intel_workarounds.c | 13 ++++++++---
->> > >  drivers/gpu/drm/i915/i915_drv.h             |  2 ++
->> > >  drivers/gpu/drm/i915/i915_pci.c             |  3 ++-
->> > >  drivers/gpu/drm/i915/intel_device_info.h    |  1 +
->> > >  6 files changed, 39 insertions(+), 5 deletions(-)
->> > >
->> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
->> > > index b06611c1d4ad..7853ea194ea6 100644
->> > > --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
->> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
->> > > @@ -221,6 +221,7 @@ struct intel_gt {
->> > >
->> > >  	struct {
->> > >  		u8 uc_index;
->> > > +		u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
->> > >  	} mocs;
->> > >
->> > >  	struct intel_pxp pxp;
->> > > diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
->> > > index c4c37585ae8c..265812589f87 100644
->> > > --- a/drivers/gpu/drm/i915/gt/intel_mocs.c
->> > > +++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
->> > > @@ -23,6 +23,7 @@ struct drm_i915_mocs_table {
->> > >  	unsigned int n_entries;
->> > >  	const struct drm_i915_mocs_entry *table;
->> > >  	u8 uc_index;
->> > > +	u8 wb_index; /* Only for platforms listed in Bspec: 72161 */
->> > >  	u8 unused_entries_index;
->> > >  };
->> > >
->> > > @@ -47,6 +48,7 @@ struct drm_i915_mocs_table {
->> > >
->> > >  /* Helper defines */
->> > >  #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
->> > > +#define PVC_NUM_MOCS_ENTRIES	3
->> >
->> > Should this be 4?  The value here should reflect the number of entries
->> > that can defined in hardware rather than the size of the table we're
->> > asked to program.  Since there are two registers (each with a high and a
->> > low entry), that would imply we should set 4 here to ensure that the
->> > fourth entry is initialized according to unused_entries_index rather
->> > than left at whatever the hardware defaults might be.
+On 5/2/22 20:36, Laurent Pinchart wrote:
+> On Mon, May 02, 2022 at 07:15:16PM +0200, Javier Martinez Canillas wrote:
+>> On 5/2/22 18:55, Javier Martinez Canillas wrote:
 >>
->> not sure I understand what you mean here. The n_entries specifies, as
->> you said, the number of entries we can have. Bspec 45101 shows entries
->> for indexes 0, 1 and 2. As does the pvc_mocs_table below.
+>> [snip]
 >>
->> Also, from bspec 44509:
->> "For PVC, only 3 MOCS states are supported. The allowed index values are
->> in range [0, 2]..."
+>>>> drop the depth option to drm_fbdev_generic_setup() ? There's a FIXME
+>>>> comment in drm_fbdev_generic_setup() that could be related.
+>>>
+>>> A FIXME makes sense, I'll add that to when posting a v3.
 >>
->> So, I don't think we want to program any fourth entry.
+>> There's actually a FIXME already in drm_fbdev_generic_setup(), so it's
+>> a documented issue [0]:
+> 
+> That's what I meant by "there's a FIXME" :-) It doesn't have to be
+> addressed by this series, but it would be good to fix it.
 >
->We don't have a choice; the fourth entry lives in the same register as
->the third entry, so no matter what we're writing _something_ to those
->bits.  The question is whether we should write all 0's or whether we
->should treat it like other platforms and ensure it's initialized to the
->unused entry values.  Entry #4 isn't supposed to be used, but if buggy
->userspace tries to use it, we probably still want well-defined behavior,
->just like it an invalid entry gets used on any other platform.
 
-Now I understand what you were talking about:  each register houses 2
-entries. For PVC we have LNCFCMOCS0 and LNCFCMOCS1. Humn... looking at
-for_each_l3cc(), that is actually handled and the rest of the register
-is initialized with the value pointed by unused_entries_index.
+doh, I misread your original email. Yes, it's the same issue as you
+said and something that I plan to look at some point as a follow-up.
+ 
+I hope that we could just replace fbcon with a kms/systemd-consoled/foo
+user-space implementation before fixing all the stuff in the DRM fbdev
+emulation layer :)
 
-Such situation would only happen for the last entry, which implies the
-handling for odd size works for this as well.
+-- 
+Best regards,
 
-Lucas De Marchi
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
->
->
->Matt
->
->>
->> Lucas De Marchi
->
->-- 
->Matt Roper
->Graphics Software Engineer
->VTT-OSGC Platform Enablement
->Intel Corporation
->(916) 356-2795
