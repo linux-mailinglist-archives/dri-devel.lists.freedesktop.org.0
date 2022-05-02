@@ -1,67 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE7B517A5A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 01:04:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC00517A9F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 01:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A50310ED77;
-	Mon,  2 May 2022 23:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3E610E467;
+	Mon,  2 May 2022 23:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D635C10ECB1
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 23:04:46 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-d6e29fb3d7so15692264fac.7
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 16:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=MBot+Pv2kpTkmpCFLhDzg02YTk9FtWcHP2fcdtBIJ8o=;
- b=kY6sGqRtKzVTruQJcfNWQAHOrslt+rKBT1XNX7I5j6Cu5cROTBbWoRtHKnV1G9w9xr
- 3mhrtOWrvfw++arBXkDwF+FkKlpmBOIAFUo2wzrqtPt+mlzHI4ItcbOo6Ni7Ce8LlVqC
- vkTkZnuduzRfbrL4UFZMfiLaw07slkwu676UKI2ayUzzQBGoDh9lDPU3/EYAZ/GwS5Oj
- 4fafKmSDFc/ouXh0X2ZThtJsZRE6f/CPgoMYDXtYNc8fN8wAkiBTCzh6PLLDBoAoHj/I
- cyJJapmcSZqUpHgtC8s9JA3VxSf1FD7f7aR82aB75gxqM05zQRHjxx3SFTXwbw+NaHEK
- JFSQ==
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F338810E26B
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 23:20:05 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id
+ b33-20020a25aea1000000b0064588c45fbaso9046494ybj.16
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 16:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=3zd6SkVHkE73vtIjS4+ESkFSoXh7wpctsPz+uIVL4JI=;
+ b=c0I+qEtJMsrVZZTwAujazrXnHO+aAYhTEZ5z7hMjCZcJ/KXjOOtZIF/ejeAfZaYyos
+ dY4AP2Wbz8lb7qhknFlgFZyPHF0zI7zzQZWoaUU102rnxrG7hQ2cnFuSRsDeJkVOizcu
+ QO6gw837wQtQ+WkVYeU1Vtq4HjzX32QiQ0ud5nKO+r6QTo/9Ne4NFYPnTOMAcO70QSbm
+ q3LnLJZlXIuMqJbIOXDQcrzfao8lJAtRRsfRMbf/34/x9dN+WX58KrhfvF8QvgdJpVWm
+ 1wFFbMG94teHGS8w8HOcPKLiOO0UANM2uFFBx/DE6WI+UPsEoJNz1I/i+WAnjHnlcze3
+ T8Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=MBot+Pv2kpTkmpCFLhDzg02YTk9FtWcHP2fcdtBIJ8o=;
- b=fcj8yqrt6L1BGunnZ+Kafhtx4jg61sj38kc720hAvtOneh1ITNI2acfGlrPYWBJRFX
- HqNa9zQc6czNT5SQtax6y5nqRztUX5YgVXDQVxGx8JVZCdb1THzf8eNp1pts54ksLmVg
- 7XZarGjgG8uC0rfutSjoTg5cMSLuvtgRooYQa3bnIIZl1lo7r9Xac0r4bVw3bO5Gtpet
- X4RRXNqKcTMdOpubeUP0ZuznNEnOm0iMolm1fSVTivWlJXWLR8VOmL2eO4JShpZLCGQp
- aIdq49nXq+p/Lsx3t9usskaEMoLI0Ah0SUTF3f+WplHuD/MM1EP3oNBLo2xtdKVG+SDA
- 4v/g==
-X-Gm-Message-State: AOAM531PulS+CqerTg11goijliceug/5h4Dzu3V242cOnkJzQyO1bg6S
- yfQ4GGPU+7sGGqTqMJ/MSHu+XQ==
-X-Google-Smtp-Source: ABdhPJwvkv09Sees1/YVaDI2sWo/kOBlFp+6Y07+qxzk+FFDy2/0fgReI3UnggER1CgqWwI+zdGGzw==
-X-Received: by 2002:a05:6871:441:b0:ec:f9dd:734b with SMTP id
- e1-20020a056871044100b000ecf9dd734bmr661076oag.195.1651532686056; 
- Mon, 02 May 2022 16:04:46 -0700 (PDT)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186]) by smtp.gmail.com with ESMTPSA id
- bb19-20020a056808169300b00325cda1ff99sm2848131oib.24.2022.05.02.16.04.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 May 2022 16:04:45 -0700 (PDT)
-Date: Mon, 2 May 2022 16:06:30 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v4 5/5] drm/msm/dp: Implement hpd_notify()
-Message-ID: <YnBj9nObBNuxwWhu@ripper>
-References: <20220502165316.4167199-1-bjorn.andersson@linaro.org>
- <20220502165316.4167199-6-bjorn.andersson@linaro.org>
- <672e7dac-fe3b-591f-6837-3ce06a0b44c2@quicinc.com>
- <YnBbNO31bwNUoRQL@ripper>
- <9e982cdb-3c83-519b-2803-e308da7bc9b2@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e982cdb-3c83-519b-2803-e308da7bc9b2@quicinc.com>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=3zd6SkVHkE73vtIjS4+ESkFSoXh7wpctsPz+uIVL4JI=;
+ b=Y1PkXDnUQrrn4AIRM4EOHQDLkjRvSD5Cmxr3J5Tne+MDapSz5Hr83LF6aUypabY6+J
+ q+E9UuUSCHs02oZH19VCLw1sJgutxXVFhTwj9MPdmTB9J4tTXISkradJ3ZmBnpp7vzvF
+ B+ZRKMSSy0ojoOZKtBE2lagGQNXD6sdDT+CkG9icHmmbYYoVz71nQXH4kDKQrTBgGYoL
+ 88yxkO53DH7wJPZTCZu6O5CgKRvz152m7MPEP92Rw8wjX2FUwGyNU5myGtDynIOFPjzd
+ gtrB4HzO8Sb9B0Sr2uCDkRF94YLb9AVgKBorMHCBX1F+7BODZogRHG3rV+YOHOXzQoOK
+ n3fg==
+X-Gm-Message-State: AOAM532gPRajzMxNGVWM6skrvMHOqPGnYzVONoSzVEouFn36lcvBevFr
+ ATOLOWZCWBxxAV1z47XpZaWepC3oMXvvccM=
+X-Google-Smtp-Source: ABdhPJyMMCJAeCzw5ggPIrDPy0kqIfd0j3HaYTVh+WcmLgbo26zjtB2e1UuO7eWujv5FuBBnMkCvu1a9GuUx+7g=
+X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
+ (user=tjmercier job=sendgmr) by 2002:a25:4b43:0:b0:649:563f:df2a with SMTP id
+ y64-20020a254b43000000b00649563fdf2amr9654625yba.290.1651533605042; Mon, 02
+ May 2022 16:20:05 -0700 (PDT)
+Date: Mon,  2 May 2022 23:19:34 +0000
+Message-Id: <20220502231944.3891435-1-tjmercier@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
+Subject: [PATCH v6 0/6] Proposal for a GPU cgroup controller
+From: "T.J. Mercier" <tjmercier@google.com>
+To: tjmercier@google.com, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
+ Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
+ Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Liam Mark <lmark@codeaurora.org>, 
+ Laura Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <john.stultz@linaro.org>, Shuah Khan <shuah@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,210 +78,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Kenny.Ho@amd.com, cgroups@vger.kernel.org, skhan@linuxfoundation.org,
+ cmllamas@google.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org, mkoutny@suse.com,
+ kaleshsingh@google.com, jstultz@google.com, kernel-team@android.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 02 May 15:49 PDT 2022, Kuogee Hsieh wrote:
+This patch series revisits the proposal for a GPU cgroup controller to
+track and limit memory allocations by various device/allocator
+subsystems. The patch series also contains a simple prototype to
+illustrate how Android intends to implement DMA-BUF allocator
+attribution using the GPU cgroup controller. The prototype does not
+include resource limit enforcements.
 
-> 
-> On 5/2/2022 3:29 PM, Bjorn Andersson wrote:
-> > On Mon 02 May 13:59 PDT 2022, Kuogee Hsieh wrote:
-> > 
-> > > On 5/2/2022 9:53 AM, Bjorn Andersson wrote:
-> > > > The Qualcomm DisplayPort driver contains traces of the necessary
-> > > > plumbing to hook up USB HPD, in the form of the dp_hpd module and the
-> > > > dp_usbpd_cb struct. Use this as basis for implementing the
-> > > > hpd_notify() callback, by amending the dp_hpd module with the
-> > > > missing logic.
-> > > > 
-> > > > Overall the solution is similar to what's done downstream, but upstream
-> > > > all the code to disect the HPD notification lives on the calling side of
-> > > > drm_connector_oob_hotplug_event().
-> > > > 
-> > > > drm_connector_oob_hotplug_event() performs the lookup of the
-> > > > drm_connector based on fwnode, hence the need to assign the fwnode in
-> > > > dp_drm_connector_init().
-> > > > 
-> > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > > ---
-> > > > 
-> > > > Changes since v3:
-> > > > - Implements hpd_notify instead of oob_hotplug_event
-> > > > - Rebased on new cleanup patch from Dmitry
-> > > > - Set hpd_state to ST_MAINLINK_READY when dp_display_usbpd_configure() succeeds
-> > > > 
-> > > >    drivers/gpu/drm/msm/dp/dp_display.c | 26 ++++++++++++++++++++++++++
-> > > >    drivers/gpu/drm/msm/dp/dp_display.h |  1 +
-> > > >    drivers/gpu/drm/msm/dp/dp_drm.c     |  3 +++
-> > > >    drivers/gpu/drm/msm/dp/dp_drm.h     |  2 ++
-> > > >    4 files changed, 32 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > > index b447446d75e9..080294ac6144 100644
-> > > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > > @@ -83,6 +83,8 @@ struct dp_display_private {
-> > > >    	bool hpd_irq_on;
-> > > >    	bool audio_supported;
-> > > > +	bool connected;
-> > > > +
-> > > >    	struct drm_device *drm_dev;
-> > > >    	struct platform_device *pdev;
-> > > >    	struct dentry *root;
-> > > > @@ -1271,6 +1273,7 @@ static int dp_display_probe(struct platform_device *pdev)
-> > > >    	if (!desc)
-> > > >    		return -EINVAL;
-> > > > +	dp->dp_display.dev = &pdev->dev;
-> > > >    	dp->pdev = pdev;
-> > > >    	dp->name = "drm_dp";
-> > > >    	dp->dp_display.connector_type = desc->connector_type;
-> > > > @@ -1760,3 +1763,26 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
-> > > >    	dp_display->dp_mode.h_active_low =
-> > > >    		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
-> > > >    }
-> > > > +
-> > > > +void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> > > > +			  enum drm_connector_status status)
-> > > > +{
-> > > > +	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-> > > > +	struct msm_dp *dp = dp_bridge->dp_display;
-> > > > +	struct dp_display_private *dp_display = container_of(dp, struct dp_display_private, dp_display);
-> > > > +	int ret;
-> > > > +
-> > > > +	drm_dbg_dp(dp_display->drm_dev, "status: %d connected: %d\n", status, dp_display->connected);
-> > > > +
-> > > > +	if (!dp_display->connected && status == connector_status_connected) {
-> > > > +		dp_display->connected = true;
-> > > > +		ret = dp_display_usbpd_configure(dp_display);
-> > > > +		if (!ret)
-> > > > +			dp_display->hpd_state = ST_MAINLINK_READY;
-> > > > +	} else if (status != connector_status_connected) {
-> > > > +		dp_display->connected = false;
-> > > > +		dp_display_notify_disconnect(dp_display);
-> > > > +	} else {
-> > > > +		dp_display_usbpd_attention(dp_display);
-> > > > +	}
-> > > > +}
-> > > I would assume dp_bridge_hpd_notify() will server same purpose as
-> > > dp_display_irq_handler() if hpd_notification is enabled.
-> > > 
-> > I agree with this statement.
-> > 
-> > > In that case, should dp_bridge_hpd_notify() add
-> > > EV_HPD_PLUG_INT/EV_IRQ_HPD_INT/EV_HPD_UNPLUG_INT
-> > > 
-> > I tried this originally, but couldn't get it to work and expected that
-> > as the downstream driver doesn't do this, there was some good reason for
-> > me not to do it either.
-> > 
-> > > into event q to kick off corresponding
-> > > dp_hpd_plug_handle()/dp_irq_hpd_handle()/dp_hpd_unplug_handle()?
-> > > 
-> > But since then the driver has been cleaned up significantly, so I
-> > decided to give it a test again.
-> > Unfortunately it still doesn't work, but now it's easier to trace.
-> > 
-> > Replacing the 3 cases with relevant calls to dp_add_event() results in
-> > us inserting a EV_HPD_UNPLUG_INT event really early, before things has
-> > been brought up. This will result in dp_hpd_unplug_handle() trying to
-> > disable the dp_catalog_hpd_config_intr(), which will crash as the
-> > hardware isn't yet clocked up.
-> > 
-> > Further more, this points out the main difference between the normal HPD
-> > code and the USB HPD code; dp_catalog_hpd_config_intr() will enable the
-> > plug/unplug interrupts, which it shouldn't do for USB-controlled.
-> > 
-> > 
-> > So it seems we need two code paths after all.
-> > 
-> > > By the way, I am going to test this patch out.
-> > > 
-> > > Any patches I have to pull in before apply this serial patches?
-> > > 
-> > The patches applies on Dmitry's msm-next-staging, which I've merged on
-> > top of linux-next together with a number of pending patches to get the
-> > DPU up on SM8350 and a pmic_glink driver which I'm about to post.
-> > 
-> > But to validate that it doesn't affect your non-USB case, Dmitry's
-> > branch should be sufficient.
-> > 
-> > Thanks,
-> > Bjorn
-> 
-> Hi Bjorn,
-> 
-> Which release image you had flashed?
-> 
-> I have ChromeOS-test-R100-14526.69.0-trogdor.tar flashed.
-> 
-> 1) Is this will work?
-> 
-> 2) how about EC? do I need to upgrade EC image?
-> 
+Changelog:
+v6:
+Move documentation into cgroup-v2.rst per Tejun Heo.
 
-I'm not aware of the state of EC firmware for Trogdor for invoking the
-USB Type-C code path. As of today Trogdor relies on the EC signalling
-HPD using a GPIO.
+Rename BINDER_FD{A}_FLAG_SENDER_NO_NEED ->
+BINDER_FD{A}_FLAG_XFER_CHARGE per Carlos Llamas.
 
-I'm testing this on SM8350 and SC8180X using pmic_glink. Also, going
-forward we will have to continue supporting both hardware IRQ and this
-oob based HPD interrupts (as both combinations are valid).
+Return error on transfer failure per Carlos Llamas.
 
-Regards,
-Bjorn
+v5:
+Rebase on top of v5.18-rc3
 
-> Thanks,
-> 
-> kuogee
-> 
-> 
-> > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> > > > index 4f9fe4d7610b..2d2614bc5a14 100644
-> > > > --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> > > > @@ -11,6 +11,7 @@
-> > > >    #include "disp/msm_disp_snapshot.h"
-> > > >    struct msm_dp {
-> > > > +	struct device *dev;
-> > > >    	struct drm_device *drm_dev;
-> > > >    	struct device *codec_dev;
-> > > >    	struct drm_bridge *bridge;
-> > > > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> > > > index 62d58b9c4647..821cfd37b1fb 100644
-> > > > --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> > > > +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> > > > @@ -68,6 +68,7 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
-> > > >    	.mode_valid   = dp_bridge_mode_valid,
-> > > >    	.get_modes    = dp_bridge_get_modes,
-> > > >    	.detect       = dp_bridge_detect,
-> > > > +	.hpd_notify   = dp_bridge_hpd_notify,
-> > > >    };
-> > > >    struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
-> > > > @@ -138,6 +139,8 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
-> > > >    	if (IS_ERR(connector))
-> > > >    		return connector;
-> > > > +	connector->fwnode = fwnode_handle_get(dev_fwnode(dp_display->dev));
-> > > > +
-> > > >    	drm_connector_attach_encoder(connector, dp_display->encoder);
-> > > >    	return connector;
-> > > > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-> > > > index f4b1ed1e24f7..3b7480a86844 100644
-> > > > --- a/drivers/gpu/drm/msm/dp/dp_drm.h
-> > > > +++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-> > > > @@ -32,5 +32,7 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
-> > > >    void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
-> > > >    			const struct drm_display_mode *mode,
-> > > >    			const struct drm_display_mode *adjusted_mode);
-> > > > +void dp_bridge_hpd_notify(struct drm_bridge *bridge,
-> > > > +			  enum drm_connector_status status);
-> > > >    #endif /* _DP_DRM_H_ */
+Drop the global GPU cgroup "total" (sum of all device totals) portion
+of the design since there is no currently known use for this per
+Tejun Heo.
+
+Fix commit message which still contained the old name for
+dma_buf_transfer_charge per Michal Koutn=C3=BD.
+
+Remove all GPU cgroup code except what's necessary to support charge transf=
+er
+from dma_buf. Previously charging was done in export, but for non-Android
+graphics use-cases this is not ideal since there may be a delay between
+allocation and export, during which time there is no accounting.
+
+Merge dmabuf: Use the GPU cgroup charge/uncharge APIs patch into
+dmabuf: heaps: export system_heap buffers with GPU cgroup charging as a
+result of above.
+
+Put the charge and uncharge code in the same file (system_heap_allocate,
+system_heap_dma_buf_release) instead of splitting them between the heap and
+the dma_buf_release. This avoids asymmetric management of the gpucg charges=
+.
+
+Modify the dma_buf_transfer_charge API to accept a task_struct instead
+of a gpucg. This avoids requiring the caller to manage the refcount
+of the gpucg upon failure and confusing ownership transfer logic.
+
+Support all strings for gpucg_register_bucket instead of just string
+literals.
+
+Enforce globally unique gpucg_bucket names.
+
+Constrain gpucg_bucket name lengths to 64 bytes.
+
+Append "-heap" to gpucg_bucket names from dmabuf-heaps.
+
+Drop patch 7 from the series, which changed the types of
+binder_transaction_data's sender_pid and sender_euid fields. This was
+done in another commit here:
+https://lore.kernel.org/all/20220210021129.3386083-4-masahiroy@kernel.org/
+
+Rename:
+  gpucg_try_charge -> gpucg_charge
+  find_cg_rpool_locked -> cg_rpool_find_locked
+  init_cg_rpool -> cg_rpool_init
+  get_cg_rpool_locked -> cg_rpool_get_locked
+  "gpu cgroup controller" -> "GPU controller"
+  gpucg_device -> gpucg_bucket
+  usage -> size
+
+Tests:
+  Support both binder_fd_array_object and binder_fd_object. This is
+  necessary because new versions of Android will use binder_fd_object
+  instead of binder_fd_array_object, and we need to support both.
+
+  Tests for both binder_fd_array_object and binder_fd_object.
+
+  For binder_utils return error codes instead of
+  struct binder{fs}_ctx.
+
+  Use ifdef __ANDROID__ to choose platform-dependent temp path instead
+  of a runtime fallback.
+
+  Ensure binderfs_mntpt ends with a trailing '/' character instead of
+  prepending it where used.
+
+v4:
+Skip test if not run as root per Shuah Khan
+
+Add better test logging for abnormal child termination per Shuah Khan
+
+Adjust ordering of charge/uncharge during transfer to avoid potentially
+hitting cgroup limit per Michal Koutn=C3=BD
+
+Adjust gpucg_try_charge critical section for charge transfer functionality
+
+Fix uninitialized return code error for dmabuf_try_charge error case
+
+v3:
+Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz
+
+Use more common dual author commit message format per John Stultz
+
+Remove android from binder changes title per Todd Kjos
+
+Add a kselftest for this new behavior per Greg Kroah-Hartman
+
+Include details on behavior for all combinations of kernel/userspace
+versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hartman.
+
+Fix pid and uid types in binder UAPI header
+
+v2:
+See the previous revision of this change submitted by Hridya Valsaraju
+at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@google.com/
+
+Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
+heap to a single dma-buf function for all heaps per Daniel Vetter and
+Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_device
+tracking the current associations were added to the dma_buf struct to
+achieve this.
+
+Fix incorrect Kconfig help section indentation per Randy Dunlap.
+
+History of the GPU cgroup controller
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The GPU/DRM cgroup controller came into being when a consensus[1]
+was reached that the resources it tracked were unsuitable to be integrated
+into memcg. Originally, the proposed controller was specific to the DRM
+subsystem and was intended to track GEM buffers and GPU-specific
+resources[2]. In order to help establish a unified memory accounting model
+for all GPU and all related subsystems, Daniel Vetter put forth a
+suggestion to move it out of the DRM subsystem so that it can be used by
+other DMA-BUF exporters as well[3]. This RFC proposes an interface that
+does the same.
+
+[1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.95=
+06-1-brian.welty@intel.com/#22624705
+[2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@int=
+el.com/
+[3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
+
+Hridya Valsaraju (3):
+  gpu: rfc: Proposal for a GPU cgroup controller
+  cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
+    memory
+  binder: Add flags to relinquish ownership of fds
+
+T.J. Mercier (3):
+  dmabuf: heaps: export system_heap buffers with GPU cgroup charging
+  dmabuf: Add gpu cgroup charge transfer function
+  selftests: Add binder cgroup gpu memory transfer tests
+
+ Documentation/admin-guide/cgroup-v2.rst       |  24 +
+ drivers/android/binder.c                      |  31 +-
+ drivers/dma-buf/dma-buf.c                     |  80 ++-
+ drivers/dma-buf/dma-heap.c                    |  39 ++
+ drivers/dma-buf/heaps/system_heap.c           |  28 +-
+ include/linux/cgroup_gpu.h                    | 137 +++++
+ include/linux/cgroup_subsys.h                 |   4 +
+ include/linux/dma-buf.h                       |  49 +-
+ include/linux/dma-heap.h                      |  15 +
+ include/uapi/linux/android/binder.h           |  23 +-
+ init/Kconfig                                  |   7 +
+ kernel/cgroup/Makefile                        |   1 +
+ kernel/cgroup/gpu.c                           | 386 +++++++++++++
+ .../selftests/drivers/android/binder/Makefile |   8 +
+ .../drivers/android/binder/binder_util.c      | 250 +++++++++
+ .../drivers/android/binder/binder_util.h      |  32 ++
+ .../selftests/drivers/android/binder/config   |   4 +
+ .../binder/test_dmabuf_cgroup_transfer.c      | 526 ++++++++++++++++++
+ 18 files changed, 1621 insertions(+), 23 deletions(-)
+ create mode 100644 include/linux/cgroup_gpu.h
+ create mode 100644 kernel/cgroup/gpu.c
+ create mode 100644 tools/testing/selftests/drivers/android/binder/Makefile
+ create mode 100644 tools/testing/selftests/drivers/android/binder/binder_u=
+til.c
+ create mode 100644 tools/testing/selftests/drivers/android/binder/binder_u=
+til.h
+ create mode 100644 tools/testing/selftests/drivers/android/binder/config
+ create mode 100644 tools/testing/selftests/drivers/android/binder/test_dma=
+buf_cgroup_transfer.c
+
+--=20
+2.36.0.464.gb9c8b46e94-goog
+
