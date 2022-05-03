@@ -2,39 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59085183F4
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9543C5183FD
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:13:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E5B710F89E;
-	Tue,  3 May 2022 12:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8DDF10F86A;
+	Tue,  3 May 2022 12:13:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC81110F90B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:12:19 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1nlrO6-0006cw-5h; Tue, 03 May 2022 14:12:18 +0200
-Message-ID: <86160889d7be260c5012044643b81d10098943fe.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/msm: Limit command submission when no IOMMU
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Date: Tue, 03 May 2022 14:12:15 +0200
-In-Reply-To: <20220502172908.3569799-1-robdclark@gmail.com>
-References: <20220502172908.3569799-1-robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C04A10F76C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:13:50 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id BFED1320097E;
+ Tue,  3 May 2022 08:13:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 03 May 2022 08:13:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1651580027; x=1651666427; bh=4kr9H9vb88
+ H9aWHTvEtFCsJbyLtv7DyoTOexq9VzQUQ=; b=w8IbTybfNG6f+SEk0LdFSflvLH
+ DAsOAI8vinIPfxTV59UXX/m2qnzVQC9LrJgRW4I8YTxE7uDY6ZE2sWKWSGqcQ12J
+ 9t7KqxQFbneEhqsaDxAc+ozBEAq5RrnlV8H6R37r74CZ4FtLY4cie2UNa8dxJnkJ
+ I0eWMuaWmkna1ZMldm/RpNJRZgb4Hb4t7VYolG/JhgePIfj30JOoL8e3xv1PpCf7
+ SJBdCeooknbzMdnzz+X+KZsWbVvaB0LORW1Q5GOHFSq+hLWcSLQqCqgzzVWnr+Pg
+ 9U5y+IvcJ6U1d05dfr+IfCC1V0uB+vDRxLttD5+bL+LFJeyRRLOOHT91AjPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1651580027; x=1651666427; bh=4kr9H9vb88H9aWHTvEtFCsJbyLtv7DyoTOe
+ xq9VzQUQ=; b=bD1ncg+/tNq4MP0hCXY7t77xDFZS18KVV7IrGIETMwbE6lqKt6U
+ qqe8zpXfl+dxAUcP48ujP49VgoPCWPN0jQpD0ysTqJ2Uyegw6X/P+k6NCRfYsqlT
+ jpoWjhUDkiUxC/yIYfzabgxEnTzLazQdQEJoOYcJTGudIKG1/T9aWu3lnHzbHqq3
+ YnrvFDJVdbOwdC9ZhLvHbraiabAZhDRrP21FLgw5UCl5geXe4CPGqUB10w2CJx6H
+ FTXSqkhVNuFziaeOYrGdWElwoBeQQrE3CrMR/QjeP1z/TJ6Z0Eus/LzgIsaf75k2
+ H+ZbUvSFCCpQ6qeT3Jn0tX9sD7g4Cmjgfbg==
+X-ME-Sender: <xms:eRxxYvqJdsEItEYSrMyA0V5MYoQATG1bAj5y67_3WUcwfZm1s2o3tQ>
+ <xme:eRxxYpp33SX6ysLF9M5fxHyyxW-CYujxtxQxAwoOYfmmfy4yf5ohL-gfcyiub7uXS
+ 2iKUmLCAluXLzax71M>
+X-ME-Received: <xmr:eRxxYsOgGN6nJO9tFq2RAL0OCZUC8IeBqbKvtDDDWA9TBcvDcBZBFvyFqIgZXDWRup8tsRj71kigGgCW2r1_UWgPaAc9sZZKexzA_gg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgdeglecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelhefhgeefiedtgeeggfduffdtkeefleekfedvheeiudejgffgveekudetfeeu
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:eRxxYi4Rk0MFMLgVhxxQzlxXVqq_A5I8P9_FBqumFsLHl9UfTA7U9Q>
+ <xmx:eRxxYu5oud1Bb_pRVTSa9dem-Ltf2RueZhRjigRR1M7Us8g_4A5hcg>
+ <xmx:eRxxYqgdhpzqBPgAG5GWGFUKH0OtSHc7rKYwt0AqFRqjSxneSqJ3uw>
+ <xmx:exxxYgQbwzgBthhxf6VcOu0mnTNUodfjuZyc94vrSAneaN_uQCoyYA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 May 2022 08:13:44 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 00/14] drm/vc4: Properly separate v3d on BCM2711,
+ and fix frame ordering
+Date: Tue,  3 May 2022 14:13:27 +0200
+Message-Id: <20220503121341.983842-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,53 +82,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Luca Weiss <luca@z3ntu.xyz>,
- Sean Paul <sean@poorly.run>
+Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, dem 02.05.2022 um 10:29 -0700 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Running the GPU without an IOMMU is not really a supported (or sane)
-> configuration.  Yet it can be useful during SoC bringup (ie. if the
-> iommu driver doesn't work yet).
-> 
-> Lets limit it to users who already have /dev/mem access, to avoid the
-> chance that a user accidentially configures kernel without IOMMU
-> support.
-
-I haven't followed MSM too closely, so ctx->aspace may also include the
-GPU MMU, but if this really only includes the IOMMU (as the commit
-message implies) then this breaks Freedreno on i.MX5.
-
-Regards,
-Lucas
-
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/msm_gem_submit.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> index 23b68bc945f6..9cd8c8708990 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -734,6 +734,11 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
->  	if (args->pad)
->  		return -EINVAL;
->  
-> +	if (unlikely(!ctx->aspace) && !capable(CAP_SYS_RAWIO)) {
-> +		DRM_ERROR_RATELIMITED("IOMMU support or CAP_SYS_RAWIO required!\n");
-> +		return -EPERM;
-> +	}
-> +
->  	/* for now, we just have 3d pipe.. eventually this would need to
->  	 * be more clever to dispatch to appropriate gpu module:
->  	 */
-
-
+Hi,=0D
+=0D
+Here's a series that fixes a significant issue we missed when adding suppor=
+t=0D
+for the BCM2711 / RaspberryPi4 in the vc4 driver.=0D
+=0D
+Indeed, before the introduction of the BCM2711 support, the GPU was fairly=
+=0D
+intertwined with the display hardware, and was thus supported by the vc4=0D
+driver. Among other things, the driver needed to accomodate for a bunch of=
+=0D
+hardware limitations (such as a lack of IOMMU) by implementing a custom mem=
+ory=0D
+management backend, tied with the v3d hardware.=0D
+=0D
+On the BCM2711, that GPU got moved into a completely separate hardware bloc=
+k=0D
+and thus we gained a new driver for it, v3d.=0D
+=0D
+However, when we introduced the display support for the BCM2711 in vc4, we=
+=0D
+didn't properly split out the v3d-related functions and ended up reusing a=
+=0D
+significant portion of the code supposed to be backed by the v3d.=0D
+=0D
+This created a bunch of easy to miss issues that would only pop up with IGT=
+=0D
+tests, or when heavily testing some features (like asynchronous page-flippi=
+ng).=0D
+=0D
+This series properly does the split now by creating separate code path wher=
+e=0D
+relevant, adds a loud complain when we use a v3d entry-point on the BCM2711=
+,=0D
+and fixes an issue where we would just ignore any fence on an asynchronous=
+=0D
+page-flip, resulting in frames appearing out-of-order for some workloads.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Maxime Ripard (14):=0D
+  drm/vc4: plane: Prevent async update if we don't have a dlist=0D
+  drm/vc4: Consolidate Hardware Revision Check=0D
+  drm/vc4: bo: Rename vc4_dumb_create=0D
+  drm/vc4: bo: Split out Dumb buffers fixup=0D
+  drm/vc4: drv: Register a different driver on BCM2711=0D
+  drm/vc4: kms: Register a different drm_mode_config_funcs on BCM2711=0D
+  drm/vc4: plane: Register a different drm_plane_helper_funcs on BCM2711=0D
+  drm/vc4: drv: Skip BO Backend Initialization on BCM2711=0D
+  drm/vc4: crtc: Use an union to store the page flip callback=0D
+  drm/vc4: crtc: Move the BO handling out of common page-flip callback=0D
+  drm/vc4: crtc: Move the BO Handling out of Common Page-Flip Handler=0D
+  drm/vc4: crtc: Don't call into BO Handling on Async Page-Flips on=0D
+    BCM2711=0D
+  drm/vc4: crtc: Fix out of order frames during asynchronous page flips=0D
+  drm/vc4: Warn if some v3d code is run on BCM2711=0D
+=0D
+ drivers/gpu/drm/vc4/vc4_bo.c               |  62 ++++++-=0D
+ drivers/gpu/drm/vc4/vc4_crtc.c             | 193 +++++++++++++++------=0D
+ drivers/gpu/drm/vc4/vc4_drv.c              |  97 +++++++++--=0D
+ drivers/gpu/drm/vc4/vc4_drv.h              |  19 +-=0D
+ drivers/gpu/drm/vc4/vc4_gem.c              |  40 +++++=0D
+ drivers/gpu/drm/vc4/vc4_hvs.c              |  18 +-=0D
+ drivers/gpu/drm/vc4/vc4_irq.c              |  16 ++=0D
+ drivers/gpu/drm/vc4/vc4_kms.c              |  24 ++-=0D
+ drivers/gpu/drm/vc4/vc4_perfmon.c          |  41 +++++=0D
+ drivers/gpu/drm/vc4/vc4_plane.c            |  29 +++-=0D
+ drivers/gpu/drm/vc4/vc4_render_cl.c        |   4 +=0D
+ drivers/gpu/drm/vc4/vc4_v3d.c              |  15 ++=0D
+ drivers/gpu/drm/vc4/vc4_validate.c         |  16 ++=0D
+ drivers/gpu/drm/vc4/vc4_validate_shaders.c |   4 +=0D
+ 14 files changed, 470 insertions(+), 108 deletions(-)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
