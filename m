@@ -1,83 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADA4517F82
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 10:12:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D903D517F98
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 10:19:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF4A610E607;
-	Tue,  3 May 2022 08:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A86310E93B;
+	Tue,  3 May 2022 08:19:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959A410E607
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 08:12:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651565540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I6HRqR6/PkZywKaaLK2mEKauScVXY+6o7oiKlucBtg8=;
- b=T0ggohDanYNpVx0YtWAIEj8VFKkSXlwxPr2P2Cwe0h9ezT8wgDaRb02TkotuQn0j9G9H3y
- zQmn9CkG/Sv913Qrr5n2HZGH7piEbi4gqm3GCHzyoRlPFs2IV6qb8Z6wWAyb5uEAZ/WTcp
- kJH/2YSEZz2jWAdVHfATiCtMLPcNLsU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-elcB9uy6PsiEXJMCOA4WNg-1; Tue, 03 May 2022 04:12:19 -0400
-X-MC-Unique: elcB9uy6PsiEXJMCOA4WNg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- g7-20020adfbc87000000b0020ac76d254bso6106410wrh.6
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 01:12:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=I6HRqR6/PkZywKaaLK2mEKauScVXY+6o7oiKlucBtg8=;
- b=4TW26EgKLnK7FYOqVBNAX3yKyWgiBZ8t4xLjHeOXtpdGFzKltX+g+LeDVH+zHhcEBP
- CHTIsDgER/xbLFrfTG31G9FmgFCrOUv40iZixd61hE8V9bEiwLHyJdgRYvdZi0tcfCk3
- inVmky1TjHZdrzPWWCO6M4DKUlvEbZmB9QlvuXtiOJr9GFF5vxH7YcWIpcrqM8wOF+75
- 6me2QePBGQknXqt7b4UWiPr19+hqmxzeK+bZ0LqCgsQAtWIgL4ry5n74z+c5Ev2oHva2
- KqG65MABnDfU+ctqpKLz+fIskJoBge5UUKw6789hhCct28M68WEepm977dvVUa4559/W
- u8/g==
-X-Gm-Message-State: AOAM532ra8qzKAJLoipFwbnNtvN4eiuPPC4SRG8cLg/dJEdAJi8ucq3F
- jpJWh68G3SqE5LedCU2niUY5ZiuoEnQQT5J/pZa5VjahGg1ipQaSPG0Vb+DDYIj741Z5zQ9rfrt
- +iesX/FLAnJZixmbzidhMqe3OX8od
-X-Received: by 2002:adf:d1e2:0:b0:20c:7012:47c3 with SMTP id
- g2-20020adfd1e2000000b0020c701247c3mr3377740wrd.631.1651565538535; 
- Tue, 03 May 2022 01:12:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUQB7/o7wjqFq/MOxf22MZ2b1MV938uurE+mOLnqzEtP1mWN6YlRmj1TBpjup4+59M866DqQ==
-X-Received: by 2002:adf:d1e2:0:b0:20c:7012:47c3 with SMTP id
- g2-20020adfd1e2000000b0020c701247c3mr3377728wrd.631.1651565538350; 
- Tue, 03 May 2022 01:12:18 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- y14-20020adfc7ce000000b0020c5253d90csm8851727wrg.88.2022.05.03.01.12.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 01:12:17 -0700 (PDT)
-Message-ID: <e0cb7b67-afa7-c141-50b3-abb1b9f432dc@redhat.com>
-Date: Tue, 3 May 2022 10:12:17 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5736F10E93B;
+ Tue,  3 May 2022 08:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651565981; x=1683101981;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=1v3Gr74NdhaAotOPjqR08a7OGoKMmanW36HXJsP3rVI=;
+ b=EIfV29z9MiOySivMMpoXlqoJSxBcsmJr4Ra6Z4AZvniVjYwrVsNdm+eC
+ /jL2HCE8MeceUmPz01qBEgtczstSb6H1UJzWJzAVf13GkMrxYCBJ4Lhl0
+ 9ZXir2+5wO5qSjZa+d6OZ+Gm/4fVQBAQlFKGkRkR5R3nkCjyLh8uJ3D9s
+ Y+2/Nf10BRTmsHOlUMEk9oNAJAMhrtrXZyj0cNpEXppC9PTqfLEXH1lwp
+ 41hFi9iJi8Vg8yVCRg5DrDSvd2jLMdJYxp6y6TXU2lGx9wh/gI5Fie+3G
+ vz0HQ3CPyWRG1juG4SUgc+9TNv+/Ro7PK0i735PE+0bGNKcpnrjLASM+A w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="247973239"
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="247973239"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 01:19:40 -0700
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="562126368"
+Received: from doshaugh-mobl.ger.corp.intel.com (HELO [10.213.236.211])
+ ([10.213.236.211])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 01:19:39 -0700
+Message-ID: <6ee8bdd0-15af-4967-5723-e86482f76072@linux.intel.com>
+Date: Tue, 3 May 2022 09:19:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 4/4] drm/format-helper: Share implementation among
- conversion helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20220427141409.22842-1-tzimmermann@suse.de>
- <20220427141409.22842-5-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220427141409.22842-5-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.8.1
+Subject: Re: [Intel-gfx] [PATCH 11/11] drm/i915/pvc: read fuses for link copy
+ engines
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+ <20220502163417.2635462-12-matthew.d.roper@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220502163417.2635462-12-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,25 +62,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/27/22 16:14, Thomas Zimmermann wrote:
-> Provide format-independent conversion helpers for system and I/O
-> memory. Implement most existing helpers on top of it. The source and
-> destination formats of each conversion is handled by a per-line
-> helper that is given to the generic implementation.
+
+On 02/05/2022 17:34, Matt Roper wrote:
+> From: Lucas De Marchi <lucas.demarchi@intel.com>
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> The new Link Copy engines in PVC may be fused off according to the
+> mslice_mask. Each bit of the MEML3_EN_MASK we read from the
+> GEN10_MIRROR_FUSE3 register disables a pair of link copy engines.
+> 
+> Bspec: 44483
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 > ---
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 28 +++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index c6e93db134b1..d10cdeff5072 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -686,6 +686,33 @@ static void engine_mask_apply_compute_fuses(struct intel_gt *gt)
+>   	}
+>   }
+>   
+> +static void engine_mask_apply_copy_fuses(struct intel_gt *gt)
+> +{
+> +	struct drm_i915_private *i915 = gt->i915;
+> +	struct intel_gt_info *info = &gt->info;
+> +	unsigned long meml3_mask;
+> +	u8 quad;
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Any hidden reason u8 is the right type here and not unsigned long like bitops expect? (Yes I did notice GEN12_MAX_MSLICES only goes to 4 but generally u8 sucks.)
 
--- 
-Best regards,
+> +
+> +	meml3_mask = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
+> +	meml3_mask = REG_FIELD_GET(GEN12_MEML3_EN_MASK, meml3_mask);
+> +
+> +	/*
+> +	 * Link Copy engines may be fused off according to meml3_mask. Each
+> +	 * bit is a quad that houses 2 Link Copy and two Sub Copy engines.
+> +	 */
+> +	for_each_clear_bit(quad, &meml3_mask, GEN12_MAX_MSLICES) {
+> +		intel_engine_mask_t mask = GENMASK(BCS1 + quad * 2 + 1,
+> +						   BCS1 + quad * 2);
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+So internally we will be sure BCS1 to BCS9 are link copy engines? I mean enum names hardcoded/fixed to function. Should we have a comment to that effect somewhere? In intel_engine_types.h maybe?
 
+> +
+> +		if (mask & info->engine_mask) {
+> +			drm_dbg(&i915->drm, "bcs%u fused off\n", quad * 2 + 1);
+> +			drm_dbg(&i915->drm, "bcs%u fused off\n", quad * 2 + 2);
+
+Bikeshed - I'd be tempted to decrease the amount of "quad * 2 + 1" by having a local variable.
+
+   unsigned int instance = quad * 2 + 1;
+   intel_engine_mask_t mask = GENMASK(_BCS(instance + 1), _BCS(instance));
+
+Etc.
+
+Regards,
+
+Tvrtko
+
+> +
+> +			info->engine_mask &= ~mask;
+> +		}
+> +	}
+> +}
+> +
+>   /*
+>    * Determine which engines are fused off in our particular hardware.
+>    * Note that we have a catch-22 situation where we need to be able to access
+> @@ -768,6 +795,7 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+>   	GEM_BUG_ON(vebox_mask != VEBOX_MASK(gt));
+>   
+>   	engine_mask_apply_compute_fuses(gt);
+> +	engine_mask_apply_copy_fuses(gt);
+>   
+>   	return info->engine_mask;
+>   }
