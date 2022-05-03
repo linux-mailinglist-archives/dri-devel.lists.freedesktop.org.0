@@ -1,54 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9FF517F62
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 10:06:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E53F517F6D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 10:06:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F4910E560;
-	Tue,  3 May 2022 08:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCA7710E644;
+	Tue,  3 May 2022 08:06:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D6210E560;
- Tue,  3 May 2022 08:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651565159; x=1683101159;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=quCvxIx3xfCRGSUQyX8I/KSf0GKtBO7eteq13fyTLGA=;
- b=l/VTKSpMJ7u+oGD+HN7qRu3H1hxI8REy/tVN712mDrg6kBlsCmHf/pmW
- zOfd/yeVDa6TetRnHet66Gy64Fn/TV4C4zkTcSSJAdCD7hMIXhoELQp8X
- pTwJ5y5veWqMvS2aSDjG1lxp2OMiQtEVaNWoXNnINmXkTBIDBW58RtvrJ
- Y3eH3QEoDH7T5tOv2TPuynE0q477/EL95KoCw8QyebfyBJBsxCSWzfZXX
- hmqewcXDTsE2oxiRHLLVoaGMNzcDhbkeBpizhTCJpq04hWq6OWg/7LrBM
- Xqu8cuz555gMNTPoNvU6VZe7tIPVcTIU7PMONygtZFuC15qnRisUSqFuu g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="292609610"
-X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="292609610"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 01:05:59 -0700
-X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="562123480"
-Received: from doshaugh-mobl.ger.corp.intel.com (HELO [10.213.236.211])
- ([10.213.236.211])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 01:05:57 -0700
-Message-ID: <472e2679-abc5-8881-6f93-f64ec1feb365@linux.intel.com>
-Date: Tue, 3 May 2022 09:05:43 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E73D410E644
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 08:06:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651565206;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5XSZBK4U4dXUInCLeD2kd4HWgJ0oE5SvbyrL/0Z9tv4=;
+ b=diJbGUTGMbPUgO17bPuPaOhQXZqGp1TXhW0bRpgxbna2+yhwgR8kvZ++QFdgMZEkRVvfyc
+ 6rcoABL8LnoC1JCdlMtch/Wf4idgZUbjdpUWgRWs12hSIscWI8puNzChVVP9YcQjRT0Zgc
+ YCVW8GEXoamW4w5hahOFPAJ8BpQujNQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-593-ZnOHEA1JPVqf8TCd1VbgxA-1; Tue, 03 May 2022 04:06:45 -0400
+X-MC-Unique: ZnOHEA1JPVqf8TCd1VbgxA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o24-20020a05600c379800b003943412e81dso441808wmr.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 01:06:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5XSZBK4U4dXUInCLeD2kd4HWgJ0oE5SvbyrL/0Z9tv4=;
+ b=2ncIaH28AyqeUpufYm+ssmtW9feW8l31c+DNC9AZ0lucMJfLlgmOkK9D82KK/vuBPz
+ HS8Eb5sXOT56VWLeMrOozj7JRSPCIiDtoI7rH9SqUR62PV3d9SseD3mswcQWHweNFXcG
+ G6+MDWweMQMvw5IeVbK+bdT6+KgBCaxlEGlZiwwQOZmO066d4P/L8N24kNIy0C2rig7C
+ ZXzt77g/FF71wxzEvLJa9H5UURtckiKXmJDaVuGXPla9VugNR5uHZkLke+flutzjBI3f
+ chui5eMq5yVPAsgLLbwBQqEvclj1h8A8I51UgDHYdj6V/wf7JzeUmK0et2Rq6maHRsPu
+ frfA==
+X-Gm-Message-State: AOAM533DLUxlvc3/cYBd8w6JdYyQTiuKSgYWf2j0PkCZ8xP1DO0LlKjw
+ lY02AWLSsBf69fx+BpCuWq9khID0defmR3BvZNH+Gv1BTsDuBYu44D3/CNHnbyF8vP1xgshnqmH
+ gzf47mdazZTYvumLPDP6Kzzv3lYwm
+X-Received: by 2002:a05:6000:144f:b0:20c:6090:3040 with SMTP id
+ v15-20020a056000144f00b0020c60903040mr6816992wrx.479.1651565203992; 
+ Tue, 03 May 2022 01:06:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCKcp8WS6X48akJfh/Y2Bxy9RYoucTra9KIiZHrFEg/FoRM+NumAhq6Ewhl9n+t0MqEcgFIw==
+X-Received: by 2002:a05:6000:144f:b0:20c:6090:3040 with SMTP id
+ v15-20020a056000144f00b0020c60903040mr6816980wrx.479.1651565203793; 
+ Tue, 03 May 2022 01:06:43 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ l8-20020a7bc448000000b003942a244ed3sm1062224wmi.24.2022.05.03.01.06.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 May 2022 01:06:43 -0700 (PDT)
+Message-ID: <20e505e8-3a52-4d1b-3f9f-d9130719e1e2@redhat.com>
+Date: Tue, 3 May 2022 10:06:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [Intel-gfx] [PATCH 07/11] drm/i915/pvc: Engines definitions for
- new copy engines
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 3/4] drm/format-helper: Unify the parameters of all
+ per-line conversion helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <20220427141409.22842-1-tzimmermann@suse.de>
+ <20220427141409.22842-4-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220427141409.22842-4-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
- <20220502163417.2635462-8-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220502163417.2635462-8-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,186 +91,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.a.wang@intel.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 02/05/2022 17:34, Matt Roper wrote:
-> This patch adds the basic definitions needed to support
-> new copy engines. Also updating the cmd_info to accommodate
-> new engines, as the engine id's of legacy engines have been
-> changed.
+On 4/27/22 16:14, Thomas Zimmermann wrote:
+> Give each per-line conversion helper pointers of type void and the
+> number of pixels in the line. Remove the unused swab parameters.
 > 
-> Original-author: CQ Tang
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 56 ++++++++++++++++++++
->   drivers/gpu/drm/i915/gt/intel_engine_types.h | 10 +++-
->   drivers/gpu/drm/i915/gt/intel_gt_regs.h      |  8 +++
->   drivers/gpu/drm/i915/gvt/cmd_parser.c        |  2 +-
->   drivers/gpu/drm/i915/i915_reg.h              |  8 +++
->   5 files changed, 82 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 14c6ddbbfde8..4532c3ea9ace 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -71,6 +71,62 @@ static const struct engine_info intel_engines[] = {
->   			{ .graphics_ver = 6, .base = BLT_RING_BASE }
->   		},
->   	},
-> +	[BCS1] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 1,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS1_RING_BASE }
-> +		},
-> +	},
-> +	[BCS2] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 2,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS2_RING_BASE }
-> +		},
-> +	},
-> +	[BCS3] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 3,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS3_RING_BASE }
-> +		},
-> +	},
-> +	[BCS4] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 4,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS4_RING_BASE }
-> +		},
-> +	},
-> +	[BCS5] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 5,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS5_RING_BASE }
-> +		},
-> +	},
-> +	[BCS6] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 6,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS6_RING_BASE }
-> +		},
-> +	},
-> +	[BCS7] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 7,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS7_RING_BASE }
-> +		},
-> +	},
-> +	[BCS8] = {
-> +		.class = COPY_ENGINE_CLASS,
-> +		.instance = 8,
-> +		.mmio_bases = {
-> +			{ .graphics_ver = 12, .base = XEHPC_BCS8_RING_BASE }
-> +		},
-> +	},
->   	[VCS0] = {
->   		.class = VIDEO_DECODE_CLASS,
->   		.instance = 0,
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 298f2cc7a879..356c15cdccf0 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -35,7 +35,7 @@
->   #define OTHER_CLASS		4
->   #define COMPUTE_CLASS		5
->   #define MAX_ENGINE_CLASS	5
-> -#define MAX_ENGINE_INSTANCE	7
-> +#define MAX_ENGINE_INSTANCE	8
->   
->   #define I915_MAX_SLICES	3
->   #define I915_MAX_SUBSLICES 8
-> @@ -107,6 +107,14 @@ struct i915_ctx_workarounds {
->   enum intel_engine_id {
->   	RCS0 = 0,
->   	BCS0,
-> +	BCS1,
-> +	BCS2,
-> +	BCS3,
-> +	BCS4,
-> +	BCS5,
-> +	BCS6,
-> +	BCS7,
-> +	BCS8,
 
-_BCS(n) macro will not be required?
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
->   	VCS0,
->   	VCS1,
->   	VCS2,
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> index a0a49c16babd..aa2c0974b02c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-> @@ -1476,6 +1476,14 @@
->   #define   GEN11_KCR				(19)
->   #define   GEN11_GTPM				(16)
->   #define   GEN11_BCS				(15)
-> +#define   XEHPC_BCS1				(14)
-> +#define   XEHPC_BCS2				(13)
-> +#define   XEHPC_BCS3				(12)
-> +#define   XEHPC_BCS4				(11)
-> +#define   XEHPC_BCS5				(10)
-> +#define   XEHPC_BCS6				(9)
-> +#define   XEHPC_BCS7				(8)
-> +#define   XEHPC_BCS8				(23)
->   #define   GEN12_CCS3				(7)
->   #define   GEN12_CCS2				(6)
->   #define   GEN12_CCS1				(5)
-> diff --git a/drivers/gpu/drm/i915/gvt/cmd_parser.c b/drivers/gpu/drm/i915/gvt/cmd_parser.c
-> index b9eb75a2b400..0ba2a3455d99 100644
-> --- a/drivers/gpu/drm/i915/gvt/cmd_parser.c
-> +++ b/drivers/gpu/drm/i915/gvt/cmd_parser.c
-> @@ -428,7 +428,7 @@ struct cmd_info {
->   #define R_VECS	BIT(VECS0)
->   #define R_ALL (R_RCS | R_VCS | R_BCS | R_VECS)
->   	/* rings that support this cmd: BLT/RCS/VCS/VECS */
-> -	u16 rings;
-> +	intel_engine_mask_t rings;
+-- 
+Best regards,
 
-Looks like mask already overflows u16 even without the blitter engines. 
-(When CCS were added.) Meaning maybe there should be a separate patch to 
-fix it.
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-But good question though is GVT supporting CCS and should it be part of 
-R_ALL? Or should this patch even be touching GVT since CCS enablement 
-did not? Adding Zhi to comment.
-
-Regards,
-
-Tvrtko
-
->   
->   	/* devices that support this cmd: SNB/IVB/HSW/... */
->   	u16 devices;
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 4a3d7b96ef43..ab64ab4317b3 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -976,6 +976,14 @@
->   #define GEN12_COMPUTE2_RING_BASE	0x1e000
->   #define GEN12_COMPUTE3_RING_BASE	0x26000
->   #define BLT_RING_BASE		0x22000
-> +#define XEHPC_BCS1_RING_BASE	0x3e0000
-> +#define XEHPC_BCS2_RING_BASE	0x3e2000
-> +#define XEHPC_BCS3_RING_BASE	0x3e4000
-> +#define XEHPC_BCS4_RING_BASE	0x3e6000
-> +#define XEHPC_BCS5_RING_BASE	0x3e8000
-> +#define XEHPC_BCS6_RING_BASE	0x3ea000
-> +#define XEHPC_BCS7_RING_BASE	0x3ec000
-> +#define XEHPC_BCS8_RING_BASE	0x3ee000
->   #define DG1_GSC_HECI1_BASE	0x00258000
->   #define DG1_GSC_HECI2_BASE	0x00259000
->   #define DG2_GSC_HECI1_BASE	0x00373000
