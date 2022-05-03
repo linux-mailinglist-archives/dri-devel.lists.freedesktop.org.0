@@ -1,82 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F22517C14
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 04:55:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED09517C26
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 05:07:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D806210F668;
-	Tue,  3 May 2022 02:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7EA510F720;
+	Tue,  3 May 2022 03:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8B3210F663
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 02:55:39 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id l16so9784343oil.6
- for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 19:55:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:content-language:to
- :cc:references:from:subject:in-reply-to:content-transfer-encoding;
- bh=ML+ALf4muC9UINFB1D+jUSUaT6Yc1q590//LqncXPBg=;
- b=i7O9COFXjCPh9mubsfg4ugisxlHT5wiyH0MXCmkS/E9xJKUh9gtudd7mJOdt/lRU5s
- XviWqp4uUxdnstDiOc3faSUjpvZagNsoavB45X1ONbSZGvYwKqCS3Q4EtrJCw38BFSTy
- GfNBd7eRD5cCXw35f/BALZfCm/WuBWvrvy8CHiiL2yrOPGPoRYnxiuE92NR59Xn+HZB5
- KmWN9JXFhIw1dIK45cEVSlCPHBcxANoVGaomRAUVkCZ8j7FysnRmKK/nqDi0QqiAU5qN
- jRYD07RpfwKLRhTaIOHoyPVauNdPj2DaFQwX8xWbJUP/uVrx5krbwy8PAtKyqKnZh5Fk
- 0gYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=ML+ALf4muC9UINFB1D+jUSUaT6Yc1q590//LqncXPBg=;
- b=2ys+qnJKIuB28d3Lq6FoPAGNlNgs0+hpf6KDhJV+qj1++ZrEydaD/eZMsk6ey7Q0x3
- 5U+3HklDsnUnshSG6j545RzJn52QvSI5lwM9ane490DKjkcwCsDMGTXtrSOickQV0RJN
- 2p1wiosXGGkArYMTasn9wbM6kYwSA3hjJEX0uC1UCzwqfg6DjcuDnOt0lgrApsHo9Oxa
- mlnc+3ZSgK2W4R48Fbo7vpX1PC+r6bmBwNTg/W+vzACOBZeKgP3kW/KF9zo/EUemPUmg
- jOLrtuZpySwIx10nMV4qRotIhcejqYY9lNEMiy+Ba/417m8Ygyyx3+nDz9ZvD+vSiPic
- aoyw==
-X-Gm-Message-State: AOAM533sYQ8Zyl3JdjVSq2Iq8KWlD/8R2u8H/2vds1YJ4n17O9QrVDIu
- Sba6ZGKMyTN5j8xEIK/y/6k=
-X-Google-Smtp-Source: ABdhPJznbXpW7jRNt5UM7xwEtyewbcsNlzza6ofH1kXi3NQqMh/99I9VMArk+DRpxcBP+PFc4iZ78A==
-X-Received: by 2002:a05:6808:1115:b0:2ec:e78e:3fc0 with SMTP id
- e21-20020a056808111500b002ece78e3fc0mr978131oih.207.1651546539238; 
- Mon, 02 May 2022 19:55:39 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a9d7e91000000b006060322126csm1564658otp.60.2022.05.02.19.55.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 May 2022 19:55:38 -0700 (PDT)
-Message-ID: <04840b4f-5b9d-b29a-62f7-e5148d415313@roeck-us.net>
-Date: Mon, 2 May 2022 19:55:34 -0700
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC31510F720
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 03:07:25 +0000 (UTC)
+X-UUID: b1b71b2429a245d585b654c6ccc13c20-20220503
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:9cf8be31-3704-416d-a8b9-91eec550c8fe, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.4, REQID:9cf8be31-3704-416d-a8b9-91eec550c8fe, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:faefae9, CLOUDID:5d7d42c7-85ee-4ac1-ac05-bd3f1e72e732,
+ C
+ OID:IGNORED,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil,QS:0
+ ,BEC:nil
+X-UUID: b1b71b2429a245d585b654c6ccc13c20-20220503
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 626196093; Tue, 03 May 2022 11:07:22 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 3 May 2022 11:07:21 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 3 May 2022 11:07:20 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 3 May 2022 11:07:20 +0800
+Message-ID: <5bf6e78f31c31f0244d967da628e9c60c496e30b.camel@mediatek.com>
+Subject: Re: [PATCH v18 04/21] soc: mediatek: add mtk-mmsys support for
+ mt8195 vdosys1
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <linux@roeck-us.net>
+Date: Tue, 3 May 2022 11:07:20 +0800
+In-Reply-To: <0fb7b063fc246c89430ddf310406ae954a3e3650.camel@mediatek.com>
+References: <20220428105408.11189-1-nancy.lin@mediatek.com>
+ <20220428105408.11189-5-nancy.lin@mediatek.com>
+ <0fb7b063fc246c89430ddf310406ae954a3e3650.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
- <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
- <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
- <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
- <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
- <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
- <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
- <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
- <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
- <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
- <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
- <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
- <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
- <c001d58e-9a78-6338-a533-d0f215b3dfd1@roeck-us.net>
- <CAK8P3a1X3YH0RqqmqgqFAaY94yreD-PfY-pvyMf+xU3nGeqvsg@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-In-Reply-To: <CAK8P3a1X3YH0RqqmqgqFAaY94yreD-PfY-pvyMf+xU3nGeqvsg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,63 +72,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
- Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/2/22 14:03, Arnd Bergmann wrote:
-> On Mon, May 2, 2022 at 10:35 PM Guenter Roeck <linux@roeck-us.net> wrote:
->> On 5/2/22 12:21, Arnd Bergmann wrote:
->>>
->>
->> To boot from initrd:
->>
->> qemu-system-arm -M z2 -kernel \
->>        arch/arm/boot/zImage -no-reboot -initrd \
->>        rootfs-armv5.cpio --append \
->>        "panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyS0" -nographic \
->>        -monitor null -serial stdio
->>
->> where rootfs-armv5.cpio is from my repository at github.com.
->>
->> https://github.com/groeck/linux-build-test/blob/master/rootfs/arm/rootfs-armv5.cpio.gz
->>
+Hi CK,
+
+Thanks for the review.
+
+On Fri, 2022-04-29 at 15:39 +0800, CK Hu wrote:
+> Hi, Nancy:
 > 
-> Ok, that works here with any configuration, I don't see a regression.
-> Could this be a problem with the size increase? The machine only has
-> 32MB of RAM, so it's possible that the multiplatform-enabled kernel
-> with DT support etc pushes it over the edge, especially with an initramfs.
+> On Thu, 2022-04-28 at 18:53 +0800, Nancy.Lin wrote:
+> > Add mt8195 vdosys1 routing table to the driver data of mtk-mmsys.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >  drivers/soc/mediatek/mt8195-mmsys.h    | 136
+> > +++++++++++++++++++++++++
+> >  drivers/soc/mediatek/mtk-mmsys.c       |   2 +
+> >  include/linux/soc/mediatek/mtk-mmsys.h |   9 ++
+> >  3 files changed, 147 insertions(+)
+> > 
+> > diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
+> > b/drivers/soc/mediatek/mt8195-mmsys.h
+> > index abfe94a30248..51031d75e81e 100644
+> > --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> > +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> > @@ -75,6 +75,70 @@
+> >  #define MT8195_SOUT_DSC_WRAP1_OUT_TO_SINA_VIRTUAL0		(2 <<
+> > 16)
+> >  #define MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE			
+> > (3 << 16)
+> >  
+> > +#define MT8195_VDO1_VPP_MERGE0_P0_SEL_IN			0xf04
+> > +#define MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0			
+> > 1
+> > +
+> > +#define MT8195_VDO1_VPP_MERGE0_P1_SEL_IN			0xf08
+> > +#define MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1			
+> > 1
+> > +
+> > +#define MT8195_VDO1_DISP_DPI1_SEL_IN				
+> > 0xf10
+> > +#define MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT		
+> > 	
+> > 0
+> > +
+> > +#define MT8195_VDO1_DISP_DP_INTF0_SEL_IN			0xf14
+> > +#define MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT		
+> > 0
+> > +
+> > +#define MT8195_VDO1_MERGE4_SOUT_SEL				
+> > 0xf18
+> > +#define MT8195_MERGE4_SOUT_TO_DPI1_SEL				
+> > 	2
+> > +#define MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL				
+> > 3
+> > +
+> > +#define MT8195_VDO1_MIXER_IN1_SEL_IN				
+> > 0xf24
+> > +#define MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT		
+> > 	1
+> > +
+> > +#define MT8195_VDO1_MIXER_IN2_SEL_IN				
+> > 0xf28
+> > +#define MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT		
+> > 	1
+> > +
+> > +#define MT8195_VDO1_MIXER_IN3_SEL_IN				
+> > 0xf2c
+> > +#define MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT		
+> > 	1
+> > +
+> > +#define MT8195_VDO1_MIXER_IN4_SEL_IN				
+> > 0xf30
+> > +#define MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT		
+> > 	1
+> > +
+> > +#define MT8195_VDO1_MIXER_OUT_SOUT_SEL				
+> > 0xf34
+> > +#define MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL			
+> > 	1
+> > +
+> > +#define MT8195_VDO1_VPP_MERGE1_P0_SEL_IN			0xf3c
+> > +#define MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2			
+> > 1
+> > +
+> > +#define MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL			0xf40
+> > +#define MT8195_SOUT_TO_MIXER_IN1_SEL				
+> > 	
+> > 1
+> > +
+> > +#define MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL			0xf44
+> > +#define MT8195_SOUT_TO_MIXER_IN2_SEL				
+> > 	
+> > 1
+> > +
+> > +#define MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL			0xf48
+> > +#define MT8195_SOUT_TO_MIXER_IN3_SEL				
+> > 	
+> > 1
+> > +
+> > +#define MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL			0xf4c
+> > +#define MT8195_SOUT_TO_MIXER_IN4_SEL				
+> > 	
+> > 1
+> > +
+> > +#define MT8195_VDO1_MERGE4_ASYNC_SEL_IN				
+> > 0xf50
+> > +#define MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT		
+> > 	1
+> > +
+> > +#define MT8195_VDO1_MIXER_IN1_SOUT_SEL				
+> > 0xf58
+> > +#define MT8195_MIXER_IN1_SOUT_TO_DISP_MIXER			
+> > 	
+> > 0
+> > +
+> > +#define MT8195_VDO1_MIXER_IN2_SOUT_SEL				
+> > 0xf5c
+> > +#define MT8195_MIXER_IN2_SOUT_TO_DISP_MIXER			
+> > 	
+> > 0
+> > +
+> > +#define MT8195_VDO1_MIXER_IN3_SOUT_SEL				
+> > 0xf60
+> > +#define MT8195_MIXER_IN3_SOUT_TO_DISP_MIXER			
+> > 	
+> > 0
+> > +
+> > +#define MT8195_VDO1_MIXER_IN4_SOUT_SEL				
+> > 0xf64
+> > +#define MT8195_MIXER_IN4_SOUT_TO_DISP_MIXER			
+> > 	
+> > 0
+> > +
+> > +#define MT8195_VDO1_MIXER_SOUT_SEL_IN				
+> > 0xf68
+> > +#define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			
+> > 0
+> > +
+> >  static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[]
+> > =
+> > {
+> >  	{
+> >  		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> > @@ -364,6 +428,78 @@ static const struct mtk_mmsys_routes
+> > mmsys_mt8195_routing_table[] = {
+> >  		DDP_COMPONENT_DSC1, DDP_COMPONENT_MERGE0,
+> >  		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DSC_WRAP1_OUT_TO_MASK,
+> >  		MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE
+> > +	}, {
+> > +		DDP_COMPONENT_MDP_RDMA0, DDP_COMPONENT_MERGE1,
+> > +		MT8195_VDO1_VPP_MERGE0_P0_SEL_IN, GENMASK(0, 0),
+> > +		MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0
+> > +	}, {
+> > +		DDP_COMPONENT_MDP_RDMA1, DDP_COMPONENT_MERGE1,
+> > +		MT8195_VDO1_VPP_MERGE0_P1_SEL_IN, GENMASK(0, 0),
+> > +		MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1
+> > +	}, {
+> > +		DDP_COMPONENT_MDP_RDMA2, DDP_COMPONENT_MERGE2,
+> > +		MT8195_VDO1_VPP_MERGE1_P0_SEL_IN, GENMASK(0, 0),
+> > +		MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> > +		MT8195_SOUT_TO_MIXER_IN1_SEL
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> > +		MT8195_SOUT_TO_MIXER_IN2_SEL
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> > +		MT8195_SOUT_TO_MIXER_IN3_SEL
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL, GENMASK(1, 0),
+> > +		MT8195_SOUT_TO_MIXER_IN4_SEL
+> > +	}, {
+> > +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
+> > +		MT8195_VDO1_MIXER_OUT_SOUT_SEL, GENMASK(0, 0),
+> > +		MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MIXER_IN1_SEL_IN, GENMASK(0, 0),
+> > +		MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MIXER_IN2_SEL_IN, GENMASK(0, 0),
+> > +		MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MIXER_IN3_SEL_IN, GENMASK(0, 0),
+> > +		MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
+> > +		MT8195_VDO1_MIXER_IN4_SEL_IN, GENMASK(0, 0),
+> > +		MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT
+> > +	}, {
+> > +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
+> > +		MT8195_VDO1_MIXER_SOUT_SEL_IN, GENMASK(2, 0),
+> > +		MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER
+> > +	}, {
+> > +		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
+> > +		MT8195_VDO1_MERGE4_ASYNC_SEL_IN, GENMASK(2, 0),
+> > +		MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
+> > +		MT8195_VDO1_DISP_DPI1_SEL_IN, GENMASK(1, 0),
+> > +		MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
+> > +		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
+> > +		MT8195_MERGE4_SOUT_TO_DPI1_SEL
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
+> > +		MT8195_VDO1_DISP_DP_INTF0_SEL_IN, GENMASK(1, 0),
+> > +		MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT
+> > +	}, {
+> > +		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
+> > +		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
+> > +		MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL
+> >  	}
+> >  };
+> >  
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> > b/drivers/soc/mediatek/mtk-mmsys.c
+> > index 548efed8dc1c..03c75a82c8d3 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -146,6 +146,8 @@ static const struct mtk_mmsys_driver_data
+> > mt8195_vdosys0_driver_data = {
+> >  static const struct mtk_mmsys_driver_data
+> > mt8195_vdosys1_driver_data
+> > = {
+> >  	.io_start = 0x1c100000,
+> >  	.clk_driver = "clk-mt8195-vdo1",
+> > +	.routes = mmsys_mt8195_routing_table,
 > 
+> I think vdo0 and vdo1 are independent, so the routing table would
+> also
+> be independent. Merge these two table into one would waste time to
+> search routing of other mmsys.
+> 
+OK, I will separate vdo0 and vdo1 routing tables.
 
-qemu puts initrd in the middle of available memory. With the image size
-being ~1MB larger than with v5.18-rc, this is too much, and the kernel
-overwrites part of initrd. This causes it to be corrupted.
+> > +	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
+> >  };
+> >  
+> >  static const struct mtk_mmsys_match_data mt8195_mmsys_match_data =
+> > {
+> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
+> > b/include/linux/soc/mediatek/mtk-mmsys.h
+> > index fb719fd1281c..b4388ba43341 100644
+> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> > @@ -28,7 +28,16 @@ enum mtk_ddp_comp_id {
+> >  	DDP_COMPONENT_DSI1,
+> >  	DDP_COMPONENT_DSI2,
+> >  	DDP_COMPONENT_DSI3,
+> > +	DDP_COMPONENT_ETHDR_MIXER,
+> >  	DDP_COMPONENT_GAMMA,
+> > +	DDP_COMPONENT_MDP_RDMA0,
+> > +	DDP_COMPONENT_MDP_RDMA1,
+> > +	DDP_COMPONENT_MDP_RDMA2,
+> > +	DDP_COMPONENT_MDP_RDMA3,
+> > +	DDP_COMPONENT_MDP_RDMA4,
+> > +	DDP_COMPONENT_MDP_RDMA5,
+> > +	DDP_COMPONENT_MDP_RDMA6,
+> > +	DDP_COMPONENT_MDP_RDMA7,
+> 
+> These new component is not strongly related to mt8195 (maybe other
+> SoC
+> has these component), so I would like adding these new component to
+> another patch.
+> 
+> Regards,
+> CK
+> 
+OK
 
-It looks like that would have happened eventually, your patch series just
-made it happen now. The kernel is just getting too large to run on such small
-systems. I worked around the problem in my version of qemu by loading initrd
-at the end of the (small) RAM. With that, I no longer see the boot failure.
+Regards,
+Nancy
 
-Guenter
+> >  	DDP_COMPONENT_MERGE0,
+> >  	DDP_COMPONENT_MERGE1,
+> >  	DDP_COMPONENT_MERGE2,
+> 
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> 
+https://urldefense.com/v3/__http://lists.infradead.org/mailman/listinfo/linux-mediatek__;!!CTRNKA9wMg0ARbw!0Wkga9YarTOv3MlBvmu5OO8sxlpUAvQPPXXpjGSYuAyG50xmj9fqkSwgjSkQXI1v$
+>  
+
