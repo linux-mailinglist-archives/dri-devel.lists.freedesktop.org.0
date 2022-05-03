@@ -2,74 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C375D51840D
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB98518415
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF7A10F94D;
-	Tue,  3 May 2022 12:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADAEB10F9A2;
+	Tue,  3 May 2022 12:17:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0AF610F94D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:14:37 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 8180A3200973;
- Tue,  3 May 2022 08:14:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 03 May 2022 08:14:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1651580075; x=1651666475; bh=tP
- La0Qf9PXBvOWnLQ0JcspSylSZbum3JaJsbNShKGoM=; b=DMz/NsWnXTwyotf+f5
- Dtict5qNoP9RrrTu3hcqe81wRKui7dzOm5NoRNun1BDKAuOEvpUZQjzVwZ5keT0U
- kq97Tu54cnxBCmThPDGlDpYmYEY78acXVwjQnz6Hk4JXWeMujWN5slklxs5TkkVY
- svlFAs2taZUqk1wLjZq5Ct2iOCkyMioT1f3uUuDTxBEMBUlpoFMFq3Taf1IK9p1S
- qwYhFghBavYa/p+f7OcPIvd+FVuL+ppu2rMVEI+OIHkujhh2kHsoz4WTS25Ejt1l
- FJ8ywpSFNU4zRVTVI9VNBUuACpV6u5l1wW28jo6fmT2dHjV/3Oz3p7+7gPnukpco
- 5MIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1651580075; x=1651666475; bh=tPLa0Qf9PXBvOWnLQ0JcspSylSZbum3JaJs
- bNShKGoM=; b=lfSbIY+i4CnGeoHaB9E42Fq2QclX83uyxzMpmk9ilRb1Pj9jfzH
- LqwJ8UiLzKYW7Dal2IAzM1vXgqo4qqSwL+gg3Nul04bBRdFhGMpg42g+TANm5vuW
- iju8dqPYAHxh/eyQg10GLMsGr6nD5OpAnsBEgnpnUkuHe8GjqOyS/vO80Y6+qYs7
- /ea3cISDTswsziNOpOZNIISj1pX/VgDZpFyAAJuuoXrAd1PXhKUkKU26qNAhiKCy
- WEGnKyXWmQIa7v+CQmShDpEvvLXs/AZ5jCOQuYvOL0mHdgyKQ1RQ6XiOdyPuXydr
- PrAkF5lADQgJTHc4+5oEXwrD+lFkYEUiHOw==
-X-ME-Sender: <xms:qxxxYgqjq6iTmcIUKcmkj2Ld24Tf2lcjaIuYrKs_Ef6jgbA2fg2v6Q>
- <xme:qxxxYmqDvUaehF_RZ39Sz70z7h29FLgnbfPxvNgNBqrpk9GvbZpN57tt_cSO8iibe
- oiW9gd5UJMVTlF_H8c>
-X-ME-Received: <xmr:qxxxYlOI2mtb3-GpKEk5gCJNN1pBfbMbDDFJWAKUKgQIkR5cpe7zXooiSXeBnlmkcPJztMNd_jo-YzlIewRqwBpNjhY95uqVkBkoRUg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgdeglecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepgfeikedvveffkeeujefftdejgfekkeejvdevtdejkedvteeliefgledujeek
- ffegnecuffhomhgrihhnpegsrghsvgdruggvvhenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:qxxxYn4J7i1_dOE76ULETDaQ3FtVhaLEcs8BVKtlssF3x7sbTWjZXg>
- <xmx:qxxxYv4CTav1qG1s_K_71Aqo5mtO6yMyvWLY_cy5eFykoSseFwyQ9Q>
- <xmx:qxxxYngWiadQ64m_mMtNLULlPn5z6J8qRUx3-ISXEXtM0ZAkUhIJlA>
- <xmx:qxxxYlSibc9EZRdsZ-QuA-FCg0CvUXrRggUwXvLRhgezBNbTS3mYOA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 May 2022 08:14:35 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 14/14] drm/vc4: Warn if some v3d code is run on BCM2711
-Date: Tue,  3 May 2022 14:13:41 +0200
-Message-Id: <20220503121341.983842-15-maxime@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220503121341.983842-1-maxime@cerno.tech>
-References: <20220503121341.983842-1-maxime@cerno.tech>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6C34F10F98F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:17:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0720E1042;
+ Tue,  3 May 2022 05:17:16 -0700 (PDT)
+Received: from [10.57.80.111] (unknown [10.57.80.111])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8A753F73D;
+ Tue,  3 May 2022 05:17:13 -0700 (PDT)
+Message-ID: <9e2d54d3-90d0-a9cf-2b93-84fbb567fb91@arm.com>
+Date: Tue, 3 May 2022 13:17:08 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v11 11/24] drm/rockchip: dw_hdmi: Use auto-generated tables
+Content-Language: en-GB
+To: =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+ dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+ <20220422072841.2206452-12-s.hauer@pengutronix.de> <2236782.ElGaqSPkdT@diego>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <2236782.ElGaqSPkdT@diego>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,774 +45,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ Douglas Anderson <dianders@chromium.org>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Yakir Yang <ykk@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BCM2711 has a separate driver for the v3d, and thus we can't call
-into any of the driver entrypoints that rely on the v3d being there.
+On 2022-05-03 12:02, Heiko Stübner wrote:
+> Am Freitag, 22. April 2022, 09:28:28 CEST schrieb Sascha Hauer:
+>> From: Douglas Anderson <dianders@chromium.org>
+>>
+>> The previous tables for mpll_cfg and curr_ctrl were created using the
+>> 20-pages of example settings provided by the PHY vendor.  Those
+>> example settings weren't particularly dense, so there were places
+>> where we were guessing what the settings would be for 10-bit and
+>> 12-bit (not that we use those anyway).  It was also always a lot of
+>> extra work every time we wanted to add a new clock rate since we had
+>> to cross-reference several tables.
+>>
+>> In <https://crrev.com/c/285855> I've gone through the work to figure
+>> out how to generate this table automatically.  Let's now use the
+>> automatically generated table and then we'll never need to look at it
+>> again.
+>>
+>> We only support 8-bit mode right now and only support a small number
+>> of clock rates and I've verified that the only 8-bit rate that was
+>> affected was 148.5.  That mode appears to have been wrong in the old
+>> table.
+>>
+>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>> Signed-off-by: Yakir Yang <ykk@rock-chips.com>
+>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> 
+> This breaks hdmi on my rk3328-rock64 which then ends up in a
+> 	[CRTC:37:crtc-0] vblank wait timed out
+> 
+> warning-loop.
 
-Let's add a bunch of checks and complain loudly if that ever happen.
+Oh yeah, that... IIRC from back when I was looking at it, it's because 
+the inno-hdmi phy does its own rate validation at a point when it's 
+already far too late to actually reject the mode. It manages to work at 
+the moment because its set of supported rates mostly line up with those 
+for the Synopsys phy which dw-hdmi-rockchip still insists on validating 
+against even when a vendor phy is present.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_bo.c               | 49 ++++++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_drv.c              | 11 +++++
- drivers/gpu/drm/vc4/vc4_drv.h              |  6 +++
- drivers/gpu/drm/vc4/vc4_gem.c              | 40 ++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_irq.c              | 16 +++++++
- drivers/gpu/drm/vc4/vc4_kms.c              |  4 ++
- drivers/gpu/drm/vc4/vc4_perfmon.c          | 41 ++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_render_cl.c        |  4 ++
- drivers/gpu/drm/vc4/vc4_v3d.c              | 15 +++++++
- drivers/gpu/drm/vc4/vc4_validate.c         | 16 +++++++
- drivers/gpu/drm/vc4/vc4_validate_shaders.c |  4 ++
- 11 files changed, 206 insertions(+)
+> Some part of the patch11-14 range also creates sparking horizontal
+> lines on my rk3288-pinky.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 3ca16d682fc0..b8d856312846 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -248,6 +248,9 @@ void vc4_bo_add_to_purgeable_pool(struct vc4_bo *bo)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	mutex_lock(&vc4->purgeable.lock);
- 	list_add_tail(&bo->size_head, &vc4->purgeable.list);
- 	vc4->purgeable.num++;
-@@ -259,6 +262,9 @@ static void vc4_bo_remove_from_purgeable_pool_locked(struct vc4_bo *bo)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	/* list_del_init() is used here because the caller might release
- 	 * the purgeable lock in order to acquire the madv one and update the
- 	 * madv status.
-@@ -387,6 +393,9 @@ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_bo *bo;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return ERR_PTR(-ENODEV);
-+
- 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
- 	if (!bo)
- 		return ERR_PTR(-ENOMEM);
-@@ -413,6 +422,9 @@ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t unaligned_size,
- 	struct drm_gem_cma_object *cma_obj;
- 	struct vc4_bo *bo;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return ERR_PTR(-ENODEV);
-+
- 	if (size == 0)
- 		return ERR_PTR(-EINVAL);
- 
-@@ -475,9 +487,13 @@ int vc4_bo_dumb_create(struct drm_file *file_priv,
- 		       struct drm_device *dev,
- 		       struct drm_mode_create_dumb *args)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_bo *bo = NULL;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	ret = vc4_dumb_fixup_args(args);
- 	if (ret)
- 		return ret;
-@@ -598,8 +614,12 @@ static void vc4_bo_cache_time_work(struct work_struct *work)
- 
- int vc4_bo_inc_usecnt(struct vc4_bo *bo)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	/* Fast path: if the BO is already retained by someone, no need to
- 	 * check the madv status.
- 	 */
-@@ -634,6 +654,11 @@ int vc4_bo_inc_usecnt(struct vc4_bo *bo)
- 
- void vc4_bo_dec_usecnt(struct vc4_bo *bo)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(bo->base.base.dev);
-+
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	/* Fast path: if the BO is still retained by someone, no need to test
- 	 * the madv value.
- 	 */
-@@ -753,6 +778,9 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_bo *bo = NULL;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	ret = vc4_grab_bin_bo(vc4, vc4file);
- 	if (ret)
- 		return ret;
-@@ -776,9 +804,13 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
- int vc4_mmap_bo_ioctl(struct drm_device *dev, void *data,
- 		      struct drm_file *file_priv)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_vc4_mmap_bo *args = data;
- 	struct drm_gem_object *gem_obj;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	gem_obj = drm_gem_object_lookup(file_priv, args->handle);
- 	if (!gem_obj) {
- 		DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
-@@ -802,6 +834,9 @@ vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_bo *bo = NULL;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (args->size == 0)
- 		return -EINVAL;
- 
-@@ -872,11 +907,15 @@ vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
- int vc4_set_tiling_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_priv)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_vc4_set_tiling *args = data;
- 	struct drm_gem_object *gem_obj;
- 	struct vc4_bo *bo;
- 	bool t_format;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (args->flags != 0)
- 		return -EINVAL;
- 
-@@ -915,10 +954,14 @@ int vc4_set_tiling_ioctl(struct drm_device *dev, void *data,
- int vc4_get_tiling_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_priv)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_vc4_get_tiling *args = data;
- 	struct drm_gem_object *gem_obj;
- 	struct vc4_bo *bo;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (args->flags != 0 || args->modifier != 0)
- 		return -EINVAL;
- 
-@@ -945,6 +988,9 @@ int vc4_bo_cache_init(struct drm_device *dev)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int i;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	/* Create the initial set of BO labels that the kernel will
- 	 * use.  This lets us avoid a bunch of string reallocation in
- 	 * the kernel's draw and BO allocation paths.
-@@ -1004,6 +1050,9 @@ int vc4_label_bo_ioctl(struct drm_device *dev, void *data,
- 	struct drm_gem_object *gem_obj;
- 	int ret = 0, label;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (!args->len)
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 64c7696aa9e4..ba017421736c 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -99,6 +99,9 @@ static int vc4_get_param_ioctl(struct drm_device *dev, void *data,
- 	if (args->pad != 0)
- 		return -EINVAL;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (!vc4->v3d)
- 		return -ENODEV;
- 
-@@ -142,11 +145,16 @@ static int vc4_get_param_ioctl(struct drm_device *dev, void *data,
- 
- static int vc4_open(struct drm_device *dev, struct drm_file *file)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_file *vc4file;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	vc4file = kzalloc(sizeof(*vc4file), GFP_KERNEL);
- 	if (!vc4file)
- 		return -ENOMEM;
-+	vc4file->dev = vc4;
- 
- 	vc4_perfmon_open_file(vc4file);
- 	file->driver_priv = vc4file;
-@@ -158,6 +166,9 @@ static void vc4_close(struct drm_device *dev, struct drm_file *file)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_file *vc4file = file->driver_priv;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	if (vc4file->bin_bo_used)
- 		vc4_v3d_bin_bo_put(vc4);
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 9c324c12c410..93fd55b9e99e 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -48,6 +48,8 @@ enum vc4_kernel_bo_type {
-  * done. This way, only events related to a specific job will be counted.
-  */
- struct vc4_perfmon {
-+	struct vc4_dev *dev;
-+
- 	/* Tracks the number of users of the perfmon, when this counter reaches
- 	 * zero the perfmon is destroyed.
- 	 */
-@@ -580,6 +582,8 @@ to_vc4_crtc_state(struct drm_crtc_state *crtc_state)
- #define VC4_REG32(reg) { .name = #reg, .offset = reg }
- 
- struct vc4_exec_info {
-+	struct vc4_dev *dev;
-+
- 	/* Sequence number for this bin/render job. */
- 	uint64_t seqno;
- 
-@@ -701,6 +705,8 @@ struct vc4_exec_info {
-  * released when the DRM file is closed should be placed here.
-  */
- struct vc4_file {
-+	struct vc4_dev *dev;
-+
- 	struct {
- 		struct idr idr;
- 		struct mutex lock;
-diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index 9eaf304fc20d..fe10d9c3fff8 100644
---- a/drivers/gpu/drm/vc4/vc4_gem.c
-+++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -76,6 +76,9 @@ vc4_get_hang_state_ioctl(struct drm_device *dev, void *data,
- 	u32 i;
- 	int ret = 0;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (!vc4->v3d) {
- 		DRM_DEBUG("VC4_GET_HANG_STATE with no VC4 V3D probed\n");
- 		return -ENODEV;
-@@ -386,6 +389,9 @@ vc4_wait_for_seqno(struct drm_device *dev, uint64_t seqno, uint64_t timeout_ns,
- 	unsigned long timeout_expire;
- 	DEFINE_WAIT(wait);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (vc4->finished_seqno >= seqno)
- 		return 0;
- 
-@@ -468,6 +474,9 @@ vc4_submit_next_bin_job(struct drm_device *dev)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_exec_info *exec;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- again:
- 	exec = vc4_first_bin_job(vc4);
- 	if (!exec)
-@@ -513,6 +522,9 @@ vc4_submit_next_render_job(struct drm_device *dev)
- 	if (!exec)
- 		return;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	/* A previous RCL may have written to one of our textures, and
- 	 * our full cache flush at bin time may have occurred before
- 	 * that RCL completed.  Flush the texture cache now, but not
-@@ -531,6 +543,9 @@ vc4_move_job_to_render(struct drm_device *dev, struct vc4_exec_info *exec)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	bool was_empty = list_empty(&vc4->render_job_list);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	list_move_tail(&exec->head, &vc4->render_job_list);
- 	if (was_empty)
- 		vc4_submit_next_render_job(dev);
-@@ -997,6 +1012,9 @@ vc4_job_handle_completed(struct vc4_dev *vc4)
- 	unsigned long irqflags;
- 	struct vc4_seqno_cb *cb, *cb_temp;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	spin_lock_irqsave(&vc4->job_lock, irqflags);
- 	while (!list_empty(&vc4->job_done_list)) {
- 		struct vc4_exec_info *exec =
-@@ -1033,6 +1051,9 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	unsigned long irqflags;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	cb->func = func;
- 	INIT_WORK(&cb->work, vc4_seqno_cb_work);
- 
-@@ -1083,8 +1104,12 @@ int
- vc4_wait_seqno_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file_priv)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_vc4_wait_seqno *args = data;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	return vc4_wait_for_seqno_ioctl_helper(dev, args->seqno,
- 					       &args->timeout_ns);
- }
-@@ -1093,11 +1118,15 @@ int
- vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
- 		  struct drm_file *file_priv)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int ret;
- 	struct drm_vc4_wait_bo *args = data;
- 	struct drm_gem_object *gem_obj;
- 	struct vc4_bo *bo;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (args->pad != 0)
- 		return -EINVAL;
- 
-@@ -1144,6 +1173,9 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
- 				  args->shader_rec_size,
- 				  args->bo_handle_count);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (!vc4->v3d) {
- 		DRM_DEBUG("VC4_SUBMIT_CL with no VC4 V3D probed\n");
- 		return -ENODEV;
-@@ -1167,6 +1199,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
- 		DRM_ERROR("malloc failure on exec struct\n");
- 		return -ENOMEM;
- 	}
-+	exec->dev = vc4;
- 
- 	ret = vc4_v3d_pm_get(vc4);
- 	if (ret) {
-@@ -1276,6 +1309,9 @@ int vc4_gem_init(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	vc4->dma_fence_context = dma_fence_context_alloc(1);
- 
- 	INIT_LIST_HEAD(&vc4->bin_job_list);
-@@ -1321,11 +1357,15 @@ static void vc4_gem_destroy(struct drm_device *dev, void *unused)
- int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
- 			  struct drm_file *file_priv)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_vc4_gem_madvise *args = data;
- 	struct drm_gem_object *gem_obj;
- 	struct vc4_bo *bo;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	switch (args->madv) {
- 	case VC4_MADV_DONTNEED:
- 	case VC4_MADV_WILLNEED:
-diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
-index 4342fb43e8c1..2eacfb6773d2 100644
---- a/drivers/gpu/drm/vc4/vc4_irq.c
-+++ b/drivers/gpu/drm/vc4/vc4_irq.c
-@@ -265,6 +265,9 @@ vc4_irq_enable(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	if (!vc4->v3d)
- 		return;
- 
-@@ -279,6 +282,9 @@ vc4_irq_disable(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	if (!vc4->v3d)
- 		return;
- 
-@@ -296,8 +302,12 @@ vc4_irq_disable(struct drm_device *dev)
- 
- int vc4_irq_install(struct drm_device *dev, int irq)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (irq == IRQ_NOTCONNECTED)
- 		return -ENOTCONN;
- 
-@@ -316,6 +326,9 @@ void vc4_irq_uninstall(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	vc4_irq_disable(dev);
- 	free_irq(vc4->irq, dev);
- }
-@@ -326,6 +339,9 @@ void vc4_irq_reset(struct drm_device *dev)
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	unsigned long irqflags;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	/* Acknowledge any stale IRQs. */
- 	V3D_WRITE(V3D_INTCTL, V3D_DRIVER_IRQS);
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 1d3b31fb71ea..893d831b24aa 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -479,8 +479,12 @@ static struct drm_framebuffer *vc4_fb_create(struct drm_device *dev,
- 					     struct drm_file *file_priv,
- 					     const struct drm_mode_fb_cmd2 *mode_cmd)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_mode_fb_cmd2 mode_cmd_local;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return ERR_PTR(-ENODEV);
-+
- 	/* If the user didn't specify a modifier, use the
- 	 * vc4_set_tiling_ioctl() state for the BO.
- 	 */
-diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
-index 18abc06335c1..d853d647b44d 100644
---- a/drivers/gpu/drm/vc4/vc4_perfmon.c
-+++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-@@ -17,12 +17,22 @@
- 
- void vc4_perfmon_get(struct vc4_perfmon *perfmon)
- {
-+	struct vc4_dev *vc4 = perfmon->dev;
-+
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	if (perfmon)
- 		refcount_inc(&perfmon->refcnt);
- }
- 
- void vc4_perfmon_put(struct vc4_perfmon *perfmon)
- {
-+	struct vc4_dev *vc4 = perfmon->dev;
-+
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	if (perfmon && refcount_dec_and_test(&perfmon->refcnt))
- 		kfree(perfmon);
- }
-@@ -32,6 +42,9 @@ void vc4_perfmon_start(struct vc4_dev *vc4, struct vc4_perfmon *perfmon)
- 	unsigned int i;
- 	u32 mask;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	if (WARN_ON_ONCE(!perfmon || vc4->active_perfmon))
- 		return;
- 
-@@ -49,6 +62,9 @@ void vc4_perfmon_stop(struct vc4_dev *vc4, struct vc4_perfmon *perfmon,
- {
- 	unsigned int i;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	if (WARN_ON_ONCE(!vc4->active_perfmon ||
- 			 perfmon != vc4->active_perfmon))
- 		return;
-@@ -64,8 +80,12 @@ void vc4_perfmon_stop(struct vc4_dev *vc4, struct vc4_perfmon *perfmon,
- 
- struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
- {
-+	struct vc4_dev *vc4 = vc4file->dev;
- 	struct vc4_perfmon *perfmon;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return NULL;
-+
- 	mutex_lock(&vc4file->perfmon.lock);
- 	perfmon = idr_find(&vc4file->perfmon.idr, id);
- 	vc4_perfmon_get(perfmon);
-@@ -76,8 +96,14 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
- 
- void vc4_perfmon_open_file(struct vc4_file *vc4file)
- {
-+	struct vc4_dev *vc4 = vc4file->dev;
-+
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	mutex_init(&vc4file->perfmon.lock);
- 	idr_init_base(&vc4file->perfmon.idr, VC4_PERFMONID_MIN);
-+	vc4file->dev = vc4;
- }
- 
- static int vc4_perfmon_idr_del(int id, void *elem, void *data)
-@@ -91,6 +117,11 @@ static int vc4_perfmon_idr_del(int id, void *elem, void *data)
- 
- void vc4_perfmon_close_file(struct vc4_file *vc4file)
- {
-+	struct vc4_dev *vc4 = vc4file->dev;
-+
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	mutex_lock(&vc4file->perfmon.lock);
- 	idr_for_each(&vc4file->perfmon.idr, vc4_perfmon_idr_del, NULL);
- 	idr_destroy(&vc4file->perfmon.idr);
-@@ -107,6 +138,9 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 	unsigned int i;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (!vc4->v3d) {
- 		DRM_DEBUG("Creating perfmon no VC4 V3D probed\n");
- 		return -ENODEV;
-@@ -127,6 +161,7 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, void *data,
- 			  GFP_KERNEL);
- 	if (!perfmon)
- 		return -ENOMEM;
-+	perfmon->dev = vc4;
- 
- 	for (i = 0; i < req->ncounters; i++)
- 		perfmon->events[i] = req->events[i];
-@@ -157,6 +192,9 @@ int vc4_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
- 	struct drm_vc4_perfmon_destroy *req = data;
- 	struct vc4_perfmon *perfmon;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (!vc4->v3d) {
- 		DRM_DEBUG("Destroying perfmon no VC4 V3D probed\n");
- 		return -ENODEV;
-@@ -182,6 +220,9 @@ int vc4_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
- 	struct vc4_perfmon *perfmon;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (!vc4->v3d) {
- 		DRM_DEBUG("Getting perfmon no VC4 V3D probed\n");
- 		return -ENODEV;
-diff --git a/drivers/gpu/drm/vc4/vc4_render_cl.c b/drivers/gpu/drm/vc4/vc4_render_cl.c
-index 3c918eeaf56e..f6b7dc3df08c 100644
---- a/drivers/gpu/drm/vc4/vc4_render_cl.c
-+++ b/drivers/gpu/drm/vc4/vc4_render_cl.c
-@@ -593,11 +593,15 @@ vc4_rcl_render_config_surface_setup(struct vc4_exec_info *exec,
- 
- int vc4_get_rcl(struct drm_device *dev, struct vc4_exec_info *exec)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_rcl_setup setup = {0};
- 	struct drm_vc4_submit_cl *args = exec->args;
- 	bool has_bin = args->bin_cl_size != 0;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	if (args->min_x_tile > args->max_x_tile ||
- 	    args->min_y_tile > args->max_y_tile) {
- 		DRM_DEBUG("Bad render tile set (%d,%d)-(%d,%d)\n",
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index 7bb3067f8425..cc714dcfe1f2 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -127,6 +127,9 @@ static int vc4_v3d_debugfs_ident(struct seq_file *m, void *unused)
- int
- vc4_v3d_pm_get(struct vc4_dev *vc4)
- {
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	mutex_lock(&vc4->power_lock);
- 	if (vc4->power_refcount++ == 0) {
- 		int ret = pm_runtime_get_sync(&vc4->v3d->pdev->dev);
-@@ -145,6 +148,9 @@ vc4_v3d_pm_get(struct vc4_dev *vc4)
- void
- vc4_v3d_pm_put(struct vc4_dev *vc4)
- {
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	mutex_lock(&vc4->power_lock);
- 	if (--vc4->power_refcount == 0) {
- 		pm_runtime_mark_last_busy(&vc4->v3d->pdev->dev);
-@@ -172,6 +178,9 @@ int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
- 	uint64_t seqno = 0;
- 	struct vc4_exec_info *exec;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- try_again:
- 	spin_lock_irqsave(&vc4->job_lock, irqflags);
- 	slot = ffs(~vc4->bin_alloc_used);
-@@ -316,6 +325,9 @@ int vc4_v3d_bin_bo_get(struct vc4_dev *vc4, bool *used)
- {
- 	int ret = 0;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	mutex_lock(&vc4->bin_bo_lock);
- 
- 	if (used && *used)
-@@ -348,6 +360,9 @@ static void bin_bo_release(struct kref *ref)
- 
- void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
- {
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return;
-+
- 	mutex_lock(&vc4->bin_bo_lock);
- 	kref_put(&vc4->bin_bo_kref, bin_bo_release);
- 	mutex_unlock(&vc4->bin_bo_lock);
-diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4_validate.c
-index eec76af49f04..833eb623d545 100644
---- a/drivers/gpu/drm/vc4/vc4_validate.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate.c
-@@ -105,9 +105,13 @@ size_is_lt(uint32_t width, uint32_t height, int cpp)
- struct drm_gem_cma_object *
- vc4_use_bo(struct vc4_exec_info *exec, uint32_t hindex)
- {
-+	struct vc4_dev *vc4 = exec->dev;
- 	struct drm_gem_cma_object *obj;
- 	struct vc4_bo *bo;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return NULL;
-+
- 	if (hindex >= exec->bo_count) {
- 		DRM_DEBUG("BO index %d greater than BO count %d\n",
- 			  hindex, exec->bo_count);
-@@ -160,10 +164,14 @@ vc4_check_tex_size(struct vc4_exec_info *exec, struct drm_gem_cma_object *fbo,
- 		   uint32_t offset, uint8_t tiling_format,
- 		   uint32_t width, uint32_t height, uint8_t cpp)
- {
-+	struct vc4_dev *vc4 = exec->dev;
- 	uint32_t aligned_width, aligned_height, stride, size;
- 	uint32_t utile_w = utile_width(cpp);
- 	uint32_t utile_h = utile_height(cpp);
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	/* The shaded vertex format stores signed 12.4 fixed point
- 	 * (-2048,2047) offsets from the viewport center, so we should
- 	 * never have a render target larger than 4096.  The texture
-@@ -482,10 +490,14 @@ vc4_validate_bin_cl(struct drm_device *dev,
- 		    void *unvalidated,
- 		    struct vc4_exec_info *exec)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	uint32_t len = exec->args->bin_cl_size;
- 	uint32_t dst_offset = 0;
- 	uint32_t src_offset = 0;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	while (src_offset < len) {
- 		void *dst_pkt = validated + dst_offset;
- 		void *src_pkt = unvalidated + src_offset;
-@@ -926,9 +938,13 @@ int
- vc4_validate_shader_recs(struct drm_device *dev,
- 			 struct vc4_exec_info *exec)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	uint32_t i;
- 	int ret = 0;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
- 	for (i = 0; i < exec->shader_state_count; i++) {
- 		ret = validate_gl_shader_rec(dev, exec, &exec->shader_state[i]);
- 		if (ret)
-diff --git a/drivers/gpu/drm/vc4/vc4_validate_shaders.c b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-index 7cf82b071de2..e315aeb5fef5 100644
---- a/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-+++ b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-@@ -778,6 +778,7 @@ vc4_handle_branch_target(struct vc4_shader_validation_state *validation_state)
- struct vc4_validated_shader_info *
- vc4_validate_shader(struct drm_gem_cma_object *shader_obj)
- {
-+	struct vc4_dev *vc4 = to_vc4_dev(shader_obj->base.dev);
- 	bool found_shader_end = false;
- 	int shader_end_ip = 0;
- 	uint32_t last_thread_switch_ip = -3;
-@@ -785,6 +786,9 @@ vc4_validate_shader(struct drm_gem_cma_object *shader_obj)
- 	struct vc4_validated_shader_info *validated_shader = NULL;
- 	struct vc4_shader_validation_state validation_state;
- 
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return NULL;
-+
- 	memset(&validation_state, 0, sizeof(validation_state));
- 	validation_state.shader = shader_obj->vaddr;
- 	validation_state.max_ip = shader_obj->base.size / sizeof(uint64_t);
--- 
-2.35.1
+I figure that's the PLL jitter issue that's come up before. Similarly, 
+when I last tried hacking in a 154MHz rate for my monitor's 1920x1200 
+mode, it was rock solid on RK3399, but intolerably glitchy on RK3288.
 
+Robin.
+
+> I haven't the time to dig overly deep into that, so left out the
+> hdmi-rate patches (11-14) for now.
+> 
+> 
+> Heiko
+> 
+> 
+>> ---
+>>
+>> Notes:
+>>      Changes since v5:
+>>      - Add missing Signed-off-by me
+>>      
+>>      Changes since v3:
+>>      - new patch
+>>
+>>   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 130 +++++++++++---------
+>>   1 file changed, 69 insertions(+), 61 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>> index fe4f9556239ac..cb43e7b47157d 100644
+>> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+>> @@ -91,80 +91,88 @@ static struct rockchip_hdmi *to_rockchip_hdmi(struct drm_encoder *encoder)
+>>   
+>>   static const struct dw_hdmi_mpll_config rockchip_mpll_cfg[] = {
+>>   	{
+>> -		27000000, {
+>> -			{ 0x00b3, 0x0000},
+>> -			{ 0x2153, 0x0000},
+>> -			{ 0x40f3, 0x0000}
+>> +		30666000, {
+>> +			{ 0x00b3, 0x0000 },
+>> +			{ 0x2153, 0x0000 },
+>> +			{ 0x40f3, 0x0000 },
+>>   		},
+>> -	}, {
+>> -		36000000, {
+>> -			{ 0x00b3, 0x0000},
+>> -			{ 0x2153, 0x0000},
+>> -			{ 0x40f3, 0x0000}
+>> +	},  {
+>> +		36800000, {
+>> +			{ 0x00b3, 0x0000 },
+>> +			{ 0x2153, 0x0000 },
+>> +			{ 0x40a2, 0x0001 },
+>>   		},
+>> -	}, {
+>> -		40000000, {
+>> -			{ 0x00b3, 0x0000},
+>> -			{ 0x2153, 0x0000},
+>> -			{ 0x40f3, 0x0000}
+>> +	},  {
+>> +		46000000, {
+>> +			{ 0x00b3, 0x0000 },
+>> +			{ 0x2142, 0x0001 },
+>> +			{ 0x40a2, 0x0001 },
+>>   		},
+>> -	}, {
+>> -		54000000, {
+>> -			{ 0x0072, 0x0001},
+>> -			{ 0x2142, 0x0001},
+>> -			{ 0x40a2, 0x0001},
+>> +	},  {
+>> +		61333000, {
+>> +			{ 0x0072, 0x0001 },
+>> +			{ 0x2142, 0x0001 },
+>> +			{ 0x40a2, 0x0001 },
+>>   		},
+>> -	}, {
+>> -		65000000, {
+>> -			{ 0x0072, 0x0001},
+>> -			{ 0x2142, 0x0001},
+>> -			{ 0x40a2, 0x0001},
+>> +	},  {
+>> +		73600000, {
+>> +			{ 0x0072, 0x0001 },
+>> +			{ 0x2142, 0x0001 },
+>> +			{ 0x4061, 0x0002 },
+>>   		},
+>> -	}, {
+>> -		66000000, {
+>> -			{ 0x013e, 0x0003},
+>> -			{ 0x217e, 0x0002},
+>> -			{ 0x4061, 0x0002}
+>> +	},  {
+>> +		92000000, {
+>> +			{ 0x0072, 0x0001 },
+>> +			{ 0x2145, 0x0002 },
+>> +			{ 0x4061, 0x0002 },
+>>   		},
+>> -	}, {
+>> -		74250000, {
+>> -			{ 0x0072, 0x0001},
+>> -			{ 0x2145, 0x0002},
+>> -			{ 0x4061, 0x0002}
+>> +	},  {
+>> +		122666000, {
+>> +			{ 0x0051, 0x0002 },
+>> +			{ 0x2145, 0x0002 },
+>> +			{ 0x4061, 0x0002 },
+>>   		},
+>> -	}, {
+>> -		83500000, {
+>> -			{ 0x0072, 0x0001},
+>> +	},  {
+>> +		147200000, {
+>> +			{ 0x0051, 0x0002 },
+>> +			{ 0x2145, 0x0002 },
+>> +			{ 0x4064, 0x0003 },
+>>   		},
+>> -	}, {
+>> -		108000000, {
+>> -			{ 0x0051, 0x0002},
+>> -			{ 0x2145, 0x0002},
+>> -			{ 0x4061, 0x0002}
+>> +	},  {
+>> +		184000000, {
+>> +			{ 0x0051, 0x0002 },
+>> +			{ 0x214c, 0x0003 },
+>> +			{ 0x4064, 0x0003 },
+>>   		},
+>> -	}, {
+>> -		106500000, {
+>> -			{ 0x0051, 0x0002},
+>> -			{ 0x2145, 0x0002},
+>> -			{ 0x4061, 0x0002}
+>> +	},  {
+>> +		226666000, {
+>> +			{ 0x0040, 0x0003 },
+>> +			{ 0x214c, 0x0003 },
+>> +			{ 0x4064, 0x0003 },
+>>   		},
+>> -	}, {
+>> -		146250000, {
+>> -			{ 0x0051, 0x0002},
+>> -			{ 0x2145, 0x0002},
+>> -			{ 0x4061, 0x0002}
+>> +	},  {
+>> +		272000000, {
+>> +			{ 0x0040, 0x0003 },
+>> +			{ 0x214c, 0x0003 },
+>> +			{ 0x5a64, 0x0003 },
+>>   		},
+>> -	}, {
+>> -		148500000, {
+>> -			{ 0x0051, 0x0003},
+>> -			{ 0x214c, 0x0003},
+>> -			{ 0x4064, 0x0003}
+>> +	},  {
+>> +		340000000, {
+>> +			{ 0x0040, 0x0003 },
+>> +			{ 0x3b4c, 0x0003 },
+>> +			{ 0x5a64, 0x0003 },
+>>   		},
+>> -	}, {
+>> +	},  {
+>> +		600000000, {
+>> +			{ 0x1a40, 0x0003 },
+>> +			{ 0x3b4c, 0x0003 },
+>> +			{ 0x5a64, 0x0003 },
+>> +		},
+>> +	},  {
+>>   		~0UL, {
+>> -			{ 0x00a0, 0x000a },
+>> -			{ 0x2001, 0x000f },
+>> -			{ 0x4002, 0x000f },
+>> +			{ 0x0000, 0x0000 },
+>> +			{ 0x0000, 0x0000 },
+>> +			{ 0x0000, 0x0000 },
+>>   		},
+>>   	}
+>>   };
+>>
+> 
+> 
+> 
+> 
+> 
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
