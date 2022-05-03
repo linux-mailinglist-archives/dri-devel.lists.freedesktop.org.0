@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262A8518F2A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 22:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8496F518F74
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 22:54:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9BBE10E66F;
-	Tue,  3 May 2022 20:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D1110E080;
+	Tue,  3 May 2022 20:54:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD1510F49C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 20:43:43 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id h29so25012433lfj.2
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 13:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BZXNy598rjzssFVD4qqnZnAbN1Mi7pj3r4jBP97stCk=;
- b=aFed9C8zIczapSE4riexLt2XAw8h3LYQtY5IQY+ksLkEQDCcFzc3V2U5C6ZMNPZ7n7
- 68cmZlUPlcNdgurL+47g3j2gXWj4TOkuqvnfAD7dCX0oaFic5IVB8WTPSo1TJuXuS9Bn
- esBKOdtY7tZdfwmU8BbKO4h4toxuHjZcJh//BAJskyrJWgwIUTcmtNB+Nki2SAt1A0f5
- je/otKYLIQsudjFd94fhdlWhb7X9bf4Xk8Yb2Z319l+5BmthjB4mwdtyMa2U54SY/E8y
- gQJapgBBtiSqPqupZVt0Ly9ligt/FhpgKarnSDDrtt37sqkElSdhHayhWX0I+qS6ni0l
- Tdzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BZXNy598rjzssFVD4qqnZnAbN1Mi7pj3r4jBP97stCk=;
- b=kocLGnmVLB2v0PebhnUzIlZIy/bTUB9NgcSBV+txzZwGLagvNbCL2ywDbiaEg5lviC
- PZ6StEiBBGtXZ0tq0DTeUecxbVVowo9aP4M7QWvvqf9wJa41OFBeoGiWuU/V+ySg+K61
- uCCfzG+rYEWwF9l+K2Qy1wLyFG7EtSOPv25y3zgvyZ386DpGB7sUqWYLDzKBPzmc3Vi8
- gdM/x8Std97utS0bXlvsogyiqv9RbLNVzTKMeVv5VhzCqBQ+sDkOs1nTRXPGLTIe5/DB
- M60d8G9keQjnpgIN3reYQjrsjMbGrsKk1IS9v7Xb9wty5o81tpaZdCHbr/4f/au3TE8E
- 8rFw==
-X-Gm-Message-State: AOAM533vcoJ2RoPlvPLELsq3FWfBFtSyHqkwn6bFtNgFk1dDQmMpqlAP
- kALtKfrNuKcs3DeK0z0sIgEeEQ==
-X-Google-Smtp-Source: ABdhPJz6J5roxRVpi41gL6zeVD4OzrjgvjOG0MNPEhPP+HQNkQ/eKSYLNbmKQDvh4Lzaa/I+Gt7ptQ==
-X-Received: by 2002:a05:6512:a85:b0:473:bb9e:fc51 with SMTP id
- m5-20020a0565120a8500b00473bb9efc51mr278231lfu.31.1651610621680; 
- Tue, 03 May 2022 13:43:41 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- 5-20020a2eb945000000b0024f3d1dae81sm1462085ljs.9.2022.05.03.13.43.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 13:43:41 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH] drm/msm/dsi: fix address for second DSI PHY on SDM660
-Date: Tue,  3 May 2022 23:43:40 +0300
-Message-Id: <20220503204340.935532-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E93410E080
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 20:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=vWFF6VGjD4uKJEIXD4qhyxLIgBRXSjglad3oRA7XxNM=;
+ b=e8xdyj4Pjc/xbIQ0jd1XLsTmI1SxBeFC6zysAQkQQyGwmQgRcYC1fGfgOhFS/cWZh5FSZbARm6iaW
+ Rr4R6ZaMyZzhFTUmwhi5Ojte9JYY8DjtW2hwxnV/O3bQ9W5edKdz8k9asJtuctHijyfEetGB4MNJyA
+ na7c8LnkIfcLi864fW7nkz7sLSPnAeBYl+xcJ1DOg67SOwWnP9S1efNq14k2E3678RLII6J/+DxEOd
+ G9TxhzEu9xZKC2ck+epBZlKZnMKN15N5id5ghn++DnnTALcXJ+y03Z605WQ5bjaQDkJuZEF+epxNOz
+ Ch69eiAtS+TSC3c0z4PI2aHq9whY1pg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=vWFF6VGjD4uKJEIXD4qhyxLIgBRXSjglad3oRA7XxNM=;
+ b=5KUFBF8tLRwJaNS5dUr0ofjHsCmMwJsIBey39OnQe/9UL1PeaZRy5U+WWa/zjEyhB8gsGFvPsO+VB
+ m42kiymCw==
+X-HalOne-Cookie: 3ad8b22d728e1f30d497971a1001bc6e70176112
+X-HalOne-ID: 2655276f-cb23-11ec-8229-d0431ea8bb10
+Received: from mailproxy4.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 2655276f-cb23-11ec-8229-d0431ea8bb10;
+ Tue, 03 May 2022 20:53:57 +0000 (UTC)
+Date: Tue, 3 May 2022 22:53:55 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file operations
+Message-ID: <YnGWY/01XSMq3Jfk@ravnborg.org>
+References: <20220503201934.681276-1-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503201934.681276-1-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,36 +58,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Junxiao Chang <junxiao.chang@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Correct a typo in the address of the second DSI PHY in the SDM660 device
-config.
-
-Fixes: 694dd304cc29 ("drm/msm/dsi: Add phy configuration for SDM630/636/660")
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index 75557ac99adf..8199c53567f4 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-@@ -1062,7 +1062,7 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs = {
- 	},
- 	.min_pll_rate = VCO_MIN_RATE,
- 	.max_pll_rate = VCO_MAX_RATE,
--	.io_start = { 0xc994400, 0xc996000 },
-+	.io_start = { 0xc994400, 0xc996400 },
- 	.num_dsi_phy = 2,
- };
- 
--- 
-2.35.1
-
+On Tue, May 03, 2022 at 10:19:34PM +0200, Javier Martinez Canillas wrote:
+> A reference to the framebuffer device struct fb_info is stored in the file
+> private data, but this reference could no longer be valid and must not be
+> accessed directly. Instead, the file_fb_info() accessor function must be
+> used since it does sanity checking to make sure that the fb_info is valid.
+> 
+> This can happen for example if the registered framebuffer device is for a
+> driver that just uses a framebuffer provided by the system firmware. In
+> that case, the fbdev core would unregister the framebuffer device when a
+> real video driver is probed and ask to remove conflicting framebuffers.
+> 
+> Most fbdev file operations already use the helper to get the fb_info but
+> get_fb_unmapped_area() and fb_deferred_io_fsync() don't. Fix those two.
+> 
+> Since fb_deferred_io_fsync() is not in fbmem.o, the helper has to be
+> exported. Rename it and add a fb_ prefix to denote that is public now.
+> 
+> Reported-by: Junxiao Chang <junxiao.chang@intel.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
