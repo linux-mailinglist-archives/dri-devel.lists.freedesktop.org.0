@@ -1,52 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9267B517B5B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 03:06:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6FB517B84
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 03:13:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 722F910E0A4;
-	Tue,  3 May 2022 01:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB7310E05D;
+	Tue,  3 May 2022 01:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4459310E0A4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 01:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651539972; x=1683075972;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xcX7ZSUlfJN5lM63F+DM0r69oVAMDHJEKRwiRlW4Bp8=;
- b=f0RW/s1X5WmbhNWUSEcg0UmwC+l1ZJ7eORjf9GHi8XVNM1O+a9CGFQtK
- xmqza6nGCt6MdHHQ219Dp1OBrKySUJM8YOK/65syoDacSw7kDGwX6i1lG
- e+py+bByOKRtbaeiDCe9szYCm6s8GfAi+AaN3GCujBk89Hw4MK89zKWsc
- /6PdZGVcKOWzty6BkbJ02vcbeMSGZE6gQcAkQDHVYNQLZ8kElcOtrse58
- YT8Ju2KUBbcoElogUK3DVl+qsxk6/m/FvzN4xGVCG+4npfsCUm57fcu/T
- /d/26Bhkn8yJx+gHDqAqBbkWbL5t0W/nw2DbwEYSr1SpgT+GTKggtuFHf A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="247278560"
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="247278560"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 May 2022 18:06:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; d="scan'208";a="546827160"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 02 May 2022 18:06:09 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nlgzQ-000A1r-JU;
- Tue, 03 May 2022 01:06:08 +0000
-Date: Tue, 3 May 2022 09:05:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm: Allow simpledrm to setup its emulated FB as
- firmware provided
-Message-ID: <202205030810.VwAEOAqj-lkp@intel.com>
-References: <20220502153900.408522-4-javierm@redhat.com>
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8228810E082
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 01:13:31 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-deb9295679so15931695fac.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 May 2022 18:13:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=qclzEzb88Rc+t48ko4XJR5J/G6hNGvffLYAtLNLjtGg=;
+ b=oMv1VPZrM/ZMi0f31QB0gucXh6+DhBnn6+/swVv6D98hjF8pWpFV/xn5gE3d794mEC
+ xObGXS8eh3MuWnUQHgWMshigJKgs98S9V0q5/CrKww50GnqZclCKCDZCXv+QI3uY6/R1
+ irOU7irFy7w78/DZbonvKxn9PXcauIBf0eWqY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=qclzEzb88Rc+t48ko4XJR5J/G6hNGvffLYAtLNLjtGg=;
+ b=YpO7v1U0ppGZNncUgJgcJaafiQWP1AY9LzYjBtfh5JpIppA9ilKMXp6KWqO97ML51L
+ H0IU8FKH8imhSe6KxtSQqnZVIjgpJfjXkSziTDgm9lHkQP5rn79HRJ/I67O3cG6F32uP
+ wHHU99ufY2gERR2pRaDY+5GxqydtVK2WGN86ocF4rahhYb91Ly1GjklW17x/m/ykx6Mc
+ 5oEsyN6KnzqL3R3FjkhbN66+NiJKKz2vhRVDXuKe2AmzVOKT6FrCGA9OsgVN8NzzZ8Og
+ vPLinYIbuArmEJLise4fYtUgczekJkYUe15llP6OFOLCSNQp6/VHNEzoxRmfqGoC+21b
+ 82GA==
+X-Gm-Message-State: AOAM532LP9NVKqVD4IgkLWY2Dc2A8e7l1FzmuZjCn54moeyMaFLTDfdz
+ 07VRZRqARMWG+qHKzsajzup3BwZKzmMk+szf7DSOfw==
+X-Google-Smtp-Source: ABdhPJwH+KZOm2Y5mOS6pSMlAX2uuDmmCWPtK1tWF+fVhA7rmbH21MIi1mlPWosYQGBdHKh+DYu5bVsrhYOdvZpQNY8=
+X-Received: by 2002:a05:6870:40c1:b0:ed:9a12:3f95 with SMTP id
+ l1-20020a05687040c100b000ed9a123f95mr806123oal.193.1651540409644; Mon, 02 May
+ 2022 18:13:29 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 2 May 2022 18:13:29 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220502153900.408522-4-javierm@redhat.com>
+In-Reply-To: <1651532668-18873-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1651532668-18873-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 2 May 2022 18:13:29 -0700
+Message-ID: <CAE-0n51TjqYKzPbP7JHKi+ostwM7Q8FX64eC3Gufuz846mLA3g@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dp: fix event thread stuck in wait_event after
+ kthread_stop()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,81 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Quoting Kuogee Hsieh (2022-05-02 16:04:28)
+> Event thread supposed to exit from its while loop after kthread_stop().
+> However there may has possibility that event thread is pending in the
+> middle of wait_event due to condition checking never become true.
+> To make sure event thread exit its loop after kthread_stop(), this
+> patch OR kthread_should_stop() into wait_event's condition checking
+> so that event thread will exit its loop after kernal_stop().
+>
+> Changes in v2:
+> --  correct spelling error at commit title
+>
+> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Fixes: 570d3e5d28db ("drm/msm/dp: stop event kernel thread when DP unbind")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index c388323..5200a58 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1106,12 +1106,17 @@ static int hpd_event_thread(void *data)
+>         while (!kthread_should_stop()) {
+>                 if (timeout_mode) {
+>                         wait_event_timeout(dp_priv->event_q,
+> -                               (dp_priv->event_pndx == dp_priv->event_gndx),
+> -                                               EVENT_TIMEOUT);
+> +                               ((dp_priv->event_pndx == dp_priv->event_gndx) ||
 
-I love your patch! Yet something to improve:
+Why the parenthesis (before and after)?
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on shawnguo/for-next linus/master linux/master v5.18-rc5 next-20220502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> +                                       kthread_should_stop()), EVENT_TIMEOUT);
+>                 } else {
+>                         wait_event_interruptible(dp_priv->event_q,
+> -                               (dp_priv->event_pndx != dp_priv->event_gndx));
+> +                               ((dp_priv->event_pndx != dp_priv->event_gndx) ||
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/drm-Allow-simpledrm-to-setup-its-emulated-FB-as-firmware-provided/20220502-234145
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20220503/202205030810.VwAEOAqj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/28ef46724e385165777a21d9f661188fa2577a1e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Javier-Martinez-Canillas/drm-Allow-simpledrm-to-setup-its-emulated-FB-as-firmware-provided/20220502-234145
-        git checkout 28ef46724e385165777a21d9f661188fa2577a1e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Why the parenthesis (before and after)?
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> +                                       kthread_should_stop()));
+>                 }
+> +
+> +               if(kthread_should_stop())
 
-All errors (new ones prefixed by >>):
+Missing space after if
 
-   drivers/gpu/drm/tiny/simpledrm.c: In function 'simpledrm_probe':
->> drivers/gpu/drm/tiny/simpledrm.c:904:38: error: implicit declaration of function 'DRM_FB_SET_OPTION'; did you mean 'DRM_FB_GET_OPTION'? [-Werror=implicit-function-declaration]
-     904 |         drm_fbdev_generic_setup(dev, DRM_FB_SET_OPTION(DRM_FB_FW, 1));
-         |                                      ^~~~~~~~~~~~~~~~~
-         |                                      DRM_FB_GET_OPTION
->> drivers/gpu/drm/tiny/simpledrm.c:904:56: error: 'DRM_FB_FW' undeclared (first use in this function)
-     904 |         drm_fbdev_generic_setup(dev, DRM_FB_SET_OPTION(DRM_FB_FW, 1));
-         |                                                        ^~~~~~~~~
-   drivers/gpu/drm/tiny/simpledrm.c:904:56: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+> +                       break;
 
-
-vim +904 drivers/gpu/drm/tiny/simpledrm.c
-
-   884	
-   885	/*
-   886	 * Platform driver
-   887	 */
-   888	
-   889	static int simpledrm_probe(struct platform_device *pdev)
-   890	{
-   891		struct simpledrm_device *sdev;
-   892		struct drm_device *dev;
-   893		int ret;
-   894	
-   895		sdev = simpledrm_device_create(&simpledrm_driver, pdev);
-   896		if (IS_ERR(sdev))
-   897			return PTR_ERR(sdev);
-   898		dev = &sdev->dev;
-   899	
-   900		ret = drm_dev_register(dev, 0);
-   901		if (ret)
-   902			return ret;
-   903	
- > 904		drm_fbdev_generic_setup(dev, DRM_FB_SET_OPTION(DRM_FB_FW, 1));
-   905	
-   906		return 0;
-   907	}
-   908	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Is it possible to move the wait_event to the end of the loop and always
+run the loop initially? That way we don't have to check for
+kthread_should_stop() again.
