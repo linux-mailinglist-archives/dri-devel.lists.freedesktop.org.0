@@ -1,47 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0454518731
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 16:49:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB774518736
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 16:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B299710E0F9;
-	Tue,  3 May 2022 14:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E95310E3EF;
+	Tue,  3 May 2022 14:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC93610E0F9;
- Tue,  3 May 2022 14:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651589385; x=1683125385;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=pL+dZ/5RhaWr7cYfhGuCJLds3wUU0UfefMumRYILrhg=;
- b=BxOlbV6LqGJYpYAzu+e2J3uF0Uy6mQYHopjatEjtVcLO42fjpob7xaGn
- hV9vqg+6rHEBG329KgGzXi/Hoq7sElt/v4uss0Fyu/i2VNWl0+Nu7v31L
- HnGVnnbcxJepvNsFOeRbJ2SJUYpFeAM5UtPfIudqc31qjaYkW61iwTOIj
- vUm/o3R+rw2TM7nIXQSJFXSbz/BHljjU4lr24CAgVamfbs04k1OAVeHe6
- sk/7i6wcX62uUo9i266rZZrVQvelmhTiXajyrwWav6hnjR8GbUTtNL+cZ
- Kz+GJUmntiYr6X2DOyx7A680ZdH9qYCqFjI4W5JM/bRpaqZbo3WdG2DQP g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="330481842"
-X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; d="scan'208";a="330481842"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 07:49:45 -0700
-X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; d="scan'208";a="536361312"
-Received: from doshaugh-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.236.211])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 07:49:44 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [CI] drm/i915: use IOMEM_ERR_PTR() directly
-Date: Tue,  3 May 2022 15:49:37 +0100
-Message-Id: <20220503144937.679424-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A0DD10E3EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 14:50:17 +0000 (UTC)
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+ id B010220EB0C2; Tue,  3 May 2022 07:50:16 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B010220EB0C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1651589416;
+ bh=0Hrt9d53XFYn9YSRDobyKkPMyz3dSW6P495Q/i0i1Ps=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Kh3Rj//hhW+2Kh5YVIiJjwhYzkhhH9wtCU83cMWz9hDFOjbMNhnwDYsK/zWyjCpG9
+ dpze87O/ppLvHW2o4T+Kvkuwz0GY/rQPnF59tpiEwDf2OxmMdm1JTHtH3sNCRrOYgH
+ ucDAp4wSxdiocvG4ZmLgMJ0RwWQANoGmnu26dVk4=
+Date: Tue, 3 May 2022 07:50:16 -0700
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Dexuan Cui <decui@microsoft.com>
+Subject: Re: [PATCH v4] drm/hyperv: Add error message for fb size greater
+ than allocated
+Message-ID: <20220503145016.GA25079@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1649737739-10113-1-git-send-email-ssengar@linux.microsoft.com>
+ <BYAPR21MB127064CAEA28FBBFB34672C3BFED9@BYAPR21MB1270.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BYAPR21MB127064CAEA28FBBFB34672C3BFED9@BYAPR21MB1270.namprd21.prod.outlook.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +47,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ "drawat.floss@gmail.com" <drawat.floss@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
+On Tue, Apr 12, 2022 at 05:06:07AM +0000, Dexuan Cui wrote:
+> > From: Saurabh Sengar <ssengar@linux.microsoft.com>
+> > Sent: Monday, April 11, 2022 9:29 PM
+> >  ...
+> > Add error message when the size of requested framebuffer is more than
+> > the allocated size by vmbus mmio region for framebuffer
+> 
+> The line lacks a period, but I guess the maintainer may help fix it for you :-)
+>  
+> > Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+> 
+> Reviewed-by: Dexuan Cui <decui@microsoft.com>
 
-Use IOMEM_ERR_PTR() instead of self defined IO_ERR_PTR().
-
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
- drivers/gpu/drm/i915/i915_vma.c | 4 ++--
- drivers/gpu/drm/i915/i915_vma.h | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index e782ebfcc0ca..ed8f334cb831 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -548,7 +548,7 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
- 	int err;
- 
- 	if (WARN_ON_ONCE(vma->obj->flags & I915_BO_ALLOC_GPU_ONLY))
--		return IO_ERR_PTR(-EINVAL);
-+		return IOMEM_ERR_PTR(-EINVAL);
- 
- 	if (!i915_gem_object_is_lmem(vma->obj)) {
- 		if (GEM_WARN_ON(!i915_vma_is_map_and_fenceable(vma))) {
-@@ -601,7 +601,7 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
- err_unpin:
- 	__i915_vma_unpin(vma);
- err:
--	return IO_ERR_PTR(err);
-+	return IOMEM_ERR_PTR(err);
- }
- 
- void i915_vma_flush_writes(struct i915_vma *vma)
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 6034991d89fe..88ca0bd9c900 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -317,7 +317,6 @@ static inline bool i915_node_color_differs(const struct drm_mm_node *node,
-  * Returns a valid iomapped pointer or ERR_PTR.
-  */
- void __iomem *i915_vma_pin_iomap(struct i915_vma *vma);
--#define IO_ERR_PTR(x) ((void __iomem *)ERR_PTR(x))
- 
- /**
-  * i915_vma_unpin_iomap - unpins the mapping returned from i915_vma_iomap
--- 
-2.32.0
-
+Can this be queued for next ? please let me know in case any clarification required.
