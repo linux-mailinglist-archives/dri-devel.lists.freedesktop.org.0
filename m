@@ -1,81 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F97518889
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 17:28:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEFF51896D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 18:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0696A112086;
-	Tue,  3 May 2022 15:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6C810F62F;
+	Tue,  3 May 2022 16:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A184F112086
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 15:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651591694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j50Hj8tQeVhAw3UmlHVgCe3j3gT0Gu2X85okQiDa4t8=;
- b=fs8v9yTn2uZSkcbgWigtZL2Z6xXU/ZgOD5GXjisdnpYLPx/nrEBh9B5yHGXtPJu+e9KKMz
- 2/+vnslUIb3tq4d7kznTB+XZAQXNOY/l+slv/313o4E41I3CuvKHfUW5yCxA+xazJ/FoXq
- fdTXFcNs+kgSn2ePencH4lUdReAEwyk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-283-Bv3t-KkDNtCUCFy_QfNsKg-1; Tue, 03 May 2022 11:28:12 -0400
-X-MC-Unique: Bv3t-KkDNtCUCFy_QfNsKg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r186-20020a1c44c3000000b00393f52ed5ceso1503904wma.7
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 08:28:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=j50Hj8tQeVhAw3UmlHVgCe3j3gT0Gu2X85okQiDa4t8=;
- b=LsT1XALhFKg9sSZ1ManKuzlPsYFvbKD/hWYopQRPghiNnV/OAwwdrdx0Hnek6p9RbK
- 0TTTb1mi04PAqTmD40BY0Wgp2aCrvWgGNRbbVvWikvuqk1zU8ivVXVOB3cV5ne9Id91k
- AkmvdU+QDetcnDuhWM3D575G5N9Lj90w2e8GiRDv1Z28ghEYD+0uzpxXb/A3U4AyFQL/
- e6yJb012udtcCBIfZs0b0zdYohxn51LKrIIC5YuFzQ7tVjT2Hh72TAzgHRjjWSJVg+zw
- Sy1KwNgqdxYkBEDE657oVwWNdCcJI06tZMD6gWbnMoTsa0uDBOFYiRo2YKT8dg5+PWfb
- iFQw==
-X-Gm-Message-State: AOAM532JonOccGtgptTHtakK2Lb6btdFz8wiXm1fvx8x1YqbG+qQsVCv
- W3Ab+Joi4+RawDI/j+m7XecA6TyZBn0PSx7tVjtDVRci0dIbllQjvMkZpQgqVpKqrTnAs3guPCf
- k/7uHbazSEckeuY8rLjRrTVw446UR
-X-Received: by 2002:a05:600c:3c8d:b0:38e:4bc6:abde with SMTP id
- bg13-20020a05600c3c8d00b0038e4bc6abdemr3770016wmb.13.1651591691251; 
- Tue, 03 May 2022 08:28:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8aKnCRfGAhf0ml55t4COEjHHc51OmLWEBcp/UoDfVA5aOjYQU7dHI4VJyeVwkP7P18G5xAA==
-X-Received: by 2002:a05:600c:3c8d:b0:38e:4bc6:abde with SMTP id
- bg13-20020a05600c3c8d00b0038e4bc6abdemr3769995wmb.13.1651591690935; 
- Tue, 03 May 2022 08:28:10 -0700 (PDT)
-Received: from [10.201.33.11] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id
- u21-20020adfa195000000b0020c5253d8c4sm9568792wru.16.2022.05.03.08.28.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 08:28:10 -0700 (PDT)
-Message-ID: <e3ce080c-8ef8-f838-d4a8-b10cd5d5c172@redhat.com>
-Date: Tue, 3 May 2022 17:28:09 +0200
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2264110F604;
+ Tue,  3 May 2022 16:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651594385; x=1683130385;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9FGMVgF8GLGaAcGv/yGifqNyiG6ez9qf2269SDYd8Uc=;
+ b=CBSe7N64AM2dJCv15Oku0mltc9ZJ6q+C0WMUZ8XSoLuvxXPYky5daGA8
+ nqqG1CvqyLQx+6997gEsJhmisl1aAIUQMxbAjaAGQOZETLh0ABHmqUnpR
+ RHXdxRp4eJV2XHI9VMVok/5PC3PRRMAiitfzOjThRzgfg8sEUTHgm/bM7 E=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 03 May 2022 09:13:04 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 09:13:03 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 3 May 2022 09:13:03 -0700
+Received: from [10.134.70.75] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 3 May 2022
+ 09:13:02 -0700
+Message-ID: <b96858a9-c38f-6576-e61c-9a94b0ee53f1@quicinc.com>
+Date: Tue, 3 May 2022 09:13:02 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2] fbdev: Make fb_release() return -ENODEV if fbdev was
- unregistered
-To: linux-kernel@vger.kernel.org
-References: <20220502135014.377945-1-javierm@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220502135014.377945-1-javierm@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2] drm/msm/dp: fix event thread stuck in wait_event after
+ kthread_stop()
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1651532668-18873-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n51TjqYKzPbP7JHKi+ostwM7Q8FX64eC3Gufuz846mLA3g@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n51TjqYKzPbP7JHKi+ostwM7Q8FX64eC3Gufuz846mLA3g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,43 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Zhouyi Zhou <zhouzhouyi@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Junxiao Chang <junxiao.chang@intel.com>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, Changcheng Deng <deng.changcheng@zte.com.cn>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>, Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/2/22 15:50, Javier Martinez Canillas wrote:
-> A reference to the framebuffer device struct fb_info is stored in the file
-> private data, but this reference could no longer be valid and must not be
-> accessed directly. Instead, the file_fb_info() accessor function must be
-> used since it does sanity checking to make sure that the fb_info is valid.
-> 
-> This can happen for example if the registered framebuffer device is for a
-> driver that just uses a framebuffer provided by the system firmware. In
-> that case, the fbdev core would unregister the framebuffer device when a
-> real video driver is probed and ask to remove conflicting framebuffers.
-> 
-> The bug has been present for a long time but commit 27599aacbaef ("fbdev:
-> Hot-unplug firmware fb devices on forced removal") unmasked it since the
-> fbdev core started unregistering the framebuffers' devices associated.
-> 
-> Fixes: 27599aacbaef ("fbdev: Hot-unplug firmware fb devices on forced removal")
-> Reported-by: Maxime Ripard <maxime@cerno.tech>
-> Reported-by: Junxiao Chang <junxiao.chang@intel.com>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
-Applied to drm-misc (drm-misc-fixes).
 
--- 
-Best regards,
+On 5/2/2022 6:13 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-05-02 16:04:28)
+>> Event thread supposed to exit from its while loop after kthread_stop().
+>> However there may has possibility that event thread is pending in the
+>> middle of wait_event due to condition checking never become true.
+>> To make sure event thread exit its loop after kthread_stop(), this
+>> patch OR kthread_should_stop() into wait_event's condition checking
+>> so that event thread will exit its loop after kernal_stop().
+>>
+>> Changes in v2:
+>> --  correct spelling error at commit title
+>>
+>> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Fixes: 570d3e5d28db ("drm/msm/dp: stop event kernel thread when DP unbind")
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 11 ++++++++---
+>>   1 file changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index c388323..5200a58 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1106,12 +1106,17 @@ static int hpd_event_thread(void *data)
+>>          while (!kthread_should_stop()) {
+>>                  if (timeout_mode) {
+>>                          wait_event_timeout(dp_priv->event_q,
+>> -                               (dp_priv->event_pndx == dp_priv->event_gndx),
+>> -                                               EVENT_TIMEOUT);
+>> +                               ((dp_priv->event_pndx == dp_priv->event_gndx) ||
+> Why the parenthesis (before and after)?
+>
+>> +                                       kthread_should_stop()), EVENT_TIMEOUT);
+>>                  } else {
+>>                          wait_event_interruptible(dp_priv->event_q,
+>> -                               (dp_priv->event_pndx != dp_priv->event_gndx));
+>> +                               ((dp_priv->event_pndx != dp_priv->event_gndx) ||
+> Why the parenthesis (before and after)?
+>
+>> +                                       kthread_should_stop()));
+>>                  }
+>> +
+>> +               if(kthread_should_stop())
+> Missing space after if
+>
+>> +                       break;
+> Is it possible to move the wait_event to the end of the loop and always
+> run the loop initially? That way we don't have to check for
+> kthread_should_stop() again.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+no, since we have to make sure q is not empty so that we can proceed to 
+service events.
+
+bu ti thin we can use while (1) instead of while 
+(!kthread_should_stop()) since we have add kthread_should_stop() into 
+wait_event condition checking.
 
