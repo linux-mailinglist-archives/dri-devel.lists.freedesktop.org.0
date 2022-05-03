@@ -2,77 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0285517E4B
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 09:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB9A517E6D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 09:17:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D60C10EAC1;
-	Tue,  3 May 2022 07:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739FA10EC05;
+	Tue,  3 May 2022 07:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866B910EA4F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 07:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651562155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p7Xo+XfuxpwgRvmh+x+4llEf06yjZT56T0kzU1GhsAM=;
- b=IFXO9Ch1X5eO+kTE47+mUx5P4koZxKBfl5XKKIGrJXa8SvhvZAfsr0W8GrydEb7RI2BI4a
- wn2nNQpzQPi031nvK9pyKm2+ZOi0cMR+3J+OQ0132zGdACwLNa46DTERsAJ0zkopBaziDm
- P1QzrMSjNioNGCkY5I9gsxyqgQN099o=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-96veXZodOvi-y5XH19_qyA-1; Tue, 03 May 2022 03:15:54 -0400
-X-MC-Unique: 96veXZodOvi-y5XH19_qyA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v191-20020a1cacc8000000b0038ce818d2efso5563342wme.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 00:15:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=p7Xo+XfuxpwgRvmh+x+4llEf06yjZT56T0kzU1GhsAM=;
- b=K8igG1qlPXXw7xtmHOp/y6pBIqYY8vd2bi3subiainhbv8+j/cG5hS1dlIvXno6aHl
- yh1d3rfn/jBVYO/hzFJMSJNfd5q93ODmqdhdOzh8dqjIZicdTxyqvt8W/HZdH3OWVUX7
- 5fgkF1w+otgvM3MX5p0or4Tdb6VB9adv9+hWmUMQ2WCxjl6U3/IgZHoqOPUw9D9u54Ly
- t65Y/3X7ziUYWX65kj9t+7iXnDFq6J2Sso5UK36zj5tskkzTKQ6tEv2pxGN8fJAYLAPe
- EQ8OkXopClxLkEBO+1uxMuiNeVmzCAtpY4icD8cPixLHAUao238X3xKlBrUGgf9aSrgM
- dvyQ==
-X-Gm-Message-State: AOAM530cCGLRgPg/Roq4q+NE7bIBKV0BqUuDBG5Nb2MBTbS5nfXxfkQ4
- gimgKLfG3fJQ8dwk6+vkpOnqcg++f+7bPqPDAcxefYrsHa2asRyg2hiOBKk76E1M0TfS9lHb3q6
- MS3leA4Pg48uRms8vfcH+hQYfO4Ge
-X-Received: by 2002:a05:6000:156a:b0:20c:64e3:948f with SMTP id
- 10-20020a056000156a00b0020c64e3948fmr5556152wrz.436.1651562153583; 
- Tue, 03 May 2022 00:15:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynU4A8UAMBzp9HgBNoyG2MT4qKn8ajICWkatc7Q4nPkcU1AC0+1p+2JSCGZAIYuxarLlCg5w==
-X-Received: by 2002:a05:6000:156a:b0:20c:64e3:948f with SMTP id
- 10-20020a056000156a00b0020c64e3948fmr5556139wrz.436.1651562153365; 
- Tue, 03 May 2022 00:15:53 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- o20-20020a05600c339400b003942a244f33sm1035387wmp.12.2022.05.03.00.15.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 00:15:52 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] drm: Allow simpledrm to setup its emulated FB as
- firmware provided
-Date: Tue,  3 May 2022 09:15:40 +0200
-Message-Id: <20220503071540.471667-4-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220503071540.471667-1-javierm@redhat.com>
-References: <20220503071540.471667-1-javierm@redhat.com>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0C0F10E6E8
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 07:17:39 +0000 (UTC)
+Received: from mail-yb1-f175.google.com ([209.85.219.175]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MsZ3N-1o6D3S1PMR-00u2ZP for <dri-devel@lists.freedesktop.org>; Tue, 03
+ May 2022 09:17:37 +0200
+Received: by mail-yb1-f175.google.com with SMTP id h10so686438ybc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 00:17:37 -0700 (PDT)
+X-Gm-Message-State: AOAM5314F0fosxb+O9fD4uy7lRL4yuWgPsPpt/v/KzhzEEu0xMl5mStr
+ v2ZBJrONGKhqOGNQFklESoPWR0u7y3EK8OoQ6DA=
+X-Google-Smtp-Source: ABdhPJxCVe3OWFLSxYuaWnZW2jE5tiG+RIFx0DlFR531d1DfX2PVw0Rn1+OoRgTZrm5UkwICv0JqKul27jNY+A9f6J8=
+X-Received: by 2002:a25:c604:0:b0:645:d969:97a7 with SMTP id
+ k4-20020a25c604000000b00645d96997a7mr12300750ybf.134.1651562256127; Tue, 03
+ May 2022 00:17:36 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+ <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+ <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
+ <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
+ <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
+ <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
+ <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
+ <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
+ <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
+ <c001d58e-9a78-6338-a533-d0f215b3dfd1@roeck-us.net>
+ <CAK8P3a1X3YH0RqqmqgqFAaY94yreD-PfY-pvyMf+xU3nGeqvsg@mail.gmail.com>
+ <04840b4f-5b9d-b29a-62f7-e5148d415313@roeck-us.net>
+In-Reply-To: <04840b4f-5b9d-b29a-62f7-e5148d415313@roeck-us.net>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 3 May 2022 09:17:20 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a39oiWyDwp=BHuCsBVwfzyZ802-NwL9G9r-t6X8KSr6nA@mail.gmail.com>
+Message-ID: <CAK8P3a39oiWyDwp=BHuCsBVwfzyZ802-NwL9G9r-t6X8KSr6nA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:taguxRz8ebh0BGm6QnYN0QOqWDECofqinFVs4xKiaYEE04wkukK
+ pLMa/ZFpfCcyvVLwWXCuvZ/nwanE1o/QwtUPsworeWnv18kV404g58ZiIM6vhm/lreRh6rN
+ 1m6jkMSB5vNmsfwp1kb7o6nTADfgeoTNPZ4CdC6BFs/i6zsmj7SiOuchaJi6SYdctqLg43O
+ aLX0XM4h2M2OCq1q2KYaw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AvRmBik/wkM=:q+dCWGBGFQ9QkHW0yu/MCD
+ graRsE9fuuBg4zUb8Rfo7lDdikxlFPVaojDlJ0QOp4KiINLSPCYmzuDF/MOasd/dNLvHn72tG
+ WqLoEU240iRXJcezkwi/Cx9s68Spal+Xo7bD/kX4P2GW/uNgaftZ7YhMtp7N56kDqCjc+FozA
+ q65eek+GA16YQ8SCiB+d9B4zfC3g8QF1HDaoAKY611cZAvYX9uugRlExTdd8TsGtKf+Lk67KR
+ nabWxC129F8y/DNUNj3XMR+Xr9b0Xdq0fsYvRd9MIZ0WX4JpxYblZ9f4CzbLd39aiDOFGgmrd
+ qVi1pBmJhRgFIA90Ohb/1HLwD9tWyWb4Gi4wYcQQZ0P2X/KW7TQUAvck9MCh1VAJrPFqz7EaL
+ 5p98oxXDsY07eMq5/HyW2GVVWASqfzlpCyBf8m8/q8nxmej4A7RD904zdMDi8yj/YHEbrgtPh
+ 7a0CbQgllnwBo7cBeZ4Ee9qikTCg7j/kocbJFXjtlE+zBdiZl3K4NM1eHLCASP+QPycxookjw
+ /qhGDPBQkdcSXyLb8NtZUfeGbtKzQxLzTiMfMPBctDJ2YmArDuEDnjdj1VjLXX00zJpZImWvw
+ VOIFvVe7uj+FuBgxJFu4MuGD/ZDMJ6tC/DSbha0R6LeLK/2VGqkbH4tfwWcQSpgLA5SjjDsB2
+ 1yyIjQGmRrK6SpEaPsnfqV4QfYUSLYbzKIGjQypJMCukvh3XuQPxrV+Itfy3ZA15iHSTQREe7
+ +G9yzk2S7A7ZEZCacbMdSycp5acOxtQTaYNxWUlkopLCpAhLbiqIPISTnbsLqq1/7i5AptUEZ
+ vj7rSr05keU6ORtHeqp2+2MdXcVckQFNq9VXwRynHruG2IXELA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,110 +80,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ Arnd Bergmann <arnd@arndb.de>, Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Indicate to fbdev subsystem that the registered framebuffer is provided by
-the system firmware, so that it can handle accordingly. For example, would
-unregister the FB devices if asked to remove the conflicting framebuffers.
+On Tue, May 3, 2022 at 4:55 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> On 5/2/22 14:03, Arnd Bergmann wrote:
+> > On Mon, May 2, 2022 at 10:35 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> >> On 5/2/22 12:21, Arnd Bergmann wrote:
+>
+> qemu puts initrd in the middle of available memory. With the image size
+> being ~1MB larger than with v5.18-rc, this is too much, and the kernel
+> overwrites part of initrd. This causes it to be corrupted.
+>
+> It looks like that would have happened eventually, your patch series just
+> made it happen now. The kernel is just getting too large to run on such small
+> systems. I worked around the problem in my version of qemu by loading initrd
+> at the end of the (small) RAM. With that, I no longer see the boot failure.
 
-Add a new DRM_FB_FW field to drm_fbdev_generic_setup() options parameter.
-Drivers can use this to indicate the FB helper initialization that the FB
-registered is provided by the firmware, so it can be configured as such.
+Ok, thanks for confirming. If it's just the image size that changed,
+then I think
+we can live with it. Having the kernel image grow by 1MB seems excessive
+though, I'd like to understand better where that increase comes from.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
+Starting out from pxa_defconfig, I see a 40KB increase from the final patch
+that moves to multiplatform support, which I think is fine.
 
-Changes in v3:
-- Drop the firmware local variable (Laurent Pinchart).
-- Use DRM_FB_OPTION() since DRM_FB_SET_OPTION() got renamed (kernel test robot).
+If you have a z2 specific config, that would probably not enable CONFIG_OF,
+which is always turned on for multiplatform, but again that only adds around
+250KB in my builds (using gcc-11). This is more than I'd like it to be, but
+still much less than 1MB.
 
- drivers/gpu/drm/drm_fb_helper.c  |  8 ++++++++
- drivers/gpu/drm/tiny/simpledrm.c |  2 +-
- include/drm/drm_fb_helper.h      | 10 ++++++++++
- 3 files changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 52042ba1e4cf..28b21858b726 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1891,6 +1891,10 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
- 		/* don't leak any physical addresses to userspace */
- 		info->flags |= FBINFO_HIDE_SMEM_START;
- 
-+	/* Indicate that the framebuffer is provided by the firmware */
-+	if (fb_helper->firmware)
-+		info->flags |= FBINFO_MISC_FIRMWARE;
-+
- 	/* Need to drop locks to avoid recursive deadlock in
- 	 * register_framebuffer. This is ok because the only thing left to do is
- 	 * register the fbdev emulation instance in kernel_fb_helper_list. */
-@@ -2512,6 +2516,8 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
-  *
-  * * DRM_FB_BPP: bits per pixel for the device. If the field is not set,
-  *   @dev->mode_config.preferred_depth is used instead.
-+ * * DRM_FB_FW: if the framebuffer for the device is provided by the
-+ *   system firmware.
-  *
-  * This function sets up generic fbdev emulation for drivers that supports
-  * dumb buffers with a virtual address and that can be mmap'ed.
-@@ -2569,6 +2575,8 @@ void drm_fbdev_generic_setup(struct drm_device *dev, const unsigned int options)
- 	if (!fb_helper->preferred_bpp)
- 		fb_helper->preferred_bpp = 32;
- 
-+	fb_helper->firmware = DRM_FB_GET_OPTION(DRM_FB_FW, options);
-+
- 	ret = drm_fbdev_client_hotplug(&fb_helper->client);
- 	if (ret)
- 		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index f5b8e864a5cd..f6f1c5e108b2 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -901,7 +901,7 @@ static int simpledrm_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	drm_fbdev_generic_setup(dev, 0);
-+	drm_fbdev_generic_setup(dev, DRM_FB_OPTION(DRM_FB_FW, 1));
- 
- 	return 0;
- }
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index 5fc41cf0c987..5a17af423944 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -44,6 +44,7 @@ enum mode_set_atomic {
- };
- 
- #define DRM_FB_BPP_MASK GENMASK(7, 0)
-+#define DRM_FB_FW_MASK GENMASK(8, 8)
- 
- /* Using the GNU statement expression extension */
- #define DRM_FB_OPTION(option, value)				\
-@@ -197,6 +198,15 @@ struct drm_fb_helper {
- 	 * See also: @deferred_setup
- 	 */
- 	int preferred_bpp;
-+
-+	/**
-+	 * @firmware:
-+	 *
-+	 * Set if the driver indicates to the FB helper initialization that the
-+	 * framebuffer for the device being registered is provided by firmware,
-+	 * so that it can pass this on when registering the framebuffer device.
-+	 */
-+	bool firmware;
- };
- 
- static inline struct drm_fb_helper *
--- 
-2.35.1
-
+        Arnd
