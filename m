@@ -2,47 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2263F518A40
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 18:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37762518A52
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 18:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3E5112051;
-	Tue,  3 May 2022 16:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07BC8112099;
+	Tue,  3 May 2022 16:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0955112051
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 16:42:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9812561772;
- Tue,  3 May 2022 16:42:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCEFC385AF;
- Tue,  3 May 2022 16:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651596146;
- bh=RdmnwE+iucpL+/8qT85xaKQLpnn8IQBlp7A0PPpBkjc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MBuAO2xSVQR0Es2Khy87In4R8Y100/OP9420inSPVtGjNodMGqIXGDeoQHgu0zdtp
- ZSMtkeQgwnC2B29WSRQCYL/O4jCHnME+f80aw4Fo5XWoHHVCVGx/BOqioVIUben+m7
- dAMycifIRkxwmDNlXwHi1GwZNR0O1uzfUUGAcwMMFdw8KhKSWf9AkZmD379wvLv9fh
- Uaih7P0/38fdDXOhFQTx4yM432rKEcsSGfyxP2ivUAyVZhwEsQe0HLwzNoIPwQXGpI
- dxuPOzqD0QB+YJpXI7AwZY3EEZfQI0H8Fxh83x1xt1dkQXlECEzWDKnz//DiA0KIY/
- DnUedifNgT+/g==
-Date: Tue, 3 May 2022 17:42:13 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Drop redundant 'maxItems/minItems' in
- if/then schemas
-Message-ID: <YnFbZaARRe13BqEU@sirena.org.uk>
-References: <20220503162738.3827041-1-robh@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C0010F79D
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 16:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651596389;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TrllH04Z0FbJPqB+LsRh6m4pc02+JciRd8et3EmsDus=;
+ b=N5I9D5RVQFagh3A70iTHEoTeigGeuId0b2nr6e7fYhggPlBw0QvkOWzEy6Kc71MDu8BBug
+ 1o8fpiGOMHDC6PQUrArAnZlVle1t6bJkwkS2r2uFzFi1wBZB9F9tcdxPlrv2Z2PrRumORB
+ h+AhW0h34KMxtNohw3afLdg/6vvF9Bo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-536-i6d_biPNOYSQthls9YwjAA-1; Tue, 03 May 2022 12:46:23 -0400
+X-MC-Unique: i6d_biPNOYSQthls9YwjAA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ d13-20020a05600c3acd00b0038ff865c043so1606428wms.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 09:46:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TrllH04Z0FbJPqB+LsRh6m4pc02+JciRd8et3EmsDus=;
+ b=eLovvm6isADYiHAvFUxruTJKxfguXkPpIVC0q5TYuwtNzDz0SBiqR2Q/DGPQi9a5eN
+ iJPkqpQLqB1xzRAgs6dvTixVf9WpsRcvgbeVSqXc2Qzo9qJMbFxjOz9KFVXptdariswJ
+ P23knQ4v/yu+MSQ0etDI28Dr9h1M5kLDUpk4zxmZu6AGqWfmQDq6gCJU2ymBBIZxj+2n
+ HZeFwu1+noDVUGm80aEGWB+1MxIYXSxG9V5ZVwmZj6mbwrdWle6RlxadqvKvel/wtP11
+ Gkggev96RNwYIw8O1qLF90ZXDiBYb+AYdo89jsWWBn/NFt5JjQF7b2EDMMlNJTywOpvd
+ 7/pw==
+X-Gm-Message-State: AOAM531zmOZ2QqnW92c0hvWZ/yAvR6Yp5akyoMHAAMTPbW/kWXUHktvc
+ DJvtIcnyND9ppeaemiTj71OO4DD0xfjuK/uH1oeK3BsgkRKntVBk8DwhQGXhdJhIMBXx4/vpTC6
+ zWkEOwhaS6G/YwlFIifi3p3XnlDNP
+X-Received: by 2002:a05:6000:381:b0:20c:6911:f85b with SMTP id
+ u1-20020a056000038100b0020c6911f85bmr6156736wrf.406.1651596382385; 
+ Tue, 03 May 2022 09:46:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkoJMsy81rmxcDC++KPTzOsGoeFw5o8PT1mfBlyxN/nPJryyfAclRKStt6h+SOtC5xpxk/lw==
+X-Received: by 2002:a05:6000:381:b0:20c:6911:f85b with SMTP id
+ u1-20020a056000038100b0020c6911f85bmr6156722wrf.406.1651596382079; 
+ Tue, 03 May 2022 09:46:22 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ f11-20020adfc98b000000b0020c5253d910sm10464327wrh.92.2022.05.03.09.46.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 May 2022 09:46:21 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] fbdev: Use helper to get fb_info in all file operations
+Date: Tue,  3 May 2022 18:46:16 +0200
+Message-Id: <20220503164616.663796-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Ie5Q9u0aDDvYlHNh"
-Content-Disposition: inline
-In-Reply-To: <20220503162738.3827041-1-robh@kernel.org>
-X-Cookie: Drop that pickle!
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,61 +81,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, linux-phy@lists.infradead.org,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-clk@vger.kernel.org,
- linux-rtc@vger.kernel.org, Abel Vesa <abel.vesa@nxp.com>,
- Anson Huang <Anson.Huang@nxp.com>, Richard Weinberger <richard@nod.at>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Paolo Abeni <pabeni@redhat.com>,
- Wolfgang Grandegger <wg@grandegger.com>, devicetree@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-pm@vger.kernel.org,
- linux-can@vger.kernel.org, Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Marc Kleine-Budde <mkl@pengutronix.de>, Han Xu <han.xu@nxp.com>,
- Alessandro Zummo <a.zummo@towertech.it>, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Dario Binacchi <dariobin@libero.it>, netdev@vger.kernel.org,
- Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, Junxiao Chang <junxiao.chang@intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+A reference to the framebuffer device struct fb_info is stored in the file
+private data, but this reference could no longer be valid and must not be
+accessed directly. Instead, the file_fb_info() accessor function must be
+used since it does sanity checking to make sure that the fb_info is valid.
 
---Ie5Q9u0aDDvYlHNh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This can happen for example if the registered framebuffer device is for a
+driver that just uses a framebuffer provided by the system firmware. In
+that case, the fbdev core would unregister the framebuffer device when a
+real video driver is probed and ask to remove conflicting framebuffers.
 
-On Tue, May 03, 2022 at 11:27:38AM -0500, Rob Herring wrote:
-> Another round of removing redundant minItems/maxItems when 'items' list is
-> specified. This time it is in if/then schemas as the meta-schema was
-> failing to check this case.
+Most fbdev file operations already use the helper to get the fb_info but
+get_fb_unmapped_area() and fb_deferred_io_fsync() don't. Fix those two.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Since fb_deferred_io_fsync() is not in fbmem.o, the helper has to be
+exported. Rename it and add a fb_ prefix to denote that is public now.
 
---Ie5Q9u0aDDvYlHNh
-Content-Type: application/pgp-signature; name="signature.asc"
+Reported-by: Junxiao Chang <junxiao.chang@intel.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
------BEGIN PGP SIGNATURE-----
+ drivers/video/fbdev/core/fb_defio.c |  5 ++++-
+ drivers/video/fbdev/core/fbmem.c    | 24 +++++++++++++++---------
+ include/linux/fb.h                  |  1 +
+ 3 files changed, 20 insertions(+), 10 deletions(-)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJxW2QACgkQJNaLcl1U
-h9AhOwgAgCQAzTimr9tUAEV2YxMIwidmRC9yH7j14TLxr45y9aG5gyGDcabEWvNT
-1G+vE5DtD9PAsO0tkipn9eZam4zgKttaLGOTql3iSuyYP4IJZLz5B0UQdfH/Rblq
-lwN3vZgGQIDC0Bq4GZFntPO4DgtMJRUjLYBkqZ9VRrAc0BtdLx0s2eLXna86GqsS
-JRPrW4CqJ9evXkLhz4oWrns5IFYbbkZQBRDahnYbYEShXBVarN07FHDyJR7e563l
-wHOqrXEThke2dA9JPWeaBTp7h9SiE6UhFUpzyFAd9YF+0t0k3slgr1oj89o28M6t
-855bZNK3+42p+Ytiewlr25+J4xL31Q==
-=Z4ML
------END PGP SIGNATURE-----
+diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+index 842c66b3e33d..ac1c88b3fbb5 100644
+--- a/drivers/video/fbdev/core/fb_defio.c
++++ b/drivers/video/fbdev/core/fb_defio.c
+@@ -68,12 +68,15 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+ 
+ int fb_deferred_io_fsync(struct file *file, loff_t start, loff_t end, int datasync)
+ {
+-	struct fb_info *info = file->private_data;
++	struct fb_info *info = fb_file_fb_info(file->private_data);
+ 	struct inode *inode = file_inode(file);
+ 	int err = file_write_and_wait_range(file, start, end);
+ 	if (err)
+ 		return err;
+ 
++	if (!info)
++		return -ENODEV;
++
+ 	/* Skip if deferred io is compiled-in but disabled on this fbdev */
+ 	if (!info->fbdefio)
+ 		return 0;
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 97eb0dee411c..f924fda89dd5 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -745,7 +745,7 @@ static const struct seq_operations __maybe_unused proc_fb_seq_ops = {
+  * So look up the fb_info using the inode minor number,
+  * and just verify it against the reference we have.
+  */
+-static struct fb_info *file_fb_info(struct file *file)
++struct fb_info *fb_file_fb_info(struct file *file)
+ {
+ 	struct inode *inode = file_inode(file);
+ 	int fbidx = iminor(inode);
+@@ -755,12 +755,13 @@ static struct fb_info *file_fb_info(struct file *file)
+ 		info = NULL;
+ 	return info;
+ }
++EXPORT_SYMBOL(fb_file_fb_info);
+ 
+ static ssize_t
+ fb_read(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+ {
+ 	unsigned long p = *ppos;
+-	struct fb_info *info = file_fb_info(file);
++	struct fb_info *info = fb_file_fb_info(file);
+ 	u8 *buffer, *dst;
+ 	u8 __iomem *src;
+ 	int c, cnt = 0, err = 0;
+@@ -825,7 +826,7 @@ static ssize_t
+ fb_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+ {
+ 	unsigned long p = *ppos;
+-	struct fb_info *info = file_fb_info(file);
++	struct fb_info *info = fb_file_fb_info(file);
+ 	u8 *buffer, *src;
+ 	u8 __iomem *dst;
+ 	int c, cnt = 0, err = 0;
+@@ -1181,7 +1182,7 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+ 
+ static long fb_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+-	struct fb_info *info = file_fb_info(file);
++	struct fb_info *info = fb_file_fb_info(file);
+ 
+ 	if (!info)
+ 		return -ENODEV;
+@@ -1293,7 +1294,7 @@ static int fb_get_fscreeninfo(struct fb_info *info, unsigned int cmd,
+ static long fb_compat_ioctl(struct file *file, unsigned int cmd,
+ 			    unsigned long arg)
+ {
+-	struct fb_info *info = file_fb_info(file);
++	struct fb_info *info = fb_file_fb_info(file);
+ 	const struct fb_ops *fb;
+ 	long ret = -ENOIOCTLCMD;
+ 
+@@ -1333,7 +1334,7 @@ static long fb_compat_ioctl(struct file *file, unsigned int cmd,
+ static int
+ fb_mmap(struct file *file, struct vm_area_struct * vma)
+ {
+-	struct fb_info *info = file_fb_info(file);
++	struct fb_info *info = fb_file_fb_info(file);
+ 	int (*fb_mmap_fn)(struct fb_info *info, struct vm_area_struct *vma);
+ 	unsigned long mmio_pgoff;
+ 	unsigned long start;
+@@ -1434,7 +1435,7 @@ fb_release(struct inode *inode, struct file *file)
+ __acquires(&info->lock)
+ __releases(&info->lock)
+ {
+-	struct fb_info * const info = file_fb_info(file);
++	struct fb_info * const info = fb_file_fb_info(file);
+ 
+ 	if (!info)
+ 		return -ENODEV;
+@@ -1453,8 +1454,13 @@ unsigned long get_fb_unmapped_area(struct file *filp,
+ 				   unsigned long addr, unsigned long len,
+ 				   unsigned long pgoff, unsigned long flags)
+ {
+-	struct fb_info * const info = filp->private_data;
+-	unsigned long fb_size = PAGE_ALIGN(info->fix.smem_len);
++	struct fb_info * const info = fb_file_fb_info(filp->private_data);
++	unsigned long fb_size;
++
++	if (!info)
++		return -ENODEV;
++
++	fb_size = PAGE_ALIGN(info->fix.smem_len);
+ 
+ 	if (pgoff > fb_size || len > fb_size - pgoff)
+ 		return -EINVAL;
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 9a77ab615c36..3004b8b8c5c2 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -624,6 +624,7 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
+ 			      struct fb_fix_screeninfo *fix);
+ extern int fb_get_options(const char *name, char **option);
+ extern int fb_new_modelist(struct fb_info *info);
++extern struct fb_info *fb_file_fb_info(struct file *file);
+ 
+ extern struct fb_info *registered_fb[FB_MAX];
+ extern int num_registered_fb;
+-- 
+2.35.1
 
---Ie5Q9u0aDDvYlHNh--
