@@ -2,39 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789FA51869F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 16:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB8C5186A7
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 16:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8EC10F408;
-	Tue,  3 May 2022 14:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3794910FD62;
+	Tue,  3 May 2022 14:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 39B0910F408;
- Tue,  3 May 2022 14:26:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8BDF12FC;
- Tue,  3 May 2022 07:26:43 -0700 (PDT)
-Received: from [10.57.80.111] (unknown [10.57.80.111])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F06EB3F774;
- Tue,  3 May 2022 07:26:41 -0700 (PDT)
-Message-ID: <84b3cf94-7948-546f-3a7c-3d7b4f621a3f@arm.com>
-Date: Tue, 3 May 2022 15:26:36 +0100
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89EC010FD56;
+ Tue,  3 May 2022 14:27:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651588068; x=1683124068;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=qVfZqiQU7Cz0pnETXFPH+uuqTrii8MfiorFLUri+llU=;
+ b=Sl29zoUU367hyiXv3CpADr0wrH6Ez4Y/YAS6jzLfWWHjYJ+7uvAz0DbQ
+ 0pv1O2J6eQ84OWR6gf4BukLN+lrjuG+hf0kWhPMO3VYgF6Y+Khliq1xoU
+ paF/fQxgw32Qn1y5c1YMbvFiH0YVB71pPAGQH+GfVgS298GgBQG5PZFw+
+ xnaxyjrtShtmoMNtboH/Gap29Qy7bLmJoFeZLmADJACaLnXpM6acts7ob
+ 0F/WS/SWnDx5Fm24cqsr2YSNWiXTE5uU5V2rNo8xgJU9suoCUbjoCuSbF
+ BRFHt50T7k9WFFD4h5Uds2JX/xsbAtFJQxY8bxLCORnYdxIGcKZ7G/fJ8 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="292676886"
+X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; d="scan'208";a="292676886"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 07:27:48 -0700
+X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; d="scan'208";a="663998266"
+Received: from croe-mobl1.ger.corp.intel.com (HELO [10.252.27.16])
+ ([10.252.27.16])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 07:27:45 -0700
+Message-ID: <7d30b342-15f2-ff15-1600-d4232ab42d2d@intel.com>
+Date: Tue, 3 May 2022 15:27:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/3] drm/msm/mdp5: move iommu_domain_alloc() call close to
- its usage
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2] drm/doc: add rfc section for small BAR uapi
 Content-Language: en-GB
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220501101022.3931295-1-dmitry.baryshkov@linaro.org>
- <20220501101022.3931295-3-dmitry.baryshkov@linaro.org>
- <20803530-822d-86fa-d418-b4b7756aac0c@arm.com>
- <CAA8EJpo2cdP-FmbhhWO-cUDQf_jKXLuoqP=UgLnzCymeHNV+qA@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <CAA8EJpo2cdP-FmbhhWO-cUDQf_jKXLuoqP=UgLnzCymeHNV+qA@mail.gmail.com>
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220420171328.57253-1-matthew.auld@intel.com>
+ <5a026a09-e0de-6ade-cd70-b549ca646b95@intel.com>
+ <e7b0fda1-fb25-32af-23da-6ec0a3e10de2@intel.com>
+ <0c03060e-e367-1d54-3376-a29b5de0fc86@intel.com>
+ <e8149d1d-2a26-1ade-5e49-e77473859421@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <e8149d1d-2a26-1ade-5e49-e77473859421@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,153 +64,455 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, mesa-dev@lists.freedesktop.org,
+ Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-03 14:30, Dmitry Baryshkov wrote:
-> On Tue, 3 May 2022 at 13:57, Robin Murphy <robin.murphy@arm.com> wrote:
+On 03/05/2022 11:39, Lionel Landwerlin wrote:
+> On 03/05/2022 13:22, Matthew Auld wrote:
+>> On 02/05/2022 09:53, Lionel Landwerlin wrote:
+>>> On 02/05/2022 10:54, Lionel Landwerlin wrote:
+>>>> On 20/04/2022 20:13, Matthew Auld wrote:
+>>>>> Add an entry for the new uapi needed for small BAR on DG2+.
+>>>>>
+>>>>> v2:
+>>>>>    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
+>>>>>    - Rework error capture interactions, including no longer needing
+>>>>>      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
+>>>>>    - Add probed_cpu_visible_size. (Lionel)
+>>>>>
+>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>>>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+>>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>> Cc: Jordan Justen <jordan.l.justen@intel.com>
+>>>>> Cc: Kenneth Graunke <kenneth@whitecape.org>
+>>>>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+>>>>> Cc: mesa-dev@lists.freedesktop.org
+>>>>> ---
+>>>>>   Documentation/gpu/rfc/i915_small_bar.h   | 190 
+>>>>> +++++++++++++++++++++++
+>>>>>   Documentation/gpu/rfc/i915_small_bar.rst |  58 +++++++
+>>>>>   Documentation/gpu/rfc/index.rst          |   4 +
+>>>>>   3 files changed, 252 insertions(+)
+>>>>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
+>>>>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
+>>>>>
+>>>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.h 
+>>>>> b/Documentation/gpu/rfc/i915_small_bar.h
+>>>>> new file mode 100644
+>>>>> index 000000000000..7bfd0cf44d35
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/gpu/rfc/i915_small_bar.h
+>>>>> @@ -0,0 +1,190 @@
+>>>>> +/**
+>>>>> + * struct __drm_i915_memory_region_info - Describes one region as 
+>>>>> known to the
+>>>>> + * driver.
+>>>>> + *
+>>>>> + * Note this is using both struct drm_i915_query_item and struct 
+>>>>> drm_i915_query.
+>>>>> + * For this new query we are adding the new query id 
+>>>>> DRM_I915_QUERY_MEMORY_REGIONS
+>>>>> + * at &drm_i915_query_item.query_id.
+>>>>> + */
+>>>>> +struct __drm_i915_memory_region_info {
+>>>>> +    /** @region: The class:instance pair encoding */
+>>>>> +    struct drm_i915_gem_memory_class_instance region;
+>>>>> +
+>>>>> +    /** @rsvd0: MBZ */
+>>>>> +    __u32 rsvd0;
+>>>>> +
+>>>>> +    /** @probed_size: Memory probed by the driver (-1 = unknown) */
+>>>>> +    __u64 probed_size;
+>>>>> +
+>>>>> +    /** @unallocated_size: Estimate of memory remaining (-1 = 
+>>>>> unknown) */
+>>>>> +    __u64 unallocated_size;
+>>>>> +
+>>>>> +    union {
+>>>>> +        /** @rsvd1: MBZ */
+>>>>> +        __u64 rsvd1[8];
+>>>>> +        struct {
+>>>>> +            /**
+>>>>> +             * @probed_cpu_visible_size: Memory probed by the driver
+>>>>> +             * that is CPU accessible. (-1 = unknown).
+>>>>> +             *
+>>>>> +             * This will be always be <= @probed_size, and the
+>>>>> +             * remainder(if there is any) will not be CPU
+>>>>> +             * accessible.
+>>>>> +             */
+>>>>> +            __u64 probed_cpu_visible_size;
+>>>>> +        };
+>>>>
+>>>>
+>>>> Trying to implement userspace support in Vulkan for this, I have an 
+>>>> additional question about the value of probed_cpu_visible_size.
+>>>>
+>>>> When is it set to -1?
+>>>>
+>>>> I'm guessing before there is support for this value it'll be 0 (MBZ).
+>>>>
+>>>> After after it should either be the entire lmem or something smaller.
+>>>>
+>>>>
+>>>> -Lionel
+>>>
+>>>
+>>> Other pain point of this new uAPI, previously we could query the 
+>>> unallocated size for each heap.
 >>
->> On 2022-05-01 11:10, Dmitry Baryshkov wrote:
->>> Move iommu_domain_alloc() in front of adress space/IOMMU initialization.
->>> This allows us to drop final bits of struct mdp5_cfg_platform which
->>> remained from the pre-DT days.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 16 ----------------
->>>    drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h |  6 ------
->>>    drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  6 ++++--
->>>    3 files changed, 4 insertions(+), 24 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
->>> index 1bf9ff5dbabc..714effb967ff 100644
->>> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
->>> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
->>> @@ -1248,8 +1248,6 @@ static const struct mdp5_cfg_handler cfg_handlers_v3[] = {
->>>        { .revision = 3, .config = { .hw = &sdm630_config } },
->>>    };
->>>
->>> -static struct mdp5_cfg_platform *mdp5_get_config(struct platform_device *dev);
->>> -
->>>    const struct mdp5_cfg_hw *mdp5_cfg_get_hw_config(struct mdp5_cfg_handler *cfg_handler)
->>>    {
->>>        return cfg_handler->config.hw;
->>> @@ -1274,10 +1272,8 @@ struct mdp5_cfg_handler *mdp5_cfg_init(struct mdp5_kms *mdp5_kms,
->>>                uint32_t major, uint32_t minor)
->>>    {
->>>        struct drm_device *dev = mdp5_kms->dev;
->>> -     struct platform_device *pdev = to_platform_device(dev->dev);
->>>        struct mdp5_cfg_handler *cfg_handler;
->>>        const struct mdp5_cfg_handler *cfg_handlers;
->>> -     struct mdp5_cfg_platform *pconfig;
->>>        int i, ret = 0, num_handlers;
->>>
->>>        cfg_handler = kzalloc(sizeof(*cfg_handler), GFP_KERNEL);
->>> @@ -1320,9 +1316,6 @@ struct mdp5_cfg_handler *mdp5_cfg_init(struct mdp5_kms *mdp5_kms,
->>>        cfg_handler->revision = minor;
->>>        cfg_handler->config.hw = mdp5_cfg;
->>>
->>> -     pconfig = mdp5_get_config(pdev);
->>> -     memcpy(&cfg_handler->config.platform, pconfig, sizeof(*pconfig));
->>> -
->>>        DBG("MDP5: %s hw config selected", mdp5_cfg->name);
->>>
->>>        return cfg_handler;
->>> @@ -1333,12 +1326,3 @@ struct mdp5_cfg_handler *mdp5_cfg_init(struct mdp5_kms *mdp5_kms,
->>>
->>>        return ERR_PTR(ret);
->>>    }
->>> -
->>> -static struct mdp5_cfg_platform *mdp5_get_config(struct platform_device *dev)
->>> -{
->>> -     static struct mdp5_cfg_platform config = {};
->>> -
->>> -     config.iommu = iommu_domain_alloc(&platform_bus_type);
->>> -
->>> -     return &config;
->>> -}
->>> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h
->>> index 6b03d7899309..c2502cc33864 100644
->>> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h
->>> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h
->>> @@ -104,14 +104,8 @@ struct mdp5_cfg_hw {
->>>        uint32_t max_clk;
->>>    };
->>>
->>> -/* platform config data (ie. from DT, or pdata) */
->>> -struct mdp5_cfg_platform {
->>> -     struct iommu_domain *iommu;
->>> -};
->>> -
->>>    struct mdp5_cfg {
->>>        const struct mdp5_cfg_hw *hw;
->>> -     struct mdp5_cfg_platform platform;
->>>    };
->>>
->>>    struct mdp5_kms;
->>> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->>> index 9b7bbc3adb97..1c67c2c828cd 100644
->>> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->>> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->>> @@ -558,6 +558,7 @@ static int mdp5_kms_init(struct drm_device *dev)
->>>        struct msm_gem_address_space *aspace;
->>>        int irq, i, ret;
->>>        struct device *iommu_dev;
->>> +     struct iommu_domain *iommu;
->>>
->>>        ret = mdp5_init(to_platform_device(dev->dev), dev);
->>>
->>> @@ -601,14 +602,15 @@ static int mdp5_kms_init(struct drm_device *dev)
->>>        }
->>>        mdelay(16);
->>>
->>> -     if (config->platform.iommu) {
->>> +     iommu = iommu_domain_alloc(&platform_bus_type);
+>> unallocated_size should always give the same value as probed_size. We 
+>> have the avail tracking, but we don't currently expose that through 
+>> unallocated_size, due to lack of real userspace/user etc.
 >>
->> To preempt the next change down the line as well, could this be
->> rearranged to work as iommu_domain_alloc(iommu_dev->bus)?
+>>>
+>>> Now lmem is effectively divided into 2 heaps, but unallocated_size is 
+>>> tracking allocation from both parts of lmem.
+>>
+>> Yeah, if we ever properly expose the unallocated_size, then we could 
+>> also just add unallocated_cpu_visible_size.
+>>
+>>>
+>>> Is adding new I915_MEMORY_CLASS_DEVICE_NON_MAPPABLE out of question?
+>>
+>> I don't think it's out of the question...
+>>
+>> I guess user-space should be able to get the current flag behaviour 
+>> just by specifying: device, system. And it does give more flexibly to 
+>> allow something like: device, device-nm, smem.
+>>
+>> We can also drop the probed_cpu_visible_size, which would now just be 
+>> the probed_size with device/device-nm. And if we lack device-nm, then 
+>> the entire thing must be CPU mappable.
+>>
+>> One of the downsides though, is that we can no longer easily mix 
+>> object pages from both device + device-nm, which we could previously 
+>> do when we didn't specify the flag. At least according to the current 
+>> design/behaviour for @regions that would not be allowed. I guess some 
+>> kind of new flag like ALLOC_MIXED or so? Although currently that is 
+>> only possible with device + device-nm in ttm/i915.
 > 
-> I'd prefer to split this into the separate change, if you don't mind.
+> 
+> Thanks, I wasn't aware of the restrictions.
+> 
+> Adding unallocated_cpu_visible_size would be great.
 
-Oh, for sure, divide the patches however you see fit - I'm just hoping 
-to save your time overall by getting all the IOMMU-related refactoring 
-done now as a single series rather than risk me coming back and breaking 
-things again in a few months :)
-
-Cheers,
-Robin.
+So do we want this in the next version? i.e we already have a current 
+real use case in mind for unallocated_size where probed_size is not good 
+enough?
 
 > 
+> 
+> -Lionel
+> 
+> 
 >>
->>> +     if (iommu) {
->>>                struct msm_mmu *mmu;
 >>>
->>>                iommu_dev = &pdev->dev;
->>>                if (!dev_iommu_fwspec_get(iommu_dev))
->>
->> The fwspec helpers are more of an internal thing between the IOMMU
->> drivers and the respective firmware code - I'd rather that external API
->> users stuck consistently to using device_iommu_mapped() (it should give
->> the same result).
-> 
-> Let me check that it works correctly and spin a v2 afterwards.
-> 
->>
->> Otherwise, thanks for sorting this out!
->>
->> Robin.
->>
->>>                        iommu_dev = iommu_dev->parent;
 >>>
->>> -             mmu = msm_iommu_new(iommu_dev, config->platform.iommu);
->>> +             mmu = msm_iommu_new(iommu_dev, iommu);
+>>> -Lionel
 >>>
->>>                aspace = msm_gem_address_space_create(mmu, "mdp5",
->>>                        0x1000, 0x100000000 - 0x1000);
-> 
-> 
+>>>
+>>>>
+>>>>
+>>>>> +    };
+>>>>> +};
+>>>>> +
+>>>>> +/**
+>>>>> + * struct __drm_i915_gem_create_ext - Existing gem_create 
+>>>>> behaviour, with added
+>>>>> + * extension support using struct i915_user_extension.
+>>>>> + *
+>>>>> + * Note that new buffer flags should be added here, at least for 
+>>>>> the stuff that
+>>>>> + * is immutable. Previously we would have two ioctls, one to 
+>>>>> create the object
+>>>>> + * with gem_create, and another to apply various parameters, 
+>>>>> however this
+>>>>> + * creates some ambiguity for the params which are considered 
+>>>>> immutable. Also in
+>>>>> + * general we're phasing out the various SET/GET ioctls.
+>>>>> + */
+>>>>> +struct __drm_i915_gem_create_ext {
+>>>>> +    /**
+>>>>> +     * @size: Requested size for the object.
+>>>>> +     *
+>>>>> +     * The (page-aligned) allocated size for the object will be 
+>>>>> returned.
+>>>>> +     *
+>>>>> +     * Note that for some devices we have might have further minimum
+>>>>> +     * page-size restrictions(larger than 4K), like for device 
+>>>>> local-memory.
+>>>>> +     * However in general the final size here should always 
+>>>>> reflect any
+>>>>> +     * rounding up, if for example using the 
+>>>>> I915_GEM_CREATE_EXT_MEMORY_REGIONS
+>>>>> +     * extension to place the object in device local-memory.
+>>>>> +     */
+>>>>> +    __u64 size;
+>>>>> +    /**
+>>>>> +     * @handle: Returned handle for the object.
+>>>>> +     *
+>>>>> +     * Object handles are nonzero.
+>>>>> +     */
+>>>>> +    __u32 handle;
+>>>>> +    /**
+>>>>> +     * @flags: Optional flags.
+>>>>> +     *
+>>>>> +     * Supported values:
+>>>>> +     *
+>>>>> +     * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the 
+>>>>> kernel that
+>>>>> +     * the object will need to be accessed via the CPU.
+>>>>> +     *
+>>>>> +     * Only valid when placing objects in 
+>>>>> I915_MEMORY_CLASS_DEVICE, and
+>>>>> +     * only strictly required on platforms where only some of the 
+>>>>> device
+>>>>> +     * memory is directly visible or mappable through the CPU, 
+>>>>> like on DG2+.
+>>>>> +     *
+>>>>> +     * One of the placements MUST also be 
+>>>>> I915_MEMORY_CLASS_SYSTEM, to
+>>>>> +     * ensure we can always spill the allocation to system memory, 
+>>>>> if we
+>>>>> +     * can't place the object in the mappable part of
+>>>>> +     * I915_MEMORY_CLASS_DEVICE.
+>>>>> +     *
+>>>>> +     * Note that since the kernel only supports flat-CCS on 
+>>>>> objects that can
+>>>>> +     * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore 
+>>>>> don't
+>>>>> +     * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together 
+>>>>> with
+>>>>> +     * flat-CCS.
+>>>>> +     *
+>>>>> +     * Without this hint, the kernel will assume that non-mappable
+>>>>> +     * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note 
+>>>>> that the
+>>>>> +     * kernel can still migrate the object to the mappable part, 
+>>>>> as a last
+>>>>> +     * resort, if userspace ever CPU faults this object, but this 
+>>>>> might be
+>>>>> +     * expensive, and so ideally should be avoided.
+>>>>> +     */
+>>>>> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
+>>>>> +    __u32 flags;
+>>>>> +    /**
+>>>>> +     * @extensions: The chain of extensions to apply to this object.
+>>>>> +     *
+>>>>> +     * This will be useful in the future when we need to support 
+>>>>> several
+>>>>> +     * different extensions, and we need to apply more than one when
+>>>>> +     * creating the object. See struct i915_user_extension.
+>>>>> +     *
+>>>>> +     * If we don't supply any extensions then we get the same old 
+>>>>> gem_create
+>>>>> +     * behaviour.
+>>>>> +     *
+>>>>> +     * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
+>>>>> +     * struct drm_i915_gem_create_ext_memory_regions.
+>>>>> +     *
+>>>>> +     * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+>>>>> +     * struct drm_i915_gem_create_ext_protected_content.
+>>>>> +     */
+>>>>> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+>>>>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+>>>>> +    __u64 extensions;
+>>>>> +};
+>>>>> +
+>>>>> +#define DRM_I915_QUERY_VMA_INFO    5
+>>>>> +
+>>>>> +/**
+>>>>> + * struct __drm_i915_query_vma_info
+>>>>> + *
+>>>>> + * Given a vm and GTT address, lookup the corresponding vma, 
+>>>>> returning its set
+>>>>> + * of attributes.
+>>>>> + *
+>>>>> + * .. code-block:: C
+>>>>> + *
+>>>>> + *    struct drm_i915_query_vma_info info = {};
+>>>>> + *    struct drm_i915_query_item item = {
+>>>>> + *        .data_ptr = (uintptr_t)&info,
+>>>>> + *        .query_id = DRM_I915_QUERY_VMA_INFO,
+>>>>> + *    };
+>>>>> + *    struct drm_i915_query query = {
+>>>>> + *        .num_items = 1,
+>>>>> + *        .items_ptr = (uintptr_t)&item,
+>>>>> + *    };
+>>>>> + *    int err;
+>>>>> + *
+>>>>> + *    // Unlike some other types of queries, there is no need to 
+>>>>> first query
+>>>>> + *    // the size of the data_ptr blob here, since we already know 
+>>>>> ahead of
+>>>>> + *    // time how big this needs to be.
+>>>>> + *    item.length = sizeof(info);
+>>>>> + *
+>>>>> + *    // Next we fill in the vm_id and ppGTT address of the vma we 
+>>>>> wish
+>>>>> + *    // to query, before then firing off the query.
+>>>>> + *    info.vm_id = vm_id;
+>>>>> + *    info.offset = gtt_address;
+>>>>> + *    err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
+>>>>> + *    if (err || item.length < 0) ...
+>>>>> + *
+>>>>> + *    // If all went well we can now inspect the returned attributes.
+>>>>> + *    if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
+>>>>> + */
+>>>>> +struct __drm_i915_query_vma_info {
+>>>>> +    /**
+>>>>> +     * @vm_id: The given vm id that contains the vma. The id is 
+>>>>> the value
+>>>>> +     * returned by the DRM_I915_GEM_VM_CREATE. See struct
+>>>>> +     * drm_i915_gem_vm_control.vm_id.
+>>>>> +     */
+>>>>> +    __u32 vm_id;
+>>>>> +    /** @pad: MBZ. */
+>>>>> +    __u32 pad;
+>>>>> +    /**
+>>>>> +     * @offset: The corresponding ppGTT address of the vma which 
+>>>>> the kernel
+>>>>> +     * will use to perform the lookup.
+>>>>> +     */
+>>>>> +    __u64 offset;
+>>>>> +    /**
+>>>>> +     * @attributes: The returned attributes for the given vma.
+>>>>> +     *
+>>>>> +     * Possible values:
+>>>>> +     *
+>>>>> +     * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set if the pages 
+>>>>> backing the
+>>>>> +     * vma are currently CPU accessible. If this is not set then 
+>>>>> the vma is
+>>>>> +     * currently backed by I915_MEMORY_CLASS_DEVICE memory, which 
+>>>>> the CPU
+>>>>> +     * cannot directly access(this is only possible on discrete 
+>>>>> devices with
+>>>>> +     * a small BAR). Attempting to MMAP and fault such an object will
+>>>>> +     * require the kernel first synchronising any GPU work tied to 
+>>>>> the
+>>>>> +     * object, before then migrating the pages, either to the CPU 
+>>>>> accessible
+>>>>> +     * part of I915_MEMORY_CLASS_DEVICE, or 
+>>>>> I915_MEMORY_CLASS_SYSTEM, if the
+>>>>> +     * placements permit it. See 
+>>>>> I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
+>>>>> +     *
+>>>>> +     * Note that this is inherently racy.
+>>>>> +     */
+>>>>> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
+>>>>> +    __u64 attributes;
+>>>>> +    /** @rsvd: MBZ */
+>>>>> +    __u32 rsvd[4];
+>>>>> +};
+>>>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst 
+>>>>> b/Documentation/gpu/rfc/i915_small_bar.rst
+>>>>> new file mode 100644
+>>>>> index 000000000000..be3d9bcdd86d
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
+>>>>> @@ -0,0 +1,58 @@
+>>>>> +==========================
+>>>>> +I915 Small BAR RFC Section
+>>>>> +==========================
+>>>>> +Starting from DG2 we will have resizable BAR support for device 
+>>>>> local-memory(i.e
+>>>>> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size 
+>>>>> might still be
+>>>>> +smaller than the total probed_size. In such cases, only some 
+>>>>> subset of
+>>>>> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the 
+>>>>> first 256M),
+>>>>> +while the remainder is only accessible via the GPU.
+>>>>> +
+>>>>> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
+>>>>> +----------------------------------------------
+>>>>> +New gem_create_ext flag to tell the kernel that a BO will require 
+>>>>> CPU access.
+>>>>> +This becomes important when placing an object in 
+>>>>> I915_MEMORY_CLASS_DEVICE, where
+>>>>> +underneath the device has a small BAR, meaning only some portion 
+>>>>> of it is CPU
+>>>>> +accessible. Without this flag the kernel will assume that CPU 
+>>>>> access is not
+>>>>> +required, and prioritize using the non-CPU visible portion of
+>>>>> +I915_MEMORY_CLASS_DEVICE.
+>>>>> +
+>>>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+>>>>> +   :functions: __drm_i915_gem_create_ext
+>>>>> +
+>>>>> +probed_cpu_visible_size attribute
+>>>>> +---------------------------------
+>>>>> +New struct__drm_i915_memory_region attribute which returns the 
+>>>>> total size of the
+>>>>> +CPU accessible portion, for the particular region. This should 
+>>>>> only be
+>>>>> +applicable for I915_MEMORY_CLASS_DEVICE.
+>>>>> +
+>>>>> +Vulkan will need this as part of creating a separate VkMemoryHeap 
+>>>>> with the
+>>>>> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU 
+>>>>> visible portion,
+>>>>> +where the total size of the heap needs to be known.
+>>>>> +
+>>>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+>>>>> +   :functions: __drm_i915_memory_region_info
+>>>>> +
+>>>>> +DRM_I915_QUERY_VMA_INFO query
+>>>>> +-----------------------------
+>>>>> +Query the attributes of some vma. Given a vm and GTT offset, find the
+>>>>> +respective vma, and return its set of attributes. For now we only 
+>>>>> support
+>>>>> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the 
+>>>>> object/vma is
+>>>>> +currently placed in memory that is accessible by the CPU. This 
+>>>>> should always be
+>>>>> +set on devices where the CPU probed_cpu_visible_size of 
+>>>>> I915_MEMORY_CLASS_DEVICE
+>>>>> +matches the probed_size. If this is not set then CPU faulting the 
+>>>>> object will
+>>>>> +likely first require migrating the pages.
+>>>>> +
+>>>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+>>>>> +   :functions: __drm_i915_query_vma_info
+>>>>> +
+>>>>> +Error Capture restrictions
+>>>>> +--------------------------
+>>>>> +With error capture we have two new restrictions:
+>>>>> +
+>>>>> +    1) Error capture is best effort on small BAR systems; if the 
+>>>>> pages are not
+>>>>> +    CPU accessible, at the time of capture, then the kernel is 
+>>>>> free to skip
+>>>>> +    trying to capture them.
+>>>>> +
+>>>>> +    2) On discrete we now reject error capture on recoverable 
+>>>>> contexts. In the
+>>>>> +    future the kernel may want to blit during error capture, when 
+>>>>> for example
+>>>>> +    something is not currently CPU accessible.
+>>>>> diff --git a/Documentation/gpu/rfc/index.rst 
+>>>>> b/Documentation/gpu/rfc/index.rst
+>>>>> index 91e93a705230..5a3bd3924ba6 100644
+>>>>> --- a/Documentation/gpu/rfc/index.rst
+>>>>> +++ b/Documentation/gpu/rfc/index.rst
+>>>>> @@ -23,3 +23,7 @@ host such documentation:
+>>>>>   .. toctree::
+>>>>>         i915_scheduler.rst
+>>>>> +
+>>>>> +.. toctree::
+>>>>> +
+>>>>> +    i915_small_bar.rst
+>>>>
+>>>>
+>>>
 > 
