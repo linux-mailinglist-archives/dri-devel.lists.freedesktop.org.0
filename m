@@ -1,55 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4255185F7
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 15:53:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E751518611
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 16:05:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B36910E6E5;
-	Tue,  3 May 2022 13:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED8410EA5A;
+	Tue,  3 May 2022 14:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB79D10E6E5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 13:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651586027; x=1683122027;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=+7MRD21UXQTn46jpfe43DgegKNoYgyj1mIZvFSrHfuE=;
- b=hNwFQoJ3RHmLhZAwfcqqsQfm0JNgciFEapXdW9VOramWLNiexsASdEN2
- r9OznO1T+qp4XuqukAErHhrgy+DET1Rb5A0NSUFe34qkOzBbT/1i4zAKU
- 5RZf2vax3luckTu5ftS7N3Ln/6KfT7KNuaV8oeowht/bvUTBd7fTCau3V
- t5Yu0Ac9lYWD+IA+Adqx9V9OUT4UK9APIIgZMMgryR852Q6bwfOLkGFEo
- zvwZKqiRtahCTRgksJzhtfQ/jO9onSzFyegEIfyIRJJF62usjbr/iMEoi
- mXZFBzN76Y6naqCOZeJX+c6vCXK0UVHdIHEBsaoD5LlSItaRKzmpHNu6O w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="254943460"
-X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; d="scan'208";a="254943460"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 06:53:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,195,1647327600"; d="scan'208";a="810666014"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 03 May 2022 06:53:45 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nlsyG-000AW1-Cy;
- Tue, 03 May 2022 13:53:44 +0000
-Date: Tue, 3 May 2022 21:53:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 13/14] drm/vc4: crtc: Fix out of order frames during
- asynchronous page flips
-Message-ID: <202205032134.wMMUQ85T-lkp@intel.com>
-References: <20220503121341.983842-14-maxime@cerno.tech>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAAC10EA5A
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 14:05:04 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id y63so18269178oia.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 07:05:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=b5zcWYUFPO27QgFEnMVs+54HuZPkQ0FL3sPCUBagWEs=;
+ b=nmtAO8elN+lD21aNW4PeFwV5qviuq6Y4sVLZWcQC9zZn6UqsLXYF5ciWRgl0+lA1Wo
+ Q3rLe4Fskzg95B7RE9bBDzCWYoXQcNXwViucb5QcW8FGpQqDvUf5YZDsdBhza6rYepvt
+ JfGvKjbu2S1tIWfgmVuDBkIJnidthNgLCkvix0KKZ/uKOs1c5s5gsxh2uVagQLRY6nw/
+ ziKH7/MVdkOxup3VPlggEPris50qLUCDUg9E33r7OhDbS5bq0RNLc5yT2Ouqb/LH4LOT
+ N/oRmt4dIHZssgokdRevfTbu/juuu2xeyRBaFEeQbqQW6cVYD7R5t3xz7Vo6hhn100CX
+ OKdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=b5zcWYUFPO27QgFEnMVs+54HuZPkQ0FL3sPCUBagWEs=;
+ b=rb+sNYcclKvSACo+rVgoL+3+TL6Zo+0CwFmndsDm/6pPZhOpsYATD/FMF3NHW+gx+r
+ m14Dkhzhvl3xI7TYhG96njIj90jp5G88DEZPs8zkGiuLt8tOUpbQPb7uCNod39qhMPMv
+ X4VWwjjue0J/8z2PIJ9EUfP9iPCwrs65vPgz/XjlG6ntOMs2X86djOsxuVtU91ysgOgT
+ z5Gp/kq4afQvkGMv/b0OgeKo4S94tiO8/KXUIZ3H7vTScRixUkPmV4TF6S4t0sd5xikO
+ rozwDM7aFmRZjC4kFaEWFeNKt4tsH8XYVQfz17Gd4O4IUXwFQ6KIjmnF+NV2/Uk0a4f3
+ ho4A==
+X-Gm-Message-State: AOAM5312bbCsATatJUvvu4qWhcVBFTizplO4qtpgHjm19lhMLFqKHLgW
+ dIZZkm/58o6OpG3p9qdK0q0=
+X-Google-Smtp-Source: ABdhPJzzGJEdAdih1u7jF2kiLOrOxmCv3lvE9XNEtKe9LYoSPKte95Aq4ECL/l2Oq3F4Q7XGCpzu3g==
+X-Received: by 2002:a05:6808:2007:b0:325:7c10:475e with SMTP id
+ q7-20020a056808200700b003257c10475emr1861677oiw.250.1651586703247; 
+ Tue, 03 May 2022 07:05:03 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ k6-20020a056830168600b0060603221249sm4013581otr.25.2022.05.03.07.04.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 May 2022 07:05:00 -0700 (PDT)
+Message-ID: <d4eb4752-d8c0-715a-1d69-829f39c88d2e@roeck-us.net>
+Date: Tue, 3 May 2022 07:04:56 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503121341.983842-14-maxime@cerno.tech>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+ <6f1b27fa-96d1-4be7-ac6a-762610314f2a@roeck-us.net>
+ <8d6d453a-e6fc-439b-2f34-e60c22fc9e98@roeck-us.net>
+ <CAK8P3a2Ekvis1YcrJZtuga+XQdbeTC98PkOszCpS2DiZri7VMQ@mail.gmail.com>
+ <149509dd-f43d-1b27-4395-81eab4ff3455@roeck-us.net>
+ <CAK8P3a05vFdBnXXAMPVS82xX29+uinvWPcWxAgvj0TfoOk+1kg@mail.gmail.com>
+ <b13783aa-9225-d52a-3800-c97ad772688b@roeck-us.net>
+ <CAK8P3a3S5OjkKq_u5FpnwzYv+0+typya6Z4MzTez5ZH+do00xQ@mail.gmail.com>
+ <CAK8P3a3jiqf_zpBsZyvAb5ZtkwDa7KkqExqDAdpY_pYqkr_NgQ@mail.gmail.com>
+ <4dcdbfe2-9edf-320b-d123-3b62c8b5e28e@roeck-us.net>
+ <CAK8P3a0ogn1wgPBDHkT=Fb8ufA+y8Ax1Qov2-vRXfC08QqnrQA@mail.gmail.com>
+ <c001d58e-9a78-6338-a533-d0f215b3dfd1@roeck-us.net>
+ <CAK8P3a1X3YH0RqqmqgqFAaY94yreD-PfY-pvyMf+xU3nGeqvsg@mail.gmail.com>
+ <04840b4f-5b9d-b29a-62f7-e5148d415313@roeck-us.net>
+ <CAK8P3a39oiWyDwp=BHuCsBVwfzyZ802-NwL9G9r-t6X8KSr6nA@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <CAK8P3a39oiWyDwp=BHuCsBVwfzyZ802-NwL9G9r-t6X8KSr6nA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +90,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <mwen@igalia.com>, kbuild-all@lists.01.org,
- dri-devel@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On 5/3/22 00:17, Arnd Bergmann wrote:
+> On Tue, May 3, 2022 at 4:55 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 5/2/22 14:03, Arnd Bergmann wrote:
+>>> On Mon, May 2, 2022 at 10:35 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> On 5/2/22 12:21, Arnd Bergmann wrote:
+>>
+>> qemu puts initrd in the middle of available memory. With the image size
+>> being ~1MB larger than with v5.18-rc, this is too much, and the kernel
+>> overwrites part of initrd. This causes it to be corrupted.
+>>
+>> It looks like that would have happened eventually, your patch series just
+>> made it happen now. The kernel is just getting too large to run on such small
+>> systems. I worked around the problem in my version of qemu by loading initrd
+>> at the end of the (small) RAM. With that, I no longer see the boot failure.
+> 
+> Ok, thanks for confirming. If it's just the image size that changed,
+> then I think
+> we can live with it. Having the kernel image grow by 1MB seems excessive
+> though, I'd like to understand better where that increase comes from.
+> 
+> Starting out from pxa_defconfig, I see a 40KB increase from the final patch
+> that moves to multiplatform support, which I think is fine.
+> 
+> If you have a z2 specific config, that would probably not enable CONFIG_OF,
+> which is always turned on for multiplatform, but again that only adds around
+> 250KB in my builds (using gcc-11). This is more than I'd like it to be, but
+> still much less than 1MB.
+> 
 
-I love your patch! Perhaps something to improve:
+Maybe it is a bit less; I only compared the size of "Image". Either case,
+it is enough to cause the problem. I am not sure if it is worth the time
+trying to track this down further.
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-tip/drm-tip next-20220503]
-[cannot apply to anholt/for-next v5.18-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-vc4-Properly-separate-v3d-on-BCM2711-and-fix-frame-ordering/20220503-201745
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220503/202205032134.wMMUQ85T-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0db44bd12236a0a64cf67bbef6b11df5bbe37134
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxime-Ripard/drm-vc4-Properly-separate-v3d-on-BCM2711-and-fix-frame-ordering/20220503-201745
-        git checkout 0db44bd12236a0a64cf67bbef6b11df5bbe37134
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/vc4/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/vc4/vc4_crtc.c: In function 'vc4_async_set_fence_cb':
->> drivers/gpu/drm/vc4/vc4_crtc.c:865:57: warning: implicit conversion from 'enum <anonymous>' to 'enum dma_resv_usage' [-Wenum-conversion]
-     865 |         ret = dma_resv_get_singleton(cma_bo->base.resv, false, &fence);
-         |                                                         ^~~~~
-
-
-vim +865 drivers/gpu/drm/vc4/vc4_crtc.c
-
-   848	
-   849	static int vc4_async_set_fence_cb(struct drm_device *dev,
-   850					  struct vc4_async_flip_state *flip_state)
-   851	{
-   852		struct drm_framebuffer *fb = flip_state->fb;
-   853		struct drm_gem_cma_object *cma_bo = drm_fb_cma_get_gem_obj(fb, 0);
-   854		struct vc4_dev *vc4 = to_vc4_dev(dev);
-   855		struct dma_fence *fence;
-   856		int ret;
-   857	
-   858		if (!vc4->is_vc5) {
-   859			struct vc4_bo *bo = to_vc4_bo(&cma_bo->base);
-   860	
-   861			return vc4_queue_seqno_cb(dev, &flip_state->cb.seqno, bo->seqno,
-   862						  vc4_async_page_flip_seqno_complete);
-   863		}
-   864	
- > 865		ret = dma_resv_get_singleton(cma_bo->base.resv, false, &fence);
-   866		if (ret)
-   867			return ret;
-   868	
-   869		if (dma_fence_add_callback(fence, &flip_state->cb.fence,
-   870					   vc4_async_page_flip_fence_complete))
-   871			vc4_async_page_flip_fence_complete(fence, &flip_state->cb.fence);
-   872	
-   873		return 0;
-   874	}
-   875	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Guenter
