@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC71B518FBF
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 23:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 938AB519019
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 23:35:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84BEF10F794;
-	Tue,  3 May 2022 21:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6AD510E57E;
+	Tue,  3 May 2022 21:35:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C50C310F794;
- Tue,  3 May 2022 21:10:22 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0542C10E57E;
+ Tue,  3 May 2022 21:35:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651612222; x=1683148222;
+ t=1651613701; x=1683149701;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=EHBhScLceM6dmSTqC6HS/g8/foW3aMxwu+CdJvxAF3s=;
- b=zQSxLU4TZHtohIcJVfI+3gl4nbMlm6AOoiiJKBM1tYhLGXrgdcgvkD0s
- ogEF/ewxboSAx+8G5AYMcZUmLFlfbX7hIfHu4B2AqzQ8yGgHzVjzJ02NO
- S2EanuW/BK6QlNzkad4atbsdmRO6iX9NN0l6H9CfVMB9EfN+smLj9/ntN g=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 03 May 2022 14:10:21 -0700
+ bh=b4/Uh/Pw2Zu7mxF1EPADNd1UTadTaPNoZ7cI7q3eRGw=;
+ b=yk//w5CJutMbbOEH7rs2Basruuvj8ND1ZOAofB5fgczL0piLGGo1KINE
+ cX+EWLrDVMi6jaYOQsx/tqvUL3Pho4vEtSm24GdkdSwhQ85wgxbpapEmf
+ wU7k0SjnBaJ9ZupxlI6lE6CPNNAtwq1YVfTbY27XtRwreKhDAD1hokgKr 8=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 03 May 2022 14:35:00 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 14:10:21 -0700
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 14:35:00 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 3 May 2022 14:10:20 -0700
+ 15.2.986.22; Tue, 3 May 2022 14:34:59 -0700
 Received: from [10.38.244.235] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 3 May 2022
- 14:10:18 -0700
-Message-ID: <d2e0bcdc-ec2a-6170-df6b-5e3e1e1cbe26@quicinc.com>
-Date: Tue, 3 May 2022 14:10:16 -0700
+ 14:34:57 -0700
+Message-ID: <df93e33b-fa5a-af29-1be5-76262a17ce0a@quicinc.com>
+Date: Tue, 3 May 2022 14:34:55 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dsi: fix address for second DSI PHY on SDM660
+Subject: Re: [PATCH 04/25] drm/msm/dpu: move SSPP debugfs creation to dpu_kms.c
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220503204340.935532-1-dmitry.baryshkov@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-5-dmitry.baryshkov@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220503204340.935532-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220209172520.3719906-5-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -65,42 +67,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org, Konrad
- Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/3/2022 1:43 PM, Dmitry Baryshkov wrote:
-> Correct a typo in the address of the second DSI PHY in the SDM660 device
-> config.
+On 2/9/2022 9:24 AM, Dmitry Baryshkov wrote:
+> As SSPP blocks are now visible through dpu_kms->rm.sspp_blocks, move
+> SSPP debugfs creation from dpu_plane to dpu_kms.
 > 
-> Fixes: 694dd304cc29 ("drm/msm/dsi: Add phy configuration for SDM630/636/660")
-> Cc: Konrad Dybcio <konrad.dybcio@somainline.org>
+
+Change is fine by itself, but is it really needed?
+Wouldnt it be better to keep dpu_debugfs_sspp_init in dpu_plane.c?
+
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Typo indeed. 0xc996400 is the correct PHY address of DSI1.
-0xc996000 which was previously used here is the controller start address 
-of DSI1.
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 19 +++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 16 ----------------
+>   3 files changed, 19 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> index 75557ac99adf..8199c53567f4 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> @@ -1062,7 +1062,7 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs = {
->   	},
->   	.min_pll_rate = VCO_MIN_RATE,
->   	.max_pll_rate = VCO_MAX_RATE,
-> -	.io_start = { 0xc994400, 0xc996000 },
-> +	.io_start = { 0xc994400, 0xc996400 },
->   	.num_dsi_phy = 2,
->   };
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index f805c30643b1..674f311f99b4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -415,7 +415,6 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
+>    */
+>   void dpu_hw_sspp_destroy(struct dpu_hw_pipe *ctx);
 >   
+> -void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root);
+>   int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct dpu_kms *kms, struct dentry *entry);
+>   
+>   #endif /*_DPU_HW_SSPP_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 4d2b75f3bc89..8196b11fe2f3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -259,6 +259,25 @@ void dpu_debugfs_create_regset32(const char *name, umode_t mode,
+>   	debugfs_create_file(name, mode, parent, regset, &dpu_fops_regset32);
+>   }
+>   
+> +static void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root)
+> +{
+> +	struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
+> +	int i;
+> +
+> +	if (IS_ERR(entry))
+> +		return;
+> +
+> +	for (i = SSPP_NONE; i < SSPP_MAX; i++) {
+> +		struct dpu_hw_pipe *pipe_hw;
+> +
+> +		if (!dpu_kms->rm.sspp_blks[i - SSPP_NONE])
+> +			continue;
+> +
+> +		pipe_hw = to_dpu_hw_pipe(dpu_kms->rm.sspp_blks[i - SSPP_NONE]);
+> +		_dpu_hw_sspp_init_debugfs(pipe_hw, dpu_kms, entry);
+> +	}
+> +}
+> +
+>   static int dpu_kms_debugfs_init(struct msm_kms *kms, struct drm_minor *minor)
+>   {
+>   	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 146dbccd79cd..37742f74a7bf 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1359,22 +1359,6 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
+>   	_dpu_plane_set_qos_ctrl(plane, enable, DPU_PLANE_QOS_PANIC_CTRL);
+>   	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>   }
+> -
+> -/* SSPP live inside dpu_plane private data only. Enumerate them here. */
+> -void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root)
+> -{
+> -	struct drm_plane *plane;
+> -	struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
+> -
+> -	if (IS_ERR(entry))
+> -		return;
+> -
+> -	drm_for_each_plane(plane, dpu_kms->dev) {
+> -		struct dpu_plane *pdpu = to_dpu_plane(plane);
+> -
+> -		_dpu_hw_sspp_init_debugfs(pdpu->pipe_hw, dpu_kms, entry);
+> -	}
+> -}
+>   #endif
+>   
+>   static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
