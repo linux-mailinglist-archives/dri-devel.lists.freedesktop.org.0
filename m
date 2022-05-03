@@ -1,66 +1,192 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CB651990F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:00:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F4A519917
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:02:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2917110F1F9;
-	Wed,  4 May 2022 08:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9DF010F21B;
+	Wed,  4 May 2022 08:02:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67DF510F27D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:00:06 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2446C4c3001608;
- Wed, 4 May 2022 10:00:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=qXDvZcOqGOSUYZiRZIysQ2SsdNcKMYsgx3WYQp+VwlA=;
- b=HvHn9WIssINXQUNE71bzatxgi1iQ1PeIzgePBs6MsZtaRj7YX6xmPXg2hdIB/N/719yD
- MsNKCp83Ie5Rm3oT85gqUru5HeplwFuprinUnuufbSPyEDqFRwZzH7Ciun/+7w7FPHxH
- alf8kz3GJLcN0fB4atkQT4cGxtR19SO8Xp7GZ1jbyqIn9e0AWZbnWtLOJ0mKhfq/RF1Z
- nfp4ic172MTAbqjp5IiSyzFGE+rtJmZgEwqE2eIPb1OY7v6wUinVsWhUKpJYEXDzJcUH
- qT2xylLwIb/ehnybIVONhvo8G/OTDIRVKdK7KRgjQDfrSfbIbJ0o4ZjO1Q8GmTXCh7fq xA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3frv0gbjda-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 May 2022 10:00:02 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6379410002A;
- Wed,  4 May 2022 10:00:01 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 50AE12132E2;
- Wed,  4 May 2022 10:00:01 +0200 (CEST)
-Received: from [10.201.21.216] (10.75.127.51) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Wed, 4 May
- 2022 10:00:00 +0200
-Message-ID: <56f6fc01-4f33-b240-5539-492b2c115476@foss.st.com>
-Date: Wed, 4 May 2022 09:59:59 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD2A10F21B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:02:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="255159538"
+X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; d="scan'208";a="255159538"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 01:02:07 -0700
+X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; d="scan'208";a="516922799"
+Received: from adobrowo-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.156.70])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 01:02:06 -0700
+Resent-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7,
+ 02160 Espoo
+Resent-To: dri-devel@lists.freedesktop.org
+Resent-From: Jani Nikula <jani.nikula@intel.com>
+Resent-Date: Wed, 04 May 2022 11:02:03 +0300
+Resent-Message-ID: <87v8ulpvyc.fsf@intel.com>
+X-Original-To: jani.nikula@linux.intel.com
+Received: from linux.intel.com [10.54.29.200]
+ by jnikula-mobl4.ger.corp.intel.com with IMAP (fetchmail-6.4.23)
+ for <jani@localhost> (single-drop); Tue, 03 May 2022 12:24:38 +0300 (EEST)
+Received: from orsmga001.jf.intel.com (orsmga001.jf.intel.com [10.7.209.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by linux.intel.com (Postfix) with ESMTPS id B43E7580808;
+ Tue,  3 May 2022 02:24:26 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="598996072"
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="598996072"
+Received: from fmsmga105.fm.intel.com ([10.1.193.10])
+ by orsmga001-1.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03
+ May 2022 02:24:20 -0700
+IronPort-SDR: N4aF8yglwXMy+EVQ820DLD0sVpVUHr/nAgFP37Yk8ZPnqazL8USjRFwYRxFNfIm4Jb23YaGbHI
+ n1JLXPP5H76A==
+X-IPAS-Result: =?us-ascii?q?A0GIAQA483BimLHS/INagQmBT4I9AYE8J1WEEj2JAIVmg?=
+ =?us-ascii?q?j6WfIVQFIEsNRIBAQEBAQEBAQEJLBMBAgQBAQMEijQCJTUIDgECBAEBAQEDA?=
+ =?us-ascii?q?gECAQEBAQEBAwEBAQICAQEBAgEBBgIBAQEBAhABAQEBAQEBAQkLCQcGDAUQD?=
+ =?us-ascii?q?gUihS85DYI1BQIDGA5uSgk1AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBARACD?=
+ =?us-ascii?q?VJHAR8BAgMBAQEJFw8BDQEBBAopAQIDAQIGAQEIHAIeBAQCAgMBUxkFgniDG?=
+ =?us-ascii?q?AWSFJsXeoExgQGCCAEBBoJdgyyBXAmBECyJQ4QgeicQgVVEehszgzWBU4JZZ?=
+ =?us-ascii?q?oMJgmWVN4EOgkCBAqISnXk0B4NOgTsGDJ41M6hVLZY0olGET4FjAjiBWjMaI?=
+ =?us-ascii?q?4M5URkPjiwWFYM7imFyAjkCBgEKAQEDCYVHAQGEYYFuAQE?=
+IronPort-PHdr: A9a23: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
+ FMz3brkINFLZcXA0Et4Zwwi9Lk=
+IronPort-Data: A9a23:erST0qmJbWXdnAk6Qyic6xro5gwGIERdPkR7XQ2eYbSJt1+Wr1Gzt
+ xIdWW6CMvyIZzejLd1ya4SwoRxS6p6EztdgSwo5qXpgQS4T+ZvOCP2ndXv9bniYRiHhoOOLz
+ Cm8hv3odZhsJpMJjk71atANi1EiifnQLlbbILecYXssLeNcYH59z0olwobVu6Yy6TSDK1rlV
+ eja/ouOYTdJ5xYuajhOs//b80s21BjPkGpwUmIWNKgjUGD2yiF94KI3fcld+FOjGuG4tsbjL
+ wry5OnRElHxpn/BOfv8+lrPSXDmd5aJVeS4oiEPB/X92EgqShsaic7XPNJEAateZq7gc9pZk
+ L2hvrTpIesl0zaldE3wnHC0HgknVZCq9oMrLlCars3K1BX8SUHX+O9WBmVuGYsz98JeVDQmG
+ fwwcFjhbziMjui7hryhR+Rgi98gMM7zeoQFtRmMzxmAVq9gG82ZBf+TvZkBg2hYasNmRZ4yY
+ +IYbyZiaFHPbQ0KMFAKDpkzh8+sh2LjaHtWsl+Yqacs4HTU1Ep2yreF3N/9IYHRFZoKxxvBz
+ o7A10TdQVIgCPix8gCYqCm9i7H2syenA51HQdVU8dYz3ALClzV75ActfVK3qPz/j0+lSdlNI
+ k88/isosLh09Uq3Q927VBq9yFaNuBIdHcFQAvE7wAWMzLfEpQefGmUACDVGbbQOtsYwRHos1
+ 1yUm9rBAT1pra3TSHSB+7PSpjS3UQAXJGkffj1CThEX8sLxvIY9jxHnStdlDb7zj9vpFDW2y
+ DePxAA8gLIVhNVN06y74VHBjjSEopnPUx5z5wPLU2bj5QR8DKambo3u91Xb6P9GIYCxSliHo
+ WhCms6C4eRIBpaI/ASOSeAMGPeq4PCEPTbOh09HG5gn6iTr+ni/cIQW6zZ7TG9sO88eZTLvJ
+ kvavwBR44VIIFOubKlqc8SwDdgnye7rEtGNfvXdZdtDYN5pfROK+Cp8dE2422HrjVhqkKcjN
+ JPdesGpZV4fAL5szTzwTeoH17Y3wT8/znH7QZH90gTh0LyCaXrTQrAAWHOLb+s55a6AlwvI2
+ 9JeMdaajRRZTOD6JCLQ9OY7KFEJJD44GJfus8VTf8aHIwx7CCcgDePcxfUqfIkNt6JUjOLP7
+ zexU1RwzFv5mG2BKAOWZ3QlY7TqNb5jqncyJj5qOFezx3E/SYKu6roPMZoxYbQjsudkyJZcU
+ +cfZ8aHROlVUSnD+jI1aZj7sZwkdRK3iAbINC2gCBAvfphxWgqP/t75Vg/u8jQeSCuxqcY65
+ ban02vzU5oOQRV/E+7SafSy3xWwu2QQnKR5WE6gCstTeVTx+Y4sLzLZiv4xPtFKKBPfyz/c3
+ AGTaSr0vsHCqoU4ttfTiK2IopyqD+xmWE1AEAE38IpaKwH/4Wv62td6atyzRirlXkes3KOJa
+ MF8mqSU3OI8oH5GtI91ErBOxK045sfyq7Iy8uiCNCiWB7hMIu49SkRqzfWjpYURm+MJ4Vfet
+ lanv4AAY+jZaZqN/Es5fVJNUwiV6R0DdtA+B9wNJ1/m4CZx8NJrum0DYEPU1kSxwFaTWb7JL
+ M8uscQbrQKlhxcmP82FkidMsWOWIRTsspnLVLlFUecHaSJylDmuhKAw7AervfljjP0RbyEXz
+ se83vaqulil7hOqn4APPXbMx/FBop8FpQpHylQPT3zQxIec26VpjEUNr2xoJuiw8vmh+78uU
+ oSMHxAoTZhiAx8y7CS+dz7xRlofbPFn0hWoljPla1E1v2HxCjOcfTRV1Rel5EcD72ZVeDQT5
+ 62R1GutTDDrYszrxSouSCZYRw/LE7RMGvn5sJn/RaytRsBiCRK82//GTTdW93PPXJ1g7GWa9
+ bgC1LshMsXTaH9Py4VlUNPy/epLF3i5yJlqHKsJEFUhRz+MIVlfGFGmdiiMRy+6D6GUoRLgV
+ 5wyd6qilX2WjU6zk9zSPoZUS5ccoRLjzINqlm/DTYLNj1dTQveFfn4dGugSSVLHm+lTrPs=
+IronPort-HdrOrdr: A9a23:VfobIqpOvVd7t5vk8w6L3wYaV5q2eYIsimQD101hICG9vPbo3/
+ xG+85rqiMc6QxhJU3I/OruBEDuewK6yXce2+Qs1ImZLULbUQeTXeRfBM7ZskXd88OXzJ8o6U
+ 9PG5IOfuEYJ2IK//oT2WGDYqEdKDPuytHguQ6m9QYZcegIUdAb0+4GMHf8LqSnfng7OXNjLu
+ vu2iMvnVPJEhh2H6aG7zs+LpP+TvLw5djbiHU9dmAaAWe1/FeVAH+TKWno4v4ZaV0vsNQfGB
+ D+4nXEDirKiYDK9vaw7QXu06g=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="353877151"
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="353877151"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from gabe.freedesktop.org ([131.252.210.177])
+ by mtab.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2022
+ 02:24:18 -0700
+Received: from gabe.freedesktop.org (localhost [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5216210F817;
+ Tue,  3 May 2022 09:24:18 +0000 (UTC)
+X-Original-To: intel-gfx@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4013610F820
+ for <intel-gfx@lists.freedesktop.org>; Tue,  3 May 2022 09:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651569857; x=1683105857;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Fo30c48GBOW/78YLqeQZAxUs5nIpCxpLWhzdLHQfrM0=;
+ b=IGGX5y4REGqDi2gcM1VHkCU9hFzI4n34EYZJ6rGW2imDRNHFaRedj+XK
+ 4i5bx2LsML4Lfg20xoqajcoo2T/7pP7W7AVfTf1OYyQxV8u08+thdp8bz
+ 4TvoyoD2PCPI8YeDJrYVBHa07ejuxLAJcKLSUS0uTxWVK300E9gpZpknz
+ 4X1yyIb4UA5OjKmIZUcDHaLs/7RrwsgTSNT6fvhtAOGxUWwn7rErxdDiJ
+ /QlgNyJ5+B62vqdJEkPogMuMsibXBC1XCptp0URW/6t9xG8SJv1KMlloi
+ On6QOW7Wne39CESswu+6uCtnnW3R7FtEIv/gcaNA88bwejFIXTwDiLL0y A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="249415475"
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="249415475"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 02:24:16 -0700
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="562142053"
+Received: from jasinski-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.133.126])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 02:24:14 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Date: Tue,  3 May 2022 12:23:46 +0300
+Message-Id: <2ac1c55f94a08d5e72c0b518d956a11002ec85c1.1651569697.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1651569697.git.jani.nikula@intel.com>
+References: <cover.1651569697.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/stm: dsi: Enable wrapper glue regulator early
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
-References: <20220429204519.241549-1-marex@denx.de>
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20220429204519.241549-1-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.51]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-04_02,2022-05-02_03,2022-02-23_01
-X-BeenThere: dri-devel@lists.freedesktop.org
+Subject: [Intel-gfx] [PATCH v2 01/20] drm/edid: reset display info in
+ drm_add_edid_modes() for NULL edid
+X-BeenThere: intel-gfx@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
+X-BeenThere: dri-devel@lists.freedesktop.org
 List-Id: Direct Rendering Infrastructure - Development
  <dri-devel.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
@@ -70,124 +196,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, robert.foss@linaro.org,
- Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: jani.nikula@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+If a NULL edid gets passed to drm_add_edid_modes(), we should probably
+also reset the display info.
 
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/drm_edid.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks for your patch
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index bc43e1b32092..1dea0e2f0cab 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5697,6 +5697,7 @@ static int drm_edid_connector_update(struct drm_connector *connector,
+ 	u32 quirks;
+ 
+ 	if (edid == NULL) {
++		drm_reset_display_info(connector);
+ 		clear_eld(connector);
+ 		return 0;
+ 	}
+-- 
+2.30.2
 
-On 4/29/22 22:45, Marek Vasut wrote:
-> Certain DSI bridge chips like TC358767/TC358867/TC9595 expect the DSI D0
-> data lane to be in LP-11 state when released from reset. Currently the
-> STM32MP157 DSI host wrapper glue logic keeps D0 data lane in LP-00 state
-> until DSI init happens, which confuses the TC358767 into entering some
-> sort of test mode and the chip cannot be brought out of this test mode
-> in any way.
->
-> Enable the wrapper glue logic regulator in probe callback already and
-> disable it in remove callback to satisfy this requirement. The D0 data
-> lane is in LP-11 mode when the TC358767 bridge chip is brought up and
-> the chip is not confused anymore.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Antonio Borneo <antonio.borneo@foss.st.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> ---
->  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 30 +++++++++++++++++++++++----
->  1 file changed, 26 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> index 89897d5f5c72..c403633ffeae 100644
-> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> @@ -194,16 +194,29 @@ static int dsi_pll_get_params(struct dw_mipi_dsi_stm *dsi,
->  	return 0;
->  }
->  
-> +static int dw_mipi_dsi_phy_regulator_on(struct dw_mipi_dsi_stm *dsi)
-> +{
-> +	u32 val;
-> +
-> +	/* Enable the regulator */
-> +	dsi_set(dsi, DSI_WRPCR, WRPCR_REGEN | WRPCR_BGREN);
-> +	return readl_poll_timeout(dsi->base + DSI_WISR, val, val & WISR_RRS,
-> +				  SLEEP_US, TIMEOUT_US);
-> +}
-> +
-> +static void dw_mipi_dsi_phy_regulator_off(struct dw_mipi_dsi_stm *dsi)
-> +{
-> +	/* Disable the regulator */
-> +	dsi_clear(dsi, DSI_WRPCR, WRPCR_REGEN | WRPCR_BGREN);
-> +}
-> +
->  static int dw_mipi_dsi_phy_init(void *priv_data)
->  {
->  	struct dw_mipi_dsi_stm *dsi = priv_data;
->  	u32 val;
->  	int ret;
->  
-> -	/* Enable the regulator */
-> -	dsi_set(dsi, DSI_WRPCR, WRPCR_REGEN | WRPCR_BGREN);
-> -	ret = readl_poll_timeout(dsi->base + DSI_WISR, val, val & WISR_RRS,
-> -				 SLEEP_US, TIMEOUT_US);
-> +	ret = dw_mipi_dsi_phy_regulator_on(dsi);
->  	if (ret)
->  		DRM_DEBUG_DRIVER("!TIMEOUT! waiting REGU, let's continue\n");
->  
-> @@ -499,8 +512,16 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
->  	}
->  
->  	dsi->hw_version = dsi_read(dsi, DSI_VERSION) & VERSION;
-> +
-> +	ret = dw_mipi_dsi_phy_regulator_on(dsi);
->  	clk_disable_unprepare(pclk);
->  
-> +	if (ret) {
-> +		DRM_ERROR("%s: Failed to enable wrapper regulator, ret=%d\n",
-> +			  __func__, ret);
-> +		goto err_dsi_probe;
-> +	}
-> +
-
-I have no problem until here. If I understand this correctly, it enables the regulator during all the life of the driver.
-
-If you feel an urge to merge this patch into the Linux kernel, the st display team could gladly do it because it enables more hardware bridges. However another solution could be to rework a bit the regulator part of the driver so that you would have only device tree to change, introducing a 'reg-always-on' property.
-
-This driver needs in fact a bit of a rework with the power management. A solution could be to move the regulator-related part in dw_mipi_dsi_stm_power_on/off() so that it is only activated when needed. Those functions would integrate the enabling of the regulator, the switch for the internal regulator, and eventually handle the PLL if it cannot lock when the regulator is off.
-
-With the DT property, the power management would be only in the probe()/remove(). In that way the DSI bridges would have the logic they need to work.
-
-Ultimately there is two possibilities :
- * You really need this patch to be merged asap
- * You are ok to wait until we send the solution described above
-
-If you want to write those patches (each for DT and regulator), feel free to do it.
-
-What do you think about it ?
-
-
-Regards,
-
-Raphaël G-P
-
->  	if (dsi->hw_version != HWVER_130 && dsi->hw_version != HWVER_131) {
->  		ret = -ENODEV;
->  		DRM_ERROR("bad dsi hardware version\n");
-> @@ -542,6 +563,7 @@ static int dw_mipi_dsi_stm_remove(struct platform_device *pdev)
->  	struct dw_mipi_dsi_stm *dsi = platform_get_drvdata(pdev);
->  
->  	dw_mipi_dsi_remove(dsi->dsi);
-> +	dw_mipi_dsi_phy_regulator_off(dsi);
->  	clk_disable_unprepare(dsi->pllref_clk);
->  	regulator_disable(dsi->vdd_supply);
->  
