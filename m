@@ -1,40 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4535182C4
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 12:57:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B505182FC
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 13:02:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D37C710FF56;
-	Tue,  3 May 2022 10:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61AD010F9EF;
+	Tue,  3 May 2022 11:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A8F910FF56;
- Tue,  3 May 2022 10:57:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C20391042;
- Tue,  3 May 2022 03:57:10 -0700 (PDT)
-Received: from [10.57.80.111] (unknown [10.57.80.111])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73ADE3F73D;
- Tue,  3 May 2022 03:57:08 -0700 (PDT)
-Message-ID: <20803530-822d-86fa-d418-b4b7756aac0c@arm.com>
-Date: Tue, 3 May 2022 11:57:02 +0100
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4470010F9EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 11:02:19 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1nlqIJ-0000jM-Qp; Tue, 03 May 2022 13:02:15 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH v11 11/24] drm/rockchip: dw_hdmi: Use auto-generated tables
+Date: Tue, 03 May 2022 13:02:14 +0200
+Message-ID: <2236782.ElGaqSPkdT@diego>
+In-Reply-To: <20220422072841.2206452-12-s.hauer@pengutronix.de>
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+ <20220422072841.2206452-12-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/3] drm/msm/mdp5: move iommu_domain_alloc() call close to
- its usage
-Content-Language: en-GB
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20220501101022.3931295-1-dmitry.baryshkov@linaro.org>
- <20220501101022.3931295-3-dmitry.baryshkov@linaro.org>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220501101022.3931295-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,131 +40,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, Douglas Anderson <dianders@chromium.org>,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Yakir Yang <ykk@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-01 11:10, Dmitry Baryshkov wrote:
-> Move iommu_domain_alloc() in front of adress space/IOMMU initialization.
-> This allows us to drop final bits of struct mdp5_cfg_platform which
-> remained from the pre-DT days.
+Am Freitag, 22. April 2022, 09:28:28 CEST schrieb Sascha Hauer:
+> From: Douglas Anderson <dianders@chromium.org>
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> The previous tables for mpll_cfg and curr_ctrl were created using the
+> 20-pages of example settings provided by the PHY vendor.  Those
+> example settings weren't particularly dense, so there were places
+> where we were guessing what the settings would be for 10-bit and
+> 12-bit (not that we use those anyway).  It was also always a lot of
+> extra work every time we wanted to add a new clock rate since we had
+> to cross-reference several tables.
+> 
+> In <https://crrev.com/c/285855> I've gone through the work to figure
+> out how to generate this table automatically.  Let's now use the
+> automatically generated table and then we'll never need to look at it
+> again.
+> 
+> We only support 8-bit mode right now and only support a small number
+> of clock rates and I've verified that the only 8-bit rate that was
+> affected was 148.5.  That mode appears to have been wrong in the old
+> table.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Yakir Yang <ykk@rock-chips.com>
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+
+This breaks hdmi on my rk3328-rock64 which then ends up in a
+	[CRTC:37:crtc-0] vblank wait timed out
+
+warning-loop.
+
+Some part of the patch11-14 range also creates sparking horizontal
+lines on my rk3288-pinky.
+
+I haven't the time to dig overly deep into that, so left out the
+hdmi-rate patches (11-14) for now.
+
+
+Heiko
+
+
 > ---
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 16 ----------------
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h |  6 ------
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  6 ++++--
->   3 files changed, 4 insertions(+), 24 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> index 1bf9ff5dbabc..714effb967ff 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> @@ -1248,8 +1248,6 @@ static const struct mdp5_cfg_handler cfg_handlers_v3[] = {
->   	{ .revision = 3, .config = { .hw = &sdm630_config } },
->   };
->   
-> -static struct mdp5_cfg_platform *mdp5_get_config(struct platform_device *dev);
-> -
->   const struct mdp5_cfg_hw *mdp5_cfg_get_hw_config(struct mdp5_cfg_handler *cfg_handler)
->   {
->   	return cfg_handler->config.hw;
-> @@ -1274,10 +1272,8 @@ struct mdp5_cfg_handler *mdp5_cfg_init(struct mdp5_kms *mdp5_kms,
->   		uint32_t major, uint32_t minor)
->   {
->   	struct drm_device *dev = mdp5_kms->dev;
-> -	struct platform_device *pdev = to_platform_device(dev->dev);
->   	struct mdp5_cfg_handler *cfg_handler;
->   	const struct mdp5_cfg_handler *cfg_handlers;
-> -	struct mdp5_cfg_platform *pconfig;
->   	int i, ret = 0, num_handlers;
->   
->   	cfg_handler = kzalloc(sizeof(*cfg_handler), GFP_KERNEL);
-> @@ -1320,9 +1316,6 @@ struct mdp5_cfg_handler *mdp5_cfg_init(struct mdp5_kms *mdp5_kms,
->   	cfg_handler->revision = minor;
->   	cfg_handler->config.hw = mdp5_cfg;
->   
-> -	pconfig = mdp5_get_config(pdev);
-> -	memcpy(&cfg_handler->config.platform, pconfig, sizeof(*pconfig));
-> -
->   	DBG("MDP5: %s hw config selected", mdp5_cfg->name);
->   
->   	return cfg_handler;
-> @@ -1333,12 +1326,3 @@ struct mdp5_cfg_handler *mdp5_cfg_init(struct mdp5_kms *mdp5_kms,
->   
->   	return ERR_PTR(ret);
->   }
-> -
-> -static struct mdp5_cfg_platform *mdp5_get_config(struct platform_device *dev)
-> -{
-> -	static struct mdp5_cfg_platform config = {};
-> -
-> -	config.iommu = iommu_domain_alloc(&platform_bus_type);
-> -
-> -	return &config;
-> -}
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h
-> index 6b03d7899309..c2502cc33864 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h
-> @@ -104,14 +104,8 @@ struct mdp5_cfg_hw {
->   	uint32_t max_clk;
->   };
->   
-> -/* platform config data (ie. from DT, or pdata) */
-> -struct mdp5_cfg_platform {
-> -	struct iommu_domain *iommu;
-> -};
-> -
->   struct mdp5_cfg {
->   	const struct mdp5_cfg_hw *hw;
-> -	struct mdp5_cfg_platform platform;
->   };
->   
->   struct mdp5_kms;
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> index 9b7bbc3adb97..1c67c2c828cd 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> @@ -558,6 +558,7 @@ static int mdp5_kms_init(struct drm_device *dev)
->   	struct msm_gem_address_space *aspace;
->   	int irq, i, ret;
->   	struct device *iommu_dev;
-> +	struct iommu_domain *iommu;
->   
->   	ret = mdp5_init(to_platform_device(dev->dev), dev);
->   
-> @@ -601,14 +602,15 @@ static int mdp5_kms_init(struct drm_device *dev)
->   	}
->   	mdelay(16);
->   
-> -	if (config->platform.iommu) {
-> +	iommu = iommu_domain_alloc(&platform_bus_type);
+> Notes:
+>     Changes since v5:
+>     - Add missing Signed-off-by me
+>     
+>     Changes since v3:
+>     - new patch
+> 
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 130 +++++++++++---------
+>  1 file changed, 69 insertions(+), 61 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> index fe4f9556239ac..cb43e7b47157d 100644
+> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> @@ -91,80 +91,88 @@ static struct rockchip_hdmi *to_rockchip_hdmi(struct drm_encoder *encoder)
+>  
+>  static const struct dw_hdmi_mpll_config rockchip_mpll_cfg[] = {
+>  	{
+> -		27000000, {
+> -			{ 0x00b3, 0x0000},
+> -			{ 0x2153, 0x0000},
+> -			{ 0x40f3, 0x0000}
+> +		30666000, {
+> +			{ 0x00b3, 0x0000 },
+> +			{ 0x2153, 0x0000 },
+> +			{ 0x40f3, 0x0000 },
+>  		},
+> -	}, {
+> -		36000000, {
+> -			{ 0x00b3, 0x0000},
+> -			{ 0x2153, 0x0000},
+> -			{ 0x40f3, 0x0000}
+> +	},  {
+> +		36800000, {
+> +			{ 0x00b3, 0x0000 },
+> +			{ 0x2153, 0x0000 },
+> +			{ 0x40a2, 0x0001 },
+>  		},
+> -	}, {
+> -		40000000, {
+> -			{ 0x00b3, 0x0000},
+> -			{ 0x2153, 0x0000},
+> -			{ 0x40f3, 0x0000}
+> +	},  {
+> +		46000000, {
+> +			{ 0x00b3, 0x0000 },
+> +			{ 0x2142, 0x0001 },
+> +			{ 0x40a2, 0x0001 },
+>  		},
+> -	}, {
+> -		54000000, {
+> -			{ 0x0072, 0x0001},
+> -			{ 0x2142, 0x0001},
+> -			{ 0x40a2, 0x0001},
+> +	},  {
+> +		61333000, {
+> +			{ 0x0072, 0x0001 },
+> +			{ 0x2142, 0x0001 },
+> +			{ 0x40a2, 0x0001 },
+>  		},
+> -	}, {
+> -		65000000, {
+> -			{ 0x0072, 0x0001},
+> -			{ 0x2142, 0x0001},
+> -			{ 0x40a2, 0x0001},
+> +	},  {
+> +		73600000, {
+> +			{ 0x0072, 0x0001 },
+> +			{ 0x2142, 0x0001 },
+> +			{ 0x4061, 0x0002 },
+>  		},
+> -	}, {
+> -		66000000, {
+> -			{ 0x013e, 0x0003},
+> -			{ 0x217e, 0x0002},
+> -			{ 0x4061, 0x0002}
+> +	},  {
+> +		92000000, {
+> +			{ 0x0072, 0x0001 },
+> +			{ 0x2145, 0x0002 },
+> +			{ 0x4061, 0x0002 },
+>  		},
+> -	}, {
+> -		74250000, {
+> -			{ 0x0072, 0x0001},
+> -			{ 0x2145, 0x0002},
+> -			{ 0x4061, 0x0002}
+> +	},  {
+> +		122666000, {
+> +			{ 0x0051, 0x0002 },
+> +			{ 0x2145, 0x0002 },
+> +			{ 0x4061, 0x0002 },
+>  		},
+> -	}, {
+> -		83500000, {
+> -			{ 0x0072, 0x0001},
+> +	},  {
+> +		147200000, {
+> +			{ 0x0051, 0x0002 },
+> +			{ 0x2145, 0x0002 },
+> +			{ 0x4064, 0x0003 },
+>  		},
+> -	}, {
+> -		108000000, {
+> -			{ 0x0051, 0x0002},
+> -			{ 0x2145, 0x0002},
+> -			{ 0x4061, 0x0002}
+> +	},  {
+> +		184000000, {
+> +			{ 0x0051, 0x0002 },
+> +			{ 0x214c, 0x0003 },
+> +			{ 0x4064, 0x0003 },
+>  		},
+> -	}, {
+> -		106500000, {
+> -			{ 0x0051, 0x0002},
+> -			{ 0x2145, 0x0002},
+> -			{ 0x4061, 0x0002}
+> +	},  {
+> +		226666000, {
+> +			{ 0x0040, 0x0003 },
+> +			{ 0x214c, 0x0003 },
+> +			{ 0x4064, 0x0003 },
+>  		},
+> -	}, {
+> -		146250000, {
+> -			{ 0x0051, 0x0002},
+> -			{ 0x2145, 0x0002},
+> -			{ 0x4061, 0x0002}
+> +	},  {
+> +		272000000, {
+> +			{ 0x0040, 0x0003 },
+> +			{ 0x214c, 0x0003 },
+> +			{ 0x5a64, 0x0003 },
+>  		},
+> -	}, {
+> -		148500000, {
+> -			{ 0x0051, 0x0003},
+> -			{ 0x214c, 0x0003},
+> -			{ 0x4064, 0x0003}
+> +	},  {
+> +		340000000, {
+> +			{ 0x0040, 0x0003 },
+> +			{ 0x3b4c, 0x0003 },
+> +			{ 0x5a64, 0x0003 },
+>  		},
+> -	}, {
+> +	},  {
+> +		600000000, {
+> +			{ 0x1a40, 0x0003 },
+> +			{ 0x3b4c, 0x0003 },
+> +			{ 0x5a64, 0x0003 },
+> +		},
+> +	},  {
+>  		~0UL, {
+> -			{ 0x00a0, 0x000a },
+> -			{ 0x2001, 0x000f },
+> -			{ 0x4002, 0x000f },
+> +			{ 0x0000, 0x0000 },
+> +			{ 0x0000, 0x0000 },
+> +			{ 0x0000, 0x0000 },
+>  		},
+>  	}
+>  };
+> 
 
-To preempt the next change down the line as well, could this be 
-rearranged to work as iommu_domain_alloc(iommu_dev->bus)?
 
-> +	if (iommu) {
->   		struct msm_mmu *mmu;
->   
->   		iommu_dev = &pdev->dev;
->   		if (!dev_iommu_fwspec_get(iommu_dev))
 
-The fwspec helpers are more of an internal thing between the IOMMU 
-drivers and the respective firmware code - I'd rather that external API 
-users stuck consistently to using device_iommu_mapped() (it should give 
-the same result).
 
-Otherwise, thanks for sorting this out!
-
-Robin.
-
->   			iommu_dev = iommu_dev->parent;
->   
-> -		mmu = msm_iommu_new(iommu_dev, config->platform.iommu);
-> +		mmu = msm_iommu_new(iommu_dev, iommu);
->   
->   		aspace = msm_gem_address_space_create(mmu, "mdp5",
->   			0x1000, 0x100000000 - 0x1000);
