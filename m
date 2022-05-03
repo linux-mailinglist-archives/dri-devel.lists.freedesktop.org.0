@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6CE517EEE
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 09:31:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B9A517D41
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 08:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2C8610EEEC;
-	Tue,  3 May 2022 07:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2782B10FE01;
+	Tue,  3 May 2022 06:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 914 seconds by postgrey-1.36 at gabe;
- Mon, 02 May 2022 17:30:14 UTC
-Received: from mail-m971.mail.163.com (mail-m971.mail.163.com [123.126.97.1])
- by gabe.freedesktop.org (Postfix) with ESMTP id D56BA10E570
- for <dri-devel@lists.freedesktop.org>; Mon,  2 May 2022 17:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=76j0I
- vA+I38dm9XbzmM3FuswAc3dTUCCDmQhUcsk+2Y=; b=Wl+Y3oMk2j9KfVEFnmNLH
- eg6GIloHE8BebBvjaOrJsoqg0fI36q4L9/D5d1age8+6bwL58KX2m/Pxnw+ztwLR
- G6B+/2G04FTD4oDHRVw41oCG+8buoG1VLHJ5V4oZJl3dxIUjFfOyr7EwT6QWPqwR
- 14ReLd/MZLV3Tx5vk89Mz8=
-Received: from localhost (unknown [49.235.41.28])
- by smtp1 (Coremail) with SMTP id GdxpCgCHteaAEXBicD8XAg--.29129S2;
- Tue, 03 May 2022 01:14:40 +0800 (CST)
-Date: Tue, 3 May 2022 01:14:40 +0800
-From: Hui Su <suhui_kernel@163.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com,
- daniel.vetter@ffwll.ch, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers/dma-buf: fix the wrong return val
-Message-ID: <20220502171440.GA377545@localhost.localdomain>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7F210FE00;
+ Tue,  3 May 2022 06:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651558554; x=1683094554;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CpgxHoasoCjAahnwUEYAJ3jYQqTT6BFB3I4HnxPt7kM=;
+ b=lcsjcZ3KH/jND8Q1zO5ewBKVqiK+h7MXI2iTWLS06BB1jFq/SYEx8bnX
+ EVzQ9aJFjBtUO3FzRytVXF/yz4eJa3sC1L6uHNo5ZmRA/CIIcqpeR/ovF
+ tPU7HA9xBxfrswqADlpPpI14+eIJtWw89m/qFhDGmAlwMsHBJTtun+ElL
+ 2K+ICz2D6Tz26yImnpnyDnp+2qjSdADk9dyTcrDg6WrmQEAfmBiuwMK6S
+ 73YlbfBZAtDgOpHVKvFXYSGe7GQWvRtCfcwv45S/e76VlLOkm1T3fjzpb
+ WKj6Ax1X0oKX4/9bT75hu5NP6xKu3ygdEOaj5rmXBgslTiNIl75lyzapv g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="267283119"
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="267283119"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 23:15:53 -0700
+X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="653143918"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 May 2022 23:15:53 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/gem: Make drop_pages() return bool
+Date: Mon,  2 May 2022 23:15:56 -0700
+Message-Id: <20220503061556.513175-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-CM-TRANSID: GdxpCgCHteaAEXBicD8XAg--.29129S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWruF45ZFW8trW3GFW3Ar4fXwb_yoWkXrgEgr
- 48Xw4xX34vkr45tw1qywn5ZFyxKa4DZrZ5Arn2q3yayry5GrnxWw4ku3Z8A348Xa18WFWv
- 9ryfW34FkryUXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8YNt7UUUUU==
-X-Originating-IP: [49.235.41.28]
-X-CM-SenderInfo: 5vxk3xhbnh20lho6il2tof0z/1tbiMwD0bVXmBJls4AAAsI
-X-Mailman-Approved-At: Tue, 03 May 2022 07:31:12 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,48 +54,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function should return the correct value.
+Commit e4e806253003 ("drm/i915: Change shrink ordering to use locking
+around unbinding.") changed the return type to int without changing the
+return values or their meaning to "0 is success". Move it back to
+boolean.
 
-Fixes: 64a8f92fd783 ("dma-buf: add dma_fence_unwrap v2")
-Signed-off-by: Hui Su <suhui@zeku.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/dma-buf/st-dma-fence-unwrap.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
-index 039f016b57be..0f156fca9697 100644
---- a/drivers/dma-buf/st-dma-fence-unwrap.c
-+++ b/drivers/dma-buf/st-dma-fence-unwrap.c
-@@ -157,7 +157,7 @@ static int unwrap_array(void *arg)
- 	dma_fence_signal(f1);
- 	dma_fence_signal(f2);
- 	dma_fence_put(array);
--	return 0;
-+	return err;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+index 6a6ff98a8746..1030053571a2 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+@@ -36,7 +36,7 @@ static bool can_release_pages(struct drm_i915_gem_object *obj)
+ 	return swap_available() || obj->mm.madv == I915_MADV_DONTNEED;
  }
-
- static int unwrap_chain(void *arg)
-@@ -199,7 +199,7 @@ static int unwrap_chain(void *arg)
- 	dma_fence_signal(f1);
- 	dma_fence_signal(f2);
- 	dma_fence_put(chain);
--	return 0;
-+	return err;
- }
-
- static int unwrap_chain_array(void *arg)
-@@ -245,7 +245,7 @@ static int unwrap_chain_array(void *arg)
- 	dma_fence_signal(f1);
- 	dma_fence_signal(f2);
- 	dma_fence_put(chain);
--	return 0;
-+	return err;
- }
-
- int dma_fence_unwrap(void)
---
-2.34.1
+ 
+-static int drop_pages(struct drm_i915_gem_object *obj,
++static bool drop_pages(struct drm_i915_gem_object *obj,
+ 		       unsigned long shrink, bool trylock_vm)
+ {
+ 	unsigned long flags;
+-- 
+2.36.0
 
