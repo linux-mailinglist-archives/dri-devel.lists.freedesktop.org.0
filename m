@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E076518237
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 12:22:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A40518239
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 12:23:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5112D10FD53;
-	Tue,  3 May 2022 10:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8699610FDD0;
+	Tue,  3 May 2022 10:23:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E98210FD5F;
- Tue,  3 May 2022 10:22:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651573359; x=1683109359;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=kXXgpe0c3giHLxysAjNF9vxCxZc/ZOEH1QrNLITYQY4=;
- b=Tlra7b/LNY/EGsfpdCvFwMhdyAmddk14JRPL4p0YrB6LM3kHPMZLQSmq
- Cszp1z3vmjQSI2A8cZ0Y5MOSf5wxJ7FHhAYA5zzy19OhRi6oblzSguv1N
- gLyh6pKTDUFNXZhMnYReoAPONG2QktlsMgG/ufpZns5wbIkrprpuMXO5p
- MbszQc+/hnSxWt1Y4j4Rf2u9MvWkg4KD//tkPK1DknliLHfOjeezx4ptd
- YcXNXDJ0XowLyvusCbuGYNnKgyOJ+YrQ/nRTEK1UAzahH5L3chaeacXZu
- aKWlUI1k2N51EdkKQlcxPRT2oYpUV5x2m+rWw0VTH96L50P9Y8duTK/Xb g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="249422537"
-X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="249422537"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 03:22:38 -0700
-X-IronPort-AV: E=Sophos;i="5.91,194,1647327600"; d="scan'208";a="663924017"
-Received: from croe-mobl1.ger.corp.intel.com (HELO [10.252.27.16])
- ([10.252.27.16])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 03:22:35 -0700
-Message-ID: <0c03060e-e367-1d54-3376-a29b5de0fc86@intel.com>
-Date: Tue, 3 May 2022 11:22:32 +0100
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB4710FD78
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 10:23:51 +0000 (UTC)
+X-UUID: 14667ef03796445396a3599c55f09815-20220503
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:c00eafd6-4dbd-44db-9a8b-44b3a4108c67, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:613051c7-85ee-4ac1-ac05-bd3f1e72e732,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 14667ef03796445396a3599c55f09815-20220503
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1240670005; Tue, 03 May 2022 18:23:47 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 3 May 2022 18:23:46 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 3 May 2022 18:23:46 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Tue, 3 May 2022 18:23:46 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
+ Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v19 00/25] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Tue, 3 May 2022 18:23:20 +0800
+Message-ID: <20220503102345.22817-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2] drm/doc: add rfc section for small BAR uapi
-Content-Language: en-GB
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220420171328.57253-1-matthew.auld@intel.com>
- <5a026a09-e0de-6ade-cd70-b549ca646b95@intel.com>
- <e7b0fda1-fb25-32af-23da-6ec0a3e10de2@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <e7b0fda1-fb25-32af-23da-6ec0a3e10de2@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,426 +60,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, mesa-dev@lists.freedesktop.org,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/05/2022 09:53, Lionel Landwerlin wrote:
-> On 02/05/2022 10:54, Lionel Landwerlin wrote:
->> On 20/04/2022 20:13, Matthew Auld wrote:
->>> Add an entry for the new uapi needed for small BAR on DG2+.
->>>
->>> v2:
->>>    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
->>>    - Rework error capture interactions, including no longer needing
->>>      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
->>>    - Add probed_cpu_visible_size. (Lionel)
->>>
->>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
->>> Cc: mesa-dev@lists.freedesktop.org
->>> ---
->>>   Documentation/gpu/rfc/i915_small_bar.h   | 190 +++++++++++++++++++++++
->>>   Documentation/gpu/rfc/i915_small_bar.rst |  58 +++++++
->>>   Documentation/gpu/rfc/index.rst          |   4 +
->>>   3 files changed, 252 insertions(+)
->>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
->>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
->>>
->>> diff --git a/Documentation/gpu/rfc/i915_small_bar.h 
->>> b/Documentation/gpu/rfc/i915_small_bar.h
->>> new file mode 100644
->>> index 000000000000..7bfd0cf44d35
->>> --- /dev/null
->>> +++ b/Documentation/gpu/rfc/i915_small_bar.h
->>> @@ -0,0 +1,190 @@
->>> +/**
->>> + * struct __drm_i915_memory_region_info - Describes one region as 
->>> known to the
->>> + * driver.
->>> + *
->>> + * Note this is using both struct drm_i915_query_item and struct 
->>> drm_i915_query.
->>> + * For this new query we are adding the new query id 
->>> DRM_I915_QUERY_MEMORY_REGIONS
->>> + * at &drm_i915_query_item.query_id.
->>> + */
->>> +struct __drm_i915_memory_region_info {
->>> +    /** @region: The class:instance pair encoding */
->>> +    struct drm_i915_gem_memory_class_instance region;
->>> +
->>> +    /** @rsvd0: MBZ */
->>> +    __u32 rsvd0;
->>> +
->>> +    /** @probed_size: Memory probed by the driver (-1 = unknown) */
->>> +    __u64 probed_size;
->>> +
->>> +    /** @unallocated_size: Estimate of memory remaining (-1 = 
->>> unknown) */
->>> +    __u64 unallocated_size;
->>> +
->>> +    union {
->>> +        /** @rsvd1: MBZ */
->>> +        __u64 rsvd1[8];
->>> +        struct {
->>> +            /**
->>> +             * @probed_cpu_visible_size: Memory probed by the driver
->>> +             * that is CPU accessible. (-1 = unknown).
->>> +             *
->>> +             * This will be always be <= @probed_size, and the
->>> +             * remainder(if there is any) will not be CPU
->>> +             * accessible.
->>> +             */
->>> +            __u64 probed_cpu_visible_size;
->>> +        };
->>
->>
->> Trying to implement userspace support in Vulkan for this, I have an 
->> additional question about the value of probed_cpu_visible_size.
->>
->> When is it set to -1?
->>
->> I'm guessing before there is support for this value it'll be 0 (MBZ).
->>
->> After after it should either be the entire lmem or something smaller.
->>
->>
->> -Lionel
-> 
-> 
-> Other pain point of this new uAPI, previously we could query the 
-> unallocated size for each heap.
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-unallocated_size should always give the same value as probed_size. We 
-have the avail tracking, but we don't currently expose that through 
-unallocated_size, due to lack of real userspace/user etc.
+Add DRM and these modules support by the patches below:
 
-> 
-> Now lmem is effectively divided into 2 heaps, but unallocated_size is 
-> tracking allocation from both parts of lmem.
+Changes in v19:
+- fix reviewer comment
+  - separate mt8195 mmsys component to a new patch
+  - separate mt8195 vdo0 and vdo1 routing table
+  - separate mmsys_write_reg api to a new patch and simplify write reg code
+  - separate mmsys 64 bit reset to a new patch
+  - separate mtk-mutex dp_intf1 component to a new patch
 
-Yeah, if we ever properly expose the unallocated_size, then we could 
-also just add unallocated_cpu_visible_size.
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
 
-> 
-> Is adding new I915_MEMORY_CLASS_DEVICE_NON_MAPPABLE out of question?
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
 
-I don't think it's out of the question...
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
 
-I guess user-space should be able to get the current flag behaviour just 
-by specifying: device, system. And it does give more flexibly to allow 
-something like: device, device-nm, smem.
+Changes in v15:
+- fix ethdr uppercase hex number in dts
 
-We can also drop the probed_cpu_visible_size, which would now just be 
-the probed_size with device/device-nm. And if we lack device-nm, then 
-the entire thing must be CPU mappable.
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
 
-One of the downsides though, is that we can no longer easily mix object 
-pages from both device + device-nm, which we could previously do when we 
-didn't specify the flag. At least according to the current 
-design/behaviour for @regions that would not be allowed. I guess some 
-kind of new flag like ALLOC_MIXED or so? Although currently that is only 
-possible with device + device-nm in ttm/i915.
+Resend v13
+- add related maintainer in maillist
 
-> 
-> 
-> -Lionel
-> 
-> 
->>
->>
->>> +    };
->>> +};
->>> +
->>> +/**
->>> + * struct __drm_i915_gem_create_ext - Existing gem_create behaviour, 
->>> with added
->>> + * extension support using struct i915_user_extension.
->>> + *
->>> + * Note that new buffer flags should be added here, at least for the 
->>> stuff that
->>> + * is immutable. Previously we would have two ioctls, one to create 
->>> the object
->>> + * with gem_create, and another to apply various parameters, however 
->>> this
->>> + * creates some ambiguity for the params which are considered 
->>> immutable. Also in
->>> + * general we're phasing out the various SET/GET ioctls.
->>> + */
->>> +struct __drm_i915_gem_create_ext {
->>> +    /**
->>> +     * @size: Requested size for the object.
->>> +     *
->>> +     * The (page-aligned) allocated size for the object will be 
->>> returned.
->>> +     *
->>> +     * Note that for some devices we have might have further minimum
->>> +     * page-size restrictions(larger than 4K), like for device 
->>> local-memory.
->>> +     * However in general the final size here should always reflect any
->>> +     * rounding up, if for example using the 
->>> I915_GEM_CREATE_EXT_MEMORY_REGIONS
->>> +     * extension to place the object in device local-memory.
->>> +     */
->>> +    __u64 size;
->>> +    /**
->>> +     * @handle: Returned handle for the object.
->>> +     *
->>> +     * Object handles are nonzero.
->>> +     */
->>> +    __u32 handle;
->>> +    /**
->>> +     * @flags: Optional flags.
->>> +     *
->>> +     * Supported values:
->>> +     *
->>> +     * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the 
->>> kernel that
->>> +     * the object will need to be accessed via the CPU.
->>> +     *
->>> +     * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, and
->>> +     * only strictly required on platforms where only some of the 
->>> device
->>> +     * memory is directly visible or mappable through the CPU, like 
->>> on DG2+.
->>> +     *
->>> +     * One of the placements MUST also be I915_MEMORY_CLASS_SYSTEM, to
->>> +     * ensure we can always spill the allocation to system memory, 
->>> if we
->>> +     * can't place the object in the mappable part of
->>> +     * I915_MEMORY_CLASS_DEVICE.
->>> +     *
->>> +     * Note that since the kernel only supports flat-CCS on objects 
->>> that can
->>> +     * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore don't
->>> +     * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
->>> +     * flat-CCS.
->>> +     *
->>> +     * Without this hint, the kernel will assume that non-mappable
->>> +     * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note 
->>> that the
->>> +     * kernel can still migrate the object to the mappable part, as 
->>> a last
->>> +     * resort, if userspace ever CPU faults this object, but this 
->>> might be
->>> +     * expensive, and so ideally should be avoided.
->>> +     */
->>> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
->>> +    __u32 flags;
->>> +    /**
->>> +     * @extensions: The chain of extensions to apply to this object.
->>> +     *
->>> +     * This will be useful in the future when we need to support 
->>> several
->>> +     * different extensions, and we need to apply more than one when
->>> +     * creating the object. See struct i915_user_extension.
->>> +     *
->>> +     * If we don't supply any extensions then we get the same old 
->>> gem_create
->>> +     * behaviour.
->>> +     *
->>> +     * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
->>> +     * struct drm_i915_gem_create_ext_memory_regions.
->>> +     *
->>> +     * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
->>> +     * struct drm_i915_gem_create_ext_protected_content.
->>> +     */
->>> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
->>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
->>> +    __u64 extensions;
->>> +};
->>> +
->>> +#define DRM_I915_QUERY_VMA_INFO    5
->>> +
->>> +/**
->>> + * struct __drm_i915_query_vma_info
->>> + *
->>> + * Given a vm and GTT address, lookup the corresponding vma, 
->>> returning its set
->>> + * of attributes.
->>> + *
->>> + * .. code-block:: C
->>> + *
->>> + *    struct drm_i915_query_vma_info info = {};
->>> + *    struct drm_i915_query_item item = {
->>> + *        .data_ptr = (uintptr_t)&info,
->>> + *        .query_id = DRM_I915_QUERY_VMA_INFO,
->>> + *    };
->>> + *    struct drm_i915_query query = {
->>> + *        .num_items = 1,
->>> + *        .items_ptr = (uintptr_t)&item,
->>> + *    };
->>> + *    int err;
->>> + *
->>> + *    // Unlike some other types of queries, there is no need to 
->>> first query
->>> + *    // the size of the data_ptr blob here, since we already know 
->>> ahead of
->>> + *    // time how big this needs to be.
->>> + *    item.length = sizeof(info);
->>> + *
->>> + *    // Next we fill in the vm_id and ppGTT address of the vma we wish
->>> + *    // to query, before then firing off the query.
->>> + *    info.vm_id = vm_id;
->>> + *    info.offset = gtt_address;
->>> + *    err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
->>> + *    if (err || item.length < 0) ...
->>> + *
->>> + *    // If all went well we can now inspect the returned attributes.
->>> + *    if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
->>> + */
->>> +struct __drm_i915_query_vma_info {
->>> +    /**
->>> +     * @vm_id: The given vm id that contains the vma. The id is the 
->>> value
->>> +     * returned by the DRM_I915_GEM_VM_CREATE. See struct
->>> +     * drm_i915_gem_vm_control.vm_id.
->>> +     */
->>> +    __u32 vm_id;
->>> +    /** @pad: MBZ. */
->>> +    __u32 pad;
->>> +    /**
->>> +     * @offset: The corresponding ppGTT address of the vma which the 
->>> kernel
->>> +     * will use to perform the lookup.
->>> +     */
->>> +    __u64 offset;
->>> +    /**
->>> +     * @attributes: The returned attributes for the given vma.
->>> +     *
->>> +     * Possible values:
->>> +     *
->>> +     * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set if the pages 
->>> backing the
->>> +     * vma are currently CPU accessible. If this is not set then the 
->>> vma is
->>> +     * currently backed by I915_MEMORY_CLASS_DEVICE memory, which 
->>> the CPU
->>> +     * cannot directly access(this is only possible on discrete 
->>> devices with
->>> +     * a small BAR). Attempting to MMAP and fault such an object will
->>> +     * require the kernel first synchronising any GPU work tied to the
->>> +     * object, before then migrating the pages, either to the CPU 
->>> accessible
->>> +     * part of I915_MEMORY_CLASS_DEVICE, or 
->>> I915_MEMORY_CLASS_SYSTEM, if the
->>> +     * placements permit it. See 
->>> I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
->>> +     *
->>> +     * Note that this is inherently racy.
->>> +     */
->>> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
->>> +    __u64 attributes;
->>> +    /** @rsvd: MBZ */
->>> +    __u32 rsvd[4];
->>> +};
->>> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst 
->>> b/Documentation/gpu/rfc/i915_small_bar.rst
->>> new file mode 100644
->>> index 000000000000..be3d9bcdd86d
->>> --- /dev/null
->>> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
->>> @@ -0,0 +1,58 @@
->>> +==========================
->>> +I915 Small BAR RFC Section
->>> +==========================
->>> +Starting from DG2 we will have resizable BAR support for device 
->>> local-memory(i.e
->>> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size 
->>> might still be
->>> +smaller than the total probed_size. In such cases, only some subset of
->>> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the 
->>> first 256M),
->>> +while the remainder is only accessible via the GPU.
->>> +
->>> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
->>> +----------------------------------------------
->>> +New gem_create_ext flag to tell the kernel that a BO will require 
->>> CPU access.
->>> +This becomes important when placing an object in 
->>> I915_MEMORY_CLASS_DEVICE, where
->>> +underneath the device has a small BAR, meaning only some portion of 
->>> it is CPU
->>> +accessible. Without this flag the kernel will assume that CPU access 
->>> is not
->>> +required, and prioritize using the non-CPU visible portion of
->>> +I915_MEMORY_CLASS_DEVICE.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_gem_create_ext
->>> +
->>> +probed_cpu_visible_size attribute
->>> +---------------------------------
->>> +New struct__drm_i915_memory_region attribute which returns the total 
->>> size of the
->>> +CPU accessible portion, for the particular region. This should only be
->>> +applicable for I915_MEMORY_CLASS_DEVICE.
->>> +
->>> +Vulkan will need this as part of creating a separate VkMemoryHeap 
->>> with the
->>> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU 
->>> visible portion,
->>> +where the total size of the heap needs to be known.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_memory_region_info
->>> +
->>> +DRM_I915_QUERY_VMA_INFO query
->>> +-----------------------------
->>> +Query the attributes of some vma. Given a vm and GTT offset, find the
->>> +respective vma, and return its set of attributes. For now we only 
->>> support
->>> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the object/vma is
->>> +currently placed in memory that is accessible by the CPU. This 
->>> should always be
->>> +set on devices where the CPU probed_cpu_visible_size of 
->>> I915_MEMORY_CLASS_DEVICE
->>> +matches the probed_size. If this is not set then CPU faulting the 
->>> object will
->>> +likely first require migrating the pages.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_query_vma_info
->>> +
->>> +Error Capture restrictions
->>> +--------------------------
->>> +With error capture we have two new restrictions:
->>> +
->>> +    1) Error capture is best effort on small BAR systems; if the 
->>> pages are not
->>> +    CPU accessible, at the time of capture, then the kernel is free 
->>> to skip
->>> +    trying to capture them.
->>> +
->>> +    2) On discrete we now reject error capture on recoverable 
->>> contexts. In the
->>> +    future the kernel may want to blit during error capture, when 
->>> for example
->>> +    something is not currently CPU accessible.
->>> diff --git a/Documentation/gpu/rfc/index.rst 
->>> b/Documentation/gpu/rfc/index.rst
->>> index 91e93a705230..5a3bd3924ba6 100644
->>> --- a/Documentation/gpu/rfc/index.rst
->>> +++ b/Documentation/gpu/rfc/index.rst
->>> @@ -23,3 +23,7 @@ host such documentation:
->>>   .. toctree::
->>>         i915_scheduler.rst
->>> +
->>> +.. toctree::
->>> +
->>> +    i915_small_bar.rst
->>
->>
-> 
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    20220112114724.1953-4-tinghan.shen@mediatek.com
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    20210615173233.26682-15-tinghan.shen@mediatek.com
+[3] arm64: dts: mt8195: add gce node
+    20220126090109.32143-1-jason-jh.lin@mediatek.com
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    20220225021535.2655-1-jason-jh.lin@mediatek.com
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v20 series
+    20220419094143.9561-1-jason-jh.lin@mediatek.com
+[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    20220407075726.17771-2-yong.wu@mediatek.com
+[7] [V2] drm/mediatek: Add vblank register/unregister callback functions
+    20220321072320.15019-1-rex-bc.chen@mediatek.com
+
+Nancy.Lin (25):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk_mmsys_write_reg API
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: add mmsys for support 64 reset bits
+  soc: mediatek: mmsys: add reset control for MT8195 vdosys1
+  soc: mediatek: add mtk-mutex component - dp_intf1
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+  arm64: dts: mt8195: add display node for vdosys1
+
+ .../display/mediatek/mediatek,ethdr.yaml      | 191 +++++++
+ .../display/mediatek/mediatek,mdp-rdma.yaml   |  94 ++++
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 227 +++++++-
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  38 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  94 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 514 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  96 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 125 +++--
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 351 ++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  25 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 369 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  26 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 146 +++++
+ drivers/soc/mediatek/mtk-mmsys.c              | 130 +++--
+ drivers/soc/mediatek/mtk-mmsys.h              |   1 +
+ drivers/soc/mediatek/mtk-mutex.c              |  37 ++
+ include/dt-bindings/reset/mt8195-resets.h     |  12 +
+ include/linux/soc/mediatek/mtk-mmsys.h        |  25 +
+ 25 files changed, 2672 insertions(+), 235 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+
+-- 
+2.18.0
+
