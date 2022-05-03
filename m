@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223605184E9
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 15:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9C9518553
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 15:22:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4597E10F9FE;
-	Tue,  3 May 2022 13:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 090D910FFFA;
+	Tue,  3 May 2022 13:22:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 578BC10F9FE;
- Tue,  3 May 2022 13:03:15 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-e9027efe6aso17049401fac.10; 
- Tue, 03 May 2022 06:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vZlbwGnaXn6oAOYWqGESYTF6tN7rIghms2IiqrKYN+I=;
- b=Ix1ow94w6UZgM4l+P8oo4tW/SR5UB3joE8cKwSicKirKwWsl/BAj4xqDazgzZvH6a/
- EKDJRTnrrO36mWlmjDAKYbeQpJmBlClwMVXYoRD+le8lOf7m9pA9EwM4lXQELTzYUz4x
- NHqE7MqK9KgXvtpsiW+KqV9NrUcHM8210ivnuq32PSAyKGJPwQTyUTn0K/UijG1BuY40
- 8ZjG3bG6A8t9BGyhGqBN7+IHaUu2SRprxCxMgG5SOo7ibgkmUEf5FuJo+4rN/g+rAxZd
- OFsw/UCHbTbx3OjbE7PuyD6HSSr6wH/VAkPP1MVBTfM7IJVsMoQWkecKvAQoChVwRd6/
- DYzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vZlbwGnaXn6oAOYWqGESYTF6tN7rIghms2IiqrKYN+I=;
- b=uuFI3MNpi3nCLB8q9Y3facgfI8z5Nq44LtP0aeuH8HETFVKoFHuiyLzVTotGygE3kZ
- e6//sXtkInDkcMBqICBxtgJhmLcFf+H75xGyniYZhaNc57Spsh5yh/IPZXT4VnDov5Dr
- s9M79XBFat/SirM7exgOBW8FH81mk2z6YDbhFz9sv5MKnR/cPuiNANSHVxjk2AmS6LHG
- 2uu9R+Qf1hEVZRVRt5+DQXsgXfRDfbOsFNjaFCVFpz/Z+BybN3p5Q3sZ4LWv8uTp4HKH
- Geg2PrKgK/tGOv4/Onyw1CIiZyFOCmVAKK6jKjmuTz+VtciDzFXryC++B2/Dl9TC8yQ+
- Hpfw==
-X-Gm-Message-State: AOAM532kXwsOe97DI9iZdLmb6uqbIrLU7MY+Z0oOfDhTU7m/HwFKBs1s
- 6PRkHrfvpQ2wAl9RWuLzOq4V1UI2Ind8a5rJUg0=
-X-Google-Smtp-Source: ABdhPJxI6Zzt5gh+hyLCY9CEx7L+7WRwQrX8nQyhf3vVNDEHXqPG9m16oH+WSKDEscBywy+YBKqXyV20EWA1t2RJ5OM=
-X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
- v29-20020a056870311d00b000de9b6c362bmr1554880oaa.200.1651582994590; Tue, 03
- May 2022 06:03:14 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9C6110FFF8;
+ Tue,  3 May 2022 13:22:11 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0970D1F74B;
+ Tue,  3 May 2022 13:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1651584130; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=OCiFhYZGfRbvpOrr1IR3lhjXORH3jBMETGpB22+cUf4=;
+ b=NkSvVU0jzbByPjBn7ogNMnnyej2TuY2z7mt0eVPium+9eD6GxprqRlfTrBS52DctN/QLAB
+ t6vFitDNeyXk8vdjBpDcdufkxY558EEEVPi+0w4syg5u6iECR8XV+UsVAWKMZVYwPgtEQD
+ Wu33a9malb3HwtZ2ImjJ0txaVGbFhYY=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5EDF013ABE;
+ Tue,  3 May 2022 13:22:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id x7ntFYEscWIASAAAMHmgww
+ (envelope-from <jgross@suse.com>); Tue, 03 May 2022 13:22:09 +0000
+From: Juergen Gross <jgross@suse.com>
+To: xen-devel@lists.xenproject.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] x86/pat: fix querying available caching modes
+Date: Tue,  3 May 2022 15:22:05 +0200
+Message-Id: <20220503132207.17234-1-jgross@suse.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20220503063613.46925-1-christian.koenig@amd.com>
-In-Reply-To: <20220503063613.46925-1-christian.koenig@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 3 May 2022 09:03:03 -0400
-Message-ID: <CADnq5_PX91474D=DRxB0VQ3uHY1sGCS_40w9AjCvXSCHgm9Ozg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix drm-next merge fallout
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,48 +56,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Juergen Gross <jgross@suse.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, jbeulich@suse.com,
+ Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, David Airlie <airlied@linux.ie>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 3, 2022 at 2:36 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> That hunk somehow got missing while solving the conflict between the TTM
-> and AMDGPU changes for drm-next.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Fix some issues with querying caching modes being available for memory
+mappings.
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+This is a replacement for the patch of Jan sent recently:
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_vm_pt.c
-> index 7761a3ea172e..88de9f0d4728 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> @@ -631,9 +631,13 @@ static void amdgpu_vm_pt_free(struct amdgpu_vm_bo_ba=
-se *entry)
->         if (!entry->bo)
->                 return;
->         shadow =3D amdgpu_bo_shadowed(entry->bo);
-> +       if (shadow) {
-> +               ttm_bo_set_bulk_move(&shadow->tbo, NULL);
-> +               amdgpu_bo_unref(&shadow);
-> +       }
-> +       ttm_bo_set_bulk_move(&entry->bo->tbo, NULL);
->         entry->bo->vm_bo =3D NULL;
->         list_del(&entry->vm_status);
-> -       amdgpu_bo_unref(&shadow);
->         amdgpu_bo_unref(&entry->bo);
->  }
->
-> --
-> 2.25.1
->
+https://lists.xen.org/archives/html/xen-devel/2022-04/msg02392.html
+
+Juergen Gross (2):
+  x86/pat: fix x86_has_pat_wp()
+  x86/pat: add functions to query specific cache mode availability
+
+ arch/x86/include/asm/memtype.h           |  2 ++
+ arch/x86/include/asm/pci.h               |  2 +-
+ arch/x86/mm/init.c                       | 24 ++++++++++++++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c |  8 ++++----
+ 4 files changed, 29 insertions(+), 7 deletions(-)
+
+-- 
+2.35.3
+
