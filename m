@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D92D518488
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:45:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 223605184E9
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 15:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A0810FBE9;
-	Tue,  3 May 2022 12:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4597E10F9FE;
+	Tue,  3 May 2022 13:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7B710F9DC;
- Tue,  3 May 2022 12:44:59 +0000 (UTC)
-Received: from [192.168.0.7] (ip5f5aed95.dynamic.kabel-deutschland.de
- [95.90.237.149])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 81BF061EA1935;
- Tue,  3 May 2022 14:44:57 +0200 (CEST)
-Message-ID: <5a530210-2c22-d8e6-02e0-f321ba5e0e60@molgen.mpg.de>
-Date: Tue, 3 May 2022 14:44:56 +0200
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 578BC10F9FE;
+ Tue,  3 May 2022 13:03:15 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-e9027efe6aso17049401fac.10; 
+ Tue, 03 May 2022 06:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vZlbwGnaXn6oAOYWqGESYTF6tN7rIghms2IiqrKYN+I=;
+ b=Ix1ow94w6UZgM4l+P8oo4tW/SR5UB3joE8cKwSicKirKwWsl/BAj4xqDazgzZvH6a/
+ EKDJRTnrrO36mWlmjDAKYbeQpJmBlClwMVXYoRD+le8lOf7m9pA9EwM4lXQELTzYUz4x
+ NHqE7MqK9KgXvtpsiW+KqV9NrUcHM8210ivnuq32PSAyKGJPwQTyUTn0K/UijG1BuY40
+ 8ZjG3bG6A8t9BGyhGqBN7+IHaUu2SRprxCxMgG5SOo7ibgkmUEf5FuJo+4rN/g+rAxZd
+ OFsw/UCHbTbx3OjbE7PuyD6HSSr6wH/VAkPP1MVBTfM7IJVsMoQWkecKvAQoChVwRd6/
+ DYzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vZlbwGnaXn6oAOYWqGESYTF6tN7rIghms2IiqrKYN+I=;
+ b=uuFI3MNpi3nCLB8q9Y3facgfI8z5Nq44LtP0aeuH8HETFVKoFHuiyLzVTotGygE3kZ
+ e6//sXtkInDkcMBqICBxtgJhmLcFf+H75xGyniYZhaNc57Spsh5yh/IPZXT4VnDov5Dr
+ s9M79XBFat/SirM7exgOBW8FH81mk2z6YDbhFz9sv5MKnR/cPuiNANSHVxjk2AmS6LHG
+ 2uu9R+Qf1hEVZRVRt5+DQXsgXfRDfbOsFNjaFCVFpz/Z+BybN3p5Q3sZ4LWv8uTp4HKH
+ Geg2PrKgK/tGOv4/Onyw1CIiZyFOCmVAKK6jKjmuTz+VtciDzFXryC++B2/Dl9TC8yQ+
+ Hpfw==
+X-Gm-Message-State: AOAM532kXwsOe97DI9iZdLmb6uqbIrLU7MY+Z0oOfDhTU7m/HwFKBs1s
+ 6PRkHrfvpQ2wAl9RWuLzOq4V1UI2Ind8a5rJUg0=
+X-Google-Smtp-Source: ABdhPJxI6Zzt5gh+hyLCY9CEx7L+7WRwQrX8nQyhf3vVNDEHXqPG9m16oH+WSKDEscBywy+YBKqXyV20EWA1t2RJ5OM=
+X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
+ v29-20020a056870311d00b000de9b6c362bmr1554880oaa.200.1651582994590; Tue, 03
+ May 2022 06:03:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCHv4] drm/amdgpu: disable ASPM on Intel Alder Lake based
- systems
-Content-Language: en-US
-To: Daniel Stone <daniel@fooishbar.org>
-References: <20220412215000.897344-1-richard.gong@amd.com>
- <d4ba3998-34aa-86d2-bde9-bc6ae9d8d08d@molgen.mpg.de>
- <CADnq5_MgvcGPWf2gYn_3qCr+Gq1P39tvv-W-o8NhivvMpMwUBA@mail.gmail.com>
- <91e916e3-d793-b814-6cbf-abee0667f5f8@molgen.mpg.de>
- <94fd858d-1792-9c05-b5c6-1b028427687d@amd.com>
- <efc1dfd1-2b54-aee5-1497-4b800a468141@molgen.mpg.de>
- <237da02b-0ed8-6b1c-3eaf-5574aab4f13f@amd.com>
- <294555b4-2d1b-270f-6682-3a17e9df133c@molgen.mpg.de>
- <5adfe067-dc00-6567-e218-c5c68670cf5b@amd.com>
- <543a9e76-ca90-984b-b155-a0647cdeacff@molgen.mpg.de>
- <CAPj87rOERk-kNa6n-UdjQsDKXP9zzm8=an=FHcM+33yebW6ECw@mail.gmail.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <CAPj87rOERk-kNa6n-UdjQsDKXP9zzm8=an=FHcM+33yebW6ECw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220503063613.46925-1-christian.koenig@amd.com>
+In-Reply-To: <20220503063613.46925-1-christian.koenig@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 3 May 2022 09:03:03 -0400
+Message-ID: <CADnq5_PX91474D=DRxB0VQ3uHY1sGCS_40w9AjCvXSCHgm9Ozg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: fix drm-next merge fallout
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +65,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Richard Gong <richard.gong@amd.com>,
- Xinhui Pan <xinhui.pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alexander Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: tomeu.vizoso@collabora.com,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Daniel,
+On Tue, May 3, 2022 at 2:36 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> That hunk somehow got missing while solving the conflict between the TTM
+> and AMDGPU changes for drm-next.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-Am 03.05.22 um 14:25 schrieb Daniel Stone:
-> On Sun, 1 May 2022 at 08:08, Paul Menzel <pmenzel@molgen.mpg.de> wrote:
->> Am 26.04.22 um 15:53 schrieb Gong, Richard:
->>> I think so. We captured dmesg log.
->>
->> Then the (whole) system did *not* freeze, if you could still log in
->> (maybe over network) and execute `dmesg`. Please also paste the
->> amdgpu(?) error logs in the commit message.
->>
->>> As mentioned early we need support from Intel on how to get ASPM working
->>> for VI generation on Intel Alder Lake, but we don't know where things
->>> currently stand.
->>
->> Who is working on this, and knows?
-> 
-> This has gone beyond the point of a reasonable request. The amount of
-> detail you're demanding is completely unnecessary.
-
-If a quirk is introduced possibly leading to higher power consumption, 
-especially on systems nobody has access to yet, then the detail, where 
-the system hangs/freezes is not unreasonable at all.
-
-In the Linux logs from the issue there are messages like
-
-     [   58.101385] Freezing of tasks failed after 20.003 seconds (4 
-tasks refusing to freeze, wq_busy=0):
-
-     [   78.278403] Freezing of tasks failed after 20.008 seconds (4 
-tasks refusing to freeze, wq_busy=0):
-
-and it looks like several suspend/resume cycles were done.
-
-I see a lot of commit messages over the whole Linux kernel, where this 
-level of detail is provided (by default), and
-
-The second question was not for the commit message, but just for 
-documentation purpose when the problem is going to be fixed properly. 
-And it looks like (at least publicly) analyzing the root cause is not 
-happening, and once the quirk lands, nobody is going to feel the 
-pressure to work on it, as everyone’s plates are full.
-
-
-Kind regards,
-
-Paul
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_vm_pt.c
+> index 7761a3ea172e..88de9f0d4728 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
+> @@ -631,9 +631,13 @@ static void amdgpu_vm_pt_free(struct amdgpu_vm_bo_ba=
+se *entry)
+>         if (!entry->bo)
+>                 return;
+>         shadow =3D amdgpu_bo_shadowed(entry->bo);
+> +       if (shadow) {
+> +               ttm_bo_set_bulk_move(&shadow->tbo, NULL);
+> +               amdgpu_bo_unref(&shadow);
+> +       }
+> +       ttm_bo_set_bulk_move(&entry->bo->tbo, NULL);
+>         entry->bo->vm_bo =3D NULL;
+>         list_del(&entry->vm_status);
+> -       amdgpu_bo_unref(&shadow);
+>         amdgpu_bo_unref(&entry->bo);
+>  }
+>
+> --
+> 2.25.1
+>
