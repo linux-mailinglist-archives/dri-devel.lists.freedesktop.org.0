@@ -1,47 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33F0518421
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:19:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E5851843F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8E310ED41;
-	Tue,  3 May 2022 12:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB66310F9F2;
+	Tue,  3 May 2022 12:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E6B10ED41
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:19:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 8D50F1F440F4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1651580367;
- bh=7dmHQ4KerR5qmz8szAHhl2RdSUpC3IqMde/web4SJVI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oLDe2oHiRbT3NMQHsqrGQgkM2j77gKaebdcIESyJ/PQhseVGHXB4mY9UB/4UBsWv4
- 8+abIYy7l0uvL4bcAAPg5TmyFkNfAIYMOy1/EUnkY6HrsuXb+J4k8UrCiavBaPZOva
- tbqKdR3n1N3hN3xzZAi6/Wyk4FOxSYgvr7jMzbcB06NbgP/2q9jXHUyoyO9HG6aqbw
- jVBxXJXa5+oPiYw9N+r2SfEcgHV+jQx5QA2V3pFyZAKyUjzXy/M/iB90kE0Gz1L08n
- fYAreCLdIPP7aqo5Nw1Qj4vUkWv1DkpHytOhb23qoypyPBP5t9o8b9XWOIpb1Mty26
- oc7sbOVhGOeIg==
-Message-ID: <c6be6d95-35f0-fb62-2d10-53f974ba67e4@collabora.com>
-Date: Tue, 3 May 2022 14:19:23 +0200
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD94F10F9F2
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:26:06 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2ef5380669cso177499967b3.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 05:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/kdLTIP5KWv/w0AGbW53dgxr50ylE5lpuqrP/XFE1k0=;
+ b=sZ1hgtTI7fxvaZ0k0uOV0GVYFCdwj7DY7WyRTiIERlNBLwVMA0aHkM9eKI80hA90uD
+ TXVIUXOGNCaChIHkrDbRhvfjvJ0FLlxpCu/9Fcn4eqBj6GWfHbSOtkkgrbdVdckmuHJO
+ QMdo8MDD6ZfD78z6MNJYaz4rHtJumcdPKAyidpPq6G6BV//fDOirycvGWFrXm7CGonHd
+ jdt8JKOKbEldXBTe+9cfzR5GgqTyKwjsF2/aeOcX/05Xhs9WsVZW9XRZwxak4N+E2GlS
+ VCEGLtHKm24ij5PYMb7kqfkjC9t8ITlg/FFNoZl2N4ZKuZ9lIWVaA4+F+58PlU6+2wEs
+ L6BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/kdLTIP5KWv/w0AGbW53dgxr50ylE5lpuqrP/XFE1k0=;
+ b=4fyfFcYg9A7jgvNf0M2H6gyg1Nhzk+9zZGqywhPM/ahj1m9qoqhZAnBmYFyZfdp+7y
+ 1kMLgv/GSKz1IS8OsqRfhqgbkrPOVuji+8U8T8v3ORua/F1XjqQ4gryLgb/RMS/2P2jf
+ ZqwRi24cJBwyXGxGrrTM+cNs8a1ccuTc9qbavcuMnRFx9jznoU7bW4/nyM9AF/LshQ/Y
+ 1aG50Mi+rSgb6fh61aP5c1j+EDOUkiJh/XQSnlFWz7qk8nBp75OW0OM5APblXunDhOQ+
+ 7Db0GriDQts3Ds8UgqoO/ZUW7QX7y/AzYIQHjqx8nOa4euHm3awpdPN6n8fsbE95H6Lt
+ qDJA==
+X-Gm-Message-State: AOAM530MMV5jBFS6QadCCSyL1u6tNBioTHWtt5uK0mD6ADKAizylBYnV
+ OmLX386/So6rC8o31nNybyxTURjtmHBdFQGo432FIw==
+X-Google-Smtp-Source: ABdhPJy748BeoJGvdERlz6RifdnU94P5oaWHAfAf55iJWUIXN/sTYUf3fG9793RzhGeYw55AQSLOvtiy7IjggXp0lMY=
+X-Received: by 2002:a0d:e5c6:0:b0:2f8:c866:7af9 with SMTP id
+ o189-20020a0de5c6000000b002f8c8667af9mr15130119ywe.268.1651580765968; Tue, 03
+ May 2022 05:26:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v19 06/25] soc: mediatek: add mtk_mmsys_write_reg API
-Content-Language: en-US
-To: "Nancy.Lin" <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, wim@linux-watchdog.org,
- linux@roeck-us.net
-References: <20220503102345.22817-1-nancy.lin@mediatek.com>
- <20220503102345.22817-7-nancy.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220503102345.22817-7-nancy.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220412215000.897344-1-richard.gong@amd.com>
+ <d4ba3998-34aa-86d2-bde9-bc6ae9d8d08d@molgen.mpg.de>
+ <CADnq5_MgvcGPWf2gYn_3qCr+Gq1P39tvv-W-o8NhivvMpMwUBA@mail.gmail.com>
+ <91e916e3-d793-b814-6cbf-abee0667f5f8@molgen.mpg.de>
+ <94fd858d-1792-9c05-b5c6-1b028427687d@amd.com>
+ <efc1dfd1-2b54-aee5-1497-4b800a468141@molgen.mpg.de>
+ <237da02b-0ed8-6b1c-3eaf-5574aab4f13f@amd.com>
+ <294555b4-2d1b-270f-6682-3a17e9df133c@molgen.mpg.de>
+ <5adfe067-dc00-6567-e218-c5c68670cf5b@amd.com>
+ <543a9e76-ca90-984b-b155-a0647cdeacff@molgen.mpg.de>
+In-Reply-To: <543a9e76-ca90-984b-b155-a0647cdeacff@molgen.mpg.de>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 3 May 2022 13:25:53 +0100
+Message-ID: <CAPj87rOERk-kNa6n-UdjQsDKXP9zzm8=an=FHcM+33yebW6ECw@mail.gmail.com>
+Subject: Re: [PATCHv4] drm/amdgpu: disable ASPM on Intel Alder Lake based
+ systems
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,50 +74,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Dave Airlie <airlied@linux.ie>, Richard Gong <richard.gong@amd.com>,
+ Xinhui Pan <xinhui.pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alexander Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 03/05/22 12:23, Nancy.Lin ha scritto:
-> Add mtk_mmsys_write_reg API. Simplify code for writing mmsys reg.
-> It is a preparation for adding support for mmsys config API.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> ---
->   drivers/soc/mediatek/mtk-mmsys.c | 35 ++++++++++++++------------------
->   1 file changed, 15 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> index ab3c5cbb0175..3e2e5e3f721d 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -191,22 +191,26 @@ static int mtk_mmsys_find_match_drvdata(struct mtk_mmsys *mmsys,
->   	return -EINVAL;
->   }
->   
-> +static void mtk_mmsys_write_reg(struct mtk_mmsys *mmsys, u32 offset, u32 mask, u32 val)
-> +{
-> +	u32 tmp;
-> +
-> +	tmp = readl_relaxed(mmsys->regs + offset);
-> +	tmp = (tmp & ~mask) | val;
-> +	writel_relaxed(tmp, mmsys->regs + offset);
-> +}
-> +
+On Sun, 1 May 2022 at 08:08, Paul Menzel <pmenzel@molgen.mpg.de> wrote:
+> Am 26.04.22 um 15:53 schrieb Gong, Richard:
+> > I think so. We captured dmesg log.
+>
+> Then the (whole) system did *not* freeze, if you could still log in
+> (maybe over network) and execute `dmesg`. Please also paste the
+> amdgpu(?) error logs in the commit message.
+>
+> > As mentioned early we need support from Intel on how to get ASPM working
+> > for VI generation on Intel Alder Lake, but we don't know where things
+> > currently stand.
+>
+> Who is working on this, and knows?
 
-Uhm... this is the equivalent of regmap_update_bits(): I fear that calling this
-mtk_mmsys_write_reg() may lead to confusion.
-
-I think that a more appropriate name would be mtk_mmsys_update_bits() or
-something similar, recalling that this is not just a register write, but
-a RMW.
-
-Regards,
-Angelo
+This has gone beyond the point of a reasonable request. The amount of
+detail you're demanding is completely unnecessary.
