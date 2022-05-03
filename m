@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F43851840A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:14:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B6651840B
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:14:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2C3D10F9AE;
-	Tue,  3 May 2022 12:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E10010F93E;
+	Tue,  3 May 2022 12:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5B3010F94D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:14:27 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 57FAC320098A;
- Tue,  3 May 2022 08:14:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 03 May 2022 08:14:27 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F28210F94D
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:14:31 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id B64D8320098C;
+ Tue,  3 May 2022 08:14:29 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 03 May 2022 08:14:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1651580065; x=1651666465; bh=l6
- +T2WooOKnkLZVfu1cuWZp3aUS+nnaiETDmQNpgp/E=; b=wt5kHe0osLqam6DivH
- O4hUZiG8pMcIlonGXbYl7KFNrVbJmDk3JVdU9SEyVKBh4S/l1QrIPxd/1gSuG7uL
- h87CAceCFD60rIdg6K4Gos/ZMjRKslLjgADlCdz4aVpkiNqqOzoNJefrhvZOhl7u
- gWAYQd4dYJiWENHnBHNvdqTEwbi4D+Eiwvs2yy5sEZKjj4fMi2v3cpuZhYQN+xvH
- TX3xO9n3JrAc0pw4aZpf8UhzR3y8c5eRcCO7Jy+p2C+goYtvIESlN6lip38zVm2J
- D1NsYzvEHD4MM2qLsEVXf+yG+om1eQuss06OXQSvSCxIDbs4YtMM1X8Q2HBeToEE
- /RCg==
+ :subject:subject:to:to; s=fm3; t=1651580069; x=1651666469; bh=Tm
+ 6JrLqhk9d5BsEkQm8RAlEG/1g0U8l/6tdWX5EIXgo=; b=arh+MCOR6F6GMpzmCk
+ 4bJO4NgtLecyKNMSWAda0/pAL3JS+nGsV8sPN+KMmgZkrLhpVj0RYeXypIsjO+F4
+ rSrCFuVWrmnPid6kuP4VO+aYb9q2oQiTw7yglxCaAea8A4L8b7ntvSpd2ssnA85b
+ sSptGtPQwnM9ktJBKEym0T4EFogotyLK7peme4allFspYJAzUhsq0xixmfofSW/Z
+ JKZaKuKaHsg5LQ3YWN1q4/9oojxvOq14Mb9eM2rGgDDF0n2Na6Tw6CjoLcgasImu
+ 4EsAlKlPWF+U3Hot5dOlMMvBdMyMwGnl91IBe2I8BfoT1hA8waPSAf5RnEF0Lcs2
+ V9WQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1651580065; x=1651666465; bh=l6+T2WooOKnkLZVfu1cuWZp3aUS+nnaiETD
- mQNpgp/E=; b=PirsLU9CCtN3XOum4i5BDX0FA3vwXi9zKvkiqEX7OL99fRlerNl
- wEljZqQTkYUQgCg+gy07EpsnkSy/JPj+OxLLssm9f5a+EvVCsWipgPUOKI/xOxzn
- 89lcZ4gKrqFlUt2Iny6qE8Ll5k+VLHteKSPcAZfJ8DAYXkbFLWgmu2C3PQd/6wch
- mh/dDXiq6pyjE1GQfFMMfUF4m9JgslA0+/BkTjlqY+X9WghZT8lf+vbqLQvVGmk7
- Rd8/beLQhmwMxQyxitG9BB8PwulOU3cWFcDAoSMPvR+sYQI+ocWUefl1h2mJ3A7g
- cpfYY+uTYyg45CxuUiec7MZISFa3bzqo9lQ==
-X-ME-Sender: <xms:oRxxYtN5xWA1eKm4kJDFE7rKiCeEqWiGETRhUD9JWj7MhZioLDNRrw>
- <xme:oRxxYv-MAjDZhGKpVOqV_l_QHnPa-Ee4kpl6KfewTcspsGzI_Ngwo5Dh6UX5oUYMa
- cRl9crfBJ9X0j5fKVA>
-X-ME-Received: <xmr:oRxxYsR6N9DbPZ439zA8t1KRCl0CqHMwZVxa6fwQx1PTo5lVUQxNDajM-df2ZS6sffC3HPO-lTuVPtbpiDUrsJWYO6VOJ9lCDeZzFV0>
+ 1651580069; x=1651666469; bh=Tm6JrLqhk9d5BsEkQm8RAlEG/1g0U8l/6td
+ WX5EIXgo=; b=pQHVdp4PI2G2zK9bdQKZWfR0gpR+bjJso1lCY+/baZszEmCLkbQ
+ VqQtZVRnEzQ50D29LtcQChxMNwF0uUzBXF5WylJBvWRDZkK93JQunaqBsfR6QJxL
+ 0siViZbsI7QgON5fMA5RLPlMsoxgkqAHe7Pr7Jq8aSrKUK9zcQcRGdoRckey/ANY
+ SF2xMQ/scxj5Teksmq/vm61kQBR85wj1gAqfxiqJT8Dnzt4YDjrK3x8ptStyj1MU
+ 2eMTOAxb09+OeQ9zDH4YNxcEnUPMd4bpzVNiefcnM+0AELaQKYAH+X/Md9dJzR6S
+ UPxm/wByaGekXczwZKUeryxmDKs0ytymZtg==
+X-ME-Sender: <xms:pRxxYj4cW8iKvJNbQw9sAK0Ccg7IJ_G1AIRfAoLKJDsDftfpOb8H2Q>
+ <xme:pRxxYo7WSD-5VyCjarEAJMH2GehWPiiDrJ__jiDiPhRSQb_nnryeDv0yPBifcM4JA
+ ytO_LaGbb7bhFmLOck>
+X-ME-Received: <xmr:pRxxYqdGD0lKXwiYVjPvDs9UaHRPL5lG5Qm95et0EqRnYC9woedE-lIHQDUuZvZs10w_OL_ZGbrz3hyRMF8A_5ueIPJccZROmnYNuk4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgdeglecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepleekfeetudfhkeejiefhtedugfeuvdevkeekteetkefhkefhtdelgfefuddv
- jefhnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ jefhnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:oRxxYpvJfun_UXHRgA53hF_MwJJdogpKZPLv4S5ZWdTNkLLPtHA0vQ>
- <xmx:oRxxYlfdRNVW1nSXYzIfIixQWiQGUq_SSVNOTEIQIuUKvDRG0TwYFA>
- <xmx:oRxxYl0ESaw2iVgFOkr6Hhnq_JyV8WnIr8y61qbPSdFM5P2QaL6g9w>
- <xmx:oRxxYuH3kbC2vWfcX3yT8BZCtSEYlM4eOUSZwvG_umTEsAKtzwUR3Q>
+X-ME-Proxy: <xmx:pRxxYkKL0g34mUzpv4jw4SGCofW0_-eAP6G_PhGn2Rm-e0mreqYjZQ>
+ <xmx:pRxxYnJb3uSzWD4L6-7_L1lsYzMztvojiexC0DPDNTJIf3dVdEC4_w>
+ <xmx:pRxxYtz30-Lsf99CxjtnQNuYC2Yup9VvFvfjLw7G7pO2arteSArApg>
+ <xmx:pRxxYti4eZYYHZt9wJNX0o1jSs09ZNjE9xG5_CSHzkRFdCtOrwY3nA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 May 2022 08:14:25 -0400 (EDT)
+ 3 May 2022 08:14:28 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 11/14] drm/vc4: crtc: Move the BO Handling out of Common
- Page-Flip Handler
-Date: Tue,  3 May 2022 14:13:38 +0200
-Message-Id: <20220503121341.983842-12-maxime@cerno.tech>
+Subject: [PATCH 12/14] drm/vc4: crtc: Don't call into BO Handling on Async
+ Page-Flips on BCM2711
+Date: Tue,  3 May 2022 14:13:39 +0200
+Message-Id: <20220503121341.983842-13-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220503121341.983842-1-maxime@cerno.tech>
 References: <20220503121341.983842-1-maxime@cerno.tech>
@@ -88,120 +88,54 @@ Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function vc4_async_page_flip() handles asynchronous page-flips in
-the vc4 driver.
-
-However, it mixes some generic code with code that should only be run on
-older generations that have the GPU handled by the vc4 driver.
-
-Let's split the generic part out of vc4_async_page_flip() and into a
-common function that we be reusable by an handler made for the BCM2711.
+The BCM2711 doesn't have a v3d GPU so we don't want to call into its BO
+management code. Let's create an asynchronous page-flip handler for the
+BCM2711 that just calls into the common code.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 75 ++++++++++++++++++++++------------
- 1 file changed, 48 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 0410db97b9d1..bd85b1f13cee 100644
+index bd85b1f13cee..e0ae7bef08fa 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -835,40 +835,19 @@ static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
- 		vc4_bo_dec_usecnt(bo);
- }
- 
--/* Implements async (non-vblank-synced) page flips.
-- *
-- * The page flip ioctl needs to return immediately, so we grab the
-- * modeset semaphore on the pipe, and queue the address update for
-- * when V3D is done with the BO being flipped to.
-- */
--static int vc4_async_page_flip(struct drm_crtc *crtc,
--			       struct drm_framebuffer *fb,
--			       struct drm_pending_vblank_event *event,
--			       uint32_t flags)
-+static int
-+vc4_async_page_flip_common(struct drm_crtc *crtc,
-+			   struct drm_framebuffer *fb,
-+			   struct drm_pending_vblank_event *event,
-+			   uint32_t flags)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct drm_plane *plane = crtc->primary;
--	int ret = 0;
- 	struct vc4_async_flip_state *flip_state;
--	struct drm_gem_cma_object *cma_bo = drm_fb_cma_get_gem_obj(fb, 0);
--	struct vc4_bo *bo = to_vc4_bo(&cma_bo->base);
--
--	/* Increment the BO usecnt here, so that we never end up with an
--	 * unbalanced number of vc4_bo_{dec,inc}_usecnt() calls when the
--	 * plane is later updated through the non-async path.
--	 * FIXME: we should move to generic async-page-flip when it's
--	 * available, so that we can get rid of this hand-made prepare_fb()
--	 * logic.
--	 */
--	ret = vc4_bo_inc_usecnt(bo);
--	if (ret)
--		return ret;
- 
- 	flip_state = kzalloc(sizeof(*flip_state), GFP_KERNEL);
--	if (!flip_state) {
--		vc4_bo_dec_usecnt(bo);
-+	if (!flip_state)
- 		return -ENOMEM;
--	}
- 
- 	drm_framebuffer_get(fb);
- 	flip_state->fb = fb;
-@@ -902,6 +881,48 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
+@@ -923,16 +923,31 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
  	return 0;
  }
  
-+/* Implements async (non-vblank-synced) page flips.
-+ *
-+ * The page flip ioctl needs to return immediately, so we grab the
-+ * modeset semaphore on the pipe, and queue the address update for
-+ * when V3D is done with the BO being flipped to.
-+ */
-+static int vc4_async_page_flip(struct drm_crtc *crtc,
++static int vc5_async_page_flip(struct drm_crtc *crtc,
 +			       struct drm_framebuffer *fb,
 +			       struct drm_pending_vblank_event *event,
 +			       uint32_t flags)
 +{
-+	struct drm_device *dev = crtc->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct drm_gem_cma_object *cma_bo = drm_fb_cma_get_gem_obj(fb, 0);
-+	struct vc4_bo *bo = to_vc4_bo(&cma_bo->base);
-+	int ret;
-+
-+	if (WARN_ON_ONCE(vc4->is_vc5))
-+		return -ENODEV;
-+
-+	/*
-+	 * Increment the BO usecnt here, so that we never end up with an
-+	 * unbalanced number of vc4_bo_{dec,inc}_usecnt() calls when the
-+	 * plane is later updated through the non-async path.
-+	 *
-+	 * FIXME: we should move to generic async-page-flip when
-+	 * it's available, so that we can get rid of this
-+	 * hand-made prepare_fb() logic.
-+	 */
-+	ret = vc4_bo_inc_usecnt(bo);
-+	if (ret)
-+		return ret;
-+
-+	ret = vc4_async_page_flip_common(crtc, fb, event, flags);
-+	if (ret) {
-+		vc4_bo_dec_usecnt(bo);
-+		return ret;
-+	}
-+
-+	return 0;
++	return vc4_async_page_flip_common(crtc, fb, event, flags);
 +}
 +
  int vc4_page_flip(struct drm_crtc *crtc,
  		  struct drm_framebuffer *fb,
  		  struct drm_pending_vblank_event *event,
+ 		  uint32_t flags,
+ 		  struct drm_modeset_acquire_ctx *ctx)
+ {
+-	if (flags & DRM_MODE_PAGE_FLIP_ASYNC)
+-		return vc4_async_page_flip(crtc, fb, event, flags);
+-	else
++	if (flags & DRM_MODE_PAGE_FLIP_ASYNC) {
++		struct drm_device *dev = crtc->dev;
++		struct vc4_dev *vc4 = to_vc4_dev(dev);
++
++		if (vc4->is_vc5)
++			return vc5_async_page_flip(crtc, fb, event, flags);
++		else
++			return vc4_async_page_flip(crtc, fb, event, flags);
++	} else {
+ 		return drm_atomic_helper_page_flip(crtc, fb, event, flags, ctx);
++	}
+ }
+ 
+ struct drm_crtc_state *vc4_crtc_duplicate_state(struct drm_crtc *crtc)
 -- 
 2.35.1
 
