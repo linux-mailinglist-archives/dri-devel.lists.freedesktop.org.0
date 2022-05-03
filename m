@@ -1,73 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67565191A4
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 00:45:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CCF5191F0
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 00:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F73B10E5BA;
-	Tue,  3 May 2022 22:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 170E410F467;
+	Tue,  3 May 2022 22:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6971510E5BA
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 22:45:19 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id a1so21465714edt.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 15:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hcoJyd6IQhefQYX8YmS8kRdiPp97xel2zqR6ovb3t1o=;
- b=mSx7kXDA9VtimMmq2W2PO1IrRIczfsMh72TqK8A7iswnmIOVOSVsWOnR5nGU8MAgsd
- DP3spwwVJVqXGF8a6KPc51AMcglh4r1h9aB1i+VYB9rbuibnvdq2/64fP6xwIRRqhJPc
- lWmeVHp18dsk6pOXkY4G3D0ohs++wfKJOc+EM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hcoJyd6IQhefQYX8YmS8kRdiPp97xel2zqR6ovb3t1o=;
- b=jLjKjJwODJTqc/ZFLLpTYUL6FHZ5JOpK+Dd8cfA3gSmOoJ2e2FpNArhsIxLaqV3+56
- Na6R6mkfgNNiZSTKb1HobGIp8jnX5WLZdTgJZxSLHqn5BY3ZkSU2+RkS+W113Q5SFB7C
- 25327g+OzKjQgJE0aYezRhAUkw1kB5rW0h8XVM97H/BXvx3NL5hY9/+6z/fQXN/GAHOH
- LKtZ/ajuNZl1VkiGXAnjGMBvvFtAT8ggj45mQX4ziF/+C3LjMwUr7fOShXs9Zk663Cgt
- DdBP//9/F+cMkareZ2SCmqr9cd4ShEGTkPG1yWBM/FtE1oyP9WqInF9utdnlrsSptewE
- 8pYg==
-X-Gm-Message-State: AOAM532WMggkuND1cRF5Pcd8LFrl9Fd/DkiKSDnHvmcjJXzK2D5I3f8+
- d3B6Pga9WUgkW6JTIr6GSp10BtMqZabid0W3
-X-Google-Smtp-Source: ABdhPJwQPkWWtIZ78NEBkhB6rx7lkzcAz49aSIqOhk2DEAOOmKoe93dZvV8j7twamVHHYKJFNiPOEg==
-X-Received: by 2002:a50:d65c:0:b0:425:ea34:7dd7 with SMTP id
- c28-20020a50d65c000000b00425ea347dd7mr20446637edj.18.1651617917625; 
- Tue, 03 May 2022 15:45:17 -0700 (PDT)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- zp1-20020a17090684e100b006f3ef214df1sm5018954ejb.87.2022.05.03.15.45.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 May 2022 15:45:16 -0700 (PDT)
-Received: by mail-wm1-f41.google.com with SMTP id
- ay11-20020a05600c1e0b00b0038eb92fa965so2216977wmb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 15:45:16 -0700 (PDT)
-X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
- bg25-20020a05600c3c9900b00392b49c7b79mr5127000wmb.199.1651617916164; Tue, 03
- May 2022 15:45:16 -0700 (PDT)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4631210F467;
+ Tue,  3 May 2022 22:56:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651618562; x=1683154562;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=/bXc6PmLSiya/35ATiW+XNjyJ5gHOb7yWo93Qqu4O6k=;
+ b=CYbZ8l1kJz1qcSuThk7SXSEZMsjXG4i68HaTFu5X7CBg+dUklhDkUIvD
+ GBmcvullm0ai5qJEfSxnb1TlNJnDK0uYIhP1ofm1m0QIuZYF94KnUacw8
+ nYrnqOheWdsc4QoSMt8ltgyWDo1p3zZxaobKceHANOEgZwuXRt9IIjaKu s=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 03 May 2022 15:56:02 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2022 15:56:01 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 3 May 2022 15:56:00 -0700
+Received: from [10.38.244.235] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 3 May 2022
+ 15:55:58 -0700
+Message-ID: <dd2daa5e-9d72-9b07-82f3-e163fef0f42f@quicinc.com>
+Date: Tue, 3 May 2022 15:55:56 -0700
 MIME-Version: 1.0
-References: <20220409023628.2104952-1-dianders@chromium.org>
- <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
- <a9a5dfb7-819b-d3a2-2c47-d5b239d21ad3@linaro.org>
- <CAD=FV=WKwErpD7iCu+2jFvMutmmmgLUEhAnw8s=27wUxcpF-aQ@mail.gmail.com>
- <CAA8EJppOVqaAEVeQY7p0EfCObJxfL591kbaYLYfbgOHHtmfhXw@mail.gmail.com>
- <CAD=FV=UmXzPyVOa-Y0gpY0qcukqW3ge5DBPx6ak88ydEqTsBiQ@mail.gmail.com>
- <ddb8d8fa-89dc-268b-0505-9ee7df8c272e@linaro.org>
- <CAD=FV=Ur3afHhsXe7a3baWEnD=MFKFeKRbhFU+bt3P67G0MVzQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=Ur3afHhsXe7a3baWEnD=MFKFeKRbhFU+bt3P67G0MVzQ@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 3 May 2022 15:45:03 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XEgcrLYzLcPkf+n20VcMBD2BVFo++0BSaDWniDPzM2Hw@mail.gmail.com>
-Message-ID: <CAD=FV=XEgcrLYzLcPkf+n20VcMBD2BVFo++0BSaDWniDPzM2Hw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/6] drm/dp: Helpers to make it easier for drivers to
- use DP AUX bus properly
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 06/25] drm/msm/dpu: inline dpu_plane_get_ctl_flush
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-7-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220209172520.3719906-7-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,53 +66,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Apr 18, 2022 at 4:10 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> So I guess where does that leave us? Maybe:
->
-> 1. I'll add a WARN_ON() in of_dp_aux_populate_ep_devices() if there is
-> more than one DP AUX endpoint with a comment explaining why we assume
-> one DP AUX endpoint.
->
-> 2. I'll create this new structure in drm_dp_aux_bus.h:
->
-> struct dp_aux_populate_callbacks {
->   int (*done_probing)(struct drm_dp_aux *aux);
->   void (*pre_remove)(struct drm_dp_aux *aux);
-> };
->
-> 3. I'll add a second version of the populate functions that AUX bus
-> providers can use if they want callbacks:
->
-> int of_dp_aux_populate_ep_devices_cb(struct drm_dp_aux *aux,
->                                      struct dp_aux_populate_callbacks *cb);
-> int devm_of_dp_aux_populate_ep_devices_cb(struct drm_dp_aux *aux,
->                                           struct dp_aux_populate_callbacks *cb);
->
-> The old functions will just be changed to wrap the above and pass NULL
-> for the callbacks. To me, this seems better/simpler than notifiers or
-> any other scheme, but yell if you disagree.
->
-> 4. I'll call the callsbacks in dp_aux_ep_probe() after a successful
-> probe. I'll add a second callback and will call it in
-> dp_aux_ep_remove() before passing the remove through to the panel.
->
->
-> If that sounds peachy then I think it should be pretty doable.
 
-I never heard any response about whether people liked the above, but I
-went ahead and did something similar to it. It can be found at:
-
-https://lore.kernel.org/r/20220503224029.3195306-1-dianders@chromium.org
+On 2/9/2022 9:25 AM, Dmitry Baryshkov wrote:
+> There is no need to keep a separate function for calling into the ctl if
+> we already know all the details. Inline this function in the dpu_crtc.c
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 15 ++++++++-------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 12 ------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  9 ---------
+>   3 files changed, 8 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 7318bd45637a..5fc338ef3460 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -348,7 +348,6 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   	struct dpu_format *format;
+>   	struct dpu_hw_ctl *ctl = mixer->lm_ctl;
+>   
+> -	u32 flush_mask;
+>   	uint32_t stage_idx, lm_idx;
+>   	int zpos_cnt[DPU_STAGE_MAX + 1] = { 0 };
+>   	bool bg_alpha_enable = false;
+> @@ -356,6 +355,8 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   
+>   	memset(fetch_active, 0, sizeof(fetch_active));
+>   	drm_atomic_crtc_for_each_plane(plane, crtc) {
+> +		enum dpu_sspp sspp_idx;
+> +
+>   		state = plane->state;
+>   		if (!state)
+>   			continue;
+> @@ -363,14 +364,14 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   		pstate = to_dpu_plane_state(state);
+>   		fb = state->fb;
+>   
+> -		dpu_plane_get_ctl_flush(plane, ctl, &flush_mask);
+> -		set_bit(dpu_plane_pipe(plane), fetch_active);
+> +		sspp_idx = dpu_plane_pipe(plane);
+> +		set_bit(sspp_idx, fetch_active);
+>   
+>   		DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d\n",
+>   				crtc->base.id,
+>   				pstate->stage,
+>   				plane->base.id,
+> -				dpu_plane_pipe(plane) - SSPP_VIG0,
+> +				sspp_idx - SSPP_VIG0,
+>   				state->fb ? state->fb->base.id : -1);
+>   
+>   		format = to_dpu_format(msm_framebuffer_format(pstate->base.fb));
+> @@ -380,13 +381,13 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   
+>   		stage_idx = zpos_cnt[pstate->stage]++;
+>   		stage_cfg->stage[pstate->stage][stage_idx] =
+> -					dpu_plane_pipe(plane);
+> +					sspp_idx;
+>   		stage_cfg->multirect_index[pstate->stage][stage_idx] =
+>   					pstate->multirect_index;
+>   
+>   		trace_dpu_crtc_setup_mixer(DRMID(crtc), DRMID(plane),
+>   					   state, pstate, stage_idx,
+> -					   dpu_plane_pipe(plane) - SSPP_VIG0,
+> +					   sspp_idx - SSPP_VIG0,
+>   					   format->base.pixel_format,
+>   					   fb ? fb->modifier : 0);
+>   
+> @@ -395,7 +396,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   			_dpu_crtc_setup_blend_cfg(mixer + lm_idx,
+>   						pstate, format);
+>   
+> -			mixer[lm_idx].flush_mask |= flush_mask;
+> +			mixer[lm_idx].flush_mask |= ctl->ops.get_bitmask_sspp(ctl, sspp_idx);
+>   
+>   			if (bg_alpha_enable && !format->alpha_enable)
+>   				mixer[lm_idx].mixer_op_mode = 0;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 0247ff8a67a2..ca194cd83cd0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -849,18 +849,6 @@ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
+>   	return 0;
+>   }
+>   
+> -/**
+> - * dpu_plane_get_ctl_flush - get control flush for the given plane
+> - * @plane: Pointer to drm plane structure
+> - * @ctl: Pointer to hardware control driver
+> - * @flush_sspp: Pointer to sspp flush control word
+> - */
+> -void dpu_plane_get_ctl_flush(struct drm_plane *plane, struct dpu_hw_ctl *ctl,
+> -		u32 *flush_sspp)
+> -{
+> -	*flush_sspp = ctl->ops.get_bitmask_sspp(ctl, dpu_plane_pipe(plane));
+> -}
+> -
+>   static int dpu_plane_prepare_fb(struct drm_plane *plane,
+>   		struct drm_plane_state *new_state)
+>   {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> index 42b88b6bc9c2..aa9478b475d4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> @@ -61,15 +61,6 @@ struct dpu_multirect_plane_states {
+>    */
+>   enum dpu_sspp dpu_plane_pipe(struct drm_plane *plane);
+>   
+> -/**
+> - * dpu_plane_get_ctl_flush - get control flush mask
+> - * @plane:   Pointer to DRM plane object
+> - * @ctl: Pointer to control hardware
+> - * @flush_sspp: Pointer to sspp flush control word
+> - */
+> -void dpu_plane_get_ctl_flush(struct drm_plane *plane, struct dpu_hw_ctl *ctl,
+> -		u32 *flush_sspp);
+> -
+>   /**
+>    * dpu_plane_flush - final plane operations before commit flush
+>    * @plane: Pointer to drm plane structure
