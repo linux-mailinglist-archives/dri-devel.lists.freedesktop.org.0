@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C47518330
-	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 13:22:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDE45183E8
+	for <lists+dri-devel@lfdr.de>; Tue,  3 May 2022 14:03:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A938310ED5A;
-	Tue,  3 May 2022 11:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 878DF10E8FA;
+	Tue,  3 May 2022 12:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5505710ED5A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 11:22:05 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- m2-20020a1ca302000000b003943bc63f98so1087940wme.4
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 04:22:05 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D6710F8C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 12:03:18 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id x18so3583482plg.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 05:03:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FAu8c+I73fg5KenFJ98NzZ9OicDW8bebn+wllxjCG1E=;
+ b=upghBDfCvCfS7iYO8pSvu7t8unu4twKivp1ctTkclyq+JT6/1Nn4M2ScumgWd2bGdi
+ meBP8abuc0ekEDKvWtCsV7M8MtKQxcJuEy9ZroKBJTLuxP97Yr9aMNhPMJmGWHJXm/vT
+ clShmVmUxaQvNlWovgxcqQe0PszQRNjMSMCaQ0jrG9ea/Trcs2u/WJiyzzStZ1TusfrH
+ uiq0qpE0y4UCT7HXCSd+MCQEx5+TSjrRV0ioiScjB51ePh5PQwx6jXb5kLa+cJC8QVZ2
+ fg5icgWxI4ZjA7AjriR/0zKllleaiP93L517b+YEaGJj9FaRoLONytk4XMK7nW7IcEfu
+ Ptkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YiY0dGoIC8096MJoLsSBb1qNLHmagfKwvPsd98SImSg=;
- b=rNBj7ZLTEOoOP5JEgMe/j4t957zOOwIDBShGEY6v+9bFr+//sXdyO3UpOWLE0Eg2bQ
- 9JJeZ+05XhW9OdsL1ua0YEcmf3gVx0kuwophSJJAZlR9kYBjs/LKfAh5/PRxnqPyQQ4z
- 3A8GLKf9EUyGifdPAZjXBAXEBAtJxuCFUkSExkctxVwh5HJqY2iLs9Sz7kGFrx2J/YrQ
- w896u33qyfXEM49QZozRr2RJaGA4nxSPoU/bOB5+penYy8/O4/vl0WtWRR49hMNubFxA
- OzasskoIDGspV39XpFEFV7NagU6byXicO+R0v5GK0GcI+0bGDTTQomFPXktvJnfMZ67r
- dadQ==
-X-Gm-Message-State: AOAM532oKgSZicubNvlFy0R/kRZ82y+hTjZg3ZWSS2592asKKaXo7XKF
- /Vtb56e09k+nyRD0KvZkoJI=
-X-Google-Smtp-Source: ABdhPJxm1zYhvfWARYcqdPYfX+WBZx31HBYYbX9BTSG4b89PfKyAhJee2ZJz/esokNnR95scu5noYQ==
-X-Received: by 2002:a05:600c:3b14:b0:394:1f06:37eb with SMTP id
- m20-20020a05600c3b1400b003941f0637ebmr2920891wms.193.1651576923857; 
- Tue, 03 May 2022 04:22:03 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
- by smtp.gmail.com with ESMTPSA id
- bd10-20020a05600c1f0a00b003942a244ec6sm1465936wmb.11.2022.05.03.04.22.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 04:22:03 -0700 (PDT)
-Date: Tue, 3 May 2022 11:22:01 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: Michael Kelley <mikelley@microsoft.com>
-Subject: Re: [PATCH 0/4] Remove support for Hyper-V 2008 and 2008R2/Win7
-Message-ID: <20220503112201.hwzenitojimrgz3f@liuwe-devbox-debian-v2>
-References: <1651509391-2058-1-git-send-email-mikelley@microsoft.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FAu8c+I73fg5KenFJ98NzZ9OicDW8bebn+wllxjCG1E=;
+ b=02xXy0LR+LzdcKX4ieI9e89fM/KVg7SdcbrB0HIEQ+ZctDVA1I4mW48+BrIv9v/NN6
+ QFuK0Wr7FBF0swciF/ia1+pRaza8//TK2uiViFAFmJ4f4CCc9m3a0BRpznDtdlY/BscJ
+ HnySmTHCvqEIWAAlmQZ2kp5X4tn+OSzewENmyX1lMAVOELjcZcyVx8hiPvY62uKDgMvV
+ /zNNvlkqB9yF8L1m4Vf3iOPqbKEDRU1q46TuiSbedERkmyZultzPNNLGnsBEotr15q1S
+ pyKy0vgx53A6nMQKSEcQnZgoWz38iYdjek3MgEUruXEOhA5MEku2zw6YJKVSr3F6K27t
+ h7uA==
+X-Gm-Message-State: AOAM531ArN9ohjrVtCvLsTQUKAIJeqML3Wld8fsmc0wccVZQq8kndIcX
+ MDLnc6gCEemLQwaqEfTQYbVcri+m6hW0Kp7C++vN3Q==
+X-Google-Smtp-Source: ABdhPJxWhn5VZCO/TgaV9CqU4sqOiFVkFLLPiXSUlkgroHlMnIYcuwG3brGIqnFnP/BqK7l4dbv9U1Fj7YYZ/fuYEOU=
+X-Received: by 2002:a17:902:bb8d:b0:156:51a1:3f5a with SMTP id
+ m13-20020a170902bb8d00b0015651a13f5amr16302454pls.65.1651579398176; Tue, 03
+ May 2022 05:03:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1651509391-2058-1-git-send-email-mikelley@microsoft.com>
+References: <20220426193645.244792-1-marex@denx.de>
+ <YnB3008DXAVoUK7j@robh.at.kernel.org>
+In-Reply-To: <YnB3008DXAVoUK7j@robh.at.kernel.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 3 May 2022 14:03:07 +0200
+Message-ID: <CAG3jFyte+ePjD6aYoFCW-+3sBW37ROcL8cYNuBGq31YpOUbGcA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement
+ simple Freescale i.MX8MP LDB bridge
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +64,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wei.liu@kernel.org, sthemmin@microsoft.com, linux-scsi@vger.kernel.org,
- martin.petersen@oracle.com, airlied@linux.ie, haiyangz@microsoft.com,
- decui@microsoft.com, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- drawat.floss@gmail.com, linux-fbdev@vger.kernel.org, deller@gmx.de,
- vkuznets@redhat.com, kys@microsoft.com, jejb@linux.ibm.com
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Peng Fan <peng.fan@nxp.com>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 02, 2022 at 09:36:27AM -0700, Michael Kelley wrote:
-> Linux code for running as a Hyper-V guest includes special cases for the
-> first released versions of Hyper-V: 2008 and 2008R2/Windows 7. These
-> versions were very thinly used for running Linux guests when first
-> released more than 12 years ago, and they are now out of support
-> (except for extended security updates). As initial versions, they
-> lack the performance features needed for effective production usage
-> of Linux guests. In total, there's no need to continue to support
-> the latest Linux kernels on these versions of Hyper-V.
-> 
-> Simplify the code for running on Hyper-V by removing the special
-> cases. This includes removing the negotiation of the VMbus protocol
-> versions for 2008 and 2008R2, and the special case code based on
-> those VMbus protocol versions. Changes are in the core VMbus code and
-> several drivers for synthetic VMbus devices.
-> 
-> Some drivers have driver-specific protocols with the Hyper-V host and
-> may have versions of those protocols that are limited to 2008 and
-> 2008R2. This patch set does the clean-up only for the top-level
-> VMbus protocol versions, and not the driver-specific protocols.
-> Cleaning up the driver-specific protocols can be done with
-> follow-on patches.
-> 
-> There's no specific urgency to removing the special case code for
-> 2008 and 2008R2, so if the broader Linux kernel community surfaces
-> a reason why this clean-up should not be done now, we can wait.
-> But I think we want to eventually stop carrying around this extra
-> baggage, and based on discussions with the Hyper-V team within
-> Microsoft, we're already past the point that it has any value.
-> 
+On Tue, 3 May 2022 at 02:31, Rob Herring <robh@kernel.org> wrote:
+>
+> On Tue, Apr 26, 2022 at 09:36:44PM +0200, Marek Vasut wrote:
+> > The i.MX8MP contains two syscon registers which are responsible
+> > for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
+> > which represents this serializer as a bridge.
+> >
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Maxime Ripard <maxime@cerno.tech>
+> > Cc: Peng Fan <peng.fan@nxp.com>
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Cc: Robby Cai <robby.cai@nxp.com>
+> > Cc: Robert Foss <robert.foss@linaro.org>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: devicetree@vger.kernel.org
+> > To: dri-devel@lists.freedesktop.org
+> > ---
+> > V2: - Consistently use fsl,imx8mp-ldb as compatible
+> >     - Drop items: from compatible:
+> >     - Replace minItems with maxItems in clocks:
+> >     - Drop quotes from clock-names const: ldb
+> >     - Rename syscon to fsl,syscon
+> >     - Use generic name of ldb-lvds in example
+> > V3: - Add AB from Sam
+> >     - Consistently use MX8MP
+> > V4: - Rename to fsl-ldb all over the place
+> >     - Put the LDB node under media block controller in the example
+> > ---
+> >  .../bindings/display/bridge/fsl,ldb.yaml      | 92 +++++++++++++++++++
+> >  1 file changed, 92 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+>
+> A little quick on the applying...
 
-I will wait for a week for people to voice their opinions. If I hear no
-objection I will apply this series to hyperv-next.
+Darnit, you're right.
 
-Thanks,
-Wei.
+Marek: Can you supply a new patch with all of the relevant changes?
 
-> Michael Kelley (4):
->   Drivers: hv: vmbus: Remove support for Hyper-V 2008 and Hyper-V
->     2008R2/Win7
->   scsi: storvsc: Remove support for Hyper-V 2008 and 2008R2/Win7
->   video: hyperv_fb: Remove support for Hyper-V 2008 and 2008R2/Win7
->   drm/hyperv: Remove support for Hyper-V 2008 and 2008R2/Win7
-> 
->  drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 23 ++++--------
->  drivers/hv/channel_mgmt.c                 | 29 ++++++---------
->  drivers/hv/connection.c                   |  6 ++--
->  drivers/hv/vmbus_drv.c                    | 60 +++++++------------------------
->  drivers/scsi/storvsc_drv.c                | 36 +++++--------------
->  drivers/video/fbdev/hyperv_fb.c           | 23 ++----------
->  include/linux/hyperv.h                    | 10 ++++--
->  7 files changed, 52 insertions(+), 135 deletions(-)
-> 
-> -- 
-> 1.8.3.1
-> 
+>
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+> > new file mode 100644
+> > index 000000000000..77f174eee424
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+> > @@ -0,0 +1,92 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale i.MX8MP DPI to LVDS bridge chip
+> > +
+> > +maintainers:
+> > +  - Marek Vasut <marex@denx.de>
+> > +
+> > +description: |
+> > +  The i.MX8MP mediamix contains two registers which are responsible
+> > +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
+> > +  those registers as bridge within the DT.
+>
+> This is a subblock of the mediamix? Please add 'reg' for the 2 registers
+> even if you use a regmap.
+>
+> I didn't find a binding for mediamix. You really need the containing
+> block binding before a child node.
+>
+> Rob
