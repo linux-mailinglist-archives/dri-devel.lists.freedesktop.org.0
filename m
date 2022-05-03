@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C527A51918C
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 00:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67565191A4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 00:45:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D90610EA30;
-	Tue,  3 May 2022 22:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F73B10E5BA;
+	Tue,  3 May 2022 22:45:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4C7610E37E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 22:40:54 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id j14so730087plx.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 15:40:54 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6971510E5BA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 May 2022 22:45:19 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id a1so21465714edt.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 15:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BJTMp60yVPlpACNJP/dPSerG6q4+tCNFLovcxZfzgpw=;
- b=mPiekIzUJZ1ORsFOwevg29S0fjLLyCb6eTpc6bO+PI8+8zvjqyUtZHNV+eui9dr/wu
- 7z7br0XhXN9ubuQQnpWD+kemfxzRMjMKbepsIZdLeBz5BSRZcTf9HqMWSsD1AaxuTv30
- ywRf8Bx6v27k7tzIVuZ6SpHE1vyE5QcghEj4U=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hcoJyd6IQhefQYX8YmS8kRdiPp97xel2zqR6ovb3t1o=;
+ b=mSx7kXDA9VtimMmq2W2PO1IrRIczfsMh72TqK8A7iswnmIOVOSVsWOnR5nGU8MAgsd
+ DP3spwwVJVqXGF8a6KPc51AMcglh4r1h9aB1i+VYB9rbuibnvdq2/64fP6xwIRRqhJPc
+ lWmeVHp18dsk6pOXkY4G3D0ohs++wfKJOc+EM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BJTMp60yVPlpACNJP/dPSerG6q4+tCNFLovcxZfzgpw=;
- b=7JtiH3pfYtGdz0m8PkWxQj8U7KEkAj6rB5aWKJg61fCTxtq13xGtoeV3b4mBzxzvWq
- a1jJ2owcHpGNr9n4EvMgaDaj/Xy0uj5LbmRP6P8FpsyAkcfLk8ACDpJaWB7yc6Cda2xZ
- zW5Gy7ojWs9aCUEGrTlkr5laxMLMTSXM5dlCHF5Ogb3uSh6mhEEJ5kY1LoZQT204IMJT
- 26RNp4GMsZoqxkZX50gok3615lfIo5r4x9aHtZKjhjzU55wgvavBZnodUDQ7WIY+5A6j
- DrNfZjSx3hHRtVN/fD9oiKOR7o4q5/kH7Cgo80PeJthanGhsDGdf4L/QygfUmRlOCbvd
- 6GFw==
-X-Gm-Message-State: AOAM532wvXniaRE/UvexsTeJ+zFdz32LivZNTFMf7vGZNj+mtB/+o0IW
- 3whSE4ehbvFnNBODugfLtom2cgTi46eVOQNI31c=
-X-Google-Smtp-Source: ABdhPJxI1px4iialtat/eNsHwtP473+rj8LypxEcCFT7XlM63zuMiRvvrL3tTsdNa82uXlSxVWhzsA==
-X-Received: by 2002:a17:902:9001:b0:156:a567:2683 with SMTP id
- a1-20020a170902900100b00156a5672683mr18769417plp.164.1651617654273; 
- Tue, 03 May 2022 15:40:54 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:93ca:84cb:c452:c0a3])
- by smtp.gmail.com with ESMTPSA id
- az12-20020a170902a58c00b0015e8d4eb27esm6803778plb.200.2022.05.03.15.40.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 May 2022 15:40:53 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/bridge: parade-ps8640: Handle DP AUX more properly
-Date: Tue,  3 May 2022 15:40:29 -0700
-Message-Id: <20220503153850.v2.2.Ia6324ebc848cd40b4dbd3ad3289a7ffb5c197779@changeid>
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
-In-Reply-To: <20220503224029.3195306-1-dianders@chromium.org>
-References: <20220503224029.3195306-1-dianders@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hcoJyd6IQhefQYX8YmS8kRdiPp97xel2zqR6ovb3t1o=;
+ b=jLjKjJwODJTqc/ZFLLpTYUL6FHZ5JOpK+Dd8cfA3gSmOoJ2e2FpNArhsIxLaqV3+56
+ Na6R6mkfgNNiZSTKb1HobGIp8jnX5WLZdTgJZxSLHqn5BY3ZkSU2+RkS+W113Q5SFB7C
+ 25327g+OzKjQgJE0aYezRhAUkw1kB5rW0h8XVM97H/BXvx3NL5hY9/+6z/fQXN/GAHOH
+ LKtZ/ajuNZl1VkiGXAnjGMBvvFtAT8ggj45mQX4ziF/+C3LjMwUr7fOShXs9Zk663Cgt
+ DdBP//9/F+cMkareZ2SCmqr9cd4ShEGTkPG1yWBM/FtE1oyP9WqInF9utdnlrsSptewE
+ 8pYg==
+X-Gm-Message-State: AOAM532WMggkuND1cRF5Pcd8LFrl9Fd/DkiKSDnHvmcjJXzK2D5I3f8+
+ d3B6Pga9WUgkW6JTIr6GSp10BtMqZabid0W3
+X-Google-Smtp-Source: ABdhPJwQPkWWtIZ78NEBkhB6rx7lkzcAz49aSIqOhk2DEAOOmKoe93dZvV8j7twamVHHYKJFNiPOEg==
+X-Received: by 2002:a50:d65c:0:b0:425:ea34:7dd7 with SMTP id
+ c28-20020a50d65c000000b00425ea347dd7mr20446637edj.18.1651617917625; 
+ Tue, 03 May 2022 15:45:17 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
+ [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
+ zp1-20020a17090684e100b006f3ef214df1sm5018954ejb.87.2022.05.03.15.45.16
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 May 2022 15:45:16 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id
+ ay11-20020a05600c1e0b00b0038eb92fa965so2216977wmb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 15:45:16 -0700 (PDT)
+X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
+ bg25-20020a05600c3c9900b00392b49c7b79mr5127000wmb.199.1651617916164; Tue, 03
+ May 2022 15:45:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220409023628.2104952-1-dianders@chromium.org>
+ <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
+ <a9a5dfb7-819b-d3a2-2c47-d5b239d21ad3@linaro.org>
+ <CAD=FV=WKwErpD7iCu+2jFvMutmmmgLUEhAnw8s=27wUxcpF-aQ@mail.gmail.com>
+ <CAA8EJppOVqaAEVeQY7p0EfCObJxfL591kbaYLYfbgOHHtmfhXw@mail.gmail.com>
+ <CAD=FV=UmXzPyVOa-Y0gpY0qcukqW3ge5DBPx6ak88ydEqTsBiQ@mail.gmail.com>
+ <ddb8d8fa-89dc-268b-0505-9ee7df8c272e@linaro.org>
+ <CAD=FV=Ur3afHhsXe7a3baWEnD=MFKFeKRbhFU+bt3P67G0MVzQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=Ur3afHhsXe7a3baWEnD=MFKFeKRbhFU+bt3P67G0MVzQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 3 May 2022 15:45:03 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XEgcrLYzLcPkf+n20VcMBD2BVFo++0BSaDWniDPzM2Hw@mail.gmail.com>
+Message-ID: <CAD=FV=XEgcrLYzLcPkf+n20VcMBD2BVFo++0BSaDWniDPzM2Hw@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/6] drm/dp: Helpers to make it easier for drivers to
+ use DP AUX bus properly
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,192 +80,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Neil Armstrong <narmstrong@baylibre.com>,
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While it works, for the most part, to assume that the panel has
-finished probing when devm_of_dp_aux_populate_ep_devices() returns,
-it's a bit fragile. This is talked about at length in commit
-a1e3667a9835 ("drm/bridge: ti-sn65dsi86: Promote the AUX channel to
-its own sub-dev").
+Hi,
 
-When reviewing the ps8640 code, I managed to convince myself that it
-was OK not to worry about it there and that maybe it wasn't really
-_that_ fragile. However, it turns out that it really is. Simply
-hardcoding panel_edp_probe() to return -EPROBE_DEFER was enough to put
-the boot process into an infinite loop. I believe this manages to trip
-the same issues that we used to trip with the main MSM code where
-something about our actions trigger Linux to re-probe previously
-deferred devices right away and each time we try again we re-trigger
-Linux to re-probe.
+On Mon, Apr 18, 2022 at 4:10 PM Doug Anderson <dianders@chromium.org> wrote:
+>
+> So I guess where does that leave us? Maybe:
+>
+> 1. I'll add a WARN_ON() in of_dp_aux_populate_ep_devices() if there is
+> more than one DP AUX endpoint with a comment explaining why we assume
+> one DP AUX endpoint.
+>
+> 2. I'll create this new structure in drm_dp_aux_bus.h:
+>
+> struct dp_aux_populate_callbacks {
+>   int (*done_probing)(struct drm_dp_aux *aux);
+>   void (*pre_remove)(struct drm_dp_aux *aux);
+> };
+>
+> 3. I'll add a second version of the populate functions that AUX bus
+> providers can use if they want callbacks:
+>
+> int of_dp_aux_populate_ep_devices_cb(struct drm_dp_aux *aux,
+>                                      struct dp_aux_populate_callbacks *cb);
+> int devm_of_dp_aux_populate_ep_devices_cb(struct drm_dp_aux *aux,
+>                                           struct dp_aux_populate_callbacks *cb);
+>
+> The old functions will just be changed to wrap the above and pass NULL
+> for the callbacks. To me, this seems better/simpler than notifiers or
+> any other scheme, but yell if you disagree.
+>
+> 4. I'll call the callsbacks in dp_aux_ep_probe() after a successful
+> probe. I'll add a second callback and will call it in
+> dp_aux_ep_remove() before passing the remove through to the panel.
+>
+>
+> If that sounds peachy then I think it should be pretty doable.
 
-Let's fix this using the callback introduced in the patch ("drm/dp:
-Callbacks to make it easier for drivers to use DP AUX bus properly").
-When using the new callback, we have to be a little careful. The
-probe_done() callback is no longer (always) called in the context of
-our probe routine. That means we can't rely on being able to return
--EPROBE_DEFER from it. We re-jigger the order of things a bit to
-account for that.
+I never heard any response about whether people liked the above, but I
+went ahead and did something similar to it. It can be found at:
 
-With this change, the device still boots (though obviously the panel
-doesn't come up) if I force panel-edp to always return
--EPROBE_DEFER. If I fake it and make the panel probe exactly once it
-also works.
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-
-Changes in v2:
-- Rewrote atop new method introduced by patch #1.
-
- drivers/gpu/drm/bridge/parade-ps8640.c | 77 +++++++++++++++++---------
- 1 file changed, 52 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index edb939b14c04..68131ca91eac 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -104,6 +104,7 @@ struct ps8640 {
- 	struct gpio_desc *gpio_powerdown;
- 	struct device_link *link;
- 	bool pre_enabled;
-+	bool bridge_added;
- };
- 
- static const struct regmap_config ps8640_regmap_config[] = {
-@@ -537,12 +538,11 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
- 	.pre_enable = ps8640_pre_enable,
- };
- 
--static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridge)
-+static int ps8640_bridge_get_dsi_resources(struct device *dev, struct ps8640 *ps_bridge)
- {
- 	struct device_node *in_ep, *dsi_node;
- 	struct mipi_dsi_device *dsi;
- 	struct mipi_dsi_host *host;
--	int ret;
- 	const struct mipi_dsi_device_info info = { .type = "ps8640",
- 						   .channel = 0,
- 						   .node = NULL,
-@@ -577,17 +577,44 @@ static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridg
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->lanes = NUM_MIPI_LANES;
- 
--	ret = devm_mipi_dsi_attach(dev, dsi);
-+	return 0;
-+}
-+
-+static int ps8640_bridge_link_panel(struct drm_dp_aux *aux)
-+{
-+	struct ps8640 *ps_bridge = aux_to_ps8640(aux);
-+	struct device *dev = aux->dev;
-+	struct device_node *np = dev->of_node;
-+	int ret;
-+
-+	/*
-+	 * NOTE about returning -EPROBE_DEFER from this function: if we
-+	 * return an error (most relevant to -EPROBE_DEFER) it will only
-+	 * be passed out to ps8640_probe() if we don't have our panel
-+	 * under the "aux-bus". That should be fine because if the panel is
-+	 * under "aux-bus" it's guaranteed to have probed by the time this
-+	 * function has been called.
-+	 */
-+
-+	/* port@1 is ps8640 output port */
-+	ps_bridge->panel_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
-+	if (IS_ERR(ps_bridge->panel_bridge))
-+		return PTR_ERR(ps_bridge->panel_bridge);
-+
-+	drm_bridge_add(&ps_bridge->bridge);
-+
-+	ret = devm_mipi_dsi_attach(dev, ps_bridge->dsi);
- 	if (ret)
--		return ret;
-+		drm_bridge_remove(&ps_bridge->bridge);
-+	else
-+		ps_bridge->bridge_added = true;
- 
--	return 0;
-+	return ret;
- }
- 
- static int ps8640_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	struct device_node *np = dev->of_node;
- 	struct ps8640 *ps_bridge;
- 	int ret;
- 	u32 i;
-@@ -628,6 +655,14 @@ static int ps8640_probe(struct i2c_client *client)
- 	if (!ps8640_of_panel_on_aux_bus(&client->dev))
- 		ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
- 
-+	/*
-+	 * Get MIPI DSI resources early. These can return -EPROBE_DEFER so
-+	 * we want to get them out of the way sooner.
-+	 */
-+	ret = ps8640_bridge_get_dsi_resources(&client->dev, ps_bridge);
-+	if (ret)
-+		return ret;
-+
- 	ps_bridge->page[PAGE0_DP_CNTL] = client;
- 
- 	ps_bridge->regmap[PAGE0_DP_CNTL] = devm_regmap_init_i2c(client, ps8640_regmap_config);
-@@ -670,31 +705,23 @@ static int ps8640_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
- 
--	devm_of_dp_aux_populate_ep_devices(&ps_bridge->aux);
--
--	/* port@1 is ps8640 output port */
--	ps_bridge->panel_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
--	if (IS_ERR(ps_bridge->panel_bridge))
--		return PTR_ERR(ps_bridge->panel_bridge);
--
--	drm_bridge_add(&ps_bridge->bridge);
--
--	ret = ps8640_bridge_host_attach(dev, ps_bridge);
--	if (ret)
--		goto err_bridge_remove;
--
--	return 0;
--
--err_bridge_remove:
--	drm_bridge_remove(&ps_bridge->bridge);
--	return ret;
-+	/*
-+	 * Kick off the probe for our panel if it's on the dp-aux bus.
-+	 * If the panel is on the aux bus ps8640_bridge_link_panel() will
-+	 * get called when it finishes probing. If the panel is an old-style
-+	 * platform device ps8640_bridge_link_panel() will be called directly
-+	 * and its return value will be the return value of our function.
-+	 */
-+	return devm_of_dp_aux_populate_ep_device(&ps_bridge->aux,
-+						 ps8640_bridge_link_panel);
- }
- 
- static int ps8640_remove(struct i2c_client *client)
- {
- 	struct ps8640 *ps_bridge = i2c_get_clientdata(client);
- 
--	drm_bridge_remove(&ps_bridge->bridge);
-+	if (ps_bridge->bridge_added)
-+		drm_bridge_remove(&ps_bridge->bridge);
- 
- 	return 0;
- }
--- 
-2.36.0.464.gb9c8b46e94-goog
-
+https://lore.kernel.org/r/20220503224029.3195306-1-dianders@chromium.org
