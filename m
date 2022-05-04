@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FF6519967
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A9CE51996A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E489910E44F;
-	Wed,  4 May 2022 08:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0225810E65D;
+	Wed,  4 May 2022 08:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A50110E369
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:15:03 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id gh6so1463648ejb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 01:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=YU7WdE75mRU+qDqKjlkeSe99cyORSKiV3WMSDIk2Mm4=;
- b=IZKWdZOs/fEpC94JbfhEGGFe6x+OiHyrCqGNjb/R4QeeYFUoV1UxTXTgSdMH6draEN
- 1GN2iAFks/LsviNUA8VButsWDIiRacK6EXAiVll5dUmK27EAb8nhCoxaLR1uGM69L3sO
- KXk3IyZqazgI9vW8/jXN/0QcNtJhOP8S6SEIA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YU7WdE75mRU+qDqKjlkeSe99cyORSKiV3WMSDIk2Mm4=;
- b=BIPYY86bX2kZC3ZFBExyMudcx46hkCyTaF67WrnFm9yUiWy2jrKZMtXtFw8gIIX/x9
- jR86M2xz5K0001hmyjBMy6t+qLc5BI2Qfsl3tatXkNzDR3CSX0fDVtv1X3os3jgadhyD
- MPHB8Rg8kpE6hCAnPZSPFDk/S5wxgrUEwn7sJaapC/6fMBf+wqI3bPb6/0/edH4oLA2L
- of9mNTM+OwmJOSyBAjBfbgaRpnmk9BaYNFiNneLzw+rq2UINW3URATJFBjC229HBiZFo
- f5hGejT7cpYKBsmJKogEBKiy1upOnvVcdvc0J9tRfFecEX5ffL2MdlxrV7FC1/qjddUC
- mEzA==
-X-Gm-Message-State: AOAM530JcbIBrbEcfT2JUts229X6bTsHEaQIqtq2PcVZoCRcZcCbtnMI
- MaLamiDBk8JG06bZgTu0LGKwgA==
-X-Google-Smtp-Source: ABdhPJzGIcq1HCmjeJM+XuvXHW/Whkhb7NvrGuznpZShxCLON1wKywA2lVZ5nMJJk+rFF/TdzNjWPg==
-X-Received: by 2002:a17:907:1c01:b0:6f4:2692:e23 with SMTP id
- nc1-20020a1709071c0100b006f426920e23mr16703120ejc.243.1651652101983; 
- Wed, 04 May 2022 01:15:01 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- ia12-20020a170907a06c00b006f3ef214da8sm5486989ejc.14.2022.05.04.01.15.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 01:15:01 -0700 (PDT)
-Date: Wed, 4 May 2022 10:14:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: avoid cleaning up sched_job when submit
- succeeded
-Message-ID: <YnI1/0Hw2GB9phaH@phenom.ffwll.local>
-References: <20220429191731.2187339-1-l.stach@pengutronix.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7B810E65D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:15:24 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BBDB5210E5;
+ Wed,  4 May 2022 08:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651652122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rVWWGHOzolrc+/az6XFt7cVviGI0vZTQRhspSxlrGts=;
+ b=aCWxQ3ZxERz8HMrLyjBL5gXH63GVy1ZptdhHvviisDU+EIm5Otai+27hh8DHya7fBJpkEt
+ aJkTuj5waJtDboNTAU65PclBMJ2BzWas2r+Qov/AqAuU1vfQP5UKtJTmhAKArhSQrpWyKC
+ SmBTRNizsJu8lEihChqMIxPpN2BpEyA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651652122;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rVWWGHOzolrc+/az6XFt7cVviGI0vZTQRhspSxlrGts=;
+ b=qhYy86+BSbnlf5ZoX8NMt2p6WE/zKFzEdkxwYfn8ehV+hOyF4GdLPiMKDP9S325usN/XgI
+ kVrpC42HQ0numIBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 91B3C132C4;
+ Wed,  4 May 2022 08:15:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id bRduIho2cmJYZwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 04 May 2022 08:15:22 +0000
+Message-ID: <d0555181-6e36-044c-b747-c08dbeb3a89e@suse.de>
+Date: Wed, 4 May 2022 10:15:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220429191731.2187339-1-l.stach@pengutronix.de>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file operations
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220503201934.681276-1-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220503201934.681276-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------GiKNHzNWX5u8RvfF15fb8F9T"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,62 +69,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Junxiao Chang <junxiao.chang@intel.com>, linux-fbdev@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 29, 2022 at 09:17:31PM +0200, Lucas Stach wrote:
-> While the labels may mislead the casual reader, the tail of the function
-> etnaviv_ioctl_gem_submit is always executed, as a lot of the structures
-> set up in this function need to be cleaned up regardless of whether the
-> submit succeeded or failed.
-> 
-> An exception is the newly added drm_sched_job_cleanup, which must only
-> be called when the submit failed before handing the job to the
-> scheduler.
-> 
-> Fixes: b827c84f5e84 ("drm/etnaviv: Use scheduler dependency handling")
-> Reported-by: Michael Walle <michael@walle.cc>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-> Daniel, please apply to the appropriate drm-misc branch to make sure
-> this ends up in the same pullrequest as the offending commit.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------GiKNHzNWX5u8RvfF15fb8F9T
+Content-Type: multipart/mixed; boundary="------------1TSaT950kiKgi3Q8goSEfWZr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
+ Junxiao Chang <junxiao.chang@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Message-ID: <d0555181-6e36-044c-b747-c08dbeb3a89e@suse.de>
+Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file
+ operations
+References: <20220503201934.681276-1-javierm@redhat.com>
+In-Reply-To: <20220503201934.681276-1-javierm@redhat.com>
 
-Apologies on being behind on emails, I just came to the same conclusion.
+--------------1TSaT950kiKgi3Q8goSEfWZr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Except there's one issue, the error path for sync_file_create is after a
-successful call to drm_sched_entity_push_job(), so in that case we must
-again _not_ call drm_sched_job_cleanup. So we need to change that goto
-err_submit_job to goto err_submit_put and maybe add a comment about why.
+SGkNCg0KQW0gMDMuMDUuMjIgdW0gMjI6MTkgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEEgcmVmZXJlbmNlIHRvIHRoZSBmcmFtZWJ1ZmZlciBkZXZpY2Ugc3RydWN0
+IGZiX2luZm8gaXMgc3RvcmVkIGluIHRoZSBmaWxlDQo+IHByaXZhdGUgZGF0YSwgYnV0IHRo
+aXMgcmVmZXJlbmNlIGNvdWxkIG5vIGxvbmdlciBiZSB2YWxpZCBhbmQgbXVzdCBub3QgYmUN
+Cj4gYWNjZXNzZWQgZGlyZWN0bHkuIEluc3RlYWQsIHRoZSBmaWxlX2ZiX2luZm8oKSBhY2Nl
+c3NvciBmdW5jdGlvbiBtdXN0IGJlDQo+IHVzZWQgc2luY2UgaXQgZG9lcyBzYW5pdHkgY2hl
+Y2tpbmcgdG8gbWFrZSBzdXJlIHRoYXQgdGhlIGZiX2luZm8gaXMgdmFsaWQuDQo+IA0KPiBU
+aGlzIGNhbiBoYXBwZW4gZm9yIGV4YW1wbGUgaWYgdGhlIHJlZ2lzdGVyZWQgZnJhbWVidWZm
+ZXIgZGV2aWNlIGlzIGZvciBhDQo+IGRyaXZlciB0aGF0IGp1c3QgdXNlcyBhIGZyYW1lYnVm
+ZmVyIHByb3ZpZGVkIGJ5IHRoZSBzeXN0ZW0gZmlybXdhcmUuIEluDQo+IHRoYXQgY2FzZSwg
+dGhlIGZiZGV2IGNvcmUgd291bGQgdW5yZWdpc3RlciB0aGUgZnJhbWVidWZmZXIgZGV2aWNl
+IHdoZW4gYQ0KPiByZWFsIHZpZGVvIGRyaXZlciBpcyBwcm9iZWQgYW5kIGFzayB0byByZW1v
+dmUgY29uZmxpY3RpbmcgZnJhbWVidWZmZXJzLg0KPiANCj4gTW9zdCBmYmRldiBmaWxlIG9w
+ZXJhdGlvbnMgYWxyZWFkeSB1c2UgdGhlIGhlbHBlciB0byBnZXQgdGhlIGZiX2luZm8gYnV0
+DQo+IGdldF9mYl91bm1hcHBlZF9hcmVhKCkgYW5kIGZiX2RlZmVycmVkX2lvX2ZzeW5jKCkg
+ZG9uJ3QuIEZpeCB0aG9zZSB0d28uDQo+IA0KPiBTaW5jZSBmYl9kZWZlcnJlZF9pb19mc3lu
+YygpIGlzIG5vdCBpbiBmYm1lbS5vLCB0aGUgaGVscGVyIGhhcyB0byBiZQ0KPiBleHBvcnRl
+ZC4gUmVuYW1lIGl0IGFuZCBhZGQgYSBmYl8gcHJlZml4IHRvIGRlbm90ZSB0aGF0IGlzIHB1
+YmxpYyBub3cuDQo+IA0KPiBSZXBvcnRlZC1ieTogSnVueGlhbyBDaGFuZyA8anVueGlhby5j
+aGFuZ0BpbnRlbC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5p
+bGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1l
+cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNClBsZWFzZSBzZWUgbXkgY29tbWVudCBi
+ZWxvdy4NCg0KPiAtLS0NCj4gDQo+IENoYW5nZXMgaW4gdjI6DQo+IC0gRml4IGNvcHkgJiBw
+YXN0ZSBlcnJvciBwYXNzaW5nIGZpbGUtPnByaXZhdGVfZGF0YSBpbnN0ZWFkIG9mIGZpbGUN
+Cj4gICAgdG8gZmJfZmlsZV9mYl9pbmZvKCkgZnVuY3Rpb24gKFNhbSBSYXZuYm9yZykuDQo+
+IA0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5jIHwgIDUgKysrKy0N
+Cj4gICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyAgICB8IDI0ICsrKysrKysr
+KysrKysrKy0tLS0tLS0tLQ0KPiAgIGluY2x1ZGUvbGludXgvZmIuaCAgICAgICAgICAgICAg
+ICAgIHwgIDEgKw0KPiAgIDMgZmlsZXMgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgMTAg
+ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9j
+b3JlL2ZiX2RlZmlvLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJfZGVmaW8uYw0K
+PiBpbmRleCA4NDJjNjZiM2UzM2QuLmNjZGY5MDNjNDhiZCAxMDA2NDQNCj4gLS0tIGEvZHJp
+dmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2RlZmlvLmMNCj4gKysrIGIvZHJpdmVycy92aWRl
+by9mYmRldi9jb3JlL2ZiX2RlZmlvLmMNCj4gQEAgLTY4LDEyICs2OCwxNSBAQCBzdGF0aWMg
+dm1fZmF1bHRfdCBmYl9kZWZlcnJlZF9pb19mYXVsdChzdHJ1Y3Qgdm1fZmF1bHQgKnZtZikN
+Cj4gICANCj4gICBpbnQgZmJfZGVmZXJyZWRfaW9fZnN5bmMoc3RydWN0IGZpbGUgKmZpbGUs
+IGxvZmZfdCBzdGFydCwgbG9mZl90IGVuZCwgaW50IGRhdGFzeW5jKQ0KPiAgIHsNCj4gLQlz
+dHJ1Y3QgZmJfaW5mbyAqaW5mbyA9IGZpbGUtPnByaXZhdGVfZGF0YTsNCj4gKwlzdHJ1Y3Qg
+ZmJfaW5mbyAqaW5mbyA9IGZiX2ZpbGVfZmJfaW5mbyhmaWxlKTsNCj4gICAJc3RydWN0IGlu
+b2RlICppbm9kZSA9IGZpbGVfaW5vZGUoZmlsZSk7DQo+ICAgCWludCBlcnIgPSBmaWxlX3dy
+aXRlX2FuZF93YWl0X3JhbmdlKGZpbGUsIHN0YXJ0LCBlbmQpOw0KPiAgIAlpZiAoZXJyKQ0K
+PiAgIAkJcmV0dXJuIGVycjsNCj4gICANCj4gKwlpZiAoIWluZm8pDQo+ICsJCXJldHVybiAt
+RU5PREVWOw0KPiArDQoNClRoaXMgaXMgY29uc2lzdGVudCB3aXRoIG90aGVyIGZ1bmN0aW9u
+cywgYnV0IGl0J3MgcHJvYmFibHkgbm90IHRoZSANCmNvcnJlY3QgZXJybm8gY29kZS4gSXQg
+bWVhbnMgdGhhdCBhIGRldmljZSBpcyBub3QgYXZhaWxhYmxlIGZvciBvcGVuaW5nLg0KDQpC
+dXQgdGhlIHNpdHVhdGlvbiBoZXJlIGlzIHJhdGhlciBhcyB3aXRoIGNsb3NlKCkgb24gYSAN
+CmRpc2Nvbm5lY3RlZC1uZXR3b3JrIGZpbGUuIFRoZSBjYWxsIHRvIGNsb3NlKCkgcmV0dXJu
+cyBFSU8gaW4gdGhpcyBjYXNlLiANCk1heWJlIHdlIHNob3VsZCBjb25zaWRlciBjaGFuZ2lu
+ZyB0aGlzIGluIGEgc2VwYXJhdGUgcGF0Y2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoN
+Cj4gICAJLyogU2tpcCBpZiBkZWZlcnJlZCBpbyBpcyBjb21waWxlZC1pbiBidXQgZGlzYWJs
+ZWQgb24gdGhpcyBmYmRldiAqLw0KPiAgIAlpZiAoIWluZm8tPmZiZGVmaW8pDQo+ICAgCQly
+ZXR1cm4gMDsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1l
+bS5jIGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4gaW5kZXggOTdlYjBk
+ZWU0MTFjLi5iYTJjMTRhMTA4N2QgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvY29yZS9mYm1lbS5jDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1l
+bS5jDQo+IEBAIC03NDUsNyArNzQ1LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBzZXFfb3Bl
+cmF0aW9ucyBfX21heWJlX3VudXNlZCBwcm9jX2ZiX3NlcV9vcHMgPSB7DQo+ICAgICogU28g
+bG9vayB1cCB0aGUgZmJfaW5mbyB1c2luZyB0aGUgaW5vZGUgbWlub3IgbnVtYmVyLA0KPiAg
+ICAqIGFuZCBqdXN0IHZlcmlmeSBpdCBhZ2FpbnN0IHRoZSByZWZlcmVuY2Ugd2UgaGF2ZS4N
+Cj4gICAgKi8NCj4gLXN0YXRpYyBzdHJ1Y3QgZmJfaW5mbyAqZmlsZV9mYl9pbmZvKHN0cnVj
+dCBmaWxlICpmaWxlKQ0KPiArc3RydWN0IGZiX2luZm8gKmZiX2ZpbGVfZmJfaW5mbyhzdHJ1
+Y3QgZmlsZSAqZmlsZSkNCj4gICB7DQo+ICAgCXN0cnVjdCBpbm9kZSAqaW5vZGUgPSBmaWxl
+X2lub2RlKGZpbGUpOw0KPiAgIAlpbnQgZmJpZHggPSBpbWlub3IoaW5vZGUpOw0KPiBAQCAt
+NzU1LDEyICs3NTUsMTMgQEAgc3RhdGljIHN0cnVjdCBmYl9pbmZvICpmaWxlX2ZiX2luZm8o
+c3RydWN0IGZpbGUgKmZpbGUpDQo+ICAgCQlpbmZvID0gTlVMTDsNCj4gICAJcmV0dXJuIGlu
+Zm87DQo+ICAgfQ0KPiArRVhQT1JUX1NZTUJPTChmYl9maWxlX2ZiX2luZm8pOw0KPiAgIA0K
+PiAgIHN0YXRpYyBzc2l6ZV90DQo+ICAgZmJfcmVhZChzdHJ1Y3QgZmlsZSAqZmlsZSwgY2hh
+ciBfX3VzZXIgKmJ1Ziwgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+ICAgew0KPiAg
+IAl1bnNpZ25lZCBsb25nIHAgPSAqcHBvczsNCj4gLQlzdHJ1Y3QgZmJfaW5mbyAqaW5mbyA9
+IGZpbGVfZmJfaW5mbyhmaWxlKTsNCj4gKwlzdHJ1Y3QgZmJfaW5mbyAqaW5mbyA9IGZiX2Zp
+bGVfZmJfaW5mbyhmaWxlKTsNCj4gICAJdTggKmJ1ZmZlciwgKmRzdDsNCj4gICAJdTggX19p
+b21lbSAqc3JjOw0KPiAgIAlpbnQgYywgY250ID0gMCwgZXJyID0gMDsNCj4gQEAgLTgyNSw3
+ICs4MjYsNyBAQCBzdGF0aWMgc3NpemVfdA0KPiAgIGZiX3dyaXRlKHN0cnVjdCBmaWxlICpm
+aWxlLCBjb25zdCBjaGFyIF9fdXNlciAqYnVmLCBzaXplX3QgY291bnQsIGxvZmZfdCAqcHBv
+cykNCj4gICB7DQo+ICAgCXVuc2lnbmVkIGxvbmcgcCA9ICpwcG9zOw0KPiAtCXN0cnVjdCBm
+Yl9pbmZvICppbmZvID0gZmlsZV9mYl9pbmZvKGZpbGUpOw0KPiArCXN0cnVjdCBmYl9pbmZv
+ICppbmZvID0gZmJfZmlsZV9mYl9pbmZvKGZpbGUpOw0KPiAgIAl1OCAqYnVmZmVyLCAqc3Jj
+Ow0KPiAgIAl1OCBfX2lvbWVtICpkc3Q7DQo+ICAgCWludCBjLCBjbnQgPSAwLCBlcnIgPSAw
+Ow0KPiBAQCAtMTE4MSw3ICsxMTgyLDcgQEAgc3RhdGljIGxvbmcgZG9fZmJfaW9jdGwoc3Ry
+dWN0IGZiX2luZm8gKmluZm8sIHVuc2lnbmVkIGludCBjbWQsDQo+ICAgDQo+ICAgc3RhdGlj
+IGxvbmcgZmJfaW9jdGwoc3RydWN0IGZpbGUgKmZpbGUsIHVuc2lnbmVkIGludCBjbWQsIHVu
+c2lnbmVkIGxvbmcgYXJnKQ0KPiAgIHsNCj4gLQlzdHJ1Y3QgZmJfaW5mbyAqaW5mbyA9IGZp
+bGVfZmJfaW5mbyhmaWxlKTsNCj4gKwlzdHJ1Y3QgZmJfaW5mbyAqaW5mbyA9IGZiX2ZpbGVf
+ZmJfaW5mbyhmaWxlKTsNCj4gICANCj4gICAJaWYgKCFpbmZvKQ0KPiAgIAkJcmV0dXJuIC1F
+Tk9ERVY7DQo+IEBAIC0xMjkzLDcgKzEyOTQsNyBAQCBzdGF0aWMgaW50IGZiX2dldF9mc2Ny
+ZWVuaW5mbyhzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgdW5zaWduZWQgaW50IGNtZCwNCj4gICBz
+dGF0aWMgbG9uZyBmYl9jb21wYXRfaW9jdGwoc3RydWN0IGZpbGUgKmZpbGUsIHVuc2lnbmVk
+IGludCBjbWQsDQo+ICAgCQkJICAgIHVuc2lnbmVkIGxvbmcgYXJnKQ0KPiAgIHsNCj4gLQlz
+dHJ1Y3QgZmJfaW5mbyAqaW5mbyA9IGZpbGVfZmJfaW5mbyhmaWxlKTsNCj4gKwlzdHJ1Y3Qg
+ZmJfaW5mbyAqaW5mbyA9IGZiX2ZpbGVfZmJfaW5mbyhmaWxlKTsNCj4gICAJY29uc3Qgc3Ry
+dWN0IGZiX29wcyAqZmI7DQo+ICAgCWxvbmcgcmV0ID0gLUVOT0lPQ1RMQ01EOw0KPiAgIA0K
+PiBAQCAtMTMzMyw3ICsxMzM0LDcgQEAgc3RhdGljIGxvbmcgZmJfY29tcGF0X2lvY3RsKHN0
+cnVjdCBmaWxlICpmaWxlLCB1bnNpZ25lZCBpbnQgY21kLA0KPiAgIHN0YXRpYyBpbnQNCj4g
+ICBmYl9tbWFwKHN0cnVjdCBmaWxlICpmaWxlLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKiB2
+bWEpDQo+ICAgew0KPiAtCXN0cnVjdCBmYl9pbmZvICppbmZvID0gZmlsZV9mYl9pbmZvKGZp
+bGUpOw0KPiArCXN0cnVjdCBmYl9pbmZvICppbmZvID0gZmJfZmlsZV9mYl9pbmZvKGZpbGUp
+Ow0KPiAgIAlpbnQgKCpmYl9tbWFwX2ZuKShzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgc3RydWN0
+IHZtX2FyZWFfc3RydWN0ICp2bWEpOw0KPiAgIAl1bnNpZ25lZCBsb25nIG1taW9fcGdvZmY7
+DQo+ICAgCXVuc2lnbmVkIGxvbmcgc3RhcnQ7DQo+IEBAIC0xNDM0LDcgKzE0MzUsNyBAQCBm
+Yl9yZWxlYXNlKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBmaWxlICpmaWxlKQ0KPiAg
+IF9fYWNxdWlyZXMoJmluZm8tPmxvY2spDQo+ICAgX19yZWxlYXNlcygmaW5mby0+bG9jaykN
+Cj4gICB7DQo+IC0Jc3RydWN0IGZiX2luZm8gKiBjb25zdCBpbmZvID0gZmlsZV9mYl9pbmZv
+KGZpbGUpOw0KPiArCXN0cnVjdCBmYl9pbmZvICogY29uc3QgaW5mbyA9IGZiX2ZpbGVfZmJf
+aW5mbyhmaWxlKTsNCj4gICANCj4gICAJaWYgKCFpbmZvKQ0KPiAgIAkJcmV0dXJuIC1FTk9E
+RVY7DQo+IEBAIC0xNDUzLDggKzE0NTQsMTMgQEAgdW5zaWduZWQgbG9uZyBnZXRfZmJfdW5t
+YXBwZWRfYXJlYShzdHJ1Y3QgZmlsZSAqZmlscCwNCj4gICAJCQkJICAgdW5zaWduZWQgbG9u
+ZyBhZGRyLCB1bnNpZ25lZCBsb25nIGxlbiwNCj4gICAJCQkJICAgdW5zaWduZWQgbG9uZyBw
+Z29mZiwgdW5zaWduZWQgbG9uZyBmbGFncykNCj4gICB7DQo+IC0Jc3RydWN0IGZiX2luZm8g
+KiBjb25zdCBpbmZvID0gZmlscC0+cHJpdmF0ZV9kYXRhOw0KPiAtCXVuc2lnbmVkIGxvbmcg
+ZmJfc2l6ZSA9IFBBR0VfQUxJR04oaW5mby0+Zml4LnNtZW1fbGVuKTsNCj4gKwlzdHJ1Y3Qg
+ZmJfaW5mbyAqIGNvbnN0IGluZm8gPSBmYl9maWxlX2ZiX2luZm8oZmlscCk7DQo+ICsJdW5z
+aWduZWQgbG9uZyBmYl9zaXplOw0KPiArDQo+ICsJaWYgKCFpbmZvKQ0KPiArCQlyZXR1cm4g
+LUVOT0RFVjsNCj4gKw0KPiArCWZiX3NpemUgPSBQQUdFX0FMSUdOKGluZm8tPmZpeC5zbWVt
+X2xlbik7DQo+ICAgDQo+ICAgCWlmIChwZ29mZiA+IGZiX3NpemUgfHwgbGVuID4gZmJfc2l6
+ZSAtIHBnb2ZmKQ0KPiAgIAkJcmV0dXJuIC1FSU5WQUw7DQo+IGRpZmYgLS1naXQgYS9pbmNs
+dWRlL2xpbnV4L2ZiLmggYi9pbmNsdWRlL2xpbnV4L2ZiLmgNCj4gaW5kZXggOWE3N2FiNjE1
+YzM2Li4zMDA0YjhiOGM1YzIgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGludXgvZmIuaA0K
+PiArKysgYi9pbmNsdWRlL2xpbnV4L2ZiLmgNCj4gQEAgLTYyNCw2ICs2MjQsNyBAQCBleHRl
+cm4gaW50IGZiX2dldF9jb2xvcl9kZXB0aChzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8gKnZh
+ciwNCj4gICAJCQkgICAgICBzdHJ1Y3QgZmJfZml4X3NjcmVlbmluZm8gKmZpeCk7DQo+ICAg
+ZXh0ZXJuIGludCBmYl9nZXRfb3B0aW9ucyhjb25zdCBjaGFyICpuYW1lLCBjaGFyICoqb3B0
+aW9uKTsNCj4gICBleHRlcm4gaW50IGZiX25ld19tb2RlbGlzdChzdHJ1Y3QgZmJfaW5mbyAq
+aW5mbyk7DQo+ICtleHRlcm4gc3RydWN0IGZiX2luZm8gKmZiX2ZpbGVfZmJfaW5mbyhzdHJ1
+Y3QgZmlsZSAqZmlsZSk7DQo+ICAgDQo+ICAgZXh0ZXJuIHN0cnVjdCBmYl9pbmZvICpyZWdp
+c3RlcmVkX2ZiW0ZCX01BWF07DQo+ICAgZXh0ZXJuIGludCBudW1fcmVnaXN0ZXJlZF9mYjsN
+Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
+U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5
+MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdl
+c2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Can you pls respin?
+--------------1TSaT950kiKgi3Q8goSEfWZr--
 
-Thanks, Daniel
+--------------GiKNHzNWX5u8RvfF15fb8F9T
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> index 98bb5c9239de..bf2a400f59c9 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> @@ -607,7 +607,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  	args->fence = submit->out_fence_id;
->  
->  err_submit_job:
-> -	drm_sched_job_cleanup(&submit->sched_job);
-> +	if (ret)
-> +		drm_sched_job_cleanup(&submit->sched_job);
->  err_submit_put:
->  	etnaviv_submit_put(submit);
->  
-> -- 
-> 2.30.2
-> 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJyNhoFAwAAAAAACgkQlh/E3EQov+AS
+og/9FKRqad07tiPTp3+i/DQ/g30Ihh6ESlVOsR8VoB+aXdmZ+ImgHn3vNEzdl1vsDtGqRWw6rxSN
+CdpkxtVWHdO0FET7q0SIbrLVJtarggUh2TLGfxWf2/DLWz6G+brsWcvkUPoO1s+iNm4MpHWF3RAO
+odH+CpuOnZ7fxH6ZWlN574Kp33Hwl7XdyQ8YaeQdVIZTaohNJ+h+NbtPX/uCcejdpZvdu4RhPQgU
++Al1ja3y+hpKzjW91hspyCB5MT/TZapUj+F//2vsRqRaQpngL200hTmHJjG/AM2cHulWJYE9+G/d
+zLTeluH0bxc1Ke3htUO4ZB4CCFtYL0BEjrKgwTwa4JB9/C2WW1+cGtYTPprgHGLwr3kuaSZB9gt2
+UqhiYjV1g4eM8w6bmQTq1qT146mJKY6pY0RIt8UQQVnFgyIjdJDq1SfEIAeLPThcJagDw+x5TXAi
+yc3yN+p/lFmhrURNa14iKhBSYqUQ2hD8jeSdatDHhbPrxea0JfOFqt94pCsPEItGrzD+pJGXhv4g
+ibbs89mP5DGz4p7Q0nXcvh4LS2rAbU3cS8RcaU5F4CjJR3hOuY5+slePw9e+s3L9bph4AVfgt1oK
+qIeme5kZGKyN/fjXYVObVTwszZ1x1KTB9lLvDpcXu01RuF6zBlSyYcDjMbsVyquobewWovkUFmkp
+tI0=
+=5Fcr
+-----END PGP SIGNATURE-----
+
+--------------GiKNHzNWX5u8RvfF15fb8F9T--
