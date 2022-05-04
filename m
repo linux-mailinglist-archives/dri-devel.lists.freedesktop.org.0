@@ -2,77 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE58519E12
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B775519E24
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:35:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82C7A10F66A;
-	Wed,  4 May 2022 11:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2A10E675;
+	Wed,  4 May 2022 11:35:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C240D10F7A0
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:32:41 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6B3810E675
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651663960;
+ s=mimecast20190719; t=1651664141;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xSmRyvY5USUJK4bqOwkMxhLEWYFefLvLLVRpwsW24V4=;
- b=JKhqgmAztVTPamoAqkHcjBpDzjHX1qT0odi3JFJ5jb1+fkz5vxb/5TzYPc3gsuobuDHccD
- r7X3+LKSh904KvAkKpAlbqjYjaVvQ+ymBflmIq4+LwFuijVJhsI6st0Oh74lJpD8T4GG+J
- 838FURjc1xFUZNKxLoSI4YEQLWzeo98=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=34VZxVT7BZbb571VsASnxn7VWsmyBHWuoREbYnuFRqA=;
+ b=bAF+GusD+zUbuKQHwGyPQ18r5QpYfiwMs9cjrazuUueGWamLU01FLpC6b5pI1YfPES1/Bc
+ m7F/V9uHp2I2AhykAqyH0EMisQQ++g21Qgeko0US7aBlbanHFOH9uRg00QaoxnO1fWpcS0
+ v89ed/lszdCuXXmN78mgpRTHYqUzdY8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-383-rxRDOOQ6OvWFIpSQ4KTZ7g-1; Wed, 04 May 2022 07:32:39 -0400
-X-MC-Unique: rxRDOOQ6OvWFIpSQ4KTZ7g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d28-20020adf9b9c000000b0020ad4a50e14so278313wrc.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:32:39 -0700 (PDT)
+ us-mta-552-jJM5MLP5PEmPvjTeH86hVw-1; Wed, 04 May 2022 07:35:40 -0400
+X-MC-Unique: jJM5MLP5PEmPvjTeH86hVw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g7-20020adfbc87000000b0020ac76d254bso279824wrh.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:35:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xSmRyvY5USUJK4bqOwkMxhLEWYFefLvLLVRpwsW24V4=;
- b=aWhQfTEABXa1AxGo4k1fFS8rdzs/HDrmxfzscdBP8QvmZd/py5uA6utZfU0NHDHQmz
- 9q2zqyCCu9IWxnpR7VktggyksUYjnxk5Br5uTcXFgIg/NqWVCP6hjLmRDRJHpwMSeHoo
- ae268ONV3yhVFHUg0zstWekkj7yNcxUy0QM/88NZzO4eyJMpH4zCv/MTN6S5rA2iMY0P
- vX03Rez5N5vYeZ/+o5ze+lpzyUOZNpSLTe12SFwKZz1CiPIRI3saHABwDwyJ8u4FbocY
- lOqTRE1DJrB4vMc1b6Nj1FLQMcYq2i37eSZc37lAQZ3AAaujBpi1ytYulnVFJVXmQOt+
- AKuQ==
-X-Gm-Message-State: AOAM533p4iT8BW9xVjuVVrIFObC11azhOD1XwoEaz6THC2e5/qvY+wJ2
- QgqRcZYIj7tswZQYYQVxTn5mcLVK6xV0Q3V1vr8ZeC5hvL4mhByrMKIkm4engOSiitaHn8L78iC
- uqvc0iLDzh82v+RA7oyFyZCkCaSf2
-X-Received: by 2002:a7b:ce08:0:b0:394:32df:2ae6 with SMTP id
- m8-20020a7bce08000000b0039432df2ae6mr7189957wmc.184.1651663958432; 
- Wed, 04 May 2022 04:32:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwA5wXaWnN+rrsK5flhGj5h/2tfXvIEclG8Wrk1xlOuCGc80m9A3smlCSu4+D4IoWK24dOV7Q==
-X-Received: by 2002:a7b:ce08:0:b0:394:32df:2ae6 with SMTP id
- m8-20020a7bce08000000b0039432df2ae6mr7189946wmc.184.1651663958176; 
- Wed, 04 May 2022 04:32:38 -0700 (PDT)
+ bh=34VZxVT7BZbb571VsASnxn7VWsmyBHWuoREbYnuFRqA=;
+ b=bSKKr8QPdUIBYWPg18iHUsO/5PSlzPh36lw/Nz7ZlWWGfjefmY6rTrWHarB/LCi5oj
+ zFMA1C1F1WCaJ18cS5jDtKLWR0TAtYu9LPDS1sHcfEJjFK8TA9wOiSwh7567nFT/mWmD
+ bCrBti9EKJ91SNmSWZpdbs4MGXUaq44vMCItbsvtSDnc/mxX3u+17+KvnUUignerX8VB
+ zvJxrt/IAZdMq0WK9XFrutwGZdjpo/g2DwjMrf1NCL6ab9MhJXJZjohkTIJeNULMPWv+
+ BvJJYHshj0mYQO4rqyn+bJJXGbRGK3L8dy5C/UdaqbEaJDap8n66aTYaH81evnCjWFIX
+ fqVw==
+X-Gm-Message-State: AOAM531f5aCflVyyo1eJ2cWWeH2MzNbpU6a1eKxW1q+J2i07GK6OTpzH
+ v/lctYJNLnvrwz3woIbu5TL1S2pt0FJ35SpBUoKAH3qxPEuoUyLK1xqDqbqo0jnH907e3Ee832l
+ zjS+icwgdrt7jInv2xw/ocIOXwdN+
+X-Received: by 2002:a7b:ce0a:0:b0:394:41e:2517 with SMTP id
+ m10-20020a7bce0a000000b00394041e2517mr7303642wmc.135.1651664139534; 
+ Wed, 04 May 2022 04:35:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkqdX7HCGB2EekG/+HnmQTPbLcK1+rCPyta5s7F5sneyoQz8GhIv8xGVqmVaPz6xc7p4OmlA==
+X-Received: by 2002:a7b:ce0a:0:b0:394:41e:2517 with SMTP id
+ m10-20020a7bce0a000000b00394041e2517mr7303627wmc.135.1651664139274; 
+ Wed, 04 May 2022 04:35:39 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c3b0600b0039429bfebeasm4958174wms.2.2022.05.04.04.32.37
+ e11-20020a05600c4e4b00b003942a244f36sm3780628wmq.15.2022.05.04.04.35.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 04:32:37 -0700 (PDT)
-Message-ID: <bfb03d40-a023-12a9-9554-1b6e6c474134@redhat.com>
-Date: Wed, 4 May 2022 13:32:37 +0200
+ Wed, 04 May 2022 04:35:38 -0700 (PDT)
+Message-ID: <da8874d4-66f1-d14e-c0ef-c3557e189cf4@redhat.com>
+Date: Wed, 4 May 2022 13:35:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v3 3/3] drm: Allow simpledrm to setup its emulated FB as
- firmware provided
-To: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20220503071540.471667-1-javierm@redhat.com>
- <20220503071540.471667-4-javierm@redhat.com>
- <YnJcaaDcIsJKhSwQ@phenom.ffwll.local>
+Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file operations
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Junxiao Chang <junxiao.chang@intel.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20220503201934.681276-1-javierm@redhat.com>
+ <YnJBGpvlViLV+0/a@phenom.ffwll.local>
+ <038f8365-b23b-9d81-f7b2-8f8c6eb3a065@redhat.com>
+ <YnJbvb5TlHs4ckPM@phenom.ffwll.local>
+ <d47a3cab-4f21-3b8b-2834-030663677070@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YnJcaaDcIsJKhSwQ@phenom.ffwll.local>
+In-Reply-To: <d47a3cab-4f21-3b8b-2834-030663677070@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,45 +97,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/4/22 12:58, Daniel Vetter wrote:
-> On Tue, May 03, 2022 at 09:15:40AM +0200, Javier Martinez Canillas wrote:
->> Indicate to fbdev subsystem that the registered framebuffer is provided by
->> the system firmware, so that it can handle accordingly. For example, would
->> unregister the FB devices if asked to remove the conflicting framebuffers.
->>
->> Add a new DRM_FB_FW field to drm_fbdev_generic_setup() options parameter.
->> Drivers can use this to indicate the FB helper initialization that the FB
->> registered is provided by the firmware, so it can be configured as such.
->>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> ---
->>
->> Changes in v3:
->> - Drop the firmware local variable (Laurent Pinchart).
->> - Use DRM_FB_OPTION() since DRM_FB_SET_OPTION() got renamed (kernel test robot).
-> 
-> Just for the record what I brought up on irc already:
-> 
-> FBINFO_MISC_FIRMWARE is purely an internal flag with no uapi impact, and
-> it's only to control whether we nuke this from
-> remove_conflicting_framebuffer or not. Since simpledrm only ever binds
-> against sysfb I think it'd be cleaner to only rely on that, and relegate
+Hello Thomas,
 
-That's not actually true. The OF subsystem also registers "simple-framebuffer"
-devices when there are Device Tree nodes that contain a "simple-framebuffer"
-compatible string. In that case these pdev will also bind against simpledrm.
+On 5/4/22 13:08, Thomas Zimmermann wrote:
 
-> that entire FBINFO_MISC_FIRMWARE misc hack to the fbdev dungeons and let
-> it quietly wither away there.
+[snip]
+
+>>> So something similar to fb_file_fb_info() is needed to check if
+>>> the vm_private_data is still valid. I guess that could be done
+>>> by using the vmf->vma->vm_file and attempting the same trick that
+>>> fb_file_fb_info() does ?
+>>
+>> Yeah should work, except if the ptes are set up already there's kinda not
+>> much that this will prevent. We'd need to tear down mappings and SIGBUS or
+>> alternatively have something else in place there so userspace doesn't blow
+>> up in funny ways (which is what we're doing on the drm side, or at least
+>> trying to).
+>>
+>> I'm also not sure how much we should care, since ideally for drm drivers
+>> this is all taken care of by drm_dev_enter in the right places. It does
+>> mean though that fbdev mmap either needs to have it's own memory or be
+>> fully redirected to the drm gem mmap.
+>>
+>> And then we can afford to just not care to fix fbdev itself.
+> 
+> While the problem has been there ever since, the bug didn't happen until 
+> we fixed hot-unplugging for fbdev. Not doing anything is probably not 
+> the right thing.
 >
-> Also I'm not a huge fan of these midlayer flags in general :-)
 
-And while I agree with you that these midlayer flags are horrible, that is
-what any other fbdev that makes use of a firmware-provided framebuffer set,
-so simpledrm emulated fbdev shouldn't be the exception IMO.
+Actually, this issue shouldn't happen if the fbdev drivers are not buggy
+and do the proper cleanup at .fb_release() time rather than at .remove().
+
+I'll post patches for simplefb and efifb which are the drivers that we
+mostly care at this point. So we should be good and not need more fixes.
 
 -- 
 Best regards,
