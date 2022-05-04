@@ -2,57 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257FB51B049
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 23:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5EE51B162
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 23:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0085310EE4F;
-	Wed,  4 May 2022 21:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB0E10F1C3;
+	Wed,  4 May 2022 21:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
- [209.85.160.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0351510EE4D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 21:18:56 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-e656032735so2518894fac.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 14:18:55 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0459810F1C3
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 21:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651701129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tx5EF/oHY4MnR+1kAy1pN1/nvTcQ0mL5kPtxJFa0zjA=;
+ b=LPE5FtPMU5MbL11bIjY2etHzUxJ+BzzR24Cub6LBMEbV2phYbpUYA5WIEaIwxwWvdzCElM
+ 8f2Ny5ahSsw96KbQ8dtVPjj29qHUa+YsEh0L0HSBEVX5J2isYkFlggkay0JKiG3BOkMhdn
+ SyUmYCuFpFB2kHNcinR7/8KMqVu0XeE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-225-2EsCnWD5PxG9CDsd62s_GA-1; Wed, 04 May 2022 17:52:06 -0400
+X-MC-Unique: 2EsCnWD5PxG9CDsd62s_GA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ d13-20020a05600c3acd00b0038ff865c043so3576204wms.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 14:52:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=S5KOsETtEM/tlLh5aE4TllMhkuOxHv7tKaCHP6S4dRs=;
- b=V3L87jPC4oHRS3Ww3gXLwnAUu5UfbQ/xxVzXS2JokJhP5mO6jTku1xg2y/MkvMjYn5
- tQKSmAXZx4SLjCbDvWwhR0ZsBn1B4rU03Zqddc/keWrjasoMdytvEkLw/u7cuFG4XQ/i
- 7BrXfcGJy4uvnjOPHbPNzkxkTEAEpXFHGVYeXvj2y406TLcnZg2Vv7CTngNIkJL9SVOn
- 0NFZWlNOKrmvDHftgqwr7OlnCHDEUo5Clxw3sFeoBfGOSJ7rTyyETwtjzt9U9ewryM+A
- SJv/4j1PRIYAwfwzcu4yygg4ug4mx6KyyNIPHwUPx+ZaDCDYp2nG+H0wPoArJNXyw+4i
- dKAA==
-X-Gm-Message-State: AOAM532p6DdUTaDDkbjBf0lxoIZOfVw++pOBkuxXSFoeRUDJU8BF/GMB
- uTxPw8Jh0QDVMC/FRfdzcA==
-X-Google-Smtp-Source: ABdhPJx70C27VXLkiWuEEIrWSrTpQJyJY8Bcpnd3QFecXI5OFZqDfycowXXO+amY4bM1axvVUtwzWg==
-X-Received: by 2002:a05:6870:7a8:b0:e5:d471:1e82 with SMTP id
- en40-20020a05687007a800b000e5d4711e82mr785288oab.138.1651699135188; 
- Wed, 04 May 2022 14:18:55 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- m1-20020a056808024100b00325cda1ff88sm15372oie.7.2022.05.04.14.18.53
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tx5EF/oHY4MnR+1kAy1pN1/nvTcQ0mL5kPtxJFa0zjA=;
+ b=K6vaaw7cytBVgOsO0aArO886qFuLMoDV6Ivo1cLXdwsouHEqyrF0xxUNAkKRtv1xUv
+ qV9Eej8ai+cRRLgw2u2yjiXv/X8syL5Fyib9kyIGY8rf3oZMhIgRpu9EsVPRqMw8deVS
+ uKw02vdWdRnU/iVWPwpYdmQYAXS19759PtPiZS/QYFkaelTpK48si3nP5VS57F26kkgp
+ 7uqK1IVnup60NyRuctRrLk/M2XRqdgVFDMfxp3F/qR0UxhUKJpvjNeeKPl6/HdA2kZ63
+ x68pnclG0D00P2Rc/vqJfl6fTSqDuT658oP1MIywICMnG2Y2UoFGzDuGsrRPP3kLhzne
+ kfzw==
+X-Gm-Message-State: AOAM531DamCY94WchHCDVLF++1P5fxSdJgRFkRuNvcuqETkGUbxrtagp
+ tDHNFWEtX9Dto0Mf3dyXSQhdloYytOfvbF+/zF4lPIb1DNX2I1gdWq6BLwmeDCB+gPaxsMqbwMf
+ DnF606JCJBqZfzlG+en1Rc+ZmJZVd
+X-Received: by 2002:a5d:4307:0:b0:207:8e25:6cfa with SMTP id
+ h7-20020a5d4307000000b002078e256cfamr18100075wrq.434.1651701124560; 
+ Wed, 04 May 2022 14:52:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXSDPAjTAE9apOh0uk1c6QEqTiB3+5xlkiYFpJB/o+TcAsRLgUFfpZkBdZBhnJzHSrHqLJZA==
+X-Received: by 2002:a5d:4307:0:b0:207:8e25:6cfa with SMTP id
+ h7-20020a5d4307000000b002078e256cfamr18100060wrq.434.1651701124337; 
+ Wed, 04 May 2022 14:52:04 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q14-20020adfaa4e000000b0020c5253d91fsm12822310wrd.107.2022.05.04.14.52.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 14:18:54 -0700 (PDT)
-Received: (nullmailer pid 2242697 invoked by uid 1000);
- Wed, 04 May 2022 21:18:52 -0000
-Date: Wed, 4 May 2022 16:18:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Drop redundant 'maxItems/minItems' in
- if/then schemas
-Message-ID: <YnLtvA9hWMSIfSP7@robh.at.kernel.org>
-References: <20220503162738.3827041-1-robh@kernel.org>
+ Wed, 04 May 2022 14:52:03 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] fbdev: Fix use-after-free caused by wrong fb_info cleanup
+ in drivers
+Date: Wed,  4 May 2022 23:51:48 +0200
+Message-Id: <20220504215151.55082-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220503162738.3827041-1-robh@kernel.org>
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,112 +82,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, linux-phy@lists.infradead.org,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-clk@vger.kernel.org,
- linux-rtc@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Abel Vesa <abel.vesa@nxp.com>, Anson Huang <Anson.Huang@nxp.com>,
- Richard Weinberger <richard@nod.at>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Paolo Abeni <pabeni@redhat.com>,
- Wolfgang Grandegger <wg@grandegger.com>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-can@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Han Xu <han.xu@nxp.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Dario Binacchi <dariobin@libero.it>, netdev@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Peter Jones <pjones@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 03 May 2022 11:27:38 -0500, Rob Herring wrote:
-> Another round of removing redundant minItems/maxItems when 'items' list is
-> specified. This time it is in if/then schemas as the meta-schema was
-> failing to check this case.
-> 
-> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
-> same size as the list is redundant and can be dropped. Note that is DT
-> schema specific behavior and not standard json-schema behavior. The tooling
-> will fixup the final schema adding any unspecified minItems/maxItems.
-> 
-> Cc: Abel Vesa <abel.vesa@nxp.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Vignesh Raghavendra <vigneshr@ti.com>
-> Cc: Wolfgang Grandegger <wg@grandegger.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Alessandro Zummo <a.zummo@towertech.it>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
-> Cc: Anson Huang <Anson.Huang@nxp.com>
-> Cc: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> Cc: Han Xu <han.xu@nxp.com>
-> Cc: Dario Binacchi <dariobin@libero.it>
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> Cc: linux-clk@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-can@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-phy@lists.infradead.org
-> Cc: linux-rtc@vger.kernel.org
-> Cc: linux-serial@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/clock/imx8m-clock.yaml           |  4 ----
->  .../bindings/display/bridge/renesas,lvds.yaml |  4 ----
->  .../bindings/display/renesas,du.yaml          | 23 -------------------
->  .../bindings/iio/adc/st,stm32-adc.yaml        |  2 --
->  .../bindings/mmc/nvidia,tegra20-sdhci.yaml    |  7 +-----
->  .../devicetree/bindings/mtd/gpmi-nand.yaml    |  2 --
->  .../bindings/net/can/bosch,c_can.yaml         |  3 ---
->  .../bindings/phy/brcm,sata-phy.yaml           | 10 ++++----
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 10 --------
->  .../bindings/serial/samsung_uart.yaml         |  4 ----
->  .../sound/allwinner,sun4i-a10-i2s.yaml        |  1 -
->  .../bindings/sound/ti,j721e-cpb-audio.yaml    |  2 --
->  .../bindings/thermal/rcar-gen3-thermal.yaml   |  1 -
->  13 files changed, 5 insertions(+), 68 deletions(-)
-> 
+Hello,
 
-Applied, thanks!
+This series contains patches suggested by Daniel Vetter to fix a use-after-free
+error in the fb_release() function, due a fb_info associated with a fbdev being
+freed too early while a user-space process still has the fbdev dev node opened.
+
+The is cuused by a wrong management of the struct fb_info lifetime in drivers,
+but the fbdev core can also be made more resilient about it an leak
+
+This can easily be reproduced with the simplefb driver doing the following:
+
+$ cat < /dev/fb0 &
+$ echo simple-framebuffer.0 > /sys/bus/platform/drivers/simple-framebuffer/unbind
+$ kill %1
+
+[  257.490471] ------------[ cut here ]------------
+...
+[  257.495125] refcount_t: underflow; use-after-free.
+[  257.495222] WARNING: CPU: 0 PID: 975 at lib/refcount.c:28 refcount_warn_saturate+0xf4/0x144
+...
+[  257.637482] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  257.644441] pc : refcount_warn_saturate+0xf4/0x144
+[  257.649226] lr : refcount_warn_saturate+0xf4/0x144
+[  257.654009] sp : ffff80000a06bbf0
+[  257.657315] x29: ffff80000a06bbf0 x28: 000000000000000a x27: 000000000000000a
+[  257.664448] x26: 0000000000000000 x25: ffff470b88c6a180 x24: 000000000000000a
+[  257.671581] x23: ffff470b81706480 x22: ffff470b808c2160 x21: ffff470b8922ba20
+[  257.678713] x20: ffff470b891f5810 x19: ffff470b891f5800 x18: ffffffffffffffff
+[  257.685846] x17: 3a725f7463656a62 x16: ffffbb18c6465fd4 x15: 0720072007200720
+[  257.692978] x14: 0720072d072d072d x13: 0a2e656572662d72 x12: 657466612d657375
+[  257.700110] x11: 203b776f6c667265 x10: 646e75203a745f74 x9 : ffffbb18c58f6c90
+[  257.707242] x8 : 75203b776f6c6672 x7 : 65646e75203a745f x6 : 0000000000000001
+[  257.714373] x5 : ffff470bff8ec418 x4 : 0000000000000000 x3 : 0000000000000027
+[  257.721506] x2 : 0000000000000000 x1 : 0000000000000027 x0 : 0000000000000026
+[  257.728638] Call trace:
+[  257.731075]  refcount_warn_saturate+0xf4/0x144
+[  257.735513]  put_fb_info+0x70/0x7c
+[  257.738916]  fb_release+0x60/0x74
+[  257.742225]  __fput+0x88/0x240
+[  257.745276]  ____fput+0x1c/0x30
+[  257.748410]  task_work_run+0xc4/0x21c
+[  257.752066]  do_exit+0x170/0x370
+[  257.755288]  do_group_exit+0x40/0xb4
+[  257.758858]  get_signal+0x8e0/0x90c
+[  257.762339]  do_signal+0x1a0/0x280
+[  257.765733]  do_notify_resume+0xc8/0x390
+[  257.769650]  el0_da+0xe8/0xf0
+[  257.772613]  el0t_64_sync_handler+0xe8/0x130
+[  257.776877]  el0t_64_sync+0x190/0x194
+[  257.780534] ---[ end trace 0000000000000000 ]---
+
+Patch #1 adds a WARN_ON() to framebuffer_release() to prevent the use-after-free
+to happen.
+
+Patch #2 and patch #3 fixes the simplefb and efifb drivers respectively, to
+free the resources at the correct place.
+
+
+Daniel Vetter (1):
+  fbdev: Prevent possible use-after-free in fb_release()
+
+Javier Martinez Canillas (2):
+  fbdev/simplefb: Cleanup fb_info in .fb_destroy rather than .remove
+  fbdev/efifb: Cleanup fb_info in .fb_destroy rather than .remove
+
+ drivers/video/fbdev/core/fbsysfs.c | 4 ++++
+ drivers/video/fbdev/efifb.c        | 9 ++++++++-
+ drivers/video/fbdev/simplefb.c     | 8 +++++++-
+ 3 files changed, 19 insertions(+), 2 deletions(-)
+
+-- 
+2.35.1
+
