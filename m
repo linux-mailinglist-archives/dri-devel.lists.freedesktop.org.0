@@ -2,82 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6167F51A4F9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 18:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A8F51A4FC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 18:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFC210E57C;
-	Wed,  4 May 2022 16:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71C3510E787;
+	Wed,  4 May 2022 16:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B74D310E57C
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 16:09:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651680557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u6oAsUMcR0FkYY71L6VDbcvkKMMVPeHjkH1KerqYz80=;
- b=QWJp7j7HX7xtTHZNtf+uc86TqlJFlnQuKPaBYGexM2A7GniBYP3SYhrpvkIjvRBYQPkUeZ
- rDdgEm3bXwmrG2d2ZT6ktomAbKJ5YR+tzPCSbJT6mLOnKTGkJYVaCtOjVTlBGx1Ow6UIK2
- rifUI2R/YSAQDK1I4zfm/vWfug4UM0o=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-UN8jD1MnM1KWqsaBUv7Fcw-1; Wed, 04 May 2022 12:09:11 -0400
-X-MC-Unique: UN8jD1MnM1KWqsaBUv7Fcw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v184-20020a1cacc1000000b00393e492a398so3204890wme.5
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 09:09:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=u6oAsUMcR0FkYY71L6VDbcvkKMMVPeHjkH1KerqYz80=;
- b=A191Jt5qUFJXHDVklJ+is2vaTlsPQDE+0aBElrA/TpTj+I9vhkQQgs07GwOy+EaRTu
- 4ESzhOM67A4hXGvSXXiO7mqQUH8HxUyhuV8fECJylvOK0lBKdWZCuRjvOgJYrmC6iAYY
- p9tynSeRAzuB2YYZSegA9fCBWi7SY0PUrffDk5yZ5CVSVWQEJvOu4i3ddLauNNMlGAFv
- uIipcL0atT/rZjWEFmH0wI5ApZoDIGvzTjjbQLIQKD9TA2E8PYc1bP8FeH5yaM6J1VFM
- IDhSg19j1x/wpj+MC6Tm6OOHoDkdfENrRNWwdUfCJPzTHwV6Kpjicp+SdM7np6HOngFE
- ikpA==
-X-Gm-Message-State: AOAM533L2ss3f37XGmF0WPcDFDT4U8BNOUe8+3t4Y/gFSR3jQe+bulQ9
- wVKUkZIovlTTD9QBGWAWAWEhHL4NUaMJ+5aKnQGxOH0oA4bXGVaymKuUMuHEJyQ/c3LDpKGvO/G
- XVeYfeJRBHm7C7aTJPDkXybVILXoc
-X-Received: by 2002:a1c:721a:0:b0:394:7a5:a1f3 with SMTP id
- n26-20020a1c721a000000b0039407a5a1f3mr143690wmc.104.1651680550293; 
- Wed, 04 May 2022 09:09:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIx/bSDjLZUz2+wMLiU6UbK8uvupILRSAzIkG+h2yKLB+VlSgGQcUiW0RU4Ob8siSPn6THPQ==
-X-Received: by 2002:a1c:721a:0:b0:394:7a5:a1f3 with SMTP id
- n26-20020a1c721a000000b0039407a5a1f3mr143675wmc.104.1651680550041; 
- Wed, 04 May 2022 09:09:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:a765:79fb:b5ef:c480?
- ([2a01:e0a:d5:a000:a765:79fb:b5ef:c480])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a05600c000900b003942a244ec8sm4068510wmc.13.2022.05.04.09.09.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 09:09:09 -0700 (PDT)
-Message-ID: <c0ff75b7-7500-1c84-90fb-2092622357b4@redhat.com>
-Date: Wed, 4 May 2022 18:09:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 0/3] mgag200: Improve damage handling
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- lyude@redhat.com
-References: <20220504134026.283417-1-jfalempe@redhat.com>
- <c54fe066-27df-f317-0613-a7f20168508f@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <c54fe066-27df-f317-0613-a7f20168508f@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2115.outbound.protection.outlook.com [40.107.215.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 477AE10E787;
+ Wed,  4 May 2022 16:11:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OuBKxtqu5MP3hVrNiQRofKJT2z+ytkDHStesfZ8r4P9kXFlsALZTSIh6jibos4SZPvXnRyTWR/p0QZFfhzm3qHBiWl6ALYVXVJUS9Xn7TeQvjN5uzex2o4epQDVCSr/igY7J1Y44aYFs+7Z9rhtPTRWGj1PvTjl7FxrvmVPyfjnaGIdeTBSiGT++cj1Vrta3eBuNuEmvoUS6XfRePEnXhWsllS4QF1483rp9IB8/ELOx2l8nwAZQX3LkvJR9lyrKBHcNRQS7IzTpW8oadPAEtUEpUY17/CsOQjWvhAs6O0cNV5wXuVxCZ639CXXV93AiapbzJ1t84XsDhkS1S8Cyyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nv/ilAyu2e0tCssc3GctQUqreN5drt6PfNFSRMrFeqQ=;
+ b=J5OUWxh1hdqumbn9cYgbQPoWFNzcfSpk0GeX3hZD79TLsxgzEdeyVO7kbMplur9CyTB4VD8msooBPkStxR93biWhJMJ37WxXpFt1Ce+uovGNHg5NkKRep8A9kJa0zUqDiPauM3q1qHaGPIW6Nddn9fKl4twws7/T4cAQhwPQszCufbVynN7J6Hax8f+NrtJdcnUBXi6sFXSTQZRgUf7JI8HKAtHz+jVVvlYrHvCpkAdsiYdyqnHd7chsnKeu/khyQIylGNnRQOAeGingnCwzBCTUNYnEOplfZp0M1Sc0iVU1Ds8LjU7KHxadCYtABcG9t8a10YqQ5kwewKFZ+auFQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nv/ilAyu2e0tCssc3GctQUqreN5drt6PfNFSRMrFeqQ=;
+ b=BhgOML8JJ9M0Ljsmn4+a/0eJCLRSHksDfy5AVK2a+qqvkZhVBuRvEGyGb1Sn1LUCmib9wfo8F7wZyb86nBTnbXP7QSIZkCUZy/uQFUkMLmFo54TP8OUBbVOF8phJc/ODvu5FrSnwAB5HZrU1rqIFTSyan99Se9d58l0d20zlNLE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com (2603:1096:202:2f::10)
+ by PSAPR06MB4487.apcprd06.prod.outlook.com (2603:1096:301:87::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Wed, 4 May
+ 2022 16:11:29 +0000
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::88e1:dc04:6851:ad08]) by HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::88e1:dc04:6851:ad08%7]) with mapi id 15.20.5206.014; Wed, 4 May 2022
+ 16:11:29 +0000
+From: Guo Zhengkui <guozhengkui@vivo.com>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Guo Zhengkui <guozhengkui@vivo.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau/devinit: fix returnvar.cocci warnings
+Date: Thu,  5 May 2022 00:09:29 +0800
+Message-Id: <20220504161003.9245-1-guozhengkui@vivo.com>
+X-Mailer: git-send-email 2.20.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR0302CA0023.apcprd03.prod.outlook.com
+ (2603:1096:202::33) To HK2PR06MB3492.apcprd06.prod.outlook.com
+ (2603:1096:202:2f::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9203220c-30ce-4a91-997c-08da2de8bf06
+X-MS-TrafficTypeDiagnostic: PSAPR06MB4487:EE_
+X-Microsoft-Antispam-PRVS: <PSAPR06MB4487AE90B047F6CF3E2E8EA7C7C39@PSAPR06MB4487.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TJEBii/TiRk4NAFLhheo9elhxBN16SmhlXIzimj2jZQ293mOrPe8IxCWtJU3wRwFMnYlvq+V/ZM1LYl0BUM78uDvGd6+sbBpsczsqmy34EbvszYod0B2UevWAXgrkfZNv/LeSr9MPcWWqjhI/YwBJlzFJebsHnrkWAoR9hrMTPjxumj/ymdEWD4/DUyI+OjSUPe5Y4LnQSdif2AVr1CoNPvp+SP1cB9ME/VN0TRUUGBc+Nbmxxl0U2TTG4hW7lzxV1xBYV56wu5dCYFj2uN/yivEMReG/uvxKFz2C5qjzbwYXb3K+wym62bshTfZg/0s8iVW+lte1zpS+2ZrEy9C/WWif2g7B3CH63rouI61n41ngzMZr+Z3sImiNle70XJ2G5+s1cN1yTNK80c//8felyDqvGH2m9qHki7/dynm99Nmzgbv5ZIPA3FdqSDwLj371Am0rXnmADReP9K/lKYv5uKHqZH9tx+mo4GCe0M1Iht6Q8aaz9Qp3eECL1j8/6AgtWP/wrU6yB1gRGjng0Ig6UChp0jglDzIY1ZUSa8mFYFwzh575nCDQFBnOrybdHllk0W+JWxXGH1fysW4GlxRzF+AvbU+/UnWgBFzvKdYC80U0kAnZQVvsf+qaUQvH34mjc1+tX9WwJ7glfIIXetutSXtry+K2+GAK2rPcnQrPD0jgL7I2KwxCUKbzCzExdjZeaKB7DSR3kVoT2ac4TRMCQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK2PR06MB3492.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(5660300002)(6512007)(66476007)(36756003)(38350700002)(38100700002)(8936002)(83380400001)(2906002)(1076003)(110136005)(66946007)(316002)(26005)(86362001)(6506007)(52116002)(66556008)(4326008)(8676002)(6486002)(186003)(2616005)(508600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ip4xu6lPJ2d4CJDreB7LGixVTDDZIyuN//ykpG35A/EM+jSbfn11LzbgNfZL?=
+ =?us-ascii?Q?xbGWIZS0wNj2ZLW3G6DYe5HbWUf5saI3T8YQldNsrAeqJltJ+WOgiymSuuLv?=
+ =?us-ascii?Q?qUi8m+ZP5bO8Y3zdkeZabb+U+9oWXnfcq8IU5pWgDnCtjx3Si6b6Vpcu13y0?=
+ =?us-ascii?Q?N7O63IfZQH4L1wWeI+y46kxgshIb7OC1Lb/jvsv9Sc7JiD4Uve5XPD5Jai3Y?=
+ =?us-ascii?Q?hjOV3RFWEAcnDO3ZXRQVL+z9v3VDDoTgSm0bmobhCfJ+eTmPfDgM3fPvae2I?=
+ =?us-ascii?Q?ckKwb1/ssAE8tkn+IrjV3xUbk6DRKAG1oyj3n4PNpVDQcqE20UhztRIzdRNa?=
+ =?us-ascii?Q?VvlkeC8P7rzqtlI49yCDsDDctk+cpM/xbhRB0DrXoUjLjM00XOEcHTTZjCPW?=
+ =?us-ascii?Q?pFf2NX43l5IPqeVYC28D7KayFOrmhmhi2bHtYdw8zSQ9DNNhh3T7lUcLW4AK?=
+ =?us-ascii?Q?y+JC1nuExhh9cgdvGjIhZYT89Nk64Yt+haTGKcDjNp1WFMJ0POxINJek/ivz?=
+ =?us-ascii?Q?rjSt9UqudVug2NZ7A7no80Z1m6M+mTt+uy3S9A6eSExq06FAAzyeXhQmWxmJ?=
+ =?us-ascii?Q?dhyhAvV5n2R8o+M6q+iten4nFalt1auCF8cz7ILFKAqWfqdBXUFdazdlldvF?=
+ =?us-ascii?Q?rvX7VrUMfwsEfqCg68S6niNcD7y9U8gsOH+CcAx8PgHeTGAlZt+IGjkyuiEi?=
+ =?us-ascii?Q?eXrMqMsTkb3qr+ge5EYa102lMYxS7xtzG7tDj5z78Gl1Ogy73nP4ecE8o9rc?=
+ =?us-ascii?Q?85AavPxbE6CPC3jiH+3ZeQhr7HHM51q/kfJqz4xgcZcIB1PYPtSlgttrn3O/?=
+ =?us-ascii?Q?BhZyjOTmIG4P7j9WhkXLdVcBcdlf4wUhw6U0jrckbD/c7qSycFKS5cKTY7US?=
+ =?us-ascii?Q?H1MRFM+XvHDnmArw+lH/oRieS/M7veFbhi2i9Z7tTh1hfjQCWMsQ6C+VFQZ9?=
+ =?us-ascii?Q?LCldhWlD+/5Obl31efOgFsJHzI4jI61h+xLalw/i42W8ec4sertjWB+lrJp9?=
+ =?us-ascii?Q?qyaGleuhGTfJA+Lu3l4OBeaM33folvgGjDj7avIepkuiHk5UC5FilX53BbrJ?=
+ =?us-ascii?Q?TXg2a5Yx/dJugpJBgAirmafll4Kz61IwjrcRuQpRyBvj4ARAfT00AUEL2NGG?=
+ =?us-ascii?Q?TNaYmiEaZ/GiKlpxTCEdKe88tKYKxmIka9yaA8gN2WWqkoxZ/pwQMwm51KAR?=
+ =?us-ascii?Q?LVQgnhgbEvMEXJjoOhRZ0GFpcXuofsGjJl7HAZxFv2YAwJi0BWdhHFiKcpzX?=
+ =?us-ascii?Q?XFGlo4dLLi+f2yGMXLt4ila7jZ606P+q5oHIaeeI7PIh1BzaHbJ739hiHso7?=
+ =?us-ascii?Q?C51WGinKAWUXmGbwEDwWsXO56JSxeqcESN1SwOtxlE1nUKZqq0EmYYx5n5RU?=
+ =?us-ascii?Q?B+a3+B5VAHveKuy9vswj99zKUdu5T8kMTqDc1iI7W8H1E8tgFzWA4cFPZPNI?=
+ =?us-ascii?Q?o+NqooxXPBWLk/2gU1198FFPJWgl9IefGNywytHYvsAAIBAQAswRuB7c1XZp?=
+ =?us-ascii?Q?EBtVEEGdxJ9b3mF8g+utsuU4MFtPnphw3kSqPQrEdXwnIFQaqEQxucrRc/jV?=
+ =?us-ascii?Q?la7w7bfznFHv0oan9C3sz/pQpfnrDjCo4gg5aF2eOBgGf7DqkoKq858nJ8SA?=
+ =?us-ascii?Q?hnXyIPLxxEE0m4CEEkftPy8G815+YZhwZTNWb7KYACeHjgyluc+VVu6yFOIJ?=
+ =?us-ascii?Q?rNXcDN40nA1e56+2Jh575LWvhCGRg9QRBpDNIdIK6PURpPqzVzX57h6cGr6J?=
+ =?us-ascii?Q?y9af3QCrOQ=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9203220c-30ce-4a91-997c-08da2de8bf06
+X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3492.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 16:11:28.9389 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y0Ov5RfxE4Mey0+rewuB0ZjG5fk4KJybKkWUtc+wWGq/kw8aiTx8+xphPLrdKYYFvUkEOF0m65yhiNmIFVoJBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4487
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,54 +120,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net
+Cc: zhengkui_guo@outlook.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/05/2022 16:59, Thomas Zimmermann wrote:
-> Hi Jocelyn,
-> 
-> with my comment on 3/3 considered, you can add
-> 
-> Reviewed-by: Thomas Zimemrmann <tzimemrmann@suse.de>
-> 
-> to this patchset.
-> 
-> You should get commit access for drm-misc, so that you can land the 
-> patchset on your own. Please see
-> 
->    https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html
-> 
-> for how to do that.
+Fix the following coccicheck warnings:
 
-Thanks for your reviews.
-I created the issue to get commit access :
-https://gitlab.freedesktop.org/freedesktop/freedesktop/-/issues/433
+drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c:71:5-12:
+Unneeded variable: "disable". Return "0ULL" on line 90.
+drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c:35:5-12:
+Unneeded variable: "disable". Return "0ULL" on line 44.
+drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c:35:5-12:
+Unneeded variable: "disable". Return "0ULL" on line 50.
 
-Best regards,
+Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c   | 3 +--
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c | 3 +--
+ drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c | 3 +--
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
+index 05729ca19e9a..8977483a9f42 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
+@@ -32,7 +32,6 @@ g98_devinit_disable(struct nvkm_devinit *init)
+ 	struct nvkm_device *device = init->subdev.device;
+ 	u32 r001540 = nvkm_rd32(device, 0x001540);
+ 	u32 r00154c = nvkm_rd32(device, 0x00154c);
+-	u64 disable = 0ULL;
+ 
+ 	if (!(r001540 & 0x40000000)) {
+ 		nvkm_subdev_disable(device, NVKM_ENGINE_MSPDEC, 0);
+@@ -47,7 +46,7 @@ g98_devinit_disable(struct nvkm_devinit *init)
+ 	if (!(r00154c & 0x00000040))
+ 		nvkm_subdev_disable(device, NVKM_ENGINE_SEC, 0);
+ 
+-	return disable;
++	return 0ULL;
+ }
+ 
+ static const struct nvkm_devinit_func
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
+index 051cfd6a5caf..5b7cb1fe7897 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
+@@ -68,7 +68,6 @@ gf100_devinit_disable(struct nvkm_devinit *init)
+ {
+ 	struct nvkm_device *device = init->subdev.device;
+ 	u32 r022500 = nvkm_rd32(device, 0x022500);
+-	u64 disable = 0ULL;
+ 
+ 	if (r022500 & 0x00000001)
+ 		nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
+@@ -87,7 +86,7 @@ gf100_devinit_disable(struct nvkm_devinit *init)
+ 	if (r022500 & 0x00000200)
+ 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 1);
+ 
+-	return disable;
++	return 0ULL;
+ }
+ 
+ void
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
+index 4323732a3cb2..8955af2704c7 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
+@@ -32,7 +32,6 @@ gm107_devinit_disable(struct nvkm_devinit *init)
+ 	struct nvkm_device *device = init->subdev.device;
+ 	u32 r021c00 = nvkm_rd32(device, 0x021c00);
+ 	u32 r021c04 = nvkm_rd32(device, 0x021c04);
+-	u64 disable = 0ULL;
+ 
+ 	if (r021c00 & 0x00000001)
+ 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
+@@ -41,7 +40,7 @@ gm107_devinit_disable(struct nvkm_devinit *init)
+ 	if (r021c04 & 0x00000001)
+ 		nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
+ 
+-	return disable;
++	return 0ULL;
+ }
+ 
+ static const struct nvkm_devinit_func
 -- 
-
-Jocelyn
-> 
-> Best regards
-> Thomas
-> 
-> Am 04.05.22 um 15:40 schrieb Jocelyn Falempe:
->> mgag200: Improve damage handling
->>
->> This series improves the damage handling on Matrox gpu, and allows
->> Gnome/Wayland to run much better.
->> Also include some driver cleanup.
->>
->> Tested on a Dell T310 with Matrox MGA G200eW WPCM450 (rev 0a)
->>
->> v2:
->>   Drop remove mgag200_probe_vram()
->>   Rewrote the patch to warn if startaddr is not 0, and hw doesn't
->>    support it. (instead of removing the unused flag).
->>
->> Thanks,
->>
-> 
+2.20.1
 
