@@ -2,82 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC1651A5FD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 18:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E611C51A5FB
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 18:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 088D110FB2E;
-	Wed,  4 May 2022 16:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 104E910F7F5;
+	Wed,  4 May 2022 16:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0068910F7EB
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 16:48:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651682915;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C80PpJdtHsQYh9YgWUU5AwvnusQPkG7yGp50RdkZ4AQ=;
- b=ZkdQrM2uKdR2t6ve3XA9unvh6PRD7HBGgWeriocSatb8F4z8D9Wle45OEcijxGVrZ34hIE
- wbPE8Ocl2uBvGjhZ8sDWZ95rHBe7Te/M53UWCAeTfkcCD+pZFz3HsNo+XCBu0GQ6SKY42X
- 1o6vniTv4N8zuZPpnJZjAUDDBAljSrg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-ehw4wTVzOYSiLfajVS3RwA-1; Wed, 04 May 2022 12:48:34 -0400
-X-MC-Unique: ehw4wTVzOYSiLfajVS3RwA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m186-20020a1c26c3000000b003943e12185dso887506wmm.7
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 09:48:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=C80PpJdtHsQYh9YgWUU5AwvnusQPkG7yGp50RdkZ4AQ=;
- b=qbOecq37SLJPS6nZ2omtBFgBGraY74lajp/tfP7NCkgxQUG5NYL9ukFnSLWG+/fn50
- f73w+4DoXep2OH/mjwiQ6k4XTZcEl00dmBVxKulx1AxYmTa/2LDmNZsGNzInQkTZpQ4w
- 8+dgclLnm8vx1eKSdFqZcNL7hXrhPffXRfuGTOrH60fFOC8qaV0BIy8Gyn4/m/6RMmTP
- 2v3dx6P2a2DUf7G+rzGK7b+GoSoCHEZ6VP5agwS0X4yxT1k3xPYSHhsioUk9LElzIdyE
- ciDd3WbwN1xDJvci4+rqZxefhLmDbzMgWCo8jVUFvl5vc2xiAAxvE2FCR1AmAhSqgAFt
- Phbw==
-X-Gm-Message-State: AOAM53233DpivEas7k16Rv/iRMwTWgWFL9i7gHEt3XzCsP4cJ30CMiNJ
- Y/BiKMHhK6bU2eNfxmjZJuvRB3wKP26HREc52pYthiUPn9l7S6GlMQvY1ucVYtAlXRWK2sVULX2
- jDw7z9+Ty+AJB4alj+EMjdTR7vIxZ
-X-Received: by 2002:a05:600c:2315:b0:394:1f6:f663 with SMTP id
- 21-20020a05600c231500b0039401f6f663mr246775wmo.115.1651682912620; 
- Wed, 04 May 2022 09:48:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZK5Pq2mU8Y6HYAf07iPFmDU9QsrrAa709Zmpug1Tah5gE9QRBp5SnHlIO72P1fOlS/u8xMw==
-X-Received: by 2002:a05:600c:2315:b0:394:1f6:f663 with SMTP id
- 21-20020a05600c231500b0039401f6f663mr246763wmo.115.1651682912419; 
- Wed, 04 May 2022 09:48:32 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n124-20020a1c2782000000b0039447beb28asm293220wmn.23.2022.05.04.09.48.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 09:48:32 -0700 (PDT)
-Message-ID: <6bf00fca-20c6-b682-1806-e7ff49568532@redhat.com>
-Date: Wed, 4 May 2022 18:48:31 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF0B110F847;
+ Wed,  4 May 2022 16:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651682913; x=1683218913;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/iIm2SHkyRux2FwB7pfhqQLD0xlueygVY3+hNca95zI=;
+ b=PsHQ1VYSdtzb5YQjz34x+Dh7gxm+UAujEEoTVrH1auZIByoyA+qChtPk
+ IWteMuApE9j8ePDs/7HABLBFc89yWBk+0iVXRnErz/0GLJGzjAUxEXZlX
+ 16D/JS1Lo1eLqZi0eiQY5wUepsQHBEAlIbaa0xe++l7XPD0Vup+aVuVCy
+ /8Zt8u44lsaFVqY2o63q8hT4K5gC1KnXTjz+UuC9ii1BSFE4/Hfd3tKdW
+ eqNbf7ChvTfD8Hr3AShEctG2QjzZCL3a6uhXGZWTcZXWLUEbaJqhi0J+j
+ wDzH9oLGQUEnSBZtqGA8TvjwHrR4x8IOP/M3NHg1gn55FvHoup2bswCCR w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="247731213"
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="247731213"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 09:48:33 -0700
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="694229993"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 09:48:33 -0700
+Date: Wed, 4 May 2022 09:48:31 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 1/2] drm/i915: Don't use DRM_DEBUG_WARN_ON for unexpected
+ l3bank/mslice config
+Message-ID: <YnKuX0F0bDBF5ahP@mdroper-desk1.amr.corp.intel.com>
+References: <20220504120715.911045-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/2] Revert "fbdev: fbmem: add a helper to determine if an
- aperture is used by a fw fb"
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20220504134833.1672728-1-alexander.deucher@amd.com>
- <20220504134833.1672728-2-alexander.deucher@amd.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220504134833.1672728-2-alexander.deucher@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220504120715.911045-1-tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,37 +57,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jani Nikula <jani.nikula@intel.com>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/4/22 15:48, Alex Deucher wrote:
-> This reverts commit 9a45ac2320d0a6ae01880a30d4b86025fce4061b.
+On Wed, May 04, 2022 at 01:07:14PM +0100, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 > 
-> This was added a helper for amdgpu to workaround a runtime pm regression
-> caused by a runtime pm fix in efifb.  We now have a better workarouund
-
-s/workarouund/workaround
-
-> in amdgpu in
-> commit f95af4a9236695 ("drm/amdgpu: don't runtime suspend if there are displays attached (v3)")
-
-Again I would write it as:
-
-commit f95af4a9236695 ("drm/amdgpu: don't runtime suspend if there are
-displays attached (v3)")
-
-> so this workaround is no longer necessary.  Since amdgpu was the only
-> user of this interface, we can remove it.
+> DRM_DEBUG_WARN_ON should only be used when we are certain CI is guaranteed
+> to exercise a certain code path, so in case of values coming from MMIO
+> reads we cannot be sure CI will have all the possible SKUs and parts.
 > 
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> Use drm_warn instead and move logging to init phase while at it.
+
+Changing to drm_warn looks good, although moving the location changes
+the intent a bit; I think originally the idea was to warn if we were
+trying to do a steering lookup for a type that we never initialized
+(e.g., an LNCF lookup for a !HAS_MSLICES platform where we never even
+read the register in the first place).  But I don't think we've ever
+made a mistake that would cause us to trip the warning, so it probably
+isn't terribly important to keep it there.
+
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
 > ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>  drivers/gpu/drm/i915/gt/intel_gt.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 53307ca0eed0..c474e5c3ea5e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -153,11 +153,14 @@ int intel_gt_init_mmio(struct intel_gt *gt)
+>  	 * An mslice is unavailable only if both the meml3 for the slice is
+>  	 * disabled *and* all of the DSS in the slice (quadrant) are disabled.
+>  	 */
+> -	if (HAS_MSLICES(i915))
+> +	if (HAS_MSLICES(i915)) {
+>  		gt->info.mslice_mask =
+>  			slicemask(gt, GEN_DSS_PER_MSLICE) |
+>  			(intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+>  			 GEN12_MEML3_EN_MASK);
+> +		if (!gt->info.mslice_mask) /* should be impossible! */
+> +			drm_warn(&i915->drm, "mslice mask all zero!\n");
+> +	}
+>  
+>  	if (IS_DG2(i915)) {
+>  		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+> @@ -171,6 +174,8 @@ int intel_gt_init_mmio(struct intel_gt *gt)
+>  		gt->info.l3bank_mask =
+>  			~intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+>  			GEN10_L3BANK_MASK;
+> +		if (!gt->info.l3bank_mask) /* should be impossible! */
+> +			drm_warn(&i915->drm, "L3 bank mask is all zero!\n");
+>  	} else if (HAS_MSLICES(i915)) {
+>  		MISSING_CASE(INTEL_INFO(i915)->platform);
+>  	}
+> @@ -882,20 +887,14 @@ static void intel_gt_get_valid_steering(struct intel_gt *gt,
+>  {
+>  	switch (type) {
+>  	case L3BANK:
+> -		GEM_DEBUG_WARN_ON(!gt->info.l3bank_mask); /* should be impossible! */
+> -
+>  		*sliceid = 0;		/* unused */
+>  		*subsliceid = __ffs(gt->info.l3bank_mask);
+>  		break;
+>  	case MSLICE:
+> -		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+> -
+>  		*sliceid = __ffs(gt->info.mslice_mask);
+>  		*subsliceid = 0;	/* unused */
+>  		break;
+>  	case LNCF:
+> -		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+> -
+>  		/*
+>  		 * An LNCF is always present if its mslice is present, so we
+>  		 * can safely just steer to LNCF 0 in all cases.
+> -- 
+> 2.32.0
+> 
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
