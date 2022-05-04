@@ -2,80 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D76E51AD5B
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5D551AD6D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 21:05:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE1FC10E247;
-	Wed,  4 May 2022 18:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68A810E61A;
+	Wed,  4 May 2022 19:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32C8110E19C
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 18:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651690542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G5sq7D0GSE1tPNdbO+G8lvLB2O9LGGtgK7KLOXhSz24=;
- b=jUkgY8xKxSYDKg+uaOLBFOE/PLREfb3dBgNRc7Hw7pR1nQXs9v+i6DY+Qys+Mxx8Hl7vLW
- 6CVSFo4msgRo1CanB6uPULEafHKTTQJGUzyT4XpLQfEAt91kTw915xkcDTQqtICLrDJC0b
- 99K8QGl+r/DwLgYcqDtEqBGtV5GRT+4=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-MDNi_r1BP4-8sSnqW5oFyQ-1; Wed, 04 May 2022 14:55:38 -0400
-X-MC-Unique: MDNi_r1BP4-8sSnqW5oFyQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- bz15-20020ad44c0f000000b0045641657fd2so1508679qvb.22
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:55:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=G5sq7D0GSE1tPNdbO+G8lvLB2O9LGGtgK7KLOXhSz24=;
- b=NIowa1VU/ovIiTZBCr5iibW786ALXh0W848FxfdQP4zMCFpxM9deZ3jrnt3r1GLiOy
- pk+gPyZW7o1RczjC0jtI5Bs/Z9TNIEj3fW4wHJZ+DwyD1NWxZFohXZKigYkRxECjOYsh
- e3qhlAfsiZw0Tbd5ee91nN3GXSpSIYPu7d6gidhYSFWNDmfEHdObvLyn1+QoJGRsF0Rl
- UwU/JA5iF3vqqr8WFrZ7/zVgl4oijvaDgDud/9L/8jDz//pY7t9lGQluYkthCZrIB35K
- /8ud4o3mnHfUiHCtYdpd4cS7uDq158ctCb5PySQoxl9uR4XmZQACjpemNyzx+80Tpy2D
- x5LQ==
-X-Gm-Message-State: AOAM532aW+rKpGN8vYkR4HzFtGixt623Vj91hwGD3LpZXdwN+S4697tt
- Pvw6SlmLO0KgK5/yR+fqmgRCLpOT2YFN+yqilmG7mJHZlNWF5JsA1UZKU4XvJaO98H3nxnqJnzY
- Yu1d801ZeUS4DPejCfVeMSW+wUNmP
-X-Received: by 2002:a05:622a:351:b0:2f3:9508:913d with SMTP id
- r17-20020a05622a035100b002f39508913dmr20929547qtw.591.1651690537893; 
- Wed, 04 May 2022 11:55:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwM4NAc3Zu7Pt08jcQZmnlTYfqOQGKWsleikyeCgJL5yw/+oZ/joLQ4Zxedkro6eTP3eBvGsg==
-X-Received: by 2002:a05:622a:351:b0:2f3:9508:913d with SMTP id
- r17-20020a05622a035100b002f39508913dmr20929536qtw.591.1651690537653; 
- Wed, 04 May 2022 11:55:37 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- n68-20020a37a447000000b0069fc13ce1edsm8154936qke.30.2022.05.04.11.55.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 11:55:36 -0700 (PDT)
-Message-ID: <47305e0aacc88a7a8386e80a9fa291035cb7a282.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/subdev/bus: Ratelimit logging for fault errors
-From: Lyude Paul <lyude@redhat.com>
-To: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 04 May 2022 14:55:35 -0400
-In-Reply-To: <8c3592767ac4c3d4c3bcb0294d97aff5a7375319.camel@redhat.com>
-References: <20220429195350.85620-1-lyude@redhat.com>
- <CACO55ttsBxe6V88CTtGZgUj8k+gT+ne+FD_9FD_OxowF1XG5Bg@mail.gmail.com>
- <8c3592767ac4c3d4c3bcb0294d97aff5a7375319.camel@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2059.outbound.protection.outlook.com [40.107.220.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E73110E552;
+ Wed,  4 May 2022 19:04:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HU+TWCDK6dqqdEXcO57JVrFt/AlYOYyqKqysnwsS9zXGfqnBKeGeK6foUMiun1mNnDakFi7Qr7zDGbu7ufJYfbK/O3eAXjRl31kfK5a+26g0ag22b8fNV/lKV4rpnuRyJEWaxdGbsYPl65hlgXWd87rkvyzBQwReC56MlVu/cQiTFuICQGOmHfObAIzTnZ1zl5Ugeaej4cOtWd+ULUCMbG6jS0dUY1GlTNRyaJURW+0DyI2Wh197CplybftRQQLnj8uAW2k/B+OBxDId6+bFjGjS5VjZ0EcFajRZSUrpakDC3jyLzGySM2v0hitvTb3ccwLklZM3aZddLrQ9FFcYPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9eksLX6yr/NVwSs4VuHChOXp+VPdV3fi35XinxKYfkg=;
+ b=PYhKASHiIJk3/I37N+bIs/larsXVqqLTsRsDu9P4EkVinvGvE2bAbZwrqWo1GqGqURZxMkQGL4YdYjPEacWOHvYBWZf7CCUw8cicWVDQnpregGof4MnK2nJDEbyE5gnHgH7sXTN/YAL45GvgpoKzTxq4tuoEF2sFJ1UHevE7/l0Vffaaxjk1aytHBw8UnE6GGl1x7OR5Q5FR0mX3prSI9gfEBEfYPa/bLJkuzpcHufITkC5cXwkyiMpubbb+IqVW69+pbpOYK2bv/CpiKzng3VdLhiPCgqHD0hvUrs4JSqr+Dby0vXx32vyTMQpgK6bW9WcURjmO8592Hx75fFR5QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9eksLX6yr/NVwSs4VuHChOXp+VPdV3fi35XinxKYfkg=;
+ b=pe+yCyoQT/gMjg4E/wA6gbKk2fnI6YRYIEkH0k5IgCjSw/S7OmkRshHaPv2AIgAekYfs/70clM8yngoGYWTbdZx7lQApovMWOraybogK1tNLUrutX2rPErUy3F86rDFz3rTrtpxGyTwN+eeH7paTYS2Rbll2fkhYxUCpzgE/Cq8=
+Received: from BN9PR03CA0700.namprd03.prod.outlook.com (2603:10b6:408:ef::15)
+ by MWHPR12MB1600.namprd12.prod.outlook.com (2603:10b6:301:f::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 4 May
+ 2022 19:04:57 +0000
+Received: from BN8NAM11FT017.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ef:cafe::2e) by BN9PR03CA0700.outlook.office365.com
+ (2603:10b6:408:ef::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.12 via Frontend
+ Transport; Wed, 4 May 2022 19:04:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT017.mail.protection.outlook.com (10.13.177.93) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5227.15 via Frontend Transport; Wed, 4 May 2022 19:04:57 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 4 May
+ 2022 14:04:52 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-5.18
+Date: Wed, 4 May 2022 15:04:39 -0400
+Message-ID: <20220504190439.5723-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a0821147-a1de-4018-97ef-08da2e00fb27
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1600:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB16005D472BBD5E6432A6C4B1F7C39@MWHPR12MB1600.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dDxtiDnZ0FMdy5BBPItR76jbGWrXdZhWESwnQ5/ouSx28ieqKcu4fHMKC7Ebz1UOb3Ez0T8XDo3KFettA9XnJ2JgOs1Aef5SU9nP70UzDc5i62c8WWih0GEuPQ4QA2ViPqnrgoAnn+v29cGdJtp6VR+88hp2S7wmrvAFHP20vO5DR8pWNEnT/c88OvfpkULvuIajqhusemAPx2Ot7r5N6ak/BbIHLo8RXA27SJvLF81uZDrTZfpiy5MjTka4PPMyYKFET2/WTdz4DN09QsG2jvnKx24Ul5vmaWsH2lhSgM1fw/LcbMdo/aGLJssKHBa4PtNlfNmfF4GIXVC1QIFq0f2V8fEI5ZWdLyQfCKTxQ/8m+8y4Kp/srbMua4XDfwYAR5gVvoM4+mxaQTBID1wbhG69GcYhuHYGVBnkUgVDMbdJPeBtT/1tkYxf3XxjpoWQF7JJzB+KisixyzDYoiYMFc+UAsShMTrZd/z4mAKv1WVa4huZyMhtrfcRpWLHCz2mAXT1rqwUWXwPetQYu4EJ4d2va/CxuKC8JX8o/260aY7Xv0SmoDvVzjQ0/AVpkRIVQACHLOyKy0oPzWUn6Fi9CLgYk4hykdW2GRgkDUIRDb7oruA9QwmOFril9Qw44vIxmr2/qK+PgNnciDdxCR7AB0IK6f2pllQ/Sy0/mIbqBaE53lY7sUNbRZs4WIfTg6VuJQ/dP7AG6rWZeFPK1esOUA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(70586007)(5660300002)(70206006)(8936002)(426003)(83380400001)(36756003)(36860700001)(47076005)(336012)(86362001)(186003)(26005)(16526019)(1076003)(2616005)(2906002)(6666004)(7696005)(356005)(508600001)(40460700003)(110136005)(316002)(966005)(8676002)(4326008)(82310400005)(81166007)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 19:04:57.4119 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0821147-a1de-4018-97ef-08da2e00fb27
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT017.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,155 +100,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mhhh - looks like it goes far back enough I probably should just Cc it without
-a version tag and see how far it applies for greg. Will do that
+Hi Dave, Daniel,
 
+Fixes for 5.18.
 
-On Wed, 2022-05-04 at 14:49 -0400, Lyude Paul wrote:
-> On Tue, 2022-05-03 at 21:23 +0200, Karol Herbst wrote:
-> > not able to hit any error on my machine, but regardless:
-> > 
-> > Reviewed-by: Karol Herbst <kherbst@redhat.com>
-> > 
-> > I suspect there are more places where we could put it, but we can add
-> > those later.
-> > 
-> > Anyway, I think it's valuable to push it through fixes, not sure how
-> > far back we want to CC stable though.
-> 
-> JFYI - dim fixes can figure this out if you just give it the commit that
-> introduced the issue.
-> 
-> Anyway, will push this upstream in a moment
-> 
-> > 
-> > On Fri, Apr 29, 2022 at 9:54 PM Lyude Paul <lyude@redhat.com> wrote:
-> > > 
-> > > There's plenty of ways to fudge the GPU when developing on nouveau by
-> > > mistake, some of which can result in nouveau seriously spamming dmesg
-> > > with
-> > > fault errors. This can be somewhat annoying, as it can quickly overrun
-> > > the
-> > > message buffer (or your terminal emulator's buffer) and get rid of
-> > > actually
-> > > useful feedback from the driver. While working on my new atomic only MST
-> > > branch, I ran into this issue a couple of times.
-> > > 
-> > > So, let's fix this by adding nvkm_error_ratelimited(), and using it to
-> > > ratelimit errors from faults. This should be fine for developers, since
-> > > it's nearly always only the first few faults that we care about seeing.
-> > > Plus, you can turn off rate limiting in the kernel if you really need
-> > > to.
-> > > 
-> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > ---
-> > >  drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h |  2 ++
-> > >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c    | 14 +++++++-------
-> > >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c     |  6 +++---
-> > >  drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c     |  6 +++---
-> > >  4 files changed, 15 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > index 1665738948fb..96113c8bee8c 100644
-> > > --- a/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > +++ b/drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h
-> > > @@ -62,4 +62,6 @@ void nvkm_subdev_intr(struct nvkm_subdev *);
-> > >  #define nvkm_debug(s,f,a...) nvkm_printk((s), DEBUG,   info, f, ##a)
-> > >  #define nvkm_trace(s,f,a...) nvkm_printk((s), TRACE,   info, f, ##a)
-> > >  #define nvkm_spam(s,f,a...)  nvkm_printk((s),  SPAM,    dbg, f, ##a)
-> > > +
-> > > +#define nvkm_error_ratelimited(s,f,a...) nvkm_printk((s), ERROR,
-> > > err_ratelimited, f, ##a)
-> > >  #endif
-> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > index 53a6651ac225..80b5aaceeaad 100644
-> > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/gf100.c
-> > > @@ -35,13 +35,13 @@ gf100_bus_intr(struct nvkm_bus *bus)
-> > >                 u32 addr = nvkm_rd32(device, 0x009084);
-> > >                 u32 data = nvkm_rd32(device, 0x009088);
-> > > 
-> > > -               nvkm_error(subdev,
-> > > -                          "MMIO %s of %08x FAULT at %06x [ %s%s%s]\n",
-> > > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > > -                          (addr & 0x00fffffc),
-> > > -                          (stat & 0x00000002) ? "!ENGINE " : "",
-> > > -                          (stat & 0x00000004) ? "PRIVRING " : "",
-> > > -                          (stat & 0x00000008) ? "TIMEOUT " : "");
-> > > +               nvkm_error_ratelimited(subdev,
-> > > +                                      "MMIO %s of %08x FAULT at %06x [
-> > > %s%s%s]\n",
-> > > +                                      (addr & 0x00000002) ? "write" :
-> > > "read", data,
-> > > +                                      (addr & 0x00fffffc),
-> > > +                                      (stat & 0x00000002) ? "!ENGINE "
-> > > :
-> > > "",
-> > > +                                      (stat & 0x00000004) ? "PRIVRING "
-> > > :
-> > > "",
-> > > +                                      (stat & 0x00000008) ? "TIMEOUT "
-> > > :
-> > > "");
-> > > 
-> > >                 nvkm_wr32(device, 0x009084, 0x00000000);
-> > >                 nvkm_wr32(device, 0x001100, (stat & 0x0000000e));
-> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > index ad8da523bb22..c75e463f3501 100644
-> > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv31.c
-> > > @@ -45,9 +45,9 @@ nv31_bus_intr(struct nvkm_bus *bus)
-> > >                 u32 addr = nvkm_rd32(device, 0x009084);
-> > >                 u32 data = nvkm_rd32(device, 0x009088);
-> > > 
-> > > -               nvkm_error(subdev, "MMIO %s of %08x FAULT at %06x\n",
-> > > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > > -                          (addr & 0x00fffffc));
-> > > +               nvkm_error_ratelimited(subdev, "MMIO %s of %08x FAULT at
-> > > %06x\n",
-> > > +                                      (addr & 0x00000002) ? "write" :
-> > > "read", data,
-> > > +                                      (addr & 0x00fffffc));
-> > > 
-> > >                 stat &= ~0x00000008;
-> > >                 nvkm_wr32(device, 0x001100, 0x00000008);
-> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > index 3a1e45adeedc..2055d0b100d3 100644
-> > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bus/nv50.c
-> > > @@ -60,9 +60,9 @@ nv50_bus_intr(struct nvkm_bus *bus)
-> > >                 u32 addr = nvkm_rd32(device, 0x009084);
-> > >                 u32 data = nvkm_rd32(device, 0x009088);
-> > > 
-> > > -               nvkm_error(subdev, "MMIO %s of %08x FAULT at %06x\n",
-> > > -                          (addr & 0x00000002) ? "write" : "read", data,
-> > > -                          (addr & 0x00fffffc));
-> > > +               nvkm_error_ratelimited(subdev, "MMIO %s of %08x FAULT at
-> > > %06x\n",
-> > > +                                      (addr & 0x00000002) ? "write" :
-> > > "read", data,
-> > > +                                      (addr & 0x00fffffc));
-> > > 
-> > >                 stat &= ~0x00000008;
-> > >                 nvkm_wr32(device, 0x001100, 0x00000008);
-> > > --
-> > > 2.35.1
-> > > 
-> > 
-> 
+The following changes since commit 9d9f720733b7e8d11e4cc53b53f461b117dab839:
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+  Merge tag 'amd-drm-fixes-5.18-2022-04-27' of https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2022-04-29 10:27:05 +1000)
 
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.18-2022-05-04
+
+for you to fetch changes up to 3dfe85fa87b2a26bdbd292b66653bba065cf9941:
+
+  drm/amd/display: Avoid reading audio pattern past AUDIO_CHANNELS_COUNT (2022-05-04 12:21:41 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.18-2022-05-04:
+
+amdgpu:
+- Fix a xen dom0 regression on APUs
+- Fix a potential array overflow if a receiver were to
+  send an erroneous audio channel count
+
+----------------------------------------------------------------
+Harry Wentland (1):
+      drm/amd/display: Avoid reading audio pattern past AUDIO_CHANNELS_COUNT
+
+Marek Marczykowski-Górecki (1):
+      drm/amdgpu: do not use passthrough mode in Xen dom0
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c         | 4 +++-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
