@@ -1,62 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B89519C8D
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:08:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 578E3519C93
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC5810E2A0;
-	Wed,  4 May 2022 10:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14E0010E35D;
+	Wed,  4 May 2022 10:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623E410E2A0
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:08:55 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id gh6so1966856ejb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 03:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=rDvB+eR1HPDPBgGgQVQu2odCTv9ee9o4/T9uHCg8jP4=;
- b=A56yDbl+jbM/gnxspFPWnGAYTEb0RqS2FzO7zYJrM+jL5V5PQog7tdfOOGVGOgj3g3
- 74+mk4+8V5EvHB0v9xnXL2vZ6c1GpJtriJSGRQJWqXrHbhfpUI8mqVMqX/wilUanQVUA
- eT/ihO+r2X13yIcZwGtoxlBc5OH19/1ypIFW8=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0FA910E35D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651659000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h0lQ4WsgFPJsp1ulb+JMYEc+kaUBtSccCtW0azhOPgQ=;
+ b=CXGTpYuJcRr6ZsWH0OjaCjzyKb6z/YM6WnoUYIw02eo5QRJ+d6zJf8N+/C0r52raDqQGYs
+ XrcV3KNgEfI/e44tHPXznfFeVdhEQsiyr0IYI2y8L60BZzTysYj2qRgDLxutXosqE7n+tk
+ OXpIbmPa4WOvL0Uq6vLBu7GZtCu6gTA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-472-jrUp8zUsMHKreSb8DsF4iw-1; Wed, 04 May 2022 06:09:59 -0400
+X-MC-Unique: jrUp8zUsMHKreSb8DsF4iw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k29-20020adfb35d000000b0020adc94662dso220643wrd.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 03:09:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=rDvB+eR1HPDPBgGgQVQu2odCTv9ee9o4/T9uHCg8jP4=;
- b=YWFRyLQbG/bzhD4GvEXFlugQi0h5bBU8I3XaBleaNtHlhoW1njC+WfFg2rZGsexJS9
- 9EaFVDPIGDIs/usFFDrIFdF48CJGoU/V0rky7mvDMpUutxk1JY3NcoA+NrdvV/kp4u5F
- uf4uD8pn+ebMVHttF+I+prDl1YgR58rhjotdESeagT5VF+Fx9OY4FFCNlbnt6IG8JSqG
- PuQDV8OER9BcfW9YcPD2MjUxokDoGzWFp5ucDkesVN0iDBcMOi4bpqhfiZk5BXdyP1jb
- gqPSrffObHseu2zrgexwoBwMeGlOTpts4mQQZsfa/fxzw6wq3GAAT5yBgDkwllf+fr+6
- levQ==
-X-Gm-Message-State: AOAM533zzKabm0oXh+ciwWxVNLSlvetNsZrisNxCl8D3mzqGz5n55z6Q
- pv6MD8YgApu8p+gd4jAS1EYBLA==
-X-Google-Smtp-Source: ABdhPJwbjPuToa2SnetpxbPrTynYxAMYWjdHnaxw0b3HqZFbxYlHD3SMrwyEcKnvnOumNHYnDaOB8g==
-X-Received: by 2002:a17:907:2064:b0:6f4:3f07:c76e with SMTP id
- qp4-20020a170907206400b006f43f07c76emr13671217ejb.462.1651658933850; 
- Wed, 04 May 2022 03:08:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- hz19-20020a1709072cf300b006f3ef214df7sm5618514ejc.93.2022.05.04.03.08.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 03:08:53 -0700 (PDT)
-Date: Wed, 4 May 2022 12:08:51 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: Tackling the indefinite/user DMA fence problem
-Message-ID: <YnJQs1iusrBvpuMs@phenom.ffwll.local>
-References: <20220502163722.3957-1-christian.koenig@amd.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=h0lQ4WsgFPJsp1ulb+JMYEc+kaUBtSccCtW0azhOPgQ=;
+ b=3D7ns1Uk6f34CZQV7v/MXYH4YIi9tojZ6Si/9Egt2HsdjhDHNS63N9dwm5WwTiEAD0
+ n1SuM1+AaFxFkN8te3dFK3W7SMU7LIS8R/+lfYa/xhWVaUz5Pu0Qm5vWdhqCPAYuhgzT
+ ypQejGBACMIm4GCnXMrhT2ww+VgVHInCrfgkc0MpU2VdW0BLz97l7YIdFS2O1xH3vKU7
+ kHhOA1FVhofDrmqcPKUAozLARqwDJlcCHYYzcatRb8sf2h7roSO2qI0oVZo3tlOMIZdq
+ wAFPhwADsZ3LYTExkkFGHBi/JtDFWSxH3CquXb7ZI8vUpu7pJ+sS7eAtgeA3vaPoqSSN
+ FM8A==
+X-Gm-Message-State: AOAM533Q5Qt+ObEh7FJVk/GDNnytr3kLfsym0a6j1lcRQnIvjXH4cgRP
+ H93QMcez4Jf/GiSylQr/ZV2ohTpIBOSsY9ELGkRVBSh8p3yLPw8N8OoXacjzJEpBYjmAzUvGhgW
+ 5tw3Xz/anNfoMw7BDfUiDfinPQpG5
+X-Received: by 2002:a05:6000:223:b0:20a:db3a:e761 with SMTP id
+ l3-20020a056000022300b0020adb3ae761mr15696822wrz.43.1651658998711; 
+ Wed, 04 May 2022 03:09:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9+/TJm9nPuMdJXDM+zbHxG24AuYQigyhiwepT1ww6i3gxv0mmZGOpaYHxRVA7W1CP9TiF/g==
+X-Received: by 2002:a05:6000:223:b0:20a:db3a:e761 with SMTP id
+ l3-20020a056000022300b0020adb3ae761mr15696802wrz.43.1651658998486; 
+ Wed, 04 May 2022 03:09:58 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l20-20020adfc794000000b0020c5253d8dfsm12191902wrg.43.2022.05.04.03.09.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 03:09:58 -0700 (PDT)
+Message-ID: <8a4d6469-d3c0-833d-40c8-3a786d04eba4@redhat.com>
+Date: Wed, 4 May 2022 12:09:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220502163722.3957-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/2] fbdev: Make fb_release() return -ENODEV if fbdev was
+ unregistered
+To: linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Guenter Roeck <linux@roeck-us.net>, Helge Deller <deller@gmx.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Zhen Lei <thunder.leizhen@huawei.com>,
+ Zheyu Ma <zheyuma97@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20220502130944.363776-1-javierm@redhat.com>
+ <20220502130944.363776-3-javierm@redhat.com>
+ <YnJLzY7Yiax/AwMx@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YnJLzY7Yiax/AwMx@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,138 +97,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, sergemetral@google.com, tzimmermann@suse.de,
- gustavo@padovan.org, Felix.Kuehling@amd.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- jason@jlekstrand.net, alexander.deucher@amd.com, daniels@collabora.com,
- skhawaja@google.com, sumit.semwal@linaro.org, maad.aldabagh@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 02, 2022 at 06:37:07PM +0200, Christian König wrote:
-> Hello everyone,
-> 
-> it's a well known problem that the DMA-buf subsystem mixed
-> synchronization and memory management requirements into the same
-> dma_fence and dma_resv objects. Because of this dma_fence objects need
-> to guarantee that they complete within a finite amount of time or
-> otherwise the system can easily deadlock.
-> 
-> One of the few good things about this problem is that it is really good
-> understood by now.
-> 
-> Daniel and others came up with some documentation:
-> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
-> 
-> And Jason did an excellent presentation about that problem on last years
-> LPC: https://lpc.events/event/11/contributions/1115/
-> 
-> Based on that we had been able to reject new implementations of
-> infinite/user DMA fences and mitigate the effect of the few existing
-> ones.
-> 
-> The still remaining down side is that we don't have a way of using user
-> fences as dependency in both the explicit (sync_file, drm_syncobj) as
-> well as the implicit (dma_resv) synchronization objects, resulting in
-> numerous problems and limitations for things like HMM, user queues
-> etc....
-> 
-> This patch set here now tries to tackle this problem by untangling the
-> synchronization from the memory management. What it does *not* try to do
-> is to fix the existing kernel fences, because I think we now can all
-> agree on that this isn't really possible.
-> 
-> To archive this goal what I do in this patch set is to add some parallel
-> infrastructure to cleanly separate normal kernel dma_fence objects from
-> indefinite/user fences:
-> 
-> 1. It introduce a DMA_FENCE_FLAG_USER define (after renaming some
-> existing driver defines). To note that a certain dma_fence is an user
-> fence and *must* be ignore by memory management and never used as
-> dependency for normal none user dma_fence objects.
-> 
-> 2. The dma_fence_array and dma_fence_chain containers are modified so
-> that they are marked as user fences whenever any of their contained
-> fences are an user fence.
-> 
-> 3. The dma_resv object gets a new DMA_RESV_USAGE_USER flag which must be
-> used with indefinite/user fences and separates those into it's own
-> synchronization domain.
-> 
-> 4. The existing dma_buf_poll_add_cb() function is modified so that
-> indefinite/user fences are included in the polling.
-> 
-> 5. The sync_file synchronization object is modified so that we
-> essentially have two fence streams instead of just one.
-> 
-> 6. The drm_syncobj is modified in a similar way. User fences are just
-> ignored unless the driver explicitly states support to wait for them.
-> 
-> 7. The DRM subsystem gains a new DRIVER_USER_FENCE flag which drivers
-> can use to indicate the need for user fences. If user fences are used
-> the atomic mode setting starts to support user fences as IN/OUT fences.
-> 
-> 8. Lockdep is used at various critical locations to ensure that nobody
-> ever tries to mix user fences with non user fences.
-> 
-> The general approach is to just ignore user fences unless a driver
-> stated explicitely support for them.
-> 
-> On top of all of this I've hacked amdgpu so that we add the resulting CS
-> fence only as kernel dependency to the dma_resv object and an additional
-> wrapped up with a dma_fence_array and a stub user fence.
-> 
-> The result is that the newly added atomic modeset functions now
-> correctly wait for the user fence to complete before doing the flip. And
-> dependent CS don't pipeline any more, but rather block on the CPU before
-> submitting work.
-> 
-> After tons of debugging and testing everything now seems to not go up in
-> flames immediately and even lockdep is happy with the annotations.
-> 
-> I'm perfectly aware that this is probably by far the most controversial
-> patch set I've ever created and I really wish we wouldn't need it. But
-> we certainly have the requirement for this and I don't see much other
-> chance to get that working in an UAPI compatible way.
-> 
-> Thoughts/comments?
+Hello Daniel,
 
-I think you need to type up the goal or exact problem statement you're
-trying to solve first. What you typed up is a solution along the lines of
-"try to stuff userspace memory fences into dma_fence and see how horrible
-it all is", and that's certainly an interesting experiment, but what are
-you trying to solve with it?
+On 5/4/22 11:47, Daniel Vetter wrote:
+> On Mon, May 02, 2022 at 03:09:44PM +0200, Javier Martinez Canillas wrote:
+>> A reference to the framebuffer device struct fb_info is stored in the file
+>> private data, but this reference could no longer be valid and must not be
+>> accessed directly. Instead, the file_fb_info() accessor function must be
+>> used since it does sanity checking to make sure that the fb_info is valid.
+>>
+>> This can happen for example if the fbdev driver was one that is using a
+>> framebuffer provided by the system firmware. In that case, the fbdev core
+>> could unregister the framebuffer device if a real video driver is probed.
+>>
+>> Reported-by: Maxime Ripard <maxime@cerno.tech>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> Doesn't this mean we just leak the references? Also anything the driver
+> might refcount in fb_open would be leaked too.
+>
 
-Like if the issue is to enable opencl or whatever, then that's no problem
-(rocm on amdkfd is a thing, same maybe without the kfd part can be done
-anywhere else). If the goal is to enable userspace memory fences for vk,
-then we really don't need these everywhere, but really only in drm_syncobj
-(and maybe sync_file).
+It maybe result in leaks, that's true. But I don't think we can do anything
+at this point since the fb_info just went away and the file->private_data
+reference is no longer valid...
+ 
+> I'm not sure what exactly you're trying to fix here, but this looks a bit
+> wrong.
+>
 
-If the goal is specifically atomic kms, then there's an entire can of
-worms there that I really don't want to think about, but it exists: We
-have dma_fence as out-fences from atomic commit, and that's already
-massively broken since most drivers allocate some memory or at least take
-locks which can allocate memory in their commit path. Like i2c. Putting a
-userspace memory fence as in-fence in there makes that problem
-substantially worse, since at least in theory you're just not allowed to
-might_faul in atomic_commit_tail.
+This is fixing a NULL pointer deref that at least 3 people reported, i.e:
 
-If the goal is to keep the uapi perfectly compatible then your patch set
-doesn't look like a solution, since as soon as another driver is involved
-which doesn't understand userspace memory fences it all falls apart. So
-works great for a quick demo with amd+amd sharing, but not much further.
-And I don't think it's feasible to just rev the entire ecosystem, since
-that kinda defeats the point of keeping uapi stable - if we rev everything
-we might as well also rev the uapi and make this a bit more incremental
-again :-)
+https://github.com/raspberrypi/linux/issues/5011
 
-There's probably more to ponder here ...
+Because if a real DRM driver is probed, then the registered framebuffer
+is unregistered and the fb_info just freed. But user-space has no way to
+know and on close the kernel will try to dereference a NULL pointer.
+ 
+> Maybe stepping back what fbdev would need, but doesn't have (see the
+> commit reference I dropped on the previous version) is drm_dev_enter/exit
+> around hw access. the file_fb_info check essentially provides that, but
+> with races and everything.
+>
 
-I'm not sure what exactly the problem statement is that matches your
-solution here though, so that seems to be missing.
--Daniel
+Yes, but I don't know how that could work since user-space can just open
+the fbdev, mmap it, write to the mmap'ed memory and then close it. The
+only way that this could be done safely AFAICT is if we prevent the real
+video drivers to be registered if the fbdev is currently mmap'ed.
+
+Otherwise, the firmware initialized framebuffer will go away anyways and
+things will break for the user-space process that's currently using it.
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
