@@ -2,66 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3652E51A2AD
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 16:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E8751A2D4
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 16:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3E9E10FA19;
-	Wed,  4 May 2022 14:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284EB10E411;
+	Wed,  4 May 2022 14:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C25A210F75D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 14:54:12 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id gh6so3431800ejb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 07:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3CqMewY2qLhNoVYy8pnABiQEXDBLwdmzuZuCQ9llcqA=;
- b=JIZF4JLztNOcNEo4SWDoc3uVBUY3XVnnSRMHtEmNqfbINrHZhs+RqZgaXWlLYQJKBz
- 45bRnisHROq/k5C6gSZLnuw+1KoJTn9/H2tf+974HGCcSzHB5rcmKSJEgIto4cJK9HKy
- 8MAoyaI0cOrY6W4KqDLMFN54Jrif7hydeiZrQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3CqMewY2qLhNoVYy8pnABiQEXDBLwdmzuZuCQ9llcqA=;
- b=gD3BWszfuCBZHvUggVG6qmycEwYM5KqsHAZEBCpCosYnY7CtYL5QsvUn0ABjy7D3hd
- LmQHi0Du/YTAiuh5yMVOPoIAOu68peL5KeX432AT+G+qlBD/kVIG/2znR15WsBA01gFs
- gqikOOh/IcEnWzVVYS7fGhh4MlSrkokuAHQQHvcZ3gdfjD1GJjq2POfxNv7WgAfWShYm
- nSp86VAPLytc8R2R3B0vmZtZHTviYxEHOyZp2vX+4tSaNVgiZ6LwdMIKSLj5MRsC+kNQ
- 2eAKKShQkg370ur1DI0z6lMhlU9UrzTQ8vsYj0u1+onxlDdaJbC2AmtPwmBXr3jIN1bi
- G0vA==
-X-Gm-Message-State: AOAM530Si3qH2cgsrth4gledgM8RuJIxvAapKqqAcriGwWK13H8RGGGQ
- 7BarzGucnCag1YsEjQLpJSA5QfBD7Ip6JnoLbi4=
-X-Google-Smtp-Source: ABdhPJzYgZamuXi4hTWD3ExiDd/P7MKPUpzG+di6fqN3PhnXEwEU7hoHQYR0TfiUOdhL+OqfWAON/A==
-X-Received: by 2002:a17:906:3104:b0:6ce:6b85:ecc9 with SMTP id
- 4-20020a170906310400b006ce6b85ecc9mr19660620ejx.339.1651676049883; 
- Wed, 04 May 2022 07:54:09 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- el10-20020a170907284a00b006f3ef214e32sm5754815ejc.152.2022.05.04.07.54.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 07:54:08 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id i5so2360373wrc.13
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 07:54:06 -0700 (PDT)
-X-Received: by 2002:a5d:6d09:0:b0:20c:53a9:cc30 with SMTP id
- e9-20020a5d6d09000000b0020c53a9cc30mr15857966wrq.513.1651676045944; Wed, 04
- May 2022 07:54:05 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCA310E411;
+ Wed,  4 May 2022 14:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651676370; x=1683212370;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4IB0QB3QqD204iTr0jPfrPdxGHh+hlBm4dB2Ae572hs=;
+ b=BB7mzbdmnO/2IsDXawfW8a0x1yNtWarTvJz4HkuI+xOJ4Z6YiZg99KwF
+ p/TcC6oCyBog0MIDyALdyI3UY37/EWT8u9HCwsNenApJpkcc+SMZRlewX
+ wdosQK8F/lG9KFQG0zXMI1mJLHw3r09nzhiUcKU9SzvrIpeM3MnfamlGq
+ 7NjRcjrbRv3PQZrx2h/w/5h4LJlS1lJM/X4q1n5jxt7e9LvVyCZv9R3gd
+ j76FLP4+oPwkx+DukO4gLGbedA2CvMTkFJWyQBYi/Xkmz3hG8WtHoed15
+ LDHLy6VjBwPr7S0V+lhVVBu2pcygLRr7MEQ/aPn8O3MQnAYfiDmk4EFCG g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="292978962"
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="292978962"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 07:59:29 -0700
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="536864445"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 07:59:28 -0700
+Date: Wed, 4 May 2022 07:59:27 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/i915: Change semantics of context isolation
+ reporting to UM
+Message-ID: <YnKUzxHJ9oPQ6eLQ@mdroper-desk1.amr.corp.intel.com>
+References: <20220429151112.1041959-1-adrian.larumbe@collabora.com>
+ <CAKMK7uHMh_BneHXvXxUsFaE1h3FWAEFungKrPAJORzk5Y3LOSw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220503224029.3195306-1-dianders@chromium.org>
- <20220503153850.v2.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
- <d4541684-337f-4c3f-fafa-a883be370c0e@linaro.org>
-In-Reply-To: <d4541684-337f-4c3f-fafa-a883be370c0e@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 4 May 2022 07:53:53 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XMuUELUbLEuzG_r0J2+82gKxNLe5KTsvFBK2hNhKnLHQ@mail.gmail.com>
-Message-ID: <CAD=FV=XMuUELUbLEuzG_r0J2+82gKxNLe5KTsvFBK2hNhKnLHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/dp: Add callbacks to make using DP AUX bus
- properly easier
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uHMh_BneHXvXxUsFaE1h3FWAEFungKrPAJORzk5Y3LOSw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,106 +58,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: bob.beckett@collabora.com, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Adrian Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, May 04, 2022 at 02:24:07PM +0200, Daniel Vetter wrote:
+> On Fri, 29 Apr 2022 at 17:11, Adrian Larumbe
+> <adrian.larumbe@collabora.com> wrote:
+> > I915_PARAM_HAS_CONTEXT_ISOLATION was already being used as a boolean by
+> > both Iris and Vulkan , and stood for the guarantee that, when creating a
+> > new context, all state set by it will not leak to any other context.
+> >
+> > However the actual return value was a bitmask where every bit stood for an
+> > initialised engine, and IGT test gem_ctx_isolation makes use of this mask
+> > for deciding on the actual context engine isolation status.
+> >
+> > However, we do not provide UAPI for IGT tests, so the value returned by the
+> > PARAM ioctl has to reflect Mesa usage as a boolean.
+> >
+> > This change only made sense after compute engine support was added to the
+> > driver in commit 944823c9463916dd53f3 ("drm/i915/xehp: Define compute class
+> > and engine") because no context isolation can be assumed on any device with
+> > both RCS annd CCS engines.
+> >
+> > Signed-off-by: Adrian Larumbe <adrian.larumbe@collabora.com>
+> 
+> Top level post and adding Matt Roper and dri-devel.
+> 
+> This was meant as a simple cleanup after CCS enabling in upstream, but
+> that CCS enabling seems to have gone wrong.
+> 
+> What I thought we should be done for CCS enabling is the following:
+> - actually have some igt-side hardcoded assumption about how much
+> engines are isolated from each another, which is a hw property. I
+> think some of that landed, but it's very incomplete
+> 
+> - convert all igt tests over to that. At least gem_ctx_isolation.c is
+> not converted over, as Adrian pointed out.
 
-On Wed, May 4, 2022 at 3:41 AM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> > - We had forgotten a EXPORT_SYMBOL_GPL on the non "devm" populate
-> >    function.
->
-> This can go to a separate patch, so that the fix can be backported to
-> earlier kernels. Please don't forget the Fixes: tag.
+I pointed that out last week in one of our offline syncs and that's what
+got the ball rolling on that test again.  But you specifically told us
+that the uapi cleanup for context isolation shouldn't block the CCS
+patches from landing since that was still happening in parallel:
 
-Sure. Will do for v3.
+    "...I do see the uapi cleanup as part of this multi engine/CCS
+    enabling, but it's not a blocker to land the patches..."
 
-
-> > -EXPORT_SYMBOL_GPL(of_dp_aux_depopulate_ep_devices);
-> > +EXPORT_SYMBOL_GPL(of_dp_aux_depopulate_ep_device);
->
-> Small note about the name. What if we change that to something more
-> future-proof? Something like of_dp_aux_depopulate_bus() (and similarly
-> rename other calls)?
-
-Will do for v3.
-
-> > +     /*
-> > +      * If no parent "of_node", no "aux-bus" child node, or no available
-> > +      * children then we're done. Call the callback (if needed) and return.
-> > +      *
-> > +      * NOTE: we intentionally pass the return code from done_probing
-> > +      * directly out here. eDP controller drivers may want to support
-> > +      * panels from old device trees where the panel was an independent
-> > +      * platform device. In that case it's expected that done_probing()
-> > +      * might need to return -EPROBE_DEFER to our caller.
-> > +      */
-> > +     if (!np) {
-> > +             if (done_probing)
-> > +                     return done_probing(aux);
->
-> I see your point here (and that it makes code simpler). However I'm a
-> little bit uneasy here. What if code this more explicitly in the
-> drivers? Like the following:
->
-> if (!dev_has_aux_bus()) {
->         ret = panel_ready(....);
-> } else {
->         ...
->         ret = of_dp_aux_populate_ep_device(dp_aux, panel_ready);
->         ....;
-> }
-
-Yeah, I had considered that and was about 50-50. You think I should
-change it? Is it really easier to understand if we break it up like
-this? I'll wait for a response from you, but if I don't hear anything
-then I'll change this as you suggest.
+Did we misunderstand what you were trying to say in that email or was
+there a change of direction here?
 
 
-> This way you won't have to worry about the EPROBE_DEFER. Or you'd rather
-> forbid it explicitly. Why? Consider the following scenario:
->
-> dp_driver_probe()
->    /* This creates new devices */
->    done_probing returns -EPROBE_DEFER
->    /* device registration is unwound */
->    dp_driver_probe returns -EPROBE_DEFER
->
-> However as the state of devices was chagned, the dp_driver_probe() can
-> be called again and again, ending up with the the same probe loop that
-> we are trying to solve.
+Matt
 
-Actually, I'm not sure we'd necessarily end up the loop we're trying
-to solve. Let's see. If the panel probe itself doesn't create any
-sub-devices and neither does done_probing() then done_probing()
-returning -EPROBE_DEFER shouldn't cause any looping, right? It would
-look just as if the panel returned -EPROBE_DEFER.
+> 
+> - once igt stopped using this context isolation getparam (we do not,
+> ever, create uapi just for testcases), fix up the uapi to what iris
+> actually needs, which is _only_ a boolean which indicates whether the
+> kernel's context setup code leaks register state from existing
+> contexts to newly created ones. Which is the bug iris works around
+> here, where using iris caused gpu hangs in libva. Iow, the kernel
+> should always and unconditionally return true here. Check out iris
+> history for details please, actual iris usage has nothing to do with
+> any other cross-context or cross-engine isolation guarantee we're
+> making, it's purely about whether our hw ctx code is buggy or not and
+> leaks state between clients, because we accidentally used the
+> currently running ctx as template instead of a fixed one created once
+> at driver load.
+> 
+> Matt, since the CCS enabling on the igt validation side looks very
+> incomplete I'm leaning very much towards "pls revert, try again".
+> 
+> Cheers, Daniel
+> 
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_engine_user.c | 13 ++++++++++++-
+> >  drivers/gpu/drm/i915/gt/intel_engine_user.h |  1 +
+> >  drivers/gpu/drm/i915/i915_drm_client.h      |  2 +-
+> >  drivers/gpu/drm/i915/i915_getparam.c        |  2 +-
+> >  include/uapi/drm/i915_drm.h                 | 14 +++-----------
+> >  5 files changed, 18 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > index 0f6cd96b459f..2d6bd36d6150 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > @@ -47,7 +47,7 @@ static const u8 uabi_classes[] = {
+> >         [COPY_ENGINE_CLASS] = I915_ENGINE_CLASS_COPY,
+> >         [VIDEO_DECODE_CLASS] = I915_ENGINE_CLASS_VIDEO,
+> >         [VIDEO_ENHANCEMENT_CLASS] = I915_ENGINE_CLASS_VIDEO_ENHANCE,
+> > -       /* TODO: Add COMPUTE_CLASS mapping once ABI is available */
+> > +       [COMPUTE_CLASS] = I915_ENGINE_CLASS_COMPUTE,
+> >  };
+> >
+> >  static int engine_cmp(void *priv, const struct list_head *A,
+> > @@ -306,3 +306,14 @@ unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915)
+> >
+> >         return which;
+> >  }
+> > +
+> > +bool intel_cross_engine_isolated(struct drm_i915_private *i915)
+> > +{
+> > +       unsigned int which = intel_engines_has_context_isolation(i915);
+> > +
+> > +       if ((which & BIT(I915_ENGINE_CLASS_RENDER)) &&
+> > +           (which & BIT(I915_ENGINE_CLASS_COMPUTE)))
+> > +               return false;
+> > +
+> > +       return !!which;
+> > +}
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.h b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+> > index 3dc7e8ab9fbc..ff21349db4d4 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+> > @@ -15,6 +15,7 @@ struct intel_engine_cs *
+> >  intel_engine_lookup_user(struct drm_i915_private *i915, u8 class, u8 instance);
+> >
+> >  unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915);
+> > +bool intel_cross_engine_isolated(struct drm_i915_private *i915);
+> >
+> >  void intel_engine_add_user(struct intel_engine_cs *engine);
+> >  void intel_engines_driver_register(struct drm_i915_private *i915);
+> > diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+> > index 5f5b02b01ba0..f796c5e8e060 100644
+> > --- a/drivers/gpu/drm/i915/i915_drm_client.h
+> > +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> > @@ -13,7 +13,7 @@
+> >
+> >  #include "gt/intel_engine_types.h"
+> >
+> > -#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_VIDEO_ENHANCE
+> > +#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
+> >
+> >  struct drm_i915_private;
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+> > index c12a0adefda5..3d5120d2d78a 100644
+> > --- a/drivers/gpu/drm/i915/i915_getparam.c
+> > +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> > @@ -145,7 +145,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+> >                 value = 1;
+> >                 break;
+> >         case I915_PARAM_HAS_CONTEXT_ISOLATION:
+> > -               value = intel_engines_has_context_isolation(i915);
+> > +               value = intel_cross_engine_isolated(i915);
+> >                 break;
+> >         case I915_PARAM_SLICE_MASK:
+> >                 value = sseu->slice_mask;
+> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > index 35ca528803fd..84c0af77cc1f 100644
+> > --- a/include/uapi/drm/i915_drm.h
+> > +++ b/include/uapi/drm/i915_drm.h
+> > @@ -166,6 +166,7 @@ enum drm_i915_gem_engine_class {
+> >         I915_ENGINE_CLASS_COPY          = 1,
+> >         I915_ENGINE_CLASS_VIDEO         = 2,
+> >         I915_ENGINE_CLASS_VIDEO_ENHANCE = 3,
+> > +       I915_ENGINE_CLASS_COMPUTE       = 4,
+> >
+> >         /* should be kept compact */
+> >
+> > @@ -635,17 +636,8 @@ typedef struct drm_i915_irq_wait {
+> >  #define I915_PARAM_HAS_EXEC_FENCE_ARRAY  49
+> >
+> >  /*
+> > - * Query whether every context (both per-file default and user created) is
+> > - * isolated (insofar as HW supports). If this parameter is not true, then
+> > - * freshly created contexts may inherit values from an existing context,
+> > - * rather than default HW values. If true, it also ensures (insofar as HW
+> > - * supports) that all state set by this context will not leak to any other
+> > - * context.
+> > - *
+> > - * As not every engine across every gen support contexts, the returned
+> > - * value reports the support of context isolation for individual engines by
+> > - * returning a bitmask of each engine class set to true if that class supports
+> > - * isolation.
+> > + * Query whether the device can make cross-engine isolation guarantees for
+> > + * all the engines whose default state has been initialised.
+> >   */
+> >  #define I915_PARAM_HAS_CONTEXT_ISOLATION 50
+> >
+> > --
+> > 2.35.1
+> >
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-So I guess one could argue that _perhaps_ we don't need to forbid
--EPROBE_DEFER from done_probing()? It'd probably work OK (we'd
-eventually retry probing the panel and call done_probing() once more
-devices were added), but it'd be ugly and the system would report
-(/sys/kernel/debug/devices_deferred) that it was the panel that
-deferred even though it was this extra callback.
-
-I'm going to go ahead and say this is too hacky, though. Also as long
-as Linux still has the probe loop when you create devices and return
--EPROBE_DEFER we can get stuck because the panel _can_ create
-sub-devices. It can do this with DP AUX backlight.
-
-So I guess the summary is: yes, I'm confident that we should forbid
--EPROBE_DEFER from being returned by done_probing() when called by
-dp_aux_ep_probe()
-
--Doug
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
