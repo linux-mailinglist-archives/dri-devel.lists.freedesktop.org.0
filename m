@@ -1,82 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3CA51AC74
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:10:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D421C51AC7E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:12:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2791C10E279;
-	Wed,  4 May 2022 18:10:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C128710E4E1;
+	Wed,  4 May 2022 18:12:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA1710E252
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 18:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651687812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t7hIAy3RxcqOtM7Yf90BC+sWNEC/sHJ+29FfPH3OpXA=;
- b=fZG5DAMUID6LRMpg0c0ZD/Nl7SFvrdvdZ71osOgcse1V2nAsDr9CJyPE8v//6JB50WTSfT
- Y3RunZLz9dNuIKqy+i7WUP7CdmPa9EoEi+q0y4G8h6sV3Uux/1f2R81E3CL6RegHUvWN/2
- hHZDtjhpCOm7QxZWkD5jOnd/AYZdBrA=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-xaufMJurNYOqquSDk49W2g-1; Wed, 04 May 2022 14:10:11 -0400
-X-MC-Unique: xaufMJurNYOqquSDk49W2g-1
-Received: by mail-qv1-f69.google.com with SMTP id
- fw9-20020a056214238900b0043522aa5b81so1425928qvb.21
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:10:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=t7hIAy3RxcqOtM7Yf90BC+sWNEC/sHJ+29FfPH3OpXA=;
- b=X6eSrYU39oX+J/E4aFVDY0LXpCkkXWhMNR6PZuqyRSAEKHoRyvz9U1zt6F9srUQFax
- KMZVfw3kOuU/ZtNFzSZ7sT3gS2JUUMdmRziZ2qLuFauV8HzieYTtsY24vKI6VY/jogxS
- j2XYVF2CE8J1Js3uoty8KZukpTIObmsj3kCKQDePRrcZPdW3yVph3+EgGAKZkk+r7lLv
- RZvMZwDiUcQ4YFElZETu/t7F+V3+pMIi/lJNwBV6IwqNo7WgeWCpXT75SqF4cvgTAOJG
- +C1XJR4SgngqsdQJdqjk7nAvCVaNO9lNjtKoAqJgIzS+HgA9fCEbWnMODiH/K9u9ilgh
- W4fQ==
-X-Gm-Message-State: AOAM531lkYIX48tMdO4g+zt3h5b5mdrNuhLWm1Q0l8x+dve8neZvfmyU
- GnGx8u5ICTL/cBaIY8pJ3sXmQNak/vXsr/9VoFUT8p1z9GrxswVQWEjAxciLtm2p18Il025C/fr
- 49a8ouSYK4GhnWKWxUZpNEbmiMKlo
-X-Received: by 2002:a37:8641:0:b0:67e:85d1:f5e9 with SMTP id
- i62-20020a378641000000b0067e85d1f5e9mr17179585qkd.128.1651687810931; 
- Wed, 04 May 2022 11:10:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzO7GIjDZ3nMFv/5xr7vzUdIYwV4LLtoe8PJ1zll9EeaciJXDt+o14bNRkod44VnjaoVQRryQ==
-X-Received: by 2002:a37:8641:0:b0:67e:85d1:f5e9 with SMTP id
- i62-20020a378641000000b0067e85d1f5e9mr17179531qkd.128.1651687810478; 
- Wed, 04 May 2022 11:10:10 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- m21-20020ac84455000000b002f39b99f674sm7757467qtn.14.2022.05.04.11.10.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 11:10:09 -0700 (PDT)
-Message-ID: <1c6c9fde6e85f09cc89ea8dc6e8716fef58f3ee1.camel@redhat.com>
-Subject: Re: [PATCH] drm: Document that power requirements for DP AUX transfers
-From: Lyude Paul <lyude@redhat.com>
-To: Doug Anderson <dianders@chromium.org>, Ville
- =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Date: Wed, 04 May 2022 14:10:08 -0400
-In-Reply-To: <CAD=FV=WndmKuEB0=OVQP9YuJaSmD0uxkNs5LE0wWsFj7gBvhBA@mail.gmail.com>
-References: <20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
- <YnJv3B/85hTz54SC@intel.com>
- <CAD=FV=WndmKuEB0=OVQP9YuJaSmD0uxkNs5LE0wWsFj7gBvhBA@mail.gmail.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA8D610E4D8;
+ Wed,  4 May 2022 18:12:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651687966; x=1683223966;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=O/XStb8JMK1hIX77O9IeDoTyeYV5GRQop3QEAOESKa4=;
+ b=Yr+lA2Umv9KnchBIDCYzSL0TAeQgeSoQqe8F++SngR86+Te/yXX3T0RY
+ 0Rt5dP49dkclvJJ34Y0KMiAFJg0431k57Wm3oSXEHy8ROmGmzfworEpdZ
+ L+1y8ZPDU9kUaXK2psfX5xIwf2UsxT71u8hlDmasTUG/1rlNvm3ppjstr
+ //cYzqB+BuNYDPQMROOTfREBvdlgSBmyfwDO83/FRZJCCtpB3LqF9P+da
+ yZd0GT7Ap1MMjXzeAJ25MLcfxaZH+A9cXSTmsSkajXnvOK1ZEmWutq9rH
+ boFYwgTC7YxRzxpPRDmV1aS2dJrB2cA72TJTRjrPd0spu58t3ToXrO+sv w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="249834780"
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="249834780"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 11:12:30 -0700
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="584869660"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 11:12:28 -0700
+Date: Wed, 4 May 2022 11:12:26 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/i915: Change semantics of context isolation
+ reporting to UM
+Message-ID: <YnLCCp6eehxVM09a@mdroper-desk1.amr.corp.intel.com>
+References: <20220429151112.1041959-1-adrian.larumbe@collabora.com>
+ <CAKMK7uHMh_BneHXvXxUsFaE1h3FWAEFungKrPAJORzk5Y3LOSw@mail.gmail.com>
+ <YnKUzxHJ9oPQ6eLQ@mdroper-desk1.amr.corp.intel.com>
+ <YnKs/cWGz7kZHWBA@phenom.ffwll.local>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnKs/cWGz7kZHWBA@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,192 +60,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hsin-Yi Wang <hsinyi@chromium.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: bob.beckett@collabora.com, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ intel-gfx@lists.freedesktop.org, Adrian Larumbe <adrian.larumbe@collabora.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Jani Nikula <jani.nikula@intel.com>,
- Maxime Ripard <maxime@cerno.tech>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-05-04 at 09:04 -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, May 4, 2022 at 5:21 AM Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
+On Wed, May 04, 2022 at 06:42:37PM +0200, Daniel Vetter wrote:
+> On Wed, May 04, 2022 at 07:59:27AM -0700, Matt Roper wrote:
+> > On Wed, May 04, 2022 at 02:24:07PM +0200, Daniel Vetter wrote:
+> > > On Fri, 29 Apr 2022 at 17:11, Adrian Larumbe
+> > > <adrian.larumbe@collabora.com> wrote:
+> > > > I915_PARAM_HAS_CONTEXT_ISOLATION was already being used as a boolean by
+> > > > both Iris and Vulkan , and stood for the guarantee that, when creating a
+> > > > new context, all state set by it will not leak to any other context.
+> > > >
+> > > > However the actual return value was a bitmask where every bit stood for an
+> > > > initialised engine, and IGT test gem_ctx_isolation makes use of this mask
+> > > > for deciding on the actual context engine isolation status.
+> > > >
+> > > > However, we do not provide UAPI for IGT tests, so the value returned by the
+> > > > PARAM ioctl has to reflect Mesa usage as a boolean.
+> > > >
+> > > > This change only made sense after compute engine support was added to the
+> > > > driver in commit 944823c9463916dd53f3 ("drm/i915/xehp: Define compute class
+> > > > and engine") because no context isolation can be assumed on any device with
+> > > > both RCS annd CCS engines.
+> > > >
+> > > > Signed-off-by: Adrian Larumbe <adrian.larumbe@collabora.com>
+> > > 
+> > > Top level post and adding Matt Roper and dri-devel.
+> > > 
+> > > This was meant as a simple cleanup after CCS enabling in upstream, but
+> > > that CCS enabling seems to have gone wrong.
+> > > 
+> > > What I thought we should be done for CCS enabling is the following:
+> > > - actually have some igt-side hardcoded assumption about how much
+> > > engines are isolated from each another, which is a hw property. I
+> > > think some of that landed, but it's very incomplete
+> > > 
+> > > - convert all igt tests over to that. At least gem_ctx_isolation.c is
+> > > not converted over, as Adrian pointed out.
 > > 
-> > On Tue, May 03, 2022 at 04:21:08PM -0700, Douglas Anderson wrote:
-> > > When doing DP AUX transfers there are two actors that need to be
-> > > powered in order for the DP AUX transfer to work: the DP source and
-> > > the DP sync. Commit bacbab58f09d ("drm: Mention the power state
-> > > requirement on side-channel operations") added some documentation
-> > > saying that the DP source is required to power itself up (if needed)
-> > > to do AUX transfers. However, that commit doesn't talk anything about
-> > > the DP sink.
-> > > 
-> > > For full fledged DP the sink isn't really a problem. It's expected
-> > > that if an external DP monitor isn't plugged in that attempting to do
-> > > AUX transfers won't work. It's also expected that if a DP monitor is
-> > > plugged in (and thus asserting HPD) that it AUX transfers will work.
-> > > 
-> > > When we're looking at eDP, however, things are less obvious. Let's add
-> > > some documentation about expectations. Here's what we'll say:
-> > > 
-> > > 1. We don't expect the DP AUX transfer function to power on an eDP
-> > > panel. If an eDP panel is physically connected but powered off then it
-> > > makes sense for the transfer to fail.
+> > I pointed that out last week in one of our offline syncs and that's what
+> > got the ball rolling on that test again.  But you specifically told us
+> > that the uapi cleanup for context isolation shouldn't block the CCS
+> > patches from landing since that was still happening in parallel:
 > > 
-> > I don't agree with this. I think the panel should just get powred up
-> > for AUX transfers.
+> >     "...I do see the uapi cleanup as part of this multi engine/CCS
+> >     enabling, but it's not a blocker to land the patches..."
+> > 
+> > Did we misunderstand what you were trying to say in that email or was
+> > there a change of direction here?
 > 
-> That's definitely a fair thing to think about and I have at times
-> thought about trying to make it work that way. It always ends up
-> hitting a roadblock.
-> 
-> The biggest roadblock that I recall is that to make this work then
-> you'd have to somehow ensure that the bridge chain's pre_enable() call
-> was made as part of the AUX transfer, right? Since the transfer
-> function can be called in any context at all, we have to coordinate
-> this with DRM. If, for instance, DRM is mid way through powering the
-> panel down then we need to wait for DRM to fully finish powering down,
-> then we need to power the panel back up. I don't believe that we can
-> just force the panel to stay on if DRM is turning it off because of
-> panel power sequencing requirements. At least I know it would have the
-> potential to break "samsung-atna33xc20.c" which absolutely needs to
-> see the panel power off after it's been disabled.
-> 
-> We also, I believe, need to handle the fact that the bridge chain may
-> not have even been created yet. We do AUX transfers to read the EDID
-> and also to setup the backlight in the probe function of panel-edp. At
-> that point the panel hasn't been linked into the chain. We had _long_
-> discussions [1] about moving these out of probe and decided that we
-> could move the EDID read to be later but that it was going to really
-> ugly to move the AUX backlight later. The backlight would end up
-> popping up at some point in time later (the first call to panel
-> prepare() or maybe get_modes()) and that seemed weird.
-> 
-> [1]
-> https://lore.kernel.org/lkml/CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com/
-> 
-> 
-> > Otherwise you can't trust that eg. the /dev/aux
-> > stuff is actually usable.
-> 
-> Yeah, it's been on my mind to talk more about /dev/aux. I think
-> /dev/aux has some problems, at least with eDP. Specifically:
-> 
-> 1. Even if we somehow figure out how to power the panel on as part of
-> the aux transfer, we actually _still_ not guaranteed to be able to
-> talk to it as far as I understand. My colleague reported to me that on
-> a system he was working with that had PSR (panel self refresh) that
-> when the panel was powered on but in PSR mode that it wouldn't talk
-> over AUX. Assuming that this is correct then I guess we'd also have to
-> do even more coordination with DRM to exit PSR and block future
-> transitions of PSR. (NOTE: it's always possible that my colleague ran
-> into some other bug and that panels are _supposed_ to be able to talk
-> in PSR. If you think this is the case, I can always try to dig more).
+> The cleanup (which Adrian is now working on, but there's confusion) is
+> totally fine to do later. What looks really iffy is the test coverage, and
+> at least from me looking around gem_ctx_isolation wasn't touched or
+> updated for CCS engines, and that looks like it's not enough. Either those
+> tests are bogus or not actually testing a lot, and then we should delete
+> them. Or there's probably going to be some impact on how much exactly the
+> engines/contexts are isolated against each another.
 
-TBH - the coordination with drm I don't think would be the difficult part, as
-we'd just need to add some sort of property (ideally invisible to userspace)
-that can be used in an atomic commit to disable PSR - similar to how we enable
-CRC readback from sysfs in the majority of DRM drivers. That being said
-though, I think we can just leave the work of solving this problem up to
-whoever ends up needing this to work.
+The test automatically picks up any new engines that show up and
+includes them in execution.  The test is already running properly on DG2
+CCS engines in CI right now.  E.g.,
+
+    https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_11599/re-dg2-12/igt@gem_ctx_isolation@dirty-create@ccs0.html
+
+Is the concern just that we haven't added extra registers to the list to
+check on the CCS engines?  For that matter, we're missing a bunch of
+registers for RCS, BCS, VCS, and VECS for newer platforms too; the CCS
+isn't really special there.
+
+My understanding is that most of what gem_ctx_isolation tests is that
+context switches really do save/restore registers properly (i.e., the
+hardware behavior is sane) and there's really nothing special about CCS
+engines regarding general context switching behavior.  Where things get
+unusual with CCS engines is the shared reset domain, and that's more the
+realm of what tests like i915_hangman cover.  But even there, the
+workarounds that are in place right now (which only allow parallelism
+between engines if they belong to the same VM) means that in most cases
+there actually isn't any userspace-visible impact of the shared resets.
+
+Adding JohnH and Umesh since they're a lot more familiar with all of
+this stuff than I.
+
+I can send a revert if you think that's what we need, but from what I'm
+hearing we don't really expect many areas where there's
+userspace-visible behavior from CCS engines that would need non-standard
+IGT handling, and the few places where there are have already been
+updated.  But there are so many orphaned IGT tests out there, many of
+which have bitrotted away over the years, that it's possible we might
+still be missing something.
+
+
+Matt
 
 > 
-> 2. I'm not totally convinced that it's a great idea, at least for eDP,
-> for userspace to be mucking with /dev/aux. For DP's case I guess
-> /dev/aux is essentially enabling userspace drivers to do things like
-> update firmware on DP monitors or play with the backlight. I guess we
-> decided that we didn't want to add drivers in the kernel to handle
-> this type of stuff so we left it for userspace? For eDP, though, there
-
-The main reason DP AUX got exposed to userspace in the first place was for
-usecases like fwupd, where some MST docks actually do their firmware updates
-over DPCD. I don't know of any equivalent usecase for eDP at the moment, but I
-can definitely try asking some of the OEM contacts I have whether this is/may
-eventually be a thing or not.
-
-> is a panel driver and we if we have an AUX backlight we create a real
-> backlight device. If we needed to do a firmware update of an eDP panel
-> it would make sense for the panel driver to present some interface for
-> the firmware update so that the panel driver could make sure that the
-> panel stayed powered for the duration of the firmware update, not just
-> for the duration of a single AUX transfer.
-
-Yeah, I tried adding this at one point actually but ran into some issues
-finding a nice solution. It wasn't the most important thing at the time, so I
-ended up shifting my attention to other things. Honestly the biggest
-complicating factor of this is the fact that we can't synchronously wake up a
-device from sysfs without introducing a deadlock due to lock order inversion
-between DRM and sysfs. If this could be solved nicely, I think a lot of this
-would become far easier.
-
-> 
-> 3. In general it feels a little awkward for userspace to be directly
-> poking at the same set of registers that a kernel driver is also
-> poking at.
-
-We could always consider limiting the ranges that the DP AUX interface allows
-userspace to read from, although I haven't thought too hard about that since I
-don't know that would fix the issue entirely.
-
-> 
-> To me it feels like /dev/aux is much like the /dev/i2c interface. Yes,
-> userspace can go talk to random i2c devices and can even talk to them
-> after a kernel driver has "claimed" an i2c device, but:
-> a) If an i2c device is powered off, then the i2c transfer won't work.
-> b) If you set a register of a device managed by a kernel driver behind
-> the back of the kernel driver, you're really asking for trouble.
+> That's the part that I think should be done before we call CCS support
+> done and ready for merging. And if that's done properly it should also
+> take care of the "igt uses HAS_CONTEXT_ISOLATION getparam" issue, since
+> you need something more fancy anyway.
+> -Daniel
 > 
 > 
-> So I guess my proposals would be to pick one of:
+> > 
+> > 
+> > Matt
+> > 
+> > > 
+> > > - once igt stopped using this context isolation getparam (we do not,
+> > > ever, create uapi just for testcases), fix up the uapi to what iris
+> > > actually needs, which is _only_ a boolean which indicates whether the
+> > > kernel's context setup code leaks register state from existing
+> > > contexts to newly created ones. Which is the bug iris works around
+> > > here, where using iris caused gpu hangs in libva. Iow, the kernel
+> > > should always and unconditionally return true here. Check out iris
+> > > history for details please, actual iris usage has nothing to do with
+> > > any other cross-context or cross-engine isolation guarantee we're
+> > > making, it's purely about whether our hw ctx code is buggy or not and
+> > > leaks state between clients, because we accidentally used the
+> > > currently running ctx as template instead of a fixed one created once
+> > > at driver load.
+> > > 
+> > > Matt, since the CCS enabling on the igt validation side looks very
+> > > incomplete I'm leaning very much towards "pls revert, try again".
+> > > 
+> > > Cheers, Daniel
+> > > 
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gt/intel_engine_user.c | 13 ++++++++++++-
+> > > >  drivers/gpu/drm/i915/gt/intel_engine_user.h |  1 +
+> > > >  drivers/gpu/drm/i915/i915_drm_client.h      |  2 +-
+> > > >  drivers/gpu/drm/i915/i915_getparam.c        |  2 +-
+> > > >  include/uapi/drm/i915_drm.h                 | 14 +++-----------
+> > > >  5 files changed, 18 insertions(+), 14 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > > index 0f6cd96b459f..2d6bd36d6150 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> > > > @@ -47,7 +47,7 @@ static const u8 uabi_classes[] = {
+> > > >         [COPY_ENGINE_CLASS] = I915_ENGINE_CLASS_COPY,
+> > > >         [VIDEO_DECODE_CLASS] = I915_ENGINE_CLASS_VIDEO,
+> > > >         [VIDEO_ENHANCEMENT_CLASS] = I915_ENGINE_CLASS_VIDEO_ENHANCE,
+> > > > -       /* TODO: Add COMPUTE_CLASS mapping once ABI is available */
+> > > > +       [COMPUTE_CLASS] = I915_ENGINE_CLASS_COMPUTE,
+> > > >  };
+> > > >
+> > > >  static int engine_cmp(void *priv, const struct list_head *A,
+> > > > @@ -306,3 +306,14 @@ unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915)
+> > > >
+> > > >         return which;
+> > > >  }
+> > > > +
+> > > > +bool intel_cross_engine_isolated(struct drm_i915_private *i915)
+> > > > +{
+> > > > +       unsigned int which = intel_engines_has_context_isolation(i915);
+> > > > +
+> > > > +       if ((which & BIT(I915_ENGINE_CLASS_RENDER)) &&
+> > > > +           (which & BIT(I915_ENGINE_CLASS_COMPUTE)))
+> > > > +               return false;
+> > > > +
+> > > > +       return !!which;
+> > > > +}
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.h b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+> > > > index 3dc7e8ab9fbc..ff21349db4d4 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.h
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.h
+> > > > @@ -15,6 +15,7 @@ struct intel_engine_cs *
+> > > >  intel_engine_lookup_user(struct drm_i915_private *i915, u8 class, u8 instance);
+> > > >
+> > > >  unsigned int intel_engines_has_context_isolation(struct drm_i915_private *i915);
+> > > > +bool intel_cross_engine_isolated(struct drm_i915_private *i915);
+> > > >
+> > > >  void intel_engine_add_user(struct intel_engine_cs *engine);
+> > > >  void intel_engines_driver_register(struct drm_i915_private *i915);
+> > > > diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+> > > > index 5f5b02b01ba0..f796c5e8e060 100644
+> > > > --- a/drivers/gpu/drm/i915/i915_drm_client.h
+> > > > +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> > > > @@ -13,7 +13,7 @@
+> > > >
+> > > >  #include "gt/intel_engine_types.h"
+> > > >
+> > > > -#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_VIDEO_ENHANCE
+> > > > +#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
+> > > >
+> > > >  struct drm_i915_private;
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+> > > > index c12a0adefda5..3d5120d2d78a 100644
+> > > > --- a/drivers/gpu/drm/i915/i915_getparam.c
+> > > > +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> > > > @@ -145,7 +145,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+> > > >                 value = 1;
+> > > >                 break;
+> > > >         case I915_PARAM_HAS_CONTEXT_ISOLATION:
+> > > > -               value = intel_engines_has_context_isolation(i915);
+> > > > +               value = intel_cross_engine_isolated(i915);
+> > > >                 break;
+> > > >         case I915_PARAM_SLICE_MASK:
+> > > >                 value = sseu->slice_mask;
+> > > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > > > index 35ca528803fd..84c0af77cc1f 100644
+> > > > --- a/include/uapi/drm/i915_drm.h
+> > > > +++ b/include/uapi/drm/i915_drm.h
+> > > > @@ -166,6 +166,7 @@ enum drm_i915_gem_engine_class {
+> > > >         I915_ENGINE_CLASS_COPY          = 1,
+> > > >         I915_ENGINE_CLASS_VIDEO         = 2,
+> > > >         I915_ENGINE_CLASS_VIDEO_ENHANCE = 3,
+> > > > +       I915_ENGINE_CLASS_COMPUTE       = 4,
+> > > >
+> > > >         /* should be kept compact */
+> > > >
+> > > > @@ -635,17 +636,8 @@ typedef struct drm_i915_irq_wait {
+> > > >  #define I915_PARAM_HAS_EXEC_FENCE_ARRAY  49
+> > > >
+> > > >  /*
+> > > > - * Query whether every context (both per-file default and user created) is
+> > > > - * isolated (insofar as HW supports). If this parameter is not true, then
+> > > > - * freshly created contexts may inherit values from an existing context,
+> > > > - * rather than default HW values. If true, it also ensures (insofar as HW
+> > > > - * supports) that all state set by this context will not leak to any other
+> > > > - * context.
+> > > > - *
+> > > > - * As not every engine across every gen support contexts, the returned
+> > > > - * value reports the support of context isolation for individual engines by
+> > > > - * returning a bitmask of each engine class set to true if that class supports
+> > > > - * isolation.
+> > > > + * Query whether the device can make cross-engine isolation guarantees for
+> > > > + * all the engines whose default state has been initialised.
+> > > >   */
+> > > >  #define I915_PARAM_HAS_CONTEXT_ISOLATION 50
+> > > >
+> > > > --
+> > > > 2.35.1
+> > > >
+> > > 
+> > > 
+> > > -- 
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> > 
+> > -- 
+> > Matt Roper
+> > Graphics Software Engineer
+> > VTT-OSGC Platform Enablement
+> > Intel Corporation
+> > (916) 356-2795
 > 
-> a) Leave things they way they are as I've documented. NOTE that my
-> documentation does document the way things are today. No aux transfer
-> function that I'm aware of powers up an eDP panel. In this case if
-> someone wants to use /dev/aux for an eDP panel it's really up to them
-> not to shoot themselves in the foot.
-
-To be honest, I do totally agree though that /dev/aux has very limited
-usecases for eDP. I do think it's definitely a useful debugging tool, and it's
-been a big help in figuring out how things like backlight interfaces work when
-I'm otherwise lacking in docs (and sometimes it's still useful, since you can
-test various subleties of panel controllers). So at a bare minimum, I'd very
-much like it if we can at least keep it around in some form (perhaps hidden
-behind a kernel config option). Although, that brings up the question of if
-that makes it harder for someone without kernel debugging experience to get me
-DPCD output from a panel outside of what got logged to the kernel…
-
-> 
-> b) Stop populating /dev/aux for eDP panels and only do it for DP and
-> then if/when someone yells we figure out how they were using /dev/aux
-> and why it was safe. This is definitely an ABI change but I have no
-> idea if it would really break anyone. I suppose we could take a first
-> step by spewing a WARN_ON if someone directly uses /dev/aux for eDP?
-> 
-> c) Somehow dynamically create / remove the /dev/aux device as the eDP
-> panel turns off and on again. If /dev/aux is there then we know that
-> the panel is on. NOTE: this ignores PSR. I don't think we'd want to
-> delete / create the /dev/aux node that often. So we'd either have to
-> still accept that the transfers will sometimes fail (c1) or make it a
-> requirement that we bring the panel out of PSR for an AUX transfer
-> (c2).
-> 
-> 
-> Technically we could list option (d) to power the panel up, but as per
-> above I think it's pretty awkward and doesn't feel like the right way
-> to go. Obviously happy to hear other opinions, though.
-> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
