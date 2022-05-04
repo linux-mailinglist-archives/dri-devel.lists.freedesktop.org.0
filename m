@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6B3519D71
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22FE519D7D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:58:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6201310F657;
-	Wed,  4 May 2022 10:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D83F10E286;
+	Wed,  4 May 2022 10:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF6210F657
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:56:01 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id d6so1244603ede.8
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 03:56:01 -0700 (PDT)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1D310E286
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:58:52 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id a21so1274369edb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 03:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=BwmxO4LfRKvng41X4d9TcCe1iGtUUpTYikAKxiB/Gus=;
- b=Swq9OPFU/H4vH2Zso3oK+hWWf8Zk79dtPwZyJxnvxTO27XQ0mCO4ki2l3dD/76/HIg
- qrBoZeeReTzGg60P5BDnT9yXTZoUZfB+sXY6JI9sADjoNhJgBEUCy4Jh5L06/nx3e18+
- tdoPGenpO+xOsuPdsCP52sWU6g9Vh4J1Lvc3E=
+ bh=X5wC/y8l3phzvrxUj5g6Q/bU6cd0GrNgtke4GEPDYJA=;
+ b=j6UtRjbIBuPRag8NUVR1g+vsc1IRIjHiP/quPZKZ+CNUClMzeYRLSoTiU6sUL6tMbh
+ Ch+JDUZAINX+5lvGFdJ55Z14C3ED7UgQ9rYGgiqFnQiw7H7vVNCtaCbpOzcTjXnW5Qik
+ 5H1x+DRmxmcvYtfkYGS1kgUy7v5guMdLC0S6Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=BwmxO4LfRKvng41X4d9TcCe1iGtUUpTYikAKxiB/Gus=;
- b=mfmrHP/uShCExtsaGCl7rMzv/Dp4OV/Pl2IlLkWq7yKE5pM1yYlcIaWaXSB1PWljdS
- +Qtoe4ZTOcF5wHG1Eh9SvxnpMm9WKuGNZWxoKEmL4wPTOMQNYKjpCj7SbsrsIgmGaOSL
- U0x7gz+AsGkM/pa9dssg2xo0irH+0lD+d6O3X1SXsR960H8e6Wxt34GuIzRvFw44NRkN
- 1Yguye+X3XUAOhEwc/pJ+vV0fqAcYB88rRRkyCIdxDwDBmTDgqI10nDxzSo7YMqkfrN2
- 11MkDDNX22xbMwe9zIw/utly2mtVSbfNNwZ1XBHifXURR5ElHDPMKib8F641wpSg6rDM
- jgmA==
-X-Gm-Message-State: AOAM5318QPprS1o2CCVdJbZHt0MTzJs1nhEK27yACFgamrNg8Et10f6/
- JpvmpawSX87Gj50+71sm028QHw==
-X-Google-Smtp-Source: ABdhPJy+B5Wk9GR7mKblkgeRGx069oBIqEL+VbT3G8TD0KUPLgPlnzfCa6TvbjeSkUISaS9jyUFQkw==
-X-Received: by 2002:a05:6402:42c3:b0:427:d0e6:77e4 with SMTP id
- i3-20020a05640242c300b00427d0e677e4mr11472180edc.49.1651661759975; 
- Wed, 04 May 2022 03:55:59 -0700 (PDT)
+ bh=X5wC/y8l3phzvrxUj5g6Q/bU6cd0GrNgtke4GEPDYJA=;
+ b=L7RJiOuJ9zU5ZEm/bNqte5oQP0arIH92N/lhmjVEIw/kBvZC2Je0QVWqvZRtu9i/T+
+ InzyfhDEJYNh9dkYc+u0GimQCyBLcCJ5pOcTgbNiUby0jFx2AC0ANa0c+GkEsIBrfEha
+ XcEafrwdFdT9ujk8/OAFnnbDBVdu4/+jV05fclQSujfmRXGo6saUpAyFGMIvUxWbZc/3
+ uxQ1REvVyIFnBeBcyMpqjJ1Qv4/T/pP5ue1PLITt0AJH9Cla7/kqG1l4KLuU9CtYJPB8
+ pG33kPGrHJGdD5gVSgYzAV1+E2MJHqXH37kdYGMsnUE8RYrovXYsIkriGRrSxII69og7
+ vN2A==
+X-Gm-Message-State: AOAM531KdVq06+f2rZSRKHlKzVeq38z1sPHgJRt4xY76EYcqO4SOwfm8
+ s9jG/nNwbFFRGyGQoxrDVffKlJHTf3jaWg==
+X-Google-Smtp-Source: ABdhPJwscxkAohHovF4FMJCxbrKKrlnGE8Vcg8WcnudkpdOe8bMqhcqJaZWO8XXMOpSukPeZNH4/6Q==
+X-Received: by 2002:a50:ee11:0:b0:425:b5b3:a48d with SMTP id
+ g17-20020a50ee11000000b00425b5b3a48dmr22842334eds.246.1651661931124; 
+ Wed, 04 May 2022 03:58:51 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- qx16-20020a170907b59000b006f3ef214e60sm5568170ejc.198.2022.05.04.03.55.59
+ dq9-20020a170907734900b006f3ef214de3sm5590177ejc.73.2022.05.04.03.58.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 03:55:59 -0700 (PDT)
-Date: Wed, 4 May 2022 12:55:57 +0200
+ Wed, 04 May 2022 03:58:50 -0700 (PDT)
+Date: Wed, 4 May 2022 12:58:49 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file operations
-Message-ID: <YnJbvb5TlHs4ckPM@phenom.ffwll.local>
+Subject: Re: [PATCH v3 3/3] drm: Allow simpledrm to setup its emulated FB as
+ firmware provided
+Message-ID: <YnJcaaDcIsJKhSwQ@phenom.ffwll.local>
 Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Junxiao Chang <junxiao.chang@intel.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20220503201934.681276-1-javierm@redhat.com>
- <YnJBGpvlViLV+0/a@phenom.ffwll.local>
- <038f8365-b23b-9d81-f7b2-8f8c6eb3a065@redhat.com>
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220503071540.471667-1-javierm@redhat.com>
+ <20220503071540.471667-4-javierm@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <038f8365-b23b-9d81-f7b2-8f8c6eb3a065@redhat.com>
+In-Reply-To: <20220503071540.471667-4-javierm@redhat.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,91 +75,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Junxiao Chang <junxiao.chang@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 11:28:07AM +0200, Javier Martinez Canillas wrote:
-> Hello Daniel,
+On Tue, May 03, 2022 at 09:15:40AM +0200, Javier Martinez Canillas wrote:
+> Indicate to fbdev subsystem that the registered framebuffer is provided by
+> the system firmware, so that it can handle accordingly. For example, would
+> unregister the FB devices if asked to remove the conflicting framebuffers.
 > 
-> On 5/4/22 11:02, Daniel Vetter wrote:
-> > On Tue, May 03, 2022 at 10:19:34PM +0200, Javier Martinez Canillas wrote:
-> >> A reference to the framebuffer device struct fb_info is stored in the file
-> >> private data, but this reference could no longer be valid and must not be
-> >> accessed directly. Instead, the file_fb_info() accessor function must be
-> >> used since it does sanity checking to make sure that the fb_info is valid.
-> >>
-> >> This can happen for example if the registered framebuffer device is for a
-> >> driver that just uses a framebuffer provided by the system firmware. In
-> >> that case, the fbdev core would unregister the framebuffer device when a
-> >> real video driver is probed and ask to remove conflicting framebuffers.
-> >>
-> >> Most fbdev file operations already use the helper to get the fb_info but
-> >> get_fb_unmapped_area() and fb_deferred_io_fsync() don't. Fix those two.
-> >>
-> >> Since fb_deferred_io_fsync() is not in fbmem.o, the helper has to be
-> >> exported. Rename it and add a fb_ prefix to denote that is public now.
-> >>
-> >> Reported-by: Junxiao Chang <junxiao.chang@intel.com>
-> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> > 
-> > Note that fb_file_info is hilariously racy since there's nothing
-> > preventing a concurrenct framebuffer_unregister. Or at least I'm not
-> > seeing anything. See cf4a3ae4ef33 ("fbdev: lock_fb_info cannot fail") for
-> > context, maybe reference that commit here in your patch.
-> >
-> > Either way this doesn't really make anything worse, so
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >
+> Add a new DRM_FB_FW field to drm_fbdev_generic_setup() options parameter.
+> Drivers can use this to indicate the FB helper initialization that the FB
+> registered is provided by the firmware, so it can be configured as such.
 > 
-> Yes, I noticed is racy but at least checking this makes less likely to
-> occur. And thanks, I'll reference that commit in the description of v3.
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
 > 
-> BTW, I also noticed that the same race that happens with open(),read(),
-> close(), etc happens with the VM operations:
-> 
-> int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
-> {
-> ...
-> 	vma->vm_private_data = info;
-> ...
-> }
-> 
-> static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
-> {
-> ...
-> 	struct fb_info *info = vmf->vma->vm_private_data;
-> ...
-> }
-> 
-> static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
-> {
-> ...
-> 	struct fb_info *info = vmf->vma->vm_private_data;
-> ...
-> }
-> 
-> So something similar to fb_file_fb_info() is needed to check if
-> the vm_private_data is still valid. I guess that could be done
-> by using the vmf->vma->vm_file and attempting the same trick that
-> fb_file_fb_info() does ?
+> Changes in v3:
+> - Drop the firmware local variable (Laurent Pinchart).
+> - Use DRM_FB_OPTION() since DRM_FB_SET_OPTION() got renamed (kernel test robot).
 
-Yeah should work, except if the ptes are set up already there's kinda not
-much that this will prevent. We'd need to tear down mappings and SIGBUS or
-alternatively have something else in place there so userspace doesn't blow
-up in funny ways (which is what we're doing on the drm side, or at least
-trying to).
+Just for the record what I brought up on irc already:
 
-I'm also not sure how much we should care, since ideally for drm drivers
-this is all taken care of by drm_dev_enter in the right places. It does
-mean though that fbdev mmap either needs to have it's own memory or be
-fully redirected to the drm gem mmap.
+FBINFO_MISC_FIRMWARE is purely an internal flag with no uapi impact, and
+it's only to control whether we nuke this from
+remove_conflicting_framebuffer or not. Since simpledrm only ever binds
+against sysfb I think it'd be cleaner to only rely on that, and relegate
+that entire FBINFO_MISC_FIRMWARE misc hack to the fbdev dungeons and let
+it quietly wither away there.
 
-And then we can afford to just not care to fix fbdev itself.
+Also I'm not a huge fan of these midlayer flags in general :-)
 -Daniel
+
+> 
+>  drivers/gpu/drm/drm_fb_helper.c  |  8 ++++++++
+>  drivers/gpu/drm/tiny/simpledrm.c |  2 +-
+>  include/drm/drm_fb_helper.h      | 10 ++++++++++
+>  3 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 52042ba1e4cf..28b21858b726 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1891,6 +1891,10 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
+>  		/* don't leak any physical addresses to userspace */
+>  		info->flags |= FBINFO_HIDE_SMEM_START;
+>  
+> +	/* Indicate that the framebuffer is provided by the firmware */
+> +	if (fb_helper->firmware)
+> +		info->flags |= FBINFO_MISC_FIRMWARE;
+> +
+>  	/* Need to drop locks to avoid recursive deadlock in
+>  	 * register_framebuffer. This is ok because the only thing left to do is
+>  	 * register the fbdev emulation instance in kernel_fb_helper_list. */
+> @@ -2512,6 +2516,8 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
+>   *
+>   * * DRM_FB_BPP: bits per pixel for the device. If the field is not set,
+>   *   @dev->mode_config.preferred_depth is used instead.
+> + * * DRM_FB_FW: if the framebuffer for the device is provided by the
+> + *   system firmware.
+>   *
+>   * This function sets up generic fbdev emulation for drivers that supports
+>   * dumb buffers with a virtual address and that can be mmap'ed.
+> @@ -2569,6 +2575,8 @@ void drm_fbdev_generic_setup(struct drm_device *dev, const unsigned int options)
+>  	if (!fb_helper->preferred_bpp)
+>  		fb_helper->preferred_bpp = 32;
+>  
+> +	fb_helper->firmware = DRM_FB_GET_OPTION(DRM_FB_FW, options);
+> +
+>  	ret = drm_fbdev_client_hotplug(&fb_helper->client);
+>  	if (ret)
+>  		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+> index f5b8e864a5cd..f6f1c5e108b2 100644
+> --- a/drivers/gpu/drm/tiny/simpledrm.c
+> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> @@ -901,7 +901,7 @@ static int simpledrm_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	drm_fbdev_generic_setup(dev, 0);
+> +	drm_fbdev_generic_setup(dev, DRM_FB_OPTION(DRM_FB_FW, 1));
+>  
+>  	return 0;
+>  }
+> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+> index 5fc41cf0c987..5a17af423944 100644
+> --- a/include/drm/drm_fb_helper.h
+> +++ b/include/drm/drm_fb_helper.h
+> @@ -44,6 +44,7 @@ enum mode_set_atomic {
+>  };
+>  
+>  #define DRM_FB_BPP_MASK GENMASK(7, 0)
+> +#define DRM_FB_FW_MASK GENMASK(8, 8)
+>  
+>  /* Using the GNU statement expression extension */
+>  #define DRM_FB_OPTION(option, value)				\
+> @@ -197,6 +198,15 @@ struct drm_fb_helper {
+>  	 * See also: @deferred_setup
+>  	 */
+>  	int preferred_bpp;
+> +
+> +	/**
+> +	 * @firmware:
+> +	 *
+> +	 * Set if the driver indicates to the FB helper initialization that the
+> +	 * framebuffer for the device being registered is provided by firmware,
+> +	 * so that it can pass this on when registering the framebuffer device.
+> +	 */
+> +	bool firmware;
+>  };
+>  
+>  static inline struct drm_fb_helper *
+> -- 
+> 2.35.1
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
