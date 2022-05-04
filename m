@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02087519E2F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:41:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E9A519E30
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06DE510F7C5;
-	Wed,  4 May 2022 11:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B782E10F1F3;
+	Wed,  4 May 2022 11:41:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18EB910F1F3
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:40:56 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id fv2so996169pjb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:40:56 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF3E10F1F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:41:03 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ cx11-20020a17090afd8b00b001d9fe5965b3so4941090pjb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zu930wcvNkHW2egdF99M+1+iY48wbvmQImq1ebHjMJc=;
- b=MOOp84GT+U6MHbi8bO+i03+twHj881W/FMDPFJg3qZouHPREOZsx6lNd4ew6ZVrRrV
- UFgPtZVPhmMfHtMgHd3udbCRqbo9bMYteNhCSPsg6VUAD+KTwOwWE8lpQkZuWvtNl10T
- mETQZOMe8eO3vD8bn14pUR8YLzs/45QXU3L1g=
+ bh=VdD/wGuLMDzQpZtAEHDiK9YZwN0IPCd8Y4aW5A9u8PY=;
+ b=hf7zZJvFwJauSkyXVeWkDRtHNkmvKRNwJja0aCJjitVuqn0rZ/G1qRLFVAkk6AQlwq
+ FFbI8JUUJBNr8y/mJ5RvChuZDt/kOBF5Emqi3R/FXybLYjt6DssBfMb7+DkozBN1tua5
+ d2DgAn3WCVtMAdBLnIlEHwaN5ySulFkbGDWG4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zu930wcvNkHW2egdF99M+1+iY48wbvmQImq1ebHjMJc=;
- b=dmXTtCSW1orzL6LjtpSe3OeDupbh7pPZvWG0QvaH+v+ug/3p92tojPLd+kAuUaeyzP
- ZPZr+9yEX0wCfRKTmrDy+q3oTn45+jUCFOlsNJbZPlWZym28tLI+8t/5FvKiv6hRMn92
- +7gk/yrswse7H3RKOemVonvYrnlIWyqTL8qGo091ecjcMJ9YVynnxzsbi79opcMIa4OR
- eAzy7manDR9tNMkSmsDCLJcTOcGyuJxt7VFB4g2/ebh+FgnswciuE1IxtsPbfqGbvtPJ
- oTXXJxSmrqe3oQXfM9cj/G1cJhUKGRHDaVnKKbvz60MArcD/A3hAk/21P5i1x14JQnFc
- rGVA==
-X-Gm-Message-State: AOAM531XB31a+1c93EXMECT+C2ijTlbxwe8HN+cXYOmp3YNrLWWbM2QF
- 18uSLQsb+aUdfGVX4pe3WyGXiw==
-X-Google-Smtp-Source: ABdhPJxn7Iu43eDnhes30oL2XHDjtxMV5NPtHkjvgUKXH8wwmFtE4q6OVBBJ+9bOfPfSHtcELRKxHg==
-X-Received: by 2002:a17:90b:380d:b0:1dc:8dc2:bb2c with SMTP id
- mq13-20020a17090b380d00b001dc8dc2bb2cmr6215480pjb.236.1651664455662; 
- Wed, 04 May 2022 04:40:55 -0700 (PDT)
+ bh=VdD/wGuLMDzQpZtAEHDiK9YZwN0IPCd8Y4aW5A9u8PY=;
+ b=sm3TFy/+hQRJT6P1vwjB1FS2XIPJqcUkkraSh1l2BTpiU9PX36V/PPwARgzf1/+uTJ
+ gQ7YnMVEsy6kCcgwBkzJ7wUfviEYye0lvM580/9c26YqaamBQC5d56sbDdYMwE5geAeJ
+ ZIp8ncGHtykfoY3jiuFT7EAcbrTiIS1WWGDaiSMNGF2QLgKFRfoP+ShrL5+RNX6+K0NQ
+ BzY2zHw1Eptr1qMEwkd9jRIBXfuRR9VDDmLwBpNjIXhm+YmQo3Nffcc4nHJqZzQun5hm
+ KrXhJ9/xSQmjZk8x9nGQXrWDa9l5RHkggNwLUsf2/KJ2ZdLXilMlG1QGvPvXO9BrwW29
+ m7jA==
+X-Gm-Message-State: AOAM533XWbkXO7JbWITm/FV1RtgvxSrI/UINX8BU88PaeYDNg2wfV1l9
+ M6jyUga+/nWbRcCl7Y9J/sWn5w==
+X-Google-Smtp-Source: ABdhPJxQ/Ey7Ts8xFHKdtBw1BihEPT5ET563AMQiQIldEEXMR01uBieFLEoZXcQajLHNZxRIHNjIMQ==
+X-Received: by 2002:a17:90a:170c:b0:1dc:20c4:6354 with SMTP id
+ z12-20020a17090a170c00b001dc20c46354mr9874828pjd.113.1651664463136; 
+ Wed, 04 May 2022 04:41:03 -0700 (PDT)
 Received: from localhost.localdomain ([183.83.137.38])
  by smtp.gmail.com with ESMTPSA id
- k15-20020aa790cf000000b0050dc7628174sm8027498pfk.78.2022.05.04.04.40.49
+ k15-20020aa790cf000000b0050dc7628174sm8027498pfk.78.2022.05.04.04.40.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 04:40:55 -0700 (PDT)
+ Wed, 04 May 2022 04:41:02 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -58,10 +59,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Subject: [PATCH v2 02/12] drm: bridge: samsung-dsim: Lookup OF-graph or Child
- node devices
-Date: Wed,  4 May 2022 17:10:11 +0530
-Message-Id: <20220504114021.33265-3-jagan@amarulasolutions.com>
+Subject: [PATCH v2 03/12] drm: bridge: samsung-dsim: Handle platform init via
+ driver_data
+Date: Wed,  4 May 2022 17:10:12 +0530
+Message-Id: <20220504114021.33265-4-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220504114021.33265-1-jagan@amarulasolutions.com>
 References: <20220504114021.33265-1-jagan@amarulasolutions.com>
@@ -86,127 +87,124 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The child devices in MIPI DSI can be binding with OF-graph
-and also via child nodes.
+In order to make a common Samsung DSIM bridge driver some platform
+specific glue code needs to maintain separately as it is hard to
+maintain platform specific glue and conventional component_ops on
+the drm bridge drivers side.
 
-The OF-graph interface represents the child devices via
-remote and associated endpoint numbers like
+This patch is trying to support that glue code initialization in
+the form of platform_init flag in driver_data.
 
-dsi {
-   compatible = "fsl,imx8mm-mipi-dsim";
+So, the platforms which enable platform_init flags will handle all
+platform specific initialization via samsung_dsim_plat_probe.
 
-   ports {
-	port@0 {
-	     reg = <0>;
-
-	     dsi_in_lcdif: endpoint@0 {
-		  reg = <0>;
-		  remote-endpoint = <&lcdif_out_dsi>;
-	     };
-	};
-
-	port@1 {
-	     reg = <1>;
-
-	     dsi_out_bridge: endpoint {
-		  remote-endpoint = <&bridge_in_dsi>;
-	     };
-	};
-};
-
-The child node interface represents the child devices via
-conventional child nodes on given DSI parent like
-
-dsi {
-   compatible = "samsung,exynos5433-mipi-dsi";
-
-   ports {
-        port@0 {
-             reg = <0>;
-
-             dsi_to_mic: endpoint {
-                  remote-endpoint = <&mic_to_dsi>;
-             };
-        };
-   };
-
-   panel@0 {
-        reg = <0>;
-   };
-};
-
-As Samsung DSIM bridge is common DSI IP across all Exynos DSI
-and NXP i.MX8M host controllers, this patch adds support to
-lookup the child devices whether its bindings on the associated
-host represent OF-graph or child node interfaces.
+The Platform probe is responsible to
+- initialize samsung_dsim_plat_data and install hooks
+- initialize component_ops
+- preserve samsung_dsim structure pointer
 
 v2:
-* new patch
+* fix samsung_dsim_plat_probe return pointer
+
+v1:
+* use platform_init instead of exynos_specific
+* handle component_ops in glue code
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 38 +++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 22 +++++++++++++++++-----
+ include/drm/bridge/samsung-dsim.h     |  1 +
+ 2 files changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 7745902f3f1e..f23f06d55158 100644
+index f23f06d55158..99f80e9c1600 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1357,18 +1357,52 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	struct samsung_dsim *dsi = host_to_dsi(host);
- 	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
- 	struct device *dev = dsi->dev;
-+	struct device_node *np = dev->of_node;
-+	struct device_node *remote;
- 	struct drm_panel *panel;
- 	int ret;
+@@ -370,6 +370,7 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
+ 	.reg_values = reg_values,
++	.platform_init = true,
+ };
  
--	panel = of_drm_find_panel(device->dev.of_node);
-+	/**
-+	 * Devices can also be child nodes when we also control that device
-+	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
-+	 *
-+	 * Lookup for a child node of the given parent that isn't either port
-+	 * or ports.
-+	 */
-+	for_each_available_child_of_node(np, remote) {
-+		if (of_node_name_eq(remote, "port") ||
-+		    of_node_name_eq(remote, "ports"))
-+			continue;
-+
-+		goto of_find_panel_or_bridge;
-+	}
-+
-+	/*
-+	 * of_graph_get_remote_node() produces a noisy error message if port
-+	 * node isn't found and the absence of the port is a legit case here,
-+	 * so at first we silently check whether graph presents in the
-+	 * device-tree node.
-+	 */
-+	if (!of_graph_is_present(np))
-+		return -ENODEV;
-+
-+	remote = of_graph_get_remote_node(np, 1, 0);
-+
-+of_find_panel_or_bridge:
-+	if (!remote)
-+		return -ENODEV;
-+
-+	panel = of_drm_find_panel(remote);
- 	if (!IS_ERR(panel)) {
- 		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
- 	} else {
--		dsi->out_bridge = of_drm_find_bridge(device->dev.of_node);
-+		dsi->out_bridge = of_drm_find_bridge(remote);
- 		if (!dsi->out_bridge)
- 			dsi->out_bridge = ERR_PTR(-EINVAL);
+ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
+@@ -382,6 +383,7 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
+ 	.reg_values = reg_values,
++	.platform_init = true,
+ };
+ 
+ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
+@@ -392,6 +394,7 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
+ 	.reg_values = reg_values,
++	.platform_init = true,
+ };
+ 
+ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
+@@ -403,6 +406,7 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
+ 	.wait_for_reset = 0,
+ 	.num_bits_resol = 12,
+ 	.reg_values = exynos5433_reg_values,
++	.platform_init = true,
+ };
+ 
+ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
+@@ -414,6 +418,7 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 12,
+ 	.reg_values = exynos5422_reg_values,
++	.platform_init = true,
+ };
+ 
+ static const struct of_device_id samsung_dsim_of_match[] = {
+@@ -1610,12 +1615,16 @@ static int samsung_dsim_probe(struct platform_device *pdev)
+ 	dsi->bridge.of_node = dev->of_node;
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+ 
+-	dsi->plat_data = samsung_dsim_plat_probe(dsi);
+-	if (IS_ERR(dsi->plat_data)) {
+-		ret = PTR_ERR(dsi->plat_data);
+-		goto err_disable_runtime;
++	if (dsi->driver_data->platform_init) {
++		dsi->plat_data = samsung_dsim_plat_probe(dsi);
++		ret = IS_ERR(dsi->plat_data) ? PTR_ERR(dsi->plat_data) : 0;
++	} else {
++		ret = mipi_dsi_host_register(&dsi->dsi_host);
  	}
  
-+	of_node_put(remote);
++	if (ret)
++		goto err_disable_runtime;
 +
- 	if (IS_ERR(dsi->out_bridge)) {
- 		ret = PTR_ERR(dsi->out_bridge);
- 		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
+ 	return 0;
+ 
+ err_disable_runtime:
+@@ -1630,7 +1639,10 @@ static int samsung_dsim_remove(struct platform_device *pdev)
+ 
+ 	pm_runtime_disable(&pdev->dev);
+ 
+-	samsung_dsim_plat_remove(dsi);
++	if (dsi->driver_data->platform_init)
++		samsung_dsim_plat_remove(dsi);
++	else
++		mipi_dsi_host_unregister(&dsi->dsi_host);
+ 
+ 	return 0;
+ }
+diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
+index 5cf8570ac978..70224d20414b 100644
+--- a/include/drm/bridge/samsung-dsim.h
++++ b/include/drm/bridge/samsung-dsim.h
+@@ -41,6 +41,7 @@ struct samsung_dsim_driver_data {
+ 	unsigned int wait_for_reset;
+ 	unsigned int num_bits_resol;
+ 	const unsigned int *reg_values;
++	bool platform_init;
+ };
+ 
+ struct samsung_dsim_host_ops {
 -- 
 2.25.1
 
