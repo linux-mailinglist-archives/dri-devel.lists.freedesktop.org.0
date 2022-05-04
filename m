@@ -2,86 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B775519E24
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36240519E2A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2A10E675;
-	Wed,  4 May 2022 11:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAC210EE8D;
+	Wed,  4 May 2022 11:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B3810E675
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:35:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651664141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=34VZxVT7BZbb571VsASnxn7VWsmyBHWuoREbYnuFRqA=;
- b=bAF+GusD+zUbuKQHwGyPQ18r5QpYfiwMs9cjrazuUueGWamLU01FLpC6b5pI1YfPES1/Bc
- m7F/V9uHp2I2AhykAqyH0EMisQQ++g21Qgeko0US7aBlbanHFOH9uRg00QaoxnO1fWpcS0
- v89ed/lszdCuXXmN78mgpRTHYqUzdY8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-jJM5MLP5PEmPvjTeH86hVw-1; Wed, 04 May 2022 07:35:40 -0400
-X-MC-Unique: jJM5MLP5PEmPvjTeH86hVw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- g7-20020adfbc87000000b0020ac76d254bso279824wrh.6
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:35:40 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DF310EE8D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:40:41 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id o69so994930pjo.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+ehaGQfcCZN53TBoTLw2+Ao4eNOjwyEob9y3SvApsCQ=;
+ b=Xufl5D8FVB5aTshkuBjnf2aLcau/fM4m0Oaiqec6L81OrRBsMCODiUuIpJ7Wfut+Ar
+ +Y+gmMTesfjms7Daw7HQf2cqZYq3BPUgvPNYfxe8TkYHGVju2TrrBy9wfmIrKiA8kkNU
+ ibO4468CtMpMMz/0GHLS6zxLuCfe6++Fa09QI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=34VZxVT7BZbb571VsASnxn7VWsmyBHWuoREbYnuFRqA=;
- b=bSKKr8QPdUIBYWPg18iHUsO/5PSlzPh36lw/Nz7ZlWWGfjefmY6rTrWHarB/LCi5oj
- zFMA1C1F1WCaJ18cS5jDtKLWR0TAtYu9LPDS1sHcfEJjFK8TA9wOiSwh7567nFT/mWmD
- bCrBti9EKJ91SNmSWZpdbs4MGXUaq44vMCItbsvtSDnc/mxX3u+17+KvnUUignerX8VB
- zvJxrt/IAZdMq0WK9XFrutwGZdjpo/g2DwjMrf1NCL6ab9MhJXJZjohkTIJeNULMPWv+
- BvJJYHshj0mYQO4rqyn+bJJXGbRGK3L8dy5C/UdaqbEaJDap8n66aTYaH81evnCjWFIX
- fqVw==
-X-Gm-Message-State: AOAM531f5aCflVyyo1eJ2cWWeH2MzNbpU6a1eKxW1q+J2i07GK6OTpzH
- v/lctYJNLnvrwz3woIbu5TL1S2pt0FJ35SpBUoKAH3qxPEuoUyLK1xqDqbqo0jnH907e3Ee832l
- zjS+icwgdrt7jInv2xw/ocIOXwdN+
-X-Received: by 2002:a7b:ce0a:0:b0:394:41e:2517 with SMTP id
- m10-20020a7bce0a000000b00394041e2517mr7303642wmc.135.1651664139534; 
- Wed, 04 May 2022 04:35:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkqdX7HCGB2EekG/+HnmQTPbLcK1+rCPyta5s7F5sneyoQz8GhIv8xGVqmVaPz6xc7p4OmlA==
-X-Received: by 2002:a7b:ce0a:0:b0:394:41e:2517 with SMTP id
- m10-20020a7bce0a000000b00394041e2517mr7303627wmc.135.1651664139274; 
- Wed, 04 May 2022 04:35:39 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- e11-20020a05600c4e4b00b003942a244f36sm3780628wmq.15.2022.05.04.04.35.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 04:35:38 -0700 (PDT)
-Message-ID: <da8874d4-66f1-d14e-c0ef-c3557e189cf4@redhat.com>
-Date: Wed, 4 May 2022 13:35:37 +0200
+ bh=+ehaGQfcCZN53TBoTLw2+Ao4eNOjwyEob9y3SvApsCQ=;
+ b=gD7U/Ti4SVzY0A4qNLTc9k6lzFlALqOAc5OCrk53F2Av30oc8la7HAr/tr6zqtjKdW
+ RlbXHljE3Iovj6P2AB44lO4eNuAd47yZFsUgxJ9sTigbJOkuzELmD8p3ghuFLJfppZDe
+ cZUZyYLGZHGadC1eoZ0DYYHuhSF3efnmKIisdg1jwrDRJkTvoA3+kdTOldKp6klABLf/
+ h3cnxDFnoVjyNkuhTl6EtwEg5IBnpmJhETi839lr/LgtcoFcsziQXAsShuPVJ9Q08L1P
+ ZihVyT1Jy5xljNeGXTmlxtnaRx3HWmToDndTuCM3RZRVagfvK5+0DShIudl4b5y3XlCc
+ a0qw==
+X-Gm-Message-State: AOAM530S7qmehGGDadDgyt8DuF/vo9l21FbdoR7vVSBU1P/k6uiWJjsR
+ dHpPKjMaL+51xQaX4pJ9tQeUwg==
+X-Google-Smtp-Source: ABdhPJz/PBatSLvInFvPkn66hxIPrXqLpUU9MJRpqA06WkboxrvASyB60iDc9X4HhiYc4BEoDGXKNg==
+X-Received: by 2002:a17:90b:4a05:b0:1dc:1a2c:8c69 with SMTP id
+ kk5-20020a17090b4a0500b001dc1a2c8c69mr9685274pjb.9.1651664440868; 
+ Wed, 04 May 2022 04:40:40 -0700 (PDT)
+Received: from localhost.localdomain ([183.83.137.38])
+ by smtp.gmail.com with ESMTPSA id
+ k15-20020aa790cf000000b0050dc7628174sm8027498pfk.78.2022.05.04.04.40.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 04:40:40 -0700 (PDT)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Subject: [PATCH v2 00/12] drm: bridge: Add Samsung MIPI DSIM bridge
+Date: Wed,  4 May 2022 17:10:09 +0530
+Message-Id: <20220504114021.33265-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file operations
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Junxiao Chang <junxiao.chang@intel.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20220503201934.681276-1-javierm@redhat.com>
- <YnJBGpvlViLV+0/a@phenom.ffwll.local>
- <038f8365-b23b-9d81-f7b2-8f8c6eb3a065@redhat.com>
- <YnJbvb5TlHs4ckPM@phenom.ffwll.local>
- <d47a3cab-4f21-3b8b-2834-030663677070@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <d47a3cab-4f21-3b8b-2834-030663677070@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,48 +76,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+This series supports common bridge support for Samsung MIPI DSIM
+which is used in Exynos and i.MX8MM SoC's.
 
-On 5/4/22 13:08, Thomas Zimmermann wrote:
+Previous v1 can be available here [1].
 
-[snip]
+The final bridge supports both the Exynos and i.MX8MM DSI devices.
 
->>> So something similar to fb_file_fb_info() is needed to check if
->>> the vm_private_data is still valid. I guess that could be done
->>> by using the vmf->vma->vm_file and attempting the same trick that
->>> fb_file_fb_info() does ?
->>
->> Yeah should work, except if the ptes are set up already there's kinda not
->> much that this will prevent. We'd need to tear down mappings and SIGBUS or
->> alternatively have something else in place there so userspace doesn't blow
->> up in funny ways (which is what we're doing on the drm side, or at least
->> trying to).
->>
->> I'm also not sure how much we should care, since ideally for drm drivers
->> this is all taken care of by drm_dev_enter in the right places. It does
->> mean though that fbdev mmap either needs to have it's own memory or be
->> fully redirected to the drm gem mmap.
->>
->> And then we can afford to just not care to fix fbdev itself.
-> 
-> While the problem has been there ever since, the bug didn't happen until 
-> we fixed hot-unplugging for fbdev. Not doing anything is probably not 
-> the right thing.
->
+On, summary this patch-set break the entire DSIM driver into
+- platform specific glue code for platform ops, component_ops.
+- common bridge driver which handle platform glue init and invoke.
 
-Actually, this issue shouldn't happen if the fbdev drivers are not buggy
-and do the proper cleanup at .fb_release() time rather than at .remove().
+Patch 0000: 	Samsung DSIM bridge
 
-I'll post patches for simplefb and efifb which are the drivers that we
-mostly care at this point. So we should be good and not need more fixes.
+Patch 0001:	Common lookup code for OF-graph or child
+
+Patch 0002: 	platform init flag via driver_data
+
+Patch 0003/10:  bridge fixes, atomic API's
+
+Patch 0011:	document fsl,imx8mm-mipi-dsim
+
+Patch 0012:	add i.MX8MM DSIM support
+
+Tested in Engicam i.Core MX8M Mini SoM.
+
+Anyone interested, please have a look on this repo [2]
+
+[2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v2 
+[1] https://patchwork.kernel.org/project/dri-devel/cover/20220408162108.184583-1-jagan@amarulasolutions.com/
+
+Any inputs?
+Jagan.
+
+Jagan Teki (12):
+  drm: bridge: Add Samsung DSIM bridge driver
+  drm: bridge: samsung-dsim: Lookup OF-graph or Child node devices
+  drm: bridge: samsung-dsim: Handle platform init via driver_data
+  drm: bridge: samsung-dsim: Mark PHY as optional
+  drm: bridge: samsung-dsim: Add DSI init in bridge pre_enable()
+  drm: bridge: samsung-dsim: Fix PLL_P (PMS_P) offset
+  drm: bridge: samsung-dsim: Add module init, exit
+  drm: bridge: samsung-dsim: Add atomic_check
+  drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
+  drm: bridge: samsung-dsim: Add input_bus_flags
+  dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
+  drm: bridge: samsung-dsim: Add i.MX8MM support
+
+ .../bindings/display/exynos/exynos_dsim.txt   |    1 +
+ MAINTAINERS                                   |    8 +
+ drivers/gpu/drm/bridge/Kconfig                |   12 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/samsung-dsim.c         | 1847 +++++++++++++++++
+ drivers/gpu/drm/exynos/Kconfig                |    1 +
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1724 +--------------
+ include/drm/bridge/samsung-dsim.h             |   99 +
+ 8 files changed, 2032 insertions(+), 1661 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
+ create mode 100644 include/drm/bridge/samsung-dsim.h
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.25.1
 
