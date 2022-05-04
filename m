@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD5E51A1A1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 15:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1E551A206
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 16:16:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22A410E1AC;
-	Wed,  4 May 2022 13:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4510410E82A;
+	Wed,  4 May 2022 14:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8565010E1AC
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 13:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651672721; x=1683208721;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=11770cKS+9CS+QLXwuNHlJ4PVZqEaAPkwZKE6duj5KU=;
- b=kn60oK6Piy9cF8Npdqal5RMc40FvKwDyrhgHzFCeWS7Ka3csaJ2BoK3G
- PZe5ci1ZX74lacVnRvvV1ncHxkr2mIVrm7MEZ+4EilItW3dZMoQMNS4Zx
- qbOHW7hh1YdsdONbAj/orNZMM1tRswkFp2oxYdLiE2WBYS/tavjIP1GQu 8=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 04 May 2022 06:58:40 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 06:58:40 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 4 May 2022 06:58:40 -0700
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 4 May 2022
- 06:58:39 -0700
-Message-ID: <6dde7bb4-8931-ccdb-2677-930a1c6d6dab@quicinc.com>
-Date: Wed, 4 May 2022 07:58:38 -0600
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41E3F10E601
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 14:16:26 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 04852320094C;
+ Wed,  4 May 2022 10:16:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 04 May 2022 10:16:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1651673782; x=1651760182; bh=uDeyjHOeVy
+ bzoqxHeyGOefDTj5BN9Fw/C/Zp18dpHTY=; b=eITRaxdgUzEU4eG/uT/+xFX6v/
+ 71nlFzGZ98zm0VDsv9wEpw8zzWmpQNjySjCcQCw5iOQ5fAyb6X/4Q878XhjXtCFe
+ 3XsBeDadmJJk/HFkpL11m/3gt8i7Yd/KjWZ447solliQpE4Se3ADe3FaQlPhbN7+
+ EcgN1l3Alq+v36NETASIpfZSejdi+sIOgdZFYfqGwiQhIJNbrZOmHFqOP9NLwNx/
+ uzxDRUbRtnjT5tUFHJryB0U2l+IQAcHL+WupRaj450DC5jNfURLez1cd73SpH5MN
+ UjJPj3+uWrskPtHsw4UPsmiWoXsu46KV2cG069vx9AdhdllktT5a/9iuUbdw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651673782; x=
+ 1651760182; bh=uDeyjHOeVybzoqxHeyGOefDTj5BN9Fw/C/Zp18dpHTY=; b=o
+ 3Z75IzsxWfdqO6p/Y3Aa7WOi1lkZnPE26Mkm3Wm4WLdAeZmZMSCNt+D3j8HnSlXz
+ wetMnY10wfqtbWjxFxbTg/rEpeeLjBd77UHFrMjIjxSWnACsl1g3HkI7N7NJMpU7
+ i2Sso/rAh0y348CdTRma64p4/S5r9P4vzqo27dK0G3J216klRtPyLBpMlYI2eUui
+ GwBBwONIZM6m2voQVrTbG9zKFQ+ELrKDt946yintezAAZekJ37gMlWiLWaj90a7C
+ 6IVIBoSHIYa6e+dsQ1U769/gms4facO9Ua5txS6mer2s8OWZRspt4fVgt496wy/Y
+ +tdQ8/63sYbwKSSRyc0ow==
+X-ME-Sender: <xms:topyYs_b5TxUKslFiOaorGFOCnH6VIikrcdtNrGadw8RWBhu7fyXCg>
+ <xme:topyYkutJN6jw4gv8MQHSKdQnYJ82QIyhhCjsMsINhlNSj8JjzV6eyhJnXbCItkap
+ S54Y_dtH0r0Bm3Vhe4>
+X-ME-Received: <xmr:topyYiCD00uUbzR3S8FmJFhyhiQQ6Od8q9tQcLIL1NQcKRXEEUHdWUlW5tw-xMHmEadacEzI_TRJRuZ3ZSZZ6SI4MSGUZwb6BZVPEeA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelgdejfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnheptdelkeejiedufedvhfeiffetlefhiedvleeigfeiuefghfdvleeiffejieeg
+ teejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:topyYscAQTesXKr79bwX9q0CZEUVRt-eptlvYEMKtGhX5u41-FfoLw>
+ <xmx:topyYhPjF3NLb4gnO-V0-oXGWYFhncUa-qvvrCtKRetmNaffVOLfYw>
+ <xmx:topyYmldmceDn57NqovWEYpBPd2Q3MXL_crPpYFw4sda2bZ9mdMPbQ>
+ <xmx:topyYk1HMhGTgbw-J5V-JUNdDdpjBHZ7Hky046nx_vie5_SF_AU-cg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 May 2022 10:16:21 -0400 (EDT)
+Date: Wed, 4 May 2022 16:16:19 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
+Message-ID: <20220504141619.pib3xwsqyqysto2h@houat>
+References: <20220504080212.713275-1-javierm@redhat.com>
+ <20220504081030.ky57nenipnif5r2e@houat>
+ <b9aebad9-30df-2906-d935-0483a5429a1a@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] drm: drm_gem.h: Add explicit includes for
- DEFINE_DRM_GEM_FOPS
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <1651262112-29664-1-git-send-email-quic_jhugo@quicinc.com>
- <87y1zkq6vg.fsf@intel.com> <YnJJq6UdCVIWcH3G@phenom.ffwll.local>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <YnJJq6UdCVIWcH3G@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="rn4hj2f24joedluv"
+Content-Disposition: inline
+In-Reply-To: <b9aebad9-30df-2906-d935-0483a5429a1a@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,75 +83,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/4/2022 3:38 AM, Daniel Vetter wrote:
-> On Mon, May 02, 2022 at 06:41:39PM +0300, Jani Nikula wrote:
->> On Fri, 29 Apr 2022, Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
->>> DEFINE_DRM_GEM_FOPS() references drm functions from other headers.  For
->>> example drm_open() is defined in drm_file.h and drm_ioctl() is defined
->>> in drm_ioctl.h.  Since drm_gem.h doesn't include these headers, it
->>> relies on an implicit include from the .c file to have included these
->>> required headers before DEFINE_DRM_GEM_FOPS() gets used.  Relying on
->>> these implicit includes can cause build failures for new code that
->>> doesn't know about these requirements, and can lead to future problems
->>> if the headers ever get restructured as there will be a need to update
->>> every downstream file that includes drm_gem.h.
->>>
->>> Lets fix this explicitly including the required headers in drm_gem.h so
->>> that code that includes drm_gem.h does not need to worry about these
->>> implicit dependencies.
->>
->> In the general case, I tend to agree, but in this specific instance I
->> think I'd err on the side of fewer includes. I think the more likely
->> outcome here is accumulating implicit dependencies on symbols from
->> drm_file.h and drm_ioctl.h by including drm_gem.h only!
->>
->> I do think headers need to be self-contained, and we actually enforce
->> this in i915 (see HDRTEST in drivers/gpu/drm/i915/Makefile), but not to
->> the point of macro expansions.
-> 
-> Yeah we abuse macros in a bunch of places to untangle header dependencies,
-> so then going back and pulling in all the headers back in feels a bit
-> silly and defeats the point.
 
-Fair enough.  I'll consider this NAK'd
+--rn4hj2f24joedluv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've been pondering alternate solutions, but haven't come up with any. 
-I guess, for now, the status quo will remain.
+On Wed, May 04, 2022 at 10:34:39AM +0200, Javier Martinez Canillas wrote:
+> Hello Maxime,
+>=20
+> Thanks for your feedback.
+>=20
+> On 5/4/22 10:10, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Wed, May 04, 2022 at 10:02:12AM +0200, Javier Martinez Canillas wrot=
+e:
+> >> The Kernel Unit Testing (KUnit) framework provides a common framework =
+for
+> >> unit tests within the Linux kernel. Having a test suite would allow to
+> >> identify regressions earlier.
+> >>
+> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> >> ---
+> >>
+> >>  Documentation/gpu/todo.rst | 14 ++++++++++++++
+> >>  1 file changed, 14 insertions(+)
+> >>
+> >> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> >> index 127e76ee0b2d..10bfb50908d1 100644
+> >> --- a/Documentation/gpu/todo.rst
+> >> +++ b/Documentation/gpu/todo.rst
+> >> @@ -603,6 +603,20 @@ Level: Advanced
+> >>  Better Testing
+> >>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> =20
+> >> +Add unit tests using the Kernel Unit Testing (KUnit) framework
+> >> +--------------------------------------------------------------
+> >> +
+> >> +The `KUnit <https://www.kernel.org/doc/html/latest/dev-tools/kunit/in=
+dex.html>`_
+> >> +provides a common framework for unit tests within the Linux kernel. H=
+aving a
+> >> +test suite would allow to identify regressions earlier.
+> >> +
+> >> +A good candidate for the first unit tests are the format-conversion h=
+elpers in
+> >> +``drm_format_helper.c``.
+> >> +
+> >> +Contact: Javier Martinez Canillas <javierm@redhat.com>
+> >> +
+> >> +Level: Intermediate
+> >=20
+> > Kunit is fairly easy to grasp if you have some knowledge of other unit
+> > testing frameworks already (pytest, cmocka, etc.)
+> >
+>=20
+> Yes, I didn't set to intermediate due kunit but rather due the format
+> conversions, since the functions are not easy to read and understand.
+>=20
+> And the person writing the unit tests will have to get familiar with
+> the different formats to verify that conversions are done correctly.
+> =20
+> > Another good candidate would be to convert (some ?) selftests to kunit.
+> > I'm not sure the others, but at least test-drm_cmdline_parser should be
+> > fairly easy to convert.
+> >
+>=20
+> Indeed. Maybe I would add it as a separate entr though, as a follow-up.
 
-> 
-> iow, I concur.
-> -Daniel
-> 
->>
->> BR,
->> Jani.
->>
->>
->>
->>>
->>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->>> ---
->>>   include/drm/drm_gem.h | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>> index 9d7c61a..1cbe3d8 100644
->>> --- a/include/drm/drm_gem.h
->>> +++ b/include/drm/drm_gem.h
->>> @@ -37,6 +37,8 @@
->>>   #include <linux/kref.h>
->>>   #include <linux/dma-resv.h>
->>>   
->>> +#include <drm/drm_file.h>
->>> +#include <drm/drm_ioctl.h>
->>>   #include <drm/drm_vma_manager.h>
->>>   
->>>   struct iosys_map;
->>
->> -- 
->> Jani Nikula, Intel Open Source Graphics Center
-> 
+Yeah, that works for me
 
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+
+Maxime
+
+--rn4hj2f24joedluv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYnKKswAKCRDj7w1vZxhR
+xZv1AQC/VDLymlERMy8+BiF13eIs4P30bQ2sgrNAlmrRBlV8rwD9GRGCMnCwtRZ2
+ujcfJDOn8eY3BklODEByBqe57Ij7JwI=
+=6IU7
+-----END PGP SIGNATURE-----
+
+--rn4hj2f24joedluv--
