@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFF051AE96
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 21:59:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5238A51AFAC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 22:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF90B10E353;
-	Wed,  4 May 2022 19:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BE110E107;
+	Wed,  4 May 2022 20:48:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAE9010E1AE
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 19:59:14 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- l9-20020a056830268900b006054381dd35so1601289otu.4
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 12:59:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xIbIARx8crNnk+PFkaYggGWFPiyJL1LyCwzj00jstCs=;
- b=NrHz/ITZ3FoxyvVfqd9g68Cf7G/VGjfY/GOxvNxHCFqA+RHVdPv6lle8m3UKyWYEkP
- hYRjUpQaNuEhBAS9IkZ56Wt8dvA8Qepy/JaB9L7NzzAMgo15grMS6h7usxWf1Kx/oun3
- Cenk1+CfrHqGXm2BUy/mt1gDi/Eh88MsMSoEP63EcpspZjSNLCfk28HWNv/kRSOyBEkG
- rK5bawkwYPoZpx1XGjH+tL2uH0SXmabBFRq2i3JNOfweCCRgzQOdzaIWzNmCFCtzDkAg
- h+N6ODH0dK7owgCQw6P6w2cZzPsPXYv7vCWiA1qg7UMeNH66oXcn9wj+/IoSDi9QkMp2
- PRxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xIbIARx8crNnk+PFkaYggGWFPiyJL1LyCwzj00jstCs=;
- b=sYoIBGg3R8QVwtXsi6GTS2lONfwQF0wzDJHz0ygjs/eBt2owV7WThJ7vMJspO0kHyc
- B1+ocW0xoMFJEAZQ0ErScgNeEwCSMyrOa9x/clmigTqbQOLecEE6TYpZXTAwcAF9ql1w
- Z1LrpXRhn5edF+kxt4hXhC5hP6UWLZuUf3fz/4lDUOmvosr0ruCCNfxOR7beHX2zzEzZ
- S2qFR3VF5dhLj/QaRSMOCNZRZJ3mRg6dlQQx4yji56eGjP28/cZmfTM6N9rp2ZXNwhds
- zRan1myACPrhAB4sqQFLZgrw3MbQ1kgHkG1QGCC4IXzGt6qsi0q5cRWT+GqAmoukoHuo
- XQog==
-X-Gm-Message-State: AOAM530I6ua9vgGF62avGM9eZy1sh+qe/jzk9AxriOgfL9G1Ly2QbbCa
- /jx6ePND+UdH5ZvjAOxkCFOMhuy8f6Msa26JE1ymMw20
-X-Google-Smtp-Source: ABdhPJzSkySajjFh9Zvdsmtyy2Q+hYxzDlsTEgzPFiJufw99I47PAa5uQqSk6Gw8gIkq5coPqqIh4SPQ18d35fxotyo=
-X-Received: by 2002:a9d:6543:0:b0:605:e789:271e with SMTP id
- q3-20020a9d6543000000b00605e789271emr8117223otl.200.1651694354108; Wed, 04
- May 2022 12:59:14 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCB010E107;
+ Wed,  4 May 2022 20:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651697306; x=1683233306;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wjzLA7fLQTKn1lLXeVC95KihcNbZA4xnpseTgutqFew=;
+ b=mk+GOvk7EVkJ7rBYMV2fNiJfnExVfnOwOTGQw02CQJp0adOH7U5aTmEY
+ J03p5SQNucUv8gXfz1l3doqCmnPd1+XWsa79p37hd/T/oIja7rOiFJIMf
+ xMMEv02r6N4ey4P/sxeSyolNYfFo5E+Oy+dUOmWfP6EZwG3VleyBo5vjO
+ uDpi6sDQn6/qGGF3rCB5CgAcLw73VLlJBmztOmIoIep/0VKZtLgGhMKA7
+ w/cMy0Dks/uUjJcVCEQLs1WIqPu9tcxH7D/5Ir5rsiZKPetCGCFAytgwy
+ F3LFlNsXAmcm1CU3kVUe5+g0+JoIyFxpemOy8DyqyuTpeVmc4Y69bMvRC g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="267489075"
+X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="267489075"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 13:48:25 -0700
+X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="811292702"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 13:48:25 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/4] drm/i915: Prepare for GSC-loaded HuC
+Date: Wed,  4 May 2022 13:48:12 -0700
+Message-Id: <20220504204816.2082588-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220504165009.82557-1-mike@fireburn.co.uk>
- <20220504165009.82557-4-mike@fireburn.co.uk>
-In-Reply-To: <20220504165009.82557-4-mike@fireburn.co.uk>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 4 May 2022 15:59:03 -0400
-Message-ID: <CADnq5_NavzveMzvJ+nB-xoi79Dep8LBpodPF3jxbEsv7GG_hQA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/amdgpu/gfx11: Add missing break
-To: Mike Lothian <mike@fireburn.co.uk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,43 +53,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: John Harrison <john.c.harrison@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied patch 3.  Thanks!
+On newer platforms (starting DG2 G10 B-step and G11 A-step), ownership of
+HuC loading and authentication has been moved from the GuC to the GSC, with
+both actions being performed via a single PXP command.
+Given that the mei code has not fully landed yet (see [1]), we can't
+implement the new load mechanism, but we can start getting ready for it
+by taking care of the changes required for the existing code:
 
-Alex
+- The HuC header is now different from the GuC one. This also means that
+  if the FW is for GSC-loading and the HW fuse is set to legacy load (or
+  vice-versa) we can't load the HuC.
 
-On Wed, May 4, 2022 at 12:50 PM Mike Lothian <mike@fireburn.co.uk> wrote:
->
-> This stops clang complaining:
->
-> drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:5895:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
->         default:
->         ^
-> drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:5895:2: note: insert 'break;' to avoid fall-through
->         default:
->         ^
->         break;
->
-> Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
-> ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> index b6fc39edc862..e26f97f77db6 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-> @@ -5892,6 +5892,7 @@ static int gfx_v11_0_set_priv_inst_fault_state(struct amdgpu_device *adev,
->                 WREG32_FIELD15_PREREG(GC, 0, CP_INT_CNTL_RING0,
->                                PRIV_INSTR_INT_ENABLE,
->                                state == AMDGPU_IRQ_STATE_ENABLE ? 1 : 0);
-> +               break;
->         default:
->                 break;
->         }
-> --
-> 2.35.1
->
+- To send a PXP message to the GSC we need both MEI_GSC and MEI_PXP.
+
+- All legacy HuC loading paths can be skipped.
+
+Note that the HuC fw version for DG2 is still not defined, so the HuC
+code will be skipped until the define is added.
+
+v2: drop changes in auth checking for legacy paths.
+
+[1] https://patchwork.freedesktop.org/series/102339/
+
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+
+Daniele Ceraolo Spurio (4):
+  drm/i915/huc: drop intel_huc_is_authenticated
+  drm/i915/huc: Add fetch support for gsc-loaded HuC binary
+  drm/i915/huc: Prepare for GSC-loaded HuC
+  drm/i915/huc: Don't fail the probe if HuC init fails
+
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h   |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c       | 97 +++++++++++++++----
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h       |  5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c    |  5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c        | 22 +++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c     | 99 ++++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h     |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h |  9 ++
+ 8 files changed, 172 insertions(+), 68 deletions(-)
+
+-- 
+2.25.1
+
