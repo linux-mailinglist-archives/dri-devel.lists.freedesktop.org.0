@@ -2,42 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03039519B4F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:15:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62FE519B52
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:15:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 566CB10FDB2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66C6810FDBD;
 	Wed,  4 May 2022 09:14:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374B410FD68
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:14:50 +0000 (UTC)
-X-UUID: af3a1eb12978487ebbb48eccd05dd5a3-20220504
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB11110FCAD
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:14:49 +0000 (UTC)
+X-UUID: 5ac12edf0e3740368282e4330b9c293c-20220504
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:84c8e11c-c28d-46fd-b2e4-208c8440203e, OB:40,
- L
- OB:40,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
- CTION:release,TS:103
-X-CID-INFO: VERSION:1.1.4, REQID:84c8e11c-c28d-46fd-b2e4-208c8440203e, OB:40,
- LOB
- :40,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
- CTION:quarantine,TS:103
-X-CID-META: VersionHash:faefae9, CLOUDID:0568ac2f-6199-437e-8ab4-9920b4bc5b76,
+X-CID-O-INFO: VERSION:1.1.4, REQID:24307f06-5d52-43e3-8230-5eb3ce216a3e, OB:0,
+ LO
+ B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:8
+X-CID-META: VersionHash:faefae9, CLOUDID:2668ac2f-6199-437e-8ab4-9920b4bc5b76,
  C
- OID:f1846824bb4a,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil
- ,QS:0,BEC:nil
-X-UUID: af3a1eb12978487ebbb48eccd05dd5a3-20220504
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1525454882; Wed, 04 May 2022 17:14:46 +0800
-Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 4 May 2022 17:14:45 +0800
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 5ac12edf0e3740368282e4330b9c293c-20220504
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1398784146; Wed, 04 May 2022 17:14:47 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 4 May 2022 17:14:45 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 4 May 2022 17:14:45 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
  15.2.792.3 via Frontend Transport; Wed, 4 May 2022 17:14:45 +0800
@@ -46,10 +38,9 @@ To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
  Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
  Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Subject: [PATCH v20 16/25] drm/mediatek: add display merge mute/unmute support
- for MT8195
-Date: Wed, 4 May 2022 17:14:31 +0800
-Message-ID: <20220504091440.2052-17-nancy.lin@mediatek.com>
+Subject: [PATCH v20 17/25] drm/mediatek: add display merge async reset control
+Date: Wed, 4 May 2022 17:14:32 +0800
+Message-ID: <20220504091440.2052-18-nancy.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220504091440.2052-1-nancy.lin@mediatek.com>
 References: <20220504091440.2052-1-nancy.lin@mediatek.com>
@@ -79,67 +70,60 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add merge mute/unmute setting for MT8195.
-MT8195 Vdosys1 merge1~merge4 support HW mute function.
+Add merge async reset control in mtk_merge_stop. Async hw doesn't do self
+reset on each sof signal(start of frame), so need to reset the async to
+clear the hw status for the next merge start.
 
 Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_merge.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-index c7af5ccab916..2e13d2fb429e 100644
+index 2e13d2fb429e..6428b6203ffe 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-@@ -58,12 +58,15 @@
- #define FLD_PREULTRA_TH_LOW			GENMASK(15, 0)
- #define FLD_PREULTRA_TH_HIGH			GENMASK(31, 16)
+@@ -8,6 +8,7 @@
+ #include <linux/of_device.h>
+ #include <linux/of_irq.h>
+ #include <linux/platform_device.h>
++#include <linux/reset.h>
+ #include <linux/soc/mediatek/mtk-cmdq.h>
  
-+#define DISP_REG_MERGE_MUTE_0		0xf00
-+
- struct mtk_disp_merge {
- 	void __iomem			*regs;
- 	struct clk			*clk;
- 	struct clk			*async_clk;
+ #include "mtk_drm_ddp_comp.h"
+@@ -67,6 +68,7 @@ struct mtk_disp_merge {
  	struct cmdq_client_reg		cmdq_reg;
  	bool				fifo_en;
-+	bool				mute_support;
+ 	bool				mute_support;
++	struct reset_control		*reset_ctl;
  };
  
  void mtk_merge_start(struct device *dev)
-@@ -80,6 +83,10 @@ void mtk_merge_start_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
- {
- 	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
+@@ -101,6 +103,9 @@ void mtk_merge_stop_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
  
-+	if (priv->mute_support)
-+		mtk_ddp_write(cmdq_pkt, 0x0, &priv->cmdq_reg, priv->regs,
-+			      DISP_REG_MERGE_MUTE_0);
-+
- 	mtk_ddp_write(cmdq_pkt, 1, &priv->cmdq_reg, priv->regs,
- 		      DISP_REG_MERGE_CTRL);
- }
-@@ -88,6 +95,10 @@ void mtk_merge_stop_cmdq(struct device *dev, struct cmdq_pkt *cmdq_pkt)
- {
- 	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
- 
-+	if (priv->mute_support)
-+		mtk_ddp_write(cmdq_pkt, 0x1, &priv->cmdq_reg, priv->regs,
-+			      DISP_REG_MERGE_MUTE_0);
-+
  	mtk_ddp_write(cmdq_pkt, 0, &priv->cmdq_reg, priv->regs,
  		      DISP_REG_MERGE_CTRL);
++
++	if (priv->async_clk)
++		reset_control_reset(priv->reset_ctl);
  }
-@@ -262,6 +273,8 @@ static int mtk_disp_merge_probe(struct platform_device *pdev)
- 	priv->fifo_en = of_property_read_bool(dev->of_node,
- 					      "mediatek,merge-fifo-en");
  
-+	priv->mute_support = of_property_read_bool(dev->of_node,
-+						   "mediatek,merge-mute");
- 	platform_set_drvdata(pdev, priv);
+ static void mtk_merge_fifo_setting(struct mtk_disp_merge *priv,
+@@ -264,6 +269,12 @@ static int mtk_disp_merge_probe(struct platform_device *pdev)
+ 		return PTR_ERR(priv->async_clk);
+ 	}
  
- 	ret = component_add(dev, &mtk_disp_merge_component_ops);
++	if (priv->async_clk) {
++		priv->reset_ctl = devm_reset_control_get_optional_exclusive(dev, NULL);
++		if (IS_ERR(priv->reset_ctl))
++			return PTR_ERR(priv->reset_ctl);
++	}
++
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
+ 	if (ret)
 -- 
 2.18.0
 
