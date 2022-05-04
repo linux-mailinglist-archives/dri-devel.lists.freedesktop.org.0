@@ -1,57 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7493151B39F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 01:39:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2586F51B3B5
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 01:47:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADCDA10E618;
-	Wed,  4 May 2022 23:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4427310ECE5;
+	Wed,  4 May 2022 23:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 803F010E40F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 23:39:37 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id x12so2343909pgj.7
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 16:39:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZcjXks/OZvIeQ48LeUZ4ev10sgtmh+A/DjFdnPkrArc=;
- b=bkT3tVCvUqtfkwZTFOYCuIFr5GfsuH2RuNfy5q7qIlKAzjusR5Eitvd1OX4suoZW+0
- wTAkdVmqLOABMMkpP3JAuJb+PjizMv8UVdZ21s4mXhiWgcKp+C/qfOQUTtlzKfgeY2NC
- uKsJAWTey0OhoScc3BvWdUAr/VUBoVav0ZvLI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZcjXks/OZvIeQ48LeUZ4ev10sgtmh+A/DjFdnPkrArc=;
- b=dOTx4kfefq79Ueq/DK2foSXBqzU+n5We6QKXRXgq8zMDKH8ZN4xpj/QmvN3C4Ev/rF
- s80OL7mke+591Ikw340QESHTseaCtP9QLyhaBoePOiyYCp/Uql9wxQ7N65SG/+jQheT4
- n2wHHdETLgT2clR7RC+KdPNi76PDq3h8vCoj+nFNcdoOnFlY3YPt2GWgmqhGpSV++Gxa
- KEdOW69Zpvl+2PeMO7SKdoFuhkyudxmjpbGqumy26sHrlTbnKDE4Cn7c9bpjj8SDznJm
- +XUEWZodwXjAT8TdAZ9Hv4NqpOG2Rk18yfIbghgJaeQBTk76flvVnJOexYL0iRaoIQg+
- FV1w==
-X-Gm-Message-State: AOAM531XZDoii/BTU/YeZl0et9zHSG5i17/dq48RUq/auLqQwlHF82UX
- W3COSq2Zn3469NjdOF58xWsB9dUwx7EW/i0NAfwhgA==
-X-Google-Smtp-Source: ABdhPJydJo1xmGq3cPW9J7N2vJNGEG+YilKeqMLd+36+LvTQilr9AnAml998OgsrGgm+ZXNXvZOYHQ==
-X-Received: by 2002:a63:8348:0:b0:3c6:6c7:9e40 with SMTP id
- h69-20020a638348000000b003c606c79e40mr2040249pge.224.1651707577099; 
- Wed, 04 May 2022 16:39:37 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:1da3:6a8e:557c:da09])
- by smtp.gmail.com with ESMTPSA id
- p1-20020a170902e74100b0015e8d4eb1bbsm65321plf.5.2022.05.04.16.39.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 16:39:36 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v2] drm/msm: Fix shutdown
-Date: Wed,  4 May 2022 16:39:30 -0700
-Message-Id: <20220504163900.v2.1.Iaebd35e60160fc0f2a50fac3a0bf3b298c0637c8@changeid>
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03A7810EC1E;
+ Wed,  4 May 2022 23:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651708042; x=1683244042;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wojfAmuD1A3qA6jHhgXsKCgv4ZU5C8ljff0QCRtdtmU=;
+ b=MBKA9JUP8ttE0kVyQf5SFUZAAaaMTDeas0VVnXdu1+E+pGG5fi0tjDEw
+ 4wPaLMCpV37rxr9vUSYETCWEoTz9wA+xq64nywJ0Qar1V83eontkMnwaj
+ PeBUOSp4vuM3O50iLOufced2zXM0RUi2bcnxYsuRWqAked2RK2D1lAkqA
+ A5C62t4Gdh9AmwIHzOsmdvM9EeX1trbHJsj6J8S8BeRW9GTYHPXVLbjl1
+ 7/gVyAY3fCFXle9zRRCmWzKDk802VopcDDrWoeB0jODWLrSPiVquxOEk+
+ l5Te4OB2Yk81aB8anHWc3gFe30ga931cGVKkQ91HrRdwf6Vs8WepFy04M A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="255404620"
+X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="255404620"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 16:47:21 -0700
+X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="694400456"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 16:47:21 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/guc: Support programming the EU priority in the
+ GuC descriptor
+Date: Wed,  4 May 2022 16:46:36 -0700
+Message-Id: <20220504234636.2119794-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,89 +54,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Xu Wang <vulab@iscas.ac.cn>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, linux-kernel@vger.kernel.org
+Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When rebooting on my sc7280-herobrine based device, I got a
-crash. Upon debugging, I found that I was in msm_drv_shutdown() and my
-"pdev" was the one associated with mdss_probe().
+From: Matthew Brost <matthew.brost@intel.com>
 
-From source, I found that mdss_probe() has the line:
-  platform_set_drvdata(pdev, mdss);
-...where "mdss" is of type "struct msm_mdss *".
+In GuC submission mode the EU priority must be updated by the GuC rather
+than the driver as the GuC owns the programming of the context descriptor.
 
-Also from source, I saw that in msm_drv_shutdown() we have the line:
-  struct msm_drm_private *priv = platform_get_drvdata(pdev);
+Given that the GuC code uses the GuC priorities, we can't use a generic
+function using i915 priorities for both execlists and GuC submission.
+The existing function has therefore been pushed to the execlists
+back-end while a new one has been added for GuC.
 
-This is a mismatch and is the root of the problem.
+v2: correctly use the GuC prio.
 
-Further digging made it apparent that msm_drv_shutdown() is only
-supposed to be used for parts of the msm display framework that also
-call msm_drv_probe() but mdss_probe() doesn't call
-msm_drv_probe(). Let's remove the shutdown functon from msm_mdss.c.
-
-Digging a little further, code inspection found that two drivers that
-use msm_drv_probe() weren't calling msm_drv_shutdown(). Let's add it
-to them.
-
-Fixes: 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master components")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
+ .../drm/i915/gt/intel_execlists_submission.c  | 12 +++++++++-
+ drivers/gpu/drm/i915/gt/intel_lrc.h           | 10 ---------
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 22 +++++++++++++++++++
+ 3 files changed, 33 insertions(+), 11 deletions(-)
 
-Changes in v2:
-- Fixed the Fixes tag.
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 1 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 1 +
- drivers/gpu/drm/msm/msm_mdss.c           | 1 -
- 3 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 143d6643be53..2b9d931474e0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1350,6 +1350,7 @@ MODULE_DEVICE_TABLE(of, dpu_dt_match);
- static struct platform_driver dpu_driver = {
- 	.probe = dpu_dev_probe,
- 	.remove = dpu_dev_remove,
-+	.shutdown = msm_drv_shutdown,
- 	.driver = {
- 		.name = "msm_dpu",
- 		.of_match_table = dpu_dt_match,
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 9b7bbc3adb97..3d5621a68f85 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -1009,6 +1009,7 @@ MODULE_DEVICE_TABLE(of, mdp5_dt_match);
- static struct platform_driver mdp5_driver = {
- 	.probe = mdp5_dev_probe,
- 	.remove = mdp5_dev_remove,
-+	.shutdown = msm_drv_shutdown,
- 	.driver = {
- 		.name = "msm_mdp",
- 		.of_match_table = mdp5_dt_match,
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 20f154dda9cf..0454a571adf7 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -397,7 +397,6 @@ MODULE_DEVICE_TABLE(of, mdss_dt_match);
- static struct platform_driver mdss_platform_driver = {
- 	.probe      = mdss_probe,
- 	.remove     = mdss_remove,
--	.shutdown   = msm_drv_shutdown,
- 	.driver     = {
- 		.name   = "msm-mdss",
- 		.of_match_table = mdss_dt_match,
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 86f7a9ac1c394..2b0266cab66b9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -661,6 +661,16 @@ static inline void execlists_schedule_out(struct i915_request *rq)
+ 	i915_request_put(rq);
+ }
+ 
++static u32 map_i915_prio_to_lrc_desc_prio(int prio)
++{
++	if (prio > I915_PRIORITY_NORMAL)
++		return GEN12_CTX_PRIORITY_HIGH;
++	else if (prio < I915_PRIORITY_NORMAL)
++		return GEN12_CTX_PRIORITY_LOW;
++	else
++		return GEN12_CTX_PRIORITY_NORMAL;
++}
++
+ static u64 execlists_update_context(struct i915_request *rq)
+ {
+ 	struct intel_context *ce = rq->context;
+@@ -669,7 +679,7 @@ static u64 execlists_update_context(struct i915_request *rq)
+ 
+ 	desc = ce->lrc.desc;
+ 	if (rq->engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
+-		desc |= lrc_desc_priority(rq_prio(rq));
++		desc |= map_i915_prio_to_lrc_desc_prio(rq_prio(rq));
+ 
+ 	/*
+ 	 * WaIdleLiteRestore:bdw,skl
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.h b/drivers/gpu/drm/i915/gt/intel_lrc.h
+index 31be734010db3..a390f0813c8b6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.h
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.h
+@@ -111,16 +111,6 @@ enum {
+ #define XEHP_SW_COUNTER_SHIFT			58
+ #define XEHP_SW_COUNTER_WIDTH			6
+ 
+-static inline u32 lrc_desc_priority(int prio)
+-{
+-	if (prio > I915_PRIORITY_NORMAL)
+-		return GEN12_CTX_PRIORITY_HIGH;
+-	else if (prio < I915_PRIORITY_NORMAL)
+-		return GEN12_CTX_PRIORITY_LOW;
+-	else
+-		return GEN12_CTX_PRIORITY_NORMAL;
+-}
+-
+ static inline void lrc_runtime_start(struct intel_context *ce)
+ {
+ 	struct intel_context_stats *stats = &ce->stats;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 75291e9846c50..8bf8b6d588d43 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -2394,6 +2394,26 @@ static int guc_context_policy_init(struct intel_context *ce, bool loop)
+ 	return ret;
+ }
+ 
++static u32 map_guc_prio_to_lrc_desc_prio(u8 prio)
++{
++	/*
++	 * this matches the mapping we do in map_i915_prio_to_guc_prio()
++	 * (e.g. prio < I915_PRIORITY_NORMAL maps to GUC_CLIENT_PRIORITY_NORMAL)
++	 */
++	switch (prio) {
++	default:
++		MISSING_CASE(prio);
++		fallthrough;
++	case GUC_CLIENT_PRIORITY_KMD_NORMAL:
++		return GEN12_CTX_PRIORITY_NORMAL;
++	case GUC_CLIENT_PRIORITY_NORMAL:
++		return GEN12_CTX_PRIORITY_LOW;
++	case GUC_CLIENT_PRIORITY_HIGH:
++	case GUC_CLIENT_PRIORITY_KMD_HIGH:
++		return GEN12_CTX_PRIORITY_HIGH;
++	}
++}
++
+ static void prepare_context_registration_info(struct intel_context *ce,
+ 					      struct guc_ctxt_registration_info *info)
+ {
+@@ -2420,6 +2440,8 @@ static void prepare_context_registration_info(struct intel_context *ce,
+ 	 */
+ 	info->hwlrca_lo = lower_32_bits(ce->lrc.lrca);
+ 	info->hwlrca_hi = upper_32_bits(ce->lrc.lrca);
++	if (engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
++		info->hwlrca_lo |= map_guc_prio_to_lrc_desc_prio(ce->guc_state.prio);
+ 	info->flags = CONTEXT_REGISTRATION_FLAG_KMD;
+ 
+ 	/*
 -- 
-2.36.0.464.gb9c8b46e94-goog
+2.25.1
 
