@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D80351ADD2
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 21:33:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C221551AE7C
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 21:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8D810ED1F;
-	Wed,  4 May 2022 19:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8682D10E7FE;
+	Wed,  4 May 2022 19:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA3F10ED1F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 19:33:17 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id y32so4062510lfa.6
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 12:33:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YHYwQFAJmnErQZCKQJLUVtyEs4pscZoMMUhpkcqKYYM=;
- b=ruHB31Y5G/kQ2KevdpivuWXbJaJwj7plgUBubNjE2VewX9g1xk6hQh78xwHb7tlLM8
- j45bYpAaDPoI31/fFnmgQ0zbBL/GfKz61r4L+7mywO3UK/dG/+ZytdMpeJeC3f2UnlPv
- PbYm1ltZWYimGB53KF9AiyIhrjMIsmxu6AcWmHyEj+S226NA1TkcNTA141zdhVMrFFem
- f2GzbnsjDjYKjFQo98qG6qVlIEosWYVvxjdyBoMGtWyM+wei3NxMgIcvmY5fqUqtE91Y
- bBJur4JPuZw/U5Y4z+PtaLZJFdAEiMxrytdm3OJKElgKnwH976dnI5kIksXldvtx+HV1
- 1Ptw==
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7EB310E7FE
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 19:57:43 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ c5-20020a9d75c5000000b00605ff3b9997so1614613otl.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 12:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Dy7VslocYd7Ik7ZVi8wr4XTgiG9in8eYLGuya5id5sY=;
+ b=Ahg034XZu9daK3HQWsW05rJlO+NjIZej5l9ow7RuB4MCjcTAFI4s2edxeS7UcoqFIR
+ u7G5pYkAFvLENp0OI5HIxBXCRUoBq3BRg/lRHT8L53yN0eWGnK4ksb68PbBa08dT3REI
+ Gqi1Dvc7wyTF4YObgFSUn9RjR9hgKCfCv2vm+/DtAksZTAWwqD52cfBLAGee0H9hL3/z
+ dGJwrG9Beq5jv2Jdq/nq/xoLX02pcQdzSmq+48ILK2N07CJRnx5vJtnHxlKrpNZLWy3K
+ 8VEyuIkG41VkkQWAfkMKJopnOjdgOkeIrkuVQQGYHlPwHgIhoWQRypz7M5FYdXo3/9XH
+ qRoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YHYwQFAJmnErQZCKQJLUVtyEs4pscZoMMUhpkcqKYYM=;
- b=nS7nXL9tN3R7mrXr7hkJ/7x+XlsgBblKaC2rlDjSQtFQD75RfDvLjTs6zyVlS+MNy2
- dKWSX3Jvx7TyyDHqrB30f7VDX9wCPGVM6dF//8LsVaBLoilCoig5CXaNxKTEA+C2Xirm
- ombzWw6ZSwBPFNMhYsUSDj4uSv99b7KLucKUWpSmJRt5A539CmhiW2BtjnArIcVHUtV7
- Q6ghrYAydFk4qJxZXp4Ro78H2Zsvj9saeo4HCC00LbhDl/gLSx8jEGLayqjTEWWwWBVZ
- BQtU1vtClkZe05KL+7EWR/YTYio/VUNBIjcAOtUhzVwZ++LW+hfLFu3avfrH1I4z8GA4
- hqcA==
-X-Gm-Message-State: AOAM5301ATL6woAt6bfle2sncLmgrnQVoustOc1130qx6D1WrTtOOmdr
- wGJtefoMtoidq7iUwoi6o8knPg==
-X-Google-Smtp-Source: ABdhPJwDQJGAoar+6xZb17zLviI1ctKFIgCOtDGssMUG/VfV7UGq2Htvy4sqs5yKuxLjdJyGWXsi4g==
-X-Received: by 2002:a19:a405:0:b0:473:cb3d:6cb0 with SMTP id
- q5-20020a19a405000000b00473cb3d6cb0mr746951lfc.208.1651692795615; 
- Wed, 04 May 2022 12:33:15 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- o8-20020ac24348000000b0047255d2110csm1283388lfl.59.2022.05.04.12.33.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 12:33:15 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PULL] drm/msm: several fixes for 5.19
-Date: Wed,  4 May 2022 22:33:14 +0300
-Message-Id: <20220504193314.1185639-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dy7VslocYd7Ik7ZVi8wr4XTgiG9in8eYLGuya5id5sY=;
+ b=AR3Z2OIf7MpD9wet1pCMZdx5Hz+U2pVh/IJV1CqeUYUFp5H/72cViKzxTTt5gyRBvO
+ iLO1sydiyNRwOGT8x/53zCsPm3qsw7waxXksgunOIGiZVbwlYgI78TguoFYa8sd5FTBN
+ be5OKL7m5xG9VNMHL99ZTxJQ99rDq/sfUFknklXozof8SswiST5GaJdEf4QAKXfXHdKB
+ DG9SKeS9CjB2kJC1rJvZOSeojao06Y+CPCKZTEXrXgD83yCqbuoIOK50S8s9qjI7RdYr
+ kIacFpds1CrpoqSroJdkrDifbJltQ6JIppPtQYIc3mFfMRrOaFLnQLI+0XObnDSUGgsE
+ t23Q==
+X-Gm-Message-State: AOAM530lVVEfoKz7AvQGDddsb0QnnMEbnw19K5bwg0VtV6HrcElc0SEm
+ ajL5cAB9AArGSZVEe+B426k5PPzSMYm0FWordPDacn7B
+X-Google-Smtp-Source: ABdhPJz09O0tnqGq/8JVFI4LWivSYk0ccPwS9vHhZongUY/gNE+NP9w0eKtYSNE2AWLkFnxhDJJlxciNfdsBWeWRzDs=
+X-Received: by 2002:a9d:195:0:b0:605:eb43:5b84 with SMTP id
+ e21-20020a9d0195000000b00605eb435b84mr8153917ote.357.1651694263062; Wed, 04
+ May 2022 12:57:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220504165009.82557-1-mike@fireburn.co.uk>
+ <20220504165009.82557-2-mike@fireburn.co.uk>
+In-Reply-To: <20220504165009.82557-2-mike@fireburn.co.uk>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 4 May 2022 15:57:31 -0400
+Message-ID: <CADnq5_O+PTUdnEnY8GbX3Bp_k+_wG0zkdEmKCuXzBDueGK_gnA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/amdgpu/gfx10: Initalise index
+To: Mike Lothian <mike@fireburn.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,48 +64,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This pull request contains few tiny fixes targeting 5.19. The biggest one is
-the fix for the dp event thread wait condition.
+On Wed, May 4, 2022 at 12:50 PM Mike Lothian <mike@fireburn.co.uk> wrote:
+>
+> This stops clang complaining:
+>
+> drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3846:6: warning: variable 'index' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>         if (ring->is_mes_queue) {
+>             ^~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3903:30: note: uninitialized use occurs here
+>         amdgpu_device_wb_free(adev, index);
+>                                     ^~~~~
+> drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3846:2: note: remove the 'if' if its condition is always false
+>         if (ring->is_mes_queue) {
+>         ^~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:3839:16: note: initialize the variable 'index' to silence this warning
+>         unsigned index;
+>                       ^
+>                        = 0
+>
 
-The following changes since commit 36a1d1bda77e1851bddfa9cf4e8ada94476dbaff:
+Thanks for the patches.  The proper fix for patches 1 and 2 is to
+protect amdgpu_device_wb_free() with if (!ring->is_mes_queue).  Care
+to rework the patches that way?
 
-  drm/msm: Fix null pointer dereferences without iommu (2022-05-02 10:11:44 -0700)
+Alex
 
-are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/lumag/msm.git msm-next-lumag
-
-for you to fetch changes up to e402369f0b16d1518a9c7c7ffaaee9a90b2de6a5:
-
-  drm/msm/dp: fix event thread stuck in wait_event after kthread_stop() (2022-05-04 21:46:40 +0300)
-
-----------------------------------------------------------------
-Abhinav Kumar (1):
-      drm/msm/dpu: add missing break statement for update_pending_flush_wb()
-
-Dmitry Baryshkov (2):
-      drm/msm/dpu: don't access mode pointer before it is set
-      drm/msm/dsi: fix address for second DSI PHY on SDM660
-
-Konrad Dybcio (1):
-      drm/msm/disp: dpu1: Properly sort qcm2290_dpu_caps
-
-Kuogee Hsieh (1):
-      drm/msm/dp: fix event thread stuck in wait_event after kthread_stop()
-
-Vinod Polimera (1):
-      drm/msm/disp/dpu1: avoid clearing hw interrupts if hw_intr is null during drm uninit
-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  3 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 22 +++++++++++-----------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  |  3 +++
- drivers/gpu/drm/msm/dp/dp_display.c                | 13 +++++++++----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |  2 +-
- 6 files changed, 26 insertions(+), 18 deletions(-)
+> Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+> index fc289ee54a47..7ce62b12e5b4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+> @@ -3836,7 +3836,7 @@ static int gfx_v10_0_ring_test_ib(struct amdgpu_ring *ring, long timeout)
+>         struct amdgpu_device *adev = ring->adev;
+>         struct amdgpu_ib ib;
+>         struct dma_fence *f = NULL;
+> -       unsigned index;
+> +       unsigned index = 0;
+>         uint64_t gpu_addr;
+>         volatile uint32_t *cpu_ptr;
+>         long r;
+> --
+> 2.35.1
+>
