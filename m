@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6D3519A31
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:43:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D49519A39
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE5E610E5C2;
-	Wed,  4 May 2022 08:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F26DB10EA1A;
+	Wed,  4 May 2022 08:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C4010E5C2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:43:24 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id g6so1562057ejw.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 01:43:24 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9B0210EA1A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:44:06 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id m20so1512563ejj.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 01:44:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ZDSiSQ9+DzqbG1QLctGKJfa/8V94fCXgQEeNXny9E/s=;
- b=VZ3OFed+kLH3HOT6gylbvErAhudZNwsQVNXtCQkD8jSuuXHtTgYd2kRGaqCzrkzMoN
- IfbtYTTG0Tctz5DuFGFKsoIe1DBT4989OhdTD2p5zLe0tthdPppRYHf9igrIC+KXujcD
- OuDkDi85kyqCqk32XvsV7CVS+T5iquvqcT7yQ=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9yrR8ovN4e3vCdcrotHqbMZyniAFA2hJaExlKiyLR0s=;
+ b=eI7jxaZSMLwCY2OAs01SylkNgsWduEeZXZRm5XGuOXNe3dRTvAwu7GDdoryvNkMaWb
+ t32vu73C4DTnUYXHeOy15quDXT8YG7pcr94Mu224ZzdLXH7iAmKkJMKZK2OlCzKLnD2w
+ moEwaBMKbS7QixK1dbVoRbJ3ewKzg0nKLMboo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=ZDSiSQ9+DzqbG1QLctGKJfa/8V94fCXgQEeNXny9E/s=;
- b=DE1BE7P3nSCoBlAMuVMTpjSegXgt9jTCX19tVe6VOokSY787Y33LNQKjyOClzZx+tk
- YMjxsGNqMrnDQtylg9XqZAwDFyYHJcVqsHDHmGtroTX1krfuiFueR/VYBwOMm+epL250
- rGMkYvQTeZIn/xoofNSPVsSTBzzSPkjDstxyawRIGnaqjke754qzmp+AVhd6GwESdISh
- kAZt5mY3g/UdSceV0KrJbKq3Xljcj+IASFHWmmnekonSiUuNB6McaHplb2D6w/9QsjDk
- PFlEHv5SpfcMPNb16j+QlMkcUaMPHk7qa7XUGJk3oIywBbR8na4AYi7JSH6YBjDbD9AO
- MZpw==
-X-Gm-Message-State: AOAM530esa3bta2HVqiKJpbYfKujvZQkZ0+wJPflecH7y7vyREw5r6DN
- /YOznGBeBulamsdtNpkzZ3C5sQ==
-X-Google-Smtp-Source: ABdhPJyC0Zf5lRAj2+/WJCoBpcZKJuLmLKJonWjYMSOyQxvlYFvHKd7nsV9xeAyV3H0rGEWxFbFXeQ==
-X-Received: by 2002:a17:906:d146:b0:6f4:691a:d08e with SMTP id
- br6-20020a170906d14600b006f4691ad08emr10801671ejb.291.1651653802611; 
- Wed, 04 May 2022 01:43:22 -0700 (PDT)
+ bh=9yrR8ovN4e3vCdcrotHqbMZyniAFA2hJaExlKiyLR0s=;
+ b=v2oZEDU7ZVSfIIuQCXRhAm3Ewlwn8cz3AunSwHkxJBSQ34JabBU6L6D5DWrkewe8dL
+ XeXvmQoBUW+rqzVh9AtgRTrvMrRV96zgvNvSSQsSTkMn+X7YNllbgF9V/NjtLPxHoZzE
+ msM2z2Jm4a8HtZY5lZ040uiJS/wY07wgZxiad2i4W9m3sFCPHdQgPgPPOSdE9jRIU/5Z
+ L3Z/VD/mdHXfFCjdw8zU/4I8uQynZZkRXNGdjooHJhcvsAssnGBsSkfRlTrIOPtoV4rG
+ 7arrfPctJe8CLCijYmgdDCTV77tWrK6A3QSf8fwdgsv9dfxVjE16pAYQH5ps/ND3m/70
+ 5DIQ==
+X-Gm-Message-State: AOAM5334doN+aWhMaGT1dovK0R+w/NWwrU8QSX9i1KhlMEDcrNjFlyol
+ 5oduoc6wxxCtllAQ5iKi6IhaqD0FiMMhJA==
+X-Google-Smtp-Source: ABdhPJwdcKXaclQibk4WK6+dvYH/xaBfefFDYZnwUfRYHtNB0ZZItrraRdczZDB+V/3ZPThwsyl9mw==
+X-Received: by 2002:a17:907:d05:b0:6f4:3729:8e36 with SMTP id
+ gn5-20020a1709070d0500b006f437298e36mr13907086ejc.475.1651653845541; 
+ Wed, 04 May 2022 01:44:05 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- s8-20020aa7cb08000000b0042617ba638csm8774281edt.22.2022.05.04.01.43.21
+ j12-20020aa7de8c000000b0042617ba63b2sm8859632edv.60.2022.05.04.01.44.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 01:43:22 -0700 (PDT)
-Date: Wed, 4 May 2022 10:43:20 +0200
+ Wed, 04 May 2022 01:44:05 -0700 (PDT)
+Date: Wed, 4 May 2022 10:44:03 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 3/3] dma-buf: generalize fence merging
-Message-ID: <YnI8qJbJ1DYklNcm@phenom.ffwll.local>
-References: <20220426124637.329764-1-christian.koenig@amd.com>
- <20220426124637.329764-3-christian.koenig@amd.com>
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Subject: Re: [PATCH] drm: fix typo in comment
+Message-ID: <YnI809cYMm1Uo20R@phenom.ffwll.local>
+Mail-Followup-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20220426131912.3850354-1-raphael.gallais-pou@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426124637.329764-3-christian.koenig@amd.com>
+In-Reply-To: <20220426131912.3850354-1-raphael.gallais-pou@foss.st.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,387 +74,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gustavo@padovan.org, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, daniel.vetter@ffwll.ch,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 26, 2022 at 02:46:37PM +0200, Christian König wrote:
-> Introduce a dma_fence_merge() macro which allows to unwrap fences which
-> potentially can be containers as well and then merge them back together
-> into a flat dma_fence_array.
+On Tue, Apr 26, 2022 at 03:19:12PM +0200, Raphael Gallais-Pou wrote:
+> Fix typo in a doxygen comment (replaced green by blue) in drm_color_mgmt.c
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
-So this is really neat (the va args macro trick especially), but I'm not
-sure how much use it is with just one user. Is there like more planned?
-Or is the idea to make merging consistent so that the context sorting
-trick can be done consistently?
+Thanks for your patch, applied to drm-misc-next.
 -Daniel
 
 > ---
->  drivers/dma-buf/dma-fence-unwrap.c    |  95 ++++++++++++++++++++
->  drivers/dma-buf/st-dma-fence-unwrap.c |  47 ++++++++++
->  drivers/dma-buf/sync_file.c           | 119 ++------------------------
->  include/linux/dma-fence-unwrap.h      |  24 ++++++
->  4 files changed, 172 insertions(+), 113 deletions(-)
+>  drivers/gpu/drm/drm_color_mgmt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-> index 711be125428c..c9becc74896d 100644
-> --- a/drivers/dma-buf/dma-fence-unwrap.c
-> +++ b/drivers/dma-buf/dma-fence-unwrap.c
-> @@ -11,6 +11,7 @@
->  #include <linux/dma-fence-array.h>
->  #include <linux/dma-fence-chain.h>
->  #include <linux/dma-fence-unwrap.h>
-> +#include <linux/slab.h>
->  
->  /* Internal helper to start new array iteration, don't use directly */
->  static struct dma_fence *
-> @@ -57,3 +58,97 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
->  	return __dma_fence_unwrap_array(cursor);
->  }
->  EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
-> +
-> +/* Implementation for the dma_fence_merge() marco, don't use directly */
-> +struct dma_fence *__dma_fence_merge(unsigned int num_fences,
-> +				    struct dma_fence **fences,
-> +				    struct dma_fence_unwrap *iter)
-> +{
-> +	struct dma_fence_array *result;
-> +	struct dma_fence *tmp, **array;
-> +	unsigned int i, count;
-> +
-> +	count = 0;
-> +	for (i = 0; i < num_fences; ++i) {
-> +		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
-> +			if (!dma_fence_is_signaled(tmp))
-> +				++count;
-> +	}
-> +
-> +	if (count == 0)
-> +		return dma_fence_get_stub();
-> +
-> +	if (count > INT_MAX)
-> +		return NULL;
-> +
-> +	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
-> +	if (!array)
-> +		return NULL;
-> +
-> +	/*
-> +	 * We can't guarantee that inpute fences are ordered by context, but
-> +	 * it is still quite likely when this function is used multiple times.
-> +	 * So attempt to order the fences by context as we pass over them and
-> +	 * merge fences with the same context.
-> +	 */
-> +	for (i = 0; i < num_fences; ++i)
-> +		fences[i] = dma_fence_unwrap_first(fences[i], &iter[i]);
-> +
-> +	count = 0;
-> +	do {
-> +		unsigned int sel;
-> +
-> +restart:
-> +		tmp = NULL;
-> +		for (i = 0; i < num_fences; ++i) {
-> +			struct dma_fence *next = fences[i];
-> +
-> +			if (!next || dma_fence_is_signaled(next))
-> +				continue;
-> +
-> +			if (!tmp || tmp->context > next->context) {
-> +				tmp = next;
-> +				sel = i;
-> +
-> +			} else if (tmp->context < next->context) {
-> +				continue;
-> +
-> +			} else if (dma_fence_is_later(tmp, next)) {
-> +				fences[i] = dma_fence_unwrap_next(&iter[i]);
-> +				goto restart;
-> +			} else {
-> +				fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-> +				goto restart;
-> +			}
-> +		}
-> +
-> +		if (tmp) {
-> +			array[count++] = dma_fence_get(tmp);
-> +			fences[sel] = dma_fence_unwrap_next(&iter[sel]);
-> +		}
-> +	} while (tmp);
-> +
-> +	if (count == 0) {
-> +		tmp = dma_fence_get_stub();
-> +		goto return_tmp;
-> +	}
-> +
-> +	if (count == 1) {
-> +		tmp = array[0];
-> +		goto return_tmp;
-> +	}
-> +
-> +	result = dma_fence_array_create(count, array,
-> +					dma_fence_context_alloc(1),
-> +					1, false);
-> +	if (!result) {
-> +		tmp = NULL;
-> +		goto return_tmp;
-> +	}
-> +	return &result->base;
-> +
-> +return_tmp:
-> +	kfree(array);
-> +	return tmp;
-> +}
-> +EXPORT_SYMBOL_GPL(__dma_fence_merge);
-> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
-> index 59628add93f5..23ab134417ed 100644
-> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
-> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
-> @@ -240,6 +240,52 @@ static int unwrap_chain_array(void *arg)
->  	return err;
->  }
->  
-> +static int unwrap_merge(void *arg)
-> +{
-> +	struct dma_fence *fence, *f1, *f2, *f3;
-> +	struct dma_fence_unwrap iter;
-> +	int err = 0;
-> +
-> +	f1 = mock_fence();
-> +	if (!f1)
-> +		return -ENOMEM;
-> +
-> +	f2 = mock_fence();
-> +	if (!f2) {
-> +		err = -ENOMEM;
-> +		goto error_put_f1;
-> +	}
-> +
-> +	f3 = dma_fence_merge(f1, f2);
-> +	if (!f3) {
-> +		err = -ENOMEM;
-> +		goto error_put_f2;
-> +	}
-> +
-> +	dma_fence_unwrap_for_each(fence, &iter, f3) {
-> +		if (fence == f1) {
-> +			f1 = NULL;
-> +		} else if (fence == f2) {
-> +			f2 = NULL;
-> +		} else {
-> +			pr_err("Unexpected fence!\n");
-> +			err = -EINVAL;
-> +		}
-> +	}
-> +
-> +	if (f1 || f2) {
-> +		pr_err("Not all fences seen!\n");
-> +		err = -EINVAL;
-> +	}
-> +
-> +	dma_fence_put(f3);
-> +error_put_f2:
-> +	dma_fence_put(f2);
-> +error_put_f1:
-> +	dma_fence_put(f1);
-> +	return err;
-> +}
-> +
->  int dma_fence_unwrap(void)
->  {
->  	static const struct subtest tests[] = {
-> @@ -247,6 +293,7 @@ int dma_fence_unwrap(void)
->  		SUBTEST(unwrap_array),
->  		SUBTEST(unwrap_chain),
->  		SUBTEST(unwrap_chain_array),
-> +		SUBTEST(unwrap_merge),
->  	};
->  
->  	return subtests(tests, NULL);
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index 0fe564539166..fe149d7e3ce2 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -146,50 +146,6 @@ char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
->  	return buf;
->  }
->  
-> -static int sync_file_set_fence(struct sync_file *sync_file,
-> -			       struct dma_fence **fences, int num_fences)
-> -{
-> -	struct dma_fence_array *array;
-> -
-> -	/*
-> -	 * The reference for the fences in the new sync_file and held
-> -	 * in add_fence() during the merge procedure, so for num_fences == 1
-> -	 * we already own a new reference to the fence. For num_fence > 1
-> -	 * we own the reference of the dma_fence_array creation.
-> -	 */
-> -
-> -	if (num_fences == 0) {
-> -		sync_file->fence = dma_fence_get_stub();
-> -		kfree(fences);
-> -
-> -	} else if (num_fences == 1) {
-> -		sync_file->fence = fences[0];
-> -		kfree(fences);
-> -
-> -	} else {
-> -		array = dma_fence_array_create(num_fences, fences,
-> -					       dma_fence_context_alloc(1),
-> -					       1, false);
-> -		if (!array)
-> -			return -ENOMEM;
-> -
-> -		sync_file->fence = &array->base;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static void add_fence(struct dma_fence **fences,
-> -		      int *i, struct dma_fence *fence)
-> -{
-> -	fences[*i] = fence;
-> -
-> -	if (!dma_fence_is_signaled(fence)) {
-> -		dma_fence_get(fence);
-> -		(*i)++;
-> -	}
-> -}
-> -
->  /**
->   * sync_file_merge() - merge two sync_files
->   * @name:	name of new fence
-> @@ -203,84 +159,21 @@ static void add_fence(struct dma_fence **fences,
->  static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->  					 struct sync_file *b)
->  {
-> -	struct dma_fence *a_fence, *b_fence, **fences;
-> -	struct dma_fence_unwrap a_iter, b_iter;
-> -	unsigned int index, num_fences;
->  	struct sync_file *sync_file;
-> +	struct dma_fence *fence;
->  
->  	sync_file = sync_file_alloc();
->  	if (!sync_file)
->  		return NULL;
->  
-> -	num_fences = 0;
-> -	dma_fence_unwrap_for_each(a_fence, &a_iter, a->fence)
-> -		++num_fences;
-> -	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
-> -		++num_fences;
-> -
-> -	if (num_fences > INT_MAX)
-> -		goto err_free_sync_file;
-> -
-> -	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
-> -	if (!fences)
-> -		goto err_free_sync_file;
-> -
-> -	/*
-> -	 * We can't guarantee that fences in both a and b are ordered, but it is
-> -	 * still quite likely.
-> -	 *
-> -	 * So attempt to order the fences as we pass over them and merge fences
-> -	 * with the same context.
-> -	 */
-> -
-> -	index = 0;
-> -	for (a_fence = dma_fence_unwrap_first(a->fence, &a_iter),
-> -	     b_fence = dma_fence_unwrap_first(b->fence, &b_iter);
-> -	     a_fence || b_fence; ) {
-> -
-> -		if (!b_fence) {
-> -			add_fence(fences, &index, a_fence);
-> -			a_fence = dma_fence_unwrap_next(&a_iter);
-> -
-> -		} else if (!a_fence) {
-> -			add_fence(fences, &index, b_fence);
-> -			b_fence = dma_fence_unwrap_next(&b_iter);
-> -
-> -		} else if (a_fence->context < b_fence->context) {
-> -			add_fence(fences, &index, a_fence);
-> -			a_fence = dma_fence_unwrap_next(&a_iter);
-> -
-> -		} else if (b_fence->context < a_fence->context) {
-> -			add_fence(fences, &index, b_fence);
-> -			b_fence = dma_fence_unwrap_next(&b_iter);
-> -
-> -		} else if (__dma_fence_is_later(a_fence->seqno, b_fence->seqno,
-> -						a_fence->ops)) {
-> -			add_fence(fences, &index, a_fence);
-> -			a_fence = dma_fence_unwrap_next(&a_iter);
-> -			b_fence = dma_fence_unwrap_next(&b_iter);
-> -
-> -		} else {
-> -			add_fence(fences, &index, b_fence);
-> -			a_fence = dma_fence_unwrap_next(&a_iter);
-> -			b_fence = dma_fence_unwrap_next(&b_iter);
-> -		}
-> +	fence = dma_fence_merge(a->fence, b->fence);
-> +	if (!fence) {
-> +		fput(sync_file->file);
-> +		return NULL;
->  	}
-> -
-> -	if (sync_file_set_fence(sync_file, fences, index) < 0)
-> -		goto err_put_fences;
-> -
-> +	sync_file->fence = fence;
->  	strlcpy(sync_file->user_name, name, sizeof(sync_file->user_name));
->  	return sync_file;
-> -
-> -err_put_fences:
-> -	while (index)
-> -		dma_fence_put(fences[--index]);
-> -	kfree(fences);
-> -
-> -err_free_sync_file:
-> -	fput(sync_file->file);
-> -	return NULL;
->  }
->  
->  static int sync_file_release(struct inode *inode, struct file *file)
-> diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
-> index e7c219da4ed7..7c0fab318301 100644
-> --- a/include/linux/dma-fence-unwrap.h
-> +++ b/include/linux/dma-fence-unwrap.h
-> @@ -48,4 +48,28 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
->  	for (fence = dma_fence_unwrap_first(head, cursor); fence;	\
->  	     fence = dma_fence_unwrap_next(cursor))
->  
-> +struct dma_fence *__dma_fence_merge(unsigned int num_fences,
-> +				    struct dma_fence **fences,
-> +				    struct dma_fence_unwrap *cursors);
-> +
-> +/**
-> + * dma_fence_merge - unwrap and merge fences
-> + *
-> + * All fences given as parameters are unwrapped and merged back together as flat
-> + * dma_fence_array. Useful if multiple containers need to be merged together.
-> + *
-> + * Implemented as a macro to allocate the necessary arrays on the stack and
-> + * account the stack frame size to the caller.
-> + *
-> + * Returns NULL on memory allocation failure, a dma_fence object representing
-> + * all the given fences otherwise.
-> + */
-> +#define dma_fence_merge(...)					\
-> +	({							\
-> +		struct dma_fence *__f[] = { __VA_ARGS__ };	\
-> +		struct dma_fence_unwrap __c[ARRAY_SIZE(__f)];	\
-> +								\
-> +		__dma_fence_merge(ARRAY_SIZE(__f), __f, __c);	\
-> +	})
-> +
->  #endif
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index 9079fbe21d2f..17c6c3eefcd6 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -259,7 +259,7 @@ static bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc)
+>   * @crtc: CRTC object
+>   * @red: red correction table
+>   * @green: green correction table
+> - * @blue: green correction table
+> + * @blue: blue correction table
+>   * @size: size of the tables
+>   * @ctx: lock acquire context
+>   *
 > -- 
 > 2.25.1
 > 
