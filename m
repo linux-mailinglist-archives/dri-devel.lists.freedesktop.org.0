@@ -1,112 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868CF519C21
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:44:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05525519C3E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:48:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADC51112093;
-	Wed,  4 May 2022 09:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A601120A9;
+	Wed,  4 May 2022 09:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2DDA112093
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:44:52 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220504094450euoutp02bf78c515ae51bb9dd90f70995e6d51d1~r3byynpz61279412794euoutp02P
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:44:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220504094450euoutp02bf78c515ae51bb9dd90f70995e6d51d1~r3byynpz61279412794euoutp02P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651657490;
- bh=CR2rUyPpEC3O+PF9CRMeTZPQlKzVWlxJkCpt9rQRisk=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=OamPJ3T9g7bEbOPE1MM/y4SLLvxETKR1EVbRnfOXvHKbW8txxMoWuXp3d+z50XzN5
- E1dqEeGsTpduMufGl4XxCgywjaibnl9KXMeO8MFPYedC9Zx/2yFaSFMvPvfaNUYFvm
- dVGDPAoBNgnj7wDAQIAHMcOJowUIxvVJK8PgrBMs=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220504094450eucas1p1832f6046f3953a34fb525e4cf239c285~r3bydVRLx1981019810eucas1p1K;
- Wed,  4 May 2022 09:44:50 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id A3.97.09887.21B42726; Wed,  4
- May 2022 10:44:50 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220504094449eucas1p250940cdbef6dd3b97f9a048574bc21e5~r3bx9WpnQ0673506735eucas1p2T;
- Wed,  4 May 2022 09:44:49 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220504094449eusmtrp2845022d04d9d02ca8781201409addb8c~r3bx8OLoC0422004220eusmtrp2J;
- Wed,  4 May 2022 09:44:49 +0000 (GMT)
-X-AuditID: cbfec7f4-471ff7000000269f-55-62724b1222ae
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id F7.B9.09522.11B42726; Wed,  4
- May 2022 10:44:49 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220504094448eusmtip2ef6dba53fd29a47cf97301cd2e18064d~r3bwnr5IO3079830798eusmtip2I;
- Wed,  4 May 2022 09:44:48 +0000 (GMT)
-Message-ID: <5a71d819-820d-b06b-a988-e428190fe539@samsung.com>
-Date: Wed, 4 May 2022 11:44:48 +0200
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BECA21120A8
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:48:01 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id j6so1780068ejc.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 02:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YZq9atGlvwHL4dEwvj0CopnhgDQAd2ZXRzQtho9D+5A=;
+ b=WFGXkkMXffbA0qaSs2B1o7KhHe69J7OK8AO7HEqxqma2bxjtuy7uFumM7kW0j8qb6f
+ YCqSmuDHJ3DBZ/x1l5suMvMcBLzdFlDMru7ZL4S85Pftc04ka3blyXccxtWM/P4MaanM
+ 5W3KFYRc/7w5EsXKQiEz49k7ou2n3UlIBD61A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=YZq9atGlvwHL4dEwvj0CopnhgDQAd2ZXRzQtho9D+5A=;
+ b=3R9Cb3ZkL8oBr/TRigSf1pazkEGWD3677rzMk7on3vHodsfnAu2H6AB/kMchAHFGNC
+ oNLIJ8fZi4CX/YD7clMsGyQhoIN9UZa01h4KrCuDszIAMVAyYB4MX9L4DB7+nl4tbKnS
+ 1Q9ulOEqQRwHOdYkYB96eFuLXBiZLODEfLlIIqAyujUdxQyPrNmMElzDGHl6OjhQ552J
+ qpPQz7sT/Vhcy7+58Gts5VcMg5z7JYudxfifqKJ2hcECDkP9LFWRdDgg2wymrrHyznoo
+ BLVr29kRTYRKUUgF2S8SfKr6LWbbKqZ10VBFNC171SDRTiphUMZAPYViy+sJ1v1We7dQ
+ LN/Q==
+X-Gm-Message-State: AOAM530Lkuq5I/TCArCp5yB7bV7ngPElXiRmh9Flr73o6nGpWOJTZa9o
+ akl7I5doLnaZw7ezCSIeHprFhg==
+X-Google-Smtp-Source: ABdhPJzqAWkhy8NRWylyo9UZc1cM9O+xCPSTXudw+0/AIIaP29QmmUWuYV9rEXWaQnyQMurfR+nxZA==
+X-Received: by 2002:a17:907:97c9:b0:6db:ab53:1fdf with SMTP id
+ js9-20020a17090797c900b006dbab531fdfmr20024148ejc.406.1651657680230; 
+ Wed, 04 May 2022 02:48:00 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ l24-20020a056402029800b0042617ba63a7sm9006631edv.49.2022.05.04.02.47.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 02:47:59 -0700 (PDT)
+Date: Wed, 4 May 2022 11:47:57 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH 2/2] fbdev: Make fb_release() return -ENODEV if fbdev was
+ unregistered
+Message-ID: <YnJLzY7Yiax/AwMx@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Guenter Roeck <linux@roeck-us.net>, Helge Deller <deller@gmx.de>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Zheyu Ma <zheyuma97@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20220502130944.363776-1-javierm@redhat.com>
+ <20220502130944.363776-3-javierm@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [PATCH 01/11] drm: bridge: Add Samsung DSIM bridge driver
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAMty3ZBN=SPZze6n8=0hHPRc0jw6U+UJ7Ejv+8Bg3bkvwdY46w@mail.gmail.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf1CTZRzn2ftjY9fw3djiSSlziVd4Aq66e8j0KjzvrXlnndx1/Tht4Aui
- bKMNEitLd46T4bhBncBIIX40NiJiKCCHlHMBunMTsqkxXF7TmAPHj2XEHRrjzeK/z/fz4/k8
- 3+ceHiYykit5eapCRqNS5EtJPt418Ldng0iuyUpz/vAE8o26MORvnMVRaLSFRHVON4Gu/hkm
- kbF5EVX6TTiK2E0kGr85jKPLugkuKq1o4iKLqZ9E9t+9BDLMWzFU7ennoEtH9DhylL+HZsy3
- MKQ/5+Si6i+CJBoemsFekdBt036CDl/Xc2n38TGSPmse49K1x2oIurEvyKHttlKSdv7SSNA+
- bx9J+8sGOXRn0+d0x70eDl1+2gboWftTb8a9y395D5Of9xGjSd3yAX9vsNpOFHRIilvOfUMe
- BnVCA4jlQeoFGJy+jBkAnyeiWgA0/lRCsEMEwD+a5v9VZgH0T0XAo4i91IyzggXAkxMWLjtM
- A/hzu27JJaC2QIPJQEQxTq2FnpkgwfJCeLEmgEexhMqCJ/tvYlEcT22DDwx9S1mMSoC/Buo4
- USym1sP7NSEyWoBR3SRsr723JJDURmiYNJBRHEu9BRu6juBseDXsnvxq6d6Q0vHhHcP8oom3
- OGyFwc5n2BXi4d3B01wWJ8KHZ6NlUYsaLlQ/z9LF0Bv6FmPxJuhzs6dg1HOwvTeVpV+F4eZb
- BJuMg9cnhewF4mBlVxXG0gJ4rETEutdB8+B3/3WevzKCmYDUvOxNzMt2Ny9bxfx/bz3AbSCB
- KdIqcxmtTMUcSNEqlNoiVW5KtlppB4s/1vVgMNIDLHenUxyAwwMOAHmYVCzIaC7IEgn2KA5+
- zGjUuzVF+YzWAVbxcGmCIDvve4WIylUUMvsZpoDRPFI5vNiVhzk5n0J37jVrr3W/PH1rslVm
- ubNewuw8pXx/XeeXV46WD0zd98oqt9/4WmlbccZnLEuRcRaEqvGCztvFlsxnLxSGdN1PH4p5
- MbVWLS/XZsrVO0K36ap9rosZ6QPu+G2f+PSjreP1hoB+7q9NwUimo0tzMLnwuMKVHT6x5sxQ
- YGhuQScukYgujGQKx9pcPQ07gjFeIqfHqH/bA24ceq2m4bHfQGua943EsvTwZqscVsztuyb+
- rK10d2Q+0XnC82PSO7KODx9aYdnUyNUN7WJZRXHE9Di5emLnqieHnUn1m18aa+7edaDXOHzU
- lnE+qdL6ujMQw88pcl7alda6ZmRtlWqFFNfuVWxMxjRaxT8sfTYdIAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMKsWRmVeSWpSXmKPExsVy+t/xe7qC3kVJBrv+m1rcuX2a2eL+4s8s
- Fq9vr2CzmH/kHKvFla/v2Sx6lwJZk+5PYLH4smkCm8WLexdZLM42vWG36Jy4hN1i+YR9bBab
- Hl9jtej6tZLZYsb5fUwWpxpbWSwO9UVbfJr1kNmide8RdosZk1+yWVw88YnZQdRj7cf7rB7v
- b7Sye5zrucvmsXPWXXaP2R0zWT0W73nJ5LFpVSebx5Gri1k97lzbw+Zxv/s4k8fmJfUeG9/t
- YPLo27KK0ePzJrkAvig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TU
- nMyy1CJ9uwS9jJczNrEWbBStWLF3GVsD43zBLkZODgkBE4lNnbNYuhi5OIQEljJK/H9+hhUi
- ISNxcloDlC0s8edaFxtE0XtGic+/57CBJHgF7CS6JnSBFbEIqEic//SSFSIuKHFy5hMWEFtU
- IEnixbbnjCC2sICbxL+uPWA2s4C4xK0n85lAbBEBbYlvM1+DLWAW2MkmsXzDA0aIbceZJNZO
- uQFWxSZgKNH1tgtsM6dAoMSibY0sEJPMJLq2dkFNlZfY/nYO8wRGoVlIDpmFZOEsJC2zkLQs
- YGRZxSiSWlqcm55bbKhXnJhbXJqXrpecn7uJEZhath37uXkH47xXH/UOMTJxMB5ilOBgVhLh
- dV5akCTEm5JYWZValB9fVJqTWnyI0RQYGhOZpUST84HJLa8k3tDMwNTQxMzSwNTSzFhJnNez
- oCNRSCA9sSQ1OzW1ILUIpo+Jg1OqgUlym8Oe07KH2S0L7Kf/r6n859e50saVZ/0P3al9s17Y
- LX+uMS3Vp3i6C9N7DuH9v9eFPfhouONgf8kni7rH3251TEqYvlVQdHXc98BFLwvXCn7aWnrn
- 05lFBWxtkV4zT2uF3JUUPi+cmr1FzULFKa1y0tb78gIt85wyvXQbf818d+bn5Q3OBfveyn3j
- EFdf/3RFb7kYz+bAtZYbVivW/y45vGeBypo9kiGv2DjaX1XXPxVxTnx855pdtva0med1m77O
- ux00z/6lWaoTG4fBveTQ6Y/O3nh2+4V0ytrDzF+CT1zet8Xb5lvn75bvEmxGr2XDpjp/yJtv
- 9jihKUA4sfA2894dcW3lXH8Y7v6OurxXiaU4I9FQi7moOBEAig2Z5LYDAAA=
-X-CMS-MailID: 20220504094449eucas1p250940cdbef6dd3b97f9a048574bc21e5
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220408162224eucas1p2a445493e9354f6ee72b348cb1c4ebc16
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220408162224eucas1p2a445493e9354f6ee72b348cb1c4ebc16
-References: <20220408162108.184583-1-jagan@amarulasolutions.com>
- <CGME20220408162224eucas1p2a445493e9354f6ee72b348cb1c4ebc16@eucas1p2.samsung.com>
- <20220408162108.184583-2-jagan@amarulasolutions.com>
- <0146abe6-c588-820c-09f4-b12de2e734ac@samsung.com>
- <CAMty3ZBN=SPZze6n8=0hHPRc0jw6U+UJ7Ejv+8Bg3bkvwdY46w@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220502130944.363776-3-javierm@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,83 +80,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, Zheyu Ma <zheyuma97@gmail.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+On Mon, May 02, 2022 at 03:09:44PM +0200, Javier Martinez Canillas wrote:
+> A reference to the framebuffer device struct fb_info is stored in the file
+> private data, but this reference could no longer be valid and must not be
+> accessed directly. Instead, the file_fb_info() accessor function must be
+> used since it does sanity checking to make sure that the fb_info is valid.
+> 
+> This can happen for example if the fbdev driver was one that is using a
+> framebuffer provided by the system firmware. In that case, the fbdev core
+> could unregister the framebuffer device if a real video driver is probed.
+> 
+> Reported-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-On 04.05.2022 11:16, Jagan Teki wrote:
-> Hi Marek,
->
-> On Tue, Apr 12, 2022 at 3:15 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
->> Hi Jagan,
->>
->> On 08.04.2022 18:20, Jagan Teki wrote:
->>> Samsung MIPI DSIM controller is common DSI IP that can be used in various
->>> SoCs like Exynos, i.MX8M Mini/Nano.
->>>
->>> In order to access this DSI controller between various platform SoCs, the
->>> ideal way to incorporate this in the drm stack is via the drm bridge driver.
->>>
->>> This patch is trying to differentiate platform-specific and bridge driver
->>> code and keep maintaining the exynos_drm_dsi.c code as platform-specific
->>> glue code and samsung-dsim.c as a common bridge driver code.
->>>
->>> - Exynos specific glue code is exynos specific te_irq, host_attach, and
->>>     detach code along with conventional component_ops.
->>>
->>> - Samsung DSIM is a bridge driver which is common across all platforms and
->>>     the respective platform-specific glue will initialize at the end of the
->>>     probe. The platform-specific operations and other glue calls will invoke
->>>     on associate code areas.
->>>
->>> Updated MAINTAINERS file for this bridge with exynos drm maintainers along
->>> with Andrzej as he is the original author.
->>>
->>> Tomasz Figa has been not included in MAINTAINERS as he is not available via
->>> samsung.com.
->>>
->>> v1:
->>> * Don't maintain component_ops in bridge driver
->>> * Don't maintain platform glue code in bridge driver
->>> * Add platform-specific glue code and make a common bridge
->>>
->>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
->> Well, it took me a while to make this working on Exynos. I'm not really
->> happy of the design, although I didn't spent much time thinking how to
->> improve it and clarify some ambiguities. It doesn't even look that one
->> has compiled the Exynos code after this conversion.
-> Well, I was successfully built the each commit on exynos and non-exynos
->
->> The following changes are needed to get it to the same working state as
->> before this patch (the next patches however break it even further):
->>
->> commit e358ee6239305744062713c5aa2e8d44f740b81a (HEAD)
->> Author: Marek Szyprowski <m.szyprowski@samsung.com>
->> Date:   Tue Apr 12 11:30:26 2022 +0200
->>
->>       drm: exynos: dsi: fixup driver after conversion
-> What exactly it is fixing the existing conversion, could you point that out?
+Doesn't this mean we just leak the references? Also anything the driver
+might refcount in fb_open would be leaked too.
 
-See the diff. Broken build (missing gpio_consumer.h in exynos-dsi), 
-mixed structures put into drvdata (samsung_dsim vs. exynos_dsi) hidden 
-by the casting to void * in the samsung_dsim_host_ops.
+I'm not sure what exactly you're trying to fix here, but this looks a bit
+wrong.
 
-Best regards
+Maybe stepping back what fbdev would need, but doesn't have (see the
+commit reference I dropped on the previous version) is drm_dev_enter/exit
+around hw access. the file_fb_info check essentially provides that, but
+with races and everything.
+
+But drm_dev_enter/exit should not disable sw side code, especially not
+refcount cleanup like fb_release does here.
+-Daniel
+
+> ---
+> 
+>  drivers/video/fbdev/core/fbmem.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 20d8929df79f..d68097105f93 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1439,7 +1439,10 @@ fb_release(struct inode *inode, struct file *file)
+>  __acquires(&info->lock)
+>  __releases(&info->lock)
+>  {
+> -	struct fb_info * const info = file->private_data;
+> +	struct fb_info * const info = file_fb_info(file);
+> +
+> +	if (!info)
+> +		return -ENODEV;
+>  
+>  	lock_fb_info(info);
+>  	if (info->fbops->fb_release)
+> -- 
+> 2.35.1
+> 
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
