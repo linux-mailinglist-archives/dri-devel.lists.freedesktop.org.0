@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F4351B242
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 00:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB3451B27B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 00:53:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D5E10E927;
-	Wed,  4 May 2022 22:49:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C54210E179;
+	Wed,  4 May 2022 22:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4D9910E927
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 22:49:31 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id 15so2279078pgf.4
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 15:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dijXTkiQHrfrlF4ID+znm8V5fZSPJC1gmyuClDGbRpM=;
- b=KnQUKihb/oVI0KbzvzptyFH6gHyzwx78tuSQzyxRYYtkAIdDOZTWZhlQZhLFlBeWOp
- j8RKG5i1b4ugEU754VQCuM8t49ONqK8c8R+I2vGT2BEGRs92ej0IZ2N9VXvkWqu4ClDi
- Diq2ZeuXYyv4WvhnGPBn1lRcHUKVUIOCL2kVU=
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C02D10E0A2
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 22:53:44 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id g20so3311380edw.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 15:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=F7NA+WdObs4IZcmVR1EuGjey4fonjCAS2bzdy3Q/7VI=;
+ b=T2qrd1n5pQbddKBKMhzaOHTK+qjAp2l0WGnl3ZaeuxV/IbciEh7N8ALS+i4oB5vPej
+ zpUbM1wk1E4GEUKVEqMCbJR3+pVKeAzY4mssQ0cgvf+XgzD/3FeofsDz+gs1LFjN09oX
+ tvIb583+yH5HSv4A0PadUkWOPwbQsMelyynlA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dijXTkiQHrfrlF4ID+znm8V5fZSPJC1gmyuClDGbRpM=;
- b=FWUdrc2sjg7arSFsh0RbKalyCW9lsp0K7thtDYvzF362iiy1kiUnKxVrfBl+JTgssd
- ESiMx719n6L+vI3ewVmKrVY+Rxe/E/g+4ztKpX0whgHf4fc6x1zAOm3J+ZbzXVgxO9bn
- KK/oXJpbvBGsb3k9TUrPJvREDBCaz82OWhl7wx4kLD2OrpCoFKwzEqcCsylZI4+kuwA3
- pUOld9ToCYFGcCMHAOrxynL9uPUUgPx6HHtz32grt6IZJLzK+4ps95V6+VhpT1PRzcLO
- Jf7oQEtTvHajU6/bV0STHrkWC8TcVjcvHZhVxsNSS9U8icSQ4zBvCFVPC8eMb+QrsxAN
- i0rQ==
-X-Gm-Message-State: AOAM5316VWtxx5SDLDHL8Y6FPdGl6CTySZiaVQuk7j2aaKH3sDD1kTj1
- NEuSgQyllCrIgMr9mD/7Fjx5Xg==
-X-Google-Smtp-Source: ABdhPJyMiDyPd/6VfPLzI/BKb/Du4iDMHhjPft3yL/BkGqSeg5FtyrDZBqihX1qBl5TEhX24E/4+wA==
-X-Received: by 2002:a05:6a02:19c:b0:3aa:1bf8:7388 with SMTP id
- bj28-20020a056a02019c00b003aa1bf87388mr19780091pgb.455.1651704571489; 
- Wed, 04 May 2022 15:49:31 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:1da3:6a8e:557c:da09])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=F7NA+WdObs4IZcmVR1EuGjey4fonjCAS2bzdy3Q/7VI=;
+ b=t//7Qrl9EIZxwEFz6w7oNIcyo3aUavo0cyXNdCI80uDL+4V1uSP1gErARIPmvNxjcR
+ CNpv9g1PcQEvq9UfrTo4CiNHJVOGrNgGw3WwC1a87JeGTZopibcwtSlvjl5hv/0AtyIx
+ aODJQjFJijWy5mQQWQbyiHqgt/aE9mbLmKOaiYXKN6UWOecNFjyOZG3sxCM/WmdDnutO
+ Rspdklp05rOaOhO3s4+ZqrXUKfqhLgHWPH3lMrce7UoLrdAgUfMuijb77Kr4hJUNsaq5
+ bvq+hjcm1rRXS6IQRYIu2FQMR1G1zGAdoqOa4jbeFhGiw1p8o4wveLmpEou4xCwieySD
+ O73A==
+X-Gm-Message-State: AOAM531XhW9VakBHDUcsxZiLbgS/MehqGFPWZgBB14zcRapN7IE6LuFX
+ aXu6K6LX4neLvObIkvTW4m6yyg==
+X-Google-Smtp-Source: ABdhPJwVyiZ0KNDbXxTxaMpIfJpIcRB9oN9k4wEglVa5KyoLz18Ze52uYaW7KTerdvjsTMPnLxkr7g==
+X-Received: by 2002:a50:bae7:0:b0:425:c0fa:e0a7 with SMTP id
+ x94-20020a50bae7000000b00425c0fae0a7mr26519064ede.104.1651704822860; 
+ Wed, 04 May 2022 15:53:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- s21-20020aa78295000000b0050dc76281b7sm9034473pfm.145.2022.05.04.15.49.30
+ em10-20020a170907288a00b006f3ef214e6dsm46536ejc.211.2022.05.04.15.53.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 15:49:31 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH] drm/msm: Fix shutdown
-Date: Wed,  4 May 2022 15:49:26 -0700
-Message-Id: <20220504154909.1.Iaebd35e60160fc0f2a50fac3a0bf3b298c0637c8@changeid>
-X-Mailer: git-send-email 2.36.0.464.gb9c8b46e94-goog
+ Wed, 04 May 2022 15:53:42 -0700 (PDT)
+Date: Thu, 5 May 2022 00:53:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH 2/2] dma-buf: Add an API for importing sync files (v8)
+Message-ID: <YnMD9JX/v6kSQE2t@phenom.ffwll.local>
+References: <20220504203404.1495485-1-jason@jlekstrand.net>
+ <20220504203404.1495485-3-jason@jlekstrand.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220504203404.1495485-3-jason@jlekstrand.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +70,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Lv Ruyi <lv.ruyi@zte.com.cn>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Xu Wang <vulab@iscas.ac.cn>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, linux-arm-msm@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When rebooting on my sc7280-herobrine based device, I got a
-crash. Upon debugging, I found that I was in msm_drv_shutdown() and my
-"pdev" was the one associated with mdss_probe().
+On Wed, May 04, 2022 at 03:34:04PM -0500, Jason Ekstrand wrote:
+> This patch is analogous to the previous sync file export patch in that
+> it allows you to import a sync_file into a dma-buf.  Unlike the previous
+> patch, however, this does add genuinely new functionality to dma-buf.
+> Without this, the only way to attach a sync_file to a dma-buf is to
+> submit a batch to your driver of choice which waits on the sync_file and
+> claims to write to the dma-buf.  Even if said batch is a no-op, a submit
+> is typically way more overhead than just attaching a fence.  A submit
+> may also imply extra synchronization with other work because it happens
+> on a hardware queue.
+> 
+> In the Vulkan world, this is useful for dealing with the out-fence from
+> vkQueuePresent.  Current Linux window-systems (X11, Wayland, etc.) all
+> rely on dma-buf implicit sync.  Since Vulkan is an explicit sync API, we
+> get a set of fences (VkSemaphores) in vkQueuePresent and have to stash
+> those as an exclusive (write) fence on the dma-buf.  We handle it in
+> Mesa today with the above mentioned dummy submit trick.  This ioctl
+> would allow us to set it directly without the dummy submit.
+> 
+> This may also open up possibilities for GPU drivers to move away from
+> implicit sync for their kernel driver uAPI and instead provide sync
+> files and rely on dma-buf import/export for communicating with other
+> implicit sync clients.
+> 
+> We make the explicit choice here to only allow setting RW fences which
+> translates to an exclusive fence on the dma_resv.  There's no use for
+> read-only fences for communicating with other implicit sync userspace
+> and any such attempts are likely to be racy at best.  When we got to
+> insert the RW fence, the actual fence we set as the new exclusive fence
+> is a combination of the sync_file provided by the user and all the other
+> fences on the dma_resv.  This ensures that the newly added exclusive
+> fence will never signal before the old one would have and ensures that
+> we don't break any dma_resv contracts.  We require userspace to specify
+> RW in the flags for symmetry with the export ioctl and in case we ever
+> want to support read fences in the future.
+> 
+> There is one downside here that's worth documenting:  If two clients
+> writing to the same dma-buf using this API race with each other, their
+> actions on the dma-buf may happen in parallel or in an undefined order.
+> Both with and without this API, the pattern is the same:  Collect all
+> the fences on dma-buf, submit work which depends on said fences, and
+> then set a new exclusive (write) fence on the dma-buf which depends on
+> said work.  The difference is that, when it's all handled by the GPU
+> driver's submit ioctl, the three operations happen atomically under the
+> dma_resv lock.  If two userspace submits race, one will happen before
+> the other.  You aren't guaranteed which but you are guaranteed that
+> they're strictly ordered.  If userspace manages the fences itself, then
+> these three operations happen separately and the two render operations
+> may happen genuinely in parallel or get interleaved.  However, this is a
+> case of userspace racing with itself.  As long as we ensure userspace
+> can't back the kernel into a corner, it should be fine.
+> 
+> v2 (Jason Ekstrand):
+>  - Use a wrapper dma_fence_array of all fences including the new one
+>    when importing an exclusive fence.
+> 
+> v3 (Jason Ekstrand):
+>  - Lock around setting shared fences as well as exclusive
+>  - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
+>  - Initialize ret to 0 in dma_buf_wait_sync_file
+> 
+> v4 (Jason Ekstrand):
+>  - Use the new dma_resv_get_singleton helper
+> 
+> v5 (Jason Ekstrand):
+>  - Rename the IOCTLs to import/export rather than wait/signal
+>  - Drop the WRITE flag and always get/set the exclusive fence
+> 
+> v6 (Jason Ekstrand):
+>  - Split import and export into separate patches
+>  - New commit message
+> 
+> v7 (Daniel Vetter):
+>  - Fix the uapi header to use the right struct in the ioctl
+>  - Use a separate dma_buf_import_sync_file struct
+>  - Add kerneldoc for dma_buf_import_sync_file
+> 
+> v8 (Jason Ekstrand):
+>  - Rebase on Christian König's fence rework
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>  drivers/dma-buf/dma-buf.c    | 36 ++++++++++++++++++++++++++++++++++++
+>  include/uapi/linux/dma-buf.h | 22 ++++++++++++++++++++++
+>  2 files changed, 58 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 529e0611e53b..68aac6f694f9 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -383,6 +383,40 @@ static long dma_buf_export_sync_file(struct dma_buf *dmabuf,
+>  	put_unused_fd(fd);
+>  	return ret;
+>  }
+> +
+> +static long dma_buf_import_sync_file(struct dma_buf *dmabuf,
+> +				     const void __user *user_data)
+> +{
+> +	struct dma_buf_import_sync_file arg;
+> +	struct dma_fence *fence;
+> +	enum dma_resv_usage usage;
+> +	int ret = 0;
+> +
+> +	if (copy_from_user(&arg, user_data, sizeof(arg)))
+> +		return -EFAULT;
+> +
+> +	if (arg.flags != DMA_BUF_SYNC_RW)
 
-From source, I found that mdss_probe() has the line:
-  platform_set_drvdata(pdev, mdss);
-...where "mdss" is of type "struct msm_mdss *".
+I think the flag validation here looks wrong? I think needs needs the
+exact same 3 checks as the export ioctl.
 
-Also from source, I saw that in msm_drv_shutdown() we have the line:
-  struct msm_drm_private *priv = platform_get_drvdata(pdev);
+> +		return -EINVAL;
+> +
+> +	fence = sync_file_get_fence(arg.fd);
+> +	if (!fence)
+> +		return -EINVAL;
+> +
+> +	usage = (arg.flags & DMA_BUF_SYNC_WRITE) ? DMA_RESV_USAGE_WRITE :
+> +						   DMA_RESV_USAGE_READ;
+> +
+> +	dma_resv_lock(dmabuf->resv, NULL);
+> +
+> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
+> +	if (!ret)
+> +		dma_resv_add_fence(dmabuf->resv, fence, usage);
+> +
+> +	dma_resv_unlock(dmabuf->resv);
+> +
+> +	dma_fence_put(fence);
+> +
+> +	return ret;
+> +}
+>  #endif
+>  
+>  static long dma_buf_ioctl(struct file *file,
+> @@ -431,6 +465,8 @@ static long dma_buf_ioctl(struct file *file,
+>  #if IS_ENABLED(CONFIG_SYNC_FILE)
+>  	case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:
+>  		return dma_buf_export_sync_file(dmabuf, (void __user *)arg);
+> +	case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:
+> +		return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
+>  #endif
+>  
+>  	default:
+> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> index 46f1e3e98b02..913119bf2201 100644
+> --- a/include/uapi/linux/dma-buf.h
+> +++ b/include/uapi/linux/dma-buf.h
+> @@ -119,6 +119,27 @@ struct dma_buf_export_sync_file {
+>  	__s32 fd;
+>  };
+>  
+> +/**
+> + * struct dma_buf_import_sync_file - Insert a sync_file into a dma-buf
+> + *
+> + * Userspace can perform a DMA_BUF_IOCTL_IMPORT_SYNC_FILE to insert a
+> + * sync_file into a dma-buf for the purposes of implicit synchronization
+> + * with other dma-buf consumers.  This allows clients using explicitly
+> + * synchronized APIs such as Vulkan to inter-op with dma-buf consumers
+> + * which expect implicit synchronization such as OpenGL or most media
+> + * drivers/video.
+> + */
+> +struct dma_buf_import_sync_file {
+> +	/**
+> +	 * @flags: Read/write flags
+> +	 *
+> +	 * Must be DMA_BUF_SYNC_RW.
 
-This is a mismatch and is the root of the problem.
+The checks are wrong, but the intent of your implementation looks a lot
+more like you allow both SYNC_WRITE and SYNC_READ, and I think that makes
+a lot of sense. Especially since we can now true sync-less access for vk
+with DMA_RESV_USAGE_BOOKKEEPING, so allowing userspace to explicit set
+read will be needed.
 
-Further digging made it apparent that msm_drv_shutdown() is only
-supposed to be used for parts of the msm display framework that also
-call msm_drv_probe() but mdss_probe() doesn't call
-msm_drv_probe(). Let's remove the shutdown functon from msm_mdss.c.
+Or does vk only allow you to set write fences anyway? That would suck for
+the vk app + gl compositor case a bit, so I hope not.
 
-Digging a little further, code inspection found that two drivers that
-use msm_drv_probe() weren't calling msm_drv_shutdown(). Let's add it
-to them.
+> +	 */
+> +	__u32 flags;
+> +	/** @fd: Sync file descriptor */
+> +	__s32 fd;
+> +};
+> +
+>  #define DMA_BUF_BASE		'b'
+>  #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+>  
+> @@ -129,5 +150,6 @@ struct dma_buf_export_sync_file {
+>  #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
+>  #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
+>  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
+> +#define DMA_BUF_IOCTL_IMPORT_SYNC_FILE	_IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
 
-Fixes: ecb23f2e3009 ("drm/msm: split the main platform driver")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+With the flag nits sorted out:
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 1 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 1 +
- drivers/gpu/drm/msm/msm_mdss.c           | 1 -
- 3 files changed, 2 insertions(+), 1 deletion(-)
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 143d6643be53..2b9d931474e0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1350,6 +1350,7 @@ MODULE_DEVICE_TABLE(of, dpu_dt_match);
- static struct platform_driver dpu_driver = {
- 	.probe = dpu_dev_probe,
- 	.remove = dpu_dev_remove,
-+	.shutdown = msm_drv_shutdown,
- 	.driver = {
- 		.name = "msm_dpu",
- 		.of_match_table = dpu_dt_match,
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 9b7bbc3adb97..3d5621a68f85 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -1009,6 +1009,7 @@ MODULE_DEVICE_TABLE(of, mdp5_dt_match);
- static struct platform_driver mdp5_driver = {
- 	.probe = mdp5_dev_probe,
- 	.remove = mdp5_dev_remove,
-+	.shutdown = msm_drv_shutdown,
- 	.driver = {
- 		.name = "msm_mdp",
- 		.of_match_table = mdp5_dt_match,
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 20f154dda9cf..0454a571adf7 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -397,7 +397,6 @@ MODULE_DEVICE_TABLE(of, mdss_dt_match);
- static struct platform_driver mdss_platform_driver = {
- 	.probe      = mdss_probe,
- 	.remove     = mdss_remove,
--	.shutdown   = msm_drv_shutdown,
- 	.driver     = {
- 		.name   = "msm-mdss",
- 		.of_match_table = mdss_dt_match,
+>  
+>  #endif
+> -- 
+> 2.36.0
+> 
+
 -- 
-2.36.0.464.gb9c8b46e94-goog
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
