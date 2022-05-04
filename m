@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5B3519784
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 08:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62525197DE
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 09:07:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6820011205F;
-	Wed,  4 May 2022 06:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAC0410E71A;
+	Wed,  4 May 2022 07:07:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8B611205F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 06:41:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CE695B821D7;
- Wed,  4 May 2022 06:41:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 929DBC385A4;
- Wed,  4 May 2022 06:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651646459;
- bh=ZGMwwfSt9WgGcP9EzHW/QosFc70Yb/XaCBfaIMon8lM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hCMa156AuRtjnImdRRFb6sjNT7gi2K+aKH0x8uKbL7AEODCLcmpA+AldqhNahLoMc
- Jjbn4PU2sZC0QO3tUog7PiYYrqIfJDpXhjQPR0ah9UBAo6hM2LqRyEviiRxk8BR/Z/
- PswEhJLlhaaJETbJ+cDB+HgHVFfdIRtcQWjx3W6kmEYtvsvtdX1D61teQWllRNYd4Y
- 4rq0yVjTAy3gemypN42SU8Wvxydjxbsf9n9Yu7PohyC0omGj3kKtLN8XGs6TxWmKd5
- RbuiHnFactE1ob6Dd26hg53PXFe++MOjqEkVBKu+OdQv2rpx3HjFyo1wUYQL3DAF3f
- 4Lj9rl6MCVe6w==
-Date: Wed, 4 May 2022 12:10:55 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Drop redundant 'maxItems/minItems' in
- if/then schemas
-Message-ID: <YnIf95FnuC01qxIp@matsya>
-References: <20220503162738.3827041-1-robh@kernel.org>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B8210E71A;
+ Wed,  4 May 2022 07:07:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651648072; x=1683184072;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lXtzPQtbnL1lPn3k+PUBEqddYAgqxyFThNG5DHKhY2s=;
+ b=f8sB4br6dmCo3w/ibGVP5xaFblkeeKAn0JGGVyNgAroy1CBOPK1btITe
+ d9h+o6TTTaIqEUsntPWDs0Hlz4qJmrLmY7DOOsNuBQszvjUD+L80cT7Uo
+ NYnbdsdWkBFneA3FPHM3EhA3sOnsz2r7u9UK4l62sHgs1p1IT0WTCJa2+
+ YcCvgbLkhoHihelt3jw8l9vlKE2NryuPRjae3WdYgTze8dgKUzIT/l1mB
+ 44fI0hL1/iZaLYdLnvwJ8s+1M5wl7lZr0akUs5hHxe6jL8dP1OF7bdain
+ QRPDdwi9TKHWM1fkpt3LoT1EKzyrHkhG+XTmO3D8oR+KUDDDyb3c975yp Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="267841264"
+X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; d="scan'208";a="267841264"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 00:07:46 -0700
+X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; d="scan'208";a="664353966"
+Received: from gidaly-mobl1.ger.corp.intel.com (HELO [10.213.236.183])
+ ([10.213.236.183])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 00:07:46 -0700
+Message-ID: <b4d5189c-68c6-0622-188d-728b90873363@linux.intel.com>
+Date: Wed, 4 May 2022 08:07:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220503162738.3827041-1-robh@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Support programming the EU
+ priority in the GuC descriptor
+Content-Language: en-US
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220504004446.2000540-1-daniele.ceraolospurio@intel.com>
+ <9cccaf77-4711-d42c-8c7a-2cae79637dca@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <9cccaf77-4711-d42c-8c7a-2cae79637dca@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,49 +63,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, linux-phy@lists.infradead.org,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-clk@vger.kernel.org,
- linux-rtc@vger.kernel.org, Abel Vesa <abel.vesa@nxp.com>,
- Anson Huang <Anson.Huang@nxp.com>, Richard Weinberger <richard@nod.at>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-serial@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Paolo Abeni <pabeni@redhat.com>,
- Wolfgang Grandegger <wg@grandegger.com>, devicetree@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-pm@vger.kernel.org,
- linux-can@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Marc Kleine-Budde <mkl@pengutronix.de>, Han Xu <han.xu@nxp.com>,
- Alessandro Zummo <a.zummo@towertech.it>, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-mmc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Dario Binacchi <dariobin@libero.it>, netdev@vger.kernel.org,
- Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03-05-22, 11:27, Rob Herring wrote:
-> Another round of removing redundant minItems/maxItems when 'items' list is
-> specified. This time it is in if/then schemas as the meta-schema was
-> failing to check this case.
+
+On 04/05/2022 02:06, Ceraolo Spurio, Daniele wrote:
 > 
-> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
-> same size as the list is redundant and can be dropped. Note that is DT
-> schema specific behavior and not standard json-schema behavior. The tooling
-> will fixup the final schema adding any unspecified minItems/maxItems.
+> 
+> On 5/3/2022 5:44 PM, Daniele Ceraolo Spurio wrote:
+>> From: Matthew Brost <matthew.brost@intel.com>
+>>
+>> The EU priority register must be updated by the GuC rather than the
+>> driver as it is context specific and only the GuC knows which context
+>> is currently executing.
+>>
+>> Cc: John Harrison <john.c.harrison@intel.com>
+>> Cc: Matt Roper <matthew.d.roper@intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> index 75291e9846c50..8f3ed60ff07d9 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> @@ -2420,6 +2420,8 @@ static void 
+>> prepare_context_registration_info(struct intel_context *ce,
+>>        */
+>>       info->hwlrca_lo = lower_32_bits(ce->lrc.lrca);
+>>       info->hwlrca_hi = upper_32_bits(ce->lrc.lrca);
+>> +    if (engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
+>> +        info->hwlrca_lo |= lrc_desc_priority(ce->guc_state.prio);
+> 
+> Just realized that I forgot to squash in a change when I moved branch 
+> (guc_state.prio is the GuC-side value while lrc_desc_priority expects 
+> the i915 one). Ignore this, will fix up and re-send later.
 
-For phy:
+Is there any Fixes: or stable needed to tie it together with something?
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
+Regards,
 
--- 
-~Vinod
+Tvrtko
+
+> 
+> Daniele
+> 
+>>       info->flags = CONTEXT_REGISTRATION_FLAG_KMD;
+>>       /*
+> 
