@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD5E51ACAA
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6506F51AC96
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:19:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C45010E733;
-	Wed,  4 May 2022 18:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9531910E0E3;
+	Wed,  4 May 2022 18:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E98410E733
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 18:23:40 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id j4so3757420lfh.8
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=azQ8sWCnz/WIz9gx757KP54kS0UJB42kEHdJ90hMQlI=;
- b=TGN9imabgriFl447VR+LtalCql2Ru1FM30YxNTrRXmNp2/aqSQe997eejilXBWN//u
- GLL7PEuW6j459zsXmON4fgRMpLVmy4AeFXc6ipyOPPq4NZahAq6TXZNADjmVrlQQdnt5
- DczkC/efB8FuKeTl9T9HqInWj7/2oPQ1dOleE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=azQ8sWCnz/WIz9gx757KP54kS0UJB42kEHdJ90hMQlI=;
- b=cgZKzUT4Lz33nptiL4Du21RVSRalzfxVcSDg5mxJVbp75E32CipPu/92LSWhVdpcfH
- SfO7A3EjwPAuVk6ksXyrP820yJ5ltW6aZkeQKdx+1QDttS/1ToVVS0fWEwUxkQKKCj/+
- fp1vlmd6Pf4433WdPNBrgzDnM0nujQzuFie+TVgA86tIpLV8oRR8oqOlj/iW6mJRveuE
- aCXIhRe8vOlJHfHOc/YXUKj+5G6rX9WcLRJMY010D8wjeJVVhQDD2JxOhh8RMaf3/V8k
- 2b/VCrx/FKMAaVtZnZPCbzq/413ZOCx7amjPE3ipO2yX80lEdu8dMN0BcgwnGrt3MHek
- xQ/g==
-X-Gm-Message-State: AOAM530+51W97glNlmZH+rLqC1AgLoNniclnDr1FKHRdmgLxX8I5fbfk
- +HqrlGzM5+fds3SzG9gIpbZEICnz42tw623Lcgo=
-X-Google-Smtp-Source: ABdhPJw1eIXxAQOdVJNuZ7a00mGEBsMLGN1TXH4DFUnh7QoMjaDYi33eDGpSQRRYq+9SMhKJITPsSg==
-X-Received: by 2002:a19:8c4a:0:b0:46b:abba:2409 with SMTP id
- i10-20020a198c4a000000b0046babba2409mr15208220lfj.88.1651688618312; 
- Wed, 04 May 2022 11:23:38 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
- [209.85.167.44]) by smtp.gmail.com with ESMTPSA id
- v6-20020ac25926000000b0047255d210e1sm1271362lfi.16.2022.05.04.11.23.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 11:23:38 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id y32so3771306lfa.6
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:23:37 -0700 (PDT)
-X-Received: by 2002:a05:6512:b12:b0:44a:ba81:f874 with SMTP id
- w18-20020a0565120b1200b0044aba81f874mr15410699lfu.449.1651688238925; Wed, 04
- May 2022 11:17:18 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE91B10E0E3;
+ Wed,  4 May 2022 18:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651688337; x=1683224337;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WTP9iqgM1EfqCjJD2dCD0jaSqq0XMhSCPHMrdVzZwbA=;
+ b=esXhVgaTXrJ0hX97EZ9SPBq2rBUs89L495E6srqIZO4zvGvPwKUGKpHZ
+ PgqVCGeJmYbDSvsrKxOio0e2fTmEFjv9rfXMqREDMSDL4D6p3gli4NMwG
+ GPtZGPfUQN3F0y0SymMv/9F7lP0ATFgUaI15N+7p3LOHBKu0XT1QNTTyi
+ TBThOvJA/e9MpsBSNCPHO8oM2oqYC+P8fYWauSm+d6/phRzdIxGbsY4eh
+ 9Ao51IEZCLYZw5g3RJS9xZUStuOse5LsIqHdWS/XBTocRFBo8m+w/mZgp
+ HAOdFCN7f1PuI2DpZ4/sy3u+WcG1+Mgv5V2cc+hBEnDRSc2mFW4uVD1i2 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="330839675"
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="330839675"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 11:17:21 -0700
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="632066248"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 11:17:21 -0700
+Date: Wed, 4 May 2022 11:17:20 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 1/2] drm/i915: Don't use DRM_DEBUG_WARN_ON for unexpected
+ l3bank/mslice config
+Message-ID: <YnLDMANc6xdnjOdy@mdroper-desk1.amr.corp.intel.com>
+References: <20220504120715.911045-1-tvrtko.ursulin@linux.intel.com>
+ <YnKuX0F0bDBF5ahP@mdroper-desk1.amr.corp.intel.com>
+ <12d849fb-3255-139a-7905-2d3dd679e3c8@linux.intel.com>
 MIME-Version: 1.0
-References: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
-In-Reply-To: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 4 May 2022 11:17:02 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
-Message-ID: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-To: Byungchul Park <byungchul.park@lge.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12d849fb-3255-139a-7905-2d3dd679e3c8@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,60 +59,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, Jan Kara <jack@suse.cz>,
- Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Amir Goldstein <amir73il@gmail.com>, Dave Chinner <david@fromorbit.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "J. Bruce Fields" <bfields@fieldses.org>, linux-ide@vger.kernel.org,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Joel Fernandes <joel@joelfernandes.org>, 42.hyeyoo@gmail.com,
- Christoph Lameter <cl@linux.com>, Will Deacon <will@kernel.org>,
- duyuyang@gmail.com, Sasha Levin <sashal@kernel.org>, paolo.valente@linaro.org,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Dave Airlie <airlied@linux.ie>, Ingo Molnar <mingo@redhat.com>,
- "Darrick J. Wong" <djwong@kernel.org>,
- Vladimir Davydov <vdavydov.dev@gmail.com>,
- David Rientjes <rientjes@google.com>, Dennis Zhou <dennis@kernel.org>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>,
- Linux-MM <linux-mm@kvack.org>, ngupta@vflare.org, johannes.berg@intel.com,
- jack@suse.com, Dan Williams <dan.j.williams@intel.com>,
- Josef Bacik <josef@toxicpanda.com>, Steven Rostedt <rostedt@goodmis.org>,
- linux-block <linux-block@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Jerome Glisse <jglisse@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
- Thomas Gleixner <tglx@linutronix.de>, Michal Hocko <mhocko@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>, melissa.srw@gmail.com, sj@kernel.org,
- Theodore Ts'o <tytso@mit.edu>, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Pekka Enberg <penberg@kernel.org>, Minchan Kim <minchan@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 4, 2022 at 1:19 AM Byungchul Park <byungchul.park@lge.com> wrote:
->
-> Hi Linus and folks,
->
-> I've been developing a tool for detecting deadlock possibilities by
-> tracking wait/event rather than lock(?) acquisition order to try to
-> cover all synchonization machanisms.
+On Wed, May 04, 2022 at 06:59:32PM +0100, Tvrtko Ursulin wrote:
+> 
+> On 04/05/2022 17:48, Matt Roper wrote:
+> > On Wed, May 04, 2022 at 01:07:14PM +0100, Tvrtko Ursulin wrote:
+> > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > 
+> > > DRM_DEBUG_WARN_ON should only be used when we are certain CI is guaranteed
+> > > to exercise a certain code path, so in case of values coming from MMIO
+> > > reads we cannot be sure CI will have all the possible SKUs and parts.
+> > > 
+> > > Use drm_warn instead and move logging to init phase while at it.
+> > 
+> > Changing to drm_warn looks good, although moving the location changes
+> > the intent a bit; I think originally the idea was to warn if we were
+> > trying to do a steering lookup for a type that we never initialized
+> > (e.g., an LNCF lookup for a !HAS_MSLICES platform where we never even
+> > read the register in the first place).  But I don't think we've ever
+> > made a mistake that would cause us to trip the warning, so it probably
+> > isn't terribly important to keep it there.
+> 
+> Ah I see.. there we could put something like:
+> 
+> 	case MSLICE:
+> 		GEM_WARN_ON(!HAS_MSLICES(...));
+> 
 
-So what is the actual status of reports these days?
+Yeah, that would work for MSLICE and LNCF.  Although L3BANK is a bit
+stranger since we have multiple platforms that obtain the L3 bank mask
+in completely different ways (Xe_HP reads it from XEHP_FUSE4, whereas
+gen11/gen12 reads it from GEN10_MIRROR_FUSE3).  We want to make sure
+there that no matter which branch of init we take, we didn't forget to
+initialize l3bank_mask somehow.
 
-Last time I looked at some reports, it gave a lot of false positives
-due to mis-understanding prepare_to_sleep().
 
-For this all to make sense, it would need to not have false positives
-(or at least a very small number of them together with a way to sanely
-get rid of them), and also have a track record of finding things that
-lockdep doesn't.
+Matt
 
-Maybe such reports have been sent out with the current situation, and
-I haven't seen them.
+> ?
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > 
+> > Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+> > 
+> > > 
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > > Cc: Jani Nikula <jani.nikula@intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_gt.c | 13 ++++++-------
+> > >   1 file changed, 6 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > index 53307ca0eed0..c474e5c3ea5e 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> > > @@ -153,11 +153,14 @@ int intel_gt_init_mmio(struct intel_gt *gt)
+> > >   	 * An mslice is unavailable only if both the meml3 for the slice is
+> > >   	 * disabled *and* all of the DSS in the slice (quadrant) are disabled.
+> > >   	 */
+> > > -	if (HAS_MSLICES(i915))
+> > > +	if (HAS_MSLICES(i915)) {
+> > >   		gt->info.mslice_mask =
+> > >   			slicemask(gt, GEN_DSS_PER_MSLICE) |
+> > >   			(intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+> > >   			 GEN12_MEML3_EN_MASK);
+> > > +		if (!gt->info.mslice_mask) /* should be impossible! */
+> > > +			drm_warn(&i915->drm, "mslice mask all zero!\n");
+> > > +	}
+> > >   	if (IS_DG2(i915)) {
+> > >   		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+> > > @@ -171,6 +174,8 @@ int intel_gt_init_mmio(struct intel_gt *gt)
+> > >   		gt->info.l3bank_mask =
+> > >   			~intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+> > >   			GEN10_L3BANK_MASK;
+> > > +		if (!gt->info.l3bank_mask) /* should be impossible! */
+> > > +			drm_warn(&i915->drm, "L3 bank mask is all zero!\n");
+> > >   	} else if (HAS_MSLICES(i915)) {
+> > >   		MISSING_CASE(INTEL_INFO(i915)->platform);
+> > >   	}
+> > > @@ -882,20 +887,14 @@ static void intel_gt_get_valid_steering(struct intel_gt *gt,
+> > >   {
+> > >   	switch (type) {
+> > >   	case L3BANK:
+> > > -		GEM_DEBUG_WARN_ON(!gt->info.l3bank_mask); /* should be impossible! */
+> > > -
+> > >   		*sliceid = 0;		/* unused */
+> > >   		*subsliceid = __ffs(gt->info.l3bank_mask);
+> > >   		break;
+> > >   	case MSLICE:
+> > > -		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+> > > -
+> > >   		*sliceid = __ffs(gt->info.mslice_mask);
+> > >   		*subsliceid = 0;	/* unused */
+> > >   		break;
+> > >   	case LNCF:
+> > > -		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+> > > -
+> > >   		/*
+> > >   		 * An LNCF is always present if its mslice is present, so we
+> > >   		 * can safely just steer to LNCF 0 in all cases.
+> > > -- 
+> > > 2.32.0
+> > > 
+> > 
 
-                 Linus
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
