@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782F6519C72
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:57:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C83C6519C77
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC721120D3;
-	Wed,  4 May 2022 09:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C44D710FBE7;
+	Wed,  4 May 2022 09:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADD7B1120C1
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:57:07 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id y3so1821795ejo.12
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 02:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=vW7YIzZMa129gfNfbbxMbYwvr2kEsDCwx8t4akRiVHo=;
- b=U/FBB9O0nt6azJcRY8rkD6V9zpm1ZxvzvTmuoNMQEAD3opth4WC61UMt4ZFr0cuUDF
- BdZGwdDCv5nk7p8T7warfiGK6VSlCUHhIoFX7SzgR82XClugJcvFc6txuTOD5dUrVtkt
- Rfol7s1uDvvJtczv8dOs0PS3gY1VQuO9leiB8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vW7YIzZMa129gfNfbbxMbYwvr2kEsDCwx8t4akRiVHo=;
- b=1Pdzdse+tae6DC89Pd0pWQYRqbVKNA1LvRhHfd4s9pkLS/l+tCHYcIw2zyBsQ9thVm
- F8lZJqxXY5xTg3E7kLQuAcF6Q38p1ZnM1JAX6zqpD7sUl75Y7W+UODC4UHni2Hvc1fjB
- V7ikRjdJSaGaNGxotprDhChHElzWD6/mSGajEiXvwDN99kazrFu/wfB6Pgv1be25b/EL
- wP6Z5k46JFipdq1gu80FxDQmDZ1tFHjrLYqYL6vdYz+u76RDTLuW2gVNRHYFjXC0atUR
- kKTNpH61DNfIOkSARfZwyrMbkuaZHlE5sa+jaulsAhXIlyXpjGWWWZrRyR+jIfe1y+m/
- ykEg==
-X-Gm-Message-State: AOAM532Kc7wiQA7uvYtyLqQ9NMFCq5u3mj4S88yL8Z1mwgwHg95+ZFIR
- 2obiJBNzXjgP3Wp/FWarHlXVhA==
-X-Google-Smtp-Source: ABdhPJzctONoWnyKgUqmMsq7UUzj4EQYp1BtPQJ6de3UXR0Q23eFpD1rKhCfHzpQ5X1hS6Q3VfVR3w==
-X-Received: by 2002:a17:907:3f04:b0:6e8:4b0e:438d with SMTP id
- hq4-20020a1709073f0400b006e84b0e438dmr19504123ejc.391.1651658226202; 
- Wed, 04 May 2022 02:57:06 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- w6-20020a170907270600b006f3ef214dcdsm5575298ejk.51.2022.05.04.02.57.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 02:57:05 -0700 (PDT)
-Date: Wed, 4 May 2022 11:57:04 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 0/3] i915 private writeback framework
-Message-ID: <YnJN8BZIXZN+HIwy@phenom.ffwll.local>
-References: <20220502054219.2083162-1-suraj.kandpal@intel.com>
- <YnJK2En3AeNVpbwG@phenom.ffwll.local>
- <MWHPR11MB1741D7B0BB3AC7B0689DB2A0E3C39@MWHPR11MB1741.namprd11.prod.outlook.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC6A010F627
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:58:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5A47D210DC;
+ Wed,  4 May 2022 09:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651658328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=izfN9QKn/I4IsxbMK0pyU+4Oj6CHXKfQqVbnqxqoGps=;
+ b=MowCoxlSzhePbF6sw1i/4uJQHuMxLZ+XaVecjr1u0HPZB+nmZxQvYk/P9H6qtaaoFJB3dw
+ +pwunJCfk5mA90czlNqKxrJ3xFoSCfo0owgOtdmygvztItpcKLrKZpf26SqgaD+YGstN0D
+ IIxDldlYp0JpBYPbXE6cL3R/EivIfYU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651658328;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=izfN9QKn/I4IsxbMK0pyU+4Oj6CHXKfQqVbnqxqoGps=;
+ b=MC0TVoOyOQlMdWq7wPF8fkgI7fnTom8GywHCFO/S4tnsrcH/MqIFQTUwMzOqVFACmD5wZ8
+ W3xs0idnzBS50sBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B947131BD;
+ Wed,  4 May 2022 09:58:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 9cKYDVhOcmLgFgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 04 May 2022 09:58:48 +0000
+Message-ID: <80f302ec-1fa6-f243-9c1c-c737c8d32039@suse.de>
+Date: Wed, 4 May 2022 11:58:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MWHPR11MB1741D7B0BB3AC7B0689DB2A0E3C39@MWHPR11MB1741.namprd11.prod.outlook.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/4] mgag200: Add FB_DAMAGE_CLIPS support
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20220426164108.1051295-1-jfalempe@redhat.com>
+ <20220426164108.1051295-2-jfalempe@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220426164108.1051295-2-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------tCCnOs88mS0rSSdaYCPVoAFk"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,59 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Murthy,
- Arun R" <arun.r.murthy@intel.com>
+Cc: michel@daenzer.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 09:52:34AM +0000, Kandpal, Suraj wrote:
-> Hi Daniel,
-> 
-> > > A patch series was floated in the drm mailing list which aimed to
-> > > change the drm_connector and drm_encoder fields to pointer in the
-> > > drm_connector_writeback structure, this received a huge pushback from
-> > > the community but since i915 expects each connector present in the
-> > > drm_device list to be a intel_connector but drm_writeback framework.
-> > > [1]
-> > > https://patchwork.kernel.org/project/dri-devel/patch/20220202081702.22
-> > > 119-1-suraj.kandpal@intel.com/ [2]
-> > > https://patchwork.kernel.org/project/dri-devel/patch/20220202085429.22
-> > > 261-6-suraj.kandpal@intel.com/ This forces us to use a drm_connector
-> > > which is not embedded in intel_connector the current drm_writeback
-> > > framework becomes very unfeasible to us as it would mean a lot of
-> > > checks at a lot of places to take into account the above issue.Since
-> > > no one had an issue with encoder field being changed into a pointer it
-> > > was decided to break the connector and encoder pointer changes into
-> > > two different series.The encoder field changes is currently being
-> > > worked upon by Abhinav Kumar
-> > > [3]https://patchwork.kernel.org/project/dri-devel/list/?series=633565
-> > > In the meantime for i915 to start using the writeback functionality we
-> > > came up with a interim solution to own writeback pipeline bypassing
-> > > one provided by drm which is what these patches do.
-> > > Note: these are temp patches till we figure out how we can either
-> > > change drm core writeback to work with our intel_connector structure
-> > > or find a different solution which allows us to work with the current
-> > 
-> > I'm assuming this is just fyi to keep development moving and not being
-> > planned for merging?
-> Yes we do plan to get it merged as a proper implementation that uses drm-core
-> will require significant time and to unblock the writeback functionality these interim
-> series of patches have been floated.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------tCCnOs88mS0rSSdaYCPVoAFk
+Content-Type: multipart/mixed; boundary="------------JFVncf0YSJE1gGH1pj1KskfU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: michel@daenzer.net, lyude@redhat.com, jadahl@gmail.com
+Message-ID: <80f302ec-1fa6-f243-9c1c-c737c8d32039@suse.de>
+Subject: Re: [PATCH 1/4] mgag200: Add FB_DAMAGE_CLIPS support
+References: <20220426164108.1051295-1-jfalempe@redhat.com>
+ <20220426164108.1051295-2-jfalempe@redhat.com>
+In-Reply-To: <20220426164108.1051295-2-jfalempe@redhat.com>
 
-No, I really don't think merging some interim hack is the way to go.
+--------------JFVncf0YSJE1gGH1pj1KskfU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-It's not display, but on the gem side there was this huge exception about
-"hey we need to merge guc scheduler and it's totally ready but it's not
-done properly like it should have been for upstream". And surprise it
-wasn't ready and took a year just to get the hack job complete, and now no
-one seems to be working on doing things properly. So I'm not eager at all
-to ack more hack jobs for i915.
+DQoNCkFtIDI2LjA0LjIyIHVtIDE4OjQxIHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0KPiBU
+aGUgZHJpdmVyIGRvZXMgc3VwcG9ydCBkYW1hZ2UgY2xpcHMsIGJ1dCBkb2Vzbid0IGFkdmVy
+dGlzZSBpdC4NCj4gU28gd2hlbiBydW5uaW5nIGdub21lL3dheWxhbmQgb24gTWF0cm94IGhh
+cmR3YXJlLCB0aGUgZnVsbCBmcmFtZSBpcw0KPiBjb3BpZWQgdG8gdGhlIHNsb3cgTWF0cm94
+IG1lbW9yeSwgd2hpY2ggbGVhZHMgdG8gdmVyeSBwb29yIHBlcmZvcm1hbmNlcy4NCj4gDQo+
+IEFkZCBkcm1fcGxhbmVfZW5hYmxlX2ZiX2RhbWFnZV9jbGlwcygpIHRvIGFkdmVydGlzZSB0
+aGlzIGNhcGFiaWxpdHkgdG8NCj4gdXNlcnNwYWNlLg0KPiANCj4gV2l0aCB0aGlzIHBhdGNo
+LCBnbm9tZS93YXlsYW5kIGJlY29tZXMgdXNhYmxlIG9uIE1hdHJveCBHUFUuDQo+IA0KPiBT
+dWdnZXN0ZWQtYnk6IEpvbmFzIMOFZGFobCA8amFkYWhsQGdtYWlsLmNvbT4NCj4gU2lnbmVk
+LW9mZi1ieTogSm9jZWx5biBGYWxlbXBlIDxqZmFsZW1wZUByZWRoYXQuY29tPg0KDQpSZXZp
+ZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCj4g
+LS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMgfCAyICsr
+DQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jIGIvZHJpdmVycy9n
+cHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4gaW5kZXggNmUxOGQzYmJkNzIwLi5j
+ZmYyZTc2ZjNmYTAgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21n
+YWcyMDBfbW9kZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBf
+bW9kZS5jDQo+IEBAIC0xMTA3LDYgKzExMDcsOCBAQCBpbnQgbWdhZzIwMF9tb2Rlc2V0X2lu
+aXQoc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYpDQo+ICAgCQlyZXR1cm4gcmV0Ow0KPiAgIAl9
+DQo+ICAgDQo+ICsJZHJtX3BsYW5lX2VuYWJsZV9mYl9kYW1hZ2VfY2xpcHMoJnBpcGUtPnBs
+YW5lKTsNCj4gKw0KPiAgIAkvKiBGSVhNRTogbGVnYWN5IGdhbW1hIHRhYmxlczsgY29udmVy
+dCB0byBDUlRDIHN0YXRlICovDQo+ICAgCWRybV9tb2RlX2NydGNfc2V0X2dhbW1hX3NpemUo
+JnBpcGUtPmNydGMsIE1HQUcyMDBfTFVUX1NJWkUpOw0KPiAgIA0KDQotLSANClRob21hcyBa
+aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
+bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
+R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
+IEl2byBUb3Rldg0K
 
-Do it right before merging to upstream please.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--------------JFVncf0YSJE1gGH1pj1KskfU--
+
+--------------tCCnOs88mS0rSSdaYCPVoAFk
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJyTlcFAwAAAAAACgkQlh/E3EQov+Ac
+Tg//Z/VEGYPglOscRLR2GdWYLLmqJ5O7BJ9xBAQEdzYk+jjQgHofZxNW11zSfT9QJrLSQsFUm1mm
+ZMiZzeEl9sF9E5k5xESqpU/T0s4BLCcvwRo8RCE+/uMrCtDOjnoxPZjoq474Oj4l912fARHCP99P
+wk26EZAR8xOsLgaiHyIUrWSQRJ0IOzUf4yAwayh8CpgjjY5N/1zY3garUCsqCeP2wXFzRGtg/Fni
+2maScswu6sVlOBETc0KfFl+cL6edcyB1KNg7ktyL3vte2SFvwPb9JK/qudc7WmM0BnMZMVFm3eQI
+hTOMFVrFXqhIXpwKR3f8c/qWailDdZ3Adk2C7kzvawQuQ+Wfs6LzD6fanJfLq2qWKWcN8tqx5KMF
+euFzJ8x5b7dpwTFGh6Hxvw+2TyEdeFg7BRNrec0cwn3bBCuzmw49OcrqAQqQHU1WVzkk/oDvz55y
+nShnGJqw9z4SXFwgKT8F2MY/iTsr9SV3et/LCWqmdDj7f9eVi8Ltu1N7ZqBZDzLAmq8ycn7GtWCG
+fX2Z45A/dYJIRQBjoBa6YCAKHm66CkKxNeye9QGBW7/bMMOyX5nHXe9WqXj5dPWRf1bDN1zoH2ua
+D6FRm9IuM/LwbtplvmapzhDK0bC1577JFxjr+J2yufyMtJ/wUllyHg2pi66DvZdCHPGSueZSU8YZ
+73U=
+=VITp
+-----END PGP SIGNATURE-----
+
+--------------tCCnOs88mS0rSSdaYCPVoAFk--
