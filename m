@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F08519A7F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:50:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E837E519A75
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0F8F10FB4D;
-	Wed,  4 May 2022 08:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF63410FB3F;
+	Wed,  4 May 2022 08:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1318810FAE7
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F214E10E6CE
  for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:49:21 +0000 (UTC)
 Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
- by 156.147.23.53 with ESMTP; 4 May 2022 17:19:21 +0900
+ by 156.147.23.51 with ESMTP; 4 May 2022 17:19:21 +0900
 X-Original-SENDERIP: 156.147.1.125
 X-Original-MAILFROM: byungchul.park@lge.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,10 +22,10 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: byungchul.park@lge.com
 From: Byungchul Park <byungchul.park@lge.com>
 To: torvalds@linux-foundation.org
-Subject: [PATCH RFC v6 17/21] dept: Disable Dept within the wait_bit layer by
- default
-Date: Wed,  4 May 2022 17:17:45 +0900
-Message-Id: <1651652269-15342-18-git-send-email-byungchul.park@lge.com>
+Subject: [PATCH RFC v6 18/21] dept: Disable Dept on struct crypto_larval's
+ completion for now
+Date: Wed,  4 May 2022 17:17:46 +0900
+Message-Id: <1651652269-15342-19-git-send-email-byungchul.park@lge.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
 References: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
@@ -62,42 +62,35 @@ Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The struct wait_queue_head array, bit_wait_table[] in sched/wait_bit.c
-are shared by all its users, which unfortunately vary in terms of class.
-So each should've been assigned its own class to avoid false positives.
+struct crypto_larval's completion is used for multiple purposes e.g.
+waiting for test to complete or waiting for probe to complete.
 
-It'd better let Dept work at a higher layer than wait_bit. So disabled
-Dept within the wait_bit layer by default.
-
-It's worth noting that Dept is still working with the other struct
-wait_queue_head ones that are mostly well-classified.
+The completion variable needs to be split according to what it's used
+for. Otherwise, Dept cannot distinguish one from another and doesn't
+work properly. Now that it isn't, disable Dept on it.
 
 Signed-off-by: Byungchul Park <byungchul.park@lge.com>
 ---
- kernel/sched/wait_bit.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ crypto/api.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/sched/wait_bit.c b/kernel/sched/wait_bit.c
-index d4788f8..df93e33 100644
---- a/kernel/sched/wait_bit.c
-+++ b/kernel/sched/wait_bit.c
-@@ -3,6 +3,7 @@
- /*
-  * The implementation of the wait_bit*() and related waiting APIs:
-  */
-+#include <linux/dept.h>
+diff --git a/crypto/api.c b/crypto/api.c
+index 69508ae..305d24c 100644
+--- a/crypto/api.c
++++ b/crypto/api.c
+@@ -115,7 +115,12 @@ struct crypto_larval *crypto_larval_alloc(const char *name, u32 type, u32 mask)
+ 	larval->alg.cra_destroy = crypto_larval_destroy;
  
- #define WAIT_TABLE_BITS 8
- #define WAIT_TABLE_SIZE (1 << WAIT_TABLE_BITS)
-@@ -246,6 +247,8 @@ void __init wait_bit_init(void)
- {
- 	int i;
+ 	strlcpy(larval->alg.cra_name, name, CRYPTO_MAX_ALG_NAME);
+-	init_completion(&larval->completion);
++	/*
++	 * TODO: Split ->completion according to what it's used for e.g.
++	 * ->test_completion, ->probe_completion and the like, so that
++	 *  Dept can track its dependency properly.
++	 */
++	init_completion_nocheck(&larval->completion);
  
--	for (i = 0; i < WAIT_TABLE_SIZE; i++)
-+	for (i = 0; i < WAIT_TABLE_SIZE; i++) {
- 		init_waitqueue_head(bit_wait_table + i);
-+		dept_map_nocheck(&(bit_wait_table + i)->dmap);
-+	}
+ 	return larval;
  }
 -- 
 1.9.1
