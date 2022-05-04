@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F795199A0
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5AAE5199AC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:24:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C761810ED01;
-	Wed,  4 May 2022 08:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1B5710EE27;
+	Wed,  4 May 2022 08:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6B710ED01
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:21:44 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id ba17so851729edb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 01:21:44 -0700 (PDT)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05DF310EE27
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:24:49 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id i19so1422509eja.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 01:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=VDdx6SnTBc/x3hqSqeoZ0OfihXfqmRqnu+owhp1Pk7I=;
- b=kXpJCcqnJXYo6DFxpZt2zaSYdj84Z1DsaCnLwkmK08s6KqjJZdJtLXR3x8+xemf0rt
- kagg3meDbbs7FjgKS5jV/iwys9PwikMXkATlAt7yil8+zr6dSRgtgJjUq0rFTrtrT/fV
- IfB3lxf+nPGsdcygoRYzCtKb71OXk73EAk734=
+ :in-reply-to; bh=Ovesdtp6wbhOkH+NcAMzlLg06s6VbGwva1kVuoINYQk=;
+ b=TBvQi23u0ogQdfozTQtwQt2AfZ5O3wIws0IRua5JXBzopSxUT3lbN7m/1DjNfJXvbb
+ bhip/kRJ31YoamHWRkngP1AfSwSYLUCx0oZMWSUfkVEa9W4HcI2MUNdHrcw95ipOL3No
+ JNEBDEbjVnXssuNlGfnEmE/RIJ7lOhYZLQvsY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :content-transfer-encoding:in-reply-to;
- bh=VDdx6SnTBc/x3hqSqeoZ0OfihXfqmRqnu+owhp1Pk7I=;
- b=qI7TNPIscq0+2tUCj0zIlM2pQazwP8VWmI+Wifsu6L/6aQTByzQvtdthP5C9Duw+VW
- 92gaKQuwP6Dkd46+TTFR09GRxs3D1Js3j6Ee0VsTkdyHIjuV+Ss1Ij9w/GBi51CHzKBG
- WDqC6ekXZBISWXSPvViixw2akFbxOHaAhfAIkMVL4LfM9ifIlqGcpYvB96kEenhVkhvj
- /Zz6c2zd5Z6mSpd4Oc9zyt60TpZ05nT8xiuvi/QfTAkiByg37nlAUX4yu0mmJ8ePuiV8
- P/QR0BZPjqHooe/bAUpuhmZ2frGgfyRPIpkG+OOewDL0iW4AYbuGtHvWHEQzya4h95TF
- 29yw==
-X-Gm-Message-State: AOAM532Vfj0Rre1HkqxkJ5GBzr+nB5+0nRadmyeA3wjLOxB/aF9skZO7
- 21kuXmMpShJ+artl58b9cFc4Eg==
-X-Google-Smtp-Source: ABdhPJzDbGmxFILJU2oICyGZqcgGQFia6s4oybWBirwH1Joi8kUfhsVPZ4FaGStFNnYRj6Z0sKsRqg==
-X-Received: by 2002:a05:6402:5205:b0:427:b431:e0ed with SMTP id
- s5-20020a056402520500b00427b431e0edmr18026088edd.186.1651652503231; 
- Wed, 04 May 2022 01:21:43 -0700 (PDT)
+ bh=Ovesdtp6wbhOkH+NcAMzlLg06s6VbGwva1kVuoINYQk=;
+ b=iYCqcaCJWV4nboGYe3KT2aQnKsnTnfGTz193qER5mEKk54zjMbc+HcFDG0ReVZAMEw
+ mLmFnBMZGLGJRHX2MKxAlHOmCCDfpeIDRZMRPFhktIk4sFwTf+MQx15xArcjUBTsY8Zs
+ /7aCnEXDmNxCICBmHISA1qlGLoxLFu8VNYDjj6zFF46ust0V/zN/DyeOcwUzfMNT8kkM
+ QLHaDrqmDlKMeEbtH1punPs9H5T66cteKCFdhAmPpqPS6NyGmxXQ4RZz9ymSrFmQom21
+ j7hQnXCasZRXCBt6MSjxMG/pzU0Frhfrxw5SZmnp0vfDsSxqG/EYO1qN0HE8c6XCzg0y
+ FGDg==
+X-Gm-Message-State: AOAM531UnvjUrxExIISoDvAZyGhSvETbEiFBoTKAAfybzuTPp3++9qu2
+ TYlMzoITVAnobCJUwq2ei9xJ/g==
+X-Google-Smtp-Source: ABdhPJzszvDbjhJ+G30Fr1rXlh+x9ZnVp+UicNW3p16cXwuWbNNZegC0LHMS4cUpKPPzrzXMCysvOA==
+X-Received: by 2002:a17:907:7f2a:b0:6f4:a358:c826 with SMTP id
+ qf42-20020a1709077f2a00b006f4a358c826mr4773193ejc.404.1651652687434; 
+ Wed, 04 May 2022 01:24:47 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- cf4-20020a0564020b8400b00426488dce1dsm6209549edb.25.2022.05.04.01.21.42
+ bf16-20020a0564021a5000b0042617ba63aesm8936084edb.56.2022.05.04.01.24.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 01:21:42 -0700 (PDT)
-Date: Wed, 4 May 2022 10:21:40 +0200
+ Wed, 04 May 2022 01:24:46 -0700 (PDT)
+Date: Wed, 4 May 2022 10:24:45 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v4 10/15] drm/shmem-helper: Take reservation lock instead
- of drm_gem_shmem locks
-Message-ID: <YnI3lE0TxLfZaQjE@phenom.ffwll.local>
+Subject: Re: [PATCH v4 11/15] drm/shmem-helper: Add generic memory shrinker
+Message-ID: <YnI4TRBkB6SaOVyu@phenom.ffwll.local>
 Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -60,6 +58,7 @@ Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  Gert Wollny <gert.wollny@collabora.com>,
  Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -72,16 +71,16 @@ Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  dri-devel@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org
 References: <20220417223707.157113-1-dmitry.osipenko@collabora.com>
- <20220417223707.157113-11-dmitry.osipenko@collabora.com>
- <248083d2-b8f2-a4d7-099d-70a7e7859c11@suse.de>
- <d9e7bec1-fffb-e0c4-8659-ef3ce2c31280@collabora.com>
- <YmlYHNlcmNMfOeyy@phenom.ffwll.local>
- <8f932ab0-bb72-8fea-4078-dc59e9164bd4@collabora.com>
+ <20220417223707.157113-12-dmitry.osipenko@collabora.com>
+ <ebe3dfdb-04ac-9ab1-64ff-9d54f96afe57@suse.de>
+ <7f497f99-f4c1-33d6-46cf-95bd90188fe3@collabora.com>
+ <YmlbXoeaVds/bjYn@phenom.ffwll.local>
+ <d0970dbd-e6e7-afa0-fdfd-b755008e371f@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8f932ab0-bb72-8fea-4078-dc59e9164bd4@collabora.com>
+In-Reply-To: <d0970dbd-e6e7-afa0-fdfd-b755008e371f@collabora.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -110,145 +109,327 @@ Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 28, 2022 at 09:31:00PM +0300, Dmitry Osipenko wrote:
-> Hello Daniel,
-> 
-> 27.04.2022 17:50, Daniel Vetter Ð¿Ð¸ÑˆÐµÑ‚:
-> > On Mon, Apr 18, 2022 at 10:18:54PM +0300, Dmitry Osipenko wrote:
-> >> Hello,
-> >>
-> >> On 4/18/22 21:38, Thomas Zimmermann wrote:
-> >>> Hi
-> >>>
-> >>> Am 18.04.22 um 00:37 schrieb Dmitry Osipenko:
-> >>>> Replace drm_gem_shmem locks with the reservation lock to make GEM
-> >>>> lockings more consistent.
-> >>>>
-> >>>> Previously drm_gem_shmem_vmap() and drm_gem_shmem_get_pages() were
-> >>>> protected by separate locks, now it's the same lock, but it doesn't
-> >>>> make any difference for the current GEM SHMEM users. Only Panfrost
-> >>>> and Lima drivers use vmap() and they do it in the slow code paths,
-> >>>> hence there was no practical justification for the usage of separate
-> >>>> lock in the vmap().
-> >>>>
-> >>>> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> >>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >>>> ---
+On Thu, Apr 28, 2022 at 09:20:15PM +0300, Dmitry Osipenko wrote:
+> 27.04.2022 18:03, Daniel Vetter wrote:
 > >> ...
-> >>>> Â  @@ -310,7 +306,7 @@ static int drm_gem_shmem_vmap_locked(struct
-> >>>> drm_gem_shmem_object *shmem,
-> >>>> Â Â Â Â Â  } else {
-> >>>> Â Â Â Â Â Â Â Â Â  pgprot_t prot = PAGE_KERNEL;
-> >>>> Â  -Â Â Â Â Â Â Â  ret = drm_gem_shmem_get_pages(shmem);
-> >>>> +Â Â Â Â Â Â Â  ret = drm_gem_shmem_get_pages_locked(shmem);
-> >>>> Â Â Â Â Â Â Â Â Â  if (ret)
-> >>>> Â Â Â Â Â Â Â Â Â Â Â Â Â  goto err_zero_use;
-> >>>> Â  @@ -360,11 +356,11 @@ int drm_gem_shmem_vmap(struct
-> >>>> drm_gem_shmem_object *shmem,
-> >>>> Â  {
-> >>>> Â Â Â Â Â  int ret;
-> >>>> Â  -Â Â Â  ret = mutex_lock_interruptible(&shmem->vmap_lock);
-> >>>> +Â Â Â  ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
-> >>>> Â Â Â Â Â  if (ret)
-> >>>> Â Â Â Â Â Â Â Â Â  return ret;
-> >>>> Â Â Â Â Â  ret = drm_gem_shmem_vmap_locked(shmem, map);
+> >>>> @@ -172,6 +172,41 @@ struct drm_gem_object_funcs {
+> >>>>        * This is optional but necessary for mmap support.
+> >>>>        */
+> >>>>       const struct vm_operations_struct *vm_ops;
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @purge:
+> >>>> +     *
+> >>>> +     * Releases the GEM object's allocated backing storage to the
+> >>>> system.
+> >>>> +     *
+> >>>> +     * Returns the number of pages that have been freed by purging
+> >>>> the GEM object.
+> >>>> +     *
+> >>>> +     * This callback is used by the GEM shrinker.
+> >>>> +     */
+> >>>> +    unsigned long (*purge)(struct drm_gem_object *obj);
+> > 
+> > Hm I feel like drivers shouldn't need to know the difference here?
+> > 
+> > Like shmem helpers can track what's purgeable, and for eviction/purging
+> > the driver callback should do the same?
+> > 
+> > The only difference is when we try to re-reserve the backing storage. When
+> > the object has been evicted that should suceed, but when the object is
+> > purged that will fail.
+> > 
+> > That's the difference between evict and purge for drivers?
+> 
+> When buffer is purged, we can permanently release the backing storage
+> and the reserved IOV space, re-using the freed space by new BOs.
+> 
+> When buffer is evicted, the BO's IOV should be kept reserved and the
+> re-reservation of the backing storage should succeed.
+
+Yeah but what's the difference for driver callbacks? In both cases the
+driver callback needs to tear down gpu mappings and pagetables. The only
+difference happens after that in the shmem helper: For purge we ditch the
+shmem object, for evict we keep it. Drivers shouldn't need to care about
+that difference, hence why the two callbacks?
+
+> 
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @evict:
+> >>>> +     *
+> >>>> +     * Unpins the GEM object's allocated backing storage, allowing
+> >>>> shmem pages
+> >>>> +     * to be swapped out.
 > >>>
-> >>> Within drm_gem_shmem_vmap_locked(), there's a call to dma_buf_vmap() for
-> >>> imported pages. If the exporter side also holds/acquires the same
-> >>> reservation lock as our object, the whole thing can deadlock. We cannot
-> >>> move dma_buf_vmap() out of the CS, because we still need to increment
-> >>> the reference counter. I honestly don't know how to easily fix this
-> >>> problem. There's a TODO item about replacing these locks at [1]. As
-> >>> Daniel suggested this patch, we should talk to him about the issue.
-> >>>
-> >>> Best regards
-> >>> Thomas
-> >>>
-> >>> [1]
-> >>> https://www.kernel.org/doc/html/latest/gpu/todo.html#move-buffer-object-locking-to-dma-resv-lock
+> >>> What's the difference to the existing unpin() callback?
 > >>
-> >> Indeed, good catch! Perhaps we could simply use a separate lock for the
-> >> vmapping of the *imported* GEMs? The vmap_use_count is used only by
-> >> vmap/vunmap, so it doesn't matter which lock is used by these functions
-> >> in the case of imported GEMs since we only need to protect the
-> >> vmap_use_count.
+> >> Drivers need to do more than just unpinning pages when GEMs are evicted.
+> >> Unpinning is only a part of the eviction process. I'll improve the
+> >> doc-comment in v5.
+> >>
+> >> For example, for VirtIO-GPU driver we need to to detach host from the
+> >> guest's memory before pages are evicted [1].
+> >>
+> >> [1]
+> >> https://gitlab.collabora.com/dmitry.osipenko/linux-kernel-rd/-/blob/932eb03198bce3a21353b09ab71e95f1c19b84c2/drivers/gpu/drm/virtio/virtgpu_object.c#L145
+> >>
+> >> In case of Panfrost driver, we will need to remove mappings before pages
+> >> are evicted.
 > > 
-> > Apologies for the late reply, I'm flooded.
+> > It might be good to align this with ttm, otoh that all works quite a bit
+> > differently for ttm since ttm supports buffer moves and a lot more fancy
+> > stuff.
 > > 
-> > I discussed this with Daniel Stone last week in a chat, roughly what we
-> > need to do is:
-> > 
-> > 1. Pick a function from shmem helpers.
-> > 
-> > 2. Go through all drivers that call this, and make sure that we acquire
-> > dma_resv_lock in the top level driver entry point for this.
-> > 
-> > 3. Once all driver code paths are converted, add a dma_resv_assert_held()
-> > call to that function to make sure you have it all correctly.
-> > 4. Repeate 1-3 until all shmem helper functions are converted over.
-> Somehow I didn't notice the existence of dma_resv_assert_held(), thank
-> you for the suggestion :)
+> > I'm bringing this up since I have this fancy idea that eventually we could
+> > glue shmem helpers into ttm in some cases for managing buffers when they
+> > sit in system memory (as opposed to vram).
 > 
+> I'll take a look at ttm for v6.
+> 
+> >>>> +     *
+> >>>> +     * Returns the number of pages that have been unpinned.
+> >>>> +     *
+> >>>> +     * This callback is used by the GEM shrinker.
+> >>>> +     */
+> >>>> +    unsigned long (*evict)(struct drm_gem_object *obj);
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @swap_in:
+> >>>> +     *
+> >>>> +     * Pins GEM object's allocated backing storage if it was
+> >>>> previously evicted,
+> >>>> +     * moving swapped out pages back to memory.
+> >>>> +     *
+> >>>> +     * Returns 0 on success, or -errno on error.
+> >>>> +     *
+> >>>> +     * This callback is used by the GEM shrinker.
+> >>>> +     */
+> >>>> +    int (*swap_in)(struct drm_gem_object *obj);
+> >>>
+> >>> Why do you need swap_in()? This can be done on-demand as part of a pin
+> >>> or vmap operation.
+> >>
+> >> Similarly to the unpinning, the pining of pages is only a part of what
+> >> needs to be done for GPU drivers. Besides of returning pages back to
+> >> memory, we also need to make them accessible to GPU and this is a
+> >> driver-specific process. This why we need the additional callbacks.
 > > 
-> > 5. Ditch the 3 different shmem helper locks.
+> > This is a bit much midlayer. The way this works in ttm is you reserve all
+> > the objects you need (which makes sure they're physically available
+> > again), and then the driver goes through and makes sure the page tables
+> > are all set up again.
 > > 
-> > The trouble is that I forgot that vmap is a thing, so that needs more
-> > work. I think there's two approaches here:
-> > - Do the vmap at import time. This is the trick we used to untangle the
-> >   dma_resv_lock issues around dma_buf_attachment_map()
+> > Once you get towards gpu vm that's really the only approach, since your
+> > swap_in has no idea for which vm it needs to restore pagetables (and
+> > restoring it for all is a bit meh).
+> > 
+> > If drivers want to optimize this they can adjust/set any tracking
+> > information from their evict callback as needed.
 > 
-> > - Change the dma_buf_vmap rules that callers must hold the dma_resv_lock.
-> 
-> I'll consider this option for v6, thank you.
-> 
-> I see now that you actually want to define the new rules for the
-> dma-bufs in general and not only in the context of the DRM code, this
-> now makes much more sense to me.
+> In practice, majority of BOs have only one mapping. Only shared BOs
+> usually have extra mappings and shared BOs aren't evictable.
 
-Yeah dma-buf is a cross driver interface, so we should try to be
-consistent here. We didn't do this in the past, where the only reason you
-didn't get lockdep splats was because you normally didn't run all possible
-combinations of drivers and importer/exporter relationships in one system.
-But that means it becomes very tricky to reason about how dma-buf really
-works.
+That seems like a fairly arbitrary limitations, and e.g. i915 doesn't have
+this limitation, and also has a shrinker. I don't think it should be built
+into the design.
 
-> > - Maybe also do what you suggest and keep a separate lock for this, but
-> >   the fundamental issue is that this doesn't really work - if you share
-> >   buffers both ways with two drivers using shmem helpers, then the
-> >   ordering of this vmap_count_mutex vs dma_resv_lock is inconsistent and
-> >   you can get some nice deadlocks. So not a great approach (and also the
-> >   reason why we really need to get everyone to move towards dma_resv_lock
-> >   as _the_ buffer object lock, since otherwise we'll never get a
-> >   consistent lock nesting hierarchy).
-> 
-> The separate locks should work okay because it will be always the
-> exporter that takes the dma_resv_lock. But I agree that it's less ideal
-> than defining the new rules for dma-bufs since sometime you will take
-> the resv lock and sometime not, potentially hiding bugs related to lockings.
+> When memory pages are gone, then all the GPU mappings also should be
+> gone. Perhaps it's indeed won't be a bad idea to move out the restoring
+> of h/w VMs from the swap_in() and make drivers to handle the restoring
+> by themselves, so swap_in() will be only about restoring the pages. I'll
+> try to improve it in v6.
 
-That's the issue, some importers need to take the dma_resv_lock for
-dma_buf_vmap too (e.g. to first nail the buffer in place when it's a
-dynamic memory manager). In practice it'll work as well as what we have
-currently, which is similarly inconsistent, except with per-driver locks
-instead of shared locks from shmem helpers or dma-buf, so less obvious
-that things are inconsistent.
-
-So yeah if it's too messy maybe the approach is to have a separate lock
-for vmap for now, land things, and then fix up dma_buf_vmap in a follow up
-series.
+Sounds good.
 -Daniel
 
-> > The trouble here is that trying to be clever and doing the conversion just
-> > in shmem helpers wont work, because there's a lot of cases where the
-> > drivers are all kinds of inconsistent with their locking.
+> 
+> >>>>   };
+> >>>>     /**
+> >>>> diff --git a/include/drm/drm_gem_shmem_helper.h
+> >>>> b/include/drm/drm_gem_shmem_helper.h
+> >>>> index 70889533962a..a65557b446e6 100644
+> >>>> --- a/include/drm/drm_gem_shmem_helper.h
+> >>>> +++ b/include/drm/drm_gem_shmem_helper.h
+> >>>> @@ -6,6 +6,7 @@
+> >>>>   #include <linux/fs.h>
+> >>>>   #include <linux/mm.h>
+> >>>>   #include <linux/mutex.h>
+> >>>> +#include <linux/shrinker.h>
+> >>>>     #include <drm/drm_file.h>
+> >>>>   #include <drm/drm_gem.h>
+> >>>> @@ -15,8 +16,18 @@
+> >>>>   struct dma_buf_attachment;
+> >>>>   struct drm_mode_create_dumb;
+> >>>>   struct drm_printer;
+> >>>> +struct drm_device;
+> >>>>   struct sg_table;
+> >>>>   +enum drm_gem_shmem_pages_state {
+> >>>> +    DRM_GEM_SHMEM_PAGES_STATE_PURGED = -2,
+> >>>> +    DRM_GEM_SHMEM_PAGES_STATE_EVICTED = -1,
+> >>>> +    DRM_GEM_SHMEM_PAGES_STATE_UNPINNED = 0,
+> >>>> +    DRM_GEM_SHMEM_PAGES_STATE_PINNED = 1,
+> >>>> +    DRM_GEM_SHMEM_PAGES_STATE_EVICTABLE = 2,
+> >>>> +    DRM_GEM_SHMEM_PAGES_STATE_PURGEABLE = 3,
+> >>>> +};
+> >>>
+> >>> These states can be detected by looking at the vmap and pin refcounts.
+> >>> No need to store them explicitly.
+> >>
+> >> I'll try to revisit this, but I was finding that it's much more
+> >> difficult to follow and debug code without the explicit states.
 > > 
-> > Adding Daniel S, also maybe for questions it'd be fastest to chat on irc?
+> > purgeable/purged needs some state, but pinned shouldn't be duplicated, so
+> > I concur here a bit.
+> > 
+> >>> In your patch, they also come with a
+> >>> big zoo of trivial helpers. None of that seems necessary AFAICT.
+> >>
+> >> There are couple functions which could be squashed, although this may
+> >> hurt readability of the code a tad. I'll try to take another look at
+> >> this for v5.
+> >>
+> >>> What's the difference between purge and evict BTW?
+> >>
+> >> The evicted pages are moved out from memory to a SWAP partition or file.
+> >>
+> >> The purged pages are destroyed permanently.
+> >>
+> >>>> +
+> >>>>   /**
+> >>>>    * struct drm_gem_shmem_object - GEM object backed by shmem
+> >>>>    */
+> >>>> @@ -43,8 +54,8 @@ struct drm_gem_shmem_object {
+> >>>>        * @madv: State for madvise
+> >>>>        *
+> >>>>        * 0 is active/inuse.
+> >>>> +     * 1 is not-needed/can-be-purged
+> >>>>        * A negative value is the object is purged.
+> >>>> -     * Positive values are driver specific and not used by the helpers.
+> >>>>        */
+> >>>>       int madv;
+> >>>>   @@ -91,6 +102,40 @@ struct drm_gem_shmem_object {
+> >>>>        * @map_wc: map object write-combined (instead of using shmem
+> >>>> defaults).
+> >>>>        */
+> >>>>       bool map_wc;
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @eviction_disable_count:
+> >>>> +     *
+> >>>> +     * The shmem pages are disallowed to be evicted by the memory
+> >>>> shrinker
+> >>>> +     * while count is non-zero. Used internally by memory shrinker.
+> >>>> +     */
+> >>>> +    unsigned int eviction_disable_count;
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @purging_disable_count:
+> >>>> +     *
+> >>>> +     * The shmem pages are disallowed to be purged by the memory
+> >>>> shrinker
+> >>>> +     * while count is non-zero. Used internally by memory shrinker.
+> >>>> +     */
+> >>>> +    unsigned int purging_disable_count;
+> > 
+> > What are these disable counts for?
 > 
-> My nickname is digetx on the #dri-devel channel, feel free to ping me if
-> needed. Right now yours suggestions are clear to me, hence no extra
-> questions.
+> Some of BO types should stay pinned permanently, this applies to both
+> VirtIO and Panfrost drivers that make use of the generic shrinker in
+> this patchset. Hence I made objects unpurgeable and unevictable by default.
 > 
-> Thank you for the review.
+> Initially the idea of these counts was to allow drivers to explicitly
+> disable purging and eviction, and do it multiple times. If driver
+> disables eviction in two different places in the code, then we need to
+> track the eviction-disable count.
+> 
+> In the v5 of this patchset drivers don't need to explicitly disable
+> shrinking anymore, they only need to enable it. The counts are also used
+> internally by DRM SHMEM core to track the vmappings and pinnings, but
+> perhaps pages_use_count could be used for that instead. I'll revisit it
+> for v6.
+> 
+> > The way purgeable works in other drivers is that userspace sets purgeable
+> > or not, and it's up to userspace to not make a mess of this.
+> > 
+> > There's also some interactions, and I guess a bunch of drivers get this
+> > wrong in funny ways. Not sure how to best clean this up.
+> > 
+> > - Once you have a shrinker/dynamic memory management you should _not_ pin
+> >   pages, except when it's truly permanent like for scanout. Instead
+> >   drivers should attach dma_fence to the dma_resv to denote in-flight
+> >   access.
+> 
+> By default pages are pinned when drm_gem_shmem_get_pages_sgt() is
+> invoked by drivers during of BO creation time.
+> 
+> We could declare that pages_use_count=1 means the pages are allowed to
+> be evicted and purged if shrinker is enabled. Then the further
+> drm_gem_shmem_pin/vmap() calls will bump the pages_use_count,
+> disallowing the eviction and purging, like you're suggesting, and we
+> won't need the explicit counts.
+> 
+> > - A pinned buffer object is not allowed to be put into purgeable state,
+> >   and a bo in purgeable state should not be allowed to be pinned.
+> > 
+> > - Drivers need to hold dma_resv_lock for long enough in their command
+> >   submission, i.e. from the point where the reserve the buffers and make
+> >   sure that mappings exists, to the point where the request is submitted
+> >   to hw or drm/sched and fences are installed.
+> > 
+> > But I think a lot of current shmem users just pin as part of execbuf, so
+> > this won't work quite so well right out of the box.
+> 
+> The current shmem users assume that BO is pinned permanently once it has
+> been created.
+> 
+> > Anyway with that design I don't think there should ever be a need to
+> > disable shrinking.
+> 
+> To me what you described mostly matches to what I did in the v5.
+> 
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @pages_state: Current state of shmem pages. Used internally by
+> >>>> +     * memory shrinker.
+> >>>> +     */
+> >>>> +    enum drm_gem_shmem_pages_state pages_state;
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @evicted: True if shmem pages were evicted by the memory
+> >>>> shrinker.
+> >>>> +     * Used internally by memory shrinker.
+> >>>> +     */
+> >>>> +    bool evicted;
+> >>>> +
+> >>>> +    /**
+> >>>> +     * @pages_shrinkable: True if shmem pages can be evicted or purged
+> >>>> +     * by the memory shrinker. Used internally by memory shrinker.
+> >>>> +     */
+> >>>> +    bool pages_shrinkable;
+> >>>
+> >>> As commented before, this state can be foundby looking at existing
+> >>> fields. No need to store it separately.
+> >>
+> >> When we're transitioning from "evictable" to a "purgeable" state, we
+> >> must not add pages twice to the "shrinkable_count" variable. Hence this
+> >> is not a state, but a variable which prevents the double accounting of
+> >> the pages. Please see drm_gem_shmem_add_pages_to_shrinker() in this patch.
+> >>
+> >> Perhaps something like "pages_accounted_by_shrinker" could be a better
+> >> name for the variable. I'll revisit this for v5.
+> > 
+> > Hm not sure we need to account this? Usually the shrinker just counts when
+> > it's asked to do so, not practively maintain that count. Once you start
+> > shrinking burning cpu time is generally not too terrible.
+> 
+> We could count pages on demand by walking up the "evictable" list, but
+> then the shrinker's lock needs to be taken by the
+> drm_gem_shmem_shrinker_count_objects() to protect the list.
+> 
+> Previously Rob Clark said that the profiling of freedreno's shrinker
+> showed that it's worthwhile to reduce the locks as much as possible,
+> including the case of counting shrinkable objects.
 
 -- 
 Daniel Vetter
