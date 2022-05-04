@@ -1,49 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2107C519EEE
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 14:07:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD6D519EF0
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 14:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB4510E7E8;
-	Wed,  4 May 2022 12:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB4410E504;
+	Wed,  4 May 2022 12:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1870C10E504;
- Wed,  4 May 2022 12:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651666046; x=1683202046;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ls4UJiHxXQ/mgV/gf1ness9dRnHLG43SWX6OfTqbmbw=;
- b=Dc8vCg9w2fOnGO8VGsP89VZm1RvmpViSfVxgLXemJGVqJlwsc32mRuOk
- 9g33OPXSrSwCJfr6UUQBnQoptdlvI1TBc457xxoLo5m9vXoe+LtC8/dSD
- 4Ke+VlOUAaMpEnRbWcovY8SBs3AgNBTdE4fPsXALqIifDLy7EXoICvNkq
- yS4Aq1GV3nfCDokkjlvLfeNB3tBWkBpPePe1YFlRNeY4VtlzwyEGE8GhP
- qKN2QoRb9IbNFc77pqWXqcb7z5qdDkUvzPxItYRXyV42mm9TMV9QyPt9V
- 2afJm3eq9vnB7qcHvqVrX1wcarF8txIEU8qZ1tL/tOo2r1gZeO8AWWh/F w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="267343600"
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="267343600"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 05:07:25 -0700
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="693884095"
-Received: from gidaly-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.236.183])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 05:07:24 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915: Don't use DRM_DEBUG_WARN_ON for ring
- unexpectedly not idle
-Date: Wed,  4 May 2022 13:07:15 +0100
-Message-Id: <20220504120715.911045-2-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220504120715.911045-1-tvrtko.ursulin@linux.intel.com>
-References: <20220504120715.911045-1-tvrtko.ursulin@linux.intel.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31CA410E504
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 12:08:12 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1nmDnc-0001Vf-Sm; Wed, 04 May 2022 14:08:08 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH v11 00/24] drm/rockchip: RK356x VOP2 support
+Date: Wed,  4 May 2022 14:08:07 +0200
+Message-Id: <165166602794.882666.15451667003983474386.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,41 +41,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Fri, 22 Apr 2022 09:28:17 +0200, Sascha Hauer wrote:
+> It's v11 time. There's only one small change to v10. Discussion seems to
+> have settled now. Is there anything left that prevents the series from
+> being merged? I'd really like to have it in during the next merge
+> window.
+> 
+> This series still depends on:
+> drm/rockchip: Refactor IOMMU initialisation (https://lists.freedesktop.org/archives/dri-devel/2022-April/349548.html)
+> arm64: dts: rockchip: add basic dts for the radxa rock3 model a
+> 
+> [...]
 
-DRM_DEBUG_WARN_ON should only be used when we are certain CI is guaranteed
-to exercise a certain code path, so in case of values coming from MMIO
-reads we cannot be sure CI will have all the possible SKUs and parts, or
-that it will catch all possible error conditions. Use drm_warn instead.
+Applied, thanks!
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_ring_submission.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+[21/24] drm/rockchip: Make VOP driver optional
+        commit: b382406a2cf4afaa7320a7ad4b298ed6e2675437
+[22/24] drm: rockchip: Add VOP2 driver
+        commit: 604be85547ce4d61b89292d2f9a78c721b778c16
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-index 5423bfd301ad..f8f279a195c0 100644
---- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-@@ -117,7 +117,9 @@ static void flush_cs_tlb(struct intel_engine_cs *engine)
- 		return;
- 
- 	/* ring should be idle before issuing a sync flush*/
--	GEM_DEBUG_WARN_ON((ENGINE_READ(engine, RING_MI_MODE) & MODE_IDLE) == 0);
-+	if ((ENGINE_READ(engine, RING_MI_MODE) & MODE_IDLE) == 0)
-+		drm_warn(&engine->i915->drm, "%s not idle before sync flush!\n",
-+			 engine->name);
- 
- 	ENGINE_WRITE_FW(engine, RING_INSTPM,
- 			_MASKED_BIT_ENABLE(INSTPM_TLB_INVALIDATE |
+ - Made checkpatch --strict happier
+ - move vop2.h binding header over to here
+
+[23/24] dt-bindings: display: rockchip: Add binding for VOP2
+        commit: 74015e2650bad641a02100cdf0ac23a96c1a2553
+[24/24] dt-bindings: display: rockchip: dw-hdmi: fix ports description
+        commit: 4073e42028de0f6ebbd86a9b30aaa5501bcdff59
+
+Best regards,
 -- 
-2.32.0
-
+Heiko Stuebner <heiko@sntech.de>
