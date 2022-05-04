@@ -1,68 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E5E51AD10
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:38:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9D751AD1A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E8610EA40;
-	Wed,  4 May 2022 18:38:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2037810EAB0;
+	Wed,  4 May 2022 18:41:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C73BA10EA5E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 18:38:08 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id x33so3854190lfu.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:38:08 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D36A10EAB0
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 18:41:12 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id t25so3843717lfg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VDj+h4V23SXKlruYDD3RGIbbcHLL5wjAWDq/F5foLqE=;
- b=fxjXjRbPxX0+juWMAepDKZlUcCaSCPxxuzNTXL/t1cwBxfS5s2tjysAoHlG3Z67/7R
- XL2oup6dBfxm30lTRgo8OIwVvvc3Wey04GuG7Vb/BzbHV9UwXBemXCx5r2q6SqEAqeEU
- D9vmaG0dBfIjkmy51e5WuulFFGzZ6A/ZTJDV1vQbEiBil8Up9kTCSI2yPBj/jPtV4ZT3
- OeV0t8JKfTeTvqiCBUVYCb6xBarrjSwc+726v+pjx1/wKJS2WyK3HVpGymESkVavXbMg
- BM1/r/DDv2pCN+hcuanvYGk/YgHOCr5bcy6DFbmISlx+GYBjpT5NZ6l1mlj4J8qDjXus
- 1KmA==
+ bh=wTxln7YGVkX89i8PG0IKXfsso9aaC9QMWGmO6EX/EGY=;
+ b=z2Ctxr3w9cDEGS/IXiaRNEtZDn6Wv0POATksyAG9keUZE2UBpjRpqxqEhe03gIVezk
+ JUHIQzyf/0MFa26gN3hi0g8FHd/HHXCynEgpy2M5H7LEO8cPdG9LbSNWy4iMxvJh/joQ
+ KVsH9tDJmcqntkqGTL3cxSgFiPZgi+CX0jvzztvuwLE5KOCWpXjvHU8Nm3OXF7d/+Kop
+ MaDt4RjNKWP6xsVrGhiEed3Zu7Y1eH3v+cMbJ04VzT7yPGJHlsXkTiyp1XYyofqvPaQi
+ QbrsqXxwYv8AvPL0L/DqQxBoG7tz9RBWjz0w9SJu5p2yT+8+8vehbDyH1X46CuUQ+MW9
+ mCgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VDj+h4V23SXKlruYDD3RGIbbcHLL5wjAWDq/F5foLqE=;
- b=KscGhzaM+Qn9qqLl4HjJXKTDj9sngJ+Kdf0ZkDPkB0DjMqLjON49+XOf7L41bIJ/Ib
- NFCt3/qpM9B9mqIvjVttIpzu05trQwsMTjitdARY8h+MeBsTGXgetdiD/9UijDvb5DE5
- aCV9rmITo239SZtFGuoHDgSjTBQHe9/mWkdv1M8U1ZW8u1bnrM7GJigdStLQSHhRz5O5
- qrIFxyXPA7WaQbTpehJIi/WwO+eyX+M25zo/yolD1V/ysgP8JPWh1O1yHy7i+vka1bo3
- qViea5edIDDdkeaBhMvjSzda9Z0GCy4U9NDCEm4vb47Jfzm8E3DzUU4FlD23Pk6ppioN
- XuUg==
-X-Gm-Message-State: AOAM531aeT7de5ktq1y26s4XkffrHvnfdVgi/VLtGdQLyTv5UCIO5c65
- 19lxv8tXYtADUEb4UR+cPsZ7jw==
-X-Google-Smtp-Source: ABdhPJyI5erUXW0RKxsHAT4wZDIOhnHXaMT1ZI70tUjd1MU7r4fGr09Jg5RPwZvekympeq5jP9071g==
-X-Received: by 2002:a05:6512:22cf:b0:473:a41f:155f with SMTP id
- g15-20020a05651222cf00b00473a41f155fmr7171873lfu.227.1651689487107; 
- Wed, 04 May 2022 11:38:07 -0700 (PDT)
+ bh=wTxln7YGVkX89i8PG0IKXfsso9aaC9QMWGmO6EX/EGY=;
+ b=v+GjDhLKIkdG41vZZ1Z6E6ah6lr7dU+GmwfnUBp3ET6wpjUiHRfTgJQZhICrrcSRVl
+ JrYjnC7JBlxLR8fDo5jWFZTjSuqbRRVu0tvC5ejM9va0ozEZae5M7u8PI3FNlxWOo9tH
+ xgvPX0Na02fkAWq181ZZ8h6tg29FjrwYrnIn/4+iuT4Qm0DrghySIplY0rgHWbaegNv7
+ f4WIpX4UrLeZCfeSNzKJMxMUCpYu+XgTVWf6Dfo/eofp09a+X1PpkL8y87/p/fVzESGd
+ 0v84v9oYYDH23WHK5M5SqdKO0129/US3Ai0O/HqMEhvV7xhRDskj+ZNhFJggKibc8GTP
+ NteQ==
+X-Gm-Message-State: AOAM532+ScL9o27Xk+PZ8Z9Ojpj2flNlXfbhyxtg4kePGkrXYYRMOcf0
+ K8FyXjCsQGCF9xICY5YFTtSmjNu/KOfpqA==
+X-Google-Smtp-Source: ABdhPJy4zg1hpUl4Auyu5EEfhi6Mx+a0yiiys0cRdUGvJh5KnPLpnHF/RaEZ9+x6pGoF15y0uGxIGA==
+X-Received: by 2002:a05:6512:683:b0:473:a110:e52 with SMTP id
+ t3-20020a056512068300b00473a1100e52mr8290893lfe.412.1651689670755; 
+ Wed, 04 May 2022 11:41:10 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- y20-20020ac24214000000b0047255d21168sm1270671lfh.151.2022.05.04.11.38.06
+ s15-20020ac25fef000000b0047255d2115esm1274090lfg.141.2022.05.04.11.41.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 11:38:06 -0700 (PDT)
-Message-ID: <834eeda0-12b0-3f16-8ca2-89175c1de186@linaro.org>
-Date: Wed, 4 May 2022 21:38:05 +0300
+ Wed, 04 May 2022 11:41:10 -0700 (PDT)
+Message-ID: <aa898db3-c52f-61d5-6a55-0d8b836343fb@linaro.org>
+Date: Wed, 4 May 2022 21:41:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v3] drm/msm/dp: fix event thread stuck in wait_event after
- kthread_stop()
+Subject: Re: [PATCH] drm/msm: Limit command submission when no IOMMU
 Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
- vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
- bjorn.andersson@linaro.org
-References: <1651595136-24312-1-git-send-email-quic_khsieh@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220502172908.3569799-1-robdclark@gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1651595136-24312-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <20220502172908.3569799-1-robdclark@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,69 +73,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Luca Weiss <luca@z3ntu.xyz>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/05/2022 19:25, Kuogee Hsieh wrote:
-> Event thread supposed to exit from its while loop after kthread_stop().
-> However there may has possibility that event thread is pending in the
-> middle of wait_event due to condition checking never become true.
-> To make sure event thread exit its loop after kthread_stop(), this
-> patch OR kthread_should_stop() into wait_event's condition checking
-> so that event thread will exit its loop after kernal_stop().
+On 02/05/2022 20:29, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Changes in v2:
-> --  correct spelling error at commit title
+> Running the GPU without an IOMMU is not really a supported (or sane)
+> configuration.  Yet it can be useful during SoC bringup (ie. if the
+> iommu driver doesn't work yet).
 > 
-> Changes in v3:
-> -- remove unnecessary parenthesis
-> -- while(1) to replace while (!kthread_should_stop())
+> Lets limit it to users who already have /dev/mem access, to avoid the
+> chance that a user accidentially configures kernel without IOMMU
+> support.
 > 
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Fixes: 570d3e5d28db ("drm/msm/dp: stop event kernel thread when DP unbind")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-
-Let's do it properly:
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/msm/msm_gem_submit.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index c388323..da5c03a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1103,15 +1103,20 @@ static int hpd_event_thread(void *data)
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index 23b68bc945f6..9cd8c8708990 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -734,6 +734,11 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>   	if (args->pad)
+>   		return -EINVAL;
 >   
->   	dp_priv = (struct dp_display_private *)data;
->   
-> -	while (!kthread_should_stop()) {
-> +	while (1) {
->   		if (timeout_mode) {
->   			wait_event_timeout(dp_priv->event_q,
-> -				(dp_priv->event_pndx == dp_priv->event_gndx),
-> -						EVENT_TIMEOUT);
-> +				(dp_priv->event_pndx == dp_priv->event_gndx) ||
-> +					kthread_should_stop(), EVENT_TIMEOUT);
->   		} else {
->   			wait_event_interruptible(dp_priv->event_q,
-> -				(dp_priv->event_pndx != dp_priv->event_gndx));
-> +				(dp_priv->event_pndx != dp_priv->event_gndx) ||
-> +					kthread_should_stop());
->   		}
+> +	if (unlikely(!ctx->aspace) && !capable(CAP_SYS_RAWIO)) {
+> +		DRM_ERROR_RATELIMITED("IOMMU support or CAP_SYS_RAWIO required!\n");
+> +		return -EPERM;
+> +	}
 > +
-> +		if (kthread_should_stop())
-> +			break;
-> +
->   		spin_lock_irqsave(&dp_priv->event_lock, flag);
->   		todo = &dp_priv->event_list[dp_priv->event_gndx];
->   		if (todo->delay) {
+>   	/* for now, we just have 3d pipe.. eventually this would need to
+>   	 * be more clever to dispatch to appropriate gpu module:
+>   	 */
 
 
 -- 
