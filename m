@@ -2,49 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B75519382
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 03:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E20519389
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 03:36:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3510B10E0E7;
-	Wed,  4 May 2022 01:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93D9C10E478;
+	Wed,  4 May 2022 01:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1E5910E0E7
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 01:30:13 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 4C72783C5A;
- Wed,  4 May 2022 03:30:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1651627811;
- bh=vX8SokEeZlfhXIYBDzYkPo2vLfAybtHuA9E6p997isQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YJY4rgSqa7Vy7zzWA4+B4BbP1HdsAK6sipMc4azm9ksPpTFQL40faXml76fXDjEZ/
- mXdQqpMwheGIYsrCPgzbZN4kaiTjsxSy4qyhepqd3A+tLly/hEOSbngTUGYihxrItA
- C/z/7JSznhDUbPPsMZZ4PNy8lSnN0rKtzv+1bhYhOxC47MPZBbTkGxPrVOfZhpOtrP
- vo6gWZJyWaar7hdaLhJDVKaGFPgrlS+VrtNx5TmkwaWeE3PYWDkwcKWnBiDsg7riTM
- BvWiS0l8AbbF+CMFK+euHA/dw0LtzhKplHHc5fgy+CuiEIn7PhQjJaMQOu51FM4bVa
- ++H48kUcN8lxg==
-Message-ID: <6a079a60-f6b6-f432-b9c2-0444ab5ecd09@denx.de>
-Date: Wed, 4 May 2022 03:30:10 +0200
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D417710E478
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 01:36:25 +0000 (UTC)
+X-UUID: 7b76a2315ff4434e95a226aa64066ef7-20220504
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:cee8f844-9481-479e-bc83-c47e6495e2cb, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:7d71992f-6199-437e-8ab4-9920b4bc5b76,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 7b76a2315ff4434e95a226aa64066ef7-20220504
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1770905408; Wed, 04 May 2022 09:36:20 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 4 May 2022 09:36:18 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 4 May 2022 09:36:18 +0800
+Message-ID: <7707ae9a9e5ac1e860e0620b9e1009be1425c9cc.camel@mediatek.com>
+Subject: Re: [PATCH v19 06/25] soc: mediatek: add mtk_mmsys_write_reg API
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Rob
+ Herring" <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, <linux@roeck-us.net>
+Date: Wed, 4 May 2022 09:36:18 +0800
+In-Reply-To: <c6be6d95-35f0-fb62-2d10-53f974ba67e4@collabora.com>
+References: <20220503102345.22817-1-nancy.lin@mediatek.com>
+ <20220503102345.22817-7-nancy.lin@mediatek.com>
+ <c6be6d95-35f0-fb62-2d10-53f974ba67e4@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement
- simple Freescale i.MX8MP LDB bridge
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220426193645.244792-1-marex@denx.de>
- <YnB3008DXAVoUK7j@robh.at.kernel.org>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <YnB3008DXAVoUK7j@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,58 +62,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/3/22 02:31, Rob Herring wrote:
+Hi Angelo,
 
-Hi,
+Thanks for the review.
 
-[...]
-
->>   .../bindings/display/bridge/fsl,ldb.yaml      | 92 +++++++++++++++++++
->>   1 file changed, 92 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+On Tue, 2022-05-03 at 14:19 +0200, AngeloGioacchino Del Regno wrote:
+> Il 03/05/22 12:23, Nancy.Lin ha scritto:
+> > Add mtk_mmsys_write_reg API. Simplify code for writing mmsys reg.
+> > It is a preparation for adding support for mmsys config API.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > ---
+> >   drivers/soc/mediatek/mtk-mmsys.c | 35 ++++++++++++++-------------
+> > -----
+> >   1 file changed, 15 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> > b/drivers/soc/mediatek/mtk-mmsys.c
+> > index ab3c5cbb0175..3e2e5e3f721d 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -191,22 +191,26 @@ static int
+> > mtk_mmsys_find_match_drvdata(struct mtk_mmsys *mmsys,
+> >   	return -EINVAL;
+> >   }
+> >   
+> > +static void mtk_mmsys_write_reg(struct mtk_mmsys *mmsys, u32
+> > offset, u32 mask, u32 val)
+> > +{
+> > +	u32 tmp;
+> > +
+> > +	tmp = readl_relaxed(mmsys->regs + offset);
+> > +	tmp = (tmp & ~mask) | val;
+> > +	writel_relaxed(tmp, mmsys->regs + offset);
+> > +}
+> > +
 > 
-> A little quick on the applying...
-
-Right
-
->> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
->> new file mode 100644
->> index 000000000000..77f174eee424
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
->> @@ -0,0 +1,92 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Freescale i.MX8MP DPI to LVDS bridge chip
->> +
->> +maintainers:
->> +  - Marek Vasut <marex@denx.de>
->> +
->> +description: |
->> +  The i.MX8MP mediamix contains two registers which are responsible
->> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
->> +  those registers as bridge within the DT.
+> Uhm... this is the equivalent of regmap_update_bits(): I fear that
+> calling this
+> mtk_mmsys_write_reg() may lead to confusion.
 > 
-> This is a subblock of the mediamix? Please add 'reg' for the 2 registers
-> even if you use a regmap.
+> I think that a more appropriate name would be mtk_mmsys_update_bits()
+> or
+> something similar, recalling that this is not just a register write,
+> but
+> a RMW.
+> 
+> Regards,
+> Angelo
 
-I submitted a patch:
-[PATCH] dt-bindings: display: bridge: ldb: Fill in reg property
+Thanks for your suggestion. I will refine the function name in the next
+revision.
 
-> I didn't find a binding for mediamix. You really need the containing
-> block binding before a child node.
+Regards,
+Nancy
 
-Right, I'm tempted to send a revert outright and wait for the mediamix 
-bindings to hit upstream.
