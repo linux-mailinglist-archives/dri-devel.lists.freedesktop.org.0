@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E9A519E30
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D10519E33
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B782E10F1F3;
-	Wed,  4 May 2022 11:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF09010F81B;
+	Wed,  4 May 2022 11:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF3E10F1F3
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:41:03 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- cx11-20020a17090afd8b00b001d9fe5965b3so4941090pjb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:41:03 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55ECB10F81B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:41:11 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id d22so1161523plr.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VdD/wGuLMDzQpZtAEHDiK9YZwN0IPCd8Y4aW5A9u8PY=;
- b=hf7zZJvFwJauSkyXVeWkDRtHNkmvKRNwJja0aCJjitVuqn0rZ/G1qRLFVAkk6AQlwq
- FFbI8JUUJBNr8y/mJ5RvChuZDt/kOBF5Emqi3R/FXybLYjt6DssBfMb7+DkozBN1tua5
- d2DgAn3WCVtMAdBLnIlEHwaN5ySulFkbGDWG4=
+ bh=SQ9haNco3NM8TvQE4oQrzscoTZTKBiwJWPBhK4nZTlM=;
+ b=WZccA/sQszjIVx/2AhDkBWPBSzrzjiK8PfBg7P6oVXxPeAM/aMb7LT/YW1l8H9bWIg
+ 9h9J2tsIMmKRggenNI9KNyquubuh5wn3FkcG9aLzby30CkQEGJDL942e6kkad2++ZD6E
+ 5XtXbPGLSZy8qFOlOCDJouh0HnGj+UHk4gErA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VdD/wGuLMDzQpZtAEHDiK9YZwN0IPCd8Y4aW5A9u8PY=;
- b=sm3TFy/+hQRJT6P1vwjB1FS2XIPJqcUkkraSh1l2BTpiU9PX36V/PPwARgzf1/+uTJ
- gQ7YnMVEsy6kCcgwBkzJ7wUfviEYye0lvM580/9c26YqaamBQC5d56sbDdYMwE5geAeJ
- ZIp8ncGHtykfoY3jiuFT7EAcbrTiIS1WWGDaiSMNGF2QLgKFRfoP+ShrL5+RNX6+K0NQ
- BzY2zHw1Eptr1qMEwkd9jRIBXfuRR9VDDmLwBpNjIXhm+YmQo3Nffcc4nHJqZzQun5hm
- KrXhJ9/xSQmjZk8x9nGQXrWDa9l5RHkggNwLUsf2/KJ2ZdLXilMlG1QGvPvXO9BrwW29
- m7jA==
-X-Gm-Message-State: AOAM533XWbkXO7JbWITm/FV1RtgvxSrI/UINX8BU88PaeYDNg2wfV1l9
- M6jyUga+/nWbRcCl7Y9J/sWn5w==
-X-Google-Smtp-Source: ABdhPJxQ/Ey7Ts8xFHKdtBw1BihEPT5ET563AMQiQIldEEXMR01uBieFLEoZXcQajLHNZxRIHNjIMQ==
-X-Received: by 2002:a17:90a:170c:b0:1dc:20c4:6354 with SMTP id
- z12-20020a17090a170c00b001dc20c46354mr9874828pjd.113.1651664463136; 
- Wed, 04 May 2022 04:41:03 -0700 (PDT)
+ bh=SQ9haNco3NM8TvQE4oQrzscoTZTKBiwJWPBhK4nZTlM=;
+ b=JvT0CA11wsZfbtsVAQ4s2SdOdG6AztTKZTg8FU0MQMb1n5h1YHEJDUP+Mhbh2lS0qk
+ UGva3sWnlct9wIHB7nTUkfaGH03swdGxk/KSkhe9kJxFgtIqacWA10fYeFmVjBhCTM8D
+ ZYbV2+iMpENzdrZfdpOH6EwadY7e6HPpip+bmQMgAxj2GZC67H/OolQtZGri5125MUW2
+ HVLcLFBK5jy4NJrZ2cdZ4Ueh6KXjFCNGn830DX4Wf2kneuQTVqVHcjHoyOZvCK7CuqGp
+ 3H284QFFc+kxWPSiPRPP205QyQC0OfGd6L8TMX+S7ctJzRdJYL1JSJeWfozriF2D9TJl
+ n3rQ==
+X-Gm-Message-State: AOAM531jMHzJbrmPpJp12iMr2L0+jScGPNXS68A+1MI3RFrKDBRtiyOb
+ 5Piw8wdw0GswUhtt3K2N0JVHbg==
+X-Google-Smtp-Source: ABdhPJyV3t5mNkVoUubxK57UYYy+vL91bPwWh88omt8NmMduKR4j6eALzLELq+usTI7yeU+uQ9BWxA==
+X-Received: by 2002:a17:90b:4a08:b0:1dc:6cc1:3d24 with SMTP id
+ kk8-20020a17090b4a0800b001dc6cc13d24mr9883845pjb.131.1651664470714; 
+ Wed, 04 May 2022 04:41:10 -0700 (PDT)
 Received: from localhost.localdomain ([183.83.137.38])
  by smtp.gmail.com with ESMTPSA id
- k15-20020aa790cf000000b0050dc7628174sm8027498pfk.78.2022.05.04.04.40.55
+ k15-20020aa790cf000000b0050dc7628174sm8027498pfk.78.2022.05.04.04.41.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 04:41:02 -0700 (PDT)
+ Wed, 04 May 2022 04:41:10 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -59,14 +58,14 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-Subject: [PATCH v2 03/12] drm: bridge: samsung-dsim: Handle platform init via
- driver_data
-Date: Wed,  4 May 2022 17:10:12 +0530
-Message-Id: <20220504114021.33265-4-jagan@amarulasolutions.com>
+Subject: [PATCH v2 04/12] drm: bridge: samsung-dsim: Mark PHY as optional
+Date: Wed,  4 May 2022 17:10:13 +0530
+Message-Id: <20220504114021.33265-5-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220504114021.33265-1-jagan@amarulasolutions.com>
 References: <20220504114021.33265-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,124 +86,36 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to make a common Samsung DSIM bridge driver some platform
-specific glue code needs to maintain separately as it is hard to
-maintain platform specific glue and conventional component_ops on
-the drm bridge drivers side.
+In i.MX8M Mini/Nano SoC the DSI Phy requires a MIPI DPHY bit
+to reset in order to activate the PHY and that can be done via
+upstream i.MX8M blk-ctrl driver.
 
-This patch is trying to support that glue code initialization in
-the form of platform_init flag in driver_data.
-
-So, the platforms which enable platform_init flags will handle all
-platform specific initialization via samsung_dsim_plat_probe.
-
-The Platform probe is responsible to
-- initialize samsung_dsim_plat_data and install hooks
-- initialize component_ops
-- preserve samsung_dsim structure pointer
+So, mark the phy get as optional.
 
 v2:
-* fix samsung_dsim_plat_probe return pointer
+* none
 
 v1:
-* use platform_init instead of exynos_specific
-* handle component_ops in glue code
+* new patch
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 22 +++++++++++++++++-----
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 18 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index f23f06d55158..99f80e9c1600 100644
+index 99f80e9c1600..60dc863113a0 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -370,6 +370,7 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
- 	.reg_values = reg_values,
-+	.platform_init = true,
- };
+@@ -1584,7 +1584,7 @@ static int samsung_dsim_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dsi->reg_base))
+ 		return PTR_ERR(dsi->reg_base);
  
- static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
-@@ -382,6 +383,7 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
- 	.reg_values = reg_values,
-+	.platform_init = true,
- };
- 
- static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
-@@ -392,6 +394,7 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
- 	.reg_values = reg_values,
-+	.platform_init = true,
- };
- 
- static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
-@@ -403,6 +406,7 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
- 	.wait_for_reset = 0,
- 	.num_bits_resol = 12,
- 	.reg_values = exynos5433_reg_values,
-+	.platform_init = true,
- };
- 
- static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
-@@ -414,6 +418,7 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 12,
- 	.reg_values = exynos5422_reg_values,
-+	.platform_init = true,
- };
- 
- static const struct of_device_id samsung_dsim_of_match[] = {
-@@ -1610,12 +1615,16 @@ static int samsung_dsim_probe(struct platform_device *pdev)
- 	dsi->bridge.of_node = dev->of_node;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
--	dsi->plat_data = samsung_dsim_plat_probe(dsi);
--	if (IS_ERR(dsi->plat_data)) {
--		ret = PTR_ERR(dsi->plat_data);
--		goto err_disable_runtime;
-+	if (dsi->driver_data->platform_init) {
-+		dsi->plat_data = samsung_dsim_plat_probe(dsi);
-+		ret = IS_ERR(dsi->plat_data) ? PTR_ERR(dsi->plat_data) : 0;
-+	} else {
-+		ret = mipi_dsi_host_register(&dsi->dsi_host);
- 	}
- 
-+	if (ret)
-+		goto err_disable_runtime;
-+
- 	return 0;
- 
- err_disable_runtime:
-@@ -1630,7 +1639,10 @@ static int samsung_dsim_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(&pdev->dev);
- 
--	samsung_dsim_plat_remove(dsi);
-+	if (dsi->driver_data->platform_init)
-+		samsung_dsim_plat_remove(dsi);
-+	else
-+		mipi_dsi_host_unregister(&dsi->dsi_host);
- 
- 	return 0;
- }
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index 5cf8570ac978..70224d20414b 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -41,6 +41,7 @@ struct samsung_dsim_driver_data {
- 	unsigned int wait_for_reset;
- 	unsigned int num_bits_resol;
- 	const unsigned int *reg_values;
-+	bool platform_init;
- };
- 
- struct samsung_dsim_host_ops {
+-	dsi->phy = devm_phy_get(dev, "dsim");
++	dsi->phy = devm_phy_optional_get(dev, "dsim");
+ 	if (IS_ERR(dsi->phy)) {
+ 		dev_info(dev, "failed to get dsim phy\n");
+ 		return PTR_ERR(dsi->phy);
 -- 
 2.25.1
 
