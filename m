@@ -2,73 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB5051994F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FF6519967
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A70E10F50A;
-	Wed,  4 May 2022 08:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E489910E44F;
+	Wed,  4 May 2022 08:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 248D710F50A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:10:36 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 8999B5C0164;
- Wed,  4 May 2022 04:10:33 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 04 May 2022 04:10:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1651651833; x=1651738233; bh=bPK/7BcS9Z
- Vh3KOIsYKoLzx9Bn2Qwpk/lSWXMxu/LoI=; b=J6CLwRtA2ZYSjDHdqrBztHg381
- uRuW2bQZmiovtEl/Fiou6WhY8pFI19nYVQEWmjTmNlglayEEL0WpQSwPxKuZNehi
- n9BgkdA3xN0rkjol07ef/5ntqieRhE5UJETNX+hA1k7uLPsjALxNgRxDqiGtLZjK
- aXoiA07u3mup+HWuMsdh8nY+KhYLZrxCu1yF/pehMbQLplI8GvzdJPzJATOcIAY2
- wWPIaPFokJcoYGrOj0TRb6IkToybUsvYJhzJStDxisd6wReScwGAFwaGvnEEqRtw
- C/n5PLgdfzEwx9TquMYwdAmju1IlvoqKhwtUP+qT82WBdCZX0dN2EeUowDSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651651833; x=
- 1651738233; bh=bPK/7BcS9ZVh3KOIsYKoLzx9Bn2Qwpk/lSWXMxu/LoI=; b=p
- zdnNIlQRXM+yQCUeZydDtKOnJ9c7mJLM74euDTdz2mjgAmwI45IVBBnrhsAtArAo
- V2sCFwDgjDWQBzvqLHG+ju1CDTSxKJ/oWQ1uzqStvurCKXArDcUMPUJiQLewJlje
- tKTLFl7tM+3+38RXEDOfso4hQY0fVWGbBi0cdh3tGD5YNrl7ZV1gJ4FAsxkJGswn
- cLoMGTLkkqaWyhe8ldYOyUosRbg0rgJi7Y1INTKXmq6PbDwBbr8RemgyMgrY3Iaw
- A4L71u2vPOfNVMfoYXEsUm8SAUwu6L1qftbjVI3FfjcffjwACUbvxK2w3ZPC5uHO
- FkQOlxn+15pbkLSYGKU/g==
-X-ME-Sender: <xms:-DRyYkWVXFjCngtoAOuWrGTjaBdZ8nl3lFMyXDATzuWImclZIed8ng>
- <xme:-DRyYomoGYdKzjGFXq2nPvujQ9suChNwFlbtB7LU332-CN_6zk7DxjasS8RhbrMJq
- e27PQyQxylg_22cOig>
-X-ME-Received: <xmr:-DRyYoYwBLfRq0WrfNXqSiOS2gcsw6oK0hpq0OVXf2qRMWWfCTVSt7wUlM9LnwV1XvR2eEtRxGJ7eAhOUfwa7KHna602xAb-gVfZQY8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelucetufdoteggodetrfdotffvucfrrh
- hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
- lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
- epfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
- hnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeeigeetjeen
- ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-DRyYjV5zOQ7DbD3VptxFu0qmPx95hgNLcYov6CKbtqRtBEn-cMbpQ>
- <xmx:-DRyYun9FA8ENPT1MkSVdXMFqQpNH_jnSC4SBuHOafSV7P4TbePPPQ>
- <xmx:-DRyYocOwuktBPfp9HSYQ6MuWcQmmep9CW3d6VkraxvJm68wkV97HQ>
- <xmx:-TRyYgVnUjHduSX9wKGztbduXCOmL6nbZTouotelrq9R_DRqK3PBQw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 May 2022 04:10:32 -0400 (EDT)
-Date: Wed, 4 May 2022 10:10:30 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH] drm/todo: Add entry for using kunit in the subsystem
-Message-ID: <20220504081030.ky57nenipnif5r2e@houat>
-References: <20220504080212.713275-1-javierm@redhat.com>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A50110E369
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:15:03 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id gh6so1463648ejb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 01:15:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=YU7WdE75mRU+qDqKjlkeSe99cyORSKiV3WMSDIk2Mm4=;
+ b=IZKWdZOs/fEpC94JbfhEGGFe6x+OiHyrCqGNjb/R4QeeYFUoV1UxTXTgSdMH6draEN
+ 1GN2iAFks/LsviNUA8VButsWDIiRacK6EXAiVll5dUmK27EAb8nhCoxaLR1uGM69L3sO
+ KXk3IyZqazgI9vW8/jXN/0QcNtJhOP8S6SEIA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YU7WdE75mRU+qDqKjlkeSe99cyORSKiV3WMSDIk2Mm4=;
+ b=BIPYY86bX2kZC3ZFBExyMudcx46hkCyTaF67WrnFm9yUiWy2jrKZMtXtFw8gIIX/x9
+ jR86M2xz5K0001hmyjBMy6t+qLc5BI2Qfsl3tatXkNzDR3CSX0fDVtv1X3os3jgadhyD
+ MPHB8Rg8kpE6hCAnPZSPFDk/S5wxgrUEwn7sJaapC/6fMBf+wqI3bPb6/0/edH4oLA2L
+ of9mNTM+OwmJOSyBAjBfbgaRpnmk9BaYNFiNneLzw+rq2UINW3URATJFBjC229HBiZFo
+ f5hGejT7cpYKBsmJKogEBKiy1upOnvVcdvc0J9tRfFecEX5ffL2MdlxrV7FC1/qjddUC
+ mEzA==
+X-Gm-Message-State: AOAM530JcbIBrbEcfT2JUts229X6bTsHEaQIqtq2PcVZoCRcZcCbtnMI
+ MaLamiDBk8JG06bZgTu0LGKwgA==
+X-Google-Smtp-Source: ABdhPJzGIcq1HCmjeJM+XuvXHW/Whkhb7NvrGuznpZShxCLON1wKywA2lVZ5nMJJk+rFF/TdzNjWPg==
+X-Received: by 2002:a17:907:1c01:b0:6f4:2692:e23 with SMTP id
+ nc1-20020a1709071c0100b006f426920e23mr16703120ejc.243.1651652101983; 
+ Wed, 04 May 2022 01:15:01 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ ia12-20020a170907a06c00b006f3ef214da8sm5486989ejc.14.2022.05.04.01.15.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 01:15:01 -0700 (PDT)
+Date: Wed, 4 May 2022 10:14:55 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: avoid cleaning up sched_job when submit
+ succeeded
+Message-ID: <YnI1/0Hw2GB9phaH@phenom.ffwll.local>
+References: <20220429191731.2187339-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3nl2mgc5rvyywsjl"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220504080212.713275-1-javierm@redhat.com>
+In-Reply-To: <20220429191731.2187339-1-l.stach@pengutronix.de>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,74 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---3nl2mgc5rvyywsjl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, May 04, 2022 at 10:02:12AM +0200, Javier Martinez Canillas wrote:
-> The Kernel Unit Testing (KUnit) framework provides a common framework for
-> unit tests within the Linux kernel. Having a test suite would allow to
-> identify regressions earlier.
->=20
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+On Fri, Apr 29, 2022 at 09:17:31PM +0200, Lucas Stach wrote:
+> While the labels may mislead the casual reader, the tail of the function
+> etnaviv_ioctl_gem_submit is always executed, as a lot of the structures
+> set up in this function need to be cleaned up regardless of whether the
+> submit succeeded or failed.
+> 
+> An exception is the newly added drm_sched_job_cleanup, which must only
+> be called when the submit failed before handing the job to the
+> scheduler.
+> 
+> Fixes: b827c84f5e84 ("drm/etnaviv: Use scheduler dependency handling")
+> Reported-by: Michael Walle <michael@walle.cc>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->=20
->  Documentation/gpu/todo.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->=20
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 127e76ee0b2d..10bfb50908d1 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -603,6 +603,20 @@ Level: Advanced
->  Better Testing
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> +Add unit tests using the Kernel Unit Testing (KUnit) framework
-> +--------------------------------------------------------------
-> +
-> +The `KUnit <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index=
-=2Ehtml>`_
-> +provides a common framework for unit tests within the Linux kernel. Havi=
-ng a
-> +test suite would allow to identify regressions earlier.
-> +
-> +A good candidate for the first unit tests are the format-conversion help=
-ers in
-> +``drm_format_helper.c``.
-> +
-> +Contact: Javier Martinez Canillas <javierm@redhat.com>
-> +
-> +Level: Intermediate
+> Daniel, please apply to the appropriate drm-misc branch to make sure
+> this ends up in the same pullrequest as the offending commit.
 
-Kunit is fairly easy to grasp if you have some knowledge of other unit
-testing frameworks already (pytest, cmocka, etc.)
+Apologies on being behind on emails, I just came to the same conclusion.
 
-Another good candidate would be to convert (some ?) selftests to kunit.
-I'm not sure the others, but at least test-drm_cmdline_parser should be
-fairly easy to convert.
+Except there's one issue, the error path for sync_file_create is after a
+successful call to drm_sched_entity_push_job(), so in that case we must
+again _not_ call drm_sched_job_cleanup. So we need to change that goto
+err_submit_job to goto err_submit_put and maybe add a comment about why.
 
-Maxime
+Can you pls respin?
 
---3nl2mgc5rvyywsjl
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks, Daniel
 
------BEGIN PGP SIGNATURE-----
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index 98bb5c9239de..bf2a400f59c9 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -607,7 +607,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  	args->fence = submit->out_fence_id;
+>  
+>  err_submit_job:
+> -	drm_sched_job_cleanup(&submit->sched_job);
+> +	if (ret)
+> +		drm_sched_job_cleanup(&submit->sched_job);
+>  err_submit_put:
+>  	etnaviv_submit_put(submit);
+>  
+> -- 
+> 2.30.2
+> 
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYnI09gAKCRDj7w1vZxhR
-xd5LAQCNNRyTW43GNxecA9dlkRXKzQrvQOpErHWYblVKbVbEPwD/YtdmQ1zS0OV+
-en3dU8LmtXErx0wwYkzOPG2RumzKugQ=
-=slP5
------END PGP SIGNATURE-----
-
---3nl2mgc5rvyywsjl--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
