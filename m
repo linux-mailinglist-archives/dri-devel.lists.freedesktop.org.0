@@ -1,58 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0377D519F06
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 14:11:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39412519F22
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 14:21:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4017A10EFC2;
-	Wed,  4 May 2022 12:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA79010E976;
+	Wed,  4 May 2022 12:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B337410EFC2;
- Wed,  4 May 2022 12:11:45 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC7410E604;
+ Wed,  4 May 2022 12:21:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651666305; x=1683202305;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=C+h/rftgRKdb1i6UwOq/0z1PcO5ClpbUoFCjucqM6iM=;
- b=b9vyzU702BQBjYGPYhR78vS9scTbj85n06nPWMXMP8FNFDEE7WiedUcp
- PCI6qDMezGOzvqoY4eg/LZMsDNJoHDDgHR229jyHL/lwqYGWZdl8QUSoa
- /TV4pXcz0ruMS55TY7cOz6I7m8lxeVNDzQ6aH2mygEPH9FODHPBro8mxu
- tXRYWuXhZiVL69m07ZeH3esJ3PVk0nyTIYj66cNZLGOBku9BC8cM6AmEF
- q7i5cS2f3BklGYr0tZTDNLqLckoLOgrAVbvUxen3QUpo8EbId7Qmq2PXf
- ZkrhIoDvUWk3lmdnzAB81pns6sc1vJtGoX17leX4DJuaHKBGgsGX/QRtW A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="267344641"
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="267344641"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 05:11:45 -0700
-X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="664444001"
-Received: from gidaly-mobl1.ger.corp.intel.com (HELO [10.213.236.183])
- ([10.213.236.183])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 05:11:43 -0700
-Message-ID: <ab578c17-faa6-222f-f37e-d5cd4f45dfd0@linux.intel.com>
-Date: Wed, 4 May 2022 13:11:41 +0100
+ t=1651666915; x=1683202915;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=FX28G2dRJvDF+aaInWBzjFS4ellS21zQ+6eIjm4E/Wk=;
+ b=DXhCgbkJBCJVgpTva6Z/eFLpL9Vryx4tr8Z6N9RCVIIxHBNfa9sXghcj
+ epp0fDMFFy1f/pTxytUNNYLuMOctQG7cAUq5A6sllpRrnMgJsJDzvWxvc
+ n+hvDxTZRYnKRMtk+tg3vlGfaplZjkDMT8HJurW+9ez6G0kUr3akUZ2U7
+ JVDvXMBGxhymwYm2PKi6t3w0anPGd1d+1XI/9s6zl9HF5krUOK4zXFhei
+ voD6VqQ5TguS+alYw7laPFIqBlNGLDy/uZ780sU92Ei9dAKPZMynmgv1i
+ AZJIH/2l/9SBHbVFe3rd93tdP8zv+UxjILqHbL/zuHt4irutQlSO19V5C g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="248291214"
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="248291214"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 05:21:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="599510653"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by orsmga001.jf.intel.com with SMTP; 04 May 2022 05:21:49 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 04 May 2022 15:21:48 +0300
+Date: Wed, 4 May 2022 15:21:48 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] drm: Document that power requirements for DP AUX transfers
+Message-ID: <YnJv3B/85hTz54SC@intel.com>
+References: <20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/i915: use IOMEM_ERR_PTR() directly
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220502034328.78486-1-wangkefeng.wang@huawei.com>
- <87h768s5f5.fsf@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <87h768s5f5.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,64 +59,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Jani Nikula <jani.nikula@intel.com>,
+ Maxime Ripard <maxime@cerno.tech>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 02/05/2022 09:30, Jani Nikula wrote:
-> On Mon, 02 May 2022, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->> Use IOMEM_ERR_PTR() instead of self defined IO_ERR_PTR().
->>
->> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+On Tue, May 03, 2022 at 04:21:08PM -0700, Douglas Anderson wrote:
+> When doing DP AUX transfers there are two actors that need to be
+> powered in order for the DP AUX transfer to work: the DP source and
+> the DP sync. Commit bacbab58f09d ("drm: Mention the power state
+> requirement on side-channel operations") added some documentation
+> saying that the DP source is required to power itself up (if needed)
+> to do AUX transfers. However, that commit doesn't talk anything about
+> the DP sink.
 > 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-Pushed to drm-intel-gt-next, thanks for the patch and review!
-
-Regards,
-
-Tvrtko
-
+> For full fledged DP the sink isn't really a problem. It's expected
+> that if an external DP monitor isn't plugged in that attempting to do
+> AUX transfers won't work. It's also expected that if a DP monitor is
+> plugged in (and thus asserting HPD) that it AUX transfers will work.
 > 
->> ---
->>   drivers/gpu/drm/i915/i915_vma.c | 4 ++--
->>   drivers/gpu/drm/i915/i915_vma.h | 1 -
->>   2 files changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
->> index 94fcdb7bd21d..639605c89b7b 100644
->> --- a/drivers/gpu/drm/i915/i915_vma.c
->> +++ b/drivers/gpu/drm/i915/i915_vma.c
->> @@ -541,7 +541,7 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
->>   	int err;
->>   
->>   	if (WARN_ON_ONCE(vma->obj->flags & I915_BO_ALLOC_GPU_ONLY))
->> -		return IO_ERR_PTR(-EINVAL);
->> +		return IOMEM_ERR_PTR(-EINVAL);
->>   
->>   	if (!i915_gem_object_is_lmem(vma->obj)) {
->>   		if (GEM_WARN_ON(!i915_vma_is_map_and_fenceable(vma))) {
->> @@ -594,7 +594,7 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
->>   err_unpin:
->>   	__i915_vma_unpin(vma);
->>   err:
->> -	return IO_ERR_PTR(err);
->> +	return IOMEM_ERR_PTR(err);
->>   }
->>   
->>   void i915_vma_flush_writes(struct i915_vma *vma)
->> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
->> index 67ae7341c7e0..8e74972fdca3 100644
->> --- a/drivers/gpu/drm/i915/i915_vma.h
->> +++ b/drivers/gpu/drm/i915/i915_vma.h
->> @@ -331,7 +331,6 @@ static inline bool i915_node_color_differs(const struct drm_mm_node *node,
->>    * Returns a valid iomapped pointer or ERR_PTR.
->>    */
->>   void __iomem *i915_vma_pin_iomap(struct i915_vma *vma);
->> -#define IO_ERR_PTR(x) ((void __iomem *)ERR_PTR(x))
->>   
->>   /**
->>    * i915_vma_unpin_iomap - unpins the mapping returned from i915_vma_iomap
+> When we're looking at eDP, however, things are less obvious. Let's add
+> some documentation about expectations. Here's what we'll say:
 > 
+> 1. We don't expect the DP AUX transfer function to power on an eDP
+> panel. If an eDP panel is physically connected but powered off then it
+> makes sense for the transfer to fail.
+
+I don't agree with this. I think the panel should just get powred up
+for AUX transfers. Otherwise you can't trust that eg. the /dev/aux
+stuff is actually usable.
+
+-- 
+Ville Syrjälä
+Intel
