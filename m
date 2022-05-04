@@ -2,49 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D3A51A12C
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 15:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BA151A136
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 15:45:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91D3A10ED12;
-	Wed,  4 May 2022 13:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB8510ECC3;
+	Wed,  4 May 2022 13:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2DB610ED07;
- Wed,  4 May 2022 13:41:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 47BE7CE260D;
- Wed,  4 May 2022 13:41:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B0EC385A5;
- Wed,  4 May 2022 13:41:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651671689;
- bh=8izgCIj9I2NmuN+VVbgtEFpR/n2CW+64r3eJYl8w76E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mnlDB4YdFdEbEmBQ1KPloG1YeaejdTprTQukTlTESxwdn0Kz2RmClFa4yUd5nzfFL
- Z0lg8FDOI9Fesg06rFk1ngwCPN+Uhv4ZLfOTL3puKtPFLVM+drz960NnQjPv67XhcE
- MDlrMJ4K97CTIeLg9ZmBf28L4YzD90QLb8rXvaYOc80yQzfVAQXc/lB+F7VP0/KB1D
- fBO1Kokm8d5r+tUfcwMhZ2JB2pdwy+sjjPB/htLiW+hKgZsECQY0RF9Piip7VxI4Iw
- f9pBEQ8F6x+zBI7dSc+eG9knthSLHsI16U78NFDEMc2P7GBfmh0NMQPQgNxlAOSr4R
- O6SwAGFYbTI4w==
-Date: Wed, 4 May 2022 19:11:25 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [Freedreno] [PATCH v2] drm/msm/dsi: use RMW cycles in
- dsi_update_dsc_timing
-Message-ID: <YnKChRtWhgxbOx4V@matsya>
-References: <20220430175533.3817792-1-dmitry.baryshkov@linaro.org>
- <20220430185807.yn2j2coyc77qzx2o@SoMainline.org>
- <02114b24-f954-f145-4918-01cc3def65ac@linaro.org>
- <20220501204102.3xijmadbcrxwyu3x@SoMainline.org>
- <4e308633-cb0d-7050-9ee0-421190683eac@linaro.org>
- <20220502084322.nvj7rnhnemewmil6@SoMainline.org>
+Received: from out30-44.freemail.mail.aliyun.com
+ (out30-44.freemail.mail.aliyun.com [115.124.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B3D10ECC3
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 13:45:18 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04395; MF=yang.lee@linux.alibaba.com;
+ NM=1; PH=DS; RN=8; SR=0; TI=SMTPD_---0VCBzW9x_1651671915; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0VCBzW9x_1651671915) by smtp.aliyun-inc.com(127.0.0.1);
+ Wed, 04 May 2022 21:45:16 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: deller@gmx.de
+Subject: [PATCH -next] video: fbdev: clean up some inconsistent indenting
+Date: Wed,  4 May 2022 21:45:14 +0800
+Message-Id: <20220504134514.19623-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220502084322.nvj7rnhnemewmil6@SoMainline.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,29 +39,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, kernel test robot <lkp@intel.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, adaplas@gmail.com, thomas@winischhofer.net,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02-05-22, 10:43, Marijn Suijten wrote:
-> On 2022-05-02 01:44:20, Dmitry Baryshkov wrote:
-> that require DSC for the screen to work.  I've been told the series
-> didn't result in positive screen output way back in its infancy, but
+Eliminate the follow smatch warnings:
+drivers/video/fbdev/nvidia/nv_hw.c:1512 NVLoadStateExt() warn:
+inconsistent indenting
+drivers/video/fbdev/sis/sis_main.c:4265 sisfb_post_300_rwtest() warn:
+inconsistent indenting
 
-I would be intrested to hear about that. I have only pixel3 at my
-disposal so tested on that. I would be willing to help with more testing
-efforts.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/video/fbdev/nvidia/nv_hw.c | 8 ++++----
+ drivers/video/fbdev/sis/sis_main.c | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-Also, to get DSC to work, the panel needs to be set as well...
-
-> I'll re-evaluate and send fixes or improvements if/when necessary.
-
-That would be nice
-
+diff --git a/drivers/video/fbdev/nvidia/nv_hw.c b/drivers/video/fbdev/nvidia/nv_hw.c
+index 9b0a324bb1b4..75afaa07e7eb 100644
+--- a/drivers/video/fbdev/nvidia/nv_hw.c
++++ b/drivers/video/fbdev/nvidia/nv_hw.c
+@@ -1509,10 +1509,10 @@ void NVLoadStateExt(struct nvidia_par *par, RIVA_HW_STATE * state)
+ 	NV_WR32(par->PFIFO, 0x0495 * 4, 0x00000001);
+ 	NV_WR32(par->PFIFO, 0x0140 * 4, 0x00000001);
+ 
+-    if (!state) {
+-	    par->CurrentState = NULL;
+-	    return;
+-    }
++	if (!state) {
++		par->CurrentState = NULL;
++		return;
++	}
+ 
+ 	if (par->Architecture >= NV_ARCH_10) {
+ 		if (par->twoHeads) {
+diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
+index f28fd69d5eb7..07acbe72fbaa 100644
+--- a/drivers/video/fbdev/sis/sis_main.c
++++ b/drivers/video/fbdev/sis/sis_main.c
+@@ -4262,7 +4262,7 @@ static int sisfb_post_300_rwtest(struct sis_video_info *ivideo, int iteration,
+ 	unsigned int k, RankCapacity, PageCapacity, BankNumHigh, BankNumMid;
+ 	unsigned int PhysicalAdrOtherPage, PhysicalAdrHigh, PhysicalAdrHalfPage;
+ 
+-	 for(k = 0; k < ARRAY_SIZE(SiS_DRAMType); k++) {
++	for (k = 0; k < ARRAY_SIZE(SiS_DRAMType); k++) {
+ 
+ 		RankCapacity = buswidth * SiS_DRAMType[k][3];
+ 
 -- 
-~Vinod
+2.20.1.7.g153144c
+
