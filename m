@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13803519C83
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:04:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B89519C8D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D27F810EFBA;
-	Wed,  4 May 2022 10:04:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC5810E2A0;
+	Wed,  4 May 2022 10:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1A6610EFBA
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:04:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 55C3D210DC;
- Wed,  4 May 2022 10:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651658678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Gi/1UL5Nv8cL+l5tbQnceZBeVchaaGZ6DwMytGPHXe8=;
- b=JqFd7k4n8ljawbLjHkvo0rWFaGY7pCO4nY9/oP0mwPo8HcWYVmQMsG9IXrlbFGdXkWkUk8
- k+by5W1iDV+WTQQ8Kgycohp+lJhKO8Wimu77UKf3KLRM4gBfmSvA+Y/8UPhN8MC9CCK+hY
- BaSq6bKksl5Zz6E9vd+9IYgH7yavC6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651658678;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Gi/1UL5Nv8cL+l5tbQnceZBeVchaaGZ6DwMytGPHXe8=;
- b=kkC9srnUE3pATHsQtPKGDAGtTqfl6HLZHMN6GD3gOV2xIyuJ55NSX7UJzpdnzvKUKOagFR
- lrd/SDz3MXo3nNAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 36999131BD;
- Wed,  4 May 2022 10:04:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WYcbDLZPcmKjGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 04 May 2022 10:04:38 +0000
-Message-ID: <811b97ca-d7f0-184e-17f3-4c3398ca3794@suse.de>
-Date: Wed, 4 May 2022 12:04:37 +0200
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 623E410E2A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:08:55 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id gh6so1966856ejb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 03:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=rDvB+eR1HPDPBgGgQVQu2odCTv9ee9o4/T9uHCg8jP4=;
+ b=A56yDbl+jbM/gnxspFPWnGAYTEb0RqS2FzO7zYJrM+jL5V5PQog7tdfOOGVGOgj3g3
+ 74+mk4+8V5EvHB0v9xnXL2vZ6c1GpJtriJSGRQJWqXrHbhfpUI8mqVMqX/wilUanQVUA
+ eT/ihO+r2X13yIcZwGtoxlBc5OH19/1ypIFW8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rDvB+eR1HPDPBgGgQVQu2odCTv9ee9o4/T9uHCg8jP4=;
+ b=YWFRyLQbG/bzhD4GvEXFlugQi0h5bBU8I3XaBleaNtHlhoW1njC+WfFg2rZGsexJS9
+ 9EaFVDPIGDIs/usFFDrIFdF48CJGoU/V0rky7mvDMpUutxk1JY3NcoA+NrdvV/kp4u5F
+ uf4uD8pn+ebMVHttF+I+prDl1YgR58rhjotdESeagT5VF+Fx9OY4FFCNlbnt6IG8JSqG
+ PuQDV8OER9BcfW9YcPD2MjUxokDoGzWFp5ucDkesVN0iDBcMOi4bpqhfiZk5BXdyP1jb
+ gqPSrffObHseu2zrgexwoBwMeGlOTpts4mQQZsfa/fxzw6wq3GAAT5yBgDkwllf+fr+6
+ levQ==
+X-Gm-Message-State: AOAM533zzKabm0oXh+ciwWxVNLSlvetNsZrisNxCl8D3mzqGz5n55z6Q
+ pv6MD8YgApu8p+gd4jAS1EYBLA==
+X-Google-Smtp-Source: ABdhPJwbjPuToa2SnetpxbPrTynYxAMYWjdHnaxw0b3HqZFbxYlHD3SMrwyEcKnvnOumNHYnDaOB8g==
+X-Received: by 2002:a17:907:2064:b0:6f4:3f07:c76e with SMTP id
+ qp4-20020a170907206400b006f43f07c76emr13671217ejb.462.1651658933850; 
+ Wed, 04 May 2022 03:08:53 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ hz19-20020a1709072cf300b006f3ef214df7sm5618514ejc.93.2022.05.04.03.08.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 03:08:53 -0700 (PDT)
+Date: Wed, 4 May 2022 12:08:51 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: Tackling the indefinite/user DMA fence problem
+Message-ID: <YnJQs1iusrBvpuMs@phenom.ffwll.local>
+References: <20220502163722.3957-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/4] mgag200: Optimize damage clips
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20220426164108.1051295-1-jfalempe@redhat.com>
- <20220426164108.1051295-3-jfalempe@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220426164108.1051295-3-jfalempe@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JqypJvSV3SUUm80vb8apgc0s"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220502163722.3957-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,99 +69,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net
+Cc: tvrtko.ursulin@linux.intel.com, sergemetral@google.com, tzimmermann@suse.de,
+ gustavo@padovan.org, Felix.Kuehling@amd.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ jason@jlekstrand.net, alexander.deucher@amd.com, daniels@collabora.com,
+ skhawaja@google.com, sumit.semwal@linaro.org, maad.aldabagh@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JqypJvSV3SUUm80vb8apgc0s
-Content-Type: multipart/mixed; boundary="------------0iQjXG9OMlnCjI5uLULEo5lO";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: michel@daenzer.net, lyude@redhat.com, jadahl@gmail.com
-Message-ID: <811b97ca-d7f0-184e-17f3-4c3398ca3794@suse.de>
-Subject: Re: [PATCH 2/4] mgag200: Optimize damage clips
-References: <20220426164108.1051295-1-jfalempe@redhat.com>
- <20220426164108.1051295-3-jfalempe@redhat.com>
-In-Reply-To: <20220426164108.1051295-3-jfalempe@redhat.com>
+On Mon, May 02, 2022 at 06:37:07PM +0200, Christian König wrote:
+> Hello everyone,
+> 
+> it's a well known problem that the DMA-buf subsystem mixed
+> synchronization and memory management requirements into the same
+> dma_fence and dma_resv objects. Because of this dma_fence objects need
+> to guarantee that they complete within a finite amount of time or
+> otherwise the system can easily deadlock.
+> 
+> One of the few good things about this problem is that it is really good
+> understood by now.
+> 
+> Daniel and others came up with some documentation:
+> https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
+> 
+> And Jason did an excellent presentation about that problem on last years
+> LPC: https://lpc.events/event/11/contributions/1115/
+> 
+> Based on that we had been able to reject new implementations of
+> infinite/user DMA fences and mitigate the effect of the few existing
+> ones.
+> 
+> The still remaining down side is that we don't have a way of using user
+> fences as dependency in both the explicit (sync_file, drm_syncobj) as
+> well as the implicit (dma_resv) synchronization objects, resulting in
+> numerous problems and limitations for things like HMM, user queues
+> etc....
+> 
+> This patch set here now tries to tackle this problem by untangling the
+> synchronization from the memory management. What it does *not* try to do
+> is to fix the existing kernel fences, because I think we now can all
+> agree on that this isn't really possible.
+> 
+> To archive this goal what I do in this patch set is to add some parallel
+> infrastructure to cleanly separate normal kernel dma_fence objects from
+> indefinite/user fences:
+> 
+> 1. It introduce a DMA_FENCE_FLAG_USER define (after renaming some
+> existing driver defines). To note that a certain dma_fence is an user
+> fence and *must* be ignore by memory management and never used as
+> dependency for normal none user dma_fence objects.
+> 
+> 2. The dma_fence_array and dma_fence_chain containers are modified so
+> that they are marked as user fences whenever any of their contained
+> fences are an user fence.
+> 
+> 3. The dma_resv object gets a new DMA_RESV_USAGE_USER flag which must be
+> used with indefinite/user fences and separates those into it's own
+> synchronization domain.
+> 
+> 4. The existing dma_buf_poll_add_cb() function is modified so that
+> indefinite/user fences are included in the polling.
+> 
+> 5. The sync_file synchronization object is modified so that we
+> essentially have two fence streams instead of just one.
+> 
+> 6. The drm_syncobj is modified in a similar way. User fences are just
+> ignored unless the driver explicitly states support to wait for them.
+> 
+> 7. The DRM subsystem gains a new DRIVER_USER_FENCE flag which drivers
+> can use to indicate the need for user fences. If user fences are used
+> the atomic mode setting starts to support user fences as IN/OUT fences.
+> 
+> 8. Lockdep is used at various critical locations to ensure that nobody
+> ever tries to mix user fences with non user fences.
+> 
+> The general approach is to just ignore user fences unless a driver
+> stated explicitely support for them.
+> 
+> On top of all of this I've hacked amdgpu so that we add the resulting CS
+> fence only as kernel dependency to the dma_resv object and an additional
+> wrapped up with a dma_fence_array and a stub user fence.
+> 
+> The result is that the newly added atomic modeset functions now
+> correctly wait for the user fence to complete before doing the flip. And
+> dependent CS don't pipeline any more, but rather block on the CPU before
+> submitting work.
+> 
+> After tons of debugging and testing everything now seems to not go up in
+> flames immediately and even lockdep is happy with the annotations.
+> 
+> I'm perfectly aware that this is probably by far the most controversial
+> patch set I've ever created and I really wish we wouldn't need it. But
+> we certainly have the requirement for this and I don't see much other
+> chance to get that working in an UAPI compatible way.
+> 
+> Thoughts/comments?
 
---------------0iQjXG9OMlnCjI5uLULEo5lO
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I think you need to type up the goal or exact problem statement you're
+trying to solve first. What you typed up is a solution along the lines of
+"try to stuff userspace memory fences into dma_fence and see how horrible
+it all is", and that's certainly an interesting experiment, but what are
+you trying to solve with it?
 
-SGkNCg0KQW0gMjYuMDQuMjIgdW0gMTg6NDEgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IHdoZW4gdGhlcmUgYXJlIG11bHRpcGxlIGRhbWFnZSBjbGlwcywgcHJldmlvdXMgY29kZSBt
-ZXJnZWQgdGhlbSBpbnRvIG9uZQ0KPiBiaWcgcmVjdGFuZ2xlLiBBcyB0aGUgTWF0cm94IG1l
-bW9yeSBpcyB2ZXJ5IHNsb3csIGl0J3MgZmFzdGVyIHRvIGNvcHkgZWFjaA0KPiBkYW1hZ2Ug
-Y2xpcC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEpvY2VseW4gRmFsZW1wZSA8amZhbGVtcGVA
-cmVkaGF0LmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPg0KDQpIb3cgZG8geW91IG1lYXN1cmUgdGhlIHBlcmZvcm1hbmNlPyBJ
-dCBzZWVtcyBhcyBpZiBpdCBkZXBlbmRzIGEgbG90IG9uIA0KdGhlIG5hdHVyZSBvZiB0aGUg
-c2NyZWVuIHVwZGF0ZS4gIEJ1dCBtYXliZSB1c2luZyB0aGF0IGxvb3AgaXMgZmFzdGVyIGlu
-IA0KdGhlIGdlbmVyYWwgY2FzZSB3aXRoIG90aGVyIGRyaXZlcnMgYXMgd2VsbC4NCg0KQmVz
-dCByZWdhcmRzDQpUaG9tYXMNCg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIw
-MC9tZ2FnMjAwX21vZGUuYyB8IDE1ICsrKysrKysrKystLS0tLQ0KPiAgIDEgZmlsZSBjaGFu
-Z2VkLCAxMCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jIGIvZHJpdmVycy9n
-cHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4gaW5kZXggY2ZmMmU3NmYzZmEwLi4y
-YmMzODBhODU5OTYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21n
-YWcyMDBfbW9kZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBf
-bW9kZS5jDQo+IEBAIC04NTUsMTAgKzg1NSw2IEBAIG1nYWcyMDBfaGFuZGxlX2RhbWFnZShz
-dHJ1Y3QgbWdhX2RldmljZSAqbWRldiwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsDQo+
-ICAgDQo+ICAgCWRzdCArPSBkcm1fZmJfY2xpcF9vZmZzZXQoZmItPnBpdGNoZXNbMF0sIGZi
-LT5mb3JtYXQsIGNsaXApOw0KPiAgIAlkcm1fZmJfbWVtY3B5X3RvaW8oZHN0LCBmYi0+cGl0
-Y2hlc1swXSwgdm1hcCwgZmIsIGNsaXApOw0KPiAtDQo+IC0JLyogQWx3YXlzIHNjYW5vdXQg
-aW1hZ2UgYXQgVlJBTSBvZmZzZXQgMCAqLw0KPiAtCW1nYWcyMDBfc2V0X3N0YXJ0YWRkKG1k
-ZXYsICh1MzIpMCk7DQo+IC0JbWdhZzIwMF9zZXRfb2Zmc2V0KG1kZXYsIGZiKTsNCj4gICB9
-DQo+ICAgDQo+ICAgc3RhdGljIHZvaWQNCj4gQEAgLTkwNCw2ICs5MDAsOSBAQCBtZ2FnMjAw
-X3NpbXBsZV9kaXNwbGF5X3BpcGVfZW5hYmxlKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlf
-cGlwZSAqcGlwZSwNCj4gICAJbWdhZzIwMF9lbmFibGVfZGlzcGxheShtZGV2KTsNCj4gICAN
-Cj4gICAJbWdhZzIwMF9oYW5kbGVfZGFtYWdlKG1kZXYsIGZiLCAmZnVsbHNjcmVlbiwgJnNo
-YWRvd19wbGFuZV9zdGF0ZS0+ZGF0YVswXSk7DQo+ICsJLyogQWx3YXlzIHNjYW5vdXQgaW1h
-Z2UgYXQgVlJBTSBvZmZzZXQgMCAqLw0KPiArCW1nYWcyMDBfc2V0X3N0YXJ0YWRkKG1kZXYs
-ICh1MzIpMCk7DQo+ICsJbWdhZzIwMF9zZXRfb2Zmc2V0KG1kZXYsIGZiKTsNCj4gICB9DQo+
-ICAgDQo+ICAgc3RhdGljIHZvaWQNCj4gQEAgLTk1OSwxMiArOTU4LDE4IEBAIG1nYWcyMDBf
-c2ltcGxlX2Rpc3BsYXlfcGlwZV91cGRhdGUoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9w
-aXBlICpwaXBlLA0KPiAgIAlzdHJ1Y3QgZHJtX3NoYWRvd19wbGFuZV9zdGF0ZSAqc2hhZG93
-X3BsYW5lX3N0YXRlID0gdG9fZHJtX3NoYWRvd19wbGFuZV9zdGF0ZShzdGF0ZSk7DQo+ICAg
-CXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiID0gc3RhdGUtPmZiOw0KPiAgIAlzdHJ1Y3Qg
-ZHJtX3JlY3QgZGFtYWdlOw0KPiArCXN0cnVjdCBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2Vf
-aXRlciBpdGVyOw0KPiAgIA0KPiAgIAlpZiAoIWZiKQ0KPiAgIAkJcmV0dXJuOw0KPiAgIA0K
-PiAtCWlmIChkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKG9sZF9zdGF0ZSwgc3Rh
-dGUsICZkYW1hZ2UpKQ0KPiArCWRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX2luaXQo
-Jml0ZXIsIG9sZF9zdGF0ZSwgc3RhdGUpOw0KPiArCWRybV9hdG9taWNfZm9yX2VhY2hfcGxh
-bmVfZGFtYWdlKCZpdGVyLCAmZGFtYWdlKSB7DQo+ICAgCQltZ2FnMjAwX2hhbmRsZV9kYW1h
-Z2UobWRldiwgZmIsICZkYW1hZ2UsICZzaGFkb3dfcGxhbmVfc3RhdGUtPmRhdGFbMF0pOw0K
-PiArCX0NCj4gKwkvKiBBbHdheXMgc2Nhbm91dCBpbWFnZSBhdCBWUkFNIG9mZnNldCAwICov
-DQo+ICsJbWdhZzIwMF9zZXRfc3RhcnRhZGQobWRldiwgKHUzMikwKTsNCj4gKwltZ2FnMjAw
-X3NldF9vZmZzZXQobWRldiwgZmIpOw0KPiAgIH0NCj4gICANCj4gICBzdGF0aWMgc3RydWN0
-IGRybV9jcnRjX3N0YXRlICoNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
-IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Like if the issue is to enable opencl or whatever, then that's no problem
+(rocm on amdkfd is a thing, same maybe without the kfd part can be done
+anywhere else). If the goal is to enable userspace memory fences for vk,
+then we really don't need these everywhere, but really only in drm_syncobj
+(and maybe sync_file).
 
---------------0iQjXG9OMlnCjI5uLULEo5lO--
+If the goal is specifically atomic kms, then there's an entire can of
+worms there that I really don't want to think about, but it exists: We
+have dma_fence as out-fences from atomic commit, and that's already
+massively broken since most drivers allocate some memory or at least take
+locks which can allocate memory in their commit path. Like i2c. Putting a
+userspace memory fence as in-fence in there makes that problem
+substantially worse, since at least in theory you're just not allowed to
+might_faul in atomic_commit_tail.
 
---------------JqypJvSV3SUUm80vb8apgc0s
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If the goal is to keep the uapi perfectly compatible then your patch set
+doesn't look like a solution, since as soon as another driver is involved
+which doesn't understand userspace memory fences it all falls apart. So
+works great for a quick demo with amd+amd sharing, but not much further.
+And I don't think it's feasible to just rev the entire ecosystem, since
+that kinda defeats the point of keeping uapi stable - if we rev everything
+we might as well also rev the uapi and make this a bit more incremental
+again :-)
 
------BEGIN PGP SIGNATURE-----
+There's probably more to ponder here ...
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJyT7UFAwAAAAAACgkQlh/E3EQov+DQ
-eA//XiPB2xka3d1/2BthWKmctQy6ZgMGTFH0Q9chy1XfmljImsCjpAYotp53K32YLfaEMLIHp07r
-zqzmyQUt+rFqngQAbE1VpfYK241JMyxM/+xQ6Kkj5NDogfSeKYMpfUepq3ncxf3yQvbaIT2KqmaN
-r0DkCN4r1Yf6RaYTYJxOHXSCRIazb+6jDCa+a2S8cZJStkX6U/aDOsVZC5HfCkISXKT4hwFaWxdr
-ZA4RrGgHLrdz+qt0YIa4PoJCQmkGnV4C+b5K4J8Z7KqVGa9lDL8C9QXNXO4jkrSSQXu6zL6+aSsM
-n3p8DRhxH22zZmRePCv/Cms7ckhj8g6kdy/DWwfJfX03oogxLwKVy/yZt/NgfKeWybHACRxqztng
-CHHc9Q4F/ZutvQus2e5E5iIqNuz8QvgELtgsibAvGRIzDHFyzThJShPVWn9eLp0pihNBumVPHsSY
-Vc/9qs4KMnAPkscOFmrMCgIoPOL3kwW5U49PYSI1GDPongeq+6osd6WKdhiAGgNukLcmIENlIXhO
-/2lT6YQ3jnX0rUzgHTal7IBc86ohQdqgfRro13txh1LSLJyQE4BmdPRSqJ6gXB/6N1oxEPnH7Nnd
-wdqTvZ6hrytgst/fRxDZngynGgl+KH0Ckb9pHwk5seAfytuZ2pHLjJHepSIRK0d1btukackOk4lZ
-uXY=
-=DTa1
------END PGP SIGNATURE-----
-
---------------JqypJvSV3SUUm80vb8apgc0s--
+I'm not sure what exactly the problem statement is that matches your
+solution here though, so that seems to be missing.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
