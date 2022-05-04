@@ -2,74 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EA4519D57
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6B3519D71
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 12:56:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D0EE10F299;
-	Wed,  4 May 2022 10:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6201310F657;
+	Wed,  4 May 2022 10:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3F310F299
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651661510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NJbghp3+LJBmX5DLTTjlRaPAzEhF/Td/rezzenPMwDw=;
- b=aoutk85PvEq93C2rcXCEzMDdSaJTs8HsbemXQ1M6qnwwV41pxld6zweZ2EQtApY96LN/q+
- SXvrhxSSaVZM4YdhKQ8u1ErSzMq03bzrNCA9lq32SISLAACF8OB5D27Fkyw4YjzEqj1pJZ
- VO1t7BHmcPMVnCcnzRwNT7sNWHywc6k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-250-ysx99NR1PJC4CawB5HYIsg-1; Wed, 04 May 2022 06:51:49 -0400
-X-MC-Unique: ysx99NR1PJC4CawB5HYIsg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g14-20020a1c4e0e000000b0039425ef54d6so484857wmh.9
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 03:51:49 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF6210F657
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 10:56:01 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id d6so1244603ede.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 03:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BwmxO4LfRKvng41X4d9TcCe1iGtUUpTYikAKxiB/Gus=;
+ b=Swq9OPFU/H4vH2Zso3oK+hWWf8Zk79dtPwZyJxnvxTO27XQ0mCO4ki2l3dD/76/HIg
+ qrBoZeeReTzGg60P5BDnT9yXTZoUZfB+sXY6JI9sADjoNhJgBEUCy4Jh5L06/nx3e18+
+ tdoPGenpO+xOsuPdsCP52sWU6g9Vh4J1Lvc3E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NJbghp3+LJBmX5DLTTjlRaPAzEhF/Td/rezzenPMwDw=;
- b=54P9DiA0YSFR9sTbl/Fnm3m3R+KOdDmtLeRR4gx1oJGmIZGWsZkf6/OYGB3cUhuEwk
- rGaiCI6s7H4jKyOJTCPJvmIW3ABa5wN7bdf/Js1OD5a+xAqRtrMa6YwyXgyoOlFGLnNB
- 8I0Rq37kvPblWl6RcvYqzAd1q7/iMFcKa1BxVWypXU+8tK9zBNsDXLujw0cD4WTS5kXe
- Do9TWT9GBzrUTs0iwJTxodeNKPyT45sz/G/2cnH8SdABiZWAU0leh5xD7tFiz6xB/Qtp
- TVkt+snXxFN+3hPMxnayjVwSUllMC+wWN0oZSYMGwlMMm4/roJdfE7e6z0Vy7h9F4v6l
- +aJg==
-X-Gm-Message-State: AOAM533C3tOgzqYRX2f7GDdIr5IZCZU7AwoPtpzs7QMaW2dd9MYz3Chp
- IcOhmF2v1hui8xmRIh6Zf2HzBcQBUMHxlX8cP0iwEzWQr2D1bWWAFc8cW5usa1YUzoFf3QhKXvf
- Q4CZVzfy4fNm5vSlw5irVGr985Nt+
-X-Received: by 2002:a05:600c:3b93:b0:394:57c8:5901 with SMTP id
- n19-20020a05600c3b9300b0039457c85901mr2728271wms.77.1651661508153; 
- Wed, 04 May 2022 03:51:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyHwZYfl8uqgIw+kp7JWSBmK2205DO05PCu90DnmuLlXgv2vl2YCs3ySMEP+CKrlNnqkYViRw==
-X-Received: by 2002:a05:600c:3b93:b0:394:57c8:5901 with SMTP id
- n19-20020a05600c3b9300b0039457c85901mr2728247wms.77.1651661507884; 
- Wed, 04 May 2022 03:51:47 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n14-20020adfc60e000000b0020c6a524fd5sm6700603wrg.99.2022.05.04.03.51.46
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=BwmxO4LfRKvng41X4d9TcCe1iGtUUpTYikAKxiB/Gus=;
+ b=mfmrHP/uShCExtsaGCl7rMzv/Dp4OV/Pl2IlLkWq7yKE5pM1yYlcIaWaXSB1PWljdS
+ +Qtoe4ZTOcF5wHG1Eh9SvxnpMm9WKuGNZWxoKEmL4wPTOMQNYKjpCj7SbsrsIgmGaOSL
+ U0x7gz+AsGkM/pa9dssg2xo0irH+0lD+d6O3X1SXsR960H8e6Wxt34GuIzRvFw44NRkN
+ 1Yguye+X3XUAOhEwc/pJ+vV0fqAcYB88rRRkyCIdxDwDBmTDgqI10nDxzSo7YMqkfrN2
+ 11MkDDNX22xbMwe9zIw/utly2mtVSbfNNwZ1XBHifXURR5ElHDPMKib8F641wpSg6rDM
+ jgmA==
+X-Gm-Message-State: AOAM5318QPprS1o2CCVdJbZHt0MTzJs1nhEK27yACFgamrNg8Et10f6/
+ JpvmpawSX87Gj50+71sm028QHw==
+X-Google-Smtp-Source: ABdhPJy+B5Wk9GR7mKblkgeRGx069oBIqEL+VbT3G8TD0KUPLgPlnzfCa6TvbjeSkUISaS9jyUFQkw==
+X-Received: by 2002:a05:6402:42c3:b0:427:d0e6:77e4 with SMTP id
+ i3-20020a05640242c300b00427d0e677e4mr11472180edc.49.1651661759975; 
+ Wed, 04 May 2022 03:55:59 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ qx16-20020a170907b59000b006f3ef214e60sm5568170ejc.198.2022.05.04.03.55.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 03:51:47 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "fbdev: Make fb_release() return -ENODEV if fbdev was
- unregistered"
-Date: Wed,  4 May 2022 12:51:40 +0200
-Message-Id: <20220504105140.746344-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ Wed, 04 May 2022 03:55:59 -0700 (PDT)
+Date: Wed, 4 May 2022 12:55:57 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file operations
+Message-ID: <YnJbvb5TlHs4ckPM@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Junxiao Chang <junxiao.chang@intel.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20220503201934.681276-1-javierm@redhat.com>
+ <YnJBGpvlViLV+0/a@phenom.ffwll.local>
+ <038f8365-b23b-9d81-f7b2-8f8c6eb3a065@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <038f8365-b23b-9d81-f7b2-8f8c6eb3a065@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,47 +76,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: linux-fbdev@vger.kernel.org, Junxiao Chang <junxiao.chang@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit aafa025c76dcc7d1a8c8f0bdefcbe4eb480b2f6a. That commit
-attempted to fix a NULL pointer dereference, caused by the struct fb_info
-associated with a framebuffer device to not longer be valid when the file
-descriptor was closed.
+On Wed, May 04, 2022 at 11:28:07AM +0200, Javier Martinez Canillas wrote:
+> Hello Daniel,
+> 
+> On 5/4/22 11:02, Daniel Vetter wrote:
+> > On Tue, May 03, 2022 at 10:19:34PM +0200, Javier Martinez Canillas wrote:
+> >> A reference to the framebuffer device struct fb_info is stored in the file
+> >> private data, but this reference could no longer be valid and must not be
+> >> accessed directly. Instead, the file_fb_info() accessor function must be
+> >> used since it does sanity checking to make sure that the fb_info is valid.
+> >>
+> >> This can happen for example if the registered framebuffer device is for a
+> >> driver that just uses a framebuffer provided by the system firmware. In
+> >> that case, the fbdev core would unregister the framebuffer device when a
+> >> real video driver is probed and ask to remove conflicting framebuffers.
+> >>
+> >> Most fbdev file operations already use the helper to get the fb_info but
+> >> get_fb_unmapped_area() and fb_deferred_io_fsync() don't. Fix those two.
+> >>
+> >> Since fb_deferred_io_fsync() is not in fbmem.o, the helper has to be
+> >> exported. Rename it and add a fb_ prefix to denote that is public now.
+> >>
+> >> Reported-by: Junxiao Chang <junxiao.chang@intel.com>
+> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> > 
+> > Note that fb_file_info is hilariously racy since there's nothing
+> > preventing a concurrenct framebuffer_unregister. Or at least I'm not
+> > seeing anything. See cf4a3ae4ef33 ("fbdev: lock_fb_info cannot fail") for
+> > context, maybe reference that commit here in your patch.
+> >
+> > Either way this doesn't really make anything worse, so
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >
+> 
+> Yes, I noticed is racy but at least checking this makes less likely to
+> occur. And thanks, I'll reference that commit in the description of v3.
+> 
+> BTW, I also noticed that the same race that happens with open(),read(),
+> close(), etc happens with the VM operations:
+> 
+> int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+> {
+> ...
+> 	vma->vm_private_data = info;
+> ...
+> }
+> 
+> static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+> {
+> ...
+> 	struct fb_info *info = vmf->vma->vm_private_data;
+> ...
+> }
+> 
+> static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+> {
+> ...
+> 	struct fb_info *info = vmf->vma->vm_private_data;
+> ...
+> }
+> 
+> So something similar to fb_file_fb_info() is needed to check if
+> the vm_private_data is still valid. I guess that could be done
+> by using the vmf->vma->vm_file and attempting the same trick that
+> fb_file_fb_info() does ?
 
-But the solution was wrong since it was just papering over the issue, and
-also would leak any resources that might be reference counted in fb_open.
+Yeah should work, except if the ptes are set up already there's kinda not
+much that this will prevent. We'd need to tear down mappings and SIGBUS or
+alternatively have something else in place there so userspace doesn't blow
+up in funny ways (which is what we're doing on the drm side, or at least
+trying to).
 
-Instead, the fbdev drivers that are releasing the fb_info too soon should
-be fixed to prevent this situation to happen.
+I'm also not sure how much we should care, since ideally for drm drivers
+this is all taken care of by drm_dev_enter in the right places. It does
+mean though that fbdev mmap either needs to have it's own memory or be
+fully redirected to the drm gem mmap.
 
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-
- drivers/video/fbdev/core/fbmem.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 97eb0dee411c..a6bb0e438216 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1434,10 +1434,7 @@ fb_release(struct inode *inode, struct file *file)
- __acquires(&info->lock)
- __releases(&info->lock)
- {
--	struct fb_info * const info = file_fb_info(file);
--
--	if (!info)
--		return -ENODEV;
-+	struct fb_info * const info = file->private_data;
- 
- 	lock_fb_info(info);
- 	if (info->fbops->fb_release)
+And then we can afford to just not care to fix fbdev itself.
+-Daniel
 -- 
-2.35.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
