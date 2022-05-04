@@ -1,42 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C0A519E15
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:32:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE58519E12
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8832910F635;
-	Wed,  4 May 2022 11:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C7A10F66A;
+	Wed,  4 May 2022 11:32:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 547 seconds by postgrey-1.36 at gabe;
- Wed, 04 May 2022 11:32:52 UTC
-Received: from mxout03.lancloud.ru (mxout03.lancloud.ru [45.84.86.113])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55D5010F635
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:32:52 +0000 (UTC)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 2D48820DE95C
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH RFC v6 16/21] dept: Distinguish each work from another
-To: Byungchul Park <byungchul.park@lge.com>, <torvalds@linux-foundation.org>
-References: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
- <1651652269-15342-17-git-send-email-byungchul.park@lge.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <24e4d6db-9dc9-f113-f655-9af3a51723d4@omp.ru>
-Date: Wed, 4 May 2022 14:23:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C240D10F7A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:32:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651663960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xSmRyvY5USUJK4bqOwkMxhLEWYFefLvLLVRpwsW24V4=;
+ b=JKhqgmAztVTPamoAqkHcjBpDzjHX1qT0odi3JFJ5jb1+fkz5vxb/5TzYPc3gsuobuDHccD
+ r7X3+LKSh904KvAkKpAlbqjYjaVvQ+ymBflmIq4+LwFuijVJhsI6st0Oh74lJpD8T4GG+J
+ 838FURjc1xFUZNKxLoSI4YEQLWzeo98=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-383-rxRDOOQ6OvWFIpSQ4KTZ7g-1; Wed, 04 May 2022 07:32:39 -0400
+X-MC-Unique: rxRDOOQ6OvWFIpSQ4KTZ7g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d28-20020adf9b9c000000b0020ad4a50e14so278313wrc.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:32:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xSmRyvY5USUJK4bqOwkMxhLEWYFefLvLLVRpwsW24V4=;
+ b=aWhQfTEABXa1AxGo4k1fFS8rdzs/HDrmxfzscdBP8QvmZd/py5uA6utZfU0NHDHQmz
+ 9q2zqyCCu9IWxnpR7VktggyksUYjnxk5Br5uTcXFgIg/NqWVCP6hjLmRDRJHpwMSeHoo
+ ae268ONV3yhVFHUg0zstWekkj7yNcxUy0QM/88NZzO4eyJMpH4zCv/MTN6S5rA2iMY0P
+ vX03Rez5N5vYeZ/+o5ze+lpzyUOZNpSLTe12SFwKZz1CiPIRI3saHABwDwyJ8u4FbocY
+ lOqTRE1DJrB4vMc1b6Nj1FLQMcYq2i37eSZc37lAQZ3AAaujBpi1ytYulnVFJVXmQOt+
+ AKuQ==
+X-Gm-Message-State: AOAM533p4iT8BW9xVjuVVrIFObC11azhOD1XwoEaz6THC2e5/qvY+wJ2
+ QgqRcZYIj7tswZQYYQVxTn5mcLVK6xV0Q3V1vr8ZeC5hvL4mhByrMKIkm4engOSiitaHn8L78iC
+ uqvc0iLDzh82v+RA7oyFyZCkCaSf2
+X-Received: by 2002:a7b:ce08:0:b0:394:32df:2ae6 with SMTP id
+ m8-20020a7bce08000000b0039432df2ae6mr7189957wmc.184.1651663958432; 
+ Wed, 04 May 2022 04:32:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwA5wXaWnN+rrsK5flhGj5h/2tfXvIEclG8Wrk1xlOuCGc80m9A3smlCSu4+D4IoWK24dOV7Q==
+X-Received: by 2002:a7b:ce08:0:b0:394:32df:2ae6 with SMTP id
+ m8-20020a7bce08000000b0039432df2ae6mr7189946wmc.184.1651663958176; 
+ Wed, 04 May 2022 04:32:38 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m6-20020a05600c3b0600b0039429bfebeasm4958174wms.2.2022.05.04.04.32.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 04:32:37 -0700 (PDT)
+Message-ID: <bfb03d40-a023-12a9-9554-1b6e6c474134@redhat.com>
+Date: Wed, 4 May 2022 13:32:37 +0200
 MIME-Version: 1.0
-In-Reply-To: <1651652269-15342-17-git-send-email-byungchul.park@lge.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 3/3] drm: Allow simpledrm to setup its emulated FB as
+ firmware provided
+To: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220503071540.471667-1-javierm@redhat.com>
+ <20220503071540.471667-4-javierm@redhat.com>
+ <YnJcaaDcIsJKhSwQ@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YnJcaaDcIsJKhSwQ@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,58 +92,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
- duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- airlied@linux.ie, mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- linux-mm@kvack.org, ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello!
-
-On 5/4/22 11:17 AM, Byungchul Park wrote:
-
-> Workqueue already provides concurrency control. By that, any wait in a
-> work doesn't prevents events in other works with the control enabled.
-> Thus, each work would better be considered a different context.
+On 5/4/22 12:58, Daniel Vetter wrote:
+> On Tue, May 03, 2022 at 09:15:40AM +0200, Javier Martinez Canillas wrote:
+>> Indicate to fbdev subsystem that the registered framebuffer is provided by
+>> the system firmware, so that it can handle accordingly. For example, would
+>> unregister the FB devices if asked to remove the conflicting framebuffers.
+>>
+>> Add a new DRM_FB_FW field to drm_fbdev_generic_setup() options parameter.
+>> Drivers can use this to indicate the FB helper initialization that the FB
+>> registered is provided by the firmware, so it can be configured as such.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> ---
+>>
+>> Changes in v3:
+>> - Drop the firmware local variable (Laurent Pinchart).
+>> - Use DRM_FB_OPTION() since DRM_FB_SET_OPTION() got renamed (kernel test robot).
 > 
-> So let Dept assign a different context id to each work.
+> Just for the record what I brought up on irc already:
 > 
-> Signed-off-by: Byungchul Park <byungchul.park@lge.com>
-[...]
-> diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-> index 18e5951..6707313 100644
-> --- a/kernel/dependency/dept.c
-> +++ b/kernel/dependency/dept.c
-> @@ -1844,6 +1844,16 @@ void dept_enirq_transition(unsigned long ip)
->  	dept_exit(flags);
->  }
->  
-> +/*
-> + * Assign a different context id to each work.
-> + */
-> +void dept_work_enter(void)
-> +{
-> +	struct dept_task *dt = dept_task();
-> +
-> +	dt->cxt_id[DEPT_CXT_PROCESS] += (1UL << DEPT_CXTS_NR);
+> FBINFO_MISC_FIRMWARE is purely an internal flag with no uapi impact, and
+> it's only to control whether we nuke this from
+> remove_conflicting_framebuffer or not. Since simpledrm only ever binds
+> against sysfb I think it'd be cleaner to only rely on that, and relegate
 
-   Parens around << unnecessary...
+That's not actually true. The OF subsystem also registers "simple-framebuffer"
+devices when there are Device Tree nodes that contain a "simple-framebuffer"
+compatible string. In that case these pdev will also bind against simpledrm.
 
-[...]
+> that entire FBINFO_MISC_FIRMWARE misc hack to the fbdev dungeons and let
+> it quietly wither away there.
+>
+> Also I'm not a huge fan of these midlayer flags in general :-)
 
-MBR, Sergey
+And while I agree with you that these midlayer flags are horrible, that is
+what any other fbdev that makes use of a firmware-provided framebuffer set,
+so simpledrm emulated fbdev shouldn't be the exception IMO.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
