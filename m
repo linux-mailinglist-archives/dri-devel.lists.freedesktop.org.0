@@ -1,63 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9B1519BAB
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:27:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8881A519BB3
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218E8112008;
-	Wed,  4 May 2022 09:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE62112017;
+	Wed,  4 May 2022 09:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44157112006
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:27:23 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id t5so1003649edw.11
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 02:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ujA9Ei7p7js6ZRLVyhuGMYvuef/eHfjkXNE1xkCGCac=;
- b=a2QDIAsL8PjnNIlU96E9OKFb5JRWo/5cimilEnfUCl42Vwbi50OfKnghbRpmhwTRVy
- 6uQ1OGyqHCyuVffyEXeE44qK+++U2SkGWgzhPeMPe9bcDHS+YFs9vRim6dX1DrQDfb3k
- dzSaD0Hcb05rsquh/Edr3uLN7e5BAC+QstFhE=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE85112017
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651656570;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QiHfuXpjUO1Kx7oSpMgn+KkNUM21let3MfJCKQvBKl4=;
+ b=ISMcOqYIfbrDQnenNI+3N1j6MP2Fdjw1T2o9WruXNT3QOGIh6GmahHML0Zg/0CWzaA0h1m
+ ZBNU7Z52yUiZ5sqfFeC7nAzcWaiEFaKtNL5SVnWDJzHDGVUsFsoxo8HCnO9vgoxYEmtimg
+ ebZk3DZS0N862XnmBo5T2e/X+RfFcGM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-342-r2bw1cLBPZCKfwUNDu1JvA-1; Wed, 04 May 2022 05:28:21 -0400
+X-MC-Unique: r2bw1cLBPZCKfwUNDu1JvA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n186-20020a1c27c3000000b00392ae974ca1so1456163wmn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 02:28:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ujA9Ei7p7js6ZRLVyhuGMYvuef/eHfjkXNE1xkCGCac=;
- b=ysVxkGK5A12nOsaZ3t2RiZJzpT34R2xEIhbtjfrfuMEPlr72E8GH8fyddGq/1wA35c
- 9UlDsbYnVb5xAxcMgGjW5vqxg6CP7NKaYjMg4gIXIJyZFCUkBmhH4smYbVLJKEgFPr7R
- +sUX99wUzy5bPSanp12I4ZCPQCj6uI5ZJtDpdAKrwrAePrTqU+M6Dpj5llZ/Idv7AO7f
- iMRI61I4uQHlg1XJENkJwdMAU+Aqbse/GEgYfwqhrGTtu5QNHhfPA4bEpBE5evPlj9kp
- z55WI7tW3ZwPiHXkpDWCwIQQ+KnV4hzSdKvr7WdheEBt6zBdFVQChlpf5aqfapknN/Fz
- 1J6Q==
-X-Gm-Message-State: AOAM533hK4Rxmw8GsaiPhhA/FF+rDmyV1EzVwCKOTwnGeoEUdhVNmxun
- 2y/tP74lU4oNOfIMTX0s97rihg==
-X-Google-Smtp-Source: ABdhPJztK+2f8hOmkj7yIY4OpPJD1pbs3HlTum+Il1H0W7eQxxllCRg40sUx50M/6m9W12KizlDa1g==
-X-Received: by 2002:aa7:dcd5:0:b0:425:e49f:db86 with SMTP id
- w21-20020aa7dcd5000000b00425e49fdb86mr22083537edu.202.1651656441895; 
- Wed, 04 May 2022 02:27:21 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- e16-20020a170906845000b006f3ef214dc7sm5370091ejy.45.2022.05.04.02.27.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 02:27:21 -0700 (PDT)
-Date: Wed, 4 May 2022 11:27:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 4/4] drm/qxl: add drm_gem_plane_helper_prepare_fb
-Message-ID: <YnJG95uJDD6tK8RN@phenom.ffwll.local>
-References: <20220429134230.24334-1-christian.koenig@amd.com>
- <20220429134230.24334-4-christian.koenig@amd.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QiHfuXpjUO1Kx7oSpMgn+KkNUM21let3MfJCKQvBKl4=;
+ b=gKTo+a8rN/a/PwWWvwGNG1Wl0dzehMc2qdRJFmcaJUtlXkjm1Jk9IOTKoL/y1tzLhG
+ BJgiql8S04Yea9CnPAyFzWenE4O0YxxlMM5sGjTUAmbJGf4ikpYSrLWkTVz7x8suEcd/
+ gYWOwxy3E2FZc/CFYrpL5FEJlDrz/D7P2ixslwjHMysp+64TvYy/AHOp4g+2db6S6r4H
+ kqvc2pDXS7qVJ8RKfqcgPnhnFJZ+QY8nZhWI5Xa0p03u2mDuYi/1dfPVO2tXQM44exkW
+ +NtgC/AchjlW5dEGqCMz9txwD5nRJZyC3XTA+KvVC9P+9l5zUDygaxEFw2+lgCPXKM3j
+ tsSg==
+X-Gm-Message-State: AOAM532H4SDl3hyy7oyJHzRubOIF2pJYzUFqB2t5s5FcbBjhSm+LxIES
+ ftUDTxs/bW1FMsafHhStOwfKjrYfr855ZRGcoCdRxLVpoVEH8ghl+XYyoc+m6rkfQ3eGrR8m0Zt
+ bKI8K1uCOOhuyPZp/wlfFsK8s/tqk
+X-Received: by 2002:a05:600c:3b85:b0:393:edbb:ab9d with SMTP id
+ n5-20020a05600c3b8500b00393edbbab9dmr6913217wms.126.1651656489508; 
+ Wed, 04 May 2022 02:28:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwO3DLL2UeA2DZ+PW0v7ebQsybxG7YXPPfUWTKRUpRPBprerOB67LepYluV2171Xt8UBvnI7Q==
+X-Received: by 2002:a05:600c:3b85:b0:393:edbb:ab9d with SMTP id
+ n5-20020a05600c3b8500b00393edbbab9dmr6913196wms.126.1651656489202; 
+ Wed, 04 May 2022 02:28:09 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ j30-20020adfb31e000000b0020c5253d8c2sm10915423wrd.14.2022.05.04.02.28.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 May 2022 02:28:08 -0700 (PDT)
+Message-ID: <038f8365-b23b-9d81-f7b2-8f8c6eb3a065@redhat.com>
+Date: Wed, 4 May 2022 11:28:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220429134230.24334-4-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2] fbdev: Use helper to get fb_info in all file operations
+To: linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Junxiao Chang <junxiao.chang@intel.com>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20220503201934.681276-1-javierm@redhat.com>
+ <YnJBGpvlViLV+0/a@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YnJBGpvlViLV+0/a@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,66 +91,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 29, 2022 at 03:42:30PM +0200, Christian König wrote:
-> We could need to wait for the pin to complete here.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: virtualization@lists.linux-foundation.org
-> Cc: spice-devel@lists.freedesktop.org
+Hello Daniel,
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+On 5/4/22 11:02, Daniel Vetter wrote:
+> On Tue, May 03, 2022 at 10:19:34PM +0200, Javier Martinez Canillas wrote:
+>> A reference to the framebuffer device struct fb_info is stored in the file
+>> private data, but this reference could no longer be valid and must not be
+>> accessed directly. Instead, the file_fb_info() accessor function must be
+>> used since it does sanity checking to make sure that the fb_info is valid.
+>>
+>> This can happen for example if the registered framebuffer device is for a
+>> driver that just uses a framebuffer provided by the system firmware. In
+>> that case, the fbdev core would unregister the framebuffer device when a
+>> real video driver is probed and ask to remove conflicting framebuffers.
+>>
+>> Most fbdev file operations already use the helper to get the fb_info but
+>> get_fb_unmapped_area() and fb_deferred_io_fsync() don't. Fix those two.
+>>
+>> Since fb_deferred_io_fsync() is not in fbmem.o, the helper has to be
+>> exported. Rename it and add a fb_ prefix to denote that is public now.
+>>
+>> Reported-by: Junxiao Chang <junxiao.chang@intel.com>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> Note that fb_file_info is hilariously racy since there's nothing
+> preventing a concurrenct framebuffer_unregister. Or at least I'm not
+> seeing anything. See cf4a3ae4ef33 ("fbdev: lock_fb_info cannot fail") for
+> context, maybe reference that commit here in your patch.
+>
+> Either way this doesn't really make anything worse, so
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
 
-> ---
->  drivers/gpu/drm/qxl/qxl_display.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-> index 9a9c29b1d3e1..9a64fa4c7530 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -34,6 +34,7 @@
->  #include <drm/drm_plane_helper.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_simple_kms_helper.h>
-> +#include <drm/drm_gem_atomic_helper.h>
->  
->  #include "qxl_drv.h"
->  #include "qxl_object.h"
-> @@ -829,6 +830,7 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
->  	struct qxl_device *qdev = to_qxl(plane->dev);
->  	struct drm_gem_object *obj;
->  	struct qxl_bo *user_bo;
-> +	int ret;
->  
->  	if (!new_state->fb)
->  		return 0;
-> @@ -852,7 +854,11 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
->  		qxl_free_cursor(old_cursor_bo);
->  	}
->  
-> -	return qxl_bo_pin(user_bo);
-> +	ret = qxl_bo_pin(user_bo);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_gem_plane_helper_prepare_fb(plane, new_state);
->  }
->  
->  static void qxl_plane_cleanup_fb(struct drm_plane *plane,
-> -- 
-> 2.25.1
-> 
+Yes, I noticed is racy but at least checking this makes less likely to
+occur. And thanks, I'll reference that commit in the description of v3.
+
+BTW, I also noticed that the same race that happens with open(),read(),
+close(), etc happens with the VM operations:
+
+int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
+{
+...
+	vma->vm_private_data = info;
+...
+}
+
+static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+{
+...
+	struct fb_info *info = vmf->vma->vm_private_data;
+...
+}
+
+static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+{
+...
+	struct fb_info *info = vmf->vma->vm_private_data;
+...
+}
+
+So something similar to fb_file_fb_info() is needed to check if
+the vm_private_data is still valid. I guess that could be done
+by using the vmf->vma->vm_file and attempting the same trick that
+fb_file_fb_info() does ?
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
