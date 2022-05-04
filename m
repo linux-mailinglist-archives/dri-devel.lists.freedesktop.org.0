@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C02519C0B
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D826519C1D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 11:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 076FC10EDD9;
-	Wed,  4 May 2022 09:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAF4C1120B3;
+	Wed,  4 May 2022 09:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 499FB10F7EC
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:38:55 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id b24so1035623edu.10
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 02:38:55 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626BD11207B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 09:43:56 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id m20so1776094ejj.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 02:43:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=v445vAlme2zlrPL6XrM4JniIviakM8QqlAR33SjZ/5E=;
- b=hM2bbzfYB9M+Ca6zJVRzpxwIn7EMB8SBN8mUvDSIzsa+xWIcfUGlTfwqzMYyRTSfXm
- sisamAPFM5rcXf413mOFntR5wifzmK2GIzilqLQcVqKa74yGBGZzrTgfmApi2V4lxIkn
- D00G1ZxDPYQLCbCzPIezeBFYNL+fl0wRhgsPw=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=gBeVPtDIH5IEZROpcgMlW3pMSAwMvaE1la8ipSYktWY=;
+ b=MshcPwT2wdo1XSXMMFYk6fGGLv0S/7DZm3+2HE96F51OUZt5pTaNzvwldV692cDkmk
+ rH/eHP9RA1YGuL66F9kiWjsJkYalNw0yvY7lJO2eSXSB9J//TztRyCMAY0MpUGeMxumu
+ bmX5z03z5FfDK7n4z+adz8bUeD2vpJXI7IMSc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=v445vAlme2zlrPL6XrM4JniIviakM8QqlAR33SjZ/5E=;
- b=jQ9USj3zILH7y/zdWusFXzkSgWTmfHsTafntGSAOamRc2lAEHVoguUOog8bnQlSlLn
- rQoGWYGn7SDOWp8J+b3R8AgJJaoBoq1vQ0+1s6ul7ND1V7YVpkS/AXlKOf/x9NVwXd5g
- i55RQ17wkz7PI0fwTO0uDtRobD1Hft4CydHbZeaR/ooRtNU9yKs3XvGFpVrF/RmGamqA
- GztmkDWgJjncbpcCczS8SpAn8CblAu6sqh7ud2B1YfJM0VRDx8RRbR4+u1P6s96pHCKX
- HZcBHzj+C6/AOAf3RLD7gbtN/YwdMlsiZ8+lbJLYIMPrVnd++kzmIPS/4uNVXo4WK7TC
- TVWg==
-X-Gm-Message-State: AOAM532+TZbELEdQ/p1nJV7Nmg5iKnLYZ5uKZhlU9ekLwZE8Cl2I6cgm
- iVg+9pOpVD+5lRoFaUKom5Wz/w==
-X-Google-Smtp-Source: ABdhPJyvZnRAfF291GMqjz7DLqK6y4u0GKdaL17PBCM4iimO9RBWYJ1fAx8Vy9Brbgoj0DSchPP6sA==
-X-Received: by 2002:a05:6402:42c4:b0:426:a7a8:348f with SMTP id
- i4-20020a05640242c400b00426a7a8348fmr22175278edc.341.1651657133662; 
- Wed, 04 May 2022 02:38:53 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gBeVPtDIH5IEZROpcgMlW3pMSAwMvaE1la8ipSYktWY=;
+ b=FZ6Ebm3bx9JKWocNBuvYMsrEGdvDnoMjm2h04OmVtjLHs8RLe5BwzwGdwLYJvpdRc6
+ U28wGPRbStVFE5v9drBV7+FJTsvEs4QsfcO8zq0526rjWzJYuCub/v7EmCFs317IwUlK
+ iUbk0cgRYU4ujqkUnZA98jl9c20AceoiwAW22gV58d8MpP7STZHdipYZ1PM0di3xHMQy
+ FS0KmMHhvEcP37oszpQZMklU1Pz2DCLvqYdrYtfoNjGtpkuDgRyTZE43vSrtmmQgsXU+
+ 1NyrQqcsB91dU2nY9/5HznlAO+rGi1jupPfojdoP0R0U3ti1a3CZGp9gT//AmyoyndOH
+ EBXg==
+X-Gm-Message-State: AOAM530aMQb0Lg3cRv/llD4pSBNCc47x5UDgkxYhKFu93wmaXvQHtucM
+ iw9/3jhzkjadDhI8jtWyucawZPF2ua2uzw==
+X-Google-Smtp-Source: ABdhPJzT1P+Y1g1ACCAdmZOHhfLDhn1jNjWGgIQCj+9418N+y7vFB/gKdkcCOgP4nEyGGWHYtRB93Q==
+X-Received: by 2002:a17:907:969f:b0:6f3:dede:f2d2 with SMTP id
+ hd31-20020a170907969f00b006f3dedef2d2mr19163382ejc.511.1651657434904; 
+ Wed, 04 May 2022 02:43:54 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- gv8-20020a1709072bc800b006f3ef214e5csm5520368ejc.194.2022.05.04.02.38.52
+ jy28-20020a170907763c00b006f3ef214e53sm5437866ejc.185.2022.05.04.02.43.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 02:38:53 -0700 (PDT)
-Date: Wed, 4 May 2022 11:38:51 +0200
+ Wed, 04 May 2022 02:43:54 -0700 (PDT)
+Date: Wed, 4 May 2022 11:43:52 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm: drm_gem.h: Add explicit includes for
- DEFINE_DRM_GEM_FOPS
-Message-ID: <YnJJq6UdCVIWcH3G@phenom.ffwll.local>
-Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <1651262112-29664-1-git-send-email-quic_jhugo@quicinc.com>
- <87y1zkq6vg.fsf@intel.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 0/3] i915 private writeback framework
+Message-ID: <YnJK2En3AeNVpbwG@phenom.ffwll.local>
+References: <20220502054219.2083162-1-suraj.kandpal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87y1zkq6vg.fsf@intel.com>
+In-Reply-To: <20220502054219.2083162-1-suraj.kandpal@intel.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,72 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, tzimmermann@suse.de,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 02, 2022 at 06:41:39PM +0300, Jani Nikula wrote:
-> On Fri, 29 Apr 2022, Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
-> > DEFINE_DRM_GEM_FOPS() references drm functions from other headers.  For
-> > example drm_open() is defined in drm_file.h and drm_ioctl() is defined
-> > in drm_ioctl.h.  Since drm_gem.h doesn't include these headers, it
-> > relies on an implicit include from the .c file to have included these
-> > required headers before DEFINE_DRM_GEM_FOPS() gets used.  Relying on
-> > these implicit includes can cause build failures for new code that
-> > doesn't know about these requirements, and can lead to future problems
-> > if the headers ever get restructured as there will be a need to update
-> > every downstream file that includes drm_gem.h.
-> >
-> > Lets fix this explicitly including the required headers in drm_gem.h so
-> > that code that includes drm_gem.h does not need to worry about these
-> > implicit dependencies.
-> 
-> In the general case, I tend to agree, but in this specific instance I
-> think I'd err on the side of fewer includes. I think the more likely
-> outcome here is accumulating implicit dependencies on symbols from
-> drm_file.h and drm_ioctl.h by including drm_gem.h only!
-> 
-> I do think headers need to be self-contained, and we actually enforce
-> this in i915 (see HDRTEST in drivers/gpu/drm/i915/Makefile), but not to
-> the point of macro expansions.
+On Mon, May 02, 2022 at 11:12:16AM +0530, Suraj Kandpal wrote:
+> A patch series was floated in the drm mailing list which aimed to change
+> the drm_connector and drm_encoder fields to pointer in the
+> drm_connector_writeback structure, this received a huge pushback from
+> the community but since i915 expects each connector present in the
+> drm_device list to be a intel_connector but drm_writeback framework.
+> [1] https://patchwork.kernel.org/project/dri-devel/patch/20220202081702.22119-1-suraj.kandpal@intel.com/
+> [2] https://patchwork.kernel.org/project/dri-devel/patch/20220202085429.22261-6-suraj.kandpal@intel.com/
+> This forces us to use a drm_connector which is not embedded in
+> intel_connector the current drm_writeback framework becomes very
+> unfeasible to us as it would mean a lot of checks at a lot of places
+> to take into account the above issue.Since no one had an issue with
+> encoder field being changed into a pointer it was decided to break the
+> connector and encoder pointer changes into two different series.The
+> encoder field changes is currently being worked upon by Abhinav Kumar
+> [3]https://patchwork.kernel.org/project/dri-devel/list/?series=633565
+> In the meantime for i915 to start using the writeback functionality we
+> came up with a interim solution to own writeback pipeline bypassing one
+> provided by drm which is what these patches do.
+> Note: these are temp patches till we figure out how we can either change
+> drm core writeback to work with our intel_connector structure or find a
+> different solution which allows us to work with the current
 
-Yeah we abuse macros in a bunch of places to untangle header dependencies,
-so then going back and pulling in all the headers back in feels a bit
-silly and defeats the point.
-
-iow, I concur.
+I'm assuming this is just fyi to keep development moving and not being
+planned for merging?
 -Daniel
 
 > 
-> BR,
-> Jani.
+> Suraj Kandpal (3):
+>   drm/i915: Creating writeback pipeline to bypass drm_writeback
+>     framework
+>   drm/i915: Define WD trancoder for i915
+>   drm/i915: Enabling WD Transcoder
 > 
-> 
-> 
-> >
-> > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> > ---
-> >  include/drm/drm_gem.h | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > index 9d7c61a..1cbe3d8 100644
-> > --- a/include/drm/drm_gem.h
-> > +++ b/include/drm/drm_gem.h
-> > @@ -37,6 +37,8 @@
-> >  #include <linux/kref.h>
-> >  #include <linux/dma-resv.h>
-> >  
-> > +#include <drm/drm_file.h>
-> > +#include <drm/drm_ioctl.h>
-> >  #include <drm/drm_vma_manager.h>
-> >  
-> >  struct iosys_map;
+>  drivers/gpu/drm/i915/Makefile                 |   2 +
+>  drivers/gpu/drm/i915/display/intel_acpi.c     |   1 +
+>  drivers/gpu/drm/i915/display/intel_display.c  |  89 +-
+>  drivers/gpu/drm/i915/display/intel_display.h  |  15 +
+>  .../drm/i915/display/intel_display_types.h    |  18 +
+>  drivers/gpu/drm/i915/display/intel_dpll.c     |   3 +
+>  drivers/gpu/drm/i915/display/intel_opregion.c |   3 +
+>  .../gpu/drm/i915/display/intel_wb_connector.c | 296 ++++++
+>  .../gpu/drm/i915/display/intel_wb_connector.h |  99 ++
+>  drivers/gpu/drm/i915/display/intel_wd.c       | 978 ++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_wd.h       |  82 ++
+>  drivers/gpu/drm/i915/i915_drv.h               |   5 +
+>  drivers/gpu/drm/i915/i915_irq.c               |   8 +-
+>  drivers/gpu/drm/i915/i915_pci.c               |   7 +-
+>  drivers/gpu/drm/i915/i915_reg.h               | 139 +++
+>  15 files changed, 1742 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_wb_connector.c
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_wb_connector.h
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_wd.c
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_wd.h
 > 
 > -- 
-> Jani Nikula, Intel Open Source Graphics Center
+> 2.35.1
+> 
 
 -- 
 Daniel Vetter
