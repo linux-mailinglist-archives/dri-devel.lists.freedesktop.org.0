@@ -2,81 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDC951AAB5
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 19:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9480C51AC02
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9111610E5D9;
-	Wed,  4 May 2022 17:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680A610E090;
+	Wed,  4 May 2022 18:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF8B310ED3E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 17:29:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651685362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6DtzKR9aJWXKQXaXTDvVkj3EbrIwKfckZvxRRNgRE8g=;
- b=MQq/VA2q4cdAFMvXFTgwbQdz+x6him+xa6J16VTHs7zwJQN5P5dqxlA1P2G8FIHFi1AM1x
- PmaxxzP2a9akcrLggncAOz1Orh6N+HtZVZOgDMmPvIbxk0Dk9E/llwyecC3lEVebUiHInX
- suLwVA7QABObyDuCp/wwHuH/3NRG+zU=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-YpVlwqlsMvOytDSpdW3jfg-1; Wed, 04 May 2022 13:29:20 -0400
-X-MC-Unique: YpVlwqlsMvOytDSpdW3jfg-1
-Received: by mail-qv1-f70.google.com with SMTP id
- kd30-20020a056214401e00b0045a96ed0d4aso1354032qvb.17
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 10:29:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=6DtzKR9aJWXKQXaXTDvVkj3EbrIwKfckZvxRRNgRE8g=;
- b=krCpPpBiWPx1I+uqoVqsxqFZ4Xgrow2jzkTyTxjNcX+QwVkn7WKaH7xxmrOJuwviI9
- +4h9PNCawjHBw1tzNOw4v8DtQX83eUHiP7ywy1JZzTgQsfWjW5KifMjKSAUVe9JCcibH
- u0NjBf1LpBX5NQFGeE7t1hT4fB7Vl23Wf8zbk+RQhVXY/GCpI1khRqBe20KOUTR8Y4ri
- Y/24g8itFj8df1Z/7i0E5e/6CRo4aR2Qf3GQC/HNmRRvczTfJJ/uN0LRy0dXMWCGjAGm
- HsFfIyIm9S0qw+xEZYeRIkNEwYUezF7ysSUR6AplfdFmycrlglD7NbCpP4DizZ4qy2fV
- Z1fA==
-X-Gm-Message-State: AOAM532kMoo6+SfN9KNGKnRGdXSD7hBO9UJZtZN4DU1RElAUI+FelFKx
- mvPN6QobTr+/moJGHtw14PEbt1g3A7uDsPgOHCb1s+xpHIpSuiQqnsNaR+HkY1m5fG9gA066ZDb
- nIE8GUHS9pr+Du8wAmvX/oLeYo5tP
-X-Received: by 2002:ac8:5e0c:0:b0:2f3:adfd:bd30 with SMTP id
- h12-20020ac85e0c000000b002f3adfdbd30mr8408570qtx.277.1651685360397; 
- Wed, 04 May 2022 10:29:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxjrX58n0IOhBj6Fr3PV/2lw6DGC036Yba/rU/r+Mamk+IeEqM5857Vdlz0oR2XeiB+lpTMJA==
-X-Received: by 2002:ac8:5e0c:0:b0:2f3:adfd:bd30 with SMTP id
- h12-20020ac85e0c000000b002f3adfdbd30mr8408554qtx.277.1651685360137; 
- Wed, 04 May 2022 10:29:20 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- h23-20020ac85497000000b002f39b99f6b9sm7762181qtq.83.2022.05.04.10.29.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 10:29:19 -0700 (PDT)
-Message-ID: <0ca5c54fab5dd7dd5988ae48af779570076800a6.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/devinit: fix returnvar.cocci warnings
-From: Lyude Paul <lyude@redhat.com>
-To: Guo Zhengkui <guozhengkui@vivo.com>, Ben Skeggs <bskeggs@redhat.com>, 
- Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>,  dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Date: Wed, 04 May 2022 13:29:18 -0400
-In-Reply-To: <20220504161003.9245-1-guozhengkui@vivo.com>
-References: <20220504161003.9245-1-guozhengkui@vivo.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE37210E090;
+ Wed,  4 May 2022 18:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651687203; x=1683223203;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=137n4q3rIiVFQ23AX+AScuap7Y7qDgjczT3TzpRbZCQ=;
+ b=R/J8iuj95eHlYePHcwP5jKXWnoWhun+AWqBvjUi86q7uUgMMsluVGUGq
+ P0NuVm7fuELA8runq2AIXj6aVy74pXeI1NSiLRvWyjvVOlxjtRF/1YEuq
+ 43dZrh/76RBCAFi7YG/JdnHwcBktVM+ttYJosq56upAGvrZaec88DKvo6
+ avuwxNNlGVSAKNhi3lBPZ3j+ngyKHxk0lm/b0PeWck7rnZDZihW1xdR83
+ iT91A51V2TfTIigFylSAzQL/VYWoGYQQwiAkMItocLx2BEdbW+wrzWYrp
+ EOuykbx33evdIT+kMgmfEB/1l35DFaN2wOlqgp6pnR+BJ1OcEs9hEDynh w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="265435855"
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="265435855"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 10:59:36 -0700
+X-IronPort-AV: E=Sophos;i="5.91,198,1647327600"; d="scan'208";a="664576151"
+Received: from gidaly-mobl1.ger.corp.intel.com (HELO [10.213.236.183])
+ ([10.213.236.183])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 10:59:34 -0700
+Message-ID: <12d849fb-3255-139a-7905-2d3dd679e3c8@linux.intel.com>
+Date: Wed, 4 May 2022 18:59:32 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/2] drm/i915: Don't use DRM_DEBUG_WARN_ON for unexpected
+ l3bank/mslice config
+Content-Language: en-US
+To: Matt Roper <matthew.d.roper@intel.com>
+References: <20220504120715.911045-1-tvrtko.ursulin@linux.intel.com>
+ <YnKuX0F0bDBF5ahP@mdroper-desk1.amr.corp.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <YnKuX0F0bDBF5ahP@mdroper-desk1.amr.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,100 +62,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhengkui_guo@outlook.com
+Cc: Jani Nikula <jani.nikula@intel.com>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Will push to the appropriate branch in a little bit
-
-On Thu, 2022-05-05 at 00:09 +0800, Guo Zhengkui wrote:
-> Fix the following coccicheck warnings:
+On 04/05/2022 17:48, Matt Roper wrote:
+> On Wed, May 04, 2022 at 01:07:14PM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> DRM_DEBUG_WARN_ON should only be used when we are certain CI is guaranteed
+>> to exercise a certain code path, so in case of values coming from MMIO
+>> reads we cannot be sure CI will have all the possible SKUs and parts.
+>>
+>> Use drm_warn instead and move logging to init phase while at it.
 > 
-> drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c:71:5-12:
-> Unneeded variable: "disable". Return "0ULL" on line 90.
-> drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c:35:5-12:
-> Unneeded variable: "disable". Return "0ULL" on line 44.
-> drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c:35:5-12:
-> Unneeded variable: "disable". Return "0ULL" on line 50.
-> 
-> Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c   | 3 +--
->  drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c | 3 +--
->  drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c | 3 +--
->  3 files changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
-> index 05729ca19e9a..8977483a9f42 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
-> @@ -32,7 +32,6 @@ g98_devinit_disable(struct nvkm_devinit *init)
->         struct nvkm_device *device = init->subdev.device;
->         u32 r001540 = nvkm_rd32(device, 0x001540);
->         u32 r00154c = nvkm_rd32(device, 0x00154c);
-> -       u64 disable = 0ULL;
->  
->         if (!(r001540 & 0x40000000)) {
->                 nvkm_subdev_disable(device, NVKM_ENGINE_MSPDEC, 0);
-> @@ -47,7 +46,7 @@ g98_devinit_disable(struct nvkm_devinit *init)
->         if (!(r00154c & 0x00000040))
->                 nvkm_subdev_disable(device, NVKM_ENGINE_SEC, 0);
->  
-> -       return disable;
-> +       return 0ULL;
->  }
->  
->  static const struct nvkm_devinit_func
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
-> index 051cfd6a5caf..5b7cb1fe7897 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
-> @@ -68,7 +68,6 @@ gf100_devinit_disable(struct nvkm_devinit *init)
->  {
->         struct nvkm_device *device = init->subdev.device;
->         u32 r022500 = nvkm_rd32(device, 0x022500);
-> -       u64 disable = 0ULL;
->  
->         if (r022500 & 0x00000001)
->                 nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
-> @@ -87,7 +86,7 @@ gf100_devinit_disable(struct nvkm_devinit *init)
->         if (r022500 & 0x00000200)
->                 nvkm_subdev_disable(device, NVKM_ENGINE_CE, 1);
->  
-> -       return disable;
-> +       return 0ULL;
->  }
->  
->  void
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-> index 4323732a3cb2..8955af2704c7 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-> @@ -32,7 +32,6 @@ gm107_devinit_disable(struct nvkm_devinit *init)
->         struct nvkm_device *device = init->subdev.device;
->         u32 r021c00 = nvkm_rd32(device, 0x021c00);
->         u32 r021c04 = nvkm_rd32(device, 0x021c04);
-> -       u64 disable = 0ULL;
->  
->         if (r021c00 & 0x00000001)
->                 nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
-> @@ -41,7 +40,7 @@ gm107_devinit_disable(struct nvkm_devinit *init)
->         if (r021c04 & 0x00000001)
->                 nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
->  
-> -       return disable;
-> +       return 0ULL;
->  }
->  
->  static const struct nvkm_devinit_func
+> Changing to drm_warn looks good, although moving the location changes
+> the intent a bit; I think originally the idea was to warn if we were
+> trying to do a steering lookup for a type that we never initialized
+> (e.g., an LNCF lookup for a !HAS_MSLICES platform where we never even
+> read the register in the first place).  But I don't think we've ever
+> made a mistake that would cause us to trip the warning, so it probably
+> isn't terribly important to keep it there.
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Ah I see.. there we could put something like:
 
+	case MSLICE:
+		GEM_WARN_ON(!HAS_MSLICES(...));
+
+?
+
+Regards,
+
+Tvrtko
+
+> 
+> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+> 
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Matt Roper <matthew.d.roper@intel.com>
+>> Cc: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_gt.c | 13 ++++++-------
+>>   1 file changed, 6 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+>> index 53307ca0eed0..c474e5c3ea5e 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+>> @@ -153,11 +153,14 @@ int intel_gt_init_mmio(struct intel_gt *gt)
+>>   	 * An mslice is unavailable only if both the meml3 for the slice is
+>>   	 * disabled *and* all of the DSS in the slice (quadrant) are disabled.
+>>   	 */
+>> -	if (HAS_MSLICES(i915))
+>> +	if (HAS_MSLICES(i915)) {
+>>   		gt->info.mslice_mask =
+>>   			slicemask(gt, GEN_DSS_PER_MSLICE) |
+>>   			(intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+>>   			 GEN12_MEML3_EN_MASK);
+>> +		if (!gt->info.mslice_mask) /* should be impossible! */
+>> +			drm_warn(&i915->drm, "mslice mask all zero!\n");
+>> +	}
+>>   
+>>   	if (IS_DG2(i915)) {
+>>   		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+>> @@ -171,6 +174,8 @@ int intel_gt_init_mmio(struct intel_gt *gt)
+>>   		gt->info.l3bank_mask =
+>>   			~intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+>>   			GEN10_L3BANK_MASK;
+>> +		if (!gt->info.l3bank_mask) /* should be impossible! */
+>> +			drm_warn(&i915->drm, "L3 bank mask is all zero!\n");
+>>   	} else if (HAS_MSLICES(i915)) {
+>>   		MISSING_CASE(INTEL_INFO(i915)->platform);
+>>   	}
+>> @@ -882,20 +887,14 @@ static void intel_gt_get_valid_steering(struct intel_gt *gt,
+>>   {
+>>   	switch (type) {
+>>   	case L3BANK:
+>> -		GEM_DEBUG_WARN_ON(!gt->info.l3bank_mask); /* should be impossible! */
+>> -
+>>   		*sliceid = 0;		/* unused */
+>>   		*subsliceid = __ffs(gt->info.l3bank_mask);
+>>   		break;
+>>   	case MSLICE:
+>> -		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+>> -
+>>   		*sliceid = __ffs(gt->info.mslice_mask);
+>>   		*subsliceid = 0;	/* unused */
+>>   		break;
+>>   	case LNCF:
+>> -		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+>> -
+>>   		/*
+>>   		 * An LNCF is always present if its mslice is present, so we
+>>   		 * can safely just steer to LNCF 0 in all cases.
+>> -- 
+>> 2.32.0
+>>
+> 
