@@ -2,61 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4588551B230
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 00:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17E451B23C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 00:48:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF7710F86E;
-	Wed,  4 May 2022 22:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F35D410E062;
+	Wed,  4 May 2022 22:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4FE10F86F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 22:43:15 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id b24so3282164edu.10
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 15:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qeNl0BPYDf3IXa/nIoXbcizIQgwortdosv6DqZ+2Ygs=;
- b=K0FwWjAxKLYxxY8VQ5P+DZca2xPeh/cBhVK6DsLQkfboh2wdAebP54hKdJ57ACMh+5
- o+aijwkiXLYPVcB4wUb22hNPWY7BS32Z8/ZKrGZoxyUzvdTdl+OO/gpsoovgJpRDeLN5
- zHSuT/qDM6f/HusbWuu6aJr5fVx7NgLQbPgfc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qeNl0BPYDf3IXa/nIoXbcizIQgwortdosv6DqZ+2Ygs=;
- b=N4jSn5jFAHsPt6CR4IxgDOZ0ph2DhsWIbdqHh+6WWl2JEqlnbI4ePY7z9S2Xv1um4B
- IznEreWN21brl3xa08wogflC4SWcF+zVWSNj/NWSG4dBrrDKtQ4vUTPIO0GY+7UF3QUK
- eSw5QrUstGkDpIAE0GDqHzyepjYrJseb8cF34TIkAta0rF0kE0mt8H2uPuOQJf4GXUJ8
- ASsx9OTqP3EEHXHQ4TRFI5eCisYuFBtBikwKhAndFJKh3lBdSXuCFLfiBkv4ymtzn85F
- MDcRPrcLCelajeYfi+XX9Utdh5vjncBWW2oBE0K7jso+vqcHXVouyejPcngx2dv1EneO
- eMXg==
-X-Gm-Message-State: AOAM533ygXDVLWF+hmgYb3Akewo9wqNxoMnIjDZlH6PqsOotVDLJqRDs
- 5z/h8xkyK5FtzqvrmGbz5QAd9w==
-X-Google-Smtp-Source: ABdhPJy4cr9ioAU+WY0vqg/v/MiW6O9lpTb9k9MbkvRur8zWIkSbBs0wJ67Drb1ntxzUBch3G+5YBw==
-X-Received: by 2002:aa7:d842:0:b0:425:f329:33b1 with SMTP id
- f2-20020aa7d842000000b00425f32933b1mr26062144eds.74.1651704194239; 
- Wed, 04 May 2022 15:43:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- cf11-20020a170906b2cb00b006f3ef214da7sm77696ejb.13.2022.05.04.15.43.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 15:43:13 -0700 (PDT)
-Date: Thu, 5 May 2022 00:43:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michael Walle <michael@walle.cc>
-Subject: Re: [PATCH v2] drm/etnaviv: avoid cleaning up sched_job when submit
- succeeded
-Message-ID: <YnMBgC8L9ij9Z1kK@phenom.ffwll.local>
-References: <20220504090229.2506560-1-l.stach@pengutronix.de>
- <eb6f2f8d4ba4b34c1dcbe6f4e16449a1@walle.cc>
+Received: from out30-44.freemail.mail.aliyun.com
+ (out30-44.freemail.mail.aliyun.com [115.124.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7FF10E062
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 22:48:22 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R331e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04423; MF=yang.lee@linux.alibaba.com;
+ NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0VCDQ6gX_1651704497; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0VCDQ6gX_1651704497) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 05 May 2022 06:48:18 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: daniel@ffwll.ch
+Subject: [PATCH -next 1/2] drm/i915: Remove duplicated include in intel_sseu.c
+Date: Thu,  5 May 2022 06:48:15 +0800
+Message-Id: <20220504224816.41653-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eb6f2f8d4ba4b34c1dcbe6f4e16449a1@walle.cc>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,37 +39,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 10:58:57PM +0200, Michael Walle wrote:
-> Am 2022-05-04 11:02, schrieb Lucas Stach:
-> > While the labels may mislead the casual reader, the tail of the function
-> > etnaviv_ioctl_gem_submit is always executed, as a lot of the structures
-> > set up in this function need to be cleaned up regardless of whether the
-> > submit succeeded or failed.
-> > 
-> > An exception is the newly added drm_sched_job_cleanup, which must only
-> > be called when the submit failed before handing the job to the
-> > scheduler.
-> > 
-> > Fixes: b827c84f5e84 ("drm/etnaviv: Use scheduler dependency handling")
-> > Reported-by: Michael Walle <michael@walle.cc>
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> 
-> FWIW (because it's already picked up)
-> 
-> Tested-by: Michael Walle <michael@walle.cc>
+Fix following includecheck warning:
+./drivers/gpu/drm/i915/gt/intel_sseu.c: linux/string_helpers.h is
+included more than once.
 
-Thanks for confirming anyway, and apologies for breaking stuff - the bug
-has been pretty screaming when I looked at the changes in detail and I
-think I created it in one of the rebases and changes for drm_sched_job
-error handling, I should have been a bit more careful.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/gpu/drm/i915/gt/intel_sseu.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Cheers, Daniel
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
+index 9881a6790574..fdd25691beda 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu.c
++++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
+@@ -10,8 +10,6 @@
+ #include "intel_gt_regs.h"
+ #include "intel_sseu.h"
+ 
+-#include "linux/string_helpers.h"
+-
+ void intel_sseu_set_info(struct sseu_dev_info *sseu, u8 max_slices,
+ 			 u8 max_subslices, u8 max_eus_per_subslice)
+ {
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.20.1.7.g153144c
+
