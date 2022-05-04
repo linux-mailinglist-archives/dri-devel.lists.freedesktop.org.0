@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D6A51AFB6
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 22:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88F551AFF0
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 22:59:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816F410E9C5;
-	Wed,  4 May 2022 20:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7650510E9D5;
+	Wed,  4 May 2022 20:59:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B59F110E722;
- Wed,  4 May 2022 20:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651697312; x=1683233312;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zCQ2iCX/sVnu4HHGRJ0ht9P+lnCysKtqVz+IpbQvRRg=;
- b=T4WHAEUvIgOYo53jn2R1PyDacBbBjX7smwxkWp9k+7/31p3nHPRo/pzS
- ggZHtCWIFN/ZI0fIf9siiytoSWbOfJeSCYSopha3OOFW96ST1CHNm14G2
- SvIfAUktDiMG1OhQuroW+E6TII0hMqaQcT2WUtIwX8hQ4/TmDqM3lZG4Q
- fHmBZ1LK4HOxIPvrb501d+CAVO2N+aL3LrJnbLXJFF3R5HqcYbIrpYuHJ
- JJHCSrFLw0goSf4z+x5Exsmm8SCDrVN4UhesVF3vmnGlpS+ZpDCeAgebA
- qQIgI2tWeg7gNFpc8Nr6od+JG1i1+ZA1qzArdXZegJ4ZrV3e+CEr9dY+Y A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="267489095"
-X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="267489095"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 13:48:32 -0700
-X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="811292784"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 13:48:32 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/i915/huc: Don't fail the probe if HuC init fails
-Date: Wed,  4 May 2022 13:48:16 -0700
-Message-Id: <20220504204816.2082588-5-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220504204816.2082588-1-daniele.ceraolospurio@intel.com>
-References: <20220504204816.2082588-1-daniele.ceraolospurio@intel.com>
+Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A72A10E9D5
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 20:59:02 +0000 (UTC)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ssl.serverraum.org (Postfix) with ESMTPSA id 68A4D22238;
+ Wed,  4 May 2022 22:58:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2016061301; t=1651697937;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2uyjWuWPaA0HXIEpUNAXhgRe5n36fZ5ISLxZv5KSzhw=;
+ b=IQdTFNexi3ATwWjK5rg2O3FQmu9BIsqAzl06CIPK8HRMRMqXpB8Sf0909N3vGn3h1/Jm7/
+ 0AXAct87WNkR02doNbX7ccTVFPAnU7rfDC0a3aS7qzzyiTuEPCba2B3ETJlJwfiIYTyXCn
+ 1KctVoCRLTLx9vNXgHRdAUxuO5NzF6w=
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 04 May 2022 22:58:57 +0200
+From: Michael Walle <michael@walle.cc>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v2] drm/etnaviv: avoid cleaning up sched_job when submit
+ succeeded
+In-Reply-To: <20220504090229.2506560-1-l.stach@pengutronix.de>
+References: <20220504090229.2506560-1-l.stach@pengutronix.de>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <eb6f2f8d4ba4b34c1dcbe6f4e16449a1@walle.cc>
+X-Sender: michael@walle.cc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,64 +53,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous patch introduced new failure cases in the HuC init flow
-that can be hit by simply changing the config, so we want to avoid
-failing the probe in those scenarios. HuC load failure is already
-considered a non-fatal error and we have a way to report to userspace
-if the HuC is not available via a dedicated getparam, so no changes
-in expectation there.
-The error message in the HuC init code has also been lowered to info to
-avoid throwing error message for an expected behavior.
+Am 2022-05-04 11:02, schrieb Lucas Stach:
+> While the labels may mislead the casual reader, the tail of the 
+> function
+> etnaviv_ioctl_gem_submit is always executed, as a lot of the structures
+> set up in this function need to be cleaned up regardless of whether the
+> submit succeeded or failed.
+> 
+> An exception is the newly added drm_sched_job_cleanup, which must only
+> be called when the submit failed before handing the job to the
+> scheduler.
+> 
+> Fixes: b827c84f5e84 ("drm/etnaviv: Use scheduler dependency handling")
+> Reported-by: Michael Walle <michael@walle.cc>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_huc.c |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c  | 11 ++---------
- 2 files changed, 3 insertions(+), 10 deletions(-)
+FWIW (because it's already picked up)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index c36e2bf9b0f29..3bb8838e325a4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -113,7 +113,7 @@ int intel_huc_init(struct intel_huc *huc)
- 	return 0;
- 
- out:
--	i915_probe_error(i915, "failed with %d\n", err);
-+	drm_info(&i915->drm, "HuC init failed with %d\n", err);
- 	return err;
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 0dce94f896a8c..ecf149c5fdb02 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -323,17 +323,10 @@ static int __uc_init(struct intel_uc *uc)
- 	if (ret)
- 		return ret;
- 
--	if (intel_uc_uses_huc(uc)) {
--		ret = intel_huc_init(huc);
--		if (ret)
--			goto out_guc;
--	}
-+	if (intel_uc_uses_huc(uc))
-+		intel_huc_init(huc);
- 
- 	return 0;
--
--out_guc:
--	intel_guc_fini(guc);
--	return ret;
- }
- 
- static void __uc_fini(struct intel_uc *uc)
--- 
-2.25.1
+Tested-by: Michael Walle <michael@walle.cc>
 
+Thanks!
+-michael
