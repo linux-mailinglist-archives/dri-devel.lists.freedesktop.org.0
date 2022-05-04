@@ -1,74 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B6C51991A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:02:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E73519935
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E24010F21F;
-	Wed,  4 May 2022 08:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3923210F4D9;
+	Wed,  4 May 2022 08:06:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2740910F230
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:02:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651651338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7zXu34IG6COwbjtsWuh3VVUA+veouEEkv29/Xam+Los=;
- b=CpDsuLwosWS4MdnTIs4LIfzodcoqLDrkiGOILGmkKo7vc4YqaCDrKokHyXlKks9Cq8U6lw
- LxYBswvrkRQXec42zkIHo0zGzP4LUTPbIe8AQPQHyq4MN1uxPVijhct1upqQYFMTUbPm/E
- Rc7OqIww0IhqJrRZZR96HfnrWjs069o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-VLxia4GKOJWKzPZEP-Trmg-1; Wed, 04 May 2022 04:02:17 -0400
-X-MC-Unique: VLxia4GKOJWKzPZEP-Trmg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v184-20020a1cacc1000000b00393e492a398so2647453wme.5
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 01:02:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7zXu34IG6COwbjtsWuh3VVUA+veouEEkv29/Xam+Los=;
- b=Xzh0/o9XeyVcVUDdFBP4LPFxntfmyVIjo7V//k6YBlbkOWIjdRwzq6x1O7hIe1+Z5w
- NuXH4zvaJVgD73k1daej/GIND5EgPdbZFNjImoPUNkoRPcaSQ2hnWVtm1xDv1air2xAY
- Wblci+baLPKNmJaoOfRAZsCl/TOekGHm9OyaQAfyR80RfElZKX6egx7HOk5PXdqRBfyg
- UmUS4IBccJxkNYsnTG98iz4pXBsky9hBtewig8qJ9FtrTBLnT2PIE3wokEjx0buRomJI
- 93mMNqNAiPThsYfmdTEFUqgaoZArGrv1GJH5fGzcOl7MB3XFlhQt1y8XevZ2LD/nwniu
- PN2Q==
-X-Gm-Message-State: AOAM531/pGEqZmnhzsYCo1lTjlNYKDKXjHrGynOMRMevIuKvnOSZ5cgE
- n8mKnsw84CZOOmU2HSOKMlQjeFGZRf4E3YysEPHPI51UXjHVfYItV5QvCaCmA/tFfr2XpleV11Q
- q46gZFA3fezMdgy3W8hCmoUnoIfyi
-X-Received: by 2002:a05:600c:281:b0:394:1075:fe3e with SMTP id
- 1-20020a05600c028100b003941075fe3emr6526500wmk.155.1651651336081; 
- Wed, 04 May 2022 01:02:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzN1muJJMfdooSCi4Oc6vFk6sijHuLsxaZY4H7nGBDH4+1JhjDY7R1Xp0Vb46jIg79cFINiwA==
-X-Received: by 2002:a05:600c:281:b0:394:1075:fe3e with SMTP id
- 1-20020a05600c028100b003941075fe3emr6526478wmk.155.1651651335844; 
- Wed, 04 May 2022 01:02:15 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c10-20020adfa30a000000b0020c5253d8f4sm10872601wrb.64.2022.05.04.01.02.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 01:02:15 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/todo: Add entry for using kunit in the subsystem
-Date: Wed,  4 May 2022 10:02:12 +0200
-Message-Id: <20220504080212.713275-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA02410F4D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:06:04 +0000 (UTC)
+X-UUID: cdfc2389b2034d31a6b07f80195c7111-20220504
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:17060d19-c653-499a-879c-289a6448ce38, OB:10,
+ L
+ OB:10,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:53
+X-CID-INFO: VERSION:1.1.4, REQID:17060d19-c653-499a-879c-289a6448ce38, OB:10,
+ LOB
+ :10,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:53
+X-CID-META: VersionHash:faefae9, CLOUDID:1d2ea92f-6199-437e-8ab4-9920b4bc5b76,
+ C
+ OID:a9dbf60cbf27,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil
+ ,QS:0,BEC:nil
+X-UUID: cdfc2389b2034d31a6b07f80195c7111-20220504
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1990241526; Wed, 04 May 2022 16:05:59 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 4 May 2022 16:05:58 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Wed, 4 May 2022 16:05:58 +0800
+Message-ID: <fa84e8e0e71cc483f9bef3714cce1622c17bcfb2.camel@mediatek.com>
+Subject: Re: [PATCH v5 1/4] dt-bindings: display: mediatek: dsi: Convert
+ dsi_dtbinding to .yaml
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Rob Herring <robh@kernel.org>
+Date: Wed, 4 May 2022 16:05:58 +0800
+In-Reply-To: <YnFt5vL+6uVioqsf@robh.at.kernel.org>
+References: <20220428133753.8348-1-rex-bc.chen@mediatek.com>
+ <20220428133753.8348-2-rex-bc.chen@mediatek.com>
+ <YnFt5vL+6uVioqsf@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,48 +65,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+ airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ xinlei.lee@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Kernel Unit Testing (KUnit) framework provides a common framework for
-unit tests within the Linux kernel. Having a test suite would allow to
-identify regressions earlier.
+On Tue, 2022-05-03 at 13:01 -0500, Rob Herring wrote:
+> On Thu, Apr 28, 2022 at 09:37:50PM +0800, Rex-BC Chen wrote:
+> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > 
+> > Convert mediatek,dsi.txt to mediatek,dsi.yaml format
+> > 
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >  .../display/mediatek/mediatek,dsi.txt         |  62 ---------
+> >  .../display/mediatek/mediatek,dsi.yaml        | 122
+> > ++++++++++++++++++
+> >  2 files changed, 122 insertions(+), 62 deletions(-)
+> >  delete mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> > l
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
+> > xt
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
+> > xt
+> > deleted file mode 100644
+> > index 36b01458f45c..000000000000
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
+> > xt
+> > +++ /dev/null
+> > @@ -1,62 +0,0 @@
+> > -Mediatek DSI Device
+> > -===================
+> > -
+> > -The Mediatek DSI function block is a sink of the display subsystem
+> > and can
+> > -drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized
+> > for dual-
+> > -channel output.
+> > -
+> > -Required properties:
+> > -- compatible: "mediatek,<chip>-dsi"
+> > -- the supported chips are mt2701, mt7623, mt8167, mt8173 and
+> > mt8183.
+> > -- reg: Physical base address and length of the controller's
+> > registers
+> > -- interrupts: The interrupt signal from the function block.
+> > -- clocks: device clocks
+> > -  See Documentation/devicetree/bindings/clock/clock-bindings.txt
+> > for details.
+> > -- clock-names: must contain "engine", "digital", and "hs"
+> > -- phys: phandle link to the MIPI D-PHY controller.
+> > -- phy-names: must contain "dphy"
+> > -- port: Output port node with endpoint definitions as described in
+> > -  Documentation/devicetree/bindings/graph.txt. This port should be
+> > connected
+> > -  to the input port of an attached DSI panel or DSI-to-eDP encoder
+> > chip.
+> > -
+> > -Optional properties:
+> > -- resets: list of phandle + reset specifier pair, as described in
+> > [1].
+> > -
+> > -[1] Documentation/devicetree/bindings/reset/reset.txt
+> > -
+> > -MIPI TX Configuration Module
+> > -============================
+> > -
+> > -See phy/mediatek,dsi-phy.yaml
+> > -
+> > -Example:
+> > -
+> > -mipi_tx0: mipi-dphy@10215000 {
+> > -	compatible = "mediatek,mt8173-mipi-tx";
+> > -	reg = <0 0x10215000 0 0x1000>;
+> > -	clocks = <&clk26m>;
+> > -	clock-output-names = "mipi_tx0_pll";
+> > -	#clock-cells = <0>;
+> > -	#phy-cells = <0>;
+> > -	drive-strength-microamp = <4600>;
+> > -	nvmem-cells= <&mipi_tx_calibration>;
+> > -	nvmem-cell-names = "calibration-data";
+> > -};
+> > -
+> > -dsi0: dsi@1401b000 {
+> > -	compatible = "mediatek,mt8173-dsi";
+> > -	reg = <0 0x1401b000 0 0x1000>;
+> > -	interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_LOW>;
+> > -	clocks = <&mmsys MM_DSI0_ENGINE>, <&mmsys MM_DSI0_DIGITAL>,
+> > -		 <&mipi_tx0>;
+> > -	clock-names = "engine", "digital", "hs";
+> > -	resets = <&mmsys MT8173_MMSYS_SW0_RST_B_DISP_DSI0>;
+> > -	phys = <&mipi_tx0>;
+> > -	phy-names = "dphy";
+> > -
+> > -	port {
+> > -		dsi0_out: endpoint {
+> > -			remote-endpoint = <&panel_in>;
+> > -		};
+> > -	};
+> > -};
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
+> > aml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
+> > aml
+> > new file mode 100644
+> > index 000000000000..2ca9229ef69e
+> > --- /dev/null
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
+> > aml
+> > @@ -0,0 +1,122 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
+> > https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml*__;Iw!!CTRNKA9wMg0ARbw!w60__6oza0dggkQt6zWF-ZnYUKobclO7i3x9kiS1CETGQlCVcifs6UfqytY8vunKIJlM$
+> >  
+> > +$schema: 
+> > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!w60__6oza0dggkQt6zWF-ZnYUKobclO7i3x9kiS1CETGQlCVcifs6UfqytY8vns85I56$
+> >  
+> > +
+> > +title: MediaTek DSI Controller Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > +  - Philipp Zabel <p.zabel@pengutronix.de>
+> > +  - Jitao Shi <jitao.shi@mediatek.com>
+> > +  - Xinlei Lee <xinlei.lee@mediatek.com>
+> > +
+> > +description: |
+> > +  The MediaTek DSI function block is a sink of the display
+> > subsystem and can
+> > +  drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized
+> > for dual-
+> > +  channel output.
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/display/dsi-controller.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - mediatek,mt2701-dsi
+> > +      - mediatek,mt7623-dsi
+> > +      - mediatek,mt8167-dsi
+> > +      - mediatek,mt8173-dsi
+> > +      - mediatek,mt8183-dsi
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Engine Clock
+> > +      - description: Digital Clock
+> > +      - description: HS Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: engine
+> > +      - const: digital
+> > +      - const: hs
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  phys:
+> > +    maxItems: 1
+> > +
+> > +  phy-names:
+> > +    items:
+> > +      - const: dphy
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description:
+> > +      Output port node. This port should be connected to the input
+> > +      port of an attached DSI panel or DSI-to-eDP encoder chip.
+> > +
+> > +
+> 
+> 1 blank line
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+Hello Rob,
 
- Documentation/gpu/todo.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Thanks for your review.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 127e76ee0b2d..10bfb50908d1 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -603,6 +603,20 @@ Level: Advanced
- Better Testing
- ==============
- 
-+Add unit tests using the Kernel Unit Testing (KUnit) framework
-+--------------------------------------------------------------
-+
-+The `KUnit <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_
-+provides a common framework for unit tests within the Linux kernel. Having a
-+test suite would allow to identify regressions earlier.
-+
-+A good candidate for the first unit tests are the format-conversion helpers in
-+``drm_format_helper.c``.
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Intermediate
-+
- Enable trinity for DRM
- ----------------------
- 
--- 
-2.35.1
+ok. I will do this in next version.
+
+> 
+> > +  "#address-cells":
+> > +    const: 2
+> > +
+> > +  "#size-cells":
+> > +    const: 2
+> 
+> Did you try adding these? Because they are wrong and will contradict 
+> dsi-controller.yaml.
+> 
+
+We have some mistake.
+There will not be any sub node for mediatek dsi, so I will drop this
+modification in next version.
+
+BRs,
+Rex
+
+> Rob
 
