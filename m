@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1501351ACC4
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:26:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E5E51AD10
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 20:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C050F10E840;
-	Wed,  4 May 2022 18:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E8610EA40;
+	Wed,  4 May 2022 18:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A588E10E820
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 18:26:12 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id l19so2730528ljb.7
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:26:12 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C73BA10EA5E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 18:38:08 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id x33so3854190lfu.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 11:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=WcSGq79606QCKFHIe92xawG76AnBIpchBNyPREMJFh8=;
- b=RURKbGYakxzaIrEtJ9aTpazHbip4v8DlxNuQ+4p5UAkCAZudwRQdESInGeQcaXhynz
- Q4Ianc7rdPV2mUeJh79YDyBjSBEKFqcEb9jNAEtGgjXUGf3/nWvXMp+nHZuSN7bNfCvu
- 47ARcI+vA7xBND6soQPd2CBVJ/Fb9t0LXnybCZROluJ1Fo6Td4CxbfDOXfWm1edMC5rL
- VNXVWV0V9zoxFLjELeOSXBoEMraplR1T6iTn4//lfso6Fhn0GyPqCu7cywE5zMAKxu1V
- uK2HPN00tSbLNjVB7vjM8fRFuhTfTAJYP+n1K3agSTtwam1d0xMlGz4TLq1upH27KoP4
- fe1A==
+ bh=VDj+h4V23SXKlruYDD3RGIbbcHLL5wjAWDq/F5foLqE=;
+ b=fxjXjRbPxX0+juWMAepDKZlUcCaSCPxxuzNTXL/t1cwBxfS5s2tjysAoHlG3Z67/7R
+ XL2oup6dBfxm30lTRgo8OIwVvvc3Wey04GuG7Vb/BzbHV9UwXBemXCx5r2q6SqEAqeEU
+ D9vmaG0dBfIjkmy51e5WuulFFGzZ6A/ZTJDV1vQbEiBil8Up9kTCSI2yPBj/jPtV4ZT3
+ OeV0t8JKfTeTvqiCBUVYCb6xBarrjSwc+726v+pjx1/wKJS2WyK3HVpGymESkVavXbMg
+ BM1/r/DDv2pCN+hcuanvYGk/YgHOCr5bcy6DFbmISlx+GYBjpT5NZ6l1mlj4J8qDjXus
+ 1KmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WcSGq79606QCKFHIe92xawG76AnBIpchBNyPREMJFh8=;
- b=RigeZt5hTaWSTnI4ihwONekgWNVE0h9ahE9b+e8X28qvTIXnK31ujRrr1BSY0W8HWC
- uj2U2BLdNk9yWoymeB8br6OBwOSpnqX5/bMsTHvXB+ZRABOaPlGLl0hwYE8Z4QnJLcDP
- +Dw1nQ642EgqTEw6YnsWov/LAMB7rP5wCo0cEGQROcyJO+ZM7yGow5s+FTxA7r+Wzv7W
- 7hBNPvb1bamJrOxDkkVRLQhO9XTPSvKxoIUYL1QEKos2NY7z68mGAGrdXRHVay5tcXCQ
- 0yvDHpnmIXsPTQ7sGsuSNjiOXIWFCb084OcLhwRVzPE91hGO6FNaOhJnpjQgCFpHYQKK
- 4+MQ==
-X-Gm-Message-State: AOAM532jSL897hBjmLs3/soAHhKpUHgbjT8bW1rtptkIDXcd3Sw4iPUf
- lrrGd9fxv5+Zz4nnzTzwIgy1Iw==
-X-Google-Smtp-Source: ABdhPJxws7eoaBBc/d8tLooGSLDO9wYMzHRjrretVeiVwsWonORpkVOxpE/ICf2zdQsZwe3x4LLDjA==
-X-Received: by 2002:a05:651c:3c2:b0:24f:b91:fcba with SMTP id
- f2-20020a05651c03c200b0024f0b91fcbamr12865430ljp.154.1651688770938; 
- Wed, 04 May 2022 11:26:10 -0700 (PDT)
+ bh=VDj+h4V23SXKlruYDD3RGIbbcHLL5wjAWDq/F5foLqE=;
+ b=KscGhzaM+Qn9qqLl4HjJXKTDj9sngJ+Kdf0ZkDPkB0DjMqLjON49+XOf7L41bIJ/Ib
+ NFCt3/qpM9B9mqIvjVttIpzu05trQwsMTjitdARY8h+MeBsTGXgetdiD/9UijDvb5DE5
+ aCV9rmITo239SZtFGuoHDgSjTBQHe9/mWkdv1M8U1ZW8u1bnrM7GJigdStLQSHhRz5O5
+ qrIFxyXPA7WaQbTpehJIi/WwO+eyX+M25zo/yolD1V/ysgP8JPWh1O1yHy7i+vka1bo3
+ qViea5edIDDdkeaBhMvjSzda9Z0GCy4U9NDCEm4vb47Jfzm8E3DzUU4FlD23Pk6ppioN
+ XuUg==
+X-Gm-Message-State: AOAM531aeT7de5ktq1y26s4XkffrHvnfdVgi/VLtGdQLyTv5UCIO5c65
+ 19lxv8tXYtADUEb4UR+cPsZ7jw==
+X-Google-Smtp-Source: ABdhPJyI5erUXW0RKxsHAT4wZDIOhnHXaMT1ZI70tUjd1MU7r4fGr09Jg5RPwZvekympeq5jP9071g==
+X-Received: by 2002:a05:6512:22cf:b0:473:a41f:155f with SMTP id
+ g15-20020a05651222cf00b00473a41f155fmr7171873lfu.227.1651689487107; 
+ Wed, 04 May 2022 11:38:07 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- f24-20020a2eb5b8000000b0024f3df9f298sm1746762ljn.46.2022.05.04.11.26.10
+ y20-20020ac24214000000b0047255d21168sm1270671lfh.151.2022.05.04.11.38.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 11:26:10 -0700 (PDT)
-Message-ID: <febc6b74-eb33-8c72-0b60-a2253d8d6dde@linaro.org>
-Date: Wed, 4 May 2022 21:26:09 +0300
+ Wed, 04 May 2022 11:38:06 -0700 (PDT)
+Message-ID: <834eeda0-12b0-3f16-8ca2-89175c1de186@linaro.org>
+Date: Wed, 4 May 2022 21:38:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
@@ -103,7 +103,9 @@ On 03/05/2022 19:25, Kuogee Hsieh wrote:
 > Fixes: 570d3e5d28db ("drm/msm/dp: stop event kernel thread when DP unbind")
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Let's do it properly:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
 >   drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++++++----
