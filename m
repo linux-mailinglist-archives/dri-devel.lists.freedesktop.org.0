@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECAD519738
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 08:07:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C458C519742
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 08:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E780610F9E1;
-	Wed,  4 May 2022 06:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB4910FB6D;
+	Wed,  4 May 2022 06:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2908E10F9E1
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 06:07:05 +0000 (UTC)
-X-UUID: e82c32c82fe8487aba153338b45f979d-20220504
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:74de2192-db95-4e65-a77f-c2f86332ab79, OB:0,
- LO
- B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:8
-X-CID-META: VersionHash:faefae9, CLOUDID:87fca32f-6199-437e-8ab4-9920b4bc5b76,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: e82c32c82fe8487aba153338b45f979d-20220504
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1570805905; Wed, 04 May 2022 14:07:00 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Wed, 4 May 2022 14:06:59 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Wed, 4 May 2022 14:06:59 +0800
-Message-ID: <dbfd045b65c4acec1fe11e96ed64c9c041b769f3.camel@mediatek.com>
-Subject: Re: [PATCH v19 02/25] dt-bindings: reset: mt8195: add vdosys1 reset
- control bit
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- <wim@linux-watchdog.org>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Wed, 4 May 2022 14:06:59 +0800
-In-Reply-To: <ab2ca5755069df3e9efb467d028a4d10004d9420.camel@mediatek.com>
-References: <20220503102345.22817-1-nancy.lin@mediatek.com>
- <20220503102345.22817-3-nancy.lin@mediatek.com>
- <ab2ca5755069df3e9efb467d028a4d10004d9420.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D73EB10FB6D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 06:12:54 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id bq30so638923lfb.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 May 2022 23:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=2tuqEYU8OdIQxZ+rdModr4KYTKneYsLdEMUMbVDbBTk=;
+ b=BWUeIlVpukCSflMHB1tgYceEosqVc9oe/jVXzIYsrusbl87pNjhYnDjv9qEL0oLhwn
+ aa5UjM1m72/z0Hga1RJHxiWZAKJqXW7wF3rMzST8CqwYHbsHDVJmbnoWbRlJOuZlx6tU
+ ySVvgdDG7ZICzvh3u7mvZrki7RSf7Jlvyp9n+9KOD688mckez/KQg0eVURkS5L/boK+e
+ IbT0Ut7YD4VLvL2Hh6VnoxQu4td6H/Fr3wJXIwAUC0p64RQorCh9AzQc5A4aFkxjWj4X
+ zV3ANrN2TxFoRJ8c3bWK+NaiHY6YqPwSlTVWKpnmiPXr/oEYIm7X6CGb+/md6PS/104Z
+ VzNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2tuqEYU8OdIQxZ+rdModr4KYTKneYsLdEMUMbVDbBTk=;
+ b=UYlh+f4Ovh8IuFpjojY0h/sCGczBWM2nOA6AyMHNAhRWa7FF26tZwPZ4nVJIqum3xF
+ Y2+8VVgfaTP2AX3XcNZPoWwsHv9GQ0HFWBYcT7eu/RViHzsusz222ym5h28I0slRQv6O
+ hNmAUsEbfRyLEzOhLjHLczagnFg8HXE7wvxgX+6DdxE+J7lJTWDwxJsgSePe2NEawR/V
+ Ud2lUJceRcjZhydWEeUOaG9EjXZ1LeVIGSOMgUkgospVLPkHKQCQ6FojvGotB7OQ6j75
+ bDsLWLFV3ED2XOsN48iVuQTfve/1mf6vBe6zyby0QOaAx6lc/hRR5g8jTHN7IgBAv4Uq
+ qS0A==
+X-Gm-Message-State: AOAM5334lNugmwD/uoezIedlL8QuNlvhiNQZyJlsljuZc+8tMaozdzmi
+ zX84LcxAXktAGlkanm+etxgTcQ==
+X-Google-Smtp-Source: ABdhPJwS/7njQpo3DbfyMqUKtFd3wGDymfnni39lsDf6ApW3pU5xpDjIEk2egMPRoKYUqDcviFdi4w==
+X-Received: by 2002:a05:6512:118b:b0:46b:a9ae:3a3b with SMTP id
+ g11-20020a056512118b00b0046ba9ae3a3bmr13477930lfr.188.1651644772957; 
+ Tue, 03 May 2022 23:12:52 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ c3-20020ac25303000000b0047255d210f9sm1119231lfh.40.2022.05.03.23.12.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 May 2022 23:12:52 -0700 (PDT)
+Message-ID: <031fccd7-0082-8284-967d-285525a64394@linaro.org>
+Date: Wed, 4 May 2022 09:12:51 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm: Document that power requirements for DP AUX transfers
+Content-Language: en-GB
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,69 +73,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan
- Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Jani Nikula <jani.nikula@intel.com>,
+ Maxime Ripard <maxime@cerno.tech>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rex,
+On 04/05/2022 02:21, Douglas Anderson wrote:
+> When doing DP AUX transfers there are two actors that need to be
+> powered in order for the DP AUX transfer to work: the DP source and
+> the DP sync.
 
-Thanks for the review.
+Nit: sink
 
-On Wed, 2022-05-04 at 11:50 +0800, Rex-BC Chen wrote:
-> On Tue, 2022-05-03 at 18:23 +0800, Nancy.Lin wrote:
-> > Add vdosys1 reset control bit for MT8195 platform.
-> > 
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > Reviewed-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > ---
-> >  include/dt-bindings/reset/mt8195-resets.h | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/include/dt-bindings/reset/mt8195-resets.h
-> > b/include/dt-
-> > bindings/reset/mt8195-resets.h
-> > index a26bccc8b957..aab8d74496a6 100644
-> > --- a/include/dt-bindings/reset/mt8195-resets.h
-> > +++ b/include/dt-bindings/reset/mt8195-resets.h
-> > @@ -26,4 +26,16 @@
-> >  
-> >  #define MT8195_TOPRGU_SW_RST_NUM               16
-> >  
-> > +/* VDOSYS1 */
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC          25
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC          26
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC          27
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC          28
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC          29
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC     51
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC     52
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC     53
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC     54
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC      55
-> > +
-> >  #endif  /* _DT_BINDINGS_RESET_CONTROLLER_MT8195 */
+> Commit bacbab58f09d ("drm: Mention the power state
+> requirement on side-channel operations") added some documentation
+> saying that the DP source is required to power itself up (if needed)
+> to do AUX transfers. However, that commit doesn't talk anything about
+> the DP sink.
 > 
-> Hello Nancy,
-> 
-> From my previous experience, this should be "index".
-> I think you can list all of them from 0 to 55.
-> 
-> BRs,
-> Rex
+> For full fledged DP the sink isn't really a problem. It's expected
+> that if an external DP monitor isn't plugged in that attempting to do
+> AUX transfers won't work. It's also expected that if a DP monitor is
+> plugged in (and thus asserting HPD) that it AUX transfers will work.
 
-Thanks for your advice. I will list all vdosys1 reset bits.
+then
+
 > 
+> When we're looking at eDP, however, things are less obvious. Let's add
+> some documentation about expectations. Here's what we'll say:
+> 
+> 1. We don't expect the DP AUX transfer function to power on an eDP
+> panel. If an eDP panel is physically connected but powered off then it
+> makes sense for the transfer to fail.
+> 
+> 2. We'll document that the official way to power on a panel is via the
+> bridge chain, specifically by making sure that the panel's prepare
+> function has been called (which is called by
+> panel_bridge_pre_enable()). It's already specified in the kernel doc
+> of drm_panel_prepare() that this is the way to power the panel on and
+> also that after this call "it is possible to communicate with any
+> integrated circuitry via a command bus."
+> 
+> 3. We'll also document that for code running in the panel driver
+> itself that it is legal for the panel driver to power itself up
+> however it wants (it doesn't need to officially call
+> drm_panel_pre_enable()) and then it can do AUX bus transfers. This is
+> currently the way that edp-panel works when it's running atop the DP
+> AUX bus.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Regards,
-Nancy
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+> ---
+> 
+>   include/drm/display/drm_dp_helper.h | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index dca40a045dd6..e5165b708a40 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -370,9 +370,17 @@ struct drm_dp_aux {
+>   	 * helpers assume this is the case.
+>   	 *
+>   	 * Also note that this callback can be called no matter the
+> -	 * state @dev is in. Drivers that need that device to be powered
+> -	 * to perform this operation will first need to make sure it's
+> -	 * been properly enabled.
+> +	 * state @dev is in and also no matter what state the panel is
+> +	 * in. It's expected:
+> +	 * - If the @dev providing the AUX bus is currently unpowered then
+> +	 *   it will power itself up for the transfer.
+> +	 * - If we're on eDP and the panel is not in a state where it can
+> +	 *   respond (it's not powered or it's in a low power state) then this
+> +	 *   function will return an error (but not crash). Note that if a
+> +	 *   panel driver is initiating a DP AUX transfer it may power itself
+> +	 *   up however it wants. All other code should ensure that the
+> +	 *   pre_enable() bridge chain (which eventually calls the panel
+> +	 *   prepare function) has powered the panel.
+>   	 */
+>   	ssize_t (*transfer)(struct drm_dp_aux *aux,
+>   			    struct drm_dp_aux_msg *msg);
+
+
+-- 
+With best wishes
+Dmitry
