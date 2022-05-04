@@ -1,46 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4804151993C
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:06:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 610BF51994E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 10:10:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D4810F4DC;
-	Wed,  4 May 2022 08:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CECD10F4FD;
+	Wed,  4 May 2022 08:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5321A10F50A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 08:06:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 2BA181F43E10
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1651651606;
- bh=g4o2JNm4Ctpm5k1rvLgGc8KPep2McYePUQzlec3QBWk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=b/wlNUz6s3DO+++GsE2ms8gl75kjfDcHwqg0VE1PAi8+0eGfY9Hgd+U3h0xCQexaw
- onor0VkEbaFunBBtN0TyEFGreN1HUquBgcnuphdhihUaG2/gFDLi+ygm/T+Hdm7qsF
- Q8L0HyrMwPuC6TtwBQgOd8Yf/yESF3rkq+9+w4mebNjM9RHr2DTlT3pHLCrE8mJsTV
- E5aP3PfpTUcIRjN5mET63+Lb44KYzvrSkizpzqPphT13AWjMJjGm8q/psEcy5P25G1
- QDvWmIrpGxqdYpADcFcwY5F8oDdedjsnxnNOGL4l+qPaD3bMNF9qjK1egW74egsodG
- kTQkLFtbDO3TQ==
-Message-ID: <a387728e-94f0-ccd0-3936-977db545efb7@collabora.com>
-Date: Wed, 4 May 2022 10:06:42 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DDB410F502;
+ Wed,  4 May 2022 08:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651651809; x=1683187809;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=U7Dh3mmr6w+jLjSfpg4/LN+4HdQEQo6xw6oSKDldwjY=;
+ b=RNHUDYcarZ5HbylZWB8qpizd2GLc8PkrjdO9gwfJtqVWaY6y2d3/2IPE
+ Qun6ISUP4DORNdXUwec3HyEKNXOmKQE/SY3rSkQHV8cGLlPtLcYGttndi
+ f7g0W5LP5fx9DmTr6IMVcKtHPkBJMIfFLKr2+gldoAt1L7B6QgJMK6HUv
+ NSBU6QZaIFWRa1NKStTPkm/z9UEvq2mFlgBD3TPkN9mIUJlVmmZBVcU0U
+ HipFnbw+9cafNtto9slQw96m/lGRmJoiRFuwyEDNKMTsW/FpMPsrKfkjA
+ 9waGr3A71GbmkYoZ7NUnz9or44SkEvaa9i8SeBINv20LkESzr4/10oYng g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="249677759"
+X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; d="scan'208";a="249677759"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 01:10:08 -0700
+X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; d="scan'208";a="693524926"
+Received: from adobrowo-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.156.70])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2022 01:10:07 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 00/20] drm/edid: CEA data block iterators, and more
+In-Reply-To: <cover.1651569697.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1651569697.git.jani.nikula@intel.com>
+Date: Wed, 04 May 2022 11:10:04 +0300
+Message-ID: <87h765n2g3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 4/4] drm/mediatek: Add MT8186 DSI compatible for
- mtk_drm_drv.c
-Content-Language: en-US
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de
-References: <20220428133753.8348-1-rex-bc.chen@mediatek.com>
- <20220428133753.8348-5-rex-bc.chen@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220428133753.8348-5-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,18 +56,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 28/04/22 15:37, Rex-BC Chen ha scritto:
-> The compatible "mediatek,mt8186-dsi" is used by MT8186 DSI, so
-> add it to mtk_ddp_comp_dt_ids in mtk_drm_drv.c.
-> 
-> Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+On Tue, 03 May 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> I've kind of lost track of the version numbers on some of the iterator
+> patches, but this is the next version (or mostly a resend) of
+> [1]. There's an additional rename patch for SCDS.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Argh, forgot to send this series to dri-devel. Instead of sending the
+series yet another time, I bounced each message to dri-devel, and at
+least the archive indicates it worked fine. Fingers crossed.
 
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
