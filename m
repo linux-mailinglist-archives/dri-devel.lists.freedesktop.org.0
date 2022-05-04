@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6210F519EB6
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:59:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81E8519EB9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 13:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 881B610E13E;
-	Wed,  4 May 2022 11:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8CA810FB99;
+	Wed,  4 May 2022 11:59:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7331510E13E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:59:17 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBBF410FB99
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 11:59:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651665556;
+ s=mimecast20190719; t=1651665581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v/ZQhIASnn/ubnKLFpPZhWODpMOppTPFiHq2h9icwy0=;
- b=OU5NJPfreSBpsinHwbaAEprp+OVE4SmOT+61uLG+Av1xBL0r3TQufsaVDVUI0I4C1dr4jO
- +0NoEwrz1f6nyARGMkqcBTkluZcZKhf8m+hk+/8vnmg9DoatBVq5Dl2AvmMeAGdYiMSzb9
- IXkYDIZxn0ZboFUW4AZosA+O5s2qdsU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Hdaz9MpZoIlHo5W6Yr3E01ttRcC4gjvc5tNziIXBlcs=;
+ b=g2Rh8U3Qk93oZZVPuLRochTgH1dnnr0lorTgh1Le61yoo4E2oOH7MCi2khAfu8Ek+YHvn0
+ 9nJ5u+EpGinxEEzf85NrzhMRVo8ssePUEy3lw6rtPRtZZyUIllguGYliyNY6r2jIuRjqCX
+ /q2AiP/aetDjSflifVEn2whrgR2WvnU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-6TV9JdbWNzesRhyZPy3_Zw-1; Wed, 04 May 2022 07:59:15 -0400
-X-MC-Unique: 6TV9JdbWNzesRhyZPy3_Zw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- y13-20020adfc7cd000000b0020ac7c7bf2eso292732wrg.9
- for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:59:15 -0700 (PDT)
+ us-mta-638-7Y-9UI5kNT6t95nVRBweIQ-1; Wed, 04 May 2022 07:59:33 -0400
+X-MC-Unique: 7Y-9UI5kNT6t95nVRBweIQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n26-20020a1c721a000000b003941ea1ced7so558478wmc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 04:59:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=v/ZQhIASnn/ubnKLFpPZhWODpMOppTPFiHq2h9icwy0=;
- b=cgg0/VmE6kC5yhRIuSk/qPMR0y4ycaufOA+rgQp9Fh7/OVJR3kp7EdKVxczOf+A+a8
- QnXozwS5qzBSzSiCRNXbHX0C/UAPP08EpOPDSpCChlJ6NHf3zD84w0rP5EVxxNUNDBr+
- 0UNA77ixnBWKUS+OxVHfzDouQmadSTGmZpSEwH1Fft1HrD40rUyCp9KH6k/rLgdjRm45
- cDhHGO1LU/w7wWB7Zd6loHGwnPpaWBN4BWo2RB3mvQhRNn6ZTN/UY3R8yxWoqsXqt9mS
- mnYWqxXDlMJz9D2WE/k/6Qpaf4eiftWrVNsSa60M9heBvzz9E0e8jPTFn8OliaYmeQOj
- 9+hw==
-X-Gm-Message-State: AOAM531tMLUEJ6vPnu4BNJ2WKLCwRUOeIHGUXeX1DgQ5cx1fmJsP+Qfs
- 3F0m094IqNIpAWlJ/rKw3jWpJf3viIKOWF0Cx05qO/1EwCFmUbXpimNGXNy4kljk11AjZR2gkiL
- c6tDyAFr5hC6hVCSedDmGDmQzwkzt
-X-Received: by 2002:a05:6000:188c:b0:20c:563a:aa86 with SMTP id
- a12-20020a056000188c00b0020c563aaa86mr14711735wri.360.1651665554089; 
- Wed, 04 May 2022 04:59:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0uPh2rCeyHVlw2vJ7PcfM8apvhDy0enqFTN83/vlkgU9Y72BYXWcfdKRNsgopJulKxql3hA==
-X-Received: by 2002:a05:6000:188c:b0:20c:563a:aa86 with SMTP id
- a12-20020a056000188c00b0020c563aaa86mr14711727wri.360.1651665553876; 
- Wed, 04 May 2022 04:59:13 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:a765:79fb:b5ef:c480?
- ([2a01:e0a:d5:a000:a765:79fb:b5ef:c480])
- by smtp.gmail.com with ESMTPSA id
- l8-20020a7bc448000000b003942a244ed3sm3534670wmi.24.2022.05.04.04.59.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 May 2022 04:59:13 -0700 (PDT)
-Message-ID: <f0242df1-dc4e-fad0-83ad-a96d5bb7abf2@redhat.com>
-Date: Wed, 4 May 2022 13:59:12 +0200
+ bh=Hdaz9MpZoIlHo5W6Yr3E01ttRcC4gjvc5tNziIXBlcs=;
+ b=6i2jDIaDsv2LomHVNJwnFl4huDvr0b3vrISBTEDLgV4eGt7TUq7c2428XYhoy9cWwu
+ dSt75eeP8bTqx6XvtzThFzvqoesqUjqZ0uUD9dDAPjTY3aVXhIqFjXeq+B7L6w84kKXR
+ /f0Yq5mfufR9SRIhwmMbmSadPX65edSeMSvw2zRA/xlWQpJreMrPKHFK4vpXk6Zkzi3T
+ mlx+V3r1ubJT6GNrG1Gi0QMbAhvjLQyDVSXS9L8JjfQ9k4zLMhKzczd/PT0nwjKNqP2u
+ JKm17/jdNy+ysFkyGm9y+7tnFqafTH3NZ2B8qKRczGUaGtEY1diRciOSU8XbTDd/0saI
+ ZIHA==
+X-Gm-Message-State: AOAM5325CE7VaDuTcEz0rodgioiDBa3vskRKhnqtlI7rb2S4voCHwy6P
+ B3Z8noGQXGvQYFHIe32ISf7SfRX3LDNTFkcHIoXrKA4LEh19hKqNOnFTOxi1t1By3UOA132hFt8
+ Qx9VoWlzfW7cn+tkiKhlSsPwnehb9
+X-Received: by 2002:a05:6000:1844:b0:20c:5672:9573 with SMTP id
+ c4-20020a056000184400b0020c56729573mr15065536wri.538.1651665572009; 
+ Wed, 04 May 2022 04:59:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgDtpAe/DLUybOoXaFzCCcl0wELARIERg8DV6OtPnYk2dBjPP7wFdtw5kHDTnYHSwd136yIw==
+X-Received: by 2002:a05:6000:1844:b0:20c:5672:9573 with SMTP id
+ c4-20020a056000184400b0020c56729573mr15065508wri.538.1651665571647; 
+ Wed, 04 May 2022 04:59:31 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ n32-20020a05600c3ba000b003943a559b3fsm3765344wms.8.2022.05.04.04.59.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 04:59:31 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Revert "fbdev: Make fb_release() return -ENODEV if fbdev
+ was unregistered"
+Date: Wed,  4 May 2022 13:59:17 +0200
+Message-Id: <20220504115917.758787-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 3/4] mgag200: remove unused flag
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-References: <20220426164108.1051295-1-jfalempe@redhat.com>
- <20220426164108.1051295-4-jfalempe@redhat.com>
- <4ab30b5c-9c47-c31c-a719-3413ccffcaa4@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <4ab30b5c-9c47-c31c-a719-3413ccffcaa4@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,73 +82,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/05/2022 12:12, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 26.04.22 um 18:41 schrieb Jocelyn Falempe:
->> The flag MGAG200_FLAG_HW_BUG_NO_STARTADD is no more used, because
->> the framebuffer is now always at offset 0.
-> 
-> Oh, well. I remember that thing. It took us a long time to find and fix 
-> this problem. Back then, mgag200 still used VRAM helpers, which do page 
-> flipping in video memory. Displays remained dark on some systems without 
-> any clear cause. We added the flag to work around the broken HW.
-> 
-> I left the flag in for reference. Instead of removing it, I think we 
-> should add a drm_WARN_ON_ONCE() in mgag200_set_start_add() if the flag 
-> is set and offset is non-zero.
+This reverts commit aafa025c76dcc7d1a8c8f0bdefcbe4eb480b2f6a. That commit
+attempted to fix a NULL pointer dereference, caused by the struct fb_info
+associated with a framebuffer device to not longer be valid when the file
+descriptor was closed.
 
-sure, I can do that in v2.
+The issue was exposed by commit 27599aacbaef ("fbdev: Hot-unplug firmware
+fb devices on forced removal"), which added a new path that goes through
+the struct device removal instead of directly unregistering the fb.
 
-> 
-> Best regards
-> Thomas
-> 
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/mgag200/mgag200_drv.c | 3 +--
->>   drivers/gpu/drm/mgag200/mgag200_drv.h | 3 ---
->>   2 files changed, 1 insertion(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c 
->> b/drivers/gpu/drm/mgag200/mgag200_drv.c
->> index 217844d71ab5..8659e1ca8009 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
->> @@ -306,8 +306,7 @@ mgag200_device_create(struct pci_dev *pdev, enum 
->> mga_type type, unsigned long fl
->>   static const struct pci_device_id mgag200_pciidlist[] = {
->>       { PCI_VENDOR_ID_MATROX, 0x520, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 
->> G200_PCI },
->>       { PCI_VENDOR_ID_MATROX, 0x521, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 
->> G200_AGP },
->> -    { PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0,
->> -        G200_SE_A | MGAG200_FLAG_HW_BUG_NO_STARTADD},
->> +    { PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 
->> G200_SE_A },
->>       { PCI_VENDOR_ID_MATROX, 0x524, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 
->> G200_SE_B },
->>       { PCI_VENDOR_ID_MATROX, 0x530, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 
->> G200_EV },
->>       { PCI_VENDOR_ID_MATROX, 0x532, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 
->> G200_WB },
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h 
->> b/drivers/gpu/drm/mgag200/mgag200_drv.h
->> index 4368112023f7..c7b6dc771ab3 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
->> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
->> @@ -201,9 +201,6 @@ enum mga_type {
->>       G200_EW3,
->>   };
->> -/* HW does not handle 'startadd' field correct. */
->> -#define MGAG200_FLAG_HW_BUG_NO_STARTADD    (1ul << 8)
->> -
->>   #define MGAG200_TYPE_MASK    (0x000000ff)
->>   #define MGAG200_FLAG_MASK    (0x00ffff00)
-> 
+Most fbdev drivers have issues with the fb_info lifetime, because call to
+framebuffer_release() from their driver's .remove callback, rather than
+doing from fbops.fb_destroy callback. This meant that due to this switch,
+the fb_info was now destroyed too early, while references still existed,
+while before it was simply leaked.
+
+The patch we're reverting here reinstated that leak, hence "fixed" the
+regression. But the proper solution is to fix the drivers to not release
+the fb_info too soon.
+
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+
+Changes in v2:
+- Add more info in the commit message about why it's crashing and how
+  the reverted commit was papering over the issue (Daniel Vetter).
+- Add Daniel Vetter's Reviewed-by tag.
+
+ drivers/video/fbdev/core/fbmem.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 97eb0dee411c..a6bb0e438216 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1434,10 +1434,7 @@ fb_release(struct inode *inode, struct file *file)
+ __acquires(&info->lock)
+ __releases(&info->lock)
+ {
+-	struct fb_info * const info = file_fb_info(file);
+-
+-	if (!info)
+-		return -ENODEV;
++	struct fb_info * const info = file->private_data;
+ 
+ 	lock_fb_info(info);
+ 	if (info->fbops->fb_release)
+-- 
+2.35.1
 
