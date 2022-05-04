@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E945192F5
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 02:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC25C51930B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 02:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2777F10EF17;
-	Wed,  4 May 2022 00:45:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2564710F0BF;
+	Wed,  4 May 2022 00:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A739010EBE7;
- Wed,  4 May 2022 00:45:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651625101; x=1683161101;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=UY26pVsClKAJkJh8ps139WrCxtF0RU2lG1d4/ydL+9w=;
- b=CwfdGz6QAFrqsXI/dCWv4jrHaTaHM+SaAunMUvwtyunxXVyM2GoZG1Vu
- 4C7jly0YqjwCPVLmilALgnfR8AjIZJMIeicje244L3V7LVbggVWJNP/ey
- 3FUSYT2zoiKzL5NnL+t83dtFB2Oe6hMS3ZBTyod1ywdLDg3txnOsWuNnX
- I6q4ggXXnZKaNSd8iHtaSJQVUVueCdo4GIzWq4JrnF6RmV8QdndnkafJL
- ZxxeI0k4mfKrzpJca1ohTa7GV3+w5QEgchWiy+UMDnadQXLJEnU8iKm+E
- VA6fI4cuax/l9yCQHjPREZ7oVXGZjYRRWd7Fi/p+k/N7eGlGRl+Vq13Pz A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="267225499"
-X-IronPort-AV: E=Sophos;i="5.91,196,1647327600"; d="scan'208";a="267225499"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 17:45:00 -0700
-X-IronPort-AV: E=Sophos;i="5.91,196,1647327600"; d="scan'208";a="653495897"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2022 17:45:00 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc: Support programming the EU priority in the GuC
- descriptor
-Date: Tue,  3 May 2022 17:44:46 -0700
-Message-Id: <20220504004446.2000540-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC85510F0BF
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 00:52:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id A66401F4433E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1651625544;
+ bh=VHi2JQXOxZVX+vfNBsGibT8B9KC9CmTcEJVV5seb2ME=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cD2Qkx0zO0rJEAgHvaTzRnevQaJEOKtssl5WeGvASMCSVt+ZXT/dwV5n0FYs09wyE
+ 0If1OzaemkXfxr5y+tIhvw4gBcrdmKwbFADP+1C7QHw0ZpZgTJOdHp0XWlKp+6dlGa
+ Ed+4aPl9r/96lBfpkmb/TmTK162/Ea8Epc2hkhvYAy9uox3LRLEjVRVryVJWoIrqwa
+ 65O+CcCk4Mz+wwdjqxfF+objr2GbvTMjV9vQjxsfkSLa41uIRtNtdGSf/K2UGJxIK9
+ 1LAQ71dWYdau3TRiQmse5AkC6HDRb0qkUVNPaTRTYjJrUI54WJYFGJro4mqK9PkgIp
+ cd4q6Y4bYQMSQ==
+Message-ID: <add31812-50d5-6cb0-3908-143c523abd37@collabora.com>
+Date: Wed, 4 May 2022 03:52:21 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2] drm/tegra: Stop using iommu_present()
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, thierry.reding@gmail.com
+References: <1f7c304a79b8b8dd5d4716786cae7502a0cc31f5.1649684782.git.robin.murphy@arm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <1f7c304a79b8b8dd5d4716786cae7502a0cc31f5.1649684782.git.robin.murphy@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,39 +49,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+On 4/11/22 16:46, Robin Murphy wrote:
+> @@ -1092,6 +1092,19 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
+>  	struct host1x *host1x = dev_get_drvdata(dev->dev.parent);
+>  	struct iommu_domain *domain;
+>  
+> +	/* For starters, this is moot if no IOMMU is available */
+> +	if (!device_iommu_mapped(&dev->dev))
+> +		return false;
 
-The EU priority register must be updated by the GuC rather than the
-driver as it is context specific and only the GuC knows which context
-is currently executing.
+Unfortunately this returns false on T30 with enabled IOMMU because we
+don't use IOMMU for Host1x on T30 [1] to optimize performance. We can't
+change it until we will update drivers to support Host1x-dedicated buffers.
 
-Cc: John Harrison <john.c.harrison@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 ++
- 1 file changed, 2 insertions(+)
+[1]
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/host1x/dev.c#L258
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 75291e9846c50..8f3ed60ff07d9 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2420,6 +2420,8 @@ static void prepare_context_registration_info(struct intel_context *ce,
- 	 */
- 	info->hwlrca_lo = lower_32_bits(ce->lrc.lrca);
- 	info->hwlrca_hi = upper_32_bits(ce->lrc.lrca);
-+	if (engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
-+		info->hwlrca_lo |= lrc_desc_priority(ce->guc_state.prio);
- 	info->flags = CONTEXT_REGISTRATION_FLAG_KMD;
- 
- 	/*
 -- 
-2.25.1
-
+Best regards,
+Dmitry
