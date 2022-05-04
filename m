@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F408D51A373
-	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 17:13:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8A351A374
+	for <lists+dri-devel@lfdr.de>; Wed,  4 May 2022 17:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A0310E0C9;
-	Wed,  4 May 2022 15:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43EA110E10A;
+	Wed,  4 May 2022 15:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4D910E0C9
- for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 15:13:42 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 1EBB0320092B;
- Wed,  4 May 2022 11:13:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 04 May 2022 11:13:41 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A25610E10A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 May 2022 15:13:46 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 53AC03200974;
+ Wed,  4 May 2022 11:13:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 04 May 2022 11:13:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1651677220; x=
- 1651763620; bh=fIoAAcc2aZTyQjXEcHCSf7xWXQ5rD9/5/FnFBK6DL4o=; b=o
- nD5SEycK2tkErMp+L9a54Rh30KOI0VqokQtIUlnoA5eou0mK2jxinf8Vn4jvjLI4
- YAONusj0WONunGR1XpdEv5LSFdfa5M0WMmvYIB7Pc6N8S4fo3MUNVKZxgFFT8PJo
- dibpy8yBfa7j4fKV8KnODNeYxG1S7ka0Wkc+6GM+xqdeiDTH7x6VEQiAB6QgZhL9
- FKEeS6GP5qfNU2wXAnTYJQts9SdlCdGyrebPKJUpWVYGbw2PAVdtTtgwqyXyiBGZ
- 3MlNVmEczRflaX8nvPKSRSO+kmFJdynpiabTEqpa8UwAvmSE2msGTKS8m35YlDB0
- 4nVbr1pfiHK5MDu6/CgVA==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1651677224; x=
+ 1651763624; bh=I4/TtV8TXkUuotX6uyhdJ9NA0EmBvtXR8CPEJNo87f0=; b=c
+ n05BHUzXjpt6AQyDQxMzRnYmnvfRgmbL7Q68I2uF/cafm7bMFX8ypAwdMm8YLYk7
+ yXubhJb0DEuedpUvJRy4s9CxLJDeFuM55fQrakupRmbxlCq/FZBcNL/fDoLkFpKV
+ 3MkJLKr3APyaQEqCXUqUy+IfFUJzMVGqSsNpWnoM+IMrxKlltFTfFthrRxJZf6+X
+ pVGXk0XkkC0xP8pbP+9qE9qgC4IGoSidIFahABGYxeDRqGvOADu/se7PbKP5dRzn
+ UPqcKMz2RDUbX2VSnsBZWnqW6nPvfrm8nIUgSH8Q/Clz7kbJxyrQe7NykscjBVV4
+ a1iWeHWOT08ipTURUCCxw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1651677220; x=1651763620; bh=fIoAAcc2aZTyQ
- jXEcHCSf7xWXQ5rD9/5/FnFBK6DL4o=; b=vjfnHo5qTPRBwsZ8EYQKggu14A6ir
- KMtTdJ89pBGmq79CJOLsJf0TS3B1u8iNrWwIXCNwuxkYCXkA+36AoIPFBFcI1HqJ
- dEqL1ZjclfeKR3N2YWmGgTXqrMcyno3ndZYBP11cdu7VC6bfN4RVIgXIT3cjJ4vJ
- mdV+HEoj3WWRywD5z62h9KmKhaAvvnzvKqyeCjS9dYhqvf7T+8sOoE20O19qeNqw
- CGDEkXj4VOR1k9a8rumsfigQxNMRVaKiLW61VhDTzFSGptu34XKitmoYp1fdArjg
- YhH1cA0xzeBWyKViMn3ZEvzYw4/1fJueSy1oJ88+PUnJ54cheAsSqzdfw==
-X-ME-Sender: <xms:JJhyYuf7C_rlyzUQ0sc-WoOznILTmQLjwrygpzIi2CoPMDfRIhQsEw>
- <xme:JJhyYoPnVQ4JQDgom8R58fE7Q33sZp2UZ_VMsWGeYj2znY_oZ5-KzMnuiZwwSDlIk
- VWPI8MAwGpqcQs_SpM>
-X-ME-Received: <xmr:JJhyYvict0amtznFk1ocKvsdPAuP6ZjQkcmWp4f7d8paqq94H7AiHlg741CG8nrnlZf4ZRJVQx46K3AsUz1bO0Qvf8YHDtpbIS9WfJY>
+ :x-sasl-enc; s=fm1; t=1651677224; x=1651763624; bh=I4/TtV8TXkUuo
+ tX6uyhdJ9NA0EmBvtXR8CPEJNo87f0=; b=hKOVZSH46KYIuFfa3U41tO7zBBJ6L
+ gjcRWu/BhU6hZFvwhYJP+ovdaOMlaQ/b1oMtPx70/TmWEWbkd/G6pNqMlRl1Us31
+ e0eqZIxr5uW5Nt2pcZJQNAuTlfxvI2yVwEliDQeixrQBp25mLp4eCXPrt5NbGgnS
+ x+GXCDYHe1DR18pRMuuk5xLUgmIjBtymYvCnpP5x6c23q5iEiX2Mi8w5wZ6yRDYu
+ H4mSABwLquibFm3bdK7hk3H9ZtVMOHEAJhWJDu5E+bivaLTuyZk9JhPkfaxuwmvB
+ b5jmzTnEmZF6kSgqqiafg4IPDs6pRW8UzKv26/mDSom0jjc0HajhykCFQ==
+X-ME-Sender: <xms:KJhyYgBEoQy_tTBwFcDUzpGGKafRyMZZEH2QzPVfZnGcozm9Mish0g>
+ <xme:KJhyYigQuDtyOTN_uu7LxSNb3Czd1wLY1LUHxRVBRMl0v05g8cCD1-QdDuC2mHuoR
+ y1EmzQr3Yk8UcJJMTU>
+X-ME-Received: <xmr:KJhyYjkpI1gVb8-a-1bh_n2eTykNYdvStOu7Z6EOFxwrsepMi80uI6dWWR2K8LuRof8gGpNo886jPDSqNxD9Wfxzc_piAh7R3TI_nCQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelgdekhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,24 +53,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelgdekhecutefuodetggdote
  htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
  udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:JJhyYr8RuBz6QWkw22wioS4WqPhiEoCZkCUS-j4d1Rwq7QFHy9DZKA>
- <xmx:JJhyYqvsqNTpn26cL5q-070K5yF_19dRnk6WZX_GuLRkqAxDF_z3Mw>
- <xmx:JJhyYiEDGUlMhliHYTTtuHhNLgUia-Hw_Ya5Lf_izR2CURYxVXbVkQ>
- <xmx:JJhyYsUGBrFjt_bUzPyHKZEsS1MCXfbqsYrCFjiA83ZgfcQoNIY1Og>
+X-ME-Proxy: <xmx:KJhyYmwvcdHR8mLu0T-O1f3yKQIhh_66dhrtoPAlUyMZmXIS1OEN3A>
+ <xmx:KJhyYlT9n3mGQ8qQBwnjjAqwQ_OtohWHdZQIwJDAIanrLRvUpsCtPA>
+ <xmx:KJhyYhbxDmkis-F6vdFLRVon5d2wq8rLSRsQYOF4TaGVxjThElDZAA>
+ <xmx:KJhyYjOjs8TK2msdt6T7KEjMkQiIxzx90MvyMDo_BG6cUXJyiloSaA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 May 2022 11:13:39 -0400 (EDT)
+ 4 May 2022 11:13:44 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: linux-samsung-soc@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: (subset) [PATCH] drm: exynos: dsi: Use child panel or bridge find
- helpers
-Date: Wed,  4 May 2022 17:13:34 +0200
-Message-Id: <165167721217.1768345.1175055884818234568.b4-ty@cerno.tech>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: (subset) [RESEND 1/2] Revert "drm: bridge: mcde_dsi: Drop
+ explicit bridge remove"
+Date: Wed,  4 May 2022 17:13:35 +0200
+Message-Id: <165167721216.1768345.4606882658231197944.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220428094808.782938-1-jagan@amarulasolutions.com>
-References: <20220428094808.782938-1-jagan@amarulasolutions.com>
+In-Reply-To: <20220429085947.1699963-1-jagan@amarulasolutions.com>
+References: <20220429085947.1699963-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -86,19 +85,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com, Maxime Ripard <maxime@cerno.tech>
+Cc: linux-amarula@amarulasolutions.com, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 28 Apr 2022 15:18:08 +0530, Jagan Teki wrote:
-> commit <711c7adc4687> ("drm: exynos: dsi: Use drm panel_bridge API")
-> added devm_drm_of_get_bridge for looking up if child node has panel
-> or bridge.
+On Fri, 29 Apr 2022 14:29:46 +0530, Jagan Teki wrote:
+> commit <3730bc6147b0> ("drm: bridge: mcde_dsi: Drop explicit bridge
+> remove") has removed downstream bridge as it's prior commit <3d7039e1e649>
+> ("drm: bridge: mcde_dsi: Switch to devm_drm_of_get_bridge") added
+> devm_drm_of_get_bridge for looking up if child node has panel or bridge.
 > 
 > However commit <b089c0a9b14c> ("Revert "drm: of: Lookup if child node
 > has panel or bridge") has reverted panel or bridge child node lookup
-> from devm_drm_of_get_bridge which eventually failed to find the DSI
-> devices in exynos drm dsi driver.
+> from devm_drm_of_get_bridge as it breaks the non-trivial cases the
+> first child node might not be a panel or bridge.
 > 
 > [...]
 
