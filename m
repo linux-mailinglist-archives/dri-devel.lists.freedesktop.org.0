@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC30751C123
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 15:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF0151C147
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 15:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5248110E0A3;
-	Thu,  5 May 2022 13:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 632A510E1F7;
+	Thu,  5 May 2022 13:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70ED410E0A3
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 13:44:40 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id ba17so5270475edb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 06:44:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=v+VSD0WXo/Ce0B1o6X0LvfKWoHTwZAqIOF5ploz5VzI=;
- b=hcDBBRRg5QPUwNBDCVYWy3H3fwcNY2LRCyqjB9RiCyGRIGk41LYlaL4EIPxM15kXG9
- Ht+YCERZhkJZk05AujCIFm2HPIO73F+Qvp7oTr7sAtF8NImxhWwCMzcgQ3uvro4IUxUt
- FhORcgexsj4z8+VB8HRfdAUiwMukLeMt+NWvw=
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBD410E1F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 13:50:11 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id p10so7566124lfa.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 06:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UpknYVo+DPBanWKhGXXYTya2awtDru7xqOaKjU/zIXs=;
+ b=jYpTjc8C+5n8SykUBLJlcX5f4/GaOP6cofNjPFSWocIRskcsTJBKXn3aPUWYfj9ejM
+ U0o0tNYhzJ24OB1Rfdisw6FWA/OiwTIjo1pVJyKqKIgw5KQ8503scj/bwx+0FoLZAsSU
+ f8C2J/BFIz122GP0+cSOtixDfiIBQWM/5TqmXVTk6v8iv1477Lu1Ovh1EmQKvz8QQ4fA
+ 61mA+ykZrb+zZbseVcAbtUao6oxksh6pLzGGal+wb06aDuN7MPMuIS5aefWz3fIID0a7
+ n+Lrr/z3RNnpg9plBf7SPpW/oQHW0y+Jp2HB0m8U7GDhig/z9d/z9j6TL3o+urvX28Pd
+ rvsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=v+VSD0WXo/Ce0B1o6X0LvfKWoHTwZAqIOF5ploz5VzI=;
- b=lYWFipeFdSoMF6EmFhJJVobsJyFOA/1rVqfnoNrvKr/0WJhUGAeO/w+pR2P35W67bK
- kRRHnIoMyFhK95bcTTjmGpeJ/k0o685S9Hj3lvnylJgMcC8a6sXVOlwahzFAmLJE6vCL
- LRhOcf5Bz6hFNvHJjQuDUb/6DX61hgmfzL9gdpaIogEki2HRGeqy3lRvn5S4dBypOv09
- uxzJ9uW3sYnwtGBBhfsiW6Dx2qb6wWiNZX5JZxntohiQO74fAWBmXFAfEflPiyeC7uJG
- byj5gXZgfmxKdTgKSSD2Z7m6CbUXfxxazodcSz0iArYhoY71s1zq2ZqY1JabnJxbiwSC
- 52Rw==
-X-Gm-Message-State: AOAM533P8rwwrqFZ166qWpV/FSxCjI2VbFUgpCE0oP1SLlwZIXlYct3v
- h8s6yv5uLkryV2a9z90MXn+qDg==
-X-Google-Smtp-Source: ABdhPJyP8cx9126bFIpJibfyv7g6n69rpQabIp4uwZs2KOxqVhMhAZvxNhO7n/FoNKidpmAN7rtpbA==
-X-Received: by 2002:a05:6402:cb6:b0:425:f2e0:3644 with SMTP id
- cn22-20020a0564020cb600b00425f2e03644mr29618286edb.301.1651758278650; 
- Thu, 05 May 2022 06:44:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- q22-20020a1709066ad600b006f3ef214dcbsm780909ejs.49.2022.05.05.06.44.37
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UpknYVo+DPBanWKhGXXYTya2awtDru7xqOaKjU/zIXs=;
+ b=Mrr8XUUkpOrFxY+zT/17LN6padPBPGvr1qzKGBO+35GWXs+H5RYQ33rAuU1ofpZFyE
+ IF/GeZETnk6b0RCkj29pAQo8ZEwMa2EU6mUfaJIDD3omD5CqrIouJIq/i3ilpdYHL71q
+ TYxLQejDxl6KbZyQmqdZagJe6qDFM1rs6fCE01477FOBTzStWcXDmi/qTh6jo6Vk4Nkk
+ 8uFhVtADS3yhImG/GiAYoA2yhL1+fy62326LpAxyOZv2jGr0Rur1RbKnrJWux4Vcy0+m
+ 0BSRl1EgvZBZQEIyZLgdgrz4/4AcFRWiwWtZE41Zqg7wkiZ0FfnZNzWHEGhunnGfUFPg
+ R93A==
+X-Gm-Message-State: AOAM532J1l2vzY24StLWUvvJ/1eC9kmkBPWL+jWuVJQTVsJLQoiL+3qc
+ sjIKYqjnF+e1wVtX0jGBVOnivA==
+X-Google-Smtp-Source: ABdhPJxk+A+USoTrmmhDNbDbzaJg/sCHtmKZabpJS2NcPJFPHS1t7xOecFr/5FjS9oNdhmox/ahsPA==
+X-Received: by 2002:a05:6512:158c:b0:473:9d87:aa23 with SMTP id
+ bp12-20020a056512158c00b004739d87aa23mr12785524lfb.409.1651758609431; 
+ Thu, 05 May 2022 06:50:09 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ c17-20020a2ea791000000b0024f3d1dae96sm210935ljf.30.2022.05.05.06.50.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 06:44:38 -0700 (PDT)
-Date: Thu, 5 May 2022 15:44:36 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/5] dma-buf: cleanup dma_fence_unwrap implementation
-Message-ID: <YnPUxGO3HfeDAf1B@phenom.ffwll.local>
-References: <20220504122256.1654-1-christian.koenig@amd.com>
- <20220504122256.1654-2-christian.koenig@amd.com>
+ Thu, 05 May 2022 06:50:09 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 0/2] drm/msm/mpd4: get rid of struct mdp4_platform_config
+Date: Thu,  5 May 2022 16:50:06 +0300
+Message-Id: <20220505135008.1351533-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220504122256.1654-2-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,186 +67,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 02:22:53PM +0200, Christian König wrote:
-> Move the code from the inline functions into exported functions.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+The struct mdp4_platform_config is a remnant from pre-DT times. It
+serves no particular purpose nowadays. So let's get rid of it.
 
-Didn't check you didn't slip in a typo or so :-)
+Dmitry Baryshkov (2):
+  drm/msm/mdp4: move iommu_domain_alloc() call close to its usage
+  drm/msm/mdp4: get rid of struct mdp4_platform_config
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/dma-buf/Makefile           |  2 +-
->  drivers/dma-buf/dma-fence-unwrap.c | 59 ++++++++++++++++++++++++++++++
->  include/linux/dma-fence-unwrap.h   | 52 ++------------------------
->  3 files changed, 64 insertions(+), 49 deletions(-)
->  create mode 100644 drivers/dma-buf/dma-fence-unwrap.c
-> 
-> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> index 4c9eb53ba3f8..70ec901edf2c 100644
-> --- a/drivers/dma-buf/Makefile
-> +++ b/drivers/dma-buf/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
-> -	 dma-resv.o
-> +	 dma-fence-unwrap.o dma-resv.o
->  obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
->  obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
->  obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
-> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-> new file mode 100644
-> index 000000000000..711be125428c
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-fence-unwrap.c
-> @@ -0,0 +1,59 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * dma-fence-util: misc functions for dma_fence objects
-> + *
-> + * Copyright (C) 2022 Advanced Micro Devices, Inc.
-> + * Authors:
-> + *	Christian König <christian.koenig@amd.com>
-> + */
-> +
-> +#include <linux/dma-fence.h>
-> +#include <linux/dma-fence-array.h>
-> +#include <linux/dma-fence-chain.h>
-> +#include <linux/dma-fence-unwrap.h>
-> +
-> +/* Internal helper to start new array iteration, don't use directly */
-> +static struct dma_fence *
-> +__dma_fence_unwrap_array(struct dma_fence_unwrap *cursor)
-> +{
-> +	cursor->array = dma_fence_chain_contained(cursor->chain);
-> +	cursor->index = 0;
-> +	return dma_fence_array_first(cursor->array);
-> +}
-> +
-> +/**
-> + * dma_fence_unwrap_first - return the first fence from fence containers
-> + * @head: the entrypoint into the containers
-> + * @cursor: current position inside the containers
-> + *
-> + * Unwraps potential dma_fence_chain/dma_fence_array containers and return the
-> + * first fence.
-> + */
-> +struct dma_fence *dma_fence_unwrap_first(struct dma_fence *head,
-> +					 struct dma_fence_unwrap *cursor)
-> +{
-> +	cursor->chain = dma_fence_get(head);
-> +	return __dma_fence_unwrap_array(cursor);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_fence_unwrap_first);
-> +
-> +/**
-> + * dma_fence_unwrap_next - return the next fence from a fence containers
-> + * @cursor: current position inside the containers
-> + *
-> + * Continue unwrapping the dma_fence_chain/dma_fence_array containers and return
-> + * the next fence from them.
-> + */
-> +struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
-> +{
-> +	struct dma_fence *tmp;
-> +
-> +	++cursor->index;
-> +	tmp = dma_fence_array_next(cursor->array, cursor->index);
-> +	if (tmp)
-> +		return tmp;
-> +
-> +	cursor->chain = dma_fence_chain_walk(cursor->chain);
-> +	return __dma_fence_unwrap_array(cursor);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_fence_unwrap_next);
-> diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
-> index 77e335a1bcac..e7c219da4ed7 100644
-> --- a/include/linux/dma-fence-unwrap.h
-> +++ b/include/linux/dma-fence-unwrap.h
-> @@ -1,7 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0-only */
->  /*
-> - * fence-chain: chain fences together in a timeline
-> - *
->   * Copyright (C) 2022 Advanced Micro Devices, Inc.
->   * Authors:
->   *	Christian König <christian.koenig@amd.com>
-> @@ -10,8 +8,7 @@
->  #ifndef __LINUX_DMA_FENCE_UNWRAP_H
->  #define __LINUX_DMA_FENCE_UNWRAP_H
->  
-> -#include <linux/dma-fence-chain.h>
-> -#include <linux/dma-fence-array.h>
-> +struct dma_fence;
->  
->  /**
->   * struct dma_fence_unwrap - cursor into the container structure
-> @@ -33,50 +30,9 @@ struct dma_fence_unwrap {
->  	unsigned int index;
->  };
->  
-> -/* Internal helper to start new array iteration, don't use directly */
-> -static inline struct dma_fence *
-> -__dma_fence_unwrap_array(struct dma_fence_unwrap * cursor)
-> -{
-> -	cursor->array = dma_fence_chain_contained(cursor->chain);
-> -	cursor->index = 0;
-> -	return dma_fence_array_first(cursor->array);
-> -}
-> -
-> -/**
-> - * dma_fence_unwrap_first - return the first fence from fence containers
-> - * @head: the entrypoint into the containers
-> - * @cursor: current position inside the containers
-> - *
-> - * Unwraps potential dma_fence_chain/dma_fence_array containers and return the
-> - * first fence.
-> - */
-> -static inline struct dma_fence *
-> -dma_fence_unwrap_first(struct dma_fence *head, struct dma_fence_unwrap *cursor)
-> -{
-> -	cursor->chain = dma_fence_get(head);
-> -	return __dma_fence_unwrap_array(cursor);
-> -}
-> -
-> -/**
-> - * dma_fence_unwrap_next - return the next fence from a fence containers
-> - * @cursor: current position inside the containers
-> - *
-> - * Continue unwrapping the dma_fence_chain/dma_fence_array containers and return
-> - * the next fence from them.
-> - */
-> -static inline struct dma_fence *
-> -dma_fence_unwrap_next(struct dma_fence_unwrap *cursor)
-> -{
-> -	struct dma_fence *tmp;
-> -
-> -	++cursor->index;
-> -	tmp = dma_fence_array_next(cursor->array, cursor->index);
-> -	if (tmp)
-> -		return tmp;
-> -
-> -	cursor->chain = dma_fence_chain_walk(cursor->chain);
-> -	return __dma_fence_unwrap_array(cursor);
-> -}
-> +struct dma_fence *dma_fence_unwrap_first(struct dma_fence *head,
-> +					 struct dma_fence_unwrap *cursor);
-> +struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
->  
->  /**
->   * dma_fence_unwrap_for_each - iterate over all fences in containers
-> -- 
-> 2.25.1
-> 
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 29 ++++++++----------------
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h |  6 -----
+ 2 files changed, 10 insertions(+), 25 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.35.1
+
