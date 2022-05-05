@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C83851CB1B
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 23:35:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 755CF51CB22
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 23:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE28410F929;
-	Thu,  5 May 2022 21:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD8310F941;
+	Thu,  5 May 2022 21:35:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2087.outbound.protection.outlook.com [40.107.236.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F20410F91F;
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2058.outbound.protection.outlook.com [40.107.237.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D709C10F909;
  Thu,  5 May 2022 21:35:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J46CjfPWmjeptaJYbtn93Lmppn+liiCQfEe8bdthjP4TnbW6GQ3urbVk+Aj7rauzTzX20WURFBIn/GzoBPZGMwaNAoFlImp03+k9Xjv3+hBxM0mUfi6bIi3NrBYs9MnmSWyaaHRAKpzHqPIBC8F8mPmZHtwEI84ZHg7HOCY+IYYUGx/HIOApASbG4P/F4P6GpORrpkClf6XYD8b3aZMytkWLp4sq3Qx26rE9hWFXDJKj0u/U0FHUdzNo36NrBo/ZqrKTdLfMmvOH7QI7dbc7jvXN3LrnaoZPEdZBRAQvuGvR7ICUmpZ77wB6ApUO93l4k8mgOQYyAq6kricxRN3KBA==
+ b=MpzJl8peQneMVsQIsy3Ue9eFN5SxN15jbafPJlW7AxGwnJGG4QSlK5UTmKF+5cswdUrfhFc5hsnVc2O5B9/3LxAhAJbb9e/Ay84/N7Qha5fv95BsizGx0iDVf5dib02+WdPoLwwtDhSvrIvDgl0yACce+x4igGE1FApfxI37gGgnPaU8xhxHLTC70GBK6Hr2KrTuMca/Rk+N7hZzhbsPNgDL54U/RBC8te0BRhCrGwyKPSXhAu7O36CRetIHiWDvLXa0hwfUorwkMqqAgkXryy9jr+Ehg8YtVRUhRdWstfiE0PUcH5jA7bqqVmWIZbJhWaz/QEYjkIECXmLnT7Zhbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cLboctgqtU8q+2w0PX43DNmgl62uyxYt9SRLY3lWywg=;
- b=JvqFDxanKqy08RPnI3hskjxrTF1FICmfyI31GQVicWzTiSzhdZAu8t35+KdAKtsQHH0KzYWmnINTjD+9VldC2KVZ9L1nd89p6gqPMy19dFBt6NDUfPWUJMoQO571fRs3h8sENEgQ2yvdtDrDMiPmfJap9hUGT/w5xPLF5FE0xDJkHy3vO7uRumALhAKIiqewQnSypkaM8MUHltsII9i9hZvSJknpTA92xg5rBdEJfp4mePypsYvCJsCIyg+iFtBihjQqeapnqdppnP9iJp7+gFDMDUlg+OqdZ/q/M7MazG39VgVxh8Oo7lk09PRSA64OBwSjD/HuCAWj1vVN8UHs1g==
+ bh=6li4CXTFMpIC5kEC/f1k8myx/ij3/qwqcmvQ89j1Gos=;
+ b=fJ2co/Sw7kktz3uM7Nb/ltiOZ3JMU2MUPN38mSPCjmqO0RElMIK+82pE/F10P7A9YpZylD5GsfXR06eS4yCb8eLi2oariGdMxZ0fNL9r9EAhryAfSh7jUkkvbJcLkRxKJvP9fQmfQJtxrcmO1iUwVEIU7rjN6VcVAjgKCvLV1WZja59Jpp+HyEM5EJyPB6Xorr0HMsJy/E1+vaqtSctBMC4UDTovc/Ndgc69pBAeR75OkQa5PxSDesi3SU17sB7Zsff5GydfZ+Ar4azS5fgvjpqOgf/E7koRJLCMB63TX2SIsnuF6gc1TFXpwth/rWaV8Ye2hPA7oxRNeSfIs1PlxA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cLboctgqtU8q+2w0PX43DNmgl62uyxYt9SRLY3lWywg=;
- b=0NM2RqTzEg3H4k23AjkrP+u/PI6CWFoe5vRuI8vMOM0yfKWBk961f+lTcPk8hF/nwSxPeV+PBfylBTh+GcgmOg3UM4zU7+K4TWVva/BGTqYTC+Ve1SqKM4ZZY5gV0D1UeEXhLtIQmbXaAhLS8bDSd8eQkRw6HvjNy+pw1cCmao4=
+ bh=6li4CXTFMpIC5kEC/f1k8myx/ij3/qwqcmvQ89j1Gos=;
+ b=FJqOpSvy9bZPADl8cfffztc6Nu7AmreuxB0c0fLoiILRdlewKfeTOU8F3LraPFDtpKU6+47KHcRN3aJE+Qs/FTyGOSqjg1CrCp7a0FmYp6jhtbdAeM0A0BxMDdXSAdrDKyG036EpzbaBdWcfC080OwbfoSFYhJIZHbAJBB2+ZJw=
 Received: from MW4P220CA0027.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::32)
- by CY4PR12MB1479.namprd12.prod.outlook.com (2603:10b6:910:d::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.20; Thu, 5 May
- 2022 21:34:59 +0000
+ by CY4PR12MB1191.namprd12.prod.outlook.com (2603:10b6:903:44::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Thu, 5 May
+ 2022 21:35:00 +0000
 Received: from CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:115:cafe::4) by MW4P220CA0027.outlook.office365.com
+ (2603:10b6:303:115:cafe::33) by MW4P220CA0027.outlook.office365.com
  (2603:10b6:303:115::32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.14 via Frontend
- Transport; Thu, 5 May 2022 21:34:59 +0000
+ Transport; Thu, 5 May 2022 21:35:00 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -51,13 +51,12 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 5 May
- 2022 16:34:57 -0500
+ 2022 16:34:58 -0500
 From: Alex Sierra <alex.sierra@amd.com>
 To: <jgg@nvidia.com>
-Subject: [PATCH v1 05/15] mm/gup: migrate device coherent pages when pinning
- instead of failing
-Date: Thu, 5 May 2022 16:34:28 -0500
-Message-ID: <20220505213438.25064-6-alex.sierra@amd.com>
+Subject: [PATCH v1 06/15] drm/amdkfd: add SPM support for SVM
+Date: Thu, 5 May 2022 16:34:29 -0500
+Message-ID: <20220505213438.25064-7-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220505213438.25064-1-alex.sierra@amd.com>
 References: <20220505213438.25064-1-alex.sierra@amd.com>
@@ -69,27 +68,27 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 410125b0-2053-44f9-48ff-08da2edf1b10
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1479:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB14798D5F8B14DA7670755A3BFDC29@CY4PR12MB1479.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 7cbe5edd-2c99-4ff1-9091-08da2edf1b7b
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1191:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1191430EABB73C186A88CD61FDC29@CY4PR12MB1191.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /fQ3C7AkKQnx0naTBRyk6f0U/S/CQblwDQ4L/RaC+S6tTnJUeJdNE0FNoj5pZU/h+ZWGk3Fu4Mk8wH1ygRL/SYMcaQ1HoXa+qyXytPDt7XkhB5ks/Ru2G7t/XCBDbX49lkhJM/kaXQkbOlRKehCsR/lTMh9fH9OdUyJTpLTR5GXANc/B9h16enc4wOT6mq49/aSvfSks5PY4thSVj6HBBZM592dg3NWYBAV75ye23PMvMABAV2yIvqWd55pReZ39mw7iBfK/K58oG1zlkg4Oa0+5ydPPKtf1o9faO1ovbKLGni/DGeaP3X1QjXA2e+3TbfqpuYywiXOVd1JS8p1ofwYptDzkaORMgjo3EmTuWIj22eT5QHjqZfGFSZ8kkGKdq7hd30L50NLrdRQAQqbiToMWsIJ5yTHNQA2yDhI9a+GwnV8+5j14vOi0hpcM1cZvmDmTAoOprCZxfU4xJO05kvayhn+jJ+ylgTe/0mXJkCQHTVxygQVtGyRkDdH/0dNko5jrPjjOmIu4vJ8siKDGa3ZL3tnrhMYmkZeHtjuHfbAi53+UymUuOd6ypz/8pDcWb7MbDly437l+m+2KBpwsUslsmutk3zqO699JUn7HSNfsT1n5H8H9X+ox5Fsqs/eEIv243YLRl5pGXUppHcqmT5O/Lb45FftY4nI0nWaCDexq0/doqdmCvQlETNrl5UFtLh3RVnNlXVJwu2BcypZtJA==
+X-Microsoft-Antispam-Message-Info: BjMsXH6ZhtFWg1djbHB0Q29F1VyT4h8mFyPWxPWotWeRKPcTtCypVWVAb4+bgxNZshxBygglHO9oEjF75HcXgHVTo3HYqkiUKzeeLo/S0IQH918dACqq+TYW82aLvIgHVtl719JivMvldo/cBczhaYg6khH6RB4PBpsmFIU5tNZ0Icnpnp4tKpAiR7Vq1fJxKt6TWFUUWM/3RbEpzjy9ocQ4PI2yXdgoRrw9W2hHGsxS7IyXqgsIKRbU1DUeyDb6d79vE9rXaJsjhTO/1LIV4PTFt3r3ecl21dYmOVwNSydY4OsGrFWKlQBdNpCNe2RiNrRorG8JmTMvv4OmFuM1MeIS+Nxelcfg8W5CegE7IETyKJp0wtKVmlDKmsnEpO19W3Y3s5wwcpN9i1vmN4a55dRhp3APQ91Ev5WK58spZzs1hzwt3KpUyscUZ/LyAf8bDMQrV8eX2FCh9JO9oayfGNx8FMSShtxrypfp2Eu7mjO1/EjYQha0AizgM1++RD3b5+Ja+cSVn0sHV4Hk6QBtIXO4jjgzd6zYiNhNXRA6+tJRE6DdHGlaYRJQkrg6489hYsCVrxeFNKRDMI4TOeqSxcR42votlruo2tW6LJMFFG8ZLuAv/cyPXOjbpJzim3vqs7YuxWYlL0au6jzOLgOAEFMibHoVxhiJMqGJcHqeK5LoEVJuTxESQDfFLxPtVm58xBCK5ryHNjnPoZep8KVt9Q==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(82310400005)(36860700001)(7696005)(6666004)(44832011)(2906002)(86362001)(426003)(186003)(16526019)(83380400001)(336012)(2616005)(47076005)(1076003)(36756003)(7416002)(26005)(40460700003)(316002)(4326008)(8676002)(6916009)(54906003)(70586007)(70206006)(508600001)(8936002)(356005)(81166007)(5660300002)(36900700001);
+ SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(4326008)(86362001)(8676002)(70586007)(508600001)(36860700001)(82310400005)(54906003)(316002)(6916009)(336012)(70206006)(2906002)(36756003)(83380400001)(2616005)(47076005)(426003)(1076003)(186003)(40460700003)(16526019)(8936002)(7416002)(356005)(6666004)(81166007)(5660300002)(7696005)(26005)(44832011)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 21:34:59.1264 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 410125b0-2053-44f9-48ff-08da2edf1b10
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2022 21:34:59.8139 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7cbe5edd-2c99-4ff1-9091-08da2edf1b7b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT066.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1479
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1191
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,168 +109,78 @@ Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alistair Popple <apopple@nvidia.com>
+When CPU is connected throug XGMI, it has coherent
+access to VRAM resource. In this case that resource
+is taken from a table in the device gmc aperture base.
+This resource is used along with the device type, which could
+be DEVICE_PRIVATE or DEVICE_COHERENT to create the device
+page map region.
 
-Currently any attempts to pin a device coherent page will fail. This is
-because device coherent pages need to be managed by a device driver, and
-pinning them would prevent a driver from migrating them off the device.
-
-However this is no reason to fail pinning of these pages. These are
-coherent and accessible from the CPU so can be migrated just like
-pinning ZONE_MOVABLE pages. So instead of failing all attempts to pin
-them first try migrating them out of ZONE_DEVICE.
-
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-[hch: rebased to the split device memory checks,
-      moved migrate_device_page to migrate_device.c]
+Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- mm/gup.c            | 47 +++++++++++++++++++++++++++++++++++-----
- mm/internal.h       |  1 +
- mm/migrate_device.c | 53 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 96 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 28 ++++++++++++++----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index f598a037eb04..a214c8df7140 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1786,9 +1786,43 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
- 			continue;
- 		prev_folio = folio;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+index 7e3a7fcb9fe6..52bd3fa6a582 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@ -948,7 +948,7 @@ int svm_migrate_init(struct amdgpu_device *adev)
+ {
+ 	struct kfd_dev *kfddev = adev->kfd.dev;
+ 	struct dev_pagemap *pgmap;
+-	struct resource *res;
++	struct resource *res = NULL;
+ 	unsigned long size;
+ 	void *r;
  
--		if (folio_is_pinnable(folio))
-+		/*
-+		 * Device private pages will get faulted in during gup so it
-+		 * shouldn't be possible to see one here.
-+		 */
-+		if (WARN_ON_ONCE(folio_is_device_private(folio))) {
-+			ret = -EFAULT;
-+			goto unpin_pages;
-+		}
-+
-+		/*
-+		 * Device coherent pages are managed by a driver and should not
-+		 * be pinned indefinitely as it prevents the driver moving the
-+		 * page. So when trying to pin with FOLL_LONGTERM instead try
-+		 * to migrate the page out of device memory.
-+		 */
-+		if (folio_is_device_coherent(folio)) {
-+			WARN_ON_ONCE(PageCompound(&folio->page));
-+
-+			/*
-+			 * Migration will fail if the page is pinned, so convert
-+			 * the pin on the source page to a normal reference.
-+			 */
-+			if (gup_flags & FOLL_PIN) {
-+				get_page(&folio->page);
-+				unpin_user_page(&folio->page);
-+			}
-+
-+			pages[i] = migrate_device_page(&folio->page, gup_flags);
-+			if (!pages[i]) {
-+				ret = -EBUSY;
-+				goto unpin_pages;
-+			}
- 			continue;
-+		}
+@@ -963,28 +963,34 @@ int svm_migrate_init(struct amdgpu_device *adev)
+ 	 * should remove reserved size
+ 	 */
+ 	size = ALIGN(adev->gmc.real_vram_size, 2ULL << 20);
+-	res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
+-	if (IS_ERR(res))
+-		return -ENOMEM;
++	if (adev->gmc.xgmi.connected_to_cpu) {
++		pgmap->range.start = adev->gmc.aper_base;
++		pgmap->range.end = adev->gmc.aper_base + adev->gmc.aper_size - 1;
++		pgmap->type = MEMORY_DEVICE_COHERENT;
++	} else {
++		res = devm_request_free_mem_region(adev->dev, &iomem_resource, size);
++		if (IS_ERR(res))
++			return -ENOMEM;
++		pgmap->range.start = res->start;
++		pgmap->range.end = res->end;
++		pgmap->type = MEMORY_DEVICE_PRIVATE;
++	}
  
-+		if (folio_is_pinnable(folio))
-+			continue;
- 		/*
- 		 * Try to move out any movable page before pinning the range.
- 		 */
-@@ -1824,10 +1858,13 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
- 	return nr_pages;
- 
- unpin_pages:
--	if (gup_flags & FOLL_PIN) {
--		unpin_user_pages(pages, nr_pages);
--	} else {
--		for (i = 0; i < nr_pages; i++)
-+	for (i = 0; i < nr_pages; i++) {
-+		if (!pages[i])
-+			continue;
-+
-+		if (gup_flags & FOLL_PIN)
-+			unpin_user_page(pages[i]);
-+		else
- 			put_page(pages[i]);
+-	pgmap->type = MEMORY_DEVICE_PRIVATE;
+ 	pgmap->nr_range = 1;
+-	pgmap->range.start = res->start;
+-	pgmap->range.end = res->end;
+ 	pgmap->ops = &svm_migrate_pgmap_ops;
+ 	pgmap->owner = SVM_ADEV_PGMAP_OWNER(adev);
+-	pgmap->flags = MIGRATE_VMA_SELECT_DEVICE_PRIVATE;
+-
++	pgmap->flags = 0;
+ 	/* Device manager releases device-specific resources, memory region and
+ 	 * pgmap when driver disconnects from device.
+ 	 */
+ 	r = devm_memremap_pages(adev->dev, pgmap);
+ 	if (IS_ERR(r)) {
+ 		pr_err("failed to register HMM device memory\n");
+-
+ 		/* Disable SVM support capability */
+ 		pgmap->type = 0;
+-		devm_release_mem_region(adev->dev, res->start, resource_size(res));
++		if (pgmap->type == MEMORY_DEVICE_PRIVATE)
++			devm_release_mem_region(adev->dev, res->start,
++						res->end - res->start + 1);
+ 		return PTR_ERR(r);
  	}
  
-diff --git a/mm/internal.h b/mm/internal.h
-index cf16280ce132..32c621416966 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -750,6 +750,7 @@ int numa_migrate_prep(struct page *page, struct vm_area_struct *vma,
- 		      unsigned long addr, int page_nid, int *flags);
- 
- void free_zone_device_page(struct page *page);
-+struct page *migrate_device_page(struct page *page, unsigned int gup_flags);
- 
- /*
-  * mm/gup.c
-diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-index b399c498f0aa..1e74aa7ab580 100644
---- a/mm/migrate_device.c
-+++ b/mm/migrate_device.c
-@@ -775,3 +775,56 @@ void migrate_vma_finalize(struct migrate_vma *migrate)
- 	}
- }
- EXPORT_SYMBOL(migrate_vma_finalize);
-+
-+/*
-+ * Migrate a device coherent page back to normal memory.  The caller should have
-+ * a reference on page which will be copied to the new page if migration is
-+ * successful or dropped on failure.
-+ */
-+struct page *migrate_device_page(struct page *page, unsigned int gup_flags)
-+{
-+	unsigned long src_pfn, dst_pfn = 0;
-+	struct migrate_vma args;
-+	struct page *dpage;
-+
-+	lock_page(page);
-+	src_pfn = migrate_pfn(page_to_pfn(page)) | MIGRATE_PFN_MIGRATE;
-+	args.src = &src_pfn;
-+	args.dst = &dst_pfn;
-+	args.cpages = 1;
-+	args.npages = 1;
-+	args.vma = NULL;
-+	migrate_vma_setup(&args);
-+	if (!(src_pfn & MIGRATE_PFN_MIGRATE))
-+		return NULL;
-+
-+	dpage = alloc_pages(GFP_USER | __GFP_NOWARN, 0);
-+
-+	/*
-+	 * get/pin the new page now so we don't have to retry gup after
-+	 * migrating. We already have a reference so this should never fail.
-+	 */
-+	if (dpage && WARN_ON_ONCE(!try_grab_page(dpage, gup_flags))) {
-+		__free_pages(dpage, 0);
-+		dpage = NULL;
-+	}
-+
-+	if (dpage) {
-+		lock_page(dpage);
-+		dst_pfn = migrate_pfn(page_to_pfn(dpage));
-+	}
-+
-+	migrate_vma_pages(&args);
-+	if (src_pfn & MIGRATE_PFN_MIGRATE)
-+		copy_highpage(dpage, page);
-+	migrate_vma_finalize(&args);
-+	if (dpage && !(src_pfn & MIGRATE_PFN_MIGRATE)) {
-+		if (gup_flags & FOLL_PIN)
-+			unpin_user_page(dpage);
-+		else
-+			put_page(dpage);
-+		dpage = NULL;
-+	}
-+
-+	return dpage;
-+}
 -- 
 2.32.0
 
