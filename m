@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2288051B5B5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 04:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691ED51B5CD
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 04:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2DB10EC83;
-	Thu,  5 May 2022 02:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A051010ED55;
+	Thu,  5 May 2022 02:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D82F10EC83;
- Thu,  5 May 2022 02:16:33 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id k1so3115526pll.4;
- Wed, 04 May 2022 19:16:33 -0700 (PDT)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3316D10ED37
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 02:22:17 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id z16so2557641pfh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 19:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=AMR76WMtkLn5xSTes1b8YF480Y1GgwkYWQvKagsQ23c=;
- b=lTqzT44oMY16d9Q4twuk0c0lXMC5F1xGFPRg3Jj6HEiH9TFF5H5koNJD4eQaKzttfT
- sgENSGElIa9Kc2LHBThuTXr1+dZu5MQ9GfCUZ+xUCz8q0oiodddN/HVWSo8jCQNUvMCd
- L/jCPyb4yi3eBul5ETs67tUyMVoT7bKKMqigyVENPd6F4kpeyLWQ9LID0FmwI0gdxlRR
- tlHHo5+pPO48zF2MEm2PBFZ+wPisDzIXv47T9XYbd6r80ZUyXA6RU1BgFyh7d1gNsOkJ
- A689XeiQsLctldVKncIBEWcO5uRx1CCqGym47SHYrwqQMZyesvIRBUsj3G8nqFAJDWM5
- mLGQ==
+ bh=ef+sybKBAkUjKLs8tlJYfzgpqHk/AEhKYaj2VVeifvg=;
+ b=OG/lleGzbi4WRp3eEVn2Ky39PrCMOzoBfa81MHSat9WWdT6+lVMGwstvSB7TyQrK0O
+ ekPuX5JS4wq+jTGfYLENqJFAo8PYJ0lOsTN+qpSxH0S50gN1dgHXfv5wKC7rXy9o+CHx
+ o76liOhu+Mj7Pejjz3EZ6g0SV75SJazPqoOzQG5qTHicMLiqT8td7jtc+6D0Sv9GMq7L
+ BvNSCf/V9NPNxftEg3HDXhsHd9MsG9sXVL1ckLWa/boFegB5JA0RjPq7bxzR2O2I+wiz
+ xTel8KCWKQ8Wrz86uuQ/hrVRBvEzo21tlHd3jds4Hq7TejkqH2sb7A5t7AFv3bNIMnt3
+ +GWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=AMR76WMtkLn5xSTes1b8YF480Y1GgwkYWQvKagsQ23c=;
- b=kKrBPvSpE7zCii/vbTFx8tBAErIK9UB90RfmwVog6ouD8pkhc4N8MEYQXAp830m9YU
- dvcm/yX5ExVEWMnrZyoqDHYnsW02wvXYWM5h6DyK4+7c7NCCHz0SW0myhJ7pc1Ak3oiY
- FxukTxNqYIYOs3IoUXY9jypK5Nm8ADly1isnUAdmRXZ8GIoqLGP2pj/pXTENAi7XLZqg
- CQGWBaN40lSTyVecslbfGpKk6W12ZYUMfVM+Xq7h7OBb46oKCeaXkxWQgb4bLu0pYiPv
- ogKphYsBlwsmfxLrza4gKwbaTJ/u6TQvVgL+PaRSfk9qOeJi7GMEFbwH1eJbGhmCDVPv
- ya4A==
-X-Gm-Message-State: AOAM532qjOxKECKTkrXGv+k2XmLT7mgImYJ86JBZP0GBw0p9cw0DagzU
- i4iYysL2R05xNlOuni24zF0=
-X-Google-Smtp-Source: ABdhPJxCSy4KhWQzFFnnhYGswJBl+qB4knx8GwmMjyTM7dpflZx+m1LM67r/kdwz69coX7XkvQl5/A==
-X-Received: by 2002:a17:902:9a4c:b0:158:b6f0:4aa2 with SMTP id
- x12-20020a1709029a4c00b00158b6f04aa2mr24890390plv.163.1651716992863; 
- Wed, 04 May 2022 19:16:32 -0700 (PDT)
+ bh=ef+sybKBAkUjKLs8tlJYfzgpqHk/AEhKYaj2VVeifvg=;
+ b=LzC0kH0O4chtFeyVKl1LKicZjoCqxE7Eq0L4LhGf+U4kwl6tFqQUj7c0u1cGl642pl
+ HTPGvUoEYwt6ik6zp55e3nyRfdUEDZ4Vke20eJDN6lmj9yfxlWqXV5ImD+damjTp2jg6
+ 6fWGJOuL9/Abrw2lXPuiZy6Dtli86m6if7S1+HIzAFm/dO5ue+F/q64hoOA4CMvCrWad
+ 7e+tuKATNDV5zjWos65vcoxGohsnsGADmJ95V5GWoCoKhupspDzc+AkE72yEZyRBUjQf
+ ejTmCr8nQFAAvaNZOpwo03P91xy/SYn/lfXWOEVXpE1qQIa/tB1BohnHYbvanY4PM6yy
+ KINw==
+X-Gm-Message-State: AOAM533dfcgSdkGC7OGwEM9F1oEv0aNPTVln7/VE+tzlAal1kVqmKJIb
+ RYfE+p+NfcDKTczWzfUFY1A=
+X-Google-Smtp-Source: ABdhPJxwgs2AzWqDhC4ZlkGGOfEWL9n90q8upIDnCzYEAp4SHXBb9BBiuNWmzfxRnFREFEVH6h+mqA==
+X-Received: by 2002:a05:6a00:c83:b0:50e:eea:1b9 with SMTP id
+ a3-20020a056a000c8300b0050e0eea01b9mr10598547pfv.47.1651717336875; 
+ Wed, 04 May 2022 19:22:16 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- v17-20020a170902ca9100b0015e8d4eb265sm174733pld.175.2022.05.04.19.16.30
+ v29-20020aa799dd000000b0050dc7628152sm99911pfi.44.2022.05.04.19.22.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 19:16:32 -0700 (PDT)
+ Wed, 04 May 2022 19:22:16 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: chi.minghao@zte.com.cn
-To: jani.nikula@linux.intel.com
-Subject: [PATCH] drm/i915: simplify the return expression of i915_driver_open()
-Date: Thu,  5 May 2022 02:16:25 +0000
-Message-Id: <20220505021625.54146-1-chi.minghao@zte.com.cn>
+To: airlied@redhat.com
+Subject: [PATCH] drm: simplify the return expression of ast_drm_resume()
+Date: Thu,  5 May 2022 02:22:08 +0000
+Message-Id: <20220505022208.57157-1-chi.minghao@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,10 +68,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Minghao Chi <chi.minghao@zte.com.cn>,
- rodrigo.vivi@intel.com, Zeal Robot <zealci@zte.com.cn>
+Cc: airlied@linux.ie, Zeal Robot <zealci@zte.com.cn>,
+ linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -82,28 +81,30 @@ Simplify the return expression.
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 ---
- drivers/gpu/drm/i915/i915_driver.c | 7 +------
+ drivers/gpu/drm/ast/ast_drv.c | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 09de45d3e274..d11a7445909a 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -977,13 +977,8 @@ static void i915_driver_release(struct drm_device *dev)
- static int i915_driver_open(struct drm_device *dev, struct drm_file *file)
- {
- 	struct drm_i915_private *i915 = to_i915(dev);
--	int ret;
+diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
+index 7465c4f0156a..760b27971557 100644
+--- a/drivers/gpu/drm/ast/ast_drv.c
++++ b/drivers/gpu/drm/ast/ast_drv.c
+@@ -159,15 +159,10 @@ static int ast_drm_thaw(struct drm_device *dev)
  
--	ret = i915_gem_open(i915, file);
+ static int ast_drm_resume(struct drm_device *dev)
+ {
+-	int ret;
+-
+ 	if (pci_enable_device(to_pci_dev(dev->dev)))
+ 		return -EIO;
+ 
+-	ret = ast_drm_thaw(dev);
 -	if (ret)
 -		return ret;
--
 -	return 0;
-+	return i915_gem_open(i915, file);
++	return ast_drm_thaw(dev);
  }
  
- /**
+ static int ast_pm_suspend(struct device *dev)
 -- 
 2.25.1
 
