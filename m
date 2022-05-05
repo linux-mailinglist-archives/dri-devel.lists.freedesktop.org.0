@@ -1,32 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E9151CCB7
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 01:27:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E8651CD05
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 01:56:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B14410FC26;
-	Thu,  5 May 2022 23:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E15010E1A0;
+	Thu,  5 May 2022 23:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-43.freemail.mail.aliyun.com
- (out30-43.freemail.mail.aliyun.com [115.124.30.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAF9210FC8E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 23:27:03 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04394; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0VCOzSIf_1651793220; 
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0VCOzSIf_1651793220) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 06 May 2022 07:27:01 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: hjc@rock-chips.com
-Subject: [PATCH -next] drm/rockchip: remove unneeded semicolon
-Date: Fri,  6 May 2022 07:26:59 +0800
-Message-Id: <20220505232659.4405-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BECA10E1A0
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 23:56:00 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9AC91811D8;
+ Fri,  6 May 2022 01:55:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1651794958;
+ bh=cyWfd8Cjd/s3k7TOWl6ellcf/4MqlfvtOjQ/4F2Wpas=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lTVDodGlm8sUWZetYCh4gKesIlRSgnKZzSqG263P4F5YNHfgkA8FI1OJ08eS89DSR
+ Z5/Z3u7QPkRq87AbzgjeTaPWkNR1/alqpbRGpdEtfkEtR0BIc1cfO+nFIgErPAhz93
+ zfH6nPcqiNRymeK9WkENyx2RiZjWc0IHFkPhfCFL8RpNQE1ih0aXb6f5wOasI56MyC
+ 4I+btMaUoBP63f+rmhh+rYNq7BE0YmI+dGJE8+kLqpYlstrIHGd9qoUCmU86O6wW2G
+ XMd612TSmbpz5jC0AaE3lln0Kp/G9wgBjIqGUlNeI6Zsywvy5XLRhPEUkwF90KV7yn
+ 6YjHySEVgsQMg==
+Message-ID: <bd0d10a9-e065-d3cf-e7f7-c1b656b892f1@denx.de>
+Date: Fri, 6 May 2022 01:55:57 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: (subset) [PATCH 1/2] [RFC] regmap: Add bulk read/write callbacks
+ into regmap_config
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+References: <20220430025145.640305-1-marex@denx.de>
+ <165176353878.543269.16463883419414078766.b4-ty@kernel.org>
+ <88edf09b-fca9-26b1-1366-94976c6ce2a0@denx.de>
+ <YnQ8uqMBFJc+LV4l@sirena.org.uk>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <YnQ8uqMBFJc+LV4l@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,36 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Yang Li <yang.lee@linux.alibaba.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
+ jagan@amarulasolutions.com, tzimmermann@suse.de, sam@ravnborg.org,
+ maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Eliminate the following coccicheck warning:
-./drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1476:2-3: Unneeded
-semicolon
+On 5/5/22 23:08, Mark Brown wrote:
+> On Thu, May 05, 2022 at 07:32:23PM +0200, Marek Vasut wrote:
+>> On 5/5/22 17:12, Mark Brown wrote:
+>>> On Sat, 30 Apr 2022 04:51:44 +0200, Marek Vasut wrote:
+> 
+>>>> Currently the regmap_config structure only allows the user to implement
+>>>> single element register read/write using .reg_read/.reg_write callbacks.
+> 
+>>> [1/2] regmap: Add bulk read/write callbacks into regmap_config
+>>>         commit: d77e745613680c54708470402e2b623dcd769681
+> 
+>> I was really hoping this would get a lot more review / comments before this
+>> is applied.
+> 
+> I can easily punt for this release, though TBH I'm not anticipating huge
+> numbers of comments on a regmap patch unless it breaks things for
+> people, they tend to be very quiet.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In that case, let's wait and see ...
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 0b49fed16535..7f9d88634a77 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1473,7 +1473,7 @@ static void rk3568_set_intf_mux(struct vop2_video_port *vp, int id,
- 	default:
- 		drm_err(vop2->drm, "Invalid interface id %d on vp%d\n", id, vp->id);
- 		return;
--	};
-+	}
- 
- 	dip |= RK3568_DSP_IF_POL__CFG_DONE_IMD;
- 
--- 
-2.20.1.7.g153144c
+> I did go through it and didn't spot
+> any issues so it seemed like the testing coverage would be useful here.
+> Are there specific things you're worried about that you'd like feedback
+> on?
 
+Plumbing on core code is worrying.
