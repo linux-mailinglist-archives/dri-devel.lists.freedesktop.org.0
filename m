@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769A151D588
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:19:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 233D551D58C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:19:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E265C10FB73;
-	Fri,  6 May 2022 10:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9877110FD0D;
+	Fri,  6 May 2022 10:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B7F110F7AD
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 08:10:45 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2f83983782fso40236867b3.6
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 01:10:45 -0700 (PDT)
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
+ [IPv6:2607:f8b0:4864:20::1129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E6710F7C8
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 08:14:07 +0000 (UTC)
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2f16645872fso40291477b3.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 01:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xqj1PK8l3CukS2Ifv9U0ecyZxwMggi8LxIQgF+eSLsQ=;
- b=UHE1beiL3tx7MHrhMK2N8k+pn1z+ddVRGBS8+ovvpZQ+dXuXqwBApwTEk12c/xB+j4
- aRXo4p6tIiOmualdK4aw8ad3BsblHpyPliuvRl6SSDJHHIGp3bxFYK4nTNJlnJlyBzR0
- Rz3uCLmIEKIpkMqVaOj7EtcBozc6x1ohk2xmve7IOe9mddtoRlLToQ6Abl8Y43ckJmn0
- KmNFtMT7hO1ubY5haoCPGlExQJISrNx2yhZWsLUklrAjR6hjGj7QjgMpoAH6ymioMtWB
- REZYBzGMnIdIWOqrPvwR7aALN4LI/QeeE3+eVNuPlx6oh7X1jAxNYq1YRUTi6UtNQ9bo
- iYlA==
+ :cc; bh=E0li8VCK5rLoqBm7jSUzWKiZig06N7OaR5oxcekfT7g=;
+ b=uG02yJT2fs/IBuQFGG5npkSvIx33Mman6DZ7bLHwfcVLRH5ae/3C0ILVQDRa5bP2N5
+ dD/W4TlpOTVDd4mj0jIprDBjF54xDTaWIXF9h8+AxNP4AbggbDE61OZ+1BG6WCyWkA1K
+ gG7fPI0lyr2/B0mD7/lh6184TsRvQL057wvPanMWk2GoX82sqqd+HecU8o4E+Q7gK5T9
+ rSpv8FR48VZ0vIr/UftwcmngzEstJH5M9WA2Mw7qrfzyKzaDj/ycYKEDMuMv1phmSa/z
+ DPAd9vwuXZ6y7jKcTavkHUXz8giJPoI5YRcFysETXvO1ghAi0baAb/3maUnhDXcgrLU9
+ 4hrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xqj1PK8l3CukS2Ifv9U0ecyZxwMggi8LxIQgF+eSLsQ=;
- b=UqHBA90A5M3tbi6mYTLGYdZ7h4/mKmK1JLSfBnqTiUQ2Jr1UMeTjn/mEXKNbKbXw4b
- j4xe6iVCJ8wcAayEPOTroW0mF3jBSEYOM7KHkinof3bvl8sJBsjenHbsS7lCQ4IfT4E1
- xC14OeQnYTu4e1xSGNX2z0g70Qq0hOb+M/kjJowPMLyFuJMZqEUT1v2bsXBS1Gmn3efO
- +U+bxJvDjdwKsPOXZSPFB7xLBKpXvEV0o+LIOKIbR67Z8yBSTG28PpDAyHtWGbkeI4Mi
- 12hSl+Vr+eNv0fHCtkfJv+drWQneeoiQI8k2I7NJRhAU7W5PtXEuKWBYddl8h3SKYacP
- u2Ng==
-X-Gm-Message-State: AOAM530OtcyQB55h0Asav3+40UKBUxPbSekMRWGaRUgJrg8uXvqz6+oR
- YMwLjpRbTl0UhO8sKNX13ssuCsT8v0sHDFG/dtpU+Q==
-X-Google-Smtp-Source: ABdhPJxIxsdDx4zpk/wS5+kv+mgg0TE1/Ed4fkZJGKwCZYXeprCTFcZfnsxFRtB3iwuQXIoO4EjpGMLX94Hf4e+EV+I=
-X-Received: by 2002:a81:f0e:0:b0:2f7:d523:e49d with SMTP id
- 14-20020a810f0e000000b002f7d523e49dmr22072039ywp.311.1651738244042; Thu, 05
- May 2022 01:10:44 -0700 (PDT)
+ bh=E0li8VCK5rLoqBm7jSUzWKiZig06N7OaR5oxcekfT7g=;
+ b=k5QcAcxYOxCjJ+ggT5zWabB0aCG8YS/hX3EddV/pkWFki+HO5uqNEPlRQaxDIiCcUI
+ h6qUwWG7MCNh8I3ZRdiLw0ratw7akBA00ExJhvnZ+8cWn5uEwIAEP/gvM/7OVcu2Y9iG
+ mQQ+cqFVD1IMWg2bipUi2SEdmJQskg0YBEHvVsa/NSXTxXRryiETor9qOo/byX0uSD7R
+ FrEs8yiOEEPC8FXxMhpXUmM5vA26ChSZVMdVgU2yC2DdB9aLNr/2XatXrs+IkGTD/d8z
+ c37M7L5zFOA/fc0lRMDL/XyhE8iOyMXDoX5Iw6bNF/ayOLpGx2gB9cqzrVOoQDeH0Bq5
+ C/mw==
+X-Gm-Message-State: AOAM5315EHFlFpagFf16UyDwVuqbT6a1W24CqK+cRDzYjRqx8VmvE7X8
+ hZbjyfcsxfEYBODi8ZtoaiZnv/wkPEYemGP4E8tEew==
+X-Google-Smtp-Source: ABdhPJz7M1bjc0dAULMbY81NAVY9G1dvSbUkluctxOj5cK3+L6VK4K/H4xrlXRKGGm6ALjoDBsDiRrDvv2wHXTikwNU=
+X-Received: by 2002:a81:f90:0:b0:2f8:46f4:a61b with SMTP id
+ 138-20020a810f90000000b002f846f4a61bmr22215514ywp.115.1651738446397; Thu, 05
+ May 2022 01:14:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220504203404.1495485-1-jason@jlekstrand.net>
- <20220504203404.1495485-2-jason@jlekstrand.net>
- <7d478470-00fa-07a6-1479-dee80ced5b76@amd.com>
-In-Reply-To: <7d478470-00fa-07a6-1479-dee80ced5b76@amd.com>
+ <20220504203404.1495485-3-jason@jlekstrand.net>
+ <YnMD9JX/v6kSQE2t@phenom.ffwll.local>
+In-Reply-To: <YnMD9JX/v6kSQE2t@phenom.ffwll.local>
 From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 5 May 2022 03:10:33 -0500
-Message-ID: <CAOFGe948_qtwrLd1DiHOJOkxK-iT_qU-3FG+uz4bGGnL7oKpCw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dma-buf: Add an API for exporting sync files (v13)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/alternative; boundary="0000000000004c641905de3f4732"
+Date: Thu, 5 May 2022 03:13:55 -0500
+Message-ID: <CAOFGe96vXRjUzi3CLj788=Wy3VxGcM-bB3+0M2Ttbg4GPwti7A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dma-buf: Add an API for importing sync files (v8)
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: multipart/alternative; boundary="0000000000005c190b05de3f53d3"
 X-Mailman-Approved-At: Fri, 06 May 2022 10:19:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,701 +67,570 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000004c641905de3f4732
+--0000000000005c190b05de3f53d3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 5, 2022 at 1:25 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om>
-wrote:
+On Wed, May 4, 2022 at 5:53 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 
-> Am 04.05.22 um 22:34 schrieb Jason Ekstrand:
-> > Modern userspace APIs like Vulkan are built on an explicit
-> > synchronization model.  This doesn't always play nicely with the
-> > implicit synchronization used in the kernel and assumed by X11 and
-> > Wayland.  The client -> compositor half of the synchronization isn't to=
-o
-> > bad, at least on intel, because we can control whether or not i915
-> > synchronizes on the buffer and whether or not it's considered written.
-> >
-> > The harder part is the compositor -> client synchronization when we get
-> > the buffer back from the compositor.  We're required to be able to
-> > provide the client with a VkSemaphore and VkFence representing the poin=
+> On Wed, May 04, 2022 at 03:34:04PM -0500, Jason Ekstrand wrote:
+> > This patch is analogous to the previous sync file export patch in that
+> > it allows you to import a sync_file into a dma-buf.  Unlike the previou=
+s
+> > patch, however, this does add genuinely new functionality to dma-buf.
+> > Without this, the only way to attach a sync_file to a dma-buf is to
+> > submit a batch to your driver of choice which waits on the sync_file an=
+d
+> > claims to write to the dma-buf.  Even if said batch is a no-op, a submi=
 t
-> > in time where the window system (compositor and/or display) finished
-> > using the buffer.  With current APIs, it's very hard to do this in such
-> > a way that we don't get confused by the Vulkan driver's access of the
-> > buffer.  In particular, once we tell the kernel that we're rendering to
-> > the buffer again, any CPU waits on the buffer or GPU dependencies will
-> > wait on some of the client rendering and not just the compositor.
+> > is typically way more overhead than just attaching a fence.  A submit
+> > may also imply extra synchronization with other work because it happens
+> > on a hardware queue.
 > >
-> > This new IOCTL solves this problem by allowing us to get a snapshot of
-> > the implicit synchronization state of a given dma-buf in the form of a
-> > sync file.  It's effectively the same as a poll() or I915_GEM_WAIT only=
-,
-> > instead of CPU waiting directly, it encapsulates the wait operation, at
-> > the current moment in time, in a sync_file so we can check/wait on it
-> > later.  As long as the Vulkan driver does the sync_file export from the
-> > dma-buf before we re-introduce it for rendering, it will only contain
-> > fences from the compositor or display.  This allows to accurately turn
-> > it into a VkFence or VkSemaphore without any over-synchronization.
-> >
-> > By making this an ioctl on the dma-buf itself, it allows this new
-> > functionality to be used in an entirely driver-agnostic way without
-> > having access to a DRM fd. This makes it ideal for use in driver-generi=
-c
-> > code in Mesa or in a client such as a compositor where the DRM fd may b=
+> > In the Vulkan world, this is useful for dealing with the out-fence from
+> > vkQueuePresent.  Current Linux window-systems (X11, Wayland, etc.) all
+> > rely on dma-buf implicit sync.  Since Vulkan is an explicit sync API, w=
 e
-> > hard to reach.
+> > get a set of fences (VkSemaphores) in vkQueuePresent and have to stash
+> > those as an exclusive (write) fence on the dma-buf.  We handle it in
+> > Mesa today with the above mentioned dummy submit trick.  This ioctl
+> > would allow us to set it directly without the dummy submit.
+> >
+> > This may also open up possibilities for GPU drivers to move away from
+> > implicit sync for their kernel driver uAPI and instead provide sync
+> > files and rely on dma-buf import/export for communicating with other
+> > implicit sync clients.
+> >
+> > We make the explicit choice here to only allow setting RW fences which
+> > translates to an exclusive fence on the dma_resv.  There's no use for
+> > read-only fences for communicating with other implicit sync userspace
+> > and any such attempts are likely to be racy at best.  When we got to
+> > insert the RW fence, the actual fence we set as the new exclusive fence
+> > is a combination of the sync_file provided by the user and all the othe=
+r
+> > fences on the dma_resv.  This ensures that the newly added exclusive
+> > fence will never signal before the old one would have and ensures that
+> > we don't break any dma_resv contracts.  We require userspace to specify
+> > RW in the flags for symmetry with the export ioctl and in case we ever
+> > want to support read fences in the future.
+> >
+> > There is one downside here that's worth documenting:  If two clients
+> > writing to the same dma-buf using this API race with each other, their
+> > actions on the dma-buf may happen in parallel or in an undefined order.
+> > Both with and without this API, the pattern is the same:  Collect all
+> > the fences on dma-buf, submit work which depends on said fences, and
+> > then set a new exclusive (write) fence on the dma-buf which depends on
+> > said work.  The difference is that, when it's all handled by the GPU
+> > driver's submit ioctl, the three operations happen atomically under the
+> > dma_resv lock.  If two userspace submits race, one will happen before
+> > the other.  You aren't guaranteed which but you are guaranteed that
+> > they're strictly ordered.  If userspace manages the fences itself, then
+> > these three operations happen separately and the two render operations
+> > may happen genuinely in parallel or get interleaved.  However, this is =
+a
+> > case of userspace racing with itself.  As long as we ensure userspace
+> > can't back the kernel into a corner, it should be fine.
 > >
 > > v2 (Jason Ekstrand):
-> >   - Use a wrapper dma_fence_array of all fences including the new one
-> >     when importing an exclusive fence.
+> >  - Use a wrapper dma_fence_array of all fences including the new one
+> >    when importing an exclusive fence.
 > >
 > > v3 (Jason Ekstrand):
-> >   - Lock around setting shared fences as well as exclusive
-> >   - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
-> >   - Initialize ret to 0 in dma_buf_wait_sync_file
+> >  - Lock around setting shared fences as well as exclusive
+> >  - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
+> >  - Initialize ret to 0 in dma_buf_wait_sync_file
 > >
 > > v4 (Jason Ekstrand):
-> >   - Use the new dma_resv_get_singleton helper
+> >  - Use the new dma_resv_get_singleton helper
 > >
 > > v5 (Jason Ekstrand):
-> >   - Rename the IOCTLs to import/export rather than wait/signal
-> >   - Drop the WRITE flag and always get/set the exclusive fence
+> >  - Rename the IOCTLs to import/export rather than wait/signal
+> >  - Drop the WRITE flag and always get/set the exclusive fence
 > >
 > > v6 (Jason Ekstrand):
-> >   - Drop the sync_file import as it was all-around sketchy and not near=
-ly
-> >     as useful as import.
-> >   - Re-introduce READ/WRITE flag support for export
-> >   - Rework the commit message
+> >  - Split import and export into separate patches
+> >  - New commit message
 > >
-> > v7 (Jason Ekstrand):
-> >   - Require at least one sync flag
-> >   - Fix a refcounting bug: dma_resv_get_excl() doesn't take a reference
-> >   - Use _rcu helpers since we're accessing the dma_resv read-only
+> > v7 (Daniel Vetter):
+> >  - Fix the uapi header to use the right struct in the ioctl
+> >  - Use a separate dma_buf_import_sync_file struct
+> >  - Add kerneldoc for dma_buf_import_sync_file
 > >
 > > v8 (Jason Ekstrand):
-> >   - Return -ENOMEM if the sync_file_create fails
-> >   - Predicate support on IS_ENABLED(CONFIG_SYNC_FILE)
-> >
-> > v9 (Jason Ekstrand):
-> >   - Add documentation for the new ioctl
-> >
-> > v10 (Jason Ekstrand):
-> >   - Go back to dma_buf_sync_file as the ioctl struct name
-> >
-> > v11 (Daniel Vetter):
-> >   - Go back to dma_buf_export_sync_file as the ioctl struct name
-> >   - Better kerneldoc describing what the read/write flags do
-> >
-> > v12 (Christian K=C3=B6nig):
-> >   - Document why we chose to make it an ioctl on dma-buf
-> >
-> > v12 (Jason Ekstrand):
-> >   - Rebase on Christian K=C3=B6nig's fence rework
+> >  - Rebase on Christian K=C3=B6nig's fence rework
 > >
 > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > Acked-by: Simon Ser <contact@emersion.fr>
-> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
 > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > > ---
-> >   drivers/dma-buf/dma-buf.c    | 64 +++++++++++++++++++++++++++++++++++=
-+
-> >   include/uapi/linux/dma-buf.h | 35 ++++++++++++++++++++
-> >   2 files changed, 99 insertions(+)
+> >  drivers/dma-buf/dma-buf.c    | 36 ++++++++++++++++++++++++++++++++++++
+> >  include/uapi/linux/dma-buf.h | 22 ++++++++++++++++++++++
+> >  2 files changed, 58 insertions(+)
 > >
 > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 79795857be3e..529e0611e53b 100644
+> > index 529e0611e53b..68aac6f694f9 100644
 > > --- a/drivers/dma-buf/dma-buf.c
 > > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -20,6 +20,7 @@
-> >   #include <linux/debugfs.h>
-> >   #include <linux/module.h>
-> >   #include <linux/seq_file.h>
-> > +#include <linux/sync_file.h>
-> >   #include <linux/poll.h>
-> >   #include <linux/dma-resv.h>
-> >   #include <linux/mm.h>
-> > @@ -192,6 +193,9 @@ static loff_t dma_buf_llseek(struct file *file,
-> loff_t offset, int whence)
-> >    * Note that this only signals the completion of the respective
-> fences, i.e. the
-> >    * DMA transfers are complete. Cache flushing and any other necessary
-> >    * preparations before CPU access can begin still need to happen.
-> > + *
-> > + * As an alternative to poll(), the set of fences on DMA buffer can be
-> > + * exported as a &sync_file using &dma_buf_sync_file_export.
-> >    */
-> >
-> >   static void dma_buf_poll_cb(struct dma_fence *fence, struct
-> dma_fence_cb *cb)
-> > @@ -326,6 +330,61 @@ static long dma_buf_set_name(struct dma_buf
-> *dmabuf, const char __user *buf)
-> >       return 0;
-> >   }
-> >
-> > +#if IS_ENABLED(CONFIG_SYNC_FILE)
-> > +static long dma_buf_export_sync_file(struct dma_buf *dmabuf,
-> > +                                  void __user *user_data)
+> > @@ -383,6 +383,40 @@ static long dma_buf_export_sync_file(struct dma_bu=
+f
+> *dmabuf,
+> >       put_unused_fd(fd);
+> >       return ret;
+> >  }
+> > +
+> > +static long dma_buf_import_sync_file(struct dma_buf *dmabuf,
+> > +                                  const void __user *user_data)
 > > +{
-> > +     struct dma_buf_export_sync_file arg;
+> > +     struct dma_buf_import_sync_file arg;
+> > +     struct dma_fence *fence;
 > > +     enum dma_resv_usage usage;
-> > +     struct dma_fence *fence =3D NULL;
-> > +     struct sync_file *sync_file;
-> > +     int fd, ret;
+> > +     int ret =3D 0;
 > > +
 > > +     if (copy_from_user(&arg, user_data, sizeof(arg)))
 > > +             return -EFAULT;
 > > +
-> > +     if (arg.flags & ~DMA_BUF_SYNC_RW)
+> > +     if (arg.flags !=3D DMA_BUF_SYNC_RW)
+>
+> I think the flag validation here looks wrong? I think needs needs the
+> exact same 3 checks as the export ioctl.
+>
+
+Yup.  Fixed.  By which I mean I stuck in the 2-check version.  Let's chat
+on patch 1 about whether or not RW should be allowed.
+
+
+>
 > > +             return -EINVAL;
 > > +
-> > +     if ((arg.flags & DMA_BUF_SYNC_RW) =3D=3D 0)
+> > +     fence =3D sync_file_get_fence(arg.fd);
+> > +     if (!fence)
 > > +             return -EINVAL;
-> > +
-> > +     fd =3D get_unused_fd_flags(O_CLOEXEC);
-> > +     if (fd < 0)
-> > +             return fd;
 > > +
 > > +     usage =3D (arg.flags & DMA_BUF_SYNC_WRITE) ? DMA_RESV_USAGE_WRITE=
  :
 > > +                                                DMA_RESV_USAGE_READ;
-> > +     ret =3D dma_resv_get_singleton(dmabuf->resv, usage, &fence);
-> > +     if (ret)
-> > +             goto err_put_fd;
 > > +
-> > +     if (!fence)
-> > +             fence =3D dma_fence_get_stub();
+> > +     dma_resv_lock(dmabuf->resv, NULL);
 > > +
-> > +     sync_file =3D sync_file_create(fence);
+> > +     ret =3D dma_resv_reserve_fences(dmabuf->resv, 1);
+> > +     if (!ret)
+> > +             dma_resv_add_fence(dmabuf->resv, fence, usage);
+> > +
+> > +     dma_resv_unlock(dmabuf->resv);
 > > +
 > > +     dma_fence_put(fence);
 > > +
-> > +     if (!sync_file) {
-> > +             ret =3D -ENOMEM;
-> > +             goto err_put_fd;
-> > +     }
-> > +
-> > +     fd_install(fd, sync_file->file);
-> > +
-> > +     arg.fd =3D fd;
-> > +     if (copy_to_user(user_data, &arg, sizeof(arg)))
-> > +             return -EFAULT;
+> > +     return ret;
+> > +}
+> >  #endif
+> >
+> >  static long dma_buf_ioctl(struct file *file,
+> > @@ -431,6 +465,8 @@ static long dma_buf_ioctl(struct file *file,
+> >  #if IS_ENABLED(CONFIG_SYNC_FILE)
+> >       case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:
+> >               return dma_buf_export_sync_file(dmabuf, (void __user
+> *)arg);
+> > +     case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:
+> > +             return dma_buf_import_sync_file(dmabuf, (const void __use=
+r
+> *)arg);
+> >  #endif
+> >
+> >       default:
+> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.=
+h
+> > index 46f1e3e98b02..913119bf2201 100644
+> > --- a/include/uapi/linux/dma-buf.h
+> > +++ b/include/uapi/linux/dma-buf.h
+> > @@ -119,6 +119,27 @@ struct dma_buf_export_sync_file {
+> >       __s32 fd;
+> >  };
+> >
+> > +/**
+> > + * struct dma_buf_import_sync_file - Insert a sync_file into a dma-buf
+> > + *
+> > + * Userspace can perform a DMA_BUF_IOCTL_IMPORT_SYNC_FILE to insert a
+> > + * sync_file into a dma-buf for the purposes of implicit synchronizati=
+on
+> > + * with other dma-buf consumers.  This allows clients using explicitly
+> > + * synchronized APIs such as Vulkan to inter-op with dma-buf consumers
+> > + * which expect implicit synchronization such as OpenGL or most media
+> > + * drivers/video.
+> > + */
+> > +struct dma_buf_import_sync_file {
+> > +     /**
+> > +      * @flags: Read/write flags
+> > +      *
+> > +      * Must be DMA_BUF_SYNC_RW.
 >
-> I know we had that discussion before, but I'm not 100% any more what the
-> outcome was.
+> The checks are wrong, but the intent of your implementation looks a lot
+> more like you allow both SYNC_WRITE and SYNC_READ, and I think that makes
+> a lot of sense. Especially since we can now true sync-less access for vk
+> with DMA_RESV_USAGE_BOOKKEEPING, so allowing userspace to explicit set
+> read will be needed.
 >
-> The problem here is that when the copy_to_user fails we have a file
-> descriptor which is valid, but userspace doesn't know anything about it.
->
-> I only see a few possibilities here:
-> 1. Keep it like this and just assume that a process which you can't copy
-> the fd to is also dying (a bit to much assumption for my taste).
->
-> 2. Close the file descriptor when this happens (not ideal either).
->
-> 3. Instead of returning the fd in the parameter structure return it as
-> IOCTL result.
->
-> Number 3 is what drm_prime_handle_to_fd_ioctl() is doing as well and
-> IIRC we said that this is probably the best option.
+> Or does vk only allow you to set write fences anyway? That would suck for
+> the vk app + gl compositor case a bit, so I hope not.
 >
 
-I don't have a strong preference here, so I'll go with whatever in the end
-but let me at least explain my reasoning.  First, this was based on the FD
-import/export in syncobj which stuffs the FD in the args struct.  If
-`copy_to_user` is a problem here, it's a problem there as well.  Second,
-the only way `copy_to_user` can fail is if the client gives us a read-only
-page or somehow manages to race removing the page from their address space
-(via unmap(), for instance) with this ioctl.  Both of those seem like
-pretty serious client errors to me.  That, or the client is in the process
-of dying, in which case we really don't care.
+I just forgot to update the docs.  The reason for only allowing RW before
+was because we were all scared of inserting shared fences and not exclusive
+fences.  Now that we have the fence rework, I think being able to stick in
+a read fence is safe.  Not sure if it's useful, but it's at least safe.
 
 --Jason
 
 
-
-> Apart from that the patch set looks really clean to me now.
->
-> Regards,
-> Christian.
->
->
-> > +
-> > +     return 0;
-> > +
-> > +err_put_fd:
-> > +     put_unused_fd(fd);
-> > +     return ret;
-> > +}
-> > +#endif
-> > +
-> >   static long dma_buf_ioctl(struct file *file,
-> >                         unsigned int cmd, unsigned long arg)
-> >   {
-> > @@ -369,6 +428,11 @@ static long dma_buf_ioctl(struct file *file,
-> >       case DMA_BUF_SET_NAME_B:
-> >               return dma_buf_set_name(dmabuf, (const char __user *)arg)=
-;
-> >
-> > +#if IS_ENABLED(CONFIG_SYNC_FILE)
-> > +     case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:
-> > +             return dma_buf_export_sync_file(dmabuf, (void __user
-> *)arg);
-> > +#endif
-> > +
-> >       default:
-> >               return -ENOTTY;
-> >       }
-> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.=
-h
-> > index 8e4a2ca0bcbf..46f1e3e98b02 100644
-> > --- a/include/uapi/linux/dma-buf.h
-> > +++ b/include/uapi/linux/dma-buf.h
-> > @@ -85,6 +85,40 @@ struct dma_buf_sync {
-> >
-> >   #define DMA_BUF_NAME_LEN    32
-> >
-> > +/**
-> > + * struct dma_buf_export_sync_file - Get a sync_file from a dma-buf
-> > + *
-> > + * Userspace can perform a DMA_BUF_IOCTL_EXPORT_SYNC_FILE to retrieve
-> the
-> > + * current set of fences on a dma-buf file descriptor as a sync_file.
-> CPU
-> > + * waits via poll() or other driver-specific mechanisms typically wait
-> on
-> > + * whatever fences are on the dma-buf at the time the wait begins.  Th=
-is
-> > + * is similar except that it takes a snapshot of the current fences on
-> the
-> > + * dma-buf for waiting later instead of waiting immediately.  This is
-> > + * useful for modern graphics APIs such as Vulkan which assume an
-> explicit
-> > + * synchronization model but still need to inter-operate with dma-buf.
-> > + */
-> > +struct dma_buf_export_sync_file {
-> > +     /**
-> > +      * @flags: Read/write flags
-> > +      *
-> > +      * Must be DMA_BUF_SYNC_READ, DMA_BUF_SYNC_WRITE, or both.
-> > +      *
-> > +      * If DMA_BUF_SYNC_READ is set and DMA_BUF_SYNC_WRITE is not set,
-> > +      * the returned sync file waits on any writers of the dma-buf to
-> > +      * complete.  Waiting on the returned sync file is equivalent to
-> > +      * poll() with POLLIN.
-> > +      *
-> > +      * If DMA_BUF_SYNC_WRITE is set, the returned sync file waits on
-> > +      * any users of the dma-buf (read or write) to complete.  Waiting
-> > +      * on the returned sync file is equivalent to poll() with POLLOUT=
-.
-> > +      * If both DMA_BUF_SYNC_WRITE and DMA_BUF_SYNC_READ are set, this
-> > +      * is equivalent to just DMA_BUF_SYNC_WRITE.
 > > +      */
 > > +     __u32 flags;
-> > +     /** @fd: Returned sync file descriptor */
+> > +     /** @fd: Sync file descriptor */
 > > +     __s32 fd;
 > > +};
 > > +
-> >   #define DMA_BUF_BASE                'b'
-> >   #define DMA_BUF_IOCTL_SYNC  _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync=
+> >  #define DMA_BUF_BASE         'b'
+> >  #define DMA_BUF_IOCTL_SYNC   _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync=
 )
 > >
-> > @@ -94,5 +128,6 @@ struct dma_buf_sync {
-> >   #define DMA_BUF_SET_NAME    _IOW(DMA_BUF_BASE, 1, const char *)
-> >   #define DMA_BUF_SET_NAME_A  _IOW(DMA_BUF_BASE, 1, u32)
-> >   #define DMA_BUF_SET_NAME_B  _IOW(DMA_BUF_BASE, 1, u64)
-> > +#define DMA_BUF_IOCTL_EXPORT_SYNC_FILE       _IOWR(DMA_BUF_BASE, 2,
+> > @@ -129,5 +150,6 @@ struct dma_buf_export_sync_file {
+> >  #define DMA_BUF_SET_NAME_A   _IOW(DMA_BUF_BASE, 1, u32)
+> >  #define DMA_BUF_SET_NAME_B   _IOW(DMA_BUF_BASE, 1, u64)
+> >  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE       _IOWR(DMA_BUF_BASE, 2,
 > struct dma_buf_export_sync_file)
-> >
-> >   #endif
+> > +#define DMA_BUF_IOCTL_IMPORT_SYNC_FILE       _IOW(DMA_BUF_BASE, 3,
+> struct dma_buf_import_sync_file)
 >
+> With the flag nits sorted out:
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> >
+> >  #endif
+> > --
+> > 2.36.0
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 >
 
---0000000000004c641905de3f4732
+--0000000000005c190b05de3f53d3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, May 5, 2022 at 1:25 AM Christian K=C3=B6nig &lt;<a href=3D"m=
-ailto:christian.koenig@amd.com">christian.koenig@amd.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">Am 04.05.22 um 22:3=
-4 schrieb Jason Ekstrand:<br>
-&gt; Modern userspace APIs like Vulkan are built on an explicit<br>
-&gt; synchronization model.=C2=A0 This doesn&#39;t always play nicely with =
-the<br>
-&gt; implicit synchronization used in the kernel and assumed by X11 and<br>
-&gt; Wayland.=C2=A0 The client -&gt; compositor half of the synchronization=
- isn&#39;t too<br>
-&gt; bad, at least on intel, because we can control whether or not i915<br>
-&gt; synchronizes on the buffer and whether or not it&#39;s considered writ=
-ten.<br>
-&gt;<br>
-&gt; The harder part is the compositor -&gt; client synchronization when we=
- get<br>
-&gt; the buffer back from the compositor.=C2=A0 We&#39;re required to be ab=
-le to<br>
-&gt; provide the client with a VkSemaphore and VkFence representing the poi=
-nt<br>
-&gt; in time where the window system (compositor and/or display) finished<b=
-r>
-&gt; using the buffer.=C2=A0 With current APIs, it&#39;s very hard to do th=
-is in such<br>
-&gt; a way that we don&#39;t get confused by the Vulkan driver&#39;s access=
- of the<br>
-&gt; buffer.=C2=A0 In particular, once we tell the kernel that we&#39;re re=
-ndering to<br>
-&gt; the buffer again, any CPU waits on the buffer or GPU dependencies will=
+_attr">On Wed, May 4, 2022 at 5:53 PM Daniel Vetter &lt;<a href=3D"mailto:d=
+aniel@ffwll.ch">daniel@ffwll.ch</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Wed, May 04, 2022 at 03:34:04PM -0500, =
+Jason Ekstrand wrote:<br>
+&gt; This patch is analogous to the previous sync file export patch in that=
 <br>
-&gt; wait on some of the client rendering and not just the compositor.<br>
-&gt;<br>
-&gt; This new IOCTL solves this problem by allowing us to get a snapshot of=
-<br>
-&gt; the implicit synchronization state of a given dma-buf in the form of a=
-<br>
-&gt; sync file.=C2=A0 It&#39;s effectively the same as a poll() or I915_GEM=
-_WAIT only,<br>
-&gt; instead of CPU waiting directly, it encapsulates the wait operation, a=
-t<br>
-&gt; the current moment in time, in a sync_file so we can check/wait on it<=
+&gt; it allows you to import a sync_file into a dma-buf.=C2=A0 Unlike the p=
+revious<br>
+&gt; patch, however, this does add genuinely new functionality to dma-buf.<=
 br>
-&gt; later.=C2=A0 As long as the Vulkan driver does the sync_file export fr=
-om the<br>
-&gt; dma-buf before we re-introduce it for rendering, it will only contain<=
-br>
-&gt; fences from the compositor or display.=C2=A0 This allows to accurately=
- turn<br>
-&gt; it into a VkFence or VkSemaphore without any over-synchronization.<br>
-&gt;<br>
-&gt; By making this an ioctl on the dma-buf itself, it allows this new<br>
-&gt; functionality to be used in an entirely driver-agnostic way without<br=
+&gt; Without this, the only way to attach a sync_file to a dma-buf is to<br=
 >
-&gt; having access to a DRM fd. This makes it ideal for use in driver-gener=
-ic<br>
-&gt; code in Mesa or in a client such as a compositor where the DRM fd may =
-be<br>
-&gt; hard to reach.<br>
-&gt;<br>
+&gt; submit a batch to your driver of choice which waits on the sync_file a=
+nd<br>
+&gt; claims to write to the dma-buf.=C2=A0 Even if said batch is a no-op, a=
+ submit<br>
+&gt; is typically way more overhead than just attaching a fence.=C2=A0 A su=
+bmit<br>
+&gt; may also imply extra synchronization with other work because it happen=
+s<br>
+&gt; on a hardware queue.<br>
+&gt; <br>
+&gt; In the Vulkan world, this is useful for dealing with the out-fence fro=
+m<br>
+&gt; vkQueuePresent.=C2=A0 Current Linux window-systems (X11, Wayland, etc.=
+) all<br>
+&gt; rely on dma-buf implicit sync.=C2=A0 Since Vulkan is an explicit sync =
+API, we<br>
+&gt; get a set of fences (VkSemaphores) in vkQueuePresent and have to stash=
+<br>
+&gt; those as an exclusive (write) fence on the dma-buf.=C2=A0 We handle it=
+ in<br>
+&gt; Mesa today with the above mentioned dummy submit trick.=C2=A0 This ioc=
+tl<br>
+&gt; would allow us to set it directly without the dummy submit.<br>
+&gt; <br>
+&gt; This may also open up possibilities for GPU drivers to move away from<=
+br>
+&gt; implicit sync for their kernel driver uAPI and instead provide sync<br=
+>
+&gt; files and rely on dma-buf import/export for communicating with other<b=
+r>
+&gt; implicit sync clients.<br>
+&gt; <br>
+&gt; We make the explicit choice here to only allow setting RW fences which=
+<br>
+&gt; translates to an exclusive fence on the dma_resv.=C2=A0 There&#39;s no=
+ use for<br>
+&gt; read-only fences for communicating with other implicit sync userspace<=
+br>
+&gt; and any such attempts are likely to be racy at best.=C2=A0 When we got=
+ to<br>
+&gt; insert the RW fence, the actual fence we set as the new exclusive fenc=
+e<br>
+&gt; is a combination of the sync_file provided by the user and all the oth=
+er<br>
+&gt; fences on the dma_resv.=C2=A0 This ensures that the newly added exclus=
+ive<br>
+&gt; fence will never signal before the old one would have and ensures that=
+<br>
+&gt; we don&#39;t break any dma_resv contracts.=C2=A0 We require userspace =
+to specify<br>
+&gt; RW in the flags for symmetry with the export ioctl and in case we ever=
+<br>
+&gt; want to support read fences in the future.<br>
+&gt; <br>
+&gt; There is one downside here that&#39;s worth documenting:=C2=A0 If two =
+clients<br>
+&gt; writing to the same dma-buf using this API race with each other, their=
+<br>
+&gt; actions on the dma-buf may happen in parallel or in an undefined order=
+.<br>
+&gt; Both with and without this API, the pattern is the same:=C2=A0 Collect=
+ all<br>
+&gt; the fences on dma-buf, submit work which depends on said fences, and<b=
+r>
+&gt; then set a new exclusive (write) fence on the dma-buf which depends on=
+<br>
+&gt; said work.=C2=A0 The difference is that, when it&#39;s all handled by =
+the GPU<br>
+&gt; driver&#39;s submit ioctl, the three operations happen atomically unde=
+r the<br>
+&gt; dma_resv lock.=C2=A0 If two userspace submits race, one will happen be=
+fore<br>
+&gt; the other.=C2=A0 You aren&#39;t guaranteed which but you are guarantee=
+d that<br>
+&gt; they&#39;re strictly ordered.=C2=A0 If userspace manages the fences it=
+self, then<br>
+&gt; these three operations happen separately and the two render operations=
+<br>
+&gt; may happen genuinely in parallel or get interleaved.=C2=A0 However, th=
+is is a<br>
+&gt; case of userspace racing with itself.=C2=A0 As long as we ensure users=
+pace<br>
+&gt; can&#39;t back the kernel into a corner, it should be fine.<br>
+&gt; <br>
 &gt; v2 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Use a wrapper dma_fence_array of all fences including th=
-e new one<br>
-&gt;=C2=A0 =C2=A0 =C2=A0when importing an exclusive fence.<br>
-&gt;<br>
+&gt;=C2=A0 - Use a wrapper dma_fence_array of all fences including the new =
+one<br>
+&gt;=C2=A0 =C2=A0 when importing an exclusive fence.<br>
+&gt; <br>
 &gt; v3 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Lock around setting shared fences as well as exclusive<b=
-r>
-&gt;=C2=A0 =C2=A0- Mark SIGNAL_SYNC_FILE as a read-write ioctl.<br>
-&gt;=C2=A0 =C2=A0- Initialize ret to 0 in dma_buf_wait_sync_file<br>
-&gt;<br>
+&gt;=C2=A0 - Lock around setting shared fences as well as exclusive<br>
+&gt;=C2=A0 - Mark SIGNAL_SYNC_FILE as a read-write ioctl.<br>
+&gt;=C2=A0 - Initialize ret to 0 in dma_buf_wait_sync_file<br>
+&gt; <br>
 &gt; v4 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Use the new dma_resv_get_singleton helper<br>
-&gt;<br>
+&gt;=C2=A0 - Use the new dma_resv_get_singleton helper<br>
+&gt; <br>
 &gt; v5 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Rename the IOCTLs to import/export rather than wait/sign=
-al<br>
-&gt;=C2=A0 =C2=A0- Drop the WRITE flag and always get/set the exclusive fen=
-ce<br>
-&gt;<br>
+&gt;=C2=A0 - Rename the IOCTLs to import/export rather than wait/signal<br>
+&gt;=C2=A0 - Drop the WRITE flag and always get/set the exclusive fence<br>
+&gt; <br>
 &gt; v6 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Drop the sync_file import as it was all-around sketchy a=
-nd not nearly<br>
-&gt;=C2=A0 =C2=A0 =C2=A0as useful as import.<br>
-&gt;=C2=A0 =C2=A0- Re-introduce READ/WRITE flag support for export<br>
-&gt;=C2=A0 =C2=A0- Rework the commit message<br>
-&gt;<br>
-&gt; v7 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Require at least one sync flag<br>
-&gt;=C2=A0 =C2=A0- Fix a refcounting bug: dma_resv_get_excl() doesn&#39;t t=
-ake a reference<br>
-&gt;=C2=A0 =C2=A0- Use _rcu helpers since we&#39;re accessing the dma_resv =
-read-only<br>
-&gt;<br>
+&gt;=C2=A0 - Split import and export into separate patches<br>
+&gt;=C2=A0 - New commit message<br>
+&gt; <br>
+&gt; v7 (Daniel Vetter):<br>
+&gt;=C2=A0 - Fix the uapi header to use the right struct in the ioctl<br>
+&gt;=C2=A0 - Use a separate dma_buf_import_sync_file struct<br>
+&gt;=C2=A0 - Add kerneldoc for dma_buf_import_sync_file<br>
+&gt; <br>
 &gt; v8 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Return -ENOMEM if the sync_file_create fails<br>
-&gt;=C2=A0 =C2=A0- Predicate support on IS_ENABLED(CONFIG_SYNC_FILE)<br>
-&gt;<br>
-&gt; v9 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Add documentation for the new ioctl<br>
-&gt;<br>
-&gt; v10 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Go back to dma_buf_sync_file as the ioctl struct name<br=
->
-&gt;<br>
-&gt; v11 (Daniel Vetter):<br>
-&gt;=C2=A0 =C2=A0- Go back to dma_buf_export_sync_file as the ioctl struct =
-name<br>
-&gt;=C2=A0 =C2=A0- Better kerneldoc describing what the read/write flags do=
-<br>
-&gt;<br>
-&gt; v12 (Christian K=C3=B6nig):<br>
-&gt;=C2=A0 =C2=A0- Document why we chose to make it an ioctl on dma-buf<br>
-&gt;<br>
-&gt; v12 (Jason Ekstrand):<br>
-&gt;=C2=A0 =C2=A0- Rebase on Christian K=C3=B6nig&#39;s fence rework<br>
-&gt;<br>
+&gt;=C2=A0 - Rebase on Christian K=C3=B6nig&#39;s fence rework<br>
+&gt; <br>
 &gt; Signed-off-by: Jason Ekstrand &lt;<a href=3D"mailto:jason@jlekstrand.n=
 et" target=3D"_blank">jason@jlekstrand.net</a>&gt;<br>
-&gt; Acked-by: Simon Ser &lt;<a href=3D"mailto:contact@emersion.fr" target=
-=3D"_blank">contact@emersion.fr</a>&gt;<br>
-&gt; Acked-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@=
-amd.com" target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
-&gt; Reviewed-by: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.c=
-h" target=3D"_blank">daniel.vetter@ffwll.ch</a>&gt;<br>
+&gt; Cc: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@amd.co=
+m" target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
+&gt; Cc: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch" target=
+=3D"_blank">daniel.vetter@ffwll.ch</a>&gt;<br>
 &gt; Cc: Sumit Semwal &lt;<a href=3D"mailto:sumit.semwal@linaro.org" target=
 =3D"_blank">sumit.semwal@linaro.org</a>&gt;<br>
 &gt; Cc: Maarten Lankhorst &lt;<a href=3D"mailto:maarten.lankhorst@linux.in=
 tel.com" target=3D"_blank">maarten.lankhorst@linux.intel.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 =C2=A0drivers/dma-buf/dma-buf.c=C2=A0 =C2=A0 | 64 ++++++++++++++=
-++++++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A0include/uapi/linux/dma-buf.h | 35 ++++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A02 files changed, 99 insertions(+)<br>
-&gt;<br>
+&gt;=C2=A0 drivers/dma-buf/dma-buf.c=C2=A0 =C2=A0 | 36 ++++++++++++++++++++=
+++++++++++++++++<br>
+&gt;=C2=A0 include/uapi/linux/dma-buf.h | 22 ++++++++++++++++++++++<br>
+&gt;=C2=A0 2 files changed, 58 insertions(+)<br>
+&gt; <br>
 &gt; diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c<br>
-&gt; index 79795857be3e..529e0611e53b 100644<br>
+&gt; index 529e0611e53b..68aac6f694f9 100644<br>
 &gt; --- a/drivers/dma-buf/dma-buf.c<br>
 &gt; +++ b/drivers/dma-buf/dma-buf.c<br>
-&gt; @@ -20,6 +20,7 @@<br>
-&gt;=C2=A0 =C2=A0#include &lt;linux/debugfs.h&gt;<br>
-&gt;=C2=A0 =C2=A0#include &lt;linux/module.h&gt;<br>
-&gt;=C2=A0 =C2=A0#include &lt;linux/seq_file.h&gt;<br>
-&gt; +#include &lt;linux/sync_file.h&gt;<br>
-&gt;=C2=A0 =C2=A0#include &lt;linux/poll.h&gt;<br>
-&gt;=C2=A0 =C2=A0#include &lt;linux/dma-resv.h&gt;<br>
-&gt;=C2=A0 =C2=A0#include &lt;linux/mm.h&gt;<br>
-&gt; @@ -192,6 +193,9 @@ static loff_t dma_buf_llseek(struct file *file, lo=
-ff_t offset, int whence)<br>
-&gt;=C2=A0 =C2=A0 * Note that this only signals the completion of the respe=
-ctive fences, i.e. the<br>
-&gt;=C2=A0 =C2=A0 * DMA transfers are complete. Cache flushing and any othe=
-r necessary<br>
-&gt;=C2=A0 =C2=A0 * preparations before CPU access can begin still need to =
-happen.<br>
-&gt; + *<br>
-&gt; + * As an alternative to poll(), the set of fences on DMA buffer can b=
-e<br>
-&gt; + * exported as a &amp;sync_file using &amp;dma_buf_sync_file_export.<=
-br>
-&gt;=C2=A0 =C2=A0 */<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static void dma_buf_poll_cb(struct dma_fence *fence, struc=
-t dma_fence_cb *cb)<br>
-&gt; @@ -326,6 +330,61 @@ static long dma_buf_set_name(struct dma_buf *dmab=
-uf, const char __user *buf)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +#if IS_ENABLED(CONFIG_SYNC_FILE)<br>
-&gt; +static long dma_buf_export_sync_file(struct dma_buf *dmabuf,<br>
+&gt; @@ -383,6 +383,40 @@ static long dma_buf_export_sync_file(struct dma_b=
+uf *dmabuf,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0put_unused_fd(fd);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
+&gt;=C2=A0 }<br>
+&gt; +<br>
+&gt; +static long dma_buf_import_sync_file(struct dma_buf *dmabuf,<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void __user *user_data)<b=
-r>
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const void __user *user_d=
+ata)<br>
 &gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dma_buf_export_sync_file arg;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dma_buf_import_sync_file arg;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0struct dma_fence *fence;<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0enum dma_resv_usage usage;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dma_fence *fence =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct sync_file *sync_file;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int fd, ret;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0int ret =3D 0;<br>
 &gt; +<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0if (copy_from_user(&amp;arg, user_data, sizeof(ar=
 g)))<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EFAULT;<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (arg.flags &amp; ~DMA_BUF_SYNC_RW)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (arg.flags !=3D DMA_BUF_SYNC_RW)<br>
+<br>
+I think the flag validation here looks wrong? I think needs needs the<br>
+exact same 3 checks as the export ioctl.<br></blockquote><div><br></div><di=
+v>Yup.=C2=A0 Fixed.=C2=A0 By which I mean I stuck in the 2-check version.=
+=C2=A0 Let&#39;s chat on patch 1 about whether or not RW should be allowed.=
+<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if ((arg.flags &amp; DMA_BUF_SYNC_RW) =3D=3D 0)<b=
-r>
+&gt; +=C2=A0 =C2=A0 =C2=A0fence =3D sync_file_get_fence(arg.fd);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (!fence)<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fd =3D get_unused_fd_flags(O_CLOEXEC);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (fd &lt; 0)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return fd;<br>
 &gt; +<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0usage =3D (arg.flags &amp; DMA_BUF_SYNC_WRITE) ? =
 DMA_RESV_USAGE_WRITE :<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 DMA_RESV_USAGE_READ;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ret =3D dma_resv_get_singleton(dmabuf-&gt;resv, u=
-sage, &amp;fence);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ret)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_put_fd;<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!fence)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fence =3D dma_fence_g=
-et_stub();<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dma_resv_lock(dmabuf-&gt;resv, NULL);<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0sync_file =3D sync_file_create(fence);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ret =3D dma_resv_reserve_fences(dmabuf-&gt;resv, =
+1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (!ret)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_resv_add_fence(dm=
+abuf-&gt;resv, fence, usage);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0dma_resv_unlock(dmabuf-&gt;resv);<br>
 &gt; +<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0dma_fence_put(fence);<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!sync_file) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -ENOMEM;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_put_fd;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fd_install(fd, sync_file-&gt;file);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0arg.fd =3D fd;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (copy_to_user(user_data, &amp;arg, sizeof(arg)=
-))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EFAULT;<br>
-<br>
-I know we had that discussion before, but I&#39;m not 100% any more what th=
-e <br>
-outcome was.<br>
-<br>
-The problem here is that when the copy_to_user fails we have a file <br>
-descriptor which is valid, but userspace doesn&#39;t know anything about it=
-.<br>
-<br>
-I only see a few possibilities here:<br>
-1. Keep it like this and just assume that a process which you can&#39;t cop=
-y <br>
-the fd to is also dying (a bit to much assumption for my taste).<br>
-<br>
-2. Close the file descriptor when this happens (not ideal either).<br>
-<br>
-3. Instead of returning the fd in the parameter structure return it as <br>
-IOCTL result.<br>
-<br>
-Number 3 is what drm_prime_handle_to_fd_ioctl() is doing as well and <br>
-IIRC we said that this is probably the best option.<br></blockquote><div><b=
-r></div><div>I don&#39;t have a strong preference here, so I&#39;ll go with=
- whatever in the end but let me at least explain my reasoning.=C2=A0 First,=
- this was based on the FD import/export in syncobj which stuffs the FD in t=
-he args struct.=C2=A0 If `copy_to_user` is a problem here, it&#39;s a probl=
-em there as well.=C2=A0 Second, the only way `copy_to_user` can fail is if =
-the client gives us a read-only page or somehow manages to race removing th=
-e page from their address space (via unmap(), for instance) with this ioctl=
-.=C2=A0 Both of those seem like pretty serious client errors to me.=C2=A0 T=
-hat, or the client is in the process of dying, in which case we really don&=
-#39;t care.</div><div><br></div><div>--Jason</div><div><br></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Apart from that the patch set looks really clean to me now.<br>
-<br>
-Regards,<br>
-Christian.<br>
-<br>
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +<br>
-&gt; +err_put_fd:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0put_unused_fd(fd);<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0return ret;<br>
 &gt; +}<br>
-&gt; +#endif<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0static long dma_buf_ioctl(struct file *file,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0unsigned int cmd, unsigned long arg)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt; @@ -369,6 +428,11 @@ static long dma_buf_ioctl(struct file *file,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0case DMA_BUF_SET_NAME_B:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return dma_buf_s=
-et_name(dmabuf, (const char __user *)arg);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +#if IS_ENABLED(CONFIG_SYNC_FILE)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return dma_buf_export=
-_sync_file(dmabuf, (void __user *)arg);<br>
-&gt; +#endif<br>
-&gt; +<br>
+&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static long dma_buf_ioctl(struct file *file,<br>
+&gt; @@ -431,6 +465,8 @@ static long dma_buf_ioctl(struct file *file,<br>
+&gt;=C2=A0 #if IS_ENABLED(CONFIG_SYNC_FILE)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return dma_buf_e=
+xport_sync_file(dmabuf, (void __user *)arg);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return dma_buf_import=
+_sync_file(dmabuf, (const void __user *)arg);<br>
+&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 <br>
 &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0default:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOTTY;<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 &gt; diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf=
 .h<br>
-&gt; index 8e4a2ca0bcbf..46f1e3e98b02 100644<br>
+&gt; index 46f1e3e98b02..913119bf2201 100644<br>
 &gt; --- a/include/uapi/linux/dma-buf.h<br>
 &gt; +++ b/include/uapi/linux/dma-buf.h<br>
-&gt; @@ -85,6 +85,40 @@ struct dma_buf_sync {<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0#define DMA_BUF_NAME_LEN=C2=A0 =C2=A0 32<br>
-&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -119,6 +119,27 @@ struct dma_buf_export_sync_file {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0__s32 fd;<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
 &gt; +/**<br>
-&gt; + * struct dma_buf_export_sync_file - Get a sync_file from a dma-buf<b=
-r>
+&gt; + * struct dma_buf_import_sync_file - Insert a sync_file into a dma-bu=
+f<br>
 &gt; + *<br>
-&gt; + * Userspace can perform a DMA_BUF_IOCTL_EXPORT_SYNC_FILE to retrieve=
- the<br>
-&gt; + * current set of fences on a dma-buf file descriptor as a sync_file.=
-=C2=A0 CPU<br>
-&gt; + * waits via poll() or other driver-specific mechanisms typically wai=
-t on<br>
-&gt; + * whatever fences are on the dma-buf at the time the wait begins.=C2=
-=A0 This<br>
-&gt; + * is similar except that it takes a snapshot of the current fences o=
-n the<br>
-&gt; + * dma-buf for waiting later instead of waiting immediately.=C2=A0 Th=
-is is<br>
-&gt; + * useful for modern graphics APIs such as Vulkan which assume an exp=
-licit<br>
-&gt; + * synchronization model but still need to inter-operate with dma-buf=
-.<br>
+&gt; + * Userspace can perform a DMA_BUF_IOCTL_IMPORT_SYNC_FILE to insert a=
+<br>
+&gt; + * sync_file into a dma-buf for the purposes of implicit synchronizat=
+ion<br>
+&gt; + * with other dma-buf consumers.=C2=A0 This allows clients using expl=
+icitly<br>
+&gt; + * synchronized APIs such as Vulkan to inter-op with dma-buf consumer=
+s<br>
+&gt; + * which expect implicit synchronization such as OpenGL or most media=
+<br>
+&gt; + * drivers/video.<br>
 &gt; + */<br>
-&gt; +struct dma_buf_export_sync_file {<br>
+&gt; +struct dma_buf_import_sync_file {<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0/**<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 * @flags: Read/write flags<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0 *<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * Must be DMA_BUF_SYNC_READ, DMA_BUF_SYNC_WRITE,=
- or both.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 *<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * If DMA_BUF_SYNC_READ is set and DMA_BUF_SYNC_W=
-RITE is not set,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * the returned sync file waits on any writers of=
- the dma-buf to<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * complete.=C2=A0 Waiting on the returned sync f=
-ile is equivalent to<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * poll() with POLLIN.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 *<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * If DMA_BUF_SYNC_WRITE is set, the returned syn=
-c file waits on<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * any users of the dma-buf (read or write) to co=
-mplete.=C2=A0 Waiting<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * on the returned sync file is equivalent to pol=
-l() with POLLOUT.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * If both DMA_BUF_SYNC_WRITE and DMA_BUF_SYNC_RE=
-AD are set, this<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 * is equivalent to just DMA_BUF_SYNC_WRITE.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 * Must be DMA_BUF_SYNC_RW.<br>
+<br>
+The checks are wrong, but the intent of your implementation looks a lot<br>
+more like you allow both SYNC_WRITE and SYNC_READ, and I think that makes<b=
+r>
+a lot of sense. Especially since we can now true sync-less access for vk<br=
+>
+with DMA_RESV_USAGE_BOOKKEEPING, so allowing userspace to explicit set<br>
+read will be needed.<br>
+<br>
+Or does vk only allow you to set write fences anyway? That would suck for<b=
+r>
+the vk app + gl compositor case a bit, so I hope not.<br></blockquote><div>=
+<br></div><div>I just forgot to update the docs.=C2=A0 The reason for only =
+allowing RW before was because we were all scared of inserting shared fence=
+s and not exclusive fences.=C2=A0 Now that we have the fence rework, I thin=
+k being able to stick in a read fence is safe.=C2=A0 Not sure if it&#39;s u=
+seful, but it&#39;s at least safe.</div><div><br></div><div>--Jason<br></di=
+v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 &gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0__u32 flags;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/** @fd: Returned sync file descriptor */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0/** @fd: Sync file descriptor */<br>
 &gt; +=C2=A0 =C2=A0 =C2=A0__s32 fd;<br>
 &gt; +};<br>
 &gt; +<br>
-&gt;=C2=A0 =C2=A0#define DMA_BUF_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;b&#39;<br>
-&gt;=C2=A0 =C2=A0#define DMA_BUF_IOCTL_SYNC=C2=A0 _IOW(DMA_BUF_BASE, 0, str=
+&gt;=C2=A0 #define DMA_BUF_BASE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;b&#39=
+;<br>
+&gt;=C2=A0 #define DMA_BUF_IOCTL_SYNC=C2=A0 =C2=A0_IOW(DMA_BUF_BASE, 0, str=
 uct dma_buf_sync)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -94,5 +128,6 @@ struct dma_buf_sync {<br>
-&gt;=C2=A0 =C2=A0#define DMA_BUF_SET_NAME=C2=A0 =C2=A0 _IOW(DMA_BUF_BASE, 1=
-, const char *)<br>
-&gt;=C2=A0 =C2=A0#define DMA_BUF_SET_NAME_A=C2=A0 _IOW(DMA_BUF_BASE, 1, u32=
+&gt;=C2=A0 <br>
+&gt; @@ -129,5 +150,6 @@ struct dma_buf_export_sync_file {<br>
+&gt;=C2=A0 #define DMA_BUF_SET_NAME_A=C2=A0 =C2=A0_IOW(DMA_BUF_BASE, 1, u32=
 )<br>
-&gt;=C2=A0 =C2=A0#define DMA_BUF_SET_NAME_B=C2=A0 _IOW(DMA_BUF_BASE, 1, u64=
+&gt;=C2=A0 #define DMA_BUF_SET_NAME_B=C2=A0 =C2=A0_IOW(DMA_BUF_BASE, 1, u64=
 )<br>
-&gt; +#define DMA_BUF_IOCTL_EXPORT_SYNC_FILE=C2=A0 =C2=A0 =C2=A0 =C2=A0_IOW=
-R(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0#endif<br>
+&gt;=C2=A0 #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0_IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)<br>
+&gt; +#define DMA_BUF_IOCTL_IMPORT_SYNC_FILE=C2=A0 =C2=A0 =C2=A0 =C2=A0_IOW=
+(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)<br>
 <br>
+With the flag nits sorted out:<br>
+<br>
+Reviewed-by: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch" ta=
+rget=3D"_blank">daniel.vetter@ffwll.ch</a>&gt;<br>
+<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #endif<br>
+&gt; -- <br>
+&gt; 2.36.0<br>
+&gt; <br>
+<br>
+-- <br>
+Daniel Vetter<br>
+Software Engineer, Intel Corporation<br>
+<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
+//blog.ffwll.ch</a><br>
 </blockquote></div></div>
 
---0000000000004c641905de3f4732--
+--0000000000005c190b05de3f53d3--
