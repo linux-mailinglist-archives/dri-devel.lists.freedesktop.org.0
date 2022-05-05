@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2586F51B3B5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 01:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DC751B47F
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 02:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4427310ECE5;
-	Wed,  4 May 2022 23:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327DB10F915;
+	Thu,  5 May 2022 00:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03A7810EC1E;
- Wed,  4 May 2022 23:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651708042; x=1683244042;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=wojfAmuD1A3qA6jHhgXsKCgv4ZU5C8ljff0QCRtdtmU=;
- b=MBKA9JUP8ttE0kVyQf5SFUZAAaaMTDeas0VVnXdu1+E+pGG5fi0tjDEw
- 4wPaLMCpV37rxr9vUSYETCWEoTz9wA+xq64nywJ0Qar1V83eontkMnwaj
- PeBUOSp4vuM3O50iLOufced2zXM0RUi2bcnxYsuRWqAked2RK2D1lAkqA
- A5C62t4Gdh9AmwIHzOsmdvM9EeX1trbHJsj6J8S8BeRW9GTYHPXVLbjl1
- 7/gVyAY3fCFXle9zRRCmWzKDk802VopcDDrWoeB0jODWLrSPiVquxOEk+
- l5Te4OB2Yk81aB8anHWc3gFe30ga931cGVKkQ91HrRdwf6Vs8WepFy04M A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="255404620"
-X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="255404620"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 16:47:21 -0700
-X-IronPort-AV: E=Sophos;i="5.91,199,1647327600"; d="scan'208";a="694400456"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 16:47:21 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/guc: Support programming the EU priority in the
- GuC descriptor
-Date: Wed,  4 May 2022 16:46:36 -0700
-Message-Id: <20220504234636.2119794-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D5D10F913
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 00:16:08 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id w1so4989560lfa.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 May 2022 17:16:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u1oDjcUyt+XUVjgyrGdMzbLDFCsXlZDQVUok8w5uQW0=;
+ b=CQHMq/8CJlJKPUyQiDirAGtcF7+a+yuxuXiVjjHRQt2RNB20u+FGulytwVJDIvTC59
+ GQXorniYjsNwFo44ZQmuYrBwWQzVUEQR9gMLr2bbkFwajZzXLt1tShVpzvMnnZC0tDfB
+ zmMJdTlL8z/gcp4YUHsqOnVp+2igTvkpZk6dnQMWKNdAdrFsAD7D679GHXtk9XhKa4uI
+ U2nvRnX1Di2ZcwPwAFTacp8ojuASJQLXAoNXcebEWPSKy5AlQYnY5zTo/VVnu/1aOmOU
+ Py0pLZsUqHkoc06iMLw0oR9bbPfVkOxhINndThGZkgcQ5ZBGvv8tqPFAoMsiAgGlh7yd
+ L0Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u1oDjcUyt+XUVjgyrGdMzbLDFCsXlZDQVUok8w5uQW0=;
+ b=ZXrUG9pQl8HATxYbHlNOYjRB/zJiqDHORE+3cT2/BxEa0KWNqTUgDBLgjMMKKJarB3
+ 2iHafAQ9p8DiHRCB7+OrCWmvGp+5ioTuspyKZbizwqgh8VMzazG3E808h/d54fgCeIzb
+ ose02jNiWhLiNB3UMnOD3PP4drri3+Cc06jZ39JqUo2wafN35YNzJC0bzkZWym1ZEjhc
+ CE8FRgXB8w1L8+/uMEC4yjdHthNg2ZHJ8UzikV71TN9X8PUFts9eH50kNd6VLeIneweI
+ foIBR6LKqO2EpFI2PVKZT+q84AjCLvmeucw/e9l0auRXuh7zOjJZ6YRRGAoQEXqlsL12
+ 7VnA==
+X-Gm-Message-State: AOAM532oxrnLgmb5rEXEDkswbTyS56rhPR6Ohc1iuf0JW21eDGUbyMT6
+ Zq58BE406cMcA3Z7CzXTLtZJqw==
+X-Google-Smtp-Source: ABdhPJyOFcMiCTxFiESBlHbtybCGQflPnHtvNynjnT2Q8APsdSngeAVyRhsSyiUanGlZdzyOpSVD8w==
+X-Received: by 2002:a05:6512:b0b:b0:44a:f4a5:b519 with SMTP id
+ w11-20020a0565120b0b00b0044af4a5b519mr16033374lfu.287.1651709766535; 
+ Wed, 04 May 2022 17:16:06 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ u24-20020ac25198000000b0047255d211b0sm6714lfi.223.2022.05.04.17.16.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 May 2022 17:16:06 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 0/5] drm/msm: fixes for KMS iommu handling
+Date: Thu,  5 May 2022 03:16:00 +0300
+Message-Id: <20220505001605.1268483-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,127 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- John Harrison <john.c.harrison@intel.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+This series started from the applied and then reverted [2] patch by
+Robin Murphy [1]. After the MDSS rework [3] has landed it is now
+possible to reapply the extended version of the original patch. While we
+are at it, also rework the IOMMU init code for DPU and MDP5 drivers.
 
-In GuC submission mode the EU priority must be updated by the GuC rather
-than the driver as the GuC owns the programming of the context descriptor.
+For MDP5 this moves iommu_domain_alloc() call and removes struct
+mdp5_cfg_platform remains.
 
-Given that the GuC code uses the GuC priorities, we can't use a generic
-function using i915 priorities for both execlists and GuC submission.
-The existing function has therefore been pushed to the execlists
-back-end while a new one has been added for GuC.
+For DPU this allows specifying the iommus = <...> either in the DPU
+device (like all DPU devices do) or in the MDSS device (like MDP5
+devices do).
 
-v2: correctly use the GuC prio.
+Changes since v1:
+ - Move aspace init to common helper
+ - Use device_iommu_mapped() rather than semi-internal
+   dev_iommu_fwspec_get() (suggested by Robin Murphy)
 
-Cc: John Harrison <john.c.harrison@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
----
- .../drm/i915/gt/intel_execlists_submission.c  | 12 +++++++++-
- drivers/gpu/drm/i915/gt/intel_lrc.h           | 10 ---------
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 22 +++++++++++++++++++
- 3 files changed, 33 insertions(+), 11 deletions(-)
+[1] https://patchwork.freedesktop.org/patch/480707/
+[2] https://patchwork.freedesktop.org/patch/482453/
+[3] https://patchwork.freedesktop.org/series/98525/
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 86f7a9ac1c394..2b0266cab66b9 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -661,6 +661,16 @@ static inline void execlists_schedule_out(struct i915_request *rq)
- 	i915_request_put(rq);
- }
- 
-+static u32 map_i915_prio_to_lrc_desc_prio(int prio)
-+{
-+	if (prio > I915_PRIORITY_NORMAL)
-+		return GEN12_CTX_PRIORITY_HIGH;
-+	else if (prio < I915_PRIORITY_NORMAL)
-+		return GEN12_CTX_PRIORITY_LOW;
-+	else
-+		return GEN12_CTX_PRIORITY_NORMAL;
-+}
-+
- static u64 execlists_update_context(struct i915_request *rq)
- {
- 	struct intel_context *ce = rq->context;
-@@ -669,7 +679,7 @@ static u64 execlists_update_context(struct i915_request *rq)
- 
- 	desc = ce->lrc.desc;
- 	if (rq->engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
--		desc |= lrc_desc_priority(rq_prio(rq));
-+		desc |= map_i915_prio_to_lrc_desc_prio(rq_prio(rq));
- 
- 	/*
- 	 * WaIdleLiteRestore:bdw,skl
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.h b/drivers/gpu/drm/i915/gt/intel_lrc.h
-index 31be734010db3..a390f0813c8b6 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.h
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.h
-@@ -111,16 +111,6 @@ enum {
- #define XEHP_SW_COUNTER_SHIFT			58
- #define XEHP_SW_COUNTER_WIDTH			6
- 
--static inline u32 lrc_desc_priority(int prio)
--{
--	if (prio > I915_PRIORITY_NORMAL)
--		return GEN12_CTX_PRIORITY_HIGH;
--	else if (prio < I915_PRIORITY_NORMAL)
--		return GEN12_CTX_PRIORITY_LOW;
--	else
--		return GEN12_CTX_PRIORITY_NORMAL;
--}
--
- static inline void lrc_runtime_start(struct intel_context *ce)
- {
- 	struct intel_context_stats *stats = &ce->stats;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 75291e9846c50..8bf8b6d588d43 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2394,6 +2394,26 @@ static int guc_context_policy_init(struct intel_context *ce, bool loop)
- 	return ret;
- }
- 
-+static u32 map_guc_prio_to_lrc_desc_prio(u8 prio)
-+{
-+	/*
-+	 * this matches the mapping we do in map_i915_prio_to_guc_prio()
-+	 * (e.g. prio < I915_PRIORITY_NORMAL maps to GUC_CLIENT_PRIORITY_NORMAL)
-+	 */
-+	switch (prio) {
-+	default:
-+		MISSING_CASE(prio);
-+		fallthrough;
-+	case GUC_CLIENT_PRIORITY_KMD_NORMAL:
-+		return GEN12_CTX_PRIORITY_NORMAL;
-+	case GUC_CLIENT_PRIORITY_NORMAL:
-+		return GEN12_CTX_PRIORITY_LOW;
-+	case GUC_CLIENT_PRIORITY_HIGH:
-+	case GUC_CLIENT_PRIORITY_KMD_HIGH:
-+		return GEN12_CTX_PRIORITY_HIGH;
-+	}
-+}
-+
- static void prepare_context_registration_info(struct intel_context *ce,
- 					      struct guc_ctxt_registration_info *info)
- {
-@@ -2420,6 +2440,8 @@ static void prepare_context_registration_info(struct intel_context *ce,
- 	 */
- 	info->hwlrca_lo = lower_32_bits(ce->lrc.lrca);
- 	info->hwlrca_hi = upper_32_bits(ce->lrc.lrca);
-+	if (engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
-+		info->hwlrca_lo |= map_guc_prio_to_lrc_desc_prio(ce->guc_state.prio);
- 	info->flags = CONTEXT_REGISTRATION_FLAG_KMD;
- 
- 	/*
+Dmitry Baryshkov (5):
+  drm/msm/dpu: check both DPU and MDSS devices for the IOMMU
+  drm/msm/mdp5: move iommu_domain_alloc() call close to its usage
+  drm/msm: Stop using iommu_present()
+  drm/msm: move KMS aspace init to the separate helper
+  drm/msm: switch msm_kms_init_aspace() to use device_iommu_mapped()
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 24 ++---------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 16 --------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h |  6 ---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 31 +++-----------
+ drivers/gpu/drm/msm/msm_drv.c            | 51 +++++++++++++++++++++++-
+ drivers/gpu/drm/msm/msm_drv.h            |  1 +
+ 6 files changed, 59 insertions(+), 70 deletions(-)
+
 -- 
-2.25.1
+2.35.1
 
