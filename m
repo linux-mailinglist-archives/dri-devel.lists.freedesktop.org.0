@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271E851B926
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 09:32:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FCA51B949
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 09:39:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0336B10E676;
-	Thu,  5 May 2022 07:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE9610E13D;
+	Thu,  5 May 2022 07:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5895D10E676
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 07:32:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0802D1F37F;
- Thu,  5 May 2022 07:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651735956; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HXstb6qIrKmVpMJGfGqh1asVn65N4FtaTqGBmpBFdTg=;
- b=FaYTKslVJR6IAWMRbeaZV7z6jvZN8xFr4rrMBUnqQ4WtfUN+sTrDnqjuo8b5sCNZPBfRJk
- 9vFC0eug3w/WBuV1lZ6eI9ga7UN6gt2tulEdIkNdipTrd4ad1+SiHsMjUSBd05L7GsSceS
- CX07Sqe+1n7TVeJR0mt4dng8f4z1o44=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651735956;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HXstb6qIrKmVpMJGfGqh1asVn65N4FtaTqGBmpBFdTg=;
- b=hmMyJaBa9eEWbNIyvRnlWX8qDIgc3dYsl98gLL2ta7s7MhCH6aBUSejNv76DsnM+MQ0xLt
- /CDtHdlYri4sK8BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D4CE613A65;
- Thu,  5 May 2022 07:32:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id A/n1MpN9c2JRcgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 05 May 2022 07:32:35 +0000
-Message-ID: <f0f408f5-f6e9-79d4-809d-6fa197afd110@suse.de>
-Date: Thu, 5 May 2022 09:32:35 +0200
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 575D410E46D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 07:39:01 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id ba17so4218497edb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 00:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6iJR95dCQe/jE0fXiwNw2SOTk6uzj9U7Yx5URoMZENE=;
+ b=AwyRT/doF7/LoEqyDAqRtTknqtYm95ElPBpWm5pUuA7wYZojLPCMvxY2e//0vODY7i
+ pX0Dqa4zoUz5jGx1SCeL91ePGCEHgwOETzzE89X9pU+qUgdptb9t0zDZQRbm0vDMwCpR
+ wISZk5oDQSSDPzRITYJoPV00xG2HM2AC9d4kk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6iJR95dCQe/jE0fXiwNw2SOTk6uzj9U7Yx5URoMZENE=;
+ b=jOymWt2k9LTl/r8PpgMNx1MqsJcZPzrZv3HhZdMfQwyCfR5bqF3AY1lZjYGpxwYVm6
+ ovkbVJCUsJd8x2+2U5Bv3Ys7fpbqRoyFtwW1r54k7fJIBwg9Cc5Rzs7gRFOwgPA2BZzF
+ mo417azRiXqIYRPE9MfXRc/sTDI0xb6jPnysRfSGuQNV/ydICrS6D61XiowHPn2dVf1M
+ 7i8LKZhiSlkQN74xSew8hXPUCCUu2wbBpRmnAWsVfBf/36ruCWv0YJjCxiih514beWPq
+ yhq4i5/u7+0+ajekDNG71zDSTyiEMNuMtuXj2ZIG+JH7sbdF/UTYu8GMrL8ZvZjq+qjS
+ vSrg==
+X-Gm-Message-State: AOAM531UMDkTfcihUmZEBHU2mIJeF4L6U3wNow3r9z868GdGDr95W24y
+ ZOvzyUk95h3WSlfrYPyJ7phnbt6Pnng1NoUv1fd2XA==
+X-Google-Smtp-Source: ABdhPJyEAFkfvN4dY2ZtOBeJ5gS6IRtgCLf0IefxhbigcnBcWZluCmsWpdXMGbgxLKiinLPH8EQgyPXX/A0voLDHtJc=
+X-Received: by 2002:a05:6402:370b:b0:41d:8508:20af with SMTP id
+ ek11-20020a056402370b00b0041d850820afmr28543149edb.16.1651736339766; Thu, 05
+ May 2022 00:38:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm: simplify the return expression of ast_drm_resume()
-Content-Language: en-US
-To: cgel.zte@gmail.com, airlied@redhat.com
-References: <20220505022208.57157-1-chi.minghao@zte.com.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220505022208.57157-1-chi.minghao@zte.com.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------XBHppxJhtYzlIVTtnikAC9w6"
+References: <20220504114021.33265-1-jagan@amarulasolutions.com>
+ <2184168.iZASKD2KPV@steina-w>
+In-Reply-To: <2184168.iZASKD2KPV@steina-w>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 5 May 2022 13:08:48 +0530
+Message-ID: <CAMty3ZAuTzdzj9v4weqJfxQKhM57XuwSzSAX86NHTcCp14uBBw@mail.gmail.com>
+Subject: Re: (EXT) [PATCH v2 00/12] drm: bridge: Add Samsung MIPI DSIM bridge
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,75 +61,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Zeal Robot <zealci@zte.com.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Minghao Chi <chi.minghao@zte.com.cn>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------XBHppxJhtYzlIVTtnikAC9w6
-Content-Type: multipart/mixed; boundary="------------hIdRGWqeECLwcxDrefsYqbec";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: cgel.zte@gmail.com, airlied@redhat.com
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>
-Message-ID: <f0f408f5-f6e9-79d4-809d-6fa197afd110@suse.de>
-Subject: Re: [PATCH] drm: simplify the return expression of ast_drm_resume()
-References: <20220505022208.57157-1-chi.minghao@zte.com.cn>
-In-Reply-To: <20220505022208.57157-1-chi.minghao@zte.com.cn>
+On Thu, May 5, 2022 at 12:57 PM Alexander Stein
+<alexander.stein@ew.tq-group.com> wrote:
+>
+> Hello Jagan,
+>
+> thanks for the second version of this patchset.
+>
+> Am Mittwoch, 4. Mai 2022, 13:40:09 CEST schrieb Jagan Teki:
+> > This series supports common bridge support for Samsung MIPI DSIM
+> > which is used in Exynos and i.MX8MM SoC's.
+> >
+> > Previous v1 can be available here [1].
+> >
+> > The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> >
+> > On, summary this patch-set break the entire DSIM driver into
+> > - platform specific glue code for platform ops, component_ops.
+> > - common bridge driver which handle platform glue init and invoke.
+> >
+> > Patch 0000:   Samsung DSIM bridge
+> >
+> > Patch 0001:   Common lookup code for OF-graph or child
+> >
+> > Patch 0002:   platform init flag via driver_data
+> >
+> > Patch 0003/10:  bridge fixes, atomic API's
+> >
+> > Patch 0011:   document fsl,imx8mm-mipi-dsim
+> >
+> > Patch 0012:   add i.MX8MM DSIM support
+> >
+> > Tested in Engicam i.Core MX8M Mini SoM.
+> >
+> > Anyone interested, please have a look on this repo [2]
+> >
+> > [2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v2
+> > [1]
+> > https://patchwork.kernel.org/project/dri-devel/cover/20220408162108.184583-> 1-jagan@amarulasolutions.com/
+> >
+> > Any inputs?
+>
+> I was able to get my LVDS display running using this driver and an LVDS
+> bridge. Actually my setup is similar to yours. My chain is like this:
+> MIPI-DSI -> sn65dsi83 -> LVDS panel
+> I noticed some things though:
+> My setup only works if I use less than 4 lanes. See [1]. When using 4 lanes
+> the image is flickering, but the content is "visible". Your DT has only 2
+> lanes configured, do you have the possibility to use 4 lanes? I have no idea
+> how to tackle this. It might be the DSIM side or the bridge side.
+> Apparently the downstream kernel from NXP supports 4 lanes, if I can trust the
+> config. I have no way to verify this though.
 
---------------hIdRGWqeECLwcxDrefsYqbec
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+What is dsi_lvds_bridge node? have you added your dts changes on top
+of imx8mm-dsi-v2 branch I'm pointing it.
 
-SGkNCg0KQW0gMDUuMDUuMjIgdW0gMDQ6MjIgc2NocmllYiBjZ2VsLnp0ZUBnbWFpbC5jb206
-DQo+IEZyb206IE1pbmdoYW8gQ2hpIDxjaGkubWluZ2hhb0B6dGUuY29tLmNuPg0KPiANCj4g
-U2ltcGxpZnkgdGhlIHJldHVybiBleHByZXNzaW9uLg0KPiANCj4gUmVwb3J0ZWQtYnk6IFpl
-YWwgUm9ib3QgPHplYWxjaUB6dGUuY29tLmNuPg0KPiBTaWduZWQtb2ZmLWJ5OiBNaW5naGFv
-IENoaSA8Y2hpLm1pbmdoYW9AenRlLmNvbS5jbj4NCg0KVGhhbmtzIGEgbG90LiBJIGFkZGVk
-IHlvdXIgcGF0Y2ggdG8gZHJtLW1pc2MtbmV4dC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMN
-Cg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuYyB8IDcgKy0tLS0t
-LQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNiBkZWxldGlvbnMoLSkN
-Cj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5jDQo+IGluZGV4IDc0NjVjNGYwMTU2YS4uNzYw
-YjI3OTcxNTU3IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYu
-Yw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuYw0KPiBAQCAtMTU5LDE1
-ICsxNTksMTAgQEAgc3RhdGljIGludCBhc3RfZHJtX3RoYXcoc3RydWN0IGRybV9kZXZpY2Ug
-KmRldikNCj4gICANCj4gICBzdGF0aWMgaW50IGFzdF9kcm1fcmVzdW1lKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYpDQo+ICAgew0KPiAtCWludCByZXQ7DQo+IC0NCj4gICAJaWYgKHBjaV9l
-bmFibGVfZGV2aWNlKHRvX3BjaV9kZXYoZGV2LT5kZXYpKSkNCj4gICAJCXJldHVybiAtRUlP
-Ow0KPiAgIA0KPiAtCXJldCA9IGFzdF9kcm1fdGhhdyhkZXYpOw0KPiAtCWlmIChyZXQpDQo+
-IC0JCXJldHVybiByZXQ7DQo+IC0JcmV0dXJuIDA7DQo+ICsJcmV0dXJuIGFzdF9kcm1fdGhh
-dyhkZXYpOw0KPiAgIH0NCj4gICANCj4gICBzdGF0aWMgaW50IGFzdF9wbV9zdXNwZW5kKHN0
-cnVjdCBkZXZpY2UgKmRldikNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
-IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+I will check 4 lanes and let you know.
 
---------------hIdRGWqeECLwcxDrefsYqbec--
+>
+> Another thing is I get the following warning
+> > sn65dsi83 2-002d: Unsupported LVDS bus format 0x100a, please check output
+> bridge driver. Falling back to SPWG24.
 
---------------XBHppxJhtYzlIVTtnikAC9w6
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+This couldn't be much affected but will fix it.
 
------BEGIN PGP SIGNATURE-----
+>
+> This seems to be caused by a wrong bridge chain. Using commit 81e80429 at [2]
+> I get the following output:
+> > bridge chain: /soc@0/bus@30800000/i2c@30a40000/dsi-lvds-bridge@2d -> /
+> panel_lvds0 -> /soc@0/bus@32c00000/dsi@32e10000 ->
+> Which seems weird. I would have expected something like
+> dsi@32e10000 -> dsi-lvds-bridge@2d -> panel_lvds0
+> Do you happen to see somthing similar? But this is completely unrelated to
+> your patchset though.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJzfZMFAwAAAAAACgkQlh/E3EQov+Ap
-mBAAjJrVm7nKu11xecXvBNDzIxiMSFxXqDDffYT3K5Wso1Ht5T3L6grX3bq+HpCTle6e8Jf4nAXm
-zskg7puoC27rt2EmA4809jnRU7hsfc06GijopIH4qwZVlV4tLBXsS3pA2PMnwjFfJxbO2XUrOCU7
-Xa/9+uEbu4wNQQRO6qbimDHE5BZLExBy9KeGXrKZvKEoYGQ0uXN5xxcU3uCxmlSlvwMjf8gj7UPG
-MiWEGGkKo5f5cYpAFp9doagh5TNKmYpD/62BDH7lEbvzZVu0Bs0w9ldMkb0WaSJrABT7Hcgtq/pM
-LO4iLxaXllFH7Gp9xwZmUvud2GDcxPj7antjB8eQTDn3Rhl7YF+DhusZczPbkOkNyBNOq+bZww4R
-akNxvwMH75JVZD/bem04cx14xgHLn7qAXUfkjVoWiRfVPcsWQ5ggAJ3/Y63lmDAWpANigZOcBE88
-Icj2p2g4IR+bRx7al1a/3Dx34udWGW1yRArODfEQZNkxFK6nKcoWSzT11kzYXnVnaKN97p+YhzB8
-lGzvSXxuByJjZozOkNJmSbRi7Xtu2J4rtMdYPzIrmU7JiIXbJtO5WJV3n3G+wUw/WxYmIM3NbCZb
-pGNzQc1rzbgnaWcVidAT041Htk1hr/bnnt8GL4RDn852Sd99FTIZf2+27G2LdR3KF07fHKel792p
-suU=
-=uKFD
------END PGP SIGNATURE-----
+Can you share the link to the exact commit?
 
---------------XBHppxJhtYzlIVTtnikAC9w6--
+Thanks,
+Jagan.
