@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1F051CB6B
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 23:38:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C4F51CB6A
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 23:38:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DFF010FA80;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A14C110FA86;
 	Thu,  5 May 2022 21:38:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD76110ECAD;
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED27510FA4A;
  Thu,  5 May 2022 21:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651786702; x=1683322702;
+ t=1651786703; x=1683322703;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=a36FgpOXOqLGV2mMbQyFc72ECZhOxd4OiUhcHQwurPg=;
- b=el1NF8bVLWdQTGxE2os3TXTzllzFKIj/s3Whauwfl/G6I56ltYm1K0/X
- Jo3S0bX2P1rdamo1jLdSafI+WxJCiT6cFw+a9O2aBDvtQQb1qK3CWMG4L
- 8NC0L/KULXpVn3QCSji3oWkqx4o5ImcfBq4aXUmc8wVH1SmY45zx0samg
- +pLAFKH9efUjN3hdMZu/cJGDOsqp5Ulmd3Lz1l3koiyeF9MCH3Vu+7zf/
- u5X5UsdMzv2nx7LXKmDX9eWshlt5MutfJXCMcjXhxwx+fwRdygw1ZsQDU
- ZqOcAmOGhRuRkXN1uZsdcdNDJcIewOnDHLYauJCXFjunWVOopcjmA7Xg9 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="248166069"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="248166069"
+ bh=CQ2YALazLqeqv4u4N6P6Sr2k1SUd9irisFjlWj30Hpg=;
+ b=F1jV+5FSRiL0VdongoAxMrA4f2YAvMCberZY1Br5KdYKX/6qJUOxOJJ6
+ Idv4eAEVEhgPphG7u4WMFcRBaNGYCtIK3BVonApc5NxcsZzRxJ6tqYS1h
+ VzuSYAlBIJ9TJsdk76U2ivSrJmPjO6qhOXkixcVTlinVOKOWKHHtlNX8p
+ Yg1ulN1Nix4ZM0tWnRYZ38Mi7XyPVFduKbLeFXMElaOZ9qrabkmEG1zwT
+ EZMLPN7ZmvLM+5eUwfraWCNcKTazR8xBUQ1cAE8HeQOKJekdt8Rd8aKkW
+ jp4POL7dAGuYKYLEAG876FV/O2CHcukZ35lzAfHqwCXtJgDrixqZ9yt4D A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="265851852"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="265851852"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 May 2022 14:38:22 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="549553290"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="549553293"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 May 2022 14:38:21 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 10/12] drm/i915/pvc: Reset support for new copy engines
-Date: Thu,  5 May 2022 14:38:10 -0700
-Message-Id: <20220505213812.3979301-11-matthew.d.roper@intel.com>
+Subject: [PATCH v2 11/12] drm/i915/pvc: skip all copy engines from aux table
+ invalidate
+Date: Thu,  5 May 2022 14:38:11 -0700
+Message-Id: <20220505213812.3979301-12-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220505213812.3979301-1-matthew.d.roper@intel.com>
 References: <20220505213812.3979301-1-matthew.d.roper@intel.com>
@@ -56,98 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Summers <stuart.summers@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+Cc: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the reset support for new copy engines in PVC.
+From: Lucas De Marchi <lucas.demarchi@intel.com>
 
-Bspec: 52549
-Original-author: CQ Tang
+As we have more copy engines now, mask all of them from aux table
+invalidate.
+
+v2 (MattR):
+ - Use I915_MAX_BCS to determine mask rather than hardcoding BCS8.
+   (Prathap)
+
+Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 Reviewed-by: José Roberto de Souza <jose.souza@intel.com>
-Reviewed-by: Stuart Summers <stuart.summers@intel.com>
+Reviewed-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c |  8 +++++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h   | 44 +++++++++++++----------
- 2 files changed, 34 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 4532c3ea9ace..c6e93db134b1 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -390,6 +390,14 @@ static u32 get_reset_domain(u8 ver, enum intel_engine_id id)
- 		static const u32 engine_reset_domains[] = {
- 			[RCS0]  = GEN11_GRDOM_RENDER,
- 			[BCS0]  = GEN11_GRDOM_BLT,
-+			[BCS1]  = XEHPC_GRDOM_BLT1,
-+			[BCS2]  = XEHPC_GRDOM_BLT2,
-+			[BCS3]  = XEHPC_GRDOM_BLT3,
-+			[BCS4]  = XEHPC_GRDOM_BLT4,
-+			[BCS5]  = XEHPC_GRDOM_BLT5,
-+			[BCS6]  = XEHPC_GRDOM_BLT6,
-+			[BCS7]  = XEHPC_GRDOM_BLT7,
-+			[BCS8]  = XEHPC_GRDOM_BLT8,
- 			[VCS0]  = GEN11_GRDOM_MEDIA,
- 			[VCS1]  = GEN11_GRDOM_MEDIA2,
- 			[VCS2]  = GEN11_GRDOM_MEDIA3,
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index fe09288a3145..98ede9c93f00 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -597,24 +597,32 @@
- /* GEN11 changed all bit defs except for FULL & RENDER */
- #define   GEN11_GRDOM_FULL			GEN6_GRDOM_FULL
- #define   GEN11_GRDOM_RENDER			GEN6_GRDOM_RENDER
--#define   GEN11_GRDOM_BLT			(1 << 2)
--#define   GEN11_GRDOM_GUC			(1 << 3)
--#define   GEN11_GRDOM_MEDIA			(1 << 5)
--#define   GEN11_GRDOM_MEDIA2			(1 << 6)
--#define   GEN11_GRDOM_MEDIA3			(1 << 7)
--#define   GEN11_GRDOM_MEDIA4			(1 << 8)
--#define   GEN11_GRDOM_MEDIA5			(1 << 9)
--#define   GEN11_GRDOM_MEDIA6			(1 << 10)
--#define   GEN11_GRDOM_MEDIA7			(1 << 11)
--#define   GEN11_GRDOM_MEDIA8			(1 << 12)
--#define   GEN11_GRDOM_VECS			(1 << 13)
--#define   GEN11_GRDOM_VECS2			(1 << 14)
--#define   GEN11_GRDOM_VECS3			(1 << 15)
--#define   GEN11_GRDOM_VECS4			(1 << 16)
--#define   GEN11_GRDOM_SFC0			(1 << 17)
--#define   GEN11_GRDOM_SFC1			(1 << 18)
--#define   GEN11_GRDOM_SFC2			(1 << 19)
--#define   GEN11_GRDOM_SFC3			(1 << 20)
-+#define   XEHPC_GRDOM_BLT8			REG_BIT(31)
-+#define   XEHPC_GRDOM_BLT7			REG_BIT(30)
-+#define   XEHPC_GRDOM_BLT6			REG_BIT(29)
-+#define   XEHPC_GRDOM_BLT5			REG_BIT(28)
-+#define   XEHPC_GRDOM_BLT4			REG_BIT(27)
-+#define   XEHPC_GRDOM_BLT3			REG_BIT(26)
-+#define   XEHPC_GRDOM_BLT2			REG_BIT(25)
-+#define   XEHPC_GRDOM_BLT1			REG_BIT(24)
-+#define   GEN11_GRDOM_SFC3			REG_BIT(20)
-+#define   GEN11_GRDOM_SFC2			REG_BIT(19)
-+#define   GEN11_GRDOM_SFC1			REG_BIT(18)
-+#define   GEN11_GRDOM_SFC0			REG_BIT(17)
-+#define   GEN11_GRDOM_VECS4			REG_BIT(16)
-+#define   GEN11_GRDOM_VECS3			REG_BIT(15)
-+#define   GEN11_GRDOM_VECS2			REG_BIT(14)
-+#define   GEN11_GRDOM_VECS			REG_BIT(13)
-+#define   GEN11_GRDOM_MEDIA8			REG_BIT(12)
-+#define   GEN11_GRDOM_MEDIA7			REG_BIT(11)
-+#define   GEN11_GRDOM_MEDIA6			REG_BIT(10)
-+#define   GEN11_GRDOM_MEDIA5			REG_BIT(9)
-+#define   GEN11_GRDOM_MEDIA4			REG_BIT(8)
-+#define   GEN11_GRDOM_MEDIA3			REG_BIT(7)
-+#define   GEN11_GRDOM_MEDIA2			REG_BIT(6)
-+#define   GEN11_GRDOM_MEDIA			REG_BIT(5)
-+#define   GEN11_GRDOM_GUC			REG_BIT(3)
-+#define   GEN11_GRDOM_BLT			REG_BIT(2)
- #define   GEN11_VCS_SFC_RESET_BIT(instance)	(GEN11_GRDOM_SFC0 << ((instance) >> 1))
- #define   GEN11_VECS_SFC_RESET_BIT(instance)	(GEN11_GRDOM_SFC0 << (instance))
- 
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+index 11c72792573d..0f5ab2c99ffc 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+@@ -276,7 +276,8 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ 		if (!HAS_FLAT_CCS(rq->engine->i915) &&
+ 		    (rq->engine->class == VIDEO_DECODE_CLASS ||
+ 		     rq->engine->class == VIDEO_ENHANCEMENT_CLASS)) {
+-			aux_inv = rq->engine->mask & ~BIT(BCS0);
++			aux_inv = rq->engine->mask &
++				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
+ 			if (aux_inv)
+ 				cmd += 4;
+ 		}
 -- 
 2.35.1
 
