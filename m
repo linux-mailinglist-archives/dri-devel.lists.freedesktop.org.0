@@ -2,68 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5BB51BA5D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 10:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A267251BA77
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 10:30:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02DC710F111;
-	Thu,  5 May 2022 08:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74A4010E1A3;
+	Thu,  5 May 2022 08:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D7E010F111
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 08:28:18 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id m20so7279168ejj.10
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 01:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=rcxyA3134NCuVr95OWaYMkj8iPMc5rNfiopB8bULWOw=;
- b=H1cwutUCyWdowQDRRqKBECZ7cUTOSHNa+ipMPT5VMGhPA86WXJuB5lxhlMCbnu6Re8
- tEdUZkDoo/WZ3T4mQ46BAEVx9J6ODM730zFY8ahwLrF9ZgI48vQJuq9SDDDZjPsVzTT8
- Q1VXEIfaCOTxBGLQofxq6O5fpbN0S929CEFOs=
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [170.10.129.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8F110E1A3
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 08:30:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651739401;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fYz81dg5bl4ZI+KnAy5BTdapmYRz85hkJ+vnJKUIBv8=;
+ b=AK+9WStN48Rea/AQraXYJZbK4ERR8A2v26OqNt/z3g5tSlYqI8bpJb0F4Z7XT7ZJjC3lGD
+ vwPzNWzni0v+UEQHfKCs3JRterQy/5OtgDVAWRJAjGv2PVJKNS8SSfuaGoGSQuQocAStVl
+ QMgQzFBtpO67Q/DvQ5NG8VcUlhUPNCE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-482-uZsvVlI4NHCCBlY1m0cbdA-1; Thu, 05 May 2022 04:28:39 -0400
+X-MC-Unique: uZsvVlI4NHCCBlY1m0cbdA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i131-20020a1c3b89000000b00393fbb0718bso4207660wma.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 01:28:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=rcxyA3134NCuVr95OWaYMkj8iPMc5rNfiopB8bULWOw=;
- b=K9fRXt9oBHVcE/mlRjgZuyvevKyumDwQu0xDK9wcfHEuys9n5Cg0xTsmL4XFTIk6lQ
- S7EwCGLj+8LzhyqjBtxCQX3AQdHo5/l/3vmHZXaMdJzxDUpLYkuUF0mpYDkvkvZKIFdK
- DMVZDxc/kNvZYNNferr1nK9mwUxVAwO0KZdTi85dwtf8M3FLkBIlpNiI+jE/cKsNiz/H
- NE361mOCs4FXKeK/t9rpLbIfckqvI8xchRsHIstOj5q5VpQRlFOXZl3PSOJgErmr7Vzw
- //nHY954DyoY5VfB0TE9VRqwXkuLkfxOzpgSyKdOQVVbZi2cpr90Op+mtiS9WsBrweRK
- kKmw==
-X-Gm-Message-State: AOAM531eWg4BPjG3c4sOF1Mwe6th15rV2p6iSB7w8WBQ06XDAm6lXsaG
- fpDQdLn1HNi4dGcSS1KMzDqM4JaK+RDUMQ==
-X-Google-Smtp-Source: ABdhPJzNJ2BZJB0Tx2NBiesqaMNC7ozW6WCHZJv+ZwSxzGs2JuagLj8gpUytvnRFMVbOG1kKDWBAxQ==
-X-Received: by 2002:a17:907:72c4:b0:6f4:ad52:b9fd with SMTP id
- du4-20020a17090772c400b006f4ad52b9fdmr9179057ejc.128.1651739296611; 
- Thu, 05 May 2022 01:28:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- y15-20020a170906070f00b006f3ef214e3asm462604ejb.160.2022.05.05.01.28.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 01:28:15 -0700 (PDT)
-Date: Thu, 5 May 2022 10:28:14 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] drm: drm_gem.h: Add explicit includes for
- DEFINE_DRM_GEM_FOPS
-Message-ID: <YnOKnisCqwXB9n6P@phenom.ffwll.local>
-Mail-Followup-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <1651262112-29664-1-git-send-email-quic_jhugo@quicinc.com>
- <87y1zkq6vg.fsf@intel.com> <YnJJq6UdCVIWcH3G@phenom.ffwll.local>
- <6dde7bb4-8931-ccdb-2677-930a1c6d6dab@quicinc.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fYz81dg5bl4ZI+KnAy5BTdapmYRz85hkJ+vnJKUIBv8=;
+ b=bLSwWHgZqtJiBbZU4CzImfbsmpymByg/ZIwf0ZnT3Vpf+BYF21FbXRSiU5N6l4Zdk/
+ ELCJDRleURouEfUjtnlDvN6rtCesY9l7uMIV+D9eeqe5anVZyaFqVaiyT5lCLFkuRF0o
+ jU0i7+VY95txH7oWB5Jq/xg2HIlkTqN0QG9obIDrW/FddbiZnVpIsCzSDGciyR5Xm11h
+ 3H3BysSQ8lLA13sWNYmQXq5yB2AA6xyf+6Hw9pc8spMixi1G9u2LZsXPIyN/ZwOoG1qo
+ pcPaetLdwb+F8hjiXByPFl7vHUU88zVZ1vPnX168BAi0w910KKsU2L/nLkqF4vdGmMy2
+ 8E3g==
+X-Gm-Message-State: AOAM53255ikHcp9ceYJNNeMz69YMWM3cuWKbqww5HDQwyLoKB42je6Uu
+ UeAnJ1z9uaFknqfP4K0CVT1EI71128NhShaLmGzhbinfnRqGu59f3eyrhA23K5Mrd/4wqZPPFCH
+ PkX9wgrUqNW8ytYAnnZhClld0OrEC
+X-Received: by 2002:a1c:29c3:0:b0:350:9797:b38f with SMTP id
+ p186-20020a1c29c3000000b003509797b38fmr3533238wmp.22.1651739318024; 
+ Thu, 05 May 2022 01:28:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzh1HtWVDlzxjatPu/Dr4igigwNhESv1m4aEdiiTXztX7nlntl2xMWkAVAnsZwrAbZbONwhTw==
+X-Received: by 2002:a1c:29c3:0:b0:350:9797:b38f with SMTP id
+ p186-20020a1c29c3000000b003509797b38fmr3533215wmp.22.1651739317617; 
+ Thu, 05 May 2022 01:28:37 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ x12-20020a05600c21cc00b003942a244f42sm5800022wmj.27.2022.05.05.01.28.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 01:28:37 -0700 (PDT)
+Message-ID: <237c7fa0-744d-97c2-2bba-3f714d6c2e9d@redhat.com>
+Date: Thu, 5 May 2022 10:28:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6dde7bb4-8931-ccdb-2677-930a1c6d6dab@quicinc.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/3] fbdev/simplefb: Cleanup fb_info in .fb_destroy rather
+ than .remove
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20220504215151.55082-1-javierm@redhat.com>
+ <20220504215722.56970-1-javierm@redhat.com>
+ <974f4d00-89bc-a2da-6d65-ca4207300794@suse.de>
+ <d9a5cb30-2d9b-50b5-d287-0ead0fe252f3@redhat.com>
+ <78167587-fd2e-354c-485b-db4ee9251178@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <78167587-fd2e-354c-485b-db4ee9251178@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,93 +92,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tzimmermann@suse.de
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 07:58:38AM -0600, Jeffrey Hugo wrote:
-> On 5/4/2022 3:38 AM, Daniel Vetter wrote:
-> > On Mon, May 02, 2022 at 06:41:39PM +0300, Jani Nikula wrote:
-> > > On Fri, 29 Apr 2022, Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
-> > > > DEFINE_DRM_GEM_FOPS() references drm functions from other headers.  For
-> > > > example drm_open() is defined in drm_file.h and drm_ioctl() is defined
-> > > > in drm_ioctl.h.  Since drm_gem.h doesn't include these headers, it
-> > > > relies on an implicit include from the .c file to have included these
-> > > > required headers before DEFINE_DRM_GEM_FOPS() gets used.  Relying on
-> > > > these implicit includes can cause build failures for new code that
-> > > > doesn't know about these requirements, and can lead to future problems
-> > > > if the headers ever get restructured as there will be a need to update
-> > > > every downstream file that includes drm_gem.h.
-> > > > 
-> > > > Lets fix this explicitly including the required headers in drm_gem.h so
-> > > > that code that includes drm_gem.h does not need to worry about these
-> > > > implicit dependencies.
-> > > 
-> > > In the general case, I tend to agree, but in this specific instance I
-> > > think I'd err on the side of fewer includes. I think the more likely
-> > > outcome here is accumulating implicit dependencies on symbols from
-> > > drm_file.h and drm_ioctl.h by including drm_gem.h only!
-> > > 
-> > > I do think headers need to be self-contained, and we actually enforce
-> > > this in i915 (see HDRTEST in drivers/gpu/drm/i915/Makefile), but not to
-> > > the point of macro expansions.
-> > 
-> > Yeah we abuse macros in a bunch of places to untangle header dependencies,
-> > so then going back and pulling in all the headers back in feels a bit
-> > silly and defeats the point.
+Hello Thomas,
+
+On 5/5/22 10:05, Thomas Zimmermann wrote:
+
+[snip]
+
+>>
+>> In other words, in most cases (i.e: only fbcon bound to the fbdev)
+>> the driver's removal/ device unbind and the memory release will be
+>> at the same time.
+>>
 > 
-> Fair enough.  I'll consider this NAK'd
+> We're one the same page here, but it's still sort of a mystery to me why 
+> this works in practice.
 > 
-> I've been pondering alternate solutions, but haven't come up with any. I
-> guess, for now, the status quo will remain.
+> I'm specifically talking about pci_request_regions() in vmwgfx [1]. IIRC 
+> this would fail if simplefb still owns the framebuffer region. Lots of 
+> systems run Plymouth during boot and this should result in failures 
+> occasionally. Still, we never heard about anything.
+>
 
-I think a standalone header for gem fops or so might be an option. We also
-have some macro iirc for standard stuff in drm_driver (or at least had in
-the past, maybe that's cleaned up now better).
+Yes, I think is because Plymouth IIUC waits for a /dev/dri/card? to be
+present and only uses a /dev/fb? as a fallback if a timeout expires.
 
-That would allow drivers to include this monster header that pulls in a
-lot of things in the one place they define their file ops, and nowhere
-else. I think that would cover everything we'd want to achieve? But would
-be a bit of churn to roll out everywhere.
--Daniel
+At least in Fedora (even before the efifb -> simpledrm change) it will
+use KMS/DRM since the DRM kernel module for the graphics device in the
+machine would be in the intird.
 
+So efifb was only used for fbcon and plymouth would only use DRM/KMS
+and not its fbdev backend.
 
-> 
-> > 
-> > iow, I concur.
-> > -Daniel
-> > 
-> > > 
-> > > BR,
-> > > Jani.
-> > > 
-> > > 
-> > > 
-> > > > 
-> > > > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> > > > ---
-> > > >   include/drm/drm_gem.h | 2 ++
-> > > >   1 file changed, 2 insertions(+)
-> > > > 
-> > > > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> > > > index 9d7c61a..1cbe3d8 100644
-> > > > --- a/include/drm/drm_gem.h
-> > > > +++ b/include/drm/drm_gem.h
-> > > > @@ -37,6 +37,8 @@
-> > > >   #include <linux/kref.h>
-> > > >   #include <linux/dma-resv.h>
-> > > > +#include <drm/drm_file.h>
-> > > > +#include <drm/drm_ioctl.h>
-> > > >   #include <drm/drm_vma_manager.h>
-> > > >   struct iosys_map;
-> > > 
-> > > -- 
-> > > Jani Nikula, Intel Open Source Graphics Center
-> > 
-> 
+This seems to be sort of a corner case when you have {efi,simple}fb
+in the early boot but the real DRM module only in the rootfs after the
+initrd has done a pivot_root(2).
+ 
+> Of course, it's always been broken (even long before real fbdev 
+> hotunplugging). Switching to simpledrm resolves the problem.
+>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Indeed. My opinion after dealing with these fbdev problems is that we
+shouldn't try to fix all possible corner cases and just try to get rid
+of fbdev as soon as possible.
+ -- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
