@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD3C51CBD8
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 00:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FD951CBDB
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 00:06:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83AED10E39E;
-	Thu,  5 May 2022 22:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD09110E3E2;
+	Thu,  5 May 2022 22:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-74.mimecast.com
  (us-smtp-delivery-74.mimecast.com [170.10.133.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B870E10E3E2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 22:05:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6280410E3E2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 22:05:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651788308;
+ s=mimecast20190719; t=1651788358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CpySyazXcP9jeQEo03DKJEoNJ7MOw25wdUGi6hnO0cY=;
- b=JABCmbM8vx7KfdP2EhaLyBJKCMzSXzvZYTSFgMOa1PhFv4Quc+ZGvnrndegRvFTgEbasOd
- sFtJyWQxN550BZWFCjlpyLyeLUZYXiGtT95wLCjozAGe+ypN4LhUvIBID+rxLCz8VlpSxy
- zdEN3D1TMcAwX8AwiRaALxxa7zKefOM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XOMIAnnTamSRotiOWkLRdWbDfwtm7Vtf7J5gIUBLvsY=;
+ b=KVmT3BGatAwG+bW+HbDVFyphnyta6J0lZoMDbXVC/G7ni6bWbOindIwqG+2ioOxLy6TWgA
+ 0xtMHgKDrbSmH+xXzNimPqwSSigqcGgt+8XZKt3s9KSXylb8hlRDO+oEST6An019LhHs4r
+ wbb7SrRjpJDQ5S0tbeGKnxqvtcYPX+w=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-CGL20kY6O5uK4c1Z5v-rXg-1; Thu, 05 May 2022 18:05:08 -0400
-X-MC-Unique: CGL20kY6O5uK4c1Z5v-rXg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- s14-20020a05600c29ce00b00394611a8059so2376456wmd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 15:05:06 -0700 (PDT)
+ us-mta-624-rsTBRLtENyqiU5rXhAsdaw-1; Thu, 05 May 2022 18:05:56 -0400
+X-MC-Unique: rsTBRLtENyqiU5rXhAsdaw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g7-20020adfbc87000000b0020ac76d254bso1876214wrh.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 15:05:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CpySyazXcP9jeQEo03DKJEoNJ7MOw25wdUGi6hnO0cY=;
- b=x66cQlsr2IsM3XGngzwHjK61g9mri2O54kc0trz3gOCayXoRo+qyY4TAFeKq6uY7LG
- 1Ng5eZopwHzeONdiSW6FsvBwhLEAdLEh4i9ODfRgCp17cFsqxOHGypGG+T+a97j16OU3
- j9h40zESPgTImjFR/uTZ1mpc/bDNM/GWroIavaERbzAi0x/UDggFcsliAO+JB6am5/GC
- ETBugjSMTvSbxlL/3rZ01ECnv/C+RXDwn9FLyQ7QGIEreJDMQSS4kbkZftEOD5NcfjFV
- YbBGNpw6CzjOKYL8g+XdKyRhGb93+fkD65srfJTW8BhuEfN2AOu52Pv8r4c9prN+ViaB
- mK1Q==
-X-Gm-Message-State: AOAM530/xfPscnSkv3YS905ZcZewjZsoPIZigXH5S7hgUiqBpUSA+d3L
- gnb5qORLPDEB/L/glddwcyRGJvySnYS2T4QO3XcbDsKeKbLpwqtNt4U7J+LUyJ2ug+r/e/liD40
- f2L923+uyDp7qV0DD1qpo0Emmv6Cz
-X-Received: by 2002:a5d:6c65:0:b0:20c:5230:f145 with SMTP id
- r5-20020a5d6c65000000b0020c5230f145mr142607wrz.337.1651788305743; 
- Thu, 05 May 2022 15:05:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzx4hSKJf5+8gqVXy4SQIIH/+d18yIIzPchwfl0/SeHroDdEocZasvgfA/q6M9W6ITqVZA+Yg==
-X-Received: by 2002:a5d:6c65:0:b0:20c:5230:f145 with SMTP id
- r5-20020a5d6c65000000b0020c5230f145mr142590wrz.337.1651788305549; 
- Thu, 05 May 2022 15:05:05 -0700 (PDT)
+ bh=XOMIAnnTamSRotiOWkLRdWbDfwtm7Vtf7J5gIUBLvsY=;
+ b=R+1Ygawrba0Tj2sZfC6HrJrIArWLdV+GfVXmoETVZYF/GkUeGC8pWIljiCRAAOoeAL
+ XlnysiDJcQ3y+koKW8E5esh+svFLCN+kZiaaZPDNrCr9G+6hFiCauSgrnIDj5PWfgSMq
+ xxbmD8JIP8ZCgYbLH51Whwoepf6qZL8s0wZHkXgu0sUDrSaUtPj1m92AaUR9Tjo2aEL0
+ ckWKSN0x0Z6oE5bXR6Nn8p+CrjOKBCZpWNLfNLseTiv3WQbgH8M4V5Y+K54AANZkc3yy
+ kwTEwdyukpiQKY/XC0TL4LE6aj0fV+Q1awWwkmTUAEEQNJ+x6QkApE8rwKkS9ZZymtb7
+ I3Zg==
+X-Gm-Message-State: AOAM531tOUWUwBXLyAkWqWGOtatYabib59s0txGUyBfBuketyZ7vXDj5
+ RRKXH+pUYWAO0SAq5iStLk1kCvP+TuOJ0bsa/0Y88FDkjWWc5bsZR4rpdRVrdVjahLYiXWyNVAB
+ 7ePdVzloyoI970h6Z1idg/I2QPkLa
+X-Received: by 2002:a05:600c:214c:b0:394:2dfe:2754 with SMTP id
+ v12-20020a05600c214c00b003942dfe2754mr287442wml.135.1651788354980; 
+ Thu, 05 May 2022 15:05:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxeda1HHZwr4FX+lwN/TaIHgdOKHms0BlDVvSG/oTgRzg2lXGiKrE9u+GvlU9S+3hDsIgrQvw==
+X-Received: by 2002:a05:600c:214c:b0:394:2dfe:2754 with SMTP id
+ v12-20020a05600c214c00b003942dfe2754mr287430wml.135.1651788354747; 
+ Thu, 05 May 2022 15:05:54 -0700 (PDT)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n21-20020a7bc5d5000000b003942a244f47sm7942360wmk.32.2022.05.05.15.05.04
+ j28-20020a05600c1c1c00b003942a244f39sm7291679wms.18.2022.05.05.15.05.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 15:05:05 -0700 (PDT)
+ Thu, 05 May 2022 15:05:54 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] fbdev: simplefb: Cleanup fb_info in .fb_destroy rather
+Subject: [PATCH v3 3/4] fbdev: efifb: Cleanup fb_info in .fb_destroy rather
  than .remove
-Date: Fri,  6 May 2022 00:04:56 +0200
-Message-Id: <20220505220456.366090-1-javierm@redhat.com>
+Date: Fri,  6 May 2022 00:05:40 +0200
+Message-Id: <20220505220540.366218-1-javierm@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220505215947.364694-1-javierm@redhat.com>
 References: <20220505215947.364694-1-javierm@redhat.com>
@@ -87,7 +87,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Peter Jones <pjones@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -117,39 +117,41 @@ Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 (no changes since v1)
 
- drivers/video/fbdev/simplefb.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/efifb.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index 94fc9c6d0411..2c198561c338 100644
---- a/drivers/video/fbdev/simplefb.c
-+++ b/drivers/video/fbdev/simplefb.c
-@@ -84,6 +84,10 @@ struct simplefb_par {
- static void simplefb_clocks_destroy(struct simplefb_par *par);
- static void simplefb_regulators_destroy(struct simplefb_par *par);
+diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+index ea42ba6445b2..cfa3dc0b4eee 100644
+--- a/drivers/video/fbdev/efifb.c
++++ b/drivers/video/fbdev/efifb.c
+@@ -243,6 +243,10 @@ static void efifb_show_boot_graphics(struct fb_info *info)
+ static inline void efifb_show_boot_graphics(struct fb_info *info) {}
+ #endif
  
 +/*
 + * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
 + * of unregister_framebuffer() or fb_release(). Do any cleanup here.
 + */
- static void simplefb_destroy(struct fb_info *info)
+ static void efifb_destroy(struct fb_info *info)
  {
- 	struct simplefb_par *par = info->par;
-@@ -94,6 +98,8 @@ static void simplefb_destroy(struct fb_info *info)
- 	if (info->screen_base)
- 		iounmap(info->screen_base);
- 
+ 	if (efifb_pci_dev)
+@@ -254,6 +258,9 @@ static void efifb_destroy(struct fb_info *info)
+ 		else
+ 			memunmap(info->screen_base);
+ 	}
++
 +	framebuffer_release(info);
 +
- 	if (mem)
- 		release_mem_region(mem->start, resource_size(mem));
- }
-@@ -545,8 +551,8 @@ static int simplefb_remove(struct platform_device *pdev)
+ 	if (request_mem_succeeded)
+ 		release_mem_region(info->apertures->ranges[0].base,
+ 				   info->apertures->ranges[0].size);
+@@ -620,9 +627,9 @@ static int efifb_remove(struct platform_device *pdev)
  {
  	struct fb_info *info = platform_get_drvdata(pdev);
  
-+	/* simplefb_destroy takes care of info cleanup */
++	/* efifb_destroy takes care of info cleanup */
  	unregister_framebuffer(info);
+ 	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
 -	framebuffer_release(info);
  
  	return 0;
