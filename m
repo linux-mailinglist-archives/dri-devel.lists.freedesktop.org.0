@@ -2,74 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BB851CBC3
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 00:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A2951CBCF
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 00:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C78A10E097;
-	Thu,  5 May 2022 22:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085DB10E474;
+	Thu,  5 May 2022 22:02:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [170.10.133.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3C0A10E097
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 22:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651788009;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=g7o/PcjByL5k08SmN+MKIpgdp4lhrjdKDcCDQqkuG3g=;
- b=HcFpffFMh7mIPp7J1Krk8HTEN7zF+NzbxscksNzmSlvbJm3rdODJQeee+BLUOAHjI3/1t+
- Bgb2Bu9qQY8pj1jdbtMI+z8JPiHBOlrpIPzMN1GEBRGnmIiIuU9+3m/Qr2i0gjHSh8JWQq
- nha5G8cmDyLplrYfDyok+8r9plNPfbs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-534-IyM9HncrPrqcoLfEZ5MJ6w-1; Thu, 05 May 2022 18:00:09 -0400
-X-MC-Unique: IyM9HncrPrqcoLfEZ5MJ6w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s8-20020adf9788000000b0020adb01dc25so1867956wrb.20
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 15:00:08 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84CBC10E44C;
+ Thu,  5 May 2022 22:02:00 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id e2so7735313wrh.7;
+ Thu, 05 May 2022 15:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PVdKjf8r7i6549fCuW/sK3U25vWwNJcaPF1ncZ/jgok=;
+ b=Og5DterDsqKhQM9M9XE9Bsi4p0a52NHWGdItH2txILHAxhjdz7dY/XULcCXBcV2Ss5
+ eW0PvEzfa/T6ioIxYTa6bGbtFWWHFjwsRLQ/MRhaaQjyFTxR5A7TDuTnI99M3M4VdBhx
+ HgWpAABKDBL/TC6T+GNfqhtA+CNoZ4zfJHWisZ320DBh/AMx1JgGgjoE7lg+ugaQnsmG
+ abmasT+nYYGAN3Esw6hnZ15UYusipa83DWfc+w3NskeW5nahF5THYjP48M/zh+EpTyMj
+ oIuM0a1hNolrbJPRafHLJ3u80X5OsSSWf/JJ05ervvcETB2WykVYU4tZLPmLkFdHr+NA
+ jtLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=g7o/PcjByL5k08SmN+MKIpgdp4lhrjdKDcCDQqkuG3g=;
- b=2fqMCUGU0M+4uu8ziGcYFzbEjm9KAmmik8eE1jvXmnPicCtgOnknZUBWliXFWne56y
- HhIHcYjS5yGVhcnlHXPRp/HqIyN/GezRHcbHDoGsmnb4kOpsnec3CoYj4jGShC7QlXy4
- oO8fvv6uV1TwxgG1eV7ZB95pHYY4PCQUAoe3fHLZ10cdw7zFADFUvLF5MkQhaqmh9I9/
- TghNjWx5MbG0t8l2h3g2toc8/bew3yPqyaUDKxHTfHJtgmOr9wgeRQtt/im7kuvOY2I7
- N8nCwqesqlyXoKvt36U0kVnvllT6n/vxnPDM72TbUhS03N6i/GhROyBVvr3UWYlQPCRB
- k9hw==
-X-Gm-Message-State: AOAM530braOIkg0RHN2tR+hXKPRdH9+Oj/lT4T+cu0p/wU79zIlmkkkL
- fltMBgGGofldwcpx//UfD4lqLR/VO08KBNROEzIXAGyV8kHO2Zam2s/drQOQWY7KAZCo38V0k3q
- wBtQGIXN13+ogE/2At+ol/F64uK/j
-X-Received: by 2002:a05:6000:1815:b0:20a:deee:3cf0 with SMTP id
- m21-20020a056000181500b0020adeee3cf0mr154924wrh.210.1651788006925; 
- Thu, 05 May 2022 15:00:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzk9nG54+YuJURc6OI8oVH2TrMJldwkCWvspEI1wXTQzvXeoooK0kqJvqJXa5/C6tS1lOzpJQ==
-X-Received: by 2002:a05:6000:1815:b0:20a:deee:3cf0 with SMTP id
- m21-20020a056000181500b0020adeee3cf0mr154910wrh.210.1651788006661; 
- Thu, 05 May 2022 15:00:06 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 25-20020a05600c029900b003942a244ed1sm2271241wmk.22.2022.05.05.15.00.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 May 2022 15:00:06 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/4] fbdev: Fix use-after-free caused by wrong fb_info
- cleanup in drivers
-Date: Thu,  5 May 2022 23:59:43 +0200
-Message-Id: <20220505215947.364694-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PVdKjf8r7i6549fCuW/sK3U25vWwNJcaPF1ncZ/jgok=;
+ b=JxwRkENJ6PyhMfcf/IHJr/PXCxI+JNPUmOv0WNgmUS/Brd5YMccDPrf96pgG/UbQYh
+ 6mDlW6kHmqw80CuKa365uxuLYouIQOQWJNPnKUdlyqmW5ssXZX0PBO8JzCmlDKE5cK+9
+ KWXFj2r6xTiFEKooCCUVnbbAWqfHLFpi7abhbZjmd+4P0TpF9uxbRiC1dx1B6wZL/Dae
+ ZfP/sm51VFw4gG4/f3yZROaAHgB+HOGW5YOH+oUpGigIamoqZVdX6/WqW/5fH8nvHi8Y
+ 34yc8vzGLbtFN4+ccT8mLsTwqQiqSjNoOjrL7gU3f3jKbQ/YNhn0TKCzWwWhguO+rVYi
+ QdLQ==
+X-Gm-Message-State: AOAM530lSOodRH8J1t/UnBg6esIR28UqJ50LTQtCwjwlSpvxBrrVoc4A
+ VH4cC+8mZgC5PgEEhCUtkr3R4eOyYS+3Ay1ecBI=
+X-Google-Smtp-Source: ABdhPJxsPeyGHFJPjwM4JN0d564Eg0zZwZY5Wto8oWZpbih/FBmmM++aIDeXLzeBb8d6eOwV8Q6uDG+PO7UvDhevFqg=
+X-Received: by 2002:a05:6000:719:b0:20c:7894:22e1 with SMTP id
+ bs25-20020a056000071900b0020c789422e1mr144542wrb.93.1651788118866; Thu, 05
+ May 2022 15:01:58 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20220505214051.155-1-quic_jesszhan@quicinc.com>
+In-Reply-To: <20220505214051.155-1-quic_jesszhan@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 5 May 2022 15:01:45 -0700
+Message-ID: <CAF6AEGsFAkozD1j+padLREzGWNyzq8eVM9YxsX4=P4SROJ_0wA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] drm/msm/mdp5: Return error code in
+ mdp5_pipe_release when deadlock is detected
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,94 +63,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Peter Jones <pjones@redhat.com>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, quic_aravindh@quicinc.com,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Thu, May 5, 2022 at 2:41 PM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>
+> mdp5_get_global_state runs the risk of hitting a -EDEADLK when acquiring
+> the modeset lock, but currently mdp5_pipe_release doesn't check for if
+> an error is returned. Because of this, there is a possibility of
+> mdp5_pipe_release hitting a NULL dereference error.
+>
+> To avoid this, let's have mdp5_pipe_release check if
+> mdp5_get_global_state returns an error and propogate that error.
+>
+> Changes since v1:
+> - Separated declaration and initialization of *new_state to avoid
+>   compiler warning
+> - Fixed some spelling mistakes in commit message
+>
+> Changes since v2:
+> - Return 0 in case where hwpipe is NULL as this is considered normal
+>   behavior
+> - Added 2nd patch in series to fix a similar NULL dereference issue in
+>   mdp5_mixer_release
+>
+> Reported-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-This series contains patches suggested by Daniel Vetter to fix a use-after-free
-error in the fb_release() function, due a fb_info associated with a fbdev being
-freed too early while a user-space process still has the fbdev dev node opened.
+Fixes: 7907a0d77cb4 ("drm/msm/mdp5: Use the new private_obj state")
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-That is caused by a wrong management of the struct fb_info lifetime in drivers,
-but the fbdev core can also be made more resilient about it an leak
-
-This can easily be reproduced with the simplefb driver doing the following:
-
-$ cat < /dev/fb0 &
-$ echo simple-framebuffer.0 > /sys/bus/platform/drivers/simple-framebuffer/unbind
-$ kill %1
-
-[  257.490471] ------------[ cut here ]------------
-...
-[  257.495125] refcount_t: underflow; use-after-free.
-[  257.495222] WARNING: CPU: 0 PID: 975 at lib/refcount.c:28 refcount_warn_saturate+0xf4/0x144
-...
-[  257.637482] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  257.644441] pc : refcount_warn_saturate+0xf4/0x144
-[  257.649226] lr : refcount_warn_saturate+0xf4/0x144
-[  257.654009] sp : ffff80000a06bbf0
-[  257.657315] x29: ffff80000a06bbf0 x28: 000000000000000a x27: 000000000000000a
-[  257.664448] x26: 0000000000000000 x25: ffff470b88c6a180 x24: 000000000000000a
-[  257.671581] x23: ffff470b81706480 x22: ffff470b808c2160 x21: ffff470b8922ba20
-[  257.678713] x20: ffff470b891f5810 x19: ffff470b891f5800 x18: ffffffffffffffff
-[  257.685846] x17: 3a725f7463656a62 x16: ffffbb18c6465fd4 x15: 0720072007200720
-[  257.692978] x14: 0720072d072d072d x13: 0a2e656572662d72 x12: 657466612d657375
-[  257.700110] x11: 203b776f6c667265 x10: 646e75203a745f74 x9 : ffffbb18c58f6c90
-[  257.707242] x8 : 75203b776f6c6672 x7 : 65646e75203a745f x6 : 0000000000000001
-[  257.714373] x5 : ffff470bff8ec418 x4 : 0000000000000000 x3 : 0000000000000027
-[  257.721506] x2 : 0000000000000000 x1 : 0000000000000027 x0 : 0000000000000026
-[  257.728638] Call trace:
-[  257.731075]  refcount_warn_saturate+0xf4/0x144
-[  257.735513]  put_fb_info+0x70/0x7c
-[  257.738916]  fb_release+0x60/0x74
-[  257.742225]  __fput+0x88/0x240
-[  257.745276]  ____fput+0x1c/0x30
-[  257.748410]  task_work_run+0xc4/0x21c
-[  257.752066]  do_exit+0x170/0x370
-[  257.755288]  do_group_exit+0x40/0xb4
-[  257.758858]  get_signal+0x8e0/0x90c
-[  257.762339]  do_signal+0x1a0/0x280
-[  257.765733]  do_notify_resume+0xc8/0x390
-[  257.769650]  el0_da+0xe8/0xf0
-[  257.772613]  el0t_64_sync_handler+0xe8/0x130
-[  257.776877]  el0t_64_sync+0x190/0x194
-[  257.780534] ---[ end trace 0000000000000000 ]---
-
-Patch #1 adds a WARN_ON() to framebuffer_release() to prevent the use-after-free
-to happen.
-
-Patch #2, #3 and #4 fix the simplefb, efifb and vesafb drivers respectively, to
-free the resources at the correct place.
-
-Changes in v3:
-- Add Fixes: tag (Daniel Vetter).
-- Include in commit message a note that drivers are still broken
-  but at least reverts to the previous behavior (Daniel Vetter).
-- Only move framebuffer_release() and don't do any other change
-  (Daniel Vetter).
-
-Changes in v2:
-- Also do the change for vesafb (Thomas Zimmermann).
-
-Daniel Vetter (1):
-  fbdev: Prevent possible use-after-free in fb_release()
-
-Javier Martinez Canillas (3):
-  fbdev: simplefb: Cleanup fb_info in .fb_destroy rather than .remove
-  fbdev: efifb: Cleanup fb_info in .fb_destroy rather than .remove
-  fbdev: vesafb: Cleanup fb_info in .fb_destroy rather than .remove
-
- drivers/video/fbdev/core/fbsysfs.c | 4 ++++
- drivers/video/fbdev/efifb.c        | 9 ++++++++-
- drivers/video/fbdev/simplefb.c     | 8 +++++++-
- drivers/video/fbdev/vesafb.c       | 8 +++++++-
- 4 files changed, 26 insertions(+), 3 deletions(-)
-
--- 
-2.35.1
-
+> ---
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c  | 15 +++++++++++----
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h  |  2 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 20 ++++++++++++++++----
+>  3 files changed, 28 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
+> index ba6695963aa6..a4f5cb90f3e8 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
+> @@ -119,18 +119,23 @@ int mdp5_pipe_assign(struct drm_atomic_state *s, struct drm_plane *plane,
+>         return 0;
+>  }
+>
+> -void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
+> +int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
+>  {
+>         struct msm_drm_private *priv = s->dev->dev_private;
+>         struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
+>         struct mdp5_global_state *state = mdp5_get_global_state(s);
+> -       struct mdp5_hw_pipe_state *new_state = &state->hwpipe;
+> +       struct mdp5_hw_pipe_state *new_state;
+>
+>         if (!hwpipe)
+> -               return;
+> +               return 0;
+> +
+> +       if (IS_ERR(state))
+> +               return PTR_ERR(state);
+> +
+> +       new_state = &state->hwpipe;
+>
+>         if (WARN_ON(!new_state->hwpipe_to_plane[hwpipe->idx]))
+> -               return;
+> +               return -EINVAL;
+>
+>         DBG("%s: release from plane %s", hwpipe->name,
+>                 new_state->hwpipe_to_plane[hwpipe->idx]->name);
+> @@ -141,6 +146,8 @@ void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
+>         }
+>
+>         new_state->hwpipe_to_plane[hwpipe->idx] = NULL;
+> +
+> +       return 0;
+>  }
+>
+>  void mdp5_pipe_destroy(struct mdp5_hw_pipe *hwpipe)
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
+> index 9b26d0761bd4..cca67938cab2 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
+> @@ -37,7 +37,7 @@ int mdp5_pipe_assign(struct drm_atomic_state *s, struct drm_plane *plane,
+>                      uint32_t caps, uint32_t blkcfg,
+>                      struct mdp5_hw_pipe **hwpipe,
+>                      struct mdp5_hw_pipe **r_hwpipe);
+> -void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe);
+> +int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe);
+>
+>  struct mdp5_hw_pipe *mdp5_pipe_init(enum mdp5_pipe pipe,
+>                 uint32_t reg_offset, uint32_t caps);
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> index 228b22830970..979458482841 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> @@ -311,12 +311,24 @@ static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
+>                                 mdp5_state->r_hwpipe = NULL;
+>
+>
+> -                       mdp5_pipe_release(state->state, old_hwpipe);
+> -                       mdp5_pipe_release(state->state, old_right_hwpipe);
+> +                       ret = mdp5_pipe_release(state->state, old_hwpipe);
+> +                       if (ret)
+> +                               return ret;
+> +
+> +                       ret = mdp5_pipe_release(state->state, old_right_hwpipe);
+> +                       if (ret)
+> +                               return ret;
+> +
+>                 }
+>         } else {
+> -               mdp5_pipe_release(state->state, mdp5_state->hwpipe);
+> -               mdp5_pipe_release(state->state, mdp5_state->r_hwpipe);
+> +               ret = mdp5_pipe_release(state->state, mdp5_state->hwpipe);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               ret = mdp5_pipe_release(state->state, mdp5_state->r_hwpipe);
+> +               if (ret)
+> +                       return ret;
+> +
+>                 mdp5_state->hwpipe = mdp5_state->r_hwpipe = NULL;
+>         }
+>
+> --
+> 2.35.1
+>
