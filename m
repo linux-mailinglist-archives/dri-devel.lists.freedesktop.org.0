@@ -1,85 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4587351B966
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 09:46:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6C851B976
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 09:48:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A8A10EE58;
-	Thu,  5 May 2022 07:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B78C10F0E4;
+	Thu,  5 May 2022 07:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Thu, 05 May 2022 07:46:02 UTC
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [170.10.129.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651A510EE58
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 07:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651736761;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NhRL0x5JxNjh9559awUlQzavmJp0VQ+2PFdUhFoZcIo=;
- b=YE+E/wMfI2VAHzwS4wt9hBWFmSJMW6bOb5ymBor3H2Eh+YanaxSYowGJ86DyBQOJhbUGDJ
- s5WBtXI7TmrIkg4YHRS4Me57SqZW+zdzySknhArvP3TWC4PguZqXQQH63bekkxr+BcARWS
- CKWsRUbPYqCzAh0CZ7/v03NKWVbnqtc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-auxWLxw8NiCgmBTrqiuSXA-1; Thu, 05 May 2022 03:38:52 -0400
-X-MC-Unique: auxWLxw8NiCgmBTrqiuSXA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e21-20020adfa455000000b0020ae075cf35so1151113wra.11
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 00:38:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NhRL0x5JxNjh9559awUlQzavmJp0VQ+2PFdUhFoZcIo=;
- b=kimHRg7BtlbVEnHHVM9e4AHWr+920ANIFBI6ttG3+ZOzTRHr/oim1djN3qWQTOFcf7
- kyeSWkGUmJwgZclOrXdo2zKTwrTpaX4gburvKhApR2dapmm/1Ab58GPgrGqzONQG/fUI
- KydOJmHiNWOjlk3sBRBPCxaVmaQQPLWqBmryDr1yBMYGp46u4WfH4Kk4zSyAIqD7vYcy
- fJrgYNstSEoJg/tL8nlD9nDEeG2xs0pGo1/fPKiBQdkeGQU8eIpNCtbbSVr5r5BGUVNW
- 0ZtKnWrJddvujLXQj/0wlPZb24N0BI7LGFIAuTBw7/tlE85m++FP9ZIi30ZTSM7+41eg
- ScsQ==
-X-Gm-Message-State: AOAM531eKL++cqvaQ0IItxiA4GglUSf2IgYBoTkw7r/eFt9J/lOKLngy
- flez0xnTBTURXJIkgQn9Z5V6gWVuCIF6zDiMo0R+SybpOQ8gayTU0XgBrzS0PK7h48jFlGFaS8e
- lFZx4+Xw2K/I1VZNzvVjlUdAsjTXp
-X-Received: by 2002:a5d:4585:0:b0:20a:da03:7131 with SMTP id
- p5-20020a5d4585000000b0020ada037131mr19047526wrq.693.1651736331458; 
- Thu, 05 May 2022 00:38:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOiVrqfx6icK3c6hK4kQWSA8M7R4dWtYNn2w4VZryyBpTxL+R3XPp9/Z57KoRlU/8Sy+vNog==
-X-Received: by 2002:a5d:4585:0:b0:20a:da03:7131 with SMTP id
- p5-20020a5d4585000000b0020ada037131mr19047508wrq.693.1651736331173; 
- Thu, 05 May 2022 00:38:51 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x8-20020a7bc768000000b003942a244f2fsm5546131wmk.8.2022.05.05.00.38.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 May 2022 00:38:50 -0700 (PDT)
-Message-ID: <d9a5cb30-2d9b-50b5-d287-0ead0fe252f3@redhat.com>
-Date: Thu, 5 May 2022 09:38:49 +0200
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1BB10F4AD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 07:48:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1651736919; x=1683272919;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=F4dENisAXGRQZLCjLMdR77U0d0wTf0aLrQGcAe07jmg=;
+ b=cE+l6MftVPYtBDnsaTktIHr3z3E3PlBSUdCMTok0AIFT2TOCgHWzcKM0
+ V1oZZ/5PudcS1l4ra3rOV6zsi5ImjeQ3mZxcDHVpDmx+9IsVQjY9sBy8d
+ COgsfG0yuLwVt0lR95A4sK8q176Crf/ta3PSAZyD1FoseUtB9ZWw2PS+y
+ 7zp2VA/lXirsw17R9mhxgpt+49Y3iTbfTPr/zDoHKfCldEqkKHAvDvAgm
+ fh047ZbG6SHsEC6s0LtI+wJb18okN8AU2z/4AKkmbFiOosSokBZbor+Uv
+ m9L291yXm/yTXY0ZlXQC8pAtqo1pOPDf0KUVQo4A0Xch5GtOZPR/T9xp0 w==;
+X-IronPort-AV: E=Sophos;i="5.91,200,1647298800"; d="scan'208";a="23686397"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 05 May 2022 09:48:37 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Thu, 05 May 2022 09:48:37 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Thu, 05 May 2022 09:48:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1651736917; x=1683272917;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=F4dENisAXGRQZLCjLMdR77U0d0wTf0aLrQGcAe07jmg=;
+ b=COoldgr9FO3FV21yHf7gZp5ZmhOoIWrWCP0OmGxmUxfFh2DQYvSpOlKq
+ vuPxResIGjMeoBOY/sZ6+x4Ux27GqIdD2HnAn4EgfOd7PMTkITUVETLYR
+ zku7qfFROcjiN87YPJSsCaJfXd3ol8gRVBwd4F/nDeEsh6nyg49vzNqy3
+ zHJZv3cmlbWgXWE6ibUGXMVohVHWAmH52h4l/NwG1RTtHeRp/RfsgXLof
+ Qc140HEPK1+x958abZIi9LogQL4U1NIcUcct7r7D0g58sYi59zdxMxNpS
+ SogtCeo0uB/OSOjEwVb0qz5AO+6FIFvmbsmQGE0TiuNHL7r2VZv5iRDWl g==;
+X-IronPort-AV: E=Sophos;i="5.91,200,1647298800"; d="scan'208";a="23686396"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 05 May 2022 09:48:37 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id CF0DD280075;
+ Thu,  5 May 2022 09:48:36 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: (EXT) Re: (EXT) [PATCH v2 00/12] drm: bridge: Add Samsung MIPI
+ DSIM bridge
+Date: Thu, 05 May 2022 09:48:34 +0200
+Message-ID: <3431938.iIbC2pHGDl@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAMty3ZAuTzdzj9v4weqJfxQKhM57XuwSzSAX86NHTcCp14uBBw@mail.gmail.com>
+References: <20220504114021.33265-1-jagan@amarulasolutions.com>
+ <2184168.iZASKD2KPV@steina-w>
+ <CAMty3ZAuTzdzj9v4weqJfxQKhM57XuwSzSAX86NHTcCp14uBBw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/3] fbdev/simplefb: Cleanup fb_info in .fb_destroy rather
- than .remove
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20220504215151.55082-1-javierm@redhat.com>
- <20220504215722.56970-1-javierm@redhat.com>
- <974f4d00-89bc-a2da-6d65-ca4207300794@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <974f4d00-89bc-a2da-6d65-ca4207300794@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,54 +78,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+Hello Jagan,
 
-On 5/5/22 09:29, Thomas Zimmermann wrote:
+thanks for the quick response.
 
-[snip]
-
->>   static void simplefb_destroy(struct fb_info *info)
->>   {
->>   	struct simplefb_par *par = info->par;
->> @@ -94,6 +98,8 @@ static void simplefb_destroy(struct fb_info *info)
->>   	if (info->screen_base)
->>   		iounmap(info->screen_base);
->>   
->> +	framebuffer_release(info);
->> +
->>   	if (mem)
->>   		release_mem_region(mem->start, resource_size(mem));
+Am Donnerstag, 5. Mai 2022, 09:38:48 CEST schrieb Jagan Teki:
+> On Thu, May 5, 2022 at 12:57 PM Alexander Stein
 > 
-> The original problem with fbdev hot-unplug was that vmwgfx needed the 
-> framebuffer region to be released. If we release it only after userspace 
-> closed it's final file descriptor, vmwgfx could have already failed.
+> <alexander.stein@ew.tq-group.com> wrote:
+> > Hello Jagan,
+> > 
+> > thanks for the second version of this patchset.
+> > 
+> > Am Mittwoch, 4. Mai 2022, 13:40:09 CEST schrieb Jagan Teki:
+> > > This series supports common bridge support for Samsung MIPI DSIM
+> > > which is used in Exynos and i.MX8MM SoC's.
+> > > 
+> > > Previous v1 can be available here [1].
+> > > 
+> > > The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> > > 
+> > > On, summary this patch-set break the entire DSIM driver into
+> > > - platform specific glue code for platform ops, component_ops.
+> > > - common bridge driver which handle platform glue init and invoke.
+> > > 
+> > > Patch 0000:   Samsung DSIM bridge
+> > > 
+> > > Patch 0001:   Common lookup code for OF-graph or child
+> > > 
+> > > Patch 0002:   platform init flag via driver_data
+> > > 
+> > > Patch 0003/10:  bridge fixes, atomic API's
+> > > 
+> > > Patch 0011:   document fsl,imx8mm-mipi-dsim
+> > > 
+> > > Patch 0012:   add i.MX8MM DSIM support
+> > > 
+> > > Tested in Engicam i.Core MX8M Mini SoM.
+> > > 
+> > > Anyone interested, please have a look on this repo [2]
+> > > 
+> > > [2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v2
+> > > [1]
+> > > https://patchwork.kernel.org/project/dri-devel/cover/20220408162108.1845
+> > > 83-> 1-jagan@amarulasolutions.com/
+> > > 
+> > > Any inputs?
+> > 
+> > I was able to get my LVDS display running using this driver and an LVDS
+> > bridge. Actually my setup is similar to yours. My chain is like this:
+> > MIPI-DSI -> sn65dsi83 -> LVDS panel
+> > I noticed some things though:
+> > My setup only works if I use less than 4 lanes. See [1]. When using 4
+> > lanes
+> > the image is flickering, but the content is "visible". Your DT has only 2
+> > lanes configured, do you have the possibility to use 4 lanes? I have no
+> > idea how to tackle this. It might be the DSIM side or the bridge side.
+> > Apparently the downstream kernel from NXP supports 4 lanes, if I can trust
+> > the config. I have no way to verify this though.
 > 
-> I still don't fully get why this code apparently works or at least 
-> doesn't blow up occasionally. Any ideas?
->
+> What is dsi_lvds_bridge node? have you added your dts changes on top
+> of imx8mm-dsi-v2 branch I'm pointing it.
 
-I believe that vmwgfx doesn't fail to probe (or any other DRM driver)
-only when there are not user-space processes with a fbdev node opened
-since otherwise as you said the memory wouldn't be released yet.
+I cherry-picked your commits and applied them on (currently) next-20220504.
+Maybe you missed the links at the end of my mail. The branch I am talking 
+about is https://github.com/tq-steina/linux/commits/imx8mm-dsi-lvds
+This includes your commits as well as my additions.
 
-unregister_framebuffer() is called from the driver's .remove handler
-and that decrement the fb_info refcount, so if reaches zero it will
-call to the fb fops .destroy() handler and release the I/O memory.
+> I will check 4 lanes and let you know.
 
-In other words, in most cases (i.e: only fbcon bound to the fbdev)
-the driver's removal/ device unbind and the memory release will be
-at the same time.
+Great, thanks.
 
--- 
+> > Another thing is I get the following warning
+> > 
+> > > sn65dsi83 2-002d: Unsupported LVDS bus format 0x100a, please check
+> > > output
+> > 
+> > bridge driver. Falling back to SPWG24.
+> 
+> This couldn't be much affected but will fix it.
+> 
+> > This seems to be caused by a wrong bridge chain. Using commit 81e80429 at
+> > [2]> 
+> > I get the following output:
+> > > bridge chain: /soc@0/bus@30800000/i2c@30a40000/dsi-lvds-bridge@2d -> /
+> > 
+> > panel_lvds0 -> /soc@0/bus@32c00000/dsi@32e10000 ->
+> > Which seems weird. I would have expected something like
+> > dsi@32e10000 -> dsi-lvds-bridge@2d -> panel_lvds0
+> > Do you happen to see somthing similar? But this is completely unrelated to
+> > your patchset though.
+> 
+> Can you share the link to the exact commit?
+
+This is the commit introducing this output:
+https://github.com/tq-steina/linux/commit/
+81e80429341cd0a4f119ec9cf50839498915443b
+
 Best regards,
+Alexander
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+
 
