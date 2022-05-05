@@ -1,54 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9C451BEF5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 14:13:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB65751BFB4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 14:45:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5170010FD93;
-	Thu,  5 May 2022 12:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8930A10E205;
+	Thu,  5 May 2022 12:45:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7500E10FD93;
- Thu,  5 May 2022 12:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651752785; x=1683288785;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=IcVNuSM0HtFS1IeizY68qLnpo68xvwjuLdweqiApt2M=;
- b=QzyUdcTtTSRhAbJRMujTENM/u+a5Q7suSf64ZYVbb3er3eNMGe+gZadJ
- ZtUhvSst2dWr1v7fAniZq7jl/d620W3X0DeY4Pgusj45MLMQAg26QzCt3
- yoywLUFH/wxFO/s6yr8ZjKCI2+g0s8xs9DVU9dqboY8E35ieANrCqLtDu
- xcrv9FOW4YaYX2SGWc5cDp35F1hxEPjq50oUs9HOmvBhgtZVSQuQ9THp9
- 5iuj5k0QO9q6wN3CEhmbvJah1ro0jkf6vKmlFmuerU45nfmAmV8gkSU9u
- A73ZAbM8aC+6UrBKUaDq+l0HUFxM6Gfhk1EJiQD4pTgiqvqxwNj2cfEjR Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10337"; a="265684929"
-X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; d="scan'208";a="265684929"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 05:13:04 -0700
-X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; d="scan'208";a="517482123"
-Received: from mrbroom-mobl.ger.corp.intel.com (HELO [10.213.206.41])
- ([10.213.206.41])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 05:13:03 -0700
-Message-ID: <de063b19-e5f6-342b-d816-c112c446a68f@linux.intel.com>
-Date: Thu, 5 May 2022 13:13:01 +0100
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [170.10.129.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2FAD10E1D5
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 12:45:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651754731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cuDyUYDu6BZPnXeqmhM9u+aCmDXHwJi7/poygMUZqow=;
+ b=encd2TFFSCo9V5bvQJDmraqy1guH08gRFvHxwhWD7w+GFUSxZPKjnYkla6n1AEwGH+rLV6
+ 4oSFB36AXZ7IsBKOuGXs1wDKnvjMHFQGRP8ts6lQM2lbt3w1JM9iKAANovrWHTNc7Pbuk3
+ kvKnI8l2c/pPt0MVxdBsv7D/eaILTfY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-397-F-5vz4yzO9y09GEbuTK62A-1; Thu, 05 May 2022 08:45:30 -0400
+X-MC-Unique: F-5vz4yzO9y09GEbuTK62A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v29-20020adfa1dd000000b0020ad932b7c0so1415160wrv.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 05:45:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cuDyUYDu6BZPnXeqmhM9u+aCmDXHwJi7/poygMUZqow=;
+ b=ykkucHnjcBxipyp1zYgLaPxaO9BpBHr+qv0TmxSz+RpLx8HryT8W4SpvST/L4KowDw
+ 7w4IVChtinF/OMtN33Jcn8/clRnItd9YTCaqiLgTPNjVxEdnJkQfEuvDn/RwAgBJQz0Y
+ EFySbQS7jc4jszt1xLYeUR25dygqptpwsoeorieDrnxGRjjsdSvSXqaQUPpvWlAnCxJa
+ uZ3nBydZS/mThEuwhuBLd+eoY+EWKQ9ptvmDc8JrBhfn9HO+JihoEmdHpl0d++L0rqFn
+ 2sLcBP4TZWbUsAHzDDyh43K142ODGgqfkm8w71QxGIcJE7dFI7nBjn1tHO/ZX4PWRm5f
+ oWHQ==
+X-Gm-Message-State: AOAM530udTm7/VoZz8R1GIyRvoZjn4Pq8ROngNN/3j5TaUQdQMdiNF+0
+ vYlhqnM67t5qvuVmn1vvR/YB0PdNaJf8XUZrcWZbl1sN3YTztbogKoz53JXBVEaEorBiWjKVA4O
+ up1jvUT3VY5lbjBxg8dRLR3ugXn/V
+X-Received: by 2002:a05:6000:1a88:b0:20c:6811:3176 with SMTP id
+ f8-20020a0560001a8800b0020c68113176mr13613471wry.85.1651754729529; 
+ Thu, 05 May 2022 05:45:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyvRu5J1/J+IjfMUf7y1AXH1mXJgSjbJfnuViykTVSo8bNb5YhQEJEs4GMNdg8VZpzTMvG9w==
+X-Received: by 2002:a05:6000:1a88:b0:20c:6811:3176 with SMTP id
+ f8-20020a0560001a8800b0020c68113176mr13613450wry.85.1651754729239; 
+ Thu, 05 May 2022 05:45:29 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ g6-20020a056000118600b0020c5253d8d6sm1163859wrx.34.2022.05.05.05.45.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 05:45:28 -0700 (PDT)
+Message-ID: <47d3a7f6-24f9-7d54-48bf-09ab9e40e2de@redhat.com>
+Date: Thu, 5 May 2022 14:45:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Use non-blocking H2G for
- waitboost
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 3/3] drm: Allow simpledrm to setup its emulated FB as
+ firmware provided
+To: linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220503071540.471667-1-javierm@redhat.com>
+ <20220503071540.471667-4-javierm@redhat.com>
+ <YnJcaaDcIsJKhSwQ@phenom.ffwll.local>
+ <bfb03d40-a023-12a9-9554-1b6e6c474134@redhat.com>
+ <YnO+8hZ0ozPaZUEj@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YnO+8hZ0ozPaZUEj@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220505054010.21879-1-vinay.belgaumkar@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220505054010.21879-1-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,104 +97,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Daniel,
 
-On 05/05/2022 06:40, Vinay Belgaumkar wrote:
-> SLPC min/max frequency updates require H2G calls. We are seeing
-> timeouts when GuC channel is backed up and it is unable to respond
-> in a timely fashion causing warnings and affecting CI.
+On 5/5/22 14:11, Daniel Vetter wrote:
 
-Is it the "Unable to force min freq" error? Do you have a link to the 
-GitLab issue to add to commit message?
+[snip]
 
-> This is seen when waitboosting happens during a stress test.
-> this patch updates the waitboost path to use a non-blocking
-> H2G call instead, which returns as soon as the message is
-> successfully transmitted.
-
-AFAIU with this approach, when CT channel is congested, you instead 
-achieve silent dropping of the waitboost request, right?
-
-It sounds like a potentially important feedback from the field to lose 
-so easily. How about you added drm_notice to the worker when it fails?
-
-Or simply a "one line patch" to replace i915_probe_error (!?) with 
-drm_notice and keep the blocking behavior. (I have no idea what is the 
-typical time to drain the CT buffer, and so to decide whether waiting or 
-dropping makes more sense for effectiveness of waitboosting.)
-
-Or since the congestion /should not/ happen in production, then the 
-argument is why complicate with more code, in which case going with one 
-line patch is an easy way forward?
-
-Regards,
-
-Tvrtko
-
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 38 ++++++++++++++++-----
->   1 file changed, 30 insertions(+), 8 deletions(-)
+>>
+>> And while I agree with you that these midlayer flags are horrible, that is
+>> what any other fbdev that makes use of a firmware-provided framebuffer set,
+>> so simpledrm emulated fbdev shouldn't be the exception IMO.
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index 1db833da42df..c852f73cf521 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -98,6 +98,30 @@ static u32 slpc_get_state(struct intel_guc_slpc *slpc)
->   	return data->header.global_state;
->   }
->   
-> +static int guc_action_slpc_set_param_nb(struct intel_guc *guc, u8 id, u32 value)
-> +{
-> +	u32 request[] = {
-> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
-> +		SLPC_EVENT(SLPC_EVENT_PARAMETER_SET, 2),
-> +		id,
-> +		value,
-> +	};
-> +	int ret;
-> +
-> +	ret = intel_guc_send_nb(guc, request, ARRAY_SIZE(request), 0);
-> +
-> +	return ret > 0 ? -EPROTO : ret;
-> +}
-> +
-> +static int slpc_set_param_nb(struct intel_guc_slpc *slpc, u8 id, u32 value)
-> +{
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +
-> +	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
-> +
-> +	return guc_action_slpc_set_param_nb(guc, id, value);
-> +}
-> +
->   static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
->   {
->   	u32 request[] = {
-> @@ -208,12 +232,10 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
->   	 */
->   
->   	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> -		ret = slpc_set_param(slpc,
-> -				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-> -				     freq);
-> -		if (ret)
-> -			i915_probe_error(i915, "Unable to force min freq to %u: %d",
-> -					 freq, ret);
-> +		/* Non-blocking request will avoid stalls */
-> +		ret = slpc_set_param_nb(slpc,
-> +					SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-> +					freq);
->   	}
->   
->   	return ret;
-> @@ -231,8 +253,8 @@ static void slpc_boost_work(struct work_struct *work)
->   	 */
->   	mutex_lock(&slpc->lock);
->   	if (atomic_read(&slpc->num_waiters)) {
-> -		slpc_force_min_freq(slpc, slpc->boost_freq);
-> -		slpc->num_boosts++;
-> +		if (!slpc_force_min_freq(slpc, slpc->boost_freq))
-> +			slpc->num_boosts++;
->   	}
->   	mutex_unlock(&slpc->lock);
->   }
+> So we discussed this a pile more on irc, and at least my take is that
+> people who run simpledrm but want to combine that with fbdev drivers and
+> expect it to all work nicely we can probably ignore. At least until all
+> this sysfb stuff is nicely unified, and at that point we shouldn't need
+> special flags anymore.
+
+I'm OK with this take and happy to just drop this patch-set then. My worry
+was just that someone could complain that we broke their uncommon setup [0].
+
+[0]: https://xkcd.com/1172/.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
