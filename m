@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B77451C2A0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 16:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905F551C2A1
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 16:33:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFCB410E3AB;
-	Thu,  5 May 2022 14:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1A510E3C9;
+	Thu,  5 May 2022 14:33:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4766910E37F;
- Thu,  5 May 2022 14:32:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651761164; x=1683297164;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=1+9JQdzrsHYQrBsDqJEgyu551lUE2oP9pxLpL0lHNqY=;
- b=WobFeK1pggH/wQgkw/8UqXqyzHJyuYAKGX09CSTQ7AlVKw2CEDIMj76L
- P+ROmZ62l/3I8iKxerhyX+kkyaqQo5hbVjLn684BdvUqat1ADx2m/K7WC
- 72xEEf0cKzzdD6VWnQSC3wY/qZfvIWd0O/CCqcqCkzNnQ5C+7MhYeMlq1
- 6oUA4ANsRit55jOAgCC8DaIw6KJ+bi1e4nG8mIYhn0OaBDnoXv4+w9Krk
- Sk6rhFpV8DYyFpvecE2N9zbgt5L9TUYmnx2e9AVhP+jfIebUZEZZHEjaf
- aeUpEIB+VYRk6ymwSGU/Fh1T/EhGQGm21ZAcYJLQ7JHHYZUf+qBi+WTfZ Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="267723574"
-X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; d="scan'208";a="267723574"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 07:32:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; d="scan'208";a="664986100"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
- by fmsmga002.fm.intel.com with SMTP; 05 May 2022 07:32:13 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 05 May 2022 17:32:12 +0300
-Date: Thu, 5 May 2022 17:32:12 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3] drm/edid: detect color formats and CTA revision in
- all CTA extensions
-Message-ID: <YnPf7MGru3oM/+do@intel.com>
-References: <a137d2e272ad1eac5b286784008a4baf91bc2799.1651569697.git.jani.nikula@intel.com>
- <20220505105242.1198521-1-jani.nikula@intel.com>
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB0FC10E3D7
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 14:33:18 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id r11so7943702ybg.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 07:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mjPMNwsrp6J5GYko2SAtRJngBnVXhB8jFuWLYKEwiPY=;
+ b=fewd6t0m8AlbJsOL8rMMtmdSbrblLC+tou4WQa5Ukx0fDLML8yOTTiI03IEYZHxp2c
+ 5W5CFU2Qo00NadwNz4fu2sdMo4N/fhzCDiGLHlJnCCs1Ua3dcldY61sEg61hMdSawUir
+ 7eSZQI2CebwLUn4u4p9Bz1nt0xWXEswSQ1mxvA/ee4Uu5XXGOucd4+6oSzUonl+Kg0LI
+ 8uOzDzX7qYjSqNbAmA90tOmmW4qdH/x0e5n5IbhGhckydFuX0s17/FQo0madWUU2q0+q
+ rIcDxGLzvzfaBFeSvXHNgwp/tqsLvfCOnU4JqRfERHcRhzltPIYSlpBkJGsKowlUJZN7
+ 2CtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mjPMNwsrp6J5GYko2SAtRJngBnVXhB8jFuWLYKEwiPY=;
+ b=urFByzzsrqHiaY74XrWLyeeGHABd14Vx9T6rmqis3ZXwELs7Ur3GdL7mInWHhFPk7U
+ 7ShK0TOdB0fRAGWBEjNjsVHAt/+4eeGZDiXgLmHLl9/mR/GwwWDXd+CHF1ksMdrPw+Hb
+ wHJf+0fEzbgKFZ4/WbjHJGbbvI49ECOLFWOVPoAK/KmTKV/cjtVbwKbwrMQesVuGyiW4
+ 2H0CtD1+J5DMsUIxWlsBlCnb7h1iRbCHD6vSs1R5ElG8l2vMJNo9JHf80RdaI2tscpSp
+ YUL1+m70feSpsJUSo55SzUAM8uNm3A7vBScCZE8+Bv6Tvha2N5pj94oF428Qqz1wZhuN
+ 63zg==
+X-Gm-Message-State: AOAM532ETnX/2/zoSeMAbf+EkAlSH3oB/6Ozf5BBZiU9ETfxr60YU5Ni
+ IyGbzkgsl/WvuvwApSM1i9ES3BprjEJwv1kycWtPCQ==
+X-Google-Smtp-Source: ABdhPJwo8Hf6LSoTaiB2cHkTaFM0+gz3ZfG++D4wXVwew3EevAVlxRmwDqgoKNolEWO5oTKK+x6Cg+35P6TVPloh+u0=
+X-Received: by 2002:a25:bcc7:0:b0:648:d728:d39 with SMTP id
+ l7-20020a25bcc7000000b00648d7280d39mr22199185ybm.514.1651761198027; Thu, 05
+ May 2022 07:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220505105242.1198521-1-jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220419163810.2118169-19-arnd@kernel.org>
+ <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
+ <CAK8P3a0w3gFzZoBzyRsi1Ta4prESf8Fp0=quAPSKMnaXvbXNTQ@mail.gmail.com>
+ <CACRpkdZNryYkidvdKuT57RM3fz6_X+3oOzF5xaOZd+TyScfUsw@mail.gmail.com>
+ <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
+In-Reply-To: <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 5 May 2022 16:33:06 +0200
+Message-ID: <CACRpkdaNRX0RDYJd_uaGo5jtiXu_qGHmEDGniaCmR=TZvcHH8A@mail.gmail.com>
+Subject: Re: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,77 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Sergey Lapin <slapin@ossfans.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Tomas Cech <sleep_walker@suse.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ linux-clk <linux-clk@vger.kernel.org>, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
+ Michael Turquette <mturquette@baylibre.com>, Arnd Bergmann <arnd@arndb.de>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 05, 2022 at 01:52:42PM +0300, Jani Nikula wrote:
-> Convert drm_find_cea_extension() to EDID block iterator in color format
-> and CTA revision detection. Detect them in all CTA extensions.
-> 
-> Also parse CTA Data Blocks in DisplayID even if there's no CTA EDID
-> extension.
-> 
-> v2:
-> - Don't assume DRM_COLOR_FORMAT_RGB444 support if there's only DisplayID
->   CTA Data Blocks (Ville)
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Thu, May 5, 2022 at 8:04 AM Arnd Bergmann <arnd@kernel.org> wrote:
+> On Wed, May 4, 2022 at 11:59 PM Linus Walleij <linus.walleij@linaro.org> wrote:
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > Thus drop one ! in front of the expression, just !SND_SOC_DAPM_EVENT_ON(event)
+>
+> Ok, done. But I still leave the extra 'invert=1' in hs_jack_pin[], right?
+>
+> /* Headphones jack detection DAPM pin */
+> static struct snd_soc_jack_pin hs_jack_pin[] = {
+>         {
+>                 .pin    = "Headphone Jack",
+>                 .mask   = SND_JACK_HEADPHONE,
+>         },
+>         {
+>                 .pin    = "Speaker",
+>                 /* disable speaker when hp jack is inserted */
+>                 .mask   = SND_JACK_HEADPHONE,
+>                 .invert = 1,
+>         },
 
-> ---
->  drivers/gpu/drm/drm_edid.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 3b18a6e501df..8d737322145c 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -5447,26 +5447,31 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
->  			      const struct edid *edid)
->  {
->  	struct drm_display_info *info = &connector->display_info;
-> +	struct drm_edid_iter edid_iter;
->  	const struct cea_db *db;
->  	struct cea_db_iter iter;
->  	const u8 *edid_ext;
->  
-> -	edid_ext = drm_find_cea_extension(edid);
-> -	if (!edid_ext)
-> -		return;
-> +	drm_edid_iter_begin(edid, &edid_iter);
-> +	drm_edid_iter_for_each(edid_ext, &edid_iter) {
-> +		if (edid_ext[0] != CEA_EXT)
-> +			continue;
->  
-> -	info->cea_rev = edid_ext[1];
-> +		if (!info->cea_rev)
-> +			info->cea_rev = edid_ext[1];
->  
-> -	/* The existence of a CEA block should imply RGB support */
-> -	info->color_formats = DRM_COLOR_FORMAT_RGB444;
-> +		if (info->cea_rev != edid_ext[1])
-> +			DRM_DEBUG_KMS("CEA extension version mismatch %u != %u\n",
-> +				      info->cea_rev, edid_ext[1]);
->  
-> -	/* CTA DisplayID Data Block does not have byte #3 */
-> -	if (edid_ext[0] == CEA_EXT) {
-> +		/* The existence of a CTA extension should imply RGB support */
-> +		info->color_formats = DRM_COLOR_FORMAT_RGB444;
->  		if (edid_ext[3] & EDID_CEA_YCRCB444)
->  			info->color_formats |= DRM_COLOR_FORMAT_YCBCR444;
->  		if (edid_ext[3] & EDID_CEA_YCRCB422)
->  			info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
->  	}
-> +	drm_edid_iter_end(&edid_iter);
->  
->  	cea_db_iter_edid_begin(edid, &iter);
->  	cea_db_iter_for_each(db, &iter) {
-> -- 
-> 2.30.2
+Hm some ASoC thingie. No idea what that is, but I suppose another
+place where a subsystem for legacy reasons try to do the gpiolib
+inversion on it's own accord. That one isn't flagged as active low in the
+descriptor so it's fine I guess.
 
--- 
-Ville Syrjälä
-Intel
+Possible this should be fixed in ASoC to rely on gpiolib but we can't
+fix the entire world.
+
+Yours,
+Linus Walleij
