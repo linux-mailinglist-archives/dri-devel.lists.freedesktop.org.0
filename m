@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A00351CCBB
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 01:28:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF1351CCAE
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 01:23:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 772BB10E008;
-	Thu,  5 May 2022 23:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DAB410E49B;
+	Thu,  5 May 2022 23:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
- Thu, 05 May 2022 23:28:24 UTC
-Received: from out199-11.us.a.mail.aliyun.com (out199-11.us.a.mail.aliyun.com
- [47.90.199.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F5F10FC2F;
- Thu,  5 May 2022 23:28:24 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R301e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01424; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0VCP5hnC_1651792994; 
+Received: from out30-43.freemail.mail.aliyun.com
+ (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0248410FC2B;
+ Thu,  5 May 2022 23:23:19 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R381e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04423; MF=yang.lee@linux.alibaba.com;
+ NM=1; PH=DS; RN=11; SR=0; TI=SMTPD_---0VCP-YiH_1651792996; 
 Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0VCP5hnC_1651792994) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 06 May 2022 07:23:14 +0800
+ fp:SMTPD_---0VCP-YiH_1651792996) by smtp.aliyun-inc.com(127.0.0.1);
+ Fri, 06 May 2022 07:23:17 +0800
 From: Yang Li <yang.lee@linux.alibaba.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH -next 2/2] drm/amdkfd: Return true/false (not 1/0) from bool
- functions
-Date: Fri,  6 May 2022 07:23:11 +0800
-Message-Id: <20220505232312.129997-1-yang.lee@linux.alibaba.com>
+Subject: [PATCH -next 1/2] drm/amdgpu/gfx11: remove unneeded semicolon
+Date: Fri,  6 May 2022 07:23:12 +0800
+Message-Id: <20220505232312.129997-2-yang.lee@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
+In-Reply-To: <20220505232312.129997-1-yang.lee@linux.alibaba.com>
+References: <20220505232312.129997-1-yang.lee@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,49 +48,28 @@ Cc: airlied@linux.ie, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Return boolean values ("true" or "false") instead of 1 or 0 from bool
-functions. This fixes the following warnings from coccicheck:
-
-./drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c:244:9-10: WARNING:
-return of 0/1 in function 'event_interrupt_isr_v11' with return type
-bool
+Eliminate the following coccicheck warning:
+./drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:1222:2-3: Unneeded semicolon
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-index c3919aaa76e6..1431f0961769 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-@@ -241,14 +241,14 @@ static bool event_interrupt_isr_v11(struct kfd_dev *dev,
- 	if (/*!KFD_IRQ_IS_FENCE(client_id, source_id) &&*/
- 	    (vmid < dev->vm_info.first_vmid_kfd ||
- 	    vmid > dev->vm_info.last_vmid_kfd))
--		return 0;
-+		return false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+index 184bf554acca..d2ab325e40b4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+@@ -1219,7 +1219,7 @@ static void gfx_v11_0_parse_rlc_toc(struct amdgpu_device *adev, void *rlc_toc)
+ 		rlc_autoload_info[ucode->id].size = ucode->size * 4;
  
- 	pasid = SOC15_PASID_FROM_IH_ENTRY(ih_ring_entry);
- 	context_id0 = SOC15_CONTEXT_ID0_FROM_IH_ENTRY(ih_ring_entry);
+ 		ucode++;
+-	};
++	}
+ }
  
- 	if ((source_id == SOC15_INTSRC_CP_END_OF_PIPE) &&
- 	    (context_id0 & AMDGPU_FENCE_MES_QUEUE_FLAG))
--		return 0;
-+		return false;
- 
- 	pr_debug("client id 0x%x, source id %d, vmid %d, pasid 0x%x. raw data:\n",
- 		 client_id, source_id, vmid, pasid);
-@@ -258,7 +258,7 @@ static bool event_interrupt_isr_v11(struct kfd_dev *dev,
- 
- 	/* If there is no valid PASID, it's likely a bug */
- 	if (WARN_ONCE(pasid == 0, "Bug: No PASID in KFD interrupt"))
--		return 0;
-+		return false;
- 
- 	/* Interrupt types we care about: various signals and faults.
- 	 * They will be forwarded to a work queue (see below).
+ static uint32_t gfx_v11_0_calc_toc_total_size(struct amdgpu_device *adev)
 -- 
 2.20.1.7.g153144c
 
