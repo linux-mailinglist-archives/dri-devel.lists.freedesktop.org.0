@@ -2,49 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DB451B53E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 03:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B430B51B559
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 03:43:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F24810EFE0;
-	Thu,  5 May 2022 01:27:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87CEC10E722;
+	Thu,  5 May 2022 01:43:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5AB310EFE0;
- Thu,  5 May 2022 01:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651714051; x=1683250051;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=D2dgoyq4FWRZvrMGZm7T1JXcISRJleFT+FccBaZr8Dc=;
- b=ceVqaMRD76pXUZgy38iXiTk39FGeVl+c2DRRBt44qaX0u8tdf+Tvs6m3
- 1cniET/9O24V7ynwh42f6Gj7j7d8vWxOUaYUakYy9FQzFBOPWAaiVixz+
- Ef+kpzZNCNAQc1TxkvOollShsfnoUUdDpy2U/bgdOXT7v6O1KSQdqYHUD M=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 04 May 2022 18:27:30 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2022 18:27:30 -0700
-Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 4 May 2022 18:27:29 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH] drm/msm/mdp5: Return error code in mdp5_pipe_release when
- deadlock is detected
-Date: Wed, 4 May 2022 18:27:06 -0700
-Message-ID: <20220505012706.135-1-quic_jesszhan@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DFFF10E722
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 01:43:17 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KtxKr1qPSz4xXS;
+ Thu,  5 May 2022 11:43:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1651714993;
+ bh=TtMfVqytzBjCR0qUWr+CTwB6YM9CYPM1mDOpJiblGJc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=QVpJlN7F1fjtI06Pzr5J23Bta3i1MLD/IVdXxywARhGWkNDvvqnThpIG+2ptNIbOS
+ Rsv4iTmDHTZ773tlen8bvJu0rT+TZ36LG6Uo3kY6Ky6D7vfzIK0BffcPtabeF94db3
+ 1lCHBTjACCaE4whuBaP3ayLccOWLlohTTI/Rk3BWhLPYau87WcAcfIt6WNci1oxWqN
+ UnVnyo/AcyZMpLL8xdHABA/7Qe81hklzeBU5hTadZ/DqXKnnxXQHgIrZ+z6jKuTaUl
+ eP10cH5iaz4iItf8sNCB2SDYYkE270RWnbCck+gqCFDxG3FvxWYX3ffljoVun3YOtD
+ HhQ4r0Fz49OFw==
+Date: Thu, 5 May 2022 11:43:11 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>, Dave
+ Airlie <airlied@linux.ie>
+Subject: linux-next: build failure after merge of the drm-msm tree
+Message-ID: <20220505114311.18e7786f@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Type: multipart/signed; boundary="Sig_/teBL01mlIaMgI0/1eR149Pp";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,114 +49,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- dmitry.baryshkov@linaro.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- quic_aravindh@quicinc.com
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mdp5_get_global_state runs the risk of hitting an EDEADLK when aqcuiring
-the modeset lock, but currently mdp5_pipe_release doesn't check for if
-an error is returned. Because of this, there is a possibility of
-mdp5_pipe_release hitting a NULL dereference error.
+--Sig_/teBL01mlIaMgI0/1eR149Pp
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-To avoid this, let's have mdp5_pipe_release check if
-mdp5_get_global_state returns an error and propogate that error.
+Hi all,
 
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+After merging the drm-msm tree, today's linux-next build (arm
+multi_v7_defconfig) failed like this:
+
+drivers/gpu/drm/msm/dp/dp_display.c:13:10: fatal error: drm/dp/drm_dp_aux_b=
+us.h: No such file or directory
+   13 | #include <drm/dp/drm_dp_aux_bus.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+Caused by commit
+
+  c3bf8e21b38a ("drm/msm/dp: Add eDP support via aux_bus")
+
+interacting with commit
+
+  da68386d9edb ("drm: Rename dp/ to display/")
+
+from the drm tree.
+
+I have applied the following merge fix patch for today.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Thu, 5 May 2022 11:41:09 +1000
+Subject: [PATCH] fix up for "drm: Rename dp/ to display/"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c  | 14 ++++++++++----
- drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h  |  2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 20 ++++++++++++++++----
- 3 files changed, 27 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
-index ba6695963aa6..1309ab89fcda 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
-@@ -119,18 +119,22 @@ int mdp5_pipe_assign(struct drm_atomic_state *s, struct drm_plane *plane,
- 	return 0;
- }
- 
--void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
-+int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
- {
- 	struct msm_drm_private *priv = s->dev->dev_private;
- 	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
- 	struct mdp5_global_state *state = mdp5_get_global_state(s);
--	struct mdp5_hw_pipe_state *new_state = &state->hwpipe;
- 
- 	if (!hwpipe)
--		return;
-+		return -EINVAL;
-+
-+	if (IS_ERR(state))
-+		return PTR_ERR(state);
-+
-+	struct mdp5_hw_pipe_state *new_state = &state->hwpipe;
- 
- 	if (WARN_ON(!new_state->hwpipe_to_plane[hwpipe->idx]))
--		return;
-+		return -EINVAL;
- 
- 	DBG("%s: release from plane %s", hwpipe->name,
- 		new_state->hwpipe_to_plane[hwpipe->idx]->name);
-@@ -141,6 +145,8 @@ void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
- 	}
- 
- 	new_state->hwpipe_to_plane[hwpipe->idx] = NULL;
-+
-+	return 0;
- }
- 
- void mdp5_pipe_destroy(struct mdp5_hw_pipe *hwpipe)
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
-index 9b26d0761bd4..cca67938cab2 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
-@@ -37,7 +37,7 @@ int mdp5_pipe_assign(struct drm_atomic_state *s, struct drm_plane *plane,
- 		     uint32_t caps, uint32_t blkcfg,
- 		     struct mdp5_hw_pipe **hwpipe,
- 		     struct mdp5_hw_pipe **r_hwpipe);
--void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe);
-+int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe);
- 
- struct mdp5_hw_pipe *mdp5_pipe_init(enum mdp5_pipe pipe,
- 		uint32_t reg_offset, uint32_t caps);
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index 228b22830970..979458482841 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -311,12 +311,24 @@ static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
- 				mdp5_state->r_hwpipe = NULL;
- 
- 
--			mdp5_pipe_release(state->state, old_hwpipe);
--			mdp5_pipe_release(state->state, old_right_hwpipe);
-+			ret = mdp5_pipe_release(state->state, old_hwpipe);
-+			if (ret)
-+				return ret;
-+
-+			ret = mdp5_pipe_release(state->state, old_right_hwpipe);
-+			if (ret)
-+				return ret;
-+
- 		}
- 	} else {
--		mdp5_pipe_release(state->state, mdp5_state->hwpipe);
--		mdp5_pipe_release(state->state, mdp5_state->r_hwpipe);
-+		ret = mdp5_pipe_release(state->state, mdp5_state->hwpipe);
-+		if (ret)
-+			return ret;
-+
-+		ret = mdp5_pipe_release(state->state, mdp5_state->r_hwpipe);
-+		if (ret)
-+			return ret;
-+
- 		mdp5_state->hwpipe = mdp5_state->r_hwpipe = NULL;
- 	}
- 
--- 
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/d=
+p_display.c
+index ed4e26ed20e4..c68d6007c2c6 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -10,7 +10,7 @@
+ #include <linux/component.h>
+ #include <linux/of_irq.h>
+ #include <linux/delay.h>
+-#include <drm/dp/drm_dp_aux_bus.h>
++#include <drm/display/drm_dp_aux_bus.h>
+=20
+ #include "msm_drv.h"
+ #include "msm_kms.h"
+--=20
 2.35.1
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/teBL01mlIaMgI0/1eR149Pp
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJzK68ACgkQAVBC80lX
+0GxfmAf/bh2STLE2WuZawybH3tOZoRkCOAI1s9AYEDPZqTTDgVJwzhcaaTdoYVwX
+r/hRBDe+UtOzg0oDcRpM4lwQl0GJaeW28XbZDqYomNvfpANMRqSlWievOEOEOm3h
+Ct/m5UyyL1vWyAEOkq+xu/Syw2wIu5QP/PKwC0XomdROQ+gt5/s7LipVab5z7tKb
+8FuMGJVj0pxZsLDHQM87sXsbmo67eovH+hKzqTO9qQQwPXPBfRyfbjPbbY/05KbY
+RacuxoZgWZcv6bQsvSskLP6dS0u+fFjNCmbaHq+3VDEXGIE23ZGem9x8/5tOHGqo
+AF3rckl2InIENa0CQPpfTVSjTISfDQ==
+=zrUm
+-----END PGP SIGNATURE-----
+
+--Sig_/teBL01mlIaMgI0/1eR149Pp--
