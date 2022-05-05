@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FA251BE61
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 13:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FDB51BE6C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 13:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E62A710FC36;
-	Thu,  5 May 2022 11:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A261310FC53;
+	Thu,  5 May 2022 11:51:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6D1A10FC37
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 11:50:10 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2f7d621d1caso45204727b3.11
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 04:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=knsgBaKDxBJq/+C6n1oHiCqqmfyfeBuftY53CndmalY=;
- b=SM44piqvB6PrqrAPdDmOVBPGUpMa6VQ7GR8bQzSv1SAhXkySLDsDAdJ1VPRLvQaFBh
- Ol610ebhZ+uieFD0VVnK0iIXig38NNJ7QfhIpSgyIX9m8CFDrfyiOpzJd8n/swZmaveG
- 1uBUJtsKAyBZ0+Ib5c2TBLU4prjlN3/Uq40WI5YCc1Qs8jb/M8d/4c5rpiSRbghAFNih
- WDOSHN0LeV4DZnB8kqjWTOPOmsKY+SSfNM4XYiM3q/GyQK8rmIZgXbWtIXFp0TfqqehL
- RHhZ/wT373IXw0lC+GIWCCdcbp0bHi3TajHb2P2R8AzQSD1nX4WofKxKkgAh8j2aLr6L
- iznA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=knsgBaKDxBJq/+C6n1oHiCqqmfyfeBuftY53CndmalY=;
- b=Az/Y0Y64G5EM20P1hpOTp0jObgzEoezBc0Db1LW5dbIqo5RateQQ1cObIwBxEUsPm2
- xHsSu7byMuvfb+pRgDVxWDeDhZSqaUkmXC8vkNyqavTDdITQRXowSakJNr3FFUzFV9c+
- Dv1KwWnxuPfuVr8VX/FbJ+eWwKtH3XyGwasbzgpO2KbBWJpat0mBO6EeQJW39dLNAUUw
- kc6aO1XKxv0fj7TZJmdbox/UfhFvRsD1wYkI/V66TBNKEAIickHCsjkQlpaE+B+CGu+D
- 1r9Wf2zNmDnwulx6N/MV6McrPFdDMLICyd35FGKY5/sw8nGo4pCmZMfODgk28QcowgJK
- oUoQ==
-X-Gm-Message-State: AOAM5339Y6Pm5ZPvJfMDpRUcKpl2m0HqD8BT/fHXxLjaWx523rtOcX+S
- Kim1Sss1hjKuwLWM/F6LGCMcI//cA+sEZHHclU1gDg==
-X-Google-Smtp-Source: ABdhPJzb1tD2LmJ8tp6RbAhJBJCOjfLazkH7aZEB+Qz4bVwRprWKluCD0K9DoGQLFrhgFdl9XVrkJbPy20dGBz6VuDk=
-X-Received: by 2002:a81:3252:0:b0:2f6:b826:2286 with SMTP id
- y79-20020a813252000000b002f6b8262286mr23062193ywy.289.1651751410012; Thu, 05
- May 2022 04:50:10 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BC110FC53
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 11:51:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 846C31F8D4;
+ Thu,  5 May 2022 11:51:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651751502; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mVkZP16seFI7V6Y2j5g4tx9yd6zUju4tMIUwikRtuZM=;
+ b=n529iRyin8u2q3PFxoHpdH81Ajn0A11USwjflG9sxDot4D5AyXnjJ0cwcFAdPS0rE/jryu
+ Za1i9xB96fbi28GNovCBvvb/1TFa4BGnC8/dYCrUUi2DJabyle1EoMkBP58Tn/6oUYpBoM
+ A9IHVRGssfxSjwdLJJnYpgiOFRMkaxc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651751502;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mVkZP16seFI7V6Y2j5g4tx9yd6zUju4tMIUwikRtuZM=;
+ b=yvw98h3Q7Emlhc2YpJFEzS3823zRCZwrweAPGR28eCy+o5S0wtN3FrE1XuQgFET6Jkia63
+ 9yxmFPn8xbcUsTBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FE8613A65;
+ Thu,  5 May 2022 11:51:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id D+71FU66c2KcbwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 May 2022 11:51:42 +0000
+Message-ID: <d5348b86-f455-b28e-14ef-972dfdb75585@suse.de>
+Date: Thu, 5 May 2022 13:51:41 +0200
 MIME-Version: 1.0
-References: <20220505001605.1268483-1-dmitry.baryshkov@linaro.org>
- <20220505001605.1268483-6-dmitry.baryshkov@linaro.org>
- <91f3c385-9d6d-faef-384e-1d87e507c1f2@arm.com>
-In-Reply-To: <91f3c385-9d6d-faef-384e-1d87e507c1f2@arm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 5 May 2022 14:49:59 +0300
-Message-ID: <CAA8EJpqj-fBuRasV-sDUVrCX_yASbZCA9d20T7bojzS46-F8_Q@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm/msm: switch msm_kms_init_aspace() to use
- device_iommu_mapped()
-To: Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 4/4] fbdev: vesafb: Cleanup fb_info in .fb_destroy
+ rather than .remove
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220505113128.264963-1-javierm@redhat.com>
+ <20220505113128.264963-5-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220505113128.264963-5-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------3qb0jJDsfMwthAxMyida0Ig6"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,87 +71,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 May 2022 at 13:27, Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2022-05-05 01:16, Dmitry Baryshkov wrote:
-> > Change msm_kms_init_aspace() to use generic function
-> > device_iommu_mapped() instead of the fwnode-specific interface
-> > dev_iommu_fwspec_get(). While we are at it, stop referencing
-> > platform_bus_type directly and use the bus of the IOMMU device.
->
-> FWIW, I'd have squashed these changes across the previous patches, such
-> that the dodgy fwspec calls are never introduced in the first place, but
-> it's your driver, and if that's the way you want to work it and Rob's
-> happy with it too, then fine by me.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------3qb0jJDsfMwthAxMyida0Ig6
+Content-Type: multipart/mixed; boundary="------------qjaYkn7iDSY9Mbq55tpCXTw7";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Message-ID: <d5348b86-f455-b28e-14ef-972dfdb75585@suse.de>
+Subject: Re: [PATCH v2 4/4] fbdev: vesafb: Cleanup fb_info in .fb_destroy
+ rather than .remove
+References: <20220505113128.264963-1-javierm@redhat.com>
+ <20220505113128.264963-5-javierm@redhat.com>
+In-Reply-To: <20220505113128.264963-5-javierm@redhat.com>
 
-I thought about this. But as the calls were already there (in the
-mdp5), it was easier for me to merge the code and to update it
-afterwards.
+--------------qjaYkn7iDSY9Mbq55tpCXTw7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->
-> For the end result,
->
-> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
->
-> I'm guessing MDP4 could probably use msm_kms_init_aspace() now as well,
-> but unless there's any other reason to respin this series, that's
-> something we could do as a follow-up. Thanks for sorting this out!
+DQoNCkFtIDA1LjA1LjIyIHVtIDEzOjMxIHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
+bGFzOg0KPiBUaGUgZHJpdmVyIGlzIGNhbGxpbmcgZnJhbWVidWZmZXJfcmVsZWFzZSgpIGlu
+IGl0cyAucmVtb3ZlIGNhbGxiYWNrLCBidXQNCj4gdGhpcyB3aWxsIGNhdXNlIHRoZSBzdHJ1
+Y3QgZmJfaW5mbyB0byBiZSBmcmVlZCB0b28gZWFybHkuIFNpbmNlIGl0IGNvdWxkDQo+IGJl
+IHRoYXQgYSByZWZlcmVuY2UgaXMgc3RpbGwgaG9sZCB0byBpdCBpZiB1c2VyLXNwYWNlIG9w
+ZW5lZCB0aGUgZmJkZXYuDQo+IA0KPiBUaGlzIHdvdWxkIGxlYWQgdG8gYSB1c2UtYWZ0ZXIt
+ZnJlZSBlcnJvciBpZiB0aGUgZnJhbWVidWZmZXIgZGV2aWNlIHdhcw0KPiB1bnJlZ2lzdGVy
+ZWQgYnV0IGxhdGVyIGEgdXNlci1zcGFjZSBwcm9jZXNzIHRyaWVzIHRvIGNsb3NlIHRoZSBm
+YmRldiBmZC4NCj4gDQo+IFRoZSBjb3JyZWN0IHRoaW5nIHRvIGRvIGlzIHRvIG9ubHkgdW5y
+ZWdpc3RlciB0aGUgZnJhbWVidWZmZXIgaW4gdGhlDQo+IGRyaXZlcidzIC5yZW1vdmUgY2Fs
+bGJhY2ssIGJ1dCBkbyBhbnkgY2xlYW51cCBpbiB0aGUgZmJfb3BzLmZiX2Rlc3Ryb3kuDQo+
+IA0KPiBTdWdnZXN0ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwu
+Y2g+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVy
+bUByZWRoYXQuY29tPg0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+DQoNCj4gLS0tDQo+IA0KPiBDaGFuZ2VzIGluIHYyOg0KPiAtIEFs
+c28gZG8gdGhlIGNoYW5nZSBmb3IgdmVzYWZiIChUaG9tYXMgWmltbWVybWFubikuDQo+IA0K
+PiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvdmVzYWZiLmMgfCAxNCArKysrKysrKysrKy0tLQ0K
+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0K
+PiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvdmVzYWZiLmMgYi9kcml2
+ZXJzL3ZpZGVvL2ZiZGV2L3Zlc2FmYi5jDQo+IGluZGV4IGRmNmRlNWE5ZGQ0Yy4uMWYwM2E0
+NDllNTA1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3Zlc2FmYi5jDQo+
+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvdmVzYWZiLmMNCj4gQEAgLTE3OSw2ICsxNzks
+MTAgQEAgc3RhdGljIGludCB2ZXNhZmJfc2V0Y29scmVnKHVuc2lnbmVkIHJlZ25vLCB1bnNp
+Z25lZCByZWQsIHVuc2lnbmVkIGdyZWVuLA0KPiAgIAlyZXR1cm4gZXJyOw0KPiAgIH0NCj4g
+ICANCj4gKy8qDQo+ICsgKiBmYl9vcHMuZmJfZGVzdHJveSBpcyBjYWxsZWQgYnkgdGhlIGxh
+c3QgcHV0X2ZiX2luZm8oKSBjYWxsIGF0IHRoZSBlbmQNCj4gKyAqIG9mIHVucmVnaXN0ZXJf
+ZnJhbWVidWZmZXIoKSBvciBmYl9yZWxlYXNlKCkuIERvIGFueSBjbGVhbnVwIGhlcmUuDQo+
+ICsgKi8NCj4gICBzdGF0aWMgdm9pZCB2ZXNhZmJfZGVzdHJveShzdHJ1Y3QgZmJfaW5mbyAq
+aW5mbykNCj4gICB7DQo+ICAgCXN0cnVjdCB2ZXNhZmJfcGFyICpwYXIgPSBpbmZvLT5wYXI7
+DQo+IEBAIC0xODcsNyArMTkxLDEzIEBAIHN0YXRpYyB2b2lkIHZlc2FmYl9kZXN0cm95KHN0
+cnVjdCBmYl9pbmZvICppbmZvKQ0KPiAgIAlhcmNoX3BoeXNfd2NfZGVsKHBhci0+d2NfY29v
+a2llKTsNCj4gICAJaWYgKGluZm8tPnNjcmVlbl9iYXNlKQ0KPiAgIAkJaW91bm1hcChpbmZv
+LT5zY3JlZW5fYmFzZSk7DQo+ICsNCj4gKwlpZiAoKChzdHJ1Y3QgdmVzYWZiX3BhciAqKShp
+bmZvLT5wYXIpKS0+cmVnaW9uKQ0KPiArCQlyZWxlYXNlX3JlZ2lvbigweDNjMCwgMzIpOw0K
+PiArDQo+ICAgCXJlbGVhc2VfbWVtX3JlZ2lvbihpbmZvLT5hcGVydHVyZXMtPnJhbmdlc1sw
+XS5iYXNlLCBpbmZvLT5hcGVydHVyZXMtPnJhbmdlc1swXS5zaXplKTsNCj4gKw0KPiArCWZy
+YW1lYnVmZmVyX3JlbGVhc2UoaW5mbyk7DQo+ICAgfQ0KPiAgIA0KPiAgIHN0YXRpYyBzdHJ1
+Y3QgZmJfb3BzIHZlc2FmYl9vcHMgPSB7DQo+IEBAIC00ODQsMTAgKzQ5NCw4IEBAIHN0YXRp
+YyBpbnQgdmVzYWZiX3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAg
+IHsNCj4gICAJc3RydWN0IGZiX2luZm8gKmluZm8gPSBwbGF0Zm9ybV9nZXRfZHJ2ZGF0YShw
+ZGV2KTsNCj4gICANCj4gKwkvKiB2ZXNhZmJfZGVzdHJveSB0YWtlcyBjYXJlIG9mIGluZm8g
+Y2xlYW51cCAqLw0KPiAgIAl1bnJlZ2lzdGVyX2ZyYW1lYnVmZmVyKGluZm8pOw0KPiAtCWlm
+ICgoKHN0cnVjdCB2ZXNhZmJfcGFyICopKGluZm8tPnBhcikpLT5yZWdpb24pDQo+IC0JCXJl
+bGVhc2VfcmVnaW9uKDB4M2MwLCAzMik7DQo+IC0JZnJhbWVidWZmZXJfcmVsZWFzZShpbmZv
+KTsNCj4gICANCj4gICAJcmV0dXJuIDA7DQo+ICAgfQ0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
+b3Rldg0K
 
-Not really. MDP4 doesn't have the parent MDSS device, so it doesn't
-need all these troubles.
+--------------qjaYkn7iDSY9Mbq55tpCXTw7--
 
->
-> Robin.
->
-> > Suggested-by: Robin Murphy <robin.murphy@arm.com>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/msm_drv.c | 14 +++++++-------
-> >   1 file changed, 7 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > index 98ae0036ab57..2fc3f820cd59 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > @@ -272,21 +272,21 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
-> >       struct device *mdss_dev = mdp_dev->parent;
-> >       struct device *iommu_dev;
-> >
-> > -     domain = iommu_domain_alloc(&platform_bus_type);
-> > -     if (!domain) {
-> > -             drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
-> > -             return NULL;
-> > -     }
-> > -
-> >       /*
-> >        * IOMMUs can be a part of MDSS device tree binding, or the
-> >        * MDP/DPU device.
-> >        */
-> > -     if (dev_iommu_fwspec_get(mdp_dev))
-> > +     if (device_iommu_mapped(mdp_dev))
-> >               iommu_dev = mdp_dev;
-> >       else
-> >               iommu_dev = mdss_dev;
-> >
-> > +     domain = iommu_domain_alloc(iommu_dev->bus);
-> > +     if (!domain) {
-> > +             drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
-> > +             return NULL;
-> > +     }
-> > +
-> >       mmu = msm_iommu_new(iommu_dev, domain);
-> >       if (IS_ERR(mmu)) {
-> >               iommu_domain_free(domain);
+--------------3qb0jJDsfMwthAxMyida0Ig6
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJzuk0FAwAAAAAACgkQlh/E3EQov+C9
+CBAAkIiJUw3OnjFE97PswhZpdccKT8EMFa/zzkjh+SS+nCzOHUimt0Nf7kvtOYUB5EVmYS6DV+n6
+Kz395oq40et5kks17UL/yTqxryNr4BlIrkgqQwy0f35clZw8iM5QOolgnlXE10gP5oYGrd9W7Tpi
+U+ynq3kYOT2AO+J2GvNxMTEK3pq9pcUiha7HIEG1N52VGrDPDlPaV7Qamx95C5oXvRhkg8yDaW0i
+x1tLe7dY3n7mrPDuG6LqqS6efPUARDcquRvCKr6m7AZpN1amT7ceyW3K93HpBRqDZM25Tq/Vv6Nx
+IH2h3b/J4Oz09a6Z8jjJk/WPdh2IPTr63o2miJx7mWe9OPeepT53WZJRO0R3zDNWOieXNObFXhbY
+I7b0CsBRGU0jdzQCesDf2jlhFQBahxUZxgJvlB35N292k2PMFRgDBxeLkoun5VKVr2kb+iuD6y+D
+iZKrbKWC33D7wOeJeVgEx7CLkmzyxQX5jwytFSZKnU3bZWWjLBVVMjJ5Uwgo0W9PgNi4HRlaQ0Ft
+As9uD7HCg3IWkKjuP51Prw4cuyR2e6XMPhvQa2yeJp2AMXiIVvnUMGvqtb/cg41K7QVD+/7DlBUy
+vdcVGIO0TMbPnGjQmvwm+sCJG2lni9Y9aGrFm2AZXpCX/KVHDGws+mo6hhTxI0CuzyiUv2PVQCs2
+IQs=
+=M+WV
+-----END PGP SIGNATURE-----
 
--- 
-With best wishes
-Dmitry
+--------------3qb0jJDsfMwthAxMyida0Ig6--
