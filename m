@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6377451CA0D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 22:08:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D11BE51CA31
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 22:10:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4250B10E1BE;
-	Thu,  5 May 2022 20:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3636610EB2D;
+	Thu,  5 May 2022 20:10:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9FC810E1DC
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 20:08:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 172E4CE30E5
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 20:08:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0838C385B9
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 20:08:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651781295;
- bh=2J3A2nVP5j1kW5YxuBOcohrcVqh9eJh7hKJ6qkG2IxE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pGVOA+nlWAv4zF+ej+HpjpYGvH6HjzHeDv3lOmq24s8T0eibj88c7+gk93eI+fRaF
- Kp3zzYaat/CbzzeB/V10tF09ZsR67AAUtR+0z9cOSKhBAXHUYoO7IQ5BYFKRFGUGr+
- YQSWOz0N05szaT98gHaOM7xggH2PBGVuuDKZrnw5XyGzmaBHK5ntiBZrWs5sgDoCf+
- VJ82aib+w3vhPWVcDQ3Cyz6DsJYkC0OKx/WsBcycpc0eIx3+jSu/t+3NgLso6VuUmc
- neUMO9CWLMcBBYqSO5qbFSr1ATtFaJSrsz3OV9cXjqosJAGpCw/0090GDMQMGxvE6x
- krOpMKF815ykQ==
-Received: by mail-wm1-f48.google.com with SMTP id q20so3295694wmq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 13:08:15 -0700 (PDT)
-X-Gm-Message-State: AOAM533fWYVtZCBZyunP6dXbUKDqzfjRa5HjGXIr+T4lqaOzYwZXGIVH
- D0qZrQ6OdDFBu7hSVuyipM1K3i0/oSbjG3IMzEg=
-X-Google-Smtp-Source: ABdhPJwwObn/UaqT30q1FbiaZHyI1hmOOl8iNniR0W2zAZ7y8tPUXLBWeVll6mQz87F2JUMC3yVO95QaB6biNASW3WU=
-X-Received: by 2002:a05:600c:4144:b0:394:1972:1a73 with SMTP id
- h4-20020a05600c414400b0039419721a73mr27085wmm.71.1651781293834; Thu, 05 May
- 2022 13:08:13 -0700 (PDT)
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC2810EB2D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 20:10:04 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id v59so9480687ybi.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 13:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=hOBKsucs0VoUPv/ALOPSMFwlNoeZVWvVSpsNHH3v3zU=;
+ b=AA4C9n9/uPzc3x67Qqo7tjqnHMmEZimQVSDWh4HJZXGp7PnLD/AF78D6a6NbXnMsAT
+ T4B0XxP2sNU9lct8SNzj++iDDnvMVCr/ERNSJuuDGVmFG7qSCu/kgLE5KSGiJeyJ9Hkm
+ ks8Dnxeu+Gg5dJQEw9UkTbwD6BfpNHVTvEVa5IXPpnDlJyMBwyPLPKpmhDZ9a5+ISxMw
+ x9KbYot9lU6PUU0JvPXf+LnL0t55esNfWMgLg1C2spBnj/0BuTNUAhHATjXWZDuXZVYy
+ rtZDivqTbrX9lbY5KPQbgE1g70cdpZs6Xz36VyROHSF5JDUItQATRGBigfY3/MTP4zgL
+ Hv8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hOBKsucs0VoUPv/ALOPSMFwlNoeZVWvVSpsNHH3v3zU=;
+ b=xdxP62UAbUVAWo2R/rklTsHvdeNzppcUuX1n/6g8mAurRBQzPoKvumzwWaFnuUq1Yq
+ Je3pDqt0h1iAxWl6Ux89hl3qafDDBRdlMev08ER+twJSKJS53zKhcEPH+ISf8PwaqntC
+ 5GVb34Njqz81SR0BJldLNuZ5mvZWFDbIMHD3bQD0QhzGyMnJe4TTYOaqF2QWzGZGQsIh
+ 0igxhoR8XzoYefj0yjoe4T8AwCku2QzGGD8Y32FUyAVQIua4bKEIl+PQEqiEQHcbBp1I
+ 0A20hpd61qJoO0IZ//TSHmPvHvGzLyyyNzhZY8S1YSl05b01ZEsgFfKE+b390L4Ee3r2
+ C8eg==
+X-Gm-Message-State: AOAM530KB3CSpXnpptl5WpPn7PAR/m01swEpPrvwdUlHvIez2tfhHWlt
+ /V/C06g8xcBg1o4aNQchOnLwRm/P1yteIf/QXzr82A==
+X-Google-Smtp-Source: ABdhPJwyvj9Iu2S8yS4YkWxx3iqyEMXrgK0r+Ye2GfjGKei4OPTpV0P5QARLOdRc6osLtJqC6ZZM/RCL4bH33VYoBQQ=
+X-Received: by 2002:a25:c0d7:0:b0:64a:250:996c with SMTP id
+ c206-20020a25c0d7000000b0064a0250996cmr9154563ybf.512.1651781403278; Thu, 05
+ May 2022 13:10:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220419163810.2118169-19-arnd@kernel.org>
- <CACRpkdac8dGKSEmc-HpgooJefrDtiKK+_A1Mv7AJM8yQV9UY-w@mail.gmail.com>
- <CAK8P3a0w3gFzZoBzyRsi1Ta4prESf8Fp0=quAPSKMnaXvbXNTQ@mail.gmail.com>
- <CACRpkdZNryYkidvdKuT57RM3fz6_X+3oOzF5xaOZd+TyScfUsw@mail.gmail.com>
- <CAK8P3a0y0tVZODpp+GSf0EkMPWbbvMqA-4kNf0NJMc0M2=2WHw@mail.gmail.com>
- <CACRpkdaNRX0RDYJd_uaGo5jtiXu_qGHmEDGniaCmR=TZvcHH8A@mail.gmail.com>
- <YnPhna5h1+kQGFLa@sirena.org.uk>
- <CAK8P3a2cYUYMKSMo3VOLVTO0=LWc0sHf72Eph8t_es9axo_eeA@mail.gmail.com>
- <YnPna0pW9csiFkHK@sirena.org.uk>
-In-Reply-To: <YnPna0pW9csiFkHK@sirena.org.uk>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Thu, 5 May 2022 22:07:56 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1H-74Q1CzqW_Q=7g0KGkcd+TY3HTBbbE27XhXmfJhrRA@mail.gmail.com>
-Message-ID: <CAK8P3a1H-74Q1CzqW_Q=7g0KGkcd+TY3HTBbbE27XhXmfJhrRA@mail.gmail.com>
-Subject: Re: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
-To: Mark Brown <broonie@kernel.org>
+References: <20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
+ <YnJv3B/85hTz54SC@intel.com>
+ <CAD=FV=WndmKuEB0=OVQP9YuJaSmD0uxkNs5LE0wWsFj7gBvhBA@mail.gmail.com>
+ <1c6c9fde6e85f09cc89ea8dc6e8716fef58f3ee1.camel@redhat.com>
+ <YnPjO4kbjezQl5Da@intel.com>
+ <CAD=FV=XbZEagm5qR207mcVm1Ry=bGeuRAqTYx3SBoZfyo6fSkg@mail.gmail.com>
+ <YnPoYsnx7IeBfJ5D@intel.com>
+ <CAD=FV=WxxEGM4cLBHGMeRBFDAXGJJF105kLZ588JSFJRg8PM8A@mail.gmail.com>
+In-Reply-To: <CAD=FV=WxxEGM4cLBHGMeRBFDAXGJJF105kLZ588JSFJRg8PM8A@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 5 May 2022 23:09:48 +0300
+Message-ID: <CAA8EJppSof0wZ9nph8v_2pgRZj2BJiZ1hTBfLgQ+CFsT+h_dyQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: Document that power requirements for DP AUX transfers
+To: Doug Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,284 +71,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Tomas Cech <sleep_walker@suse.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- linux-clk <linux-clk@vger.kernel.org>, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
- Michael Turquette <mturquette@baylibre.com>, Sergey Lapin <slapin@ossfans.org>,
- Arnd Bergmann <arnd@arndb.de>, Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Daniel Mack <daniel@zonque.org>
+ Stephen Boyd <swboyd@chromium.org>, Jani Nikula <jani.nikula@intel.com>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 5, 2022 at 5:04 PM Mark Brown <broonie@kernel.org> wrote:
-> On Thu, May 05, 2022 at 04:59:35PM +0200, Arnd Bergmann wrote:
-> > On Thu, May 5, 2022 at 4:39 PM Mark Brown <broonie@kernel.org> wrote:
-> > > On Thu, May 05, 2022 at 04:33:06PM +0200, Linus Walleij wrote:
-> > > > On Thu, May 5, 2022 at 8:04 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Thu, 5 May 2022 at 18:53, Doug Anderson <dianders@chromium.org> wrote:
 >
-> > > > > static struct snd_soc_jack_pin hs_jack_pin[] = {
-> > > > >         {
-> > > > >                 .pin    = "Headphone Jack",
-> > > > >                 .mask   = SND_JACK_HEADPHONE,
-> > > > >         },
-> > > > >         {
-> > > > >                 .pin    = "Speaker",
-> > > > >                 /* disable speaker when hp jack is inserted */
-> > > > >                 .mask   = SND_JACK_HEADPHONE,
-> > > > >                 .invert = 1,
-> > > > >         },
+> Hi,
 >
-> > > > Hm some ASoC thingie. No idea what that is, but I suppose another
-> > > > place where a subsystem for legacy reasons try to do the gpiolib
-> > > > inversion on it's own accord. That one isn't flagged as active low in the
-> > > > descriptor so it's fine I guess.
+> On Thu, May 5, 2022 at 8:29 AM Ville Syrj=C3=A4l=C3=A4
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Thu, May 05, 2022 at 08:00:20AM -0700, Doug Anderson wrote:
+> > > Hi,
+> > >
+> > > On Thu, May 5, 2022 at 7:46 AM Ville Syrj=C3=A4l=C3=A4
+> > > <ville.syrjala@linux.intel.com> wrote:
+> > > >
+> > > > On Wed, May 04, 2022 at 02:10:08PM -0400, Lyude Paul wrote:
+> > > > > On Wed, 2022-05-04 at 09:04 -0700, Doug Anderson wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > On Wed, May 4, 2022 at 5:21 AM Ville Syrj=C3=A4l=C3=A4
+> > > > > > <ville.syrjala@linux.intel.com> wrote:
+> > > > > > >
+> > > > > > > On Tue, May 03, 2022 at 04:21:08PM -0700, Douglas Anderson wr=
+ote:
+> > > > > > > > When doing DP AUX transfers there are two actors that need =
+to be
+> > > > > > > > powered in order for the DP AUX transfer to work: the DP so=
+urce and
+> > > > > > > > the DP sync. Commit bacbab58f09d ("drm: Mention the power s=
+tate
+> > > > > > > > requirement on side-channel operations") added some documen=
+tation
+> > > > > > > > saying that the DP source is required to power itself up (i=
+f needed)
+> > > > > > > > to do AUX transfers. However, that commit doesn't talk anyt=
+hing about
+> > > > > > > > the DP sink.
+> > > > > > > >
+> > > > > > > > For full fledged DP the sink isn't really a problem. It's e=
+xpected
+> > > > > > > > that if an external DP monitor isn't plugged in that attemp=
+ting to do
+> > > > > > > > AUX transfers won't work. It's also expected that if a DP m=
+onitor is
+> > > > > > > > plugged in (and thus asserting HPD) that it AUX transfers w=
+ill work.
+> > > > > > > >
+> > > > > > > > When we're looking at eDP, however, things are less obvious=
+. Let's add
+> > > > > > > > some documentation about expectations. Here's what we'll sa=
+y:
+> > > > > > > >
+> > > > > > > > 1. We don't expect the DP AUX transfer function to power on=
+ an eDP
+> > > > > > > > panel. If an eDP panel is physically connected but powered =
+off then it
+> > > > > > > > makes sense for the transfer to fail.
+> > > > > > >
+> > > > > > > I don't agree with this. I think the panel should just get po=
+wred up
+> > > > > > > for AUX transfers.
+> > > > > >
+> > > > > > That's definitely a fair thing to think about and I have at tim=
+es
+> > > > > > thought about trying to make it work that way. It always ends u=
+p
+> > > > > > hitting a roadblock.
+> > > >
+> > > > How do you even probe the panel initially if you can't power it on
+> > > > without doing some kind of full modeset/etc.?
+> > >
+> > > It's not that we can't power it on without a full modeset. It' that a=
+t
+> > > panel probe time all the DRM components haven't been hooked together
+> > > yet, so the bridge chain isn't available yet. The panel can power
+> > > itself on, though. This is why the documentation I added says: "if a
+> > > panel driver is initiating a DP AUX transfer it may power itself up
+> > > however it wants"
+> > >
+> > >
+> > > > > > The biggest roadblock that I recall is that to make this work t=
+hen
+> > > > > > you'd have to somehow ensure that the bridge chain's pre_enable=
+() call
+> > > > > > was made as part of the AUX transfer, right? Since the transfer
+> > > > > > function can be called in any context at all, we have to coordi=
+nate
+> > > > > > this with DRM. If, for instance, DRM is mid way through powerin=
+g the
+> > > > > > panel down then we need to wait for DRM to fully finish powerin=
+g down,
+> > > > > > then we need to power the panel back up. I don't believe that w=
+e can
+> > > > > > just force the panel to stay on if DRM is turning it off becaus=
+e of
+> > > > > > panel power sequencing requirements. At least I know it would h=
+ave the
+> > > > > > potential to break "samsung-atna33xc20.c" which absolutely need=
+s to
+> > > > > > see the panel power off after it's been disabled.
+> > > > > >
+> > > > > > We also, I believe, need to handle the fact that the bridge cha=
+in may
+> > > > > > not have even been created yet. We do AUX transfers to read the=
+ EDID
+> > > > > > and also to setup the backlight in the probe function of panel-=
+edp. At
+> > > > > > that point the panel hasn't been linked into the chain. We had =
+_long_
+> > > > > > discussions [1] about moving these out of probe and decided tha=
+t we
+> > > > > > could move the EDID read to be later but that it was going to r=
+eally
+> > > > > > ugly to move the AUX backlight later. The backlight would end u=
+p
+> > > > > > popping up at some point in time later (the first call to panel
+> > > > > > prepare() or maybe get_modes()) and that seemed weird.
+> > > > > >
+> > > > > > [1]
+> > > > > > https://lore.kernel.org/lkml/CAD=3DFV=3DU5-sTDLYdkeJWLAOG-0wgxR=
+49VxtwUyUO7z2PuibLGsg@mail.gmail.com/
+> > > > > >
+> > > > > >
+> > > > > > > Otherwise you can't trust that eg. the /dev/aux
+> > > > > > > stuff is actually usable.
+> > > > > >
+> > > > > > Yeah, it's been on my mind to talk more about /dev/aux. I think
+> > > > > > /dev/aux has some problems, at least with eDP. Specifically:
+> > > > > >
+> > > > > > 1. Even if we somehow figure out how to power the panel on as p=
+art of
+> > > > > > the aux transfer, we actually _still_ not guaranteed to be able=
+ to
+> > > > > > talk to it as far as I understand. My colleague reported to me =
+that on
+> > > > > > a system he was working with that had PSR (panel self refresh) =
+that
+> > > > > > when the panel was powered on but in PSR mode that it wouldn't =
+talk
+> > > > > > over AUX. Assuming that this is correct then I guess we'd also =
+have to
+> > > > > > do even more coordination with DRM to exit PSR and block future
+> > > > > > transitions of PSR. (NOTE: it's always possible that my colleag=
+ue ran
+> > > > > > into some other bug and that panels are _supposed_ to be able t=
+o talk
+> > > > > > in PSR. If you think this is the case, I can always try to dig =
+more).
+> > > > >
+> > > > > TBH - the coordination with drm I don't think would be the diffic=
+ult part, as
+> > > > > we'd just need to add some sort of property (ideally invisible to=
+ userspace)
+> > > > > that can be used in an atomic commit to disable PSR - similar to =
+how we enable
+> > > > > CRC readback from sysfs in the majority of DRM drivers. That bein=
+g said
+> > > > > though, I think we can just leave the work of solving this proble=
+m up to
+> > > > > whoever ends up needing this to work.
+> > > >
+> > > > The driver should just disable/prevent PSR when doing AUX if the ha=
+rdware
+> > > > can't guarantee the PSR and AUX won't interfere with each other.
+> > >
+> > > OK, fair enough. If we can solve the PSR problem that would be great.
+> > >
+> > >
+> > > > For i915 we have no problems with powering the panel on for AUX, bu=
+t
+> > > > there is still a race with PSR vs. AUX because both use the same ha=
+rdware
+> > > > internally. I've been nagging at people to fix this for i915 but I =
+don't
+> > > > think it still got done :( Originally we were supposed to get a har=
+dware
+> > > > mutex for this but that plan got scrapped for some reason.
+> > >
+> > > I haven't looked at the i915 DRM code much, but my understanding is
+> > > that it's more of an "all in one" approach. The one driver pretty muc=
+h
+> > > handles everything itself. That means that powering the panel up isn'=
+t
+> > > too hard. Is that right?
+> >
+> > Yeah, we don't have too many "helpful" abstractions in the way ;)
+> >
+> > > > > > for userspace to be mucking with /dev/aux. For DP's case I gues=
+s
+> > > > > > /dev/aux is essentially enabling userspace drivers to do things=
+ like
+> > > > > > update firmware on DP monitors or play with the backlight. I gu=
+ess we
+> > > > > > decided that we didn't want to add drivers in the kernel to han=
+dle
+> > > > > > this type of stuff so we left it for userspace? For eDP, though=
+, there
+> > > > >
+> > > > > The main reason DP AUX got exposed to userspace in the first plac=
+e was for
+> > > > > usecases like fwupd,
+> > > >
+> > > > My memory says the original reason was debugging. Or at least I had
+> > > > no idea fwupd had started to use this until I saw some weird lookin=
+g
+> > > > DPCD addresses in some debug log.
+> > > >
+> > > > But I suppose it's possible there were already plans for firmware
+> > > > updates and whatnot and it just wasn't being discussed when this wa=
+s
+> > > > being developed.
+> > >
+> > > If it's just for debugging, I'd argue that leaving it as-is should be
+> > > fine. Someone poking around with their system can find a way to make
+> > > sure that the panel stays on.
+> >
+> > That could require altering the state of the system quite a bit, which
+> > may defeat the purpose.
 >
-> > > It's saying that when the headphone is inserted the headphone output
-> > > should be enabled and the speaker output should be disabled, and vice
-> > > versa.
+> It does? In my experience you just need to make sure that the panel is
+> turned on. ...or are you saying that you'd use this for debugging a
+> case where the system isn't probing properly?
 >
-> > Ok, that sounds like I should remove the flag here if I declare the
-> > GPIO line as GPIO_ACTIVE_LOW instead of GPIO_ACTIVE_HIGH, right?
+> If things are truly in bad shape, at least on boards using device tree
+> it's easy to tweak the device tree to force a regulator to stay on. I
+> suppose we could also add a "debugfs" entry for the panel that also
+> forces it to be powered on.
 >
-> If you change the sense of the GPIO you'll need to flip the invert to
-> the headphone instead of the speaker - whichever way round the GPIO
-> sense is each of the pins should be taking the opposite sense from the
-> GPIO state to the other.
+>
+> >  At least I would not be willing to accept such
+> > a limitation.
+>
+> Hmm, so where does that leave us? Are you against landing this patch?
+> I've done a lot of cleanups recently and I just don't think I have the
+> time to rework all the AUX transfer functions and figure out how to
+> power the panel. It also seems like a lot of added complexity for a
+> debug path.
 
-Ok, I hope I got it this time:
+If my 2c counts, I support landing this patch. It clearly documents
+current behaviour and expectations.
 
-- The hs_jack_gpio/"earphone-det" is declared as GPIO_ACTIVE_LOW,
-    with the ".invert" dropped in the snd_soc_jack_gpio definition to match
+If that helps,
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-- "spk-sd" is declared as GPIO_ACTIVE_LOW, so both
-  this and  "hp-driver" are enabled by setting the gpio to active, rather than
-  the two being opposites
+As for the /dev/aux, question, I think we can make the following plan work:
+- Document that eDP panel power up can be handled by using the
+pm_runtime API (which is the case for both panel-edp and atna33xc20)).
+I think this is a sensible requirement anyway. And both panels show
+how to handle different poweron/poweroff timings.
+- Make drm_dp_aux_dev_get_by_minor() pm_runtime_get() the attached panel.
 
-- snd_soc_jack_pin flips the 'invert' flag from speaker to headphone, since
-  the "earphone-det" is now  reversed
+> > > This is similar to how if you're poking
+> > > around with /dev/i2c it's up to you to make sure that the i2c device
+> > > you're poking at stays powered.
 
-- hx4700_spk_power() flips polarity when setting the output to match the
-  GPIO_ACTIVE_LOW setting, but hx4700_hp_power() does not change.
 
-        Arnd
-
-commit 20a9b05eff0488b78aa02c07f58654daa294069a
-Author: Arnd Bergmann <arnd@arndb.de>
-Date:   Wed Sep 11 14:27:13 2019 +0200
-
-    ARM: pxa: hx4700: use gpio descriptors for audio
-
-    The audio driver should not use a hardwired gpio number
-    from the header. Change it to use a lookup table.
-
-    Cc: Philipp Zabel <philipp.zabel@gmail.com>
-    Cc: Paul Parsons <lost.distance@yahoo.com>
-    Acked-by: Mark Brown <broonie@kernel.org>
-    Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-    Cc: alsa-devel@alsa-project.org
-    Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-diff --git a/arch/arm/mach-pxa/hx4700-pcmcia.c
-b/arch/arm/mach-pxa/hx4700-pcmcia.c
-index e8acbfc9ef6c..e2331dfe427d 100644
---- a/arch/arm/mach-pxa/hx4700-pcmcia.c
-+++ b/arch/arm/mach-pxa/hx4700-pcmcia.c
-@@ -10,7 +10,7 @@
- #include <linux/irq.h>
-
- #include <asm/mach-types.h>
--#include <mach/hx4700.h>
-+#include "hx4700.h"
-
- #include <pcmcia/soc_common.h>
-
-diff --git a/arch/arm/mach-pxa/hx4700.c b/arch/arm/mach-pxa/hx4700.c
-index 140a44cb2989..2ae06edf413c 100644
---- a/arch/arm/mach-pxa/hx4700.c
-+++ b/arch/arm/mach-pxa/hx4700.c
-@@ -41,7 +41,7 @@
-
- #include "pxa27x.h"
- #include "addr-map.h"
--#include <mach/hx4700.h>
-+#include "hx4700.h"
- #include <linux/platform_data/irda-pxaficp.h>
-
- #include <sound/ak4641.h>
-@@ -834,6 +834,19 @@ static struct i2c_board_info i2c_board_info[]
-__initdata = {
-        },
- };
-
-+static struct gpiod_lookup_table hx4700_audio_gpio_table = {
-+       .dev_id = "hx4700-audio",
-+       .table = {
-+               GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
-+                           "earphone-det", GPIO_ACTIVE_LOW),
-+               GPIO_LOOKUP("gpio-pxa", GPIO92_HX4700_HP_DRIVER,
-+                           "hp-driver", GPIO_ACTIVE_HIGH),
-+               GPIO_LOOKUP("gpio-pxa", GPIO107_HX4700_SPK_nSD,
-+                           "spk-sd", GPIO_ACTIVE_LOW),
-+               { },
-+       },
-+};
-+
- static struct platform_device audio = {
-        .name   = "hx4700-audio",
-        .id     = -1,
-@@ -895,6 +908,7 @@ static void __init hx4700_init(void)
-
-        gpiod_add_lookup_table(&bq24022_gpiod_table);
-        gpiod_add_lookup_table(&gpio_vbus_gpiod_table);
-+       gpiod_add_lookup_table(&hx4700_audio_gpio_table);
-        platform_add_devices(devices, ARRAY_SIZE(devices));
-        pwm_add_table(hx4700_pwm_lookup, ARRAY_SIZE(hx4700_pwm_lookup));
-
-diff --git a/arch/arm/mach-pxa/include/mach/hx4700.h
-b/arch/arm/mach-pxa/hx4700.h
-similarity index 99%
-rename from arch/arm/mach-pxa/include/mach/hx4700.h
-rename to arch/arm/mach-pxa/hx4700.h
-index 0c30e6d9c660..ce2db33989e1 100644
---- a/arch/arm/mach-pxa/include/mach/hx4700.h
-+++ b/arch/arm/mach-pxa/hx4700.h
-@@ -10,7 +10,7 @@
-
- #include <linux/gpio.h>
- #include <linux/mfd/asic3.h>
--#include "irqs.h" /* PXA_NR_BUILTIN_GPIO */
-+#include <mach/irqs.h> /* PXA_NR_BUILTIN_GPIO */
-
- #define HX4700_ASIC3_GPIO_BASE PXA_NR_BUILTIN_GPIO
- #define HX4700_EGPIO_BASE      (HX4700_ASIC3_GPIO_BASE + ASIC3_NUM_GPIOS)
-diff --git a/sound/soc/pxa/hx4700.c b/sound/soc/pxa/hx4700.c
-index 7334fac758de..e6473c50e512 100644
---- a/sound/soc/pxa/hx4700.c
-+++ b/sound/soc/pxa/hx4700.c
-@@ -10,7 +10,7 @@
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
-
- #include <sound/core.h>
- #include <sound/jack.h>
-@@ -18,10 +18,10 @@
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
-
--#include <mach/hx4700.h>
- #include <asm/mach-types.h>
- #include "pxa2xx-i2s.h"
-
-+static struct gpio_desc *gpiod_hp_driver, *gpiod_spk_sd;
- static struct snd_soc_jack hs_jack;
-
- /* Headphones jack detection DAPM pin */
-@@ -29,20 +29,18 @@ static struct snd_soc_jack_pin hs_jack_pin[] = {
-        {
-                .pin    = "Headphone Jack",
-                .mask   = SND_JACK_HEADPHONE,
-+               .invert = 1,
-        },
-        {
-                .pin    = "Speaker",
-                /* disable speaker when hp jack is inserted */
-                .mask   = SND_JACK_HEADPHONE,
--               .invert = 1,
-        },
- };
-
- /* Headphones jack detection GPIO */
- static struct snd_soc_jack_gpio hs_jack_gpio = {
--       .gpio           = GPIO75_HX4700_EARPHONE_nDET,
--       .invert         = true,
--       .name           = "hp-gpio",
-+       .name           = "earphone-det",
-        .report         = SND_JACK_HEADPHONE,
-        .debounce_time  = 200,
- };
-@@ -81,14 +79,14 @@ static const struct snd_soc_ops hx4700_ops = {
- static int hx4700_spk_power(struct snd_soc_dapm_widget *w,
-                            struct snd_kcontrol *k, int event)
- {
--       gpio_set_value(GPIO107_HX4700_SPK_nSD, !!SND_SOC_DAPM_EVENT_ON(event));
-+       gpiod_set_value(gpiod_spk_sd, !SND_SOC_DAPM_EVENT_ON(event));
-        return 0;
- }
-
- static int hx4700_hp_power(struct snd_soc_dapm_widget *w,
-                           struct snd_kcontrol *k, int event)
- {
--       gpio_set_value(GPIO92_HX4700_HP_DRIVER, !!SND_SOC_DAPM_EVENT_ON(event));
-+       gpiod_set_value(gpiod_hp_driver, !!SND_SOC_DAPM_EVENT_ON(event));
-        return 0;
- }
-
-@@ -162,11 +160,6 @@ static struct snd_soc_card snd_soc_card_hx4700 = {
-        .fully_routed           = true,
- };
-
--static struct gpio hx4700_audio_gpios[] = {
--       { GPIO107_HX4700_SPK_nSD, GPIOF_OUT_INIT_HIGH, "SPK_POWER" },
--       { GPIO92_HX4700_HP_DRIVER, GPIOF_OUT_INIT_LOW, "EP_POWER" },
--};
--
- static int hx4700_audio_probe(struct platform_device *pdev)
- {
-        int ret;
-@@ -174,26 +167,26 @@ static int hx4700_audio_probe(struct
-platform_device *pdev)
-        if (!machine_is_h4700())
-                return -ENODEV;
-
--       ret = gpio_request_array(hx4700_audio_gpios,
--                               ARRAY_SIZE(hx4700_audio_gpios));
-+       gpiod_hp_driver = devm_gpiod_get(&pdev->dev, "hp-driver", GPIOD_ASIS);
-+       ret = PTR_ERR_OR_ZERO(gpiod_hp_driver);
-+       if (ret)
-+               return ret;
-+       gpiod_spk_sd = devm_gpiod_get(&pdev->dev, "spk-sd", GPIOD_ASIS);
-+       ret = PTR_ERR_OR_ZERO(gpiod_spk_sd);
-        if (ret)
-                return ret;
-
-+       hs_jack_gpio.gpiod_dev = &pdev->dev;
-        snd_soc_card_hx4700.dev = &pdev->dev;
-        ret = devm_snd_soc_register_card(&pdev->dev, &snd_soc_card_hx4700);
--       if (ret)
--               gpio_free_array(hx4700_audio_gpios,
--                               ARRAY_SIZE(hx4700_audio_gpios));
-
-        return ret;
- }
-
- static int hx4700_audio_remove(struct platform_device *pdev)
- {
--       gpio_set_value(GPIO92_HX4700_HP_DRIVER, 0);
--       gpio_set_value(GPIO107_HX4700_SPK_nSD, 0);
--
--       gpio_free_array(hx4700_audio_gpios, ARRAY_SIZE(hx4700_audio_gpios));
-+       gpiod_set_value(gpiod_hp_driver, 0);
-+       gpiod_set_value(gpiod_spk_sd, 0);
-        return 0;
- }
+--=20
+With best wishes
+Dmitry
