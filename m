@@ -2,62 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2613751C8AD
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 21:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E948051C8C6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 21:15:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E84410E47A;
-	Thu,  5 May 2022 19:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6620A10E783;
+	Thu,  5 May 2022 19:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5736410E4AA
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 19:06:12 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id v65so5285578oig.10
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 12:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=D0hIIaQCI/Dh7yD1DKDpvDpYdxU4Kww1YfWBC7PJ66o=;
- b=Y5TZ8gwH28OUdcotbTOTVpcbR4pDhTI/YaqLz24TF+cgaEBsGrcHfKJ6FBpz5fI8YD
- 0ZQoF6vw49X7WRHB1KNIwNnaHPbGRAeoDQ27rWR0fcMzDbA4qQ8IRsYiuu1tu/cgCh6i
- 7ztBLJfvDKa2BhXMW2eS+XrHhX8up86RwTwaI=
+X-Greylist: delayed 367 seconds by postgrey-1.36 at gabe;
+ Thu, 05 May 2022 19:15:52 UTC
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [170.10.129.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCEC410E6C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 19:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651778151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZxnXTkpEEA0ypiQkB3eztb9h9bG9xl88+4zCoT7tsso=;
+ b=Al+AcNCrh55jJ6JMQb9mc0MsxH90FXqZacTZQ0yXV8ew30tyM1CONiGZn4hOZm4QmcssBJ
+ 099RwGeCnAyjIrDV5zh0bn5ke3o/fOw8EJyW8LvEviv5zk3jjPRaD3sBk5kS8oRXrq20MU
+ Ri+69K9LDQ44wJ3tXf3j+1issAYmt8g=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-319-ZJ_rzbaXOHCecRBpcbZ2GQ-1; Thu, 05 May 2022 15:09:43 -0400
+X-MC-Unique: ZJ_rzbaXOHCecRBpcbZ2GQ-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ f12-20020a05622a1a0c00b002f3b5acc2e7so4082325qtb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 12:09:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=D0hIIaQCI/Dh7yD1DKDpvDpYdxU4Kww1YfWBC7PJ66o=;
- b=JgyrtK31oTs9aq4I4vwVwWa5xvak6GymFsJpQfY7mbXziw/3dakmm0w9nTQDhX0TqZ
- eAyfaw9Lq6VVLgUHvau4JQouo23Y1Yn1ydlpZNau/rSLNEtzr2s7u5ZMn6SmZZT2EnvO
- zTXITS22oHp0gmFsrr/cJ6vQqe2u2NGwetxKCS0mccohOz/6dFKS1krL7kt1S5f3Bg9Q
- 0SnAZmaXmpWLMs94iy8xRcSSBSZHFemsKzsz4ylOsPmKTSM8ppiPXdf5zKu7irpYH3ur
- fftA41Re4yYRrScfuZ6GrG9emsAY4R8OtL9QdyNReyvd7voAP+vfYsxFA97CFd7XlZzw
- ah6w==
-X-Gm-Message-State: AOAM5302DPdORffFoGqLz0PrQhlUhAcbClRPOZgaHane8BgNmD7xnU5F
- /xoziViv4swIpn1GoyD1y416X8XXJQB2aRYyI1bWfw==
-X-Google-Smtp-Source: ABdhPJynlWjxd2luIxa71ND0gePgQJv4YZ4ySZIIn/1gXDonkO41PQ/jE3q3+0goFTuJnjQr8o6y5FLtPhweRHmec9s=
-X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
- n62-20020acabd41000000b002ecff42814fmr3286599oif.63.1651777571605; Thu, 05
- May 2022 12:06:11 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 5 May 2022 15:06:10 -0400
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=ZxnXTkpEEA0ypiQkB3eztb9h9bG9xl88+4zCoT7tsso=;
+ b=HoVdXp8qJYzRlUlw7eK0W8Sc4pCzIwk86Z41aqaZYfbOw9qDiIOr1KGE0ISmGp9bkW
+ uHDRh0L9f5coveXHgx9ueDMMpeNWIQOaHAIpc8qmbAfhqOfA8Zgm7hu4ZVV3aWQdBFrQ
+ B72lYvtxVFms4jcx5I9CNca5btJo8IVQjXK6FEoHIbJP/YS++PLOJwgwZiBmvG/XtqUO
+ px7Ppvke4BgS6EbSfMOX+Ik85WyWuXUPX/k2kH6svHEnIosG+92dNJ2dyKzctAFEMfnD
+ fTEJJtiWlGKdGFNstb7NJlnGM7FIxnmI0RzPuYTy2La6ngTF5m7jqs3kSyVJyp6PSD6+
+ 6/gA==
+X-Gm-Message-State: AOAM530LKXBzAvEDdW/AUquvG8Dl3/yBh1FaZAEOWNyTEhlN7Bm2RMvu
+ CU1TMnruxYQXdbAU4M8wgU3ALHogXUBPlc8o8mj3FR4PAhMckC1qtJhsHD6ymZbDqNULlfYX/Zo
+ S8uC4VDkno+JS/u3LrX7SzbUM1SAn
+X-Received: by 2002:ac8:5cc6:0:b0:2f1:ffa3:ef2b with SMTP id
+ s6-20020ac85cc6000000b002f1ffa3ef2bmr25381839qta.518.1651777782900; 
+ Thu, 05 May 2022 12:09:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyb4sWIQkHXnwic3TWdV/eR5dZuyWfn9dc3NOluXljfI9qtqzg5cTFanA9fkQON5k6aPQx0Hg==
+X-Received: by 2002:ac8:5cc6:0:b0:2f1:ffa3:ef2b with SMTP id
+ s6-20020ac85cc6000000b002f1ffa3ef2bmr25381817qta.518.1651777782697; 
+ Thu, 05 May 2022 12:09:42 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ u12-20020ac8750c000000b002f39b99f69csm1243350qtq.54.2022.05.05.12.09.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 May 2022 12:09:42 -0700 (PDT)
+Message-ID: <2b71f1e318af9819707de1aa61727f02a7e0a79f.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/gr/gf100-: Clean up some inconsistent
+ indenting
+From: Lyude Paul <lyude@redhat.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, bskeggs@redhat.com
+Date: Thu, 05 May 2022 15:09:40 -0400
+In-Reply-To: <20220505081345.89762-1-jiapeng.chong@linux.alibaba.com>
+References: <20220505081345.89762-1-jiapeng.chong@linux.alibaba.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-In-Reply-To: <MW4PR02MB71867A18732B266DE8FA2040E1C29@MW4PR02MB7186.namprd02.prod.outlook.com>
-References: <20220425210643.2420919-1-dianders@chromium.org>
- <20220425140619.1.Ibfde5a26a7182c4b478d570c23d2649823ac2cce@changeid>
- <CAE-0n51eZpAKprRQ0HqjLciF_BVQHBDN8SMFNVmmOd=B9UBEzg@mail.gmail.com>
- <CAD=FV=WmVK3wTQf_EAxSi0WPXedSFGCsKdyqRnHsskmMYTHDQA@mail.gmail.com>
- <MW4PR02MB718610FAA14F966ADE1B1585E1C29@MW4PR02MB7186.namprd02.prod.outlook.com>
- <CAE-0n51Q=cGwrMec3JEQENqWHV3pAUjLPT6RwZLA5xV080sgxQ@mail.gmail.com>
- <MW4PR02MB71867A18732B266DE8FA2040E1C29@MW4PR02MB7186.namprd02.prod.outlook.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 5 May 2022 15:06:10 -0400
-Message-ID: <CAE-0n53MEBYhyRtGWOCmjj923UQU_iVE_SEBQw6_FUci8NLz3w@mail.gmail.com>
-Subject: RE: [PATCH 1/2] dt-bindings: msm/dp: List supplies in the bindings
-To: Doug Anderson <dianders@chromium.org>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,50 +89,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kalyan Thota <quic_kalyant@quicinc.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Kishon Vijay Abraham I <kishon@ti.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: kherbst@redhat.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sankeerth Billakanti (QUIC) (2022-05-05 11:47:20)
-> >Quoting Sankeerth Billakanti (2022-05-05 11:02:36)
-> >>
-> >> Our internal power grid documents list the regulators as VDD_A_*_1P2
-> >> and VDD_A_*_0P9 for all the platforms.
-> >
-> >Do your internal power grid documents indicate what these supplies are
-> >powering? The question is if these supplies power any of the logic inside the
-> >eDP controller or if they only supply power to the analog circuits in the eDP
-> >phy. If it's the eDP phy only then the regulator usage in the eDP driver should
-> >be removed. I would suspect this is the case because the controller is
-> >probably all digital logic and runs at the typical 1.8V that the rest of the SoC
-> >uses. Similarly, these are voltage references which sound like a PLL reference
-> >voltage.
-> >
-> >Please clarify this further.
-> >
->
-> For the DP driver using the usb-dp combo phy, there were cases where the usb driver
-> was turning off the phy and pll regulators whenever usb-dp concurrent mode need not be supported.
-> This caused phy and pll to be powered down causing aux transaction failures and display blankouts.
-> From then on, it became a practice for the controller driver to vote for the phy and pll regulators also.
->
+Thanks!
 
-That sounds like USB-DP combo phy driver had improper regulator power
-management where aux transactions from DP didn't keep the power on to
-the phy. Where does the power physically go? If the power isn't
-physically going to the DP controller it shouldn't be controlled from
-the DP controller driver. If the aux bus needs the DP phy enabled, the
-DP controller driver should enable the phy power (via phy_power_on()?).
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+Will push upstream in a moment
+
+On Thu, 2022-05-05 at 16:13 +0800, Jiapeng Chong wrote:
+> Eliminate the follow smatch warning:
+> 
+> drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:1925
+> gf100_gr_oneinit_tiles() warn: inconsistent indenting.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+> b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+> index 397ff4fe9df8..f16eabf4f642 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+> @@ -1922,8 +1922,8 @@ gf100_gr_oneinit_tiles(struct gf100_gr *gr)
+>  
+>         for (i = 0; i < gr->gpc_nr; i++) {
+>                 init_frac[i] = gr->tpc_nr[gpc_map[i]] * gr->gpc_nr *
+> mul_factor;
+> -                init_err[i] = i * gr->tpc_max * mul_factor - comm_denom/2;
+> -                 run_err[i] = init_frac[i] + init_err[i];
+> +               init_err[i] = i * gr->tpc_max * mul_factor - comm_denom/2;
+> +               run_err[i] = init_frac[i] + init_err[i];
+>         }
+>  
+>         for (i = 0; i < gr->tpc_total;) {
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
