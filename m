@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4034451B5A4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 04:11:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2288051B5B5
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 04:16:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF95010E8B4;
-	Thu,  5 May 2022 02:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2DB10EC83;
+	Thu,  5 May 2022 02:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A68B910E8B4;
- Thu,  5 May 2022 02:11:04 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id e5so2570645pgc.5;
- Wed, 04 May 2022 19:11:04 -0700 (PDT)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D82F10EC83;
+ Thu,  5 May 2022 02:16:33 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id k1so3115526pll.4;
+ Wed, 04 May 2022 19:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=2JXqprHTSEwVqmxQ6E6dnaH9uepTywYAN4NcxLuZd6g=;
- b=BahfpvWfsZ5f932IPUJ2jABGavlcF1WDZZRQ1xqDVsDdv6eSrvo3aDFJKKKlW991/A
- QHBtOcY3VCtoHQTideoAXZigBBTPmmLNCh7gj8PPuqDL7getPhkiOxQGMhoh8AAwWVb7
- /0d8S/e63i68BJcrSa8koua2Reqb17gA1yKlM6KjVXnTSxhhHgUw0oqAxwcDpFBWXqiq
- Nac/PyrdR/EP3o+qf8AgOKKxmvu5rOYC/9a6f1+Yl4Kri1iPyhccktjHa/tWEJMGsM/a
- VxFKKBS6Ok7j25IFXwbIP70FzDCEXatGVpfFK/n7+uspR+zc7G0qTV1EeEgI+ifo4lyZ
- DyHg==
+ bh=AMR76WMtkLn5xSTes1b8YF480Y1GgwkYWQvKagsQ23c=;
+ b=lTqzT44oMY16d9Q4twuk0c0lXMC5F1xGFPRg3Jj6HEiH9TFF5H5koNJD4eQaKzttfT
+ sgENSGElIa9Kc2LHBThuTXr1+dZu5MQ9GfCUZ+xUCz8q0oiodddN/HVWSo8jCQNUvMCd
+ L/jCPyb4yi3eBul5ETs67tUyMVoT7bKKMqigyVENPd6F4kpeyLWQ9LID0FmwI0gdxlRR
+ tlHHo5+pPO48zF2MEm2PBFZ+wPisDzIXv47T9XYbd6r80ZUyXA6RU1BgFyh7d1gNsOkJ
+ A689XeiQsLctldVKncIBEWcO5uRx1CCqGym47SHYrwqQMZyesvIRBUsj3G8nqFAJDWM5
+ mLGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=2JXqprHTSEwVqmxQ6E6dnaH9uepTywYAN4NcxLuZd6g=;
- b=v+lnsCBq3Viqf8tY0PPRJujtdl8Wv3/DDuWxo8bvu5xjhxxP9xEXSewY8iQU17e1mk
- 2/K/EoaCl5UVIi8w+crvFWgkiLdHgjEIefuHo92zPznNNTAKOBH3UJ1Nc9vVwwCnQQxD
- l8G/Row9jls6bOeDSnK4tkKfjjR3486lzSR2pjJG6PSb1ACzYd083DEa0wyUPzFe5nbQ
- iRIJMVlKDx2n4enX02/cowVGMosmNVbXzzyYsML1raX8MAphHDX92ie7MTl0WFUIEzX7
- bcGBglaN7preBqeL/ZahT4M/BexEHkDxucq8RrS0ryx2r4DGxAe0FCtSLuthMebzVGYj
- ZmPA==
-X-Gm-Message-State: AOAM5303pMa0xIXGcCR7FApLP8G/n2gVzL4/tff0TMjJDkgAHSOjNRVh
- ggdfyNr12ZsKqTgLU3d1LeQ=
-X-Google-Smtp-Source: ABdhPJxAiLJ63+QLwKXUbnFKKWPgiJBSXZs2RaHbatNjT2OEkLNBoKx5qJaZbbQSUW6AwyU4PsilqA==
-X-Received: by 2002:a63:e60b:0:b0:3c2:2450:135a with SMTP id
- g11-20020a63e60b000000b003c22450135amr14174847pgh.8.1651716664263; 
- Wed, 04 May 2022 19:11:04 -0700 (PDT)
+ bh=AMR76WMtkLn5xSTes1b8YF480Y1GgwkYWQvKagsQ23c=;
+ b=kKrBPvSpE7zCii/vbTFx8tBAErIK9UB90RfmwVog6ouD8pkhc4N8MEYQXAp830m9YU
+ dvcm/yX5ExVEWMnrZyoqDHYnsW02wvXYWM5h6DyK4+7c7NCCHz0SW0myhJ7pc1Ak3oiY
+ FxukTxNqYIYOs3IoUXY9jypK5Nm8ADly1isnUAdmRXZ8GIoqLGP2pj/pXTENAi7XLZqg
+ CQGWBaN40lSTyVecslbfGpKk6W12ZYUMfVM+Xq7h7OBb46oKCeaXkxWQgb4bLu0pYiPv
+ ogKphYsBlwsmfxLrza4gKwbaTJ/u6TQvVgL+PaRSfk9qOeJi7GMEFbwH1eJbGhmCDVPv
+ ya4A==
+X-Gm-Message-State: AOAM532qjOxKECKTkrXGv+k2XmLT7mgImYJ86JBZP0GBw0p9cw0DagzU
+ i4iYysL2R05xNlOuni24zF0=
+X-Google-Smtp-Source: ABdhPJxCSy4KhWQzFFnnhYGswJBl+qB4knx8GwmMjyTM7dpflZx+m1LM67r/kdwz69coX7XkvQl5/A==
+X-Received: by 2002:a17:902:9a4c:b0:158:b6f0:4aa2 with SMTP id
+ x12-20020a1709029a4c00b00158b6f04aa2mr24890390plv.163.1651716992863; 
+ Wed, 04 May 2022 19:16:32 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a170902a40d00b0015e8d4eb200sm186977plq.74.2022.05.04.19.11.00
+ v17-20020a170902ca9100b0015e8d4eb265sm174733pld.175.2022.05.04.19.16.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 May 2022 19:11:02 -0700 (PDT)
+ Wed, 04 May 2022 19:16:32 -0700 (PDT)
 From: cgel.zte@gmail.com
 X-Google-Original-From: chi.minghao@zte.com.cn
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amdgpu: simplify the return expression
-Date: Thu,  5 May 2022 02:10:57 +0000
-Message-Id: <20220505021057.54044-1-chi.minghao@zte.com.cn>
+To: jani.nikula@linux.intel.com
+Subject: [PATCH] drm/i915: simplify the return expression of i915_driver_open()
+Date: Thu,  5 May 2022 02:16:25 +0000
+Message-Id: <20220505021625.54146-1-chi.minghao@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,10 +68,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Zeal Robot <zealci@zte.com.cn>,
- Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- Minghao Chi <chi.minghao@zte.com.cn>, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com
+Cc: tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Minghao Chi <chi.minghao@zte.com.cn>,
+ rodrigo.vivi@intel.com, Zeal Robot <zealci@zte.com.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -82,54 +82,28 @@ Simplify the return expression.
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/i915_driver.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 54446162db8b..3d8093bf1679 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -4688,7 +4688,6 @@ static void gfx_v10_0_gpu_early_init(struct amdgpu_device *adev)
- static int gfx_v10_0_gfx_ring_init(struct amdgpu_device *adev, int ring_id,
- 				   int me, int pipe, int queue)
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 09de45d3e274..d11a7445909a 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -977,13 +977,8 @@ static void i915_driver_release(struct drm_device *dev)
+ static int i915_driver_open(struct drm_device *dev, struct drm_file *file)
  {
--	int r;
- 	struct amdgpu_ring *ring;
- 	unsigned int irq_type;
+ 	struct drm_i915_private *i915 = to_i915(dev);
+-	int ret;
  
-@@ -4708,17 +4707,13 @@ static int gfx_v10_0_gfx_ring_init(struct amdgpu_device *adev, int ring_id,
- 	sprintf(ring->name, "gfx_%d.%d.%d", ring->me, ring->pipe, ring->queue);
- 
- 	irq_type = AMDGPU_CP_IRQ_GFX_ME0_PIPE0_EOP + ring->pipe;
--	r = amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
-+	return amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
- 			     AMDGPU_RING_PRIO_DEFAULT, NULL);
--	if (r)
--		return r;
--	return 0;
- }
- 
- static int gfx_v10_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
- 				       int mec, int pipe, int queue)
- {
--	int r;
- 	unsigned irq_type;
- 	struct amdgpu_ring *ring;
- 	unsigned int hw_prio;
-@@ -4743,12 +4738,8 @@ static int gfx_v10_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
- 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
- 			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
- 	/* type-2 packets are deprecated on MEC, use type-3 instead */
--	r = amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
-+	return amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
- 			     hw_prio, NULL);
--	if (r)
--		return r;
+-	ret = i915_gem_open(i915, file);
+-	if (ret)
+-		return ret;
 -
 -	return 0;
++	return i915_gem_open(i915, file);
  }
  
- static int gfx_v10_0_sw_init(void *handle)
+ /**
 -- 
 2.25.1
 
