@@ -2,49 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDDD51CBE5
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 00:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5810D51CBFC
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 00:15:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 576FC8941E;
-	Thu,  5 May 2022 22:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 213CF10E5B8;
+	Thu,  5 May 2022 22:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB4A310E563;
- Thu,  5 May 2022 22:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5O6Rg64oxC0I0U5hEfSEBOBosw3ROHjBXvmRhRtxY5o=; b=QdeCdRUhKzVTKfxZ1ks5YzLp++
- /QK70GYtlzAgYRTxneVhqA/1mJ9zIAAdLNSQ4He+KewSDXBH7EGEKuC2PehiQVZx/u3BS8g8A6iVV
- mcomDUSpqzP2bQHi66m8A3jvJ2Eo9VOsbB/2pd1gcW72NQj/3tdkM4fDhYBW+7hJUMmU/QnxHaQpO
- evdEsX/0jnPxaDBL48WL3F1lNMVsGxmetsM9pO3umHjGX3Ps6QuaSiVVmMG7hfkazKpfZZho230Es
- O2eUFS0tO0H8/sxwmNCikFDsAIfLqg67tJKTfZgW7XrychdT73Lt9WDe1yLsaQNwWpM4hgLh5O8kz
- wUY/bYWw==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nmjdv-0009Vi-Jp; Fri, 06 May 2022 00:08:15 +0200
-Date: Thu, 5 May 2022 21:07:44 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: AMD display drivers handling DRM CRTC color mgmt props
-Message-ID: <20220505220744.3sex7ka2ha2vcguv@mail.igalia.com>
-References: <20220421143747.247mohbio436ivqo@mail.igalia.com>
- <06891dd7-b2f4-ece6-b1a5-b9ad15f5f899@amd.com>
- <20220421191945.yn4plwv757jlri2n@mail.igalia.com>
- <b94504d9-4d19-5663-f67d-7b1376827335@amd.com>
- <20220422142811.dm6vtk6v64jcwydk@mail.igalia.com>
- <349e170a-9121-900d-88b3-87eb9a7d2cd5@amd.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79F7A10E5B8
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 22:15:37 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id h29so9722084lfj.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 15:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Lqcknj0Fhwjp1vZIi9MHLDg7nfP2JTAZQGlFN2i0zNk=;
+ b=Ard7Co07CDgxfsruqLpz2aoKNu1kCYClEyluri6yKW8ftrpj2lAoOorDi+I+5LAS1T
+ K1W3QNUz4GvEYSqv+HSC4RBjPwumT8XrKqKfUPKexhgjQUO9VHwikIlPbopbL0HtRTEm
+ RUJdyRD+tfSlndjuQZrqrndDW2YnWpY/8fqnnZv52fp54VdUG/ZD3PliO5m/nnTo7XlM
+ D1xeuLlxcBVi5YqfYwe4obk75tm811X+cwv5BcH8Ap4fqDoBotWUJcixG7bIKL5GKgV4
+ D2hYPbEJBKj3jzt5pKFX7GwmWBlITO5fsxG7d1aLxQk08mv1ZGNRYmLJt7sVDYEu+21q
+ Evlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Lqcknj0Fhwjp1vZIi9MHLDg7nfP2JTAZQGlFN2i0zNk=;
+ b=r/lsoULlOyrIj4kS9ZqUz38QttpK1ETcAGi/trQPzmSw3NBaS+knzUrvyiPZcMBqOZ
+ Fn+RNVCp6Xg9rugK0U8Mo2xsoaroHjz5GZEdqtBXvXToEkOYRGHZtlNQz7dD4AggYWkM
+ hDEvG3U7JcGLIZxwTiVM/2GAUeFiaIjUm++D8zZcW30t1EgzqOwCZ9mLJfJzrHOCLs0b
+ 0EBD7Xl08yttAiCxIQFu0ZZZO1IW44Ec6mX7Xe2ugIXj8YFa9te8jt4lKoLug3oncsEn
+ AWdcRkZpi5LDBJrnG15eWAwecm4actJKShdVqF7GADW666PqIG1rrQtCmaDqtSYMezK1
+ mU/Q==
+X-Gm-Message-State: AOAM5309TA5sVuU/gEX6Wjo9KEJXD9tDfPOywBL3W0X2n6IvD7YcoyJL
+ aT1M/S7d5A9dls8iec+O/uybLQ==
+X-Google-Smtp-Source: ABdhPJwtqbuUV3yB/o1tOo57YszZMQs0RX9gWn16sFP/IFR8RYcG91DEAJp1qgoI7zJ72TzqVneT8Q==
+X-Received: by 2002:a05:6512:12c9:b0:473:c33e:a65b with SMTP id
+ p9-20020a05651212c900b00473c33ea65bmr298075lfg.285.1651788935516; 
+ Thu, 05 May 2022 15:15:35 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ k16-20020ac24f10000000b0047255d211d4sm387658lfr.259.2022.05.05.15.15.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 May 2022 15:15:35 -0700 (PDT)
+Message-ID: <03024c6d-bd85-8878-4e1f-f17376b5894a@linaro.org>
+Date: Fri, 6 May 2022 01:15:34 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rlhfzygtrm4amjgv"
-Content-Disposition: inline
-In-Reply-To: <349e170a-9121-900d-88b3-87eb9a7d2cd5@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm: Document that power requirements for DP AUX transfers
+Content-Language: en-GB
+To: Doug Anderson <dianders@chromium.org>
+References: <20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
+ <YnJv3B/85hTz54SC@intel.com>
+ <CAD=FV=WndmKuEB0=OVQP9YuJaSmD0uxkNs5LE0wWsFj7gBvhBA@mail.gmail.com>
+ <1c6c9fde6e85f09cc89ea8dc6e8716fef58f3ee1.camel@redhat.com>
+ <YnPjO4kbjezQl5Da@intel.com>
+ <CAD=FV=XbZEagm5qR207mcVm1Ry=bGeuRAqTYx3SBoZfyo6fSkg@mail.gmail.com>
+ <YnPoYsnx7IeBfJ5D@intel.com>
+ <CAD=FV=WxxEGM4cLBHGMeRBFDAXGJJF105kLZ588JSFJRg8PM8A@mail.gmail.com>
+ <CAA8EJppSof0wZ9nph8v_2pgRZj2BJiZ1hTBfLgQ+CFsT+h_dyQ@mail.gmail.com>
+ <CAD=FV=WuAV-mrm0Bokqyyn7UgP5-jyNdhh8e4rqJibJ0Kutp_Q@mail.gmail.com>
+ <CAA8EJpq=u0FF7wJ0hJv=Q-NhpUU_pnQxy5PX06DZUq5v5evydg@mail.gmail.com>
+ <CAD=FV=XXLB90KOMvnWTTPyNNcCCVo+gja+2_iSGPnfu77wzknA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAD=FV=XXLB90KOMvnWTTPyNNcCCVo+gja+2_iSGPnfu77wzknA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,330 +84,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, Bhawanpreet.Lakha@amd.com,
- Nicholas.Kazlauskas@amd.com
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Jani Nikula <jani.nikula@intel.com>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 06/05/2022 00:24, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, May 5, 2022 at 1:56 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> On Thu, 5 May 2022 at 23:21, Doug Anderson <dianders@chromium.org> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On Thu, May 5, 2022 at 1:10 PM Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>
+>>>> On Thu, 5 May 2022 at 18:53, Doug Anderson <dianders@chromium.org> wrote:
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> On Thu, May 5, 2022 at 8:29 AM Ville Syrjälä
+>>>>> <ville.syrjala@linux.intel.com> wrote:
+>>>>>>
+>>>>>> On Thu, May 05, 2022 at 08:00:20AM -0700, Doug Anderson wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On Thu, May 5, 2022 at 7:46 AM Ville Syrjälä
+>>>>>>> <ville.syrjala@linux.intel.com> wrote:
+>>>>>>>>
+>>>>>>>> On Wed, May 04, 2022 at 02:10:08PM -0400, Lyude Paul wrote:
+>>>>>>>>> On Wed, 2022-05-04 at 09:04 -0700, Doug Anderson wrote:
+>>>>>>>>>> Hi,
+>>>>>>>>>>
+>>>>>>>>>> On Wed, May 4, 2022 at 5:21 AM Ville Syrjälä
+>>>>>>>>>> <ville.syrjala@linux.intel.com> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> On Tue, May 03, 2022 at 04:21:08PM -0700, Douglas Anderson wrote:
+>>>>>>>>>>>> When doing DP AUX transfers there are two actors that need to be
+>>>>>>>>>>>> powered in order for the DP AUX transfer to work: the DP source and
+>>>>>>>>>>>> the DP sync. Commit bacbab58f09d ("drm: Mention the power state
+>>>>>>>>>>>> requirement on side-channel operations") added some documentation
+>>>>>>>>>>>> saying that the DP source is required to power itself up (if needed)
+>>>>>>>>>>>> to do AUX transfers. However, that commit doesn't talk anything about
+>>>>>>>>>>>> the DP sink.
+>>>>>>>>>>>>
+>>>>>>>>>>>> For full fledged DP the sink isn't really a problem. It's expected
+>>>>>>>>>>>> that if an external DP monitor isn't plugged in that attempting to do
+>>>>>>>>>>>> AUX transfers won't work. It's also expected that if a DP monitor is
+>>>>>>>>>>>> plugged in (and thus asserting HPD) that it AUX transfers will work.
+>>>>>>>>>>>>
+>>>>>>>>>>>> When we're looking at eDP, however, things are less obvious. Let's add
+>>>>>>>>>>>> some documentation about expectations. Here's what we'll say:
+>>>>>>>>>>>>
+>>>>>>>>>>>> 1. We don't expect the DP AUX transfer function to power on an eDP
+>>>>>>>>>>>> panel. If an eDP panel is physically connected but powered off then it
+>>>>>>>>>>>> makes sense for the transfer to fail.
+>>>>>>>>>>>
+>>>>>>>>>>> I don't agree with this. I think the panel should just get powred up
+>>>>>>>>>>> for AUX transfers.
+>>>>>>>>>>
+>>>>>>>>>> That's definitely a fair thing to think about and I have at times
+>>>>>>>>>> thought about trying to make it work that way. It always ends up
+>>>>>>>>>> hitting a roadblock.
+>>>>>>>>
+>>>>>>>> How do you even probe the panel initially if you can't power it on
+>>>>>>>> without doing some kind of full modeset/etc.?
+>>>>>>>
+>>>>>>> It's not that we can't power it on without a full modeset. It' that at
+>>>>>>> panel probe time all the DRM components haven't been hooked together
+>>>>>>> yet, so the bridge chain isn't available yet. The panel can power
+>>>>>>> itself on, though. This is why the documentation I added says: "if a
+>>>>>>> panel driver is initiating a DP AUX transfer it may power itself up
+>>>>>>> however it wants"
+>>>>>>>
+>>>>>>>
+>>>>>>>>>> The biggest roadblock that I recall is that to make this work then
+>>>>>>>>>> you'd have to somehow ensure that the bridge chain's pre_enable() call
+>>>>>>>>>> was made as part of the AUX transfer, right? Since the transfer
+>>>>>>>>>> function can be called in any context at all, we have to coordinate
+>>>>>>>>>> this with DRM. If, for instance, DRM is mid way through powering the
+>>>>>>>>>> panel down then we need to wait for DRM to fully finish powering down,
+>>>>>>>>>> then we need to power the panel back up. I don't believe that we can
+>>>>>>>>>> just force the panel to stay on if DRM is turning it off because of
+>>>>>>>>>> panel power sequencing requirements. At least I know it would have the
+>>>>>>>>>> potential to break "samsung-atna33xc20.c" which absolutely needs to
+>>>>>>>>>> see the panel power off after it's been disabled.
+>>>>>>>>>>
+>>>>>>>>>> We also, I believe, need to handle the fact that the bridge chain may
+>>>>>>>>>> not have even been created yet. We do AUX transfers to read the EDID
+>>>>>>>>>> and also to setup the backlight in the probe function of panel-edp. At
+>>>>>>>>>> that point the panel hasn't been linked into the chain. We had _long_
+>>>>>>>>>> discussions [1] about moving these out of probe and decided that we
+>>>>>>>>>> could move the EDID read to be later but that it was going to really
+>>>>>>>>>> ugly to move the AUX backlight later. The backlight would end up
+>>>>>>>>>> popping up at some point in time later (the first call to panel
+>>>>>>>>>> prepare() or maybe get_modes()) and that seemed weird.
+>>>>>>>>>>
+>>>>>>>>>> [1]
+>>>>>>>>>> https://lore.kernel.org/lkml/CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com/
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>> Otherwise you can't trust that eg. the /dev/aux
+>>>>>>>>>>> stuff is actually usable.
+>>>>>>>>>>
+>>>>>>>>>> Yeah, it's been on my mind to talk more about /dev/aux. I think
+>>>>>>>>>> /dev/aux has some problems, at least with eDP. Specifically:
+>>>>>>>>>>
+>>>>>>>>>> 1. Even if we somehow figure out how to power the panel on as part of
+>>>>>>>>>> the aux transfer, we actually _still_ not guaranteed to be able to
+>>>>>>>>>> talk to it as far as I understand. My colleague reported to me that on
+>>>>>>>>>> a system he was working with that had PSR (panel self refresh) that
+>>>>>>>>>> when the panel was powered on but in PSR mode that it wouldn't talk
+>>>>>>>>>> over AUX. Assuming that this is correct then I guess we'd also have to
+>>>>>>>>>> do even more coordination with DRM to exit PSR and block future
+>>>>>>>>>> transitions of PSR. (NOTE: it's always possible that my colleague ran
+>>>>>>>>>> into some other bug and that panels are _supposed_ to be able to talk
+>>>>>>>>>> in PSR. If you think this is the case, I can always try to dig more).
+>>>>>>>>>
+>>>>>>>>> TBH - the coordination with drm I don't think would be the difficult part, as
+>>>>>>>>> we'd just need to add some sort of property (ideally invisible to userspace)
+>>>>>>>>> that can be used in an atomic commit to disable PSR - similar to how we enable
+>>>>>>>>> CRC readback from sysfs in the majority of DRM drivers. That being said
+>>>>>>>>> though, I think we can just leave the work of solving this problem up to
+>>>>>>>>> whoever ends up needing this to work.
+>>>>>>>>
+>>>>>>>> The driver should just disable/prevent PSR when doing AUX if the hardware
+>>>>>>>> can't guarantee the PSR and AUX won't interfere with each other.
+>>>>>>>
+>>>>>>> OK, fair enough. If we can solve the PSR problem that would be great.
+>>>>>>>
+>>>>>>>
+>>>>>>>> For i915 we have no problems with powering the panel on for AUX, but
+>>>>>>>> there is still a race with PSR vs. AUX because both use the same hardware
+>>>>>>>> internally. I've been nagging at people to fix this for i915 but I don't
+>>>>>>>> think it still got done :( Originally we were supposed to get a hardware
+>>>>>>>> mutex for this but that plan got scrapped for some reason.
+>>>>>>>
+>>>>>>> I haven't looked at the i915 DRM code much, but my understanding is
+>>>>>>> that it's more of an "all in one" approach. The one driver pretty much
+>>>>>>> handles everything itself. That means that powering the panel up isn't
+>>>>>>> too hard. Is that right?
+>>>>>>
+>>>>>> Yeah, we don't have too many "helpful" abstractions in the way ;)
+>>>>>>
+>>>>>>>>>> for userspace to be mucking with /dev/aux. For DP's case I guess
+>>>>>>>>>> /dev/aux is essentially enabling userspace drivers to do things like
+>>>>>>>>>> update firmware on DP monitors or play with the backlight. I guess we
+>>>>>>>>>> decided that we didn't want to add drivers in the kernel to handle
+>>>>>>>>>> this type of stuff so we left it for userspace? For eDP, though, there
+>>>>>>>>>
+>>>>>>>>> The main reason DP AUX got exposed to userspace in the first place was for
+>>>>>>>>> usecases like fwupd,
+>>>>>>>>
+>>>>>>>> My memory says the original reason was debugging. Or at least I had
+>>>>>>>> no idea fwupd had started to use this until I saw some weird looking
+>>>>>>>> DPCD addresses in some debug log.
+>>>>>>>>
+>>>>>>>> But I suppose it's possible there were already plans for firmware
+>>>>>>>> updates and whatnot and it just wasn't being discussed when this was
+>>>>>>>> being developed.
+>>>>>>>
+>>>>>>> If it's just for debugging, I'd argue that leaving it as-is should be
+>>>>>>> fine. Someone poking around with their system can find a way to make
+>>>>>>> sure that the panel stays on.
+>>>>>>
+>>>>>> That could require altering the state of the system quite a bit, which
+>>>>>> may defeat the purpose.
+>>>>>
+>>>>> It does? In my experience you just need to make sure that the panel is
+>>>>> turned on. ...or are you saying that you'd use this for debugging a
+>>>>> case where the system isn't probing properly?
+>>>>>
+>>>>> If things are truly in bad shape, at least on boards using device tree
+>>>>> it's easy to tweak the device tree to force a regulator to stay on. I
+>>>>> suppose we could also add a "debugfs" entry for the panel that also
+>>>>> forces it to be powered on.
+>>>>>
+>>>>>
+>>>>>>   At least I would not be willing to accept such
+>>>>>> a limitation.
+>>>>>
+>>>>> Hmm, so where does that leave us? Are you against landing this patch?
+>>>>> I've done a lot of cleanups recently and I just don't think I have the
+>>>>> time to rework all the AUX transfer functions and figure out how to
+>>>>> power the panel. It also seems like a lot of added complexity for a
+>>>>> debug path.
+>>>>
+>>>> If my 2c counts, I support landing this patch. It clearly documents
+>>>> current behaviour and expectations.
+>>>>
+>>>> If that helps,
+>>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>
+>>>> As for the /dev/aux, question, I think we can make the following plan work:
+>>>> - Document that eDP panel power up can be handled by using the
+>>>> pm_runtime API (which is the case for both panel-edp and atna33xc20)).
+>>>> I think this is a sensible requirement anyway. And both panels show
+>>>> how to handle different poweron/poweroff timings.
+>>>> - Make drm_dp_aux_dev_get_by_minor() pm_runtime_get() the attached panel.
+>>>
+>>> This matches what you suggested previously, but I still think it has a
+>>> potential problem as I talked about in the my previous (very long)
+>>> reply [1]. The relevant part was:
+>>>
+>>>> Now, despite the fact that the generic eDP panel code doesn't follow
+>>>> the "strict"ness I just described, the _other_ DP panel I worked on
+>>>> recently (samsung-atna33xc20) does. In testing we found that this
+>>>> panel would sometimes (like 1 in 20 times?) crash if you ever stopped
+>>>> outputting data to the display and then started again. You absolutely
+>>>> needed to fully power cycle the display each time. I tried to document
+>>>> this to the best of my ability in atana33xc20_unprepare(). There's
+>>>> also a WARN_ON() in atana33xc20_enable() trying to detect if someone
+>>>> is doing something the panel driver doesn't expect.
+>>>
+>>> Specifically, I think you could get in trouble if you did:
+>>>
+>>> a) drm wants to power down the panel.
+>>>
+>>> b) drm calls the panel's disable() function
+>>>
+>>> c) we start an aux transfer and grab a runtime pm reference
+>>>
+>>> d) drm calls the panel's unprepare() function => atana33xc20_unprepare()
+>>>
+>>> e) atana33xc20_unprepare()'s pm_runtime_put_sync_suspend() _won't_
+>>> power off the panel (we still have the reference from step c), even
+>>> though it needs to.
+>>>
+>>> f) we'll finish an aux transfer and, presumably, call
+>>> pm_runtime_put_autosuspend()
+>>>
+>>> g) drm wants to power the panel back up
+>>>
+>>> h) drm calls the panel's prepare() function, but power wasn't properly cycled
+>>
+>> Why? We'd need to extend the prepare() function with the flag
+>> data_was_on, which is set in the enable() and cleared in the suspend
+>> path. If we see this flag in the prepare() callback, we should
+>> forcibly power cycle the panel by toggling the regulator. Yes, this
+>> will cause additional wait.
+>>
+>> Another option might be to toggle the autosuspend support. Let the
+>> disable() call pm_runtime_dont_autosuspend() (which would turn all
+>> autosuspend calls into plain pm_runtime_put()) and allow it again in
+>> the resume(). I'm not 100% sure that this will work, but it looks like
+>> it should.
+> 
+> It turns out, though, that we _want_ autosuspend sometimes, even when
+> the panel is disabled. Specifically, if the panel is disabled and then
+> atana33xc20_get_modes() gets called then we _don't_ want to fully
+> power the panel off. It's expected that there will be a future call to
+> prepare() soon after the get_modes() and we don't want a full power
+> cycle (500 ms) there. This mechanism is also fully allowed by the eDP
+> spec. The only time we _need_ a full power cycle is after disable().
 
---rlhfzygtrm4amjgv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes. That's why I proposed to put pm_runtime_dont_autosuspend() call to 
+the disable(). So that after get_modes() there will be no power cycle, 
+but only after disable() call.
 
-On 04/22, Harry Wentland wrote:
->=20
->=20
-> On 2022-04-22 10:28, Melissa Wen wrote:
-> > On 04/21, Harry Wentland wrote:
-> > >=20
-> > >=20
-> > > On 2022-04-21 15:20, Melissa Wen wrote:
-> > > > On 04/21, Harry Wentland wrote:
-> > > > >=20
-> > > > >=20
-> > > > > On 2022-04-21 10:37, Melissa Wen wrote:
-> > > > > > Hi all,
-> > > > > >=20
-> > > > > > I'm examining how DRM color management properties (degamma, ctm=
-, gamma)
-> > > > > > are applied to AMD display drivers. As far I could understand t=
-hanks
-> > > > > > Nicholas documentation on amdgpu_dm/amdgpu_dm_color, DC drivers=
- have
-> > > > > > per-plane color correction features:
-> > > > > >=20
-> > > > Hi Harry,
-> > > >=20
-> > > > Wow, thanks so much for all details!
-> > > > >=20
-> > > > > DC programs some of the color correction features pre-blending but
-> > > > > DRM/KMS has not per-plane color correction properties.
-> > > > >=20
-> > > > > See this series from Uma Shankar for an RFC on how to introduce t=
-hose
-> > > > > properties for 1D LUTs and CSC matrix:
-> > > > > https://patchwork.freedesktop.org/series/90826/
-> > > > >=20
-> > > > > Bhanuprakash has a series of IGT tests for these properties:
-> > > > > https://patchwork.freedesktop.org/series/96895/
-> > > > >=20
-> > > > > I've rebased these on amd-staging-drm-next and maintain a kernel =
-and IGT
-> > > > > branch with these patches:
-> > > > > https://gitlab.freedesktop.org/hwentland/linux/-/tree/color-and-h=
-dr
-> > > > > https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/tree/col=
-or-and-hdr
-> > > > >=20
-> > > > > We've had many discussions with Weston guys on this. In order to =
-merge the
-> > > > > kernel properties we need a canonical userspace implementation th=
-at are
-> > > > > using it. Weston guys are working towards that but if you want to=
- suggest a
-> > > > > different userspace to serve as that vehicle I'd be all ears. :)
-> > > > >=20
-> > > > > Note that in order to show this all working we also need a Waylan=
-d Protocol
-> > > > > update.
-> > > > >=20
-> > > > > See
-> > > > > https://gitlab.freedesktop.org/pq/color-and-hdr
-> > > > > https://gitlab.freedesktop.org/swick/wayland-protocols
-> > > > > https://gitlab.freedesktop.org/wayland/weston/-/issues/467
-> > > >=20
-> > > > So, I've followed these discussions (until the issue on naming) bec=
-ause
-> > > > initially I considered it addresses our current goals for color
-> > > > correction. But after some discussions, what we are targeting is a =
-3D
-> > > > LUT after blending (per-CRTC). I found past proposals on dri-devel
-> > > > [1][2] to extend the DRM CRTC color management properties, but they
-> > > > didn't move forward and were never applied.
-> > > >=20
-> > >=20
-> > > They're stuck in limbo until we have an upstream userspace
-> > > implementation that's making use of them.
-> >=20
-> > Yes... afaiu, the basic requirements for all of these changes are IGT
-> > tests + open userspace usage, right?
-> >=20
->=20
-> Correct. See [1] and [2].
->=20
-> [1] https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#requirements
-> [2] https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#open-source-=
-userspace-requirements
->=20
-> > >=20
-> > > > >=20
-> > > > > > * - Input gamma LUT (de-normalized)
-> > > > > > * - Input CSC (normalized)
-> > > > > > * - Surface degamma LUT (normalized)
-> > > > > > * - Surface CSC (normalized)
-> > > > > > * - Surface regamma LUT (normalized)
-> > > > > > * - Output CSC (normalized)
-> > > > > > so DM is "adapting" those DRM per-CRTC properties to fit into t=
-hree of
-> > > > > > these color correction stages, which I guess are the surface st=
-ages:
-> > > > > >=20
-> > > > > > * - Surface degamma LUT (normalized)
-> > > > > > * - Surface CSC (normalized)
-> > > > > > * - Surface regamma LUT (normalized)
-> > > > > >=20
-> > > > > > I'm trying to understand what this mapping is doing. A comment =
-mentions
-> > > > > > that is not possible to do these color corrections after blendi=
-ng, so,
-> > > > > > the same color correction pipe is performed on every plane befo=
-re
-> > > > > > blending?  (is the surface the plane?) Does this adaptation aff=
-ect the
-> > > > > > expected output?  Moreover, is there something that I misunders=
-tood? :)
-> > > > > >=20
-> > > > >=20
-> > > > > What's possible to do before and after blending has changed quite=
- a bit
-> > > > > between DCN generations. We program the CRTC Gamma and CTM after =
-blending.
-> > > > > See attached picture for a view relating the color bits between t=
-he DRM
-> > > > > interface, DC interface and DCN 3.0 HW blocks.
-> > > >=20
-> > > > This picture is really enlightening, thanks!
-> > > > You said it changes between generations, therefore, I can't conside=
-r the
-> > > > DCN 2.x family follow the same mapping, right? If so, can you share=
- the
-> > > > main differences for a DCN 2.x regarding per-CRTC properties?
-> > > >=20
-> > >=20
-> > > See attached diagram for DCN 2.0.
-> >=20
-> > Thanks again!
-> >=20
-> > >=20
-> > > > >=20
-> > > > > > That said, if the DRM color mgmt supports per-CRTC 3D LUT as th=
-e last
-> > > > >=20
-> > > > > Where do you see 3D LUT support in DRM? Is there a new proposal t=
-hat I've
-> > > > > missed?
-> > > >=20
-> > > > So, it's exactly what I aim to work: a proposal to add 3D LUT to the
-> > > > current range of DRM per-CRTC color properties. But I also need to
-> > > > understand how this property will be mapped to AMD display once it
-> > > > exists in the DRM framework.
-> > > >=20
-> > >=20
-> > > Ah, nice to see. :)
-> > >=20
-> > > > One of the things that caught my attention after seeing the attached
-> > > > picture is the position of 3D LUT. I was expecting to see the 3D LUT
-> > > > correction after gamma correction. Is this position a particularity=
- of
-> > > > DCN 3.0 (that varies between hw) or was I expecting a wrong color
-> > > > correction pipeline at all?
-> > > >=20
-> > >=20
-> > > Before DCN 3.0 there was no 3D LUT after blending.
-> > >=20
-> > By comparing these diagrams, I'm curious: in case we have a per-CRTC 3D
-> > LUT support on DRM, DCN 2.0 generations would initially map this
-> > property as a pre-blending property on DPP (currently the same approach
-> > for CTM, for example), right? But after we also have a per-plane color
-> > management property, those per-CRTC property would be ignored? And how
-> > about degamma for both generations? No problem if there isn't an answer
-> > yet (many if's), but it may help me to think of a more generic solution.
-> >=20
->=20
-> We'll need to define what the expectations are for the API implementations
-> in DRM drivers, as well as for the implementing userspace.
->=20
-> The way I think about this it might make sense to introduce a 3D LUT on a
-> drm_plane, as well as on drm_crtc and a driver exposes whatever HW suppor=
-ts.
-> Userspace can then figure out what it can use based on driver support.
->=20
-> It should be possible to use pre-blending 3D LUTs to accomplish the same =
-as
-> a post-blending 3D LUT, but we might need the ability to linearize before
-> blending, but after applying the 3D LUT, and de-linearize after blending
-> again. Something like this:
->=20
-> 3dlut > linearize (1dlut) > blend > de-linearize (1dlut) > output
->=20
-> Instead of this for the post-blending 3dlut:
->=20
-> linearize (1dlut) > blend > de-linearize (1dlut) > 3dlut > output
->=20
-> Though it depends a bit on the color model in the compositor or rendering
-> app.
+> 
+> In any case, we can come up with complex ways to solve this, but I'm
+> still just not convinced that it's worth it. There's no valid use case
+> other than debugging. IMO if we're poking around and want to read DP
+> registers while the panel is on then it works just fine. A user doing
+> this can ensure that the panel is on while poking. Certainly I've done
+> that and it wasn't a big imposition.
+> 
+> If someone wants to submit patches to attempt this then I'm happy to
+> test them, but I feel like it's adding complexity for very little
+> value. The way it works now is simple / understandable and mathes my
+> intuition from other busses, like i2c. The bus is just responsible for
+> powering itself, not the devices on the bus. It has also long been
+> documented since commit 83127f67e450 ("drm/panel: Flesh out
+> kerneldoc") in 2016 that the way to turn on a panel for communication
+> over the command bus is via drm_panel_prepare(). I don't think we need
+> to change this.
 
-Sorry for the delay in reply, and thanks for explaining this behavior.
+Yes.
 
-So, this topic of some DRM CRTC properties being programmed as
-pre-blending came to my mind again when looking at the diagrams you
-kindly shared before. Although DCN 2.0 doesn't have a post-blending CTM,
-I see DCN 3.0 supports CTM pre and post blending (Gamut Remap), right?
-But I also see stream->gamut_remap_matrix linked to DPP gamut remap in
-the diagram.
 
-AFAIU, CTM property on DCN 3.0 takes the same path from 2.0 and is only
-managed by dpp_set_gamut_remap. I think CTM mapping to
-stream->gamut_remap_matrix can be reprogrammed to mpc->set_gamut_remap
-for DCN 3.0. I wonder if I can work on this reconnection to avoid
-unexpected behavior (wiring DRM CRTC CTM to MPC instead of the current
-DPP programming).=20
-So, is there any reason to not wired CTM to MPC on the DCN 3.0 driver?
-Or, again, am I missing some part of the code about it?
+>> The second option leaves a possible window for the panel issues if the
+>> userspace AUX transfer is ongoing while the panel is being unprepared
+>> and then prepared again. In this case it will never be power cycled.
+>> However after some thought I think this is correct. You wouldn't like
+>> to power cycle a panel while you are e.g. updating the firmware.
+> 
+> As per my earlier responses, nothing we are doing here solves the
+> firmware update anyway. Even if we automatically power the panel for
+> the duration of a single aux transfer, nothing prevents the panel from
+> turning off between transfers. There's no API to "keep the power on
+> until I say stop". You certainly wouldn't want a panel to turn off
+> midway through a firmware update. IMO if we want to use this for
+> firmware update, we either need an special way to force the panel on
+> (in which case, we don't need to worry about it in the aux transfer
+> function) or (better IMO) we need to manage the firmware update in the
+> panel driver and prevent some type of sysfs interface to provide the
+> new firmware and kick off the update. Presumably having this managed
+> by the panel driver would be best because the panel driver could know
+> to, for instance, re-read the EDID after the firmware update took
+> place.
 
-Thanks,
+That's why I suggested pm_runtime_get()'ting the panel from 
+drm_dp_aux_dev_get_by_minor(). This way the whole userspace session will 
+be protected.
 
-Melissa
+But as you said, this becomes more and more complex with little added value.
 
->=20
-> > > Note in the diagram that our HW (and DC interface) have a Shaper
-> > > LUT available before the 3D LUT. You could expose if you want to
-> > > shape your content post-blending before applying the 3D LUT.
-> > >=20
-> > > The 3D LUT is most effective when it's in non-linear space. Currently
-> > > DRM has no way to specify a way for drm_plane to be linearized (see n=
-otes
-> > > (1) and (2)) so it is assumed that you're blending in non-linear spac=
-e and
-> > > therefore your pixels would already be non-linear going into your 3D =
-LUT.
-> > >=20
-> > > (1) unless you use the drm_plane PWL API that was proposed
-> > > (2) amdgpu_dm is currently setting the drm_crtc degamma LUT on the
-> > >      DC plane. This might lead to unexpected behavior when using
-> > >      multiple planes (though I believe gamescope is making use of
-> > >      this behavior).
-> >=20
-> > Thanks for raising these points. In fact, I was considering unexpected
-> > behavior when I saw this DRM <-> DC mapping. >>
-> > > Have you looked at [1] yet? It might provide a good example on how to
-> > > define a 3D LUT. For AMD HW you'll want a 17x17x17 LUT.
-> > >=20
-> > > [1] http://intel.github.io/libva/structVAProcFilterParameterBuffer3DL=
-UT.html
-> >=20
-> > Not yet, but it seems helpful. I'll take as a reference... until now,
-> > I've only examined details on DC drivers.
-> >=20
->=20
-> Sounds great.
->=20
-> Harry
->=20
-> > Thanks,
-> >=20
-> > Melissa
-> >=20
-> > >=20
-> > > Harry
-> > >=20
-> > > > Melissa
-> > > >=20
-> > > > [1] https://lore.kernel.org/all/20201221015730.28333-1-laurent.pinc=
-hart+renesas@ideasonboard.com/
-> > > > [2] https://github.com/vsyrjala/linux/commit/4d28e8ddf2a076f30f9e5b=
-dc17cbb4656fe23e69
-> > > > >=20
-> > > > > I'm thinking of putting a 3D LUT proposal together but haven't go=
-tten around
-> > > > > to it yet. We'll want a pre-blending 3D LUT, and possible a progr=
-ammable
-> > > > > post-blending one as well.
-> > > > >=20
-> > > > > Thanks,
-> > > > > Harry
-> > > > >=20
-> > > > > > step of color correction, I don't see how to accommodate it in =
-the
-> > > > > > mapping above, but I see DC already supports programming 3D LUT=
- on DPP.
-> > > > > > Once DRM has the 3D LUT interface and DM mapped it as a DPP pro=
-perty,
-> > > > > > the 3D LUT will be at the end of the color correction pipeline?=
- Is there
-> > > > > > anything I need to worry about mapping DRM 3D LUT support? Or a=
-ny
-> > > > > > advice?
-> > > > > >=20
-> > > > > > Thanks in advance,
-> > > > > >=20
-> > > > > > Melissa
-> > > >=20
-> > > >=20
-> >=20
-> >=20
-
---rlhfzygtrm4amjgv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJ0SqoACgkQwqF3j0dL
-ehxLtQ//UfJsO169zJ7W7ngWdtqfRCemWrPjpk8CYypv3ThdMRBvmuulTqNloIAq
-KIFvaqtcV9BwhlZzEU38/bR2OGBdBsYiRgeXmzERgpBn+OHCPCSRIpmKQHZP8XRK
-0+/0emThjxfuC7p3TZHtjkT8xxR4wGTwkOeUIVNPjs5/Nt7Tj5QXWa77W9YdnjdZ
-Y9cj7/jzhsNPFq1kkBufkIMnvMeiFCconUqNLSQ4cD70IkgKPZ9R7GQZQpyJERN0
-CLat9wMu2FXFy4HNpjhipzW8o9wI5OBoD5OliNCE8LAssw0IbeUIa+H8DtAuCwm3
-fvBxcQyaInL3w3g6FGKnklZU8dlpvtqTGxJfFlEL5S9BjZKskhjzJ08a54TX8A1J
-xh9H9LFlpuDTBdrL096KWczVTMfD8ADkflSLBHhFcnx/z+S6YakLdoWflcnUq9NA
-QcrZ1bQlH4hpVL3OjEqwswiN1A+HLFI/ktaA/t4oTtNohknoZDEKltdQTRQATLSg
-hWfl7J4eW+Q/oiZbAQl7dNkNZEaafFeITTDag6fTE5ZE0HPVz1K9oKFNchg4+XPL
-LK1gijIwOe8FEeNVRAf48hfSRGPwotKbyaqheab9Fx4bXTGdMX3/2DNZXbhK9EpA
-W4QhNHsF9GYPnnlIk7O7MIWv5mPi3tOoVx3BxtXJeG2Y8nwjnU8=
-=BDfK
------END PGP SIGNATURE-----
-
---rlhfzygtrm4amjgv--
+-- 
+With best wishes
+Dmitry
