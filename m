@@ -1,68 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E5451B8DD
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 09:27:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB4F51B901
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 09:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CAAE10F70A;
-	Thu,  5 May 2022 07:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A5110E052;
+	Thu,  5 May 2022 07:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B7A110F838
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 07:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1651735623; x=1683271623;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=16InVKGXSkMBY+wpgnTYDz/Uc5LhgfhRL3emboF3uII=;
- b=R4FQBnlspLa+BCgWBngvdS1HScpG4uAzZUON2rgglm7sjmzQI9XUsBMD
- BNEDhfAqRVKMk9Oa9DdkLeDY3FXTEofrKKQy++Z9J7qj+ZCdjY2dCmbpN
- gfgd2z9n9QRNDCB9zJd3NS6QJhpi4GbLOJ6BVBw0LgYlx0A48OiKInFE+
- YrzeJnpceIyxvGgOIFUOT0PLnuMR6Dv4TCUtkOpdgri5BuTCIL7WJz6KS
- mb5ly1Pql0e8A32JDdmR+x3f76uHReFsmEtXDom4/mBlvbYoc4q/7tCVR
- 2O4QAjMoDV7zpU9H/e+fQOfscuNJ5pyAi8k451gSZmFAt+a/8eFOldg5A g==;
-X-IronPort-AV: E=Sophos;i="5.91,200,1647298800"; d="scan'208";a="23685580"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 05 May 2022 09:27:00 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Thu, 05 May 2022 09:27:00 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Thu, 05 May 2022 09:27:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1651735620; x=1683271620;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=16InVKGXSkMBY+wpgnTYDz/Uc5LhgfhRL3emboF3uII=;
- b=Xcrecb/Xhpr5A1T4uQQ2xXBehLG49Uxy33Wq9Z1MlLa2U6woNjC1FHq3
- WLynJ2VJ00/juM7UP/NqtCFYD5PTdlPW8ZgdwIRJusvGf6Fv/I41GRBFR
- Xy4MSIBWuWt2d99C90cf+qZ4/ZRHQkQa65yD7fKWOwL7BqpRX6PaPtNic
- J6dF98DTgr2yF7RSfVN2xxFa++ECj0aVvR/GGGk2FEIINPnu78cbRBTjJ
- FfyhM2HNS57gIEw8kETaO8+sEuQZ2Vb7Az32LuqCCkTgBFyv/qpa79Mwo
- YcsgjT68djHKGdiQ60iCIQUQrVY+xaOfwIRW6iTj1eLQpjjQu92Jx5Ond w==;
-X-IronPort-AV: E=Sophos;i="5.91,200,1647298800"; d="scan'208";a="23685578"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 05 May 2022 09:27:00 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573B710E052
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 07:29:42 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 35798280070;
- Thu,  5 May 2022 09:27:00 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: (EXT) [PATCH v2 00/12] drm: bridge: Add Samsung MIPI DSIM bridge
-Date: Thu, 05 May 2022 09:26:57 +0200
-Message-ID: <2184168.iZASKD2KPV@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220504114021.33265-1-jagan@amarulasolutions.com>
-References: <20220504114021.33265-1-jagan@amarulasolutions.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E82741F891;
+ Thu,  5 May 2022 07:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651735780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7oszj393KfchLXHg916YqCIeRK1AJbaDk3ClmN+/Bh4=;
+ b=KdLoTN4Z75Y80d7DYk9en/+bOUYMRXtWatVyv7dJiVIBls8UFNV99CZuO6NwRWNGnUmIWE
+ 2MEbQJ8AHYjtzQMWGXF8ZMd6P65JGgaWUbbhs108yX/XngaaR9htNy0OpeFFZ+qoOJu0aO
+ ikHel9TmvzGJxuYVkAjIL4zVhuQNXTA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651735780;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7oszj393KfchLXHg916YqCIeRK1AJbaDk3ClmN+/Bh4=;
+ b=xXwR5T8/3cxrsCpiuRH/xS7eWWLDuAie/ZvWTTQ/JmGVcpQmWw0OeaCDHWQpy3r8ojlK6o
+ aSv4lpGtJnZYsbDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B5FAF13A65;
+ Thu,  5 May 2022 07:29:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ahhCK+R8c2LwcAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 May 2022 07:29:40 +0000
+Message-ID: <974f4d00-89bc-a2da-6d65-ca4207300794@suse.de>
+Date: Thu, 5 May 2022 09:29:40 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 2/3] fbdev/simplefb: Cleanup fb_info in .fb_destroy rather
+ than .remove
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220504215151.55082-1-javierm@redhat.com>
+ <20220504215722.56970-1-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220504215722.56970-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------M6QrRRNoD3q2fMmWOKHoyYDu"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,142 +71,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Jagan,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------M6QrRRNoD3q2fMmWOKHoyYDu
+Content-Type: multipart/mixed; boundary="------------UIiPyxvlLyMVaz0POf4AxHbW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>
+Message-ID: <974f4d00-89bc-a2da-6d65-ca4207300794@suse.de>
+Subject: Re: [PATCH 2/3] fbdev/simplefb: Cleanup fb_info in .fb_destroy rather
+ than .remove
+References: <20220504215151.55082-1-javierm@redhat.com>
+ <20220504215722.56970-1-javierm@redhat.com>
+In-Reply-To: <20220504215722.56970-1-javierm@redhat.com>
 
-thanks for the second version of this patchset.
+--------------UIiPyxvlLyMVaz0POf4AxHbW
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Am Mittwoch, 4. Mai 2022, 13:40:09 CEST schrieb Jagan Teki:
-> This series supports common bridge support for Samsung MIPI DSIM
-> which is used in Exynos and i.MX8MM SoC's.
-> 
-> Previous v1 can be available here [1].
-> 
-> The final bridge supports both the Exynos and i.MX8MM DSI devices.
-> 
-> On, summary this patch-set break the entire DSIM driver into
-> - platform specific glue code for platform ops, component_ops.
-> - common bridge driver which handle platform glue init and invoke.
-> 
-> Patch 0000: 	Samsung DSIM bridge
-> 
-> Patch 0001:	Common lookup code for OF-graph or child
-> 
-> Patch 0002: 	platform init flag via driver_data
-> 
-> Patch 0003/10:  bridge fixes, atomic API's
-> 
-> Patch 0011:	document fsl,imx8mm-mipi-dsim
-> 
-> Patch 0012:	add i.MX8MM DSIM support
-> 
-> Tested in Engicam i.Core MX8M Mini SoM.
-> 
-> Anyone interested, please have a look on this repo [2]
-> 
-> [2] https://github.com/openedev/kernel/tree/imx8mm-dsi-v2
-> [1]
-> https://patchwork.kernel.org/project/dri-devel/cover/20220408162108.184583-> 1-jagan@amarulasolutions.com/
-> 
-> Any inputs?
-
-I was able to get my LVDS display running using this driver and an LVDS 
-bridge. Actually my setup is similar to yours. My chain is like this:
-MIPI-DSI -> sn65dsi83 -> LVDS panel
-I noticed some things though:
-My setup only works if I use less than 4 lanes. See [1]. When using 4 lanes 
-the image is flickering, but the content is "visible". Your DT has only 2 
-lanes configured, do you have the possibility to use 4 lanes? I have no idea 
-how to tackle this. It might be the DSIM side or the bridge side.
-Apparently the downstream kernel from NXP supports 4 lanes, if I can trust the 
-config. I have no way to verify this though.
-
-Another thing is I get the following warning
-> sn65dsi83 2-002d: Unsupported LVDS bus format 0x100a, please check output 
-bridge driver. Falling back to SPWG24.
-
-This seems to be caused by a wrong bridge chain. Using commit 81e80429 at [2] 
-I get the following output:
-> bridge chain: /soc@0/bus@30800000/i2c@30a40000/dsi-lvds-bridge@2d -> /
-panel_lvds0 -> /soc@0/bus@32c00000/dsi@32e10000 ->
-Which seems weird. I would have expected something like
-dsi@32e10000 -> dsi-lvds-bridge@2d -> panel_lvds0
-Do you happen to see somthing similar? But this is completely unrelated to 
-your patchset though.
-
-Also unloading the samsung_dsim driver raises a regulator warning:
-------------[ cut here ]------------                                                                                                 
-WARNING: CPU: 2 PID: 381 at drivers/regulator/core.c:2275 _regulator_put.part.
-0+0x38/0x40                                            
-Modules linked in: caam_jr caamhash_desc caamalg_desc crypto_engine rng_core 
-authenc libdes hantro_vpu(C) v4l2_vp9 v4l2_h264 snd_soc_
-fsl_asoc_card crct10dif_ce snd_soc_tlv320aic32x4_spi videobuf2_dma_contig 
-phy_fsl_imx8m_pcie v4l2_mem2mem samsung_dsim(-) snd_soc_tlv
-320aic32x4_i2c snd_soc_tlv320aic32x4 caam error imx8mm_thermal imx_sdma 
-pwm_beeper fuse ipv6                                         
-CPU: 2 PID: 381 Comm: modprobe Tainted: G         C        5.18.0-rc5-
-next-20220504+ #204 03c84d7b1600b734091c3159e797071c8f65061c   
-Hardware name: TQ-Systems GmbH i.MX8MM TQMa8MxML on MBa8Mx (DT)                                                                      
-pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)                                                                      
-pc : _regulator_put.part.0+0x38/0x40                                                                                                 
-lr : regulator_bulk_free+0x58/0x80                                                                                                   
-sp : ffff80000aeb3af0                                                                                                                
-x29: ffff80000aeb3af0 x28: ffff00000360bb00 x27: 0000000000000000                                                                    
-x26: ffff800009bad438 x25: ffff000000276890 x24: 0000000000000009                                                                    
-x23: ffff00000360bb00 x22: ffff000003543268 x21: ffff800009b85280                                                                    
-x20: ffff000005587800 x19: ffff000003543238 x18: 0000000000000000                                                                    
-x17: 0000000000000000 x16: 0000000000000000 x15: 6d3d4d4554535953                                                                    
-x14: 42555300302e6973 x13: 4553003338697364 x12: 0000000000000000                                                                    
-x11: 0000000000000000 x10: 0000000000000ab0 x9 : ffff80000aeb38f0
-x8 : ffff00000360c610 x7 : 0000000000000000 x6 : 0000000000000000
-x5 : ffff8000092dc468 x4 : ffff00000360bb00 x3 : 0000000000000000
-x2 : ffff00000360bb00 x1 : 0000000000000001 x0 : ffff000005587800
-Call trace:
- _regulator_put.part.0+0x38/0x40
- regulator_bulk_free+0x58/0x80
- devm_regulator_bulk_release+0x18/0x20
- devres_release_all+0xa0/0x100
- device_unbind_cleanup+0x14/0x60
- device_release_driver_internal+0x214/0x2b4
- driver_detach+0x4c/0xe0
- bus_remove_driver+0x68/0x120
- driver_unregister+0x2c/0x5c
- platform_driver_unregister+0x10/0x20
- samsung_mipi_dsim_exit+0x18/0xd20 [samsung_dsim 
-f08bbdb06ba3e4aef07da9615e8193297aa99358]
- __do_sys_delete_module.constprop.0+0x134/0x1e4
- __arm64_sys_delete_module+0x10/0x1c
- invoke_syscall+0x6c/0xf0
- el0_svc_common.constprop.0+0xc0/0xe0
- do_el0_svc+0x24/0x30
- el0_svc+0x3c/0xfc
- el0t_64_sync_handler+0xb0/0xb4
- el0t_64_sync+0x148/0x14c
----[ end trace 0000000000000000 ]---
-
-Best regards,
-Alexander
-
-[1] https://github.com/tq-steina/linux/blob/imx8mm-dsi-lvds/arch/arm64/boot/
-dts/freescale/imx8mm-tqma8mqml-mba8mx-lvds.dts#L45-L46
-[2] https://github.com/tq-steina/linux/commit/
-81e80429341cd0a4f119ec9cf50839498915443b
+SGkNCg0KQW0gMDQuMDUuMjIgdW0gMjM6NTcgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IFRoZSBkcml2ZXIgaXMgY2FsbGluZyBmcmFtZWJ1ZmZlcl9yZWxlYXNlKCkg
+aW4gaXRzIC5yZW1vdmUgY2FsbGJhY2ssIGJ1dA0KPiB0aGlzIHdpbGwgY2F1c2UgdGhlIHN0
+cnVjdCBmYl9pbmZvIHRvIGJlIGZyZWVkIHRvbyBlYXJseS4gU2luY2UgaXQgY291bGQNCj4g
+YmUgdGhhdCBhIHJlZmVyZW5jZSBpcyBzdGlsbCBob2xkIHRvIGl0IGlmIHVzZXItc3BhY2Ug
+b3BlbmVkIHRoZSBmYmRldi4NCj4gDQo+IFRoaXMgd291bGQgbGVhZCB0byBhIHVzZS1hZnRl
+ci1mcmVlIGVycm9yIGlmIHRoZSBmcmFtZWJ1ZmZlciBkZXZpY2Ugd2FzDQo+IHVucmVnaXN0
+ZXJlZCBidXQgbGF0ZXIgYSB1c2VyLXNwYWNlIHByb2Nlc3MgdHJpZXMgdG8gY2xvc2UgdGhl
+IGZiZGV2IGZkLg0KPiANCj4gVGhlIGNvcnJlY3QgdGhpbmcgdG8gZG8gaXMgdG8gb25seSB1
+bnJlZ2lzdGVyIHRoZSBmcmFtZWJ1ZmZlciBpbiB0aGUNCj4gZHJpdmVyJ3MgLnJlbW92ZSBj
+YWxsYmFjaywgYnV0IGRvIGFueSBjbGVhbnVwIGluIHRoZSBmYl9vcHMuZmJfZGVzdHJveS4N
+Cj4gDQo+IFN1Z2dlc3RlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZnds
+bC5jaD4NCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZp
+ZXJtQHJlZGhhdC5jb20+DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4NCg0KUGxlYXNlIHNlZSBteSBxdWVzdGlvbiBiZWxvdy4NCg0K
+PiAtLS0NCj4gDQo+ICAgZHJpdmVycy92aWRlby9mYmRldi9zaW1wbGVmYi5jIHwgOCArKysr
+KysrLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24o
+LSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NpbXBsZWZiLmMg
+Yi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NpbXBsZWZiLmMNCj4gaW5kZXggOTRmYzljNmQwNDEx
+Li4yYzE5ODU2MWMzMzggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvc2lt
+cGxlZmIuYw0KPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NpbXBsZWZiLmMNCj4gQEAg
+LTg0LDYgKzg0LDEwIEBAIHN0cnVjdCBzaW1wbGVmYl9wYXIgew0KPiAgIHN0YXRpYyB2b2lk
+IHNpbXBsZWZiX2Nsb2Nrc19kZXN0cm95KHN0cnVjdCBzaW1wbGVmYl9wYXIgKnBhcik7DQo+
+ICAgc3RhdGljIHZvaWQgc2ltcGxlZmJfcmVndWxhdG9yc19kZXN0cm95KHN0cnVjdCBzaW1w
+bGVmYl9wYXIgKnBhcik7DQo+ICAgDQo+ICsvKg0KPiArICogZmJfb3BzLmZiX2Rlc3Ryb3kg
+aXMgY2FsbGVkIGJ5IHRoZSBsYXN0IHB1dF9mYl9pbmZvKCkgY2FsbCBhdCB0aGUgZW5kDQo+
+ICsgKiBvZiB1bnJlZ2lzdGVyX2ZyYW1lYnVmZmVyKCkgb3IgZmJfcmVsZWFzZSgpLiBEbyBh
+bnkgY2xlYW51cCBoZXJlLg0KPiArICovDQo+ICAgc3RhdGljIHZvaWQgc2ltcGxlZmJfZGVz
+dHJveShzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gICB7DQo+ICAgCXN0cnVjdCBzaW1wbGVm
+Yl9wYXIgKnBhciA9IGluZm8tPnBhcjsNCj4gQEAgLTk0LDYgKzk4LDggQEAgc3RhdGljIHZv
+aWQgc2ltcGxlZmJfZGVzdHJveShzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gICAJaWYgKGlu
+Zm8tPnNjcmVlbl9iYXNlKQ0KPiAgIAkJaW91bm1hcChpbmZvLT5zY3JlZW5fYmFzZSk7DQo+
+ICAgDQo+ICsJZnJhbWVidWZmZXJfcmVsZWFzZShpbmZvKTsNCj4gKw0KPiAgIAlpZiAobWVt
+KQ0KPiAgIAkJcmVsZWFzZV9tZW1fcmVnaW9uKG1lbS0+c3RhcnQsIHJlc291cmNlX3NpemUo
+bWVtKSk7DQoNClRoZSBvcmlnaW5hbCBwcm9ibGVtIHdpdGggZmJkZXYgaG90LXVucGx1ZyB3
+YXMgdGhhdCB2bXdnZnggbmVlZGVkIHRoZSANCmZyYW1lYnVmZmVyIHJlZ2lvbiB0byBiZSBy
+ZWxlYXNlZC4gSWYgd2UgcmVsZWFzZSBpdCBvbmx5IGFmdGVyIHVzZXJzcGFjZSANCmNsb3Nl
+ZCBpdCdzIGZpbmFsIGZpbGUgZGVzY3JpcHRvciwgdm13Z2Z4IGNvdWxkIGhhdmUgYWxyZWFk
+eSBmYWlsZWQuDQoNCkkgc3RpbGwgZG9uJ3QgZnVsbHkgZ2V0IHdoeSB0aGlzIGNvZGUgYXBw
+YXJlbnRseSB3b3JrcyBvciBhdCBsZWFzdCANCmRvZXNuJ3QgYmxvdyB1cCBvY2Nhc2lvbmFs
+bHkuIEFueSBpZGVhcz8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIH0NCj4gQEAg
+LTU0NSw4ICs1NTEsOCBAQCBzdGF0aWMgaW50IHNpbXBsZWZiX3JlbW92ZShzdHJ1Y3QgcGxh
+dGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgIHsNCj4gICAJc3RydWN0IGZiX2luZm8gKmluZm8g
+PSBwbGF0Zm9ybV9nZXRfZHJ2ZGF0YShwZGV2KTsNCj4gICANCj4gKwkvKiBzaW1wbGVmYl9k
+ZXN0cm95IHRha2VzIGNhcmUgb2YgaW5mbyBjbGVhbnVwICovDQo+ICAgCXVucmVnaXN0ZXJf
+ZnJhbWVidWZmZXIoaW5mbyk7DQo+IC0JZnJhbWVidWZmZXJfcmVsZWFzZShpbmZvKTsNCj4g
+ICANCj4gICAJcmV0dXJuIDA7DQo+ICAgfQ0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
 
+--------------UIiPyxvlLyMVaz0POf4AxHbW--
 
+--------------M6QrRRNoD3q2fMmWOKHoyYDu
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJzfOQFAwAAAAAACgkQlh/E3EQov+D3
+Xg/9HjoP34X+CZ1CZUlKTe8unr/01RG2xvoO67jA9JafUhE5+LdK6wDeDOL4KMsxtg8cIh7qWNBX
+pN4vxSieVJB96bfisMmFNc+1H4XK0AqxG0d9UscOCvl2H3R/gvDMm0NUmLPVPe9ZXB4P3/zFQzTs
+oSjhCjUwMP/3HwJofYMImSreDOHOCgHEYS33MR8aAEi5gy6e/yZfQrt57SZyEXlmW0lyC8FXmcFz
+J+1zEvQ9OijFvguegpyUD8p8htJisk7hbm4VdodnDPUCAvz0XqqpjdNdgkybZf5NO22cGP/kF8DG
+M5hmxD5uOIkjXML/1lIa327Hbfi6lWSJ1Dhdjlj7GNdqUJ3N4LrMhh2V/L5zrBQu6Z5VYGNmIgkB
+5Kw1rpAobocgO5VQNvWtxGMgKLGndl4u78Ue91YoWmcpC3KwHyPub6HncH6fnVXo0sdjqXeTJX2c
+JYucSPQmF0aaDRdbStokM1PgVOtsWDX8OlRBOZSUjhZoyau5TqA87MwpgnkIhsk2yRjzr9s417Rd
+KflWlcUkrpTCQx751Npvt7tOQQ8CV7fH1JnpWKnLD7z4nYr0FlskUvo1MqE1LXi7gMoVSJNi64jR
+Zp6iHP8KbItbaia1/glFvbs9aK+Wl+FIkKvEhoTLDHybeHa43i8H4DaLod16NuPFBaXJPd5RlFv1
+aa0=
+=adqs
+-----END PGP SIGNATURE-----
+
+--------------M6QrRRNoD3q2fMmWOKHoyYDu--
