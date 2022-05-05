@@ -1,57 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EE751BAF0
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 10:49:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9621051BAF4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 10:49:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C751D10E183;
-	Thu,  5 May 2022 08:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAC9B10EB8C;
+	Thu,  5 May 2022 08:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B08D10EB8C
- for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 08:49:00 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id v59so6447777ybi.12
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 01:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=op5ROKe2ZN3R178e7Bu8w5MlRYrTA2IJQ63KYbg67x0=;
- b=PlQULGTSlWNcIR7xPZDYQG2Pa8eSpGTcolUplNhYBX/Nm4Yp95pd7BYFPUtf606YSc
- 19v4xDJJ2QlHi9c8bGxAbCXYQTQFHyq7pIKSguxg/MgiGd+KOBZ7oKl2NdmUibY6Sga2
- MSDvMGQuMD8pP62o08MoI5rkuY46WTL0P2XwhogDtkZ5lpbSBYjW6bByhbP82EHKj60n
- /sxfuNmOh7XcwQ+qGNS0gqxZL8TM0VC0Wc5XhwryNxv4NFtWsGrgUKaoA4YKSvNS5SOv
- Wj2zJRTpSCu/batd46b1k2S5otWGZzb/W54OY1D0r1ia/0C5CXDbiTQnhZhnstTJryTU
- 8RfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=op5ROKe2ZN3R178e7Bu8w5MlRYrTA2IJQ63KYbg67x0=;
- b=OW1+caxI5BM8WJoxyvm3YmrxIaY0V61v6W5P3mRQSALwej02tp/K7zIjhTIse6/QhZ
- /42dC7mJIZX4pbIPF5LWTWtGhGCQqDxsC5t6Ou4ihjUEcOcc/mHr4no7WRsJTxyqRsP7
- cApo4HjLcNs8V95MAonMTGO4cpqMzI9HQQgRDi6Si7SwXcBNotFxs0fO/YxBKs/ILCev
- DhVuABwhcgf1c/ACQj0ymGMBVp+IlnWtO7oBfJMmTZbUzi+Faq8x3vVIRymUsq3+gGX3
- hcJkdVdtLwpXU0ma1aekvkLrqiCVbt0uo1upbf/pLAfzYFwTDKOaKuaR2kueZ06/1H+A
- q8bA==
-X-Gm-Message-State: AOAM530wlikcO4I2G/jS7nLP92GFc5DVOMX7GRUHH2mCqHpWvaH5DCBY
- FKrAcpyYR0afWnFOtq+LRiIYDt6ZQAINiUHpV3j3eQ==
-X-Google-Smtp-Source: ABdhPJz2AMrVv3CJIjrI6pJqL+b8hzT+Mj4fdxway48kUTXDu4QxBUWQrSy+dKStzWQ5d1zkk8f5o+rC9IbeqBsiFQ8=
-X-Received: by 2002:a25:3455:0:b0:648:44db:51e0 with SMTP id
- b82-20020a253455000000b0064844db51e0mr19579704yba.314.1651740539255; Thu, 05
- May 2022 01:48:59 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2DC10EB8C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 08:49:39 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B9E39218ED;
+ Thu,  5 May 2022 08:49:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651740577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G98mln19ZgjcWOJ1EpprkkSYVYDttaLj17m3CPfaya0=;
+ b=fP+Z5rt/gxgHBIrKtnF8r6iXxmrS8OqhX5a0Jd2K/jAFSnh/hnzl6Y23ku2iKW7Ak3Wgjg
+ CP3DhBzzJdO+V4n/WY0mmOUNdrPcxAqbnRRr0STjn+uqGG7cUEr8zh2/MzNC2A1ONdESvN
+ 6n0luq29P6mtKdlN0jkz8emg+8ozKdU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651740577;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G98mln19ZgjcWOJ1EpprkkSYVYDttaLj17m3CPfaya0=;
+ b=f38ImMI5VE2CUGPJDEK5AU0qXgyiUT6TFQUq4oabCBu3l+IwipxnyrFPd6Vtr3017BXXde
+ 04t5xS23Keci0uCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C7B713B11;
+ Thu,  5 May 2022 08:49:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id gXkCIaGPc2LoGAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 May 2022 08:49:37 +0000
+Message-ID: <e1797321-d901-45dc-713f-7f706147c341@suse.de>
+Date: Thu, 5 May 2022 10:49:36 +0200
 MIME-Version: 1.0
-References: <20220505015528.344-1-quic_jesszhan@quicinc.com>
- <CAF6AEGt1uFAgAo1+sp7KbamTb4DAn_MU-NR+UvGHLUGfm3oQ=A@mail.gmail.com>
-In-Reply-To: <CAF6AEGt1uFAgAo1+sp7KbamTb4DAn_MU-NR+UvGHLUGfm3oQ=A@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 5 May 2022 11:48:48 +0300
-Message-ID: <CAA8EJpraDRzBevNPC6H9ZAaLAXFq2aOkdoD9NGo-DpgsXoCm=g@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/mdp5: Return error code in mdp5_pipe_release
- when deadlock is detected
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 2/3] fbdev/simplefb: Cleanup fb_info in .fb_destroy rather
+ than .remove
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220504215151.55082-1-javierm@redhat.com>
+ <20220504215722.56970-1-javierm@redhat.com>
+ <974f4d00-89bc-a2da-6d65-ca4207300794@suse.de>
+ <d9a5cb30-2d9b-50b5-d287-0ead0fe252f3@redhat.com>
+ <78167587-fd2e-354c-485b-db4ee9251178@suse.de>
+ <237c7fa0-744d-97c2-2bba-3f714d6c2e9d@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <237c7fa0-744d-97c2-2bba-3f714d6c2e9d@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------bfNxQvqkcvpizuhcxOBwiAnc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,143 +75,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <seanpaul@chromium.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, quic_aravindh@quicinc.com,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 May 2022 at 05:06, Rob Clark <robdclark@gmail.com> wrote:
->
-> On Wed, May 4, 2022 at 6:55 PM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> >
-> > mdp5_get_global_state runs the risk of hitting a -EDEADLK when acquiring
-> > the modeset lock, but currently mdp5_pipe_release doesn't check for if
-> > an error is returned. Because of this, there is a possibility of
-> > mdp5_pipe_release hitting a NULL dereference error.
-> >
-> > To avoid this, let's have mdp5_pipe_release check if
-> > mdp5_get_global_state returns an error and propogate that error.
-> >
-> > Changes since v1:
-> > - Separated declaration and initialization of *new_state to avoid
-> >   compiler warning
-> > - Fixed some spelling mistakes in commit message
-> >
->
-> Note that mdp5_mixer_release() needs the same treatment.. one more comment below
->
-> > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > ---
-> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c  | 15 +++++++++++----
-> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h  |  2 +-
-> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 20 ++++++++++++++++----
-> >  3 files changed, 28 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
-> > index ba6695963aa6..97887a2be082 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
-> > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
-> > @@ -119,18 +119,23 @@ int mdp5_pipe_assign(struct drm_atomic_state *s, struct drm_plane *plane,
-> >         return 0;
-> >  }
-> >
-> > -void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
-> > +int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
-> >  {
-> >         struct msm_drm_private *priv = s->dev->dev_private;
-> >         struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
-> >         struct mdp5_global_state *state = mdp5_get_global_state(s);
-> > -       struct mdp5_hw_pipe_state *new_state = &state->hwpipe;
-> > +       struct mdp5_hw_pipe_state *new_state;
-> >
-> >         if (!hwpipe)
-> > -               return;
-> > +               return -EINVAL;
->
-> At least per the current code, !hwpipe is "normal".. I think that fits
-> the model of things like kfree(NULL), so lets make this just return 0
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------bfNxQvqkcvpizuhcxOBwiAnc
+Content-Type: multipart/mixed; boundary="------------MF9XvBTem0bHn0z8Qv0sXD0P";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>
+Message-ID: <e1797321-d901-45dc-713f-7f706147c341@suse.de>
+Subject: Re: [PATCH 2/3] fbdev/simplefb: Cleanup fb_info in .fb_destroy rather
+ than .remove
+References: <20220504215151.55082-1-javierm@redhat.com>
+ <20220504215722.56970-1-javierm@redhat.com>
+ <974f4d00-89bc-a2da-6d65-ca4207300794@suse.de>
+ <d9a5cb30-2d9b-50b5-d287-0ead0fe252f3@redhat.com>
+ <78167587-fd2e-354c-485b-db4ee9251178@suse.de>
+ <237c7fa0-744d-97c2-2bba-3f714d6c2e9d@redhat.com>
+In-Reply-To: <237c7fa0-744d-97c2-2bba-3f714d6c2e9d@redhat.com>
 
-Especially since we release the r_hwpipe w/o additional check. And
-r_hwpipe frequently is NULL.
+--------------MF9XvBTem0bHn0z8Qv0sXD0P
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->
-> > +
-> > +       if (IS_ERR(state))
-> > +               return PTR_ERR(state);
-> > +
-> > +       new_state = &state->hwpipe;
-> >
-> >         if (WARN_ON(!new_state->hwpipe_to_plane[hwpipe->idx]))
-> > -               return;
-> > +               return -EINVAL;
-> >
-> >         DBG("%s: release from plane %s", hwpipe->name,
-> >                 new_state->hwpipe_to_plane[hwpipe->idx]->name);
-> > @@ -141,6 +146,8 @@ void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
-> >         }
-> >
-> >         new_state->hwpipe_to_plane[hwpipe->idx] = NULL;
-> > +
-> > +       return 0;
-> >  }
-> >
-> >  void mdp5_pipe_destroy(struct mdp5_hw_pipe *hwpipe)
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
-> > index 9b26d0761bd4..cca67938cab2 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
-> > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
-> > @@ -37,7 +37,7 @@ int mdp5_pipe_assign(struct drm_atomic_state *s, struct drm_plane *plane,
-> >                      uint32_t caps, uint32_t blkcfg,
-> >                      struct mdp5_hw_pipe **hwpipe,
-> >                      struct mdp5_hw_pipe **r_hwpipe);
-> > -void mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe);
-> > +int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe);
-> >
-> >  struct mdp5_hw_pipe *mdp5_pipe_init(enum mdp5_pipe pipe,
-> >                 uint32_t reg_offset, uint32_t caps);
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> > index 228b22830970..979458482841 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> > @@ -311,12 +311,24 @@ static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
-> >                                 mdp5_state->r_hwpipe = NULL;
-> >
-> >
-> > -                       mdp5_pipe_release(state->state, old_hwpipe);
-> > -                       mdp5_pipe_release(state->state, old_right_hwpipe);
-> > +                       ret = mdp5_pipe_release(state->state, old_hwpipe);
-> > +                       if (ret)
-> > +                               return ret;
-> > +
-> > +                       ret = mdp5_pipe_release(state->state, old_right_hwpipe);
-> > +                       if (ret)
-> > +                               return ret;
-> > +
-> >                 }
-> >         } else {
-> > -               mdp5_pipe_release(state->state, mdp5_state->hwpipe);
-> > -               mdp5_pipe_release(state->state, mdp5_state->r_hwpipe);
-> > +               ret = mdp5_pipe_release(state->state, mdp5_state->hwpipe);
-> > +               if (ret)
-> > +                       return ret;
-> > +
-> > +               ret = mdp5_pipe_release(state->state, mdp5_state->r_hwpipe);
-> > +               if (ret)
-> > +                       return ret;
-> > +
-> >                 mdp5_state->hwpipe = mdp5_state->r_hwpipe = NULL;
-> >         }
-> >
-> > --
-> > 2.35.1
-> >
+SGkNCg0KQW0gMDUuMDUuMjIgdW0gMTA6Mjggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IE9uIDUvNS8yMiAxMDowNSwgVGhvbWFz
+IFppbW1lcm1hbm4gd3JvdGU6DQo+IA0KPiBbc25pcF0NCj4gDQo+Pj4NCj4+PiBJbiBvdGhl
+ciB3b3JkcywgaW4gbW9zdCBjYXNlcyAoaS5lOiBvbmx5IGZiY29uIGJvdW5kIHRvIHRoZSBm
+YmRldikNCj4+PiB0aGUgZHJpdmVyJ3MgcmVtb3ZhbC8gZGV2aWNlIHVuYmluZCBhbmQgdGhl
+IG1lbW9yeSByZWxlYXNlIHdpbGwgYmUNCj4+PiBhdCB0aGUgc2FtZSB0aW1lLg0KPj4+DQo+
+Pg0KPj4gV2UncmUgb25lIHRoZSBzYW1lIHBhZ2UgaGVyZSwgYnV0IGl0J3Mgc3RpbGwgc29y
+dCBvZiBhIG15c3RlcnkgdG8gbWUgd2h5DQo+PiB0aGlzIHdvcmtzIGluIHByYWN0aWNlLg0K
+Pj4NCj4+IEknbSBzcGVjaWZpY2FsbHkgdGFsa2luZyBhYm91dCBwY2lfcmVxdWVzdF9yZWdp
+b25zKCkgaW4gdm13Z2Z4IFsxXS4gSUlSQw0KPj4gdGhpcyB3b3VsZCBmYWlsIGlmIHNpbXBs
+ZWZiIHN0aWxsIG93bnMgdGhlIGZyYW1lYnVmZmVyIHJlZ2lvbi4gTG90cyBvZg0KPj4gc3lz
+dGVtcyBydW4gUGx5bW91dGggZHVyaW5nIGJvb3QgYW5kIHRoaXMgc2hvdWxkIHJlc3VsdCBp
+biBmYWlsdXJlcw0KPj4gb2NjYXNpb25hbGx5LiBTdGlsbCwgd2UgbmV2ZXIgaGVhcmQgYWJv
+dXQgYW55dGhpbmcuDQo+Pg0KPiANCj4gWWVzLCBJIHRoaW5rIGlzIGJlY2F1c2UgUGx5bW91
+dGggSUlVQyB3YWl0cyBmb3IgYSAvZGV2L2RyaS9jYXJkPyB0byBiZQ0KPiBwcmVzZW50IGFu
+ZCBvbmx5IHVzZXMgYSAvZGV2L2ZiPyBhcyBhIGZhbGxiYWNrIGlmIGEgdGltZW91dCBleHBp
+cmVzLg0KDQpPaCwgcmlnaHQhIFRoZSBpbmZhbW91cyBwbHltb3V0aCB0aW1lb3V0LiAnc2xl
+ZXAoMzApJyBpcyB0aGUgc3dpc3MtYXJteSANCmtuaWZlIG9mIGNvbmN1cnJlbnQgcHJvZ3Jh
+bW1pbmcuIDspDQoNCkJ1dCBJJ20gbm90IGJsYW1pbmcgYW55b25lLiBUaGVyZSBhcmUgc2l0
+dWF0aW9ucyB3aGVyZSBub3RoaW5nIGVsc2UgDQpoZWxwcy4gUGx5bW91dGggcmVhbGx5IGNh
+bid0IGRvIGFueXRoaW5nIGVsc2UgaGVyZS4gV2UndmUgcmVjZWl2ZWQgDQpyZXBvcnRzIGZv
+ciBnZngtaGFuZG92ZXIgYnVncyB3aGVuIHRoZSB0aW1lb3V0IGV4cGlyZWQgYW5kIHBseW1v
+dXRoIHVzZXMgDQp0aGUgZmJkZXYuIFRoZSBzeXN0ZW0gZ290IHN0dWNrIHRoZW4gYmVjYXVz
+ZSBvZiBmYmRldiBJSVJDLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBBdCBs
+ZWFzdCBpbiBGZWRvcmEgKGV2ZW4gYmVmb3JlIHRoZSBlZmlmYiAtPiBzaW1wbGVkcm0gY2hh
+bmdlKSBpdCB3aWxsDQo+IHVzZSBLTVMvRFJNIHNpbmNlIHRoZSBEUk0ga2VybmVsIG1vZHVs
+ZSBmb3IgdGhlIGdyYXBoaWNzIGRldmljZSBpbiB0aGUNCj4gbWFjaGluZSB3b3VsZCBiZSBp
+biB0aGUgaW50aXJkLg0KPiANCj4gU28gZWZpZmIgd2FzIG9ubHkgdXNlZCBmb3IgZmJjb24g
+YW5kIHBseW1vdXRoIHdvdWxkIG9ubHkgdXNlIERSTS9LTVMNCj4gYW5kIG5vdCBpdHMgZmJk
+ZXYgYmFja2VuZC4NCj4gDQo+IFRoaXMgc2VlbXMgdG8gYmUgc29ydCBvZiBhIGNvcm5lciBj
+YXNlIHdoZW4geW91IGhhdmUge2VmaSxzaW1wbGV9ZmINCj4gaW4gdGhlIGVhcmx5IGJvb3Qg
+YnV0IHRoZSByZWFsIERSTSBtb2R1bGUgb25seSBpbiB0aGUgcm9vdGZzIGFmdGVyIHRoZQ0K
+PiBpbml0cmQgaGFzIGRvbmUgYSBwaXZvdF9yb290KDIpLg0KPiAgIA0KPj4gT2YgY291cnNl
+LCBpdCdzIGFsd2F5cyBiZWVuIGJyb2tlbiAoZXZlbiBsb25nIGJlZm9yZSByZWFsIGZiZGV2
+DQo+PiBob3R1bnBsdWdnaW5nKS4gU3dpdGNoaW5nIHRvIHNpbXBsZWRybSByZXNvbHZlcyB0
+aGUgcHJvYmxlbS4NCj4+DQo+IA0KPiBJbmRlZWQuIE15IG9waW5pb24gYWZ0ZXIgZGVhbGlu
+ZyB3aXRoIHRoZXNlIGZiZGV2IHByb2JsZW1zIGlzIHRoYXQgd2UNCj4gc2hvdWxkbid0IHRy
+eSB0byBmaXggYWxsIHBvc3NpYmxlIGNvcm5lciBjYXNlcyBhbmQganVzdCB0cnkgdG8gZ2V0
+IHJpZA0KPiBvZiBmYmRldiBhcyBzb29uIGFzIHBvc3NpYmxlLg0KPiAgIC0tDQo+IEJlc3Qg
+cmVnYXJkcywNCj4gDQo+IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcw0KPiBMaW51eCBFbmdp
+bmVlcmluZw0KPiBSZWQgSGF0DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
+aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
+IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAz
+NjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
+--------------MF9XvBTem0bHn0z8Qv0sXD0P--
 
+--------------bfNxQvqkcvpizuhcxOBwiAnc
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-With best wishes
-Dmitry
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJzj6AFAwAAAAAACgkQlh/E3EQov+AS
+bRAA0XI+TZwItuDpnm0hiVI3S04EtviZIWLBCjC9Z3Sv2jm60QyRUUv+S8+Up5EHoBCMGhy2kD40
+EGtnMIHqnCB9pahLx/yvy//bQ1lD6kIfRHQgqD0REZPxjf+WD7vVZ3jLdO3YqSOvxc7pamS3jcWr
+yd6lyjEpuYfwa8GA+n2stNk9w97SaRC8xRzrKw2SYY3dEgW+RJL6NwCD1DOMvnvrFj2+hN6LuWck
+lxw5JqT+i7zHRVeCGCMXBy9VL66+ZCnyYhwpAlrOjpTnV+YYT32Mk5y53kh+SYOmT3U3PJmtYdtN
+HwT4poXg2pQSs5WBbqW8qUUZJzj9nv/3Wo3j0G4GjjPECn49d6KMSHt2lqDVJbJoVaMNdmvbZ/5l
+1HTLiJblC7oszL+fqHbBArdQRCjwAFmiWXyfz4lBHhOT6VlEOGljEHVo2bVZ9u2DHu1EAeZVGUU2
+N8zw88QxwLV4dMUcTkEJ+mwGTw7Ois5KGqxLAeDxDHUqgIc+5GgPE5j6puj+rI/27GmB7xvhEVRv
+okR5eJLymIY2hHvIdF+1bDJmR2CmBbrRYzGrOqR/jQ4YCdfG2uYyG0AA5QX4Fsi/kbZ08HYk4H/l
+U/NmGFOmF1aygCAFSdzTlnav4eEgMpVdNWKBQmjuYohPr4MP+hbROebysqHbJo295u6UwUh8TSTZ
+t7I=
+=b7m2
+-----END PGP SIGNATURE-----
+
+--------------bfNxQvqkcvpizuhcxOBwiAnc--
