@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B6B51C64A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 19:40:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4112551C659
+	for <lists+dri-devel@lfdr.de>; Thu,  5 May 2022 19:40:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74DC410E4B6;
-	Thu,  5 May 2022 17:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A71A10E9D9;
+	Thu,  5 May 2022 17:40:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE11810E38A;
- Thu,  5 May 2022 17:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651772416; x=1683308416;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=mHnod6XXX34MdlvbtaTm9r1Wlp8fVhnITN5yHfw/718=;
- b=TxlM3tD+mJQIp8CFnXQ/sySV5JyLsmTEDFfDycTgSt2vaMl2OmuZwOOV
- +sWw8boFVB42u03qzRSxwQ3zRXT/2xTv/n1pRlJkrEpHskk68/lDOgCDS
- R8EnuP/EtpkBwgyM8fJktgK3GqkDsEZOZhHFoMGz4dllZ/pnCqbovf2PD
- kbgd9bl4LTCy+Q3gCtS7psB18LNvNS3eis5lpPxfsLJtIfhvl24VfzWPN
- f1HZKClSW7LQRaD0z/ODQRQ95REjYUEecZRbmINj/hbKRkHFq9lXu0ZsB
- tGzoAYFEEy7HVyPCpvY1J19Z1rUK7+8uPvoCduOYNxXBCqMXKtp1STXEm A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="250183607"
-X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; d="scan'208";a="250183607"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 10:40:15 -0700
-X-IronPort-AV: E=Sophos;i="5.91,201,1647327600"; d="scan'208";a="735008579"
-Received: from mstepka-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.134.211])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2022 10:40:12 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 00/20] drm/edid: CEA data block iterators, and more
-In-Reply-To: <YnL+iIClH+aXHalJ@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1651569697.git.jani.nikula@intel.com>
- <YnL+iIClH+aXHalJ@intel.com>
-Date: Thu, 05 May 2022 20:40:08 +0300
-Message-ID: <87k0azlvyf.fsf@intel.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB7E10E9D9
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 May 2022 17:40:52 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 73DD483F4C;
+ Thu,  5 May 2022 19:40:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1651772450;
+ bh=yDL+EIKGDMlakCG7m5Zsqqs/AOTcisCsQ/cUKeLPBxQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=wez2A4Su77HG4EG2kvUJCO/zaxRbmn9xtFj39ChYxxGETnt7GGRV/vt0P3UtKctn2
+ xRviBGv9aIBTa3G8pD8e6coArbxZHyRODgNGgE7ZTsi+Sfj/8sMjWJBhgcllkjfT4f
+ qSCAsjFUI5nwkHL+YymQpBh9NKOkb5H7ms/1BZGs+oFHw6T5K3rxs8zvPxNY33dJm4
+ lj/p/v9GNqADpgDQ02vL2HZ2QvzLjn7K5WVkRkF1Z49SFBWpoQjod5kjKcFvIB1XUt
+ 4C5aB50/VGGG55DU/WWTAqeIw4QF0tkZ2agk5KiruVTAvOgWh3MRwmfUTuF6McY9hj
+ 85WnpEhcLb5sw==
+Message-ID: <24f18d45-09d9-05b6-b1ad-9ee2854c53ec@denx.de>
+Date: Thu, 5 May 2022 19:40:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/stm: dsi: Enable wrapper glue regulator early
+Content-Language: en-US
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220429204519.241549-1-marex@denx.de>
+ <56f6fc01-4f33-b240-5539-492b2c115476@foss.st.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <56f6fc01-4f33-b240-5539-492b2c115476@foss.st.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,70 +57,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, robert.foss@linaro.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 May 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Tue, May 03, 2022 at 12:23:45PM +0300, Jani Nikula wrote:
->> I've kind of lost track of the version numbers on some of the iterator
->> patches, but this is the next version (or mostly a resend) of
->> [1]. There's an additional rename patch for SCDS.
->>=20
->> BR,
->> Jani.
->>=20
->>=20
->> [1] https://patchwork.freedesktop.org/series/102703/
->>=20
->>=20
->> Jani Nikula (19):
->>   drm/edid: reset display info in drm_add_edid_modes() for NULL edid
->>   drm/edid: rename HDMI Forum VSDB to SCDS
->>   drm/edid: clean up CTA data block tag definitions
->>   drm/edid: add iterator for EDID base and extension blocks
->>   drm/edid: add iterator for CTA data blocks
->>   drm/edid: clean up cea_db_is_*() functions
->>   drm/edid: convert add_cea_modes() to use cea db iter
->>   drm/edid: convert drm_edid_to_speaker_allocation() to use cea db iter
->>   drm/edid: convert drm_edid_to_sad() to use cea db iter
->>   drm/edid: convert drm_detect_hdmi_monitor() to use cea db iter
->>   drm/edid: convert drm_detect_monitor_audio() to use cea db iter
->>   drm/edid: convert drm_parse_cea_ext() to use cea db iter
->>   drm/edid: convert drm_edid_to_eld() to use cea db iter
->>   drm/edid: sunset the old unused cea data block iterators
->>   drm/edid: restore some type safety to cea_db_*() functions
->>   drm/edid: detect basic audio in all CEA extensions
->>   drm/edid: skip CTA extension scan in drm_edid_to_eld() just for CTA
->>     rev
->>   drm/edid: sunset drm_find_cea_extension()
->>=20
->> Lee Shawn C (1):
->>   drm/edid: check for HF-SCDB block
->
-> All of the above patches look OK to me.
-> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+On 5/4/22 09:59, Raphael Gallais-Pou wrote:
+> Hi Marek,
 
-Thanks a bunch, pushed the lot to drm-misc-next.
+Hi,
 
-BR,
-Jani.
+[...]
 
+>> @@ -499,8 +512,16 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+>>   	}
+>>   
+>>   	dsi->hw_version = dsi_read(dsi, DSI_VERSION) & VERSION;
+>> +
+>> +	ret = dw_mipi_dsi_phy_regulator_on(dsi);
+>>   	clk_disable_unprepare(pclk);
+>>   
+>> +	if (ret) {
+>> +		DRM_ERROR("%s: Failed to enable wrapper regulator, ret=%d\n",
+>> +			  __func__, ret);
+>> +		goto err_dsi_probe;
+>> +	}
+>> +
+> 
+> I have no problem until here. If I understand this correctly, it enables the regulator during all the life of the driver.
+> 
+> If you feel an urge to merge this patch into the Linux kernel, the st display team could gladly do it because it enables more hardware bridges. However another solution could be to rework a bit the regulator part of the driver so that you would have only device tree to change, introducing a 'reg-always-on' property.
+> 
+> This driver needs in fact a bit of a rework with the power management. A solution could be to move the regulator-related part in dw_mipi_dsi_stm_power_on/off() so that it is only activated when needed. Those functions would integrate the enabling of the regulator, the switch for the internal regulator, and eventually handle the PLL if it cannot lock when the regulator is off.
+> 
+> With the DT property, the power management would be only in the probe()/remove(). In that way the DSI bridges would have the logic they need to work.
+> 
+> Ultimately there is two possibilities :
+>   * You really need this patch to be merged asap
+>   * You are ok to wait until we send the solution described above
+> 
+> If you want to write those patches (each for DT and regulator), feel free to do it.
+> 
+> What do you think about it ?
 
->
->>   drm/edid: detect color formats and CTA revision in all CTA extensions
->
-> For this one I'm not entirely convinced the behavioural change
-> for the no-CTA ext case is what we want. Replied to that one
-> individually.
->
->>=20
->>  drivers/gpu/drm/drm_edid.c | 799 +++++++++++++++++++++----------------
->>  1 file changed, 458 insertions(+), 341 deletions(-)
->>=20
->> --=20
->> 2.30.2
+Maybe a more generic question first -- is there a way to pull the data 
+lanes to LP11 without enabling the regulator ?
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Also note that you likely want to wait with this patch, there is likely 
+soon going to be a discussion about how to handle all those different 
+requirements for initial DSI LP states and clock needed by DSI bridges, 
+encoding such policy into DT is not the right approach.
