@@ -1,50 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBB651D576
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:16:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF7551D5D6
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1FA710FC93;
-	Fri,  6 May 2022 10:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08FE110E1AD;
+	Fri,  6 May 2022 10:38:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A3410FC91;
- Fri,  6 May 2022 10:16:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651832190; x=1683368190;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=PBeapHGuyvUKL2y8t63Owzq067pHShGdRavhbs0+Mes=;
- b=X/uPhi18KuUgH5KZirqHCWhHZPAC6z+KTiBOUo5r/51mNg8zHJcarlBV
- rjm4vz+v6gavCMEqvwnaIo5F5F/VRWwYAUsJkVQxmtnRCuClfc32BNLOO
- Jgjabs5OkhmUlH7yOsFx+o2BAUuiobuYHfx1Cjf0BkzJRKpLskr+C8nOR
- AwaOTqRlJ6/yyZ4pH2WxUzLNkjx3EfQygyq/H0m/H8USsWPuIjhgkma5X
- ByhAcPASYLA9xrozk2Br7hJuJdq+8O34DjN8ko5zlx01yu7Epd973DUyT
- qy0ThOrFAxa9/ZW5M0XUwJosuoKAyoK+waI95Hgbm9UCBQ0SoqBs9nqcu g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="268323747"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="268323747"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:16:30 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="585908036"
-Received: from psikora-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.157.88])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:16:28 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 05/25] drm/edid: keep propagating drm_edid to display info
-In-Reply-To: <0997057511416dd83482468c6da9708f3ae157c8.1651830938.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1651830938.git.jani.nikula@intel.com>
- <0997057511416dd83482468c6da9708f3ae157c8.1651830938.git.jani.nikula@intel.com>
-Date: Fri, 06 May 2022 13:16:25 +0300
-Message-ID: <87ee17klty.fsf@intel.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 369C510E035
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 10:38:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1651833531; x=1683369531;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=NXeBs22u3irpJQ/qOA2xlt8evTjUfTXobAD0Uvo8Pa4=;
+ b=NlsQ1xTEQCQank+z/X6qYtqYMfcWIf39DNrhpCVlMFdVcdRXId3EcRl2
+ H/hclIbBUswBOxkgepYOZ+y2JcS404JU0ZjuryRzjuinaF1w+rMi9Pcel
+ jzRQ7z68N3HzOBi2RGvvI8KuC8eS36DC7iRQBAWiY1k4paC8Fhm9M8Mwd
+ jKR06kthXLVAixAFsR+mcPhF3YtK8CDIHTbwgJFwAwACXhdu+UTKOGp//
+ bBGOi4hXt3LD/fso4XVfQ3B3kPZk1sZJFD3EztwEQq8ZsBb27ZfnK+GFM
+ rQkvhr/K1fdKQbJHn7ywYqaqy68ekVAuoJ2iNpPVwGJzdrfkaT+Y1sphA Q==;
+X-IronPort-AV: E=Sophos;i="5.91,203,1647298800"; d="scan'208";a="23718748"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 06 May 2022 12:38:48 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Fri, 06 May 2022 12:38:49 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Fri, 06 May 2022 12:38:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1651833529; x=1683369529;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=NXeBs22u3irpJQ/qOA2xlt8evTjUfTXobAD0Uvo8Pa4=;
+ b=EO3EvmWC3rVKjYV4twnWzLUIioOSwBAzba5sIH4XP24sCmkN1zgNpn1p
+ FZWJL1EsZtvDydjo2rAHUQwa8QAOlQQt1+YgbZrZ7EqF0+mCa0rVcCX9u
+ huXfKVhY6Oz5pDIFPUqpSGVt4AFjtXCcfReYjmdnNKSnyc0MJLq8fpNez
+ azKwLcNWLdOjG82UIRX34NB8lIqRiqGtkwMzYgqhof4T+In8eRa+GfckF
+ E4nRlrivzSVrex2VtedhuCxVbEOix0jFtrtn7uqXrnu1QyyOSurR8Blnx
+ dw1MrWii0f4We6arPLR/DNnjjwwqv2KWgngxwRSI3gcC7ziB6hmTf69GX g==;
+X-IronPort-AV: E=Sophos;i="5.91,203,1647298800"; d="scan'208";a="23718747"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 06 May 2022 12:38:48 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 3B715280070;
+ Fri,  6 May 2022 12:38:48 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: (EXT) Re: (EXT) [PATCH v2 00/12] drm: bridge: Add Samsung MIPI
+ DSIM bridge
+Date: Fri, 06 May 2022 12:38:45 +0200
+Message-ID: <13011661.dW097sEU6C@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <5671f394-763d-a999-a300-a230199e1eda@samsung.com>
+References: <20220504114021.33265-1-jagan@amarulasolutions.com>
+ <3104069.5fSG56mABF@steina-w>
+ <5671f394-763d-a999-a300-a230199e1eda@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,175 +79,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 06 May 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> We'll need to propagate	drm_edid everywhere.
+Hi Marek,
 
-I seem to have copy-pasted a TAB in some of the commit messages, in a
-way that does not show up in git log.
+Am Freitag, 6. Mai 2022, 10:57:05 CEST schrieb Marek Szyprowski:
+> Hi Alexander,
+> 
+> On 05.05.2022 13:55, Alexander Stein wrote:
+> > Am Donnerstag, 5. Mai 2022, 09:38:48 CEST schrieb Jagan Teki:
+> >> On Thu, May 5, 2022 at 12:57 PM Alexander Stein
+> >> 
+> >> <alexander.stein@ew.tq-group.com> wrote:
+> >>> Hello Jagan,
+> >>> 
+> >>> thanks for the second version of this patchset.
+> >>> 
+> >>> Am Mittwoch, 4. Mai 2022, 13:40:09 CEST schrieb Jagan Teki:
+> >>>> This series supports common bridge support for Samsung MIPI DSIM
+> >>>> which is used in Exynos and i.MX8MM SoC's.
+> >>>> 
+> >>>> Previous v1 can be available here [1].
+> >>>> 
+> >>>> The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> >>>> 
+> >>>> On, summary this patch-set break the entire DSIM driver into
+> >>>> - platform specific glue code for platform ops, component_ops.
+> >>>> - common bridge driver which handle platform glue init and invoke.
+> >>>> 
+> >>>> Patch 0000:   Samsung DSIM bridge
+> >>>> 
+> >>>> Patch 0001:   Common lookup code for OF-graph or child
+> >>>> 
+> >>>> Patch 0002:   platform init flag via driver_data
+> >>>> 
+> >>>> Patch 0003/10:  bridge fixes, atomic API's
+> >>>> 
+> >>>> Patch 0011:   document fsl,imx8mm-mipi-dsim
+> >>>> 
+> >>>> Patch 0012:   add i.MX8MM DSIM support
+> >>>> 
+> >>>> Tested in Engicam i.Core MX8M Mini SoM.
+> >>>> 
+> >>>> Anyone interested, please have a look on this repo [2]
+> >>>> 
+> >>>> [2]
+> >>>> https://protect2.fireeye.com/v1/url?k=569d5207-09066afa-569cd948-000ba
+> >>>> bff317b-7f7572918a36c54e&q=1&e=1305c5cc-33c8-467e-a498-6862a854cf94&u=h
+> >>>> ttps%3A%2F%2Fgithub.com%2Fopenedev%2Fkernel%2Ftree%2Fimx8mm-dsi-v2 [1]
+> >>>> https://patchwork.kernel.org/project/dri-devel/cover/20220408162108.184
+> >>>> 5
+> >>>> 83-> 1-jagan@amarulasolutions.com/
+> >>>> 
+> >>>> Any inputs?
+> >>> 
+> >>> I was able to get my LVDS display running using this driver and an LVDS
+> >>> bridge. Actually my setup is similar to yours. My chain is like this:
+> >>> MIPI-DSI -> sn65dsi83 -> LVDS panel
+> >>> I noticed some things though:
+> >>> My setup only works if I use less than 4 lanes. See [1]. When using 4
+> >>> lanes
+> >>> the image is flickering, but the content is "visible". Your DT has only
+> >>> 2
+> >>> lanes configured, do you have the possibility to use 4 lanes? I have no
+> >>> idea how to tackle this. It might be the DSIM side or the bridge side.
+> >>> Apparently the downstream kernel from NXP supports 4 lanes, if I can
+> >>> trust
+> >>> the config. I have no way to verify this though.
+> >> 
+> >> What is dsi_lvds_bridge node? have you added your dts changes on top
+> >> of imx8mm-dsi-v2 branch I'm pointing it.
+> >> 
+> >> I will check 4 lanes and let you know.
+> >> 
+> >>> Another thing is I get the following warning
+> >>> 
+> >>>> sn65dsi83 2-002d: Unsupported LVDS bus format 0x100a, please check
+> >>>> output
+> >>> 
+> >>> bridge driver. Falling back to SPWG24.
+> >> 
+> >> This couldn't be much affected but will fix it.
+> > 
+> > I found the cause. You need the following diff:
+> > ----8<-----
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > b/drivers/gpu/drm/bridge/ samsung-dsim.c
+> > index 138323dec0eb..7fb96dc7bb2e 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -1427,7 +1427,7 @@ static int samsung_dsim_attach(struct drm_bridge
+> > *bridge,
+> > 
+> >   {
+> >   
+> >          struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+> > 
+> > -       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL,
+> > flags);
+> > +       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
+> > flags);
+> > 
+> >   }
+> >   
+> >   static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
+> > 
+> > ----8<-----
+> 
+> Well, basically, the above change breaks DSI panels. :(
 
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 50 +++++++++++++++++++++++---------------
->  1 file changed, 31 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 946296632b2e..c9d48fbd0a76 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -2419,13 +2419,13 @@ EXPORT_SYMBOL(drm_edid_duplicate);
->  
->  /**
->   * edid_get_quirks - return quirk flags for a given EDID
-> - * @edid: EDID to process
-> + * @drm_edid: EDID to process
->   *
->   * This tells subsequent routines what fixes they need to apply.
->   */
-> -static u32 edid_get_quirks(const struct edid *edid)
-> +static u32 edid_get_quirks(const struct drm_edid *drm_edid)
->  {
-> -	u32 panel_id = edid_extract_panel_id(edid);
-> +	u32 panel_id = edid_extract_panel_id(drm_edid->edid);
->  	const struct edid_quirk *quirk;
->  	int i;
->  
-> @@ -5448,7 +5448,7 @@ static void drm_parse_microsoft_vsdb(struct drm_connector *connector,
->  }
->  
->  static void drm_parse_cea_ext(struct drm_connector *connector,
-> -			      const struct edid *edid)
-> +			      const struct drm_edid *drm_edid)
->  {
->  	struct drm_display_info *info = &connector->display_info;
->  	struct drm_edid_iter edid_iter;
-> @@ -5456,7 +5456,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
->  	struct cea_db_iter iter;
->  	const u8 *edid_ext;
->  
-> -	drm_edid_iter_begin(edid, &edid_iter);
-> +	drm_edid_iter_begin(drm_edid->edid, &edid_iter);
->  	drm_edid_iter_for_each(edid_ext, &edid_iter) {
->  		if (edid_ext[0] != CEA_EXT)
->  			continue;
-> @@ -5477,7 +5477,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
->  	}
->  	drm_edid_iter_end(&edid_iter);
->  
-> -	cea_db_iter_edid_begin(edid, &iter);
-> +	cea_db_iter_edid_begin(drm_edid->edid, &iter);
->  	cea_db_iter_for_each(db, &iter) {
->  		/* FIXME: convert parsers to use struct cea_db */
->  		const u8 *data = (const u8 *)db;
-> @@ -5523,16 +5523,15 @@ void get_monitor_range(const struct detailed_timing *timing,
->  	monitor_range->max_vfreq = range->max_vfreq;
->  }
->  
-> -static
-> -void drm_get_monitor_range(struct drm_connector *connector,
-> -			   const struct edid *edid)
-> +static void drm_get_monitor_range(struct drm_connector *connector,
-> +				  const struct drm_edid *drm_edid)
->  {
->  	struct drm_display_info *info = &connector->display_info;
->  
-> -	if (!version_greater(edid, 1, 1))
-> +	if (!version_greater(drm_edid->edid, 1, 1))
->  		return;
->  
-> -	drm_for_each_detailed_block(edid, get_monitor_range,
-> +	drm_for_each_detailed_block(drm_edid->edid, get_monitor_range,
->  				    &info->monitor_range);
->  
->  	DRM_DEBUG_KMS("Supported Monitor Refresh rate range is %d Hz - %d Hz\n",
-> @@ -5592,12 +5591,13 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
->  		    info->mso_stream_count, info->mso_pixel_overlap);
->  }
->  
-> -static void drm_update_mso(struct drm_connector *connector, const struct edid *edid)
-> +static void drm_update_mso(struct drm_connector *connector,
-> +			   const struct drm_edid *drm_edid)
->  {
->  	const struct displayid_block *block;
->  	struct displayid_iter iter;
->  
-> -	displayid_iter_edid_begin(edid, &iter);
-> +	displayid_iter_edid_begin(drm_edid->edid, &iter);
->  	displayid_iter_for_each(block, &iter) {
->  		if (block->tag == DATA_BLOCK_2_VENDOR_SPECIFIC)
->  			drm_parse_vesa_mso_data(connector, block);
-> @@ -5636,18 +5636,20 @@ drm_reset_display_info(struct drm_connector *connector)
->  	info->mso_pixel_overlap = 0;
->  }
->  
-> -u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
-> +static u32 update_display_info(struct drm_connector *connector,
-> +			       const struct drm_edid *drm_edid)
->  {
->  	struct drm_display_info *info = &connector->display_info;
-> +	const struct edid *edid = drm_edid->edid;
->  
-> -	u32 quirks = edid_get_quirks(edid);
-> +	u32 quirks = edid_get_quirks(drm_edid);
->  
->  	drm_reset_display_info(connector);
->  
->  	info->width_mm = edid->width_cm * 10;
->  	info->height_mm = edid->height_cm * 10;
->  
-> -	drm_get_monitor_range(connector, edid);
-> +	drm_get_monitor_range(connector, drm_edid);
->  
->  	if (edid->revision < 3)
->  		goto out;
-> @@ -5656,7 +5658,7 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
->  		goto out;
->  
->  	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
-> -	drm_parse_cea_ext(connector, edid);
-> +	drm_parse_cea_ext(connector, drm_edid);
->  
->  	/*
->  	 * Digital sink with "DFP 1.x compliant TMDS" according to EDID 1.3?
-> @@ -5709,7 +5711,7 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
->  	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
->  		info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
->  
-> -	drm_update_mso(connector, edid);
-> +	drm_update_mso(connector, drm_edid);
->  
->  out:
->  	if (quirks & EDID_QUIRK_NON_DESKTOP) {
-> @@ -5721,6 +5723,16 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
->  	return quirks;
->  }
->  
-> +u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
-> +{
-> +	struct drm_edid drm_edid = {
-> +		.edid = edid,
-> +		.size = edid_size(edid),
-> +	};
-> +
-> +	return update_display_info(connector, &drm_edid);
-> +}
-> +
->  static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *dev,
->  							    struct displayid_detailed_timings_1 *timings,
->  							    bool type_7)
-> @@ -5833,7 +5845,7 @@ static int drm_edid_connector_update(struct drm_connector *connector,
->  	 * To avoid multiple parsing of same block, lets parse that map
->  	 * from sink info, before parsing CEA modes.
->  	 */
-> -	quirks = drm_add_display_info(connector, edid);
-> +	quirks = update_display_info(connector, drm_edid);
->  
->  	/* Depends on info->cea_rev set by drm_add_display_info() above */
->  	drm_edid_to_eld(connector, edid);
+That's too bad :( I wonder why actually this breaks DSI setups. From my 
+understanding, the diff above seems correct, even for DSI panels.
+But I don't know a DSI setup in detail or the bridge/panel code involved or 
+which part breaks with this change.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> I've spent another evening playing with that code and I have some more
+> thoughts...
+> 
+> I agree that logically this should be like you pointed. However the the
+> code has been hacked in such a way, that it forces a proper order of
+> pre-enable operations of the DSI and the client (panel, next bridge).
+> This works somehow with a chain of 2 entities (Trats board: DSI and a
+> panel) or even 3 entities (Arndale board: DSI, TC358764 bridge, panel),
+> but probably it fails in your case.
+
+Well, setting e.g. the bus format from panel -> bridge -> bridge ->... -> 
+encoder seems sensible to me. It should be similar for both names setups as 
+well. Essentially the Arndale is quite a similar setup to my and Jagan's one.
+The actual reason it fails for me is that this list is created incorrectly, 
+which should also be the case for Arndale.
+
+> I really have no clue how to fix this mess. It has been pointed many
+> times that this insane per-order call chain of the pre_enable()
+> operations is completely useless for the DSI hardware and noone pointed
+> how to solve this. Exynos DSI (and VC4) called those operations directly
+> to achieve proper order. So what happened? Now Exynos DSI got converted
+> to the generic bridge call chain. To get it working with existing hw,
+> the order of the bridges has been hacked. Probably in the next few
+> releases more mess will come to get around this known issue, especially
+> when support for the next set of imx boards is added.
+> 
+> I'm really open to help fixing this issue. I've spent a lot of time
+> analyzing this code and I have boards to test. Just please give me some
+> advice how to avoid this reverse-order call chain of the pre_enable()
+> operations in the widely accepted, non-hacky way.
+
+In the first place I'm inclined to raise a warning in drm_bridge_attach() if 
+previous is NULL and encoder->bridge_chain is not empty. This means that you 
+are adding two "root"-bridges which seems wrong to me.
+
+There is also some documentation regarding 'special care dsi' in drivers/gpu/
+drm/drm_bridge.c. There is some distinction between a DSI host using 
+components or not. But I have no knowledge about those components. 
+That being said, I would assume that the Exynos conversion using a DRM bridge 
+now might needs some additional changes.
+
+Best regards,
+Alexander
+
+
+
