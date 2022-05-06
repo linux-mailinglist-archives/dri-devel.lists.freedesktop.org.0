@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D63251D56E
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:12:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBB651D576
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB4D10FB11;
-	Fri,  6 May 2022 10:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1FA710FC93;
+	Fri,  6 May 2022 10:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7997D10FB11;
- Fri,  6 May 2022 10:12:54 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7A3410FC91;
+ Fri,  6 May 2022 10:16:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651831974; x=1683367974;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=iSwlDuEr9mFVsUXGkn8W+RSHTDi6LJvFfnsPPqJzhgM=;
- b=BacED43ety0xIKu1V5rEDYpGoABg4sKpFUClNglfiHqzjv6yJv7jh0je
- BNhKdiUy+A7E/3TmqzZmYCKRjGi0kvqoOZbhnkNzrxh6kE/2/uFqztn2P
- xfZHL38Q5baAILNDrFTzNfwsndcOp4oCZVobD+cJstYsqxJHWrfUPt6ky
- YyZTxcbwFxoHW0pZ2pQp6fot77m8rgT+qoRf09htBIYwUUBGbxFrexGLo
- clz46A4XVnBGt91kroglOSXc9wQEQQJRo/efnR/QahH0hSOqLC58iBiJ8
- OJbiCZp9ZW/oP/24LQVSOefULyZKEKaeL4I2UDtu2zp4NwB0/3cIoiFyN w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="248959833"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="248959833"
+ t=1651832190; x=1683368190;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=PBeapHGuyvUKL2y8t63Owzq067pHShGdRavhbs0+Mes=;
+ b=X/uPhi18KuUgH5KZirqHCWhHZPAC6z+KTiBOUo5r/51mNg8zHJcarlBV
+ rjm4vz+v6gavCMEqvwnaIo5F5F/VRWwYAUsJkVQxmtnRCuClfc32BNLOO
+ Jgjabs5OkhmUlH7yOsFx+o2BAUuiobuYHfx1Cjf0BkzJRKpLskr+C8nOR
+ AwaOTqRlJ6/yyZ4pH2WxUzLNkjx3EfQygyq/H0m/H8USsWPuIjhgkma5X
+ ByhAcPASYLA9xrozk2Br7hJuJdq+8O34DjN8ko5zlx01yu7Epd973DUyT
+ qy0ThOrFAxa9/ZW5M0XUwJosuoKAyoK+waI95Hgbm9UCBQ0SoqBs9nqcu g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="268323747"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="268323747"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:12:54 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="585906669"
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 03:16:30 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="585908036"
 Received: from psikora-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.157.88])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:12:51 -0700
+ 06 May 2022 03:16:28 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 25/25] drm/edid: convert version_greater() to drm_edid
-Date: Fri,  6 May 2022 13:10:32 +0300
-Message-Id: <bdafb3a04bd409d5fbf922ab932b7ffce12ed33b.1651830939.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1651830938.git.jani.nikula@intel.com>
-References: <cover.1651830938.git.jani.nikula@intel.com>
-MIME-Version: 1.0
+Subject: Re: [PATCH 05/25] drm/edid: keep propagating drm_edid to display info
+In-Reply-To: <0997057511416dd83482468c6da9708f3ae157c8.1651830938.git.jani.nikula@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <cover.1651830938.git.jani.nikula@intel.com>
+ <0997057511416dd83482468c6da9708f3ae157c8.1651830938.git.jani.nikula@intel.com>
+Date: Fri, 06 May 2022 13:16:25 +0300
+Message-ID: <87ee17klty.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,121 +57,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need to propagate drm_edid everywhere. Also make version_greater()
-a function for type safety.
+On Fri, 06 May 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> We'll need to propagate	drm_edid everywhere.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_edid.c | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+I seem to have copy-pasted a TAB in some of the commit messages, in a
+way that does not show up in git log.
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index bc64837ad706..df48189ba2c7 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -45,10 +45,6 @@
- 
- #include "drm_crtc_internal.h"
- 
--#define version_greater(edid, maj, min) \
--	(((edid)->version > (maj)) || \
--	 ((edid)->version == (maj) && (edid)->revision > (min)))
--
- static int oui(u8 first, u8 second, u8 third)
- {
- 	return (first << 16) | (second << 8) | third;
-@@ -1576,6 +1572,15 @@ struct drm_edid {
- 	const struct edid *edid;
- };
- 
-+static bool version_greater(const struct drm_edid *drm_edid,
-+			    u8 version, u8 revision)
-+{
-+	const struct edid *edid = drm_edid->edid;
-+
-+	return edid->version > version ||
-+		(edid->version == version && edid->revision > revision);
-+}
-+
- static int edid_extension_block_count(const struct edid *edid)
- {
- 	return edid->extensions;
-@@ -3214,7 +3219,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
- 						  closure->drm_edid,
- 						  timing);
- 
--	if (!version_greater(closure->drm_edid->edid, 1, 1))
-+	if (!version_greater(closure->drm_edid, 1, 1))
- 		return; /* GTF not defined yet */
- 
- 	switch (range->flags) {
-@@ -3225,7 +3230,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
- 							  timing);
- 		break;
- 	case 0x04: /* cvt, only in 1.4+ */
--		if (!version_greater(closure->drm_edid->edid, 1, 3))
-+		if (!version_greater(closure->drm_edid, 1, 3))
- 			break;
- 
- 		closure->modes += drm_cvt_modes_for_range(closure->connector,
-@@ -3246,7 +3251,7 @@ static int add_inferred_modes(struct drm_connector *connector,
- 		.drm_edid = drm_edid,
- 	};
- 
--	if (version_greater(drm_edid->edid, 1, 0))
-+	if (version_greater(drm_edid, 1, 0))
- 		drm_for_each_detailed_block(drm_edid, do_inferred_modes, &closure);
- 
- 	return closure.modes;
-@@ -3323,7 +3328,7 @@ static int add_established_modes(struct drm_connector *connector,
- 		}
- 	}
- 
--	if (version_greater(edid, 1, 0))
-+	if (version_greater(drm_edid, 1, 0))
- 		drm_for_each_detailed_block(drm_edid, do_established_modes,
- 					    &closure);
- 
-@@ -3378,7 +3383,7 @@ static int add_standard_modes(struct drm_connector *connector,
- 		}
- 	}
- 
--	if (version_greater(drm_edid->edid, 1, 0))
-+	if (version_greater(drm_edid, 1, 0))
- 		drm_for_each_detailed_block(drm_edid, do_standard_modes,
- 					    &closure);
- 
-@@ -3458,7 +3463,7 @@ add_cvt_modes(struct drm_connector *connector, const struct drm_edid *drm_edid)
- 		.drm_edid = drm_edid,
- 	};
- 
--	if (version_greater(drm_edid->edid, 1, 2))
-+	if (version_greater(drm_edid, 1, 2))
- 		drm_for_each_detailed_block(drm_edid, do_cvt_mode, &closure);
- 
- 	/* XXX should also look for CVT codes in VTB blocks */
-@@ -3514,7 +3519,7 @@ static int add_detailed_modes(struct drm_connector *connector,
- 		.quirks = quirks,
- 	};
- 
--	if (closure.preferred && !version_greater(drm_edid->edid, 1, 3))
-+	if (closure.preferred && !version_greater(drm_edid, 1, 3))
- 		closure.preferred =
- 		    (drm_edid->edid->features & DRM_EDID_FEATURE_PREFERRED_TIMING);
- 
-@@ -5584,7 +5589,7 @@ static void drm_get_monitor_range(struct drm_connector *connector,
- {
- 	struct drm_display_info *info = &connector->display_info;
- 
--	if (!version_greater(drm_edid->edid, 1, 1))
-+	if (!version_greater(drm_edid, 1, 1))
- 		return;
- 
- 	drm_for_each_detailed_block(drm_edid, get_monitor_range,
+>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 50 +++++++++++++++++++++++---------------
+>  1 file changed, 31 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 946296632b2e..c9d48fbd0a76 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2419,13 +2419,13 @@ EXPORT_SYMBOL(drm_edid_duplicate);
+>  
+>  /**
+>   * edid_get_quirks - return quirk flags for a given EDID
+> - * @edid: EDID to process
+> + * @drm_edid: EDID to process
+>   *
+>   * This tells subsequent routines what fixes they need to apply.
+>   */
+> -static u32 edid_get_quirks(const struct edid *edid)
+> +static u32 edid_get_quirks(const struct drm_edid *drm_edid)
+>  {
+> -	u32 panel_id = edid_extract_panel_id(edid);
+> +	u32 panel_id = edid_extract_panel_id(drm_edid->edid);
+>  	const struct edid_quirk *quirk;
+>  	int i;
+>  
+> @@ -5448,7 +5448,7 @@ static void drm_parse_microsoft_vsdb(struct drm_connector *connector,
+>  }
+>  
+>  static void drm_parse_cea_ext(struct drm_connector *connector,
+> -			      const struct edid *edid)
+> +			      const struct drm_edid *drm_edid)
+>  {
+>  	struct drm_display_info *info = &connector->display_info;
+>  	struct drm_edid_iter edid_iter;
+> @@ -5456,7 +5456,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+>  	struct cea_db_iter iter;
+>  	const u8 *edid_ext;
+>  
+> -	drm_edid_iter_begin(edid, &edid_iter);
+> +	drm_edid_iter_begin(drm_edid->edid, &edid_iter);
+>  	drm_edid_iter_for_each(edid_ext, &edid_iter) {
+>  		if (edid_ext[0] != CEA_EXT)
+>  			continue;
+> @@ -5477,7 +5477,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+>  	}
+>  	drm_edid_iter_end(&edid_iter);
+>  
+> -	cea_db_iter_edid_begin(edid, &iter);
+> +	cea_db_iter_edid_begin(drm_edid->edid, &iter);
+>  	cea_db_iter_for_each(db, &iter) {
+>  		/* FIXME: convert parsers to use struct cea_db */
+>  		const u8 *data = (const u8 *)db;
+> @@ -5523,16 +5523,15 @@ void get_monitor_range(const struct detailed_timing *timing,
+>  	monitor_range->max_vfreq = range->max_vfreq;
+>  }
+>  
+> -static
+> -void drm_get_monitor_range(struct drm_connector *connector,
+> -			   const struct edid *edid)
+> +static void drm_get_monitor_range(struct drm_connector *connector,
+> +				  const struct drm_edid *drm_edid)
+>  {
+>  	struct drm_display_info *info = &connector->display_info;
+>  
+> -	if (!version_greater(edid, 1, 1))
+> +	if (!version_greater(drm_edid->edid, 1, 1))
+>  		return;
+>  
+> -	drm_for_each_detailed_block(edid, get_monitor_range,
+> +	drm_for_each_detailed_block(drm_edid->edid, get_monitor_range,
+>  				    &info->monitor_range);
+>  
+>  	DRM_DEBUG_KMS("Supported Monitor Refresh rate range is %d Hz - %d Hz\n",
+> @@ -5592,12 +5591,13 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+>  		    info->mso_stream_count, info->mso_pixel_overlap);
+>  }
+>  
+> -static void drm_update_mso(struct drm_connector *connector, const struct edid *edid)
+> +static void drm_update_mso(struct drm_connector *connector,
+> +			   const struct drm_edid *drm_edid)
+>  {
+>  	const struct displayid_block *block;
+>  	struct displayid_iter iter;
+>  
+> -	displayid_iter_edid_begin(edid, &iter);
+> +	displayid_iter_edid_begin(drm_edid->edid, &iter);
+>  	displayid_iter_for_each(block, &iter) {
+>  		if (block->tag == DATA_BLOCK_2_VENDOR_SPECIFIC)
+>  			drm_parse_vesa_mso_data(connector, block);
+> @@ -5636,18 +5636,20 @@ drm_reset_display_info(struct drm_connector *connector)
+>  	info->mso_pixel_overlap = 0;
+>  }
+>  
+> -u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
+> +static u32 update_display_info(struct drm_connector *connector,
+> +			       const struct drm_edid *drm_edid)
+>  {
+>  	struct drm_display_info *info = &connector->display_info;
+> +	const struct edid *edid = drm_edid->edid;
+>  
+> -	u32 quirks = edid_get_quirks(edid);
+> +	u32 quirks = edid_get_quirks(drm_edid);
+>  
+>  	drm_reset_display_info(connector);
+>  
+>  	info->width_mm = edid->width_cm * 10;
+>  	info->height_mm = edid->height_cm * 10;
+>  
+> -	drm_get_monitor_range(connector, edid);
+> +	drm_get_monitor_range(connector, drm_edid);
+>  
+>  	if (edid->revision < 3)
+>  		goto out;
+> @@ -5656,7 +5658,7 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
+>  		goto out;
+>  
+>  	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
+> -	drm_parse_cea_ext(connector, edid);
+> +	drm_parse_cea_ext(connector, drm_edid);
+>  
+>  	/*
+>  	 * Digital sink with "DFP 1.x compliant TMDS" according to EDID 1.3?
+> @@ -5709,7 +5711,7 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
+>  	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
+>  		info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
+>  
+> -	drm_update_mso(connector, edid);
+> +	drm_update_mso(connector, drm_edid);
+>  
+>  out:
+>  	if (quirks & EDID_QUIRK_NON_DESKTOP) {
+> @@ -5721,6 +5723,16 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
+>  	return quirks;
+>  }
+>  
+> +u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
+> +{
+> +	struct drm_edid drm_edid = {
+> +		.edid = edid,
+> +		.size = edid_size(edid),
+> +	};
+> +
+> +	return update_display_info(connector, &drm_edid);
+> +}
+> +
+>  static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *dev,
+>  							    struct displayid_detailed_timings_1 *timings,
+>  							    bool type_7)
+> @@ -5833,7 +5845,7 @@ static int drm_edid_connector_update(struct drm_connector *connector,
+>  	 * To avoid multiple parsing of same block, lets parse that map
+>  	 * from sink info, before parsing CEA modes.
+>  	 */
+> -	quirks = drm_add_display_info(connector, edid);
+> +	quirks = update_display_info(connector, drm_edid);
+>  
+>  	/* Depends on info->cea_rev set by drm_add_display_info() above */
+>  	drm_edid_to_eld(connector, edid);
+
 -- 
-2.30.2
-
+Jani Nikula, Intel Open Source Graphics Center
