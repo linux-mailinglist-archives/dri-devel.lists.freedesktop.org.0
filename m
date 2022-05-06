@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE80051D5ED
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:48:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7748151D5F8
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E73E010E610;
-	Fri,  6 May 2022 10:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF3C910E0A5;
+	Fri,  6 May 2022 10:50:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C7BC10E3C5;
- Fri,  6 May 2022 10:47:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651834075; x=1683370075;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=WqY9wF3bMNY5xIVmgo7uuoJB+26mJkKxqmPlLyai1Mc=;
- b=ZS/a0GtBRqmaUJdD9cBQC14zmmOIIrRslmfIznSVjq8AkptkaOUBM4Ms
- xJ3SxPPL9TPnrbp6Tbh+/UeeHgmIWlhZDqdtbsEbnUBmtAOCCOFkgx8Aw
- vNU6blX6Xywiw2Vcld20L347Vimb42mzuhCtHd0/xbnY9Hef+/309QDki
- bLCSQM/mJnFuoYDemsmTpjfqD/s0kIr+9OP6SutWlHoPXIq4HNpcs2jrA
- rxeRF2UoREPjhsjD4CmWOXIZ3gsWXcxhtR+anBfgz7MRlHqSAqoVUN4Hp
- bT9yi9w9SwTnc/m3ox1q7MxF4ovUsdd9nFCeJ7WZrWKqEd3//wJ+r5Rs8 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="268038371"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="268038371"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:47:54 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="585920966"
-Received: from psikora-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.157.88])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:47:49 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Fri, 06 May 2022 13:47:47 +0300
-Message-ID: <87bkwbkkdo.fsf@intel.com>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 588FA10E0A5
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 10:50:30 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id p18so8243875edr.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 03:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1nS6xKHG29lKG9M5NBEzyAVt0g3yPb4JZBKIqSJmDlM=;
+ b=OZgw1lhOm42KiGxCjpNI6wr/surmxLobZMLcUskkSR045936n/t2wCu+JKdicE3BNQ
+ zsVjg+8zTDzHq+mUxqN8DX2NycN5vSeJDYAXrNYduk9wukqpIkVMsp2BJuVGpgwOtSSL
+ JTy3M10pVRwjby0cFQ3Xv0nRzBcyUuZ34luaWwlGcjNTBICgfgMIIHhu+oucACEGBmg2
+ hpvWU+rBZ7x4HZOqKCwuNKHZXjA96Um9BYRbVY3Zap4mjs0xBAAXhK8Ui2xA669uQequ
+ eEw6qC1A0GHu5udm6CRndBDKE+2eO/CHLZ8WZrv3R98hKet/JV1GCfox03voUvobxl5J
+ +Bog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1nS6xKHG29lKG9M5NBEzyAVt0g3yPb4JZBKIqSJmDlM=;
+ b=2l3Zf5AYGHRWXCn7CwKn044tNSbWZ3rWnAX/BzSrF+xuvqnSP0bTmP/RZy0eC/Grbf
+ wRsyLHoGs2gTNvCD0aoAPlhUtE+kx96kDa7uys8UDv9L3BLkBevvnNT3WcsdWHSTfZ+x
+ +u1YX+RC9JFVjUwWvPhhRSB3PJCYdyOpuBzBwEkGMUR3i82Zd6ZJ+2dWRwOGD340DEzw
+ Ht18Kv2P6P/x6U6vaj3pxAyqEE3vtBbSnZwmpyaX+XFUsJgxgF7uthLeHBzbaU3ykKnd
+ xFgNMQx10EKuRi9mFOfIR00lRd/o4QbMCam5QNJmvDtQe5I5di+Dvj5PoI6kfZk0gvEu
+ Wu4g==
+X-Gm-Message-State: AOAM533+YHJpcwSwEzoG0nv4OffMyRZ/u3C8oowa1AJT1tWsXXuy8Xe1
+ MT4apt9Qs7Rr8oPxCdTVAjH4OCPDjiz1rbyraTiGsQ==
+X-Google-Smtp-Source: ABdhPJyVIz++X4+oGXCjRGBhpxqx5FUg8mUU7LBZqqIDazrf9kRZgPTJ+crPJe2Q5tMbOgZDIoQB+61xr36nJzn61U0=
+X-Received: by 2002:a05:6402:5c9:b0:420:aac6:257b with SMTP id
+ n9-20020a05640205c900b00420aac6257bmr2792317edx.128.1651834228722; Fri, 06
+ May 2022 03:50:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220504114021.33265-1-jagan@amarulasolutions.com>
+ <2184168.iZASKD2KPV@steina-w>
+ <CAMty3ZAuTzdzj9v4weqJfxQKhM57XuwSzSAX86NHTcCp14uBBw@mail.gmail.com>
+ <CGME20220505115537eucas1p16234d185961ff5f3fd8c6c1e5e4fb8d0@eucas1p1.samsung.com>
+ <3104069.5fSG56mABF@steina-w>
+ <5671f394-763d-a999-a300-a230199e1eda@samsung.com>
+In-Reply-To: <5671f394-763d-a999-a300-a230199e1eda@samsung.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 6 May 2022 11:50:12 +0100
+Message-ID: <CAPY8ntD2uPqrb8mHy5ButBpWoBV5Z-epkHsL7SPha=TjMzP9jw@mail.gmail.com>
+Subject: Re: (EXT) Re: (EXT) [PATCH v2 00/12] drm: bridge: Add Samsung MIPI
+ DSIM bridge
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,316 +69,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Jason Gunthorpe <jgg@nvidia.com>,
- dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org, "Wang, Zhi A" <zhi.a.wang@intel.com>
+Cc: linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Robert Foss <robert.foss@linaro.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Matteo Lisi <matteo.lisi@engicam.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marek
 
-Hi Dave & Daniel -
+On Fri, 6 May 2022 at 09:57, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+>
+> Hi Alexander,
+>
+> On 05.05.2022 13:55, Alexander Stein wrote:
+> > Am Donnerstag, 5. Mai 2022, 09:38:48 CEST schrieb Jagan Teki:
+> >> On Thu, May 5, 2022 at 12:57 PM Alexander Stein
+> >>
+> >> <alexander.stein@ew.tq-group.com> wrote:
+> >>> Hello Jagan,
+> >>>
+> >>> thanks for the second version of this patchset.
+> >>>
+> >>> Am Mittwoch, 4. Mai 2022, 13:40:09 CEST schrieb Jagan Teki:
+> >>>> This series supports common bridge support for Samsung MIPI DSIM
+> >>>> which is used in Exynos and i.MX8MM SoC's.
+> >>>>
+> >>>> Previous v1 can be available here [1].
+> >>>>
+> >>>> The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> >>>>
+> >>>> On, summary this patch-set break the entire DSIM driver into
+> >>>> - platform specific glue code for platform ops, component_ops.
+> >>>> - common bridge driver which handle platform glue init and invoke.
+> >>>>
+> >>>> Patch 0000:   Samsung DSIM bridge
+> >>>>
+> >>>> Patch 0001:   Common lookup code for OF-graph or child
+> >>>>
+> >>>> Patch 0002:   platform init flag via driver_data
+> >>>>
+> >>>> Patch 0003/10:  bridge fixes, atomic API's
+> >>>>
+> >>>> Patch 0011:   document fsl,imx8mm-mipi-dsim
+> >>>>
+> >>>> Patch 0012:   add i.MX8MM DSIM support
+> >>>>
+> >>>> Tested in Engicam i.Core MX8M Mini SoM.
+> >>>>
+> >>>> Anyone interested, please have a look on this repo [2]
+> >>>>
+> >>>> [2] https://protect2.fireeye.com/v1/url?k=569d5207-09066afa-569cd948-000babff317b-7f7572918a36c54e&q=1&e=1305c5cc-33c8-467e-a498-6862a854cf94&u=https%3A%2F%2Fgithub.com%2Fopenedev%2Fkernel%2Ftree%2Fimx8mm-dsi-v2
+> >>>> [1]
+> >>>> https://patchwork.kernel.org/project/dri-devel/cover/20220408162108.1845
+> >>>> 83-> 1-jagan@amarulasolutions.com/
+> >>>>
+> >>>> Any inputs?
+> >>> I was able to get my LVDS display running using this driver and an LVDS
+> >>> bridge. Actually my setup is similar to yours. My chain is like this:
+> >>> MIPI-DSI -> sn65dsi83 -> LVDS panel
+> >>> I noticed some things though:
+> >>> My setup only works if I use less than 4 lanes. See [1]. When using 4
+> >>> lanes
+> >>> the image is flickering, but the content is "visible". Your DT has only 2
+> >>> lanes configured, do you have the possibility to use 4 lanes? I have no
+> >>> idea how to tackle this. It might be the DSIM side or the bridge side.
+> >>> Apparently the downstream kernel from NXP supports 4 lanes, if I can trust
+> >>> the config. I have no way to verify this though.
+> >> What is dsi_lvds_bridge node? have you added your dts changes on top
+> >> of imx8mm-dsi-v2 branch I'm pointing it.
+> >>
+> >> I will check 4 lanes and let you know.
+> >>
+> >>> Another thing is I get the following warning
+> >>>
+> >>>> sn65dsi83 2-002d: Unsupported LVDS bus format 0x100a, please check
+> >>>> output
+> >>> bridge driver. Falling back to SPWG24.
+> >> This couldn't be much affected but will fix it.
+> > I found the cause. You need the following diff:
+> > ----8<-----
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/
+> > samsung-dsim.c
+> > index 138323dec0eb..7fb96dc7bb2e 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -1427,7 +1427,7 @@ static int samsung_dsim_attach(struct drm_bridge
+> > *bridge,
+> >   {
+> >          struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+> >
+> > -       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL,
+> > flags);
+> > +       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
+> > flags);
+> >   }
+> >
+> >   static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
+> > ----8<-----
+>
+> Well, basically, the above change breaks DSI panels. :(
+>
+> I've spent another evening playing with that code and I have some more
+> thoughts...
+>
+> I agree that logically this should be like you pointed. However the the
+> code has been hacked in such a way, that it forces a proper order of
+> pre-enable operations of the DSI and the client (panel, next bridge).
+> This works somehow with a chain of 2 entities (Trats board: DSI and a
+> panel) or even 3 entities (Arndale board: DSI, TC358764 bridge, panel),
+> but probably it fails in your case.
+>
+> I really have no clue how to fix this mess. It has been pointed many
+> times that this insane per-order call chain of the pre_enable()
+> operations is completely useless for the DSI hardware and noone pointed
+> how to solve this. Exynos DSI (and VC4) called those operations directly
+> to achieve proper order. So what happened? Now Exynos DSI got converted
+> to the generic bridge call chain. To get it working with existing hw,
+> the order of the bridges has been hacked. Probably in the next few
+> releases more mess will come to get around this known issue, especially
+> when support for the next set of imx boards is added.
+>
+> I'm really open to help fixing this issue. I've spent a lot of time
+> analyzing this code and I have boards to test. Just please give me some
+> advice how to avoid this reverse-order call chain of the pre_enable()
+> operations in the widely accepted, non-hacky way.
 
-drm-intel-next-2022-05-06:
-drm/i915 feature pull #2 for v5.19:
+I sent [1] to try and offer a solution for DSI back in March, but no
+one has responded to it at all. Care to review it?
 
-Features and functionality:
-- Add first set of DG2 PCI IDs for "motherboard down" designs (Matt Roper)
-- Add initial RPL-P PCI IDs as ADL-P subplatform (Matt Atwood)
+As noted in the cover letter for that series, splitting the
+bridge_chain (as Exynos and vc4 do) does not work with atomic
+operations due to the bridges beyond the split never being added to
+the state. That approach is a dead end, and I'm trying to move vc4
+away from it. That's not possible until the framework issue is
+resolved, unless you adopt the hack done by dw-mipi and msm to power
+up the DSI host in mode_set.
 
-Refactoring and cleanups:
-- Power well refactoring and cleanup (Imre)
-- GVT-g refactor and mdev API cleanup (Christoph, Jason, Zhi)
-- DPLL refactoring and cleanup (Ville)
-- VBT panel specific data parsing cleanup (Ville)
-- Use drm_mode_init() for on-stack modes (Ville)
+Thanks.
+  Dave
 
-Fixes:
-- Fix PSR state pipe A/B confusion by clearing more state on disable (Jos=
-=C3=A9)
-- Fix FIFO underruns caused by not taking DRAM channel into account (Vinod)
-- Fix FBC flicker on display 11+ by enabling a workaround (Jos=C3=A9)
-- Fix VBT seamless DRRS min refresh rate check (Ville)
-- Fix panel type assumption on bogus VBT data (Ville)
-- Fix panel data parsing for VBT that misses panel data pointers block (Vil=
-le)
-- Fix spurious AUX timeout/hotplug handling on LTTPR links (Imre)
+[1] https://patchwork.kernel.org/project/dri-devel/cover/cover.1646406653.git.dave.stevenson@raspberrypi.com/
 
-Merges:
-- Backmerge drm-next (Jani)
-- GVT changes (Jani)
-
-BR,
-Jani.
-
-The following changes since commit 19df0cfa258cd42f7f106f6085f1e625f26283db:
-
-  Merge tag 'drm-misc-next-2022-04-21' of git://anongit.freedesktop.org/drm=
-/drm-misc into drm-next (2022-04-22 11:15:30 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2022-05-06
-
-for you to fetch changes up to 949665a6e237a6fd49ff207e3876d71b20b7e9f2:
-
-  drm/i915: Respect VBT seamless DRRS min refresh rate (2022-05-05 18:27:53=
- +0300)
-
-----------------------------------------------------------------
-drm/i915 feature pull #2 for v5.19:
-
-Features and functionality:
-- Add first set of DG2 PCI IDs for "motherboard down" designs (Matt Roper)
-- Add initial RPL-P PCI IDs as ADL-P subplatform (Matt Atwood)
-
-Refactoring and cleanups:
-- Power well refactoring and cleanup (Imre)
-- GVT-g refactor and mdev API cleanup (Christoph, Jason, Zhi)
-- DPLL refactoring and cleanup (Ville)
-- VBT panel specific data parsing cleanup (Ville)
-- Use drm_mode_init() for on-stack modes (Ville)
-
-Fixes:
-- Fix PSR state pipe A/B confusion by clearing more state on disable (Jos=
-=C3=A9)
-- Fix FIFO underruns caused by not taking DRAM channel into account (Vinod)
-- Fix FBC flicker on display 11+ by enabling a workaround (Jos=C3=A9)
-- Fix VBT seamless DRRS min refresh rate check (Ville)
-- Fix panel type assumption on bogus VBT data (Ville)
-- Fix panel data parsing for VBT that misses panel data pointers block (Vil=
-le)
-- Fix spurious AUX timeout/hotplug handling on LTTPR links (Imre)
-
-Merges:
-- Backmerge drm-next (Jani)
-- GVT changes (Jani)
-
-----------------------------------------------------------------
-Christoph Hellwig (27):
-      drm/i915/gvt: remove module refcounting in intel_gvt_{,un}register_hy=
-pervisor
-      drm/i915/gvt: remove enum hypervisor_type
-      drm/i915/gvt: rename intel_vgpu_ops to intel_vgpu_mdev_ops
-      drm/i915/gvt: move the gvt code into kvmgt.ko
-      drm/i915/gvt: remove intel_gvt_ops
-      drm/i915/gvt: remove the map_gfn_to_mfn and set_trap_area ops
-      drm/i915/gvt: remove the unused from_virt_to_mfn op
-      drm/i915/gvt: merge struct kvmgt_vdev into struct intel_vgpu
-      drm/i915/gvt: merge struct kvmgt_guest_info into strut intel_vgpu
-      drm/i915/gvt: remove vgpu->handle
-      drm/i915/gvt: devirtualize ->{read,write}_gpa
-      drm/i915/gvt: devirtualize ->{get,put}_vfio_device
-      drm/i915/gvt: devirtualize ->set_edid and ->set_opregion
-      drm/i915/gvt: devirtualize ->detach_vgpu
-      drm/i915/gvt: devirtualize ->inject_msi
-      drm/i915/gvt: devirtualize ->is_valid_gfn
-      drm/i915/gvt: devirtualize ->gfn_to_mfn
-      drm/i915/gvt: devirtualize ->{enable,disable}_page_track
-      drm/i915/gvt: devirtualize ->dma_{,un}map_guest_page
-      drm/i915/gvt: devirtualize dma_pin_guest_page
-      drm/i915/gvt: remove struct intel_gvt_mpt
-      drm/i915/gvt: remove the extra vfio_device refcounting for dmabufs
-      drm/i915/gvt: streamline intel_vgpu_create
-      drm/i915/gvt: pass a struct intel_vgpu to the vfio read/write helpers
-      drm/i915/gvt: remove kvmgt_guest_{init,exit}
-      drm/i915/gvt: convert to use vfio_register_emulated_iommu_dev
-      drm/i915/gvt: merge gvt.c into kvmgvt.c
-
-Hans de Goede (1):
-      drm/i915: Fix DISP_POS_Y and DISP_HEIGHT defines
-
-Imre Deak (21):
-      drm/i915: Move per-platform power well hooks to intel_display_power_w=
-ell.c
-      drm/i915: Unexport the for_each_power_well() macros
-      drm/i915: Move the power domain->well mappings to intel_display_power=
-_map.c
-      drm/i915: Move the dg2 fixed_enable_delay power well param to a commo=
-n bitfield
-      drm/i915: Move the HSW power well flags to a common bitfield
-      drm/i915: Rename the power domain names to end with pipes/ports
-      drm/i915: Sanitize the power well names
-      drm/i915: Convert the power well descriptor domain mask to an array o=
-f domains
-      drm/i915: Convert the u64 power well domains mask to a bitmap
-      drm/i915: Simplify power well definitions by adding power well instan=
-ces
-      drm/i915: Allow platforms to share power well descriptors
-      drm/i915: Simplify the DG1 power well descriptors
-      drm/i915: Sanitize the ADL-S power well definition
-      drm/i915: Sanitize the port -> DDI/AUX power domain mapping for each =
-platform
-      drm/i915: Remove the aliasing of power domain enum values
-      drm/i915: Remove the ICL specific TBT power domains
-      drm/i915: Remove duplicate DDI/AUX power domain mappings
-      drm/i915: Remove the XELPD specific AUX and DDI power domains
-      drm/i915: Fixup merge of the power well refactor patchset
-      drm/i915: Fix SEL_FETCH_PLANE_*(PIPE_B+) register addresses
-      drm/i915/dp: Add workaround for spurious AUX timeouts/hotplugs on LTT=
-PR links
-
-Jani Nikula (8):
-      drm/i915/gvt: fix trace TRACE_INCLUDE_PATH
-      drm/i915/gvt: better align the Makefile with i915 Makefile
-      Merge tag 'gvt-next-2022-04-21-for-christoph' of https://github.com/i=
-ntel/gvt-linux into drm-intel-next
-      Merge tag 'gvt-next-2022-04-26' of https://github.com/intel/gvt-linux=
- into drm-intel-next
-      Merge drm/drm-next into drm-intel-next
-      Merge tag 'gvt-next-2022-04-29' of https://github.com/intel/gvt-linux=
- into drm-intel-next
-      drm/i915: move tons of power well initializers to rodata
-      drm/i915: warn about missing ->get_buf_trans initialization
-
-Jason Gunthorpe (5):
-      vfio/mdev: Remove vfio_mdev.c
-      vfio/mdev: Remove mdev_parent_ops dev_attr_groups
-      vfio/mdev: Remove mdev_parent_ops
-      vfio/mdev: Use the driver core to create the 'remove' file
-      vfio/mdev: Remove mdev drvdata
-
-Jos=C3=A9 Roberto de Souza (3):
-      drm/i915/display/psr: Unset enable_psr2_sel_fetch if other checks in =
-intel_psr2_config_valid() fails
-      drm/i915/display/psr: Clear more PSR state during disable
-      drm/i915/display: Add workaround 22014263786
-
-Jouni H=C3=B6gander (1):
-      drm/i915: Check EDID for HDR static metadata when choosing blc
-
-Matt Atwood (1):
-      drm/i915/rpl-p: Add PCI IDs
-
-Matt Roper (1):
-      drm/i915: Add first set of DG2 PCI IDs
-
-Ville Syrj=C3=A4l=C3=A4 (22):
-      drm/i915: Program i830 DPLL FP register later
-      drm/i915/fbc: Consult hw.crtc instead of uapi.crtc
-      drm/i915/fbc: s/false/0/
-      drm/i915: Make .get_dplls() return int
-      drm/i915: Pass dev_priv to intel_shared_dpll_init()
-      drm/i915: Remove pointless dpll_funcs checks
-      drm/i915: Adjust .crtc_compute_clock() calling convention
-      drm/i915: Move stuff into intel_dpll_crtc_compute_clock()
-      drm/i915: Move the dpll_hw_state clearing to intel_dpll_crtc_compute_=
-clock()
-      drm/i915: Clear the dpll_hw_state when disabling a pipe
-      drm/i915: Split out dg2_crtc_compute_clock()
-      drm/i915: Add crtc .crtc_get_shared_dpll()
-      drm/i915: Use drm_mode_init() for on-stack modes
-      drm/i915/bios: Reorder panel DTD parsing
-      drm/i915/bios: Generate LFP data table pointers if the VBT lacks them
-      drm/i915/bios: Get access to the tail end of the LFP data block
-      drm/i915/bios: Document the mess around the LFP data tables
-      drm/i915/bios: Assume panel_type=3D=3D0 if the VBT has bogus data
-      drm/i915/bios: Extract get_panel_type()
-      drm/i915/bios: Refactor panel_type code
-      drm/i915/bios: Parse the seamless DRRS min refresh rate
-      drm/i915: Respect VBT seamless DRRS min refresh rate
-
-Vinod Govindapillai (1):
-      drm/i915: program wm blocks to at least blocks required per line
-
-Wan Jiabing (1):
-      i915/gvt: Fix NULL pointer dereference in init_mmio_block_handlers
-
-Zhi Wang (6):
-      i915/gvt: Separate the MMIO tracking table from GVT-g
-      i915/gvt: Save the initial HW state snapshot in i915
-      i915/gvt: Use the initial HW state snapshot saved in i915
-      drm/i915/gvt: Add missing symbol export.
-      drm/i915/gvt: Make intel_gvt_match_device() static
-      drm/i915/gvt: Fix the compiling error when CONFIG_DRM_I915_DEBUG_RUNT=
-IME_PM=3Dn
-
- Documentation/driver-api/vfio-mediated-device.rst  |   27 +-
- arch/x86/kernel/early-quirks.c                     |    1 +
- drivers/gpu/drm/i915/Kconfig                       |   36 +-
- drivers/gpu/drm/i915/Makefile                      |    9 +-
- drivers/gpu/drm/i915/display/g4x_dp.c              |    3 +-
- drivers/gpu/drm/i915/display/g4x_hdmi.c            |    3 +-
- drivers/gpu/drm/i915/display/icl_dsi.c             |    8 +-
- drivers/gpu/drm/i915/display/intel_bios.c          |  345 +-
- drivers/gpu/drm/i915/display/intel_ddi.c           |    6 +-
- drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c |    4 +-
- drivers/gpu/drm/i915/display/intel_display.c       |  176 +-
- drivers/gpu/drm/i915/display/intel_display.h       |    4 +-
- drivers/gpu/drm/i915/display/intel_display_power.c | 5283 +++-------------=
-----
- drivers/gpu/drm/i915/display/intel_display_power.h |  126 +-
- .../gpu/drm/i915/display/intel_display_power_map.c | 1501 ++++++
- .../gpu/drm/i915/display/intel_display_power_map.h |   14 +
- .../drm/i915/display/intel_display_power_well.c    | 1813 ++++++-
- .../drm/i915/display/intel_display_power_well.h    |  132 +-
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |   34 +-
- .../gpu/drm/i915/display/intel_dp_link_training.c  |   33 +-
- drivers/gpu/drm/i915/display/intel_dpio_phy.c      |    1 +
- drivers/gpu/drm/i915/display/intel_dpll.c          |  196 +-
- drivers/gpu/drm/i915/display/intel_dpll.h          |    6 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |  268 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.h      |    9 +-
- drivers/gpu/drm/i915/display/intel_fbc.c           |   19 +-
- drivers/gpu/drm/i915/display/intel_panel.c         |   10 +-
- drivers/gpu/drm/i915/display/intel_pps.c           |    1 +
- drivers/gpu/drm/i915/display/intel_psr.c           |   41 +-
- drivers/gpu/drm/i915/display/intel_tc.c            |    5 +-
- drivers/gpu/drm/i915/display/intel_vbt_defs.h      |   24 +-
- drivers/gpu/drm/i915/gvt/Makefile                  |   30 +-
- drivers/gpu/drm/i915/gvt/cfg_space.c               |   89 +-
- drivers/gpu/drm/i915/gvt/cmd_parser.c              |    4 +-
- drivers/gpu/drm/i915/gvt/dmabuf.c                  |   36 +-
- drivers/gpu/drm/i915/gvt/execlist.c                |   12 +-
- drivers/gpu/drm/i915/gvt/firmware.c                |   25 +-
- drivers/gpu/drm/i915/gvt/gtt.c                     |   55 +-
- drivers/gpu/drm/i915/gvt/gvt.c                     |  340 --
- drivers/gpu/drm/i915/gvt/gvt.h                     |  128 +-
- drivers/gpu/drm/i915/gvt/handlers.c                | 1035 +---
- drivers/gpu/drm/i915/gvt/hypercall.h               |   82 -
- drivers/gpu/drm/i915/gvt/interrupt.c               |   40 +-
- drivers/gpu/drm/i915/gvt/kvmgt.c                   | 1097 ++--
- drivers/gpu/drm/i915/gvt/mmio.c                    |    4 +-
- drivers/gpu/drm/i915/gvt/mmio.h                    |    1 -
- drivers/gpu/drm/i915/gvt/mpt.h                     |  400 --
- drivers/gpu/drm/i915/gvt/opregion.c                |  148 +-
- drivers/gpu/drm/i915/gvt/page_track.c              |    8 +-
- drivers/gpu/drm/i915/gvt/reg.h                     |    9 +-
- drivers/gpu/drm/i915/gvt/scheduler.c               |   37 +-
- drivers/gpu/drm/i915/gvt/trace.h                   |    2 +-
- drivers/gpu/drm/i915/gvt/vgpu.c                    |   22 +-
- drivers/gpu/drm/i915/i915_driver.c                 |    7 -
- drivers/gpu/drm/i915/i915_drv.h                    |    8 +-
- drivers/gpu/drm/i915/i915_pci.c                    |    3 +-
- drivers/gpu/drm/i915/i915_reg.h                    |    7 +-
- drivers/gpu/drm/i915/intel_device_info.c           |   30 +-
- drivers/gpu/drm/i915/intel_device_info.h           |   11 +-
- drivers/gpu/drm/i915/intel_gvt.c                   |  252 +-
- drivers/gpu/drm/i915/intel_gvt.h                   |   32 +-
- drivers/gpu/drm/i915/intel_gvt_mmio_table.c        | 1292 +++++
- drivers/gpu/drm/i915/intel_pm.c                    |   19 +
- drivers/s390/cio/vfio_ccw_ops.c                    |    7 +-
- drivers/s390/crypto/vfio_ap_ops.c                  |    9 +-
- drivers/vfio/mdev/Makefile                         |    2 +-
- drivers/vfio/mdev/mdev_core.c                      |   52 +-
- drivers/vfio/mdev/mdev_driver.c                    |   10 -
- drivers/vfio/mdev/mdev_private.h                   |    6 +-
- drivers/vfio/mdev/mdev_sysfs.c                     |   37 +-
- drivers/vfio/mdev/vfio_mdev.c                      |  152 -
- include/drm/i915_pciids.h                          |   31 +
- include/linux/mdev.h                               |   82 +-
- samples/vfio-mdev/mbochs.c                         |    9 +-
- samples/vfio-mdev/mdpy.c                           |    9 +-
- samples/vfio-mdev/mtty.c                           |   39 +-
- 76 files changed, 7587 insertions(+), 8261 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/display/intel_display_power_map.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_display_power_map.h
- delete mode 100644 drivers/gpu/drm/i915/gvt/gvt.c
- delete mode 100644 drivers/gpu/drm/i915/gvt/hypercall.h
- delete mode 100644 drivers/gpu/drm/i915/gvt/mpt.h
- create mode 100644 drivers/gpu/drm/i915/intel_gvt_mmio_table.c
- delete mode 100644 drivers/vfio/mdev/vfio_mdev.c
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
