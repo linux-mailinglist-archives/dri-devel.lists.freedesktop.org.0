@@ -2,80 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682EA51D25F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 09:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9654B51D295
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 09:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B51C10E189;
-	Fri,  6 May 2022 07:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 481BF10E5A7;
+	Fri,  6 May 2022 07:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [170.10.133.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2EC10E189
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 07:34:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651822473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YVV/F9WHxdXScNEZChl8c5nYVrBEBDkMFqnLnJ3JUR8=;
- b=PhHnJBpZYUF9xOddaPoPXTIbpOw1P2iKlC+7GBZ1ZBpL+sT+eLliUrlZr5wFBTY9HTWIs1
- W4b7rEpfQHCouBqNUcBaBm1qXalfLWoqVGxg6GtEB57rhXim8ICfzlioMYPDVwLH38Gy6p
- pPRpbCFb0ncX0bvMXwvHewO+4N5ODSE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-FZsQBcKDNzu2oaE7cbeZTA-1; Fri, 06 May 2022 03:34:32 -0400
-X-MC-Unique: FZsQBcKDNzu2oaE7cbeZTA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v29-20020adfa1dd000000b0020ad932b7c0so2256265wrv.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 00:34:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YVV/F9WHxdXScNEZChl8c5nYVrBEBDkMFqnLnJ3JUR8=;
- b=oad52pHWqvE1/n+hx8fjb4c9LaFF98SquDC53IcDz/ySsCsSpHKrwv3pzGuVKPdYM5
- BZRF3NzN3kfpmDcJ/uKn3jmVVIi6/w3AjfHbhHIdJTSiT29gWVMBDvOAnWJRYRxmZhq0
- mLZjDPK6gRZU1OCEltc1HYxpSYh1bkaWaOzRtURBgcFtv7Y8SJSr7WdJekHC1itkGa3i
- 2KINqKeZFLNxw5Ek1dAxi4dy4DLT8WQghk6dapsf32JJaViXl/duquL+0jLCJm5OfJQ7
- MZ3jtBjsBG6NSJEEhrVzjHvReyDyMCjrGfvo8GdVDzv2RuMkbqyEetsWE5BFlnwH65hO
- ZSdw==
-X-Gm-Message-State: AOAM5319umdHKJZUfO/rYWQmYrXZHGYOVxkBAi4HvxS0Tz8Y0aRoPu2P
- +CvnM9iFDI+8+XX+NyWiYsRxix1YOFZ+2II9ci2hwQONWgIQExJhY4Al5iPzPUXn8n0L0ooFS+J
- q6YkUgoHlUWb4e5KyINtPegMtTlf3
-X-Received: by 2002:a1c:f312:0:b0:387:8bf:bd3 with SMTP id
- q18-20020a1cf312000000b0038708bf0bd3mr2012823wmq.112.1651822471127; 
- Fri, 06 May 2022 00:34:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3zBi5qrCjqE/FCrjwQZMOB3aA4NN9P3JVqib/Yx6UdP7hc96qqNbtfggn1wFtLl0BTWjHiw==
-X-Received: by 2002:a1c:f312:0:b0:387:8bf:bd3 with SMTP id
- q18-20020a1cf312000000b0038708bf0bd3mr2012807wmq.112.1651822470916; 
- Fri, 06 May 2022 00:34:30 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d7-20020a5d4f87000000b0020c5253d8bfsm2923866wru.11.2022.05.06.00.34.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 00:34:30 -0700 (PDT)
-Message-ID: <6936289f-acab-7140-9bb4-73b42db91876@redhat.com>
-Date: Fri, 6 May 2022 09:34:29 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C822410E483;
+ Fri,  6 May 2022 07:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651823506; x=1683359506;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=xwYtBfgsa8QVrCi9N1kvmefqBJe0dC/6jHj7fvZOLjQ=;
+ b=ebBhf/BIJnW0XMXFM804GHfCVkr7f3SQ+p4n4ka/cIm2ff4fGtDDObHo
+ 2uqpD0elol4WQtVCNQVFn3fN+yHyFcC/fH3+gyfQ2VAq828eNVcOnt7CB
+ MjVocsT7dYwQhf8oBa/k6MxZK++W2VtZ9A6hD7mR99o1pacplcy/4ghWQ
+ jwVhoPBzy8Y1gHW+UeFNY7zs/TXy07Pyj7uynH3iAXyASKHz5bOhZ4fip
+ XtGYtB55wQxg0/CSg8lU2z98kLCB/0AGNZf+SlfzRdxeUUqoRIQD9Q7df
+ Wy3sJmV4EyEN1weBDabuxxk7QfpqCrLZUT5eudxfFrfHGaB1qeDCPwugG A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="267987907"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="267987907"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 00:51:45 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="735469381"
+Received: from tkinch-mobl.ger.corp.intel.com (HELO [10.213.192.122])
+ ([10.213.192.122])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 00:51:44 -0700
+Message-ID: <7218e8a8-d22f-41ce-13b8-56b24471a494@linux.intel.com>
+Date: Fri, 6 May 2022 08:51:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 0/4] fbdev: Fix use-after-free caused by wrong fb_info
- cleanup in drivers
-To: linux-kernel@vger.kernel.org
-References: <20220505215947.364694-1-javierm@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220505215947.364694-1-javierm@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.8.1
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/guc: Support programming the EU
+ priority in the GuC descriptor
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: John Harrison <john.c.harrison@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220504234636.2119794-1-daniele.ceraolospurio@intel.com>
+ <95b167c3-08a4-0323-a538-c0f34cc3a13d@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <95b167c3-08a4-0323-a538-c0f34cc3a13d@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,25 +64,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/5/22 23:59, Javier Martinez Canillas wrote:
-> Hello,
+
+On 05/05/2022 19:56, John Harrison wrote:
+> On 5/4/2022 16:46, Daniele Ceraolo Spurio wrote:
+>> From: Matthew Brost <matthew.brost@intel.com>
+>>
+>> In GuC submission mode the EU priority must be updated by the GuC rather
+>> than the driver as the GuC owns the programming of the context 
+>> descriptor.
+>>
+>> Given that the GuC code uses the GuC priorities, we can't use a generic
+>> function using i915 priorities for both execlists and GuC submission.
+>> The existing function has therefore been pushed to the execlists
+>> back-end while a new one has been added for GuC.
+>>
+>> v2: correctly use the GuC prio.
+>>
+>> Cc: John Harrison <john.c.harrison@intel.com>
+>> Cc: Matt Roper <matthew.d.roper@intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+
+I've asked for this already - since this seems a fix relevant for DG2, 
+but now that it has been merged without a Fixes: tag, it will not get 
+picked up for 5.19 by the scripts.
+
+Maybe I can cherry pick it manually in a few weeks, or maybe you guys 
+can send it to stable manually once 5.19 is released, please make a 
+reminder item if you think 5.19 should have it.
+
+Regards,
+
+Tvrtko
+
 > 
-> This series contains patches suggested by Daniel Vetter to fix a use-after-free
-> error in the fb_release() function, due a fb_info associated with a fbdev being
-> freed too early while a user-space process still has the fbdev dev node opened.
+>> ---
+>>   .../drm/i915/gt/intel_execlists_submission.c  | 12 +++++++++-
+>>   drivers/gpu/drm/i915/gt/intel_lrc.h           | 10 ---------
+>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 22 +++++++++++++++++++
+>>   3 files changed, 33 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
+>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> index 86f7a9ac1c394..2b0266cab66b9 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> @@ -661,6 +661,16 @@ static inline void execlists_schedule_out(struct 
+>> i915_request *rq)
+>>       i915_request_put(rq);
+>>   }
+>> +static u32 map_i915_prio_to_lrc_desc_prio(int prio)
+>> +{
+>> +    if (prio > I915_PRIORITY_NORMAL)
+>> +        return GEN12_CTX_PRIORITY_HIGH;
+>> +    else if (prio < I915_PRIORITY_NORMAL)
+>> +        return GEN12_CTX_PRIORITY_LOW;
+>> +    else
+>> +        return GEN12_CTX_PRIORITY_NORMAL;
+>> +}
+>> +
+>>   static u64 execlists_update_context(struct i915_request *rq)
+>>   {
+>>       struct intel_context *ce = rq->context;
+>> @@ -669,7 +679,7 @@ static u64 execlists_update_context(struct 
+>> i915_request *rq)
+>>       desc = ce->lrc.desc;
+>>       if (rq->engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
+>> -        desc |= lrc_desc_priority(rq_prio(rq));
+>> +        desc |= map_i915_prio_to_lrc_desc_prio(rq_prio(rq));
+>>       /*
+>>        * WaIdleLiteRestore:bdw,skl
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.h 
+>> b/drivers/gpu/drm/i915/gt/intel_lrc.h
+>> index 31be734010db3..a390f0813c8b6 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_lrc.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.h
+>> @@ -111,16 +111,6 @@ enum {
+>>   #define XEHP_SW_COUNTER_SHIFT            58
+>>   #define XEHP_SW_COUNTER_WIDTH            6
+>> -static inline u32 lrc_desc_priority(int prio)
+>> -{
+>> -    if (prio > I915_PRIORITY_NORMAL)
+>> -        return GEN12_CTX_PRIORITY_HIGH;
+>> -    else if (prio < I915_PRIORITY_NORMAL)
+>> -        return GEN12_CTX_PRIORITY_LOW;
+>> -    else
+>> -        return GEN12_CTX_PRIORITY_NORMAL;
+>> -}
+>> -
+>>   static inline void lrc_runtime_start(struct intel_context *ce)
+>>   {
+>>       struct intel_context_stats *stats = &ce->stats;
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> index 75291e9846c50..8bf8b6d588d43 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> @@ -2394,6 +2394,26 @@ static int guc_context_policy_init(struct 
+>> intel_context *ce, bool loop)
+>>       return ret;
+>>   }
+>> +static u32 map_guc_prio_to_lrc_desc_prio(u8 prio)
+>> +{
+>> +    /*
+>> +     * this matches the mapping we do in map_i915_prio_to_guc_prio()
+>> +     * (e.g. prio < I915_PRIORITY_NORMAL maps to 
+>> GUC_CLIENT_PRIORITY_NORMAL)
+>> +     */
+>> +    switch (prio) {
+>> +    default:
+>> +        MISSING_CASE(prio);
+>> +        fallthrough;
+>> +    case GUC_CLIENT_PRIORITY_KMD_NORMAL:
+>> +        return GEN12_CTX_PRIORITY_NORMAL;
+>> +    case GUC_CLIENT_PRIORITY_NORMAL:
+>> +        return GEN12_CTX_PRIORITY_LOW;
+>> +    case GUC_CLIENT_PRIORITY_HIGH:
+>> +    case GUC_CLIENT_PRIORITY_KMD_HIGH:
+>> +        return GEN12_CTX_PRIORITY_HIGH;
+>> +    }
+>> +}
+>> +
+>>   static void prepare_context_registration_info(struct intel_context *ce,
+>>                             struct guc_ctxt_registration_info *info)
+>>   {
+>> @@ -2420,6 +2440,8 @@ static void 
+>> prepare_context_registration_info(struct intel_context *ce,
+>>        */
+>>       info->hwlrca_lo = lower_32_bits(ce->lrc.lrca);
+>>       info->hwlrca_hi = upper_32_bits(ce->lrc.lrca);
+>> +    if (engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
+>> +        info->hwlrca_lo |= 
+>> map_guc_prio_to_lrc_desc_prio(ce->guc_state.prio);
+>>       info->flags = CONTEXT_REGISTRATION_FLAG_KMD;
+>>       /*
 > 
-Pushed this to drm-misc (drm-misc-fixes).
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
