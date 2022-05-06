@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2217951DE9B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 20:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C5951DE9E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 20:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CCCA10F020;
-	Fri,  6 May 2022 18:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C0E10F066;
+	Fri,  6 May 2022 18:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D32F10F020
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 18:04:28 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id g23so9558016edy.13
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 11:04:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q6cV3MY08Q5J5EMqd7RYTn/K8x3EoQFULKeiQvTiDEg=;
- b=T2HDqLM0GDt44cOJq5nd/iZFwFe1nypV9GZH3QUrdg9Kzx3Cu242a610phGvfuyACC
- YjCrruvvXl6Wj8zAKANgpfjxzm74bIibd0RK+vOzDhlyICWgQztSY0d9A1KwMt2x1YYS
- 5n7z1HFAbOkVNrCvKtGhcvdCF9Rg9OmAoACykcvr5eV5pcoqHw2R7ZI8d+l8lmBKVjQr
- zG2T4IIyMfTz4aK4Q9RfqMIz5PLSfiZxu0A1WJEWvpVWc44AnUVHrJ22U7zxiY2o56pC
- BMLQkBtp0YhKo9aEdwpcc+yDCxjUDM+k81sCwyBFxlvuhcU6nx/Ie34KNcM4CWWO1US3
- mzeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q6cV3MY08Q5J5EMqd7RYTn/K8x3EoQFULKeiQvTiDEg=;
- b=G3zHxJ5JzCtugu/3+VLXTqNIwgKeutLCA/mEltKQWabIQlYm0IIXf058n8nLYwuzVv
- giZOn/cOE2tY/CO+cIvysWvnoiJXvBF22/cg4/+PeT7yBtQuj6RGfYhTXvXhUeJotOYn
- 3DFwkvcRWeRpmYZ9ima5GTrg1h/KKWGRu0j7BwwSx2P2qOb/sTRaqT3keYNqJVZjU1eA
- REXFClvWhY3npJ5L+1hx5M0flkoGswt7YRSMzoIiP9jkwDvgQ+aSqS6FCUmOKug71v8f
- mmWIK9RA4bXPaKlEyVwxUs+i8mYuaURkKfzBpq5SIY0kPD+jqV2hGszcbhF2JUbEOwqK
- kANg==
-X-Gm-Message-State: AOAM532h6Q/XeXVFyuhEnN0JUVFZ0jur371IQZwxjAvbS1+2eGlg3STE
- 2Y2EnbCshZ1NpDxiUttbhyFuRKPMBMVZodeCLG0=
-X-Google-Smtp-Source: ABdhPJwXEqZpCx25tK13QTqbjFhsfW3K4TjOOqyGoUK/Rt7XPD+Wd9WrJFUT7OGgDT/FLCXxCU2lkTuCiJ3xVZ4VuqA=
-X-Received: by 2002:a05:6402:d52:b0:425:dda4:b676 with SMTP id
- ec18-20020a0564020d5200b00425dda4b676mr4595071edb.277.1651860266859; Fri, 06
- May 2022 11:04:26 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4275B10F0F9;
+ Fri,  6 May 2022 18:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651860337; x=1683396337;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xI0jrG6IKrniOor1KHISDBmhbvcYUBhD5Fx58lNc2XE=;
+ b=BFIxg5u3ZKtqfUEJtpaniTcHY7h5v9338fIqsPUHg3Myhxnas39NjPux
+ NqmZkeTIWt7gqGqxopTJbrLHFzxUZ58tp4/EnB8Dj/m3Ee75HFUczzYc4
+ sj2Vbwrd04hgpRx7xeTd80FJ5kmyjVygQM8pcnF4ouJ1/809Y4IJxncHa
+ /s01nXW7SgT6KvlVkIA4pOdWbuqiUORjcxhMQ9xYLwX6kVCtMO9EOA/M0
+ c0eG4aCVHsAb0jB8wCN7WdC/66yX9f2x6zY7R5KKOkgOY+VyK9O5QVmlc
+ tfFRO7gXAZv/Wc/Ml80fCDdhh1rDGB3T2vvjeFka/s4v9Lwkbb9jfnJL3 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="331528327"
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="331528327"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 11:05:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="586124152"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by orsmga008.jf.intel.com with SMTP; 06 May 2022 11:05:34 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 06 May 2022 21:05:33 +0300
+Date: Fri, 6 May 2022 21:05:33 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 17/25] drm/edid: add drm_edid helper for drm_edid_to_sad()
+Message-ID: <YnVjbbMz4jvUL5B1@intel.com>
+References: <cover.1651830938.git.jani.nikula@intel.com>
+ <b3a5a99b1ec07d9b3b2bb9ccfadbf89768213fc6.1651830939.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <CAPM=9tyaQ8RSYwuh4muEefV3fbjio5gVvYipWVaKjqUycRkS+A@mail.gmail.com>
- <CAHk-=wjtEptPBvJtdbezMLJh6k3O7Y-on=tbC31z4e+ksLda1w@mail.gmail.com>
-In-Reply-To: <CAHk-=wjtEptPBvJtdbezMLJh6k3O7Y-on=tbC31z4e+ksLda1w@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 7 May 2022 04:04:15 +1000
-Message-ID: <CAPM=9txZv6tvFxQptYdwdyeyTs+rUZmm9K_D1f+4SFV_bOb-KQ@mail.gmail.com>
-Subject: Re: drm pull request (was Re: )
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b3a5a99b1ec07d9b3b2bb9ccfadbf89768213fc6.1651830939.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +60,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 7 May 2022 at 02:50, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Thu, May 5, 2022 at 9:07 PM Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > pretty quiet week, one fbdev, msm, kconfig, and 2 amdgpu fixes, about
-> > what I'd expect for rc6.
->
-> You're not getting the automated pr-tracker-bot response, because your
-> subject line was missing...
->
-> Just a "how did that happen" together with a "here's the manual
-> response instead".
+On Fri, May 06, 2022 at 01:10:24PM +0300, Jani Nikula wrote:
+> +int drm_edid_to_sad(const struct edid *edid, struct cea_sad **sads)
+> +{
+> +	struct drm_edid drm_edid = {
+> +		.edid = edid,
+> +		.size = edid_size(edid),
+> +	};
+> +
+> +	return _drm_edid_to_sad(&drm_edid, sads);
 
-I just forgot to type it in, I send the email from gmail manually
-pasting in the contents from the PR.
+No need to check for NULL edid in these wrappers?
 
-Dave.
+> +}
+>  EXPORT_SYMBOL(drm_edid_to_sad);
+>  
+>  /**
+> -- 
+> 2.30.2
+
+-- 
+Ville Syrjälä
+Intel
