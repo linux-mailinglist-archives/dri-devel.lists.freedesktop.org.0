@@ -1,58 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CAD51CDA5
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 02:10:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C5451CDAF
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 02:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3F3410FF46;
-	Fri,  6 May 2022 00:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A77F10FFA1;
+	Fri,  6 May 2022 00:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 048E410FF55
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 00:10:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id D9EA71F45E0A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1651795847;
- bh=8HWc5okoCATXQtSjnHcBZ94vd08tA8gZnAW7NIzIUzc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=E69M8Dpbytxm+liBztEXWxOxgJF11w/CzN4vstE4Ks1/CK+R54ymWAG8WhQ11Z3it
- UTIE6yFWtxaLarXDEtc1FXzyvLjbznINeNlstPpA/8NTxjU+0cl6o7qv4HCz9h8i2o
- YM3d+HYGQ09TSTZDF+orUvlE6/iycVSKZ98/O8I54xjCdcd8/z5KAFanNwPBZIRDQq
- QDCWPKlrh/drnIXxITfMDB+g+ErN5tUhFyTcnvdRojYEy1/dguLfyKPtPIXA7ynU7a
- 5af+OKmMvexH7qR6EjSif8Bdmzw4QMIXr7cl/RyeaX8mvcbPPS7sASgtcr6r7aQrRL
- bjxSeX9NGH/gQ==
-Message-ID: <ff97790a-fb64-1e15-74b4-59c807bce0b9@collabora.com>
-Date: Fri, 6 May 2022 03:10:43 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v4 11/15] drm/shmem-helper: Add generic memory shrinker
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20220417223707.157113-1-dmitry.osipenko@collabora.com>
- <20220417223707.157113-12-dmitry.osipenko@collabora.com>
- <e6108e9c-6e67-2d71-0665-654e11d9c3a5@suse.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <e6108e9c-6e67-2d71-0665-654e11d9c3a5@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DD19E10FFA9
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 00:13:09 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
+ by 156.147.23.51 with ESMTP; 6 May 2022 09:13:07 +0900
+X-Original-SENDERIP: 156.147.1.125
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
+ by 156.147.1.125 with ESMTP; 6 May 2022 09:13:07 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+From: Byungchul Park <byungchul.park@lge.com>
+To: torvalds@linux-foundation.org
+Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
+Date: Fri,  6 May 2022 09:11:35 +0900
+Message-Id: <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
+References: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,55 +40,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
+ 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, ngupta@vflare.org,
+ johannes.berg@intel.com, jack@suse.com, dan.j.williams@intel.com,
+ josef@toxicpanda.com, rostedt@goodmis.org, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
+ sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
+ kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
+ hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/5/22 11:34, Thomas Zimmermann wrote:
-> Hi
+Linus wrote:
+>
+> On Wed, May 4, 2022 at 1:19 AM Byungchul Park <byungchul.park@lge.com> wrote:
+> >
+> > Hi Linus and folks,
+> >
+> > I've been developing a tool for detecting deadlock possibilities by
+> > tracking wait/event rather than lock(?) acquisition order to try to
+> > cover all synchonization machanisms.
 > 
-> Am 18.04.22 um 00:37 schrieb Dmitry Osipenko:
->> Introduce a common DRM SHMEM shrinker. It allows to reduce code
->> duplication among DRM drivers that implement theirs own shrinkers.
->> This is initial version of the shrinker that covers basic needs of
->> GPU drivers, both purging and eviction of shmem objects are supported.
->>
->> This patch is based on a couple ideas borrowed from Rob's Clark MSM
->> shrinker and Thomas' Zimmermann variant of SHMEM shrinker.
->>
->> In order to start using DRM SHMEM shrinker drivers should:
->>
->> 1. Implement new purge(), evict() + swap_in() GEM callbacks.
->> 2. Register shrinker using drm_gem_shmem_shrinker_register(drm_device).
->> 3. Use drm_gem_shmem_set_purgeable_and_evictable(shmem) and alike API
->>     functions to activate shrinking of GEMs.
+> So what is the actual status of reports these days?
 > 
-> Honestly speaking, after reading the patch and the discussion here I
-> really don't like where all tis is going. The interfaces and
-> implementation are overengineered.  Descisions about evicting and
-> purging should be done by the memory manager. For the most part, it's
-> none of the driver's business.
+> Last time I looked at some reports, it gave a lot of false positives
+> due to mis-understanding prepare_to_sleep().
 
-Daniel mostly suggesting to make interface more flexible for future
-drivers, so we won't need to re-do it later on. My version of the
-interface is based on what drivers need today.
+Yes, it was. I handled the case in the following way:
 
-Why do you think it's a problem to turn shmem helper into the simple
-generic memory manager? I don't see how it's better to have drivers
-duplicating the exactly same efforts and making different mistakes.
+1. Stage the wait at prepare_to_sleep(), which might be used at commit.
+   Which has yet to be an actual wait that Dept considers.
+2. If the condition for sleep is true, the wait will be committed at
+   __schedule(). The wait becomes an actual one that Dept considers.
+3. If the condition is false and the task gets back to TASK_RUNNING,
+   clean(=reset) the staged wait.
 
-The shmem shrinker implementation is mostly based on the freedreno's
-shrinker and it's very easy to enable generic shrinker for VirtIO and
-Panfrost drivers. I think in the future freedreno and other drivers
-could switch to use drm shmem instead of open coding the memory management.
+That way, Dept only works with what actually hits to __schedule() for
+the waits through sleep.
 
-> I'd like to ask you to reduce the scope of the patchset and build the
-> shrinker only for virtio-gpu. I know that I first suggested to build
-> upon shmem helpers, but it seems that it's easier to do that in a later
-> patchset.
+> For this all to make sense, it would need to not have false positives
+> (or at least a very small number of them together with a way to sanely
 
-The first version of the VirtIO shrinker didn't support memory eviction.
-Memory eviction support requires page fault handler to be aware of the
-evicted pages, what should we do about it? The page fault handling is a
-part of memory management, hence to me drm-shmem is already kinda a MM.
+Yes. I agree with you. I got rid of them that way I described above.
+
+> get rid of them), and also have a track record of finding things that
+> lockdep doesn't.
+
+I have some reports that wait_for_completion or waitqueue is involved.
+It's worth noting those are not tracked by Lockdep. I'm checking if
+those are true positive or not. I will share those reports once I get
+more convinced for that.
+
+> Maybe such reports have been sent out with the current situation, and
+> I haven't seen them.
+
+Dept reports usually have been sent to me privately, not in LKML. As I
+told you, I'm planning to share them.
+
+	Byungchul
+
+> 
+>                  Linus
+> 
