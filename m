@@ -2,38 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD35A51D3C4
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 10:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7548351D3C8
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 10:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5833610EEE1;
-	Fri,  6 May 2022 08:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF7010EFE7;
+	Fri,  6 May 2022 08:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA1B210ED20
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 08:53:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 64CF7FB03;
- Fri,  6 May 2022 10:53:45 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pWt2Bo0FRgjE; Fri,  6 May 2022 10:53:44 +0200 (CEST)
-Date: Fri, 6 May 2022 10:53:39 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH resend v8 1/5] drm/bridge: nwl-dsi: Set PHY mode in
- nwl_dsi_mode_set()
-Message-ID: <YnTiEw5Drg4uHHJw@qwark.sigxcpu.org>
-References: <20220419010852.452169-1-victor.liu@nxp.com>
- <20220419010852.452169-2-victor.liu@nxp.com>
- <YmLkv4PYsi+XiFr5@qwark.sigxcpu.org>
- <538339829534d8ef10c68198016d198a9ec037fc.camel@nxp.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0284C10EFD5
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 08:54:26 +0000 (UTC)
+Received: from p508fcb34.dip0.t-ipconnect.de ([80.143.203.52]
+ helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1nmtjD-0005t9-LO; Fri, 06 May 2022 10:54:23 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH v11 16/24] arm64: dts: rockchip: rk356x: Add VOP2 nodes
+Date: Fri, 06 May 2022 10:54:18 +0200
+Message-ID: <8099476.NyiUUSuA9g@phil>
+In-Reply-To: <20220506071028.GS4012@pengutronix.de>
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+ <2508329.Lt9SDvczpP@diego> <20220506071028.GS4012@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <538339829534d8ef10c68198016d198a9ec037fc.camel@nxp.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,113 +40,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- krzk@kernel.org, andrzej.hajda@intel.com, linux-phy@lists.infradead.org,
- jernej.skrabec@gmail.com, kishon@ti.com, linux-imx@nxp.com,
- robert.chiras@nxp.com, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, s.hauer@pengutronix.de, martin.kepplinger@puri.sm,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, vkoul@kernel.org, shawnguo@kernel.org,
- Laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
-On Fri, Apr 29, 2022 at 08:30:43PM +0800, Liu Ying wrote:
-> Hi,
-> 
-> On Fri, 2022-04-22 at 19:24 +0200, Guido Günther wrote:
-> > Hi,
-> > On Tue, Apr 19, 2022 at 09:08:48AM +0800, Liu Ying wrote:
-> > > The Northwest Logic MIPI DSI host controller embedded in i.MX8qxp
-> > > works with a Mixel MIPI DPHY + LVDS PHY combo to support either
-> > > a MIPI DSI display or a LVDS display.  So, this patch calls
-> > > phy_set_mode() from nwl_dsi_mode_set() to set PHY mode to MIPI DPHY
-> > > explicitly.
-> > > 
-> > > Cc: Guido Günther <agx@sigxcpu.org>
-> > > Cc: Robert Chiras <robert.chiras@nxp.com>
-> > > Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> > > Cc: Neil Armstrong <narmstrong@baylibre.com>
-> > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > > Cc: Jonas Karlman <jonas@kwiboo.se>
-> > > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > Cc: David Airlie <airlied@linux.ie>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> 
-> Hope this patch won't fall through the cracks.
-> Can someone please apply it to drm-misc-next? Robert?
+Am Freitag, 6. Mai 2022, 09:10:28 CEST schrieb Sascha Hauer:
+> On Thu, May 05, 2022 at 09:23:03AM +0200, Heiko St=FCbner wrote:
+> > Am Donnerstag, 5. Mai 2022, 08:41:31 CEST schrieb Sascha Hauer:
+> > > On Thu, May 05, 2022 at 02:28:24AM +0200, Heiko St=FCbner wrote:
+> > > > Am Freitag, 22. April 2022, 09:28:33 CEST schrieb Sascha Hauer:
+> > > > > The VOP2 is the display output controller on the RK3568. Add the =
+node
+> > > > > for it to the dtsi file along with the required display-subsystem=
+ node
+> > > > > and the iommu node.
+> > > > >=20
+> > > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > > Acked-by: Rob Herring <robh@kernel.org>
+> > > > > ---
+> > > > > +	vop: vop@fe040000 {
+> > > > > +		reg =3D <0x0 0xfe040000 0x0 0x3000>, <0x0 0xfe044000 0x0 0x100=
+0>;
+> > > > > +		reg-names =3D "regs", "gamma_lut";
+> > > >=20
+> > > > reg-names does not seem to be part of the dt-binding.
+> > > > Though now in the vop2-driver I see that the code uses that naming.
+> > > >=20
+> > > > I guess we might want to just go the vop1-way by using numbered
+> > > > platform-resources via a follow-up patch and drop the regnames here?
+> > >=20
+> > > Or we could document the reg-names properties in a follow-up patch.
+> > > Wouldn't that be better?
+> >=20
+> > Also a possibility. Although that of course leads us into the naming
+> > bike-shed ;-) ... i.e. for reg-names I'd do "vop" + "gamme-lut" (dash i=
+nstead
+> > of underscore) - instead of the ones used right now.
+>=20
+> I also like dashes better than underscores and "vop" describes it better
+> than the generic "reg" name, so at least the two of us don't need to
+> dive deeper into the naming bike-shed ;)
 
-Applied to drm-misc-next.
-Cheers,
- -- Guido
+:-D ... one problem solved already
 
-> 
-> Thanks,
-> Liu Ying
-> 
-> > > ---
-> > > v7->v8:
-> > > * Resend with Andrzej's and Jernej's mail addressed updated.
-> > > 
-> > > v6->v7:
-> > > * No change.
-> > > 
-> > > v5->v6:
-> > > * Rebase the series upon v5.17-rc1.
-> > > * Set PHY mode in ->mode_set() instead of ->pre_enable() in the
-> > > nwl-dsi
-> > >   bridge driver due to the rebase.
-> > > * Drop Guido's R-b tag due to the rebase.
-> > > 
-> > > v4->v5:
-> > > * No change.
-> > > 
-> > > v3->v4:
-> > > * No change.
-> > > 
-> > > v2->v3:
-> > > * No change.
-> > > 
-> > > v1->v2:
-> > > * Add Guido's R-b tag.
-> > > 
-> > >  drivers/gpu/drm/bridge/nwl-dsi.c | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c
-> > > b/drivers/gpu/drm/bridge/nwl-dsi.c
-> > > index d5945501a5ee..85bab7372af1 100644
-> > > --- a/drivers/gpu/drm/bridge/nwl-dsi.c
-> > > +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-> > > @@ -666,6 +666,12 @@ static int nwl_dsi_mode_set(struct nwl_dsi
-> > > *dsi)
-> > >  		return ret;
-> > >  	}
-> > >  
-> > > +	ret = phy_set_mode(dsi->phy, PHY_MODE_MIPI_DPHY);
-> > > +	if (ret < 0) {
-> > > +		DRM_DEV_ERROR(dev, "Failed to set DSI phy mode: %d\n",
-> > > ret);
-> > > +		goto uninit_phy;
-> > > +	}
-> > > +
-> > >  	ret = phy_configure(dsi->phy, phy_cfg);
-> > >  	if (ret < 0) {
-> > >  		DRM_DEV_ERROR(dev, "Failed to configure DSI phy: %d\n",
-> > > ret);
-> > 
-> > I can't currently test this but it still looks good so
-> > 
-> > Reviewed-by: Guido Günther <agx@sigxcpu.org>
-> > 
-> > Cheers,
-> >  -- Guido
-> > 
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
+> > While using numbered resources would keep the commonality between
+> > both vops
+>=20
+> I like the named resources better, but I'll leave it up to you. You
+> decide, I'll create fixup patches in either direction.
+
+ok, then let's go with the named-resources. As we'll need an Ack from
+DT-people, we should probably expedite this.
+
+Ideally I guess, do the dt-binding fixup + resend the fixed dt-node patches
+with it. From the original series those dt-nodes + the hdmi rate stuff
+is the only thing missing and the rates can be a separate thing.
+
+Heiko
+
+
