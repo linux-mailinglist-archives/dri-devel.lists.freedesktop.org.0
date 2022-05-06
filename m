@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D685C51D222
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 09:18:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9069B51D226
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 09:21:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA15510FAA4;
-	Fri,  6 May 2022 07:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F7A210FC39;
+	Fri,  6 May 2022 07:21:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8986D10FAA4;
- Fri,  6 May 2022 07:18:52 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51FF111206C;
+ Fri,  6 May 2022 07:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651821532; x=1683357532;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=pOF+ivpPZbAuT3jgGRWiLxwnhzziOYzu373nNDCZQho=;
- b=YEMSA+GOCbcH7LSOQjTNgI+qFKKwJf+29QlZqFu2auxHLTkET6WN2iZs
- lvTiPHXfWYt/MjeqIHTlVQ7zA/W0KBuLEHKZ30iN/v109O8ckGANulYg4
- 7oLNcXIr8zdysBJNqT7umFb7fOLqUhIW4UjnHE0SMLyonMuSLhuN1XZXA
- jqApnJNjzLi81INMiTOheLDnfMEeJYpYBCvAkfUtevifR4YJiLGz6AjbH
- jY9FVr+268m/IejrAzX+V8EpreyNgp9UctP3iPRVhP2U855e0xb3C94vy
- fG6mWSEFXF2oGsDbKD3RJkVPhA14fMvnLn+Zqk8Bx8ttBZgs9TuuuTx7u A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="268274777"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="268274777"
+ t=1651821710; x=1683357710;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=cYSj6PrjOphKcN3GXcEP4KtSYwRg+L3OmOTDpAiB6Do=;
+ b=gdVAplU3toMy78Sm30sdDDI+8/ZFlBFvYi35WGEZ63ZBEQZygOSqKPfH
+ Y0MrBaT03hoyIKomkA+9ncBPIBkWaElZF2eO07eZFbylpASeoRSmf1jWh
+ A90T4dghDLm47uyXSo9HoQB4dUEljzX582UbBDZFVz7rp49nkbp92Zg61
+ Z4V2GHOY+zUKT/7OZTjsl28Fiy0ROTFXgQrBiG8zLUgknUwX83gup1CGu
+ OYWERQFryrcuQXQpOOme+cYryG1Zv3ab9OngAt/TUNAFgLAMX66Aj+P61
+ 69emZqdusKfIjrWZIVFxS1L30UEvhNypMaaj9SoIBZlFeRqz3aLpup2hn Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="293585664"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="293585664"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 00:18:52 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="735450887"
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 00:21:49 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="735452012"
 Received: from tkinch-mobl.ger.corp.intel.com (HELO [10.213.192.122])
  ([10.213.192.122])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 00:18:50 -0700
-Message-ID: <1d15f38e-c3d8-a521-4a15-50341dae5000@linux.intel.com>
-Date: Fri, 6 May 2022 08:18:49 +0100
+ 06 May 2022 00:21:48 -0700
+Message-ID: <8eda8d5c-7f37-aea0-5144-e43eaa8f3d52@linux.intel.com>
+Date: Fri, 6 May 2022 08:21:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Use non-blocking H2G for
- waitboost
+Subject: Re: [Intel-gfx] [PATCH 07/11] drm/i915/pvc: Engines definitions for
+ new copy engines
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220505054010.21879-1-vinay.belgaumkar@intel.com>
- <de063b19-e5f6-342b-d816-c112c446a68f@linux.intel.com>
- <8c8dea74-aa2b-44c1-e1d7-1f613c05bf32@intel.com>
- <032467b7-8794-882a-e45f-6e9d85a716df@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+References: <20220502163417.2635462-1-matthew.d.roper@intel.com>
+ <20220502163417.2635462-8-matthew.d.roper@intel.com>
+ <472e2679-abc5-8881-6f93-f64ec1feb365@linux.intel.com>
+ <YnQ6s5SqV9Dm4wPR@mdroper-desk1.amr.corp.intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <032467b7-8794-882a-e45f-6e9d85a716df@intel.com>
+In-Reply-To: <YnQ6s5SqV9Dm4wPR@mdroper-desk1.amr.corp.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,188 +64,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 05/05/2022 19:36, John Harrison wrote:
-> On 5/5/2022 10:21, Belgaumkar, Vinay wrote:
->> On 5/5/2022 5:13 AM, Tvrtko Ursulin wrote:
->>> On 05/05/2022 06:40, Vinay Belgaumkar wrote:
->>>> SLPC min/max frequency updates require H2G calls. We are seeing
->>>> timeouts when GuC channel is backed up and it is unable to respond
->>>> in a timely fashion causing warnings and affecting CI.
+On 05/05/2022 21:59, Matt Roper wrote:
+> On Tue, May 03, 2022 at 09:05:43AM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 02/05/2022 17:34, Matt Roper wrote:
+>>> This patch adds the basic definitions needed to support
+>>> new copy engines. Also updating the cmd_info to accommodate
+>>> new engines, as the engine id's of legacy engines have been
+>>> changed.
 >>>
->>> Is it the "Unable to force min freq" error? Do you have a link to the 
->>> GitLab issue to add to commit message?
->> We don't have a specific error for this one, but have seen similar 
->> issues with other H2G which are blocking.
+>>> Original-author: CQ Tang
+>>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 56 ++++++++++++++++++++
+>>>    drivers/gpu/drm/i915/gt/intel_engine_types.h | 10 +++-
+>>>    drivers/gpu/drm/i915/gt/intel_gt_regs.h      |  8 +++
+>>>    drivers/gpu/drm/i915/gvt/cmd_parser.c        |  2 +-
+>>>    drivers/gpu/drm/i915/i915_reg.h              |  8 +++
+>>>    5 files changed, 82 insertions(+), 2 deletions(-)
 >>>
->>>> This is seen when waitboosting happens during a stress test.
->>>> this patch updates the waitboost path to use a non-blocking
->>>> H2G call instead, which returns as soon as the message is
->>>> successfully transmitted.
->>>
->>> AFAIU with this approach, when CT channel is congested, you instead 
->>> achieve silent dropping of the waitboost request, right?
->> We are hoping it makes it, but just not waiting for it to complete.
-> We are not 'hoping it makes it'. We know for a fact that it will make 
-> it. We just don't know when. The issue is not about whether the 
-> waitboost request itself gets dropped/lost it is about the ack that 
-> comes back. The GuC will process the message and it will send an ack. 
-> It's just a question of whether the i915 driver has given up waiting for 
-> it yet. And if it has, then you get the initial 'timed out waiting for 
-> ack' followed by a later 'got unexpected ack' message.
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>> index 14c6ddbbfde8..4532c3ea9ace 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>> @@ -71,6 +71,62 @@ static const struct engine_info intel_engines[] = {
+>>>    			{ .graphics_ver = 6, .base = BLT_RING_BASE }
+>>>    		},
+>>>    	},
+>>> +	[BCS1] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 1,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS1_RING_BASE }
+>>> +		},
+>>> +	},
+>>> +	[BCS2] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 2,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS2_RING_BASE }
+>>> +		},
+>>> +	},
+>>> +	[BCS3] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 3,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS3_RING_BASE }
+>>> +		},
+>>> +	},
+>>> +	[BCS4] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 4,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS4_RING_BASE }
+>>> +		},
+>>> +	},
+>>> +	[BCS5] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 5,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS5_RING_BASE }
+>>> +		},
+>>> +	},
+>>> +	[BCS6] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 6,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS6_RING_BASE }
+>>> +		},
+>>> +	},
+>>> +	[BCS7] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 7,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS7_RING_BASE }
+>>> +		},
+>>> +	},
+>>> +	[BCS8] = {
+>>> +		.class = COPY_ENGINE_CLASS,
+>>> +		.instance = 8,
+>>> +		.mmio_bases = {
+>>> +			{ .graphics_ver = 12, .base = XEHPC_BCS8_RING_BASE }
+>>> +		},
+>>> +	},
+>>>    	[VCS0] = {
+>>>    		.class = VIDEO_DECODE_CLASS,
+>>>    		.instance = 0,
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>> index 298f2cc7a879..356c15cdccf0 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>> @@ -35,7 +35,7 @@
+>>>    #define OTHER_CLASS		4
+>>>    #define COMPUTE_CLASS		5
+>>>    #define MAX_ENGINE_CLASS	5
+>>> -#define MAX_ENGINE_INSTANCE	7
+>>> +#define MAX_ENGINE_INSTANCE	8
+>>>    #define I915_MAX_SLICES	3
+>>>    #define I915_MAX_SUBSLICES 8
+>>> @@ -107,6 +107,14 @@ struct i915_ctx_workarounds {
+>>>    enum intel_engine_id {
+>>>    	RCS0 = 0,
+>>>    	BCS0,
+>>> +	BCS1,
+>>> +	BCS2,
+>>> +	BCS3,
+>>> +	BCS4,
+>>> +	BCS5,
+>>> +	BCS6,
+>>> +	BCS7,
+>>> +	BCS8,
+>>
+>> _BCS(n) macro will not be required?
+>>
+>>>    	VCS0,
+>>>    	VCS1,
+>>>    	VCS2,
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>>> index a0a49c16babd..aa2c0974b02c 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+>>> @@ -1476,6 +1476,14 @@
+>>>    #define   GEN11_KCR				(19)
+>>>    #define   GEN11_GTPM				(16)
+>>>    #define   GEN11_BCS				(15)
+>>> +#define   XEHPC_BCS1				(14)
+>>> +#define   XEHPC_BCS2				(13)
+>>> +#define   XEHPC_BCS3				(12)
+>>> +#define   XEHPC_BCS4				(11)
+>>> +#define   XEHPC_BCS5				(10)
+>>> +#define   XEHPC_BCS6				(9)
+>>> +#define   XEHPC_BCS7				(8)
+>>> +#define   XEHPC_BCS8				(23)
+>>>    #define   GEN12_CCS3				(7)
+>>>    #define   GEN12_CCS2				(6)
+>>>    #define   GEN12_CCS1				(5)
+>>> diff --git a/drivers/gpu/drm/i915/gvt/cmd_parser.c b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+>>> index b9eb75a2b400..0ba2a3455d99 100644
+>>> --- a/drivers/gpu/drm/i915/gvt/cmd_parser.c
+>>> +++ b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+>>> @@ -428,7 +428,7 @@ struct cmd_info {
+>>>    #define R_VECS	BIT(VECS0)
+>>>    #define R_ALL (R_RCS | R_VCS | R_BCS | R_VECS)
+>>>    	/* rings that support this cmd: BLT/RCS/VCS/VECS */
+>>> -	u16 rings;
+>>> +	intel_engine_mask_t rings;
+>>
+>> Looks like mask already overflows u16 even without the blitter engines.
+>> (When CCS were added.) Meaning maybe there should be a separate patch to fix
+>> it.
 > 
-> Whereas, if we make the call asynchronous, there is no ack. i915 doesn't 
-> bother waiting and it won't get surprised later.
+> Adding the CCS engines didn't cause a problem because GVT only includes
+> the gen11 set of engines in R_ALL.  Since the CCS engines (and even the
+> higher instances of VCS/VECS introduced by Xe_HP) are never used
+> anywhere in GVT, there's no overflow possible...the highest bit they
+> ever use anywhere is VECS0; before this patch, that was bit(10) and fit
+> within a u16 comfortably.  But since the new BCS engines added by this
+> patch get inserted at lower values within the engine_id enum, the
+> location of VECS0 moves up to bit(18), which falls outside the u16
+> definition and triggers a build failure:
 > 
-> Also, note that this is only an issue when GuC itself is backed up. 
-> Normally that requires the creation/destruction of large numbers of 
-> contexts in rapid succession (context management is about the slowest 
-> thing we do with GuC). Some of the IGTs and selftests do that with 
-> thousands of contexts all at once. Those are generally where we see this 
-> kind of problem. It would be highly unlikely (but not impossible) to hit 
-> it in real world usage.
+> drivers/gpu/drm/i915/gvt/cmd_parser.c:429:15: error: conversion from ‘long unsigned int’ to ‘short unsigned int’ changes value from ‘265219’ to ‘3075’ [-Werror=overflow]
+>    429 | #define R_ALL (R_RCS | R_VCS | R_BCS | R_VECS)
 
-Goto ->
-
-> The general design philosophy of H2G messages is that asynchronous mode 
-> should be used for everything if at all possible. It is fire and forget 
-> and will all get processed in the order sent (same as batch buffer 
-> execution, really). Synchronous messages should only be used when an 
-> ack/status is absolutely required. E.g. start of day initialisation or 
-> things like TLB invalidation where we need to know that a cache has been 
-> cleared/flushed before updating memory from the CPU.
-> 
-> John.
-> 
-> 
->>>
->>> It sounds like a potentially important feedback from the field to 
->>> lose so easily. How about you added drm_notice to the worker when it 
->>> fails?
->>>
->>> Or simply a "one line patch" to replace i915_probe_error (!?) with 
->>> drm_notice and keep the blocking behavior. (I have no idea what is 
->>> the typical time to drain the CT buffer, and so to decide whether 
->>> waiting or dropping makes more sense for effectiveness of waitboosting.)
->>>
->>> Or since the congestion /should not/ happen in production, then the 
->>> argument is why complicate with more code, in which case going with 
->>> one line patch is an easy way forward?
-
-Here. Where I did hint I understood the "should not happen in production 
-angle".
-
-So statement is GuC is congested in processing requests, but the h2g 
-buffer is not congested so no chance intel_guc_send_nb() will fail with 
-no space in that buffer? Sounds a bit un-intuitive.
-
-Anyway, it sounds okay to me to use the non-blocking, but I would like 
-to see some logging if the unexpected does happen. Hence I was 
-suggesting the option of adding drm_notice logging if the send fails 
-from the worker. (Because I think other callers would already propagate 
-the error, like sysfs.)
-
-   err = slpc_force_min_freq(slpc, slpc->boost_freq);
-   if (!err)
-        slpc->num_boosts++;
-   else
-        drm_notice(... "Failed to send waitboost request (%d)", err);
-
-Something like that.
+Well I did not know why GVT does not support CCS, or when it will start 
+supporting it. If that support would happen in a kernel with CCS 
+support, but not this PVC patch then it would need the above hunk. So 
+fundamentally it sounded the hunk belongs to a separate patch. But 
+unless Zhi can comment I guess you are okay to proceed with what you have.
 
 Regards,
 
 Tvrtko
 
-
->> Even if we soften the blow here, the actual timeout error occurs in 
->> the intel_guc_ct.c code, so we cannot hide that error anyways. Making 
->> this call non-blocking will achieve both things.
 >>
->> Thanks,
+>> But good question though is GVT supporting CCS and should it be part of
+>> R_ALL? Or should this patch even be touching GVT since CCS enablement did
+>> not? Adding Zhi to comment.
 >>
->> Vinay.
+>> Regards,
 >>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 38 
->>>> ++++++++++++++++-----
->>>>   1 file changed, 30 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c 
->>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->>>> index 1db833da42df..c852f73cf521 100644
->>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->>>> @@ -98,6 +98,30 @@ static u32 slpc_get_state(struct intel_guc_slpc 
->>>> *slpc)
->>>>       return data->header.global_state;
->>>>   }
->>>>   +static int guc_action_slpc_set_param_nb(struct intel_guc *guc, u8 
->>>> id, u32 value)
->>>> +{
->>>> +    u32 request[] = {
->>>> +        GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
->>>> +        SLPC_EVENT(SLPC_EVENT_PARAMETER_SET, 2),
->>>> +        id,
->>>> +        value,
->>>> +    };
->>>> +    int ret;
->>>> +
->>>> +    ret = intel_guc_send_nb(guc, request, ARRAY_SIZE(request), 0);
->>>> +
->>>> +    return ret > 0 ? -EPROTO : ret;
->>>> +}
->>>> +
->>>> +static int slpc_set_param_nb(struct intel_guc_slpc *slpc, u8 id, 
->>>> u32 value)
->>>> +{
->>>> +    struct intel_guc *guc = slpc_to_guc(slpc);
->>>> +
->>>> +    GEM_BUG_ON(id >= SLPC_MAX_PARAM);
->>>> +
->>>> +    return guc_action_slpc_set_param_nb(guc, id, value);
->>>> +}
->>>> +
->>>>   static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, 
->>>> u32 value)
->>>>   {
->>>>       u32 request[] = {
->>>> @@ -208,12 +232,10 @@ static int slpc_force_min_freq(struct 
->>>> intel_guc_slpc *slpc, u32 freq)
->>>>        */
->>>>         with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
->>>> -        ret = slpc_set_param(slpc,
->>>> - SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
->>>> -                     freq);
->>>> -        if (ret)
->>>> -            i915_probe_error(i915, "Unable to force min freq to %u: 
->>>> %d",
->>>> -                     freq, ret);
->>>> +        /* Non-blocking request will avoid stalls */
->>>> +        ret = slpc_set_param_nb(slpc,
->>>> + SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
->>>> +                    freq);
->>>>       }
->>>>         return ret;
->>>> @@ -231,8 +253,8 @@ static void slpc_boost_work(struct work_struct 
->>>> *work)
->>>>        */
->>>>       mutex_lock(&slpc->lock);
->>>>       if (atomic_read(&slpc->num_waiters)) {
->>>> -        slpc_force_min_freq(slpc, slpc->boost_freq);
->>>> -        slpc->num_boosts++;
->>>> +        if (!slpc_force_min_freq(slpc, slpc->boost_freq))
->>>> +            slpc->num_boosts++;
->>>>       }
->>>>       mutex_unlock(&slpc->lock);
->>>>   }
+>> Tvrtko
+>>
+>>>    	/* devices that support this cmd: SNB/IVB/HSW/... */
+>>>    	u16 devices;
+>>> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+>>> index 4a3d7b96ef43..ab64ab4317b3 100644
+>>> --- a/drivers/gpu/drm/i915/i915_reg.h
+>>> +++ b/drivers/gpu/drm/i915/i915_reg.h
+>>> @@ -976,6 +976,14 @@
+>>>    #define GEN12_COMPUTE2_RING_BASE	0x1e000
+>>>    #define GEN12_COMPUTE3_RING_BASE	0x26000
+>>>    #define BLT_RING_BASE		0x22000
+>>> +#define XEHPC_BCS1_RING_BASE	0x3e0000
+>>> +#define XEHPC_BCS2_RING_BASE	0x3e2000
+>>> +#define XEHPC_BCS3_RING_BASE	0x3e4000
+>>> +#define XEHPC_BCS4_RING_BASE	0x3e6000
+>>> +#define XEHPC_BCS5_RING_BASE	0x3e8000
+>>> +#define XEHPC_BCS6_RING_BASE	0x3ea000
+>>> +#define XEHPC_BCS7_RING_BASE	0x3ec000
+>>> +#define XEHPC_BCS8_RING_BASE	0x3ee000
+>>>    #define DG1_GSC_HECI1_BASE	0x00258000
+>>>    #define DG1_GSC_HECI2_BASE	0x00259000
+>>>    #define DG2_GSC_HECI1_BASE	0x00373000
 > 
