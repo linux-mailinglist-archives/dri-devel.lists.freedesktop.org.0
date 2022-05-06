@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7656B51D690
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 13:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E30551D6C9
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 13:36:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5E8112110;
-	Fri,  6 May 2022 11:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A056010E4EC;
+	Fri,  6 May 2022 11:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E73311210E
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 11:22:04 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id d25so5994518pfo.10
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 04:22:04 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7F610E4EC
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 11:36:46 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id bu29so12146683lfb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 04:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QzcULi/NEqbiq1KZArjdeAAEvQ1r8nGAdFnTPkHvJCk=;
- b=ubvSKp2j/nBF7QMFlpnNddBMuL4Ti/91Iq/ANnrM6O+RwKiwiOmjptsRCCVKWb/pSK
- 0P7FpRJQ7jcPnKPI4ipxwLWvoQ9HGZ0ab0G6sCo2vK0UQXzHJ70J/R2Rpgt55mzqPKVf
- B9kf5VHFjTBz+GeCXYZMV2ZNOrHoTArjO+0oX0jF4fPgPS0Ptqc7SMbCzJIyL8SVSX66
- zRVGcZdOzfw9NxEylEh9I4bIgehE2Sl7EtudZhXF+sa6MVho54b6HvK6VPNkZ7JPR1y+
- 5hWAl1wmuXXgulEuuxdOzbkGlb/FsbFuNtizKHQWXfRI7Jaqo0q4crImrFOkNQqfsYm0
- 2GTg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=XafsDV8I0xHrzVkv4lSdRDTo5FGQ0l18EsU91PxSrTY=;
+ b=R/9u2E/dM6T5z3Ufuk0pILf/XaQE12+vA3CHOQMvtmD7vacSqg6PRji9NzlXeQig7d
+ MAkwEe8dhqsZ4NX4tfVcYsHhKtMwK/lqOTRA2onnjz9V1JqsDYITp8IpBvEM3+agWg0V
+ ddqJltjhy6S6IrcSB70mYwPw3jDWq3Zr5xETNZohTeU4TAnCezQuUHu4ZGwcjSnarNxY
+ y4/2AYaGddX/+OYwOvZwRX7jcM4LOkLhcUcHp8mt5E6xarP123G+WCS7y4tnAcYpgsfo
+ Epf5pyLfMyFAebYW25CET/ldtijPYr9BX5TxXQ8az+pRZuBS6RSvBctVfMaLD/hiLjdO
+ 1uyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QzcULi/NEqbiq1KZArjdeAAEvQ1r8nGAdFnTPkHvJCk=;
- b=pawgXjYTVK5U1tzF7uNUmxDjFZpXQkRpnBjfgmEKgrmbtepsMLNJIEWvacfyb/Rsnz
- xkl0MckG+UWdCtNdzhEExyO6KmehVHw3UAVGOnAb2J9tVrBqOKEkd5ZgmnqAPNYq3Hs/
- xnpt17NZCYKQ+QzNHgTagH+nfgumQCb1kX2mLVZp67iqkTLVpYB9OfnnXtRJrYxhTLgi
- QMmeRkJF1813FW1BrKP4L+xpHA/nx5zayJGDS/Hj0wWaLS2/0KKYUFXZefqi+rKq00RT
- wI51ju5dUMSWTDsZDgVxU24dbGgfDwIcESEcOBbapqRsrfzjVt1JEfh/r4uDp3NTsx6/
- Z/WQ==
-X-Gm-Message-State: AOAM531/utnlyk4jJuG3YbEa7h+HaSuPz2ObTT1M19fKx/CieCc2xjXW
- KjcVxNU0vdPbgGk15K3REetegBBAFJc8RGvfS9+OT0n8AmI=
-X-Google-Smtp-Source: ABdhPJxViGPU/wM/TPfR8O6YJ6fZB1sR3gBTzkfEeuZcRh9eJ3J968t5HKPbYeVQKhGbB3eqCTtgUiD+Z1oOg9JjsqI=
-X-Received: by 2002:a05:6a00:174a:b0:50d:44ca:4b with SMTP id
- j10-20020a056a00174a00b0050d44ca004bmr3115682pfc.0.1651836123935; Fri, 06 May
- 2022 04:22:03 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XafsDV8I0xHrzVkv4lSdRDTo5FGQ0l18EsU91PxSrTY=;
+ b=gMp/m2W/4PcAvlg3DkbP3LX7ii4YtFB8qSy0rrbi4XQ0ShDZUv33OaZDg+z3eCW/28
+ TchrWsypdXD9sOjtJB3KrndOgcgmHg4ow6i1C7+jN9TxPgFpbkFYUAwZrDI8acPY+ow4
+ NWqcHrEGm3pXwaipFf2s4SHDNetqJsFy9Ste6VzHhAGimam+vhJmPp0OY4qaBgW+iMqD
+ d1f9kfItumC99j4T8YKIqJyfO94/EuPrDAXcqxDl+iJwnhi4vLCz4HLomGH7gj2VDwqu
+ 4a+Zepql/3u1/DtlcUwQMJSpuKa1YKVXdIEkCqhxJ05qgoPPQ35i5gl82ZyoMjkWl1DN
+ 0PVg==
+X-Gm-Message-State: AOAM532EArOKzzGjjjUkNo1MUbrdJcZ+iEPbDrfs78Pi7pqky8ybIsUB
+ r2tUI+xDLrPa6AilcnQO21K2Vg==
+X-Google-Smtp-Source: ABdhPJxADU+mLvDMm3zIaM1F95WrlOimpTGlSy6aaEIi5buS5/Jd61rBVItq1CRnPCHmI8zY3L0ySA==
+X-Received: by 2002:ac2:530c:0:b0:471:fa37:1123 with SMTP id
+ c12-20020ac2530c000000b00471fa371123mr2255207lfh.397.1651837004835; 
+ Fri, 06 May 2022 04:36:44 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ q17-20020a05651c055100b0024f3d1daebesm603620ljp.70.2022.05.06.04.36.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 May 2022 04:36:44 -0700 (PDT)
+Message-ID: <dbe452b1-7f6a-141c-5fe3-bd889c62abc7@linaro.org>
+Date: Fri, 6 May 2022 14:36:43 +0300
 MIME-Version: 1.0
-References: <20220426193645.244792-1-marex@denx.de>
- <YnB3008DXAVoUK7j@robh.at.kernel.org>
- <6a079a60-f6b6-f432-b9c2-0444ab5ecd09@denx.de>
-In-Reply-To: <6a079a60-f6b6-f432-b9c2-0444ab5ecd09@denx.de>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 6 May 2022 13:21:53 +0200
-Message-ID: <CAG3jFyvdANjKd-0cMz+srgkeYt16wOdOKiF-6m4W5kk2=1Mn8Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement
- simple Freescale i.MX8MP LDB bridge
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH -next] drm/msm: Add missing OF dependency for DRM_MSM
+Content-Language: en-GB
+To: YueHaibing <yuehaibing@huawei.com>, robdclark@gmail.com, sean@poorly.run, 
+ quic_abhinavk@quicinc.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20220506020300.20704-1-yuehaibing@huawei.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220506020300.20704-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,30 +74,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Robby Cai <robby.cai@nxp.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> >> +description: |
-> >> +  The i.MX8MP mediamix contains two registers which are responsible
-> >> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
-> >> +  those registers as bridge within the DT.
-> >
-> > This is a subblock of the mediamix? Please add 'reg' for the 2 registers
-> > even if you use a regmap.
->
-> I submitted a patch:
-> [PATCH] dt-bindings: display: bridge: ldb: Fill in reg property
+On 06/05/2022 05:03, YueHaibing wrote:
+> WARNING: unmet direct dependencies detected for DRM_DP_AUX_BUS
+>    Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && OF [=n]
+>    Selected by [y]:
+>    - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=y] || QCOM_LLCC [=y]=n) && (QCOM_COMMAND_DB [=n] || QCOM_COMMAND_DB [=n]=n)
+> 
+> DRM_DP_AUX_BUS depends on OF, so DRM_MSM also should depends on it.
 
-Would you like me to apply this, or do you want to revert all of the above?
+I think the proper fix would be to make DRM_DP_AUX_BUS depend on OF || 
+COMPILE_TEST rather than just OF
 
->
-> > I didn't find a binding for mediamix. You really need the containing
-> > block binding before a child node.
->
-> Right, I'm tempted to send a revert outright and wait for the mediamix
-> bindings to hit upstream.
+> 
+> Fixes: f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus support")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>   drivers/gpu/drm/msm/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index 4e0cbd682725..1d710a20ffdd 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -3,6 +3,7 @@
+>   config DRM_MSM
+>   	tristate "MSM DRM"
+>   	depends on DRM
+> +	depends on OF
+>   	depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
+>   	depends on COMMON_CLK
+>   	depends on IOMMU_SUPPORT
+
+
+-- 
+With best wishes
+Dmitry
