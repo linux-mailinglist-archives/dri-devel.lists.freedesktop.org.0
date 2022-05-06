@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8532551DE5F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 19:32:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48C551DE74
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 19:47:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BF410E4A7;
-	Fri,  6 May 2022 17:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40A110ECB5;
+	Fri,  6 May 2022 17:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9732D10E4A7;
- Fri,  6 May 2022 17:32:20 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD8210ECB5;
+ Fri,  6 May 2022 17:47:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651858340; x=1683394340;
+ t=1651859255; x=1683395255;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=m8EOqNvsES35UBh/vrodJjNLINpoOh1QTx4IeCzgkbE=;
- b=VCJTqWiELwPps/FZyZGkeCG5lVSme33HNCWQOFmvXe3oOINF3jrtBK3+
- z84MCHqzU7VjfUXFwKq3M/QOLUE3Y0D3cr5tEN0gSljTB5kISvBf2/FKB
- gYCEYqFifsAShjkYpztpzp5cRi2xkyw+4rBl0fozIt2FbP4rJ4y03S1Ri
- CVtqRUVV+YjxWDef/SnzCqGUghOrQTgo55W86PgP5zZLMugnVhEjb+VcW
- JNk8SqOS8FNp678zT+Qm8iDU9cbG8ZnQF3ETPZPSY7GbTqr7JypoxH17I
- 2kKFF5UoHgQG2RBqK+OIuQWlBiG9/eqGxvpeATIzj71gcK3CfHOlzOYJC w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="354963056"
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="354963056"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 10:32:19 -0700
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="563945677"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 10:32:19 -0700
-Date: Fri, 6 May 2022 10:32:17 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH v2 05/12] drm/i915/pvc: Remove additional 3D flags from
- PIPE_CONTROL
-Message-ID: <YnVboWSSKOmJXUyT@mdroper-desk1.amr.corp.intel.com>
-References: <20220505213812.3979301-1-matthew.d.roper@intel.com>
- <20220505213812.3979301-6-matthew.d.roper@intel.com>
- <20220506172341.66a6d6wce6wyllg2@ldmartin-desk2>
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=yZ+ZeWZSoYpxWfy+n+R1ST5qrKJkKuxZi2UPS5v2Lbk=;
+ b=mo7sJ/X01ZZdqrPuqiBZ8ZtwCI1j6SlhlhJ4nxSNxp/+v8FijuBalIV3
+ euIh2UDSkL3BGbA6jlbdV/HaGEFyPOt0QNQbDFrKaFYH00SFstCJ+UrSJ
+ gPuUjjqCy8MCAPYZPAIXExL2Npk4kw/5FvfXklfi807LhHsFdHlm96NxR
+ MiRs9qCperncjTGp/FcNV1/pbKXdN0Sh6knRd09TBgbZcdheznkcz79gU
+ jPmi8X60ambLjMndR8ll0uhNrAdkI3xz87T0bkVqPJF8sOZla9C/Mmjig
+ YR5NZqDBTsqIeyzGB9tWLvkxjUA7ZzQ2/Z+9gX0xm23O56KkNYgFaTful A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="249065964"
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="249065964"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 10:47:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="586115496"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by orsmga008.jf.intel.com with SMTP; 06 May 2022 10:47:29 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 06 May 2022 20:47:28 +0300
+Date: Fri, 6 May 2022 20:47:28 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 01/25] drm/edid: use else-if in CTA extension parsing
+Message-ID: <YnVfMDbYy/m9yFzj@intel.com>
+References: <cover.1651830938.git.jani.nikula@intel.com>
+ <569616c0e79b981092b5ff37f905b6fdc19b231b.1651830938.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220506172341.66a6d6wce6wyllg2@ldmartin-desk2>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <569616c0e79b981092b5ff37f905b6fdc19b231b.1651830938.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,186 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Summers <stuart.summers@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 06, 2022 at 10:23:41AM -0700, Lucas De Marchi wrote:
-> On Thu, May 05, 2022 at 02:38:05PM -0700, Matt Roper wrote:
-> > From: Stuart Summers <stuart.summers@intel.com>
-> > 
-> > Although we already strip 3D-specific flags from PIPE_CONTROL
-> > instructions when submitting to a compute engine, there are some
-> > additional flags that need to be removed when the platform as a whole
-> > lacks a 3D pipeline.  Add those restrictions here.
-> > 
-> > Bspec: 47112
-> > Signed-off-by: Stuart Summers <stuart.summers@intel.com>
-> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> > ---
-> > drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 18 ++++++++++++------
-> > drivers/gpu/drm/i915/gt/intel_gpu_commands.h | 12 ++++++++++--
-> > drivers/gpu/drm/i915/i915_drv.h              |  2 ++
-> > drivers/gpu/drm/i915/i915_pci.c              |  3 ++-
-> > drivers/gpu/drm/i915/intel_device_info.h     |  3 ++-
-> > 5 files changed, 28 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > index 3e13960615bd..11c72792573d 100644
-> > --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > @@ -197,8 +197,10 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
-> > 
-> > 		flags |= PIPE_CONTROL_CS_STALL;
-> > 
-> > -		if (engine->class == COMPUTE_CLASS)
-> > -			flags &= ~PIPE_CONTROL_3D_FLAGS;
-> > +		if (LACKS_3D_PIPELINE(engine->i915))
-> > +			flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
-> > +		else if (engine->class == COMPUTE_CLASS)
-> > +			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
-> > 
-> > 		cs = intel_ring_begin(rq, 6);
-> > 		if (IS_ERR(cs))
-> > @@ -227,8 +229,10 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
-> > 
-> > 		flags |= PIPE_CONTROL_CS_STALL;
-> > 
-> > -		if (engine->class == COMPUTE_CLASS)
-> > -			flags &= ~PIPE_CONTROL_3D_FLAGS;
-> > +		if (LACKS_3D_PIPELINE(engine->i915))
-> > +			flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
-> > +		else if (engine->class == COMPUTE_CLASS)
-> > +			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
-> > 
-> > 		if (!HAS_FLAT_CCS(rq->engine->i915))
-> > 			count = 8 + 4;
-> > @@ -716,8 +720,10 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
-> > 		/* Wa_1409600907 */
-> > 		flags |= PIPE_CONTROL_DEPTH_STALL;
-> > 
-> > -	if (rq->engine->class == COMPUTE_CLASS)
-> > -		flags &= ~PIPE_CONTROL_3D_FLAGS;
-> > +	if (LACKS_3D_PIPELINE(rq->engine->i915))
-> > +		flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
-> > +	else if (rq->engine->class == COMPUTE_CLASS)
-> > +		flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
-> > 
-> > 	cs = gen12_emit_ggtt_write_rcs(cs,
-> > 				       rq->fence.seqno,
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> > index 556bca3be804..900755f4b787 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> > @@ -288,8 +288,8 @@
-> > #define   PIPE_CONTROL_DEPTH_CACHE_FLUSH		(1<<0)
-> > #define   PIPE_CONTROL_GLOBAL_GTT (1<<2) /* in addr dword */
-> > 
-> > -/* 3D-related flags can't be set on compute engine */
-> > -#define PIPE_CONTROL_3D_FLAGS (\
-> > +/* 3D-related flags that can't be set on _engines_ that lack a 3D pipeline */
-> > +#define PIPE_CONTROL_3D_ENGINE_FLAGS (\
-> > 		PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH | \
-> > 		PIPE_CONTROL_DEPTH_CACHE_FLUSH | \
-> > 		PIPE_CONTROL_TILE_CACHE_FLUSH | \
-> > @@ -300,6 +300,14 @@
-> > 		PIPE_CONTROL_VF_CACHE_INVALIDATE | \
-> > 		PIPE_CONTROL_GLOBAL_SNAPSHOT_RESET)
-> > 
-> > +/* 3D-related flags that can't be set on _platforms_ that lack a 3D pipeline */
-> > +#define PIPE_CONTROL_3D_ARCH_FLAGS ( \
+On Fri, May 06, 2022 at 01:10:08PM +0300, Jani Nikula wrote:
+> Only one of the conditions can be true.
 > 
-> names and comments here I think are confusing. In the code we do:
-> 
-> 		if (LACKS_3D_PIPELINE(engine->i915))
-> 			flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
-> 		else if (engine->class == COMPUTE_CLASS)
-> 			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
-> 
-> coments give the _engines_ that lack a 3D pipeline doens't seem accurate
-> as bcs, vcs, vecs also lack a 3d pipeline. Maybe be explicit about the
-> flags being set on compute engine: PIPE_CONTROL_COMPUTE_ENGINE_FLAGS
-> 
-> And LACKS_3D_PIPELINE... may be better to invert the condition to follow
-> the other macros: HAS_3D_PIPELINE.
-> 
-> > +		PIPE_CONTROL_3D_ENGINE_FLAGS | \
-> > +		PIPE_CONTROL_INDIRECT_STATE_DISABLE | \
-> > +		PIPE_CONTROL_FLUSH_ENABLE | \
-> > +		PIPE_CONTROL_TEXTURE_CACHE_INVALIDATE | \
-> > +		PIPE_CONTROL_DC_FLUSH_ENABLE)
-> > +
-> > #define MI_MATH(x)			MI_INSTR(0x1a, (x) - 1)
-> > #define MI_MATH_INSTR(opcode, op1, op2) ((opcode) << 20 | (op1) << 10 | (op2))
-> > /* Opcodes for MI_MATH_INSTR */
-> > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> > index b389674b5210..1e153cefc92e 100644
-> > --- a/drivers/gpu/drm/i915/i915_drv.h
-> > +++ b/drivers/gpu/drm/i915/i915_drv.h
-> > @@ -1403,6 +1403,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
-> > 
-> > #define HAS_MBUS_JOINING(i915) (IS_ALDERLAKE_P(i915))
-> > 
-> > +#define LACKS_3D_PIPELINE(i915)	(INTEL_INFO(i915)->lacks_3d_pipeline)
-> > +
-> > /* i915_gem.c */
-> > void i915_gem_init_early(struct drm_i915_private *dev_priv);
-> > void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> > index 07722cdf63ac..14e0e8225324 100644
-> > --- a/drivers/gpu/drm/i915/i915_pci.c
-> > +++ b/drivers/gpu/drm/i915/i915_pci.c
-> > @@ -1077,7 +1077,8 @@ static const struct intel_device_info ats_m_info = {
-> > #define XE_HPC_FEATURES \
-> > 	XE_HP_FEATURES, \
-> > 	.dma_mask_size = 52, \
-> > -	.has_l3_ccs_read = 1
-> > +	.has_l3_ccs_read = 1, \
-> > +	.lacks_3d_pipeline = 1
-> 
-> isn't the absence of RCS sufficient so this could be done only in the
-> macro rather than adding a flag here?
+> Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-No, lacking an RCS is different than lacking a 3D pipeline.  That's the
-main point of this patch.  Platforms like XEHPSDV don't have an RCS
-engine (although it looks like we're still missing the patch that
-removes it from the engine list...I need to send that) but
-architecturally still have bits of a vestigial 3D pipeline somewhere
-under the hood.  Xe_HPC truly doesn't have the pipeline at all so the
-rules are different, even for the CCS engines that wouldn't do 3D
-anyway.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-
-Matt
-
+> ---
+>  drivers/gpu/drm/drm_edid.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> Lucas De Marchi
-> 
-> > 
-> > __maybe_unused
-> > static const struct intel_device_info pvc_info = {
-> > diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-> > index 09e33296157a..972084676984 100644
-> > --- a/drivers/gpu/drm/i915/intel_device_info.h
-> > +++ b/drivers/gpu/drm/i915/intel_device_info.h
-> > @@ -165,7 +165,8 @@ enum intel_ppgtt_type {
-> > 	func(has_snoop); \
-> > 	func(has_coherent_ggtt); \
-> > 	func(unfenced_needs_alignment); \
-> > -	func(hws_needs_physical);
-> > +	func(hws_needs_physical); \
-> > +	func(lacks_3d_pipeline);
-> > 
-> > #define DEV_INFO_DISPLAY_FOR_EACH_FLAG(func) \
-> > 	/* Keep in alphabetical order */ \
-> > -- 
-> > 2.35.1
-> > 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 47d121e99201..efc1999b9573 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -5473,16 +5473,16 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+>  
+>  		if (cea_db_is_hdmi_vsdb(db))
+>  			drm_parse_hdmi_vsdb_video(connector, data);
+> -		if (cea_db_is_hdmi_forum_vsdb(db) ||
+> -		    cea_db_is_hdmi_forum_scdb(db))
+> +		else if (cea_db_is_hdmi_forum_vsdb(db) ||
+> +			 cea_db_is_hdmi_forum_scdb(db))
+>  			drm_parse_hdmi_forum_scds(connector, data);
+> -		if (cea_db_is_microsoft_vsdb(db))
+> +		else if (cea_db_is_microsoft_vsdb(db))
+>  			drm_parse_microsoft_vsdb(connector, data);
+> -		if (cea_db_is_y420cmdb(db))
+> +		else if (cea_db_is_y420cmdb(db))
+>  			drm_parse_y420cmdb_bitmap(connector, data);
+> -		if (cea_db_is_vcdb(db))
+> +		else if (cea_db_is_vcdb(db))
+>  			drm_parse_vcdb(connector, data);
+> -		if (cea_db_is_hdmi_hdr_metadata_block(db))
+> +		else if (cea_db_is_hdmi_hdr_metadata_block(db))
+>  			drm_parse_hdr_metadata_block(connector, data);
+>  	}
+>  	cea_db_iter_end(&iter);
+> -- 
+> 2.30.2
 
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Ville Syrjälä
+Intel
