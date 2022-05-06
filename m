@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5111251CFF9
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 06:07:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC2251D0DB
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 07:42:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E08210FC78;
-	Fri,  6 May 2022 04:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401B211203A;
+	Fri,  6 May 2022 05:42:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B08A10FC78
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 04:07:33 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id k27so7330166edk.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 May 2022 21:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=cLcttw2920SMZ2n3SvaPxUs5yeqm04dyc2xN9TwYgGg=;
- b=H0rUhC/o61g+LPERuMJDEwuzobWN7hEXMEAVbqwLU4GgZXPU4LVCQOQi+4GEah1j+Z
- PkzTBpYrAdApKrKW1U8j7bVri8W2sY2DAsBEHHFFmj89FB5ICYNuCn0GXYpeuoxDmlZ0
- u0emupYpj0g5LSKXIsbZ5LII/5KSKEW2nXlenDvUT+HFuGVuSRu8dGvicLCC1hXofx65
- gh051ykeIndWqX3fhshCr/aM5gFpclqai00hmokkPAKHic3iycx2Z+vJuzdAuDVgWUFn
- MgV60H62Zjy9WRcEoVIpwzX/FmB5Hz3tA5+Kql1s2rQa1FP5sXTFgPJveJOlo36oicuE
- uL3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=cLcttw2920SMZ2n3SvaPxUs5yeqm04dyc2xN9TwYgGg=;
- b=n+EbPZV6QCT8NvcorgkQJu0smcSA/1XF/iNaeEV7a78UugwcXS7RM8vobKncBEEKAX
- 03clse+wQZFlXsyFUFGJrpawsR2F/6VBQBJ3VzeZ1fmPfYho86misIDWYyOglCbG/vn5
- FYLOlJIYqhCTKIeHQBqzPoTuQ74Rg8uwob3ZOzntDzNw1d+pGS1vDQLXhr7Eb5ReVX3k
- PTz4AWkVok9DCOq+vsy2cWRIl17W/lBXsgNh2UreaSkq1w2h/KmwBPn2Vsqlta5EgAOT
- +k8Mont6L2kILPaFjEBKh+DUJ3Ly1i67x57RxcGEp8etV9i9wbK370hgThA/DRVByKHt
- uAJg==
-X-Gm-Message-State: AOAM532EwvWAMft7sPtx/kP+pF9pEQgwaoj37nsMIneQl/NL0fYywmLY
- w6H/rkFFW25CPTSPt3m2ky7cnqVy2PJdJfbAcBI=
-X-Google-Smtp-Source: ABdhPJwFg74w+azIwCGOdyFimmGh1zS5rojdBALGCLHvuKbQPhMvOvqk0h/4nvErkuD3/hrSDWlOAhxQxnRUd2jxy5o=
-X-Received: by 2002:aa7:dd91:0:b0:427:b2c4:1c7a with SMTP id
- g17-20020aa7dd91000000b00427b2c41c7amr1540787edv.91.1651810051855; Thu, 05
- May 2022 21:07:31 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA464112039;
+ Fri,  6 May 2022 05:42:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651815721; x=1683351721;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XccIIwTVEOz2EECvLGBZZyWb+J86Im3pab25N6U5lqM=;
+ b=AxRSqUqpcUNrYF4H2DcjVxYHtvkit4IaxG/XSL1BMxeUh+jkZ2dpAKkz
+ tiWn5bgHT0EwGKxGGjKp+LbDki8zHNMu+3j+5/AGWs6jzcQ+HpJRriJ7J
+ yqEjIJWMAWgppX8mgJ3+CRa8uC1fRrwDT4Hl/S+WXfZ+GXMrBvRrsx+zd
+ cOvgBrmQfALBp5hQmdmGlmcPvWwnU9P/D8NNESBMbCMZKaW5xPE5yDu3q
+ 6A5lD8Kvuum7F3kSWEru7Nuld41bRA6Gb7cgDXn3ozh71yV6djHYVzQao
+ pyEHJYdn5fZgyuqIkwAoFlbLIJFWkxWJXch8LZrup43EEaIDg0Nme98EA A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="248894437"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="248894437"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2022 22:42:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="568947760"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by fmsmga007.fm.intel.com with ESMTP; 05 May 2022 22:42:01 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/guc/rc: Use i915_probe_error instead of drm_error
+Date: Thu,  5 May 2022 22:41:42 -0700
+Message-Id: <20220506054142.5025-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 6 May 2022 14:07:20 +1000
-Message-ID: <CAPM=9tyaQ8RSYwuh4muEefV3fbjio5gVvYipWVaKjqUycRkS+A@mail.gmail.com>
-Subject: 
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,97 +54,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+To avoid false positives in error injection cases.
 
-pretty quiet week, one fbdev, msm, kconfig, and 2 amdgpu fixes, about
-what I'd expect for rc6.
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Regards,
-Dave.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+index e00661fb0853..8f8dd05835c5 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+@@ -49,7 +49,6 @@ static int guc_action_control_gucrc(struct intel_guc *guc, bool enable)
+ static int __guc_rc_control(struct intel_guc *guc, bool enable)
+ {
+ 	struct intel_gt *gt = guc_to_gt(guc);
+-	struct drm_device *drm = &guc_to_gt(guc)->i915->drm;
+ 	int ret;
+ 
+ 	if (!intel_uc_uses_guc_rc(&gt->uc))
+@@ -60,8 +59,8 @@ static int __guc_rc_control(struct intel_guc *guc, bool enable)
+ 
+ 	ret = guc_action_control_gucrc(guc, enable);
+ 	if (ret) {
+-		drm_err(drm, "Failed to %s GuC RC (%pe)\n",
+-			str_enable_disable(enable), ERR_PTR(ret));
++		i915_probe_error(guc_to_gt(guc)->i915, "Failed to %s GuC RC (%pe)\n",
++				 str_enable_disable(enable), ERR_PTR(ret));
+ 		return ret;
+ 	}
+ 
+-- 
+2.35.1
 
-drm-fixes-2022-05-06:
-drm fixes for 5.18-rc6
-
-fbdev:
-- hotunplugging fix
-
-amdgpu:
-- Fix a xen dom0 regression on APUs
-- Fix a potential array overflow if a receiver were to
-  send an erroneous audio channel count
-
-msm:
-- lockdep fix.
-
-it6505:
-- kconfig fix
-The following changes since commit 672c0c5173427e6b3e2a9bbb7be51ceeec78093a=
-:
-
-  Linux 5.18-rc5 (2022-05-01 13:57:58 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-05-06
-
-for you to fetch changes up to 5727375215b0915f28806c337a7ba9835efd340b:
-
-  Merge tag 'drm-msm-fixes-2022-04-30' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes (2022-05-06
-11:22:03 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.18-rc6
-
-fbdev:
-- hotunplugging fix
-
-amdgpu:
-- Fix a xen dom0 regression on APUs
-- Fix a potential array overflow if a receiver were to
-  send an erroneous audio channel count
-
-msm:
-- lockdep fix.
-
-it6505:
-- kconfig fix
-
-----------------------------------------------------------------
-Dave Airlie (3):
-      Merge tag 'amd-drm-fixes-5.18-2022-05-04' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2022-05-05' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-msm-fixes-2022-04-30' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-
-Fabien Parent (1):
-      drm/bridge: ite-it6505: add missing Kconfig option select
-
-Harry Wentland (1):
-      drm/amd/display: Avoid reading audio pattern past AUDIO_CHANNELS_COUN=
-T
-
-Javier Martinez Canillas (1):
-      fbdev: Make fb_release() return -ENODEV if fbdev was unregistered
-
-Kuogee Hsieh (1):
-      drm/msm/dp: remove fail safe mode related code
-
-Marek Marczykowski-G=C3=B3recki (1):
-      drm/amdgpu: do not use passthrough mode in Xen dom0
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c         |  4 +++-
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c |  2 +-
- drivers/gpu/drm/bridge/Kconfig                   |  1 +
- drivers/gpu/drm/msm/dp/dp_display.c              |  6 ------
- drivers/gpu/drm/msm/dp/dp_panel.c                | 11 -----------
- drivers/gpu/drm/msm/dp/dp_panel.h                |  1 -
- drivers/video/fbdev/core/fbmem.c                 |  5 ++++-
- 7 files changed, 9 insertions(+), 21 deletions(-)
