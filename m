@@ -1,71 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B8D51E000
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 22:14:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A03EA51E049
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 22:49:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8126410E30D;
-	Fri,  6 May 2022 20:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CEE010EC91;
+	Fri,  6 May 2022 20:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1BD810E30D
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 20:14:12 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id w1so14360459lfa.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 13:14:12 -0700 (PDT)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E04510EC91
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 20:49:19 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id b32so2349729ljf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 13:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=huY0RdPJ3s6Frosuyg21lQiWCdcQbrs35322C4ajgKw=;
- b=bgXlwelKT4gyjvZu8P6G8/eNeCy9uK5vbJ3f2/7sdtjcosqp2wryzgwNZQXD5RYBFU
- bdonf7zP3YvQXsxapTOCpavc+pduZ8JiD2diPNJmVJKduzkQjhEaoURLN9Uyy7gnfGvc
- 4zdxIWMuNglpO3j5ZXV9vPF2+z8QJstjf9qy/4skX9pVMvWBEN78bzSt+gqxIl2fhXzD
- jM9U9j2EtTZO9xOQlw653TsoilYUbVig0LS5VrVIFM3c4LUERshAKxWihWT5YbSIJipG
- fULYp7D29LgayFYiwItwGaTD1KS8XdYCtXSQdh3GLcvoy/cD7rZq23x35qwYCCv3T6sI
- yhLw==
+ bh=eIOb1Q+lHNkihcNb/7UUQkFDyn6SUqG90dV9S8f3vpg=;
+ b=u/lpdWJkKUykq1+n2kaOH+z8UPCji25LiABywyfVN8OEHGGHZz/XJPH5+SxpISZ5xs
+ EHzsgzXW8C+2t9ikNxTR1Sz2E+YM4B6Oz8CcA23AC0vnPBttnJfygKYxnjh9dB8PL2no
+ zhZs4fgdkwxT7P0LO4l0rk6kM/9CvgDw+GiH5Vst0aSd8uxyfelGBrHW6GoC1S3Ace2Y
+ C8blCHzU9uL0a6jrL2jkDucGdiZqVMfCjSYiMXlFrnB/tJibKKDUXYat2sOlbeUKhkFO
+ WvIybpRl/IR+9YdtIw10RodQwW31ECZDczHt92Al4LCwBrjyPpNSBjK+Fh/vzyDUsKC9
+ s3Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=huY0RdPJ3s6Frosuyg21lQiWCdcQbrs35322C4ajgKw=;
- b=dP/UqF9r9BJ/ZJv3cYP3yE/E1S2NlOKT1ofoddw0sTgnLq12QxCnuPYrrpTlJMagpv
- io0yE2JzWtrfc9oWn13L6ZR2Cg076EP076zxrxGA+8IobC48l7s33cVtwZBefJOqAiYU
- /0eVfWNTXWa6E92qez2P5TdT1GMi3Itr+TP6NaflOz9AZkxagwLTWYQI0D3Tf/UFbN4y
- 2RRFvp9ARJmWpRWfvSm7XSwnk8EQCSWYB2ha9w7NJeJHeU16HeSbIl/g2mpBC1TA2sts
- j4WM4HEzmIGBdPBk7ffMwMJGSZdn8yfxaoYZ0Vw6/nG6FXGkOO8qbwOvVnyCMX1moNar
- dKoA==
-X-Gm-Message-State: AOAM532+x0zvqULgdDViGOItPsJXfIvkyR0EVnzCaRfyMKZAbgW70rxs
- CFXfjZlrRojL80pn4IsNnDyH6g==
-X-Google-Smtp-Source: ABdhPJw+QzRZ5AFjCDMIQdNsW/mCwRDdeyJOVnLTXBnIIepKlwczd8/bK9ADHeGEFE8xbHRJ1eCQwA==
-X-Received: by 2002:a05:6512:39c1:b0:471:b37e:fe5a with SMTP id
- k1-20020a05651239c100b00471b37efe5amr3557247lfu.527.1651868051159; 
- Fri, 06 May 2022 13:14:11 -0700 (PDT)
+ bh=eIOb1Q+lHNkihcNb/7UUQkFDyn6SUqG90dV9S8f3vpg=;
+ b=qwZcsGi8Q2DsTDjyLlL9ktofB1ORzlg10WIBJu7ricr7Woii9DnvJPGi6F9D5e2seL
+ S6EGrBONHjWKiQMUAI6ml3Piq26c/JA+u7vauj9LOw/NIHxBJIQJTfRdu73Ovzinxe+k
+ JJSpDZLa4ODVOAqeaXegHkwpyFbTJIendLmM/nQzAm7hLzGncA1B7zY21VL5PF/tjRjd
+ /Dl9AXvk8A/uTmVtOVTkmptfdKcQWIieXQkq5eTTIECKD6NTh7i1qttpU0pyMmidhool
+ 39lz/W+89TT+Gd5UIifktx7phBjIRYLO/iJ82zeaP7ow7SiKkkdYIEJnbrHMv8V+dEkJ
+ VmUQ==
+X-Gm-Message-State: AOAM532294jWfXKmAsdz1TdLmRcCiOkq+sCDnOxRKdv7kGOKXZvJ6kEN
+ wvtqQo5Zd6yGRteo8aTf2f3aVg==
+X-Google-Smtp-Source: ABdhPJzy8zn7103D/VwoFKpbFtqA8jlf3kQcNkkML5FYD9wH/IxYM1q9tPb8cvh26bB/w5N8lQ0+Sg==
+X-Received: by 2002:a2e:9812:0:b0:24f:2ccd:6f0f with SMTP id
+ a18-20020a2e9812000000b0024f2ccd6f0fmr3119200ljj.395.1651870157242; 
+ Fri, 06 May 2022 13:49:17 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a056512110d00b0047255d210f5sm807361lfg.36.2022.05.06.13.14.10
+ c3-20020a056512104300b0047255d21110sm817656lfb.63.2022.05.06.13.49.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 13:14:10 -0700 (PDT)
-Message-ID: <cbb13481-093f-54e2-13aa-1021a30f7fae@linaro.org>
-Date: Fri, 6 May 2022 23:14:09 +0300
+ Fri, 06 May 2022 13:49:16 -0700 (PDT)
+Message-ID: <8fe3f9cd-546d-539b-cba4-8479d780a4c5@linaro.org>
+Date: Fri, 6 May 2022 23:49:15 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 09/25] drm/msm/dpu: dpu_crtc_blend_setup: split mixer and
- ctl logic
+Subject: Re: [PATCH v10 1/4] drm/msm/dp: Add eDP support via aux_bus
 Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
- <20220209172520.3719906-10-dmitry.baryshkov@linaro.org>
- <2568f72d-3f2c-056e-185f-30bd85b84705@quicinc.com>
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <1650887072-16652-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1650887072-16652-2-git-send-email-quic_sbillaka@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <2568f72d-3f2c-056e-185f-30bd85b84705@quicinc.com>
+In-Reply-To: <1650887072-16652-2-git-send-email-quic_sbillaka@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,297 +77,307 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: quic_kalyant@quicinc.com, bjorn.andersson@linaro.org,
+ quic_vproddut@quicinc.com, airlied@linux.ie, quic_khsieh@quicinc.com,
+ dianders@chromium.org, steev@kali.org, quic_abhinavk@quicinc.com,
+ seanpaul@chromium.org, quic_aravindh@quicinc.com, swboyd@chromium.org,
+ sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/05/2022 21:56, Abhinav Kumar wrote:
+On 25/04/2022 14:44, Sankeerth Billakanti wrote:
+> This patch adds support for generic eDP sink through aux_bus. The eDP/DP
+> controller driver should support aux transactions originating from the
+> panel-edp driver and hence should be initialized and ready.
 > 
+> The panel bridge supporting the panel should be ready before the bridge
+> connector is initialized. The generic panel probe needs the controller
+> resources to be enabled to support the aux transactions originating from
+> the panel probe.
 > 
-> On 2/9/2022 9:25 AM, Dmitry Baryshkov wrote:
->> The funcitons _dpu_crtc_blend_setup() and _dpu_crtc_blend_setup_mixer()
->> have an intertwined mixture of CTL and LM-related code. Split these two
->> functions into LM-specific and CTL-specific parts, making both code
->> paths clean and observable.
->>
-> 
-> I do see the intention of this change, but there are two things to 
-> consider here.
-> 
-> Let me know what you think of those:
-> 
-> 1) Agreed that we are able to split it out but at what cost? We are 
-> repeating some of the loops such as
-> 
-> a) for (i = 0; i < cstate->num_mixers; i++) {
-> b) drm_atomic_crtc_for_each_plane(
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
-Maybe we should invert these loops, so that we'll through the planes and 
-only then loop over the mixers.
+An additional side effect from this patch. Previously missing panel 
+would have caused the bind error. Now it is the dp_modeset_init error, 
+which translates to kms_hw_init returning -517. I kind ask to move the 
+next_bridge acquisition back to the dp_bind in one of the followup patches.
 
+> ---
+> Changes in v10:
+>    - modify the error handling condition
+>    - modify the kernel doc
 > 
-> 2) The intertwining is "somewhat" logical here because we are 
-> programming the LMs for which we are staging the planes so it somewhat 
-> goes together
-
-I'll revisit this for v2. I'll move this towards the end of the series, 
-so it would be more obvious if patch 25/25 is better with this change or 
-w/o it.
-
+> Changes in v9:
+>    - add comments for panel probe
+>    - modify the error handling checks
 > 
-> 3) dropping sspp idx from this trace removes some useful informatio of 
-> which sspp is staged to which stage of blend
-
-I can add this back to the dpu_crtc_blend_setup_ctl
-
+> Changes in v8:
+>    - handle corner cases
+>    - add comment for the bridge ops
 > 
->  >           trace_dpu_crtc_setup_mixer(DRMID(crtc), DRMID(plane),
->  >                          state, pstate, stage_idx,
->  > -                       sspp_idx - SSPP_VIG0,
->  >                          format->base.pixel_format,
->  >                          fb ? fb->modifier : 0);
+> Changes in v7:
+>    - aux_bus is mandatory for eDP
+>    - connector type check modified to just check for eDP
 > 
+> Changes in v6:
+>    - Remove initialization
+>    - Fix aux_bus node leak
+>    - Split the patches
 > 
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 101 +++++++++++++---------
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h |  10 +--
->>   2 files changed, 63 insertions(+), 48 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> index e6c33022d560..ada7d5750536 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> @@ -336,27 +336,23 @@ static void 
->> _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
->>       }
->>   }
->> -static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
->> -    struct dpu_crtc *dpu_crtc, struct dpu_crtc_mixer *mixer,
->> -    struct dpu_hw_stage_cfg *stage_cfg)
->> +static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc)
->>   {
->> +    struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
->> +    struct dpu_crtc_mixer *mixer = cstate->mixers;
->>       struct drm_plane *plane;
->>       struct drm_framebuffer *fb;
->>       struct drm_plane_state *state;
->> -    struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
->>       struct dpu_plane_state *pstate = NULL;
->>       struct dpu_format *format;
->> -    struct dpu_hw_ctl *ctl = mixer->lm_ctl;
->> -
->> +    int i;
->>       uint32_t stage_idx, lm_idx;
->> -    int zpos_cnt[DPU_STAGE_MAX + 1] = { 0 };
->>       bool bg_alpha_enable = false;
->> -    DECLARE_BITMAP(fetch_active, SSPP_MAX);
->> -    memset(fetch_active, 0, sizeof(fetch_active));
->> -    drm_atomic_crtc_for_each_plane(plane, crtc) {
->> -        enum dpu_sspp sspp_idx;
->> +    for (i = 0; i < cstate->num_mixers; i++)
->> +        mixer[i].mixer_op_mode = 0;
->> +    drm_atomic_crtc_for_each_plane(plane, crtc) {
->>           state = plane->state;
->>           if (!state)
->>               continue;
->> @@ -364,14 +360,10 @@ static void _dpu_crtc_blend_setup_mixer(struct 
->> drm_crtc *crtc,
->>           pstate = to_dpu_plane_state(state);
->>           fb = state->fb;
->> -        sspp_idx = pstate->pipe_hw->idx;
->> -        set_bit(sspp_idx, fetch_active);
->> -
->> -        DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d\n",
->> +        DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d fb %d\n",
->>                   crtc->base.id,
->>                   pstate->stage,
->>                   plane->base.id,
->> -                sspp_idx - SSPP_VIG0,
->>                   state->fb ? state->fb->base.id : -1);
->>           format = 
->> to_dpu_format(msm_framebuffer_format(pstate->base.fb));
->> @@ -379,15 +371,8 @@ static void _dpu_crtc_blend_setup_mixer(struct 
->> drm_crtc *crtc,
->>           if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
->>               bg_alpha_enable = true;
->> -        stage_idx = zpos_cnt[pstate->stage]++;
->> -        stage_cfg->stage[pstate->stage][stage_idx] =
->> -                    sspp_idx;
->> -        stage_cfg->multirect_index[pstate->stage][stage_idx] =
->> -                    pstate->multirect_index;
->> -
->>           trace_dpu_crtc_setup_mixer(DRMID(crtc), DRMID(plane),
->>                          state, pstate, stage_idx,
->> -                       sspp_idx - SSPP_VIG0,
->>                          format->base.pixel_format,
->>                          fb ? fb->modifier : 0);
->> @@ -396,8 +381,6 @@ static void _dpu_crtc_blend_setup_mixer(struct 
->> drm_crtc *crtc,
->>               _dpu_crtc_setup_blend_cfg(mixer + lm_idx,
->>                           pstate, format);
->> -            
->> mixer[lm_idx].lm_ctl->ops.update_pending_flush_sspp(mixer[lm_idx].lm_ctl, 
->> sspp_idx);
->> -
->>               if (bg_alpha_enable && !format->alpha_enable)
->>                   mixer[lm_idx].mixer_op_mode = 0;
->>               else
->> @@ -406,17 +389,22 @@ static void _dpu_crtc_blend_setup_mixer(struct 
->> drm_crtc *crtc,
->>           }
->>       }
->> -    if (ctl->ops.set_active_pipes)
->> -        ctl->ops.set_active_pipes(ctl, fetch_active);
->> -
->>        _dpu_crtc_program_lm_output_roi(crtc);
->> +
->> +    for (i = 0; i < cstate->num_mixers; i++) {
->> +        struct dpu_hw_mixer *lm;
->> +
->> +        lm = mixer[i].hw_lm;
->> +
->> +        lm->ops.setup_alpha_out(lm, mixer[i].mixer_op_mode);
->> +
->> +        DRM_DEBUG_ATOMIC("lm %d, op_mode 0x%X\n",
->> +            mixer[i].hw_lm->idx - LM_0,
->> +            mixer[i].mixer_op_mode);
->> +    }
->>   }
->> -/**
->> - * _dpu_crtc_blend_setup - configure crtc mixers
->> - * @crtc: Pointer to drm crtc structure
->> - */
->> -static void _dpu_crtc_blend_setup(struct drm_crtc *crtc)
->> +static void _dpu_crtc_blend_setup_ctl(struct drm_crtc *crtc)
->>   {
->>       struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
->>       struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
->> @@ -425,34 +413,62 @@ static void _dpu_crtc_blend_setup(struct 
->> drm_crtc *crtc)
->>       struct dpu_hw_mixer *lm;
->>       struct dpu_hw_stage_cfg stage_cfg;
->>       int i;
->> +    struct drm_plane *plane;
->> +    struct drm_plane_state *state;
->> +    struct dpu_plane_state *pstate = NULL;
->> +
->> +    uint32_t stage_idx, lm_idx;
->> +    int zpos_cnt[DPU_STAGE_MAX + 1] = { 0 };
->> +    DECLARE_BITMAP(fetch_active, SSPP_MAX);
->>       DRM_DEBUG_ATOMIC("%s\n", dpu_crtc->name);
->> -    for (i = 0; i < cstate->num_mixers; i++) {
->> -        mixer[i].mixer_op_mode = 0;
->> +    for (i = 0; i < cstate->num_mixers; i++)
->>           if (mixer[i].lm_ctl->ops.clear_all_blendstages)
->>               mixer[i].lm_ctl->ops.clear_all_blendstages(
->>                       mixer[i].lm_ctl);
->> -    }
->>       /* initialize stage cfg */
->>       memset(&stage_cfg, 0, sizeof(struct dpu_hw_stage_cfg));
->> -    _dpu_crtc_blend_setup_mixer(crtc, dpu_crtc, mixer, &stage_cfg);
->> +    memset(fetch_active, 0, sizeof(fetch_active));
->> +    drm_atomic_crtc_for_each_plane(plane, crtc) {
->> +        enum dpu_sspp sspp_idx;
->> +
->> +        state = plane->state;
->> +        if (!state)
->> +            continue;
->> +
->> +        pstate = to_dpu_plane_state(state);
->> +
->> +        sspp_idx = pstate->pipe_hw->idx;
->> +        set_bit(sspp_idx, fetch_active);
->> +
->> +        stage_idx = zpos_cnt[pstate->stage]++;
->> +        stage_cfg.stage[pstate->stage][stage_idx] =
->> +                    sspp_idx;
->> +        stage_cfg.multirect_index[pstate->stage][stage_idx] =
->> +                    pstate->multirect_index;
->> +
->> +        /* blend config update */
->> +        for (lm_idx = 0; lm_idx < cstate->num_mixers; lm_idx++)
->> +            
->> mixer[lm_idx].lm_ctl->ops.update_pending_flush_sspp(mixer[lm_idx].lm_ctl, 
->> sspp_idx);
->> +    }
->> +
->> +    ctl = mixer->lm_ctl;
->> +    if (ctl->ops.set_active_pipes)
->> +        ctl->ops.set_active_pipes(ctl, fetch_active);
->>       for (i = 0; i < cstate->num_mixers; i++) {
->>           ctl = mixer[i].lm_ctl;
->>           lm = mixer[i].hw_lm;
->> -        lm->ops.setup_alpha_out(lm, mixer[i].mixer_op_mode);
->> -
->>           /* stage config flush mask */
->>           ctl->ops.update_pending_flush_mixer(ctl,
->>               mixer[i].hw_lm->idx);
->> -        DRM_DEBUG_ATOMIC("lm %d, op_mode 0x%X, ctl %d\n",
->> +        DRM_DEBUG_ATOMIC("lm %d, ctl %d\n",
->>               mixer[i].hw_lm->idx - LM_0,
->> -            mixer[i].mixer_op_mode,
->>               ctl->idx - CTL_0);
->>           ctl->ops.setup_blendstage(ctl, mixer[i].hw_lm->idx,
->> @@ -731,7 +747,8 @@ static void dpu_crtc_atomic_begin(struct drm_crtc 
->> *crtc,
->>       if (unlikely(!cstate->num_mixers))
->>           return;
->> -    _dpu_crtc_blend_setup(crtc);
->> +    _dpu_crtc_blend_setup_mixer(crtc);
->> +    _dpu_crtc_blend_setup_ctl(crtc);
->>       _dpu_crtc_setup_cp_blocks(crtc);
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
->> index 54d74341e690..ecd2f371374d 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
->> @@ -632,9 +632,9 @@ TRACE_EVENT(dpu_enc_phys_vid_irq_ctrl,
->>   TRACE_EVENT(dpu_crtc_setup_mixer,
->>       TP_PROTO(uint32_t crtc_id, uint32_t plane_id,
->>            struct drm_plane_state *state, struct dpu_plane_state *pstate,
->> -         uint32_t stage_idx, enum dpu_sspp sspp, uint32_t pixel_format,
->> +         uint32_t stage_idx, uint32_t pixel_format,
->>            uint64_t modifier),
->> -    TP_ARGS(crtc_id, plane_id, state, pstate, stage_idx, sspp,
->> +    TP_ARGS(crtc_id, plane_id, state, pstate, stage_idx,
->>           pixel_format, modifier),
->>       TP_STRUCT__entry(
->>           __field(    uint32_t,        crtc_id        )
->> @@ -644,7 +644,6 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
->>           __field_struct(    struct drm_rect,    dst_rect    )
->>           __field(    uint32_t,        stage_idx    )
->>           __field(    enum dpu_stage,        stage        )
->> -        __field(    enum dpu_sspp,        sspp        )
->>           __field(    uint32_t,        multirect_idx    )
->>           __field(    uint32_t,        multirect_mode    )
->>           __field(    uint32_t,        pixel_format    )
->> @@ -658,20 +657,19 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
->>           __entry->dst_rect = drm_plane_state_dest(state);
->>           __entry->stage_idx = stage_idx;
->>           __entry->stage = pstate->stage;
->> -        __entry->sspp = sspp;
->>           __entry->multirect_idx = pstate->multirect_index;
->>           __entry->multirect_mode = pstate->multirect_mode;
->>           __entry->pixel_format = pixel_format;
->>           __entry->modifier = modifier;
->>       ),
->>       TP_printk("crtc_id:%u plane_id:%u fb_id:%u src:" DRM_RECT_FP_FMT
->> -          " dst:" DRM_RECT_FMT " stage_idx:%u stage:%d, sspp:%d "
->> +          " dst:" DRM_RECT_FMT " stage_idx:%u stage:%d, "
->>             "multirect_index:%d multirect_mode:%u pix_format:%u "
->>             "modifier:%llu",
->>             __entry->crtc_id, __entry->plane_id, __entry->fb_id,
->>             DRM_RECT_FP_ARG(&__entry->src_rect),
->>             DRM_RECT_ARG(&__entry->dst_rect),
->> -          __entry->stage_idx, __entry->stage, __entry->sspp,
->> +          __entry->stage_idx, __entry->stage,
->>             __entry->multirect_idx, __entry->multirect_mode,
->>             __entry->pixel_format, __entry->modifier)
->>   );
+>   drivers/gpu/drm/msm/dp/dp_display.c | 72 ++++++++++++++++++++++++++++++++++---
+>   drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+>   drivers/gpu/drm/msm/dp/dp_drm.c     | 21 ++++++++---
+>   drivers/gpu/drm/msm/dp/dp_parser.c  | 23 ++----------
+>   drivers/gpu/drm/msm/dp/dp_parser.h  | 14 +++++++-
+>   5 files changed, 101 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index d7a19d6..f772d84 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -10,6 +10,7 @@
+>   #include <linux/component.h>
+>   #include <linux/of_irq.h>
+>   #include <linux/delay.h>
+> +#include <drm/dp/drm_dp_aux_bus.h>
+>   
+>   #include "msm_drv.h"
+>   #include "msm_kms.h"
+> @@ -259,14 +260,12 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>   	dp->dp_display.drm_dev = drm;
+>   	priv->dp[dp->id] = &dp->dp_display;
+>   
+> -	rc = dp->parser->parse(dp->parser, dp->dp_display.connector_type);
+> +	rc = dp->parser->parse(dp->parser);
+>   	if (rc) {
+>   		DRM_ERROR("device tree parsing failed\n");
+>   		goto end;
+>   	}
+>   
+> -	dp->dp_display.next_bridge = dp->parser->next_bridge;
+> -
+>   	dp->aux->drm_dev = drm;
+>   	rc = dp_aux_register(dp->aux);
+>   	if (rc) {
+> @@ -1319,6 +1318,8 @@ static int dp_display_probe(struct platform_device *pdev)
+>   	dp->pdev = pdev;
+>   	dp->name = "drm_dp";
+>   	dp->dp_display.connector_type = desc->connector_type;
+> +	dp->dp_display.is_edp =
+> +		(dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP);
+>   
+>   	rc = dp_init_sub_modules(dp);
+>   	if (rc) {
+> @@ -1508,7 +1509,8 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+>   
+>   	dp_hpd_event_setup(dp);
+>   
+> -	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
+> +	if (!dp_display->is_edp)
+> +		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
+>   }
+>   
+>   void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+> @@ -1530,6 +1532,64 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+>   	}
+>   }
+>   
+> +static int dp_display_get_next_bridge(struct msm_dp *dp)
+> +{
+> +	int rc;
+> +	struct dp_display_private *dp_priv;
+> +	struct device_node *aux_bus;
+> +	struct device *dev;
+> +
+> +	dp_priv = container_of(dp, struct dp_display_private, dp_display);
+> +	dev = &dp_priv->pdev->dev;
+> +	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+> +
+> +	if (aux_bus && dp->is_edp) {
+> +		dp_display_host_init(dp_priv);
+> +		dp_catalog_ctrl_hpd_config(dp_priv->catalog);
+> +		dp_display_host_phy_init(dp_priv);
+> +		enable_irq(dp_priv->irq);
+> +
+> +		/*
+> +		 * The code below assumes that the panel will finish probing
+> +		 * by the time devm_of_dp_aux_populate_ep_devices() returns.
+> +		 * This isn't a great assumption since it will fail if the
+> +		 * panel driver is probed asynchronously but is the best we
+> +		 * can do without a bigger driver reorganization.
+> +		 */
+> +		rc = devm_of_dp_aux_populate_ep_devices(dp_priv->aux);
+> +		of_node_put(aux_bus);
+> +		if (rc)
+> +			goto error;
+> +	} else if (dp->is_edp) {
+> +		DRM_ERROR("eDP aux_bus not found\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	/*
+> +	 * External bridges are mandatory for eDP interfaces: one has to
+> +	 * provide at least an eDP panel (which gets wrapped into panel-bridge).
+> +	 *
+> +	 * For DisplayPort interfaces external bridges are optional, so
+> +	 * silently ignore an error if one is not present (-ENODEV).
+> +	 */
+> +	rc = dp_parser_find_next_bridge(dp_priv->parser);
+> +	if (!dp->is_edp && rc == -ENODEV)
+> +		return 0;
+> +
+> +	if (!rc) {
+> +		dp->next_bridge = dp_priv->parser->next_bridge;
+> +		return 0;
+> +	}
+> +
+> +error:
+> +	if (dp->is_edp) {
+> +		disable_irq(dp_priv->irq);
+> +		dp_display_host_phy_exit(dp_priv);
+> +		dp_display_host_deinit(dp_priv);
+> +	}
+> +	return rc;
+> +}
+> +
+>   int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>   			struct drm_encoder *encoder)
+>   {
+> @@ -1553,6 +1613,10 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>   
+>   	dp_display->encoder = encoder;
+>   
+> +	ret = dp_display_get_next_bridge(dp_display);
+> +	if (ret)
+> +		return ret;
+> +
+>   	dp_display->bridge = dp_bridge_init(dp_display, dev, encoder);
+>   	if (IS_ERR(dp_display->bridge)) {
+>   		ret = PTR_ERR(dp_display->bridge);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> index 49a1d89..1377cc3 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -21,6 +21,7 @@ struct msm_dp {
+>   	bool audio_enabled;
+>   	bool power_on;
+>   	unsigned int connector_type;
+> +	bool is_edp;
+>   
+>   	hdmi_codec_plugged_cb plugged_cb;
+>   
+> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> index 7ce1aca..8a75c55 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> @@ -114,10 +114,23 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
+>   	bridge->funcs = &dp_bridge_ops;
+>   	bridge->type = dp_display->connector_type;
+>   
+> -	bridge->ops =
+> -		DRM_BRIDGE_OP_DETECT |
+> -		DRM_BRIDGE_OP_HPD |
+> -		DRM_BRIDGE_OP_MODES;
+> +	/*
+> +	 * Many ops only make sense for DP. Why?
+> +	 * - Detect/HPD are used by DRM to know if a display is _physically_
+> +	 *   there, not whether the display is powered on / finished initting.
+> +	 *   On eDP we assume the display is always there because you can't
+> +	 *   know until power is applied. If we don't implement the ops DRM will
+> +	 *   assume our display is always there.
+> +	 * - Currently eDP mode reading is driven by the panel driver. This
+> +	 *   allows the panel driver to properly power itself on to read the
+> +	 *   modes.
+> +	 */
+> +	if (!dp_display->is_edp) {
+> +		bridge->ops =
+> +			DRM_BRIDGE_OP_DETECT |
+> +			DRM_BRIDGE_OP_HPD |
+> +			DRM_BRIDGE_OP_MODES;
+> +	}
+>   
+>   	rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>   	if (rc) {
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index 1056b8d..4bdbf91 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -265,7 +265,7 @@ static int dp_parser_clock(struct dp_parser *parser)
+>   	return 0;
+>   }
+>   
+> -static int dp_parser_find_next_bridge(struct dp_parser *parser)
+> +int dp_parser_find_next_bridge(struct dp_parser *parser)
+>   {
+>   	struct device *dev = &parser->pdev->dev;
+>   	struct drm_bridge *bridge;
+> @@ -279,7 +279,7 @@ static int dp_parser_find_next_bridge(struct dp_parser *parser)
+>   	return 0;
+>   }
+>   
+> -static int dp_parser_parse(struct dp_parser *parser, int connector_type)
+> +static int dp_parser_parse(struct dp_parser *parser)
+>   {
+>   	int rc = 0;
+>   
+> @@ -300,25 +300,6 @@ static int dp_parser_parse(struct dp_parser *parser, int connector_type)
+>   	if (rc)
+>   		return rc;
+>   
+> -	/*
+> -	 * External bridges are mandatory for eDP interfaces: one has to
+> -	 * provide at least an eDP panel (which gets wrapped into panel-bridge).
+> -	 *
+> -	 * For DisplayPort interfaces external bridges are optional, so
+> -	 * silently ignore an error if one is not present (-ENODEV).
+> -	 */
+> -	rc = dp_parser_find_next_bridge(parser);
+> -	if (rc == -ENODEV) {
+> -		if (connector_type == DRM_MODE_CONNECTOR_eDP) {
+> -			DRM_ERROR("eDP: next bridge is not present\n");
+> -			return rc;
+> -		}
+> -	} else if (rc) {
+> -		if (rc != -EPROBE_DEFER)
+> -			DRM_ERROR("DP: error parsing next bridge: %d\n", rc);
+> -		return rc;
+> -	}
+> -
+>   	/* Map the corresponding regulator information according to
+>   	 * version. Currently, since we only have one supported platform,
+>   	 * mapping the regulator directly.
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index d371bae..3a4d797 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -125,7 +125,7 @@ struct dp_parser {
+>   	u32 max_dp_lanes;
+>   	struct drm_bridge *next_bridge;
+>   
+> -	int (*parse)(struct dp_parser *parser, int connector_type);
+> +	int (*parse)(struct dp_parser *parser);
+>   };
+>   
+>   /**
+> @@ -141,4 +141,16 @@ struct dp_parser {
+>    */
+>   struct dp_parser *dp_parser_get(struct platform_device *pdev);
+>   
+> +/**
+> + * dp_parser_find_next_bridge() - find an additional bridge to DP
+> + *
+> + * @parser: dp_parser data from client
+> + *
+> + * This function is used to find any additional bridge attached to
+> + * the DP controller. The eDP interface requires a panel bridge.
+> + *
+> + * Return: 0 if able to get the bridge, otherwise negative errno for failure.
+> + */
+> +int dp_parser_find_next_bridge(struct dp_parser *parser);
+> +
+>   #endif
 
 
 -- 
