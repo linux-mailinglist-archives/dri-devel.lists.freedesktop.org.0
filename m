@@ -2,28 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32A351DEB9
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 20:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA4B51DEBD
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 20:10:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF8D010F12A;
-	Fri,  6 May 2022 18:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F5B10F173;
+	Fri,  6 May 2022 18:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44FDE10F127
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9615110F127
  for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 18:10:41 +0000 (UTC)
 Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1nn2PU-0005VY-2Y; Fri, 06 May 2022 20:10:36 +0200
+ id 1nn2PU-0005VY-Pm; Fri, 06 May 2022 20:10:36 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v0.5 0/9] i.MX8MP HDMI support
-Date: Fri,  6 May 2022 20:10:25 +0200
-Message-Id: <20220506181034.2001548-1-l.stach@pengutronix.de>
+Subject: [PATCH v0.5 1/9] dt-bindings: display: imx: add binding for i.MX8MP
+ HDMI TX
+Date: Fri,  6 May 2022 20:10:26 +0200
+Message-Id: <20220506181034.2001548-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220506181034.2001548-1-l.stach@pengutronix.de>
+References: <20220506181034.2001548-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
@@ -54,62 +57,94 @@ Cc: Marek Vasut <marex@denx.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+The HDMI TX controller on the i.MX8MP SoC is a Synopsys designware IP
+core with a little bit of SoC integration around it.
 
-second round of the i.MX8MP HDMI work. Still not split up into proper
-parts for merging through the various trees this needs to go into, but
-should make it easy for people to test.
-
-I've worked in the feedback I got from the last round, including fixing
-the system hang that could happen when the drivers were built as modules.
-
-Series is based on linux-next/master, as there are some prerequisite
-patches in both the drm and imx tree already. The last patch from [1]
-and the patches from [2] need to be applied. Please note that this series
-expects the sync polarity from the LCDIF to be set according to the
-comments I made in [2]. Please test and provide feedback.
-
-Regards,
-Lucas
-
-[1] https://lore.kernel.org/all/20220406153402.1265474-1-l.stach@pengutronix.de/
-[2] https://lore.kernel.org/all/20220322142853.125880-1-marex@denx.de/
-
-Lucas Stach (9):
-  dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
-  drm/imx: add bridge wrapper driver for i.MX8MP DWC HDMI
-  dt-bindings: display: imx: add binding for i.MX8MP HDMI PVI
-  drm/imx: add driver for HDMI TX Parallel Video Interface
-  dt-bindings: phy: add binding for the i.MX8MP HDMI PHY
-  phy: freescale: add Samsung HDMI PHY
-  arm64: dts: imx8mp: add HDMI irqsteer
-  arm64: dts: imx8mp: add HDMI display pipeline
-  arm64: dts: imx8mp-evk: enable HDMI
-
- .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      |   83 ++
- .../bindings/display/imx/fsl,imx8mp-hdmi.yaml |   73 ++
- .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     |   62 +
- arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   19 +
- arch/arm64/boot/dts/freescale/imx8mp.dtsi     |   94 ++
- drivers/gpu/drm/imx/Kconfig                   |    1 +
- drivers/gpu/drm/imx/Makefile                  |    2 +
- drivers/gpu/drm/imx/bridge/Kconfig            |   18 +
- drivers/gpu/drm/imx/bridge/Makefile           |    4 +
- drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c     |  201 +++
- drivers/gpu/drm/imx/bridge/imx-hdmi.c         |  141 +++
- drivers/phy/freescale/Kconfig                 |    6 +
- drivers/phy/freescale/Makefile                |    1 +
- drivers/phy/freescale/phy-fsl-samsung-hdmi.c  | 1078 +++++++++++++++++
- 14 files changed, 1783 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ .../bindings/display/imx/fsl,imx8mp-hdmi.yaml | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
- create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
- create mode 100644 drivers/gpu/drm/imx/bridge/Kconfig
- create mode 100644 drivers/gpu/drm/imx/bridge/Makefile
- create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c
- create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi.c
- create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
 
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+new file mode 100644
+index 000000000000..bd9a2b135176
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX8MP DWC HDMI TX Encoder
++
++maintainers:
++  - Lucas Stach <l.stach@pengutronix.de>
++
++description: |
++  The HDMI transmitter is a Synopsys DesignWare HDMI 2.0 TX controller IP.
++
++allOf:
++  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mp-hdmi
++
++  reg:
++    maxItems: 1
++
++  reg-io-width:
++    const: 1
++
++  clocks:
++    maxItems: 5
++
++  clock-names:
++    items:
++      - {}
++      - {}
++      - const: cec
++      - const: pix
++      - const: fdcc 
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/imx8mp-clock.h>
++    #include <dt-bindings/power/imx8mp-power.h>
++
++    hdmi@32fd8000 {
++        compatible = "fsl,imx8mp-hdmi";
++        reg = <0x32fd8000 0x7eff>;
++        interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk IMX8MP_CLK_HDMI_APB>,
++                 <&clk IMX8MP_CLK_HDMI_REF_266M>,
++                 <&clk IMX8MP_CLK_32K>,
++                 <&hdmi_tx_phy>;
++        clock-names = "iahb", "isfr", "cec", "pix";
++        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX>;
++        reg-io-width = <1>;
++    };
 -- 
 2.30.2
 
