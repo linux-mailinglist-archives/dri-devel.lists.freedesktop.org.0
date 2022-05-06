@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9654B51D295
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 09:51:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BFF51D2AF
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 09:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481BF10E5A7;
-	Fri,  6 May 2022 07:51:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB68110EBED;
+	Fri,  6 May 2022 07:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C822410E483;
- Fri,  6 May 2022 07:51:46 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9245110EBED;
+ Fri,  6 May 2022 07:58:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651823506; x=1683359506;
+ t=1651823887; x=1683359887;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=xwYtBfgsa8QVrCi9N1kvmefqBJe0dC/6jHj7fvZOLjQ=;
- b=ebBhf/BIJnW0XMXFM804GHfCVkr7f3SQ+p4n4ka/cIm2ff4fGtDDObHo
- 2uqpD0elol4WQtVCNQVFn3fN+yHyFcC/fH3+gyfQ2VAq828eNVcOnt7CB
- MjVocsT7dYwQhf8oBa/k6MxZK++W2VtZ9A6hD7mR99o1pacplcy/4ghWQ
- jwVhoPBzy8Y1gHW+UeFNY7zs/TXy07Pyj7uynH3iAXyASKHz5bOhZ4fip
- XtGYtB55wQxg0/CSg8lU2z98kLCB/0AGNZf+SlfzRdxeUUqoRIQD9Q7df
- Wy3sJmV4EyEN1weBDabuxxk7QfpqCrLZUT5eudxfFrfHGaB1qeDCPwugG A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="267987907"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="267987907"
+ bh=emskee1MS2atxZwDugagn6nvmxLCXv6rnE07I1H2Bok=;
+ b=ILNLMI5g78P4dKNFiiS+76xZfaXgyIE3a+BNfgrXuPJ+gfKn3oiJzDHE
+ oeFqvnE9DLy35YUOuKcRR9EkD6i0FyqpbgUR9FIBiK/IG7/LWt1YsyDxx
+ xHCTzjnprrCQ7It20a9hZGq5LHmKU3Nt7KU94aTvg6ZurE689BEvxeTh0
+ 2xvlM3mNM9GjN0XcNmP15jnopZgskonJiQkaUZjuA1Z63ruuy6SNJ0sHE
+ +ApnboYa6Ns78KKXyQKtD3fIdB4aqRkOUopU7Bmwn3VRYfM5hb18zFHZl
+ K8NRoUDrjNkH0wvevr6CWhHtuvLljaXop69faHcnLMyVQ5mb0Nq+tHUxX A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="265979385"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="265979385"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 00:51:45 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="735469381"
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 00:58:07 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="735471694"
 Received: from tkinch-mobl.ger.corp.intel.com (HELO [10.213.192.122])
  ([10.213.192.122])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 00:51:44 -0700
-Message-ID: <7218e8a8-d22f-41ce-13b8-56b24471a494@linux.intel.com>
-Date: Fri, 6 May 2022 08:51:42 +0100
+ 06 May 2022 00:58:03 -0700
+Message-ID: <31ca292e-813c-4484-ee6e-5895f26c53d2@linux.intel.com>
+Date: Fri, 6 May 2022 08:58:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/guc: Support programming the EU
- priority in the GuC descriptor
+Subject: Re: [PATCH -next] drm/i915/gt: Fix build error without CONFIG_PM
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220504234636.2119794-1-daniele.ceraolospurio@intel.com>
- <95b167c3-08a4-0323-a538-c0f34cc3a13d@intel.com>
+To: YueHaibing <yuehaibing@huawei.com>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, airlied@linux.ie,
+ daniel@ffwll.ch, andi.shyti@linux.intel.com, matthew.auld@intel.com,
+ andrzej.hajda@intel.com, lucas.demarchi@intel.com
+References: <20220506032652.1856-1-yuehaibing@huawei.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <95b167c3-08a4-0323-a538-c0f34cc3a13d@intel.com>
+In-Reply-To: <20220506032652.1856-1-yuehaibing@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,144 +63,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 05/05/2022 19:56, John Harrison wrote:
-> On 5/4/2022 16:46, Daniele Ceraolo Spurio wrote:
->> From: Matthew Brost <matthew.brost@intel.com>
->>
->> In GuC submission mode the EU priority must be updated by the GuC rather
->> than the driver as the GuC owns the programming of the context 
->> descriptor.
->>
->> Given that the GuC code uses the GuC priorities, we can't use a generic
->> function using i915 priorities for both execlists and GuC submission.
->> The existing function has therefore been pushed to the execlists
->> back-end while a new one has been added for GuC.
->>
->> v2: correctly use the GuC prio.
->>
->> Cc: John Harrison <john.c.harrison@intel.com>
->> Cc: Matt Roper <matthew.d.roper@intel.com>
->> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
->> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+On 06/05/2022 04:26, YueHaibing wrote:
+> drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c: In function ‘act_freq_mhz_show’:
+> drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:276:20: error: implicit declaration of function ‘sysfs_gt_attribute_r_max_func’ [-Werror=implicit-function-declaration]
+>    276 |  u32 actual_freq = sysfs_gt_attribute_r_max_func(dev, attr,
+>        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Move sysfs_gt_attribute_* macros out of #ifdef block to fix this.
+> 
+> Fixes: 56a709cf7746 ("drm/i915/gt: Create per-tile RPS sysfs interfaces")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-I've asked for this already - since this seems a fix relevant for DG2, 
-but now that it has been merged without a Fixes: tag, it will not get 
-picked up for 5.19 by the scripts.
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Maybe I can cherry pick it manually in a few weeks, or maybe you guys 
-can send it to stable manually once 5.19 is released, please make a 
-reminder item if you think 5.19 should have it.
+Thanks for the fix, will merge.
 
 Regards,
 
 Tvrtko
 
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->> ---
->>   .../drm/i915/gt/intel_execlists_submission.c  | 12 +++++++++-
->>   drivers/gpu/drm/i915/gt/intel_lrc.h           | 10 ---------
->>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 22 +++++++++++++++++++
->>   3 files changed, 33 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
->> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> index 86f7a9ac1c394..2b0266cab66b9 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> @@ -661,6 +661,16 @@ static inline void execlists_schedule_out(struct 
->> i915_request *rq)
->>       i915_request_put(rq);
->>   }
->> +static u32 map_i915_prio_to_lrc_desc_prio(int prio)
->> +{
->> +    if (prio > I915_PRIORITY_NORMAL)
->> +        return GEN12_CTX_PRIORITY_HIGH;
->> +    else if (prio < I915_PRIORITY_NORMAL)
->> +        return GEN12_CTX_PRIORITY_LOW;
->> +    else
->> +        return GEN12_CTX_PRIORITY_NORMAL;
->> +}
->> +
->>   static u64 execlists_update_context(struct i915_request *rq)
->>   {
->>       struct intel_context *ce = rq->context;
->> @@ -669,7 +679,7 @@ static u64 execlists_update_context(struct 
->> i915_request *rq)
->>       desc = ce->lrc.desc;
->>       if (rq->engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
->> -        desc |= lrc_desc_priority(rq_prio(rq));
->> +        desc |= map_i915_prio_to_lrc_desc_prio(rq_prio(rq));
->>       /*
->>        * WaIdleLiteRestore:bdw,skl
->> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.h 
->> b/drivers/gpu/drm/i915/gt/intel_lrc.h
->> index 31be734010db3..a390f0813c8b6 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_lrc.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.h
->> @@ -111,16 +111,6 @@ enum {
->>   #define XEHP_SW_COUNTER_SHIFT            58
->>   #define XEHP_SW_COUNTER_WIDTH            6
->> -static inline u32 lrc_desc_priority(int prio)
->> -{
->> -    if (prio > I915_PRIORITY_NORMAL)
->> -        return GEN12_CTX_PRIORITY_HIGH;
->> -    else if (prio < I915_PRIORITY_NORMAL)
->> -        return GEN12_CTX_PRIORITY_LOW;
->> -    else
->> -        return GEN12_CTX_PRIORITY_NORMAL;
->> -}
->> -
->>   static inline void lrc_runtime_start(struct intel_context *ce)
->>   {
->>       struct intel_context_stats *stats = &ce->stats;
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> index 75291e9846c50..8bf8b6d588d43 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> @@ -2394,6 +2394,26 @@ static int guc_context_policy_init(struct 
->> intel_context *ce, bool loop)
->>       return ret;
->>   }
->> +static u32 map_guc_prio_to_lrc_desc_prio(u8 prio)
->> +{
->> +    /*
->> +     * this matches the mapping we do in map_i915_prio_to_guc_prio()
->> +     * (e.g. prio < I915_PRIORITY_NORMAL maps to 
->> GUC_CLIENT_PRIORITY_NORMAL)
->> +     */
->> +    switch (prio) {
->> +    default:
->> +        MISSING_CASE(prio);
->> +        fallthrough;
->> +    case GUC_CLIENT_PRIORITY_KMD_NORMAL:
->> +        return GEN12_CTX_PRIORITY_NORMAL;
->> +    case GUC_CLIENT_PRIORITY_NORMAL:
->> +        return GEN12_CTX_PRIORITY_LOW;
->> +    case GUC_CLIENT_PRIORITY_HIGH:
->> +    case GUC_CLIENT_PRIORITY_KMD_HIGH:
->> +        return GEN12_CTX_PRIORITY_HIGH;
->> +    }
->> +}
->> +
->>   static void prepare_context_registration_info(struct intel_context *ce,
->>                             struct guc_ctxt_registration_info *info)
->>   {
->> @@ -2420,6 +2440,8 @@ static void 
->> prepare_context_registration_info(struct intel_context *ce,
->>        */
->>       info->hwlrca_lo = lower_32_bits(ce->lrc.lrca);
->>       info->hwlrca_hi = upper_32_bits(ce->lrc.lrca);
->> +    if (engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
->> +        info->hwlrca_lo |= 
->> map_guc_prio_to_lrc_desc_prio(ce->guc_state.prio);
->>       info->flags = CONTEXT_REGISTRATION_FLAG_KMD;
->>       /*
-> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> index 26cbfa6477d1..e92990d514b2 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+> @@ -17,7 +17,6 @@
+>   #include "intel_rc6.h"
+>   #include "intel_rps.h"
+>   
+> -#ifdef CONFIG_PM
+>   enum intel_gt_sysfs_op {
+>   	INTEL_GT_SYSFS_MIN = 0,
+>   	INTEL_GT_SYSFS_MAX,
+> @@ -92,6 +91,7 @@ sysfs_gt_attribute_r_func(struct device *dev, struct device_attribute *attr,
+>   #define sysfs_gt_attribute_r_max_func(d, a, f) \
+>   		sysfs_gt_attribute_r_func(d, a, f, INTEL_GT_SYSFS_MAX)
+>   
+> +#ifdef CONFIG_PM
+>   static u32 get_residency(struct intel_gt *gt, i915_reg_t reg)
+>   {
+>   	intel_wakeref_t wakeref;
