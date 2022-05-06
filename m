@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396BE51D55F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:12:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E0E51D561
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:12:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F10C110FA0F;
-	Fri,  6 May 2022 10:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF6D10FBBF;
+	Fri,  6 May 2022 10:12:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B390510FBA9;
- Fri,  6 May 2022 10:12:14 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC41E10FBBF;
+ Fri,  6 May 2022 10:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651831935; x=1683367935;
+ t=1651831939; x=1683367939;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ERWG+kUcC4QtG63Rs8azIwMFWUENpLEWpBncZKHx9EE=;
- b=SzGhyBE36ABSYLmxPqZeu7t0TrcWc3kNvPYT+Wf25IpCS1lznukYBIUL
- x6pbgm9HLYRGDCcGrxFFGYOnQc7hmWXCl5TtgBIb05TjBC6mvwiejO7Ne
- C6IgFqIM5A1GAs8b6Kcf/myqEvIEjHY/e09dNIr87fQxvsqysBeVLi0Bp
- V0Rlbvu4JiLut8dggYP2MtsfY3sjw+OBx0rj/qOJ4aTsIra3hcGfjl1mz
- GdMYjjSJ7BUC2JeU8afA4FY0kYAnMCqvUPBXuIK+tSaKicgDSk9gYHpOS
- Ilb3r/MxTvyAfyftzvFQoW5TnFNOF1vgPnJTFwtbLRbzP7kmocNe0ujMx g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="250424118"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="250424118"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:12:14 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="891772662"
+ bh=FM5ur+8pFTiepm0gLzvclkn/dmeJC3xUZmRqXh7tte8=;
+ b=JLQ/sZuqBqnWU30bubrSuaWP7YrRdG/qNGxYPJGJiwJP9Y1F2iFiyL6/
+ 4RwJ5hHUcJz6SLc4uqwhaaVp8WxgVvpUhcZFmcGfvwRto14p7GPctCUK4
+ vZicPW6LLARS4rFzar/EZr1NQRZmWGXkLfipwmyZKQShn2kPiEDk2n4Tx
+ YwIv3V6+dDFMKmT9sJU6NOZmp67+tDEeIROVODkAYCwPBRfXQx8Cx65yk
+ Cs2hd5Y4ZkgcN7sIF9rrw/vaWfqgF5u3J+s5gVGS8sWtbspD9W/te4U/q
+ /QmhvcI1ilzXMT1LzWj5hKdofLMKzIbvEC2tWg8Gj6KEmrIoNcTw3kIct A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="255909886"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="255909886"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 03:12:19 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="621764276"
 Received: from psikora-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.157.88])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:12:12 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 03:12:17 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 18/25] drm/edid: add drm_edid helper for
- drm_edid_to_speaker_allocation()
-Date: Fri,  6 May 2022 13:10:25 +0300
-Message-Id: <d20766d913dd019ccef2fb48e6dd829875f82435.1651830939.git.jani.nikula@intel.com>
+Subject: [PATCH 19/25] drm/edid: add drm_edid helper for
+ drm_detect_hdmi_monitor()
+Date: Fri,  6 May 2022 13:10:26 +0300
+Message-Id: <d3fdb28765d0bb7f4b9d562890e912a91e7c1600.1651830939.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1651830938.git.jani.nikula@intel.com>
 References: <cover.1651830938.git.jani.nikula@intel.com>
@@ -66,69 +66,68 @@ We'll need to propagate drm_edid everywhere.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 39 ++++++++++++++++++++++++--------------
- 1 file changed, 25 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 36 +++++++++++++++++++++++-------------
+ 1 file changed, 23 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 52ea187394dd..51aee048bcff 100644
+index 51aee048bcff..3277b4fd33ce 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -5010,25 +5010,14 @@ int drm_edid_to_sad(const struct edid *edid, struct cea_sad **sads)
+@@ -5100,18 +5100,7 @@ int drm_av_sync_delay(struct drm_connector *connector,
  }
- EXPORT_SYMBOL(drm_edid_to_sad);
+ EXPORT_SYMBOL(drm_av_sync_delay);
  
 -/**
-- * drm_edid_to_speaker_allocation - extracts Speaker Allocation Data Blocks from EDID
-- * @edid: EDID to parse
-- * @sadb: pointer to the speaker block
+- * drm_detect_hdmi_monitor - detect whether monitor is HDMI
+- * @edid: monitor EDID information
 - *
-- * Looks for CEA EDID block and extracts the Speaker Allocation Data Block from it.
+- * Parse the CEA extension according to CEA-861-B.
 - *
-- * Note: The returned pointer needs to be freed using kfree().
+- * Drivers that have added the modes parsed from EDID to drm_display_info
+- * should use &drm_display_info.is_hdmi instead of calling this function.
 - *
-- * Return: The number of found Speaker Allocation Blocks or negative number on
-- * error.
+- * Return: True if the monitor is HDMI, false if not or unknown.
 - */
--int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb)
-+static int _drm_edid_to_speaker_allocation(const struct drm_edid *drm_edid,
-+					   u8 **sadb)
+-bool drm_detect_hdmi_monitor(const struct edid *edid)
++static bool _drm_detect_hdmi_monitor(const struct drm_edid *drm_edid)
  {
  	const struct cea_db *db;
  	struct cea_db_iter iter;
- 	int count = 0;
- 
+@@ -5121,7 +5110,7 @@ bool drm_detect_hdmi_monitor(const struct edid *edid)
+ 	 * Because HDMI identifier is in Vendor Specific Block,
+ 	 * search it from all data blocks of CEA extension.
+ 	 */
 -	cea_db_iter_edid_begin(edid, &iter);
 +	cea_db_iter_edid_begin(drm_edid->edid, &iter);
  	cea_db_iter_for_each(db, &iter) {
- 		if (cea_db_tag(db) == CTA_DB_SPEAKER &&
- 		    cea_db_payload_len(db) == 3) {
-@@ -5046,6 +5035,28 @@ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb)
+ 		if (cea_db_is_hdmi_vsdb(db)) {
+ 			hdmi = true;
+@@ -5132,6 +5121,27 @@ bool drm_detect_hdmi_monitor(const struct edid *edid)
  
- 	return count;
+ 	return hdmi;
  }
 +
 +/**
-+ * drm_edid_to_speaker_allocation - extracts Speaker Allocation Data Blocks from EDID
-+ * @edid: EDID to parse
-+ * @sadb: pointer to the speaker block
++ * drm_detect_hdmi_monitor - detect whether monitor is HDMI
++ * @edid: monitor EDID information
 + *
-+ * Looks for CEA EDID block and extracts the Speaker Allocation Data Block from it.
++ * Parse the CEA extension according to CEA-861-B.
 + *
-+ * Note: The returned pointer needs to be freed using kfree().
++ * Drivers that have added the modes parsed from EDID to drm_display_info
++ * should use &drm_display_info.is_hdmi instead of calling this function.
 + *
-+ * Return: The number of found Speaker Allocation Blocks or negative number on
-+ * error.
++ * Return: True if the monitor is HDMI, false if not or unknown.
 + */
-+int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb)
++bool drm_detect_hdmi_monitor(const struct edid *edid)
 +{
 +	struct drm_edid drm_edid = {
 +		.edid = edid,
 +		.size = edid_size(edid),
 +	};
 +
-+	return _drm_edid_to_speaker_allocation(&drm_edid, sadb);
++	return _drm_detect_hdmi_monitor(&drm_edid);
 +}
- EXPORT_SYMBOL(drm_edid_to_speaker_allocation);
+ EXPORT_SYMBOL(drm_detect_hdmi_monitor);
  
  /**
 -- 
