@@ -1,57 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5048351D800
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 14:38:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F34D651D812
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 14:42:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC75910E05A;
-	Fri,  6 May 2022 12:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB34112146;
+	Fri,  6 May 2022 12:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC8D10E094
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 12:38:26 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- w17-20020a17090a529100b001db302efed6so6745934pjh.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 05:38:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8Iv8SoSGBxWhw5qDincZ2Joez8FK0jJmCBzROaO+wX8=;
- b=kg3X7f76VAhb5/0qlftuTSqLaYMwDIxBDAd1RWI38gWo8rY2zEW0LKoS5c5pqiDXmU
- J24k3b4+WItGItv4dq6hX/6tcVO2INMZYHVBBX3N+mLn/2Odgb4R2b4uM92As4EHs7YM
- zzGm1kNGfpBNHNp0KX50x+s9BFvgHnZ+P7rAWwR265PeyT2T63+zTztq/MPTyZeWdTwK
- Jue4OpVj5v5h1dpZPEK57GToifuoVNn/kyKgfqLyTiLFtBLUY3PK7ooYdwo15NS1HBLP
- kz5wTinfBSEHFhFy+AJPMISuMWqPdSh/Is+LYy8EcxxZd0RZzpw39zaq+dwcC1vcaeYG
- MWLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8Iv8SoSGBxWhw5qDincZ2Joez8FK0jJmCBzROaO+wX8=;
- b=JhVqp1tvQ6q9oyKw9zVFiX6yHqkUPUxjcxvguRP0pl1UiD5GVMRLjHSZX13kB4Kh/d
- 9RryDVl2jpJkG7R21x0BeP9LqBye4r/N4G0b8taiISyvqxWVkZxaaW7B46vOW3j4qhnh
- 0tLMdLwJ1QGjQWdIbGP8CempJ+eOuc/2RQrNQ91p44tNPlMx2A3K9gVqdW7+/T6SGExs
- TB/OAKgbSrUvB6LbX+JSiiCLzwDFMA3F0gipT+iaAwDpdIwNnOjxTUs1Zk6nNM1Au55W
- +62URdMw47baAGQITviCG1P2pyFYTfpEn22pByTTezHZnR2vUMcB5rhuy5e+v9hWPSYL
- kuYg==
-X-Gm-Message-State: AOAM531WT/r6xDCvlID4H6YI9OAGiYKNxzFXYhbrIftmVpvLfO/mnyDi
- rjU8q2tnTWehuqFieU4ysv7slOwTGGoOFYU+xSc4XA==
-X-Google-Smtp-Source: ABdhPJy9H58NHSFFT2cxJ8NNbv/IBW8+5AyJ4M/qbkpKhSG/EzIWZIerpt2VYedRbVV5I8pFe97agg11zULt3k/oh3Y=
-X-Received: by 2002:a17:903:2350:b0:15e:93de:763a with SMTP id
- c16-20020a170903235000b0015e93de763amr3428485plh.117.1651840705693; Fri, 06
- May 2022 05:38:25 -0700 (PDT)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF95112146
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 12:42:50 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id B0C6FCE3603;
+ Fri,  6 May 2022 12:42:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2363C385A8;
+ Fri,  6 May 2022 12:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651840965;
+ bh=dialwtzqCFi0oRmhI+4Glifj+pcjDvGDIgt5F7nCefI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mrVMJ62kIqIIOcOD9z3HOcPJ0uUhqxWYRT+YbwINRL5q0mR8ZJPKENnK7l3wWQB6a
+ dWy5fvq0x8p0SLqT3D4PdLakjpI9IdXZiY3qKnE33gZzm/IEjfStDukdiTFPmgGFk0
+ gJ+eEIY+v5RCqtDK3FpjUnR3PXrwPhurtyGB9377O5zvUNQJa51qRZGjDWXz5QeGOj
+ qARQpDoMPT7imEofUkRTQN3su6SXxyQb0rSqJWOa068lDHiOVwuySZYqOAV9qfnsT7
+ zm6nXV1W53fw8baunmYw41HOfWt+spCTrAxs8uvJhPSLvyJWS+D0/18TQkzkYz+a17
+ Sok3QOJQSdoYw==
+Date: Fri, 6 May 2022 13:42:37 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: (subset) [PATCH 1/2] [RFC] regmap: Add bulk read/write callbacks
+ into regmap_config
+Message-ID: <YnUXvXmDgLccTRNP@sirena.org.uk>
+References: <20220430025145.640305-1-marex@denx.de>
+ <165176353878.543269.16463883419414078766.b4-ty@kernel.org>
+ <877d6zkjw5.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220504012601.423644-1-marex@denx.de>
- <YnKWeAu2MxXA7GzV@robh.at.kernel.org>
-In-Reply-To: <YnKWeAu2MxXA7GzV@robh.at.kernel.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 6 May 2022 14:38:14 +0200
-Message-ID: <CAG3jFysE6yjBByBRxdjvOXmZH4Acw=M06toeG3evBZ9NeGifhw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: bridge: ldb: Fill in reg property
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xw3SCwlahQq3ujNI"
+Content-Disposition: inline
+In-Reply-To: <877d6zkjw5.fsf@intel.com>
+X-Cookie: <Culus-> libc6 is not essential :|
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +56,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Peng Fan <peng.fan@nxp.com>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Robby Cai <robby.cai@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: marex@denx.de, maxime@cerno.tech, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, sam@ravnborg.org,
+ jagan@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 4 May 2022 at 17:06, Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, 04 May 2022 03:26:01 +0200, Marek Vasut wrote:
-> > Add missing reg and reg-names properties for both 'LDB_CTRL'
-> > and 'LVDS_CTRL' registers.
-> >
-> > Fixes: 463db5c2ed4ae ("drm: bridge: ldb: Implement simple Freescale i.MX8MP LDB bridge")
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > Cc: Maxime Ripard <maxime@cerno.tech>
-> > Cc: Peng Fan <peng.fan@nxp.com>
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Robby Cai <robby.cai@nxp.com>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: devicetree@vger.kernel.org
-> > To: dri-devel@lists.freedesktop.org
-> > ---
-> >  .../bindings/display/bridge/fsl,ldb.yaml         | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> >
->
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Applied to drm-misc-next
+--xw3SCwlahQq3ujNI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, May 06, 2022 at 01:58:18PM +0300, Jani Nikula wrote:
+
+> Hey Mark, sorry for hijacking the thread a bit. regmap.h seems to have
+> comprehensive API documentation, but there's very little in terms of
+> higher level documentation that I could find. Is there any?
+
+Not outside of the source.  I did a presentation at ELC-E ages
+ago which you can probably find but I'm not sure how much it
+would add.
+
+> I've been toying with the idea of adding a regmap based interface for
+> accessing Display Port DPCD registers, with caching, and regmap seems
+> like it's got the kitchen sink but I find it a bit difficult to
+> navigate...
+
+The bus code is generally very thin so you shouldn't need to
+worry about what the core is up to much if you just want to
+support some bus.  If this is a bus that has registers at
+hardware level then looking at something like regmap-sdw.c should
+be helpful, for something that's just a bit stream at the bus
+level then something like regmap-i3c.c is a simple example.
+
+--xw3SCwlahQq3ujNI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJ1F7QACgkQJNaLcl1U
+h9B1jQf/Rz2acXrC8ZLbV49VQa5SRjkHXwHjGWv2xzpOmvLvG3IurDqfZZ0MYUVY
+zW5EWKSEUaBEoO12YTeIiDIzx21d1PBz/EvY49mRojTK22uz/BWZYQWwoSMi4h9J
+IChClOqxZ2dOWbOtPClwXMXcGClDdqmj4vpKiP6z+0nsg4MD1ohSQFceebkKbPQX
+JQtFd+d15OpIIBnI3gAcUaRVpDTDKaZ0aO1I+kuiOuPISi/1xvhxCvEorCnZgNFj
+wVFTUIXV7j0qV8yXEOg8tbIJuuffoPV7thUCEkREGadUIn8Z4Piaqd/VVsnxK47J
+DEQ42+ZN8KIY6r+gQ9I9vET407Sr9A==
+=DBJg
+-----END PGP SIGNATURE-----
+
+--xw3SCwlahQq3ujNI--
