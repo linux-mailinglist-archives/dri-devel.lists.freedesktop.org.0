@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2260851D9A9
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 15:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A438A51D9B7
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 16:01:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9384510E726;
-	Fri,  6 May 2022 13:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B4F10EAC2;
+	Fri,  6 May 2022 14:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBFCD10E726
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 13:55:58 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id t6so10160529wra.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 06:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gg/JXMjpfOwiEZg6JQBAtzWxMQokLCT2waLLfWBbD+0=;
- b=gqFlZWoAEphOQA4KiBpzJ/0Q8MIO+jvtWxLDmDWS8JeqkDSnXm1pxZwuSJzR2wrvTe
- DALuSt7xR2VWB4jz3x2GjB1iyAuqqaGkJOd1AY3lfTbNUwYKo7ZzF2LNzgt3lJVbEUrr
- XcT6+n0kVdqe4Z9SNg+FCJLxJyCl9ZJhLoQdRX47RZi9F85urOafN9UPvEL4dPIGEb95
- aIEFf4fS79s2pj0PimLKhDTjRZ1i/Y7AfPs5zwJWgwr9sGYgX1TBjUf7w1evf2eA9Tw4
- Oa3eW3bVrgCJU3dkguKXIKaWcRjnz8UvIZk24kjW5jwcGAmkpWGunqRs9YCpallyGpTG
- Gnog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gg/JXMjpfOwiEZg6JQBAtzWxMQokLCT2waLLfWBbD+0=;
- b=Td2G6VEGJBtrtPsoOAqWKk554rFGfb1Lmm4ZcYHQc3Oy22hQhO8JBxikajxII2voOO
- Mix/jHFlCDERMSuDlrICEquAPkWZ8e6G4xlToFmDVRTVOI4t57uGuzC3rDTPSXXnQgoj
- tm1pxzvScH8AlbpQwWSSrp3oc3vmkf8ZvD92doDZTvSIZGDs2wXB5N3+LWcSb8jalzKV
- FdkDJ/mShjvlRpSVAfQNnEt1bSQU5lMVCRbrXl2Kk8NzLe9BeJWnNOdOdZPbjtLqNCNf
- l9mySf+YFrOwFog96YFsBlya84u10kLEtKA3sI3yxRMPxauKwIenUGwyXqCHv+nNk07I
- zpeA==
-X-Gm-Message-State: AOAM5319JxFxXE6yXkxnNdcPfm8VE81lc9wOgUL2ayvpzsEieZLRdass
- ZmwFn2Mb8CbHni9sc9jaICxK4gnxuYg=
-X-Google-Smtp-Source: ABdhPJz/G3rJIS2qAFjbcSCV0/1cHjKw2VsLuFIl/Hf+bylt36IxaQ+FDHWSptNmOUuo0r33ce1rZg==
-X-Received: by 2002:a05:6000:1acd:b0:20c:811c:9f39 with SMTP id
- i13-20020a0560001acd00b0020c811c9f39mr2768730wry.482.1651845357175; 
- Fri, 06 May 2022 06:55:57 -0700 (PDT)
-Received: from localhost ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- r190-20020a1c2bc7000000b003942a244f51sm8765545wmr.42.2022.05.06.06.55.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 May 2022 06:55:56 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH] drm/tegra: gem: Do not try to dereference ERR_PTR()
-Date: Fri,  6 May 2022 15:55:52 +0200
-Message-Id: <20220506135552.3913468-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F05810EAC2
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 14:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8DenpRlYPwvecKikFbNx4R1ZEZ6sE9ZzSygGWkgPE1k=; b=BepKx8ainNKzsS3T/WxiMxslbv
+ D/ENZpNtA46xP9s+CxRWDJuDP8Jp0/qG6e7sno05HS7PmQZWPrt0i/rj1hliKL4itYq14kyK2DOQt
+ 0mnJe9spATuoDejHowLX8Y25NHWagm9L+Yy5p3yZg6n8QQFvbr8UyHa4NS71LlaT7rWdXgXJK2mCG
+ 098cDRFkdHZ1/LbDK4hMGDVr2DDOizBqBYopVJR0yhcWqykEHEgpbeTY8KxFKM9snTh/MipWLgMqm
+ 2DfAL7SQwUDzfXbcSDPshV1rIqZ0BYyoFVZMEeFofZHic7am35zIPmRlFBgogEWpUguzMigL6SJHh
+ Q2mQRPtQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=55622)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1nmyW7-00045F-ME; Fri, 06 May 2022 16:01:11 +0200
+Message-ID: <9a6889dd-7fb3-2622-bae5-f9dd31a38856@tronnes.org>
+Date: Fri, 6 May 2022 16:01:08 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 4/5] drm/gud: Map framebuffer BOs with drm_gem_fb_vmap()
+To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20210730183511.20080-1-tzimmermann@suse.de>
+ <20210730183511.20080-5-tzimmermann@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20210730183511.20080-5-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,39 +55,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>,
- kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ melissa.srw@gmail.com, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Hi Thomas,
 
-When mapping the DMA-BUF attachment fails, map->sgt will be an ERR_PTR-
-encoded error code and the cleanup code would try to free that memory,
-which obviously would fail.
+I'm getting this on Ubuntu 22.04:
 
-Zero out that pointer after extracting the error code when this happens
-so that kfree() can do the right thing.
+[    0.000000] Linux version 5.15.0-27-generic (buildd@ubuntu) (gcc
+(Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38)
+#28-Ubuntu SMP Thu Apr 14 04:55:28 UTC 2022 (Ubuntu 5.15.0-27.28-generic
+5.15.30)
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/tegra/gem.c | 1 +
- 1 file changed, 1 insertion(+)
+[    4.830866] usb 2-3.1: new high-speed USB device number 4 using xhci_hcd
+[    4.935546] usb 2-3.1: New USB device found, idVendor=1d50,
+idProduct=614d, bcdDevice= 1.00
+[    4.935553] usb 2-3.1: New USB device strings: Mfr=1, Product=2,
+SerialNumber=3
+[    4.935556] usb 2-3.1: Product: Raspberry Pi 4 Display Gadget
+[    4.935558] usb 2-3.1: Manufacturer: Raspberry Pi
+[    4.935560] usb 2-3.1: SerialNumber: 100000003b40d6c6
 
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index 0063403ab5e1..7c7dd84e6db8 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -88,6 +88,7 @@ static struct host1x_bo_mapping *tegra_bo_pin(struct device *dev, struct host1x_
- 		if (IS_ERR(map->sgt)) {
- 			dma_buf_detach(buf, map->attach);
- 			err = PTR_ERR(map->sgt);
-+			map->sgt = NULL;
- 			goto free;
- 		}
- 
--- 
-2.35.1
+[    7.497361] [drm] Initialized gud 1.0.0 20200422 for 2-3.1:1.0 on minor 0
 
+[    7.573048] gud 2-3.1:1.0: [drm] fb1: guddrmfb frame buffer device
+
+[    9.199402]
+================================================================================
+[    9.199411] UBSAN: invalid-load in
+/build/linux-HMZHpV/linux-5.15.0/include/linux/dma-buf-map.h:224:9
+[    9.199416] load of value 226 is not a valid value for type '_Bool'
+[    9.199420] CPU: 0 PID: 113 Comm: kworker/0:2 Not tainted
+5.15.0-27-generic #28-Ubuntu
+[    9.199424] Hardware name: Hewlett-Packard HP EliteBook 820 G1/1991,
+BIOS L71 Ver. 01.44 04/12/2018
+[    9.199427] Workqueue: events_long gud_flush_work [gud]
+[    9.199440] Call Trace:
+[    9.199443]  <TASK>
+[    9.199447]  show_stack+0x52/0x58
+[    9.199456]  dump_stack_lvl+0x4a/0x5f
+[    9.199464]  dump_stack+0x10/0x12
+[    9.199468]  ubsan_epilogue+0x9/0x45
+[    9.199473]  __ubsan_handle_load_invalid_value.cold+0x44/0x49
+[    9.199478]  drm_gem_fb_vmap.cold+0x10/0x3d [drm_kms_helper]
+[    9.199519]  gud_prep_flush+0xaa/0x410 [gud]
+[    9.199525]  ? check_preempt_curr+0x5d/0x70
+[    9.199533]  ? update_load_avg+0x82/0x620
+[    9.199540]  ? set_next_entity+0xb7/0x200
+[    9.199545]  gud_flush_work+0x1e0/0x430 [gud]
+[    9.199551]  ? psi_task_switch+0x1e7/0x220
+[    9.199557]  process_one_work+0x22b/0x3d0
+[    9.199564]  worker_thread+0x53/0x410
+[    9.199570]  ? process_one_work+0x3d0/0x3d0
+[    9.199575]  kthread+0x12a/0x150
+[    9.199579]  ? set_kthread_struct+0x50/0x50
+[    9.199584]  ret_from_fork+0x22/0x30
+[    9.199593]  </TASK>
+[    9.199595]
+================================================================================
+
+[    9.199598]
+================================================================================
+[    9.199600] UBSAN: invalid-load in
+/build/linux-HMZHpV/linux-5.15.0/include/linux/dma-buf-map.h:194:9
+[    9.199604] load of value 226 is not a valid value for type '_Bool'
+[    9.199606] CPU: 0 PID: 113 Comm: kworker/0:2 Not tainted
+5.15.0-27-generic #28-Ubuntu
+[    9.199610] Hardware name: Hewlett-Packard HP EliteBook 820 G1/1991,
+BIOS L71 Ver. 01.44 04/12/2018
+[    9.199612] Workqueue: events_long gud_flush_work [gud]
+[    9.199618] Call Trace:
+[    9.199619]  <TASK>
+[    9.199621]  show_stack+0x52/0x58
+[    9.199627]  dump_stack_lvl+0x4a/0x5f
+[    9.199633]  dump_stack+0x10/0x12
+[    9.199637]  ubsan_epilogue+0x9/0x45
+[    9.199641]  __ubsan_handle_load_invalid_value.cold+0x44/0x49
+[    9.199646]  drm_gem_fb_vmap.cold+0x24/0x3d [drm_kms_helper]
+[    9.199675]  gud_prep_flush+0xaa/0x410 [gud]
+[    9.199682]  ? check_preempt_curr+0x5d/0x70
+[    9.199688]  ? update_load_avg+0x82/0x620
+[    9.199693]  ? update_load_avg+0x82/0x620
+[    9.199697]  gud_flush_work+0x1e0/0x430 [gud]
+[    9.199702]  ? psi_task_switch+0x1e7/0x220
+[    9.199706]  process_one_work+0x22b/0x3d0
+[    9.199713]  worker_thread+0x53/0x410
+[    9.199718]  ? process_one_work+0x3d0/0x3d0
+[    9.199723]  kthread+0x12a/0x150
+[    9.199728]  ? set_kthread_struct+0x50/0x50
+[    9.199732]  ret_from_fork+0x22/0x30
+[    9.199741]  </TASK>
+[    9.199743]
+================================================================================
+
+It's the "if (map->is_iomem)" statement in dma_buf_map_clear() and
+dma_buf_map_is_null() that triggers this.
+
+I tried 5.18.0-rc5 and the problem is still present.
+
+UBSAN entries in the config:
+
+CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
+CONFIG_UBSAN=y
+# CONFIG_UBSAN_TRAP is not set
+CONFIG_CC_HAS_UBSAN_BOUNDS=y
+CONFIG_UBSAN_BOUNDS=y
+CONFIG_UBSAN_ONLY_BOUNDS=y
+CONFIG_UBSAN_SHIFT=y
+# CONFIG_UBSAN_DIV_ZERO is not set
+CONFIG_UBSAN_BOOL=y
+CONFIG_UBSAN_ENUM=y
+# CONFIG_UBSAN_ALIGNMENT is not set
+CONFIG_UBSAN_SANITIZE_ALL=y
+# CONFIG_TEST_UBSAN is not set
+
+Continuing further down.
+
+
+Den 30.07.2021 20.35, skrev Thomas Zimmermann:
+> Abstract the framebuffer details by mapping its BOs with a call
+> to drm_gem_fb_vmap(). Unmap with drm_gem_fb_vunmap().
+> 
+> The call to drm_gem_fb_vmap() ensures that all BOs are mapped
+> correctly. Gud still only supports single-plane formats.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Noralf Trønnes <noralf@tronnes.org>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/gud/gud_pipe.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+> index 4d7a26b68a2e..7e009f562b30 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -14,8 +14,8 @@
+>  #include <drm/drm_format_helper.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_framebuffer.h>
+> +#include <drm/drm_gem.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> -#include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_rect.h>
+>  #include <drm/drm_simple_kms_helper.h>
+> @@ -152,7 +152,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+>  {
+>  	struct dma_buf_attachment *import_attach = fb->obj[0]->import_attach;
+>  	u8 compression = gdrm->compression;
+> -	struct dma_buf_map map;
+> +	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
+
+Zeroing map solves the problem:
+
+        struct iosys_map map[DRM_FORMAT_MAX_PLANES] = {};
+
+I don't understand the conditional clearing in
+dma_buf_map_clear/iosys_map_clear(), the doc says: Clears all fields to
+zero. If I zero the whole structure unconditionally this also keeps
+UBSAN happy.
+
+Noralf.
+
+>  	void *vaddr, *buf;
+>  	size_t pitch, len;
+>  	int ret = 0;
+> @@ -162,11 +162,11 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+>  	if (len > gdrm->bulk_len)
+>  		return -E2BIG;
+>  
+> -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	ret = drm_gem_fb_vmap(fb, map);
+>  	if (ret)
+>  		return ret;
+>  
+> -	vaddr = map.vaddr + fb->offsets[0];
+> +	vaddr = map[0].vaddr + fb->offsets[0];
+>  
+>  	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+>  	if (ret)
+> @@ -225,7 +225,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+>  end_cpu_access:
+>  	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+>  vunmap:
+> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
+> +	drm_gem_fb_vunmap(fb, map);
+>  
+>  	return ret;
+>  }
