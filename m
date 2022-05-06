@@ -2,66 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB95051E195
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 00:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E43751E198
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 00:25:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16BE710E292;
-	Fri,  6 May 2022 22:20:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834F310E494;
+	Fri,  6 May 2022 22:24:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E33F710E292
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 22:20:36 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id u23so9089265lfc.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 15:20:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XyGXaAb/M02rlPwHuF/k2F7fqFtO6DD6Qbbge552y8g=;
- b=SPz3AtCZ7zacpN/7qSGY1ZTWBLncuyWbQF1YDKlPbHMhJUh4ovMZmqQ08pQH3ZvTXd
- IosacZsIGp644oGt0vYajM0h2d5DSNugnaWlpKlqgBjv7ZDhyeRbIbnARZFCGauRQ6qi
- 4V/XC+2Z7xdWSpg4P9AHKbGURvz6/Rqu5EmhmlZB/4+RgsUiRvqUqUmtZQhVvPnMzmbi
- 9k5deXJfkmfX3JfKpx1SEgbyZMkiWxkJP4kf0nK+uau5RkHHCnUos+AOcJPLhpa2dhBf
- pjkwSdHGGx3uh82iUDHaz+QFiJQXPl0koT13gyEJt9wZHgG65Ts4C2Lx6pshMOyavasu
- Hatw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XyGXaAb/M02rlPwHuF/k2F7fqFtO6DD6Qbbge552y8g=;
- b=61zjobfRlbMQ4A3QuEjenSmZQZJ+7dDtpsODrW4seQWw8bkye9boWG44IAEO2WBLhg
- RPy0fXbJN7CFB6ZxTTq3BMhABF4Be3gX2+JoHs714jrhu4TIIWfKytgebeIcnMdbvz5A
- 5eLmNVrwovePmGQuU+GuFrSfqDEf4pDdw18Mkw51hwgKjvZ8THgkdk7W8/PAYpvdVzYy
- ZnHmVOto94re4jY77xN494SdXJljYCNhDdvd1DdMJJFWBG/lVnbfsGKFw7PCENmKUsYZ
- /0SNs/0d/ntRT2BtWaWRTq8JTXY9stpNzVkjvfPyuGu30ZRWBSQRe6OQ/06qwDXqHrdB
- z+iQ==
-X-Gm-Message-State: AOAM532MONwxEvjXS9ynshQ7CmSVgV3408o2LlRQazZd4zfTDTzU2gz2
- vKPTWnWxbOSRuv3LWJ7kzyKDTQ==
-X-Google-Smtp-Source: ABdhPJwuKUbU3X3Z2D8y+Jdg7T3J4Ulwha/6oAatFA8qgVLy+uLFv68AI4W+SRdTFJPxSeh8vs6sxQ==
-X-Received: by 2002:a05:6512:398d:b0:473:a597:540a with SMTP id
- j13-20020a056512398d00b00473a597540amr4059244lfu.64.1651875635119; 
- Fri, 06 May 2022 15:20:35 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- j13-20020a2e824d000000b0024f3d1dae98sm781421ljh.32.2022.05.06.15.20.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 15:20:34 -0700 (PDT)
-Message-ID: <2c4cbe4a-1dbf-cfa6-7e2c-0131b886b388@linaro.org>
-Date: Sat, 7 May 2022 01:20:33 +0300
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D40310E43B;
+ Fri,  6 May 2022 22:24:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651875898; x=1683411898;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=r59VCrCsgsKUaCsQChb61ImErFL2YZ/I18OorrXID9Y=;
+ b=Y2J0sx3Zz+w5An5raiKkb2ZIUUBf7JcqF2tRd0v6sjYHXVJ8xKQbL0XE
+ Q/RFF2n79U8OPtsO4wO55wb1abFBMQw+N6BZHwcoFqw3PK2EG1NOxGM3c
+ N+TfqFB32n8VF9grai2u7RAIRZ7GCnO8QCoCFhiq2pC64XORVmhBzk/fh w=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 06 May 2022 15:24:57 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 15:24:27 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 6 May 2022 15:24:26 -0700
+Received: from [10.111.168.240] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 6 May 2022
+ 15:24:23 -0700
+Message-ID: <ac7086dc-51c9-308c-486b-01edde562039@quicinc.com>
+Date: Fri, 6 May 2022 15:24:21 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 1/3] drm/msm/adreno: Add A619 support
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht
-References: <20220414184442.375113-1-konrad.dybcio@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220414184442.375113-1-konrad.dybcio@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 11/25] drm/msm/dpu: use dpu_sw_pipe for dpu_hw_sspp
+ callbacks
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-12-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220209172520.3719906-12-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,342 +67,479 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Viresh Kumar <viresh.kumar@linaro.org>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
- Jonathan Marek <jonathan@marek.ca>, Yangtao Li <tiny.windzz@gmail.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, jamipkettunen@somainline.org,
- martin.botka@somainline.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Vladimir Lypak <vladimir.lypak@gmail.com>, linux-kernel@vger.kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/04/2022 21:44, Konrad Dybcio wrote:
-> Add support for the Adreno 619 GPU, as found in Snapdragon 690 (SM6350),
-> 480 (SM4350) and 750G (SM7225).
+
+
+On 2/9/2022 9:25 AM, Dmitry Baryshkov wrote:
+> Where feasible, use dpu_sw_pipe rather than a combo of dpu_hw_pipe and
+> multirect_index/_mode arguments.
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
-> Changes in v2:
-> - Don't reserve icache/dcache regions on legacy GMUs, as that
-> is apparently not necessary and simply a downstream leftover.
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 59 ++++++++++----------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 46 ++++++---------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 62 +++++++++------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   |  9 ++-
+>   4 files changed, 77 insertions(+), 99 deletions(-)
 > 
-> 
->   drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 11 ++--
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 70 +++++++++++++++++++++-
->   drivers/gpu/drm/msm/adreno/a6xx_hfi.c      | 66 +++++++++++++++++++-
->   drivers/gpu/drm/msm/adreno/adreno_device.c | 14 +++++
->   drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 13 +++-
->   5 files changed, 166 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 3e325e2a2b1b..e8d4cca6cd46 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -527,6 +527,8 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
->   		pdc_in_aop = true;
->   	else if (adreno_is_a618(adreno_gpu) || adreno_is_a640_family(adreno_gpu))
->   		pdc_address_offset = 0x30090;
-> +	else if (adreno_is_a619(adreno_gpu))
-> +		pdc_address_offset = 0x300a0;
->   	else
->   		pdc_address_offset = 0x30080;
->   
-> @@ -601,7 +603,8 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
->   
->   	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_MSGID + 4, 0x10108);
->   	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_ADDR + 4, 0x30000);
-> -	if (adreno_is_a618(adreno_gpu) || adreno_is_a650_family(adreno_gpu))
-> +	if (adreno_is_a618(adreno_gpu) || adreno_is_a619(adreno_gpu) ||
-> +			adreno_is_a650_family(adreno_gpu))
->   		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 4, 0x2);
->   	else
->   		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 4, 0x3);
-> @@ -1537,7 +1540,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
->   			SZ_16M - SZ_16K, 0x04000, "icache");
->   		if (ret)
->   			goto err_memory;
-> -	} else if (adreno_is_a640_family(adreno_gpu)) {
-> +	} else {
->   		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
->   			SZ_256K - SZ_16K, 0x04000, "icache");
->   		if (ret)
-> @@ -1547,9 +1550,9 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
->   			SZ_256K - SZ_16K, 0x44000, "dcache");
->   		if (ret)
->   			goto err_memory;
-> -	} else {
-> -		BUG_ON(adreno_is_a660_family(adreno_gpu));
-> +	}
-
-Is this chunk expected or not? I don't think you had intention to drop 
-the BUG_ON.
-
->   
-> +	if (adreno_is_a630(adreno_gpu) || adreno_is_a615_family(adreno_gpu)) {
->   		/* HFI v1, has sptprac */
->   		gmu->legacy = true;
->   
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 83c31b2ad865..ddeb04a77662 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -252,6 +252,74 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
->   	a6xx_flush(gpu, ring);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> index 8714ee767346..d8120168f974 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -168,17 +168,16 @@ static int _sspp_subblk_offset(struct dpu_hw_pipe *ctx,
+>   	return rc;
 >   }
 >   
-> +/* For a615 family (a615, a616, a618 and a619) */
-> +const struct adreno_reglist a615_hwcg[] = {
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_SP0,  0x02222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL2_SP0, 0x02222220},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_SP0, 0x00000080},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_SP0,  0x0000F3CF},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_TP0,  0x02222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_TP1,  0x02222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL2_TP0, 0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL2_TP1, 0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL3_TP0, 0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL3_TP1, 0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL4_TP0, 0x00022222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL4_TP1, 0x00022222},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_TP0,  0x77777777},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_TP1,  0x77777777},
-> +	{REG_A6XX_RBBM_CLOCK_HYST2_TP0, 0x77777777},
-> +	{REG_A6XX_RBBM_CLOCK_HYST2_TP1, 0x77777777},
-> +	{REG_A6XX_RBBM_CLOCK_HYST3_TP0, 0x77777777},
-> +	{REG_A6XX_RBBM_CLOCK_HYST3_TP1, 0x77777777},
-> +	{REG_A6XX_RBBM_CLOCK_HYST4_TP0, 0x00077777},
-> +	{REG_A6XX_RBBM_CLOCK_HYST4_TP1, 0x00077777},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_TP0, 0x11111111},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_TP1, 0x11111111},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY2_TP0, 0x11111111},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY2_TP1, 0x11111111},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY3_TP0, 0x11111111},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY3_TP1, 0x11111111},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY4_TP0, 0x00011111},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY4_TP1, 0x00011111},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_UCHE,  0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL2_UCHE, 0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL3_UCHE, 0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL4_UCHE, 0x00222222},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_UCHE,  0x00000004},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_UCHE, 0x00000002},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_RB0, 0x22222222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL2_RB0, 0x00002222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU0, 0x00002020},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU1, 0x00002220},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU2, 0x00002220},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU3, 0x00002220},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU0, 0x00040F00},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU1, 0x00040F00},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU2, 0x00040F00},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU3, 0x00040F00},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_RAC, 0x05022022},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL2_RAC, 0x00005555},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_RAC, 0x00000011},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_RAC, 0x00445044},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_TSE_RAS_RBBM, 0x04222222},
-> +	{REG_A6XX_RBBM_CLOCK_MODE_GPC, 0x00222222},
-> +	{REG_A6XX_RBBM_CLOCK_MODE_VFD, 0x00002222},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_TSE_RAS_RBBM, 0x00000000},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_GPC, 0x04104004},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_VFD, 0x00000000},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_HLSQ, 0x00000000},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_TSE_RAS_RBBM, 0x00004000},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_GPC, 0x00000200},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_VFD, 0x00002222},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_HLSQ_2, 0x00000002},
-> +	{REG_A6XX_RBBM_CLOCK_MODE_HLSQ, 0x00002222},
-> +	{REG_A6XX_RBBM_CLOCK_CNTL_GMU_GX, 0x00000222},
-> +	{REG_A6XX_RBBM_CLOCK_DELAY_GMU_GX, 0x00000111},
-> +	{REG_A6XX_RBBM_CLOCK_HYST_GMU_GX, 0x00000555},
-> +	{},
-> +};
-> +
->   const struct adreno_reglist a630_hwcg[] = {
->   	{REG_A6XX_RBBM_CLOCK_CNTL_SP0, 0x22222222},
->   	{REG_A6XX_RBBM_CLOCK_CNTL_SP1, 0x22222222},
-> @@ -555,7 +623,7 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
->   	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
->   }
->   
-> -/* For a615, a616, a618, A619, a630, a640 and a680 */
-> +/* For a615, a616, a618, a619, a630, a640 and a680 */
->   static const u32 a6xx_protect[] = {
->   	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
->   	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-> index d73fce5fdf1f..db88fa6122d2 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-> @@ -205,8 +205,8 @@ static int a6xx_hfi_get_fw_version(struct a6xx_gmu *gmu, u32 *version)
+> -static void dpu_hw_sspp_setup_multirect(struct dpu_hw_pipe *ctx,
+> -		enum dpu_sspp_multirect_index index,
+> -		enum dpu_sspp_multirect_mode mode)
+> +static void dpu_hw_sspp_setup_multirect(struct dpu_sw_pipe *pipe)
 >   {
->   	struct a6xx_hfi_msg_fw_version msg = { 0 };
+> +	struct dpu_hw_pipe *ctx = pipe->sspp;
+>   	u32 mode_mask;
+>   	u32 idx;
 >   
-> -	/* Currently supporting version 1.1 */
-> -	msg.supported_version = (1 << 28) | (1 << 16);
-> +	/* Currently supporting version 1.10 */
-> +	msg.supported_version = (1 << 28) | (1 << 19) | (1 << 17);
+>   	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+>   		return;
 >   
->   	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_FW_VERSION, &msg, sizeof(msg),
->   		version, sizeof(*version));
-> @@ -285,6 +285,66 @@ static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
->   	msg->cnoc_cmds_data[1][0] =  0x60000001;
+> -	if (index == DPU_SSPP_RECT_SOLO) {
+> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+>   		/**
+>   		 * if rect index is RECT_SOLO, we cannot expect a
+>   		 * virtual plane sharing the same SSPP id. So we go
+> @@ -187,8 +186,8 @@ static void dpu_hw_sspp_setup_multirect(struct dpu_hw_pipe *ctx,
+>   		mode_mask = 0;
+>   	} else {
+>   		mode_mask = DPU_REG_READ(&ctx->hw, SSPP_MULTIRECT_OPMODE + idx);
+> -		mode_mask |= index;
+> -		if (mode == DPU_SSPP_MULTIRECT_TIME_MX)
+> +		mode_mask |= pipe->multirect_index;
+> +		if (pipe->multirect_mode == DPU_SSPP_MULTIRECT_TIME_MX)
+>   			mode_mask |= BIT(2);
+>   		else
+>   			mode_mask &= ~BIT(2);
+> @@ -239,10 +238,10 @@ static void _sspp_setup_csc10_opmode(struct dpu_hw_pipe *ctx,
+>   /*
+>    * Setup source pixel format, flip,
+>    */
+> -static void dpu_hw_sspp_setup_format(struct dpu_hw_pipe *ctx,
+> -		const struct dpu_format *fmt, u32 flags,
+> -		enum dpu_sspp_multirect_index rect_mode)
+> +static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+> +		const struct dpu_format *fmt, u32 flags)
+>   {
+> +	struct dpu_hw_pipe *ctx = pipe->sspp;
+>   	struct dpu_hw_blk_reg_map *c;
+>   	u32 chroma_samp, unpack, src_format;
+>   	u32 opmode = 0;
+> @@ -253,7 +252,8 @@ static void dpu_hw_sspp_setup_format(struct dpu_hw_pipe *ctx,
+>   	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx) || !fmt)
+>   		return;
+>   
+> -	if (rect_mode == DPU_SSPP_RECT_SOLO || rect_mode == DPU_SSPP_RECT_0) {
+> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+> +	    pipe->multirect_index == DPU_SSPP_RECT_0) {
+>   		op_mode_off = SSPP_SRC_OP_MODE;
+>   		unpack_pat_off = SSPP_SRC_UNPACK_PATTERN;
+>   		format_off = SSPP_SRC_FORMAT;
+> @@ -443,10 +443,10 @@ static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_pipe *ctx)
+>   /*
+>    * dpu_hw_sspp_setup_rects()
+>    */
+> -static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
+> -		struct dpu_hw_pipe_cfg *cfg,
+> -		enum dpu_sspp_multirect_index rect_index)
+> +static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
+> +		struct dpu_hw_pipe_cfg *cfg)
+>   {
+> +	struct dpu_hw_pipe *ctx = pipe->sspp;
+>   	struct dpu_hw_blk_reg_map *c;
+>   	u32 src_size, src_xy, dst_size, dst_xy, ystride0, ystride1;
+>   	u32 src_size_off, src_xy_off, out_size_off, out_xy_off;
+> @@ -457,7 +457,8 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
+>   
+>   	c = &ctx->hw;
+>   
+> -	if (rect_index == DPU_SSPP_RECT_SOLO || rect_index == DPU_SSPP_RECT_0) {
+> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+> +	    pipe->multirect_index == DPU_SSPP_RECT_0) {
+>   		src_size_off = SSPP_SRC_SIZE;
+>   		src_xy_off = SSPP_SRC_XY;
+>   		out_size_off = SSPP_OUT_SIZE;
+> @@ -478,7 +479,7 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
+>   	dst_size = (drm_rect_height(&cfg->dst_rect) << 16) |
+>   		drm_rect_width(&cfg->dst_rect);
+>   
+> -	if (rect_index == DPU_SSPP_RECT_SOLO) {
+> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+>   		ystride0 = (cfg->layout.plane_pitch[0]) |
+>   			(cfg->layout.plane_pitch[1] << 16);
+>   		ystride1 = (cfg->layout.plane_pitch[2]) |
+> @@ -487,7 +488,7 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
+>   		ystride0 = DPU_REG_READ(c, SSPP_SRC_YSTRIDE0 + idx);
+>   		ystride1 = DPU_REG_READ(c, SSPP_SRC_YSTRIDE1 + idx);
+>   
+> -		if (rect_index == DPU_SSPP_RECT_0) {
+> +		if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+>   			ystride0 = (ystride0 & 0xFFFF0000) |
+>   				(cfg->layout.plane_pitch[0] & 0x0000FFFF);
+>   			ystride1 = (ystride1 & 0xFFFF0000)|
+> @@ -512,21 +513,21 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
+>   	DPU_REG_WRITE(c, SSPP_SRC_YSTRIDE1 + idx, ystride1);
 >   }
 >   
-> +static void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
-> +{
-> +	msg->bw_level_num = 13;
-> +
-> +	msg->ddr_cmds_num = 1;
-> +	msg->ddr_wait_bitmask = 0x0;
-> +
-> +	msg->ddr_cmds_addrs[0] = 0x50000;
-> +	msg->ddr_cmds_addrs[1] = 0x50004;
-> +	msg->ddr_cmds_addrs[2] = 0x50080;
-> +
-> +	msg->ddr_cmds_data[0][0]  = 0x40000000;
-> +	msg->ddr_cmds_data[0][1]  = 0x40000000;
-> +	msg->ddr_cmds_data[0][2]  = 0x40000000;
-> +	msg->ddr_cmds_data[1][0]  = 0x6000030c;
-> +	msg->ddr_cmds_data[1][1]  = 0x600000db;
-> +	msg->ddr_cmds_data[1][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[2][0]  = 0x60000618;
-> +	msg->ddr_cmds_data[2][1]  = 0x600001b6;
-> +	msg->ddr_cmds_data[2][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[3][0]  = 0x60000925;
-> +	msg->ddr_cmds_data[3][1]  = 0x60000291;
-> +	msg->ddr_cmds_data[3][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[4][0]  = 0x60000dc1;
-> +	msg->ddr_cmds_data[4][1]  = 0x600003dc;
-> +	msg->ddr_cmds_data[4][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[5][0]  = 0x600010ad;
-> +	msg->ddr_cmds_data[5][1]  = 0x600004ae;
-> +	msg->ddr_cmds_data[5][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[6][0]  = 0x600014c3;
-> +	msg->ddr_cmds_data[6][1]  = 0x600005d4;
-> +	msg->ddr_cmds_data[6][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[7][0]  = 0x6000176a;
-> +	msg->ddr_cmds_data[7][1]  = 0x60000693;
-> +	msg->ddr_cmds_data[7][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[8][0]  = 0x60001f01;
-> +	msg->ddr_cmds_data[8][1]  = 0x600008b5;
-> +	msg->ddr_cmds_data[8][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[9][0]  = 0x60002940;
-> +	msg->ddr_cmds_data[9][1]  = 0x60000b95;
-> +	msg->ddr_cmds_data[9][2]  = 0x60000008;
-> +	msg->ddr_cmds_data[10][0] = 0x60002f68;
-> +	msg->ddr_cmds_data[10][1] = 0x60000d50;
-> +	msg->ddr_cmds_data[10][2] = 0x60000008;
-> +	msg->ddr_cmds_data[11][0] = 0x60003700;
-> +	msg->ddr_cmds_data[11][1] = 0x60000f71;
-> +	msg->ddr_cmds_data[11][2] = 0x60000008;
-> +	msg->ddr_cmds_data[12][0] = 0x60003fce;
-> +	msg->ddr_cmds_data[12][1] = 0x600011ea;
-> +	msg->ddr_cmds_data[12][2] = 0x60000008;
-
-I think we typically provide just a single cmd entry. You also have 
-ddr_cmds_num = 1, so the rest of the entries are unused and can be removed.
-
-> +
-> +	msg->cnoc_cmds_num = 3;
-> +	msg->cnoc_wait_bitmask = 0x0;
-> +
-> +	msg->cnoc_cmds_addrs[0] = 0x50054;
-> +
-> +	msg->cnoc_cmds_data[0][0] =  0x40000000;
-> +	msg->cnoc_cmds_data[1][0] =  0x60000001;
-> +}
-> +
->   static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> -static void dpu_hw_sspp_setup_sourceaddress(struct dpu_hw_pipe *ctx,
+> -		struct dpu_hw_pipe_cfg *cfg,
+> -		enum dpu_sspp_multirect_index rect_mode)
+> +static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
+> +		struct dpu_hw_pipe_cfg *cfg)
 >   {
->   	/*
-> @@ -462,6 +522,8 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
+> +	struct dpu_hw_pipe *ctx = pipe->sspp;
+>   	int i;
+>   	u32 idx;
 >   
->   	if (adreno_is_a618(adreno_gpu))
->   		a618_build_bw_table(&msg);
-> +	else if (adreno_is_a619(adreno_gpu))
-> +		a619_build_bw_table(&msg);
->   	else if (adreno_is_a640_family(adreno_gpu))
->   		a640_build_bw_table(&msg);
->   	else if (adreno_is_a650(adreno_gpu))
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 89cfd84760d7..83a0625adb91 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -264,6 +264,19 @@ static const struct adreno_info gpulist[] = {
->   		.gmem = SZ_512K,
->   		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
->   		.init = a6xx_gpu_init,
-> +	}, {
-> +		.rev = ADRENO_REV(6, 1, 9, ANY_ID),
-> +		.revn = 619,
-> +		.name = "A619",
-> +		.fw = {
-> +			[ADRENO_FW_SQE] = "a630_sqe.fw",
-> +			[ADRENO_FW_GMU] = "a619_gmu.bin",
-> +		},
-> +		.gmem = SZ_512K,
-> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> +		.init = a6xx_gpu_init,
-> +		.zapfw = "a615_zap.mdt",
-> +		.hwcg = a615_hwcg,
->   	}, {
->   		.rev = ADRENO_REV(6, 3, 0, ANY_ID),
->   		.revn = 630,
-> @@ -355,6 +368,7 @@ MODULE_FIRMWARE("qcom/a530_zap.mdt");
->   MODULE_FIRMWARE("qcom/a530_zap.b00");
->   MODULE_FIRMWARE("qcom/a530_zap.b01");
->   MODULE_FIRMWARE("qcom/a530_zap.b02");
-> +MODULE_FIRMWARE("qcom/a619_gmu.bin");
->   MODULE_FIRMWARE("qcom/a630_sqe.fw");
->   MODULE_FIRMWARE("qcom/a630_gmu.bin");
->   MODULE_FIRMWARE("qcom/a630_zap.mbn");
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index 0490c5fbb780..a13a3e5a294b 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -57,7 +57,7 @@ struct adreno_reglist {
->   	u32 value;
+>   	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+>   		return;
+>   
+> -	if (rect_mode == DPU_SSPP_RECT_SOLO) {
+> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+>   		for (i = 0; i < ARRAY_SIZE(cfg->layout.plane_addr); i++)
+>   			DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx + i * 0x4,
+>   					cfg->layout.plane_addr[i]);
+> -	} else if (rect_mode == DPU_SSPP_RECT_0) {
+> +	} else if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx,
+>   				cfg->layout.plane_addr[0]);
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC2_ADDR + idx,
+> @@ -556,15 +557,16 @@ static void dpu_hw_sspp_setup_csc(struct dpu_hw_pipe *ctx,
+>   	dpu_hw_csc_setup(&ctx->hw, idx, data, csc10);
+>   }
+>   
+> -static void dpu_hw_sspp_setup_solidfill(struct dpu_hw_pipe *ctx, u32 color, enum
+> -		dpu_sspp_multirect_index rect_index)
+> +static void dpu_hw_sspp_setup_solidfill(struct dpu_sw_pipe *pipe, u32 color)
+>   {
+> +	struct dpu_hw_pipe *ctx = pipe->sspp;
+>   	u32 idx;
+>   
+>   	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+>   		return;
+>   
+> -	if (rect_index == DPU_SSPP_RECT_SOLO || rect_index == DPU_SSPP_RECT_0)
+> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+> +	    pipe->multirect_index == DPU_SSPP_RECT_0)
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR + idx, color);
+>   	else
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR_REC1 + idx,
+> @@ -626,10 +628,10 @@ static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_pipe *ctx,
+>   	DPU_REG_WRITE(&ctx->hw, SSPP_QOS_CTRL + idx, qos_ctrl);
+>   }
+>   
+> -static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
+> -		struct dpu_hw_pipe_cdp_cfg *cfg,
+> -		enum dpu_sspp_multirect_index index)
+> +static void dpu_hw_sspp_setup_cdp(struct dpu_sw_pipe *pipe,
+> +		struct dpu_hw_pipe_cdp_cfg *cfg)
+>   {
+> +	struct dpu_hw_pipe *ctx = pipe->sspp;
+>   	u32 idx;
+>   	u32 cdp_cntl = 0;
+>   	u32 cdp_cntl_offset = 0;
+> @@ -640,7 +642,8 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
+>   	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+>   		return;
+>   
+> -	if (index == DPU_SSPP_RECT_SOLO || index == DPU_SSPP_RECT_0)
+> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+> +	    pipe->multirect_index == DPU_SSPP_RECT_0)
+>   		cdp_cntl_offset = SSPP_CDP_CNTL;
+>   	else
+>   		cdp_cntl_offset = SSPP_CDP_CNTL_REC1;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index 0af2bc6e5df8..74171fb4e585 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -234,24 +234,20 @@ struct dpu_sw_pipe {
+>   struct dpu_hw_sspp_ops {
+>   	/**
+>   	 * setup_format - setup pixel format cropping rectangle, flip
+> -	 * @ctx: Pointer to pipe context
+> +	 * @pipe: Pointer to software pipe context
+>   	 * @cfg: Pointer to pipe config structure
+>   	 * @flags: Extra flags for format config
+> -	 * @index: rectangle index in multirect
+>   	 */
+> -	void (*setup_format)(struct dpu_hw_pipe *ctx,
+> -			const struct dpu_format *fmt, u32 flags,
+> -			enum dpu_sspp_multirect_index index);
+> +	void (*setup_format)(struct dpu_sw_pipe *pipe,
+> +			const struct dpu_format *fmt, u32 flags);
+>   
+>   	/**
+>   	 * setup_rects - setup pipe ROI rectangles
+> -	 * @ctx: Pointer to pipe context
+> +	 * @pipe: Pointer to software pipe context
+>   	 * @cfg: Pointer to pipe config structure
+> -	 * @index: rectangle index in multirect
+>   	 */
+> -	void (*setup_rects)(struct dpu_hw_pipe *ctx,
+> -			struct dpu_hw_pipe_cfg *cfg,
+> -			enum dpu_sspp_multirect_index index);
+> +	void (*setup_rects)(struct dpu_sw_pipe *pipe,
+> +			struct dpu_hw_pipe_cfg *cfg);
+>   
+>   	/**
+>   	 * setup_pe - setup pipe pixel extension
+> @@ -263,13 +259,11 @@ struct dpu_hw_sspp_ops {
+>   
+>   	/**
+>   	 * setup_sourceaddress - setup pipe source addresses
+> -	 * @ctx: Pointer to pipe context
+> +	 * @pipe: Pointer to software pipe context
+>   	 * @cfg: Pointer to pipe config structure
+> -	 * @index: rectangle index in multirect
+>   	 */
+> -	void (*setup_sourceaddress)(struct dpu_hw_pipe *ctx,
+> -			struct dpu_hw_pipe_cfg *cfg,
+> -			enum dpu_sspp_multirect_index index);
+> +	void (*setup_sourceaddress)(struct dpu_sw_pipe *ctx,
+> +			struct dpu_hw_pipe_cfg *cfg);
+>   
+>   	/**
+>   	 * setup_csc - setup color space coversion
+> @@ -280,24 +274,18 @@ struct dpu_hw_sspp_ops {
+>   
+>   	/**
+>   	 * setup_solidfill - enable/disable colorfill
+> -	 * @ctx: Pointer to pipe context
+> +	 * @pipe: Pointer to software pipe context
+>   	 * @const_color: Fill color value
+>   	 * @flags: Pipe flags
+> -	 * @index: rectangle index in multirect
+>   	 */
+> -	void (*setup_solidfill)(struct dpu_hw_pipe *ctx, u32 color,
+> -			enum dpu_sspp_multirect_index index);
+> +	void (*setup_solidfill)(struct dpu_sw_pipe *pipe, u32 color);
+>   
+>   	/**
+>   	 * setup_multirect - setup multirect configuration
+> -	 * @ctx: Pointer to pipe context
+> -	 * @index: rectangle index in multirect
+> -	 * @mode: parallel fetch / time multiplex multirect mode
+> +	 * @pipe: Pointer to software pipe context
+>   	 */
+>   
+> -	void (*setup_multirect)(struct dpu_hw_pipe *ctx,
+> -			enum dpu_sspp_multirect_index index,
+> -			enum dpu_sspp_multirect_mode mode);
+> +	void (*setup_multirect)(struct dpu_sw_pipe *pipe);
+>   
+>   	/**
+>   	 * setup_sharpening - setup sharpening
+> @@ -362,13 +350,11 @@ struct dpu_hw_sspp_ops {
+>   
+>   	/**
+>   	 * setup_cdp - setup client driven prefetch
+> -	 * @ctx: Pointer to pipe context
+> +	 * @pipe: Pointer to software pipe context
+>   	 * @cfg: Pointer to cdp configuration
+> -	 * @index: rectangle index in multirect
+>   	 */
+> -	void (*setup_cdp)(struct dpu_hw_pipe *ctx,
+> -			struct dpu_hw_pipe_cdp_cfg *cfg,
+> -			enum dpu_sspp_multirect_index index);
+> +	void (*setup_cdp)(struct dpu_sw_pipe *pipe,
+> +			struct dpu_hw_pipe_cdp_cfg *cfg);
 >   };
 >   
-> -extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[], a660_hwcg[];
-> +extern const struct adreno_reglist a615_hwcg[], a630_hwcg[], a640_hwcg[], a650_hwcg[], a660_hwcg[];
->   
->   struct adreno_info {
->   	struct adreno_rev rev;
-> @@ -242,6 +242,11 @@ static inline int adreno_is_a618(struct adreno_gpu *gpu)
->          return gpu->revn == 618;
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 51b5e8a3182b..d029ce806039 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -506,16 +506,13 @@ static void _dpu_plane_set_scanout(struct drm_plane *plane,
+>   	else if (ret)
+>   		DPU_ERROR_PLANE(pdpu, "failed to get format layout, %d\n", ret);
+>   	else if (pstate->pipe.sspp->ops.setup_sourceaddress) {
+> -		trace_dpu_plane_set_scanout(pstate->pipe.sspp->idx,
+> -					    &pipe_cfg->layout,
+> -					    pstate->pipe.multirect_index);
+> -		pstate->pipe.sspp->ops.setup_sourceaddress(pstate->pipe.sspp, pipe_cfg,
+> -						pstate->pipe.multirect_index);
+> +		trace_dpu_plane_set_scanout(&pstate->pipe,
+> +					    &pipe_cfg->layout);
+> +		pstate->pipe.sspp->ops.setup_sourceaddress(&pstate->pipe, pipe_cfg);
+>   	}
 >   }
 >   
-> +static inline int adreno_is_a619(struct adreno_gpu *gpu)
-> +{
-> +	return gpu->revn == 619;
-> +}
-> +
->   static inline int adreno_is_a630(struct adreno_gpu *gpu)
->   {
->          return gpu->revn == 630;
-> @@ -268,6 +273,12 @@ static inline int adreno_is_a660(struct adreno_gpu *gpu)
->          return gpu->revn == 660;
+> -static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+> -		struct dpu_plane_state *pstate,
+> +static void _dpu_plane_setup_scaler3(struct dpu_hw_pipe *pipe_hw,
+>   		uint32_t src_w, uint32_t src_h, uint32_t dst_w, uint32_t dst_h,
+>   		struct dpu_hw_scaler3_cfg *scale_cfg,
+>   		struct dpu_hw_pixel_ext *pixel_ext,
+> @@ -553,7 +550,7 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+>   			scale_cfg->src_height[i] /= chroma_subsmpl_v;
+>   		}
+>   
+> -		if (pstate->pipe.sspp->cap->features &
+> +		if (pipe_hw->cap->features &
+>   			BIT(DPU_SSPP_SCALER_QSEED4)) {
+>   			scale_cfg->preload_x[i] = DPU_QSEED4_DEFAULT_PRELOAD_H;
+>   			scale_cfg->preload_y[i] = DPU_QSEED4_DEFAULT_PRELOAD_V;
+> @@ -637,11 +634,11 @@ static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, cons
+>   	return csc_ptr;
 >   }
 >   
-> +/* check for a615, a616, a618, a619 or any derivatives */
-> +static inline int adreno_is_a615_family(struct adreno_gpu *gpu)
-> +{
-> +	return gpu->revn == 615 || gpu->revn == 616 || gpu->revn == 618 || gpu->revn == 619;
-> +}
-> +
->   static inline int adreno_is_a660_family(struct adreno_gpu *gpu)
+> -static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+> -		struct dpu_plane_state *pstate,
+> +static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
+>   		const struct dpu_format *fmt, bool color_fill,
+>   		struct dpu_hw_pipe_cfg *pipe_cfg)
 >   {
->          return adreno_is_a660(gpu) || adreno_is_7c3(gpu);
-
-
--- 
-With best wishes
-Dmitry
+> +	struct dpu_hw_pipe *pipe_hw = pipe->sspp;
+>   	const struct drm_format_info *info = drm_format_info(fmt->base.pixel_format);
+>   	struct dpu_hw_scaler3_cfg scaler3_cfg;
+>   	struct dpu_hw_pixel_ext pixel_ext;
+> @@ -651,7 +648,7 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+>   
+>   	/* don't chroma subsample if decimating */
+>   	/* update scaler. calculate default config for QSEED3 */
+> -	_dpu_plane_setup_scaler3(pdpu, pstate,
+> +	_dpu_plane_setup_scaler3(pipe_hw,
+>   			drm_rect_width(&pipe_cfg->src_rect),
+>   			drm_rect_height(&pipe_cfg->src_rect),
+>   			drm_rect_width(&pipe_cfg->dst_rect),
+> @@ -659,8 +656,8 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+>   			&scaler3_cfg, &pixel_ext, fmt,
+>   			info->hsub, info->vsub);
+>   
+> -	if (pstate->pipe.sspp->ops.setup_pe)
+> -		pstate->pipe.sspp->ops.setup_pe(pstate->pipe.sspp,
+> +	if (pipe_hw->ops.setup_pe)
+> +		pipe_hw->ops.setup_pe(pipe_hw,
+>   				&pixel_ext);
+>   
+>   	/**
+> @@ -668,9 +665,9 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+>   	 * bypassed. Still we need to update alpha and bitwidth
+>   	 * ONLY for RECT0
+>   	 */
+> -	if (pstate->pipe.sspp->ops.setup_scaler &&
+> -			pstate->pipe.multirect_index != DPU_SSPP_RECT_1)
+> -		pstate->pipe.sspp->ops.setup_scaler(pstate->pipe.sspp,
+> +	if (pipe_hw->ops.setup_scaler &&
+> +			pipe->multirect_index != DPU_SSPP_RECT_1)
+> +		pipe_hw->ops.setup_scaler(pipe_hw,
+>   				pipe_cfg,
+>   				&scaler3_cfg);
+>   }
+> @@ -700,9 +697,8 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
+>   
+>   	/* update sspp */
+>   	if (fmt && pstate->pipe.sspp->ops.setup_solidfill) {
+> -		pstate->pipe.sspp->ops.setup_solidfill(pstate->pipe.sspp,
+> -				(color & 0xFFFFFF) | ((alpha & 0xFF) << 24),
+> -				pstate->pipe.multirect_index);
+> +		pstate->pipe.sspp->ops.setup_solidfill(&pstate->pipe,
+> +				(color & 0xFFFFFF) | ((alpha & 0xFF) << 24));
+>   
+>   		/* override scaler/decimation if solid fill */
+>   		pipe_cfg.dst_rect = pstate->base.dst;
+> @@ -715,16 +711,14 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
+>   			drm_rect_height(&pipe_cfg.dst_rect);
+>   
+>   		if (pstate->pipe.sspp->ops.setup_format)
+> -			pstate->pipe.sspp->ops.setup_format(pstate->pipe.sspp,
+> -					fmt, DPU_SSPP_SOLID_FILL,
+> -					pstate->pipe.multirect_index);
+> +			pstate->pipe.sspp->ops.setup_format(&pstate->pipe,
+> +					fmt, DPU_SSPP_SOLID_FILL);
+>   
+>   		if (pstate->pipe.sspp->ops.setup_rects)
+> -			pstate->pipe.sspp->ops.setup_rects(pstate->pipe.sspp,
+> -					&pipe_cfg,
+> -					pstate->pipe.multirect_index);
+> +			pstate->pipe.sspp->ops.setup_rects(&pstate->pipe,
+> +					&pipe_cfg);
+>   
+> -		_dpu_plane_setup_scaler(pdpu, pstate, fmt, true, &pipe_cfg);
+> +		_dpu_plane_setup_scaler(&pstate->pipe, fmt, true, &pipe_cfg);
+>   	}
+>   
+>   	return 0;
+> @@ -1112,18 +1106,15 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   	}
+>   
+>   	if (pipe->sspp->ops.setup_rects) {
+> -		pipe->sspp->ops.setup_rects(pipe->sspp,
+> -				&pipe_cfg,
+> -				pipe->multirect_index);
+> +		pipe->sspp->ops.setup_rects(pipe,
+> +				&pipe_cfg);
+>   	}
+>   
+> -	_dpu_plane_setup_scaler(pdpu, pstate, fmt, false, &pipe_cfg);
+> +	_dpu_plane_setup_scaler(pipe, fmt, false, &pipe_cfg);
+>   
+>   	if (pipe->sspp->ops.setup_multirect)
+>   		pipe->sspp->ops.setup_multirect(
+> -				pipe->sspp,
+> -				pipe->multirect_index,
+> -				pipe->multirect_mode);
+> +				pipe);
+>   
+>   	if (pipe->sspp->ops.setup_format) {
+>   		unsigned int rotation;
+> @@ -1142,8 +1133,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   			src_flags |= DPU_SSPP_FLIP_UD;
+>   
+>   		/* update format */
+> -		pipe->sspp->ops.setup_format(pipe->sspp, fmt, src_flags,
+> -				pipe->multirect_index);
+> +		pipe->sspp->ops.setup_format(pipe, fmt, src_flags);
+>   
+>   		if (pipe->sspp->ops.setup_cdp) {
+>   			struct dpu_hw_pipe_cdp_cfg cdp_cfg;
+> @@ -1159,7 +1149,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   					DPU_FORMAT_IS_TILE(fmt);
+>   			cdp_cfg.preload_ahead = DPU_SSPP_CDP_PRELOAD_AHEAD_64;
+>   
+> -			pipe->sspp->ops.setup_cdp(pipe->sspp, &cdp_cfg, pipe->multirect_index);
+> +			pipe->sspp->ops.setup_cdp(pipe, &cdp_cfg);
+>   		}
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> index ecd2f371374d..11b61f9777eb 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> @@ -759,18 +759,17 @@ TRACE_EVENT(dpu_crtc_disable_frame_pending,
+>   );
+>   
+>   TRACE_EVENT(dpu_plane_set_scanout,
+> -	TP_PROTO(enum dpu_sspp index, struct dpu_hw_fmt_layout *layout,
+> -		 enum dpu_sspp_multirect_index multirect_index),
+> -	TP_ARGS(index, layout, multirect_index),
+> +	TP_PROTO(struct dpu_sw_pipe *pipe, struct dpu_hw_fmt_layout *layout),
+> +	TP_ARGS(pipe, layout),
+>   	TP_STRUCT__entry(
+>   		__field(	enum dpu_sspp,			index	)
+>   		__field_struct(	struct dpu_hw_fmt_layout,	layout	)
+>   		__field(	enum dpu_sspp_multirect_index,	multirect_index)
+>   	),
+>   	TP_fast_assign(
+> -		__entry->index = index;
+> +		__entry->index = pipe->sspp.idx;
+>   		__entry->layout = *layout;
+> -		__entry->multirect_index = multirect_index;
+> +		__entry->multirect_index = pipe->multirect_index;
+>   	),
+>   	TP_printk("index:%d layout:{%ux%u @ [%u/%u, %u/%u, %u/%u, %u/%u]} "
+>   		  "multirect_index:%d", __entry->index, __entry->layout.width,
