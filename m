@@ -2,42 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E3351D473
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 11:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F2951D47B
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 11:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E8710EB26;
-	Fri,  6 May 2022 09:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E525710EB7F;
+	Fri,  6 May 2022 09:29:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2498110EAD7
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 09:29:18 +0000 (UTC)
-X-UUID: 8955e15b644c4dcc99f26396c56b28dd-20220506
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B86F10EB7F
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 09:29:22 +0000 (UTC)
+X-UUID: 77f838065e8b43a6870a54dd7ddb2dbb-20220506
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:d4146c87-d8b1-4fc7-9202-35d9e463e93b, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:aaada35a-3c05-4717-8b3f-7cb99412e659, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:3,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:3
-X-CID-INFO: VERSION:1.1.4, REQID:d4146c87-d8b1-4fc7-9202-35d9e463e93b, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:3,FILE:0,RULE:Release_Ham,ACTION
- :release,TS:3
-X-CID-META: VersionHash:faefae9, CLOUDID:59617416-2e53-443e-b81a-655c13977218,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:86627416-2e53-443e-b81a-655c13977218,
  C
- OID:IGNORED,Recheck:0,SF:28|100|17|19|48|101|20,TC:nil,Content:0,EDM:-3,Fi
- le:nil,QS:0,BEC:nil
-X-UUID: 8955e15b644c4dcc99f26396c56b28dd-20220506
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 77f838065e8b43a6870a54dd7ddb2dbb-20220506
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1671895477; Fri, 06 May 2022 17:29:15 +0800
+ with ESMTP id 1129063676; Fri, 06 May 2022 17:29:17 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 6 May 2022 17:29:16 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 6 May 2022 17:29:14 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 6 May 2022 17:29:15 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 6 May 2022 17:29:12 +0800
+ Transport; Fri, 6 May 2022 17:29:14 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
  <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
@@ -47,9 +45,9 @@ To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
  Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v11, 10/17] media: mediatek: vcodec: disable vp8 4K capability
-Date: Fri, 6 May 2022 17:28:48 +0800
-Message-ID: <20220506092855.22940-11-yunfei.dong@mediatek.com>
+Subject: [PATCH v11, 11/17] media: mediatek: vcodec: Fix v4l2-compliance fail
+Date: Fri, 6 May 2022 17:28:49 +0800
+Message-ID: <20220506092855.22940-12-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220506092855.22940-1-yunfei.dong@mediatek.com>
 References: <20220506092855.22940-1-yunfei.dong@mediatek.com>
@@ -79,27 +77,34 @@ Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For vp8 not support 4K, need to disable it.
+Need to use default pic info when get pic info fail.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Reviewed-by: Steve Cho <stevecho@chromium.org>
 ---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-index 1fb49a779c5d..dab6acb3158c 100644
+index dab6acb3158c..0d9007339faf 100644
 --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
 +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-@@ -446,7 +446,8 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
- 	if (fmt == NULL)
- 		return -EINVAL;
+@@ -485,11 +485,14 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
+ 		ctx->picinfo.pic_w = pix_mp->width;
+ 		ctx->picinfo.pic_h = pix_mp->height;
  
--	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) {
-+	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED) &&
-+	    fmt->fourcc != V4L2_PIX_FMT_VP8_FRAME) {
- 		mtk_v4l2_debug(3, "4K is enabled");
- 		ctx->max_width = VCODEC_DEC_4K_CODED_WIDTH;
- 		ctx->max_height = VCODEC_DEC_4K_CODED_HEIGHT;
++		/*
++		 * If get pic info fail, need to use the default pic info params, or
++		 * v4l2-compliance will fail
++		 */
+ 		ret = vdec_if_get_param(ctx, GET_PARAM_PIC_INFO, &ctx->picinfo);
+ 		if (ret) {
+ 			mtk_v4l2_err("[%d]Error!! Get GET_PARAM_PICTURE_INFO Fail",
+ 				     ctx->id);
+-			return -EINVAL;
+ 		}
+ 
+ 		ctx->last_decoded_picinfo = ctx->picinfo;
 -- 
 2.18.0
 
