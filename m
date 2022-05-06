@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8802E51DE77
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 19:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2217951DE9B
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 20:04:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F389810E391;
-	Fri,  6 May 2022 17:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CCCA10F020;
+	Fri,  6 May 2022 18:04:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF33910E290;
- Fri,  6 May 2022 17:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651859408; x=1683395408;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=LQJjYu1I3rkKljzYGdfluPYAruv2ypErSYT1ecqjMvE=;
- b=CFOAefolrz5+5I2tn+p+ml7YhENqe+esQs+Mb5QMVe8M5RuOIGRFwUPK
- FMRNWgpApcLEgCZc87ty5T9VsxBFSRxmGXFP1v0if/vqQpdaPY6CD1B4Y
- mud3V9QVqRhGMsw0WubWBC1PhqkdfW7HbH9JGHLi9f4fqkSq52dQoOq/m
- owbUfLXdhl/9IrXTUVw+fcYDYioB4vIuSY+D1zPjseuHzFFfr20XPsHBu
- BHB3G75RBKZFTiWTcfpLQ6Ck3AHUap9Kifxl92qIS/F5/Sx6jTSDg+dEE
- TCF0Kb+/Q73HR2zuoH4Adv9rwlsEIvOaoPIF4fzY0e0Wt62V6I2QeG/dY g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="268429609"
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="268429609"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 10:50:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,205,1647327600"; d="scan'208";a="563952344"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
- by orsmga007.jf.intel.com with SMTP; 06 May 2022 10:50:05 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 06 May 2022 20:50:05 +0300
-Date: Fri, 6 May 2022 20:50:05 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 02/25] drm/edid: convert drm_for_each_detailed_block() to
- edid iter
-Message-ID: <YnVfzUAAx0reZ4wX@intel.com>
-References: <cover.1651830938.git.jani.nikula@intel.com>
- <26e5a04f13803a151ff832e0bccde06e44768c38.1651830938.git.jani.nikula@intel.com>
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D32F10F020
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 18:04:28 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id g23so9558016edy.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 11:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q6cV3MY08Q5J5EMqd7RYTn/K8x3EoQFULKeiQvTiDEg=;
+ b=T2HDqLM0GDt44cOJq5nd/iZFwFe1nypV9GZH3QUrdg9Kzx3Cu242a610phGvfuyACC
+ YjCrruvvXl6Wj8zAKANgpfjxzm74bIibd0RK+vOzDhlyICWgQztSY0d9A1KwMt2x1YYS
+ 5n7z1HFAbOkVNrCvKtGhcvdCF9Rg9OmAoACykcvr5eV5pcoqHw2R7ZI8d+l8lmBKVjQr
+ zG2T4IIyMfTz4aK4Q9RfqMIz5PLSfiZxu0A1WJEWvpVWc44AnUVHrJ22U7zxiY2o56pC
+ BMLQkBtp0YhKo9aEdwpcc+yDCxjUDM+k81sCwyBFxlvuhcU6nx/Ie34KNcM4CWWO1US3
+ mzeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q6cV3MY08Q5J5EMqd7RYTn/K8x3EoQFULKeiQvTiDEg=;
+ b=G3zHxJ5JzCtugu/3+VLXTqNIwgKeutLCA/mEltKQWabIQlYm0IIXf058n8nLYwuzVv
+ giZOn/cOE2tY/CO+cIvysWvnoiJXvBF22/cg4/+PeT7yBtQuj6RGfYhTXvXhUeJotOYn
+ 3DFwkvcRWeRpmYZ9ima5GTrg1h/KKWGRu0j7BwwSx2P2qOb/sTRaqT3keYNqJVZjU1eA
+ REXFClvWhY3npJ5L+1hx5M0flkoGswt7YRSMzoIiP9jkwDvgQ+aSqS6FCUmOKug71v8f
+ mmWIK9RA4bXPaKlEyVwxUs+i8mYuaURkKfzBpq5SIY0kPD+jqV2hGszcbhF2JUbEOwqK
+ kANg==
+X-Gm-Message-State: AOAM532h6Q/XeXVFyuhEnN0JUVFZ0jur371IQZwxjAvbS1+2eGlg3STE
+ 2Y2EnbCshZ1NpDxiUttbhyFuRKPMBMVZodeCLG0=
+X-Google-Smtp-Source: ABdhPJwXEqZpCx25tK13QTqbjFhsfW3K4TjOOqyGoUK/Rt7XPD+Wd9WrJFUT7OGgDT/FLCXxCU2lkTuCiJ3xVZ4VuqA=
+X-Received: by 2002:a05:6402:d52:b0:425:dda4:b676 with SMTP id
+ ec18-20020a0564020d5200b00425dda4b676mr4595071edb.277.1651860266859; Fri, 06
+ May 2022 11:04:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <26e5a04f13803a151ff832e0bccde06e44768c38.1651830938.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+References: <CAPM=9tyaQ8RSYwuh4muEefV3fbjio5gVvYipWVaKjqUycRkS+A@mail.gmail.com>
+ <CAHk-=wjtEptPBvJtdbezMLJh6k3O7Y-on=tbC31z4e+ksLda1w@mail.gmail.com>
+In-Reply-To: <CAHk-=wjtEptPBvJtdbezMLJh6k3O7Y-on=tbC31z4e+ksLda1w@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 7 May 2022 04:04:15 +1000
+Message-ID: <CAPM=9txZv6tvFxQptYdwdyeyTs+rUZmm9K_D1f+4SFV_bOb-KQ@mail.gmail.com>
+Subject: Re: drm pull request (was Re: )
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +63,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 06, 2022 at 01:10:09PM +0300, Jani Nikula wrote:
-> We have an iterator for this, use it. It does include the base block,
-> but its tag is 0 and will be skipped.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Sat, 7 May 2022 at 02:50, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Thu, May 5, 2022 at 9:07 PM Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > pretty quiet week, one fbdev, msm, kconfig, and 2 amdgpu fixes, about
+> > what I'd expect for rc6.
+>
+> You're not getting the automated pr-tracker-bot response, because your
+> subject line was missing...
+>
+> Just a "how did that happen" together with a "here's the manual
+> response instead".
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+I just forgot to type it in, I send the email from gmail manually
+pasting in the contents from the PR.
 
-> ---
->  drivers/gpu/drm/drm_edid.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index efc1999b9573..dcef92c8887a 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -2574,6 +2574,8 @@ vtb_for_each_detailed_block(const u8 *ext, detailed_cb *cb, void *closure)
->  static void
->  drm_for_each_detailed_block(const struct edid *edid, detailed_cb *cb, void *closure)
->  {
-> +	struct drm_edid_iter edid_iter;
-> +	const u8 *ext;
->  	int i;
->  
->  	if (edid == NULL)
-> @@ -2582,9 +2584,8 @@ drm_for_each_detailed_block(const struct edid *edid, detailed_cb *cb, void *clos
->  	for (i = 0; i < EDID_DETAILED_TIMINGS; i++)
->  		cb(&(edid->detailed_timings[i]), closure);
->  
-> -	for (i = 0; i < edid_extension_block_count(edid); i++) {
-> -		const u8 *ext = edid_extension_block_data(edid, i);
-> -
-> +	drm_edid_iter_begin(edid, &edid_iter);
-> +	drm_edid_iter_for_each(ext, &edid_iter) {
->  		switch (*ext) {
->  		case CEA_EXT:
->  			cea_for_each_detailed_block(ext, cb, closure);
-> @@ -2596,6 +2597,7 @@ drm_for_each_detailed_block(const struct edid *edid, detailed_cb *cb, void *clos
->  			break;
->  		}
->  	}
-> +	drm_edid_iter_end(&edid_iter);
->  }
->  
->  static void
-> -- 
-> 2.30.2
-
--- 
-Ville Syrjälä
-Intel
+Dave.
