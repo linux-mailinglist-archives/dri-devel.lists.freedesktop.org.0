@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0D051D563
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:12:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A9251D566
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:12:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAEE10FBEB;
-	Fri,  6 May 2022 10:12:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5884710FC12;
+	Fri,  6 May 2022 10:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4D2410FBEB;
- Fri,  6 May 2022 10:12:25 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6B8110FC11;
+ Fri,  6 May 2022 10:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651831945; x=1683367945;
+ t=1651831951; x=1683367951;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nyZEX2Qitj9zevwlLPCRD5dAB3L6ayQsCFg1T8N7000=;
- b=iN2U7+bs4exERX/UOxARCw55XsxPbw4GnZzmskYusWMCvQJzKdw0n7DZ
- XjSF3V3Q6KeJLanONhobjEsbHWcKmtI4vwsPsknqQ5bIzP7TeZETbmx/t
- tRQJzVSYRb1RY3FmpnF+bZnxCWcvebixZoh9sxGPfe0aIM5MXMzO2AuiS
- TWT13bJbEVqvE3cqoRrp2vZ/BrKMEABYO3LdbsbT3UKnfZxEQ0admfOxL
- nPXCLCYId4OBqxR40w/GhjyC2+7OTamQ704KB1EBnn1Pprb+LV+bPZCX1
- 2wVDG1IsIO22FnWu6D/yyvg7IF6/h80BxVQzoEy5CgYyv2sysaxX/a8PJ g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="248331901"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="248331901"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:12:25 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="569049750"
+ bh=A7nXUEpE3MDUfjDL4p858dRiWkyiXpAgX8bi9JKUjqs=;
+ b=UZ0Bk9sfQp5sfEyp7GqtX4D/7cYihZWmxcldeDECksTyN/bE4WlSBUgk
+ p8SPE2T9UA0zEXkuF5uzA0zqX++AAIJH2ezu+WEdlbGlU3MIRt9ofAHrf
+ ZHzMO/+Cmu7yd/0OBwk3vccqBfxmcW4IafFg2F11h9IzM7IuCY7zbPAKk
+ fLqfwgmuU+KWO53+zhbvobvPFwwVxHi6YKFkZ/5JIpX8rPfa3AN0+ApfJ
+ cEy+x19N+owuCEM62+zz1Q5EqHQlCyFpQ6CutG24urQ3keQzfHClqL6XM
+ 3ii40RM60CJKqV7iwnnPJP2zVyyGdP00z1vm246uh8wYYeyEGio/ab74u g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="248959751"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="248959751"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 03:12:30 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="632871801"
 Received: from psikora-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.157.88])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:12:23 -0700
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 03:12:28 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 20/25] drm/edid: add drm_edid helper for
- drm_detect_monitor_audio()
-Date: Fri,  6 May 2022 13:10:27 +0300
-Message-Id: <14f174a3057d5f570d70ad219af117a5a9f3165b.1651830939.git.jani.nikula@intel.com>
+Subject: [PATCH 21/25] drm/edid: convert cea_db_iter_edid_begin() to drm_edid
+Date: Fri,  6 May 2022 13:10:28 +0300
+Message-Id: <6c0917122d9bbbf4a40ec7e28878cd22429e91c4.1651830939.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1651830938.git.jani.nikula@intel.com>
 References: <cover.1651830938.git.jani.nikula@intel.com>
@@ -66,81 +65,93 @@ We'll need to propagate drm_edid everywhere.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 40 ++++++++++++++++++++++++--------------
- 1 file changed, 25 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 3277b4fd33ce..706552ae00ea 100644
+index 706552ae00ea..82a242a71ecf 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -5144,19 +5144,7 @@ bool drm_detect_hdmi_monitor(const struct edid *edid)
+@@ -4430,12 +4430,13 @@ static bool cea_db_is_vendor(const struct cea_db *db, int vendor_oui)
+ 		oui(data[2], data[1], data[0]) == vendor_oui;
  }
- EXPORT_SYMBOL(drm_detect_hdmi_monitor);
  
--/**
-- * drm_detect_monitor_audio - check monitor audio capability
-- * @edid: EDID block to scan
-- *
-- * Monitor should have CEA extension block.
-- * If monitor has 'basic audio', but no CEA audio blocks, it's 'basic
-- * audio' only. If there is any audio extension block and supported
-- * audio format, assume at least 'basic audio' support, even if 'basic
-- * audio' is not defined in EDID.
-- *
-- * Return: True if the monitor supports audio, false otherwise.
-- */
--bool drm_detect_monitor_audio(const struct edid *edid)
-+static bool _drm_detect_monitor_audio(const struct drm_edid *drm_edid)
+-static void cea_db_iter_edid_begin(const struct edid *edid, struct cea_db_iter *iter)
++static void cea_db_iter_edid_begin(const struct drm_edid *drm_edid,
++				   struct cea_db_iter *iter)
  {
- 	struct drm_edid_iter edid_iter;
- 	const struct cea_db *db;
-@@ -5164,7 +5152,7 @@ bool drm_detect_monitor_audio(const struct edid *edid)
- 	const u8 *edid_ext;
- 	bool has_audio = false;
+ 	memset(iter, 0, sizeof(*iter));
  
--	drm_edid_iter_begin(edid, &edid_iter);
-+	drm_edid_iter_begin(drm_edid->edid, &edid_iter);
- 	drm_edid_iter_for_each(edid_ext, &edid_iter) {
- 		if (edid_ext[0] == CEA_EXT) {
- 			has_audio = edid_ext[3] & EDID_BASIC_AUDIO;
-@@ -5179,7 +5167,7 @@ bool drm_detect_monitor_audio(const struct edid *edid)
+-	drm_edid_iter_begin(edid, &iter->edid_iter);
+-	displayid_iter_edid_begin(edid, &iter->displayid_iter);
++	drm_edid_iter_begin(drm_edid->edid, &iter->edid_iter);
++	displayid_iter_edid_begin(drm_edid->edid, &iter->displayid_iter);
+ }
+ 
+ static const struct cea_db *
+@@ -4657,7 +4658,7 @@ static int add_cea_modes(struct drm_connector *connector,
+ 	struct cea_db_iter iter;
+ 	int modes = 0;
+ 
+-	cea_db_iter_edid_begin(drm_edid->edid, &iter);
++	cea_db_iter_edid_begin(drm_edid, &iter);
+ 	cea_db_iter_for_each(db, &iter) {
+ 		const u8 *hdmi = NULL, *video = NULL;
+ 		u8 hdmi_len = 0, video_len = 0;
+@@ -4908,7 +4909,7 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	eld[DRM_ELD_PRODUCT_CODE0] = drm_edid->edid->prod_code[0];
+ 	eld[DRM_ELD_PRODUCT_CODE1] = drm_edid->edid->prod_code[1];
+ 
+-	cea_db_iter_edid_begin(drm_edid->edid, &iter);
++	cea_db_iter_edid_begin(drm_edid, &iter);
+ 	cea_db_iter_for_each(db, &iter) {
+ 		const u8 *data = cea_db_data(db);
+ 		int len = cea_db_payload_len(db);
+@@ -4961,7 +4962,7 @@ static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
+ 	struct cea_db_iter iter;
+ 	int count = 0;
+ 
+-	cea_db_iter_edid_begin(drm_edid->edid, &iter);
++	cea_db_iter_edid_begin(drm_edid, &iter);
+ 	cea_db_iter_for_each(db, &iter) {
+ 		if (cea_db_tag(db) == CTA_DB_AUDIO) {
+ 			int j;
+@@ -5017,7 +5018,7 @@ static int _drm_edid_to_speaker_allocation(const struct drm_edid *drm_edid,
+ 	struct cea_db_iter iter;
+ 	int count = 0;
+ 
+-	cea_db_iter_edid_begin(drm_edid->edid, &iter);
++	cea_db_iter_edid_begin(drm_edid, &iter);
+ 	cea_db_iter_for_each(db, &iter) {
+ 		if (cea_db_tag(db) == CTA_DB_SPEAKER &&
+ 		    cea_db_payload_len(db) == 3) {
+@@ -5110,7 +5111,7 @@ static bool _drm_detect_hdmi_monitor(const struct drm_edid *drm_edid)
+ 	 * Because HDMI identifier is in Vendor Specific Block,
+ 	 * search it from all data blocks of CEA extension.
+ 	 */
+-	cea_db_iter_edid_begin(drm_edid->edid, &iter);
++	cea_db_iter_edid_begin(drm_edid, &iter);
+ 	cea_db_iter_for_each(db, &iter) {
+ 		if (cea_db_is_hdmi_vsdb(db)) {
+ 			hdmi = true;
+@@ -5167,7 +5168,7 @@ static bool _drm_detect_monitor_audio(const struct drm_edid *drm_edid)
  		goto end;
  	}
  
--	cea_db_iter_edid_begin(edid, &iter);
-+	cea_db_iter_edid_begin(drm_edid->edid, &iter);
+-	cea_db_iter_edid_begin(drm_edid->edid, &iter);
++	cea_db_iter_edid_begin(drm_edid, &iter);
  	cea_db_iter_for_each(db, &iter) {
  		if (cea_db_tag(db) == CTA_DB_AUDIO) {
  			const u8 *data = cea_db_data(db);
-@@ -5197,6 +5185,28 @@ bool drm_detect_monitor_audio(const struct edid *edid)
- end:
- 	return has_audio;
- }
-+
-+/**
-+ * drm_detect_monitor_audio - check monitor audio capability
-+ * @edid: EDID block to scan
-+ *
-+ * Monitor should have CEA extension block.
-+ * If monitor has 'basic audio', but no CEA audio blocks, it's 'basic
-+ * audio' only. If there is any audio extension block and supported
-+ * audio format, assume at least 'basic audio' support, even if 'basic
-+ * audio' is not defined in EDID.
-+ *
-+ * Return: True if the monitor supports audio, false otherwise.
-+ */
-+bool drm_detect_monitor_audio(const struct edid *edid)
-+{
-+	struct drm_edid drm_edid = {
-+		.edid = edid,
-+		.size = edid_size(edid),
-+	};
-+
-+	return _drm_detect_monitor_audio(&drm_edid);
-+}
- EXPORT_SYMBOL(drm_detect_monitor_audio);
+@@ -5529,7 +5530,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+ 	}
+ 	drm_edid_iter_end(&edid_iter);
  
- 
+-	cea_db_iter_edid_begin(drm_edid->edid, &iter);
++	cea_db_iter_edid_begin(drm_edid, &iter);
+ 	cea_db_iter_for_each(db, &iter) {
+ 		/* FIXME: convert parsers to use struct cea_db */
+ 		const u8 *data = (const u8 *)db;
 -- 
 2.30.2
 
