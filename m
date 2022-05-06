@@ -1,72 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DCEA51E09B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 23:05:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C3951E0D2
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 23:09:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA95610EF02;
-	Fri,  6 May 2022 21:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDF9910E5F4;
+	Fri,  6 May 2022 21:09:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE9E910EF02
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 21:05:04 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id l19so10618752ljb.7
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 14:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8vp8riqZibAc+f/Ed6BiR6qr92aiaOVeRIgv69HStgY=;
- b=b5CI7ILMHgRkyfWScDEb/J663yAayWohb8zus4sk3ubvvdyn4bv6dHShcxOgaGOx2L
- FswJ6cD3WKdcVc7nNrTrdfB2tlhBKXnhSgRXv7SQpW4a+jl5lgk4+DAdGQwgcAlMI29p
- RZPxJqsnw1tNOBdcvl8cd/NHde51ya3FjoHaw+FlzV49f66dA4iJVzMyZQvhr48mBMqM
- kgxIuSKFhWrQ+X5zgCk9nUZNy8RAGEfOVmXyS2He5cpWXsZmweYlDUnHgqCULQ4rZ7Pv
- SQrgcXvs7400abS16V8JiZjZqFqTyEDRuhiWrUluIffNrud6hlCEnxEGylPmLNU9rjjv
- BOng==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 420A110E5F4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 21:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651871392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UC8PN3IHksXw4YLUl2DR5j2jd0ER+gWoSOxwPmBpqKg=;
+ b=fVelJyW2EEUpIIyOUt1IO6YnsE/cAQTfuQd7TNdCKoCOgeGGJZih6zVfTHqeiojVTM3omX
+ R+IQ28/K+hjuMlRfuXwKDDm/AN3f5JnzxN9jmDYTnnKEFF7xxSLfOmlJoQ3fpUWoV67KG8
+ 1dCHY4qAPIwhFG4kuCa/pdImloq7blU=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-426-KTV8CWs3NnOUATYt0KoIkA-1; Fri, 06 May 2022 17:09:50 -0400
+X-MC-Unique: KTV8CWs3NnOUATYt0KoIkA-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ r17-20020a05622a035100b002f394e60eb0so7035108qtw.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 14:09:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=8vp8riqZibAc+f/Ed6BiR6qr92aiaOVeRIgv69HStgY=;
- b=s5nq5Ln6mg+oRK3g7vDvSdoywT4/nja4vQQ3FxwGDUvWNYRk3FS96/yvJgjqFAGC+U
- QAalXWyuYyNnEKPrAyRaIEWRMeWKMxHmjTMWI3VkylL051XvpQKfLOY7rGMOsGCQtBvL
- wVET1CqO6d+BXOg1V2/5sq5iu9sL0ZoGdvmGAbu56Zw0xXKktq9Cd3SRl4Ty8swRmlkf
- Z+5IHVr4VPhNyJvY/JdopwDU3Tz4QyWWUFYQ9HBzS0E/CjLqe0X21BJVRM1xA92vsiun
- lRuvIEQT1hTW6wReDq65LbDwxpOBsMqhToyE5j1XaGJOelaEwpnJs2Y0eWPcaJxj+T7R
- APUg==
-X-Gm-Message-State: AOAM5300EMlsjgXOQ5tOw+wEP4k4xpFRG2wWfuGv98E7YO2or+E5xQzz
- L3Y5QFascxNq6yRBtkzClikoPA==
-X-Google-Smtp-Source: ABdhPJz2TE1DUTP2gYgbYpqzk2YBXXmn/6/5nXauOsRprAXTduwGSEBH8jTvF2zMXHKPlYmIIZsAnw==
-X-Received: by 2002:a2e:9e43:0:b0:24b:3c6:3832 with SMTP id
- g3-20020a2e9e43000000b0024b03c63832mr3059978ljk.63.1651871102772; 
- Fri, 06 May 2022 14:05:02 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- p11-20020a056512138b00b0047255d210fasm822996lfa.41.2022.05.06.14.05.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 May 2022 14:05:02 -0700 (PDT)
-Message-ID: <1ad06f9b-69e8-327f-f695-3a833459b2ed@linaro.org>
-Date: Sat, 7 May 2022 00:05:01 +0300
+ bh=UC8PN3IHksXw4YLUl2DR5j2jd0ER+gWoSOxwPmBpqKg=;
+ b=O28iDQs8btCT28Feg0YScXGaX/3ZZN4F37yhbpO3M2PyX1PRyewzCEndHB4QjszoR1
+ AHr1nyiwuPA9zRI7SAc8l530Dfk+BymWnYRygbqtph/Bfl7AigOFDz5DZbMRo52z+X7t
+ SLkQcIEFroDMGThTghaZXt+D9Dg/w7iAxnmOP/ug5FNXmN338f9tzfEvtAbNgc9+J6Yh
+ XC8IulcUS8QFecEmRjIC8H2SDInKQOAAXWO47xcuhgMoFcMbPW9cL3gnzcY8rnr+2SYL
+ aK+N1RObHTiYwWFuRFf5fTAFwzNn1y+u0savDRztfPCw8ydAC557mie3TgNIr4MiVSLy
+ xw1w==
+X-Gm-Message-State: AOAM5335q0uum123zvKKh+gA9vRyMpi/DifqqRPOMrEjCJRr5Rb6Z3y0
+ 7bVaDcIRO1cERgdABZupGmNLLDSdzv9L08LIWoYOdYxON3IRv2vSbQGY0FFdVjOZ5WAkFl8YxWr
+ gwmBzFIEuy+T/Nh8kYj/Fo1Du0e9i
+X-Received: by 2002:ac8:57d2:0:b0:2f3:b3b0:ecbe with SMTP id
+ w18-20020ac857d2000000b002f3b3b0ecbemr4766064qta.29.1651871389841; 
+ Fri, 06 May 2022 14:09:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXZnGn2kgpYuxbTXggVBq/gakbuX/nYQzG8wHJicm20zlfTeeC+kYw7imlv4ImNqRIYEC4Og==
+X-Received: by 2002:ac8:57d2:0:b0:2f3:b3b0:ecbe with SMTP id
+ w18-20020ac857d2000000b002f3b3b0ecbemr4766041qta.29.1651871389605; 
+ Fri, 06 May 2022 14:09:49 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ de27-20020a05620a371b00b0069fe1fc72e7sm3030497qkb.90.2022.05.06.14.09.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 May 2022 14:09:49 -0700 (PDT)
+Message-ID: <8ec2715e36dbd1fab8a31b4b12660ae83e29303d.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/tegra: Stop using iommu_present()
+From: Lyude Paul <lyude@redhat.com>
+To: Robin Murphy <robin.murphy@arm.com>, bskeggs@redhat.com, kherbst@redhat.com
+Date: Fri, 06 May 2022 17:09:47 -0400
+In-Reply-To: <70d40ea441da3663c2824d54102b471e9a621f8a.1649168494.git.robin.murphy@arm.com>
+References: <70d40ea441da3663c2824d54102b471e9a621f8a.1649168494.git.robin.murphy@arm.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v10 1/4] drm/msm/dp: Add eDP support via aux_bus
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <1650887072-16652-1-git-send-email-quic_sbillaka@quicinc.com>
- <1650887072-16652-2-git-send-email-quic_sbillaka@quicinc.com>
- <8fe3f9cd-546d-539b-cba4-8479d780a4c5@linaro.org>
- <30e4f4db-9c4c-af90-f1d2-ec39019f95a5@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <30e4f4db-9c4c-af90-f1d2-ec39019f95a5@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,331 +86,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, bjorn.andersson@linaro.org,
- quic_vproddut@quicinc.com, airlied@linux.ie, dianders@chromium.org,
- steev@kali.org, quic_khsieh@quicinc.com, seanpaul@chromium.org,
- quic_aravindh@quicinc.com, swboyd@chromium.org, sean@poorly.run
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jonathanh@nvidia.com, iommu@lists.linux-foundation.org,
+ thierry.reding@gmail.com, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/05/2022 00:03, Abhinav Kumar wrote:
-> 
-> 
-> On 5/6/2022 1:49 PM, Dmitry Baryshkov wrote:
->> On 25/04/2022 14:44, Sankeerth Billakanti wrote:
->>> This patch adds support for generic eDP sink through aux_bus. The eDP/DP
->>> controller driver should support aux transactions originating from the
->>> panel-edp driver and hence should be initialized and ready.
->>>
->>> The panel bridge supporting the panel should be ready before the bridge
->>> connector is initialized. The generic panel probe needs the controller
->>> resources to be enabled to support the aux transactions originating from
->>> the panel probe.
->>>
->>> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
->>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
->>
->> An additional side effect from this patch. Previously missing panel 
->> would have caused the bind error. Now it is the dp_modeset_init error, 
->> which translates to kms_hw_init returning -517. I kind ask to move the 
->> next_bridge acquisition back to the dp_bind in one of the followup 
->> patches.
->>
-> 
-> This is true. But the end result would be same isnt it?
-> 
-> When dp_display_bind() failed earlier, it would cause master bind 
-> failure too due to component model.
-> 
-> Even now, it causes the same result?
+Whoops! Was going through my unread emails and noticed I somehow missed this
+patch last month.
 
-Yes, it helped us to uncover several error. But I'd still prefer to have 
-EPROBE_DEFER being returned earlier rather than later.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
+I will push this to drm-misc-fixes in a little bit (assuming I don't find it
+there already)
+
+On Tue, 2022-04-05 at 15:21 +0100, Robin Murphy wrote:
+> Even if some IOMMU has registered itself on the platform "bus", that
+> doesn't necessarily mean it provides translation for the device we
+> care about. Replace iommu_present() with a more appropriate check.
 > 
->>> ---
->>> Changes in v10:
->>>    - modify the error handling condition
->>>    - modify the kernel doc
->>>
->>> Changes in v9:
->>>    - add comments for panel probe
->>>    - modify the error handling checks
->>>
->>> Changes in v8:
->>>    - handle corner cases
->>>    - add comment for the bridge ops
->>>
->>> Changes in v7:
->>>    - aux_bus is mandatory for eDP
->>>    - connector type check modified to just check for eDP
->>>
->>> Changes in v6:
->>>    - Remove initialization
->>>    - Fix aux_bus node leak
->>>    - Split the patches
->>>
->>>   drivers/gpu/drm/msm/dp/dp_display.c | 72 
->>> ++++++++++++++++++++++++++++++++++---
->>>   drivers/gpu/drm/msm/dp/dp_display.h |  1 +
->>>   drivers/gpu/drm/msm/dp/dp_drm.c     | 21 ++++++++---
->>>   drivers/gpu/drm/msm/dp/dp_parser.c  | 23 ++----------
->>>   drivers/gpu/drm/msm/dp/dp_parser.h  | 14 +++++++-
->>>   5 files changed, 101 insertions(+), 30 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->>> b/drivers/gpu/drm/msm/dp/dp_display.c
->>> index d7a19d6..f772d84 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>> @@ -10,6 +10,7 @@
->>>   #include <linux/component.h>
->>>   #include <linux/of_irq.h>
->>>   #include <linux/delay.h>
->>> +#include <drm/dp/drm_dp_aux_bus.h>
->>>   #include "msm_drv.h"
->>>   #include "msm_kms.h"
->>> @@ -259,14 +260,12 @@ static int dp_display_bind(struct device *dev, 
->>> struct device *master,
->>>       dp->dp_display.drm_dev = drm;
->>>       priv->dp[dp->id] = &dp->dp_display;
->>> -    rc = dp->parser->parse(dp->parser, dp->dp_display.connector_type);
->>> +    rc = dp->parser->parse(dp->parser);
->>>       if (rc) {
->>>           DRM_ERROR("device tree parsing failed\n");
->>>           goto end;
->>>       }
->>> -    dp->dp_display.next_bridge = dp->parser->next_bridge;
->>> -
->>>       dp->aux->drm_dev = drm;
->>>       rc = dp_aux_register(dp->aux);
->>>       if (rc) {
->>> @@ -1319,6 +1318,8 @@ static int dp_display_probe(struct 
->>> platform_device *pdev)
->>>       dp->pdev = pdev;
->>>       dp->name = "drm_dp";
->>>       dp->dp_display.connector_type = desc->connector_type;
->>> +    dp->dp_display.is_edp =
->>> +        (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP);
->>>       rc = dp_init_sub_modules(dp);
->>>       if (rc) {
->>> @@ -1508,7 +1509,8 @@ void msm_dp_irq_postinstall(struct msm_dp 
->>> *dp_display)
->>>       dp_hpd_event_setup(dp);
->>> -    dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
->>> +    if (!dp_display->is_edp)
->>> +        dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
->>>   }
->>>   void msm_dp_debugfs_init(struct msm_dp *dp_display, struct 
->>> drm_minor *minor)
->>> @@ -1530,6 +1532,64 @@ void msm_dp_debugfs_init(struct msm_dp 
->>> *dp_display, struct drm_minor *minor)
->>>       }
->>>   }
->>> +static int dp_display_get_next_bridge(struct msm_dp *dp)
->>> +{
->>> +    int rc;
->>> +    struct dp_display_private *dp_priv;
->>> +    struct device_node *aux_bus;
->>> +    struct device *dev;
->>> +
->>> +    dp_priv = container_of(dp, struct dp_display_private, dp_display);
->>> +    dev = &dp_priv->pdev->dev;
->>> +    aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
->>> +
->>> +    if (aux_bus && dp->is_edp) {
->>> +        dp_display_host_init(dp_priv);
->>> +        dp_catalog_ctrl_hpd_config(dp_priv->catalog);
->>> +        dp_display_host_phy_init(dp_priv);
->>> +        enable_irq(dp_priv->irq);
->>> +
->>> +        /*
->>> +         * The code below assumes that the panel will finish probing
->>> +         * by the time devm_of_dp_aux_populate_ep_devices() returns.
->>> +         * This isn't a great assumption since it will fail if the
->>> +         * panel driver is probed asynchronously but is the best we
->>> +         * can do without a bigger driver reorganization.
->>> +         */
->>> +        rc = devm_of_dp_aux_populate_ep_devices(dp_priv->aux);
->>> +        of_node_put(aux_bus);
->>> +        if (rc)
->>> +            goto error;
->>> +    } else if (dp->is_edp) {
->>> +        DRM_ERROR("eDP aux_bus not found\n");
->>> +        return -ENODEV;
->>> +    }
->>> +
->>> +    /*
->>> +     * External bridges are mandatory for eDP interfaces: one has to
->>> +     * provide at least an eDP panel (which gets wrapped into 
->>> panel-bridge).
->>> +     *
->>> +     * For DisplayPort interfaces external bridges are optional, so
->>> +     * silently ignore an error if one is not present (-ENODEV).
->>> +     */
->>> +    rc = dp_parser_find_next_bridge(dp_priv->parser);
->>> +    if (!dp->is_edp && rc == -ENODEV)
->>> +        return 0;
->>> +
->>> +    if (!rc) {
->>> +        dp->next_bridge = dp_priv->parser->next_bridge;
->>> +        return 0;
->>> +    }
->>> +
->>> +error:
->>> +    if (dp->is_edp) {
->>> +        disable_irq(dp_priv->irq);
->>> +        dp_display_host_phy_exit(dp_priv);
->>> +        dp_display_host_deinit(dp_priv);
->>> +    }
->>> +    return rc;
->>> +}
->>> +
->>>   int msm_dp_modeset_init(struct msm_dp *dp_display, struct 
->>> drm_device *dev,
->>>               struct drm_encoder *encoder)
->>>   {
->>> @@ -1553,6 +1613,10 @@ int msm_dp_modeset_init(struct msm_dp 
->>> *dp_display, struct drm_device *dev,
->>>       dp_display->encoder = encoder;
->>> +    ret = dp_display_get_next_bridge(dp_display);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>>       dp_display->bridge = dp_bridge_init(dp_display, dev, encoder);
->>>       if (IS_ERR(dp_display->bridge)) {
->>>           ret = PTR_ERR(dp_display->bridge);
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h 
->>> b/drivers/gpu/drm/msm/dp/dp_display.h
->>> index 49a1d89..1377cc3 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_display.h
->>> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
->>> @@ -21,6 +21,7 @@ struct msm_dp {
->>>       bool audio_enabled;
->>>       bool power_on;
->>>       unsigned int connector_type;
->>> +    bool is_edp;
->>>       hdmi_codec_plugged_cb plugged_cb;
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c 
->>> b/drivers/gpu/drm/msm/dp/dp_drm.c
->>> index 7ce1aca..8a75c55 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
->>> @@ -114,10 +114,23 @@ struct drm_bridge *dp_bridge_init(struct msm_dp 
->>> *dp_display, struct drm_device *
->>>       bridge->funcs = &dp_bridge_ops;
->>>       bridge->type = dp_display->connector_type;
->>> -    bridge->ops =
->>> -        DRM_BRIDGE_OP_DETECT |
->>> -        DRM_BRIDGE_OP_HPD |
->>> -        DRM_BRIDGE_OP_MODES;
->>> +    /*
->>> +     * Many ops only make sense for DP. Why?
->>> +     * - Detect/HPD are used by DRM to know if a display is 
->>> _physically_
->>> +     *   there, not whether the display is powered on / finished 
->>> initting.
->>> +     *   On eDP we assume the display is always there because you can't
->>> +     *   know until power is applied. If we don't implement the ops 
->>> DRM will
->>> +     *   assume our display is always there.
->>> +     * - Currently eDP mode reading is driven by the panel driver. This
->>> +     *   allows the panel driver to properly power itself on to read 
->>> the
->>> +     *   modes.
->>> +     */
->>> +    if (!dp_display->is_edp) {
->>> +        bridge->ops =
->>> +            DRM_BRIDGE_OP_DETECT |
->>> +            DRM_BRIDGE_OP_HPD |
->>> +            DRM_BRIDGE_OP_MODES;
->>> +    }
->>>       rc = drm_bridge_attach(encoder, bridge, NULL, 
->>> DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>>       if (rc) {
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c 
->>> b/drivers/gpu/drm/msm/dp/dp_parser.c
->>> index 1056b8d..4bdbf91 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
->>> @@ -265,7 +265,7 @@ static int dp_parser_clock(struct dp_parser *parser)
->>>       return 0;
->>>   }
->>> -static int dp_parser_find_next_bridge(struct dp_parser *parser)
->>> +int dp_parser_find_next_bridge(struct dp_parser *parser)
->>>   {
->>>       struct device *dev = &parser->pdev->dev;
->>>       struct drm_bridge *bridge;
->>> @@ -279,7 +279,7 @@ static int dp_parser_find_next_bridge(struct 
->>> dp_parser *parser)
->>>       return 0;
->>>   }
->>> -static int dp_parser_parse(struct dp_parser *parser, int 
->>> connector_type)
->>> +static int dp_parser_parse(struct dp_parser *parser)
->>>   {
->>>       int rc = 0;
->>> @@ -300,25 +300,6 @@ static int dp_parser_parse(struct dp_parser 
->>> *parser, int connector_type)
->>>       if (rc)
->>>           return rc;
->>> -    /*
->>> -     * External bridges are mandatory for eDP interfaces: one has to
->>> -     * provide at least an eDP panel (which gets wrapped into 
->>> panel-bridge).
->>> -     *
->>> -     * For DisplayPort interfaces external bridges are optional, so
->>> -     * silently ignore an error if one is not present (-ENODEV).
->>> -     */
->>> -    rc = dp_parser_find_next_bridge(parser);
->>> -    if (rc == -ENODEV) {
->>> -        if (connector_type == DRM_MODE_CONNECTOR_eDP) {
->>> -            DRM_ERROR("eDP: next bridge is not present\n");
->>> -            return rc;
->>> -        }
->>> -    } else if (rc) {
->>> -        if (rc != -EPROBE_DEFER)
->>> -            DRM_ERROR("DP: error parsing next bridge: %d\n", rc);
->>> -        return rc;
->>> -    }
->>> -
->>>       /* Map the corresponding regulator information according to
->>>        * version. Currently, since we only have one supported platform,
->>>        * mapping the regulator directly.
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h 
->>> b/drivers/gpu/drm/msm/dp/dp_parser.h
->>> index d371bae..3a4d797 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
->>> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
->>> @@ -125,7 +125,7 @@ struct dp_parser {
->>>       u32 max_dp_lanes;
->>>       struct drm_bridge *next_bridge;
->>> -    int (*parse)(struct dp_parser *parser, int connector_type);
->>> +    int (*parse)(struct dp_parser *parser);
->>>   };
->>>   /**
->>> @@ -141,4 +141,16 @@ struct dp_parser {
->>>    */
->>>   struct dp_parser *dp_parser_get(struct platform_device *pdev);
->>> +/**
->>> + * dp_parser_find_next_bridge() - find an additional bridge to DP
->>> + *
->>> + * @parser: dp_parser data from client
->>> + *
->>> + * This function is used to find any additional bridge attached to
->>> + * the DP controller. The eDP interface requires a panel bridge.
->>> + *
->>> + * Return: 0 if able to get the bridge, otherwise negative errno for 
->>> failure.
->>> + */
->>> +int dp_parser_find_next_bridge(struct dp_parser *parser);
->>> +
->>>   #endif
->>
->>
-
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+> b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+> index 992cc285f2fe..2ed528c065fa 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
+> @@ -123,7 +123,7 @@ nvkm_device_tegra_probe_iommu(struct nvkm_device_tegra
+> *tdev)
+>  
+>         mutex_init(&tdev->iommu.mutex);
+>  
+> -       if (iommu_present(&platform_bus_type)) {
+> +       if (device_iommu_mapped(dev)) {
+>                 tdev->iommu.domain = iommu_domain_alloc(&platform_bus_type);
+>                 if (!tdev->iommu.domain)
+>                         goto error;
 
 -- 
-With best wishes
-Dmitry
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
