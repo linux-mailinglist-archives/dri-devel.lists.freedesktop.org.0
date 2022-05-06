@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8BF51D54A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9A251D54E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 12:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBAD10FA02;
-	Fri,  6 May 2022 10:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1F9D10FA42;
+	Fri,  6 May 2022 10:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F05610FA02;
- Fri,  6 May 2022 10:11:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C39E10FAC1;
+ Fri,  6 May 2022 10:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651831888; x=1683367888;
+ t=1651831893; x=1683367893;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oGfL6pVEC0/nbza0+8u7aT3a+2A57rimpskxY/H6Knw=;
- b=l3UsLCMYcQJi6N2mZwbHCv2+NtmZ2ATe2A4soatzrKlskkUIK4zG19Zg
- xvvwyf3SSmJeV0XRlcG6aL0SSEW23ItY9n1vp452I0ALoN2ZDh+EsLBYn
- nOxt34403t0lTZ+jSSLsLKxbug/MELZwTZk1HprkcQSDBNg/FxfZrvDRC
- a82e6YAhSmol9dRCJYQIOYkwRdbJb7ri81pohY08rRJ9yn2PhqTOojJjv
- R6VgLfrcmnOgmLtJumNlccnJb46UwiXUsTPRDg0xxWNOJw6kCaIofHLuG
- NG6mbT/HS1gsLlQUVn8+dyhLnzadLuAlgLrutyfv2Oi/RJKQRYYgmzRCG w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="268570642"
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="268570642"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ bh=TSWzZiegN/Hy9iAno+8IJwftyvcoOBgNt0WPNQ+ZZv4=;
+ b=b2h2ttrM/tAy78yE8IXrwkPcV0ieT2aCqjymK7YSvXR+erLpQQbtejCC
+ Fm3dwD22m6CxR5a9cFRVuXJKytRFo9LWEd3Xzi5RedivYAj6v/ms5uDwT
+ W9674j5gkFxG2zILBYEaByHjOrOhdGb5ivR3CNg/3OBW4P/CGHlt4XttI
+ Is+eRqxF789pJK/2BoRLN4kW6w2XWp6Z7gvQkKX4uiX7lYxGR9Hz7wExX
+ FcFW0QeqD0c5nxZItn9jSRr717PqcNr9+dIGNfr+2yw3wIhNPPG0Q5FTp
+ Rr46yINrBWtJP7i+5h3yODgD5HzCC33kfRVEmme1+bV2RXwciYl00+fA+ Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10338"; a="268570693"
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="268570693"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:11:27 -0700
-X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="549800317"
+ 06 May 2022 03:11:33 -0700
+X-IronPort-AV: E=Sophos;i="5.91,203,1647327600"; d="scan'208";a="600491581"
 Received: from psikora-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.157.88])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2022 03:11:25 -0700
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2022 03:11:30 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/25] drm/edid: convert drm_mode_detailed() to drm_edid
-Date: Fri,  6 May 2022 13:10:16 +0300
-Message-Id: <1677d143644ad79af11149d8c14e6aeb36130668.1651830938.git.jani.nikula@intel.com>
+Subject: [PATCH 10/25] drm/edid: convert drm_dmt_modes_for_range() to drm_edid
+Date: Fri,  6 May 2022 13:10:17 +0300
+Message-Id: <9cfe58d19f01c2e0b6564abd77fd7541a689c854.1651830938.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1651830938.git.jani.nikula@intel.com>
 References: <cover.1651830938.git.jani.nikula@intel.com>
@@ -65,42 +65,43 @@ We'll need to propagate drm_edid everywhere.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 1abdd88ff64b..b5d7347f32d9 100644
+index b5d7347f32d9..88bb6c7ac97c 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2910,7 +2910,7 @@ drm_mode_do_interlace_quirk(struct drm_display_mode *mode,
-  * drm_display_mode.
-  */
- static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
--						  const struct edid *edid,
-+						  const struct drm_edid *drm_edid,
- 						  const struct detailed_timing *timing,
- 						  u32 quirks)
+@@ -3103,16 +3103,16 @@ static bool valid_inferred_mode(const struct drm_connector *connector,
+ 	return ok;
+ }
+ 
+-static int
+-drm_dmt_modes_for_range(struct drm_connector *connector, const struct edid *edid,
+-			const struct detailed_timing *timing)
++static int drm_dmt_modes_for_range(struct drm_connector *connector,
++				   const struct drm_edid *drm_edid,
++				   const struct detailed_timing *timing)
  {
-@@ -2998,8 +2998,8 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
- 	}
+ 	int i, modes = 0;
+ 	struct drm_display_mode *newmode;
+ 	struct drm_device *dev = connector->dev;
  
- 	if (quirks & EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE) {
--		mode->width_mm = edid->width_cm * 10;
--		mode->height_mm = edid->height_cm * 10;
-+		mode->width_mm = drm_edid->edid->width_cm * 10;
-+		mode->height_mm = drm_edid->edid->height_cm * 10;
- 	}
- 
- 	mode->type = DRM_MODE_TYPE_DRIVER;
-@@ -3475,7 +3475,7 @@ do_detailed_mode(const struct detailed_timing *timing, void *c)
+ 	for (i = 0; i < ARRAY_SIZE(drm_dmt_modes); i++) {
+-		if (mode_in_range(drm_dmt_modes + i, edid, timing) &&
++		if (mode_in_range(drm_dmt_modes + i, drm_edid->edid, timing) &&
+ 		    valid_inferred_mode(connector, drm_dmt_modes + i)) {
+ 			newmode = drm_mode_duplicate(dev, &drm_dmt_modes[i]);
+ 			if (newmode) {
+@@ -3208,7 +3208,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
  		return;
  
- 	newmode = drm_mode_detailed(closure->connector->dev,
--				    closure->drm_edid->edid, timing,
-+				    closure->drm_edid, timing,
- 				    closure->quirks);
- 	if (!newmode)
- 		return;
+ 	closure->modes += drm_dmt_modes_for_range(closure->connector,
+-						  closure->drm_edid->edid,
++						  closure->drm_edid,
+ 						  timing);
+ 
+ 	if (!version_greater(closure->drm_edid->edid, 1, 1))
 -- 
 2.30.2
 
