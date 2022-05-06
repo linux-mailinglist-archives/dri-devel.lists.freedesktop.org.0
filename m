@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FEE51D765
-	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 14:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9345551D766
+	for <lists+dri-devel@lfdr.de>; Fri,  6 May 2022 14:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9710A10FC89;
-	Fri,  6 May 2022 12:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E5D10FC8B;
+	Fri,  6 May 2022 12:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12olkn2068.outbound.protection.outlook.com [40.92.22.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B563910FC89
- for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 12:18:01 +0000 (UTC)
+ (mail-dm6nam12olkn2092.outbound.protection.outlook.com [40.92.22.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3269A10FC8B
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 May 2022 12:18:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VRTmXsaV0UTPAOJLT0O654lo4XCOPZT4Y/dUJLIgzp5PoC5bprts2V/fbP8XDn16gZiJMe590nAAO78c3uQyxU5kjyAuW1eucxXr5pmFAkRUIL/91/xRevaAIaXoHOVcvqIcYo83bimSUXckLnuFlN2p6WdiHj4LYb1W4c7ms//7/QE9LEgW6WlCH4bOPzAiA2UgADdayyDsbM2npQQ8iZMdoY/O0UgK30kBHrF+F8OlNAFBfVht1lftlhn0c41Yha1mivxSZwTq9KqMegP1eqBzJco16aKj47BtIuyiwW1wVzK+T6t/dk1fnbWz+gSd8Modt348UwbE3n9CwTkUUA==
+ b=eKXCyC3nBj3AJsA6SdtLT3NFCFqAFUXxW3700pqGEO6dyHrxbKeJzsteyPVvDQLZP/gcynps51MEcevQBQv4QybagMkWSR5neYEO8wKT+977Eja7uvJj/f59VqY7oTidqTOYwZjtKfELot/ELhne0iLxbl8n0GGH7dOwtn/1yFD5YWNdSipSlZg0NaMJhyvKMJadtjJTFQeH4lqQ1VTApe+QBfllCYiv9LSDtyLbTLuSau9DouwODazFqJJpK9UKCgn8o7oxCqM+yNNfGQWWihrBPiIuy90E/x4jKptG3ZcoSCP0bbKz6Cldpd5YLuozKc5SVOWTaVubsSHwEK0CSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZsSbsOUwHurBgv16tOk7+X8A5ovdgNh0kdbmdQL+Kp8=;
- b=UCZ39SF2EQPxCjsUQmF7V7EAo7di1DKF5qoeFMiWSH1Gg4pVBMKalj1qtMt4GQ8f9bSfFwttapL0w3pLxLZk3PS8dKa6KjEP65AZirCU5hDMMTYzIkPtpYHmB+lw1V3k/YOq7Xwf02xNYl9gDY1kgh3xflhW7FF8zRS60ibziWzohOi3VSBq7mNQry6HIJY8ERTksiNXs2hF0tKyKAb3dkVMPWRYmgejMWvZt1VqWRI19tHLam/6AhgRU42vuabNhXsLsvyTyPr7IrQTAsaGWEb7i034N0SdFBUI6lGelcwfrYfNkD9sTruXwcPSv2xfyQYf3Q/80KxR6gxpYLTQrw==
+ bh=VJ4NHBSvqoJEzSNxofZVHhrWnvcoF1MOO5OYANW4rqA=;
+ b=mqJI/yjUkMW52YnVWD6Z2fdg6D+z1uioFpuYSSYkTXFZalglFf69l7vEdD7/g7dj3aU6l9/vmlIBkR7vxtOAi5bJW74XM7t9TnUttWVthiJ+OzEevNWUDx1leeNR/gN8OcJNDoIy3i/XY6coeW/T6A1H0RKHzacb1kbhliJG8jdhqM9i+nOMSq8ek2kxatzHTR8Kiob7YCM3ZSZyCxE8lm8ZVIJecBOCtKZ8T9VMNKAEhzpuKWiKdA2IJn3DoveZS3w88AkyYW6V2KS3WK47W+09sWWOprNVtnBbrREIEdJvWi+1KsEj1GSi2PD2nOLgdQTvSvrXW8fHwvPHqnCNDw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from BY5PR02MB7009.namprd02.prod.outlook.com (2603:10b6:a03:236::13)
  by BL0PR02MB6497.namprd02.prod.outlook.com (2603:10b6:208:1c2::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.20; Fri, 6 May
- 2022 12:17:58 +0000
+ 2022 12:18:03 +0000
 Received: from BY5PR02MB7009.namprd02.prod.outlook.com
  ([fe80::303a:ab1:17c1:2d16]) by BY5PR02MB7009.namprd02.prod.outlook.com
  ([fe80::303a:ab1:17c1:2d16%7]) with mapi id 15.20.5206.028; Fri, 6 May 2022
- 12:17:57 +0000
+ 12:18:03 +0000
 From: Joel Selvaraj <jo@jsfamily.in>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -40,55 +40,57 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Corentin Labbe <clabbe@baylibre.com>,
  Oleksij Rempel <linux@rempel-privat.de>,
  Linus Walleij <linus.walleij@linaro.org>, Hao Fang <fanghao11@huawei.com>
-Subject: [PATCH 0/3] Introduce EBBG FT8719 DRM panel driver
-Date: Fri,  6 May 2022 17:47:32 +0530
-Message-ID: <BY5PR02MB7009DDEF8AABFE9C14F5C985D9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
+Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: Add prefix for EBBG
+Date: Fri,  6 May 2022 17:47:33 +0530
+Message-ID: <BY5PR02MB7009E985CDB281DC9BE9CF37D9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1651835715.git.jo@jsfamily.in>
+References: <cover.1651835715.git.jo@jsfamily.in>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [Sphv4hLQgQ4yrfdeXmAjZlkcvfbJD9Zue2zn9c87UI5vMd5FjotyneIZBLH4j559]
+X-TMN: [mJfgWRlfwVkd0NwM6sfNMnFTxxwS9njEQRDBcgeLjQboe9v39RWjR4K5mcxHgLGt]
 X-ClientProxiedBy: PN3PR01CA0135.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:bf::6) To BY5PR02MB7009.namprd02.prod.outlook.com
  (2603:10b6:a03:236::13)
-X-Microsoft-Original-Message-ID: <cover.1651835715.git.jo@jsfamily.in>
+X-Microsoft-Original-Message-ID: <0ac66064eb6bfd76b3c394cfa29c429afdbdfb23.1651835715.git.jo@jsfamily.in>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ebd86a21-0cfc-4e40-8e8e-08da2f5a7412
+X-MS-Office365-Filtering-Correlation-Id: 60f6f892-e991-48e6-c2f1-08da2f5a7792
 X-MS-TrafficTypeDiagnostic: BL0PR02MB6497:EE_
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Lgu2uMWhZ+58pjLhUevJhwMspJNYwbNqdzTh3Nbw/X09QAac6uxClb/awJJF70YXCTTLs9s4jv0+2UemWYnT8SOVt8R+wXPt/GsNRJD8Nt5yzP15uwgSzvQABI2BB/hhKjTZaPhM6yT0mmL18x8VwDgDFomJNIFSboKEjgbaTlLHmGWAjhmNpbOHSn3h+jGGnYvlQiVJAnvUxXYCkZWThcx7JNOOa/YA2yxpjN8z4zdrQmZ3Dr8yfIDM8+j1ofiqhisVXajRUY3XwiNiTby8mjVwwkPv/D9BNZnUjTOJ8eUH1/LzVki0uaOgDqKWkditHcksiM1gRimFWGhGBguDUcXXVaGhgN+LySg9Jgy/9TlmNObep9RXx1TR0Na6mqBG8thukVr+9N3lMPI4KYO9JXzzeyEmFzn8WVQPuoIicMW2D67J5NKCRZlFVpyI24VFhAZiR4ixcYX4OYFhG9yy2AeFuaBwA+90t15S48vf+BmBNnPzgnh9GTsU4AS70z6uWNWWKvoW4rB2oRcYY9/zxZIG7gCjNtGeYKzmB3EQMsR3Zcw5vbG+/+kQZWFyMHHZoJSA1HJHjmv2ok95vT1SaxD6RNvIUuiF5EFh/TiSQlLKKFpM2l6VQrfp81Sz3rp6utaZHLnK+TBKuyXKAB13FirF0wFHYYnRfVtNYq6KEjo=
+X-Microsoft-Antispam-Message-Info: izurhWxjHMIln1u0iPaLTqhXopZ6+Ufh9n0IWH6QK8QMoHgg7vU2Fr5tsvGTrF+dAqaKIE/DmIKYzoUfaS4w2bJLdE3mlh+BCZetlxovEHFd9HXZvxhvUg/31wGJdTqOSjdSpQshFTjiWk2/ckGi6UQT2+wfqfpZ/d5GCbiyluIg0a1PHbimXvOnmi0LmStzt1R4YR3I0XyacQ9SjP0uiYO3UzgMAdnaZU3qlU07d67jyKupQghjxw2CHS5jHY+1OehyZUK+1Q5ZVsfuqC2AspfyXAQhcyHV1o+nZH3vflSUQfk4KGTnIRqCV8iiaqiuHE+JFDL/X3ZqW+/Ox8ap/ThRT2WNSChAZRf4jFAOgorqqawudnRHKm3j5+QB2WeznbQtAb+s370Aytw9fuLVUp/Q3ErL/cFdln3JAJiejvrCuu4IEQEinhWPFktz/BXTSOQ8+D6izyEThWtRD5bx3IA3J4nAZRnLnotq3JvNkG3NtS+ukV6DF8tQEkteZlPkVZ6WdzTdlUZXDrDIYjExD/55qWID8SyDunRmsOqu2C2J4Rao2uXUHztmbI3NC05aIYxDoK8jCDuiywqk9i/NKXhOjvObjET1Yhvdb8fA60kwLFiSllIdkaofXxJtcsQQ
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PEU0m9zpIdg7mZmFNVkQJkee44qrLMoVTWSGiZuzZ1vk9oEQWo+qpk5OiNll?=
- =?us-ascii?Q?Vg4QLaFa1WWRU6XTs1kbNq0lOI3689zng9o+p1EyvPvytWDiNioxT7kzrQi5?=
- =?us-ascii?Q?WFtMHxilLs+LqKhuzt1aWUhb7B3U3FZEGXIxeGoMye2+8A6+MvEs6rO4G8kj?=
- =?us-ascii?Q?P/qZP/Xh3JSbjobCL/cvvgdBmaInhIiuygVqIICmgv1uGNo53ymEtTi97M7f?=
- =?us-ascii?Q?mQi5Bz7KnaXLcQu+xzBx3Lw6ctN37MCHVgwy+ej+LBkV2IyuFnzz722bw4K8?=
- =?us-ascii?Q?EHpxf1Ik4GWHccQ3CQ2fpojiu7G8+NKjROvXMCw+8Hg4rCcD+9cD/tO3omkT?=
- =?us-ascii?Q?wXFiGK3HlZaml/jsPv+vS57uogCBoy9DHHOdxgqowj58Mj6dVd7vS1R0rj9o?=
- =?us-ascii?Q?faMRRa4plV77oPKwocOCYEJ0X5ybK9iTc1PBhw0FcRtw1jDddWtycB2rVPCZ?=
- =?us-ascii?Q?E12W6GCYRy9kQGQzBeqseYB406/9gZFbSnXiQ1fsK7qQjUMvm75R6MNtYhOW?=
- =?us-ascii?Q?yeeBm2dIvbkFGbqHWY/gSWwwFNF9cKzbBykTLaWBhpUYlE/kP78heAVj0rWU?=
- =?us-ascii?Q?NVtP1DjQvfYXB1Tu0CQC0YVeHwbfpX7mkVgXMGmlNcnQlSXseJF9l7bUpmud?=
- =?us-ascii?Q?gN0SNkKoFzZ+eBp32qY4U08MO/ImpzEjHqfjCTJcCECkd4H4aRGxqYmjwUrE?=
- =?us-ascii?Q?3Jl83p/ypB55YGGvsx7nYAo5FzfB0kx6ZaDEXMTfkk+A5B8ilKOCJoRRuLyq?=
- =?us-ascii?Q?hu5AqE3GxxbRfmD5+tWD7ez8QUj8FLitQmybkGIEzGicsjthGetRLv9tN6w/?=
- =?us-ascii?Q?eJAvGzus3sbuCdSDnUiz9CbK4pTMSd2p5zEIA7tGih3nFfmnnsodM8LriAQV?=
- =?us-ascii?Q?qfyW5XVmitkF9hoNS8iSRDVOgyDga4pFDO1vzU7zaPGOtlHA0IwE46Kq+bnl?=
- =?us-ascii?Q?q13+bp1uvG/3Fhal3S7a/KIyt1/HhfcAeMKaeLnQxyUQfMeAo19tK+CS0Sb9?=
- =?us-ascii?Q?AEXsBsv+xepHS0T4oyz/6POkG8lluF+G8eIJYxwryejVdGUPTRy1z77psZYr?=
- =?us-ascii?Q?cZYMtH0U3RhsENxah4Ecz3e9m5aFSHLZ3Q8LdPPmb4IwujCn4K22mqKUSNIT?=
- =?us-ascii?Q?ZEBSEo9sAtzo6fqWDAZvlMMpJXBaQ2JUfiSa2t6ysO8rKQ4I9MHOGVwhp5Zw?=
- =?us-ascii?Q?vHXmjUoBZKFKOfZ8GHa79ST1jLVRLobPBqupzuxqT5kNLBzNwUDpzwa4TPkg?=
- =?us-ascii?Q?MG9yv47MKht3WjSComTYYPkuzLoNOSvuK55BLFQTPHKaal7cm5p0cCpRd/Bv?=
- =?us-ascii?Q?DPXhyTZXngYlnelY6WRrqN9Jsl6/VQCxQLluRUDUiqtJkvskmTuCnY13KlzT?=
- =?us-ascii?Q?5RwfO8mB5xObENUnq7Ib81ucnabVLB7Zk+J7uaTzgBhbPzkMtGyKXMoQO8Wk?=
- =?us-ascii?Q?sTJrbgYpgTMcY2f/6kciCxydkaCw96in3O2gfDfxHfO8KTDZW3W/zQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aoMKrbnyMGlUbTmfYC4f++jhT6PBtEEMbcuVi6WFTDN4+Xb/SNCUJRi5WZRX?=
+ =?us-ascii?Q?PwUH5ywl172YxpOYZm9Obfhyfp2qzTis27PG0G+w0S2KZ3tmBvJp+zsiidfw?=
+ =?us-ascii?Q?JodOUS14338pm7FPwCAsDNRP8H6UYDSjD4lu4hUa7taKWGTeVoNCwH/uTbkT?=
+ =?us-ascii?Q?sY8yxLd+JCyJHLBBUoczKDH9ox0k1eZHjVew04KQamGka5tjY+Hob8rmNF4U?=
+ =?us-ascii?Q?nOTKOzhm6dyTv20+LMZpCnP+HXufthBgWAG25U+Cy3ijj6dXQbgdXsHq5v8N?=
+ =?us-ascii?Q?EegCJxoa62L9t3fsJuwRjnbYkPkx0XXPh0alLO6E0F01rqJMMcWq50ZwuEsW?=
+ =?us-ascii?Q?n8u07m8tq3Z8cPFrMP+oPm633VO/NGp2At+j2Rn66Yna6pq302Q6Xv9H0Zfy?=
+ =?us-ascii?Q?I4oLCLYjIzCFdgnZz1vYIn2d5uJNsUw0wvJT5rbJyUcgOwx4MkWphwguTCUH?=
+ =?us-ascii?Q?CscB/3TsbuXEiFFtJBYn8pgxAEMxvA3IC1i2h9jAFafHcc/WvfxiGivetXdV?=
+ =?us-ascii?Q?X5NUKl2MV0LQY7fMTXmrsQYL8NGgCOv3JMkCB9sxa5yx89Xe0Cyn4xMZYLvY?=
+ =?us-ascii?Q?gzP4jYgrT1t126hM5RiW5dYNsbmtXKw7I2G8MLP7akFhEb5AH9zYYtN9uON1?=
+ =?us-ascii?Q?KNQk0cdkq7qLxfhI6A1k6W1RLabTVAGEm9jRoUSW08gwer9o/dS/Dw1HpAHO?=
+ =?us-ascii?Q?qvc6RyDpsnZKWK7oqneNTPZm7eRJUPv9mpi1dJ/8I3/7sBW4cD21EY9ORpzU?=
+ =?us-ascii?Q?SGnQd7N6LlRQOH3STOQkNSesXTZcMX/WkjY5QZZh8Olmjz9jksnbIZdt9CB8?=
+ =?us-ascii?Q?5EYmIZGcYHyRAqZ1xnE/MhsaElBy6oA+MIO1rOVVdfaRyLfbwSMJAcSinBez?=
+ =?us-ascii?Q?R1XVFw9gzB58Rb1S8qTdFbM/z5A/IafhZolJEe0ZJ3Df77jpeNoKhqzbbejD?=
+ =?us-ascii?Q?Tt817vB4cSfZbH43z+zZXLF0esGc3UYCbOPNspbRfGgEciKWoYeGZWkZpLC/?=
+ =?us-ascii?Q?cQrP/TeaRq5rdEQcFGQ0uuTJwbWbVoS8Rj5r1BqVvxcGszcAxXCC3IfaqhGp?=
+ =?us-ascii?Q?baXDROAVw2ADOQZEk5Pb+V1Co6bqdftS3Kmt3O+n+Iv/2GdLOpYXDVlvNrfw?=
+ =?us-ascii?Q?Rgjbywse4b+8onKi9gVrf7hJFKIglHrgYiaklGrx3n+VXwHWv8Dg+AQfqhXw?=
+ =?us-ascii?Q?qKTDtrA88YESzsZ6AadERBMhV8n+YJnP19XLHlEUOHJLuUX29ZqvtAgbwMT/?=
+ =?us-ascii?Q?6NZJSGp++mvx69u4taLGYEzyyKU2ukspqy42rWSCDWi6q7junNRFc9mUh3iX?=
+ =?us-ascii?Q?jjFX23FG6mafJtx4n1rLxJW7aMAtGmFdkxPkluaHQLwUV0D5Ka6Iz2K6Iwlc?=
+ =?us-ascii?Q?thPvfBiJEYuyTRwWB2V4BKuSqIuuM9f324KuBARGoULmBhBeisPeyg8eOh0G?=
+ =?us-ascii?Q?x9cYLda1ymNSlIGCltvGkhl0LtVmx9N5Tid44bI9PppT76ylIPHgiQ=3D=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-99c3d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebd86a21-0cfc-4e40-8e8e-08da2f5a7412
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60f6f892-e991-48e6-c2f1-08da2f5a7792
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB7009.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2022 12:17:57.2593 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2022 12:18:03.0702 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
@@ -111,31 +113,27 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bindings and DRM panel driver for EBBG FT8719 6.18" 2246x1080 DSI
-video mode panel, which can be found on some Xiaomi Poco F1 phones.
-The panel's backlight is managed through QCOM WLED driver.
+Add a prefix for EBBG. They manufacture displays which are used in some
+Xiaomi phones, but I could not find much details about the company.
 
-The driver is built using linux-mdss-dsi-panel-driver-generator[1], and
-additionally support for handling regulators and linking external
-backlight is added.
+Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
-
-Joel Selvaraj (3):
-  dt-bindings: vendor-prefixes: Add prefix for EBBG
-  dt-bindings: display: Add bindings for EBBG FT8719
-  drm/panel: introduce ebbg,ft8719 panel
-
- .../bindings/display/panel/ebbg,ft8719.yaml   |  78 ++++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- MAINTAINERS                                   |   7 +
- drivers/gpu/drm/panel/Kconfig                 |  11 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-ebbg-ft8719.c     | 362 ++++++++++++++++++
- 6 files changed, 461 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/ebbg,ft8719.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 80e80fa53f8a..effd1cb995cf 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -337,6 +337,8 @@ patternProperties:
+     description: Embedded Artists AB
+   "^ebang,.*":
+     description: Zhejiang Ebang Communication Co., Ltd
++  "^ebbg,.*":
++    description: EBBG
+   "^ebs-systart,.*":
+     description: EBS-SYSTART GmbH
+   "^ebv,.*":
 -- 
 2.35.1
 
