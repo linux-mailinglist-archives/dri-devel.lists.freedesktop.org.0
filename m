@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBB951E2E5
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 03:00:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DBC51E319
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 03:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0FA10F038;
-	Sat,  7 May 2022 01:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D511710F2E3;
+	Sat,  7 May 2022 01:36:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97DA210F038
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 01:00:50 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id b18so15143530lfv.9
- for <dri-devel@lists.freedesktop.org>; Fri, 06 May 2022 18:00:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GpQPa4NJralQOF83QKrzZctApIFLbKGQLHmuL/U72to=;
- b=JXkuvSBpLZFGG6zLq4LqsjIHdtMQeLvd5PF2PXJkhnDI45JwFU7of+bRvNKkOgYLjM
- XKvUhOizsjEZmT2x6UowE0MXKQelZ/PJXfNbjaQpyXayLulZ/xz1mx10KNP4DDMXDGUE
- USiA5YiH+lyjVqnVIjHlT0QIXakUjlR3gzm+to0tuLKIXG5CUu6aNECD/d7GC8waIOHC
- /WTuMOn+wgaO2BWMO8M9tAqdirLr6Bozxw/dbs8ySYJBxECMAHA2Ndks28HGJi4MLW0B
- UFT21fscWpBNA9033nd8SbIV3dgezVCoz06poP2a9aBarQ08s4Tqqyhjz3htaphaDEsY
- qPkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GpQPa4NJralQOF83QKrzZctApIFLbKGQLHmuL/U72to=;
- b=X1TZKskCE1+6w8pkpSkffcz67NGMRXpVDcjqENlC8za2RuP/umimNRAkXFf0vP+b2b
- bPl4rETbGIjd6ZA5C0W4YO8TlI1nqJlaN3n9nRlHVLM2Vxr5u5yVKjRnn+7JMOo07Clh
- poysSjqVVMLHx++4BegyKFAv0lJomFZRBdTgWuoTOBf79MfQbyHg2RLBdsLse5x6U/sD
- 2oviIS7HKqGc3WHV8ssroSWjvmhhmosSgsqe3/ztZJlsJ8ftrzjOp8rfheiIcPVXEmhk
- bTgwoM4tOcKxjNDiA+SurcGDlKcMiic1ycxYQxcFVzyMgNcxBYC4tKAqt41yiOUWrgT5
- uvag==
-X-Gm-Message-State: AOAM532MWMzJS+gtJ2GhDEc+wjvVx4am+wtrBMVOOkkQ07SOcTbD7q28
- gj8vadee8X2mDZy/CQsnI0mKAw==
-X-Google-Smtp-Source: ABdhPJwPs3fa9PDP17FJQZM7Nsg6kkMR2y0Xy1UUWbGqgk3o1myyMjU8LYeYEJ80OICy1EEfsgP1Gw==
-X-Received: by 2002:ac2:5f8c:0:b0:471:ffe8:c5b4 with SMTP id
- r12-20020ac25f8c000000b00471ffe8c5b4mr4313668lfe.472.1651885248710; 
- Fri, 06 May 2022 18:00:48 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- m8-20020a0565120a8800b0047255d21123sm886335lfu.82.2022.05.06.18.00.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 May 2022 18:00:48 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 3/3] drm/msm: stop storing the array of CRTCs in struct
- msm_drm_private
-Date: Sat,  7 May 2022 04:00:46 +0300
-Message-Id: <20220507010046.1667809-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220507010046.1667809-1-dmitry.baryshkov@linaro.org>
-References: <20220507010046.1667809-1-dmitry.baryshkov@linaro.org>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA6C10F2E3
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 01:36:39 +0000 (UTC)
+X-UUID: c013c10afc814cc59d92a7c8afd8da82-20220507
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:c9c59963-a221-4b32-8390-80dae2802bab, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:-20
+X-CID-META: VersionHash:faefae9, CLOUDID:fa0e8516-2e53-443e-b81a-655c13977218,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: c013c10afc814cc59d92a7c8afd8da82-20220507
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1626718688; Sat, 07 May 2022 09:36:31 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Sat, 7 May 2022 09:36:30 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 7 May 2022 09:36:29 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Sat, 7 May 2022 09:36:27 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
+ Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH v3, 0/3] add h264 decoder driver for mt8186
+Date: Sat, 7 May 2022 09:36:22 +0800
+Message-ID: <20220507013625.29020-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,180 +65,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handling the array of CRTC duplicate the struct msm_drm_private
-duplicates a list of CRTCs in the drm_device. Drop it and use the
-existing list for CRTC enumeration.
+Firstly, add mt8186 compatible and private data, then add document for
+compatible "mediatek,mt8186-vcodec-dec". For mt8186 is single core
+architecture, need to add new interface for h264 hardware decoder.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patche 1 add mt8186 compatible and private data.
+Patche 2 add mt8186 compatible document.
+Patche 3 add h264 single core driver.
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |  2 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c |  2 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  2 +-
- drivers/gpu/drm/msm/msm_drv.c            | 27 ++++++++++++------------
- drivers/gpu/drm/msm/msm_drv.h            |  3 +--
- 5 files changed, 17 insertions(+), 19 deletions(-)
+This patch depends on "support for MT8192 decoder"[1]
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 494978da7785..f89dcb903869 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -808,7 +808,7 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
- 			ret = PTR_ERR(crtc);
- 			return ret;
- 		}
--		priv->crtcs[priv->num_crtcs++] = crtc;
-+		priv->num_crtcs++;
- 	}
- 
- 	/* All CRTCs are compatible with all encoders */
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index b7aced272af9..375643a14198 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -335,7 +335,7 @@ static int modeset_init(struct mdp4_kms *mdp4_kms)
- 			goto fail;
- 		}
- 
--		priv->crtcs[priv->num_crtcs++] = crtc;
-+		priv->num_crtcs++;
- 	}
- 
- 	/*
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 18cf0ff4da6c..35242e76de10 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -495,7 +495,7 @@ static int modeset_init(struct mdp5_kms *mdp5_kms)
- 			DRM_DEV_ERROR(dev->dev, "failed to construct crtc %d (%d)\n", i, ret);
- 			goto fail;
- 		}
--		priv->crtcs[priv->num_crtcs++] = crtc;
-+		priv->num_crtcs++;
- 	}
- 
- 	/*
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index d2fbe54fec4d..576d346cc860 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -98,7 +98,7 @@ static void msm_irq_uninstall(struct drm_device *dev)
- 
- struct msm_vblank_work {
- 	struct work_struct work;
--	int crtc_id;
-+	struct drm_crtc *crtc;
- 	bool enable;
- 	struct msm_drm_private *priv;
- };
-@@ -111,15 +111,15 @@ static void vblank_ctrl_worker(struct work_struct *work)
- 	struct msm_kms *kms = priv->kms;
- 
- 	if (vbl_work->enable)
--		kms->funcs->enable_vblank(kms, priv->crtcs[vbl_work->crtc_id]);
-+		kms->funcs->enable_vblank(kms, vbl_work->crtc);
- 	else
--		kms->funcs->disable_vblank(kms,	priv->crtcs[vbl_work->crtc_id]);
-+		kms->funcs->disable_vblank(kms,	vbl_work->crtc);
- 
- 	kfree(vbl_work);
- }
- 
- static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
--					int crtc_id, bool enable)
-+					struct drm_crtc *crtc, bool enable)
- {
- 	struct msm_vblank_work *vbl_work;
- 
-@@ -129,7 +129,7 @@ static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
- 
- 	INIT_WORK(&vbl_work->work, vblank_ctrl_worker);
- 
--	vbl_work->crtc_id = crtc_id;
-+	vbl_work->crtc = crtc;
- 	vbl_work->enable = enable;
- 	vbl_work->priv = priv;
- 
-@@ -303,6 +303,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 	struct msm_drm_private *priv = dev_get_drvdata(dev);
- 	struct drm_device *ddev;
- 	struct msm_kms *kms;
-+	struct drm_crtc *crtc;
- 	int ret, i;
- 
- 	if (drm_firmware_drivers_only())
-@@ -376,12 +377,12 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 	ddev->mode_config.funcs = &mode_config_funcs;
- 	ddev->mode_config.helper_private = &mode_config_helper_funcs;
- 
--	for (i = 0; i < priv->num_crtcs; i++) {
-+	drm_for_each_crtc(crtc, ddev) {
- 		/* initialize event thread */
--		priv->event_thread[i].crtc_id = priv->crtcs[i]->base.id;
-+		priv->event_thread[i].crtc = crtc;
- 		priv->event_thread[i].dev = ddev;
- 		priv->event_thread[i].worker = kthread_create_worker(0,
--			"crtc_event:%d", priv->event_thread[i].crtc_id);
-+			"crtc_event:%d", priv->event_thread[i].crtc->base.id);
- 		if (IS_ERR(priv->event_thread[i].worker)) {
- 			ret = PTR_ERR(priv->event_thread[i].worker);
- 			DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
-@@ -517,25 +518,23 @@ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
- int msm_crtc_enable_vblank(struct drm_crtc *crtc)
- {
- 	struct drm_device *dev = crtc->dev;
--	unsigned int pipe = crtc->index;
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_kms *kms = priv->kms;
- 	if (!kms)
- 		return -ENXIO;
--	drm_dbg_vbl(dev, "crtc=%u", pipe);
--	return vblank_ctrl_queue_work(priv, pipe, true);
-+	drm_dbg_vbl(dev, "crtc=%u", crtc->base.id);
-+	return vblank_ctrl_queue_work(priv, crtc, true);
- }
- 
- void msm_crtc_disable_vblank(struct drm_crtc *crtc)
- {
- 	struct drm_device *dev = crtc->dev;
--	unsigned int pipe = crtc->index;
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_kms *kms = priv->kms;
- 	if (!kms)
- 		return;
--	drm_dbg_vbl(dev, "crtc=%u", pipe);
--	vblank_ctrl_queue_work(priv, pipe, false);
-+	drm_dbg_vbl(dev, "crtc=%u", crtc->base.id);
-+	vblank_ctrl_queue_work(priv, crtc, false);
- }
- 
- /*
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index fdbaad53eb84..2ba57c575e13 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -102,7 +102,7 @@ struct msm_display_topology {
- /* Commit/Event thread specific structure */
- struct msm_drm_thread {
- 	struct drm_device *dev;
--	unsigned int crtc_id;
-+	struct drm_crtc *crtc;
- 	struct kthread_worker *worker;
- };
- 
-@@ -178,7 +178,6 @@ struct msm_drm_private {
- 	struct workqueue_struct *wq;
- 
- 	unsigned int num_crtcs;
--	struct drm_crtc *crtcs[MAX_CRTCS];
- 
- 	struct msm_drm_thread event_thread[MAX_CRTCS];
- 
+[1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220506092855.22940-1-yunfei.dong@mediatek.com/
+---
+changed with v2:
+- fix sparse and smatch check fail for patch 3
+changed with v1:
+- rebase driver to the latest media_stage.
+---
+Yunfei Dong (3):
+  dt-bindings: media: mediatek: vcodec: Adds decoder dt-bindings for
+    mt8186
+  media: mediatek: vcodec: Support MT8186
+  media: mediatek: vcodec: add h264 decoder driver for mt8186
+
+ .../media/mediatek,vcodec-subdev-decoder.yaml |   4 +-
+ .../platform/mediatek/vcodec/mtk_vcodec_dec.h |   1 +
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
+ .../vcodec/mtk_vcodec_dec_stateless.c         |  19 ++
+ .../vcodec/vdec/vdec_h264_req_multi_if.c      | 177 +++++++++++++++++-
+ 5 files changed, 203 insertions(+), 2 deletions(-)
+
 -- 
-2.35.1
+2.18.0
 
