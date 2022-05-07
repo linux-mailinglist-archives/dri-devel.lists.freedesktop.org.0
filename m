@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3FB51E6DE
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 14:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D0C51E6F8
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 14:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C156D10EA00;
-	Sat,  7 May 2022 12:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27CC7113151;
+	Sat,  7 May 2022 12:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2994D10E651;
- Sat,  7 May 2022 12:20:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651926046; x=1683462046;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=IbK33cLn7gV/fzxHo+v5rptEYR9zbVVIEqG1OSEDSYc=;
- b=d33Yb7z3esPyxkybzqye3jIJCm0Lovg8X9Sr7hYniTFV/X3+VoGWnmWN
- D+ooldLOiqNK/eU0Tx4+HslT25HkTQfkoujtQTu9U8WY4sALpHUhAdk2V
- 78fzOnKXw4g8Sox0MaVUvKRcgy7953EQDqVAqW2bq7UIRV4Jx4JHWRvS1
- 70KTrKhL+9cWt60oNym1PMcZQFbABGNvPs+8RDMgO23T5C1pRSvrh0E6t
- vBit7gYc48GZ3wYzKXljekOGFDY/o2KGlj/EL9xsY20ormKZeYi/U87WU
- QgT+7B5E3rzbczwIOnSJphH8/5qI3LA0b1pUx+wW+rkraziT8/EuRAS2B Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="250715916"
-X-IronPort-AV: E=Sophos;i="5.91,207,1647327600"; d="scan'208";a="250715916"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2022 05:20:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,207,1647327600"; d="scan'208";a="665899145"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 07 May 2022 05:20:41 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nnJQP-000EYJ-15;
- Sat, 07 May 2022 12:20:41 +0000
-Date: Sat, 7 May 2022 20:20:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH 3/3] drm/msm: stop storing the array of CRTCs in struct
- msm_drm_private
-Message-ID: <202205072052.67OjKtjD-lkp@intel.com>
-References: <20220507010046.1667809-3-dmitry.baryshkov@linaro.org>
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F8E11314F
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 12:37:32 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id s30so17207429ybi.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 May 2022 05:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JUhgclDR3XBkbKooh+LIAZ5rgGQDmCxwnx2kPnqoYMA=;
+ b=KCyiITVKgMi69PaUxMUe8kgt1g0I/YT1BNqXQ8g8jDYzoI10RIuW4XJdIAw+WABgPz
+ sIoqAXB0wg2Fv4K4xa+UIk01I93aMUAh5zwWez9Y9woJgUGlFSInLIx46fZ5Gg1s601e
+ a5i4HOw7TQkJg5Maw+WvNt0vTtgrsC6dMYDUfidiIqwE2Susa4bkzpuGE1IWxOsZTINs
+ CB1T7vFcyxbamcJuoqj4cYj6aPJPj79FjZ60m16yN0qOI1to8EcKMqSlW8ohYQOIT3XX
+ Y47JhHbhAM6byKlmpEHLlDWi3VANQBbeKYdvgbjI2HE4GR8wATeJNEQhXZFHSEQQgNal
+ 1RtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JUhgclDR3XBkbKooh+LIAZ5rgGQDmCxwnx2kPnqoYMA=;
+ b=rIDUmZ850kugyKNpTfg3WhHOOc2HOvFk5x2Oz6g6/QxQMOdj0xHb420m7kyMcwejmR
+ z3KGmXwlYrVa+LeXAKBa1LiE82f6FUWdn4t2KrESCFMHjBostOHywQCQB/51xg5iEVsJ
+ gqRhfmzuKm2E+xSu0pMCWyLZg0xzeQ7WEvXXTqgJFrNlSLDjz1X9anPbYlfZ2q1zEzKL
+ q+nrrQilpRDJAz+OLNxLMqgQ96+D4pWsSnqlbgg03FREayen5+kMWFEKmOX7ralq4ph1
+ IXvFude+SUIHd4b2sUl/KTZljm3crHbgY/LL18w5j6XdQDN++KVliJGfyKBEZOSXKBI7
+ M1KA==
+X-Gm-Message-State: AOAM5330nxaY6TcYV2HMNP3Nnt/nBGTgqTob39D/kggRgRwq22aycARj
+ N0qfv/Y5IOBpJxCUYMbBGtdaoO/w0sz85h7Z23hyHw==
+X-Google-Smtp-Source: ABdhPJzwJpXEUtAZEUc6bZUPoenoZ5sebSG72if0MOZ/TMe4dt5l953VkaeLr4GysoaOw6EpMxKFJUOEIy1GTdxXArc=
+X-Received: by 2002:a25:e684:0:b0:645:d429:78e9 with SMTP id
+ d126-20020a25e684000000b00645d42978e9mr6256768ybh.369.1651927052069; Sat, 07
+ May 2022 05:37:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220507010046.1667809-3-dmitry.baryshkov@linaro.org>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220419163810.2118169-41-arnd@kernel.org>
+In-Reply-To: <20220419163810.2118169-41-arnd@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 7 May 2022 14:37:20 +0200
+Message-ID: <CACRpkdbHGXfAKiN1sNTrLzRd5Qk-jerhcfvDo8FG=Zq94Dv19g@mail.gmail.com>
+Subject: Re: [PATCH 40/48] ARM: pxa: tosa: use gpio lookup for battery
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,180 +63,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Sergey Lapin <slapin@ossfans.org>,
+ linux-fbdev@vger.kernel.org, Dominik Brodowski <linux@dominikbrodowski.net>,
+ linux-mips@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-mtd@lists.infradead.org, Tomas Cech <sleep_walker@suse.com>,
+ robert.jarzmik@free.fr, linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
+ Michael Turquette <mturquette@baylibre.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-pm@vger.kernel.org, linux-input@vger.kernel.org,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ alsa-devel@alsa-project.org, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+On Tue, Apr 19, 2022 at 6:44 PM Arnd Bergmann <arnd@kernel.org> wrote:
 
-Thank you for the patch! Perhaps something to improve:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The battery driver uses a lot of GPIO lines, hardcoded from a
+> machine header file.
+>
+> Change it to use a gpiod lookup table instead.
+>
+> Reviewed-by: Sebastian Reichel <sre@kernel.org>
+> Acked-by: Sebastian Reichel <sre@kernel.org>
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-[auto build test WARNING on next-20220506]
-[also build test WARNING on v5.18-rc5]
-[cannot apply to drm/drm-next v5.18-rc5 v5.18-rc4 v5.18-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Oh, I've been iterating a patch for the Tosa charging code
+going down in MFD ans ASoC and all:
+https://lore.kernel.org/linux-arm-kernel/20220125003741.492954-1-linus.walleij@linaro.org/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-mdp4-convert-to-drm_crtc_handle_vblank/20220507-090522
-base:    38a288f5941ef03752887ad86f2d85442358c99a
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220507/202205072052.67OjKtjD-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project af4cf1c6b8ed0d8102fc5e69acdc2fcbbcdaa9a7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/08ab9442139f4b4c9e33ce35986014219fd1d5d0
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-mdp4-convert-to-drm_crtc_handle_vblank/20220507-090522
-        git checkout 08ab9442139f4b4c9e33ce35986014219fd1d5d0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/msm/
+I just rebased this on v5.18-rc1 and resent with collected ACKs.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Please take a look at it, and see if you rather take that patch,
+at some point I realized I had to go pretty deep around the
+legacy code in different subsystems because the MFD device
+us spawning a GPIO chip...
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/msm/msm_drv.c:428:22: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-                   priv->event_thread[i].crtc = crtc;
-                                      ^
-   drivers/gpu/drm/msm/msm_drv.c:353:12: note: initialize the variable 'i' to silence this warning
-           int ret, i;
-                     ^
-                      = 0
-   1 warning generated.
-
-
-vim +/i +428 drivers/gpu/drm/msm/msm_drv.c
-
-   346	
-   347	static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
-   348	{
-   349		struct msm_drm_private *priv = dev_get_drvdata(dev);
-   350		struct drm_device *ddev;
-   351		struct msm_kms *kms;
-   352		struct drm_crtc *crtc;
-   353		int ret, i;
-   354	
-   355		if (drm_firmware_drivers_only())
-   356			return -ENODEV;
-   357	
-   358		ddev = drm_dev_alloc(drv, dev);
-   359		if (IS_ERR(ddev)) {
-   360			DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
-   361			return PTR_ERR(ddev);
-   362		}
-   363		ddev->dev_private = priv;
-   364		priv->dev = ddev;
-   365	
-   366		priv->wq = alloc_ordered_workqueue("msm", 0);
-   367		priv->hangcheck_period = DRM_MSM_HANGCHECK_DEFAULT_PERIOD;
-   368	
-   369		INIT_LIST_HEAD(&priv->objects);
-   370		mutex_init(&priv->obj_lock);
-   371	
-   372		INIT_LIST_HEAD(&priv->inactive_willneed);
-   373		INIT_LIST_HEAD(&priv->inactive_dontneed);
-   374		INIT_LIST_HEAD(&priv->inactive_unpinned);
-   375		mutex_init(&priv->mm_lock);
-   376	
-   377		/* Teach lockdep about lock ordering wrt. shrinker: */
-   378		fs_reclaim_acquire(GFP_KERNEL);
-   379		might_lock(&priv->mm_lock);
-   380		fs_reclaim_release(GFP_KERNEL);
-   381	
-   382		drm_mode_config_init(ddev);
-   383	
-   384		ret = msm_init_vram(ddev);
-   385		if (ret)
-   386			return ret;
-   387	
-   388		/* Bind all our sub-components: */
-   389		ret = component_bind_all(dev, ddev);
-   390		if (ret)
-   391			return ret;
-   392	
-   393		dma_set_max_seg_size(dev, UINT_MAX);
-   394	
-   395		msm_gem_shrinker_init(ddev);
-   396	
-   397		if (priv->kms_init) {
-   398			ret = priv->kms_init(ddev);
-   399			if (ret) {
-   400				DRM_DEV_ERROR(dev, "failed to load kms\n");
-   401				priv->kms = NULL;
-   402				goto err_msm_uninit;
-   403			}
-   404			kms = priv->kms;
-   405		} else {
-   406			/* valid only for the dummy headless case, where of_node=NULL */
-   407			WARN_ON(dev->of_node);
-   408			kms = NULL;
-   409		}
-   410	
-   411		/* Enable normalization of plane zpos */
-   412		ddev->mode_config.normalize_zpos = true;
-   413	
-   414		if (kms) {
-   415			kms->dev = ddev;
-   416			ret = kms->funcs->hw_init(kms);
-   417			if (ret) {
-   418				DRM_DEV_ERROR(dev, "kms hw init failed: %d\n", ret);
-   419				goto err_msm_uninit;
-   420			}
-   421		}
-   422	
-   423		ddev->mode_config.funcs = &mode_config_funcs;
-   424		ddev->mode_config.helper_private = &mode_config_helper_funcs;
-   425	
-   426		drm_for_each_crtc(crtc, ddev) {
-   427			/* initialize event thread */
- > 428			priv->event_thread[i].crtc = crtc;
-   429			priv->event_thread[i].dev = ddev;
-   430			priv->event_thread[i].worker = kthread_create_worker(0,
-   431				"crtc_event:%d", priv->event_thread[i].crtc->base.id);
-   432			if (IS_ERR(priv->event_thread[i].worker)) {
-   433				ret = PTR_ERR(priv->event_thread[i].worker);
-   434				DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
-   435				ret = PTR_ERR(priv->event_thread[i].worker);
-   436				goto err_msm_uninit;
-   437			}
-   438	
-   439			sched_set_fifo(priv->event_thread[i].worker->task);
-   440		}
-   441	
-   442		ret = drm_vblank_init(ddev, priv->num_crtcs);
-   443		if (ret < 0) {
-   444			DRM_DEV_ERROR(dev, "failed to initialize vblank\n");
-   445			goto err_msm_uninit;
-   446		}
-   447	
-   448		if (kms) {
-   449			pm_runtime_get_sync(dev);
-   450			ret = msm_irq_install(ddev, kms->irq);
-   451			pm_runtime_put_sync(dev);
-   452			if (ret < 0) {
-   453				DRM_DEV_ERROR(dev, "failed to install IRQ handler\n");
-   454				goto err_msm_uninit;
-   455			}
-   456		}
-   457	
-   458		ret = drm_dev_register(ddev, 0);
-   459		if (ret)
-   460			goto err_msm_uninit;
-   461	
-   462		if (kms) {
-   463			ret = msm_disp_snapshot_init(ddev);
-   464			if (ret)
-   465				DRM_DEV_ERROR(dev, "msm_disp_snapshot_init failed ret = %d\n", ret);
-   466		}
-   467		drm_mode_config_reset(ddev);
-   468	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Yours,
+Linus Walleij
