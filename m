@@ -1,52 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F6551E669
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 12:21:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B229B51E6AD
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 13:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC08112602;
-	Sat,  7 May 2022 10:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B48A51121BC;
+	Sat,  7 May 2022 11:40:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89ACF112602;
- Sat,  7 May 2022 10:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651918909; x=1683454909;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=ZtsjrH/TyQKKcLqPgkPV7j7osfrEUt2xDvpdmj4zhf4=;
- b=hRQxT+SBJ/leamudwLhdw8j4Yyia3GKfKPclR63fXcsOtRTAxq6a5whK
- ucLK/UOBK5LsBDl0X+4rZqvvORh1wxClr6qNtrmNtOm07YTtlgu3cW0lq
- XZU7+Oafetxt5PQ9iQ9AE4WDW7QcfrCJVHAaKOscF4COUo+gF1zB+9PEx
- B6ImtpxsmzjseHhQL3tvPWBzHO3+Yy2IG+bVRADoeVHaf0dCgkhg4MUEw
- ynZAX5gYLr5qkf3R/GhZhisjSVeWEK3pGDY8U+W15ts2qOUPOiKDBNCEQ
- ft3PCPHqmqNztVsLckCDqtXGaZ8UUwW5hLF8XoTtJUHzIb7hXxBVuxd36 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="267530738"
-X-IronPort-AV: E=Sophos;i="5.91,206,1647327600"; d="scan'208";a="267530738"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2022 03:21:48 -0700
-X-IronPort-AV: E=Sophos;i="5.91,206,1647327600"; d="scan'208";a="586452558"
-Received: from wdrewek-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.155.196])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2022 03:21:47 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 17/25] drm/edid: add drm_edid helper for drm_edid_to_sad()
-In-Reply-To: <YnVjbbMz4jvUL5B1@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1651830938.git.jani.nikula@intel.com>
- <b3a5a99b1ec07d9b3b2bb9ccfadbf89768213fc6.1651830939.git.jani.nikula@intel.com>
- <YnVjbbMz4jvUL5B1@intel.com>
-Date: Sat, 07 May 2022 13:21:44 +0300
-Message-ID: <87sfplk5hj.fsf@intel.com>
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E4310F348
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 11:40:13 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id s27so11965217ljd.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 May 2022 04:40:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0ysL/MDDZX+Geot7Zeu3H5HxZht23rz3nv2oCFFwflE=;
+ b=ovmshWwzkN58+3wOOViYPxyU0kTw3nFoH9MgkTZWjgXnTJIJLZWPP23Nr7YIjZGl2G
+ 7YQFWReKvx9HFyY6x3Rmsq7aLyLfjw4cypPzxar3okcZMp4jKlVRZaaD6pVIFWpviVzf
+ NwV+07k5oDPUAguIH7OABpMx6sFGvAN3DPkM/HrszeGI5xv5FAHf2mhaArrcAJrS9toC
+ 6xSo8vM+IvlMevwbgFIIUjesxioYlfU6vOiEPJ4p5dMDqO1lqpJKl3hKkIXbZ+m18Dol
+ iZz4uSum3CPZRbkRy2buLoQMhgnoG9tq+JtwRk8+K7TxatV2cvYNdN4bxD4rRN1s9VvT
+ 3nQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0ysL/MDDZX+Geot7Zeu3H5HxZht23rz3nv2oCFFwflE=;
+ b=vUfeWfl2oUZO3+1i8XXInwGSvIGdeDnX8WUkStg6Faq3ow+ASKsNhe6twu5K4haEC3
+ FGHUvlxiI730nzIcDhM3FNUL2U4U4Ofy6W8aV+EjFq68Q9pAyBDaTOPy7uxITo0vx3k0
+ HEM1owuLU5Nkn29GQPYXN4tQ7TxkcbxOcaJIJhHZ/9CLVh4QZeQvjPoi2KfF8yGV8p/J
+ vw+2LCj5cRCryKLcM/4NE2UWqyP4Be58sNwqlcZukXYzlh28Tu0as5vyGh19ZVt/W9vS
+ YgjYhtRAzInTQ+cpybr9KuhHLRYPw0eYtOIg/Pr6Abq7qPOdZgen9Fve7ql75LqkyQ3t
+ jrpw==
+X-Gm-Message-State: AOAM530SHqZkZvIH3SYr+QqBiiRIsKZqwM+JXZF2ajUYx5c+6jvbBmfM
+ tV8yvfAbhdiBA2Bb+XBsFYEkVA==
+X-Google-Smtp-Source: ABdhPJykL7x0YQXiXu0uXG4acTOiNNgMT+vUsR0COda25KAqnxHNJVfhdW8GcPFarglKC6ddEf7apQ==
+X-Received: by 2002:a2e:7007:0:b0:250:629f:7ca0 with SMTP id
+ l7-20020a2e7007000000b00250629f7ca0mr4824093ljc.419.1651923611897; 
+ Sat, 07 May 2022 04:40:11 -0700 (PDT)
+Received: from eriador.lumag.spb.ru ([94.25.229.149])
+ by smtp.gmail.com with ESMTPSA id
+ o8-20020a2e9448000000b0024f4bb33c50sm953953ljh.100.2022.05.07.04.40.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 May 2022 04:40:11 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH] drm/msm/dpu: remove NULL-ness check in dpu_hw_intr_destroy
+Date: Sat,  7 May 2022 14:40:09 +0300
+Message-Id: <20220507114009.1696278-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +68,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 06 May 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Fri, May 06, 2022 at 01:10:24PM +0300, Jani Nikula wrote:
->> +int drm_edid_to_sad(const struct edid *edid, struct cea_sad **sads)
->> +{
->> +	struct drm_edid drm_edid =3D {
->> +		.edid =3D edid,
->> +		.size =3D edid_size(edid),
->> +	};
->> +
->> +	return _drm_edid_to_sad(&drm_edid, sads);
->
-> No need to check for NULL edid in these wrappers?
+There is no need to check that kfree() argument is not NULL. Remove
+extra check and call kfree() unconditionally.
 
-Yeah, we do, and CI concurs. *facepalm*.
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-BR,
-Jani.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+index fa4f99034a08..915250b7f122 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+@@ -433,8 +433,7 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+ 
+ void dpu_hw_intr_destroy(struct dpu_hw_intr *intr)
+ {
+-	if (intr)
+-		kfree(intr);
++	kfree(intr);
+ }
+ 
+ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
+-- 
+2.35.1
 
->
->> +}
->>  EXPORT_SYMBOL(drm_edid_to_sad);
->>=20=20
->>  /**
->> --=20
->> 2.30.2
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
