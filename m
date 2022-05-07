@@ -2,41 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D1A51E744
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 15:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BD951E822
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 17:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53409112C9B;
-	Sat,  7 May 2022 13:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D96D1135E6;
+	Sat,  7 May 2022 15:26:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17669.qiye.163.com (mail-m17669.qiye.163.com
- [59.111.176.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A48A8112C9B
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 13:09:29 +0000 (UTC)
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m17669.qiye.163.com (Hmail) with ESMTPA id 826EC46006D;
- Sat,  7 May 2022 21:09:25 +0800 (CST)
-Message-ID: <5b697caa-c8ff-9f10-baa0-4d3e1a644a5f@rock-chips.com>
-Date: Sat, 7 May 2022 21:09:25 +0800
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4F91135E6
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 15:26:51 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id l18so19360446ejc.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 May 2022 08:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+cyldYyGeSN8orZdKQgiNqxz5MRewwWDiC7Zpl6m0ZE=;
+ b=EtQEM/nj6x2u8iik/awsZGdMW9VySLzyDHn2hNOsBTfn27fYbkVvNCb/+rddUBX2ye
+ lOk1+3VB9PwuftOi7MlJjWHMOvWY1+q390RvKA4pTjZm2d5rtz8FOZ8VIhp6a6Etw74V
+ Kg2yUbo5WXkeHWgTQ8atIDGs7kIU9L+ehaXjXNXnImkJsVlvWJtP9gRzOSUFroYbH1KC
+ VCnFQV6fglJm1Tj43wlbxyPlXCbG+pxS5fTFh5del3XIHh7Aw1naE+J/OXPl7cScEdAE
+ n+tBw/R7TJqcpaNBMJCZIHUYkr+OUyIkkCO6Xru4EyUjA48CQruoDX28sOqVRuitVuTI
+ LYYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+cyldYyGeSN8orZdKQgiNqxz5MRewwWDiC7Zpl6m0ZE=;
+ b=WwddyQkfUj4gt5mT8SU3uZTwN+W65x+gPu41p96eTAaYko+IgT17Bxk4MWZe4rz3+k
+ xSQMkWrzQWrLZzLBo46VsbipN1LwatTZaMZQdltYn/oVUyANBvrYCY/0cp4Og/DVUgiD
+ Wp0VGsawZIFAsxdsZdnEVOEX0djYyKNThLQoydi8ffWbVuEbERwnjqrXha2jXRizCuRi
+ UW6i3d/KOIimcf0nWzMW8D2v4ko1f3buRGoJ3mqFVSCmmb10ldNpfI6E+dWTm87W7AZu
+ t8lF56aOetZkfdz2RpG/yIUZ2YcdKgK/7L6lgRT16WGsiDeKUjDOp2zsExF12BBy4IW8
+ 7zKg==
+X-Gm-Message-State: AOAM531a/ICAW4zLWwDcBFhVYD16wzvu+HTkH4cFbfZvUyr0DD/rRPLV
+ WH+cDsU6ffXp0pXDK5lEF1HHxw==
+X-Google-Smtp-Source: ABdhPJxhNeIRjFu28/yvbAt+uDadqUI1rvXdoSBxdbri0fQfVOftoRHil6NROgFCt+tIjBJ17hgmNw==
+X-Received: by 2002:a17:906:f2c8:b0:6f5:18a1:c410 with SMTP id
+ gz8-20020a170906f2c800b006f518a1c410mr7442640ejb.281.1651937210283; 
+ Sat, 07 May 2022 08:26:50 -0700 (PDT)
+Received: from [192.168.0.232] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ l10-20020a170906938a00b006f3ef214e68sm3129018ejx.206.2022.05.07.08.26.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 May 2022 08:26:49 -0700 (PDT)
+Message-ID: <40c22f22-8314-adb6-918e-8288090d1aea@linaro.org>
+Date: Sat, 7 May 2022 17:26:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v2 -next] drm/rockchip: Fix Kconfig dependencies
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add prefix for EBBG
 Content-Language: en-US
-To: Ren Zhijie <renzhijie2@huawei.com>, hjc@rock-chips.com, heiko@sntech.de,
- airlied@linux.ie, daniel@ffwll.ch, lyude@redhat.com, tzimmermann@suse.de
-References: <20220507100910.93705-1-renzhijie2@huawei.com>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20220507100910.93705-1-renzhijie2@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Joel Selvaraj <jo@jsfamily.in>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Stanislav Jakubek <stano.jakubek@gmail.com>,
+ Corentin Labbe <clabbe@baylibre.com>, Oleksij Rempel
+ <linux@rempel-privat.de>, Linus Walleij <linus.walleij@linaro.org>,
+ Hao Fang <fanghao11@huawei.com>
+References: <cover.1651835715.git.jo@jsfamily.in>
+ <BY5PR02MB7009E985CDB281DC9BE9CF37D9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <BY5PR02MB7009E985CDB281DC9BE9CF37D9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWRkaT0pWSkxNTB0eHk
- tPGUJKVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ni46Njo5SD0xPg0zH0IsSR0q
- ShkaFE9VSlVKTU5KQklDQk1NS01LVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEJDTjcG
-X-HM-Tid: 0a809ea3a29cda59kuws826ec46006d
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,67 +81,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zhijie:
+On 06/05/2022 14:17, Joel Selvaraj wrote:
+> Add a prefix for EBBG. They manufacture displays which are used in some
+> Xiaomi phones, but I could not find much details about the company.
+> 
+> Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
 
-On 5/7/22 18:09, Ren Zhijie wrote:
-> drivers/gpu/drm/rockchip/cdn-dp-core.o: In function `cdn_dp_connector_mode_valid':
-> cdn-dp-core.c:(.text+0x1e1): undefined reference to `drm_dp_bw_code_to_link_rate'
-> cdn-dp-core.c:(.text+0x1f4): undefined reference to `drm_dp_bw_code_to_link_rate'
-> drivers/gpu/drm/rockchip/cdn-dp-core.o: In function `cdn_dp_pd_event_work':
-> cdn-dp-core.c:(.text+0x138e): undefined reference to `drm_dp_channel_eq_ok'
-> drivers/gpu/drm/rockchip/cdn-dp-reg.o: In function `cdn_dp_train_link':
-> cdn-dp-reg.c:(.text+0xd5a): undefined reference to `drm_dp_bw_code_to_link_rate'
->
-> The DP-helper module has been replaced by the display-helper module.
-> So the driver have to select it.
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Fixes: 1e0f66420b13("drm/display: Introduce a DRM display-helper module")
-> Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
 
-Thanks.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Andy Yan <andy.yan@rock-chips.com>
 
-> ---
-> v2: remove "select DRM_DISPLAY_HELPER if ROCKCHIP_ANALOGIX_DP" under DRM_ROCKCHIP at the head,
-> and separately add the select for ROCKCHIP_ANALOGIX_DP and ROCKCHIP_CDN_DP, which Andy suggested.
-> ---
-> ---
->   drivers/gpu/drm/rockchip/Kconfig | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-> index 5afab49dc4f2..53c2d9980d48 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -2,7 +2,6 @@
->   config DRM_ROCKCHIP
->   	tristate "DRM Support for Rockchip"
->   	depends on DRM && ROCKCHIP_IOMMU
-> -	select DRM_DISPLAY_HELPER if ROCKCHIP_ANALOGIX_DP
->   	select DRM_GEM_CMA_HELPER
->   	select DRM_KMS_HELPER
->   	select DRM_PANEL
-> @@ -38,6 +37,7 @@ config ROCKCHIP_VOP2
->   config ROCKCHIP_ANALOGIX_DP
->   	bool "Rockchip specific extensions for Analogix DP driver"
->   	depends on ROCKCHIP_VOP
-> +	select DRM_DISPLAY_HELPER
->   	select DRM_DISPLAY_DP_HELPER
->   	help
->   	  This selects support for Rockchip SoC specific extensions
-> @@ -47,6 +47,8 @@ config ROCKCHIP_ANALOGIX_DP
->   config ROCKCHIP_CDN_DP
->   	bool "Rockchip cdn DP"
->   	depends on EXTCON=y || (EXTCON=m && DRM_ROCKCHIP=m)
-> +	select DRM_DISPLAY_HELPER
-> +	select DRM_DISPLAY_DP_HELPER
->   	help
->   	  This selects support for Rockchip SoC specific extensions
->   	  for the cdn DP driver. If you want to enable Dp on
+Best regards,
+Krzysztof
