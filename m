@@ -1,56 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D0C51E6F8
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 14:37:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D1A51E744
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 15:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27CC7113151;
-	Sat,  7 May 2022 12:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53409112C9B;
+	Sat,  7 May 2022 13:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00F8E11314F
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 12:37:32 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id s30so17207429ybi.8
- for <dri-devel@lists.freedesktop.org>; Sat, 07 May 2022 05:37:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JUhgclDR3XBkbKooh+LIAZ5rgGQDmCxwnx2kPnqoYMA=;
- b=KCyiITVKgMi69PaUxMUe8kgt1g0I/YT1BNqXQ8g8jDYzoI10RIuW4XJdIAw+WABgPz
- sIoqAXB0wg2Fv4K4xa+UIk01I93aMUAh5zwWez9Y9woJgUGlFSInLIx46fZ5Gg1s601e
- a5i4HOw7TQkJg5Maw+WvNt0vTtgrsC6dMYDUfidiIqwE2Susa4bkzpuGE1IWxOsZTINs
- CB1T7vFcyxbamcJuoqj4cYj6aPJPj79FjZ60m16yN0qOI1to8EcKMqSlW8ohYQOIT3XX
- Y47JhHbhAM6byKlmpEHLlDWi3VANQBbeKYdvgbjI2HE4GR8wATeJNEQhXZFHSEQQgNal
- 1RtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JUhgclDR3XBkbKooh+LIAZ5rgGQDmCxwnx2kPnqoYMA=;
- b=rIDUmZ850kugyKNpTfg3WhHOOc2HOvFk5x2Oz6g6/QxQMOdj0xHb420m7kyMcwejmR
- z3KGmXwlYrVa+LeXAKBa1LiE82f6FUWdn4t2KrESCFMHjBostOHywQCQB/51xg5iEVsJ
- gqRhfmzuKm2E+xSu0pMCWyLZg0xzeQ7WEvXXTqgJFrNlSLDjz1X9anPbYlfZ2q1zEzKL
- q+nrrQilpRDJAz+OLNxLMqgQ96+D4pWsSnqlbgg03FREayen5+kMWFEKmOX7ralq4ph1
- IXvFude+SUIHd4b2sUl/KTZljm3crHbgY/LL18w5j6XdQDN++KVliJGfyKBEZOSXKBI7
- M1KA==
-X-Gm-Message-State: AOAM5330nxaY6TcYV2HMNP3Nnt/nBGTgqTob39D/kggRgRwq22aycARj
- N0qfv/Y5IOBpJxCUYMbBGtdaoO/w0sz85h7Z23hyHw==
-X-Google-Smtp-Source: ABdhPJzwJpXEUtAZEUc6bZUPoenoZ5sebSG72if0MOZ/TMe4dt5l953VkaeLr4GysoaOw6EpMxKFJUOEIy1GTdxXArc=
-X-Received: by 2002:a25:e684:0:b0:645:d429:78e9 with SMTP id
- d126-20020a25e684000000b00645d42978e9mr6256768ybh.369.1651927052069; Sat, 07
- May 2022 05:37:32 -0700 (PDT)
+Received: from mail-m17669.qiye.163.com (mail-m17669.qiye.163.com
+ [59.111.176.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48A8112C9B
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 13:09:29 +0000 (UTC)
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m17669.qiye.163.com (Hmail) with ESMTPA id 826EC46006D;
+ Sat,  7 May 2022 21:09:25 +0800 (CST)
+Message-ID: <5b697caa-c8ff-9f10-baa0-4d3e1a644a5f@rock-chips.com>
+Date: Sat, 7 May 2022 21:09:25 +0800
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220419163810.2118169-41-arnd@kernel.org>
-In-Reply-To: <20220419163810.2118169-41-arnd@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 7 May 2022 14:37:20 +0200
-Message-ID: <CACRpkdbHGXfAKiN1sNTrLzRd5Qk-jerhcfvDo8FG=Zq94Dv19g@mail.gmail.com>
-Subject: Re: [PATCH 40/48] ARM: pxa: tosa: use gpio lookup for battery
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 -next] drm/rockchip: Fix Kconfig dependencies
+Content-Language: en-US
+To: Ren Zhijie <renzhijie2@huawei.com>, hjc@rock-chips.com, heiko@sntech.de,
+ airlied@linux.ie, daniel@ffwll.ch, lyude@redhat.com, tzimmermann@suse.de
+References: <20220507100910.93705-1-renzhijie2@huawei.com>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20220507100910.93705-1-renzhijie2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+ kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWRkaT0pWSkxNTB0eHk
+ tPGUJKVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ni46Njo5SD0xPg0zH0IsSR0q
+ ShkaFE9VSlVKTU5KQklDQk1NS01LVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEJDTjcG
+X-HM-Tid: 0a809ea3a29cda59kuws826ec46006d
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,52 +49,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Sergey Lapin <slapin@ossfans.org>,
- linux-fbdev@vger.kernel.org, Dominik Brodowski <linux@dominikbrodowski.net>,
- linux-mips@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-mtd@lists.infradead.org, Tomas Cech <sleep_walker@suse.com>,
- robert.jarzmik@free.fr, linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
- Michael Turquette <mturquette@baylibre.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-pm@vger.kernel.org, linux-input@vger.kernel.org,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- alsa-devel@alsa-project.org, Daniel Mack <daniel@zonque.org>
+Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 19, 2022 at 6:44 PM Arnd Bergmann <arnd@kernel.org> wrote:
+Hi Zhijie:
 
-> From: Arnd Bergmann <arnd@arndb.de>
+On 5/7/22 18:09, Ren Zhijie wrote:
+> drivers/gpu/drm/rockchip/cdn-dp-core.o: In function `cdn_dp_connector_mode_valid':
+> cdn-dp-core.c:(.text+0x1e1): undefined reference to `drm_dp_bw_code_to_link_rate'
+> cdn-dp-core.c:(.text+0x1f4): undefined reference to `drm_dp_bw_code_to_link_rate'
+> drivers/gpu/drm/rockchip/cdn-dp-core.o: In function `cdn_dp_pd_event_work':
+> cdn-dp-core.c:(.text+0x138e): undefined reference to `drm_dp_channel_eq_ok'
+> drivers/gpu/drm/rockchip/cdn-dp-reg.o: In function `cdn_dp_train_link':
+> cdn-dp-reg.c:(.text+0xd5a): undefined reference to `drm_dp_bw_code_to_link_rate'
 >
-> The battery driver uses a lot of GPIO lines, hardcoded from a
-> machine header file.
+> The DP-helper module has been replaced by the display-helper module.
+> So the driver have to select it.
 >
-> Change it to use a gpiod lookup table instead.
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 1e0f66420b13("drm/display: Introduce a DRM display-helper module")
+> Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
+
+Thanks.
+
+Reviewed-by: Andy Yan <andy.yan@rock-chips.com>
+
+> ---
+> v2: remove "select DRM_DISPLAY_HELPER if ROCKCHIP_ANALOGIX_DP" under DRM_ROCKCHIP at the head,
+> and separately add the select for ROCKCHIP_ANALOGIX_DP and ROCKCHIP_CDN_DP, which Andy suggested.
+> ---
+> ---
+>   drivers/gpu/drm/rockchip/Kconfig | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> Reviewed-by: Sebastian Reichel <sre@kernel.org>
-> Acked-by: Sebastian Reichel <sre@kernel.org>
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Oh, I've been iterating a patch for the Tosa charging code
-going down in MFD ans ASoC and all:
-https://lore.kernel.org/linux-arm-kernel/20220125003741.492954-1-linus.walleij@linaro.org/
-
-I just rebased this on v5.18-rc1 and resent with collected ACKs.
-
-Please take a look at it, and see if you rather take that patch,
-at some point I realized I had to go pretty deep around the
-legacy code in different subsystems because the MFD device
-us spawning a GPIO chip...
-
-Yours,
-Linus Walleij
+> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> index 5afab49dc4f2..53c2d9980d48 100644
+> --- a/drivers/gpu/drm/rockchip/Kconfig
+> +++ b/drivers/gpu/drm/rockchip/Kconfig
+> @@ -2,7 +2,6 @@
+>   config DRM_ROCKCHIP
+>   	tristate "DRM Support for Rockchip"
+>   	depends on DRM && ROCKCHIP_IOMMU
+> -	select DRM_DISPLAY_HELPER if ROCKCHIP_ANALOGIX_DP
+>   	select DRM_GEM_CMA_HELPER
+>   	select DRM_KMS_HELPER
+>   	select DRM_PANEL
+> @@ -38,6 +37,7 @@ config ROCKCHIP_VOP2
+>   config ROCKCHIP_ANALOGIX_DP
+>   	bool "Rockchip specific extensions for Analogix DP driver"
+>   	depends on ROCKCHIP_VOP
+> +	select DRM_DISPLAY_HELPER
+>   	select DRM_DISPLAY_DP_HELPER
+>   	help
+>   	  This selects support for Rockchip SoC specific extensions
+> @@ -47,6 +47,8 @@ config ROCKCHIP_ANALOGIX_DP
+>   config ROCKCHIP_CDN_DP
+>   	bool "Rockchip cdn DP"
+>   	depends on EXTCON=y || (EXTCON=m && DRM_ROCKCHIP=m)
+> +	select DRM_DISPLAY_HELPER
+> +	select DRM_DISPLAY_DP_HELPER
+>   	help
+>   	  This selects support for Rockchip SoC specific extensions
+>   	  for the cdn DP driver. If you want to enable Dp on
