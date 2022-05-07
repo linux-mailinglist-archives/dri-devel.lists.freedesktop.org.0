@@ -1,62 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EE851E526
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 09:21:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FA951E53E
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 09:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1FD01128B5;
-	Sat,  7 May 2022 07:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 280D811292E;
+	Sat,  7 May 2022 07:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86FBB1128B3
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 07:21:11 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id g184so5369194pgc.1
- for <dri-devel@lists.freedesktop.org>; Sat, 07 May 2022 00:21:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rNQz935Rwo42XgI1l8Va40p/MEeV4p6HEVCQ52VDnf4=;
- b=P42+8ex/HBpVSeUhi79CcZsiB1rEwx7SjPsWOzHKtYtuDRjT+7g81hnQb9Bg+3nrwT
- De8dQlU9BcgwoEV9wdnbeE3D82XEoM9rdMizKhVMhmThyQPs7pG6yQdXOZHUILyVEB8B
- MZOMaM5Nag+I9ca+mSFwEkbaCfc+mVQpZN8W0UFxaI3P1zlBAo3OLxIQcU7yZiXAhU1h
- Jiaawf+dpE+KAoqOYTid6KwfvlqOs8L3T25b9+uILvT8+qC03iIX5R5P7pBVqRxRlV1/
- 2L77a/eKzFW5m+4Q8qaNXGrcogU5pQhNHMvwFRhhaVI7cMNifBapsGydQXtopBhbDEvv
- tGKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rNQz935Rwo42XgI1l8Va40p/MEeV4p6HEVCQ52VDnf4=;
- b=opdz+JtLwrHUL47cLdYSqu60GNfzOoLnXeDPIDF66emFqfEBPK09FKWY5eMAWRpdbD
- zfSDkvF2Sz1FmppHkR7KIAOIZ2cM4/DZ7x2HikMFEdpx72o4ZsEtWwmBJaI9urOoZD2N
- Ar7d+Ey+JB4KskMsUnlTECwaF5zkjxhADcrXYtKRYp8rXi4ygPTVglpqoj0OOK5qNJjW
- S3RUpwKRiFF5r8hhEZAyQqFQvSNMopAB1A03VdWDJwSqsia/OodcRocQXzF6L+MDoZk2
- GYrbuW+OQ8v8F7DOaLVvbMzDYn9XfPqBazC7PryhT5D/a007p2VxlIde95kc4HUqMjlj
- kr6w==
-X-Gm-Message-State: AOAM532vgubz+Ypf/8v0+/0ggEFjH1gRquzetSjO526KGHgpTc6zDJkk
- FFqwPjZihQ62LSwfPxjheqU=
-X-Google-Smtp-Source: ABdhPJy8wngBA9nCSkNphuykt/x5APcFu3ZWQNW14hKz2s7Rb0bLuKnbzsVQiG9xcQts5UZOdrCb6w==
-X-Received: by 2002:a65:6093:0:b0:373:9c75:19ec with SMTP id
- t19-20020a656093000000b003739c7519ecmr5972095pgu.539.1651908071104; 
- Sat, 07 May 2022 00:21:11 -0700 (PDT)
-Received: from hyeyoo ([114.29.24.243]) by smtp.gmail.com with ESMTPSA id
- 1-20020a170902c20100b0015ec44d25dasm2956759pll.235.2022.05.07.00.20.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 May 2022 00:21:10 -0700 (PDT)
-Date: Sat, 7 May 2022 16:20:50 +0900
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To: Byungchul Park <byungchul.park@lge.com>
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-Message-ID: <YnYd0hd+yTvVQxm5@hyeyoo>
-References: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
- <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7540E11292E
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 07:32:41 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E64E9219D6;
+ Sat,  7 May 2022 07:32:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651908759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8T/EMWTNd7CJiVOUXnEf2kXzwqZqIYyo3/Tg62hqc7s=;
+ b=c3v6kIQkJ4jSn9EG7wpH9yYUOn/zxY3qbj8cRcnipSZn4CWaDW33Lj+fl4XQiMalb6jqT7
+ RdErR/xxTo4f0unA9cT5kjeeNV2sEembsBDyZsG/AOsfAptheWk1J8P7nUzKjrIrLHaGY0
+ 5AFeIugSo9Rcwq53CKTskTPuwMqGUw0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651908759;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8T/EMWTNd7CJiVOUXnEf2kXzwqZqIYyo3/Tg62hqc7s=;
+ b=7sk3+UU91RKcP4dzrN2O0iO32DCB/Qn923yEPfbEkx6zvNmJWhZFO/BF87PfSEzKY0R0dI
+ 1ZuX/rNSc1YjVvBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B3ED613780;
+ Sat,  7 May 2022 07:32:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4y3oKpcgdmKTTAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sat, 07 May 2022 07:32:39 +0000
+Message-ID: <9ad6a743-5009-9fa4-b738-d664ec71a8da@suse.de>
+Date: Sat, 7 May 2022 09:32:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v5 8/9] drm: vkms: Adds XRGB_16161616 and ARGB_1616161616
+ formats
+Content-Language: en-US
+To: Igor Torrente <igormtorrente@gmail.com>, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, ppaalanen@gmail.com
+References: <20220404204515.42144-1-igormtorrente@gmail.com>
+ <20220404204515.42144-9-igormtorrente@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220404204515.42144-9-igormtorrente@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------MrT1HGVaaFGKk5rWt1I8n0TC"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,94 +72,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
- cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, ngupta@vflare.org,
- johannes.berg@intel.com, jack@suse.com, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, tales.aparecida@gmail.com,
+ dri-devel@lists.freedesktop.org, leandro.ribeiro@collabora.com,
+ ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 06, 2022 at 09:11:35AM +0900, Byungchul Park wrote:
-> Linus wrote:
-> >
-> > On Wed, May 4, 2022 at 1:19 AM Byungchul Park <byungchul.park@lge.com> wrote:
-> > >
-> > > Hi Linus and folks,
-> > >
-> > > I've been developing a tool for detecting deadlock possibilities by
-> > > tracking wait/event rather than lock(?) acquisition order to try to
-> > > cover all synchonization machanisms.
-> > 
-> > So what is the actual status of reports these days?
-> > 
-> > Last time I looked at some reports, it gave a lot of false positives
-> > due to mis-understanding prepare_to_sleep().
-> 
-> Yes, it was. I handled the case in the following way:
-> 
-> 1. Stage the wait at prepare_to_sleep(), which might be used at commit.
->    Which has yet to be an actual wait that Dept considers.
-> 2. If the condition for sleep is true, the wait will be committed at
->    __schedule(). The wait becomes an actual one that Dept considers.
-> 3. If the condition is false and the task gets back to TASK_RUNNING,
->    clean(=reset) the staged wait.
-> 
-> That way, Dept only works with what actually hits to __schedule() for
-> the waits through sleep.
-> 
-> > For this all to make sense, it would need to not have false positives
-> > (or at least a very small number of them together with a way to sanely
-> 
-> Yes. I agree with you. I got rid of them that way I described above.
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------MrT1HGVaaFGKk5rWt1I8n0TC
+Content-Type: multipart/mixed; boundary="------------cq7VZpF4ZnS2sFQnK4deojnr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Igor Torrente <igormtorrente@gmail.com>, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, ppaalanen@gmail.com
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
+ dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
+ ~lkcamp/patches@lists.sr.ht
+Message-ID: <9ad6a743-5009-9fa4-b738-d664ec71a8da@suse.de>
+Subject: Re: [PATCH v5 8/9] drm: vkms: Adds XRGB_16161616 and ARGB_1616161616
+ formats
+References: <20220404204515.42144-1-igormtorrente@gmail.com>
+ <20220404204515.42144-9-igormtorrente@gmail.com>
+In-Reply-To: <20220404204515.42144-9-igormtorrente@gmail.com>
 
-IMHO DEPT should not report what lockdep allows (Not talking about
-wait events). I mean lockdep allows some kind of nested locks but
-DEPT reports them.
+--------------cq7VZpF4ZnS2sFQnK4deojnr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-When I was collecting reports from DEPT on varous configurations,
-Most of them was report of down_write_nested(), which is allowed in
-lockdep.
+SGkNCg0KQW0gMDQuMDQuMjIgdW0gMjI6NDUgc2NocmllYiBJZ29yIFRvcnJlbnRlOg0KPiBU
+aGlzIHdpbGwgYmUgdXNlZnVsIHRvIHdyaXRlIHRlc3RzIHRoYXQgZGVwZW5kcyBvbiB0aGVz
+ZSBmb3JtYXRzLg0KPiANCj4gQVJHQiBhbmQgWFJHQiBmb2xsb3dzIHRoZSBhIHNpbWlsYXIg
+aW1wbGVtZW50YXRpb24gb2YgdGhlIGZvcm1lciBmb3JtYXRzLg0KPiBKdXN0IGFkanVzdGlu
+ZyBmb3IgMTYgYml0cyBwZXIgY2hhbm5lbC4NCj4gDQo+IFYzOiBBZGFwdCB0aGUgaGFuZGxl
+cnMgdG8gdGhlIG5ldyBmb3JtYXQgaW50cm9kdWNlZCBpbiBwYXRjaCA3IFYzLg0KPiBWNTog
+TWlub3IgaW1wcm92ZW1lbnRzDQo+ICAgICAgQWRkZWQgbGUxNl90b19jcHUvY3B1X3RvX2xl
+MTYgdG8gdGhlIDE2IGJpdHMgY29sb3IgcmVhZC93cml0ZXMuDQoNCklzIHRoZXJlIHNvbWV0
+aGluZyB3ZSBjb3VsZCBhZGQgdG8gdGhlIERSTSdzIGZvcm1hdC1jb252ZXJzaW9uIGhlbHBl
+cnM/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEln
+b3IgVG9ycmVudGUgPGlnb3JtdG9ycmVudGVAZ21haWwuY29tPg0KPiAtLS0NCj4gICBkcml2
+ZXJzL2dwdS9kcm0vdmttcy92a21zX2Zvcm1hdHMuYyAgIHwgNzcgKysrKysrKysrKysrKysr
+KysrKysrKysrKysrDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19wbGFuZS5jICAg
+ICB8ICA1ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc193cml0ZWJhY2suYyB8
+ICAyICsNCj4gICAzIGZpbGVzIGNoYW5nZWQsIDgzIGluc2VydGlvbnMoKyksIDEgZGVsZXRp
+b24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Zv
+cm1hdHMuYyBiL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfZm9ybWF0cy5jDQo+IGluZGV4
+IDkzMWE2MTQwNWQ2YS4uOGQ5MTNmYTdkYmRlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdmttcy92a21zX2Zvcm1hdHMuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmtt
+cy92a21zX2Zvcm1hdHMuYw0KPiBAQCAtNzgsNiArNzgsNDEgQEAgc3RhdGljIHZvaWQgWFJH
+Qjg4ODhfdG9fYXJnYl91MTYoc3RydWN0IGxpbmVfYnVmZmVyICpzdGFnZV9idWZmZXIsDQo+
+ICAgCX0NCj4gICB9DQo+ICAgDQo+ICtzdGF0aWMgdm9pZCBBUkdCMTYxNjE2MTZfdG9fYXJn
+Yl91MTYoc3RydWN0IGxpbmVfYnVmZmVyICpzdGFnZV9idWZmZXIsDQo+ICsJCQkJICAgICBj
+b25zdCBzdHJ1Y3Qgdmttc19mcmFtZV9pbmZvICpmcmFtZV9pbmZvLA0KPiArCQkJCSAgICAg
+aW50IHkpDQo+ICt7DQo+ICsJc3RydWN0IHBpeGVsX2FyZ2JfdTE2ICpvdXRfcGl4ZWxzID0g
+c3RhZ2VfYnVmZmVyLT5waXhlbHM7DQo+ICsJdTE2ICpzcmNfcGl4ZWxzID0gZ2V0X3BhY2tl
+ZF9zcmNfYWRkcihmcmFtZV9pbmZvLCB5KTsNCj4gKwlpbnQgeCwgeF9saW1pdCA9IG1pbl90
+KHNpemVfdCwgZHJtX3JlY3Rfd2lkdGgoJmZyYW1lX2luZm8tPmRzdCksDQo+ICsJCQkgICAg
+ICAgc3RhZ2VfYnVmZmVyLT5uX3BpeGVscyk7DQo+ICsNCj4gKwlmb3IgKHggPSAwOyB4IDwg
+eF9saW1pdDsgeCsrLCBzcmNfcGl4ZWxzICs9IDQpIHsNCj4gKwkJb3V0X3BpeGVsc1t4XS5h
+ID0gbGUxNl90b19jcHUoc3JjX3BpeGVsc1szXSk7DQo+ICsJCW91dF9waXhlbHNbeF0uciA9
+IGxlMTZfdG9fY3B1KHNyY19waXhlbHNbMl0pOw0KPiArCQlvdXRfcGl4ZWxzW3hdLmcgPSBs
+ZTE2X3RvX2NwdShzcmNfcGl4ZWxzWzFdKTsNCj4gKwkJb3V0X3BpeGVsc1t4XS5iID0gbGUx
+Nl90b19jcHUoc3JjX3BpeGVsc1swXSk7DQo+ICsJfQ0KPiArfQ0KPiArDQo+ICtzdGF0aWMg
+dm9pZCBYUkdCMTYxNjE2MTZfdG9fYXJnYl91MTYoc3RydWN0IGxpbmVfYnVmZmVyICpzdGFn
+ZV9idWZmZXIsDQo+ICsJCQkJICAgICBjb25zdCBzdHJ1Y3Qgdmttc19mcmFtZV9pbmZvICpm
+cmFtZV9pbmZvLA0KPiArCQkJCSAgICAgaW50IHkpDQo+ICt7DQo+ICsJc3RydWN0IHBpeGVs
+X2FyZ2JfdTE2ICpvdXRfcGl4ZWxzID0gc3RhZ2VfYnVmZmVyLT5waXhlbHM7DQo+ICsJdTE2
+ICpzcmNfcGl4ZWxzID0gZ2V0X3BhY2tlZF9zcmNfYWRkcihmcmFtZV9pbmZvLCB5KTsNCj4g
+KwlpbnQgeCwgeF9saW1pdCA9IG1pbl90KHNpemVfdCwgZHJtX3JlY3Rfd2lkdGgoJmZyYW1l
+X2luZm8tPmRzdCksDQo+ICsJCQkgICAgICAgc3RhZ2VfYnVmZmVyLT5uX3BpeGVscyk7DQo+
+ICsNCj4gKwlmb3IgKHggPSAwOyB4IDwgeF9saW1pdDsgeCsrLCBzcmNfcGl4ZWxzICs9IDQp
+IHsNCj4gKwkJb3V0X3BpeGVsc1t4XS5hID0gKHUxNikweGZmZmY7DQo+ICsJCW91dF9waXhl
+bHNbeF0uciA9IGxlMTZfdG9fY3B1KHNyY19waXhlbHNbMl0pOw0KPiArCQlvdXRfcGl4ZWxz
+W3hdLmcgPSBsZTE2X3RvX2NwdShzcmNfcGl4ZWxzWzFdKTsNCj4gKwkJb3V0X3BpeGVsc1t4
+XS5iID0gbGUxNl90b19jcHUoc3JjX3BpeGVsc1swXSk7DQo+ICsJfQ0KPiArfQ0KPiArDQo+
+ICsNCj4gICAvKg0KPiAgICAqIFRoZSBmb2xsb3dpbmcgIGZ1bmN0aW9ucyB0YWtlIGFuIGxp
+bmUgb2YgYXJnYl91MTYgcGl4ZWxzIGZyb20gdGhlDQo+ICAgICogc3JjX2J1ZmZlciwgY29u
+dmVydCB0aGVtIHRvIGEgc3BlY2lmaWMgZm9ybWF0LCBhbmQgc3RvcmUgdGhlbSBpbiB0aGUN
+Cj4gQEAgLTEzMCwxMiArMTY1LDUwIEBAIHN0YXRpYyB2b2lkIGFyZ2JfdTE2X3RvX1hSR0I4
+ODg4KHN0cnVjdCB2a21zX2ZyYW1lX2luZm8gKmZyYW1lX2luZm8sDQo+ICAgCX0NCj4gICB9
+DQo+ICAgDQo+ICtzdGF0aWMgdm9pZCBhcmdiX3UxNl90b19BUkdCMTYxNjE2MTYoc3RydWN0
+IHZrbXNfZnJhbWVfaW5mbyAqZnJhbWVfaW5mbywNCj4gKwkJCQkgICAgIGNvbnN0IHN0cnVj
+dCBsaW5lX2J1ZmZlciAqc3JjX2J1ZmZlciwgaW50IHkpDQo+ICt7DQo+ICsJaW50IHgsIHhf
+ZHN0ID0gZnJhbWVfaW5mby0+ZHN0LngxOw0KPiArCXUxNiAqZHN0X3BpeGVscyA9IHBhY2tl
+ZF9waXhlbHNfYWRkcihmcmFtZV9pbmZvLCB4X2RzdCwgeSk7DQo+ICsJc3RydWN0IHBpeGVs
+X2FyZ2JfdTE2ICppbl9waXhlbHMgPSBzcmNfYnVmZmVyLT5waXhlbHM7DQo+ICsJaW50IHhf
+bGltaXQgPSBtaW5fdChzaXplX3QsIGRybV9yZWN0X3dpZHRoKCZmcmFtZV9pbmZvLT5kc3Qp
+LA0KPiArCQkJICAgIHNyY19idWZmZXItPm5fcGl4ZWxzKTsNCj4gKw0KPiArCWZvciAoeCA9
+IDA7IHggPCB4X2xpbWl0OyB4KyssIGRzdF9waXhlbHMgKz0gNCkgew0KPiArCQlkc3RfcGl4
+ZWxzWzNdID0gY3B1X3RvX2xlMTYoaW5fcGl4ZWxzW3hdLmEpOw0KPiArCQlkc3RfcGl4ZWxz
+WzJdID0gY3B1X3RvX2xlMTYoaW5fcGl4ZWxzW3hdLnIpOw0KPiArCQlkc3RfcGl4ZWxzWzFd
+ID0gY3B1X3RvX2xlMTYoaW5fcGl4ZWxzW3hdLmcpOw0KPiArCQlkc3RfcGl4ZWxzWzBdID0g
+Y3B1X3RvX2xlMTYoaW5fcGl4ZWxzW3hdLmIpOw0KPiArCX0NCj4gK30NCj4gKw0KPiArc3Rh
+dGljIHZvaWQgYXJnYl91MTZfdG9fWFJHQjE2MTYxNjE2KHN0cnVjdCB2a21zX2ZyYW1lX2lu
+Zm8gKmZyYW1lX2luZm8sDQo+ICsJCQkJICAgICBjb25zdCBzdHJ1Y3QgbGluZV9idWZmZXIg
+KnNyY19idWZmZXIsIGludCB5KQ0KPiArew0KPiArCWludCB4LCB4X2RzdCA9IGZyYW1lX2lu
+Zm8tPmRzdC54MTsNCj4gKwl1MTYgKmRzdF9waXhlbHMgPSBwYWNrZWRfcGl4ZWxzX2FkZHIo
+ZnJhbWVfaW5mbywgeF9kc3QsIHkpOw0KPiArCXN0cnVjdCBwaXhlbF9hcmdiX3UxNiAqaW5f
+cGl4ZWxzID0gc3JjX2J1ZmZlci0+cGl4ZWxzOw0KPiArCWludCB4X2xpbWl0ID0gbWluX3Qo
+c2l6ZV90LCBkcm1fcmVjdF93aWR0aCgmZnJhbWVfaW5mby0+ZHN0KSwNCj4gKwkJCSAgICBz
+cmNfYnVmZmVyLT5uX3BpeGVscyk7DQo+ICsNCj4gKwlmb3IgKHggPSAwOyB4IDwgeF9saW1p
+dDsgeCsrLCBkc3RfcGl4ZWxzICs9IDQpIHsNCj4gKwkJZHN0X3BpeGVsc1szXSA9ICh1OCkw
+eGZmZmY7DQo+ICsJCWRzdF9waXhlbHNbMl0gPSBjcHVfdG9fbGUxNihpbl9waXhlbHNbeF0u
+cik7DQo+ICsJCWRzdF9waXhlbHNbMV0gPSBjcHVfdG9fbGUxNihpbl9waXhlbHNbeF0uZyk7
+DQo+ICsJCWRzdF9waXhlbHNbMF0gPSBjcHVfdG9fbGUxNihpbl9waXhlbHNbeF0uYik7DQo+
+ICsJfQ0KPiArfQ0KPiArDQo+ICAgcGxhbmVfZm9ybWF0X3RyYW5zZm9ybV9mdW5jIGdldF9w
+bGFuZV9mbXRfdHJhbnNmb3JtX2Z1bmN0aW9uKHUzMiBmb3JtYXQpDQo+ICAgew0KPiAgIAlp
+ZiAoZm9ybWF0ID09IERSTV9GT1JNQVRfQVJHQjg4ODgpDQo+ICAgCQlyZXR1cm4gJkFSR0I4
+ODg4X3RvX2FyZ2JfdTE2Ow0KPiAgIAllbHNlIGlmIChmb3JtYXQgPT0gRFJNX0ZPUk1BVF9Y
+UkdCODg4OCkNCj4gICAJCXJldHVybiAmWFJHQjg4ODhfdG9fYXJnYl91MTY7DQo+ICsJZWxz
+ZSBpZiAoZm9ybWF0ID09IERSTV9GT1JNQVRfQVJHQjE2MTYxNjE2KQ0KPiArCQlyZXR1cm4g
+JkFSR0IxNjE2MTYxNl90b19hcmdiX3UxNjsNCj4gKwllbHNlIGlmIChmb3JtYXQgPT0gRFJN
+X0ZPUk1BVF9YUkdCMTYxNjE2MTYpDQo+ICsJCXJldHVybiAmWFJHQjE2MTYxNjE2X3RvX2Fy
+Z2JfdTE2Ow0KPiAgIAllbHNlDQo+ICAgCQlyZXR1cm4gTlVMTDsNCj4gICB9DQo+IEBAIC0x
+NDYsNiArMjE5LDEwIEBAIHdiX2Zvcm1hdF90cmFuc2Zvcm1fZnVuYyBnZXRfd2JfZm10X3Ry
+YW5zZm9ybV9mdW5jdGlvbih1MzIgZm9ybWF0KQ0KPiAgIAkJcmV0dXJuICZhcmdiX3UxNl90
+b19BUkdCODg4ODsNCj4gICAJZWxzZSBpZiAoZm9ybWF0ID09IERSTV9GT1JNQVRfWFJHQjg4
+ODgpDQo+ICAgCQlyZXR1cm4gJmFyZ2JfdTE2X3RvX1hSR0I4ODg4Ow0KPiArCWVsc2UgaWYg
+KGZvcm1hdCA9PSBEUk1fRk9STUFUX0FSR0IxNjE2MTYxNikNCj4gKwkJcmV0dXJuICZhcmdi
+X3UxNl90b19BUkdCMTYxNjE2MTY7DQo+ICsJZWxzZSBpZiAoZm9ybWF0ID09IERSTV9GT1JN
+QVRfWFJHQjE2MTYxNjE2KQ0KPiArCQlyZXR1cm4gJmFyZ2JfdTE2X3RvX1hSR0IxNjE2MTYx
+NjsNCj4gICAJZWxzZQ0KPiAgIAkJcmV0dXJuIE5VTEw7DQo+ICAgfQ0KPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJt
+L3ZrbXMvdmttc19wbGFuZS5jDQo+IGluZGV4IDc5ODI0MzgzN2ZkMC4uNjAwNTRhODUyMDRh
+IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX3BsYW5lLmMNCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19wbGFuZS5jDQo+IEBAIC0xNCwxMSAr
+MTQsMTQgQEANCj4gICANCj4gICBzdGF0aWMgY29uc3QgdTMyIHZrbXNfZm9ybWF0c1tdID0g
+ew0KPiAgIAlEUk1fRk9STUFUX1hSR0I4ODg4LA0KPiArCURSTV9GT1JNQVRfWFJHQjE2MTYx
+NjE2DQo+ICAgfTsNCj4gICANCj4gICBzdGF0aWMgY29uc3QgdTMyIHZrbXNfcGxhbmVfZm9y
+bWF0c1tdID0gew0KPiAgIAlEUk1fRk9STUFUX0FSR0I4ODg4LA0KPiAtCURSTV9GT1JNQVRf
+WFJHQjg4ODgNCj4gKwlEUk1fRk9STUFUX1hSR0I4ODg4LA0KPiArCURSTV9GT1JNQVRfWFJH
+QjE2MTYxNjE2LA0KPiArCURSTV9GT1JNQVRfQVJHQjE2MTYxNjE2DQo+ICAgfTsNCj4gICAN
+Cj4gICBzdGF0aWMgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqDQo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vdmttcy92a21zX3dyaXRlYmFjay5jIGIvZHJpdmVycy9ncHUvZHJt
+L3ZrbXMvdmttc193cml0ZWJhY2suYw0KPiBpbmRleCA5N2Y3MWU3ODRiYmYuLmNiNjNhNWRh
+OWFmMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc193cml0ZWJh
+Y2suYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX3dyaXRlYmFjay5jDQo+
+IEBAIC0xNSw2ICsxNSw4IEBADQo+ICAgDQo+ICAgc3RhdGljIGNvbnN0IHUzMiB2a21zX3di
+X2Zvcm1hdHNbXSA9IHsNCj4gICAJRFJNX0ZPUk1BVF9YUkdCODg4OCwNCj4gKwlEUk1fRk9S
+TUFUX1hSR0IxNjE2MTYxNiwNCj4gKwlEUk1fRk9STUFUX0FSR0IxNjE2MTYxNg0KPiAgIH07
+DQo+ICAgDQo+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIHZr
+bXNfd2JfY29ubmVjdG9yX2Z1bmNzID0gew0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-DEPT should not report at least what we know it's not a real deadlock.
-Otherwise there will be reports that is never fixed, which is quite
-unpleasant and reporters cannot examine all of them if it's real deadlock
-or not.
 
-> > get rid of them), and also have a track record of finding things that
-> > lockdep doesn't.
-> 
-> I have some reports that wait_for_completion or waitqueue is involved.
-> It's worth noting those are not tracked by Lockdep. I'm checking if
-> those are true positive or not. I will share those reports once I get
-> more convinced for that.
-> 
-> > Maybe such reports have been sent out with the current situation, and
-> > I haven't seen them.
-> 
-> Dept reports usually have been sent to me privately, not in LKML. As I
-> told you, I'm planning to share them.
-> 
-> 	Byungchul
-> 
-> > 
-> >                  Linus
-> > 
+--------------cq7VZpF4ZnS2sFQnK4deojnr--
 
--- 
-Thanks,
-Hyeonggon
+--------------MrT1HGVaaFGKk5rWt1I8n0TC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ2IJYFAwAAAAAACgkQlh/E3EQov+Bs
+Uw/+KYszPCZvihmRlBMNIDpCCNEl3v8IQnQkLX2GavoahyCPP/qRHy9f6HlJQaFbqklOC7B315AW
+8uR5D/bMurhX56evIKteXxo9yGkkQPpcxCh5Kbc8K2oE3kdnpepSb8v0IFcMNjZtIT8bdP1rZolS
+y2ToTD/DlYFryYqEDRAhDbUUCYDEeBPaoh4RwHZxPlAIZz0lmPOM1gMeTg01NSxPJXpVpznADqzr
+VDsNhKQ96wMkMNPlTO7D0UuGUgx0KgEDeTMs4KUPkpFr7DcnlN7pRmbjUWjG+jTl23wCy8cEs3o2
+FK59GoKU6rdLvICA6Pig0QASyLxKFy8DR9HFQcXYShQ0BuDSgq1UsGTjFbYMcH3Z0wkFmGTN+kbl
+vMwFDSi5h7tazUberufoHvg/MeGjc8GJiRILstexXkGdYhu0vjXGpGJIdgnhv/xN8STYIt9IyfAV
+A/PFZYyUDn7AmbLNb7UnBYaHik2ZgAdl4AiSKmAUgoyOQmSIoMnhdAXw9u2avJUwZZoZiC1ShvZn
+aDVa/QLYxuk1AcWgwM/cnPOhyGotxcJ4ci0+nkGuO9z3NnHJb8zyun252hlBaNGzFJmy1LQu2MQb
+6a9GDxRRhG0IBNUx8CvhuEYoh4pGxzZ+57fmmqFDmyyRB88hOpo8a+GHp/hbVK/FAZ+hd8ilUzrp
+Bf0=
+=J8xI
+-----END PGP SIGNATURE-----
+
+--------------MrT1HGVaaFGKk5rWt1I8n0TC--
