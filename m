@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B491D51E487
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 07:54:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A663851E498
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 08:28:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D904112709;
-	Sat,  7 May 2022 05:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3BC511272B;
+	Sat,  7 May 2022 06:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BACD112709
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 05:54:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9740A112527
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 06:28:49 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 006B8B82A25
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 05:54:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B4423C385B9
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 05:54:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8052560DC9
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 06:28:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B551C385B9
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 06:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651902872;
- bh=l15Dw8QpWDjQQCikidz9wMgJ2m4hHUD5eRDL7VLqVaI=;
+ s=k20201202; t=1651904927;
+ bh=dCyB0lRD/hJWIt2PgSGrIrllTIqHGKlP297chmoASxo=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=VwYQJ4cSaPPPbb3oGAmbU44k8ANxcNhuituK8RWa3mrQaJuTeUh2+rdaTHrLdUMAn
- 8wXj01d5NVd5ieLfCB8ObhBIbwKfYJI4AGDhtveiHlBr4rkr40+Q+EksAjwATAbN19
- 2qkFWLsAkqFhY5afz41HLjttQgW14I7zKR2aIen5pqiAeQyCeJcTLtnKPjJuE94TtN
- dwGCVHNaV75PZHdcvRH+KujIDxANLpwNPBPVxXqdGeMfw82Bx7A+VyRfgv8tIfGELO
- f07OlqWak2EMxfKFuCceNNRJX5xRmyVkOw79OM0uCX4UCLpMI8qvjRm1Swx+FT1bnZ
- cJn65FEn+IeXA==
+ b=VLQPL7UNullRwIykPIwt1PjdN/1LS3bOENkAPuHRrcQWURQlAlgMv18zlkV2WhwRY
+ JzKxpENV/10zMlCaMX/xBax6FgkO34hovkMzVcuM1AP2khbNfPoQFI4hpva9GoEYdZ
+ 5JaT+Bc9N9GtbTAx4OEFFLmHSThF2kw6drTC9S20e8PcU+BUNrJvE02bnRjag75ILC
+ GdGkI2zfKTL8tpQgdCdpH0nN+8Rqz13ZNEIsgDFkzupX/BZg365DMGJx9tekS5RTzu
+ bAIbK73M7F2EsOLnU5QA0K82+BRFuJmPkq4XDA+42u4E8mHW/+EWNLJq/sF4iKwzZ8
+ 6wMcnomp03rag==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id A263DCC13AF; Sat,  7 May 2022 05:54:32 +0000 (UTC)
+ from userid 48) id 6A267CC13B1; Sat,  7 May 2022 06:28:47 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
  parser -125
-Date: Sat, 07 May 2022 05:54:31 +0000
+Date: Sat, 07 May 2022 06:28:46 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,8 +51,8 @@ X-Bugzilla-Resolution: CODE_FIX
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-DSg86trvlW@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205089-2300-56atboArZi@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
 References: <bug-205089-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,16 +77,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
-MasterCATZ (mastercatz@hotmail.com) changed:
+--- Comment #38 from MasterCATZ (mastercatz@hotmail.com) ---
+amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize parser -125
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mastercatz@hotmail.com
+AMD Radeon R9 200 Series (hawaii, LLVM 14.0.0, DRM 3.42,
+5.15.34-051534-generic)
+OpenGL version string: 4.6 (Compatibility Profile) Mesa 22.2.0-devel
+(git-6983c85 2022-05-07 impish-oibaf-ppa)
+Ubuntu 22.04 LTS
 
---- Comment #37 from MasterCATZ (mastercatz@hotmail.com) ---
-Now my R9 290 keeps doing this with the latest drivers on Ubuntu 22.04
+Kernel command line: BOOT_IMAGE=3D/vmlinuz-5.15.34-051534-generic
+root=3D/dev/mapper/Raid6LVM-lvUbuntu ro rootflags=3Dsubvol=3D@ amdgpu.gpu_r=
+ecovery=3D1
+amd_iommu=3Don iommu=3Dpt delayacct acpi_enforce_resources=3Dlax
+usbcore.autosuspend=3D-1 apparmor=3D0 amdgpu.dc=3D1 amdgpu.dpm=3D1
+amdgpu.ppfeaturemask=3D0xfffd7fff amdgpu.dcfeaturemask=3D2 amdgpu.si_suppor=
+t=3D1
+amdgpu.cik_support=3D1 radeon.si_support=3D0
 
-Every time I try watching anime through kodi
+
+I could not find my dmesg logs containing the crash and neither did=20
+
+journalctl -k --since "2 hours ago"
 
 --=20
 You may reply to this email to add a comment.
