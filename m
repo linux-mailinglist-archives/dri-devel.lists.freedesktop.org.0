@@ -2,64 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A663851E498
-	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 08:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C742B51E4A7
+	for <lists+dri-devel@lfdr.de>; Sat,  7 May 2022 08:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3BC511272B;
-	Sat,  7 May 2022 06:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C40A1124FA;
+	Sat,  7 May 2022 06:39:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9740A112527
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 06:28:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8052560DC9
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 06:28:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B551C385B9
- for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 06:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651904927;
- bh=dCyB0lRD/hJWIt2PgSGrIrllTIqHGKlP297chmoASxo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=VLQPL7UNullRwIykPIwt1PjdN/1LS3bOENkAPuHRrcQWURQlAlgMv18zlkV2WhwRY
- JzKxpENV/10zMlCaMX/xBax6FgkO34hovkMzVcuM1AP2khbNfPoQFI4hpva9GoEYdZ
- 5JaT+Bc9N9GtbTAx4OEFFLmHSThF2kw6drTC9S20e8PcU+BUNrJvE02bnRjag75ILC
- GdGkI2zfKTL8tpQgdCdpH0nN+8Rqz13ZNEIsgDFkzupX/BZg365DMGJx9tekS5RTzu
- bAIbK73M7F2EsOLnU5QA0K82+BRFuJmPkq4XDA+42u4E8mHW/+EWNLJq/sF4iKwzZ8
- 6wMcnomp03rag==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 6A267CC13B1; Sat,  7 May 2022 06:28:47 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Sat, 07 May 2022 06:28:46 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mastercatz@hotmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205089-2300-56atboArZi@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-m17669.qiye.163.com (mail-m17669.qiye.163.com
+ [59.111.176.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB359112583
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 May 2022 06:39:28 +0000 (UTC)
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m17669.qiye.163.com (Hmail) with ESMTPA id 363254600F5;
+ Sat,  7 May 2022 14:39:26 +0800 (CST)
+Message-ID: <45058759-13dd-aa43-ac88-2a7c60baa22b@rock-chips.com>
+Date: Sat, 7 May 2022 14:39:25 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH -next] drm/rockchip: Fix Kconfig dependencies
+Content-Language: en-US
+To: Ren Zhijie <renzhijie2@huawei.com>, hjc@rock-chips.com, heiko@sntech.de,
+ airlied@linux.ie, daniel@ffwll.ch, lyude@redhat.com, tzimmermann@suse.de
+References: <20220507010039.117310-1-renzhijie2@huawei.com>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20220507010039.117310-1-renzhijie2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+ kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWRlKQklWS0NLHRlCQk
+ 4eHkoYVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nk06Izo6LD0rDA1PPzEtPgkU
+ LCwwCT5VSlVKTU5KQktOTk1NQ0pKVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSE5PSjcG
+X-HM-Tid: 0a809d3e971dda59kuws363254600f5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,36 +49,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+Hi Zhijie:
 
---- Comment #38 from MasterCATZ (mastercatz@hotmail.com) ---
-amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize parser -125
+On 5/7/22 09:00, Ren Zhijie wrote:
+> If CONFIG_ROCKCHIP_ANALOGIX_DP is not set, the rockchip drm driver
+> will fail to link:
+>
+> drivers/gpu/drm/rockchip/cdn-dp-core.o: In function `cdn_dp_connector_mode_valid':
+> cdn-dp-core.c:(.text+0x1e1): undefined reference to `drm_dp_bw_code_to_link_rate'
+> cdn-dp-core.c:(.text+0x1f4): undefined reference to `drm_dp_bw_code_to_link_rate'
+> drivers/gpu/drm/rockchip/cdn-dp-core.o: In function `cdn_dp_pd_event_work':
+> cdn-dp-core.c:(.text+0x138e): undefined reference to `drm_dp_channel_eq_ok'
+> drivers/gpu/drm/rockchip/cdn-dp-reg.o: In function `cdn_dp_train_link':
+> cdn-dp-reg.c:(.text+0xd5a): undefined reference to `drm_dp_bw_code_to_link_rate'
+>
+> The problem is that the DP-helper module has been replaced by the display-helper module.
+> So the driver have to select it.
+>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 1e0f66420b13("drm/display: Introduce a DRM display-helper module")
+> Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
+> ---
+>   drivers/gpu/drm/rockchip/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> index 5afab49dc4f2..eb9ffa9e357d 100644
+> --- a/drivers/gpu/drm/rockchip/Kconfig
+> +++ b/drivers/gpu/drm/rockchip/Kconfig
+> @@ -47,6 +47,8 @@ config ROCKCHIP_ANALOGIX_DP
+>   config ROCKCHIP_CDN_DP
+>   	bool "Rockchip cdn DP"
+>   	depends on EXTCON=y || (EXTCON=m && DRM_ROCKCHIP=m)
+> +	select DRM_DISPLAY_HELPER
+> +	select DRM_DISPLAY_DP_HELPER
 
-AMD Radeon R9 200 Series (hawaii, LLVM 14.0.0, DRM 3.42,
-5.15.34-051534-generic)
-OpenGL version string: 4.6 (Compatibility Profile) Mesa 22.2.0-devel
-(git-6983c85 2022-05-07 impish-oibaf-ppa)
-Ubuntu 22.04 LTS
 
-Kernel command line: BOOT_IMAGE=3D/vmlinuz-5.15.34-051534-generic
-root=3D/dev/mapper/Raid6LVM-lvUbuntu ro rootflags=3Dsubvol=3D@ amdgpu.gpu_r=
-ecovery=3D1
-amd_iommu=3Don iommu=3Dpt delayacct acpi_enforce_resources=3Dlax
-usbcore.autosuspend=3D-1 apparmor=3D0 amdgpu.dc=3D1 amdgpu.dpm=3D1
-amdgpu.ppfeaturemask=3D0xfffd7fff amdgpu.dcfeaturemask=3D2 amdgpu.si_suppor=
-t=3D1
-amdgpu.cik_support=3D1 radeon.si_support=3D0
+There are two dp(ANALOGIX_DP and CDN_DP) at rockchip drm mainline,
 
+for a totally cleanup and alignment, I think it's better to remove 
+"select DRM_DISPLAY_HELPER if ROCKCHIP_ANALOGIX_DP" under DRM_ROCKCHIP  
+at the head,
 
-I could not find my dmesg logs containing the crash and neither did=20
+and separately add the select for ROCKCHIP_ANALOGIX_DP and ROCKCHIP_CDN_DP.
 
-journalctl -k --since "2 hours ago"
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>   	help
+>   	  This selects support for Rockchip SoC specific extensions
+>   	  for the cdn DP driver. If you want to enable Dp on
