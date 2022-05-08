@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4370351EEFA
-	for <lists+dri-devel@lfdr.de>; Sun,  8 May 2022 18:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FA651EF09
+	for <lists+dri-devel@lfdr.de>; Sun,  8 May 2022 19:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 996AC10E77C;
-	Sun,  8 May 2022 16:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0F310FD92;
+	Sun,  8 May 2022 17:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFE6C10E77C
- for <dri-devel@lists.freedesktop.org>; Sun,  8 May 2022 16:53:33 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id r11so21055754ybg.6
- for <dri-devel@lists.freedesktop.org>; Sun, 08 May 2022 09:53:33 -0700 (PDT)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63DA10FD8E
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 May 2022 17:36:13 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id s27so14625742ljd.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 May 2022 10:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3F1Pq3gU9pnrxqbFtjzJI31YKJjKY/6sCWthpC+SyWI=;
- b=q2EaRXL/xo0X/zpAUJ6IwW1+vmpwhySxUV7v1BtjeUlLo3iVY5vWnLI4MskoSMxSsj
- Ijo22uXDT092q3OsT6chJ5bTvTwuwigVs9EL9zR0o37oloNz2mvTmVzoPVezk/urE/EA
- Tk/VyNd2NJ1o5ts2dA2oMv79C01GzafvKPMB6bRtHQjbkarTERkCF8NF4m8ErTmsWCYc
- ff5yTbpTwrEDaaATRj0SRlB2kuMCbwDHryLZiNnyleK2gGYxmZug2n0T09vvF2Cz+QyH
- RHKzXG15FP7sronSdF7OZqMDosStkaCvDt1mF/93HLAh/SpsZeriMXa6OJr4lyt61asn
- qkBg==
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=mc7TiSQQPMEbeG7ZiGyr90EpIeFsqchzoclKo6O9CMM=;
+ b=gUkllS2et5oszpd7JkVRNeiQpsgPZCMyY06ClaMcq2HPeBS55Ms4O6ZxRUvvjJzV7c
+ cxur5bB/6PRxSl+VVwtO0IQliO1EMeiy9/OOjVkRzObOf5FgJBG1HZF2mLaT38abXUVv
+ mdVB8jDgsKPD2lesVSF32r/JfZZv8Kl5JbaghfvbV1f+pXk0RslhW5CyZ6F9u1dqBSA1
+ COFHklgkncn4QH7RvPkwayNxdpXlcnWxV0YHw2kSB/eMqGK9IEb8nhlyPEpyBDDdTt6L
+ KvWkz0Td0+G0pZ6dH6j+CaZUJ0mlx2auQf7w+MqHmSulkD7LyfiGtYJK5Pgw3fHi1Jqk
+ 3wsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3F1Pq3gU9pnrxqbFtjzJI31YKJjKY/6sCWthpC+SyWI=;
- b=hPgUx6cgQzsQeP51NJHX4FqfsLWoJCVjYPOdgFvPXHuhAGm0SgEjoBzCTshO5WoApw
- LjKB3WOoNogoT9XNEp0uDIB9sQwwELuCN2cKRzouIGHnsFR/kqG3av0oDHBqDHOTMB7u
- sC67NY6goGNMUc5AQTyviiwcyp/w/7ivYBakZIpy0L1/wzRRgkO/BarQHrdRoOGb9aCk
- adYaD6hMlA1RfQ3j/tOTwhLTj5tc6oJ7ecfmzvqr1oNgG/CO8xKzpxiEu3xyqDTTrd0h
- npqF3q9pFUrp/MXCfUQJDkdKsPyAZnj+y6GMG5LCvj213Wy0nLF9EVTl5pUu5O2nKYHj
- wg3g==
-X-Gm-Message-State: AOAM531sbE1botNxUJ+3Ie99eLJwgvbojGazsXaG8nzRSkbBPC68duDL
- Qtzu0ohNbrBBBf7UtBLfo8moXNK8VHSQhnpiwPo=
-X-Google-Smtp-Source: ABdhPJwI9hCRzsuCfUL5+MI7byJrBIXIu6HCctuZjDYDKgqhMNsR/VFPkVCJcslqOpQCZ2iRWjaE+azUpqF8YwMnSVE=
-X-Received: by 2002:a5b:64c:0:b0:64a:684a:2369 with SMTP id
- o12-20020a5b064c000000b0064a684a2369mr10146433ybq.173.1652028812891; Sun, 08
- May 2022 09:53:32 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=mc7TiSQQPMEbeG7ZiGyr90EpIeFsqchzoclKo6O9CMM=;
+ b=faz3Qv1hWvgTCp/Twf9uUiHbs/fwwIHB6xmNJaX5h7bJqVxBWIx1eeRksFtuNGPoX3
+ GNlXAADnX8TQC0m888hHjPOEILxuLj6FfcVFN/GW6dpd2bhPa4+g6i1CgYcxH5ecRUBL
+ gNlDrDoA3+YlNuuTMkGRisChJ/J/GM/LU9oemwQypo2TdTf1835Hh5q1eOtARxmjnHkI
+ /y0k5Z9Vc2/QGq+mx20inJdsVIORpHFpCmYQC002L0X0ds+Ojn+OUS0ZE+8QtvJEO9uj
+ sNIL6HC7VLaNOmL7PDVqQaU+yplT5eKnwJOZdBee3/pXrtptihyTO0Ldsj5fi62vDCR5
+ 0hMQ==
+X-Gm-Message-State: AOAM532DV26pgDxgfaDZR9FbQ8uogO1gMOh0ZPkwF96LiEhP81PunP07
+ amK2kxu7fIWeZz8eAZaXdrI=
+X-Google-Smtp-Source: ABdhPJwLMv2nyA/yngcxESrM+hZXLDw0uuoQfsv9WXtNUoRf8+z/DZ4YNbFrhZR6S+KuhO0sh0XJzQ==
+X-Received: by 2002:a2e:b044:0:b0:250:b16e:45df with SMTP id
+ d4-20020a2eb044000000b00250b16e45dfmr4916785ljl.180.1652031371805; 
+ Sun, 08 May 2022 10:36:11 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ x12-20020a2e584c000000b0024f3d1daed3sm1486496ljd.91.2022.05.08.10.36.10
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 08 May 2022 10:36:11 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
+ on rock-3a
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
+Date: Sun, 8 May 2022 19:36:09 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
 References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
  <20220422072841.2206452-21-s.hauer@pengutronix.de>
  <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
-In-Reply-To: <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
-From: Peter Geis <pgwipeout@gmail.com>
-Date: Sun, 8 May 2022 12:53:21 -0400
-Message-ID: <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
-Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
- on rock-3a
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
+To: Peter Geis <pgwipeout@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,66 +87,42 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 8, 2022 at 9:40 AM Piotr Oniszczuk
-<piotr.oniszczuk@gmail.com> wrote:
->
->
->
-> > Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer <s.hauer@pengutronix.de=
-> w dniu 22.04.2022, o godz. 09:28:
-> >
-> > From: Michael Riesch <michael.riesch@wolfvision.net>
-> >
-> > Enable the RK356x Video Output Processor (VOP) 2 on the Radxa
-> > ROCK3 Model A.
-> >
-> > Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Link: https://lore.kernel.org/r/20220310210352.451136-4-michael.riesch@=
-wolfvision.net
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > ---
->
-> Sascha, Michael,
 
-Good Afternoon,
->
-> I'm using v11 series on 5.18-rc5 on rk3566 tvbox with great success.
-> Recently i started to work on rock3-a (rk3568).
-> v11 gives me video, audio - but cec is not working on rock3-a.
->
-> I was told:
->
-> 32k clock needed for cec and this clock is generated by the rtc which is =
-embedded in the rk8xx regulator.
-> So you should make sure it is enabled when hdmi is powerd on, eg adding i=
-t to the RK3568_PD_VO powerdomain should help
->
-> I was trying to do this in dts https://pastebin.com/67wu9QrH but cec is s=
-till non-functional
->
-> Maybe You have some hints/pointers here?
 
-Add the following to the HDMI node:
-assigned-clocks =3D <&cru CLK_HDMI_CEC>;
-assigned-clock-rates =3D <32768>;
+> Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w =
+dniu 08.05.2022, o godz. 18:53:
+>=20
+>>=20
+>> I was trying to do this in dts https://pastebin.com/67wu9QrH but cec =
+is still non-functional
+>>=20
+>> Maybe You have some hints/pointers here?
+>=20
+> Add the following to the HDMI node:
+> assigned-clocks =3D <&cru CLK_HDMI_CEC>;
+> assigned-clock-rates =3D <32768>;
 
-The issue is the clk_rtc32k_frac clock that feeds clk_rtc_32k which
-feeds clk_hdmi_cec is 24mhz at boot, which is too high for CEC to
-function.
-I submitted a patch to have the hdmi driver handle this, but it broke
-other SoCs because 32k is an optional clock.
-Since this is the case, I'd like Robin to weigh in on going the
-assigned-clock route again.
+I think i have this already (pls see L231/L232 in =
+https://pastebin.com/67wu9QrH )
 
->
-> br
->
-> btw: my dts gives me working usb2 port0/port1 and usb3 port0. but usb3 po=
-rt1 is non-working
-> maybe you know what is missing?
+>=20
+>>=20
+>> br
+>>=20
+>> btw: my dts gives me working usb2 port0/port1 and usb3 port0. but =
+usb3 port1 is non-working
+>> maybe you know what is missing?
+>=20
+> You're missing &usb2phy0_otg.
 
-You're missing &usb2phy0_otg.
+Maybe i miss something but adding:=20
 
-Very Respectfully,
-Peter Geis
+&usb2phy0_otg {
+	phy-supply =3D <&vcc5v0_usb_host>;
+	status =3D "okay";
+};
+
+breaks working usb3 port0
+(so none of usb3 ports are working)
+
+
