@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3186551F552
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 09:31:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DD951F555
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 09:35:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 148C0112159;
-	Mon,  9 May 2022 07:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8571710E3AE;
+	Mon,  9 May 2022 07:35:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A646F112159
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 07:31:49 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id ba17so15205384edb.5
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 00:31:49 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71F6510E3AE
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 07:35:10 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id k27so15209297edk.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 00:35:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=A8pj1+wMsIZD+HTmycpfJEnCkNCLx0gmUucobTkIYaQ=;
- b=h+/nQjrNWIm/+IzgiaU+RfjfBcP8yy2to76CRpsCWL6uieGrlrTVnxYL/R3JFfiWsX
- t36+98kYMes6YSrsZXJHznPejjDhLdU8rj4MzXY25aYYGWxSBIwGyIVHaU+MQg6qOBFX
- IHYx8i81PL33awO2cbqEztnQLnP4l8bSlOkqK0ubcIA4qsyRF3i2e9UAwvDEdZqb7jvP
- bAG8fIpRCNDY93VHZePYN2AhuJmwMwsXjVexhwkufB3noX7N9Y8nCZJWXVs/1cMxrK4L
- OjfDbonWgvZWhkG5T/Vp1uJ0q/JuzdPGEmgQWP4Te2W/zAbO63kENVphxeqV+g7H+69H
- mPLA==
+ bh=6jbURD8Ey2jd/vwDhR1u6Z9PNW187Y1F9ebai4/UsoU=;
+ b=L74itdn5Wcx/56Pz2s1h8uLsLuSZhFw0Z98BIInddU6cGZRn0/kl5pwPoWyNvnhm3m
+ vwVUWJsUGJwVSsy3ob82PnHB7WVgTowC/+TDjuzwyPXHjePgr6qadNIXDCVt4n5EVaLm
+ T3uXj/kmBzdJVjy63+STw5j3OHd/7srnA4DBs5c7ZaDYu8+onYOveOpqfCnWFWbsiJKG
+ mMsxNmwWouQpVZAW19AkVU/nMrve3qEtgUrZ1nNoJ6D+TgaBl1gy+pCmlN8ym7fqYauY
+ pkKrNO7RaXfR7qCTju5FKt4YSAZbD0t8/wEM5fAybnXyGljplV5MWNrPUtkvmboeIorO
+ v0jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=A8pj1+wMsIZD+HTmycpfJEnCkNCLx0gmUucobTkIYaQ=;
- b=Jcw4EpBTx46864BeLqQqKSEWO5poFUpSf4V4qjoHRXwSA+EpnGUeXcnHBS98yEtQ4e
- ojo7XP4KQQyqhce/OUziqDcf2R/WRNLvuA3RnUOeiUxI8JW+9C/5Nfv0QmPeEIG3rXIi
- Z3fpWCUXpLHd4vM2LDmGedJUMprFF43cblnvbGsW2Vv8lQ3V5Ccl+uMvcdWTht/N1lle
- nmB/xgISv6HxstWrGIqDufRYNS2+9fyvp1OCAhw6WDRGbKdeO/FSFiyI40VgGvzyl1t+
- JHJaHGgwQdA8yLUnGHOopr7BaOhzMsUWgJC3n9DecF06Mlapi/uOUXG45sj80fN8aok2
- D2sg==
-X-Gm-Message-State: AOAM5334w7U0LnGhHaU0T0U/oWjEDfalCpJ3DwETanvDt3ulI9/BavHK
- 7H6xApGX4MAox1vgp2JxCbynqg==
-X-Google-Smtp-Source: ABdhPJxlWjAFIEPsqpoSUm5gzanVawOJDQfbWbKqKN8sD/EsEk+84GEF8xhbJ/wD76HV8JoK4Xlh4Q==
-X-Received: by 2002:a05:6402:5243:b0:427:caa4:f75 with SMTP id
- t3-20020a056402524300b00427caa40f75mr16216381edd.153.1652081508151; 
- Mon, 09 May 2022 00:31:48 -0700 (PDT)
+ bh=6jbURD8Ey2jd/vwDhR1u6Z9PNW187Y1F9ebai4/UsoU=;
+ b=U2bNOonGdzWh5wiR7MvNLY4pgiOemv7+rJMTi520VUcdJpGOTAZncXptEij+9TLajk
+ bhju5bHuFewGUYs4CCqr23n1qN6rYIvUHd73XiBEqBcEzdf9SHFrST9Ko0fYu0VsyIWB
+ rJAuFeYEnOI7MkzNmVchpPpi3vRpLlz67mRBwK0JWnkWESjdVSmK+2u0uCjUS63ZbM5W
+ TVDRczYhQys2zg1tk2UJozB4BAY1dmXF/QYpdupbPFoCOzN6A9fH6QU+VdP/VUGBnCX5
+ e8Yagocn3O6lKBJjbdaJMu7eAPFlf5cxKWs/PGZIQvF0Fw42rvoTi44+uNmQl+Z0LBb7
+ X7eA==
+X-Gm-Message-State: AOAM532qj/z8F9vPiY06WwuWzZ0IZeMUQqXo61HmglBPZURc8cehEaIP
+ P6M6ZlnuFE+qVF3kVMuoryY/Fg==
+X-Google-Smtp-Source: ABdhPJzYO8cmNC9uBKCClx5X3DrATjSonDW6UXPxBkrSLm3jIm2wX91BBa+d8YB3/zGFnWnOLUhhZA==
+X-Received: by 2002:aa7:d416:0:b0:425:f5c7:d633 with SMTP id
+ z22-20020aa7d416000000b00425f5c7d633mr15808452edq.105.1652081708825; 
+ Mon, 09 May 2022 00:35:08 -0700 (PDT)
 Received: from [192.168.0.242] (xdsl-188-155-176-92.adslplus.ch.
  [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- yl26-20020a17090693fa00b006f3ef214de2sm4753139ejb.72.2022.05.09.00.31.46
+ ze11-20020a170906ef8b00b006f3ef214e43sm4773108ejb.169.2022.05.09.00.35.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 00:31:47 -0700 (PDT)
-Message-ID: <a5c9e7ad-c4b5-e757-cd6d-f79de47d1ff3@linaro.org>
-Date: Mon, 9 May 2022 09:31:46 +0200
+ Mon, 09 May 2022 00:35:08 -0700 (PDT)
+Message-ID: <46bc32df-e4e8-ac47-426d-8056714f0d5c@linaro.org>
+Date: Mon, 9 May 2022 09:35:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v2 1/3] dt-bindings: mediatek: add vdosys1 RDMA definition
- for mt8195
+Subject: Re: [PATCH v2 3/3] dt-bindings: mediatek: add ethdr definition for
+ mt8195
 Content-Language: en-US
 To: Rex-BC Chen <rex-bc.chen@mediatek.com>, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, chunkuang.hu@kernel.org,
  p.zabel@pengutronix.de
 References: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
- <20220509044302.27878-2-rex-bc.chen@mediatek.com>
+ <20220509044302.27878-4-rex-bc.chen@mediatek.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220509044302.27878-2-rex-bc.chen@mediatek.com>
+In-Reply-To: <20220509044302.27878-4-rex-bc.chen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,104 +88,164 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 09/05/2022 06:43, Rex-BC Chen wrote:
 > From: "Nancy.Lin" <nancy.lin@mediatek.com>
 > 
-> Add vdosys1 RDMA definition.
+> Add vdosys1 ETHDR definition.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  .../display/mediatek/mediatek,mdp-rdma.yaml   | 94 +++++++++++++++++++
->  1 file changed, 94 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+>  .../display/mediatek/mediatek,ethdr.yaml      | 191 ++++++++++++++++++
+>  1 file changed, 191 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
 > new file mode 100644
-> index 000000000000..ca31accb0a95
+> index 000000000000..65f22fba9fed
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
-> @@ -0,0 +1,94 @@
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+> @@ -0,0 +1,191 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,ethdr.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: MediaTek MDP RDMA
+> +title: MediaTek Ethdr Device Tree Bindings
+
+s/Device Tree Bindings//
+
+You need to add some description of a device. What is a Ethdr?
+
 > +
 > +maintainers:
 > +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > +  - Philipp Zabel <p.zabel@pengutronix.de>
 > +
 > +description:
-> +  The MediaTek MDP RDMA stands for Read Direct Memory Access.
-> +  It provides real time data to the back-end panel driver, such as DSI,
-> +  DPI and DP_INTF.
-> +  It contains one line buffer to store the sufficient pixel data.
-> +  RDMA device node must be siblings to the central MMSYS_CONFIG node.
-> +  For a description of the MMSYS_CONFIG binding, see
-> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml for details.
+> +  ETHDR is designed for HDR video and graphics conversion in the external display path.
+> +  It handles multiple HDR input types and performs tone mapping, color space/color
+> +  format conversion, and then combine different layers, output the required HDR or
+> +  SDR signal to the subsequent display path. This engine is composed of two video
+> +  frontends, two graphic frontends, one video backend and a mixer. ETHDR has two
+> +  DMA function blocks, DS and ADL. These two function blocks read the pre-programmed
+> +  registers from DRAM and set them to HW in the v-blanking period.
+
+Block does not look like wrapped at 80.
+
 > +
 > +properties:
 > +  compatible:
-> +    oneOf:
+> +    items:
 
-oneOf is not needed
+One item, so no items.
 
-> +      - items:
-
-items not needed, you have only one item.
-
-> +          - const: mediatek,mt8195-vdo1-rdma
+> +      - const: mediatek,mt8195-disp-ethdr
 > +
 > +  reg:
-> +    maxItems: 1
+> +    maxItems: 7
+> +
+> +  reg-names:
+> +    items:
+> +      - const: mixer
+> +      - const: vdo_fe0
+> +      - const: vdo_fe1
+> +      - const: gfx_fe0
+> +      - const: gfx_fe1
+> +      - const: vdo_be
+> +      - const: adl_ds
 > +
 > +  interrupts:
 > +    maxItems: 1
 > +
-> +  power-domains:
-> +    description: A phandle and PM domain specifier as defined by bindings of
-> +      the power controller specified by phandle. See
-> +      Documentation/devicetree/bindings/power/power-domain.yaml for details.
+> +  iommus:
+> +    description: The compatible property is DMA function blocks.
 
-Skip description, it's obvious. Instead maxItems.
+I don't understand this at all.
 
+> +      Should point to the respective IOMMU block with master port as argument,
+> +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
+> +      details.
+
+Just skip the description, it's same everywhere.
+
+> +    minItems: 1
+> +    maxItems: 2
 > +
 > +  clocks:
 > +    items:
-> +      - description: RDMA Clock
+> +      - description: mixer clock
+> +      - description: video frontend 0 clock
+> +      - description: video frontend 1 clock
+> +      - description: graphic frontend 0 clock
+> +      - description: graphic frontend 1 clock
+> +      - description: video backend clock
+> +      - description: autodownload and menuload clock
+> +      - description: video frontend 0 async clock
+> +      - description: video frontend 1 async clock
+> +      - description: graphic frontend 0 async clock
+> +      - description: graphic frontend 1 async clock
+> +      - description: video backend async clock
+> +      - description: ethdr top clock
 > +
-> +  iommus:
-> +    description:
-> +      This property should point to the respective IOMMU block with master port as argument,
-> +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
-
-Skip description, it's obvious. Instead maxItems.
-
+> +  clock-names:
+> +    items:
+> +      - const: mixer
+> +      - const: vdo_fe0
+> +      - const: vdo_fe1
+> +      - const: gfx_fe0
+> +      - const: gfx_fe1
+> +      - const: vdo_be
+> +      - const: adl_ds
+> +      - const: vdo_fe0_async
+> +      - const: vdo_fe1_async
+> +      - const: gfx_fe0_async
+> +      - const: gfx_fe1_async
+> +      - const: vdo_be_async
+> +      - const: ethdr_top
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: video frontend 0 async reset
+> +      - description: video frontend 1 async reset
+> +      - description: graphic frontend 0 async reset
+> +      - description: graphic frontend 1 async reset
+> +      - description: video backend async reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: vdo_fe0_async
+> +      - const: vdo_fe1_async
+> +      - const: gfx_fe0_async
+> +      - const: gfx_fe1_async
+> +      - const: vdo_be_async
 > +
 > +  mediatek,gce-client-reg:
-> +    description:
-> +      The register of display function block to be set by gce. There are 4 arguments,
-> +      such as gce node, subsys id, offset and register size. The subsys id that is
-> +      mapping to the register of display function blocks is defined in the gce header
-> +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
-
-Double "include" in the path.
-
 > +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: The register of display function block to be set by gce.
+> +      There are 4 arguments in this property, gce node, subsys id, offset and
+> +      register size. The subsys id is defined in the gce header of each chips
+> +      include/include/dt-bindings/gce/<chip>-gce.h, mapping to the register of
+> +      display function block.
 > +    items:
 > +      items:
 > +        - description: phandle of GCE
 > +        - description: GCE subsys id
 > +        - description: register offset
 > +        - description: register size
-> +    maxItems: 1
+> +    minItems: 7
+> +    maxItems: 7
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - power-domains
 > +  - clocks
-> +  - iommus
+> +  - clock-names
+> +  - interrupts
+> +  - power-domains
+> +  - resets
 > +  - mediatek,gce-client-reg
 > +
 > +additionalProperties: false
@@ -194,28 +254,18 @@ Double "include" in the path.
 > +  - |
 > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
 > +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/power/mt8195-power.h>
 > +    #include <dt-bindings/gce/mt8195-gce.h>
 > +    #include <dt-bindings/memory/mt8195-memory-port.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +    #include <dt-bindings/reset/mt8195-resets.h>
 > +
 > +    soc {
 > +        #address-cells = <2>;
 > +        #size-cells = <2>;
 > +
-> +        vdo1_rdma0: mdp-rdma@1c104000 {
+> +        disp_ethdr@1c114000 {
 
-Generic node name. dma-controller (if it does not conflict with
-dma-common.yaml schema)?
-
-> +            compatible = "mediatek,mt8195-vdo1-rdma";
-> +            reg = <0 0x1c104000 0 0x1000>;
-> +            interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-> +            clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-> +            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> +            iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-> +            mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x4000 0x1000>;
-> +        };
-> +    };
+No underscores in node name. Generic node names, so display-controller?
 
 
 Best regards,
