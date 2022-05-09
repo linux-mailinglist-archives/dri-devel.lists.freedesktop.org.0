@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4AE51FC22
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA28451FC25
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABA1110EF48;
-	Mon,  9 May 2022 12:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C189A10EF6A;
+	Mon,  9 May 2022 12:05:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADA210EF18;
- Mon,  9 May 2022 12:05:21 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1EDD10EF62;
+ Mon,  9 May 2022 12:05:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652097921; x=1683633921;
+ t=1652097927; x=1683633927;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=crxphi9DPRapv44g2oK30KY4En+Qnv+ue1NtbhYohrA=;
- b=CfTfxOcKpi6fcN7DB11Kry9CATiCw/xmb3kdR4L2MjPY05dHtXLGvhHX
- r3/gEtopVV5lM5Xl/4mpNsMsGogIQEdB5afgQ1aalGeOAvk9ryw9DP1j9
- kMwysF3r4NsN+ifxqlUlmd35z2hXVDVQAwS00/nNfOJ8PwFQPLcR/RRM6
- b6NqFlngFY575inS5yLTG/mLl20VzA28xw36gfHsp/zbBG/9n8cbubwqe
- LQZuEjyVPCFpdK0bR/hVqYA835TI3ziGUrVLOzs8mcgom2jTd/Ny5RwEn
- Yx0augDzBA477QTf9FOn+qZ2DOGorRtjcicZQUl0E596fgYDIE5pWJasM g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="269167795"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="269167795"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:05:21 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="813447983"
+ bh=WZbK4QZW/WLKdDBTqagySWJE47DzSAYZxbqq02NMCrM=;
+ b=mCRJm2yMf8lMXWTofzp6ZyzJo973VXE9EhSwmWW2Zl636FIQ67kNNv5u
+ aURNoPQtWjkF+X8p7I9Czp0Za1CqJVY11pM/VMB20Pr9xO4htHFTF2OK3
+ mwL3q7KofWeSU7xf9WQLboqFc2TP/TLWl5vNZSfiC9qiBaLjC0R6XFdvq
+ RqkMprJZjdcTFNHY5koqPb7VsqGVbwZ0jJXv1yydcjO8zCsPt+kiqx2g7
+ F49nxU1XWCHuv86rQEbmnJDCUc7P6mAP5DgDeFJV80uiw+WsyIUwwAAjd
+ 0u3194k6PBGYiaPC3AiPcZ7Pt+3QOTvLIKjWpK7x9E/i/3s1e+Anpix74 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="268693750"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="268693750"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:05:25 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="893859447"
 Received: from csawicki-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.129.3])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:05:19 -0700
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:05:23 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 22/25] drm/edid: convert drm_edid_iter_begin() to drm_edid
-Date: Mon,  9 May 2022 15:03:21 +0300
-Message-Id: <24dfb5fd9026ebef573bb55b368b94e56cae5cec.1652097712.git.jani.nikula@intel.com>
+Subject: [PATCH v2 23/25] drm/edid: add drm_edid helper for
+ drm_update_tile_info()
+Date: Mon,  9 May 2022 15:03:22 +0300
+Message-Id: <5b36683b656446a4d9a172d4dca1cf9aca08a48b.1652097712.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1652097712.git.jani.nikula@intel.com>
 References: <cover.1652097712.git.jani.nikula@intel.com>
@@ -63,97 +64,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 We'll need to propagate drm_edid everywhere.
 
-v2: Rebase
+v2: Handle NULL EDID pointer (Ville, CI)
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index bd14010ed1c5..d857d1d74c82 100644
+index d857d1d74c82..26ac4d262e31 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1632,36 +1632,36 @@ static const struct drm_edid *drm_edid_legacy_init(struct drm_edid *drm_edid,
-  * struct drm_edid_iter iter;
-  * const u8 *block;
-  *
-- * drm_edid_iter_begin(edid, &iter);
-+ * drm_edid_iter_begin(drm_edid, &iter);
-  * drm_edid_iter_for_each(block, &iter) {
-  *         // do stuff with block
-  * }
-  * drm_edid_iter_end(&iter);
-  */
- struct drm_edid_iter {
--	const struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 
- 	/* Current block index. */
- 	int index;
- };
- 
--static void drm_edid_iter_begin(const struct edid *edid,
-+static void drm_edid_iter_begin(const struct drm_edid *drm_edid,
- 				struct drm_edid_iter *iter)
- {
- 	memset(iter, 0, sizeof(*iter));
- 
--	iter->edid = edid;
-+	iter->drm_edid = drm_edid;
+@@ -6364,15 +6364,15 @@ static void drm_parse_tiled_block(struct drm_connector *connector,
+ 	}
  }
  
- static const void *__drm_edid_iter_next(struct drm_edid_iter *iter)
+-void drm_update_tile_info(struct drm_connector *connector,
+-			  const struct edid *edid)
++static void _drm_update_tile_info(struct drm_connector *connector,
++				  const struct drm_edid *drm_edid)
  {
- 	const void *block = NULL;
+ 	const struct displayid_block *block;
+ 	struct displayid_iter iter;
  
--	if (!iter->edid)
-+	if (!iter->drm_edid)
- 		return NULL;
+ 	connector->has_tile = false;
  
--	if (iter->index < edid_block_count(iter->edid))
--		block = edid_block_data(iter->edid, iter->index++);
-+	if (iter->index < edid_block_count(iter->drm_edid->edid))
-+		block = edid_block_data(iter->drm_edid->edid, iter->index++);
- 
- 	return block;
+-	displayid_iter_edid_begin(edid, &iter);
++	displayid_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter);
+ 	displayid_iter_for_each(block, &iter) {
+ 		if (block->tag == DATA_BLOCK_TILED_DISPLAY)
+ 			drm_parse_tiled_block(connector, block);
+@@ -6384,3 +6384,11 @@ void drm_update_tile_info(struct drm_connector *connector,
+ 		connector->tile_group = NULL;
+ 	}
  }
-@@ -2611,7 +2611,7 @@ static void drm_for_each_detailed_block(const struct drm_edid *drm_edid,
- 	for (i = 0; i < EDID_DETAILED_TIMINGS; i++)
- 		cb(&drm_edid->edid->detailed_timings[i], closure);
- 
--	drm_edid_iter_begin(drm_edid->edid, &edid_iter);
-+	drm_edid_iter_begin(drm_edid, &edid_iter);
- 	drm_edid_iter_for_each(ext, &edid_iter) {
- 		switch (*ext) {
- 		case CEA_EXT:
-@@ -4453,7 +4453,7 @@ static void cea_db_iter_edid_begin(const struct drm_edid *drm_edid,
- {
- 	memset(iter, 0, sizeof(*iter));
- 
--	drm_edid_iter_begin(drm_edid ? drm_edid->edid : NULL, &iter->edid_iter);
-+	drm_edid_iter_begin(drm_edid, &iter->edid_iter);
- 	displayid_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter->displayid_iter);
- }
- 
-@@ -5163,7 +5163,7 @@ static bool _drm_detect_monitor_audio(const struct drm_edid *drm_edid)
- 	const u8 *edid_ext;
- 	bool has_audio = false;
- 
--	drm_edid_iter_begin(drm_edid ? drm_edid->edid : NULL, &edid_iter);
-+	drm_edid_iter_begin(drm_edid, &edid_iter);
- 	drm_edid_iter_for_each(edid_ext, &edid_iter) {
- 		if (edid_ext[0] == CEA_EXT) {
- 			has_audio = edid_ext[3] & EDID_BASIC_AUDIO;
-@@ -5516,7 +5516,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 	struct cea_db_iter iter;
- 	const u8 *edid_ext;
- 
--	drm_edid_iter_begin(drm_edid->edid, &edid_iter);
-+	drm_edid_iter_begin(drm_edid, &edid_iter);
- 	drm_edid_iter_for_each(edid_ext, &edid_iter) {
- 		if (edid_ext[0] != CEA_EXT)
- 			continue;
++
++void drm_update_tile_info(struct drm_connector *connector,
++			  const struct edid *edid)
++{
++	struct drm_edid drm_edid;
++
++	_drm_update_tile_info(connector, drm_edid_legacy_init(&drm_edid, edid));
++}
 -- 
 2.30.2
 
