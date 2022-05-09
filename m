@@ -2,87 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7465205A4
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 22:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6A25205B1
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 22:10:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A598710E089;
-	Mon,  9 May 2022 20:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D612E10E422;
+	Mon,  9 May 2022 20:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6A510E089
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 20:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652126630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qnTkUabpe7jRtYxC0JIcCJ58YEOMuCVoeEj+uJ3yZCs=;
- b=cQo5gusFlh/xsHPpTPYHs9BKzG02sYtAyWygAHUPqD4uWGIDYqo1/OQQ0ocS79ORVv3PMJ
- WvIRHd/aqK4II/mC8rpPcNRtVC8HHr3vZHe0VSowUqGbpdPa2r8bnaD9L5n0EEu/JlkLT7
- M78HxKFMNg6iuamqEUMQEZ6PGoR8fM8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-206-3GifW24IOIaP0QQEMmKwgA-1; Mon, 09 May 2022 16:03:49 -0400
-X-MC-Unique: 3GifW24IOIaP0QQEMmKwgA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t17-20020adfa2d1000000b0020ac519c222so6163528wra.4
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 13:03:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qnTkUabpe7jRtYxC0JIcCJ58YEOMuCVoeEj+uJ3yZCs=;
- b=fZ9eu7eDV+qKiB+RTNtlrpM6dnZ2sWU8EjTaZUsVRSn+36SySx0nrhBfrff8ZqBKCy
- ObmdRFtnn16LJuJbYhfTzBQlR2CRCCzvKVHyTNzVrOJSVPGoIVZ/n3BK1cqh8nio7A6C
- 0gO2dx5N9mt7TqWo69hy6tK4U5+aLT3F7jhNLNjstJVe8Hl+diZAmnUoRybYk7Nukj0Z
- Td3Ws30sQLsdBWoPpCg4VFNven4DVRt4FosNPUf+4stfOlEAvtKIPrEe4AXfPxo+SbeN
- xVx+PSXrk1ZlJ5ipHz8q4PKXDpWSI02VGJ7RdFdGnmTxWbOv4uY26WMxF483198aH3qC
- LvAA==
-X-Gm-Message-State: AOAM533g4cv2QD0nRxxvYft1TeAvG4Gj0Fgt1UcYnz2VRjYcWLaZxQnv
- PFpufB3Ovf+k4aAe1GuxwARiewy07CZ2ACh50rdz5+ciYTVDyT37g4qx8NU6dl3dbHAHo71m5AA
- xFaiIfPhxDjyzweecefBpJvpUYmRL
-X-Received: by 2002:a05:600c:ada:b0:394:30f0:5b24 with SMTP id
- c26-20020a05600c0ada00b0039430f05b24mr17757045wmr.57.1652126628242; 
- Mon, 09 May 2022 13:03:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXbnXq4q4M+gBT0G+FQfJ/08vE6H+CMK+PCG9aU5sZFTb8/Iev3kbWSsbfQd4TXLWBeAhjBA==
-X-Received: by 2002:a05:600c:ada:b0:394:30f0:5b24 with SMTP id
- c26-20020a05600c0ada00b0039430f05b24mr17757018wmr.57.1652126627950; 
- Mon, 09 May 2022 13:03:47 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k8-20020adfd848000000b0020c5253d8dbsm11555562wrl.39.2022.05.09.13.03.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 13:03:47 -0700 (PDT)
-Message-ID: <2bf27b09-0896-1849-254f-d5b19abdc892@redhat.com>
-Date: Mon, 9 May 2022 22:03:46 +0200
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1407410E422
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 20:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9EXZ94ekDVHmeD8TA1v+QTPTpGzAZJnvsRP1nXnRkRc=; b=SIVK9gq0OZgxoVfCu3II57DuXe
+ OiUjoW8LACsPpJI/Vvtzt6spfR/X4AUr/ueZOnl4RaHEBQXM0UXTWgZ+NU9bPAkyaJRXDD3YqZVdC
+ mI3sKAUp+1QAtzmBZTz5B8AgK4GM0K67hoRL8y7NRCm8GBTPn3+zrIUArGOyYh60xGHdlut+Rb0IW
+ Usd1lQSy2zOMLVYKu/sUtBDe20nMkcJL7ANcEOJkC6HnZrxOzIDsIMd7xowKepkQlyuw+L55wgvWW
+ L8v2z5hgNMzFLCQX9181H7zL8jP8kxzFnJ9BgcyRyfIkHGvd2fsfSApYlqwvHTmCUX1cgeoNhb/tO
+ rdW7KxSQ==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=53833)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1no9iT-0007PK-GC; Mon, 09 May 2022 22:10:49 +0200
+Message-ID: <c9401901-bd7c-e162-6a23-ce6815a432e6@tronnes.org>
+Date: Mon, 9 May 2022 22:10:46 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
- fb_release()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org
-References: <20220505215947.364694-1-javierm@redhat.com>
- <20220505220413.365977-1-javierm@redhat.com>
- <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
- <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
- <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
- <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
- <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 4/5] drm/gud: Map framebuffer BOs with drm_gem_fb_vmap()
+To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20210730183511.20080-1-tzimmermann@suse.de>
+ <20210730183511.20080-5-tzimmermann@suse.de>
+ <9a6889dd-7fb3-2622-bae5-f9dd31a38856@tronnes.org>
+ <5f17f381-0200-5dff-443f-80f8e6d8f47e@suse.de>
+ <6deb6fcc-ee6c-9fc3-ad00-faf7352781ce@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <6deb6fcc-ee6c-9fc3-ad00-faf7352781ce@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,67 +58,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/9/22 20:12, Thomas Zimmermann wrote:
 
-[snip]
 
->> I actually thought about the same but then remembered what Daniel said in [0]
->> (AFAIU at least) that these should be done in .remove() so the current code
->> looks like matches that and only framebuffer_release() should be moved.
->>
->> For vesafb a previous patch proposed to also move a release_region() call to
->> .fb_destroy() and Daniel also said that it was iffy and shouldn't be done [1].
->>
->> But I'm also not fb expert so happy to move fb_dealloc_cmap() as well if that
->> is the correct thing to do.
+Den 09.05.2022 10.32, skrev Thomas Zimmermann:
+> Hi Noralf
 > 
-> The cmap data structure is software state that can be accessed via icotl 
-> as long as the devfile is open. Drivers update the hardware from it. See 
-> [1].  Moving that cleanup into fb_destroy seems appropriate to me.
+> Am 06.05.22 um 16:11 schrieb Thomas Zimmermann:
+>> Hi
+>>
+>> Am 06.05.22 um 16:01 schrieb Noralf Trønnes:
+>>> Hi Thomas,
+>>>
+>>> I'm getting this on Ubuntu 22.04:
+>>>
+>>> [    0.000000] Linux version 5.15.0-27-generic (buildd@ubuntu) (gcc
+>>> (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38)
+>>> #28-Ubuntu SMP Thu Apr 14 04:55:28 UTC 2022 (Ubuntu 5.15.0-27.28-generic
+>>> 5.15.30)
+>>>
+>>> [    4.830866] usb 2-3.1: new high-speed USB device number 4 using
+>>> xhci_hcd
+>>> [    4.935546] usb 2-3.1: New USB device found, idVendor=1d50,
+>>> idProduct=614d, bcdDevice= 1.00
+>>> [    4.935553] usb 2-3.1: New USB device strings: Mfr=1, Product=2,
+>>> SerialNumber=3
+>>> [    4.935556] usb 2-3.1: Product: Raspberry Pi 4 Display Gadget
+>>> [    4.935558] usb 2-3.1: Manufacturer: Raspberry Pi
+>>> [    4.935560] usb 2-3.1: SerialNumber: 100000003b40d6c6
+>>>
+>>> [    7.497361] [drm] Initialized gud 1.0.0 20200422 for 2-3.1:1.0 on
+>>> minor 0
+>>>
+>>> [    7.573048] gud 2-3.1:1.0: [drm] fb1: guddrmfb frame buffer device
+>>>
+>>> [    9.199402]
+>>> ================================================================================
+>>>
+>>> [    9.199411] UBSAN: invalid-load in
+>>> /build/linux-HMZHpV/linux-5.15.0/include/linux/dma-buf-map.h:224:9
+>>> [    9.199416] load of value 226 is not a valid value for type '_Bool'
+>>> [    9.199420] CPU: 0 PID: 113 Comm: kworker/0:2 Not tainted
+>>> 5.15.0-27-generic #28-Ubuntu
+>>> [    9.199424] Hardware name: Hewlett-Packard HP EliteBook 820 G1/1991,
+>>> BIOS L71 Ver. 01.44 04/12/2018
+>>> [    9.199427] Workqueue: events_long gud_flush_work [gud]
+>>> [    9.199440] Call Trace:
+>>> [    9.199443]  <TASK>
+>>> [    9.199447]  show_stack+0x52/0x58
+>>> [    9.199456]  dump_stack_lvl+0x4a/0x5f
+>>> [    9.199464]  dump_stack+0x10/0x12
+>>> [    9.199468]  ubsan_epilogue+0x9/0x45
+>>> [    9.199473]  __ubsan_handle_load_invalid_value.cold+0x44/0x49
+>>> [    9.199478]  drm_gem_fb_vmap.cold+0x10/0x3d [drm_kms_helper]
+>>> [    9.199519]  gud_prep_flush+0xaa/0x410 [gud]
+>>> [    9.199525]  ? check_preempt_curr+0x5d/0x70
+>>> [    9.199533]  ? update_load_avg+0x82/0x620
+>>> [    9.199540]  ? set_next_entity+0xb7/0x200
+>>> [    9.199545]  gud_flush_work+0x1e0/0x430 [gud]
+>>> [    9.199551]  ? psi_task_switch+0x1e7/0x220
+>>> [    9.199557]  process_one_work+0x22b/0x3d0
+>>> [    9.199564]  worker_thread+0x53/0x410
+>>> [    9.199570]  ? process_one_work+0x3d0/0x3d0
+>>> [    9.199575]  kthread+0x12a/0x150
+>>> [    9.199579]  ? set_kthread_struct+0x50/0x50
+>>> [    9.199584]  ret_from_fork+0x22/0x30
+>>> [    9.199593]  </TASK>
+>>> [    9.199595]
+>>> ================================================================================
+>>>
+>>>
+>>> [    9.199598]
+>>> ================================================================================
+>>>
+>>> [    9.199600] UBSAN: invalid-load in
+>>> /build/linux-HMZHpV/linux-5.15.0/include/linux/dma-buf-map.h:194:9
+>>> [    9.199604] load of value 226 is not a valid value for type '_Bool'
+>>> [    9.199606] CPU: 0 PID: 113 Comm: kworker/0:2 Not tainted
+>>> 5.15.0-27-generic #28-Ubuntu
+>>> [    9.199610] Hardware name: Hewlett-Packard HP EliteBook 820 G1/1991,
+>>> BIOS L71 Ver. 01.44 04/12/2018
+>>> [    9.199612] Workqueue: events_long gud_flush_work [gud]
+>>> [    9.199618] Call Trace:
+>>> [    9.199619]  <TASK>
+>>> [    9.199621]  show_stack+0x52/0x58
+>>> [    9.199627]  dump_stack_lvl+0x4a/0x5f
+>>> [    9.199633]  dump_stack+0x10/0x12
+>>> [    9.199637]  ubsan_epilogue+0x9/0x45
+>>> [    9.199641]  __ubsan_handle_load_invalid_value.cold+0x44/0x49
+>>> [    9.199646]  drm_gem_fb_vmap.cold+0x24/0x3d [drm_kms_helper]
+>>> [    9.199675]  gud_prep_flush+0xaa/0x410 [gud]
+>>> [    9.199682]  ? check_preempt_curr+0x5d/0x70
+>>> [    9.199688]  ? update_load_avg+0x82/0x620
+>>> [    9.199693]  ? update_load_avg+0x82/0x620
+>>> [    9.199697]  gud_flush_work+0x1e0/0x430 [gud]
+>>> [    9.199702]  ? psi_task_switch+0x1e7/0x220
+>>> [    9.199706]  process_one_work+0x22b/0x3d0
+>>> [    9.199713]  worker_thread+0x53/0x410
+>>> [    9.199718]  ? process_one_work+0x3d0/0x3d0
+>>> [    9.199723]  kthread+0x12a/0x150
+>>> [    9.199728]  ? set_kthread_struct+0x50/0x50
+>>> [    9.199732]  ret_from_fork+0x22/0x30
+>>> [    9.199741]  </TASK>
+>>> [    9.199743]
+>>> ================================================================================
+>>>
+>>>
+>>> It's the "if (map->is_iomem)" statement in dma_buf_map_clear() and
+>>> dma_buf_map_is_null() that triggers this.
+>>>
+>>> I tried 5.18.0-rc5 and the problem is still present.
+>>>
+>>> UBSAN entries in the config:
+>>>
+>>> CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
+>>> CONFIG_UBSAN=y
+>>> # CONFIG_UBSAN_TRAP is not set
+>>> CONFIG_CC_HAS_UBSAN_BOUNDS=y
+>>> CONFIG_UBSAN_BOUNDS=y
+>>> CONFIG_UBSAN_ONLY_BOUNDS=y
+>>> CONFIG_UBSAN_SHIFT=y
+>>> # CONFIG_UBSAN_DIV_ZERO is not set
+>>> CONFIG_UBSAN_BOOL=y
+>>> CONFIG_UBSAN_ENUM=y
+>>> # CONFIG_UBSAN_ALIGNMENT is not set
+>>> CONFIG_UBSAN_SANITIZE_ALL=y
+>>> # CONFIG_TEST_UBSAN is not set
+>>>
+>>> Continuing further down.
+>>>
+>>>
+>>> Den 30.07.2021 20.35, skrev Thomas Zimmermann:
+>>>> Abstract the framebuffer details by mapping its BOs with a call
+>>>> to drm_gem_fb_vmap(). Unmap with drm_gem_fb_vunmap().
+>>>>
+>>>> The call to drm_gem_fb_vmap() ensures that all BOs are mapped
+>>>> correctly. Gud still only supports single-plane formats.
+>>>>
+>>>> No functional changes.
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Acked-by: Noralf Trønnes <noralf@tronnes.org>
+>>>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>>>> ---
+>>>>   drivers/gpu/drm/gud/gud_pipe.c | 10 +++++-----
+>>>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/gud/gud_pipe.c
+>>>> b/drivers/gpu/drm/gud/gud_pipe.c
+>>>> index 4d7a26b68a2e..7e009f562b30 100644
+>>>> --- a/drivers/gpu/drm/gud/gud_pipe.c
+>>>> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+>>>> @@ -14,8 +14,8 @@
+>>>>   #include <drm/drm_format_helper.h>
+>>>>   #include <drm/drm_fourcc.h>
+>>>>   #include <drm/drm_framebuffer.h>
+>>>> +#include <drm/drm_gem.h>
+>>>>   #include <drm/drm_gem_framebuffer_helper.h>
+>>>> -#include <drm/drm_gem_shmem_helper.h>
+>>>>   #include <drm/drm_print.h>
+>>>>   #include <drm/drm_rect.h>
+>>>>   #include <drm/drm_simple_kms_helper.h>
+>>>> @@ -152,7 +152,7 @@ static int gud_prep_flush(struct gud_device
+>>>> *gdrm, struct drm_framebuffer *fb,
+>>>>   {
+>>>>       struct dma_buf_attachment *import_attach =
+>>>> fb->obj[0]->import_attach;
+>>>>       u8 compression = gdrm->compression;
+>>>> -    struct dma_buf_map map;
+>>>> +    struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
+>>>
+>>> Zeroing map solves the problem:
+>>>
+>>>          struct iosys_map map[DRM_FORMAT_MAX_PLANES] = {};
+>>>
+>>> I don't understand the conditional clearing in
+>>> dma_buf_map_clear/iosys_map_clear(), the doc says: Clears all fields to
+>>> zero. If I zero the whole structure unconditionally this also keeps
+>>> UBSAN happy.
+> 
+> iomap_sys_clear() assumes that the instance is already initialized.
+> Hence, calling it at [1] with un-zeroed, stack-allocated memory operates
+> on undefined state.  It doesn't matter for the result, though.  I guess
+> the semantics of iosys_sys_clear() are not stellar.
 > 
 
-I see, that makes sense. Then something like the following instead?
+I did a quick look through the struct iosys_map users and found these
+using a stack allocated variable that has not been initialized:
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index d265a73313c9..ce0d89c49e42 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -627,12 +627,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
-        cancel_work_sync(&fb_helper->resume_work);
-        cancel_work_sync(&fb_helper->damage_work);
- 
--       info = fb_helper->fbdev;
--       if (info) {
--               if (info->cmap.len)
--                       fb_dealloc_cmap(&info->cmap);
--               framebuffer_release(info);
--       }
-        fb_helper->fbdev = NULL;
- 
-        mutex_lock(&kernel_fb_helper_lock);
-@@ -2111,7 +2105,11 @@ static void drm_fbdev_release(struct drm_fb_helper *fb_helper)
-  */
- static void drm_fbdev_fb_destroy(struct fb_info *info)
- {
-+       if (info->cmap.len)
-+               fb_dealloc_cmap(&info->cmap);
-+
-        drm_fbdev_release(info->par);
-+       framebuffer_release(info);
- }
- 
- static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+These call dma_buf_vmap() directly:
+drm_gem_cma_prime_import_sg_table_vmap
+igt_dmabuf_export_vmap
+igt_dmabuf_import_ownership
+igt_dmabuf_import
+etnaviv_gem_prime_vmap_impl
 
--- 
-Best regards,
+Ends up calling dma_buf_vmap() if the bo is imported:
+panfrost_perfcnt_enable_locked
+lima_sched_build_error_task_list
+tegra_bo_mmap
+mipi_dbi_fb_dirty
+mipi_dbi_buf_copy
+gud_prep_flush
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Ends up calling iosys_map_is_null() at least:
+ast_cursor_plane_init
 
+Ends up calling iosys_map_is_equal():
+ast_cursor_plane_destroy
+
+>>
+>> Thanks for debugging this problem. It's uninitialized and some of the
+>> internal helpers look at all planes, even if they are empty. I have a
+>> patchset to fix that throughout the DRM modules. I'll post on Monday.
+> 
+> I have posted that patchset at [2]. If you have the time, I'd appreciate
+> if you could give it a test run.
+> 
+
+I'll see if I can do that.
+
+Noralf.
+
+> Best regards
+> Thomas
+> 
+> [1]
+> https://elixir.bootlin.com/linux/v5.17.5/source/drivers/gpu/drm/drm_gem_framebuffer_helper.c#L348
+> 
+> [2]
+> https://lore.kernel.org/dri-devel/20220509081602.474-1-tzimmermann@suse.de/T/#t
+> 
+> 
+>>
+>> If we need a quick fix, we could do the zeroing everywhere.
+>>
+>> Best regards
+>> Thomas
+>>
+>>>
+>>> Noralf.
+>>>
+>>>>       void *vaddr, *buf;
+>>>>       size_t pitch, len;
+>>>>       int ret = 0;
+>>>> @@ -162,11 +162,11 @@ static int gud_prep_flush(struct gud_device
+>>>> *gdrm, struct drm_framebuffer *fb,
+>>>>       if (len > gdrm->bulk_len)
+>>>>           return -E2BIG;
+>>>> -    ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+>>>> +    ret = drm_gem_fb_vmap(fb, map);
+>>>>       if (ret)
+>>>>           return ret;
+>>>> -    vaddr = map.vaddr + fb->offsets[0];
+>>>> +    vaddr = map[0].vaddr + fb->offsets[0];
+>>>>       ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+>>>>       if (ret)
+>>>> @@ -225,7 +225,7 @@ static int gud_prep_flush(struct gud_device
+>>>> *gdrm, struct drm_framebuffer *fb,
+>>>>   end_cpu_access:
+>>>>       drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+>>>>   vunmap:
+>>>> -    drm_gem_shmem_vunmap(fb->obj[0], &map);
+>>>> +    drm_gem_fb_vunmap(fb, map);
+>>>>       return ret;
+>>>>   }
+>>
+> 
