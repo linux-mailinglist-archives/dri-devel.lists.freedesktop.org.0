@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88BC51FC11
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F130E51FC16
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E6A10EEE0;
-	Mon,  9 May 2022 12:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 445C510EEF8;
+	Mon,  9 May 2022 12:05:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 661BB10EEE0;
- Mon,  9 May 2022 12:04:44 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B0710EEF9;
+ Mon,  9 May 2022 12:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652097884; x=1683633884;
+ t=1652097903; x=1683633903;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kOyXWZinlsi4z3i9F7AOiRllbEsMh4HdMJuUcE6zefs=;
- b=ew+rAQZtegbzspzE1UIUmuZLFt1yelpd4wpJPkHC4U6wC0fKcj1PvD/D
- NUX3vlHkrk6SEIuEmIbLPKVy2xmQQHOfQsFZtlTxWUu5ORlfSPeJGi9wi
- eDhV8VseViAiCD3DoBtRXCo8J/gZX4/evp8DPvmiCHoSTRoe0hYtPitY5
- 3vIIXP3w0CklcFAhXn3RxANBfOMqi2VNok7OPXIKFGfCUI1MIi5M2iNw4
- nbeRwCh+psH2HBLIGo9NCqnr8/jyszB863FjVkddE5YFQKuE1/MtLD0JT
- Gas+zYKpbr6IR/hubZdWCrCKRQdj9bh6ViiecUGSuAfW5uHckx7YyxgRQ Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="256563815"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="256563815"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:04:43 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="550993103"
+ bh=y6527320DXjS/K1KKLYGDj1NI6tuGeHfVEt42F+CDNA=;
+ b=Z9JQvEML/C/E4FjJC6HLEd0HMC8pe/olQW0tHJbhvyhp3jOdROc9CWO8
+ MGuTVj1roM3hZADQrbZOLe+ESUu14l8wCg3biabaTQ+n7R0AzM0IF3Svy
+ 6ugVrPrIW5pQjRr719Iq7T/o4sB+GD6F79c76B+X1VIoHTGuxQks0sBID
+ +Yv9/ppsW5yMoJGLkgASGUp5HasK32yZizFrvJQdAxajxJxcu9Rip5GOw
+ iKNnMOc2d93cebod+c9QUT3QSQNdet/pBx8wATEiTSPnP1dslzuJQx/T7
+ VYZxr+HlyuFFdyg8ix5Ofs4b+CDjEh3elb5LDBmhJv2g3ruxWpoJYXkUV A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="251074466"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="251074466"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:04:48 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="601935460"
 Received: from csawicki-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.129.3])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:04:41 -0700
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:04:46 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 14/25] drm/edid: convert mode_in_range() and
- drm_monitor_supports_rb() to drm_edid
-Date: Mon,  9 May 2022 15:03:13 +0300
-Message-Id: <aac7dd14ce8c266491e9dfae12cad00fecdcd2e3.1652097712.git.jani.nikula@intel.com>
+Subject: [PATCH v2 15/25] drm/edid: convert get_monitor_name() to drm_edid
+Date: Mon,  9 May 2022 15:03:14 +0300
+Message-Id: <c940aad14f323ef3a7907a0fb534011deb1589a9.1652097712.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1652097712.git.jani.nikula@intel.com>
 References: <cover.1652097712.git.jani.nikula@intel.com>
@@ -64,105 +63,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 We'll need to propagate drm_edid everywhere.
 
+v2: Drop incorrect NULL name check (Dan Carpenter)
+
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index bea8f33c58ad..364949e146a9 100644
+index 364949e146a9..e3ff0f31a614 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2645,16 +2645,16 @@ is_rb(const struct detailed_timing *descriptor, void *data)
- 
- /* EDID 1.4 defines this explicitly.  For EDID 1.3, we guess, badly. */
- static bool
--drm_monitor_supports_rb(const struct edid *edid)
-+drm_monitor_supports_rb(const struct drm_edid *drm_edid)
- {
--	if (edid->revision >= 4) {
-+	if (drm_edid->edid->revision >= 4) {
- 		bool ret = false;
- 
--		drm_for_each_detailed_block(edid, is_rb, &ret);
-+		drm_for_each_detailed_block(drm_edid->edid, is_rb, &ret);
- 		return ret;
- 	}
- 
--	return ((edid->input & DRM_EDID_INPUT_DIGITAL) != 0);
-+	return ((drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL) != 0);
+@@ -4830,15 +4830,15 @@ monitor_name(const struct detailed_timing *timing, void *data)
+ 	*res = timing->data.other_data.data.str.str;
  }
  
- static void
-@@ -2838,7 +2838,7 @@ static struct drm_display_mode *drm_mode_std(struct drm_connector *connector,
- 	}
- 
- 	/* check whether it can be found in default mode table */
--	if (drm_monitor_supports_rb(drm_edid->edid)) {
-+	if (drm_monitor_supports_rb(drm_edid)) {
- 		mode = drm_mode_find_dmt(dev, hsize, vsize, vrefresh_rate,
- 					 true);
- 		if (mode)
-@@ -3077,10 +3077,11 @@ range_pixel_clock(const struct edid *edid, const u8 *t)
- 	return t[9] * 10000 + 5001;
- }
- 
--static bool
--mode_in_range(const struct drm_display_mode *mode, const struct edid *edid,
--	      const struct detailed_timing *timing)
-+static bool mode_in_range(const struct drm_display_mode *mode,
-+			  const struct drm_edid *drm_edid,
-+			  const struct detailed_timing *timing)
+-static int get_monitor_name(const struct edid *edid, char name[13])
++static int get_monitor_name(const struct drm_edid *drm_edid, char name[13])
  {
-+	const struct edid *edid = drm_edid->edid;
- 	u32 max_clock;
- 	const u8 *t = (const u8 *)timing;
+ 	const char *edid_name = NULL;
+ 	int mnl;
  
-@@ -3099,7 +3100,7 @@ mode_in_range(const struct drm_display_mode *mode, const struct edid *edid,
- 		if (t[13] && mode->hdisplay > 8 * (t[13] + (256 * (t[12]&0x3))))
- 			return false;
+-	if (!edid || !name)
++	if (!drm_edid || !name)
+ 		return 0;
  
--	if (mode_is_rb(mode) && !drm_monitor_supports_rb(edid))
-+	if (mode_is_rb(mode) && !drm_monitor_supports_rb(drm_edid))
- 		return false;
+-	drm_for_each_detailed_block(edid, monitor_name, &edid_name);
++	drm_for_each_detailed_block(drm_edid->edid, monitor_name, &edid_name);
+ 	for (mnl = 0; edid_name && mnl < 13; mnl++) {
+ 		if (edid_name[mnl] == 0x0a)
+ 			break;
+@@ -4858,14 +4858,22 @@ static int get_monitor_name(const struct edid *edid, char name[13])
+  */
+ void drm_edid_get_monitor_name(const struct edid *edid, char *name, int bufsize)
+ {
+-	int name_length;
+-	char buf[13];
++	int name_length = 0;
  
- 	return true;
-@@ -3132,7 +3133,7 @@ static int drm_dmt_modes_for_range(struct drm_connector *connector,
- 	struct drm_device *dev = connector->dev;
+ 	if (bufsize <= 0)
+ 		return;
  
- 	for (i = 0; i < ARRAY_SIZE(drm_dmt_modes); i++) {
--		if (mode_in_range(drm_dmt_modes + i, drm_edid->edid, timing) &&
-+		if (mode_in_range(drm_dmt_modes + i, drm_edid, timing) &&
- 		    valid_inferred_mode(connector, drm_dmt_modes + i)) {
- 			newmode = drm_mode_duplicate(dev, &drm_dmt_modes[i]);
- 			if (newmode) {
-@@ -3174,7 +3175,7 @@ static int drm_gtf_modes_for_range(struct drm_connector *connector,
- 			return modes;
+-	name_length = min(get_monitor_name(edid, buf), bufsize - 1);
+-	memcpy(name, buf, name_length);
++	if (edid) {
++		char buf[13];
++		struct drm_edid drm_edid = {
++			.edid = edid,
++			.size = edid_size(edid),
++		};
++
++		name_length = min(get_monitor_name(&drm_edid, buf), bufsize - 1);
++		memcpy(name, buf, name_length);
++	}
++
+ 	name[name_length] = '\0';
+ }
+ EXPORT_SYMBOL(drm_edid_get_monitor_name);
+@@ -4905,7 +4913,7 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	if (!drm_edid)
+ 		return;
  
- 		drm_mode_fixup_1366x768(newmode);
--		if (!mode_in_range(newmode, drm_edid->edid, timing) ||
-+		if (!mode_in_range(newmode, drm_edid, timing) ||
- 		    !valid_inferred_mode(connector, newmode)) {
- 			drm_mode_destroy(dev, newmode);
- 			continue;
-@@ -3194,7 +3195,7 @@ static int drm_cvt_modes_for_range(struct drm_connector *connector,
- 	int i, modes = 0;
- 	struct drm_display_mode *newmode;
- 	struct drm_device *dev = connector->dev;
--	bool rb = drm_monitor_supports_rb(drm_edid->edid);
-+	bool rb = drm_monitor_supports_rb(drm_edid);
+-	mnl = get_monitor_name(drm_edid->edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
++	mnl = get_monitor_name(drm_edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
+ 	DRM_DEBUG_KMS("ELD monitor %s\n", &eld[DRM_ELD_MONITOR_NAME_STRING]);
  
- 	for (i = 0; i < ARRAY_SIZE(extra_modes); i++) {
- 		const struct minimode *m = &extra_modes[i];
-@@ -3204,7 +3205,7 @@ static int drm_cvt_modes_for_range(struct drm_connector *connector,
- 			return modes;
- 
- 		drm_mode_fixup_1366x768(newmode);
--		if (!mode_in_range(newmode, drm_edid->edid, timing) ||
-+		if (!mode_in_range(newmode, drm_edid, timing) ||
- 		    !valid_inferred_mode(connector, newmode)) {
- 			drm_mode_destroy(dev, newmode);
- 			continue;
+ 	eld[DRM_ELD_CEA_EDID_VER_MNL] = info->cea_rev << DRM_ELD_CEA_EDID_VER_SHIFT;
 -- 
 2.30.2
 
