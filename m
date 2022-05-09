@@ -2,154 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A517A520064
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 16:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5E1520097
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 17:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A88D10F1C8;
-	Mon,  9 May 2022 14:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9D7C10F217;
+	Mon,  9 May 2022 15:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 430C510F1C8
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 14:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652108191; x=1683644191;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=31R3RkSDML7s+wze/ImFmkHlM+4bq7Pfsi18f4WVb20=;
- b=BAIoqaRAh3BhgdWqzLm6/6GNuSr4iPzKetwaTYHCRu1pzn33SuI/qNWJ
- JDAiJaDva9254VQ2pyRGZGJ646XwNpNBC61bcqdvmMbOZTFyt6x2vCB+3
- q2eVNSZK/1a8OiiNw3PUpogkfM6oeYLgz1Y8JE2rmLUkhLLnprlEKFPV5
- REvtXi2frjVxN3erGwqtx74SUsbJdRyhCz6/eaoPhifIjNx1+W9hVNYrq
- 9nSksnFxCuCFgqIBNY51b5gsWRhfuV9dOMEsGVyQBScryW/S3cQHTgby6
- QeiQ861HQ4+8Xb3fkCEGgXCmbRdW89u1pGuiVYsgy9kao+McFEpp+t9Ll A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="269004119"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="269004119"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 07:56:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="592616370"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by orsmga008.jf.intel.com with ESMTP; 09 May 2022 07:56:30 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 9 May 2022 07:56:29 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 9 May 2022 07:56:29 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.46) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 9 May 2022 07:56:29 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4E0C10F215;
+ Mon,  9 May 2022 15:01:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HcNA07MeFHBpsr0YzWpol46ZDFO6KfmLyHUI8fsKvKIgTK9X6mUilIFWi8dZGN0IWEE7t2GO+vhgYN5aE+S7884DaWfGWNKaJWXdC4ixxzrmsTDmYCT2efM8Ip5EjZxyojrCirvMu1KCnJFAPR2/HhvwH59TkRzbLw82Nx27XGKQ8pcHFGDJ5FzhBcMy+m7mLrLvRKul7aHt0uIJwGHHu6vf0QJtgveMyfisZ3JclJgCGEBO52HmJhHrS8InQQH/A1o9Ul9cgWONtW3n5m5JLPknIeEraIsHN3r6ulDH9NCbnuR3W2x3Bz/71PD+4kFbMX4oYgk6offxAHWHEl21vg==
+ b=FKi/ecfiOB4JlMeWiCejLUAiB6GYT5Lb7S0H5pPfQaR9vZq4kW35cOnP02ex7IkX6/D2gSOrvBslpyEaaXid4HrJyrEmlmyQjrmBndJd/RSWww93llRFz47q4/ikKEuboZ/HyyrvAa/7aXRPupPaUQ++UY04S/yxcxlNNwkYBl8bR1cWBIweVL5L29lFBr7Gl1O/MLYzYj4W/uTZx77rU4ltH0AJzGtjzXlsUK1O2ygN5kKMtN+MBPfmnutIsl3AbHDHljdnoKVata64OXYn/AaDuyWR/opaNdmv71PB2lnedXy1o9UsbkuyRYsC2Qv5mDfUHMm0mO5SCToVQt6PAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SR+iUVOqBae8sr5JYxKNBeBEm1Adkj8U63qKO8G6DOw=;
- b=S/6q21QxnF/h2tEP119eMdZI1CidjmwVXqg1vCo/GAGJqtXcI9baYKNqi7JalDeb0OEkSy1QfJp98R31gWnNpuAaQEDFQo4JzsH6Uw6Gzbq+q9/JBjLSA+O3D1F9Quyx2PRLb8IGuR3TNFDg9v2zRYYKqy/pSCbU0LSrrl0qbXuE7+JIKprCJuTpLn0BhSh8BdPIipb9BZ/6yr5Jc0N9+ytAi1OWT7vjK2fj8NS4iPiY30wGT2eo5p6D8uVVxB2hbAzI1PpGUcdoK8G/ZmvVtttijD15nPLcwK6QOlri5UwWGhD2aHV6S7+E7MZvgMpXyKNRZYQeSvKq8fJMf2imbw==
+ bh=fvyfppx+WwM6J+e8adY+tBmFeZtwlh50CJmn1hTGamU=;
+ b=SlpArk4L4K2SYx9r1QRsjkqFRcgU8aEzGXvdWvBqyftyaI03vMxrrG65EmV4951dh0/yHbt+CXGglInhSCGPdqCIYgGKZhwZ3X17H52eZi95eyMAsCtld65ZnSU0iOmpl19uNWOH7OBQjYHs9vz/GwZtJpHpqbivFTZTaMXb9NarYdr3Q3P/S7IkDrCgu3av0QdZF4t8PWl4q/vzWDWjyTJ29tv8ng9yHYEhXaeVkZoVGs8FcmAHIoDxeaHZmccofm5WOIYRTEFeZ8BCP8SIqqVCB4DQ1Nzok1qIqsDz+wSyt0Nc5reAXr02kHx8Yw+2IVI953q6rIno36oPFYtvYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fvyfppx+WwM6J+e8adY+tBmFeZtwlh50CJmn1hTGamU=;
+ b=3fDQPcqq6S0zwa27XvmP4YOCT5L4kRN9g3+q6oP+XsN2/Lr4LpLoMLUN+0ZCutd8A/QfGHP9kum0i7prRFy2eOj1T/elTGz0ytzgbv/i2pa1jqsWfxypZLW82P591fb2zQot6Bpl1QYLRiHVgPBe7P7jyW7zc5Dw+ySRa9ozdAs=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- BN9PR11MB5356.namprd11.prod.outlook.com (2603:10b6:408:11d::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Mon, 9 May
- 2022 14:56:28 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::b1fa:393c:9fb6:6871]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::b1fa:393c:9fb6:6871%5]) with mapi id 15.20.5227.022; Mon, 9 May 2022
- 14:56:28 +0000
-Message-ID: <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
-Date: Mon, 9 May 2022 16:56:23 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.8.1
-Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
- fb_release()
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5227.22; Mon, 9 May 2022 15:01:38 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::fdba:2c6c:b9ab:38f]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::fdba:2c6c:b9ab:38f%4]) with mapi id 15.20.5227.023; Mon, 9 May 2022
+ 15:01:38 +0000
+Message-ID: <639687d0-ee0c-975a-93c0-b54422c74719@amd.com>
+Date: Mon, 9 May 2022 17:01:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
 Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- <linux-kernel@vger.kernel.org>
-References: <20220505215947.364694-1-javierm@redhat.com>
- <20220505220413.365977-1-javierm@redhat.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220505220413.365977-1-javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0085.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:190::18) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20220504074739.2231-1-christian.koenig@amd.com>
+ <20220504074739.2231-2-christian.koenig@amd.com>
+ <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM6P193CA0078.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:209:88::19) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d78f92dc-5226-4f30-fcd4-08da31cc1865
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5356:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR11MB535643532FB9E3D586EEA0C5EBC69@BN9PR11MB5356.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 402d7975-1283-45a5-dceb-08da31ccd143
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1355:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB135558E7DA5B1E2674F1ED2B83C69@DM5PR12MB1355.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZedM0L5nTDCp4ZhVwc5XiaQ3QoaPDZLFt2P6bZ5XxYtAHcrpftC21irryAj+77AQzF6xcKJr2hdga3/Qlv4CBRyFIYK6+Se6JtYpMDM+sFEMRWri6EnXhVyAf0YL2joOQrAv16cPG9vudrA+eY0Xc1KexZxe/1xRGAOf78PaSE3KA2I0tmagzd8d/PpG0jvH0ca++iIUqt/pMBavupuOzqWxRR0/P2TyAmO3tP0cKId4zV4FTwIyz1FvW3j9pXVXtHxe5sHcDq6wme0rcSCykeywPFY4KUGDJDFu1RXDXI6VENyB6LY9sOUbOkhk8pEkTa4tvGH29+RA8pI+AQ0y4GX5180xcplC2lPxybabJtWnyIwwxA78iBkRl6sUdnZ1j4L51Zo429jRT21asM58iA+l2pKyF6DAFCrPoZdiwk3y2SFN+TWuURjtbOYI2PczmpZNzssiJveNNCQ43jHNBFbFTd8PL/RiXzhOseBYcixFoE/7YQ2sn9W/1lFzgF/DJw/Jts3RnEMRVy5ncIztv5vvktJ56kyk6Gtw33y5oY//Ey8krm2Lr9cHOf3Yct/iHFcYVXb2UKByMRbqMIgvsQvv6a4Cp9dO6MsiMq3gqYRpgoej4KW1V2deJa3EHnrw7r1w3oCwOhlazJdwFI/7z5aShC2/QWSVta4QaKDYoNg6owUhVFpL8o2qvw4cIJfusf7Fm+lIuAmS0OVK3huIEj2JXmkpret48QMwhY1nEDw=
+X-Microsoft-Antispam-Message-Info: pfWXvCS9eooAsWNpZGBTYRR90VPgBxtyt/a2rGgMUXMMm7h1NIU4Sj4hpCVRfgDbJcK+4/MbcpN56cJ3A3dmSfD0KGj3reExtluZSYmiY8MfoDU0WxasLAH35JIC+J/AD7QmDWCk2y75e74i+pex/4PuBqzjppZ80pYw/tAAZt5h1T3N2Be5e2aYsNGjMUSQ7QxtIk+l52W+JXro72TLD7RrI2mcP4LA0DuZw+dnXX+Ys+dk9UAWMcPgvBwFuzr7VX8L1Cx5Gpaj4xYaoXJ99D2TgCbjsuZUZQXevfLyZ/+MUHST8bK0erWra3ShTpbORIXHcHdS2TwRGuKaDsfID/95wr8xV6VHkSV+Yf96C4Cbdl/sLCKHD9DIRSPriyCZDiKbvDvTERt+VRFZORkv2hAuLwcmRmglBkNwqOkUf3K/7c5GVPxskAz+b+wuEbLXbe9KXN7AsfyzOlj08eW3HeLnYh56Ni+QKCzUC8gX6dQBeSkLWW9tVvWBrZMBR9p3v5hhkuxQlHU1mi1/lpjvTHQckhnqXg38wFUUg0Oqh1Z52GTfuBfVTwgWNhX6xrfPOkBHTdQBXo61H1PVZZpCsdGZSKC10cGwWnyhdFWZqtP+pVbmcKaq9WTd7yfkC0SaP4D0IWzwtOrxWrMpA5UbmLjUYnzwHRAP7Kn6cqBPG3Jua6/pNtGhZYA3Kn48npIYegPNezkAmc1t93Pwt6l5nlpY99+GiK7OB5CzCeQ3X3A=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6512007)(26005)(107886003)(2616005)(186003)(4326008)(31686004)(66476007)(66556008)(8676002)(66946007)(44832011)(54906003)(5660300002)(36756003)(2906002)(316002)(38100700002)(508600001)(6666004)(36916002)(6486002)(31696002)(86362001)(53546011)(6506007)(8936002)(82960400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXNnRXU2eTZaR3ZxMzhZR25xQjlIWlk0VC9leVd3UVlsbmtCbUFtTWNEMStW?=
- =?utf-8?B?b3ZBOVVKMXhsdTZmQnJRa0RoMjdaNlgxbE83ek5SR09mOVNjL1NIL2pMdlJK?=
- =?utf-8?B?YXJmOGJLeEJZdndLb0c0dkVxTDNlUVZicUo4ckpweU5XalNNbDFma1UvWWl2?=
- =?utf-8?B?ZlY1a0hJNVJ1bzNrRWVIdUhjTXRobTlwTzZRRVlVYW5scEhsNDFuTmVlQXVS?=
- =?utf-8?B?RG9rQlVMUG44UVNwVGtMVjE5TTNidDJibHI4RlNYVytIcm5LK2NkZXo2ajFB?=
- =?utf-8?B?RDZvUVJ5dGFrZUx6Nk5VUFA4bmY2VGQweEN0Qzg5K1RjZzU0U0tpS2R2cFJm?=
- =?utf-8?B?THhkRExRZEllS1MzUmpoR2ZMaWRxR3l1UVlWalYxU1J2MS9jYThaczY2NnQx?=
- =?utf-8?B?SmdIdEZ2U2VzRGppaldqYUJjSm5PQ2tVekMzcEFCOWZqQ2pJeS9KL2NZSGR3?=
- =?utf-8?B?bjFMRTliYkpYS3YrMkVDaHByNERnN0JNeGVrNUZqZWhVSlUvNEdoTXB0K2tB?=
- =?utf-8?B?NFpveThPc3I1WUdNZXhMWnpFY1pJMkxsVUE3K2Q5MzBSUmZ2bjBrdEZZVTh4?=
- =?utf-8?B?a2QyRGV0NEdTTzRsTG9jcHg3UE9SUFRHQWlvYkFDdXA2amR5UWRrcmlUSHFK?=
- =?utf-8?B?TWNwVVl6SnV2Nkw1SHlXRWZCbFo1U3NHbkNjWWZqMGVTRXJ6cHhnUFcva0M5?=
- =?utf-8?B?STZSMmFYclgyakc0a3dHRnZRQ2E0aUp6dnZZTjAvRW8ya3hlLzhJR25POEZz?=
- =?utf-8?B?dUM3aUlPUXJaOWd3VVB5dzUzVjBNZmxoZHdWc3diWndSNTNOeXMwYzZNTFZ5?=
- =?utf-8?B?RTVkV3A1SW9RaUhpVWYrUnZNVWx4YUJFZlBUbUFOTENPVGRvMDJ2cklCVTVa?=
- =?utf-8?B?THBqWlZwakxDY2xJVVczWmNzR1l6RWQ3UDNWelpFZk93Rm1YaFluc0hQNlQv?=
- =?utf-8?B?REFxeVRUTHNMekU2aFBSSUxFNmFST1NMekFLODE2SVVGQTJPeEFXL1NSZ1ZR?=
- =?utf-8?B?d2hZVHA1aldaRGl4S3pDTVNvOEY0dHRTWjZMcUJqeUZxTStneHIycXpJNWd1?=
- =?utf-8?B?QkVtU1JidlZaRDB6eU9EdEhrNGVoazNSVXAzNWJzcDgrbFE1YWR2QzB6bzh2?=
- =?utf-8?B?anFSTXh5K2dpOGxjemwvYzRDV3Y3a0FQVkgvblJLYngzYzVNdnNvdVBaT2xH?=
- =?utf-8?B?cTVua0xHdGNaTnZFdWdDeUh6N3NiTjRldEdBVEhvcmd0SWFtcXhDNUxrMVls?=
- =?utf-8?B?Z0xzaVkzMGZidFdDcTh1V2VubktXblhjRXZCRSt5UlAvQ3BXb3YxY1lvejdI?=
- =?utf-8?B?Rmc0ZHJmUEJ4ZVFZYUx1eHUvWFhnTXU3V2ROVG9SQTdWaVBNd3M3SHlHZXg3?=
- =?utf-8?B?TVdKSjJnZk9mcGtWMEl4ZldjeHV4aFlwK3QrWWs2VjF3b0hYRkRBOHR1YjdT?=
- =?utf-8?B?ZDk4UEgva3dxY1hFOE03cTQ0cmxISUFwWnFMRlBDSGZnRlVnSyt3SU5hTk1T?=
- =?utf-8?B?U2hJWmx3b1VtMUsyV3Q5dHFLaUNvaHkzdGFDVHE3OXljVWU1Vnd5L0l3elN5?=
- =?utf-8?B?U28vU21sdThUd1FFc0dOMXV5d1BmT0loc2VSb0JqT21zRmlzYWxnSlJ4N1Q2?=
- =?utf-8?B?OHlvaUgwZi9mRnBPTHhBb2RKSmwzallQV3JveUZRN0JvN3F5cExXTWIyWHdR?=
- =?utf-8?B?ZEtFNmp2TG9TN3RqVGtndDhwS0hGYVBRelU0dTFhaEdwNkVKY2xnVCs1WGhi?=
- =?utf-8?B?Y1RFbElYbys0WU9yTVQ1VTNpVVdyWkl5L2FLUG5RZ05wY1VmNkpBbEhYTURL?=
- =?utf-8?B?cUd6Zk04TG9XWnZYcXFIOUNKUnRQZWdxZHF6TWVsa3JSVzMwbFNhaU9OMGVF?=
- =?utf-8?B?bnVCWE5OazAzSFlMOUpnQ2dGd0F4cmlpbm43WjlMa21rbkpGdTVlQlo4TElt?=
- =?utf-8?B?Z1hUd3E0TWMxMFNYSmp3eU12STJ6K3Fxd1hpZWsrSjJ2emZ5bElwYUNpRzZ3?=
- =?utf-8?B?WFZGcS9HQytkSGRXVUtkQWRFeWJIeGhicWdha1krY29UZG8yalE0S3BoQWNy?=
- =?utf-8?B?WjdQK3RLS1VBZDc0bm9NcGpNNGxPS2M1UGtaTmhleEJ3Y09kbG9Jb1gvNHpo?=
- =?utf-8?B?SkxwSkx5K0JSMUNOSU1xSFcxSU96UVFQSTBmdWNkcXVTbm9nTFl4OXhidkpj?=
- =?utf-8?B?Sldmc3kwMUIwRFlkbU12MUpKMnFFN1lsWjZUMnFJUVR0RmlSVXI0SUgrTVBE?=
- =?utf-8?B?eWJ5WEdlS3NNU3VCVlk5S01lcmhaMGdYZXpLbWRtYXI3VHVKellvMkpuVkNO?=
- =?utf-8?B?N016SHNha09pdzJMMDVibS8zNGxGRHF2a3VXU25jSVc0VEFwY0YwSDdKRzBm?=
- =?utf-8?Q?/HOwpXXtOt33I2Bk=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d78f92dc-5226-4f30-fcd4-08da31cc1865
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2616005)(6512007)(66574015)(5660300002)(38100700002)(31686004)(8676002)(4326008)(36756003)(186003)(66556008)(110136005)(66946007)(66476007)(316002)(508600001)(31696002)(86362001)(6506007)(6666004)(2906002)(6486002)(8936002)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3dZL0N0Tmt5ZVcwMnV3M0FTRERUdXE0UWx3ODR0UXRaSGVFVVR0Vzhhdlda?=
+ =?utf-8?B?R3hkeXMwcVNNS3ZhditIUkt2eUZ4c1gwZnhUYW9RamxQcFgwQjBacjl0WXpM?=
+ =?utf-8?B?cnJ6K1J2a2dhZEtqKzVnakRCQ0NLbmNIZWlvMEMzaFg1MWFEZ0RTL0xCMXNz?=
+ =?utf-8?B?c1JiME5EUStDNmxtb0lyRFg1ei9PZGJBeFlPWjV2aDR3YmtKSDlIZStxcHY0?=
+ =?utf-8?B?SXBWSGVFSG5CVjc4aldubnpNZzhhN3IvRWtKdFpHSnNsL2svWUdHUkFXTkV3?=
+ =?utf-8?B?N1p2WFpadnlVOVd1Vm1oR1J6d0xTL1prWk5tYkc1MnpHV0VZdmNoMzhGVzNK?=
+ =?utf-8?B?L2xCMHA5VG9SMzdhM01zK01FYUhkWGVaNjM1NGVJNEdHOTlkWXIzL2RYbEE2?=
+ =?utf-8?B?eklGNXJPWEhVQll5SFYycnpYOWRmY29xaWx3eHo1cDRicU92ZnBtNytjWFRo?=
+ =?utf-8?B?YjJjckVPYStibTVFU2xET1JJZlh5QkVVaHpyS2VJTWFaajZlMXd6WitSRWFJ?=
+ =?utf-8?B?VU5rNmtFbWtYVmtwZE0xR0ZtV3BxbU5WbXQ4OGVydkR2bjlvQVJUUEJYTmQ3?=
+ =?utf-8?B?cjQ0V2dUT3IwTXprU0ZIL1k3T2FlZGhoSVlpYUZrNDJUVGV0NW10V3k1RTE1?=
+ =?utf-8?B?RDYyWlRuSUFPYTRJaDVxTVg2UktHTzdBd2ZERnNTOUFUbW0yUi9GaS94eVdW?=
+ =?utf-8?B?Tkk1UEVXVXpLdys1dUdGUHB1MldRQ1VMR0RwenlMcVVZYmRhM1ZGSm4rT0pz?=
+ =?utf-8?B?YlR2SXUveHBidW84cnVWY3MwVzRlQmxhZ0U3OVcvSmxvaGFjMzZnR3lHaFNO?=
+ =?utf-8?B?ZWNxVCt5VmN6eU9lcWxxNzNrblpFOGlTT2dCcGR3YmVLQ21kL0hZT0xUVEF3?=
+ =?utf-8?B?RDVsUkE5Y0tETzRzVzJZSXNQMVV3Tk4rRzk2Z3FSL3JYUmNWNzA4c3AwdUxi?=
+ =?utf-8?B?VmNrS20wczFnekV5d2hvSGtCOFFzNm4vRzByZkZoZGNvdUdnT2lTSWpHTXlZ?=
+ =?utf-8?B?ZDFpNFN5WjVXR0s5T21zZE00Z0FMSVNFeVB2Zi9renhhWFRKRU1rVTQwTjZu?=
+ =?utf-8?B?UnlHRWVRaVk2LyszbWVCNlpHY2NzcDlIMmNEcGJCK3NBWkpSRmRQbDgrZ0k3?=
+ =?utf-8?B?SGJzbHRoRk9mREJaTEpiRTg0Sm9FTWt2Mzh3dUNSNkNjUVNuTEtxS0Rqdmpk?=
+ =?utf-8?B?ZVJGS2ZxSXdkdFRFS21tWTk4M2p0Um5CTHowb1JhWGdOcmd0RzQ1bElMdUxo?=
+ =?utf-8?B?UGV0R0JDMEg5VElMNkNJVEx0SFY0M3FjK1YyQm1VTVpQRzdNZ1FLb0pDWmdC?=
+ =?utf-8?B?VmxyLzVnLzVnN3YwSEgxeVlRb1hSbFNBMUlZMThnbU4vQkRVSk1MSkVyZ3pN?=
+ =?utf-8?B?djBIOUlzUWFqekFHbUdLSzZnRnUweWhnRWdld0M4eGVwcG5oNFpTeVJGcjBW?=
+ =?utf-8?B?S1VlaWtFT3FOQ3dicGxsMGJYN1dQMjQvZlVGZzlLNDlDbFJZaHYvUDQrcjE3?=
+ =?utf-8?B?cEVGWEpSUTlIRHJsaXBxOEJybDQ5NEV2L1RlQVNIbDZqMFZxeU1CWVhPVWJq?=
+ =?utf-8?B?c0wwcHhBUThlY1Nob292dkxXL0lLeEVXdmpJZ21RT3lUbGpoRkZGSENweW5C?=
+ =?utf-8?B?M0F6QURtZmZqSHBIRUlNME04QVNnM3RBdFBPMzE3bGEwM2lkeml2bGpSaHBr?=
+ =?utf-8?B?Wlc4VzdYQTk4UlhIMzF5TTJzRVZmRFRFWngxWmV0WFVEM2g4QmlYdnZ3b3d6?=
+ =?utf-8?B?U1hONFl2TzZKMzkvai93b3hFMUVkWncxV0Vtc0owNDAweGw5VXdaT3FVaUhX?=
+ =?utf-8?B?VFh4K2p3SmM2MkQ2dVAyb2d4ajVkOVpGak9neURSQy80WDNlcmdPUkJTTmJr?=
+ =?utf-8?B?OUVXTTVFY1Noa3M4Wmg5Rmp2b3hmV1BHQUFrT2RsaFZaZjFyM2JYTVdTS1FQ?=
+ =?utf-8?B?OGRiYVdEamtzRjIxQWJnM2U1TEFuelU0MHFyRHhMZDRjNWFQS3F6Q3N2bGR0?=
+ =?utf-8?B?bm1TUEJyMmNyRlZDdXRtalhlVWsvdmMwaE9QVk5nMHc5ZG9Pa1dVbVVRNkJu?=
+ =?utf-8?B?V0hDUVdTa1A2Q1Z0ZTFrS0twN2ZneVhvRHhsRTNRVUVoVEsxMGJXejEwMFpZ?=
+ =?utf-8?B?SDNTRHlDNzVPeWlxQkxrdmxGMitqSlJvREFpZ09ra084K01sM2pNQVpLUUlT?=
+ =?utf-8?B?VTVPT2V6U2hPWEUrcXZyVUxoY1NlczZBcFVjMlJ6RTZOZFJNaHlPaldubTVI?=
+ =?utf-8?B?eExpZGN1dk04alE1aEFrUGorZFdRRWN4VUdiWVNiQm8rQUxUaVNEUTRUMHZY?=
+ =?utf-8?B?VHNGN0xpME01V2tGMWQ0U3RtcjZTSDMzc05UN1hoc2dDV0IzUWtyODIvTGFS?=
+ =?utf-8?Q?BrpYnlhKPnPpiiReRA7OgUzwnFJUqFabqGa1IGP6g3fl+?=
+X-MS-Exchange-AntiSpam-MessageData-1: OtI10rarkVdkyw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 402d7975-1283-45a5-dceb-08da31ccd143
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 14:56:28.1741 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 15:01:38.2040 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jPcTPPRb8m1EEsdQ7IMpTxg5u+M8NCIymFOAlg/jEQ2ByezU+XpC/QqNY/9GGpfxhtbZdkfRs7vSuhcQDmpSXA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5356
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: x/+J6/tOSlj2pAKE29iJ7n3mSNOSR3Byus/wuBTmJycz2yu3szhB0ENskrb8Ropb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1355
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,58 +133,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.05.2022 00:04, Javier Martinez Canillas wrote:
-> From: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> Most fbdev drivers have issues with the fb_info lifetime, because call to
-> framebuffer_release() from their driver's .remove callback, rather than
-> doing from fbops.fb_destroy callback.
-> 
-> Doing that will destroy the fb_info too early, while references to it may
-> still exist, leading to a use-after-free error.
-> 
-> To prevent this, check the fb_info reference counter when attempting to
-> kfree the data structure in framebuffer_release(). That will leak it but
-> at least will prevent the mentioned error.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
-> 
-> (no changes since v1)
-> 
->   drivers/video/fbdev/core/fbsysfs.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-> index 8c1ee9ecec3d..c2a60b187467 100644
-> --- a/drivers/video/fbdev/core/fbsysfs.c
-> +++ b/drivers/video/fbdev/core/fbsysfs.c
-> @@ -80,6 +80,10 @@ void framebuffer_release(struct fb_info *info)
->   {
->   	if (!info)
->   		return;
-> +
-> +	if (WARN_ON(refcount_read(&info->count)))
-> +		return;
-> +
+Am 09.05.22 um 16:31 schrieb Daniel Vetter:
+> On Wed, May 04, 2022 at 09:47:32AM +0200, Christian König wrote:
+>> [SNIP]
+>> +/* Make sure we have enough room and add an object the container */
+>> +static int drm_exec_objects_add(struct drm_exec_objects *container,
+>> +				struct drm_gem_object *obj)
+>> +{
+>> +	if (unlikely(container->num_objects == container->max_objects)) {
+>> +		size_t size = container->max_objects * sizeof(void *);
+>> +		void *tmp;
+>> +
+>> +		tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
+>> +				GFP_KERNEL);
+>> +		if (!tmp)
+>> +			return -ENOMEM;
+>> +
+>> +		container->objects = tmp;
+>> +		container->max_objects += PAGE_SIZE / sizeof(void *);
+> Might be worth it to inquire the actual allocation size here, since if
+> it's kmalloc the generic buckets only cover doubling of sizes, so once
+> it's big it goes up a lot quicker than PAGE_SIZE.
+>
+> But also krealloc checks this internally already so maybe better to not
+> break the abstraction.
 
-Regarding drm:
-What about drm_fb_helper_fini? It calls also framebuffer_release and is 
-called often from _remove paths (checked intel/radeon/nouveau). I guess 
-it should be fixed as well. Do you plan to fix it?
+How can I actually do this? ksize() only works with kmalloc().
 
+Or do we had a function to figure out if vmalloc or kmalloc was used by 
+kvrealloc()?
 
-Regarding fb drivers, just for stats:
-git grep -p framebuffer_release | grep _remove | wc -l
-Suggests there is at least 70 incorrect users of this :)
+>> [SNIP]
+>> +/**
+>> + * drm_exec_cleanup - cleanup when contention is detected
+>> + * @exec: the drm_exec object to cleanup
+>> + *
+>> + * Cleanup the current state and return true if we should stay inside the retry
+>> + * loop, false if there wasn't any contention detected and we can keep the
+>> + * objects locked.
+>> + */
+>> +bool drm_exec_cleanup(struct drm_exec *exec)
+>> +{
+>> +	if (likely(!exec->contended)) {
+>> +		ww_acquire_done(&exec->ticket);
+>> +		return false;
+>> +	}
+>> +
+>> +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
+>> +		exec->contended = NULL;
+>> +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
+> Not sure why this is here instead of in _init()? I thought you're playing
+> some really dangerous tricks with re-initting the acquire ctx, which would
+> at least be questionable, but does not look like that.
 
-Regards
-Andrzej
+That was my initial design, but the problem with this approach is that 
+all locks taken between drm_exec_init() and the loop suddenly have a 
+lockdep dependency on reservation_ww_class. And that in turn goes boom 
+immediately.
+
+Took me a moment to realize what's wrong with that as well.
+
+> [SNIP]
+> +/**
+> + * drm_exec_has_duplicates - check for duplicated GEM object
+> + * @exec: drm_exec object
+> + *
+> + * Return true if the drm_exec object has encountered some already locked GEM
+> + * objects while trying to lock them. This can happen if multiple GEM objects
+> + * share the same underlying resv object.
+> + */
+> +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
+> +{
+> +	return exec->duplicates.num_objects > 0;
+> Definitely an aside, but in our i915 efforts to get rid of temporary pins
+> we run into some fun where the eviction code couldn't differentiate from
+> memory we need reserved for the CS and memory we just keep locked because
+> we evicted it and fun stuff like that. So maybe we need a bit more
+> tracking here eventually, but that's only when we have this somehow glued
+> into ttm eviction code.
+
+Hehe, yeah that's what I was thinking about as well. But then I though 
+one step at a time.
+
+> Also the even more massive step would be to glue this into dma-buf so you
+> can do dynamic dma-buf eviction and still keep track of all the buffers. I
+> think with some clever pointer tagging and a bit more indirection we could
+> nest drm_exec structures (so that a driver could insert it's entire
+> drm_exec structure with a drm_exec-level callback for handling refcounting
+> and stuff like that).
+
+I considered in which component to put this quite a bit as well, but 
+then intentionally decided against DMA-buf.
+
+One major reason was that not all buffers which needs to be locked this 
+way are actually exported as DMA-buf.
+
+Another reason is that DMA-buf doesn't necessary need a concept of an 
+execution context. As far as I can see that's something GPU/DRM driver 
+specific.
+
+> So anyway I think this all looks good, just one more thing before I think
+> we should land this:
+>
+> gem helpers in drm_gem_lock_reservations() has something which is
+> practically compatible already, except that you bulk-add the entire set of
+> objects. I think if you add a bulk-prepare function then we could also
+> replace all those. Maybe even nicer if the bulk-prepare takes the array of
+> handles and does the handle lookup too, but at least something which can
+> subsititue drm_gem_lock_reservations with drm_exec would be nice to
+> validate the helpers a bit more and really make sure we only have one of
+> them left.
+
+I was considering that as well, but then also thought one step at a 
+time. Not sure if it's possible to look up handles without running into 
+some locking fun, thought.
+
+Thanks for the review,
+Christian.
+
+>
+> Thoughts?
+> -Daniel
+>
+>> +}
+>> +
+>> +void drm_exec_init(struct drm_exec *exec, bool interruptible);
+>> +void drm_exec_fini(struct drm_exec *exec);
+>> +bool drm_exec_cleanup(struct drm_exec *exec);
+>> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
+>> +			 unsigned int num_fences);
+>> +
+>> +#endif
+>> -- 
+>> 2.25.1
+>>
+
