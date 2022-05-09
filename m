@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC1B51FBE7
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:03:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EEB51FBF7
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:03:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F96C10EE60;
-	Mon,  9 May 2022 12:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FAAA10EE6A;
+	Mon,  9 May 2022 12:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B245F10EE64;
- Mon,  9 May 2022 12:03:45 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4867C10EE68;
+ Mon,  9 May 2022 12:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652097825; x=1683633825;
+ t=1652097830; x=1683633830;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HgeNDGzi+0QMpiQwoNnEG61MqqkOaM1jTupHUWhlaQ8=;
- b=JM/DCoyn1YC2NC44VOmTJEsYxvxDLnxKaFBgO5g4li2cVwJXfUjVXyKt
- ctGRW07pGnlUhzLA4uXcBjPcmr7Ub2PxGj41LZD+UExo/l0mVuydRUiUj
- 2BZCnU+lvQO3m10JcOINMgCQ256VcbyCY8F52YCPvv+PlPZpuRvGxCr7f
- 0qBj+e2ty+8Pc+dT0bJ+ELR24Pj/ZHBMwTHy8Is7btr0dGNXlc/yZvoSy
- aHC3xtOhngRRpk8CrakMTx3VX7bBIMoYKNYDucwJ4fRbk8lUxw2AEoddb
- x0zvn5DE7IfVh/2RANCOOg3rJNRclW8t0Fhx9tYU9kC2ZI1hVsXc0zfK8 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="355456556"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="355456556"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:03:45 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="540628012"
+ bh=VqXXpce1WjRUgzEhWSM3qk067V1CTj8Lo71IUfBzbZc=;
+ b=PXjdLS2f6WDYXxKB/iuvwexyLPduShY6+xKpqmkaugwpOZO44X3xQPjQ
+ Lpc31QNrWAELWl2NbqNJanIE7licAO/gsPA8Scc1tf168TEJsSZ8UZoTs
+ mlKW507RsztFo+8ksquX5ujDfxSUmyylzTmPm5IV17+fxeGUHvUzZuEE1
+ 0zLhv310Drr8JU93FCOBqb61D3C9+LejL2gdmBSpODO/r2f19gXIwZKtC
+ bfQGGxDb/Klwn2fN9wjQFd9MssS0QlblBvn2k84CJDjr34K7OtbPlXNVM
+ eqodnVIHtHSnvW37xZy2flMmhJ96Oveir4xCF+WtddDZDxaa84Lw3Cq7l A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="249565922"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="249565922"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:03:49 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="565030991"
 Received: from csawicki-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.129.3])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:03:43 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:03:47 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 03/25] drm/edid: add struct drm_edid container
-Date: Mon,  9 May 2022 15:03:02 +0300
-Message-Id: <f3ecabd8a219aea678ad00f7bcdecf77b27b3c78.1652097712.git.jani.nikula@intel.com>
+Subject: [PATCH v2 04/25] drm/edid: start propagating drm_edid to lower levels
+Date: Mon,  9 May 2022 15:03:03 +0300
+Message-Id: <000452fddedbaf7f473ac25d4dde2502e60b8e39.1652097712.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1652097712.git.jani.nikula@intel.com>
 References: <cover.1652097712.git.jani.nikula@intel.com>
@@ -61,69 +61,91 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce new opaque type struct drm_edid to encapsulate the EDID data
-and the size allocated for it. The contents will be private to
-drm_edid.c.
+We'll need to propagate drm_edid everywhere. This is a clunky start, but
+a start nonetheless. We'll eventually convert all of the EDID parsing to
+struct drm_edid.
 
-There are a number of reasons for adding a container around struct edid:
+Initially, we'll just create the struct drm_edid in stack. This will be
+the compat layer for legacy struct edid code. In the future, we'll have
+EDID read return drm_edid objects.
 
-* struct edid is a raw blob pointer to data that usually originates
-  outside of the kernel. Its size is contained within the structure.
-
-* There's no way to attach meta information (such as allocated memory
-  size) to struct edid.
-
-* Validation of the EDID blob and its size become crucial, and it's
-  spread all over the subsystem, with varying levels of accuracy.
-
-* HDMI Forum has introduced an HF-EEODB extension that defines an
-  override EDID size within an EDID extension. The size allocated for an
-  EDID depends on whether the allocator understands the HF-EEODB
-  extension. Given a struct edid *, it's impossible to know how much
-  memory was actually allocated for it.
-
-There are also some reasons for making the container type struct
-drm_edid opaque and private to drm_edid.c:
-
-* Have only one place for creating and parsing the EDID, to avoid
-  duplicating bugs.
-
-* Prepare for reading a pure DisplayID 2.0 from its own DDC address, and
-  adding it within the same struct drm_edid container, transparently,
-  and for all drivers.
-
-* With the idea that the drm_edid objects are immutable during their
-  lifetimes, it will be possible to refcount them and reduce EDID
-  copying everywhere (this is left for future work).
-
-Initially, just add the type. In follow-up, we'll start converting the
-guts of drm_edid.c to use it, and finally add interfaces around it.
+v2: Add legacy init helper.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/drm_edid.c | 30 +++++++++++++++++++++++++++---
+ 1 file changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index dcef92c8887a..480fd9fbe412 100644
+index 480fd9fbe412..f48f1f1a1fa7 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1567,6 +1567,15 @@ static const struct drm_display_mode edid_4k_modes[] = {
- 
- /*** DDC fetch and block validation ***/
+@@ -1608,6 +1608,24 @@ static const void *edid_extension_block_data(const struct edid *edid, int index)
+ 	return edid_block_data(edid, index + 1);
+ }
  
 +/*
-+ * The opaque EDID type, internal to drm_edid.c.
++ * Initializer helper for legacy interfaces, where we have no choice but to
++ * trust edid size. Not for general purpose use.
 + */
-+struct drm_edid {
-+	/* Size allocated for edid */
-+	size_t size;
-+	const struct edid *edid;
-+};
++static const struct drm_edid *drm_edid_legacy_init(struct drm_edid *drm_edid,
++						   const struct edid *edid)
++{
++	if (!edid)
++		return NULL;
 +
- static int edid_extension_block_count(const struct edid *edid)
++	memset(drm_edid, 0, sizeof(*drm_edid));
++
++	drm_edid->edid = edid;
++	drm_edid->size = edid_size(edid);
++
++	return drm_edid;
++}
++
+ /*
+  * EDID base and extension block iterator.
+  *
+@@ -5814,17 +5832,20 @@ static int add_displayid_detailed_modes(struct drm_connector *connector,
+ }
+ 
+ static int drm_edid_connector_update(struct drm_connector *connector,
+-				     const struct edid *edid)
++				     const struct drm_edid *drm_edid)
  {
- 	return edid->extensions;
++	const struct edid *edid;
+ 	int num_modes = 0;
+ 	u32 quirks;
+ 
+-	if (edid == NULL) {
++	if (!drm_edid) {
+ 		drm_reset_display_info(connector);
+ 		clear_eld(connector);
+ 		return 0;
+ 	}
+ 
++	edid = drm_edid->edid;
++
+ 	/*
+ 	 * CEA-861-F adds ycbcr capability map block, for HDMI 2.0 sinks.
+ 	 * To avoid multiple parsing of same block, lets parse that map
+@@ -5890,13 +5911,16 @@ static int drm_edid_connector_update(struct drm_connector *connector,
+  */
+ int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid)
+ {
++	struct drm_edid drm_edid;
++
+ 	if (edid && !drm_edid_is_valid(edid)) {
+ 		drm_warn(connector->dev, "%s: EDID invalid.\n",
+ 			 connector->name);
+ 		edid = NULL;
+ 	}
+ 
+-	return drm_edid_connector_update(connector, edid);
++	return drm_edid_connector_update(connector,
++					 drm_edid_legacy_init(&drm_edid, edid));
+ }
+ EXPORT_SYMBOL(drm_add_edid_modes);
+ 
 -- 
 2.30.2
 
