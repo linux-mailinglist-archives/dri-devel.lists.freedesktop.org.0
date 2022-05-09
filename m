@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E4A51FD9B
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:10:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6443951FD9D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:10:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90FE810F194;
-	Mon,  9 May 2022 13:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DADC910F18A;
+	Mon,  9 May 2022 13:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C85DB10F19A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 13:09:59 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id v12so19347918wrv.10
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 06:09:59 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD9D110F185
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 13:10:00 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id u3so19395975wrg.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 06:10:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IB7d24hbSCy3UNTFAJGBnnzly76CJzsYCB4qu4XP4Tc=;
- b=HRGSQUQMveIpLQkr8iQqzTz0Tlkx+S1A3e+7cYblFq+Qp4q5YWnApTeDhIHnH5HZ0H
- /0QDH+TOvcu6X+w+I8iiIqEPyjP9b2qy0UYanK4ivFAjzkBQqe0w+ephgX2q97FoIE0V
- 12TQ+EXT8uQ4Ph4UZtKla+QQzw5/ID7NuH0wcIY6HfEtrDTMMl5rQKT4NM5WcnGHDWtb
- MCq0tC3WLFihCWr3TXu3q90k41Hl5clXJwuQBFdMxX3KXyzMnqkcFp+3cE2y8KyDb/Nv
- vvY4RQA+7AEDSI5ZznVBPO2Rf5QwTUZl3jTCdLBm63J5K6ISSG1gNXAkZ2LZLnkEorvQ
- iIIw==
+ bh=QRTohIh/SLP7A2b6PbdykDkDugeXiT078coAsmgcAFE=;
+ b=qUfzvO7B3CrJdtlWLRtO3d7h9yyLLBKcus8B9P1HfydTDZnV2M5DORs+pNhVhCoft0
+ y9U50ovciLwZJEQkmld/SSk5GXLhNCR67ftYFkzq+dpJRu8T6lC3at3rwQrNZN3FCXUZ
+ 9LRZ1B8p8jrEBRCpjtyQJ5fKT4fnlg6xmVgzFVOf+yXjDvCJpB5n5xtdB+gKu/Kx04MD
+ 7MzXXSJB3LltkCI/QQ78RDaOe9p4SA+MDYxWn56+HyJnp7dAnNlktaGx17JxDIaxN/Mv
+ pB70kEEP4QfgZpeGzTn1xVaw0P02J+EdeMUdGWrQMzdbVpZMDD7czikTgKLQlvOwEY8I
+ X+Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IB7d24hbSCy3UNTFAJGBnnzly76CJzsYCB4qu4XP4Tc=;
- b=X0p8EVTKtHqZST0Dz8biQ4Q2HuuAWCj2bcl9jpSsXXwPE5obKkHcONccEERzjLam8z
- JFw06+OrgCSDGUFcWwksGannX5yqpf9ju42IWag1bYVzDsVPa/dKa9MEpmUyLjH5Orym
- juOCMkDDVVwCwIfb5fUiZNLLp3dXqLvdt/lHY4EASzo52jBcYXbb9iudBL6jujK6crVj
- 7cssM3EENvke+mwhNceZ2CylNKGRSnxiUjciWfFw1D0vEQDqv0vixVfLDPf2aekekRDs
- XVEST+gxa2tvkk9fk6N9GFnNiW0WfTojO1kRZQsEG85QFv4Z4+oJQuAAorSi6BqndfCQ
- qZAw==
-X-Gm-Message-State: AOAM532UGwXqIoWYae2JdrtNqLkO48C/lOy3t1cqWcqy1K2xwe8S+orf
- gQ/0413rtO0pmutLKfNCQbA=
-X-Google-Smtp-Source: ABdhPJw8wwGjdoAZKaWtQZWg9Fnbg4ILnOAbVSJdVRIQ7LVkE+Gdg9DEioQT1f5Pna6DplR/eE1/tw==
-X-Received: by 2002:adf:e112:0:b0:206:d12:9c3a with SMTP id
- t18-20020adfe112000000b002060d129c3amr13778402wrz.391.1652101798335; 
- Mon, 09 May 2022 06:09:58 -0700 (PDT)
+ bh=QRTohIh/SLP7A2b6PbdykDkDugeXiT078coAsmgcAFE=;
+ b=iZyY9UK5KAmrExyqI+Q1+yl6GQJ1sYpsAvl7tjCmoWHurANF3S24ZVvrXqV/DsSc6y
+ YnnpcoIm7aTlGGiXtPgB5J1ltCw4KBpK5xAd6MeTGfzGhwO3cj+8OBVIngJ8xwWyH7yE
+ kc4HxphkVyplPvI+ALdk2RKucj+1z/6tMlhZnyF2sWzHVUV9xtltvOLI91Zbk/coAitP
+ V2T089irfVfyKkK+riy9m7WccbNRhXQndnq+2+l5Ld13gT2pIWyPyUgxB9oW28YBJ5wR
+ WXhUu7Yt644FZPKOiLMjNU9gnT9XjKSWqQNfe87YOCb5tzgOKfCF5DIP6pfSDlwtzzOr
+ TZEw==
+X-Gm-Message-State: AOAM531onF2cgIOyKE8dnDz8GJB9cGWoEMkNAkXOUA3zP7g8f++4CfCY
+ GFj4T3+/GSxEDhnxiCAiMPo=
+X-Google-Smtp-Source: ABdhPJzfcaig6n9YbnaCbwtlj793Aj52gRxs7fNZ/ET15orWUur/1zdmJ8o7dWiQlIQSiuFTdzu60Q==
+X-Received: by 2002:a5d:4f8b:0:b0:20c:6970:fb3c with SMTP id
+ d11-20020a5d4f8b000000b0020c6970fb3cmr13857090wru.554.1652101799298; 
+ Mon, 09 May 2022 06:09:59 -0700 (PDT)
 Received: from able.fritz.box (p57b0b3fd.dip0.t-ipconnect.de. [87.176.179.253])
  by smtp.gmail.com with ESMTPSA id
- t16-20020a05600c2f9000b003942a244f50sm18683385wmn.41.2022.05.09.06.09.57
+ t16-20020a05600c2f9000b003942a244f50sm18683385wmn.41.2022.05.09.06.09.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 06:09:57 -0700 (PDT)
+ Mon, 09 May 2022 06:09:58 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: bob.beckett@collabora.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch
-Subject: [PATCH 03/11] drm/vram-helper: switch over to ttm_bo_init_reserved
-Date: Mon,  9 May 2022 15:09:43 +0200
-Message-Id: <20220509130951.486344-4-christian.koenig@amd.com>
+Subject: [PATCH 04/11] drm/ttm: move default BO destructor into VMWGFX
+Date: Mon,  9 May 2022 15:09:44 +0200
+Message-Id: <20220509130951.486344-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220509130951.486344-1-christian.koenig@amd.com>
 References: <20220509130951.486344-1-christian.koenig@amd.com>
@@ -76,43 +76,27 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the new interface instead.
+It's the only driver using this.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 123045b58fec..7449cbc2f925 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -186,6 +186,7 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 						size_t size,
- 						unsigned long pg_align)
- {
-+	struct ttm_operation_ctx ctx = { false, false };
- 	struct drm_gem_vram_object *gbo;
- 	struct drm_gem_object *gem;
- 	struct drm_vram_mm *vmm = dev->vram_mm;
-@@ -225,12 +226,13 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 	 * A failing ttm_bo_init will call ttm_buffer_object_destroy
- 	 * to release gbo->bo.base and kfree gbo.
- 	 */
--	ret = ttm_bo_init(bdev, &gbo->bo, size, ttm_bo_type_device,
--			  &gbo->placement, pg_align, false, NULL, NULL,
--			  ttm_buffer_object_destroy);
--	if (ret)
-+	ret = ttm_bo_init_reserved(bdev, &gbo->bo, size, ttm_bo_type_device,
-+				   &gbo->placement, pg_align, &ctx, NULL, NULL,
-+				   ttm_buffer_object_destroy);
-+        if (ret)
- 		return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 85a66014c2b6..c4f376d5e1d0 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -462,6 +462,9 @@ int vmw_bo_create(struct vmw_private *vmw,
+ 		return -ENOMEM;
+ 	}
  
-+	ttm_bo_unreserve(&gbo->bo);
- 	return gbo;
- }
- EXPORT_SYMBOL(drm_gem_vram_create);
++	if (!bo_free)
++		bo_free = vmw_bo_default_destroy;
++
+ 	ret = vmw_bo_init(vmw, *p_bo, size,
+ 			  placement, interruptible, pin,
+ 			  bo_free);
 -- 
 2.25.1
 
