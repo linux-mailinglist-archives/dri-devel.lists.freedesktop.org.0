@@ -2,68 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C35552048E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 20:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C774520570
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 21:49:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C6710EB4D;
-	Mon,  9 May 2022 18:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68AE210E51B;
+	Mon,  9 May 2022 19:49:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9C2D10EB4D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 18:32:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 33FEF1F88C;
- Mon,  9 May 2022 18:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652121174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MYrIKKTG9Xm7nedYz4jEcMJmAizzDkvKZjQ/c2Q2F04=;
- b=zRIoqqjvF/XCVPPWRxLX++4m0mJW3otfqDdjwbqBY8y+3Yx0zmWTDYRbWAutuZpnVw6BzI
- C9bsX33m4gxfsBOo6fwl3qdFq3fp0aFapexeKqWpqAHafAFQBv8bNsFFLkLRMH2onxRscw
- NvGRyzZa14TWh/XCSZxJILzBJT0iGv4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652121174;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MYrIKKTG9Xm7nedYz4jEcMJmAizzDkvKZjQ/c2Q2F04=;
- b=rewAWuiha5cuiT9imLTztZRdxujWpC7Rxyil6kssNLPjAfbeQgnnF5q2Q69nZUob3xH1Z+
- N/XhZj7sWKMKSfCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 06C6A13AA5;
- Mon,  9 May 2022 18:32:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id dN3EAFZeeWKPaAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 09 May 2022 18:32:54 +0000
-Message-ID: <51254d3d-af8d-61b3-e8a2-8fd0e583e783@suse.de>
-Date: Mon, 9 May 2022 20:32:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
- fb_release()
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org
-References: <20220505215947.364694-1-javierm@redhat.com>
- <20220505220413.365977-1-javierm@redhat.com>
- <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
- <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
- <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
- <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------6BCuQbmZJwIWsnYIUbFyB0B5"
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E07D10E279
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 19:49:20 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id p10so25649110lfa.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 12:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=k5+eavqJv4exrkKNYLwOmHOp14d0Q1oE4bipYRwlLow=;
+ b=Rak9MbjTdNbtc5DjqX/X5g6leDv8/HvSjfFURJvhKEjd1WtmRgzJlV9AIyxVkRNIZa
+ Sdc1GFTT9ht1m21wZ0DNAHY/wR8GY5E7R1JzbQUcKL/ozKH7uVt9BxvCvVMasfW8asdr
+ G1mjDIfky2Ll10LtGKmdT7iF7W5EiSJdPNtrQg721ZxhsKxj7w8lf3q1dvBUqTwrPXIA
+ BkD3vflaN139riMJrp6UFJ74XIBTjBq20xPeEJEh+otM0WzxrZTRSTh7sYTFGx0L/E1w
+ yqlmj+XSSB/dLI0Hr5P9luIM27hnOKErgyXVKriiQlSsAX9DsgfjtUk/ysVQ2hEu2foD
+ C1kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=k5+eavqJv4exrkKNYLwOmHOp14d0Q1oE4bipYRwlLow=;
+ b=V4GUV+bExgomgouw1L1QG5qZxb4X4nBPqGe3m4kRS4u/H7GwgqPaxLdeq0+nLNNqcF
+ xGNvKEQmzRCRmtgZddlF6IBH3KL62G0mkMOJAPGgQd3ZYlFjQz7VEDsHCmQSTTyYCK0B
+ tdH64xDSwsRVYUuV3H2zagoYqQO4fnjlGin7oy/0jDmclPO6+4/Ei7SZM4FLmpwf7maO
+ f3csNPgWXYMzN0cOrufvh8A3+orqI/Eh6Ya4arbYO07sD+hj7m26URWUrzcFsE2qAHB1
+ sGN+1+zsKQexKXh65ISE6+R2Y2niViW89DfCpAuKqoxpvBkwZ8P5OY3HmkupGrf7SWXe
+ dwxw==
+X-Gm-Message-State: AOAM531Hr03EltI4JW1gV22kni3n6akWxNSieYVKgHXoUgvzF38OTqIi
+ ckyqGe+YLIyU14fizGHGgzM=
+X-Google-Smtp-Source: ABdhPJxftZHd/ebk/ERPxawYj51fcaIMUCfEX9TLUnnV8KowQvlvwmIbYHmfMCtsarE56f0njUmUaQ==
+X-Received: by 2002:a19:ca50:0:b0:471:f556:92b with SMTP id
+ h16-20020a19ca50000000b00471f556092bmr13630335lfj.587.1652125758517; 
+ Mon, 09 May 2022 12:49:18 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ j15-20020a2ea90f000000b0024f3d1daea0sm1902744ljq.40.2022.05.09.12.49.17
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 09 May 2022 12:49:18 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
+ on rock-3a
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
+Date: Mon, 9 May 2022 21:49:16 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <812AC0DB-A6D0-4DA3-BCDC-7743E8F61821@gmail.com>
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+ <20220422072841.2206452-21-s.hauer@pengutronix.de>
+ <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
+ <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
+ <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
+ <CAMdYzYobfJ7WGN+UQ7t5e1Zy9knjfHLse8KzrGrHPfeMkkG0gw@mail.gmail.com>
+ <9F2D8CFF-1EAE-4586-9EE9-82A9D67840BB@gmail.com>
+ <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
+To: Peter Geis <pgwipeout@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,99 +79,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------6BCuQbmZJwIWsnYIUbFyB0B5
-Content-Type: multipart/mixed; boundary="------------8pTehAEcyWCBSsbBrQmlHNom";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <51254d3d-af8d-61b3-e8a2-8fd0e583e783@suse.de>
-Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
- fb_release()
-References: <20220505215947.364694-1-javierm@redhat.com>
- <20220505220413.365977-1-javierm@redhat.com>
- <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
- <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
- <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
- <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
-In-Reply-To: <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
+>=20
+> If you want to confirm the hardware is configured correctly you can
+> remove the cec pin from the hdmi node and set up a cec-gpio node.
+> =
+https://elixir.bootlin.com/linux/v5.18-rc5/source/Documentation/devicetree=
+/bindings/media/cec-gpio.txt
+>=20
+> For some reason the board developers decided to make this selectable,
+> check the location of R90652 and R90653.
+>=20
 
---------------8pTehAEcyWCBSsbBrQmlHNom
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Peter,
 
-SGkNCg0KQW0gMDkuMDUuMjIgdW0gMTg6MzMgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IE9uIDUvOS8yMiAxNzo1MSwgQW5kcnplaiBIYWpkYSB3cm90ZToNCj4gDQo+
-IFtzbmlwXQ0KPiANCj4+Pj4+ICsNCj4+Pj4gUmVnYXJkaW5nIGRybToNCj4+Pj4gV2hhdCBh
-Ym91dCBkcm1fZmJfaGVscGVyX2Zpbmk/IEl0IGNhbGxzIGFsc28gZnJhbWVidWZmZXJfcmVs
-ZWFzZSBhbmQgaXMNCj4+Pj4gY2FsbGVkIG9mdGVuIGZyb20gX3JlbW92ZSBwYXRocyAoY2hl
-Y2tlZCBpbnRlbC9yYWRlb24vbm91dmVhdSkuIEkgZ3Vlc3MNCj4+Pj4gaXQgc2hvdWxkIGJl
-IGZpeGVkIGFzIHdlbGwuIERvIHlvdSBwbGFuIHRvIGZpeCBpdD8NCj4+Pj4NCj4+PiBJIHRo
-aW5rIHlvdSBhcmUgY29ycmVjdC4gTWF5YmUgd2UgbmVlZCBzb21ldGhpbmcgbGlrZSB0aGUg
-Zm9sbG93aW5nPw0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-ZmJfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+Pj4gaW5k
-ZXggZDI2NWE3MzMxM2M5Li5iMDk1OThmN2FmMjggMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0KPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZmJfaGVscGVyLmMNCj4+PiBAQCAtNjMxLDcgKzYzMSw2IEBAIHZvaWQgZHJtX2ZiX2hl
-bHBlcl9maW5pKHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxwZXIpDQo+Pj4gICAgICAg
-ICAgIGlmIChpbmZvKSB7DQo+Pj4gICAgICAgICAgICAgICAgICAgaWYgKGluZm8tPmNtYXAu
-bGVuKQ0KPj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgZmJfZGVhbGxvY19jbWFwKCZp
-bmZvLT5jbWFwKTsNCj4+PiAtICAgICAgICAgICAgICAgZnJhbWVidWZmZXJfcmVsZWFzZShp
-bmZvKTsNCg0KQWZ0ZXIgcmV2aWV3aW5nIHRoYXQgY29kZSwgIGRybV9mYl9oZWxwZXJfZmlu
-aSgpIGFwcGVhcnMgdG8gYmUgY2FsbGVkIA0KZnJvbSAuZmJfZGVzdHJveSAoc2VlIGRybV9m
-YmRldl9yZWxlYXNlKS4gIFRoZSBjb2RlIGlzIGhhcmQgdG8gZm9sbG93IA0KdGhvdWdoLiAg
-SWYgdGhlcmUgYW5vdGhlciB3YXkgb2YgcmVsZWFzaW5nIHRoZSBmcmFtZWJ1ZmZlciBoZXJl
-Pw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+Pg0KPj4gV2hhdCBhYm91dCBjbWFwPyBJ
-IGFtIG5vdCBhbiBmYiBleHBlcnQsIGJ1dCBJTU8gY21hcCBjYW4gYmUgYWNjZXNzZWQNCj4+
-IGZyb20gdXNlcnNwYWNlIGFzIHdlbGwuDQo+Pg0KPiANCj4gSSBhY3R1YWxseSB0aG91Z2h0
-IGFib3V0IHRoZSBzYW1lIGJ1dCB0aGVuIHJlbWVtYmVyZWQgd2hhdCBEYW5pZWwgc2FpZCBp
-biBbMF0NCj4gKEFGQUlVIGF0IGxlYXN0KSB0aGF0IHRoZXNlIHNob3VsZCBiZSBkb25lIGlu
-IC5yZW1vdmUoKSBzbyB0aGUgY3VycmVudCBjb2RlDQo+IGxvb2tzIGxpa2UgbWF0Y2hlcyB0
-aGF0IGFuZCBvbmx5IGZyYW1lYnVmZmVyX3JlbGVhc2UoKSBzaG91bGQgYmUgbW92ZWQuDQo+
-IA0KPiBGb3IgdmVzYWZiIGEgcHJldmlvdXMgcGF0Y2ggcHJvcG9zZWQgdG8gYWxzbyBtb3Zl
-IGEgcmVsZWFzZV9yZWdpb24oKSBjYWxsIHRvDQo+IC5mYl9kZXN0cm95KCkgYW5kIERhbmll
-bCBhbHNvIHNhaWQgdGhhdCBpdCB3YXMgaWZmeSBhbmQgc2hvdWxkbid0IGJlIGRvbmUgWzFd
-Lg0KPiANCj4gQnV0IEknbSBhbHNvIG5vdCBmYiBleHBlcnQgc28gaGFwcHkgdG8gbW92ZSBm
-Yl9kZWFsbG9jX2NtYXAoKSBhcyB3ZWxsIGlmIHRoYXQNCj4gaXMgdGhlIGNvcnJlY3QgdGhp
-bmcgdG8gZG8uDQo+IA0KPiBbMF06IGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xpc3RzL2Ry
-aS1kZXZlbC9tc2czNDYyNTcuaHRtbA0KPiBbMV06IGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0
-L2xpc3RzL2RyaS1kZXZlbC9tc2czNDYyNjEuaHRtbA0KPiANCg0KLS0gDQpUaG9tYXMgWmlt
-bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdl
-cm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJ
-dm8gVG90ZXYNCg==
+my board is v1.31 and is using HDMITX_CEC_M1 i think.
+I verified this by temp. changing to HDMITX_CEC_M0
 
---------------8pTehAEcyWCBSsbBrQmlHNom--
+For M1:
+2022-05-09 21:12:37.130188 I  CECAdapter: Using physical address 1.0.0.0 =
+from EDID
+2022-05-09 21:12:37.173267 I  CECAdapter: Found 1 CEC devices(s).
+2022-05-09 21:12:37.173299 I  CECAdapter: Device 1: path '/dev/cec0' com =
+port 'Linux' SELECTED
+2022-05-09 21:12:37.173307 I  CECAdapter: Trying to open device =
+/dev/cec0 (Linux).
+2022-05-09 21:12:37.180095 I  CECAdapter: connection opened
+2022-05-09 21:12:37.545229 I  CECAdapter: setting HDMI port to 1 on =
+device TV (0)
+2022-05-09 21:12:37.904145 I  CECAdapter: >> source deactivated: =
+Playback 1 (4)
+2022-05-09 21:12:37.904311 I  CECAdapter: Source 4 Deactivated
+2022-05-09 21:12:38.284452 I  CECAdapter: >> source activated: Playback =
+1 (4)
+2022-05-09 21:12:38.284492 I  CECAdapter: Source 4 Activated
+2022-05-09 21:12:38.284694 I  CECAdapter: CEC client registered: libCEC =
+version =3D 6.0.2, client version =3D 6.0.2, firmware version =3D 0, =
+logical address(es) =3D Playback 1 (4) , physical address: 1.0.0.0, git =
+revision: v12.0.0-v32.0-16-g611cac15cc+59-07dc900~dirty, compiled on =
+2022-04-23 05:50:57 by piotro@/bin/sh: hostname: command not found on =
+Linux 5.16.14-arch1-4 (x86_64), features: P8_USB, DRM, P8_detect, randr, =
+Linux
+2022-05-09 21:12:38.519394 I  CECAdapter: Opened CEC device.
+2022-05-09 21:12:38.636950 I  CECAdapter: << powering on 'TV' (0)
+2022-05-09 21:12:38.754023 E  CECAdapter: Failed to turn TV on.
+2022-05-09 21:12:38.754313 I  CECAdapter: >> source activated: Playback =
+1 (4)
+2022-05-09 21:12:38.754343 I  CECAdapter: Source 4 Activated
+2022-05-09 21:12:38.872079 I  CECAdapter: << Playback 1 (4) -> broadcast =
+(F): active source (1000)
+2022-05-09 21:12:38.974698 I  CECAdapter: Asked TV to switch to this =
+input.
+2022-05-09 21:13:07.292069 W  CECAdapter: CEC device can't poll TV: TV =
+does not respond to CEC polls
+2022-05-09 21:13:37.296372 W  CECAdapter: CEC device can't poll TV: TV =
+does not respond to CEC polls=20
 
---------------6BCuQbmZJwIWsnYIUbFyB0B5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+for M0:
+2022-05-09 21:37:47.632175 I  CECAdapter: Using physical address 1.0.0.0 =
+from EDID
+2022-05-09 21:37:47.680618 I  CECAdapter: Found 1 CEC devices(s).
+2022-05-09 21:37:47.680644 I  CECAdapter: Device 1: path '/dev/cec0' com =
+port 'Linux' SELECTED
+2022-05-09 21:37:47.680654 I  CECAdapter: Trying to open device =
+/dev/cec0 (Linux).
+2022-05-09 21:37:47.694974 I  CECAdapter: connection opened
+2022-05-09 21:37:56.341846 I  CECAdapter: setting HDMI port to 1 on =
+device TV (0)
+2022-05-09 21:38:17.675457 I  CECAdapter: >> source activated: Playback =
+1 (4)
+2022-05-09 21:38:17.675561 I  CECAdapter: Source 4 Activated
+2022-05-09 21:38:17.675657 I  CECAdapter: CEC client registered: libCEC =
+version =3D 6.0.2, client version =3D 6.0.2, firmware version =3D 0, =
+logical address(es) =3D Playback 1 (4) , physical address: 1.0.0.0, git =
+revision: v12.0.0-v32.0-16-g611cac15cc+59-07dc900~dirty, compiled on =
+2022-04-23 05:50:57 by piotro@/bin/sh: hostname: command not found on =
+Linux 5.16.14-arch1-4 (x86_64), features: P8_USB, DRM, P8_detect, randr, =
+Linux
+2022-05-09 21:38:30.475336 I  CECAdapter: Opened CEC device.
+2022-05-09 21:38:34.741846 I  CECAdapter: << Playback 1 (4) -> broadcast =
+(F): active source (1000)
+2022-05-09 21:38:39.008432 I  CECAdapter: << powering on 'TV' (0)
+2022-05-09 21:38:39.008506 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:38:39.008526 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:38:43.275094 E  CECAdapter: Failed to turn TV on.
+2022-05-09 21:38:43.275201 I  CECAdapter: >> source activated: Playback =
+1 (4)
+2022-05-09 21:38:43.275224 I  CECAdapter: Source 4 Activated
+2022-05-09 21:38:43.275375 W  CECAdapter: CEC device can't poll TV: TV =
+does not respond to CEC polls
+2022-05-09 21:38:47.541811 I  CECAdapter: << Playback 1 (4) -> broadcast =
+(F): active source (1000)
+2022-05-09 21:38:47.541898 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:38:47.541909 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:38:47.541924 E  CECAdapter: Failed to switch to this =
+input.
+2022-05-09 21:38:51.808626 I  CECAdapter: << Playback 1 (4) -> broadcast =
+(F): active source (1000)
+2022-05-09 21:38:51.808722 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:38:51.808735 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:38:57.142091 I  CECAdapter: << Playback 1 (4) -> broadcast =
+(F): active source (1000)
+2022-05-09 21:38:57.142109 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:38:57.142117 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:39:02.475097 I  CECAdapter: << Playback 1 (4) -> broadcast =
+(F): active source (1000)
+2022-05-09 21:39:02.475115 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
+2022-05-09 21:39:02.475123 E  CECAdapter: =
+CLinuxCECAdapterCommunication::Write - ioctl CEC_TRANSMIT failed - =
+tx_status=3D00 errno=3D22
 
------BEGIN PGP SIGNATURE-----
+> I have some concerns about the DTS you've built here. For instance how
+> come you are modifying the power domains?
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ5XlUFAwAAAAAACgkQlh/E3EQov+CW
-kQ/8Cy/hT9wtY77xvaRHj740ToRIgCOikHNcs6g+4+ygXsp2atLPGXHtUgkRJkVaA50iZJ6bI1mc
-cABddSSdXn8z6QbsyIY8ViGEe2VHAtBA9ycCR+qlLhW+YE5WBTmT85/0NXF/fb0Ni0tx+a3LsSMv
-sxCla0mRgXy/UHjYUbKjErnGYrptW+OZ0QLggiegke1WLCrD7nprcLJbl5/FDXsdUzHijCJ0dc9k
-+T/PD9S1FNtUaDGDiQ+z6UcK2U9C5wNB2DyqPB8fn+3hcC/yzTpOkfeYSBeZN8iyCVL0BJN+Iysj
-KBcJg9NqGR/49e5j01tZn5aYh31maberh0IF25UF4yFeYuz3sDH7aHKPRUnZ4tFpoqPwBuGWiMhH
-8Iudypn6nif+Y6PAQ0BRcOxXNSZ0OaY/02ZxlIENkW0to7Fuf1GYZYLTkvIV1vY7lWyo7SxvJTWA
-oF3EhF28ybCIkiBCOdOQ3wD9rt8aWNmvVb/GpcvjFcc+sj9vB5xmQwOhlcbfXRzuOZeB0xf+bS/n
-h0tH6H033aSLwOC+OeYdKBdMMg4gfTsdQ/5RQoMscDEuSAZ+MTYVx2To68ZKDHkiWtMlctbEnZLx
-DVyq+D92SHpqVGTwTYazyqmWM9Yx4A+lmWz4l5gsQMQmA9NcBtOEjmq+goZQvl1wXXPWZwEMZnsH
-Z3M=
-=h1Wi
------END PGP SIGNATURE-----
+This was experiment as I was advised:
 
---------------6BCuQbmZJwIWsnYIUbFyB0B5--
+"32k clock needed for cec and this clock is generated by the rtc which =
+is embedded in the rk8xx regulator.
+So you should make sure it is enabled when hdmi is powerd on, eg adding =
+it to the RK3568_PD_VO powerdomain should help"
+
+power domains entries in dts was attempt to play with above cec clock =
+sugestion.
+
+M0/M1 logs in this email are from cleaned dts: =
+https://pastebin.com/0pgwpdsS
+
+> USB3 is broken because the rock3-a is a rk3568 device and you're
+> missing combophy0.
+
+Perfect. all 4 usb ports are now working.
+Also no errors in dmesg.=20
+Thx!
+
