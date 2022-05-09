@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90E151FA29
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D38551FA4E
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:49:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3A910EA30;
-	Mon,  9 May 2022 10:44:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7E210EA9F;
+	Mon,  9 May 2022 10:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9362610EA30
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 10:44:49 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id w4so18795578wrg.12
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 03:44:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oLgVaTlTDXgUX6d5oxdF7XG7KD8YlqPFqEct4VY7hn0=;
- b=74qYgLEXsGy0sAQjUC9BCLUS84imSTbMaWZW9LMAf1QJdmlywMXtqwnBYQsPYBvwmp
- ZQ+qoiuTJ9JwhUmDnirSHWP8hY0cyhf1DXedDh083rHqx3czDdXVLbtoIQXbP9E2T2zP
- LXRVBDeYl9jQ6KRBTYCjUA4r/XyG5fvscuQsUFNczwJOWUHsTaHg62FKJfw3SAV4GKab
- YGsE4aIfU6rNmRGm3AljHUhHVFn7XM6BUbxbAmUt5IwIKsSbIZn/MEs/rWrIxeSG1YSR
- EISeBpBtgDzg0bFj3td17A4vuttM17HVO8QRG1YwCC0GCPBjZezTW+iRuPPcej+D+c9w
- 3ENQ==
-X-Gm-Message-State: AOAM530kIZJavys3B8LpFy6hmg5g3aSs+dfuWmfCXylg4JLW9GhPbG6w
- jFy2NXOaCzBb3eR5V3Wqis8=
-X-Google-Smtp-Source: ABdhPJwDKaChWloXe++r5p1goEJJuS40KKco4mLZWce3U6q798YBSkWjgoJuS1gFOHxVdXkf6GhOpA==
-X-Received: by 2002:a5d:590d:0:b0:20a:c3eb:2584 with SMTP id
- v13-20020a5d590d000000b0020ac3eb2584mr13000908wrd.18.1652093087866; 
- Mon, 09 May 2022 03:44:47 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
- by smtp.gmail.com with ESMTPSA id
- q1-20020adf9dc1000000b0020c5253d8b8sm11582748wre.4.2022.05.09.03.44.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 03:44:47 -0700 (PDT)
-Date: Mon, 9 May 2022 10:44:45 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Subject: Re: [PATCH 0/4] Remove support for Hyper-V 2008 and 2008R2/Win7
-Message-ID: <20220509104445.umicxfdpy65nm4us@liuwe-devbox-debian-v2>
-References: <1651509391-2058-1-git-send-email-mikelley@microsoft.com>
- <20220504172307.GB1623@bug>
- <PH0PR21MB302590D20E95D9076FDA9C99D7C79@PH0PR21MB3025.namprd21.prod.outlook.com>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8790110EA9F;
+ Mon,  9 May 2022 10:49:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652093365; x=1683629365;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=5vDNIGHCUTsop4a773BsTnbcVjO1AfW8P1M8ZBXSLes=;
+ b=HOvVC9Y6WhzNuiRDg2GhQi9IAJJIhFM9fVyrMdzVDJMW2Z3s5pgmdKj+
+ fsheucSCq5lbLXtAQ41flMJdPWN9KPek76G25Hkh0KyHrXWPdOhQ30clU
+ jeKaD8UNAKYCWE2Rhphf0HJ+F/uKJpYL7RoQYogxq4nSnHl/q+TLctAY/
+ OmDv38ACogaHjhRlwe3zDc6Oua76RB/cIaRKBVty0jpRnYE/8og4lp1Ph
+ KAl+/LWnWeahPw7E221T9koNmDDvWPDj7phZ+UwyS6UTrNZY4X6MBFdiL
+ fKTgDPJ2mXMB01OXZ26tLgCuqcP7fyLWP2eB5zOdeNN2qNOyAoVNm8FRt g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="329605653"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="329605653"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 03:49:24 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="893626411"
+Received: from mallen2-mobl1.ger.corp.intel.com (HELO [10.252.28.105])
+ ([10.252.28.105])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 03:49:22 -0700
+Message-ID: <5aea48fb-8b80-4873-5e37-64bec9562e46@intel.com>
+Date: Mon, 9 May 2022 11:49:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH0PR21MB302590D20E95D9076FDA9C99D7C79@PH0PR21MB3025.namprd21.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 1/2] drm/i915: Enable THP on Icelake and beyond
+Content-Language: en-GB
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org
+References: <20220429100414.647857-1-tvrtko.ursulin@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220429100414.647857-1-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,128 +60,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "wei.liu@kernel.org" <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>, Haiyang Zhang <haiyangz@microsoft.com>,
- Dexuan Cui <decui@microsoft.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "drawat.floss@gmail.com" <drawat.floss@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
- vkuznets <vkuznets@redhat.com>, KY Srinivasan <kys@microsoft.com>,
- "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "deller@gmx.de" <deller@gmx.de>
+Cc: Eero Tamminen <eero.t.tamminen@intel.com>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 08, 2022 at 03:43:26PM +0000, Michael Kelley (LINUX) wrote:
-> From: Pavel Machek <pavel@ucw.cz> Sent: Wednesday, May 4, 2022 10:23 AM
-> > 
-> > Hi!
-> > 
-> > > Linux code for running as a Hyper-V guest includes special cases for the
-> > > first released versions of Hyper-V: 2008 and 2008R2/Windows 7. These
-> > > versions were very thinly used for running Linux guests when first
-> > > released more than 12 years ago, and they are now out of support
-> > > (except for extended security updates). As initial versions, they
-> > > lack the performance features needed for effective production usage
-> > > of Linux guests. In total, there's no need to continue to support
-> > > the latest Linux kernels on these versions of Hyper-V.
-> > >
-> > > Simplify the code for running on Hyper-V by removing the special
-> > > cases. This includes removing the negotiation of the VMbus protocol
-> > > versions for 2008 and 2008R2, and the special case code based on
-> > > those VMbus protocol versions. Changes are in the core VMbus code and
-> > > several drivers for synthetic VMbus devices.
-> > 
-> > > 2008 and 2008R2, so if the broader Linux kernel community surfaces
-> > > a reason why this clean-up should not be done now, we can wait.
-> > > But I think we want to eventually stop carrying around this extra
-> > > baggage, and based on discussions with the Hyper-V team within
-> > > Microsoft, we're already past the point that it has any value.
-> > 
-> > Normal way to do such deprecations is to put printks in first, then hide it
-> > under config option noone sets, and wait for year or so if anyone complains.
-> > 
+On 29/04/2022 11:04, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 > 
-> Are there any examples of doing these deprecation steps that you can
-> point me to?  I did not see anything in the Documentation directory
-> covering the deprecation process you describe.
+> We have a statement from HW designers that the GPU read regression when
+> using 2M pages was fixed from Icelake onwards, which was also confirmed
+> by bencharking Eero did last year:
 > 
-> I'd also make the case that we are already well down the deprecation
-> path.  For at least the last 5 years, the public Microsoft documentation
-> for Linux guests has listed Hyper-V 2012 R2 as the earliest supported
-> Hyper-V version.  Other current and new Microsoft products aren't
-> supported on Hyper-V 2008/Win7 either -- the usual Word/Excel/
-> PowerPoint, etc. fall into this category as well as Windows 10 and Windows
-> 11 as guests.  So for a rare user who might still be using Hyper-V
-> 2008/Win7, there's no reasonable expectation of being able to run
-> the latest upstream Linux kernel on Hyper-V 2008/Win7.  Other
-> current software doesn't.
+> """
+> When IOMMU is disabled, enabling THP causes following perf changes on
+> TGL-H (GT1):
 > 
-> Given that running Linux guests on Hyper-V sort of implicitly
-> combines Microsoft commercial thinking and Linux open source
-> thinking about version support, I could see putting the old Hyper-V
-> version support under a config option that defaults to "no", with a 
-> deprecation comment, and seeing if that garners any complaints.
-> But given the broader situation with Hyper-V 2008/Win7, in my
-> judgment even that is more cautious than we need to be.
+>      10-15% SynMark Batch[0-3]
+>      5-10% MemBW GPU texture, SynMark ShMapVsm
+>      3-5% SynMark TerrainFly* + Geom* + Fill* + CSCloth + Batch4
+>      1-3% GpuTest Triangle, SynMark TexMem* + DeferredAA + Batch[5-7]
+>            + few others
+>      -7% MemBW GPU blend
 > 
+> In the above 3D benchmark names, * means all the variants of tests with
+> the same prefix. For example "SynMark TexMem*", means both TexMem128 &
+> TexMem512 tests in the synthetic (Intel internal) SynMark test suite.
+> 
+> In the (public, but proprietary) GfxBench & GLB(enchmark) test suites,
+> there are both onscreen and offscreen variants of each test. Unless
+> explicitly stated otherwise, numbers are for both variants.
+> 
+> All tests are run with FullHD monitor. All tests are fullscreen except
+> for GLB and GpuTest ones, which are run in 1/2 screen window (GpuTest
+> triangle is run both in fullscreen and 1/2 screen window).
+> """
+> 
+> Since the only regression is MemBW GPU blend, against many more gains,
+> it sounds it is time to enable THP on Gen11+.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Eero Tamminen <eero.t.tamminen@intel.com>
 
-In general we should trust the judgement from the main developers.
+fwiw, for the series,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-There have been recent examples that things are dropped without any
-deprecation warnings. See below.
-
-By and large the usefulness of the code in kernel relies on a lot of
-factors. In this particular case, I don't think adding a KCONFIG makes
-sense. Printing a warning in _guest_ won't help. Whoever still runs
-these ancient versions has had ample warnings.
-
-Thanks,
-Wei.
-
-commit c645a883df34ee10b884ec921e850def54b7f461
-Author:     NeilBrown <neilb@suse.de>
-AuthorDate: Thu Sep 2 11:15:29 2021 +1000
-Commit:     J. Bruce Fields <bfields@redhat.com>
-CommitDate: Sat Oct 2 15:51:10 2021 -0400
-
-    NFSD: drop support for ancient filehandles
-
-    Filehandles not in the "new" or "version 1" format have not been handed
-    out for new mounts since Linux 2.4 which was released 20 years ago.
-    I think it is safe to say that no such file handles are still in use,
-    and that we can drop support for them.
-
-    Signed-off-by: NeilBrown <neilb@suse.de>
-    Signed-off-by: J. Bruce Fields <bfields@redhat.com>
-
-commit 9b472e85d098a40b84dd8b33fbf8a15ab1452025
-Author:     Nick Desaulniers <ndesaulniers@google.com>
-AuthorDate: Thu May 6 18:04:54 2021 -0700
-Commit:     Linus Torvalds <torvalds@linux-foundation.org>
-CommitDate: Fri May 7 00:26:32 2021 -0700
-
-    gcov: clang: drop support for clang-10 and older
-
-    LLVM changed the expected function signatures for llvm_gcda_start_file()
-    and llvm_gcda_emit_function() in the clang-11 release.  Drop the older
-    implementations and require folks to upgrade their compiler if they're
-    interested in GCOV support.
-
-    Link: https://reviews.llvm.org/rGcdd683b516d147925212724b09ec6fb792a40041
-    Link: https://reviews.llvm.org/rG13a633b438b6500ecad9e4f936ebadf3411d0f44
-    Link: https://lkml.kernel.org/r/20210312224132.3413602-3-ndesaulniers@google.com
-    Link: https://lkml.kernel.org/r/20210413183113.2977432-1-ndesaulniers@google.com
-    Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-    Suggested-by: Nathan Chancellor <nathan@kernel.org>
-    Acked-by: Peter Oberparleiter <oberpar@linux.ibm.com>
-    Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-    Reviewed-by: Fangrui Song <maskray@google.com>
-    Cc: Prasad Sodagudi <psodagud@quicinc.com>
-    Cc: Johannes Berg <johannes.berg@intel.com>
-    Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gemfs.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+> index ee87874e59dc..c5a6bbc842fc 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+> @@ -28,12 +28,14 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+>   	 *
+>   	 * One example, although it is probably better with a per-file
+>   	 * control, is selecting huge page allocations ("huge=within_size").
+> -	 * However, we only do so to offset the overhead of iommu lookups
+> -	 * due to bandwidth issues (slow reads) on Broadwell+.
+> +	 * However, we only do so on platforms which benefit from it, or to
+> +	 * offset the overhead of iommu lookups, where with latter it is a net
+> +	 * win even on platforms which would otherwise see some performance
+> +	 * regressions such a slow reads issue on Broadwell and Skylake.
+>   	 */
+>   
+>   	opts = NULL;
+> -	if (i915_vtd_active(i915)) {
+> +	if (GRAPHICS_VER(i915) >= 11 || i915_vtd_active(i915)) {
+>   		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+>   			opts = huge_opt;
+>   			drm_info(&i915->drm,
+> @@ -41,7 +43,10 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+>   				 opts);
+>   		} else {
+>   			drm_notice(&i915->drm,
+> -				   "Transparent Hugepage support is recommended for optimal performance when IOMMU is enabled!\n");
+> +				   "Transparent Hugepage support is recommended for optimal performance%s\n",
+> +				   GRAPHICS_VER(i915) >= 11 ?
+> +				   " on this platform!" :
+> +				   " when IOMMU is enabled!");
+>   		}
+>   	}
+>   
