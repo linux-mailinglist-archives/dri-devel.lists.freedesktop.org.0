@@ -2,37 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A7751F215
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 02:18:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0826351F217
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 02:47:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C127310F470;
-	Mon,  9 May 2022 00:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37FE210FEB3;
+	Mon,  9 May 2022 00:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id D61D910F470
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 00:18:15 +0000 (UTC)
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
- by 156.147.23.52 with ESMTP; 9 May 2022 09:18:13 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.121 with ESMTP; 9 May 2022 09:18:13 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-Date: Mon, 9 May 2022 09:16:37 +0900
-From: Byungchul Park <byungchul.park@lge.com>
-To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-Message-ID: <20220509001637.GA6047@X58A-UD3R>
-References: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
- <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
- <YnYd0hd+yTvVQxm5@hyeyoo>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC4910FEB3
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 00:47:20 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 46CE38010E;
+ Mon,  9 May 2022 02:47:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1652057238;
+ bh=aaMwZW73eqBNyFeIlh3lkpzFj5DJZEzMGdRfT5LOgxM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CIYv5V+DJTtrCAyqlV7sAQE5iMHlS/9c1jlQP4UWEWQQaUvJy6rcYSgAmNQkPFYMo
+ S30svEkAncqTboNmRIdXKS9cbdIl0dbc2MaeXMQ1lTwi6IiauuEADXAIQbyPja2EHA
+ invoxsqeNI+FqodhbYvkBKMasv820uGu02VCvEIUU80EgBt6adAmu8LrOWkpwZkaM6
+ HkYbTRzoMF1P8HumNrKsDxOCT4tBEVjqEO2HLWfPlpqFP73p2zXJYcnyGMtcgiwCG6
+ NducV4vgoyRfx4286dSWIuUFzprLwpy2jbM+dOz1GB4a2kLNCF+TZtL4rhC4DvYj1a
+ qAWtB4UolSDwA==
+Message-ID: <1a9a412f-9b3d-022c-f90b-ee46e5beddd1@denx.de>
+Date: Mon, 9 May 2022 02:47:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnYd0hd+yTvVQxm5@hyeyoo>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v0.5 6/9] phy: freescale: add Samsung HDMI PHY
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20220506181034.2001548-1-l.stach@pengutronix.de>
+ <20220506181034.2001548-7-l.stach@pengutronix.de>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220506181034.2001548-7-l.stach@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,116 +58,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
- cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, ngupta@vflare.org,
- johannes.berg@intel.com, jack@suse.com, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Sandor Yu <Sandor.yu@nxp.com>, Robert Foss <robert.foss@linaro.org>,
+ patchwork-lst@pengutronix.de, Andrzej Hajda <andrzej.hajda@intel.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, linux-phy@lists.infradead.org,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 07, 2022 at 04:20:50PM +0900, Hyeonggon Yoo wrote:
-> On Fri, May 06, 2022 at 09:11:35AM +0900, Byungchul Park wrote:
-> > Linus wrote:
-> > >
-> > > On Wed, May 4, 2022 at 1:19 AM Byungchul Park <byungchul.park@lge.com> wrote:
-> > > >
-> > > > Hi Linus and folks,
-> > > >
-> > > > I've been developing a tool for detecting deadlock possibilities by
-> > > > tracking wait/event rather than lock(?) acquisition order to try to
-> > > > cover all synchonization machanisms.
-> > > 
-> > > So what is the actual status of reports these days?
-> > > 
-> > > Last time I looked at some reports, it gave a lot of false positives
-> > > due to mis-understanding prepare_to_sleep().
-> > 
-> > Yes, it was. I handled the case in the following way:
-> > 
-> > 1. Stage the wait at prepare_to_sleep(), which might be used at commit.
-> >    Which has yet to be an actual wait that Dept considers.
-> > 2. If the condition for sleep is true, the wait will be committed at
-> >    __schedule(). The wait becomes an actual one that Dept considers.
-> > 3. If the condition is false and the task gets back to TASK_RUNNING,
-> >    clean(=reset) the staged wait.
-> > 
-> > That way, Dept only works with what actually hits to __schedule() for
-> > the waits through sleep.
-> > 
-> > > For this all to make sense, it would need to not have false positives
-> > > (or at least a very small number of them together with a way to sanely
-> > 
-> > Yes. I agree with you. I got rid of them that way I described above.
-> >
-> 
-> IMHO DEPT should not report what lockdep allows (Not talking about
+[...]
 
-No.
+> +static int fsl_samsung_hdmi_phy_probe(struct platform_device *pdev)
+> +{
+> +	struct fsl_samsung_hdmi_phy *phy;
+> +	int ret;
+> +
+> +	phy = devm_kzalloc(&pdev->dev, sizeof(*phy), GFP_KERNEL);
+> +	if (!phy)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, phy);
+> +	phy->dev = &pdev->dev;
+> +
+> +	phy->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(phy->regs))
+> +		return PTR_ERR(phy->regs);
+> +
+> +	phy->apbclk = devm_clk_get(phy->dev, "apb");
+> +	if (IS_ERR(phy->apbclk))
+> +		return dev_err_probe(phy->dev, PTR_ERR(phy->apbclk),
+> +				     "failed to get apb clk\n");
+> +
+> +	phy->refclk = devm_clk_get(phy->dev, "ref");
+> +	if (IS_ERR(phy->refclk))
+> +		return dev_err_probe(phy->dev, PTR_ERR(phy->refclk),
+> +				     "failed to get ref clk\n");
+> +
+> +	ret = clk_prepare_enable(phy->apbclk);
+> +	if (ret) {
+> +		dev_err(phy->dev, "failed to enable apbclk\n");
+> +		return ret;
+> +	}
 
-> wait events). I mean lockdep allows some kind of nested locks but
-> DEPT reports them.
-
-You have already asked exactly same question in another thread of
-LKML. That time I answered to it but let me explain it again.
-
----
-
-CASE 1.
-
-   lock L with depth n
-   lock_nested L' with depth n + 1
-   ...
-   unlock L'
-   unlock L
-
-This case is allowed by Lockdep.
-This case is allowed by DEPT cuz it's not a deadlock.
-
-CASE 2.
-
-   lock L with depth n
-   lock A
-   lock_nested L' with depth n + 1
-   ...
-   unlock L'
-   unlock A
-   unlock L
-
-This case is allowed by Lockdep.
-This case is *NOT* allowed by DEPT cuz it's a *DEADLOCK*.
-
----
-
-The following scenario would explain why CASE 2 is problematic.
-
-   THREAD X			THREAD Y
-
-   lock L with depth n
-				lock L' with depth n
-   lock A
-				lock A
-   lock_nested L' with depth n + 1
-				lock_nested L'' with depth n + 1
-   ...				...
-   unlock L'			unlock L''
-   unlock A			unlock A
-   unlock L			unlock L'
-
-Yes. I need to check if the report you shared with me is a true one, but
-it's not because DEPT doesn't work with *_nested() APIs.
-
-	Byungchul
+dev_err_probe() here too ?
