@@ -2,51 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E513751FA7C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47EF51FAA4
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:57:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B48C210EAC8;
-	Mon,  9 May 2022 10:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF9FA10EBAE;
+	Mon,  9 May 2022 10:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65FDF10EAC8
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 10:50:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 341A21F43B9C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1652093437;
- bh=MIuLmVe6TIzgT754hZGMYSoOyD19xD3PkF1IXcgoh98=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MaHkG/E3YW6LJ0G4SAtovaqL+jdNBJVE7a3iT0Iu++K4sfapfWhqcY5cd+EZQZ27y
- Ix+vNnxkEsWHplam96f531sR+hi1mAfSJmaWeZZwumwaL0LqXAEg01wFCvsX7V2UqP
- da0oJ+fb2xi8Ff8KGf3utMwi7s/1Wn8IbkI1R9eBH/aiJ2ReDRQm1dUgxi1FRIzA1+
- k7aOXbcYKAgy7KgwXBMme94SXNGKXIE3oH68474nZ+sw1kjQMLKkGxGLjksK+8eyk9
- kSvfIcy8xIdcRhbz4pWKX1dpug9cAiF7pnmLnnBMksfdu9TNixAiUJ1q0zX5U/V6KS
- tGBvfTnFh9vUw==
-Message-ID: <85fcdcd0-e7c5-5192-9113-c69f9c3a6385@collabora.com>
-Date: Mon, 9 May 2022 12:50:33 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E83AA10EBAE
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 10:57:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652093830;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EFrPs9L4di1vV1xZJqP9rzxBR1+UAeDEbQHD/bxvJ7Y=;
+ b=ObuCyNTC1Jw6TAQmSRNElFuZyUzNyh7ou6KjRhrpG8ErsnOkD9nL8J9zlrNH3vCukYoIB8
+ 88m5uH4gvT+AOn+RsRxZWq0QfCODuxHEn4N0RWDo9D7LPK6NunT3tJiveT4atCWNz1YYLe
+ oObHYty1YwQsOq4755649oNzaradNOA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-UljU4N10OtWNHy1mWoozxw-1; Mon, 09 May 2022 06:57:10 -0400
+X-MC-Unique: UljU4N10OtWNHy1mWoozxw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ a19-20020aa7d913000000b004284eecb34aso5455053edr.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 03:57:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=EFrPs9L4di1vV1xZJqP9rzxBR1+UAeDEbQHD/bxvJ7Y=;
+ b=2f7LEuSkQcO99/tCl4mkTb1UB7mWwR6naM8/wzxtjjiDojxaxBAGY+6WO+koAQmLNS
+ PYpAVu2aSXfLPqa/VaoUgQfJB1aSuv/KKZUMms93L4ABDSbeV4Mt5jhR8x2+Kju+Dp8D
+ JtPzStSS/0oF9JiGOBKClmLac2wSBIapmcSU+OPKi9z6nx1gdXt+QTyEI5JXlvFFr5PN
+ iCT1IpJYbh6wmct8y1yNCdtEiNTLZj02RsZO53gEZeZpRkuZ9ZE4swmu2xgu++LfjYCw
+ m2c5IAJzRhewrpQiUjYxVhbkwx/j5McDSUlOYzPK1slc/WYFEibOadbHod51+IMba6XI
+ FCVw==
+X-Gm-Message-State: AOAM533OqlwiC/LvqK8iOn3na+GJt7Kj+UWBtYKUgy9EmsTb4WSz4egh
+ ylin0hbZm7Gc4z3BE2MyZPPWyHR1m5oNxbzoCJRY3GpbW+FPZz3XWW3zsPf8vq2k87znLA0CfAJ
+ K+9b4TZC9TP6QOoPwtkmW1e71Hmcf
+X-Received: by 2002:a17:907:7da7:b0:6f4:f92b:3986 with SMTP id
+ oz39-20020a1709077da700b006f4f92b3986mr13581738ejc.50.1652093828682; 
+ Mon, 09 May 2022 03:57:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyR2LyN1sGr/ku45VLAMUVTF9Djf8FtshH8TyrOMtMCisUpjWy4B6l9l3wolcFcqotZ7FxfuQ==
+X-Received: by 2002:a17:907:7da7:b0:6f4:f92b:3986 with SMTP id
+ oz39-20020a1709077da700b006f4f92b3986mr13581728ejc.50.1652093828504; 
+ Mon, 09 May 2022 03:57:08 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+ by smtp.gmail.com with ESMTPSA id
+ a4-20020aa7d904000000b0042617ba6385sm6150956edr.15.2022.05.09.03.57.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 03:57:08 -0700 (PDT)
+Message-ID: <087a0754-422c-0d88-a5ed-c03f2b5906c2@redhat.com>
+Date: Mon, 9 May 2022 12:57:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 3/3] dt-bindings: mediatek: add ethdr definition for
- mt8195
+ Thunderbird/91.8.0
+Subject: Re: 5.18 vmwgfx seems to break booting VirtualBox VMs
+To: Zack Rusin <zackr@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>
+References: <2bd4b06e-7577-d7d7-5f2e-264005b316a1@redhat.com>
+ <84c30eb2dcdc330ea54aa1fedba9ae0eb0826068.camel@vmware.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <84c30eb2dcdc330ea54aa1fedba9ae0eb0826068.camel@vmware.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rex-BC Chen <rex-bc.chen@mediatek.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
-References: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
- <20220509044302.27878-4-rex-bc.chen@mediatek.com>
- <46bc32df-e4e8-ac47-426d-8056714f0d5c@linaro.org>
- <5462209c5afb0a638ed777ec1829bb2717c8d76e.camel@mediatek.com>
- <98505974-afad-9639-d4f2-814097b0523b@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <98505974-afad-9639-d4f2-814097b0523b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,52 +91,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/05/22 12:44, Krzysztof Kozlowski ha scritto:
-> On 09/05/2022 10:54, Rex-BC Chen wrote:
->>>> +    soc {
->>>> +        #address-cells = <2>;
->>>> +        #size-cells = <2>;
->>>> +
->>>> +        disp_ethdr@1c114000 {
->>>
->>> No underscores in node name. Generic node names, so display-
->>> controller?
->>>
+Hi Zack,
+
+On 4/11/22 16:24, Zack Rusin wrote:
+> On Mon, 2022-04-11 at 10:52 +0200, Hans de Goede wrote:
+>> Hi All,
 >>
->> OK, we will change the node name to ethdr like in dts
->> like this:
->> ethdr0: ethdr@1c114000 {
->> ...
->> }
+>> Fedora has received a bug report here:
+>>
+>> https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D2072556&amp;data=04%7C01%7Czackr%40vmware.com%7C3664ddfe25334b16109108da1b98a6af%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C0%7C637852639719382480%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=GpkMy6OuPW06f%2Fzj%2FBGzoq8xT8pNsE6KtH0MTvN5FoA%3D&amp;reserved=0
+>>
+>> That Fedora rawhide VMs no longer boot under the VirtualBox
+>> hypervisor
+>> after the VM has been updated to a 5.18-rc# kernel.
+>>
+>> Switching the emulated GPU from vmwaregfx to VirtualBoxSVGA fixes
+>> this, so this seems to be a vmwgfx driver regression.
+>>
+>> Note I've not investigated/reproduced this myself due to -ENOTIME.
 > 
-> Is "ethdr" a generic name? Is it an abbreviation of "EnergyTrace™ High
-> Dynamic Range"? If yes, it also looks specific to Texas Instruments...
-> 
-> Best regards,
-> Krzysztof
+> Thanks for letting us know. Unfortunately we do not support vmwgfx on
+> VirtualBox. I'd be happy to review patches related to this, but it's
+> very unlikely we'd have to time to look at this ourselves.
+
+I somewhat understand where you are coming from, but this is not
+how the kernels "no regressions" policy works. For the end user
+a regression is a regression and as maintainers we are supposed
+to make sure any regressions noticed are fixed before a new
+kernel hits end user's systems.
+
+At a minimum it would have been good if you had tried to at least
+reproduce this bug by installing Fedora rawhide inside an actual
+vmware VM. I've just spend a couple of hours debugging this and
+the bug definitely impacts vmware VMs too; and thus very likely
+also reproduces there.
+
+I've a patch fixing this, which I will send out right after this
+email.
+
+Regards,
+
+Hans
 
 
-That's mediatek-drm, and this refers to the HDR block in the display IP...
-
-Though, I have no idea of what "ET" stands for in "ETHDR", so, it would be
-definitely nice if MediaTek can write the meaning in the description, like
-
-description:
-   ETHDR (E??? T??? High Dynamic Range) is designed for HDR video and ...blah
-
-Cheers,
-Angelo
