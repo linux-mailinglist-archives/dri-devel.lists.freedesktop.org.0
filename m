@@ -2,37 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0314C520626
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 22:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9948C52064C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 23:01:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9EEA10EF46;
-	Mon,  9 May 2022 20:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B13A10F1D2;
+	Mon,  9 May 2022 21:01:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74CD010EF46
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 20:47:21 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 700A3616FF;
- Mon,  9 May 2022 20:47:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A498C385BA;
- Mon,  9 May 2022 20:47:14 +0000 (UTC)
-Date: Mon, 9 May 2022 16:47:12 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Byungchul Park <byungchul.park@lge.com>
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-Message-ID: <20220509164712.746e236b@gandalf.local.home>
-In-Reply-To: <20220509001637.GA6047@X58A-UD3R>
-References: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
- <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
- <YnYd0hd+yTvVQxm5@hyeyoo> <20220509001637.GA6047@X58A-UD3R>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E17C10F1D2
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 21:00:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652130058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1Bzt3W796ASHzaRhn4eWjT9qF0zjWal03UtUWUfW2ts=;
+ b=Lz3aCIOJKyKXwOd7FkGALwwCM7JpTzrlOuYbTo3dVmCl8SpeSgqG7xh22yHPMvppQfl73H
+ 6Fww3k7hVZel++BJxpfD2hn4PqdHCHGI1muAoj7Gzl+Jw4ChH6B2lSLN1/YanpIzrBklds
+ TWPMBY85x5pBz16+9zMBTsViiNVEOdE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-391-LldDrcZfPEuyMzEOy8D5Mg-1; Mon, 09 May 2022 17:00:57 -0400
+X-MC-Unique: LldDrcZfPEuyMzEOy8D5Mg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ j27-20020adfb31b000000b0020c4ca11566so6224536wrd.14
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 14:00:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1Bzt3W796ASHzaRhn4eWjT9qF0zjWal03UtUWUfW2ts=;
+ b=5AECQR4kSVi0HXziVuNq5RwnPKmm0o2lEQPNGfnOBuvIXODh4KdKbMlYge5z53bMuq
+ xegbdBtVDxsLoVhX+m6I4Q67OB+1UZcoy1hBdyhGT/XUlvxHIJcyEbqyFxnkR5jv6IWe
+ 3eoEwwLc7qUKATSmEOnCnNxbmdAmFZngJUw3ziuzMSipAW9o3KiNuXj3xZXoL2LJYyvv
+ FAD9xZKnKXzFBUJDOvWwpsLAsorwMyqrY/gipbJjwk0f8U9wNF6U94iWNLXKEfIciqLM
+ /gVN5lhjwb9fefzwiUqdmKJWtLMaIrJ4NGSG7s4DgZTLl4P/kD27+cjCiWDmxO3DyKYz
+ 4Ilw==
+X-Gm-Message-State: AOAM531/QBQ58/3tUSdAt3grvpGsNGpnsgUzFTyUlpfCoanQX7wOgtP9
+ HfYeVhjdR4QVQeqM7MOECzGbuwMwrcH3uqFSFHgMVmO7fGGKM+M1tZGEuKxkITJQjdMBT05BhL7
+ OIE41krzf4vmm3Wc8sOCxY6W8xgoq
+X-Received: by 2002:adf:f649:0:b0:20a:df27:d7e8 with SMTP id
+ x9-20020adff649000000b0020adf27d7e8mr15107007wrp.288.1652130056171; 
+ Mon, 09 May 2022 14:00:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFwBxm4UloEUWx7Wm9pIsKjR/43tPJ1g0hvjMDf3EHbP9pjdwU5R2j7Xzx+8fltPu3RcufgA==
+X-Received: by 2002:adf:f649:0:b0:20a:df27:d7e8 with SMTP id
+ x9-20020adff649000000b0020adf27d7e8mr15106994wrp.288.1652130055952; 
+ Mon, 09 May 2022 14:00:55 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
+ by smtp.gmail.com with ESMTPSA id
+ c190-20020a1c35c7000000b003942a244f49sm303300wma.34.2022.05.09.14.00.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 14:00:55 -0700 (PDT)
+Message-ID: <0be47bc4-ae27-0293-eeb0-83010d0ab948@redhat.com>
+Date: Mon, 9 May 2022 23:00:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] mgag200: Enable atomic gamma lut update
+To: michel.daenzer@mailbox.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, lyude@redhat.com
+References: <20220509094930.44613-1-jfalempe@redhat.com>
+ <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
+ <6b7acc25-64b3-297d-7842-a8cd59c8d98d@daenzer.net>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <6b7acc25-64b3-297d-7842-a8cd59c8d98d@daenzer.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,69 +91,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, cl@linux.com, will@kernel.org,
- duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- airlied@linux.ie, mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 9 May 2022 09:16:37 +0900
-Byungchul Park <byungchul.park@lge.com> wrote:
-
-> CASE 2.
+On 09/05/2022 18:04, Michel Dänzer wrote:
+> On 2022-05-09 16:22, Thomas Zimmermann wrote:
+>>
+>> It might also make sense to adjust the starting value of the lut table such that its final entry is used for the final entry in the HW palette. For typical gamma ramps ~2, the curve is fairly flat for small values and goes up steeply at high values. (Please correct me if I'm misinterpreting the gamma ramps.)
 > 
->    lock L with depth n
->    lock A
->    lock_nested L' with depth n + 1
->    ...
->    unlock L'
->    unlock A
->    unlock L
+> I don't think that's accurate. The most common ramp should be a straight line from 0 to the maximum value, and others may be curved toward the top or bottom.
 > 
-> This case is allowed by Lockdep.
-> This case is *NOT* allowed by DEPT cuz it's a *DEADLOCK*.
 > 
-> ---
+>> For 15-bit case I'd do thing like this.
+>>
+>>   lut += 7;
+>>   for (i < 0; i < 32; ++i, lut += 8) {
+>>      // write  lut
+>>   }
+>>
+>> 16-bit is complicated and may better be done in 2 loops
+>>
+>>   lutr += 7;
+>>   lutg += 3;
+>>   lutb += 7;
+>>   for (i < 0; i < 32; ++i, lutr += 8, lutg += 3, lutb += 8) {
+>>     // write  r/g/b lut
+>>   }
+>>   for (; i < 64; ++i, lutg += 3) {
+>>     // write  0/g/0 lut
+>>   }
 > 
-> The following scenario would explain why CASE 2 is problematic.
+> That'll just drop the first 3-7 entries of the LUT instead of the last ones, i.e. generally the full black entries instead of the full white ones.
 > 
->    THREAD X			THREAD Y
+> Ideally, the loop should start at 0 and then count as evenly as possible up to 255/63/31. I realize that's tricky though, and I don't have any specific suggestions for how to achieve this offhand.
 > 
->    lock L with depth n
-> 				lock L' with depth n
->    lock A
-> 				lock A
->    lock_nested L' with depth n + 1
+> 
 
-I'm confused by what exactly you are saying is a deadlock above.
+If you want 32 values from the 256 table, something like this should work:
 
-Are you saying that lock A and L' are inversed? If so, lockdep had better
-detect that regardless of L. A nested lock associates the the nesting with
-the same type of lock. That is, in lockdep nested tells lockdep not to
-trigger on the L and L' but it will not ignore that A was taken.
+for (i=0; i<32; i++) {
+    lut_index = i * 8 + i / 4;
+}
 
--- Steve
+lut_index will have this value:
+
+0, 8, 16, 24, 33, 41, 49, 57, 66, 74, 82, 90, 99, 107, 115, 123, 132, 
+140, 148, 156, 165, 173, 181, 189, 198, 206, 214, 222, 231, 239, 247, 255
 
 
+-- 
 
-> 				lock_nested L'' with depth n + 1
->    ...				...
->    unlock L'			unlock L''
->    unlock A			unlock A
->    unlock L			unlock L'
+Jocelyn
 
