@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3514B51FA0A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:36:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A53351FA11
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:36:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 318F410E939;
-	Mon,  9 May 2022 10:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9177510E970;
+	Mon,  9 May 2022 10:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5ABA10E939
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 10:35:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1643B10E92C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 10:36:00 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8377321C0E;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AF48321C33;
  Mon,  9 May 2022 10:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1652092558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H4iY3ne0c9D8de/vdCP6n3wQc9s2uKpelhZvsaMeqgU=;
- b=1aBOIno0sDORdfM6H0tsqqZ0oSgZohjBWr1VzMN62qJ/iXfonxCfhP9jTnTRXLGg8vhLgn
- LToMdk7+XiUqFrA9e6dq5SxwP4fUBNnZaGcw4xpXh+MVpGXno3DWgK5hBjfEUcpIsVgcFe
- VdyTrRw0UtIc4KKn2XcjqLv0I6czGzw=
+ bh=mJXDygIqu6y20enOtHNUTnMlv2uuTsu/86G0kOEzegA=;
+ b=Qaa5WRgZPWfGPeSVB6xziyZNl9AD7wMpPom+++x9GYfbhs3neeOI22alMi0MfVZ0uwTvhF
+ 9gMrA6Vo5+52+Zdq24KMtvf3KvmLhojgwUetjf+Shd47AjkOi1Npn8sR+AC2BcMsKEMkTe
+ /FzsGrXtSbv3b1InMKHZb6My+DO5VRk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1652092558;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H4iY3ne0c9D8de/vdCP6n3wQc9s2uKpelhZvsaMeqgU=;
- b=Xv0s6WgFEB46aATrs2x5ttK+8R3C0fMQNVHu6QZFrRCVrjFqM/57/mZMgUWjY3z4l5z+qI
- 2le2eynXPiJLdTAQ==
+ bh=mJXDygIqu6y20enOtHNUTnMlv2uuTsu/86G0kOEzegA=;
+ b=IXnYGqr8bfiR2pUjLVpHU3usXNvBDEZp2jbLmpmk3/5u8CazU6nFfLiCrhZBOm6qvyituB
+ y7CxTmBR79MXbSAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5892513B12;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 86647132C0;
  Mon,  9 May 2022 10:35:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WDTmFI7ueGJ9AgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id wPv2H47ueGJ9AgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 09 May 2022 10:35:58 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch, airlied@linux.ie,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH 1/7] drm:/mgag200: Acquire I/O lock while reading EDID
-Date: Mon,  9 May 2022 12:35:48 +0200
-Message-Id: <20220509103554.11996-2-tzimmermann@suse.de>
+Subject: [PATCH 2/7] drm/mgag200: Fail on I2C initialization errors
+Date: Mon,  9 May 2022 12:35:49 +0200
+Message-Id: <20220509103554.11996-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220509103554.11996-1-tzimmermann@suse.de>
 References: <20220509103554.11996-1-tzimmermann@suse.de>
@@ -68,59 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DDC operation conflicts with concurrent mode setting. Acquire the
-driver's I/O lock in get_modes to prevent this. This change should
-have been part of commit 931e3f3a0e99 ("drm/mgag200: Protect
-concurrent access to I/O registers with lock"), but apparently got
-lost somewhere.
+Initialization of the I2C adapter was allowed to fail. The mgag200
+driver would have continued without DDC support. Had this happened in
+practice, it would have led to segmentation faults in the connector
+code. Resolve this problem by failing driver initialization on I2C-
+related errors.
+
+v2:
+	* initialize 'ret' before drm_err() (kernel test robot)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 931e3f3a0e99 ("drm/mgag200: Protect concurrent access to I/O registers with lock")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/mgag200/mgag200_mode.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/mgag200/mgag200_i2c.c  | 13 ++++++++-----
+ drivers/gpu/drm/mgag200/mgag200_mode.c |  7 +++++--
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index abde7655477d..4ad8d62c5631 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -667,16 +667,26 @@ static void mgag200_disable_display(struct mga_device *mdev)
+diff --git a/drivers/gpu/drm/mgag200/mgag200_i2c.c b/drivers/gpu/drm/mgag200/mgag200_i2c.c
+index ac8e34eef513..31e2c641a781 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
++++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
+@@ -120,7 +120,7 @@ struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev)
  
- static int mga_vga_get_modes(struct drm_connector *connector)
- {
-+	struct mga_device *mdev = to_mga_device(connector->dev);
- 	struct mga_connector *mga_connector = to_mga_connector(connector);
- 	struct edid *edid;
- 	int ret = 0;
+ 	i2c = kzalloc(sizeof(struct mga_i2c_chan), GFP_KERNEL);
+ 	if (!i2c)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
  
-+	/*
-+	 * Protect access to I/O registers from concurrent modesetting
-+	 * by acquiring the I/O-register lock.
-+	 */
-+	mutex_lock(&mdev->rmmio_lock);
+ 	i2c->data = data;
+ 	i2c->clock = clock;
+@@ -142,11 +142,14 @@ struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev)
+ 	i2c->bit.getscl		= mga_gpio_getscl;
+ 
+ 	ret = i2c_bit_add_bus(&i2c->adapter);
+-	if (ret) {
+-		kfree(i2c);
+-		i2c = NULL;
+-	}
++	if (ret)
++		goto err_kfree;
 +
- 	edid = drm_get_edid(connector, &mga_connector->i2c->adapter);
- 	if (edid) {
- 		drm_connector_update_edid_property(connector, edid);
- 		ret = drm_add_edid_modes(connector, edid);
- 		kfree(edid);
- 	}
+ 	return i2c;
 +
-+	mutex_unlock(&mdev->rmmio_lock);
-+
- 	return ret;
++err_kfree:
++	kfree(i2c);
++	return ERR_PTR(ret);
  }
  
+ void mgag200_i2c_destroy(struct mga_i2c_chan *i2c)
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 4ad8d62c5631..88c095184308 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -825,8 +825,11 @@ static int mgag200_vga_connector_init(struct mga_device *mdev)
+ 	int ret;
+ 
+ 	i2c = mgag200_i2c_create(dev);
+-	if (!i2c)
+-		drm_warn(dev, "failed to add DDC bus\n");
++	if (IS_ERR(i2c)) {
++		ret = PTR_ERR(i2c)
++		drm_err(dev, "failed to add DDC bus: %d\n", ret);
++		return ret;
++	}
+ 
+ 	ret = drm_connector_init_with_ddc(dev, connector,
+ 					  &mga_vga_connector_funcs,
 -- 
 2.36.0
 
