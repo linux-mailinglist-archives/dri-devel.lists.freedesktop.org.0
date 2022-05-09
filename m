@@ -1,54 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1745051FD86
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:07:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9416B51FD97
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:09:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75CBE10F13A;
-	Mon,  9 May 2022 13:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6042C10F16A;
+	Mon,  9 May 2022 13:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA0710F13A;
- Mon,  9 May 2022 13:07:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652101635; x=1683637635;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=SMcgmXeLpJY2VvFtqPwSzBDiBA6+jm6vjUVE/D5fCqE=;
- b=bBTMDWupuBoT3pxwE5xwp79TKBYbmD4ai8lWad9U4pOidUCw0kbJAfIL
- brBJ6wk5MVJahGePwuf3t1B04552QEUr2sbhLQeXIdrf69oUSd5x0VZo6
- xX8PQPFt1BXnlKKqR8WoiRgSWiYNLwKbBwcVDl6nCgLwYCpIHvUEBfkst
- ELR+5zMp+ZG/xMT8tUXTBNADbpIctrOIyYuRpOTnf1apgy2rc6/fHPvJX
- sPSpZec77U3zdGvUxROgTPlaC1mT6axBtYzBAj4Ta5h7SeDy8Xi9dj7vB
- 1Dt7tmVZzGQqLUAa0jFOqNcumOMDdoKhEohcoenAuXPseCrAuwrkLfOB0 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="294267953"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="294267953"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 06:07:14 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="519222194"
-Received: from oanderso-mobl1.ger.corp.intel.com (HELO [10.213.217.157])
- ([10.213.217.157])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 06:07:13 -0700
-Message-ID: <2deb2d24-034c-e2e7-4b2c-7bf501529a8c@linux.intel.com>
-Date: Mon, 9 May 2022 14:07:11 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99AEA10F160
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 13:09:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652101742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9C8drEYqngKOm3nncV9RRJ4ZJYInBOQKfqINsG0BQFA=;
+ b=CoSTYxzbilstUGaXMjMAqkcXY6uXbFZrS/m5Rq28T9YxdskvuYDzY4Z6nKBfnvEwgHd0Hl
+ npG3rXCxB8B/0dlE0/Px/sH2GwLko3g40QQYATvkhEMYGe4FrLTsCwf7shnqZ+WNyq+kG0
+ AmC+vwc9Hiu/9aVGwwrDIkYdXMYmsZI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-115-CQDWgBrVNkm2BbJLTNbWlg-1; Mon, 09 May 2022 09:09:01 -0400
+X-MC-Unique: CQDWgBrVNkm2BbJLTNbWlg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r9-20020a1c4409000000b0039468585269so3196594wma.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 06:09:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9C8drEYqngKOm3nncV9RRJ4ZJYInBOQKfqINsG0BQFA=;
+ b=WJz2ULNA2Vc2hunLONrmgkmIACC6DP6oDXT/HWyVgPsTVTgq7pzYOxH/eOxqo6G8gi
+ ZJkhu+qrEEQzV7/X8I+7/xc5VpbCsOjKEy7FB83pXh1YWE6D4qqGVIyZeWnVHerjOCGE
+ np95bWRXO/cVU6VlQs0T7VFf5dAdOgn7DJzygEEDeoBnnpjVjTmfCVLPq1Zxv5lqbntz
+ t3B116MGT8y02nVolsMsSyMe2mIm3WTDu/eZCTodQhkEGPKDdzQGpb2uhqamR7WYf8XM
+ YjOF6MCwPufK4EtF1JGNlhdIiWsNTDuAzFV9CYIOoJpXRN10810M/D/X+PFN4U+FjKxw
+ C1uQ==
+X-Gm-Message-State: AOAM530LPxQY8y5wCxXWpuX1sQkCSMHZOOgbq7zKICml34tS1U3/N6NM
+ 7lBwhaprXhx6PqWaQS/dwWeHEYqGp9OHx/F/K6z9F0JrmbNEhibEKC5efvAuOvFr9dOsugsfRDh
+ 1FJVhZkffnX2UG3xcdVn6LgwwLcin
+X-Received: by 2002:a05:6000:1869:b0:20c:5362:1295 with SMTP id
+ d9-20020a056000186900b0020c53621295mr14079749wri.700.1652101740371; 
+ Mon, 09 May 2022 06:09:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDG6lbGPaq84WzEwCdXcOkQUQu+pRyyBz43QQu3IUWtgwSbAp0rMkkKwCQUS43pMkFMDHl0A==
+X-Received: by 2002:a05:6000:1869:b0:20c:5362:1295 with SMTP id
+ d9-20020a056000186900b0020c53621295mr14079728wri.700.1652101740162; 
+ Mon, 09 May 2022 06:09:00 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ z22-20020a05600c0a1600b003942a244eddsm13120297wmp.34.2022.05.09.06.08.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 May 2022 06:08:59 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/todo: Add entry for converting kselftests to kunit
+Date: Mon,  9 May 2022 15:08:46 +0200
+Message-Id: <20220509130846.694397-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/2] drm/i915: Enable THP on Icelake and beyond
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, Intel-gfx@lists.freedesktop.org
-References: <20220429100414.647857-1-tvrtko.ursulin@linux.intel.com>
- <5aea48fb-8b80-4873-5e37-64bec9562e46@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <5aea48fb-8b80-4873-5e37-64bec9562e46@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,103 +81,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eero Tamminen <eero.t.tamminen@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Many of the kselftests in DRM can be converted to kunit tests instead,
+since that framework is more suitable for unit testing.
 
-On 09/05/2022 11:49, Matthew Auld wrote:
-> On 29/04/2022 11:04, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> We have a statement from HW designers that the GPU read regression when
->> using 2M pages was fixed from Icelake onwards, which was also confirmed
->> by bencharking Eero did last year:
->>
->> """
->> When IOMMU is disabled, enabling THP causes following perf changes on
->> TGL-H (GT1):
->>
->>      10-15% SynMark Batch[0-3]
->>      5-10% MemBW GPU texture, SynMark ShMapVsm
->>      3-5% SynMark TerrainFly* + Geom* + Fill* + CSCloth + Batch4
->>      1-3% GpuTest Triangle, SynMark TexMem* + DeferredAA + Batch[5-7]
->>            + few others
->>      -7% MemBW GPU blend
->>
->> In the above 3D benchmark names, * means all the variants of tests with
->> the same prefix. For example "SynMark TexMem*", means both TexMem128 &
->> TexMem512 tests in the synthetic (Intel internal) SynMark test suite.
->>
->> In the (public, but proprietary) GfxBench & GLB(enchmark) test suites,
->> there are both onscreen and offscreen variants of each test. Unless
->> explicitly stated otherwise, numbers are for both variants.
->>
->> All tests are run with FullHD monitor. All tests are fullscreen except
->> for GLB and GpuTest ones, which are run in 1/2 screen window (GpuTest
->> triangle is run both in fullscreen and 1/2 screen window).
->> """
->>
->> Since the only regression is MemBW GPU blend, against many more gains,
->> it sounds it is time to enable THP on Gen11+.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
->> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->> Cc: Matthew Auld <matthew.auld@intel.com>
->> Cc: Eero Tamminen <eero.t.tamminen@intel.com>
-> 
-> fwiw, for the series,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Suggested-by: Maxime Ripard <maxime@cerno.tech>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-Thanks! With a statement from hw arch, benchmark results from Eero and a 
-r-b from you, I think it is justified to push this so I have. Lets see 
-if someone notices an improvement.
+ Documentation/gpu/todo.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Regards,
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 10bfb50908d1..513b20ccef1e 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -617,6 +617,17 @@ Contact: Javier Martinez Canillas <javierm@redhat.com>
+ 
+ Level: Intermediate
+ 
++Convert Kernel Selftests (kselftest) to KUnit tests when appropriate
++--------------------------------------------------------------------
++
++Many of the `Kselftest <https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html>`_
++tests in DRM could be converted to Kunit tests instead, since that framework
++is more suitable for unit testing.
++
++Contact: Javier Martinez Canillas <javierm@redhat.com>
++
++Level: Starter
++
+ Enable trinity for DRM
+ ----------------------
+ 
+-- 
+2.35.1
 
-Tvrtko
-
-> 
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gemfs.c | 13 +++++++++----
->>   1 file changed, 9 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c 
->> b/drivers/gpu/drm/i915/gem/i915_gemfs.c
->> index ee87874e59dc..c5a6bbc842fc 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
->> @@ -28,12 +28,14 @@ int i915_gemfs_init(struct drm_i915_private *i915)
->>        *
->>        * One example, although it is probably better with a per-file
->>        * control, is selecting huge page allocations 
->> ("huge=within_size").
->> -     * However, we only do so to offset the overhead of iommu lookups
->> -     * due to bandwidth issues (slow reads) on Broadwell+.
->> +     * However, we only do so on platforms which benefit from it, or to
->> +     * offset the overhead of iommu lookups, where with latter it is 
->> a net
->> +     * win even on platforms which would otherwise see some performance
->> +     * regressions such a slow reads issue on Broadwell and Skylake.
->>        */
->>       opts = NULL;
->> -    if (i915_vtd_active(i915)) {
->> +    if (GRAPHICS_VER(i915) >= 11 || i915_vtd_active(i915)) {
->>           if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
->>               opts = huge_opt;
->>               drm_info(&i915->drm,
->> @@ -41,7 +43,10 @@ int i915_gemfs_init(struct drm_i915_private *i915)
->>                    opts);
->>           } else {
->>               drm_notice(&i915->drm,
->> -                   "Transparent Hugepage support is recommended for 
->> optimal performance when IOMMU is enabled!\n");
->> +                   "Transparent Hugepage support is recommended for 
->> optimal performance%s\n",
->> +                   GRAPHICS_VER(i915) >= 11 ?
->> +                   " on this platform!" :
->> +                   " when IOMMU is enabled!");
->>           }
->>       }
