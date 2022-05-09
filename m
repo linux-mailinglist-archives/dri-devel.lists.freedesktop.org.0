@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF975207A1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 00:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB295207A9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 00:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC3110F0D7;
-	Mon,  9 May 2022 22:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE3210F0F4;
+	Mon,  9 May 2022 22:30:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCC4B10F0D7
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 22:29:14 +0000 (UTC)
-Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net
- [108.7.220.252]) (authenticated bits=0)
- (User authenticated as tytso@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 249MSHo6011967
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 9 May 2022 18:28:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
- t=1652135313; bh=PomMNNmWyc5YBypwEkVpIDxcMt6S+On8bnwlKnLl0F0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=Rs39OkFP/pNTkSQxZVxoNUvjfqeJsxGjlEaKtnLe8EYOjlpbdGk2tHWkiS9d9BcFF
- RIS/AIDq54gd3qcAa4HbE2GaHSv1KAhIEOOsohL8REgCHrQHDaElN2R3RR5DILb92k
- krMVvIOOSSVttntoFPdV+0VPdEuK4jdzgzxcp31ezytw6TdqVQENGAP6bOz/BbSmd9
- +UAjd3OyeAuuz3Oxm3sSUqTbAfnKQofWUeaXq8o4sQop7aqBnBEH1MzLZrD38+kmOc
- JbnmmK0DrKFNfZWR24Bn4TkvdA/n26ClG04VexyZ41JIVMdMdWBkKBvA+xtD1mMnID
- Vo6X0EhaRd7zA==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
- id A4D2D15C3F0A; Mon,  9 May 2022 18:28:17 -0400 (EDT)
-Date: Mon, 9 May 2022 18:28:17 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Byungchul Park <byungchul.park@lge.com>
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-Message-ID: <YnmVgVQ7usoXnJ1N@mit.edu>
-References: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
- <YnmCE2iwa0MSqocr@mit.edu>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA05310F0F1;
+ Mon,  9 May 2022 22:30:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652135426; x=1683671426;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=txrlFWqiGdkiALrcSI2wR/yr/MIiFo2lpP8fu+2tkI8=;
+ b=KVPVV9PWBL9fdFgUtc6wxvLyFUHSYYF5Qe4HX8cztGRCM7smOEHWJcCr
+ Tpeg63OGx7YvOhQQmpYR+Ef7lzsWwVRZ4ZSNgJFQhgEJfYPCC0pdy3L27
+ lzoSuXG5SvZIiL5OrUZh6WRsP5ree9QW0flr8mahSFVAieR2VWozeHDso A=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 09 May 2022 15:30:26 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 15:30:26 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 9 May 2022 15:30:25 -0700
+Received: from [10.111.163.26] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 9 May 2022
+ 15:30:23 -0700
+Message-ID: <0fa56e8f-a169-e342-a670-89dc48ac3cdc@quicinc.com>
+Date: Mon, 9 May 2022 15:30:20 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnmCE2iwa0MSqocr@mit.edu>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 13/25] drm/msm/dpu: pass dpu_format to
+ _dpu_hw_sspp_setup_scaler3()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-14-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220209172520.3719906-14-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,65 +68,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
- duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- airlied@linux.ie, mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- linux-mm@kvack.org, ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oh, one other problem with DEPT --- it's SLOW --- the overhead is
-enormous.  Using kvm-xfstests[1] running "kvm-xfstests smoke", here
-are some sample times:
 
-			LOCKDEP		DEPT
-Time to first test	49 seconds	602 seconds
-ext4/001      		2 s		22 s
-ext4/003		2 s		8 s
-ext4/005		0 s		7 s
-ext4/020		1 s		8 s
-ext4/021		11 s		17 s
-ext4/023		0 s		83 s
-generic/001		4 s		76 s
-generic/002		0 s		11 s
-generic/003		10 s		19 s
 
-There are some large variations; in some cases, some xfstests take 10x
-as much time or more to run.  In fact, when I first started the
-kvm-xfstests run with DEPT, I thought something had hung and that
-tests would never start.  (In fact, with gce-xfstests the default
-watchdog "something has gone terribly wrong with the kexec" had fired,
-and I didn't get any test results using gce-xfstests at all.  If DEPT
-goes in without any optimizations, I'm going to have to adjust the
-watchdogs timers for gce-xfstests.)
+On 2/9/2022 9:25 AM, Dmitry Baryshkov wrote:
+> There is no need to pass full dpu_hw_pipe_cfg instance to
+> _dpu_hw_sspp_setup_scaler3, pass just struct dpu_format pointer.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 9 ++++-----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 7 +++----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 4 ++--
+>   3 files changed, 9 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> index d8120168f974..7194c14f87bc 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -415,19 +415,18 @@ static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_pipe *ctx,
+>   }
+>   
+>   static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_pipe *ctx,
+> -		struct dpu_hw_pipe_cfg *sspp,
+> -		void *scaler_cfg)
 
-The bottom line is that at the moment, between the false positives,
-and the significant overhead imposed by DEPT, I would suggest that if
-DEPT ever does go in, that it should be possible to disable DEPT and
-only use the existing CONFIG_PROVE_LOCKING version of LOCKDEP, just
-because DEPT is S - L - O - W.
+This change does two things:
 
-[1] https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
+1) pass fmt and stop passing dpu_hw_pipe_cfg
+2) change the scaler_cfg from void to struct dpu_hw_scaler3_cfg
 
-						- Ted
+So it seems like we had this void casting to allow different versions of 
+the scaler to be passed and based on catalog bits the appropriate 
+structs can be used (scaler2/scaler3)
 
-P.S.  Darrick and I both have disabled using LOCKDEP by default
-because it slows down ext4 -g auto testing by a factor 2, and xfs -g
-auto testing by a factor of 3.  So the fact that DEPT is a factor of
-2x to 10x or more slower than LOCKDEP when running various xfstests
-tests should be a real concern.
+In the current DPU we have only scaler3. For that reason this is fine.
 
+I do not know what versions of scaler we will support in DPU.
+
+Do you think we can retain the void casting in this change and just 
+change passing the format?
+
+
+
+> +		struct dpu_hw_scaler3_cfg *scaler3_cfg,
+> +		const struct dpu_format *format)
+>   {
+>   	u32 idx;
+> -	struct dpu_hw_scaler3_cfg *scaler3_cfg = scaler_cfg;
+>   
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx) || !sspp
+> +	if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx)
+>   		|| !scaler3_cfg)
+>   		return;
+>   
+>   	dpu_hw_setup_scaler3(&ctx->hw, scaler3_cfg, idx,
+>   			ctx->cap->sblk->scaler_blk.version,
+> -			sspp->layout.format);
+> +			format);
+>   }
+>   
+>   static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_pipe *ctx)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index 74171fb4e585..eee8501ea80d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -334,13 +334,12 @@ struct dpu_hw_sspp_ops {
+>   
+>   	/**
+>   	 * setup_scaler - setup scaler
+> -	 * @ctx: Pointer to pipe context
+> -	 * @pipe_cfg: Pointer to pipe configuration
+>   	 * @scaler_cfg: Pointer to scaler configuration
+> +	 * @format: pixel format parameters
+>   	 */
+>   	void (*setup_scaler)(struct dpu_hw_pipe *ctx,
+> -		struct dpu_hw_pipe_cfg *pipe_cfg,
+> -		void *scaler_cfg);
+> +		struct dpu_hw_scaler3_cfg *scaler3_cfg,
+> +		const struct dpu_format *format);
+>   
+>   	/**
+>   	 * get_scaler_ver - get scaler h/w version
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 3ce7dcc285e2..e9421fa2fb2e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -646,8 +646,8 @@ static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
+>   	if (pipe_hw->ops.setup_scaler &&
+>   			pipe->multirect_index != DPU_SSPP_RECT_1)
+>   		pipe_hw->ops.setup_scaler(pipe_hw,
+> -				pipe_cfg,
+> -				&scaler3_cfg);
+> +				&scaler3_cfg,
+> +				fmt);
+>   }
+>   
+>   /**
