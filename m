@@ -1,48 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7C851F84C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 11:31:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 702AB51F85F
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 11:44:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 043E210E895;
-	Mon,  9 May 2022 09:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 586B110E13F;
+	Mon,  9 May 2022 09:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 175CC10E6CE;
- Mon,  9 May 2022 09:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652088659; x=1683624659;
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 935FA10E13F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 09:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1652089485; x=1683625485;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XLEYnhufhiZQ1J/UDY2UmrUb3aP6hXrcdEGDho0+Yk0=;
- b=Nx0utvmVvjGjOajL303LZ1qb3hgVEqowNcgoJUWeWY0oGNDs1F+Oy8mb
- X9nBjrUUypIL6pUzrb49cAf+SShx+RcE++iUnwGtkBZ6YfaLFq0Hn7MHw
- vNmDp1g/fTJ0V0aIyn0Hl60HSSnRHbe68Dx60rgFZ6354PfJrfT7rJlXZ
- bbLWbo/rFMbbN+jm++r5PQmuz+ZMO6XiHWsZdHeRN3VNjv5rYXCo+VCPb
- Q/RAWWVHQ/3Beke0eGStZZc8rEnOV8hh0YxGySkbQ5i4SYT06cg2QaGyG
- z+51G9ijmuKUKYlmd43ftZjBmzokQIVGrUUmjddogyclW33YnXdxFGI8v Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="294218316"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="294218316"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 02:30:52 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="591551333"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 02:30:50 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915/hdmi: Prune unsupported modes as per HDMI2.1 spec
-Date: Mon,  9 May 2022 15:01:30 +0530
-Message-Id: <20220509093130.3511032-3-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220509093130.3511032-1-ankit.k.nautiyal@intel.com>
-References: <20220509093130.3511032-1-ankit.k.nautiyal@intel.com>
+ bh=VPe5bQ0AH2k58Lhmif6E/vGhwkVh6E3gGg8UK1RI4KI=;
+ b=cTJM7xePiRQfjcIh+VJB6/w+OtnAqT+oe8lk3alCDFHE6OYySIpJEo1S
+ fxxw6zW8PXfqiHpdvEBiy7LRpJED4LtI+UC+6GkFSq2sCWn8MiwnLzYwR
+ qnfrfbwZntH5LFkqk6IR/IE9Rbyh/I93zMHC91c92VsTbXi2Ekf11uWZG
+ mctoV+OEOZrix3Z5bgUUGMCCcEq+4K/JnU77miY8cH+dKkg5xDUYD7QKL
+ PwQFdMgMBo9TwQPhIF4IwxriYIo5P7Ntd4ZPv5W54uGJNt6vALWi6GGRE
+ D7HgPvXFvvZhEm8wcUtHL/xJ1VbFx54B+ekzqUALgwSDYgKL6IZxLPkn7 A==;
+X-IronPort-AV: E=Sophos;i="5.91,211,1647298800"; d="scan'208";a="23749691"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 09 May 2022 11:44:43 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Mon, 09 May 2022 11:44:43 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Mon, 09 May 2022 11:44:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1652089483; x=1683625483;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=VPe5bQ0AH2k58Lhmif6E/vGhwkVh6E3gGg8UK1RI4KI=;
+ b=HF9WAV9C1P6/xdmxozWgl/PPvOVckycJNxQj3yOj3fAIQXSFg69E/Acz
+ PLQvWoOYqAv3fSEQDDrcW4YG90O0bICHl9okbbCpZEPg2i22DZlAZRk/u
+ GTrS/7liHoJyvoEfXvx/VQBqvt2xhIgHbGBLXQ8e+k07pdVPtcdPbX2Tj
+ +Trexs2Gu482B9ap302r2QF7RsP5hcm20YcfkAh0+qVQnzQxUhM/0GitJ
+ nKixUTPAY38Kpy0uJhmzmtQqbBLh8rIkmaWIuTUwY6KR5pXefbn/XSKMZ
+ ofxLcLpHCIUsPcve0+4xAI0EceF7eyCbIZQPACWs7ABNCvFrRmFT1RYAf w==;
+X-IronPort-AV: E=Sophos;i="5.91,211,1647298800"; d="scan'208";a="23749690"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 09 May 2022 11:44:43 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 0504C280070;
+ Mon,  9 May 2022 11:44:43 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: (EXT) [PATCH v0.5 0/9] i.MX8MP HDMI support
+Date: Mon, 09 May 2022 11:44:42 +0200
+Message-ID: <2112379.Mh6RI2rZIc@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220506181034.2001548-1-l.stach@pengutronix.de>
+References: <20220506181034.2001548-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,102 +76,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sandor Yu <Sandor.yu@nxp.com>, Robert Foss <robert.foss@linaro.org>,
+ patchwork-lst@pengutronix.de, Andrzej Hajda <andrzej.hajda@intel.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, linux-phy@lists.infradead.org,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per Sec 7.8.1 of HDMI2.1 spec, sources that support modes:
-4K100, 4K120, 8K50, 8K60 must support these modes in at least one of
-the below formats:
-i) uncompressed FRL, 420 format and min of 10 bpc, or
-ii) compressed FRL, 444 format and min of 10 bpc.
+Hi Lucas,
 
-Since FRL and DSC are not supported natively with HDMI, the above
-modes must be pruned as per the spec, and is a requirement for the
-HDMI2.1 compliance test.
+Am Freitag, 6. Mai 2022, 20:10:25 CEST schrieb Lucas Stach:
+> second round of the i.MX8MP HDMI work. Still not split up into proper
+> parts for merging through the various trees this needs to go into, but
+> should make it easy for people to test.
+> 
+> I've worked in the feedback I got from the last round, including fixing
+> the system hang that could happen when the drivers were built as modules.
+> 
+> Series is based on linux-next/master, as there are some prerequisite
+> patches in both the drm and imx tree already. The last patch from [1]
+> and the patches from [2] need to be applied. Please note that this series
+> expects the sync polarity from the LCDIF to be set according to the
+> comments I made in [2]. Please test and provide feedback.
 
-This patch adds a condition to check for the modes with clock
-requirement more than 2376 MHz (1188 MHz with 420 format),
-and prune them if none of the above two formats are supported.
+Thanks for the 2nd round of HDMI support patches. Sorry I wasn't able to reply 
+to your questions, but the PLL locking seems to be gone on my system.
 
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/i915/display/intel_hdmi.c | 48 +++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+I still get the error
+> imx-lcdif 32fc6000.display-controller: Unknown media bus format 0x200f
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 1ae09431f53a..2ee1262f6427 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -1940,6 +1940,44 @@ static bool intel_hdmi_sink_bpc_possible(struct drm_connector *connector,
- 	}
- }
+To answer the other question on the last patchset
+> Do have a 4k HDMI display connected that wants to do YUV input? That's
+> something I have to admit I didn't test yet and would be likely to
+> cause this bus format selection.
+
+This is a FullHD HDMI monitor, ASUS PB238Q. Apparently the color format is 
+YCBCR422. From what I can see is that 
+dw_hdmi_bridge_atomic_get_output_bus_fmts() adds MEDIA_BUS_FMT_UYVY8_1X16 
+(0x200f) to the output formats. This is then passed to 
+select_bus_fmt_recursive() on the bridge chain. For 0x200f 
+dw_hdmi_bridge_atomic_get_input_bus_fmts() returns 3 input formats with 
+MEDIA_BUS_FMT_UYVY8_1X16 being the 1st.
+Each entry is then probed on pvi_bridge_get_input_bus_fmts(), which just 
+forwards to dw_hdmi_bridge_atomic_get_input_bus_fmts().
+Note: At this point it is only checked whether the input format can be output.
+As 0x200f is supported by dw_hdmi this format will finally be selected, which 
+is not supported by lcdif_kms, resulting in the error message above.
+
+A quick&dirty hack to workaround is the following diff which just changes the 
+order of the format to be tested:
+---8<---
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2816,9 +2816,9 @@ static u32 
+*dw_hdmi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+                input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+                break;
+        case MEDIA_BUS_FMT_UYVY8_1X16:
++               input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+                input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+                input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+-               input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+                break;
  
-+/*
-+ * HDMI2.1 Sec7.8.1
-+ * Support requirement for 4K100, 4K120, 8K50, and 8K60.
-+ *
-+ * The modes with timings same as above modes are supported only with min of 10 bpc
-+ * along with:
-+ *
-+ * i) 444 format only with FRL mode support with DSC
-+ * ii) 420 format only with FRL mode without DSC.
-+ */
-+static bool
-+intel_hdmi21_bpc_possible(struct drm_connector *connector,
-+			  int clock, int bpc, bool ycbcr420_output,
-+			  bool frl, bool dsc)
-+{
-+	const struct drm_display_info *info = &connector->display_info;
-+	const struct drm_hdmi_info *hdmi = &info->hdmi;
-+
-+	int pixel_clock = ycbcr420_output ? clock * 2 : clock;
-+
-+	if (pixel_clock < 2376000)
-+		return true;
-+
-+	if (!frl)
-+		return false;
-+
-+	if (dsc && bpc > hdmi->dsc_cap.bpc_supported)
-+		return false;
-+
-+	if (!ycbcr420_output && !dsc)
-+		return false;
-+
-+	if (bpc < 10)
-+		return false;
-+
-+	return true;
-+}
-+
- static enum drm_mode_status
- intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
- 			    bool has_hdmi_sink, bool ycbcr420_output)
-@@ -1948,6 +1986,13 @@ intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
- 	struct intel_hdmi *hdmi = intel_attached_hdmi(to_intel_connector(connector));
- 	enum drm_mode_status status = MODE_OK;
- 	int bpc;
-+	bool frl, dsc;
-+
-+	/*
-+	 * FRL and DSC not supported for HDMI from source as of now.
-+	 */
-+	frl = false;
-+	dsc = false;
+        /* 10bit */
+---8<---
+With this MEDIA_BUS_FMT_RGB888_1X24 is probed 1st (and selected) which 
+actually is supported by lcdif_kms.
+
+For the records, I used this diff for lcdif driver to fix the polarity issue
+---8<---
+--- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+@@ -89,12 +89,12 @@ static void lcdif_set_mode(struct lcdif_drm_private 
+*lcdif, u32 bus_flags)
+        struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+        u32 ctrl = 0;
  
- 	/*
- 	 * Try all color depths since valid port clock range
-@@ -1963,6 +2008,9 @@ intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
- 		if (!intel_hdmi_sink_bpc_possible(connector, bpc, has_hdmi_sink, ycbcr420_output))
- 			continue;
- 
-+		if (!intel_hdmi21_bpc_possible(connector, clock, bpc, ycbcr420_output, frl, dsc))
-+			continue;
-+
- 		status = hdmi_port_clock_valid(hdmi, tmds_clock, true, has_hdmi_sink);
- 		if (status == MODE_OK)
- 			return MODE_OK;
--- 
-2.25.1
+-       if (m->flags & DRM_MODE_FLAG_PHSYNC)
++       if (m->flags & DRM_MODE_FLAG_NHSYNC)
+                ctrl |= CTRL_INV_HS;
+-       if (m->flags & DRM_MODE_FLAG_PVSYNC)
++       if (m->flags & DRM_MODE_FLAG_NVSYNC)
+                ctrl |= CTRL_INV_VS;
+        /* Make sure Data Enable is high active by default */
+-       if (!(bus_flags & DRM_BUS_FLAG_DE_LOW))
++       if ((bus_flags & DRM_BUS_FLAG_DE_LOW))
+                ctrl |= CTRL_INV_DE;
+        if (bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+                ctrl |= CTRL_INV_PXCK;
+---8<---
+
+With both changes from above I can see the weston desktop.
+
+Alexander
+
+> [1]
+> https://lore.kernel.org/all/20220406153402.1265474-1-l.stach@pengutronix.de
+> / [2] https://lore.kernel.org/all/20220322142853.125880-1-marex@denx.de/
+> 
+> Lucas Stach (9):
+>   dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
+>   drm/imx: add bridge wrapper driver for i.MX8MP DWC HDMI
+>   dt-bindings: display: imx: add binding for i.MX8MP HDMI PVI
+>   drm/imx: add driver for HDMI TX Parallel Video Interface
+>   dt-bindings: phy: add binding for the i.MX8MP HDMI PHY
+>   phy: freescale: add Samsung HDMI PHY
+>   arm64: dts: imx8mp: add HDMI irqsteer
+>   arm64: dts: imx8mp: add HDMI display pipeline
+>   arm64: dts: imx8mp-evk: enable HDMI
+> 
+>  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      |   83 ++
+>  .../bindings/display/imx/fsl,imx8mp-hdmi.yaml |   73 ++
+>  .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     |   62 +
+>  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   19 +
+>  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |   94 ++
+>  drivers/gpu/drm/imx/Kconfig                   |    1 +
+>  drivers/gpu/drm/imx/Makefile                  |    2 +
+>  drivers/gpu/drm/imx/bridge/Kconfig            |   18 +
+>  drivers/gpu/drm/imx/bridge/Makefile           |    4 +
+>  drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c     |  201 +++
+>  drivers/gpu/drm/imx/bridge/imx-hdmi.c         |  141 +++
+>  drivers/phy/freescale/Kconfig                 |    6 +
+>  drivers/phy/freescale/Makefile                |    1 +
+>  drivers/phy/freescale/phy-fsl-samsung-hdmi.c  | 1078 +++++++++++++++++
+>  14 files changed, 1783 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
+> create mode 100644
+> Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml create
+> mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
+> create mode 100644 drivers/gpu/drm/imx/bridge/Kconfig
+>  create mode 100644 drivers/gpu/drm/imx/bridge/Makefile
+>  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c
+>  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi.c
+>  create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
+
+
+
 
