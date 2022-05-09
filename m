@@ -1,125 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5E1520097
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 17:01:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1F4520099
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 17:02:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D7C10F217;
-	Mon,  9 May 2022 15:01:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED6C010F21F;
+	Mon,  9 May 2022 15:02:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4E0C10F215;
- Mon,  9 May 2022 15:01:40 +0000 (UTC)
+ (mail-dm6nam12on2060.outbound.protection.outlook.com [40.107.243.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9863C10F21F;
+ Mon,  9 May 2022 15:02:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FKi/ecfiOB4JlMeWiCejLUAiB6GYT5Lb7S0H5pPfQaR9vZq4kW35cOnP02ex7IkX6/D2gSOrvBslpyEaaXid4HrJyrEmlmyQjrmBndJd/RSWww93llRFz47q4/ikKEuboZ/HyyrvAa/7aXRPupPaUQ++UY04S/yxcxlNNwkYBl8bR1cWBIweVL5L29lFBr7Gl1O/MLYzYj4W/uTZx77rU4ltH0AJzGtjzXlsUK1O2ygN5kKMtN+MBPfmnutIsl3AbHDHljdnoKVata64OXYn/AaDuyWR/opaNdmv71PB2lnedXy1o9UsbkuyRYsC2Qv5mDfUHMm0mO5SCToVQt6PAQ==
+ b=YNJCV7jBgM+gSQZ+fWBHzXg7jVx8mmY1g5hE96nSjXDAqdLEQzPuO4R8CRLhkXH59jUDIB0GYxE0FFimi6P3ojvQbo/Dwelkqd5HC7Dv2ndld5G2ONwJ3aZgTFvo7XCnTJB1sfCkr/M+qUreLVJT4HwrsM0eHFAfbe7RO6ANEVdFocUBg1TJCoyTjIky5Gb4qbevYDnBkEY4/AQkeYuDdkDua7hK3MyGpu2eTrXGWBrju+wKa/H6dmfRs35vkoemHLdK5SC7VPnBLDi/Zfsr3bWxBJEZfD7O+ZOxb8HuNKZwPj48442KeeIl4lCkg+goMLxgmjKcAORlr/ZVYIImMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fvyfppx+WwM6J+e8adY+tBmFeZtwlh50CJmn1hTGamU=;
- b=SlpArk4L4K2SYx9r1QRsjkqFRcgU8aEzGXvdWvBqyftyaI03vMxrrG65EmV4951dh0/yHbt+CXGglInhSCGPdqCIYgGKZhwZ3X17H52eZi95eyMAsCtld65ZnSU0iOmpl19uNWOH7OBQjYHs9vz/GwZtJpHpqbivFTZTaMXb9NarYdr3Q3P/S7IkDrCgu3av0QdZF4t8PWl4q/vzWDWjyTJ29tv8ng9yHYEhXaeVkZoVGs8FcmAHIoDxeaHZmccofm5WOIYRTEFeZ8BCP8SIqqVCB4DQ1Nzok1qIqsDz+wSyt0Nc5reAXr02kHx8Yw+2IVI953q6rIno36oPFYtvYQ==
+ bh=raoap66GAfr5cxggWwnyJ+2wl0syAXza8XzOpuTMCjA=;
+ b=mdTuE2jN3UzH9FLjtkWki0mYIU9dP8o0HrYn/dilYNTTWQxV6lGHm9031RQ7W7alUE17v0NZcPogbYyoVYPMHhfddCRyFyB7ftB0ON4jbCwnIE+nwh8+PBfDLueFV5WGXmKg0ieyGGZVh7fbgf3GQdm7ALwxglPIomdnOE2S4gwVjjxhGq9/XJkfbAZJ1dB2AS8b5Yven6kHDp/ufo7S6IKsIjqLja3MUl4gA1WxnM/kIhKFhbqNPjFF+ZKkebeTlJFsPxq8/rHHn97hmfVVlrQgwRuKIfv6HCS+71Y5e4Iv1l/hqLe7oXbWCKoQCOxH/DJkxbMzqBx2+cCuB8PZEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fvyfppx+WwM6J+e8adY+tBmFeZtwlh50CJmn1hTGamU=;
- b=3fDQPcqq6S0zwa27XvmP4YOCT5L4kRN9g3+q6oP+XsN2/Lr4LpLoMLUN+0ZCutd8A/QfGHP9kum0i7prRFy2eOj1T/elTGz0ytzgbv/i2pa1jqsWfxypZLW82P591fb2zQot6Bpl1QYLRiHVgPBe7P7jyW7zc5Dw+ySRa9ozdAs=
+ bh=raoap66GAfr5cxggWwnyJ+2wl0syAXza8XzOpuTMCjA=;
+ b=aombAbqaAgjELC+/BwfUDuEb8s8rJbJxwkCNjUx0ns9WzPDqFEsT3sAOGMixsiDuTeQ7FgejnM94cohwR0CXoB46MHBLTnrtEZ2X32INOquzK8pjqiMyl1BAvsPavvsBAuYO48uhsKm09f0u+WgTuYYty4zhjxvE21ahiCq9BT8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
  by DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5227.22; Mon, 9 May 2022 15:01:38 +0000
+ 15.20.5227.22; Mon, 9 May 2022 15:02:17 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::fdba:2c6c:b9ab:38f]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::fdba:2c6c:b9ab:38f%4]) with mapi id 15.20.5227.023; Mon, 9 May 2022
- 15:01:38 +0000
-Message-ID: <639687d0-ee0c-975a-93c0-b54422c74719@amd.com>
-Date: Mon, 9 May 2022 17:01:33 +0200
+ 15:02:17 +0000
+Message-ID: <0d1ea5d3-3624-e9d6-3dfd-9b0186ae757a@amd.com>
+Date: Mon, 9 May 2022 17:02:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
+Subject: Re: [PATCH 8/8] drm: move ttm_execbuf_util into vmwgfx
 Content-Language: en-US
 To: Daniel Vetter <daniel@ffwll.ch>,
  =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
 References: <20220504074739.2231-1-christian.koenig@amd.com>
- <20220504074739.2231-2-christian.koenig@amd.com>
- <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
+ <20220504074739.2231-9-christian.koenig@amd.com>
+ <YnkmLI1C7yc31eW2@phenom.ffwll.local>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
+In-Reply-To: <YnkmLI1C7yc31eW2@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P193CA0078.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:209:88::19) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM6P193CA0095.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:209:88::36) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 402d7975-1283-45a5-dceb-08da31ccd143
+X-MS-Office365-Filtering-Correlation-Id: b7d045d5-d6a9-4f95-61fe-08da31cce863
 X-MS-TrafficTypeDiagnostic: DM5PR12MB1355:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB135558E7DA5B1E2674F1ED2B83C69@DM5PR12MB1355.namprd12.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1355C37182ECC2F19B6AF49B83C69@DM5PR12MB1355.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pfWXvCS9eooAsWNpZGBTYRR90VPgBxtyt/a2rGgMUXMMm7h1NIU4Sj4hpCVRfgDbJcK+4/MbcpN56cJ3A3dmSfD0KGj3reExtluZSYmiY8MfoDU0WxasLAH35JIC+J/AD7QmDWCk2y75e74i+pex/4PuBqzjppZ80pYw/tAAZt5h1T3N2Be5e2aYsNGjMUSQ7QxtIk+l52W+JXro72TLD7RrI2mcP4LA0DuZw+dnXX+Ys+dk9UAWMcPgvBwFuzr7VX8L1Cx5Gpaj4xYaoXJ99D2TgCbjsuZUZQXevfLyZ/+MUHST8bK0erWra3ShTpbORIXHcHdS2TwRGuKaDsfID/95wr8xV6VHkSV+Yf96C4Cbdl/sLCKHD9DIRSPriyCZDiKbvDvTERt+VRFZORkv2hAuLwcmRmglBkNwqOkUf3K/7c5GVPxskAz+b+wuEbLXbe9KXN7AsfyzOlj08eW3HeLnYh56Ni+QKCzUC8gX6dQBeSkLWW9tVvWBrZMBR9p3v5hhkuxQlHU1mi1/lpjvTHQckhnqXg38wFUUg0Oqh1Z52GTfuBfVTwgWNhX6xrfPOkBHTdQBXo61H1PVZZpCsdGZSKC10cGwWnyhdFWZqtP+pVbmcKaq9WTd7yfkC0SaP4D0IWzwtOrxWrMpA5UbmLjUYnzwHRAP7Kn6cqBPG3Jua6/pNtGhZYA3Kn48npIYegPNezkAmc1t93Pwt6l5nlpY99+GiK7OB5CzCeQ3X3A=
+X-Microsoft-Antispam-Message-Info: 68VFB+6ccX95LjCQPxbn6c3gZF2pPXDImMm6XfHDY4vxk6FcVDeNumZV0PyQVrng18K+OEdh5zHRQ4SiSWlAnNiKk8l0QTj+3wZWUZDV9i/Fpct8KhuUpjagzQ5XtRSHlBYGfSSCG8XJ0qi8gDGjZBHMczFSVmERgffyoTiH9IcFGOMnhbmWKFZ2mFnClq3ZeNApcIzYJ9Hu3iDuCBzPgtW6tPR8KNaDSiCI9RWI89vbIx4zMehuO0ll8L4CVowXttnIROmmrdRnvnAvDaObvjh9g3Rz0NvfW5LruBEVpNj0qRpWLPMK0IoAsgcbw83Uas+PwtCgL/XnhPVhbYDHheLvi5/KtV/eSNkzur4PqUOabzkWb3iEAjq4O3MkuD6gBbZHNyqy/bUgHiEe2TTKNw4MRL+YaIs4MsERHlsfDdxxvYFKMhEPrmgcUu+Kow7d2k+lLzI+5sNsvnz1T67yLZXqmEI/WQioqvG2Azes8/bufttlDAjLiUkTHxoAyQzWDETxd57vM9vPswVqmGk0w6EeMPf6Az1qyZWQz3VCu6GhHgXtzOQdwzh2ETmFyyVDb2uxOA0YqVlP8wNs0p7T7I8oWn9fR+hwsglG0Ru8OhC4frDKKPt6EVLlDWWAewK5KurQbF9W3hGEOHVGJRBUcLScn5vKJcoBDwlkJzOETRl/aA2TJoKkNfWBQ12V8Y0Z5migcAyfCiz5QVxq1TgKNbkdVh/4TYggh6TZ+TmaZWw1oH3OsfFTcDyS0ZR0v2l5qmToZu+TzybwnwQa2xWj3iuCLguHlhc9vwSt4aYNFLo=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(2616005)(6512007)(66574015)(5660300002)(38100700002)(31686004)(8676002)(4326008)(36756003)(186003)(66556008)(110136005)(66946007)(66476007)(316002)(508600001)(31696002)(86362001)(6506007)(6666004)(2906002)(6486002)(8936002)(83380400001)(45980500001)(43740500002);
+ SFS:(13230001)(4636009)(366004)(2616005)(6512007)(66574015)(5660300002)(38100700002)(31686004)(8676002)(4326008)(36756003)(186003)(66556008)(110136005)(66946007)(66476007)(316002)(508600001)(31696002)(86362001)(6506007)(6666004)(2906002)(6486002)(8936002)(83380400001)(17423001)(156123004)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3dZL0N0Tmt5ZVcwMnV3M0FTRERUdXE0UWx3ODR0UXRaSGVFVVR0Vzhhdlda?=
- =?utf-8?B?R3hkeXMwcVNNS3ZhditIUkt2eUZ4c1gwZnhUYW9RamxQcFgwQjBacjl0WXpM?=
- =?utf-8?B?cnJ6K1J2a2dhZEtqKzVnakRCQ0NLbmNIZWlvMEMzaFg1MWFEZ0RTL0xCMXNz?=
- =?utf-8?B?c1JiME5EUStDNmxtb0lyRFg1ei9PZGJBeFlPWjV2aDR3YmtKSDlIZStxcHY0?=
- =?utf-8?B?SXBWSGVFSG5CVjc4aldubnpNZzhhN3IvRWtKdFpHSnNsL2svWUdHUkFXTkV3?=
- =?utf-8?B?N1p2WFpadnlVOVd1Vm1oR1J6d0xTL1prWk5tYkc1MnpHV0VZdmNoMzhGVzNK?=
- =?utf-8?B?L2xCMHA5VG9SMzdhM01zK01FYUhkWGVaNjM1NGVJNEdHOTlkWXIzL2RYbEE2?=
- =?utf-8?B?eklGNXJPWEhVQll5SFYycnpYOWRmY29xaWx3eHo1cDRicU92ZnBtNytjWFRo?=
- =?utf-8?B?YjJjckVPYStibTVFU2xET1JJZlh5QkVVaHpyS2VJTWFaajZlMXd6WitSRWFJ?=
- =?utf-8?B?VU5rNmtFbWtYVmtwZE0xR0ZtV3BxbU5WbXQ4OGVydkR2bjlvQVJUUEJYTmQ3?=
- =?utf-8?B?cjQ0V2dUT3IwTXprU0ZIL1k3T2FlZGhoSVlpYUZrNDJUVGV0NW10V3k1RTE1?=
- =?utf-8?B?RDYyWlRuSUFPYTRJaDVxTVg2UktHTzdBd2ZERnNTOUFUbW0yUi9GaS94eVdW?=
- =?utf-8?B?Tkk1UEVXVXpLdys1dUdGUHB1MldRQ1VMR0RwenlMcVVZYmRhM1ZGSm4rT0pz?=
- =?utf-8?B?YlR2SXUveHBidW84cnVWY3MwVzRlQmxhZ0U3OVcvSmxvaGFjMzZnR3lHaFNO?=
- =?utf-8?B?ZWNxVCt5VmN6eU9lcWxxNzNrblpFOGlTT2dCcGR3YmVLQ21kL0hZT0xUVEF3?=
- =?utf-8?B?RDVsUkE5Y0tETzRzVzJZSXNQMVV3Tk4rRzk2Z3FSL3JYUmNWNzA4c3AwdUxi?=
- =?utf-8?B?VmNrS20wczFnekV5d2hvSGtCOFFzNm4vRzByZkZoZGNvdUdnT2lTSWpHTXlZ?=
- =?utf-8?B?ZDFpNFN5WjVXR0s5T21zZE00Z0FMSVNFeVB2Zi9renhhWFRKRU1rVTQwTjZu?=
- =?utf-8?B?UnlHRWVRaVk2LyszbWVCNlpHY2NzcDlIMmNEcGJCK3NBWkpSRmRQbDgrZ0k3?=
- =?utf-8?B?SGJzbHRoRk9mREJaTEpiRTg0Sm9FTWt2Mzh3dUNSNkNjUVNuTEtxS0Rqdmpk?=
- =?utf-8?B?ZVJGS2ZxSXdkdFRFS21tWTk4M2p0Um5CTHowb1JhWGdOcmd0RzQ1bElMdUxo?=
- =?utf-8?B?UGV0R0JDMEg5VElMNkNJVEx0SFY0M3FjK1YyQm1VTVpQRzdNZ1FLb0pDWmdC?=
- =?utf-8?B?VmxyLzVnLzVnN3YwSEgxeVlRb1hSbFNBMUlZMThnbU4vQkRVSk1MSkVyZ3pN?=
- =?utf-8?B?djBIOUlzUWFqekFHbUdLSzZnRnUweWhnRWdld0M4eGVwcG5oNFpTeVJGcjBW?=
- =?utf-8?B?S1VlaWtFT3FOQ3dicGxsMGJYN1dQMjQvZlVGZzlLNDlDbFJZaHYvUDQrcjE3?=
- =?utf-8?B?cEVGWEpSUTlIRHJsaXBxOEJybDQ5NEV2L1RlQVNIbDZqMFZxeU1CWVhPVWJq?=
- =?utf-8?B?c0wwcHhBUThlY1Nob292dkxXL0lLeEVXdmpJZ21RT3lUbGpoRkZGSENweW5C?=
- =?utf-8?B?M0F6QURtZmZqSHBIRUlNME04QVNnM3RBdFBPMzE3bGEwM2lkeml2bGpSaHBr?=
- =?utf-8?B?Wlc4VzdYQTk4UlhIMzF5TTJzRVZmRFRFWngxWmV0WFVEM2g4QmlYdnZ3b3d6?=
- =?utf-8?B?U1hONFl2TzZKMzkvai93b3hFMUVkWncxV0Vtc0owNDAweGw5VXdaT3FVaUhX?=
- =?utf-8?B?VFh4K2p3SmM2MkQ2dVAyb2d4ajVkOVpGak9neURSQy80WDNlcmdPUkJTTmJr?=
- =?utf-8?B?OUVXTTVFY1Noa3M4Wmg5Rmp2b3hmV1BHQUFrT2RsaFZaZjFyM2JYTVdTS1FQ?=
- =?utf-8?B?OGRiYVdEamtzRjIxQWJnM2U1TEFuelU0MHFyRHhMZDRjNWFQS3F6Q3N2bGR0?=
- =?utf-8?B?bm1TUEJyMmNyRlZDdXRtalhlVWsvdmMwaE9QVk5nMHc5ZG9Pa1dVbVVRNkJu?=
- =?utf-8?B?V0hDUVdTa1A2Q1Z0ZTFrS0twN2ZneVhvRHhsRTNRVUVoVEsxMGJXejEwMFpZ?=
- =?utf-8?B?SDNTRHlDNzVPeWlxQkxrdmxGMitqSlJvREFpZ09ra084K01sM2pNQVpLUUlT?=
- =?utf-8?B?VTVPT2V6U2hPWEUrcXZyVUxoY1NlczZBcFVjMlJ6RTZOZFJNaHlPaldubTVI?=
- =?utf-8?B?eExpZGN1dk04alE1aEFrUGorZFdRRWN4VUdiWVNiQm8rQUxUaVNEUTRUMHZY?=
- =?utf-8?B?VHNGN0xpME01V2tGMWQ0U3RtcjZTSDMzc05UN1hoc2dDV0IzUWtyODIvTGFS?=
- =?utf-8?Q?BrpYnlhKPnPpiiReRA7OgUzwnFJUqFabqGa1IGP6g3fl+?=
-X-MS-Exchange-AntiSpam-MessageData-1: OtI10rarkVdkyw==
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWlxWWFmVGR5bHMwODllUUdvWXFWRG9PenQzQjJ1MWxGbWNhc3hCcllFeTB1?=
+ =?utf-8?B?MGxvNzNBVUwzdW1QN3NKVlcxek9GWjFMSDh4MHJBOG1sWk1mUFQ4MnYwc2xH?=
+ =?utf-8?B?L1NDYlBQdGROMGk5eDByVjJSbnZkUDlkSzFac0QybWxGKzd0ajNLdHFWRTZ0?=
+ =?utf-8?B?anNjQTdNajJXQkd6Sk9RWEdqM3g5MUJmaXRTUTJkNW1yblN1dkc5bTJsNm1i?=
+ =?utf-8?B?VFhMMkFjVW9rUkk1Y2ZadUVXYTJ3OE1lVHkvcUg0ZDVtWHdwZENRK0lWa3hV?=
+ =?utf-8?B?bysxNG9hNkNmOEI3ZHhyTldkOFVyWmNEZ1duZ0V1bzJyMjBMYVBTTWdTNDR4?=
+ =?utf-8?B?OEFnTDhoNWFUTlRmemhrdDhTK0dNODBMR1I5OC9HcXhnMFpxelJRN29aeGZC?=
+ =?utf-8?B?ckNQREw4THliaWZMaEVPa2VtTTd4cXU2a1VqREJ6OWNramxSeVE5d0xYa2sx?=
+ =?utf-8?B?bzU2UWtzbmRJQmlWSHFkbG9JZXRySXA0QXExQ3FvNHRtbmJaejJoT0ZDRFJ6?=
+ =?utf-8?B?M2x2cGZrZ1FOTVlsRXhpOGN4ZHN0SnVPZUF1VXZCWVhSUzVvMnZuVTYvOTh6?=
+ =?utf-8?B?TU9oYW5Yakc3RkJPWTYzSmFsZTYvL3FPd0xtU1VmM00xMnJUTzJJYmFMZEho?=
+ =?utf-8?B?TlhlZzlhZnVXUjgvaWY4QURHclNvd3d0U3RsVzdJbmFJRlhYOG43dlh6N3JQ?=
+ =?utf-8?B?NENxOU1MS05xVkVTMmZ1SktOL0NBM0VkcmVZbU00b243cEpOUE9HOTF5a2tq?=
+ =?utf-8?B?Z0oyUGtKTDdtU1lIYW80VERvR1RtTkU4ZG1XMEVZZFFvL01GTzduaWgzNDdF?=
+ =?utf-8?B?RXdvWGY0cTR6OTZGTnpGdXV0cTBpeGsrMWRYTnU2VzhlSUNWa1pjT3Fmc2xu?=
+ =?utf-8?B?ZWw2UW9EWUFsMnFFTC9OS2o4a3ljRVpRYjEwaE5IdzlSUnVKT0EwcHM5U1RS?=
+ =?utf-8?B?Nmp2M1VubmZWZkxMdm1iS3FkSndQTnR3dVdFWWltTTRMcTQ5VzJFaERENHli?=
+ =?utf-8?B?RUhZWmFidjFuSzJHSjF2dnJ1UVRxYUtTOGdSNEJpbTU5WUR0VytuQlZtN29G?=
+ =?utf-8?B?dG1pWllDajZRaWxiblh4M1VRdEhDSVdGSGZSajV0N2N5UmpXdkE2dVJTNTd0?=
+ =?utf-8?B?dkZyY0FZcWtkcEdOUVVVVUNHWGtrMzFzbytCOWFnbDJJOGYxNTdjK1N6bVJD?=
+ =?utf-8?B?QUZPT3BlMlhVL2h0R1I1SXZqOEpZY2lsV3FNUUlJZ1FYVmhDQkFIN0ZkMXNL?=
+ =?utf-8?B?MEhUcm5DL3VzeUZNTzB5QjdyVGJjRDBmZVpmOTdmSy9qdzM4Wlcvc2pCeEdS?=
+ =?utf-8?B?L1k4MllKclVCY2lJRytyTXY1YW1vclp4bEZlQWJuZUhMZjFtM21RTWw5dXhh?=
+ =?utf-8?B?aUVYN3lnalR6NWlFelNEOGpnQUs5c1l5NjQxSXZWc1RCNjFrQ2h4eGRxSmNG?=
+ =?utf-8?B?aVBPTnR4emlCTUtaL09hcm1TZEdTbzk0WlZOUGY1NkZLM1N4MHpEQlNBZGZI?=
+ =?utf-8?B?NHBVWWRsUjVwM1J2YTVhb1pRb001MWRDVDlvMlZHTmVYRzJtNHpIWUFnQ0Er?=
+ =?utf-8?B?MkhJQlNZSGd1ZG9WQTZ5TWxQSW9QSHJDMkhXNW1GUFA0SmJ3c1F5d2Y1ckhy?=
+ =?utf-8?B?Q3Z5cG5tS0ZTUDIrK1VuTStVckFSZWM1V1hCTUxaeFAwZENkeGhrNmI0OTJ2?=
+ =?utf-8?B?dEFRZldrRVYzYXBQYnlaSjNXZWJjL0pFWUhjSmt2dlNHYzFKbU9ISDl2WXQv?=
+ =?utf-8?B?YTJFek1LL1orYzZpZnNNUEowNXZPV3krd1Z0R0FSMFo2MU5Hb3lZRjNDSjk4?=
+ =?utf-8?B?SENISzc2NXovc3lKdTV2a25EUFZ4eko3aG9mLzNtUDNWRjVtSi9SVmJnSG9F?=
+ =?utf-8?B?TXhQR3I5c0xQd3A2aHVpVHo4RDhKckxCdzQwNGs5aGt3WXkyejdUbGhYeUlS?=
+ =?utf-8?B?bXpXRCtWZTJTZGd5WVZybERZcmFwdWF5d29Hb0ZuT29MUllwdU9ndDExMlRt?=
+ =?utf-8?B?cEN4TWtHVThReDB5bU12UVNVWG5VeWZ0VjlGNDYrRFdHQkVlbEpKSDh0eFpo?=
+ =?utf-8?B?d2NWOGdNMzhkL2R5QU9LZlkrZmJDUnhLNlQxMElWSjB6ZTMyTHFoZEV0Vi9m?=
+ =?utf-8?B?QjVSNkRzT094eGdHcFlWeTBBN1dqdS9GZEpvVHl0Q09hNzdCZkQ1WGt1QUNI?=
+ =?utf-8?B?dGx2QXo3Z25lbXp3RWNtZlp4RjFaNk1rbkpZTVR3Qk11RXZ6aUpIdWdmZVV5?=
+ =?utf-8?B?MDZNcGk5akg5c0lyVkNmZEphU0F3c0ZuL0J4WXdmV2luSFkxRXRBaDlkVWZR?=
+ =?utf-8?B?QVFwVUM1VW9WV0lWQThOS3ozL0NPaXdvRnBaMUZVdGFpVGd4Tk9LS2g2SnE0?=
+ =?utf-8?Q?TfrWtAjh6NVqwWReKKRlRy6ckIs80DFFk3v76oAROWWot?=
+X-MS-Exchange-AntiSpam-MessageData-1: /BZWWo65k0ouXA==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 402d7975-1283-45a5-dceb-08da31ccd143
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7d045d5-d6a9-4f95-61fe-08da31cce863
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 15:01:38.2040 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 15:02:17.0450 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x/+J6/tOSlj2pAKE29iJ7n3mSNOSR3Byus/wuBTmJycz2yu3szhB0ENskrb8Ropb
+X-MS-Exchange-CrossTenant-UserPrincipalName: T/miy4CGCLtuf1pL8SRES0A9cmbsWvvW6t23ZcxdgU50b7UlOUuCBay0QJe6/MMw
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1355
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -137,137 +137,130 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.05.22 um 16:31 schrieb Daniel Vetter:
-> On Wed, May 04, 2022 at 09:47:32AM +0200, Christian König wrote:
->> [SNIP]
->> +/* Make sure we have enough room and add an object the container */
->> +static int drm_exec_objects_add(struct drm_exec_objects *container,
->> +				struct drm_gem_object *obj)
->> +{
->> +	if (unlikely(container->num_objects == container->max_objects)) {
->> +		size_t size = container->max_objects * sizeof(void *);
->> +		void *tmp;
->> +
->> +		tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
->> +				GFP_KERNEL);
->> +		if (!tmp)
->> +			return -ENOMEM;
->> +
->> +		container->objects = tmp;
->> +		container->max_objects += PAGE_SIZE / sizeof(void *);
-> Might be worth it to inquire the actual allocation size here, since if
-> it's kmalloc the generic buckets only cover doubling of sizes, so once
-> it's big it goes up a lot quicker than PAGE_SIZE.
+Am 09.05.22 um 16:33 schrieb Daniel Vetter:
+> On Wed, May 04, 2022 at 09:47:39AM +0200, Christian König wrote:
+>> VMWGFX is the only remaining user of this and should probably moved over
+>> to drm_exec when it starts using GEM as well.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+> I guess this is a bit annoying since it means we can't require drm_exec in
+> ttm eviction, but we can make it an optional pointer in the ttm ctx. Needs
+> to be optional anyway since we won't roll this out to all drivers, and
+> then we can optionally use it to handle the locking in eviction instead of
+> the current lock dropping tricks.
 >
-> But also krealloc checks this internally already so maybe better to not
-> break the abstraction.
+> I'm assuming at least that's your goal here, or is there a different one?
 
-How can I actually do this? ksize() only works with kmalloc().
+Yes, exactly that's the long term plan.
 
-Or do we had a function to figure out if vmalloc or kmalloc was used by 
-kvrealloc()?
-
->> [SNIP]
->> +/**
->> + * drm_exec_cleanup - cleanup when contention is detected
->> + * @exec: the drm_exec object to cleanup
->> + *
->> + * Cleanup the current state and return true if we should stay inside the retry
->> + * loop, false if there wasn't any contention detected and we can keep the
->> + * objects locked.
->> + */
->> +bool drm_exec_cleanup(struct drm_exec *exec)
->> +{
->> +	if (likely(!exec->contended)) {
->> +		ww_acquire_done(&exec->ticket);
->> +		return false;
->> +	}
->> +
->> +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
->> +		exec->contended = NULL;
->> +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
-> Not sure why this is here instead of in _init()? I thought you're playing
-> some really dangerous tricks with re-initting the acquire ctx, which would
-> at least be questionable, but does not look like that.
-
-That was my initial design, but the problem with this approach is that 
-all locks taken between drm_exec_init() and the loop suddenly have a 
-lockdep dependency on reservation_ww_class. And that in turn goes boom 
-immediately.
-
-Took me a moment to realize what's wrong with that as well.
-
-> [SNIP]
-> +/**
-> + * drm_exec_has_duplicates - check for duplicated GEM object
-> + * @exec: drm_exec object
-> + *
-> + * Return true if the drm_exec object has encountered some already locked GEM
-> + * objects while trying to lock them. This can happen if multiple GEM objects
-> + * share the same underlying resv object.
-> + */
-> +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
-> +{
-> +	return exec->duplicates.num_objects > 0;
-> Definitely an aside, but in our i915 efforts to get rid of temporary pins
-> we run into some fun where the eviction code couldn't differentiate from
-> memory we need reserved for the CS and memory we just keep locked because
-> we evicted it and fun stuff like that. So maybe we need a bit more
-> tracking here eventually, but that's only when we have this somehow glued
-> into ttm eviction code.
-
-Hehe, yeah that's what I was thinking about as well. But then I though 
-one step at a time.
-
-> Also the even more massive step would be to glue this into dma-buf so you
-> can do dynamic dma-buf eviction and still keep track of all the buffers. I
-> think with some clever pointer tagging and a bit more indirection we could
-> nest drm_exec structures (so that a driver could insert it's entire
-> drm_exec structure with a drm_exec-level callback for handling refcounting
-> and stuff like that).
-
-I considered in which component to put this quite a bit as well, but 
-then intentionally decided against DMA-buf.
-
-One major reason was that not all buffers which needs to be locked this 
-way are actually exported as DMA-buf.
-
-Another reason is that DMA-buf doesn't necessary need a concept of an 
-execution context. As far as I can see that's something GPU/DRM driver 
-specific.
-
-> So anyway I think this all looks good, just one more thing before I think
-> we should land this:
->
-> gem helpers in drm_gem_lock_reservations() has something which is
-> practically compatible already, except that you bulk-add the entire set of
-> objects. I think if you add a bulk-prepare function then we could also
-> replace all those. Maybe even nicer if the bulk-prepare takes the array of
-> handles and does the handle lookup too, but at least something which can
-> subsititue drm_gem_lock_reservations with drm_exec would be nice to
-> validate the helpers a bit more and really make sure we only have one of
-> them left.
-
-I was considering that as well, but then also thought one step at a 
-time. Not sure if it's possible to look up handles without running into 
-some locking fun, thought.
-
-Thanks for the review,
 Christian.
 
->
-> Thoughts?
 > -Daniel
 >
->> +}
+>> ---
+>>   drivers/gpu/drm/ttm/Makefile                                  | 4 ++--
+>>   drivers/gpu/drm/vmwgfx/Makefile                               | 2 +-
+>>   drivers/gpu/drm/{ttm => vmwgfx}/ttm_execbuf_util.c            | 3 ++-
+>>   .../drm/ttm => drivers/gpu/drm/vmwgfx}/ttm_execbuf_util.h     | 2 +-
+>>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                           | 2 +-
+>>   drivers/gpu/drm/vmwgfx/vmwgfx_validation.h                    | 2 +-
+>>   6 files changed, 8 insertions(+), 7 deletions(-)
+>>   rename drivers/gpu/drm/{ttm => vmwgfx}/ttm_execbuf_util.c (99%)
+>>   rename {include/drm/ttm => drivers/gpu/drm/vmwgfx}/ttm_execbuf_util.h (99%)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
+>> index f906b22959cf..b05a8477d0d0 100644
+>> --- a/drivers/gpu/drm/ttm/Makefile
+>> +++ b/drivers/gpu/drm/ttm/Makefile
+>> @@ -3,8 +3,8 @@
+>>   # Makefile for the drm device driver.  This driver provides support for the
+>>   
+>>   ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+>> -	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+>> -	ttm_device.o ttm_sys_manager.o
+>> +	ttm_range_manager.o ttm_resource.o ttm_pool.o ttm_device.o \
+>> +	ttm_sys_manager.o
+>>   ttm-$(CONFIG_AGP) += ttm_agp_backend.o
+>>   
+>>   obj-$(CONFIG_DRM_TTM) += ttm.o
+>> diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
+>> index eee73b9aa404..c2c836103b23 100644
+>> --- a/drivers/gpu/drm/vmwgfx/Makefile
+>> +++ b/drivers/gpu/drm/vmwgfx/Makefile
+>> @@ -1,6 +1,6 @@
+>>   # SPDX-License-Identifier: GPL-2.0
+>>   vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_hashtab.o vmwgfx_kms.o vmwgfx_drv.o \
+>> -	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o \
+>> +	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o ttm_execbuf_util.o \
+>>   	    vmwgfx_cmd.o vmwgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
+>>   	    vmwgfx_overlay.o vmwgfx_gmrid_manager.o vmwgfx_fence.o \
+>>   	    vmwgfx_bo.o vmwgfx_scrn.o vmwgfx_context.o \
+>> diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
+>> similarity index 99%
+>> rename from drivers/gpu/drm/ttm/ttm_execbuf_util.c
+>> rename to drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
+>> index dbee34a058df..1030f263ba07 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+>> +++ b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
+>> @@ -26,13 +26,14 @@
+>>    *
+>>    **************************************************************************/
+>>   
+>> -#include <drm/ttm/ttm_execbuf_util.h>
+>>   #include <drm/ttm/ttm_bo_driver.h>
+>>   #include <drm/ttm/ttm_placement.h>
+>>   #include <linux/wait.h>
+>>   #include <linux/sched.h>
+>>   #include <linux/module.h>
+>>   
+>> +#include "ttm_execbuf_util.h"
 >> +
->> +void drm_exec_init(struct drm_exec *exec, bool interruptible);
->> +void drm_exec_fini(struct drm_exec *exec);
->> +bool drm_exec_cleanup(struct drm_exec *exec);
->> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
->> +			 unsigned int num_fences);
->> +
->> +#endif
+>>   static void ttm_eu_backoff_reservation_reverse(struct list_head *list,
+>>   					      struct ttm_validate_buffer *entry)
+>>   {
+>> diff --git a/include/drm/ttm/ttm_execbuf_util.h b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
+>> similarity index 99%
+>> rename from include/drm/ttm/ttm_execbuf_util.h
+>> rename to drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
+>> index a99d7fdf2964..47553bf31c73 100644
+>> --- a/include/drm/ttm/ttm_execbuf_util.h
+>> +++ b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
+>> @@ -33,7 +33,7 @@
+>>   
+>>   #include <linux/list.h>
+>>   
+>> -#include "ttm_bo_api.h"
+>> +#include <drm/ttm/ttm_bo_api.h>
+>>   
+>>   /**
+>>    * struct ttm_validate_buffer
+>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+>> index be19aa6e1f13..cae306c60af9 100644
+>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+>> @@ -37,8 +37,8 @@
+>>   #include <drm/drm_rect.h>
+>>   
+>>   #include <drm/ttm/ttm_bo_driver.h>
+>> -#include <drm/ttm/ttm_execbuf_util.h>
+>>   
+>> +#include "ttm_execbuf_util.h"
+>>   #include "ttm_object.h"
+>>   
+>>   #include "vmwgfx_fence.h"
+>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+>> index f21df053882b..3613a3d52528 100644
+>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+>> @@ -31,7 +31,7 @@
+>>   #include <linux/list.h>
+>>   #include <linux/ww_mutex.h>
+>>   
+>> -#include <drm/ttm/ttm_execbuf_util.h>
+>> +#include "ttm_execbuf_util.h"
+>>   
+>>   #include "vmwgfx_hashtab.h"
+>>   
 >> -- 
 >> 2.25.1
 >>
