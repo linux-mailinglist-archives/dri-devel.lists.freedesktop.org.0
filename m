@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5F051FC10
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:04:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B88BC51FC11
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:04:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 279E010EEC2;
-	Mon,  9 May 2022 12:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38E6A10EEE0;
+	Mon,  9 May 2022 12:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6057710EEC2;
- Mon,  9 May 2022 12:04:39 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 661BB10EEE0;
+ Mon,  9 May 2022 12:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652097879; x=1683633879;
+ t=1652097884; x=1683633884;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6KiU8gOfrG3whqxXGyEQLj8ELtFqtVdqqBIwfFlQhOY=;
- b=XSGoXZ/PT9/qysRYc/fzyiZ6jYc4sOKWmqrcCLqfZhbuQXjF6qgM+2p7
- 0wRFyogRfntTZVkA9dsjjeCeddMsPTKP+QtmDIsI0bxDaCOb+SbbfdOs3
- 4R45gE+XA/h+Hs9cF6694blSUuFwa7HZLGa6yrzGfi/s+UuUzReF11hbA
- ecNFaZVz0vpLhtE3HxZ10baLN76F+1cAiNIMUfRTKGfSjUjFsZeLKK8gl
- 5h9ECy/3gcmuXaT+tE3IfC7KWV7ldu0PCeVG/LDO08y4dkgksHXLIME68
- IOx68sq2/XG57yqzKHqDK2gH/Hp3gPs8Fu452Vda1ViDWWckmjmiOA1zw w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="355456752"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="355456752"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:04:38 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="519195402"
+ bh=kOyXWZinlsi4z3i9F7AOiRllbEsMh4HdMJuUcE6zefs=;
+ b=ew+rAQZtegbzspzE1UIUmuZLFt1yelpd4wpJPkHC4U6wC0fKcj1PvD/D
+ NUX3vlHkrk6SEIuEmIbLPKVy2xmQQHOfQsFZtlTxWUu5ORlfSPeJGi9wi
+ eDhV8VseViAiCD3DoBtRXCo8J/gZX4/evp8DPvmiCHoSTRoe0hYtPitY5
+ 3vIIXP3w0CklcFAhXn3RxANBfOMqi2VNok7OPXIKFGfCUI1MIi5M2iNw4
+ nbeRwCh+psH2HBLIGo9NCqnr8/jyszB863FjVkddE5YFQKuE1/MtLD0JT
+ Gas+zYKpbr6IR/hubZdWCrCKRQdj9bh6ViiecUGSuAfW5uHckx7YyxgRQ Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="256563815"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="256563815"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:04:43 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="550993103"
 Received: from csawicki-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.129.3])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:04:36 -0700
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:04:41 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 13/25] drm/edid: convert drm_mode_std() and children to
- drm_edid
-Date: Mon,  9 May 2022 15:03:12 +0300
-Message-Id: <9fb970d108a8bb666b87a590c74f480e0fd81cc8.1652097712.git.jani.nikula@intel.com>
+Subject: [PATCH v2 14/25] drm/edid: convert mode_in_range() and
+ drm_monitor_supports_rb() to drm_edid
+Date: Mon,  9 May 2022 15:03:13 +0300
+Message-Id: <aac7dd14ce8c266491e9dfae12cad00fecdcd2e3.1652097712.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1652097712.git.jani.nikula@intel.com>
 References: <cover.1652097712.git.jani.nikula@intel.com>
@@ -66,178 +66,103 @@ We'll need to propagate drm_edid everywhere.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 52 ++++++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 51d918c66a26..bea8f33c58ad 100644
+index bea8f33c58ad..364949e146a9 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2673,11 +2673,11 @@ find_gtf2(const struct detailed_timing *descriptor, void *data)
+@@ -2645,16 +2645,16 @@ is_rb(const struct detailed_timing *descriptor, void *data)
  
- /* Secondary GTF curve kicks in above some break frequency */
- static int
--drm_gtf2_hbreak(const struct edid *edid)
-+drm_gtf2_hbreak(const struct drm_edid *drm_edid)
+ /* EDID 1.4 defines this explicitly.  For EDID 1.3, we guess, badly. */
+ static bool
+-drm_monitor_supports_rb(const struct edid *edid)
++drm_monitor_supports_rb(const struct drm_edid *drm_edid)
  {
- 	const struct detailed_timing *descriptor = NULL;
+-	if (edid->revision >= 4) {
++	if (drm_edid->edid->revision >= 4) {
+ 		bool ret = false;
  
--	drm_for_each_detailed_block(edid, find_gtf2, &descriptor);
-+	drm_for_each_detailed_block(drm_edid->edid, find_gtf2, &descriptor);
+-		drm_for_each_detailed_block(edid, is_rb, &ret);
++		drm_for_each_detailed_block(drm_edid->edid, is_rb, &ret);
+ 		return ret;
+ 	}
  
- 	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.hfreq_start_khz) != 12);
- 
-@@ -2685,11 +2685,11 @@ drm_gtf2_hbreak(const struct edid *edid)
+-	return ((edid->input & DRM_EDID_INPUT_DIGITAL) != 0);
++	return ((drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL) != 0);
  }
  
- static int
--drm_gtf2_2c(const struct edid *edid)
-+drm_gtf2_2c(const struct drm_edid *drm_edid)
- {
- 	const struct detailed_timing *descriptor = NULL;
- 
--	drm_for_each_detailed_block(edid, find_gtf2, &descriptor);
-+	drm_for_each_detailed_block(drm_edid->edid, find_gtf2, &descriptor);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.c) != 13);
- 
-@@ -2697,11 +2697,11 @@ drm_gtf2_2c(const struct edid *edid)
- }
- 
- static int
--drm_gtf2_m(const struct edid *edid)
-+drm_gtf2_m(const struct drm_edid *drm_edid)
- {
- 	const struct detailed_timing *descriptor = NULL;
- 
--	drm_for_each_detailed_block(edid, find_gtf2, &descriptor);
-+	drm_for_each_detailed_block(drm_edid->edid, find_gtf2, &descriptor);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.m) != 14);
- 
-@@ -2709,11 +2709,11 @@ drm_gtf2_m(const struct edid *edid)
- }
- 
- static int
--drm_gtf2_k(const struct edid *edid)
-+drm_gtf2_k(const struct drm_edid *drm_edid)
- {
- 	const struct detailed_timing *descriptor = NULL;
- 
--	drm_for_each_detailed_block(edid, find_gtf2, &descriptor);
-+	drm_for_each_detailed_block(drm_edid->edid, find_gtf2, &descriptor);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.k) != 16);
- 
-@@ -2721,11 +2721,11 @@ drm_gtf2_k(const struct edid *edid)
- }
- 
- static int
--drm_gtf2_2j(const struct edid *edid)
-+drm_gtf2_2j(const struct drm_edid *drm_edid)
- {
- 	const struct detailed_timing *descriptor = NULL;
- 
--	drm_for_each_detailed_block(edid, find_gtf2, &descriptor);
-+	drm_for_each_detailed_block(drm_edid->edid, find_gtf2, &descriptor);
- 
- 	BUILD_BUG_ON(offsetof(typeof(*descriptor), data.other_data.data.range.formula.gtf2.j) != 17);
- 
-@@ -2733,12 +2733,14 @@ drm_gtf2_2j(const struct edid *edid)
- }
- 
- /* Get standard timing level (CVT/GTF/DMT). */
--static int standard_timing_level(const struct edid *edid)
-+static int standard_timing_level(const struct drm_edid *drm_edid)
- {
-+	const struct edid *edid = drm_edid->edid;
-+
- 	if (edid->revision >= 2) {
- 		if (edid->revision >= 4 && (edid->features & DRM_EDID_FEATURE_DEFAULT_GTF))
- 			return LEVEL_CVT;
--		if (drm_gtf2_hbreak(edid))
-+		if (drm_gtf2_hbreak(drm_edid))
- 			return LEVEL_GTF2;
- 		if (edid->features & DRM_EDID_FEATURE_DEFAULT_GTF)
- 			return LEVEL_GTF;
-@@ -2770,9 +2772,9 @@ static int drm_mode_hsync(const struct drm_display_mode *mode)
-  * Take the standard timing params (in this case width, aspect, and refresh)
-  * and convert them into a real mode using CVT/GTF/DMT.
-  */
--static struct drm_display_mode *
--drm_mode_std(struct drm_connector *connector, const struct edid *edid,
--	     const struct std_timing *t)
-+static struct drm_display_mode *drm_mode_std(struct drm_connector *connector,
-+					     const struct drm_edid *drm_edid,
-+					     const struct std_timing *t)
- {
- 	struct drm_device *dev = connector->dev;
- 	struct drm_display_mode *m, *mode = NULL;
-@@ -2782,7 +2784,7 @@ drm_mode_std(struct drm_connector *connector, const struct edid *edid,
- 		>> EDID_TIMING_ASPECT_SHIFT;
- 	unsigned vfreq = (t->vfreq_aspect & EDID_TIMING_VFREQ_MASK)
- 		>> EDID_TIMING_VFREQ_SHIFT;
--	int timing_level = standard_timing_level(edid);
-+	int timing_level = standard_timing_level(drm_edid);
- 
- 	if (bad_std_timing(t->hsize, t->vfreq_aspect))
- 		return NULL;
-@@ -2793,7 +2795,7 @@ drm_mode_std(struct drm_connector *connector, const struct edid *edid,
- 	vrefresh_rate = vfreq + 60;
- 	/* the vdisplay is calculated based on the aspect ratio */
- 	if (aspect_ratio == 0) {
--		if (edid->revision < 3)
-+		if (drm_edid->edid->revision < 3)
- 			vsize = hsize;
- 		else
- 			vsize = (hsize * 10) / 16;
-@@ -2836,7 +2838,7 @@ drm_mode_std(struct drm_connector *connector, const struct edid *edid,
+ static void
+@@ -2838,7 +2838,7 @@ static struct drm_display_mode *drm_mode_std(struct drm_connector *connector,
  	}
  
  	/* check whether it can be found in default mode table */
--	if (drm_monitor_supports_rb(edid)) {
-+	if (drm_monitor_supports_rb(drm_edid->edid)) {
+-	if (drm_monitor_supports_rb(drm_edid->edid)) {
++	if (drm_monitor_supports_rb(drm_edid)) {
  		mode = drm_mode_find_dmt(dev, hsize, vsize, vrefresh_rate,
  					 true);
  		if (mode)
-@@ -2862,14 +2864,14 @@ drm_mode_std(struct drm_connector *connector, const struct edid *edid,
- 		mode = drm_gtf_mode(dev, hsize, vsize, vrefresh_rate, 0, 0);
- 		if (!mode)
- 			return NULL;
--		if (drm_mode_hsync(mode) > drm_gtf2_hbreak(edid)) {
-+		if (drm_mode_hsync(mode) > drm_gtf2_hbreak(drm_edid)) {
- 			drm_mode_destroy(dev, mode);
- 			mode = drm_gtf_mode_complex(dev, hsize, vsize,
- 						    vrefresh_rate, 0, 0,
--						    drm_gtf2_m(edid),
--						    drm_gtf2_2c(edid),
--						    drm_gtf2_k(edid),
--						    drm_gtf2_2j(edid));
-+						    drm_gtf2_m(drm_edid),
-+						    drm_gtf2_2c(drm_edid),
-+						    drm_gtf2_k(drm_edid),
-+						    drm_gtf2_2j(drm_edid));
- 		}
- 		break;
- 	case LEVEL_CVT:
-@@ -3360,7 +3362,7 @@ do_standard_modes(const struct detailed_timing *timing, void *c)
- 		const struct std_timing *std = &data->data.timings[i];
- 		struct drm_display_mode *newmode;
+@@ -3077,10 +3077,11 @@ range_pixel_clock(const struct edid *edid, const u8 *t)
+ 	return t[9] * 10000 + 5001;
+ }
  
--		newmode = drm_mode_std(connector, closure->drm_edid->edid, std);
-+		newmode = drm_mode_std(connector, closure->drm_edid, std);
- 		if (newmode) {
- 			drm_mode_probed_add(connector, newmode);
- 			closure->modes++;
-@@ -3385,7 +3387,7 @@ static int add_standard_modes(struct drm_connector *connector,
- 	for (i = 0; i < EDID_STD_TIMINGS; i++) {
- 		struct drm_display_mode *newmode;
+-static bool
+-mode_in_range(const struct drm_display_mode *mode, const struct edid *edid,
+-	      const struct detailed_timing *timing)
++static bool mode_in_range(const struct drm_display_mode *mode,
++			  const struct drm_edid *drm_edid,
++			  const struct detailed_timing *timing)
+ {
++	const struct edid *edid = drm_edid->edid;
+ 	u32 max_clock;
+ 	const u8 *t = (const u8 *)timing;
  
--		newmode = drm_mode_std(connector, drm_edid->edid,
-+		newmode = drm_mode_std(connector, drm_edid,
- 				       &drm_edid->edid->standard_timings[i]);
- 		if (newmode) {
- 			drm_mode_probed_add(connector, newmode);
+@@ -3099,7 +3100,7 @@ mode_in_range(const struct drm_display_mode *mode, const struct edid *edid,
+ 		if (t[13] && mode->hdisplay > 8 * (t[13] + (256 * (t[12]&0x3))))
+ 			return false;
+ 
+-	if (mode_is_rb(mode) && !drm_monitor_supports_rb(edid))
++	if (mode_is_rb(mode) && !drm_monitor_supports_rb(drm_edid))
+ 		return false;
+ 
+ 	return true;
+@@ -3132,7 +3133,7 @@ static int drm_dmt_modes_for_range(struct drm_connector *connector,
+ 	struct drm_device *dev = connector->dev;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(drm_dmt_modes); i++) {
+-		if (mode_in_range(drm_dmt_modes + i, drm_edid->edid, timing) &&
++		if (mode_in_range(drm_dmt_modes + i, drm_edid, timing) &&
+ 		    valid_inferred_mode(connector, drm_dmt_modes + i)) {
+ 			newmode = drm_mode_duplicate(dev, &drm_dmt_modes[i]);
+ 			if (newmode) {
+@@ -3174,7 +3175,7 @@ static int drm_gtf_modes_for_range(struct drm_connector *connector,
+ 			return modes;
+ 
+ 		drm_mode_fixup_1366x768(newmode);
+-		if (!mode_in_range(newmode, drm_edid->edid, timing) ||
++		if (!mode_in_range(newmode, drm_edid, timing) ||
+ 		    !valid_inferred_mode(connector, newmode)) {
+ 			drm_mode_destroy(dev, newmode);
+ 			continue;
+@@ -3194,7 +3195,7 @@ static int drm_cvt_modes_for_range(struct drm_connector *connector,
+ 	int i, modes = 0;
+ 	struct drm_display_mode *newmode;
+ 	struct drm_device *dev = connector->dev;
+-	bool rb = drm_monitor_supports_rb(drm_edid->edid);
++	bool rb = drm_monitor_supports_rb(drm_edid);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(extra_modes); i++) {
+ 		const struct minimode *m = &extra_modes[i];
+@@ -3204,7 +3205,7 @@ static int drm_cvt_modes_for_range(struct drm_connector *connector,
+ 			return modes;
+ 
+ 		drm_mode_fixup_1366x768(newmode);
+-		if (!mode_in_range(newmode, drm_edid->edid, timing) ||
++		if (!mode_in_range(newmode, drm_edid, timing) ||
+ 		    !valid_inferred_mode(connector, newmode)) {
+ 			drm_mode_destroy(dev, newmode);
+ 			continue;
 -- 
 2.30.2
 
