@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C57451FBB8
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 13:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEBE51FBC5
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 13:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4075E10EC75;
-	Mon,  9 May 2022 11:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B69DB10ED13;
+	Mon,  9 May 2022 11:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2C210EC75
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 11:52:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C223110ED13
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 11:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652097136;
+ s=mimecast20190719; t=1652097344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MTArUv/wFCiWq9i9zQ4S21laiQa/qPGD6Db/XV8vE0w=;
- b=ZKxqwvXym1aNeJ/ehjAF2BFFrH2bYaiaaWgrzAmx3GWdxQvs9aft5Bo+PW9rYMAlhdL9oz
- Ljs3OK214JFEuMzcgwmQxvSqbXpEm1OHkosCZCkDFLa5/mf9+Hden3sb//kr87PFmhc3lb
- tUH7FDI76gQ/nx82Nu9i3m31zEOxGy8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xm/K2vPG3eyk/BOEFauBHWfC86brT3r7CMsbdWwspKg=;
+ b=TWGvcFA46XaZucUpSueMJDwfKSwAdsjd3sRzoPeliPhOQpVi6yoaxXfiA2WnX4Dja+Tb2o
+ QnqDE+7lcOyBwWU7leK5BAMf6FisfwKnUxG1QWzal9eBKS0n4Up3OXtJNQEkj+mZ0rHJk8
+ rPR4gY0GPeT4Y/ZFgPy1kNKdKXTi4K4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-UefuFfBVMRSyQaETh5Gx-A-1; Mon, 09 May 2022 07:52:13 -0400
-X-MC-Unique: UefuFfBVMRSyQaETh5Gx-A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w4-20020adfbac4000000b0020acba4b779so5727503wrg.22
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 04:52:12 -0700 (PDT)
+ us-mta-590-w-G8Y5OGNXmZpCnFaeik8g-1; Mon, 09 May 2022 07:55:43 -0400
+X-MC-Unique: w-G8Y5OGNXmZpCnFaeik8g-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ox8-20020a170907100800b006f9dc6e4a22so1003841ejb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 04:55:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MTArUv/wFCiWq9i9zQ4S21laiQa/qPGD6Db/XV8vE0w=;
- b=Phshe2Bxcq7mORnGW/GNttxHcUy9t56CfVyyGsrn/LalrT/GnEbFdBy5HDKJAAFt+y
- uakAHxtbCdxBO8bFyJOd1AlejkTV4E/Lfp6pY44M0hcVTawsjLzbS6Q/5IDYiwH5vSdL
- 0DaKsvwAIRJ+9fsrQZJIiphhvwMjGGHOgO+XWAmjJ8u4Wz9z0UO7lPkZIqE9//hvUtXe
- Rfy60dP4HVos9tNHGZZ2juzcbiA5gkuHnvIJjsd0eT1Dp49ZUisrzE0EnbdrXvG+b2cP
- XKl5tasM0//hZjLmxy80j9UERf8ZElk2gkFk5B3pS/vKo5y/K7F01PXrvQ72wAx5KrUO
- IBGQ==
-X-Gm-Message-State: AOAM532XnNAuejNey1Oqf7eS7hH/Tvy3aEWzT3JpvPk6pU9xnJCZ+Zcm
- aFTr50jbLio0g4NNfEGf5Fst3a2jgAKqgMBADH76KPx3OLfwp0zHzEU+1KCTwPSKd3h5snoGBmR
- anS6kH6+mPAbOXSP72VGW0YIa/dPO
-X-Received: by 2002:adf:f3cb:0:b0:20c:8afd:9572 with SMTP id
- g11-20020adff3cb000000b0020c8afd9572mr13173449wrp.179.1652097131858; 
- Mon, 09 May 2022 04:52:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFsXOOcCsHix3/Q3zumYD2ATdtE3gT7cVLytgECTwISvpWO1cGBXyU6jhjEzUVG2HEeaRhNw==
-X-Received: by 2002:adf:f3cb:0:b0:20c:8afd:9572 with SMTP id
- g11-20020adff3cb000000b0020c8afd9572mr13173440wrp.179.1652097131659; 
- Mon, 09 May 2022 04:52:11 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- ba28-20020a0560001c1c00b0020c86a9f33bsm12564935wrb.18.2022.05.09.04.52.10
+ bh=Xm/K2vPG3eyk/BOEFauBHWfC86brT3r7CMsbdWwspKg=;
+ b=l8FTog8zJbx7f3yuTb4Y6PWyyZFBu3uvosm2gwoc76RV63aiW90Dwp1PbvcKl43Tbj
+ Td9ORfVINFZVlBfS/hFT1nfiQ9AA6fPEfqSS2UzwgkC64HJhw7BBap35kWBLARjl++/t
+ EPOUDYeOt5xbE4pcrvpkS30cWURNEYXfOgQEs5IvR2bNavDYnl8WAsNRUt0bKNNbmaU8
+ WGrPtYTid/uXkMkezS9RXKtUThKiS3OwA6JEcIEU8lRXrEJ6REX4+YjvwG6igktIbj/t
+ 6oes5pUXMhJQ1E7v9q8JtvKmfOArv8DShBCQRXCUIqy3DqbW3VjMv6UnVGdMAd7GSzj6
+ Zlcg==
+X-Gm-Message-State: AOAM533bKyQfzL9AlELDE1/45smamcLyAtGkk63yqj6EDZpY4i/KELCw
+ E2vO6s28ot31bX8tkVG/UBbX0Lmi14zno3UsVYBJDL8pKUxZl+x/mOIL04QNmnVLS33zhn81xhg
+ CUw3NTjLeVrj4YBENZ0mchOn3+cB1
+X-Received: by 2002:a17:906:6a0f:b0:6f5:15cf:2e5 with SMTP id
+ qw15-20020a1709066a0f00b006f515cf02e5mr13990160ejc.584.1652097342519; 
+ Mon, 09 May 2022 04:55:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/IviDV3X4F7qm85nm38k7Yt3xzAVZh58hRP5EosesfaWJElC4Dp7LgH19w4cF8ut03cqX9A==
+X-Received: by 2002:a17:906:6a0f:b0:6f5:15cf:2e5 with SMTP id
+ qw15-20020a1709066a0f00b006f515cf02e5mr13990141ejc.584.1652097342317; 
+ Mon, 09 May 2022 04:55:42 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+ by smtp.gmail.com with ESMTPSA id
+ g34-20020a056402322200b0042617ba63b7sm6076764eda.65.2022.05.09.04.55.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 04:52:11 -0700 (PDT)
-Message-ID: <6eea44ce-4057-7267-8a0b-096cdc61dd94@redhat.com>
-Date: Mon, 9 May 2022 13:52:09 +0200
+ Mon, 09 May 2022 04:55:41 -0700 (PDT)
+Message-ID: <aa4c0305-c99b-050b-80a5-d13e8e10b78c@redhat.com>
+Date: Mon, 9 May 2022 13:55:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
 Subject: Re: [PATCH] drm/vmwgfx: Fix passing partly uninitialized
  drm_mode_fb_cmd2 struct
-To: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- Zack Rusin <zackr@vmware.com>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Zack Rusin <zackr@vmware.com>
 References: <20220509110425.165537-1-hdegoede@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220509110425.165537-1-hdegoede@redhat.com>
+ <6eea44ce-4057-7267-8a0b-096cdc61dd94@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <6eea44ce-4057-7267-8a0b-096cdc61dd94@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -94,38 +95,41 @@ Cc: Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Hans,
+Hi,
 
-On 5/9/22 13:04, Hans de Goede wrote:
-> vmw_fb_kms_framebuffer() declares a drm_mode_fb_cmd2 struct on the stack
-> without zero-ing it and then continues with initializing only some fields.
+On 5/9/22 13:52, Javier Martinez Canillas wrote:
+> Hello Hans,
 > 
-> This leads to drm_mode_fb_cmd2.modifiers[0] containing garbage,
-> which eventually gets used by drm_helper_mode_fill_fb_struct() to
-> set fb->modifier when leads to the following atomic-check failure:
+> On 5/9/22 13:04, Hans de Goede wrote:
+>> vmw_fb_kms_framebuffer() declares a drm_mode_fb_cmd2 struct on the stack
+>> without zero-ing it and then continues with initializing only some fields.
+>>
+>> This leads to drm_mode_fb_cmd2.modifiers[0] containing garbage,
+>> which eventually gets used by drm_helper_mode_fill_fb_struct() to
+>> set fb->modifier when leads to the following atomic-check failure:
+>>
+>> vmwgfx 0000:00:02.0: [drm:drm_atomic_check_only] [PLANE:34:plane-0]
+>>  invalid pixel format XR24 little-endian (0x34325258),
+>>  modifier 0xffff94d64719e000
+>> fbcon_init: detected unhandled fb_set_par error, error code -22
+>>
+>> Which causes the fbdev emulation and thus also fbcon to not work.
+>>
+>> Initialize the struct with all zeros to fix this.
+>>
+>> Fixes: dabdcdc9822a ("drm/vmwgfx: Switch to mode_cmd2")
+>> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=2072556
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
 > 
-> vmwgfx 0000:00:02.0: [drm:drm_atomic_check_only] [PLANE:34:plane-0]
->  invalid pixel format XR24 little-endian (0x34325258),
->  modifier 0xffff94d64719e000
-> fbcon_init: detected unhandled fb_set_par error, error code -22
+> Zack fixed this already:
 > 
-> Which causes the fbdev emulation and thus also fbcon to not work.
-> 
-> Initialize the struct with all zeros to fix this.
-> 
-> Fixes: dabdcdc9822a ("drm/vmwgfx: Switch to mode_cmd2")
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=2072556
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
+> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5405d25b9e8e6
 
-Zack fixed this already:
+I see, but it seems that this was never pushed to drm-misc-fixes,
+so this is still broken in 5.18-rc#
 
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5405d25b9e8e6
+Regards,
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Hans
 
