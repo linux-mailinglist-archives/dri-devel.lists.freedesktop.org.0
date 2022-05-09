@@ -2,36 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9653A51F220
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 03:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E673C51F392
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 06:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 734A110EBA3;
-	Mon,  9 May 2022 01:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D764C112003;
+	Mon,  9 May 2022 04:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id E8EF810EBA3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 01:23:39 +0000 (UTC)
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
- by 156.147.23.52 with ESMTP; 9 May 2022 10:23:37 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.127 with ESMTP; 9 May 2022 10:23:37 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-Date: Mon, 9 May 2022 10:22:02 +0900
-From: Byungchul Park <byungchul.park@lge.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-Message-ID: <20220509012202.GB6047@X58A-UD3R>
-References: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
- <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B1AC112003
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 04:43:11 +0000 (UTC)
+X-UUID: aad7f4781987400a9ce96bddcf1f36bd-20220509
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:0194f2d6-7a50-49b8-b5f0-d8d24349e124, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:e232b016-2e53-443e-b81a-655c13977218,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: aad7f4781987400a9ce96bddcf1f36bd-20220509
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1647454957; Mon, 09 May 2022 12:43:05 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 9 May 2022 12:43:04 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Mon, 9 May 2022 12:43:04 +0800
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>
+Subject: [PATCH v2 0/3] MediaTek MT8195 display binding
+Date: Mon, 9 May 2022 12:42:59 +0800
+Message-ID: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,96 +55,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, Jan Kara <jack@suse.cz>,
- Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Amir Goldstein <amir73il@gmail.com>, Dave Chinner <david@fromorbit.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "J. Bruce Fields" <bfields@fieldses.org>, linux-ide@vger.kernel.org,
- Andreas Dilger <adilger.kernel@dilger.ca>,
- Joel Fernandes <joel@joelfernandes.org>, 42.hyeyoo@gmail.com,
- Christoph Lameter <cl@linux.com>, Will Deacon <will@kernel.org>,
- duyuyang@gmail.com, Sasha Levin <sashal@kernel.org>, paolo.valente@linaro.org,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@infradead.org>,
- Dave Airlie <airlied@linux.ie>, Ingo Molnar <mingo@redhat.com>,
- "Darrick J. Wong" <djwong@kernel.org>,
- Vladimir Davydov <vdavydov.dev@gmail.com>,
- David Rientjes <rientjes@google.com>, Dennis Zhou <dennis@kernel.org>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>,
- Linux-MM <linux-mm@kvack.org>, ngupta@vflare.org, johannes.berg@intel.com,
- jack@suse.com, Dan Williams <dan.j.williams@intel.com>,
- Josef Bacik <josef@toxicpanda.com>, Steven Rostedt <rostedt@goodmis.org>,
- linux-block <linux-block@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Jerome Glisse <jglisse@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
- Thomas Gleixner <tglx@linutronix.de>, Michal Hocko <mhocko@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>, melissa.srw@gmail.com, sj@kernel.org,
- Theodore Ts'o <tytso@mit.edu>, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Pekka Enberg <penberg@kernel.org>, Minchan Kim <minchan@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, nancy.lin@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 11:17:02AM -0700, Linus Torvalds wrote:
-> On Wed, May 4, 2022 at 1:19 AM Byungchul Park <byungchul.park@lge.com> wrote:
-> >
-> > Hi Linus and folks,
-> >
-> > I've been developing a tool for detecting deadlock possibilities by
-> > tracking wait/event rather than lock(?) acquisition order to try to
-> > cover all synchonization machanisms.
-> 
-> So what is the actual status of reports these days?
+Add this series to present MediaTek display binding for MT8195.
+The reason I send this series is Jason and Nancy's binding patches are
+never received by devicetree mail server.
+Therefore, I help them to resend binding patches.
 
-I'd like to mention one important thing here. Reportability would get
-stronger if the more wait-event pairs get tagged everywhere DEPT can
-work.
+Changes for v2:
+1. This patch is based on linux next-20220506.
+2. Jason's patches are accepted and I drop them.
 
-Everything e.g. HW-SW interface, any retry logic and so on can be a
-wait-event pair if they work wait or event anyway. For example, polling
-on an IO mapped read register and initiating the HW to go for the event
-also can be a pair. Definitely those make DEPT more useful.
+[1]: https://lore.kernel.org/all/20220504091440.2052-2-nancy.lin@mediatek.com/
 
----
+Nancy.Lin (3):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  dt-bindings: mediatek: add ethdr definition for mt8195
 
-The way to use the APIs:
+ .../display/mediatek/mediatek,ethdr.yaml      | 191 ++++++++++++++++++
+ .../display/mediatek/mediatek,mdp-rdma.yaml   |  94 +++++++++
+ include/dt-bindings/reset/mt8195-resets.h     |  45 +++++
+ 3 files changed, 330 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
 
-1. Define SDT(Simple Dependency Tracker)
+-- 
+2.18.0
 
-   DEFINE_DEPT_SDT(my_hw_event); <- add this
-
-2. Tag on the waits
-
-   sdt_wait(&my_hw_event); <- add this
-   ... retry logic until my hw work done ... <- the original code
-
-3. Tag on the events
-
-   sdt_event(&my_hw_event); <- add this
-   run_my_hw(); <- the original code
-
----
-
-These are all we should do. I believe DEPT would be a very useful tool
-once all wait-event pairs get tagged by the developers in all subsystems
-and device drivers.
-
-	Byungchul
-
-> Last time I looked at some reports, it gave a lot of false positives
-> due to mis-understanding prepare_to_sleep().
-> 
-> For this all to make sense, it would need to not have false positives
-> (or at least a very small number of them together with a way to sanely
-> get rid of them), and also have a track record of finding things that
-> lockdep doesn't.
-> 
-> Maybe such reports have been sent out with the current situation, and
-> I haven't seen them.
-> 
->                  Linus
