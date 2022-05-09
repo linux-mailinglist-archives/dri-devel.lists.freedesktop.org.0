@@ -1,83 +1,161 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E783520153
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 17:43:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 449285201A1
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 17:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA3610E1EA;
-	Mon,  9 May 2022 15:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C854310F2E1;
+	Mon,  9 May 2022 15:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E654610E1EA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 15:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652111002;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pDvoQEu426PQhNK75aV6i5kIMrCKM4IyiWys5+OoScE=;
- b=EDZsjBa7V2gGgIik6BJoiL+FbLsAkmrdJVOkdVozeqylW3Z+fdX6OTf19jfJ1JtDbaxFDy
- WJzUIhab9iS8TR8VzI3c0kD7mgYAjEOOimqsR5TjuPrKg27ZwrYBrkWxcnb2XVIyXTnfe+
- 8OzFPXjOvaEKt+pY8Ol6pEcX7Mdz6sE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-F7ohdlm-P6qK5TZgc146CA-1; Mon, 09 May 2022 11:43:21 -0400
-X-MC-Unique: F7ohdlm-P6qK5TZgc146CA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k29-20020adfb35d000000b0020adc94662dso5920529wrd.12
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 08:43:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pDvoQEu426PQhNK75aV6i5kIMrCKM4IyiWys5+OoScE=;
- b=Z3ld1vefjXNHLerCklrgO1CRPH6zdmAvMahOoWVc/7/+JmjfCTX3FjwaQrCg/lwmWf
- 6pwrRT2lmVNnzYE6N9F9iP5fd1utiq6UbgUHMPKFbTtdZp5KhWdDiyqY11Llc0+p0eOj
- hpRw4l3o2CSgnoea7t0yrV5pTebISOgSkZIli9byv47ava3iHB7k7IG3LzxQcgVsndnG
- UV+6epWLqwpcUbQoz5wNcN6Iu/vB7RS51ZJZ/U/8hxG3XS7uSTO7oKvKVxP9wsP6Ny1O
- 0NIWQ1xx7A15ge1jpEw9dP84bTp9rzSAenMztnpMSKK8tg+HtSWnbsl6mTTRXnUYwZWa
- 6MhQ==
-X-Gm-Message-State: AOAM532uknj8Rj0oDG3jEzUU31QmsS1Qu5omMibjq36u4s4zioXsqMMF
- sBcKpOXOKfBltqm7mMQ7390jTdHOJgk3BOrOxpg8qkNXsME7BF8gzUVxoCtOVui1CwXNCILezou
- EiWjvWnOxXYJ7Lj7SFiM81vgxysJ8
-X-Received: by 2002:a5d:45d0:0:b0:20a:d002:b80e with SMTP id
- b16-20020a5d45d0000000b0020ad002b80emr14395422wrs.447.1652110999994; 
- Mon, 09 May 2022 08:43:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwUH6w15JMrHaWl+o5OtfHnJbdiEnFLFbouX+dWQySkupS9shz25KXFqkMxmAmrYyIoIW5Sw==
-X-Received: by 2002:a5d:45d0:0:b0:20a:d002:b80e with SMTP id
- b16-20020a5d45d0000000b0020ad002b80emr14395403wrs.447.1652110999655; 
- Mon, 09 May 2022 08:43:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id
- 11-20020a05600c264b00b0039444973258sm19793428wmy.0.2022.05.09.08.43.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 08:43:19 -0700 (PDT)
-Message-ID: <c8c9ab62-8e6a-3bdd-8f6e-a75839e97ffa@redhat.com>
-Date: Mon, 9 May 2022 17:43:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] mgag200: Enable atomic gamma lut update
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- lyude@redhat.com
-References: <20220509094930.44613-1-jfalempe@redhat.com>
- <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 457B010F2D7
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 15:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652111508; x=1683647508;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=TOnajFuy+Bsd4TrZHLgvhFhLa8Pkjax9guTUhBNOExE=;
+ b=IUdXV+hRhkjm4S9sYTZwhiChZTnZQb6PgHDLJz/AJc/p3min6/CpIyEA
+ Zu+U5rW/QciupMQZtHB4vI+96fXwlUpnDaHoUqV3k2E08xW9d3MYbVy3k
+ ZtVT4cBx7pIL7DhVgSTlqVFDWojljymbPYQBHMlRxxUMG8BpuwLEakxC/
+ gWkYQwgsZUqXFWRkPTtiU4CH8FbCMvm55Asun3bH8DoZXIV0AkbdWmku3
+ T+wK/EgOxYuHLlmN+m01Ew0bORL523nbnyAclToiQYKFjxjf8UKxW5ffy
+ i5TLi8W9atUE9O2ZrD9abDADs0cQ5a7yMQEAp483dcDRpj0oj874WUcoF w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="355515710"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="355515710"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 08:51:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="519292213"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by orsmga003.jf.intel.com with ESMTP; 09 May 2022 08:51:47 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 9 May 2022 08:51:46 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 9 May 2022 08:51:46 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Mon, 9 May 2022 08:51:46 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Mon, 9 May 2022 08:51:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P8pqQcH+aVTMd12LW6ZG+1N5fxAX5xsKesKlg6AmnXPFom3IksrDi3wcK0Fci0+XzZ9mVh+qzRfFlk9DQz4pRAydXrfNo/hWL4nyXIWzzagVzkN/CUcvppYqKpIA8X0gCuekrzJDVOFXhsULxuYIFXXr8DUPr5dvZb/ejvXdv0LdKgoaDMG0lgjltMyEIbETilwuajhqbuVzMvS6eePPIl830iSWtOzhe6EPQ6FfOKM8WocftUImEejiTBf1e2JpQDDHAYYy2G6gASSvRjUmyVUab2l8yp2fMlThgZgq/eWd3r8/Zfq822TuO6A/+QctYCl4S3s5zFb4pYPdnoRrhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=azQpjh6+aTJrXbdAXB14zBxlAQ6fG0QpozqL0O/bmuk=;
+ b=W2N9N+EwRjWMddMQ84++cMVOznI7paYfp0PosfxLHjwdKfh/uqvtU5x7QkySvm//HvPdBWFX5H2pjorw76+WzcFyf632mXO5K/IZkalfQ2iZSBFtLRWeCarpPNBL72Gny2/37qA6Xq/SNXdGB5pgKTkI0cIryaFg3qdFX8G+8Ss2L0/gP0n2JD8jnKZ11QjdsytnAC3PoOUnhm6EibioA+2m5MJberigVaTWz6kQEpws5+O1EZIGkyriMNC4cgKtCxg5cR7Ci9wPVKEiIIJP8Xi7nWRVGyWwQiUgrWkhyclpoufCGA3O1IwOspLr5+8RwbB6QgKtxMCnbZpaO9+Cdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
+ SN6PR11MB2942.namprd11.prod.outlook.com (2603:10b6:805:cb::28) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5227.20; Mon, 9 May 2022 15:51:42 +0000
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::b1fa:393c:9fb6:6871]) by DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::b1fa:393c:9fb6:6871%5]) with mapi id 15.20.5227.022; Mon, 9 May 2022
+ 15:51:42 +0000
+Message-ID: <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
+Date: Mon, 9 May 2022 17:51:36 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.8.1
+Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
+ fb_release()
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ <linux-kernel@vger.kernel.org>
+References: <20220505215947.364694-1-javierm@redhat.com>
+ <20220505220413.365977-1-javierm@redhat.com>
+ <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
+ <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DU2P250CA0015.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:10:231::20) To DM6PR11MB3180.namprd11.prod.outlook.com
+ (2603:10b6:5:9::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a1487ec2-3b6c-4c62-7fa9-08da31d3cfd5
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2942:EE_
+X-Microsoft-Antispam-PRVS: <SN6PR11MB294299BF9165D4E10CC7ECA3EBC69@SN6PR11MB2942.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uH5zBKlNVodB9QdFt4eSKROi35xm5LX3GBORvL2BIn6h1wio1bXDcGn44P4rXoUuhqB8LQptklxdWSdN4XH42tWsYrWclXNHVx512WLvJ6wvG/DThAuNBn7YPysdVm2Z0cTI+gYQ+3znV4bCCa1y3moNKJ2VZRNoW0sB5EuR+gWgPJ7tmic7QuCtmGJbdqbJyz+XLT6yGw2MkloQYMqM0Zu2B3j0jfQdku+41s09rQ95v1w0id2H0SSWAU2PFTBDIMYoFwddV1KrxrVL2nh1mlcGFqfviMSKqlsSLwI/erR8+VzouUWAH1Wd7VgKoHDPqGnD2BkQb2LpqFKdiuXsk4Zh8W9gyKyHZKcz1WimtFmdpN7qZyUk0IZ9wo5lpn1Acb7nQOj3Si+I9TtRiI8Z3K+yBso2RLfb5xrmVea/5bjRfZSsPCeY10AwAkDpf+WbYslkNxhePapuVtA+E/rDtUZYcm6vpjpTT03/cWpIqO+0H1HByAqVodOU2r34yPQfj3DBfpEJhejHHdqWKCewlhtonZzvGFEXoDfH7sJsyprOSToFJ14T/qXdZ8YHVgeZVMlRrub667+L12N5Ap0RPpptMX7oI1q3/GC2TGzIvyr3mQTjb4RT7Gsl+9twgqSSzdaZ12ByEZUhyYeHyrbpSBkpjrU6RRU0IpwOTlHoDCYxG++reRGAtjXVS5vMM4f89vCLo+CTha8vj2GyI/41xJ41s2ZcfowFtx7y0USMUep0aqqqoO1tudnkIQpeJ3+B
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(66476007)(66946007)(6486002)(316002)(66556008)(6512007)(6666004)(508600001)(44832011)(2906002)(36916002)(186003)(4326008)(54906003)(31696002)(8676002)(38100700002)(86362001)(2616005)(82960400001)(8936002)(31686004)(6506007)(83380400001)(107886003)(5660300002)(36756003)(53546011)(26005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlNSR2NaMnZCeWJ0QXJMOGY4TllmbkRPVVY3a1hBS3VmNVcraE42MGFTVXh3?=
+ =?utf-8?B?UHZSMDFaWExYeW1sZVRCSEpMNmtON1dnbUZMbnlqMTVVWDlFWm9NYTdkdmtD?=
+ =?utf-8?B?ajNQUmtYcnFyb1oxT0xRa2poam1VSFpxSHNVSzJwSWRTbGJESSthbEJJSmI3?=
+ =?utf-8?B?QmlHbkxNL20yWVJQV2xyWTVZTU0xR2YxMkN6dUVTajF5TWErWitJL1Q3TjZQ?=
+ =?utf-8?B?RHJVOXduVjZkZ1FjY3haWGYyMXlCOWlMWVN1NWRzMHQ2UlZWN1Q5K1NrQTNw?=
+ =?utf-8?B?YTJzSXNZU2RzelViamxWUkNVdFVIQ3QwNHZxY0s4dDNKM3NTMnF4TXB5RHhB?=
+ =?utf-8?B?eEVIY3hpbjN1VTB1c0N6YXRsdTIzUnZuNGJ6NVd0ak5ad2IwNGdXWm1EeWVC?=
+ =?utf-8?B?eHIzd2ZySnNZM2FkTGdKUE84ZFhIc2FVMXRhK25WQTZvL09STThmc2dIZXRC?=
+ =?utf-8?B?WHpDQTZkRlUxbjV3eGhvQXNtc0Z4V0VSN21LOXFoLzBuYzdDd3NadTE3TElh?=
+ =?utf-8?B?djltNWhYRUMxenExOFB5OEt5V29LdFVoQzlIaUpPbDhGOVBPVGVYa0wzRGo2?=
+ =?utf-8?B?OCtyTEpBU0dCcmpac0Zka2s4U2d3Vyt4ZTZMUTY1UVZObnFVL0VxdmlaaWk2?=
+ =?utf-8?B?UFhmeGwzS0JVY2oxaTVxbDVnRXJ0UVlMQjlGSGFRelY3akk0NVA5Slo1Qjly?=
+ =?utf-8?B?Qkgyck5QSmh6YUNua0RZdVYvNUcwbjBtVEJZS1BMVzdXQk91ZDhBT0o3SXYv?=
+ =?utf-8?B?VGRCWVZjWVFRZllnV3ZUNXJQcGpyR2k0VDVtK2J1a2h2OVY0OWw4Z1E5MkFs?=
+ =?utf-8?B?MHRFV2pvL09GMFVHZW5HOTlDaktmZ1NhRjRxWHBlUG9qcFkzQ014c0ZIUFpC?=
+ =?utf-8?B?SHNpMEdyR3lTQnIrK2ZabGE5Y3QyZHFTQ3NjYmhISVJOVDZkTW1LVU1RTFlu?=
+ =?utf-8?B?ckp2cnV4MGpiVVJTZjVhbWxGTytLdnJxN2dMdnRMdGQvWEFVRzFaVmpGaDRs?=
+ =?utf-8?B?dk03QWV1UjYrbkJBZW9jSlpaTTFFMGE2cVFtb0RIL1V0WXRXYUN4WUZ4NDRE?=
+ =?utf-8?B?Wmx1cWpNSEFVQU1GNlY5T0FPaVRsWTNRNU5NZitkOUtPZ1UxMkVDSjdQUjcz?=
+ =?utf-8?B?YmkwU3FlalptV3FWcGhNbzUyN1NzdkdqeG15dm1GeGVVM25ZcXBQb2I2NTBn?=
+ =?utf-8?B?SFY2NXI2RGd0SWpmN0Q3WWE4MlhWcEVCUW9idHNvR2NNcHdxL093WElIQTNF?=
+ =?utf-8?B?STRiamZpS3grSm4rRFNKN1ZDL3NWdnZ2aGtPVG5SKzVjVEhrUnBSd2MvbGEr?=
+ =?utf-8?B?R3dxaUowcjdmb0VUWEhTVHpXN1ZqNWJUalNoRTl2Y1lFdm5FbUxlYU9OWC95?=
+ =?utf-8?B?VWVqT01wN1VKcXY4MkdEY1BMdVVMbWtzVzJoYUs2dnYxOWFVNEU1MHVaZS9a?=
+ =?utf-8?B?NWZPeFJZQWxvZVVnRHR6SlEzVjRndkpiMHpDdXVaQUd2OXZLcHM0VGZWMjJH?=
+ =?utf-8?B?OHVJbjV4WDlZWDBWTTRtbm1NQkpkcGVOR2wwRCsrWmJpeEx6ajd3a3d4TjZX?=
+ =?utf-8?B?UWZoQ2YvSlJqTlVOd0JZbFhOYkJQQXR4SHQyZ1ZXUzZNaUpZSGpHZXJZKzJO?=
+ =?utf-8?B?NFh1UG5tU1NsOUhIRzBWYks2QXdnVlQ1Q21ReHFNR01QcHFOWUxTeUpSY0F3?=
+ =?utf-8?B?Mnlic29IUzhFckQyYXNJWjE3UHUyWXoyTXFMRlg0eHFaMWhSTG1YNFBoU280?=
+ =?utf-8?B?M0tJVjFkaUVwY3lwZW9KK0w4NytIS0cvOFBMemJFKzlOUFR4aVZBbVNQZm1K?=
+ =?utf-8?B?Qzc2b1daLzlFN2JXT09sZUh1RU9PMEIzK29URy9rMFY1QjdzNHduM3hHNjFF?=
+ =?utf-8?B?Q0paVmlyTHZiUmZ6elVLUEY0T01hYmlTR0NCakNwUzBMNE9tSEJiWUdIanR4?=
+ =?utf-8?B?TXoyaEpNOTJnbGpzMXlBLzRDN0x5anNNeFhVMGxhUzZHTXM4UUpHenRtTTJ6?=
+ =?utf-8?B?eTRtZG5WYkZUbW9FRXBKVVVEMGJzd1dCSTJ3TFk0cVhwL2h3U3NDMmxBQ3lG?=
+ =?utf-8?B?NzJJWFhqTkdzSCtCcVBVdmk0Q1luVi9oRGxPWTJsdXpJazJGMDZMWkVqUkZs?=
+ =?utf-8?B?SW51cHZGcEkySU9qQXBuOEdVbVlYWS9seUJSOEdDaUtra0dIUkJ5eUk1Rmxa?=
+ =?utf-8?B?RUI4amREQUFnTVhiRWxCSHo3REE3SSs1V2g1UVJXTDVmNDh5THFvYzZ5QnQz?=
+ =?utf-8?B?a2VKTklBQlhDWE1BZnNkQVhiTkcyTjRnWnBBVlBneWhjQ3A3cDJ6QmdsNHBG?=
+ =?utf-8?B?K3pYVzFWNzlnTVpiV3ZiZkRtKzFuRjJBWnVFa3FETjlyMGRQL2t3TkR6b3Jn?=
+ =?utf-8?Q?2yeqtDgL5zcE8Xpc=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1487ec2-3b6c-4c62-7fa9-08da31d3cfd5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 15:51:42.2957 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +s0/R086I0/Uxr93Ntl3Tm+l53WxroDULsSaH3RSLTxElTWmepnbONJdUk9gFBcbFGl86qRSvrrT4ySZ0kbpkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2942
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,242 +168,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/05/2022 16:22, Thomas Zimmermann wrote:
-> Hi,
-> 
-> first of all
-> 
-> Tested-by: Thomas Zimemrmann <tzimmermann@suse.de>
-> 
-> on G200EH. I clicked a bit in Gnome settings and the display changed 
-> colors. It's pretty cool.
 
-yeah, I also played a bit with https://github.com/zb3/gnome-gamma-tool
 
-> 
-> Am 09.05.22 um 11:49 schrieb Jocelyn Falempe:
->> Add support for atomic update of gamma lut.
->> With this patch the "Night light" feature of gnome3
->> is working properly on mgag200.
+On 09.05.2022 17:30, Javier Martinez Canillas wrote:
+> Hello Andrzej,
+>
+> On 5/9/22 16:56, Andrzej Hajda wrote:
+>> On 06.05.2022 00:04, Javier Martinez Canillas wrote:
+>>> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>
+>>> Most fbdev drivers have issues with the fb_info lifetime, because call to
+>>> framebuffer_release() from their driver's .remove callback, rather than
+>>> doing from fbops.fb_destroy callback.
+>>>
+>>> Doing that will destroy the fb_info too early, while references to it may
+>>> still exist, leading to a use-after-free error.
+>>>
+>>> To prevent this, check the fb_info reference counter when attempting to
+>>> kfree the data structure in framebuffer_release(). That will leak it but
+>>> at least will prevent the mentioned error.
+>>>
+>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>
+>>> (no changes since v1)
+>>>
+>>>    drivers/video/fbdev/core/fbsysfs.c | 4 ++++
+>>>    1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+>>> index 8c1ee9ecec3d..c2a60b187467 100644
+>>> --- a/drivers/video/fbdev/core/fbsysfs.c
+>>> +++ b/drivers/video/fbdev/core/fbsysfs.c
+>>> @@ -80,6 +80,10 @@ void framebuffer_release(struct fb_info *info)
+>>>    {
+>>>    	if (!info)
+>>>    		return;
+>>> +
+>>> +	if (WARN_ON(refcount_read(&info->count)))
+>>> +		return;
+>>> +
+>> Regarding drm:
+>> What about drm_fb_helper_fini? It calls also framebuffer_release and is
+>> called often from _remove paths (checked intel/radeon/nouveau). I guess
+>> it should be fixed as well. Do you plan to fix it?
 >>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/mgag200/mgag200_mode.c | 46 ++++++++++++++++++++++++++
->>   1 file changed, 46 insertions(+)
+> I think you are correct. Maybe we need something like the following?
+>
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index d265a73313c9..b09598f7af28 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -631,7 +631,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+>          if (info) {
+>                  if (info->cmap.len)
+>                          fb_dealloc_cmap(&info->cmap);
+> -               framebuffer_release(info);
+
+What about cmap? I am not an fb expert, but IMO cmap can be accessed 
+from userspace as well.
+
+Regards
+Andrzej
+
+>          }
+>          fb_helper->fbdev = NULL;
+>   
+> @@ -2112,6 +2111,7 @@ static void drm_fbdev_release(struct drm_fb_helper *fb_helper)
+>   static void drm_fbdev_fb_destroy(struct fb_info *info)
+>   {
+>          drm_fbdev_release(info->par);
+> +       framebuffer_release(info);
+>   }
+>   
+>   static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+>
+>> Regarding fb drivers, just for stats:
+>> git grep -p framebuffer_release | grep _remove | wc -l
+>> Suggests there is at least 70 incorrect users of this :)
 >>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c 
->> b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> index 6e18d3bbd720..9fc688e15db8 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -86,6 +86,46 @@ static void mga_crtc_load_lut(struct drm_crtc *crtc)
-> 
-> mga_crtc_load_lut is legacy code and needs to go away.
-> 
->>       }
->>   }
->> +static void mga_crtc_update_lut(struct mga_device *mdev,
->> +                struct drm_crtc_state *state,
->> +                u8 depth)
-> 
-> Rather name this function mgag200_crtc_set_gamma().
-> 
-> The driver was once ported from X11 userspace, where it was called mga. 
-> Thus the occational mga_ prefix. It it should now be mgag200.
-
-ok
-> 
->> +{
->> +    struct drm_color_lut * lut;
->> +    int i;
->> +
->> +    if (!state->color_mgmt_changed || !state->gamma_lut)
->> +        return
-> 
-> Semicolon is missing here.
-
-oops ;)
-> 
-> The test itself should go into the caller. The update function here 
-> should be independent from the crtc state. Pass in the plane state's 
-> framebuffer and the crtc state's gamma_lut property.
-
-ok, it makes sense.
-> 
->> +
->> +    lut = (struct drm_color_lut *) state->gamma_lut->data;
->> +    WREG8(DAC_INDEX + MGA1064_INDEX, 0);
->> +
->> +    if (depth == 15) {
-> 
-> format->depth is deprecated.  Better write these if-else branches as 
-> switch of the format's 4cc code:
-> 
-> switch (fb->format->format) {
-> case DRM_FORMAT_XRGB1555:
->      ...
->      break;
-> case DRM_FORMAT_RGB565:
->      ...
->      break;
-> case DRM_FORMAT_RGB888:
-> case DRM_FORMAT_XRGB:
->      ...
->      break;
-> }
-
-As the driver doesn't advertise XRGB1555, maybe I can drop it ?
-I kept it because the mga_crtc_load_lut() supports it.
-
-> 
->> +        /* 16 bits r5g5b5a1 */
-> 
-> With 4cc codes, you can remove these comments.
-> 
->> +        for (i = 0; i < MGAG200_LUT_SIZE; i += 8) {
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].red >> 8);
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].blue >> 8);
->> +        }
->> +    } else if (depth == 16) {
->> +        /* 16 bits r5g6b5, as green has one more bit,
->> +         * add padding with 0 for red and blue. */
->> +        for (i = 0; i < MGAG200_LUT_SIZE; i += 4) {
->> +            u8 red = 2 * i < MGAG200_LUT_SIZE ? lut[2 * i].red >> 8 : 0;
->> +            u8 blue = 2 * i < MGAG200_LUT_SIZE ? lut[2 * i].red >> 8 
->> : 0;
-> 
-> '[].blue' here.
-
-oops again ;)
-
-> 
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, red);
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, blue);
->> +        }
->> +    } else {
->> +        /* 24 bits r8g8b8 */
->> +        for (i = 0; i < MGAG200_LUT_SIZE; i++) {
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].red >> 8);
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
->> +            WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].blue >> 8);
->> +        }
->> +    }
->> +}
->> +
-> 
-> These loops seem hard to understand because the index i doesn't 
-> obviously correspond to the source or destination; except for the final 
-> one.
-> 
-> I'd write out the offset into the HW palette as constant value in the 
-> for loop and walk over the given lut table via pointer arithmetic.
-> 
-> It might also make sense to adjust the starting value of the lut table 
-> such that its final entry is used for the final entry in the HW palette. 
-> For typical gamma ramps ~2, the curve is fairly flat for small values 
-> and goes up steeply at high values. (Please correct me if I'm 
-> misinterpreting the gamma ramps.)
-
-I didn't realize that taking 1 out of 8 values will have this side 
-effect. sure this can be fixed.
-> 
-> For 15-bit case I'd do thing like this.
-> 
->   lut += 7;
->   for (i < 0; i < 32; ++i, lut += 8) {
->      // write  lut
->   }
-> 
-> 16-bit is complicated and may better be done in 2 loops
-> 
->   lutr += 7;
->   lutg += 3;
->   lutb += 7;
->   for (i < 0; i < 32; ++i, lutr += 8, lutg += 3, lutb += 8) {
->     // write  r/g/b lut
->   }
->   for (; i < 64; ++i, lutg += 3) {
->     // write  0/g/0 lut
->   }
-
-ok, will try to do something like this. It took me a while to understand 
-the loops of mga_crtc_load_lut(), so I tried to simplify.
-> 
->>   static inline void mga_wait_vsync(struct mga_device *mdev)
->>   {
->>       unsigned long timeout = jiffies + HZ/10;
->> @@ -953,6 +993,7 @@ mgag200_simple_display_pipe_update(struct 
->> drm_simple_display_pipe *pipe,
->>                      struct drm_plane_state *old_state)
->>   {
->>       struct drm_plane *plane = &pipe->plane;
->> +    struct drm_crtc *crtc = &pipe->crtc;
->>       struct drm_device *dev = plane->dev;
->>       struct mga_device *mdev = to_mga_device(dev);
->>       struct drm_plane_state *state = plane->state;
->> @@ -963,7 +1004,10 @@ mgag200_simple_display_pipe_update(struct 
->> drm_simple_display_pipe *pipe,
->>       if (!fb)
->>           return;
->> +    mga_crtc_update_lut(mdev, crtc->state, fb->format->depth);
->> +
-> 
-> We should also call this function in pipe_enable.
-> 
-> And there's the question what happens if gamma_lut is not set.  So far, 
-> we get away with it because mga_crtc_load_lut().  A better approach is 
-> to add another function mgag200_crtc_set_gamma_linear() that clears the 
-> palette to a linear curve (i.e., same as mga_crtc_load_lut() does now). 
-> It would be called if no crtc->state->gamma_lut is NULL.
-
-Yes, if I remove mga_crtc_load_lut() I will need to set the default.
-should be simple to do.
-
-
-> 
->>       if (drm_atomic_helper_damage_merged(old_state, state, &damage))
->> +
-> 
-> That empty line is fallout from rebasing from the other patchset?
-
-yes ;)
-> 
->>           mgag200_handle_damage(mdev, fb, &damage, 
->> &shadow_plane_state->data[0]);
->>   }
->> @@ -1110,6 +1154,8 @@ int mgag200_modeset_init(struct mga_device *mdev)
->>       /* FIXME: legacy gamma tables; convert to CRTC state */
->>       drm_mode_crtc_set_gamma_size(&pipe->crtc, MGAG200_LUT_SIZE);
-> 
-> Here's another legacy call that should get removed.
-
-Yes, I can remove that one too.
-
-> 
->> +    drm_crtc_enable_color_mgmt(&pipe->crtc, 0, false, MGAG200_LUT_SIZE);
-> 
-> AFAICT the DRM core does not enforce the LUT size. It's just information 
-> for userspace, which could give any amount of palette entries. So the 
-> driver's pipe_check function has to enforce the limit. If the gamma_lut 
-> property is set, it should always contain 256 entries.
-> 
-> Best regards
-> Thomas
-> 
->> +
->>       drm_mode_config_reset(dev);
->>       return 0;
-> 
-
-Thanks a lot for your review, I will rework this and send a v2.
-
--- 
-
-Jocelyn
+> Yes, Daniel already mentioned that most of them get this wrong but I was
+> mostly interested in {simple,efi,vesa}fb since are used with "nomodeset".
+>
+> But given that I only touched those tree and still managed to introduce
+> a regression, I won't attempt to fix the others.
+>
 
