@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3901851FF64
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 16:22:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 773ED51FFAD
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 16:31:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2031410EA92;
-	Mon,  9 May 2022 14:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECF510E4F3;
+	Mon,  9 May 2022 14:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7027810EA92
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 14:22:28 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D17F41F96D;
- Mon,  9 May 2022 14:22:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652106146; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kYHDLSjKglfhVKocop0qragLL/AXIqRJvuegnN0bOQ0=;
- b=F6r+zwjqHLWqOHF+Mn2Cf6mayt4xKWZHswdr9uISngbGGMha7SzPCYSQii/ZzC+Xl4Ehta
- h8xVSZFKyixh92QtUWgIZeg+o+3uPWD/pHRApA6SENQSOUaWXOiSXcUDbvFE6plN540x1y
- gscnNyvbFPXQHa/naNFA0EbDhOvi9Lo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652106146;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kYHDLSjKglfhVKocop0qragLL/AXIqRJvuegnN0bOQ0=;
- b=GAZ+zDTQpStnGH8AB7STcPPjjiSUN1W6P1k0lqG63o7jx9lAEja9fPEaOkwc3Ocsl+TnWY
- VKajX58Z8/ebKiAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B021313AA5;
- Mon,  9 May 2022 14:22:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ewrjKaIjeWIGfQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 09 May 2022 14:22:26 +0000
-Message-ID: <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
-Date: Mon, 9 May 2022 16:22:26 +0200
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D057810E463
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 14:31:53 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id p18so16506571edr.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 07:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=2Tp0IHxlp2CcmUalclLJuI0trNA/JQO2tVaqEJ3to3c=;
+ b=BE749skK9qaDobjL1QWOzwlX11o+jrUGbdDNDPr5vxH6kjjSvRumVTUAC3nUyhKbVO
+ TZ4AiQ1boZhMr7yjapgIJF998i4m+BEIGYKkVkEF4EfMHL2RhoXz75SXRBZqNiYz7fYs
+ K7b+Qg0ehh2XWnWJzlp6N+RfOPiSRIr0nRNcc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=2Tp0IHxlp2CcmUalclLJuI0trNA/JQO2tVaqEJ3to3c=;
+ b=NqBbpxuGpUSgEpkVEqLadHF7ffhn03hLDSy9ul/nxGACAMLj+j1giMp2TchwQfT+rf
+ OO8YDJZ0zVW6OLJKkJtDE2+7RlnQzrGoVWRrErvp7BMpL6WkLEo/dHHX4FbcqCWC/Ax6
+ qfD6+j99nbeR+IQC8i+sqFHvOLZjj/gguPmAm87b85tr7RCb3oMnvNMigZTLF7Jk7EUM
+ ljApR0di/f+k6m9nOROHNVQrE2u4SX3ZuJKrnC7I2dkvNDMqeqTN9QrDo2fiKTD728M1
+ KIIJttXOHO1uRVyk44BVq9CSC6YB+ubrZhWMJFlPejPnix1VAtHpHBVl1BLR5Qj9bY25
+ DYMg==
+X-Gm-Message-State: AOAM531SR4sOtKOWXm5CgWN5FC81MGCfaRNjrDAd/IkJ5Y07KQSJX/DQ
+ nWYPeWhEftTC0fDt+ZTPQJuL3Q==
+X-Google-Smtp-Source: ABdhPJyzkNzJ+T8XGO7dW+q67BHHSfYn4pivnaJBZhNJYpcgbnrahMadR9aJ+R83fzJ0VSrds8siUQ==
+X-Received: by 2002:a05:6402:84a:b0:423:fe99:8c53 with SMTP id
+ b10-20020a056402084a00b00423fe998c53mr17409043edz.195.1652106712166; 
+ Mon, 09 May 2022 07:31:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ p21-20020a17090653d500b006f3ef214e3csm4983198ejo.162.2022.05.09.07.31.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 May 2022 07:31:51 -0700 (PDT)
+Date: Mon, 9 May 2022 16:31:49 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
+Message-ID: <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
+References: <20220504074739.2231-1-christian.koenig@amd.com>
+ <20220504074739.2231-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] mgag200: Enable atomic gamma lut update
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- lyude@redhat.com
-References: <20220509094930.44613-1-jfalempe@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220509094930.44613-1-jfalempe@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------kF9v0qvoHYEGm6tG6SUtQtWf"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220504074739.2231-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,168 +70,593 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------kF9v0qvoHYEGm6tG6SUtQtWf
-Content-Type: multipart/mixed; boundary="------------EDb7jEeLkZlzJPBK9j4ao041";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- lyude@redhat.com
-Cc: michel@daenzer.net
-Message-ID: <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
-Subject: Re: [PATCH] mgag200: Enable atomic gamma lut update
-References: <20220509094930.44613-1-jfalempe@redhat.com>
-In-Reply-To: <20220509094930.44613-1-jfalempe@redhat.com>
+On Wed, May 04, 2022 at 09:47:32AM +0200, Christian König wrote:
+> This adds the infrastructure for an execution context for GEM buffers
+> which is similar to the existinc TTMs execbuf util and intended to replace
+> it in the long term.
+> 
+> The basic functionality is that we abstracts the necessary loop to lock
+> many different GEM buffers with automated deadlock and duplicate handling.
+> 
+> v2: drop xarray and use dynamic resized array instead, the locking
+>     overhead is unecessary and measureable.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  Documentation/gpu/drm-mm.rst |  12 ++
+>  drivers/gpu/drm/Kconfig      |   7 +
+>  drivers/gpu/drm/Makefile     |   2 +
+>  drivers/gpu/drm/drm_exec.c   | 295 +++++++++++++++++++++++++++++++++++
+>  include/drm/drm_exec.h       | 144 +++++++++++++++++
+>  5 files changed, 460 insertions(+)
+>  create mode 100644 drivers/gpu/drm/drm_exec.c
+>  create mode 100644 include/drm/drm_exec.h
+> 
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index f32ccce5722d..bf7dd2a78e9b 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -493,6 +493,18 @@ DRM Sync Objects
+>  .. kernel-doc:: drivers/gpu/drm/drm_syncobj.c
+>     :export:
+>  
+> +DRM Execution context
+> +=====================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
+> +   :doc: Overview
+> +
+> +.. kernel-doc:: include/drm/drm_exec.h
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
+> +   :export:
+> +
+>  GPU Scheduler
+>  =============
+>  
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index e88c497fa010..1b35c10df263 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -179,6 +179,12 @@ config DRM_TTM
+>  	  GPU memory types. Will be enabled automatically if a device driver
+>  	  uses it.
+>  
+> +config DRM_EXEC
+> +	tristate
+> +	depends on DRM
+> +	help
+> +	  Execution context for command submissions
+> +
+>  config DRM_BUDDY
+>  	tristate
+>  	depends on DRM
+> @@ -252,6 +258,7 @@ config DRM_AMDGPU
+>  	select DRM_SCHED
+>  	select DRM_TTM
+>  	select DRM_TTM_HELPER
+> +	select DRM_EXEC
+>  	select POWER_SUPPLY
+>  	select HWMON
+>  	select BACKLIGHT_CLASS_DEVICE
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 15fe3163f822..ee8573b683f3 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -37,6 +37,8 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
+>  #
+>  # Memory-management helpers
+>  #
+> +#
+> +obj-$(CONFIG_DRM_EXEC) += drm_exec.o
+>  
+>  obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
+>  
+> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
+> new file mode 100644
+> index 000000000000..ed2106c22786
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_exec.c
+> @@ -0,0 +1,295 @@
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+> +
+> +#include <drm/drm_exec.h>
+> +#include <drm/drm_gem.h>
+> +#include <linux/dma-resv.h>
+> +
+> +/**
+> + * DOC: Overview
+> + *
+> + * This component mainly abstracts the retry loop necessary for locking
+> + * multiple GEM objects while preparing hardware operations (e.g. command
+> + * submissions, page table updates etc..).
+> + *
+> + * If a contention is detected while locking a GEM object the cleanup procedure
+> + * unlocks all previously locked GEM objects and locks the contended one first
+> + * before locking any further objects.
+> + *
+> + * After an object is locked fences slots can optionally be reserved on the
+> + * dma_resv object inside the GEM object.
+> + *
+> + * A typical usage pattern should look like this::
+> + *
+> + *	struct drm_gem_object *obj;
+> + *	struct drm_exec exec;
+> + *	unsigned long index;
+> + *	int ret;
+> + *
+> + *	drm_exec_init(&exec, true);
+> + *	drm_exec_while_not_all_locked(&exec) {
+> + *		ret = drm_exec_prepare_obj(&exec, boA, 1);
+> + *		drm_exec_continue_on_contention(&exec);
+> + *		if (ret)
+> + *			goto error;
+> + *
+> + *		ret = drm_exec_lock(&exec, boB, 1);
+> + *		drm_exec_continue_on_contention(&exec);
+> + *		if (ret)
+> + *			goto error;
+> + *	}
+> + *
+> + *	drm_exec_for_each_locked_object(&exec, index, obj) {
+> + *		dma_resv_add_fence(obj->resv, fence, DMA_RESV_USAGE_READ);
+> + *		...
+> + *	}
+> + *	drm_exec_fini(&exec);
+> + *
+> + * See struct dma_exec for more details.
+> + */
+> +
+> +/* Dummy value used to initially enter the retry loop */
+> +#define DRM_EXEC_DUMMY (void*)~0
+> +
+> +/* Initialize the drm_exec_objects container */
+> +static void drm_exec_objects_init(struct drm_exec_objects *container)
+> +{
+> +	container->objects = kmalloc(PAGE_SIZE, GFP_KERNEL);
+> +
+> +	/* If allocation here fails, just delay that till the first use */
+> +	container->max_objects = container->objects ?
+> +		PAGE_SIZE / sizeof(void *) : 0;
+> +	container->num_objects = 0;
+> +}
+> +
+> +/* Cleanup the drm_exec_objects container */
+> +static void drm_exec_objects_fini(struct drm_exec_objects *container)
+> +{
+> +	kvfree(container->objects);
+> +}
+> +
+> +/* Make sure we have enough room and add an object the container */
+> +static int drm_exec_objects_add(struct drm_exec_objects *container,
+> +				struct drm_gem_object *obj)
+> +{
+> +	if (unlikely(container->num_objects == container->max_objects)) {
+> +		size_t size = container->max_objects * sizeof(void *);
+> +		void *tmp;
+> +
+> +		tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
+> +				GFP_KERNEL);
+> +		if (!tmp)
+> +			return -ENOMEM;
+> +
+> +		container->objects = tmp;
+> +		container->max_objects += PAGE_SIZE / sizeof(void *);
 
---------------EDb7jEeLkZlzJPBK9j4ao041
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Might be worth it to inquire the actual allocation size here, since if
+it's kmalloc the generic buckets only cover doubling of sizes, so once
+it's big it goes up a lot quicker than PAGE_SIZE.
 
-SGksDQoNCmZpcnN0IG9mIGFsbA0KDQpUZXN0ZWQtYnk6IFRob21hcyBaaW1lbXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPg0KDQpvbiBHMjAwRUguIEkgY2xpY2tlZCBhIGJpdCBpbiBH
-bm9tZSBzZXR0aW5ncyBhbmQgdGhlIGRpc3BsYXkgY2hhbmdlZCANCmNvbG9ycy4gSXQncyBw
-cmV0dHkgY29vbC4NCg0KQW0gMDkuMDUuMjIgdW0gMTE6NDkgc2NocmllYiBKb2NlbHluIEZh
-bGVtcGU6DQo+IEFkZCBzdXBwb3J0IGZvciBhdG9taWMgdXBkYXRlIG9mIGdhbW1hIGx1dC4N
-Cj4gV2l0aCB0aGlzIHBhdGNoIHRoZSAiTmlnaHQgbGlnaHQiIGZlYXR1cmUgb2YgZ25vbWUz
-DQo+IGlzIHdvcmtpbmcgcHJvcGVybHkgb24gbWdhZzIwMC4NCj4gDQo+IFNpZ25lZC1vZmYt
-Ynk6IEpvY2VseW4gRmFsZW1wZSA8amZhbGVtcGVAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAg
-ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMgfCA0NiArKysrKysrKysr
-KysrKysrKysrKysrKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCsp
-DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9t
-b2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYw0KPiBpbmRl
-eCA2ZTE4ZDNiYmQ3MjAuLjlmYzY4OGUxNWRiOCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L21nYWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4gQEAgLTg2LDYgKzg2LDQ2IEBAIHN0YXRpYyB2
-b2lkIG1nYV9jcnRjX2xvYWRfbHV0KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykNCg0KbWdhX2Ny
-dGNfbG9hZF9sdXQgaXMgbGVnYWN5IGNvZGUgYW5kIG5lZWRzIHRvIGdvIGF3YXkuDQoNCj4g
-ICAJfQ0KPiAgIH0NCj4gICANCj4gK3N0YXRpYyB2b2lkIG1nYV9jcnRjX3VwZGF0ZV9sdXQo
-c3RydWN0IG1nYV9kZXZpY2UgKm1kZXYsDQo+ICsJCQkJc3RydWN0IGRybV9jcnRjX3N0YXRl
-ICpzdGF0ZSwNCj4gKwkJCQl1OCBkZXB0aCkNCg0KUmF0aGVyIG5hbWUgdGhpcyBmdW5jdGlv
-biBtZ2FnMjAwX2NydGNfc2V0X2dhbW1hKCkuDQoNClRoZSBkcml2ZXIgd2FzIG9uY2UgcG9y
-dGVkIGZyb20gWDExIHVzZXJzcGFjZSwgd2hlcmUgaXQgd2FzIGNhbGxlZCBtZ2EuIA0KVGh1
-cyB0aGUgb2NjYXRpb25hbCBtZ2FfIHByZWZpeC4gSXQgaXQgc2hvdWxkIG5vdyBiZSBtZ2Fn
-MjAwLg0KDQo+ICt7DQo+ICsJc3RydWN0IGRybV9jb2xvcl9sdXQgKiBsdXQ7DQo+ICsJaW50
-IGk7DQo+ICsJDQo+ICsJaWYgKCFzdGF0ZS0+Y29sb3JfbWdtdF9jaGFuZ2VkIHx8ICFzdGF0
-ZS0+Z2FtbWFfbHV0KQ0KPiArCQlyZXR1cm4NCg0KU2VtaWNvbG9uIGlzIG1pc3NpbmcgaGVy
-ZS4NCg0KVGhlIHRlc3QgaXRzZWxmIHNob3VsZCBnbyBpbnRvIHRoZSBjYWxsZXIuIFRoZSB1
-cGRhdGUgZnVuY3Rpb24gaGVyZSANCnNob3VsZCBiZSBpbmRlcGVuZGVudCBmcm9tIHRoZSBj
-cnRjIHN0YXRlLiBQYXNzIGluIHRoZSBwbGFuZSBzdGF0ZSdzIA0KZnJhbWVidWZmZXIgYW5k
-IHRoZSBjcnRjIHN0YXRlJ3MgZ2FtbWFfbHV0IHByb3BlcnR5Lg0KDQo+ICsNCj4gKwlsdXQg
-PSAoc3RydWN0IGRybV9jb2xvcl9sdXQgKikgc3RhdGUtPmdhbW1hX2x1dC0+ZGF0YTsNCj4g
-KwlXUkVHOChEQUNfSU5ERVggKyBNR0ExMDY0X0lOREVYLCAwKTsNCj4gKw0KPiArCWlmIChk
-ZXB0aCA9PSAxNSkgew0KDQpmb3JtYXQtPmRlcHRoIGlzIGRlcHJlY2F0ZWQuICBCZXR0ZXIg
-d3JpdGUgdGhlc2UgaWYtZWxzZSBicmFuY2hlcyBhcyANCnN3aXRjaCBvZiB0aGUgZm9ybWF0
-J3MgNGNjIGNvZGU6DQoNCnN3aXRjaCAoZmItPmZvcm1hdC0+Zm9ybWF0KSB7DQpjYXNlIERS
-TV9GT1JNQVRfWFJHQjE1NTU6DQoJLi4uDQoJYnJlYWs7DQpjYXNlIERSTV9GT1JNQVRfUkdC
-NTY1Og0KCS4uLg0KCWJyZWFrOw0KY2FzZSBEUk1fRk9STUFUX1JHQjg4ODoNCmNhc2UgRFJN
-X0ZPUk1BVF9YUkdCOg0KCS4uLg0KCWJyZWFrOw0KfQ0KDQo+ICsJCS8qIDE2IGJpdHMgcjVn
-NWI1YTEgKi8NCg0KV2l0aCA0Y2MgY29kZXMsIHlvdSBjYW4gcmVtb3ZlIHRoZXNlIGNvbW1l
-bnRzLg0KDQo+ICsJCWZvciAoaSA9IDA7IGkgPCBNR0FHMjAwX0xVVF9TSVpFOyBpICs9IDgp
-IHsNCj4gKwkJCVdSRUc4KERBQ19JTkRFWCArIE1HQTEwNjRfQ09MX1BBTCwgbHV0W2ldLnJl
-ZCA+PiA4KTsNCj4gKwkJCVdSRUc4KERBQ19JTkRFWCArIE1HQTEwNjRfQ09MX1BBTCwgbHV0
-W2ldLmdyZWVuID4+IDgpOw0KPiArCQkJV1JFRzgoREFDX0lOREVYICsgTUdBMTA2NF9DT0xf
-UEFMLCBsdXRbaV0uYmx1ZSA+PiA4KTsNCj4gKwkJfQ0KPiArCX0gZWxzZSBpZiAoZGVwdGgg
-PT0gMTYpIHsNCj4gKwkJLyogMTYgYml0cyByNWc2YjUsIGFzIGdyZWVuIGhhcyBvbmUgbW9y
-ZSBiaXQsDQo+ICsJCSAqIGFkZCBwYWRkaW5nIHdpdGggMCBmb3IgcmVkIGFuZCBibHVlLiAq
-Lw0KPiArCQlmb3IgKGkgPSAwOyBpIDwgTUdBRzIwMF9MVVRfU0laRTsgaSArPSA0KSB7DQo+
-ICsJCQl1OCByZWQgPSAyICogaSA8IE1HQUcyMDBfTFVUX1NJWkUgPyBsdXRbMiAqIGldLnJl
-ZCA+PiA4IDogMDsNCj4gKwkJCXU4IGJsdWUgPSAyICogaSA8IE1HQUcyMDBfTFVUX1NJWkUg
-PyBsdXRbMiAqIGldLnJlZCA+PiA4IDogMDsNCg0KJ1tdLmJsdWUnIGhlcmUuDQoNCj4gKwkJ
-CVdSRUc4KERBQ19JTkRFWCArIE1HQTEwNjRfQ09MX1BBTCwgcmVkKTsNCj4gKwkJCVdSRUc4
-KERBQ19JTkRFWCArIE1HQTEwNjRfQ09MX1BBTCwgbHV0W2ldLmdyZWVuID4+IDgpOw0KPiAr
-CQkJV1JFRzgoREFDX0lOREVYICsgTUdBMTA2NF9DT0xfUEFMLCBibHVlKTsNCj4gKwkJfQ0K
-PiArCX0gZWxzZSB7DQo+ICsJCS8qIDI0IGJpdHMgcjhnOGI4ICovDQo+ICsJCWZvciAoaSA9
-IDA7IGkgPCBNR0FHMjAwX0xVVF9TSVpFOyBpKyspIHsNCj4gKwkJCVdSRUc4KERBQ19JTkRF
-WCArIE1HQTEwNjRfQ09MX1BBTCwgbHV0W2ldLnJlZCA+PiA4KTsNCj4gKwkJCVdSRUc4KERB
-Q19JTkRFWCArIE1HQTEwNjRfQ09MX1BBTCwgbHV0W2ldLmdyZWVuID4+IDgpOw0KPiArCQkJ
-V1JFRzgoREFDX0lOREVYICsgTUdBMTA2NF9DT0xfUEFMLCBsdXRbaV0uYmx1ZSA+PiA4KTsN
-Cj4gKwkJfQ0KPiArCX0NCj4gK30NCj4gKw0KDQpUaGVzZSBsb29wcyBzZWVtIGhhcmQgdG8g
-dW5kZXJzdGFuZCBiZWNhdXNlIHRoZSBpbmRleCBpIGRvZXNuJ3QgDQpvYnZpb3VzbHkgY29y
-cmVzcG9uZCB0byB0aGUgc291cmNlIG9yIGRlc3RpbmF0aW9uOyBleGNlcHQgZm9yIHRoZSBm
-aW5hbCBvbmUuDQoNCkknZCB3cml0ZSBvdXQgdGhlIG9mZnNldCBpbnRvIHRoZSBIVyBwYWxl
-dHRlIGFzIGNvbnN0YW50IHZhbHVlIGluIHRoZSANCmZvciBsb29wIGFuZCB3YWxrIG92ZXIg
-dGhlIGdpdmVuIGx1dCB0YWJsZSB2aWEgcG9pbnRlciBhcml0aG1ldGljLg0KDQpJdCBtaWdo
-dCBhbHNvIG1ha2Ugc2Vuc2UgdG8gYWRqdXN0IHRoZSBzdGFydGluZyB2YWx1ZSBvZiB0aGUg
-bHV0IHRhYmxlIA0Kc3VjaCB0aGF0IGl0cyBmaW5hbCBlbnRyeSBpcyB1c2VkIGZvciB0aGUg
-ZmluYWwgZW50cnkgaW4gdGhlIEhXIHBhbGV0dGUuIA0KRm9yIHR5cGljYWwgZ2FtbWEgcmFt
-cHMgfjIsIHRoZSBjdXJ2ZSBpcyBmYWlybHkgZmxhdCBmb3Igc21hbGwgdmFsdWVzIA0KYW5k
-IGdvZXMgdXAgc3RlZXBseSBhdCBoaWdoIHZhbHVlcy4gKFBsZWFzZSBjb3JyZWN0IG1lIGlm
-IEknbSANCm1pc2ludGVycHJldGluZyB0aGUgZ2FtbWEgcmFtcHMuKQ0KDQpGb3IgMTUtYml0
-IGNhc2UgSSdkIGRvIHRoaW5nIGxpa2UgdGhpcy4NCg0KICBsdXQgKz0gNzsNCiAgZm9yIChp
-IDwgMDsgaSA8IDMyOyArK2ksIGx1dCArPSA4KSB7DQogICAgIC8vIHdyaXRlICBsdXQNCiAg
-fQ0KDQoxNi1iaXQgaXMgY29tcGxpY2F0ZWQgYW5kIG1heSBiZXR0ZXIgYmUgZG9uZSBpbiAy
-IGxvb3BzDQoNCiAgbHV0ciArPSA3Ow0KICBsdXRnICs9IDM7DQogIGx1dGIgKz0gNzsNCiAg
-Zm9yIChpIDwgMDsgaSA8IDMyOyArK2ksIGx1dHIgKz0gOCwgbHV0ZyArPSAzLCBsdXRiICs9
-IDgpIHsNCiAgICAvLyB3cml0ZSAgci9nL2IgbHV0DQogIH0NCiAgZm9yICg7IGkgPCA2NDsg
-KytpLCBsdXRnICs9IDMpIHsNCiAgICAvLyB3cml0ZSAgMC9nLzAgbHV0DQogIH0NCg0KPiAg
-IHN0YXRpYyBpbmxpbmUgdm9pZCBtZ2Ffd2FpdF92c3luYyhzdHJ1Y3QgbWdhX2RldmljZSAq
-bWRldikNCj4gICB7DQo+ICAgCXVuc2lnbmVkIGxvbmcgdGltZW91dCA9IGppZmZpZXMgKyBI
-Wi8xMDsNCj4gQEAgLTk1Myw2ICs5OTMsNyBAQCBtZ2FnMjAwX3NpbXBsZV9kaXNwbGF5X3Bp
-cGVfdXBkYXRlKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSwNCj4gICAJ
-CQkJICAgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3N0YXRlKQ0KPiAgIHsNCj4gICAJ
-c3RydWN0IGRybV9wbGFuZSAqcGxhbmUgPSAmcGlwZS0+cGxhbmU7DQo+ICsJc3RydWN0IGRy
-bV9jcnRjICpjcnRjID0gJnBpcGUtPmNydGM7DQo+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYgPSBwbGFuZS0+ZGV2Ow0KPiAgIAlzdHJ1Y3QgbWdhX2RldmljZSAqbWRldiA9IHRvX21n
-YV9kZXZpY2UoZGV2KTsNCj4gICAJc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUgPSBw
-bGFuZS0+c3RhdGU7DQo+IEBAIC05NjMsNyArMTAwNCwxMCBAQCBtZ2FnMjAwX3NpbXBsZV9k
-aXNwbGF5X3BpcGVfdXBkYXRlKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlw
-ZSwNCj4gICAJaWYgKCFmYikNCj4gICAJCXJldHVybjsNCj4gICANCj4gKwltZ2FfY3J0Y191
-cGRhdGVfbHV0KG1kZXYsIGNydGMtPnN0YXRlLCBmYi0+Zm9ybWF0LT5kZXB0aCk7DQo+ICsN
-Cg0KV2Ugc2hvdWxkIGFsc28gY2FsbCB0aGlzIGZ1bmN0aW9uIGluIHBpcGVfZW5hYmxlLg0K
-DQpBbmQgdGhlcmUncyB0aGUgcXVlc3Rpb24gd2hhdCBoYXBwZW5zIGlmIGdhbW1hX2x1dCBp
-cyBub3Qgc2V0LiAgU28gZmFyLCANCndlIGdldCBhd2F5IHdpdGggaXQgYmVjYXVzZSBtZ2Ff
-Y3J0Y19sb2FkX2x1dCgpLiAgQSBiZXR0ZXIgYXBwcm9hY2ggaXMgDQp0byBhZGQgYW5vdGhl
-ciBmdW5jdGlvbiBtZ2FnMjAwX2NydGNfc2V0X2dhbW1hX2xpbmVhcigpIHRoYXQgY2xlYXJz
-IHRoZSANCnBhbGV0dGUgdG8gYSBsaW5lYXIgY3VydmUgKGkuZS4sIHNhbWUgYXMgbWdhX2Ny
-dGNfbG9hZF9sdXQoKSBkb2VzIG5vdykuIA0KSXQgd291bGQgYmUgY2FsbGVkIGlmIG5vIGNy
-dGMtPnN0YXRlLT5nYW1tYV9sdXQgaXMgTlVMTC4NCg0KPiAgIAlpZiAoZHJtX2F0b21pY19o
-ZWxwZXJfZGFtYWdlX21lcmdlZChvbGRfc3RhdGUsIHN0YXRlLCAmZGFtYWdlKSkNCj4gKw0K
-DQpUaGF0IGVtcHR5IGxpbmUgaXMgZmFsbG91dCBmcm9tIHJlYmFzaW5nIGZyb20gdGhlIG90
-aGVyIHBhdGNoc2V0Pw0KDQo+ICAgCQltZ2FnMjAwX2hhbmRsZV9kYW1hZ2UobWRldiwgZmIs
-ICZkYW1hZ2UsICZzaGFkb3dfcGxhbmVfc3RhdGUtPmRhdGFbMF0pOw0KPiAgIH0NCj4gICAN
-Cj4gQEAgLTExMTAsNiArMTE1NCw4IEBAIGludCBtZ2FnMjAwX21vZGVzZXRfaW5pdChzdHJ1
-Y3QgbWdhX2RldmljZSAqbWRldikNCj4gICAJLyogRklYTUU6IGxlZ2FjeSBnYW1tYSB0YWJs
-ZXM7IGNvbnZlcnQgdG8gQ1JUQyBzdGF0ZSAqLw0KPiAgIAlkcm1fbW9kZV9jcnRjX3NldF9n
-YW1tYV9zaXplKCZwaXBlLT5jcnRjLCBNR0FHMjAwX0xVVF9TSVpFKTsNCg0KSGVyZSdzIGFu
-b3RoZXIgbGVnYWN5IGNhbGwgdGhhdCBzaG91bGQgZ2V0IHJlbW92ZWQuDQoNCj4gICANCj4g
-Kwlkcm1fY3J0Y19lbmFibGVfY29sb3JfbWdtdCgmcGlwZS0+Y3J0YywgMCwgZmFsc2UsIE1H
-QUcyMDBfTFVUX1NJWkUpOw0KDQpBRkFJQ1QgdGhlIERSTSBjb3JlIGRvZXMgbm90IGVuZm9y
-Y2UgdGhlIExVVCBzaXplLiBJdCdzIGp1c3QgaW5mb3JtYXRpb24gDQpmb3IgdXNlcnNwYWNl
-LCB3aGljaCBjb3VsZCBnaXZlIGFueSBhbW91bnQgb2YgcGFsZXR0ZSBlbnRyaWVzLiBTbyB0
-aGUgDQpkcml2ZXIncyBwaXBlX2NoZWNrIGZ1bmN0aW9uIGhhcyB0byBlbmZvcmNlIHRoZSBs
-aW1pdC4gSWYgdGhlIGdhbW1hX2x1dCANCnByb3BlcnR5IGlzIHNldCwgaXQgc2hvdWxkIGFs
-d2F5cyBjb250YWluIDI1NiBlbnRyaWVzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
-ICsNCj4gICAJZHJtX21vZGVfY29uZmlnX3Jlc2V0KGRldik7DQo+ICAgDQo+ICAgCXJldHVy
-biAwOw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxv
-cGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIu
-IDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJn
-KQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+But also krealloc checks this internally already so maybe better to not
+break the abstraction.
 
---------------EDb7jEeLkZlzJPBK9j4ao041--
+> +	}
+> +	drm_gem_object_get(obj);
+> +	container->objects[container->num_objects++] = obj;
+> +	return 0;
+> +}
+> +
+> +/* Unlock all objects and drop references */
+> +static void drm_exec_unlock_all(struct drm_exec *exec)
+> +{
+> +	struct drm_gem_object *obj;
+> +	unsigned long index;
+> +
+> +	drm_exec_for_each_duplicate_object(exec, index, obj)
+> +		drm_gem_object_put(obj);
+> +
+> +	drm_exec_for_each_locked_object(exec, index, obj) {
+> +		dma_resv_unlock(obj->resv);
+> +		drm_gem_object_put(obj);
+> +	}
+> +}
+> +
+> +/**
+> + * drm_exec_init - initialize a drm_exec object
+> + * @exec: the drm_exec object to initialize
+> + * @interruptible: if locks should be acquired interruptible
+> + *
+> + * Initialize the object and make sure that we can track locked and duplicate
+> + * objects.
+> + */
+> +void drm_exec_init(struct drm_exec *exec, bool interruptible)
+> +{
+> +	exec->interruptible = interruptible;
+> +	drm_exec_objects_init(&exec->locked);
+> +	drm_exec_objects_init(&exec->duplicates);
+> +	exec->contended = DRM_EXEC_DUMMY;
+> +}
+> +EXPORT_SYMBOL(drm_exec_init);
+> +
+> +/**
+> + * drm_exec_fini - finalize a drm_exec object
+> + * @exec: the drm_exec object to finilize
+> + *
+> + * Unlock all locked objects, drop the references to objects and free all memory
+> + * used for tracking the state.
+> + */
+> +void drm_exec_fini(struct drm_exec *exec)
+> +{
+> +	drm_exec_unlock_all(exec);
+> +	drm_exec_objects_fini(&exec->locked);
+> +	drm_exec_objects_fini(&exec->duplicates);
+> +	if (exec->contended != DRM_EXEC_DUMMY) {
+> +		drm_gem_object_put(exec->contended);
+> +		ww_acquire_fini(&exec->ticket);
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_exec_fini);
+> +
+> +/**
+> + * drm_exec_cleanup - cleanup when contention is detected
+> + * @exec: the drm_exec object to cleanup
+> + *
+> + * Cleanup the current state and return true if we should stay inside the retry
+> + * loop, false if there wasn't any contention detected and we can keep the
+> + * objects locked.
+> + */
+> +bool drm_exec_cleanup(struct drm_exec *exec)
+> +{
+> +	if (likely(!exec->contended)) {
+> +		ww_acquire_done(&exec->ticket);
+> +		return false;
+> +	}
+> +
+> +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
+> +		exec->contended = NULL;
+> +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
 
---------------kF9v0qvoHYEGm6tG6SUtQtWf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Not sure why this is here instead of in _init()? I thought you're playing
+some really dangerous tricks with re-initting the acquire ctx, which would
+at least be questionable, but does not look like that.
 
------BEGIN PGP SIGNATURE-----
+> +		return true;
+> +	}
+> +
+> +	drm_exec_unlock_all(exec);
+> +	exec->locked.num_objects = 0;
+> +	exec->duplicates.num_objects = 0;
+> +	return true;
+> +}
+> +EXPORT_SYMBOL(drm_exec_cleanup);
+> +
+> +/* Track the locked object in the xa and reserve fences */
+> +static int drm_exec_obj_locked(struct drm_exec_objects *container,
+> +			       struct drm_gem_object *obj,
+> +			       unsigned int num_fences)
+> +{
+> +	int ret;
+> +
+> +	if (container) {
+> +		ret = drm_exec_objects_add(container, obj);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (num_fences) {
+> +		ret = dma_resv_reserve_fences(obj->resv, num_fences);
+> +		if (ret)
+> +			goto error_erase;
+> +	}
+> +
+> +	return 0;
+> +
+> +error_erase:
+> +	if (container) {
+> +		--container->num_objects;
+> +		drm_gem_object_put(obj);
+> +	}
+> +	return ret;
+> +}
+> +
+> +/* Make sure the contended object is locked first */
+> +static int drm_exec_lock_contended(struct drm_exec *exec)
+> +{
+> +	struct drm_gem_object *obj = exec->contended;
+> +	int ret;
+> +
+> +	if (likely(!obj))
+> +		return 0;
+> +
+> +	if (exec->interruptible) {
+> +		ret = dma_resv_lock_slow_interruptible(obj->resv,
+> +						       &exec->ticket);
+> +		if (unlikely(ret))
+> +			goto error_dropref;
+> +	} else {
+> +		dma_resv_lock_slow(obj->resv, &exec->ticket);
+> +	}
+> +
+> +	ret = drm_exec_obj_locked(&exec->locked, obj, 0);
+> +	if (unlikely(ret))
+> +		dma_resv_unlock(obj->resv);
+> +
+> +error_dropref:
+> +	/* Always cleanup the contention so that error handling can kick in */
+> +	drm_gem_object_put(obj);
+> +	exec->contended = NULL;
+> +	return ret;
+> +}
+> +
+> +/**
+> + * drm_exec_prepare_obj - prepare a GEM object for use
+> + * @exec: the drm_exec object with the state
+> + * @obj: the GEM object to prepare
+> + * @num_fences: how many fences to reserve
+> + *
+> + * Prepare a GEM object for use by locking it and reserving fence slots. All
+> + * succesfully locked objects are put into the locked container. Duplicates
+> + * detected as well and automatically moved into the duplicates container.
+> + *
+> + * Returns: -EDEADLK if a contention is detected, -ENOMEM when memory
+> + * allocation failed and zero for success.
+> + */
+> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
+> +			 unsigned int num_fences)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_exec_lock_contended(exec);
+> +	if (unlikely(ret))
+> +		return ret;
+> +
+> +	if (exec->interruptible)
+> +		ret = dma_resv_lock_interruptible(obj->resv, &exec->ticket);
+> +	else
+> +		ret = dma_resv_lock(obj->resv, &exec->ticket);
+> +
+> +	if (unlikely(ret == -EDEADLK)) {
+> +		drm_gem_object_get(obj);
+> +		exec->contended = obj;
+> +		return -EDEADLK;
+> +	}
+> +
+> +	if (unlikely(ret == -EALREADY)) {
+> +		struct drm_exec_objects *container = &exec->duplicates;
+> +
+> +		/*
+> +		 * If this is the first locked GEM object it was most likely
+> +		 * just contended. So don't add it to the duplicates, just
+> +		 * reserve the fence slots.
+> +		 */
+> +		if (exec->locked.num_objects && exec->locked.objects[0] == obj)
+> +			container = NULL;
+> +
+> +		ret = drm_exec_obj_locked(container, obj, num_fences);
+> +		if (ret)
+> +			return ret;
+> +
+> +	} else if (unlikely(ret)) {
+> +		return ret;
+> +
+> +	} else {
+> +		ret = drm_exec_obj_locked(&exec->locked, obj, num_fences);
+> +		if (ret)
+> +			goto error_unlock;
+> +	}
+> +
+> +	drm_gem_object_get(obj);
+> +	return 0;
+> +
+> +error_unlock:
+> +	dma_resv_unlock(obj->resv);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_exec_prepare_obj);
+> +
+> +MODULE_DESCRIPTION("DRM execution context");
+> +MODULE_LICENSE("Dual MIT/GPL");
+> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+> new file mode 100644
+> index 000000000000..f73981c6292e
+> --- /dev/null
+> +++ b/include/drm/drm_exec.h
+> @@ -0,0 +1,144 @@
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+> +
+> +#ifndef __DRM_EXEC_H__
+> +#define __DRM_EXEC_H__
+> +
+> +#include <linux/ww_mutex.h>
+> +
+> +struct drm_gem_object;
+> +
+> +/**
+> + * struct drm_exec_objects - Container for GEM objects in a drm_exec
+> + */
+> +struct drm_exec_objects {
+> +	unsigned int		num_objects;
+> +	unsigned int		max_objects;
+> +	struct drm_gem_object	**objects;
+> +};
+> +
+> +/**
+> + * drm_exec_objects_for_each - iterate over all the objects inside the container
+> + */
+> +#define drm_exec_objects_for_each(array, index, obj)		\
+> +	for (index = 0, obj = (array)->objects[0];		\
+> +	     index < (array)->num_objects;			\
+> +	     ++index, obj = (array)->objects[index])
+> +
+> +/**
+> + * struct drm_exec - Execution context
+> + */
+> +struct drm_exec {
+> +	/**
+> +	 * @interruptible: If locks should be taken interruptible
+> +	 */
+> +	bool			interruptible;
+> +
+> +	/**
+> +	 * @ticket: WW ticket used for acquiring locks
+> +	 */
+> +	struct ww_acquire_ctx	ticket;
+> +
+> +	/**
+> +	 * @locked: container for the locked GEM objects
+> +	 */
+> +	struct drm_exec_objects	locked;
+> +
+> +	/**
+> +	 * @duplicates: container for the duplicated GEM objects
+> +	 */
+> +	struct drm_exec_objects	duplicates;
+> +
+> +	/**
+> +	 * @contended: contended GEM object we backet of for.
+> +	 */
+> +	struct drm_gem_object	*contended;
+> +};
+> +
+> +/**
+> + * drm_exec_for_each_locked_object - iterate over all the locked objects
+> + * @exec: drm_exec object
+> + * @index: unsigned long index for the iteration
+> + * @obj: the current GEM object
+> + *
+> + * Iterate over all the locked GEM objects inside the drm_exec object.
+> + */
+> +#define drm_exec_for_each_locked_object(exec, index, obj)	\
+> +	drm_exec_objects_for_each(&(exec)->locked, index, obj)
+> +
+> +/**
+> + * drm_exec_for_each_duplicate_object - iterate over all the duplicate objects
+> + * @exec: drm_exec object
+> + * @index: unsigned long index for the iteration
+> + * @obj: the current GEM object
+> + *
+> + * Iterate over all the duplicate GEM objects inside the drm_exec object.
+> + */
+> +#define drm_exec_for_each_duplicate_object(exec, index, obj)	\
+> +	drm_exec_objects_for_each(&(exec)->duplicates, index, obj)
+> +
+> +/**
+> + * drm_exec_while_not_all_locked - loop until all GEM objects are prepared
+> + * @exec: drm_exec object
+> + *
+> + * Core functionality of the drm_exec object. Loops until all GEM objects are
+> + * prepared and no more contention exists.
+> + *
+> + * At the beginning of the loop it is guaranteed that no GEM object is locked.
+> + */
+> +#define drm_exec_while_not_all_locked(exec)	\
+> +	while (drm_exec_cleanup(exec))
+> +
+> +/**
+> + * drm_exec_continue_on_contention - continue the loop when we need to cleanup
+> + * @exec: drm_exec object
+> + *
+> + * Control flow helper to continue when a contention was detected and we need to
+> + * clean up and re-start the loop to prepare all GEM objects.
+> + */
+> +#define drm_exec_continue_on_contention(exec)		\
+> +	if (unlikely(drm_exec_is_contended(exec)))	\
+> +		continue
+> +
+> +/**
+> + * drm_exec_break_on_contention - break a subordinal loop on contention
+> + * @exec: drm_exec object
+> + *
+> + * Control flow helper to break a subordinal loop when a contention was detected
+> + * and we need to clean up and re-start the loop to prepare all GEM objects.
+> + */
+> +#define drm_exec_break_on_contention(exec)		\
+> +	if (unlikely(drm_exec_is_contended(exec)))	\
+> +		break
+> +
+> +/**
+> + * drm_exec_is_contended - check for contention
+> + * @exec: drm_exec object
+> + *
+> + * Returns true if the drm_exec object has run into some contention while
+> + * locking a GEM object and needs to clean up.
+> + */
+> +static inline bool drm_exec_is_contended(struct drm_exec *exec)
+> +{
+> +	return !!exec->contended;
+> +}
+> +
+> +/**
+> + * drm_exec_has_duplicates - check for duplicated GEM object
+> + * @exec: drm_exec object
+> + *
+> + * Return true if the drm_exec object has encountered some already locked GEM
+> + * objects while trying to lock them. This can happen if multiple GEM objects
+> + * share the same underlying resv object.
+> + */
+> +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
+> +{
+> +	return exec->duplicates.num_objects > 0;
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ5I6IFAwAAAAAACgkQlh/E3EQov+Ac
-+xAAjF23qQ1GLhuPG07lWpdizkzWFFh682jLz4V+C0jlCx796LQcotlG1mqipftLsIZFvzFT6sBg
-Q1pVCuBwpF7FtHTjtXHsi8NuPTGty44lhmmkHNtjjrufFraGiiAEfww6c9n1FqKTNyKnc5RWS5S4
-Y69s783TxqpnhizmuYTQze3ic/LEAD+qzuUnUjuyJJqLPu4oY1Ymi7GfgwIj7VqAe4baesX5xabn
-YNh/w6XcbMHIdyfugRu9688bBH0QRzswYecnN5GqO4luD/4mr4onBW7SC4/XlXIgj0ZZHKQjRQjL
-tgKPKBFCTBEh5WCJI4WQgbW4rosFVaBxCAya+NJ7ic4kfDABl0+TFIWXh0BqXZ5J1aOhGniMzB9L
-iOofLDQWLwq9pI8EeRabYpy82oSsUBrcg35UyXvD7pOmJrUq8wgvQALACr0K5R/vlWj+fQRstbOS
-kx6yq3RmyngsABLtauElCnQ3gNdWi6Qax1pK6lpmXL0MYH4aAAUhQaPxN7Y2+UXA8zYZyFSEDEEs
-Fshu6RYnyvuQBQPo7RQ3JNdWaHAxkEtH4cR0hh1IKeR1qdQJQGymEUPMKSuVEOsNh+9aa6Dmd1xx
-aLfivMtW0e9GwEF/I+aJZJ04WgCu6KIljtjlpRdxT66Go2PcNfWIP/BTz4T0idRBwO1YZcYZVugR
-0Zs=
-=766q
------END PGP SIGNATURE-----
+Definitely an aside, but in our i915 efforts to get rid of temporary pins
+we run into some fun where the eviction code couldn't differentiate from
+memory we need reserved for the CS and memory we just keep locked because
+we evicted it and fun stuff like that. So maybe we need a bit more
+tracking here eventually, but that's only when we have this somehow glued
+into ttm eviction code.
 
---------------kF9v0qvoHYEGm6tG6SUtQtWf--
+Also the even more massive step would be to glue this into dma-buf so you
+can do dynamic dma-buf eviction and still keep track of all the buffers. I
+think with some clever pointer tagging and a bit more indirection we could
+nest drm_exec structures (so that a driver could insert it's entire
+drm_exec structure with a drm_exec-level callback for handling refcounting
+and stuff like that).
+
+So anyway I think this all looks good, just one more thing before I think
+we should land this:
+
+gem helpers in drm_gem_lock_reservations() has something which is
+practically compatible already, except that you bulk-add the entire set of
+objects. I think if you add a bulk-prepare function then we could also
+replace all those. Maybe even nicer if the bulk-prepare takes the array of
+handles and does the handle lookup too, but at least something which can
+subsititue drm_gem_lock_reservations with drm_exec would be nice to
+validate the helpers a bit more and really make sure we only have one of
+them left.
+
+Thoughts?
+-Daniel
+
+> +}
+> +
+> +void drm_exec_init(struct drm_exec *exec, bool interruptible);
+> +void drm_exec_fini(struct drm_exec *exec);
+> +bool drm_exec_cleanup(struct drm_exec *exec);
+> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
+> +			 unsigned int num_fences);
+> +
+> +#endif
+> -- 
+> 2.25.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
