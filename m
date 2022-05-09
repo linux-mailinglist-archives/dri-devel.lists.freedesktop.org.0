@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261475202F3
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 18:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6327B5202FE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 18:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D77E10F3F7;
-	Mon,  9 May 2022 16:52:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F21810F40F;
+	Mon,  9 May 2022 16:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A95C10F3F7
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 16:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=L1ma6WU8alWtlYRHILwBwgghJdPbvK5JcYrdcWzknic=; b=DWQptl/vFBrAPIwgB3FLx93orm
- VOkuh7nyo5QdRZqeRQS8OcX0fJzUONnisrXhlCZfTVVPs1Nx/xWg8hWXDoT+pzebCSgkWrsJIX1YC
- Hls+asyK4wDCd5M3DUAf95ltCRmn8FbtTw4nosLPgttZKZV1iUDoTTtf18xhIL39j2swow0dQOkbU
- bnjxhv3bFqmwvbY6bnSdCbMHI6Q5Mulur5A4+ecnq8pFIdLgYJE8Bac/xc6Gv4hIyYBRFSTELzZFM
- 1S/sRZR8TZUU1wEePlXckwiyveGCaHafsZco/AFH5mQX6Lgxc3s+ITP1K8NkG2wblTcTkEDfIOstg
- jGhbKbfg==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1no6cK-000ABk-Pj; Mon, 09 May 2022 18:52:16 +0200
-Date: Mon, 9 May 2022 15:52:04 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 14/14] drm/vc4: Warn if some v3d code is run on BCM2711
-Message-ID: <20220509165134.dilly2kelknk3iz3@mail.igalia.com>
-References: <20220503121341.983842-1-maxime@cerno.tech>
- <20220503121341.983842-15-maxime@cerno.tech>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67BF610EFA4;
+ Mon,  9 May 2022 16:56:31 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 62A69B8180F;
+ Mon,  9 May 2022 16:56:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFCA4C385B1;
+ Mon,  9 May 2022 16:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1652115387;
+ bh=NT/NSm+ixv4NTnm+bzYUbh8NWftsy0GkupiwFftUrCw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EtvoF8IpfrUKSdvwW8V1qeHxhWfkW598IrjNsAqteSHaADCcEdw4x8KXDr3TbpGco
+ +yggH/xodb4xZyPEnEeIc8mWLqDjS4iXNJXSCuBQpOQ/fSanq8ns6RptBh90cQlffa
+ ZydWP2ygHERY2FiBF7EYP2PUX0oJed77PI+PtGtAug8JPiOmVIAJvSdJSVF0l2WgT3
+ wW5f+Mu+92KTr/DOaR7Nqi5mZ7fd/NZ7bLFFprVwVSRAaFOoxIjPeDgJTM5EOXSyV1
+ crJcVua2rcdRuwnbPejGtAvrTv7VAS/uq+3pJDH8Q5DUtKss9HWmbgKe7fxadeJAws
+ EJ34J+Ehy52jg==
+Date: Mon, 9 May 2022 18:56:20 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5 1/2] module: update dependencies at
+ try_module_get()
+Message-ID: <20220509185620.05567716@coco.lan>
+In-Reply-To: <YnRDIfthGJXdY23h@intel.intel>
+References: <cover.1651348913.git.mchehab@kernel.org>
+ <ad2a9fe66cf502e2e2e2325f1f04d0fae36aa82b.1651348913.git.mchehab@kernel.org>
+ <YnRDIfthGJXdY23h@intel.intel>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mvs73t5aexnavr4h"
-Content-Disposition: inline
-In-Reply-To: <20220503121341.983842-15-maxime@cerno.tech>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,848 +55,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: mauro.chehab@linux.intel.com, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Takashi Iwai <tiwai@suse.com>, Kai Vehmanen <kai.vehmanen@intel.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Jaroslav Kysela <perex@perex.cz>, linux-modules@vger.kernel.org,
+ Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Em Thu, 5 May 2022 23:35:29 +0200
+Andi Shyti <andi.shyti@linux.intel.com> escreveu:
 
---mvs73t5aexnavr4h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Hi Mauro,
+> 
+> [...]
+> 
+> > +static int ref_module_dependency(struct module *mod, struct module *this)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (!this || !this->name)
+> > +		return -EINVAL;
+> > +
+> > +	if (mod == this)
+> > +		return 0;
+> > +
+> > +	mutex_lock(&module_mutex);
+> > +
+> > +	ret = ref_module(this, mod);
+> > +
+> > +#ifdef CONFIG_MODULE_UNLOAD
+> > +	if (ret)
+> > +		goto ret;
+> > +
+> > +	ret = sysfs_create_link(mod->holders_dir,
+> > +				&this->mkobj.kobj, this->name);
+> > +#endif
+> > +
+> > +ret:
+> > +	mutex_unlock(&module_mutex);
+> > +	return ret;
+> > +}
+> > +
+> >  /* Clear the unload stuff of the module. */
+> >  static void module_unload_free(struct module *mod)
+> >  {
+> > @@ -841,24 +886,16 @@ void __module_get(struct module *module)
+> >  }
+> >  EXPORT_SYMBOL(__module_get);
+> >  
+> > -bool try_module_get(struct module *module)
+> > +bool try_module_get_owner(struct module *module, struct module *this)
+> >  {
+> > -	bool ret = true;
+> > +	int ret = __try_module_get(module);
+> >  
+> > -	if (module) {
+> > -		preempt_disable();
+> > -		/* Note: here, we can fail to get a reference */
+> > -		if (likely(module_is_live(module) &&
+> > -			   atomic_inc_not_zero(&module->refcnt) != 0))
+> > -			trace_module_get(module, _RET_IP_);
+> > -		else
+> > -			ret = false;
+> > +	if (ret)
+> > +		ref_module_dependency(module, this);  
+> 
+> do we care about the return value here?
 
-On 05/03, Maxime Ripard wrote:
-> The BCM2711 has a separate driver for the v3d, and thus we can't call
-> into any of the driver entrypoints that rely on the v3d being there.
->=20
-> Let's add a bunch of checks and complain loudly if that ever happen.
->=20
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_bo.c               | 49 ++++++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_drv.c              | 11 +++++
->  drivers/gpu/drm/vc4/vc4_drv.h              |  6 +++
->  drivers/gpu/drm/vc4/vc4_gem.c              | 40 ++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_irq.c              | 16 +++++++
->  drivers/gpu/drm/vc4/vc4_kms.c              |  4 ++
->  drivers/gpu/drm/vc4/vc4_perfmon.c          | 41 ++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_render_cl.c        |  4 ++
->  drivers/gpu/drm/vc4/vc4_v3d.c              | 15 +++++++
->  drivers/gpu/drm/vc4/vc4_validate.c         | 16 +++++++
->  drivers/gpu/drm/vc4/vc4_validate_shaders.c |  4 ++
->  11 files changed, 206 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> index 3ca16d682fc0..b8d856312846 100644
-> --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> @@ -248,6 +248,9 @@ void vc4_bo_add_to_purgeable_pool(struct vc4_bo *bo)
->  {
->  	struct vc4_dev *vc4 =3D to_vc4_dev(bo->base.base.dev);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	mutex_lock(&vc4->purgeable.lock);
->  	list_add_tail(&bo->size_head, &vc4->purgeable.list);
->  	vc4->purgeable.num++;
-> @@ -259,6 +262,9 @@ static void vc4_bo_remove_from_purgeable_pool_locked(=
-struct vc4_bo *bo)
->  {
->  	struct vc4_dev *vc4 =3D to_vc4_dev(bo->base.base.dev);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	/* list_del_init() is used here because the caller might release
->  	 * the purgeable lock in order to acquire the madv one and update the
->  	 * madv status.
-> @@ -387,6 +393,9 @@ struct drm_gem_object *vc4_create_object(struct drm_d=
-evice *dev, size_t size)
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct vc4_bo *bo;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return ERR_PTR(-ENODEV);
-> +
->  	bo =3D kzalloc(sizeof(*bo), GFP_KERNEL);
->  	if (!bo)
->  		return ERR_PTR(-ENOMEM);
-> @@ -413,6 +422,9 @@ struct vc4_bo *vc4_bo_create(struct drm_device *dev, =
-size_t unaligned_size,
->  	struct drm_gem_cma_object *cma_obj;
->  	struct vc4_bo *bo;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return ERR_PTR(-ENODEV);
-> +
->  	if (size =3D=3D 0)
->  		return ERR_PTR(-EINVAL);
-> =20
-> @@ -475,9 +487,13 @@ int vc4_bo_dumb_create(struct drm_file *file_priv,
->  		       struct drm_device *dev,
->  		       struct drm_mode_create_dumb *args)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct vc4_bo *bo =3D NULL;
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	ret =3D vc4_dumb_fixup_args(args);
->  	if (ret)
->  		return ret;
-> @@ -598,8 +614,12 @@ static void vc4_bo_cache_time_work(struct work_struc=
-t *work)
-> =20
->  int vc4_bo_inc_usecnt(struct vc4_bo *bo)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(bo->base.base.dev);
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	/* Fast path: if the BO is already retained by someone, no need to
->  	 * check the madv status.
->  	 */
-> @@ -634,6 +654,11 @@ int vc4_bo_inc_usecnt(struct vc4_bo *bo)
-> =20
->  void vc4_bo_dec_usecnt(struct vc4_bo *bo)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(bo->base.base.dev);
-> +
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	/* Fast path: if the BO is still retained by someone, no need to test
->  	 * the madv value.
->  	 */
-> @@ -753,6 +778,9 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void =
-*data,
->  	struct vc4_bo *bo =3D NULL;
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	ret =3D vc4_grab_bin_bo(vc4, vc4file);
->  	if (ret)
->  		return ret;
-> @@ -776,9 +804,13 @@ int vc4_create_bo_ioctl(struct drm_device *dev, void=
- *data,
->  int vc4_mmap_bo_ioctl(struct drm_device *dev, void *data,
->  		      struct drm_file *file_priv)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct drm_vc4_mmap_bo *args =3D data;
->  	struct drm_gem_object *gem_obj;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	gem_obj =3D drm_gem_object_lookup(file_priv, args->handle);
->  	if (!gem_obj) {
->  		DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
-> @@ -802,6 +834,9 @@ vc4_create_shader_bo_ioctl(struct drm_device *dev, vo=
-id *data,
->  	struct vc4_bo *bo =3D NULL;
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (args->size =3D=3D 0)
->  		return -EINVAL;
-> =20
-> @@ -872,11 +907,15 @@ vc4_create_shader_bo_ioctl(struct drm_device *dev, =
-void *data,
->  int vc4_set_tiling_ioctl(struct drm_device *dev, void *data,
->  			 struct drm_file *file_priv)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct drm_vc4_set_tiling *args =3D data;
->  	struct drm_gem_object *gem_obj;
->  	struct vc4_bo *bo;
->  	bool t_format;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (args->flags !=3D 0)
->  		return -EINVAL;
-> =20
-> @@ -915,10 +954,14 @@ int vc4_set_tiling_ioctl(struct drm_device *dev, vo=
-id *data,
->  int vc4_get_tiling_ioctl(struct drm_device *dev, void *data,
->  			 struct drm_file *file_priv)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct drm_vc4_get_tiling *args =3D data;
->  	struct drm_gem_object *gem_obj;
->  	struct vc4_bo *bo;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
+I don't think it should care about the return value, as a failure to
+create a sysfs node for the holder or to add it to the holders list
+is not fatal: modules can still continue working without that.
 
-Just to confirm: as none of these ioctls were wired up in
-vc5_drm_driver, is there any situation where this path can be taken
-wrongly?
+Also, I opted to be conservative here: currently, not creating these
+doesn't cause try_module_get() to fail. I'm not sure what would be the
+impact if this starts to fail.
 
->  	if (args->flags !=3D 0 || args->modifier !=3D 0)
->  		return -EINVAL;
-> =20
-> @@ -945,6 +988,9 @@ int vc4_bo_cache_init(struct drm_device *dev)
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	int i;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	/* Create the initial set of BO labels that the kernel will
->  	 * use.  This lets us avoid a bunch of string reallocation in
->  	 * the kernel's draw and BO allocation paths.
-> @@ -1004,6 +1050,9 @@ int vc4_label_bo_ioctl(struct drm_device *dev, void=
- *data,
->  	struct drm_gem_object *gem_obj;
->  	int ret =3D 0, label;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (!args->len)
->  		return -EINVAL;
-> =20
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index 64c7696aa9e4..ba017421736c 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -99,6 +99,9 @@ static int vc4_get_param_ioctl(struct drm_device *dev, =
-void *data,
->  	if (args->pad !=3D 0)
->  		return -EINVAL;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (!vc4->v3d)
->  		return -ENODEV;
-> =20
-> @@ -142,11 +145,16 @@ static int vc4_get_param_ioctl(struct drm_device *d=
-ev, void *data,
-> =20
->  static int vc4_open(struct drm_device *dev, struct drm_file *file)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct vc4_file *vc4file;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	vc4file =3D kzalloc(sizeof(*vc4file), GFP_KERNEL);
->  	if (!vc4file)
->  		return -ENOMEM;
-> +	vc4file->dev =3D vc4;
-> =20
->  	vc4_perfmon_open_file(vc4file);
->  	file->driver_priv =3D vc4file;
-> @@ -158,6 +166,9 @@ static void vc4_close(struct drm_device *dev, struct =
-drm_file *file)
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct vc4_file *vc4file =3D file->driver_priv;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	if (vc4file->bin_bo_used)
->  		vc4_v3d_bin_bo_put(vc4);
-> =20
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 9c324c12c410..93fd55b9e99e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -48,6 +48,8 @@ enum vc4_kernel_bo_type {
->   * done. This way, only events related to a specific job will be counted.
->   */
->  struct vc4_perfmon {
-> +	struct vc4_dev *dev;
-> +
->  	/* Tracks the number of users of the perfmon, when this counter reaches
->  	 * zero the perfmon is destroyed.
->  	 */
-> @@ -580,6 +582,8 @@ to_vc4_crtc_state(struct drm_crtc_state *crtc_state)
->  #define VC4_REG32(reg) { .name =3D #reg, .offset =3D reg }
-> =20
->  struct vc4_exec_info {
-> +	struct vc4_dev *dev;
-> +
->  	/* Sequence number for this bin/render job. */
->  	uint64_t seqno;
-> =20
-> @@ -701,6 +705,8 @@ struct vc4_exec_info {
->   * released when the DRM file is closed should be placed here.
->   */
->  struct vc4_file {
-> +	struct vc4_dev *dev;
-> +
->  	struct {
->  		struct idr idr;
->  		struct mutex lock;
-> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-> index 9eaf304fc20d..fe10d9c3fff8 100644
-> --- a/drivers/gpu/drm/vc4/vc4_gem.c
-> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-> @@ -76,6 +76,9 @@ vc4_get_hang_state_ioctl(struct drm_device *dev, void *=
-data,
->  	u32 i;
->  	int ret =3D 0;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (!vc4->v3d) {
->  		DRM_DEBUG("VC4_GET_HANG_STATE with no VC4 V3D probed\n");
->  		return -ENODEV;
-> @@ -386,6 +389,9 @@ vc4_wait_for_seqno(struct drm_device *dev, uint64_t s=
-eqno, uint64_t timeout_ns,
->  	unsigned long timeout_expire;
->  	DEFINE_WAIT(wait);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (vc4->finished_seqno >=3D seqno)
->  		return 0;
-> =20
-> @@ -468,6 +474,9 @@ vc4_submit_next_bin_job(struct drm_device *dev)
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct vc4_exec_info *exec;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  again:
->  	exec =3D vc4_first_bin_job(vc4);
->  	if (!exec)
-> @@ -513,6 +522,9 @@ vc4_submit_next_render_job(struct drm_device *dev)
->  	if (!exec)
->  		return;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	/* A previous RCL may have written to one of our textures, and
->  	 * our full cache flush at bin time may have occurred before
->  	 * that RCL completed.  Flush the texture cache now, but not
-> @@ -531,6 +543,9 @@ vc4_move_job_to_render(struct drm_device *dev, struct=
- vc4_exec_info *exec)
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	bool was_empty =3D list_empty(&vc4->render_job_list);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	list_move_tail(&exec->head, &vc4->render_job_list);
->  	if (was_empty)
->  		vc4_submit_next_render_job(dev);
-> @@ -997,6 +1012,9 @@ vc4_job_handle_completed(struct vc4_dev *vc4)
->  	unsigned long irqflags;
->  	struct vc4_seqno_cb *cb, *cb_temp;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	spin_lock_irqsave(&vc4->job_lock, irqflags);
->  	while (!list_empty(&vc4->job_done_list)) {
->  		struct vc4_exec_info *exec =3D
-> @@ -1033,6 +1051,9 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	unsigned long irqflags;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	cb->func =3D func;
->  	INIT_WORK(&cb->work, vc4_seqno_cb_work);
-> =20
-> @@ -1083,8 +1104,12 @@ int
->  vc4_wait_seqno_ioctl(struct drm_device *dev, void *data,
->  		     struct drm_file *file_priv)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct drm_vc4_wait_seqno *args =3D data;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	return vc4_wait_for_seqno_ioctl_helper(dev, args->seqno,
->  					       &args->timeout_ns);
->  }
-> @@ -1093,11 +1118,15 @@ int
->  vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
->  		  struct drm_file *file_priv)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	int ret;
->  	struct drm_vc4_wait_bo *args =3D data;
->  	struct drm_gem_object *gem_obj;
->  	struct vc4_bo *bo;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (args->pad !=3D 0)
->  		return -EINVAL;
-> =20
-> @@ -1144,6 +1173,9 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *d=
-ata,
->  				  args->shader_rec_size,
->  				  args->bo_handle_count);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (!vc4->v3d) {
->  		DRM_DEBUG("VC4_SUBMIT_CL with no VC4 V3D probed\n");
->  		return -ENODEV;
-> @@ -1167,6 +1199,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *d=
-ata,
->  		DRM_ERROR("malloc failure on exec struct\n");
->  		return -ENOMEM;
->  	}
-> +	exec->dev =3D vc4;
-> =20
->  	ret =3D vc4_v3d_pm_get(vc4);
->  	if (ret) {
-> @@ -1276,6 +1309,9 @@ int vc4_gem_init(struct drm_device *dev)
->  {
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	vc4->dma_fence_context =3D dma_fence_context_alloc(1);
-> =20
->  	INIT_LIST_HEAD(&vc4->bin_job_list);
-> @@ -1321,11 +1357,15 @@ static void vc4_gem_destroy(struct drm_device *de=
-v, void *unused)
->  int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
->  			  struct drm_file *file_priv)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct drm_vc4_gem_madvise *args =3D data;
->  	struct drm_gem_object *gem_obj;
->  	struct vc4_bo *bo;
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	switch (args->madv) {
->  	case VC4_MADV_DONTNEED:
->  	case VC4_MADV_WILLNEED:
-> diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
-> index 4342fb43e8c1..2eacfb6773d2 100644
-> --- a/drivers/gpu/drm/vc4/vc4_irq.c
-> +++ b/drivers/gpu/drm/vc4/vc4_irq.c
-> @@ -265,6 +265,9 @@ vc4_irq_enable(struct drm_device *dev)
->  {
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	if (!vc4->v3d)
->  		return;
-> =20
-> @@ -279,6 +282,9 @@ vc4_irq_disable(struct drm_device *dev)
->  {
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	if (!vc4->v3d)
->  		return;
-> =20
-> @@ -296,8 +302,12 @@ vc4_irq_disable(struct drm_device *dev)
-> =20
->  int vc4_irq_install(struct drm_device *dev, int irq)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (irq =3D=3D IRQ_NOTCONNECTED)
->  		return -ENOTCONN;
-> =20
-> @@ -316,6 +326,9 @@ void vc4_irq_uninstall(struct drm_device *dev)
->  {
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	vc4_irq_disable(dev);
->  	free_irq(vc4->irq, dev);
->  }
-> @@ -326,6 +339,9 @@ void vc4_irq_reset(struct drm_device *dev)
->  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	unsigned long irqflags;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	/* Acknowledge any stale IRQs. */
->  	V3D_WRITE(V3D_INTCTL, V3D_DRIVER_IRQS);
-> =20
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index 1d3b31fb71ea..893d831b24aa 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -479,8 +479,12 @@ static struct drm_framebuffer *vc4_fb_create(struct =
-drm_device *dev,
->  					     struct drm_file *file_priv,
->  					     const struct drm_mode_fb_cmd2 *mode_cmd)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct drm_mode_fb_cmd2 mode_cmd_local;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return ERR_PTR(-ENODEV);
-> +
->  	/* If the user didn't specify a modifier, use the
->  	 * vc4_set_tiling_ioctl() state for the BO.
->  	 */
-> diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_=
-perfmon.c
-> index 18abc06335c1..d853d647b44d 100644
-> --- a/drivers/gpu/drm/vc4/vc4_perfmon.c
-> +++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-> @@ -17,12 +17,22 @@
-> =20
->  void vc4_perfmon_get(struct vc4_perfmon *perfmon)
->  {
-> +	struct vc4_dev *vc4 =3D perfmon->dev;
-> +
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	if (perfmon)
->  		refcount_inc(&perfmon->refcnt);
->  }
-> =20
->  void vc4_perfmon_put(struct vc4_perfmon *perfmon)
->  {
-> +	struct vc4_dev *vc4 =3D perfmon->dev;
-> +
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	if (perfmon && refcount_dec_and_test(&perfmon->refcnt))
->  		kfree(perfmon);
->  }
-> @@ -32,6 +42,9 @@ void vc4_perfmon_start(struct vc4_dev *vc4, struct vc4_=
-perfmon *perfmon)
->  	unsigned int i;
->  	u32 mask;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	if (WARN_ON_ONCE(!perfmon || vc4->active_perfmon))
->  		return;
-> =20
-> @@ -49,6 +62,9 @@ void vc4_perfmon_stop(struct vc4_dev *vc4, struct vc4_p=
-erfmon *perfmon,
->  {
->  	unsigned int i;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	if (WARN_ON_ONCE(!vc4->active_perfmon ||
->  			 perfmon !=3D vc4->active_perfmon))
->  		return;
-> @@ -64,8 +80,12 @@ void vc4_perfmon_stop(struct vc4_dev *vc4, struct vc4_=
-perfmon *perfmon,
-> =20
->  struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
->  {
-> +	struct vc4_dev *vc4 =3D vc4file->dev;
->  	struct vc4_perfmon *perfmon;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return NULL;
-> +
->  	mutex_lock(&vc4file->perfmon.lock);
->  	perfmon =3D idr_find(&vc4file->perfmon.idr, id);
->  	vc4_perfmon_get(perfmon);
-> @@ -76,8 +96,14 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *=
-vc4file, int id)
-> =20
->  void vc4_perfmon_open_file(struct vc4_file *vc4file)
->  {
-> +	struct vc4_dev *vc4 =3D vc4file->dev;
-> +
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	mutex_init(&vc4file->perfmon.lock);
->  	idr_init_base(&vc4file->perfmon.idr, VC4_PERFMONID_MIN);
-> +	vc4file->dev =3D vc4;
->  }
-> =20
->  static int vc4_perfmon_idr_del(int id, void *elem, void *data)
-> @@ -91,6 +117,11 @@ static int vc4_perfmon_idr_del(int id, void *elem, vo=
-id *data)
-> =20
->  void vc4_perfmon_close_file(struct vc4_file *vc4file)
->  {
-> +	struct vc4_dev *vc4 =3D vc4file->dev;
-> +
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	mutex_lock(&vc4file->perfmon.lock);
->  	idr_for_each(&vc4file->perfmon.idr, vc4_perfmon_idr_del, NULL);
->  	idr_destroy(&vc4file->perfmon.idr);
-> @@ -107,6 +138,9 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, =
-void *data,
->  	unsigned int i;
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (!vc4->v3d) {
->  		DRM_DEBUG("Creating perfmon no VC4 V3D probed\n");
->  		return -ENODEV;
-> @@ -127,6 +161,7 @@ int vc4_perfmon_create_ioctl(struct drm_device *dev, =
-void *data,
->  			  GFP_KERNEL);
->  	if (!perfmon)
->  		return -ENOMEM;
-> +	perfmon->dev =3D vc4;
-> =20
->  	for (i =3D 0; i < req->ncounters; i++)
->  		perfmon->events[i] =3D req->events[i];
-> @@ -157,6 +192,9 @@ int vc4_perfmon_destroy_ioctl(struct drm_device *dev,=
- void *data,
->  	struct drm_vc4_perfmon_destroy *req =3D data;
->  	struct vc4_perfmon *perfmon;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (!vc4->v3d) {
->  		DRM_DEBUG("Destroying perfmon no VC4 V3D probed\n");
->  		return -ENODEV;
-> @@ -182,6 +220,9 @@ int vc4_perfmon_get_values_ioctl(struct drm_device *d=
-ev, void *data,
->  	struct vc4_perfmon *perfmon;
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (!vc4->v3d) {
->  		DRM_DEBUG("Getting perfmon no VC4 V3D probed\n");
->  		return -ENODEV;
-> diff --git a/drivers/gpu/drm/vc4/vc4_render_cl.c b/drivers/gpu/drm/vc4/vc=
-4_render_cl.c
-> index 3c918eeaf56e..f6b7dc3df08c 100644
-> --- a/drivers/gpu/drm/vc4/vc4_render_cl.c
-> +++ b/drivers/gpu/drm/vc4/vc4_render_cl.c
-> @@ -593,11 +593,15 @@ vc4_rcl_render_config_surface_setup(struct vc4_exec=
-_info *exec,
-> =20
->  int vc4_get_rcl(struct drm_device *dev, struct vc4_exec_info *exec)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	struct vc4_rcl_setup setup =3D {0};
->  	struct drm_vc4_submit_cl *args =3D exec->args;
->  	bool has_bin =3D args->bin_cl_size !=3D 0;
->  	int ret;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	if (args->min_x_tile > args->max_x_tile ||
->  	    args->min_y_tile > args->max_y_tile) {
->  		DRM_DEBUG("Bad render tile set (%d,%d)-(%d,%d)\n",
-> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-> index 7bb3067f8425..cc714dcfe1f2 100644
-> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
-> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-> @@ -127,6 +127,9 @@ static int vc4_v3d_debugfs_ident(struct seq_file *m, =
-void *unused)
->  int
->  vc4_v3d_pm_get(struct vc4_dev *vc4)
->  {
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	mutex_lock(&vc4->power_lock);
->  	if (vc4->power_refcount++ =3D=3D 0) {
->  		int ret =3D pm_runtime_get_sync(&vc4->v3d->pdev->dev);
-> @@ -145,6 +148,9 @@ vc4_v3d_pm_get(struct vc4_dev *vc4)
->  void
->  vc4_v3d_pm_put(struct vc4_dev *vc4)
->  {
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	mutex_lock(&vc4->power_lock);
->  	if (--vc4->power_refcount =3D=3D 0) {
->  		pm_runtime_mark_last_busy(&vc4->v3d->pdev->dev);
-> @@ -172,6 +178,9 @@ int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
->  	uint64_t seqno =3D 0;
->  	struct vc4_exec_info *exec;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  try_again:
->  	spin_lock_irqsave(&vc4->job_lock, irqflags);
->  	slot =3D ffs(~vc4->bin_alloc_used);
-> @@ -316,6 +325,9 @@ int vc4_v3d_bin_bo_get(struct vc4_dev *vc4, bool *use=
-d)
->  {
->  	int ret =3D 0;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	mutex_lock(&vc4->bin_bo_lock);
-> =20
->  	if (used && *used)
-> @@ -348,6 +360,9 @@ static void bin_bo_release(struct kref *ref)
-> =20
->  void vc4_v3d_bin_bo_put(struct vc4_dev *vc4)
->  {
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return;
-> +
->  	mutex_lock(&vc4->bin_bo_lock);
->  	kref_put(&vc4->bin_bo_kref, bin_bo_release);
->  	mutex_unlock(&vc4->bin_bo_lock);
-> diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4=
-_validate.c
-> index eec76af49f04..833eb623d545 100644
-> --- a/drivers/gpu/drm/vc4/vc4_validate.c
-> +++ b/drivers/gpu/drm/vc4/vc4_validate.c
-> @@ -105,9 +105,13 @@ size_is_lt(uint32_t width, uint32_t height, int cpp)
->  struct drm_gem_cma_object *
->  vc4_use_bo(struct vc4_exec_info *exec, uint32_t hindex)
->  {
-> +	struct vc4_dev *vc4 =3D exec->dev;
->  	struct drm_gem_cma_object *obj;
->  	struct vc4_bo *bo;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return NULL;
-> +
->  	if (hindex >=3D exec->bo_count) {
->  		DRM_DEBUG("BO index %d greater than BO count %d\n",
->  			  hindex, exec->bo_count);
-> @@ -160,10 +164,14 @@ vc4_check_tex_size(struct vc4_exec_info *exec, stru=
-ct drm_gem_cma_object *fbo,
->  		   uint32_t offset, uint8_t tiling_format,
->  		   uint32_t width, uint32_t height, uint8_t cpp)
->  {
-> +	struct vc4_dev *vc4 =3D exec->dev;
->  	uint32_t aligned_width, aligned_height, stride, size;
->  	uint32_t utile_w =3D utile_width(cpp);
->  	uint32_t utile_h =3D utile_height(cpp);
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	/* The shaded vertex format stores signed 12.4 fixed point
->  	 * (-2048,2047) offsets from the viewport center, so we should
->  	 * never have a render target larger than 4096.  The texture
-> @@ -482,10 +490,14 @@ vc4_validate_bin_cl(struct drm_device *dev,
->  		    void *unvalidated,
->  		    struct vc4_exec_info *exec)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	uint32_t len =3D exec->args->bin_cl_size;
->  	uint32_t dst_offset =3D 0;
->  	uint32_t src_offset =3D 0;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	while (src_offset < len) {
->  		void *dst_pkt =3D validated + dst_offset;
->  		void *src_pkt =3D unvalidated + src_offset;
-> @@ -926,9 +938,13 @@ int
->  vc4_validate_shader_recs(struct drm_device *dev,
->  			 struct vc4_exec_info *exec)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->  	uint32_t i;
->  	int ret =3D 0;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return -ENODEV;
-> +
->  	for (i =3D 0; i < exec->shader_state_count; i++) {
->  		ret =3D validate_gl_shader_rec(dev, exec, &exec->shader_state[i]);
->  		if (ret)
-> diff --git a/drivers/gpu/drm/vc4/vc4_validate_shaders.c b/drivers/gpu/drm=
-/vc4/vc4_validate_shaders.c
-> index 7cf82b071de2..e315aeb5fef5 100644
-> --- a/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-> +++ b/drivers/gpu/drm/vc4/vc4_validate_shaders.c
-> @@ -778,6 +778,7 @@ vc4_handle_branch_target(struct vc4_shader_validation=
-_state *validation_state)
->  struct vc4_validated_shader_info *
->  vc4_validate_shader(struct drm_gem_cma_object *shader_obj)
->  {
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(shader_obj->base.dev);
->  	bool found_shader_end =3D false;
->  	int shader_end_ip =3D 0;
->  	uint32_t last_thread_switch_ip =3D -3;
-> @@ -785,6 +786,9 @@ vc4_validate_shader(struct drm_gem_cma_object *shader=
-_obj)
->  	struct vc4_validated_shader_info *validated_shader =3D NULL;
->  	struct vc4_shader_validation_state validation_state;
-> =20
-> +	if (WARN_ON_ONCE(vc4->is_vc5))
-> +		return NULL;
-> +
->  	memset(&validation_state, 0, sizeof(validation_state));
->  	validation_state.shader =3D shader_obj->vaddr;
->  	validation_state.max_ip =3D shader_obj->base.size / sizeof(uint64_t);
-> --=20
-> 2.35.1
->=20
+So, right now, I'm opting to just ignore the return value. Perhaps
+in the future this could a warning (similarly to what sysfs create
+link does).
 
---mvs73t5aexnavr4h
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+Mauro
 
------BEGIN PGP SIGNATURE-----
+> 
+> Andi
+> 
+> >  
+> > -		preempt_enable();
+> > -	}
+> >  	return ret;
+> >  }
+> > -EXPORT_SYMBOL(try_module_get);
+> > +EXPORT_SYMBOL(try_module_get_owner);
+> >  
+> >  void module_put(struct module *module)
+> >  {
+> > -- 
+> > 2.35.1  
 
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJ5RrQACgkQwqF3j0dL
-ehwLhQ/9GhVJ96cVqmrpnPFhU7GLInjyOKCzwWyW28xEaC6PYknwXIBG4Wy6egSq
-67z00Lw+Mt1SnL3nEKCO5dcK5Oz2cSPchh81WhlpeLveMnuQpMFnFVHc1e6pXome
-7SctkRu4uKQM5Q4W0Qq7BTM8q0r1D72qpVqeafXXuoaPdyERMYc1qiMQov8Ig8tL
-78/FPz7xUnYSCONpdlzz2WeO0CBQz18edYLBPZ1EzN0e8YFj0dyUydsxwKjZK0uk
-gVSGd+R+k72KUmO/o2mMWVbkbfXfHiGv4DUGGVAedGbwi7YJ5KoZFWOckxPdyKru
-fuq5m4EHnEhd4OHEaK6I7/enJLtPWuBLhFPoaICcPjIY8zafwQDagCgIdks5NUgl
-nkkR4JngMs1BUdFLxutnxV6o2mH9XQvVQXO9HjlFEH0MUsoxenZ19zZsziCKSqYB
-PHwr9U7ukRk+JC2AVly37OUam5CQmYnc9zFxH1KWqp9ks8BMhsnrTC+D5hDMGjLc
-QZFNMRA+3KCFjfayErwtWOgO/y/b1FeRHl9ukvS2STpwPdQUJ5jOKB1l5OEmmo5X
-SRWbdQLt5zK+Q08yOSoO0znp+LLB2dt0Jns20SxLFTl12/nF6r1OvVtJ+J1X1BS9
-MERkKaWfvMO5kZT72JR4wZO3ACD9GAWZ2LtnNnRZ6rPeqojcW5w=
-=VbQ+
------END PGP SIGNATURE-----
 
---mvs73t5aexnavr4h--
+
+Thanks,
+Mauro
