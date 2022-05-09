@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C91C51FD99
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:10:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D08C51FD9A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB3F10F17E;
-	Mon,  9 May 2022 13:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3279710F18F;
+	Mon,  9 May 2022 13:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89CA810F175
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 13:09:56 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 125-20020a1c1983000000b003941f354c62so8251880wmz.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 06:09:56 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C308010F175
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 13:09:57 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id b19so19372146wrh.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 06:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oQy5/C8/H4xIWaS7uuEEWSH0byVJQIpgnLnWaK+VkdI=;
- b=oBltIU2GNCeWVR3BQU5jEPqLbZC6sYes+/WBzGuaRJaWZiIimTBGGoRFNtZ6Ty1FGt
- e4DwDZsonwpKYqIIWKmkpDE1zfJAkt6J3EloaJDsN4X/R2JAsLuosCGgBRn7n8wwpQ0q
- N3lfhpzIP4rjGVUKsD5bQJRyUOznl9Q1JejRSYeZvaYYJtN/Z0Ah5VAsHACjbVMKP7OL
- Lop0E1qSxQ2f4bb1/0prHd49SpifQ6pxAaPGvGyxr3j2cFM61x7lRvBFy2CSmoq2l0Ky
- TjfZBXcTJ3mcMrrmB8VdVZD5Pa11W6EQ2m+Ad7L/84tY1wKADcAjRjOtQSPxzBvwukRG
- fcbw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8R40cOPvMPMZYsuXVKC3tvSzxBJxpU4HfejzWEcU2zU=;
+ b=epZxXjJEvsOdo0mOtztsA+krD+qYyEDK+1NAqvb9eV36Sat5Fos7lYV3u+1EdEjh4e
+ zhn689cWIl83UCvX8V3jz08YG4OFzrOgO6/L9t4VRAy6xGBOklXU1YnyUzS5Ne5M+0x5
+ 309obf4U9EZ6g0GG0v+1ME7XKUmyVZmIoJnROaePXtad0YCU4RzS/4u+z0ygpE4ndhHD
+ +wsb4yyOZL6T100NS3bupGQWIFmgbip4omh2VXD6605BlrOsN1r3JML+OBcwrDFl4vTQ
+ 69EGaPmoBQdy5sX5+Xq5kNpbZ7aYd66fZ0qXTA5JqJ9RR3h+cRIMH95OrpBnFoL0xqKY
+ MJEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oQy5/C8/H4xIWaS7uuEEWSH0byVJQIpgnLnWaK+VkdI=;
- b=JBmYjXMPMmg16YYRy8J7XEXUTnrvpqj9dYTrlIU3OTv7TOFFxB8IzR4dT3iV140Fyf
- WIBKNgAFMlD9luQIPyyrkM6RMpyh7IUdcVs06k9pBkdCIeH1GD0iMbBHJZ5YBv6Pylkc
- +eKMEn1rKeBJNZKRFsGIYWZEBZiAzzmMVoeS5wyXGOziUAvnUg3v0EXrx9IrEqJZUa2N
- hp33Bx4L29GUnkCvxIOcAPym8xwc4rl3HXMR2wLTNSwjShcZOzw0O6lZakH/dg6beGyL
- AwEeq59prqmeLJ7QOwbnL9ccOqTH60/MOSjMvj2n5tS1S31mBV1snS8VI8ylzhSNuwF5
- +VGA==
-X-Gm-Message-State: AOAM532JbipaT+o2BDD1lmqYf+EjJfZAkOmg0OiTT4cdCdqR8Nx+LBrQ
- /6NT9d0AsEruVztTWCroSys=
-X-Google-Smtp-Source: ABdhPJzEV02z3FPqi2QplVe6L53O9RPruolggy+j32U01mXYGuohEGs52uL7pbv5g2C9Wq1BUu2XKg==
-X-Received: by 2002:a05:600c:3ca3:b0:392:990b:af11 with SMTP id
- bg35-20020a05600c3ca300b00392990baf11mr15966260wmb.173.1652101794938; 
- Mon, 09 May 2022 06:09:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8R40cOPvMPMZYsuXVKC3tvSzxBJxpU4HfejzWEcU2zU=;
+ b=FX+KJtFF4pX2LImF2CdVCi5GNFOs8JhbF2O0UNdDNh0+pXwG/vRJhdbKkdroIL8Bf9
+ XXwqY1/BCWBPWDLe50zmAhRVwU2kAwdTPcNpAfSotuUlziGfD/e0p56T22UNnOeT0+LJ
+ BVDbXJgPTyDAFODlav1rEJS0zvgqhWzKzgruuyGFEHIiivrAs1pANiFPq3Z9l6yjWsoL
+ EkkDQSfuxezPI8nok82KL0Y1kb75jv4tNsOy6B3ZAUWbRZwNH4tuneu1Z6QccWx0xXAc
+ t0naUTrmf3a6+vYIzeU6E6gDFCeffLvomqzDj+fThDGLkoLvLVWreME0HdZ3ADUG5N9g
+ RvSQ==
+X-Gm-Message-State: AOAM530nXvioopC3DGqPlHJGxJg6QA1ZBCoxxO0a6ZotRAnO/9bY/NT6
+ AjhFcd/LzdsNptcnCVzC/1dSw/ssrRc=
+X-Google-Smtp-Source: ABdhPJwcQTMexIxHeYVCiyrGCj3K+T4W0N8xrz1P+9tamUDwSYNXl01yBkamIlgU6eAHqiCKUZFCSQ==
+X-Received: by 2002:adf:e891:0:b0:20a:d653:7cd2 with SMTP id
+ d17-20020adfe891000000b0020ad6537cd2mr13918611wrm.195.1652101796227; 
+ Mon, 09 May 2022 06:09:56 -0700 (PDT)
 Received: from able.fritz.box (p57b0b3fd.dip0.t-ipconnect.de. [87.176.179.253])
  by smtp.gmail.com with ESMTPSA id
- t16-20020a05600c2f9000b003942a244f50sm18683385wmn.41.2022.05.09.06.09.53
+ t16-20020a05600c2f9000b003942a244f50sm18683385wmn.41.2022.05.09.06.09.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 06:09:54 -0700 (PDT)
+ Mon, 09 May 2022 06:09:55 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: bob.beckett@collabora.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch
-Subject: Improve TTMs empty object handling
-Date: Mon,  9 May 2022 15:09:40 +0200
-Message-Id: <20220509130951.486344-1-christian.koenig@amd.com>
+Subject: [PATCH 01/11] drm/radeon: switch over to ttm_bo_init_reserved
+Date: Mon,  9 May 2022 15:09:41 +0200
+Message-Id: <20220509130951.486344-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220509130951.486344-1-christian.koenig@amd.com>
+References: <20220509130951.486344-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,28 +72,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+Use the new interface instead.
 
-re-sending this because Daniel was requesting a background why this is
-useful.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/radeon/radeon_object.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-When TTM creates a buffer this object initially should not have any
-backing store and there no resource object associated with it. The same
-can happen when a driver requests that the backing store of an object is
-destroyed without allocating a new one.
-
-This is really useful during initial buffer creation as well as temporary
-buffers and page tables which content doesn't need to be preserved when
-they are evicted.
-
-Currently TTM allocates dummy system resources for that because drivers
-couldn't handle a NULL pointer there. Audit the drivers and then clean
-up TTM to stop making those dummy allocations.
-
-Please review and comment,
-Christian.
-
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index 6c4a6802ca96..1d414ff4ab0c 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -133,9 +133,12 @@ int radeon_bo_create(struct radeon_device *rdev,
+ 		     struct dma_resv *resv,
+ 		     struct radeon_bo **bo_ptr)
+ {
+-	struct radeon_bo *bo;
+-	enum ttm_bo_type type;
+ 	unsigned long page_align = roundup(byte_align, PAGE_SIZE) >> PAGE_SHIFT;
++
++	/* Kernel allocation are uninterruptible */
++	struct ttm_operation_ctx ctx = { !kernel, false };
++	enum ttm_bo_type type;
++	struct radeon_bo *bo;
+ 	int r;
+ 
+ 	size = ALIGN(size, PAGE_SIZE);
+@@ -200,11 +203,13 @@ int radeon_bo_create(struct radeon_device *rdev,
+ #endif
+ 
+ 	radeon_ttm_placement_from_domain(bo, domain);
+-	/* Kernel allocation are uninterruptible */
+ 	down_read(&rdev->pm.mclk_lock);
+-	r = ttm_bo_init(&rdev->mman.bdev, &bo->tbo, size, type,
+-			&bo->placement, page_align, !kernel, sg, resv,
+-			&radeon_ttm_bo_destroy);
++	r = ttm_bo_init_reserved(&rdev->mman.bdev, &bo->tbo, size, type,
++				 &bo->placement, page_align, &ctx, sg, resv,
++				 &radeon_ttm_bo_destroy);
++        if (!r)
++		ttm_bo_unreserve(&bo->tbo);
++
+ 	up_read(&rdev->pm.mclk_lock);
+ 	if (unlikely(r != 0)) {
+ 		return r;
+-- 
+2.25.1
 
