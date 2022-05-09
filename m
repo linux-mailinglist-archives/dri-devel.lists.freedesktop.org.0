@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B824D51FC07
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:04:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F114851FC0B
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:04:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92BE210EE35;
-	Mon,  9 May 2022 12:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754CD10EEA0;
+	Mon,  9 May 2022 12:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2B8210EE35;
- Mon,  9 May 2022 12:04:21 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C9410EE9E;
+ Mon,  9 May 2022 12:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652097861; x=1683633861;
+ t=1652097866; x=1683633866;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3gh1qeGaKZJIKdHf+x0jY08FUOydLVhyY74+iQcK1Sw=;
- b=SvN6Ogyj1eu8SWt2+NmoPcaT6/PxVij8iPAzFx8HZ+YiVj2aQM/t9kQb
- CEj+PJbm9UHGiN/NNfhsdDFXYZi9+tzaUyaVQAG4HW86uih/KWuTidIot
- IQMV2Lp27eqFdjJuzbnv+toNYdpoFE8jvKDbjjf4NyqemrTRSZR0z4Z48
- 5sFkfqubRBKmtRo6SxUbHM1LDhy6GV+bkM8dYvGaNmv9oUJ7u1wl6DrkM
- LQEN3eCd3frcJySFK2jGRS0lrY1KBURCcILXDDRK0GXPPc6NymcqoHROn
- FHfAUvBuzkelJDvu7RtbD0luwzMAI+66aZtQ/epwgX077n3Z+PL2Y1ma1 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="266618254"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="266618254"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:04:21 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="738134742"
+ bh=5yHaI1nKrawDEghgxdQlWaGJ28fwoT1Eyj30sB3mVOA=;
+ b=JaqiG7pQw8K7YNm+troVuF02fnYQW44RHx9pTS583Hdzqi36S5vy/Qke
+ htTP08pnXqPQc64zbyKjASNVp8QZ9lN7akKOzJDEFNotZtzyCzKLJb28T
+ tkjGwbSPY9R9L8K8u9Q94jm6mcyqG30/+q9ebhmHGnAQLR9Q62SVZwYBh
+ Sxf83dY0TDYdJOxytHmJ2ZJ/7aQT1OpfqqnlgO6vS0/M81dZcPioL4OPA
+ OFOn6TZCf2Uxvs3gY46pxQPdeq/22h1kCplHgJYZhPuiYYNwvnjJQZIfp
+ eM6n1Dz6Zb1Ugfn3WAXg+8/EE6BqpmWhyHTCFwcFSKNJxVqLFlmigwsv5 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="268693437"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="268693437"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:04:26 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="696464671"
 Received: from csawicki-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.129.3])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:04:19 -0700
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:04:24 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 10/25] drm/edid: convert drm_dmt_modes_for_range() to
+Subject: [PATCH v2 11/25] drm/edid: convert drm_gtf_modes_for_range() to
  drm_edid
-Date: Mon,  9 May 2022 15:03:09 +0300
-Message-Id: <a8f393263225321e74f1e2884e81b3346d1adf20.1652097712.git.jani.nikula@intel.com>
+Date: Mon,  9 May 2022 15:03:10 +0300
+Message-Id: <b50377ce67fd3cee6628ea5865c80fa0fa7da990.1652097712.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1652097712.git.jani.nikula@intel.com>
 References: <cover.1652097712.git.jani.nikula@intel.com>
@@ -70,39 +70,40 @@ Signed-off-by: Jani Nikula <jani.nikula@intel.com>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 8acdb08a8571..5d8744a7b62e 100644
+index 5d8744a7b62e..037102a4d0b5 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -3121,16 +3121,16 @@ static bool valid_inferred_mode(const struct drm_connector *connector,
- 	return ok;
+@@ -3156,9 +3156,9 @@ void drm_mode_fixup_1366x768(struct drm_display_mode *mode)
+ 	}
  }
  
 -static int
--drm_dmt_modes_for_range(struct drm_connector *connector, const struct edid *edid,
+-drm_gtf_modes_for_range(struct drm_connector *connector, const struct edid *edid,
 -			const struct detailed_timing *timing)
-+static int drm_dmt_modes_for_range(struct drm_connector *connector,
++static int drm_gtf_modes_for_range(struct drm_connector *connector,
 +				   const struct drm_edid *drm_edid,
 +				   const struct detailed_timing *timing)
  {
  	int i, modes = 0;
  	struct drm_display_mode *newmode;
- 	struct drm_device *dev = connector->dev;
+@@ -3172,7 +3172,7 @@ drm_gtf_modes_for_range(struct drm_connector *connector, const struct edid *edid
+ 			return modes;
  
- 	for (i = 0; i < ARRAY_SIZE(drm_dmt_modes); i++) {
--		if (mode_in_range(drm_dmt_modes + i, edid, timing) &&
-+		if (mode_in_range(drm_dmt_modes + i, drm_edid->edid, timing) &&
- 		    valid_inferred_mode(connector, drm_dmt_modes + i)) {
- 			newmode = drm_mode_duplicate(dev, &drm_dmt_modes[i]);
- 			if (newmode) {
-@@ -3226,7 +3226,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
- 		return;
- 
- 	closure->modes += drm_dmt_modes_for_range(closure->connector,
--						  closure->drm_edid->edid,
-+						  closure->drm_edid,
- 						  timing);
- 
- 	if (!version_greater(closure->drm_edid->edid, 1, 1))
+ 		drm_mode_fixup_1366x768(newmode);
+-		if (!mode_in_range(newmode, edid, timing) ||
++		if (!mode_in_range(newmode, drm_edid->edid, timing) ||
+ 		    !valid_inferred_mode(connector, newmode)) {
+ 			drm_mode_destroy(dev, newmode);
+ 			continue;
+@@ -3236,7 +3236,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
+ 	case 0x02: /* secondary gtf, XXX could do more */
+ 	case 0x00: /* default gtf */
+ 		closure->modes += drm_gtf_modes_for_range(closure->connector,
+-							  closure->drm_edid->edid,
++							  closure->drm_edid,
+ 							  timing);
+ 		break;
+ 	case 0x04: /* cvt, only in 1.4+ */
 -- 
 2.30.2
 
