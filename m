@@ -1,63 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B0651FFB2
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 16:33:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FE751FFEE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 16:37:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7460888AA0;
-	Mon,  9 May 2022 14:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB36910EB50;
+	Mon,  9 May 2022 14:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49EDA10E754
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 14:33:20 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id y21so16539172edo.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 07:33:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=vB9fvsYNF+MRJ+OzewjBCcyr9I8udPyly7AX+BSwf0k=;
- b=DOvuEghOyyfUq7d2+Y/Kxe4A1QCis8rUXabkMf0CFlHkV1Jm/PVFmq6qqEidJb/8NJ
- Dh0BsEWCnfmzvizSHSAnGWRm/YI/sG/0ztAz/jEs5NNgebznmaF27fvrAv1eDB3hOcgT
- 8eQUk1Azfhq3xv22ZgWhpQ4N+MwdixWi6DhMA=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D76CF10EB50
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 14:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652107017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n4x1JmNs0lN7zeQuuaFUFxxo45axmawzrmuIq6d0Zls=;
+ b=Y8GC2aE34nB9QMFbXvKJgzGbfSglK4HTXmetBWBQr7wLwPodTK37NZxGxcPMe53N0ShLiM
+ 7QhPrERXGIYg6ISCxTuWRlExOEDDKjUbCFITFDIt5E8iH5PdX6E/igyZj9cBQB8ga8jV74
+ 1zQOrbSOmdpbvv/GrhUMPayt3lJoI1w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-314-fHMljM3ZPGCzytz-6ePd4Q-1; Mon, 09 May 2022 10:36:57 -0400
+X-MC-Unique: fHMljM3ZPGCzytz-6ePd4Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g14-20020a1c4e0e000000b0039425ef54d6so3938930wmh.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 07:36:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=vB9fvsYNF+MRJ+OzewjBCcyr9I8udPyly7AX+BSwf0k=;
- b=pfbXDE5/f1jWJqCEf3lveFixu+M07U/2ezUmwy+dGa9whuEC1DO0ll5LgVERMzraA1
- V4y9JE3ND5RVENxVZhpCmsa8PZGmBdlq0/j6GepVTruRlFqNoVw7tLxHukr8hqQ9/0Sf
- 3pk4liHsDjO4vTOC7fZ27nbLBjt00Xyk7d2OlyJanubaFHResCYu4zADiyMWFf/3YSEG
- FC6Eobwzi0+luSKQYttf3a5RzwCGj8WRumyCj0I8d6TBNp79yTNN/fv6r5G1u20aoga4
- pQB2alU77wHjH/TYbKWl8Fq/6jmxtECcU+nCWqKdb1fqDm9p2n43ctpS+/EghNPbDqfk
- J5yA==
-X-Gm-Message-State: AOAM530G5gqxedYynJ713kxEMMeNj51PQIzgLlpmhIe/zMa8sB6+2YBJ
- V0kKszfkNQnC7vyw287Zw+cW3Q==
-X-Google-Smtp-Source: ABdhPJx3gJdzpTRFkOJU2gYYfuVxElrMW0OeA/0RqIimx25r6owo4ljB4s7QppXCV+4Lb9AhozLPXg==
-X-Received: by 2002:aa7:dd87:0:b0:425:c104:71bf with SMTP id
- g7-20020aa7dd87000000b00425c10471bfmr17817626edv.110.1652106798532; 
- Mon, 09 May 2022 07:33:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- hz18-20020a1709072cf200b006f3ef214e0dsm5194266ejc.115.2022.05.09.07.33.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 07:33:17 -0700 (PDT)
-Date: Mon, 9 May 2022 16:33:16 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 8/8] drm: move ttm_execbuf_util into vmwgfx
-Message-ID: <YnkmLI1C7yc31eW2@phenom.ffwll.local>
-References: <20220504074739.2231-1-christian.koenig@amd.com>
- <20220504074739.2231-9-christian.koenig@amd.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=n4x1JmNs0lN7zeQuuaFUFxxo45axmawzrmuIq6d0Zls=;
+ b=BRio6dMtQC3WwuSg2PtOE+oJ1UYj4JHLIC6IYDeCUZs71ZdgXOB3H08gdP0aM5GMiL
+ i1aJYyvhPtKequ+zf+hk8DZTfp8vC9vACBeQj1h7v3JU3rlFY2bJW1aW8y9YN7JXxF6u
+ VS7AGGxkujC7H8+pZk7YgYVPOkoxUMtBDNWqRy1MiPer97YlqtIiwfjD+RBnfbS4Ml3o
+ NvlEqsHiN3ngumHYO6COFFrFu5rt6btxzyxWfGaYRpKfZraZn2XlqSnzS3dc3SZ2loGA
+ Q7z+4I3f90f44f3VCeY8BgK9BAtCTtndr51Fhvzt/iTi8KjXGCJ+tJcL3CiGv2PIbDTe
+ skCA==
+X-Gm-Message-State: AOAM531MA1pTa1Uu/FsWhqz3z9ZsLQS1xygs2pyC46WehGIoHh244oQH
+ 3Y3N1iH0YdrX/brq0cqHc72urcFFNpVNImbQUeM00n4lQr9XYccapRLOoyqgfWBlu5MwQzQHyp8
+ GmcjF1BuS4bj+QDvxdbWBeTdS8qAz
+X-Received: by 2002:a1c:cc08:0:b0:393:e7d2:e580 with SMTP id
+ h8-20020a1ccc08000000b00393e7d2e580mr16812235wmb.145.1652107015561; 
+ Mon, 09 May 2022 07:36:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGrLL/VVSw/WOa5yPynAZPNzHztUeFn+CzxclQK7K/jvA6IsiCIdA26rF3Brew3Axf9EMHww==
+X-Received: by 2002:a1c:cc08:0:b0:393:e7d2:e580 with SMTP id
+ h8-20020a1ccc08000000b00393e7d2e580mr16812218wmb.145.1652107015350; 
+ Mon, 09 May 2022 07:36:55 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ j14-20020adfe50e000000b0020c6a524fd5sm12998987wrm.99.2022.05.09.07.36.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 07:36:54 -0700 (PDT)
+Message-ID: <d0c7f668-e7db-f835-b410-6a6af516ceed@redhat.com>
+Date: Mon, 9 May 2022 16:36:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220504074739.2231-9-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2] Revert "fbdev: Make fb_release() return -ENODEV if
+ fbdev was unregistered"
+To: public@timruffing.de
+References: <642f515e-aa71-7c90-a715-e49dcf12baee@redhat.com>
+ <20220509140149.34734-1-public@timruffing.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220509140149.34734-1-public@timruffing.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,135 +89,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 09:47:39AM +0200, Christian König wrote:
-> VMWGFX is the only remaining user of this and should probably moved over
-> to drm_exec when it starts using GEM as well.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+Hello Tim,
 
-I guess this is a bit annoying since it means we can't require drm_exec in
-ttm eviction, but we can make it an optional pointer in the ttm ctx. Needs
-to be optional anyway since we won't roll this out to all drivers, and
-then we can optionally use it to handle the locking in eviction instead of
-the current lock dropping tricks.
+On 5/9/22 16:01, public@timruffing.de wrote:
+> Thanks for this patch. Do you think this can be backported to LTS 5.17.y and
 
-I'm assuming at least that's your goal here, or is there a different one?
--Daniel
+You are welcome.
 
-> ---
->  drivers/gpu/drm/ttm/Makefile                                  | 4 ++--
->  drivers/gpu/drm/vmwgfx/Makefile                               | 2 +-
->  drivers/gpu/drm/{ttm => vmwgfx}/ttm_execbuf_util.c            | 3 ++-
->  .../drm/ttm => drivers/gpu/drm/vmwgfx}/ttm_execbuf_util.h     | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                           | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_validation.h                    | 2 +-
->  6 files changed, 8 insertions(+), 7 deletions(-)
->  rename drivers/gpu/drm/{ttm => vmwgfx}/ttm_execbuf_util.c (99%)
->  rename {include/drm/ttm => drivers/gpu/drm/vmwgfx}/ttm_execbuf_util.h (99%)
-> 
-> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
-> index f906b22959cf..b05a8477d0d0 100644
-> --- a/drivers/gpu/drm/ttm/Makefile
-> +++ b/drivers/gpu/drm/ttm/Makefile
-> @@ -3,8 +3,8 @@
->  # Makefile for the drm device driver.  This driver provides support for the
->  
->  ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
-> -	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
-> -	ttm_device.o ttm_sys_manager.o
-> +	ttm_range_manager.o ttm_resource.o ttm_pool.o ttm_device.o \
-> +	ttm_sys_manager.o
->  ttm-$(CONFIG_AGP) += ttm_agp_backend.o
->  
->  obj-$(CONFIG_DRM_TTM) += ttm.o
-> diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
-> index eee73b9aa404..c2c836103b23 100644
-> --- a/drivers/gpu/drm/vmwgfx/Makefile
-> +++ b/drivers/gpu/drm/vmwgfx/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_hashtab.o vmwgfx_kms.o vmwgfx_drv.o \
-> -	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o \
-> +	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o ttm_execbuf_util.o \
->  	    vmwgfx_cmd.o vmwgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
->  	    vmwgfx_overlay.o vmwgfx_gmrid_manager.o vmwgfx_fence.o \
->  	    vmwgfx_bo.o vmwgfx_scrn.o vmwgfx_context.o \
-> diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
-> similarity index 99%
-> rename from drivers/gpu/drm/ttm/ttm_execbuf_util.c
-> rename to drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
-> index dbee34a058df..1030f263ba07 100644
-> --- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
-> +++ b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
-> @@ -26,13 +26,14 @@
->   *
->   **************************************************************************/
->  
-> -#include <drm/ttm/ttm_execbuf_util.h>
->  #include <drm/ttm/ttm_bo_driver.h>
->  #include <drm/ttm/ttm_placement.h>
->  #include <linux/wait.h>
->  #include <linux/sched.h>
->  #include <linux/module.h>
->  
-> +#include "ttm_execbuf_util.h"
-> +
->  static void ttm_eu_backoff_reservation_reverse(struct list_head *list,
->  					      struct ttm_validate_buffer *entry)
->  {
-> diff --git a/include/drm/ttm/ttm_execbuf_util.h b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
-> similarity index 99%
-> rename from include/drm/ttm/ttm_execbuf_util.h
-> rename to drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
-> index a99d7fdf2964..47553bf31c73 100644
-> --- a/include/drm/ttm/ttm_execbuf_util.h
-> +++ b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
-> @@ -33,7 +33,7 @@
->  
->  #include <linux/list.h>
->  
-> -#include "ttm_bo_api.h"
-> +#include <drm/ttm/ttm_bo_api.h>
->  
->  /**
->   * struct ttm_validate_buffer
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> index be19aa6e1f13..cae306c60af9 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -37,8 +37,8 @@
->  #include <drm/drm_rect.h>
->  
->  #include <drm/ttm/ttm_bo_driver.h>
-> -#include <drm/ttm/ttm_execbuf_util.h>
->  
-> +#include "ttm_execbuf_util.h"
->  #include "ttm_object.h"
->  
->  #include "vmwgfx_fence.h"
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-> index f21df053882b..3613a3d52528 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
-> @@ -31,7 +31,7 @@
->  #include <linux/list.h>
->  #include <linux/ww_mutex.h>
->  
-> -#include <drm/ttm/ttm_execbuf_util.h>
-> +#include "ttm_execbuf_util.h"
->  
->  #include "vmwgfx_hashtab.h"
->  
-> -- 
-> 2.25.1
-> 
+> 5.15.y, which are still buggy? It's not a big deal for me but others might
+> profit.
+>
+> Background:
+> The patch solves a regression from 5.17.1 to 5.17.2 or 5.15.32 and
+> 5.15.33 I was about to report. On my Thinkpad T570, I got random "BUG", "Oops"
+> or even panics when during booting with efifb and plymouthd (and then sometimes
+> also problems when shutting down because). I had bisected the issue to commit
+> 27599aacbaef. I could provide more info but I don't think it's necessary given
+> that either aafa025c76dcc7d1a8c8f0bdefcbe4eb480b2f6a or your better patch now
+> fixes the issue (I tested both, both work for me).
+>
+
+The patches to fix the fbdev hot-unplug regression will get merged in mainline
+soon and since all have a Fixes tag, they should get picked for stable as well.
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
