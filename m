@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E6E51FA0F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCE751FA0C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 12:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51BC210E968;
-	Mon,  9 May 2022 10:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2CC810E92C;
+	Mon,  9 May 2022 10:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8C710E92C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD98410E939
  for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 10:36:00 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 14C701FA0A;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3E4C61FA0B;
  Mon,  9 May 2022 10:35:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1652092559; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KKy8o+3VBP04LTHVWaPSEie0hbaBlvtejs9DQY4Xor4=;
- b=dB4cV+2rQTsyJsoFh0QdW5Igu+nOomN58x0h9OYNUm9sewH+fxDcwAryEqkwk2bEzS8zEJ
- P4Vdw54hi9oRa8WKIkfKxkbarDbzUzuJp6+f4xpj526cYQpwkNT2jNTCM2Ht/jD6lEcDrP
- fMnuM6I8JTqm9G3hRBdK9ZMJOEqfZlc=
+ bh=42qkXIc7SvhOnRpOrvu7N6pwr0hCM4vrGYYoiK4XMog=;
+ b=UAdKCR1QHWk4SxjRmjruxj5NCwbatELgTqFZh6DPNiFqtCAvtvBrPnGbX1dr3FT+TH6iBo
+ VcIBCyKVabznmxe5E+wcbfLgTaNWExSSxqWNy/0nza2SaVXkONxZ3zWFTbVq5PNt3Ltuqu
+ 8Avdhgk3qJJLpuD78cafJF1gaHR9MdQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1652092559;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KKy8o+3VBP04LTHVWaPSEie0hbaBlvtejs9DQY4Xor4=;
- b=MK+OhvAsmouEJgtXvclpYt7hwN6MzzxJbtBKDWMCEbGJb+Xoz/zNmAKDfacZogoFDKwxd/
- oral1Nmf7cf5mfAg==
+ bh=42qkXIc7SvhOnRpOrvu7N6pwr0hCM4vrGYYoiK4XMog=;
+ b=Nzt2yw9T2erDY486l7ANMxgDTyZCmomwjyNOwnCn4w2mz5Mobc9JSGh68I8hLeimpK9RQN
+ EhhwI1PKF0+DWkAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E0AE3132C0;
- Mon,  9 May 2022 10:35:58 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 163FD13B12;
+ Mon,  9 May 2022 10:35:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8MP3NY7ueGJ9AgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 09 May 2022 10:35:58 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0GmoBI/ueGJ9AgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 09 May 2022 10:35:59 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch, airlied@linux.ie,
  mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Subject: [PATCH 4/7] drm/mgag200: Switch I2C code to managed cleanup
-Date: Mon,  9 May 2022 12:35:51 +0200
-Message-Id: <20220509103554.11996-5-tzimmermann@suse.de>
+Subject: [PATCH 5/7] drm/mgag200: Remove struct mga_connector
+Date: Mon,  9 May 2022 12:35:52 +0200
+Message-Id: <20220509103554.11996-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220509103554.11996-1-tzimmermann@suse.de>
 References: <20220509103554.11996-1-tzimmermann@suse.de>
@@ -72,166 +72,124 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store the I2C state within struct mga_device and switch I2C to
-managed release. Simplifies the related code and lets us remove
-mga_connector_destroy().
+struct mga_connector has outlived its purpose. Inline the rsp init
+helper into the mode-config code and remove the data structure. No
+functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  5 ++--
- drivers/gpu/drm/mgag200/mgag200_i2c.c  | 33 +++++++++-----------------
- drivers/gpu/drm/mgag200/mgag200_mode.c | 24 ++++---------------
- 3 files changed, 18 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  8 +----
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 44 ++++++++------------------
+ 2 files changed, 15 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index a18384c41fc4..5bdd09432114 100644
+index 5bdd09432114..5634fc003ca4 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -179,7 +179,6 @@ struct mga_i2c_chan {
+@@ -168,8 +168,6 @@ static inline struct mgag200_crtc_state *to_mgag200_crtc_state(struct drm_crtc_s
+ 	return container_of(base, struct mgag200_crtc_state, base);
+ }
  
- struct mga_connector {
- 	struct drm_connector base;
--	struct mga_i2c_chan *i2c;
+-#define to_mga_connector(x) container_of(x, struct mga_connector, base)
+-
+ struct mga_i2c_chan {
+ 	struct i2c_adapter adapter;
+ 	struct drm_device *dev;
+@@ -177,10 +175,6 @@ struct mga_i2c_chan {
+ 	int data, clock;
  };
  
+-struct mga_connector {
+-	struct drm_connector base;
+-};
+-
  struct mga_mc {
-@@ -239,6 +238,7 @@ struct mga_device {
+ 	resource_size_t			vram_size;
+ 	resource_size_t			vram_base;
+@@ -236,9 +230,9 @@ struct mga_device {
+ 		} g200se;
+ 	} model;
  
- 	struct mga_connector connector;
+-	struct mga_connector connector;
  	struct mgag200_pll pixpll;
-+	struct mga_i2c_chan i2c;
+ 	struct mga_i2c_chan i2c;
++	struct drm_connector connector;
  	struct drm_simple_display_pipe display_pipe;
  };
  
-@@ -251,8 +251,7 @@ static inline struct mga_device *to_mga_device(struct drm_device *dev)
- int mgag200_modeset_init(struct mga_device *mdev);
- 
- 				/* mgag200_i2c.c */
--struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev);
--void mgag200_i2c_destroy(struct mga_i2c_chan *i2c);
-+int mgag200_i2c_init(struct mga_device *mdev, struct mga_i2c_chan *i2c);
- 
- 				/* mgag200_mm.c */
- int mgag200_mm_init(struct mga_device *mdev);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_i2c.c b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-index 31e2c641a781..f57b33917152 100644
---- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-@@ -86,10 +86,16 @@ static int mga_gpio_getscl(void *data)
- 	return (mga_i2c_read_gpio(mdev) & i2c->clock) ? 1 : 0;
- }
- 
--struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev)
-+static void mgag200_i2c_release(void *res)
- {
--	struct mga_device *mdev = to_mga_device(dev);
--	struct mga_i2c_chan *i2c;
-+	struct mga_i2c_chan *i2c = res;
-+
-+	i2c_del_adapter(&i2c->adapter);
-+}
-+
-+int mgag200_i2c_init(struct mga_device *mdev, struct mga_i2c_chan *i2c)
-+{
-+	struct drm_device *dev = &mdev->base;
- 	int ret;
- 	int data, clock;
- 
-@@ -118,10 +124,6 @@ struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev)
- 		break;
- 	}
- 
--	i2c = kzalloc(sizeof(struct mga_i2c_chan), GFP_KERNEL);
--	if (!i2c)
--		return ERR_PTR(-ENOMEM);
--
- 	i2c->data = data;
- 	i2c->clock = clock;
- 	i2c->adapter.owner = THIS_MODULE;
-@@ -143,20 +145,7 @@ struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev)
- 
- 	ret = i2c_bit_add_bus(&i2c->adapter);
- 	if (ret)
--		goto err_kfree;
-+		return ret;
- 
--	return i2c;
--
--err_kfree:
--	kfree(i2c);
--	return ERR_PTR(ret);
--}
--
--void mgag200_i2c_destroy(struct mga_i2c_chan *i2c)
--{
--	if (!i2c)
--		return;
--	i2c_del_adapter(&i2c->adapter);
--	kfree(i2c);
-+	return devm_add_action_or_reset(dev->dev, mgag200_i2c_release, i2c);
- }
--
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index e09814528f04..a6d89b33b9ca 100644
+index a6d89b33b9ca..eb4d585709a4 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -787,13 +787,6 @@ static enum drm_mode_status mga_vga_mode_valid(struct drm_connector *connector,
- 	return MODE_OK;
- }
- 
--static void mga_connector_destroy(struct drm_connector *connector)
--{
--	struct mga_connector *mga_connector = to_mga_connector(connector);
--	mgag200_i2c_destroy(mga_connector->i2c);
--	drm_connector_cleanup(connector);
--}
--
- static const struct drm_connector_helper_funcs mga_vga_connector_helper_funcs = {
- 	.get_modes  = mgag200_vga_connector_helper_get_modes,
- 	.mode_valid = mga_vga_mode_valid,
-@@ -802,7 +795,7 @@ static const struct drm_connector_helper_funcs mga_vga_connector_helper_funcs =
- static const struct drm_connector_funcs mga_vga_connector_funcs = {
- 	.reset                  = drm_atomic_helper_connector_reset,
- 	.fill_modes             = drm_helper_probe_single_connector_modes,
--	.destroy                = mga_connector_destroy,
-+	.destroy                = drm_connector_cleanup,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+@@ -800,31 +800,6 @@ static const struct drm_connector_funcs mga_vga_connector_funcs = {
  	.atomic_destroy_state   = drm_atomic_helper_connector_destroy_state,
  };
-@@ -812,12 +805,11 @@ static int mgag200_vga_connector_init(struct mga_device *mdev)
- 	struct drm_device *dev = &mdev->base;
- 	struct mga_connector *mconnector = &mdev->connector;
- 	struct drm_connector *connector = &mconnector->base;
--	struct mga_i2c_chan *i2c;
-+	struct mga_i2c_chan *i2c = &mdev->i2c;
- 	int ret;
  
--	i2c = mgag200_i2c_create(dev);
--	if (IS_ERR(i2c)) {
--		ret = PTR_ERR(i2c)
+-static int mgag200_vga_connector_init(struct mga_device *mdev)
+-{
+-	struct drm_device *dev = &mdev->base;
+-	struct mga_connector *mconnector = &mdev->connector;
+-	struct drm_connector *connector = &mconnector->base;
+-	struct mga_i2c_chan *i2c = &mdev->i2c;
+-	int ret;
+-
+-	ret = mgag200_i2c_init(mdev, i2c);
+-	if (ret) {
+-		drm_err(dev, "failed to add DDC bus: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = drm_connector_init_with_ddc(dev, connector,
+-					  &mga_vga_connector_funcs,
+-					  DRM_MODE_CONNECTOR_VGA,
+-					  &i2c->adapter);
+-	if (ret)
+-		return ret;
+-	drm_connector_helper_add(connector, &mga_vga_connector_helper_funcs);
+-
+-	return 0;
+-}
+-
+ /*
+  * Simple Display Pipe
+  */
+@@ -1063,7 +1038,8 @@ static unsigned int mgag200_preferred_depth(struct mga_device *mdev)
+ int mgag200_modeset_init(struct mga_device *mdev)
+ {
+ 	struct drm_device *dev = &mdev->base;
+-	struct drm_connector *connector = &mdev->connector.base;
++	struct mga_i2c_chan *i2c = &mdev->i2c;
++	struct drm_connector *connector = &mdev->connector;
+ 	struct drm_simple_display_pipe *pipe = &mdev->display_pipe;
+ 	size_t format_count = ARRAY_SIZE(mgag200_simple_display_pipe_formats);
+ 	int ret;
+@@ -1086,14 +1062,22 @@ int mgag200_modeset_init(struct mga_device *mdev)
+ 
+ 	dev->mode_config.funcs = &mgag200_mode_config_funcs;
+ 
+-	ret = mgag200_vga_connector_init(mdev);
 +	ret = mgag200_i2c_init(mdev, i2c);
-+	if (ret) {
- 		drm_err(dev, "failed to add DDC bus: %d\n", ret);
+ 	if (ret) {
+-		drm_err(dev,
+-			"mgag200_vga_connector_init() failed, error %d\n",
+-			ret);
++		drm_err(dev, "failed to add DDC bus: %d\n", ret);
  		return ret;
  	}
-@@ -827,16 +819,10 @@ static int mgag200_vga_connector_init(struct mga_device *mdev)
- 					  DRM_MODE_CONNECTOR_VGA,
- 					  &i2c->adapter);
- 	if (ret)
--		goto err_mgag200_i2c_destroy;
+ 
++	ret = drm_connector_init_with_ddc(dev, connector,
++					  &mga_vga_connector_funcs,
++					  DRM_MODE_CONNECTOR_VGA,
++					  &i2c->adapter);
++	if (ret) {
++		drm_err(dev, "drm_connector_init_with_ddc() failed: %d\n", ret);
 +		return ret;
- 	drm_connector_helper_add(connector, &mga_vga_connector_helper_funcs);
- 
--	mconnector->i2c = i2c;
--
- 	return 0;
--
--err_mgag200_i2c_destroy:
--	mgag200_i2c_destroy(i2c);
--	return ret;
- }
- 
- /*
++	}
++	drm_connector_helper_add(connector, &mga_vga_connector_helper_funcs);
++
+ 	ret = mgag200_pixpll_init(&mdev->pixpll, mdev);
+ 	if (ret)
+ 		return ret;
 -- 
 2.36.0
 
