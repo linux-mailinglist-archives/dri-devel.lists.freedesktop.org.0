@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE45652059B
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 22:00:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7465205A4
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 22:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E9F10EE0F;
-	Mon,  9 May 2022 20:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A598710E089;
+	Mon,  9 May 2022 20:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B718D10EC42
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 20:00:48 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6A510E089
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 20:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652126447;
+ s=mimecast20190719; t=1652126630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gNTeuuELA3k+mm60Gr40WBmjicvf+wfPyLcRV/GayX4=;
- b=iAtXXhWdG7/zvSmlWOvT1Zrr7SMLUyAYwOZ/iVukffhBeChk3gUxA0jDmsFrActnJ/R+tB
- xzfvPsly4hkI/XX/MrgBvtNa6iDJacfAYBGhYhhpisegjivg/QwDi+hD8CLwCn4qL2yJde
- vwitfZiw1Av8ICzryHuVK0mx8CNgyxE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qnTkUabpe7jRtYxC0JIcCJ58YEOMuCVoeEj+uJ3yZCs=;
+ b=cQo5gusFlh/xsHPpTPYHs9BKzG02sYtAyWygAHUPqD4uWGIDYqo1/OQQ0ocS79ORVv3PMJ
+ WvIRHd/aqK4II/mC8rpPcNRtVC8HHr3vZHe0VSowUqGbpdPa2r8bnaD9L5n0EEu/JlkLT7
+ M78HxKFMNg6iuamqEUMQEZ6PGoR8fM8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-hAuAvThKOByzBwbEFnQGfw-1; Mon, 09 May 2022 16:00:44 -0400
-X-MC-Unique: hAuAvThKOByzBwbEFnQGfw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v191-20020a1cacc8000000b0038ce818d2efso4637900wme.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 13:00:44 -0700 (PDT)
+ us-mta-206-3GifW24IOIaP0QQEMmKwgA-1; Mon, 09 May 2022 16:03:49 -0400
+X-MC-Unique: 3GifW24IOIaP0QQEMmKwgA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t17-20020adfa2d1000000b0020ac519c222so6163528wra.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 13:03:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gNTeuuELA3k+mm60Gr40WBmjicvf+wfPyLcRV/GayX4=;
- b=iTqkj/dcYevwbAY5UJTxvHH+HxPRvX1pgFCCTLo0pozX91ueKhIhOms4qrNcx/o/Or
- J/xDsJ/W7uyOwNWBjgw0tpwMT74o+KvZsR1tILFG8KNM25KWhAvttZp7GKnwkjKNn4M+
- Cy0t92RhJ1XYj6673oY7SPty7aJ3b5N1Gr3QG40qT4+nQAJyDJ256OAtt+GbuTszyu3Y
- IHeUekkT1z9JD9n7xUN4Mk5LFEzViyqH+vJDyCROVW7VHVZXs45YRNid/IZGr6cuFQHQ
- OzZcNdbKc2xQ+ipIUas8VCsAcHBVYzKkLMoUBLnLsznHSPC2wMnXlcJaOnKAloKqFcwX
- lVXQ==
-X-Gm-Message-State: AOAM532DFRy78hZmoTZrya0e7J+oa9jvE53VL0eL4o0FUPX+XyxjdSV4
- 0hgPX7dz7p67I2xHOWvdVyQYuYAtvOHqKzS5sDCO7Kpa1hdwNzLXPQbkXaDjfYs9pr3It5G3HgL
- iB9CcRak9ks8Ei58YdXKzIdAvTRTf
-X-Received: by 2002:a05:6000:1f0e:b0:20c:4fde:7e20 with SMTP id
- bv14-20020a0560001f0e00b0020c4fde7e20mr15545384wrb.532.1652126442993; 
- Mon, 09 May 2022 13:00:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyACMJm+r6tlK8VZGCgzdHoFW+ert1TBWVKzmQnKSqvFbAYevfQT5KjzCveN5b6GZInW/cO7g==
-X-Received: by 2002:a05:6000:1f0e:b0:20c:4fde:7e20 with SMTP id
- bv14-20020a0560001f0e00b0020c4fde7e20mr15545370wrb.532.1652126442776; 
- Mon, 09 May 2022 13:00:42 -0700 (PDT)
+ bh=qnTkUabpe7jRtYxC0JIcCJ58YEOMuCVoeEj+uJ3yZCs=;
+ b=fZ9eu7eDV+qKiB+RTNtlrpM6dnZ2sWU8EjTaZUsVRSn+36SySx0nrhBfrff8ZqBKCy
+ ObmdRFtnn16LJuJbYhfTzBQlR2CRCCzvKVHyTNzVrOJSVPGoIVZ/n3BK1cqh8nio7A6C
+ 0gO2dx5N9mt7TqWo69hy6tK4U5+aLT3F7jhNLNjstJVe8Hl+diZAmnUoRybYk7Nukj0Z
+ Td3Ws30sQLsdBWoPpCg4VFNven4DVRt4FosNPUf+4stfOlEAvtKIPrEe4AXfPxo+SbeN
+ xVx+PSXrk1ZlJ5ipHz8q4PKXDpWSI02VGJ7RdFdGnmTxWbOv4uY26WMxF483198aH3qC
+ LvAA==
+X-Gm-Message-State: AOAM533g4cv2QD0nRxxvYft1TeAvG4Gj0Fgt1UcYnz2VRjYcWLaZxQnv
+ PFpufB3Ovf+k4aAe1GuxwARiewy07CZ2ACh50rdz5+ciYTVDyT37g4qx8NU6dl3dbHAHo71m5AA
+ xFaiIfPhxDjyzweecefBpJvpUYmRL
+X-Received: by 2002:a05:600c:ada:b0:394:30f0:5b24 with SMTP id
+ c26-20020a05600c0ada00b0039430f05b24mr17757045wmr.57.1652126628242; 
+ Mon, 09 May 2022 13:03:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXbnXq4q4M+gBT0G+FQfJ/08vE6H+CMK+PCG9aU5sZFTb8/Iev3kbWSsbfQd4TXLWBeAhjBA==
+X-Received: by 2002:a05:600c:ada:b0:394:30f0:5b24 with SMTP id
+ c26-20020a05600c0ada00b0039430f05b24mr17757018wmr.57.1652126627950; 
+ Mon, 09 May 2022 13:03:47 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o41-20020a05600c512900b00394832af31csm1280992wms.0.2022.05.09.13.00.41
+ k8-20020adfd848000000b0020c5253d8dbsm11555562wrl.39.2022.05.09.13.03.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 May 2022 13:00:42 -0700 (PDT)
-Message-ID: <2c59cd79-76d4-7829-e1db-88bc31396c8a@redhat.com>
-Date: Mon, 9 May 2022 22:00:41 +0200
+ Mon, 09 May 2022 13:03:47 -0700 (PDT)
+Message-ID: <2bf27b09-0896-1849-254f-d5b19abdc892@redhat.com>
+Date: Mon, 9 May 2022 22:03:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
@@ -73,9 +73,9 @@ References: <20220505215947.364694-1-javierm@redhat.com>
  <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
  <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
  <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
- <51254d3d-af8d-61b3-e8a2-8fd0e583e783@suse.de>
+ <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <51254d3d-af8d-61b3-e8a2-8fd0e583e783@suse.de>
+In-Reply-To: <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,62 +101,56 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+On 5/9/22 20:12, Thomas Zimmermann wrote:
 
-On 5/9/22 20:32, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 09.05.22 um 18:33 schrieb Javier Martinez Canillas:
->> On 5/9/22 17:51, Andrzej Hajda wrote:
+[snip]
+
+>> I actually thought about the same but then remembered what Daniel said in [0]
+>> (AFAIU at least) that these should be done in .remove() so the current code
+>> looks like matches that and only framebuffer_release() should be moved.
 >>
->> [snip]
+>> For vesafb a previous patch proposed to also move a release_region() call to
+>> .fb_destroy() and Daniel also said that it was iffy and shouldn't be done [1].
 >>
->>>>>> +
->>>>> Regarding drm:
->>>>> What about drm_fb_helper_fini? It calls also framebuffer_release and is
->>>>> called often from _remove paths (checked intel/radeon/nouveau). I guess
->>>>> it should be fixed as well. Do you plan to fix it?
->>>>>
->>>> I think you are correct. Maybe we need something like the following?
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->>>> index d265a73313c9..b09598f7af28 100644
->>>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>>> @@ -631,7 +631,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
->>>>           if (info) {
->>>>                   if (info->cmap.len)
->>>>                           fb_dealloc_cmap(&info->cmap);
->>>> -               framebuffer_release(info);
+>> But I'm also not fb expert so happy to move fb_dealloc_cmap() as well if that
+>> is the correct thing to do.
 > 
-> After reviewing that code,  drm_fb_helper_fini() appears to be called 
-> from .fb_destroy (see drm_fbdev_release).  The code is hard to follow 
-> though.  If there another way of releasing the framebuffer here?
+> The cmap data structure is software state that can be accessed via icotl 
+> as long as the devfile is open. Drivers update the hardware from it. See 
+> [1].  Moving that cleanup into fb_destroy seems appropriate to me.
 > 
 
-Andrzej mentioned intel/radeon/nouveau as example, I only looked at i915
-and the call chain is the following as far as I can tell:
+I see, that makes sense. Then something like the following instead?
 
-struct pci_driver i915_pci_driver = {
-...
-        .remove = i915_pci_remove,
-...
-};
-
-
-i915_driver_remove
-  intel_modeset_driver_remove_noirq
-    intel_fbdev_fini
-      intel_fbdev_destroy
-        drm_fb_helper_fini
-          framebuffer_release
-              
-So my underdestanding is that if a program has the emulated fbdev device
-opened and the i915 module is removed, then a use-after-free would be
-triggered on drm_fbdev_fb_destroy() once the program closes the device:
-
-drm_fbdev_fb_destroy
-  drm_fbdev_release(info->par); <-- info was already freed on .remove
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index d265a73313c9..ce0d89c49e42 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -627,12 +627,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+        cancel_work_sync(&fb_helper->resume_work);
+        cancel_work_sync(&fb_helper->damage_work);
+ 
+-       info = fb_helper->fbdev;
+-       if (info) {
+-               if (info->cmap.len)
+-                       fb_dealloc_cmap(&info->cmap);
+-               framebuffer_release(info);
+-       }
+        fb_helper->fbdev = NULL;
+ 
+        mutex_lock(&kernel_fb_helper_lock);
+@@ -2111,7 +2105,11 @@ static void drm_fbdev_release(struct drm_fb_helper *fb_helper)
+  */
+ static void drm_fbdev_fb_destroy(struct fb_info *info)
+ {
++       if (info->cmap.len)
++               fb_dealloc_cmap(&info->cmap);
++
+        drm_fbdev_release(info->par);
++       framebuffer_release(info);
+ }
+ 
+ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
 
 -- 
 Best regards,
