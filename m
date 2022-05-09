@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773ED51FFAD
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 16:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B0651FFB2
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 16:33:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECF510E4F3;
-	Mon,  9 May 2022 14:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7460888AA0;
+	Mon,  9 May 2022 14:33:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D057810E463
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 14:31:53 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id p18so16506571edr.7
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 07:31:53 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49EDA10E754
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 14:33:20 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id y21so16539172edo.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 07:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=2Tp0IHxlp2CcmUalclLJuI0trNA/JQO2tVaqEJ3to3c=;
- b=BE749skK9qaDobjL1QWOzwlX11o+jrUGbdDNDPr5vxH6kjjSvRumVTUAC3nUyhKbVO
- TZ4AiQ1boZhMr7yjapgIJF998i4m+BEIGYKkVkEF4EfMHL2RhoXz75SXRBZqNiYz7fYs
- K7b+Qg0ehh2XWnWJzlp6N+RfOPiSRIr0nRNcc=
+ bh=vB9fvsYNF+MRJ+OzewjBCcyr9I8udPyly7AX+BSwf0k=;
+ b=DOvuEghOyyfUq7d2+Y/Kxe4A1QCis8rUXabkMf0CFlHkV1Jm/PVFmq6qqEidJb/8NJ
+ Dh0BsEWCnfmzvizSHSAnGWRm/YI/sG/0ztAz/jEs5NNgebznmaF27fvrAv1eDB3hOcgT
+ 8eQUk1Azfhq3xv22ZgWhpQ4N+MwdixWi6DhMA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=2Tp0IHxlp2CcmUalclLJuI0trNA/JQO2tVaqEJ3to3c=;
- b=NqBbpxuGpUSgEpkVEqLadHF7ffhn03hLDSy9ul/nxGACAMLj+j1giMp2TchwQfT+rf
- OO8YDJZ0zVW6OLJKkJtDE2+7RlnQzrGoVWRrErvp7BMpL6WkLEo/dHHX4FbcqCWC/Ax6
- qfD6+j99nbeR+IQC8i+sqFHvOLZjj/gguPmAm87b85tr7RCb3oMnvNMigZTLF7Jk7EUM
- ljApR0di/f+k6m9nOROHNVQrE2u4SX3ZuJKrnC7I2dkvNDMqeqTN9QrDo2fiKTD728M1
- KIIJttXOHO1uRVyk44BVq9CSC6YB+ubrZhWMJFlPejPnix1VAtHpHBVl1BLR5Qj9bY25
- DYMg==
-X-Gm-Message-State: AOAM531SR4sOtKOWXm5CgWN5FC81MGCfaRNjrDAd/IkJ5Y07KQSJX/DQ
- nWYPeWhEftTC0fDt+ZTPQJuL3Q==
-X-Google-Smtp-Source: ABdhPJyzkNzJ+T8XGO7dW+q67BHHSfYn4pivnaJBZhNJYpcgbnrahMadR9aJ+R83fzJ0VSrds8siUQ==
-X-Received: by 2002:a05:6402:84a:b0:423:fe99:8c53 with SMTP id
- b10-20020a056402084a00b00423fe998c53mr17409043edz.195.1652106712166; 
- Mon, 09 May 2022 07:31:52 -0700 (PDT)
+ bh=vB9fvsYNF+MRJ+OzewjBCcyr9I8udPyly7AX+BSwf0k=;
+ b=pfbXDE5/f1jWJqCEf3lveFixu+M07U/2ezUmwy+dGa9whuEC1DO0ll5LgVERMzraA1
+ V4y9JE3ND5RVENxVZhpCmsa8PZGmBdlq0/j6GepVTruRlFqNoVw7tLxHukr8hqQ9/0Sf
+ 3pk4liHsDjO4vTOC7fZ27nbLBjt00Xyk7d2OlyJanubaFHResCYu4zADiyMWFf/3YSEG
+ FC6Eobwzi0+luSKQYttf3a5RzwCGj8WRumyCj0I8d6TBNp79yTNN/fv6r5G1u20aoga4
+ pQB2alU77wHjH/TYbKWl8Fq/6jmxtECcU+nCWqKdb1fqDm9p2n43ctpS+/EghNPbDqfk
+ J5yA==
+X-Gm-Message-State: AOAM530G5gqxedYynJ713kxEMMeNj51PQIzgLlpmhIe/zMa8sB6+2YBJ
+ V0kKszfkNQnC7vyw287Zw+cW3Q==
+X-Google-Smtp-Source: ABdhPJx3gJdzpTRFkOJU2gYYfuVxElrMW0OeA/0RqIimx25r6owo4ljB4s7QppXCV+4Lb9AhozLPXg==
+X-Received: by 2002:aa7:dd87:0:b0:425:c104:71bf with SMTP id
+ g7-20020aa7dd87000000b00425c10471bfmr17817626edv.110.1652106798532; 
+ Mon, 09 May 2022 07:33:18 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- p21-20020a17090653d500b006f3ef214e3csm4983198ejo.162.2022.05.09.07.31.51
+ hz18-20020a1709072cf200b006f3ef214e0dsm5194266ejc.115.2022.05.09.07.33.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 07:31:51 -0700 (PDT)
-Date: Mon, 9 May 2022 16:31:49 +0200
+ Mon, 09 May 2022 07:33:17 -0700 (PDT)
+Date: Mon, 9 May 2022 16:33:16 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
-Message-ID: <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
+Subject: Re: [PATCH 8/8] drm: move ttm_execbuf_util into vmwgfx
+Message-ID: <YnkmLI1C7yc31eW2@phenom.ffwll.local>
 References: <20220504074739.2231-1-christian.koenig@amd.com>
- <20220504074739.2231-2-christian.koenig@amd.com>
+ <20220504074739.2231-9-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220504074739.2231-2-christian.koenig@amd.com>
+In-Reply-To: <20220504074739.2231-9-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,583 +75,125 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 04, 2022 at 09:47:32AM +0200, Christian König wrote:
-> This adds the infrastructure for an execution context for GEM buffers
-> which is similar to the existinc TTMs execbuf util and intended to replace
-> it in the long term.
-> 
-> The basic functionality is that we abstracts the necessary loop to lock
-> many different GEM buffers with automated deadlock and duplicate handling.
-> 
-> v2: drop xarray and use dynamic resized array instead, the locking
->     overhead is unecessary and measureable.
+On Wed, May 04, 2022 at 09:47:39AM +0200, Christian König wrote:
+> VMWGFX is the only remaining user of this and should probably moved over
+> to drm_exec when it starts using GEM as well.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  Documentation/gpu/drm-mm.rst |  12 ++
->  drivers/gpu/drm/Kconfig      |   7 +
->  drivers/gpu/drm/Makefile     |   2 +
->  drivers/gpu/drm/drm_exec.c   | 295 +++++++++++++++++++++++++++++++++++
->  include/drm/drm_exec.h       | 144 +++++++++++++++++
->  5 files changed, 460 insertions(+)
->  create mode 100644 drivers/gpu/drm/drm_exec.c
->  create mode 100644 include/drm/drm_exec.h
-> 
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index f32ccce5722d..bf7dd2a78e9b 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -493,6 +493,18 @@ DRM Sync Objects
->  .. kernel-doc:: drivers/gpu/drm/drm_syncobj.c
->     :export:
->  
-> +DRM Execution context
-> +=====================
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-> +   :doc: Overview
-> +
-> +.. kernel-doc:: include/drm/drm_exec.h
-> +   :internal:
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-> +   :export:
-> +
->  GPU Scheduler
->  =============
->  
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index e88c497fa010..1b35c10df263 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -179,6 +179,12 @@ config DRM_TTM
->  	  GPU memory types. Will be enabled automatically if a device driver
->  	  uses it.
->  
-> +config DRM_EXEC
-> +	tristate
-> +	depends on DRM
-> +	help
-> +	  Execution context for command submissions
-> +
->  config DRM_BUDDY
->  	tristate
->  	depends on DRM
-> @@ -252,6 +258,7 @@ config DRM_AMDGPU
->  	select DRM_SCHED
->  	select DRM_TTM
->  	select DRM_TTM_HELPER
-> +	select DRM_EXEC
->  	select POWER_SUPPLY
->  	select HWMON
->  	select BACKLIGHT_CLASS_DEVICE
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 15fe3163f822..ee8573b683f3 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -37,6 +37,8 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
->  #
->  # Memory-management helpers
->  #
-> +#
-> +obj-$(CONFIG_DRM_EXEC) += drm_exec.o
->  
->  obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
->  
-> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-> new file mode 100644
-> index 000000000000..ed2106c22786
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_exec.c
-> @@ -0,0 +1,295 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +
-> +#include <drm/drm_exec.h>
-> +#include <drm/drm_gem.h>
-> +#include <linux/dma-resv.h>
-> +
-> +/**
-> + * DOC: Overview
-> + *
-> + * This component mainly abstracts the retry loop necessary for locking
-> + * multiple GEM objects while preparing hardware operations (e.g. command
-> + * submissions, page table updates etc..).
-> + *
-> + * If a contention is detected while locking a GEM object the cleanup procedure
-> + * unlocks all previously locked GEM objects and locks the contended one first
-> + * before locking any further objects.
-> + *
-> + * After an object is locked fences slots can optionally be reserved on the
-> + * dma_resv object inside the GEM object.
-> + *
-> + * A typical usage pattern should look like this::
-> + *
-> + *	struct drm_gem_object *obj;
-> + *	struct drm_exec exec;
-> + *	unsigned long index;
-> + *	int ret;
-> + *
-> + *	drm_exec_init(&exec, true);
-> + *	drm_exec_while_not_all_locked(&exec) {
-> + *		ret = drm_exec_prepare_obj(&exec, boA, 1);
-> + *		drm_exec_continue_on_contention(&exec);
-> + *		if (ret)
-> + *			goto error;
-> + *
-> + *		ret = drm_exec_lock(&exec, boB, 1);
-> + *		drm_exec_continue_on_contention(&exec);
-> + *		if (ret)
-> + *			goto error;
-> + *	}
-> + *
-> + *	drm_exec_for_each_locked_object(&exec, index, obj) {
-> + *		dma_resv_add_fence(obj->resv, fence, DMA_RESV_USAGE_READ);
-> + *		...
-> + *	}
-> + *	drm_exec_fini(&exec);
-> + *
-> + * See struct dma_exec for more details.
-> + */
-> +
-> +/* Dummy value used to initially enter the retry loop */
-> +#define DRM_EXEC_DUMMY (void*)~0
-> +
-> +/* Initialize the drm_exec_objects container */
-> +static void drm_exec_objects_init(struct drm_exec_objects *container)
-> +{
-> +	container->objects = kmalloc(PAGE_SIZE, GFP_KERNEL);
-> +
-> +	/* If allocation here fails, just delay that till the first use */
-> +	container->max_objects = container->objects ?
-> +		PAGE_SIZE / sizeof(void *) : 0;
-> +	container->num_objects = 0;
-> +}
-> +
-> +/* Cleanup the drm_exec_objects container */
-> +static void drm_exec_objects_fini(struct drm_exec_objects *container)
-> +{
-> +	kvfree(container->objects);
-> +}
-> +
-> +/* Make sure we have enough room and add an object the container */
-> +static int drm_exec_objects_add(struct drm_exec_objects *container,
-> +				struct drm_gem_object *obj)
-> +{
-> +	if (unlikely(container->num_objects == container->max_objects)) {
-> +		size_t size = container->max_objects * sizeof(void *);
-> +		void *tmp;
-> +
-> +		tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
-> +				GFP_KERNEL);
-> +		if (!tmp)
-> +			return -ENOMEM;
-> +
-> +		container->objects = tmp;
-> +		container->max_objects += PAGE_SIZE / sizeof(void *);
 
-Might be worth it to inquire the actual allocation size here, since if
-it's kmalloc the generic buckets only cover doubling of sizes, so once
-it's big it goes up a lot quicker than PAGE_SIZE.
+I guess this is a bit annoying since it means we can't require drm_exec in
+ttm eviction, but we can make it an optional pointer in the ttm ctx. Needs
+to be optional anyway since we won't roll this out to all drivers, and
+then we can optionally use it to handle the locking in eviction instead of
+the current lock dropping tricks.
 
-But also krealloc checks this internally already so maybe better to not
-break the abstraction.
-
-> +	}
-> +	drm_gem_object_get(obj);
-> +	container->objects[container->num_objects++] = obj;
-> +	return 0;
-> +}
-> +
-> +/* Unlock all objects and drop references */
-> +static void drm_exec_unlock_all(struct drm_exec *exec)
-> +{
-> +	struct drm_gem_object *obj;
-> +	unsigned long index;
-> +
-> +	drm_exec_for_each_duplicate_object(exec, index, obj)
-> +		drm_gem_object_put(obj);
-> +
-> +	drm_exec_for_each_locked_object(exec, index, obj) {
-> +		dma_resv_unlock(obj->resv);
-> +		drm_gem_object_put(obj);
-> +	}
-> +}
-> +
-> +/**
-> + * drm_exec_init - initialize a drm_exec object
-> + * @exec: the drm_exec object to initialize
-> + * @interruptible: if locks should be acquired interruptible
-> + *
-> + * Initialize the object and make sure that we can track locked and duplicate
-> + * objects.
-> + */
-> +void drm_exec_init(struct drm_exec *exec, bool interruptible)
-> +{
-> +	exec->interruptible = interruptible;
-> +	drm_exec_objects_init(&exec->locked);
-> +	drm_exec_objects_init(&exec->duplicates);
-> +	exec->contended = DRM_EXEC_DUMMY;
-> +}
-> +EXPORT_SYMBOL(drm_exec_init);
-> +
-> +/**
-> + * drm_exec_fini - finalize a drm_exec object
-> + * @exec: the drm_exec object to finilize
-> + *
-> + * Unlock all locked objects, drop the references to objects and free all memory
-> + * used for tracking the state.
-> + */
-> +void drm_exec_fini(struct drm_exec *exec)
-> +{
-> +	drm_exec_unlock_all(exec);
-> +	drm_exec_objects_fini(&exec->locked);
-> +	drm_exec_objects_fini(&exec->duplicates);
-> +	if (exec->contended != DRM_EXEC_DUMMY) {
-> +		drm_gem_object_put(exec->contended);
-> +		ww_acquire_fini(&exec->ticket);
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_exec_fini);
-> +
-> +/**
-> + * drm_exec_cleanup - cleanup when contention is detected
-> + * @exec: the drm_exec object to cleanup
-> + *
-> + * Cleanup the current state and return true if we should stay inside the retry
-> + * loop, false if there wasn't any contention detected and we can keep the
-> + * objects locked.
-> + */
-> +bool drm_exec_cleanup(struct drm_exec *exec)
-> +{
-> +	if (likely(!exec->contended)) {
-> +		ww_acquire_done(&exec->ticket);
-> +		return false;
-> +	}
-> +
-> +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
-> +		exec->contended = NULL;
-> +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
-
-Not sure why this is here instead of in _init()? I thought you're playing
-some really dangerous tricks with re-initting the acquire ctx, which would
-at least be questionable, but does not look like that.
-
-> +		return true;
-> +	}
-> +
-> +	drm_exec_unlock_all(exec);
-> +	exec->locked.num_objects = 0;
-> +	exec->duplicates.num_objects = 0;
-> +	return true;
-> +}
-> +EXPORT_SYMBOL(drm_exec_cleanup);
-> +
-> +/* Track the locked object in the xa and reserve fences */
-> +static int drm_exec_obj_locked(struct drm_exec_objects *container,
-> +			       struct drm_gem_object *obj,
-> +			       unsigned int num_fences)
-> +{
-> +	int ret;
-> +
-> +	if (container) {
-> +		ret = drm_exec_objects_add(container, obj);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (num_fences) {
-> +		ret = dma_resv_reserve_fences(obj->resv, num_fences);
-> +		if (ret)
-> +			goto error_erase;
-> +	}
-> +
-> +	return 0;
-> +
-> +error_erase:
-> +	if (container) {
-> +		--container->num_objects;
-> +		drm_gem_object_put(obj);
-> +	}
-> +	return ret;
-> +}
-> +
-> +/* Make sure the contended object is locked first */
-> +static int drm_exec_lock_contended(struct drm_exec *exec)
-> +{
-> +	struct drm_gem_object *obj = exec->contended;
-> +	int ret;
-> +
-> +	if (likely(!obj))
-> +		return 0;
-> +
-> +	if (exec->interruptible) {
-> +		ret = dma_resv_lock_slow_interruptible(obj->resv,
-> +						       &exec->ticket);
-> +		if (unlikely(ret))
-> +			goto error_dropref;
-> +	} else {
-> +		dma_resv_lock_slow(obj->resv, &exec->ticket);
-> +	}
-> +
-> +	ret = drm_exec_obj_locked(&exec->locked, obj, 0);
-> +	if (unlikely(ret))
-> +		dma_resv_unlock(obj->resv);
-> +
-> +error_dropref:
-> +	/* Always cleanup the contention so that error handling can kick in */
-> +	drm_gem_object_put(obj);
-> +	exec->contended = NULL;
-> +	return ret;
-> +}
-> +
-> +/**
-> + * drm_exec_prepare_obj - prepare a GEM object for use
-> + * @exec: the drm_exec object with the state
-> + * @obj: the GEM object to prepare
-> + * @num_fences: how many fences to reserve
-> + *
-> + * Prepare a GEM object for use by locking it and reserving fence slots. All
-> + * succesfully locked objects are put into the locked container. Duplicates
-> + * detected as well and automatically moved into the duplicates container.
-> + *
-> + * Returns: -EDEADLK if a contention is detected, -ENOMEM when memory
-> + * allocation failed and zero for success.
-> + */
-> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-> +			 unsigned int num_fences)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_exec_lock_contended(exec);
-> +	if (unlikely(ret))
-> +		return ret;
-> +
-> +	if (exec->interruptible)
-> +		ret = dma_resv_lock_interruptible(obj->resv, &exec->ticket);
-> +	else
-> +		ret = dma_resv_lock(obj->resv, &exec->ticket);
-> +
-> +	if (unlikely(ret == -EDEADLK)) {
-> +		drm_gem_object_get(obj);
-> +		exec->contended = obj;
-> +		return -EDEADLK;
-> +	}
-> +
-> +	if (unlikely(ret == -EALREADY)) {
-> +		struct drm_exec_objects *container = &exec->duplicates;
-> +
-> +		/*
-> +		 * If this is the first locked GEM object it was most likely
-> +		 * just contended. So don't add it to the duplicates, just
-> +		 * reserve the fence slots.
-> +		 */
-> +		if (exec->locked.num_objects && exec->locked.objects[0] == obj)
-> +			container = NULL;
-> +
-> +		ret = drm_exec_obj_locked(container, obj, num_fences);
-> +		if (ret)
-> +			return ret;
-> +
-> +	} else if (unlikely(ret)) {
-> +		return ret;
-> +
-> +	} else {
-> +		ret = drm_exec_obj_locked(&exec->locked, obj, num_fences);
-> +		if (ret)
-> +			goto error_unlock;
-> +	}
-> +
-> +	drm_gem_object_get(obj);
-> +	return 0;
-> +
-> +error_unlock:
-> +	dma_resv_unlock(obj->resv);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_exec_prepare_obj);
-> +
-> +MODULE_DESCRIPTION("DRM execution context");
-> +MODULE_LICENSE("Dual MIT/GPL");
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> new file mode 100644
-> index 000000000000..f73981c6292e
-> --- /dev/null
-> +++ b/include/drm/drm_exec.h
-> @@ -0,0 +1,144 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +
-> +#ifndef __DRM_EXEC_H__
-> +#define __DRM_EXEC_H__
-> +
-> +#include <linux/ww_mutex.h>
-> +
-> +struct drm_gem_object;
-> +
-> +/**
-> + * struct drm_exec_objects - Container for GEM objects in a drm_exec
-> + */
-> +struct drm_exec_objects {
-> +	unsigned int		num_objects;
-> +	unsigned int		max_objects;
-> +	struct drm_gem_object	**objects;
-> +};
-> +
-> +/**
-> + * drm_exec_objects_for_each - iterate over all the objects inside the container
-> + */
-> +#define drm_exec_objects_for_each(array, index, obj)		\
-> +	for (index = 0, obj = (array)->objects[0];		\
-> +	     index < (array)->num_objects;			\
-> +	     ++index, obj = (array)->objects[index])
-> +
-> +/**
-> + * struct drm_exec - Execution context
-> + */
-> +struct drm_exec {
-> +	/**
-> +	 * @interruptible: If locks should be taken interruptible
-> +	 */
-> +	bool			interruptible;
-> +
-> +	/**
-> +	 * @ticket: WW ticket used for acquiring locks
-> +	 */
-> +	struct ww_acquire_ctx	ticket;
-> +
-> +	/**
-> +	 * @locked: container for the locked GEM objects
-> +	 */
-> +	struct drm_exec_objects	locked;
-> +
-> +	/**
-> +	 * @duplicates: container for the duplicated GEM objects
-> +	 */
-> +	struct drm_exec_objects	duplicates;
-> +
-> +	/**
-> +	 * @contended: contended GEM object we backet of for.
-> +	 */
-> +	struct drm_gem_object	*contended;
-> +};
-> +
-> +/**
-> + * drm_exec_for_each_locked_object - iterate over all the locked objects
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the locked GEM objects inside the drm_exec object.
-> + */
-> +#define drm_exec_for_each_locked_object(exec, index, obj)	\
-> +	drm_exec_objects_for_each(&(exec)->locked, index, obj)
-> +
-> +/**
-> + * drm_exec_for_each_duplicate_object - iterate over all the duplicate objects
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the duplicate GEM objects inside the drm_exec object.
-> + */
-> +#define drm_exec_for_each_duplicate_object(exec, index, obj)	\
-> +	drm_exec_objects_for_each(&(exec)->duplicates, index, obj)
-> +
-> +/**
-> + * drm_exec_while_not_all_locked - loop until all GEM objects are prepared
-> + * @exec: drm_exec object
-> + *
-> + * Core functionality of the drm_exec object. Loops until all GEM objects are
-> + * prepared and no more contention exists.
-> + *
-> + * At the beginning of the loop it is guaranteed that no GEM object is locked.
-> + */
-> +#define drm_exec_while_not_all_locked(exec)	\
-> +	while (drm_exec_cleanup(exec))
-> +
-> +/**
-> + * drm_exec_continue_on_contention - continue the loop when we need to cleanup
-> + * @exec: drm_exec object
-> + *
-> + * Control flow helper to continue when a contention was detected and we need to
-> + * clean up and re-start the loop to prepare all GEM objects.
-> + */
-> +#define drm_exec_continue_on_contention(exec)		\
-> +	if (unlikely(drm_exec_is_contended(exec)))	\
-> +		continue
-> +
-> +/**
-> + * drm_exec_break_on_contention - break a subordinal loop on contention
-> + * @exec: drm_exec object
-> + *
-> + * Control flow helper to break a subordinal loop when a contention was detected
-> + * and we need to clean up and re-start the loop to prepare all GEM objects.
-> + */
-> +#define drm_exec_break_on_contention(exec)		\
-> +	if (unlikely(drm_exec_is_contended(exec)))	\
-> +		break
-> +
-> +/**
-> + * drm_exec_is_contended - check for contention
-> + * @exec: drm_exec object
-> + *
-> + * Returns true if the drm_exec object has run into some contention while
-> + * locking a GEM object and needs to clean up.
-> + */
-> +static inline bool drm_exec_is_contended(struct drm_exec *exec)
-> +{
-> +	return !!exec->contended;
-> +}
-> +
-> +/**
-> + * drm_exec_has_duplicates - check for duplicated GEM object
-> + * @exec: drm_exec object
-> + *
-> + * Return true if the drm_exec object has encountered some already locked GEM
-> + * objects while trying to lock them. This can happen if multiple GEM objects
-> + * share the same underlying resv object.
-> + */
-> +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
-> +{
-> +	return exec->duplicates.num_objects > 0;
-
-Definitely an aside, but in our i915 efforts to get rid of temporary pins
-we run into some fun where the eviction code couldn't differentiate from
-memory we need reserved for the CS and memory we just keep locked because
-we evicted it and fun stuff like that. So maybe we need a bit more
-tracking here eventually, but that's only when we have this somehow glued
-into ttm eviction code.
-
-Also the even more massive step would be to glue this into dma-buf so you
-can do dynamic dma-buf eviction and still keep track of all the buffers. I
-think with some clever pointer tagging and a bit more indirection we could
-nest drm_exec structures (so that a driver could insert it's entire
-drm_exec structure with a drm_exec-level callback for handling refcounting
-and stuff like that).
-
-So anyway I think this all looks good, just one more thing before I think
-we should land this:
-
-gem helpers in drm_gem_lock_reservations() has something which is
-practically compatible already, except that you bulk-add the entire set of
-objects. I think if you add a bulk-prepare function then we could also
-replace all those. Maybe even nicer if the bulk-prepare takes the array of
-handles and does the handle lookup too, but at least something which can
-subsititue drm_gem_lock_reservations with drm_exec would be nice to
-validate the helpers a bit more and really make sure we only have one of
-them left.
-
-Thoughts?
+I'm assuming at least that's your goal here, or is there a different one?
 -Daniel
 
-> +}
+> ---
+>  drivers/gpu/drm/ttm/Makefile                                  | 4 ++--
+>  drivers/gpu/drm/vmwgfx/Makefile                               | 2 +-
+>  drivers/gpu/drm/{ttm => vmwgfx}/ttm_execbuf_util.c            | 3 ++-
+>  .../drm/ttm => drivers/gpu/drm/vmwgfx}/ttm_execbuf_util.h     | 2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                           | 2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_validation.h                    | 2 +-
+>  6 files changed, 8 insertions(+), 7 deletions(-)
+>  rename drivers/gpu/drm/{ttm => vmwgfx}/ttm_execbuf_util.c (99%)
+>  rename {include/drm/ttm => drivers/gpu/drm/vmwgfx}/ttm_execbuf_util.h (99%)
+> 
+> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
+> index f906b22959cf..b05a8477d0d0 100644
+> --- a/drivers/gpu/drm/ttm/Makefile
+> +++ b/drivers/gpu/drm/ttm/Makefile
+> @@ -3,8 +3,8 @@
+>  # Makefile for the drm device driver.  This driver provides support for the
+>  
+>  ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
+> -	ttm_execbuf_util.o ttm_range_manager.o ttm_resource.o ttm_pool.o \
+> -	ttm_device.o ttm_sys_manager.o
+> +	ttm_range_manager.o ttm_resource.o ttm_pool.o ttm_device.o \
+> +	ttm_sys_manager.o
+>  ttm-$(CONFIG_AGP) += ttm_agp_backend.o
+>  
+>  obj-$(CONFIG_DRM_TTM) += ttm.o
+> diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
+> index eee73b9aa404..c2c836103b23 100644
+> --- a/drivers/gpu/drm/vmwgfx/Makefile
+> +++ b/drivers/gpu/drm/vmwgfx/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_hashtab.o vmwgfx_kms.o vmwgfx_drv.o \
+> -	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o \
+> +	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o ttm_execbuf_util.o \
+>  	    vmwgfx_cmd.o vmwgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
+>  	    vmwgfx_overlay.o vmwgfx_gmrid_manager.o vmwgfx_fence.o \
+>  	    vmwgfx_bo.o vmwgfx_scrn.o vmwgfx_context.o \
+> diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
+> similarity index 99%
+> rename from drivers/gpu/drm/ttm/ttm_execbuf_util.c
+> rename to drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
+> index dbee34a058df..1030f263ba07 100644
+> --- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+> +++ b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.c
+> @@ -26,13 +26,14 @@
+>   *
+>   **************************************************************************/
+>  
+> -#include <drm/ttm/ttm_execbuf_util.h>
+>  #include <drm/ttm/ttm_bo_driver.h>
+>  #include <drm/ttm/ttm_placement.h>
+>  #include <linux/wait.h>
+>  #include <linux/sched.h>
+>  #include <linux/module.h>
+>  
+> +#include "ttm_execbuf_util.h"
 > +
-> +void drm_exec_init(struct drm_exec *exec, bool interruptible);
-> +void drm_exec_fini(struct drm_exec *exec);
-> +bool drm_exec_cleanup(struct drm_exec *exec);
-> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-> +			 unsigned int num_fences);
-> +
-> +#endif
+>  static void ttm_eu_backoff_reservation_reverse(struct list_head *list,
+>  					      struct ttm_validate_buffer *entry)
+>  {
+> diff --git a/include/drm/ttm/ttm_execbuf_util.h b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
+> similarity index 99%
+> rename from include/drm/ttm/ttm_execbuf_util.h
+> rename to drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
+> index a99d7fdf2964..47553bf31c73 100644
+> --- a/include/drm/ttm/ttm_execbuf_util.h
+> +++ b/drivers/gpu/drm/vmwgfx/ttm_execbuf_util.h
+> @@ -33,7 +33,7 @@
+>  
+>  #include <linux/list.h>
+>  
+> -#include "ttm_bo_api.h"
+> +#include <drm/ttm/ttm_bo_api.h>
+>  
+>  /**
+>   * struct ttm_validate_buffer
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index be19aa6e1f13..cae306c60af9 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -37,8 +37,8 @@
+>  #include <drm/drm_rect.h>
+>  
+>  #include <drm/ttm/ttm_bo_driver.h>
+> -#include <drm/ttm/ttm_execbuf_util.h>
+>  
+> +#include "ttm_execbuf_util.h"
+>  #include "ttm_object.h"
+>  
+>  #include "vmwgfx_fence.h"
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> index f21df053882b..3613a3d52528 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+> @@ -31,7 +31,7 @@
+>  #include <linux/list.h>
+>  #include <linux/ww_mutex.h>
+>  
+> -#include <drm/ttm/ttm_execbuf_util.h>
+> +#include "ttm_execbuf_util.h"
+>  
+>  #include "vmwgfx_hashtab.h"
+>  
 > -- 
 > 2.25.1
 > 
