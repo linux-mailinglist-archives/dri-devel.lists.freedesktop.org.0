@@ -2,49 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FB352011C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 17:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B577520121
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 17:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B3610E569;
-	Mon,  9 May 2022 15:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B7710E286;
+	Mon,  9 May 2022 15:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E40A310E515
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 15:26:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A7887B815D2;
- Mon,  9 May 2022 15:26:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE89C385AF;
- Mon,  9 May 2022 15:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652109997;
- bh=HqOWIQattd4LHd81cOLCEKvK/1NcPCin61RkVefxtKw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rgHj0MaXcvvwlvom69OKE0ZPd1kcEdnRaLvcFJn3F326k+URfIWUQHJrslYVe6sjf
- VRzZyR2rcP+NdcC+rmLekZHLtARsdhRYTA9bWxQRRI4xT8gGFc8HsUeYZQOWS1IJ1E
- kmg0B9Km8yTzr5Sfz1GJDHNGTVWHMX3euPHinAl95NbGc2P3bS4ce1SQjQs0Tdwq6W
- 1KFqjyKat0eAlqBI4SGvxky/+FfUHZ/TVMEavXvpQTDDo752GL07cWmIIRXDrgYHEg
- 16OXkXGjVzVN1kBZeSHTmi1g5WURIhdyrkgRiRNdkbb9z/uCPXbAXGStuMIWEbhRP9
- T9Hs+EiKeYTlQ==
-Date: Mon, 9 May 2022 16:26:32 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: (subset) [PATCH 1/2] [RFC] regmap: Add bulk read/write callbacks
- into regmap_config
-Message-ID: <YnkyqDBFo8Eo6IiF@sirena.org.uk>
-References: <20220430025145.640305-1-marex@denx.de>
- <165176353878.543269.16463883419414078766.b4-ty@kernel.org>
- <877d6zkjw5.fsf@intel.com> <YnUXvXmDgLccTRNP@sirena.org.uk>
- <YnkdA9gp08mvxYLb@phenom.ffwll.local>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14FB610E286
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 15:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652110228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=32O50jez/PbrMF8EQrDMnibyIcUmfYiL4OMerJWfOrc=;
+ b=euhwlSnNLp5WhjbMN9ZTyppuM8zK7xQZNVPVPcIw0V2OhdhvLCC01G4gMMBgXMtCgLkYiK
+ us2596edZxn8eAq4BQYEqOG6xnNV7CIyE7FQGPOFaXoNMhdSK5NQ3tvyIpfRz6Kus+ulwo
+ enBJNBfLnWmLQbyW42MDkOUZlq1dbKs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-84-g5d1Lo7tP96CJJaxftap7A-1; Mon, 09 May 2022 11:30:26 -0400
+X-MC-Unique: g5d1Lo7tP96CJJaxftap7A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p24-20020a1c5458000000b003945d2ffc6eso4395619wmi.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 08:30:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=32O50jez/PbrMF8EQrDMnibyIcUmfYiL4OMerJWfOrc=;
+ b=FNZFeRZU+YJ3IiPCqyhrbD95/2xkpuDGJ/fLlc4YsiMOGduEjGUAuxQ0ffgyG5F2ww
+ tB2hyMzUV0s8wk41ozdJCMUS22OUjIjb4Jf5VxvBOBpLAaR5aG//fV72Q+XVC81MA8uY
+ a3m5VYQ84eZvs7vA4jLQyWALI7jdVUXPZJvqB3FUABZTqCe/8GaQau/hGYmPzYRKRoTH
+ /K1Clf1jv6ivQtzFsvxCCQ++0wgPSEHZ4U6nQAAC+nI6I8CFUz6WUNhQ7J/yAZz+QluR
+ l2XrlHrA4kQAZxmaH1xUQJdJz0cTqQ68nSk0E9fe4TapvuySMfa1KW/vYZ6Im2Om36iy
+ bNPg==
+X-Gm-Message-State: AOAM531jgKoO5QxgVlmQOLRNDwFKktsCA/zpmp3Aj1O9VIJUieSP/l6W
+ liuZQGd7vdi4u/8OTispur6EAJnW741nfcXQtn9OcfW7+jV7fk61jIJhCRtWqKeBDD4DkC+pWOR
+ CxepVxwNUtzY6n4XozEFilvB8R2fX
+X-Received: by 2002:a1c:e916:0:b0:38e:ac96:f477 with SMTP id
+ q22-20020a1ce916000000b0038eac96f477mr23110371wmc.160.1652110225681; 
+ Mon, 09 May 2022 08:30:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2OJQhUhbDP19T1Ygw1cNWeWjH+vy1pamLfQvh45VT2yujXYJ3AxWzNA16UgHpJIS114J32Q==
+X-Received: by 2002:a1c:e916:0:b0:38e:ac96:f477 with SMTP id
+ q22-20020a1ce916000000b0038eac96f477mr23110328wmc.160.1652110225343; 
+ Mon, 09 May 2022 08:30:25 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ o9-20020a5d62c9000000b0020c5253d903sm11552799wrv.79.2022.05.09.08.30.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 May 2022 08:30:25 -0700 (PDT)
+Message-ID: <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
+Date: Mon, 9 May 2022 17:30:23 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nge4gsrsh/wHT+4o"
-Content-Disposition: inline
-In-Reply-To: <YnkdA9gp08mvxYLb@phenom.ffwll.local>
-X-Cookie: Boycott meat -- suck your thumb.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
+ fb_release()
+To: Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org
+References: <20220505215947.364694-1-javierm@redhat.com>
+ <20220505220413.365977-1-javierm@redhat.com>
+ <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,48 +90,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, jagan@amarulasolutions.com, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, sam@ravnborg.org,
- maxime@cerno.tech
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Andrzej,
 
---nge4gsrsh/wHT+4o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 5/9/22 16:56, Andrzej Hajda wrote:
+> On 06.05.2022 00:04, Javier Martinez Canillas wrote:
+>> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>
+>> Most fbdev drivers have issues with the fb_info lifetime, because call to
+>> framebuffer_release() from their driver's .remove callback, rather than
+>> doing from fbops.fb_destroy callback.
+>>
+>> Doing that will destroy the fb_info too early, while references to it may
+>> still exist, leading to a use-after-free error.
+>>
+>> To prevent this, check the fb_info reference counter when attempting to
+>> kfree the data structure in framebuffer_release(). That will leak it but
+>> at least will prevent the mentioned error.
+>>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>
+>> (no changes since v1)
+>>
+>>   drivers/video/fbdev/core/fbsysfs.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+>> index 8c1ee9ecec3d..c2a60b187467 100644
+>> --- a/drivers/video/fbdev/core/fbsysfs.c
+>> +++ b/drivers/video/fbdev/core/fbsysfs.c
+>> @@ -80,6 +80,10 @@ void framebuffer_release(struct fb_info *info)
+>>   {
+>>   	if (!info)
+>>   		return;
+>> +
+>> +	if (WARN_ON(refcount_read(&info->count)))
+>> +		return;
+>> +
+> 
+> Regarding drm:
+> What about drm_fb_helper_fini? It calls also framebuffer_release and is 
+> called often from _remove paths (checked intel/radeon/nouveau). I guess 
+> it should be fixed as well. Do you plan to fix it?
+>
 
-On Mon, May 09, 2022 at 03:54:11PM +0200, Daniel Vetter wrote:
-> On Fri, May 06, 2022 at 01:42:37PM +0100, Mark Brown wrote:
+I think you are correct. Maybe we need something like the following?
 
-> > Not outside of the source.  I did a presentation at ELC-E ages
-> > ago which you can probably find but I'm not sure how much it
-> > would add.
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index d265a73313c9..b09598f7af28 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -631,7 +631,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+        if (info) {
+                if (info->cmap.len)
+                        fb_dealloc_cmap(&info->cmap);
+-               framebuffer_release(info);
+        }
+        fb_helper->fbdev = NULL;
+ 
+@@ -2112,6 +2111,7 @@ static void drm_fbdev_release(struct drm_fb_helper *fb_helper)
+ static void drm_fbdev_fb_destroy(struct fb_info *info)
+ {
+        drm_fbdev_release(info->par);
++       framebuffer_release(info);
+ }
+ 
+ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
 
-> I watched that one!
+> 
+> Regarding fb drivers, just for stats:
+> git grep -p framebuffer_release | grep _remove | wc -l
+> Suggests there is at least 70 incorrect users of this :)
+>
 
-I'm so sorry.
+Yes, Daniel already mentioned that most of them get this wrong but I was
+mostly interested in {simple,efi,vesa}fb since are used with "nomodeset".
 
-> Anyway no recording, but I think I've found the pdf. Was in 2012
-> apparently.
+But given that I only touched those tree and still managed to introduce
+a regression, I won't attempt to fix the others.
 
-> https://elinux.org/images/a/a3/Regmap-_The_Power_of_Subsystems_and_Abstractions.pdf
+-- 
+Best regards,
 
-That's the one I was thinking of, yes!
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
---nge4gsrsh/wHT+4o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJ5MqcACgkQJNaLcl1U
-h9A68Qf8DFDfyg+NEM/e8CiMK9Nc7l2O+4rqGgrOjudQQ4IWqZe3VA5nwANWUBk7
-gKYr29LcAfT+rDgV8HNcJ2IrD5vfkwjaRcK5x+wGL8OA0QRFQwMWhdfJTfvmkoaY
-zKQGxd0elMP5McvpiZHLPEWXq0nSSaN/ZJTJ1WLlYrLLR+mErFjsRmmTtNc6/kcl
-v6Io724xUt0gSuBMzALTgyZXtl372bGUobGTJO++qxHjGhwnZPbrNvaqLOxn2VCL
-a9hRLLdEeEt/yKfXbgZdRx7ox1SG1ZOa9B32vIvB27e0Rpc0uv6zVua4RsoiTOKh
-18TSILCJ/WDrerq4aAXOLaQv78YAvw==
-=tUQ5
------END PGP SIGNATURE-----
-
---nge4gsrsh/wHT+4o--
