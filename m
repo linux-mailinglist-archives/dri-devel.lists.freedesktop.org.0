@@ -1,74 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9416B51FD97
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:09:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C91C51FD99
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 15:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6042C10F16A;
-	Mon,  9 May 2022 13:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB3F10F17E;
+	Mon,  9 May 2022 13:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99AEA10F160
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 13:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652101742;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9C8drEYqngKOm3nncV9RRJ4ZJYInBOQKfqINsG0BQFA=;
- b=CoSTYxzbilstUGaXMjMAqkcXY6uXbFZrS/m5Rq28T9YxdskvuYDzY4Z6nKBfnvEwgHd0Hl
- npG3rXCxB8B/0dlE0/Px/sH2GwLko3g40QQYATvkhEMYGe4FrLTsCwf7shnqZ+WNyq+kG0
- AmC+vwc9Hiu/9aVGwwrDIkYdXMYmsZI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-115-CQDWgBrVNkm2BbJLTNbWlg-1; Mon, 09 May 2022 09:09:01 -0400
-X-MC-Unique: CQDWgBrVNkm2BbJLTNbWlg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r9-20020a1c4409000000b0039468585269so3196594wma.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 06:09:01 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89CA810F175
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 13:09:56 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 125-20020a1c1983000000b003941f354c62so8251880wmz.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 06:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oQy5/C8/H4xIWaS7uuEEWSH0byVJQIpgnLnWaK+VkdI=;
+ b=oBltIU2GNCeWVR3BQU5jEPqLbZC6sYes+/WBzGuaRJaWZiIimTBGGoRFNtZ6Ty1FGt
+ e4DwDZsonwpKYqIIWKmkpDE1zfJAkt6J3EloaJDsN4X/R2JAsLuosCGgBRn7n8wwpQ0q
+ N3lfhpzIP4rjGVUKsD5bQJRyUOznl9Q1JejRSYeZvaYYJtN/Z0Ah5VAsHACjbVMKP7OL
+ Lop0E1qSxQ2f4bb1/0prHd49SpifQ6pxAaPGvGyxr3j2cFM61x7lRvBFy2CSmoq2l0Ky
+ TjfZBXcTJ3mcMrrmB8VdVZD5Pa11W6EQ2m+Ad7L/84tY1wKADcAjRjOtQSPxzBvwukRG
+ fcbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9C8drEYqngKOm3nncV9RRJ4ZJYInBOQKfqINsG0BQFA=;
- b=WJz2ULNA2Vc2hunLONrmgkmIACC6DP6oDXT/HWyVgPsTVTgq7pzYOxH/eOxqo6G8gi
- ZJkhu+qrEEQzV7/X8I+7/xc5VpbCsOjKEy7FB83pXh1YWE6D4qqGVIyZeWnVHerjOCGE
- np95bWRXO/cVU6VlQs0T7VFf5dAdOgn7DJzygEEDeoBnnpjVjTmfCVLPq1Zxv5lqbntz
- t3B116MGT8y02nVolsMsSyMe2mIm3WTDu/eZCTodQhkEGPKDdzQGpb2uhqamR7WYf8XM
- YjOF6MCwPufK4EtF1JGNlhdIiWsNTDuAzFV9CYIOoJpXRN10810M/D/X+PFN4U+FjKxw
- C1uQ==
-X-Gm-Message-State: AOAM530LPxQY8y5wCxXWpuX1sQkCSMHZOOgbq7zKICml34tS1U3/N6NM
- 7lBwhaprXhx6PqWaQS/dwWeHEYqGp9OHx/F/K6z9F0JrmbNEhibEKC5efvAuOvFr9dOsugsfRDh
- 1FJVhZkffnX2UG3xcdVn6LgwwLcin
-X-Received: by 2002:a05:6000:1869:b0:20c:5362:1295 with SMTP id
- d9-20020a056000186900b0020c53621295mr14079749wri.700.1652101740371; 
- Mon, 09 May 2022 06:09:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDG6lbGPaq84WzEwCdXcOkQUQu+pRyyBz43QQu3IUWtgwSbAp0rMkkKwCQUS43pMkFMDHl0A==
-X-Received: by 2002:a05:6000:1869:b0:20c:5362:1295 with SMTP id
- d9-20020a056000186900b0020c53621295mr14079728wri.700.1652101740162; 
- Mon, 09 May 2022 06:09:00 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- z22-20020a05600c0a1600b003942a244eddsm13120297wmp.34.2022.05.09.06.08.59
+ bh=oQy5/C8/H4xIWaS7uuEEWSH0byVJQIpgnLnWaK+VkdI=;
+ b=JBmYjXMPMmg16YYRy8J7XEXUTnrvpqj9dYTrlIU3OTv7TOFFxB8IzR4dT3iV140Fyf
+ WIBKNgAFMlD9luQIPyyrkM6RMpyh7IUdcVs06k9pBkdCIeH1GD0iMbBHJZ5YBv6Pylkc
+ +eKMEn1rKeBJNZKRFsGIYWZEBZiAzzmMVoeS5wyXGOziUAvnUg3v0EXrx9IrEqJZUa2N
+ hp33Bx4L29GUnkCvxIOcAPym8xwc4rl3HXMR2wLTNSwjShcZOzw0O6lZakH/dg6beGyL
+ AwEeq59prqmeLJ7QOwbnL9ccOqTH60/MOSjMvj2n5tS1S31mBV1snS8VI8ylzhSNuwF5
+ +VGA==
+X-Gm-Message-State: AOAM532JbipaT+o2BDD1lmqYf+EjJfZAkOmg0OiTT4cdCdqR8Nx+LBrQ
+ /6NT9d0AsEruVztTWCroSys=
+X-Google-Smtp-Source: ABdhPJzEV02z3FPqi2QplVe6L53O9RPruolggy+j32U01mXYGuohEGs52uL7pbv5g2C9Wq1BUu2XKg==
+X-Received: by 2002:a05:600c:3ca3:b0:392:990b:af11 with SMTP id
+ bg35-20020a05600c3ca300b00392990baf11mr15966260wmb.173.1652101794938; 
+ Mon, 09 May 2022 06:09:54 -0700 (PDT)
+Received: from able.fritz.box (p57b0b3fd.dip0.t-ipconnect.de. [87.176.179.253])
+ by smtp.gmail.com with ESMTPSA id
+ t16-20020a05600c2f9000b003942a244f50sm18683385wmn.41.2022.05.09.06.09.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 May 2022 06:08:59 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/todo: Add entry for converting kselftests to kunit
-Date: Mon,  9 May 2022 15:08:46 +0200
-Message-Id: <20220509130846.694397-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ Mon, 09 May 2022 06:09:54 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: bob.beckett@collabora.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch
+Subject: Improve TTMs empty object handling
+Date: Mon,  9 May 2022 15:09:40 +0200
+Message-Id: <20220509130951.486344-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,45 +71,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Many of the kselftests in DRM can be converted to kunit tests instead,
-since that framework is more suitable for unit testing.
+Hi everyone,
 
-Suggested-by: Maxime Ripard <maxime@cerno.tech>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+re-sending this because Daniel was requesting a background why this is
+useful.
 
- Documentation/gpu/todo.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+When TTM creates a buffer this object initially should not have any
+backing store and there no resource object associated with it. The same
+can happen when a driver requests that the backing store of an object is
+destroyed without allocating a new one.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 10bfb50908d1..513b20ccef1e 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -617,6 +617,17 @@ Contact: Javier Martinez Canillas <javierm@redhat.com>
- 
- Level: Intermediate
- 
-+Convert Kernel Selftests (kselftest) to KUnit tests when appropriate
-+--------------------------------------------------------------------
-+
-+Many of the `Kselftest <https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html>`_
-+tests in DRM could be converted to Kunit tests instead, since that framework
-+is more suitable for unit testing.
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Starter
-+
- Enable trinity for DRM
- ----------------------
- 
--- 
-2.35.1
+This is really useful during initial buffer creation as well as temporary
+buffers and page tables which content doesn't need to be preserved when
+they are evicted.
+
+Currently TTM allocates dummy system resources for that because drivers
+couldn't handle a NULL pointer there. Audit the drivers and then clean
+up TTM to stop making those dummy allocations.
+
+Please review and comment,
+Christian.
+
 
