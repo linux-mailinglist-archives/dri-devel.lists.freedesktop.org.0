@@ -1,33 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD86520D3C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 07:39:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BF2520E1E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 08:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC08610EAA2;
-	Tue, 10 May 2022 05:39:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2FC110F084;
+	Tue, 10 May 2022 06:50:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id 61E2C10EAA2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 05:39:19 +0000 (UTC)
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
- by 156.147.23.52 with ESMTP; 10 May 2022 14:39:17 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.151 with ESMTP; 10 May 2022 14:39:17 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-From: Byungchul Park <byungchul.park@lge.com>
-To: tytso@mit.edu
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-Date: Tue, 10 May 2022 14:37:40 +0900
-Message-Id: <1652161060-26531-1-git-send-email-byungchul.park@lge.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <YnnAnzPFZZte/UR8@mit.edu>
-References: <YnnAnzPFZZte/UR8@mit.edu>
+X-Greylist: delayed 1735 seconds by postgrey-1.36 at gabe;
+ Mon, 09 May 2022 12:46:50 UTC
+Received: from www259.your-server.de (www259.your-server.de [188.40.28.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1043E10F075
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 12:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=waldheinz.de; s=default1911; h=MIME-Version:Content-Type:Subject:To:From:
+ Message-ID:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References;
+ bh=Z/An/lFEf1vw4Zee5IWPk+ECsxc/KsyyKiiT/g08Hic=; b=asLD8Ox7p90MDOMSBbIwKE0PLU
+ bgnlkY3/4+IPzSP6yLRfP5iHP5ShpaQ1cUsPkFBlKLy5KhaC0zE/uZ5XEUc+aNHoUFVVE3Og/Aeye
+ TOMWif57qgvl3FfQPIJfLNbVG0zybEHhWqLT6cXtUhEQvF76K8S20Qple5b8J9mUBtzsAPpmjv3K7
+ PGnkthLzYz5ajBiSHUhi+B74GFEg1WVLA+CR4gp+I5M1UKfAF4NLm8ke+Ww4LN/8dfGmxpY4r04vx
+ rpx1IXSJURCPcSwcm7/VIchF0VbdTiPawNNpG9cJYln0sRfaE96q6Tx3qJgXVTI6weZWo/LWhOFTC
+ bbnhE+4w==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+ by www259.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+ (Exim 4.92.3) (envelope-from <mt@waldheinz.de>) id 1no2Km-000Gto-Rm
+ for dri-devel@lists.freedesktop.org; Mon, 09 May 2022 14:17:52 +0200
+Received: from [192.168.0.32] (helo=mail.your-server.de)
+ by sslproxy03.your-server.de with esmtpsa
+ (TLSv1.2:ECDHE-RSA-CHACHA20-POLY1305:256) (Exim 4.92)
+ (envelope-from <mt@waldheinz.de>) id 1no2Km-00043m-O7
+ for dri-devel@lists.freedesktop.org; Mon, 09 May 2022 14:17:52 +0200
+Received: from [2a02:810a:8100:11a6:b62e:99ff:fe6e:6b28]
+ ([2a02:810a:8100:11a6:b62e:99ff:fe6e:6b28]) by mail.your-server.de (Horde
+ Framework) with HTTPS; Mon, 09 May 2022 14:17:52 +0200
+Date: Mon, 09 May 2022 14:17:52 +0200
+Message-ID: <20220509141752.Horde.58_XnvI-dT6nhIkF6cnY2-R@mail.your-server.de>
+From: Matthias Treydte <mt@waldheinz.de>
+To: dri-devel@lists.freedesktop.org
+Subject: Understanding i915 rps boost
+User-Agent: Horde Application Framework 5
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+MIME-Version: 1.0
+Content-Disposition: inline
+X-Authenticated-Sender: mt@waldheinz.de
+X-Virus-Scanned: Clear (ClamAV 0.103.5/26536/Mon May  9 10:04:57 2022)
+X-Mailman-Approved-At: Tue, 10 May 2022 06:50:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,111 +61,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
- 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, mingo@redhat.com, djwong@kernel.org,
- vdavydov.dev@gmail.com, rientjes@google.com, dennis@kernel.org,
- linux-ext4@vger.kernel.org, ngupta@vflare.org, johannes.berg@intel.com,
- jack@suse.com, dan.j.williams@intel.com, josef@toxicpanda.com,
- rostedt@goodmis.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, rodrigosiqueiramelo@gmail.com, kernel-team@lge.com,
- gregkh@linuxfoundation.org, jlayton@kernel.org, linux-kernel@vger.kernel.org,
- penberg@kernel.org, minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ted wrote:
-> On Tue, May 10, 2022 at 09:32:13AM +0900, Byungchul Park wrote:
-> > Yes, right. DEPT has never been optimized. It rather turns on
-> > CONFIG_LOCKDEP and even CONFIG_PROVE_LOCKING when CONFIG_DEPT gets on
-> > because of porting issue. I have no choice but to rely on those to
-> > develop DEPT out of tree. Of course, that's what I don't like.
-> 
-> Sure, but blaming the overhead on unnecessary CONFIG_PROVE_LOCKING
-> overhead can explain only a tiny fraction of the slowdown.  Consider:
-> if time to first test (time to boot the kernel, setup the test
-> environment, figure out which tests to run, etc.) is 12 seconds w/o
-> LOCKDEP, 49 seconds with LOCKDEP/PROVE_LOCKING and 602 seconds with
-> DEPT, you can really only blame 37 seconds out of the 602 seconds of
-> DEPT on unnecessary PROVE_LOCKING overhead.
-> 
-> So let's assume we can get rid of all of the PROVE_LOCKING overhead.
-> We're still talking about 12 seconds for time-to-first test without
-> any lock debugging, versus ** 565 ** seconds for time-to-first test
-> with DEPT.  That's a factor of 47x for DEPT sans LOCKDEP overhead,
-> compared to a 4x overhead for PROVE_LOCKING.
+Hello,
 
-Okay. I will work on it.
+I'm trying to understand why our application does not play well with  
+the i915 driver. We're trying to drive a 4k/60Hz display using an  
+OpenGL ES application, the GL context being derived directly from the  
+DRM device. Depending on the GPU load we generate, we quite frequently  
+manage to get stuck with an GPU clocked just a smidge too low to  
+actually hit the 60Hz target.
 
-> > Plus, for now, I'm focusing on removing false positives. Once it's
-> > considered settled down, I will work on performance optimizaition. But
-> > it should still keep relying on Lockdep CONFIGs and adding additional
-> > overhead on it until DEPT can be developed in the tree.
-> 
-> Well, please take a look at the false positive which I reported.  I
-> suspect that in order to fix that particular false positive, we'll
-> either need to have a way to disable DEPT on waiting on all page/folio
-> dirty bits, or it will need to treat pages from different inodes
-> and/or address spaces as being entirely separate classes, instead of
-> collapsing all inode dirty bits, and all of various inode's mutexes
-> (such as ext4's i_data_sem) as being part of a single object class.
+E.g. right now I'm looking at less than ideal animations because the  
+time to complete a frame is 17.1ms, causing every other vsync to be  
+missed. This is while the GPU, according to intel_gpu_top, is 50.4%  
+busy with rendering and the video decoder is at 6.7%. I'm pretty sure  
+there is room for improvement because decoding a higher bitrate video  
+*will* cause the GPU to clock up, then hitting the 60Hz no problem.
 
-I'd rather solve it by assigning different classes to different types of
-inode. This is the right way.
+While investigating this I discovered the concept of "wait boost",  
+although I'm not really sure what triggers it. To my understanding  
+there are two ways to benefit from it:
 
-> > DEPT is tracking way more objects than Lockdep so it's inevitable to be
-> > slower, but let me try to make it have the similar performance to
-> > Lockdep.
-> 
-> In order to eliminate some of these false positives, I suspect it's
-> going to increase the number of object classes that DEPT will need to
-> track even *more*.  At which point, the cost/benefit of DEPT may get
-> called into question, especially if all of the false positives can't
-> be suppressed.
+   * calling glFinish() (gave it a try, makes no difference)
+   * tying the render job to a pending vsync event using an  
+IN_FENCE_FD, we do that but it does not help either
 
-Look. Let's talk in general terms. There's no way to get rid of the
-false positives all the way. It's a decision issue for *balancing*
-between considering potential cases and only real ones. Definitely,
-potential is not real. The more potential things we consider, the higher
-the chances are, that false positives appear.
+Manual intervention using /sys/class/drm/card0/gt_min_freq_mhz is not  
+very effective either, causing the long-time average clocks jump to  
+501 MHz, up from 495 MHz. Those extra 6 MHz really don't cut it. The  
+reported maximum is 900 MHz, which was also written to gt_min_freq_mhz.
 
-But yes. The advantage we'd take by detecting potential ones should be
-higher than the risk of being bothered by false ones. Do you think a
-tool is useless if it produces a few false positives? Of course, it'd
-be a problem if it's too many, but otherwise, I think it'd be a great
-tool if the advantage > the risk.
+The output of /sys/kernel/debug/dri/0/i915_rps_boost_info alternates  
+between two states:
 
-Don't get me wrong here. It doesn't mean DEPT is perfect for now. The
-performance should be improved and false alarms that appear should be
-removed, of course. I'm talking about the direction.
+> RPS enabled? yes
+> RPS active? no
+> GPU busy? no
+> Boosts outstanding? 0
+> Interactive? 2
+> Frequency requested 867, actual 300
+>   min hard:300, soft:900; max soft:900, hard:900
+>   idle:300, efficient:300, boost:900
+> Wait boosts: 0
 
-For now, there's no tool to track wait/event itself in Linux kernel -
-a subset of the functionality exists tho. DEPT is the 1st try for that
-purpose and can be a useful tool by the right direction.
+and
 
-I know what you are concerning about. I bet it's false positives that
-are going to bother you once merged. I'll insist that DEPT shouldn't be
-used as a mandatory testing tool until considered stable enough. But
-what about ones who would take the advantage use DEPT. Why don't you
-think of folks who will take the advantage from the hints about
-dependency of synchronization esp. when their subsystem requires very
-complicated synchronization? Should a tool be useful only in a final
-testing stage? What about the usefulness during development stage?
+> RPS enabled? yes
+> RPS active? yes
+> GPU busy? yes
+> Boosts outstanding? 0
+> Interactive? 2
+> Frequency requested 900, actual 900
+>   min hard:300, soft:900; max soft:900, hard:900
+>   idle:300, efficient:300, boost:900
+> Wait boosts: 0
 
-It's worth noting DEPT works with any wait/event so any lockups e.g.
-even by HW-SW interface, retry logic or the like can be detected by DEPT
-once all waits and events are tagged properly. I believe the advantage
-by that is much higher than the bad side facing false alarms. It's just
-my opinion. I'm goning to respect the majority opinion.
+This is on Linux 5.17.5 with Mesa 22.0.2, but we're seeing this  
+problem since at least two years so the exact version seems not to  
+matter very much. It may be worth to mention that this behavior can be  
+reproduced using the Weston Wayland compositor, and according the some  
+mailing list there are Kodi users suffering from this too.
 
-	Byungchul
-> 
-> 					- Ted
-> 
+I'm really out of ideas here, is there anything obvious wrong with our  
+approach?
+
+
+Kind regards,
+-Matthias
+
+
