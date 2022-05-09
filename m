@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53DC151FC26
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:05:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3639351FC29
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:05:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B66810EF73;
-	Mon,  9 May 2022 12:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0BA410EF8D;
+	Mon,  9 May 2022 12:05:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D9810EF73;
- Mon,  9 May 2022 12:05:30 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6D910EF83;
+ Mon,  9 May 2022 12:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652097930; x=1683633930;
+ t=1652097935; x=1683633935;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DI5fBZDdIKx36Ze3Wk15+15a+MNShICmOKaTUNzVYtc=;
- b=TvzH4190szalyEhOsdhtZ5t6wGRjzfWKTWMw4cBTUvTwrPTpmOI21OHH
- rG3rm2rzl11YylFShSNVJabmjLupmrZw65yEsloNFzsO4R6TCiWHgW/0e
- FM+okUeoD6aj1vXyhOI7Hhhph5OmqKdV7dOVfaS/yCi/Amv8ys+vMItzV
- L4VTRvlvglaUnt3kNCgD7V47/BLPlpdNbEcJ0iQClpdVp+2JL9/bt6IL3
- /kRYPHsmu9AtIDeuiXakmi47RIhx8Cj3HdkWy+ttIILDaSipuiVmAOKyg
- nrvM/3K2yUK7DzSaCAvx2xLKijGOJYzP9mj6/g9l/gGO2V4605E+cwi/X Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="249566345"
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="249566345"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:05:30 -0700
-X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="570130486"
+ bh=Ta+Xw9BacgmGlgYy81SBKCqrU7A4H8gu8t0RaXxA+nw=;
+ b=TsIGsbDNMYEAbMoR7cgWbU9o6qNOE8FqW7UfH1xl1/5nf6zxjww1Rf7T
+ h2SDrr5ZpB8/FyxvtWzvHu622VX3r3THJ4brCQYsXY8RztX/k3JxYuOhs
+ V/1oYlJdtd4z702QkM6LfsrPrcUeJt0cp2fHWGGjMkZpzdNM8aaW+W/Og
+ +1Skdoj5U2TJ20MDca7T1d8Y70KUL8QVmbhY3tAko1k4piJ0iYDpsUNug
+ 99wV97ObjJY1UwfKyQ2XIpAZixjCHnzZOt5gM6xT8D4m92Oh1Rs5b0Hef
+ HZQiu+AVMxkaIUQow2Og13jC4QOo4AoxESh3En1LSksCc8fkRjQM293bj w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10341"; a="294253515"
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="294253515"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:05:34 -0700
+X-IronPort-AV: E=Sophos;i="5.91,211,1647327600"; d="scan'208";a="813448039"
 Received: from csawicki-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.129.3])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 05:05:28 -0700
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2022 05:05:33 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 24/25] drm/displayid: convert to drm_edid
-Date: Mon,  9 May 2022 15:03:23 +0300
-Message-Id: <a52a6882e87a4bb6b1670918f3aba13f9b52f6de.1652097712.git.jani.nikula@intel.com>
+Subject: [PATCH v2 25/25] drm/edid: convert version_greater() to drm_edid
+Date: Mon,  9 May 2022 15:03:24 +0300
+Message-Id: <f1835a86294b392d075570001ed9009a48352670.1652097712.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1652097712.git.jani.nikula@intel.com>
 References: <cover.1652097712.git.jani.nikula@intel.com>
@@ -61,208 +61,117 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need to propagate drm_edid everywhere.
-
-v2: Rebase
+We'll need to propagate drm_edid everywhere. Also make version_greater()
+a function for type safety.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_displayid.c | 16 ++++++++--------
- drivers/gpu/drm/drm_edid.c      | 17 ++++++++++-------
- include/drm/drm_displayid.h     |  6 +++---
- include/drm/drm_edid.h          |  6 ++++--
- 4 files changed, 25 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
-index 32da557b960f..38ea8203df45 100644
---- a/drivers/gpu/drm/drm_displayid.c
-+++ b/drivers/gpu/drm/drm_displayid.c
-@@ -33,11 +33,11 @@ static int validate_displayid(const u8 *displayid, int length, int idx)
- 	return 0;
- }
- 
--static const u8 *drm_find_displayid_extension(const struct edid *edid,
-+static const u8 *drm_find_displayid_extension(const struct drm_edid *drm_edid,
- 					      int *length, int *idx,
- 					      int *ext_index)
- {
--	const u8 *displayid = drm_find_edid_extension(edid, DISPLAYID_EXT, ext_index);
-+	const u8 *displayid = drm_find_edid_extension(drm_edid, DISPLAYID_EXT, ext_index);
- 	const struct displayid_header *base;
- 	int ret;
- 
-@@ -58,12 +58,12 @@ static const u8 *drm_find_displayid_extension(const struct edid *edid,
- 	return displayid;
- }
- 
--void displayid_iter_edid_begin(const struct edid *edid,
-+void displayid_iter_edid_begin(const struct drm_edid *drm_edid,
- 			       struct displayid_iter *iter)
- {
- 	memset(iter, 0, sizeof(*iter));
- 
--	iter->edid = edid;
-+	iter->drm_edid = drm_edid;
- }
- 
- static const struct displayid_block *
-@@ -88,7 +88,7 @@ __displayid_iter_next(struct displayid_iter *iter)
- {
- 	const struct displayid_block *block;
- 
--	if (!iter->edid)
-+	if (!iter->drm_edid)
- 		return NULL;
- 
- 	if (iter->section) {
-@@ -96,7 +96,7 @@ __displayid_iter_next(struct displayid_iter *iter)
- 		block = displayid_iter_block(iter);
- 		if (WARN_ON(!block)) {
- 			iter->section = NULL;
--			iter->edid = NULL;
-+			iter->drm_edid = NULL;
- 			return NULL;
- 		}
- 
-@@ -109,12 +109,12 @@ __displayid_iter_next(struct displayid_iter *iter)
- 	}
- 
- 	for (;;) {
--		iter->section = drm_find_displayid_extension(iter->edid,
-+		iter->section = drm_find_displayid_extension(iter->drm_edid,
- 							     &iter->length,
- 							     &iter->idx,
- 							     &iter->ext_index);
- 		if (!iter->section) {
--			iter->edid = NULL;
-+			iter->drm_edid = NULL;
- 			return NULL;
- 		}
- 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 26ac4d262e31..a44818f44718 100644
+index a44818f44718..429078bcf372 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -3563,10 +3563,13 @@ static int add_detailed_modes(struct drm_connector *connector,
+@@ -45,10 +45,6 @@
  
- /*
-  * Search EDID for CEA extension block.
-+ *
-+ * FIXME: Prefer not returning pointers to raw EDID data.
-  */
--const u8 *drm_find_edid_extension(const struct edid *edid,
-+const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
- 				  int ext_id, int *ext_index)
+ #include "drm_crtc_internal.h"
+ 
+-#define version_greater(edid, maj, min) \
+-	(((edid)->version > (maj)) || \
+-	 ((edid)->version == (maj) && (edid)->revision > (min)))
+-
+ static int oui(u8 first, u8 second, u8 third)
  {
-+	const struct edid *edid = drm_edid ? drm_edid->edid : NULL;
- 	const u8 *edid_ext = NULL;
- 	int i;
- 
-@@ -3598,11 +3601,11 @@ static bool drm_edid_has_cta_extension(const struct drm_edid *drm_edid)
- 	bool found = false;
- 
- 	/* Look for a top level CEA extension block */
--	if (drm_find_edid_extension(drm_edid->edid, CEA_EXT, &ext_index))
-+	if (drm_find_edid_extension(drm_edid, CEA_EXT, &ext_index))
- 		return true;
- 
- 	/* CEA blocks can also be found embedded in a DisplayID block */
--	displayid_iter_edid_begin(drm_edid->edid, &iter);
-+	displayid_iter_edid_begin(drm_edid, &iter);
- 	displayid_iter_for_each(block, &iter) {
- 		if (block->tag == DATA_BLOCK_CTA) {
- 			found = true;
-@@ -4454,7 +4457,7 @@ static void cea_db_iter_edid_begin(const struct drm_edid *drm_edid,
- 	memset(iter, 0, sizeof(*iter));
- 
- 	drm_edid_iter_begin(drm_edid, &iter->edid_iter);
--	displayid_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter->displayid_iter);
-+	displayid_iter_edid_begin(drm_edid, &iter->displayid_iter);
- }
- 
- static const struct cea_db *
-@@ -5657,7 +5660,7 @@ static void drm_update_mso(struct drm_connector *connector,
- 	const struct displayid_block *block;
- 	struct displayid_iter iter;
- 
--	displayid_iter_edid_begin(drm_edid->edid, &iter);
-+	displayid_iter_edid_begin(drm_edid, &iter);
- 	displayid_iter_for_each(block, &iter) {
- 		if (block->tag == DATA_BLOCK_2_VENDOR_SPECIFIC)
- 			drm_parse_vesa_mso_data(connector, block);
-@@ -5872,7 +5875,7 @@ static int add_displayid_detailed_modes(struct drm_connector *connector,
- 	struct displayid_iter iter;
- 	int num_modes = 0;
- 
--	displayid_iter_edid_begin(drm_edid->edid, &iter);
-+	displayid_iter_edid_begin(drm_edid, &iter);
- 	displayid_iter_for_each(block, &iter) {
- 		if (block->tag == DATA_BLOCK_TYPE_1_DETAILED_TIMING ||
- 		    block->tag == DATA_BLOCK_2_TYPE_7_DETAILED_TIMING)
-@@ -6372,7 +6375,7 @@ static void _drm_update_tile_info(struct drm_connector *connector,
- 
- 	connector->has_tile = false;
- 
--	displayid_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter);
-+	displayid_iter_edid_begin(drm_edid, &iter);
- 	displayid_iter_for_each(block, &iter) {
- 		if (block->tag == DATA_BLOCK_TILED_DISPLAY)
- 			drm_parse_tiled_block(connector, block);
-diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-index 7ffbd9f7bfc7..49649eb8447e 100644
---- a/include/drm/drm_displayid.h
-+++ b/include/drm/drm_displayid.h
-@@ -25,7 +25,7 @@
- #include <linux/types.h>
- #include <linux/bits.h>
- 
--struct edid;
-+struct drm_edid;
- 
- #define VESA_IEEE_OUI				0x3a0292
- 
-@@ -141,7 +141,7 @@ struct displayid_vesa_vendor_specific_block {
- 
- /* DisplayID iteration */
- struct displayid_iter {
--	const struct edid *edid;
-+	const struct drm_edid *drm_edid;
- 
- 	const u8 *section;
- 	int length;
-@@ -149,7 +149,7 @@ struct displayid_iter {
- 	int ext_index;
+ 	return (first << 16) | (second << 8) | third;
+@@ -1576,6 +1572,15 @@ struct drm_edid {
+ 	const struct edid *edid;
  };
  
--void displayid_iter_edid_begin(const struct edid *edid,
-+void displayid_iter_edid_begin(const struct drm_edid *drm_edid,
- 			       struct displayid_iter *iter);
- const struct displayid_block *
- __displayid_iter_next(struct displayid_iter *iter);
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index c3204a58fb09..c61e75ab8f63 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -28,6 +28,7 @@
- #include <drm/drm_mode.h>
++static bool version_greater(const struct drm_edid *drm_edid,
++			    u8 version, u8 revision)
++{
++	const struct edid *edid = drm_edid->edid;
++
++	return edid->version > version ||
++		(edid->version == version && edid->revision > revision);
++}
++
+ static int edid_extension_block_count(const struct edid *edid)
+ {
+ 	return edid->extensions;
+@@ -3232,7 +3237,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
+ 						  closure->drm_edid,
+ 						  timing);
  
- struct drm_device;
-+struct drm_edid;
- struct i2c_adapter;
+-	if (!version_greater(closure->drm_edid->edid, 1, 1))
++	if (!version_greater(closure->drm_edid, 1, 1))
+ 		return; /* GTF not defined yet */
  
- #define EDID_LENGTH 128
-@@ -578,8 +579,9 @@ struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
- struct drm_display_mode *
- drm_display_mode_from_cea_vic(struct drm_device *dev,
- 			      u8 video_code);
--const u8 *drm_find_edid_extension(const struct edid *edid,
--				  int ext_id, int *ext_index);
+ 	switch (range->flags) {
+@@ -3243,7 +3248,7 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
+ 							  timing);
+ 		break;
+ 	case 0x04: /* cvt, only in 1.4+ */
+-		if (!version_greater(closure->drm_edid->edid, 1, 3))
++		if (!version_greater(closure->drm_edid, 1, 3))
+ 			break;
  
-+/* Interface based on struct drm_edid */
-+const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
-+				  int ext_id, int *ext_index);
+ 		closure->modes += drm_cvt_modes_for_range(closure->connector,
+@@ -3264,7 +3269,7 @@ static int add_inferred_modes(struct drm_connector *connector,
+ 		.drm_edid = drm_edid,
+ 	};
  
- #endif /* __DRM_EDID_H__ */
+-	if (version_greater(drm_edid->edid, 1, 0))
++	if (version_greater(drm_edid, 1, 0))
+ 		drm_for_each_detailed_block(drm_edid, do_inferred_modes, &closure);
+ 
+ 	return closure.modes;
+@@ -3341,7 +3346,7 @@ static int add_established_modes(struct drm_connector *connector,
+ 		}
+ 	}
+ 
+-	if (version_greater(edid, 1, 0))
++	if (version_greater(drm_edid, 1, 0))
+ 		drm_for_each_detailed_block(drm_edid, do_established_modes,
+ 					    &closure);
+ 
+@@ -3396,7 +3401,7 @@ static int add_standard_modes(struct drm_connector *connector,
+ 		}
+ 	}
+ 
+-	if (version_greater(drm_edid->edid, 1, 0))
++	if (version_greater(drm_edid, 1, 0))
+ 		drm_for_each_detailed_block(drm_edid, do_standard_modes,
+ 					    &closure);
+ 
+@@ -3476,7 +3481,7 @@ add_cvt_modes(struct drm_connector *connector, const struct drm_edid *drm_edid)
+ 		.drm_edid = drm_edid,
+ 	};
+ 
+-	if (version_greater(drm_edid->edid, 1, 2))
++	if (version_greater(drm_edid, 1, 2))
+ 		drm_for_each_detailed_block(drm_edid, do_cvt_mode, &closure);
+ 
+ 	/* XXX should also look for CVT codes in VTB blocks */
+@@ -3532,7 +3537,7 @@ static int add_detailed_modes(struct drm_connector *connector,
+ 		.quirks = quirks,
+ 	};
+ 
+-	if (closure.preferred && !version_greater(drm_edid->edid, 1, 3))
++	if (closure.preferred && !version_greater(drm_edid, 1, 3))
+ 		closure.preferred =
+ 		    (drm_edid->edid->features & DRM_EDID_FEATURE_PREFERRED_TIMING);
+ 
+@@ -5591,7 +5596,7 @@ static void drm_get_monitor_range(struct drm_connector *connector,
+ {
+ 	struct drm_display_info *info = &connector->display_info;
+ 
+-	if (!version_greater(drm_edid->edid, 1, 1))
++	if (!version_greater(drm_edid, 1, 1))
+ 		return;
+ 
+ 	drm_for_each_detailed_block(drm_edid, get_monitor_range,
 -- 
 2.30.2
 
