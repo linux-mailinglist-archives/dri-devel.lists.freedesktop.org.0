@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE2951F86B
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 11:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFB951F86A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 11:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0F6610E57E;
-	Mon,  9 May 2022 09:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5451010E585;
+	Mon,  9 May 2022 09:53:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 403BE10E57E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17AD510E57E
  for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 09:53:48 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1no05K-0001iD-Iz; Mon, 09 May 2022 11:53:46 +0200
+ id 1no05K-0001iF-C3; Mon, 09 May 2022 11:53:46 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1no05K-001Gdf-D0; Mon, 09 May 2022 11:53:45 +0200
+ id 1no05K-001Gdk-Fq; Mon, 09 May 2022 11:53:45 +0200
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1no05I-005ReT-C8; Mon, 09 May 2022 11:53:44 +0200
+ id 1no05I-005ReW-Cf; Mon, 09 May 2022 11:53:44 +0200
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] fixup! drm: rockchip: Add VOP2 driver
-Date: Mon,  9 May 2022 11:53:18 +0200
-Message-Id: <20220509095319.1297885-2-s.hauer@pengutronix.de>
+Subject: [PATCH 3/3] fixup! arm64: dts: rockchip: rk356x: Add VOP2 nodes
+Date: Mon,  9 May 2022 11:53:19 +0200
+Message-Id: <20220509095319.1297885-3-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220509095319.1297885-1-s.hauer@pengutronix.de>
 References: <20220509083738.1246866-1-s.hauer@pengutronix.de>
@@ -64,31 +64,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 8d1323a47f822..d463ea80b6569 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2620,7 +2620,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+index 49eb45e23f8c9..646e60ee48c99 100644
+--- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+@@ -576,7 +576,7 @@ gmac1_mtl_tx_setup: tx-queues-config {
  
- 	dev_set_drvdata(dev, vop2);
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regs");
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "vop");
- 	if (!res) {
- 		drm_err(vop2->drm, "failed to get vop2 register byname\n");
- 		return -EINVAL;
-@@ -2637,7 +2637,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gamma_lut");
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gamma-lut");
- 	if (res) {
- 		vop2->lut_regs = devm_ioremap_resource(dev, res);
- 		if (IS_ERR(vop2->lut_regs))
+ 	vop: vop@fe040000 {
+ 		reg = <0x0 0xfe040000 0x0 0x3000>, <0x0 0xfe044000 0x0 0x1000>;
+-		reg-names = "regs", "gamma_lut";
++		reg-names = "vop", "gamma-lut";
+ 		interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
+ 		clocks = <&cru ACLK_VOP>, <&cru HCLK_VOP>, <&cru DCLK_VOP0>,
+ 			 <&cru DCLK_VOP1>, <&cru DCLK_VOP2>;
 -- 
 2.30.2
 
