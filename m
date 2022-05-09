@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E13C5201DB
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 18:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FB852022A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 18:20:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC6410E8E0;
-	Mon,  9 May 2022 16:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F284610EA05;
+	Mon,  9 May 2022 16:20:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7C9AF10E8E0
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 16:04:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 31CE2202046;
- Mon,  9 May 2022 18:04:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id m9FqBxwWIBdx; Mon,  9 May 2022 18:04:11 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id E662A202042;
- Mon,  9 May 2022 18:04:10 +0200 (CEST)
-Received: from [127.0.0.1] by thor with esmtp (Exim 4.95)
- (envelope-from <michel@daenzer.net>) id 1no5rh-000fS0-2U;
- Mon, 09 May 2022 18:04:05 +0200
-Message-ID: <6b7acc25-64b3-297d-7842-a8cd59c8d98d@daenzer.net>
-Date: Mon, 9 May 2022 18:04:04 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D20FE10EA05;
+ Mon,  9 May 2022 16:20:39 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3EDB4B816FC;
+ Mon,  9 May 2022 16:20:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A0D4C385AE;
+ Mon,  9 May 2022 16:20:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1652113236;
+ bh=LllHEgeoLTDOhwjbyHwW62k63J60brWNA8omZ65KYPw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NGrLarIgffZmyEkx7ZqPpEltf6OICGEr/amlNnfhr/r+YMlNMwbS01qrxK5zx4p7R
+ qPbQwZnmSFsgpmWgf0VN1UvPpadiJmbK1Ai8O3KxuNoZh7wEiOcGQAkZEICLyX2Ycd
+ 8gsSvSiBBgvbs/xksA5PJiIvs1Nt+J26caz3/lwI=
+Date: Mon, 9 May 2022 18:20:26 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 5.10 1/1] drm/amdgpu: Ensure the AMDGPU file descriptor
+ is legitimate
+Message-ID: <Ynk/SsWQKh/dmgQ3@kroah.com>
+References: <20220412152057.1170235-1-lee.jones@linaro.org>
+ <Ylf5zmP88Lw0md47@kroah.com> <Ynkp3+eBhhilI8vK@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Content-Language: en-CA
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- lyude@redhat.com
-References: <20220509094930.44613-1-jfalempe@redhat.com>
- <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] mgag200: Enable atomic gamma lut update
-In-Reply-To: <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Ynkp3+eBhhilI8vK@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,41 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: michel.daenzer@mailbox.org
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, stable@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-09 16:22, Thomas Zimmermann wrote:
+On Mon, May 09, 2022 at 03:49:03PM +0100, Lee Jones wrote:
+> On Thu, 14 Apr 2022, Greg KH wrote:
 > 
-> It might also make sense to adjust the starting value of the lut table such that its final entry is used for the final entry in the HW palette. For typical gamma ramps ~2, the curve is fairly flat for small values and goes up steeply at high values. (Please correct me if I'm misinterpreting the gamma ramps.)
-
-I don't think that's accurate. The most common ramp should be a straight line from 0 to the maximum value, and others may be curved toward the top or bottom.
-
-
-> For 15-bit case I'd do thing like this.
+> > On Tue, Apr 12, 2022 at 04:20:57PM +0100, Lee Jones wrote:
+> > > [ Upstream commit b40a6ab2cf9213923bf8e821ce7fa7f6a0a26990 ]
+> > > 
+> > > This is a partial cherry-pick of the above upstream commit.
+> > > 
+> > > It ensures the file descriptor passed in by userspace is a valid one.
+> > > 
+> > > Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: "Christian K�nig" <christian.koenig@amd.com>
+> > > Cc: David Airlie <airlied@linux.ie>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Cc: amd-gfx@lists.freedesktop.org
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 10 +++++++---
+> > >  1 file changed, 7 insertions(+), 3 deletions(-)
+> > 
+> > Now queued up, thanks.
 > 
->  lut += 7;
->  for (i < 0; i < 32; ++i, lut += 8) {
->     // write  lut
->  }
+> Could you also back-port this into v5.4 please?
 > 
-> 16-bit is complicated and may better be done in 2 loops
+> FYI, in the v5.10.y tree, it's now called:
 > 
->  lutr += 7;
->  lutg += 3;
->  lutb += 7;
->  for (i < 0; i < 32; ++i, lutr += 8, lutg += 3, lutb += 8) {
->    // write  r/g/b lut
->  }
->  for (; i < 64; ++i, lutg += 3) {
->    // write  0/g/0 lut
->  }
+>   f0c31f192f38c drm/amdkfd: Use drm_priv to pass VM from KFD to amdgpu
+> 
 
-That'll just drop the first 3-7 entries of the LUT instead of the last ones, i.e. generally the full black entries instead of the full white ones.
+Now queued up, thanks.
 
-Ideally, the loop should start at 0 and then count as evenly as possible up to 255/63/31. I realize that's tricky though, and I don't have any specific suggestions for how to achieve this offhand.
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+greg k-h
