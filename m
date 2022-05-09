@@ -1,119 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E15C51FC1A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:05:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 032C851FC95
+	for <lists+dri-devel@lfdr.de>; Mon,  9 May 2022 14:21:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 905C810EF2E;
-	Mon,  9 May 2022 12:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A56F510EF59;
+	Mon,  9 May 2022 12:21:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDDD010EF10
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 12:05:08 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220509120505euoutp02853b7ee7fa99188dcf0a302ced31dd73~tbkqjspjA3027130271euoutp02w
- for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 12:05:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20220509120505euoutp02853b7ee7fa99188dcf0a302ced31dd73~tbkqjspjA3027130271euoutp02w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1652097905;
- bh=Gq3z2v+zJPQ56HofxEBhHQO/uJh2LtFXTSHFd1R459c=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=YvNYteGPSWY671ZhH4Z1c8Q4RYue79UPA/PJpSf6ZhHETDOIcakN7XIaMC/hlESyY
- qgZWVelX46weFvGB9PcnG9V5NpQfmDUkDTCSieeFKEIU8DZHf6putqxB7FeBqBmMnn
- 7hvcFFt1jqgnj5WJ/owVIhT/RTW8ggISbHntLsqY=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220509120504eucas1p103b2234b755a517acd155e821d236642~tbkp6s-k03247832478eucas1p1R;
- Mon,  9 May 2022 12:05:04 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 7D.CB.10260.07309726; Mon,  9
- May 2022 13:05:04 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220509120503eucas1p17ebac464eb6178961d8b2b3d90172fa6~tbkpM8Ron3247832478eucas1p1P;
- Mon,  9 May 2022 12:05:03 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220509120503eusmtrp1279a100d1dbc17fddd1b40f8d4b0fa3f~tbkpKHljD3104131041eusmtrp1r;
- Mon,  9 May 2022 12:05:03 +0000 (GMT)
-X-AuditID: cbfec7f5-bddff70000002814-2f-627903705d11
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 0C.5C.09522.F6309726; Mon,  9
- May 2022 13:05:03 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220509120502eusmtip2b3da5d4946c879992e16db3795385710~tbkoJto2O0578305783eusmtip2U;
- Mon,  9 May 2022 12:05:02 +0000 (GMT)
-Message-ID: <7dc628c5-a387-1065-6e41-bb16c13cb1b6@samsung.com>
-Date: Mon, 9 May 2022 14:05:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH v2 07/12] drm: bridge: samsung-dsim: Add module init, exit
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>, Joonyoung Shim
- <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
- Park <kyungmin.park@samsung.com>, Frieder Schrempf
- <frieder.schrempf@kontron.de>, Fancy Fang <chen.fang@nxp.com>, Tim Harvey
- <tharvey@gateworks.com>, Michael Nazzareno Trimarchi
- <michael@amarulasolutions.com>, Adam Ford <aford173@gmail.com>, Neil
- Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Tommaso Merciai
- <tommaso.merciai@amarulasolutions.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20220504114021.33265-8-jagan@amarulasolutions.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmk+LIzCtJLcpLzFFi42LZduznOd0C5sokg6v/RCzu3D7NbHF/8WcW
- i9e3V7BZXPn6ns2id+k5VotJ9yewWHzZNIHN4sW9iywWZ5vesFt0TlzCbrF8wj42i02Pr7Fa
- dP1ayWwx4/w+JovTj9YzW5xqbGWxONQXbfFp1kOg+OSXbBYXT3xitvj++yyzg6jH2o/3WT3e
- 32hl95hy4girx7meu2weO2fdZfeY3TGT1WPxnpdMHkeuLmb1uHNtD5vH/e7jTB6bl9R7bHy3
- g8mjb8sqRo/Pm+QC+KK4bFJSczLLUov07RK4Mha+vsVesFSkYuXpZ6wNjHsFuhg5OSQETCSW
- LFrF3MXIxSEksIJR4s3soywQzhdGibaTS6Ccz4wShxumsMK0fNzYCWYLCSxnlGh5nQ5R9JFR
- Yvfl24xdjBwcvAJ2EtcuSYCYLAIqEkt/GIOU8woISpyc+YQFxBYVSJJ48+YqM4gtLBAgsWba
- GkYQm1lAXOLWk/lMILaIwCRWiaYv4iDjmUHG9/x4CNbAJmAo0fW2iw3E5hRwkFh17wg7RLO8
- xPa3c8DekRDo4pL4vqSJCeJoF4nOryehHhCWeHV8CzuELSNxenIPC8ihEgL5En9nGEOEKySu
- vV7DDGFbS9w594sNpIRZQFNi/S59iLCjxCRgUoDo5JO48VYQ4gI+iUnbpjNDhHklOtqEIKrV
- JGYdXwe38+CFS8wTGJVmIQXKLCTPz0LyyyyEvQsYWVYxiqeWFuempxYb56WW6xUn5haX5qXr
- JefnbmIEptfT/45/3cG44tVHvUOMTByMhxglOJiVRHj391UkCfGmJFZWpRblxxeV5qQWH2KU
- 5mBREudNztyQKCSQnliSmp2aWpBaBJNl4uCUamCyDm4MOtWYYNZ2QLjNX9L4u2jq59YnpazG
- d0W+h65+75kf/1/GSGbWpk9N7/8HbQzKYk5c1uAR+mJ33/QNH+Zxuf3jqJv8nMnN7dzyf41M
- E3JyGg4XxXizP5XLvewlr9eeuu/iW/OXYlXXWjfeMDrqJba/SZ/lWP9Gu2fBi9YcPrZ7TUei
- 253Xdr3tfG//eTi7J991ONToluN31+j6NqHTbFvqteY7fX3HbXrqusrPxXUc6UXHw1++6Mi2
- 2bo/v9/W4M2TXRNSOxTmTLtiXCgtWnuj7dqtlTfX9n+yr1t1k/9B+KOdN724U1fNdzpSKH6g
- 1/V/OsPn6eGyLOfPKyQvP3RKhmdX8MtG0Tvqv/uVWIozEg21mIuKEwGZpqMwHgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAKsWRmVeSWpSXmKPExsVy+t/xe7r5zJVJBrvPqljcuX2a2eL+4s8s
- Fq9vr2CzuPL1PZtF79JzrBaT7k9gsfiyaQKbxYt7F1kszja9YbfonLiE3WL5hH1sFpseX2O1
- 6Pq1ktlixvl9TBanH61ntjjV2Mpicagv2uLTrIdA8ckv2SwunvjEbPH991lmB1GPtR/vs3q8
- v9HK7jHlxBFWj3M9d9k8ds66y+4xu2Mmq8fiPS+ZPI5cXczqcefaHjaP+93HmTw2L6n32Phu
- B5NH35ZVjB6fN8kF8EXp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk
- 5mSWpRbp2yXoZSx8fYu9YKlIxcrTz1gbGPcKdDFyckgImEh83NjJ2sXIxSEksJRRYu30fcwQ
- CRmJk9MaWCFsYYk/17rYIIreM0rcnTwfKMHBwStgJ3HtkgSIySKgIrH0hzFIOa+AoMTJmU9Y
- QMKiAkkSRw7zg4SFBfwkelc/ZQSxmQXEJW49mc8EMlFEYBqrxL23X8HGMwt8ZJS4NHkLO0iV
- kMBJRon1K91AbDYBQ4mutyA3cHJwCjhIrLp3hB1ikplE19YuqKnyEtvfzmGewCg0C8kds5As
- nIWkZRaSlgWMLKsYRVJLi3PTc4sN9YoTc4tL89L1kvNzNzECk8q2Yz8372Cc9+qj3iFGJg7G
- Q4wSHMxKIrz7+yqShHhTEiurUovy44tKc1KLDzGaAsNiIrOUaHI+MK3llcQbmhmYGpqYWRqY
- WpoZK4nzehZ0JAoJpCeWpGanphakFsH0MXFwSjUwJezI2CFx28h+RcaNK/vf+MSnney2XVXF
- osgy9e7VqRV1UlUHVmwUWV+c45Nx4pLohJvWH+/wLV7q88aSZfpVo+V7tplmhnWZtF3u4xcM
- V7WY2Z982WNOz3K9K8eMMs2nzDbhkVB8836/s53+Y6v3dx9ffpUsdqzxbMqlAyUnTfuePCqf
- HcAiJlk5++CrA5orTA89qdMNn6rf2iRzPTJT5uV++WB74/3yPxMsrPTWzPfjcX95WtJZO/XQ
- nY+KWgJzLt+r4X99suqL1Yy677M9Elf0Tb71tb4pobTIp3/SFp1knfwpNcsqZGQ1t81ysPJ8
- 4xa+YvI2+1My3fvcLfbyMnNsCPx+95axb66lHYOMEktxRqKhFnNRcSIAbmECwrMDAAA=
-X-CMS-MailID: 20220509120503eucas1p17ebac464eb6178961d8b2b3d90172fa6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220504114135eucas1p2b874e8c467c6b507239861d67198be25
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220504114135eucas1p2b874e8c467c6b507239861d67198be25
-References: <20220504114021.33265-1-jagan@amarulasolutions.com>
- <CGME20220504114135eucas1p2b874e8c467c6b507239861d67198be25@eucas1p2.samsung.com>
- <20220504114021.33265-8-jagan@amarulasolutions.com>
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+ [209.85.210.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C07610EF59
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 May 2022 12:21:02 +0000 (UTC)
+Received: by mail-ot1-f51.google.com with SMTP id
+ s12-20020a0568301e0c00b00605f30530c2so9966653otr.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 May 2022 05:21:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=CL6w1tqa1qD4GwVR1BmE4sf7WG++85dECQ4XHoV82pM=;
+ b=jr1e974J2B3jMdHh15G7saoTj0tT2Dimp1hwcFhqa8FuNLcQJjB1jxnYOJhQmVMwsF
+ yzOLaeE8uOtC4a91Js+akwsvy4F6706Mvu6AbZ+2c7PhfwHJEu9jAHPQIcRKZpuWdJF6
+ 39vmqRnk33tz1jj72LRewhUVSDhD90KMgSsyDbnApepTSQbQG0LrvvCtYu9qPIGD0eb7
+ bqeYmKB8KVvzDaJXQKA0s+xff/3ibvuB9ieSpdDPIHBQGHZfpKdY7d0tKvedLPayb7Uc
+ kBie/FFNA74vJgVQZEJwDNv1N8o0zseYuM5vPQtMXoo5hgBSxKalpm+02N49IBtzHhE9
+ nUgw==
+X-Gm-Message-State: AOAM532/YiXDQYwNG9mGhzc3868X3oPQe1aWqm6aRIVO0TsNS9Y1NuOj
+ Uo8iyFKLfYjAYAWGOcdtTw==
+X-Google-Smtp-Source: ABdhPJyYPUCuWnXkqMUn8CSgjlvGDITLJOGE1wCgwYZLeOPJP8mkqU5EfVup2MiR05RSXjZrKUscsQ==
+X-Received: by 2002:a9d:f22:0:b0:5c9:5da1:3752 with SMTP id
+ 31-20020a9d0f22000000b005c95da13752mr3718194ott.354.1652098861730; 
+ Mon, 09 May 2022 05:21:01 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ 52-20020a9d0eb7000000b0060603221241sm4571606otj.17.2022.05.09.05.21.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 May 2022 05:21:01 -0700 (PDT)
+Received: (nullmailer pid 3576231 invoked by uid 1000);
+ Mon, 09 May 2022 12:20:58 -0000
+From: Rob Herring <robh@kernel.org>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>
+In-Reply-To: <20220509044302.27878-4-rex-bc.chen@mediatek.com>
+References: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
+ <20220509044302.27878-4-rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH v2 3/3] dt-bindings: mediatek: add ethdr definition for
+ mt8195
+Date: Mon, 09 May 2022 07:20:58 -0500
+Message-Id: <1652098858.568339.3576230.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,87 +61,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: chunkuang.hu@kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04.05.2022 13:40, Jagan Teki wrote:
-> Add module init and exit functions for the bridge to register
-> and unregister dsi_driver.
->
-> Exynos drm driver stack will register the platform_driver separately
-> in the common of it's exynos_drm_drv.c including dsi_driver.
->
-> Register again would return -EBUSY, so return 0 for such cases as
-> dsi_driver is already registered.
->
-> v2, v1:
-> * none
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+On Mon, 09 May 2022 12:43:02 +0800, Rex-BC Chen wrote:
+> From: "Nancy.Lin" <nancy.lin@mediatek.com>
+> 
+> Add vdosys1 ETHDR definition.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->   drivers/gpu/drm/bridge/samsung-dsim.c | 22 ++++++++++++++++++++++
->   1 file changed, 22 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index 8f9ae16d45bc..b618e52d0ee3 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1740,6 +1740,28 @@ struct platform_driver dsi_driver = {
->   	},
->   };
->   
-> +static int __init samsung_mipi_dsim_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = platform_driver_register(&dsi_driver);
-> +
-> +	/**
-> +	 * Exynos drm driver stack will register the platform_driver
-> +	 * separately in the common of it's exynos_drm_drv.c including
-> +	 * dsi_driver. Register again would return -EBUSY, so return 0
-> +	 * for such cases as dsi_driver is already registered.
-> +	 */
-> +	return ret == -EBUSY ? 0 : ret;
-> +}
-> +module_init(samsung_mipi_dsim_init);
+>  .../display/mediatek/mediatek,ethdr.yaml      | 191 ++++++++++++++++++
+>  1 file changed, 191 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+> 
 
-I've just noticed this. The above approach is really a bad pattern: 
-registering the same driver 2 times and relying on the error.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-This gives the following error on Exynos boards:
+yamllint warnings/errors:
 
-Error: Driver 'samsung-dsim' is already registered, aborting...
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.example.dts:26:18: fatal error: dt-bindings/memory/mt8195-memory-port.h: No such file or directory
+   26 |         #include <dt-bindings/memory/mt8195-memory-port.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1401: dt_binding_check] Error 2
 
-which a bit misleading, because it is assumed that this will be ok.
+doc reference errors (make refcheckdocs):
 
-This will also break if one compile it as modules, because the driver 
-operation will depend on the order of module loading (and Exynos DSI 
-won't be able to load as a second 'driver').
+See https://patchwork.ozlabs.org/patch/
 
-However the most important issue with such pattern is lack of 
-multi-platform support (used usually by generic distros). One would not 
-be able to compile a kernel with both Exynos and IMX support built-in. 
-New drivers should really follow the multi-platform friendly patterns.
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-> +
-> +static void __exit samsung_mipi_dsim_exit(void)
-> +{
-> +	platform_driver_unregister(&dsi_driver);
-> +}
-> +module_exit(samsung_mipi_dsim_exit);
-> +
->   MODULE_AUTHOR("Jagan Teki <jagan@amarulasolutions.com>");
->   MODULE_DESCRIPTION("Samsung MIPI DSIM controller bridge");
->   MODULE_LICENSE("GPL");
+pip3 install dtschema --upgrade
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Please check and re-submit.
 
