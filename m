@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D5A5223AB
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 20:14:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0D1522428
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 20:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A042310E179;
-	Tue, 10 May 2022 18:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70EC010E566;
+	Tue, 10 May 2022 18:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
- [209.85.161.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 603CE10E668
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 18:14:18 +0000 (UTC)
-Received: by mail-oo1-f43.google.com with SMTP id
- v33-20020a4a9764000000b0035f814bb06eso1362853ooi.11
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 11:14:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bqzP6kLC9TvD/eZVDvG+k9Cz3CtHjrwdnS/BDXCrozk=;
- b=P58Hj1fSgu1CBrilsw99OPBpS/jNgumeQMFARMLohp4g/VTjKKjnbKL8mtqBFeVV3y
- 0EpbiCvkC3mbXqsluHlFA3gcBWF6OUiZFFcYwOndz6yJQlFd2iJie54TEUwbi499vNKL
- iYOhM97ccyuNdwF65yy8L59UE4D7JY52x81VpNGFIL3yBYZ0NYY+8DWUAnaNp+wNQQsp
- 7ZBSTP4bZYzIkcLacMIDdg8YEgbEypqjg+MIEMj3+EmWsU7eNble8grWY1GNhog5JMs3
- Ypho5ptFBoMzWp/4ArBuzCEQaLXpaf/azYkvNv/fw/YO1rrJhtkb6j8X39jv8WHEzP/o
- uvUA==
-X-Gm-Message-State: AOAM5333agqlAIaHveT4AsT9N/5HmgyiwgcixpkqlSVSDJZhVvZPYnl+
- 5H+UZjUfTdSdoUIuWLrrIg==
-X-Google-Smtp-Source: ABdhPJyfV9W5KcMMLkxExjfN4a6CpVE64vC6bZ6q+D3QKn6QIc1wk0xfg8j8ZGyynxcm2C2pKY+9IA==
-X-Received: by 2002:a05:6830:3108:b0:606:581b:b7bb with SMTP id
- b8-20020a056830310800b00606581bb7bbmr8250687ots.270.1652206457584; 
- Tue, 10 May 2022 11:14:17 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- h23-20020a4adcd7000000b0035eb4e5a6b6sm27454oou.12.2022.05.10.11.14.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 May 2022 11:14:17 -0700 (PDT)
-Received: (nullmailer pid 2319536 invoked by uid 1000);
- Tue, 10 May 2022 18:14:16 -0000
-Date: Tue, 10 May 2022 13:14:16 -0500
-From: Rob Herring <robh@kernel.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v0.5 5/9] dt-bindings: phy: add binding for the i.MX8MP
- HDMI PHY
-Message-ID: <YnqreMpQI317fq19@robh.at.kernel.org>
-References: <20220506181034.2001548-1-l.stach@pengutronix.de>
- <20220506181034.2001548-6-l.stach@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220506181034.2001548-6-l.stach@pengutronix.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 005AD10EC96;
+ Tue, 10 May 2022 18:17:40 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 961251F8C1;
+ Tue, 10 May 2022 18:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652206659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iiGLHqQlexjKp2BCk/wVVn8oKcq1hyMdphZCk4Mecmk=;
+ b=FJ/35b9BVDalbSkvNr3+Dnf4RLDEqQwFxW2y25rnm7oKIqQ32a0DwCX5vKaxteDBm4+64q
+ q1VKW5GZPX/L2Rbvh9kjtN6ZXFshll6uQndDSttzC2+UBjLynlnjSPMTkD/Vx430llG3ns
+ 6G6V2NShE4ICZGJkalATUxc7sV05Qd8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652206659;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iiGLHqQlexjKp2BCk/wVVn8oKcq1hyMdphZCk4Mecmk=;
+ b=wAaQwnykYpP5wcAAHomQMuBG/2Magts3Quiv9hbSXtw62XmDGlxZA0Xvl10KK3N5FLOVxp
+ gLH6fX3lvkLIv4BA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 295FB13AA5;
+ Tue, 10 May 2022 18:17:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id lug+CEOsemL4LgAAMHmgww
+ (envelope-from <jroedel@suse.de>); Tue, 10 May 2022 18:17:39 +0000
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [BUG] Warning and NULL-ptr dereference in amdgpu driver with 5.18
+From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
+In-Reply-To: <CADnq5_NYVvjcUru9hfbnATfcHJR5+eiK9bJAA9m41WKa=OJsog@mail.gmail.com>
+Date: Tue, 10 May 2022 20:17:38 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <505081FC-4323-4424-87A9-89B95A89515D@suse.de>
+References: <YnTAc96Uv0CXcGhD@suse.de>
+ <CADnq5_NT3UtawpGuPDwF+dgmRdaoysb7sD_-oWWBC=T3BoUH7Q@mail.gmail.com>
+ <YnpIjdTT3esZ72Bf@suse.de>
+ <CADnq5_NYVvjcUru9hfbnATfcHJR5+eiK9bJAA9m41WKa=OJsog@mail.gmail.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
+X-Mailman-Approved-At: Tue, 10 May 2022 18:34:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,99 +73,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, Andrzej Hajda <andrzej.hajda@intel.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, linux-phy@lists.infradead.org,
- Robert Foss <robert.foss@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 06, 2022 at 08:10:30PM +0200, Lucas Stach wrote:
-> Add a DT binding for the HDMI PHY found on the i.MX8MP SoC.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     | 62 +++++++++++++++++++
->  1 file changed, 62 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml b/Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
-> new file mode 100644
-> index 000000000000..bc21c073e92a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/fsl,imx8mp-hdmi-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX8MP HDMI PHY binding
-> +
-> +maintainers:
-> +  - Lucas Stach <l.stach@pengutronix.de>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8mp-hdmi-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#clock-cells":
-> +    const: 0
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb
-> +      - const: ref
-> +
-> +  "#phy-cells":
-> +    const: 0
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#clock-cells"
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
 
-#phy-cells should be required.
+> Am 10.05.2022 um 17:31 schrieb Alex Deucher <alexdeucher@gmail.com>:
+>=20
+> On Tue, May 10, 2022 at 7:12 AM J=C3=B6rg R=C3=B6del <jroedel@suse.de> =
+wrote:
+>>=20
+>> Gentle ping. This is a 5.18 regression and I also see it with
+>> 5.18-rc6. Please let me know if you need anything else to debug.
+>>=20
+>=20
+> Are you doing anything special when it happens?  I.e., does it happen
+> when the monitor is coming out of DPMS or something like that?
+>=20
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mp-clock.h>
-> +    #include <dt-bindings/power/imx8mp-power.h>
-> +
-> +    phy@32fdff00 {
-> +        compatible = "fsl,imx8mp-hdmi-phy";
-> +        reg = <0x32fdff00 0x100>;
-> +        clocks = <&clk IMX8MP_CLK_HDMI_APB>,
-> +                 <&clk IMX8MP_CLK_HDMI_24M>;
-> +        clock-names = "apb", "ref";
-> +        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX_PHY>;
-> +        #clock-cells = <0>;
-> +        #phy-cells = <0>;
-> +    };
-> -- 
-> 2.30.2
-> 
-> 
+Yes, it usually happens when I return to the machine and press some =
+button on the keyboard to get the screens enabled again. It doesn=E2=80=99=
+t happen always, it seems to depend on how slow the monitors come out of =
+power saving mode.
+
+Regards,
+
+J=C3=B6rg R=C3=B6del
+jroedel@suse.de
+
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5
+90409 N=C3=BCrnberg
+Germany
+=20
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev=
