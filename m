@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDF252221D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 19:15:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD22522223
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 19:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28E4210F32E;
-	Tue, 10 May 2022 17:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1923010F295;
+	Tue, 10 May 2022 17:17:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
- [209.85.160.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764A210F295
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 17:15:31 +0000 (UTC)
-Received: by mail-oa1-f42.google.com with SMTP id
- 586e51a60fabf-ed8a3962f8so19073671fac.4
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 10:15:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=U4enf849MalZJ94BbtP5EjviZoqMa/mYSymuWO+hQes=;
- b=QvEoHTWbZKXxf49IrRyI+iYse/BLLnYFJIdad0lCMjfXTmG+efMqexq00l9TUA4G7D
- q83s1t4L31mFj5VEVkuVd9fM9rBv7+OecquphrREPiexjdXvf10gI3S1xV1fillx6rhc
- wagKs4X+WoiK9YDLyG+A/f8jMhgOkDe1hA9VHCThiq437VlKbWQ8y/l+z4d+bPtdjH7d
- CO+8lVFWHsajgGIv7CPlFIZ8fD4mwPMx9TDHhq27P2ZJWk7Y7UO+gY2bSj4TvD2NjPf8
- Y+F5yfMW6gHxeL+0ZKcGpJHqhj9MakLN+M5KQI6w6KOfYXZW24ONogVzqH1ooGgBb9V4
- P3QQ==
-X-Gm-Message-State: AOAM53227XcDG4LyYQ5SGWLkRvyV6xvr9L5wtnx7TikECwIb0m3Dobtr
- KzmxWWYaLoRTjt0bZCH1IA==
-X-Google-Smtp-Source: ABdhPJwPVMnLqdMiqMekoFO1BpTerz9mA5hoHbPcCejjGrX5ztBsVFiV9PTz4T6oBBl8FMJlcsz0+A==
-X-Received: by 2002:a05:6871:889:b0:ed:daa1:d08 with SMTP id
- r9-20020a056871088900b000eddaa10d08mr641546oaq.256.1652202930679; 
- Tue, 10 May 2022 10:15:30 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- m33-20020a056870562100b000edf80be4ecsm5667586oao.58.2022.05.10.10.15.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 May 2022 10:15:30 -0700 (PDT)
-Received: (nullmailer pid 2222946 invoked by uid 1000);
- Tue, 10 May 2022 17:15:29 -0000
-Date: Tue, 10 May 2022 12:15:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 1/3] dt-bindings: display: rockchip: make reg-names
- mandatory for VOP2
-Message-ID: <YnqdsbYk+XzkVLe9@robh.at.kernel.org>
-References: <20220510070914.2346011-1-s.hauer@pengutronix.de>
- <20220510070914.2346011-2-s.hauer@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 222C210F295
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 17:17:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 49E266188C;
+ Tue, 10 May 2022 17:17:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45364C385C2;
+ Tue, 10 May 2022 17:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1652203020;
+ bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=E2EL/IYa9vtspm3Vt+hLlEsRvVUhuE0t3QkZ03Nw7N/NQHim5XgKUs/Ea6s9y8dGZ
+ 2iEozjbNwmewEtDluCLbS2EsobRMEsVcspb9tkRCpHPKp6eTCajJZiGDJprUMke4Ik
+ P4MFfA/3hBk6nBdC9rdBmkFIOkLqnLU55zjbZJ10ny6WYF/3ysJZIGHhch+dQa6Nin
+ LivcYjOeK9esBObH7eCs6wU6g5gruk3ET/d0SDGcVyP7CFCsxrPXa0Ilf9dYBkO8Bc
+ 45HKPrU82OAm24h0vgMlcZWu/omCOLwHiK1dDznozqT47uNRXQOeA/fYSp0jFiC6/E
+ FEBclrcax5TiA==
+From: Mark Brown <broonie@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] drm/i2c: tda9950: Lower severity of log message about missing
+ interrupts
+Date: Tue, 10 May 2022 18:15:37 +0100
+Message-Id: <20220510171537.926581-1-broonie@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220510070914.2346011-2-s.hauer@pengutronix.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1441; h=from:subject;
+ bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBiepyh8hgZWn5OjUYw6uHfKImPQihXLYJJZ8JbFJH3
+ D570zu6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYnqcoQAKCRAk1otyXVSH0LXWB/
+ 9ncqDifi7+tkc7hUGy+B1/KZ0vMDEZrJSv2D7/OBc3BBrP21zcc03tN4hPTxYaTCUNJ1zzItvExyVa
+ uRXmEsXDngEpwyJLSd7W5VG5mY5/0O2pht/lhtg5Fr3t/lUSqcfjJR7ehwZtX2uGcMz71pcmLKWG0E
+ +HGG7+SRm0A3HrIpAYFFEPX/DnEkXzr4msMlqfvCDaLfKr8sJVy47NOvjSxihdVkllJkhuovOc94cK
+ 9rBDPxL4z2TixOSS0R5kk7HY78U5w+kDjbyXtJn2Z+agy87nKTk5Qtuo0RS+Nha3WaEWH5lZcl1Kz6
+ fO77FDnsKgogcm31mXytGw1AwUSFAz
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,63 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 10, 2022 at 09:09:12AM +0200, Sascha Hauer wrote:
-> The VOP2 driver relies on reg-names properties, but these are not
-> documented. Add the missing documentation, make reg-names mandatory
-> and increase minItems to 2 as always both register spaces are needed.
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  .../bindings/display/rockchip/rockchip-vop2.yaml          | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> index 655d9b327f7d3..7238cdec9eb8a 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> @@ -22,7 +22,7 @@ properties:
->        - rockchip,rk3568-vop
->  
->    reg:
-> -    minItems: 1
-> +    minItems: 2
+The tda9950 driver prints an error message if it is instantiated without
+an interrupt being available since the device is non-functional in that
+case. Unfortunately due to packaging of tda9950 with tda998x series devices
+the tda998x driver unconditionally instantiates a tda9950 so systems with a
+tda998x configured without an interrupt will trigger this error message
+during boot if tda9950 support is available. Reduce the severity to debug
+level so this is less likely to be presented to end users, the information
+is still there for system integrators who run into problems.
 
-You ran the dt checks, right? This should give you a warning. The 
-correct thing is drop minItems if there's always 2 entries.
+We could add a check for an interrupt to the tda998x driver instead but
+this feels better from an encapsulation point of view, there's still a log
+message to help anyone doing system integration.
 
->      items:
->        - description:
->            Must contain one entry corresponding to the base address and length
-> @@ -31,6 +31,11 @@ properties:
->            Can optionally contain a second entry corresponding to
->            the CRTC gamma LUT address.
->  
-> +  reg-names:
-> +    items:
-> +      - const: vop
-> +      - const: gamma-lut
-> +
->    interrupts:
->      maxItems: 1
->      description:
-> @@ -86,6 +91,7 @@ properties:
->  required:
->    - compatible
->    - reg
-> +  - reg-names
->    - interrupts
->    - clocks
->    - clock-names
-> -- 
-> 2.30.2
-> 
-> 
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/gpu/drm/i2c/tda9950.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+index 5b03fdd1eaa4..781d5665cd04 100644
+--- a/drivers/gpu/drm/i2c/tda9950.c
++++ b/drivers/gpu/drm/i2c/tda9950.c
+@@ -397,7 +397,7 @@ static int tda9950_probe(struct i2c_client *client,
+ 
+ 	/* We must have an interrupt to be functional. */
+ 	if (client->irq <= 0) {
+-		dev_err(&client->dev, "driver requires an interrupt\n");
++		dev_dbg(&client->dev, "driver requires an interrupt\n");
+ 		return -ENXIO;
+ 	}
+ 
+-- 
+2.30.2
+
