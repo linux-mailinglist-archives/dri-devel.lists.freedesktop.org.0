@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEBC52241C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 20:33:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C3F52241E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 20:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1469F10E1BA;
-	Tue, 10 May 2022 18:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD8910E206;
+	Tue, 10 May 2022 18:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD9610E04C;
- Tue, 10 May 2022 18:33:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87FDE10E206;
+ Tue, 10 May 2022 18:33:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652207613; x=1683743613;
+ t=1652207616; x=1683743616;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SupVKfeAI9Ku9MN/lddJrVkPyfH+dTXOv8pFD6CAfis=;
- b=TvdGvJt3c8yxsWSb4gsXzTnGJ5M49rA9xGmZvHS+ckJxFEaoPMFz0ryz
- nR9UcQmUynaUeKUeCmJ4WV53WvsS5aATjPaTWbyozUTiWXoaBNBNDoIzU
- fkAT9sdUwiyvdN93fjEvsFQoYVGVQ+QFsEMfe0oDw+ZmRbEM0TUDFgrfn
- OkbmzFdGza1WKHyhVYchtcchMTtPMczx4TdGW14c4wrFXAs3wL4p007BR
- wFlDaa0zgAtgxtjNP0tLPej0c65licD5E6Hum0b7k6005ESN/oCb9MPtd
- sBui2elze9UruoQjC7oPnbRYVv7N/UcFwMdwiJqHf2agUPEfmjVZzjFHB Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="267058473"
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="267058473"
+ bh=AaHo4EhGB7NnUHsYKKbQNBVdt2CLsogT4iu2l1iyg44=;
+ b=JB3bAeIce6C98T287YDYBtN/JhDvbQlyVqtiWijepKO2y23WBTCg7MkQ
+ ZFKFaNylXFk9nZpjFmUi7YywyqD+P/1hkZeSaVGqmnkGD76fHwB/+K65k
+ l0oGqBvvbS60cykRd/nKfq6nK9jw3PycLCX3yIb59uTanEfRBj0UD7Web
+ rIcqDJDzUmoP17gviGQOVxF7RuPwGJM5ACd++eoIzjmjBcpk8F81wqg8N
+ YKN2eqKDjKEymc/ZJwuqn6Sy/v+M9/2qaPZMfIipyQQgyIC74g3nbiIXn
+ 13PiLv09f/mBT1ptFdMsaTxV5kIsx+Qw/qbupeTxbEaWi9MKrm0lvOsBv A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="267058483"
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="267058483"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 11:33:33 -0700
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="593673573"
+ 10 May 2022 11:33:36 -0700
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="593673582"
 Received: from lengdahl-mobl.ger.corp.intel.com (HELO
  jhogande-mobl1.ger.corp.intel.com) ([10.251.220.119])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 11:33:30 -0700
+ 10 May 2022 11:33:34 -0700
 From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 1/3] drm/print: Add drm_debug_once* macros
-Date: Tue, 10 May 2022 21:33:11 +0300
-Message-Id: <20220510183313.1046628-2-jouni.hogander@intel.com>
+Subject: [PATCH v3 2/3] drm/i915/psr: Use full update In case of area
+ calculation fails
+Date: Tue, 10 May 2022 21:33:12 +0300
+Message-Id: <20220510183313.1046628-3-jouni.hogander@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220510183313.1046628-1-jouni.hogander@intel.com>
 References: <20220510183313.1046628-1-jouni.hogander@intel.com>
@@ -65,57 +66,55 @@ Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_debug_once* macros to allow printing out one time debug
-messages which can be still controlled via drm.debug parameter.
+Currently we have some corner cases where area calculation fails.  For
+these sel fetch area calculation ends up having update area as y1 = 0,
+y2 = 4. Instead of these values safer option is full update.
+
+One of such for example is big fb with offset. We don't have usable
+offset in psr2_sel_fetch_update. Currently it's open what is the
+proper way to fix this corner case. Use full update for now.
+
+v2: Commit message modified
+v3: Print out debug info once when area calculation fails
 
 Cc: José Roberto de Souza <jose.souza@intel.com>
 Cc: Mika Kahola <mika.kahola@intel.com>
 Cc: Mark Pearson <markpearson@lenovo.com>
 Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
 ---
- include/drm/drm_print.h | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/gpu/drm/i915/display/intel_psr.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 22fabdeed297..e339f47eeb6d 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -476,6 +476,35 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- #define drm_dbg_drmres(drm, fmt, ...)					\
- 	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index 06db407e2749..3561c218cfb1 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -1685,6 +1685,7 @@ static bool psr2_sel_fetch_pipe_state_supported(const struct intel_crtc_state *c
+ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
+ 				struct intel_crtc *crtc)
+ {
++	struct drm_i915_private *dev_priv = to_i915(state->base.dev);
+ 	struct intel_crtc_state *crtc_state = intel_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_rect pipe_clip = { .x1 = 0, .y1 = -1, .x2 = INT_MAX, .y2 = -1 };
+ 	struct intel_plane_state *new_plane_state, *old_plane_state;
+@@ -1770,6 +1771,17 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
+ 		clip_area_update(&pipe_clip, &damaged_area);
+ 	}
  
-+#define drm_dev_dbg_once(dev, cat, fmt, ...)			\
-+({								\
-+	static bool __print_once __read_mostly;			\
-+	if (!__print_once) {					\
-+		__print_once = true;				\
-+		drm_dev_dbg(dev, cat, fmt, ##__VA_ARGS__);	\
-+	}							\
-+})
++	/*
++	 * TODO: For now we are just using full update in case
++	 * selective fetch area calculation fails. To optimize this we
++	 * should identify cases where this happens and fix the area
++	 * calculation for those.
++	 */
++	if (pipe_clip.y1 == -1) {
++		drm_dbg_once_kms(&dev_priv->drm, "No selective fetch area, using full update");
++		full_update = true;
++	}
 +
-+#define drm_dbg_once_core(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once(drm, fmt, ...)						\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_kms(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_prime(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_atomic(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_vbl(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_state(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_lease(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_dp(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
-+#define drm_dbg_once_drmres(drm, fmt, ...)					\
-+	drm_dev_dbg_once((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+ 	if (full_update)
+ 		goto skip_sel_fetch_set_loop;
  
- /*
-  * printk based logging
 -- 
 2.25.1
 
