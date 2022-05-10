@@ -2,151 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570A3520E4D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 09:15:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FBC520E50
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 09:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6847A10F527;
-	Tue, 10 May 2022 07:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFFA810F514;
+	Tue, 10 May 2022 07:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD6B10F527;
- Tue, 10 May 2022 07:15:09 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B6710F511
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 07:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652166909; x=1683702909;
+ t=1652167206; x=1683703206;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=Nhb0ZONwf3ddSWUv0HCL/NO//cMyvtjrZJRle81rQ9E=;
- b=DLx6R8WKXCOtCv1t0OTCHp+/q7FrOyR1nJS2FPe0Hz9XZ4B5v8BmyaF/
- ktptlfqmaHNnPZRNJL/+bbdeYat9A+bvdl9v3Ov7/3qBDy4/WSzOjoM7J
- pXEvJ69ndYx0j5ZANoltiskCRAiXKADJB4zT88NEsLKqsdP+sl0G3vi5h
- lr2kZsD9rWC3HWmviHqDR7X1nr9NNX5R+L2N0xrX7z3MmJltFEV2aFJDh
- bmXqCL75DiIdQJJABg+yli/ij38ZzPgxjVtqFaMcCVLdn+JfmaOCMVKKd
- qabE+Mtwf64e0R4aYLmn+rce/l7IhDXXYKPLzM3qyTIc5QPF+3otPVeGa g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="266875253"
-X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="266875253"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 00:15:07 -0700
+ bh=1oUzNl2kKxZxIV2MU2eVqII16unBBqXxxaYXqeHjiIA=;
+ b=au9CZbOvaGZnzkHTJtwDu/hHiZg3hj0h6PuqAC0CfpnbU3yEX6kzoh8x
+ IyEKHDwHBcFhsMPakGu4i+NvZCqcV+3sVh1dwHLX/JsRuYejnr8Ee1nuq
+ YvIMXdpFcJoTZctM5kY3NVWdtj4XHDXgdryf5YU3wU9vD9gTZdjN5uoWq
+ Uoj0EVMJORxDVWYcvXeE3SvpuHh/CViFDWBlAjQYxvCDGDLkENzgIiN4l
+ Z/Ak8q4sotwzn2ZENbn5+JcO1iQ55H5D9ZIB5PYeFm6g3GeAryh2FPWHJ
+ b15pE/JwYTtboqO/yYqRB0fHvoDByf1MIydSX6mVKZ0AzC9fBBBvsdBxZ w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="329885589"
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="329885589"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 00:20:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="593352337"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga008.jf.intel.com with ESMTP; 10 May 2022 00:15:04 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="565502557"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga007.jf.intel.com with ESMTP; 10 May 2022 00:20:05 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 10 May 2022 00:15:03 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 10 May 2022 00:20:04 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 10 May 2022 00:15:03 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2308.27 via Frontend Transport; Tue, 10 May 2022 00:20:04 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 10 May 2022 00:15:03 -0700
+ 15.1.2308.27; Tue, 10 May 2022 00:20:04 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N5Yhmc0WB46oB8r6pTK4eOddHh1NPfTWC+h6n36FwNWKeipvSMQMFEfy+iu13hdqfE+p4yyEkgyFJue6BnhL/V7g5AklWs8fBfVY9c26xDvhtrnCWuHlyFfXrMlIPglIMmCDmvC74EB75r9AeY0Wf3bOkjVBiVgxB5z9MTkax2NyCziz8rxD2GgGIl9l7A7A3/FyRsm7jlLzxViUiwQH1EsRxcBo/SLYFVslqU/dWfCeURrnsXKtC6W3v/8BTMsFgnyJrp/J1Uxbw+m0R1I1dN20CdxyM4U3GvjsLOo/KDza5gkzKfzwNNqq/9PHb7nXZ0H66ELQoFYOX62pQQiw3w==
+ b=iQGQb2D1iKZ0S4jmykmEd7tlWrVN9Po55pQADjUed6GjrnGhU53W38FZyIHV7lmZdsgxdHfh+Ifp/DGtY9k6kw7knLoE5cKmZWK40NO1tcpSh+dCK4FXBc+3tFRoh16z2j4o82+0exm9W8UPYiZLVLab7HyFllphOzCKUjGcVrZgq5D/UXXAP5kviSCsqnk8A5v1MIzjJYHf1Mgr6ZNn4i/yNmwUki9JSrz+EftQ7qvt1qiKF7SsVxTibA/fAfRuZ+iQFAqXYYHQFpGpEYgPr7z3rkWFByA1xzl4lZfvgeEilos44VZcC2GmRlUdtAv+u2Ck+Wg3W5uAwt1J2Cvj7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G/OcKNf3xzMR0yUXh0N5nkhYya9n2lQxwKzHawdKMos=;
- b=ScByaQPMDOFmScriisA17iwgoTkqgvRBLy3CWCORoRodaXvczCLr6nl5frvyf//iFmcW3HsmiUg1I5pxXirCBWL/I4fPhx2l+QxUpPKzQ8bUt1eXxz+KuxBGbXMAiGM2VWLIscS3W3ki0xSwpkafaZoxz7I2fVsqOHLSgO7aJ4xMi+J535JLJezdxnlb75TPaAt1DH7kabqPWvGjI7og1XBfH2aisK2kWYUCKUn/JmUinnjQC55wbhuhZULj1tgkxus+qz9CRO7cjdfFsR9NiQJ0tsQW7EOfWKxxiFBzWxObrR00fbqXNKoc1V/YHl3koVM3WlcCFz0FB4t+pQVV6A==
+ bh=l1IE7I/AmGtLNrLYQL90ND8SWIWPiZvIspdtsY/QTeU=;
+ b=T+8cVycc+bT+50+PelsuHlqyCQqPaRhuvOE5YJ91BChLbqkNRtbvEaGdTkYAHvaiJfphXVN+FdPCt16bpFC5Y4wNpVe4m4/NGk0UGBKjzjXehkQjQfEwNuJih7mPXmkToKqNDBfYvTC6z+i1oVuWs+kYGfCJwRfcfjQTq0OVhh2P4ZP8f868joUNYxxFLAu6A0eiHucJXIY7eucUTw4jvnw28d+UNQrfCMlDwKDubBsxrM1r70oJrxtgvHQUKV+wCxktTk/+cBAFlkkaR1AEsy4bmp46cevi9r3HueKSp6Xx+6eTSF3Mir8Zjn+OD42AG3Kk6CJ3FUFUljS/boVMlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by MWHPR11MB2015.namprd11.prod.outlook.com (2603:10b6:300:28::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.18; Tue, 10 May
- 2022 07:14:56 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::5813:4cbb:7fe0:7465]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::5813:4cbb:7fe0:7465%3]) with mapi id 15.20.5227.023; Tue, 10 May 2022
- 07:14:56 +0000
-Message-ID: <28c45fab-918d-b917-47c6-4551d9165413@intel.com>
-Date: Tue, 10 May 2022 12:44:47 +0530
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
+ PH0PR11MB5144.namprd11.prod.outlook.com (2603:10b6:510:3e::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5227.21; Tue, 10 May 2022 07:20:03 +0000
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::b1fa:393c:9fb6:6871]) by DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::b1fa:393c:9fb6:6871%5]) with mapi id 15.20.5227.023; Tue, 10 May 2022
+ 07:20:03 +0000
+Message-ID: <8401c328-ed67-8d5e-4ba2-b487f256e139@intel.com>
+Date: Tue, 10 May 2022 09:19:56 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [PATCH v2 08/25] drm/edid: convert struct detailed_mode_closure
- to drm_edid
+ Firefox/91.0 Thunderbird/91.8.1
+Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
+ fb_release()
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>, <dri-devel@lists.freedesktop.org>
-References: <cover.1652097712.git.jani.nikula@intel.com>
- <da4c927cd973766568a79ef044254fff20317e7f.1652097712.git.jani.nikula@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <da4c927cd973766568a79ef044254fff20317e7f.1652097712.git.jani.nikula@intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, <linux-kernel@vger.kernel.org>
+References: <20220505215947.364694-1-javierm@redhat.com>
+ <20220505220413.365977-1-javierm@redhat.com>
+ <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
+ <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
+ <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
+ <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
+ <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
+ <2bf27b09-0896-1849-254f-d5b19abdc892@redhat.com>
+ <fc3e8a40-664f-07ae-7474-c0412a1ab1b5@intel.com>
+ <1c36d431-d5c0-7278-c9e0-61867e9dc174@redhat.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <1c36d431-d5c0-7278-c9e0-61867e9dc174@redhat.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN0PR01CA0051.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:49::10) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0444.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a9::17) To DM6PR11MB3180.namprd11.prod.outlook.com
+ (2603:10b6:5:9::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a1a12c31-b651-4f6a-715b-08da3254c92f
-X-MS-TrafficTypeDiagnostic: MWHPR11MB2015:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <MWHPR11MB20159F03EBA0B09D1D0BD448CEC99@MWHPR11MB2015.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: a059ad8d-8d9a-4a38-90e3-08da32558002
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5144:EE_
+X-Microsoft-Antispam-PRVS: <PH0PR11MB514487221247EADA285B2C27EBC99@PH0PR11MB5144.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mpDNRxhm7gYs214hAOrU0f1KGe40qVH3uKGKcjMY0ha5y+BUBD7DIr/SoDGGe9pSGbha5DbXOBbLDUi/0TiWEDxT8U5PqX2enQxQyBBFhPtmnpwY9TKR0lSUPlBjdaBER48DWZ5hBc0Ze2l4Qwz32NU7Dl/vfTB/6w/Yk8ghKitpY4Bpa1p3idcy0fk9tDK32UHJoYSkjSwwTbKyA9NY25H9TGBjE5a5LXoMl+tIYztyZu2P7Xp+ZU8d/obvcPkqLVM4QlGXtKX/qDs2sltQHC5g2hfWbco2PA3rVRpJoMEokHTs+xZxEnowvdtDmdnXdL5DGZfeFwxMlEoKZvfGHhuuQE12dpYJPlveDzS2eNAwBu3WriSEDK18VBqvnwA7C6iXRpAQIN/pU84MPo94ZAMp3nR1Ww4uOTmKD4w4ZPyRwnKjMyXwXAppDGW+CwO2gS+Mc4Js/dMOwbcmCe0mLp5MM7+xrtXNlditdvnRjMYF9hFTxq82CKCai1RfRZRRuIYb49BjwC27Xzp3YpSedv6+YgIwIygx7gkLHfix9Qk9WuRA6do9+v+U8b/RVW6VyNeaokOO19UlSSH0DeLfJHNQpvGsnlrvYVdOzv7SRS8qcp79uFWyvzzTdk3nO/HYAvm8vlnYjQVsgnOgGNJ3+ptDULNAGbRxW3xb7Xx4adf2n6fH+yvBAZwaVvBeyM9cl37Q/54ebVJ4sLtk+XstbnpEHMdYSgs59tGk99lDNYqMlTHye83UjOG5LsU7V43GBuyEMuRGU5RoTypvIyreEA==
+X-Microsoft-Antispam-Message-Info: ph6a6FzJfiW93ew8hSkhYlegwmMO+uiuMOUklOzmmKtXWS5XwEeVdpyvudqLaVsLWJoJAFuhdYh57Y54/R3XlKgpx+y+tnCBgZFHGQI7oA4fLthNUls1eht80QqeLT7Q2Mr5tkEeEm+Yoynscn1yC0sLDbmny6hLGWgibxlRvXHjQB7qQyPmquqH+dHRGVMLUHRhJsvt2Y14Ymm5TppP8hL/wG+SGz//HRl6tSyf0rzAH3NutagPVTjtk5nUm23vO+XB+ytMRj3oBUgLBEr5EWi5H0iAh6etAqIyjgmcuX0+9iEbQs+O1DpoHZIZauHVngJcswJAsR6yXHvVRX02tfWcm7qIiff58Sc9uVddnBglYqfvSh5ypFjPPFlLCFG211UN/R+Ff5IJuIQ4NvtrdfE7xSgQmFxJZ6Xq0G+Yteh+/5Aw/QNRpzYBC/j7tEWOSqy6BEbH5WYYRd4vdLiFvqbJFJr/H+mfTPmBh4j2zoQe2QgszDX9SRRB+Oycjb5BhyIPVYabdtE2X+caSwsgmXsYplIoBdKsQcjOr6qi+JsYOTDLuFxYsoURrUGNamFkPLNrfWr2NSjtsupS9sewzn/D6CpYYTG9QQOrjQ1pDkRQ3dNQM+0tPBklIjDrUmWt1r8Av8KiJn5wuphBZzWpyzawbuREVJzsQrA7PelFclY+9lNfKO8g71/tk40hcPHeGMneGjOckns74phPz9nP0OMQALFn0ojBiuAxY7pl5tpYmi7DkXaF8NzEqxPV9OegvgoQ+CtDIHiYXSCqU+MFyFB1uDCoT8Nf78+tyY5ShcQ=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(66476007)(450100002)(66556008)(8676002)(83380400001)(4326008)(316002)(8936002)(6486002)(36756003)(5660300002)(2906002)(31686004)(66946007)(6506007)(26005)(186003)(2616005)(6512007)(53546011)(55236004)(6666004)(508600001)(82960400001)(86362001)(31696002)(38100700002)(21314003)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(110136005)(6666004)(36756003)(316002)(54906003)(2616005)(31686004)(6506007)(186003)(83380400001)(107886003)(82960400001)(4326008)(8676002)(66946007)(6512007)(31696002)(66476007)(66556008)(26005)(8936002)(86362001)(53546011)(38100700002)(36916002)(508600001)(2906002)(44832011)(6486002)(5660300002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tmd3dVdVOGF6WVVOb29oLy9HU3dBdWpaNmFLbkVlLzVxVVp3NG9TREpXUm1r?=
- =?utf-8?B?OHg0UnZ1VnNPQUk5TE5LZHUyRjdTZ2N6K0YzaGJlYkNqamdxUlZNcWp2Mndo?=
- =?utf-8?B?NGsxc2xzU2hDbEhiaEY1djFZZmlLMnFCczJFQnEyUGVyMksxZUJLNHhDR1FG?=
- =?utf-8?B?L2RrUmw0YjgwekhOZ2pabWJYMHZPUFFPcDBQNXd2b29xR3pGTjB5Q2xnOXQy?=
- =?utf-8?B?VlFJMS9ERWNBQW1OWUFCaUxFRGEwZlp4d0RIQ0M4ejlOd254eElvSGUzYWtY?=
- =?utf-8?B?TEF4c05JQUZCN2NLMkJEMEYvcXRWbXBBMWlEYndUUHI5WkpTZ09KNzd1WXFa?=
- =?utf-8?B?bVp1VlZhVUVUMHVURlE2MW5xRE8vZHlXL2tKOWQyM3QxL3dzZnBZMmdRRFhz?=
- =?utf-8?B?ZHN2a1VTT1VlWWRHN1pNN2d2Wjg2ZXZKM2M4VHVCQVRvdUVuOERCakNTYVhC?=
- =?utf-8?B?WWoxTjJCVkF2Y29RQ2ZWY29JQnJ5RGkrTmsvaDI1UVlXUFF2dGFzR3o1aTBM?=
- =?utf-8?B?VXRBeHEvQWwybHpiczlrMDRNTUNjdUU4M3Q2anBNMlFEbGpwallaNUhwc2Y3?=
- =?utf-8?B?ci93cUhBbDd1MDhrN2krbmp2N1pjd0RuWlJHT2JjcFBRbW50K21wK29hL0pO?=
- =?utf-8?B?cC83eWZXcEtpV2JsdUtTcm0yTWhuK0hiY0lkOXlBWnp0R002S041Vmh0aXBW?=
- =?utf-8?B?WmJKNXhOM3U4U1RoWXNQY2J6YkV1dVpMYnpaa1pZaE9IdGN4RTBDRG9EeUZi?=
- =?utf-8?B?Ny9qQnRVRXZtQVR0Wnh6cUdUWHBTRHhreGpUUmcrem5STVMvYitlcmQwYjRj?=
- =?utf-8?B?VnU5WndqZURIa0xsZ25JYnZKQ01YNWFXNmd0amFzQzZFZW4yTkkrczVsU0Rz?=
- =?utf-8?B?RWEzck5PekRjbFBOR3VmYlRPZVJ4WTd4blRHUFJQamFEOE9HeVVHRTlvOGJa?=
- =?utf-8?B?b0hyZG5QN0ROQmNncDBTRm0rU3dlTHRrNWc5ajZWRnhRMk0vNy8vR1plQ3h3?=
- =?utf-8?B?Y2ZFVzBHRmU1RjRFN2JGV25GYjcyMTVDTjBuVk0xMlVaR3JLcEhZaDVKc3Zl?=
- =?utf-8?B?SWtkcFZBQks2bVlUL2wzbi9kSHZ1VGUvbW9mQ1ZaNjFyZ0pDWVFNQVlrc3d2?=
- =?utf-8?B?L3ZFUzZhSzFtTkZhRnhML1Fzc2tLWDdrNWc1Q2Y5bVBWZ3ZIcEJiY29IeHlC?=
- =?utf-8?B?aVRaN285NjhtOVV5RWpBcHVPZllNb2R2djdQZTByVnB0NFRUb3RtU00zT3Nq?=
- =?utf-8?B?T0RnRHIvMm1Qdm4xWXNtd1N2eXQ1YmIxeGdiODliZWRsSndMZE9uWDBpN2tv?=
- =?utf-8?B?L2lZcHVzazROWVR4cHRNQWhFeGRRSk5BNStPU1djS1RudXRXc0EzNS8vT0Zy?=
- =?utf-8?B?U1NJS0pwTnZ4REhGajRNMmpweFlTendvV1ZsbGxkallwTWY5amRIN1VSTm9a?=
- =?utf-8?B?K29PM0J1TEFCdHYvRm8rcmJVR2NLRnRUWG9WajlVL1NCRzhYUnRva2RHREhx?=
- =?utf-8?B?YzllTGNFWmp3MnJxVkI4NHFRN29nOFl4cXg1c29rR3hWZVlFMmZtVUtGWmtO?=
- =?utf-8?B?NlhhQnVidXFnbWFjdWlBZyt5QUZCelVqL25zQWlyVkdCcThYNW94eWUyOFN0?=
- =?utf-8?B?SDRaN0RZOHBYZnNxcHR2SERuR0JhOEQ4RDVWaUg2Z2Zqd2tLZkc4UkhZVWo0?=
- =?utf-8?B?WnFCeXR5b2llOTBweW1iNWg0RGZFOEVxQ09Ed2hYZGNReXJ5bERiKytZWXpo?=
- =?utf-8?B?YTdTU1RxRFlUeEorNVBjS2xFQko2aFVNZGF5QjhKWEM2Mkt2QVRoT3J5eURJ?=
- =?utf-8?B?QzhBeitPcHgxNHVZUFYrTmhybFpjY0lHVnNWQ2NsT1EvVzlKMnk1L0dYMkdv?=
- =?utf-8?B?MDdGc2JJcFo4c0RZM2RXdGdiQWVYY2h1RkEwSXhsRTh5K3VZSlJ6d3E4blVp?=
- =?utf-8?B?NUMrNTY1ZEc0SmgxTjVTSlFNOVlhbnhhaWZGMFBGZHVJL1FrdW5PdVFud3cz?=
- =?utf-8?B?TnEzc2xrM2VPdFRDT0d1YWUrNU1Wek5SNFk0amtkZ0Y2N3FhSjVjTFBubHA5?=
- =?utf-8?B?VWZicEtsQnZpa3pTeDU5UXBIVDFEY3FYazZBc1cxdSs2cUVZR1ZOaGppbjRE?=
- =?utf-8?B?b2tHbTdKRXNMSDhZQkxjWUxSRzBLaVNHWEpwMjZ2QnBhdXZJSGI4R3RUYWl3?=
- =?utf-8?B?V0VVRUNSbHBWWlZEb3c1WTd1MUFmYW5ocGNuajlVeTFxN3p2Ri8zbEtZa21G?=
- =?utf-8?B?cS9RMEwzYWRvQzF4djIweTVneHdFaTlqdUllcG8rbXg1WE4wTDNqOGJGWk8x?=
- =?utf-8?B?NjJRcVE5MjRsZHZ0SnBPbGd2T3YwM0FneXVkU2h5ODFRRnpCZW9GbTduSkRR?=
- =?utf-8?Q?CZfFFu3m86TirC58=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1a12c31-b651-4f6a-715b-08da3254c92f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEhIaHozeFlNMmhKRTRGb2FkMzcrVE1UdUp6QndIMDgrUWFHSWp0MExveW5S?=
+ =?utf-8?B?bExIZUc0bVVOTmV6VVZOMldzclQ0THhtUG5GMXJ5dXV2UGE4L3pEOEU5amtp?=
+ =?utf-8?B?NEpoQlZ5a2UxOUs1dStrb0o2WXhJRlBXN1p5Wk4zZGFHbzl5Vmg2QmM5Y0hG?=
+ =?utf-8?B?T0JVeU1qWE5QenVuTU85b3A2OHBBZDhzSWZvVHJ2WEgrNW5zOURObWthd3dO?=
+ =?utf-8?B?TFZIMzIzK0JXNy9Gd3AxbEtLUkxteU0xR3FFQ3ZKczZsYktJdW9vSFpGbGJY?=
+ =?utf-8?B?Q2FGNVZVaVhQTmlEaFBkaWhiOUlKVXZxODEvbGpxbWk0WVZBRDB2N00rY29a?=
+ =?utf-8?B?Qi9GbzhxUHBUOU44YU5pbXkyTVpvcWgxUStPbmx5bDlYQ3FRdXBFdG9qUHh5?=
+ =?utf-8?B?aExnMkRsVTJ2NE56RkRkK2phdG5ZQlZqcHllTDM5alFTOUJwazAvMExYUUpP?=
+ =?utf-8?B?TkF2QkpMSTc1QXJkTHV2U3Rua2JlcTdPZlF1MU4zUjg5ZENqcEk0eVhlajVJ?=
+ =?utf-8?B?cGxPSFl2YThHTFhJTnN3YzhFOTErRitkS3VUME1EZW1NaE5rcDA4YWlueUcx?=
+ =?utf-8?B?VzFYTysraDNpdzFLQUxTdVdqa3VVY1VLS1MxcHZTaUU5V0FxZDc2dHpsZDFJ?=
+ =?utf-8?B?eERDWit5S0N1ZS9qWUE5dms0bkY1cTFpSFFXS0hiRmhUNU9pbVc4Wmd0aElk?=
+ =?utf-8?B?NGUwd0hZZ3FWOG1mY3FsRzg2b1AzOUlobDRrYzJyUjcxVEJDUFl1VzkrQ1RC?=
+ =?utf-8?B?UUl5VFVPcVRHMDFJbkQyZVgraDEzQlM2WjF0b2pKS25zSmFYc0Z4WW9qL0Fp?=
+ =?utf-8?B?RlZRbSt2cGZCbGxyeGdDbjEwZTVzWnMrNkx6RlZ5Y1RnaklDNE9PVFNyRFhq?=
+ =?utf-8?B?Zjk0NnVQeHRrcjBmb0tmTkZ6NDdPRVlXR2VTTkFBS3FSWUVDeE14ZnJCNUJh?=
+ =?utf-8?B?bGx2UGZDUWYvVVgxZUE1YUp4bzM3RURON1JuS05DZ2tSRW9ldVozaXZNbU96?=
+ =?utf-8?B?SFd5Q1NqR1FqWkVTRXFZVDgzdUd4eUpwZS9SakhTbXJacFdTSDZhbytlUkhH?=
+ =?utf-8?B?Y1RCUkE1UFA2em1MSkU0MzRxbVd3RXBNUTlzZjZZUzU2c1Fod0gyeVpyOThK?=
+ =?utf-8?B?UFhKaWVqTnY2QzQ2bnhHME54Rld0YUFRM2p2eFQybW9ZdUY1NXVKQ21vZTRm?=
+ =?utf-8?B?blUxSHBSTnQyTDBxbzR3TmpycGVVeTJVcWlyU0R5TWlqMDNzekdmTVZqRTIw?=
+ =?utf-8?B?dC90alVQeEpqSGZPTGlMdkRDMzFYYjM3QjgwWFcvVWRvUVA0RisrYTMzMVFo?=
+ =?utf-8?B?bDgyU3BoZDgwRHRmSjZBL1VDNFE2czkwUnlja1kzY205ZVk3Q1R4SmVrOWVu?=
+ =?utf-8?B?YWx6bDBOcktpeldWS3puaHpWMVorZkxQQkNya2M1SVYrY3JxbGl5M3crVE5L?=
+ =?utf-8?B?Q1ZiZStqeUNvMUZ2V1gyY29WZDlPRktCS2lDdGxHbVV3OE90QzRIdnNWeWt1?=
+ =?utf-8?B?TGRXd0R2Uy9XZTFZYU04TzZIM2pMdTNIV1RjYzYyZnZadjBUNW5ERG1vb2ll?=
+ =?utf-8?B?THN6eFBsN2xQbTBaRnYwVU9TOEZud1JvZXpWbjg1U1JGS0JPT0xzRGszV0Zi?=
+ =?utf-8?B?TXgyNzVOS1NyaUljL0FYdkNVRUttUFZhQStwN1FjTWlVaEVhc0IyTnJrRklW?=
+ =?utf-8?B?YVBYQWN6Nll6RXJDZkgzTW5GdFA4Sk5rNFZDVGtOaWloZXpkZU92N3JFR1hW?=
+ =?utf-8?B?TTREQnpUdWFGOGEwT1ZoOTZFTzduR05jSXc0VXRNeDQva1duMkdGbHFuTFg5?=
+ =?utf-8?B?eFdpVlNyMHAxd1dCaW5GTmhxbElsdlV1cGxBaU1tU0RodGlIMkFPYTVJdGp0?=
+ =?utf-8?B?Tm5yVEFQMW1ZMGJhNmpXcTRMdHFDcEZYZW13SzRET25wK1Rab1Yzb1JQdnUw?=
+ =?utf-8?B?RVgxSEpkeTBwSTRMZXo1REwwcm4wbGNFVElvd2NKd09XY1pRb0xKNmVvbno2?=
+ =?utf-8?B?aHNac2J1QXlCRjRPOUx1VW1zOVk2ZDNINnpyMjBmZ2Y0eDZ0VEdHdXVUaW1N?=
+ =?utf-8?B?UEgrenNEWFo3N1k4dkZ0cTlPdEJqZkVyWTZyemJVanowcW5Od3crY2JDa2w5?=
+ =?utf-8?B?dlBxSVdURG52a0VSL0RlQ1h1RWpWY1c2Sm13cXY3eXRZTXgxaThmNWd3OU9Y?=
+ =?utf-8?B?czFOR2FmclVIMTVLWis4UHRlOVVBUFhUR1pCZE1HOTE2NGh3TEhoMmMzRTg2?=
+ =?utf-8?B?L1llU1AzTVpGamRQYVppY2ZWMDlyUE4zM3BHanQ1RWtGQlBkejlTUWU3bEVP?=
+ =?utf-8?B?blVFdE45NzVseWRxZVBlK1NFS1hBTkFwQ3RmQjRPeFUrQWd2Nkg3TThoYlpT?=
+ =?utf-8?Q?F49DQZ+6YDFSB3vE=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a059ad8d-8d9a-4a38-90e3-08da32558002
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 07:14:56.5930 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 07:20:03.0263 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PlFZiJl7Q14ZW17e3MxD8XU9vTYFvEwLTg894ykttBPUQ+9ozBLRMHqou7ARkrGNly1MVNAVSlj/VgUpcfegr83NWN80k/KAFeM4nhQCebc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB2015
+X-MS-Exchange-CrossTenant-UserPrincipalName: YRUXWRo74ykg5Y91rHXWHHbilROf+/V+XDEoZ3+3EbcqWSiY9j0S/4bvG/pr+cej21WBUuGxja0uXAuMfoWMkw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5144
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -160,138 +170,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, Daniel
+ Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LGTM, The subject perhaps can be modified to suggest drm_edid being 
-added to detailed_mode_closure.
-
-In any case:
-
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 
 
-On 5/9/2022 5:33 PM, Jani Nikula wrote:
-> We'll need to propagate drm_edid everywhere.
+On 10.05.2022 00:42, Javier Martinez Canillas wrote:
+> On 5/10/22 00:22, Andrzej Hajda wrote:
 >
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> [snip]
+>
+>>>    static void drm_fbdev_fb_destroy(struct fb_info *info)
+>>>    {
+>>> +       if (info->cmap.len)
+>>> +               fb_dealloc_cmap(&info->cmap);
+>>> +
+>>>           drm_fbdev_release(info->par);
+>>> +       framebuffer_release(info);
+>> I would put drm_fbdev_release at the beginning - it cancels workers
+>> which could expect cmap to be still valid.
+>>
+> Indeed, you are correct again. [0] is the final version of the patch I've
+> but don't have an i915 test machine to give it a try. I'll test tomorrow
+> on my test systems to verify that it doesn't cause any regressions since
+> with other DRM drivers.
+>
+> I think that besides this patch, drivers shouldn't need to call to the
+> drm_fb_helper_fini() function directly. Since that would be called during
+> drm_fbdev_fb_destroy() anyways.
+>
+> We should probably remove that call in all drivers and make this helper
+> function static and just private to drm_fb_helper functions.
+>
+> Or am I missing something here ?
+
+This is question for experts :)
+I do not know what are user API/ABI expectations regarding removal of 
+fbdev driver, I wonder if they are documented somewhere :)
+Apparently we have some process of 'zombification'  here - we need to 
+remove the driver without waiting for userspace closing framebuffer(???) 
+(to unbind ops-es and remove references to driver related things), but 
+we need to leave some structures to fool userspace, 'info' seems to be 
+one of them.
+So I guess there should be something called on driver's _remove path, 
+and sth on destroy path.
+
+Regards
+Andrzej
+
+>
+> [0]:
+>  From 5170cafcf2936da8f1c53231e3baa7d7a2b16c61 Mon Sep 17 00:00:00 2001
+> From: Javier Martinez Canillas <javierm@redhat.com>
+> Date: Tue May 10 00:39:55 2022 +0200
+> Subject: [RFT PATCH] drm/fb-helper: Don't deallocate fb colormap and free fb info
+>   too early
+>
+> Currently these are done in drm_fb_helper_fini() but this helper is called
+> by drivers in their .remove callback, which could lead to a use-after-free
+> if a process has opened the emulated fbdev node while a driver is removed.
+>
+> For example, in i915 driver the call chain during remove is the following:
+>
+> struct pci_driver i915_pci_driver = {
+> ...
+>          .remove = i915_pci_remove,
+> ...
+> };
+>
+> i915_pci_remove
+>    i915_driver_remove
+>      intel_modeset_driver_remove_noirq
+>        intel_fbdev_fini
+>          intel_fbdev_destroy
+>            drm_fb_helper_fini
+>              framebuffer_release
+>
+> Later the process will close the fbdev node file descriptor leading to the
+> mentioned use-after-free bug in drm_fbdev_fb_destroy(), due the following:
+>
+> drm_fbdev_fb_destroy
+>    drm_fbdev_release(info->par); <-- info was already freed on .remove
+>
+> To prevent that, let's move the framebuffer_release() call to the end of
+> the drm_fbdev_fb_destroy() function.
+>
+> Also, the call to fb_dealloc_cmap() in drm_fb_helper_fini() is too early
+> and is more correct to do it in drm_fbdev_fb_destroy() as well. After a
+> call to drm_fbdev_release() has been made.
+>
+> Reported-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
->   drivers/gpu/drm/drm_edid.c | 27 +++++++++++++--------------
->   1 file changed, 13 insertions(+), 14 deletions(-)
+>   drivers/gpu/drm/drm_fb_helper.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index f54699422bca..c2887012add0 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -96,7 +96,7 @@ static int oui(u8 first, u8 second, u8 third)
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index d265a73313c9..7288fbd26bcc 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -627,12 +627,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+>   	cancel_work_sync(&fb_helper->resume_work);
+>   	cancel_work_sync(&fb_helper->damage_work);
 >   
->   struct detailed_mode_closure {
->   	struct drm_connector *connector;
-> -	const struct edid *edid;
-> +	const struct drm_edid *drm_edid;
->   	bool preferred;
->   	u32 quirks;
->   	int modes;
-> @@ -3226,25 +3226,25 @@ do_inferred_modes(const struct detailed_timing *timing, void *c)
->   		return;
+> -	info = fb_helper->fbdev;
+> -	if (info) {
+> -		if (info->cmap.len)
+> -			fb_dealloc_cmap(&info->cmap);
+> -		framebuffer_release(info);
+> -	}
+>   	fb_helper->fbdev = NULL;
 >   
->   	closure->modes += drm_dmt_modes_for_range(closure->connector,
-> -						  closure->edid,
-> +						  closure->drm_edid->edid,
->   						  timing);
->   
-> -	if (!version_greater(closure->edid, 1, 1))
-> +	if (!version_greater(closure->drm_edid->edid, 1, 1))
->   		return; /* GTF not defined yet */
->   
->   	switch (range->flags) {
->   	case 0x02: /* secondary gtf, XXX could do more */
->   	case 0x00: /* default gtf */
->   		closure->modes += drm_gtf_modes_for_range(closure->connector,
-> -							  closure->edid,
-> +							  closure->drm_edid->edid,
->   							  timing);
->   		break;
->   	case 0x04: /* cvt, only in 1.4+ */
-> -		if (!version_greater(closure->edid, 1, 3))
-> +		if (!version_greater(closure->drm_edid->edid, 1, 3))
->   			break;
->   
->   		closure->modes += drm_cvt_modes_for_range(closure->connector,
-> -							  closure->edid,
-> +							  closure->drm_edid->edid,
->   							  timing);
->   		break;
->   	case 0x01: /* just the ranges, no formula */
-> @@ -3258,7 +3258,7 @@ static int add_inferred_modes(struct drm_connector *connector,
+>   	mutex_lock(&kernel_fb_helper_lock);
+> @@ -2112,6 +2106,9 @@ static void drm_fbdev_release(struct drm_fb_helper *fb_helper)
+>   static void drm_fbdev_fb_destroy(struct fb_info *info)
 >   {
->   	struct detailed_mode_closure closure = {
->   		.connector = connector,
-> -		.edid = drm_edid->edid,
-> +		.drm_edid = drm_edid,
->   	};
+>   	drm_fbdev_release(info->par);
+> +	if (info->cmap.len)
+> +		fb_dealloc_cmap(&info->cmap);
+> +	framebuffer_release(info);
+>   }
 >   
->   	if (version_greater(drm_edid->edid, 1, 0))
-> @@ -3323,7 +3323,7 @@ static int add_established_modes(struct drm_connector *connector,
->   	int i, modes = 0;
->   	struct detailed_mode_closure closure = {
->   		.connector = connector,
-> -		.edid = edid,
-> +		.drm_edid = drm_edid,
->   	};
->   
->   	for (i = 0; i <= EDID_EST_TIMINGS; i++) {
-> @@ -3351,7 +3351,6 @@ do_standard_modes(const struct detailed_timing *timing, void *c)
->   	struct detailed_mode_closure *closure = c;
->   	const struct detailed_non_pixel *data = &timing->data.other_data;
->   	struct drm_connector *connector = closure->connector;
-> -	const struct edid *edid = closure->edid;
->   	int i;
->   
->   	if (!is_display_descriptor(timing, EDID_DETAIL_STD_MODES))
-> @@ -3361,7 +3360,7 @@ do_standard_modes(const struct detailed_timing *timing, void *c)
->   		const struct std_timing *std = &data->data.timings[i];
->   		struct drm_display_mode *newmode;
->   
-> -		newmode = drm_mode_std(connector, edid, std);
-> +		newmode = drm_mode_std(connector, closure->drm_edid->edid, std);
->   		if (newmode) {
->   			drm_mode_probed_add(connector, newmode);
->   			closure->modes++;
-> @@ -3380,7 +3379,7 @@ static int add_standard_modes(struct drm_connector *connector,
->   	int i, modes = 0;
->   	struct detailed_mode_closure closure = {
->   		.connector = connector,
-> -		.edid = drm_edid->edid,
-> +		.drm_edid = drm_edid,
->   	};
->   
->   	for (i = 0; i < EDID_STD_TIMINGS; i++) {
-> @@ -3471,7 +3470,7 @@ add_cvt_modes(struct drm_connector *connector, const struct drm_edid *drm_edid)
->   {
->   	struct detailed_mode_closure closure = {
->   		.connector = connector,
-> -		.edid = drm_edid->edid,
-> +		.drm_edid = drm_edid,
->   	};
->   
->   	if (version_greater(drm_edid->edid, 1, 2))
-> @@ -3494,7 +3493,7 @@ do_detailed_mode(const struct detailed_timing *timing, void *c)
->   		return;
->   
->   	newmode = drm_mode_detailed(closure->connector->dev,
-> -				    closure->edid, timing,
-> +				    closure->drm_edid->edid, timing,
->   				    closure->quirks);
->   	if (!newmode)
->   		return;
-> @@ -3525,7 +3524,7 @@ static int add_detailed_modes(struct drm_connector *connector,
->   {
->   	struct detailed_mode_closure closure = {
->   		.connector = connector,
-> -		.edid = drm_edid->edid,
-> +		.drm_edid = drm_edid,
->   		.preferred = true,
->   		.quirks = quirks,
->   	};
+>   static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+
