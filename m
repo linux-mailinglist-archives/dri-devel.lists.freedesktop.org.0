@@ -1,65 +1,157 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1701521009
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 10:51:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A85521022
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 10:57:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B899410E766;
-	Tue, 10 May 2022 08:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C653410E475;
+	Tue, 10 May 2022 08:57:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA9A010E766
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 08:51:15 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24A7VkYM021004;
- Tue, 10 May 2022 10:51:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=zyQAZ1qCLwSmsqH7mY0+MiDYL0UqFLkA6EXaQGJfp0Y=;
- b=thhIgxUw7pAFwoKaT9QFp5imFybzHuhDHAXb51me6i+o3XNGw9luK2o+BDqf3cZC2FbA
- Fxt+nrcQJE/kiQ6G1BvXbwUdD0wqhA7RrQx3sllVPLx+odZumWBV7rOJuVq+pAGZZO1h
- FelG6Do3Y+nXEe4CAMH2lXmjiM1T+Bdr62W+0lMj1OcZRM5TdFOXXa0shkDUe90KHKuW
- A0HDc3/yxuYejnM1Tu6C4SFX8R/YbRF6RLEuvzdvHtvktHzOYljDk4nTosTCxGNSMkNH
- nXbwOgOaUi1iGWg3/GTD3sIEfGo/F+Ep/7XPsLE2pBPRvIwPMNWhcXUg7Zrp8x3E2YVh jQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3fwe6kq2r9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 May 2022 10:51:13 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B22EA10002A;
- Tue, 10 May 2022 10:51:11 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A3EF8210F73;
- Tue, 10 May 2022 10:51:11 +0200 (CEST)
-Received: from [10.201.21.216] (10.75.127.44) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 10 May
- 2022 10:51:10 +0200
-Message-ID: <c04661ca-20a4-17c6-8170-f3ed2594bdbd@foss.st.com>
-Date: Tue, 10 May 2022 10:51:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/stm: dsi: Enable wrapper glue regulator early
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D219310E475;
+ Tue, 10 May 2022 08:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652173045; x=1683709045;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=QX9PxFvQllGotcJT+X1Pc6dMa0MwvJcQI15cfcpnMxA=;
+ b=L8jsLOfxGbeQDuiPkQfV7buP28fZ2ZQQf07ZKr22O7T3FTbgX1Cy/8Lp
+ MlhmQMRZGcQbgUbjNJOsMFCTVq90xHmRumWq/JcXNlbO5rb4PzxabZi6S
+ Xao3vVUj2505CiH9xehG5zhWIS1Wr3+kKTrqZm/uyFDfGPoGEI+b/us2f
+ ahgc16B/8EMAMjw/3qFd89nsqTQlicCtsA5OQyiYsoimmv8JvgDSh1e49
+ weDaCUOx84sxZcTZYOSMW+QGjLlYphDAJsY5p96ptzFTpgvpdEgjnajg+
+ FduHgaDgipkhiXnFDevoAsumJtEJiX/3zrdSUlyE2FTY/KqdMcBjMrlFy g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="249212948"
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="249212948"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 01:57:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="593396916"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga008.jf.intel.com with ESMTP; 10 May 2022 01:57:24 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 10 May 2022 01:57:23 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 10 May 2022 01:57:23 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Tue, 10 May 2022 01:57:23 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Tue, 10 May 2022 01:57:22 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YuR94yFurOraq8i7B6JYQAqbvKsNuDKaZxPNKi/nUXeA4NL/2ySv7O7G5gZzg3kL+NGTzDLgu0eUjv0ByKd7CwEAlRKx8Qn6tj7Q6CN4ITVsygXxUsy9nYK1Eeuzr8JVUNLtzhrP11DyOcrErG8xI2Xt65TvmPy2DOhpv/j4rbRUz6swM84w2VREEeSxufYgKoWVa34SWp6BNBvMjLS3hvJE7YQt7fMdgUaRyHiRlMupKxbtjc57n2JWYjAt8P1T9boOgxqhO5qX44u2W5H8FoMeNP2zSywrAYWBIvgnQLIcIhB7oz7FsWBhPEVUJfTWja/oShUoYaL5ZSWNzhrRug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aEwQ65fgaxXmV0MbCo/JLlTcejF3khYnjEPUCYgBKgI=;
+ b=UTukHvrtwv7Oz0BlRYQrIIE9DgepU1FNw4SruSS+hi85/eDAwIfwJLRcfPfVm7IVqptQ/BZPZxNK+7lstqUtK7QHQ1qr4GnHi3u0YGLw+2hVvYfNM84ZZ2sKwUzASQNGRcZ/JF/ZptthR+Wbz0p+5wsfNxHeGL5k/5ii38YNGme4Z23/QXbxhGYsitTr9fGHie1/SGVCv+E2AQniMBjxDso7LTcN3rkC4cg10GU9NvGFqGRbckOPz4AcFG68C5Gmlz18mT49GiuyJVs0WjPCpgoxNYDXK/Tx9ig/2IKomJIMLVSNJCy6jokZLJ1swVB/UP7tF20AVjyScVtYLEK/hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by PH0PR11MB4824.namprd11.prod.outlook.com (2603:10b6:510:38::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.22; Tue, 10 May
+ 2022 08:57:20 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::5813:4cbb:7fe0:7465]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::5813:4cbb:7fe0:7465%3]) with mapi id 15.20.5227.023; Tue, 10 May 2022
+ 08:57:20 +0000
+Message-ID: <64950931-aa57-bfed-dd8d-2c956b83029b@intel.com>
+Date: Tue, 10 May 2022 14:27:11 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.9.0
+Subject: Re: [Intel-gfx] [PATCH v2 09/25] drm/edid: convert
+ drm_mode_detailed() to drm_edid
 Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
-References: <20220429204519.241549-1-marex@denx.de>
- <56f6fc01-4f33-b240-5539-492b2c115476@foss.st.com>
- <24f18d45-09d9-05b6-b1ad-9ee2854c53ec@denx.de>
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <24f18d45-09d9-05b6-b1ad-9ee2854c53ec@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-10_01,2022-05-09_02,2022-02-23_01
+To: Jani Nikula <jani.nikula@intel.com>, <dri-devel@lists.freedesktop.org>
+References: <cover.1652097712.git.jani.nikula@intel.com>
+ <6e4625d529ee4bfb2f6ebbfef5fb707d65a0554d.1652097712.git.jani.nikula@intel.com>
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <6e4625d529ee4bfb2f6ebbfef5fb707d65a0554d.1652097712.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN0PR01CA0008.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:4f::13) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 92cf8e13-bb0a-4099-6d5e-08da32631734
+X-MS-TrafficTypeDiagnostic: PH0PR11MB4824:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <PH0PR11MB48244FFD02FBB1ADBFC1432FCEC99@PH0PR11MB4824.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: THHzbJwhQGZBbW0MROFQAlhVfWdBjbsJqo8M2QEKyVMt2YdXtBg7kZEv3FhOmlLRHzFIMFB8N1lUhP3s71C4QWhIzfzSaVR3bq9mnhDnDU1gfcNV3xcn7cE2/soh8WItoHu3W5Fu2sTHX/gEAcTSuRxdSMPsGPrZqUhzRlpW547VPSinudni65mphROdzR/KBKF3uVKikieZ+LdgpEuEikzPCiIPPiAPUlhR3uQSGyqZONAAH4xWwaKyQ4cMsLFZHQqKavPFOrbPpULhEQiMs4aWXuvbjT6Ls12AbMN7BlP0AjFjMcJqVO7ThQ/7faT0Irs0T8RpaVNQl2/t7EDfJb4JER7+/FICGeLVRkkD2IT5GlWVwuKDAC+VLt1+0384XfGDSYV9VL7Z07DACjZgDAwooOe4c+BBQxje88XO/c50JXxH0fisAh8ynMlSMd3agweSPm+h7wBFSwRD5Y9tzbtIFWv1rGDE+JNb4zg1cN8zgS3Ghn/dS1bHHDgahp3+44aYvb1Gpwhqou6KA6jT8SEmkwPxB4hn5wfO5M+D9pyZK8zeOua7eS0MJZd1QXdl6o2BFzAoufJU1qXRWO4BtwqfGUVdWQkYcWP3d7snt12Lr61DJvM71+hi150YE+wJig3BNut7w+6giiuZgs8H11lwm9+veOTmlouVTKyCIbKaoXzvGhhZ+V25TK+KR1fhGo+KFY3n6WtBJiczeuG31f5fyh+bnIj+rIIh+gqTL70=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(186003)(4326008)(450100002)(66946007)(2616005)(66556008)(66476007)(8676002)(508600001)(83380400001)(6666004)(86362001)(6486002)(26005)(6512007)(316002)(6506007)(55236004)(53546011)(31696002)(82960400001)(31686004)(36756003)(2906002)(8936002)(5660300002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGo3VzBqVk5QYkJKdk9wejVOUU9qK3BCbk9SSEdlREpRQ0FpK3pxNzJuSlFp?=
+ =?utf-8?B?MnQwMmp3Y1A0V05Hcm9IczRyYW92empPT2ZZRlZpY2o5QlNRajZWaHdZcGk3?=
+ =?utf-8?B?WExGVXdWSXc1MEdRUUFHSFhOZkR0RzNSbDFoWXFzTFNzZnNqUG1yY1Vka2tz?=
+ =?utf-8?B?MEhZT250Nm9QdSs3K0Jrd0FLbGZSOUd6R3MxTFZxYkVJa3l5US84RFBRM2ty?=
+ =?utf-8?B?Y25Rb3p5SzBBb2J4WURyVEQrL2RkRHhmczFVZGdEMzJNQ2NFQktrM3V3L0E3?=
+ =?utf-8?B?Z2NWSXN0M0JxcmVYUFpwSWdmTU9pSVlzbkJUcjBsV3djTWpHbVEwYmJTUXJ1?=
+ =?utf-8?B?bXFZYUIyTFh6R2ZTeHRkQlZ4NDROdGd1LzY2ZDhzbW1OUHEybHRtaWFlZ3M2?=
+ =?utf-8?B?OGhYNkNheFh2dEN3NTFmUHNZRlZJK1BIblNrLzdnQ2hvY2c0QUwzZi9CRHFr?=
+ =?utf-8?B?YnRVSytYRlBkT2RLUFd0M2pyeTZ0YjhmMjgxZ0dYSXo3UmJXcEV2TEErSHlI?=
+ =?utf-8?B?TkNKdXBITlN0VG4yV3VRTFRnYW8zMjBvd2lpTWk3NHpaODYyUW90ODRhVlB2?=
+ =?utf-8?B?U0ViRXlraHNGQjNBekN3OS9YbURMT2ZKNUluQmZ5QkIwVGJMTTJLL0VFMCtM?=
+ =?utf-8?B?ejF5UzZxNFlFQldRa3FzUEs3R3ovYmtQd1Nka21xcGVSc3B4dTcxS2g0bTY4?=
+ =?utf-8?B?TU1udlJUWmJQUDZaMGJpV3B1bjh2M1pIUkI5R2xVeFRDcDBIdlNqUmkzakZl?=
+ =?utf-8?B?WjFUa0ovUkwzZTE5Vm5RUjNXeHpjQWdlR2ZCaUR2TUJZTzRxVHhPaTd1eEJ2?=
+ =?utf-8?B?SmJaTFhBMzJkOVRiVnVUNUNVcitBNXNxaHZ1YnVtZkZQM3JCS2syWXdBSzND?=
+ =?utf-8?B?NnZNaDNGbDkyNklrckJKTnB2RlpDY1Nlekh4WXF2Z2RubklxcmdlRzVrRXUw?=
+ =?utf-8?B?Q0tPRkdQMlBGdDZIMFVhK3dzdHRNeGdsWTh1SzZWT0pVL0xTNWVSMGc1YkM5?=
+ =?utf-8?B?NGFjKzdjZlhiOFM0T2ZRK0xVYVhUZVJ6b29wUjdhOEpWL0dJNWtPNVJJVkFy?=
+ =?utf-8?B?ckhBOHBkYVZvTXV4OTd1MkdQQmRocWxoZnVCczNDZmVrTXk3RUUyU1FOSEsx?=
+ =?utf-8?B?bUp1Z3NMaHluaFM3WjJ3b1JYTW1zSEJDWFEwYmpOUkJrQVJQcCtycG16Y0tB?=
+ =?utf-8?B?N3BNMkQwUFpTNENzQjJBYnR2eEtSTzcvc3hLd3N0eW1IRFlPelVydjBlVUh4?=
+ =?utf-8?B?OVdBZi8yR214VXpzM1BFQVA2WHd0MDh3RVFZb0NhdDBWS0llbXB3MEdhbUI3?=
+ =?utf-8?B?cHV1RGxkRkgwY0FFY1YzeVhjdHpFOG83b040SFA2ejJhcWxLTVBZN0hvMHh1?=
+ =?utf-8?B?bW5ZdjN5TlFMa0hWYisrbENmRDZiSnVDeE9GRXZNUStPOUIwcThiU0VFbysr?=
+ =?utf-8?B?U0FBWXFka2Mvb3VDVVZVT2I4bWZ3c3hzSFpGQjJ3MXBKc0Z6c1QvbFV0bE1x?=
+ =?utf-8?B?UnBqRVQvMXk4WjlxR2YyUXN6MVdndDBQRjVLckpmMWRVRmM3RFRNNHU1VDN2?=
+ =?utf-8?B?K09CUmtTeDhLWVhYRGVxZ0dBUXdSNjE2RnBWUkxHUUtWZlFDeXZNWDhFUEV4?=
+ =?utf-8?B?WDRMSW9jWE5LbDROQnE1VTdCc2Rqb0YxVnV6blIxUitVZ0xmd1llOXhBcmpa?=
+ =?utf-8?B?QnJ3dk9lRVNZZFhOa05JYVhRUmcvc3BuWlpLRmpaaXNlZnc2YjRRK1IwR09W?=
+ =?utf-8?B?UUEwMWx2cytMaTZ2TFpJWVFzUVhpaTdqcDlaektQbHYreUZocEZMdEpiaURr?=
+ =?utf-8?B?bzlRM01EMVJpcTY3eTNqKzJOWmF2a0FFY09xb3ZmVjY0U3ZIREc4TDZwb2RO?=
+ =?utf-8?B?U0xqdjhjRW5BeFlWaHlkWEFkM2RmNCtzWlNvdUJHYmE3MDJORGd3NFpoanhW?=
+ =?utf-8?B?amVlZjNPSWwrTTVVVEpRQWU2R2k2VHBnRTRSQzJSSnpYSElyaGxZUVFiVEp3?=
+ =?utf-8?B?bWxnc0c2eHBBQytpRzhHZURlcHdZK1Z6TEhYd1lGVFpJYjdWVjRvaFBnWjdP?=
+ =?utf-8?B?WHQzTm8yRDNkRW9PMkRrcWpnQkQzalROL1drYllJWTZ0dFJiVU1idDU1UFN0?=
+ =?utf-8?B?RWxEYUJsUml3cGVyZ1NEdFlCM1VWbmlsMnkzTnR0c0dTTVh4VXl1eEFxeFRD?=
+ =?utf-8?B?RXgvSTgvdjd0RnlKbEVKbVZrY1JtUUlnd2dFUTJRaUliTC8vTUdGbnlsV2FN?=
+ =?utf-8?B?NG4xeE9EeEx4VDNzQlBmdytiYlcvazJ2Wi9qaHMwcHh2ekpoUDA3emRwNjhu?=
+ =?utf-8?B?Yzg3ditMU25HQmZqOTFWV0RlQ2RNNU9lRmNXWWYyRGZRellpUHBONTVmSzc0?=
+ =?utf-8?Q?Bujj/GnOGui3q1ls=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92cf8e13-bb0a-4099-6d5e-08da32631734
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 08:57:20.2402 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sPpXHNecnji6E8/wXyS17G5QuA1HwUChYiSeXyN2Nx1q+j29J7BGqp1l1GzdQxgx6/1b5zCYA6lgD5UQgVE6GbLZPIs9Ip4InjvcvZvTuWY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4824
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,90 +164,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, robert.foss@linaro.org,
- Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+LGTM.
 
-On 5/5/22 19:40, Marek Vasut wrote:
-> On 5/4/22 09:59, Raphael Gallais-Pou wrote:
->> Hi Marek,
+Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+
+Regards,
+
+Ankit
+
+On 5/9/2022 5:33 PM, Jani Nikula wrote:
+> We'll need to propagate drm_edid everywhere.
 >
-> Hi,
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>   drivers/gpu/drm/drm_edid.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> [...]
->
->>> @@ -499,8 +512,16 @@ static int dw_mipi_dsi_stm_probe(struct platform_device
->>> *pdev)
->>>       }
->>>         dsi->hw_version = dsi_read(dsi, DSI_VERSION) & VERSION;
->>> +
->>> +    ret = dw_mipi_dsi_phy_regulator_on(dsi);
->>>       clk_disable_unprepare(pclk);
->>>   +    if (ret) {
->>> +        DRM_ERROR("%s: Failed to enable wrapper regulator, ret=%d\n",
->>> +              __func__, ret);
->>> +        goto err_dsi_probe;
->>> +    }
->>> +
->>
->> I have no problem until here. If I understand this correctly, it enables the
->> regulator during all the life of the driver.
->>
->> If you feel an urge to merge this patch into the Linux kernel, the st display
->> team could gladly do it because it enables more hardware bridges. However
->> another solution could be to rework a bit the regulator part of the driver so
->> that you would have only device tree to change, introducing a 'reg-always-on'
->> property.
->>
->> This driver needs in fact a bit of a rework with the power management. A
->> solution could be to move the regulator-related part in
->> dw_mipi_dsi_stm_power_on/off() so that it is only activated when needed.
->> Those functions would integrate the enabling of the regulator, the switch for
->> the internal regulator, and eventually handle the PLL if it cannot lock when
->> the regulator is off.
->>
->> With the DT property, the power management would be only in the
->> probe()/remove(). In that way the DSI bridges would have the logic they need
->> to work.
->>
->> Ultimately there is two possibilities :
->>   * You really need this patch to be merged asap
->>   * You are ok to wait until we send the solution described above
->>
->> If you want to write those patches (each for DT and regulator), feel free to
->> do it.
->>
->> What do you think about it ?
->
-> Maybe a more generic question first -- is there a way to pull the data lanes
-> to LP11 without enabling the regulator ?
->
-> Also note that you likely want to wait with this patch, there is likely soon
-> going to be a discussion about how to handle all those different requirements
-> for initial DSI LP states and clock needed by DSI bridges, encoding such
-> policy into DT is not the right approach.
-
-
-After quite some time of internal research, it is unfortunately not possible to
-adjust data lanes state to LP11 without the regulator enabled.
-
-So I guess, without a change to handle DSI LP states differently within DRM,
-your patch may be the best approach to operate such bridges.
-
-Note that I am still trying to understand how other chip vendors managed the
-case. Maybe their hardware can effectively handle the DL states without enabling
-their regulator ?
-
-I wonder if another solution could be to move the TC356787 bridge reset outside
-the probe, so we could also delay the regulator_enable on STM driver side.
-
-Anyway I agree with you that modifying the device tree is not the right method,
-and having the driver always powered is not so nice either.
-
-
-Raphaël
-
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index c2887012add0..8acdb08a8571 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2928,7 +2928,7 @@ drm_mode_do_interlace_quirk(struct drm_display_mode *mode,
+>    * drm_display_mode.
+>    */
+>   static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
+> -						  const struct edid *edid,
+> +						  const struct drm_edid *drm_edid,
+>   						  const struct detailed_timing *timing,
+>   						  u32 quirks)
+>   {
+> @@ -3016,8 +3016,8 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
+>   	}
+>   
+>   	if (quirks & EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE) {
+> -		mode->width_mm = edid->width_cm * 10;
+> -		mode->height_mm = edid->height_cm * 10;
+> +		mode->width_mm = drm_edid->edid->width_cm * 10;
+> +		mode->height_mm = drm_edid->edid->height_cm * 10;
+>   	}
+>   
+>   	mode->type = DRM_MODE_TYPE_DRIVER;
+> @@ -3493,7 +3493,7 @@ do_detailed_mode(const struct detailed_timing *timing, void *c)
+>   		return;
+>   
+>   	newmode = drm_mode_detailed(closure->connector->dev,
+> -				    closure->drm_edid->edid, timing,
+> +				    closure->drm_edid, timing,
+>   				    closure->quirks);
+>   	if (!newmode)
+>   		return;
