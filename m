@@ -2,71 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4855212EA
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 12:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F875212FE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 13:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C67B10EF08;
-	Tue, 10 May 2022 10:57:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9936010F442;
+	Tue, 10 May 2022 11:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FECF10EF08
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 10:57:13 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id z19so19517941edx.9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 03:57:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=hP5Qt4iyca+XwfT38e5QSOL60aC/HqAALnLY/TUKCos=;
- b=AEfURBdjsXwWF/lcnLtglije6dm0motmFUJ3sHf/KkiBswiXy9ufjlvwlDrR8WN4PL
- XMuEpKM07Pqu9NcReVRuZc3A+BIweN6yHXQr1S3nbr8pUlcuHYBz38kRdm64sycaSvXE
- OXg1rzHEXLqcL9QRpUYewLWV2+dKqOxqw1TLTEQmvpx43S2ZTDtTH6ky3U1jzkqcqGC8
- AcKmC8TZWXCmrP/cm6i9xBgI0MmH4YIDvYb11g3Pi26OkoxNETSWljjEqQL+GQRrHofK
- YlsS4Ju/BRl2euM7KPii2RrZs+NzRZf+Ogd1545zbmABGq5xffHTMxTib7OexD0VCOaC
- Nsyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hP5Qt4iyca+XwfT38e5QSOL60aC/HqAALnLY/TUKCos=;
- b=dj9F89CgvhVbWyjlHkFuJF5z2qeyXhPYGpQ0MBGjpLDTDAjwsCZBS6gUEb+1uGW/xl
- HRl6zXx1O9DSIk67sWNXoSIjQg67oyQIxwU+uYM6hKMgWuxRwCQIXydNXWz4iXaBhLa4
- gfo2WM6N1ZwxQ8/zjKPt925wbUeqHAxqZHEg3gwg/UGvMakTw8hbxqqMTRShyBtimHE8
- +HCHGHdbL3+Awsv3XUzdfwWrBOhBc9+UhR2Ug0DVcqV9ESaXLAybp48NxcMLF5waRYAl
- UDsh+kmTLY15dRG4E31js8Y0BMaMRHl4uNnXg2K3AyYPcpgPyvJwi1tI4cUzWJpqmogE
- v1jA==
-X-Gm-Message-State: AOAM5339ERMaVZGmKfvcPw5emODWd1C5ss8hbvV02kpXajdeyM4YWwlO
- +0VvE95wPb/WuWns5YJx9+Kc9ID3/H4cb3mK
-X-Google-Smtp-Source: ABdhPJwV2FoRMmaQQWsKESFLsiexggF0TXhfn9LN0RLxYk94n+1r1hcpoWyyOn26z4+WeOxzmE6bzA==
-X-Received: by 2002:a05:6402:b2e:b0:425:d3f7:4c1a with SMTP id
- bo14-20020a0564020b2e00b00425d3f74c1amr21827716edb.366.1652180232182; 
- Tue, 10 May 2022 03:57:12 -0700 (PDT)
-Received: from [192.168.0.251] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- t3-20020a05640203c300b00428aafb23d0sm1351992edw.57.2022.05.10.03.57.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 May 2022 03:57:11 -0700 (PDT)
-Message-ID: <0686125d-4984-5dcd-32ca-4eeece09d7c3@linaro.org>
-Date: Tue, 10 May 2022 12:57:10 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4FD410F442
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 11:00:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EA22B6159A;
+ Tue, 10 May 2022 11:00:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03059C385C6;
+ Tue, 10 May 2022 11:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1652180440;
+ bh=KGn/TH6jy9oduWBq+vUyZA4hXFzpFADN7M2aHHBomVQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=q9ZSbEHxwZJxQeNu7bI2Robwy7il5VzTxxOECL3cPkvfGe0WN0mtjG8zRwMIzCYl7
+ ZSjjbchKlOnplbqU313WHo2QStErWJ5w9+fD1HGuwsty8QL6b/jahAo6Oc4gOtv4Sm
+ 0c4ydpG14hkHmQ9WMfvQ2BcFulY993U/4gdpQ1W8=
+Date: Tue, 10 May 2022 13:00:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Charan Teja Kalla <quic_charante@quicinc.com>
+Subject: Re: [PATCH] dmabuf: ensure unique directory name for dmabuf stats
+Message-ID: <YnpF1XP1tH83uBlM@kroah.com>
+References: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 1/3] dt-bindings: mediatek: add vdosys1 RDMA definition
- for mt8195
-Content-Language: en-US
-To: Chen-Yu Tsai <wenst@chromium.org>
-References: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
- <20220509044302.27878-2-rex-bc.chen@mediatek.com>
- <a5c9e7ad-c4b5-e757-cd6d-f79de47d1ff3@linaro.org>
- <fbbbc7e6a951bdde648ddd896f1fa163dafa16f1.camel@mediatek.com>
- <1c3fd336-1450-9b68-df81-2f01cc2ba32f@linaro.org>
- <CAGXv+5EHFjqiVQbXgcJWCo+TmaTU_z4e0g85beMLCNjyx5qJcw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAGXv+5EHFjqiVQbXgcJWCo+TmaTU_z4e0g85beMLCNjyx5qJcw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,45 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Rex-BC Chen <rex-bc.chen@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tjmercier@google.com, linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/05/2022 12:37, Chen-Yu Tsai wrote:
->> Use a generic node name, as Devicetree spec asks:
->> "The name of a node should be somewhat generic, reflecting the function
->> of the device and not its precise programming
->>
->> model. If appropriate, the name should be one of the following choices:"
->>
->> I proposed dma-controller, but feel free to find better generic node name.
+On Tue, May 10, 2022 at 03:53:32PM +0530, Charan Teja Kalla wrote:
+> The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
+> alloc_anon_inode()) to get an inode number and uses the same as a
+> directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
+> used to collect the dmabuf stats and it is created through
+> dma_buf_stats_setup(). At current, failure to create this directory
+> entry can make the dma_buf_export() to fail.
 > 
-> dma-controller is covered by dma-controller.yaml, which references
-> dma-common.yaml in its entirety, so I don't think that would work.
+> Now, as the get_next_ino() can definitely give a repetitive inode no
+> causing the directory entry creation to fail with -EEXIST. This is a
+> problem on the systems where dmabuf stats functionality is enabled on
+> the production builds can make the dma_buf_export(), though the dmabuf
+> memory is allocated successfully, to fail just because it couldn't
+> create stats entry.
+
+Then maybe we should not fail the creation path of the kobject fails to
+be created?  It's just for debugging, it should be fine if the creation
+of it isn't there.
+
 > 
-> What about "blitter"? I think that is a generic term that is/was commonly
-> used with display hardware and sort of describes the function of the RDMA
-> & WDMA blocks, and if only one side is memory and the other is the display
-> pipeline.
+> This issue we are able to see on the snapdragon system within 13 days
+> where there already exists a directory with inode no "122602" so
+> dma_buf_stats_setup() failed with -EEXIST as it is trying to create
+> the same directory entry.
+> 
+> To make the directory entry as unique, append the inode creation time to
+> the inode. With this change the stats directory entries will be in the
+> format of: /sys/kernel/dmabuf/buffers/<inode no>-<inode creation time in
+> secs>.
 
-Sure, sounds fine!
+As you are changing the format here, shouldn't the Documentation/ABI/
+entry for this also be changed?
 
+And what's to keep the seconds field from also being the same?
 
-Best regards,
-Krzysztof
+thanks,
+
+greg k-h
