@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE294521257
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 12:38:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 906BA52127A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 12:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6DD110F7BD;
-	Tue, 10 May 2022 10:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 618FA10E170;
+	Tue, 10 May 2022 10:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D1610F7BD
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 10:38:09 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id m190so18355506ybf.4
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 03:38:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=18Z/sTz+IhJS4WIQidF8Pkf7x0QFtzeGTd5zgt1XcsI=;
- b=mce5YmBbmq67J2zhZTHGEv91yobyh5mk7B2CT3fMjjAqcnjQubzRIntpwRppCEnqp+
- rmbixFACXH1Fa3+8SQbPTl8SgT/K4WNPHtxz5QmUUgQ0SUdbjb5qhG6im/W3dUulSp/u
- HJ+wUlbTR0YAU9r1YHMPQhrxD5BLUFa1TOZJo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=18Z/sTz+IhJS4WIQidF8Pkf7x0QFtzeGTd5zgt1XcsI=;
- b=7hFOyBpVneNZLbxf4NP9TLTmWyBIR/roOAqO3ifU3QIy4+cBIIAmWkZ+QttJWcGh0B
- f2aqux8mrDIIUVBycP/mQ+ruAV2UHuhgn3+htzU5wd6OBD3Oh0cg6PcxWmvaMyMagtms
- Iu9kd9QoJw6der5p8GfRTeJU2AKI2xi5lV6KEwz343Mux5JAxtES7JOYOvzduEtLFsHN
- RskcYydtDXrib549JuBr7BQog3G/iIKFX7oZsK0NAVsxjbNLdo7sfzHUFFS1AZ0vi55C
- nMGiBbCeJv3dTj6SUiSpIw3ZJAb7HWuvO+cHIMUTk4JymH3TWYpbVT/Y8e8TN9dn0WG0
- KY/w==
-X-Gm-Message-State: AOAM532NOfYQfBrg52fp2YKoFIx2zvVMTZaYSgPtCTxp0ZDIa8gzGkkH
- kboAxoSmFvDlNsg1wWdNrn3LQB0w9PIphDglwkTx9w==
-X-Google-Smtp-Source: ABdhPJydfNAKQMhJh5sK/HAXZvb2Kunl4GtH2wnKZ/ZK7z6LCCVG+1efFg9HYbdUR9Jq5koVxnXByhS4ux49LykcTBs=
-X-Received: by 2002:a05:6902:1501:b0:649:ff91:5409 with SMTP id
- q1-20020a056902150100b00649ff915409mr17647450ybu.278.1652179088847; Tue, 10
- May 2022 03:38:08 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD1C710E35B;
+ Tue, 10 May 2022 10:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652179424; x=1683715424;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=tB4uLRME3PUAds1LwM5IxIPN/1RmiiXuYmIUkg6WBGg=;
+ b=mHU7W9YT26NuQrx7zNxiL2bdZFKwoEL7GIYvt5tXCFLwhxHVgHk1K03q
+ lsnQTmmnyW6faJQ9MmYifpwCGDS3BBqwFFI2YhFeeig55fKqHpxM4txBz
+ y2lGXH6Qv+Ba6joyWyoYYVTypYAKKgmqhv/W8YhSlix+BS5viCalf67xF
+ MDYnsjHS8Rf2tBDQtrFMkq2B83J0DbvbU0piL2OXvbyHkLao4ZxJFpTAZ
+ dMHEO8t2BoXW/ptPy/TOF2V+nrWy3/7Ch2/xyO+iXUk9vWkkb8yipxlsI
+ ZVybiwEbSJIU9/jLZlvtjYeGPtIczJLCvi3nSR7dMJBTc9L7MHUYa2yyV w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="268174186"
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="268174186"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 03:43:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="570617859"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by fmsmga007.fm.intel.com with SMTP; 10 May 2022 03:43:27 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 10 May 2022 13:43:26 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 14/15] drm/edid: Extract drm_edid_decode_mfg_id()
+Date: Tue, 10 May 2022 13:42:41 +0300
+Message-Id: <20220510104242.6099-15-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220510104242.6099-1-ville.syrjala@linux.intel.com>
+References: <20220510104242.6099-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-References: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
- <20220509044302.27878-2-rex-bc.chen@mediatek.com>
- <a5c9e7ad-c4b5-e757-cd6d-f79de47d1ff3@linaro.org>
- <fbbbc7e6a951bdde648ddd896f1fa163dafa16f1.camel@mediatek.com>
- <1c3fd336-1450-9b68-df81-2f01cc2ba32f@linaro.org>
-In-Reply-To: <1c3fd336-1450-9b68-df81-2f01cc2ba32f@linaro.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 10 May 2022 18:37:57 +0800
-Message-ID: <CAGXv+5EHFjqiVQbXgcJWCo+TmaTU_z4e0g85beMLCNjyx5qJcw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: mediatek: add vdosys1 RDMA definition
- for mt8195
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +58,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Rex-BC Chen <rex-bc.chen@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 10, 2022 at 6:28 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 09/05/2022 10:45, Rex-BC Chen wrote:
-> >>> +    soc {
-> >>> +        #address-cells = <2>;
-> >>> +        #size-cells = <2>;
-> >>> +
-> >>> +        vdo1_rdma0: mdp-rdma@1c104000 {
-> >>
-> >> Generic node name. dma-controller (if it does not conflict with
-> >> dma-common.yaml schema)?
-> >
-> > We don't understand what dma-controller you are referring to? Can you
-> > help explain more? Thanks!
->
-> Use a generic node name, as Devicetree spec asks:
-> "The name of a node should be somewhat generic, reflecting the function
-> of the device and not its precise programming
->
-> model. If appropriate, the name should be one of the following choices:"
->
-> I proposed dma-controller, but feel free to find better generic node name.
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-dma-controller is covered by dma-controller.yaml, which references
-dma-common.yaml in its entirety, so I don't think that would work.
+Make the PNPID decoding available for other users.
 
-What about "blitter"? I think that is a generic term that is/was commonly
-used with display hardware and sort of describes the function of the RDMA
-& WDMA blocks, and if only one side is memory and the other is the display
-pipeline.
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ include/drm/drm_edid.h | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index c3204a58fb09..e92385a13d2a 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -496,6 +496,22 @@ static inline u8 drm_eld_get_conn_type(const uint8_t *eld)
+ 	return eld[DRM_ELD_SAD_COUNT_CONN_TYPE] & DRM_ELD_CONN_TYPE_MASK;
+ }
+ 
++/**
++ * drm_edid_decode_mfg_id - Decode the manufacturer ID
++ * @mfg_id: The manufacturer ID
++ * @vend: A 4-byte buffer to store the 3-letter vendor string plus a '\0'
++ *	  termination
++ */
++static inline const char *drm_edid_decode_mfg_id(u16 mfg_id, char vend[4])
++{
++	vend[0] = '@' + ((mfg_id >> 10) & 0x1f);
++	vend[1] = '@' + ((mfg_id >> 5) & 0x1f);
++	vend[2] = '@' + ((mfg_id >> 0) & 0x1f);
++	vend[3] = '\0';
++
++	return vend;
++}
++
+ /**
+  * drm_edid_encode_panel_id - Encode an ID for matching against drm_edid_get_panel_id()
+  * @vend_chr_0: First character of the vendor string.
+@@ -536,10 +552,7 @@ static inline u8 drm_eld_get_conn_type(const uint8_t *eld)
+ static inline void drm_edid_decode_panel_id(u32 panel_id, char vend[4], u16 *product_id)
+ {
+ 	*product_id = (u16)(panel_id & 0xffff);
+-	vend[0] = '@' + ((panel_id >> 26) & 0x1f);
+-	vend[1] = '@' + ((panel_id >> 21) & 0x1f);
+-	vend[2] = '@' + ((panel_id >> 16) & 0x1f);
+-	vend[3] = '\0';
++	drm_edid_decode_mfg_id(panel_id >> 16, vend);
+ }
+ 
+ bool drm_probe_ddc(struct i2c_adapter *adapter);
+-- 
+2.35.1
 
-Regards
-ChenYu
