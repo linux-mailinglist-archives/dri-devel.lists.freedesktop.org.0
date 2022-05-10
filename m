@@ -2,67 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD2E520FFB
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 10:48:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEEA521004
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 10:50:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A46510EAAE;
-	Tue, 10 May 2022 08:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD9610E596;
+	Tue, 10 May 2022 08:50:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E64110E357;
- Tue, 10 May 2022 08:48:32 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id k27so19139933edk.4;
- Tue, 10 May 2022 01:48:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Sg3Yyk6Y2V+jetC88TsfJUdQKRvW6Wluz1+xRhysIds=;
- b=hnmWHP7XmRqtKJQXvPJDJ1Rkm98EhvYSCoqFkuYVxs4bcL/sjTNSOYaBMurUi3uz1s
- zXUAMrZTupjP0iZKA4vBATqnS+wnZO2YJe6qPyPd4aAjeKvhv6QvDlOOQb9njvzg127P
- 1da3OnE2R9Y/Cb/TkSVK9itsxLagtJiVf6fJmOXQ/Olqr3Bs7+vdyG4XdyRj8fOExHkE
- trLsdMTwo+Bn4ev1gEFl8b94zacDUv3NOT/9Tkschg2E4+wxjMufu480OluCT8/MGo0f
- tyN24XbIbjWFM8AI6vzud65GGpjXDCT9YJ5jJs+ym1WL58dGnfXtTwUhnAUo5GMlRP3Y
- lgSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Sg3Yyk6Y2V+jetC88TsfJUdQKRvW6Wluz1+xRhysIds=;
- b=BE9fTNeE/k8l7b/IRKQfECLkD64RIXWW33SkbE+sq6ponD+Y2Rq4wZ1hZCOmY1nSgi
- NzWMDLP/g90WmY1X8mF/i9kf/sa6KlMVjAgawSJSwHeb6BIbxhuS0zainMikVfaF/gp7
- DG+EM7rnbFVExQzRihq2SijnnI5mUK/NuNblQ6AhcCX+KBGaiIeH9qra/H/1tvIVjmsZ
- uO8SRtzcxkADxIhlE+ST7JDSIfhT7l0zviX75mx7yrT7fa+poPFACDGXWcput0QpEjLg
- NZy401LWtKiP5KiabdpcCbSCwTa1f4MYOkbtZVhuatZgh/FdGjWQaiHwf+FkHV1yDziw
- ftdA==
-X-Gm-Message-State: AOAM532At497nfNu8SYGxH+2Ejq/ga50v1grgUS9KhPGQiU6V4p89wXT
- IVPXotsZm9myE84fTdZkgRA=
-X-Google-Smtp-Source: ABdhPJzu+j3mJqAeGD/uTTrkwJSpoHsWICo2dGxlUiS51E3l9zP5/lg7yVJ/pOSp2oGHGkoIi3Eq3A==
-X-Received: by 2002:aa7:c3ca:0:b0:425:ecfc:4258 with SMTP id
- l10-20020aa7c3ca000000b00425ecfc4258mr22377370edr.266.1652172510882; 
- Tue, 10 May 2022 01:48:30 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:616c:3555:9eac:59cc?
- ([2a02:908:1256:79a0:616c:3555:9eac:59cc])
- by smtp.gmail.com with ESMTPSA id
- ig11-20020a1709072e0b00b006f3ef214e2csm6032755ejc.146.2022.05.10.01.48.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 May 2022 01:48:30 -0700 (PDT)
-Message-ID: <ddcb244d-dfed-d571-1d54-5e1ed24a03b7@gmail.com>
-Date: Tue, 10 May 2022 10:48:28 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA7F10E596
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 08:50:28 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1C95621C48;
+ Tue, 10 May 2022 08:50:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652172627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g0IURHOoAl2M6zCSLpyMPT18KFdqoUyeDPjl0hJ99tg=;
+ b=nLVA7wXSOSmDcJjrIZeUUMxWxxpiP0nwODbF4958MwRUSWet8guWCinq5YDZjQad6yjaFm
+ j3aERjfh/aBvj60qmsCodmh/zjytI4jwSfKiCXNu5yLrQbgOUcWmb4xT7/+5ygozUP6cuc
+ syzRP7zhCBSu0k0+grf4xqUTpi4gx1Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652172627;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g0IURHOoAl2M6zCSLpyMPT18KFdqoUyeDPjl0hJ99tg=;
+ b=z9DI44p53W1bZCp1BY3XPA9xEmfmRmtEKhOc3Itu7hqfRNTDv+NP7jv/aOrF619jtWwP9L
+ StJ1YBtzv96wskCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E255C13AC1;
+ Tue, 10 May 2022 08:50:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8XU3NlInemKCHgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 10 May 2022 08:50:26 +0000
+Message-ID: <71ebd5f7-64d0-510a-6f1b-29921fca19fa@suse.de>
+Date: Tue, 10 May 2022 10:50:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC] drm/amdgpu: Convert to common fdinfo format
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
+ fb_release()
 Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- amd-gfx@lists.freedesktop.org
-References: <20220510082315.992296-1-tvrtko.ursulin@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220510082315.992296-1-tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org
+References: <20220505215947.364694-1-javierm@redhat.com>
+ <20220505220413.365977-1-javierm@redhat.com>
+ <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
+ <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
+ <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
+ <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
+ <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
+ <2bf27b09-0896-1849-254f-d5b19abdc892@redhat.com>
+ <fc3e8a40-664f-07ae-7474-c0412a1ab1b5@intel.com>
+ <1c36d431-d5c0-7278-c9e0-61867e9dc174@redhat.com>
+ <79aaea41-5dab-f896-ab3d-d6bc9a5de615@suse.de>
+ <2d8d8583-3a39-b826-dd83-ba5bc4c5b082@redhat.com>
+ <7ffd92d7-9c07-fa9c-dc95-9e82719fd237@suse.de>
+In-Reply-To: <7ffd92d7-9c07-fa9c-dc95-9e82719fd237@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------MHXgXaeQmCiuyyM80xVQxmIp"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,171 +83,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David M Nieto <David.Nieto@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------MHXgXaeQmCiuyyM80xVQxmIp
+Content-Type: multipart/mixed; boundary="------------5nhp0O6fvenQ2qVUPU9Pw2Og";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <71ebd5f7-64d0-510a-6f1b-29921fca19fa@suse.de>
+Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
+ fb_release()
+References: <20220505215947.364694-1-javierm@redhat.com>
+ <20220505220413.365977-1-javierm@redhat.com>
+ <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
+ <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
+ <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
+ <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
+ <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
+ <2bf27b09-0896-1849-254f-d5b19abdc892@redhat.com>
+ <fc3e8a40-664f-07ae-7474-c0412a1ab1b5@intel.com>
+ <1c36d431-d5c0-7278-c9e0-61867e9dc174@redhat.com>
+ <79aaea41-5dab-f896-ab3d-d6bc9a5de615@suse.de>
+ <2d8d8583-3a39-b826-dd83-ba5bc4c5b082@redhat.com>
+ <7ffd92d7-9c07-fa9c-dc95-9e82719fd237@suse.de>
+In-Reply-To: <7ffd92d7-9c07-fa9c-dc95-9e82719fd237@suse.de>
 
-Am 10.05.22 um 10:23 schrieb Tvrtko Ursulin:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
-> Convert fdinfo format to one documented in drm-usage-stats.rst.
->
-> Opens/TODO:
->   * Does someone from AMD want to take over this patch?
->      (I have no access to amdgpu hardware so won't be able to test
->       any hypothetical gputop work.)
+--------------5nhp0O6fvenQ2qVUPU9Pw2Og
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I can give that a try as soon as it is completed.
+SGkNCg0KQW0gMTAuMDUuMjIgdW0gMTA6Mzcgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoN
+Ci4uLg0KPj4+DQo+Pj4gWW91IGhhdmUgdG8gZ28gdGhyb3VnaCBhbGwgRFJNIGRyaXZlcnMg
+dGhhdCBjYWxsIGRybV9mYl9oZWxwZXJfZmluaSgpDQo+Pj4gYW5kIG1ha2Ugc3VyZSB0aGF0
+IHRoZXkgZnJlZSBmYl9pbmZvLiBGb3IgZXhhbXBsZSBhcm1hZGEgYXBwZWFycyB0byBiZQ0K
+Pj4+IGxlYWtpbmcgbm93LiBbMV0NCj4+Pg0KPj4NCj4+IEJ1dCBzaG91bGRuJ3QgZmJfaW5m
+byBiZSBmcmVlZCB3aGVuIHVucmVnaXN0ZXJfZnJhbWVidWZmZXIoKSBpcyBjYWxsZWQNCj4+
+IHRocm91Z2ggZHJtX2Rldl91bnJlZ2lzdGVyKCkgPyBBRkFJQ1QgdGhlIGNhbGwgY2hhaW4g
+aXMgdGhlIGZvbGxvd2luZzoNCj4+DQo+PiBkcm1fcHV0X2RldigpDQo+PiDCoMKgIGRybV9k
+ZXZfdW5yZWdpc3RlcigpDQo+PiDCoMKgwqDCoCBkcm1fY2xpZW50X2Rldl91bnJlZ2lzdGVy
+KCkNCj4+IMKgwqDCoMKgwqDCoCBkcm1fZmJkZXZfY2xpZW50X3VucmVnaXN0ZXIoKQ0KPj4g
+wqDCoMKgwqDCoMKgwqDCoCBkcm1fZmJfaGVscGVyX3VucmVnaXN0ZXJfZmJpKCkNCj4+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHVucmVnaXN0ZXJfZnJhbWVidWZmZXIoKQ0KPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIGRvX3VucmVnaXN0ZXJfZnJhbWVidWZmZXIoKQ0KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwdXRfZmJfaW5mbygpDQo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkcm1fZmJkZXZfZmJfZGVzdHJveSgpDQo+PiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZnJhbWVidWZmZXJfcmVsZWFzZSgp
+DQo+Pg0KPj4gd2hpY2ggaXMgdGhlIHJlYXNvbiB3aHkgSSBiZWxpZXZlIHRoYXQgZHJtX2Zi
+X2hlbHBlcl9maW5pKCkgc2hvdWxkIGJlDQo+PiBhbiBpbnRlcm5hbCBzdGF0aWMgZnVuY3Rp
+b24gYW5kIG9ubHkgY2FsbGVkIGZyb20gZHJtX2ZiZGV2X2ZiX2Rlc3Ryb3koKS4NCj4+DQo+
+PiBEcml2ZXJzIHNob3VsZG4ndCByZWFsbHkgZXhwbGljaXRseSBjYWxsIHRoaXMgaGVscGVy
+IGluIG15IG9waW5pb24uDQoNCk9uZSBtb3JlIHN0dXBpZCBxdWVzdGlvbjogZG9lcyBhcm1h
+ZGEgYWN0dWFsbHkgdXNlIA0KZHJtX2ZiZGV2X2ZiX2Rlc3Ryb3koKT8gSXQncyBzdXBwb3Nl
+ZCB0byBiZSBhIGNhbGxiYWNrIGZvciBzdHJ1Y3QgDQpmYl9vcHMuIEFybWFkYSB1c2VzIGl0
+J3Mgb3duIGluc3RhbmNlIG9mIGZiX29wcywgd2hpY2ggYXBwYXJlbnRseSANCmRvZXNuJ3Qg
+Y29udGFpbiBmYl9kZXN0cm95LiBbMV0NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFd
+IA0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTcuNi9zb3VyY2UvZHJp
+dmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfZmJkZXYuYyNMMTkNCg0KDQo+IA0KPiBUaGFu
+a3MuwqAgVGhhdCBtYWtlcyBzZW5zZS4NCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBUaG9tYXMN
+Cj4gDQo+IA0KPj4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
+RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
->   * What are the semantics of AMD engine utilisation reported in percents?
+--------------5nhp0O6fvenQ2qVUPU9Pw2Og--
 
-To be honest I haven't understood why we are using percents here either, 
-that is not something the kernel should mess with.
+--------------MHXgXaeQmCiuyyM80xVQxmIp
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
->      * Can it align with what i915 does (same what msm will do) or need
->        to document the alternative in the specification document? Both
->        option are workable with instantaneous percent only needing support
->        to be added to vendor agnostic gputop.
+-----BEGIN PGP SIGNATURE-----
 
-I would prefer to just change to the ns format i915 and msm will be 
-using, that makes much more sense from my experience.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ6J1IFAwAAAAAACgkQlh/E3EQov+Dn
+5g//cMbWLTZEQV4oKwTt8ao+7B/mNzQcuFG5Uof78v/C9yNDIxy/pHsS/Th/crWYY4UzkICgUlpx
+tijFv0Muidxtweo+BYCJvvMQKOVQOtDzyhEqdRF2vtXKWgqEg60kR2FXeEwJDh4g3Js2aId1Fypv
+Ad2dHTAQwNZaZnp2CMBeSdVPL6Kk54gzLYGYls8UsUppohfNAg1/1su+vsmdu4pLLS9Ub5nhN29q
+x8IbnGajaMkV5vq3UuqrQFKQDp5pHrX78J6TFsbw9tIRPVaN3oFSqlsL9+L44KwxE8pcOEO+w9km
+9CqmA2C1AAxMpB6joXJ2MB6adV5cUXK1mvEdjEQn17PCzG0EaU8LIMjNKCtzQ88pzFybuRAx9Vpo
+HOWfmIgIsK8sJhgp3PzSVToZ9xGc5Vc7YWajbQ3Elj3SCWmiyxr7azCvRRC6qvRk5gAf8Y3p7oBm
+dRdg20teD16JMPxFhU1ArOfJhtfRBWoWiAMBMmNaRQMIo2I2QVRsANuwpr5HDaCmjfbmGTU+co7+
+WWUMZI8kTWdfJaq+4VafFN90IDTTdALS+Hn73GMU+y6lZlgI4lVuZSj79vlkWCKSHzzAKP3LDX/M
+aVVwwOUi9JgFaX/vdUzYYZTy/JOY56VCN4alnPLVh4JZ49sZt4RIcmmJwE6DI+VmZ4RuUCzvU2kq
+EbE=
+=7eHO
+-----END PGP SIGNATURE-----
 
-As far as I know we haven't released any publicly available userspace 
-using the existing AMD specific format. So that should still be possible.
-
->   * Can amdgpu expose drm-client-id? Without it gputop will not work.
-
-How is that determined on i915 ? Does struct drm_file has that somewhere?
-
-> * drm-engine-capacity - does the concept translate etc.
-
-I don't think we are going to need that.
-
-Regards,
-Christian.
-
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: David M Nieto <David.Nieto@amd.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Acked-by: Christian König <christian.koenig@amd.com>
-> ---
->   Documentation/gpu/amdgpu/usage-stats.rst   | 28 ++++++++++++++++++++++
->   Documentation/gpu/drm-usage-stats.rst      |  7 +++++-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 18 ++++++++++----
->   3 files changed, 47 insertions(+), 6 deletions(-)
->   create mode 100644 Documentation/gpu/amdgpu/usage-stats.rst
->
-> diff --git a/Documentation/gpu/amdgpu/usage-stats.rst b/Documentation/gpu/amdgpu/usage-stats.rst
-> new file mode 100644
-> index 000000000000..8be5009bd1a9
-> --- /dev/null
-> +++ b/Documentation/gpu/amdgpu/usage-stats.rst
-> @@ -0,0 +1,28 @@
-> +.. _amdgpu-usage-stats:
-> +
-> +============================================
-> +AMDGPU DRM client usage stats implementation
-> +============================================
-> +
-> +The amdgpu driver implements the DRM client usage stats specification as
-> +documented in :ref:`drm-client-usage-stats`.
-> +
-> +Example of the output showing the implemented key value pairs and entirety of
-> +the currenly possible format options:
-> +
-> +::
-> +
-> +      pos:    0
-> +      flags:  0100002
-> +      mnt_id: 21
-> +      drm-driver: amdgpu
-> +      drm-pdev:   0000:03:00.0
-> +      drm-memory-vram: 0 KiB
-> +      drm-memory-gtt: 0 KiB
-> +      drm-memory-cpu: 0 KiB
-> +      drm-engine-...: 0 %
-> +                 ...
-> +
-> +Possible `drm-memory-` key names are: `vram`, `gtt`, `cpu`.
-> +
-> +Possible `drm-engine-` key names are: ``.
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index 6c9f166a8d6f..2d0ff6f2cc74 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -69,7 +69,7 @@ scope of each device, in which case `drm-pdev` shall be present as well.
->   Userspace should make sure to not double account any usage statistics by using
->   the above described criteria in order to associate data to individual clients.
->   
-> -- drm-engine-<str>: <uint> ns
-> +- drm-engine-<str>: <uint> [ns|%]
->   
->   GPUs usually contain multiple execution engines. Each shall be given a stable
->   and unique name (str), with possible values documented in the driver specific
-> @@ -84,6 +84,9 @@ larger value within a reasonable period. Upon observing a value lower than what
->   was previously read, userspace is expected to stay with that larger previous
->   value until a monotonic update is seen.
->   
-> +Where time unit is given as a percentage...[AMD folks to fill the semantics
-> +and interpretation of that]...
-> +
->   - drm-engine-capacity-<str>: <uint>
->   
->   Engine identifier string must be the same as the one specified in the
-> @@ -110,3 +113,5 @@ Driver specific implementations
->   ===============================
->   
->   :ref:`i915-usage-stats`
-> +
-> +:ref:`amdgpu-usage-stats`
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> index 5a6857c44bb6..8cbae61f1b3b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> @@ -32,6 +32,7 @@
->   
->   #include <drm/amdgpu_drm.h>
->   #include <drm/drm_debugfs.h>
-> +#include <drm/drm_drv.h>
->   
->   #include "amdgpu.h"
->   #include "amdgpu_vm.h"
-> @@ -83,11 +84,18 @@ void amdgpu_show_fdinfo(struct seq_file *m, struct file *f)
->   	amdgpu_bo_unreserve(root);
->   	amdgpu_bo_unref(&root);
->   
-> -	seq_printf(m, "pdev:\t%04x:%02x:%02x.%d\npasid:\t%u\n", domain, bus,
-> +	/*
-> +	 * ******************************************************************
-> +	 * For text output format description please see drm-usage-stats.rst!
-> +	 * ******************************************************************
-> +	 */
-> +
-> +	seq_printf(m, "drm-driver:\t%s\n", file->minor->dev->driver->name);
-> +	seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\npasid:\t%u\n", domain, bus,
->   			dev, fn, fpriv->vm.pasid);
-> -	seq_printf(m, "vram mem:\t%llu kB\n", vram_mem/1024UL);
-> -	seq_printf(m, "gtt mem:\t%llu kB\n", gtt_mem/1024UL);
-> -	seq_printf(m, "cpu mem:\t%llu kB\n", cpu_mem/1024UL);
-> +	seq_printf(m, "drm-memory-vram:\t%llu KiB\n", vram_mem/1024UL);
-> +	seq_printf(m, "drm-memory-gtt:\t%llu KiB\n", gtt_mem/1024UL);
-> +	seq_printf(m, "drm-memory-cpu:\t%llu KiB\n", cpu_mem/1024UL);
->   	for (i = 0; i < AMDGPU_HW_IP_NUM; i++) {
->   		uint32_t count = amdgpu_ctx_num_entities[i];
->   		int idx = 0;
-> @@ -103,7 +111,7 @@ void amdgpu_show_fdinfo(struct seq_file *m, struct file *f)
->   			perc = div64_u64(10000 * total, min);
->   			frac = perc % 100;
->   
-> -			seq_printf(m, "%s%d:\t%d.%d%%\n",
-> +			seq_printf(m, "drm-engine-%s%d:\t%d.%d %%\n",
->   					amdgpu_ip_name[i],
->   					idx, perc/100, frac);
->   		}
-
+--------------MHXgXaeQmCiuyyM80xVQxmIp--
