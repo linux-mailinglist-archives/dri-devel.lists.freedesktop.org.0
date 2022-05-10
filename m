@@ -2,47 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37D552258E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 22:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA5952259B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 22:42:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B288410E129;
-	Tue, 10 May 2022 20:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2FA010E705;
+	Tue, 10 May 2022 20:42:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DCA810E129;
- Tue, 10 May 2022 20:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652214853; x=1683750853;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=4Oy/++T9BHOur+7IdPgOPq1tdjlRJk7qojYZOvT6HYM=;
- b=JjIvrJ//PmgeoINw2hWsRk3vAytZDfvBVaxcORejrOVhxvSlTFz82H5c
- 3cok0ECbcaQfs4XElDmnP2v4ZWYAxvzxG7jOMq+4D8cZOaE0BwBIWiDAm
- TOhmRrkv4qKvCoWNK2LSWbIZ+zNlNVLohv/YrLGyDUKToA1Xgwpp3NMxg
- ZeQ5zetFaFLHqazZwgtv1LxgF1WnIYRDoP265MLTIP70+a1m6SHu6SKoN
- yOZoVYJv15fj5cgpBq059mXBBxPVBiUIl3LE6udIhkEvnflEQFKx02h5u
- 0CncjQuP9wpypoaxyOaOTflnG6SWswRhNLLn2dMpkqAZ84uJ7slXLlL2e A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="269633563"
-X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="269633563"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 13:34:12 -0700
-X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="565829024"
-Received: from brauta-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.50.37])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 13:34:09 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915/gem: Flush TLBs for all the tiles
-Date: Tue, 10 May 2022 22:33:59 +0200
-Message-Id: <20220510203359.92530-1-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.36.0
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA8BE10E705;
+ Tue, 10 May 2022 20:42:09 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id q8so356610oif.13;
+ Tue, 10 May 2022 13:42:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VIAQOazJPjJfrZdIk0eSxwF2xbtTrMY68Mwjij7d8gE=;
+ b=WCBx2+IfqAmZC8sXmKqzLtNc8sHWu8odkNtBLzkoy3C8snxpSkQIsZ5EaT/JcbeW1I
+ FpzmywcEv1N9JRw3dvg2+UuJ4xV+7lQQ0JIaIYxyikEWF6w00JzdeN+kdA4G3t/oLd3j
+ 7Gb11tLiEjhmT4XNI0DlsXRpz0g4De9qK8I1prbAHKcPD9eCnIn71VWnRY7BXX8LELRw
+ ZVns+2/DAi4ZnhuYldcbuf/2foYJ9wKJqOAlZXWt2VoUqNuAHcdVrSSi9cLx9W3ovx6O
+ /NiurRgWVIk1qXf81GsW296h7fzNIkmi8+vMcuMIKreliJjY4lUp6lxRG+zUrlRSSany
+ 2QVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VIAQOazJPjJfrZdIk0eSxwF2xbtTrMY68Mwjij7d8gE=;
+ b=Cm/GZNaFTvsbBGCnJNO/h97ou6nwjYOiLOwwudIiq2wwgw7p6NjuRLV4Qwuwtl8glB
+ Qq5axr5sXZsYcjyvQtwhJIwVjglVUMV3MmgOTsqcWyuq/G/Y0XDNBx64l/lRrOsGaR95
+ ld79MMJI/MpuX0qdhWGGiicOaQWXnEMnBwZIeZr759wUBTCDIAP/ymljOrQ7QY613n5e
+ 8qPLh/WiMja8B97c0e5+cqw6g9axrwDBPgArwlDXMfjjYDs3j3sVjR1RNqHGl/PHfnJ+
+ DoPhO5xw+s2567JTEBFzhBCcyCAAhNf57vtleq3Zz47SpRmKhuYfJOm7ryw8QO1kSN+U
+ dT7w==
+X-Gm-Message-State: AOAM532b/7evBF4i1yUohIfR38RfjBsNrsWW+LIxxt2ztKFMMMzIcIA1
+ HZhm5+QlW0aEDPPUksewQTQGcnD9rHu5L2S+LLQ=
+X-Google-Smtp-Source: ABdhPJyiYvR8gCRPu/xnvVY/i7Ko/yIUH9sG0FYEQoYT5AaJrawyX4S+NkTMMg/TFQj6Z7EX1WGqeksfxdGAvinnHOU=
+X-Received: by 2002:a05:6808:f8e:b0:328:a601:a425 with SMTP id
+ o14-20020a0568080f8e00b00328a601a425mr963626oiw.253.1652215328989; Tue, 10
+ May 2022 13:42:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YnTAc96Uv0CXcGhD@suse.de>
+ <CADnq5_NT3UtawpGuPDwF+dgmRdaoysb7sD_-oWWBC=T3BoUH7Q@mail.gmail.com>
+ <YnpIjdTT3esZ72Bf@suse.de>
+ <CADnq5_NYVvjcUru9hfbnATfcHJR5+eiK9bJAA9m41WKa=OJsog@mail.gmail.com>
+ <505081FC-4323-4424-87A9-89B95A89515D@suse.de>
+In-Reply-To: <505081FC-4323-4424-87A9-89B95A89515D@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 10 May 2022 16:41:57 -0400
+Message-ID: <CADnq5_PoWLHydAGqHXKNwBnnc_Uz7xc01Mmp2ri-h+RtnRqgfQ@mail.gmail.com>
+Subject: Re: [BUG] Warning and NULL-ptr dereference in amdgpu driver with 5.18
+To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,44 +68,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Andi Shyti <andi@etezian.org>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During object cleanup we invalidate the TLBs but we do it only
-for gt0. Invalidate the caches for all the tiles.
+On Tue, May 10, 2022 at 2:17 PM J=C3=B6rg R=C3=B6del <jroedel@suse.de> wrot=
+e:
+>
+>
+> > Am 10.05.2022 um 17:31 schrieb Alex Deucher <alexdeucher@gmail.com>:
+> >
+> > On Tue, May 10, 2022 at 7:12 AM J=C3=B6rg R=C3=B6del <jroedel@suse.de> =
+wrote:
+> >>
+> >> Gentle ping. This is a 5.18 regression and I also see it with
+> >> 5.18-rc6. Please let me know if you need anything else to debug.
+> >>
+> >
+> > Are you doing anything special when it happens?  I.e., does it happen
+> > when the monitor is coming out of DPMS or something like that?
+> >
+>
+> Yes, it usually happens when I return to the machine and press some butto=
+n on the keyboard to get the screens enabled again. It doesn=E2=80=99t happ=
+en always, it seems to depend on how slow the monitors come out of power sa=
+ving mode.
+>
 
-Reported-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_pages.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+Does setting amdgpu.runpm=3D0 on the kernel command line in grub help?
+If so, that should fixed with:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3Df95af4a9236695caed24fe6401256bb974e8f2a7
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 97c820eee115a..444b9f96ba77c 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -217,10 +217,15 @@ __i915_gem_object_unset_pages(struct drm_i915_gem_object *obj)
- 
- 	if (test_and_clear_bit(I915_BO_WAS_BOUND_BIT, &obj->flags)) {
- 		struct drm_i915_private *i915 = to_i915(obj->base.dev);
--		intel_wakeref_t wakeref;
-+		struct intel_gt *gt;
-+		int i;
- 
--		with_intel_runtime_pm_if_active(&i915->runtime_pm, wakeref)
--			intel_gt_invalidate_tlbs(to_gt(i915));
-+		for_each_gt(gt, i915, i) {
-+			intel_wakeref_t w;
-+
-+			with_intel_runtime_pm_if_active(gt->uncore->rpm, w)
-+				intel_gt_invalidate_tlbs(gt);
-+		}
- 	}
- 
- 	return pages;
--- 
-2.36.0
+Alex
 
+
+> Regards,
+>
+> J=C3=B6rg R=C3=B6del
+> jroedel@suse.de
+>
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5
+> 90409 N=C3=BCrnberg
+> Germany
+>
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
