@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD22522223
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 19:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4B7522244
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 19:20:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1923010F295;
-	Tue, 10 May 2022 17:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1E0E10FBAE;
+	Tue, 10 May 2022 17:20:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 222C210F295
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 17:17:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 49E266188C;
- Tue, 10 May 2022 17:17:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45364C385C2;
- Tue, 10 May 2022 17:16:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652203020;
- bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
- h=From:To:Cc:Subject:Date:From;
- b=E2EL/IYa9vtspm3Vt+hLlEsRvVUhuE0t3QkZ03Nw7N/NQHim5XgKUs/Ea6s9y8dGZ
- 2iEozjbNwmewEtDluCLbS2EsobRMEsVcspb9tkRCpHPKp6eTCajJZiGDJprUMke4Ik
- P4MFfA/3hBk6nBdC9rdBmkFIOkLqnLU55zjbZJ10ny6WYF/3ysJZIGHhch+dQa6Nin
- LivcYjOeK9esBObH7eCs6wU6g5gruk3ET/d0SDGcVyP7CFCsxrPXa0Ilf9dYBkO8Bc
- 45HKPrU82OAm24h0vgMlcZWu/omCOLwHiK1dDznozqT47uNRXQOeA/fYSp0jFiC6/E
- FEBclrcax5TiA==
-From: Mark Brown <broonie@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] drm/i2c: tda9950: Lower severity of log message about missing
- interrupts
-Date: Tue, 10 May 2022 18:15:37 +0100
-Message-Id: <20220510171537.926581-1-broonie@kernel.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+ [209.85.167.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D37910FBCD
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 17:20:41 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id r1so19236178oie.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 10:20:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Hl+EeVfg1SG/ItNk+3j3E/1KiMEoNYf4v98cMSThK0w=;
+ b=k4SzzteRsVGaHx4I6LelnYhFfA3JJIq+MRT+hnaXmkFotF2nTq6ov1arvR4hFbPFNU
+ ZSLiLKHh8zrcP3jX8/6PRQh2H4OPtjJ3xcvHTdhFmgW4QzAjWAL+6tRqqDmbSYoFaq7q
+ Ph7eDHiyHwr/wndOi3IFvyL3PLtXQm6csALqx2Qy6UHridpmpJ5fWIGEtFc3KuEogVzy
+ dIzQKyXKuGOOoEgjp9etoKSHmOWLZ+dzaXd2HnESZcIg1Cl/ioYrfXjXuCGspbOB5guh
+ Z7g+2om7svfyMbS0KhOufL+/KKMl9aMYcMYopKg/QBjbtKkFGJ23JODe9nxdvdyfvohl
+ d0PQ==
+X-Gm-Message-State: AOAM53306Qqcq32UdO/koXwH0RjIbwwmrsajcnV/ehJgyfwxt1j6dy4C
+ hzkGJFM6HLX61jW+J16aBw==
+X-Google-Smtp-Source: ABdhPJwOTBdtvBdyjzF02XoaWDp7j9xraOoLUddz7oDSgLQpivKx7ligBzBxctKoqc23aW5jjq4W7w==
+X-Received: by 2002:aca:ab54:0:b0:326:af63:7a7f with SMTP id
+ u81-20020acaab54000000b00326af637a7fmr570106oie.26.1652203240858; 
+ Tue, 10 May 2022 10:20:40 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ i10-20020a9d624a000000b0060603221267sm5934704otk.55.2022.05.10.10.20.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 May 2022 10:20:40 -0700 (PDT)
+Received: (nullmailer pid 2230997 invoked by uid 1000);
+ Tue, 10 May 2022 17:20:39 -0000
+Date: Tue, 10 May 2022 12:20:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH 1/3] dt-bindings: display: rockchip: make reg-names
+ mandatory for VOP2
+Message-ID: <Ynqe5zcWZw8KJMl1@robh.at.kernel.org>
+References: <20220510070914.2346011-1-s.hauer@pengutronix.de>
+ <20220510070914.2346011-2-s.hauer@pengutronix.de>
+ <3353209.QJadu78ljV@diego>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1441; h=from:subject;
- bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBiepyh8hgZWn5OjUYw6uHfKImPQihXLYJJZ8JbFJH3
- D570zu6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYnqcoQAKCRAk1otyXVSH0LXWB/
- 9ncqDifi7+tkc7hUGy+B1/KZ0vMDEZrJSv2D7/OBc3BBrP21zcc03tN4hPTxYaTCUNJ1zzItvExyVa
- uRXmEsXDngEpwyJLSd7W5VG5mY5/0O2pht/lhtg5Fr3t/lUSqcfjJR7ehwZtX2uGcMz71pcmLKWG0E
- +HGG7+SRm0A3HrIpAYFFEPX/DnEkXzr4msMlqfvCDaLfKr8sJVy47NOvjSxihdVkllJkhuovOc94cK
- 9rBDPxL4z2TixOSS0R5kk7HY78U5w+kDjbyXtJn2Z+agy87nKTk5Qtuo0RS+Nha3WaEWH5lZcl1Kz6
- fO77FDnsKgogcm31mXytGw1AwUSFAz
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <3353209.QJadu78ljV@diego>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +66,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, krzk+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tda9950 driver prints an error message if it is instantiated without
-an interrupt being available since the device is non-functional in that
-case. Unfortunately due to packaging of tda9950 with tda998x series devices
-the tda998x driver unconditionally instantiates a tda9950 so systems with a
-tda998x configured without an interrupt will trigger this error message
-during boot if tda9950 support is available. Reduce the severity to debug
-level so this is less likely to be presented to end users, the information
-is still there for system integrators who run into problems.
+On Tue, May 10, 2022 at 04:08:02PM +0200, Heiko Stübner wrote:
+> Hi Sascha,
+> 
+> Am Dienstag, 10. Mai 2022, 09:09:12 CEST schrieb Sascha Hauer:
+> > The VOP2 driver relies on reg-names properties, but these are not
+> > documented. Add the missing documentation, make reg-names mandatory
+> > and increase minItems to 2 as always both register spaces are needed.
+> > 
+> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> 
+> I'm not sure how the DT-people work - if they only track the devicetree list
+> or their x+dt@kernel.org accounts or some mixture, but the patch was
+> missing the maintainer email addresses - I've added them here now :-) .
 
-We could add a check for an interrupt to the tda998x driver instead but
-this feels better from an encapsulation point of view, there's still a log
-message to help anyone doing system integration.
+I only see what is in DT PW. Since I'm copied on almost everything that 
+goes to the DT list, CC'ing me has almost no effect.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/gpu/drm/i2c/tda9950.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The change looks good to me and as I merged the original binding
+> into drm-misc only some days ago, we also don't have a backwards-
+> compat issue yet, so hopefully DT-people will think similarly .
 
-diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
-index 5b03fdd1eaa4..781d5665cd04 100644
---- a/drivers/gpu/drm/i2c/tda9950.c
-+++ b/drivers/gpu/drm/i2c/tda9950.c
-@@ -397,7 +397,7 @@ static int tda9950_probe(struct i2c_client *client,
- 
- 	/* We must have an interrupt to be functional. */
- 	if (client->irq <= 0) {
--		dev_err(&client->dev, "driver requires an interrupt\n");
-+		dev_dbg(&client->dev, "driver requires an interrupt\n");
- 		return -ENXIO;
- 	}
- 
--- 
-2.30.2
+It will fail checks... I can't run them as this doesn't apply, so 
+hopefully someone does. Or I can complain when next breaks.
 
+Rob
