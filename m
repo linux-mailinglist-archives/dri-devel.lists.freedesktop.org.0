@@ -2,42 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C765215B9
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 14:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC4F5215F8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 14:53:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07D710E02B;
-	Tue, 10 May 2022 12:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4128410E534;
+	Tue, 10 May 2022 12:52:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED6C10E073
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 12:44:12 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1noPDm-0004VC-5M; Tue, 10 May 2022 14:44:10 +0200
-Message-ID: <ddf6eadd-c96f-f52c-55e8-7a2095c2d965@leemhuis.info>
-Date: Tue, 10 May 2022 14:44:09 +0200
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF6310E534
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 12:52:57 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id t5so19853725edw.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 05:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=WI1zTOfSIg5efVZfyvBSsp8//tfBd0cdczBSSxTFZbM=;
+ b=M0XRCTZL5/OCjpLOp6VQQC7z0Re+F/RgmF1UukIrioiMykPB0R7Aj13djyzrg2StTD
+ VJDOyuKku0W+egHu+VrN33KttIt3d5+iHhTH3n/5IAmZek52mv17Dg1VcM7yXoyQttmc
+ /ZZ+3qIfmL178zYSJkv8X3S0uvoLXDPUu45142K201/sJhbuvvpMuTRzgyPc3YuIXza6
+ wIiYACOsi0KOPM/2POCEvOByBujP9Syuh5km2bLbH4e9CB0SYHbUVAnBIqvgA0oOQTmr
+ 7gOt+5bvgMYuCV5wk35z/SUzp8lENBLwnQYKgIQPJW4nLEsiPn9P1pvj2F4NPM8pdkaE
+ AsOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WI1zTOfSIg5efVZfyvBSsp8//tfBd0cdczBSSxTFZbM=;
+ b=GVkBHlqx2FXpTzIeDjzfjvYlha3bcx+7qoYhmiYi69NDLsuNrw3z2E7h1kzO/bD3a6
+ N4aAfALzLX2wriPSBuFIwfSapoAk0b5AIePL+1B2mrmyuRH1SzP2YPCjyonpvK67Qsaz
+ IM4cLw3r4agZ1puusCucPSXBMVDy0EzcD1eLliyd/KpunpV1ECoSKyZ7Abv2tfGJmpaU
+ 2V/degHziiKPQ/8XmGBogc4Wh8kxUmGGCC6M6TvKHjftdh2hsipi8oh7WqGIlnAU/BTG
+ N0ed3npeSmJRjpVxmpxUFAv1Wa2tYQEuz20E8WCO+Jcp7u0B78mTjnat6iKcYa/uDZXg
+ NxkQ==
+X-Gm-Message-State: AOAM532eQk2uALSN5xa2VxXCP4tTMSJPv0fMUq+l/pDAn/ZRncg1TDg1
+ INI2N9rliKG5a7CYmOsjJMU=
+X-Google-Smtp-Source: ABdhPJyN5CN/JhTtUeKUlijPnHsp542eYOzriocQW2nzKpv+Am+UGABpfo9csh4/XMFj0hFFENFGfA==
+X-Received: by 2002:a50:ce14:0:b0:425:cb75:5322 with SMTP id
+ y20-20020a50ce14000000b00425cb755322mr23429940edi.386.1652187176341; 
+ Tue, 10 May 2022 05:52:56 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:616c:3555:9eac:59cc?
+ ([2a02:908:1256:79a0:616c:3555:9eac:59cc])
+ by smtp.gmail.com with ESMTPSA id
+ s3-20020a170906284300b006f3ef214df2sm6096680ejc.88.2022.05.10.05.52.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 05:52:55 -0700 (PDT)
+Message-ID: <ae249cf7-7367-d3c2-60e5-7bfab6e3ef73@gmail.com>
+Date: Tue, 10 May 2022 14:52:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: 5.18 vmwgfx seems to break booting VirtualBox VMs
+ Thunderbird/91.7.0
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dmabuf: ensure unique directory name
+ for dmabuf stats
 Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>
-References: <2bd4b06e-7577-d7d7-5f2e-264005b316a1@redhat.com>
- <84c30eb2dcdc330ea54aa1fedba9ae0eb0826068.camel@vmware.com>
- <087a0754-422c-0d88-a5ed-c03f2b5906c2@redhat.com>
- <41AD6A60-9C2C-4545-8A62-114B07C0383F@vmware.com>
- <3d8f7aa0-0846-436d-7fe1-e8f8af7eaff5@leemhuis.info>
- <5F7AE997-3B4A-4E62-A1F7-ADC80D4EE0DB@vmware.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <5F7AE997-3B4A-4E62-A1F7-ADC80D4EE0DB@vmware.com>
-Content-Type: text/plain; charset=UTF-8
+To: Greg KH <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
+ <YnpF1XP1tH83uBlM@kroah.com> <039e1acc-8688-2e06-1b2a-1acbe813b91e@amd.com>
+ <YnpWNSdAQzG80keQ@kroah.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <YnpWNSdAQzG80keQ@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1652186652;
- 93671732; 
-X-HE-SMSGID: 1noPDm-0004VC-5M
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,65 +78,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tjmercier@google.com, linaro-mm-sig@lists.linaro.org,
+ Charan Teja Kalla <quic_charante@quicinc.com>, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10.05.22 14:26, Zack Rusin wrote:
->> On May 10, 2022, at 7:06 AM, Thorsten Leemhuis <regressions@leemhuis.info> wrote:
->> On 10.05.22 02:12, Zack Rusin wrote:
->>>> On May 9, 2022, at 6:57 AM, Hans de Goede <hdegoede@redhat.com>
->>>> wrote: On 4/11/22 16:24, Zack Rusin wrote:
->>>>> On Mon, 2022-04-11 at 10:52 +0200, Hans de Goede wrote:
->>>>>>
->>>>>> Fedora has received a bug report here:
->>>>>>
->>>>>> https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D2072556&amp;data=05%7C01%7Czackr%40vmware.com%7C2dca2a7c731c42c9cdc608da327534e3%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C0%7C637877776243955067%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=iN4JPTRDJaUqU%2FciQSCdGWg45yDA8iZEAyKBWB80IZ4%3D&amp;reserved=0
->>>>>>
->>>>>>
->>>>>>
->> That Fedora rawhide VMs no longer boot under the VirtualBox
->>>>>> hypervisor after the VM has been updated to a 5.18-rc# kernel.
->>>>>>
->>>>>> Switching the emulated GPU from vmwaregfx to VirtualBoxSVGA
->>>>>> fixes this, so this seems to be a vmwgfx driver regression.
->>>>>>
->>>>>> Note I've not investigated/reproduced this myself due to
->>>>>> -ENOTIME.
->>>>>
->>>>> Thanks for letting us know. Unfortunately we do not support
->>>>> vmwgfx on VirtualBox. I'd be happy to review patches related to
->>>>> this, but it's very unlikely we'd have to time to look at this
->>>>> ourselves.
+Am 10.05.22 um 14:10 schrieb Greg KH:
+> On Tue, May 10, 2022 at 01:35:41PM +0200, Christian König wrote:
+>> Am 10.05.22 um 13:00 schrieb Greg KH:
+>>> On Tue, May 10, 2022 at 03:53:32PM +0530, Charan Teja Kalla wrote:
+>>>> The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
+>>>> alloc_anon_inode()) to get an inode number and uses the same as a
+>>>> directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
+>>>> used to collect the dmabuf stats and it is created through
+>>>> dma_buf_stats_setup(). At current, failure to create this directory
+>>>> entry can make the dma_buf_export() to fail.
 >>>>
->>>> I somewhat understand where you are coming from, but this is not 
->>>> how the kernels "no regressions" policy works.
->>
->> Hans, many thx for writing your mail, I once intended to write something
->> similar, but then forgot about it. :-/
->>
->>>> For the end user a regression is a regression and as maintainers we
->>>> are supposed to make sure any regressions noticed are fixed before
->>>> a new kernel hits end user's systems.
->>>
->>> I think there’s a misunderstanding here - the vmwgfx driver never
->>> supported VirtualBox. VirtualBox implementation of the svga device
->>> lacks a bunch of features,
->>
->> Which from the kernel's point of view is irrelevant. If the Linux
->> kernel's vmwgfx driver ever supported the VirtualBox implementation then
->> things shouldn't regress with later versions.
-> It never did. vmwgfx is just a driver for VMware's SVGA device, it never supported anything else. 
+>>>> Now, as the get_next_ino() can definitely give a repetitive inode no
+>>>> causing the directory entry creation to fail with -EEXIST. This is a
+>>>> problem on the systems where dmabuf stats functionality is enabled on
+>>>> the production builds can make the dma_buf_export(), though the dmabuf
+>>>> memory is allocated successfully, to fail just because it couldn't
+>>>> create stats entry.
+>>> Then maybe we should not fail the creation path of the kobject fails to
+>>> be created?  It's just for debugging, it should be fine if the creation
+>>> of it isn't there.
+>> Well if it's just for debugging then it should be under debugfs and not
+>> sysfs.
+> I'll note that the original patch series for this described why this was
+> moved from debugfs to sysfs.
+>
+>>>> This issue we are able to see on the snapdragon system within 13 days
+>>>> where there already exists a directory with inode no "122602" so
+>>>> dma_buf_stats_setup() failed with -EEXIST as it is trying to create
+>>>> the same directory entry.
+>>>>
+>>>> To make the directory entry as unique, append the inode creation time to
+>>>> the inode. With this change the stats directory entries will be in the
+>>>> format of: /sys/kernel/dmabuf/buffers/<inode no>-<inode creation time in
+>>>> secs>.
+>>> As you are changing the format here, shouldn't the Documentation/ABI/
+>>> entry for this also be changed?
+>> As far as I can see that is even an UAPI break, not sure if we can allow
+>> that.
+> Why?  Device names change all the time and should never be static.  A
+> buffer name should just be a unique identifier in that directory, that's
+> all.  No rules on the formatting of it unless for some reason the name
+> being the inode number was somehow being used in userspace for that
+> number?
 
-Now I'm curious and would like to understand the issue properly, if you
-have a minute. :-D
+My impression was that we documented that should have been a number, but 
+I might be wrong on this. And if it's not documented to be a number, I 
+think it should be.
 
-I didn't mean "supported" as in "officially supported", I meant as in
-"it ran (as in automatically bonded) on VirtualBox in one of the modes
-one could configure in VirtualBox for virtual GPU". And the latter is
-the case here afaics, or isn't it?
+The background is that you probably need to associate the DMA-buf with 
+some userspace structure for accounting and that becomes easier when you 
+can just put them into a radix.
 
-Ciao, Thorsten
+Regards,
+Christian.
+
+>
+> thanks,
+>
+> greg k-h
+> _______________________________________________
+> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+
