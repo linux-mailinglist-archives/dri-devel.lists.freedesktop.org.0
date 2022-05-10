@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A7D522484
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 21:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815EB5224AD
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 21:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0989010E0AE;
-	Tue, 10 May 2022 19:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0CF010E512;
+	Tue, 10 May 2022 19:22:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE87D10E0AE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 19:08:32 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id 126so87081qkm.4
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 12:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4jRHmDRiTYtUVm3F2TV/cnHc4gTZpNzxAskWEMeHjb0=;
- b=ijenj0F+shWYlWKOKoPsXSieljDL6aNFFf7PrQL/Ej9MqigLI+I6PoyAgdCgspqEi+
- KaYJt1YKojvXmOyLRcurUzYjQNByqWE5QGLU4tFziqofD8iwTfE++UmBGqlM9vGMECpc
- kSbky1WTM4ldI7ijbwPOiqKJtJFWLDuHt7BmA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4jRHmDRiTYtUVm3F2TV/cnHc4gTZpNzxAskWEMeHjb0=;
- b=AF5w1BjD0oBkpNYNEbjmc3vYbv8GXVV8GVXhR4GpVd4d1OqV1G23+dAkaItCIkO/X0
- jSAaLE9kZ0MvRm+cwY/s/V+VLaG+FLCulw4QrUnkn0ZwFVh28aQ2hLZT28seF74RE8yZ
- gKZRcezlBdu+qHC5hn4IKFFtoDJ/mzlwLUIeAFgQ6jtipynlqkV2QQ2siD7Bd3K/UjKq
- t1fwMqPOqoMhYvhGSXsa7MohigKM4qqZTIszYAfS/W7RAl3Y/zOcgjDRv9Qrv5iR2W/E
- BEOjG3O/UNjg0AAAQ/tZh3B4QHpu+cED4Bo4qkQsl8QanUlv8d5h8a/X4OHwFduZ3ZS1
- GFMA==
-X-Gm-Message-State: AOAM531falcvDSafBVHMjPqo+NCVAAJATfQnvoZJjtZixuAtSadDaAeM
- N0s+SMY9hRW1Bpp38wYWUir50w==
-X-Google-Smtp-Source: ABdhPJxhZMWvFMdDp5OOtpLRcQsMnI7cLWD8+vbJIItoETMs2u7GJzxM3szzCaPCWDdg9jrbJat/WA==
-X-Received: by 2002:a05:620a:4083:b0:6a0:9d07:5127 with SMTP id
- f3-20020a05620a408300b006a09d075127mr7404455qko.51.1652209711777; 
- Tue, 10 May 2022 12:08:31 -0700 (PDT)
-Received: from markyacoub.nyc.corp.google.com
- ([2620:0:1003:314:141d:f589:29f6:2a25])
- by smtp.gmail.com with ESMTPSA id
- x8-20020ac87a88000000b002f39b99f6b1sm9590931qtr.75.2022.05.10.12.08.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 May 2022 12:08:31 -0700 (PDT)
-From: Mark Yacoub <markyacoub@chromium.org>
-To: 
-Subject: [PATCH] drm: Create support for Write-Only property blob
-Date: Tue, 10 May 2022 15:08:21 -0400
-Message-Id: <20220510190823.1552920-1-markyacoub@chromium.org>
-X-Mailer: git-send-email 2.36.0.512.ge40c2bad7a-goog
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D826710E512;
+ Tue, 10 May 2022 19:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652210561; x=1683746561;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=pQdKDTEjGXmf6hdFcjwbhsir5urGQxtkv9GKg/9z9+Y=;
+ b=JgB3XsqRVQTJbC8mCCWG3OR5xtTR6Fq7z5u+ie0FUy85SpUTHS5j11Ri
+ hyHTcII0Ag5DF8lC95nVcule7NJe/hOmkkDXzy5cMeECiYKpHOOwmr7AC
+ 3/Q86DBS3wu7lM+h23BkRBDnLtpLJHsblIGXIbuCiZr3BqI7d+O3Nqm7i
+ Y/IqA2YtdwEbobbUrk/tytG3C910tEOMQvTtsmMsT9sh6Pe7wAvRt8nxV
+ WtG8iP4xsgT0xj2cP5btxTYg5U6jpwcx44EoayAYOuM5ox2MSWZ68uSgs
+ ib9u61FjpAKJoCOVFH1rfNOIgDvp9NbXr6AId7dun0GIu/nmUhw21mUPb g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="269618528"
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="269618528"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 12:22:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="738862426"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga005.jf.intel.com with ESMTP; 10 May 2022 12:22:41 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 10 May 2022 12:22:40 -0700
+Received: from fmsmsx612.amr.corp.intel.com ([10.18.126.92]) by
+ fmsmsx612.amr.corp.intel.com ([10.18.126.92]) with mapi id 15.01.2308.027;
+ Tue, 10 May 2022 12:22:40 -0700
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Hogander, Jouni" <jouni.hogander@intel.com>
+Subject: Re: [PATCH v3 1/3] drm/print: Add drm_debug_once* macros
+Thread-Topic: [PATCH v3 1/3] drm/print: Add drm_debug_once* macros
+Thread-Index: AQHYZJx094v7H4rrakmNNx9mT1+UXK0Y8r+A
+Date: Tue, 10 May 2022 19:22:40 +0000
+Message-ID: <3d3eae1863184230930258ac818ab0565fddeb11.camel@intel.com>
+References: <20220510183313.1046628-1-jouni.hogander@intel.com>
+ <20220510183313.1046628-2-jouni.hogander@intel.com>
+In-Reply-To: <20220510183313.1046628-2-jouni.hogander@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <04C500C0BBCDE04EB9E9FA8516922B3D@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,98 +72,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, markyacoub@chromium.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- markyacoub@google.com
+Cc: "markpearson@lenovo.com" <markpearson@lenovo.com>, "Kahola,
+ Mika" <mika.kahola@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-User space might need to inject data into the kernel without allowing it
-to be read again by any user space.
-An example of where this is particularly useful is secret keys fetched
-by user space and injected into the kernel to enable content protection.
-
-[How]
-Create a DRM_MODE_CREATE_BLOB_WRITE_ONLY flag used by user space to
-create a blob and mark the blob as write only.
-On reading back the blob, data will be not be copied if it's a write
-only blob
-
-Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-
----
- drivers/gpu/drm/drm_property.c | 3 ++-
- include/drm/drm_property.h     | 2 ++
- include/uapi/drm/drm_mode.h    | 6 ++++++
- 3 files changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-index dfec479830e4..afedf7109d00 100644
---- a/drivers/gpu/drm/drm_property.c
-+++ b/drivers/gpu/drm/drm_property.c
-@@ -765,7 +765,7 @@ int drm_mode_getblob_ioctl(struct drm_device *dev,
- 	if (!blob)
- 		return -ENOENT;
- 
--	if (out_resp->length == blob->length) {
-+	if (out_resp->length == blob->length && !blob->is_write_only) {
- 		if (copy_to_user(u64_to_user_ptr(out_resp->data),
- 				 blob->data,
- 				 blob->length)) {
-@@ -800,6 +800,7 @@ int drm_mode_createblob_ioctl(struct drm_device *dev,
- 		ret = -EFAULT;
- 		goto out_blob;
- 	}
-+	blob->is_write_only = out_resp->flags & DRM_MODE_CREATE_BLOB_WRITE_ONLY;
- 
- 	/* Dropping the lock between create_blob and our access here is safe
- 	 * as only the same file_priv can remove the blob; at this point, it is
-diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
-index 65bc9710a470..700782f021b9 100644
---- a/include/drm/drm_property.h
-+++ b/include/drm/drm_property.h
-@@ -205,6 +205,7 @@ struct drm_property {
-  * 	&drm_mode_config.property_blob_list.
-  * @head_file: entry on the per-file blob list in &drm_file.blobs list.
-  * @length: size of the blob in bytes, invariant over the lifetime of the object
-+ * @is_write_only: user space can't read the blob data.
-  * @data: actual data, embedded at the end of this structure
-  *
-  * Blobs are used to store bigger values than what fits directly into the 64
-@@ -219,6 +220,7 @@ struct drm_property_blob {
- 	struct list_head head_global;
- 	struct list_head head_file;
- 	size_t length;
-+	bool is_write_only;
- 	void *data;
- };
- 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 0a0d56a6158e..de192d3813e9 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1107,6 +1107,9 @@ struct drm_format_modifier {
- 	__u64 modifier;
- };
- 
-+#define DRM_MODE_CREATE_BLOB_WRITE_ONLY                                        \
-+	(1 << 0) /* data of the blob can't be read by user space */
-+
- /**
-  * struct drm_mode_create_blob - Create New blob property
-  *
-@@ -1120,6 +1123,9 @@ struct drm_mode_create_blob {
- 	__u32 length;
- 	/** @blob_id: Return: new property ID. */
- 	__u32 blob_id;
-+	/** Flags for special handling. */
-+	__u32 flags;
-+	__u32 pad;
- };
- 
- /**
--- 
-2.36.0.512.ge40c2bad7a-goog
-
+T24gVHVlLCAyMDIyLTA1LTEwIGF0IDIxOjMzICswMzAwLCBKb3VuaSBIw7ZnYW5kZXIgd3JvdGU6
+DQo+IEFkZCBkcm1fZGVidWdfb25jZSogbWFjcm9zIHRvIGFsbG93IHByaW50aW5nIG91dCBvbmUg
+dGltZSBkZWJ1Zw0KPiBtZXNzYWdlcyB3aGljaCBjYW4gYmUgc3RpbGwgY29udHJvbGxlZCB2aWEg
+ZHJtLmRlYnVnIHBhcmFtZXRlci4NCg0KUmV2aWV3ZWQtYnk6IEpvc8OpIFJvYmVydG8gZGUgU291
+emEgPGpvc2Uuc291emFAaW50ZWwuY29tPg0KDQo+IA0KPiBDYzogSm9zw6kgUm9iZXJ0byBkZSBT
+b3V6YSA8am9zZS5zb3V6YUBpbnRlbC5jb20+DQo+IENjOiBNaWthIEthaG9sYSA8bWlrYS5rYWhv
+bGFAaW50ZWwuY29tPg0KPiBDYzogTWFyayBQZWFyc29uIDxtYXJrcGVhcnNvbkBsZW5vdm8uY29t
+Pg0KPiBTaWduZWQtb2ZmLWJ5OiBKb3VuaSBIw7ZnYW5kZXIgPGpvdW5pLmhvZ2FuZGVyQGludGVs
+LmNvbT4NCj4gLS0tDQo+ICBpbmNsdWRlL2RybS9kcm1fcHJpbnQuaCB8IDI5ICsrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKQ0K
+PiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9wcmludC5oIGIvaW5jbHVkZS9kcm0v
+ZHJtX3ByaW50LmgNCj4gaW5kZXggMjJmYWJkZWVkMjk3Li5lMzM5ZjQ3ZWViNmQgMTAwNjQ0DQo+
+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9wcmludC5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9w
+cmludC5oDQo+IEBAIC00NzYsNiArNDc2LDM1IEBAIHZvaWQgZHJtX2Rldl9kYmcoY29uc3Qgc3Ry
+dWN0IGRldmljZSAqZGV2LCBlbnVtIGRybV9kZWJ1Z19jYXRlZ29yeSBjYXRlZ29yeSwNCj4gICNk
+ZWZpbmUgZHJtX2RiZ19kcm1yZXMoZHJtLCBmbXQsIC4uLikJCQkJCVwNCj4gIAlkcm1fZGV2X2Ri
+ZygoZHJtKSA/IChkcm0pLT5kZXYgOiBOVUxMLCBEUk1fVVRfRFJNUkVTLCBmbXQsICMjX19WQV9B
+UkdTX18pDQo+ICANCj4gKyNkZWZpbmUgZHJtX2Rldl9kYmdfb25jZShkZXYsIGNhdCwgZm10LCAu
+Li4pCQkJXA0KPiArKHsJCQkJCQkJCVwNCj4gKwlzdGF0aWMgYm9vbCBfX3ByaW50X29uY2UgX19y
+ZWFkX21vc3RseTsJCQlcDQo+ICsJaWYgKCFfX3ByaW50X29uY2UpIHsJCQkJCVwNCj4gKwkJX19w
+cmludF9vbmNlID0gdHJ1ZTsJCQkJXA0KPiArCQlkcm1fZGV2X2RiZyhkZXYsIGNhdCwgZm10LCAj
+I19fVkFfQVJHU19fKTsJXA0KPiArCX0JCQkJCQkJXA0KPiArfSkNCj4gKw0KPiArI2RlZmluZSBk
+cm1fZGJnX29uY2VfY29yZShkcm0sIGZtdCwgLi4uKQkJCQkJXA0KPiArCWRybV9kZXZfZGJnX29u
+Y2UoKGRybSkgPyAoZHJtKS0+ZGV2IDogTlVMTCwgRFJNX1VUX0NPUkUsIGZtdCwgIyNfX1ZBX0FS
+R1NfXykNCj4gKyNkZWZpbmUgZHJtX2RiZ19vbmNlKGRybSwgZm10LCAuLi4pCQkJCQkJXA0KPiAr
+CWRybV9kZXZfZGJnX29uY2UoKGRybSkgPyAoZHJtKS0+ZGV2IDogTlVMTCwgRFJNX1VUX0RSSVZF
+UiwgZm10LCAjI19fVkFfQVJHU19fKQ0KPiArI2RlZmluZSBkcm1fZGJnX29uY2Vfa21zKGRybSwg
+Zm10LCAuLi4pCQkJCQlcDQo+ICsJZHJtX2Rldl9kYmdfb25jZSgoZHJtKSA/IChkcm0pLT5kZXYg
+OiBOVUxMLCBEUk1fVVRfS01TLCBmbXQsICMjX19WQV9BUkdTX18pDQo+ICsjZGVmaW5lIGRybV9k
+Ymdfb25jZV9wcmltZShkcm0sIGZtdCwgLi4uKQkJCQkJXA0KPiArCWRybV9kZXZfZGJnX29uY2Uo
+KGRybSkgPyAoZHJtKS0+ZGV2IDogTlVMTCwgRFJNX1VUX1BSSU1FLCBmbXQsICMjX19WQV9BUkdT
+X18pDQo+ICsjZGVmaW5lIGRybV9kYmdfb25jZV9hdG9taWMoZHJtLCBmbXQsIC4uLikJCQkJCVwN
+Cj4gKwlkcm1fZGV2X2RiZ19vbmNlKChkcm0pID8gKGRybSktPmRldiA6IE5VTEwsIERSTV9VVF9B
+VE9NSUMsIGZtdCwgIyNfX1ZBX0FSR1NfXykNCj4gKyNkZWZpbmUgZHJtX2RiZ19vbmNlX3ZibChk
+cm0sIGZtdCwgLi4uKQkJCQkJXA0KPiArCWRybV9kZXZfZGJnX29uY2UoKGRybSkgPyAoZHJtKS0+
+ZGV2IDogTlVMTCwgRFJNX1VUX1ZCTCwgZm10LCAjI19fVkFfQVJHU19fKQ0KPiArI2RlZmluZSBk
+cm1fZGJnX29uY2Vfc3RhdGUoZHJtLCBmbXQsIC4uLikJCQkJCVwNCj4gKwlkcm1fZGV2X2RiZ19v
+bmNlKChkcm0pID8gKGRybSktPmRldiA6IE5VTEwsIERSTV9VVF9TVEFURSwgZm10LCAjI19fVkFf
+QVJHU19fKQ0KPiArI2RlZmluZSBkcm1fZGJnX29uY2VfbGVhc2UoZHJtLCBmbXQsIC4uLikJCQkJ
+CVwNCj4gKwlkcm1fZGV2X2RiZ19vbmNlKChkcm0pID8gKGRybSktPmRldiA6IE5VTEwsIERSTV9V
+VF9MRUFTRSwgZm10LCAjI19fVkFfQVJHU19fKQ0KPiArI2RlZmluZSBkcm1fZGJnX29uY2VfZHAo
+ZHJtLCBmbXQsIC4uLikJCQkJCVwNCj4gKwlkcm1fZGV2X2RiZ19vbmNlKChkcm0pID8gKGRybSkt
+PmRldiA6IE5VTEwsIERSTV9VVF9EUCwgZm10LCAjI19fVkFfQVJHU19fKQ0KPiArI2RlZmluZSBk
+cm1fZGJnX29uY2VfZHJtcmVzKGRybSwgZm10LCAuLi4pCQkJCQlcDQo+ICsJZHJtX2Rldl9kYmdf
+b25jZSgoZHJtKSA/IChkcm0pLT5kZXYgOiBOVUxMLCBEUk1fVVRfRFJNUkVTLCBmbXQsICMjX19W
+QV9BUkdTX18pDQo+ICANCj4gIC8qDQo+ICAgKiBwcmludGsgYmFzZWQgbG9nZ2luZw0KDQo=
