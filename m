@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8766520E3A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 08:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F97520E3B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 09:01:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794C110E0D3;
-	Tue, 10 May 2022 06:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4781E10F382;
+	Tue, 10 May 2022 07:01:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E299A10E0D3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 06:58:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7F9F31FA23;
- Tue, 10 May 2022 06:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652165918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=m5u5PQE+fqfVZ30PjpB3yAofUSBh71P7s2BeFB5Y5Tg=;
- b=LGFl1XjJ02PoukoOOxqwdOWRLDZ/th9JBxfJD4hwqoWGPmQ8I/K/gNaAy0XL0xe4gMh+yN
- JP8teoy04ezOl+SvDbXRWWF79sTfF8pO7MKZV4luiYuuICXsETlHmcpN+z9lkQXRCUVKyg
- /6WAwvU7uW3E0nYRKF0rL//woElC2YY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652165918;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=m5u5PQE+fqfVZ30PjpB3yAofUSBh71P7s2BeFB5Y5Tg=;
- b=Wy+FEuc1os0Bj7aAyYdjDaOmwvDGfFwdLmw7qorO7aBcLLfCI20vMBZbVqaSDtCyLmbfAp
- qRulwtR7INEfxvDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6354B13AA5;
- Tue, 10 May 2022 06:58:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oeIbFx4NemIyaQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 10 May 2022 06:58:38 +0000
-Message-ID: <5a443f2b-5960-c256-4e03-077bb01034b5@suse.de>
-Date: Tue, 10 May 2022 08:58:37 +0200
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF5F10F382;
+ Tue, 10 May 2022 07:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652166086; x=1683702086;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=8fMQfibhWn+/PWK+ghSqUWsuPCgzCOP7F6tpzYibKnQ=;
+ b=Kk0633Ajms2lMWceEI/icVTdM4bkeXmif4UOEjcWBGAHzE8EE9xpDp2W
+ QmG1/Kb6dFh2Mq6QjpkWD6HgJBYNfeQ0Y1VayZ1DjplisT2ajUg09fHiw
+ 34Pv9NgR2sk9+IsoqkB1CD1Lx4I7HTivXHPWrMv1qz+zHPAWI1ek+XvTL
+ vKe/KGl2ZKaGu09BFAZNtyWcNgdkJZbInJFXBbMuv8Z/HCK+7/BGnLYXu
+ Wqv9/3ntVb1h6F/l5yk8wczys+Mxns8GfRejKDnpQlAqdEgeApgZ2K9u/
+ Pvjl+2ETIkyZU55abIG5uVLVvvQ856TiWvETamLOBfUVKvMyY81GfyIMB A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="355710999"
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="355710999"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 00:01:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="570541051"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by fmsmga007.fm.intel.com with SMTP; 10 May 2022 00:01:22 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 10 May 2022 10:01:21 +0300
+Date: Tue, 10 May 2022 10:01:21 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/hdmi: Prune unsupported modes as per
+ HDMI2.1 spec
+Message-ID: <YnoNwZU0QtPMj51B@intel.com>
+References: <20220509093130.3511032-1-ankit.k.nautiyal@intel.com>
+ <20220509093130.3511032-3-ankit.k.nautiyal@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] mgag200: Enable atomic gamma lut update
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, michel.daenzer@mailbox.org,
- dri-devel@lists.freedesktop.org, lyude@redhat.com
-References: <20220509094930.44613-1-jfalempe@redhat.com>
- <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
- <6b7acc25-64b3-297d-7842-a8cd59c8d98d@daenzer.net>
- <0be47bc4-ae27-0293-eeb0-83010d0ab948@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <0be47bc4-ae27-0293-eeb0-83010d0ab948@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------wrV4uQ2YS0iHdNbgjkQKe4Ew"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220509093130.3511032-3-ankit.k.nautiyal@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,90 +61,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------wrV4uQ2YS0iHdNbgjkQKe4Ew
-Content-Type: multipart/mixed; boundary="------------8KgNX4v4h71Wg0x70I4TkLz0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, michel.daenzer@mailbox.org,
- dri-devel@lists.freedesktop.org, lyude@redhat.com
-Message-ID: <5a443f2b-5960-c256-4e03-077bb01034b5@suse.de>
-Subject: Re: [PATCH] mgag200: Enable atomic gamma lut update
-References: <20220509094930.44613-1-jfalempe@redhat.com>
- <432710c7-04fd-7358-60c4-861cf3cfb5cf@suse.de>
- <6b7acc25-64b3-297d-7842-a8cd59c8d98d@daenzer.net>
- <0be47bc4-ae27-0293-eeb0-83010d0ab948@redhat.com>
-In-Reply-To: <0be47bc4-ae27-0293-eeb0-83010d0ab948@redhat.com>
+On Mon, May 09, 2022 at 03:01:30PM +0530, Ankit Nautiyal wrote:
+> As per Sec 7.8.1 of HDMI2.1 spec, sources that support modes:
+> 4K100, 4K120, 8K50, 8K60 must support these modes in at least one of
+> the below formats:
+> i) uncompressed FRL, 420 format and min of 10 bpc, or
+> ii) compressed FRL, 444 format and min of 10 bpc.
+> 
+> Since FRL and DSC are not supported natively with HDMI, the above
+> modes must be pruned as per the spec, and is a requirement for the
+> HDMI2.1 compliance test.
+> 
+> This patch adds a condition to check for the modes with clock
+> requirement more than 2376 MHz (1188 MHz with 420 format),
+> and prune them if none of the above two formats are supported.
 
---------------8KgNX4v4h71Wg0x70I4TkLz0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Wy are we trying to pass HDMI-2.1 tests on a device that
+doesn't even support HDMI-2.1? 
 
-SGkNCg0KQW0gMDkuMDUuMjIgdW0gMjM6MDAgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IE9uIDA5LzA1LzIwMjIgMTg6MDQsIE1pY2hlbCBEw6RuemVyIHdyb3RlOg0KPj4gT24gMjAy
-Mi0wNS0wOSAxNjoyMiwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4NCj4+PiBJdCBt
-aWdodCBhbHNvIG1ha2Ugc2Vuc2UgdG8gYWRqdXN0IHRoZSBzdGFydGluZyB2YWx1ZSBvZiB0
-aGUgbHV0IA0KPj4+IHRhYmxlIHN1Y2ggdGhhdCBpdHMgZmluYWwgZW50cnkgaXMgdXNlZCBm
-b3IgdGhlIGZpbmFsIGVudHJ5IGluIHRoZSBIVyANCj4+PiBwYWxldHRlLiBGb3IgdHlwaWNh
-bCBnYW1tYSByYW1wcyB+MiwgdGhlIGN1cnZlIGlzIGZhaXJseSBmbGF0IGZvciANCj4+PiBz
-bWFsbCB2YWx1ZXMgYW5kIGdvZXMgdXAgc3RlZXBseSBhdCBoaWdoIHZhbHVlcy4gKFBsZWFz
-ZSBjb3JyZWN0IG1lIA0KPj4+IGlmIEknbSBtaXNpbnRlcnByZXRpbmcgdGhlIGdhbW1hIHJh
-bXBzLikNCj4+DQo+PiBJIGRvbid0IHRoaW5rIHRoYXQncyBhY2N1cmF0ZS4gVGhlIG1vc3Qg
-Y29tbW9uIHJhbXAgc2hvdWxkIGJlIGEgDQo+PiBzdHJhaWdodCBsaW5lIGZyb20gMCB0byB0
-aGUgbWF4aW11bSB2YWx1ZSwgYW5kIG90aGVycyBtYXkgYmUgY3VydmVkIA0KPj4gdG93YXJk
-IHRoZSB0b3Agb3IgYm90dG9tLg0KPj4NCj4+DQo+Pj4gRm9yIDE1LWJpdCBjYXNlIEknZCBk
-byB0aGluZyBsaWtlIHRoaXMuDQo+Pj4NCj4+PiDCoMKgbHV0ICs9IDc7DQo+Pj4gwqDCoGZv
-ciAoaSA8IDA7IGkgPCAzMjsgKytpLCBsdXQgKz0gOCkgew0KPj4+IMKgwqDCoMKgIC8vIHdy
-aXRlwqAgbHV0DQo+Pj4gwqDCoH0NCj4+Pg0KPj4+IDE2LWJpdCBpcyBjb21wbGljYXRlZCBh
-bmQgbWF5IGJldHRlciBiZSBkb25lIGluIDIgbG9vcHMNCj4+Pg0KPj4+IMKgwqBsdXRyICs9
-IDc7DQo+Pj4gwqDCoGx1dGcgKz0gMzsNCj4+PiDCoMKgbHV0YiArPSA3Ow0KPj4+IMKgwqBm
-b3IgKGkgPCAwOyBpIDwgMzI7ICsraSwgbHV0ciArPSA4LCBsdXRnICs9IDMsIGx1dGIgKz0g
-OCkgew0KPj4+IMKgwqDCoCAvLyB3cml0ZcKgIHIvZy9iIGx1dA0KPj4+IMKgwqB9DQo+Pj4g
-wqDCoGZvciAoOyBpIDwgNjQ7ICsraSwgbHV0ZyArPSAzKSB7DQo+Pj4gwqDCoMKgIC8vIHdy
-aXRlwqAgMC9nLzAgbHV0DQo+Pj4gwqDCoH0NCj4+DQo+PiBUaGF0J2xsIGp1c3QgZHJvcCB0
-aGUgZmlyc3QgMy03IGVudHJpZXMgb2YgdGhlIExVVCBpbnN0ZWFkIG9mIHRoZSBsYXN0IA0K
-Pj4gb25lcywgaS5lLiBnZW5lcmFsbHkgdGhlIGZ1bGwgYmxhY2sgZW50cmllcyBpbnN0ZWFk
-IG9mIHRoZSBmdWxsIHdoaXRlIA0KPj4gb25lcy4NCj4+DQo+PiBJZGVhbGx5LCB0aGUgbG9v
-cCBzaG91bGQgc3RhcnQgYXQgMCBhbmQgdGhlbiBjb3VudCBhcyBldmVubHkgYXMgDQo+PiBw
-b3NzaWJsZSB1cCB0byAyNTUvNjMvMzEuIEkgcmVhbGl6ZSB0aGF0J3MgdHJpY2t5IHRob3Vn
-aCwgYW5kIEkgZG9uJ3QgDQo+PiBoYXZlIGFueSBzcGVjaWZpYyBzdWdnZXN0aW9ucyBmb3Ig
-aG93IHRvIGFjaGlldmUgdGhpcyBvZmZoYW5kLg0KPj4NCj4+DQo+IA0KPiBJZiB5b3Ugd2Fu
-dCAzMiB2YWx1ZXMgZnJvbSB0aGUgMjU2IHRhYmxlLCBzb21ldGhpbmcgbGlrZSB0aGlzIHNo
-b3VsZCB3b3JrOg0KPiANCj4gZm9yIChpPTA7IGk8MzI7IGkrKykgew0KPiAgwqDCoCBsdXRf
-aW5kZXggPSBpICogOCArIGkgLyA0Ow0KPiB9DQo+IA0KPiBsdXRfaW5kZXggd2lsbCBoYXZl
-IHRoaXMgdmFsdWU6DQo+IA0KPiAwLCA4LCAxNiwgMjQsIDMzLCA0MSwgNDksIDU3LCA2Niwg
-NzQsIDgyLCA5MCwgOTksIDEwNywgMTE1LCAxMjMsIDEzMiwgDQo+IDE0MCwgMTQ4LCAxNTYs
-IDE2NSwgMTczLCAxODEsIDE4OSwgMTk4LCAyMDYsIDIxNCwgMjIyLCAyMzEsIDIzOSwgMjQ3
-LCAyNTUNCg0KR3JlYXQuIFRoYXQncyBldmVuIGJldHRlci4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
-RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> 
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_hdmi.c | 48 +++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index 1ae09431f53a..2ee1262f6427 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -1940,6 +1940,44 @@ static bool intel_hdmi_sink_bpc_possible(struct drm_connector *connector,
+>  	}
+>  }
+>  
+> +/*
+> + * HDMI2.1 Sec7.8.1
+> + * Support requirement for 4K100, 4K120, 8K50, and 8K60.
+> + *
+> + * The modes with timings same as above modes are supported only with min of 10 bpc
+> + * along with:
+> + *
+> + * i) 444 format only with FRL mode support with DSC
+> + * ii) 420 format only with FRL mode without DSC.
+> + */
+> +static bool
+> +intel_hdmi21_bpc_possible(struct drm_connector *connector,
+> +			  int clock, int bpc, bool ycbcr420_output,
+> +			  bool frl, bool dsc)
+> +{
+> +	const struct drm_display_info *info = &connector->display_info;
+> +	const struct drm_hdmi_info *hdmi = &info->hdmi;
+> +
+> +	int pixel_clock = ycbcr420_output ? clock * 2 : clock;
+> +
+> +	if (pixel_clock < 2376000)
+> +		return true;
+> +
+> +	if (!frl)
+> +		return false;
+> +
+> +	if (dsc && bpc > hdmi->dsc_cap.bpc_supported)
+> +		return false;
+> +
+> +	if (!ycbcr420_output && !dsc)
+> +		return false;
+> +
+> +	if (bpc < 10)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  static enum drm_mode_status
+>  intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
+>  			    bool has_hdmi_sink, bool ycbcr420_output)
+> @@ -1948,6 +1986,13 @@ intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
+>  	struct intel_hdmi *hdmi = intel_attached_hdmi(to_intel_connector(connector));
+>  	enum drm_mode_status status = MODE_OK;
+>  	int bpc;
+> +	bool frl, dsc;
+> +
+> +	/*
+> +	 * FRL and DSC not supported for HDMI from source as of now.
+> +	 */
+> +	frl = false;
+> +	dsc = false;
+>  
+>  	/*
+>  	 * Try all color depths since valid port clock range
+> @@ -1963,6 +2008,9 @@ intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
+>  		if (!intel_hdmi_sink_bpc_possible(connector, bpc, has_hdmi_sink, ycbcr420_output))
+>  			continue;
+>  
+> +		if (!intel_hdmi21_bpc_possible(connector, clock, bpc, ycbcr420_output, frl, dsc))
+> +			continue;
+> +
+>  		status = hdmi_port_clock_valid(hdmi, tmds_clock, true, has_hdmi_sink);
+>  		if (status == MODE_OK)
+>  			return MODE_OK;
+> -- 
+> 2.25.1
 
---------------8KgNX4v4h71Wg0x70I4TkLz0--
-
---------------wrV4uQ2YS0iHdNbgjkQKe4Ew
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ6DR0FAwAAAAAACgkQlh/E3EQov+Do
-MA//VrvkeuSLhp6cm+YT2hL4WTEUDJd154H6+P/rHJIf9e6VJeXn6Bi/jqVZ8hjlNgxXnHzjRT+P
-8Sw7fYJsoeumXHaNRa0wo1HkSGpB99936zz3Ejy1ECIxK0/EsgDvb9u+eEIlf19Km/i1O/z+fI4I
-h22ELI1C9OxUKN1rXhcOhIarupbCD8dyYEnZ93kP3DsRTGZMYzdKHgNUDU1Dba+1n55KfdthHKIo
-NACNZYm1ceggFj4QqFr83snSVYOfGAiron/4S70dRO0sAsCn3xW7cHTM+LQbea5uKzOEyZkjdVJ2
-diw8BurI3IR7G1R4C+E+vmtVUzSPuqvckrdpOWvcS8r33BI0BnmbWYan4Oto0tYxEj6d2CHyFK0D
-Qt68D+izw+hIkIo6z5f9YbwNa4u/EVZ48eaJxwu7XIjn01awchJRL7xaQBjtuoRX+tVOn9ETB3g5
-hSSHF2M8Ydc6sWkj0oShhE0QH4iF2WRcwLzdlpQSHvwRKsJe8av68TU7h6yvhuYyRP8OULfV3W24
-Pxou69OhU/pXNYVPqS/vnAY8zHU4/Rxo4TSXIIkjI3hXoCGmwNuh+FLFTs8tBl+bJFI5dbRew7Zq
-tejPpLr+z+3qMhDXX1BvnhhzYbC9hvbEO2QJo3DngnsXkNqywgAMxUxSOOM6JQJrvj9+prBwyzL+
-YQ8=
-=Cg3a
------END PGP SIGNATURE-----
-
---------------wrV4uQ2YS0iHdNbgjkQKe4Ew--
+-- 
+Ville Syrjälä
+Intel
