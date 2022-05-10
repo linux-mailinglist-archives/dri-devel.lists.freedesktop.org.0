@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D82C522216
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 19:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDF252221D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 19:15:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4A410E073;
-	Tue, 10 May 2022 17:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28E4210F32E;
+	Tue, 10 May 2022 17:15:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12DF610E073
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 17:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652202861; x=1683738861;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=83162g9zxtcfDjx2nWTNvvkXPY5uRoho8j7OS99ySF8=;
- b=aosI5TvhuLwLKBWFXyA4X3UGCFk83FMw9ffWM73KAL8BGTqZoH3XBNGu
- 9KCMcsv4S8EKOs1AZ+NVVe+zVHcPAaeaDx4enE/4XN3D/I3Nsro9E0xG/
- B0XzgG3GX59VbgjDIm6wz6EagQbCSlHm+VcSL0pNlmZQ07w2CuBJSTt2i I=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 10 May 2022 10:14:20 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 10:14:20 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 10 May 2022 10:14:19 -0700
-Received: from [10.216.42.221] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 10 May
- 2022 10:14:14 -0700
-Message-ID: <6dc59fa7-5885-9ed1-54c3-f2d112786312@quicinc.com>
-Date: Tue, 10 May 2022 22:44:09 +0530
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
+ [209.85.160.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764A210F295
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 17:15:31 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id
+ 586e51a60fabf-ed8a3962f8so19073671fac.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 10:15:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=U4enf849MalZJ94BbtP5EjviZoqMa/mYSymuWO+hQes=;
+ b=QvEoHTWbZKXxf49IrRyI+iYse/BLLnYFJIdad0lCMjfXTmG+efMqexq00l9TUA4G7D
+ q83s1t4L31mFj5VEVkuVd9fM9rBv7+OecquphrREPiexjdXvf10gI3S1xV1fillx6rhc
+ wagKs4X+WoiK9YDLyG+A/f8jMhgOkDe1hA9VHCThiq437VlKbWQ8y/l+z4d+bPtdjH7d
+ CO+8lVFWHsajgGIv7CPlFIZ8fD4mwPMx9TDHhq27P2ZJWk7Y7UO+gY2bSj4TvD2NjPf8
+ Y+F5yfMW6gHxeL+0ZKcGpJHqhj9MakLN+M5KQI6w6KOfYXZW24ONogVzqH1ooGgBb9V4
+ P3QQ==
+X-Gm-Message-State: AOAM53227XcDG4LyYQ5SGWLkRvyV6xvr9L5wtnx7TikECwIb0m3Dobtr
+ KzmxWWYaLoRTjt0bZCH1IA==
+X-Google-Smtp-Source: ABdhPJwPVMnLqdMiqMekoFO1BpTerz9mA5hoHbPcCejjGrX5ztBsVFiV9PTz4T6oBBl8FMJlcsz0+A==
+X-Received: by 2002:a05:6871:889:b0:ed:daa1:d08 with SMTP id
+ r9-20020a056871088900b000eddaa10d08mr641546oaq.256.1652202930679; 
+ Tue, 10 May 2022 10:15:30 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ m33-20020a056870562100b000edf80be4ecsm5667586oao.58.2022.05.10.10.15.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 May 2022 10:15:30 -0700 (PDT)
+Received: (nullmailer pid 2222946 invoked by uid 1000);
+ Tue, 10 May 2022 17:15:29 -0000
+Date: Tue, 10 May 2022 12:15:29 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH 1/3] dt-bindings: display: rockchip: make reg-names
+ mandatory for VOP2
+Message-ID: <YnqdsbYk+XzkVLe9@robh.at.kernel.org>
+References: <20220510070914.2346011-1-s.hauer@pengutronix.de>
+ <20220510070914.2346011-2-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH V2] dmabuf: ensure unique directory name for dmabuf stats
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- <gregkh@linuxfoundation.org>, <sumit.semwal@linaro.org>, <hridya@google.com>, 
- <daniel.vetter@ffwll.ch>, <tjmercier@google.com>
-References: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
- <4ac55be2-7d55-2c3b-0d5e-f61c02c62792@amd.com>
-From: Charan Teja Kalla <quic_charante@quicinc.com>
-In-Reply-To: <4ac55be2-7d55-2c3b-0d5e-f61c02c62792@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220510070914.2346011-2-s.hauer@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/10/2022 8:42 PM, Christian König wrote:
->>    * The information in the interface can also be used to derive
->> per-exporter
->>    * statistics. The data from the interface can be gathered on error
->> conditions
->> @@ -172,6 +172,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
->>   {
->>       struct dma_buf_sysfs_entry *sysfs_entry;
->>       int ret;
->> +    static atomic64_t unique_id = ATOMIC_INIT(0);
+On Tue, May 10, 2022 at 09:09:12AM +0200, Sascha Hauer wrote:
+> The VOP2 driver relies on reg-names properties, but these are not
+> documented. Add the missing documentation, make reg-names mandatory
+> and increase minItems to 2 as always both register spaces are needed.
 > 
-> Please move that to the beginning of the declarations.
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  .../bindings/display/rockchip/rockchip-vop2.yaml          | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> index 655d9b327f7d3..7238cdec9eb8a 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> @@ -22,7 +22,7 @@ properties:
+>        - rockchip,rk3568-vop
+>  
+>    reg:
+> -    minItems: 1
+> +    minItems: 2
 
-Done. Any scripts I can run at my end to catch these type of trivial
-changes? checkpatch.pl didn't report this coding style.
+You ran the dt checks, right? This should give you a warning. The 
+correct thing is drop minItems if there's always 2 entries.
 
->>         if (!dmabuf || !dmabuf->file)
->>           return -EINVAL;
->> @@ -192,7 +193,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
->>         /* create the directory for buffer stats */
->>       ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype,
->> NULL,
->> -                   "%lu", file_inode(dmabuf->file)->i_ino);
->> +                   "%lu-%lu", file_inode(dmabuf->file)->i_ino,
+>      items:
+>        - description:
+>            Must contain one entry corresponding to the base address and length
+> @@ -31,6 +31,11 @@ properties:
+>            Can optionally contain a second entry corresponding to
+>            the CRTC gamma LUT address.
+>  
+> +  reg-names:
+> +    items:
+> +      - const: vop
+> +      - const: gamma-lut
+> +
+>    interrupts:
+>      maxItems: 1
+>      description:
+> @@ -86,6 +91,7 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> +  - reg-names
+>    - interrupts
+>    - clocks
+>    - clock-names
+> -- 
+> 2.30.2
 > 
-> Why not just use the unique value here? Or is the inode number necessary
-> for something?
-
-This will ease the debugging a lot. Given the dump, I can easily map
-which dmabuf buffer to the process. On the crashutilty I just have to
-search for this inode in the files output, just one example.
+> 
