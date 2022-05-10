@@ -2,118 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297AC522668
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 23:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F27D52266A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 23:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6310710E584;
-	Tue, 10 May 2022 21:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11AA810E5FE;
+	Tue, 10 May 2022 21:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3C6810E584
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 21:41:37 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220510214135euoutp0125588b51f696110b8f4c0d3084e06759~t3FT9LCAq1411914119euoutp01y
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 21:41:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220510214135euoutp0125588b51f696110b8f4c0d3084e06759~t3FT9LCAq1411914119euoutp01y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1652218895;
- bh=7SlMlZfYr3nbsxyWqJP3nACXO9mD9BUI4I/fN+ZyCIc=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=Jln0JPIw65fzzp6kWIWgbmvR+nZQQ6X4BrWAjuHiDA/99qiiu5sJ7di69WUbDE/2q
- ktwhIvFVE4GVQVSoveCdXql9/n8hPj7/xgzXEi+7TFUJPJvtB48aDb0fECMqknCbst
- PeBLBRjuejY0dmnOD5MXGwUBP7JKFDCmKuptfiFM=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220510214134eucas1p19cbac408364a5f342672e1c78053aeab~t3FTBCy3G0228602286eucas1p1E;
- Tue, 10 May 2022 21:41:34 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id FE.8F.10009.E0CDA726; Tue, 10
- May 2022 22:41:34 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220510214134eucas1p22f0695c02402de0b8b6c21c09188b0de~t3FSNpGGg1983719837eucas1p28;
- Tue, 10 May 2022 21:41:34 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220510214133eusmtrp1967db239c2d5b61bf88cf0bc7b7adab0~t3FSK0HGU1028110281eusmtrp16;
- Tue, 10 May 2022 21:41:33 +0000 (GMT)
-X-AuditID: cbfec7f2-e95ff70000002719-da-627adc0e6cbd
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 2D.C2.09522.D0CDA726; Tue, 10
- May 2022 22:41:33 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220510214132eusmtip231609e61b83d690dd3317433b450a819~t3FRGan7I1357113571eusmtip2f;
- Tue, 10 May 2022 21:41:32 +0000 (GMT)
-Message-ID: <68bb83a7-764c-dd1b-0ed4-d2b6f2cfbb7c@samsung.com>
-Date: Tue, 10 May 2022 23:41:32 +0200
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F0310E5FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 21:42:06 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id y21so373138edo.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 14:42:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=P8qY51W8vgfgv1roBIBZtJ5APPVjv9LiCcViJn43/9k=;
+ b=d9vybpfNPpkMOvcwKAuJOUBxBBYwKmkD5XmA6D69UyUqJSc2pr1poiFTUGhgnBb1b7
+ XdFNC6gf8eS7v91hV/9EE6QzIwRzYyU30UTywTBJpfcxxhoN71XmuvmgIrSV2rvYYpQ/
+ oa9Sx9bgfoznP7XpN2l0xmIiHQotsJgg3v1fE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P8qY51W8vgfgv1roBIBZtJ5APPVjv9LiCcViJn43/9k=;
+ b=z1viS+mb1HI81gfJ/0J2DCownxT2is1pzKIYKTd7/WTimlIA+G5pcf3pmB9uBoMudh
+ 9QDLyPJZfk4HVvqN3WxwSl3IhBa6TOBrBXF7k/KkcisLH6aK8bbGJZvR/FDNhzoS7BiL
+ RzpqsgOibDmBzOu60sJBGIRoesQIt37EAOgwEpQM9FFcFMtZTzn7nrAE5Z3I9+W4whgL
+ DWlc+jTkXUHzsG99//iPdJ1RYKBp9T8GFlXYaqPA0zZqjy00vBIKl+d7LSojASC+gRbf
+ OdL/FvZn7IHsz4EGME9eAt8CEit6B2MQV/8Go5u+dLjD/1Ltyq4n4cphDSOX/cvT7rGx
+ jiSw==
+X-Gm-Message-State: AOAM530Xe7Cdfa8yNFI3xoIs7Nrs1dNIAkrbEj6xY92qesqtfaeGyIyb
+ MxlCIGywYNH/rk9CoNn8R4/1R11DjL7zS8M3uso=
+X-Google-Smtp-Source: ABdhPJxnYaMmkfBs6p23XQIPqVY9aSfSiktSAMV5mt+kHcwNrU5Q1J+JtGLFkhG6LHHrYgyMYZpCvw==
+X-Received: by 2002:a50:ed13:0:b0:426:4939:45a9 with SMTP id
+ j19-20020a50ed13000000b00426493945a9mr25759242eds.303.1652218924138; 
+ Tue, 10 May 2022 14:42:04 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com.
+ [209.85.221.46]) by smtp.gmail.com with ESMTPSA id
+ ot8-20020a170906ccc800b006f3ef214e37sm169002ejb.157.2022.05.10.14.42.02
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 14:42:03 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id d5so385675wrb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 14:42:02 -0700 (PDT)
+X-Received: by 2002:a05:6000:c7:b0:20a:d8c1:d044 with SMTP id
+ q7-20020a05600000c700b0020ad8c1d044mr20361092wrx.422.1652218922331; Tue, 10
+ May 2022 14:42:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH v2 08/12] drm: bridge: samsung-dsim: Add atomic_check
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>, Joonyoung Shim
- <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
- Park <kyungmin.park@samsung.com>, Frieder Schrempf
- <frieder.schrempf@kontron.de>, Fancy Fang <chen.fang@nxp.com>, Tim Harvey
- <tharvey@gateworks.com>, Michael Nazzareno Trimarchi
- <michael@amarulasolutions.com>, Adam Ford <aford173@gmail.com>, Neil
- Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Tommaso Merciai
- <tommaso.merciai@amarulasolutions.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20220504114021.33265-9-jagan@amarulasolutions.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SfUxTVxzN63t9fTQreRSxN84A65REkxXrR3ZdkThLlueyr4DLFs0yij4+
- IhTWwkQyoSNhKaXUCovAm5surQGJgFahSljRzgFbIx1zNKy0VKgxlvIxoLqOWTbb5zb+O/f8
- fuece24ugQrr8U1EkbKcVikVxWKcj/UN/el8Jd5TlbfjUkQCPZMOFPpMKxgMTnbg8NfHizhs
- vDjKhU0+IwZDFiMOH02NYfBu7RwP1p8x82C70YZDi9/FhbrVSyhsddo40DHTg8KfPq/DoN1w
- BC4z08/45gAOx0aWUfjHX3fR/UlU15KPSy1O1PGoL0fucKlRvRenbjJeHvWVto1LmQYCHOrO
- uIlLeVwDOOVrGOZQ18w11NWFGxzKcL0ToVYsye/FH+ZnHKOLiz6lVemZufzCtkE/r8yeWBn2
- 2RANoiF1CEEAcjdobufpED4hJDsQUB/s57KHEAIsY104e1hBQKB7CtUhcTGFI6DF2EE7Avoj
- f/OiAyG5hIAnXalRLCAzwWK4Fo9GYORW8H1dJksngB/bHmBRnETmgbm58ZhnInkQLAzditmg
- pAi4H5znRPEGsokLakOiaBYatdeHp2MCnJQC3bwOj+I4cj8wDwUxVpwCrPPnnl9UxwePewm2
- ZhbQ+uUsnQhmh6/zWLwZOJr1GLtSCiKtu1i6EriCl5+7yIBndDXWBCW3gZ7+dJZ+HdyPPOSw
- yngwMZ/A5seDpr4WlKUFQPuFkN1OA8xw93+Zt3/+BTUiYmbdkzDrqjPrmjD/515AsE5ERFeo
- SwpotVRJn5CoFSXqCmWB5GhpiQV59lsda8PLN5CvZ5ckdoRDIHYEEKh4g2DQUJknFBxTnKyi
- VaUfqyqKabUdeZHAxCLB0aIrCiFZoCinj9N0Ga36d8oh4jZpOI1bNuZoyaaN35yyZjuZe7bG
- g+f3TQ+Y3eJPPKdDyW+lyzOSP5jCPxzc/fC7XXys5TTPLSWeKnKte7fP/Z5SFmrPOfWmseFV
- 4/yBt8eO75lZO7JWlXrYu0fr7fH3vOsvuZJ/Qlje6FIeyk+qXg2GzVlK9VD9C7KUQzdFOy/U
- fFahfyNDbqhCe1H9++4Jq1PTNpL/8rYn0+G03I6zZz4al1YDG52aVfjaAedMtWZh66Mf7u+8
- 3d0lC5i4dYyr9WxD76j/5A5eQuflbDlzryDNdfFW3jmZVyKocTy9qmZMm60t6VuyZ9+59pIe
- k/flAkhzZIbFyX1ubmTvbzkeaehbvhhTFyqk21GVWvEPu6X01BwEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsVy+t/xe7q8d6qSDP5ONra4c/s0s8X9xZ9Z
- LF7fXsFmceXrezaL3qXnWC0m3Z/AYvFl0wQ2ixf3LrJYnG16w27ROXEJu8XyCfvYLDY9vsZq
- 0fVrJbPFjPP7mCxOP1rPbHGqsZXF4lBftMWnWQ+B4pNfsllcPPGJ2eL777PMDqIeaz/eZ/V4
- f6OV3WPKiSOsHud67rJ57Jx1l91jdsdMVo/Fe14yeRy5upjV4861PWwe97uPM3lsXlLvsfHd
- DiaPvi2rGD0+b5IL4IvSsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJ
- zcksSy3St0vQy5i5/zF7wSHhih/39zE2MDYIdDFyckgImEicftnB0sXIxSEksJRR4tjXi4wQ
- CRmJk9MaWCFsYYk/17rYIIreM0o0N39kAknwCthJvP/RBJTg4GARUJU43GoHERaUODnzCQtI
- WFQgSeLIYX6QsLCAp8S7YwfYQWxmAXGJW0/mM4GMFBGYxipx7+1XsPnMAh8ZJS5N3sIOsewk
- o8TMO7+YQVrYBAwlut6CXMHJwSngILHk2GsWiFFmEl1buxghbHmJ7W/nME9gFJqF5JBZSDbO
- QtIyC0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIGJZduxn5t3MM579VHvECMTB+Mh
- RgkOZiUR3v19FUlCvCmJlVWpRfnxRaU5qcWHGE2BgTGRWUo0OR+Y2vJK4g3NDEwNTcwsDUwt
- zYyVxHk9CzoShQTSE0tSs1NTC1KLYPqYODilGpjW3neRV3Ca6O/4MXq9T++Uc+feqFecLZlz
- L1mWa3aCrmD8S/fre8N7XLxvP/nnduFO4vdp8+deDThc3vVz+cdn8as9i6qW1h/t/u6wZGXL
- sS1aL00mxyUXT69/tkj5moZ05uV9u3ijPtk+jbx3tQqYEFa8/5W/482OnxlPv/nPlCyV173p
- ZX8tdZbZiTM6kocsHi/4Hzj/97bbirvv//4sfeA7r2ZEQN+jWhtm89MNjj2WMQWTaiXv2b+2
- bHt6r0rym9UjR6+cmRySRZ+6TNkENwSWBF06N6E3Ocrh6/cv6vHzpj+a893prJTxnGUzNjrP
- Ewr1FdmwNqv9RvQPbUYFQ8570l8sf7//zPaw5rCSEktxRqKhFnNRcSIAfP658LUDAAA=
-X-CMS-MailID: 20220510214134eucas1p22f0695c02402de0b8b6c21c09188b0de
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220504114145eucas1p16d51cd7ba0bcb68b5e746b6554d121f1
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220504114145eucas1p16d51cd7ba0bcb68b5e746b6554d121f1
-References: <20220504114021.33265-1-jagan@amarulasolutions.com>
- <CGME20220504114145eucas1p16d51cd7ba0bcb68b5e746b6554d121f1@eucas1p1.samsung.com>
- <20220504114021.33265-9-jagan@amarulasolutions.com>
+References: <20220426132121.RFC.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+ <CAD=FV=XViHtOoQH3fm4yoRcUAkLkf0Wf4zPXUH0Zq5_09tZmjw@mail.gmail.com>
+ <874k22lxmh.fsf@intel.com> <8ea03441-b835-f5db-5cc3-85e5330dfe3f@quicinc.com>
+ <CAD=FV=UBTEAQD+49xwFM4UdzD2dqQ7WkpNYtO=JRTJwfRWo1Yg@mail.gmail.com>
+ <685a547b-175e-68db-a5f6-0e85dacd075a@quicinc.com>
+In-Reply-To: <685a547b-175e-68db-a5f6-0e85dacd075a@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 10 May 2022 14:41:48 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WaY=x8ije6FOsTXBYgOU6j5cCAdZX-pkbAJLYMfhrDqQ@mail.gmail.com>
+Message-ID: <CAD=FV=WaY=x8ije6FOsTXBYgOU6j5cCAdZX-pkbAJLYMfhrDqQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/edid: drm_add_modes_noedid() should set lowest
+ resolution as preferred
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,74 +76,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04.05.2022 13:40, Jagan Teki wrote:
-> Fixing up the mode flags is required in order to correlate the
-> correct sync flags of the surrounding components in the chain
-> to make sure the whole pipeline can work properly.
->
-> So, handle the mode flags via bridge, atomic_check.
->
-> v2:
-> * none
->
-> v1:
-> * fix mode flags in atomic_check instead of mode_fixup
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
->   drivers/gpu/drm/bridge/samsung-dsim.c | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index b618e52d0ee3..bd78cef890e4 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1340,6 +1340,19 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
->   	pm_runtime_put_sync(dsi->dev);
->   }
->   
-> +static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
-> +				     struct drm_bridge_state *bridge_state,
-> +				     struct drm_crtc_state *crtc_state,
-> +				     struct drm_connector_state *conn_state)
-> +{
-> +	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
-> +
-> +	adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
+Hi,
 
-Could you point why this change is needed? It breaks display on Samsung 
-s6e8aa0 dsi panel (Trats and Trats2 boards) and tc358764 bridge (Arndale 
-board). I have no detailed knowledge of the DSI protocol nor those 
-panels/bridges. If there is something missing in the drivers for those 
-panels/bridges, let me know.
+On Tue, May 10, 2022 at 2:33 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> Hi Doug
+>
+> On 5/10/2022 1:53 PM, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Fri, May 6, 2022 at 9:33 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >> Hi Jani
+> >>
+> >> On 5/6/2022 4:16 AM, Jani Nikula wrote:
+> >>> On Thu, 05 May 2022, Doug Anderson <dianders@chromium.org> wrote:
+> >>>> Ville,
+> >>>>
+> >>>> On Tue, Apr 26, 2022 at 1:21 PM Douglas Anderson <dianders@chromium.org> wrote:
+> >>>>>
+> >>>>> If we're unable to read the EDID for a display because it's corrupt /
+> >>>>> bogus / invalid then we'll add a set of standard modes for the
+> >>>>> display. When userspace looks at these modes it doesn't really have a
+> >>>>> good concept for which mode to pick and it'll likely pick the highest
+> >>>>> resolution one by default. That's probably not ideal because the modes
+> >>>>> were purely guesses on the part of the Linux kernel.
+> >>>>>
+> >>>>> Let's instead set 640x480 as the "preferred" mode when we have no EDID.
+> >>>>>
+> >>>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >>>>> ---
+> >>>>>
+> >>>>>    drivers/gpu/drm/drm_edid.c | 9 +++++++++
+> >>>>>    1 file changed, 9 insertions(+)
+> >>>>
+> >>>> Someone suggested that you might have an opinion on this patch and
+> >>>> another one I posted recently [1]. Do you have any thoughts on it?
+> >>>> Just to be clear: I'm hoping to land _both_ this patch and [1]. If you
+> >>>> don't have an opinion, that's OK too.
+> >>>>
+> >>>> [1] https://lore.kernel.org/r/20220426114627.2.I4ac7f55aa446699f8c200a23c10463256f6f439f@changeid
+> >>>
+> >>> There are a number of drivers with combos:
+> >>>
+> >>>        drm_add_modes_noedid()
+> >>>        drm_set_preferred_mode()
+> >>>
+> >>> which I think would be affected by the change. Perhaps you should just
+> >>> call drm_set_preferred_mode() in your referenced patch?
+> >
+> > I'm going to do that and I think it works out pretty well. Patch is at:
+> >
+> > https://lore.kernel.org/r/20220510135101.v2.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid
+> >
+> >
+> >> So it seems like many drivers handle the !edid case within their
+> >> respective get_modes() call which probably is because they know the max
+> >> capability of their connector and because they know which mode should be
+> >> set as preferred. But at the same time, perhaps the code below which
+> >> handles the count == 0 case should be changed like below to make sure we
+> >> are within the max_width/height of the connector (to handle the first
+> >> condition)?
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_probe_helper.c
+> >> b/drivers/gpu/drm/drm_probe_helper.c
+> >> index 682359512996..6eb89d90777b 100644
+> >> --- a/drivers/gpu/drm/drm_probe_helper.c
+> >> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> >> @@ -517,7 +517,8 @@ int drm_helper_probe_single_connector_modes(struct
+> >> drm_connector *connector,
+> >>
+> >>           if (count == 0 && (connector->status ==
+> >> connector_status_connected ||
+> >>                              connector->status == connector_status_unknown))
+> >> -               count = drm_add_modes_noedid(connector, 1024, 768);
+> >> +               count = drm_add_modes_noedid(connector,
+> >> connector->dev->mode_config.max_width,
+> >> +                               connector->dev->mode_config.max_height);
+> >>           count += drm_helper_probe_add_cmdline_mode(connector);
+> >>           if (count == 0)
+> >>                   goto prune;
+> >>
+> >>
+> >>> Alternatively, perhaps drm_set_preferred_mode() should erase the
+> >>> previous preferred mode(s) if it finds a matching new preferred mode.
+> >>>
+> >>
+> >> But still yes, even if we change it like above perhaps for other non-DP
+> >> cases its still better to allow individual drivers to pick their
+> >> preferred modes.
+> >>
+> >> If we call drm_set_preferred_mode() in the referenced patch, it will not
+> >> address the no EDID cases because the patch comes into picture when
+> >> there was a EDID with some modes but not with 640x480.
+> >
+> > I'm not sure I understand the above paragraph. I think the "there's an
+> > EDID but no 640x480" is handled by my other patch [1]. Here we're only
+> > worried about the "no EDID" case, right?
+> >
+> Yes, there are two fixes which have been done (OR have to be done).
+>
+> 1) Case when EDID read failed and count of modes was 0.
+>
+> Here the DRM framework was already adding 640x480@60fps. The fix we had
+> to make was making 640x480@60fps as the preferred mode. Which is what
+> your current patch aims at addressing.
+>
+> https://lore.kernel.org/all/20220510135101.v2.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid/
+>
+> So I thought the suggestion which Jani was giving was to call
+> drm_set_preferred_mode() on the referenced patch which was:
+>
+> https://lore.kernel.org/all/20220510131309.v2.2.I4ac7f55aa446699f8c200a23c10463256f6f439f@changeid/
+>
+> So that would not have fixed this case.
+>
+> Perhaps, I misunderstood the patch which was being referenced?
+
+Ah! I couldn't quite understand what the "referenced patch" meant. I
+assumed that Jani was meaning that we add a call to
+drm_set_preferred_mode() to whatever was calling
+drm_add_modes_noedid().
 
 
-> +	adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-> +
-> +	return 0;
-> +}
-> +
->   static void samsung_dsim_mode_set(struct drm_bridge *bridge,
->   				  const struct drm_display_mode *mode,
->   				  const struct drm_display_mode *adjusted_mode)
-> @@ -1361,6 +1374,7 @@ static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
->   	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
->   	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
->   	.atomic_reset			= drm_atomic_helper_bridge_reset,
-> +	.atomic_check			= samsung_dsim_atomic_check,
->   	.atomic_pre_enable		= samsung_dsim_atomic_pre_enable,
->   	.atomic_enable			= samsung_dsim_atomic_enable,
->   	.atomic_disable			= samsung_dsim_atomic_disable,
+> 2) Case where there were other modes, which got filtered out and in the
+> end no modes were left and we had to end up adding 640x480.
+>
+> No need to set the preferred mode in this case as this would have been
+> the only mode in the list ( so becomes preferred by default ).
+>
+> Thats this change
+>
+> https://lore.kernel.org/all/20220426114627.2.I4ac7f55aa446699f8c200a23c10463256f6f439f@changeid/
+>
+> I agree with combination of these 2 it should work.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+OK, cool. So just to be clear: you're good with both "v2" patches that
+I sent out today and they should fix both use cases, right? ;-)
 
+-Doug
