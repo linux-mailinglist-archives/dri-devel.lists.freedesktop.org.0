@@ -2,33 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DDF2521B55
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 16:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AED1521B80
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 16:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3781A10F390;
-	Tue, 10 May 2022 14:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B643F10F778;
+	Tue, 10 May 2022 14:13:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C73510F390
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 14:08:09 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1noQWz-00057J-J3; Tue, 10 May 2022 16:08:05 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 1/3] dt-bindings: display: rockchip: make reg-names
- mandatory for VOP2
-Date: Tue, 10 May 2022 16:08:02 +0200
-Message-ID: <3353209.QJadu78ljV@diego>
-In-Reply-To: <20220510070914.2346011-2-s.hauer@pengutronix.de>
-References: <20220510070914.2346011-1-s.hauer@pengutronix.de>
- <20220510070914.2346011-2-s.hauer@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28B1310F778
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 14:13:03 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1A12E60C6B;
+ Tue, 10 May 2022 14:13:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E0DC385C6;
+ Tue, 10 May 2022 14:12:55 +0000 (UTC)
+Date: Tue, 10 May 2022 10:12:54 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Byungchul Park <byungchul.park@lge.com>
+Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
+Message-ID: <20220510101254.33554885@gandalf.local.home>
+In-Reply-To: <20220509233838.GC6047@X58A-UD3R>
+References: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
+ <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
+ <YnYd0hd+yTvVQxm5@hyeyoo> <20220509001637.GA6047@X58A-UD3R>
+ <20220509164712.746e236b@gandalf.local.home>
+ <20220509233838.GC6047@X58A-UD3R>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,75 +46,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, Michael Riesch <michael.riesch@wolfvision.net>,
- kernel@pengutronix.de, Andy Yan <andy.yan@rock-chips.com>, krzk+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, cl@linux.com, will@kernel.org,
+ duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ airlied@linux.ie, mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
+ sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
+ kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
+ hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha,
+On Tue, 10 May 2022 08:38:38 +0900
+Byungchul Park <byungchul.park@lge.com> wrote:
 
-Am Dienstag, 10. Mai 2022, 09:09:12 CEST schrieb Sascha Hauer:
-> The VOP2 driver relies on reg-names properties, but these are not
-> documented. Add the missing documentation, make reg-names mandatory
-> and increase minItems to 2 as always both register spaces are needed.
+> Yes, I was talking about A and L'.
 > 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-
-I'm not sure how the DT-people work - if they only track the devicetree list
-or their x+dt@kernel.org accounts or some mixture, but the patch was
-missing the maintainer email addresses - I've added them here now :-) .
-
-The change looks good to me and as I merged the original binding
-into drm-misc only some days ago, we also don't have a backwards-
-compat issue yet, so hopefully DT-people will think similarly .
-
-Heiko
-
-
-> ---
->  .../bindings/display/rockchip/rockchip-vop2.yaml          | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+> > detect that regardless of L. A nested lock associates the the nesting with  
 > 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> index 655d9b327f7d3..7238cdec9eb8a 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> @@ -22,7 +22,7 @@ properties:
->        - rockchip,rk3568-vop
->  
->    reg:
-> -    minItems: 1
-> +    minItems: 2
->      items:
->        - description:
->            Must contain one entry corresponding to the base address and length
-> @@ -31,6 +31,11 @@ properties:
->            Can optionally contain a second entry corresponding to
->            the CRTC gamma LUT address.
->  
-> +  reg-names:
-> +    items:
-> +      - const: vop
-> +      - const: gamma-lut
-> +
->    interrupts:
->      maxItems: 1
->      description:
-> @@ -86,6 +91,7 @@ properties:
->  required:
->    - compatible
->    - reg
-> +  - reg-names
->    - interrupts
->    - clocks
->    - clock-names
+> When I checked Lockdep code, L' with depth n + 1 and L' with depth n
+> have different classes in Lockdep.
+
+If that's the case, then that's a bug in lockdep.
+
 > 
+> That's why I said Lockdep cannot detect it. By any chance, has it
+> changed so as to consider this case? Or am I missing something?
 
+No, it's not that lockdep cannot detect it, it should detect it. If it is
+not detecting it, then we need to fix that.
 
-
-
+-- Steve
