@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5891B520E5C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 09:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0ADF520EC9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 09:41:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE69110F137;
-	Tue, 10 May 2022 07:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3711A10F5AA;
+	Tue, 10 May 2022 07:41:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCAEC10F0F8
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 07:29:22 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id y32so27732961lfa.6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 00:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=VSqxzZ29hbc10inJEDBipg5Dn8Q2IgbVBIfcAZuWFlc=;
- b=ZpYGnuztQW0iA1l4+RIZIihgQVuuvVmdcZwAdtEMwooAUiC0fu376dlSygjE8O0mwP
- Un7c+sHOg0wOmMwO9X3VZ5bJImTWXQDt4H+g/6l2K6SyjxdvvVuBcJFuTrTIwRKmNY+w
- +N174UAnqR55Gt87Kf2jwomaCpAia42vtxPOqGYvGSuVo1dmvtQyCLQfnjxlE/eBpFxJ
- e8HycjhiLJtATq/gLyrUAyVeAudl5qOh6Oyj1YhshYUZq8RaTRJu8wKj3izgSiGcD330
- 7C+Rqxh5C4QcmK9CIEm7JpQb0LQsQq76viDK4vVSRHLI0CQbOnVbwiIfscZMuMJIn5BQ
- EfVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=VSqxzZ29hbc10inJEDBipg5Dn8Q2IgbVBIfcAZuWFlc=;
- b=duCr+dZm5XItc9aUJWyMAjjjJWd4Y4bv5cDdTSUz10yUnw/xFhN0tEkC4HJRvx5FQ0
- 1ulZsSV6FNE8bgQXo+J/TfjKcI6KFFdhpKHrPheC2I+BqANWlouafXVHTG6h3KmfRC/y
- q2p74QYaysvOMe2XmipGBR9426XverwKqEckgrIWsmARqmQiBiVMF4JCZlzUywg1h1lp
- DacZZNBLEAESIt1fyRykjZcEHEGiQVwJSFmDXaP/Z4YN24YkIRawcY50gML7NcsqWvv3
- KZKFF6xi5EAX8IUNhuAZV0WJwTKzVYStgJCVTJ+L6o/ZoGQtVqxuyS+JCFT6eATPI8IE
- 6X0w==
-X-Gm-Message-State: AOAM531bo7VSD5rCsiQRDKNWe+/G4rMi0CbMFX2d5r4oI7kEcYdt1bCb
- 60ihw+RP5LDL0eRqocTRVYY=
-X-Google-Smtp-Source: ABdhPJzuUZxd81Xg7d+yaJFS9q6e43uMHj3m7T3kM3PY0/JUhTO2qkFChHbG5NwyadTcS6MMwjtvHQ==
-X-Received: by 2002:a05:6512:1189:b0:473:b9ee:30cf with SMTP id
- g9-20020a056512118900b00473b9ee30cfmr15797805lfr.282.1652167760971; 
- Tue, 10 May 2022 00:29:20 -0700 (PDT)
-Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
- [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
- r10-20020a19da0a000000b0047255d211c1sm2189757lfg.240.2022.05.10.00.29.19
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 10 May 2022 00:29:20 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
- on rock-3a
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <CAMdYzYozewYUbM=Q+iJ2wdM5TrB6dGrjS6zh0qmVgWD4XPVR+Q@mail.gmail.com>
-Date: Tue, 10 May 2022 09:29:14 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <ABC61229-B851-4BB7-8B55-688F8A8D841A@gmail.com>
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <20220422072841.2206452-21-s.hauer@pengutronix.de>
- <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
- <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
- <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
- <CAMdYzYobfJ7WGN+UQ7t5e1Zy9knjfHLse8KzrGrHPfeMkkG0gw@mail.gmail.com>
- <9F2D8CFF-1EAE-4586-9EE9-82A9D67840BB@gmail.com>
- <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
- <812AC0DB-A6D0-4DA3-BCDC-7743E8F61821@gmail.com>
- <CAMdYzYozewYUbM=Q+iJ2wdM5TrB6dGrjS6zh0qmVgWD4XPVR+Q@mail.gmail.com>
-To: Peter Geis <pgwipeout@gmail.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9F3710F5AA;
+ Tue, 10 May 2022 07:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652168462; x=1683704462;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=X6Af5kddVLN1VOJpGGG6hnFDAR/ErWh2YGq4O2MBQ6I=;
+ b=zGKBwAc7h2RB6Jh4dvk6FOXHaVjTTWm1Sx5olwCgAxiRwJj9Wr17U7Gb
+ kYxPKlo1C0yEOUEaPwKVfZ8CyG/YEZKReBJUcn6un07wFNVvbk8rOKBGs
+ wwIjPkmJKzoO5jvE1DCj5NbgYL59XRRVfmIAvLqjnE7ns5x+lRGgIDD5e c=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 10 May 2022 00:41:01 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 00:41:00 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 10 May 2022 00:40:59 -0700
+Received: from hyd-lnxbld559.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 10 May 2022 00:40:55 -0700
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, Rob Clark
+ <robdclark@gmail.com>, OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+ <devicetree@vger.kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: [PATCH 1/2] drm/msm/a6xx: Add support for a new 7c3 sku
+Date: Tue, 10 May 2022 13:10:44 +0530
+Message-ID: <20220510131038.1.Ibf12c1b99feecc4130f1e3130a3fc4ddd710a2e9@changeid>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,37 +62,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- kernel test robot <lkp@intel.com>
+Cc: Jonathan Marek <jonathan@marek.ca>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add a new sku to the fuse map of 7c3 gpu.
 
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+---
 
-> Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w =
-dniu 10.05.2022, o godz. 03:35:
->=20
-> Could you grab the clock tree from /sys/kernel/debug/clk/clk_summary
-> for the clk_hdmi_cec tree?
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Here it is:
-                                enable  prepare  protect                 =
-               duty  hardware
-   clock                          count    count    count        rate   =
-accuracy phase  cycle    enable
-=
---------------------------------------------------------------------------=
------------------------------
-   clk_rtc32k_frac                   1        1        0       32768     =
-     0     0  50000         Y
-       clk_rtc_32k                    1        1        0       32768    =
-      0     0  50000         Y
-          clk_hdmi_cec                1        2        0       32768    =
-      0     0  50000         Y=
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 841e47a..61bb21d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1771,6 +1771,8 @@ static u32 adreno_7c3_get_speed_bin(u32 fuse)
+ 		return 0;
+ 	else if (fuse == 190)
+ 		return 1;
++	else if (fuse == 96)
++		return 2;
+ 
+ 	return UINT_MAX;
+ }
+-- 
+2.7.4
+
