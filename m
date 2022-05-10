@@ -2,71 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D66522731
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 00:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF8C522795
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 01:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE02A10EBB9;
-	Tue, 10 May 2022 22:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B37710E448;
+	Tue, 10 May 2022 23:28:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 080A310EBB9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 22:49:56 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2f7b815ac06so2264127b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 15:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=odDeWEQn+dxMMnpuDr3wrpKOZqaMz1USU4YdJsifEC0=;
- b=mGVIIGo48qdJEBmeO1w/NaPfd+/U0PrKZm7SDFU3SbN7Tp7fphiRm+JQu+KqHJe2ie
- A9SMDftsnzoqZy0qpCjmn2sSb2MR8pC0t8MMonMGB7SbLRK5I12zJrppZ+BPhQds6RHQ
- gyyWUuip7bqEn6IfkDfLGaaIVAYN7ncFxF6mSn+mMjlFuKpSx+BNYie+9RoAdawsOTw4
- FYC05egW3X6pivH7vAsOtytkHVozGLIrsnIAYf/Xu8Jbo0WvA7A8Xh8Yxb424mtt34A3
- MdXYP9HgwK8uoFD9JXwrriiS962iJ1i2ZpHTmpKV3zMskjx6oEMq+cEgNXVtTt+Or2RR
- jF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=odDeWEQn+dxMMnpuDr3wrpKOZqaMz1USU4YdJsifEC0=;
- b=08k43aPPb9O3R9YBTmXnYJUc5nx3/+LSiHohub7nFPVU2DT8AkDw5yQYmFJYeJPTRq
- 6AwI12l3N5Qjx2cS6UGIkienDgb5UJ79RQBR9SFdjEppn7fYKqHuHKKzecQ864xsdXMy
- 1Ej9z+podJRJF1WIxe/7IgA6Qm950dRZ/aOnzAGBA1EB0iBklQBW9fdxQffLcW1kREad
- /QpWNsN1ZmOuVlUAoDpkyLedK6yKJXhMQTIXMTJlKDoqFiX+juZtnsSTamkGib9R0S09
- L7lbk7axOwbS0jnAKFNEtSs5dWsQXd4/1wyc9+0xI0tni+OhEaOEBocYq4ci3Isbfr2+
- 4Hkg==
-X-Gm-Message-State: AOAM531WeworlnhG5YcPoXBg5mJS48J5dL0Z9eEYyczJOXg2/NJJtSSh
- SBYy38G3ZOicrJegMN/SmvwmWkILYyrWWAyK6h0=
-X-Google-Smtp-Source: ABdhPJxpA6vOK4J63qUlZcvu8ChGp7/HgqyK3YgIAo7vg2rmQB/NK0dbW3F6axhto0qt7DPlk2lMhcktAMM3vIHK8OE=
-X-Received: by 2002:a81:488b:0:b0:2f7:cc43:ae4c with SMTP id
- v133-20020a81488b000000b002f7cc43ae4cmr22414095ywa.414.1652222995163; Tue, 10
- May 2022 15:49:55 -0700 (PDT)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B77B110E448
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 23:28:13 +0000 (UTC)
+Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
+ by 156.147.23.51 with ESMTP; 11 May 2022 08:28:11 +0900
+X-Original-SENDERIP: 156.147.1.151
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
+ by 156.147.1.151 with ESMTP; 11 May 2022 08:28:11 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+Date: Wed, 11 May 2022 08:26:33 +0900
+From: Byungchul Park <byungchul.park@lge.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
+Message-ID: <20220510232633.GA18445@X58A-UD3R>
+References: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
+ <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
+ <YnYd0hd+yTvVQxm5@hyeyoo> <20220509001637.GA6047@X58A-UD3R>
+ <20220509164712.746e236b@gandalf.local.home>
+ <20220509233838.GC6047@X58A-UD3R>
+ <20220510101254.33554885@gandalf.local.home>
 MIME-Version: 1.0
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <20220422072841.2206452-21-s.hauer@pengutronix.de>
- <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
- <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
- <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
- <CAMdYzYobfJ7WGN+UQ7t5e1Zy9knjfHLse8KzrGrHPfeMkkG0gw@mail.gmail.com>
- <9F2D8CFF-1EAE-4586-9EE9-82A9D67840BB@gmail.com>
- <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
- <812AC0DB-A6D0-4DA3-BCDC-7743E8F61821@gmail.com>
- <CAMdYzYozewYUbM=Q+iJ2wdM5TrB6dGrjS6zh0qmVgWD4XPVR+Q@mail.gmail.com>
- <ABC61229-B851-4BB7-8B55-688F8A8D841A@gmail.com>
- <CAMdYzYrsaNED+oMj+z2b4fK7pt32Qg=nXDk3SA0KFDDCJ2XY0g@mail.gmail.com>
- <F1728C93-CFF8-4C51-B95C-A5049E0DC46A@gmail.com>
- <CAMdYzYpRVZ2hrGiYeQLqSduOZyKuZenw9bViS7oW7d3MWN7Z8g@mail.gmail.com>
-In-Reply-To: <CAMdYzYpRVZ2hrGiYeQLqSduOZyKuZenw9bViS7oW7d3MWN7Z8g@mail.gmail.com>
-From: Peter Geis <pgwipeout@gmail.com>
-Date: Tue, 10 May 2022 18:49:43 -0400
-Message-ID: <CAMdYzYpujdqejDz_K2M0aUhPYNFVgTuqnUwkOA6jcxgDdJ+RoA@mail.gmail.com>
-Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
- on rock-3a
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220510101254.33554885@gandalf.local.home>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,56 +48,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- kernel test robot <lkp@intel.com>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, cl@linux.com, will@kernel.org,
+ duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ airlied@linux.ie, mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
+ sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
+ kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
+ hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 10, 2022 at 4:54 PM Peter Geis <pgwipeout@gmail.com> wrote:
->
-> On Tue, May 10, 2022 at 9:49 AM Piotr Oniszczuk
-> <piotr.oniszczuk@gmail.com> wrote:
-> >
-> >
-> >
-> > > Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w=
- dniu 10.05.2022, o godz. 14:08:
-> > >
-> > >
-> > > You are on the clk_rtc32k_frac which is a fractional divider that is
-> > > fed from the 24m clock. Your clock likely isn't the issue here. I'd
-> > > recommend setting up the cec-gpio node to validate your hardware
-> > > works.
-> >
-> > Peter,
-> >
-> > Here is what i done to verify my rock3-a HW:
-> >
-> > 1.download & burn on SD Radxa Ubuntu
-> > 2.boot and install v4l-utils
-> > 3.run cec-compliance -v -T. It fails with error -22
-> > 4.decompile Ubunntu DT.
-> > 5.Check what HDMITX_CEC_M hdmi uses. It was M0
-> > 6.Chenge to HDMITX_CEC_M1; compile dtb; install on sd
-> > 7.reboot.
-> > 8.cec-compliance -v -T gives all tests OK
-> > 9.cec-ctl --image-view-on -t0 turns-on my TV
-> >
-> > hope this proves my HW is ok?
-> >
->
-> That does show that the hardware works with the oem image. It does not
-> unfortunately prove if it works with your current dts. cec-gpio will
-> show if it's an issue with the cec controller or an external problem.
+On Tue, May 10, 2022 at 10:12:54AM -0400, Steven Rostedt wrote:
+> On Tue, 10 May 2022 08:38:38 +0900
+> Byungchul Park <byungchul.park@lge.com> wrote:
+> 
+> > Yes, I was talking about A and L'.
+> > 
+> > > detect that regardless of L. A nested lock associates the the nesting with  
+> > 
+> > When I checked Lockdep code, L' with depth n + 1 and L' with depth n
+> > have different classes in Lockdep.
+> 
+> If that's the case, then that's a bug in lockdep.
 
-I've pulled your dts and with a few fixes got a working system from
-it. At least on the v1.1 board cec is functional:
-Total for dwhdmi-rockchip device /dev/cec0: 1, Succeeded: 1, Failed:
-0, Warnings: 0
+Yes, agree. I should've said 'Lockdep doesn't detect it currently.'
+rather than 'Lockdep can't detect it.'.
+
+I also think we make it for this case by fixing the bug in Lockdep.
+
+> > 
+> > That's why I said Lockdep cannot detect it. By any chance, has it
+> > changed so as to consider this case? Or am I missing something?
+> 
+> No, it's not that lockdep cannot detect it, it should detect it. If it is
+> not detecting it, then we need to fix that.
+
+Yes.
+
+	Byungchul
+> 
+> -- Steve
