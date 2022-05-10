@@ -2,53 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09B352267F
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 23:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D66522731
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 00:49:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A05CB10E9CB;
-	Tue, 10 May 2022 21:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE02A10EBB9;
+	Tue, 10 May 2022 22:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7043510E9CB
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 21:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652219745; x=1683755745;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4RYB0zZZfnXkXzP1aYf9qSZ/Jnp/XkShxgoTSmMnvzw=;
- b=Rd5njsS9DhNw8tTR2B+f2fqzeYk5IYP5qXLz+AoceXSbCYSuLp5bpolG
- s4yKlG212wxA7usuR2Togvbsex5p5O/gVOu11dq72/2oftpoWOV1y8m1b
- 8f9NUWolrEAHGOl3mcOaX42wWVG9sfwlENBDagLseR3xQCJ8HfMRO+Dpg
- YeVQLz5u/ZZWd5WapMf1rfzYlruv1zeF3t6hWmr5rHY6RKBNxK8tzqkoq
- NULu8oMkHDVe3uumpT+VYD0LDnmHRZe7DM+XkxsgunZsK7hxw6/RGP66z
- wZ+2/SHCrxkTUXet9LJdcjvFPbHS+9jQjr5/Sfh1rs+ibZC4laoeRoQt2 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="269649751"
-X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="269649751"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 14:55:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="565861866"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 10 May 2022 14:55:42 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1noXpV-000IQc-Cl;
- Tue, 10 May 2022 21:55:41 +0000
-Date: Wed, 11 May 2022 05:55:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Charan Teja Kalla <quic_charante@quicinc.com>,
- gregkh@linuxfoundation.org, christian.koenig@amd.com,
- sumit.semwal@linaro.org, hridya@google.com, daniel.vetter@ffwll.ch,
- tjmercier@google.com
-Subject: Re: [PATCH V2] dmabuf: ensure unique directory name for dmabuf stats
-Message-ID: <202205110511.E0d8TXXC-lkp@intel.com>
-References: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 080A310EBB9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 22:49:56 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2f7b815ac06so2264127b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 15:49:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=odDeWEQn+dxMMnpuDr3wrpKOZqaMz1USU4YdJsifEC0=;
+ b=mGVIIGo48qdJEBmeO1w/NaPfd+/U0PrKZm7SDFU3SbN7Tp7fphiRm+JQu+KqHJe2ie
+ A9SMDftsnzoqZy0qpCjmn2sSb2MR8pC0t8MMonMGB7SbLRK5I12zJrppZ+BPhQds6RHQ
+ gyyWUuip7bqEn6IfkDfLGaaIVAYN7ncFxF6mSn+mMjlFuKpSx+BNYie+9RoAdawsOTw4
+ FYC05egW3X6pivH7vAsOtytkHVozGLIrsnIAYf/Xu8Jbo0WvA7A8Xh8Yxb424mtt34A3
+ MdXYP9HgwK8uoFD9JXwrriiS962iJ1i2ZpHTmpKV3zMskjx6oEMq+cEgNXVtTt+Or2RR
+ jF/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=odDeWEQn+dxMMnpuDr3wrpKOZqaMz1USU4YdJsifEC0=;
+ b=08k43aPPb9O3R9YBTmXnYJUc5nx3/+LSiHohub7nFPVU2DT8AkDw5yQYmFJYeJPTRq
+ 6AwI12l3N5Qjx2cS6UGIkienDgb5UJ79RQBR9SFdjEppn7fYKqHuHKKzecQ864xsdXMy
+ 1Ej9z+podJRJF1WIxe/7IgA6Qm950dRZ/aOnzAGBA1EB0iBklQBW9fdxQffLcW1kREad
+ /QpWNsN1ZmOuVlUAoDpkyLedK6yKJXhMQTIXMTJlKDoqFiX+juZtnsSTamkGib9R0S09
+ L7lbk7axOwbS0jnAKFNEtSs5dWsQXd4/1wyc9+0xI0tni+OhEaOEBocYq4ci3Isbfr2+
+ 4Hkg==
+X-Gm-Message-State: AOAM531WeworlnhG5YcPoXBg5mJS48J5dL0Z9eEYyczJOXg2/NJJtSSh
+ SBYy38G3ZOicrJegMN/SmvwmWkILYyrWWAyK6h0=
+X-Google-Smtp-Source: ABdhPJxpA6vOK4J63qUlZcvu8ChGp7/HgqyK3YgIAo7vg2rmQB/NK0dbW3F6axhto0qt7DPlk2lMhcktAMM3vIHK8OE=
+X-Received: by 2002:a81:488b:0:b0:2f7:cc43:ae4c with SMTP id
+ v133-20020a81488b000000b002f7cc43ae4cmr22414095ywa.414.1652222995163; Tue, 10
+ May 2022 15:49:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+ <20220422072841.2206452-21-s.hauer@pengutronix.de>
+ <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
+ <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
+ <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
+ <CAMdYzYobfJ7WGN+UQ7t5e1Zy9knjfHLse8KzrGrHPfeMkkG0gw@mail.gmail.com>
+ <9F2D8CFF-1EAE-4586-9EE9-82A9D67840BB@gmail.com>
+ <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
+ <812AC0DB-A6D0-4DA3-BCDC-7743E8F61821@gmail.com>
+ <CAMdYzYozewYUbM=Q+iJ2wdM5TrB6dGrjS6zh0qmVgWD4XPVR+Q@mail.gmail.com>
+ <ABC61229-B851-4BB7-8B55-688F8A8D841A@gmail.com>
+ <CAMdYzYrsaNED+oMj+z2b4fK7pt32Qg=nXDk3SA0KFDDCJ2XY0g@mail.gmail.com>
+ <F1728C93-CFF8-4C51-B95C-A5049E0DC46A@gmail.com>
+ <CAMdYzYpRVZ2hrGiYeQLqSduOZyKuZenw9bViS7oW7d3MWN7Z8g@mail.gmail.com>
+In-Reply-To: <CAMdYzYpRVZ2hrGiYeQLqSduOZyKuZenw9bViS7oW7d3MWN7Z8g@mail.gmail.com>
+From: Peter Geis <pgwipeout@gmail.com>
+Date: Tue, 10 May 2022 18:49:43 -0400
+Message-ID: <CAMdYzYpujdqejDz_K2M0aUhPYNFVgTuqnUwkOA6jcxgDdJ+RoA@mail.gmail.com>
+Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
+ on rock-3a
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,85 +79,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Charan Teja Kalla <quic_charante@quicinc.com>, linux-media@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Charan,
+On Tue, May 10, 2022 at 4:54 PM Peter Geis <pgwipeout@gmail.com> wrote:
+>
+> On Tue, May 10, 2022 at 9:49 AM Piotr Oniszczuk
+> <piotr.oniszczuk@gmail.com> wrote:
+> >
+> >
+> >
+> > > Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w=
+ dniu 10.05.2022, o godz. 14:08:
+> > >
+> > >
+> > > You are on the clk_rtc32k_frac which is a fractional divider that is
+> > > fed from the 24m clock. Your clock likely isn't the issue here. I'd
+> > > recommend setting up the cec-gpio node to validate your hardware
+> > > works.
+> >
+> > Peter,
+> >
+> > Here is what i done to verify my rock3-a HW:
+> >
+> > 1.download & burn on SD Radxa Ubuntu
+> > 2.boot and install v4l-utils
+> > 3.run cec-compliance -v -T. It fails with error -22
+> > 4.decompile Ubunntu DT.
+> > 5.Check what HDMITX_CEC_M hdmi uses. It was M0
+> > 6.Chenge to HDMITX_CEC_M1; compile dtb; install on sd
+> > 7.reboot.
+> > 8.cec-compliance -v -T gives all tests OK
+> > 9.cec-ctl --image-view-on -t0 turns-on my TV
+> >
+> > hope this proves my HW is ok?
+> >
+>
+> That does show that the hardware works with the oem image. It does not
+> unfortunately prove if it works with your current dts. cec-gpio will
+> show if it's an issue with the cec controller or an external problem.
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.18-rc6 next-20220510]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charan-Teja-Kalla/dmabuf-ensure-unique-directory-name-for-dmabuf-stats/20220510-221009
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 9be9ed2612b5aedb52a2c240edb1630b6b743cb6
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220511/202205110511.E0d8TXXC-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1bc947824de94b4d4a87c48772c0d36872eaf731
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Charan-Teja-Kalla/dmabuf-ensure-unique-directory-name-for-dmabuf-stats/20220510-221009
-        git checkout 1bc947824de94b4d4a87c48772c0d36872eaf731
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/dma-buf/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/dma-buf/dma-buf-sysfs-stats.c: In function 'dma_buf_stats_setup':
->> drivers/dma-buf/dma-buf-sysfs-stats.c:196:43: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 's64' {aka 'long long int'} [-Wformat=]
-     196 |                                    "%lu-%lu", file_inode(dmabuf->file)->i_ino,
-         |                                         ~~^
-         |                                           |
-         |                                           long unsigned int
-         |                                         %llu
-     197 |                                    atomic64_add_return(1, &unique_id));
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                    |
-         |                                    s64 {aka long long int}
-
-
-vim +196 drivers/dma-buf/dma-buf-sysfs-stats.c
-
-   170	
-   171	int dma_buf_stats_setup(struct dma_buf *dmabuf)
-   172	{
-   173		struct dma_buf_sysfs_entry *sysfs_entry;
-   174		int ret;
-   175		static atomic64_t unique_id = ATOMIC_INIT(0);
-   176	
-   177		if (!dmabuf || !dmabuf->file)
-   178			return -EINVAL;
-   179	
-   180		if (!dmabuf->exp_name) {
-   181			pr_err("exporter name must not be empty if stats needed\n");
-   182			return -EINVAL;
-   183		}
-   184	
-   185		sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
-   186		if (!sysfs_entry)
-   187			return -ENOMEM;
-   188	
-   189		sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
-   190		sysfs_entry->dmabuf = dmabuf;
-   191	
-   192		dmabuf->sysfs_entry = sysfs_entry;
-   193	
-   194		/* create the directory for buffer stats */
-   195		ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
- > 196					   "%lu-%lu", file_inode(dmabuf->file)->i_ino,
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+I've pulled your dts and with a few fixes got a working system from
+it. At least on the v1.1 board cec is functional:
+Total for dwhdmi-rockchip device /dev/cec0: 1, Succeeded: 1, Failed:
+0, Warnings: 0
