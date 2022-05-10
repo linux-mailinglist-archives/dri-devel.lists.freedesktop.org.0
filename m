@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D02521C1E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 16:26:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9840C521D96
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 17:08:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D40710E2F7;
-	Tue, 10 May 2022 14:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8848110FA13;
+	Tue, 10 May 2022 15:08:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D57010EE5B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 14:26:29 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24AA1Sdn011815;
- Tue, 10 May 2022 16:26:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=selector1;
- bh=2ANARSm+ciPJ+EjWxzvHYDRB4kCEaNE52zN2k7UHgmI=;
- b=cnAreZzybHx90XAf0OpH2JQdBBCyuOAxvBFJiz/p45vtOREgtV/yR42ihA+9J6VTrCqA
- 618UFwYEMvF4Ez5JUQMtfHEtmvQurvbYOoDZzy5ARYPvDgJceIW4IubgmN6Dh1W49xWw
- h0asDzAQouDf7OoofPM8wuJxqY0OmzbWdrtT8iNJNH8ZyeiQaPJnlTwGnuvArTKr0rEz
- g+rsUZRVf/zGhh3LMX06Nj4KKExpLvZWLlv3O8txWDsDcdBbFw2ds4UID+kxL14DsC76
- Wx2/vCAcPSWYaO8qd4y960rfj5CvqPVcbAQGaDT3eLpZGOf0RX+BJZIoq+aCH3byyrMc gg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3fwfngjywv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 May 2022 16:26:21 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5449610002A;
- Tue, 10 May 2022 16:26:17 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 408252291D0;
- Tue, 10 May 2022 16:26:17 +0200 (CEST)
-Received: from localhost (10.75.127.50) by SFHDAG2NODE2.st.com (10.75.127.5)
- with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 10 May 2022 16:26:16
- +0200
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>
-Subject: [PATCH] drm/stm: ltdc: fix unchecked dereferenced pointer
-Date: Tue, 10 May 2022 16:24:03 +0200
-Message-ID: <20220510142403.835902-1-raphael.gallais-pou@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5AC010F9E6;
+ Tue, 10 May 2022 15:08:05 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id v66so18836887oib.3;
+ Tue, 10 May 2022 08:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y2/STjlRrDx6ZScgZXIJmZa3dRcDQ11ZaAGksLa3mPQ=;
+ b=IUegFjkyZmrqC+uMH6wA/TeUemYW3STdmoenh8VxExEB4eSUV8d6QplgnV0iv1xOfD
+ INjw4LkVwqX2jl1yQ3EwtopiM616cf5oT4KzU3FdKtjmVqKmFr9HBnMIs7ByALcqkiSP
+ X7d2+hOB8MNFt9SYblvt86LpS3uvk0s9uXavCcDGwS/6jn+o4RK8UNmHD9blWJaRG5L3
+ rUJvl/w8R2/a1zjpGCc2alz6CzJWUGTpFictIBxcG6t1CWkMGD7rqUmglOFQAHcJIoN4
+ n8odWJNASIdlP9E7vgqaIniXf9U8fGVU+zmabU00Kzrsb2Onck1qko9R+fThVHJQ4aW1
+ QZnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y2/STjlRrDx6ZScgZXIJmZa3dRcDQ11ZaAGksLa3mPQ=;
+ b=NoPxbgoiAwa5PGKcY2cXtKHGgrkVx8ATfvK7oqG6IPqN68yVIXXOO1HyXlqPvlRiSk
+ ZxWx6vEc/zoWZj2C+hOmmzEEdyJlf6IQeL1NPkCv4zhu+2d5LdrlL/8mXEzFGZn8TcWi
+ +QObscBf0DMsgQoaZtlV/g70YLDFJpP9sU3KOXN51wEbH0vrX8XWXDik/MrDaUVPtH3T
+ wPoRCY5gPGdc4Sany0ZABNDDUcuiPGKOFvJDqPt2b5ExITf0UjhG/rnq37qoaiKi++qi
+ ut0GRHgVbw5JREcKl7AXgPULBGu3QHtv2JLSHvsN0aAcTziVvYqizrOBWdN0NNBUjpvh
+ OUfA==
+X-Gm-Message-State: AOAM5330NeoKRYWYU7hFDdj1PbG4GEsry7lsFRDDCXI91HAbcRVGibrg
+ 5mRmOfonv1IPaNd+9UCxJaoc/1j8wBQUDNEQFrk=
+X-Google-Smtp-Source: ABdhPJxqYTUEoTP8UYYX3AkXD2AObwUepN/l2kVNI8OjNMUaCU1Hn1i+m7jFa6TsDrvmS7EEQ5v3mCvlU4hM+/f0v2k=
+X-Received: by 2002:a05:6808:178d:b0:326:3fe9:7f03 with SMTP id
+ bg13-20020a056808178d00b003263fe97f03mr260657oib.200.1652195285004; Tue, 10
+ May 2022 08:08:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-10_03,2022-05-10_01,2022-02-23_01
+References: <20220510025004.2561532-1-wanjiabing@vivo.com>
+In-Reply-To: <20220510025004.2561532-1-wanjiabing@vivo.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 10 May 2022 11:07:53 -0400
+Message-ID: <CADnq5_OiFNWgwgqP12cniuFVNNRWVrfGKgBNOPAjBSu5cLsMHw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Remove duplicated argument in vcn_v4_0
+To: Wan Jiabing <wanjiabing@vivo.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,50 +62,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- David Airlie <airlied@linux.ie>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- kernel test robot <lkp@intel.com>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, James Zhu <James.Zhu@amd.com>,
+ Leo Liu <leo.liu@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pointer of struct *drm_crtc was dereferenced before checking it was non
-NULL. This could potentially create a kernel panic.
+Applied.  Thanks!
 
-Fixes: 79b44684a14e ("drm/stm: ltdc: add support for CRC hashing feature")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
----
- drivers/gpu/drm/stm/ltdc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Alex
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 6bd45df8f5a7..9c0fadd58d2a 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -1120,7 +1120,7 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
- 
- static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
- {
--	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
-+	struct ltdc_device *ldev;
- 	int ret;
- 
- 	DRM_DEBUG_DRIVER("\n");
-@@ -1128,6 +1128,8 @@ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
- 	if (!crtc)
- 		return -ENODEV;
- 
-+	ldev = crtc_to_ltdc(crtc);
-+
- 	if (source && strcmp(source, "auto") == 0) {
- 		ldev->crc_active = true;
- 		ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
--- 
-2.25.1
-
+On Mon, May 9, 2022 at 10:50 PM Wan Jiabing <wanjiabing@vivo.com> wrote:
+>
+> Fix following coccicheck warning:
+> ./drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c:724:4-36: duplicated argument to & or |
+>
+> Remove duplicated UVD_SUVD_CGC_GATE__SRE_H264_MASK.
+>
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+> ---
+>  drivers/Gap/drm/amd/amdgpu/vcn_v4_0.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+> index c37dbac9d96b..9119e966ffff 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+> @@ -722,7 +722,6 @@ static void vcn_v4_0_disable_clock_gating(struct amdgpu_device *adev, int inst)
+>                 | UVD_SUVD_CGC_GATE__SCM_MASK
+>                 | UVD_SUVD_CGC_GATE__SDB_MASK
+>                 | UVD_SUVD_CGC_GATE__SRE_H264_MASK
+> -               | UVD_SUVD_CGC_GATE__SRE_H264_MASK
+>                 | UVD_SUVD_CGC_GATE__SRE_HEVC_MASK
+>                 | UVD_SUVD_CGC_GATE__SIT_H264_MASK
+>                 | UVD_SUVD_CGC_GATE__SIT_HEVC_MASK
+> --
+> 2.36.0
+>
