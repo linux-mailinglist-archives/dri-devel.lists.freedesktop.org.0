@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA5952259B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 22:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC205225E3
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 22:53:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2FA010E705;
-	Tue, 10 May 2022 20:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D2A10ECC2;
+	Tue, 10 May 2022 20:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA8BE10E705;
- Tue, 10 May 2022 20:42:09 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id q8so356610oif.13;
- Tue, 10 May 2022 13:42:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VIAQOazJPjJfrZdIk0eSxwF2xbtTrMY68Mwjij7d8gE=;
- b=WCBx2+IfqAmZC8sXmKqzLtNc8sHWu8odkNtBLzkoy3C8snxpSkQIsZ5EaT/JcbeW1I
- FpzmywcEv1N9JRw3dvg2+UuJ4xV+7lQQ0JIaIYxyikEWF6w00JzdeN+kdA4G3t/oLd3j
- 7Gb11tLiEjhmT4XNI0DlsXRpz0g4De9qK8I1prbAHKcPD9eCnIn71VWnRY7BXX8LELRw
- ZVns+2/DAi4ZnhuYldcbuf/2foYJ9wKJqOAlZXWt2VoUqNuAHcdVrSSi9cLx9W3ovx6O
- /NiurRgWVIk1qXf81GsW296h7fzNIkmi8+vMcuMIKreliJjY4lUp6lxRG+zUrlRSSany
- 2QVQ==
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50ACB10ECC2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 20:53:06 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id 137so544pgb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 13:53:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+HZZAVCUgB4PR5HOSv738zuWZd6viwdct4jZ4FZSIU0=;
+ b=oWmYD10TXbpQiIJ/xzCl7IxKeJeRGHnNIYoe2NzGF8Z40b9A089yZu2d/GnlCuSqdo
+ q6ZIKf55c1K3Q602V8ZhCPmbryBHAVSR29GFjetx8dPxfxwpeelua5Oe9dNh49PzFRnz
+ msgXH2br9qxGT5GVAPoL2u6hWcb2Le2llWrms=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VIAQOazJPjJfrZdIk0eSxwF2xbtTrMY68Mwjij7d8gE=;
- b=Cm/GZNaFTvsbBGCnJNO/h97ou6nwjYOiLOwwudIiq2wwgw7p6NjuRLV4Qwuwtl8glB
- Qq5axr5sXZsYcjyvQtwhJIwVjglVUMV3MmgOTsqcWyuq/G/Y0XDNBx64l/lRrOsGaR95
- ld79MMJI/MpuX0qdhWGGiicOaQWXnEMnBwZIeZr759wUBTCDIAP/ymljOrQ7QY613n5e
- 8qPLh/WiMja8B97c0e5+cqw6g9axrwDBPgArwlDXMfjjYDs3j3sVjR1RNqHGl/PHfnJ+
- DoPhO5xw+s2567JTEBFzhBCcyCAAhNf57vtleq3Zz47SpRmKhuYfJOm7ryw8QO1kSN+U
- dT7w==
-X-Gm-Message-State: AOAM532b/7evBF4i1yUohIfR38RfjBsNrsWW+LIxxt2ztKFMMMzIcIA1
- HZhm5+QlW0aEDPPUksewQTQGcnD9rHu5L2S+LLQ=
-X-Google-Smtp-Source: ABdhPJyiYvR8gCRPu/xnvVY/i7Ko/yIUH9sG0FYEQoYT5AaJrawyX4S+NkTMMg/TFQj6Z7EX1WGqeksfxdGAvinnHOU=
-X-Received: by 2002:a05:6808:f8e:b0:328:a601:a425 with SMTP id
- o14-20020a0568080f8e00b00328a601a425mr963626oiw.253.1652215328989; Tue, 10
- May 2022 13:42:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+HZZAVCUgB4PR5HOSv738zuWZd6viwdct4jZ4FZSIU0=;
+ b=1AbPCKOAwcSl0ToAi+S/UZdidsD02Z8VU+lqDRVELmd47HnhkS9js0jUnlYZBFn4Dw
+ wDfN+HSCS0SQRcFUODV2UEhnTECzQEqgne9MC60dP5H6/3Na4uUerWyJJ8EVd78xPLA7
+ pjtYJ8PyiNDV84tJKdaoJ96hsWTo3VGnyTJoHu0vnYeDYOTGKxab+PjWGkJQCpcLZhd3
+ pvqr8Zb5+kbY/q1s7yUibw2lFbPntPDF8EfUhTA3JJIYifJJ/zPEhMHplSp3UoXYJVG2
+ hAseEq/pMDXRSc0THlcql6pRj1kIQVXIDXlglHxZgtxpVghbUZPCgBpvHfHLZ2+C8YBM
+ U4GA==
+X-Gm-Message-State: AOAM532MBHqpPS1Ih5qVuMvCaFrv6zgD9hW7oh0bJUMLMI0Z2247470G
+ dsufgYd7aHyB1AnZXgv6HRLMpEr+qRh2n8Kr5TE=
+X-Google-Smtp-Source: ABdhPJx51SH/5x8d1+7L4D8y1N7o70vXFdfzujmC9MaUWLZcKl14rafYh/2Xs1SSzWyvWcqe2COx9Q==
+X-Received: by 2002:a62:d0c5:0:b0:50d:a467:3cc8 with SMTP id
+ p188-20020a62d0c5000000b0050da4673cc8mr22146677pfg.81.1652215985737; 
+ Tue, 10 May 2022 13:53:05 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:6f08:624c:c762:d238])
+ by smtp.gmail.com with ESMTPSA id
+ lr10-20020a17090b4b8a00b001d2edf4b513sm92975pjb.56.2022.05.10.13.53.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 May 2022 13:53:05 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/probe-helper: Default to 640x480 if no EDID
+Date: Tue, 10 May 2022 13:51:11 -0700
+Message-Id: <20220510135101.v2.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
 MIME-Version: 1.0
-References: <YnTAc96Uv0CXcGhD@suse.de>
- <CADnq5_NT3UtawpGuPDwF+dgmRdaoysb7sD_-oWWBC=T3BoUH7Q@mail.gmail.com>
- <YnpIjdTT3esZ72Bf@suse.de>
- <CADnq5_NYVvjcUru9hfbnATfcHJR5+eiK9bJAA9m41WKa=OJsog@mail.gmail.com>
- <505081FC-4323-4424-87A9-89B95A89515D@suse.de>
-In-Reply-To: <505081FC-4323-4424-87A9-89B95A89515D@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 10 May 2022 16:41:57 -0400
-Message-ID: <CADnq5_PoWLHydAGqHXKNwBnnc_Uz7xc01Mmp2ri-h+RtnRqgfQ@mail.gmail.com>
-Subject: Re: [BUG] Warning and NULL-ptr dereference in amdgpu driver with 5.18
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +65,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
+Cc: quic_sbillaka@quicinc.com, Douglas Anderson <dianders@chromium.org>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, swboyd@chromium.org,
+ tzimmermann@suse.de, dmitry.baryshkov@linaro.org, quic_aravindh@quicinc.com,
+ quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 10, 2022 at 2:17 PM J=C3=B6rg R=C3=B6del <jroedel@suse.de> wrot=
-e:
->
->
-> > Am 10.05.2022 um 17:31 schrieb Alex Deucher <alexdeucher@gmail.com>:
-> >
-> > On Tue, May 10, 2022 at 7:12 AM J=C3=B6rg R=C3=B6del <jroedel@suse.de> =
-wrote:
-> >>
-> >> Gentle ping. This is a 5.18 regression and I also see it with
-> >> 5.18-rc6. Please let me know if you need anything else to debug.
-> >>
-> >
-> > Are you doing anything special when it happens?  I.e., does it happen
-> > when the monitor is coming out of DPMS or something like that?
-> >
->
-> Yes, it usually happens when I return to the machine and press some butto=
-n on the keyboard to get the screens enabled again. It doesn=E2=80=99t happ=
-en always, it seems to depend on how slow the monitors come out of power sa=
-ving mode.
->
+If we're unable to read the EDID for a display because it's corrupt /
+bogus / invalid then we'll add a set of standard modes for the
+display. When userspace looks at these modes it doesn't really have a
+good concept for which mode to pick and it'll likely pick the highest
+resolution one by default. That's probably not ideal because the modes
+were purely guesses on the part of the Linux kernel.
 
-Does setting amdgpu.runpm=3D0 on the kernel command line in grub help?
-If so, that should fixed with:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3Df95af4a9236695caed24fe6401256bb974e8f2a7
+Let's instead set 640x480 as the "preferred" mode when we have no EDID.
 
-Alex
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+Note that this is the second of two related and similar-sounding but
+different patches. See also ("drm/probe-helper: For DP, add 640x480 if
+all other modes are bad") [1]. I'm hoping to land _both_ of the
+patches since they address different issues. This patch addresses the
+case of a corrupt EDID and having 640x480 be the default in the
+"guessed" modes. The other patch handles the case where the EDID
+_isn't_ corrupt but all the modes listed can't be made with the
+existing situations. The two patches can land in either order.
 
+Also note that I didn't carry any Tested-by / Reviewed-by tags since
+the patch is now quite different.
 
-> Regards,
->
-> J=C3=B6rg R=C3=B6del
-> jroedel@suse.de
->
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5
-> 90409 N=C3=BCrnberg
-> Germany
->
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+[1] https://lore.kernel.org/r/20220510131309.v2.2.I4ac7f55aa446699f8c200a23c10463256f6f439f@changeid
+
+Changes in v2:
+- Don't modify drm_add_modes_noedid() 'cause that'll break others
+- Set 640x480 as preferred in drm_helper_probe_single_connector_modes()
+
+ drivers/gpu/drm/drm_probe_helper.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 682359512996..1fbb9a8c315c 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -516,8 +516,17 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ 		count = drm_add_override_edid_modes(connector);
+ 
+ 	if (count == 0 && (connector->status == connector_status_connected ||
+-			   connector->status == connector_status_unknown))
++			   connector->status == connector_status_unknown)) {
+ 		count = drm_add_modes_noedid(connector, 1024, 768);
++
++		/*
++		 * Give userspace a hint that we don't have a lot of confidence
++		 * in these modes (we totally guessed) by marking 640x480 as
++		 * preferred. This is low clock rate and incredibly common as
++		 * a failsafe mode.
++		 */
++		drm_set_preferred_mode(connector, 640, 480);
++	}
+ 	count += drm_helper_probe_add_cmdline_mode(connector);
+ 	if (count == 0)
+ 		goto prune;
+-- 
+2.36.0.550.gb090851708-goog
+
