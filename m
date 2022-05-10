@@ -2,151 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65BA521200
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 12:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31FF521216
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 12:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9553010F6A6;
-	Tue, 10 May 2022 10:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0850210F6CE;
+	Tue, 10 May 2022 10:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78D9210F6A6;
- Tue, 10 May 2022 10:17:58 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2343A10F6D5;
+ Tue, 10 May 2022 10:21:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652177878; x=1683713878;
+ t=1652178087; x=1683714087;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=IvF4fJ4Z5GRoss9Qm3yFsIx50GEaltIhGescmpoY6xU=;
- b=RFuEs/dnxbca8Yj+k4zqGwDJN2BMJvAUzwTN0xfpL76y+vSv0lqS0IhX
- L8LcVAmrZ4v6bYxQUtdFbOF0ad7iXNOQVfvPhhuCSMmOoPFa5+n4GP7zI
- G4KLJObwgy1KKLp/PnoBoMMx+VIO/go3Gtsvu1powx3JeCOhpLAI8Z7Ta
- 0PN6F3DMMRzZ82oxMO/TGsqRJP5VeOd+D6lER9QVR4IoVeWT8uYmIWKur
- utrDqSD/bIPG7AosPkzIGk/3qmFZ83lHWo29BRt4VF2mB2IfOokvQ3tJf
- 3W4k+Jv3XTAayCzDMDP2kbTuzMa+1Men23IJIqFlF0plWRXgbFJ5DlYBn Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="256866059"
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="256866059"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 03:17:58 -0700
+ bh=LAYZpD1Gb5OGbrPLjqtB5Etvm5CDLIxhMg/SyWB6M5E=;
+ b=T2W4LrofdDfZSPbquEfABAEWXi8Njnj5GMK4BH8bTik/r+q620+zwkai
+ 3HFD6F7c68aEtrGcJqJBkEsKITR3s6qS1467IO3k7QFjO+xIrVUTqH1+l
+ 6Y8bxuy5TEr+z2lqmkuIcEtl2DV3tx805/WOtKH8wTXAXD+Af/9oKkx/4
+ /sYqQaOMVX6b5NOaFDkuMxS0f9QMaPNXSmVpdx9JorGy5R1DbaFRz/8LL
+ H0qp/oImOIOoGRXRgaHEzhs1Cjt+dIJC/9uqFPIndU4Hh+CXuSgW5HlCU
+ l3CRZuCJTs9aAKsHmtNWhRkOD2+yiBjtH4lyc/ObT4zU5zQYeZk2IetEa Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="294561066"
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="294561066"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 03:21:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="602392075"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by orsmga001.jf.intel.com with ESMTP; 10 May 2022 03:17:57 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="565581585"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga007.jf.intel.com with ESMTP; 10 May 2022 03:21:26 -0700
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 10 May 2022 03:17:57 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 10 May 2022 03:21:25 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 10 May 2022 03:17:57 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.44) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 10 May 2022 03:21:25 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Tue, 10 May 2022 03:21:25 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.172)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 10 May 2022 03:17:57 -0700
+ 15.1.2308.27; Tue, 10 May 2022 03:21:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ghBls57rudY+L29IZOKRda9W5pSNbrD/LDQuho9f5cC1YgSY8OTZEXd+y2Yg+cn0AxEma1el0pzAxzd/oc2D/QsDWJKrkXt7fBtiUyC1aX/8j/W1B/UvcG1GH/u+4gQUI5O9kB7XvVpSwRB3uKsiwkWw5sQf/34KiQn3dNuu2N9RPEggBVSJcGs27AauXwY4+HW803zRQadZsAhBRGAJUUZ2brKw+7KXtgh2T8CZPyQY4DaCoaWtKoWEx0ioX/y0O0WCy/xhKLWgGM1veooUaigoYp0g9WXqFBfZUNm3qijMc/rpplAQtu2d4oEOwpyU4oTEoMMg4O2QJgC73HL4rA==
+ b=Q1cDm5I0SvQz+spO6QYL1lEmUq3vaZQhJcgZh4MrkyULA4LL2HG8b52W4v6xGhvbRxfJqqeTKfQ7UtUFpKKvwd4nsbhiwoSTr4Ck/5MLh6OhzUW34tE0UEppqqwJkrvUAZTYw0QuWxLT00A2C4ZsXIUsZx5XvRHi5BjpdwLVhFbqFP3McGIt6DZp6N7rwjMWG9enp9GTj5f9xlzWyQA5X8R8qA1G9W6YHIOrlKnBiO0JIfn0I2LgwFEw8fK0Nbbs3qZt/LpU9CQUkVWunIJ5TnCxSRxhDqY4Ou2UX/RKIeO6BSPFY+SjqgtnNb0/BqHnFRhrj0Y4o26jcRmA1QTuKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gnpb17i1udG9XeeEOZQ0EKv2ZQk2Cs7tVDRIZHD2axY=;
- b=k1Lpx/Pc95Yi/Hs6o/efveJI9M4zAR0fhmd1z4SSPKMNhl48W8pukNmJ+AFSYjdISfqucdyTc7HwI2Q3UvZKbCK4qVy+kxo73E6Yh10j3UDQB9gU21xo59xBAPjesNjf1QwIKdoAmIjt27wmtQxaGnO/HeIqTrfpibjZ3irqCzDs/uU2dF4vSqLzqENbjUkgU1HghzdboxugGNs+G+VFrSs//k4T0sPpv+qR1QQ80SVewrgVksVMZR+9N24H9g1xAiZz97ehYBPFcMN93x2mheTuMjzUkrEamOk8V9UQ05vRCAmUpBYjPDVMXy1/s5/7vyoKrEdZcEgNU8Km1RQfDQ==
+ bh=8tWcPtm6KtCDvI0YevBCsdR19jvKGT/NtTe6/81gsyk=;
+ b=Z2CtQq81tjynGWLFctO8DWaJODQksePL4TP/cWOHs71JVlVmqVU6fkTa0wOxspam/M/1sTs/JQuYOsHssFK/MLH3IcrhgRlA+62Y7bbO6+h0e2v78Z4t1gTnpVX0xnarzmWkN3z3Nup2ctDFwpq4EgE+RhzKlWTRnvXI9OyTPGNd1cbe3FzSYqXvosdc6aizLNxQz9ZbdL/9bSoq5F82KcxVjctYnMpUUsX0ZKZ+IvbiaeaEGT286l0b38qN4b3mIr6LbaQx4ewH2t6aP20bTqISQFvjb2CMREjxBS6qVHOYDamfywsCGPkCRchzSwhUyaKHolbEu6i7Nt6GnEzoEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by CY4PR11MB1768.namprd11.prod.outlook.com (2603:10b6:903:11b::22) with
+ by CH0PR11MB5737.namprd11.prod.outlook.com (2603:10b6:610:112::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Tue, 10 May
- 2022 10:17:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.20; Tue, 10 May
+ 2022 10:21:24 +0000
 Received: from DM4PR11MB5341.namprd11.prod.outlook.com
  ([fe80::5813:4cbb:7fe0:7465]) by DM4PR11MB5341.namprd11.prod.outlook.com
  ([fe80::5813:4cbb:7fe0:7465%3]) with mapi id 15.20.5227.023; Tue, 10 May 2022
- 10:17:55 +0000
-Message-ID: <8c215ce5-cb96-c4cb-f4b7-b9f514f4a5f7@intel.com>
-Date: Tue, 10 May 2022 15:47:46 +0530
+ 10:21:24 +0000
+Message-ID: <dc8beae7-ca5c-6442-944d-b31fedd5af68@intel.com>
+Date: Tue, 10 May 2022 15:51:15 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [Intel-gfx] [PATCH v2 20/25] drm/edid: add drm_edid helper for
- drm_detect_monitor_audio()
+Subject: Re: [PATCH v2 21/25] drm/edid: convert cea_db_iter_edid_begin() to
+ drm_edid
 Content-Language: en-US
 To: Jani Nikula <jani.nikula@intel.com>, <dri-devel@lists.freedesktop.org>
 References: <cover.1652097712.git.jani.nikula@intel.com>
- <ea33244c473ace1bc72a7e87f97580f00705a683.1652097712.git.jani.nikula@intel.com>
+ <7d9f060815086e1e4ea037dbfb9fd8ad54d1f25e.1652097712.git.jani.nikula@intel.com>
 From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <ea33244c473ace1bc72a7e87f97580f00705a683.1652097712.git.jani.nikula@intel.com>
+In-Reply-To: <7d9f060815086e1e4ea037dbfb9fd8ad54d1f25e.1652097712.git.jani.nikula@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0172.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:de::16) To DM4PR11MB5341.namprd11.prod.outlook.com
+X-ClientProxiedBy: PN0PR01CA0053.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:49::22) To DM4PR11MB5341.namprd11.prod.outlook.com
  (2603:10b6:5:390::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7651c551-2b5d-47e5-30b1-08da326e5977
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1768:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7836ca5-46ab-4879-7bea-08da326ed59e
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5737:EE_
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <CY4PR11MB1768A938801AB75145A755EECEC99@CY4PR11MB1768.namprd11.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <CH0PR11MB5737456791F5AFF6593FF2B8CEC99@CH0PR11MB5737.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Lc0884Lr9w0lL3XvBPgjLUTr87QyFIFDFFaE465UWjCWEgsfdJzvVIC9Bwgso4vQiHevKq2QkSEa5BPJCi+e2Y/aA8IXCaI5L1L6Yr4v0doAQyVlUSgEiBqAgrcWhYiWBB1XRxGdWqJVrNPaBHpFxhIDEGOYj4Sp7QaukiQi5xrrpIFQGWI6MJgfRVwkc0sqi94AXSi+YteVSiqtFgZ8P45OP/sgDHt195oIuqcsxUNtrFhoFPStxyFv31knkezBgGqnj3BaqdQsFQSVFKSQ/W/SUErj33hVPZaVQDqGuaQjHWe2koGwOnPs+ESG8mAZGBbjBVyHGtBZF0wuzJn/tK+Y+ZRlaBEr68+Tn3SD/0Tfs/cnJo5M6aDICQQLQQj4pUP8GMzeJI/TTnicauMuq6AfqBFPI+5vlPUSJvjEyWrGnIJJumNNoEJYZHN5IMdioPNB2u2BHkW7a0V68JISLQMD7h2wwgOe79mEfdnUnCq0VH1AHh4uRi9gTf4ecU5ML1w12ZKp9R2a048DIi0kgjAPegHb+ISD152QxpY/8nz2GsqlO7C950Hfk0JLT2AcmEfbvV4BccnMENqL8RR+dWLhTA1eVUWGbME7pOiYilYUX/+RgF9LUuMFqtPsUSbp7b5vvUwcMZiokPjJsGOD+muuyji/eJvmKRLXcWLKS5DqBL+cTbWhTSGI9WAeGNAvecIqSYl4Ri8Jj27MVrYPaguz3uPfLkVane5c05dsD5Y=
+X-Microsoft-Antispam-Message-Info: hj2o89vlneK3h1uvOKwuVyY9WjkU85Z2vfdj1qBCFGAfmuPm8ih8RpUh5wUq9A1w2m1BZiTTfAHylJ62XKVTRFfFE/fMK4032RTZ6Sz+b7/ctrO7NTE2k+6x4f9PZKt5aA2fMDBDoLcpYSbb3/IyBi6kQCeKvSohT3h1Ogz23lP4WzC7hcZYyhe/9TFOg278TAaD17H7n9bADPwIPK4pvcB/w2d9HopswV0c+T8/Bx6xQwaAcz13DSm1eRl+zJ/fgEbptlB/xDbMOR94FTBLVOVdPonMRqaWihnxVPwNwJxd8B+5scDI/wmwEL9epg568ta6PvrWnMDNQziqb1FSptwqe23oodzoMszp/En7sF+lBC+aYHWblFGnov4oFBhp8mNY1Y/p3hc2FoJvJuxOYi3o5xvhqcEFzMsbwDv+kcUEW51vZd2/rksS7B/REARd7YsDSr1u9H2iilWZ5O/vLpbMVZOeohOiY9g9IsJVYEjaU/f8WdWtewxpW2eQw77KMqiUEg7JonluGYypbmGUh44sQ1YpZ4C7hGiaf8J1nlSRfcVT8mp5ECPYc1W+gybLzQWAqJPoTLMIdPDGF7ermvP/0omCKFFqLbh4BWIGhDOOdrQg70/qDyCzwOrQAoR8vKxjb4x1ImQCe0TwuTFwYjmLYNR0jex/B9ko3t3G/kvhOVaJFC/BkU7SxDRZhTrlNcZvnE6Pmw2Z4xaPsf7tlGDmS5oUvP6DLB2apoWccY4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6486002)(508600001)(66946007)(8676002)(82960400001)(31696002)(66476007)(66556008)(86362001)(4326008)(450100002)(316002)(2616005)(6512007)(38100700002)(6666004)(31686004)(5660300002)(26005)(6506007)(55236004)(53546011)(186003)(2906002)(83380400001)(36756003)(8936002)(43740500002)(45980500001);
+ SFS:(13230001)(366004)(86362001)(8676002)(4326008)(6512007)(31696002)(2616005)(82960400001)(26005)(55236004)(6506007)(53546011)(6666004)(2906002)(6486002)(83380400001)(316002)(5660300002)(8936002)(38100700002)(508600001)(186003)(31686004)(36756003)(66946007)(66476007)(450100002)(66556008)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVJqQkdKcVh2Rm04VnlUajkrTTR3NUdKMTFXOUgvMkowTDRGUTU4VzNpbUFE?=
- =?utf-8?B?OURvcjF3NkRDSWlJbXJMN1YxRENhUFpONW1JUkRLQTZsOWpvZWp3WkUrWTMv?=
- =?utf-8?B?YjdMSmpsVE10UjJYeVlRMGpmd210QzFqSHM5ZGZnSEN0Z2grSWZEcUJ1ZUll?=
- =?utf-8?B?MVc5aVNIMVRBb1VpUHcxYy9ERzhCVm9PTGRmdllvWHZtZnJ6dHE4OU1CbzRD?=
- =?utf-8?B?dUNiZXoyaGc0YkZmOEVoOFdtZFB6eG5RQUluTUE3NkdXbGFhUHFuMU9SenBn?=
- =?utf-8?B?MFZEYUkxbkdFdHdXU2JHejBFZmNLVkczemhvMlM3T0o4NjR6TGZ2eVUveGZX?=
- =?utf-8?B?WGxkemxsdmlzbnlIZ0JZMkxGWXAzWWxIQkliRG4wWGQ5ck1GbHBod0czcnZG?=
- =?utf-8?B?VW9VdDEwaS9EcXZjQlpmczB2bVlEUytqL3ZBcGVaNWl6TUtWaExRYzBrN2lH?=
- =?utf-8?B?SzNJUWF1TDlrUWU0MU1LdHpBYUowWFlXOTF4YjVVVVFOdlFKUkJKM1NzL2Ja?=
- =?utf-8?B?ZVdnSHJZdkxxZkF3dUFHNmZ5QTJIck8yczBVdTdOTG9OMk10T1EzS1B1VlJX?=
- =?utf-8?B?bStwNHJQWndaQ0ZSUy9ZRGROSjBKcUpCOHBqK00yVWFZZytaWFBycjFUWits?=
- =?utf-8?B?ejZNSzdHZkxXWmx1cHlWdlozNFhZOGc0eDkwbTF3YmljQktGSEQzZm5MMVB6?=
- =?utf-8?B?R215SkNES3l5ZURRaFRLczRkYlpWU0FsN24rNnBoZXkySlFEK0NFbk9Bd0Fn?=
- =?utf-8?B?dE9mV1QwZFRjNUZnTElWemRnZWtqU2pQaHZaK3pXbUtwSmhFMFp5NzV6UWc3?=
- =?utf-8?B?RHVSdXhNZENETk03a3hrL2RSQmcxODdEd0RtV3BPaTgwYWFxc3l3MjRNdW5Z?=
- =?utf-8?B?eTlJVUtXUi9HSDNvWXpseXorOVFNTjVOUWJqQzRvMUdyVmoxVm82NnZNUTAx?=
- =?utf-8?B?Rml0MnRxZDBwZE1wMTVIODVqVU9UVCtWYVdqcnIvSldZRWxlekJtU1JHaDF1?=
- =?utf-8?B?NUNhdnZIQ1pQVDBTSjVuYWhqemQzWDJlNFNqRzlXTzR4NWlocU1NNnFDaU51?=
- =?utf-8?B?VUtrcnBteUVoUXJ5VGpacnN1RldnNkFtMjBERE1Xd1F4SGNOaXBWU0NHdmZX?=
- =?utf-8?B?U1lZekFsTWNsaWVGbEVYU2xhVTNCbXZSem01VnRaOU1EU3JVcnBaV29KZFNJ?=
- =?utf-8?B?T1ZMVFJkZFJjOHhlRWExblMxNHV4dmVnQXN5S1NCQjRZQXVxOXFvN3lzR1di?=
- =?utf-8?B?YkN1STFjOHFadytCRXBkQ05EeFdFNS9wdEVUclNzYVVEY0NpOW0zOWpXYkcy?=
- =?utf-8?B?b1I1eTB0MlZjcWtORHhTVTFMamtRaEk0RFk1RXRidE95ZTVUZU5HTDdLYzV6?=
- =?utf-8?B?ald1akpHelRPOHhVM1hVeVg4OGZuUDVhamloM0tKWlJWRDJheVQvTTlKRENL?=
- =?utf-8?B?aCt1Ti9OTkhwWnRlajN6STBDNVBjbGYyRnhmUjBhTE1CQVVxWnovZVRXSXRG?=
- =?utf-8?B?czBDTjIxZWcxRllsclpYcUNneTBHWGRZdE9nRmtGMzZXTlJGVm5DbWlvamhp?=
- =?utf-8?B?UkdCbnJRVHVGUGpaWVkwbjVsMm5PWnlsc3ZzR3ZrTzZMUXBhdVdpUFFqTk5Z?=
- =?utf-8?B?YXpiL3Q2SWVtMEtpUVFkT3NvN1BlRWpYSXFkQnMxNVhib01ZOWpzOGVJT1Vr?=
- =?utf-8?B?ZXUrbFlmbGdtMTZ2R0lnSDFzYStvcW52aGJMaWNERmZRZWZwNE9xM0xZTVJJ?=
- =?utf-8?B?S0lOejdxeVVocTAzNWhGQlpHQ2VxVXFiaUlXV0wvK2VsWHlsZzZRdjBtQzh2?=
- =?utf-8?B?S2FZd1VhdVdySUlwR29iZEJraERiU0hyQUx3V0hGbFpqeUN2SDUvZXhULzRH?=
- =?utf-8?B?cjBGcGcyYklPbWFrNDg1Z3ZzclVscVZMWFJteHViRFNFZXE0VldvaWYzMklJ?=
- =?utf-8?B?MHk4R0FzSUp6bGpkaE9KSjdXTytqQnVlTEtXdklaWmQ0UnRkK0N4WTRDWTla?=
- =?utf-8?B?Ri85V1VzaXdWVXUyZmZDNFRsTUwvV2NhanNHd0FQQ2FReEprYWtUN1BvU1BN?=
- =?utf-8?B?MVR2Q1JrQlZIWkRwQjFIMUxFdW9lT3kwSmh0VG9Nd0lyT2JYb3NiTmUvYjZU?=
- =?utf-8?B?cDdFTlJWRHZsenJOUDl3UDlYbStRZ2JXWHNRR0VYa2xOVHNDVHNhb2NlbXc2?=
- =?utf-8?B?UlIrOEpxQmtpNnpqNlhGdVMvaC9wcXRRN0V2S3FpMFZFM2gwc2FRdk83Tkt1?=
- =?utf-8?B?eEEwcEp6MmZGM1ZMQjhqTi9HcnFOSXNZb2h0MUwzN3hVV0xMeS9qZG52R2pE?=
- =?utf-8?B?MjZ1K1dlSlI0QmZVenk1UXR6NzlYV3VpZEViL0lrMnZmN0R6V2xkcndsWUtl?=
- =?utf-8?Q?nIV0rbelNZ5s0h8Y=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7651c551-2b5d-47e5-30b1-08da326e5977
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVZ5ek1pa0tMdXZMNFpJTDExR1R2ZGtWdUZZcExVQndXTy9kTkJ3VHMzTk9M?=
+ =?utf-8?B?eHVURVNVaHA0VEtaZWlDMWttcmp3ZXN1TC9tTXl5azlFb1Zpa3V1a0FZaDhJ?=
+ =?utf-8?B?SE1LZXZ0YkFxVWsrL1BDNDRwQUFSZVl2Y3UxRzc1dENiRE9sMjcyRmlhYkZr?=
+ =?utf-8?B?cXIrYnJlSEpzaHVPQTU4Z2k2RkFBQXRCb3lFeWszMDRYTnRpdDBGYWJaVTFU?=
+ =?utf-8?B?eTBYV3hvaGxjTjZHa0ZwMnc5YjQwQzlQb1pyRlNtNkVrMDFRVW4zZVVkNlVs?=
+ =?utf-8?B?QXE4N3pWYjFFbE0yb3BhVkRPTTE2cTlDcVQwMzRlWFc0cTE2bVcxakdyVTNG?=
+ =?utf-8?B?SnZ6Y0ZNaXRyWTRNZjFZRVd3Z2NIc0Y2b1RtTVV3SUY5UUwxWXl3TXRkQ2ds?=
+ =?utf-8?B?aWRVS1pJSkxuMEw2dTM3L3RwOGpWbzhDelJsMzhEbzRmTGtycDBxa0lwMzVq?=
+ =?utf-8?B?NkhxR21jai9mcEp5Q2hWbmY4YTdRK0xPSkNtNy9RVHdRQ1ZXSEM4UzZTRVIz?=
+ =?utf-8?B?RzhtVFhLck1aNFZGWEdWcFp6cCtzQUtSWlRqbytuNnl2UzFNd2s5azQyTU83?=
+ =?utf-8?B?Tk96SWVkcmRHclB5dytHRDFMOFZwWlBnSERvRE5tTTBiSHNPS3YvQzFUQ0dx?=
+ =?utf-8?B?Q1RibXZ3Sm1ZdTBGOGc5cVdrM3p4OXUxMmlQRE96dStYb2grS29PaTB5dDE0?=
+ =?utf-8?B?dWhoWUdhZjJhc2JJYldLSU16QU1ZVHp3UkVTYjl0K0FmNEtrdEtpTGY4eTBo?=
+ =?utf-8?B?aEFKRklMRStmUFhDeTlrVzBabGttc0xMS0grTy9SY0ZFWDZmVnZFSlVRQmN0?=
+ =?utf-8?B?RDhldlJEcTRlZEp4RElwbmhwczhnKzVndlk5WTN3bnpQTXp6NThHRlNJb1pq?=
+ =?utf-8?B?dXRaQ0p3NlVNc1JoRUIvSWF2Y1BkSzlIeElKQm1BUVFKM05RTTN0Tk5uMEJG?=
+ =?utf-8?B?YWVlWGZMR3Bkd25qRi9hR0I1QWVIajlYODRxYjFUMEVPTVl4REk0UjUwNEZU?=
+ =?utf-8?B?eTVFR3E0ZUNaTjFQb1RHTFoyaTlGZ3RNN2lCUVM1VVplSlVaQ04yL2I5bFpM?=
+ =?utf-8?B?SE1FR0xQeGtKUHFYYVJQbUx4TUZodm4vMyt4dmQ1cDkvOWJlNzQ3V0R6S1Vr?=
+ =?utf-8?B?a3pyOGFUaHRVQ2pvOXJRNHg5RGJtalJVb3d1NjlnMVlWeWpKdUlJc2VVL3Iv?=
+ =?utf-8?B?NkVoSkRPcGdqL3NqT2pUcy9IRDd3OEpBM1ZUMGhleTgydmFsTXk4TEhtTEN0?=
+ =?utf-8?B?Y1ErQzZFR1F3cXROMFlLR050LzRoY2tQc1RmRmF3ZFIrSHFmcCtZci9UcnFH?=
+ =?utf-8?B?cHNJWjVIODRnb3FKOHMwcE4zM1Ywd0UvWW5aeGZDT3QvVWxETE01NHdVZEhH?=
+ =?utf-8?B?YS9LU3dSMFVNWkhMT0lGWW5wU0kzbENLMGVJMTB4aXFCZDMrQTVHNzRDZ2tu?=
+ =?utf-8?B?UzN3T0RNL2FibExXZHdzL2tPRFViZ1Ywc2JTemdKcGNtQ0hldkovTGtlTCtK?=
+ =?utf-8?B?WFZibFJrMi8rdGJJL1pndUpzZXd1ckNKVVJVYjFodFd2QUI3eEVWOUlkUEZH?=
+ =?utf-8?B?aWpiMFFkUE5ZNklOZmZHeEJwOUFoaHhZRmdTSGFWUkROWGd1K3JTWEh1SGI5?=
+ =?utf-8?B?RngvVGk3WDFqdE9XZGQyMjNDTUxOWnYzR3ltTkJJVEM1aDZYV0RoTmZ6UXlG?=
+ =?utf-8?B?Yng3ZStBeHRGVnZQVHowSHFWUTJzWmVSQzZtZHpETVovNTIrUDk4OTdFYm9Q?=
+ =?utf-8?B?TGROWTBzbkkyWno0bko5aEVrdlByM3NMWDJYT1NDRWxaNHBJdll1bnJQS3FV?=
+ =?utf-8?B?ZzBxNWF1TURzREQrOHByOG5KYkhBL0l4NThYd3FEQm1YYjd2dmp5aWExcEVE?=
+ =?utf-8?B?TEZYWGpYWVZQSVNxeUc0WG1vVDZvRjFDWUkrQjFjYklaZCtUbjRnTzU5RExU?=
+ =?utf-8?B?VjNHdjVqNVFEcWRlUEFyWno2QWZzbmJyZjlHQjk5MG5nTGVWTzQrWldxOU5F?=
+ =?utf-8?B?MEJJZGZXVENSWkRGZVdGUDZFWkg2YkNUanZJNjc0dS9GSEtUcStRVWhNSk1H?=
+ =?utf-8?B?M3BEOGFOR1V1UTdKNjVTVXphUG9DMStjZk5USmpleS9EbTNwVVZnblMwTFZk?=
+ =?utf-8?B?OFp2YnBLSWN6WnZVeUJOejN2Y0NBUktaWkdFaEV4NGNpdlprOGhiZmVKYk12?=
+ =?utf-8?B?R1R6eGRCN3k5b1RQVExTZlhiWm80cU9RRUxJTGlucDE2OFdNL1ZsYTlCVEVG?=
+ =?utf-8?B?K1RzekNaUzJjN1g5VEV3UFBTYkFxbzl0R2RIVVlSOUIwZmU2Z0VLWWIzdWoz?=
+ =?utf-8?B?YjdWc3JIKzhHWmdQNmRMUnhxR1IzZTREVlZxa0tzVHVoNTI1bXhBUjgxb01L?=
+ =?utf-8?Q?jrPk+85l4XMgF0oQ=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7836ca5-46ab-4879-7bea-08da326ed59e
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 10:17:55.8089 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 10:21:24.1208 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o127dkrMOLtTc4wGlhibq9zcHeeRHVbzXQqLDItEZQqAvG3XpM9ow7qqYlPRQYh6XILdLkPSZaqos4/ISEA2NlUbBc6fzRSkcuj6kbJ1XHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1768
+X-MS-Exchange-CrossTenant-UserPrincipalName: hNkXeqPaGE8UMx12iHthg4Ot9GcI3zdAaSACSbeKtm1R+XZnZ/r/bDn1OjOHjXS9uSNHsiS5O4wWLnwVNvVoNW1W9zvXCevjQSb7+RZAyAI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5737
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -175,79 +179,94 @@ Ankit
 On 5/9/2022 5:33 PM, Jani Nikula wrote:
 > We'll need to propagate drm_edid everywhere.
 >
-> v2: Handle NULL EDID pointer (Ville, CI)
+> v2: Handle NULL drm_edid
 >
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->   drivers/gpu/drm/drm_edid.c | 37 ++++++++++++++++++++++---------------
->   1 file changed, 22 insertions(+), 15 deletions(-)
+>   drivers/gpu/drm/drm_edid.c | 21 +++++++++++----------
+>   1 file changed, 11 insertions(+), 10 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index fc74159cd426..f072cfba9dd9 100644
+> index f072cfba9dd9..bd14010ed1c5 100644
 > --- a/drivers/gpu/drm/drm_edid.c
 > +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -5154,19 +5154,7 @@ bool drm_detect_hdmi_monitor(const struct edid *edid)
+> @@ -4448,12 +4448,13 @@ static bool cea_db_is_vendor(const struct cea_db *db, int vendor_oui)
+>   		oui(data[2], data[1], data[0]) == vendor_oui;
 >   }
->   EXPORT_SYMBOL(drm_detect_hdmi_monitor);
 >   
-> -/**
-> - * drm_detect_monitor_audio - check monitor audio capability
-> - * @edid: EDID block to scan
-> - *
-> - * Monitor should have CEA extension block.
-> - * If monitor has 'basic audio', but no CEA audio blocks, it's 'basic
-> - * audio' only. If there is any audio extension block and supported
-> - * audio format, assume at least 'basic audio' support, even if 'basic
-> - * audio' is not defined in EDID.
-> - *
-> - * Return: True if the monitor supports audio, false otherwise.
-> - */
-> -bool drm_detect_monitor_audio(const struct edid *edid)
-> +static bool _drm_detect_monitor_audio(const struct drm_edid *drm_edid)
+> -static void cea_db_iter_edid_begin(const struct edid *edid, struct cea_db_iter *iter)
+> +static void cea_db_iter_edid_begin(const struct drm_edid *drm_edid,
+> +				   struct cea_db_iter *iter)
 >   {
->   	struct drm_edid_iter edid_iter;
->   	const struct cea_db *db;
-> @@ -5174,7 +5162,7 @@ bool drm_detect_monitor_audio(const struct edid *edid)
->   	const u8 *edid_ext;
->   	bool has_audio = false;
+>   	memset(iter, 0, sizeof(*iter));
 >   
-> -	drm_edid_iter_begin(edid, &edid_iter);
-> +	drm_edid_iter_begin(drm_edid ? drm_edid->edid : NULL, &edid_iter);
->   	drm_edid_iter_for_each(edid_ext, &edid_iter) {
->   		if (edid_ext[0] == CEA_EXT) {
->   			has_audio = edid_ext[3] & EDID_BASIC_AUDIO;
-> @@ -5189,7 +5177,7 @@ bool drm_detect_monitor_audio(const struct edid *edid)
+> -	drm_edid_iter_begin(edid, &iter->edid_iter);
+> -	displayid_iter_edid_begin(edid, &iter->displayid_iter);
+> +	drm_edid_iter_begin(drm_edid ? drm_edid->edid : NULL, &iter->edid_iter);
+> +	displayid_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter->displayid_iter);
+>   }
+>   
+>   static const struct cea_db *
+> @@ -4675,7 +4676,7 @@ static int add_cea_modes(struct drm_connector *connector,
+>   	struct cea_db_iter iter;
+>   	int modes = 0;
+>   
+> -	cea_db_iter_edid_begin(drm_edid->edid, &iter);
+> +	cea_db_iter_edid_begin(drm_edid, &iter);
+>   	cea_db_iter_for_each(db, &iter) {
+>   		const u8 *hdmi = NULL, *video = NULL;
+>   		u8 hdmi_len = 0, video_len = 0;
+> @@ -4926,7 +4927,7 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+>   	eld[DRM_ELD_PRODUCT_CODE0] = drm_edid->edid->prod_code[0];
+>   	eld[DRM_ELD_PRODUCT_CODE1] = drm_edid->edid->prod_code[1];
+>   
+> -	cea_db_iter_edid_begin(drm_edid->edid, &iter);
+> +	cea_db_iter_edid_begin(drm_edid, &iter);
+>   	cea_db_iter_for_each(db, &iter) {
+>   		const u8 *data = cea_db_data(db);
+>   		int len = cea_db_payload_len(db);
+> @@ -4979,7 +4980,7 @@ static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
+>   	struct cea_db_iter iter;
+>   	int count = 0;
+>   
+> -	cea_db_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter);
+> +	cea_db_iter_edid_begin(drm_edid, &iter);
+>   	cea_db_iter_for_each(db, &iter) {
+>   		if (cea_db_tag(db) == CTA_DB_AUDIO) {
+>   			int j;
+> @@ -5032,7 +5033,7 @@ static int _drm_edid_to_speaker_allocation(const struct drm_edid *drm_edid,
+>   	struct cea_db_iter iter;
+>   	int count = 0;
+>   
+> -	cea_db_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter);
+> +	cea_db_iter_edid_begin(drm_edid, &iter);
+>   	cea_db_iter_for_each(db, &iter) {
+>   		if (cea_db_tag(db) == CTA_DB_SPEAKER &&
+>   		    cea_db_payload_len(db) == 3) {
+> @@ -5123,7 +5124,7 @@ static bool _drm_detect_hdmi_monitor(const struct drm_edid *drm_edid)
+>   	 * Because HDMI identifier is in Vendor Specific Block,
+>   	 * search it from all data blocks of CEA extension.
+>   	 */
+> -	cea_db_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter);
+> +	cea_db_iter_edid_begin(drm_edid, &iter);
+>   	cea_db_iter_for_each(db, &iter) {
+>   		if (cea_db_is_hdmi_vsdb(db)) {
+>   			hdmi = true;
+> @@ -5177,7 +5178,7 @@ static bool _drm_detect_monitor_audio(const struct drm_edid *drm_edid)
 >   		goto end;
 >   	}
 >   
-> -	cea_db_iter_edid_begin(edid, &iter);
-> +	cea_db_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter);
+> -	cea_db_iter_edid_begin(drm_edid ? drm_edid->edid : NULL, &iter);
+> +	cea_db_iter_edid_begin(drm_edid, &iter);
 >   	cea_db_iter_for_each(db, &iter) {
 >   		if (cea_db_tag(db) == CTA_DB_AUDIO) {
 >   			const u8 *data = cea_db_data(db);
-> @@ -5207,6 +5195,25 @@ bool drm_detect_monitor_audio(const struct edid *edid)
->   end:
->   	return has_audio;
->   }
-> +
-> +/**
-> + * drm_detect_monitor_audio - check monitor audio capability
-> + * @edid: EDID block to scan
-> + *
-> + * Monitor should have CEA extension block.
-> + * If monitor has 'basic audio', but no CEA audio blocks, it's 'basic
-> + * audio' only. If there is any audio extension block and supported
-> + * audio format, assume at least 'basic audio' support, even if 'basic
-> + * audio' is not defined in EDID.
-> + *
-> + * Return: True if the monitor supports audio, false otherwise.
-> + */
-> +bool drm_detect_monitor_audio(const struct edid *edid)
-> +{
-> +	struct drm_edid drm_edid;
-> +
-> +	return _drm_detect_monitor_audio(drm_edid_legacy_init(&drm_edid, edid));
-> +}
->   EXPORT_SYMBOL(drm_detect_monitor_audio);
+> @@ -5536,7 +5537,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+>   	}
+>   	drm_edid_iter_end(&edid_iter);
 >   
->   
+> -	cea_db_iter_edid_begin(drm_edid->edid, &iter);
+> +	cea_db_iter_edid_begin(drm_edid, &iter);
+>   	cea_db_iter_for_each(db, &iter) {
+>   		/* FIXME: convert parsers to use struct cea_db */
+>   		const u8 *data = (const u8 *)db;
