@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0DC5212B2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 12:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 761FD5212B3
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 12:50:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBDAE10E93C;
-	Tue, 10 May 2022 10:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4025D10E1D0;
+	Tue, 10 May 2022 10:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E99C910EA1C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 10:50:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 888621F45F;
- Tue, 10 May 2022 10:50:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652179812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=oDY7ykSupJ6Axyv3RchhYB9++76gK1jfv13mo21f6e4=;
- b=dlH4k3JfnH2/ptokZXoO78ZIb8yhJhgrDIA5fxol0vV04YGmbfObS2RqxQygRe9U8gfE3S
- rKjeoZkC6VO3koW6SFwOvpkoDY1DFmGabctR/cR7ld3eIfJfndpQgX23KvMYs/iL2Fh9MW
- lroY3MHYZsb/411spz7tY8JXCIdQFP0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652179812;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=oDY7ykSupJ6Axyv3RchhYB9++76gK1jfv13mo21f6e4=;
- b=CRxyvDQ5UVMnC6Vhp+boEl/bM4XxHFYosTN95tREeb7BL/gI0uolQs3K+tIaaMNsxt6Ocp
- a6PJvEFWr0b+XABg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 619BF13AC1;
- Tue, 10 May 2022 10:50:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id pfH/FmRDemJgWAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 10 May 2022 10:50:12 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch,
-	airlied@redhat.com,
-	kuohsiang_chou@aspeedtech.com
-Subject: [PATCH] drm/ast: Support multiple outputs
-Date: Tue, 10 May 2022 12:50:10 +0200
-Message-Id: <20220510105010.20712-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.36.0
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2D810E1D0;
+ Tue, 10 May 2022 10:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652179841; x=1683715841;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9cPwMxjvl98pcYK0Y8/qKxkCnREXEmlxu4+Tp4AzWio=;
+ b=ISyva/bI/sXFCkczjTp7fAI7oN2uZl1JirdBks2S8l72TIFSe9vcTUfo
+ 33/hSFw3ud9uxh8xxsgBxv5B4igFeMzyx9oAAoXnEx8iA+GRgHac4e0uu
+ 8jhnaAcJZq1XwPU2alEMn3NnnwgmsOtBaFoP7+t7Cwn2R6oYGfrrWOt+F
+ UROkWB/saqWHOFEyFQGxf3qixHKGQzXDDFririzrRXlZIEFxfs/nVKjsP
+ VNSvfUIwa+5xDrsymcsREUTSHDMcjS4eKw/VjY8CXHAQGSQqvsVWfYhpo
+ oPYuIY1DotnB3wuakDJdAoLs8HerEWliwu6LlLvD30qGcWVn6sMF6pUm0 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="249237671"
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="249237671"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 03:50:40 -0700
+X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; d="scan'208";a="738619153"
+Received: from rcpalaku-mobl1.ger.corp.intel.com (HELO [10.213.208.196])
+ ([10.213.208.196])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 03:50:39 -0700
+Message-ID: <8e197b3d-513c-0ee3-fcd4-e397794f0a79@linux.intel.com>
+Date: Tue, 10 May 2022 11:50:37 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [RFC] drm/amdgpu: Convert to common fdinfo format
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx@lists.freedesktop.org
+References: <20220510082315.992296-1-tvrtko.ursulin@linux.intel.com>
+ <ddcb244d-dfed-d571-1d54-5e1ed24a03b7@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ddcb244d-dfed-d571-1d54-5e1ed24a03b7@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,245 +62,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Systems with AST graphics can have multiple output; typically VGA
-plus some other port. Record detected output chips in a bitmask and
-initialize each output on its own.
 
-Tested on AST2100.
+Hi,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: a59b026419f3 ("drm/ast: Initialize encoder and connector for VGA in helper function")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/ast/ast_dp.c    |  5 ++---
- drivers/gpu/drm/ast/ast_dp501.c |  2 +-
- drivers/gpu/drm/ast/ast_drv.h   |  4 ++--
- drivers/gpu/drm/ast/ast_main.c  | 21 ++++++++----------
- drivers/gpu/drm/ast/ast_mode.c  | 38 ++++++++++++++++++---------------
- drivers/gpu/drm/ast/ast_post.c  |  2 +-
- 6 files changed, 36 insertions(+), 36 deletions(-)
+On 10/05/2022 09:48, Christian König wrote:
+> Hi Tvrtko,
+> 
+> Am 10.05.22 um 10:23 schrieb Tvrtko Ursulin:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Convert fdinfo format to one documented in drm-usage-stats.rst.
+>>
+>> Opens/TODO:
+>>   * Does someone from AMD want to take over this patch?
+>>      (I have no access to amdgpu hardware so won't be able to test
+>>       any hypothetical gputop work.)
+> 
+> I can give that a try as soon as it is completed.
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 4551bc8a3ecf..f573d582407e 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -160,13 +160,12 @@ void ast_dp_launch(struct drm_device *dev, u8 bPower)
- 		}
- 
- 		if (bDPExecute)
--			ast->tx_chip_type = AST_TX_ASTDP;
-+			ast->tx_chip_types |= BIT(AST_TX_ASTDP);
- 
- 		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
- 							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
- 							ASTDP_HOST_EDID_READ_DONE);
--	} else
--		ast->tx_chip_type = AST_TX_NONE;
-+	}
- }
- 
- 
-diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-index 204c926a18ea..4f75a9efb610 100644
---- a/drivers/gpu/drm/ast/ast_dp501.c
-+++ b/drivers/gpu/drm/ast/ast_dp501.c
-@@ -450,7 +450,7 @@ void ast_init_3rdtx(struct drm_device *dev)
- 			ast_init_dvo(dev);
- 			break;
- 		default:
--			if (ast->tx_chip_type == AST_TX_SIL164)
-+			if (ast->tx_chip_types & BIT(AST_TX_SIL164))
- 				ast_init_dvo(dev);
- 			else
- 				ast_init_analog(dev);
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index afebe35f205e..3055b0be7b67 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -173,7 +173,7 @@ struct ast_private {
- 	struct drm_plane primary_plane;
- 	struct ast_cursor_plane cursor_plane;
- 	struct drm_crtc crtc;
--	union {
-+	struct {
- 		struct {
- 			struct drm_encoder encoder;
- 			struct ast_vga_connector vga_connector;
-@@ -199,7 +199,7 @@ struct ast_private {
- 		ast_use_defaults
- 	} config_mode;
- 
--	enum ast_tx_chip tx_chip_type;
-+	unsigned long tx_chip_types;		/* bitfield of enum ast_chip_type */
- 	u8 *dp501_fw_addr;
- 	const struct firmware *dp501_fw;	/* dp501 fw */
- };
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index d770d5a23c1a..ac64510c75cd 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -216,7 +216,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 	}
- 
- 	/* Check 3rd Tx option (digital output afaik) */
--	ast->tx_chip_type = AST_TX_NONE;
-+	ast->tx_chip_types |= BIT(AST_TX_NONE);
- 
- 	/*
- 	 * VGACRA3 Enhanced Color Mode Register, check if DVO is already
-@@ -229,7 +229,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 	if (!*need_post) {
- 		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xff);
- 		if (jreg & 0x80)
--			ast->tx_chip_type = AST_TX_SIL164;
-+			ast->tx_chip_types |= BIT(AST_TX_SIL164);
- 	}
- 
- 	if ((ast->chip == AST2300) || (ast->chip == AST2400) || (ast->chip == AST2500)) {
-@@ -241,7 +241,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
- 		switch (jreg) {
- 		case 0x04:
--			ast->tx_chip_type = AST_TX_SIL164;
-+			ast->tx_chip_types |= BIT(AST_TX_SIL164);
- 			break;
- 		case 0x08:
- 			ast->dp501_fw_addr = drmm_kzalloc(dev, 32*1024, GFP_KERNEL);
-@@ -254,22 +254,19 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 			}
- 			fallthrough;
- 		case 0x0c:
--			ast->tx_chip_type = AST_TX_DP501;
-+			ast->tx_chip_types |= BIT(AST_TX_DP501);
- 		}
- 	} else if (ast->chip == AST2600)
- 		ast_dp_launch(&ast->base, 0);
- 
- 	/* Print stuff for diagnostic purposes */
--	switch(ast->tx_chip_type) {
--	case AST_TX_SIL164:
-+	if (ast->tx_chip_types & BIT(AST_TX_NONE))
-+		drm_info(dev, "Using analog VGA\n");
-+	if (ast->tx_chip_types & BIT(AST_TX_SIL164))
- 		drm_info(dev, "Using Sil164 TMDS transmitter\n");
--		break;
--	case AST_TX_DP501:
-+	if (ast->tx_chip_types & BIT(AST_TX_DP501))
- 		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
--		break;
--	default:
--		drm_info(dev, "Analog VGA only\n");
--	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 323af2746aa9..e19dd2f9b3ce 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -997,10 +997,10 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- 	case DRM_MODE_DPMS_ON:
- 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0);
- 		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, 0);
--		if (ast->tx_chip_type == AST_TX_DP501)
-+		if (ast->tx_chip_types & BIT(AST_TX_DP501))
- 			ast_set_dp501_video_output(crtc->dev, 1);
- 
--		if (ast->tx_chip_type == AST_TX_ASTDP) {
-+		if (ast->tx_chip_types & BIT(AST_TX_ASTDP)) {
- 			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_ON);
- 			ast_wait_for_vretrace(ast);
- 			ast_dp_set_on_off(crtc->dev, 1);
-@@ -1012,17 +1012,17 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- 	case DRM_MODE_DPMS_SUSPEND:
- 	case DRM_MODE_DPMS_OFF:
- 		ch = mode;
--		if (ast->tx_chip_type == AST_TX_DP501)
-+		if (ast->tx_chip_types & BIT(AST_TX_DP501))
- 			ast_set_dp501_video_output(crtc->dev, 0);
--		break;
- 
--		if (ast->tx_chip_type == AST_TX_ASTDP) {
-+		if (ast->tx_chip_types & BIT(AST_TX_ASTDP)) {
- 			ast_dp_set_on_off(crtc->dev, 0);
- 			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_OFF);
- 		}
- 
- 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0x20);
- 		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, ch);
-+		break;
- 	}
- }
- 
-@@ -1155,7 +1155,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- 		ast_crtc_load_lut(ast, crtc);
- 
- 	//Set Aspeed Display-Port
--	if (ast->tx_chip_type == AST_TX_ASTDP)
-+	if (ast->tx_chip_types & BIT(AST_TX_ASTDP))
- 		ast_dp_set_mode(crtc, vbios_mode_info);
- 
- 	mutex_unlock(&ast->ioregs_lock);
-@@ -1739,22 +1739,26 @@ int ast_mode_config_init(struct ast_private *ast)
- 
- 	ast_crtc_init(dev);
- 
--	switch (ast->tx_chip_type) {
--	case AST_TX_NONE:
-+	if (ast->tx_chip_types & BIT(AST_TX_NONE)) {
- 		ret = ast_vga_output_init(ast);
--		break;
--	case AST_TX_SIL164:
-+		if (ret)
-+			return ret;
-+	}
-+	if (ast->tx_chip_types & BIT(AST_TX_SIL164)) {
- 		ret = ast_sil164_output_init(ast);
--		break;
--	case AST_TX_DP501:
-+		if (ret)
-+			return ret;
-+	}
-+	if (ast->tx_chip_types & BIT(AST_TX_DP501)) {
- 		ret = ast_dp501_output_init(ast);
--		break;
--	case AST_TX_ASTDP:
-+		if (ret)
-+			return ret;
-+	}
-+	if (ast->tx_chip_types & BIT(AST_TX_ASTDP)) {
- 		ret = ast_astdp_output_init(ast);
--		break;
-+		if (ret)
-+			return ret;
- 	}
--	if (ret)
--		return ret;
- 
- 	drm_mode_config_reset(dev);
- 
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 0aa9cf0fb5c3..2e1c343b70a3 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -391,7 +391,7 @@ void ast_post_gpu(struct drm_device *dev)
- 
- 		ast_init_3rdtx(dev);
- 	} else {
--		if (ast->tx_chip_type != AST_TX_NONE)
-+		if (ast->tx_chip_types & BIT(AST_TX_SIL164))
- 			ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xcf, 0x80);	/* Enable DVO */
- 	}
- }
--- 
-2.36.0
+And how to motivate someone on your side to pick up the amdgpu work? :)
 
+>>   * What are the semantics of AMD engine utilisation reported in 
+>> percents?
+> 
+> To be honest I haven't understood why we are using percents here either, 
+> that is not something the kernel should mess with.
+> 
+>>      * Can it align with what i915 does (same what msm will do) or need
+>>        to document the alternative in the specification document? Both
+>>        option are workable with instantaneous percent only needing 
+>> support
+>>        to be added to vendor agnostic gputop.
+> 
+> I would prefer to just change to the ns format i915 and msm will be 
+> using, that makes much more sense from my experience.
+> 
+> As far as I know we haven't released any publicly available userspace 
+> using the existing AMD specific format. So that should still be possible.
+
+If amdgpu could export accumulated time context spent on engines that 
+would indeed be perfect. It would make the gputop I sketched out most 
+probably just work, as it did for Rob on msm.
+
+In which case, apart from the admgpu work, it would just be a matter of 
+me tidying that tool a bit and re-sending out for review.
+
+>>   * Can amdgpu expose drm-client-id? Without it gputop will not work.
+> 
+> How is that determined on i915 ? Does struct drm_file has that somewhere?
+
+It should correspond 1:1 with drm_file, since the purpose is to enable 
+gputop distinguish between unique open file descriptors (aka clients).
+
+In theory it could be just a hash value of a struct drm_file pointer but 
+that could confuse userspace if the struct gets reused within a single 
+userspace sampling period.
+
+Because of that I track it in i915 separately since I wanted to have an 
+incrementing cyclic property to it - so that when a fd is closed and new 
+opened there is no practical chance they would have the same drm-client-id.
+
+>> * drm-engine-capacity - does the concept translate etc.
+> 
+> I don't think we are going to need that.
+
+Okay, that one is optional for cases when there is more than one engine 
+of a type/class shown under a single entry in fdinfo. So when gputop 
+translates accumulated time into percentages it can do the right thing. 
+Code can already handle it not being present and assume one.
+
+Regards,
+
+Tvrtko
+
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: David M Nieto <David.Nieto@amd.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Acked-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   Documentation/gpu/amdgpu/usage-stats.rst   | 28 ++++++++++++++++++++++
+>>   Documentation/gpu/drm-usage-stats.rst      |  7 +++++-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 18 ++++++++++----
+>>   3 files changed, 47 insertions(+), 6 deletions(-)
+>>   create mode 100644 Documentation/gpu/amdgpu/usage-stats.rst
+>>
+>> diff --git a/Documentation/gpu/amdgpu/usage-stats.rst 
+>> b/Documentation/gpu/amdgpu/usage-stats.rst
+>> new file mode 100644
+>> index 000000000000..8be5009bd1a9
+>> --- /dev/null
+>> +++ b/Documentation/gpu/amdgpu/usage-stats.rst
+>> @@ -0,0 +1,28 @@
+>> +.. _amdgpu-usage-stats:
+>> +
+>> +============================================
+>> +AMDGPU DRM client usage stats implementation
+>> +============================================
+>> +
+>> +The amdgpu driver implements the DRM client usage stats specification as
+>> +documented in :ref:`drm-client-usage-stats`.
+>> +
+>> +Example of the output showing the implemented key value pairs and 
+>> entirety of
+>> +the currenly possible format options:
+>> +
+>> +::
+>> +
+>> +      pos:    0
+>> +      flags:  0100002
+>> +      mnt_id: 21
+>> +      drm-driver: amdgpu
+>> +      drm-pdev:   0000:03:00.0
+>> +      drm-memory-vram: 0 KiB
+>> +      drm-memory-gtt: 0 KiB
+>> +      drm-memory-cpu: 0 KiB
+>> +      drm-engine-...: 0 %
+>> +                 ...
+>> +
+>> +Possible `drm-memory-` key names are: `vram`, `gtt`, `cpu`.
+>> +
+>> +Possible `drm-engine-` key names are: ``.
+>> diff --git a/Documentation/gpu/drm-usage-stats.rst 
+>> b/Documentation/gpu/drm-usage-stats.rst
+>> index 6c9f166a8d6f..2d0ff6f2cc74 100644
+>> --- a/Documentation/gpu/drm-usage-stats.rst
+>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>> @@ -69,7 +69,7 @@ scope of each device, in which case `drm-pdev` shall 
+>> be present as well.
+>>   Userspace should make sure to not double account any usage 
+>> statistics by using
+>>   the above described criteria in order to associate data to 
+>> individual clients.
+>> -- drm-engine-<str>: <uint> ns
+>> +- drm-engine-<str>: <uint> [ns|%]
+>>   GPUs usually contain multiple execution engines. Each shall be given 
+>> a stable
+>>   and unique name (str), with possible values documented in the driver 
+>> specific
+>> @@ -84,6 +84,9 @@ larger value within a reasonable period. Upon 
+>> observing a value lower than what
+>>   was previously read, userspace is expected to stay with that larger 
+>> previous
+>>   value until a monotonic update is seen.
+>> +Where time unit is given as a percentage...[AMD folks to fill the 
+>> semantics
+>> +and interpretation of that]...
+>> +
+>>   - drm-engine-capacity-<str>: <uint>
+>>   Engine identifier string must be the same as the one specified in the
+>> @@ -110,3 +113,5 @@ Driver specific implementations
+>>   ===============================
+>>   :ref:`i915-usage-stats`
+>> +
+>> +:ref:`amdgpu-usage-stats`
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>> index 5a6857c44bb6..8cbae61f1b3b 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+>> @@ -32,6 +32,7 @@
+>>   #include <drm/amdgpu_drm.h>
+>>   #include <drm/drm_debugfs.h>
+>> +#include <drm/drm_drv.h>
+>>   #include "amdgpu.h"
+>>   #include "amdgpu_vm.h"
+>> @@ -83,11 +84,18 @@ void amdgpu_show_fdinfo(struct seq_file *m, struct 
+>> file *f)
+>>       amdgpu_bo_unreserve(root);
+>>       amdgpu_bo_unref(&root);
+>> -    seq_printf(m, "pdev:\t%04x:%02x:%02x.%d\npasid:\t%u\n", domain, bus,
+>> +    /*
+>> +     * 
+>> ******************************************************************
+>> +     * For text output format description please see 
+>> drm-usage-stats.rst!
+>> +     * 
+>> ******************************************************************
+>> +     */
+>> +
+>> +    seq_printf(m, "drm-driver:\t%s\n", file->minor->dev->driver->name);
+>> +    seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\npasid:\t%u\n", 
+>> domain, bus,
+>>               dev, fn, fpriv->vm.pasid);
+>> -    seq_printf(m, "vram mem:\t%llu kB\n", vram_mem/1024UL);
+>> -    seq_printf(m, "gtt mem:\t%llu kB\n", gtt_mem/1024UL);
+>> -    seq_printf(m, "cpu mem:\t%llu kB\n", cpu_mem/1024UL);
+>> +    seq_printf(m, "drm-memory-vram:\t%llu KiB\n", vram_mem/1024UL);
+>> +    seq_printf(m, "drm-memory-gtt:\t%llu KiB\n", gtt_mem/1024UL);
+>> +    seq_printf(m, "drm-memory-cpu:\t%llu KiB\n", cpu_mem/1024UL);
+>>       for (i = 0; i < AMDGPU_HW_IP_NUM; i++) {
+>>           uint32_t count = amdgpu_ctx_num_entities[i];
+>>           int idx = 0;
+>> @@ -103,7 +111,7 @@ void amdgpu_show_fdinfo(struct seq_file *m, struct 
+>> file *f)
+>>               perc = div64_u64(10000 * total, min);
+>>               frac = perc % 100;
+>> -            seq_printf(m, "%s%d:\t%d.%d%%\n",
+>> +            seq_printf(m, "drm-engine-%s%d:\t%d.%d %%\n",
+>>                       amdgpu_ip_name[i],
+>>                       idx, perc/100, frac);
+>>           }
+> 
