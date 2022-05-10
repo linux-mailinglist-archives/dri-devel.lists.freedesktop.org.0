@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB93C522427
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 20:34:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B14522353
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 20:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5016710E43C;
-	Tue, 10 May 2022 18:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E54F10EB4C;
+	Tue, 10 May 2022 18:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1162 seconds by postgrey-1.36 at gabe;
- Tue, 10 May 2022 14:12:40 UTC
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EFDB10F639
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 14:12:40 +0000 (UTC)
-Received: from kwepemi100012.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KyKDf49VnzGpdw;
- Tue, 10 May 2022 21:50:26 +0800 (CST)
-Received: from kwepemm600005.china.huawei.com (7.193.23.191) by
- kwepemi100012.china.huawei.com (7.221.188.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 10 May 2022 21:53:14 +0800
-Received: from ubuntu1804.huawei.com (10.67.175.30) by
- kwepemm600005.china.huawei.com (7.193.23.191) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 10 May 2022 21:53:13 +0800
-From: Hui Tang <tanghui20@huawei.com>
-To: <emma@anholt.net>
-Subject: [PATCH -next] drm/vc4: hdmi: Fix build error for implicit function
- declaration
-Date: Tue, 10 May 2022 21:51:48 +0800
-Message-ID: <20220510135148.247719-1-tanghui20@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827F610EB5F
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 18:08:03 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id q10so4248326oia.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 11:08:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=PBkBGj9Wm+vqScoe3rXf56OJq4tLpJWe7pdFIsGR7f8=;
+ b=m7/KE9hL4p0V34eJ5CG5gGQ7DBSHi8qVI0yoATdKhsJkfVe5nQTKMLYYHsuqRS/YRA
+ 5ea2LelxM0XZNjHjHHJfhc3mu4Rxb1PndcumidEOGMhdgylteyqyxUAMTwG/QDFXsEwY
+ FbD95wZFveFO4CMVdlxSfo4qPwUHJCZ+n+IRk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=PBkBGj9Wm+vqScoe3rXf56OJq4tLpJWe7pdFIsGR7f8=;
+ b=Lp66j9ot9uniT5g3eTCDK4yLQ8QeSnWhrOjDToMNQtdOQDVPd+QinjZXPtM41ET5K2
+ oP3amnFWKz677rt1GRNVFIHovbM96UXANciuPHEBSSbTg4AMVltWUsn5xlHEA9ooKurg
+ 2/nyWaFWKfsUQdXokAkD1fRpCXB1Kr/0Jnkic2P9hwrMiA4ANC0fX4Gz32xJFv5Xo8xD
+ DeAzFkJjGcWb9v8H8XI1xdiIinB7y+4RJ45WIvkixvq57D9rQREdonovbrYPgex4V5Pl
+ /E+vnVOzYRDFx/W+Kjib1cIL4JTwZbm42nQVkaWKx+lyXqsanSbyqyqaSs/i1Tkdinuq
+ MeJw==
+X-Gm-Message-State: AOAM5333Cm74MxKwcUUAmXjlcMAqV3HsNYQNBjEBbAoEmyb95oY5yfGV
+ VFjvwZn8eYVGZVJqDY/x3P+oJYr2sy9ylxUeUR5yZw==
+X-Google-Smtp-Source: ABdhPJwDubvKYE7hKn9RJqYmmvSUB6eZFEeHBr9soKfiUdvHF1qRxJgLuav4mDD81e+i0CrUgZhvbbnCOoGW8sOaAaw=
+X-Received: by 2002:a05:6808:14c2:b0:326:c129:d308 with SMTP id
+ f2-20020a05680814c200b00326c129d308mr633893oiw.193.1652206082707; Tue, 10 May
+ 2022 11:08:02 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 May 2022 11:08:02 -0700
 MIME-Version: 1.0
+In-Reply-To: <20220510165216.3577068-1-robdclark@gmail.com>
+References: <20220510165216.3577068-1-robdclark@gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 10 May 2022 11:08:02 -0700
+Message-ID: <CAE-0n52TCi-Vy8WUqCQdbcoqLCX6j4_mkM_1pBQC072DdqC-Wg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix fb plane offset calculation
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.175.30]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm600005.china.huawei.com (7.193.23.191)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 10 May 2022 18:34:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,50 +63,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/vc4/vc4_hdmi.c: In function ‘vc4_hdmi_connector_detect’:
-drivers/gpu/drm/vc4/vc4_hdmi.c:228:7: error: implicit declaration of function ‘gpiod_get_value_cansleep’; did you mean ‘gpio_get_value_cansleep’? [-Werror=implicit-function-declaration]
-   if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
-       ^~~~~~~~~~~~~~~~~~~~~~~~
-       gpio_get_value_cansleep
-  CC [M]  drivers/gpu/drm/vc4/vc4_validate.o
-  CC [M]  drivers/gpu/drm/vc4/vc4_v3d.o
-  CC [M]  drivers/gpu/drm/vc4/vc4_validate_shaders.o
-  CC [M]  drivers/gpu/drm/vc4/vc4_debugfs.o
-drivers/gpu/drm/vc4/vc4_hdmi.c: In function ‘vc4_hdmi_bind’:
-drivers/gpu/drm/vc4/vc4_hdmi.c:2883:23: error: implicit declaration of function ‘devm_gpiod_get_optional’; did you mean ‘devm_clk_get_optional’? [-Werror=implicit-function-declaration]
-  vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-                       devm_clk_get_optional
-drivers/gpu/drm/vc4/vc4_hdmi.c:2883:59: error: ‘GPIOD_IN’ undeclared (first use in this function); did you mean ‘GPIOF_IN’?
-  vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
-                                                           ^~~~~~~~
-                                                           GPIOF_IN
-drivers/gpu/drm/vc4/vc4_hdmi.c:2883:59: note: each undeclared identifier is reported only once for each function it appears in
-cc1: all warnings being treated as errors
+Quoting Rob Clark (2022-05-10 09:52:16)
+> From: Rob Clark <robdclark@chromium.org>
+>
+> The offset got dropped by accident.
+>
+> Fixes: d413e6f97134 ("drm/msm: Drop msm_gem_iova()")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
 
-Fixes: 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod")
-Signed-off-by: Hui Tang <tanghui20@huawei.com>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 6aadb65eb640..823d812f4982 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -38,6 +38,7 @@
- #include <drm/drm_simple_kms_helper.h>
- #include <linux/clk.h>
- #include <linux/component.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/of_address.h>
- #include <linux/of_gpio.h>
--- 
-2.17.1
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Stephen Boyd <swboyd@chromium.org> # CoachZ
