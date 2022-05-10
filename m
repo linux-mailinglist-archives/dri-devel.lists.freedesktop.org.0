@@ -2,124 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B17521DCF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 17:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F3C521ECD
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 17:31:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8D2210E3A6;
-	Tue, 10 May 2022 15:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE7410E15B;
+	Tue, 10 May 2022 15:31:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4BE10E3A6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 15:12:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AfdM13oNNvRX6UFVlZvlCgp6deHWGohtymApbgGknZUPLSXvukamKghFUR3CuaSuvhOvW26bsatDdDyX54mqE+kKrYZtV2nrQacjHKY/GYuo3bFFBzY8NDqro7nNEquCk5IynA5eoY7y2VAKbhGmdLd0EuTYM8e+pnFyH1CcJJIjw3KUZ68MTkf1wv3lR8Yd9QsBnwQadJBSzQJOvHuj2kKz3ZbgVBgQTsIDadlpiA1D6NMBikUCd0yzvNc89JzxtJY3MiyMPuvsBOZy2Lv/4iV26CSTJyWMFsBKc5JrfprRmts4d3MGn32OCmD7KqW2lXp8k/62avTJnoXrRJtA9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5wjyK0zD8rRrMy/cRpcVvevQKwTPeRJ2bVwZXMmB1TE=;
- b=FZuiwBXkZVOA6ka/WK+NqCovwvo9dbQz+ybCzBZX1c+ar1j2vRxlGjxG9CyRjQS4vz1K/IqnaWcBiatEV+JIxaSRgQp5L/5NYP32UeiwZP8/bDzN0QVndTZehKz3WQClabIGvgMgKk4BzPCmT5WhPzP/N5UVDS3PJH9iP/+VFwRc6guqaXvNNnSPBJfNtJjVQgS346j39TQvptgtvKecC8qewV05pQLtC5Lv2Pnsgn/+oHqeiSBr7pgMteP0UgNGlJ5sw0t7ApOaojDwHaYiMMW9MNwktu6ax5L7xlHSBLmZMGOwLf54TS4TRdNeafMEGoCC+L5wsEGKOesUSh/hBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5wjyK0zD8rRrMy/cRpcVvevQKwTPeRJ2bVwZXMmB1TE=;
- b=Dp3z1B4yWLLvVJf4iZNHmeLMlSeWm+nsNVKRRQ90wk1rCUTDzOsnAuBzgAuMu5PWnHgDcXGjfAa+9eGeZsZ8rXsQbFvsvYcVY4tfXbnwmXUM0wb416CSazbiYcQBBtUe9VlpxWgWUgRQtYL9LW8Q73vTa01VOxMW5JPmZ/E4VXg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB6440.namprd12.prod.outlook.com (2603:10b6:8:c8::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.18; Tue, 10 May
- 2022 15:12:14 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::fdba:2c6c:b9ab:38f]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::fdba:2c6c:b9ab:38f%4]) with mapi id 15.20.5227.023; Tue, 10 May 2022
- 15:12:14 +0000
-Message-ID: <4ac55be2-7d55-2c3b-0d5e-f61c02c62792@amd.com>
-Date: Tue, 10 May 2022 17:12:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH V2] dmabuf: ensure unique directory name for dmabuf stats
-Content-Language: en-US
-To: Charan Teja Kalla <quic_charante@quicinc.com>,
- gregkh@linuxfoundation.org, sumit.semwal@linaro.org, hridya@google.com,
- daniel.vetter@ffwll.ch, tjmercier@google.com
-References: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <1652191562-18700-1-git-send-email-quic_charante@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR05CA0010.eurprd05.prod.outlook.com
- (2603:10a6:20b:488::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1161510E15B;
+ Tue, 10 May 2022 15:31:36 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-d6e29fb3d7so18698992fac.7; 
+ Tue, 10 May 2022 08:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=A3C2Y5JnBnbYNhD+5UVTyjVuDk7iGLJEb4DhyztVkt8=;
+ b=Pz1mBlFBCcu0WcRSg4+psd9pn7Xyf58AdJDaYFm5NNz6AjRMG60yRGxErVIdKcLI+n
+ bZSxryxpcmbwLRfTRjEwNOAKimyaLERrSCBw2I3cQW6CDkKRPmebJZt46WTL35DKJURF
+ mOOrt7EMktFs473uAySR8o4QzsbcTOyhaTyXSO7u5DKm7+fFMw7kyFCXEResPrrLuGie
+ r7G+9pNTQbNUDmb5QJoM9QlSiOCQ3LsxSnYKoj9VxXbhZ5WBFwTkq6isd2IDEJ26k3xu
+ G6Xf8X4MivBYB323v2iSZU7WusvIgLkTrPQ3byR7XrF4I1PEC+aBFZ6JjKVhedRqUXP3
+ Cbrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=A3C2Y5JnBnbYNhD+5UVTyjVuDk7iGLJEb4DhyztVkt8=;
+ b=a8pxLKBHRpW9dA82ybf0waWDzDeJo9fWqiq4yVcXrlm6m7CUkZA2n3s6f9cEmmkFgZ
+ xKn5dY4DWgFLT2s5X98hs8HvPDNceNHYdvEZEn5eCr94JTkGwoRegDwlk2YxuAJsP024
+ WUGXfAZTawGyw27NmHJiUnSXumGRnklR6qyWnWeUVEYDxTDy53v2yRaIL9xffhk4BQ52
+ cNBPSWuDahTRQJPb7A5aQlPhXOo/9QlDnUqLJqVrptYJtlImoGynhsHQf8X86d5IIol7
+ ilh6MnA1IjbsB0F5DZUel4I7/JWrj2Bh8d9ihtl14hqxVj78mgbkjhqnrDmchyVVDdkl
+ u61A==
+X-Gm-Message-State: AOAM530gV6vw/HkXlovCcO+xklmlHnYUxh9dWFrj90n5GzM4jNGfSADf
+ D2dw9dGYMdo63J/6U91CA9eQ5Yt+b5MK6Guj1u4=
+X-Google-Smtp-Source: ABdhPJznI0Y4Evv1DPJe4fnOMpS+e+MVx31IvsR7XPyEWshyVNYic6thdcCHP3nUWS5ZuRNguMEFp4U2Qz9wr0cfzoQ=
+X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
+ z3-20020a056870d68300b000deeaa23550mr350285oap.253.1652196695239; Tue, 10 May
+ 2022 08:31:35 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 62146b42-0bfb-476e-6c68-08da329776a3
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6440:EE_
-X-Microsoft-Antispam-PRVS: <DS0PR12MB64404585254F99902C7D1C1D83C99@DS0PR12MB6440.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CtwT7iiUByDeKbrVzvF/782xnuKz6SjgeOeA77U7/Muei9ilwvIcrvZm4Oje+39or18W4VhlA/K9AJdO2LbThPM1puen/E9mNzUaPFiMOyQBZFY1cKI+Ei7h5eA4ASgxJQDCtaUcYMLFY+JVZqPcMdkD3usi3gbWWfb86cR5V0H7pNM52+Lu7nsV1BYx2Vtuldq5RO/IApycFwRPkW5cBQ2jzKYc3pm93qwjmO/rFbxix3bavC3+D4rLoOTFw65QWttBhUuLnidoTyR9F8OhDFRdAOQdKIs1bZ93VFWMWKrhc1+B76rC4k9vSKCxXzHo4fEj6vX7e3h9Pn2yd6MuJYsxXKwbwTGZ15/knjZyUNGgD/j1NNTU7KPOSl6t2Qpaw5MJliMOJaXQoA16HPzgjaUhnz0gdJF7iaX5HEy1B7upcHhG/TiUXLgdSES/SnR/sGRq6HsbdUq6Z7KZEAXWXtRRPvhznFSULQHxanwutgyqf7xGYMi87rI6kM8NLJwRs4bUxiXIK2mO+A90I1k42mdqqfBEg1J3tiGh3NOkjUXqU1G6DNA1Sch5nNQi+tnO0drKS1ZWuUpfM89MY15gov0c6Fd+SCQPxB/UtznIuPrZxuzI4ZLLRMO7amkDVtuKN61xj90alVFQaRkuptd663GF11qRjbqe4/bdML1uzjKLDYqZutvLQCdAKqHY3AH3m1VJ3K3IJf4vj4rlHPRIbhtOg1FwmXShtyEhDrB3G92bJTpuRP8uEoESYLuOiYBVb+5HNWOPXX5yZ6E7giqse0njBIRkO295zL4ESA6CrsaCVJg1uCeJcsMyPsMTLJobXIoQ+EbWPKjH9gqdcAJI0Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6666004)(966005)(6486002)(31696002)(86362001)(8936002)(7416002)(5660300002)(508600001)(83380400001)(6512007)(38100700002)(2616005)(6506007)(186003)(316002)(36756003)(31686004)(66556008)(4326008)(8676002)(66946007)(66476007)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1NBbWpRa1ZUQXVzdXVLTjZlZkxuQk5BaSthczBOVGxGRUs2QklURS9MU1g4?=
- =?utf-8?B?VUVIZUNZb3QvaGg0enpPUy9mNitCa0VoSjdWU291VG5NOVRlQzFmN2xONXpU?=
- =?utf-8?B?RjErM1czSS9JM3ZyQXZBeHNhdlc0UFlKVG9oQkJCWHUxeDNKY3ByUTRhVVZ4?=
- =?utf-8?B?TllPeUZVdnd6YVF5V3pmWExOSFN4UG04citxMDJpM2xhRXlXdXc5dCtZRWwr?=
- =?utf-8?B?dEhETDFRdmN0c3cvNXBzTGNOOGtTU3ZDVDFJYzMvU0ViNHJ6b1dRcHUrUEJj?=
- =?utf-8?B?UjZIL3U5ODR0Q0RmV3ZJKzlLYStMenh1WlZRV242Zlh1OTZxRHI5NkJGZzlW?=
- =?utf-8?B?SFdGRE1wNS9PRDNkeE9IUGhKMEdSdjhCcHR6NTF5Q0tOMVZyMnRZVEdyZU9k?=
- =?utf-8?B?R1VaL1FWNTEvMWdhaUh2akFqQUhnSXVGOTlucGpQMnVIVUR4TUl1Y2t2K3U1?=
- =?utf-8?B?dGhpcmM5UUFSNFBMdzdsWFJ3NWRvTExRbzNoRDhSYitXZWdxVGkzdzhuc2Js?=
- =?utf-8?B?U0JjUnpSeUZPTzR1SStZblc2RWlZeXZTMjdTMEk5SnpvZHQrUVh1bG8rWGxu?=
- =?utf-8?B?STFPU1VVNEwwZHZ0M0E2TUlpRUM1c0FKWUp1Ym5YNTh1S1kzZEN1WlE3N21H?=
- =?utf-8?B?UVhIdkdwS3hLM1F4a2xyWU5rMXhjZ3VLSXZkSHhwbklyakRxVno1Rzk0RVR0?=
- =?utf-8?B?RWpwUUZvTFlFaklLUHZ0SFpuVlpJTFJlc0dRWHpPYzFxRG5BWE9iM1NsYlVR?=
- =?utf-8?B?VVNkeElQdGJJNDJhYk01MnFLRWx2NFVqNzNwL3oyaXUvSjdTdEhDOUFCQXRW?=
- =?utf-8?B?Qit1UWpPQWdYMHh0Nk1pcXl5MDNoRG8zSFBsYkV1ajQ1Ykk0QmJ3YWpUV1Rn?=
- =?utf-8?B?Qm0zaHlTYWVKSURoeVlYL0FBMFFNaTY0SmwyNzNRMXRTd0xxQUFCK1dvU3VD?=
- =?utf-8?B?eHlCZlUrOFdoeEs2S0ozU2RhOW1wcUVobFA0OWlRRjRFSTA5UnlPS0dheTlG?=
- =?utf-8?B?QUhENWh3K1FFZzdFSDRaNzNqa093ajdXNnpGSW85RXhUQlBOZlltajg3WjR3?=
- =?utf-8?B?RktHbWk0NEVaOEtGZnFicnlGZ0V3YWg5OHNSbnhONk5Vd1ByWUd5elUxRkFG?=
- =?utf-8?B?MXdLT0Zqa0JxSS95RnVJemtFT3J5NXg0dmd0d2p5SC9GVEcwNmpqVXc2ekRq?=
- =?utf-8?B?anVXRFZpSHpzNUsrOWZZK3Rnb0pvaGR0MVlxNy96VnpqMDBLcUdkNGVHK0gy?=
- =?utf-8?B?QVkxS05pc1Vpck5XK0ZDOVEvOVlvMDlDYjd3OFZrMDNDdkRJMmtDcDYvN2FM?=
- =?utf-8?B?QWRWU2c0bFBQZXd2c2lKWVNCQVJtYXpIZGEzTy9leTh4Y3RGWVBpMWljUTZ4?=
- =?utf-8?B?MDlWN2VPNkpHNjE4cEZSTU5VM0MrbXlvSWl1czN6Q2tDZnlGR3hHOXlDNUw5?=
- =?utf-8?B?WHRLNUFaNnR4Q1krTVQyOHdNZ1dJN3VsUjhZT215V3lINmt5cm9KT3BldzZt?=
- =?utf-8?B?NWhIUTQ2ZVNQRWNWMEZ0K0ZYZXJ0bGEvM1pxTnNVNlJkLytEbU94cjY1TlhI?=
- =?utf-8?B?VkV4eEE1MTRrQzE5MFBHWUtsWG5wQTVObHNYN0RXbnFXZTZCN0hVZDg3MmlY?=
- =?utf-8?B?SS9mWVhxY0FNYjlQMzBuVko3NXZwYWphUFdvaDR5clF0NkM5bU9TYlMzMjA0?=
- =?utf-8?B?SFRZVlNRdFQ0cStkcUZIVTNUNUFlL0xtUjNrWjFUZU4ya2dad1l2cHNndXNJ?=
- =?utf-8?B?ZG5QYmE5MExxWTd0ZzF5amRmYXlBbThmVWpZOUw3Y0xzUmVldzEreE5CQm1n?=
- =?utf-8?B?NWMzbmcvZUdvZkYxY1RKNkV1V1VoNzNZNythM0RnSmJ3MFU3UEJsbzltNFVr?=
- =?utf-8?B?bnJSbDdmZDRpSFNqeUdndUJnVlFmc0tva3ZuRGpuWTJyQSs0aWQxY0tNSmh4?=
- =?utf-8?B?d1RCemM1WjlzbzNYU2JzWnV1clMwTnpVZDR4dDdqZTdzVWhOQ216bEpNSmlP?=
- =?utf-8?B?UFhuQjF2U2JhOFJJNS81azN6MkNSRWxORUJpL0k5QWYyOUhZSTlCdFBuNENj?=
- =?utf-8?B?eU56eHU4VkY2YXFnZXBESjg1WDBuUzNBS1o0QmZRVFIwK3o2c3V1LzdrazhP?=
- =?utf-8?B?bmR3RUtMNXR1VkZGQjEyOUpqaGdibXhoT29nUkp6d3cxUlpISWc1UGYzcEhR?=
- =?utf-8?B?NDF4b1VoWjA2Ny9uckovVlZMQTVZZVgzaEZwVTJBbDAyWXlJUENxc3dTWWxp?=
- =?utf-8?B?VEVPdjF0QXdDSlVXR2pYbUVKK0Y0akl6VXJDaGJScUtoeURJMllSWHlKNXlq?=
- =?utf-8?B?V1E2dEswNTJwbUNwaWlMd3hUcDcrNXE4RDNRTEtuU2hVa2NNSGFlVjV4Ujho?=
- =?utf-8?Q?jg00R3tRW4FgRv2nuwDQpRCcOB5nZAqIp8so9VVowH30K?=
-X-MS-Exchange-AntiSpam-MessageData-1: MPagDzIZk9BR7Q==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62146b42-0bfb-476e-6c68-08da329776a3
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2022 15:12:13.9624 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I0qPe8r5o7FmAJUKn/yJlrGCcqGk5nqonYSqFf+xH3gWbg22CCV2BXI7qrFIesOc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6440
+References: <YnTAc96Uv0CXcGhD@suse.de>
+ <CADnq5_NT3UtawpGuPDwF+dgmRdaoysb7sD_-oWWBC=T3BoUH7Q@mail.gmail.com>
+ <YnpIjdTT3esZ72Bf@suse.de>
+In-Reply-To: <YnpIjdTT3esZ72Bf@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 10 May 2022 11:31:24 -0400
+Message-ID: <CADnq5_NYVvjcUru9hfbnATfcHJR5+eiK9bJAA9m41WKa=OJsog@mail.gmail.com>
+Subject: Re: [BUG] Warning and NULL-ptr dereference in amdgpu driver with 5.18
+To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,140 +67,320 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.05.22 um 16:06 schrieb Charan Teja Kalla:
-> The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
-> alloc_anon_inode()) to get an inode number and uses the same as a
-> directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
-> used to collect the dmabuf stats and it is created through
-> dma_buf_stats_setup(). At current, failure to create this directory
-> entry can make the dma_buf_export() to fail.
+On Tue, May 10, 2022 at 7:12 AM J=C3=B6rg R=C3=B6del <jroedel@suse.de> wrot=
+e:
 >
-> Now, as the get_next_ino() can definitely give a repetitive inode no
-> causing the directory entry creation to fail with -EEXIST. This is a
-> problem on the systems where dmabuf stats functionality is enabled on
-> the production builds can make the dma_buf_export(), though the dmabuf
-> memory is allocated successfully, to fail just because it couldn't
-> create stats entry.
+> Gentle ping. This is a 5.18 regression and I also see it with
+> 5.18-rc6. Please let me know if you need anything else to debug.
 >
-> This issue we are able to see on the snapdragon system within 13 days
-> where there already exists a directory with inode no "122602" so
-> dma_buf_stats_setup() failed with -EEXIST as it is trying to create
-> the same directory entry.
->
-> To make the directory entry as unique, append the unique_id for every
-> inode. With this change the stats directory entries will be in the
-> format of: /sys/kernel/dmabuf/buffers/<inode_number-unique_id>.
->
-> Signed-off-by: Charan Teja Kalla <quic_charante@quicinc.com>
-> ---
-> Changes in V2:
->    -- Used the atomic64_t variable to generate a unique_id to be appended to inode
->       to have an unique directory with name <inode_number-unique_id> -- Suggested by christian
->    -- Updated the ABI documentation -- Identified by Greg.
->    -- Massaged the commit log.
->
-> Changes in V1:
->    -- Used the inode->i_ctime->tv_secs as an id appended to inode to create the
->       unique directory with name <inode_number-time_in_secs>.
->    -- https://lore.kernel.org/all/1652178212-22383-1-git-send-email-quic_charante@quicinc.com/
->
->   Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers | 10 +++++-----
->   drivers/dma-buf/Kconfig                               |  6 +++---
->   drivers/dma-buf/dma-buf-sysfs-stats.c                 |  8 +++++---
->   3 files changed, 13 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> index 5d3bc99..9fffbd3 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> @@ -4,19 +4,19 @@ KernelVersion:	v5.13
->   Contact:	Hridya Valsaraju <hridya@google.com>
->   Description:	The /sys/kernel/dmabuf/buffers directory contains a
->   		snapshot of the internal state of every DMA-BUF.
-> -		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
-> -		statistics for the DMA-BUF with the unique inode number
-> -		<inode_number>
-> +		/sys/kernel/dmabuf/buffers/<inode_number-unique_id> will
-> +		contain the statistics for the DMA-BUF with the unique
-> +		pair <inode_number-unique_id>
->   Users:		kernel memory tuning/debugging tools
->   
-> -What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/exporter_name
->   Date:		May 2021
->   KernelVersion:	v5.13
->   Contact:	Hridya Valsaraju <hridya@google.com>
->   Description:	This file is read-only and contains the name of the exporter of
->   		the DMA-BUF.
->   
-> -What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
-> +What:		/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/size
->   Date:		May 2021
->   KernelVersion:	v5.13
->   Contact:	Hridya Valsaraju <hridya@google.com>
-> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> index 541efe0..5bcbdb1 100644
-> --- a/drivers/dma-buf/Kconfig
-> +++ b/drivers/dma-buf/Kconfig
-> @@ -81,9 +81,9 @@ menuconfig DMABUF_SYSFS_STATS
->   	   Choose this option to enable DMA-BUF sysfs statistics
->   	   in location /sys/kernel/dmabuf/buffers.
->   
-> -	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
-> -	   statistics for the DMA-BUF with the unique inode number
-> -	   <inode_number>.
-> +	   /sys/kernel/dmabuf/buffers/<inode_number-unique_id> will contain
-> +	   statistics for the DMA-BUF with the unique pair
-> +	   <inode_number-unique_id>.
->   
->   source "drivers/dma-buf/heaps/Kconfig"
->   
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> index 2bba0ba..29e9e23 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> @@ -38,8 +38,8 @@
->    *
->    * The following stats are exposed by the interface:
->    *
-> - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
-> - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
-> + * * ``/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/exporter_name``
-> + * * ``/sys/kernel/dmabuf/buffers/<inode_number-unique_id>/size``
->    *
->    * The information in the interface can also be used to derive per-exporter
->    * statistics. The data from the interface can be gathered on error conditions
-> @@ -172,6 +172,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
->   {
->   	struct dma_buf_sysfs_entry *sysfs_entry;
->   	int ret;
-> +	static atomic64_t unique_id = ATOMIC_INIT(0);
 
-Please move that to the beginning of the declarations.
+Are you doing anything special when it happens?  I.e., does it happen
+when the monitor is coming out of DPMS or something like that?
 
->   
->   	if (!dmabuf || !dmabuf->file)
->   		return -EINVAL;
-> @@ -192,7 +193,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
->   
->   	/* create the directory for buffer stats */
->   	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
-> -				   "%lu", file_inode(dmabuf->file)->i_ino);
-> +				   "%lu-%lu", file_inode(dmabuf->file)->i_ino,
+Alex
 
-Why not just use the unique value here? Or is the inode number necessary 
-for something?
-
-Regards,
-Christian.
-
-> +				   atomic64_add_return(1, &unique_id));
->   	if (ret)
->   		goto err_sysfs_dmabuf;
->   
-
+> Thanks,
+>
+>         Joerg
+>
+> On Fri, May 06, 2022 at 09:16:12AM -0400, Alex Deucher wrote:
+> > + some display folks
+> >
+> > On Fri, May 6, 2022 at 6:19 AM J=C3=B6rg R=C3=B6del <jroedel@suse.de> w=
+rote:
+> > >
+> > > Hi,
+> > >
+> > > since recently I started to experience warnings and NULL-ptr
+> > > dereferences in the amdgpu driver with kernel 5.18-rc5+. Earlier
+> > > 5.18-based kernels might be affected as well, but I havn't seen this
+> > > with 5.17.
+> > >
+> > > The kernel was built from the iommu-next branch, based on 5.18-rc5.
+> > >
+> > > The messages start with some PCIe error being reported:
+> > >
+> > > [20389.984993] pcieport 0000:00:03.1: AER: Multiple Corrected error r=
+eceived: 0000:0a:00.0
+> > > [20389.985005] amdgpu 0000:0a:00.0: PCIe Bus Error: severity=3DCorrec=
+ted, type=3DData Link Layer, (Receiver ID)
+> > > [20389.985007] amdgpu 0000:0a:00.0:   device [1002:6995] error status=
+/mask=3D000000c0/00002000
+> > > [20389.985010] amdgpu 0000:0a:00.0:    [ 6] BadTLP
+> > > [20389.985013] amdgpu 0000:0a:00.0:    [ 7] BadDLLP
+> > >
+> > > Directly followed by a waring:
+> > >
+> > > [81829.087101] ------------[ cut here ]------------
+> > > [81829.087105] WARNING: CPU: 4 PID: 644 at drivers/gpu/drm/amd/amdgpu=
+/../display/dc/clk_mgr/dce110/dce110_clk_mgr.c:140 dce110_fill_display_conf=
+igs+0x4a/0x150 [amdgpu]
+> > > [81829.087461] Modules linked in: snd_seq_dummy(E) snd_hrtimer(E) snd=
+_seq(E) rfcomm(E) af_packet(E) ocrdma(E) ib_uverbs(E) ib_core(E) nft_fib_in=
+et(E) nft_fib_ipv4(E) nft_fib_ipv6(E) nft_fib(E) nft_reject_inet(E) nf_reje=
+ct_ipv4(E) nf_reject_ipv6(E) nft_reject(E) nft_ct(E) nft_chain_nat(E) nf_ta=
+bles(E) ebtable_nat(E) ebtable_broute(E) ip6table_nat(E) ip6table_mangle(E)=
+ ip6table_raw(E) ip6table_security(E) iptable_nat(E) nf_nat(E) nf_conntrack=
+(E) nf_defrag_ipv6(E) nf_defrag_ipv4(E) iptable_mangle(E) iptable_raw(E) ip=
+table_security(E) ip_set(E) nfnetlink(E) ebtable_filter(E) ebtables(E) ip6t=
+able_filter(E) ip6_tables(E) iptable_filter(E) bpfilter(E) cmac(E) algif_ha=
+sh(E) algif_skcipher(E) af_alg(E) bnep(E) dmi_sysfs(E) intel_rapl_msr(E) in=
+tel_rapl_common(E) snd_hda_codec_realtek(E) eeepc_wmi(E) btusb(E) asus_wmi(=
+E) kvm_amd(E) btrtl(E) snd_hda_codec_generic(E) nls_iso8859_1(E) battery(E)=
+ uvcvideo(E) sparse_keymap(E) ledtrig_audio(E) btbcm(E) video(E) wmi_bmof(E=
+)
+> > > [81829.087502]  platform_profile(E) mxm_wmi(E) snd_hda_codec_hdmi(E) =
+nls_cp437(E) videobuf2_vmalloc(E) btintel(E) asus_wmi_sensors(E) btmtk(E) v=
+fat(E) snd_hda_intel(E) videobuf2_memops(E) videobuf2_v4l2(E) snd_intel_dsp=
+cfg(E) bluetooth(E) kvm(E) videobuf2_common(E) fat(E) snd_usb_audio(E) snd_=
+virtuoso(E) irqbypass(E) snd_usbmidi_lib(E) snd_hda_codec(E) snd_oxygen_lib=
+(E) videodev(E) snd_hwdep(E) snd_mpu401_uart(E) mc(E) snd_hda_core(E) ecdh_=
+generic(E) snd_rawmidi(E) snd_pcm(E) snd_seq_device(E) rfkill(E) pcspkr(E) =
+i2c_piix4(E) efi_pstore(E) k10temp(E) snd_timer(E) ext4(E) igb(E) snd(E) dc=
+a(E) soundcore(E) mbcache(E) be2net(E) jbd2(E) wmi(E) gpio_amdpt(E) gpio_ge=
+neric(E) tiny_power_button(E) button(E) acpi_cpufreq(E) fuse(E) configfs(E)=
+ ip_tables(E) x_tables(E) xfs(E) libcrc32c(E) dm_crypt(E) essiv(E) authenc(=
+E) trusted(E) asn1_encoder(E) tee(E) hid_logitech_hidpp(E) hid_logitech_dj(=
+E) hid_generic(E) usbhid(E) sr_mod(E) cdrom(E) uas(E) usb_storage(E) amdgpu=
+(E)
+> > > [81829.087551]  drm_ttm_helper(E) ttm(E) iommu_v2(E) gpu_sched(E) i2c=
+_algo_bit(E) crct10dif_pclmul(E) drm_dp_helper(E) crc32_pclmul(E) crc32c_in=
+tel(E) drm_kms_helper(E) syscopyarea(E) sysfillrect(E) sysimgblt(E) fb_sys_=
+fops(E) drm(E) xhci_pci(E) cec(E) ghash_clmulni_intel(E) xhci_pci_renesas(E=
+) aesni_intel(E) crypto_simd(E) cryptd(E) sp5100_tco(E) xhci_hcd(E) ccp(E) =
+rc_core(E) nvme(E) usbcore(E) nvme_core(E) sg(E) br_netfilter(E) bridge(E) =
+stp(E) llc(E) dm_multipath(E) dm_mod(E) scsi_dh_rdac(E) scsi_dh_emc(E) scsi=
+_dh_alua(E) ledtrig_timer(E) msr(E) efivarfs(E)
+> > > [81829.087581] CPU: 4 PID: 644 Comm: kworker/4:1H Tainted: G         =
+   E     5.18.0-rc5-iommu-next+ #1 4d1b12f73ec264927e45e8f2e5d1c0c8e280bc7d
+> > > [81829.087585] Hardware name: System manufacturer System Product Name=
+/PRIME X470-PRO, BIOS 5406 11/13/2019
+> > > [81829.087588] Workqueue: events_highpri dm_irq_work_func [amdgpu]
+> > > [81829.087928] RIP: 0010:dce110_fill_display_configs+0x4a/0x150 [amdg=
+pu]
+> > > [81829.088274] Code: 31 ff 4d 8d 98 f0 01 00 00 49 8b 0c f8 4c 89 da =
+31 c0 48 39 0a 0f 84 e4 00 00 00 83 c0 01 48 81 c2 10 08 00 00 83 f8 06 75 =
+e8 <0f> 0b 31 c0 80 b9 48 03 00 00 00 0f 85 a9 00 00 00 48 8b 50 08 8b
+> > > [81829.088277] RSP: 0018:ffffb891810c3be0 EFLAGS: 00010246
+> > > [81829.088280] RAX: 0000000000000006 RBX: ffff9719a6b60000 RCX: ffff9=
+71d08e07800
+> > > [81829.088282] RDX: ffff9719a6b63250 RSI: ffff9719a6b72980 RDI: 00000=
+00000000001
+> > > [81829.088284] RBP: ffff971a812f0000 R08: ffff9719a6b60000 R09: 00000=
+00000000000
+> > > [81829.088286] R10: ffff9719a6b72980 R11: ffff9719a6b601f0 R12: ffff9=
+719a6b72980
+> > > [81829.088287] R13: ffff9719a6b60000 R14: 0000000000000006 R15: 00000=
+00000003258
+> > > [81829.088289] FS:  0000000000000000(0000) GS:ffff97285eb00000(0000) =
+knlGS:0000000000000000
+> > > [81829.088291] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > [81829.088293] CR2: 00007fbc4800bb28 CR3: 00000002909c0000 CR4: 00000=
+000003506e0
+> > > [81829.088295] Call Trace:
+> > > [81829.088298]  <TASK>
+> > > [81829.088300]  dce11_pplib_apply_display_requirements+0x129/0x200 [a=
+mdgpu 1a7cfa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.088646]  dce112_update_clocks+0x8d/0xf0 [amdgpu 1a7cfa9f14a3ef=
+2ba289fa21a3c241108d69cd98]
+> > > [81829.088992]  dc_commit_updates_for_stream+0x1a91/0x1ef0 [amdgpu 1a=
+7cfa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.089330]  ? detect_link_and_local_sink+0x3b4/0xb40 [amdgpu 1a7c=
+fa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.089665]  set_all_streams_dpms_off_for_link+0x10e/0x120 [amdgpu=
+ 1a7cfa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.090002]  dc_link_detect+0x187/0x420 [amdgpu 1a7cfa9f14a3ef2ba2=
+89fa21a3c241108d69cd98]
+> > > [81829.090336]  handle_hpd_irq_helper+0xe9/0x190 [amdgpu 1a7cfa9f14a3=
+ef2ba289fa21a3c241108d69cd98]
+> > > [81829.090701]  process_one_work+0x217/0x3e0
+> > > [81829.090707]  worker_thread+0x4d/0x3c0
+> > > [81829.090712]  ? rescuer_thread+0x380/0x380
+> > > [81829.090715]  kthread+0xd9/0x100
+> > > [81829.090719]  ? kthread_complete_and_exit+0x20/0x20
+> > > [81829.090722]  ret_from_fork+0x22/0x30
+> > > [81829.090728]  </TASK>
+> > > [81829.090729] ---[ end trace 0000000000000000 ]---
+> > >
+> > > And this NULL-ptr dereference:
+> > >
+> > > [81829.090732] BUG: kernel NULL pointer dereference, address: 0000000=
+000000008
+> > > [81829.090737] #PF: supervisor read access in kernel mode
+> > > [81829.090741] #PF: error_code(0x0000) - not-present page
+> > > [81829.090744] PGD 0 P4D 0
+> > > [81829.090747] Oops: 0000 [#1] PREEMPT SMP NOPTI
+> > > [81829.090751] CPU: 4 PID: 644 Comm: kworker/4:1H Tainted: G        W=
+   E     5.18.0-rc5-iommu-next+ #1 4d1b12f73ec264927e45e8f2e5d1c0c8e280bc7d
+> > > [81829.090756] Hardware name: System manufacturer System Product Name=
+/PRIME X470-PRO, BIOS 5406 11/13/2019
+> > > [81829.090758] Workqueue: events_highpri dm_irq_work_func [amdgpu]
+> > > [81829.091111] RIP: 0010:dce110_fill_display_configs+0x5b/0x150 [amdg=
+pu]
+> > > [81829.091455] Code: c0 48 39 0a 0f 84 e4 00 00 00 83 c0 01 48 81 c2 =
+10 08 00 00 83 f8 06 75 e8 0f 0b 31 c0 80 b9 48 03 00 00 00 0f 85 a9 00 00 =
+00 <48> 8b 50 08 8b 9a 44 03 00 00 49 63 d1 41 83 c1 01 48 8d 14 92 49
+> > > [81829.091458] RSP: 0018:ffffb891810c3be0 EFLAGS: 00010246
+> > > [81829.091461] RAX: 0000000000000000 RBX: ffff9719a6b60000 RCX: ffff9=
+71d08e07800
+> > > [81829.091463] RDX: ffff9719a6b63250 RSI: ffff9719a6b72980 RDI: 00000=
+00000000001
+> > > [81829.091465] RBP: ffff971a812f0000 R08: ffff9719a6b60000 R09: 00000=
+00000000000
+> > > [81829.091467] R10: ffff9719a6b72980 R11: ffff9719a6b601f0 R12: ffff9=
+719a6b72980
+> > > [81829.091469] R13: ffff9719a6b60000 R14: 0000000000000006 R15: 00000=
+00000003258
+> > > [81829.091471] FS:  0000000000000000(0000) GS:ffff97285eb00000(0000) =
+knlGS:0000000000000000
+> > > [81829.091474] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > [81829.091476] CR2: 0000000000000008 CR3: 00000002909c0000 CR4: 00000=
+000003506e0
+> > > [81829.091479] Call Trace:
+> > > [81829.091480]  <TASK>
+> > > [81829.091482]  dce11_pplib_apply_display_requirements+0x129/0x200 [a=
+mdgpu 1a7cfa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.091828]  dce112_update_clocks+0x8d/0xf0 [amdgpu 1a7cfa9f14a3ef=
+2ba289fa21a3c241108d69cd98]
+> > > [81829.092173]  dc_commit_updates_for_stream+0x1a91/0x1ef0 [amdgpu 1a=
+7cfa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.092509]  ? detect_link_and_local_sink+0x3b4/0xb40 [amdgpu 1a7c=
+fa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.092844]  set_all_streams_dpms_off_for_link+0x10e/0x120 [amdgpu=
+ 1a7cfa9f14a3ef2ba289fa21a3c241108d69cd98]
+> > > [81829.093180]  dc_link_detect+0x187/0x420 [amdgpu 1a7cfa9f14a3ef2ba2=
+89fa21a3c241108d69cd98]
+> > > [81829.093514]  handle_hpd_irq_helper+0xe9/0x190 [amdgpu 1a7cfa9f14a3=
+ef2ba289fa21a3c241108d69cd98]
+> > > [81829.093853]  process_one_work+0x217/0x3e0
+> > > [81829.093858]  worker_thread+0x4d/0x3c0
+> > > [81829.093861]  ? rescuer_thread+0x380/0x380
+> > > [81829.093865]  kthread+0xd9/0x100
+> > > [81829.093868]  ? kthread_complete_and_exit+0x20/0x20
+> > > [81829.093872]  ret_from_fork+0x22/0x30
+> > > [81829.093876]  </TASK>
+> > > [81829.093878] Modules linked in: snd_seq_dummy(E) snd_hrtimer(E) snd=
+_seq(E) rfcomm(E) af_packet(E) ocrdma(E) ib_uverbs(E) ib_core(E) nft_fib_in=
+et(E) nft_fib_ipv4(E) nft_fib_ipv6(E) nft_fib(E) nft_reject_inet(E) nf_reje=
+ct_ipv4(E) nf_reject_ipv6(E) nft_reject(E) nft_ct(E) nft_chain_nat(E) nf_ta=
+bles(E) ebtable_nat(E) ebtable_broute(E) ip6table_nat(E) ip6table_mangle(E)=
+ ip6table_raw(E) ip6table_security(E) iptable_nat(E) nf_nat(E) nf_conntrack=
+(E) nf_defrag_ipv6(E) nf_defrag_ipv4(E) iptable_mangle(E) iptable_raw(E) ip=
+table_security(E) ip_set(E) nfnetlink(E) ebtable_filter(E) ebtables(E) ip6t=
+able_filter(E) ip6_tables(E) iptable_filter(E) bpfilter(E) cmac(E) algif_ha=
+sh(E) algif_skcipher(E) af_alg(E) bnep(E) dmi_sysfs(E) intel_rapl_msr(E) in=
+tel_rapl_common(E) snd_hda_codec_realtek(E) eeepc_wmi(E) btusb(E) asus_wmi(=
+E) kvm_amd(E) btrtl(E) snd_hda_codec_generic(E) nls_iso8859_1(E) battery(E)=
+ uvcvideo(E) sparse_keymap(E) ledtrig_audio(E) btbcm(E) video(E) wmi_bmof(E=
+)
+> > > [81829.093913]  platform_profile(E) mxm_wmi(E) snd_hda_codec_hdmi(E) =
+nls_cp437(E) videobuf2_vmalloc(E) btintel(E) asus_wmi_sensors(E) btmtk(E) v=
+fat(E) snd_hda_intel(E) videobuf2_memops(E) videobuf2_v4l2(E) snd_intel_dsp=
+cfg(E) bluetooth(E) kvm(E) videobuf2_common(E) fat(E) snd_usb_audio(E) snd_=
+virtuoso(E) irqbypass(E) snd_usbmidi_lib(E) snd_hda_codec(E) snd_oxygen_lib=
+(E) videodev(E) snd_hwdep(E) snd_mpu401_uart(E) mc(E) snd_hda_core(E) ecdh_=
+generic(E) snd_rawmidi(E) snd_pcm(E) snd_seq_device(E) rfkill(E) pcspkr(E) =
+i2c_piix4(E) efi_pstore(E) k10temp(E) snd_timer(E) ext4(E) igb(E) snd(E) dc=
+a(E) soundcore(E) mbcache(E) be2net(E) jbd2(E) wmi(E) gpio_amdpt(E) gpio_ge=
+neric(E) tiny_power_button(E) button(E) acpi_cpufreq(E) fuse(E) configfs(E)=
+ ip_tables(E) x_tables(E) xfs(E) libcrc32c(E) dm_crypt(E) essiv(E) authenc(=
+E) trusted(E) asn1_encoder(E) tee(E) hid_logitech_hidpp(E) hid_logitech_dj(=
+E) hid_generic(E) usbhid(E) sr_mod(E) cdrom(E) uas(E) usb_storage(E) amdgpu=
+(E)
+> > > [81829.093952]  drm_ttm_helper(E) ttm(E) iommu_v2(E) gpu_sched(E) i2c=
+_algo_bit(E) crct10dif_pclmul(E) drm_dp_helper(E) crc32_pclmul(E) crc32c_in=
+tel(E) drm_kms_helper(E) syscopyarea(E) sysfillrect(E) sysimgblt(E) fb_sys_=
+fops(E) drm(E) xhci_pci(E) cec(E) ghash_clmulni_intel(E) xhci_pci_renesas(E=
+) aesni_intel(E) crypto_simd(E) cryptd(E) sp5100_tco(E) xhci_hcd(E) ccp(E) =
+rc_core(E) nvme(E) usbcore(E) nvme_core(E) sg(E) br_netfilter(E) bridge(E) =
+stp(E) llc(E) dm_multipath(E) dm_mod(E) scsi_dh_rdac(E) scsi_dh_emc(E) scsi=
+_dh_alua(E) ledtrig_timer(E) msr(E) efivarfs(E)
+> > > [81829.093978] CR2: 0000000000000008
+> > > [81829.093980] ---[ end trace 0000000000000000 ]---
+> > > [81829.338958] RIP: 0010:dce110_fill_display_configs+0x5b/0x150 [amdg=
+pu]
+> > > [81829.339333] Code: c0 48 39 0a 0f 84 e4 00 00 00 83 c0 01 48 81 c2 =
+10 08 00 00 83 f8 06 75 e8 0f 0b 31 c0 80 b9 48 03 00 00 00 0f 85 a9 00 00 =
+00 <48> 8b 50 08 8b 9a 44 03 00 00 49 63 d1 41 83 c1 01 48 8d 14 92 49
+> > > [81829.339336] RSP: 0018:ffffb891810c3be0 EFLAGS: 00010246
+> > > [81829.339340] RAX: 0000000000000000 RBX: ffff9719a6b60000 RCX: ffff9=
+71d08e07800
+> > > [81829.339343] RDX: ffff9719a6b63250 RSI: ffff9719a6b72980 RDI: 00000=
+00000000001
+> > > [81829.339345] RBP: ffff971a812f0000 R08: ffff9719a6b60000 R09: 00000=
+00000000000
+> > > [81829.339347] R10: ffff9719a6b72980 R11: ffff9719a6b601f0 R12: ffff9=
+719a6b72980
+> > > [81829.339349] R13: ffff9719a6b60000 R14: 0000000000000006 R15: 00000=
+00000003258
+> > > [81829.339352] FS:  0000000000000000(0000) GS:ffff97285eb00000(0000) =
+knlGS:0000000000000000
+> > > [81829.339355] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > [81829.339357] CR2: 0000000000000008 CR3: 00000002909c0000 CR4: 00000=
+000003506e0
+> > >
+> > > Usually one of the displays does not power on anymore after this and =
+the
+> > > machine locks up pretty soon as well, probably because the worker thr=
+ead
+> > > is dead.
+> > >
+> > > My GPU device is:
+> > >
+> > > 0a:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/=
+ATI] Lexa XT [Radeon PRO WX 2100] (prog-if 00 [VGA controller])
+> > >         Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0b0c
+> > >         Flags: bus master, fast devsel, latency 0, IRQ 90, IOMMU grou=
+p 15
+> > >         Memory at e0000000 (64-bit, prefetchable) [size=3D256M]
+> > >         Memory at f0000000 (64-bit, prefetchable) [size=3D2M]
+> > >         I/O ports at e000 [size=3D256]
+> > >         Memory at fce00000 (32-bit, non-prefetchable) [size=3D256K]
+> > >         Expansion ROM at 000c0000 [disabled] [size=3D128K]
+> > >         Capabilities: <access denied>
+> > >         Kernel driver in use: amdgpu
+> > >         Kernel modules: amdgpu
+> > >
+> > > Please let me know if anything else is needed to debug this. Bisectio=
+n
+> > > is not really feasible, because the issue happens at random, sometime=
+s
+> > > after one or two days of uptime.
+> > >
+> > > Regards,
+> > >
+> > > --
+> > > J=C3=B6rg R=C3=B6del
+> > > jroedel@suse.de
+> > >
+> > > SUSE Software Solutions Germany GmbH
+> > > Maxfeldstr. 5
+> > > 90409 N=C3=BCrnberg
+> > > Germany
+> > >
+> > > (HRB 36809, AG N=C3=BCrnberg)
+> > > Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+> > >
+>
+> --
+> J=C3=B6rg R=C3=B6del
+> jroedel@suse.de
+>
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5
+> 90409 N=C3=BCrnberg
+> Germany
+>
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+>
