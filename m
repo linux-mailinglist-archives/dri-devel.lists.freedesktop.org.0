@@ -1,48 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23089520FAA
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 10:24:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B9E520FBE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 10:30:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9008710F3D4;
-	Tue, 10 May 2022 08:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8983D10F0E4;
+	Tue, 10 May 2022 08:30:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD9B410F3CF;
- Tue, 10 May 2022 08:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652171058; x=1683707058;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ZOg0Y5cUcy5gp07l4H0IN65dZHCl9qF1/pDmdGpMyCQ=;
- b=KUNXdGG3KnY2i2MHBrzmYr0CRc2tUiW84VDDu92nQOuvq2dFxT2bZYBe
- E+mGWwo/JOugriJVeFWQlI0uLMIMMVvZkNVLEAzmF49B0Gth5cACoSnPz
- VHvVFUcIhvXfkE3/uMV5UAP0rgyCtwW6HBPIxH84L1zBy5IX9qdiYr55U
- tJZV9WCSaDdXZSxH0adhpppwsWNeypgWN5xTLjgQg/J3xmsljYXPrpt/g
- Tx2fhoOQV6apkJqxB5tw/px69+CAoINA5dicl6H3sdBdXEzqs72xUurg2
- uuDV1mL336w7XjWTWa8lDOh+AG17TDOobf6Xc8uCx0R1PIgjjVcC7c6c4 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="269441472"
-X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="269441472"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 01:24:17 -0700
-X-IronPort-AV: E=Sophos;i="5.91,213,1647327600"; d="scan'208";a="593381270"
-Received: from rcpalaku-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.208.196])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 01:24:15 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: amd-gfx@lists.freedesktop.org
-Subject: [RFC] drm/amdgpu: Convert to common fdinfo format
-Date: Tue, 10 May 2022 09:23:15 +0100
-Message-Id: <20220510082315.992296-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4062F10F5E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 08:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652171448;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1m42YOS6adkVOttPvzzPcpB4bdLVq0RFj4rgcIuwmIE=;
+ b=goZPeP17u9qT3qm+qQj//FDuxEpAl7t68g+stlH4Rv+K0oZCAAx+fifJVhtR162AWQz5Io
+ cDu919LRUj8PiSGRL3tGycC6qSzp61WovzHvJHwMTjJDRW1GiL4YKxdYf7Uzm2b0IszzAt
+ QxjLwOmrzlytsPJNCtVkGAg8mVlcYSE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-6TUbZe0JPKqJNXUlYxHOoA-1; Tue, 10 May 2022 04:30:47 -0400
+X-MC-Unique: 6TUbZe0JPKqJNXUlYxHOoA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ e9-20020a05600c4e4900b00394779649b1so940194wmq.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 01:30:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1m42YOS6adkVOttPvzzPcpB4bdLVq0RFj4rgcIuwmIE=;
+ b=x2GXYMG9OxHH9P9Of0Eu8Usde7OrQAYay2AvlRzgQ6ghOCsaqTESKnMfn+EtOpcOO7
+ LrYTifTjrvVEUHCu3/4KPkFD7jLuqQ2D9ksVPNZ7IQcxnQlVq54a5QsfdGAm70y/DsOr
+ DYCyIfwv35JcuGM9cSSBh3MJnAWYrVmH9wNj0taS+7+Q2Qa94ZWHZKLYxHsWn1dRBsem
+ G8GjfSQusBZqAa8Ak3ggAyEmsfy7WzLLtPM8H3GkseaPUNNY0S8ZAm7/tJd2AkHwxLze
+ b6F8l7kndIfcNfei9Wv4KNakbRS3qCjVyuFPXQk5Y6hRg9L+9j+nLeoEBmn9zga/9yfM
+ wCcw==
+X-Gm-Message-State: AOAM531SIP5H1dABSMhFAJKiiuRW2ghuvECx/bmjMj6j5U3ib1sgQ7hQ
+ 7f0YnR7/GiPtC2XVt1Xewn9uvRJQuEpzQYPOpMT2eIeBiA6fesAaPwRIyfxUPhak3d7ND/0S8JJ
+ Gm0p7b1Qa3chJHcZv6xPxZ+sHwPXe
+X-Received: by 2002:a5d:4703:0:b0:20a:ce3c:7528 with SMTP id
+ y3-20020a5d4703000000b0020ace3c7528mr17564134wrq.688.1652171445792; 
+ Tue, 10 May 2022 01:30:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoBMj8kXDsvsfO4i+XkAgVG6qM0AfXiyKEYB6N5jwKUXVSznUhS5NktRYArBUXsTfI3Cbm7g==
+X-Received: by 2002:a5d:4703:0:b0:20a:ce3c:7528 with SMTP id
+ y3-20020a5d4703000000b0020ace3c7528mr17564116wrq.688.1652171445454; 
+ Tue, 10 May 2022 01:30:45 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l29-20020a05600c1d1d00b003942a244f53sm1816260wms.44.2022.05.10.01.30.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 May 2022 01:30:45 -0700 (PDT)
+Message-ID: <2d8d8583-3a39-b826-dd83-ba5bc4c5b082@redhat.com>
+Date: Tue, 10 May 2022 10:30:44 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 1/4] fbdev: Prevent possible use-after-free in
+ fb_release()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-kernel@vger.kernel.org
+References: <20220505215947.364694-1-javierm@redhat.com>
+ <20220505220413.365977-1-javierm@redhat.com>
+ <753d0350-42dc-389b-b10b-4533ddcf32ac@intel.com>
+ <1f788b8f-0bea-1818-349e-b1bc907bf251@redhat.com>
+ <a339df59-9e00-c7cb-e33d-2ac626443639@intel.com>
+ <3b7fe4fe-fdec-cef2-4e0e-309d9dc4a8af@redhat.com>
+ <b5ab1c49-04e7-36c3-677d-2989b79e50ca@suse.de>
+ <2bf27b09-0896-1849-254f-d5b19abdc892@redhat.com>
+ <fc3e8a40-664f-07ae-7474-c0412a1ab1b5@intel.com>
+ <1c36d431-d5c0-7278-c9e0-61867e9dc174@redhat.com>
+ <79aaea41-5dab-f896-ab3d-d6bc9a5de615@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <79aaea41-5dab-f896-ab3d-d6bc9a5de615@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,147 +99,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David M Nieto <David.Nieto@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hello Thomas,
 
-Convert fdinfo format to one documented in drm-usage-stats.rst.
+On 5/10/22 10:04, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 10.05.22 um 00:42 schrieb Javier Martinez Canillas:
+>> On 5/10/22 00:22, Andrzej Hajda wrote:
+>>
+>> [snip]
+>>
+>>>>    static void drm_fbdev_fb_destroy(struct fb_info *info)
+>>>>    {
+>>>> +       if (info->cmap.len)
+>>>> +               fb_dealloc_cmap(&info->cmap);
+>>>> +
+>>>>           drm_fbdev_release(info->par);
+>>>> +       framebuffer_release(info);
+>>>
+>>> I would put drm_fbdev_release at the beginning - it cancels workers
+>>> which could expect cmap to be still valid.
+>>>
+>>
+>> Indeed, you are correct again. [0] is the final version of the patch I've
+>> but don't have an i915 test machine to give it a try. I'll test tomorrow
+>> on my test systems to verify that it doesn't cause any regressions since
+>> with other DRM drivers.
+> 
+> You have to go through all DRM drivers that call drm_fb_helper_fini() 
+> and make sure that they free fb_info. For example armada appears to be 
+> leaking now. [1]
+>
 
-Opens/TODO:
- * Does someone from AMD want to take over this patch?
-    (I have no access to amdgpu hardware so won't be able to test
-     any hypothetical gputop work.)
- * What are the semantics of AMD engine utilisation reported in percents?
-    * Can it align with what i915 does (same what msm will do) or need
-      to document the alternative in the specification document? Both
-      option are workable with instantaneous percent only needing support
-      to be added to vendor agnostic gputop.
- * Can amdgpu expose drm-client-id? Without it gputop will not work.
- * drm-engine-capacity - does the concept translate etc.
+But shouldn't fb_info be freed when unregister_framebuffer() is called
+through drm_dev_unregister() ? AFAICT the call chain is the following:
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: David M Nieto <David.Nieto@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Acked-by: Christian König <christian.koenig@amd.com>
----
- Documentation/gpu/amdgpu/usage-stats.rst   | 28 ++++++++++++++++++++++
- Documentation/gpu/drm-usage-stats.rst      |  7 +++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 18 ++++++++++----
- 3 files changed, 47 insertions(+), 6 deletions(-)
- create mode 100644 Documentation/gpu/amdgpu/usage-stats.rst
+drm_put_dev()
+  drm_dev_unregister()
+    drm_client_dev_unregister()
+      drm_fbdev_client_unregister()
+        drm_fb_helper_unregister_fbi()
+          unregister_framebuffer()
+            do_unregister_framebuffer()
+              put_fb_info()
+                drm_fbdev_fb_destroy()
+                  framebuffer_release()
 
-diff --git a/Documentation/gpu/amdgpu/usage-stats.rst b/Documentation/gpu/amdgpu/usage-stats.rst
-new file mode 100644
-index 000000000000..8be5009bd1a9
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/usage-stats.rst
-@@ -0,0 +1,28 @@
-+.. _amdgpu-usage-stats:
-+
-+============================================
-+AMDGPU DRM client usage stats implementation
-+============================================
-+
-+The amdgpu driver implements the DRM client usage stats specification as
-+documented in :ref:`drm-client-usage-stats`.
-+
-+Example of the output showing the implemented key value pairs and entirety of
-+the currenly possible format options:
-+
-+::
-+
-+      pos:    0
-+      flags:  0100002
-+      mnt_id: 21
-+      drm-driver: amdgpu
-+      drm-pdev:   0000:03:00.0
-+      drm-memory-vram: 0 KiB
-+      drm-memory-gtt: 0 KiB
-+      drm-memory-cpu: 0 KiB
-+      drm-engine-...: 0 %
-+                 ...
-+
-+Possible `drm-memory-` key names are: `vram`, `gtt`, `cpu`.
-+
-+Possible `drm-engine-` key names are: ``.
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 6c9f166a8d6f..2d0ff6f2cc74 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -69,7 +69,7 @@ scope of each device, in which case `drm-pdev` shall be present as well.
- Userspace should make sure to not double account any usage statistics by using
- the above described criteria in order to associate data to individual clients.
- 
--- drm-engine-<str>: <uint> ns
-+- drm-engine-<str>: <uint> [ns|%]
- 
- GPUs usually contain multiple execution engines. Each shall be given a stable
- and unique name (str), with possible values documented in the driver specific
-@@ -84,6 +84,9 @@ larger value within a reasonable period. Upon observing a value lower than what
- was previously read, userspace is expected to stay with that larger previous
- value until a monotonic update is seen.
- 
-+Where time unit is given as a percentage...[AMD folks to fill the semantics
-+and interpretation of that]...
-+
- - drm-engine-capacity-<str>: <uint>
- 
- Engine identifier string must be the same as the one specified in the
-@@ -110,3 +113,5 @@ Driver specific implementations
- ===============================
- 
- :ref:`i915-usage-stats`
-+
-+:ref:`amdgpu-usage-stats`
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-index 5a6857c44bb6..8cbae61f1b3b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-@@ -32,6 +32,7 @@
- 
- #include <drm/amdgpu_drm.h>
- #include <drm/drm_debugfs.h>
-+#include <drm/drm_drv.h>
- 
- #include "amdgpu.h"
- #include "amdgpu_vm.h"
-@@ -83,11 +84,18 @@ void amdgpu_show_fdinfo(struct seq_file *m, struct file *f)
- 	amdgpu_bo_unreserve(root);
- 	amdgpu_bo_unref(&root);
- 
--	seq_printf(m, "pdev:\t%04x:%02x:%02x.%d\npasid:\t%u\n", domain, bus,
-+	/*
-+	 * ******************************************************************
-+	 * For text output format description please see drm-usage-stats.rst!
-+	 * ******************************************************************
-+	 */
-+
-+	seq_printf(m, "drm-driver:\t%s\n", file->minor->dev->driver->name);
-+	seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\npasid:\t%u\n", domain, bus,
- 			dev, fn, fpriv->vm.pasid);
--	seq_printf(m, "vram mem:\t%llu kB\n", vram_mem/1024UL);
--	seq_printf(m, "gtt mem:\t%llu kB\n", gtt_mem/1024UL);
--	seq_printf(m, "cpu mem:\t%llu kB\n", cpu_mem/1024UL);
-+	seq_printf(m, "drm-memory-vram:\t%llu KiB\n", vram_mem/1024UL);
-+	seq_printf(m, "drm-memory-gtt:\t%llu KiB\n", gtt_mem/1024UL);
-+	seq_printf(m, "drm-memory-cpu:\t%llu KiB\n", cpu_mem/1024UL);
- 	for (i = 0; i < AMDGPU_HW_IP_NUM; i++) {
- 		uint32_t count = amdgpu_ctx_num_entities[i];
- 		int idx = 0;
-@@ -103,7 +111,7 @@ void amdgpu_show_fdinfo(struct seq_file *m, struct file *f)
- 			perc = div64_u64(10000 * total, min);
- 			frac = perc % 100;
- 
--			seq_printf(m, "%s%d:\t%d.%d%%\n",
-+			seq_printf(m, "drm-engine-%s%d:\t%d.%d %%\n",
- 					amdgpu_ip_name[i],
- 					idx, perc/100, frac);
- 		}
+which is the reason why I believe that drm_fb_helper_fini() should be
+an internal static function and only called from drm_fbdev_fb_destroy().
+
+Drivers shouldn't really explicitly call this helper in my opinion.
+
 -- 
-2.32.0
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
