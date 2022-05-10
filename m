@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F875212FE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 13:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5715452132C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 May 2022 13:07:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9936010F442;
-	Tue, 10 May 2022 11:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC4810F590;
+	Tue, 10 May 2022 11:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FD410F442
- for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 11:00:41 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EA22B6159A;
- Tue, 10 May 2022 11:00:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03059C385C6;
- Tue, 10 May 2022 11:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1652180440;
- bh=KGn/TH6jy9oduWBq+vUyZA4hXFzpFADN7M2aHHBomVQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q9ZSbEHxwZJxQeNu7bI2Robwy7il5VzTxxOECL3cPkvfGe0WN0mtjG8zRwMIzCYl7
- ZSjjbchKlOnplbqU313WHo2QStErWJ5w9+fD1HGuwsty8QL6b/jahAo6Oc4gOtv4Sm
- 0c4ydpG14hkHmQ9WMfvQ2BcFulY993U/4gdpQ1W8=
-Date: Tue, 10 May 2022 13:00:37 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Charan Teja Kalla <quic_charante@quicinc.com>
-Subject: Re: [PATCH] dmabuf: ensure unique directory name for dmabuf stats
-Message-ID: <YnpF1XP1tH83uBlM@kroah.com>
-References: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [IPv6:2a01:488:42:1000:50ed:8234::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF19810F590
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 May 2022 11:07:00 +0000 (UTC)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1noNhj-0000RL-6L; Tue, 10 May 2022 13:06:59 +0200
+Message-ID: <3d8f7aa0-0846-436d-7fe1-e8f8af7eaff5@leemhuis.info>
+Date: Tue, 10 May 2022 13:06:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652178212-22383-1-git-send-email-quic_charante@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Zack Rusin <zackr@vmware.com>, Hans de Goede <hdegoede@redhat.com>
+References: <2bd4b06e-7577-d7d7-5f2e-264005b316a1@redhat.com>
+ <84c30eb2dcdc330ea54aa1fedba9ae0eb0826068.camel@vmware.com>
+ <087a0754-422c-0d88-a5ed-c03f2b5906c2@redhat.com>
+ <41AD6A60-9C2C-4545-8A62-114B07C0383F@vmware.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Subject: Re: 5.18 vmwgfx seems to break booting VirtualBox VMs
+In-Reply-To: <41AD6A60-9C2C-4545-8A62-114B07C0383F@vmware.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1652180820;
+ cf0581fa; 
+X-HE-SMSGID: 1noNhj-0000RL-6L
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,48 +48,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, daniel.vetter@ffwll.ch,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tjmercier@google.com, linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 10, 2022 at 03:53:32PM +0530, Charan Teja Kalla wrote:
-> The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
-> alloc_anon_inode()) to get an inode number and uses the same as a
-> directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
-> used to collect the dmabuf stats and it is created through
-> dma_buf_stats_setup(). At current, failure to create this directory
-> entry can make the dma_buf_export() to fail.
+Hi, this is your Linux kernel regression tracker.
+
+On 10.05.22 02:12, Zack Rusin wrote:
+>> On May 9, 2022, at 6:57 AM, Hans de Goede <hdegoede@redhat.com>
+>> wrote: On 4/11/22 16:24, Zack Rusin wrote:
+>>> On Mon, 2022-04-11 at 10:52 +0200, Hans de Goede wrote:
+>>>> 
+>>>> Fedora has received a bug report here:
+>>>> 
+>>>> https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D2072556&amp;data=05%7C01%7Czackr%40vmware.com%7C89c5a1adfffd434f102c08da31aaabcc%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C0%7C637876906347789531%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=L3rfwX0R0XXgEJbI88kY%2B7SrIqyJtuC7VLcN97NUSuk%3D&amp;reserved=0
+>>>>
+>>>>
+>>>> 
+That Fedora rawhide VMs no longer boot under the VirtualBox
+>>>> hypervisor after the VM has been updated to a 5.18-rc# kernel.
+>>>> 
+>>>> Switching the emulated GPU from vmwaregfx to VirtualBoxSVGA
+>>>> fixes this, so this seems to be a vmwgfx driver regression.
+>>>> 
+>>>> Note I've not investigated/reproduced this myself due to
+>>>> -ENOTIME.
+>>> 
+>>> Thanks for letting us know. Unfortunately we do not support
+>>> vmwgfx on VirtualBox. I'd be happy to review patches related to
+>>> this, but it's very unlikely we'd have to time to look at this
+>>> ourselves.
+>> 
+>> I somewhat understand where you are coming from, but this is not 
+>> how the kernels "no regressions" policy works.
+
+Hans, many thx for writing your mail, I once intended to write something
+similar, but then forgot about it. :-/
+
+>> For the end user a regression is a regression and as maintainers we
+>> are supposed to make sure any regressions noticed are fixed before
+>> a new kernel hits end user's systems.
 > 
-> Now, as the get_next_ino() can definitely give a repetitive inode no
-> causing the directory entry creation to fail with -EEXIST. This is a
-> problem on the systems where dmabuf stats functionality is enabled on
-> the production builds can make the dma_buf_export(), though the dmabuf
-> memory is allocated successfully, to fail just because it couldn't
-> create stats entry.
+> I think there’s a misunderstanding here - the vmwgfx driver never
+> supported VirtualBox. VirtualBox implementation of the svga device
+> lacks a bunch of features,
 
-Then maybe we should not fail the creation path of the kobject fails to
-be created?  It's just for debugging, it should be fine if the creation
-of it isn't there.
+Which from the kernel's point of view is irrelevant. If the Linux
+kernel's vmwgfx driver ever supported the VirtualBox implementation then
+things shouldn't regress with later versions.
 
+> vmwgfx has been put on denylists
+
+/me wonders what exactly is meant by "denylists" here in the upstream
+context(¹), but whatever, doesn't matter much now afaics.
+
+(¹) Did the users that reported the issue do anything unusual (like
+writing telling the driver to load with a pciid that is normally doesn't
+support) to be enable vmwgfx for this hardware?
+
+> before
+> due to bugs in VirtualBox implementation of it, we just didn’t feel
+> like playing games like having the driver query the hypervisor “are
+> you really from VMware?” and refuse to load.
 > 
-> This issue we are able to see on the snapdragon system within 13 days
-> where there already exists a directory with inode no "122602" so
-> dma_buf_stats_setup() failed with -EEXIST as it is trying to create
-> the same directory entry.
+> In this case it’s their lack of mksStats interfaces that’s the issue.
+> We can’t stop development of vmwgfx because our competitor was trying
+> to reuse our work and didn’t implement the features we have. vmwgfx
+> patches are now months ahead on drm-misc-next which should give
+> anyone working on that device in VirtualBox plenty of time to fix it.
+
+As Hans said: 'this is not how the kernels "no regressions" policy
+works.' For details see these documents, esp. the quotes from Linus.
+
+https://www.kernel.org/doc/html/latest/admin-guide/reporting-regressions.html
+https://www.kernel.org/doc/html/latest/process/handling-regressions.html
+
+> I’m happy to spend my spare time reviewing patches that would make it
+> work but it’s just not reasonable to expect anyone to spend their
+> time in the office working on a directly competing product.
+
+No, but maintaining the driver in the kernel also means that you can't
+break a directly competing product, otherwise Linus might revert the
+commits that cause this, unless someone fixes the breakage.
+
+>> At a minimum it would have been good if you had tried to at least 
+>> reproduce this bug by installing Fedora rawhide inside an actual 
+>> vmware VM. I've just spend a couple of hours debugging this and the
+>> bug definitely impacts vmware VMs too; and thus very likely also
+>> reproduces there.
 > 
-> To make the directory entry as unique, append the inode creation time to
-> the inode. With this change the stats directory entries will be in the
-> format of: /sys/kernel/dmabuf/buffers/<inode no>-<inode creation time in
-> secs>.
+> We’re always running Fedora, it should always just work on vmwgfx.
+> 
+>> I've a patch fixing this, which I will send out right after this 
+>> email.
 
-As you are changing the format here, shouldn't the Documentation/ABI/
-entry for this also be changed?
+Many thx for taking care of this, Hans!
 
-And what's to keep the seconds field from also being the same?
+> That looks like a back porting issue. drm-misc/drm-misc-next is
+> continuously tested on Fedora with vmwgfx so any breaks should never
+> last more than a day. I’ll back port some patches tomorrow when
+> drm-misc-next-fixes opens (because it’s after rc6). I’m sorry you had
+> to deal with this, just send me an email next time, I should always
+> have a pretty good handle on any issues with Fedora with latest
+> vmwgfx.
 
-thanks,
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 
-greg k-h
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
