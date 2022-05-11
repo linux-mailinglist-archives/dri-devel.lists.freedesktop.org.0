@@ -1,76 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CFF652341B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 15:21:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1577523449
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 15:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F67210FB2D;
-	Wed, 11 May 2022 13:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A29BF10E2BF;
+	Wed, 11 May 2022 13:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFE710FB22
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 13:21:24 +0000 (UTC)
-Received: by mail-qv1-xf33.google.com with SMTP id kj8so2049183qvb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 06:21:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :content-transfer-encoding:user-agent:mime-version;
- bh=2iODird8x/BZrqTa4Iuj7D6s9MjuDZsxdzue4KwvOeA=;
- b=r7f0FY/4IwO3yzB9eJxHW7qT2sRXh2JrXmFGOKGcRiOlaoGVwWtzM5egP2Pri5Xprh
- hZkvDIA5w80yhNS6F7RIDAGS6dZzuX35Qdo5XVxzb37gIo+Lxll3tSsSVCESkrEZyTlK
- 9/5wRpBRgiiPGONpfquzxVz89YvIfhXWM+Ef5ZiFpn8hS1X2WiYT9R1CI2MKiljYfsup
- OQPJZfUOp3oURb5I8CS1j/JZJFJU8J1fwCVIzw74hyIk2F62BBtJiz5k/xqAPAE3XNKA
- dMIe3OAVmt2/OoMBe0VS4EcdjQx3UHm6ppN8sqrBFlow4yt0eZ9/21Z1BGZFy9Auu6QU
- Z3BQ==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 044E210E2BF;
+ Wed, 11 May 2022 13:33:44 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ a14-20020a7bc1ce000000b00393fb52a386so3251313wmj.1; 
+ Wed, 11 May 2022 06:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ksy6PHWBR9sVN5QwB4AlZVRAOWKrGBlUQcJanMtrZ1E=;
+ b=mTDzNH2v16tSY8KR9n8XYuM9TmRFKMujDftxz6TIj6GtwaEOz1nHkwh9I23i0T3HdH
+ FkRLXEX5SaHr/3aMMMm7OL/M/d+MaFHllgpxQm/fpYTPdAYgalEfYfqkuEUtmA93LCsz
+ KTJ+dEbvn9aYPq/m/ywGmSofzC6L8X7kJ7GhdUszaeH8/X2mdeXpmjdv+8MkkdGJOkK5
+ Gy7x53+7PYcENNJD+lBQtTteeSN2J6383EG33+HODXzESWqPsDZuh/g7svvE1fImNNif
+ 2mBzCB9nkBhxa2kVXx1d4gGeBI3j+8uRsqTkVokwRaI4RP3uLnVC7AdoYvSvrUEYrboU
+ /Gew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:content-transfer-encoding:user-agent:mime-version;
- bh=2iODird8x/BZrqTa4Iuj7D6s9MjuDZsxdzue4KwvOeA=;
- b=zU/G6E6Wyq0Tou3hS0uUmZ8NIclpWn7wjKwi/b3fIKVBBfUMcrY3jDfcTQdHNwWdSN
- QV4qVjViddiXMlSNh5bYwk+SuQgJZ0z0Rhln18LrB3IWP6EUq3l0u42vljBbgC93snAa
- JfVkM6ZXdF62+wTxhFYWnPLRWDvAFdmKKi94I6IxgAu40a9+sR1DfFOUcnNeTl23TIX9
- 636MAjymG4UMuNtFMUDx65O3US+8xvZ/tEAuES38r2B+OVYsJo0oE0TRTPWvtu6EM3F3
- guplRDEJXnbHiSIfirshQUsx82xCR2Ih9wKBMCWJZOfWxy2ksA/YTLukn9ArJiqQJCXt
- IRDQ==
-X-Gm-Message-State: AOAM531+WwCKXdQCe362PoXWtQ1XY4ioKb9RYDYsi65sQFOkEnT5fUg9
- zuKKnwATKfFmMqvBa/6Zl29C1A==
-X-Google-Smtp-Source: ABdhPJx1J+0Hxhf/anNC9wgHSzXinmeOWtD8RSs5P4tduqzYgwzQJnWgWruvLzhaQ7YIAGkUO6gd7Q==
-X-Received: by 2002:ad4:5bc1:0:b0:42c:531c:ef12 with SMTP id
- t1-20020ad45bc1000000b0042c531cef12mr22412148qvt.15.1652275283277; 
- Wed, 11 May 2022 06:21:23 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net.
- [173.246.12.168]) by smtp.gmail.com with ESMTPSA id
- s12-20020a05620a29cc00b0069fc13ce207sm1230564qkp.56.2022.05.11.06.21.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 06:21:22 -0700 (PDT)
-Message-ID: <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>, Zefan
- Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Arve =?ISO-8859-1?Q?Hj=F8nnev=E5g?=
- <arve@android.com>, Todd Kjos <tkjos@android.com>, Martijn Coenen
- <maco@android.com>, Joel Fernandes <joel@joelfernandes.org>, Christian
- Brauner <brauner@kernel.org>, Hridya Valsaraju <hridya@google.com>, Suren
- Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Benjamin
- Gaignard <benjamin.gaignard@collabora.com>,  Liam Mark
- <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>, Brian Starkey
- <Brian.Starkey@arm.com>, John Stultz <john.stultz@linaro.org>, Shuah Khan
- <shuah@kernel.org>
-Date: Wed, 11 May 2022 09:21:20 -0400
-In-Reply-To: <20220510235653.933868-1-tjmercier@google.com>
-References: <20220510235653.933868-1-tjmercier@google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ksy6PHWBR9sVN5QwB4AlZVRAOWKrGBlUQcJanMtrZ1E=;
+ b=Gj3N+2oL/Q2dBxA5vej5n3UctPrzxSH50iShIui66zEEYwm/mALowM6s+RJ34Iyygv
+ QE145Kf6si6SkE1i4/tTYSE5iDMw7YNToO3v9qacOlzvhADtRXfsjgGR1WJiZgnxUO0W
+ 1ABaSPRjyoYPD04kwjLtdVPz5GSpOynDjGvycj/HXG3NN9cSghyNrpOoUYN1PW0Hs/4A
+ 9iyyvVGSX8e1fLsSwq9T1hatmGlPh0l9wI2S2DEsWNpQaC/oGQd3a/Pzp3vPPO5vxjiP
+ 7APZ3inRjytMg68rsAb35TDRaEFFJtWZSYxVTaJna4eU5q0u7QrZxQ3Xuj8WYW6C4oW8
+ 9dEg==
+X-Gm-Message-State: AOAM532GMDE7fl8mHLdCP4c4ivjOY8BDEp5/+IGss//bkRfImYS3IpZo
+ xgOjUDLMIcfrnXq5MLyRSPEfa89Lz1eddl3vROE=
+X-Google-Smtp-Source: ABdhPJx0HsNmN6aXZ/qgME3QoitJWXJwbYBVMkQDcpQpvHLbKrddWJTuykdpvOlgA7X5TIZWTNkDfYvdnRN4NLyIp6Q=
+X-Received: by 2002:a05:600c:154d:b0:394:8d64:9166 with SMTP id
+ f13-20020a05600c154d00b003948d649166mr4952413wmg.102.1652276022494; Wed, 11
+ May 2022 06:33:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
+ <20220510141329.54414-1-tomeu.vizoso@collabora.com>
+ <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
+ <YntWQIXSqMCd6TYV@kroah.com>
+ <1255a66a-121d-988a-19a7-316f703cb37d@mailbox.org>
+ <YnujG0nkF0U6d5kd@kroah.com>
+In-Reply-To: <YnujG0nkF0U6d5kd@kroah.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 11 May 2022 06:33:32 -0700
+Message-ID: <CAF6AEGsmD-CNGj4bAE952JQpquaWA+Nxo5TGpFiHqaPK9doP-g@mail.gmail.com>
+Subject: Re: [Freedreno] Adding CI results to the kernel tree was Re: [RFC v2]
+ drm/msm: Add initial ci/ subdirectory
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,226 +71,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Kenny.Ho@amd.com, cgroups@vger.kernel.org, skhan@linuxfoundation.org,
- cmllamas@google.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org, mkoutny@suse.com,
- kaleshsingh@google.com, jstultz@google.com, kernel-team@android.com,
- linux-media@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, May 11, 2022 at 4:50 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, May 11, 2022 at 12:26:05PM +0200, Michel D=C3=A4nzer wrote:
+> > On 2022-05-11 08:22, Greg Kroah-Hartman wrote:
+> > > On Wed, May 11, 2022 at 03:06:47PM +1000, Dave Airlie wrote:
+> > >>> And use it to store expectations about what the drm/msm driver is
+> > >>> supposed to pass in the IGT test suite.
+> > >>
+> > >> I wanted to loop in Linus/Greg to see if there are any issues raised
+> > >> by adding CI results file to the tree in their minds, or if any othe=
+r
+> > >> subsystem has done this already, and it's all fine.
+> > >
+> > > Why does the results need to be added to the tree?  Shouldn't they be
+> > > either "all is good" or "constantly changing and a constant churn"?
+> > >
+> > >> I think this is a good thing after our Mesa experience, but Mesa has=
+ a
+> > >> lot tighter integration here, so I want to get some more opinions
+> > >> outside the group.
+> > >
+> > > For systems that have "tight integration" this might make sense as pr=
+oof
+> > > that all is working for a specific commit, but I can't see how this w=
+ill
+> > > help the kernel out much.
+> > >
+> > > What are you going to do with these results being checked in all the
+> > > time?
+> >
+> > Having the expected results in the tree keeps them consistent with the =
+driver code itself, and allows putting in place gating CI to prevent mergin=
+g driver changes which make any of the tests deviate from the expected resu=
+lt.
+>
+> Shouldn't "expected result" always be "pass"?
+>
+> If not, then the test should be changed to be "skipped" like we have
+> today in the kselftest tests.
 
-Le mardi 10 mai 2022 =C3=A0 23:56 +0000, T.J. Mercier a =C3=A9crit=C2=A0:
-> This patch series revisits the proposal for a GPU cgroup controller to
-> track and limit memory allocations by various device/allocator
-> subsystems. The patch series also contains a simple prototype to
-> illustrate how Android intends to implement DMA-BUF allocator
-> attribution using the GPU cgroup controller. The prototype does not
-> include resource limit enforcements.
+No, we want to run tests even if they are expected to fail.  This
+prevents the scenario of a test getting fixed without being noticed
+(for ex, developer was working on fixing test A and didn't notice that
+the fix also fixed test B).  If a fix goes unnoticed, a later
+regression would also go unnoticed ;-)
 
-I'm sorry, since I'm not in-depth technically involve. But from reading the
-topic I don't understand the bound this creates between DMABuf Heaps and GP=
-U. Is
-this an attempt to really track the DMABuf allocated by userland, or just
-something for GPU ? What about V4L2 devices ? Any way this can be clarified=
-,
-specially what would other subsystem needs to have cgroup DMABuf allocation
-controller support ?
+I was skeptical about this approach at first with mesa CI, but having
+used mesa CI for a while, I am now a firm believer in the approach.
 
->=20
-> Changelog:
-> v7:
-> Hide gpucg and gpucg_bucket struct definitions per Michal Koutn=C3=BD.
-> This means gpucg_register_bucket now returns an internally allocated
-> struct gpucg_bucket.
->=20
-> Move all public function documentation to the cgroup_gpu.h header.
->=20
-> Remove comment in documentation about duplicate name rejection which
-> is not relevant to cgroups users per Michal Koutn=C3=BD.
->=20
-> v6:
-> Move documentation into cgroup-v2.rst per Tejun Heo.
->=20
-> Rename BINDER_FD{A}_FLAG_SENDER_NO_NEED ->
-> BINDER_FD{A}_FLAG_XFER_CHARGE per Carlos Llamas.
->=20
-> Return error on transfer failure per Carlos Llamas.
->=20
-> v5:
-> Rebase on top of v5.18-rc3
->=20
-> Drop the global GPU cgroup "total" (sum of all device totals) portion
-> of the design since there is no currently known use for this per
-> Tejun Heo.
->=20
-> Fix commit message which still contained the old name for
-> dma_buf_transfer_charge per Michal Koutn=C3=BD.
->=20
-> Remove all GPU cgroup code except what's necessary to support charge tran=
-sfer
-> from dma_buf. Previously charging was done in export, but for non-Android
-> graphics use-cases this is not ideal since there may be a delay between
-> allocation and export, during which time there is no accounting.
->=20
-> Merge dmabuf: Use the GPU cgroup charge/uncharge APIs patch into
-> dmabuf: heaps: export system_heap buffers with GPU cgroup charging as a
-> result of above.
->=20
-> Put the charge and uncharge code in the same file (system_heap_allocate,
-> system_heap_dma_buf_release) instead of splitting them between the heap a=
-nd
-> the dma_buf_release. This avoids asymmetric management of the gpucg charg=
-es.
->=20
-> Modify the dma_buf_transfer_charge API to accept a task_struct instead
-> of a gpucg. This avoids requiring the caller to manage the refcount
-> of the gpucg upon failure and confusing ownership transfer logic.
->=20
-> Support all strings for gpucg_register_bucket instead of just string
-> literals.
->=20
-> Enforce globally unique gpucg_bucket names.
->=20
-> Constrain gpucg_bucket name lengths to 64 bytes.
->=20
-> Append "-heap" to gpucg_bucket names from dmabuf-heaps.
->=20
-> Drop patch 7 from the series, which changed the types of
-> binder_transaction_data's sender_pid and sender_euid fields. This was
-> done in another commit here:
-> https://lore.kernel.org/all/20220210021129.3386083-4-masahiroy@kernel.org=
-/
->=20
-> Rename:
->   gpucg_try_charge -> gpucg_charge
->   find_cg_rpool_locked -> cg_rpool_find_locked
->   init_cg_rpool -> cg_rpool_init
->   get_cg_rpool_locked -> cg_rpool_get_locked
->   "gpu cgroup controller" -> "GPU controller"
->   gpucg_device -> gpucg_bucket
->   usage -> size
->=20
-> Tests:
->   Support both binder_fd_array_object and binder_fd_object. This is
->   necessary because new versions of Android will use binder_fd_object
->   instead of binder_fd_array_object, and we need to support both.
->=20
->   Tests for both binder_fd_array_object and binder_fd_object.
->=20
->   For binder_utils return error codes instead of
->   struct binder{fs}_ctx.
->=20
->   Use ifdef __ANDROID__ to choose platform-dependent temp path instead
->   of a runtime fallback.
->=20
->   Ensure binderfs_mntpt ends with a trailing '/' character instead of
->   prepending it where used.
->=20
-> v4:
-> Skip test if not run as root per Shuah Khan
->=20
-> Add better test logging for abnormal child termination per Shuah Khan
->=20
-> Adjust ordering of charge/uncharge during transfer to avoid potentially
-> hitting cgroup limit per Michal Koutn=C3=BD
->=20
-> Adjust gpucg_try_charge critical section for charge transfer functionalit=
-y
->=20
-> Fix uninitialized return code error for dmabuf_try_charge error case
->=20
-> v3:
-> Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz
->=20
-> Use more common dual author commit message format per John Stultz
->=20
-> Remove android from binder changes title per Todd Kjos
->=20
-> Add a kselftest for this new behavior per Greg Kroah-Hartman
->=20
-> Include details on behavior for all combinations of kernel/userspace
-> versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hartman.
->=20
-> Fix pid and uid types in binder UAPI header
->=20
-> v2:
-> See the previous revision of this change submitted by Hridya Valsaraju
-> at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@google.co=
-m/
->=20
-> Move dma-buf cgroup charge transfer from a dma_buf_op defined by every
-> heap to a single dma-buf function for all heaps per Daniel Vetter and
-> Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_device
-> tracking the current associations were added to the dma_buf struct to
-> achieve this.
->=20
-> Fix incorrect Kconfig help section indentation per Randy Dunlap.
->=20
-> History of the GPU cgroup controller
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The GPU/DRM cgroup controller came into being when a consensus[1]
-> was reached that the resources it tracked were unsuitable to be integrate=
-d
-> into memcg. Originally, the proposed controller was specific to the DRM
-> subsystem and was intended to track GEM buffers and GPU-specific
-> resources[2]. In order to help establish a unified memory accounting mode=
-l
-> for all GPU and all related subsystems, Daniel Vetter put forth a
-> suggestion to move it out of the DRM subsystem so that it can be used by
-> other DMA-BUF exporters as well[3]. This RFC proposes an interface that
-> does the same.
->=20
-> [1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.=
-9506-1-brian.welty@intel.com/#22624705
-> [2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@i=
-ntel.com/
-> [3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.loca=
-l/
->=20
-> Hridya Valsaraju (3):
->   gpu: rfc: Proposal for a GPU cgroup controller
->   cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
->     memory
->   binder: Add flags to relinquish ownership of fds
->=20
-> T.J. Mercier (3):
->   dmabuf: heaps: export system_heap buffers with GPU cgroup charging
->   dmabuf: Add gpu cgroup charge transfer function
->   selftests: Add binder cgroup gpu memory transfer tests
->=20
->  Documentation/admin-guide/cgroup-v2.rst       |  23 +
->  drivers/android/binder.c                      |  31 +-
->  drivers/dma-buf/dma-buf.c                     |  80 ++-
->  drivers/dma-buf/dma-heap.c                    |  38 ++
->  drivers/dma-buf/heaps/system_heap.c           |  28 +-
->  include/linux/cgroup_gpu.h                    | 146 +++++
->  include/linux/cgroup_subsys.h                 |   4 +
->  include/linux/dma-buf.h                       |  49 +-
->  include/linux/dma-heap.h                      |  15 +
->  include/uapi/linux/android/binder.h           |  23 +-
->  init/Kconfig                                  |   7 +
->  kernel/cgroup/Makefile                        |   1 +
->  kernel/cgroup/gpu.c                           | 390 +++++++++++++
->  .../selftests/drivers/android/binder/Makefile |   8 +
->  .../drivers/android/binder/binder_util.c      | 250 +++++++++
->  .../drivers/android/binder/binder_util.h      |  32 ++
->  .../selftests/drivers/android/binder/config   |   4 +
->  .../binder/test_dmabuf_cgroup_transfer.c      | 526 ++++++++++++++++++
->  18 files changed, 1632 insertions(+), 23 deletions(-)
->  create mode 100644 include/linux/cgroup_gpu.h
->  create mode 100644 kernel/cgroup/gpu.c
->  create mode 100644 tools/testing/selftests/drivers/android/binder/Makefi=
-le
->  create mode 100644 tools/testing/selftests/drivers/android/binder/binder=
-_util.c
->  create mode 100644 tools/testing/selftests/drivers/android/binder/binder=
-_util.h
->  create mode 100644 tools/testing/selftests/drivers/android/binder/config
->  create mode 100644 tools/testing/selftests/drivers/android/binder/test_d=
-mabuf_cgroup_transfer.c
->=20
+And ofc we want the expectations to be in the kernel tree because
+there could be, for example, differences between -fixes and -next
+branches.  (Or even stable kernel branches if/when we get to the point
+of running CI on those.)
 
+> And how about tieing this into the kselftest process as well, why would
+> this be somehow separate from the rest of the kernel tests?
+>
+> > Keeping them separate inevitably results in divergence between the driv=
+er code and the expected test results, which would result in spurious failu=
+res of such CI.
+>
+> Again, "pass" should be the expected results :)
+>
+> > I expect the main complication for the kernel will be due to driver cha=
+nges merged via different trees, e.g. for cross-subsystem reworks. Since th=
+ose will not go through the same CI, they may accidentally introduce incons=
+istencies. The ideal solution for this IMO would be centralizing CI such th=
+at the same gating tests have to pass regardless of how the code is merged.=
+ But there's likely quite a long way to go until we get there. :)
+>
+> We have in-kernel tests for the rest of the kernel, why can't you put
+> your testing stuff into there as well?
+
+We could ofc put a lot more of the gitlab yml and scripts into the
+kernel tree.  Probably all of i-g-t is a bit much to put in the kernel
+tree.  Not to mention I'd like to see this expand to also run some
+deqp and/or piglit tests, which is definitely too much to vendor into
+the kernel tree.
+
+The approach of this RFC was to put only what was absolutely required
+in the kernel tree (such as expectations), and then link out to an
+external drm-ci tree[1] which has all the necessary scripts and yml
+for building and running tests, to avoid having to put a whole lot
+more in the kernel tree. (We should be specifying exact commit-sha for
+that tree, IMO, as it controls the version of i-g-t which gets used,
+and we need to be able to update expectations in sync with an i-g-t
+uprev, for example when new tests are added or if a test fix caused a
+fail->pass transition.)
+
+BR,
+-R
+
+[1] https://gitlab.freedesktop.org/gfx-ci/drm-ci
+
+> thanks,
+>
+> greg k-h
