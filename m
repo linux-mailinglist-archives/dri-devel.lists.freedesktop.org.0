@@ -1,65 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFAF522FDF
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 11:52:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F852523026
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 12:03:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40EE410E491;
-	Wed, 11 May 2022 09:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 061DE10E263;
+	Wed, 11 May 2022 10:03:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9464310E0D8
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 09:51:59 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 83DB160DE3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 09:51:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 50E4EC34117
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 09:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652262717;
- bh=JAzJS1IcxJVg2j2AQY552uhferDl1oC791HEwcuj+Zs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IxaJAAib/feLJi4QE1APdCIXFr73SbhP82+HgH2ZNITHT2YM1XdooDSeCRbbAlKce
- iHr3YV+kZgyg/lEPP051t3DTIWlLyjxzoDWAodfwBqipgvicUDa7oJVkMZHWR4jKXL
- bvyCTpx5n1zUuTqNt1IcwtKQEKiZmhZRr0AP+bAiGQJEAFcAiFD/Nqkvw0uoKZWTzJ
- GVOOQMXmo1b7JoYIikhTVLkSs4+vwdH0yx9lgdDjrVVZMpWawLIFb/yF09Bu8qdCH/
- Jh44dV/T38gVR2r4uSxEsPFr9wzaidfESU5ZGgTHRJBd/Ew9A8KrRse9QcNdU56JNG
- sKPEOjJlion3g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3EA10C05FD0; Wed, 11 May 2022 09:51:57 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Wed, 11 May 2022 09:51:56 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: emlodnaor@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-2jIRtrZ1s9@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8AA110E263
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 10:03:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652263382;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hMjB2G7unPPwPenmqo3rYuStQgbqeYx/VKs8u/BpsWU=;
+ b=U83Zwb3DNx0n3zAOGVosQtRQZBtTXST/nPc0DvwLd2g+sjyHJ7q8NJ18xw51Mp2Ksz5gfK
+ UEJBAPyM4gsQxx+7P1TegBgEPXHsUOtxQchSE7yA0RyxDj0R72tMhOtU+glGkf4vYe7ucH
+ ipExGetLM8SWGhROGQ4LpbcGMq3qLeg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-507-4ddGfmv8M6KQHTPpJ5IdOg-1; Wed, 11 May 2022 06:02:53 -0400
+X-MC-Unique: 4ddGfmv8M6KQHTPpJ5IdOg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n26-20020a1c721a000000b003941ea1ced7so545177wmc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 03:02:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hMjB2G7unPPwPenmqo3rYuStQgbqeYx/VKs8u/BpsWU=;
+ b=SWIXUY4FMF0IBq/adMlxOfFH69L1TRD5ZGaWCIUTyS7nilP98+0ObB4oYHRNQv4lyF
+ Nzr9UjFbaXndYH6l7LDYF9Shnvdxhayz9CoTvM/UflEjqeP6bVb4bVycIyLf73gz5mCe
+ c02jysmnyaqaDhV9S+qqU5j3ObAbFkkrZbaOaIrHnb3rbgVSLU59Czt8jOkA/RLq6qqr
+ ewKfuRIJtghyePBPyX7lufwOiSn/BY/7gCCRvoYX7I9xPFxIoLBTdXsMF3fE0LoSYN6k
+ 0G5wRiOfnVg+JvCWyvDWdwZhfRiviNA4w6XoNQHnhjl4Dp43N+YR5QEIcoVEBGwLzKzJ
+ RqjA==
+X-Gm-Message-State: AOAM530A5Q5cy9NEZXH0cDY8Y4QqUh2LYHmmx/3oNyU4dqRMEAQa7sPU
+ kwOw7fom+uC3Olm3I9FAf+MZBzVGDbamo3iL6YuE70DJx9kUqDxlvmUskECcj2w/1wo4VA5s1RE
+ FimIlvCNYdtTOuHwfwD+lZEWCaTu/
+X-Received: by 2002:a05:600c:2216:b0:394:54e4:ac9 with SMTP id
+ z22-20020a05600c221600b0039454e40ac9mr4011039wml.47.1652263372572; 
+ Wed, 11 May 2022 03:02:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBrUeSkbT+4BLrmflKUrHND/RUBjX08SqbSZAl0SlOD/xx+nWkDhsOnzXIoctbZYlHxbFdYw==
+X-Received: by 2002:a05:600c:2216:b0:394:54e4:ac9 with SMTP id
+ z22-20020a05600c221600b0039454e40ac9mr4011006wml.47.1652263372241; 
+ Wed, 11 May 2022 03:02:52 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ s11-20020a05600c384b00b003942a244f57sm4864259wmr.48.2022.05.11.03.02.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 May 2022 03:02:51 -0700 (PDT)
+Message-ID: <1f5fbef3-d098-6235-0fda-2fcd81bade9c@redhat.com>
+Date: Wed, 11 May 2022 12:02:51 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] MAINTAINERS: Add simpledrm driver co-maintainer
+To: linux-kernel@vger.kernel.org
+References: <20220505172610.338299-1-javierm@redhat.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220505172610.338299-1-javierm@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +87,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+On 5/5/22 19:26, Javier Martinez Canillas wrote:
+> Thomas asked me to serve as co-maintainer for the simpledrm driver.
+> 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
 
-emlodnaor@gmail.com changed:
+Pushed this to drm-misc (drm-misc-next).
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |emlodnaor@gmail.com
+-- 
+Best regards,
 
---- Comment #41 from emlodnaor@gmail.com ---
-Just wanted to confirm that I also have this problem, however I'm starting =
-to
-wonder if it's a hardware issue?
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-Typical situation:
-When: Using remote desktop, virtual-box or browser.
-What: Screen freezes, but can move mouse around, followed by black screen, =
-then
-it comes back after a few seconds but screen still frozen, but mouse works.=
- can
-move mouse around, and close windows (screen does not update) or open up a
-terminal and do a sudo reboot etc (not showing on screen)...
-
-Why I think it might be hardware:
-I dual boot windows, and have similar thing happening there, however, the
-desktop manager in windows do succeed in unfreezing everything, but widows =
-have
-totally black content until I drag them around and they are redrawn...=20
-
-AMD 5950x
-AMD Radeon 6700XT
-
-So I am considering asking for a new card, but it's random when the fault
-happens, and sometimes it will work fine for days, so a bit worried that th=
-ey
-will look at it quickly and claim it's fine...
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
