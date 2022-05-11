@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EDA522C0A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 08:03:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DADC522C07
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 08:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFC910ED40;
-	Wed, 11 May 2022 06:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E76E710EB41;
+	Wed, 11 May 2022 06:02:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 747A310E32F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A74D810E3F1;
  Wed, 11 May 2022 06:02:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1652248958; x=1683784958;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hz+d6+ElxmHnFtwMayrCNpxJ/wg3rbx5MgyIsJvhRX4=;
- b=C1lUgqT9M3g9h7oAxGC0mFQcUyvoJ7V9+wNsJl+GOIe+SzBu7QwDbfhn
- sIJMzyHiv+NjORtKODkIjQ5ijj+xdRMCFWK0+ceoGbrnjfzexKPW+Pv6v
- CapvJqgLFmRHdhIQgtBWY/iDAYII83Dzd+H/wknLLAse1wVROE6ieHEfU
- c/zVobaxwLswfraPDE8FRhQKsNfBxKg5u1zc5wh7Qc0GRJXCISqKed6/G
- YBb7fcWTomVmIv1s2kJH2APeqvxcZZpmZH7AoeZiIJXbYHlPURcrivQWj
- 88E20X8RVahR/nIJNQoq2Wc3tASQCY48355lwU8mj84saE7Kvb8g0+zpP g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="332633558"
-X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="332633558"
+ bh=ZbDzAT9NzcDHoTusBz5z4onfaG0k6Ko+xiM4ig8vZdY=;
+ b=gI3PkgCXEaCtm0impt1ghHqCEmpq+COeACSxguk81nF6BBDl5aSwrsXC
+ t05WA07bfNTGCaOToKwEl8G7ag1TAJPcAXO+czytNTl0C2QqM16e+wi6U
+ 5OS5AfDLwMIhCKCNoCx8BYoCM4oGJjgwTY5LL43hxh1UHVcan2ICdxZnK
+ mA7RGmIK2gkoBY03qUdY52qCh4XB/lk1Bb3Mg8SV1nfr/k5slOjwVu2fy
+ HjSitHQVmRJSFCjTIzfy8dQUVBZUl559hD8rXBPeDdk/e79uCvzNBQQ7U
+ sMzX9SX6+SOFOU8BKy+q8deD+j67EK75mx65XTKcsEO8JKiFUP4zUNSzq Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="332633559"
+X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="332633559"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 23:02:37 -0700
-X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="520375209"
+ 10 May 2022 23:02:38 -0700
+X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="520375214"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 May 2022 23:02:37 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 2/5] drm/i915/pvc: Add forcewake support
-Date: Tue, 10 May 2022 23:02:25 -0700
-Message-Id: <20220511060228.1179450-3-matthew.d.roper@intel.com>
+Subject: [PATCH v3 3/5] drm/i915/pvc: Remove additional 3D flags from
+ PIPE_CONTROL
+Date: Tue, 10 May 2022 23:02:26 -0700
+Message-Id: <20220511060228.1179450-4-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220511060228.1179450-1-matthew.d.roper@intel.com>
 References: <20220511060228.1179450-1-matthew.d.roper@intel.com>
@@ -56,213 +57,218 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stuart Summers <stuart.summers@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add PVC's forcewake ranges.
+From: Stuart Summers <stuart.summers@intel.com>
+
+Although we already strip 3D-specific flags from PIPE_CONTROL
+instructions when submitting to a compute engine, there are some
+additional flags that need to be removed when the platform as a whole
+lacks a 3D pipeline.  Add those restrictions here.
 
 v2:
- - Drop replicated comment completely; move general cleanup of the
-   documentation to a separate patch.
+ - Replace LACKS_3D_PIPELINE checks with !HAS_3D_PIPELINE and add
+   has_3d_pipeline to all platforms except PVC.  (Lucas)
 
-Bspec: 67609
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Stuart Summers <stuart.summers@intel.com>
+Bspec: 47112
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Stuart Summers <stuart.summers@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/intel_uncore.c           | 142 +++++++++++++++++-
- drivers/gpu/drm/i915/selftests/intel_uncore.c |   2 +
- 2 files changed, 143 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 18 ++++++++++++------
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h | 15 +++++++++++++--
+ drivers/gpu/drm/i915/i915_drv.h              |  2 ++
+ drivers/gpu/drm/i915/i915_pci.c              | 10 ++++++++++
+ drivers/gpu/drm/i915/intel_device_info.h     |  1 +
+ 5 files changed, 38 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-index 095e071e4053..fac0ff60bfbf 100644
---- a/drivers/gpu/drm/i915/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/intel_uncore.c
-@@ -1076,6 +1076,45 @@ static const struct i915_range dg2_shadowed_regs[] = {
- 	{ .start = 0x1F8510, .end = 0x1F8550 },
- };
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+index daa1a61972f4..98645797962f 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+@@ -197,8 +197,10 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
  
-+static const struct i915_range pvc_shadowed_regs[] = {
-+	{ .start =   0x2030, .end =   0x2030 },
-+	{ .start =   0x2510, .end =   0x2550 },
-+	{ .start =   0xA008, .end =   0xA00C },
-+	{ .start =   0xA188, .end =   0xA188 },
-+	{ .start =   0xA278, .end =   0xA278 },
-+	{ .start =   0xA540, .end =   0xA56C },
-+	{ .start =   0xC4C8, .end =   0xC4C8 },
-+	{ .start =   0xC4E0, .end =   0xC4E0 },
-+	{ .start =   0xC600, .end =   0xC600 },
-+	{ .start =   0xC658, .end =   0xC658 },
-+	{ .start =  0x22030, .end =  0x22030 },
-+	{ .start =  0x22510, .end =  0x22550 },
-+	{ .start = 0x1C0030, .end = 0x1C0030 },
-+	{ .start = 0x1C0510, .end = 0x1C0550 },
-+	{ .start = 0x1C4030, .end = 0x1C4030 },
-+	{ .start = 0x1C4510, .end = 0x1C4550 },
-+	{ .start = 0x1C8030, .end = 0x1C8030 },
-+	{ .start = 0x1C8510, .end = 0x1C8550 },
-+	{ .start = 0x1D0030, .end = 0x1D0030 },
-+	{ .start = 0x1D0510, .end = 0x1D0550 },
-+	{ .start = 0x1D4030, .end = 0x1D4030 },
-+	{ .start = 0x1D4510, .end = 0x1D4550 },
-+	{ .start = 0x1D8030, .end = 0x1D8030 },
-+	{ .start = 0x1D8510, .end = 0x1D8550 },
-+	{ .start = 0x1E0030, .end = 0x1E0030 },
-+	{ .start = 0x1E0510, .end = 0x1E0550 },
-+	{ .start = 0x1E4030, .end = 0x1E4030 },
-+	{ .start = 0x1E4510, .end = 0x1E4550 },
-+	{ .start = 0x1E8030, .end = 0x1E8030 },
-+	{ .start = 0x1E8510, .end = 0x1E8550 },
-+	{ .start = 0x1F0030, .end = 0x1F0030 },
-+	{ .start = 0x1F0510, .end = 0x1F0550 },
-+	{ .start = 0x1F4030, .end = 0x1F4030 },
-+	{ .start = 0x1F4510, .end = 0x1F4550 },
-+	{ .start = 0x1F8030, .end = 0x1F8030 },
-+	{ .start = 0x1F8510, .end = 0x1F8550 },
-+};
+ 		flags |= PIPE_CONTROL_CS_STALL;
+ 
+-		if (engine->class == COMPUTE_CLASS)
+-			flags &= ~PIPE_CONTROL_3D_FLAGS;
++		if (!HAS_3D_PIPELINE(engine->i915))
++			flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
++		else if (engine->class == COMPUTE_CLASS)
++			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+ 
+ 		cs = intel_ring_begin(rq, 6);
+ 		if (IS_ERR(cs))
+@@ -227,8 +229,10 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+ 
+ 		flags |= PIPE_CONTROL_CS_STALL;
+ 
+-		if (engine->class == COMPUTE_CLASS)
+-			flags &= ~PIPE_CONTROL_3D_FLAGS;
++		if (!HAS_3D_PIPELINE(engine->i915))
++			flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
++		else if (engine->class == COMPUTE_CLASS)
++			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+ 
+ 		if (!HAS_FLAT_CCS(rq->engine->i915))
+ 			count = 8 + 4;
+@@ -717,8 +721,10 @@ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
+ 		/* Wa_1409600907 */
+ 		flags |= PIPE_CONTROL_DEPTH_STALL;
+ 
+-	if (rq->engine->class == COMPUTE_CLASS)
+-		flags &= ~PIPE_CONTROL_3D_FLAGS;
++	if (!HAS_3D_PIPELINE(rq->engine->i915))
++		flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
++	else if (rq->engine->class == COMPUTE_CLASS)
++		flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+ 
+ 	cs = gen12_emit_ggtt_write_rcs(cs,
+ 				       rq->fence.seqno,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+index 556bca3be804..964fe376c7fa 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
++++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+@@ -288,8 +288,11 @@
+ #define   PIPE_CONTROL_DEPTH_CACHE_FLUSH		(1<<0)
+ #define   PIPE_CONTROL_GLOBAL_GTT (1<<2) /* in addr dword */
+ 
+-/* 3D-related flags can't be set on compute engine */
+-#define PIPE_CONTROL_3D_FLAGS (\
++/*
++ * 3D-related flags that can't be set on _engines_ that lack access to the 3D
++ * pipeline (i.e., CCS engines).
++ */
++#define PIPE_CONTROL_3D_ENGINE_FLAGS (\
+ 		PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH | \
+ 		PIPE_CONTROL_DEPTH_CACHE_FLUSH | \
+ 		PIPE_CONTROL_TILE_CACHE_FLUSH | \
+@@ -300,6 +303,14 @@
+ 		PIPE_CONTROL_VF_CACHE_INVALIDATE | \
+ 		PIPE_CONTROL_GLOBAL_SNAPSHOT_RESET)
+ 
++/* 3D-related flags that can't be set on _platforms_ that lack a 3D pipeline */
++#define PIPE_CONTROL_3D_ARCH_FLAGS ( \
++		PIPE_CONTROL_3D_ENGINE_FLAGS | \
++		PIPE_CONTROL_INDIRECT_STATE_DISABLE | \
++		PIPE_CONTROL_FLUSH_ENABLE | \
++		PIPE_CONTROL_TEXTURE_CACHE_INVALIDATE | \
++		PIPE_CONTROL_DC_FLUSH_ENABLE)
 +
- static int mmio_range_cmp(u32 key, const struct i915_range *range)
- {
- 	if (key < range->start)
-@@ -1525,6 +1564,103 @@ static const struct intel_forcewake_range __dg2_fw_ranges[] = {
- 	XEHP_FWRANGES(FORCEWAKE_RENDER)
- };
+ #define MI_MATH(x)			MI_INSTR(0x1a, (x) - 1)
+ #define MI_MATH_INSTR(opcode, op1, op2) ((opcode) << 20 | (op1) << 10 | (op2))
+ /* Opcodes for MI_MATH_INSTR */
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 10f273800645..54e9c2a5493d 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1405,6 +1405,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
  
-+static const struct intel_forcewake_range __pvc_fw_ranges[] = {
-+	GEN_FW_RANGE(0x0, 0xaff, 0),
-+	GEN_FW_RANGE(0xb00, 0xbff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0xc00, 0xfff, 0),
-+	GEN_FW_RANGE(0x1000, 0x1fff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x2000, 0x26ff, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0x2700, 0x2fff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0x3000, 0x3fff, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0x4000, 0x813f, FORCEWAKE_GT), /*
-+		0x4000 - 0x4aff: gt
-+		0x4b00 - 0x4fff: reserved
-+		0x5000 - 0x51ff: gt
-+		0x5200 - 0x52ff: reserved
-+		0x5300 - 0x53ff: gt
-+		0x5400 - 0x7fff: reserved
-+		0x8000 - 0x813f: gt */
-+	GEN_FW_RANGE(0x8140, 0x817f, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0x8180, 0x81ff, 0),
-+	GEN_FW_RANGE(0x8200, 0x94cf, FORCEWAKE_GT), /*
-+		0x8200 - 0x82ff: gt
-+		0x8300 - 0x84ff: reserved
-+		0x8500 - 0x887f: gt
-+		0x8880 - 0x8a7f: reserved
-+		0x8a80 - 0x8aff: gt
-+		0x8b00 - 0x8fff: reserved
-+		0x9000 - 0x947f: gt
-+		0x9480 - 0x94cf: reserved */
-+	GEN_FW_RANGE(0x94d0, 0x955f, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0x9560, 0x967f, 0), /*
-+		0x9560 - 0x95ff: always on
-+		0x9600 - 0x967f: reserved */
-+	GEN_FW_RANGE(0x9680, 0x97ff, FORCEWAKE_RENDER), /*
-+		0x9680 - 0x96ff: render
-+		0x9700 - 0x97ff: reserved */
-+	GEN_FW_RANGE(0x9800, 0xcfff, FORCEWAKE_GT), /*
-+		0x9800 - 0xb4ff: gt
-+		0xb500 - 0xbfff: reserved
-+		0xc000 - 0xcfff: gt */
-+	GEN_FW_RANGE(0xd000, 0xd3ff, 0),
-+	GEN_FW_RANGE(0xd400, 0xdbff, FORCEWAKE_GT),
-+	GEN_FW_RANGE(0xdc00, 0xdcff, FORCEWAKE_RENDER),
-+	GEN_FW_RANGE(0xdd00, 0xde7f, FORCEWAKE_GT), /*
-+		0xdd00 - 0xddff: gt
-+		0xde00 - 0xde7f: reserved */
-+	GEN_FW_RANGE(0xde80, 0xe8ff, FORCEWAKE_RENDER), /*
-+		0xde80 - 0xdeff: render
-+		0xdf00 - 0xe1ff: reserved
-+		0xe200 - 0xe7ff: render
-+		0xe800 - 0xe8ff: reserved */
-+	GEN_FW_RANGE(0xe900, 0x11fff, FORCEWAKE_GT), /*
-+		 0xe900 -  0xe9ff: gt
-+		 0xea00 -  0xebff: reserved
-+		 0xec00 -  0xffff: gt
-+		0x10000 - 0x11fff: reserved */
-+	GEN_FW_RANGE(0x12000, 0x12fff, 0), /*
-+		0x12000 - 0x127ff: always on
-+		0x12800 - 0x12fff: reserved */
-+	GEN_FW_RANGE(0x13000, 0x23fff, FORCEWAKE_GT), /*
-+		0x13000 - 0x135ff: gt
-+		0x13600 - 0x147ff: reserved
-+		0x14800 - 0x153ff: gt
-+		0x15400 - 0x19fff: reserved
-+		0x1a000 - 0x1ffff: gt
-+		0x20000 - 0x21fff: reserved
-+		0x22000 - 0x23fff: gt */
-+	GEN_FW_RANGE(0x24000, 0x2417f, 0), /*
-+		24000 - 0x2407f: always on
-+		24080 - 0x2417f: reserved */
-+	GEN_FW_RANGE(0x24180, 0x3ffff, FORCEWAKE_GT), /*
-+		0x24180 - 0x241ff: gt
-+		0x24200 - 0x251ff: reserved
-+		0x25200 - 0x252ff: gt
-+		0x25300 - 0x25fff: reserved
-+		0x26000 - 0x27fff: gt
-+		0x28000 - 0x2ffff: reserved
-+		0x30000 - 0x3ffff: gt */
-+	GEN_FW_RANGE(0x40000, 0x1bffff, 0),
-+	GEN_FW_RANGE(0x1c0000, 0x1c3fff, FORCEWAKE_MEDIA_VDBOX0), /*
-+		0x1c0000 - 0x1c2bff: VD0
-+		0x1c2c00 - 0x1c2cff: reserved
-+		0x1c2d00 - 0x1c2dff: VD0
-+		0x1c2e00 - 0x1c3eff: reserved
-+		0x1c3f00 - 0x1c3fff: VD0 */
-+	GEN_FW_RANGE(0x1c4000, 0x1cffff, FORCEWAKE_MEDIA_VDBOX1), /*
-+		0x1c4000 - 0x1c6aff: VD1
-+		0x1c6b00 - 0x1c7eff: reserved
-+		0x1c7f00 - 0x1c7fff: VD1
-+		0x1c8000 - 0x1cffff: reserved */
-+	GEN_FW_RANGE(0x1d0000, 0x23ffff, FORCEWAKE_MEDIA_VDBOX2), /*
-+		0x1d0000 - 0x1d2aff: VD2
-+		0x1d2b00 - 0x1d3eff: reserved
-+		0x1d3f00 - 0x1d3fff: VD2
-+		0x1d4000 - 0x23ffff: reserved */
-+	GEN_FW_RANGE(0x240000, 0x3dffff, 0),
-+	GEN_FW_RANGE(0x3e0000, 0x3effff, FORCEWAKE_GT),
-+};
+ #define HAS_MBUS_JOINING(i915) (IS_ALDERLAKE_P(i915))
+ 
++#define HAS_3D_PIPELINE(i915)	(INTEL_INFO(i915)->has_3d_pipeline)
 +
- static void
- ilk_dummy_write(struct intel_uncore *uncore)
- {
-@@ -2160,7 +2296,11 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
+ /* i915_gem.c */
+ void i915_gem_init_early(struct drm_i915_private *dev_priv);
+ void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index d8d893bafa51..de44dc04c27f 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -171,6 +171,7 @@
+ 	.display.overlay_needs_physical = 1, \
+ 	.display.has_gmch = 1, \
+ 	.gpu_reset_clobbers_display = true, \
++	.has_3d_pipeline = 1, \
+ 	.hws_needs_physical = 1, \
+ 	.unfenced_needs_alignment = 1, \
+ 	.platform_engine_mask = BIT(RCS0), \
+@@ -190,6 +191,7 @@
+ 	.display.has_overlay = 1, \
+ 	.display.overlay_needs_physical = 1, \
+ 	.display.has_gmch = 1, \
++	.has_3d_pipeline = 1, \
+ 	.gpu_reset_clobbers_display = true, \
+ 	.hws_needs_physical = 1, \
+ 	.unfenced_needs_alignment = 1, \
+@@ -232,6 +234,7 @@ static const struct intel_device_info i865g_info = {
+ 	.display.has_gmch = 1, \
+ 	.gpu_reset_clobbers_display = true, \
+ 	.platform_engine_mask = BIT(RCS0), \
++	.has_3d_pipeline = 1, \
+ 	.has_snoop = true, \
+ 	.has_coherent_ggtt = true, \
+ 	.dma_mask_size = 32, \
+@@ -323,6 +326,7 @@ static const struct intel_device_info pnv_m_info = {
+ 	.display.has_gmch = 1, \
+ 	.gpu_reset_clobbers_display = true, \
+ 	.platform_engine_mask = BIT(RCS0), \
++	.has_3d_pipeline = 1, \
+ 	.has_snoop = true, \
+ 	.has_coherent_ggtt = true, \
+ 	.dma_mask_size = 36, \
+@@ -374,6 +378,7 @@ static const struct intel_device_info gm45_info = {
+ 	.display.cpu_transcoder_mask = BIT(TRANSCODER_A) | BIT(TRANSCODER_B), \
+ 	.display.has_hotplug = 1, \
+ 	.platform_engine_mask = BIT(RCS0) | BIT(VCS0), \
++	.has_3d_pipeline = 1, \
+ 	.has_snoop = true, \
+ 	.has_coherent_ggtt = true, \
+ 	.dma_mask_size = 36, \
+@@ -403,6 +408,7 @@ static const struct intel_device_info ilk_m_info = {
+ 	.display.has_hotplug = 1, \
+ 	.display.fbc_mask = BIT(INTEL_FBC_A), \
+ 	.platform_engine_mask = BIT(RCS0) | BIT(VCS0) | BIT(BCS0), \
++	.has_3d_pipeline = 1, \
+ 	.has_coherent_ggtt = true, \
+ 	.has_llc = 1, \
+ 	.has_rc6p = 1, \
+@@ -453,6 +459,7 @@ static const struct intel_device_info snb_m_gt2_info = {
+ 	.display.has_hotplug = 1, \
+ 	.display.fbc_mask = BIT(INTEL_FBC_A), \
+ 	.platform_engine_mask = BIT(RCS0) | BIT(VCS0) | BIT(BCS0), \
++	.has_3d_pipeline = 1, \
+ 	.has_coherent_ggtt = true, \
+ 	.has_llc = 1, \
+ 	.has_rc6p = 1, \
+@@ -679,6 +686,7 @@ static const struct intel_device_info skl_gt4_info = {
+ 	.display.cpu_transcoder_mask = BIT(TRANSCODER_A) | BIT(TRANSCODER_B) | \
+ 		BIT(TRANSCODER_C) | BIT(TRANSCODER_EDP) | \
+ 		BIT(TRANSCODER_DSI_A) | BIT(TRANSCODER_DSI_C), \
++	.has_3d_pipeline = 1, \
+ 	.has_64bit_reloc = 1, \
+ 	.display.has_fpga_dbg = 1, \
+ 	.display.fbc_mask = BIT(INTEL_FBC_A), \
+@@ -982,6 +990,7 @@ static const struct intel_device_info adl_p_info = {
+ 	.graphics.rel = 50, \
+ 	XE_HP_PAGE_SIZES, \
+ 	.dma_mask_size = 46, \
++	.has_3d_pipeline = 1, \
+ 	.has_64bit_reloc = 1, \
+ 	.has_flat_ccs = 1, \
+ 	.has_global_mocs = 1, \
+@@ -1050,6 +1059,7 @@ static const struct intel_device_info ats_m_info = {
+ #define XE_HPC_FEATURES \
+ 	XE_HP_FEATURES, \
+ 	.dma_mask_size = 52, \
++	.has_3d_pipeline = 0, \
+ 	.has_l3_ccs_read = 1
  
- 	ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
- 
--	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55)) {
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60)) {
-+		ASSIGN_FW_DOMAINS_TABLE(uncore, __pvc_fw_ranges);
-+		ASSIGN_SHADOW_TABLE(uncore, pvc_shadowed_regs);
-+		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-+	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55)) {
- 		ASSIGN_FW_DOMAINS_TABLE(uncore, __dg2_fw_ranges);
- 		ASSIGN_SHADOW_TABLE(uncore, dg2_shadowed_regs);
- 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-index cdd196783535..fda9bb79c049 100644
---- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-@@ -69,6 +69,7 @@ static int intel_shadow_table_check(void)
- 		{ gen11_shadowed_regs, ARRAY_SIZE(gen11_shadowed_regs) },
- 		{ gen12_shadowed_regs, ARRAY_SIZE(gen12_shadowed_regs) },
- 		{ dg2_shadowed_regs, ARRAY_SIZE(dg2_shadowed_regs) },
-+		{ pvc_shadowed_regs, ARRAY_SIZE(pvc_shadowed_regs) },
- 	};
- 	const struct i915_range *range;
- 	unsigned int i, j;
-@@ -115,6 +116,7 @@ int intel_uncore_mock_selftests(void)
- 		{ __gen11_fw_ranges, ARRAY_SIZE(__gen11_fw_ranges), true },
- 		{ __gen12_fw_ranges, ARRAY_SIZE(__gen12_fw_ranges), true },
- 		{ __xehp_fw_ranges, ARRAY_SIZE(__xehp_fw_ranges), true },
-+		{ __pvc_fw_ranges, ARRAY_SIZE(__pvc_fw_ranges), true },
- 	};
- 	int err, i;
- 
+ __maybe_unused
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index 60fc35ae81df..415f028d8970 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -142,6 +142,7 @@ enum intel_ppgtt_type {
+ 	func(has_64k_pages); \
+ 	func(needs_compact_pt); \
+ 	func(gpu_reset_clobbers_display); \
++	func(has_3d_pipeline); \
+ 	func(has_4tile); \
+ 	func(has_flat_ccs); \
+ 	func(has_global_mocs); \
 -- 
 2.35.1
 
