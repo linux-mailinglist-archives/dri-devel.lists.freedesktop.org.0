@@ -1,69 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70596523B99
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 19:33:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5C4523B9F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 19:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFF410E668;
-	Wed, 11 May 2022 17:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9281D11252F;
+	Wed, 11 May 2022 17:34:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47CE010F111
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 17:33:27 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id j6so5435524ejc.13
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 10:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RnK+iHlohBHk+K+PPu2H+s8rv61aQCy6hHkZXbGO1nI=;
- b=KSDW7EaxEEAox9ArNl/cG0HEgm3SfZ3GtqPNzdmMU8fD7w0C0oDZs3MEyYZ6yoLdeu
- yShjYNBWL3FgGR6nQX6mpwU5Yirj2LjWdpRYv8a8UxBup5whzO4smQ6iqzPoBSfjp87S
- 7RlaOLEm4NKQMZeXbACuJSvVt1Ssh4WSaqYVM=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C95F11252F
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 17:34:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652290482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i8Xj3Dw4/gCq/23hJZh6ANAQmyEIEWC62NCXFqWSvVM=;
+ b=Ezxi5RRNDrPv5dcPyIG+2TzEMKcC5AyUyCGpkCu1fFnjkO0MoRfOFaiQhUSEJIOvJ6uok6
+ ttMxE+esQlMDaTHRhtWH52dEVfjl9QCo8B26oIuUsANB07HMzi/0YQYxFwK82gYhLIbJEk
+ yWmnzulrAjbBNBNVWt2CEc+tvxNxUYw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-570-f3yrUSG-OBShL8pYIKvYdQ-1; Wed, 11 May 2022 13:34:41 -0400
+X-MC-Unique: f3yrUSG-OBShL8pYIKvYdQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o11-20020adfca0b000000b0020adc114131so1105303wrh.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 10:34:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RnK+iHlohBHk+K+PPu2H+s8rv61aQCy6hHkZXbGO1nI=;
- b=aAhUqkLzl491Ch5LQNX5lJDLFsWe/fci6gs/4/oT6PmXL+AGp8gXfewzpcH0U8M6dj
- xcwYjG51g2/9fgG5IhYecIu0URDMtjbCqVVh3bMGy5DkJ3RW4+A8VC1ropoG7GWIVl88
- H9Mewqr41pIW4Mq7RTLl21kWFI4rpHWjaWwO5OvGWqEnZt91i2/PMeQxAh2LwdUzrnus
- HsTK6Or3Bg7YEEqxjE+Do91Zx/hHI/1M6W9ZJ5dwYnB5eK3BLmx+pwpRCcp3jNuTC3yj
- pYnUeixX00VA7zK3PXnsnTDVhPv7UqU2uDDvfj/tWKa0LJt4Q0ss3uiZ3SLe6B3DGOyP
- 7miQ==
-X-Gm-Message-State: AOAM5329+IRQH7nUztEp09ViKzcQYp3Sdsj7fYD2ccaSkNLPt/ZWuTt+
- ftJPN46jU89+JuJlPJj2Vh91dX+XOIi1bjNdTlk=
-X-Google-Smtp-Source: ABdhPJzAC6t+iouO9zazJdY/wIzeFJW4hBj7s5ESQFZOqxVMkvI+Er6on4wX72guyYuGvkuKxRucvw==
-X-Received: by 2002:a17:906:dc93:b0:6f4:6a93:f227 with SMTP id
- cs19-20020a170906dc9300b006f46a93f227mr25812217ejc.661.1652290405468; 
- Wed, 11 May 2022 10:33:25 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com.
- [209.85.128.52]) by smtp.gmail.com with ESMTPSA id
- n15-20020a05640204cf00b0042617ba63c4sm1425405edw.78.2022.05.11.10.33.22
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=i8Xj3Dw4/gCq/23hJZh6ANAQmyEIEWC62NCXFqWSvVM=;
+ b=Y8MNIAta24AyfUxv8kjbKBAASuKqHElZoWLZhoaPKJOTyf/XJCZIvBi3GZ+mZprCFt
+ dBcADsTeMBoR3Pa3LtkxTHEdqM+r5UFaJbaQ+qYAmTmUVPtb5e3ILjICq+P0dxobYt+X
+ KFB0SMxUzv4p4Esul3ef+Tz6X193UiBHNwMnqd2HZk+yDxxJKWwiYJKG9xoUNBPQZfiF
+ x8soBM1pLDe6MkgQP04ODJYgSEtcjRYISveImx2sXRZUFNckB1ssni0yEhPZKEkjscvt
+ 2Bq8YO5zZpTwfCvFdOw0MB1GBRKYTXvrbU5nGs0WjpWBjXE5QBkrrBci4W6ysZaqcLX7
+ qMyA==
+X-Gm-Message-State: AOAM531rpWOZ7SDuY5+zjSB3Tn0MHggGqMbNPG9h8pBYUWMUQS7aXYEs
+ K2OHQqYAmKMhDJqxhIxMXSDaBG4iExoL6Dc/C3slHvapEMBwlrbDXzbOLCEe5bkUte4QLFFvgj9
+ 9DEdb8hufoApysXtPoX36bc2SfrRF
+X-Received: by 2002:a05:6000:1d90:b0:20c:9efd:bd6b with SMTP id
+ bk16-20020a0560001d9000b0020c9efdbd6bmr24725759wrb.605.1652290480060; 
+ Wed, 11 May 2022 10:34:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMcxwINjwFHTGmrXrt5Rnjg0TtWgmfEnHBfAnBCyS2Fe9WQndQMx9qSymE6rAgB6QbCz2//w==
+X-Received: by 2002:a05:6000:1d90:b0:20c:9efd:bd6b with SMTP id
+ bk16-20020a0560001d9000b0020c9efdbd6bmr24725736wrb.605.1652290479835; 
+ Wed, 11 May 2022 10:34:39 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ g17-20020adfe411000000b0020c5253d91esm2156204wrm.106.2022.05.11.10.34.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 10:33:24 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id
- r188-20020a1c44c5000000b003946c466c17so1036292wma.4
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 10:33:22 -0700 (PDT)
-X-Received: by 2002:a1c:4c06:0:b0:394:65c4:bd03 with SMTP id
- z6-20020a1c4c06000000b0039465c4bd03mr6060279wmf.8.1652290402369; Wed, 11 May
- 2022 10:33:22 -0700 (PDT)
+ Wed, 11 May 2022 10:34:39 -0700 (PDT)
+Message-ID: <48f164af-99d2-9e74-e307-003be0677384@redhat.com>
+Date: Wed, 11 May 2022 19:34:38 +0200
 MIME-Version: 1.0
-References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
- <20220510141329.54414-1-tomeu.vizoso@collabora.com>
- <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
-In-Reply-To: <CAPM=9tzLR-wsLhg2ikGjoK06s-ju5XWa1rtPPiUpN=pwD1vgtA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 11 May 2022 10:33:06 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wg8YgH1h3wrm9CtXff7rSewa+NE0Z5upb1GOE8XiTL9HA@mail.gmail.com>
-Message-ID: <CAHk-=wg8YgH1h3wrm9CtXff7rSewa+NE0Z5upb1GOE8XiTL9HA@mail.gmail.com>
-Subject: Re: Adding CI results to the kernel tree was Re: [RFC v2] drm/msm:
- Add initial ci/ subdirectory
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 7/7] fbdev: Make registered_fb[] private to fbmem.c
+To: Guenter Roeck <linux@roeck-us.net>, Sam Ravnborg <sam@ravnborg.org>
+References: <20220511112438.1251024-1-javierm@redhat.com>
+ <20220511113230.1252910-1-javierm@redhat.com> <YnvrxICnisXU6I1y@ravnborg.org>
+ <8c84428c-2740-4046-74c9-298b854944d0@roeck-us.net>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <8c84428c-2740-4046-74c9-298b854944d0@roeck-us.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,70 +89,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Jonathan Corbet <corbet@lwn.net>,
+Cc: linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
+ kernel test robot <lkp@intel.com>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Jens Frederich <jfrederich@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Zhen Lei <thunder.leizhen@huawei.com>,
+ Matthew Wilcox <willy@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Nettleton <jon.nettleton@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 10, 2022 at 10:07 PM Dave Airlie <airlied@gmail.com> wrote:
+Hello Guenter,
+
+On 5/11/22 19:17, Guenter Roeck wrote:
+> On 5/11/22 10:00, Sam Ravnborg wrote:
+
+[snip]
+
+>>>   struct fb_info *registered_fb[FB_MAX] __read_mostly;
+>>> -EXPORT_SYMBOL(registered_fb);
+>>> -
+>>>   int num_registered_fb __read_mostly;
+>>> +#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
+>>> +EXPORT_SYMBOL(registered_fb);
+>>>   EXPORT_SYMBOL(num_registered_fb);
+>>> +#endif
+>>
+>> It is stuff like this I refer to as "ugly" in the comment above.
+>>
+> 
+> My "solution" for that kind of thing is to use a namespace,
+> such as
+> 
+> EXPORT_SYMBOL_NS(registered_fb, FB_OLPC_DCON);
+> EXPORT_SYMBOL_NS(num_registered_fb, FB_OLPC_DCON);
 >
-> > And use it to store expectations about what the drm/msm driver is
-> > supposed to pass in the IGT test suite.
+
+Using a namespace in this case is indeed a great idea I think.
+
+I've used in the past to limit the export of a symbol for within a driver
+that could be scattered across different compilations units, but it never
+occurred to me using it to limit symbols exported by core code.
+ 
+> and import it from the offending code. That avoids ifdefs
+> while at the same time limiting the use of the symbols
+> to the expected scope. Of course that could be abused but
+> that abuse would be obvious.
 >
-> I wanted to loop in Linus/Greg to see if there are any issues raised
-> by adding CI results file to the tree in their minds, or if any other
-> subsystem has done this already, and it's all fine.
->
-> I think this is a good thing after our Mesa experience, but Mesa has a
-> lot tighter integration here, so I want to get some more opinions
-> outside the group.
 
-Honestly, my immediate reaction is that I think it might be ok, but
+Agreed. For the next revision, besides using an namespaced export symbol
+as you suggested, I'll include a comment to make clear that it shouldn't
+by any other driver and FB_OLPC_DCON fixed instead.
 
- (a) are these things going to absolutely balloon over time?
 
- (b) should these not be separated out?
+-- 
+Best regards,
 
-Those two issues kind of interact.
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-If it's a small and targeted test-suite, by all means keep it in the
-kernel, but why not make it part of "tools/testing/selftests"
-
-But if people expect this to balloon and we end up having megabytes of
-test output, then I really think it should be a separate git tree.
-
-A diffstat like this:
-
->  7 files changed, 791 insertions(+)
-
-is not a problem at all. But I get the feeling that this is just the
-tip of the iceberg, and people will want to not just have the result
-files, but start adding actual *input* files that may be largely
-automated stuff and may be tens of megabytes in size.
-
-Because the result files on their own aren't really self-contained,
-and then people will want to keep them in sync with the test-files
-themselves, and start adding those, and now it *really* is likely very
-unwieldy.
-
-Or if that doesn't happen, and the actual input test files stay in a
-separate CI repo, and then you end up having random coherency issues
-with that CI repo, and it all gets to be either horribly messy, or the
-result files in the kernel end up really stale.
-
-So honestly, I personally don't see a good end result here.  This
-particular small patch? *This* one looks fine to me, except I really
-think tools/testing/selftests/gpu would be a much more logical place
-for it.
-
-But I don't see a way forward that is sane.
-
-Can somebody argue otherwise?
-
-            Linus
