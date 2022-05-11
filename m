@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BC35229BF
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 04:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3163C522AF3
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 06:25:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE32A10F91A;
-	Wed, 11 May 2022 02:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B66F410E284;
+	Wed, 11 May 2022 04:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A27510F910
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 02:36:55 +0000 (UTC)
-X-UUID: 2460bfb9b5104cdfa9cb0b10481e2640-20220511
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:60c10ef1-6e2c-4bde-84be-c9f6ecdb6602, OB:0,
- LO
- B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:108
-X-CID-INFO: VERSION:1.1.4, REQID:60c10ef1-6e2c-4bde-84be-c9f6ecdb6602, OB:0,
- LOB:
- 0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:108
-X-CID-META: VersionHash:faefae9, CLOUDID:e0f704e6-38f2-431d-8de7-bf8fac490b0a,
- C
- OID:352b0387439c,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,File:nil
- ,QS:0,BEC:nil
-X-UUID: 2460bfb9b5104cdfa9cb0b10481e2640-20220511
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1996386182; Wed, 11 May 2022 10:36:52 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Wed, 11 May 2022 10:36:51 +0800
-Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 11 May 2022 10:36:50 +0800
-From: <xinlei.lee@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
-Subject: [PATCH v5,
- 5/5] drm/mediatek: Add pull-down MIPI operation in mtk_dsi_poweroff
- function
-Date: Wed, 11 May 2022 10:36:36 +0800
-Message-ID: <1652236596-21648-6-git-send-email-xinlei.lee@mediatek.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <1652236596-21648-1-git-send-email-xinlei.lee@mediatek.com>
-References: <1652236596-21648-1-git-send-email-xinlei.lee@mediatek.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE50C10E284;
+ Wed, 11 May 2022 04:25:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: tomeu) with ESMTPSA id 814831F44A6E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1652243109;
+ bh=k4CAo9Y95waZZqgDc5richqC5rLeJJTWfy44Q601/Q0=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=niWJrFanqGGREze6rfJDFHgENDAnnMzMPF1kW1PppuLMKTJrCqRH5Manut/a+mBZi
+ qfP5A2JO/4AMj55JBTKCwMaOOFmcM6hoWeaQkyAuWSnmN5h0BpzX/+4r3DlUGq0V8Y
+ LofZuROKTHNgs6pUHlJhdSIjqDzNtoy0ppPHE1sj7Roqwqw1AADwNS1IMfkPgMASJb
+ 9tgcrydqEl4JdMpTAomltpPNZib56Y29L7FNr29pTB0iqZrqiVefgbYjbxEmWAsmwr
+ YsUxUW4/t1xacp3+wVJ2CBqyqw/XtAH+cUPfmfAYFOIrLXLHAj3CTroxJ7HX9R0mw8
+ FXYT9MeAeEEnA==
+Subject: Re: [Freedreno] [RFC v2] drm/msm: Add initial ci/ subdirectory
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
+ <20220510141329.54414-1-tomeu.vizoso@collabora.com>
+ <e4e03cd8-3ebc-e5e1-e7d0-6bdc038049b5@quicinc.com>
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Message-ID: <33ab308f-f0a1-b5b9-1bcb-b4387f5a4152@collabora.com>
+Date: Wed, 11 May 2022 06:25:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <e4e03cd8-3ebc-e5e1-e7d0-6bdc038049b5@quicinc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,50 +51,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
+Cc: freedreno@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xinlei Lee <xinlei.lee@mediatek.com>
+On 5/10/22 9:39 PM, Jessica Zhang wrote:
+> 
+> 
+> On 5/10/2022 7:13 AM, Tomeu Vizoso wrote:
+>> +igt@kms_atomic_interruptible@legacy-setmode@pipe-a-edp-1
+>> +igt@kms_atomic_interruptible@atomic-setmode@pipe-a-edp-1
+>> +igt@kms_atomic_interruptible@legacy-dpms@pipe-a-edp-1
+>> +igt@kms_atomic_interruptible@legacy-pageflip@pipe-a-edp-1
+>> +igt@kms_atomic_interruptible@legacy-cursor@pipe-a-edp-1
+>> +igt@kms_atomic_interruptible@universal-setplane-primary@pipe-a-edp-1
+>> +igt@kms_atomic_interruptible@universal-setplane-cursor@pipe-a-edp-1
+> 
+> I see that there are some KMS subtests/tests are missing such as 
+> kms_atomic_transition -- are they unstable across all boards?
+> 
+>  From what I've seen, kms_atomic_transition is unstable only on Trogdor, 
+> but has stable results on other boards.
 
-In the dsi_enable function, mtk_dsi_rxtx_control is to
-pull up the MIPI signal operation. Before dsi_disable,
-MIPI should also be pulled down by writing a register
-instead of disabling dsi.
+I don't know of a good reason for not having the tests in this list. 
+Developers can follow the instructions at "How to expand coverage" to 
+add tests if the driver can consistently pass (or fail) them.
 
-If disable dsi without pulling the mipi signal low, the value of
-the register will still maintain the setting of the mipi signal being
-pulled high.
-After resume, even if the mipi signal is not pulled high, it will still
-be in the high state.
+There is ongoing work to have a test runner that will better handle 
+flaky tests, which will make it possible to expand the list without 
+having to resort to per-soc test lists.
 
-Fixes: 2e54c14e310f ("drm/mediatek: Add DSI sub driver")
+>> +igt@kms_addfb_basic@size-max,pass
+>> +igt@kms_addfb_basic@too-wide,pass
+>> +igt@kms_addfb_basic@too-high,dmesg-warn
+> 
+> For test results on Trogdor, is is possible to have them be 
+> success/fail/skip only?
+> 
+> Results such as dmesg-warn/dmesg-fail are igt_runner specific and 
+> because there isn't support for igt_runner on ChromeOS, they will be 
+> difficult to replicate and debug.
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
- 1 file changed, 2 insertions(+)
+As Rob said later, it's probably better to drop that distinction. Maybe 
+at some future point we will want to track expected kmsg output but I 
+think there are lots of work to do before that makes sense.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 98b7811502e7..1035fafdbf7c 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -688,6 +688,8 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
- 	mtk_dsi_reset_engine(dsi);
- 	mtk_dsi_lane0_ulp_mode_enter(dsi);
- 	mtk_dsi_clk_ulp_mode_enter(dsi);
-+	/* set the lane number as 0 to pull down mipi */
-+	writel(0, dsi->regs + DSI_TXRX_CTRL);
- 
- 	mtk_dsi_disable(dsi);
- 
--- 
-2.18.0
+Will do that in a v3.
 
+>> +igt@kms_universal_plane@universal-plane-pipe-a-functional,skip
+>> +igt@kms_universal_plane@disable-primary-vs-flip-pipe-a,pass
+>> +igt@kms_universal_plane@disable-primary-vs-flip-pipe-b,fail
+> 
+> We could probably skip checking the results for kms_universal_plane on 
+> Trogdor for now, since this is a test affected by the hack regression. 
+> There is an IGT patch in the works for fixing the 
+> disable-primary-vs-flip-pipe-b failure, so it should be updated pretty 
+> soon too.
+
+So, how this should work is for the patch that fixes that bug to update 
+also the expectation files (see "How to update test expectations" in the 
+docs). In this case though, the fix is likely to land before this patch, 
+so I will just update the expectations once I rebase and the fix is 
+brought into my branch.
+
+Thanks for the feedback!
+
+Tomeu
