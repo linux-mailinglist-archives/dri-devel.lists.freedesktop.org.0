@@ -2,51 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD5C523F51
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 23:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D84523F6E
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 23:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE0C10E2C6;
-	Wed, 11 May 2022 21:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 545FC10EEC9;
+	Wed, 11 May 2022 21:27:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22A8610E2C6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 21:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652303724; x=1683839724;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XA/9k8fum1hnT6N9LahgNbseCi/JRz/UAlaSHgl2wpw=;
- b=mfo3Iu6Ptt2L7P2d+wUJsTdKlPMDow3c+Gps14XBcyob2gjviuo3lQS+
- vck6TUNPDarkvzrmD8JVkYUFI1Is6ySOga/B5+x17V3LgxR8ErXDjuUH5
- gUuBQBYdWjUJNMr4DqM3bO/b86v/nAr05b4xJG3A/NUZPzk3a3yZCzs+9
- kvSeB1VgDAn6tcEsSBsGg3UqcMppiOgJAsnpWmLLwP/njjUgWSoi9R98S
- Ij4tOCT2+SX6qgKkrJ4hTOB8OyOryYw56TyjLYN11Vssy2FgzGFHp2bAH
- HYeqgUHBYFpBL+enYWc8S+QHpKMziothJ2xC3dWB3fRaRdjAg1Mcvp/gg Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="257365591"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="257365591"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 14:15:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="636577197"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 11 May 2022 14:15:21 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1notg0-000Jap-Sb;
- Wed, 11 May 2022 21:15:20 +0000
-Date: Thu, 12 May 2022 05:14:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- lyude@redhat.com, tzimmermann@suse.de
-Subject: Re: [PATCH v2] mgag200: Enable atomic gamma lut update
-Message-ID: <202205120525.DrSeu95X-lkp@intel.com>
-References: <20220511152815.892562-1-jfalempe@redhat.com>
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A26A10EED9
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 21:27:05 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id y32so5761076lfa.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 14:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=0t9E9hcubacycb/zfx8NOSEjN1B6k+ZB3dddohbc/ik=;
+ b=kM3dmvoncuD5XtNPlhBAKOP2qXP2ajDKmQmc1lBzJca2oYpJO1qR2EKzsLRYmIBBGL
+ F/2Ki+OsQfYsDfDNLQPyHLngCEJpG7Hmv03c8SCUEPdnHM1eDhKoUnRgzR3wlpF/IdkF
+ SsVYG9b0LTVmdk0af6aEyhOsON9J549uHEB+eVcaC3zGAwNNYxs+i1p/sDHFQDax3rn0
+ WDvMd2HDY0d9/I/Lx8D6PVSigLHMTb7rFTFfn0BwyGgz9F2C9rgEmoKnLPZyKTW+dCBF
+ pdpZczEaXwNlNuZ98OjNnrFRfW9dxZ2E6mADUSPaKoYjgKuiFxYNnXUsQLervijrtRt0
+ jj1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0t9E9hcubacycb/zfx8NOSEjN1B6k+ZB3dddohbc/ik=;
+ b=LUX5qVh5Wm5Az2A1TadITOjfImd9L0/iGDUv7NntUTSKZxqylJC81InaRGT0FFsa2n
+ 4ZC9MjTLKxQdC12VC+ERpapesZyhizUwjFkJSDh8WdppwJXIHslo7BTVj03D1DUCgHaj
+ odDY8nffEqrWRcvFuwl1fY85lqnmw66TjWEDaHRdzmKX0LH9At76QqoIzypzK6ZmFXWI
+ Bq5/sfno5q6etlhHjUdQ/h8OmDw+4UuaMZo+wGNtIF1tKKwfhTwbvA25Cp+LKflAqtY/
+ oz3hw2/qEzz1ONHuDi57yuvtx9uP7868QLj/eFhfmOb0uOY18OhMN0ogUal1y/DaRg5Z
+ xj4A==
+X-Gm-Message-State: AOAM530GR4l5po4FETtFjaaGouozV4jmSBcyA2isfRF2NABEGfLkafIG
+ nTorq82MtiK1XKV3IUEm+CgK2w==
+X-Google-Smtp-Source: ABdhPJxJbTJa9hCT9uXv/2v5fnZ5XvY4eL65/ufFsRs0owsiNgUQf/BPFxlypK8lT+xGGI+GzA004w==
+X-Received: by 2002:a05:6512:401d:b0:473:c7e2:f3ca with SMTP id
+ br29-20020a056512401d00b00473c7e2f3camr22421513lfb.153.1652304424182; 
+ Wed, 11 May 2022 14:27:04 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ d7-20020a05651c088700b0024f3d1daeadsm538518ljq.53.2022.05.11.14.27.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 May 2022 14:27:03 -0700 (PDT)
+Message-ID: <e9ab2ffe-4e98-6f12-927e-5defa1fae304@linaro.org>
+Date: Thu, 12 May 2022 00:27:02 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220511152815.892562-1-jfalempe@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3] drm/msm/dp: Always clear mask bits to disable
+ interrupts at dp_ctrl_reset_irq_ctrl()
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
+ vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
+ bjorn.andersson@linaro.org
+References: <1652299449-31205-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1652299449-31205-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,115 +77,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, kbuild-all@lists.01.org,
- Jocelyn Falempe <jfalempe@redhat.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+On 11/05/2022 23:04, Kuogee Hsieh wrote:
+> dp_catalog_ctrl_reset() will software reset DP controller. But it will
+> not reset programmable registers to default value. DP driver still have
+> to clear mask bits to interrupt status registers to disable interrupts
+> after software reset of controller. This patch removes the enable flag
+> condition checking to always clear mask bits of interrupt status
+> registers to disable interrupts if enable flag is false.
+> 
+> This patch also will fix the potential problem happen at system suspend where
+> dp_ctrl_reset_irq_ctrl() was called to try to disable HPD related irqs but
+> the irq is still unmasked unexpectedly and can come in while system are
+> suspending. This leads to bus hangs if the irq is handled after we power down
+> the DP hardware because we run the irq handler and access a device register
+> assuming that no irq could ever come in if we powered down the device. We
+> don't know when the irq will be handled though, so it's possible the irq is
+> pending from before we disable the irq in the hardware.
+> 
+> Changes in v2:
+> -- add more details commit text
+> 
+> Changes in v3:
+> -- add synchrons_irq()
+> -- add atomic_t suspended
+> 
+> Fixes: ba0a422be723 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
 
-Thank you for the patch! Perhaps something to improve:
+Revision in the Fixes tag is incorrect
 
-[auto build test WARNING on tegra-drm/drm/tegra/for-next]
-[also build test WARNING on v5.18-rc6]
-[cannot apply to drm/drm-next drm-tip/drm-tip airlied/drm-next next-20220511]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c    |  9 +++++++--
+>   drivers/gpu/drm/msm/dp/dp_display.c | 18 ++++++++++++++++++
+>   2 files changed, 25 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index af7a80c..f3e333e 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1389,8 +1389,13 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
+>   
+>   	dp_catalog_ctrl_reset(ctrl->catalog);
+>   
+> -	if (enable)
+> -		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
+> +	/*
+> +	 * all dp controller programmable registers will not
+> +	 * be reset to default value after DP_SW_RESET
+> +	 * therefore interrupt mask bits have to be updated
+> +	 * to enable/disable interrupts
+> +	 */
+> +	dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
+>   }
+>   
+>   void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index c388323..c34dbfc 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -98,6 +98,8 @@ struct dp_display_private {
+>   	struct dp_ctrl    *ctrl;
+>   	struct dp_debug   *debug;
+>   
+> +	atomic_t suspended;
+> +
+>   	struct dp_usbpd_cb usbpd_cb;
+>   	struct dp_display_mode dp_mode;
+>   	struct msm_dp dp_display;
+> @@ -187,6 +189,11 @@ static int dp_add_event(struct dp_display_private *dp_priv, u32 event,
+>   	int pndx;
+>   
+>   	spin_lock_irqsave(&dp_priv->event_lock, flag);
+> +	if (atomic_read(&dp_priv->suspended)) {
+> +		spin_unlock_irqrestore(&dp_priv->event_lock, flag);
+> +		return -EPERM;
+> +	}
+> +
+>   	pndx = dp_priv->event_pndx + 1;
+>   	pndx %= DP_EVENT_Q_MAX;
+>   	if (pndx == dp_priv->event_gndx) {
+> @@ -454,6 +461,13 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+>   		dp->dp_display.connector_type, dp->core_initialized,
+>   		dp->phy_initialized);
+>   
+> +	if (!dp->core_initialized) {
+> +		DRM_DEBUG_DP("DP core not initialized\n");
+> +		return;
+> +	}
+> +
+> +	synchronize_irq(dp->irq);
+> +
+>   	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+>   	dp_aux_deinit(dp->aux);
+>   	dp_power_deinit(dp->power);
+> @@ -1362,6 +1376,8 @@ static int dp_pm_resume(struct device *dev)
+>   		dp->dp_display.connector_type, dp->core_initialized,
+>   		dp->phy_initialized, dp_display->power_on);
+>   
+> +	atomic_set(&dp->suspended, 0);
+> +
+>   	/* start from disconnected state */
+>   	dp->hpd_state = ST_DISCONNECTED;
+>   
+> @@ -1431,6 +1447,8 @@ static int dp_pm_suspend(struct device *dev)
+>   		dp->dp_display.connector_type, dp->core_initialized,
+>   		dp->phy_initialized, dp_display->power_on);
+>   
+> +	atomic_inc(&dp->suspended);
+> +
+>   	/* mainlink enabled */
+>   	if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+>   		dp_ctrl_off_link_stream(dp->ctrl);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/mgag200-Enable-atomic-gamma-lut-update/20220511-233134
-base:   git://anongit.freedesktop.org/tegra/linux.git drm/tegra/for-next
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220512/202205120525.DrSeu95X-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0831f1db9ae8814796efea603749709e80d2808c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jocelyn-Falempe/mgag200-Enable-atomic-gamma-lut-update/20220511-233134
-        git checkout 0831f1db9ae8814796efea603749709e80d2808c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/mgag200/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:15,
-                    from include/linux/i2c.h:13,
-                    from include/drm/drm_crtc.h:28,
-                    from include/drm/drm_atomic_helper.h:31,
-                    from drivers/gpu/drm/mgag200/mgag200_mode.c:14:
-   drivers/gpu/drm/mgag200/mgag200_mode.c: In function 'mgag200_simple_display_pipe_check':
->> include/drm/drm_print.h:425:39: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-         |                                       ^~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/drm/drm_print.h:425:9: note: in expansion of macro 'dev_err'
-     425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-         |         ^~~~
-   include/drm/drm_print.h:438:9: note: in expansion of macro '__drm_printk'
-     438 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/mgag200/mgag200_mode.c:971:25: note: in expansion of macro 'drm_err'
-     971 |                         drm_err(dev, "Wrong size for gamma_lut %ld\n",
-         |                         ^~~~~~~
-
-
-vim +425 include/drm/drm_print.h
-
-02c9656b2f0d69 Haneen Mohammed       2017-10-17  385  
-02c9656b2f0d69 Haneen Mohammed       2017-10-17  386  /**
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  387   * DRM_DEV_DEBUG() - Debug output for generic drm code
-02c9656b2f0d69 Haneen Mohammed       2017-10-17  388   *
-306589856399e1 Douglas Anderson      2021-09-21  389   * NOTE: this is deprecated in favor of drm_dbg_core().
-306589856399e1 Douglas Anderson      2021-09-21  390   *
-091756bbb1a961 Haneen Mohammed       2017-10-17  391   * @dev: device pointer
-091756bbb1a961 Haneen Mohammed       2017-10-17  392   * @fmt: printf() like format string.
-02c9656b2f0d69 Haneen Mohammed       2017-10-17  393   */
-db87086492581c Joe Perches           2018-03-16  394  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
-db87086492581c Joe Perches           2018-03-16  395  	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  396  /**
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  397   * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  398   *
-306589856399e1 Douglas Anderson      2021-09-21  399   * NOTE: this is deprecated in favor of drm_dbg() or dev_dbg().
-306589856399e1 Douglas Anderson      2021-09-21  400   *
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  401   * @dev: device pointer
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  402   * @fmt: printf() like format string.
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  403   */
-db87086492581c Joe Perches           2018-03-16  404  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
-db87086492581c Joe Perches           2018-03-16  405  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  406  /**
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  407   * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  408   *
-306589856399e1 Douglas Anderson      2021-09-21  409   * NOTE: this is deprecated in favor of drm_dbg_kms().
-306589856399e1 Douglas Anderson      2021-09-21  410   *
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  411   * @dev: device pointer
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  412   * @fmt: printf() like format string.
-b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  413   */
-db87086492581c Joe Perches           2018-03-16  414  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
-db87086492581c Joe Perches           2018-03-16  415  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-a18b21929453af Lyude Paul            2018-07-16  416  
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  417  /*
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  418   * struct drm_device based logging
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  419   *
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  420   * Prefer drm_device based logging over device or prink based logging.
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  421   */
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  422  
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  423  /* Helper for struct drm_device based logging. */
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  424  #define __drm_printk(drm, level, type, fmt, ...)			\
-fb6c7ab8718eb2 Jani Nikula           2019-12-10 @425  	dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  426  
-fb6c7ab8718eb2 Jani Nikula           2019-12-10  427  
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+With best wishes
+Dmitry
