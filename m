@@ -1,50 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F865229BC
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 04:36:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 483DA5229BD
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 04:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35BB410F909;
-	Wed, 11 May 2022 02:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 755F310F90E;
+	Wed, 11 May 2022 02:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADC7D10F901
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 02:36:45 +0000 (UTC)
-X-UUID: 5d58e437754b43dcb4f5ee49c5feba1e-20220511
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 739CD10F905
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 02:36:51 +0000 (UTC)
+X-UUID: 65fd1e3900be48fea4919c5df0c77a90-20220511
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:2dd0c135-d668-482c-b673-30e262d565e7, OB:0,
- LO
- B:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,A
+X-CID-O-INFO: VERSION:1.1.4, REQID:33a27f1f-b045-4d14-927d-6ff903ff071d, OB:10,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,A
  CTION:release,TS:100
-X-CID-INFO: VERSION:1.1.4, REQID:2dd0c135-d668-482c-b673-30e262d565e7, OB:0,
- LOB:
- 10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,A
+X-CID-INFO: VERSION:1.1.4, REQID:33a27f1f-b045-4d14-927d-6ff903ff071d, OB:10,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,A
  CTION:quarantine,TS:100
-X-CID-META: VersionHash:faefae9, CLOUDID:7ef604e6-38f2-431d-8de7-bf8fac490b0a,
+X-CID-META: VersionHash:faefae9, CLOUDID:b25559b3-56b5-4c9e-8d83-0070b288eb6a,
  C
- OID:332625d99147,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,File:nil
+ OID:d08304f0cc1c,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,File:nil
  ,QS:0,BEC:nil
-X-UUID: 5d58e437754b43dcb4f5ee49c5feba1e-20220511
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1361079563; Wed, 11 May 2022 10:36:42 +0800
+X-UUID: 65fd1e3900be48fea4919c5df0c77a90-20220511
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1960522997; Wed, 11 May 2022 10:36:45 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 11 May 2022 10:36:44 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Wed, 11 May 2022 10:36:41 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 11 May 2022 10:36:43 +0800
 Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 11 May 2022 10:36:40 +0800
+ 15.2.792.3 via Frontend Transport; Wed, 11 May 2022 10:36:43 +0800
 From: <xinlei.lee@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
-Subject: [PATCH v5,
- 1/5] drm/mediatek: Adjust the timing of mipi signal from LP00 to LP11
-Date: Wed, 11 May 2022 10:36:32 +0800
-Message-ID: <1652236596-21648-2-git-send-email-xinlei.lee@mediatek.com>
+Subject: [PATCH v5,2/5] drm/mediatek: Modify dsi funcs to atomic operations
+Date: Wed, 11 May 2022 10:36:33 +0800
+Message-ID: <1652236596-21648-3-git-send-email-xinlei.lee@mediatek.com>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <1652236596-21648-1-git-send-email-xinlei.lee@mediatek.com>
 References: <1652236596-21648-1-git-send-email-xinlei.lee@mediatek.com>
@@ -71,52 +73,50 @@ Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jitao Shi <jitao.shi@mediatek.com>
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-Old sequence:
-1. Pull the MIPI signal high
-2. Delay & Dsi_reset
-3. Set the dsi timing register
-4. dsi clk & lanes leave ulp mode and enter hs mode
-
-The sequence after patching is:
-1. Set the dsi timing register
-2. Pull the MIPI signal high
-3. Delay & Dsi_reset
-4. dsi clk & lanes leave ulp mode and enter hs mode
-
-Fixes: 75374fc2c152 ("drm/mediatek: add dphy reset after setting lanes number")
+Modify dsi_enable & dsi_disable to dsi_atomic_enable & dsi_atomic_disable funcs.
 
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index bd3f5b485085..02e31a7d9257 100644
+index 02e31a7d9257..82a811801c9f 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -661,14 +661,14 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
- 	mtk_dsi_reset_engine(dsi);
- 	mtk_dsi_phy_timconfig(dsi);
+@@ -763,14 +763,16 @@ static void mtk_dsi_bridge_mode_set(struct drm_bridge *bridge,
+ 	drm_display_mode_to_videomode(adjusted, &dsi->vm);
+ }
  
--	mtk_dsi_rxtx_control(dsi);
--	usleep_range(30, 100);
--	mtk_dsi_reset_dphy(dsi);
- 	mtk_dsi_ps_control_vact(dsi);
- 	mtk_dsi_set_vm_cmd(dsi);
- 	mtk_dsi_config_vdo_timing(dsi);
- 	mtk_dsi_set_interrupt_enable(dsi);
+-static void mtk_dsi_bridge_disable(struct drm_bridge *bridge)
++static void mtk_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
++					  struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
  
-+	mtk_dsi_rxtx_control(dsi);
-+	usleep_range(30, 100);
-+	mtk_dsi_reset_dphy(dsi);
- 	mtk_dsi_clk_ulp_mode_leave(dsi);
- 	mtk_dsi_lane0_ulp_mode_leave(dsi);
- 	mtk_dsi_clk_hs_mode(dsi, 0);
+ 	mtk_output_dsi_disable(dsi);
+ }
+ 
+-static void mtk_dsi_bridge_enable(struct drm_bridge *bridge)
++static void mtk_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
++					 struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+ 
+@@ -779,8 +781,8 @@ static void mtk_dsi_bridge_enable(struct drm_bridge *bridge)
+ 
+ static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+ 	.attach = mtk_dsi_bridge_attach,
+-	.disable = mtk_dsi_bridge_disable,
+-	.enable = mtk_dsi_bridge_enable,
++	.atomic_disable = mtk_dsi_bridge_atomic_disable,
++	.atomic_enable = mtk_dsi_bridge_atomic_enable,
+ 	.mode_set = mtk_dsi_bridge_mode_set,
+ };
+ 
 -- 
 2.18.0
 
