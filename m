@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6830E522BA4
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 07:28:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FF6522BA6
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 07:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12CA310E75D;
-	Wed, 11 May 2022 05:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5580B10E108;
+	Wed, 11 May 2022 05:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02olkn2102.outbound.protection.outlook.com [40.92.44.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9157210E75D
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 05:28:39 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10olkn2077.outbound.protection.outlook.com [40.92.42.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C620110E108
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 05:28:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FyjvYBS9LiUkBAIebg7Th1g3bsU7d10umVMSWB4bv+cpHl2h1BvDOQ2h46LEF++w7P6Oms/Eh4J5gxV4X3rxws1BTKue6BKzqhcNr/d9wa8rASbDo/Z3/QecHE7XEZPBOJC2RlZdztDexCYd6JOcWaSJqK0+hNwVIvsCAqNZPkHHwOyU609LtL0dBqR6BRya9+dT9s2FOBcbh16s9BYbGdhSy19khXUadZ8MzWyBrwOD7G2q0P95JqXGd3GUhbY4fB4K7pJsJDtW3XSb5eOjXffL44SKG5TtScpQe5BV/uJk0NHw7RdfbIVQntZinjF9SBzJaNZWXLBpq1iEBYNehQ==
+ b=PNRj2sEseTLbfjmmCdBEzhyYkb2NMISxlDNI4ID39vsPo2wTn9WVcfUXE/A3gSIsj7BwjEPLDN5/H8sWuFGjEi2tq/0nyhjSVd5LJO/ThQpHlShsFaYAPP8Ld1MNzNntSJq05u/fVpAEKM+jXGjl8BFsrnycq/3vE05YIXKuTa8dFdvC9rVd+Kkn5QMzITtuiACgRs3jKB6Y7GTdRg9a17OzYzOG5ygUBEa6i+y146oTqOAAsYHP8KX60yQEXl2U4qbh6bjHdfe1i0tOITRPfReDDwO5G55DZxtisBUvRuSQwr0BeiXUjnp6bQlir5bLLZrk6Y6tnh8ovmlF69Xu4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bB1pL3u/luXjA3VfglqgqHt+krdJRQy+38r7T7uIm8g=;
- b=LncRzqvEFGEF6PlyisRWbAGhI2W3sAWW4fbMWGzjFfcUx0DEWmEJf6vTyhBavhww6LFKpYn17NMTi1sQID9EIgEuX+fd3CDXdz8nss9K/Mtavs6KGU08Xi1OaYEdlpsldl8Rd0yNx+YXDFS42D4gIba8Q8mz+sTGjoMJTb91ztIX8h8oz4NSA0220wvXFoQaJ8qf/4JigbKzIVO6eMY9nd01/CPXE3//VCeTkIBfwGNwoQNT3phlkPNoh40xcyCKeT6xjIiazrxFy9PN6BI2oQjxXAZ/mRstU6KFExxLnru5lOZjRGjcx8SOl9tjTWhqk1yJ1c93YrJdcOy70HpF3g==
+ bh=cDTuvnfoUIFFv0ZdRbKe8LW7Yvq6FtVZnHgQrIFbYkY=;
+ b=nrVvD5wixzo5SzkhIDPe7xB3hCodLHVDpEKotQKc8ngTrMUlep9KeuJrJ7C/TkLbgXD7/F4cbt2UeWohrMXl70LdY0rTV62U6H0mW0YVjLwxKlelMI2r0WMjhtFF2ciVXHvyuLVTIraS2414i10vephzpFnh27OfJZdgKpv8UB7JP3gTrmdnVUlkSDru3u+5zMZ3WoBsqro8rINuSF3YGJ9HIFxwqD/XyuuvCNNDWPWZERqsGsgZ9m0UL98K8Nbk6b8JES/RNXPoRtoGxb68lWZ5mJWQMSdYkQn1VaewCDr7QaBL6kSlaYbAhDkF+CXnbR9Eh+tzI6xqtd+RJq2x9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from BY5PR02MB7009.namprd02.prod.outlook.com (2603:10b6:a03:236::13)
- by PH0PR02MB8407.namprd02.prod.outlook.com (2603:10b6:510:10a::19)
+ by BN7PR02MB5313.namprd02.prod.outlook.com (2603:10b6:408:32::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Wed, 11 May
- 2022 05:28:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Wed, 11 May
+ 2022 05:28:42 +0000
 Received: from BY5PR02MB7009.namprd02.prod.outlook.com
  ([fe80::303a:ab1:17c1:2d16]) by BY5PR02MB7009.namprd02.prod.outlook.com
  ([fe80::303a:ab1:17c1:2d16%9]) with mapi id 15.20.5227.023; Wed, 11 May 2022
- 05:28:35 +0000
+ 05:28:41 +0000
 From: Joel Selvaraj <jo@jsfamily.in>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -40,59 +40,61 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Corentin Labbe <clabbe@baylibre.com>,
  Oleksij Rempel <linux@rempel-privat.de>,
  Linus Walleij <linus.walleij@linaro.org>, Hao Fang <fanghao11@huawei.com>
-Subject: [PATCH v2 0/3] Introduce EBBG FT8719 DRM panel driver
-Date: Wed, 11 May 2022 10:58:08 +0530
-Message-ID: <BY5PR02MB70098599813F51B07057AE4CD9C89@BY5PR02MB7009.namprd02.prod.outlook.com>
+Subject: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add prefix for EBBG
+Date: Wed, 11 May 2022 10:58:09 +0530
+Message-ID: <BY5PR02MB700946D0A3DA7AB7BE2CBBEBD9C89@BY5PR02MB7009.namprd02.prod.outlook.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <cover.1652245767.git.jo@jsfamily.in>
+References: <cover.1652245767.git.jo@jsfamily.in>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [MrTlRE9vkdSuGVkXiWQOOSB4Zmkth5oqtc6jbcgsGx4AFGHjERcDIPj3Xhxxx0LL]
+X-TMN: [ZeSgUFANGl+cQO41vqchURwmL2YJtBLtC05eoGgNXLw+Fp72Mnchh0S3fXNde3Xy]
 X-ClientProxiedBy: PN2PR01CA0092.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:27::7) To BY5PR02MB7009.namprd02.prod.outlook.com
  (2603:10b6:a03:236::13)
-X-Microsoft-Original-Message-ID: <cover.1652245767.git.jo@jsfamily.in>
+X-Microsoft-Original-Message-ID: <0ac66064eb6bfd76b3c394cfa29c429afdbdfb23.1652245767.git.jo@jsfamily.in>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 634cbcdd-4c07-47dc-9462-08da330f176d
-X-MS-TrafficTypeDiagnostic: PH0PR02MB8407:EE_
+X-MS-Office365-Filtering-Correlation-Id: eec90c1c-bdfe-44d1-1db9-08da330f1bc8
+X-MS-TrafficTypeDiagnostic: BN7PR02MB5313:EE_
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iqzG9YocUUFovDavDbIHnazG5N+pshkefI1VMOMjc9Fc29xVAxnGXf+ksgQ5KC4JpYnQGwVZbGWQMgZ/a1xZKeGiEquxYKpJG+KzmsR5mxxaBDQix819I+d2gz/DrjP8oFvFe/GJB0nha5zGhhGc5NMOAZgWer9s7hDNt8OVFDsNWbCaRHON0CeYdxEMtsj/n5YbWLAZzNlyZrdewPt0XKxcim/Oa+ZUY4OL3npUlCOHoOaFb4fK0JtRmuK1jGpd68lQcz9hy/hClJEM1mwIpzasce72QSgU5crP7tF7Ry2NLgIgJSu3KWlenD5vgsna1kGPjnA6Txq//feT1HuVkBCzjN+b6rajFPG/P0mqtUln9yZuT4HugeGrIPRei6v3lKfGnjCjv50k9h7BE+1EqOLsUOQV6JpIaRSHHuXKXITruiVmQQht6miTL89Ls3pgItLcikzYkzVC0OBi8tVUbtbf2kiMfPnF2CXtw9bg9GJu6ESerm3gLVEjHsf9o21Gu0qqbKiV+8SlnUhxD/eOsanne5/9XVGSZJ3YxOjFQbxQhRq8b3qbUtpaiWPwdF5Te7lsfKrCD26b1/MugGSkfLkQS9cbk6daqUCquNeP83hXuooRSNvSlTFT3cu2R8k/VsBRORb41IUgY9ZMkbxMgA3RNWK9rLSSZsUqLUHbGQ4=
+X-Microsoft-Antispam-Message-Info: C7p3Sh0McObL0pQWfe9xN58KT2dvZcPCcf2P7taFHL2N3KP04IFvEcLhge5yhBLJaD2oX1EX0uOhK1nHj5Uqgcgne3fbL/KaYPxfZh2tyXgAO3ev6YpC8TI1WLrUrsCM6Ej0ml3x4y3pCvkQ3LNxJ0Ufk8yB63j1pGQkkTXAKtixGlO7WaPEMtk2tCHuYJiHSgX5AcWgvkYDoISm0TcJB13zV7B5KHZqWm0XazbuTww3yKxPCP/Gb1/ZRZDjypVTIaD4AZHHhsGq8DNBNVDsMZEde+MC+QtjqXS5sLkg7qla6Sg/8Cuy2ow3ZtRnA0XkRdQUdLZJ9rKm8HevngUOoGyoh3e5RhbVJVslGhis9gAirm5+wfZVUxaICv2ZKjntCphh/6EZFt9R7G5wk6KW7YCBNtByFSHdxdXCxsaVrL0keP8bn1Lb+9eIuuTnI+j/rZOUPPrCTCt1LBFnB0/yQyuZqV5B624Caisq28SAjWcx6gIQr2m/y5DRxexhEqJtyAZOJZRC3wnwxXTovD1pIdu5gikXxSCJLNGROfZApPm29F/tW6bx0hxT5FZ1aMv+wKfCXSaCBqX4dxFDs6+AkVe83v9yL/OhPXnxLWOXUwB+8CmVB5k4gPsy8ROEAavo
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?URhDQXlFS6TGjSEuBlv20LKwDbPpCurfFioXe71cPU5qLtQ5OJY+gvHalarJ?=
- =?us-ascii?Q?1WNJkrh8NNlc70LpKMjWml8wMAe9YNTj3BIp0RVcgC3fjVZfRH0AmWHYvBVQ?=
- =?us-ascii?Q?qk1KTDxFD/qCBWIbW7opOGlJ4CgoZdLEdSfZMxhTwaYc8pCu/WvW4OScROI4?=
- =?us-ascii?Q?pw2qczphA1LQfOTB4ABwYFSnzqeIOXR/M0F7B1Twk/9faMYaY+9SGqgGhCtX?=
- =?us-ascii?Q?S5aC/tc45/Z9Dj/MmYdtF6iLMr5e6i4Tdt3LR/Kjo35Jf4IMibXszhBFxSfe?=
- =?us-ascii?Q?JlnfZRnk/UuJFa0esC5rMrSvc4ObGuZJ9OjqrH0SzcsECXNJ/+T4Kii4kUvQ?=
- =?us-ascii?Q?7efdS4k8PRrP1LJMVCDzXLUgx3wkJrjhFuRZVGibun3lQbVri9dc2Ty0/PGh?=
- =?us-ascii?Q?mZW56J9TuDYu1yVa6YjsQLu9lh8sYK8AybFyIaB9oAJ0sGc53sraQY83NeFE?=
- =?us-ascii?Q?Fu9/yfqtposfIrORI97eXxhiO4GVI5bVGfZTwKBNnY7kSd953XOtzKTN02ej?=
- =?us-ascii?Q?JahePFUxxfLla9AYdffNDrWvXpNRQCAcT580PIDPqmMdtBIhhBcUALLpZQia?=
- =?us-ascii?Q?evhtlCH+u1DvlwhcBm71Dz7zd7hTzXM8nV8fXtJttIZCdPBvIU+gwSJnmlYj?=
- =?us-ascii?Q?R7R6W47Noe2cfJxPWsqCD7e7NiBweK8VgogotmWtKyzB84z4alUpIMfOlM2U?=
- =?us-ascii?Q?tbkvOkzIo8h/ZBAAZ+efteoa30qse4+L+kdGkYH/q1byoEMbVXeg4J54StiJ?=
- =?us-ascii?Q?n/0GNIbbchE0eUUG0qi7LvoiOYoeWvStReDULHr1SFTpBgqYQsAuEWK7TGdU?=
- =?us-ascii?Q?3SBLpBcZRjYK3bLhT03WdiV7z6WxpHE4J394vzPj53bO0zB8JceaOAfKVRYv?=
- =?us-ascii?Q?IPGS1JPgCVw2Rx85motrm7XAMYtFFU5H5ihnUULia04xXfpFRYox1dgO12sq?=
- =?us-ascii?Q?DXw9APSj3cpxDgwPOMHp67u8/jqmGIleVTSCsUMT42G1Xdu8AQMkJzCLZpE4?=
- =?us-ascii?Q?APlLQeYnC9ZMFLonVnKIRTv2fkdjZrRGxg8IEDQdl+QZHsWvN39SoKRxOrd6?=
- =?us-ascii?Q?RFc36wcwRLX0GtCsR7Tv2hij0nzb0Tf2c97TmqDFgg5wejhJmFtnrjBl2j4H?=
- =?us-ascii?Q?R2k6EE6KH/OjcZo4UdeF44Qt0RVptM17+Tl5of3zY0+2Oc+X+yrPSvkU8Vag?=
- =?us-ascii?Q?ZEJfnXyB9qAr5orEXu4vpc11DbMOVXBV2TkPQOASZIZWT2TwQ/YszlXfj8p6?=
- =?us-ascii?Q?raq24gzr+1qsD6Z2jkOJgEywPbpuE4jFinxOJiHWEqtFUTgh6b0inCw1gRTi?=
- =?us-ascii?Q?UlyuVv/n+wJF+VzjszU1vThMav5N08JAt9ZmdZZoDsMYKs81l9ZT4p3dREad?=
- =?us-ascii?Q?xg69vPy8AbrjxU4o1WIjwCpNTmnWf2uxNr7VM90feE0vhyL2ua9L1RJZ1vXk?=
- =?us-ascii?Q?2qFL694mr7ICi69ETBrR7YU6JA9iAHLrUvGuBpvMJ3tHw+iPgEFmHA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5IAfAls2DmB1bjB0WL1Gm7JeGd9qjJc0LPF1EenliZQBHv75Z3B2X0O9Tlei?=
+ =?us-ascii?Q?D5KFGTXL3sjSxN7Pbd3ZhbZmA0KmpKPjIefPxUOCUQp32eVTdGfINobp7hud?=
+ =?us-ascii?Q?0rPSLdovDEnb9xAZcKO2tWCww0pUvlD3Bk5EauyVEUaK/iVFOnC6RXwLn8Kb?=
+ =?us-ascii?Q?Pl2cEyGII8uJPYctyLgtuFFVaXuMimWoZdnzIhcBQqzodk+ojyAO1tPFI3oS?=
+ =?us-ascii?Q?fqoqG/IEl8xNnmBrJ68/LAv2X2ZNpEZ3xEs0wJ0YD+4owF8ljJQv0KbmTCys?=
+ =?us-ascii?Q?73+YtwUzKmppDtvUgZ/78i5vzZ0dtdIn9xBg/GlhxALQHtjgb7pJLjB65N+m?=
+ =?us-ascii?Q?8KPALb4kCwETAqBwbK9P7B83xsRvU0Q29WJbF3K9vlJVve4nUQZggzmdv8re?=
+ =?us-ascii?Q?PnBqj2qKllVzbPDcVXXPoprROFZ7jmTbI5E63+yUIBiGm5OjHnv34+EqaF+C?=
+ =?us-ascii?Q?rqJMKOvFWa+3Yyl4p7TqIKlYbRf5rLgUB4MTS1XMC+QqWWoX4GAEshm61No/?=
+ =?us-ascii?Q?o2CUt0kOhR+GBhLeD0DMYwAMGGg3hA21z23LSAIq00RN+wjSh+O5AjBLFvUX?=
+ =?us-ascii?Q?guzaBZTdn08atbNl+CZ0oC2v/F0YBdSaCjx4AxXUweTmzf4YKM4hsoUN2pva?=
+ =?us-ascii?Q?7YrVDll6aSvhv7r+CvuwdLCbKzeYoXuq7HichkSrn0Sv7tIzb95Bz/yA7Hy2?=
+ =?us-ascii?Q?Ta9gR1toq7f06cHh/9vgeE0MmPkuJ0gd7MEqsOJnbuVPNz2yXZtPqT2wU0cR?=
+ =?us-ascii?Q?XdYQHrMctDrdi6tNPRXT4f+cf+d1RoT1u6o/J01aG1bYSuqKu/eWF1APEWmy?=
+ =?us-ascii?Q?qAJ9XtaglHE/iUP2g7C813cRWx8GiBlrnkbNUN7z/aubuvmriFFVQwIyWfgH?=
+ =?us-ascii?Q?awYqAntxxy4SJ9+ifjF0G/t49i68nRI+VxiP663ioUN2hGtZY3aCDvM0zvLQ?=
+ =?us-ascii?Q?hs4oTPASf5XzF4ig7g/g3yWvtWGv4TZI3RWoM3XqTqaJHLrsNG/e2Qo4Fevr?=
+ =?us-ascii?Q?4X7mLp1fonuhunaYtEnfX7Ot1G3gNaq4OT0HatvkejuDEF5628vlWV41Syz5?=
+ =?us-ascii?Q?lWWJVNhF+OzKgOzAqGtNhNrRzz0g+grRLehPV9JhIjIwd7rQtbbiLxWYtR1N?=
+ =?us-ascii?Q?2jvPR1imPuaQAEey7ORkSquqCqm8i91kyDgzntNNNLcRUBqAc+1/Mtd/RqB+?=
+ =?us-ascii?Q?EpnwyKsgxEIhFHNvp5LXTIDXYM1M5IaN/226VGGWgCYfoqsmdI8s7cRKdV7m?=
+ =?us-ascii?Q?SronyRIDwF5tRPvL3BEqgjtjoMQnnFWU2a8IbyHwhbUrlycOwrzBobjAupga?=
+ =?us-ascii?Q?TE70XCYw6PN2lMVObgNGsArJoIrM+F2ZwP+7dC94gpf/uCSMKnWrWvhtndY9?=
+ =?us-ascii?Q?OKWVIfxHqiorkQFuGjAlu3nWgGlB6uJjhJGGM3h3gGq3ZgV5krl3dLt8itqm?=
+ =?us-ascii?Q?CeILd4nrSVwDhlCEHhEzPZovsiG21cwpWzGbBUjemMpkwspRAMGLxA=3D=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-99c3d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 634cbcdd-4c07-47dc-9462-08da330f176d
+X-MS-Exchange-CrossTenant-Network-Message-Id: eec90c1c-bdfe-44d1-1db9-08da330f1bc8
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB7009.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2022 05:28:35.1001 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2022 05:28:41.5908 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB8407
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB5313
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,36 +113,27 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bindings and DRM panel driver for EBBG FT8719 6.18" 2246x1080 DSI
-video mode panel, which can be found on some Xiaomi Poco F1 phones.
-The panel's backlight is managed through QCOM WLED driver.
+Add a prefix for EBBG. They manufacture displays which are used in some
+Xiaomi phones, but I could not find much details about the company.
 
-The driver is built using linux-mdss-dsi-panel-driver-generator[1], and
-additionally support for handling regulators and linking external
-backlight is added.
+Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
-
-Changes in v2: (Krzysztof Kozlowski's Suggestions)
- - dt-bindings: specify maxItems for reg
- - dt-bindings: cleanup and simplify the panel properties
- - dt-bindings: in example change "|+" to "|' and "dsi0" to "dsi"
-
-Joel Selvaraj (3):
-  dt-bindings: vendor-prefixes: Add prefix for EBBG
-  dt-bindings: display: Add bindings for EBBG FT8719
-  drm/panel: introduce ebbg,ft8719 panel
-
- .../bindings/display/panel/ebbg,ft8719.yaml   |  74 ++++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- MAINTAINERS                                   |   7 +
- drivers/gpu/drm/panel/Kconfig                 |  11 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-ebbg-ft8719.c     | 362 ++++++++++++++++++
- 6 files changed, 457 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/ebbg,ft8719.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 80e80fa53f8a..effd1cb995cf 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -337,6 +337,8 @@ patternProperties:
+     description: Embedded Artists AB
+   "^ebang,.*":
+     description: Zhejiang Ebang Communication Co., Ltd
++  "^ebbg,.*":
++    description: EBBG
+   "^ebs-systart,.*":
+     description: EBS-SYSTART GmbH
+   "^ebv,.*":
 -- 
 2.36.1
 
