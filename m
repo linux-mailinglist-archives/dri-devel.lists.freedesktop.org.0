@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E79523729
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 17:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9840252374D
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 17:28:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A96410FB45;
-	Wed, 11 May 2022 15:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D712B10E325;
+	Wed, 11 May 2022 15:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7803310FB49
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 15:23:53 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id m20so4733891ejj.10
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 08:23:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=AT84es+mzAkWpeG89QxlhH2c/t9GOUkVvEs9eFmXxXY=;
- b=NNBZtQLUELY+A16ufEkDAgLbHtNaTOaEVr7ROnlXcr07b5QSGVqeBmUSezNQv701YR
- YRrDJBNgYXuYhA0WwcTDUq8Ycg+eBvKe/J9DebgM5DwDrxs57sELS9Fhix5AI/Sh1bFI
- VHR8Xo2QL+u49qpgvIIFVNhk7BeE3DRJbpHLA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=AT84es+mzAkWpeG89QxlhH2c/t9GOUkVvEs9eFmXxXY=;
- b=Bq5LpRgyBZxP5WJ/Z5bwkP2iLIPGYtdoYapquW9rQPnmxBa1PdMxQea6tunQCwIpOp
- g2iRYfQydr412VPFA/JQ4xyFFXhHofBAWshWQ5Psa7LdQbKZZAFJX1yEfE/x3NMwjxLL
- SERc3Q/1gXMcZRQ5ZHnx6uFl/X41Pxf9etrA458IHuzVNehnKG4A1Enrv6mu2SiDEV8o
- mf5/8NtYfIRvKhoeCR+dzPPwzjBOkEiOhZEpIR9cRe3aPap+N1RqZtaU2BjwL9V9PE89
- EqfsW2GSSaAMJR7+Pny5s3SYP63UW6j9v8IijDVHVcvaQCIOigf1Hv8vIkYgj85OVE5i
- mc8A==
-X-Gm-Message-State: AOAM530v9rB9kSudrPArz+pr4182x8evUg2MJ9YAXCWWS6wv0y9VaJOA
- jXQizGQHvgEErSa6tINQb8bQFg==
-X-Google-Smtp-Source: ABdhPJwG6/+9X7iQEfq44Dv13d6abORwMoRw/J8Pv91GEXFMsUZVS/46SGzBeaEu+ite8DiIh6bbIg==
-X-Received: by 2002:a17:907:7fac:b0:6f4:6b70:33d9 with SMTP id
- qk44-20020a1709077fac00b006f46b7033d9mr24228407ejc.380.1652282631911; 
- Wed, 11 May 2022 08:23:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- fv36-20020a17090750a400b006f3ef214e60sm1060465ejc.198.2022.05.11.08.23.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 08:23:51 -0700 (PDT)
-Date: Wed, 11 May 2022 17:23:49 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
-Message-ID: <YnvVBdGo+1SO4zrV@phenom.ffwll.local>
-References: <20220504074739.2231-1-christian.koenig@amd.com>
- <20220504074739.2231-2-christian.koenig@amd.com>
- <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
- <639687d0-ee0c-975a-93c0-b54422c74719@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C4C10FB77
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 15:28:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652282907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ygD2vALHe3nnqiQIaClPVMMmRLS5aaIGD+GHsQ0q1bw=;
+ b=Q26q7O0z/GuPvpP4VSOUEMRRAPgfKzMQcv1jX0qkHSqkACaJPkQ56EroTFjGu9eo/KS3Wp
+ dK0n2kE1Ya/3KVFyRtoWO0yEInuFpmhjhOlAxLH18AJqmh3PcAFaWbdNFYvLxsRtszF9if
+ TrH3mQlBvLUzbVg976Og3FbcapaEaUU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-5-LxHscFGGM2CyN_ze7ho5Qg-1; Wed, 11 May 2022 11:28:25 -0400
+X-MC-Unique: LxHscFGGM2CyN_ze7ho5Qg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EE352A2AD4C;
+ Wed, 11 May 2022 15:28:24 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A899C28122;
+ Wed, 11 May 2022 15:28:22 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	lyude@redhat.com,
+	tzimmermann@suse.de
+Subject: [PATCH v2] mgag200: Enable atomic gamma lut update
+Date: Wed, 11 May 2022 17:28:15 +0200
+Message-Id: <20220511152815.892562-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <639687d0-ee0c-975a-93c0-b54422c74719@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,175 +63,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: michel@daenzer.net, Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 09, 2022 at 05:01:33PM +0200, Christian König wrote:
-> Am 09.05.22 um 16:31 schrieb Daniel Vetter:
-> > On Wed, May 04, 2022 at 09:47:32AM +0200, Christian König wrote:
-> > > [SNIP]
-> > > +/* Make sure we have enough room and add an object the container */
-> > > +static int drm_exec_objects_add(struct drm_exec_objects *container,
-> > > +				struct drm_gem_object *obj)
-> > > +{
-> > > +	if (unlikely(container->num_objects == container->max_objects)) {
-> > > +		size_t size = container->max_objects * sizeof(void *);
-> > > +		void *tmp;
-> > > +
-> > > +		tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
-> > > +				GFP_KERNEL);
-> > > +		if (!tmp)
-> > > +			return -ENOMEM;
-> > > +
-> > > +		container->objects = tmp;
-> > > +		container->max_objects += PAGE_SIZE / sizeof(void *);
-> > Might be worth it to inquire the actual allocation size here, since if
-> > it's kmalloc the generic buckets only cover doubling of sizes, so once
-> > it's big it goes up a lot quicker than PAGE_SIZE.
-> > 
-> > But also krealloc checks this internally already so maybe better to not
-> > break the abstraction.
-> 
-> How can I actually do this? ksize() only works with kmalloc().
-> 
-> Or do we had a function to figure out if vmalloc or kmalloc was used by
-> kvrealloc()?
+Add support for atomic update of gamma lut.
+With this patch the "Night light" feature of gnome3
+is working properly on mgag200.
 
-kvfree has a is_vmalloc_addr so it would boil down to open-code that a
-bit.
+v2:
+ - Add a default linear gamma function
+ - renamed functions with mgag200 prefix
+ - use format's 4cc code instead of bit depth
+ - use better interpolation for 16bits gamma
+ - remove legacy function mga_crtc_load_lut()
+ - can't remove the call to drm_mode_crtc_set_gamma_size()
+    because it doesn't work with userspace.
+ - other small refactors
 
-Probably not worth the trouble really, otoh looking at kvrealloc it
-doesn't use krealloc underneath, so it's not doing that check. Maybe we
-should just push that check into kvrealloc for the !vmalloc_addr case.
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 125 ++++++++++++++++---------
+ 1 file changed, 81 insertions(+), 44 deletions(-)
 
-> > > [SNIP]
-> > > +/**
-> > > + * drm_exec_cleanup - cleanup when contention is detected
-> > > + * @exec: the drm_exec object to cleanup
-> > > + *
-> > > + * Cleanup the current state and return true if we should stay inside the retry
-> > > + * loop, false if there wasn't any contention detected and we can keep the
-> > > + * objects locked.
-> > > + */
-> > > +bool drm_exec_cleanup(struct drm_exec *exec)
-> > > +{
-> > > +	if (likely(!exec->contended)) {
-> > > +		ww_acquire_done(&exec->ticket);
-> > > +		return false;
-> > > +	}
-> > > +
-> > > +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
-> > > +		exec->contended = NULL;
-> > > +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
-> > Not sure why this is here instead of in _init()? I thought you're playing
-> > some really dangerous tricks with re-initting the acquire ctx, which would
-> > at least be questionable, but does not look like that.
-> 
-> That was my initial design, but the problem with this approach is that all
-> locks taken between drm_exec_init() and the loop suddenly have a lockdep
-> dependency on reservation_ww_class. And that in turn goes boom immediately.
-> 
-> Took me a moment to realize what's wrong with that as well.
-
-Uh crap, indeed. I think minimally this needs to be document, but
-personally I'm leaning towards drm_exec_prepare_init(), which does this
-explicitly.
-
-I do agree we need this split, especially so we can eventually add helpers
-for bo lookup, or maybe userptr/hmm prep and things like that, which all
-has to be outside of the acquire_ctx.
-
-> > [SNIP]
-> > +/**
-> > + * drm_exec_has_duplicates - check for duplicated GEM object
-> > + * @exec: drm_exec object
-> > + *
-> > + * Return true if the drm_exec object has encountered some already locked GEM
-> > + * objects while trying to lock them. This can happen if multiple GEM objects
-> > + * share the same underlying resv object.
-> > + */
-> > +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
-> > +{
-> > +	return exec->duplicates.num_objects > 0;
-> > Definitely an aside, but in our i915 efforts to get rid of temporary pins
-> > we run into some fun where the eviction code couldn't differentiate from
-> > memory we need reserved for the CS and memory we just keep locked because
-> > we evicted it and fun stuff like that. So maybe we need a bit more
-> > tracking here eventually, but that's only when we have this somehow glued
-> > into ttm eviction code.
-> 
-> Hehe, yeah that's what I was thinking about as well. But then I though one
-> step at a time.
-> 
-> > Also the even more massive step would be to glue this into dma-buf so you
-> > can do dynamic dma-buf eviction and still keep track of all the buffers. I
-> > think with some clever pointer tagging and a bit more indirection we could
-> > nest drm_exec structures (so that a driver could insert it's entire
-> > drm_exec structure with a drm_exec-level callback for handling refcounting
-> > and stuff like that).
-> 
-> I considered in which component to put this quite a bit as well, but then
-> intentionally decided against DMA-buf.
-> 
-> One major reason was that not all buffers which needs to be locked this way
-> are actually exported as DMA-buf.
-> 
-> Another reason is that DMA-buf doesn't necessary need a concept of an
-> execution context. As far as I can see that's something GPU/DRM driver
-> specific.
-
-Yeah I think putting this into driver subsystem is right. I just wanted to
-point that even with that driver subsystem design we can still pretty
-easily put this into dma-buf eventually. And still have the benefit that
-each driver would have a structure which operates on the native buffer
-object.
-
-> > So anyway I think this all looks good, just one more thing before I think
-> > we should land this:
-> > 
-> > gem helpers in drm_gem_lock_reservations() has something which is
-> > practically compatible already, except that you bulk-add the entire set of
-> > objects. I think if you add a bulk-prepare function then we could also
-> > replace all those. Maybe even nicer if the bulk-prepare takes the array of
-> > handles and does the handle lookup too, but at least something which can
-> > subsititue drm_gem_lock_reservations with drm_exec would be nice to
-> > validate the helpers a bit more and really make sure we only have one of
-> > them left.
-> 
-> I was considering that as well, but then also thought one step at a time.
-> Not sure if it's possible to look up handles without running into some
-> locking fun, thought.
-
-Since you pointed out the acquire_ctx fun I think that's really the only
-issue. It's the combo of e.g. v3d_lookup_bos() and
-v3d_lock_bo_reservations().
--Daniel
-
-
-> Thanks for the review,
-> Christian.
-> 
-> > 
-> > Thoughts?
-> > -Daniel
-> > 
-> > > +}
-> > > +
-> > > +void drm_exec_init(struct drm_exec *exec, bool interruptible);
-> > > +void drm_exec_fini(struct drm_exec *exec);
-> > > +bool drm_exec_cleanup(struct drm_exec *exec);
-> > > +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-> > > +			 unsigned int num_fences);
-> > > +
-> > > +#endif
-> > > -- 
-> > > 2.25.1
-> > > 
-> 
-
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 6e18d3bbd720..b748bc5b0e93 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -32,57 +32,76 @@
+  * This file contains setup code for the CRTC.
+  */
+ 
+-static void mga_crtc_load_lut(struct drm_crtc *crtc)
++static void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
++					  uint32_t format)
+ {
+-	struct drm_device *dev = crtc->dev;
+-	struct mga_device *mdev = to_mga_device(dev);
+-	struct drm_framebuffer *fb;
+-	u16 *r_ptr, *g_ptr, *b_ptr;
+ 	int i;
+ 
+-	if (!crtc->enabled)
+-		return;
+-
+-	if (!mdev->display_pipe.plane.state)
+-		return;
++	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
+ 
+-	fb = mdev->display_pipe.plane.state->fb;
++	switch (format) {
++	case DRM_FORMAT_RGB565:
++		/* Use better interpolation, to take 32 values from 0 to 255 */
++		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
++		}
++		/* Green has one more bit, so add padding with 0 for red and blue. */
++		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
++		}
++		break;
++	case DRM_FORMAT_RGB888:
++	case DRM_FORMAT_XRGB8888:
++		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
++		}
++		break;
++	default:
++		drm_warn_once(&mdev->base, "Unsupported format for gamma %d\n", format);
++		break;
++	}
++}
+ 
+-	r_ptr = crtc->gamma_store;
+-	g_ptr = r_ptr + crtc->gamma_size;
+-	b_ptr = g_ptr + crtc->gamma_size;
++static void mgag200_crtc_set_gamma(struct mga_device *mdev,
++				   struct drm_color_lut *lut,
++				   uint32_t format)
++{
++	int i;
+ 
+ 	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
+ 
+-	if (fb && fb->format->cpp[0] * 8 == 16) {
+-		int inc = (fb->format->depth == 15) ? 8 : 4;
+-		u8 r, b;
+-		for (i = 0; i < MGAG200_LUT_SIZE; i += inc) {
+-			if (fb->format->depth == 16) {
+-				if (i > (MGAG200_LUT_SIZE >> 1)) {
+-					r = b = 0;
+-				} else {
+-					r = *r_ptr++ >> 8;
+-					b = *b_ptr++ >> 8;
+-					r_ptr++;
+-					b_ptr++;
+-				}
+-			} else {
+-				r = *r_ptr++ >> 8;
+-				b = *b_ptr++ >> 8;
+-			}
+-			/* VGA registers */
+-			WREG8(DAC_INDEX + MGA1064_COL_PAL, r);
+-			WREG8(DAC_INDEX + MGA1064_COL_PAL, *g_ptr++ >> 8);
+-			WREG8(DAC_INDEX + MGA1064_COL_PAL, b);
++	switch (format) {
++	case DRM_FORMAT_RGB565:
++		/* Use better interpolation, to take 32 values from lut[0] to lut[255] */
++		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].red >> 8);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].blue >> 8);
+ 		}
+-		return;
+-	}
+-	for (i = 0; i < MGAG200_LUT_SIZE; i++) {
+-		/* VGA registers */
+-		WREG8(DAC_INDEX + MGA1064_COL_PAL, *r_ptr++ >> 8);
+-		WREG8(DAC_INDEX + MGA1064_COL_PAL, *g_ptr++ >> 8);
+-		WREG8(DAC_INDEX + MGA1064_COL_PAL, *b_ptr++ >> 8);
++		/* Green has one more bit, so add padding with 0 for red and blue. */
++		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
++		}
++		break;
++	case DRM_FORMAT_RGB888:
++	case DRM_FORMAT_XRGB8888:
++		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].red >> 8);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
++			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].blue >> 8);
++		}
++		break;
++	default:
++		drm_warn_once(&mdev->base, "Unsupported format for gamma %d\n", format);
++		break;
+ 	}
+ }
+ 
+@@ -900,7 +919,11 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	if (mdev->type == G200_WB || mdev->type == G200_EW3)
+ 		mgag200_g200wb_release_bmc(mdev);
+ 
+-	mga_crtc_load_lut(crtc);
++	if (crtc_state->gamma_lut)
++		mgag200_crtc_set_gamma(mdev, crtc_state->gamma_lut->data, fb->format->format);
++	else
++		mgag200_crtc_set_gamma_linear(mdev, fb->format->format);
++
+ 	mgag200_enable_display(mdev);
+ 
+ 	mgag200_handle_damage(mdev, fb, &fullscreen, &shadow_plane_state->data[0]);
+@@ -945,6 +968,14 @@ mgag200_simple_display_pipe_check(struct drm_simple_display_pipe *pipe,
+ 			return ret;
+ 	}
+ 
++	if (crtc_state->color_mgmt_changed && crtc_state->gamma_lut) {
++		if (crtc_state->gamma_lut->length !=
++		    MGAG200_LUT_SIZE * sizeof(struct drm_color_lut)) {
++			drm_err(dev, "Wrong size for gamma_lut %ld\n",
++				crtc_state->gamma_lut->length);
++			return -EINVAL;
++		}
++	}
+ 	return 0;
+ }
+ 
+@@ -953,6 +984,7 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 				   struct drm_plane_state *old_state)
+ {
+ 	struct drm_plane *plane = &pipe->plane;
++	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_device *dev = plane->dev;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_plane_state *state = plane->state;
+@@ -963,6 +995,9 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	if (!fb)
+ 		return;
+ 
++	if (crtc->state->color_mgmt_changed && crtc->state->gamma_lut)
++		mgag200_crtc_set_gamma(mdev, crtc->state->gamma_lut->data, fb->format->format);
++
+ 	if (drm_atomic_helper_damage_merged(old_state, state, &damage))
+ 		mgag200_handle_damage(mdev, fb, &damage, &shadow_plane_state->data[0]);
+ }
+@@ -1107,9 +1142,11 @@ int mgag200_modeset_init(struct mga_device *mdev)
+ 		return ret;
+ 	}
+ 
+-	/* FIXME: legacy gamma tables; convert to CRTC state */
++	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
+ 	drm_mode_crtc_set_gamma_size(&pipe->crtc, MGAG200_LUT_SIZE);
+ 
++	drm_crtc_enable_color_mgmt(&pipe->crtc, 0, false, MGAG200_LUT_SIZE);
++
+ 	drm_mode_config_reset(dev);
+ 
+ 	return 0;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.35.3
+
