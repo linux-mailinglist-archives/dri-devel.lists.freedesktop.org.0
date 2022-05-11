@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0064C523331
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 14:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DB1523349
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 14:43:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3295810ED37;
-	Wed, 11 May 2022 12:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D814E10EE69;
+	Wed, 11 May 2022 12:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com
- [IPv6:2607:f8b0:4864:20::a34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 103FF10ED6B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 12:37:16 +0000 (UTC)
-Received: by mail-vk1-xa34.google.com with SMTP id d132so1105984vke.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 05:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:user-agent:references:in-reply-to:mime-version:date:message-id
- :subject:to:cc;
- bh=v9Th8rxPiWf3ZnzxeLk5F4SGsw0EdAo79OtQwsPtPNc=;
- b=qZGqNwBdtTPSsXJ4TudOdVSft1cn0crk+rUA+BXcaAtlIIcDlbrBzGZl1G6ZvqtL0/
- 52aPzGjkDjxenmbtmqIx6HbPYriuF0amTOjLWM4rtPHVTv/9qzizlClERaRHxX71D0ie
- /JuDIGifRPC2mJZsXUpCyTfdP6nLePIyl87T0VN3BU/AWzRxgidSFlfa9LPoAfc+5GxY
- LpL/W8t6FtVAAJclUgCOS+NJAgUpE/918VqAruLfHfgduNmM7bpqSwYcGW0lFDx6KmLh
- z/P+C9mYP3Rw8n+JWR2eJ+XXz039AdpnO9kvyDW1SbdY7w98B+1jppF+iMFrluk/aUcT
- y8Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:user-agent:references:in-reply-to
- :mime-version:date:message-id:subject:to:cc;
- bh=v9Th8rxPiWf3ZnzxeLk5F4SGsw0EdAo79OtQwsPtPNc=;
- b=ET81IBdXOwsVl2wXYzwUlAXhCO50+761H84huZ46j/ERO2DtspN4D+7Y5A6rNElWGe
- Sce5dvLrznvw8mtftmkcSxUp5FBrnDEzS1UyHHk+z3bA/lHMbMLCLEzaYAWDFvRltpsT
- TAipx3CHzYuHpN4u07UVDZPRG+bA1d0jKnCLDqSzcRe/4DekIoPAS1KX146qUFwv7y6F
- W3wxYeKHeFB2p7M8ttim/uJwmRatzae8FrFndMWVaVkITA+erFo+8vGWrotyNKRse8DU
- oOJrt6jG2akLfyykIvbGbJGXP0AXWd/DtqgwxRW4BKapu7ZJ2kPQ97JwjSAUWm3U8UfC
- jhMA==
-X-Gm-Message-State: AOAM530UlF3mw9lsp33X8Y+vTMhri8lmr0XxLxm+PHoWNlx8v8bbLAoU
- uBsJFFfZOjwJkbqWozho6f+0zUrrnDktIsV1Plm51w==
-X-Google-Smtp-Source: ABdhPJxBn9ixvONga67IFvsidm0urKpQCjlwF7V0itqftu5rkpNVWoXNuJCCn1qTxzlSqdUM84jEJ4VrTbu4KEramCk=
-X-Received: by 2002:a05:6122:511:b0:34e:e406:a66d with SMTP id
- x17-20020a056122051100b0034ee406a66dmr14033939vko.6.1652272634992; Wed, 11
- May 2022 05:37:14 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 May 2022 05:37:13 -0700
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-2-granquet@baylibre.com>
- <20220422105712.bdpbwliificvon4j@houat>
-In-Reply-To: <20220422105712.bdpbwliificvon4j@houat>
-MIME-Version: 1.0
-Date: Wed, 11 May 2022 05:37:13 -0700
-Message-ID: <CABnWg9uwMN6yK-xfCPtRsLif5yC7AU5b+OKc0xaHjLKzQ__gJA@mail.gmail.com>
-Subject: Re: [PATCH v9 01/22] dt-bindings: mediatek,
- dpi: Add DP_INTF compatible
-To: Maxime Ripard <maxime@cerno.tech>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3062210EE49;
+ Wed, 11 May 2022 12:42:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652272977; x=1683808977;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=GFhebHzBmdSTAm8X/ZQTSJF1RxXHbmrgrGWBEpfUvdY=;
+ b=RJA4OTVoW8+souIAiqPMBdZCtU2qB8qfVRXwEm5RPUQr3GBkjA8+QUxh
+ m8XL0i338LiKaSa8K72n3JZnxQl0Dvcgi/RMryZPdnrfU2l4yLINuQJhw
+ AA15HgV5IIyfShNlJnuBY7Ofo437/ZT7otBs1rpCHdrlG9CkjMomHli4F
+ a1zsZf9k9DXasTHz9i283yOKiV+Veu88YbY1/1etiODe0sfhxohjj+VIi
+ yE85gz4rs4vI/995ZMgR0wtlkuyYLLH0EOlzJbUSTtPcJyQC00CF/BfR7
+ N8wmH8x/Kxjo3MWPj/BLBY960OPP1k6SBHCuzp4c9qQNs89+VhqLQahmC Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="269817627"
+X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; d="scan'208";a="269817627"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 05:42:56 -0700
+X-IronPort-AV: E=Sophos;i="5.91,217,1647327600"; d="scan'208";a="739204285"
+Received: from mstribae-mobl1.ger.corp.intel.com (HELO [10.249.254.135])
+ ([10.249.254.135])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 05:42:53 -0700
+Message-ID: <3ce81c514959e43f5afd7e74489dd5b89b1cd633.camel@linux.intel.com>
+Subject: Re: [PATCH 3/4] drm/i915: allow volatile buffers to use ttm pool
+ allocator
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Robert Beckett <bob.beckett@collabora.com>, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Jani
+ Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 11 May 2022 14:42:51 +0200
+In-Reply-To: <20220503191316.1145124-4-bob.beckett@collabora.com>
+References: <20220503191316.1145124-1-bob.beckett@collabora.com>
+ <20220503191316.1145124-4-bob.beckett@collabora.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-3.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,79 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
- kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
- tzimmermann@suse.de, Markus Schneider-Pargmann <msp@baylibre.com>,
- chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
- markyacoub@google.com
+Cc: Matthew Auld <matthew.auld@intel.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 Apr 2022 12:57, Maxime Ripard <maxime@cerno.tech> wrote:
->Hi,
->
->On Mon, Mar 28, 2022 at 12:39:06AM +0200, Guillaume Ranquet wrote:
->> From: Markus Schneider-Pargmann <msp@baylibre.com>
->>
->> DP_INTF is similar to DPI but does not have the exact same feature set
->> or register layouts.
->>
->> DP_INTF is the sink of the display pipeline that is connected to the
->> DisplayPort controller and encoder unit. It takes the same clocks as
->> DPI.
->>
->> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
->> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->> Reviewed-by: Rob Herring <robh@kernel.org>
->> ---
->>  .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
->>  1 file changed, 6 insertions(+), 5 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->> index dd2896a40ff0..2dba80ad3b18 100644
->> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
->> @@ -4,16 +4,16 @@
->>  $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->>  $schema: http://devicetree.org/meta-schemas/core.yaml#
->>
->> -title: mediatek DPI Controller Device Tree Bindings
->> +title: mediatek DPI/DP_INTF Controller
->>
->>  maintainers:
->>    - CK Hu <ck.hu@mediatek.com>
->>    - Jitao shi <jitao.shi@mediatek.com>
->>
->>  description: |
->> -  The Mediatek DPI function block is a sink of the display subsystem and
->> -  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
->> -  output bus.
->> +  The Mediatek DPI and DP_INTF function blocks are a sink of the display
->> +  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
->> +  parallel output bus.
->>
->>  properties:
->>    compatible:
->> @@ -23,6 +23,7 @@ properties:
->>        - mediatek,mt8173-dpi
->>        - mediatek,mt8183-dpi
->>        - mediatek,mt8192-dpi
->> +      - mediatek,mt8195-dpintf
->
->It seems a bit weird to have all instances of DP_INTF with a separator
->but the compatible doesn't have one?
->
->Is there a reason to not use dp-intf?
+Hi, Bob,
 
-None that I know of, It was taken as is from the vendor tree.
-I'll use dp-intf in v10 for the sake of consistency.
+On Tue, 2022-05-03 at 19:13 +0000, Robert Beckett wrote:
+> internal buffers should be shmem backed.
+> if a volatile buffer is requested, allow ttm to use the pool
+> allocator
+> to provide volatile pages as backing
+> 
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 4c25d9b2f138..fdb3a1c18cb6 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -309,7 +309,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct
+> ttm_buffer_object *bo,
+>                 page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
+>  
+>         caching = i915_ttm_select_tt_caching(obj);
+> -       if (i915_gem_object_is_shrinkable(obj) && caching ==
+> ttm_cached) {
+> +       if (i915_gem_object_is_shrinkable(obj) && caching ==
+> ttm_cached &&
+> +           !i915_gem_object_is_volatile(obj)) {
+>                 page_flags |= TTM_TT_FLAG_EXTERNAL |
+>                               TTM_TT_FLAG_EXTERNAL_MAPPABLE;
+>                 i915_tt->is_shmem = true;
 
-Thx,
-Guillaume.
+While this is ok, I think it also needs adjustment in the i915_ttm
+shrink callback. If someone creates a volatile smem object which then
+hits the shrinker, I think we might hit asserts that it's a is_shem
+ttm?
 
->
->Maxime
+In this case, the shrink callback should just i915_ttm_purge().
+
+/Thomas
+
+
