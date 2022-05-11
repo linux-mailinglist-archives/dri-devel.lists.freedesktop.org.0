@@ -1,37 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91055228D9
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 03:18:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F025229A5
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 04:27:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98F2310E523;
-	Wed, 11 May 2022 01:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D45510F70D;
+	Wed, 11 May 2022 02:27:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id EC60E10E4D7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 01:18:16 +0000 (UTC)
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
- by 156.147.23.52 with ESMTP; 11 May 2022 10:18:15 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.125 with ESMTP; 11 May 2022 10:18:14 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-Date: Wed, 11 May 2022 10:16:37 +0900
-From: Byungchul Park <byungchul.park@lge.com>
-To: tytso@mit.edu
-Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
-Message-ID: <20220511011637.GC18445@X58A-UD3R>
-References: <YnnAnzPFZZte/UR8@mit.edu>
- <1652161060-26531-1-git-send-email-byungchul.park@lge.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ABFE10F705
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 02:27:03 +0000 (UTC)
+X-UUID: c336104a6f984458885a7a98b3ed924b-20220511
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:f812588a-7128-4be8-87d9-57df20bc8858, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:d6df58b3-56b5-4c9e-8d83-0070b288eb6a,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: c336104a6f984458885a7a98b3ed924b-20220511
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 199278061; Wed, 11 May 2022 10:26:58 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 11 May 2022 10:26:56 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 11 May 2022 10:26:56 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Wed, 11 May 2022 10:26:56 +0800
+Message-ID: <4d2b1c2c4ab27ba96d59b9a0e3adcdab311ec897.camel@mediatek.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: mediatek: add vdosys1 RDMA
+ definition for mt8195
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chen-Yu Tsai
+ <wenst@chromium.org>
+Date: Wed, 11 May 2022 10:26:56 +0800
+In-Reply-To: <0686125d-4984-5dcd-32ca-4eeece09d7c3@linaro.org>
+References: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
+ <20220509044302.27878-2-rex-bc.chen@mediatek.com>
+ <a5c9e7ad-c4b5-e757-cd6d-f79de47d1ff3@linaro.org>
+ <fbbbc7e6a951bdde648ddd896f1fa163dafa16f1.camel@mediatek.com>
+ <1c3fd336-1450-9b68-df81-2f01cc2ba32f@linaro.org>
+ <CAGXv+5EHFjqiVQbXgcJWCo+TmaTU_z4e0g85beMLCNjyx5qJcw@mail.gmail.com>
+ <0686125d-4984-5dcd-32ca-4eeece09d7c3@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652161060-26531-1-git-send-email-byungchul.park@lge.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,74 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
- 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, mingo@redhat.com, djwong@kernel.org,
- vdavydov.dev@gmail.com, rientjes@google.com, dennis@kernel.org,
- linux-ext4@vger.kernel.org, ngupta@vflare.org, johannes.berg@intel.com,
- jack@suse.com, dan.j.williams@intel.com, josef@toxicpanda.com,
- rostedt@goodmis.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, rodrigosiqueiramelo@gmail.com, kernel-team@lge.com,
- gregkh@linuxfoundation.org, jlayton@kernel.org, linux-kernel@vger.kernel.org,
- penberg@kernel.org, minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ Jason-JH Lin =?UTF-8?Q?=28=E6=9E=97=E7=9D=BF=E7=A5=A5=29?=
+ <Jason-JH.Lin@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ Nancy Lin =?UTF-8?Q?=28=E6=9E=97=E6=AC=A3=E8=9E=A2=29?=
+ <Nancy.Lin@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 10, 2022 at 02:37:40PM +0900, Byungchul Park wrote:
-> Ted wrote:
-> > On Tue, May 10, 2022 at 09:32:13AM +0900, Byungchul Park wrote:
-> > > DEPT is tracking way more objects than Lockdep so it's inevitable to be
-> > > slower, but let me try to make it have the similar performance to
-> > > Lockdep.
+On Tue, 2022-05-10 at 18:57 +0800, Krzysztof Kozlowski wrote:
+> On 10/05/2022 12:37, Chen-Yu Tsai wrote:
+> > > Use a generic node name, as Devicetree spec asks:
+> > > "The name of a node should be somewhat generic, reflecting the
+> > > function
+> > > of the device and not its precise programming
+> > > 
+> > > model. If appropriate, the name should be one of the following
+> > > choices:"
+> > > 
+> > > I proposed dma-controller, but feel free to find better generic
+> > > node name.
 > > 
-> > In order to eliminate some of these false positives, I suspect it's
-> > going to increase the number of object classes that DEPT will need to
-> > track even *more*.  At which point, the cost/benefit of DEPT may get
-> > called into question, especially if all of the false positives can't
-> > be suppressed.
+> > dma-controller is covered by dma-controller.yaml, which references
+> > dma-common.yaml in its entirety, so I don't think that would work.
+> > 
+> > What about "blitter"? I think that is a generic term that is/was
+> > commonly
+> > used with display hardware and sort of describes the function of
+> > the RDMA
+> > & WDMA blocks, and if only one side is memory and the other is the
+> > display
+> > pipeline.
 > 
-> Look. Let's talk in general terms. There's no way to get rid of the
-> false positives all the way. It's a decision issue for *balancing*
-> between considering potential cases and only real ones. Definitely,
-> potential is not real. The more potential things we consider, the higher
-> the chances are, that false positives appear.
+> Sure, sounds fine!
 > 
-> But yes. The advantage we'd take by detecting potential ones should be
-> higher than the risk of being bothered by false ones. Do you think a
-> tool is useless if it produces a few false positives? Of course, it'd
-> be a problem if it's too many, but otherwise, I think it'd be a great
-> tool if the advantage > the risk.
 > 
-> Don't get me wrong here. It doesn't mean DEPT is perfect for now. The
-> performance should be improved and false alarms that appear should be
-> removed, of course. I'm talking about the direction.
-> 
-> For now, there's no tool to track wait/event itself in Linux kernel -
-> a subset of the functionality exists tho. DEPT is the 1st try for that
-> purpose and can be a useful tool by the right direction.
-> 
-> I know what you are concerning about. I bet it's false positives that
-> are going to bother you once merged. I'll insist that DEPT shouldn't be
-> used as a mandatory testing tool until considered stable enough. But
-> what about ones who would take the advantage use DEPT. Why don't you
-> think of folks who will take the advantage from the hints about
-> dependency of synchronization esp. when their subsystem requires very
-> complicated synchronization? Should a tool be useful only in a final
-> testing stage? What about the usefulness during development stage?
-> 
-> It's worth noting DEPT works with any wait/event so any lockups e.g.
-> even by HW-SW interface, retry logic or the like can be detected by DEPT
-> once all waits and events are tagged properly. I believe the advantage
-> by that is much higher than the bad side facing false alarms. It's just
-> my opinion. I'm goning to respect the majority opinion.
+> Best regards,
+> Krzysztof
 
-s/take advantage/have the benefit/g
+Hello Krzysztof and Chen-Yu,
 
-	Byungchul
+Nancy thinks our IP is more like rdma.
+Blitter may be somthing for reading memory and writing to another
+memory, but we don't have the function of writing memory.
+If we use rdma, is it ok?
+
+BRs,
+Rex
+
