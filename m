@@ -1,55 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594165236D6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 17:14:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E79523729
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 17:23:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31D9510E940;
-	Wed, 11 May 2022 15:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A96410FB45;
+	Wed, 11 May 2022 15:23:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C15410E940
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 15:14:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 233EA1F4381F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1652282044;
- bh=naLUmXHrJqVcoG+0h6Ngqc/M0jcxE4edxD1itFrgoJs=;
- h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=Tp0kE5HPgJhUZsGrsmP2mwWWjrg/hCF6gkoFpchoRBzOxxHGyT1pJ5YR1ASGKl/HF
- 3hzJSE98lNTcB1vZclbn8haY3XVw/WTEKfqJkERK4UENivrZC8ahbeBeCsTp8ZSo9D
- AtQQJVpeRNTb2WoTJjIXq+gAZZGiQJuHEhAXE98MM6eygUfdmpsvXC1v+YM8aNT6PD
- QPRa0GNk3s6/a+VYnIBLP2EjMLkZtwmnzlMHAXi/p2xBIFSSi2VJLK0R4FLbX3HgWc
- eyAagnmemnWm4nyJ/qUSi8KqZTSuVf28Jjlmy5he2FD3Cc/rwPsiBh6CwCHqETK+dc
- 32XaUThTMZBEA==
-Message-ID: <3a362c32-870c-1d73-bba6-bbdcd62dc326@collabora.com>
-Date: Wed, 11 May 2022 18:14:00 +0300
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7803310FB49
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 15:23:53 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id m20so4733891ejj.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 08:23:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=AT84es+mzAkWpeG89QxlhH2c/t9GOUkVvEs9eFmXxXY=;
+ b=NNBZtQLUELY+A16ufEkDAgLbHtNaTOaEVr7ROnlXcr07b5QSGVqeBmUSezNQv701YR
+ YRrDJBNgYXuYhA0WwcTDUq8Ycg+eBvKe/J9DebgM5DwDrxs57sELS9Fhix5AI/Sh1bFI
+ VHR8Xo2QL+u49qpgvIIFVNhk7BeE3DRJbpHLA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=AT84es+mzAkWpeG89QxlhH2c/t9GOUkVvEs9eFmXxXY=;
+ b=Bq5LpRgyBZxP5WJ/Z5bwkP2iLIPGYtdoYapquW9rQPnmxBa1PdMxQea6tunQCwIpOp
+ g2iRYfQydr412VPFA/JQ4xyFFXhHofBAWshWQ5Psa7LdQbKZZAFJX1yEfE/x3NMwjxLL
+ SERc3Q/1gXMcZRQ5ZHnx6uFl/X41Pxf9etrA458IHuzVNehnKG4A1Enrv6mu2SiDEV8o
+ mf5/8NtYfIRvKhoeCR+dzPPwzjBOkEiOhZEpIR9cRe3aPap+N1RqZtaU2BjwL9V9PE89
+ EqfsW2GSSaAMJR7+Pny5s3SYP63UW6j9v8IijDVHVcvaQCIOigf1Hv8vIkYgj85OVE5i
+ mc8A==
+X-Gm-Message-State: AOAM530v9rB9kSudrPArz+pr4182x8evUg2MJ9YAXCWWS6wv0y9VaJOA
+ jXQizGQHvgEErSa6tINQb8bQFg==
+X-Google-Smtp-Source: ABdhPJwG6/+9X7iQEfq44Dv13d6abORwMoRw/J8Pv91GEXFMsUZVS/46SGzBeaEu+ite8DiIh6bbIg==
+X-Received: by 2002:a17:907:7fac:b0:6f4:6b70:33d9 with SMTP id
+ qk44-20020a1709077fac00b006f46b7033d9mr24228407ejc.380.1652282631911; 
+ Wed, 11 May 2022 08:23:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ fv36-20020a17090750a400b006f3ef214e60sm1060465ejc.198.2022.05.11.08.23.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 May 2022 08:23:51 -0700 (PDT)
+Date: Wed, 11 May 2022 17:23:49 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
+Message-ID: <YnvVBdGo+1SO4zrV@phenom.ffwll.local>
+References: <20220504074739.2231-1-christian.koenig@amd.com>
+ <20220504074739.2231-2-christian.koenig@amd.com>
+ <Ynkl1VSLYDeGF4Ik@phenom.ffwll.local>
+ <639687d0-ee0c-975a-93c0-b54422c74719@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v4 10/15] drm/shmem-helper: Take reservation lock instead
- of drm_gem_shmem locks
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <248083d2-b8f2-a4d7-099d-70a7e7859c11@suse.de>
- <d9e7bec1-fffb-e0c4-8659-ef3ce2c31280@collabora.com>
- <YmlYHNlcmNMfOeyy@phenom.ffwll.local>
- <8f932ab0-bb72-8fea-4078-dc59e9164bd4@collabora.com>
- <YnI3lE0TxLfZaQjE@phenom.ffwll.local>
- <01506516-ab2f-cb6e-7507-f2a3295efb59@collabora.com>
- <YnOHAh9I1ds4+1J+@phenom.ffwll.local>
- <83e68918-68de-c0c6-6f9b-e94d34b19383@collabora.com>
- <YnkaUk0mZNuPsZ5r@phenom.ffwll.local>
- <4d08b382-0076-1ea2-b565-893d50b453cb@collabora.com>
- <YnuziJDmXVR09UzP@phenom.ffwll.local>
- <56787b70-fb64-64da-6006-d3aa3ed59d12@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <56787b70-fb64-64da-6006-d3aa3ed59d12@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <639687d0-ee0c-975a-93c0-b54422c74719@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,88 +72,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gert Wollny <gert.wollny@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- virtualization@lists.linux-foundation.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/11/22 17:24, Christian KÃ¶nig wrote:
-> Am 11.05.22 um 15:00 schrieb Daniel Vetter:
->> On Tue, May 10, 2022 at 04:39:53PM +0300, Dmitry Osipenko wrote:
->>> [SNIP]
->>> Since vmapping implies implicit pinning, we can't use a separate lock in
->>> drm_gem_shmem_vmap() because we need to protect the
->>> drm_gem_shmem_get_pages(), which is invoked by drm_gem_shmem_vmap() to
->>> pin the pages and requires the dma_resv_lock to be locked.
->>>
->>> Hence the problem is:
->>>
->>> 1. If dma-buf importer holds the dma_resv_lock and invokes
->>> dma_buf_vmap() -> drm_gem_shmem_vmap(), then drm_gem_shmem_vmap() shall
->>> not take the dma_resv_lock.
->>>
->>> 2. Since dma-buf locking convention isn't specified, we can't assume
->>> that dma-buf importer holds the dma_resv_lock around dma_buf_vmap().
->>>
->>> The possible solutions are:
->>>
->>> 1. Specify the dma_resv_lock convention for dma-bufs and make all
->>> drivers to follow it.
->>>
->>> 2. Make only DRM drivers to hold dma_resv_lock around dma_buf_vmap().
->>> Other non-DRM drivers will get the lockdep warning.
->>>
->>> 3. Make drm_gem_shmem_vmap() to take the dma_resv_lock and get deadlock
->>> if dma-buf importer holds the lock.
->>>
->>> ...
->> Yeah this is all very annoying.
+On Mon, May 09, 2022 at 05:01:33PM +0200, Christian König wrote:
+> Am 09.05.22 um 16:31 schrieb Daniel Vetter:
+> > On Wed, May 04, 2022 at 09:47:32AM +0200, Christian König wrote:
+> > > [SNIP]
+> > > +/* Make sure we have enough room and add an object the container */
+> > > +static int drm_exec_objects_add(struct drm_exec_objects *container,
+> > > +				struct drm_gem_object *obj)
+> > > +{
+> > > +	if (unlikely(container->num_objects == container->max_objects)) {
+> > > +		size_t size = container->max_objects * sizeof(void *);
+> > > +		void *tmp;
+> > > +
+> > > +		tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
+> > > +				GFP_KERNEL);
+> > > +		if (!tmp)
+> > > +			return -ENOMEM;
+> > > +
+> > > +		container->objects = tmp;
+> > > +		container->max_objects += PAGE_SIZE / sizeof(void *);
+> > Might be worth it to inquire the actual allocation size here, since if
+> > it's kmalloc the generic buckets only cover doubling of sizes, so once
+> > it's big it goes up a lot quicker than PAGE_SIZE.
+> > 
+> > But also krealloc checks this internally already so maybe better to not
+> > break the abstraction.
 > 
-> Ah, yes that topic again :)
+> How can I actually do this? ksize() only works with kmalloc().
 > 
-> I think we could relatively easily fix that by just defining and
-> enforcing that the dma_resv_lock must have be taken by the caller when
-> dma_buf_vmap() is called.
+> Or do we had a function to figure out if vmalloc or kmalloc was used by
+> kvrealloc()?
+
+kvfree has a is_vmalloc_addr so it would boil down to open-code that a
+bit.
+
+Probably not worth the trouble really, otoh looking at kvrealloc it
+doesn't use krealloc underneath, so it's not doing that check. Maybe we
+should just push that check into kvrealloc for the !vmalloc_addr case.
+
+> > > [SNIP]
+> > > +/**
+> > > + * drm_exec_cleanup - cleanup when contention is detected
+> > > + * @exec: the drm_exec object to cleanup
+> > > + *
+> > > + * Cleanup the current state and return true if we should stay inside the retry
+> > > + * loop, false if there wasn't any contention detected and we can keep the
+> > > + * objects locked.
+> > > + */
+> > > +bool drm_exec_cleanup(struct drm_exec *exec)
+> > > +{
+> > > +	if (likely(!exec->contended)) {
+> > > +		ww_acquire_done(&exec->ticket);
+> > > +		return false;
+> > > +	}
+> > > +
+> > > +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
+> > > +		exec->contended = NULL;
+> > > +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
+> > Not sure why this is here instead of in _init()? I thought you're playing
+> > some really dangerous tricks with re-initting the acquire ctx, which would
+> > at least be questionable, but does not look like that.
 > 
-> A two step approach should work:
-> 1. Move the call to dma_resv_lock() into the dma_buf_vmap() function and
-> remove all lock taking from the vmap callback implementations.
-> 2. Move the call to dma_resv_lock() into the callers of dma_buf_vmap()
-> and enforce that the function is called with the lock held.
+> That was my initial design, but the problem with this approach is that all
+> locks taken between drm_exec_init() and the loop suddenly have a lockdep
+> dependency on reservation_ww_class. And that in turn goes boom immediately.
+> 
+> Took me a moment to realize what's wrong with that as well.
 
-I've doubts about the need to move out the dma_resv_lock() into the
-callers of dma_buf_vmap()..
+Uh crap, indeed. I think minimally this needs to be document, but
+personally I'm leaning towards drm_exec_prepare_init(), which does this
+explicitly.
 
-I looked through all the dma_buf_vmap() users and neither of them
-interacts with dma_resv_lock() at all, i.e. nobody takes the lock
-in/outside of dma_buf_vmap(). Hence it's easy and more practical to make
-dma_buf_mmap/vmap() to take the dma_resv_lock by themselves.
+I do agree we need this split, especially so we can eventually add helpers
+for bo lookup, or maybe userptr/hmm prep and things like that, which all
+has to be outside of the acquire_ctx.
 
-It's unclear to me which driver may ever want to do the mapping under
-the dma_resv_lock. But if we will ever have such a driver that will need
-to map imported buffer under dma_resv_lock, then we could always add the
-dma_buf_vmap_locked() variant of the function. In this case the locking
-rule will sound like this:
+> > [SNIP]
+> > +/**
+> > + * drm_exec_has_duplicates - check for duplicated GEM object
+> > + * @exec: drm_exec object
+> > + *
+> > + * Return true if the drm_exec object has encountered some already locked GEM
+> > + * objects while trying to lock them. This can happen if multiple GEM objects
+> > + * share the same underlying resv object.
+> > + */
+> > +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
+> > +{
+> > +	return exec->duplicates.num_objects > 0;
+> > Definitely an aside, but in our i915 efforts to get rid of temporary pins
+> > we run into some fun where the eviction code couldn't differentiate from
+> > memory we need reserved for the CS and memory we just keep locked because
+> > we evicted it and fun stuff like that. So maybe we need a bit more
+> > tracking here eventually, but that's only when we have this somehow glued
+> > into ttm eviction code.
+> 
+> Hehe, yeah that's what I was thinking about as well. But then I though one
+> step at a time.
+> 
+> > Also the even more massive step would be to glue this into dma-buf so you
+> > can do dynamic dma-buf eviction and still keep track of all the buffers. I
+> > think with some clever pointer tagging and a bit more indirection we could
+> > nest drm_exec structures (so that a driver could insert it's entire
+> > drm_exec structure with a drm_exec-level callback for handling refcounting
+> > and stuff like that).
+> 
+> I considered in which component to put this quite a bit as well, but then
+> intentionally decided against DMA-buf.
+> 
+> One major reason was that not all buffers which needs to be locked this way
+> are actually exported as DMA-buf.
+> 
+> Another reason is that DMA-buf doesn't necessary need a concept of an
+> execution context. As far as I can see that's something GPU/DRM driver
+> specific.
 
-"All dma-buf importers are responsible for holding the dma-reservation
-lock around the dmabuf->ops->mmap/vmap() calls."
+Yeah I think putting this into driver subsystem is right. I just wanted to
+point that even with that driver subsystem design we can still pretty
+easily put this into dma-buf eventually. And still have the benefit that
+each driver would have a structure which operates on the native buffer
+object.
 
-> It shouldn't be that hard to clean up. The last time I looked into it my
-> main problem was that we didn't had any easy unit test for it.
+> > So anyway I think this all looks good, just one more thing before I think
+> > we should land this:
+> > 
+> > gem helpers in drm_gem_lock_reservations() has something which is
+> > practically compatible already, except that you bulk-add the entire set of
+> > objects. I think if you add a bulk-prepare function then we could also
+> > replace all those. Maybe even nicer if the bulk-prepare takes the array of
+> > handles and does the handle lookup too, but at least something which can
+> > subsititue drm_gem_lock_reservations with drm_exec would be nice to
+> > validate the helpers a bit more and really make sure we only have one of
+> > them left.
+> 
+> I was considering that as well, but then also thought one step at a time.
+> Not sure if it's possible to look up handles without running into some
+> locking fun, thought.
 
-Do we have any tests for dma-bufs at all? It's unclear to me what you
-are going to test in regards to the reservation locks, could you please
-clarify?
+Since you pointed out the acquire_ctx fun I think that's really the only
+issue. It's the combo of e.g. v3d_lookup_bos() and
+v3d_lock_bo_reservations().
+-Daniel
+
+
+> Thanks for the review,
+> Christian.
+> 
+> > 
+> > Thoughts?
+> > -Daniel
+> > 
+> > > +}
+> > > +
+> > > +void drm_exec_init(struct drm_exec *exec, bool interruptible);
+> > > +void drm_exec_fini(struct drm_exec *exec);
+> > > +bool drm_exec_cleanup(struct drm_exec *exec);
+> > > +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
+> > > +			 unsigned int num_fences);
+> > > +
+> > > +#endif
+> > > -- 
+> > > 2.25.1
+> > > 
+> 
 
 -- 
-Best regards,
-Dmitry
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
