@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0551522C50
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 08:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94E2522BFF
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 08:02:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0758D10EA03;
-	Wed, 11 May 2022 06:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01E5410E3F1;
+	Wed, 11 May 2022 06:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C9210EC83;
- Wed, 11 May 2022 00:58:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="251594241"
-X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="251594241"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 17:58:32 -0700
-X-IronPort-AV: E=Sophos;i="5.91,215,1647327600"; d="scan'208";a="565919919"
-Received: from ymmonter-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.249.32.19])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2022 17:58:29 -0700
-From: Andi Shyti <andi.shyti@studenti.polito.it>
-To: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 3/3] drm/i915/gt: Skip TLB invalidation if the engine is
- not awake
-Date: Wed, 11 May 2022 02:57:56 +0200
-Message-Id: <20220511005756.113245-4-andi.shyti@studenti.polito.it>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220511005756.113245-1-andi.shyti@studenti.polito.it>
-References: <20220511005756.113245-1-andi.shyti@studenti.polito.it>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1167710E32F;
+ Wed, 11 May 2022 06:02:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652248958; x=1683784958;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oQzbK8TqUts8IB/KcKB6Ki4mYYT/M9Awwfggm7/XvnY=;
+ b=LwfA7ZemABeq/+a5bYKGUhuXGYzagvqnJtu3oZ8spG/YgZARLOP/JsoM
+ mi37jNgKh71fG8z9xlxscAceHKNqBHtEA20NstTGNhPjN9tebZfcJ9U6W
+ wB0dMWsqyyOI6QWBLndjrNc6nriXuQFCLpbF1EJ+Okleg8HU+in+kuK8A
+ 05XMota5rN8uN5xdan5M9AFeD/5ah8FEGgZYR1tCTTo16/xM6sxq4fRso
+ 1bu7OH3jAme2KqbkIJq3nPBJ6vcaDk1mF/fvgNTj3+PV5HXOK9tP3mzJU
+ M2nxjh8EK6RxBcsoK0bCP2Jt9Ubm09ULHDoFEm6oKKZQd7RgzYpL//mpQ A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="332633555"
+X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="332633555"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 23:02:37 -0700
+X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="520375202"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2022 23:02:37 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/5] i915: Introduce Ponte Vecchio
+Date: Tue, 10 May 2022 23:02:23 -0700
+Message-Id: <20220511060228.1179450-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 11 May 2022 06:30:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,45 +53,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Andi Shyti <andi@etezian.org>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andi Shyti <andi.shyti@linux.intel.com>
+Ponte Vecchio (PVC) is a new GPU based on the Xe_HPC architecture.  As a
+compute-focused platform, PVC has compute engines and enhanced copy
+engines, but no render engine (there is no geometry pipeline) and no
+display.
 
-We want to check if the engine is awake first before invalidating
-its cache.
+This is just a handful of early enablement patches, including some
+initial support for the new copy engines (although we're not yet adding
+those to the platform's engine list or exposing them to userspace just
+yet).
 
-Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt.c | 4 ++++
- 1 file changed, 4 insertions(+)
+v2:
+ - Drop replicated comment from forcewake patch completely and add an
+   additional commit to provide better documentation for forcewake and
+   shadowed register tables in a way that's clear for all platforms.
+ - Move gvt build fix to its own patch.
+ - Address various minor review feedback from Lucas, Tvrtko, and
+   Prathap.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 034182f85501b..a1dc9f4203c2b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -12,6 +12,7 @@
- #include "i915_drv.h"
- #include "intel_context.h"
- #include "intel_engine_regs.h"
-+#include "intel_engine_pm.h"
- #include "intel_gt.h"
- #include "intel_gt_buffer_pool.h"
- #include "intel_gt_clock_utils.h"
-@@ -1219,6 +1220,9 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
- 		const unsigned int timeout_ms = 4;
- 		struct reg_and_bit rb;
- 
-+		if (!intel_engine_pm_is_awake(engine))
-+			continue;
-+
- 		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
- 		if (!i915_mmio_reg_offset(rb.reg))
- 			continue;
+v3:
+ - Flip the feature flag in the PIPE_CONTROL patch.  (Lucas)
+ - Add two additional GuC-related patches.
+
+
+Daniele Ceraolo Spurio (1):
+  drm/i915/guc: XEHPSDV and PVC do not use HuC
+
+Matt Roper (3):
+  drm/i915/uncore: Reorganize and document shadow and forcewake tables
+  drm/i915/pvc: Add forcewake support
+  drm/i915/pvc: Add new BCS engines to GuC engine list
+
+Stuart Summers (1):
+  drm/i915/pvc: Remove additional 3D flags from PIPE_CONTROL
+
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |  18 +-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  15 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |   2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   4 +
+ drivers/gpu/drm/i915/i915_drv.h               |   4 +
+ drivers/gpu/drm/i915/i915_pci.c               |  10 +
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ drivers/gpu/drm/i915/intel_uncore.c           | 267 +++++++++++++++---
+ drivers/gpu/drm/i915/selftests/intel_uncore.c |   2 +
+ 9 files changed, 268 insertions(+), 55 deletions(-)
+
 -- 
-2.36.1
+2.35.1
 
