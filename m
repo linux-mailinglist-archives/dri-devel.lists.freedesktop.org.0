@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418975231D5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 13:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977C2523216
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 13:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD82210EDA4;
-	Wed, 11 May 2022 11:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1140D10E207;
+	Wed, 11 May 2022 11:47:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8045010EDA4
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 11:35:24 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id z126so2040414qkb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 04:35:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TASe7e8staripPUTtHYJHBu8o4s+0xu3fkgvGutfur4=;
- b=lfpwdTliBUFOuGKLeYuoJowajrhtcHVr4wNf3BxOcCnDMTdpPbKWlJSo7e9o8Rai1T
- VcO1sP33hQT8oOxhrpLl2MOcwLeEoqdhNQPurF3O7u4ummg09F2ns8Qx/N+3nFy9JAKt
- V314hh0UmgQpeRXzKI6bw2l+Ez4uatHRJFopqlAMUvVieftkxyb3OjBwFYStV1KiK53L
- 2SPZfEd7UKpwbBGfCPfbDvXX5tfTsMzP84EtZcX20o+GwRzPZjFjELnCBt9d+auGUVyl
- X1xLUvxmHK3Ux9bx6eQ4M2z2V2BXkIaW7Uq/7tTmXSxkA0uw+yppuWwWMQT6eGVcLwDu
- qapA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TASe7e8staripPUTtHYJHBu8o4s+0xu3fkgvGutfur4=;
- b=epSFJBOIexE8mjiB6bZVz5uxGFUZktrlOarRqLXVh5/XNivMPTZSSsSwrUPcBycZoE
- AFPcc0zBg49YPTldOkUwGNSFQe7dlDbHJ+NHsA1rH/QSwvO2ybhOWGipdaY/ENC5I7ya
- M0nl92o3etKRcfzQ1t3ew15siaq+/eAtRAbzw4sEx9ATZSKEzP6pahGRTsCfVRk1vDin
- NPFflwEqF7jHy54WXAkasSLBoNCmP7YPSy87TJ5ZL5sB529NaBnVDde+ybhZGNvuWE8F
- lofKTxflgnws7j6GKoQKL+ICJb3TPQH6selWqQmokE1nqJZmQOs15CKoExCqHIkpFXgz
- se5g==
-X-Gm-Message-State: AOAM530mTso6ZBkNaFHwtmTPrT7Azi/qmp8o7MmFgAKX9M32AJ1GnQCy
- A5gEHi7YaDdmZEEgMK9H2lU=
-X-Google-Smtp-Source: ABdhPJzKRwT45sGp+GMJgGVh5netETKrJdksDPYQxG4bvZtdsZuc4PeQRazYRe767WcLk6MecTlgVA==
-X-Received: by 2002:a37:ad16:0:b0:6a0:1468:4513 with SMTP id
- f22-20020a37ad16000000b006a014684513mr18321635qkm.96.1652268923469; 
- Wed, 11 May 2022 04:35:23 -0700 (PDT)
-Received: from master-x64.sparksnet ([2601:153:980:85b1::10])
- by smtp.gmail.com with ESMTPSA id
- bw26-20020a05622a099a00b002f39b99f6basm953377qtb.84.2022.05.11.04.35.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 04:35:23 -0700 (PDT)
-From: Peter Geis <pgwipeout@gmail.com>
-To: linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
-Subject: [PATCH v2 3/3] arm64: dts: rockchip: add pine64 touch panel display
- to rockpro64
-Date: Wed, 11 May 2022 07:35:16 -0400
-Message-Id: <20220511113517.4172962-4-pgwipeout@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220511113517.4172962-1-pgwipeout@gmail.com>
-References: <20220511113517.4172962-1-pgwipeout@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E098A10E207
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 11:47:05 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7BF9521AC9;
+ Wed, 11 May 2022 11:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652269624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p6NLoTKB8Il+u9luomrPN0D4Cl37+hCGKl4EXFFIq6Y=;
+ b=xi6Ne0MBikiNODvnogcM6BPEc2k8noY0D5ylkiRXqXwBm8nJMRWocrbqe0rPJphFkqjfau
+ rSwFRmC77XPStmXXv9C70S4mRJ6CXB1bRqBL5JZkbN9sFeuCeoiOEYFMKCEsI3tblhOBer
+ xHYOoNCRlXShV5dmLKqeDJgl354BEtI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652269624;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p6NLoTKB8Il+u9luomrPN0D4Cl37+hCGKl4EXFFIq6Y=;
+ b=QVvK59WM/NzTRyWeuSGzu6FNJYvr0pBDFcQEvtaNyRxK8lJcldArRgWdo/x6Yy/mB8EYJz
+ JDNjNAVD15tf0bAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 51DDC13A76;
+ Wed, 11 May 2022 11:47:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OqTQEjiie2JgUQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 May 2022 11:47:04 +0000
+Message-ID: <2156c28c-9c9c-555e-ce19-933cdc8d5e74@suse.de>
+Date: Wed, 11 May 2022 13:47:03 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v5 3/7] fbdev: Restart conflicting fb removal loop when
+ unregistering devices
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220511112438.1251024-1-javierm@redhat.com>
+ <20220511113039.1252432-1-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220511113039.1252432-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------b8iWiyNXe9nSujOxcj9Ba96G"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,154 +71,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Peter Geis <pgwipeout@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Pine64 touch panel is a panel consisting of the Feiyang fy07024di26a30d
-panel with a Goodix gt911 touch screen. Add the device tree nodes to the
-rockpro64 to permit attaching this display to the device.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------b8iWiyNXe9nSujOxcj9Ba96G
+Content-Type: multipart/mixed; boundary="------------SyppV0A1JoTzJozJoTIp9Vb2";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-ID: <2156c28c-9c9c-555e-ce19-933cdc8d5e74@suse.de>
+Subject: Re: [PATCH v5 3/7] fbdev: Restart conflicting fb removal loop when
+ unregistering devices
+References: <20220511112438.1251024-1-javierm@redhat.com>
+ <20220511113039.1252432-1-javierm@redhat.com>
+In-Reply-To: <20220511113039.1252432-1-javierm@redhat.com>
 
-Signed-off-by: Peter Geis <pgwipeout@gmail.com>
----
- .../boot/dts/rockchip/rk3399-rockpro64.dtsi   | 80 ++++++++++++++++++-
- 1 file changed, 76 insertions(+), 4 deletions(-)
+--------------SyppV0A1JoTzJozJoTIp9Vb2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-index 45e77f86d329..f0fb450ddba6 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-@@ -20,6 +20,15 @@ chosen {
- 		stdout-path = "serial2:1500000n8";
- 	};
- 
-+	/* enable for panel backlight support */
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&pwm0 0 1000000 0>;
-+		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		default-brightness-level = <5>;
-+		status = "disabled";
-+	};
-+
- 	clkin_gmac: external-gmac-clock {
- 		compatible = "fixed-clock";
- 		clock-frequency = <125000000>;
-@@ -220,6 +229,14 @@ vdd_log: vdd-log {
- 		regulator-min-microvolt = <800000>;
- 		regulator-max-microvolt = <1700000>;
- 	};
-+
-+	avdd: avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "avdd";
-+		regulator-min-microvolt = <11000000>;
-+		regulator-max-microvolt = <11000000>;
-+		vin-supply = <&vcc3v3_s0>;
-+	};
- };
- 
- &cpu_l0 {
-@@ -301,6 +318,11 @@ &hdmi {
- 	status = "okay";
- };
- 
-+/* force hdmi to vopb */
-+&hdmi_in_vopl {
-+	status = "disabled";
-+};
-+
- &hdmi_sound {
- 	status = "okay";
- };
-@@ -400,8 +422,6 @@ regulator-state-mem {
- 
- 			vcc3v0_touch: LDO_REG2 {
- 				regulator-name = "vcc3v0_touch";
--				regulator-always-on;
--				regulator-boot-on;
- 				regulator-min-microvolt = <3000000>;
- 				regulator-max-microvolt = <3000000>;
- 				regulator-state-mem {
-@@ -490,8 +510,6 @@ regulator-state-mem {
- 
- 			vcc3v3_s0: SWITCH_REG2 {
- 				regulator-name = "vcc3v3_s0";
--				regulator-always-on;
--				regulator-boot-on;
- 				regulator-state-mem {
- 					regulator-off-in-suspend;
- 				};
-@@ -565,6 +583,19 @@ fusb0: typec-portc@22 {
- 		vbus-supply = <&vcc5v0_typec>;
- 		status = "okay";
- 	};
-+
-+	/* enable for pine64 touch screen support */
-+	touch: touchscreen@5d {
-+		compatible = "goodix,gt911";
-+		reg = <0x5d>;
-+		AVDD28-supply = <&vcc3v0_touch>;
-+		VDDIO-supply = <&vcc3v0_touch>;
-+		interrupt-parent = <&gpio4>;
-+		interrupts = <RK_PD5 IRQ_TYPE_EDGE_FALLING>;
-+		irq-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&gpio4 RK_PD6 GPIO_ACTIVE_HIGH>;
-+		status = "disabled";
-+	};
- };
- 
- &i2s0 {
-@@ -600,6 +631,47 @@ &io_domains {
- 	gpio1830-supply = <&vcc_3v0>;
- };
- 
-+/* enable for pine64 panel display support */
-+&mipi_dsi {
-+	status = "disabled";
-+	clock-master;
-+
-+	ports {
-+		mipi_out: port@1 {
-+			reg = <1>;
-+
-+			mipi_out_panel: endpoint {
-+				remote-endpoint = <&mipi_in_panel>;
-+			};
-+		};
-+	};
-+
-+	mipi_panel: panel@0 {
-+		compatible = "feiyang,fy07024di26a30d";
-+		reg = <0>;
-+		avdd-supply = <&avdd>;
-+		backlight = <&backlight>;
-+		dvdd-supply = <&vcc3v3_s0>;
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				mipi_in_panel: endpoint {
-+					remote-endpoint = <&mipi_out_panel>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+/* force dsi to vopl */
-+&mipi_in_vopb {
-+	status="disabled";
-+};
-+
- &pcie0 {
- 	ep-gpios = <&gpio2 RK_PD4 GPIO_ACTIVE_HIGH>;
- 	num-lanes = <4>;
--- 
-2.25.1
+SGkgSmF2aWVyDQoNCkFtIDExLjA1LjIyIHVtIDEzOjMwIHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBEcml2ZXJzIHRoYXQgd2FudCB0byByZW1vdmUgcmVnaXN0ZXJl
+ZCBjb25mbGljdGluZyBmcmFtZWJ1ZmZlcnMgcHJpb3IgdG8NCj4gcmVnaXN0ZXIgdGhlaXIg
+b3duIGZyYW1lYnVmZmVyLCBjYWxscyByZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJz
+KCkuDQo+IA0KPiBUaGlzIGZ1bmN0aW9uIHRha2VzIHRoZSByZWdpc3RyYXRpb25fbG9jayBt
+dXRleCwgdG8gcHJldmVudCBhIHJhY2VzIHdoZW4NCj4gZHJpdmVycyByZWdpc3RlciBmcmFt
+ZWJ1ZmZlciBkZXZpY2VzLiBCdXQgaWYgYSBjb25mbGljdGluZyBmcmFtZWJ1ZmZlcg0KPiBk
+ZXZpY2UgaXMgZm91bmQsIHRoZSB1bmRlcmxheWluZyBwbGF0Zm9ybSBkZXZpY2UgaXMgdW5y
+ZWdpc3RlcmVkIGFuZCB0aGlzDQo+IHdpbGwgbGVhZCB0byB0aGUgcGxhdGZvcm0gZHJpdmVy
+IC5yZW1vdmUgY2FsbGJhY2sgdG8gYmUgY2FsbGVkLCB3aGljaCBpbg0KPiB0dXJuIHdpbGwg
+Y2FsbCB0byB0aGUgdW5yZWdpc3Rlcl9mcmFtZWJ1ZmZlcigpIHRoYXQgdGFrZXMgdGhlIHNh
+bWUgbG9jay4NCj4gDQo+IFRvIHByZXZlbnQgdGhpcywgYSBzdHJ1Y3QgZmJfaW5mby5mb3Jj
+ZWRfb3V0IGZpZWxkIHdhcyB1c2VkIGFzIGluZGljYXRpb24NCj4gdG8gdW5yZWdpc3Rlcl9m
+cmFtZWJ1ZmZlcigpIHdoZXRoZXIgdGhlIG11dGV4IGhhcyB0byBiZSBncmFiYmVkIG9yIG5v
+dC4NCj4gDQo+IEEgY2xlYW5lciBzb2x1dGlvbiBpcyB0byBkcm9wIHRoZSBsb2NrIGJlZm9y
+ZSBwbGF0Zm9ybV9kZXZpY2VfdW5yZWdpc3RlcigpDQo+IHNvIHVucmVnaXN0ZXJfZnJhbWVi
+dWZmZXIoKSBjYW4gdGFrZSBpdCB3aGVuIGNhbGxlZCBmcm9tIHRoZSBmYmRldiBkcml2ZXIs
+DQo+IGFuZCBqdXN0IGdyYWIgdGhlIGxvY2sgYWdhaW4gYWZ0ZXIgdGhlIGRldmljZSBoYXMg
+YmVlbiByZWdpc3RlcmVkIGFuZCBkbw0KPiBhIHJlbW92YWwgbG9vcCByZXN0YXJ0Lg0KPiAN
+Cj4gU2luY2UgdGhlIGZyYW1lYnVmZmVyIGRldmljZXMgd2lsbCBhbHJlYWR5IGJlIHJlbW92
+ZWQsIHRoZSBsb29wIHdvdWxkIGp1c3QNCj4gZmluaXNoIHdoZW4gbm8gbW9yZSBjb25mbGlj
+dGluZyBmcmFtZWJ1ZmZlcnMgYXJlIGZvdW5kLg0KPiANCj4gU3VnZ2VzdGVkLWJ5OiBEYW5p
+ZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPg0KPiBTaWduZWQtb2ZmLWJ5OiBK
+YXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4gUmV2aWV3
+ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+DQoNCkknZCBs
+aWtlIHRvIHNocmluayB0aGlzIHBhdGNoc2V0LiBUaGlzIGxvb2tzIGxpa2UgaXQgY2FuIGJl
+IG1lcmdlZCANCmltbWVkaWF0ZWx5Pw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IC0t
+LQ0KPiANCj4gKG5vIGNoYW5nZXMgc2luY2UgdjEpDQo+IA0KPiAgIGRyaXZlcnMvdmlkZW8v
+ZmJkZXYvY29yZS9mYm1lbS5jIHwgMjIgKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiAgIGlu
+Y2x1ZGUvbGludXgvZmIuaCAgICAgICAgICAgICAgIHwgIDEgLQ0KPiAgIDIgZmlsZXMgY2hh
+bmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyBiL2RyaXZlcnMvdmlkZW8v
+ZmJkZXYvY29yZS9mYm1lbS5jDQo+IGluZGV4IGI0NDVhN2EwMGRlZi4uMmZkYTU5MTdjMjEy
+IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYw0KPiAr
+KysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYw0KPiBAQCAtMTU1NSw2ICsx
+NTU1LDcgQEAgc3RhdGljIHZvaWQgZG9fcmVtb3ZlX2NvbmZsaWN0aW5nX2ZyYW1lYnVmZmVy
+cyhzdHJ1Y3QgYXBlcnR1cmVzX3N0cnVjdCAqYSwNCj4gICB7DQo+ICAgCWludCBpOw0KPiAg
+IA0KPiArcmVzdGFydF9yZW1vdmFsOg0KPiAgIAkvKiBjaGVjayBhbGwgZmlybXdhcmUgZmJz
+IGFuZCBraWNrIG9mZiBpZiB0aGUgYmFzZSBhZGRyIG92ZXJsYXBzICovDQo+ICAgCWZvcl9l
+YWNoX3JlZ2lzdGVyZWRfZmIoaSkgew0KPiAgIAkJc3RydWN0IGFwZXJ0dXJlc19zdHJ1Y3Qg
+Kmdlbl9hcGVyOw0KPiBAQCAtMTU4NywxMiArMTU4OCwyMyBAQCBzdGF0aWMgdm9pZCBkb19y
+ZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKHN0cnVjdCBhcGVydHVyZXNfc3RydWN0
+ICphLA0KPiAgIAkJCQlwcl93YXJuKCJmYiVkOiBubyBkZXZpY2Ugc2V0XG4iLCBpKTsNCj4g
+ICAJCQkJZG9fdW5yZWdpc3Rlcl9mcmFtZWJ1ZmZlcihyZWdpc3RlcmVkX2ZiW2ldKTsNCj4g
+ICAJCQl9IGVsc2UgaWYgKGRldl9pc19wbGF0Zm9ybShkZXZpY2UpKSB7DQo+IC0JCQkJcmVn
+aXN0ZXJlZF9mYltpXS0+Zm9yY2VkX291dCA9IHRydWU7DQo+ICsJCQkJLyoNCj4gKwkJCQkg
+KiBEcm9wIHRoZSBsb2NrIGJlY2F1c2UgaWYgdGhlIGRldmljZSBpcyB1bnJlZ2lzdGVyZWQs
+IGl0cw0KPiArCQkJCSAqIGRyaXZlciB3aWxsIGNhbGwgdG8gdW5yZWdpc3Rlcl9mcmFtZWJ1
+ZmZlcigpLCB0aGF0IHRha2VzDQo+ICsJCQkJICogdGhpcyBsb2NrLg0KPiArCQkJCSAqLw0K
+PiArCQkJCW11dGV4X3VubG9jaygmcmVnaXN0cmF0aW9uX2xvY2spOw0KPiAgIAkJCQlwbGF0
+Zm9ybV9kZXZpY2VfdW5yZWdpc3Rlcih0b19wbGF0Zm9ybV9kZXZpY2UoZGV2aWNlKSk7DQo+
+ICsJCQkJbXV0ZXhfbG9jaygmcmVnaXN0cmF0aW9uX2xvY2spOw0KPiAgIAkJCX0gZWxzZSB7
+DQo+ICAgCQkJCXByX3dhcm4oImZiJWQ6IGNhbm5vdCByZW1vdmUgZGV2aWNlXG4iLCBpKTsN
+Cj4gICAJCQkJZG9fdW5yZWdpc3Rlcl9mcmFtZWJ1ZmZlcihyZWdpc3RlcmVkX2ZiW2ldKTsN
+Cj4gICAJCQl9DQo+ICsJCQkvKg0KPiArCQkJICogUmVzdGFydCB0aGUgcmVtb3ZhbCBsb29w
+IG5vdyB0aGF0IHRoZSBkZXZpY2UgaGFzIGJlZW4NCj4gKwkJCSAqIHVucmVnaXN0ZXJlZCBh
+bmQgaXRzIGFzc29jaWF0ZWQgZnJhbWVidWZmZXIgZ29uZS4NCj4gKwkJCSAqLw0KPiArCQkJ
+Z290byByZXN0YXJ0X3JlbW92YWw7DQo+ICAgCQl9DQo+ICAgCX0NCj4gICB9DQo+IEBAIC0x
+ODk5LDEzICsxOTExLDkgQEAgRVhQT1JUX1NZTUJPTChyZWdpc3Rlcl9mcmFtZWJ1ZmZlcik7
+DQo+ICAgdm9pZA0KPiAgIHVucmVnaXN0ZXJfZnJhbWVidWZmZXIoc3RydWN0IGZiX2luZm8g
+KmZiX2luZm8pDQo+ICAgew0KPiAtCWJvb2wgZm9yY2VkX291dCA9IGZiX2luZm8tPmZvcmNl
+ZF9vdXQ7DQo+IC0NCj4gLQlpZiAoIWZvcmNlZF9vdXQpDQo+IC0JCW11dGV4X2xvY2soJnJl
+Z2lzdHJhdGlvbl9sb2NrKTsNCj4gKwltdXRleF9sb2NrKCZyZWdpc3RyYXRpb25fbG9jayk7
+DQo+ICAgCWRvX3VucmVnaXN0ZXJfZnJhbWVidWZmZXIoZmJfaW5mbyk7DQo+IC0JaWYgKCFm
+b3JjZWRfb3V0KQ0KPiAtCQltdXRleF91bmxvY2soJnJlZ2lzdHJhdGlvbl9sb2NrKTsNCj4g
+KwltdXRleF91bmxvY2soJnJlZ2lzdHJhdGlvbl9sb2NrKTsNCj4gICB9DQo+ICAgRVhQT1JU
+X1NZTUJPTCh1bnJlZ2lzdGVyX2ZyYW1lYnVmZmVyKTsNCj4gICANCj4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvbGludXgvZmIuaCBiL2luY2x1ZGUvbGludXgvZmIuaA0KPiBpbmRleCA2OWM2
+N2M3MGZhNzguLmJiZTFlNDU3MTg5OSAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9saW51eC9m
+Yi5oDQo+ICsrKyBiL2luY2x1ZGUvbGludXgvZmIuaA0KPiBAQCAtNTExLDcgKzUxMSw2IEBA
+IHN0cnVjdCBmYl9pbmZvIHsNCj4gICAJfSAqYXBlcnR1cmVzOw0KPiAgIA0KPiAgIAlib29s
+IHNraXBfdnRfc3dpdGNoOyAvKiBubyBWVCBzd2l0Y2ggb24gc3VzcGVuZC9yZXN1bWUgcmVx
+dWlyZWQgKi8NCj4gLQlib29sIGZvcmNlZF9vdXQ7IC8qIHNldCB3aGVuIGJlaW5nIHJlbW92
+ZWQgYnkgYW5vdGhlciBkcml2ZXIgKi8NCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyBpbmxp
+bmUgc3RydWN0IGFwZXJ0dXJlc19zdHJ1Y3QgKmFsbG9jX2FwZXJ0dXJlcyh1bnNpZ25lZCBp
+bnQgbWF4X251bSkgew0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
+ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1h
+eGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcg
+TsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
+--------------SyppV0A1JoTzJozJoTIp9Vb2--
+
+--------------b8iWiyNXe9nSujOxcj9Ba96G
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ7ojcFAwAAAAAACgkQlh/E3EQov+CU
+WBAAkEaItcvdzg273rLKVt/jQAP9+QwE14Se+zrQRJqgqNtxhcheX93S4kKmNGi2YjTnqJvuwhM0
+lNqocETHg+JhWgupdEOET/iO8VuO92UBizbIf7h/QBP9+vRAPQtBgP1J+isSG8XF7Bd5mStRu0cG
+I7aCvFg8ul2mk+BjlxDQbPMWMa7avM1uxDJ+0Ozr0B2vuMOa18d0aRViD9V41EcIr+G1T1tCUpsc
+MiltlsaZKecfjnraZnRi2NubMcMkxwggGZ+dUYzAz2Ck+3Z5KUsetPmejJJX4xTT34v6ZUfm510q
+k5yld8N47e/K2s31subn3ecypaHsyk8oG5e3hkKo1HgqcFkovmXRvuUA2rIUkivHxqArPngixAig
+Yhzul7YqMbChPc5TAAEJYp6YHBGRwbcereRcwt1xOKRyLEUfIU+d8VhOP4Vbh77OxYqH0MPMk7Ov
+S1uurA3Ca4RdJe5V7npDCSJu2m3GC25r+wz+afl3fGeF80J6YboZYsF+7gxS7HtbocsoEjpckkk6
+eP9PVukN+16IrHLGkC+jgLwAW6Biv/b6tkOdmYBZV45j3j3R44rLd1X9LWzhVRMfAlWwt8xM0Tp1
+jGyBcLwI/dEq3yeQ2N8j6WQ6daRywT5hhTa9uxxe1f3RYjbQFPRBrMcSs2ZA7ver3Fct9wHSmfbu
+slc=
+=lJOK
+-----END PGP SIGNATURE-----
+
+--------------b8iWiyNXe9nSujOxcj9Ba96G--
