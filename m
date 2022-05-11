@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6014522D31
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 09:24:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A83522D6B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 09:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C937810F10D;
-	Wed, 11 May 2022 07:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35AC810F66D;
+	Wed, 11 May 2022 07:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5435F10F10D
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 07:24:44 +0000 (UTC)
-X-UUID: 062f61a4c6f545a6a4c6c5ce4d8f4706-20220511
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:d93bf4d0-0df6-4f88-9fe5-922e079b5d82, OB:0,
- LO
- B:0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:25
-X-CID-META: VersionHash:faefae9, CLOUDID:c0ea10e6-38f2-431d-8de7-bf8fac490b0a,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 062f61a4c6f545a6a4c6c5ce4d8f4706-20220511
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1363951636; Wed, 11 May 2022 15:24:35 +0800
-Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 11 May 2022 15:24:34 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 11 May 2022 15:24:33 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 11 May 2022 15:24:33 +0800
-Message-ID: <e45e68c76775edbf935418ca4f75dc83591805cd.camel@mediatek.com>
-Subject: Re: [PATCH v6 1/4] dt-bindings: display: mediatek: dsi: Convert
- dsi_dtbinding to .yaml
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>
-Date: Wed, 11 May 2022 15:24:33 +0800
-In-Reply-To: <20220504091923.2219-2-rex-bc.chen@mediatek.com>
-References: <20220504091923.2219-1-rex-bc.chen@mediatek.com>
- <20220504091923.2219-2-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B5410F66D;
+ Wed, 11 May 2022 07:31:47 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3C32B1F8DE;
+ Wed, 11 May 2022 07:31:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652254306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t61IF+SoXuT5Idhq5G2NgF2bpPnZ3NfERJN2lII0/zs=;
+ b=LfXcxeMlN0H4E1vppGAcAwBf8gFhwZL5JeSdsFgshQpCi958AkiaLjE6hrfiscDCGVBMJa
+ hQTL9BjXtHPH/woALZpW32Jh8buudaAZU6pG0eqPLZlhxBH9pgDQ0hQFXKWBm66Xq/mEoU
+ 4p9MD0Z7oVWqB8AXiJNrDg5pj63tzco=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652254306;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t61IF+SoXuT5Idhq5G2NgF2bpPnZ3NfERJN2lII0/zs=;
+ b=f4BxnFYsJ/n/e5+18g/voQvsSFB8UIMNBxFyUAl1HveNqA1nX8sOq1kuaDCG51zN/YavEX
+ 9dmKducrQVJZ33Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EA11613A76;
+ Wed, 11 May 2022 07:31:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id f0QtOGFme2LOUQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 May 2022 07:31:45 +0000
+Message-ID: <1b5dc787-2fef-9b8c-e9ba-5e4a847c3fdb@suse.de>
+Date: Wed, 11 May 2022 09:31:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 1/2] drm/probe-helper: Add helper for
+ drm_helper_probe_single_connector_modes()
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20220510131309.v2.1.I2dd93486c6952bd52f2020904de0133970d11b29@changeid>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220510131309.v2.1.I2dd93486c6952bd52f2020904de0133970d11b29@changeid>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Vi6bEJo5912Vd6sf0kbdE0kd"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,246 +70,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_khsieh@quicinc.com,
+ dmitry.baryshkov@linaro.org, quic_aravindh@quicinc.com, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-05-04 at 17:19 +0800, Rex-BC Chen wrote:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
-> 
-> Convert mediatek,dsi.txt to mediatek,dsi.yaml format
-> 
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> ---
->  .../display/mediatek/mediatek,dsi.txt         |  62 ----------
->  .../display/mediatek/mediatek,dsi.yaml        | 115
-> ++++++++++++++++++
->  2 files changed, 115 insertions(+), 62 deletions(-)
->  delete mode 100644
-> Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
->  create mode 100644
-> Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
-> 
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> deleted file mode 100644
-> index 36b01458f45c..000000000000
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> +++ /dev/null
-> @@ -1,62 +0,0 @@
-> -Mediatek DSI Device
-> -===================
-> -
-> -The Mediatek DSI function block is a sink of the display subsystem
-> and can
-> -drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized for
-> dual-
-> -channel output.
-> -
-> -Required properties:
-> -- compatible: "mediatek,<chip>-dsi"
-> -- the supported chips are mt2701, mt7623, mt8167, mt8173 and mt8183.
-> -- reg: Physical base address and length of the controller's
-> registers
-> -- interrupts: The interrupt signal from the function block.
-> -- clocks: device clocks
-> -  See Documentation/devicetree/bindings/clock/clock-bindings.txt for
-> details.
-> -- clock-names: must contain "engine", "digital", and "hs"
-> -- phys: phandle link to the MIPI D-PHY controller.
-> -- phy-names: must contain "dphy"
-> -- port: Output port node with endpoint definitions as described in
-> -  Documentation/devicetree/bindings/graph.txt. This port should be
-> connected
-> -  to the input port of an attached DSI panel or DSI-to-eDP encoder
-> chip.
-> -
-> -Optional properties:
-> -- resets: list of phandle + reset specifier pair, as described in
-> [1].
-> -
-> -[1] Documentation/devicetree/bindings/reset/reset.txt
-> -
-> -MIPI TX Configuration Module
-> -============================
-> -
-> -See phy/mediatek,dsi-phy.yaml
-> -
-> -Example:
-> -
-> -mipi_tx0: mipi-dphy@10215000 {
-> -	compatible = "mediatek,mt8173-mipi-tx";
-> -	reg = <0 0x10215000 0 0x1000>;
-> -	clocks = <&clk26m>;
-> -	clock-output-names = "mipi_tx0_pll";
-> -	#clock-cells = <0>;
-> -	#phy-cells = <0>;
-> -	drive-strength-microamp = <4600>;
-> -	nvmem-cells= <&mipi_tx_calibration>;
-> -	nvmem-cell-names = "calibration-data";
-> -};
-> -
-> -dsi0: dsi@1401b000 {
-> -	compatible = "mediatek,mt8173-dsi";
-> -	reg = <0 0x1401b000 0 0x1000>;
-> -	interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_LOW>;
-> -	clocks = <&mmsys MM_DSI0_ENGINE>, <&mmsys MM_DSI0_DIGITAL>,
-> -		 <&mipi_tx0>;
-> -	clock-names = "engine", "digital", "hs";
-> -	resets = <&mmsys MT8173_MMSYS_SW0_RST_B_DISP_DSI0>;
-> -	phys = <&mipi_tx0>;
-> -	phy-names = "dphy";
-> -
-> -	port {
-> -		dsi0_out: endpoint {
-> -			remote-endpoint = <&panel_in>;
-> -		};
-> -	};
-> -};
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
-> l
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
-> l
-> new file mode 100644
-> index 000000000000..fa5bdf28668a
-> --- /dev/null
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
-> l
-> @@ -0,0 +1,115 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: 
-> http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek DSI Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> +  - Philipp Zabel <p.zabel@pengutronix.de>
-> +  - Jitao Shi <jitao.shi@mediatek.com>
-> +  - Xinlei Lee <xinlei.lee@mediatek.com>
-> +
-> +description: |
-> +  The MediaTek DSI function block is a sink of the display subsystem
-> and can
-> +  drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized
-> for dual-
-> +  channel output.
-> +
-> +allOf:
-> +  - $ref: /schemas/display/dsi-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt2701-dsi
-> +      - mediatek,mt7623-dsi
-> +      - mediatek,mt8167-dsi
-> +      - mediatek,mt8173-dsi
-> +      - mediatek,mt8183-dsi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Engine Clock
-> +      - description: Digital Clock
-> +      - description: HS Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: engine
-> +      - const: digital
-> +      - const: hs
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  phys:
-> +    maxItems: 1
-> +
-> +  phy-names:
-> +    items:
-> +      - const: dphy
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description:
-> +      Output port node. This port should be connected to the input
-> +      port of an attached DSI panel or DSI-to-eDP encoder chip.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - power-domains
-> +  - clocks
-> +  - clock-names
-> +  - phys
-> +  - phy-names
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8183-clk.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/mt8183-power.h>
-> +    #include <dt-bindings/phy/phy.h>
-> +    #include <dt-bindings/reset/mt8183-resets.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        dsi0: dsi@14014000 {
-> +            compatible = "mediatek,mt8183-dsi";
-> +            reg = <0 0x14014000 0 0x1000>;
-> +            interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_LOW>;
-> +            power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
-> +            clocks = <&mmsys CLK_MM_DSI0_MM>,
-> +                <&mmsys CLK_MM_DSI0_IF>,
-> +                <&mipi_tx0>;
-> +            clock-names = "engine", "digital", "hs";
-> +            resets = <&mmsys MT8183_MMSYS_SW0_RST_B_DISP_DSI0>;
-> +            phys = <&mipi_tx0>;
-> +            phy-names = "dphy";
-> +            port {
-> +                dsi0_out: endpoint {
-> +                    remote-endpoint = <&panel_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Vi6bEJo5912Vd6sf0kbdE0kd
+Content-Type: multipart/mixed; boundary="------------SAC53mZPu0Bys1bhDVPWOgg3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, quic_khsieh@quicinc.com,
+ dmitry.baryshkov@linaro.org, quic_aravindh@quicinc.com, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org
+Message-ID: <1b5dc787-2fef-9b8c-e9ba-5e4a847c3fdb@suse.de>
+Subject: Re: [PATCH v2 1/2] drm/probe-helper: Add helper for
+ drm_helper_probe_single_connector_modes()
+References: <20220510131309.v2.1.I2dd93486c6952bd52f2020904de0133970d11b29@changeid>
+In-Reply-To: <20220510131309.v2.1.I2dd93486c6952bd52f2020904de0133970d11b29@changeid>
 
-Hello Rob and Krzysztof,
+--------------SAC53mZPu0Bys1bhDVPWOgg3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Can you give us some suggestions for this conversion patch?
-Thanks!
+SGkNCg0KQW0gMTAuMDUuMjIgdW0gMjI6MTMgc2NocmllYiBEb3VnbGFzIEFuZGVyc29uOg0K
+PiBUaGUgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKCkgaXMgYSBi
+aXQgbG9uZy4gTGV0J3MNCj4gYnJlYWsgYSBjaHVuayBvZmYgdG8gdXBkYXRlIGFuZCB2YWxp
+ZGF0ZSBtb2Rlcy4gVGhpcyBoZWxwcyBhdm9pZCBvbmUNCj4gZ290byBhbmQgYWxzbyB3aWxs
+IGFsbG93IHVzIHRvIG1vcmUgZWFzaWx5IGNhbGwgdGhlIGhlbHBlciBhIHNlY29uZA0KPiB0
+aW1lIGluIGEgZnV0dXJlIHBhdGNoIHdpdGhvdXQgYWRkaW5nIGxvb3Bpbmcgb3IgYW5vdGhl
+ciBnb3RvLg0KPiANCj4gVGhpcyBjaGFuZ2UgaXMgaW50ZW5kZWQgdG8gYmUgYSBuby1vcCBj
+aGFuZ2UtLWp1c3QgY29kZSBtb3ZlbWVudC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IERvdWds
+YXMgQW5kZXJzb24gPGRpYW5kZXJzQGNocm9taXVtLm9yZz4NCj4gUmV2aWV3ZWQtYnk6IEFi
+aGluYXYgS3VtYXIgPHF1aWNfYWJoaW5hdmtAcXVpY2luYy5jb20+DQo+IC0tLQ0KPiANCj4g
+Q2hhbmdlcyBpbiB2MjoNCj4gLSBUd28gdW5kZXJzY29yZXMgZm9yIF9fZHJtX2hlbHBlcl91
+cGRhdGVfYW5kX3ZhbGlkYXRlKCkuDQo+IC0gUmV0dXJuIGVyciBhbmQgdXNlIFdBUk5fT04g
+aW5zdGVhZCBvZiByZXR1cm5pbmcgYSBib29sLg0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX3Byb2JlX2hlbHBlci5jIHwgMTA3ICsrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0t
+DQo+ICAgMSBmaWxlIGNoYW5nZWQsIDYxIGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygt
+KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVy
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jDQo+IGluZGV4IDY4MjM1
+OTUxMjk5Ni4uZmYzZGQ5YTVkYTcwIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX3Byb2JlX2hlbHBlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVf
+aGVscGVyLmMNCj4gQEAgLTM1NCw2ICszNTQsNjEgQEAgZHJtX2hlbHBlcl9wcm9iZV9kZXRl
+Y3Qoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwNCj4gICB9DQo+ICAgRVhQT1JU
+X1NZTUJPTChkcm1faGVscGVyX3Byb2JlX2RldGVjdCk7DQo+ICAgDQo+ICtzdGF0aWMgaW50
+IF9fZHJtX2hlbHBlcl91cGRhdGVfYW5kX3ZhbGlkYXRlKHN0cnVjdCBkcm1fY29ubmVjdG9y
+ICpjb25uZWN0b3IsDQo+ICsJCQkJCSAgICB1aW50MzJfdCBtYXhYLCB1aW50MzJfdCBtYXhZ
+LA0KPiArCQkJCQkgICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgpDQo+
+ICt7DQo+ICsJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+ZGV2Ow0KPiAr
+CXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlOw0KPiArCWludCBtb2RlX2ZsYWdzID0g
+MDsNCj4gKwlpbnQgcmV0Ow0KPiArDQo+ICsJZHJtX2Nvbm5lY3Rvcl9saXN0X3VwZGF0ZShj
+b25uZWN0b3IpOw0KPiArDQo+ICsJaWYgKGNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQp
+DQo+ICsJCW1vZGVfZmxhZ3MgfD0gRFJNX01PREVfRkxBR19JTlRFUkxBQ0U7DQo+ICsJaWYg
+KGNvbm5lY3Rvci0+ZG91Ymxlc2Nhbl9hbGxvd2VkKQ0KPiArCQltb2RlX2ZsYWdzIHw9IERS
+TV9NT0RFX0ZMQUdfREJMU0NBTjsNCj4gKwlpZiAoY29ubmVjdG9yLT5zdGVyZW9fYWxsb3dl
+ZCkNCj4gKwkJbW9kZV9mbGFncyB8PSBEUk1fTU9ERV9GTEFHXzNEX01BU0s7DQo+ICsNCj4g
+KwlsaXN0X2Zvcl9lYWNoX2VudHJ5KG1vZGUsICZjb25uZWN0b3ItPm1vZGVzLCBoZWFkKSB7
+DQo+ICsJCWlmIChtb2RlLT5zdGF0dXMgIT0gTU9ERV9PSykNCj4gKwkJCWNvbnRpbnVlOw0K
+PiArDQo+ICsJCW1vZGUtPnN0YXR1cyA9IGRybV9tb2RlX3ZhbGlkYXRlX2RyaXZlcihkZXYs
+IG1vZGUpOw0KPiArCQlpZiAobW9kZS0+c3RhdHVzICE9IE1PREVfT0spDQo+ICsJCQljb250
+aW51ZTsNCj4gKw0KPiArCQltb2RlLT5zdGF0dXMgPSBkcm1fbW9kZV92YWxpZGF0ZV9zaXpl
+KG1vZGUsIG1heFgsIG1heFkpOw0KPiArCQlpZiAobW9kZS0+c3RhdHVzICE9IE1PREVfT0sp
+DQo+ICsJCQljb250aW51ZTsNCj4gKw0KPiArCQltb2RlLT5zdGF0dXMgPSBkcm1fbW9kZV92
+YWxpZGF0ZV9mbGFnKG1vZGUsIG1vZGVfZmxhZ3MpOw0KPiArCQlpZiAobW9kZS0+c3RhdHVz
+ICE9IE1PREVfT0spDQo+ICsJCQljb250aW51ZTsNCj4gKw0KPiArCQlyZXQgPSBkcm1fbW9k
+ZV92YWxpZGF0ZV9waXBlbGluZShtb2RlLCBjb25uZWN0b3IsIGN0eCwNCj4gKwkJCQkJCSAm
+bW9kZS0+c3RhdHVzKTsNCj4gKwkJaWYgKHJldCkgew0KPiArCQkJZHJtX2RiZ19rbXMoZGV2
+LA0KPiArCQkJCSAgICAiZHJtX21vZGVfdmFsaWRhdGVfcGlwZWxpbmUgZmFpbGVkOiAlZFxu
+IiwNCj4gKwkJCQkgICAgcmV0KTsNCj4gKw0KPiArCQkJaWYgKGRybV9XQVJOX09OX09OQ0Uo
+ZGV2LCByZXQgIT0gLUVERUFETEspKQ0KPiArCQkJCW1vZGUtPnN0YXR1cyA9IE1PREVfRVJS
+T1I7DQo+ICsJCQllbHNlDQo+ICsJCQkJcmV0dXJuIC1FREVBRExLOw0KPiArCQl9DQo+ICsN
+Cj4gKwkJaWYgKG1vZGUtPnN0YXR1cyAhPSBNT0RFX09LKQ0KPiArCQkJY29udGludWU7DQo+
+ICsJCW1vZGUtPnN0YXR1cyA9IGRybV9tb2RlX3ZhbGlkYXRlX3ljYmNyNDIwKG1vZGUsIGNv
+bm5lY3Rvcik7DQo+ICsJfQ0KPiArDQo+ICsJcmV0dXJuIDA7DQo+ICt9DQo+ICsNCj4gICAv
+KioNCj4gICAgKiBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMgLSBn
+ZXQgY29tcGxldGUgc2V0IG9mIGRpc3BsYXkgbW9kZXMNCj4gICAgKiBAY29ubmVjdG9yOiBj
+b25uZWN0b3IgdG8gcHJvYmUNCj4gQEAgLTQyMSw3ICs0NzYsNiBAQCBpbnQgZHJtX2hlbHBl
+cl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IsDQo+ICAgCWNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5j
+cyAqY29ubmVjdG9yX2Z1bmNzID0NCj4gICAJCWNvbm5lY3Rvci0+aGVscGVyX3ByaXZhdGU7
+DQo+ICAgCWludCBjb3VudCA9IDAsIHJldDsNCj4gLQlpbnQgbW9kZV9mbGFncyA9IDA7DQo+
+ICAgCWJvb2wgdmVyYm9zZV9wcnVuZSA9IHRydWU7DQo+ICAgCWVudW0gZHJtX2Nvbm5lY3Rv
+cl9zdGF0dXMgb2xkX3N0YXR1czsNCj4gICAJc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVf
+Y3R4IGN0eDsNCj4gQEAgLTUxOSw1MiArNTczLDEzIEBAIGludCBkcm1faGVscGVyX3Byb2Jl
+X3NpbmdsZV9jb25uZWN0b3JfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
+ciwNCj4gICAJCQkgICBjb25uZWN0b3ItPnN0YXR1cyA9PSBjb25uZWN0b3Jfc3RhdHVzX3Vu
+a25vd24pKQ0KPiAgIAkJY291bnQgPSBkcm1fYWRkX21vZGVzX25vZWRpZChjb25uZWN0b3Is
+IDEwMjQsIDc2OCk7DQo+ICAgCWNvdW50ICs9IGRybV9oZWxwZXJfcHJvYmVfYWRkX2NtZGxp
+bmVfbW9kZShjb25uZWN0b3IpOw0KPiAtCWlmIChjb3VudCA9PSAwKQ0KPiAtCQlnb3RvIHBy
+dW5lOw0KPiAtDQo+IC0JZHJtX2Nvbm5lY3Rvcl9saXN0X3VwZGF0ZShjb25uZWN0b3IpOw0K
+PiAtDQo+IC0JaWYgKGNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQpDQo+IC0JCW1vZGVf
+ZmxhZ3MgfD0gRFJNX01PREVfRkxBR19JTlRFUkxBQ0U7DQo+IC0JaWYgKGNvbm5lY3Rvci0+
+ZG91Ymxlc2Nhbl9hbGxvd2VkKQ0KPiAtCQltb2RlX2ZsYWdzIHw9IERSTV9NT0RFX0ZMQUdf
+REJMU0NBTjsNCj4gLQlpZiAoY29ubmVjdG9yLT5zdGVyZW9fYWxsb3dlZCkNCj4gLQkJbW9k
+ZV9mbGFncyB8PSBEUk1fTU9ERV9GTEFHXzNEX01BU0s7DQo+IC0NCj4gLQlsaXN0X2Zvcl9l
+YWNoX2VudHJ5KG1vZGUsICZjb25uZWN0b3ItPm1vZGVzLCBoZWFkKSB7DQo+IC0JCWlmICht
+b2RlLT5zdGF0dXMgIT0gTU9ERV9PSykNCj4gLQkJCWNvbnRpbnVlOw0KPiAtDQo+IC0JCW1v
+ZGUtPnN0YXR1cyA9IGRybV9tb2RlX3ZhbGlkYXRlX2RyaXZlcihkZXYsIG1vZGUpOw0KPiAt
+CQlpZiAobW9kZS0+c3RhdHVzICE9IE1PREVfT0spDQo+IC0JCQljb250aW51ZTsNCj4gLQ0K
+PiAtCQltb2RlLT5zdGF0dXMgPSBkcm1fbW9kZV92YWxpZGF0ZV9zaXplKG1vZGUsIG1heFgs
+IG1heFkpOw0KPiAtCQlpZiAobW9kZS0+c3RhdHVzICE9IE1PREVfT0spDQo+IC0JCQljb250
+aW51ZTsNCj4gLQ0KPiAtCQltb2RlLT5zdGF0dXMgPSBkcm1fbW9kZV92YWxpZGF0ZV9mbGFn
+KG1vZGUsIG1vZGVfZmxhZ3MpOw0KPiAtCQlpZiAobW9kZS0+c3RhdHVzICE9IE1PREVfT0sp
+DQo+IC0JCQljb250aW51ZTsNCj4gLQ0KPiAtCQlyZXQgPSBkcm1fbW9kZV92YWxpZGF0ZV9w
+aXBlbGluZShtb2RlLCBjb25uZWN0b3IsICZjdHgsDQo+IC0JCQkJCQkgJm1vZGUtPnN0YXR1
+cyk7DQo+IC0JCWlmIChyZXQpIHsNCj4gLQkJCWRybV9kYmdfa21zKGRldiwNCj4gLQkJCQkg
+ICAgImRybV9tb2RlX3ZhbGlkYXRlX3BpcGVsaW5lIGZhaWxlZDogJWRcbiIsDQo+IC0JCQkJ
+ICAgIHJldCk7DQo+IC0NCj4gLQkJCWlmIChkcm1fV0FSTl9PTl9PTkNFKGRldiwgcmV0ICE9
+IC1FREVBRExLKSkgew0KPiAtCQkJCW1vZGUtPnN0YXR1cyA9IE1PREVfRVJST1I7DQo+IC0J
+CQl9IGVsc2Ugew0KPiAtCQkJCWRybV9tb2Rlc2V0X2JhY2tvZmYoJmN0eCk7DQo+IC0JCQkJ
+Z290byByZXRyeTsNCj4gLQkJCX0NCj4gKwlpZiAoY291bnQgIT0gMCkgew0KPiArCQlyZXQg
+PSBfX2RybV9oZWxwZXJfdXBkYXRlX2FuZF92YWxpZGF0ZShjb25uZWN0b3IsIG1heFgsIG1h
+eFksICZjdHgpOw0KPiArCQlpZiAocmV0ID09IC1FREVBRExLKSB7DQo+ICsJCQlkcm1fbW9k
+ZXNldF9iYWNrb2ZmKCZjdHgpOw0KPiArCQkJZ290byByZXRyeTsNCj4gICAJCX0NCj4gLQ0K
+PiAtCQlpZiAobW9kZS0+c3RhdHVzICE9IE1PREVfT0spDQo+IC0JCQljb250aW51ZTsNCj4g
+LQkJbW9kZS0+c3RhdHVzID0gZHJtX21vZGVfdmFsaWRhdGVfeWNiY3I0MjAobW9kZSwgY29u
+bmVjdG9yKTsNCj4gKwkJV0FSTl9PTihyZXQpOw0KDQpPbmUgbW9yZSB0aGluZy4gQUZBSUNU
+IHlvdSBhbHJlYWR5IHdhcm5lZCBpbiANCl9fZHJtX2hlbHBlcl91cGRhdGVfYW5kX3ZhbGlk
+YXRlKCkgYWJvdXQgdGhlIGVycm9yLCBzbyB0aGlzIFdBUk5fT04gDQpzaG91bGQgYmUgcmVt
+b3ZlZC4NCg0KV2l0aCB0aGF0IGNoYW5nZToNCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0K
+DQoNCj4gICAJfQ0KPiAgIA0KPiAgIHBydW5lOg0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
+DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
+ZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0K
+KEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rl
+dg0K
 
-BRs,
-Rex
+--------------SAC53mZPu0Bys1bhDVPWOgg3--
 
+--------------Vi6bEJo5912Vd6sf0kbdE0kd
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ7ZmEFAwAAAAAACgkQlh/E3EQov+DT
+kQ/+P7fo8lumHbOfDjHHhUBPiQ68klIuZVK4/G28HqwJFMAgdZ+J9YEuh6glXF49ahWlfwv8R41M
+6qwhyfGoxrinSHhCk4NyrD8Kj4ck4IbRpURP2m4u3iSn4S7+Q2URTn1+NpLeWYefTjP1bxNa2fMs
+bfbg+wtd+KqBl1+0LRc66+IRkQTdokI4QcESBvFPcz335aOfuHzt3gzKRgHAeX1AYKJjyjtGAtmT
+o+hVbdnO+VfZNch+16mqs1sB87Zq4zC7GCR+z80gzWVlvSPhWR4bFc69MRfqB2ShK411on34Ygex
+UxnYFts5Sp893AM/QdetLkLJcmUnAfYDCJ2Ha2T7R1RK5nvDlAdGfl7cOru4YvB/7VlSWqeyYFa+
+NUbfOatucatJIInU0ii0cLLP42zYTgVosvNPvL84i+aCo4sllWEmUhXrmtyb9OJPzCf9/3t86VPY
+jRN/cUYCwGf5CMOsQEkdjUA9MGmKo64IVPYrXyLr69ISzTb4f59DpSIxHb4EdPIvYsx/JMgCGeCa
+dFND0++YgvNgPuJR3PXh9f2FV+N39kdvQT8NjrxE0G7Wb6ZsNVzkfmTygO8WkHpp/8gMxkf0a/iD
+c4YlajvPJCYFciLircu22ttRjDOeDP0fGuJUCLGrezdumgKPzrC5nmBg64F4xng1dgALdAqmc+VI
+UjA=
+=4pCR
+-----END PGP SIGNATURE-----
+
+--------------Vi6bEJo5912Vd6sf0kbdE0kd--
