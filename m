@@ -1,49 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D371523C5B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 20:20:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EECE3523C74
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 20:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC1B11285C;
-	Wed, 11 May 2022 18:19:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257CA10F1A7;
+	Wed, 11 May 2022 18:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87BA8112849
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 18:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652293197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=OjmqosTJ6Gizg8804eI7hEvoeZHHnweNRCj5+1JAafk=;
- b=VYXKQ/iHdXb2ogBJ4m+Vjq5e8O+qdH2qTVwVETflCgZ9Y+PmrtrNRbEjWZGjdJpnpL2GKq
- 2/40AtPta/pe6rd3Dr/OXys1CRapMr53t7h7l5sBaDYOKAiWKRtbmg6YN8J1AjdD7VtIJl
- GQPdUwCh+A+QnRQb26DNnNXtiiSCysE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-286-EUlxPZ5CMFK0edoaKGsZPQ-1; Wed, 11 May 2022 14:19:52 -0400
-X-MC-Unique: EUlxPZ5CMFK0edoaKGsZPQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B16AA85A5A8;
- Wed, 11 May 2022 18:19:51 +0000 (UTC)
-Received: from emerald.redhat.com (unknown [10.22.33.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1084F400E43D;
- Wed, 11 May 2022 18:19:51 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: amd-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/amdgpu: Add 'modeset' module parameter
-Date: Wed, 11 May 2022 14:19:33 -0400
-Message-Id: <20220511181935.810735-1-lyude@redhat.com>
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A273B10F173
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 18:29:08 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id w24so3585988edx.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 11:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uiYBAkZ/K7TON78jcHgwLk8yR9bWm2DLv+jXS6/7A90=;
+ b=TysY5PPYSJqqGGSP17kFdgyVAcXW0GiDdLa8+M1+Q0ojkz+YMGJOdGZ1g7kkbPZOu6
+ yt+IrWP6PXRoXVf3HH1RNxijEEEziatsJwBR8ffnixgRhgmDKQimGHpCgltyrkDtU5pd
+ QyBownI7LpEYTX9O9gVL+tE6Wpia3KSKpa7tY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uiYBAkZ/K7TON78jcHgwLk8yR9bWm2DLv+jXS6/7A90=;
+ b=IYji7qOpHZ9LqnZHFRola9MBcQ/vxP+up8tT0w/zJ6TX1bME66Ib3gSP1Z12HT5vYk
+ VkqrGnIDNoWnMtJ/03GECX2ZNUxHoBPLHJEbmQt83ncKL91RFz1OEeYiI87jw5RuOrPR
+ NVAD7+5UQxqYpNXyr5zWvhWX1UHVPeYi44d7WT0vEUw/FoPIZ5mxZEBSuV7VG8it/Ca3
+ RlDo2SXdjd/+RohU/ils8FrveYhCdFN4HKCWFZuUppEhZcrd94zKrAbg7NeatW9O69nt
+ bHSEG/eLaTmglQr5npIh8rR8oQofKYGXvF5YdgtjlWVoRQpjaDx8r23kvYe32LXdbz0I
+ rBMQ==
+X-Gm-Message-State: AOAM532ovd7e0IElb2RswYWebU7TslRtqT9hVUrRF88GBdKJ1QTVVwgv
+ iAvNI4QGxaE5d6Zle7YIQKtb62llVF1c5OpiRjQ=
+X-Google-Smtp-Source: ABdhPJz8sL2/zmNwZv5a5QRiDr0ZxRUGMt5+aqRiZzCSrgRihJNt0iX5WiQf+9BTO5hoMd8WMKuC9A==
+X-Received: by 2002:a50:ab57:0:b0:428:9f9b:d8e3 with SMTP id
+ t23-20020a50ab57000000b004289f9bd8e3mr17491448edc.305.1652293746920; 
+ Wed, 11 May 2022 11:29:06 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ m3-20020a1709066d0300b006f3ef214deasm1248175ejr.80.2022.05.11.11.29.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 May 2022 11:29:06 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id
+ m2-20020a1ca302000000b003943bc63f98so1706703wme.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 11:29:06 -0700 (PDT)
+X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
+ bg25-20020a05600c3c9900b00392b49c7b79mr6101308wmb.199.1652293325498; Wed, 11
+ May 2022 11:22:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+References: <20220425210643.2420919-1-dianders@chromium.org>
+ <20220425140619.1.Ibfde5a26a7182c4b478d570c23d2649823ac2cce@changeid>
+ <CAE-0n51eZpAKprRQ0HqjLciF_BVQHBDN8SMFNVmmOd=B9UBEzg@mail.gmail.com>
+ <CAD=FV=WmVK3wTQf_EAxSi0WPXedSFGCsKdyqRnHsskmMYTHDQA@mail.gmail.com>
+ <MW4PR02MB718610FAA14F966ADE1B1585E1C29@MW4PR02MB7186.namprd02.prod.outlook.com>
+ <CAE-0n51Q=cGwrMec3JEQENqWHV3pAUjLPT6RwZLA5xV080sgxQ@mail.gmail.com>
+ <MW4PR02MB71867A18732B266DE8FA2040E1C29@MW4PR02MB7186.namprd02.prod.outlook.com>
+ <CAE-0n53MEBYhyRtGWOCmjj923UQU_iVE_SEBQw6_FUci8NLz3w@mail.gmail.com>
+ <MW4PR02MB71866E59B844A0842DF7570EE1C59@MW4PR02MB7186.namprd02.prod.outlook.com>
+In-Reply-To: <MW4PR02MB71866E59B844A0842DF7570EE1C59@MW4PR02MB7186.namprd02.prod.outlook.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 11 May 2022 11:21:52 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WeTK8LBJmc6AkjPyPLVS+2sSRNEFuEOZrWGJr3Kpq58Q@mail.gmail.com>
+Message-ID: <CAD=FV=WeTK8LBJmc6AkjPyPLVS+2sSRNEFuEOZrWGJr3Kpq58Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: msm/dp: List supplies in the bindings
+To: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,64 +80,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Solomon Chiu <solomon.chiu@amd.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, Kishon Vijay Abraham I <kishon@ti.com>,
+ "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Many DRM drivers feature a 'modeset' argument, which can be used to
-enable/disable the entire driver (as opposed to passing nomodeset to the
-kernel, which would disable modesetting globally and make it difficult to
-load amdgpu afterwards). Apparently amdgpu is actually missing this
-however, so let's add it!
+Hi,
 
-Keep in mind that this currently just lets one enable or disable amdgpu, I
-haven't bothered adding a headless mode like nouveau has - however I'm sure
-someone else can add this if needed.
+On Fri, May 6, 2022 at 6:36 AM Sankeerth Billakanti (QUIC)
+<quic_sbillaka@quicinc.com> wrote:
+>
+> >> >> Our internal power grid documents list the regulators as
+> >> >> VDD_A_*_1P2 and VDD_A_*_0P9 for all the platforms.
+> >> >
+> >> >Do your internal power grid documents indicate what these supplies
+> >> >are powering? The question is if these supplies power any of the
+> >> >logic inside the eDP controller or if they only supply power to the
+> >> >analog circuits in the eDP phy. If it's the eDP phy only then the
+> >> >regulator usage in the eDP driver should be removed. I would suspect
+> >> >this is the case because the controller is probably all digital logic
+> >> >and runs at the typical 1.8V that the rest of the SoC uses.
+> >> >Similarly, these are voltage references which sound like a PLL reference
+> >voltage.
+> >> >
+> >> >Please clarify this further.
+> >> >
+> >>
+> >> For the DP driver using the usb-dp combo phy, there were cases where
+> >> the usb driver was turning off the phy and pll regulators whenever usb-dp
+> >concurrent mode need not be supported.
+> >> This caused phy and pll to be powered down causing aux transaction failures
+> >and display blankouts.
+> >> From then on, it became a practice for the controller driver to vote for the
+> >phy and pll regulators also.
+> >>
+> >
+> >That sounds like USB-DP combo phy driver had improper regulator power
+> >management where aux transactions from DP didn't keep the power on to
+> >the phy. Where does the power physically go? If the power isn't physically
+> >going to the DP controller it shouldn't be controlled from the DP controller
+> >driver. If the aux bus needs the DP phy enabled, the DP controller driver
+> >should enable the phy power (via phy_power_on()?).
+>
+> Yes, it was limitation earlier when we did not have proper interface to interact
+> with the combo phy.
+>
+> In this case, the power from the regulators go to the combo phy.
+>
+> Now that there is an interface for the controller to interact with the
+> combo phy, the proposal to drop the phy regulator voting from the controller
+> driver seems reasonable to me.
+>
+> The phy_power_on() is used for getting the phy out of low power state or getting
+> it ready for data transfer.
+>
+> The controller driver needs to enable the phy power via the phy_init() before
+> any interaction with the sink like the aux transactions or before sending the data.
+> The controller can disable the regulators via the phy_exit() call.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+I can confirm that if I stop providing these regulators to the DP
+controller that the screen still comes up. ...but also there are lots
+of other things (including the PHY) that power these regulators up...
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index ebd37fb19cdb..24e6fb4517cc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -872,6 +872,15 @@ MODULE_PARM_DESC(smu_pptable_id,
- 	"specify pptable id to be used (-1 = auto(default) value, 0 = use pptable from vbios, > 0 = soft pptable id)");
- module_param_named(smu_pptable_id, amdgpu_smu_pptable_id, int, 0444);
- 
-+/**
-+ * DOC: modeset (int)
-+ * Used to enable/disable modesetting for amdgpu exclusively.
-+ */
-+bool amdgpu_enable_modeset = true;
-+MODULE_PARM_DESC(modeset,
-+		 "Enable or disable display driver (1 = on (default), 0 = off");
-+module_param_named(modeset, amdgpu_enable_modeset, bool, 0444);
-+
- /* These devices are not supported by amdgpu.
-  * They are supported by the mach64, r128, radeon drivers
-  */
-@@ -2003,6 +2012,11 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
- 	bool is_fw_fb;
- 	resource_size_t base, size;
- 
-+	if (!amdgpu_enable_modeset) {
-+		DRM_INFO("modeset=0 passed to amdgpu, driver will not be enabled\n");
-+		return -ENODEV;
-+	}
-+
- 	/* skip devices which are owned by radeon */
- 	for (i = 0; i < ARRAY_SIZE(amdgpu_unsupported_pciidlist); i++) {
- 		if (amdgpu_unsupported_pciidlist[i] == pdev->device)
--- 
-2.35.1
+From offline discussion with folks:
 
+1. It sounds like maybe the code for handling the regulators in the DP
+controller leaked in from downstream where the DP driver itself
+controls more stuff.
+
+2. We should probably remove these regulators from the DP controller.
+
+3. When we remove this from the DP controller, we'll have to make sure
+that the PHY driver calls regulator_set_load() as needed.
+
+Kuogee has volunteered to own this issue and send out patches fixing
+the stuff up. So for now, please consider ${SUBJECT} patch abandoned.
+
+-Doug
