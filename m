@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B544524067
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 00:50:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6089A524078
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 00:58:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF1EC10E45A;
-	Wed, 11 May 2022 22:50:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC8910E226;
+	Wed, 11 May 2022 22:58:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98D4910E45A;
- Wed, 11 May 2022 22:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652309426; x=1683845426;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8AEEoAsw1SD0JtHJIYIu5AVp23VW26QWE6Er5U/JyUs=;
- b=sy/dzgJJ7OI9BjkiVsbDLNi4kLm/ZtwrUDbpAbJ5bkml4CvGuA/5cmVG
- EuXXXt777NMycKn0mzriVGBA+rCD0JMwaVtu8vuxkZOSQ/+kUHyu/v/EI
- uv3Z6vNF304bRi/4F5lABijc5LHByRDZzOfnI0hURw2EQjJ7S586eIuFe 4=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 11 May 2022 15:50:26 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 15:50:26 -0700
-Received: from [10.71.108.57] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 11 May
- 2022 15:50:25 -0700
-Message-ID: <9a87aa7f-a106-333f-22e8-ccb9e23f9ee6@quicinc.com>
-Date: Wed, 11 May 2022 15:50:25 -0700
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E5BA10E2DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 22:58:30 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id n10so3528134pjh.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 15:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LOtUBAROt8+wSZqck5ELJgqyUVB2vFhXIURSscRlUY4=;
+ b=DvS+M4uoPyOP2cGbinXkmJFSQjV7jAHY/pFLgs8BVJNOUo0IhmEtaQJDeZHy7n0lI9
+ oJRkHDmPw+hhwekGiNi5e1/y3wX4HUtf9Ex8LYcFQqLfrCZDwVhYeN9JeMQ6Mf705WIW
+ DutFGsRV7NOEn10hg2nVrhHFue4sJs80E8JkQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LOtUBAROt8+wSZqck5ELJgqyUVB2vFhXIURSscRlUY4=;
+ b=UgWI++xgYVY8DTmYtPVwp9qmqkCNQZXk6P3fv/9sE4mtCffjoP4sRodae78K30Bnzs
+ MPKI+zXWbiljtZBR2D98PB5b1GPbbmmDjejciT8pmMlN6em0C9n8W3lkaTjK+6Dg0AHJ
+ ttMp9WSHi4ubjiZk4eSh41dOILARwJkdeI4zXIesUX2UiLa8fQtodg7iqtkmuaocJT3w
+ VDNgmNVkcMfbssrnSLGw8P9tCCGcaSqA0WmsaX7itccuFBxoPXTS+BE16xAkH/SfMDOx
+ wU2LVC+kC7l0fjTepzVJq/fLG/tVSXYYqpeDY7xrpltAhG+MVqu07CA89YqweghwDPTZ
+ L6Nw==
+X-Gm-Message-State: AOAM533D32pIW8lQjHWF06+dZFKyLkyiYJ/Vx7MC2kArH5aFu33fTHUE
+ xST13JdlGfNkjsdGMFAeFbXo+Jetnmj3GtQ7qWo=
+X-Google-Smtp-Source: ABdhPJz/rySupxeHwGcIIPekwo8CUfSHZrQcTijT7+Ndv2m0tuN4p9CM6EMMOqwz7W+WeipOlPBNkw==
+X-Received: by 2002:a17:903:18c:b0:15e:be98:90ef with SMTP id
+ z12-20020a170903018c00b0015ebe9890efmr27017500plg.129.1652309909866; 
+ Wed, 11 May 2022 15:58:29 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:504e:720d:de58:4f66])
+ by smtp.gmail.com with ESMTPSA id
+ n5-20020a170902968500b0015e8d4eb1easm2399714plp.52.2022.05.11.15.58.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 May 2022 15:58:29 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 1/2] drm/probe-helper: Add helper for
+ drm_helper_probe_single_connector_modes()
+Date: Wed, 11 May 2022 15:58:07 -0700
+Message-Id: <20220511155749.v3.1.I2dd93486c6952bd52f2020904de0133970d11b29@changeid>
+X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] drm/msm/dpu: add DRM_MODE_ROTATE_180 back to supported
- rotations
-Content-Language: en-US
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- <freedreno@lists.freedesktop.org>
-References: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +66,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, quic_khsieh@quicinc.com, quic_vpolimer@quicinc.com
+Cc: quic_sbillaka@quicinc.com, Douglas Anderson <dianders@chromium.org>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ quic_khsieh@quicinc.com, tzimmermann@suse.de, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The drm_helper_probe_single_connector_modes() is a bit long. Let's
+break a chunk off to update and validate modes. This helps avoid one
+goto and also will allow us to more easily call the helper a second
+time in a future patch without adding looping or another goto.
 
+This change is intended to be a no-op change--just code movement.
 
-On 5/11/2022 3:27 PM, Abhinav Kumar wrote:
-> DRM_MODE_ROTATE_180 was previously marked as supported even
-> for devices not supporting inline rotation.
-> 
-> This is true because the SSPPs can always flip the image.
-> 
-> After inline rotation support changes, this bit was removed
-> and kms_rotation_crc IGT test starts skipping now whereas
-> it was previously passing.
-> 
-> Restore DRM_MODE_ROTATE_180 bit to the supported rotations
-> list.
-> 
-> Fixes: dabfdd89eaa92 ("add inline rotation support for sc7280")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
 
-Tested-by: Jessica Zhang <quic_jesszhan@quicinc.com> # Trogdor (SC8170)
+Changes in v3:
+- Removed WARN_ON
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 9d2f0364d2c7..5b5aef249390 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -1577,7 +1577,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   			BIT(DRM_MODE_BLEND_PREMULTI) |
->   			BIT(DRM_MODE_BLEND_COVERAGE));
->   
-> -	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
-> +	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180;
->   
->   	if (pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
->   		supported_rotations |= DRM_MODE_ROTATE_MASK;
-> -- 
-> 2.35.1
-> 
+Changes in v2:
+- Two underscores for __drm_helper_update_and_validate().
+- Return err and use WARN_ON instead of returning a bool.
+
+ drivers/gpu/drm/drm_probe_helper.c | 106 ++++++++++++++++-------------
+ 1 file changed, 60 insertions(+), 46 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 682359512996..2570d47e7eab 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -354,6 +354,61 @@ drm_helper_probe_detect(struct drm_connector *connector,
+ }
+ EXPORT_SYMBOL(drm_helper_probe_detect);
+ 
++static int __drm_helper_update_and_validate(struct drm_connector *connector,
++					    uint32_t maxX, uint32_t maxY,
++					    struct drm_modeset_acquire_ctx *ctx)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_display_mode *mode;
++	int mode_flags = 0;
++	int ret;
++
++	drm_connector_list_update(connector);
++
++	if (connector->interlace_allowed)
++		mode_flags |= DRM_MODE_FLAG_INTERLACE;
++	if (connector->doublescan_allowed)
++		mode_flags |= DRM_MODE_FLAG_DBLSCAN;
++	if (connector->stereo_allowed)
++		mode_flags |= DRM_MODE_FLAG_3D_MASK;
++
++	list_for_each_entry(mode, &connector->modes, head) {
++		if (mode->status != MODE_OK)
++			continue;
++
++		mode->status = drm_mode_validate_driver(dev, mode);
++		if (mode->status != MODE_OK)
++			continue;
++
++		mode->status = drm_mode_validate_size(mode, maxX, maxY);
++		if (mode->status != MODE_OK)
++			continue;
++
++		mode->status = drm_mode_validate_flag(mode, mode_flags);
++		if (mode->status != MODE_OK)
++			continue;
++
++		ret = drm_mode_validate_pipeline(mode, connector, ctx,
++						 &mode->status);
++		if (ret) {
++			drm_dbg_kms(dev,
++				    "drm_mode_validate_pipeline failed: %d\n",
++				    ret);
++
++			if (drm_WARN_ON_ONCE(dev, ret != -EDEADLK))
++				mode->status = MODE_ERROR;
++			else
++				return -EDEADLK;
++		}
++
++		if (mode->status != MODE_OK)
++			continue;
++		mode->status = drm_mode_validate_ycbcr420(mode, connector);
++	}
++
++	return 0;
++}
++
+ /**
+  * drm_helper_probe_single_connector_modes - get complete set of display modes
+  * @connector: connector to probe
+@@ -421,7 +476,6 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ 	const struct drm_connector_helper_funcs *connector_funcs =
+ 		connector->helper_private;
+ 	int count = 0, ret;
+-	int mode_flags = 0;
+ 	bool verbose_prune = true;
+ 	enum drm_connector_status old_status;
+ 	struct drm_modeset_acquire_ctx ctx;
+@@ -519,52 +573,12 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ 			   connector->status == connector_status_unknown))
+ 		count = drm_add_modes_noedid(connector, 1024, 768);
+ 	count += drm_helper_probe_add_cmdline_mode(connector);
+-	if (count == 0)
+-		goto prune;
+-
+-	drm_connector_list_update(connector);
+-
+-	if (connector->interlace_allowed)
+-		mode_flags |= DRM_MODE_FLAG_INTERLACE;
+-	if (connector->doublescan_allowed)
+-		mode_flags |= DRM_MODE_FLAG_DBLSCAN;
+-	if (connector->stereo_allowed)
+-		mode_flags |= DRM_MODE_FLAG_3D_MASK;
+-
+-	list_for_each_entry(mode, &connector->modes, head) {
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		mode->status = drm_mode_validate_driver(dev, mode);
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		mode->status = drm_mode_validate_size(mode, maxX, maxY);
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		mode->status = drm_mode_validate_flag(mode, mode_flags);
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		ret = drm_mode_validate_pipeline(mode, connector, &ctx,
+-						 &mode->status);
+-		if (ret) {
+-			drm_dbg_kms(dev,
+-				    "drm_mode_validate_pipeline failed: %d\n",
+-				    ret);
+-
+-			if (drm_WARN_ON_ONCE(dev, ret != -EDEADLK)) {
+-				mode->status = MODE_ERROR;
+-			} else {
+-				drm_modeset_backoff(&ctx);
+-				goto retry;
+-			}
++	if (count != 0) {
++		ret = __drm_helper_update_and_validate(connector, maxX, maxY, &ctx);
++		if (ret == -EDEADLK) {
++			drm_modeset_backoff(&ctx);
++			goto retry;
+ 		}
+-
+-		if (mode->status != MODE_OK)
+-			continue;
+-		mode->status = drm_mode_validate_ycbcr420(mode, connector);
+ 	}
+ 
+ prune:
+-- 
+2.36.0.550.gb090851708-goog
+
