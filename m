@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6415240FF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 01:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E16524113
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 01:36:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85FD110E305;
-	Wed, 11 May 2022 23:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B33F10E3A1;
+	Wed, 11 May 2022 23:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81CB410E2F8
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 23:25:05 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id y32so6130451lfa.6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 16:25:05 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 675AA10E537
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 23:36:53 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id j4so6159695lfh.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 16:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=7ee9VsqZs3R0q1Ol8XBVP7c4JuwLiaeH0j2GOCI20bk=;
- b=TXIawwqIYCwHSUzBurh+oUQrTGWcpvKzU+K/HwaFRZzf9TqYELeMMsAai6Kvqlwtnj
- yYMSBGuACItmDIvqAk59lsZ6CWBbnyDx7jm8HSnPnngw0TtjA9volohqPAFFsCsqM4sV
- KjcbHpN+CJIcMIPcoZexrs2Tq31vUZXYVa7zme0/DUCM7sDnAHvkWuszFyhFFVwVQ4ve
- E5bZxs2l6Z0I8LJDXxcYmLzNHAM7IFGrOOChR7TWK9ylveLt6pS57zb21m+8pbBVd9Js
- L5APxcJKw0O2b5I6cRKu8Bp3vp6Z5zqTQmm5Mb0V8TXQUOIQ8sc6stX299BzezbxhSdg
- 5aKw==
+ bh=KaLkwfARzPI2WUpcwLW6/tBEwXIZOMHiSmPz9kdEE3g=;
+ b=n0LF6L3TfqxhtT/UfzDLL6epuNTp+yuCqM2xZdmxgkzTk56zc2C977OlKn2yUpvB8C
+ wvH0NPF6Q7rtL5tQNNCtH/mIJguDgwAHzlWsil9P9SmAycH5sQoSEY5LSO21YsrgioKA
+ B4/a5jDnUR2Q/zOymf7fwH2e7lwXX8IUdD8BrPJEgB5nMJ+O/EFRgMUnJVun19oScTZm
+ mVgmqM3MprFirE8VdlCOIjJ0j48ynmYlo1KaO3PIWJEAmPxWJy/TOgwPgf4//tKNZlfB
+ B7DBUJoTLRHmjUFST42Bchz5Oln/A9YscYVEP03C3n8MTx8VBIgyIdUCKfSiti+n9rTj
+ vNCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=7ee9VsqZs3R0q1Ol8XBVP7c4JuwLiaeH0j2GOCI20bk=;
- b=xICXUlVz86IJNiqVYK6pKXoyR8HshslzWJosVzjRHitgzQnfJ7g3u5TlUOVGXELcBO
- QFoiV9TtG7OicLveRWWi07Kmxei8aOxXHsKdQzeAY1kJDKjE2kTtukSJPYy9u7qSJDc8
- QPiz5CdN+vA2rzsdj+NxFb9UOfh4OAfNfus6178ivx75eGUYqk48b4olGvFExNnrBh6o
- EnksFBWMVhaF12tzJ0RmbBP/RW+hIAEUJbkyQYSzeVrTW3Ra1JprFEdrDQGerQw+LFhL
- 7WxX9NtYF+/UItskCxnkQO4kNVyzoX/Qn34t2u96L9NkELWiHHwavXoq5ilTPQrLKphu
- mxsg==
-X-Gm-Message-State: AOAM532uO1gWgjOOjBd1ecZ29AaLA1hfwxkYtirqf2camOKAphkaU8Rp
- m3FIG/eEgf6Yl12sHqkXfLnKCQ==
-X-Google-Smtp-Source: ABdhPJwQxJtLD6fYIqLpAZafjT/9q2YUVoO6GuZlPL5rawsjVyr2hZx94fTbNxBt3M/94vPZXYVH3w==
-X-Received: by 2002:a05:6512:150a:b0:474:bb9:5174 with SMTP id
- bq10-20020a056512150a00b004740bb95174mr17407643lfb.207.1652311503777; 
- Wed, 11 May 2022 16:25:03 -0700 (PDT)
+ bh=KaLkwfARzPI2WUpcwLW6/tBEwXIZOMHiSmPz9kdEE3g=;
+ b=gXn6/0LhoIuvaGDc2aoYtnHiA+BhZPyKgUDQibjPmHmiUhjAFnebb5ifkE8koY8vYj
+ kSMFzoAdbtKPLZYOvtfNQvdYsboRbe89CyWDFYbf/hZQ6vJe7y2HgpRfW9ARbOcgYt0M
+ BNvrHbabja87WdrBWG10vQNbej0Yf6WGnL4wtjie2OXxcA8jKwEzWR1xM1N2RuCMBisH
+ l7ZnFpu02/3ovJTCBhWXF+zScnakb8dFAhKi7yNpD1N5tVylc0XRMnZ7dl03nBAEWuCm
+ PKSfaz6tFnzpJPRu2Itarh/hLvtutxgwBXv0CGycDNAmycW79xo5gSnxhkRxPwqz+kgE
+ 8kig==
+X-Gm-Message-State: AOAM532OjODlUiEEkYvmRqqaSugHjwU4jmcRn3l8uHcOOssOEcqcef3A
+ ta6yzb9Ji5Ujv03egGvzOiPB8w==
+X-Google-Smtp-Source: ABdhPJwpiahihkqiYE0pu+9+p1gKbMKOBwf+fvXN70CbwJ1SRvU1fqfGCLtKFePoPsmUBxJaPzXPyw==
+X-Received: by 2002:a05:6512:3ba4:b0:473:a3fb:2810 with SMTP id
+ g36-20020a0565123ba400b00473a3fb2810mr22432088lfv.645.1652312211709; 
+ Wed, 11 May 2022 16:36:51 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- i3-20020a05651c120300b0024f3d1daedasm576957lja.98.2022.05.11.16.25.02
+ x20-20020ac25dd4000000b0047255d2114dsm497214lfq.124.2022.05.11.16.36.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 16:25:03 -0700 (PDT)
-Message-ID: <67a91eca-a116-7db8-f905-25750d8bf4b6@linaro.org>
-Date: Thu, 12 May 2022 02:25:02 +0300
+ Wed, 11 May 2022 16:36:51 -0700 (PDT)
+Message-ID: <a2bdbeb9-943b-f073-36ce-4a767a99288e@linaro.org>
+Date: Thu, 12 May 2022 02:36:49 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v2] Revert "drm/msm/dsi: move DSI host powerup to modeset
- time"
+Subject: Re: [PATCH 1/2] drm/msm/dsi: move DSI host powerup to modeset time
 Content-Language: en-GB
-To: Douglas Anderson <dianders@chromium.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20220511161539.v2.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
+To: Rob Clark <robdclark@gmail.com>
+References: <20211207222901.988484-1-dmitry.baryshkov@linaro.org>
+ <20211207222901.988484-2-dmitry.baryshkov@linaro.org>
+ <CAD=FV=V7RyVJKis9e3aoouQyhUppyAhVs9oN9=miKeZcV0t6_g@mail.gmail.com>
+ <15f9df0b-3228-af8f-f123-b5d10eb1bacb@linaro.org>
+ <CAF6AEGuD05pLUELrc9Hzy_htrczKDtxe8dv6dp6uw9msGXkcGQ@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220511161539.v2.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
+In-Reply-To: <CAF6AEGuD05pLUELrc9Hzy_htrczKDtxe8dv6dp6uw9msGXkcGQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,124 +77,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Doug Anderson <dianders@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/05/2022 02:15, Douglas Anderson wrote:
-> This reverts commit 7d8e9a90509f1bd1d193a0c93cb8d1dbad9049fb.
+On 12/05/2022 01:07, Rob Clark wrote:
+> On Wed, May 11, 2022 at 2:49 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> On 11/05/2022 23:06, Doug Anderson wrote:
+>>> Hi,
+>>>
+>>> On Tue, Dec 7, 2021 at 2:29 PM Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>
+>>>> The DSI subsystem does not fully fall into the pre-enable/enable system
+>>>> of callbacks, since typically DSI device bridge drivers expect to be
+>>>> able to communicate with DSI devices at the pre-enable() callback. The
+>>>> reason is that for some DSI hosts enabling the video stream would
+>>>> prevent other drivers from sending DSI commands. For example see the
+>>>> panel-bridge driver, which does drm_panel_prepare() from the
+>>>> pre_enable() callback (which would be called before our pre_enable()
+>>>> callback, resulting in panel preparation failures as the link is not yet
+>>>> ready).
+>>>>
+>>>> Therewere several attempts to solve this issue, but currently the best
+>>>> approach is to power up the DSI link from the mode_set() callback,
+>>>> allowing next bridge/panel to use DSI transfers in the pre_enable()
+>>>> time. Follow this approach.
+>>>>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/dsi/dsi_manager.c | 43 +++++++++++++++++++--------
+>>>>    1 file changed, 31 insertions(+), 12 deletions(-)
+>>>
+>>> I happened to be testing today on one of the sc7180-trogdor variants
+>>> that has a parade-ps8640 bridge chip in it and ran into problems. A
+>>> bisect pointed to this patch and, sure enough, reverting it fixes me
+>>> again.
+>>>
+>>> The Chromebook in question is able to power the screen on at bootup
+>>> but things don't work so well in other cases. Specifically, if I leave
+>>> the Chromebook idle then it will turn the screen off (but in this
+>>> case, not enter S3). Hitting a key should wake the screen up, but it
+>>> doesn't.
+>>>
+>>> None of the error prints in dsi_mgr_bridge_power_on() are hitting when
+>>> it fails and I even added extra error prints. It's not hitting any of
+>>> the early returns.
+>>>
+>>> I did a little bit more debugging and it appears that nothing funny is
+>>> going on. It's just the ordering difference that matters. With the
+>>> patch reverted, I see this and it all works:
+>>>
+>>> boot:
+>>> [    9.653801] DOUG: dsi_mgr_bridge_mode_set
+>>> [    9.658687] DOUG: ps8640_pre_enable
+>>> [    9.664194] DOUG: dsi_mgr_bridge_pre_enable
+>>>
+>>> screen turns off:
+>>> [   82.130038] DOUG: dsi_mgr_bridge_post_disable
+>>> [   82.166817] DOUG: ps8640_post_disable
+>>>
+>>> screen turns on:
+>>> [   92.611846] DOUG: dsi_mgr_bridge_mode_set
+>>> [   92.617875] DOUG: ps8640_pre_enable
+>>> [   92.920237] DOUG: dsi_mgr_bridge_pre_enable
+>>>
+>>> Without the patch reverted, I see this and it fails:
+>>>
+>>> boot:
+>>> [   10.817810] DOUG: dsi_mgr_bridge_mode_set
+>>> [   10.822128] DOUG: dsi_mgr_bridge_power_on
+>>> [   10.852131] DOUG: ps8640_pre_enable
+>>> [   10.857942] DOUG: dsi_mgr_bridge_pre_enable
+>>>
+>>> screen turns off:
+>>> [   34.819953] DOUG: dsi_mgr_bridge_post_disable
+>>> [   34.883777] DOUG: ps8640_post_disable
+>>>
+>>> screen should turn on, but doesn't:
+>>> [   46.193589] DOUG: dsi_mgr_bridge_mode_set
+>>> [   46.197951] DOUG: dsi_mgr_bridge_power_on
+>>> [   46.248438] DOUG: ps8640_pre_enable
+>>> [   46.541700] DOUG: dsi_mgr_bridge_pre_enable
+>>>
+>>> Unfortunately, ps8640 is a pretty big black box. The Linux kernel
+>>> driver does almost nothing at all and the parade bridge chip has a
+>>> bunch of magic firmware on it. Though I don't know for sure, I assume
+>>> that this magic firmware simply can't handle the fact that the MIPI
+>>> side is already setup / running when the bridge is powered on.
+>>>
+>>> Rather than this patch, maybe you can jump on Dave Stevenson's patch
+>>> series [1] which I believe would solve this problem in a more dynamic
+>>> way? Would you accept a revert of ${SUBJECT} patch to fix my problem?
+>>
+>> I'm fine with the revert, but it will depend on [1]. Otherwise other
+>> MIPI DSI bridges are broken (see the discussion at [2]).
 > 
-> The patch causes sc7180 Chromebooks that use the parade-ps8640 bridge
-> chip to fail to turn the display back on after it turns off.
+> heh, well the problem is that MIPI DSI bridges, or at least one of
+> them, is broken *without* the revert ;-)
 > 
-> Let's revert to get these devices back to a working state. It seems
-> like the DSI powerup problem is somewhat common and probably we should
-> land something more general like Dave Stevenson's series [1] that
-> would give more flexibility.
-> 
-> [1] https://lore.kernel.org/r/cover.1646406653.git.dave.stevenson@raspberrypi.com
-> 
-> Fixes: 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset time")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> 
-> Changes in v2:
-> - Remove the mud from my face.
+> [1] looks like a bit much for -fixes, so I'd be inclined to revert
+> this patch and at least go back to the broken/working state from
+> before for the time being..
 
-As stated, I'm for this revert, but after getting the mentioned patchset 
-in. Will that work for you? If not, I'd prefer to land a patch adding 
-modparam to powerup the DSI during the mode_set or during the pre_enabel().
+So... We either get the ps8640 or tc358762 & the rest broken. I'd 
+suggest a modparam.
 
 > 
->   drivers/gpu/drm/msm/dsi/dsi_manager.c | 43 ++++++++-------------------
->   1 file changed, 12 insertions(+), 31 deletions(-)
+> BR,
+> -R
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index 50b987658b1f..8d51711a3417 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -315,12 +315,13 @@ dsi_mgr_connector_best_encoder(struct drm_connector *connector)
->   	return msm_dsi_get_encoder(msm_dsi);
->   }
->   
-> -static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
-> +static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
->   {
->   	int id = dsi_mgr_bridge_get_id(bridge);
->   	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
->   	struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
->   	struct mipi_dsi_host *host = msm_dsi->host;
-> +	struct drm_panel *panel = msm_dsi->panel;
->   	struct msm_dsi_phy_shared_timings phy_shared_timings[DSI_MAX];
->   	bool is_bonded_dsi = IS_BONDED_DSI();
->   	int ret;
-> @@ -361,34 +362,6 @@ static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
->   	if (is_bonded_dsi && msm_dsi1)
->   		msm_dsi_host_enable_irq(msm_dsi1->host);
->   
-> -	return;
-> -
-> -host1_on_fail:
-> -	msm_dsi_host_power_off(host);
-> -host_on_fail:
-> -	dsi_mgr_phy_disable(id);
-> -phy_en_fail:
-> -	return;
-> -}
-> -
-> -static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
-> -{
-> -	int id = dsi_mgr_bridge_get_id(bridge);
-> -	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> -	struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
-> -	struct mipi_dsi_host *host = msm_dsi->host;
-> -	struct drm_panel *panel = msm_dsi->panel;
-> -	bool is_bonded_dsi = IS_BONDED_DSI();
-> -	int ret;
-> -
-> -	DBG("id=%d", id);
-> -	if (!msm_dsi_device_connected(msm_dsi))
-> -		return;
-> -
-> -	/* Do nothing with the host if it is slave-DSI in case of bonded DSI */
-> -	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
-> -		return;
-> -
->   	/* Always call panel functions once, because even for dual panels,
->   	 * there is only one drm_panel instance.
->   	 */
-> @@ -423,7 +396,17 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
->   	if (panel)
->   		drm_panel_unprepare(panel);
->   panel_prep_fail:
-> +	msm_dsi_host_disable_irq(host);
-> +	if (is_bonded_dsi && msm_dsi1)
-> +		msm_dsi_host_disable_irq(msm_dsi1->host);
->   
-> +	if (is_bonded_dsi && msm_dsi1)
-> +		msm_dsi_host_power_off(msm_dsi1->host);
-> +host1_on_fail:
-> +	msm_dsi_host_power_off(host);
-> +host_on_fail:
-> +	dsi_mgr_phy_disable(id);
-> +phy_en_fail:
->   	return;
->   }
->   
-> @@ -569,8 +552,6 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
->   	msm_dsi_host_set_display_mode(host, adjusted_mode);
->   	if (is_bonded_dsi && other_dsi)
->   		msm_dsi_host_set_display_mode(other_dsi->host, adjusted_mode);
-> -
-> -	dsi_mgr_bridge_power_on(bridge);
->   }
->   
->   static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+>>> [1] https://lore.kernel.org/r/cover.1646406653.git.dave.stevenson@raspberrypi.com
+>>
+>> [2]
+>> https://lore.kernel.org/all/CAPY8ntBrhYAmsraDqJGuTrSL6VjGXBAMVoN7xweV7E4qZv+v3Q@mail.gmail.com/
+>>
+>>
+>> --
+>> With best wishes
+>> Dmitry
 
 
 -- 
