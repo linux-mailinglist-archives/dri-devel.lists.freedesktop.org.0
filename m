@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDA8523F42
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 23:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD5C523F51
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 23:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9728010ECF9;
-	Wed, 11 May 2022 21:09:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE0C10E2C6;
+	Wed, 11 May 2022 21:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970A210ECF9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 21:09:58 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- m15-20020a9d608f000000b00606a788887aso1327621otj.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 14:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W+mg85xftnZcZLJB7N4iafdGzrp/QjjiMVJKxOSbpks=;
- b=Uycrwff8UYpk839P/stLXQqgDArYSC9aT0hu3UL5vYIodeRRwr5aCDFjwONRkyBgyd
- SqoqljAmoqtNL/sDF0CiCado1OJDn8pUw3DKVEXYMFC9swsCKS2bz5vz1adA77j/n5W6
- +nZdVIcSHk9a8stIQmD1cbsPC8PF5OZ+Jj5AM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W+mg85xftnZcZLJB7N4iafdGzrp/QjjiMVJKxOSbpks=;
- b=eP877ZuD43xMsIACbsn1C6lyr2KZ2RPawqWCoI1r1SfM5OQTkLMMpEr/GUF9j5rwQT
- EZLU7UftzOZOsfg5Qy4+Lm8Lb42qwMCFksBKaUlYACpsdfjpbywIJnypWeCPf2piyD+I
- 8vX+Zj1B4kl9WrJsROn0JOB1+T6xNxS/v4kAraCmakqSGZCwHY1Wr2a/Ja/7gmlQKGqU
- uI2JQDsAzIYu2D8cSxBOsIKMFZvPMDvcZHs7k7ypJ5+j6YpUC4xMd264PI0yfJTLvKke
- dWRzTtzzLLdGwn4cCb5/T97mZjZxuAx5w1eD73nsvWdCC2rsm9eqOUqNyn0UR5RDPbw7
- lMaw==
-X-Gm-Message-State: AOAM533koCt6DmSkv2x+5rr3PNmEyP7b2CwjL5dsdNhPmtDsMLBUdAbI
- b9AjT6o/AtVDpTE2HB4o6kHmqbynobzWsq/kvKBawQ==
-X-Google-Smtp-Source: ABdhPJza+0hoHpKhXD8T9wB4il3M8kQds1a/XzX8BA9ArBGXW/HS4/WRO2wAqQ4k0ro1zL/BC7tk9sp6TbK3kZMb64E=
-X-Received: by 2002:a9d:12a:0:b0:605:d26d:3223 with SMTP id
- 39-20020a9d012a000000b00605d26d3223mr10539101otu.301.1652303397783; Wed, 11
- May 2022 14:09:57 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A8610E2C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 21:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652303724; x=1683839724;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XA/9k8fum1hnT6N9LahgNbseCi/JRz/UAlaSHgl2wpw=;
+ b=mfo3Iu6Ptt2L7P2d+wUJsTdKlPMDow3c+Gps14XBcyob2gjviuo3lQS+
+ vck6TUNPDarkvzrmD8JVkYUFI1Is6ySOga/B5+x17V3LgxR8ErXDjuUH5
+ gUuBQBYdWjUJNMr4DqM3bO/b86v/nAr05b4xJG3A/NUZPzk3a3yZCzs+9
+ kvSeB1VgDAn6tcEsSBsGg3UqcMppiOgJAsnpWmLLwP/njjUgWSoi9R98S
+ Ij4tOCT2+SX6qgKkrJ4hTOB8OyOryYw56TyjLYN11Vssy2FgzGFHp2bAH
+ HYeqgUHBYFpBL+enYWc8S+QHpKMziothJ2xC3dWB3fRaRdjAg1Mcvp/gg Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="257365591"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="257365591"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 14:15:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="636577197"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 11 May 2022 14:15:21 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1notg0-000Jap-Sb;
+ Wed, 11 May 2022 21:15:20 +0000
+Date: Thu, 12 May 2022 05:14:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ lyude@redhat.com, tzimmermann@suse.de
+Subject: Re: [PATCH v2] mgag200: Enable atomic gamma lut update
+Message-ID: <202205120525.DrSeu95X-lkp@intel.com>
+References: <20220511152815.892562-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-References: <20220510070140.45407-1-tomeu.vizoso@collabora.com>
- <20220510141329.54414-1-tomeu.vizoso@collabora.com>
- <e4e03cd8-3ebc-e5e1-e7d0-6bdc038049b5@quicinc.com>
- <CAF6AEGueadnRMiatO3MoHS+NTQ1o1sgcV0cVjJM3iu-6JUNmNw@mail.gmail.com>
- <CAKMK7uGRuCZwF6m02tcxxrgQGaijsYaNkowjxR+cw0JM3UpDkQ@mail.gmail.com>
- <CAF6AEGthpxPLxyt_i-aUFgW485hA5qw+xXcJ3gKQUJ+fM=ZBhg@mail.gmail.com>
- <CAKMK7uGQvay9-twVuEKJe7Hz88iQGBP+bdO+3tKJnsjZsnfV9Q@mail.gmail.com>
- <CAF6AEGu1tzz5NgLzXC9X5NwX8XxgJUkJ5CJ5Au8Wt2ZeD815gQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGu1tzz5NgLzXC9X5NwX8XxgJUkJ5CJ5Au8Wt2ZeD815gQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 11 May 2022 23:09:46 +0200
-Message-ID: <CAKMK7uHR0kUgJQEaa8_7uxWM5ukfdXykFC456oJUKXfvUnBQJw@mail.gmail.com>
-Subject: Re: [Freedreno] [RFC v2] drm/msm: Add initial ci/ subdirectory
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220511152815.892562-1-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,216 +59,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
+Cc: michel@daenzer.net, kbuild-all@lists.01.org,
+ Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 May 2022 at 22:32, Rob Clark <robdclark@gmail.com> wrote:
->
-> On Wed, May 11, 2022 at 12:14 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Wed, 11 May 2022 at 19:46, Rob Clark <robdclark@gmail.com> wrote:
-> > >
-> > > On Wed, May 11, 2022 at 10:12 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Tue, 10 May 2022 at 22:26, Rob Clark <robdclark@gmail.com> wrote:
-> > > > >
-> > > > > On Tue, May 10, 2022 at 12:39 PM Jessica Zhang
-> > > > > <quic_jesszhan@quicinc.com> wrote:
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > On 5/10/2022 7:13 AM, Tomeu Vizoso wrote:
-> > > > > > > And use it to store expectations about what the drm/msm driver is
-> > > > > > > supposed to pass in the IGT test suite.
-> > > > > > >
-> > > > > > > Also include a configuration file that points to the out-of-tree CI
-> > > > > > > scripts.
-> > > > > > >
-> > > > > > > By storing the test expectations along the code we can make sure both
-> > > > > > > stay in sync with each other, and so we can know when a code change
-> > > > > > > breaks those expectations.
-> > > > > > >
-> > > > > > > This will allow all contributors to drm/msm to reuse the infrastructure
-> > > > > > > already in gitlab.freedesktop.org to test the driver on several
-> > > > > > > generations of the hardware.
-> > > > > > >
-> > > > > > > v2:
-> > > > > > >    - Fix names of result expectation files to match SoC
-> > > > > > >    - Don't execute tests that are going to skip on all boards
-> > > > > > >
-> > > > > > > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> > > > > > > ---
-> > > > > > >   Documentation/gpu/msm_automated_testing.rst   |  70 +++++++++
-> > > > > > >   drivers/gpu/drm/msm/ci/gitlab-ci.yml          |  11 ++
-> > > > > > >   drivers/gpu/drm/msm/ci/msm.testlist           | 148 ++++++++++++++++++
-> > > > > > >   .../gpu/drm/msm/ci/msm_apq8016_results.txt    | 140 +++++++++++++++++
-> > > > > > >   .../gpu/drm/msm/ci/msm_apq8096_results.txt    | 140 +++++++++++++++++
-> > > > > > >   drivers/gpu/drm/msm/ci/msm_sc7180_results.txt | 141 +++++++++++++++++
-> > > > > > >   drivers/gpu/drm/msm/ci/msm_sdm845_results.txt | 141 +++++++++++++++++
-> > > > > > >   7 files changed, 791 insertions(+)
-> > > > > > >   create mode 100644 Documentation/gpu/msm_automated_testing.rst
-> > > > > > >   create mode 100644 drivers/gpu/drm/msm/ci/gitlab-ci.yml
-> > > > > > >   create mode 100644 drivers/gpu/drm/msm/ci/msm.testlist
-> > > > > > >   create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8016_results.txt
-> > > > > > >   create mode 100644 drivers/gpu/drm/msm/ci/msm_apq8096_results.txt
-> > > > > > >   create mode 100644 drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
-> > > > > > >   create mode 100644 drivers/gpu/drm/msm/ci/msm_sdm845_results.txt
-> > > > > > >
-> > >
-> > > [snip]
-> > >
-> > > > > > > diff --git a/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt b/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..01f7b4b399b5
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/drivers/gpu/drm/msm/ci/msm_sc7180_results.txt
-> > > > > > > @@ -0,0 +1,141 @@
-> > > > > > > +igt@core_auth@getclient-simple,dmesg-warn
-> > > > > > > +igt@core_auth@getclient-master-drop,pass
-> > > > > > > +igt@core_auth@basic-auth,pass
-> > > > > > > +igt@core_auth@many-magics,pass
-> > > > > > > +igt@core_getclient,pass
-> > > > > > > +igt@core_getstats,pass
-> > > > > > > +igt@core_getversion,pass
-> > > > > > > +igt@core_setmaster_vs_auth,pass
-> > > > > > > +igt@drm_read@invalid-buffer,pass
-> > > > > > > +igt@drm_read@fault-buffer,pass
-> > > > > > > +igt@drm_read@empty-block,pass
-> > > > > > > +igt@drm_read@empty-nonblock,pass
-> > > > > > > +igt@drm_read@short-buffer-block,pass
-> > > > > > > +igt@drm_read@short-buffer-nonblock,pass
-> > > > > > > +igt@drm_read@short-buffer-wakeup,pass
-> > > > > > > +igt@kms_addfb_basic@unused-handle,pass
-> > > > > > > +igt@kms_addfb_basic@unused-pitches,pass
-> > > > > > > +igt@kms_addfb_basic@unused-offsets,pass
-> > > > > > > +igt@kms_addfb_basic@unused-modifier,pass
-> > > > > > > +igt@kms_addfb_basic@legacy-format,dmesg-warn
-> > > > > > > +igt@kms_addfb_basic@no-handle,pass
-> > > > > > > +igt@kms_addfb_basic@basic,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-0,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-32,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-63,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-128,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-256,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-1024,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-999,pass
-> > > > > > > +igt@kms_addfb_basic@bad-pitch-65536,pass
-> > > > > > > +igt@kms_addfb_basic@size-max,pass
-> > > > > > > +igt@kms_addfb_basic@too-wide,pass
-> > > > > > > +igt@kms_addfb_basic@too-high,dmesg-warn
-> > > > > >
-> > > > > > For test results on Trogdor, is is possible to have them be
-> > > > > > success/fail/skip only?
-> > > > > >
-> > > > > > Results such as dmesg-warn/dmesg-fail are igt_runner specific and
-> > > > > > because there isn't support for igt_runner on ChromeOS, they will be
-> > > > > > difficult to replicate and debug.
-> > > > >
-> > > > > Actually, I wonder if it would be better to just treat
-> > > > > dmesg-warn/dmesg-fail as pass/fail?  I'd noticed some flakes on
-> > > > > rockchip which looked just like unrelated dmesg msg which just
-> > > > > happened to show up while the test was running.
-> > > >
-> > > > This is kinda the reason behind standardizing on drm dmesg logging, so
-> > > > that we have some chances at filtering stuff out. Not sure that's a
-> > > > good idea, since when your entire box splats and lockdep is dead, then
-> > > > continuing to run drm tests is still fairly pointless.
-> > >
-> > > I'm not sure if we are using it yet for drm-ci, but for mesa-ci we
-> > > monitor dmesg (over serial port, from the controller) for splats, so
-> > > we already have the tech for restarting or aborting the CI run.  We
-> > > don't need igt-runner to tell us.
-> > >
-> > > > I think this is another reason why trying at least to standardize this
-> > > > stuff over drivers would be pretty good idea.
-> > > >
-> > > > > Additionally, some of the tests, like msm_recovery, are *expected* to
-> > > > > generate some dmesg spam since they are intentionally triggering GPU
-> > > > > hangs to test the recovery mechanism.
-> > > >
-> > > > Uh I don't like that. It just allows userspace to spam dmesg, which
-> > > > doesn't seem like a great idea. That's at least why i915 dumps these
-> > > > at a lower level, and in the past had a special "I'm going to whack
-> > > > the gpu real hard expect hangs" knob in debugfs.
-> > > >
-> > > > Having tests which intentionally spam dmesg above info level isn't
-> > > > really good since then you need endless amounts of test-specific
-> > > > encoding of what is considered a success and what not. Like when a
-> > > > backmerge breaks a testcases which is already at dmesg-fail, is that
-> > > > bad or not? Probably bad, but was the situation before that really
-> > > > good or already kinda on fire?
-> > >
-> > > I guess I could add some debugfs knobs to squelch the dmesg msgs on
-> > > gpu hangs.  In the normal case, I'd prefer that gpu hangs are not
-> > > silent.. since that is something we get in feedback reports if a user
-> > > (or dogfooder) reports a bug.
-> > >
-> > > The rockchip case I mentioned was some unrelated dmesg about
-> > > linktraining failing.. presumably because there was no display
-> > > attached?  IDK, I didn't look too closely.  But my point is we could
-> > > be getting unrelated and asynchronous dmesg spam, even from other
-> > > kernel subsystems.  Letting that be part of the test results just
-> > > sounds like asking for flakes.
-> >
-> > That's why I think you need to filter dmesg, otherwise you'll just get
-> > random stuff in there that causes flaps.
->
-> We've evolved a bit of that over the time, see:
->
-> https://gitlab.freedesktop.org/gfx-ci/drm-ci/-/blob/main/.gitlab-ci/bare-metal/cros_servo_run.py#L94
->
-> It tends to be a bit specific to the runners and their quirks.  But
-> mesa does a lot of CI runs, so once-in-a-blue-moon quirks quickly turn
-> frustrating if the CI machinery doesn't detect them, and (for ex)
-> reboot and restart the DUT
+Hi Jocelyn,
 
-Yeah that kind of stuff is probably best kept in a ci-farm adjacent
-repo, since it's all very specific to the machine and ci setup.
--Daniel
+Thank you for the patch! Perhaps something to improve:
 
->
-> BR,
-> -R
->
-> > And then in another level you need different filtering to figure out
-> > when your kernel is too busted and you need to reboot (like when
-> > lockdep splats anywhere).
-> >
-> > Maybe we should pull that part of igt_runner out so that it can be
-> > used in places where the full thing cant? Maybe even in mesa as a "my
-> > kernel is in really bad shape" kinda test. There's a lot of tea leaves
-> > reading heuristics involved in this stuff ime.
-> > -Daniel
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > > > -Daniel
-> > > >
-> > > > > BR,
-> > > > > -R
-> > > > >
-> >
-> >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+[auto build test WARNING on tegra-drm/drm/tegra/for-next]
+[also build test WARNING on v5.18-rc6]
+[cannot apply to drm/drm-next drm-tip/drm-tip airlied/drm-next next-20220511]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/mgag200-Enable-atomic-gamma-lut-update/20220511-233134
+base:   git://anongit.freedesktop.org/tegra/linux.git drm/tegra/for-next
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220512/202205120525.DrSeu95X-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0831f1db9ae8814796efea603749709e80d2808c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jocelyn-Falempe/mgag200-Enable-atomic-gamma-lut-update/20220511-233134
+        git checkout 0831f1db9ae8814796efea603749709e80d2808c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/mgag200/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:15,
+                    from include/linux/i2c.h:13,
+                    from include/drm/drm_crtc.h:28,
+                    from include/drm/drm_atomic_helper.h:31,
+                    from drivers/gpu/drm/mgag200/mgag200_mode.c:14:
+   drivers/gpu/drm/mgag200/mgag200_mode.c: In function 'mgag200_simple_display_pipe_check':
+>> include/drm/drm_print.h:425:39: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+         |                                       ^~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   include/drm/drm_print.h:425:9: note: in expansion of macro 'dev_err'
+     425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+         |         ^~~~
+   include/drm/drm_print.h:438:9: note: in expansion of macro '__drm_printk'
+     438 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/mgag200/mgag200_mode.c:971:25: note: in expansion of macro 'drm_err'
+     971 |                         drm_err(dev, "Wrong size for gamma_lut %ld\n",
+         |                         ^~~~~~~
 
 
+vim +425 include/drm/drm_print.h
+
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  385  
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  386  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  387   * DRM_DEV_DEBUG() - Debug output for generic drm code
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  388   *
+306589856399e1 Douglas Anderson      2021-09-21  389   * NOTE: this is deprecated in favor of drm_dbg_core().
+306589856399e1 Douglas Anderson      2021-09-21  390   *
+091756bbb1a961 Haneen Mohammed       2017-10-17  391   * @dev: device pointer
+091756bbb1a961 Haneen Mohammed       2017-10-17  392   * @fmt: printf() like format string.
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  393   */
+db87086492581c Joe Perches           2018-03-16  394  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+db87086492581c Joe Perches           2018-03-16  395  	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  396  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  397   * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  398   *
+306589856399e1 Douglas Anderson      2021-09-21  399   * NOTE: this is deprecated in favor of drm_dbg() or dev_dbg().
+306589856399e1 Douglas Anderson      2021-09-21  400   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  401   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  402   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  403   */
+db87086492581c Joe Perches           2018-03-16  404  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  405  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  406  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  407   * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  408   *
+306589856399e1 Douglas Anderson      2021-09-21  409   * NOTE: this is deprecated in favor of drm_dbg_kms().
+306589856399e1 Douglas Anderson      2021-09-21  410   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  411   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  412   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  413   */
+db87086492581c Joe Perches           2018-03-16  414  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  415  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+a18b21929453af Lyude Paul            2018-07-16  416  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  417  /*
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  418   * struct drm_device based logging
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  419   *
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  420   * Prefer drm_device based logging over device or prink based logging.
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  421   */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  422  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  423  /* Helper for struct drm_device based logging. */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  424  #define __drm_printk(drm, level, type, fmt, ...)			\
+fb6c7ab8718eb2 Jani Nikula           2019-12-10 @425  	dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  426  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  427  
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+0-DAY CI Kernel Test Service
+https://01.org/lkp
