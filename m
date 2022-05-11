@@ -1,73 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B35B522E37
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 10:22:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94543522E4F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 10:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D0910EEE7;
-	Wed, 11 May 2022 08:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C13C010F223;
+	Wed, 11 May 2022 08:26:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54EAC10EEE7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 08:22:27 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id ks9so2517327ejb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 01:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IIOcJgbS1/hMQQvn2DCFX+BHhbtb4xhB0glTejG9nd0=;
- b=nN+tvnytLjTaJLXUpNkGlrL31C7UW1pB6NFTtmXaTXEc/E6YrG1OIKgpwVMC8S+kVK
- D0zGHuOSWn6VMDT5RVsCrOPzqDPn+ynX+2xgsLJ+esu5HFhKI1L1FfojyWFbLtSNbXuS
- 1qXyVZ1jTq1c48DPsEHHWi1ElZ8UTZzr57W1iPjRSdUmmWlSe8Hm8Pc0jYi+i4kpwRAW
- hH+yxI/z9Cc1NoWL0nAk+IMz8mhUv1TWwTqWJaA1lqsWAnJvZ/pbzRI35MVvlcqiK0bh
- yq9FIOhP2dWozNqsyasJ2s6B/nnu1uuSBahdmKMJDmas8sdvCmBeg2zvG6YZlvRLOBiP
- 0WMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IIOcJgbS1/hMQQvn2DCFX+BHhbtb4xhB0glTejG9nd0=;
- b=dCpy3s9KSpzUSEKbFUvX1jY7jXCXTP7swt5qXWtgNgX3OVpQN3nSisotJiRQCB9M51
- 0qcgneLPfj/5BllsQ5DX+MeR34Y8+Q2+lSTlmyFvq++0kdUeHob2/TkVkqivlvbCGLME
- zIiEtvJg9V5tC9v/PEf9msVTcRp6DatBF4q61LPcMsKchuSNW7FZ7md8EbJDW6kXonSv
- rptznmvT0zH5hOgCYOx2BbF9vFD6rACvFsKWiisrcId5njSeCknQSN6/gRLuHE2p1XHg
- R2ei/29qhMlCWafDI4DubNpMjq4lKtanzw69z2tBsvYlkyYgWFTceKxO0Kz66c+8BniK
- nnxA==
-X-Gm-Message-State: AOAM5304/VaH9cjmuvw3eJUT8PHdKZrPWVQjC3E7RVqAfdkv7xh/m4v8
- 5A5NY/CcP5ql8Ah/AKl6TcOkMQ==
-X-Google-Smtp-Source: ABdhPJyQl+2i2St5QQZxqWfls/5xIarQ0xgPypRKf/p7aX8oprL7xHpOkr9jt2CVt3KlxWwPkWf+7Q==
-X-Received: by 2002:a17:907:16a2:b0:6f4:eeb1:f7de with SMTP id
- hc34-20020a17090716a200b006f4eeb1f7demr23680710ejc.446.1652257345815; 
- Wed, 11 May 2022 01:22:25 -0700 (PDT)
-Received: from [192.168.0.254] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- q20-20020a17090676d400b006f3ef214dddsm686150ejn.67.2022.05.11.01.22.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 01:22:25 -0700 (PDT)
-Message-ID: <7783d64c-e48c-5e3d-9560-51197234051a@linaro.org>
-Date: Wed, 11 May 2022 10:22:23 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84D3210F1E7;
+ Wed, 11 May 2022 08:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652257600; x=1683793600;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=IlS+wvIwyPBWN+lFXIFb/bALEA6jOVPJY1n40lk4/ic=;
+ b=nkVgA1RXqZ4Vq1cDWSO9ILTF0y+AA42xhb74hQW8FPZDxOa0dt78fx39
+ AHJumeNmaP5WEXzWZCUK2fFu5ZB5GJy6tztSakB5FR3vG/YB+KifWJxbo
+ d0iR1Iw9N39PEw0rFrCXl9zT3ZQrMhwFY5n8wq7CwBhEYd4Wz9+riWzMw
+ SmUDTvu3cdz03HIIDMJbBMUe+mQe5nNQJHqnKCkQ0hEcRTDfhMCmVX52S
+ Ijyd5T/1vS9qooXv6efZoNUEgeaEDuQaBGFZaAzZJb6JvTt52CfguuFcJ
+ DrwNkTBMhVNzbEt+jDfpiA1rA2b5J/OnVaCyNalXMQ9DuM+Bi7+Y/K3c7 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10343"; a="269763220"
+X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="269763220"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 01:26:39 -0700
+X-IronPort-AV: E=Sophos;i="5.91,216,1647327600"; d="scan'208";a="520426085"
+Received: from mmlucey-mobl1.ger.corp.intel.com (HELO [10.213.195.130])
+ ([10.213.195.130])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 01:26:37 -0700
+Message-ID: <3dd4df27-ebf5-9942-2d17-941da79aa743@linux.intel.com>
+Date: Wed, 11 May 2022 09:26:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v2 2/3] dt-bindings: display: Add bindings for EBBG FT8719
+Subject: Re: [Intel-gfx] [PATCH v4 1/3] drm/i915/gt: Ignore TLB invalidations
+ on idle engines
 Content-Language: en-US
-To: Joel Selvaraj <jo@jsfamily.in>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Stanislav Jakubek <stano.jakubek@gmail.com>,
- Corentin Labbe <clabbe@baylibre.com>, Oleksij Rempel
- <linux@rempel-privat.de>, Linus Walleij <linus.walleij@linaro.org>,
- Hao Fang <fanghao11@huawei.com>
-References: <cover.1652245767.git.jo@jsfamily.in>
- <BY5PR02MB7009F6D4CC6CA1C433912C56D9C89@BY5PR02MB7009.namprd02.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <BY5PR02MB7009F6D4CC6CA1C433912C56D9C89@BY5PR02MB7009.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+References: <20220511011121.114226-1-andi.shyti@linux.intel.com>
+ <20220511011121.114226-2-andi.shyti@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220511011121.114226-2-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,22 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: Matthew Auld <matthew.auld@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/05/2022 07:28, Joel Selvaraj wrote:
-> Add bindings for the EBBG FT8719 6.18" 2246x1080 DSI video mode panel,
-> which can be found on some Xiaomi Poco F1 phones. The backlight is
-> managed through the QCOM WLED driver.
+
+On 11/05/2022 02:11, Andi Shyti wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
 > 
-> Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
+> As an extension of the current skip TLB invalidations if the device is
+> powered down, we recognised that prior to any engine activity, all the
+> TLBs are explicitly invalidated. Thus anytime we know the engine is
+> asleep, we can skip invalidating the TLBs on that engine.
 
+I've only noticed this after looking at the single patch version.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The commit message here does not match the patch really and CI also says 
+something is not quite right.
 
+Otherwise the idea I think is a good one. I think it can work together 
+with the optimisation I mentioned in my reply to the single patch version.
 
-Best regards,
-Krzysztof
+But there is no rush, for_each_gt flow is unreachable in upstream anyway.
+
+Regards,
+
+Tvrtko
+
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_pm.h | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> index bc898df7a48cc..3b1fbce7ea369 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> @@ -55,6 +55,10 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+>   	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+>   	     intel_gt_pm_put(gt), tmp = 0)
+>   
+> +#define with_intel_gt_pm_if_awake(gt, tmp) \
+> +	for (tmp = 1, intel_gt_pm_get_if_awake(gt); tmp; \
+> +	     intel_gt_pm_put(gt), tmp = 0)
+> +
+>   static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+>   {
+>   	return intel_wakeref_wait_for_idle(&gt->wakeref);
