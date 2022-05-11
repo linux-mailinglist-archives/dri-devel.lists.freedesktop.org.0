@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F92E5231BF
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 13:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD065231C0
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 13:32:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1094610EC50;
-	Wed, 11 May 2022 11:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D714610F028;
+	Wed, 11 May 2022 11:32:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5028110EC50
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 11:32:24 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E94CC10F028
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 11:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652268743;
+ s=mimecast20190719; t=1652268758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UDplaZMb5YseJ+Hq/qs3ip7VsbbgryHldJFcbzukwP8=;
- b=bDssD1fzjw/uIzbsxTtaleWq+NtY2Inc5m7ovri62cKq5svoMybbry6Bre1xWR9SK6DExM
- EjrYYnKAuxrinfrK0u0yyMF28VovWRRjyVBilU+glz0eA/4n9Uf/iqiXrUnvhsmm0uH1AP
- Z5ZqM7Nf0wBnvWfe+HnJj87nmAXTr6M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=j9CH2v0YXJ3HjUK6dIstavUpY+IdJA0p7lKZyzF8giE=;
+ b=GGjnVFm0+xKrdWmzyDvCyWf1pIpAL6D2JnSJfjpLsSeIpxfO4tSMs+6qo6Jrbw6ULLT8x3
+ uTe6/7v/6I9ycOdkbrfuIVHdey1GIQVwhJ/Irf/W64jdqn3VQbWRfYonZNx+hQM6yvAEwu
+ uwbcO8YR8Z+uN5voz/v8gN8sL9zSvUE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-nZQC2_THN3Kj2l-sdhsFbA-1; Wed, 11 May 2022 07:32:22 -0400
-X-MC-Unique: nZQC2_THN3Kj2l-sdhsFbA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s14-20020adfa28e000000b0020ac7532f08so726462wra.15
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 04:32:22 -0700 (PDT)
+ us-mta-607-SFa3mIEJNEqI_RmyjhKZIQ-1; Wed, 11 May 2022 07:32:36 -0400
+X-MC-Unique: SFa3mIEJNEqI_RmyjhKZIQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n186-20020a1c27c3000000b00392ae974ca1so1426237wmn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 04:32:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UDplaZMb5YseJ+Hq/qs3ip7VsbbgryHldJFcbzukwP8=;
- b=q2CxeWVS90GKyxdN07lkrIkEhrZEL7rCAfw9f2HSHMGTHhlJsRwPvCpv1zNUQFHizt
- QxCF9MWM6oyCIfdGVJ3vkzNDfFQl/Rg6wA1+tpW8nsGXvpffhDfwnwv0G6sIP7G8hI6u
- PVnwInvWkJB9dmdrihdV2PUun9s5QYXnFWSu9ERZ+Y9bH8nyPLyFOk69TQjXYG86lR9J
- fQGcebaWoV5Fs7lIitHZG/XXtere/wBKbE2AYnypptm/EeT9U0RdjNyLIZBcbzZBETra
- IPFtbVpSoTx2L23smuunoieaUGRui7IFY1kWhnkemV8RtPrrdcqbpAOlTxz/JbC7h4JH
- NI9g==
-X-Gm-Message-State: AOAM532MQgulmDVFHGC1c6S7Kt664BHtqqWikc89fwu5UErbRTNnJY0r
- YGSAy0yndC8Qhs+HRwqBL/D0Izw8mZ7grOnZcumTk2Q89YyWIIYzQpIZGCOalGzP8hopzfD/S7p
- B6ZeOo8OWNYukU+NMHrkbLDWKc77Z
-X-Received: by 2002:a05:6000:1d8b:b0:20c:54e6:1659 with SMTP id
- bk11-20020a0560001d8b00b0020c54e61659mr22002285wrb.169.1652268741178; 
- Wed, 11 May 2022 04:32:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8DOa4eVy/j4OxWjmKfDXFScY2hy71AEkR7bJehfJjo+JROKXYZWV1lJqXARoz2/Z0HXw3aQ==
-X-Received: by 2002:a05:6000:1d8b:b0:20c:54e6:1659 with SMTP id
- bk11-20020a0560001d8b00b0020c54e61659mr22002251wrb.169.1652268740906; 
- Wed, 11 May 2022 04:32:20 -0700 (PDT)
+ bh=j9CH2v0YXJ3HjUK6dIstavUpY+IdJA0p7lKZyzF8giE=;
+ b=6+xhApG0UQ9qTKwXoOBWYliWY1ajVH11GV3BbwIBhWGGrRJ0flUNPjRfZ0+WC9DQDl
+ 4U3ppCs5qDXpXqGvHaW9mez6XedmLWgLIe2lQYOzlaUst2DpKsiOqYRV8xKoDDnn6HM7
+ oL/SRy83uylm7fzjIs+k6Qy/8OUriBJsTPgGxHGal7k+i0Tp5nfpRUTyfPNetLVQbGJC
+ I08qn38h8cIQyA0DC0Sw4WCFW7WD9gzKVls76pvRwrRXlVUfkVDvvrGOonUcUR8aFm5O
+ 1DRSuq8DilZJSTdlh2yfcXMpwx6DyngXkjBJm768DdNynOTr7sotS5pn7ANItthwBXYC
+ hHRg==
+X-Gm-Message-State: AOAM530XG7sAXbSX+kBgojcJbgGE490xzFhM9ZU/LO1dkTYkaYRD01Vd
+ ZYOJcFd3CbSNXDX7Taxl4UCJQUP5UXFKQl2m5EEAltp3WwPWgmZ6q1J9NvjH7J8BlYKFrEiKaUL
+ MQGlEG1qW0/dOWtxqRXJhFjwMuxvN
+X-Received: by 2002:adf:f747:0:b0:20a:d30a:5f08 with SMTP id
+ z7-20020adff747000000b0020ad30a5f08mr22334016wrp.278.1652268755752; 
+ Wed, 11 May 2022 04:32:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgrtdXH49XbKTYGY6jvwa/LsalnhjTRPZOQcdgbrMeYtoBsK3sJMoM3gRNyeWCwdLsXBrWuA==
+X-Received: by 2002:adf:f747:0:b0:20a:d30a:5f08 with SMTP id
+ z7-20020adff747000000b0020ad30a5f08mr22333989wrp.278.1652268755534; 
+ Wed, 11 May 2022 04:32:35 -0700 (PDT)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- w12-20020adfde8c000000b0020c5253d8dfsm1476857wrl.43.2022.05.11.04.32.19
+ bd6-20020a05600c1f0600b00394615cf468sm4928533wmb.28.2022.05.11.04.32.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 04:32:20 -0700 (PDT)
+ Wed, 11 May 2022 04:32:35 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 6/7] Revert "fbdev: Prevent probing generic drivers if a FB
- is already registered"
-Date: Wed, 11 May 2022 13:32:04 +0200
-Message-Id: <20220511113204.1252828-1-javierm@redhat.com>
+Subject: [PATCH v5 7/7] fbdev: Make registered_fb[] private to fbmem.c
+Date: Wed, 11 May 2022 13:32:30 +0200
+Message-Id: <20220511113230.1252910-1-javierm@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220511112438.1251024-1-javierm@redhat.com>
 References: <20220511112438.1251024-1-javierm@redhat.com>
@@ -85,97 +84,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Ilya Trukhanov <lahvuun@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Peter Jones <pjones@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
+ kernel test robot <lkp@intel.com>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Jens Frederich <jfrederich@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Zhen Lei <thunder.leizhen@huawei.com>,
+ Matthew Wilcox <willy@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jon Nettleton <jon.nettleton@gmail.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-This reverts commit fb561bf9abde49f7e00fdbf9ed2ccf2d86cac8ee.
+Well except when the olpc dcon fbdev driver is enabled, that thing
+digs around in there in rather unfixable ways.
 
-With
+Cc oldc_dcon maintainers as fyi.
 
-commit 27599aacbaefcbf2af7b06b0029459bbf682000d
-Author: Thomas Zimmermann <tzimmermann@suse.de>
-Date:   Tue Jan 25 10:12:18 2022 +0100
+v2: I typoed the config name (0day)
 
-    fbdev: Hot-unplug firmware fb devices on forced removal
-
-this should be fixed properly and we can remove this somewhat hackish
-check here (e.g. this won't catch drm drivers if fbdev emulation isn't
-enabled).
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Ilya Trukhanov <lahvuun@gmail.com>
+Cc: kernel test robot <lkp@intel.com>
+Cc: Jens Frederich <jfrederich@gmail.com>
+Cc: Jon Nettleton <jon.nettleton@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Peter Jones <pjones@redhat.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
 Cc: linux-fbdev@vger.kernel.org
-
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
 (no changes since v1)
 
- drivers/video/fbdev/efifb.c    | 11 -----------
- drivers/video/fbdev/simplefb.c | 11 -----------
- 2 files changed, 22 deletions(-)
+ drivers/video/fbdev/core/fbmem.c | 8 ++++++--
+ include/linux/fb.h               | 7 +++----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index ea42ba6445b2..edca3703b964 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -351,17 +351,6 @@ static int efifb_probe(struct platform_device *dev)
- 	char *option = NULL;
- 	efi_memory_desc_t md;
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 265efa189bcc..6cab5f4c1fb3 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -50,10 +50,14 @@
+ static DEFINE_MUTEX(registration_lock);
  
--	/*
--	 * Generic drivers must not be registered if a framebuffer exists.
--	 * If a native driver was probed, the display hardware was already
--	 * taken and attempting to use the system framebuffer is dangerous.
--	 */
--	if (num_registered_fb > 0) {
--		dev_err(&dev->dev,
--			"efifb: a framebuffer is already registered\n");
--		return -EINVAL;
--	}
+ struct fb_info *registered_fb[FB_MAX] __read_mostly;
+-EXPORT_SYMBOL(registered_fb);
 -
- 	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
- 		return -ENODEV;
+ int num_registered_fb __read_mostly;
++#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
++EXPORT_SYMBOL(registered_fb);
+ EXPORT_SYMBOL(num_registered_fb);
++#endif
++#define for_each_registered_fb(i)		\
++	for (i = 0; i < FB_MAX; i++)		\
++		if (!registered_fb[i]) {} else
  
-diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index 94fc9c6d0411..0ef41173325a 100644
---- a/drivers/video/fbdev/simplefb.c
-+++ b/drivers/video/fbdev/simplefb.c
-@@ -413,17 +413,6 @@ static int simplefb_probe(struct platform_device *pdev)
- 	struct simplefb_par *par;
- 	struct resource *res, *mem;
+ bool fb_center_logo __read_mostly;
  
--	/*
--	 * Generic drivers must not be registered if a framebuffer exists.
--	 * If a native driver was probed, the display hardware was already
--	 * taken and attempting to use the system framebuffer is dangerous.
--	 */
--	if (num_registered_fb > 0) {
--		dev_err(&pdev->dev,
--			"simplefb: a framebuffer is already registered\n");
--		return -EINVAL;
--	}
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index bbe1e4571899..c563e24b6293 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -632,16 +632,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
+ extern int fb_get_options(const char *name, char **option);
+ extern int fb_new_modelist(struct fb_info *info);
+ 
++#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
+ extern struct fb_info *registered_fb[FB_MAX];
++
+ extern int num_registered_fb;
++#endif
+ extern bool fb_center_logo;
+ extern int fb_logo_count;
+ extern struct class *fb_class;
+ 
+-#define for_each_registered_fb(i)		\
+-	for (i = 0; i < FB_MAX; i++)		\
+-		if (!registered_fb[i]) {} else
 -
- 	if (fb_get_options("simplefb", NULL))
- 		return -ENODEV;
- 
+ static inline void lock_fb_info(struct fb_info *info)
+ {
+ 	mutex_lock(&info->lock);
 -- 
 2.35.1
 
