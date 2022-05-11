@@ -2,74 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD41A523DF6
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 21:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1E1523E50
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 22:04:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A350810EB0E;
-	Wed, 11 May 2022 19:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF6E0112575;
+	Wed, 11 May 2022 20:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED66610EF9C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 19:51:11 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id z2so6151833ejj.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 12:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=okDasmSIedZIfDNVfGzL/C0tlLQxT7cXpy43/5U1qMo=;
- b=QUS04llQ/TQdvF3bJLtNkYv+9Y/6CRyA1IhJj03bD1ysf9ANin3YF7pIozL2ckCVd9
- OEgvjLcrm/1wDU9oB6CTsdkJp6bSY0dGxFMc0XUZpQx5vjtv+lpaWgY+z91+b2dCfgUQ
- oJPZmG2v8C8OYJmWR8Lmy78eHPjrvYJULiRqg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=okDasmSIedZIfDNVfGzL/C0tlLQxT7cXpy43/5U1qMo=;
- b=rRge9Nlcv/bULXcFM5u7ytKnOEAlt7FS2jp5+MJ70XqPFBM9cpQGg2bbMXfYzDFE4b
- JIk//4xptIg7hzzDNr8GIq61FH+b4NrJkmUnGUiYErUrKydePywx83/Um8OJSxIarLz5
- w8a/7G49YWqpx48aHqjHB+ja3E0ZGGApqkl6KnpojA42qgaM8VIlNnsGiQ4v+Y2fu0HW
- oJvK0/jJIriuYQHTy1Vf3Uod7W5eGBJ6vEpmuwfmYW6DbpyPNTuPYWVDx4Gzcgz8wqBf
- RkeaMh8R05I3mY1FHXKGNJBXqXQSx0FAfPLSLWAie/CXdRfhy9RO7yAXQpLr83klYd/r
- pdhQ==
-X-Gm-Message-State: AOAM532XY8PiFr+6gZlYio8B1Td683kNlq2/epswsGNiY0W8wkDDpWkW
- rN2ufcPfJ7fsMK0S2xyLmLlEcA==
-X-Google-Smtp-Source: ABdhPJzc30UDk4ot2UfqIn3JcPVtx5jKy3U9yzEWlwhCj1FbId8oXyy3bEiSM7KRq59c9iZ9/8xhUg==
-X-Received: by 2002:a17:906:b74b:b0:6f4:cd08:6fec with SMTP id
- fx11-20020a170906b74b00b006f4cd086fecmr28194512ejb.155.1652298670454; 
- Wed, 11 May 2022 12:51:10 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- cb13-20020a0564020b6d00b0042617ba639asm1598568edb.36.2022.05.11.12.51.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 May 2022 12:51:09 -0700 (PDT)
-Date: Wed, 11 May 2022 21:51:08 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v6 4/4] ALSA: hda - identify when audio is provided by a
- video driver
-Message-ID: <YnwTrF6VpM7V1jdu@phenom.ffwll.local>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>,
- David Airlie <airlied@linux.ie>,
- Greg KH <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Kai Vehmanen <kai.vehmanen@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@intel.com>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- mauro.chehab@linux.intel.com, Takashi Iwai <tiwai@suse.de>
-References: <cover.1652113087.git.mchehab@kernel.org>
- <f53f8a9d04b39a6843f19fe3069d1be7a9713aae.1652113087.git.mchehab@kernel.org>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11115112575;
+ Wed, 11 May 2022 20:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652299461; x=1683835461;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=vo23C2NXNJUhjPv0ou9jjN5qBMPI2jaVxAHFOXzcqC0=;
+ b=PF7ikufoln50javw9oTeWcJn7KnrZguJBZ5W7vIUCYbzEGa31tNSIXhe
+ MIRrmJM87QBq4oUs/OHWXL1VNLfH8q7XwAO3RJGFal94QPZi4y53641C4
+ I0CjXAHvOg5E5LiSUsAW9BK4RjGoQ2QDtzIdPrQeib3tcauJEWAPapJEh Q=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 11 May 2022 13:04:20 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 13:04:20 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 11 May 2022 13:04:19 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 11 May 2022 13:04:18 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v3] drm/msm/dp: Always clear mask bits to disable interrupts
+ at dp_ctrl_reset_irq_ctrl()
+Date: Wed, 11 May 2022 13:04:09 -0700
+Message-ID: <1652299449-31205-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f53f8a9d04b39a6843f19fe3069d1be7a9713aae.1652113087.git.mchehab@kernel.org>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,63 +61,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, mauro.chehab@linux.intel.com,
- David Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@intel.com>,
- Luis Chamberlain <mcgrof@kernel.org>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Pierre-Louis Bossart <pierre-louis.bossart@intel.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 09, 2022 at 06:23:39PM +0200, Mauro Carvalho Chehab wrote:
-> On some devices, the hda driver needs to hook into a video driver,
-> in order to be able to properly access the audio hardware and/or
-> the power management function.
-> 
-> That's the case of several snd_hda_intel devices that depends on
-> i915 driver.
-> 
-> Ensure that a proper reference between the snd-hda driver needing
-> such binding is shown at /proc/modules, in order to allow userspace
-> to know about such binding.
-> 
-> Reviewed-by: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
-> See [PATCH v6 0/4] at: https://lore.kernel.org/all/cover.1652113087.git.mchehab@kernel.org/
-> 
->  sound/hda/hdac_component.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/hda/hdac_component.c b/sound/hda/hdac_component.c
-> index bb37e7e0bd79..7789873ddf47 100644
-> --- a/sound/hda/hdac_component.c
-> +++ b/sound/hda/hdac_component.c
-> @@ -199,7 +199,7 @@ static int hdac_component_master_bind(struct device *dev)
->  	}
->  
->  	/* pin the module to avoid dynamic unbinding, but only if given */
-> -	if (!try_module_get(acomp->ops->owner)) {
-> +	if (!try_module_get_owner(acomp->ops->owner, dev->driver->owner)) {
+dp_catalog_ctrl_reset() will software reset DP controller. But it will
+not reset programmable registers to default value. DP driver still have
+to clear mask bits to interrupt status registers to disable interrupts
+after software reset of controller. This patch removes the enable flag
+condition checking to always clear mask bits of interrupt status
+registers to disable interrupts if enable flag is false.
 
-I'm still a bit confused why snd-hda does this and why this wasn't put
-into component.c, but that's kinda a pre-existing issue and I guess could
-be fixed later on. It really shouldn't be anything specific to snd-hda
-here.
+This patch also will fix the potential problem happen at system suspend where
+dp_ctrl_reset_irq_ctrl() was called to try to disable HPD related irqs but
+the irq is still unmasked unexpectedly and can come in while system are
+suspending. This leads to bus hangs if the irq is handled after we power down
+the DP hardware because we run the irq handler and access a device register
+assuming that no irq could ever come in if we powered down the device. We
+don't know when the irq will be handled though, so it's possible the irq is
+pending from before we disable the irq in the hardware.
 
-Anyway I scrolled through the series, it makes a lot more sense than the
-intial hack to me, so on the series:
+Changes in v2:
+-- add more details commit text
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Changes in v3:
+-- add synchrons_irq()
+-- add atomic_t suspended
 
-But maybe don't count that as real review :-)
+Fixes: ba0a422be723 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |  9 +++++++--
+ drivers/gpu/drm/msm/dp/dp_display.c | 18 ++++++++++++++++++
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
-Cheers, Daniel
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index af7a80c..f3e333e 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1389,8 +1389,13 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
+ 
+ 	dp_catalog_ctrl_reset(ctrl->catalog);
+ 
+-	if (enable)
+-		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
++	/*
++	 * all dp controller programmable registers will not
++	 * be reset to default value after DP_SW_RESET
++	 * therefore interrupt mask bits have to be updated
++	 * to enable/disable interrupts
++	 */
++	dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
+ }
+ 
+ void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index c388323..c34dbfc 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -98,6 +98,8 @@ struct dp_display_private {
+ 	struct dp_ctrl    *ctrl;
+ 	struct dp_debug   *debug;
+ 
++	atomic_t suspended;
++
+ 	struct dp_usbpd_cb usbpd_cb;
+ 	struct dp_display_mode dp_mode;
+ 	struct msm_dp dp_display;
+@@ -187,6 +189,11 @@ static int dp_add_event(struct dp_display_private *dp_priv, u32 event,
+ 	int pndx;
+ 
+ 	spin_lock_irqsave(&dp_priv->event_lock, flag);
++	if (atomic_read(&dp_priv->suspended)) {
++		spin_unlock_irqrestore(&dp_priv->event_lock, flag);
++		return -EPERM;
++	}
++
+ 	pndx = dp_priv->event_pndx + 1;
+ 	pndx %= DP_EVENT_Q_MAX;
+ 	if (pndx == dp_priv->event_gndx) {
+@@ -454,6 +461,13 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized);
+ 
++	if (!dp->core_initialized) {
++		DRM_DEBUG_DP("DP core not initialized\n");
++		return;
++	}
++
++	synchronize_irq(dp->irq);
++
+ 	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+ 	dp_aux_deinit(dp->aux);
+ 	dp_power_deinit(dp->power);
+@@ -1362,6 +1376,8 @@ static int dp_pm_resume(struct device *dev)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized, dp_display->power_on);
+ 
++	atomic_set(&dp->suspended, 0);
++
+ 	/* start from disconnected state */
+ 	dp->hpd_state = ST_DISCONNECTED;
+ 
+@@ -1431,6 +1447,8 @@ static int dp_pm_suspend(struct device *dev)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized, dp_display->power_on);
+ 
++	atomic_inc(&dp->suspended);
++
+ 	/* mainlink enabled */
+ 	if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+ 		dp_ctrl_off_link_stream(dp->ctrl);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
