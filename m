@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0890B524037
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 00:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537A452403B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 00:27:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7542D10E45C;
-	Wed, 11 May 2022 22:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE41F10ED96;
+	Wed, 11 May 2022 22:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 552FC10E45C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 22:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652307986; x=1683843986;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jE1UyGvLFFFLH6yYJw3asEf+q1Uvmml70c+XecdjABU=;
- b=KGNs+5ShH8KGQ+s+gVvgvVc7pjXt7Z4Jglxqlp+IZhyPuWCvVyb563iL
- VSv8WttY+khxFc12/bRy2we8y0afEpJ/71NgTAyt50P2VFRX43K3jJxOQ
- w1i089114ScyRhECjf1gUihbnRWRuIIYyGwd3uzojoPeKap8gQibNXnED
- sD2r3N/2eF5/lyfyeJgWFMceNOJTUNZFQrSasSan2fHy3EgU90jYbJyd6
- F/MSZ1R77A+EW8Cez2MS59GM+/d6ynY807gG7MWp+kQPQlzgNwJvPvqKy
- o7yY2IRBMXxL17XglmZQezrSyXD17H+dVypFFor70Itz1/gvzRYrdYqI7 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="257377087"
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="257377087"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2022 15:26:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,218,1647327600"; d="scan'208";a="572271298"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 11 May 2022 15:26:23 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nouml-000Jdg-4X;
- Wed, 11 May 2022 22:26:23 +0000
-Date: Thu, 12 May 2022 06:26:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- lyude@redhat.com, tzimmermann@suse.de
-Subject: Re: [PATCH v2] mgag200: Enable atomic gamma lut update
-Message-ID: <202205120649.U2yM0PXz-lkp@intel.com>
-References: <20220511152815.892562-1-jfalempe@redhat.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22F5010ED26;
+ Wed, 11 May 2022 22:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652308075; x=1683844075;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=6Dov9Z2bAXnz4plovGDyuGMB47g9jy+VF5FtYNrMyhY=;
+ b=wbffNdAS9krXR3ECRwZosPcyt4HzyUjUuVV5iPLjV1owv0EHS+LJmsKk
+ Y0U9BuiBVYnS1qWg3Azap/sr9E4OH7mIKL47oP3zQOIdWzggrAutPPLuD
+ +ZEynS/BPUOwkeybUYYfmUtoUtjmR6kGx+ck/sklQLFfiF1WDPLgw9QJK A=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 11 May 2022 15:27:55 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 15:27:54 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 11 May 2022 15:27:54 -0700
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 11 May 2022 15:27:53 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH] drm/msm/dpu: add DRM_MODE_ROTATE_180 back to supported
+ rotations
+Date: Wed, 11 May 2022 15:27:10 -0700
+Message-ID: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220511152815.892562-1-jfalempe@redhat.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,105 +60,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, llvm@lists.linux.dev, kbuild-all@lists.01.org,
- Jocelyn Falempe <jfalempe@redhat.com>
+Cc: quic_kalyant@quicinc.com, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com, quic_khsieh@quicinc.com, quic_vpolimer@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+DRM_MODE_ROTATE_180 was previously marked as supported even
+for devices not supporting inline rotation.
 
-Thank you for the patch! Perhaps something to improve:
+This is true because the SSPPs can always flip the image.
 
-[auto build test WARNING on tegra-drm/drm/tegra/for-next]
-[also build test WARNING on v5.18-rc6]
-[cannot apply to drm/drm-next drm-tip/drm-tip airlied/drm-next next-20220511]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+After inline rotation support changes, this bit was removed
+and kms_rotation_crc IGT test starts skipping now whereas
+it was previously passing.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/mgag200-Enable-atomic-gamma-lut-update/20220511-233134
-base:   git://anongit.freedesktop.org/tegra/linux.git drm/tegra/for-next
-config: i386-randconfig-a003-20220509 (https://download.01.org/0day-ci/archive/20220512/202205120649.U2yM0PXz-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 18dd123c56754edf62c7042dcf23185c3727610f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0831f1db9ae8814796efea603749709e80d2808c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jocelyn-Falempe/mgag200-Enable-atomic-gamma-lut-update/20220511-233134
-        git checkout 0831f1db9ae8814796efea603749709e80d2808c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/mgag200/
+Restore DRM_MODE_ROTATE_180 bit to the supported rotations
+list.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Fixes: dabfdd89eaa92 ("add inline rotation support for sc7280")
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/mgag200/mgag200_mode.c:972:5: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-                                   crtc_state->gamma_lut->length);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:438:46: note: expanded from macro 'drm_err'
-           __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-                                                ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:425:48: note: expanded from macro '__drm_printk'
-           dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-                                                  ~~~    ^~~~~~~~~~~
-   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +972 drivers/gpu/drm/mgag200/mgag200_mode.c
-
-   937	
-   938	static int
-   939	mgag200_simple_display_pipe_check(struct drm_simple_display_pipe *pipe,
-   940					  struct drm_plane_state *plane_state,
-   941					  struct drm_crtc_state *crtc_state)
-   942	{
-   943		struct drm_plane *plane = plane_state->plane;
-   944		struct drm_device *dev = plane->dev;
-   945		struct mga_device *mdev = to_mga_device(dev);
-   946		struct mgag200_pll *pixpll = &mdev->pixpll;
-   947		struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
-   948		struct drm_framebuffer *new_fb = plane_state->fb;
-   949		struct drm_framebuffer *fb = NULL;
-   950		int ret;
-   951	
-   952		if (!new_fb)
-   953			return 0;
-   954	
-   955		if (plane->state)
-   956			fb = plane->state->fb;
-   957	
-   958		if (!fb || (fb->format != new_fb->format))
-   959			crtc_state->mode_changed = true; /* update PLL settings */
-   960	
-   961		if (crtc_state->mode_changed) {
-   962			ret = pixpll->funcs->compute(pixpll, crtc_state->mode.clock,
-   963						     &mgag200_crtc_state->pixpllc);
-   964			if (ret)
-   965				return ret;
-   966		}
-   967	
-   968		if (crtc_state->color_mgmt_changed && crtc_state->gamma_lut) {
-   969			if (crtc_state->gamma_lut->length !=
-   970			    MGAG200_LUT_SIZE * sizeof(struct drm_color_lut)) {
-   971				drm_err(dev, "Wrong size for gamma_lut %ld\n",
- > 972					crtc_state->gamma_lut->length);
-   973				return -EINVAL;
-   974			}
-   975		}
-   976		return 0;
-   977	}
-   978	
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 9d2f0364d2c7..5b5aef249390 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -1577,7 +1577,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 			BIT(DRM_MODE_BLEND_PREMULTI) |
+ 			BIT(DRM_MODE_BLEND_COVERAGE));
+ 
+-	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
++	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180;
+ 
+ 	if (pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
+ 		supported_rotations |= DRM_MODE_ROTATE_MASK;
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
