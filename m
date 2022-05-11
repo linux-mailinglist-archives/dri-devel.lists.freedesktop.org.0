@@ -2,55 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9840252374D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 17:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C38652374F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 May 2022 17:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D712B10E325;
-	Wed, 11 May 2022 15:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511BC10E17A;
+	Wed, 11 May 2022 15:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90C4C10FB77
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 15:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652282907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ygD2vALHe3nnqiQIaClPVMMmRLS5aaIGD+GHsQ0q1bw=;
- b=Q26q7O0z/GuPvpP4VSOUEMRRAPgfKzMQcv1jX0qkHSqkACaJPkQ56EroTFjGu9eo/KS3Wp
- dK0n2kE1Ya/3KVFyRtoWO0yEInuFpmhjhOlAxLH18AJqmh3PcAFaWbdNFYvLxsRtszF9if
- TrH3mQlBvLUzbVg976Og3FbcapaEaUU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-LxHscFGGM2CyN_ze7ho5Qg-1; Wed, 11 May 2022 11:28:25 -0400
-X-MC-Unique: LxHscFGGM2CyN_ze7ho5Qg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EE352A2AD4C;
- Wed, 11 May 2022 15:28:24 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A899C28122;
- Wed, 11 May 2022 15:28:22 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org,
-	lyude@redhat.com,
-	tzimmermann@suse.de
-Subject: [PATCH v2] mgag200: Enable atomic gamma lut update
-Date: Wed, 11 May 2022 17:28:15 +0200
-Message-Id: <20220511152815.892562-1-jfalempe@redhat.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE2E10E17A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 15:29:26 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id i27so4784030ejd.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 08:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=s+PYKCP0VxPrhof8W+toqvnXxAanU57RHAbD7l77DgI=;
+ b=IWTe7UipHXQkBN8PdQfhJC1eMRMEYnSbXPR8Gdz7PRuj3FyFpxp/OcxjNKk1YOUxPC
+ Sh88iSHptcwPaLwBscMWki+R+mE7FH3earfGNcNIjBpBaTU+jR9FL/RV4MJGuV91A3B+
+ P9NN3stKCccQpdjCLGt03mky+yGrtKPQFXvgk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=s+PYKCP0VxPrhof8W+toqvnXxAanU57RHAbD7l77DgI=;
+ b=FKGdN+kORSShTdWU5CiW5cM4XThFwYoEb/z5HvFG94J9ouTv7DBfyNuSLmIpfd6qlo
+ KQgbQ4OHIZQHvB1WgoUoA696JgOqivxlfaWCbOpq2dcKlrTWCTGcCS9uWUmJxLgF8P9P
+ Na0fDcnsZvehqk/kZbhENckQ9EapQWyiOjdDvOdBnDGfQO9ToMZJivgs9C2pTNd/0i6m
+ NRUVdMNrD1ye7/SUPk6AmxJD4tKvuQGKntDyM8UEQIhf+nHHXZFCVn0gSoZsKtbczvzM
+ vrhfSui8rNquxEOc2nNvYBmKSbutJwTQlITDLZUhVELsZYXWaFK7AmbhwT3vlqVB6/+e
+ 9jGw==
+X-Gm-Message-State: AOAM532qPYl1hXV2FHSgTZQD//O1M4fp4/Y53FQRUv1fktNRAGgHIfaQ
+ N4o0sNPZVDUdTGVVQKEvSBdiEA==
+X-Google-Smtp-Source: ABdhPJzmlpdWZcTGU3RHeV4fO0NfsUHwc/ReUopPeDyKHr8b/GmCISDJ3mmVCUJ5IGl+9IXtrW0lxQ==
+X-Received: by 2002:a17:906:a888:b0:6f3:e990:e554 with SMTP id
+ ha8-20020a170906a88800b006f3e990e554mr25472357ejb.19.1652282964566; 
+ Wed, 11 May 2022 08:29:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ p22-20020a1709060e9600b006f3ef214dd0sm1106685ejf.54.2022.05.11.08.29.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 May 2022 08:29:23 -0700 (PDT)
+Date: Wed, 11 May 2022 17:29:21 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v4 10/15] drm/shmem-helper: Take reservation lock instead
+ of drm_gem_shmem locks
+Message-ID: <YnvWUbh5QDDs6u2B@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Stone <daniel@fooishbar.org>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+References: <8f932ab0-bb72-8fea-4078-dc59e9164bd4@collabora.com>
+ <YnI3lE0TxLfZaQjE@phenom.ffwll.local>
+ <01506516-ab2f-cb6e-7507-f2a3295efb59@collabora.com>
+ <YnOHAh9I1ds4+1J+@phenom.ffwll.local>
+ <83e68918-68de-c0c6-6f9b-e94d34b19383@collabora.com>
+ <YnkaUk0mZNuPsZ5r@phenom.ffwll.local>
+ <4d08b382-0076-1ea2-b565-893d50b453cb@collabora.com>
+ <YnuziJDmXVR09UzP@phenom.ffwll.local>
+ <56787b70-fb64-64da-6006-d3aa3ed59d12@gmail.com>
+ <3a362c32-870c-1d73-bba6-bbdcd62dc326@collabora.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+In-Reply-To: <3a362c32-870c-1d73-bba6-bbdcd62dc326@collabora.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,211 +100,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, Jocelyn Falempe <jfalempe@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ virtualization@lists.linux-foundation.org,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for atomic update of gamma lut.
-With this patch the "Night light" feature of gnome3
-is working properly on mgag200.
+On Wed, May 11, 2022 at 06:14:00PM +0300, Dmitry Osipenko wrote:
+> On 5/11/22 17:24, Christian König wrote:
+> > Am 11.05.22 um 15:00 schrieb Daniel Vetter:
+> >> On Tue, May 10, 2022 at 04:39:53PM +0300, Dmitry Osipenko wrote:
+> >>> [SNIP]
+> >>> Since vmapping implies implicit pinning, we can't use a separate lock in
+> >>> drm_gem_shmem_vmap() because we need to protect the
+> >>> drm_gem_shmem_get_pages(), which is invoked by drm_gem_shmem_vmap() to
+> >>> pin the pages and requires the dma_resv_lock to be locked.
+> >>>
+> >>> Hence the problem is:
+> >>>
+> >>> 1. If dma-buf importer holds the dma_resv_lock and invokes
+> >>> dma_buf_vmap() -> drm_gem_shmem_vmap(), then drm_gem_shmem_vmap() shall
+> >>> not take the dma_resv_lock.
+> >>>
+> >>> 2. Since dma-buf locking convention isn't specified, we can't assume
+> >>> that dma-buf importer holds the dma_resv_lock around dma_buf_vmap().
+> >>>
+> >>> The possible solutions are:
+> >>>
+> >>> 1. Specify the dma_resv_lock convention for dma-bufs and make all
+> >>> drivers to follow it.
+> >>>
+> >>> 2. Make only DRM drivers to hold dma_resv_lock around dma_buf_vmap().
+> >>> Other non-DRM drivers will get the lockdep warning.
+> >>>
+> >>> 3. Make drm_gem_shmem_vmap() to take the dma_resv_lock and get deadlock
+> >>> if dma-buf importer holds the lock.
+> >>>
+> >>> ...
+> >> Yeah this is all very annoying.
+> > 
+> > Ah, yes that topic again :)
+> > 
+> > I think we could relatively easily fix that by just defining and
+> > enforcing that the dma_resv_lock must have be taken by the caller when
+> > dma_buf_vmap() is called.
+> > 
+> > A two step approach should work:
+> > 1. Move the call to dma_resv_lock() into the dma_buf_vmap() function and
+> > remove all lock taking from the vmap callback implementations.
+> > 2. Move the call to dma_resv_lock() into the callers of dma_buf_vmap()
+> > and enforce that the function is called with the lock held.
+> 
+> I've doubts about the need to move out the dma_resv_lock() into the
+> callers of dma_buf_vmap()..
+> 
+> I looked through all the dma_buf_vmap() users and neither of them
+> interacts with dma_resv_lock() at all, i.e. nobody takes the lock
+> in/outside of dma_buf_vmap(). Hence it's easy and more practical to make
+> dma_buf_mmap/vmap() to take the dma_resv_lock by themselves.
 
-v2:
- - Add a default linear gamma function
- - renamed functions with mgag200 prefix
- - use format's 4cc code instead of bit depth
- - use better interpolation for 16bits gamma
- - remove legacy function mga_crtc_load_lut()
- - can't remove the call to drm_mode_crtc_set_gamma_size()
-    because it doesn't work with userspace.
- - other small refactors
+i915_gem_dmabuf_vmap -> i915_gem_object_pin_map_unlocked ->
+  i915_gem_object_lock -> dma_resv_lock
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/mgag200/mgag200_mode.c | 125 ++++++++++++++++---------
- 1 file changed, 81 insertions(+), 44 deletions(-)
+And all the ttm drivers should work similarly. So there's definitely
+drivers which grab dma_resv_lock from their vmap callback.
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 6e18d3bbd720..b748bc5b0e93 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -32,57 +32,76 @@
-  * This file contains setup code for the CRTC.
-  */
- 
--static void mga_crtc_load_lut(struct drm_crtc *crtc)
-+static void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
-+					  uint32_t format)
- {
--	struct drm_device *dev = crtc->dev;
--	struct mga_device *mdev = to_mga_device(dev);
--	struct drm_framebuffer *fb;
--	u16 *r_ptr, *g_ptr, *b_ptr;
- 	int i;
- 
--	if (!crtc->enabled)
--		return;
--
--	if (!mdev->display_pipe.plane.state)
--		return;
-+	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
- 
--	fb = mdev->display_pipe.plane.state->fb;
-+	switch (format) {
-+	case DRM_FORMAT_RGB565:
-+		/* Use better interpolation, to take 32 values from 0 to 255 */
-+		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
-+		}
-+		/* Green has one more bit, so add padding with 0 for red and blue. */
-+		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+		}
-+		break;
-+	case DRM_FORMAT_RGB888:
-+	case DRM_FORMAT_XRGB8888:
-+		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-+		}
-+		break;
-+	default:
-+		drm_warn_once(&mdev->base, "Unsupported format for gamma %d\n", format);
-+		break;
-+	}
-+}
- 
--	r_ptr = crtc->gamma_store;
--	g_ptr = r_ptr + crtc->gamma_size;
--	b_ptr = g_ptr + crtc->gamma_size;
-+static void mgag200_crtc_set_gamma(struct mga_device *mdev,
-+				   struct drm_color_lut *lut,
-+				   uint32_t format)
-+{
-+	int i;
- 
- 	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
- 
--	if (fb && fb->format->cpp[0] * 8 == 16) {
--		int inc = (fb->format->depth == 15) ? 8 : 4;
--		u8 r, b;
--		for (i = 0; i < MGAG200_LUT_SIZE; i += inc) {
--			if (fb->format->depth == 16) {
--				if (i > (MGAG200_LUT_SIZE >> 1)) {
--					r = b = 0;
--				} else {
--					r = *r_ptr++ >> 8;
--					b = *b_ptr++ >> 8;
--					r_ptr++;
--					b_ptr++;
--				}
--			} else {
--				r = *r_ptr++ >> 8;
--				b = *b_ptr++ >> 8;
--			}
--			/* VGA registers */
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, r);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, *g_ptr++ >> 8);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, b);
-+	switch (format) {
-+	case DRM_FORMAT_RGB565:
-+		/* Use better interpolation, to take 32 values from lut[0] to lut[255] */
-+		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].red >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].blue >> 8);
- 		}
--		return;
--	}
--	for (i = 0; i < MGAG200_LUT_SIZE; i++) {
--		/* VGA registers */
--		WREG8(DAC_INDEX + MGA1064_COL_PAL, *r_ptr++ >> 8);
--		WREG8(DAC_INDEX + MGA1064_COL_PAL, *g_ptr++ >> 8);
--		WREG8(DAC_INDEX + MGA1064_COL_PAL, *b_ptr++ >> 8);
-+		/* Green has one more bit, so add padding with 0 for red and blue. */
-+		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+		}
-+		break;
-+	case DRM_FORMAT_RGB888:
-+	case DRM_FORMAT_XRGB8888:
-+		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].red >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].blue >> 8);
-+		}
-+		break;
-+	default:
-+		drm_warn_once(&mdev->base, "Unsupported format for gamma %d\n", format);
-+		break;
- 	}
- }
- 
-@@ -900,7 +919,11 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	if (mdev->type == G200_WB || mdev->type == G200_EW3)
- 		mgag200_g200wb_release_bmc(mdev);
- 
--	mga_crtc_load_lut(crtc);
-+	if (crtc_state->gamma_lut)
-+		mgag200_crtc_set_gamma(mdev, crtc_state->gamma_lut->data, fb->format->format);
-+	else
-+		mgag200_crtc_set_gamma_linear(mdev, fb->format->format);
-+
- 	mgag200_enable_display(mdev);
- 
- 	mgag200_handle_damage(mdev, fb, &fullscreen, &shadow_plane_state->data[0]);
-@@ -945,6 +968,14 @@ mgag200_simple_display_pipe_check(struct drm_simple_display_pipe *pipe,
- 			return ret;
- 	}
- 
-+	if (crtc_state->color_mgmt_changed && crtc_state->gamma_lut) {
-+		if (crtc_state->gamma_lut->length !=
-+		    MGAG200_LUT_SIZE * sizeof(struct drm_color_lut)) {
-+			drm_err(dev, "Wrong size for gamma_lut %ld\n",
-+				crtc_state->gamma_lut->length);
-+			return -EINVAL;
-+		}
-+	}
- 	return 0;
- }
- 
-@@ -953,6 +984,7 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 				   struct drm_plane_state *old_state)
- {
- 	struct drm_plane *plane = &pipe->plane;
-+	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *dev = plane->dev;
- 	struct mga_device *mdev = to_mga_device(dev);
- 	struct drm_plane_state *state = plane->state;
-@@ -963,6 +995,9 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	if (!fb)
- 		return;
- 
-+	if (crtc->state->color_mgmt_changed && crtc->state->gamma_lut)
-+		mgag200_crtc_set_gamma(mdev, crtc->state->gamma_lut->data, fb->format->format);
-+
- 	if (drm_atomic_helper_damage_merged(old_state, state, &damage))
- 		mgag200_handle_damage(mdev, fb, &damage, &shadow_plane_state->data[0]);
- }
-@@ -1107,9 +1142,11 @@ int mgag200_modeset_init(struct mga_device *mdev)
- 		return ret;
- 	}
- 
--	/* FIXME: legacy gamma tables; convert to CRTC state */
-+	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
- 	drm_mode_crtc_set_gamma_size(&pipe->crtc, MGAG200_LUT_SIZE);
- 
-+	drm_crtc_enable_color_mgmt(&pipe->crtc, 0, false, MGAG200_LUT_SIZE);
-+
- 	drm_mode_config_reset(dev);
- 
- 	return 0;
+> It's unclear to me which driver may ever want to do the mapping under
+> the dma_resv_lock. But if we will ever have such a driver that will need
+> to map imported buffer under dma_resv_lock, then we could always add the
+> dma_buf_vmap_locked() variant of the function. In this case the locking
+> rule will sound like this:
+> 
+> "All dma-buf importers are responsible for holding the dma-reservation
+> lock around the dmabuf->ops->mmap/vmap() calls."
+> 
+> > It shouldn't be that hard to clean up. The last time I looked into it my
+> > main problem was that we didn't had any easy unit test for it.
+> 
+> Do we have any tests for dma-bufs at all? It's unclear to me what you
+> are going to test in regards to the reservation locks, could you please
+> clarify?
+
+Unfortunately not really :-/ Only way really is to grab a driver which
+needs vmap (those are mostly display drivers) on an imported buffer, and
+see what happens.
+
+2nd best is liberally sprinkling lockdep annotations all over the place
+and throwing it at intel ci (not sure amd ci is accessible to the public)
+and then hoping that's good enough. Stuff like might_lock and
+dma_resv_assert_held.
+-Daniel
 -- 
-2.35.3
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
