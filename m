@@ -1,72 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03703525155
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 17:33:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B085525182
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 17:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 680F61122F6;
-	Thu, 12 May 2022 15:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44427112513;
+	Thu, 12 May 2022 15:45:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D05E91122F4
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:33:07 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id u3so7809201wrg.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 08:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:organization:in-reply-to
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3632112513
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:45:57 +0000 (UTC)
+Received: by mail-qt1-x82b.google.com with SMTP id h3so4760799qtn.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 08:45:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=lJYjLsOwmK98ck5i9BA7AMHyM0+m23dl9hRD8ezZWsg=;
- b=7175BeiZTNnqicYIMG/cOrNiBlDvLKZRf1+0zm252nF0IbNg5cux+zMTmEhDwfdwjj
- D8y7WGXTRdBo9lGN10jQCjFjp7pJWpudmv1c6xod6aiIDaee9K72/VExLTRrN7jWxdE5
- C10ZP+ZKBU60oLVrauNVP14wSVba01uWfQREMogbhDXsfJgOF7ZGdkzwkvSqLXtdUmuo
- fYp/kJSJKcY/bwejIU9LcYeE6Y2TXIJsv7d27xixdHP9ZnErc6a77xHNuvfztBdeJiuu
- hyzdVNNhqH3JgJXfH3iFTFvJSFe00qzD8P13AW/XCioV+1dPbiyQcRb6AxQBqLRVMuZo
- Cjng==
+ bh=gzXI5NJ5qtjmgqMULjjRprbZCIKKrKgAn672btBIfOw=;
+ b=mtEUMiNlC06ZK7K6XsQ+ChLwtLHv4bAd5Ptp7pm/EqE/CTNJbdj3q6CTmeGV75u4Gr
+ aRpFG9uxGFEl4h/+i9N0We2gx5nnDfRyrfkae9uJDH6PMAJuTbMpm6xgkeKR78eW5aS+
+ Q4vS338y0C9rxBs9VQdszfCMPp1TfMwQVYOFA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=lJYjLsOwmK98ck5i9BA7AMHyM0+m23dl9hRD8ezZWsg=;
- b=j8Z5vyExXwtL/8fbl+lazDHznSV5ebtmPerk4qI4GMGZw2Skh9gzugYEnprIAlRhHM
- 28+/0OmTn3D1ty2+iqoMI4pRbVPP5EDtKVIHdnbImZ4GGA00Z9IHYcEQvqODYL7VEPyf
- i4djOA5ufSQRvdViuc9cdOrRS9BIpMptSdX7M+ekTvIs3Nc3G/qU7YAKjobDpIpjNaxj
- n36L2jO6xx2QZ08PDbqRBtXP70opuLfx/Orav01dVu2Qh7McEbm5ej2ckVM73DcIju+t
- +8bpf8XJ5XZZGs2+hel8Lmwa/1ddKbgZYN7LPIzhayEe0HnAKikEPrU2TTXpfvbZCko2
- hbEA==
-X-Gm-Message-State: AOAM530WfVXKevAMLF8Vnn5fi+dOUDDgXIxEZPP+OsCU1g/o5h/fkdlw
- Tzue1AJntSJBrStgpQxi+DeFvw==
-X-Google-Smtp-Source: ABdhPJwxvzdMxbrTjFcSe+SbbqUc4+HBjEVB6/fb0QRLLMg1yy6dIz3V8d6rId8zYFdHJl8rC71Tow==
-X-Received: by 2002:adf:cf12:0:b0:20c:dc8b:ae99 with SMTP id
- o18-20020adfcf12000000b0020cdc8bae99mr211414wrj.550.1652369586258; 
- Thu, 12 May 2022 08:33:06 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:4b80:c5a9:17cd:ed1e?
- ([2001:861:44c0:66c0:4b80:c5a9:17cd:ed1e])
+ bh=gzXI5NJ5qtjmgqMULjjRprbZCIKKrKgAn672btBIfOw=;
+ b=DsgXCfMftBleHcXewd48j5zirNbSj2jTCF/gadNaPEPYdk9wdPze9iBeRvuSIFRfWv
+ 1EWpTSfEQHRZZAXVvrvH7d0PlC69QYvrF4Fg5pWG7ZOXhfQNdL2TW4q0HV7tD1tMgavb
+ Dh12SrEgetS0Ve/jOKy7QHRFlIgS82L2k7///XaW81ImQaDLWi3J1ceEhA0e7R9UjkTj
+ YfCH39T8royyq1BfK9cO/IwpgurbEqacm64FJ0W3CBkRajgocEp3GH/C+abA7SUb7wt/
+ pbSmBr3eIq0cN/3o/zPqsb15Mc9GTLrfmuAvulQ14zGjr/x9fwQXByffApQR1ScMOdHW
+ I+QQ==
+X-Gm-Message-State: AOAM531G1ldsVBg+bX0jDtpr0FxjEBDMDoq+kKoealp2waeZimIMjmre
+ 3A/ygSy1m1gpp6YWWTm0Zhilz533T4k6+Q==
+X-Google-Smtp-Source: ABdhPJzVZdH/b1mGR1jYOYXMzlt3WI6fCTgSG8uFU9hMwq4NQe66bDUluzDY1yWa6flo1rjjikNeHg==
+X-Received: by 2002:a05:622a:296:b0:2f3:b7e6:f205 with SMTP id
+ z22-20020a05622a029600b002f3b7e6f205mr324971qtw.613.1652370356426; 
+ Thu, 12 May 2022 08:45:56 -0700 (PDT)
+Received: from markyacoub.nyc.corp.google.com
+ ([2620:0:1003:314:3111:9cd7:b10c:ffe5])
  by smtp.gmail.com with ESMTPSA id
- t16-20020a5d49d0000000b0020c5253d8edsm4505077wrs.57.2022.05.12.08.33.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 08:33:05 -0700 (PDT)
-Message-ID: <f3a08514-a92d-df2b-48f6-b29d0be42861@baylibre.com>
-Date: Thu, 12 May 2022 17:33:04 +0200
+ h7-20020a05620a10a700b0069fc13ce23csm3038093qkk.109.2022.05.12.08.45.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 08:45:55 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH libdrm] xf86drmMode: Create drmModeCreatePropertyBlobWithFlags
+Date: Thu, 12 May 2022 11:45:49 -0400
+Message-Id: <20220512154549.2003425-1-markyacoub@chromium.org>
+X-Mailer: git-send-email 2.36.0.512.ge40c2bad7a-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/meson: Fix refcount leak in meson_encoder_hdmi_init
-Content-Language: en-US
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Miaoqian Lin <linmq006@gmail.com>
-References: <20220511054052.51981-1-linmq006@gmail.com>
- <CAFBinCAQaCNcYmF0kT6o7zOCHy3eV+vHOHC10XULYXvDO6_-6w@mail.gmail.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <CAFBinCAQaCNcYmF0kT6o7zOCHy3eV+vHOHC10XULYXvDO6_-6w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,41 +65,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: markyacoub@chromium.org, seanpaul@chromium.org, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+[Why]
+The kernel has support for creating a blob with flags, particularly
+write only flag.
+The user space should use libdrm library to make use of the blob flags.
 
-On 12/05/2022 14:38, Martin Blumenstingl wrote:
-> On Wed, May 11, 2022 at 7:41 AM Miaoqian Lin <linmq006@gmail.com> wrote:
->>
->> of_find_device_by_node() takes reference, we should use put_device()
->> to release it when not need anymore.
->> Add missing put_device() in error path to avoid refcount
->> leak.
->>
->> Fixes: 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
->> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-> Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> 
-> Thanks for sending this patch!
-> 
-> Neil, while reviewing this I noticed that on module unload we're also
-> not calling put_device().
-> This note doesn't affect this patch - but I am wondering if we need to
-> put that put_device() during module unload on our TODO-list?
-> 
+[How]
+Create drmModeCreatePropertyBlobWithFlags which has the same
+implementation as the existing drmModeCreatePropertyBlob but with a flag
+argument.
 
-Indeed, it should be fixed.
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+---
+ include/drm/drm_mode.h | 6 ++++++
+ xf86drmMode.c          | 7 +++++++
+ xf86drmMode.h          | 3 +++
+ 3 files changed, 16 insertions(+)
 
-Neil
-
-
-> 
-> Best regards,
-> Martin
+diff --git a/include/drm/drm_mode.h b/include/drm/drm_mode.h
+index 9b6722d4..b0df381f 100644
+--- a/include/drm/drm_mode.h
++++ b/include/drm/drm_mode.h
+@@ -991,6 +991,9 @@ struct drm_format_modifier {
+ 	__u64 modifier;
+ };
+ 
++#define DRM_MODE_CREATE_BLOB_WRITE_ONLY                                        \
++	(1 << 0) /* data of the blob can't be read by user space */
++
+ /**
+  * struct drm_mode_create_blob - Create New blob property
+  *
+@@ -1004,6 +1007,9 @@ struct drm_mode_create_blob {
+ 	__u32 length;
+ 	/** @blob_id: Return: new property ID. */
+ 	__u32 blob_id;
++	/** Flags for special handling. */
++	__u32 flags;
++	__u32 pad;
+ };
+ 
+ /**
+diff --git a/xf86drmMode.c b/xf86drmMode.c
+index 87e96603..072b395c 100644
+--- a/xf86drmMode.c
++++ b/xf86drmMode.c
+@@ -1592,6 +1592,12 @@ drm_public int
+ drmModeCreatePropertyBlob(int fd, const void *data, size_t length,
+                                      uint32_t *id)
+ {
++  	return drmModeCreatePropertyBlobWithFlags(fd, data, length, id, 0);
++}
++
++extern int drmModeCreatePropertyBlobWithFlags(int fd, const void *data,
++                                              size_t length, uint32_t *id,
++                                              uint32_t flags) {
+ 	struct drm_mode_create_blob create;
+ 	int ret;
+ 
+@@ -1603,6 +1609,7 @@ drmModeCreatePropertyBlob(int fd, const void *data, size_t length,
+ 	create.length = length;
+ 	create.data = (uintptr_t) data;
+ 	create.blob_id = 0;
++	create.flags = flags;
+ 	*id = 0;
+ 
+ 	ret = DRM_IOCTL(fd, DRM_IOCTL_MODE_CREATEPROPBLOB, &create);
+diff --git a/xf86drmMode.h b/xf86drmMode.h
+index 19bf91dd..f22b8174 100644
+--- a/xf86drmMode.h
++++ b/xf86drmMode.h
+@@ -450,6 +450,9 @@ extern int drmModeAtomicCommit(int fd,
+ 
+ extern int drmModeCreatePropertyBlob(int fd, const void *data, size_t size,
+ 				     uint32_t *id);
++extern int drmModeCreatePropertyBlobWithFlags(int fd, const void *data,
++                                              size_t size, uint32_t *id,
++                                              uint32_t flags);
+ extern int drmModeDestroyPropertyBlob(int fd, uint32_t id);
+ 
+ /*
+-- 
+2.36.0.512.ge40c2bad7a-goog
 
