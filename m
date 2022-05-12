@@ -2,92 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053FB5246FA
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 09:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB01252473D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 09:44:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF55B10E48F;
-	Thu, 12 May 2022 07:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3493010F230;
+	Thu, 12 May 2022 07:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB1B510E48F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 07:29:39 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id dk23so8396412ejb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 00:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=6pAZCGyP8MKNDHSnHkp9Vkj/nq2Rx3C2O79znDA1ohY=;
- b=gxJRzrkmadF3F010BI/AMYnQC5Uyk0pnkL9ydptziONsEZn/T/Fbr536Bj0CqT43/F
- OE8wBqNbrMI1khevv0mxyHVfbDzMZ0KwNdeo/bIpVHajTT+EF0oDYf7N0VNN3eIe2c0O
- bJgEjttmuMaTQOa5J2uuTwyztqxfHYcUX2fk7ZNZB18NWHk4aV009x5qtgb8QqTLTAaS
- 8y1to59ZLt6vcN6xaJxMesvLgIVpZbaUxsHo0IzdyH1F+HGrknc0It+VZabYdtbKbDlG
- oOIQGI+//4lh04gMHGLybH31m8u8DcH87bpUKK9AOmqcOMltr0HhDsM4I8CDWsx0WSDg
- fO5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6pAZCGyP8MKNDHSnHkp9Vkj/nq2Rx3C2O79znDA1ohY=;
- b=RC7qeSAaRem8uZPF8V/wbcWKjeveiEhlsHHRftD8nv2wcRDeeji0GJdDt5mRxuERgj
- zuNtwy1zDJkCy8kqJbXNCeHNKXqSQ5SR3fwY5aZVQqvQiqUxp/xT8eMTK0W+PA61yi3f
- pNmJxo+KswAIqplYzg7ny2tldjg5c77bDEi0qM/KP6Fag+tQusHvch8KGGIikHc5LoJz
- VO04Ch1lhF2DQxgUq2a1DrwPOefceb6Fh5hj3yZetkMpgRRLu6KdzF/XY3aZI/Gv3vvl
- eUs2ICN0Ai+4V232mxlA0Vq/6t3J4528c1R85/gqlBnP4+2NevXC5J6CVrY3IRVVoSVw
- gsAA==
-X-Gm-Message-State: AOAM531KjhNo9xN1ADUKcym6YzRL7pE1xvMM2Nofc09hWCbSVQEwEKd5
- s7gPcCprKRz2gOe9VIyQZLA=
-X-Google-Smtp-Source: ABdhPJzmYNUvkYEksV5JP3JbnVmzNZnB1l4WyXgWPZVb+mOEjX9GxlW5bDRlUp4xgoD9wQN+D9XfMw==
-X-Received: by 2002:a17:907:60d6:b0:6fa:95d3:d4e5 with SMTP id
- hv22-20020a17090760d600b006fa95d3d4e5mr13864164ejc.357.1652340578275; 
- Thu, 12 May 2022 00:29:38 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea033.dip0.t-ipconnect.de. [91.14.160.51])
- by smtp.gmail.com with ESMTPSA id
- da26-20020a056402177a00b0042617ba63a5sm2274053edb.47.2022.05.12.00.29.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 00:29:37 -0700 (PDT)
-Message-ID: <f6e42cfb-0252-1273-2ba3-76af818e0799@gmail.com>
-Date: Thu, 12 May 2022 09:29:35 +0200
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF68F10F230
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 07:44:56 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id DB9CC2B059AE;
+ Thu, 12 May 2022 03:44:50 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 12 May 2022 03:44:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1652341490; x=
+ 1652348690; bh=F/3C1V38ahUzifyHzEs+CWDQJfKIOWf16zUshCZyYK4=; b=f
+ oyo14B5q77HWBztYyB6jy0JiEQ9Ii/BiEb6AG0JsU2fDxdZqUcK68yNGAC7EoaS0
+ MLdiGoW2wTpmdb51vgwhwQiNWtPftgTIU60n5uuzPE360fUVgjTUAya9IPqnwNKb
+ BnviiRI1bsbrEa+UsHZFVi+kJ9LICkw7R3oWYCMgAfhrwml2d5eev3yTn9skCxBg
+ VH8/RSJY4M5b81xtpsc+F9ey0/umPWOxbsk7XMP+7d9G9PDaBbhhl/f5taTsz5RB
+ 6dmN6bGq0hhSJ7jW2s6IqG39WvMgsRgpCq0P2vXnglINSYJVGREHl0DALEPDRllK
+ ioGt2OrO1hw7MXf06E+fg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1652341490; x=1652348690; bh=F/3C1V38ahUzi
+ fyHzEs+CWDQJfKIOWf16zUshCZyYK4=; b=PwYCoCpllwsaeQDZ/UbNYqufIcU3D
+ ZUWgY8F7k7Saqv2O6zyjaOoYF5xcDIWEnLSGiwdoo9z8lCBMr/tHJh5b0zfeFWE6
+ /Z2RCJLc+r2pnrvNhImcW02ht7w/mv4bgobAnb9k0gXLDcWXAQYuz3K1z9POKN/y
+ S/eqJzDh+501oGPp9exuG3dzomL2dp5vuGlGULmmWXC8cqRqYHf4z9q8S2BE/UHo
+ 6LyF8q2ZC7+aDXKLXASdRi94nP7is08wABRLovnl/szz04ritVADLELl1cAAm1+2
+ 90qcou1rCuxePxCOn11vTIOW78qBQGe0KsUAxnEyD9NN9GYZScntiuXrg==
+X-ME-Sender: <xms:8bp8YqcK-fdwBudEcm5H1P_35GB8Y7LkLxZ4zJkH7TKJFPY--ts9wQ>
+ <xme:8bp8YkOvhUAnmlQU_F1xaAbi92HOEjaEU2MhKVss9NVtJC1EMVj_Hk3wd-nXqt7XK
+ R68JXUE9Mg8QkPMOf4>
+X-ME-Received: <xmr:8bp8Yrgphjel3L9AUZeENPZqw0iDm42eTLMqQ_jugzMVv5Ex1vLAqdXFGcdo-J9RZVw2IZo3EkihHmK8LVQqL50inCCR6S8SR81EWos>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeeigdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepheejffefgefgieevjedvfffgvdfghedtgfdvueejvdejgfffvdeuteei
+ vedufedvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:8bp8Yn9_Hnhd8voI202NNd_FlS4bmUHGt3SBFFkI5a5B-1Sfmlps8Q>
+ <xmx:8bp8Ymsn4HLY6Dqe7h0m9lGhr8Ulxluora9B7319zC42M3vRgIlJhg>
+ <xmx:8bp8YuGGZe5sCyNbypDOt_k8OycLAKInPJrliLcAmGL5wufwJB_p0w>
+ <xmx:8rp8Yu2wRlaVZOp8yBGYU65RItWFtHlRMmFrvZtBCrOu7SA0hzrdwpMFxjs>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 May 2022 03:44:48 -0400 (EDT)
+Date: Thu, 12 May 2022 09:44:46 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Guillaume Ranquet <granquet@baylibre.com>
+Subject: Re: [PATCH v9 18/22] drm/mediatek: Add mt8195 Embedded DisplayPort
+ driver
+Message-ID: <20220512074446.ihilbbnbuwesxbbg@houat>
+References: <20220327223927.20848-1-granquet@baylibre.com>
+ <20220327223927.20848-19-granquet@baylibre.com>
+ <20220429083933.q3w75q3zuyyuvo4w@houat>
+ <CABnWg9tzhZjrdKT4chkDrY-uH8BMUoxyNLUSwfuG6Sv1J+8ddg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 10/15] drm/shmem-helper: Take reservation lock instead
- of drm_gem_shmem locks
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Stone
- <daniel@fooishbar.org>, David Airlie <airlied@linux.ie>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Dmitry Osipenko <digetx@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
-References: <01506516-ab2f-cb6e-7507-f2a3295efb59@collabora.com>
- <YnOHAh9I1ds4+1J+@phenom.ffwll.local>
- <83e68918-68de-c0c6-6f9b-e94d34b19383@collabora.com>
- <YnkaUk0mZNuPsZ5r@phenom.ffwll.local>
- <4d08b382-0076-1ea2-b565-893d50b453cb@collabora.com>
- <YnuziJDmXVR09UzP@phenom.ffwll.local>
- <56787b70-fb64-64da-6006-d3aa3ed59d12@gmail.com>
- <3a362c32-870c-1d73-bba6-bbdcd62dc326@collabora.com>
- <YnvWUbh5QDDs6u2B@phenom.ffwll.local>
- <ba2836d0-9a3a-b879-cb1e-a48aed31637d@collabora.com>
- <YnwI5UX/zvmnAHvg@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <YnwI5UX/zvmnAHvg@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CABnWg9tzhZjrdKT4chkDrY-uH8BMUoxyNLUSwfuG6Sv1J+8ddg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,54 +87,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ kernel test robot <lkp@intel.com>, deller@gmx.de, kishon@ti.com,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, tzimmermann@suse.de,
+ Markus Schneider-Pargmann <msp@baylibre.com>, chunfeng.yun@mediatek.com,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
+ markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.05.22 um 21:05 schrieb Daniel Vetter:
-> [SNIP]
->>>> It's unclear to me which driver may ever want to do the mapping under
->>>> the dma_resv_lock. But if we will ever have such a driver that will need
->>>> to map imported buffer under dma_resv_lock, then we could always add the
->>>> dma_buf_vmap_locked() variant of the function. In this case the locking
->>>> rule will sound like this:
->>>>
->>>> "All dma-buf importers are responsible for holding the dma-reservation
->>>> lock around the dmabuf->ops->mmap/vmap() calls."
->> Are you okay with this rule?
-> Yeah I think long-term it's where we want to be, just trying to find
-> clever ways to get there.
->
-> And I think Christian agrees with that?
+Hi,
 
-Yes, completely.
+On Wed, May 11, 2022 at 05:59:13AM -0700, Guillaume Ranquet wrote:
+> >> +#include <drm/drm_atomic_helper.h>
+> >> +#include <drm/drm_bridge.h>
+> >> +#include <drm/drm_crtc.h>
+> >> +#include <drm/dp/drm_dp_helper.h>
+> >> +#include <drm/drm_edid.h>
+> >> +#include <drm/drm_of.h>
+> >> +#include <drm/drm_panel.h>
+> >> +#include <drm/drm_print.h>
+> >> +#include <drm/drm_probe_helper.h>
+> >> +#include <linux/arm-smccc.h>
+> >> +#include <linux/clk.h>
+> >> +#include <linux/delay.h>
+> >> +#include <linux/errno.h>
+> >> +#include <linux/kernel.h>
+> >> +#include <linux/mfd/syscon.h>
+> >> +#include <linux/nvmem-consumer.h>
+> >> +#include <linux/of.h>
+> >> +#include <linux/of_irq.h>
+> >> +#include <linux/of_platform.h>
+> >> +#include <linux/phy/phy.h>
+> >> +#include <linux/platform_device.h>
+> >> +#include <linux/pm_runtime.h>
+> >> +#include <linux/regmap.h>
+> >> +#include <sound/hdmi-codec.h>
+> >> +#include <video/videomode.h>
+> >> +
+> >> +#include "mtk_dp_reg.h"
+> >> +
+> >> +#define MTK_DP_AUX_WAIT_REPLY_COUNT 20
+> >> +#define MTK_DP_CHECK_SINK_CAP_TIMEOUT_COUNT 3
+> >> +
+> >> +//TODO: platform/device data or dts?
+> >
+> >DTS :)
+>=20
+> It's probably going to be a platform_data struct for v10...
+> If I have time, I'll change it to a dts property for v10.
 
-A design where most DMA-buf functions are supposed to be called with the 
-reservation lock held is exactly what I have in mind for the long term.
+I can't really imagine a case where we would need platform_data
+nowadays. If you have a device tree, then it should be part of the
+binding.
 
->>>>> It shouldn't be that hard to clean up. The last time I looked into it my
->>>>> main problem was that we didn't had any easy unit test for it.
->>>> Do we have any tests for dma-bufs at all? It's unclear to me what you
->>>> are going to test in regards to the reservation locks, could you please
->>>> clarify?
->>> Unfortunately not really :-/ Only way really is to grab a driver which
->>> needs vmap (those are mostly display drivers) on an imported buffer, and
->>> see what happens.
->>>
->>> 2nd best is liberally sprinkling lockdep annotations all over the place
->>> and throwing it at intel ci (not sure amd ci is accessible to the public)
->>> and then hoping that's good enough. Stuff like might_lock and
->>> dma_resv_assert_held.
->> Alright
-> So throwing it at intel-gfx-ci can't hurt I think, but that only covers
-> i915 so doesn't really help with the bigger issue of catching all the
-> drivers.
+What issue would you like to address by using a platform_data?
 
-BTW: We have now somebody working on converting the existing 
-libdrm_amdgpu unit tests over to igt.
+> >> +static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge =
+*bridge)
+> >> +{
+> >> +	return connector_status_connected;
+> >> +}
+> >
+> >I'm not quite sure what's going on there. You seem to have some support
+> >for HPD interrupts above, but you always report the display as
+> >connected?
+> >
+> >I'd assume that either you don't have HPD support and then always report
+> >it as connected, or you have HPD support and report the current status
+> >in detect, but that combination seems weird.
+>=20
+> The HPD logic needs more work, some things have been broken when I split
+> the driver into three patches eDP - DP - Audio
+> The assumption at first was that eDP didn't need any HPD handling... but =
+it
+> seems I was wrong and the eDP driver needs to be reworked.
 
-Regards,
-Christian.
+That can be made into a patch of its own if you prefer.
 
->
-> Cheers, Daniel
+You first introduce the driver without status reporting (always
+returning connected or unknown), and then add the needed bits for HPD.
 
+However, that first patch shouldn't contain the interrupt plumbing and
+so on, it's just confusing.
+
+> >> +static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
+> >> +				    struct drm_connector *connector)
+> >> +{
+> >> +	struct mtk_dp *mtk_dp =3D mtk_dp_from_bridge(bridge);
+> >> +	bool enabled =3D mtk_dp->enabled;
+> >> +	struct edid *new_edid =3D NULL;
+> >> +
+> >> +	if (!enabled)
+> >> +		drm_bridge_chain_pre_enable(bridge);
+> >> +
+> >> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
+> >> +	usleep_range(2000, 5000);
+> >> +
+> >> +	if (mtk_dp_plug_state(mtk_dp))
+> >> +		new_edid =3D drm_get_edid(connector, &mtk_dp->aux.ddc);
+> >> +
+> >> +	if (!enabled)
+> >> +		drm_bridge_chain_post_disable(bridge);
+> >
+> >Are you sure we can't get a mode set while get_edid is called?
+> >
+> >If we can, then you could end up disabling the device while it's being
+> >powered on.
+>=20
+> I'm a bit unsure, I need to spend more time in the drm stack to make sure.
+> I'll get back to you when I have a definitive answer.
+
+So, it looks like it's ok.
+
+get_edid is your implementation of get_modes, which is called by
+drm_helper_probe_single_connector_modes
+
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_probe_he=
+lper.c#L416
+
+This is the standard implemantion of fill_modes, which is called
+whenever the get_connector ioctl is called (or similar paths, like
+drm_client_modeset_probe)
+
+drm_helper_probe_single_connector_modes is under the assumption that the
+mode_config.mutex is held though, and that the big lock. So it should be
+serialized there.
+
+Just for future proofing though, it would be better to use refcounting
+there. Would runtime_pm work for you there?
+
+> >> +static void mtk_dp_parse_drm_mode_timings(struct mtk_dp *mtk_dp,
+> >> +					  struct drm_display_mode *mode)
+> >> +{
+> >> +	struct mtk_dp_timings *timings =3D &mtk_dp->info.timings;
+> >> +
+> >> +	drm_display_mode_to_videomode(mode, &timings->vm);
+> >> +	timings->frame_rate =3D mode->clock * 1000 / mode->htotal / mode->vt=
+otal;
+> >
+> >drm_mode_vrefresh()
+> >
+> >> +	timings->htotal =3D mode->htotal;
+> >> +	timings->vtotal =3D mode->vtotal;
+> >> +}
+> >
+> >It's not really clear to me why you need to duplicate drm_display_mode
+> >here?
+> >
+> It's saved to be re-used in mtk_dp_set_msa().
+> It's not ideal, I'll check if I can get the mode directly from mtk_dp_set=
+_msa()
+
+Yeah, it looks like mtk_dp_set_msa() uses fairly straightforward values,
+this will be just as easy with drm_display_mode.
+
+Maxime
