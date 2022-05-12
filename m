@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F30E525764
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 23:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA3652577E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 00:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C11A10E64A;
-	Thu, 12 May 2022 21:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3046A10E1F1;
+	Thu, 12 May 2022 22:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C30910E64A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 21:52:12 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id v59so12158974ybi.12
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 14:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1rN+CwqR+bH7StWcAdqh6rJz6EZ5daE9SrwU7kGYAAg=;
- b=uey7p3FPmlV8ybbB7CX62wvjMDfYMimWgr7YFNG/RN0kUBvJdIH6yAWPwDblMqcaom
- 44H8zJ5WAZxERa36MnwbaP4ed62zhA5aDd1uF0Orwt5+v7Z3DDA0K3j3dbInN9yIu5Nj
- XFqhuzYE4eUestUpSIlEffLtN97Yg9+RT92Dgvn+eZtm0DwdQdYI48v7P2nSwQ3jgulR
- 1+JcUs826xZLmLrM6z4OwDDLdy4td6XfnpsVUuH/oNkCS0QFnP5jekD/06uM5gGZNPEP
- VxsohkXFP5y3Dq7eSWVX5MsDKfnPxV5TyPhLA3N6lksUvuI0fTIGzmwFWa/N1XZxemvW
- 9VEA==
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC2A10E1F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 22:00:22 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id l11so5744133pgt.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:00:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iikW8QS8TpzbUeweqVeTDabVov5E8PqyReNc2ipRCRc=;
+ b=lxXEYTpUlVbp7/gWafx4J0U6nERWMognhGgUBrfhDOydyfR0ZQcfzRgWIgXu1UAGhw
+ paqt9jdPdnZ2N2MyaAs8u0k1PvI8hsFDiOvNmaAap9i91fz3eNYIlDek68hU3ePGoGvP
+ uim39BuC4jITGq5QKZLX1jBt4rQywAvsj5YMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1rN+CwqR+bH7StWcAdqh6rJz6EZ5daE9SrwU7kGYAAg=;
- b=oW5XzUfJljmV/axXb+HX4rlJdigmBKhyVM9bfy6oVZJ+ANDA5IzOKUGjRTY6Yi8sU0
- dUMGEFlQl6V46m8+707+MkiIZkis6OOceyDGpOgFk41uvTTPLcBKTfP2dzQtjXweiYeZ
- Hj7mFy4U1TM6Cq0/oefeJ3GLNh5xSPL8nsdVbIWgbbGbF7f6pDKrkiLektU8Agw7yoV1
- xMH2icOT87vpcTyqJ83Qqq671yHvGxTV61+B90gA+a8e/3oBQEJ1XGW1MSRKltKMffVB
- rPce6tc8sZu3CaeSONuNQ0j65Are0KVUzJTetSN2y7wRRkdhtAr+E82GC5MOE6Ui3vlY
- bWRg==
-X-Gm-Message-State: AOAM533SNdU7yY8j8bbdV5r+FPybWLhCUoi3BFP2yST24GMndaks3rpl
- fqkbB/6bigTcBeX6XYPthcKzRrUR0OU9Rp/24g9eNw==
-X-Google-Smtp-Source: ABdhPJzBciKJzRYibXRHHMHUQNthVJZ1oMHtE0x2iIbQxYaAk1bpoVS2cWCVmfOZEPSsSxUQs6HB561kBnOxHA40g/E=
-X-Received: by 2002:a25:2905:0:b0:649:7a2b:ca72 with SMTP id
- p5-20020a252905000000b006497a2bca72mr1891393ybp.492.1652392331408; Thu, 12
- May 2022 14:52:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iikW8QS8TpzbUeweqVeTDabVov5E8PqyReNc2ipRCRc=;
+ b=rwx+UOakUZdO/w5cCF3xi62QDqpsD3D55igeJp3HxIGp7ed62sPL+B4X2mgTtGAEmk
+ ytcPfSwwojbUBnJaFpgeqxokH7d8MB2N7sDh1qXHFghasZQnfWCulMa3DXpxSE6KEOJJ
+ O5itfsXEgbe+NiVP6KerNyms61dN1KW0HBHdNKQ484GfVARCaiENUbLzxZT7Ht+VnTw5
+ bmd3khdQ8B7wq+/Q3sCAFHf/06YaCe5TknNou0VgdiDNVf5da+6Qz+ZNZsrfUwwS9uZB
+ IwiZU0TL6DXYC68EMxeThPIMk6y0SSDHr5FQAPX5e1X+7VtHyGaOmmYEYVRPZ2jzMG++
+ 42fw==
+X-Gm-Message-State: AOAM530qkXRxBFsjQjLjjjnog5d9Vc/kF4Og8RdpkqrmAI3GED1fzIxn
+ Km9BJw/SFFGngE9aOUzXa6wf51qBNom/AdVnMOg=
+X-Google-Smtp-Source: ABdhPJw9aRmDxVL7y0M188RGO+VFsV1/Qwg8lEzhMJ5GicGC9AFBWblGxMqq8rvCWfqktrSpCiP2gA==
+X-Received: by 2002:a63:e5d:0:b0:3aa:3c53:537e with SMTP id
+ 29-20020a630e5d000000b003aa3c53537emr1316997pgo.622.1652392821629; 
+ Thu, 12 May 2022 15:00:21 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:1ee3:ea22:908:c2b5])
+ by smtp.gmail.com with ESMTPSA id
+ c3-20020a170903234300b0015e8d4eb1f6sm406847plh.64.2022.05.12.15.00.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 15:00:21 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4] drm/msm/dsi: don't powerup at modeset time for
+ parade-ps8640
+Date: Thu, 12 May 2022 15:00:16 -0700
+Message-Id: <20220512145954.v4.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
+X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
 MIME-Version: 1.0
-References: <cover.1651835715.git.jo@jsfamily.in>
- <BY5PR02MB7009B91FB7306503B58C264BD9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
-In-Reply-To: <BY5PR02MB7009B91FB7306503B58C264BD9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 12 May 2022 23:51:59 +0200
-Message-ID: <CACRpkdYhkP9RYj98Lu=zkt+6aefx172R=8JtvOFpvh2uJ4byKA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/panel: introduce ebbg,ft8719 panel
-To: Joel Selvaraj <jo@jsfamily.in>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,99 +67,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Hao Fang <fanghao11@huawei.com>,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, Oleksij Rempel <linux@rempel-privat.de>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Corentin Labbe <clabbe@baylibre.com>, phone-devel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Stanislav Jakubek <stano.jakubek@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 6, 2022 at 2:18 PM Joel Selvaraj <jo@jsfamily.in> wrote:
+Commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
+time") caused sc7180 Chromebooks that use the parade-ps8640 bridge
+chip to fail to turn the display back on after it turns off.
 
-> Add DRM panel driver for EBBG FT8719 6.18" 2246x1080 DSI video mode
-> panel, which can be found on some Xiaomi Poco F1 phones. The panel's
-> backlight is managed through QCOM WLED driver.
->
-> Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
+Unfortunately, it doesn't look easy to fix the parade-ps8640 driver to
+handle the new power sequence. The Linux driver has almost nothing in
+it and most of the logic for this bridge chip is in black-box firmware
+that the bridge chip uses.
 
-Cool!
+Also unfortunately, reverting the patch will break "tc358762".
 
-> +#define dsi_generic_write_seq(dsi, seq...) do {                                \
-> +               static const u8 d[] = { seq };                          \
-> +               int ret;                                                \
-> +               ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));    \
-> +               if (ret < 0)                                            \
-> +                       return ret;                                     \
-> +       } while (0)
-> +
-> +#define dsi_dcs_write_seq(dsi, seq...) do {                            \
-> +               static const u8 d[] = { seq };                          \
-> +               int ret;                                                \
-> +               ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d)); \
-> +               if (ret < 0)                                            \
-> +                       return ret;                                     \
-> +       } while (0)
+The long term solution here is probably Dave Stevenson's series [1]
+that would give more flexibility. However, that is likely not a quick
+fix.
 
-First I don't see what the do {} while (0) buys you, just use
-a basic block {}.
+For the short term, we'll look at the compatible of the next bridge in
+the chain and go back to the old way for the Parade PS8640 bridge
+chip. If it's found that other bridge chips also need this workaround
+then we can add them to the list or consider inverting the condition.
 
-Second look at mipi_dbi_command() in include/drm/drm_mipi_dbi.h
-this is very similar.
+[1] https://lore.kernel.org/r/cover.1646406653.git.dave.stevenson@raspberrypi.com
 
-So this utility macro should be in a generic file such as
-include/drm/drm_mipi_dsi.h. (Can be added in a separate
-patch.)
+Fixes: 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset time")
+Suggested-by: Rob Clark <robdclark@gmail.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+Note that, unlike `struct device`, `struct drm_bridge` still has a
+`#ifdef` around the `of_node`. The extra stub function in this patch
+is to make sure that we can pass COMPILE_TEST, not because I expect
+that we'll actually run into real users who are running this driver
+without device tree.
 
-Third I think you need only one macro (see below).
+Changes in v4:
+- Use the compatible string of the next bridge as per Rob.
 
-> +static int ebbg_ft8719_on(struct ebbg_ft8719 *ctx)
-> +{
-> +       struct mipi_dsi_device *dsi = ctx->dsi;
-> +       struct device *dev = &dsi->dev;
-> +       int ret;
-> +
-> +       dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +       dsi_dcs_write_seq(dsi, 0x00, 0x00);
-> +       dsi_generic_write_seq(dsi, 0xff, 0x87, 0x19, 0x01);
+Changes in v3:
+- No longer a revert; now a module parameter.
 
-It's dubious that you always have dsi_dcs_write_seq()
-followed by dsi_generic_write_seq().
+Changes in v2:
+- Remove the mud from my face.
 
-That means mipi_dsi_generic_write() followed by
-mipi_dsi_dcs_write_buffer(). But if you look at these
-commands in drivers/gpu/drm/drm_mipi_dsi.c
-you see that they do the same thing!
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-Doesn't it work to combine them into one call for each
-pair?
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index 50b987658b1f..2cabba65a8f1 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -34,6 +34,26 @@ static struct msm_dsi_manager msm_dsim_glb;
+ #define IS_SYNC_NEEDED()	(msm_dsim_glb.is_sync_needed)
+ #define IS_MASTER_DSI_LINK(id)	(msm_dsim_glb.master_dsi_link_id == id)
+ 
++#ifdef CONFIG_OF
++static bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
++{
++	struct drm_bridge *next_bridge = drm_bridge_get_next_bridge(bridge);
++
++	/*
++	 * If the next bridge in the chain is the Parade ps8640 bridge chip
++	 * then don't power on early since it seems to violate the expectations
++	 * of the firmware that the bridge chip is running.
++	 */
++	return !(next_bridge && next_bridge->of_node &&
++		 of_device_is_compatible(next_bridge->of_node, "parade,ps8640"));
++}
++#else
++static inline bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
++{
++	return true;
++}
++#endif
++
+ static inline struct msm_dsi *dsi_mgr_get_dsi(int id)
+ {
+ 	return msm_dsim_glb.dsi[id];
+@@ -389,6 +409,9 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+ 	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
+ 		return;
+ 
++	if (!dsi_mgr_power_on_early(bridge))
++		dsi_mgr_bridge_power_on(bridge);
++
+ 	/* Always call panel functions once, because even for dual panels,
+ 	 * there is only one drm_panel instance.
+ 	 */
+@@ -570,7 +593,8 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
+ 	if (is_bonded_dsi && other_dsi)
+ 		msm_dsi_host_set_display_mode(other_dsi->host, adjusted_mode);
+ 
+-	dsi_mgr_bridge_power_on(bridge);
++	if (dsi_mgr_power_on_early(bridge))
++		dsi_mgr_bridge_power_on(bridge);
+ }
+ 
+ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+-- 
+2.36.0.550.gb090851708-goog
 
-> +       dsi_dcs_write_seq(dsi, 0x00, 0x80);
-> +       dsi_generic_write_seq(dsi, 0xff, 0x87, 0x19);
-
-Lots of magic numbers. You don't have a datasheet do you?
-So you could #define some of the magic?
-
-> +       if (ctx->prepared)
-> +               return 0;
-(...)
-> +       ctx->prepared = true;
-> +       return 0;
-(...)
-> +       if (!ctx->prepared)
-> +               return 0;
-(...)
-> +       ctx->prepared = false;
-> +       return 0;
-
-Drop this state variable it is a reimplementation of something
-that the core will track for you.
-
-The rest looks nice!
-
-Yours,
-Linus Walleij
