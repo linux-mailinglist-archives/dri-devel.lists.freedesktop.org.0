@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0BA52414C
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 02:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4D052414E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 02:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100C510E74F;
-	Thu, 12 May 2022 00:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA7D10E9E8;
+	Thu, 12 May 2022 00:03:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A66A910E791
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 00:02:37 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- z15-20020a9d65cf000000b00605f064482cso1571253oth.6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 17:02:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=j1qyiWWc/ZcMZ2FZH7DVJCATZ7B7pTYmubNqnjOuM24=;
- b=kE6d/j8BCN5rbO1FcyurymCrlhWhcqgGf+VT5p9sG53nurd5HLHT4BV4+N8p0dHLke
- YzBkNh/pVk8OQNKM8FEMkLqvXRSqrVDmeiXgN+F8TA0yvYsEHd6TQ04nCn0B3xCg05WC
- HlBoHOwmVOA5rU/Crk5bnEUPUuzTknAg9nBiU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=j1qyiWWc/ZcMZ2FZH7DVJCATZ7B7pTYmubNqnjOuM24=;
- b=PHLVVbaKkDtBZAkAhdvEQDqFKDbjWZWvap5kGpQujmhu532y2Y7GpwllIdJpHW1Tat
- 723toGWMPMd5gIc8XtsjRZpyhVWmhDrElx/nmwASCQKHyFkPuREOq/XQKVf/eqvQJNez
- mEuXkwE0Y1aubh1CwJ0dfpDQEgbOt7F1i09AWFGN6cJacQSOZ2QajZ5G1W5dZm2/7ZNF
- ymuRXMi+hQ8pW4SFGvLzkrN1Zv44n0MioBHEco7r6h4pubuVNUbheBJ8hnxDAtqz6zXS
- ozx0KZqdnIjqF0WF7IswoNs2JleAOVtYATFf4Jv5o9s5GK4QH4uyRLb4UX7yC2sxOWiR
- UeMw==
-X-Gm-Message-State: AOAM533SC4zuFk9Xh1Qeo6EpuMAcsyuTWACWrZ+TgutP8yOBLSYtCgUh
- 119h6mVAWyNxHstR1d56j5wxztTZQWMgs4YOHYcTRw==
-X-Google-Smtp-Source: ABdhPJzhIap2jPse6o+R+wgLrc8xRp1X48y3KB07+7qJgfflkLe85OdZ/njzLrDPNjlZ/HaPZU9Pus9j1oV3TMksJCo=
-X-Received: by 2002:a9d:63cd:0:b0:606:9e7f:79f8 with SMTP id
- e13-20020a9d63cd000000b006069e7f79f8mr5629866otl.77.1652313756970; Wed, 11
- May 2022 17:02:36 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 May 2022 17:02:36 -0700
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8B5710E6F3;
+ Thu, 12 May 2022 00:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652313835; x=1683849835;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=AytqhtlrQXo/glli1ZywoTulrCobzK4bJtoTLSRZIXs=;
+ b=C1dFd4gN1uOo7CZyxkT2ckVGY7hSF6oJMadg0MGJcSkAL4UTZ22bH3X/
+ FfGcpi414uy9A8sRuP1b91+CXs9xG+dPUCdOq2imEBKv38HISSQicW5DU
+ nyBSAq+WylvYVlnqlod/TQGpYJND27UkgYJhnvwDniUu8Dh+z5erIaqee 0=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 11 May 2022 17:03:54 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2022 17:03:53 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 11 May 2022 17:03:53 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 11 May 2022 17:03:52 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v5] drm/msm/dp: Always clear mask bits to disable interrupts
+ at dp_ctrl_reset_irq_ctrl()
+Date: Wed, 11 May 2022 17:02:48 -0700
+Message-ID: <1652313768-16286-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
-References: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 11 May 2022 17:02:36 -0700
-Message-ID: <CAE-0n53SDYFiSGkcUW=DbmGOZe3oz9AjSATtcmbKqKh3=Pn9jw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: add DRM_MODE_ROTATE_180 back to supported
- rotations
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,28 +62,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com,
- quic_vpolimer@quicinc.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2022-05-11 15:27:10)
-> DRM_MODE_ROTATE_180 was previously marked as supported even
-> for devices not supporting inline rotation.
->
-> This is true because the SSPPs can always flip the image.
->
-> After inline rotation support changes, this bit was removed
-> and kms_rotation_crc IGT test starts skipping now whereas
-> it was previously passing.
->
-> Restore DRM_MODE_ROTATE_180 bit to the supported rotations
-> list.
->
-> Fixes: dabfdd89eaa92 ("add inline rotation support for sc7280")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
+dp_catalog_ctrl_reset() will software reset DP controller. But it will
+not reset programmable registers to default value. DP driver still have
+to clear mask bits to interrupt status registers to disable interrupts
+after software reset of controller.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+At current implementation, dp_ctrl_reset_irq_ctrl() will software reset dp
+controller but did not call dp_catalog_ctrl_enable_irq(false) to clear hpd
+related interrupt mask bits to disable hpd related interrupts due to it
+mistakenly think hpd related interrupt mask bits will be cleared by software
+reset of dp controller automatically. This mistake may cause system to crash
+during suspending procedure due to unexpected irq fired and trigger event
+thread to access dp controller registers with controller clocks are disabled.
+
+This patch fixes system crash during suspending problem by removing "enable"
+flag condition checking at dp_ctrl_reset_irq_ctrl() so that hpd related
+interrupt mask bits are cleared to prevent unexpected from happening.
+In addition, this patch also add suspended flag to prevent new events be
+added into event Q to wake up event thread after system suspended.
+
+Changes in v2:
+-- add more details commit text
+
+Changes in v3:
+-- add synchrons_irq()
+-- add atomic_t suspended
+
+Changes in v4:
+-- correct Fixes's commit ID
+-- remove synchrons_irq()
+
+Changes in v5:
+-- revise commit text
+
+Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |  9 +++++++--
+ drivers/gpu/drm/msm/dp/dp_display.c | 11 +++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index af7a80c..f3e333e 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1389,8 +1389,13 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
+ 
+ 	dp_catalog_ctrl_reset(ctrl->catalog);
+ 
+-	if (enable)
+-		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
++	/*
++	 * all dp controller programmable registers will not
++	 * be reset to default value after DP_SW_RESET
++	 * therefore interrupt mask bits have to be updated
++	 * to enable/disable interrupts
++	 */
++	dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
+ }
+ 
+ void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index c388323..79439b8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -98,6 +98,8 @@ struct dp_display_private {
+ 	struct dp_ctrl    *ctrl;
+ 	struct dp_debug   *debug;
+ 
++	atomic_t suspended;
++
+ 	struct dp_usbpd_cb usbpd_cb;
+ 	struct dp_display_mode dp_mode;
+ 	struct msm_dp dp_display;
+@@ -187,6 +189,11 @@ static int dp_add_event(struct dp_display_private *dp_priv, u32 event,
+ 	int pndx;
+ 
+ 	spin_lock_irqsave(&dp_priv->event_lock, flag);
++	if (atomic_read(&dp_priv->suspended)) {
++		spin_unlock_irqrestore(&dp_priv->event_lock, flag);
++		return -EPERM;
++	}
++
+ 	pndx = dp_priv->event_pndx + 1;
+ 	pndx %= DP_EVENT_Q_MAX;
+ 	if (pndx == dp_priv->event_gndx) {
+@@ -1362,6 +1369,8 @@ static int dp_pm_resume(struct device *dev)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized, dp_display->power_on);
+ 
++	atomic_set(&dp->suspended, 0);
++
+ 	/* start from disconnected state */
+ 	dp->hpd_state = ST_DISCONNECTED;
+ 
+@@ -1431,6 +1440,8 @@ static int dp_pm_suspend(struct device *dev)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized, dp_display->power_on);
+ 
++	atomic_inc(&dp->suspended);
++
+ 	/* mainlink enabled */
+ 	if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+ 		dp_ctrl_off_link_stream(dp->ctrl);
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
