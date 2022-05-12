@@ -1,42 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1C6524B30
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:14:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E5C524B41
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:17:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4781B10E60E;
-	Thu, 12 May 2022 11:14:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF7210EC64;
+	Thu, 12 May 2022 11:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7443910E60E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:14:42 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C94ED61E4A;
- Thu, 12 May 2022 11:14:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27528C385B8;
- Thu, 12 May 2022 11:14:36 +0000 (UTC)
-Message-ID: <b5e35985-c159-6b11-8752-d6dd29fc6a64@xs4all.nl>
-Date: Thu, 12 May 2022 13:14:35 +0200
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C47A10EC64
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:17:11 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id e24so4868706pjt.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 04:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=6WezROkLudrlqv8GY4bLrfI4SSzTy6BukYeueDgyVAo=;
+ b=ZG4L8aWgWUMIdLTyMqlfwkAvbyFWFtdzShi8yQzpV4ha+8gdXHZZbgGM494CmV8pHZ
+ KUM31+rCVQ+f+rjslddzbgtjw3rn2C95dgsbihhOPl5X/XaYuU7/xuS7HEoVPL+MIk5u
+ 2dGxoWbTHtMbwHgMC1tIngmH3I9TG8Ii0cpcFNvtmK1pBuJwOdRj5ivaKn72u2n//pOl
+ oslhRY2fn1Kt39pV7ZEAnqs6g27CqHEPGBSBrFvSVn2KaWTNymdXDZ/zeIJDVKHfydiw
+ kY/GrcdP6EysrjF/PAdFREfVaKlF+p9Bs81hJBKQDUh+Kftl4QmhGyooqZcSnMdtPjw7
+ skeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6WezROkLudrlqv8GY4bLrfI4SSzTy6BukYeueDgyVAo=;
+ b=Lw4PiZjg1gk29ZCfZ5AzKWHFiYwp7NlLk8vGyqfeSKKBbXYHgvmy4jzL443UQWWPxX
+ BQ/tW2cXI6zpMY9rpnuD4SOksevW7jgcuZ7AyWIbFuWeSURh6kdIE6VoLX68ApLvGrV/
+ fAONOuyPjbK8KwjZasJB3LCM9NkHzTU3rS9ZlKQnCBV5NOkljGE4+TYBZ5tqJQfB4MPW
+ Ty9/fphLDxZxFW1a0hqx0sOgJdyfMwMU9LnLMl8NtBGC74sxYEgPnKX9JLVFYoZfhPDp
+ IGOvLQ1wdWkY4TZV7EPBQJPNThVC9uWx+OMuExRmX2q4ZrYygovaqxVGcgaZhxrEZ2R9
+ 3tjg==
+X-Gm-Message-State: AOAM532vXHkFYuyAf1Ox/nNMoTNN4WMFkpzz6nl8bHi1tLh4Tn4PvdSU
+ oNubHQLEApAkif+c7ZBAwgw=
+X-Google-Smtp-Source: ABdhPJxOk00NN95KoR0NkGvXDc/PUUEbhiITRueHgKA7v2vPBSykitNg4nZw/ehY2YRTSOAYec1gmg==
+X-Received: by 2002:a17:902:ea46:b0:15d:dbc:34f2 with SMTP id
+ r6-20020a170902ea4600b0015d0dbc34f2mr29455881plg.60.1652354230773; 
+ Thu, 12 May 2022 04:17:10 -0700 (PDT)
+Received: from [172.16.10.243] ([219.142.146.170])
+ by smtp.gmail.com with ESMTPSA id
+ w15-20020a63474f000000b003c14af5060asm1663230pgk.34.2022.05.12.04.17.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 04:17:10 -0700 (PDT)
+Message-ID: <e778d50a-81c6-6dfa-a58b-73cda452f4e3@gmail.com>
+Date: Thu, 12 May 2022 19:17:00 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 0/4] Add Toshiba Visconti DNN image processing accelerator
- driver
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/meson: Fix refcount leak in meson_encoder_hdmi_init
 Content-Language: en-US
-To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Rob Herring <robh+dt@kernel.org>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220428131128.5053-1-yuji2.ishikawa@toshiba.co.jp>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220428131128.5053-1-yuji2.ishikawa@toshiba.co.jp>
+To: Neil Armstrong <narmstrong@baylibre.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20220512092114.38426-1-linmq006@gmail.com>
+ <a811a26e-ec34-f9ce-589f-82e96a975594@baylibre.com>
+From: Miaoqian Lin <linmq006@gmail.com>
+In-Reply-To: <a811a26e-ec34-f9ce-589f-82e96a975594@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,80 +80,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yuji,
+Hi,
 
-On 4/28/22 15:11, Yuji Ishikawa wrote:
-> This series is the DNN image processing accelerator driver for Toshiba's ARM SoC, Visconti[0].
-> This provides DT binding documentation, device driver, MAINTAINER files.
-> 
-> The second patch "soc: visconti: Add Toshiba Visconti image processing accelerator common source"
-> and the fourth patch "MAINTAINERS: ..." are the same as the ones in the preceding post for affine driver.
+On 2022/5/12 17:32, Neil Armstrong wrote:
+> Hi,
+>
+> On 12/05/2022 11:21, Miaoqian Lin wrote:
+>> of_find_device_by_node() takes a reference to the embedded struct device,
+>> we should use put_device() to release it when not need anymore.
+>> Add missing put_device() in error path to avoid refcount leak.
+>>
+>> Fixes: 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
+>> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+>
+> You already sent the same patch yesterday, please avoid this.
+>
+Sorry for the mistake, I realized this after I sent it. I will be more careful.
 
-There appears to be no documentation whatsoever, unless I am missing something.
 
-How is the uAPI supposed to be used? What does it do? What formats does it accept
-or produce?
-
-If this processes images, then (as Laurent mentioned) this is more suitable as a
-V4L2 mem2mem driver.
-
-See https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-mem2mem.html
-and the many drivers in drivers/media that use it (git grep v4l2-mem2mem.h).
-
-But without any explanation whatsoever I have no idea what does or does not make sense.
-
-Regards,
-
-	Hans
-
-> 
-> Best regards,
-> Yuji
-> 
-> [0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
-> 
-> Yuji Ishikawa (4):
->   dt-bindings: soc: visconti: Add Toshiba Visconti DNN image processing
->     accelerator bindings
->   soc: visconti: Add Toshiba Visconti image processing accelerator
->     common source
->   soc: visconti: Add Toshiba Visconti DNN image processing accelerator
->   MAINTAINERS: Add entries for Toshiba Visconti DNN image processing
->     accelerator
-> 
->  .../soc/visconti/toshiba,visconti-dnn.yaml    |  54 ++
->  MAINTAINERS                                   |   2 +
->  drivers/soc/Kconfig                           |   1 +
->  drivers/soc/Makefile                          |   1 +
->  drivers/soc/visconti/Kconfig                  |   7 +
->  drivers/soc/visconti/Makefile                 |   8 +
->  drivers/soc/visconti/dnn/Makefile             |   6 +
->  drivers/soc/visconti/dnn/dnn.c                | 533 ++++++++++++++++++
->  drivers/soc/visconti/dnn/hwd_dnn.c            | 183 ++++++
->  drivers/soc/visconti/dnn/hwd_dnn.h            |  68 +++
->  drivers/soc/visconti/dnn/hwd_dnn_reg.h        | 228 ++++++++
->  drivers/soc/visconti/ipa_common.c             |  55 ++
->  drivers/soc/visconti/ipa_common.h             |  18 +
->  drivers/soc/visconti/uapi/dnn.h               |  77 +++
->  drivers/soc/visconti/uapi/ipa.h               |  88 +++
->  15 files changed, 1329 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/visconti/toshiba,visconti-dnn.yaml
->  create mode 100644 drivers/soc/visconti/Kconfig
->  create mode 100644 drivers/soc/visconti/Makefile
->  create mode 100644 drivers/soc/visconti/dnn/Makefile
->  create mode 100644 drivers/soc/visconti/dnn/dnn.c
->  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.c
->  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.h
->  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn_reg.h
->  create mode 100644 drivers/soc/visconti/ipa_common.c
->  create mode 100644 drivers/soc/visconti/ipa_common.h
->  create mode 100644 drivers/soc/visconti/uapi/dnn.h
->  create mode 100644 drivers/soc/visconti/uapi/ipa.h
-> 
-
+> Neil
+>
+>> ---
+>>   drivers/gpu/drm/meson/meson_encoder_hdmi.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+>> index 5e306de6f485..de87f02cd388 100644
+>> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+>> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+>> @@ -435,8 +435,10 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
+>>           cec_fill_conn_info_from_drm(&conn_info, meson_encoder_hdmi->connector);
+>>             notifier = cec_notifier_conn_register(&pdev->dev, NULL, &conn_info);
+>> -        if (!notifier)
+>> +        if (!notifier) {
+>> +            put_device(&pdev->dev);
+>>               return -ENOMEM;
+>> +        }
+>>             meson_encoder_hdmi->cec_notifier = notifier;
+>>       }
+>
