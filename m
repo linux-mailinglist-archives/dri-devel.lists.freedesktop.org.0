@@ -1,77 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0BC0524BDF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:42:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6A6524C41
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E30610F01B;
-	Thu, 12 May 2022 11:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66A9710EBB7;
+	Thu, 12 May 2022 11:59:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5755810F01B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:42:00 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id 4so6100641ljw.11
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 04:42:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=6T9T68NcFc0952zVBrDOq932Pet+Nc2yVT/DrOYRhBM=;
- b=MfrdMblJoJMaGsS9/wwW7IgEQsVP493T0B1dVe/hcRSHQa2qJJK6zLDzIs6XqgyR6m
- QqfINpCdr9iBM3iCKd6TTUo+pAsGqLKef6QAyAc2K2RmGJWUjCdnSU07euRA2Bw8FRUT
- JltbqrXpIvCr0205WJ2tqiIoa6maS5A7zmw3V0Dc+Wp8gy8e0p3dQILf38H0rBWeoICh
- 2ssSozJzebsLnI83/u/dfjW67b84Qn85zVECo/1GsKsGpu6Kj5AdvifWajNp1Dc5eSST
- rH7y5LadelaqdTVMbl7zqeWBMMyQF4+5YWG92akdBoS/xu+I6Wo3NhiBepyPZYFpP9Z9
- sWVg==
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37E8C10EBB7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:59:23 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ t11-20020a17090ad50b00b001d95bf21996so7607407pju.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 04:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=a/Jq44xoX1PX4n3n8Vf2G0RTQLdM4u3R8vUUYgDiB04=;
+ b=mlMqYveSz/+4qyhU7Gn2t3oWFvyH+LSNhqreDHRhYlwIHWqahZCFudIHWm6Ja6shfJ
+ l6FeEnF5N+f7cfpHAwyX2D2A6Im2Xst2Vt0KatDULbUJMvR/gjU0p6whZWNLymtnRqdg
+ XpenVROQ7O74LbOF/JN8z421V3oYlvmaPamURNP0qMVllMgrdgR7WQx0k1yzliiAGDc/
+ cu1N8Oiya9M7Ouij7ORwpMcmR5valH7ZFw2ufqvt0khJMMvqGuQBiA299NVzlEwNymzT
+ Fmu3DKnijVF6aP7k4Dbi0eWKnD7hm4SYQVcNLVueHvuwGkD28M55+CTWIy3+s1oDCUFV
+ sAVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6T9T68NcFc0952zVBrDOq932Pet+Nc2yVT/DrOYRhBM=;
- b=S144q7MopiJQvgb+ksBsPIyV5LS4CjunRLlINH4Vy1z1wltdwxvYg45ItT7dTa9lIj
- lfrBAt8NLit9XEfnDB1IMGjQe0S/HepsddHRGmLlLS2IK8LCbEAQJriebsn1xqngZMHA
- O5PDtGFan9lpdbwYoGvWxmk6z9J/+dE5rUSFjwh+AkPVgWGxHlwJbH91V8XPV4MIakbc
- 8pZ7CuH6ZNjJloCEWQq6KxaGQQDLjk+jN/oNlsFd+uZT5Mt+20xKedfIuR+eSDS2pjKF
- ULw/0sFQRnZXpS4U20pZ2pfmaE5xzUBsiAoJc5JYuUcB6x7cU0vIrYm4MjoNcO5NhksW
- pXmQ==
-X-Gm-Message-State: AOAM531vh4pYUAIwcigWFJFYYG9BacbwGiEiFLhE/pGcqJVuMy2vbdad
- vBVH+PGWEzHihNHx9bsc+2sUGg==
-X-Google-Smtp-Source: ABdhPJwrvrRsnMiVU5z5IvyBoA7401rH8GIZeABVb/kiO4ZTWHWXkyItgblVBRrywExalFEcfqjYCg==
-X-Received: by 2002:a2e:b0fc:0:b0:24f:1050:ff61 with SMTP id
- h28-20020a2eb0fc000000b0024f1050ff61mr20342984ljl.290.1652355718324; 
- Thu, 12 May 2022 04:41:58 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- 10-20020ac25f4a000000b0047255d210f0sm753651lfz.31.2022.05.12.04.41.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 04:41:57 -0700 (PDT)
-Message-ID: <d589845f-e85c-5dcb-28cf-ac08eb7c1a8e@linaro.org>
-Date: Thu, 12 May 2022 14:41:56 +0300
+ bh=a/Jq44xoX1PX4n3n8Vf2G0RTQLdM4u3R8vUUYgDiB04=;
+ b=yFvmHnyLix+E1gwFQ1oRTDqjmk4Ps9C9zt9RB6nX6V84YWCp4MV1w/J0VmNcX6BSIM
+ YtNyT9IjVqsYJRTiS6YdDSqzhfUwb+lyJOSHbBf3PzfPcj3psAADABdhIQrT+DZl54G7
+ HQJd+OLhjWGQDTk8pj0++0M6YZF0lGrgv03S3t3I/E6RONaJTQ8cdrPbt1XkjaOlAMQC
+ OuhTHAwLzn/TujRt6glc+irpj3XN2OkGu3MBxOa2daIstGj6skfgnQH/z4QmLU3cOJJ5
+ kEmGN+Lzo8xqO5P/pKokfTxAqfgd1GtJLZbLNCprGHYWX8wRHka1jjzR5Ju62uKC68oz
+ r/0A==
+X-Gm-Message-State: AOAM533aSOXgvSt/4bikYDEHEpnZ5p0SjC5hmuEjmIUSGw3Q+eK1WIXx
+ igRGZBjqa1OrOGadP+Zl+Uk=
+X-Google-Smtp-Source: ABdhPJxUkdcERAaY6EHXM+YWGl5OJizIGEsi9bYKgIcAV4R0PZrxLengDsUUSp2cSZor8m+omxbfVQ==
+X-Received: by 2002:a17:902:7445:b0:15f:2eb6:2c3d with SMTP id
+ e5-20020a170902744500b0015f2eb62c3dmr9432973plt.132.1652356762826; 
+ Thu, 12 May 2022 04:59:22 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+ by smtp.googlemail.com with ESMTPSA id
+ k34-20020a635a62000000b003c14af5063esm1653594pgm.86.2022.05.12.04.59.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 04:59:22 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Russell King <linux@armlinux.org.uk>, Helge Deller <deller@gmx.de>,
+ Miaoqian Lin <linmq006@gmail.com>, Pawel Moll <pawel.moll@arm.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] video: fbdev: Fix refcount leak in clcdfb_of_vram_setup
+Date: Thu, 12 May 2022 15:59:08 +0400
+Message-Id: <20220512115913.48685-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v1 0/7] drm/bridge_connector: perform HPD enablement
- automatically
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Tomi Valkeinen <tomba@kernel.org>
-References: <20220429185157.3673633-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220429185157.3673633-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,53 +71,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/04/2022 21:51, Dmitry Baryshkov wrote:
->  From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
-> DRM driver do a proper work of calling
-> drm_bridge_connector_en/disable_hpd() in right places. Rather than
-> teaching each and every driver how to properly handle
-> drm_bridge_connector's HPD, make that automatic.
-> 
-> Add two additional drm_connector helper funcs: enable_hpd() and
-> disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
-> is the time where the drm_bridge_connector's functions are called by the
-> drivers too).
+of_parse_phandle() returns a node pointer with refcount
+incremented, we should use of_node_put() on it when not need anymore.
+Add missing of_node_put() to avoid refcount leak.
 
-Gracious ping regarding this series. It went for two weeks w/o review.
+Fixes: d10715be03bd ("video: ARM CLCD: Add DT support")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/video/fbdev/amba-clcd.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Few additional points 'pro':
-- It makes it possible to handle hpd enablement in cases where the 
-driver uses a mixture of drm_bridge_connector and old connectors (msm)
-- It makes it possible for other connectors to also implement dynamic 
-hpd enablement/disablement in a standard way
-
-> 
-> Dmitry Baryshkov (7):
->    drm/poll-helper: merge drm_kms_helper_poll_disable() and _fini()
->    drm/probe-helper: enable and disable HPD on connectors
->    drm/bridge_connector: rely on drm_kms_helper_poll_* for HPD enablement
->    drm/imx/dcss: stop using drm_bridge_connector_en/disable_hpd()
->    drm/msm/hdmi: stop using drm_bridge_connector_en/disable_hpd()
->    drm/omap: stop using drm_bridge_connector_en/disable_hpd()
->    drm/bridge_connector: drop drm_bridge_connector_en/disable_hpd()
-> 
->   drivers/gpu/drm/drm_bridge_connector.c   | 23 +++----------
->   drivers/gpu/drm/drm_probe_helper.c       | 40 ++++++++++++++++++-----
->   drivers/gpu/drm/imx/dcss/dcss-dev.c      |  4 ---
->   drivers/gpu/drm/imx/dcss/dcss-kms.c      |  4 ---
->   drivers/gpu/drm/msm/hdmi/hdmi.c          |  2 --
->   drivers/gpu/drm/omapdrm/omap_drv.c       | 41 ------------------------
->   include/drm/drm_bridge_connector.h       |  2 --
->   include/drm/drm_modeset_helper_vtables.h | 22 +++++++++++++
->   8 files changed, 58 insertions(+), 80 deletions(-)
-> 
-
-
+diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-clcd.c
+index 9ec969e136bf..8080116aea84 100644
+--- a/drivers/video/fbdev/amba-clcd.c
++++ b/drivers/video/fbdev/amba-clcd.c
+@@ -758,12 +758,15 @@ static int clcdfb_of_vram_setup(struct clcd_fb *fb)
+ 		return -ENODEV;
+ 
+ 	fb->fb.screen_base = of_iomap(memory, 0);
+-	if (!fb->fb.screen_base)
++	if (!fb->fb.screen_base) {
++		of_node_put(memory);
+ 		return -ENOMEM;
++	}
+ 
+ 	fb->fb.fix.smem_start = of_translate_address(memory,
+ 			of_get_address(memory, 0, &size, NULL));
+ 	fb->fb.fix.smem_len = size;
++	of_node_put(memory);
+ 
+ 	return 0;
+ }
 -- 
-With best wishes
-Dmitry
+2.25.1
+
