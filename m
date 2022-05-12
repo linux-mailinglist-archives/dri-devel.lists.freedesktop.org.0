@@ -1,67 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4A2524129
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 01:41:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0BA52414C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 02:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6ED610E702;
-	Wed, 11 May 2022 23:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100C510E74F;
+	Thu, 12 May 2022 00:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D2710E6CA
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 23:41:34 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id a30so4473523ljq.9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 16:41:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=QQUBL6AAiPvENtz+HDrqxW12KA7JEtcW+/yW68TiJxc=;
- b=VUDr8ggrhQaMK4PwRgjhViEY2vsWFEy4mwnw3k7Zbbb6TmWvmC96/XXibpm2v2XTaA
- 4m1O4VDM1S5i9gkgrJLcq+bYWYXHx2QcQ6iDV/HCTj6vkVNCkneY67CVa29ykvtXnG+q
- 1uCAGGGdvny5rfhSb8cFeEG3m/7PKDr7uhQ5CPDWiKK5YeHYw4QsSb+tmb2PUgwj98j9
- z0xqliWNzIuTHyq3zbrvLxMWx+g0rsznaFpYHT3IBN44i02P+ouR07BJWLqcIpDNnndz
- ngt6IdHV9AdbXNnURT/4guESiUDbg6nNjpcZC2BUrgjNxGAoiWNrEuwpqGMp56tlrqxa
- Klpg==
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A66A910E791
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 00:02:37 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ z15-20020a9d65cf000000b00605f064482cso1571253oth.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 17:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=j1qyiWWc/ZcMZ2FZH7DVJCATZ7B7pTYmubNqnjOuM24=;
+ b=kE6d/j8BCN5rbO1FcyurymCrlhWhcqgGf+VT5p9sG53nurd5HLHT4BV4+N8p0dHLke
+ YzBkNh/pVk8OQNKM8FEMkLqvXRSqrVDmeiXgN+F8TA0yvYsEHd6TQ04nCn0B3xCg05WC
+ HlBoHOwmVOA5rU/Crk5bnEUPUuzTknAg9nBiU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QQUBL6AAiPvENtz+HDrqxW12KA7JEtcW+/yW68TiJxc=;
- b=MQ46ijWeEyIVhkHc1N8qxwvOQYWOvnP7BQemcPB6FIBnfv0JZrzVsjMhE1H9a0MMPI
- 8c5o9zzoytDaitYLGfK1jRpOy2PV9nmYyomelB4jHmO9xYSxuE/cu4laig3qf+s35wvX
- ypvwBAxSvQl5AAhSb9f5X7Otr05hUG5EdW20aQSfJXgKYorH07aQ5QIpvMeMAaS3iG9+
- l8VuVGtwuZJuJxzTOmo2jJrW13dRRkfSpW/jjAlMQ0GlaepyG1gYYzaglr2Zy/OXdnk+
- EFQBVPk7qVYPGoLG/4/M1KSxtUS5BQ/yCUKqmxIN2xz18RhJhOh6o/QEYZlKyKuMuSoF
- RQtQ==
-X-Gm-Message-State: AOAM533HLUpYdrV9FdkydZ81ZiSFoNoI7c76AAlz60Qh9SMV32RD/XqC
- AtwP6Sl9Wkp59KneE159iDYhaQ==
-X-Google-Smtp-Source: ABdhPJyGionT4XPGSQE0dPGjN+7Ju/kSS5aDXtcvu8TNsltNR5JksN4mRMDZ4hR8ig9/gSkob5CX9Q==
-X-Received: by 2002:a2e:80da:0:b0:24f:4db3:f02d with SMTP id
- r26-20020a2e80da000000b0024f4db3f02dmr18683114ljg.0.1652312492929; 
- Wed, 11 May 2022 16:41:32 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- bn17-20020a05651c179100b00250d680db18sm583654ljb.85.2022.05.11.16.41.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 16:41:32 -0700 (PDT)
-Message-ID: <6dfee07b-1c88-a3e4-9e82-b17f4e20a022@linaro.org>
-Date: Thu, 12 May 2022 02:41:31 +0300
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=j1qyiWWc/ZcMZ2FZH7DVJCATZ7B7pTYmubNqnjOuM24=;
+ b=PHLVVbaKkDtBZAkAhdvEQDqFKDbjWZWvap5kGpQujmhu532y2Y7GpwllIdJpHW1Tat
+ 723toGWMPMd5gIc8XtsjRZpyhVWmhDrElx/nmwASCQKHyFkPuREOq/XQKVf/eqvQJNez
+ mEuXkwE0Y1aubh1CwJ0dfpDQEgbOt7F1i09AWFGN6cJacQSOZ2QajZ5G1W5dZm2/7ZNF
+ ymuRXMi+hQ8pW4SFGvLzkrN1Zv44n0MioBHEco7r6h4pubuVNUbheBJ8hnxDAtqz6zXS
+ ozx0KZqdnIjqF0WF7IswoNs2JleAOVtYATFf4Jv5o9s5GK4QH4uyRLb4UX7yC2sxOWiR
+ UeMw==
+X-Gm-Message-State: AOAM533SC4zuFk9Xh1Qeo6EpuMAcsyuTWACWrZ+TgutP8yOBLSYtCgUh
+ 119h6mVAWyNxHstR1d56j5wxztTZQWMgs4YOHYcTRw==
+X-Google-Smtp-Source: ABdhPJzhIap2jPse6o+R+wgLrc8xRp1X48y3KB07+7qJgfflkLe85OdZ/njzLrDPNjlZ/HaPZU9Pus9j1oV3TMksJCo=
+X-Received: by 2002:a9d:63cd:0:b0:606:9e7f:79f8 with SMTP id
+ e13-20020a9d63cd000000b006069e7f79f8mr5629866otl.77.1652313756970; Wed, 11
+ May 2022 17:02:36 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 May 2022 17:02:36 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
+In-Reply-To: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
+References: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 11 May 2022 17:02:36 -0700
+Message-ID: <CAE-0n53SDYFiSGkcUW=DbmGOZe3oz9AjSATtcmbKqKh3=Pn9jw@mail.gmail.com>
 Subject: Re: [PATCH] drm/msm/dpu: add DRM_MODE_ROTATE_180 back to supported
  rotations
-Content-Language: en-GB
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220511222710.22394-1-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,52 +66,27 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_kalyant@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com, quic_khsieh@quicinc.com, quic_vpolimer@quicinc.com
+ quic_khsieh@quicinc.com, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com,
+ quic_vpolimer@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/05/2022 01:27, Abhinav Kumar wrote:
+Quoting Abhinav Kumar (2022-05-11 15:27:10)
 > DRM_MODE_ROTATE_180 was previously marked as supported even
 > for devices not supporting inline rotation.
-> 
+>
 > This is true because the SSPPs can always flip the image.
-> 
+>
 > After inline rotation support changes, this bit was removed
 > and kms_rotation_crc IGT test starts skipping now whereas
 > it was previously passing.
-> 
+>
 > Restore DRM_MODE_ROTATE_180 bit to the supported rotations
 > list.
-> 
+>
 > Fixes: dabfdd89eaa92 ("add inline rotation support for sc7280")
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 9d2f0364d2c7..5b5aef249390 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -1577,7 +1577,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   			BIT(DRM_MODE_BLEND_PREMULTI) |
->   			BIT(DRM_MODE_BLEND_COVERAGE));
->   
-> -	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0;
-> +	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180;
 
-Nit: can we rename this to handled_rotations to remove confusion with 
-supported_rotations from dpu_plane_atomic_check()?
-
-Nevertheless:
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
->   
->   	if (pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
->   		supported_rotations |= DRM_MODE_ROTATE_MASK;
-
-
--- 
-With best wishes
-Dmitry
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
