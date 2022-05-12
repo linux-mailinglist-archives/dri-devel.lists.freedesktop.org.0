@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45004524DAC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:02:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 461C8524DD5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:10:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6CE110FFF5;
-	Thu, 12 May 2022 13:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E40112013;
+	Thu, 12 May 2022 13:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7329610FFFB
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 13:01:58 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2f7d621d1caso55142657b3.11
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 06:01:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/lfDOlHUOek9C7jOeYtx9WxH1V373cmd8YRq+4P9J2c=;
- b=GYud4zcv0EeM2pj5bBFJ7Gx5ZbhNeLPcXkDE3z4HHDzIbpT5rKNFAPBjW0BjAykTcQ
- Ni3mPE5xhks+i1y+b3ogM1NXSaBN1oMzP65HmVHmZLwkBRxVsJWW+Aokhp8jBucY6egm
- S0w9Gg+EdjpKrPUBrJkt8SH+ngBX49iwlbVw8+L6+TcHd3k4xtuwiM1khtrl0SvmgBjw
- /hzs4tquEGLe8qgWvDbAJWGG2KRFEPnnC1msGvMp1aSQzc91YUhJKDk20zN2j+D3wSfV
- mlx5AxM3+PxE5j6PjG6F9UJwrqP5bx90EjBZjXnE9h9xMY+YNPuywbKk3DE6XmFYn6/8
- LbHQ==
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98FBE112009
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 13:10:04 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id h3so4232083qtn.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 06:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :content-transfer-encoding:user-agent:mime-version;
+ bh=RBA5iYSHu9+0TYIYrBGNppT49jXTmNkB4+A2Po1Nus8=;
+ b=3eBFlCCHPRxkzPZ0s8KZjMicvMtmgL+oe/KrY5MKDSXcjQwLbcXkaduM7++YpUA55d
+ auo6swNXasvTsK3hhnOsCxf7T2SHW9FzAMBSKTJe/ufAs5+Cx85VNXf2xt48DwLkz14l
+ Gg7HSyQjgfSgnfEBrgiK8uGWHf0rWcv+UCOWgyHiOyT4JTKwbJZVaSr509src58ZzFSD
+ 7NJB9D5MBw+fHof1VNKLRvVEgiUFBf4MvCs6oVrfokAyCWOQx9XKF03oRjBw0ZFadjap
+ VXC2Glu3iKcmppInO6+yumJld1Kco9x2F2fGdOXjV6B+9FYZ+/e0bFv1flHl1gi4nr19
+ 0Xjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/lfDOlHUOek9C7jOeYtx9WxH1V373cmd8YRq+4P9J2c=;
- b=r8HsQAjb/YURRHeT6HpeO8dSKJrKxv+WAcXNAk+hCzZbQQ+6pp7VSF29DCKverfoMv
- Csr5+V6OtLfG87ahikSbjjJ0DvURwZOgmOrenZcWOAoX7C7nYGORXrUNA1F1iQmRoWVM
- 97a3cIz8r+wK46vQUS6/JwXR9XbHJOKCmp0t0NZJ3L8AfDS+gm7bt6ExZrmVWl9TcLJP
- csyyY2rwzraylD4POTSjRTx49ze/HqY4obE7HOdlOfMj9fQd/GMHga93BAhVXtnm1Lv4
- 48umpaPxx3lSFzjUnuF55AWGeY2m+RFGASI78fX7eMa2kZvLqVJSHkKJ/M2L0jqOCVlc
- UleQ==
-X-Gm-Message-State: AOAM531I/gRYbI6o5N1UY05mkUW+6MQmIUCF/eiPRONhO2nsSUbbK17p
- CifIAHqeXPrNTjkBu5YAFw6ldjg7riL6ZdXbYFQ=
-X-Google-Smtp-Source: ABdhPJxr+4PqP1umY344MY21ihPe1wrIT5axr773zAz5A3xpzxixjKeYkcEbuOgHgN3JC19k7gEnl0PyYaLMDp2pT7o=
-X-Received: by 2002:a05:690c:89:b0:2d7:fb7d:db7 with SMTP id
- be9-20020a05690c008900b002d7fb7d0db7mr33062207ywb.219.1652360517202; Thu, 12
- May 2022 06:01:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <20220422072841.2206452-21-s.hauer@pengutronix.de>
- <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
- <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
- <a85eca2e-61f0-8d4b-64db-dfcc2b97d6f7@arm.com>
-In-Reply-To: <a85eca2e-61f0-8d4b-64db-dfcc2b97d6f7@arm.com>
-From: Peter Geis <pgwipeout@gmail.com>
-Date: Thu, 12 May 2022 09:01:45 -0400
-Message-ID: <CAMdYzYqGpf9mw5+tzvU_Xf3ePGCH1xF83iFPTqvOTjSukzniYA@mail.gmail.com>
-Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
- on rock-3a
-To: Robin Murphy <robin.murphy@arm.com>
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:content-transfer-encoding:user-agent:mime-version;
+ bh=RBA5iYSHu9+0TYIYrBGNppT49jXTmNkB4+A2Po1Nus8=;
+ b=xV8MGVVdgmcJvdPMBe+X/oYa3R6zeoLY7EGvlppvWhAIddyELQsckouu7kvKLXMgBl
+ B8WAMJ2GG0BBLt7DCCzn35xrmm6zOMZl67sBUQpJrzgwK9Sh5cidy3ceh8oBk9nif5sG
+ 9i9qaEhkTKEjNALoHO/kPjdC1FAFV89jjsjgncd3xYW2vJodkmP18xvAFMZKoAuKOQKt
+ tk9vhtYThKtJKHY6VEwwKCdLkZIlV0J4dMvNxs9VJhk+Run94APKEOQuTiKiLhHo/wjj
+ Kt+wYSxDikDOeG7IBlbCzAoxKpXJ3v81RCiRfYT18Mvo72cJUhPyGq6cbegM3l9LXoGm
+ zTSw==
+X-Gm-Message-State: AOAM532DJRivMG/O/t9ITbzvGuQERkFCGIhCfDkwADdVgEebfGSxYEY+
+ GItyXdhhWaFrk7SvojLzJW+h3g==
+X-Google-Smtp-Source: ABdhPJz5CKwhlE8d7bTTHW0wg3txErQtYCpOVtChIjACpnnxUq2VanDb8ocB/1nkSkvCRgs6MnSb/g==
+X-Received: by 2002:a05:622a:5d0:b0:2f3:c650:19cc with SMTP id
+ d16-20020a05622a05d000b002f3c65019ccmr28598110qtb.0.1652361003426; 
+ Thu, 12 May 2022 06:10:03 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net.
+ [173.246.12.168]) by smtp.gmail.com with ESMTPSA id
+ l14-20020ac8148e000000b002f39b99f68dsm2864002qtj.39.2022.05.12.06.10.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 06:10:02 -0700 (PDT)
+Message-ID: <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 12 May 2022 09:09:59 -0400
+In-Reply-To: <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,108 +73,324 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- kernel test robot <lkp@intel.com>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Laura Abbott <labbott@redhat.com>, kernel-team@android.com,
+ linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ linaro-mm-sig@lists.linaro.org, Hridya Valsaraju <hridya@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?ISO-8859-1?Q?Hj=F8nnev=E5g?= <arve@android.com>,
+ Michal =?ISO-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 12, 2022 at 8:17 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2022-05-08 17:53, Peter Geis wrote:
-> > On Sun, May 8, 2022 at 9:40 AM Piotr Oniszczuk
-> > <piotr.oniszczuk@gmail.com> wrote:
-> >>
-> >>
-> >>
-> >>> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer <s.hauer@pengutronix.=
-de> w dniu 22.04.2022, o godz. 09:28:
-> >>>
-> >>> From: Michael Riesch <michael.riesch@wolfvision.net>
-> >>>
-> >>> Enable the RK356x Video Output Processor (VOP) 2 on the Radxa
-> >>> ROCK3 Model A.
-> >>>
-> >>> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> >>> Reported-by: kernel test robot <lkp@intel.com>
-> >>> Link: https://lore.kernel.org/r/20220310210352.451136-4-michael.riesc=
-h@wolfvision.net
-> >>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> >>> ---
-> >>
-> >> Sascha, Michael,
-> >
-> > Good Afternoon,
-> >>
-> >> I'm using v11 series on 5.18-rc5 on rk3566 tvbox with great success.
-> >> Recently i started to work on rock3-a (rk3568).
-> >> v11 gives me video, audio - but cec is not working on rock3-a.
-> >>
-> >> I was told:
-> >>
-> >> 32k clock needed for cec and this clock is generated by the rtc which =
-is embedded in the rk8xx regulator.
-> >> So you should make sure it is enabled when hdmi is powerd on, eg addin=
-g it to the RK3568_PD_VO powerdomain should help
-> >>
-> >> I was trying to do this in dts https://pastebin.com/67wu9QrH but cec i=
-s still non-functional
-> >>
-> >> Maybe You have some hints/pointers here?
-> >
-> > Add the following to the HDMI node:
-> > assigned-clocks =3D <&cru CLK_HDMI_CEC>;
-> > assigned-clock-rates =3D <32768>;
-> >
-> > The issue is the clk_rtc32k_frac clock that feeds clk_rtc_32k which
-> > feeds clk_hdmi_cec is 24mhz at boot, which is too high for CEC to
-> > function.
-> > I submitted a patch to have the hdmi driver handle this, but it broke
-> > other SoCs because 32k is an optional clock.
-> > Since this is the case, I'd like Robin to weigh in on going the
-> > assigned-clock route again.
->
-> (did you mean to CC me or have I missed another thread elsewhere?)
+Le mercredi 11 mai 2022 =C3=A0 13:31 -0700, T.J. Mercier a =C3=A9crit=C2=A0=
+:
+> On Wed, May 11, 2022 at 6:21 AM Nicolas Dufresne <nicolas@ndufresne.ca> w=
+rote:
+> >=20
+> > Hi,
+> >=20
+> > Le mardi 10 mai 2022 =C3=A0 23:56 +0000, T.J. Mercier a =C3=A9crit :
+> > > This patch series revisits the proposal for a GPU cgroup controller t=
+o
+> > > track and limit memory allocations by various device/allocator
+> > > subsystems. The patch series also contains a simple prototype to
+> > > illustrate how Android intends to implement DMA-BUF allocator
+> > > attribution using the GPU cgroup controller. The prototype does not
+> > > include resource limit enforcements.
+> >=20
+> > I'm sorry, since I'm not in-depth technically involve. But from reading=
+ the
+> > topic I don't understand the bound this creates between DMABuf Heaps an=
+d GPU. Is
+> > this an attempt to really track the DMABuf allocated by userland, or ju=
+st
+> > something for GPU ? What about V4L2 devices ? Any way this can be clari=
+fied,
+> > specially what would other subsystem needs to have cgroup DMABuf alloca=
+tion
+> > controller support ?
+> >=20
+> Hi Nicolas,
+>=20
+> The link between dmabufs, dmabuf heaps, and "GPU memory" is maybe
+> somewhat of an Androidism. However this change aims to be usable for
+> tracking all GPU related allocations. It's just that this initial
+> series only adds support for tracking dmabufs allocated from dmabuf
+> heaps.
+>=20
+> In Android most graphics buffers are dma buffers allocated from a
+> dmabuf heap, so that is why these dmabuf heap allocations are being
+> tracked under the GPU cgroup. Other dmabuf exporters like V4L2 might
+> also want to track their buffers, but would probably want to do so
+> under a bucket name of something like "v4l2". Same goes for GEM
+> dmabufs. The naming scheme for this is still yet to be decided. It
+> would be cool to be able to attribute memory at the driver level, or
+> even different types of memory at the driver level, but I imagine
+> there is a point of diminishing returns for fine-grained
+> naming/bucketing.
+>=20
+> So far, I haven't tried to create a strict definition of what is and
+> is not "GPU memory" for the purpose of this accounting, so I don't
+> think we should be restricted to tracking just dmabufs. I don't see
+> why this couldn't be anything a driver wants to consider as GPU memory
+> as long as it is named/bucketed appropriately, such as both on-package
+> graphics card memory use and CPU memory dedicated for graphics use
+> like for host/device transfers.
+>=20
+> Is that helpful?
 
-Apologies, I made an unsafe assumption here.
+I'm actually happy I've asked this question, wasn't silly after all. I thin=
+k the
+problem here is a naming issue. What you really are monitor is "video memor=
+y",
+which consist of a memory segment allocated to store data used to render im=
+ages
+(its not always images of course, GPU an VPU have specialized buffers for t=
+heir
+purpose).
 
->
-> FWIW I still think it would be good to fix the clock driver(s) and/or
-> DTs to correctly deal with the availability and configuration of xin_32k
-> where appropriate. However, much like the HCLK_VO mess I guess that's a
-> larger cleanup tangent in its own right, so using "assigned-clocks" for
-> this one case in the meantime doesn't seem unreasonable. I was
-> optimistic for the cleanest, most generic solution, but if reality gets
-> in the way then oh well.
+Whether this should be split between what is used specifically by the GPU
+drivers, the display drivers, the VPU (CODEC and pre/post-processor) or cam=
+era
+drivers is something that should be discussed. But in the current approach,=
+ you
+really meant Video memory as a superset of the above. Personally, I think
+generically (to de-Andronized your work), en-globing all video memory is
+sufficient. What I fail to understand is how you will manage to distinguish=
+ed
+DMABuf Heap allocation (which are used outside of Android btw), from Video
+allocation or other type of usage. I'm sure non-video usage will exist in t=
+he
+future (think of machine learning, compute, other high bandwidth streaming
+thingy ...)
 
-I was thinking about this problem and came to a realization. The root
-dtsi files all have clk32k_in defined, even though it's listed as an
-optional clock. I think this should move to the device boards (much
-like the gmac input clock) that have it. The clock driver might need
-some help coping with it being missing, I haven't tested this.
+>=20
+> Best,
+> T.J.
+>=20
+> > >=20
+> > > Changelog:
+> > > v7:
+> > > Hide gpucg and gpucg_bucket struct definitions per Michal Koutn=C3=BD=
+.
+> > > This means gpucg_register_bucket now returns an internally allocated
+> > > struct gpucg_bucket.
+> > >=20
+> > > Move all public function documentation to the cgroup_gpu.h header.
+> > >=20
+> > > Remove comment in documentation about duplicate name rejection which
+> > > is not relevant to cgroups users per Michal Koutn=C3=BD.
+> > >=20
+> > > v6:
+> > > Move documentation into cgroup-v2.rst per Tejun Heo.
+> > >=20
+> > > Rename BINDER_FD{A}_FLAG_SENDER_NO_NEED ->
+> > > BINDER_FD{A}_FLAG_XFER_CHARGE per Carlos Llamas.
+> > >=20
+> > > Return error on transfer failure per Carlos Llamas.
+> > >=20
+> > > v5:
+> > > Rebase on top of v5.18-rc3
+> > >=20
+> > > Drop the global GPU cgroup "total" (sum of all device totals) portion
+> > > of the design since there is no currently known use for this per
+> > > Tejun Heo.
+> > >=20
+> > > Fix commit message which still contained the old name for
+> > > dma_buf_transfer_charge per Michal Koutn=C3=BD.
+> > >=20
+> > > Remove all GPU cgroup code except what's necessary to support charge =
+transfer
+> > > from dma_buf. Previously charging was done in export, but for non-And=
+roid
+> > > graphics use-cases this is not ideal since there may be a delay betwe=
+en
+> > > allocation and export, during which time there is no accounting.
+> > >=20
+> > > Merge dmabuf: Use the GPU cgroup charge/uncharge APIs patch into
+> > > dmabuf: heaps: export system_heap buffers with GPU cgroup charging as=
+ a
+> > > result of above.
+> > >=20
+> > > Put the charge and uncharge code in the same file (system_heap_alloca=
+te,
+> > > system_heap_dma_buf_release) instead of splitting them between the he=
+ap and
+> > > the dma_buf_release. This avoids asymmetric management of the gpucg c=
+harges.
+> > >=20
+> > > Modify the dma_buf_transfer_charge API to accept a task_struct instea=
+d
+> > > of a gpucg. This avoids requiring the caller to manage the refcount
+> > > of the gpucg upon failure and confusing ownership transfer logic.
+> > >=20
+> > > Support all strings for gpucg_register_bucket instead of just string
+> > > literals.
+> > >=20
+> > > Enforce globally unique gpucg_bucket names.
+> > >=20
+> > > Constrain gpucg_bucket name lengths to 64 bytes.
+> > >=20
+> > > Append "-heap" to gpucg_bucket names from dmabuf-heaps.
+> > >=20
+> > > Drop patch 7 from the series, which changed the types of
+> > > binder_transaction_data's sender_pid and sender_euid fields. This was
+> > > done in another commit here:
+> > > https://lore.kernel.org/all/20220210021129.3386083-4-masahiroy@kernel=
+.org/
+> > >=20
+> > > Rename:
+> > >   gpucg_try_charge -> gpucg_charge
+> > >   find_cg_rpool_locked -> cg_rpool_find_locked
+> > >   init_cg_rpool -> cg_rpool_init
+> > >   get_cg_rpool_locked -> cg_rpool_get_locked
+> > >   "gpu cgroup controller" -> "GPU controller"
+> > >   gpucg_device -> gpucg_bucket
+> > >   usage -> size
+> > >=20
+> > > Tests:
+> > >   Support both binder_fd_array_object and binder_fd_object. This is
+> > >   necessary because new versions of Android will use binder_fd_object
+> > >   instead of binder_fd_array_object, and we need to support both.
+> > >=20
+> > >   Tests for both binder_fd_array_object and binder_fd_object.
+> > >=20
+> > >   For binder_utils return error codes instead of
+> > >   struct binder{fs}_ctx.
+> > >=20
+> > >   Use ifdef __ANDROID__ to choose platform-dependent temp path instea=
+d
+> > >   of a runtime fallback.
+> > >=20
+> > >   Ensure binderfs_mntpt ends with a trailing '/' character instead of
+> > >   prepending it where used.
+> > >=20
+> > > v4:
+> > > Skip test if not run as root per Shuah Khan
+> > >=20
+> > > Add better test logging for abnormal child termination per Shuah Khan
+> > >=20
+> > > Adjust ordering of charge/uncharge during transfer to avoid potential=
+ly
+> > > hitting cgroup limit per Michal Koutn=C3=BD
+> > >=20
+> > > Adjust gpucg_try_charge critical section for charge transfer function=
+ality
+> > >=20
+> > > Fix uninitialized return code error for dmabuf_try_charge error case
+> > >=20
+> > > v3:
+> > > Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz
+> > >=20
+> > > Use more common dual author commit message format per John Stultz
+> > >=20
+> > > Remove android from binder changes title per Todd Kjos
+> > >=20
+> > > Add a kselftest for this new behavior per Greg Kroah-Hartman
+> > >=20
+> > > Include details on behavior for all combinations of kernel/userspace
+> > > versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Hart=
+man.
+> > >=20
+> > > Fix pid and uid types in binder UAPI header
+> > >=20
+> > > v2:
+> > > See the previous revision of this change submitted by Hridya Valsaraj=
+u
+> > > at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@googl=
+e.com/
+> > >=20
+> > > Move dma-buf cgroup charge transfer from a dma_buf_op defined by ever=
+y
+> > > heap to a single dma-buf function for all heaps per Daniel Vetter and
+> > > Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_devic=
+e
+> > > tracking the current associations were added to the dma_buf struct to
+> > > achieve this.
+> > >=20
+> > > Fix incorrect Kconfig help section indentation per Randy Dunlap.
+> > >=20
+> > > History of the GPU cgroup controller
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > The GPU/DRM cgroup controller came into being when a consensus[1]
+> > > was reached that the resources it tracked were unsuitable to be integ=
+rated
+> > > into memcg. Originally, the proposed controller was specific to the D=
+RM
+> > > subsystem and was intended to track GEM buffers and GPU-specific
+> > > resources[2]. In order to help establish a unified memory accounting =
+model
+> > > for all GPU and all related subsystems, Daniel Vetter put forth a
+> > > suggestion to move it out of the DRM subsystem so that it can be used=
+ by
+> > > other DMA-BUF exporters as well[3]. This RFC proposes an interface th=
+at
+> > > does the same.
+> > >=20
+> > > [1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140=
+438.9506-1-brian.welty@intel.com/#22624705
+> > > [2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.wel=
+ty@intel.com/
+> > > [3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.=
+local/
+> > >=20
+> > > Hridya Valsaraju (3):
+> > >   gpu: rfc: Proposal for a GPU cgroup controller
+> > >   cgroup: gpu: Add a cgroup controller for allocator attribution of G=
+PU
+> > >     memory
+> > >   binder: Add flags to relinquish ownership of fds
+> > >=20
+> > > T.J. Mercier (3):
+> > >   dmabuf: heaps: export system_heap buffers with GPU cgroup charging
+> > >   dmabuf: Add gpu cgroup charge transfer function
+> > >   selftests: Add binder cgroup gpu memory transfer tests
+> > >=20
+> > >  Documentation/admin-guide/cgroup-v2.rst       |  23 +
+> > >  drivers/android/binder.c                      |  31 +-
+> > >  drivers/dma-buf/dma-buf.c                     |  80 ++-
+> > >  drivers/dma-buf/dma-heap.c                    |  38 ++
+> > >  drivers/dma-buf/heaps/system_heap.c           |  28 +-
+> > >  include/linux/cgroup_gpu.h                    | 146 +++++
+> > >  include/linux/cgroup_subsys.h                 |   4 +
+> > >  include/linux/dma-buf.h                       |  49 +-
+> > >  include/linux/dma-heap.h                      |  15 +
+> > >  include/uapi/linux/android/binder.h           |  23 +-
+> > >  init/Kconfig                                  |   7 +
+> > >  kernel/cgroup/Makefile                        |   1 +
+> > >  kernel/cgroup/gpu.c                           | 390 +++++++++++++
+> > >  .../selftests/drivers/android/binder/Makefile |   8 +
+> > >  .../drivers/android/binder/binder_util.c      | 250 +++++++++
+> > >  .../drivers/android/binder/binder_util.h      |  32 ++
+> > >  .../selftests/drivers/android/binder/config   |   4 +
+> > >  .../binder/test_dmabuf_cgroup_transfer.c      | 526 ++++++++++++++++=
+++
+> > >  18 files changed, 1632 insertions(+), 23 deletions(-)
+> > >  create mode 100644 include/linux/cgroup_gpu.h
+> > >  create mode 100644 kernel/cgroup/gpu.c
+> > >  create mode 100644 tools/testing/selftests/drivers/android/binder/Ma=
+kefile
+> > >  create mode 100644 tools/testing/selftests/drivers/android/binder/bi=
+nder_util.c
+> > >  create mode 100644 tools/testing/selftests/drivers/android/binder/bi=
+nder_util.h
+> > >  create mode 100644 tools/testing/selftests/drivers/android/binder/co=
+nfig
+> > >  create mode 100644 tools/testing/selftests/drivers/android/binder/te=
+st_dmabuf_cgroup_transfer.c
+> > >=20
+> >=20
 
->
-> Judging by the datasheet, RK3568 might actually have a similar situation
-> with its clk32k_in pin, so you may want "assigned-clock-parents" as well
-> to ensure the whole clk_rtc32k branch is really set up the way you
-> currently expect - baking any more assumptions into DTBs now only seems
-> to add potential for breakage if kernel behaviour changes in future.
-
-rk3568 defaults to using a clock divider from the 24m clock, so it
-works even in the absence of clk32_in. It seemed rk3399 did as well,
-but unlike rk3568 it would switch to clk32k_in if the exact frequency
-was chosen. Implementing the above would fix that issue, and we can
-then implement the driver fix.
-
->
-> Robin.
-
-Very Respectfully,
-Peter
