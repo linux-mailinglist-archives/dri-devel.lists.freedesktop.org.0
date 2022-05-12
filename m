@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA3652577E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 00:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D0B525784
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 00:02:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3046A10E1F1;
-	Thu, 12 May 2022 22:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4EB10E49A;
+	Thu, 12 May 2022 22:02:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC2A10E1F1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 22:00:22 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id l11so5744133pgt.13
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:00:22 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66BBA10E36E
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 22:02:14 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id l18so12782249ejc.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iikW8QS8TpzbUeweqVeTDabVov5E8PqyReNc2ipRCRc=;
- b=lxXEYTpUlVbp7/gWafx4J0U6nERWMognhGgUBrfhDOydyfR0ZQcfzRgWIgXu1UAGhw
- paqt9jdPdnZ2N2MyaAs8u0k1PvI8hsFDiOvNmaAap9i91fz3eNYIlDek68hU3ePGoGvP
- uim39BuC4jITGq5QKZLX1jBt4rQywAvsj5YMw=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qrcFnQX5TKrAaSWz2egEofhfAACl36nsw6XjrjYC63Y=;
+ b=kUdCvWoKFKqd2DECKwKOUZZMOgwaUIBR0oNZV8k8LmwvpiRlxUhX8z349mWXSeUHwj
+ U4QWNVYNXSoHe9D558M7yqKGsIQauYAzEZN7Wp2Akwgc2KAhac4TMyRegvJFqPDEU7c/
+ rtc2WhmiJ0UCk0/Vh46m3OKqFsqaYreMiLm1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iikW8QS8TpzbUeweqVeTDabVov5E8PqyReNc2ipRCRc=;
- b=rwx+UOakUZdO/w5cCF3xi62QDqpsD3D55igeJp3HxIGp7ed62sPL+B4X2mgTtGAEmk
- ytcPfSwwojbUBnJaFpgeqxokH7d8MB2N7sDh1qXHFghasZQnfWCulMa3DXpxSE6KEOJJ
- O5itfsXEgbe+NiVP6KerNyms61dN1KW0HBHdNKQ484GfVARCaiENUbLzxZT7Ht+VnTw5
- bmd3khdQ8B7wq+/Q3sCAFHf/06YaCe5TknNou0VgdiDNVf5da+6Qz+ZNZsrfUwwS9uZB
- IwiZU0TL6DXYC68EMxeThPIMk6y0SSDHr5FQAPX5e1X+7VtHyGaOmmYEYVRPZ2jzMG++
- 42fw==
-X-Gm-Message-State: AOAM530qkXRxBFsjQjLjjjnog5d9Vc/kF4Og8RdpkqrmAI3GED1fzIxn
- Km9BJw/SFFGngE9aOUzXa6wf51qBNom/AdVnMOg=
-X-Google-Smtp-Source: ABdhPJw9aRmDxVL7y0M188RGO+VFsV1/Qwg8lEzhMJ5GicGC9AFBWblGxMqq8rvCWfqktrSpCiP2gA==
-X-Received: by 2002:a63:e5d:0:b0:3aa:3c53:537e with SMTP id
- 29-20020a630e5d000000b003aa3c53537emr1316997pgo.622.1652392821629; 
- Thu, 12 May 2022 15:00:21 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:1ee3:ea22:908:c2b5])
- by smtp.gmail.com with ESMTPSA id
- c3-20020a170903234300b0015e8d4eb1f6sm406847plh.64.2022.05.12.15.00.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 15:00:21 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v4] drm/msm/dsi: don't powerup at modeset time for
- parade-ps8640
-Date: Thu, 12 May 2022 15:00:16 -0700
-Message-Id: <20220512145954.v4.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
-X-Mailer: git-send-email 2.36.0.550.gb090851708-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qrcFnQX5TKrAaSWz2egEofhfAACl36nsw6XjrjYC63Y=;
+ b=aQv3xUIS8OKS29XYrgXfDxmwoCcFWeTQGkkY2PQ4gYGA9S2cYDd1RKZyKCPHZlBhgY
+ vN+UC/aetcaMWnH9TkuYDVwSXNvGxTxz2tIPPwSsdQjOH2u7RxjTWYGr6Bn1xqBx5h9T
+ a/nPCTw0jlGYb3dwRNcdUl1Lt2ROhb5MxrLpCsgLMKtK9CuU8ekKL1K4VjCy2IDNEZBE
+ nsrOD6pIH0bD2wIy6qRN91oQpL0LsM+0sJkBSCxwQJyARuwkjouoctGzVO9K0lfrunkT
+ aiAsANeLidz+7J/1C+4itLjjTxso3xdvvlAlhYMZir8Bztk8F8nXBX8fqocv4GUzSU3M
+ /PWg==
+X-Gm-Message-State: AOAM531HZ5YLMx3I8mP+toJ2f2JmB2194i8/XYIj1yp/b7REGb0AwiP5
+ hiLADgY07srP2+fPN0ONA/TK8bbOdyufO8Zn
+X-Google-Smtp-Source: ABdhPJw/7Z2Kj0yme3VX+cUBQxuGfO3idmg/wxae8nKrkxUlJE/pRd+/zz+VZLIjMP8J1bBrE9+hLA==
+X-Received: by 2002:a17:907:3c81:b0:6e6:cf3e:6e14 with SMTP id
+ gl1-20020a1709073c8100b006e6cf3e6e14mr1739270ejc.181.1652392932572; 
+ Thu, 12 May 2022 15:02:12 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
+ [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
+ j13-20020a508a8d000000b0042617ba63cbsm115292edj.85.2022.05.12.15.02.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 15:02:11 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id bg25so3787454wmb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:02:11 -0700 (PDT)
+X-Received: by 2002:a05:600c:3d8c:b0:394:6097:9994 with SMTP id
+ bi12-20020a05600c3d8c00b0039460979994mr12055524wmb.29.1652392930664; Thu, 12
+ May 2022 15:02:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220512135134.v3.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
+ <e8d75148-22ee-5809-fc65-d0fb38ad4876@linaro.org>
+In-Reply-To: <e8d75148-22ee-5809-fc65-d0fb38ad4876@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 12 May 2022 15:01:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UhTuhOOjG15S=bXQBq1UAskr2s5fubsD4xvnp589-8_Q@mail.gmail.com>
+Message-ID: <CAD=FV=UhTuhOOjG15S=bXQBq1UAskr2s5fubsD4xvnp589-8_Q@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm/dsi: only powerup at modeset time if
+ "early_poweron" modparam
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,110 +73,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: Vinod Koul <vkoul@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
-time") caused sc7180 Chromebooks that use the parade-ps8640 bridge
-chip to fail to turn the display back on after it turns off.
+Hi,
 
-Unfortunately, it doesn't look easy to fix the parade-ps8640 driver to
-handle the new power sequence. The Linux driver has almost nothing in
-it and most of the logic for this bridge chip is in black-box firmware
-that the bridge chip uses.
+On Thu, May 12, 2022 at 1:59 PM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 12/05/2022 23:52, Douglas Anderson wrote:
+> > Commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
+> > time") caused sc7180 Chromebooks that use the parade-ps8640 bridge
+> > chip to fail to turn the display back on after it turns off.
+> >
+> > Unfortunately, it doesn't look easy to fix the parade-ps8640 driver to
+> > handle the new power sequence. The Linux driver has almost nothing in
+> > it and most of the logic for this bridge chip is in black-box firmware
+> > that the bridge chip uses.
+> >
+> > Also unfortunately, reverting the patch will break "tc358762".
+> >
+> > The long term solution here is probably Dave Stevenson's series [1]
+> > that would give more flexibility. However, that is likely not a quick
+> > fix.
+> >
+> > For the short term, let's introduce a module parameter that selects
+> > between the two behaviors. This is a short term hack but at least can
+> > keep both users working. We'll default the value of the module
+> > parameter to the old behavior. Given that the old behavior has existed
+> > for longer it's probably a safer default.
+> >
+> > [1] https://lore.kernel.org/r/cover.1646406653.git.dave.stevenson@raspberrypi.com
+> >
+> > Fixes: 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset time")
+> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+> Two minor issues below.
 
-Also unfortunately, reverting the patch will break "tc358762".
+I only saw one, so hopefully I didn't miss another request. ;-)
 
-The long term solution here is probably Dave Stevenson's series [1]
-that would give more flexibility. However, that is likely not a quick
-fix.
 
-For the short term, we'll look at the compatible of the next bridge in
-the chain and go back to the old way for the Parade PS8640 bridge
-chip. If it's found that other bridge chips also need this workaround
-then we can add them to the list or consider inverting the condition.
+> > ---
+> >
+> > Changes in v3:
+> > - No longer a revert; now a module parameter.
+> >
+> > Changes in v2:
+> > - Remove the mud from my face.
+> >
+> >   drivers/gpu/drm/msm/dsi/dsi_manager.c | 10 +++++++++-
+> >   1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > index 50b987658b1f..2bf4123ef5df 100644
+> > --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > @@ -34,6 +34,10 @@ static struct msm_dsi_manager msm_dsim_glb;
+> >   #define IS_SYNC_NEEDED()    (msm_dsim_glb.is_sync_needed)
+> >   #define IS_MASTER_DSI_LINK(id)      (msm_dsim_glb.master_dsi_link_id == id)
+> >
+> > +bool early_poweron;
+> > +MODULE_PARM_DESC(early_poweron, "Power DSI controller early");
+> > +module_param(early_poweron, bool, 0600);
+>
+> Nit: dsi_early_poweron (to be clear that it related to DSI only).
+>
+> I thought about suggesting 'dsi_no_early_poweron' instead to catch
+> possible issues with other bridges. But... I think with Dave's series
+> will have to enable bridges one by one, so it doesn't make real sense.
 
-[1] https://lore.kernel.org/r/cover.1646406653.git.dave.stevenson@raspberrypi.com
+I made the change you requested and was about to send out a v4 when
+offline Rob pointed out a better way that seems to work. I can use the
+`compatible` of the next bridge. I've sent out v4 as per Rob's
+suggestion:
 
-Fixes: 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset time")
-Suggested-by: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-Note that, unlike `struct device`, `struct drm_bridge` still has a
-`#ifdef` around the `of_node`. The extra stub function in this patch
-is to make sure that we can pass COMPILE_TEST, not because I expect
-that we'll actually run into real users who are running this driver
-without device tree.
+https://lore.kernel.org/r/20220512145954.v4.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid
 
-Changes in v4:
-- Use the compatible string of the next bridge as per Rob.
-
-Changes in v3:
-- No longer a revert; now a module parameter.
-
-Changes in v2:
-- Remove the mud from my face.
-
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 50b987658b1f..2cabba65a8f1 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -34,6 +34,26 @@ static struct msm_dsi_manager msm_dsim_glb;
- #define IS_SYNC_NEEDED()	(msm_dsim_glb.is_sync_needed)
- #define IS_MASTER_DSI_LINK(id)	(msm_dsim_glb.master_dsi_link_id == id)
- 
-+#ifdef CONFIG_OF
-+static bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
-+{
-+	struct drm_bridge *next_bridge = drm_bridge_get_next_bridge(bridge);
-+
-+	/*
-+	 * If the next bridge in the chain is the Parade ps8640 bridge chip
-+	 * then don't power on early since it seems to violate the expectations
-+	 * of the firmware that the bridge chip is running.
-+	 */
-+	return !(next_bridge && next_bridge->of_node &&
-+		 of_device_is_compatible(next_bridge->of_node, "parade,ps8640"));
-+}
-+#else
-+static inline bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
-+{
-+	return true;
-+}
-+#endif
-+
- static inline struct msm_dsi *dsi_mgr_get_dsi(int id)
- {
- 	return msm_dsim_glb.dsi[id];
-@@ -389,6 +409,9 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
-+	if (!dsi_mgr_power_on_early(bridge))
-+		dsi_mgr_bridge_power_on(bridge);
-+
- 	/* Always call panel functions once, because even for dual panels,
- 	 * there is only one drm_panel instance.
- 	 */
-@@ -570,7 +593,8 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
- 	if (is_bonded_dsi && other_dsi)
- 		msm_dsi_host_set_display_mode(other_dsi->host, adjusted_mode);
- 
--	dsi_mgr_bridge_power_on(bridge);
-+	if (dsi_mgr_power_on_early(bridge))
-+		dsi_mgr_bridge_power_on(bridge);
- }
- 
- static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
--- 
-2.36.0.550.gb090851708-goog
-
+-Doug
