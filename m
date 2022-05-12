@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530DA5245CB
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 08:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB2A5245CE
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 08:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5782910E613;
-	Thu, 12 May 2022 06:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 236B510E79E;
+	Thu, 12 May 2022 06:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247BF10E613
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 06:30:29 +0000 (UTC)
-X-UUID: bb50aaf9df4f419e81653bb2f5c9839b-20220512
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9188610E613
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 06:30:32 +0000 (UTC)
+X-UUID: 7892a6b7801e4577af2507d0b08899c8-20220512
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:14435cb8-9d12-401c-af31-07654cd9a6d2, OB:10,
- L
- OB:0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham
- ,ACTION:release,TS:80
-X-CID-INFO: VERSION:1.1.4, REQID:14435cb8-9d12-401c-af31-07654cd9a6d2, OB:10,
- LOB
- :0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D
- ,ACTION:quarantine,TS:80
-X-CID-META: VersionHash:faefae9, CLOUDID:6f39eff1-ab23-4aed-a67b-f96514452486,
+X-CID-O-INFO: VERSION:1.1.4, REQID:3942f07b-109c-4eb6-95db-30bf8b00435d, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:5
+X-CID-META: VersionHash:faefae9, CLOUDID:3ee904a7-eab7-4b74-a74d-5359964535a9,
  C
- OID:7cf80d172d12,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,File:nil
- ,QS:0,BEC:nil
-X-UUID: bb50aaf9df4f419e81653bb2f5c9839b-20220512
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1162432509; Thu, 12 May 2022 14:30:24 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 7892a6b7801e4577af2507d0b08899c8-20220512
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1368643081; Thu, 12 May 2022 14:30:26 +0800
+Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
  mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 12 May 2022 14:30:22 +0800
+ Thu, 12 May 2022 14:30:25 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 12 May 2022 14:30:24 +0800
 Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
  mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 12 May 2022 14:30:21 +0800
+ 15.0.1497.2 via Frontend Transport; Thu, 12 May 2022 14:30:23 +0800
 From: <xinlei.lee@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
 Subject: [PATCH v6,
- 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds transfer
-Date: Thu, 12 May 2022 14:30:11 +0800
-Message-ID: <1652337012-9053-4-git-send-email-xinlei.lee@mediatek.com>
+ 4/4] drm/mediatek: Add pull-down MIPI operation in mtk_dsi_poweroff
+ function
+Date: Thu, 12 May 2022 14:30:12 +0800
+Message-ID: <1652337012-9053-5-git-send-email-xinlei.lee@mediatek.com>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <1652337012-9053-1-git-send-email-xinlei.lee@mediatek.com>
 References: <1652337012-9053-1-git-send-email-xinlei.lee@mediatek.com>
@@ -66,110 +65,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, "# 6 . 6 . x :
- b255d51e3967 : sched : Modify dsi funcs to atomic operations"
- <stable@vger.kernel.org>, rex-bc.chen@mediatek.com,
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jitao Shi <jitao.shi@mediatek.com>
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-To comply with the panel sequence, hold the mipi signal to LP00 before the dcs cmds transmission,
-and pull the mipi signal high from LP00 to LP11 until the start of the dcs cmds transmission.
-The normal panel timing is :
-(1) pp1800 DC pull up
-(2) avdd & avee AC pull high
-(3) lcm_reset pull high -> pull low -> pull high
-(4) Pull MIPI signal high (LP11) -> initial code -> send video data(HS mode)
-The power-off sequence is reversed.
-If dsi is not in cmd mode, then dsi will pull the mipi signal high in the mtk_output_dsi_enable function.
-The delay in lane_ready func is the reaction time of dsi_rx after pulling up the mipi signal.
+In the dsi_enable function, mtk_dsi_rxtx_control is to
+pull up the MIPI signal operation. Before dsi_disable,
+MIPI should also be pulled down by writing a register
+instead of disabling dsi.
 
-Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge API")
+If disable dsi without pulling the mipi signal low, the value of
+the register will still maintain the setting of the mipi signal being
+pulled high.
+After resume, even if the mipi signal is not pulled high, it will still
+be in the high state.
 
-Cc: <stable@vger.kernel.org> # 6.6.x: b255d51e3967: sched: Modify dsi funcs to atomic operations
-Cc: <stable@vger.kernel.org> # 6.6.x: 72c69c977502: sched: Separate poweron/poweroff from enable/disable and define new funcs
-Cc: <stable@vger.kernel.org> # 6.6.x
+Fixes: 2e54c14e310f ("drm/mediatek: Add DSI sub driver")
+
 Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index d9a6b928dba8..25e84d9426bf 100644
+index 25e84d9426bf..79c906868bc2 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -203,6 +203,7 @@ struct mtk_dsi {
- 	struct mtk_phy_timing phy_timing;
- 	int refcount;
- 	bool enabled;
-+	bool lanes_ready;
- 	u32 irq_data;
- 	wait_queue_head_t irq_wait_queue;
- 	const struct mtk_dsi_driver_data *driver_data;
-@@ -661,18 +662,11 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+@@ -688,6 +688,8 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
  	mtk_dsi_reset_engine(dsi);
- 	mtk_dsi_phy_timconfig(dsi);
+ 	mtk_dsi_lane0_ulp_mode_enter(dsi);
+ 	mtk_dsi_clk_ulp_mode_enter(dsi);
++	/* set the lane number as 0 to pull down mipi */
++	writel(0, dsi->regs + DSI_TXRX_CTRL);
  
--	mtk_dsi_rxtx_control(dsi);
--	usleep_range(30, 100);
--	mtk_dsi_reset_dphy(dsi);
- 	mtk_dsi_ps_control_vact(dsi);
- 	mtk_dsi_set_vm_cmd(dsi);
- 	mtk_dsi_config_vdo_timing(dsi);
- 	mtk_dsi_set_interrupt_enable(dsi);
+ 	mtk_dsi_disable(dsi);
  
--	mtk_dsi_clk_ulp_mode_leave(dsi);
--	mtk_dsi_lane0_ulp_mode_leave(dsi);
--	mtk_dsi_clk_hs_mode(dsi, 0);
--
- 	return 0;
- err_disable_engine_clk:
- 	clk_disable_unprepare(dsi->engine_clk);
-@@ -701,6 +695,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
- 	clk_disable_unprepare(dsi->digital_clk);
- 
- 	phy_power_off(dsi->phy);
-+
-+	dsi->lanes_ready = false;
-+}
-+
-+static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
-+{
-+	if (!dsi->lanes_ready) {
-+		dsi->lanes_ready = true;
-+		mtk_dsi_rxtx_control(dsi);
-+		usleep_range(30, 100);
-+		mtk_dsi_reset_dphy(dsi);
-+		mtk_dsi_clk_ulp_mode_leave(dsi);
-+		mtk_dsi_lane0_ulp_mode_leave(dsi);
-+		mtk_dsi_clk_hs_mode(dsi, 0);
-+		msleep(20);
-+		/* The reaction time after pulling up the mipi signal for dsi_rx */
-+	}
- }
- 
- static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
-@@ -708,6 +719,7 @@ static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
- 	if (dsi->enabled)
- 		return;
- 
-+	mtk_dsi_lane_ready(dsi);
- 	mtk_dsi_set_mode(dsi);
- 	mtk_dsi_clk_hs_mode(dsi, 1);
- 
-@@ -1017,6 +1029,8 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
- 	if (MTK_DSI_HOST_IS_READ(msg->type))
- 		irq_flag |= LPRX_RD_RDY_INT_FLAG;
- 
-+	mtk_dsi_lane_ready(dsi);
-+
- 	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
- 	if (ret)
- 		goto restore_dsi_mode;
 -- 
 2.18.0
 
