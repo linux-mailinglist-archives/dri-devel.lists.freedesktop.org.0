@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F1652439F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 05:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087D752439D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 05:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D7410EDDF;
-	Thu, 12 May 2022 03:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E34A610EC83;
+	Thu, 12 May 2022 03:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE44410ECFD
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 03:46:32 +0000 (UTC)
-X-UUID: e0461275fb874a39a4565019260ace91-20220512
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FABA10EC83
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 03:46:30 +0000 (UTC)
+X-UUID: ed3a86f459da4cc1ab7026898bc0aef9-20220512
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:b219b1be-cc66-49f6-a9af-1ab19be213d4, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:c0c65a50-86e2-43d6-a206-905d35b673f3, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:-20
-X-CID-META: VersionHash:faefae9, CLOUDID:bc1924f6-13a6-4067-b017-3b2864319134,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:0c1a24f6-13a6-4067-b017-3b2864319134,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: e0461275fb874a39a4565019260ace91-20220512
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+X-UUID: ed3a86f459da4cc1ab7026898bc0aef9-20220512
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 795297249; Thu, 12 May 2022 11:46:24 +0800
+ with ESMTP id 1994183550; Thu, 12 May 2022 11:46:25 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 12 May 2022 11:46:22 +0800
+ Thu, 12 May 2022 11:46:24 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 12 May 2022 11:46:20 +0800
+ Transport; Thu, 12 May 2022 11:46:22 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
- Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
  Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v4, 0/3] add h264 decoder driver for mt8186
-Date: Thu, 12 May 2022 11:46:17 +0800
-Message-ID: <20220512034620.30500-1-yunfei.dong@mediatek.com>
+Subject: [PATCH v4,
+ 1/3] dt-bindings: media: mediatek: vcodec: Adds decoder dt-bindings
+ for mt8186
+Date: Thu, 12 May 2022 11:46:18 +0800
+Message-ID: <20220512034620.30500-2-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220512034620.30500-1-yunfei.dong@mediatek.com>
+References: <20220512034620.30500-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -72,38 +76,29 @@ Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Firstly, add mt8186 compatible and private data, then add document for
-compatible "mediatek,mt8186-vcodec-dec". For mt8186 is single core
-architecture, need to add new interface for h264 hardware decoder.
+Adds decoder dt-bindings for mt8186.
 
-Patche 1 add mt8186 compatible and private data.
-Patche 2 add mt8186 compatible document.
-Patche 3 add h264 single core driver.
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-This patch depends on "support for MT8192 decoder"[1]
+ .../bindings/media/mediatek,vcodec-subdev-decoder.yaml        | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-[1]  https://patchwork.kernel.org/project/linux-mediatek/cover/20220512021950.29087-1-yunfei.dong@mediatek.com/
----
-changed with v3:
-- fix __iomem not reasonable, align share memory to dram.
-changed with v2:
-- fix sparse and smatch check fail for patch 3
-changed with v1:
-- rebase driver to the latest media_stage.
----
-Yunfei Dong (3):
-  dt-bindings: media: mediatek: vcodec: Adds decoder dt-bindings for
-    mt8186
-  media: mediatek: vcodec: Support MT8186
-  media: mediatek: vcodec: add h264 decoder driver for mt8186
-
- .../media/mediatek,vcodec-subdev-decoder.yaml |   4 +-
- .../platform/mediatek/vcodec/mtk_vcodec_dec.h |   1 +
- .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
- .../vcodec/mtk_vcodec_dec_stateless.c         |  19 ++
- .../vcodec/vdec/vdec_h264_req_multi_if.c      | 177 +++++++++++++++++-
- 5 files changed, 203 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+index d587fc3e39fb..6415c9f29130 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+@@ -47,7 +47,9 @@ description: |
+ 
+ properties:
+   compatible:
+-    const: mediatek,mt8192-vcodec-dec
++    enum:
++      - mediatek,mt8192-vcodec-dec
++      - mediatek,mt8186-vcodec-dec
+ 
+   reg:
+     maxItems: 1
 -- 
 2.18.0
 
