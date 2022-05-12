@@ -1,77 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C14E524898
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 11:09:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC17C5248AC
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 11:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5C710FF1E;
-	Thu, 12 May 2022 09:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D0F10E537;
+	Thu, 12 May 2022 09:15:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A57310FF1E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 09:09:42 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id F30C43200975;
- Thu, 12 May 2022 05:09:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 12 May 2022 05:09:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1652346580; x=
- 1652432980; bh=/bgeaIMZnvjlafXAlm2rjsulUtrzd+cfFyKgpgA/3mA=; b=C
- InGOtHQrkek0v/aKfaW3jBjPyHqSJ1i/MeCFPgqBfiSZ0I2QtKgjeQztnQg074j8
- CWnTuPzPMKU4lKegZ89mRS3iQJrDvHjR9NIznjCLPF24ppv6Mau7tA/h+PNlZQ5W
- lRZhro0NARB4noSXHmFkIyvkPQWp6ejj/ikztHBi50IehoptkYKNCxblJwk9yBzK
- 1OooMx5hkQXCyEgYiTvfetPkf0WrL54894kfHUw6w3eXcl23UF0mo3TrX3l41v0o
- 99o5S1/KQSKD5y/DzQ9a8qTETFbn6A39wSgGcPnoguPizimJpIUoY6rH1LGljtSz
- MQ4MWs2nlT/dwAOwP8gYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1652346580; x=1652432980; bh=/bgeaIMZnvjla
- fXAlm2rjsulUtrzd+cfFyKgpgA/3mA=; b=jk/vkqRItwLfUyeC8/DFxGx1MkKni
- eHjVtgTNcBMD2fjfx2JZIw+sBeXHU3mjoguHjJm5Fwku+8Bp82hJDGgI5vQK6RoW
- D8FHiXvkFu6+PzRslHsX83FCmIIwPYuJvAf/ozPU423+TgBVVsV+oVN7iEsjtRNb
- upjuJd6ewq8nOEk1/JlUBF8bQjHcIbOQjqNu/Ycoard1TpyfNVVZbb19BG9eWjYx
- /nn7hEgzXFrS2HxjRUIL7XLLw385Gl3pV/L33FuiwMGB6HL6dF1CSaVljo5xKa7l
- 66Cud69MEcMfbp1d4evWpDgTUaVjOkY2m7wazwlEBRAfJ54u0bVwJHeyQ==
-X-ME-Sender: <xms:0858YrGwf_OyQQxM7IHZ8l4ZIAaS_ASOwQ1ZcCJfoOVWzAPqHpdYUw>
- <xme:0858YoVdPw_dr5OGierM6BB1VEqteVuqnJgYWNtWJsSsezoSnXGOAdqF6IpeYE1aw
- uPSJwesl0cxi_fU9GE>
-X-ME-Received: <xmr:0858YtKn_O8YwkZ3_dwsjQOCXa-4nlmCK-mb15X_JseKjiuwx1n90MzDF-57pvUv_DNAyx4KEye7iGvhwkhdN9_2ixJgsXtHd8ZZWCM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeejgddutdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
- udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:0858YpGM1UNIkOhRMg85gWPm0KqaxUPWdaX9W4yGi5RKxXhiw80NwA>
- <xmx:0858YhXkJk536kUuPi-WjtheTc0oiiocWBdDPdGMHjPU22TOU-4lNw>
- <xmx:0858YkOXvDH-xNgfglt85F8gpFGiyHq2e35AdCvq9-HPpZV2kEnDsg>
- <xmx:1M58YgFTf5DCrXJuFcKNIX6911OuvgWEIIW9rBstK8o48nAgHcamUg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 May 2022 05:09:39 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: emma@anholt.net,
-	Hui Tang <tanghui20@huawei.com>
-Subject: Re: (subset) [PATCH -next] drm/vc4: hdmi: Fix build error for
- implicit function declaration
-Date: Thu, 12 May 2022 11:09:36 +0200
-Message-Id: <165234657363.650256.10198774771301868859.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220510135148.247719-1-tanghui20@huawei.com>
-References: <20220510135148.247719-1-tanghui20@huawei.com>
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E08610E537
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 09:15:12 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id p8so4238682pfh.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 02:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1yVCgY4QE8l5qFrVqFzJJ9uTK3QajC1JSeAXUrEX5mM=;
+ b=MGUdJx5o67V+c7ivUhgeC/BUEADviIwlhokhBxj+J+gl6IETIqORALQLeC353MYEdq
+ 2Pv50dWwl1qTvK4mqNFOHI069/CG7FyZ13loxUH6lrmM2YVeNsaUmHum8Mp+TTRs/oeh
+ ZBGlq/iUg4CymqPWX6MatUagIwHh9sqigv1U1pwp/IFJZbcDC/sE8Y+G0OKSNa80eWYW
+ BLyjSxh1M6W5n5yjCmzKLV+ZcSFkjUbkiXtb+XgBTqTcLJ/SB7G8DkotwTzZEmEbSOsa
+ oNAFvZbwt1QeW4GoMUD5qskyCou5gc5b1XU1x3Lv9xQyif6Bg+WLMnX/LxkveG9KxCuB
+ sqAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=1yVCgY4QE8l5qFrVqFzJJ9uTK3QajC1JSeAXUrEX5mM=;
+ b=uuWsUHZnXnU9jZntnPqmtAEJ4S7fXrtNlhrv0bBKDYAaPAS10OgH7d45LdZP/3PlDG
+ OPduGyOnMx3P+eroqTIW5g1HV+nxLp59vXVjyLw4DJheDLE4o9P5j960OkbozH9aoPdx
+ WspZcedtARBElywZ0+rSf7Y6S/7qzjhAMBkoCckfdTv6ClkmsmRJY6RF+UGwHFZj5SZ/
+ iTdNJMvZep/Xnbct9vfT5Wk0nmaDuz9WzA6s4ZFkcA93yJFV/59+gcxXiyvZrAbRiWKT
+ ZNkk4DNXMyPvFCtzV24z/89ncTY501urAtTLWCmKt4LU+Q6LqwWjWEhmvCyWcDvELXuj
+ hCPw==
+X-Gm-Message-State: AOAM530kXYc6kQmssVyPzO0mOMD+7O+aVrky6NvBDHpnmtGNGrf6djQe
+ ZoE9ddSmUqmdTvNcmz+DQms=
+X-Google-Smtp-Source: ABdhPJxaigst32EHE9ix2EpasU4GC9GvtV1b4JcFlMBs/Eobm4jyuO5205pcB0haARI31D6QIfoeng==
+X-Received: by 2002:a05:6a00:885:b0:510:950f:f787 with SMTP id
+ q5-20020a056a00088500b00510950ff787mr22839855pfj.83.1652346911472; 
+ Thu, 12 May 2022 02:15:11 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::4:6c64])
+ by smtp.gmail.com with ESMTPSA id
+ c3-20020a170902724300b0015e8d4eb20esm3353001pll.88.2022.05.12.02.15.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 02:15:10 -0700 (PDT)
+Date: Wed, 11 May 2022 23:15:09 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Byungchul Park <byungchul.park@lge.com>
+Subject: Re: [REPORT] syscall reboot + umh + firmware fallback
+Message-ID: <YnzQHWASAxsGL9HW@slm.duckdns.org>
+References: <1651652269-15342-1-git-send-email-byungchul.park@lge.com>
+ <20220512052557.GD18445@X58A-UD3R>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220512052557.GD18445@X58A-UD3R>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,36 +70,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
+ duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ airlied@linux.ie, mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ linux-mm@kvack.org, ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ linux-block@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
+ sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
+ kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
+ mcgrof@kernel.org, holt@sgi.com, hannes@cmpxchg.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 May 2022 21:51:48 +0800, Hui Tang wrote:
-> drivers/gpu/drm/vc4/vc4_hdmi.c: In function ‘vc4_hdmi_connector_detect’:
-> drivers/gpu/drm/vc4/vc4_hdmi.c:228:7: error: implicit declaration of function ‘gpiod_get_value_cansleep’; did you mean ‘gpio_get_value_cansleep’? [-Werror=implicit-function-declaration]
->    if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
->        ^~~~~~~~~~~~~~~~~~~~~~~~
->        gpio_get_value_cansleep
->   CC [M]  drivers/gpu/drm/vc4/vc4_validate.o
->   CC [M]  drivers/gpu/drm/vc4/vc4_v3d.o
->   CC [M]  drivers/gpu/drm/vc4/vc4_validate_shaders.o
->   CC [M]  drivers/gpu/drm/vc4/vc4_debugfs.o
-> drivers/gpu/drm/vc4/vc4_hdmi.c: In function ‘vc4_hdmi_bind’:
-> drivers/gpu/drm/vc4/vc4_hdmi.c:2883:23: error: implicit declaration of function ‘devm_gpiod_get_optional’; did you mean ‘devm_clk_get_optional’? [-Werror=implicit-function-declaration]
->   vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
->                        ^~~~~~~~~~~~~~~~~~~~~~~
->                        devm_clk_get_optional
-> drivers/gpu/drm/vc4/vc4_hdmi.c:2883:59: error: ‘GPIOD_IN’ undeclared (first use in this function); did you mean ‘GPIOF_IN’?
->   vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
->                                                            ^~~~~~~~
->                                                            GPIOF_IN
-> drivers/gpu/drm/vc4/vc4_hdmi.c:2883:59: note: each undeclared identifier is reported only once for each function it appears in
-> cc1: all warnings being treated as errors
+Hello,
+
+Just took a look out of curiosity.
+
+On Thu, May 12, 2022 at 02:25:57PM +0900, Byungchul Park wrote:
+> PROCESS A	PROCESS B	WORKER C
 > 
-> [...]
+> __do_sys_reboot()
+> 		__do_sys_reboot()
+>  mutex_lock(&system_transition_mutex)
+>  ...		 mutex_lock(&system_transition_mutex) <- stuck
+> 		 ...
+> 				request_firmware_work_func()
+> 				 _request_firmware()
+> 				  firmware_fallback_sysfs()
+> 				   usermodehelper_read_lock_wait()
+> 				    down_read(&umhelper_sem)
+> 				   ...
+> 				   fw_load_sysfs_fallback()
+> 				    fw_sysfs_wait_timeout()
+> 				     wait_for_completion_killable_timeout(&fw_st->completion) <- stuck
+>  kernel_halt()
+>   __usermodehelper_disable()
+>    down_write(&umhelper_sem) <- stuck
+> 
+> --------------------------------------------------------
+> All the 3 contexts are stuck at this point.
+> --------------------------------------------------------
+> 
+> PROCESS A	PROCESS B	WORKER C
+> 
+>    ...
+>    up_write(&umhelper_sem)
+>  ...
+>  mutex_unlock(&system_transition_mutex) <- cannot wake up B
+> 
+> 		 ...
+> 		 kernel_halt()
+> 		  notifier_call_chain()
+> 		   hw_shutdown_notify()
+> 		    kill_pending_fw_fallback_reqs()
+> 		     __fw_load_abort()
+> 		      complete_all(&fw_st->completion) <- cannot wake up C
+> 
+> 				   ...
+> 				   usermodeheler_read_unlock()
+> 				    up_read(&umhelper_sem) <- cannot wake up A
 
-Applied to drm/drm-misc (drm-misc-fixes).
+I'm not sure I'm reading it correctly but it looks like "process B" column
+is superflous given that it's waiting on the same lock to do the same thing
+that A is already doing (besides, you can't really halt the machine twice).
+What it's reporting seems to be ABBA deadlock between A waiting on
+umhelper_sem and C waiting on fw_st->completion. The report seems spurious:
 
-Thanks!
-Maxime
+1. wait_for_completion_killable_timeout() doesn't need someone to wake it up
+   to make forward progress because it will unstick itself after timeout
+   expires.
+
+2. complete_all() from __fw_load_abort() isn't the only source of wakeup.
+   The fw loader can be, and mainly should be, woken up by firmware loading
+   actually completing instead of being aborted.
+
+I guess the reason why B shows up there is because the operation order is
+such that just between A and C, the complete_all() takes place before
+__usermodehlper_disable(), so the whole thing kinda doesn't make sense as
+you can't block a past operation by a future one. Inserting process B
+introduces the reverse ordering.
+
+Thanks.
+
+-- 
+tejun
