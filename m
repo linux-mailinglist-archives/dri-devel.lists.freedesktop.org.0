@@ -2,54 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B91A52479C
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 10:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B6F5247A3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 10:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A11910FBA9;
-	Thu, 12 May 2022 08:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36F5A10E0AC;
+	Thu, 12 May 2022 08:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275C210FB5A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 08:05:32 +0000 (UTC)
-X-UUID: 01b0856a4bab4f06b1884538d7af4d8a-20220512
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:cdea5565-f5b4-4ed0-965f-7f287308403c, OB:10,
- L
- OB:10,IP:0,URL:25,TC:0,Content:-20,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ha
- m,ACTION:release,TS:100
-X-CID-INFO: VERSION:1.1.4, REQID:cdea5565-f5b4-4ed0-965f-7f287308403c, OB:10,
- LOB
- :10,IP:0,URL:25,TC:0,Content:-20,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3
- D,ACTION:quarantine,TS:100
-X-CID-META: VersionHash:faefae9, CLOUDID:068af3f1-ab23-4aed-a67b-f96514452486,
- C
- OID:9788cbe1af47,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil
- ,QS:0,BEC:nil
-X-UUID: 01b0856a4bab4f06b1884538d7af4d8a-20220512
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1063709237; Thu, 12 May 2022 16:05:26 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 12 May 2022 16:05:25 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Thu, 12 May 2022 16:05:25 +0800
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>
-Subject: [PATCH v3 3/3] dt-bindings: mediatek: add ethdr definition for mt8195
-Date: Thu, 12 May 2022 16:05:23 +0800
-Message-ID: <20220512080523.25082-4-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220512080523.25082-1-rex-bc.chen@mediatek.com>
-References: <20220512080523.25082-1-rex-bc.chen@mediatek.com>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C27010E215;
+ Thu, 12 May 2022 08:08:38 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id A01F05C018B;
+ Thu, 12 May 2022 04:08:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 12 May 2022 04:08:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1652342917; x=1652429317; bh=e3zvtlZZgp
+ P3opYYwBrzo7Xj3xYhujuBf/aC3yTsqys=; b=P1EzjwR/vkjKjkQ2qG2EVZq1ps
+ iYP4H3kDUIBkOzetX56Gj2zriFor9Y/xn4WcxrNwnoozQRQr2jYAXDEECXtHmzgr
+ i3nYQoeZf7B8i603P5nBhEGet9KMZOxg3KirHIoiyf2galSEeJmUtC9KFSPez6l5
+ sd4kX/LAhY6dz/t0DK/kInBMjyx48fsASE8/0+J/g8CIimEZIoA1FkICuSag8exY
+ 9KsFrPhCR9eonBM+VefYfmhgGA2grwkiqwPSpJ6TpAroF4cJOlCxctRNBm10D98F
+ hGZh6wDW8Xj7F+XC9jqOD+0Zg27BFNj3KVB5wBlYtFUKaK2y76fHYpTa6Hxg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652342917; x=
+ 1652429317; bh=e3zvtlZZgpP3opYYwBrzo7Xj3xYhujuBf/aC3yTsqys=; b=j
+ RiXl7v9yzuLZEJqYL5Yt/hzaUhpT8nN3dhYgeib1GuTcBKf6unDXATd1Ccog8+w+
+ y2B3/ey+n9KzM7csukde3KvhrhVMI2cLS0zG8zP1pmgHAaWN36pM2/X9PToZpgEk
+ S+CO47tStv6cQHQQ6Z6emMdOPtaTcwrY5xaZlyVYRa0LB/2J/P3kWhkVFMFCaI/Q
+ buJTsErKIMtWkQ0JsmKc4hQy/8seuyc1w3TaOqRLF18G+PoAyGv+WLkdWUYQaUX0
+ drfnndqFmTvl8DrjqEVZ1wXNEMpgr5GY/201wwDXuBH1dBb7DjI0linYc20j9ZQE
+ AIW91sxKIiAnkjO4uK2HQ==
+X-ME-Sender: <xms:hcB8YkMnge9q0Ajqs2vvaa01rHt-OHo_T1Kwt7NQBeBesuoX4sDyfw>
+ <xme:hcB8Yq8F_paOZmSIZ12MpD0KjBqn9xSn2o4pmQzLqmf6_XuUk6JrDdbvoyzgfhRnG
+ OJlMKOjdLuEuBcv3cM>
+X-ME-Received: <xmr:hcB8YrT993mFa5HAouLZMaR-aSMNd9Njh8L0HRMNW06LYhmedHa-XEM-m8bXHgbCcEuoceuVGGbuMyZkofxGDyPIyBOmpgyqe-wPRzc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeeigdduvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpefhkeehfedthfejfeejtdfhvddvueeigeejjeeuteegveffhfffgeffieeu
+ ueduvdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:hcB8YsspWvsNT5ADsCN5mJzInbUUcC_gypndMg0FmzcxPOnKrwdG4Q>
+ <xmx:hcB8YsfxV9QgZN5txg6agV66Ehmgx7U0IUPBhIusEEYwjsSN43UBRg>
+ <xmx:hcB8Yg1YBWPsXRteoeVV8Ho5EdWsZa_Si6m5YzmWzvDuZKaU3E5t1Q>
+ <xmx:hcB8Yi0f3YJzpJ-Oyh_pbFsityuautnOSyQlIZ37vXgI-j0nzzyayA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 May 2022 04:08:36 -0400 (EDT)
+Date: Thu, 12 May 2022 10:08:35 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/atomic-helpers: remove legacy_cursor_update hacks
+Message-ID: <20220512080835.oy6cvqycgsfsjcly@houat>
+References: <20220331152021.2671937-1-daniel.vetter@ffwll.ch>
+ <823b3f2c-b624-f7a3-8bdc-4c069571c810@quicinc.com>
+ <CAF6AEGvLY-+v0ZCvtoZDsW-0z5a8UH8suN9cp22m_ec=Ggb9Mw@mail.gmail.com>
+ <ec74f2f6-488f-bc34-3d9a-3e1cec68aedc@quicinc.com>
+ <CAF6AEGsoXYRB_sTMAp92ph_DetGfSaHwv+2xMS-CT3rgixN4fg@mail.gmail.com>
+ <0e957a37-87ad-4981-01c5-287c4b06afa3@quicinc.com>
+ <03186a69-0ade-7f8d-4b8b-46f525bc0cb4@quicinc.com>
+ <CAKMK7uE2APz6ow+qSZ4xfLTmZdHZJe06X1_4SqWXdMOWByckyA@mail.gmail.com>
+ <20220428080847.nbolnkxemblz5qer@houat>
+ <YmqEBB1m6W3XMwsR@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pyaxx6vcdg2jdru4"
+Content-Disposition: inline
+In-Reply-To: <YmqEBB1m6W3XMwsR@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,220 +91,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Rob Clark <robdclark@chromium.org>, Kalyan Thota <quic_kalyant@quicinc.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Mikita Lipski <mikita.lipski@amd.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Nancy.Lin" <nancy.lin@mediatek.com>
 
-Add vdosys1 ETHDR definition.
+--pyaxx6vcdg2jdru4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../display/mediatek/mediatek,ethdr.yaml      | 188 ++++++++++++++++++
- 1 file changed, 188 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+Hi Daniel,
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
-new file mode 100644
-index 000000000000..be81d8873354
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
-@@ -0,0 +1,188 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mediatek/mediatek,ethdr.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek Ethdr Device
-+
-+maintainers:
-+  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-+  - Philipp Zabel <p.zabel@pengutronix.de>
-+
-+description:
-+  ETHDR (ET High Dynamic Range) is a MediaTek internal HDR engine and is
-+  designed for HDR video and graphics conversion in the external display path.
-+  It handles multiple HDR input types and performs tone mapping, color
-+  space/color format conversion, and then combine different layers,
-+  output the required HDR or SDR signal to the subsequent display path.
-+  This engine is composed of two video frontends, two graphic frontends,
-+  one video backend and a mixer. ETHDR has two DMA function blocks, DS and ADL.
-+  These two function blocks read the pre-programmed registers from DRAM and
-+  set them to HW in the v-blanking period.
-+
-+properties:
-+  compatible:
-+    - const: mediatek,mt8195-disp-ethdr
-+
-+  reg:
-+    maxItems: 7
-+
-+  reg-names:
-+    items:
-+      - const: mixer
-+      - const: vdo_fe0
-+      - const: vdo_fe1
-+      - const: gfx_fe0
-+      - const: gfx_fe1
-+      - const: vdo_be
-+      - const: adl_ds
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  iommus:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clocks:
-+    items:
-+      - description: mixer clock
-+      - description: video frontend 0 clock
-+      - description: video frontend 1 clock
-+      - description: graphic frontend 0 clock
-+      - description: graphic frontend 1 clock
-+      - description: video backend clock
-+      - description: autodownload and menuload clock
-+      - description: video frontend 0 async clock
-+      - description: video frontend 1 async clock
-+      - description: graphic frontend 0 async clock
-+      - description: graphic frontend 1 async clock
-+      - description: video backend async clock
-+      - description: ethdr top clock
-+
-+  clock-names:
-+    items:
-+      - const: mixer
-+      - const: vdo_fe0
-+      - const: vdo_fe1
-+      - const: gfx_fe0
-+      - const: gfx_fe1
-+      - const: vdo_be
-+      - const: adl_ds
-+      - const: vdo_fe0_async
-+      - const: vdo_fe1_async
-+      - const: gfx_fe0_async
-+      - const: gfx_fe1_async
-+      - const: vdo_be_async
-+      - const: ethdr_top
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    items:
-+      - description: video frontend 0 async reset
-+      - description: video frontend 1 async reset
-+      - description: graphic frontend 0 async reset
-+      - description: graphic frontend 1 async reset
-+      - description: video backend async reset
-+
-+  reset-names:
-+    items:
-+      - const: vdo_fe0_async
-+      - const: vdo_fe1_async
-+      - const: gfx_fe0_async
-+      - const: gfx_fe1_async
-+      - const: vdo_be_async
-+
-+  mediatek,gce-client-reg:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description: The register of display function block to be set by gce.
-+      There are 4 arguments in this property, gce node, subsys id, offset and
-+      register size. The subsys id is defined in the gce header of each chips
-+      include/dt-bindings/gce/<chip>-gce.h, mapping to the register of display
-+      function block.
-+    items:
-+      items:
-+        - description: phandle of GCE
-+        - description: GCE subsys id
-+        - description: register offset
-+        - description: register size
-+    minItems: 7
-+    maxItems: 7
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - power-domains
-+  - resets
-+  - mediatek,gce-client-reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/mt8195-clk.h>
-+    #include <dt-bindings/gce/mt8195-gce.h>
-+    #include <dt-bindings/memory/mt8195-memory-port.h>
-+    #include <dt-bindings/power/mt8195-power.h>
-+    #include <dt-bindings/reset/mt8195-resets.h>
-+
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        hdr-engine@1c114000 {
-+                compatible = "mediatek,mt8195-disp-ethdr";
-+                reg = <0 0x1c114000 0 0x1000>,
-+                      <0 0x1c115000 0 0x1000>,
-+                      <0 0x1c117000 0 0x1000>,
-+                      <0 0x1c119000 0 0x1000>,
-+                      <0 0x1c11a000 0 0x1000>,
-+                      <0 0x1c11b000 0 0x1000>,
-+                      <0 0x1c11c000 0 0x1000>;
-+                reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+                            "vdo_be", "adl_ds";
-+                mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x4000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0x5000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0x7000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0x9000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0xa000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0xb000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0xc000 0x1000>;
-+                clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-+                         <&vdosys1 CLK_VDO1_26M_SLOW>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-+                         <&topckgen CLK_TOP_ETHDR>;
-+                clock-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+                              "vdo_be", "adl_ds", "vdo_fe0_async", "vdo_fe1_async",
-+                              "gfx_fe0_async", "gfx_fe1_async","vdo_be_async",
-+                              "ethdr_top";
-+                power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+                iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-+                         <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-+                interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /* disp mixer */
-+                resets = <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
-+                reset-names = "vdo_fe0_async", "vdo_fe1_async", "gfx_fe0_async",
-+                              "gfx_fe1_async", "vdo_be_async";
-+        };
-+    };
-+...
--- 
-2.18.0
+An update on this
 
+On Thu, Apr 28, 2022 at 02:09:40PM +0200, Daniel Vetter wrote:
+> > We integrated this in the (downstream) RaspberryPi kernel, and it seems
+> > to trigger some weird regressions:
+> >=20
+> >   - If we move the cursor under X, the primary plane update is stuck:
+> >     https://github.com/raspberrypi/linux/issues/4988
+
+So it turns out the upstream driver doesn't seem affected by this, but
+only a downstream alternative.
+
+> >   - Switching back and forth between VT gets the kernel stuck (with a
+> >     locking issue in fb_release?)
+> >     https://github.com/raspberrypi/linux/issues/5011
+
+And this one turned out to be a separate issue fixed by Javier already.
+
+So as far as I'm concerned, this patch seems to be working fine on vc4
+
+Maxime
+
+--pyaxx6vcdg2jdru4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYnzAgwAKCRDj7w1vZxhR
+xRmUAP9gyrp/Aj/5NDiw5nVrmVFu4wFB72A3XdKVeMaXaZ2msQD9H3kP2u/U8cP6
+igZxLkbJY3X7qhMosmVoTGdZyFwEzQo=
+=mOcg
+-----END PGP SIGNATURE-----
+
+--pyaxx6vcdg2jdru4--
