@@ -2,67 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453D25257A5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 00:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A205257D4
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 00:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33AEB10E409;
-	Thu, 12 May 2022 22:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244F710E274;
+	Thu, 12 May 2022 22:33:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8AB10E409
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 22:17:01 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id d19so11475477lfj.4
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=n/bIpPSR+nG3hRb0LIrVjIvOFsTNueiSrIsjJcX2Yyg=;
- b=qzTc5GL6EkDGWNoKMTNGUgSX5FlQsYQ4ns/GeNhLe1KCAXAuUSoAOMAcIXAzZJeFuX
- nOFvoHNawnO5UlL4FKLNPmhgS27D8xxNDjAcv64jf/FxL4UleEGKef01zMT0zgYKlsK5
- H1eqEDuy2HkGNovSwuJCBlxZZTbQXbUDDucMa4/YAxjKvH8HNfHwTE8CQxjy9XUstTUg
- BmWM2ljqel/SHpMPoc8cxX19pET2WJquRHS+n3hlaiIbwDDKjsjrBVGfsFFmPCrELmNu
- zOi+PJq2je8BBYgwZzcUmMEiItSHB43cmVjN6Vd1NSoW1dPdzLhrrWkMV2MCFJldlXnl
- unWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=n/bIpPSR+nG3hRb0LIrVjIvOFsTNueiSrIsjJcX2Yyg=;
- b=5NhZm+y+utHHBfolYw2djaelYXQAsku6PMlkuPR4iHPbRywTJKaUX0+QuvjFjk/KZs
- nnOo+AmUTJutmJIujHzKdtu5JdZqHtbFW0RcxWcTl/hqkH2hZrHb9qxmNTHjFzFUOiBk
- PGBAR8wN6kFHsGTaj5l4OBL5JoP4//xiJI7IBdyWxUSXrVBPIHE/hSePLxH7XVeNCBeu
- bBs9HKXDQPmMtNkH1eVYROZOKJ2J7FmWMQRYzVhdb2SiV4Pkg5xYDLER+G5bWLT9gGBO
- jXmzkd5aaBJx2sAGRCk7enHPwvRYPWDXbUg/4A6UgXifXwlVWHyZcP5ESFFvKLrGv8jg
- L51A==
-X-Gm-Message-State: AOAM531v/LFr334FPYgTxRo0amH9918psvQ0k8hWiyi7U+W3coTf8zhS
- KvJAEK49jXH4PdlSZv+k5Z49hCNW0aPx0A==
-X-Google-Smtp-Source: ABdhPJxX4B9K3oB+pDmhOUPFgene4MlzAGjW8gHNnQfn1dn3+5mmbqFEiHGjOoaoLLZpnb7zIXh4PA==
-X-Received: by 2002:a05:6512:1398:b0:448:bda0:99f2 with SMTP id
- p24-20020a056512139800b00448bda099f2mr1255101lfa.681.1652393819601; 
- Thu, 12 May 2022 15:16:59 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- u7-20020a056512040700b0047255d211d2sm106631lfk.257.2022.05.12.15.16.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 15:16:59 -0700 (PDT)
-Message-ID: <dd62b8a7-43b9-364a-a427-94d621648012@linaro.org>
-Date: Fri, 13 May 2022 01:16:58 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2042.outbound.protection.outlook.com [40.107.237.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C88F10E274;
+ Thu, 12 May 2022 22:33:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kr1UbEiG8ZlVaYAjrONALb6chMw6UKXYf+j/bSsWrlloqcrZw0pswOKRwZ80izcnDbVaK9fcqkoE2OU8CKZOs946WDQ39yN7BKRUfQGWI6pA89ll6caaO7gXGBIrSu0aFXDne1lyKO8ZOTzwPcLqo7uX3xsXiSnPug9ke4q0YgXmEGY7XHic3+6CCUVJpImp3gfQx2TRZRHC8Lh+d+fbfqJbxj7zexoAqc5+DLS/FdPuswAHLgNsR0kDlxrQI9QG5dTqJgPq573hhCMkVZJZoBDaPzuQV9Jgu6GcH1JZQ8WXMl/hWPg7UzpFRFwznbTw6BEhjxrnuqrX1S9Q245nXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ly0WyqM2zsPp20nVo1JCs4tyHCPpWsnBkLndqRTKk9w=;
+ b=NduLqa/9nj/73WXBsyuHbh/eKijHnj5qP4p5ZfwyFZIKnY68B3zX/1QB+XltUA8ARnIjHbH7rJ08p2SWruP7V2C0IRwEPoIi3ecgJ5vSgGfMZrNYpjwQxaFH91cIZf5mOikv0wStQ5Xq48TixYrAz1Ehg21a7B5YsQiPXuSyqLnEfBnblddi/dcTSB9wyk7KyFy6PzFcWRQFaTUSahJe8g+dxxmXcL4za08cOHgYx6H5UIsylZJKBClxn9f5qg48489AuIWCRGWeYEQb2f2R+DA9cm9AjXfQ3OchJO8utQ7v5g2Ibv1mFPR575Y1fKnwh6xg1tMcTYq137qI8P7WzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ly0WyqM2zsPp20nVo1JCs4tyHCPpWsnBkLndqRTKk9w=;
+ b=di9iF2a/TfFtRl8LdLpuS7xmNL64RxC3YX0OYPzAxtzZC0+++mjcnx7WVf3PZzwFk5GctPSzbXbCcGUwbz7HijqhF6WP83U4g2cKjwjIhZT0vgjDjtIYFKw1co0sYAXk5aK81FtP73xEqHCg40hsve9Torek05jx42FXSbVv8Zg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2717.namprd12.prod.outlook.com (2603:10b6:805:68::29)
+ by DM6PR12MB5534.namprd12.prod.outlook.com (2603:10b6:5:20b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Thu, 12 May
+ 2022 22:33:48 +0000
+Received: from SN6PR12MB2717.namprd12.prod.outlook.com
+ ([fe80::2c05:6d91:e76a:6e24]) by SN6PR12MB2717.namprd12.prod.outlook.com
+ ([fe80::2c05:6d91:e76a:6e24%4]) with mapi id 15.20.5227.023; Thu, 12 May 2022
+ 22:33:48 +0000
+Message-ID: <833a5eb1-f64c-0b1e-a318-051bde629ab2@amd.com>
+Date: Thu, 12 May 2022 17:33:44 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v4] drm/msm/dsi: don't powerup at modeset time for
- parade-ps8640
-Content-Language: en-GB
-To: Douglas Anderson <dianders@chromium.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20220512145954.v4.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220512145954.v4.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
+Subject: Re: [PATCH v1 13/15] mm: handling Non-LRU pages returned by
+ vm_normal_pages
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <20220505213438.25064-1-alex.sierra@amd.com>
+ <20220505213438.25064-14-alex.sierra@amd.com>
+ <20220511185012.GM49344@nvidia.com>
+From: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>
+In-Reply-To: <20220511185012.GM49344@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH2PR14CA0001.namprd14.prod.outlook.com
+ (2603:10b6:610:60::11) To SN6PR12MB2717.namprd12.prod.outlook.com
+ (2603:10b6:805:68::29)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2090c243-51ff-438c-333e-08da34677b78
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5534:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB5534071307A033A7EBABC791FDCB9@DM6PR12MB5534.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YkAgP2d6qJgODeyKNd5azmeXlFQGi8tqsGWoUYXGedTSu2xw7N+dChLe1RkMrjwW5uCfXJO4XVdRY/LBBOxgc/4ZdwQzFsH97N6x7hZAz3iK++ZyC+VZ+xrdx5ZZR2dxG1tT1hdNE866jB9FSFCGNq50sWjvHmzHCDjsIhkqm9kYILVY46BOHsOl8v0W66iuYHcrvvDgowXJgXArg+aWToZBt1PS40XCzqIi7YU9XGwxk5XuJIolYCewXkpF/eSrN/kMdsKpubaVcN3MtloJqex2smcNt26yBpOlTLpi5bORHH91Cj5u/OR+KHFaJjOxWxb6ZlvcsxRqArVFIzmjdQy6VS8qGjld3DjJoBQAXgPpi4Is/sVmxXlo9M7jiTIfyKBja03ZZLBFpXcykVZaJ4rDekJ+xu6byDGX/zsMxJsI13czuS8JvhnTp0Sn347NlhT2pJVxrY4V+wmmm6X4Bxqm+Sj1h0eRXDLd60McSclVE1A8EZjbIjsOfK2o3Xt4Va0hx2FTbQFOAK/XFHeyBe0GkEi6QARMLnn+E4w5nHSIPslAXwGiv4d6+gS8t+Nj9B36ttq3siub2udn3ZXHNZLAwSIRZh0JKS+0KP48z3juAf3bnzGTwA4th/QKBpMQ75HQuN/Ru1eS7/vBZ4HKHxBk2j7DZrRx3UF4QRF5A7zwCPYo9lsrXboLoC8+7Cz8JLEGKzG7nfhAO1bj+wk5UWP9H5z2T01QmKd2gzV1iN2uwd75cC1yMEzWFTokK19Q
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2717.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(4326008)(8676002)(31686004)(36756003)(8936002)(66556008)(66476007)(5660300002)(7416002)(6486002)(316002)(508600001)(2906002)(66946007)(6916009)(2616005)(186003)(6506007)(6512007)(53546011)(86362001)(6666004)(31696002)(26005)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SE01b29wQkRIRG43UGRYTVZtd0owUk9pMVIwY0FDM05yckh5NkNua2g2TTcz?=
+ =?utf-8?B?NG1RWFEvSGRDclIvZ0psWFpOTlAwdmxJb0VPUDl4dkFFQncyRVBtalBCcGRs?=
+ =?utf-8?B?RHdGRnZ6TkZ3Q2F5RndiZUpRRXkyMnVvY2JkeU9aV3pvOWdDY2lBS2Q1UmlO?=
+ =?utf-8?B?M2VQU1RZQVdYaW1hSW1BTlRqbTRvbHV5T2ZON1dIdlJUd05oTExzd3ppeVVL?=
+ =?utf-8?B?ajlKd1FuWkw1N1RqbzdYYWRmNHpKS3pZQ0xXVVE1QXdIUHZVRjBDZnNDRVRW?=
+ =?utf-8?B?cnovdEJ2cWc2dkhIcUpIVGpkM2NINTNiS0JnVlRaVmEzMURCMFdjekJkNVp2?=
+ =?utf-8?B?dElPVmVlcU51N2w0dWo5bEVCVmZiZzNBTzZ0K0VLS0loc2NqK1ZDZS91UDk3?=
+ =?utf-8?B?TXJrWmJBQXVhMjU2Rzk3a1pLRmdXOWZZaHkvOXBZaThqbEFIR1Z4YWg0dXIz?=
+ =?utf-8?B?N2hmM1VXUWZ0QVViL3RxODNwd21BTmpobzRlOFlBK2FPaUI5ZGoxOVdHelB3?=
+ =?utf-8?B?bGtwYkpQZ2tnUG9PV2VVRDNmY3piRnc3UktCL3FVWnNuenZOOExwNEVOVGt3?=
+ =?utf-8?B?alczaEFxVnk5MHlXdUphTlJiaU13ZzA1VmR5ZEVnMS8wUzFxTDh5L0R1aFJy?=
+ =?utf-8?B?Z1cxY2laOVdTd2VlNEJ0ZCtCSUdKcU5CM1BFemVUYUlBUkd4Z1lPanA5ODQ3?=
+ =?utf-8?B?cjNVSGN3VEgxbmNzUjBpYTJkWTIrQjdJTlluTjlkbVBvNXJqdkpBeXFLVmlo?=
+ =?utf-8?B?R1ZUc09kQkw0Q0M4SUd1ejUvVzVXUHNFV25ENnlGSmVVR2JpQUd6M0dnN2hv?=
+ =?utf-8?B?OHp3UjJWNnZ3OURGeGEyQXlHTVBudFp1ZmQ4VWpvZlZTY3ZvbHNvVE1pUVFV?=
+ =?utf-8?B?VERIdTE2MkJCWTVKSEN6OUdSZ2FMckQvTjNheVEvd2QyVDEzU2RBS0dOV1lx?=
+ =?utf-8?B?N1VncFRVTUM2T0N1UjBpektxWVVqdHVLZ2VPZU5xVU9CYkp0d1FueS9vcE5T?=
+ =?utf-8?B?N3JqcFRUdGlobkpPdGphRlh5cWQvYnYwMTVETFBlNzZTRXY3QXk3cHJ4c2hw?=
+ =?utf-8?B?UDFsL1A1S3VLTWlHT01yckk1bE1UQlRtSXFQTXpvSy9HYWh6QXVQSTErRXlD?=
+ =?utf-8?B?TzVGZzNWakNwc2tCdng3aVl1NXZkSzZQZERzQUlRalhFOCtFcU5kcWF1OEZy?=
+ =?utf-8?B?aFVCeGowbzhFc09Tak92Yk5vTE1QaTNMT2Z2QThRVTNEOWFmVmJqYk9qN1pI?=
+ =?utf-8?B?dzAraTVUNnkvUEh4UzhOc3hFaUZUZFA0RTR4cCs3a3Z2bFVJcUVuNmMxUkEx?=
+ =?utf-8?B?MTl6clRHNWRQbWswVmg1VTdmMXRPOUhhYjA1WFVLc3poTVhLU25OQ29qWkl5?=
+ =?utf-8?B?TXUySTZ2dGorbiswNjlmVXNZY0JwY25zUmVibWFlRDU4b3RWRm9mdjQ4ekxn?=
+ =?utf-8?B?ODJ5WmxmaVJtcHpSMmJDZ3VsZ1V1bVZITnAvUEppVUNPL2JSUk9QK0pSY1lL?=
+ =?utf-8?B?SFNxQ0UrZ1BCR2NZcjZjZ0V2NG9HTi9vemMwY25pOG9VMjZ2NUMvTW9EY2pk?=
+ =?utf-8?B?WWk1d2s1SGxqUTQ5ajdRaDhFL1JsRldoR1h6RWFRZytyTmhaYkx4c2doeW11?=
+ =?utf-8?B?dy9mYkZrK1lFbkcxaGt5ZkpualFsMzlKckVGaU1UQVFEMTNVL29UUWprSkdV?=
+ =?utf-8?B?ZVZMazAxM3VGNFhlY2FOa1g3SkVaSyswbVFsR2JSWkUwdVQzT25YNTVUa1lv?=
+ =?utf-8?B?eE80YnFIUGRTRjdBek1TNE9GTGtTT1R2cXVpWTdNOXIrTGZJbVJsMDlqazZj?=
+ =?utf-8?B?eFBHbkxudUxqNFVrNVdlMWdTS1lkb1E2enVQeFQ3Q3l6dHg1Q1VOMzBqMzhQ?=
+ =?utf-8?B?NEVUakZzUllPNmdqVnVVL0ZPYkg2eXRNMnNVdlV3MEtoQnNPNkFzUnFSQVVz?=
+ =?utf-8?B?eGxCRHhqWnZja3IzelJmbmJwUHdBVmJkajVSN0dKMVh6TkVjc3JETHluWXg1?=
+ =?utf-8?B?SHJYS0pJbnpFV3kzQStqRFVnQTMvMGtOa2tuSmRaZVhOdkxwSFU1T0Vmb20x?=
+ =?utf-8?B?R3R0eGFrUXdMa3N4NXVrVU42Ulhjbnd1TTFSRnQvRng1VzJUZ1lSOEZwaUVN?=
+ =?utf-8?B?UHpJQVllT0cxaXVYNkRKakdKUG0wRk1nc2JtTHR3bTBxQVhhbVRVWnIwMUFh?=
+ =?utf-8?B?Rk1FbFBDbXluUkpmMEl6TThjMXpGakpYbXpWVERGaXVLN1FlQ0ZIY2xLY0Uz?=
+ =?utf-8?B?OG4vdmZpMFhRbXN0RjY5aVVOczBTUkg5NnduYWdNZWt2VktoZk95TGxFaVEv?=
+ =?utf-8?B?ZG96MEtMRlE0d1YzSkZMUU8wZWNSc09EMHpYeXM5Y25ab3ZHamJaZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2090c243-51ff-438c-333e-08da34677b78
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2717.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2022 22:33:48.7690 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +8xcaQHkTrDrasbC9ePWUJQ09qHBb3YfwFXdMQjbouNuijRuZjrskKw7Qw5320i+9RnalR3DeMqviyvInY8L5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5534
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,116 +131,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
+ Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/05/2022 01:00, Douglas Anderson wrote:
-> Commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
-> time") caused sc7180 Chromebooks that use the parade-ps8640 bridge
-> chip to fail to turn the display back on after it turns off.
-> 
-> Unfortunately, it doesn't look easy to fix the parade-ps8640 driver to
-> handle the new power sequence. The Linux driver has almost nothing in
-> it and most of the logic for this bridge chip is in black-box firmware
-> that the bridge chip uses.
-> 
-> Also unfortunately, reverting the patch will break "tc358762".
-> 
-> The long term solution here is probably Dave Stevenson's series [1]
-> that would give more flexibility. However, that is likely not a quick
-> fix.
-> 
-> For the short term, we'll look at the compatible of the next bridge in
-> the chain and go back to the old way for the Parade PS8640 bridge
-> chip. If it's found that other bridge chips also need this workaround
-> then we can add them to the list or consider inverting the condition.
-> 
-> [1] https://lore.kernel.org/r/cover.1646406653.git.dave.stevenson@raspberrypi.com
-> 
-> Fixes: 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset time")
-> Suggested-by: Rob Clark <robdclark@gmail.com>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 5/11/2022 1:50 PM, Jason Gunthorpe wrote:
+> On Thu, May 05, 2022 at 04:34:36PM -0500, Alex Sierra wrote:
+>
+>> diff --git a/mm/memory.c b/mm/memory.c
+>> index 76e3af9639d9..892c4cc54dc2 100644
+>> +++ b/mm/memory.c
+>> @@ -621,6 +621,13 @@ struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+>>   		if (is_zero_pfn(pfn))
+>>   			return NULL;
+>>   		if (pte_devmap(pte))
+>> +/*
+>> + * NOTE: Technically this should goto check_pfn label. However, page->_mapcount
+>> + * is never incremented for device pages that are mmap through DAX mechanism
+>> + * using pmem driver mounted into ext4 filesystem. When these pages are unmap,
+>> + * zap_pte_range is called and vm_normal_page return a valid page with
+>> + * page_mapcount() = 0, before page_remove_rmap is called.
+>> + */
+>>   			return NULL;
+> ? Where does this series cause device coherent to be returned?
+In our case, device coherent pages could be obtained as a result of 
+migration(Patches 6/7 of 15), ending up mapped in CPU page tables. Later 
+on, these pages might need to be returned by get_user_pages or other 
+callers through vm_normal_pages. Our approach in this series, is to 
+handle device-coherent-managed pages returned by vm_normal_pages, inside 
+each caller. EX. device coherent pages don’t support LRU lists, NUMA 
+migration or THP.
+>
+> Wasn't the plan to not set pte_devmap() ?
 
-> ---
-> Note that, unlike `struct device`, `struct drm_bridge` still has a
-> `#ifdef` around the `of_node`. The extra stub function in this patch
-> is to make sure that we can pass COMPILE_TEST, not because I expect
-> that we'll actually run into real users who are running this driver
-> without device tree.
-> 
-> Changes in v4:
-> - Use the compatible string of the next bridge as per Rob.
-> 
-> Changes in v3:
-> - No longer a revert; now a module parameter.
-> 
-> Changes in v2:
-> - Remove the mud from my face.
-> 
->   drivers/gpu/drm/msm/dsi/dsi_manager.c | 26 +++++++++++++++++++++++++-
->   1 file changed, 25 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index 50b987658b1f..2cabba65a8f1 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -34,6 +34,26 @@ static struct msm_dsi_manager msm_dsim_glb;
->   #define IS_SYNC_NEEDED()	(msm_dsim_glb.is_sync_needed)
->   #define IS_MASTER_DSI_LINK(id)	(msm_dsim_glb.master_dsi_link_id == id)
->   
-> +#ifdef CONFIG_OF
-> +static bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
-> +{
-> +	struct drm_bridge *next_bridge = drm_bridge_get_next_bridge(bridge);
-> +
-> +	/*
-> +	 * If the next bridge in the chain is the Parade ps8640 bridge chip
-> +	 * then don't power on early since it seems to violate the expectations
-> +	 * of the firmware that the bridge chip is running.
-> +	 */
-> +	return !(next_bridge && next_bridge->of_node &&
-> +		 of_device_is_compatible(next_bridge->of_node, "parade,ps8640"));
-> +}
-> +#else
-> +static inline bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
-> +{
-> +	return true;
-> +}
-> +#endif
-> +
->   static inline struct msm_dsi *dsi_mgr_get_dsi(int id)
->   {
->   	return msm_dsim_glb.dsi[id];
-> @@ -389,6 +409,9 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
->   	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
->   		return;
->   
-> +	if (!dsi_mgr_power_on_early(bridge))
-> +		dsi_mgr_bridge_power_on(bridge);
-> +
->   	/* Always call panel functions once, because even for dual panels,
->   	 * there is only one drm_panel instance.
->   	 */
-> @@ -570,7 +593,8 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
->   	if (is_bonded_dsi && other_dsi)
->   		msm_dsi_host_set_display_mode(other_dsi->host, adjusted_mode);
->   
-> -	dsi_mgr_bridge_power_on(bridge);
-> +	if (dsi_mgr_power_on_early(bridge))
-> +		dsi_mgr_bridge_power_on(bridge);
->   }
->   
->   static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+amdgpu does not set pte_devmap for our DEVICE_COHERENT pages. DEVMAP 
+flags are set by drivers like virtio_fs or pmem, where 
+MEMORY_DEVICE_FS_DAX type is used.
+This patch series deals with DEVICE_COHERENT pages. My understanding 
+was, that the DAX code and DEVICE_GENERIC would be fixed up later by 
+someone more familiar with it. Were you expecting that we'd fix the DAX 
+usage of pte_devmap flags in this patch series as well?
 
+Regards,
+Alex Sierra
 
--- 
-With best wishes
-Dmitry
+>
+> Jason
