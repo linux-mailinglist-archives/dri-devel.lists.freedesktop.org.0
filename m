@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06153524EFA
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EDC7524F18
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:59:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B076A10F287;
-	Thu, 12 May 2022 13:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F238E10F865;
+	Thu, 12 May 2022 13:59:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF7E810F20B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 13:57:40 +0000 (UTC)
-Received: from cwcc.thunk.org (pool-108-7-220-252.bstnma.fios.verizon.net
- [108.7.220.252]) (authenticated bits=0)
- (User authenticated as tytso@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 24CDukvd025718
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 May 2022 09:56:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
- t=1652363814; bh=fK1JutfKwB9RZi7LGZBoNzqwgl48auY9kCDUP4LKjGo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=nzpfnyp3va4UeNMJsIUwRARvxBhDqDdf3HsaJ8eucf+Epey6lQyyZbRyGPs4LKIYI
- zXUD/hTUINDuYbnfWjRFJsujUU3jqAP9AldIHfRTfcN1fe1JS0ZEotNuRb1F1qTxAZ
- R9fIMtFXp7hWAd0/axDvHxk1rsvu0eWxchvLrSXgv/0vesv652yMZ2M4g3OKHiwgJ6
- fZLCYRBs9DGpyW5b1gmYVYp+J4TUBNPPrdB5DZXLCY0rBxk9sty2gP9f56TUH80yQg
- eTIbHMo+uceLQlZEif4OE9g5l7MQGzmHNj3egipGOK3AAGcfJQ2L2E7+1UwHHBtnU4
- MZd6AUIq1ki4Q==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
- id B5CC215C3F2A; Thu, 12 May 2022 09:56:46 -0400 (EDT)
-Date: Thu, 12 May 2022 09:56:46 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Byungchul Park <byungchul.park@lge.com>
-Subject: Re: [REPORT] syscall reboot + umh + firmware fallback
-Message-ID: <Yn0SHhnhB8fyd0jq@mit.edu>
-References: <YnzQHWASAxsGL9HW@slm.duckdns.org>
- <1652354304-17492-1-git-send-email-byungchul.park@lge.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3306C10F865;
+ Thu, 12 May 2022 13:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652363995; x=1683899995;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=8vo+iUkl8KwV3TsvAlzOYyffo163sCqaEuIUNOAtzw4=;
+ b=InDRJEQ7KezWN097z0GnLpnyjLsoK8cTeGGx6GPtpg5oRdLF3fvSe4dW
+ S0WjhME5i6Tqv0KrbAXGU8THaq6ta77yXg2CLpAWcC3WY0npM3gtGZHqe
+ bIGPZMJNC29ixY1dXBqa7/hNsu53aIL00C9se7kIQ40fPYEEM3vt8ZktD 4=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 12 May 2022 06:59:54 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2022 06:59:54 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 12 May 2022 06:59:53 -0700
+Received: from [10.216.61.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 12 May
+ 2022 06:59:49 -0700
+Message-ID: <e73e7ea8-137d-f204-c267-4bc1e63e7f6a@quicinc.com>
+Date: Thu, 12 May 2022 19:29:43 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652354304-17492-1-git-send-email-byungchul.park@lge.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] drm/msm/a6xx: Fix refcount leak in a6xx_gpu_init
+Content-Language: en-US
+To: Miaoqian Lin <linmq006@gmail.com>, Rob Clark <robdclark@gmail.com>, "Sean
+ Paul" <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, "David
+ Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Jonathan Marek <jonathan@marek.ca>, "Jordan
+ Crouse" <jordan@cosmicpenguin.net>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20220512121955.56937-1-linmq006@gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20220512121955.56937-1-linmq006@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,50 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
- 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, mingo@redhat.com, djwong@kernel.org,
- vdavydov.dev@gmail.com, rientjes@google.com, dennis@kernel.org,
- linux-ext4@vger.kernel.org, ngupta@vflare.org, johannes.berg@intel.com,
- jack@suse.com, dan.j.williams@intel.com, josef@toxicpanda.com,
- rostedt@goodmis.org, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, rodrigosiqueiramelo@gmail.com, kernel-team@lge.com,
- gregkh@linuxfoundation.org, jlayton@kernel.org, linux-kernel@vger.kernel.org,
- penberg@kernel.org, minchan@kernel.org, mcgrof@kernel.org, holt@sgi.com,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 12, 2022 at 08:18:24PM +0900, Byungchul Park wrote:
-> I have a question about this one. Yes, it would never been stuck thanks
-> to timeout. However, IIUC, timeouts are not supposed to expire in normal
-> cases. So I thought a timeout expiration means not a normal case so need
-> to inform it in terms of dependency so as to prevent further expiraton.
-> That's why I have been trying to track even timeout'ed APIs.
+On 5/12/2022 5:49 PM, Miaoqian Lin wrote:
+> of_parse_phandle() returns a node pointer with refcount
+> incremented, we should use of_node_put() on it when not need anymore.
+>
+> a6xx_gmu_init() passes the node to of_find_device_by_node()
+> and of_dma_configure(), of_find_device_by_node() will takes its
+> reference, of_dma_configure() doesn't need the node after usage.
+>
+> Add missing of_node_put() to avoid refcount leak.
+>
+> Fixes: 4b565ca5a2cb ("drm/msm: Add A6XX device support")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> ---
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index ccc4fcf7a630..a8f6d73197b1 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1919,6 +1919,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>   	BUG_ON(!node);
+>   
+>   	ret = a6xx_gmu_init(a6xx_gpu, node);
+> +	of_node_put(node);
+>   	if (ret) {
+>   		a6xx_destroy(&(a6xx_gpu->base.base));
+>   		return ERR_PTR(ret);
 
-As I beleive I've already pointed out to you previously in ext4 and
-ocfs2, the jbd2 timeout every five seconds happens **all** the time
-while the file system is mounted.  Commits more frequently than five
-seconds is the exception case, at least for desktops/laptop workloads.
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 
-We *don't* get to the timeout only when a userspace process calls
-fsync(2), or if the journal was incorrectly sized by the system
-administrator so that it's too small, and the workload has so many
-file system mutations that we have to prematurely close the
-transaction ahead of the 5 second timeout.
 
-> Do you think DEPT shouldn't track timeout APIs? If I was wrong, I
-> shouldn't track the timeout APIs any more.
-
-DEPT tracking timeouts will cause false positives in at least some
-cases.  At the very least, there needs to be an easy way to suppress
-these false positives on a per wait/mutex/spinlock basis.
-
-      	       	    	     	      	   	 - Ted
+-Akhil.
