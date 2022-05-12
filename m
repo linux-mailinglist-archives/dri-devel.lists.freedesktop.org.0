@@ -2,72 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E5C524B41
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1441B524B6A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:20:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF7210EC64;
-	Thu, 12 May 2022 11:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA2A110F138;
+	Thu, 12 May 2022 11:20:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C47A10EC64
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:17:11 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id e24so4868706pjt.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 04:17:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=6WezROkLudrlqv8GY4bLrfI4SSzTy6BukYeueDgyVAo=;
- b=ZG4L8aWgWUMIdLTyMqlfwkAvbyFWFtdzShi8yQzpV4ha+8gdXHZZbgGM494CmV8pHZ
- KUM31+rCVQ+f+rjslddzbgtjw3rn2C95dgsbihhOPl5X/XaYuU7/xuS7HEoVPL+MIk5u
- 2dGxoWbTHtMbwHgMC1tIngmH3I9TG8Ii0cpcFNvtmK1pBuJwOdRj5ivaKn72u2n//pOl
- oslhRY2fn1Kt39pV7ZEAnqs6g27CqHEPGBSBrFvSVn2KaWTNymdXDZ/zeIJDVKHfydiw
- kY/GrcdP6EysrjF/PAdFREfVaKlF+p9Bs81hJBKQDUh+Kftl4QmhGyooqZcSnMdtPjw7
- skeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6WezROkLudrlqv8GY4bLrfI4SSzTy6BukYeueDgyVAo=;
- b=Lw4PiZjg1gk29ZCfZ5AzKWHFiYwp7NlLk8vGyqfeSKKBbXYHgvmy4jzL443UQWWPxX
- BQ/tW2cXI6zpMY9rpnuD4SOksevW7jgcuZ7AyWIbFuWeSURh6kdIE6VoLX68ApLvGrV/
- fAONOuyPjbK8KwjZasJB3LCM9NkHzTU3rS9ZlKQnCBV5NOkljGE4+TYBZ5tqJQfB4MPW
- Ty9/fphLDxZxFW1a0hqx0sOgJdyfMwMU9LnLMl8NtBGC74sxYEgPnKX9JLVFYoZfhPDp
- IGOvLQ1wdWkY4TZV7EPBQJPNThVC9uWx+OMuExRmX2q4ZrYygovaqxVGcgaZhxrEZ2R9
- 3tjg==
-X-Gm-Message-State: AOAM532vXHkFYuyAf1Ox/nNMoTNN4WMFkpzz6nl8bHi1tLh4Tn4PvdSU
- oNubHQLEApAkif+c7ZBAwgw=
-X-Google-Smtp-Source: ABdhPJxOk00NN95KoR0NkGvXDc/PUUEbhiITRueHgKA7v2vPBSykitNg4nZw/ehY2YRTSOAYec1gmg==
-X-Received: by 2002:a17:902:ea46:b0:15d:dbc:34f2 with SMTP id
- r6-20020a170902ea4600b0015d0dbc34f2mr29455881plg.60.1652354230773; 
- Thu, 12 May 2022 04:17:10 -0700 (PDT)
-Received: from [172.16.10.243] ([219.142.146.170])
- by smtp.gmail.com with ESMTPSA id
- w15-20020a63474f000000b003c14af5060asm1663230pgk.34.2022.05.12.04.17.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 04:17:10 -0700 (PDT)
-Message-ID: <e778d50a-81c6-6dfa-a58b-73cda452f4e3@gmail.com>
-Date: Thu, 12 May 2022 19:17:00 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/meson: Fix refcount leak in meson_encoder_hdmi_init
-Content-Language: en-US
-To: Neil Armstrong <narmstrong@baylibre.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20220512092114.38426-1-linmq006@gmail.com>
- <a811a26e-ec34-f9ce-589f-82e96a975594@baylibre.com>
-From: Miaoqian Lin <linmq006@gmail.com>
-In-Reply-To: <a811a26e-ec34-f9ce-589f-82e96a975594@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0ADE010F1A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:20:04 +0000 (UTC)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+ by 156.147.23.52 with ESMTP; 12 May 2022 20:20:03 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
+ by 156.147.1.121 with ESMTP; 12 May 2022 20:20:03 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+From: Byungchul Park <byungchul.park@lge.com>
+To: tj@kernel.org
+Subject: Re: [REPORT] syscall reboot + umh + firmware fallback
+Date: Thu, 12 May 2022 20:18:24 +0900
+Message-Id: <1652354304-17492-1-git-send-email-byungchul.park@lge.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <YnzQHWASAxsGL9HW@slm.duckdns.org>
+References: <YnzQHWASAxsGL9HW@slm.duckdns.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,45 +40,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
+ 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, mingo@redhat.com, djwong@kernel.org,
+ vdavydov.dev@gmail.com, rientjes@google.com, dennis@kernel.org,
+ linux-ext4@vger.kernel.org, ngupta@vflare.org, johannes.berg@intel.com,
+ jack@suse.com, dan.j.williams@intel.com, josef@toxicpanda.com,
+ rostedt@goodmis.org, linux-block@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, mcgrof@kernel.org, holt@sgi.com, hannes@cmpxchg.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Tejun wrote:
+> Hello,
 
-On 2022/5/12 17:32, Neil Armstrong wrote:
-> Hi,
->
-> On 12/05/2022 11:21, Miaoqian Lin wrote:
->> of_find_device_by_node() takes a reference to the embedded struct device,
->> we should use put_device() to release it when not need anymore.
->> Add missing put_device() in error path to avoid refcount leak.
->>
->> Fixes: 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
->> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
->
-> You already sent the same patch yesterday, please avoid this.
->
-Sorry for the mistake, I realized this after I sent it. I will be more careful.
+Hello,
 
+> I'm not sure I'm reading it correctly but it looks like "process B" column
 
-> Neil
+I think you're interpreting the report correctly.
+
+> is superflous given that it's waiting on the same lock to do the same thing
+> that A is already doing (besides, you can't really halt the machine twice).
+
+Indeed! I've been in a daze. I thought kernel_halt() can be called twice
+by two different purposes. Sorry for the noise.
+
+> What it's reporting seems to be ABBA deadlock between A waiting on
+> umhelper_sem and C waiting on fw_st->completion. The report seems spurious:
 >
->> ---
->>   drivers/gpu/drm/meson/meson_encoder_hdmi.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
->> index 5e306de6f485..de87f02cd388 100644
->> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
->> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
->> @@ -435,8 +435,10 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
->>           cec_fill_conn_info_from_drm(&conn_info, meson_encoder_hdmi->connector);
->>             notifier = cec_notifier_conn_register(&pdev->dev, NULL, &conn_info);
->> -        if (!notifier)
->> +        if (!notifier) {
->> +            put_device(&pdev->dev);
->>               return -ENOMEM;
->> +        }
->>             meson_encoder_hdmi->cec_notifier = notifier;
->>       }
->
+> 1. wait_for_completion_killable_timeout() doesn't need someone to wake it up
+>    to make forward progress because it will unstick itself after timeout
+>    expires.
+
+I have a question about this one. Yes, it would never been stuck thanks
+to timeout. However, IIUC, timeouts are not supposed to expire in normal
+cases. So I thought a timeout expiration means not a normal case so need
+to inform it in terms of dependency so as to prevent further expiraton.
+That's why I have been trying to track even timeout'ed APIs.
+
+Do you think DEPT shouldn't track timeout APIs? If I was wrong, I
+shouldn't track the timeout APIs any more.
+
+> 2. complete_all() from __fw_load_abort() isn't the only source of wakeup.
+>    The fw loader can be, and mainly should be, woken up by firmware loading
+>    actually completing instead of being aborted.
+
+This is the point I'd like to ask. In normal cases, fw_load_done() might
+happen, of course, if the loading gets completed. However, I was
+wondering if the kernel ensures either fw_load_done() or fw_load_abort()
+to be called by *another* context while kernel_halt().
+
+> Thanks.
+
+Thank you very much!
+
+	Byungchul
+
+> 
+> -- 
+> tejun
+> 
