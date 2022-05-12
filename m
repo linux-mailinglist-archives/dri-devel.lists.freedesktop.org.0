@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D8452520E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 18:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BA652521A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 18:09:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F059B11273D;
-	Thu, 12 May 2022 16:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8757911278D;
+	Thu, 12 May 2022 16:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52F6911273D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:06:08 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- j10-20020a17090a94ca00b001dd2131159aso8297502pjw.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 09:06:08 -0700 (PDT)
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 412EB11278D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:09:32 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id q76so5003986pgq.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 09:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6c4L3XPXq81rVoXynvsz7O71O9u2rCs0fYZen1cqfro=;
- b=CKS2WPp8JqzDT//8wWJk/UNbZ5l+fZUtFJOQqLT7ZdH6maQAV5EgpQGTnuySfH6xtw
- WW1oeCbWok1OHbgQTpxptESi8BmTWhTF+qZmvjQmMvOkcUn62v029EKHeQSJq+X8+9VN
- 3vZa5vt9ZtBGLu4xZ+o3SUa3Mh57eCTLHhNnyYOM02Um1eMA9z2smD4UAkrB4Yf6PMMs
- WetA8eRCT308s3RSwnpUh690FvHxGd/bqaT1eTDlEun3o5eGoWJzJvYzQ1ilCXp1k/Gu
- MBEskXQK3Wseqgx9kJIHdrRX09sH4+8dDycvl326pBxcnYEM7ZTMzKOrJiWni9GmCJk0
- NtaQ==
+ :cc; bh=lFLCmK9y63u2FBlC+pHgkiyzlrt6fLB34hDDsjRLIWo=;
+ b=fbwlPovvcoMeyPCp2YTJLpuyktl2+v3G0jX8leQUEvQ8+TqNyldUjIqD/82O5lUgu/
+ AiJQkd7m1j1Rd0T5BXWc8z4ut3VOLtDiOZtY0BpuvzUfXE0jCDcdhXPpNdzd1d3Q6e6o
+ KJ9P8K4iDXqnVQkxvfILGNPXvsegY+GxEBrPiPtewdAw7NVKzHOR7Ex+MEOX4QXW3NdM
+ q3fg9U1t5BqntZmuNZTf7xXeK3syhw1leEqEjtd2kOvRcDKcoGqFsEcL9bLP4Ngq66Yb
+ CX2UktQAw8U3vlcRW3t89lbV87rVyOURYc+FlVkwK489zgwBiTQ5Tjfm7oe6ZK1KS6lj
+ U9iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6c4L3XPXq81rVoXynvsz7O71O9u2rCs0fYZen1cqfro=;
- b=0wKJlfFcToTHyy5PHn98w5zNeQtSd1yybkpI1h5JXMrEcsZVPI/8gRj9QxCAJ74zLL
- Lktg810gQWf9kOggMBcIEBueqDSCTzNFA1U9QKZcKLUH6YzwQ/nfQgkmy/sHtN//Ro1C
- 1Y6df+BT9pAXuAXwNZXUtN0F5Tk8UE2C1A4pax/WJYDkV3k/g3LRGArUU9yRMGQvxu7O
- cTYwGlZtXP39KzoE7yccoxLeFC8y8DBVki6wI8k0PThuZGzEoXvgqubUbTT5vlCDe9Kn
- R0BXKcdqmfU/KIhIHnRYmHkTjxLQUGlUWhrivbHnM+t2QwvjmCVWFC+LhAgAEouyrDzU
- hurg==
-X-Gm-Message-State: AOAM5327RVr1KnRD/8c2nvbixp1awICuysjs4DAoeiiVWvjZ03hNmvw4
- 1z48XcHwfJTUSt27Q9Af0yeRQ4oxphK09f+2cubf7g==
-X-Google-Smtp-Source: ABdhPJxUYXZs/6GQyqKr701aCXf/KbHYzV5C0Msz8h3wWxRqQvVzLtyggpMbwE2XpTVLUlXJRRPR6W3EOpaZJJS1lNM=
-X-Received: by 2002:a17:903:228f:b0:15e:be12:a181 with SMTP id
- b15-20020a170903228f00b0015ebe12a181mr268567plh.21.1652371567919; Thu, 12 May
- 2022 09:06:07 -0700 (PDT)
+ bh=lFLCmK9y63u2FBlC+pHgkiyzlrt6fLB34hDDsjRLIWo=;
+ b=HGVEGW7KnPDWzOq0ExqUM47NcsXD44pYdhd92L9p+LRZvWJ8MO41i8/uw0SNhFRt9O
+ 4AtKkNzbg76+aRZiUG1rop5uNA6H+yX7eBZ1HLIPkjeNpdF1eKDU5riFLT8r3r2xOj6a
+ eCjc67ylxA1RxzfaNAeb2yDnduZHCmlhD1crrvs6vr3odW8qbRgKE3Me/ea0MSn+Yrc+
+ UqDT2PD1xMy0vccvuX+oxltgu2aO785AaNbD9LWlaH3bKkJEYqLZa9KpKbODhfcCj7L6
+ osSE7mWuNzLm5Ka22tTRwQj04QIxkU/ABp5jcsYGP6iFMNyth+Nc7/N6cF0r7j+TbwmJ
+ NfNg==
+X-Gm-Message-State: AOAM531wmoIhkVljGQn+8v3WCFWmcpkc+eEUn8wqF+0Nxw8FOpBZ6nyp
+ ynU0GAt883tqcWLn++UOMdN+1+xxkx2zm2HeRthDRg==
+X-Google-Smtp-Source: ABdhPJw08DLs+rDSC9MPE61I7b4SXBdffC5MW/PSUU4UTe3n55WrVfv1GKTJHOyj001xEYJ6PAtnUr2tD7Qa4EOkyqQ=
+X-Received: by 2002:a63:d04a:0:b0:3c1:65f2:5d09 with SMTP id
+ s10-20020a63d04a000000b003c165f25d09mr317264pgi.201.1652371771822; Thu, 12
+ May 2022 09:09:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220429205644.245480-1-marex@denx.de>
- <20220429205644.245480-2-marex@denx.de>
-In-Reply-To: <20220429205644.245480-2-marex@denx.de>
+ <CAG3jFyvC_vbXz=43Sdc9THdOMx0BuC9e-siEwKhs1TsjkNxvvg@mail.gmail.com>
+In-Reply-To: <CAG3jFyvC_vbXz=43Sdc9THdOMx0BuC9e-siEwKhs1TsjkNxvvg@mail.gmail.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 12 May 2022 18:05:57 +0200
-Message-ID: <CAG3jFyum+XNnVajNeh6iV0AH6UwT63SpDke1rbRSFkdeUkXz7w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: tc358767: Add DSI-to-(e)DP mode support
+Date: Thu, 12 May 2022 18:09:20 +0200
+Message-ID: <CAG3jFytZov9_db4GYEEt4ah6zAHvafaQuPrhJzUV1BO7VTABJQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: tc358767: Factor out DSI and DPI RX
+ enablement
 To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,111 +71,173 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Apr 2022 at 22:56, Marek Vasut <marex@denx.de> wrote:
+On Thu, 12 May 2022 at 18:02, Robert Foss <robert.foss@linaro.org> wrote:
 >
-> Implement DSI-to-e(DP) mode, which is a mix of currently supported
-> DSI-to-DPI and DPI-to-(e)DP modes. The input side is configured as
-> either DSI or DPI, the DP AUX channel is registered for both input
-> side options, and the DSI host is attached for both DPI and (e)DP
-> output side options.
+> On Fri, 29 Apr 2022 at 22:56, Marek Vasut <marex@denx.de> wrote:
+> >
+> > Factor out register programming to configure the chip video RX side for
+> > reception of video data from DSI or DPI. This is particularly useful in
+> > the (e)DP output mode, where the video data can be received from either
+> > DPI or DSI. While only the former is supported in (e)DP output mode so
+> > far, this patch is added in preparation for addition of the later.
+> >
+> > There is a change in the order or register programming in case of the
+> > DSI-to-DPI mode. The DSI RX side is now programmed and enabled all in
+> > one place after the output mode has been configured. Before this change,
+> > the DSI RX has been programmed before the output mode has been set and
+> > only enabled afterward. The order makes no difference however, since the
+> > DSI RX is only enabled at the end either way.
+> >
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Marek Vasut <marex@denx.de>
+> > Cc: Maxime Ripard <maxime@cerno.tech>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Robert Foss <robert.foss@linaro.org>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > ---
+> >  drivers/gpu/drm/bridge/tc358767.c | 94 +++++++++++++++++--------------
+> >  1 file changed, 53 insertions(+), 41 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> > index 485717c8f0b4..e72dd5cd9700 100644
+> > --- a/drivers/gpu/drm/bridge/tc358767.c
+> > +++ b/drivers/gpu/drm/bridge/tc358767.c
+> > @@ -1247,11 +1247,60 @@ static int tc_main_link_disable(struct tc_data *tc)
+> >         return regmap_write(tc->regmap, DP0CTL, 0);
+> >  }
+> >
+> > -static int tc_dpi_stream_enable(struct tc_data *tc)
+> > +static int tc_dsi_rx_enable(struct tc_data *tc)
+> >  {
+> > +       u32 value;
+> >         int ret;
+> > +
+> > +       regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
+> > +       regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
+> > +       regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
+> > +       regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
+> > +       regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+> > +       regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+> > +       regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+> > +       regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
+> > +
+> > +       value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
+> > +               LANEENABLE_CLEN;
+> > +       regmap_write(tc->regmap, PPI_LANEENABLE, value);
+> > +       regmap_write(tc->regmap, DSI_LANEENABLE, value);
+> > +
+> > +       /* Set input interface */
+> > +       value = DP0_AUDSRC_NO_INPUT;
+> > +       if (tc_test_pattern)
+> > +               value |= DP0_VIDSRC_COLOR_BAR;
+> > +       else
+> > +               value |= DP0_VIDSRC_DSI_RX;
+> > +       ret = regmap_write(tc->regmap, SYSCTRL, value);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       usleep_range(120, 150);
+> > +
+> > +       regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
+> > +       regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int tc_dpi_rx_enable(struct tc_data *tc)
+> > +{
+> >         u32 value;
+> >
+> > +       /* Set input interface */
+> > +       value = DP0_AUDSRC_NO_INPUT;
+> > +       if (tc_test_pattern)
+> > +               value |= DP0_VIDSRC_COLOR_BAR;
+> > +       else
+> > +               value |= DP0_VIDSRC_DPI_RX;
+> > +       return regmap_write(tc->regmap, SYSCTRL, value);
+> > +}
+> > +
+> > +static int tc_dpi_stream_enable(struct tc_data *tc)
+> > +{
+> > +       int ret;
+> > +
+> >         dev_dbg(tc->dev, "enable video stream\n");
+> >
+> >         /* Setup PLL */
+> > @@ -1277,20 +1326,6 @@ static int tc_dpi_stream_enable(struct tc_data *tc)
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
+> > -       regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
+> > -       regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
+> > -       regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
+> > -       regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+> > -       regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+> > -       regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+> > -       regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
+> > -
+> > -       value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
+> > -               LANEENABLE_CLEN;
+> > -       regmap_write(tc->regmap, PPI_LANEENABLE, value);
+> > -       regmap_write(tc->regmap, DSI_LANEENABLE, value);
+> > -
+> >         ret = tc_set_common_video_mode(tc, &tc->mode);
+> >         if (ret)
+> >                 return ret;
+> > @@ -1299,22 +1334,7 @@ static int tc_dpi_stream_enable(struct tc_data *tc)
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       /* Set input interface */
+> > -       value = DP0_AUDSRC_NO_INPUT;
+> > -       if (tc_test_pattern)
+> > -               value |= DP0_VIDSRC_COLOR_BAR;
+> > -       else
+> > -               value |= DP0_VIDSRC_DSI_RX;
+> > -       ret = regmap_write(tc->regmap, SYSCTRL, value);
+> > -       if (ret)
+> > -               return ret;
+> > -
+> > -       usleep_range(120, 150);
+> > -
+> > -       regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
+> > -       regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
+> > -
+> > -       return 0;
+> > +       return tc_dsi_rx_enable(tc);
+> >  }
+> >
+> >  static int tc_dpi_stream_disable(struct tc_data *tc)
+> > @@ -1370,19 +1390,11 @@ static int tc_edp_stream_enable(struct tc_data *tc)
+> >         usleep_range(500, 1000);
+> >         value |= VID_EN;
+> >         ret = regmap_write(tc->regmap, DP0CTL, value);
+> > -       if (ret)
+> > -               return ret;
+> > -       /* Set input interface */
+> > -       value = DP0_AUDSRC_NO_INPUT;
+> > -       if (tc_test_pattern)
+> > -               value |= DP0_VIDSRC_COLOR_BAR;
+> > -       else
+> > -               value |= DP0_VIDSRC_DPI_RX;
+> > -       ret = regmap_write(tc->regmap, SYSCTRL, value);
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       return 0;
+> > +       /* Set input interface */
+> > +       return tc_dpi_rx_enable(tc);
+> >  }
+> >
+> >  static int tc_edp_stream_disable(struct tc_data *tc)
+> > --
+> > 2.35.1
+> >
 >
-> One notable detail is that the DSI-to-(e)DP mode requires the Pixel
-> PLL to be always enabled, which is not needed for DPI-to-(e)DP mode
-> which gets the matching clock direct from DPI Pixel Clock instead.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/bridge/tc358767.c | 40 +++++++++++++++++++++++--------
->  1 file changed, 30 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index e72dd5cd9700..798da0e4d086 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -309,6 +309,9 @@ struct tc_data {
->         /* do we have IRQ */
->         bool                    have_irq;
->
-> +       /* Input connector type, DSI and not DPI. */
-> +       bool                    input_connector_dsi;
-> +
->         /* HPD pin number (0 or 1) or -ENODEV */
->         int                     hpd_pin;
->  };
-> @@ -1353,8 +1356,18 @@ static int tc_edp_stream_enable(struct tc_data *tc)
->
->         dev_dbg(tc->dev, "enable video stream\n");
->
-> -       /* PXL PLL setup */
-> -       if (tc_test_pattern) {
-> +       /*
-> +        * Pixel PLL must be enabled for DSI input mode and test pattern.
-> +        *
-> +        * Per TC9595XBG datasheet Revision 0.1 2018-12-27 Figure 4.18
-> +        * "Clock Mode Selection and Clock Sources", either Pixel PLL
-> +        * or DPI_PCLK supplies StrmClk. DPI_PCLK is only available in
-> +        * case valid Pixel Clock are supplied to the chip DPI input.
-> +        * In case built-in test pattern is desired OR DSI input mode
-> +        * is used, DPI_PCLK is not available and thus Pixel PLL must
-> +        * be used instead.
-> +        */
-> +       if (tc->input_connector_dsi || tc_test_pattern) {
->                 ret = tc_pxl_pll_en(tc, clk_get_rate(tc->refclk),
->                                     1000 * tc->mode.clock);
->                 if (ret)
-> @@ -1394,7 +1407,10 @@ static int tc_edp_stream_enable(struct tc_data *tc)
->                 return ret;
->
->         /* Set input interface */
-> -       return tc_dpi_rx_enable(tc);
-> +       if (tc->input_connector_dsi)
-> +               return tc_dsi_rx_enable(tc);
-> +       else
-> +               return tc_dpi_rx_enable(tc);
->  }
->
->  static int tc_edp_stream_disable(struct tc_data *tc)
-> @@ -2004,14 +2020,18 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
->                 mode |= BIT(endpoint.port);
->         }
->
-> -       if (mode == mode_dpi_to_edp || mode == mode_dpi_to_dp)
-> +       if (mode == mode_dpi_to_edp || mode == mode_dpi_to_dp) {
-> +               tc->input_connector_dsi = false;
->                 return tc_probe_edp_bridge_endpoint(tc);
-> -       else if (mode == mode_dsi_to_dpi)
-> +       } else if (mode == mode_dsi_to_dpi) {
-> +               tc->input_connector_dsi = true;
->                 return tc_probe_dpi_bridge_endpoint(tc);
-> -       else if (mode == mode_dsi_to_edp || mode == mode_dsi_to_dp)
-> -               dev_warn(dev, "The mode DSI-to-(e)DP is not supported!\n");
-> -       else
-> -               dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
-> +       } else if (mode == mode_dsi_to_edp || mode == mode_dsi_to_dp) {
-> +               tc->input_connector_dsi = true;
-> +               return tc_probe_edp_bridge_endpoint(tc);
-> +       }
-> +
-> +       dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
->
->         return -EINVAL;
->  }
-> @@ -2149,7 +2169,7 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
->
->         i2c_set_clientdata(client, tc);
->
-> -       if (tc->bridge.type == DRM_MODE_CONNECTOR_DPI) { /* DPI output */
-> +       if (tc->input_connector_dsi) {                  /* DSI input */
->                 ret = tc_mipi_dsi_host_attach(tc);
->                 if (ret) {
->                         drm_bridge_remove(&tc->bridge);
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Applied to drm-misc-next.
