@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB235252DA
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 18:42:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F13845252D3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 18:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 527C31129E6;
-	Thu, 12 May 2022 16:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F16B10EF8B;
+	Thu, 12 May 2022 16:41:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 592CC10FFC0;
- Thu, 12 May 2022 16:42:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652373732; x=1683909732;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=jCAWUPcGy3QX9OvjDrXfGEMvdus6MKvGcYde3Vn+2zI=;
- b=RzZMLMDxNMAF/zX/MtwzGKJcJZcUmnqniBoA78m6K+VUpbqrs7pugn26
- QBST9YK/UncdWmxAcWtwHOEBn8++bAQzviLiMfYwNvFgRF4B422EmMC/z
- 2xW1BxvXaF2wgPiRIcllBmU4O3v4Wk+jITMb4qEo4MzIx2208bRigqW7h
- wpU/0TvFib6Y8Y335J3cIrHLxdajh7PN0DVJq+Gr7dFeo6fPDTjdxMpcU
- 1PXJgWWuajQVNLZnqHPHV41trMFBdBlfwpeNy1Nw3Fjy6fpAV8eC+0vi+
- 5RWsIm2Gu8ebvntF8k2fgIRMXWvDrywBMRyH1z+aOfdeeWD7v0moJq+gP w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="295305555"
-X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; d="scan'208";a="295305555"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2022 09:14:32 -0700
-X-IronPort-AV: E=Sophos;i="5.91,220,1647327600"; d="scan'208";a="739748041"
-Received: from ianmurph-mobl.ger.corp.intel.com (HELO [10.252.2.2])
- ([10.252.2.2])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2022 09:14:30 -0700
-Message-ID: <cd0010ce-0f90-678c-364e-cf39238a21bd@intel.com>
-Date: Thu, 12 May 2022 17:14:28 +0100
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2138510EF8B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:41:54 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id q4so5414561plr.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 09:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=6TwX+Uem+RX7yFMEQloRfhp790CWUfMnBz6v8ZFXqWw=;
+ b=W0iepvlelCLBuiCrQ0b37NsVuwjZqmnDvDuXQwTxPwqmfcisydLXhlvB+5bIBxb9Mo
+ DDIm9SAd9GCqOj8Y1mqJ3sPE2DDD2VG+CyW+x8zKZGJ1ncvmUcgmSj5NWAatP+ff85TH
+ ZnWqN4wW+Xvd09HvOI7ErGXsWF0qITMEkVBE8CptKkPKH0y41qpN2h8EhYFt/EnyW95X
+ LUnS06SYFHbr1Fd4ZdIEgY2aNXkWlf7fBX3yTTPM4sIzGKDRzP8t5PBqeY5+wGCWKGeI
+ 4l9xLi0L1UoF0RefF/g+HEKdfK0lgVXEOyZZ3Lz8Yy/OIJTAikD/cX/wCLx1Gu2ea24/
+ QN8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=6TwX+Uem+RX7yFMEQloRfhp790CWUfMnBz6v8ZFXqWw=;
+ b=ViRCcAWQCjkjFwULKk46kgCd+kQA+di5SXlUqLtF+PS+mTUfV5PuU7UMQVFWATrZQp
+ gcw5jvQlEOXVaYynTeMfuLijj6Q6BsGmrrY7NpNpuGJvDJ465cvMaz2kkE8IXq8fDw2X
+ NzMPUBBbeDe3Lr9yn+GUJzz1TexveV4Rp1WkNfYfd0J4eeycHBM/7BLv+8p10Jr+NNS4
+ GlqAF+Dyjp/RYP0KpfEWkfo3jV4Bc9zC2FEy4ctT8Y9lxqEIqPQOyRFTZFf7ZUGNjYp3
+ vbN+5GyBI7+Fz4mi4X/JuKkyvy/tCTHelwXsbtn/7ExjkjstDEAsrmEq456uLlBKsGgr
+ ReKw==
+X-Gm-Message-State: AOAM532hr9JyGmd7Qhdh3IiBzOpD/uQ+TAEsNsIuKyDBzG8Z/Mwe6mvO
+ kZGpyehLvafgFTk8tyQ5wOI=
+X-Google-Smtp-Source: ABdhPJzsb54QRB11Kg0xwOQPwsZz32Td9eLOjqUbH9eOlCaQUD4CO9IvOZZ+4QXL8vYjVErb6WonGA==
+X-Received: by 2002:a17:902:ab96:b0:159:1ff:4ea0 with SMTP id
+ f22-20020a170902ab9600b0015901ff4ea0mr779294plr.60.1652373713356; 
+ Thu, 12 May 2022 09:41:53 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::4:6c64])
+ by smtp.gmail.com with ESMTPSA id
+ x4-20020a62fb04000000b0050dc76281a9sm46574pfm.131.2022.05.12.09.41.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 09:41:52 -0700 (PDT)
+Date: Thu, 12 May 2022 06:41:51 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Byungchul Park <byungchul.park@lge.com>
+Subject: Re: [REPORT] syscall reboot + umh + firmware fallback
+Message-ID: <Yn04z6xzqJQqYNOX@slm.duckdns.org>
+References: <YnzQHWASAxsGL9HW@slm.duckdns.org>
+ <1652354304-17492-1-git-send-email-byungchul.park@lge.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/i915: Use i915_gem_object_ggtt_pin_ww for reloc_iomap
-Content-Language: en-GB
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220511115219.46507-1-maarten.lankhorst@linux.intel.com>
- <3dbe7c30-dfef-0cde-b9cb-2ffdcb460113@intel.com>
- <66e2bfe6-6053-9728-63ee-e4aad5a0f631@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <66e2bfe6-6053-9728-63ee-e4aad5a0f631@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1652354304-17492-1-git-send-email-byungchul.park@lge.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +70,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Mateusz_Jo=c5=84czyk?= <mat.jonczyk@o2.pl>,
- Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
+ 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
+ sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, mingo@redhat.com, djwong@kernel.org,
+ vdavydov.dev@gmail.com, rientjes@google.com, dennis@kernel.org,
+ linux-ext4@vger.kernel.org, ngupta@vflare.org, johannes.berg@intel.com,
+ jack@suse.com, dan.j.williams@intel.com, josef@toxicpanda.com,
+ rostedt@goodmis.org, linux-block@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
+ melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, mcgrof@kernel.org, holt@sgi.com, hannes@cmpxchg.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/05/2022 19:38, Maarten Lankhorst wrote:
-> Op 11-05-2022 om 20:23 schreef Matthew Auld:
->> On 11/05/2022 12:52, Maarten Lankhorst wrote:
->>> Instead of its own path, use the common path when it doesn't result
->>> in evicting any vma. This fixes the case where we don't wait for
->>> binding.
->>>
->>
->> https://gitlab.freedesktop.org/drm/intel/-/issues/5806
->>
->> If I'm reading that correctly waiting for the bind doesn't seem to help?
-> 
-> I suspect the actual pinning there might do some stuff that we are not doing.
-> 
-> It was working before the change, and manually calling pin caused the failure, so I reverted it back to what was working before. It was specifically the manual pin code that was failing.
-> 
-> I can change the commit message if it helps.
+Hello,
 
-Hmm strange. With the commit message updated,
-Acked-by: Matthew Auld <matthew.auld@intel.com>
+On Thu, May 12, 2022 at 08:18:24PM +0900, Byungchul Park wrote:
+> > 1. wait_for_completion_killable_timeout() doesn't need someone to wake it up
+> >    to make forward progress because it will unstick itself after timeout
+> >    expires.
+> 
+> I have a question about this one. Yes, it would never been stuck thanks
+> to timeout. However, IIUC, timeouts are not supposed to expire in normal
+> cases. So I thought a timeout expiration means not a normal case so need
+> to inform it in terms of dependency so as to prevent further expiraton.
+> That's why I have been trying to track even timeout'ed APIs.
+> 
+> Do you think DEPT shouldn't track timeout APIs? If I was wrong, I
+> shouldn't track the timeout APIs any more.
 
+Without actually surveying the use cases, I can't say for sure but my
+experience has been that we often get pretty creative with timeouts and it's
+something people actively think about and monitor (and it's usually not
+subtle). Given that, I'm skeptical about how much value it'd add for a
+dependency checker to warn about timeouts. It might be net negative than the
+other way around.
+
+> > 2. complete_all() from __fw_load_abort() isn't the only source of wakeup.
+> >    The fw loader can be, and mainly should be, woken up by firmware loading
+> >    actually completing instead of being aborted.
 > 
-> ~Maarten
-> 
->>> Fixes: b5cfe6f7a6e1 ("drm/i915: Remove short-term pins from execbuf, v6.")
->>> Cc: Matthew Auld <matthew.auld@intel.com>
->>> Reported-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
->>> Tested-by: Hans de Goede <hdegoede@redhat.com>
->>> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 6 ++----
->>>    1 file changed, 2 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> index 498b458fd784..919d01082909 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
->>> @@ -1262,14 +1262,12 @@ static void *reloc_iomap(struct i915_vma *batch,
->>>             * Only attempt to pin the batch buffer to ggtt if the current batch
->>>             * is not inside ggtt, or the batch buffer is not misplaced.
->>>             */
->>> -        if (!i915_is_ggtt(batch->vm)) {
->>> +        if (!i915_is_ggtt(batch->vm) ||
->>> +            !i915_vma_misplaced(batch, 0, 0, PIN_MAPPABLE)) {
->>>                vma = i915_gem_object_ggtt_pin_ww(obj, &eb->ww, NULL, 0, 0,
->>>                                  PIN_MAPPABLE |
->>>                                  PIN_NONBLOCK /* NOWARN */ |
->>>                                  PIN_NOEVICT);
->>> -        } else if (i915_vma_is_map_and_fenceable(batch)) {
->>> -            __i915_vma_pin(batch);
->>> -            vma = batch;
->>>            }
->>>              if (vma == ERR_PTR(-EDEADLK))
-> 
-> 
+> This is the point I'd like to ask. In normal cases, fw_load_done() might
+> happen, of course, if the loading gets completed. However, I was
+> wondering if the kernel ensures either fw_load_done() or fw_load_abort()
+> to be called by *another* context while kernel_halt().
+
+We'll have to walk through the code to tell that. On a cursory look tho, up
+until that point (just before shutting down usermode helper), I don't see
+anything which would actively block firmware loading.
+
+Thanks.
+
+-- 
+tejun
