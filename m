@@ -2,45 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C829E524BC9
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BC0524BDF
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3CAA10FF19;
-	Thu, 12 May 2022 11:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E30610F01B;
+	Thu, 12 May 2022 11:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E08D610FF19
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=fRQT5olMn4pkSqfwVjd40BV4gTHG/XYj7xcsO078aE4=; b=ED6wFW+cfsueBQw7HaAYWQurqO
- 5wAaZSzYmbcKQRdUQcOZZI9XfIAzkuUSwvivdqWwRVZ7DV3J3DmKcXU3Wn8cm2uI2TZXAmODsYKNV
- 34Pyy5XZrL7GSKjpT9RtxGsQaMhL8+k6TbbL26iMrQSwPHNBS2hHQEVLkw/R9nDkyJvpXN34chlV5
- iNy8RsMPTYaljWedGbwte+yQ8+XfUitsiTEJYJHbuudZGNdAV5WyIatuyImDjYtk5/ZKRXURD/uy9
- POVY0uH8huXBNNTFWGvDh9QN5Q18/VqAwSstutwpGU0iD7iRMMMkiUwQeQrFxhjVr4Q7VhSb5jeSM
- Os/ZXNgA==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1np77r-000Bbq-UP; Thu, 12 May 2022 13:36:59 +0200
-Date: Thu, 12 May 2022 10:36:42 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/vkms: return early if compose_plane fails
-Message-ID: <20220512113642.6bhkhikiprxks376@mail.igalia.com>
-References: <20220415111300.61013-1-tales.aparecida@gmail.com>
- <20220415111300.61013-3-tales.aparecida@gmail.com>
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5755810F01B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:42:00 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id 4so6100641ljw.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 04:42:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=6T9T68NcFc0952zVBrDOq932Pet+Nc2yVT/DrOYRhBM=;
+ b=MfrdMblJoJMaGsS9/wwW7IgEQsVP493T0B1dVe/hcRSHQa2qJJK6zLDzIs6XqgyR6m
+ QqfINpCdr9iBM3iCKd6TTUo+pAsGqLKef6QAyAc2K2RmGJWUjCdnSU07euRA2Bw8FRUT
+ JltbqrXpIvCr0205WJ2tqiIoa6maS5A7zmw3V0Dc+Wp8gy8e0p3dQILf38H0rBWeoICh
+ 2ssSozJzebsLnI83/u/dfjW67b84Qn85zVECo/1GsKsGpu6Kj5AdvifWajNp1Dc5eSST
+ rH7y5LadelaqdTVMbl7zqeWBMMyQF4+5YWG92akdBoS/xu+I6Wo3NhiBepyPZYFpP9Z9
+ sWVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=6T9T68NcFc0952zVBrDOq932Pet+Nc2yVT/DrOYRhBM=;
+ b=S144q7MopiJQvgb+ksBsPIyV5LS4CjunRLlINH4Vy1z1wltdwxvYg45ItT7dTa9lIj
+ lfrBAt8NLit9XEfnDB1IMGjQe0S/HepsddHRGmLlLS2IK8LCbEAQJriebsn1xqngZMHA
+ O5PDtGFan9lpdbwYoGvWxmk6z9J/+dE5rUSFjwh+AkPVgWGxHlwJbH91V8XPV4MIakbc
+ 8pZ7CuH6ZNjJloCEWQq6KxaGQQDLjk+jN/oNlsFd+uZT5Mt+20xKedfIuR+eSDS2pjKF
+ ULw/0sFQRnZXpS4U20pZ2pfmaE5xzUBsiAoJc5JYuUcB6x7cU0vIrYm4MjoNcO5NhksW
+ pXmQ==
+X-Gm-Message-State: AOAM531vh4pYUAIwcigWFJFYYG9BacbwGiEiFLhE/pGcqJVuMy2vbdad
+ vBVH+PGWEzHihNHx9bsc+2sUGg==
+X-Google-Smtp-Source: ABdhPJwrvrRsnMiVU5z5IvyBoA7401rH8GIZeABVb/kiO4ZTWHWXkyItgblVBRrywExalFEcfqjYCg==
+X-Received: by 2002:a2e:b0fc:0:b0:24f:1050:ff61 with SMTP id
+ h28-20020a2eb0fc000000b0024f1050ff61mr20342984ljl.290.1652355718324; 
+ Thu, 12 May 2022 04:41:58 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ 10-20020ac25f4a000000b0047255d210f0sm753651lfz.31.2022.05.12.04.41.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 04:41:57 -0700 (PDT)
+Message-ID: <d589845f-e85c-5dcb-28cf-ac08eb7c1a8e@linaro.org>
+Date: Thu, 12 May 2022 14:41:56 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ncdrrmpmlwtjosst"
-Content-Disposition: inline
-In-Reply-To: <20220415111300.61013-3-tales.aparecida@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v1 0/7] drm/bridge_connector: perform HPD enablement
+ automatically
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Tomi Valkeinen <tomba@kernel.org>
+References: <20220429185157.3673633-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220429185157.3673633-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,147 +84,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- andrealmeid@riseup.net
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 29/04/2022 21:51, Dmitry Baryshkov wrote:
+>  From all the drivers using drm_bridge_connector only iMX/dcss and OMAP
+> DRM driver do a proper work of calling
+> drm_bridge_connector_en/disable_hpd() in right places. Rather than
+> teaching each and every driver how to properly handle
+> drm_bridge_connector's HPD, make that automatic.
+> 
+> Add two additional drm_connector helper funcs: enable_hpd() and
+> disable_hpd(). Make drm_kms_helper_poll_* functions call them (as this
+> is the time where the drm_bridge_connector's functions are called by the
+> drivers too).
 
---ncdrrmpmlwtjosst
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Gracious ping regarding this series. It went for two weeks w/o review.
 
-On 04/15, Tales Lelo da Aparecida wrote:
-> Do not exit quietly from compose_plane. If any plane has an invalid
-> map, propagate the error value upwards. While here, add log messages
-> for the invalid index.
->=20
-> Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 30 ++++++++++++++++++----------
->  1 file changed, 20 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index b47ac170108c..c0a3b53cd155 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -149,16 +149,16 @@ static void blend(void *vaddr_dst, void *vaddr_src,
->  	}
->  }
-> =20
-> -static void compose_plane(struct vkms_composer *primary_composer,
-> -			  struct vkms_composer *plane_composer,
-> -			  void *vaddr_out)
-> +static int compose_plane(struct vkms_composer *primary_composer,
-> +			 struct vkms_composer *plane_composer,
-> +			 void *vaddr_out)
->  {
->  	struct drm_framebuffer *fb =3D &plane_composer->fb;
->  	void *vaddr;
->  	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
-> =20
->  	if (WARN_ON(iosys_map_is_null(&plane_composer->map[0])))
-> -		return;
-> +		return -EINVAL;
-> =20
->  	vaddr =3D plane_composer->map[0].vaddr;
-> =20
-> @@ -168,6 +168,8 @@ static void compose_plane(struct vkms_composer *prima=
-ry_composer,
->  		pixel_blend =3D &x_blend;
-> =20
->  	blend(vaddr_out, vaddr, primary_composer, plane_composer, pixel_blend);
-> +
-> +	return 0;
->  }
-> =20
->  static int compose_active_planes(void **vaddr_out,
-> @@ -177,7 +179,7 @@ static int compose_active_planes(void **vaddr_out,
->  	struct drm_framebuffer *fb =3D &primary_composer->fb;
->  	struct drm_gem_object *gem_obj =3D drm_gem_fb_get_obj(fb, 0);
->  	const void *vaddr;
-> -	int i;
-> +	int i, ret;
-> =20
->  	if (!*vaddr_out) {
->  		*vaddr_out =3D kzalloc(gem_obj->size, GFP_KERNEL);
-> @@ -187,8 +189,10 @@ static int compose_active_planes(void **vaddr_out,
->  		}
->  	}
-> =20
-> -	if (WARN_ON(iosys_map_is_null(&primary_composer->map[0])))
-> +	if (WARN_ON(iosys_map_is_null(&primary_composer->map[0]))) {
-> +		DRM_DEBUG_DRIVER("Failed to compose. Invalid map in the primary plane.=
-");
->  		return -EINVAL;
-yes, good to have a debug msg here. I would say `mapping`
-> +	}
-> =20
->  	vaddr =3D primary_composer->map[0].vaddr;
-> =20
-> @@ -198,10 +202,16 @@ static int compose_active_planes(void **vaddr_out,
->  	 * planes should be in z-order and compose them associatively:
->  	 * ((primary <- overlay) <- cursor)
->  	 */
-> -	for (i =3D 1; i < crtc_state->num_active_planes; i++)
-> -		compose_plane(primary_composer,
-> -			      crtc_state->active_planes[i]->composer,
-> -			      *vaddr_out);
-> +	for (i =3D 1; i < crtc_state->num_active_planes; i++) {
-> +		ret =3D compose_plane(primary_composer,
-> +				    crtc_state->active_planes[i]->composer,
-> +				    *vaddr_out);
+Few additional points 'pro':
+- It makes it possible to handle hpd enablement in cases where the 
+driver uses a mixture of drm_bridge_connector and old connectors (msm)
+- It makes it possible for other connectors to also implement dynamic 
+hpd enablement/disablement in a standard way
 
-tbh, I'm not sure on changing compose_plane behaviour here to
-invalidate all composition in case of a invalid active plane mapping.
+> 
+> Dmitry Baryshkov (7):
+>    drm/poll-helper: merge drm_kms_helper_poll_disable() and _fini()
+>    drm/probe-helper: enable and disable HPD on connectors
+>    drm/bridge_connector: rely on drm_kms_helper_poll_* for HPD enablement
+>    drm/imx/dcss: stop using drm_bridge_connector_en/disable_hpd()
+>    drm/msm/hdmi: stop using drm_bridge_connector_en/disable_hpd()
+>    drm/omap: stop using drm_bridge_connector_en/disable_hpd()
+>    drm/bridge_connector: drop drm_bridge_connector_en/disable_hpd()
+> 
+>   drivers/gpu/drm/drm_bridge_connector.c   | 23 +++----------
+>   drivers/gpu/drm/drm_probe_helper.c       | 40 ++++++++++++++++++-----
+>   drivers/gpu/drm/imx/dcss/dcss-dev.c      |  4 ---
+>   drivers/gpu/drm/imx/dcss/dcss-kms.c      |  4 ---
+>   drivers/gpu/drm/msm/hdmi/hdmi.c          |  2 --
+>   drivers/gpu/drm/omapdrm/omap_drv.c       | 41 ------------------------
+>   include/drm/drm_bridge_connector.h       |  2 --
+>   include/drm/drm_modeset_helper_vtables.h | 22 +++++++++++++
+>   8 files changed, 58 insertions(+), 80 deletions(-)
+> 
 
-Warning about an inconsistent composition makes sense to me, but it
-would be better if we can prevent all resources consumption around each pla=
-ne
-composition by checking the issue as soon as possible. One idea would be do=
-ing
-this validation at the time of active_plane selection. Another would be just
-check all active_plane mapping right before this loop.
 
-What do you think?
-
-> +		if (ret) {
-> +			DRM_DEBUG_DRIVER("Failed to compose. Invalid map in the active_planes=
-[%d].",
-> +					 i);
-> +			return ret;
-> +		}
-> +	}
-> =20
->  	return 0;
->  }
-> --=20
-> 2.35.1
->=20
-
---ncdrrmpmlwtjosst
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJ88UYACgkQwqF3j0dL
-ehx3tRAAgb/a71amCBHm/n8CI/NLAWfMcGZRJGjR5g0dn1tfvUh3Ns4p1X3q5/xt
-ypHXY7m79fM5FUSji0WBTsQd2OJ3DmrzaPWbFmZKUIY42zVc4Sf4CU0w8kQ9BJER
-oE1qPboocq9fn4f0f721HHweX8G+d7EYIJYQbaZC9zetNOe2GP3Knk+PlL6AxTfp
-7G9YqQeMO2pY89/iEk46ldKa1DxoTgFA+jqwMyHHtcWYvO1b4DdVeLjH50VX/hal
-eRmfq+3DM5qBlISmYn7w5OR5+h6bTpVI6/YdKHq4ppWTU8b6EpGrMHQyZr5KeWeR
-18xqph3OccYJ3mNs0zwUxZe1/bxLMBKwQvUmX3tdv+6+NsyZc88tsbec5DjsoNDK
-lnv84SLTztWVKxact3IkZk0En5S4KUlAxS5N1pmo3+dCdTma/D9PVh1Km1FbTGLh
-Y2PN1XwYaTGH/uu2OX+rfB9jGHzWss7evyLxvWDGobjPwUjBbeoW/1a6kttsHSfl
-zKvdyayAacdanWWN+e3NKTQqZbXFhrZw+VwrgqDpVAbzpFGW4GpiyK1l4YwH79wd
-BZp4TQ+4mlLgvINeXHRtKU9igd7t5orq4OVCzgMBfnAoB11rpZLkO2J5s6xdiZM6
-MyMk8eKCTH9vvRA9NXbuymAMLLX13e580TwFnrbsYRtdf8SsfKE=
-=Ikba
------END PGP SIGNATURE-----
-
---ncdrrmpmlwtjosst--
+-- 
+With best wishes
+Dmitry
