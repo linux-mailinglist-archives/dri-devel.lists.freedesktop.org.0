@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6A6524C41
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:59:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 742F9524C82
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 14:17:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66A9710EBB7;
-	Thu, 12 May 2022 11:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B84B010EDCE;
+	Thu, 12 May 2022 12:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E8C10EBB7
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:59:23 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- t11-20020a17090ad50b00b001d95bf21996so7607407pju.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 04:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a/Jq44xoX1PX4n3n8Vf2G0RTQLdM4u3R8vUUYgDiB04=;
- b=mlMqYveSz/+4qyhU7Gn2t3oWFvyH+LSNhqreDHRhYlwIHWqahZCFudIHWm6Ja6shfJ
- l6FeEnF5N+f7cfpHAwyX2D2A6Im2Xst2Vt0KatDULbUJMvR/gjU0p6whZWNLymtnRqdg
- XpenVROQ7O74LbOF/JN8z421V3oYlvmaPamURNP0qMVllMgrdgR7WQx0k1yzliiAGDc/
- cu1N8Oiya9M7Ouij7ORwpMcmR5valH7ZFw2ufqvt0khJMMvqGuQBiA299NVzlEwNymzT
- Fmu3DKnijVF6aP7k4Dbi0eWKnD7hm4SYQVcNLVueHvuwGkD28M55+CTWIy3+s1oDCUFV
- sAVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a/Jq44xoX1PX4n3n8Vf2G0RTQLdM4u3R8vUUYgDiB04=;
- b=yFvmHnyLix+E1gwFQ1oRTDqjmk4Ps9C9zt9RB6nX6V84YWCp4MV1w/J0VmNcX6BSIM
- YtNyT9IjVqsYJRTiS6YdDSqzhfUwb+lyJOSHbBf3PzfPcj3psAADABdhIQrT+DZl54G7
- HQJd+OLhjWGQDTk8pj0++0M6YZF0lGrgv03S3t3I/E6RONaJTQ8cdrPbt1XkjaOlAMQC
- OuhTHAwLzn/TujRt6glc+irpj3XN2OkGu3MBxOa2daIstGj6skfgnQH/z4QmLU3cOJJ5
- kEmGN+Lzo8xqO5P/pKokfTxAqfgd1GtJLZbLNCprGHYWX8wRHka1jjzR5Ju62uKC68oz
- r/0A==
-X-Gm-Message-State: AOAM533aSOXgvSt/4bikYDEHEpnZ5p0SjC5hmuEjmIUSGw3Q+eK1WIXx
- igRGZBjqa1OrOGadP+Zl+Uk=
-X-Google-Smtp-Source: ABdhPJxUkdcERAaY6EHXM+YWGl5OJizIGEsi9bYKgIcAV4R0PZrxLengDsUUSp2cSZor8m+omxbfVQ==
-X-Received: by 2002:a17:902:7445:b0:15f:2eb6:2c3d with SMTP id
- e5-20020a170902744500b0015f2eb62c3dmr9432973plt.132.1652356762826; 
- Thu, 12 May 2022 04:59:22 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- k34-20020a635a62000000b003c14af5063esm1653594pgm.86.2022.05.12.04.59.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 May 2022 04:59:22 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Russell King <linux@armlinux.org.uk>, Helge Deller <deller@gmx.de>,
- Miaoqian Lin <linmq006@gmail.com>, Pawel Moll <pawel.moll@arm.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] video: fbdev: Fix refcount leak in clcdfb_of_vram_setup
-Date: Thu, 12 May 2022 15:59:08 +0400
-Message-Id: <20220512115913.48685-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D780B10EDCE
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 12:17:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1383A106F;
+ Thu, 12 May 2022 05:17:32 -0700 (PDT)
+Received: from [10.57.80.111] (unknown [10.57.80.111])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 84F843F66F;
+ Thu, 12 May 2022 05:17:29 -0700 (PDT)
+Message-ID: <a85eca2e-61f0-8d4b-64db-dfcc2b97d6f7@arm.com>
+Date: Thu, 12 May 2022 13:17:23 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
+ on rock-3a
+Content-Language: en-GB
+To: Peter Geis <pgwipeout@gmail.com>,
+ Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+ <20220422072841.2206452-21-s.hauer@pengutronix.de>
+ <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
+ <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,40 +48,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_parse_phandle() returns a node pointer with refcount
-incremented, we should use of_node_put() on it when not need anymore.
-Add missing of_node_put() to avoid refcount leak.
+On 2022-05-08 17:53, Peter Geis wrote:
+> On Sun, May 8, 2022 at 9:40 AM Piotr Oniszczuk
+> <piotr.oniszczuk@gmail.com> wrote:
+>>
+>>
+>>
+>>> Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 22.04.2022, o godz. 09:28:
+>>>
+>>> From: Michael Riesch <michael.riesch@wolfvision.net>
+>>>
+>>> Enable the RK356x Video Output Processor (VOP) 2 on the Radxa
+>>> ROCK3 Model A.
+>>>
+>>> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Link: https://lore.kernel.org/r/20220310210352.451136-4-michael.riesch@wolfvision.net
+>>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+>>> ---
+>>
+>> Sascha, Michael,
+> 
+> Good Afternoon,
+>>
+>> I'm using v11 series on 5.18-rc5 on rk3566 tvbox with great success.
+>> Recently i started to work on rock3-a (rk3568).
+>> v11 gives me video, audio - but cec is not working on rock3-a.
+>>
+>> I was told:
+>>
+>> 32k clock needed for cec and this clock is generated by the rtc which is embedded in the rk8xx regulator.
+>> So you should make sure it is enabled when hdmi is powerd on, eg adding it to the RK3568_PD_VO powerdomain should help
+>>
+>> I was trying to do this in dts https://pastebin.com/67wu9QrH but cec is still non-functional
+>>
+>> Maybe You have some hints/pointers here?
+> 
+> Add the following to the HDMI node:
+> assigned-clocks = <&cru CLK_HDMI_CEC>;
+> assigned-clock-rates = <32768>;
+> 
+> The issue is the clk_rtc32k_frac clock that feeds clk_rtc_32k which
+> feeds clk_hdmi_cec is 24mhz at boot, which is too high for CEC to
+> function.
+> I submitted a patch to have the hdmi driver handle this, but it broke
+> other SoCs because 32k is an optional clock.
+> Since this is the case, I'd like Robin to weigh in on going the
+> assigned-clock route again.
 
-Fixes: d10715be03bd ("video: ARM CLCD: Add DT support")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/video/fbdev/amba-clcd.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+(did you mean to CC me or have I missed another thread elsewhere?)
 
-diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-clcd.c
-index 9ec969e136bf..8080116aea84 100644
---- a/drivers/video/fbdev/amba-clcd.c
-+++ b/drivers/video/fbdev/amba-clcd.c
-@@ -758,12 +758,15 @@ static int clcdfb_of_vram_setup(struct clcd_fb *fb)
- 		return -ENODEV;
- 
- 	fb->fb.screen_base = of_iomap(memory, 0);
--	if (!fb->fb.screen_base)
-+	if (!fb->fb.screen_base) {
-+		of_node_put(memory);
- 		return -ENOMEM;
-+	}
- 
- 	fb->fb.fix.smem_start = of_translate_address(memory,
- 			of_get_address(memory, 0, &size, NULL));
- 	fb->fb.fix.smem_len = size;
-+	of_node_put(memory);
- 
- 	return 0;
- }
--- 
-2.25.1
+FWIW I still think it would be good to fix the clock driver(s) and/or 
+DTs to correctly deal with the availability and configuration of xin_32k 
+where appropriate. However, much like the HCLK_VO mess I guess that's a 
+larger cleanup tangent in its own right, so using "assigned-clocks" for 
+this one case in the meantime doesn't seem unreasonable. I was 
+optimistic for the cleanest, most generic solution, but if reality gets 
+in the way then oh well.
 
+Judging by the datasheet, RK3568 might actually have a similar situation 
+with its clk32k_in pin, so you may want "assigned-clock-parents" as well 
+to ensure the whole clk_rtc32k branch is really set up the way you 
+currently expect - baking any more assumptions into DTBs now only seems 
+to add potential for breakage if kernel behaviour changes in future.
+
+Robin.
