@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F546524E85
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:44:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B005A524E89
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B5610E121;
-	Thu, 12 May 2022 13:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6815C10E208;
+	Thu, 12 May 2022 13:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFFE910E121;
- Thu, 12 May 2022 13:44:01 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6C8310E208;
+ Thu, 12 May 2022 13:44:37 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 577DAB82802;
- Thu, 12 May 2022 13:43:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B543FC385B8;
- Thu, 12 May 2022 13:43:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 9E043CE296E;
+ Thu, 12 May 2022 13:44:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDA30C34114;
+ Thu, 12 May 2022 13:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1652363038;
- bh=Ny9aSMJASj83tTOxWHOoG7Y4T0OdfwU9wy/scAsojjY=;
+ s=korg; t=1652363070;
+ bh=IwxOQWNXuxD0T9d3Ah9v6xFN9N6CEj1uRP/Wg+TFVzc=;
  h=Subject:To:Cc:From:Date:From;
- b=YIuAUXbtUhifawa9CAPCyKE6OlOQRN9SFGLMbQL1h5poHaKALSE/3UK14mMwBMFIT
- hGt7kN2+BBynNAvGCv/4IsCUFMfOUu2/pR4qgnJekNFSUN571LRTiNK0SnO/RUabR/
- gKpRoH9A16WT889R4QTek2nsk2sIKkv/1dprNUVw=
+ b=FNrh4Tm4hYjccBV3FRTPkGOEmWFbNvd+hmeblLkZrksGRrkE28z1e8uHAeGadWOQS
+ 2tQN1Z2tCnV5dikGhUS3pFtwsxH5pJrGYNIswQaJU41oUe1Esnbx/OKqNbpgSCV8Zs
+ ggsz2eWJ/v0YVqt+kA9KRuiP72z5WrAWbvnqRTl4=
 Subject: Patch "drm/amd/display/dc/gpio/gpio_service: Pass around correct
- dce_{version, environment} types" has been added to the 5.10-stable tree
+ dce_{version, environment} types" has been added to the 4.19-stable tree
 To: airlied@linux.ie, alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
  christian.koenig@amd.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, harry.wentland@amd.com, lee.jones@linaro.org,
  nathan@kernel.org, sunpeng.li@amd.com
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 12 May 2022 15:43:47 +0200
-Message-ID: <1652363027140132@kroah.com>
+Date: Thu, 12 May 2022 15:44:10 +0200
+Message-ID: <165236305077126@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/amd/display/dc/gpio/gpio_service: Pass around correct dce_{version, environment} types
 
-to the 5.10-stable tree which can be found at:
+to the 4.19-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-amd-display-dc-gpio-gpio_service-pass-around-correct-dce_-version-environment-types.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-4.19 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -109,7 +109,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
 +++ b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
-@@ -53,8 +53,8 @@
+@@ -51,8 +51,8 @@
   */
  
  struct gpio_service *dal_gpio_service_create(
@@ -120,7 +120,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	struct dc_context *ctx)
  {
  	struct gpio_service *service;
-@@ -67,14 +67,14 @@ struct gpio_service *dal_gpio_service_cr
+@@ -66,14 +66,14 @@ struct gpio_service *dal_gpio_service_cr
  		return NULL;
  	}
  
@@ -156,5 +156,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from lee.jones@linaro.org are
 
-queue-5.10/drm-amd-display-dc-gpio-gpio_service-pass-around-correct-dce_-version-environment-types.patch
-queue-5.10/block-drbd-drbd_nl-make-conversion-to-enum-drbd_ret_code-explicit.patch
+queue-4.19/drm-amd-display-dc-gpio-gpio_service-pass-around-correct-dce_-version-environment-types.patch
+queue-4.19/block-drbd-drbd_nl-make-conversion-to-enum-drbd_ret_code-explicit.patch
