@@ -1,68 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3800F525487
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 20:15:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B687952549A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 20:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDDA10E36A;
-	Thu, 12 May 2022 18:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D58F110E49F;
+	Thu, 12 May 2022 18:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086E010E36A;
- Thu, 12 May 2022 18:15:12 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 70AA021B15;
- Thu, 12 May 2022 18:15:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652379310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 639CF10E49F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 18:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652379688;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y5mM0HQM8pAQjku1w2nmlt4lHhMPdkzOuqIdXoLXS4Q=;
- b=E1bPL/RMWjkG/VM2r/nQONAtXYN0KRTYjM59dZnqMk2diAqQQ26BmNtFBmR2MijBvdoyuJ
- bKMni5HDVKOoLTsp4WrxKwQd9eMZGVzSXCq7M9PQy4GxRoswGggXG7aR9eUc085zzddpwQ
- ACpGrceWeQZbqz+MLovQGwzLrQ34yWA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652379310;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y5mM0HQM8pAQjku1w2nmlt4lHhMPdkzOuqIdXoLXS4Q=;
- b=Hem4fo4S7qi3PlmN8P6pL6clusERWO57cjmyletsW7el6O4y8bKHgVogXMXdMZtYeI/TMN
- 2m/YCUIqoAugngDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0A1F113A84;
- Thu, 12 May 2022 18:15:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id tv6BAK5OfWLANgAAMHmgww
- (envelope-from <jroedel@suse.de>); Thu, 12 May 2022 18:15:10 +0000
-Date: Thu, 12 May 2022 20:15:08 +0200
-From: =?iso-8859-1?Q?J=F6rg_R=F6del?= <jroedel@suse.de>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [BUG] Warning and NULL-ptr dereference in amdgpu driver with 5.18
-Message-ID: <Yn1OrPG2LyTfbFAK@suse.de>
-References: <YnTAc96Uv0CXcGhD@suse.de>
- <CADnq5_NT3UtawpGuPDwF+dgmRdaoysb7sD_-oWWBC=T3BoUH7Q@mail.gmail.com>
- <YnpIjdTT3esZ72Bf@suse.de>
- <CADnq5_NYVvjcUru9hfbnATfcHJR5+eiK9bJAA9m41WKa=OJsog@mail.gmail.com>
- <505081FC-4323-4424-87A9-89B95A89515D@suse.de>
- <CADnq5_PoWLHydAGqHXKNwBnnc_Uz7xc01Mmp2ri-h+RtnRqgfQ@mail.gmail.com>
- <YnzG1KE9tasxdUbX@suse.de>
- <CADnq5_OyfTZ1ma_9rc9ePqhRUqcuNbdCPh7eAYUC7zdX+ZOuyA@mail.gmail.com>
+ bh=VcoQlfgRlKTkG2QnFhtWwqPtuN/iCo7Oei+ZTVCbp8Q=;
+ b=MYwJCpDFNPsCAE61hguOTrE/DJOw7FLgNzWrN10Y9W92d8kjqttp6MSDJNFXnuAtzh/MT2
+ U5DehndC2zN2hPSEne16DDi5ZD9fCKbPu9Q0csWCpVvFQ7DMe0+VNcNqYz38fbhUtZNFEK
+ fn6NwrNmTQFbZdy4Exh3THlq0va78n0=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-313-b4XhdNnkOFuszKnztPMOYA-1; Thu, 12 May 2022 14:21:27 -0400
+X-MC-Unique: b4XhdNnkOFuszKnztPMOYA-1
+Received: by mail-il1-f199.google.com with SMTP id
+ g1-20020a92cda1000000b002cf30d49956so3735072ild.18
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:21:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=VcoQlfgRlKTkG2QnFhtWwqPtuN/iCo7Oei+ZTVCbp8Q=;
+ b=WuqkYyY0/nL8o5yl+QvAA46BdyaZHd5JFYg2E6Ywqn6EbYiDS0Vjb7LJPo2LJjB/gL
+ 5lkU2krnQ47uQtJA+jYBgH3aXrHPln5Syv0FL9AriEtMG5dTdmbuTdkhCqQETIc9FKON
+ Dozpb5smatpuUOnjxmprUMI8jj0yLePXhriFZWHWMv2VzIgoJV58TxYnypY/+Ee/B7Y/
+ YSICD3Zc+oPosb4yOmRQHTlaxwbgmnLLnt2n6RxT9ZrFx9sz9M5I/3aTsONeQO3z1iPB
+ pVeAbS1QDDbxikb9eP+SJNkbTxlgIz5NsddslewJTuKeOd08KnHbz4/+57143kaFMqwL
+ A8Qg==
+X-Gm-Message-State: AOAM530KKYmiBl5M29h6//F9IkQrXQQyiPQVPFN8JW9N2fH/UjO4rE+5
+ zMlx7XH0oeLNPVvAVZoKqPfoOwQ07sqaTl/y4qBC8MJg9phLY+AKcY+OFpbM3q4UUqRipU7bo4Y
+ zxg1lVCDAg+9t2BC042Ry9A0OSJn7
+X-Received: by 2002:a05:6638:112c:b0:32a:e187:db1c with SMTP id
+ f12-20020a056638112c00b0032ae187db1cmr674233jar.30.1652379686426; 
+ Thu, 12 May 2022 11:21:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrRp6MP9ShOncs1HnxoZReB9N25AEJ1S9eav9CPEBe+VnbpmFQ2wHym+Hz1/03tFiw2rRYCw==
+X-Received: by 2002:a05:6638:112c:b0:32a:e187:db1c with SMTP id
+ f12-20020a056638112c00b0032ae187db1cmr674208jar.30.1652379686238; 
+ Thu, 12 May 2022 11:21:26 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ t188-20020a0254c5000000b0032b3a7817d6sm53215jaa.154.2022.05.12.11.21.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 11:21:25 -0700 (PDT)
+Date: Thu, 12 May 2022 12:21:24 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v4 0/7] Make the rest of the VFIO driver interface use
+ vfio_device
+Message-ID: <20220512122124.45943a9e.alex.williamson@redhat.com>
+In-Reply-To: <0-v4-8045e76bf00b+13d-vfio_mdev_no_group_jgg@nvidia.com>
+References: <0-v4-8045e76bf00b+13d-vfio_mdev_no_group_jgg@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_OyfTZ1ma_9rc9ePqhRUqcuNbdCPh7eAYUC7zdX+ZOuyA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,51 +84,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Kevin Tian <kevin.tian@intel.com>,
+ dri-devel@lists.freedesktop.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-s390@vger.kernel.org, "Liu, Yi L" <yi.l.liu@intel.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 12, 2022 at 09:47:29AM -0400, Alex Deucher wrote:
-> Are those new?  Maybe the card is not seated correctly?  Can you try
-> another slot?
+On Thu,  5 May 2022 21:08:38 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-I can't remember having seen these TLP error messages with older
-kernels. 5.17 still works fine with this card.
+> Prior series have transformed other parts of VFIO from working on struct
+> device or struct vfio_group into working directly on struct
+> vfio_device. Based on that work we now have vfio_device's readily
+> available in all the drivers.
+> 
+> Update the rest of the driver facing API to use vfio_device as an input.
+> 
+> The following are switched from struct device to struct vfio_device:
+>   vfio_register_notifier()
+>   vfio_unregister_notifier()
+>   vfio_pin_pages()
+>   vfio_unpin_pages()
+>   vfio_dma_rw()
+> 
+> The following group APIs are obsoleted and removed by just using struct
+> vfio_device with the above:
+>   vfio_group_pin_pages()
+>   vfio_group_unpin_pages()
+>   vfio_group_iommu_domain()
+>   vfio_group_get_external_user_from_dev()
+> 
+> To retain the performance of the new device APIs relative to their group
+> versions optimize how vfio_group_add_container_user() is used to avoid
+> calling it when the driver must already guarantee the device is open and
+> the container_users incrd.
+> 
+> The remaining exported VFIO group interfaces are only used by kvm, and are
+> addressed by a parallel series.
+> 
+> This series is based on Christoph's gvt rework here:
+> 
+>  https://lore.kernel.org/all/5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com/
+> 
+> and so will need the PR merged first.
+> 
+> I have a followup series that needs this.
+> 
+> This is also part of the iommufd work - moving the driver facing interface
+> to vfio_device provides a much cleaner path to integrate with iommufd.
+> 
+> v4:
+>  - Use 'device' as the argument name for a struct vfio_device in vfio.c
+> v3: https://lore.kernel.org/r/0-v3-e131a9b6b467+14b6-vfio_mdev_no_group_jgg@nvidia.com
+>  - Based on VFIO's gvt/iommu merge
+>  - Remove mention of mdev_legacy_get_vfio_device() from commit message
+>  - Clarify commit message for vfio_dma_rw() conversion
+>  - Talk about the open_count change in the commit message
+>  - No code change
+> v2: https://lore.kernel.org/r/0-v2-6011bde8e0a1+5f-vfio_mdev_no_group_jgg@nvidia.com
+>  - Based on Christoph's series so mdev_legacy_get_vfio_device() is removed
+>  - Reflow indenting
+>  - Use vfio_assert_device_open() and WARN_ON_ONCE instead of open coding
+>    the assertion
+> v1: https://lore.kernel.org/r/0-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com
+> 
+> Jason Gunthorpe (7):
+>   vfio: Make vfio_(un)register_notifier accept a vfio_device
+>   vfio/ccw: Remove mdev from struct channel_program
+>   vfio/mdev: Pass in a struct vfio_device * to vfio_pin/unpin_pages()
+>   vfio/mdev: Pass in a struct vfio_device * to vfio_dma_rw()
+>   drm/i915/gvt: Change from vfio_group_(un)pin_pages to
+>     vfio_(un)pin_pages
+>   vfio: Remove dead code
+>   vfio: Remove calls to vfio_group_add_container_user()
+> 
+>  .../driver-api/vfio-mediated-device.rst       |   4 +-
+>  drivers/gpu/drm/i915/gvt/gvt.h                |   5 +-
+>  drivers/gpu/drm/i915/gvt/kvmgt.c              |  51 ++-
+>  drivers/s390/cio/vfio_ccw_cp.c                |  47 +--
+>  drivers/s390/cio/vfio_ccw_cp.h                |   4 +-
+>  drivers/s390/cio/vfio_ccw_fsm.c               |   3 +-
+>  drivers/s390/cio/vfio_ccw_ops.c               |   7 +-
+>  drivers/s390/crypto/vfio_ap_ops.c             |  23 +-
+>  drivers/vfio/vfio.c                           | 299 +++---------------
+>  include/linux/vfio.h                          |  21 +-
+>  10 files changed, 109 insertions(+), 355 deletions(-)
 
-I will try to put the card into another slot tomorrow.
+Applied to vfio next branch for v5.19.  Thanks,
 
-> As for the null pointer defer in the display code, @Wentland, Harry
-> any ideas?  I don't see why that should happen.  Maybe some hotplug
-> pin is faulty or the display has input detection and that is causing
-> some sort of hotplug interrupt that causes a race somewhere in the
-> driver?  Can you make sure the monitor connector is firmly seated on
-> the GPU?
-
-The connectors are fine, the displays are connected via miniDP on the
-GPU and DP on the display side. On the other hand my monitors do not
-seem to have the highest quality. Occassionally the resolution is
-wrongly detected or DP signal is lost. I am not sure why, I suspect
-there is some interference between the two DP cables. But this is a
-problem for as long as I have these two monitors, the NULL-ptr deref
-only happens with v5.18.
-
-Regards,
-
--- 
-Jörg Rödel
-jroedel@suse.de
-
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5
-90409 Nürnberg
-Germany
- 
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Ivo Totev
+Alex
 
