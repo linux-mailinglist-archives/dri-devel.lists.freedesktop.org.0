@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4599C524FE1
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 16:22:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790A1524FE3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 16:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF28B10FA23;
-	Thu, 12 May 2022 14:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CBFA10FA3C;
+	Thu, 12 May 2022 14:22:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE8410FA23
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 14:22:33 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id p26so9344807lfh.10
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 07:22:33 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A32710FA82
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 14:22:51 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id b32so6738954ljf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 07:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
- bh=rPnOfJw0T6UU7cqpzZ+d/TG5zakVBK0RQfAjuTld5dc=;
- b=YZXHaZtN+wM0fntocGWGb1b1EH/wlmqNG9zz7r6nNiH2kTuGiEqXe/N32kDJ2Zo/BJ
- mnz3wtKsE8mQPjpUSr2RnYxmu8H6W0hhfgVhFMs5gM4gGOTN7N9E06ILVUV1fAMC6Q3x
- ch01vrumcL3PpLSBYwrsw/vXASJ/qbK2lGf8I=
+ bh=R7CyVR4lsGxaBDvi/tZkzeeDdlAI4Jbhq0bK8oxoN98=;
+ b=UW+LZniv1uCACyBiOURR6spV91E5bhZT/m9U6V91hrroq4OZ6fM7E76dUnf/bifgj9
+ SAVjEMGDpkTGdJSYA5f1veSEhpOrxrF4hR7rkSZcLGrbDx77JDBcvEa4I3gExRxG+q1S
+ fZFUrDCzUfS0+xLgPulHgj5M/JZLY0nsHA02o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:cc;
- bh=rPnOfJw0T6UU7cqpzZ+d/TG5zakVBK0RQfAjuTld5dc=;
- b=gvVBj6nIGs+RYJ4iV2ayxsO83cfL9a4jiw87e3qf5+s2w2QEs3yh19Kxdn5edZqT8n
- /UqYRAOzqZQK/0ofh+Z0IvCWEYsEZxcWdlxP4pzXHxr1lVeYqgMdtS9drqFcIVnXGp+f
- ru7BWQ8u5scuEHKtHeyV+ujqJv0iY2z2tbMXUBGdE3CCtCVM73w0ExDNafFx6znt3hWZ
- UWVLGJQ3VUQXuAiZZZ79hv2gOMlkFB1EiUcCmiMCPcK75ZjnGevFW/FTtUNKGzwX31Vx
- 7wfX0w30oxnIOjE4jLNyqghPZ3m5fKuY9j9rvzs9h3hKh1Jq997bKm+0cq/y7IdYTP1j
- PakA==
-X-Gm-Message-State: AOAM530GcEaPwhNs/uF1qwD2Y5+KoigB7+sAVwdPZ2OE7mYx3BqVVlHh
- 2KTw42iNcBjHKPyhbhTiamqI3n9LTd9DUgQu+L5zIQ==
-X-Received: by 2002:a05:6512:e87:b0:44a:5117:2b2b with SMTP id
- bi7-20020a0565120e8700b0044a51172b2bmt9449lfb.275.1652365351715; Thu, 12 May
- 2022 07:22:31 -0700 (PDT)
+ bh=R7CyVR4lsGxaBDvi/tZkzeeDdlAI4Jbhq0bK8oxoN98=;
+ b=WR55ANZ+xsVV384sHqOjDaL4AYV3fh/1fS92JV98eWLQ4zFvkMXpf44KzCAuMXOaFV
+ nNam7+bs634uoO7ypxaXwmrRX/x+MQgkTFlm1CQficlqg59lR0IwmKPxYclUU00F9owW
+ jGwV9xQ4qlIJTl37m8nIfrjOnTnmo8Mz6X0ZfrKcOCLl33J7RTUZYEgs55acH2vP8nl3
+ oSDkF6LK14HlgrkCD5FsMKwbxJ5nB4czs2n3HJIGazFWE/Yd1QoGhDdhcpiRZ4m6JOuC
+ XrQMjnE8UlXIreU88zsAuHrqfFJUnKvmaBaT8LscMfORQCrct9Utoy+vG/ZuMFDxeHwG
+ 2GTQ==
+X-Gm-Message-State: AOAM533tyjyvZrT2l4d2+eHgIwr1V0V2w2icKFwqssGYbp6z7HBYBGQB
+ UbxsZcN+aHRjbvU7os/+/XjeF/TkUrrrWy6X1Ef9gi5LaXUmaA==
+X-Received: by 2002:a2e:818a:0:b0:24f:17b0:e36f with SMTP id
+ e10-20020a2e818a000000b0024f17b0e36fmt71309ljg.89.1652365369442; Thu, 12 May
+ 2022 07:22:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220510182810.1223574-1-markyacoub@chromium.org>
-In-Reply-To: <20220510182810.1223574-1-markyacoub@chromium.org>
+References: <20220510190823.1552920-1-markyacoub@chromium.org>
+In-Reply-To: <20220510190823.1552920-1-markyacoub@chromium.org>
 From: Mark Yacoub <markyacoub@chromium.org>
-Date: Thu, 12 May 2022 10:22:21 -0400
-Message-ID: <CAJUqKUptOgOOnReSS7Hb0btRokEP2uovQi9meLc=XExDSBx-4w@mail.gmail.com>
-Subject: Re: [PATCH] drm: Add a debug message when getting a prop is missing
+Date: Thu, 12 May 2022 10:22:38 -0400
+Message-ID: <CAJUqKUpP=YeGdAi5oD7FGjUREc7PRFc3ZvOfenXi3BZJ8_75xw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Create support for Write-Only property blob
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,41 +65,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 friendly ping :)
 
-On Tue, May 10, 2022 at 2:28 PM Mark Yacoub <markyacoub@chromium.org> wrote:
+On Tue, May 10, 2022 at 3:08 PM Mark Yacoub <markyacoub@chromium.org> wrote:
 >
 > [Why]
-> If a connector property is attached but
-> drm_atomic_connector_get_property doesn't handle a case for it,
-> modeteset will crash with a segfault without.
+> User space might need to inject data into the kernel without allowing it
+> to be read again by any user space.
+> An example of where this is particularly useful is secret keys fetched
+> by user space and injected into the kernel to enable content protection.
 >
 > [How]
-> Add a debug message indicating that a connector property is not handled
-> when user space is trying to read it.
->
-> TEST=modetest
+> Create a DRM_MODE_CREATE_BLOB_WRITE_ONLY flag used by user space to
+> create a blob and mark the blob as write only.
+> On reading back the blob, data will be not be copied if it's a write
+> only blob
 >
 > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+>
 > ---
->  drivers/gpu/drm/drm_atomic_uapi.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/gpu/drm/drm_property.c | 3 ++-
+>  include/drm/drm_property.h     | 2 ++
+>  include/uapi/drm/drm_mode.h    | 6 ++++++
+>  3 files changed, 10 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index acb1ee93d206..36b0f664dd80 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -884,6 +884,12 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
->                 return connector->funcs->atomic_get_property(connector,
->                                 state, property, val);
->         } else {
-> +               // LOG that the kernel is missing handling this property as a case here.
-> +               drm_dbg_atomic(
-> +                       dev,
-> +                       "[CONNECTOR:%d:%s] Get Property [PROP:%d:%s] is not handled\n",
-> +                       connector->base.id, connector->name, property->base.id,
-> +                       property->name);
->                 return -EINVAL;
+> diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+> index dfec479830e4..afedf7109d00 100644
+> --- a/drivers/gpu/drm/drm_property.c
+> +++ b/drivers/gpu/drm/drm_property.c
+> @@ -765,7 +765,7 @@ int drm_mode_getblob_ioctl(struct drm_device *dev,
+>         if (!blob)
+>                 return -ENOENT;
+>
+> -       if (out_resp->length == blob->length) {
+> +       if (out_resp->length == blob->length && !blob->is_write_only) {
+>                 if (copy_to_user(u64_to_user_ptr(out_resp->data),
+>                                  blob->data,
+>                                  blob->length)) {
+> @@ -800,6 +800,7 @@ int drm_mode_createblob_ioctl(struct drm_device *dev,
+>                 ret = -EFAULT;
+>                 goto out_blob;
 >         }
+> +       blob->is_write_only = out_resp->flags & DRM_MODE_CREATE_BLOB_WRITE_ONLY;
 >
+>         /* Dropping the lock between create_blob and our access here is safe
+>          * as only the same file_priv can remove the blob; at this point, it is
+> diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
+> index 65bc9710a470..700782f021b9 100644
+> --- a/include/drm/drm_property.h
+> +++ b/include/drm/drm_property.h
+> @@ -205,6 +205,7 @@ struct drm_property {
+>   *     &drm_mode_config.property_blob_list.
+>   * @head_file: entry on the per-file blob list in &drm_file.blobs list.
+>   * @length: size of the blob in bytes, invariant over the lifetime of the object
+> + * @is_write_only: user space can't read the blob data.
+>   * @data: actual data, embedded at the end of this structure
+>   *
+>   * Blobs are used to store bigger values than what fits directly into the 64
+> @@ -219,6 +220,7 @@ struct drm_property_blob {
+>         struct list_head head_global;
+>         struct list_head head_file;
+>         size_t length;
+> +       bool is_write_only;
+>         void *data;
+>  };
+>
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 0a0d56a6158e..de192d3813e9 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1107,6 +1107,9 @@ struct drm_format_modifier {
+>         __u64 modifier;
+>  };
+>
+> +#define DRM_MODE_CREATE_BLOB_WRITE_ONLY                                        \
+> +       (1 << 0) /* data of the blob can't be read by user space */
+> +
+>  /**
+>   * struct drm_mode_create_blob - Create New blob property
+>   *
+> @@ -1120,6 +1123,9 @@ struct drm_mode_create_blob {
+>         __u32 length;
+>         /** @blob_id: Return: new property ID. */
+>         __u32 blob_id;
+> +       /** Flags for special handling. */
+> +       __u32 flags;
+> +       __u32 pad;
+>  };
+>
+>  /**
 > --
 > 2.36.0.512.ge40c2bad7a-goog
 >
