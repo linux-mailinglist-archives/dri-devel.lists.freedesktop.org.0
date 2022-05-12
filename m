@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAB75251C3
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 18:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B64F5251C6
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 18:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67DCB1126C5;
-	Thu, 12 May 2022 16:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 062C51126E0;
+	Thu, 12 May 2022 16:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE39B1126C2;
- Thu, 12 May 2022 16:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652371335; x=1683907335;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Uk8KetLMQmVcByn8GqAjnN4FXpr5Io3d+JPHKDf5tDw=;
- b=DIize8frSOHIMASjYifXe6dCOjJ0air8bSgYWGxA0cS8ckyMkCbBMwVx
- ZoIlXMXWrTBgEEvczcV1o/l0JB9pefMlPdiw703WbCyBG/MEE3E/HCXPn
- B6YsKz0AIgX5xX/o8h9zrG5bUMtxrWTOAw0A0TJ4FIijc/k8FUSr3iXUI U=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 12 May 2022 09:02:15 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2022 09:02:15 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 12 May 2022 09:02:14 -0700
-Received: from [10.110.33.222] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 12 May
- 2022 09:02:13 -0700
-Message-ID: <0c1bf723-1fb5-6718-4c44-7a0e7af5b2b7@quicinc.com>
-Date: Thu, 12 May 2022 09:02:12 -0700
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 276EB1126DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:02:38 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ l11-20020a17090a49cb00b001d923a9ca99so5310241pjm.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 09:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XpBKFT+FxEIAZBvGnrKeb1xPfavPAp8Tm0r9tTrTZi8=;
+ b=jKRQMtb5MGJ6974fIypCyE1kYgTTzi9fFl4ZveIillmJ0HWZOP1tjAsjIrqKf4SeZC
+ 2wgAtokXKNfKTzTXZ+/uWgI2iMUZ4VB/lzSIU16/ortHMGia/331CYKztZDa09oGivfT
+ CLYnQcu2hoh0aX5J6t4aKB/nwaa08/DYCztdvPLfoPyqR4Lvm0qWhvz17ZMAvulYKz/w
+ mEl4CBMMiwHw6IlibboxXSG+72Nxrp7zuQYg6ZP3IzYc1i0WkQWoGd8iT2R7xIPkV8lD
+ hEKAAUx1T64GQnXXVN/GwBScEvdlNdGu7/Xr9vZydNOaGVXHtTQROnjxxM0SVMMUERDY
+ rhiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XpBKFT+FxEIAZBvGnrKeb1xPfavPAp8Tm0r9tTrTZi8=;
+ b=NLcRNPSMAtR6Cul7BbtFRyb1KBgxb3oJFMNdJe+9hrc2xaYL4AqgnnbseYXI2NnbMh
+ VHe64fWFYGi18RFUGPX/DxojtQDsZx1lyIhYm2n4g7hiJpA9MwlujizVBOWaLvlajBpY
+ btoblPt9dpNPUcQ9oG5h1n3hzvCFKCWcDxAao+Diaw8HLvomPhYMsAOvKYxolng10I/O
+ WJWS9rLsYHuwEKXzL5wLLhs298PgBOVXYNMi/317xovUiqKV8PZYGGTRbuKEzzgR4E12
+ ky5x62pClwF8+/Sds5y67N2c4+Y5WYmw7Ni2Nijjx6vHj7byJZxaldvMLtVNK+6s+epg
+ Qwdw==
+X-Gm-Message-State: AOAM530Zpp69mR5I9rwQz0nB6EaSGwi12pe2fOzv5BcPb/tF7JWT5E9c
+ DTFnYMsCE1jmm2g3tDG7bDFfRS8fzGnAfubpObX1AO7qiY0=
+X-Google-Smtp-Source: ABdhPJzI4Mxio+8VfZRvkdnJjO2LsmWHt9s5ow1CXnKGVmAuRp5fHv7SvJNfr5x+YAYpHzEuzlnbAPBX2fY95yPYl6s=
+X-Received: by 2002:a17:903:228f:b0:15e:be12:a181 with SMTP id
+ b15-20020a170903228f00b0015ebe12a181mr254115plh.21.1652371357674; Thu, 12 May
+ 2022 09:02:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5] drm/msm/dp: Always clear mask bits to disable
- interrupts at dp_ctrl_reset_irq_ctrl()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Stephen Boyd
- <swboyd@chromium.org>
-References: <1652313768-16286-1-git-send-email-quic_khsieh@quicinc.com>
- <e5c16697-5919-bafa-4ec5-294c94d7a740@linaro.org>
- <CAE-0n53zHrczQAOWM5f_tafUVJxg7JU2NuC4sGcBZddwKr-dGA@mail.gmail.com>
- <CAA8EJppc9d+FjVzAX_KU2-akTc1vSmSHMeKr8dp2ynH2LLOyBQ@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAA8EJppc9d+FjVzAX_KU2-akTc1vSmSHMeKr8dp2ynH2LLOyBQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220429205644.245480-1-marex@denx.de>
+In-Reply-To: <20220429205644.245480-1-marex@denx.de>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 12 May 2022 18:02:26 +0200
+Message-ID: <CAG3jFyvC_vbXz=43Sdc9THdOMx0BuC9e-siEwKhs1TsjkNxvvg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: tc358767: Factor out DSI and DPI RX
+ enablement
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,67 +64,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
- airlied@linux.ie, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 29 Apr 2022 at 22:56, Marek Vasut <marex@denx.de> wrote:
+>
+> Factor out register programming to configure the chip video RX side for
+> reception of video data from DSI or DPI. This is particularly useful in
+> the (e)DP output mode, where the video data can be received from either
+> DPI or DSI. While only the former is supported in (e)DP output mode so
+> far, this patch is added in preparation for addition of the later.
+>
+> There is a change in the order or register programming in case of the
+> DSI-to-DPI mode. The DSI RX side is now programmed and enabled all in
+> one place after the output mode has been configured. Before this change,
+> the DSI RX has been programmed before the output mode has been set and
+> only enabled afterward. The order makes no difference however, since the
+> DSI RX is only enabled at the end either way.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 94 +++++++++++++++++--------------
+>  1 file changed, 53 insertions(+), 41 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index 485717c8f0b4..e72dd5cd9700 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -1247,11 +1247,60 @@ static int tc_main_link_disable(struct tc_data *tc)
+>         return regmap_write(tc->regmap, DP0CTL, 0);
+>  }
+>
+> -static int tc_dpi_stream_enable(struct tc_data *tc)
+> +static int tc_dsi_rx_enable(struct tc_data *tc)
+>  {
+> +       u32 value;
+>         int ret;
+> +
+> +       regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
+> +       regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
+> +       regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
+> +       regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
+> +       regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+> +       regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+> +       regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+> +       regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
+> +
+> +       value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
+> +               LANEENABLE_CLEN;
+> +       regmap_write(tc->regmap, PPI_LANEENABLE, value);
+> +       regmap_write(tc->regmap, DSI_LANEENABLE, value);
+> +
+> +       /* Set input interface */
+> +       value = DP0_AUDSRC_NO_INPUT;
+> +       if (tc_test_pattern)
+> +               value |= DP0_VIDSRC_COLOR_BAR;
+> +       else
+> +               value |= DP0_VIDSRC_DSI_RX;
+> +       ret = regmap_write(tc->regmap, SYSCTRL, value);
+> +       if (ret)
+> +               return ret;
+> +
+> +       usleep_range(120, 150);
+> +
+> +       regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
+> +       regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
+> +
+> +       return 0;
+> +}
+> +
+> +static int tc_dpi_rx_enable(struct tc_data *tc)
+> +{
+>         u32 value;
+>
+> +       /* Set input interface */
+> +       value = DP0_AUDSRC_NO_INPUT;
+> +       if (tc_test_pattern)
+> +               value |= DP0_VIDSRC_COLOR_BAR;
+> +       else
+> +               value |= DP0_VIDSRC_DPI_RX;
+> +       return regmap_write(tc->regmap, SYSCTRL, value);
+> +}
+> +
+> +static int tc_dpi_stream_enable(struct tc_data *tc)
+> +{
+> +       int ret;
+> +
+>         dev_dbg(tc->dev, "enable video stream\n");
+>
+>         /* Setup PLL */
+> @@ -1277,20 +1326,6 @@ static int tc_dpi_stream_enable(struct tc_data *tc)
+>         if (ret)
+>                 return ret;
+>
+> -       regmap_write(tc->regmap, PPI_D0S_CLRSIPOCOUNT, 3);
+> -       regmap_write(tc->regmap, PPI_D1S_CLRSIPOCOUNT, 3);
+> -       regmap_write(tc->regmap, PPI_D2S_CLRSIPOCOUNT, 3);
+> -       regmap_write(tc->regmap, PPI_D3S_CLRSIPOCOUNT, 3);
+> -       regmap_write(tc->regmap, PPI_D0S_ATMR, 0);
+> -       regmap_write(tc->regmap, PPI_D1S_ATMR, 0);
+> -       regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+> -       regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
+> -
+> -       value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
+> -               LANEENABLE_CLEN;
+> -       regmap_write(tc->regmap, PPI_LANEENABLE, value);
+> -       regmap_write(tc->regmap, DSI_LANEENABLE, value);
+> -
+>         ret = tc_set_common_video_mode(tc, &tc->mode);
+>         if (ret)
+>                 return ret;
+> @@ -1299,22 +1334,7 @@ static int tc_dpi_stream_enable(struct tc_data *tc)
+>         if (ret)
+>                 return ret;
+>
+> -       /* Set input interface */
+> -       value = DP0_AUDSRC_NO_INPUT;
+> -       if (tc_test_pattern)
+> -               value |= DP0_VIDSRC_COLOR_BAR;
+> -       else
+> -               value |= DP0_VIDSRC_DSI_RX;
+> -       ret = regmap_write(tc->regmap, SYSCTRL, value);
+> -       if (ret)
+> -               return ret;
+> -
+> -       usleep_range(120, 150);
+> -
+> -       regmap_write(tc->regmap, PPI_STARTPPI, PPI_START_FUNCTION);
+> -       regmap_write(tc->regmap, DSI_STARTDSI, DSI_RX_START);
+> -
+> -       return 0;
+> +       return tc_dsi_rx_enable(tc);
+>  }
+>
+>  static int tc_dpi_stream_disable(struct tc_data *tc)
+> @@ -1370,19 +1390,11 @@ static int tc_edp_stream_enable(struct tc_data *tc)
+>         usleep_range(500, 1000);
+>         value |= VID_EN;
+>         ret = regmap_write(tc->regmap, DP0CTL, value);
+> -       if (ret)
+> -               return ret;
+> -       /* Set input interface */
+> -       value = DP0_AUDSRC_NO_INPUT;
+> -       if (tc_test_pattern)
+> -               value |= DP0_VIDSRC_COLOR_BAR;
+> -       else
+> -               value |= DP0_VIDSRC_DPI_RX;
+> -       ret = regmap_write(tc->regmap, SYSCTRL, value);
+>         if (ret)
+>                 return ret;
+>
+> -       return 0;
+> +       /* Set input interface */
+> +       return tc_dpi_rx_enable(tc);
+>  }
+>
+>  static int tc_edp_stream_disable(struct tc_data *tc)
+> --
+> 2.35.1
+>
 
-On 5/11/2022 6:03 PM, Dmitry Baryshkov wrote:
-> On Thu, 12 May 2022 at 04:01, Stephen Boyd <swboyd@chromium.org> wrote:
->> Quoting Dmitry Baryshkov (2022-05-11 17:41:50)
->>> On 12/05/2022 03:02, Kuogee Hsieh wrote:
->>>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>>> index af7a80c..f3e333e 100644
->>>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>>> @@ -1389,8 +1389,13 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
->>>>
->>>>        dp_catalog_ctrl_reset(ctrl->catalog);
->>>>
->>>> -     if (enable)
->>>> -             dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
->>>> +     /*
->>>> +      * all dp controller programmable registers will not
->>>> +      * be reset to default value after DP_SW_RESET
->>>> +      * therefore interrupt mask bits have to be updated
->>>> +      * to enable/disable interrupts
->>>> +      */
->>>> +     dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
->>>>    }
->>>>
->>>>    void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
->>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->>>> index c388323..79439b8 100644
->>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>>> @@ -98,6 +98,8 @@ struct dp_display_private {
->>>>        struct dp_ctrl    *ctrl;
->>>>        struct dp_debug   *debug;
->>>>
->>>> +     atomic_t suspended;
->>> I think it'd be better to protect it with event_lock rather than using
->>> atomics.
->> Agreed. I think the concern is that the event queue will have "stuff" in
->> it. If the event queue was all a threaded irq we could simply call
->> synchronize_irq() after disabling the irq bit in the DP hardware and
->> then we would know it is safe to power down the DP logic. Unfortunately
->> the event queue is a kthread so we can't do that and we have to rewrite
->> synchronize_irq() by checking that the event queue is empty and waiting
->> for it to empty out otherwise. It's not safe enough to simply do the
->> power operations underneath the event_lock because there's a queue in
->> the kthread that might be waiting to grab the event_lock to process.
-> This sounds like a good reason to rewrite event_thread to use
-> threaded_irq and/or workqueue.
-
-ok, i will do
-
-1) protect suspended flag with event_lock to prevent new event be added
-
-2) disable interrupts
-
-2) wait for event_q empty before turn off power
-
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
