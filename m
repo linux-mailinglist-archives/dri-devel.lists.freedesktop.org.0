@@ -2,42 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED987524B5A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21170524B60
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 13:19:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCDA10E560;
-	Thu, 12 May 2022 11:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2227110E8AF;
+	Thu, 12 May 2022 11:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39B3F10E560
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:19:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21C3910E8AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 11:19:17 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 88F5361E81;
- Thu, 12 May 2022 11:19:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FEACC385CB;
- Thu, 12 May 2022 11:19:07 +0000 (UTC)
-Message-ID: <b7e72733-6fd4-ffb4-94eb-ac017a95774c@xs4all.nl>
-Date: Thu, 12 May 2022 13:19:05 +0200
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C615C1F460;
+ Thu, 12 May 2022 11:19:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652354355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9A1XnqwwQ/2zC2F1O61TtuTWzz8+/9wO1ASeV2D3KSM=;
+ b=yz7WcAs8bejXYLJLhR2sKGY6WeYetX1BwCWXKXIHA7JN/6yuB1Vs7fwU8RLVcX9/XGfVXQ
+ KuutqI74X8lawUEzsGNg1o8ZMi9TQGjrIO+edskfBRWG1U1nGScAkvgmZnXkraPILYW9TL
+ gorsS8CNXsYymm/I3ImcFrmdb0r0bhY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652354355;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9A1XnqwwQ/2zC2F1O61TtuTWzz8+/9wO1ASeV2D3KSM=;
+ b=lYFFkRvnel/4eDhdV9hqoqppttqZ52TD0U0ddWP9ZZjmOaTq6nMlDaZIr5TE1JugHvI8FT
+ ofFvvgM456ZLWKBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9982513B35;
+ Thu, 12 May 2022 11:19:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id RKB2JDPtfGIJbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 May 2022 11:19:15 +0000
+Message-ID: <0460fa51-6cd6-9b14-6815-49872bed223c@suse.de>
+Date: Thu, 12 May 2022 13:19:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 3/4] soc: visconti: Add Toshiba Visconti AFFINE image
- processing accelerator
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 7/7] drm/mgag200: Split up connector's mode_valid helper
 Content-Language: en-US
-To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Rob Herring <robh+dt@kernel.org>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220427132345.27327-1-yuji2.ishikawa@toshiba.co.jp>
- <20220427132345.27327-4-yuji2.ishikawa@toshiba.co.jp>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220427132345.27327-4-yuji2.ishikawa@toshiba.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+References: <20220509103554.11996-1-tzimmermann@suse.de>
+ <20220509103554.11996-8-tzimmermann@suse.de>
+ <b4c13e79-207d-1e19-4743-29fb8ee93e08@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <b4c13e79-207d-1e19-4743-29fb8ee93e08@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------lRGEZPcqebVRFV9pU3RXqRh8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,985 +73,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/27/22 15:23, Yuji Ishikawa wrote:
-> Adds support to AFFINE image processing accelerator on Toshiba Visconti ARM SoCs.
-> This accelerator supoorts affine transform, lens undistortion and LUT transform.
-> 
-> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> ---
-> v1 -> v2:
->   - apply checkpatch.pl --strict
->   - renamed identifiers; hwd_AFFINE_xxxx to hwd_affine_xxxx
-> ---
->  drivers/soc/visconti/Kconfig                 |   6 +
->  drivers/soc/visconti/Makefile                |   2 +
->  drivers/soc/visconti/affine/Makefile         |   6 +
->  drivers/soc/visconti/affine/affine.c         | 451 +++++++++++++++++++
->  drivers/soc/visconti/affine/hwd_affine.c     | 206 +++++++++
->  drivers/soc/visconti/affine/hwd_affine.h     |  83 ++++
->  drivers/soc/visconti/affine/hwd_affine_reg.h |  45 ++
->  drivers/soc/visconti/uapi/affine.h           |  87 ++++
->  8 files changed, 886 insertions(+)
->  create mode 100644 drivers/soc/visconti/affine/Makefile
->  create mode 100644 drivers/soc/visconti/affine/affine.c
->  create mode 100644 drivers/soc/visconti/affine/hwd_affine.c
->  create mode 100644 drivers/soc/visconti/affine/hwd_affine.h
->  create mode 100644 drivers/soc/visconti/affine/hwd_affine_reg.h
->  create mode 100644 drivers/soc/visconti/uapi/affine.h
-> 
-> diff --git a/drivers/soc/visconti/Kconfig b/drivers/soc/visconti/Kconfig
-> index 8b1378917..01583d407 100644
-> --- a/drivers/soc/visconti/Kconfig
-> +++ b/drivers/soc/visconti/Kconfig
-> @@ -1 +1,7 @@
-> +if ARCH_VISCONTI
-> +
-> +config VISCONTI_AFFINE
-> +    bool "Visconti Affine driver"
-> +
-> +endif
->  
-> diff --git a/drivers/soc/visconti/Makefile b/drivers/soc/visconti/Makefile
-> index 8d710da08..b25a726c3 100644
-> --- a/drivers/soc/visconti/Makefile
-> +++ b/drivers/soc/visconti/Makefile
-> @@ -4,3 +4,5 @@
->  #
->  
->  obj-y += ipa_common.o
-> +
-> +obj-$(CONFIG_VISCONTI_AFFINE) += affine/
-> diff --git a/drivers/soc/visconti/affine/Makefile b/drivers/soc/visconti/affine/Makefile
-> new file mode 100644
-> index 000000000..82f83b2d6
-> --- /dev/null
-> +++ b/drivers/soc/visconti/affine/Makefile
-> @@ -0,0 +1,6 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for the Visconti AFFINE driver
-> +#
-> +
-> +obj-y += affine.o hwd_affine.o
-> diff --git a/drivers/soc/visconti/affine/affine.c b/drivers/soc/visconti/affine/affine.c
-> new file mode 100644
-> index 000000000..eea045dcf
-> --- /dev/null
-> +++ b/drivers/soc/visconti/affine/affine.c
-> @@ -0,0 +1,451 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-> +/* Toshiba Visconti Affine Accelerator Support
-> + *
-> + * (C) Copyright 2022 TOSHIBA CORPORATION
-> + * (C) Copyright 2022 Toshiba Electronic Devices & Storage Corporation
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/init.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/iommu.h>
-> +#include <linux/kernel.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/poll.h>
-> +#include <linux/wait.h>
-> +
-> +#include "hwd_affine.h"
-> +#include "../ipa_common.h"
-> +#include "../uapi/affine.h"
-> +
-> +struct affine_priv {
-> +	struct device *dev;
-> +	struct miscdevice miscdev;
-> +	struct mutex lock;
-> +	void __iomem *regs;
-> +	int irq;
-> +	wait_queue_head_t waitq;
-> +	enum drv_ipa_state status;
-> +	unsigned int hwd_event;
-> +	unsigned int poll_event;
-> +	int id;
-> +	char name[16];
-> +	bool dma_coherent;
-> +	struct hwd_affine_status hwd_status;
-> +
-> +	struct dma_buf_attachment *dba[DRV_AFFINE_BUFFER_INDEX_MAX];
-> +	struct sg_table *sgt[DRV_AFFINE_BUFFER_INDEX_MAX];
-> +	enum dma_data_direction dma_dir[DRV_AFFINE_BUFFER_INDEX_MAX];
-> +	unsigned int dma_count;
-> +
-> +	dma_addr_t buffer_iova[DRV_AFFINE_BUFFER_INDEX_MAX];
-> +};
-> +
-> +static u32 affine_ipa_addr_to_iova(struct affine_priv *priv, struct drv_ipa_addr addr)
-> +{
-> +	u32 iova = 0;
-> +
-> +	if (addr.buffer_index < priv->dma_count &&
-> +	    addr.offset < priv->dba[addr.buffer_index]->dmabuf->size)
-> +		iova = priv->buffer_iova[addr.buffer_index] + addr.offset;
-> +	return iova;
-> +}
-> +
-> +static int affine_attach_dma_buf(struct affine_priv *priv, unsigned int buffer_index,
-> +				 struct drv_ipa_buffer_info *buffer_info)
-> +{
-> +	int ret = 0;
-> +	dma_addr_t addr;
-> +
-> +	if (buffer_index >= DRV_AFFINE_BUFFER_INDEX_MAX) {
-> +		dev_err(priv->dev, "Buffer index invalid: index=%d\n", buffer_index);
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (buffer_info[buffer_index].direction) {
-> +	case DRV_IPA_DIR_NONE:
-> +		priv->dma_dir[priv->dma_count] = DMA_NONE;
-> +		break;
-> +	case DRV_IPA_DIR_TO_DEVICE:
-> +		priv->dma_dir[priv->dma_count] = DMA_TO_DEVICE;
-> +		break;
-> +	case DRV_IPA_DIR_FROM_DEVICE:
-> +		priv->dma_dir[priv->dma_count] = DMA_FROM_DEVICE;
-> +		break;
-> +	case DRV_IPA_DIR_BIDIRECTION:
-> +		priv->dma_dir[priv->dma_count] = DMA_BIDIRECTIONAL;
-> +		break;
-> +	default:
-> +		dev_err(priv->dev, "DMA direction invalid: index=%d dir=%d\n", buffer_index,
-> +			buffer_info[buffer_index].direction);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (!buffer_info[buffer_index].coherent) {
-> +		priv->dev->dma_coherent = false;
-> +		if (priv->dma_coherent)
-> +			priv->dma_dir[priv->dma_count] = DMA_NONE;
-> +	}
-> +
-> +	ret = ipa_attach_dmabuf(priv->dev, buffer_info[buffer_index].fd,
-> +				&priv->dba[priv->dma_count], &priv->sgt[priv->dma_count], &addr,
-> +				priv->dma_dir[priv->dma_count]);
-> +	if (ret == 0) {
-> +		priv->dma_count++;
-> +		priv->buffer_iova[buffer_index] = addr;
-> +	}
-> +
-> +	priv->dev->dma_coherent = priv->dma_coherent;
-> +
-> +	return ret;
-> +}
-> +
-> +static void affine_detach_dma_buf(struct affine_priv *priv)
-> +{
-> +	struct dma_buf *dmabuf;
-> +	int i;
-> +
-> +	for (i = 0; i < priv->dma_count; i++) {
-> +		dmabuf = priv->dba[i]->dmabuf;
-> +		dma_buf_unmap_attachment(priv->dba[i], priv->sgt[i], priv->dma_dir[i]);
-> +		dma_buf_detach(dmabuf, priv->dba[i]);
-> +		dma_buf_put(dmabuf);
-> +	}
-> +}
-> +
-> +static irqreturn_t affine_irq(int irq, void *dev_id)
-> +{
-> +	struct affine_priv *priv = dev_id;
-> +
-> +	priv->hwd_event = hwd_affine_irq_handler(priv->id);
-> +
-> +	disable_irq_nosync(priv->irq);
-> +
-> +	return IRQ_WAKE_THREAD;
-> +}
-> +
-> +static irqreturn_t affine_irq_thread(int irq, void *dev_id)
-> +{
-> +	struct affine_priv *priv = dev_id;
-> +	unsigned long delay = 1;
-> +
-> +	mutex_lock(&priv->lock);
-> +	affine_detach_dma_buf(priv);
-> +
-> +	hwd_affine_get_status(priv->id, &priv->hwd_status);
-> +
-> +	priv->status = DRV_IPA_STATE_IDLE;
-> +
-> +	/* status should be updated before poll_event so that
-> +	 * when poll() returns, user context must observe state as idle
-> +	 */
-> +	smp_wmb();
-> +
-> +	if (priv->hwd_event == HWD_AFFINE_EVENT_DONE)
-> +		priv->poll_event = IPA_POLL_EVENT_DONE;
-> +	else
-> +		priv->poll_event = IPA_POLL_EVENT_ERROR;
-> +
-> +	/* General barrier to avoid re-ordering of priv->poll_event=N and
-> +	 * waitqueue_active()
-> +	 */
-> +	smp_mb();
-> +
-> +	/* Threads going to sleep in poll() can miss wakeup, when wakeup is done
-> +	 * between event check in ipa_poll() and sleeping. Wakeup repeatedly.
-> +	 */
-> +	while (waitqueue_active(&priv->waitq)) {
-> +		wake_up_interruptible(&priv->waitq);
-> +
-> +		WARN_ON(delay > IPA_WAKEUP_RETRY_DELAY);
-> +		usleep_range(delay, delay + 1);
-> +		delay += delay;
-> +	}
-> +
-> +	mutex_unlock(&priv->lock);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void affine_start(struct affine_priv *priv, struct hwd_affine_descriptor *desc)
-> +{
-> +	hwd_affine_start(priv->id, desc);
-> +}
-> +
-> +static int affine_ioctl_start(struct affine_priv *priv, unsigned long arg)
-> +{
-> +	struct hwd_affine_descriptor hwd_desc;
-> +	struct drv_affine_descriptor desc;
-> +	int ret = 0;
-> +	int i;
-> +
-> +	ret = mutex_lock_interruptible(&priv->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (priv->status == DRV_IPA_STATE_BUSY) {
-> +		dev_dbg(priv->dev, "busy: %d\n", priv->status);
-> +		ret = -EBUSY;
-> +		goto err1;
-> +	}
-> +
-> +	if (copy_from_user(&desc, (void __user *)arg, sizeof(struct drv_affine_descriptor))) {
-> +		dev_err(priv->dev, "Descriptor memory access error\n");
-> +		ret = -EFAULT;
-> +		goto err1;
-> +	}
-> +
-> +	if (DRV_AFFINE_BIT_CONFIG_DESC_FINAL !=
-> +	    (desc.config_done & DRV_AFFINE_BIT_CONFIG_DESC_FINAL)) {
-> +		dev_err(priv->dev, "Descriptor configuration not complete\n");
-> +		ret = -EINVAL;
-> +		goto err1;
-> +	}
-> +
-> +	priv->dma_count = 0;
-> +
-> +	/* setup buffer */
-> +	for (i = 0; i < desc.buffer_info_num; i++) {
-> +		ret = affine_attach_dma_buf(priv, i, desc.buffer_info);
-> +		if (ret) {
-> +			dev_err(priv->dev, "dma buf attach error: index=%d\n", i);
-> +			goto err2;
-> +		}
-> +		dev_dbg(priv->dev, "@buffer[%d]@: fd=%d %s iova=%llx\n", i, desc.buffer_info[i].fd,
-> +			desc.buffer_info[i].coherent ? "coherent" : "non-coherent",
-> +			(uint64_t)priv->buffer_iova[i]);
-> +	}
-> +
-> +	memcpy(&hwd_desc, &desc, sizeof(struct hwd_affine_descriptor));
-> +
-> +	hwd_desc.src_addr = affine_ipa_addr_to_iova(priv, desc.src_addr);
-> +	if (hwd_desc.src_addr == 0) {
-> +		dev_err(priv->dev, "IPA address to iova conversion error: src_addr %s: %d\n",
-> +			__func__, __LINE__);
-> +		ret = -EINVAL;
-> +		goto err2;
-> +	}
-> +
-> +	hwd_desc.dst_addr = affine_ipa_addr_to_iova(priv, desc.dst_addr);
-> +	if (hwd_desc.dst_addr == 0) {
-> +		dev_err(priv->dev, "IPA address to iova conversion error: dst_addr %s: %d\n",
-> +			__func__, __LINE__);
-> +		ret = -EINVAL;
-> +		goto err2;
-> +	}
-> +
-> +	hwd_desc.tbl_addr = 0;
-> +	if (desc.tbl_ptch != 0) {
-> +		hwd_desc.tbl_addr = affine_ipa_addr_to_iova(priv, desc.tbl_addr);
-> +		if (hwd_desc.tbl_addr == 0) {
-> +			dev_err(priv->dev,
-> +				"IPA address to iova conversion error: tbl_addr %s: %d\n", __func__,
-> +				__LINE__);
-> +			ret = -EINVAL;
-> +			goto err2;
-> +		}
-> +	}
-> +
-> +	dev_dbg(priv->dev, "src: 0x%x\n", hwd_desc.src_addr);
-> +	dev_dbg(priv->dev, "dst: 0x%x\n", hwd_desc.dst_addr);
-> +	dev_dbg(priv->dev, "tbl: 0x%x\n", hwd_desc.tbl_addr);
-> +
-> +	affine_start(priv, &hwd_desc);
-> +
-> +	priv->poll_event = IPA_POLL_EVENT_NONE;
-> +	priv->hwd_event = 0;
-> +	priv->status = DRV_IPA_STATE_BUSY;
-> +	/* Barrier to prevent affine_irq() from setting priv->hwd_event
-> +	 * before it is reset above
-> +	 */
-> +	smp_wmb();
-> +	enable_irq(priv->irq);
-> +
-> +	mutex_unlock(&priv->lock);
-> +
-> +	return ret;
-> +
-> +err2:
-> +	affine_detach_dma_buf(priv);
-> +err1:
-> +	mutex_unlock(&priv->lock);
-> +	return ret;
-> +}
-> +
-> +static int affine_ioctl_get_status(struct affine_priv *priv, unsigned long arg)
-> +{
-> +	struct drv_affine_status status;
-> +	struct hwd_affine_status hwd_status;
-> +	int ret = 0;
-> +
-> +	ret = mutex_lock_interruptible(&priv->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (priv->status == DRV_IPA_STATE_BUSY)
-> +		hwd_affine_get_status(priv->id, &hwd_status);
-> +	else
-> +		hwd_status = priv->hwd_status;
-> +
-> +	status.state = priv->status;
-> +	mutex_unlock(&priv->lock);
-> +
-> +	status.comp_lack_data = hwd_status.comp_lack_data;
-> +	status.comp_over_coordinate = hwd_status.comp_over_coordinate;
-> +	status.comp_over_data = hwd_status.comp_over_data;
-> +	status.comp_size = hwd_status.comp_size;
-> +	status.comp_syntax_error = hwd_status.comp_syntax_error;
-> +	if (copy_to_user((void __user *)arg, &status, sizeof(struct drv_affine_status))) {
-> +		dev_err(priv->dev, "status memory access error\n");
-> +		ret = -EFAULT;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static long affine_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
-> +{
-> +	struct affine_priv *priv = container_of(fp->private_data, struct affine_priv, miscdev);
-> +	int ret = 0;
-> +
-> +	switch (cmd) {
-> +	case IOC_IPA_START:
-> +		ret = affine_ioctl_start(priv, arg);
-> +		break;
-> +	case IOC_IPA_GET_STATUS:
-> +		ret = affine_ioctl_get_status(priv, arg);
-> +		break;
-> +	default:
-> +		ret = -ENOIOCTLCMD;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static __poll_t affine_poll(struct file *fp, poll_table *wait)
-> +{
-> +	struct affine_priv *priv = container_of(fp->private_data, struct affine_priv, miscdev);
-> +	__poll_t mask = 0;
-> +	unsigned int poll_event;
-> +
-> +	poll_wait(fp, &priv->waitq, wait);
-> +
-> +	/* Barrier to avoid re-ordering of poll_wait() and event load
-> +	 * Read barrier here and release barrier in poll_wait() together will
-> +	 * prevent re-ordering
-> +	 */
-> +	smp_rmb();
-> +	poll_event = priv->poll_event;
-> +	if (poll_event != IPA_POLL_EVENT_NONE) {
-> +		if (poll_event == IPA_POLL_EVENT_DONE)
-> +			mask = EPOLLIN | EPOLLRDNORM;
-> +		else
-> +			mask = EPOLLERR;
-> +	}
-> +	return mask;
-> +}
-> +
-> +static const struct file_operations affine_fops = {
-> +	.owner = THIS_MODULE,
-> +	.unlocked_ioctl = affine_ioctl,
-> +	.poll = affine_poll,
-> +};
-> +
-> +static int affine_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct affine_priv *priv;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&priv->lock);
-> +
-> +	/* update DMA mask */
-> +	priv->dma_coherent = dev->dma_coherent;
-> +	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(36));
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv->regs = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->regs))
-> +		return PTR_ERR(priv->regs);
-> +
-> +	priv->irq = platform_get_irq(pdev, 0);
-> +	if (priv->irq < 0) {
-> +		dev_err(dev, "failed to acquire irq resource\n");
-> +		return -ENOENT;
-> +	}
-> +	ret = devm_request_threaded_irq(dev, priv->irq, affine_irq, affine_irq_thread, 0, "affine",
-> +					priv);
-> +	if (ret) {
-> +		dev_err(dev, "irq request failed\n");
-> +		return ret;
-> +	}
-> +	disable_irq(priv->irq);
-> +
-> +	ret = of_property_read_u32(dev->of_node, "index", &priv->id);
-> +	if (ret) {
-> +		dev_err(dev, "failed to acquire irq resource\n");
-> +		return ret;
-> +	}
-> +
-> +	hwd_affine_initialize(priv->id, priv->regs);
-> +
-> +	snprintf(priv->name, sizeof(priv->name), "affine%d", priv->id);
-> +	priv->miscdev.minor = MISC_DYNAMIC_MINOR;
-> +	priv->miscdev.name = priv->name;
-> +	priv->miscdev.fops = &affine_fops;
-> +	ret = misc_register(&priv->miscdev);
-> +	if (ret) {
-> +		dev_err(dev, "misc registration failed\n");
-> +		hwd_affine_uninitialize(priv->id);
-> +		return ret;
-> +	}
-> +
-> +	priv->dev = dev;
-> +	platform_set_drvdata(pdev, priv);
-> +
-> +	init_waitqueue_head(&priv->waitq);
-> +
-> +	priv->status = DRV_IPA_STATE_IDLE;
-> +	return 0;
-> +}
-> +
-> +static int affine_remove(struct platform_device *pdev)
-> +{
-> +	struct affine_priv *priv = platform_get_drvdata(pdev);
-> +
-> +	misc_deregister(&priv->miscdev);
-> +	hwd_affine_uninitialize(priv->id);
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id affine_of_match[] = {
-> +	{
-> +		.compatible = "toshiba,visconti-affine",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(platform, affine_of_match);
-> +
-> +static struct platform_driver affine_driver = {
-> +	.probe = affine_probe,
-> +	.remove = affine_remove,
-> +	.driver = {
-> +		.name = "visconti_affine",
-> +		.of_match_table = of_match_ptr(affine_of_match),
-> +	},
-> +};
-> +module_platform_driver(affine_driver);
-> +
-> +MODULE_AUTHOR("Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>");
-> +MODULE_DESCRIPTION("Toshiba Visconti affine driver");
-> +MODULE_LICENSE("Dual BSD/GPL");
-> diff --git a/drivers/soc/visconti/affine/hwd_affine.c b/drivers/soc/visconti/affine/hwd_affine.c
-> new file mode 100644
-> index 000000000..6720a0212
-> --- /dev/null
-> +++ b/drivers/soc/visconti/affine/hwd_affine.c
-> @@ -0,0 +1,206 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-> +/* Toshiba Visconti Affine Accelerator Support
-> + *
-> + * (C) Copyright 2022 TOSHIBA CORPORATION
-> + * (C) Copyright 2022 Toshiba Electronic Devices & Storage Corporation
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/io.h>
-> +
-> +#include "hwd_affine.h"
-> +#include "hwd_affine_reg.h"
-> +
-> +#define HWD_AFFINE_CLEAR_BITS	  GENMASK(15, 0)
-> +#define HWD_AFFINE_INTMASK_NORMAL (0x04100)
-> +
-> +#define HWD_AFFINE_INT_END	  BIT(0)
-> +#define HWD_AFFINE_INT_TCOMP_ERR0 BIT(16)
-> +#define HWD_AFFINE_INT_TCOMP_ERR1 BIT(17)
-> +#define HWD_AFFINE_INT_TCOMP_ERR2 BIT(18)
-> +#define HWD_AFFINE_INT_TCOMP_ERR3 BIT(19)
-> +#define HWD_AFFINE_INT_TCOMP_SIZE BIT(20)
-> +
-> +#define HWD_AFFINE_HWD_MASK_ADDR GENMASK(31, 0)
-> +
-> +#define HWD_AFFINE_START_CMD BIT(0)
-> +
-> +/**
-> + * struct hwd_affine_resources - HWD driver internal resource structure
-> + */
-> +struct hwd_affine_resources {
-> +	struct hwd_affine_reg *reg;
-> +	struct hwd_affine_status status;
-> +};
-> +
-> +/* HWD driver internal resource */
-> +static struct hwd_affine_resources hwd_affine_resources[HWD_AFFINE_DEVICE_MAX] = {};
-> +
-> +/**
-> + * hwd_affine_initialize() - Initialize AFFINE device
-> + *
-> + * @module_id: @ref hwd_affine_device "id" of the h/w module
-> + * @vaddr: register base virtual address
-> + */
-> +void hwd_affine_initialize(u32 module_id, void *vaddr)
-> +{
-> +	struct hwd_affine_resources *res = &hwd_affine_resources[module_id];
-> +
-> +	/* Initialize the device */
-> +	res->reg = (struct hwd_affine_reg *)vaddr;
-> +}
-> +
-> +/**
-> + * hwd_affine_uninitialize() - Uninitialize AFFINE device
-> + *
-> + * @module_id: @ref hwd_affine_device "id" of the h/w module
-> + */
-> +void hwd_affine_uninitialize(u32 module_id)
-> +{
-> +	struct hwd_affine_resources *res = &hwd_affine_resources[module_id];
-> +
-> +	/* Deinitialize the device */
-> +	res->reg = NULL;
-> +}
-> +
-> +#define NUM_AFFINE_PARAMS  6
-> +#define NUM_HOMO_PARAMS	   3
-> +#define NUM_DISTORT_PARAMS 12
-> +
-> +/**
-> + * hwd_affine_start() - Start AFFINE device
-> + *
-> + * @module_id: @ref hwd_affine_device "id" of the h/w module
-> + * @desc: Pointer to AFFINE descriptor structure
-> + */
-> +void hwd_affine_start(u32 module_id, const struct hwd_affine_descriptor *desc)
-> +{
-> +	struct hwd_affine_resources *res = &hwd_affine_resources[module_id];
-> +	struct hwd_affine_reg *reg;
-> +	int i;
-> +
-> +	reg = res->reg;
-> +
-> +	/* Initialize status */
-> +	res->status.comp_syntax_error = 0;
-> +	res->status.comp_over_coordinate = 0;
-> +	res->status.comp_over_data = 0;
-> +	res->status.comp_lack_data = 0;
-> +	res->status.comp_size = 0;
-> +
-> +	/* Clear interrupt status */
-> +	writel(HWD_AFFINE_CLEAR_BITS, &reg->statc);
-> +
-> +	/* Reset T_RST bit, C_RST bit, and O_RST bits*/
-> +	writel(desc->ctrl, &reg->ctrl);
-> +	readl(&reg->ctrl);
-> +
-> +	writel(desc->src_size, &reg->src_size);
-> +	writel((u32)(desc->src_addr & HWD_AFFINE_HWD_MASK_ADDR), &reg->src_addr);
-> +	writel(desc->dst_bgn, &reg->dst_bgn);
-> +	writel(desc->dst_size, &reg->dst_size);
-> +	writel((u32)(desc->dst_addr & HWD_AFFINE_HWD_MASK_ADDR), &reg->dst_addr);
-> +	writel(desc->l_ptch, &reg->l_ptch);
-> +
-> +	for (i = 0; i < NUM_AFFINE_PARAMS; i++)
-> +		writel(desc->affine_param[i], &reg->affine_param[i]);
-> +
-> +	for (i = 0; i < NUM_HOMO_PARAMS; i++)
-> +		writel(desc->homo_param[i], &reg->homo_param[i]);
-> +
-> +	/* AFFINE Table */
-> +	writel((u32)(desc->tbl_addr & HWD_AFFINE_HWD_MASK_ADDR), &reg->tbl_addr);
-> +	writel(desc->tbl_ptch, &reg->tbl_ptch);
-> +	writel(desc->tbl_comp_size, &reg->tbl_comp_size);
-> +
-> +	for (i = 0; i < NUM_DISTORT_PARAMS; i++)
-> +		writel(desc->dist_param[i], &reg->dist_param[i]);
-> +
-> +	writel(HWD_AFFINE_INTMASK_NORMAL, &reg->intm);
-> +
-> +	writel(desc->mode, &reg->mode);
-> +	writel(desc->mode2, &reg->mode2);
-> +	writel(desc->adj_p, &reg->adj_p);
-> +
-> +	/* Data Sync */
-> +	dsb(st);
-> +
-> +	/* Kick AFFINE */
-> +	writel(HWD_AFFINE_START_CMD, &reg->ctrl);
-> +}
-> +
-> +/**
-> + * hwd_affine_irq_handler() - HWD AFFINE interrupt handler
-> + *
-> + * @module_id: @ref hwd_affine_device "id" of the h/w module
-> + * Return: following bitfields
-> + * - HWD_AFFINE_EVENT_DONE: HW processing is completed
-> + * - HWD_AFFINE_EVENT_SYNTAX_ERROR: HW Table Syntax error
-> + * - HWD_AFFINE_EVENT_OVER_COORD: HW Table decoding coordinate error
-> + * - HWD_AFFINE_EVENT_OVER_DATA: HW Table over compressed data error
-> + * - HWD_AFFINE_EVENT_LACK_DATA: HW Table compressed data insufficient error
-> + * - HWD_AFFINE_EVENT_SIZE_ERROR: HW Table smaller than the size actual size of compressed data
-> + */
-> +u32 hwd_affine_irq_handler(u32 module_id)
-> +{
-> +	u32 event = 0;
-> +	struct hwd_affine_resources *res = &hwd_affine_resources[module_id];
-> +	struct hwd_affine_reg *reg;
-> +	u32 cause;
-> +
-> +	reg = res->reg;
-> +
-> +	/* Read and Clear the interrupt causes */
-> +	cause = readl(&reg->statc);
-> +	writel(cause, &reg->statc);
-> +
-> +	if (cause & HWD_AFFINE_INT_END)
-> +		/* Execution End */
-> +		event |= HWD_AFFINE_EVENT_DONE;
-> +
-> +	if (cause & HWD_AFFINE_INT_TCOMP_ERR0) {
-> +		/* Syntax error */
-> +		res->status.comp_syntax_error = 1;
-> +		event |= HWD_AFFINE_EVENT_SYNTAX_ERROR;
-> +	}
-> +
-> +	if (cause & HWD_AFFINE_INT_TCOMP_ERR1) {
-> +		/* Decoding coordinate error */
-> +		res->status.comp_over_coordinate = 1;
-> +		event |= HWD_AFFINE_EVENT_OVER_COORD;
-> +	}
-> +
-> +	if (cause & HWD_AFFINE_INT_TCOMP_ERR2) {
-> +		/* Over compressed data error */
-> +		res->status.comp_over_data = 1;
-> +		event |= HWD_AFFINE_EVENT_OVER_DATA;
-> +	}
-> +
-> +	if (cause & HWD_AFFINE_INT_TCOMP_ERR3) {
-> +		/* Compressed data insufficient error */
-> +		res->status.comp_lack_data = 1;
-> +		event |= HWD_AFFINE_EVENT_LACK_DATA;
-> +	}
-> +
-> +	if (cause & HWD_AFFINE_INT_TCOMP_SIZE) {
-> +		/* Smaller than the actual size of compressed data */
-> +		res->status.comp_size = 1;
-> +		event |= HWD_AFFINE_EVENT_SIZE_ERROR;
-> +	}
-> +
-> +	return event;
-> +}
-> +
-> +/**
-> + * hwd_affine_get_status() - HWD AFFINE Get Status
-> + *
-> + * @module_id: @ref hwd_affine_device "id" of the h/w module
-> + * @status: Pointer to status structure
-> + * Return: RETURN_OK operation completed successfully
-> + */
-> +void hwd_affine_get_status(u32 module_id, struct hwd_affine_status *status)
-> +{
-> +	const struct hwd_affine_resources *res = &hwd_affine_resources[module_id];
-> +
-> +	*status = res->status;
-> +}
-> diff --git a/drivers/soc/visconti/affine/hwd_affine.h b/drivers/soc/visconti/affine/hwd_affine.h
-> new file mode 100644
-> index 000000000..ed17b1116
-> --- /dev/null
-> +++ b/drivers/soc/visconti/affine/hwd_affine.h
-> @@ -0,0 +1,83 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause */
-> +/* Toshiba Visconti Affine Accelerator Support
-> + *
-> + * (C) Copyright 2022 TOSHIBA CORPORATION
-> + * (C) Copyright 2022 Toshiba Electronic Devices & Storage Corporation
-> + */
-> +
-> +#ifndef HWD_AFFINE_H
-> +#define HWD_AFFINE_H
-> +
-> +/**
-> + * enum hwd_affine_device_id - AFFINE HWD Device ID
-> + */
-> +enum hwd_affine_device_id {
-> +	HWD_AFFINE_DEVICE_0 = 0,
-> +	HWD_AFFINE_DEVICE_1 = 1,
-> +	HWD_AFFINE_DEVICE_MAX = 2,
-> +};
-> +
-> +/* hwd_affine_event_flags - Macro for Affine driver events */
-> +#define HWD_AFFINE_EVENT_DONE	      BIT(0)
-> +#define HWD_AFFINE_EVENT_SYNTAX_ERROR BIT(1)
-> +#define HWD_AFFINE_EVENT_OVER_COORD   BIT(2)
-> +#define HWD_AFFINE_EVENT_OVER_DATA    BIT(3)
-> +#define HWD_AFFINE_EVENT_LACK_DATA    BIT(4)
-> +#define HWD_AFFINE_EVENT_SIZE_ERROR   BIT(5)
-> +#define HWD_AFFINE_EVENT_MAX	      BIT(6)
-> +
-> +/* hwd_affine_param_num_flags Macro for Affine parameter number */
-> +#define HWD_AFFINE_AFFINE_PARAM_NUM	 (6U)
-> +#define HWD_AFFINE_UNDIST_PARAM_NUM	 (12U)
-> +#define HWD_AFFINE_HOMO_PARAM_NUM	 (3U)
-> +#define HWD_AFFINE_TEMP_UNDIST_PARAM_NUM (10U)
-> +
-> +/**
-> + * struct hwd_affine_status - HWD Affine status
-> + * @comp_size: Setting size is smaller than actual size
-> + * @comp_lack_data: Compressed table is lacking enough data for processing
-> + * @comp_over_data: Compressed table is exceeding the limit of data that can be processed
-> + * @comp_over_coordinate: Number of coordinates in compressed table data exceeded the limit
-> + * @comp_syntax_error: Syntax error of compressed table has occurred
-> + * @reserved: Padding
-> + */
-> +struct hwd_affine_status {
-> +	u32 comp_size : 1;
-> +	u32 comp_lack_data : 1;
-> +	u32 comp_over_data : 1;
-> +	u32 comp_over_coordinate : 1;
-> +	u32 comp_syntax_error : 1;
-> +	u32 reserved : 27;
-> +};
-> +
-> +/**
-> + * struct hwd_affine_descriptor - HWD AFFINE Descriptor
-> + */
-> +struct hwd_affine_descriptor {
-> +	u32 ctrl;
-> +	u32 mode2;
-> +	u32 mode;
-> +	u32 adj_p;
-> +	u32 src_size;
-> +	u32 src_addr;
-> +	u32 dst_bgn;
-> +	u32 dst_size;
-> +	u32 dst_addr;
-> +	u32 l_ptch;
-> +	u32 tbl_addr;
-> +	u32 tbl_ptch;
-> +	u32 affine_param[HWD_AFFINE_AFFINE_PARAM_NUM];
-> +	u32 dist_param[HWD_AFFINE_UNDIST_PARAM_NUM];
-> +	u32 homo_param[HWD_AFFINE_HOMO_PARAM_NUM];
-> +	u32 tbl_comp_size;
-> +	float temp_dist_p[HWD_AFFINE_TEMP_UNDIST_PARAM_NUM];
-> +	u16 config_done;
-> +};
-> +
-> +void hwd_affine_initialize(u32 module_id, void *vaddr);
-> +void hwd_affine_uninitialize(u32 module_id);
-> +void hwd_affine_start(u32 module_id, const struct hwd_affine_descriptor *desc);
-> +u32 hwd_affine_irq_handler(u32 module_id);
-> +void hwd_affine_get_status(u32 module_id, struct hwd_affine_status *status);
-> +
-> +#endif /* HWD_AFFINE_H */
-> diff --git a/drivers/soc/visconti/affine/hwd_affine_reg.h b/drivers/soc/visconti/affine/hwd_affine_reg.h
-> new file mode 100644
-> index 000000000..407d898fa
-> --- /dev/null
-> +++ b/drivers/soc/visconti/affine/hwd_affine_reg.h
-> @@ -0,0 +1,45 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause */
-> +/* Toshiba Visconti Affine Accelerator Support
-> + *
-> + * (C) Copyright 2022 TOSHIBA CORPORATION
-> + * (C) Copyright 2022 Toshiba Electronic Devices & Storage Corporation
-> + */
-> +
-> +#ifndef HWD_AFFINE_REG_H
-> +#define HWD_AFFINE_REG_H
-> +
-> +/* hwd_affine_params_num_flags - Macro for Affine parameter number */
-> +#define HWD_AFFINE_AFFINE_PARAMS_NUM (6)
-> +#define HWD_AFFINE_UNDIST_PARAMS_NUM (12)
-> +#define HWD_AFFINE_HOMO_PARAMS_NUM   (3)
-> +#define HWD_AFFINE_RESERVED	     (472)
-> +
-> +/**
-> + * struct hwd_affine_reg - Structure of Affine register descriptor
-> + */
-> +struct hwd_affine_reg {
-> +	u32 ctrl;
-> +	u32 reserved0[2];
-> +	u32 mode2;
-> +	u32 mode;
-> +	u32 adj_p;
-> +	u32 intm;
-> +	u32 statc;
-> +	u32 out_lpos;
-> +	u32 src_size;
-> +	u32 src_addr;
-> +	u32 dst_bgn;
-> +	u32 dst_size;
-> +	u32 dst_addr;
-> +	u32 l_ptch;
-> +	u32 tbl_addr;
-> +	u32 tbl_ptch;
-> +	u32 affine_param[HWD_AFFINE_AFFINE_PARAMS_NUM];
-> +	u32 dist_param[HWD_AFFINE_UNDIST_PARAMS_NUM];
-> +	u32 reserved1;
-> +	u32 homo_param[HWD_AFFINE_HOMO_PARAMS_NUM];
-> +	u32 tbl_comp_size;
-> +	u32 reserved2[HWD_AFFINE_RESERVED];
-> +};
-> +
-> +#endif /* HWD_AFFINE_REG_H */
-> diff --git a/drivers/soc/visconti/uapi/affine.h b/drivers/soc/visconti/uapi/affine.h
-> new file mode 100644
-> index 000000000..539261483
-> --- /dev/null
-> +++ b/drivers/soc/visconti/uapi/affine.h
-> @@ -0,0 +1,87 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * (C) Copyright 2020 Toshiba Electronic Devices & Storage Corporation
-> + */
-> +
-> +#ifndef _UAPI_LINUX_AFIINE_H
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------lRGEZPcqebVRFV9pU3RXqRh8
+Content-Type: multipart/mixed; boundary="------------QrkcVmFzJIypFLWdhORdGWHs";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <0460fa51-6cd6-9b14-6815-49872bed223c@suse.de>
+Subject: Re: [PATCH 7/7] drm/mgag200: Split up connector's mode_valid helper
+References: <20220509103554.11996-1-tzimmermann@suse.de>
+ <20220509103554.11996-8-tzimmermann@suse.de>
+ <b4c13e79-207d-1e19-4743-29fb8ee93e08@redhat.com>
+In-Reply-To: <b4c13e79-207d-1e19-4743-29fb8ee93e08@redhat.com>
 
-Typo: AFIINE -> AFFINE.
+--------------QrkcVmFzJIypFLWdhORdGWHs
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Same comment as for the DNN driver: there is no documentation whatsoever
-about what it does or what data it expects.
+SGkNCg0KQW0gMTIuMDUuMjIgdW0gMTI6Mzggc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IE9uIDA5LzA1LzIwMjIgMTI6MzUsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gU3Bs
+aXQgdXAgdGhlIGNvbm5lY3RvcidzIG1vZGVfdmFsaWQgaGVscGVyIGludG8gYSBzaW1wbGUt
+cGlwZSBhbmQgYQ0KPj4gbW9kZS1jb25maWcgaGVscGVyLiBUaGUgc2ltcGxlLXBpcGUgaGVs
+cGVyIHRlc3RzIGZvciBkaXNwbGF5LXNpemUNCj4+IGxpbWl0cyB3aGlsZSB0aGUgbW9kZS1j
+b25maWcgaGVscGVyIHRlc3RzIGZvciBtZW1vcnktYmFuZHdpZHRoIGxpbWl0cy4NCj4+DQo+
+PiBBbHNvIGFkZCB0aGUgbWdhZzIwMF8gcHJlZml4IHRvIG1nYV92Z2FfY2FsY3VsYXRlX21v
+ZGVfYmFuZHdpZHRoKCkgYW5kDQo+PiBjb21tZW50IG9uIHRoZSBmdW5jdGlvbidzIHB1cnBv
+c2UuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+DQo+PiAtLS0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21n
+YWcyMDBfbW9kZS5jIHwgMTQ2ICsrKysrKysrKysrKy0tLS0tLS0tLS0tLS0NCj4+IMKgIDEg
+ZmlsZSBjaGFuZ2VkLCA2OSBpbnNlcnRpb25zKCspLCA3NyBkZWxldGlvbnMoLSkNCj4+DQo+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMg
+DQo+PiBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jDQo+PiBpbmRl
+eCA5MmQzYWU5NDg5ZjAuLmE4MDg4MjdkN2EyYyAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYw0KPj4gQEAgLTY4MSwzOCArNjgxLDI3IEBAIHN0
+YXRpYyBpbnQgDQo+PiBtZ2FnMjAwX3ZnYV9jb25uZWN0b3JfaGVscGVyX2dldF9tb2Rlcyhz
+dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG8NCj4+IMKgwqDCoMKgwqAgcmV0dXJuIHJl
+dDsNCj4+IMKgIH0NCj4+IC1zdGF0aWMgdWludDMyX3QgbWdhX3ZnYV9jYWxjdWxhdGVfbW9k
+ZV9iYW5kd2lkdGgoc3RydWN0IA0KPj4gZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSwNCj4+IC3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aW50IGJpdHNfcGVyX3BpeGVsKQ0KPj4gLXsNCj4+IC3CoMKgwqAgdWludDMyX3QgdG90YWxf
+YXJlYSwgZGl2aXNvcjsNCj4+IC3CoMKgwqAgdWludDY0X3QgYWN0aXZlX2FyZWEsIHBpeGVs
+c19wZXJfc2Vjb25kLCBiYW5kd2lkdGg7DQo+PiAtwqDCoMKgIHVpbnQ2NF90IGJ5dGVzX3Bl
+cl9waXhlbCA9IChiaXRzX3Blcl9waXhlbCArIDcpIC8gODsNCj4+IC0NCj4+IC3CoMKgwqAg
+ZGl2aXNvciA9IDEwMjQ7DQo+PiAtDQo+PiAtwqDCoMKgIGlmICghbW9kZS0+aHRvdGFsIHx8
+ICFtb2RlLT52dG90YWwgfHwgIW1vZGUtPmNsb2NrKQ0KPj4gLcKgwqDCoMKgwqDCoMKgIHJl
+dHVybiAwOw0KPj4gLQ0KPj4gLcKgwqDCoCBhY3RpdmVfYXJlYSA9IG1vZGUtPmhkaXNwbGF5
+ICogbW9kZS0+dmRpc3BsYXk7DQo+PiAtwqDCoMKgIHRvdGFsX2FyZWEgPSBtb2RlLT5odG90
+YWwgKiBtb2RlLT52dG90YWw7DQo+PiAtDQo+PiAtwqDCoMKgIHBpeGVsc19wZXJfc2Vjb25k
+ID0gYWN0aXZlX2FyZWEgKiBtb2RlLT5jbG9jayAqIDEwMDA7DQo+PiAtwqDCoMKgIGRvX2Rp
+dihwaXhlbHNfcGVyX3NlY29uZCwgdG90YWxfYXJlYSk7DQo+PiAtDQo+PiAtwqDCoMKgIGJh
+bmR3aWR0aCA9IHBpeGVsc19wZXJfc2Vjb25kICogYnl0ZXNfcGVyX3BpeGVsICogMTAwOw0K
+Pj4gLcKgwqDCoCBkb19kaXYoYmFuZHdpZHRoLCBkaXZpc29yKTsNCj4+ICtzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzIA0KPj4gbWdhX3ZnYV9jb25u
+ZWN0b3JfaGVscGVyX2Z1bmNzID0gew0KPj4gK8KgwqDCoCAuZ2V0X21vZGVzwqAgPSBtZ2Fn
+MjAwX3ZnYV9jb25uZWN0b3JfaGVscGVyX2dldF9tb2RlcywNCj4+ICt9Ow0KPj4gLcKgwqDC
+oCByZXR1cm4gKHVpbnQzMl90KShiYW5kd2lkdGgpOw0KPj4gLX0NCj4+ICtzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9jb25uZWN0b3JfZnVuY3MgbWdhX3ZnYV9jb25uZWN0b3JfZnVuY3Mg
+PSB7DQo+PiArwqDCoMKgIC5yZXNldMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgPSBkcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3JfcmVzZXQsDQo+PiArwqDCoMKgIC5m
+aWxsX21vZGVzwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgID0gZHJtX2hlbHBlcl9wcm9iZV9z
+aW5nbGVfY29ubmVjdG9yX21vZGVzLA0KPj4gK8KgwqDCoCAuZGVzdHJvecKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCA9IGRybV9jb25uZWN0b3JfY2xlYW51cCwNCj4+ICvCoMKg
+wqAgLmF0b21pY19kdXBsaWNhdGVfc3RhdGUgPSANCj4+IGRybV9hdG9taWNfaGVscGVyX2Nv
+bm5lY3Rvcl9kdXBsaWNhdGVfc3RhdGUsDQo+PiArwqDCoMKgIC5hdG9taWNfZGVzdHJveV9z
+dGF0ZcKgwqAgPSBkcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3JfZGVzdHJveV9zdGF0ZSwN
+Cj4+ICt9Ow0KPj4gLSNkZWZpbmUgTU9ERV9CQU5EV0lEVEjCoMKgwqAgTU9ERV9CQUQNCj4+
+ICsvKg0KPj4gKyAqIFNpbXBsZSBEaXNwbGF5IFBpcGUNCj4+ICsgKi8NCj4+IC1zdGF0aWMg
+ZW51bSBkcm1fbW9kZV9zdGF0dXMgbWdhX3ZnYV9tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fY29u
+bmVjdG9yIA0KPj4gKmNvbm5lY3RvciwNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkNCj4+ICtzdGF0aWMgZW51
+bSBkcm1fbW9kZV9zdGF0dXMNCj4+ICttZ2FnMjAwX3NpbXBsZV9kaXNwbGF5X3BpcGVfbW9k
+ZV92YWxpZChzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgDQo+PiAqcGlwZSwNCj4+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBz
+dHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkNCj4+IMKgIHsNCj4+IC3CoMKgwqAgc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+ZGV2Ow0KPj4gLcKgwqDCoCBzdHJ1
+Y3QgbWdhX2RldmljZSAqbWRldiA9IHRvX21nYV9kZXZpY2UoZGV2KTsNCj4+IC3CoMKgwqAg
+aW50IGJwcCA9IDMyOw0KPj4gK8KgwqDCoCBzdHJ1Y3QgbWdhX2RldmljZSAqbWRldiA9IHRv
+X21nYV9kZXZpY2UocGlwZS0+Y3J0Yy5kZXYpOw0KPj4gwqDCoMKgwqDCoCBpZiAoSVNfRzIw
+MF9TRShtZGV2KSkgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHUzMiB1bmlxdWVfcmV2X2lk
+ID0gbWRldi0+bW9kZWwuZzIwMHNlLnVuaXF1ZV9yZXZfaWQ7DQo+PiBAQCAtNzIyLDQyICs3
+MTEsMTcgQEAgc3RhdGljIGVudW0gZHJtX21vZGVfc3RhdHVzIA0KPj4gbWdhX3ZnYV9tb2Rl
+X3ZhbGlkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsDQo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBNT0RFX1ZJUlRVQUxfWDsNCj4+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChtb2RlLT52ZGlzcGxheSA+IDEyMDApDQo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBNT0RFX1ZJUlRV
+QUxfWTsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChtZ2FfdmdhX2NhbGN1bGF0
+ZV9tb2RlX2JhbmR3aWR0aChtb2RlLCBicHApDQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgID4gKDI0NDAwICogMTAyNCkpDQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHJldHVybiBNT0RFX0JBTkRXSURUSDsNCj4+IMKgwqDCoMKgwqDCoMKgwqDC
+oCB9IGVsc2UgaWYgKHVuaXF1ZV9yZXZfaWQgPT0gMHgwMikgew0KPj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgaWYgKG1vZGUtPmhkaXNwbGF5ID4gMTkyMCkNCj4+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIE1PREVfVklSVFVBTF9YOw0KPj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKG1vZGUtPnZkaXNwbGF5ID4gMTIwMCkN
+Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIE1PREVfVklS
+VFVBTF9ZOw0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKG1nYV92Z2FfY2FsY3Vs
+YXRlX21vZGVfYmFuZHdpZHRoKG1vZGUsIGJwcCkNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgPiAoMzAxMDAgKiAxMDI0KSkNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgcmV0dXJuIE1PREVfQkFORFdJRFRIOw0KPj4gLcKgwqDCoMKgwqDCoMKg
+IH0gZWxzZSB7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAobWdhX3ZnYV9jYWxj
+dWxhdGVfbW9kZV9iYW5kd2lkdGgobW9kZSwgYnBwKQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCA+ICg1NTAwMCAqIDEwMjQpKQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCByZXR1cm4gTU9ERV9CQU5EV0lEVEg7DQo+PiDCoMKgwqDCoMKgwqDC
+oMKgwqAgfQ0KPj4gwqDCoMKgwqDCoCB9IGVsc2UgaWYgKG1kZXYtPnR5cGUgPT0gRzIwMF9X
+Qikgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChtb2RlLT5oZGlzcGxheSA+IDEyODAp
+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gTU9ERV9WSVJUVUFMX1g7
+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKG1vZGUtPnZkaXNwbGF5ID4gMTAyNCkNCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBNT0RFX1ZJUlRVQUxfWTsNCj4+
+IC3CoMKgwqDCoMKgwqDCoCBpZiAobWdhX3ZnYV9jYWxjdWxhdGVfbW9kZV9iYW5kd2lkdGgo
+bW9kZSwgYnBwKSA+DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoMzE4NzcgKiAxMDI0
+KSkNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBNT0RFX0JBTkRXSURUSDsN
+Cj4+IC3CoMKgwqAgfSBlbHNlIGlmIChtZGV2LT50eXBlID09IEcyMDBfRVYgJiYNCj4+IC3C
+oMKgwqDCoMKgwqDCoCAobWdhX3ZnYV9jYWxjdWxhdGVfbW9kZV9iYW5kd2lkdGgobW9kZSwg
+YnBwKQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPiAoMzI3MDAgKiAxMDI0KSkpIHsN
+Cj4+IC3CoMKgwqDCoMKgwqDCoCByZXR1cm4gTU9ERV9CQU5EV0lEVEg7DQo+PiAtwqDCoMKg
+IH0gZWxzZSBpZiAobWRldi0+dHlwZSA9PSBHMjAwX0VIICYmDQo+PiAtwqDCoMKgwqDCoMKg
+wqAgKG1nYV92Z2FfY2FsY3VsYXRlX21vZGVfYmFuZHdpZHRoKG1vZGUsIGJwcCkNCj4+IC3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgID4gKDM3NTAwICogMTAyNCkpKSB7DQo+PiAtwqDCoMKg
+wqDCoMKgwqAgcmV0dXJuIE1PREVfQkFORFdJRFRIOw0KPj4gLcKgwqDCoCB9IGVsc2UgaWYg
+KG1kZXYtPnR5cGUgPT0gRzIwMF9FUiAmJg0KPj4gLcKgwqDCoMKgwqDCoMKgIChtZ2Ffdmdh
+X2NhbGN1bGF0ZV9tb2RlX2JhbmR3aWR0aChtb2RlLA0KPj4gLcKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgYnBwKSA+ICg1NTAwMCAqIDEwMjQpKSkgew0KPj4gLcKgwqDCoMKgwqDCoMKgIHJl
+dHVybiBNT0RFX0JBTkRXSURUSDsNCj4+IMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKgwqDCoCBp
+ZiAoKG1vZGUtPmhkaXNwbGF5ICUgOCkgIT0gMCB8fCAobW9kZS0+aHN5bmNfc3RhcnQgJSA4
+KSAhPSAwIHx8DQo+PiBAQCAtNzc1LDMwICs3MzksNiBAQCBzdGF0aWMgZW51bSBkcm1fbW9k
+ZV9zdGF0dXMgDQo+PiBtZ2FfdmdhX21vZGVfdmFsaWQoc3RydWN0IGRybV9jb25uZWN0b3Ig
+KmNvbm5lY3RvciwNCj4+IMKgwqDCoMKgwqAgcmV0dXJuIE1PREVfT0s7DQo+PiDCoCB9DQo+
+PiAtc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyANCj4+
+IG1nYV92Z2FfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsNCj4+IC3CoMKgwqAgLmdldF9t
+b2Rlc8KgID0gbWdhZzIwMF92Z2FfY29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMsDQo+PiAt
+wqDCoMKgIC5tb2RlX3ZhbGlkID0gbWdhX3ZnYV9tb2RlX3ZhbGlkLA0KPj4gLX07DQo+PiAt
+DQo+PiAtc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIG1nYV92Z2Ff
+Y29ubmVjdG9yX2Z1bmNzID0gew0KPj4gLcKgwqDCoCAucmVzZXTCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgID0gZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX3Jlc2V0
+LA0KPj4gLcKgwqDCoCAuZmlsbF9tb2Rlc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA9IGRy
+bV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2RlcywNCj4+IC3CoMKgwqAgLmRl
+c3Ryb3nCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPSBkcm1fY29ubmVjdG9yX2Ns
+ZWFudXAsDQo+PiAtwqDCoMKgIC5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gDQo+PiBkcm1f
+YXRvbWljX2hlbHBlcl9jb25uZWN0b3JfZHVwbGljYXRlX3N0YXRlLA0KPj4gLcKgwqDCoCAu
+YXRvbWljX2Rlc3Ryb3lfc3RhdGXCoMKgID0gZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9y
+X2Rlc3Ryb3lfc3RhdGUsDQo+PiAtfTsNCj4+IC0NCj4+IC0vKg0KPj4gLSAqIFNpbXBsZSBE
+aXNwbGF5IFBpcGUNCj4+IC0gKi8NCj4+IC0NCj4+IC1zdGF0aWMgZW51bSBkcm1fbW9kZV9z
+dGF0dXMNCj4+IC1tZ2FnMjAwX3NpbXBsZV9kaXNwbGF5X3BpcGVfbW9kZV92YWxpZChzdHJ1
+Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgDQo+PiAqcGlwZSwNCj4+IC3CoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgZHJtX2Rp
+c3BsYXlfbW9kZSAqbW9kZSkNCj4+IC17DQo+PiAtwqDCoMKgIHJldHVybiBNT0RFX09LOw0K
+Pj4gLX0NCj4+IC0NCj4+IMKgIHN0YXRpYyB2b2lkDQo+PiDCoCBtZ2FnMjAwX2hhbmRsZV9k
+YW1hZ2Uoc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYsIHN0cnVjdCANCj4+IGRybV9mcmFtZWJ1
+ZmZlciAqZmIsDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRy
+bV9yZWN0ICpjbGlwLCBjb25zdCBzdHJ1Y3QgaW9zeXNfbWFwICptYXApDQo+PiBAQCAtMTAw
+OSw2ICs5NDksMzEgQEAgc3RhdGljIGNvbnN0IHVpbnQ2NF90IA0KPj4gbWdhZzIwMF9zaW1w
+bGVfZGlzcGxheV9waXBlX2ZtdG1vZHNbXSA9IHsNCj4+IMKgwqAgKiBNb2RlIGNvbmZpZw0K
+Pj4gwqDCoCAqLw0KPj4gKy8qIENhbGN1bGF0ZXMgYSBtb2RlJ3MgcmVxdWlyZWQgbWVtb3J5
+IGJhbmR3aWR0aCAoaW4gS2lCL3NlYykuICovDQo+PiArc3RhdGljIHVpbnQzMl90IG1nYWcy
+MDBfY2FsY3VsYXRlX21vZGVfYmFuZHdpZHRoKGNvbnN0IHN0cnVjdCANCj4+IGRybV9kaXNw
+bGF5X21vZGUgKm1vZGUsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHVuc2lnbmVkIGludCBiaXRzX3Blcl9waXhlbCkNCj4+ICt7DQo+
+PiArwqDCoMKgIHVpbnQzMl90IHRvdGFsX2FyZWEsIGRpdmlzb3I7DQo+PiArwqDCoMKgIHVp
+bnQ2NF90IGFjdGl2ZV9hcmVhLCBwaXhlbHNfcGVyX3NlY29uZCwgYmFuZHdpZHRoOw0KPj4g
+K8KgwqDCoCB1aW50NjRfdCBieXRlc19wZXJfcGl4ZWwgPSAoYml0c19wZXJfcGl4ZWwgKyA3
+KSAvIDg7DQo+PiArDQo+PiArwqDCoMKgIGRpdmlzb3IgPSAxMDI0Ow0KPj4gKw0KPj4gK8Kg
+wqDCoCBpZiAoIW1vZGUtPmh0b3RhbCB8fCAhbW9kZS0+dnRvdGFsIHx8ICFtb2RlLT5jbG9j
+aykNCj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gMDsNCj4+ICsNCj4+ICvCoMKgwqAgYWN0
+aXZlX2FyZWEgPSBtb2RlLT5oZGlzcGxheSAqIG1vZGUtPnZkaXNwbGF5Ow0KPj4gK8KgwqDC
+oCB0b3RhbF9hcmVhID0gbW9kZS0+aHRvdGFsICogbW9kZS0+dnRvdGFsOw0KPj4gKw0KPj4g
+K8KgwqDCoCBwaXhlbHNfcGVyX3NlY29uZCA9IGFjdGl2ZV9hcmVhICogbW9kZS0+Y2xvY2sg
+KiAxMDAwOw0KPj4gK8KgwqDCoCBkb19kaXYocGl4ZWxzX3Blcl9zZWNvbmQsIHRvdGFsX2Fy
+ZWEpOw0KPj4gKw0KPj4gK8KgwqDCoCBiYW5kd2lkdGggPSBwaXhlbHNfcGVyX3NlY29uZCAq
+IGJ5dGVzX3Blcl9waXhlbCAqIDEwMDsNCj4+ICvCoMKgwqAgZG9fZGl2KGJhbmR3aWR0aCwg
+ZGl2aXNvcik7DQo+PiArDQo+PiArwqDCoMKgIHJldHVybiAodWludDMyX3QpYmFuZHdpZHRo
+Ow0KPj4gK30NCj4+ICsNCj4+IMKgIHN0YXRpYyBlbnVtIGRybV9tb2RlX3N0YXR1cyBtZ2Fn
+MjAwX21vZGVfY29uZmlnX21vZGVfdmFsaWQoc3RydWN0IA0KPj4gZHJtX2RldmljZSAqZGV2
+LA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkN
+Cj4+IMKgIHsNCj4+IEBAIC0xMDI0LDYgKzk4OSwzMyBAQCBzdGF0aWMgZW51bSBkcm1fbW9k
+ZV9zdGF0dXMgDQo+PiBtZ2FnMjAwX21vZGVfY29uZmlnX21vZGVfdmFsaWQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRlDQo+PiDCoMKgwqDCoMKgIGlmIChmYnBhZ2VzID4gbWF4X2ZicGFnZXMp
+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIE1PREVfTUVNOw0KPj4gK8KgwqDCoCBp
+ZiAoSVNfRzIwMF9TRShtZGV2KSkgew0KPj4gK8KgwqDCoMKgwqDCoMKgIHUzMiB1bmlxdWVf
+cmV2X2lkID0gbWRldi0+bW9kZWwuZzIwMHNlLnVuaXF1ZV9yZXZfaWQ7DQo+PiArDQo+PiAr
+wqDCoMKgwqDCoMKgwqAgaWYgKHVuaXF1ZV9yZXZfaWQgPT0gMHgwMSkgew0KPj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgaWYgKG1nYWcyMDBfY2FsY3VsYXRlX21vZGVfYmFuZHdpZHRo
+KG1vZGUsIG1heF9icHAgKiA4KSA+IA0KPj4gKDI0NDAwICogMTAyNCkpDQo+PiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBNT0RFX0JBRDsNCj4+ICvCoMKgwqDC
+oMKgwqDCoCB9IGVsc2UgaWYgKHVuaXF1ZV9yZXZfaWQgPT0gMHgwMikgew0KPj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgaWYgKG1nYWcyMDBfY2FsY3VsYXRlX21vZGVfYmFuZHdpZHRo
+KG1vZGUsIG1heF9icHAgKiA4KSA+IA0KPj4gKDMwMTAwICogMTAyNCkpDQo+PiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBNT0RFX0JBRDsNCj4+ICvCoMKgwqDC
+oMKgwqDCoCB9IGVsc2Ugew0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKG1nYWcy
+MDBfY2FsY3VsYXRlX21vZGVfYmFuZHdpZHRoKG1vZGUsIG1heF9icHAgKiA4KSA+IA0KPj4g
+KDU1MDAwICogMTAyNCkpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
+dHVybiBNT0RFX0JBRDsNCj4+ICvCoMKgwqDCoMKgwqDCoCB9DQo+PiArwqDCoMKgIH0gZWxz
+ZSBpZiAobWRldi0+dHlwZSA9PSBHMjAwX1dCKSB7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYg
+KG1nYWcyMDBfY2FsY3VsYXRlX21vZGVfYmFuZHdpZHRoKG1vZGUsIG1heF9icHAgKiA4KSA+
+IA0KPj4gKDMxODc3ICogMTAyNCkpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1
+cm4gTU9ERV9CQUQ7DQo+PiArwqDCoMKgIH0gZWxzZSBpZiAobWRldi0+dHlwZSA9PSBHMjAw
+X0VWKSB7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKG1nYWcyMDBfY2FsY3VsYXRlX21vZGVf
+YmFuZHdpZHRoKG1vZGUsIG1heF9icHAgKiA4KSA+IA0KPj4gKDMyNzAwICogMTAyNCkpDQo+
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gTU9ERV9CQUQ7DQo+PiArwqDCoMKg
+IH0gZWxzZSBpZiAobWRldi0+dHlwZSA9PSBHMjAwX0VIKSB7DQo+PiArwqDCoMKgwqDCoMKg
+wqAgaWYgKG1nYWcyMDBfY2FsY3VsYXRlX21vZGVfYmFuZHdpZHRoKG1vZGUsIG1heF9icHAg
+KiA4KSA+IA0KPj4gKDM3NTAwICogMTAyNCkpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCByZXR1cm4gTU9ERV9CQUQ7DQo+PiArwqDCoMKgIH0gZWxzZSBpZiAobWRldi0+dHlwZSA9
+PSBHMjAwX0VSKSB7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKG1nYWcyMDBfY2FsY3VsYXRl
+X21vZGVfYmFuZHdpZHRoKG1vZGUsIG1heF9icHAgKiA4KSA+IA0KPj4gKDU1MDAwICogMTAy
+NCkpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gTU9ERV9CQUQ7DQo+PiAr
+wqDCoMKgIH0NCj4+ICsNCj4+IMKgwqDCoMKgwqAgcmV0dXJuIE1PREVfT0s7DQo+PiDCoCB9
+DQo+IA0KPiBPbmUgc3VnZ2VzdGlvbiB0byBhdm9pZCB0b28gbXVjaCByZXBldGl0aW9uOg0K
+PiANCj4gc3RhdGljIGludCBtZ2FnMjAwX2dldF9iYW5kd2lkdGhfa2JwcyhtZGV2KSB7DQo+
+IA0KPiAgwqDCoMKgwqBpZiAoSVNfRzIwMF9TRShtZGV2KSkgew0KPiAgwqDCoMKgwqDCoMKg
+wqAgdTMyIHVuaXF1ZV9yZXZfaWQgPSBtZGV2LT5tb2RlbC5nMjAwc2UudW5pcXVlX3Jldl9p
+ZDsNCj4gDQo+ICDCoMKgwqDCoMKgwqDCoCBpZiAodW5pcXVlX3Jldl9pZCA9PSAweDAxKSB7
+DQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAyNDQwMDsNCj4gIMKgwqDCoMKg
+wqDCoMKgIH0gZWxzZSBpZiAodW5pcXVlX3Jldl9pZCA9PSAweDAyKSB7DQo+ICDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHJldHVybiAzMDEwMDsNCj4gIMKgwqDCoMKgLi4uDQo+IA0KPiAg
+wqDCoMKgwqB9IGVsc2UgaWYgKG1kZXYtPnR5cGUgPT0gRzIwMF9FUikgew0KPiAgwqDCoMKg
+wqDCoMKgwqAgcmV0dXJuIDU1MDAwOw0KPiAgwqDCoMKgwqB9DQo+ICDCoMKgwqDCoC8qIE5v
+IGJhbmR3aWR0aCBkZWZpbmVkICovDQo+ICDCoMKgwqDCoHJldHVybiAwOw0KPiB9DQo+IA0K
+PiB0aGVuIGluIG1nYWcyMDBfbW9kZV9jb25maWdfbW9kZV92YWxpZCgpDQo+IA0KPiBpbnQg
+ZzIwMF9iYW5kd2lkdGggPSBtZ2FnMjAwX2dldF9iYW5kd2lkdGhfa2JwcyhtZGV2KTsNCj4g
+DQo+IGlmIChnMjAwX2JhbmR3aWR0aCAmJiBtZ2FnMjAwX2NhbGN1bGF0ZV9tb2RlX2JhbmR3
+aWR0aChtb2RlLCBtYXhfYnBwICogDQo+IDgpID4gZzIwMF9iYW5kd2lkdGggKiAxMDI0KQ0K
+PiAgwqDCoMKgwqByZXR1cm4gTU9ERV9CQUQ7DQo+IA0KPiANCj4gDQo+IEkndmUgYWxzbyB0
+ZXN0ZWQgdGhpcyBwYXRjaHNldCwgYW5kIGhhdmUgc2VlbiBubyByZWdyZXNzaW9uLg0KPiAN
+Cj4geW91IGNhbiBhZGQNCj4gDQo+IFJldmlld2VkLWJ5OiBKb2NlbHluIEZhbGVtcGUgPGpm
+YWxlbXBlQHJlZGhhdC5jb20+DQo+IFRlc3RlZC1ieTogSm9jZWx5biBGYWxlbXBlIDxqZmFs
+ZW1wZUByZWRoYXQuY29tPg0KPiANCj4gZm9yIHRoZSB3aG9sZSBzZXJpZXMuDQo+IA0KDQpH
+cmVhdCEgVGhhbmsgeW91IHNvIG11Y2guDQoNClNpbmNlIHBvc3RpbmcgdGhpcyBwYXRjaHNl
+dCwgSSB0YWxrZWQgdG8gQWRhbSBKYWNrc29uIGFib3V0IHdoeSBHMjAwU0UgDQpzb21ldGlt
+ZXMgcHJlZmVycyAxNi1iaXQgY29sb3IgZGVwdGguIFsxXSBIZSB0b2xkIG1lIHRoYXQgc29t
+ZSB2ZXJ5IA0KZWFybHkgcmV2aXNpb25zIG9mIHRoZSBHMjAwU0UgaGFkIG9ubHkgMS43NSBN
+aUIuIFJlZHVjaW5nIHRoZSBicHAgDQphbGxvd2VkIHRoZW0gdG8gcnVuIGF0IDEwMjR4NzY4
+LiBIZSBtZW50aW9uZWQgdGhhdCB0aGlzIHdhcyByZXF1aXJlZCB0byANCnBhc3Mgc29tZSBz
+b3J0IG9mIGNvbmZvcm1hbmNlIHRlc3QuDQoNCkFzIHBhdGNoIDYvNyBub3cgaGFyZGNvZGVz
+IGEgcmVxdWlyZW1lbnQgZm9yIGFsbCBtb2RlcyB0byBzdXBwb3J0IDQgYnBwLCANCnRoZXNl
+IG9sZCBkZXZpY2VzIGFyZSBzdHVjayBhdCA2NDB4NDgwLiBUaGF0IHNob3VsZCBzdGlsbCBi
+ZSBlbm91Z2ggZm9yIA0KYSBzZXJ2ZXIuIEkgZG9uJ3QgZXhwZWN0IHRoYXQgYW55b25lIHJl
+YWxseSBjYXJlcyBhbnkgbG9uZ2VyLCBidXQgaWYgaXQgDQpldmVyIGNvbWVzIHVwIHdlIGNh
+biByZWxheCB0aGUgcmVxdWlyZW1lbnQgYWdhaW4uIEknbGwgbWVudGlvbiB0aGF0IGluIA0K
+dGhlIGNvbW1pdCBtZXNzYWdlIGJlZm9yZSBtZXJnaW5nIHRoZSBwYXRjaC4NCg0KSSdsbCBh
+bHNvIHdhaXQgZm9yIHlvdXIgcGF0Y2hlcyB0byBsYW5kLiBTbyB5b3Ugd29uJ3QgcnVuIGlu
+dG8gbWVyZ2UgDQpjb25mbGljdHMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSAN
+Cmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjE3LjYvc291cmNlL2RyaXZl
+cnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jI0wxMDUzDQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
+LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
+cjogSXZvIFRvdGV2DQo=
 
-Some high-level documentation is sorely needed.
+--------------QrkcVmFzJIypFLWdhORdGWHs--
 
-Regards,
+--------------lRGEZPcqebVRFV9pU3RXqRh8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-	Hans
+-----BEGIN PGP SIGNATURE-----
 
-> +#define _UAPI_LINUX_AFIINE_H
-> +
-> +#include <linux/ioctl.h>
-> +#include <linux/types.h>
-> +#include "ipa.h"
-> +
-> +#define DRV_AFFINE_BIT_CONFIG_DESC_FINAL (0x8000U)
-> +#define DRV_AFFINE_BUFFER_INDEX_MAX	 (3)
-> +
-> +#define DRV_AFFINE_AFFINE_PARAM_NUM	 (6U)
-> +#define DRV_AFFINE_UNDIST_PARAM_NUM	 (12U)
-> +#define DRV_AFFINE_HOMO_PARAM_NUM	 (3U)
-> +#define DRV_AFFINE_TEMP_UNDIST_PARAM_NUM (10U)
-> +
-> +/**
-> + * struct drv_affine_status - AFFINE IPA status for IOC_IPA_GET_STATUS
-> + * @state:                State of driver
-> + * @comp_size:            Setting size is smaller than actual size
-> + * @comp_lack_data:       Compressed table is lacking enough data for processing
-> + * @comp_over_data:       Compressed table is exceeding the limit of data that can be processed
-> + * @comp_over_coordinate: Number of coordinates in compressed table data exceeded the limit
-> + * @comp_syntax_error:    Syntax error of compressed table has occurred
-> + * @reserved:             Padding
-> + */
-> +struct drv_affine_status {
-> +	enum drv_ipa_state state;
-> +	uint32_t comp_size : 1;
-> +	uint32_t comp_lack_data : 1;
-> +	uint32_t comp_over_data : 1;
-> +	uint32_t comp_over_coordinate : 1;
-> +	uint32_t comp_syntax_error : 1;
-> +	uint32_t reserved : 27;
-> +};
-> +
-> +/**
-> + * struct drv_affine_descriptor - AFFINE IPA descriptor for IOC_IPA_START
-> + * @ctrl:            Operation control of AFFINE
-> + * @mode2:           Operation mode for the AFFINE execution
-> + * @mode:            Operation mode for the AFFINE execution
-> + * @adj_p:           Output Pixel Value Adjustment
-> + * @src_size:        Input image size
-> + * @src_addr:        Start address of input image
-> + * @dst_bgn:         Start coordinate of the output rectangle area
-> + * @dst_size:        Size of the output rectangle area
-> + * @dst_addr:        Address of the output rectangle area
-> + * @l_ptch:          Line pitch of both the input image and output rectangle area
-> + * @tbl_addr:        Start address of the table used in the table conversion mode.
-> + * @tbl_ptch:        Line pitch of the table used in the table conversion mode
-> + * @affine_param:    Parameters for Affine transformation
-> + * @dist_param:      Parameters for Distortion correction
-> + * @homo_param:      Parameters Homography transformation
-> + * @tbl_comp_size:   Table compression size
-> + * @temp_dist_p:     Temporary buffer to hold distortion input parameters
-> + * @config_done:     Flags of called configuration
-> + * @buffer_info:     Table of buffer information
-> + * @buffer_info_num: Number of buffer_info
-> + */
-> +struct drv_affine_descriptor {
-> +	uint32_t ctrl;
-> +	uint32_t mode2;
-> +	uint32_t mode;
-> +	uint32_t adj_p;
-> +	uint32_t src_size;
-> +	struct drv_ipa_addr src_addr;
-> +	uint32_t dst_bgn;
-> +	uint32_t dst_size;
-> +	struct drv_ipa_addr dst_addr;
-> +	uint32_t l_ptch;
-> +	struct drv_ipa_addr tbl_addr;
-> +	uint32_t tbl_ptch;
-> +	uint32_t affine_param[DRV_AFFINE_AFFINE_PARAM_NUM];
-> +	uint32_t dist_param[DRV_AFFINE_UNDIST_PARAM_NUM];
-> +	uint32_t homo_param[DRV_AFFINE_HOMO_PARAM_NUM];
-> +	uint32_t tbl_comp_size;
-> +	float temp_dist_p[DRV_AFFINE_TEMP_UNDIST_PARAM_NUM];
-> +	uint16_t config_done;
-> +	struct drv_ipa_buffer_info buffer_info[DRV_AFFINE_BUFFER_INDEX_MAX];
-> +	int32_t buffer_info_num;
-> +};
-> +
-> +#endif /* _UAPI_LINUX_AFIINE_H */
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ87TMFAwAAAAAACgkQlh/E3EQov+Ae
+3A//Ut5CcvAdo7Y0CV9LfYWTjEtFj+L7Q8rZ/TO8/TPJKzv8/jG4PiQw1nzawKHyRXC904KuZJwD
+cI8ug96/IBbBgMzjHkfBGDrB49SYWfjGhjSBYaQLigxntfKlg+B5pBZcB+MT2h2jZubS1pOuN7Dj
+rquBdProGd4acXaEKj49x3hbqo6jTI2fBAVBw2pXpQp4refI31iEROrYPI9bEDC+UrpFpoWeNkZf
+BP4IMAn9Ox75iKoXCkye4TQtb55vwqLhfp9+42jkicMlO9aT4HlRqPZdbkhG3rf5bvjqEiTCZim1
+zpv7LoKbIqoQ7r+TokjBf0E1+iIZAIbgSrkO1tJHsz+6HA+0CQx/jvQvntu6fuwN5lZXQY+m5V7F
+GUKJDDEvFeOfYHSctMU8AFKMfqpLQCP0Ck2Zb8DQatELQUML6vacQ04FtvxGay+DJYNZxsTLsIEH
+18A7Z1AXc9EiWMrTqGQ56NL/QOKURHyvorQ5D63uxyuouELcDVuAsKay1d/R9i6xhDyjhjDs3T/Z
+/LbgBOeuKpjckvBCI5ZP0bQZCgYWLOguuU+gc3Xbs/I5PXVz6zlmNSUF28RbmzjKEUB+CB5WAqse
+9pUshTX4K9WzGF5Ztv0H8UUanbIr+74b6EeW2SvB1q2PmVjZm5Q2JCdOZB8rzL/xQtHaqlgeBUtr
+HEY=
+=hYzw
+-----END PGP SIGNATURE-----
 
+--------------lRGEZPcqebVRFV9pU3RXqRh8--
