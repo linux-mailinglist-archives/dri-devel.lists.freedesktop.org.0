@@ -1,74 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042C4524863
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 10:55:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C14E524898
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 11:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8092410FC65;
-	Thu, 12 May 2022 08:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5C710FF1E;
+	Thu, 12 May 2022 09:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
  [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E62B910FC65
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 08:55:15 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id F1D3C320095E;
- Thu, 12 May 2022 04:55:11 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 12 May 2022 04:55:12 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A57310FF1E
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 09:09:42 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id F30C43200975;
+ Thu, 12 May 2022 05:09:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 12 May 2022 05:09:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1652345711; x=1652432111; bh=76WkP2VfUr
- tCYkj0/+l0ZpxaKU1NSFwWx6D8oQZrZWA=; b=dRwzJOiOOXFcOpaTQJ7l2XCZSG
- xIs+/nLxOngrknu5RsONAwy4WFLE/UIEkavaWoJMRS8ycJ5bWDJex9Emp1BMMmwl
- B44WaLjkDpFIvK2m26OXIb4yjIg6NR4fGOzoIHAK6ry9uzrXluu4yO216oJ5HyvK
- Trg0xTz11KP0d55kBuJz2tieszAFYS0vn1gYr/XAkvi0Noe4NgiYiS6JwEo0qqOq
- 0234wca+X7dClHsd898pvTqzHZx0WHzBQvQ686dClzrSgks97efKmDf5j7FGPWsf
- 7eTbSFGHDtFIqAgmwia4Ey+dcTpeuIMbV1S45XvVVhZJ5rjviwfZh6XEW6KA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652345711; x=
- 1652432111; bh=76WkP2VfUrtCYkj0/+l0ZpxaKU1NSFwWx6D8oQZrZWA=; b=x
- /sBYtmOrp+4t7f/tLBDilajqENNBXbCWcC5sldZuWAYU+abzuQtHKMiInERmuRyx
- tpOto1J4xGUsc955VaM2m04t21nCj8TBfxMaLwKeVpoppZlzZhwX298fdEPdyP6F
- defPGDxuYlhRw5eiIfuXOLdPuR4aMNUoJX4XMxHdOlTTGB+pHwEYg7N/QXNcHJvZ
- mtMhAPGfOVkg3SewMHvMEJTs273oXDYdiVunCOOTwbjNWQgL2X2ecLtjtiXpiMcZ
- s9O7Yms7MUAt4axCSOIGb3NJz8vkUb0iDUuORgfd42U0ufAV1ZO+rCRFFPp58yJR
- oyXKHoKhz8jBkCdxy9MYg==
-X-ME-Sender: <xms:bst8YkGRxPW4Pte_mfew_Ri2cv0CnT00fjX7n2nWxZVG9MGjBLMqJA>
- <xme:bst8YtVaFM1VPCo2C0ppuH9KZnxqbQ2eKQCkjkTyG_9QnrQPK9qwbvN7Iz9GZz6WD
- V_3xdkKEMqxKPfN4_Q>
-X-ME-Received: <xmr:bst8YuJiAgUwkuiju7sohr7AVLi5r8v6vaoKKVNDlXrC7ZHabOnLgOgOjHws7p-tMf737N5Is5vGpPChqVHtx1knTdh4kLYj4sTb17U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeejgddtjecutefuodetggdotefrodftvf
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1652346580; x=
+ 1652432980; bh=/bgeaIMZnvjlafXAlm2rjsulUtrzd+cfFyKgpgA/3mA=; b=C
+ InGOtHQrkek0v/aKfaW3jBjPyHqSJ1i/MeCFPgqBfiSZ0I2QtKgjeQztnQg074j8
+ CWnTuPzPMKU4lKegZ89mRS3iQJrDvHjR9NIznjCLPF24ppv6Mau7tA/h+PNlZQ5W
+ lRZhro0NARB4noSXHmFkIyvkPQWp6ejj/ikztHBi50IehoptkYKNCxblJwk9yBzK
+ 1OooMx5hkQXCyEgYiTvfetPkf0WrL54894kfHUw6w3eXcl23UF0mo3TrX3l41v0o
+ 99o5S1/KQSKD5y/DzQ9a8qTETFbn6A39wSgGcPnoguPizimJpIUoY6rH1LGljtSz
+ MQ4MWs2nlT/dwAOwP8gYQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1652346580; x=1652432980; bh=/bgeaIMZnvjla
+ fXAlm2rjsulUtrzd+cfFyKgpgA/3mA=; b=jk/vkqRItwLfUyeC8/DFxGx1MkKni
+ eHjVtgTNcBMD2fjfx2JZIw+sBeXHU3mjoguHjJm5Fwku+8Bp82hJDGgI5vQK6RoW
+ D8FHiXvkFu6+PzRslHsX83FCmIIwPYuJvAf/ozPU423+TgBVVsV+oVN7iEsjtRNb
+ upjuJd6ewq8nOEk1/JlUBF8bQjHcIbOQjqNu/Ycoard1TpyfNVVZbb19BG9eWjYx
+ /nn7hEgzXFrS2HxjRUIL7XLLw385Gl3pV/L33FuiwMGB6HL6dF1CSaVljo5xKa7l
+ 66Cud69MEcMfbp1d4evWpDgTUaVjOkY2m7wazwlEBRAfJ54u0bVwJHeyQ==
+X-ME-Sender: <xms:0858YrGwf_OyQQxM7IHZ8l4ZIAaS_ASOwQ1ZcCJfoOVWzAPqHpdYUw>
+ <xme:0858YoVdPw_dr5OGierM6BB1VEqteVuqnJgYWNtWJsSsezoSnXGOAdqF6IpeYE1aw
+ uPSJwesl0cxi_fU9GE>
+X-ME-Received: <xmr:0858YtKn_O8YwkZ3_dwsjQOCXa-4nlmCK-mb15X_JseKjiuwx1n90MzDF-57pvUv_DNAyx4KEye7iGvhwkhdN9_2ixJgsXtHd8ZZWCM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeejgddutdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:bst8YmGSFrD-XYyeHmpqwOfsOytF5VN84iSi8xXnoZOueKaUriBIFg>
- <xmx:bst8YqU9z4x2GgVR9rFKiaBH4svs3JYYmmJRckOROu-GpihWylmPKA>
- <xmx:bst8YpMZopAcoBV-VGLLrQpT3hyDbK2Qdz6IiyIsMRWTEjZz663Mkg>
- <xmx:b8t8Yoz8Ps86nEYifQT3J1kriAjf0Z4a0mUqkAPI7mZ4GR6C7tysWQ>
+ fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
+ udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:0858YpGM1UNIkOhRMg85gWPm0KqaxUPWdaX9W4yGi5RKxXhiw80NwA>
+ <xmx:0858YhXkJk536kUuPi-WjtheTc0oiiocWBdDPdGMHjPU22TOU-4lNw>
+ <xmx:0858YkOXvDH-xNgfglt85F8gpFGiyHq2e35AdCvq9-HPpZV2kEnDsg>
+ <xmx:1M58YgFTf5DCrXJuFcKNIX6911OuvgWEIIW9rBstK8o48nAgHcamUg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 May 2022 04:55:10 -0400 (EDT)
-Date: Thu, 12 May 2022 10:55:09 +0200
+ 12 May 2022 05:09:39 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/3] drm/client: Fix display-mode selection
-Message-ID: <20220512085509.kkffrhlypayhuo23@houat>
-References: <20220511183125.14294-1-tzimmermann@suse.de>
+To: emma@anholt.net,
+	Hui Tang <tanghui20@huawei.com>
+Subject: Re: (subset) [PATCH -next] drm/vc4: hdmi: Fix build error for
+ implicit function declaration
+Date: Thu, 12 May 2022 11:09:36 +0200
+Message-Id: <165234657363.650256.10198774771301868859.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220510135148.247719-1-tanghui20@huawei.com>
+References: <20220510135148.247719-1-tanghui20@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="if6a4whwkryybru6"
-Content-Disposition: inline
-In-Reply-To: <20220511183125.14294-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,56 +84,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, javierm@redhat.com
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 10 May 2022 21:51:48 +0800, Hui Tang wrote:
+> drivers/gpu/drm/vc4/vc4_hdmi.c: In function ‘vc4_hdmi_connector_detect’:
+> drivers/gpu/drm/vc4/vc4_hdmi.c:228:7: error: implicit declaration of function ‘gpiod_get_value_cansleep’; did you mean ‘gpio_get_value_cansleep’? [-Werror=implicit-function-declaration]
+>    if (gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio))
+>        ^~~~~~~~~~~~~~~~~~~~~~~~
+>        gpio_get_value_cansleep
+>   CC [M]  drivers/gpu/drm/vc4/vc4_validate.o
+>   CC [M]  drivers/gpu/drm/vc4/vc4_v3d.o
+>   CC [M]  drivers/gpu/drm/vc4/vc4_validate_shaders.o
+>   CC [M]  drivers/gpu/drm/vc4/vc4_debugfs.o
+> drivers/gpu/drm/vc4/vc4_hdmi.c: In function ‘vc4_hdmi_bind’:
+> drivers/gpu/drm/vc4/vc4_hdmi.c:2883:23: error: implicit declaration of function ‘devm_gpiod_get_optional’; did you mean ‘devm_clk_get_optional’? [-Werror=implicit-function-declaration]
+>   vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
+>                        ^~~~~~~~~~~~~~~~~~~~~~~
+>                        devm_clk_get_optional
+> drivers/gpu/drm/vc4/vc4_hdmi.c:2883:59: error: ‘GPIOD_IN’ undeclared (first use in this function); did you mean ‘GPIOF_IN’?
+>   vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
+>                                                            ^~~~~~~~
+>                                                            GPIOF_IN
+> drivers/gpu/drm/vc4/vc4_hdmi.c:2883:59: note: each undeclared identifier is reported only once for each function it appears in
+> cc1: all warnings being treated as errors
+> 
+> [...]
 
---if6a4whwkryybru6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to drm/drm-misc (drm-misc-fixes).
 
-On Wed, May 11, 2022 at 08:31:22PM +0200, Thomas Zimmermann wrote:
-> Pick user-defined display mode in DRM clients if the mode has been
-> validated by the driver. Otherwise pick a preferred display mode.
->=20
-> Booting the kernel with video=3D<mode> and giving an unsupported display
-> mode can easily turn the display unusable. This is best tested by
-> booting simpledrm with a display mode that does not use the firmware
-> framebuffer's resolution. While simpledrm filter's out the mode as
-> invalid, the DRM client still picks it and the console won't show up.
->=20
-> Several factors contribute to this problem.
->=20
->  * The connector invalidates the user-defined display mode, but never
->    tells the user about it.
->  * The DRM client doesn't look for user-defined display modes, but for
->    modes that are similar.
->  * If no similar mode can be found, the client adds the invalid display
->    mode back to the connector's mode list for use.
->=20
-> Each of the patches in this patchset addresses one of these problems.
-> Overall the DRM client has no business in display-mode detection and
-> should only pick one of the modes that has been detected and validated=20
-> by the connector.
-
-That's awesome, thanks!
-
-For the series,
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-
+Thanks!
 Maxime
-
---if6a4whwkryybru6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYnzLbQAKCRDj7w1vZxhR
-xcLZAQCmaFZm5VML0zj8eT61S8TNNWnJw2O0srCY/BQbQYp0mAD/RkvwTrNhcPhn
-y3biVwYgPt1dMR/VYAG1glSW9CNEKAk=
-=nW+V
------END PGP SIGNATURE-----
-
---if6a4whwkryybru6--
