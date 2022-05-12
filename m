@@ -2,66 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEA1525836
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 01:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BBD525867
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 01:36:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34EDD10EB6F;
-	Thu, 12 May 2022 23:24:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02E0D10ECB6;
+	Thu, 12 May 2022 23:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 268AF10EB6F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 23:24:29 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id g23so7945894edy.13
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xP2D+p2j0XpeMP91WpwvfAiSjDuD02vLWMlVM5sdkSI=;
- b=TW6S5OGQE7UTMHdah+GzZiJdSO4wGVz+QaNpAV2t7s9ackgzkc+IyWcb+J5fxjCm9N
- peHzh1yXiQYsVgoTsn4mHRjqGARsKyczUxbA1Tsuy+OcmIIGsRMBc6qyKARz4FlR/lkH
- KjNs98sZURIhZSAjZ4j/GVKL90M3od7nHj7PY=
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1A710ED07
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 23:36:50 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id bx33so8331936ljb.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Mqg2HFo22LFUUAaIX3kOrdEQtT9JSav1gOQJOHe+MV4=;
+ b=mmR26HUeqn9O1FSlvZQyN8+ORR4vZKDXyrydHFmv787Zc9a1TOfTgqG5GLjXrYHsYA
+ /FwsXZG72N4ZPzGi/bx4LpFilKVXHporkkc39B9zx7xzqVw1HT/8CCod3ku7aY31RLCy
+ yi8S5F9e8zcNX+kOQ5POJ6PH5pDW3GxLS7vQA5cyAtqv1KDmlj8u5zQvVG1UN9pUqu7O
+ jObEyn32ImgdkZdTGsYTDRJqg/DybjdlvEJ8tSzQSfb6RvcqsqgD+6z18IpCBod348u0
+ i/cFE6wp7VrPz5qDGvaYkpHm0Bvlk/5UqcckaZyl3TRyx6YkoB7TqCzQG/5QBtsrykdi
+ +9cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xP2D+p2j0XpeMP91WpwvfAiSjDuD02vLWMlVM5sdkSI=;
- b=tkdhryAm63xhTVsEi6q/hHLz6vo4NyuJfb2V4NOJ4vyj3p17ADQk2ZZWre96O4Zota
- ckTtU8y7l0z4pwTlQ13b/Wz/+QIASj8T5H7UriggKLorLpb5tdYlU9Yjz+cdIuznX6EZ
- KkL9cOdEvU0pAKIHJbJyeQrzOWzqUkmQ//Xu85LRovj8SETEbHKwOJMNNX7btxEXcP0u
- NKjNX2/i8B1zDfUdkIQaZedMUBfRuwqLvRdxc8UqHNHYS/XcHFZOo5VWw+7fQB35tdSI
- iBI7kN4Gqa2sQheHQhtJ8ce/TevoxKBujisJncJuKlcciCBoTpn9qe/KRWXDDgnFmMyr
- 9VUw==
-X-Gm-Message-State: AOAM533g4+ohbBlyIEaoCYt8YsonXQp8efv7lBx2YWJMzufbjoLu0nlQ
- KCb1nxiCZidYu4e6xFAS5RI1AZs46ArUVV1j
-X-Google-Smtp-Source: ABdhPJxVNzXQonqEHL9U7pD9+VrkFSL1rB0C+dMbN68cVHeOlyHWR8zrar6/3q2hKnaN8N+ytLw/VA==
-X-Received: by 2002:a05:6402:1d48:b0:427:e039:9262 with SMTP id
- dz8-20020a0564021d4800b00427e0399262mr38217152edb.148.1652397867491; 
- Thu, 12 May 2022 16:24:27 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com.
- [209.85.221.51]) by smtp.gmail.com with ESMTPSA id
- w27-20020a170907271b00b006f3ef214e12sm194523ejk.120.2022.05.12.16.24.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 May 2022 16:24:25 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id v12so9192233wrv.10
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:24:25 -0700 (PDT)
-X-Received: by 2002:a05:6000:2c1:b0:20c:5e37:3ed1 with SMTP id
- o1-20020a05600002c100b0020c5e373ed1mr1564105wry.342.1652397864753; Thu, 12
- May 2022 16:24:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Mqg2HFo22LFUUAaIX3kOrdEQtT9JSav1gOQJOHe+MV4=;
+ b=cb49oY/VsH4Pz7j3TEzjnb7pkaOgW0//hs/eHrMxRxk/1cIDQ5/HtqQGpB4BjMeV/O
+ HbIxGb58A3LPl/SfwYe86bQ3LmRIgxrb7RM5nRnNJbtbZfCHgT8QlMHs+ZaRUzSMCOoC
+ r6bBr7CC+0D8IlQm2B9adQeATc6LpjadQxyKOmiSC0PGN82fPZY0s6KcdolQ3mxVGZau
+ YtvTddlzq2z7HQL+H/u+XWFzP84XSivneK4297ZsO4KI3zmKppMoVfNHLvcc3IF4/Cyt
+ DKnkVPnrqSKPSc4wF8w8UsDuL0FO7rLT9fqriOSEXiGpjM3CIQ3BZ7riCDirs0+p/eje
+ 7KZg==
+X-Gm-Message-State: AOAM530T7AuzEjjMCV5RgfE+RtDX7wMFhleGUvH6JlhfL9Ksu8rlfQmF
+ Jo/0tY4oIoDfQ7gUja1v0TZHGQ==
+X-Google-Smtp-Source: ABdhPJwBV8uAqbFejjQddQs0SGuoQqzrAx8iRAAigbgyagyUKnQQFbrC4zQOu8lElkRCIsjDcVoTBw==
+X-Received: by 2002:a2e:934b:0:b0:24f:cce:5501 with SMTP id
+ m11-20020a2e934b000000b0024f0cce5501mr1442767ljh.443.1652398608278; 
+ Thu, 12 May 2022 16:36:48 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ p13-20020a19f00d000000b0047255d211c1sm127937lfc.240.2022.05.12.16.36.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 May 2022 16:36:47 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 0/8] arm64: dts: qcom: initial Inforce IFC6560 board support
+Date: Fri, 13 May 2022 02:36:39 +0300
+Message-Id: <20220512233647.2672813-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220418171757.2282651-1-dianders@chromium.org>
- <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
- <CAE-0n51iNXN4oOP-wAqrm9U6qC84fQ+qMUBu0BODXjsCDk+H=w@mail.gmail.com>
-In-Reply-To: <CAE-0n51iNXN4oOP-wAqrm9U6qC84fQ+qMUBu0BODXjsCDk+H=w@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 12 May 2022 16:24:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
-Message-ID: <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] drm/dp: Add wait_hpd_asserted() callback to struct
- drm_dp_aux
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,130 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Kees Cook <keescook@chromium.org>,
- David Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
- Jani Nikula <jani.nikula@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This work is largely based on the previous work by Bjorn Andersson ([1])
 
-On Wed, May 11, 2022 at 6:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Douglas Anderson (2022-04-18 10:17:54)
-> > Sometimes it's useful for users of the DP AUX bus (like panels) to be
-> > able to poll HPD. Let's add a callback that allows DP AUX busses
-> > drivers to provide this.
-> >
-> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > Left Dmitry's Reviewed-by tag off since patch changed enough.
-> >
-> > (no changes since v2)
-> >
-> > Changes in v2:
-> > - Change is_hpd_asserted() to wait_hpd_asserted()
-> >
-> >  include/drm/dp/drm_dp_helper.h | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/dp/drm_dp_helper.h
-> > index 53d1e722f4de..0940c415db8c 100644
-> > --- a/include/drm/dp/drm_dp_helper.h
-> > +++ b/include/drm/dp/drm_dp_helper.h
-> > @@ -2035,6 +2035,32 @@ struct drm_dp_aux {
-> >         ssize_t (*transfer)(struct drm_dp_aux *aux,
-> >                             struct drm_dp_aux_msg *msg);
-> >
-> > +       /**
-> > +        * @wait_hpd_asserted: wait for HPD to be asserted
-> > +        *
-> > +        * This is mainly useful for eDP panels drivers to wait for an eDP
-> > +        * panel to finish powering on. This is an optional function.
->
-> Is there any use for the opposite direction? For example, does anything
-> care that HPD is deasserted?
+Changes since v1 (mostly based on Kondrad's review):
+- Also disabled dsi0/dsi0 phy in sdm630.dtsi
+- Removed the clock from BAM DMA devices rather than disabling them
+  completely
+- Replaced numbers with symbolic names for interconnects in sdm630.dtsi
+- Switched to "qcom,sda660" as a fallback compatible string
+- Added dt-bindings for the qcom,sda660 compat
+- Removed extra nesting level from the adsp firmware path
+- Replaced numbers with proper symbolic names in the board file
+- Added chassis-type property
+- Changed the order of blsp entries in the board file
+- Removed spurious newlines
+- Changed the order of regulator properties
+- Changed the DSI data-lines to list all four lanes. Still use just
+  three lanes for the adv bridge (and describe the reason in the
+  comment)
 
-Not that I'm aware of. Originally I was planning to have it so that a
-timeout of "0" meant to just poll without sleeping at all, but it
-ended up making the code a lot more complicated because everywhere
-else we had the "readx" semantics where 0 meant wait forever. It
-didn't seem worth it. I can go back to that behavior if need be.
+Changes since Bjorn's v2:
+- Disable dsi1, dsi1 phy, GPU by default in sdm660.dtsi/sdm630.dtsi
+- Fix qusb2phy ref clock
+- Added USB2 host support to sdm630.dtsi
+- Renamed DTS to follow SoC-vendor-board pattern
+- Fixed vph_pwr voltage
+- Removed extra/unrelated comments
+- Added keys, USB2, USB3,
+- Added configuration for the attached HDMI bridge
+- Enabled MDP, MDSS and DSI0/DSI0 PHY devices
+- Removed uart pinctrl and /reserved-mem nodes (present in main dtsi
+  file)
+- Added card detection for the SDCC2
+- Disabled BLSP BAM DMA devices, they make the board reset during boot
 
+[1] https://lore.kernel.org/linux-arm-msm/20210825221110.1498718-1-bjorn.andersson@linaro.org/#t
 
-> > +        *
-> > +        * This function will efficiently wait for up to `wait_us` microseconds
-> > +        * for HPD to be asserted and might sleep.
-> > +        *
-> > +        * This function returns 0 if HPD was asserted or -ETIMEDOUT if time
-> > +        * expired and HPD wasn't asserted. This function should not print
-> > +        * timeout errors to the log.
-> > +        *
-> > +        * The semantics of this function are designed to match the
-> > +        * readx_poll_timeout() function. That means a `wait_us` of 0 means
-> > +        * to wait forever. If you want to do a quick poll you could pass 1
-> > +        * for `wait_us`.
->
-> It would also make sense to have a drm_dp_wait_hpd_asserted() API
->
->   int drm_dp_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us);
->
-> and then this aux function could be implemented in various ways. The API
-> could poll if the aux can only read immediate state of HPD, or it could
-> sleep (is sleeping allowed? that isn't clear) and wake up the process
-> once HPD goes high. Or if this op isn't implemented maybe there's a
-> fixed timeout member that is non-zero which means "sleep this long".
-> Either way, making each drm_dp_aux implement that logic seems error
-> prone vs. having the drm_dp_aux implement some function for
->
->         get_immediate_hpd(struct drm_dp_aux *aux)
+Dmitry Baryshkov (8):
+  arm64: dts: qcom: sdm660: disable dsi1/dsi1_phy by default
+  arm64: dts: qcom: sdm630: disable dsi1/dsi1_phy by default
+  arm64: dts: qcom: sdm630: disable GPU by default
+  arm64: dts: qcom: sdm630: fix the qusb2phy ref clock
+  arm64: dts: qcom: sdm630: add second (HS) USB host support
+  arm64: dts: qcom: sdm630: use defined symbols for interconnects
+  arm64: dts: qcom: sdm660: Add initial Inforce IFC6560 board support
+  dt-bindings: arm: qcom: document sda660 SoC and ifc6560 board
 
-There's a reason why I changed the API to "wait" from "get". If you
-can think of a good place to document this, I'm all ears.
+ .../devicetree/bindings/arm/qcom.yaml         |   6 +
+ arch/arm64/boot/dts/qcom/Makefile             |   1 +
+ .../boot/dts/qcom/sda660-inforce-ifc6560.dts  | 459 ++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm630.dtsi          |  85 +++-
+ arch/arm64/boot/dts/qcom/sdm660.dtsi          |   3 +
+ 5 files changed, 542 insertions(+), 12 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/qcom/sda660-inforce-ifc6560.dts
 
-The basic problem is ps8640 (my nemesis, apparently). On ps8640,
-because of the black box firmware blob that's on it, we have a crazy
-long delay in its runtime resume (300ms). So what happens with ps8640
-is that if we make the API "get_immediate_hpd()" it wasn't so
-immediate. Even with autosuspend, that first "get" could take 300 ms,
-which really screwed with everyone else who was waiting with a 200 ms
-timeout.
+-- 
+2.35.1
 
-Now, in theory, one could argue that the fact that ps8640 had a 300 ms
-sleep would mean that the very first "get" of the panel would already
-show HPD high. I don't know why that wasn't the case, but ps8640 is an
-annoying black box.
-
-In general, though, the DP controller might need some amount of time
-to power itself back up and configure itself. Even though the ps8640
-case is extreme, it wouldn't be totally extreme to assume that an AUX
-controller might take 20 ms or 50 ms to power up. That could still
-throw timings off. Implementing the API as a "wait" style API gets
-around this problem. Now the DP controller can take as long as it
-needs to power itself up and it can then wait with the requested
-timeout.
-
-
-> or
->
->         notify_on_hpd(struct drm_dp_aux *auxstruct completion *comp)
->
-> > +        *
-> > +        * NOTE: this function specifically reports the state of the HPD pin
-> > +        * that's associated with the DP AUX channel. This is different from
-> > +        * the HPD concept in much of the rest of DRM which is more about
-> > +        * physical presence of a display. For eDP, for instance, a display is
-> > +        * assumed always present even if the HPD pin is deasserted.
-> > +        */
-> > +       int (*wait_hpd_asserted)(struct drm_dp_aux *aux, unsigned long wait_us);
-> > +
-> >         /**
-> >          * @i2c_nack_count: Counts I2C NACKs, used for DP validation.
-> >          */
