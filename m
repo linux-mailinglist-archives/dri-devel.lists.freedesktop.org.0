@@ -2,51 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01839524E97
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF38524E9F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 15:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF14C10E54A;
-	Thu, 12 May 2022 13:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0EAB10E8C1;
+	Thu, 12 May 2022 13:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D92110E49C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 13:46:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id E67851F45583
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1652363216;
- bh=RyPWTywraZJdJgYVK8sw+koHjhdtDXtM5n+U7hdW10g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Oq6GZdIajB4EoWPSLSX2K3nhCdJNatj8DY+t3QlCm7Sf2HkKgPTR1YYvAwUVv7mzQ
- CU33zLRb3MTxD4arnPjDX142ekT2S0LaNvjRhwwXOhhmY9+75ThX1kOqyOuDa7ABbF
- ROqJjmt1xcxbdt1bikcynOMY99x99v+aqGzGh7rm3j33Px/QRYloyzcMbjLhvKU8CB
- FOsorcfZyr3Bi9OBOurcWfL3i7KtQgSW17EBnResBz2MNvfyl0ugrCo83btKS6434L
- tTOOhOByAkPA6hXNjsg+s271ZNRUD+d57OOpPoTaIIu+HSdgboPTbM7sRDAIqHvVD/
- FCrABTI9+Dfyg==
-Message-ID: <174082e0-4472-9dc8-e7df-dfb45c3760ce@collabora.com>
-Date: Thu, 12 May 2022 15:46:52 +0200
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9973F10E7B3;
+ Thu, 12 May 2022 13:47:41 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-ed9a75c453so6642282fac.11; 
+ Thu, 12 May 2022 06:47:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=lAKLw82Wxg+eOurBghu8fJNyA1GqYs5wj0gY1XCz7Ro=;
+ b=m/GTkuGjI1B5jx6nL5P/4EflzdI3QMBGmNFCquv0Dxr0fCYznNF6rzRzEHPTPKHxXC
+ DXkAKLOzNRwhfxSdESZFpIRvG+4ceQQN+sJ5+0VpUfTCScU4gdBJ9VySZxgLIceicUds
+ Ul+KyFqAPUGMw/oPmRPKxvrhebfFVHvbJF+yf079NmUheQb5udeUeydhsXZbaHMmno/M
+ tnPkY9nJec+JaKIn08CcOWzb7djbqDDajDyMz/aUcIC+q5F/D4P1UtsbQeBaR5gM8q3D
+ eU1114Kx4jWdj/jaaqyOGLuTD+X0YmsNDvim0dLXzohhh4FKhdxtFfSkSxthfQj4E1GD
+ 89Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lAKLw82Wxg+eOurBghu8fJNyA1GqYs5wj0gY1XCz7Ro=;
+ b=W2CUUgK7pFPiIfM+ZTqIYYldEvrQY0ns+jAA76o51/l2qaXZmmkuHSgjR7VcEXujYh
+ 6+ytN3v12NWrgISvKZpQ7CLEQrPqXEQMwnt1O7Ss4s6f34Z6eFqa5ZGzynou0OTdUohu
+ HCUoLLGFpcpMkGZgLvlV+nc8pOtJaPitV2aWjOMl+p67h55BNXgGCXVscs9j5DSBpgD8
+ Qroa+xw64XbwfEyK2SBR7svzAZDAB7zztWDNjo8Py0j7bUJ181H1neyAaP5I01vY1A5I
+ FJbiBwT9l0XNm/9cLPqpDW7HTzGRdj61u6syMvAPDeZNAK0ob7y8kBg2YWjylcvqoVM8
+ 2e3Q==
+X-Gm-Message-State: AOAM5311s7AUx/AEdBK+Pep3xc0L6pS3yM68Niv8UXfywE2Y9fOkgMOk
+ PE62oOgj47w1EzY5QzL+vPlLDOyvGwAeTBFTUaY=
+X-Google-Smtp-Source: ABdhPJz3l54A1RhbIxHH695Vm5HWA0Vfm/tkaukXHol2A8LN/cits8d9LpM4S5YTojnhgCH97a8Hlo69iiYpmwq9/30=
+X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
+ z3-20020a056870d68300b000deeaa23550mr5725345oap.253.1652363260913; Thu, 12
+ May 2022 06:47:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH , v4] media: mediatek: vcodec: Fix v4l2 compliance decoder
- cmd test fail
-Content-Language: en-US
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20220423073531.24749-1-yunfei.dong@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220423073531.24749-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <YnTAc96Uv0CXcGhD@suse.de>
+ <CADnq5_NT3UtawpGuPDwF+dgmRdaoysb7sD_-oWWBC=T3BoUH7Q@mail.gmail.com>
+ <YnpIjdTT3esZ72Bf@suse.de>
+ <CADnq5_NYVvjcUru9hfbnATfcHJR5+eiK9bJAA9m41WKa=OJsog@mail.gmail.com>
+ <505081FC-4323-4424-87A9-89B95A89515D@suse.de>
+ <CADnq5_PoWLHydAGqHXKNwBnnc_Uz7xc01Mmp2ri-h+RtnRqgfQ@mail.gmail.com>
+ <YnzG1KE9tasxdUbX@suse.de>
+In-Reply-To: <YnzG1KE9tasxdUbX@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 12 May 2022 09:47:29 -0400
+Message-ID: <CADnq5_OyfTZ1ma_9rc9ePqhRUqcuNbdCPh7eAYUC7zdX+ZOuyA@mail.gmail.com>
+Subject: Re: [BUG] Warning and NULL-ptr dereference in amdgpu driver with 5.18
+To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <jroedel@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,23 +71,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/04/22 09:35, Yunfei Dong ha scritto:
-> Will return -EINVAL using standard framework api when test stateless
-> decoder with cmd VIDIOC_(TRY)DECODER_CMD. Disable them to adjust v4l2
-> compliance test for user driver(GStreamer/Chrome) won't use decoder cmd.
-> 
-> Fixes: 8cdc3794b2e3 ("media: mtk-vcodec: vdec: support stateless API")
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+On Thu, May 12, 2022 at 4:35 AM J=C3=B6rg R=C3=B6del <jroedel@suse.de> wrot=
+e:
+>
+> On Tue, May 10, 2022 at 04:41:57PM -0400, Alex Deucher wrote:
+> > Does setting amdgpu.runpm=3D0 on the kernel command line in grub help?
+> > If so, that should fixed with:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3Df95af4a9236695caed24fe6401256bb974e8f2a7
+>
+> Unfortunatly, no, this option doesn't help. Tested with v5.18-rc6, full
+> dmesg attached.
+>
+> Any idea what the BadTLP messages migh be caused by?
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Are those new?  Maybe the card is not seated correctly?  Can you try
+another slot?
 
+As for the null pointer defer in the display code, @Wentland, Harry
+any ideas?  I don't see why that should happen.  Maybe some hotplug
+pin is faulty or the display has input detection and that is causing
+some sort of hotplug interrupt that causes a race somewhere in the
+driver?  Can you make sure the monitor connector is firmly seated on
+the GPU?
+
+Alex
+
+
+>
+> Regards,
+>
+>         Joerg
+>
+> --
+> J=C3=B6rg R=C3=B6del
+> jroedel@suse.de
+>
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5
+> 90409 N=C3=BCrnberg
+> Germany
+>
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+>
