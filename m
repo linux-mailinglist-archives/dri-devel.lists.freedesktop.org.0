@@ -1,83 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9588D52462B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 08:54:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E212552468C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 09:11:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3302310F02C;
-	Thu, 12 May 2022 06:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7E7F10ED7F;
+	Thu, 12 May 2022 07:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B666610F018
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 06:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652338436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9116210ED64;
+ Thu, 12 May 2022 07:11:29 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 208BF218CE;
+ Thu, 12 May 2022 07:11:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652339488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=m9qrallTCJWWrD1tmfcAYPYM1KeQaHZcmgYv8BoSEF0=;
- b=E+cb7wifLlN70FGYH43v1pQx4iEseTbRqUgopiuWcrvzcEuEqp3dWjihwDlJogNg8MX2PR
- XHzHtgg85SHT+uNLDW6Q4f1uOobWnHckH3XNofNpA4dO0funOBcIUlTTIGExpP3vtTCYHU
- 4XiP7+cKgqkYOKLP8BjRmcbTGfsYpxo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-in-TOhzaN5-EWK6tWFbhdQ-1; Thu, 12 May 2022 02:53:55 -0400
-X-MC-Unique: in-TOhzaN5-EWK6tWFbhdQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n26-20020a1c721a000000b003941ea1ced7so1293906wmc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 23:53:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=m9qrallTCJWWrD1tmfcAYPYM1KeQaHZcmgYv8BoSEF0=;
- b=6VL4cS/oPwgDRkN6HDfarTG0l5P7FRvVT/xqJZNitj19uiOEU1mQkDPYeFMjCPVIjE
- fEnWRjcSVt9CLAjP6Ur4ki9x8rlKZmumnDVPEKBRzClfTJgXgPpLsZXb9Um3OqtAafx/
- J1eH8aq7JHSkbbTFBdyTsZ266UslsGawsaWkbHbvRGELUmlbGjKMM9fevAA2M7+x9lVx
- +fJWFSPmBQX1tGr7ghdXQ7cV1GbteGO5TJd1/vsbNV8N7vSXqTHh1BFFeLp+4OBCnXjY
- /ZS26f9az6OJzUU/qA4zkB+LLys/W15dWk8QVmxBRCBeUr3qxdOWJR1IaWN9SwazFfpO
- cm7A==
-X-Gm-Message-State: AOAM531bHPIstRyzp0pzEma2zf64YUJedYvPqd+zMiqoSJp8y0JyzAC9
- 0iAOA1/5qCYnMK/H089gogPiQF+oFr4BWLVgqxPP8UdzOyzRRbhraG69jrhRcYnyk+jwMIiz3Bl
- CUQBPEjgTcr5WuDYGW7f/6G/5XEOl
-X-Received: by 2002:a7b:c156:0:b0:395:b669:5c83 with SMTP id
- z22-20020a7bc156000000b00395b6695c83mr7053683wmi.141.1652338434248; 
- Wed, 11 May 2022 23:53:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyXJf4J232MvrKUWbwaiPp3FGyyip+AF1RPM/uoHxObgWZHdaCGStWwSfjgtB8rwzUcpS15w==
-X-Received: by 2002:a7b:c156:0:b0:395:b669:5c83 with SMTP id
- z22-20020a7bc156000000b00395b6695c83mr7053662wmi.141.1652338434040; 
- Wed, 11 May 2022 23:53:54 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- i6-20020a05600c480600b003942a244f40sm1640432wmo.25.2022.05.11.23.53.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 23:53:53 -0700 (PDT)
-Message-ID: <a38b92c1-50d9-52df-43b4-a7576531419e@redhat.com>
-Date: Thu, 12 May 2022 08:53:52 +0200
+ bh=Alzshpl205idQoQ6PhCFMgtKn9gTfUtzVsAVfrg0Ww8=;
+ b=rekDtlQ/B9IOZ/UONnhTyRY6Tlic3fXrcCS5jIu2R8mmlY5wtAL0onjED2Ejhye2rxVSzL
+ 5OGn4BmHp8OxD6sp5aIMDws4aTQlRZvDEKOrCq8mKOpGDd0Uk07aUVfYg7thzVTL0nGHGy
+ 57ANjN8JTXLCn4jcL3Yw34Bwy/9zcZc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652339488;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Alzshpl205idQoQ6PhCFMgtKn9gTfUtzVsAVfrg0Ww8=;
+ b=AlAq8Y3EumZ1CTdVPkJT3yqLPqhg6R+DsNxwB6ZI6fY7cU/eX6375KR8lJEd3gJd+JAddn
+ s1ldNTvtexoi/dAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E091B13A97;
+ Thu, 12 May 2022 07:11:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id UKnqNR+zfGK4XwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 May 2022 07:11:27 +0000
+Message-ID: <55aa43cf-af3c-57a9-e0ea-6842faa398d9@suse.de>
+Date: Thu, 12 May 2022 09:11:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+ Thunderbird/91.9.0
 Subject: Re: [PATCH] drm/amdgpu: Add 'modeset' module parameter
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexdeucher@gmail.com>, Lyude Paul <lyude@redhat.com>
-References: <20220511181935.810735-1-lyude@redhat.com>
- <CADnq5_OWH-Bat3OyCmHz6hTE++7hPLXqqMgg2=Nk6HB_Qk61JA@mail.gmail.com>
- <beb6cbd2-445f-c864-3283-ebdacaed37ac@amd.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <beb6cbd2-445f-c864-3283-ebdacaed37ac@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Lyude Paul <lyude@redhat.com>, amd-gfx@lists.freedesktop.org
+References: <20220511181935.810735-1-lyude@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220511181935.810735-1-lyude@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------FZwWpDiFwmiT5DnsNYDROntA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,39 +74,109 @@ Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
  Solomon Chiu <solomon.chiu@amd.com>,
  Kai-Heng Feng <kai.heng.feng@canonical.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/12/22 08:17, Christian König wrote:
-> Am 11.05.22 um 20:36 schrieb Alex Deucher:
->> On Wed, May 11, 2022 at 2:20 PM Lyude Paul <lyude@redhat.com> wrote:
->>> Many DRM drivers feature a 'modeset' argument, which can be used to
->>> enable/disable the entire driver (as opposed to passing nomodeset to the
->>> kernel, which would disable modesetting globally and make it difficult to
->>> load amdgpu afterwards). Apparently amdgpu is actually missing this
->>> however, so let's add it!
->> You can already do that by passing modprobe.blacklist=amdgpu on the
->> kernel command line.  I don't think we need another option to do that.
-> 
-> Yeah, this already came up multiple times and so far we have always 
-> rejected it.
-> 
-> Stuffing that into drivers is not a good approach I think. If we want to 
-> prevent some device from exposing it's display functionalities we should 
-> rather push that into the drm layer.
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------FZwWpDiFwmiT5DnsNYDROntA
+Content-Type: multipart/mixed; boundary="------------G7mzNB08qr3M6k8RramPpjV0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Lyude Paul <lyude@redhat.com>, amd-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Solomon Chiu <solomon.chiu@amd.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <55aa43cf-af3c-57a9-e0ea-6842faa398d9@suse.de>
+Subject: Re: [PATCH] drm/amdgpu: Add 'modeset' module parameter
+References: <20220511181935.810735-1-lyude@redhat.com>
+In-Reply-To: <20220511181935.810735-1-lyude@redhat.com>
 
-Absolutely agree on this. I think what we want is a drm.modeset parameter
-that would have more precedence than "nomodeset". Because the latter is a
-built-in parameter and so it can't be disabled at runtime using sysfs.
+--------------G7mzNB08qr3M6k8RramPpjV0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
--- 
-Best regards,
+SGkNCg0KQW0gMTEuMDUuMjIgdW0gMjA6MTkgc2NocmllYiBMeXVkZSBQYXVsOg0KPiBNYW55
+IERSTSBkcml2ZXJzIGZlYXR1cmUgYSAnbW9kZXNldCcgYXJndW1lbnQsIHdoaWNoIGNhbiBi
+ZSB1c2VkIHRvDQo+IGVuYWJsZS9kaXNhYmxlIHRoZSBlbnRpcmUgZHJpdmVyIChhcyBvcHBv
+c2VkIHRvIHBhc3Npbmcgbm9tb2Rlc2V0IHRvIHRoZQ0KPiBrZXJuZWwsIHdoaWNoIHdvdWxk
+IGRpc2FibGUgbW9kZXNldHRpbmcgZ2xvYmFsbHkgYW5kIG1ha2UgaXQgZGlmZmljdWx0IHRv
+DQo+IGxvYWQgYW1kZ3B1IGFmdGVyd2FyZHMpLiBBcHBhcmVudGx5IGFtZGdwdSBpcyBhY3R1
+YWxseSBtaXNzaW5nIHRoaXMNCj4gaG93ZXZlciwgc28gbGV0J3MgYWRkIGl0IQ0KDQpXZSBo
+YXZlIHJlY2VudGx5IGNvbnNvbGlkYXRlZCB0aGUgaGFuZGxpbmcgb2YgdGhlIG1vZGVzZXQg
+cGFyYW1ldGVyIGluIA0KdGhlIG1hY3JvIGRybV9tb2R1bGVfcGNpX2RyaXZlcl9pZl9tb2Rl
+c2V0KCksIFsxXSAgd2hpY2ggaGFzIGEgDQpkZXByZWNhdGlvbiB3YXJuaW5nIGluIHRoZSBk
+b2NzLiBPbmx5IGEgZmV3IG9sZGVyIGRyaXZlcnMgdXNlIG1vZGVzZXQgDQphbmQgd2UgZG9u
+J3Qgd2FudCB0byB1c2UgaXQgZnVydGhlci4NCg0KQmV0dGVyIGFsdGVybmF0aXZlcyBhcmUg
+bm9tb2Rlc2V0IG9yIGluaXRjYWxsX2JsYWNrbGlzdD1hbWRncHVfaW5pdC4NCg0KQmVzdCBy
+ZWdhcmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9yZy9k
+cm0vZHJtLXRpcC90cmVlL2luY2x1ZGUvZHJtL2RybV9tb2R1bGUuaCNuNzkNCg0KPiANCj4g
+S2VlcCBpbiBtaW5kIHRoYXQgdGhpcyBjdXJyZW50bHkganVzdCBsZXRzIG9uZSBlbmFibGUg
+b3IgZGlzYWJsZSBhbWRncHUsIEkNCj4gaGF2ZW4ndCBib3RoZXJlZCBhZGRpbmcgYSBoZWFk
+bGVzcyBtb2RlIGxpa2Ugbm91dmVhdSBoYXMgLSBob3dldmVyIEknbSBzdXJlDQo+IHNvbWVv
+bmUgZWxzZSBjYW4gYWRkIHRoaXMgaWYgbmVlZGVkLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
+THl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jIHwgMTQgKysrKysrKysrKysrKysNCj4gICAx
+IGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYw0KPiBpbmRleCBlYmQzN2ZiMTljZGIuLjI0ZTZm
+YjQ1MTdjYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X2Rydi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9k
+cnYuYw0KPiBAQCAtODcyLDYgKzg3MiwxNSBAQCBNT0RVTEVfUEFSTV9ERVNDKHNtdV9wcHRh
+YmxlX2lkLA0KPiAgIAkic3BlY2lmeSBwcHRhYmxlIGlkIHRvIGJlIHVzZWQgKC0xID0gYXV0
+byhkZWZhdWx0KSB2YWx1ZSwgMCA9IHVzZSBwcHRhYmxlIGZyb20gdmJpb3MsID4gMCA9IHNv
+ZnQgcHB0YWJsZSBpZCkiKTsNCj4gICBtb2R1bGVfcGFyYW1fbmFtZWQoc211X3BwdGFibGVf
+aWQsIGFtZGdwdV9zbXVfcHB0YWJsZV9pZCwgaW50LCAwNDQ0KTsNCj4gICANCj4gKy8qKg0K
+PiArICogRE9DOiBtb2Rlc2V0IChpbnQpDQo+ICsgKiBVc2VkIHRvIGVuYWJsZS9kaXNhYmxl
+IG1vZGVzZXR0aW5nIGZvciBhbWRncHUgZXhjbHVzaXZlbHkuDQo+ICsgKi8NCj4gK2Jvb2wg
+YW1kZ3B1X2VuYWJsZV9tb2Rlc2V0ID0gdHJ1ZTsNCj4gK01PRFVMRV9QQVJNX0RFU0MobW9k
+ZXNldCwNCj4gKwkJICJFbmFibGUgb3IgZGlzYWJsZSBkaXNwbGF5IGRyaXZlciAoMSA9IG9u
+IChkZWZhdWx0KSwgMCA9IG9mZiIpOw0KPiArbW9kdWxlX3BhcmFtX25hbWVkKG1vZGVzZXQs
+IGFtZGdwdV9lbmFibGVfbW9kZXNldCwgYm9vbCwgMDQ0NCk7DQo+ICsNCj4gICAvKiBUaGVz
+ZSBkZXZpY2VzIGFyZSBub3Qgc3VwcG9ydGVkIGJ5IGFtZGdwdS4NCj4gICAgKiBUaGV5IGFy
+ZSBzdXBwb3J0ZWQgYnkgdGhlIG1hY2g2NCwgcjEyOCwgcmFkZW9uIGRyaXZlcnMNCj4gICAg
+Ki8NCj4gQEAgLTIwMDMsNiArMjAxMiwxMSBAQCBzdGF0aWMgaW50IGFtZGdwdV9wY2lfcHJv
+YmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsDQo+ICAgCWJvb2wgaXNfZndfZmI7DQo+ICAgCXJl
+c291cmNlX3NpemVfdCBiYXNlLCBzaXplOw0KPiAgIA0KPiArCWlmICghYW1kZ3B1X2VuYWJs
+ZV9tb2Rlc2V0KSB7DQo+ICsJCURSTV9JTkZPKCJtb2Rlc2V0PTAgcGFzc2VkIHRvIGFtZGdw
+dSwgZHJpdmVyIHdpbGwgbm90IGJlIGVuYWJsZWRcbiIpOw0KPiArCQlyZXR1cm4gLUVOT0RF
+VjsNCj4gKwl9DQo+ICsNCj4gICAJLyogc2tpcCBkZXZpY2VzIHdoaWNoIGFyZSBvd25lZCBi
+eSByYWRlb24gKi8NCj4gICAJZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoYW1kZ3B1X3Vu
+c3VwcG9ydGVkX3BjaWlkbGlzdCk7IGkrKykgew0KPiAgIAkJaWYgKGFtZGdwdV91bnN1cHBv
+cnRlZF9wY2lpZGxpc3RbaV0gPT0gcGRldi0+ZGV2aWNlKQ0KDQotLSANClRob21hcyBaaW1t
+ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
+aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2Vy
+bWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2
+byBUb3Rldg0K
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+--------------G7mzNB08qr3M6k8RramPpjV0--
 
+--------------FZwWpDiFwmiT5DnsNYDROntA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJ8sx8FAwAAAAAACgkQlh/E3EQov+DG
+QQ//STXF3Nwv+I5ztWXkBl2yfm1R1sdEPuRdBF4jIzz5Rk99SmkdwqNKOeNtipslkDEvO2xT9gZI
+gahSaQnm1nMwaRBu6Aof8pCOK2ZucchYp1ZsH8v7xdJ1Qv/6WvuJanHMZUdAm4Sc8fMjTz446eiQ
+b0M2w0ryFmmxcNUWZtvGNEw2dUyt17Bq86Y+9QcD5cWP1vLpePpiu4/0QXh4IsmIYiReKZPD2UAy
+y+eEZ1OfZjEWidad4Uo0J/4GVD1bTy2TgPXWjdRXSQgnf4NgTmuB141n5GoYFKjwBfWqXQHjHl/h
+8o29EQ7uM5eXFpbKi1esDY0Mt1nTQkKlKXH1Dw7mceGrQTnD03xnLm3V0dlWsjlQ4CnvvJfFDw3v
+lOWDoyZ+HpZas6j8FvblSKS9KD4YnWOH9RvAxFQYFIFtXIcGt5PTfhQ2zrWT1QmpTEbvYaqEqRvp
+o+vTNdJ7KW6luhdvmuFE+mFcoS//vUJWvofUeS+2cP8LbmT/0Yygc4zKHIyCRiYsaukUOtVMvJ4j
+jKocckU/YHGXUSvpnJ5sXcnTXtCrB98X++CuYkEDO+Ub+lxYW5VXgnEpNxmTXsB33h3Bs+TJl3vl
+GPEbOms4ATOeAGjgoDiN+VekCAl72B9rJJ98bM/2gbpxSQF50uRkM20j3tPSsEGhCkmnEa+XnN6u
+hAA=
+=pFEA
+-----END PGP SIGNATURE-----
+
+--------------FZwWpDiFwmiT5DnsNYDROntA--
