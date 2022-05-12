@@ -1,60 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12FE4525813
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 01:05:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EEA1525836
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 01:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BBE410E799;
-	Thu, 12 May 2022 23:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34EDD10EB6F;
+	Thu, 12 May 2022 23:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C0B10E799;
- Thu, 12 May 2022 23:05:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652396701; x=1683932701;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Irmk+PIoDl9lVGe3CGNHkqKewPzKLkRFe6w4ku7l9SQ=;
- b=GA3jW+qjL+orraCoTI7E+dx4kAiSy6JuVvILmpsdSyCa/Bg/ZwlXbnYF
- vT2xpa374v+5OnwYbU3qaBJQrVYHRexdu+MNHU3IJ3MGPBC1YVM/+ouEw
- g9fxRrV9IyDLMNr9JeGqBLJmPBTcixYQbkQ6Tp1lsy/Yg/lBp+653pPaY I=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 12 May 2022 16:05:00 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2022 16:04:59 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 12 May 2022 16:04:59 -0700
-Received: from [10.38.247.112] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 12 May
- 2022 16:04:56 -0700
-Message-ID: <09d99477-ac9d-ee90-41f1-af13a302d25d@quicinc.com>
-Date: Thu, 12 May 2022 16:04:54 -0700
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 268AF10EB6F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 23:24:29 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id g23so7945894edy.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xP2D+p2j0XpeMP91WpwvfAiSjDuD02vLWMlVM5sdkSI=;
+ b=TW6S5OGQE7UTMHdah+GzZiJdSO4wGVz+QaNpAV2t7s9ackgzkc+IyWcb+J5fxjCm9N
+ peHzh1yXiQYsVgoTsn4mHRjqGARsKyczUxbA1Tsuy+OcmIIGsRMBc6qyKARz4FlR/lkH
+ KjNs98sZURIhZSAjZ4j/GVKL90M3od7nHj7PY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xP2D+p2j0XpeMP91WpwvfAiSjDuD02vLWMlVM5sdkSI=;
+ b=tkdhryAm63xhTVsEi6q/hHLz6vo4NyuJfb2V4NOJ4vyj3p17ADQk2ZZWre96O4Zota
+ ckTtU8y7l0z4pwTlQ13b/Wz/+QIASj8T5H7UriggKLorLpb5tdYlU9Yjz+cdIuznX6EZ
+ KkL9cOdEvU0pAKIHJbJyeQrzOWzqUkmQ//Xu85LRovj8SETEbHKwOJMNNX7btxEXcP0u
+ NKjNX2/i8B1zDfUdkIQaZedMUBfRuwqLvRdxc8UqHNHYS/XcHFZOo5VWw+7fQB35tdSI
+ iBI7kN4Gqa2sQheHQhtJ8ce/TevoxKBujisJncJuKlcciCBoTpn9qe/KRWXDDgnFmMyr
+ 9VUw==
+X-Gm-Message-State: AOAM533g4+ohbBlyIEaoCYt8YsonXQp8efv7lBx2YWJMzufbjoLu0nlQ
+ KCb1nxiCZidYu4e6xFAS5RI1AZs46ArUVV1j
+X-Google-Smtp-Source: ABdhPJxVNzXQonqEHL9U7pD9+VrkFSL1rB0C+dMbN68cVHeOlyHWR8zrar6/3q2hKnaN8N+ytLw/VA==
+X-Received: by 2002:a05:6402:1d48:b0:427:e039:9262 with SMTP id
+ dz8-20020a0564021d4800b00427e0399262mr38217152edb.148.1652397867491; 
+ Thu, 12 May 2022 16:24:27 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com.
+ [209.85.221.51]) by smtp.gmail.com with ESMTPSA id
+ w27-20020a170907271b00b006f3ef214e12sm194523ejk.120.2022.05.12.16.24.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 May 2022 16:24:25 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id v12so9192233wrv.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 16:24:25 -0700 (PDT)
+X-Received: by 2002:a05:6000:2c1:b0:20c:5e37:3ed1 with SMTP id
+ o1-20020a05600002c100b0020c5e373ed1mr1564105wry.342.1652397864753; Thu, 12
+ May 2022 16:24:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v4] drm/msm/dsi: don't powerup at modeset time for
- parade-ps8640
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-References: <20220512145954.v4.1.Ia196e35ad985059e77b038a41662faae9e26f411@changeid>
- <dd62b8a7-43b9-364a-a427-94d621648012@linaro.org>
- <a721e2e9-934e-3028-cb1a-047f6d5c5b1e@quicinc.com>
- <CAD=FV=U_dfCzcW6kP9zH=pxOUAioTMwh7=0-_=zSAkX9hurZmg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAD=FV=U_dfCzcW6kP9zH=pxOUAioTMwh7=0-_=zSAkX9hurZmg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220418171757.2282651-1-dianders@chromium.org>
+ <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
+ <CAE-0n51iNXN4oOP-wAqrm9U6qC84fQ+qMUBu0BODXjsCDk+H=w@mail.gmail.com>
+In-Reply-To: <CAE-0n51iNXN4oOP-wAqrm9U6qC84fQ+qMUBu0BODXjsCDk+H=w@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 12 May 2022 16:24:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
+Message-ID: <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] drm/dp: Add wait_hpd_asserted() callback to struct
+ drm_dp_aux
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,106 +74,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Vinod Koul <vkoul@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Kees Cook <keescook@chromium.org>,
+ David Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 5/12/2022 3:44 PM, Doug Anderson wrote:
-> Hi,
-> 
-> On Thu, May 12, 2022 at 3:34 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->> On 5/12/2022 3:16 PM, Dmitry Baryshkov wrote:
->>> On 13/05/2022 01:00, Douglas Anderson wrote:
->>>> Commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
->>>> time") caused sc7180 Chromebooks that use the parade-ps8640 bridge
->>>> chip to fail to turn the display back on after it turns off.
->>>>
->>>> Unfortunately, it doesn't look easy to fix the parade-ps8640 driver to
->>>> handle the new power sequence. The Linux driver has almost nothing in
->>>> it and most of the logic for this bridge chip is in black-box firmware
->>>> that the bridge chip uses.
->>>>
->>>> Also unfortunately, reverting the patch will break "tc358762".
->>>>
->>>> The long term solution here is probably Dave Stevenson's series [1]
->>>> that would give more flexibility. However, that is likely not a quick
->>>> fix.
->>>>
->>>> For the short term, we'll look at the compatible of the next bridge in
->>>> the chain and go back to the old way for the Parade PS8640 bridge
->>>> chip. If it's found that other bridge chips also need this workaround
->>>> then we can add them to the list or consider inverting the condition.
->>>>
->>>> [1]
->>>> https://lore.kernel.org/r/cover.1646406653.git.dave.stevenson@raspberrypi.com
->>>>
->>>>
->>>> Fixes: 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
->>>> time")
->>>> Suggested-by: Rob Clark <robdclark@gmail.com>
->>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>
->> Yes, I think this is a better solution than a full revert
->>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>
->> I am curious to know why this doesnt work for parade but will not hold
->> this patch back for that. We are initializing and turning on DSI PHY now
->> before turning on the bridge chip which is actually better as we are
->> putting PHY in a good state.
->>
->> So this should have been better, but somehow doesn't work.
-> 
-> I can't really explain it, but mostly because the Parade chip is just
-> a big black box. There have been several times when an OEM using this
-> bridge chip had one problem or another with getting the display to
-> turn on, then the parade FAE would make some magic tweak to the
-> firmware and it would be fixed. The current way that the Linux driver
-> is working is with pretty much zero configuration so I think this chip
-> bakes in a bunch of assumptions about the timings / signal coming from
-> the MIPI DSI side. It doesn't surprise me that changing the order like
-> this would confuse it.
-> 
-> In theory I believe the Parade chip can run in a less "automatic" mode
-> where everything is configured and controlled by Linux. I'd really
-> have preferred if we could have gotten that done, but it didn't end up
-> happening. :(
-> 
-> -Doug
+On Wed, May 11, 2022 at 6:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Douglas Anderson (2022-04-18 10:17:54)
+> > Sometimes it's useful for users of the DP AUX bus (like panels) to be
+> > able to poll HPD. Let's add a callback that allows DP AUX busses
+> > drivers to provide this.
+> >
+> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> > Left Dmitry's Reviewed-by tag off since patch changed enough.
+> >
+> > (no changes since v2)
+> >
+> > Changes in v2:
+> > - Change is_hpd_asserted() to wait_hpd_asserted()
+> >
+> >  include/drm/dp/drm_dp_helper.h | 26 ++++++++++++++++++++++++++
+> >  1 file changed, 26 insertions(+)
+> >
+> > diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/dp/drm_dp_helper.h
+> > index 53d1e722f4de..0940c415db8c 100644
+> > --- a/include/drm/dp/drm_dp_helper.h
+> > +++ b/include/drm/dp/drm_dp_helper.h
+> > @@ -2035,6 +2035,32 @@ struct drm_dp_aux {
+> >         ssize_t (*transfer)(struct drm_dp_aux *aux,
+> >                             struct drm_dp_aux_msg *msg);
+> >
+> > +       /**
+> > +        * @wait_hpd_asserted: wait for HPD to be asserted
+> > +        *
+> > +        * This is mainly useful for eDP panels drivers to wait for an eDP
+> > +        * panel to finish powering on. This is an optional function.
+>
+> Is there any use for the opposite direction? For example, does anything
+> care that HPD is deasserted?
 
-Again this is not to block this change (you already have my ack) but 
-perhaps to help you debug this for future reference as we wont know what 
-change can break parade even in the future if this happens again and the 
-compatible check for parade will keep growing.
+Not that I'm aware of. Originally I was planning to have it so that a
+timeout of "0" meant to just poll without sleeping at all, but it
+ended up making the code a lot more complicated because everywhere
+else we had the "readx" semantics where 0 meant wait forever. It
+didn't seem worth it. I can go back to that behavior if need be.
 
-One suggestion I can give is can we read any status bits out of the 
-parade chip in the power_on() method as its right after the new method 
-to check why its not in good status or what error bits it throws and 
-perhaps share those error bits with the FAE to see when this error can 
-come to decode this black box a bit :)
 
- From those bits, we can narrow down why this timing or sequence change 
-is affecting them. Like some things could be somehow this is delaying 
-the video pixels from transmitting, it expects PHY to be in some state 
-etc and we can kind-of reverse engineer why this change broke it.
+> > +        *
+> > +        * This function will efficiently wait for up to `wait_us` microseconds
+> > +        * for HPD to be asserted and might sleep.
+> > +        *
+> > +        * This function returns 0 if HPD was asserted or -ETIMEDOUT if time
+> > +        * expired and HPD wasn't asserted. This function should not print
+> > +        * timeout errors to the log.
+> > +        *
+> > +        * The semantics of this function are designed to match the
+> > +        * readx_poll_timeout() function. That means a `wait_us` of 0 means
+> > +        * to wait forever. If you want to do a quick poll you could pass 1
+> > +        * for `wait_us`.
+>
+> It would also make sense to have a drm_dp_wait_hpd_asserted() API
+>
+>   int drm_dp_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us);
+>
+> and then this aux function could be implemented in various ways. The API
+> could poll if the aux can only read immediate state of HPD, or it could
+> sleep (is sleeping allowed? that isn't clear) and wake up the process
+> once HPD goes high. Or if this op isn't implemented maybe there's a
+> fixed timeout member that is non-zero which means "sleep this long".
+> Either way, making each drm_dp_aux implement that logic seems error
+> prone vs. having the drm_dp_aux implement some function for
+>
+>         get_immediate_hpd(struct drm_dp_aux *aux)
 
-Like-wise, it is highly possible at the moment we have identified only 
-parade not to work but if there is something wrong with this change we 
-can atleast know what and address it.
+There's a reason why I changed the API to "wait" from "get". If you
+can think of a good place to document this, I'm all ears.
 
-Thanks
+The basic problem is ps8640 (my nemesis, apparently). On ps8640,
+because of the black box firmware blob that's on it, we have a crazy
+long delay in its runtime resume (300ms). So what happens with ps8640
+is that if we make the API "get_immediate_hpd()" it wasn't so
+immediate. Even with autosuspend, that first "get" could take 300 ms,
+which really screwed with everyone else who was waiting with a 200 ms
+timeout.
 
-Abhinav
+Now, in theory, one could argue that the fact that ps8640 had a 300 ms
+sleep would mean that the very first "get" of the panel would already
+show HPD high. I don't know why that wasn't the case, but ps8640 is an
+annoying black box.
+
+In general, though, the DP controller might need some amount of time
+to power itself back up and configure itself. Even though the ps8640
+case is extreme, it wouldn't be totally extreme to assume that an AUX
+controller might take 20 ms or 50 ms to power up. That could still
+throw timings off. Implementing the API as a "wait" style API gets
+around this problem. Now the DP controller can take as long as it
+needs to power itself up and it can then wait with the requested
+timeout.
+
+
+> or
+>
+>         notify_on_hpd(struct drm_dp_aux *auxstruct completion *comp)
+>
+> > +        *
+> > +        * NOTE: this function specifically reports the state of the HPD pin
+> > +        * that's associated with the DP AUX channel. This is different from
+> > +        * the HPD concept in much of the rest of DRM which is more about
+> > +        * physical presence of a display. For eDP, for instance, a display is
+> > +        * assumed always present even if the HPD pin is deasserted.
+> > +        */
+> > +       int (*wait_hpd_asserted)(struct drm_dp_aux *aux, unsigned long wait_us);
+> > +
+> >         /**
+> >          * @i2c_nack_count: Counts I2C NACKs, used for DP validation.
+> >          */
