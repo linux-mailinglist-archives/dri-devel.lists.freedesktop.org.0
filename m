@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB61524213
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 03:31:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CA4524231
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 03:41:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30ECD10EC4C;
-	Thu, 12 May 2022 01:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9C6E10F1C0;
+	Thu, 12 May 2022 01:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 711DA10EC4C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 01:30:58 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id p26so6447595lfh.10
- for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 18:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ZpnNREMqXrGizQWJD1QlgIKnhRMzjLbf/0mlxcPUNoY=;
- b=ubJMdDXJ5EZ1iKA+Zi4FaQCbOMhqLtGXLqQNQDYlQykXje9JVXVG1TBe8VOiIz+9UG
- ZLl0/Tg9qZmpr2wfWAXllTDJSX/IrR9tmSkA50GJyI1USWumZWgE9Ysu53HFKZZgeOk4
- NFOjCTmF1wFU+/A0IhLZ+ghRW406T7EoHfETAHMV7PZCZIUUwMyCo/TzAha44ot+FFgZ
- ZM1ZJKUE+AROwB5f2vOoscHXLR/B9SvSqOaa9g8RivX2NlZci7fWo+xWn/5UBHhY0yUo
- S5TvpnkJPNQmQenT96T0EJz4M18jwjsTHgtyfaC+F3al7hmyjNMOrgzxf54Wo5RKMdlr
- zUHQ==
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B58CE10F1C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 01:41:22 +0000 (UTC)
+Received: by mail-oo1-xc30.google.com with SMTP id
+ q73-20020a4a334c000000b0035eb110dd0dso1870449ooq.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 May 2022 18:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=rLjJ0ObXm/eG6uFPnmb+hbYQUbWPG5VcdG3gBpulpjA=;
+ b=Oy2qCbFWbhJBsSdixvgT7G4jo+4gIjzNLWF7oRirqts3owtmixSElnXy9clxneyVgm
+ HRrQZFgEeFiNNneI+TEcUmiy++apz0RYXUvUefMNmFGlbzAbCV7XPcCCNhhsaM4zVQNe
+ RSD7V/WP159ERvRINmvoLgqVSgcceUwIGHH/Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZpnNREMqXrGizQWJD1QlgIKnhRMzjLbf/0mlxcPUNoY=;
- b=FimGXe2Kc/i5bs1SFXjUbb164Iwv3b2bc/JuIRnGEn7xgJVJ5gl9OFf/7uQHAjYLl2
- EZQGziLt8+bc/tG1PloEi3U0CBky9HVrMxgY1dbQZMHmLdPwywi03KICFZbX5DDyp43v
- Uib+lklpFWnqllCOE0SyHsB+pWFtxaKZHpFniaug7qPdsLrd6Q5lXX4CVULhywDXQ3uu
- Lx48T5HRkacetKd8F6ySs5A8bdewJVxU/Khqt4LdY44hPajYrtpDwv7yPq8K+STAl9XZ
- DmP2bgFqzWyM7BujeMt4p3QjwRDHTUbPSlALAwdrssnhk8KhkutuWumnV3A3/upA3IUx
- gjwg==
-X-Gm-Message-State: AOAM533gC/wOkCNXTGTf3rdMlcLK+RZv7wGqWnBhRc3j9EwXHmeba16U
- FeK1sQy9wquMVMtJrl3QW02w1A==
-X-Google-Smtp-Source: ABdhPJxz17HVXDGHrRDxjhowtM7J2TMXaJUPSrh389/cSdrGgYk75oaZeDPixbSwCmszFF1acZCX+w==
-X-Received: by 2002:a05:6512:3f8c:b0:45d:cb2a:8779 with SMTP id
- x12-20020a0565123f8c00b0045dcb2a8779mr23112877lfa.499.1652319056668; 
- Wed, 11 May 2022 18:30:56 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- 1-20020ac25681000000b0047255d2110asm535897lfr.57.2022.05.11.18.30.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 May 2022 18:30:56 -0700 (PDT)
-Message-ID: <d6509c64-3a3e-f13b-6a3f-06f50c427eaf@linaro.org>
-Date: Thu, 12 May 2022 04:30:55 +0300
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=rLjJ0ObXm/eG6uFPnmb+hbYQUbWPG5VcdG3gBpulpjA=;
+ b=XWs9aMwy+/jcbN4/a1Whdlr9XJ8CpUCKvWvE4U3VwDa2N/WgdEbTq8ZyW68sO/Iu+5
+ gusvSL8/DxcLROYILZZLOhwX1n8vdJQtMYD8Ufu/HCxiw7UW6/qFnfyKKGbCswk/iteY
+ /SSvkYWalucG3SinYDSBWxmbacIwAjpMtoDef9u3arVkXZ/OX9LVFbcib/rcS93LEK/f
+ l2p8f1s9gnr2Cg72ObjOXG+owtD8kJntUTGz9iBzBmam56M+PNRykb8+JwWe7J2XoV3d
+ TvuVeNxp6cZ2xaPMYyoYIAXK3fY4Rp5KnSm9SgxxXfu3FiPNup1fp2IX12rEwzjPdBbM
+ mkXA==
+X-Gm-Message-State: AOAM531fWjnHIvyKi7SfxMyIda4FuOjdbvp5w7xDgyzh4YkwfRLAxzJ5
+ PmqGljbOnX2R4C22fDm0o5ss/2kzTbjLUUXaT/vkWg==
+X-Google-Smtp-Source: ABdhPJzMsinqtg+1aVXUb6CHbZyRBCYcDG6Dhx4Pikw/1PbPWqg/iWQaAJtoxWKqcuORKe4t/jiMxSg0p15gnHkqdUs=
+X-Received: by 2002:a4a:6f49:0:b0:35e:1902:1d3b with SMTP id
+ i9-20020a4a6f49000000b0035e19021d3bmr10874934oof.1.1652319681985; Wed, 11 May
+ 2022 18:41:21 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 May 2022 18:41:21 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/2] drm/msm: don't free the IRQ if it was not requested
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>
+In-Reply-To: <d6509c64-3a3e-f13b-6a3f-06f50c427eaf@linaro.org>
 References: <20220507010021.1667700-1-dmitry.baryshkov@linaro.org>
  <CAE-0n50tgiNj6j8+90xNw2Sku7rHKOGQYrHRjHCHb8-rqnOAxg@mail.gmail.com>
  <CAA8EJpqFksVc+Lj4-G81z26GH-WbQ3CKOUwgsx0Xar-F+EMNRg@mail.gmail.com>
  <CAE-0n51KAdQHvpgon6-qpLXZT7X8ghZ+9bSeTji-duMOG2wYiQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n51KAdQHvpgon6-qpLXZT7X8ghZ+9bSeTji-duMOG2wYiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <d6509c64-3a3e-f13b-6a3f-06f50c427eaf@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 11 May 2022 18:41:21 -0700
+Message-ID: <CAE-0n51Bt6VKJb4RjFfNUJVpWu=3jZs7Ym++7oa+-uvMf=hfWA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm: don't free the IRQ if it was not requested
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,28 +75,28 @@ Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/05/2022 04:29, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-05-11 18:01:31)
->> On Thu, 12 May 2022 at 03:54, Stephen Boyd <swboyd@chromium.org> wrote:
->>>
->>> Quoting Dmitry Baryshkov (2022-05-06 18:00:20)
->>>
->>> Does this supersede commit 01013ba9bbdd ("drm/msm/disp/dpu1: avoid
->>> clearing hw interrupts if hw_intr is null during drm uninit")? I mean
->>> that with this patch applied kms->irq_requested makes the check in
->>> dpu_core_irq_uninstall() irrelevant because it isn't called anymore?
->>
->> Yes.
->>
-> 
-> I didn't see it deleted in the second patch so is a revert going to be
-> sent?
+Quoting Dmitry Baryshkov (2022-05-11 18:30:55)
+> On 12/05/2022 04:29, Stephen Boyd wrote:
+> > Quoting Dmitry Baryshkov (2022-05-11 18:01:31)
+> >> On Thu, 12 May 2022 at 03:54, Stephen Boyd <swboyd@chromium.org> wrote:
+> >>>
+> >>> Quoting Dmitry Baryshkov (2022-05-06 18:00:20)
+> >>>
+> >>> Does this supersede commit 01013ba9bbdd ("drm/msm/disp/dpu1: avoid
+> >>> clearing hw interrupts if hw_intr is null during drm uninit")? I mean
+> >>> that with this patch applied kms->irq_requested makes the check in
+> >>> dpu_core_irq_uninstall() irrelevant because it isn't called anymore?
+> >>
+> >> Yes.
+> >>
+> >
+> > I didn't see it deleted in the second patch so is a revert going to be
+> > sent?
+>
+> No need to. They are separate checks. The older one is superseded (as it
+> will be never hit),  but it is still valid and useful (to protect from
+> the crash if this code changes again).
+>
 
-No need to. They are separate checks. The older one is superseded (as it 
-will be never hit),  but it is still valid and useful (to protect from 
-the crash if this code changes again).
-
-
--- 
-With best wishes
-Dmitry
+Ew, gross. The extra conditionals everywhere really makes it hard to
+follow along.
