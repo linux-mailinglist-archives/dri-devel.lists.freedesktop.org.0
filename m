@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59C15255F5
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 21:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A95525683
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 22:45:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C09110E73C;
-	Thu, 12 May 2022 19:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78BF010F350;
+	Thu, 12 May 2022 20:45:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCADD10E73C;
- Thu, 12 May 2022 19:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652384608; x=1683920608;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=96oVflBv0iDGh4dmL/Pe1lrSs1hsULFMFnDpjN3gQKs=;
- b=xpPRqdDy+MtloIjU+yk3bs+xs+UrJoxGAUlbEaXJwq+V8L5B+PJuBAVH
- 50zvX/36Xe97oVlsENKiOvlbmesi1fsVz0y8NsS8G3CNq8J2bx25Bc/a+
- 7YrL4b+WiF2JSqMcFkArsHT77icLA9ahKWbqDUKGH1Q7Q6sPetku8w95d U=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 12 May 2022 12:43:28 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2022 12:43:27 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 12 May 2022 12:43:27 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 12 May 2022 12:43:26 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v6] drm/msm/dp: Always clear mask bits to disable interrupts
- at dp_ctrl_reset_irq_ctrl()
-Date: Thu, 12 May 2022 12:43:18 -0700
-Message-ID: <1652384598-21586-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3ECC10F2D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 20:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652388345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=voSDiQ+FP3AClH6AEODSIDBdZ2XM5RwIw6B0aLIcIMA=;
+ b=TSLDfQTReXF2gixZUzI/N2TAAAgRwBCQdrbLIpfWRySLF1p7Fi27zgWY+uCh0aqrOUvrfD
+ ZQoKAemownMuczut/gtd/Z2PWAkGGO86173mlBZgFKj8tiF22iKjDIvKUkuqayO/BsoMBY
+ VjhnNH2tEyG0tlhuBliOlf8Zvj12UhM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-255-vhCw6dnjPFS0C684EqC4Lw-1; Thu, 12 May 2022 16:45:40 -0400
+X-MC-Unique: vhCw6dnjPFS0C684EqC4Lw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CAC43AF42AF;
+ Thu, 12 May 2022 20:45:39 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5375B40CF8E2;
+ Thu, 12 May 2022 20:45:38 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Evan Quan <evan.quan@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>
+Subject: [PATCH] drm/amdgpu: Move mutex_init(&smu->message_lock) to
+ smu_early_init()
+Date: Thu, 12 May 2022 22:45:33 +0200
+Message-Id: <20220512204533.3924-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,163 +65,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dp_catalog_ctrl_reset() will software reset DP controller. But it will
-not reset programmable registers to default value. DP driver still have
-to clear mask bits to interrupt status registers to disable interrupts
-after software reset of controller.
+Lockdep complains about the smu->message_lock mutex being used before
+it is initialized through the following call path:
 
-At current implementation, dp_ctrl_reset_irq_ctrl() will software reset dp
-controller but did not call dp_catalog_ctrl_enable_irq(false) to clear hpd
-related interrupt mask bits to disable hpd related interrupts due to it
-mistakenly think hpd related interrupt mask bits will be cleared by software
-reset of dp controller automatically. This mistake may cause system to crash
-during suspending procedure due to unexpected irq fired and trigger event
-thread to access dp controller registers with controller clocks are disabled.
+amdgpu_device_init()
+ amdgpu_dpm_mode2_reset()
+  smu_mode2_reset()
+   smu_v12_0_mode2_reset()
+    smu_cmn_send_smc_msg_with_param()
 
-This patch fixes system crash during suspending problem by removing "enable"
-flag condition checking at dp_ctrl_reset_irq_ctrl() so that hpd related
-interrupt mask bits are cleared to prevent unexpected from happening.
-In addition, this patch also add suspended flag to prevent new events be
-added into event Q to wake up event thread after system suspended.
+Move the mutex_init() call to smu_early_init() to fix the mutex being
+used before it is initialized.
 
-Changes in v2:
--- add more details commit text
+This fixes the following lockdep splat:
 
-Changes in v3:
--- add synchrons_irq()
--- add atomic_t suspended
+[    3.867331] ------------[ cut here ]------------
+[    3.867335] fbcon: Taking over console
+[    3.867338] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+[    3.867340] WARNING: CPU: 14 PID: 491 at kernel/locking/mutex.c:579 __mutex_lock+0x44c/0x830
+[    3.867349] Modules linked in: amdgpu(+) crct10dif_pclmul drm_ttm_helper crc32_pclmul ttm crc32c_intel ghash_clmulni_intel hid_lg_g15 iommu_v2 sp5100_tco nvme gpu_sched drm_dp_helper nvme_core ccp wmi video hid_logitech_dj ip6_tables ip_tables ipmi_devintf ipmi_msghandler fuse i2c_dev
+[    3.867363] CPU: 14 PID: 491 Comm: systemd-udevd Tainted: G          I       5.18.0-rc5+ #33
+[    3.867366] Hardware name: Micro-Star International Co., Ltd. MS-7C95/B550M PRO-VDH WIFI (MS-7C95), BIOS 2.90 12/23/2021
+[    3.867369] RIP: 0010:__mutex_lock+0x44c/0x830
+[    3.867372] Code: ff 85 c0 0f 84 33 fc ff ff 8b 0d b7 50 25 01 85 c9 0f 85 25 fc ff ff 48 c7 c6 fb 41 82 99 48 c7 c7 6b 63 80 99 e8 88 2a f8 ff <0f> 0b e9 0b fc ff ff f6 83 b9 0c 00 00 01 0f 85 64 ff ff ff 4c 89
+[    3.867377] RSP: 0018:ffffaef8c0fc79f0 EFLAGS: 00010286
+[    3.867380] RAX: 0000000000000028 RBX: 0000000000000000 RCX: 0000000000000027
+[    3.867382] RDX: ffff9ccc0dda0928 RSI: 0000000000000001 RDI: ffff9ccc0dda0920
+[    3.867384] RBP: ffffaef8c0fc7a80 R08: 0000000000000000 R09: ffffaef8c0fc7820
+[    3.867386] R10: 0000000000000003 R11: ffff9ccc2a2fffe8 R12: 0000000000000002
+[    3.867388] R13: ffff9cc990808058 R14: 0000000000000000 R15: ffff9cc98bfc0000
+[    3.867390] FS:  00007fc4d830f580(0000) GS:ffff9ccc0dd80000(0000) knlGS:0000000000000000
+[    3.867394] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    3.867396] CR2: 0000560a77031410 CR3: 000000010f522000 CR4: 0000000000750ee0
+[    3.867398] PKRU: 55555554
+[    3.867399] Call Trace:
+[    3.867401]  <TASK>
+[    3.867403]  ? smu_cmn_send_smc_msg_with_param+0x98/0x240 [amdgpu]
+[    3.867533]  ? __mutex_lock+0x90/0x830
+[    3.867535]  ? amdgpu_dpm_mode2_reset+0x37/0x60 [amdgpu]
+[    3.867653]  ? smu_cmn_send_smc_msg_with_param+0x98/0x240 [amdgpu]
+[    3.867758]  smu_cmn_send_smc_msg_with_param+0x98/0x240 [amdgpu]
+[    3.867857]  smu_mode2_reset+0x2b/0x50 [amdgpu]
+[    3.867953]  amdgpu_dpm_mode2_reset+0x46/0x60 [amdgpu]
+[    3.868096]  amdgpu_device_init.cold+0x1069/0x1e78 [amdgpu]
+[    3.868219]  ? _raw_spin_unlock_irqrestore+0x30/0x50
+[    3.868222]  ? pci_conf1_read+0x9b/0xf0
+[    3.868226]  amdgpu_driver_load_kms+0x15/0x110 [amdgpu]
+[    3.868314]  amdgpu_pci_probe+0x1a9/0x3c0 [amdgpu]
+[    3.868398]  local_pci_probe+0x41/0x80
+[    3.868401]  pci_device_probe+0xab/0x200
+[    3.868404]  really_probe+0x1a1/0x370
+[    3.868407]  __driver_probe_device+0xfc/0x170
+[    3.868410]  driver_probe_device+0x1f/0x90
+[    3.868412]  __driver_attach+0xbf/0x1a0
+[    3.868414]  ? __device_attach_driver+0xe0/0xe0
+[    3.868416]  bus_for_each_dev+0x65/0x90
+[    3.868419]  bus_add_driver+0x151/0x1f0
+[    3.868421]  driver_register+0x89/0xd0
+[    3.868423]  ? 0xffffffffc0bd4000
+[    3.868425]  do_one_initcall+0x5d/0x300
+[    3.868428]  ? do_init_module+0x22/0x240
+[    3.868431]  ? rcu_read_lock_sched_held+0x3c/0x70
+[    3.868434]  ? trace_kmalloc+0x30/0xe0
+[    3.868437]  ? kmem_cache_alloc_trace+0x1e6/0x3a0
+[    3.868440]  do_init_module+0x4a/0x240
+[    3.868442]  __do_sys_finit_module+0x93/0xf0
+[    3.868446]  do_syscall_64+0x5b/0x80
+[    3.868449]  ? rcu_read_lock_sched_held+0x3c/0x70
+[    3.868451]  ? lockdep_hardirqs_on_prepare+0xd9/0x180
+[    3.868454]  ? do_syscall_64+0x67/0x80
+[    3.868456]  ? do_syscall_64+0x67/0x80
+[    3.868458]  ? do_syscall_64+0x67/0x80
+[    3.868460]  ? do_syscall_64+0x67/0x80
+[    3.868462]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[    3.868465] RIP: 0033:0x7fc4d8ec1ced
+[    3.868467] Code: 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d fb 70 0e 00 f7 d8 64 89 01 48
+[    3.868472] RSP: 002b:00007fff687ae6b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+[    3.868475] RAX: ffffffffffffffda RBX: 0000560a76fbca60 RCX: 00007fc4d8ec1ced
+[    3.868477] RDX: 0000000000000000 RSI: 00007fc4d902343c RDI: 0000000000000011
+[    3.868479] RBP: 00007fc4d902343c R08: 0000000000000000 R09: 0000560a76fb59c0
+[    3.868481] R10: 0000000000000011 R11: 0000000000000246 R12: 0000000000020000
+[    3.868484] R13: 0000560a76f8bfd0 R14: 0000000000000000 R15: 0000560a76fc2d10
+[    3.868487]  </TASK>
+[    3.868489] irq event stamp: 120617
+[    3.868490] hardirqs last  enabled at (120617): [<ffffffff9817169e>] __up_console_sem+0x5e/0x70
+[    3.868494] hardirqs last disabled at (120616): [<ffffffff98171683>] __up_console_sem+0x43/0x70
+[    3.868497] softirqs last  enabled at (119684): [<ffffffff980ee83a>] __irq_exit_rcu+0xca/0x100
+[    3.868501] softirqs last disabled at (119679): [<ffffffff980ee83a>] __irq_exit_rcu+0xca/0x100
+[    3.868504] ---[ end trace 0000000000000000 ]---
 
-Changes in v4:
--- correct Fixes's commit ID
--- remove synchrons_irq()
-
-Changes in v5:
--- revise commit text
-
-Changes in v6:
--- add event_lock to protect "suspended"
-
-Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/msm/dp/dp_ctrl.c    |  9 +++++++--
- drivers/gpu/drm/msm/dp/dp_display.c | 25 ++++++++++++++++++++++++-
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index af7a80c..f3e333e 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1389,8 +1389,13 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index f1544755d8b4..a44a6f41fa1e 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -576,6 +576,8 @@ static int smu_early_init(void *handle)
+ 	smu->smu_baco.platform_support = false;
+ 	smu->user_dpm_profile.fan_mode = -1;
  
- 	dp_catalog_ctrl_reset(ctrl->catalog);
- 
--	if (enable)
--		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
-+	/*
-+	 * all dp controller programmable registers will not
-+	 * be reset to default value after DP_SW_RESET
-+	 * therefore interrupt mask bits have to be updated
-+	 * to enable/disable interrupts
-+	 */
-+	dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
- }
- 
- void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index c388323..ab691aa 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -98,6 +98,8 @@ struct dp_display_private {
- 	struct dp_ctrl    *ctrl;
- 	struct dp_debug   *debug;
- 
-+	bool suspended;
++	mutex_init(&smu->message_lock);
 +
- 	struct dp_usbpd_cb usbpd_cb;
- 	struct dp_display_mode dp_mode;
- 	struct msm_dp dp_display;
-@@ -187,6 +189,11 @@ static int dp_add_event(struct dp_display_private *dp_priv, u32 event,
- 	int pndx;
+ 	adev->powerplay.pp_handle = smu;
+ 	adev->powerplay.pp_funcs = &swsmu_pm_funcs;
  
- 	spin_lock_irqsave(&dp_priv->event_lock, flag);
-+	if (dp_priv->suspended) {
-+		spin_unlock_irqrestore(&dp_priv->event_lock, flag);
-+		return -ENOENT;
-+	}
-+
- 	pndx = dp_priv->event_pndx + 1;
- 	pndx %= DP_EVENT_Q_MAX;
- 	if (pndx == dp_priv->event_gndx) {
-@@ -454,7 +461,6 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
- 		dp->dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized);
+@@ -975,8 +977,6 @@ static int smu_sw_init(void *handle)
+ 	bitmap_zero(smu->smu_feature.supported, SMU_FEATURE_MAX);
+ 	bitmap_zero(smu->smu_feature.allowed, SMU_FEATURE_MAX);
  
--	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
- 	dp_aux_deinit(dp->aux);
- 	dp_power_deinit(dp->power);
- 	dp->core_initialized = false;
-@@ -1112,7 +1118,12 @@ static int hpd_event_thread(void *data)
- 			wait_event_interruptible(dp_priv->event_q,
- 				(dp_priv->event_pndx != dp_priv->event_gndx));
- 		}
-+
- 		spin_lock_irqsave(&dp_priv->event_lock, flag);
-+		if (dp_priv->suspended) {
-+			spin_unlock_irqrestore(&dp_priv->event_lock, flag);
-+			continue;
-+		}
- 		todo = &dp_priv->event_list[dp_priv->event_gndx];
- 		if (todo->delay) {
- 			struct dp_event *todo_next;
-@@ -1351,6 +1362,7 @@ static int dp_pm_resume(struct device *dev)
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct msm_dp *dp_display = platform_get_drvdata(pdev);
- 	struct dp_display_private *dp;
-+	unsigned long flag;
- 	int sink_count = 0;
- 
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
-@@ -1362,6 +1374,10 @@ static int dp_pm_resume(struct device *dev)
- 		dp->dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized, dp_display->power_on);
- 
-+	spin_lock_irqsave(&dp->event_lock, flag);
-+	dp->suspended = false;
-+	spin_unlock_irqrestore(&dp->event_lock, flag);
-+
- 	/* start from disconnected state */
- 	dp->hpd_state = ST_DISCONNECTED;
- 
-@@ -1421,6 +1437,7 @@ static int dp_pm_suspend(struct device *dev)
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct msm_dp *dp_display = platform_get_drvdata(pdev);
- 	struct dp_display_private *dp;
-+	unsigned long flag;
- 
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
- 
-@@ -1431,6 +1448,12 @@ static int dp_pm_suspend(struct device *dev)
- 		dp->dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized, dp_display->power_on);
- 
-+	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
-+
-+	spin_lock_irqsave(&dp->event_lock, flag);
-+	dp->suspended = true;
-+	spin_unlock_irqrestore(&dp->event_lock, flag);
-+
- 	/* mainlink enabled */
- 	if (dp_power_clk_status(dp->power, DP_CTRL_PM))
- 		dp_ctrl_off_link_stream(dp->ctrl);
+-	mutex_init(&smu->message_lock);
+-
+ 	INIT_WORK(&smu->throttling_logging_work, smu_throttling_logging_work_fn);
+ 	INIT_WORK(&smu->interrupt_work, smu_interrupt_work_fn);
+ 	atomic64_set(&smu->throttle_int_counter, 0);
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.36.0
 
