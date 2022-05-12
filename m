@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D405251B4
-	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 17:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B30F525311
+	for <lists+dri-devel@lfdr.de>; Thu, 12 May 2022 18:56:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E97B6112652;
-	Thu, 12 May 2022 15:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC3C10E4BA;
+	Thu, 12 May 2022 16:56:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5CDE112652
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 15:57:58 +0000 (UTC)
-Date: Thu, 12 May 2022 15:57:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1652371076;
- bh=v4iEiHbRYsw1zSS5MV+mUxhAbI/jE2IIMdDmWuVzZ6E=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=CgJBlZiymPn5AmLyIRD6VN4wTqjEV5sAof60AirAopx0VZlpHbkqWwbAqtv3vvIX+
- srFclqntJQVCrnjut401gbXxbdJBcIKhoUpm+uGf2J0wY90d8vNIE2FDUowe74r0SQ
- R+AFAdHK5v/iQrogm6LucivULKrdEWq0BLe53tUfI6Xpv6M45WtqCD/e/5hQKUte61
- KF1kw3ldBydD4nk3U3TgswPVnoaYIXJcmcPMDJOilyx7JO09QqmeXuNYGEyQ+0QVMo
- ouLd2pnEeJjazqTqKVx/sOhnZFwo6bdmlbfruqfidkS0SBEeCj4bYsMh31qD4pnDdM
- Wz6WbMW8T5ScA==
-To: Mark Yacoub <markyacoub@chromium.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH libdrm] xf86drmMode: Create
- drmModeCreatePropertyBlobWithFlags
-Message-ID: <qKRKdiAeH6GpFefVyigqHct3kapx9qkkizlooM6XHlb6Fed79omcgGtLAx5YSqJSQ-BC9Ei2bPG_ICx4juR6E8S-KN2xmkSAE8tIkq7NQVc=@emersion.fr>
-In-Reply-To: <20220512154549.2003425-1-markyacoub@chromium.org>
-References: <20220512154549.2003425-1-markyacoub@chromium.org>
-Feedback-ID: 1358184:user:proton
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3DBB10FC07;
+ Thu, 12 May 2022 10:50:28 +0000 (UTC)
+X-UUID: 42638307e20445239de8faf503934731-20220512
+X-Spam-Fingerprint: 0
+X-GW-Reason: 11101
+X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
+X-Content-Feature: ica/max.line-size 116 audit/email.address 1 meta/cnt.alert 1
+X-UUID: 42638307e20445239de8faf503934731-20220512
+Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
+ (envelope-from <pengfuyuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 124501943; Thu, 12 May 2022 16:52:21 +0800
+X-ns-mid: postfix-627CCA00-974326314
+Received: from localhost.localdomain (unknown [172.20.4.120])
+ by cs2c.com.cn (NSMail) with ESMTPA id C3C48383C640;
+ Thu, 12 May 2022 08:49:03 +0000 (UTC)
+From: pengfuyuan <pengfuyuan@kylinos.cn>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: [PATCH] drm/amd/display: Remove macro DC_DEFAULT_LOG_MASK
+Date: Thu, 12 May 2022 16:48:51 +0800
+Message-Id: <20220512084851.104099-1-pengfuyuan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 12 May 2022 16:56:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,11 +46,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: seanpaul@chromium.org, dri-devel@lists.freedesktop.org,
- markyacoub@google.com
+Cc: pengfuyuan <pengfuyuan@kylinos.cn>, Leo Li <sunpeng.li@amd.com>,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Note, the headers in include/drm/ must be updated in a special manner
-from the kernel. See the README in the subdir for details.
+[Why & How]
+The DC_DEFAULT_LOG_MASK macro has not been used for a long time, so remove it.
+
+Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
+---
+ .../drm/amd/display/include/logger_types.h    | 34 -------------------
+ 1 file changed, 34 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/include/logger_types.h b/drivers/gpu/drm/amd/display/include/logger_types.h
+index f093b49c5e6e..a31d7c959f2c 100644
+--- a/drivers/gpu/drm/amd/display/include/logger_types.h
++++ b/drivers/gpu/drm/amd/display/include/logger_types.h
+@@ -131,37 +131,3 @@ enum dc_log_type {
+ #define DC_MIN_LOG_MASK ((1 << LOG_ERROR) | \
+ 		(1 << LOG_DETECTION_EDID_PARSER))
+ 
+-#define DC_DEFAULT_LOG_MASK ((1ULL << LOG_ERROR) | \
+-		(1ULL << LOG_WARNING) | \
+-		(1ULL << LOG_EVENT_MODE_SET) | \
+-		(1ULL << LOG_EVENT_DETECTION) | \
+-		(1ULL << LOG_EVENT_LINK_TRAINING) | \
+-		(1ULL << LOG_EVENT_LINK_LOSS) | \
+-		(1ULL << LOG_EVENT_UNDERFLOW) | \
+-		(1ULL << LOG_RESOURCE) | \
+-		(1ULL << LOG_FEATURE_OVERRIDE) | \
+-		(1ULL << LOG_DETECTION_EDID_PARSER) | \
+-		(1ULL << LOG_DC) | \
+-		(1ULL << LOG_HW_HOTPLUG) | \
+-		(1ULL << LOG_HW_SET_MODE) | \
+-		(1ULL << LOG_HW_RESUME_S3) | \
+-		(1ULL << LOG_HW_HPD_IRQ) | \
+-		(1ULL << LOG_SYNC) | \
+-		(1ULL << LOG_BANDWIDTH_VALIDATION) | \
+-		(1ULL << LOG_MST) | \
+-		(1ULL << LOG_DETECTION_DP_CAPS) | \
+-		(1ULL << LOG_BACKLIGHT)) | \
+-		(1ULL << LOG_I2C_AUX) | \
+-		(1ULL << LOG_IF_TRACE) | \
+-		(1ULL << LOG_HDMI_FRL) | \
+-		(1ULL << LOG_SCALER) | \
+-		(1ULL << LOG_DTN) /* | \
+-		(1ULL << LOG_DEBUG) | \
+-		(1ULL << LOG_BIOS) | \
+-		(1ULL << LOG_SURFACE) | \
+-		(1ULL << LOG_DML) | \
+-		(1ULL << LOG_HW_LINK_TRAINING) | \
+-		(1ULL << LOG_HW_AUDIO)| \
+-		(1ULL << LOG_BANDWIDTH_CALCS)*/
+-
+-#endif /* __DAL_LOGGER_TYPES_H__ */
+-- 
+2.25.1
+
