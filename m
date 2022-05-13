@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B920A525DCB
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 10:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA12525DD8
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 11:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B23210EF77;
-	Fri, 13 May 2022 08:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D1B10F261;
+	Fri, 13 May 2022 09:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FE810EF77
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 08:49:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652431761;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Jnmw9U2UmKX3h/YuLpyESmabpAXmv+TfCj554tdciWU=;
- b=EnkjGGtgCx7Jj1u2bDr8ST/1QeWMeM3A9wkY+Z0CEMCNpeFoAJ0vP1mo6qNI51i3YcnWRy
- dOXF1c+mtGzTjRlCAmBnaPbWjyvlawQvEv86Udsr+S7VIu9J2Zd+o54tVIoDDKreTiA4a/
- iZSbTLHMgLt3H/XOb8QTkmZBpSduTIY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47-KAyLuxs8NuaxKV8R7yha_g-1; Fri, 13 May 2022 04:49:19 -0400
-X-MC-Unique: KAyLuxs8NuaxKV8R7yha_g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F919185A79C;
- Fri, 13 May 2022 08:49:19 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53EF942B93B;
- Fri, 13 May 2022 08:49:18 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org,
-	lyude@redhat.com,
-	tzimmermann@suse.de
-Subject: [PATCH v3] drm/mgag200: Enable atomic gamma lut update
-Date: Fri, 13 May 2022 10:49:00 +0200
-Message-Id: <20220513084900.1832381-1-jfalempe@redhat.com>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A43D010F261
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 09:07:07 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id f2so3522964wrc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 02:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=tQhMv5wgd6P5e5ZPKnJXTqhF5TWWKVPkk+00hnqjRXs=;
+ b=l8ZqzODxTeK4g2pTFG9ZfVYndijHwk3ii/cTxtexptHo590e35fS20iJwufNZdEh92
+ 2jnMvPNFHcft1cWJ2CbcRhtpHmMAmc8dJINengKkOOb5LUd5kbGum+qa3F+Uqhq9WxGl
+ Y+4vNppopCVyTh/NMA/pHCUtSirsXcuUpHKpHmqmDSiZwaJhIZS9BkwROWE1xhfpXly0
+ vSZYHS/eCsuDxwTwx4exGV1Fcw0wIFsgGORQL+NhF0F+GT4P72xlIFvgV2ehYcMbmDo+
+ /yl0yWZV9wzV5KCbXL8PYSXGFZ+bnosYCEC8iFJe3AHNNRz4j1c+vziQGTi+0eTaY+OS
+ xqFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tQhMv5wgd6P5e5ZPKnJXTqhF5TWWKVPkk+00hnqjRXs=;
+ b=60Q75ECN2tzX59Rpk79JuU5+gHoR/BvvocOz1/EtCHvydZOcWBQvkbqJDFrEO67t0m
+ J0xBmq5AeTQLqD0fexpxfTsQcjbTmEIIkdGg5j0luh/BIvFnqWqowwox8T11sdChqD+l
+ DKEwftMaRR1tGqsCsXF9Wn0nTIf+zoGfVsLGA/WLqlnnaTef+fiM/Br3ChvsXSoU68Qn
+ q4PeqxQg4vJJ0qgwi900nau6uv+A7vCIDKSbvG0COpa3V1ZNWzU+cCdUjM9WusnnoGwo
+ KYIuVmLX9GnCfJjaOAYhIz2H3iW3QVtcoTX/JmBWoV1eyjtxUmzl5H3bKEjmIzwoECGQ
+ 6adQ==
+X-Gm-Message-State: AOAM5314/E17Z5wxJOsLfbqpVfulClbNZ+vMoxmNiRq/wCKG49LTvvET
+ 69TScXiAzdjNxwffYeGDm5h9cQ==
+X-Google-Smtp-Source: ABdhPJy98bvsVxNsD1pSSLGnY3/tw/4jQw9PX2RSQLFiZDfcJuBduq4HwVBFKrcSH9BcOE5sNaEWQA==
+X-Received: by 2002:a5d:4090:0:b0:20c:8b91:3b17 with SMTP id
+ o16-20020a5d4090000000b0020c8b913b17mr2991905wrp.348.1652432826026; 
+ Fri, 13 May 2022 02:07:06 -0700 (PDT)
+Received: from [192.168.0.169] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ s23-20020adfa297000000b0020c5253d8f4sm1662710wra.64.2022.05.13.02.07.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 02:07:05 -0700 (PDT)
+Message-ID: <da78aaf6-c9ae-d591-fdc4-723f097ace2c@linaro.org>
+Date: Fri, 13 May 2022 11:07:04 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 3/3] dt-bindings: usb: add documentation for aspeed udc
+Content-Language: en-US
+To: Neal Liu <neal_liu@aspeedtech.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Felipe Balbi <balbi@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Li Yang <leoyang.li@nxp.com>
+References: <20220513065728.857722-1-neal_liu@aspeedtech.com>
+ <20220513065728.857722-4-neal_liu@aspeedtech.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220513065728.857722-4-neal_liu@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,221 +81,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, Jocelyn Falempe <jfalempe@redhat.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ BMC-SW@aspeedtech.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for atomic update of gamma lut.
-With this patch the "Night light" feature of gnome3
-is working properly on mgag200.
+On 13/05/2022 08:57, Neal Liu wrote:
+> Add device tree binding documentation for the Aspeed USB2.0 Device
+> Controller.
+> 
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+> ---
+>  .../devicetree/bindings/usb/aspeed,udc.yaml   | 52 +++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/aspeed,udc.yaml
 
-v2:
- - Add a default linear gamma function
- - renamed functions with mgag200 prefix
- - use format's 4cc code instead of bit depth
- - use better interpolation for 16bits gamma
- - remove legacy function mga_crtc_load_lut()
- - can't remove the call to drm_mode_crtc_set_gamma_size()
-    because it doesn't work with userspace.
- - other small refactors
+Please name the file as first compatible, so "aspeed,ast2600-udc.yaml"
 
-v3:
- - change mgag200_crtc_set_gamma*() argument
-    to struct drm_format_info *format
- - fix printk format to %p4cc for 4cc and %zu for size_t
- - rebased to drm-misc-next.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/mgag200/mgag200_mode.c | 127 ++++++++++++++++---------
- 1 file changed, 83 insertions(+), 44 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/aspeed,udc.yaml b/Documentation/devicetree/bindings/usb/aspeed,udc.yaml
+> new file mode 100644
+> index 000000000000..d1d2f77d1c54
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/aspeed,udc.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2020 Facebook Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/aspeed,udc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ASPEED USB 2.0 Device Controller
+> +
+> +maintainers:
+> +  - Neal Liu <neal_liu@aspeedtech.com>
+> +
+> +description: |+
+> +  The ASPEED USB 2.0 Device Controller implements 1 control endpoint and
+> +  4 generic endpoints for AST260x.
+> +
+> +  Supports independent DMA channel for each generic endpoint.
+> +  Supports 32/256 stages descriptor mode for all generic endpoints.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aspeed,ast2600-udc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index dec744d0bee2..73d5a4a42b3a 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -32,57 +32,78 @@
-  * This file contains setup code for the CRTC.
-  */
- 
--static void mga_crtc_load_lut(struct drm_crtc *crtc)
-+static void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
-+					  const struct drm_format_info *format)
- {
--	struct drm_device *dev = crtc->dev;
--	struct mga_device *mdev = to_mga_device(dev);
--	struct drm_framebuffer *fb;
--	u16 *r_ptr, *g_ptr, *b_ptr;
- 	int i;
- 
--	if (!crtc->enabled)
--		return;
--
--	if (!mdev->display_pipe.plane.state)
--		return;
-+	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
- 
--	fb = mdev->display_pipe.plane.state->fb;
-+	switch (format->format) {
-+	case DRM_FORMAT_RGB565:
-+		/* Use better interpolation, to take 32 values from 0 to 255 */
-+		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 8 + i / 4);
-+		}
-+		/* Green has one more bit, so add padding with 0 for red and blue. */
-+		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i * 4 + i / 16);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+		}
-+		break;
-+	case DRM_FORMAT_RGB888:
-+	case DRM_FORMAT_XRGB8888:
-+		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, i);
-+		}
-+		break;
-+	default:
-+		drm_warn_once(&mdev->base, "Unsupported format %p4cc for gamma correction\n",
-+			      &format->format);
-+		break;
-+	}
-+}
- 
--	r_ptr = crtc->gamma_store;
--	g_ptr = r_ptr + crtc->gamma_size;
--	b_ptr = g_ptr + crtc->gamma_size;
-+static void mgag200_crtc_set_gamma(struct mga_device *mdev,
-+				   const struct drm_format_info *format,
-+				   struct drm_color_lut *lut)
-+{
-+	int i;
- 
- 	WREG8(DAC_INDEX + MGA1064_INDEX, 0);
- 
--	if (fb && fb->format->cpp[0] * 8 == 16) {
--		int inc = (fb->format->depth == 15) ? 8 : 4;
--		u8 r, b;
--		for (i = 0; i < MGAG200_LUT_SIZE; i += inc) {
--			if (fb->format->depth == 16) {
--				if (i > (MGAG200_LUT_SIZE >> 1)) {
--					r = b = 0;
--				} else {
--					r = *r_ptr++ >> 8;
--					b = *b_ptr++ >> 8;
--					r_ptr++;
--					b_ptr++;
--				}
--			} else {
--				r = *r_ptr++ >> 8;
--				b = *b_ptr++ >> 8;
--			}
--			/* VGA registers */
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, r);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, *g_ptr++ >> 8);
--			WREG8(DAC_INDEX + MGA1064_COL_PAL, b);
-+	switch (format->format) {
-+	case DRM_FORMAT_RGB565:
-+		/* Use better interpolation, to take 32 values from lut[0] to lut[255] */
-+		for (i = 0; i < MGAG200_LUT_SIZE / 8; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].red >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 8 + i / 4].blue >> 8);
- 		}
--		return;
--	}
--	for (i = 0; i < MGAG200_LUT_SIZE; i++) {
--		/* VGA registers */
--		WREG8(DAC_INDEX + MGA1064_COL_PAL, *r_ptr++ >> 8);
--		WREG8(DAC_INDEX + MGA1064_COL_PAL, *g_ptr++ >> 8);
--		WREG8(DAC_INDEX + MGA1064_COL_PAL, *b_ptr++ >> 8);
-+		/* Green has one more bit, so add padding with 0 for red and blue. */
-+		for (i = MGAG200_LUT_SIZE / 8; i < MGAG200_LUT_SIZE / 4; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i * 4 + i / 16].green >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, 0);
-+		}
-+		break;
-+	case DRM_FORMAT_RGB888:
-+	case DRM_FORMAT_XRGB8888:
-+		for (i = 0; i < MGAG200_LUT_SIZE; i++) {
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].red >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].green >> 8);
-+			WREG8(DAC_INDEX + MGA1064_COL_PAL, lut[i].blue >> 8);
-+		}
-+		break;
-+	default:
-+		drm_warn_once(&mdev->base, "Unsupported format %p4cc for gamma correction\n",
-+			      &format->format);
-+		break;
- 	}
- }
- 
-@@ -907,7 +928,11 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	if (mdev->type == G200_WB || mdev->type == G200_EW3)
- 		mgag200_g200wb_release_bmc(mdev);
- 
--	mga_crtc_load_lut(crtc);
-+	if (crtc_state->gamma_lut)
-+		mgag200_crtc_set_gamma(mdev, fb->format, crtc_state->gamma_lut->data);
-+	else
-+		mgag200_crtc_set_gamma_linear(mdev, fb->format);
-+
- 	mgag200_enable_display(mdev);
- 
- 	mgag200_handle_damage(mdev, fb, &fullscreen, &shadow_plane_state->data[0]);
-@@ -958,6 +983,14 @@ mgag200_simple_display_pipe_check(struct drm_simple_display_pipe *pipe,
- 			return ret;
- 	}
- 
-+	if (crtc_state->color_mgmt_changed && crtc_state->gamma_lut) {
-+		if (crtc_state->gamma_lut->length !=
-+		    MGAG200_LUT_SIZE * sizeof(struct drm_color_lut)) {
-+			drm_err(dev, "Wrong size for gamma_lut %zu\n",
-+				crtc_state->gamma_lut->length);
-+			return -EINVAL;
-+		}
-+	}
- 	return 0;
- }
- 
-@@ -966,6 +999,7 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 				   struct drm_plane_state *old_state)
- {
- 	struct drm_plane *plane = &pipe->plane;
-+	struct drm_crtc *crtc = &pipe->crtc;
- 	struct drm_device *dev = plane->dev;
- 	struct mga_device *mdev = to_mga_device(dev);
- 	struct drm_plane_state *state = plane->state;
-@@ -979,6 +1013,9 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 
- 	mutex_lock(&mdev->rmmio_lock);
- 
-+	if (crtc->state->color_mgmt_changed && crtc->state->gamma_lut)
-+		mgag200_crtc_set_gamma(mdev, fb->format, crtc->state->gamma_lut->data);
-+
- 	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
- 	drm_atomic_for_each_plane_damage(&iter, &damage) {
- 		mgag200_handle_damage(mdev, fb, &damage, &shadow_plane_state->data[0]);
-@@ -1132,9 +1169,11 @@ int mgag200_modeset_init(struct mga_device *mdev)
- 
- 	drm_plane_enable_fb_damage_clips(&pipe->plane);
- 
--	/* FIXME: legacy gamma tables; convert to CRTC state */
-+	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
- 	drm_mode_crtc_set_gamma_size(&pipe->crtc, MGAG200_LUT_SIZE);
- 
-+	drm_crtc_enable_color_mgmt(&pipe->crtc, 0, false, MGAG200_LUT_SIZE);
-+
- 	drm_mode_config_reset(dev);
- 
- 	return 0;
--- 
-2.35.3
+No child properties? No ports or any other devices? No usb-hcd.yaml?
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/aspeed-clock.h>
+> +    udc: udc@1e6a2000 {
 
+Node name: usb
+
+> +            compatible = "aspeed,ast2600-udc";
+> +            reg = <0x1e6a2000 0x300>;
+> +            interrupts = <9>;
+> +            clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&pinctrl_usb2bd_default>;
+> +    };
+
+
+Best regards,
+Krzysztof
