@@ -1,69 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F211752611C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 13:40:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E9E52614D
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 13:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0631810EB00;
-	Fri, 13 May 2022 11:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B9410EC55;
+	Fri, 13 May 2022 11:45:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A15C10EB00
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 11:40:32 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id o22so9053934ljp.8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 04:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=13KivydabvkpjEDwYIxFmh7RN2bdJ6NfK5/s4jYYpAA=;
- b=cEWUBfpnNG8NgB6NCQeQJiD4Ax7Q6Rl1rV+FGCmFnATlEpkLtSkVJXS7lCVDCCzb6G
- qNGmSLnub6DWAycOfya0qnovzppbkxKDLxP3WwoO34wg7IDIU+eYieay7FwX0di4umVm
- 9sJjZ5uBf0rFwGlRm93TAxIF6OuW8BDDJUQt75BppK9Ywn8UBQJ4Xmcj4tnbaRZDvtgY
- C3E8Pj0ACthMeT3pxuvBv2hluqfepuxC3kEv3HzCkaAX5uInrSdyDul+DuQm5Z/nAFeN
- PsRpK12hK3BogtMjlWEBhj+Jm5i5Z7uodbanPyJE5Qf2j08ta4EUSw+ncVTZgcw4igEI
- vIPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=13KivydabvkpjEDwYIxFmh7RN2bdJ6NfK5/s4jYYpAA=;
- b=5x4rN/CtMmTepMda+3LDkGLQJCL68PIRBw1ykxaOEUwmos5IVqi1BUK+cd9yDDPd1E
- YYR5/rh1kfsS8KJx5wQ89TguVYli0SyGIYYxSdMbg6rMyDraPtVmqIdriwdtQo4dBwac
- jUr8ofna4mXj/uBzQzM5KFEKz8RID1DypH8+8k4jScv9+g1CQguTjLsZqO+w5SkOV2DO
- BZpsoJ1WXftV+e71Ja3M97nb9MR+opUE6AQunvmD9UBEzURyNAj5hLEMjZgD5a4v9nUm
- 4abq75skgLOIjX/efF60WkZteJjyJp4LorisMqPTXclvgXAQM6nvKCKonTZqu/1jn0Ud
- 7Zpg==
-X-Gm-Message-State: AOAM530CL6VcMSuAXYv8dAi8m5ksgj3Ryd1oFVP/nAj2sYF10WbQuDpx
- 8V6mFEQyGglhiWkMp2fHqRhZjg==
-X-Google-Smtp-Source: ABdhPJzAwh6AETeTZ0nyKVbMZd8DCjrHangLUdANZ/G6/o8ulO0MMdEfALmPAllJtVl+SeBzMXA3Jg==
-X-Received: by 2002:a2e:9c86:0:b0:250:d6c7:699e with SMTP id
- x6-20020a2e9c86000000b00250d6c7699emr2947891lji.339.1652442030680; 
- Fri, 13 May 2022 04:40:30 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- j20-20020a2e8014000000b0024f3d1dae96sm409815ljg.30.2022.05.13.04.40.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 04:40:30 -0700 (PDT)
-Message-ID: <1dfe9de4-1160-e0b8-d29c-098d1c37d6b1@linaro.org>
-Date: Fri, 13 May 2022 14:40:29 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/2] drm/msm: push IRQ setup into individual drivers
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220507010021.1667700-1-dmitry.baryshkov@linaro.org>
- <20220507010021.1667700-2-dmitry.baryshkov@linaro.org>
- <f6ee9ce0-cd91-07a4-eeb9-a4a56f74471c@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <f6ee9ce0-cd91-07a4-eeb9-a4a56f74471c@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E707510EC55;
+ Fri, 13 May 2022 11:45:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bLidYgyxsIzKqUgY+H+4+csp7XX6koYjysNfD09BCa2nuLlo6Z/lmTtbJ1bYBaW9Xl3ofzhywlTsmp8S4ijJQEmLCQd3s5GGIzxtEbeI+gn2yr3GlYeyWu5jJgUGGYOTaL6ajEc8kctlUWTTTJpa1Qm0gRVJn4OfsURth09+LO0Vmz6fuy+/Jt59jovRX4PnV1265rck54rLTU4UXxmb7fK0fr3KW6QM6XD8EmDNpL5ChtKqMgS++cUaSI8Q0vL4oYTi1dNrSSDPd9wpa6vgAy+Wrw97WsCsWkbcH0vsouMl2BlAwXQiXDBj12Q73z2WFpmIeO86fPzT/wpMocYu5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bI+3WFMPK3LpQmTop6JjHQVn1W3YT0UXvU3VTUNNEP0=;
+ b=erD6qXyqQVSt01OpGoPGDmpIj5OFUwdaHDVXstrMH6xQgZHL7eZecQaRz29nuSgk65qLoK6SJ0Pp6ZnlHxkcGoUCn+ty/DLKFax5vlJFi+f+zCEHu/tQukDX91I/9vT+UprNTPeBwadlrhUrtNIbYuZE0VWBTSMd0+ZBDt+UEY2J7ZURniDTPxmiFskypWQ1XOfJRdmTZ7tOt5q0WsJuKReuZOXg0eacCO9UWNkGbbJXjU4z1fn0XymGTdCwdH7JNnEGHtA7iNOd5gKWCdCkTcBNijU7AJEFGvojd60vFPSeadZNqtntTx28toqNSmjhm1R2AbAZSNQ9nqQfW1roJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bI+3WFMPK3LpQmTop6JjHQVn1W3YT0UXvU3VTUNNEP0=;
+ b=iXp9NX6QKpDxKHdeHUD7S+PhetnLAikdlJku+6U9Tv3mV7mRyNiAqmcgPMwNcAWrnzq12StIyLIk+I7DPYqxoRliI67fliebmAyoYxOuop6GjRu5ofw6/LExE+edb7wCuiJv/oUeVod8XRyMQw1rs/5t2h32qJA+KDT80wwv+lBhJ/PkTcRb/K82ajZX/gkczI1WKuuDUYWgxbLjmNs598iZIaUk3KpMA+YvAhlD3oWPafNoQVv/d2c7QkebvogJW7j1scqgOOONqBpwIe78AVbtqdQ4F9cE1Z1BKpSq+gfPTxC1/G0YjXhLNwsGhCodCRoOMO+craxz+p3AZvBbOg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MWHPR12MB1199.namprd12.prod.outlook.com (2603:10b6:300:10::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Fri, 13 May
+ 2022 11:45:54 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2%5]) with mapi id 15.20.5250.013; Fri, 13 May 2022
+ 11:45:54 +0000
+Date: Fri, 13 May 2022 08:45:53 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>
+Subject: Re: [PATCH v1 13/15] mm: handling Non-LRU pages returned by
+ vm_normal_pages
+Message-ID: <20220513114553.GK1343366@nvidia.com>
+References: <20220505213438.25064-1-alex.sierra@amd.com>
+ <20220505213438.25064-14-alex.sierra@amd.com>
+ <20220511185012.GM49344@nvidia.com>
+ <833a5eb1-f64c-0b1e-a318-051bde629ab2@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <833a5eb1-f64c-0b1e-a318-051bde629ab2@amd.com>
+X-ClientProxiedBy: MN2PR10CA0008.namprd10.prod.outlook.com
+ (2603:10b6:208:120::21) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 10283047-c990-41cb-9cd1-08da34d62323
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1199:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB11995C8A985BBC17C940B337C2CA9@MWHPR12MB1199.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oilYfJUFZ4/g3muhpAPopOwcMwr6YRzf9dEtQJT3HQvj1z5gI12duKHHfm/oq8JNWUvHurUTpnmgQ3sXWG5CVa/x0h68CycReFQOQW8099ilczY5QQHUqgK+PLP81EJECwAI2/mKJkKJpLhQ4BG5RpOa2z+ZeaZ32WxNqBV+Up4yGNoHqOZlR5kB0OnMCHqRwmk+UQrYwftHK4B/9I24mbBZOaL2irIDZuPaG4XQhOtBbm4zLFhiU/XSlqeUCWQRErb57f5qHUMl3ydlngo2ijEzIVe6ply1EHDgushzndmvKs2lQbo6JKO9mjpijYheZz0k+6laOtaHPsLQwymmprESo8Gs1DU/DwUvTruQGE1QXrK2RB6M1SoV7Ld8BEU3MxE9DMajADoM/rIPpluE5CvHq9M4SsKD1VVHHLQNJp4oJArFCmJXOjwC1vnQ1nnisp2sWMWunZhh7gpnSiIopvuXvVC0vMwrn2w8hpbPD129scnHioJl6JYEdb08Z68AHqtWXu2IrUfkRNvW7KC/uoWfAWVmu24iuhTk2WT1ZO/gzDVd284bIW5fzQ4XokQ7Mw36ynvN6vgmSdFdOltQfwYSXu93H/Ra700W6yK+LfhBjzTnvgOKWz+wShC/AmY/5xRj/A05fE2Z2/R05SSWHA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6486002)(5660300002)(66946007)(7416002)(8936002)(86362001)(38100700002)(186003)(2906002)(6916009)(8676002)(66556008)(66476007)(2616005)(1076003)(4326008)(508600001)(53546011)(6506007)(26005)(6512007)(316002)(33656002)(36756003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVBBOCtocmRmUnEybi9IWDcrdnFrU0NvWG9VZU55YytMUTlnRUNOcEl4Q3pX?=
+ =?utf-8?B?Y0NVUHFmTXJZRExGaFNoZ2w2QlExaXBJTUlDNCtCZmRENklHZit4S1pkanRI?=
+ =?utf-8?B?dUdweVBPc056Z3lUWDNEWXB2L3hkOWVPbllYM3hXK2RWWUxSN2FrUDkrZzVT?=
+ =?utf-8?B?bkF3K1NaNWsvcytONTArSkliYTc1TktKN0FkQStmSUh3aVg0bU00S1NUQmdu?=
+ =?utf-8?B?enlyeDgxME5jUFhBalNyNHFDUmdwUlYvNHIyWFBFaHZQZUlWdjc0SVpEQ2U1?=
+ =?utf-8?B?bVVGdDQvelliNXZ0bk1SWkh2b3V2RjU2bkthd1FJSkhEL3NteDNDbThCS0hI?=
+ =?utf-8?B?eXR0UXd5U3NOSEVmcyttckpmZ3EwQkw5SjBoVDVHSzI4QnVJSkYyRmhhREda?=
+ =?utf-8?B?RWlXV1NGbkMyWWVNTWY2dkFaeVJJbUN1UElwN201V3dhaFZRenBRR3E4SERO?=
+ =?utf-8?B?SjY3T0pXVnRZQU1CM2pKL0RWTDkwRlRIOE8wZ3NmVEFya3o0dzBUY2F2NGxx?=
+ =?utf-8?B?eFhzVkFDdkwzZTZBZnloVmk1UmFPOGVmTzU3dytIUFFnVjFFR1pSdlRuVFBG?=
+ =?utf-8?B?MEVXVXZxYVFIajA1bk4xK3hXK21VMWV6M2hTWWhMVThpbDZCNVFBNkI5a2FY?=
+ =?utf-8?B?akNUYkF0YUZXVm9JelVoQlkwbzgzTThYbkpycEo3WG9xbmNhLzZUak83dExQ?=
+ =?utf-8?B?NVNyL0pJUUQ0RS9wR3RhY1FxbkF6Q2hteTBZZ2lPRlpyMWJCZk5weVVzdm9o?=
+ =?utf-8?B?UmVTdE5EQzRhMk1rOEVNamVVcyt4UzE4ZDljQjZxRGVOUmN1ZDQwUVhWUWRX?=
+ =?utf-8?B?dzlLQXdNOWk2VTVTeDNKaGhEVVp0N2l4STVaMTQzRFBsc1FmL1Vna3VtaE4y?=
+ =?utf-8?B?dDcrSUk2T3c4QmRScHpvQ004ZlB5RlFRTVhQbE5RYTd5MmIxSUtodWl5ZVJ5?=
+ =?utf-8?B?MTJvbXZMTTBOdDRucWp0YVBXOEk5bGV4OUwzQkkyaG1VbXpYRFBHelBUeWY3?=
+ =?utf-8?B?SEdVYktvczRuTUxKUEg0U1NScXZrU1YvU1NDaVYzSUhlRUsycjJ0clhGNXBn?=
+ =?utf-8?B?NVJ4dUFKUjhTYThLM1BiTUtqbURySWt6R2lHaW1udndPbG1LbWl3dnRuc2dN?=
+ =?utf-8?B?VU5DdkcxWTR5QUY5bWUrakhjUkxaRWZZYTVwYmNPVUIyZVovY1ZZQ2trZ1hU?=
+ =?utf-8?B?M3VQSi9UMmdLV0VUN1ZrU2JKT0ZuK0dROEhoOGtaVEVScTVjbTdzS2JtT2ds?=
+ =?utf-8?B?Ty9yRldCYlg5R2tvVTM4bmpXV2RqTXBBNWVtK3lPd0g3c0d1ckdMclE5Zmdt?=
+ =?utf-8?B?bTVuVVJCZ2N4b3NhcFBPbE5kazNoMThBY3JJcTllVVkxNzNDZHNQSFBYWEZq?=
+ =?utf-8?B?bmhidXBwRzNXN2RkZlhJUkV5R2ZBWnM0UTJadThka3A0REFrRkRZd25NelRO?=
+ =?utf-8?B?akthc3hLQTdid3QyZEZVblRyU2R2S1Zid2RpWnArSi9LQW1CaktPNmJyeFFJ?=
+ =?utf-8?B?ZVAxZ29HT1QwQWt3b1AyVHdUTHZFUndmU1lCbU1ZMmlBQ0dlUnYydS83K3g2?=
+ =?utf-8?B?YnhVYjJwTElldmVaa2JPcE9MbUNXQnpJM1FQOUkrRUpqaW1ZdXZPNU5Qdzlj?=
+ =?utf-8?B?UzdYUG03dEMwOVpacWhJWHNUdjRJQVlTK1E3N0pyeDVXYnhGdDVocWsxQkRp?=
+ =?utf-8?B?cmtoYVVwSGtqRGRhU2YzcCtBb1VRYmNvZEE1eTRubUgrUjFwc2VEcTBVQTZ6?=
+ =?utf-8?B?bkdka3pubkppRFZYVkZ2TnBacjFxS1hrRktQYlUzb09kYitWMmNpRlRqampQ?=
+ =?utf-8?B?THhjcDNBVFNxdGEyVHBHMFgrMlZQd1lRWVEzdUp3VDFuMElIQTBrRi85Lyta?=
+ =?utf-8?B?VlZ3YWt0Q0FEbUdTMDdqcWkwR1JuMDJpY1J3V0RFS1IxU3U4eUtQVi9VUWhO?=
+ =?utf-8?B?bWk0SU1MZ3NqNWJnc2xsdnplTGVSNlEzWDlZWXpaU1ltZjNzRjFaZm1uQldo?=
+ =?utf-8?B?djFIeFJQUlVWOGVrMys4OVZWaGZIVndPZ1Z3cVRPdldRbFN3dXFFbDIyTWhW?=
+ =?utf-8?B?cWY2Z3UvK0o3U1FxTGoxQ3orWVRpbUlZVy84RTlpVXJBKzF4UHdUVzlITTBB?=
+ =?utf-8?B?ZlUrZHFtYm1SN2VNeGc2VkdpOE1ENWI5UXI1dUxrVThhQWl6ZG4yNms2QWZ2?=
+ =?utf-8?B?WWhCcXpTL1lWa3N1YmwranRmZlZmMkw1TU5HQ0RUUWkrZlZwdGhvS1A0eUVO?=
+ =?utf-8?B?MWVxUVk1SFAvdVBuNk91RVFIemNsMFZKdG9xakxMYzMwR2NwQlBuYVNEZ21l?=
+ =?utf-8?B?Y0diZE8yR2JKeU9zYkFybjZpYkhWRTJqdjA1QU5KSHlTUHZiNkZUUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10283047-c990-41cb-9cd1-08da34d62323
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2022 11:45:54.6652 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HwjAmmtlji6T6/BjIMfec89uqxJYwq0Omp5WObc1/Wo+KgaYhQkhEiVlyzn5FEW0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1199
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,482 +131,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
+ Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/05/2022 01:54, Abhinav Kumar wrote:
+On Thu, May 12, 2022 at 05:33:44PM -0500, Sierra Guiza, Alejandro (Alex) wrote:
 > 
+> On 5/11/2022 1:50 PM, Jason Gunthorpe wrote:
+> > On Thu, May 05, 2022 at 04:34:36PM -0500, Alex Sierra wrote:
+> > 
+> > > diff --git a/mm/memory.c b/mm/memory.c
+> > > index 76e3af9639d9..892c4cc54dc2 100644
+> > > +++ b/mm/memory.c
+> > > @@ -621,6 +621,13 @@ struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+> > >   		if (is_zero_pfn(pfn))
+> > >   			return NULL;
+> > >   		if (pte_devmap(pte))
+> > > +/*
+> > > + * NOTE: Technically this should goto check_pfn label. However, page->_mapcount
+> > > + * is never incremented for device pages that are mmap through DAX mechanism
+> > > + * using pmem driver mounted into ext4 filesystem. When these pages are unmap,
+> > > + * zap_pte_range is called and vm_normal_page return a valid page with
+> > > + * page_mapcount() = 0, before page_remove_rmap is called.
+> > > + */
+> > >   			return NULL;
+> > ? Where does this series cause device coherent to be returned?
+> In our case, device coherent pages could be obtained as a result of
+> migration(Patches 6/7 of 15), ending up mapped in CPU page tables. Later on,
+> these pages might need to be returned by get_user_pages or other callers
+> through vm_normal_pages. Our approach in this series, is to handle
+> device-coherent-managed pages returned by vm_normal_pages, inside each
+> caller. EX. device coherent pages don’t support LRU lists, NUMA migration or
+> THP.
+> > 
+> > Wasn't the plan to not set pte_devmap() ?
 > 
-> On 5/6/2022 6:00 PM, Dmitry Baryshkov wrote:
->> Afther the commit f026e431cf86 ("drm/msm: Convert to Linux IRQ
->> interfaces") converted MSM DRM driver to handle IRQs on it's own (rather
->> than using the DRM IRQ mid-layer), there is little point in keeping
->> irq wrapper in the msm_drv.c which just call into individual drivers.
->> Push respective code into the mdp4/mdp5/dpu drivers and drop
->> irq_preinstall/irq_postinstall/irq msm_kms funcs.
-> 
-> Isnt this change causing a lot of code duplication across mdp5/dpu/mdp4?
-> 
-> Do you have any future plans with respect to this separation?
-> 
-> I am missing why this separation into respective mdp4/5/dpu is necessary 
-> because struct msm_kms remains a common struct in all of this so it 
-> remaining in msm_drv will avoid duplication.
+> amdgpu does not set pte_devmap for our DEVICE_COHERENT pages. DEVMAP flags
+> are set by drivers like virtio_fs or pmem, where MEMORY_DEVICE_FS_DAX type
+> is used.
+> This patch series deals with DEVICE_COHERENT pages. My understanding was,
+> that the DAX code and DEVICE_GENERIC would be fixed up later by someone more
+> familiar with it. Were you expecting that we'd fix the DAX usage of
+> pte_devmap flags in this patch series as well?
 
-I wanted to remove back-and-forth calls between msm core and individual 
-drivers. But I agree that it comes by the cost of code duplication. 
-Let's drop this patch.
+No, I was just trying to find where the pages got inserted and
+understand the comment above. I think the comment should be clarified
+more like you explained:
 
-> 
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h  | 13 +---
->>   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 28 ++++++++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  6 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  7 +++
->>   drivers/gpu/drm/msm/disp/mdp4/mdp4_irq.c      | 30 ++++++++-
->>   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  4 +-
->>   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h      |  4 +-
->>   drivers/gpu/drm/msm/disp/mdp5/mdp5_irq.c      | 30 ++++++++-
->>   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  4 +-
->>   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h      |  4 +-
->>   drivers/gpu/drm/msm/msm_drv.c                 | 62 +++----------------
->>   drivers/gpu/drm/msm/msm_kms.h                 |  4 +-
->>   12 files changed, 105 insertions(+), 91 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
->> index b5b6e7031fb9..c6938b1f1870 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
->> @@ -8,13 +8,6 @@
->>   #include "dpu_kms.h"
->>   #include "dpu_hw_interrupts.h"
->> -/**
->> - * dpu_core_irq_preinstall - perform pre-installation of core IRQ 
->> handler
->> - * @kms:        MSM KMS handle
->> - * @return:        none
->> - */
->> -void dpu_core_irq_preinstall(struct msm_kms *kms);
->> -
->>   /**
->>    * dpu_core_irq_uninstall - uninstall core IRQ handler
->>    * @kms:        MSM KMS handle
->> @@ -23,11 +16,11 @@ void dpu_core_irq_preinstall(struct msm_kms *kms);
->>   void dpu_core_irq_uninstall(struct msm_kms *kms);
->>   /**
->> - * dpu_core_irq - core IRQ handler
->> + * dpu_core_irq_install - install core IRQ handler
->>    * @kms:        MSM KMS handle
->> - * @return:        interrupt handling status
->> + * @return:        non-zero in case of an error
->>    */
->> -irqreturn_t dpu_core_irq(struct msm_kms *kms);
->> +int dpu_core_irq_install(struct msm_kms *kms);
->>   /**
->>    * dpu_core_irq_read - IRQ helper function for reading IRQ status
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> index d6498e45dc2c..fa4f99034a08 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
->> @@ -164,8 +164,9 @@ static void dpu_core_irq_callback_handler(struct 
->> dpu_kms *dpu_kms, int irq_idx)
->>       
->> dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, 
->> irq_idx);
->>   }
->> -irqreturn_t dpu_core_irq(struct msm_kms *kms)
->> +static irqreturn_t dpu_irq(int irq, void *arg)
->>   {
->> +    struct msm_kms *kms = arg;
->>       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->>       struct dpu_hw_intr *intr = dpu_kms->hw_intr;
->>       int reg_idx;
->> @@ -541,7 +542,7 @@ void dpu_debugfs_core_irq_init(struct dpu_kms 
->> *dpu_kms,
->>   }
->>   #endif
->> -void dpu_core_irq_preinstall(struct msm_kms *kms)
->> +static void dpu_core_irq_preinstall(struct msm_kms *kms)
->>   {
->>       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->>       int i;
->> @@ -570,5 +571,28 @@ void dpu_core_irq_uninstall(struct msm_kms *kms)
->>       dpu_clear_irqs(dpu_kms);
->>       dpu_disable_all_irqs(dpu_kms);
->> +    if (kms->irq_requested)
->> +        free_irq(kms->irq, kms);
->>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
->>   }
->> +
->> +int dpu_core_irq_install(struct msm_kms *kms)
->> +{
->> +    int ret;
->> +
->> +    dpu_core_irq_preinstall(kms);
->> +
->> +    ret = request_irq(kms->irq, dpu_irq, 0, "dpu", kms);
->> +    if (ret)
->> +        return ret;
->> +
->> +    kms->irq_requested = true;
->> +
->> +    ret = dpu_irq_postinstall(kms);
->> +    if (ret) {
->> +        free_irq(kms->irq, kms);
->> +        return ret;
->> +    }
->> +
->> +    return 0;
->> +}
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> index 2b9d931474e0..494978da7785 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> @@ -884,7 +884,7 @@ static void dpu_kms_destroy(struct msm_kms *kms)
->>           pm_runtime_disable(&dpu_kms->pdev->dev);
->>   }
->> -static int dpu_irq_postinstall(struct msm_kms *kms)
->> +int dpu_irq_postinstall(struct msm_kms *kms)
->>   {
->>       struct msm_drm_private *priv;
->>       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->> @@ -960,10 +960,8 @@ static void dpu_kms_mdp_snapshot(struct 
->> msm_disp_state *disp_state, struct msm_k
->>   static const struct msm_kms_funcs kms_funcs = {
->>       .hw_init         = dpu_kms_hw_init,
->> -    .irq_preinstall  = dpu_core_irq_preinstall,
->> -    .irq_postinstall = dpu_irq_postinstall,
->> +    .irq_install     = dpu_core_irq_install,
->>       .irq_uninstall   = dpu_core_irq_uninstall,
->> -    .irq             = dpu_core_irq,
->>       .enable_commit   = dpu_kms_enable_commit,
->>       .disable_commit  = dpu_kms_disable_commit,
->>       .vsync_time      = dpu_kms_vsync_time,
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> index 832a0769f2e7..559184c64045 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
->> @@ -204,4 +204,11 @@ void dpu_disable_vblank(struct msm_kms *kms, 
->> struct drm_crtc *crtc);
->>    */
->>   u64 dpu_kms_get_clk_rate(struct dpu_kms *dpu_kms, char *clock_name);
->> +/**
->> + * dpu_irq_postinstall - perform post-installation of core IRQ handler
->> + * @kms:               MSM KMS handle
->> + * @return:            non-zero in case of error
->> + */
->> +int dpu_irq_postinstall(struct msm_kms *kms);
->> +
->>   #endif /* __dpu_kms_H__ */
->> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_irq.c 
->> b/drivers/gpu/drm/msm/disp/mdp4/mdp4_irq.c
->> index 4d49f3ba6a96..87675c162eea 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_irq.c
->> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_irq.c
->> @@ -32,7 +32,7 @@ static void mdp4_irq_error_handler(struct mdp_irq 
->> *irq, uint32_t irqstatus)
->>       }
->>   }
->> -void mdp4_irq_preinstall(struct msm_kms *kms)
->> +static void mdp4_irq_preinstall(struct msm_kms *kms)
->>   {
->>       struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(kms));
->>       mdp4_enable(mdp4_kms);
->> @@ -41,7 +41,7 @@ void mdp4_irq_preinstall(struct msm_kms *kms)
->>       mdp4_disable(mdp4_kms);
->>   }
->> -int mdp4_irq_postinstall(struct msm_kms *kms)
->> +static int mdp4_irq_postinstall(struct msm_kms *kms)
->>   {
->>       struct mdp_kms *mdp_kms = to_mdp_kms(kms);
->>       struct mdp4_kms *mdp4_kms = to_mdp4_kms(mdp_kms);
->> @@ -62,10 +62,13 @@ void mdp4_irq_uninstall(struct msm_kms *kms)
->>       mdp4_enable(mdp4_kms);
->>       mdp4_write(mdp4_kms, REG_MDP4_INTR_ENABLE, 0x00000000);
->>       mdp4_disable(mdp4_kms);
->> +    if (kms->irq_requested)
->> +        free_irq(kms->irq, kms);
->>   }
->> -irqreturn_t mdp4_irq(struct msm_kms *kms)
->> +static irqreturn_t mdp4_irq(int irq, void *arg)
->>   {
->> +    struct msm_kms *kms = arg;
->>       struct mdp_kms *mdp_kms = to_mdp_kms(kms);
->>       struct mdp4_kms *mdp4_kms = to_mdp4_kms(mdp_kms);
->>       struct drm_device *dev = mdp4_kms->dev;
->> @@ -88,6 +91,27 @@ irqreturn_t mdp4_irq(struct msm_kms *kms)
->>       return IRQ_HANDLED;
->>   }
->> +int mdp4_irq_install(struct msm_kms *kms)
->> +{
->> +    int ret;
->> +
->> +    mdp4_irq_preinstall(kms);
->> +
->> +    ret = request_irq(kms->irq, mdp4_irq, 0, "mdp4", kms);
->> +    if (ret)
->> +        return ret;
->> +
->> +    kms->irq_requested = true;
->> +
->> +    ret = mdp4_irq_postinstall(kms);
->> +    if (ret) {
->> +        free_irq(kms->irq, kms);
->> +        return ret;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   int mdp4_enable_vblank(struct msm_kms *kms, struct drm_crtc *crtc)
->>   {
->>       struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(kms));
->> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c 
->> b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
->> index fb48c8c19ec3..b7aced272af9 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
->> @@ -148,10 +148,8 @@ static void mdp4_destroy(struct msm_kms *kms)
->>   static const struct mdp_kms_funcs kms_funcs = {
->>       .base = {
->>           .hw_init         = mdp4_hw_init,
->> -        .irq_preinstall  = mdp4_irq_preinstall,
->> -        .irq_postinstall = mdp4_irq_postinstall,
->> +        .irq_install     = mdp4_irq_install,
->>           .irq_uninstall   = mdp4_irq_uninstall,
->> -        .irq             = mdp4_irq,
->>           .enable_vblank   = mdp4_enable_vblank,
->>           .disable_vblank  = mdp4_disable_vblank,
->>           .enable_commit   = mdp4_enable_commit,
->> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h 
->> b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
->> index e8ee92ab7956..b24a63872232 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
->> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
->> @@ -157,10 +157,8 @@ int mdp4_enable(struct mdp4_kms *mdp4_kms);
->>   void mdp4_set_irqmask(struct mdp_kms *mdp_kms, uint32_t irqmask,
->>           uint32_t old_irqmask);
->> -void mdp4_irq_preinstall(struct msm_kms *kms);
->> -int mdp4_irq_postinstall(struct msm_kms *kms);
->> +int mdp4_irq_install(struct msm_kms *kms);
->>   void mdp4_irq_uninstall(struct msm_kms *kms);
->> -irqreturn_t mdp4_irq(struct msm_kms *kms);
->>   int mdp4_enable_vblank(struct msm_kms *kms, struct drm_crtc *crtc);
->>   void mdp4_disable_vblank(struct msm_kms *kms, struct drm_crtc *crtc);
->> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_irq.c 
->> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_irq.c
->> index 9b4c8d92ff32..d573ff29d5a4 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_irq.c
->> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_irq.c
->> @@ -36,7 +36,7 @@ static void mdp5_irq_error_handler(struct mdp_irq 
->> *irq, uint32_t irqstatus)
->>       }
->>   }
->> -void mdp5_irq_preinstall(struct msm_kms *kms)
->> +static void mdp5_irq_preinstall(struct msm_kms *kms)
->>   {
->>       struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
->>       struct device *dev = &mdp5_kms->pdev->dev;
->> @@ -47,7 +47,7 @@ void mdp5_irq_preinstall(struct msm_kms *kms)
->>       pm_runtime_put_sync(dev);
->>   }
->> -int mdp5_irq_postinstall(struct msm_kms *kms)
->> +static int mdp5_irq_postinstall(struct msm_kms *kms)
->>   {
->>       struct mdp_kms *mdp_kms = to_mdp_kms(kms);
->>       struct mdp5_kms *mdp5_kms = to_mdp5_kms(mdp_kms);
->> @@ -74,11 +74,14 @@ void mdp5_irq_uninstall(struct msm_kms *kms)
->>       pm_runtime_get_sync(dev);
->>       mdp5_write(mdp5_kms, REG_MDP5_INTR_EN, 0x00000000);
->> +    if (kms->irq_requested)
->> +        free_irq(kms->irq, kms);
->>       pm_runtime_put_sync(dev);
->>   }
->> -irqreturn_t mdp5_irq(struct msm_kms *kms)
->> +static irqreturn_t mdp5_irq(int irq, void *arg)
->>   {
->> +    struct msm_kms *kms = arg;
->>       struct mdp_kms *mdp_kms = to_mdp_kms(kms);
->>       struct mdp5_kms *mdp5_kms = to_mdp5_kms(mdp_kms);
->>       struct drm_device *dev = mdp5_kms->dev;
->> @@ -101,6 +104,27 @@ irqreturn_t mdp5_irq(struct msm_kms *kms)
->>       return IRQ_HANDLED;
->>   }
->> +int mdp5_irq_install(struct msm_kms *kms)
->> +{
->> +    int ret;
->> +
->> +    mdp5_irq_preinstall(kms);
->> +
->> +    ret = request_irq(kms->irq, mdp5_irq, 0, "mdp5", kms);
->> +    if (ret)
->> +        return ret;
->> +
->> +    kms->irq_requested = true;
->> +
->> +    ret = mdp5_irq_postinstall(kms);
->> +    if (ret) {
->> +        free_irq(kms->irq, kms);
->> +        return ret;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   int mdp5_enable_vblank(struct msm_kms *kms, struct drm_crtc *crtc)
->>   {
->>       struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
->> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c 
->> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->> index 3d5621a68f85..18cf0ff4da6c 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
->> @@ -262,10 +262,8 @@ static int mdp5_kms_debugfs_init(struct msm_kms 
->> *kms, struct drm_minor *minor)
->>   static const struct mdp_kms_funcs kms_funcs = {
->>       .base = {
->>           .hw_init         = mdp5_hw_init,
->> -        .irq_preinstall  = mdp5_irq_preinstall,
->> -        .irq_postinstall = mdp5_irq_postinstall,
->> +        .irq_install     = mdp5_irq_install,
->>           .irq_uninstall   = mdp5_irq_uninstall,
->> -        .irq             = mdp5_irq,
->>           .enable_vblank   = mdp5_enable_vblank,
->>           .disable_vblank  = mdp5_disable_vblank,
->>           .flush_commit    = mdp5_flush_commit,
->> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h 
->> b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
->> index 29bf11f08601..630b5f812f24 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
->> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h
->> @@ -263,10 +263,8 @@ static inline uint32_t lm2ppdone(struct 
->> mdp5_hw_mixer *mixer)
->>   void mdp5_set_irqmask(struct mdp_kms *mdp_kms, uint32_t irqmask,
->>           uint32_t old_irqmask);
->> -void mdp5_irq_preinstall(struct msm_kms *kms);
->> -int mdp5_irq_postinstall(struct msm_kms *kms);
->> +int mdp5_irq_install(struct msm_kms *kms);
->>   void mdp5_irq_uninstall(struct msm_kms *kms);
->> -irqreturn_t mdp5_irq(struct msm_kms *kms);
->>   int mdp5_enable_vblank(struct msm_kms *kms, struct drm_crtc *crtc);
->>   void mdp5_disable_vblank(struct msm_kms *kms, struct drm_crtc *crtc);
->>   int mdp5_irq_domain_init(struct mdp5_kms *mdp5_kms);
->> diff --git a/drivers/gpu/drm/msm/msm_drv.c 
->> b/drivers/gpu/drm/msm/msm_drv.c
->> index 44485363f37a..d2fbe54fec4d 100644
->> --- a/drivers/gpu/drm/msm/msm_drv.c
->> +++ b/drivers/gpu/drm/msm/msm_drv.c
->> @@ -77,64 +77,15 @@ static bool modeset = true;
->>   MODULE_PARM_DESC(modeset, "Use kernel modesetting [KMS] (1=on 
->> (default), 0=disable)");
->>   module_param(modeset, bool, 0600);
->> -static irqreturn_t msm_irq(int irq, void *arg)
->> -{
->> -    struct drm_device *dev = arg;
->> -    struct msm_drm_private *priv = dev->dev_private;
->> -    struct msm_kms *kms = priv->kms;
->> -
->> -    BUG_ON(!kms);
->> -
->> -    return kms->funcs->irq(kms);
->> -}
->> -
->> -static void msm_irq_preinstall(struct drm_device *dev)
->> -{
->> -    struct msm_drm_private *priv = dev->dev_private;
->> -    struct msm_kms *kms = priv->kms;
->> -
->> -    BUG_ON(!kms);
->> -
->> -    kms->funcs->irq_preinstall(kms);
->> -}
->> -
->> -static int msm_irq_postinstall(struct drm_device *dev)
->> -{
->> -    struct msm_drm_private *priv = dev->dev_private;
->> -    struct msm_kms *kms = priv->kms;
->> -
->> -    BUG_ON(!kms);
->> -
->> -    if (kms->funcs->irq_postinstall)
->> -        return kms->funcs->irq_postinstall(kms);
->> -
->> -    return 0;
->> -}
->> -
->>   static int msm_irq_install(struct drm_device *dev, unsigned int irq)
->>   {
->>       struct msm_drm_private *priv = dev->dev_private;
->>       struct msm_kms *kms = priv->kms;
->> -    int ret;
->> -
->> -    if (irq == IRQ_NOTCONNECTED)
->> -        return -ENOTCONN;
->> -
->> -    msm_irq_preinstall(dev);
->> -
->> -    ret = request_irq(irq, msm_irq, 0, dev->driver->name, dev);
->> -    if (ret)
->> -        return ret;
->> -
->> -    kms->irq_requested = true;
->> -    ret = msm_irq_postinstall(dev);
->> -    if (ret) {
->> -        free_irq(irq, dev);
->> -        return ret;
->> -    }
->> +    if (!kms->funcs->irq_install)
->> +        return -EINVAL;
->> -    return 0;
->> +    return kms->funcs->irq_install(kms);
->>   }
->>   static void msm_irq_uninstall(struct drm_device *dev)
->> @@ -143,8 +94,6 @@ static void msm_irq_uninstall(struct drm_device *dev)
->>       struct msm_kms *kms = priv->kms;
->>       kms->funcs->irq_uninstall(kms);
->> -    if (kms->irq_requested)
->> -        free_irq(kms->irq, dev);
->>   }
->>   struct msm_vblank_work {
->> @@ -450,6 +399,11 @@ static int msm_drm_init(struct device *dev, const 
->> struct drm_driver *drv)
->>       }
->>       if (kms) {
->> +        if (kms->irq == IRQ_NOTCONNECTED) {
->> +            ret = -ENOTCONN;
->> +            goto err_msm_uninit;
->> +        }
->> +
->>           pm_runtime_get_sync(dev);
->>           ret = msm_irq_install(ddev, kms->irq);
->>           pm_runtime_put_sync(dev);
->> diff --git a/drivers/gpu/drm/msm/msm_kms.h 
->> b/drivers/gpu/drm/msm/msm_kms.h
->> index f8ed7588928c..71d497a8fb8b 100644
->> --- a/drivers/gpu/drm/msm/msm_kms.h
->> +++ b/drivers/gpu/drm/msm/msm_kms.h
->> @@ -24,10 +24,8 @@ struct msm_kms_funcs {
->>       /* hw initialization: */
->>       int (*hw_init)(struct msm_kms *kms);
->>       /* irq handling: */
->> -    void (*irq_preinstall)(struct msm_kms *kms);
->> -    int (*irq_postinstall)(struct msm_kms *kms);
->> +    int (*irq_install)(struct msm_kms *kms);
->>       void (*irq_uninstall)(struct msm_kms *kms);
->> -    irqreturn_t (*irq)(struct msm_kms *kms);
->>       int (*enable_vblank)(struct msm_kms *kms, struct drm_crtc *crtc);
->>       void (*disable_vblank)(struct msm_kms *kms, struct drm_crtc *crtc);
+  New uers of ZONE_DEVICE will not set pte_devmap() and will have
+  refcounts incremented on their struct pages when they are inserted
+  into PTEs, thus they are safe to return here. Legacy ZONE_DEVICE
+  pages that set pte_devmap() do not have refcounts. ....
 
-
--- 
-With best wishes
-Dmitry
+Jason
