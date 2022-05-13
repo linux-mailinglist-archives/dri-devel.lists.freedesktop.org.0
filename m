@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18377526995
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 20:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD3C5269BB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 20:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 667F710EC31;
-	Fri, 13 May 2022 18:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9139B10E18D;
+	Fri, 13 May 2022 18:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CAEF10EC31;
- Fri, 13 May 2022 18:51:35 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEC5110E078;
+ Fri, 13 May 2022 18:58:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652467895; x=1684003895;
+ t=1652468335; x=1684004335;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=tLVEtdEKBeNKN8603d/dhWsWNCi3dfMTAtPKWGBHjdc=;
- b=RQBKHdiPL1BHIsznjsOjlGzSHqWbqU3Z11SgGpeNSp3o/Gc5udHOCL2O
- SqKgEe7oIaku3/MFgErIoVnwwW4ynGCBeY55QQFj6f7eyMgonupBriTw2
- 0xbnokLt/L5iCjs/kB0ZOqk0NzcKXd65UXYP15vehqvEMOaqxtw9l/lYF o=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 13 May 2022 11:51:35 -0700
+ bh=WovHoMuqo9A0fd8tbWBc6pP4IO2QFbNOgAsN/NVWHo4=;
+ b=aL7G6bTjwhvorGPpwSMtvSV3E7mCYoGPgv5TRI+CeyLlSKSqlfQUGwXN
+ keA6mwTQCM73QBXBGeRACTarAbBQwPUf2ucCS/InuUbehOa4eeU6nayrr
+ HYAY08vzI84L1/D/UtXZrUiuyPDxuWYkGKksg993YmLPmKB2NhwYkcV0q s=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 13 May 2022 11:58:54 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2022 11:51:34 -0700
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 11:58:56 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 13 May 2022 11:50:54 -0700
+ 15.2.986.22; Fri, 13 May 2022 11:58:55 -0700
 Received: from [10.38.247.112] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 13 May
- 2022 11:50:52 -0700
-Message-ID: <952f224a-e3a3-0f17-cd06-23b019b39346@quicinc.com>
-Date: Fri, 13 May 2022 11:50:49 -0700
+ 2022 11:58:53 -0700
+Message-ID: <9dbc62ba-2170-8f60-fb47-d8aff77c35d3@quicinc.com>
+Date: Fri, 13 May 2022 11:58:51 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH 14/25] drm/msm/dpu: move stride programming to
- dpu_hw_sspp_setup_sourceaddress
+Subject: Re: [PATCH 15/25] drm/msm/dpu: remove dpu_hw_fmt_layout from struct
+ dpu_hw_pipe_cfg
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
  <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
  <sean@poorly.run>
 References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
- <20220209172520.3719906-15-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-16-dmitry.baryshkov@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220209172520.3719906-15-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220209172520.3719906-16-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -76,123 +77,158 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 2/9/2022 9:25 AM, Dmitry Baryshkov wrote:
-> Move stride programming to dpu_hw_sspp_setup_sourceaddress(), so that
-> dpu_hw_sspp_setup_rects() programs only source and destination
-> rectangles.
+> Remove dpu_hw_fmt_layout instance from struct dpu_hw_fmt_layout, leaving
+> only src_rect and dst_rect.
+
+I believe you meant "remove dpu_hw_fmt_layout instance from struct 
+dpu_hw_pipe_cfg" ?.
+
+Otherwise nothing wrong with the change as such, but other than making 
+struct dpu_hw_pipe_cfg lighter, is there any other motivation behind 
+this change?
+
+Dont you think that dpu_hw_fmt_layout remaining to be a part of the 
+struct dpu_hw_pipe_cfg is better and they are indeed tied closely.
+
+
+
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-This separation is logically correct, but there is another codepath 
-using this.
-
-_dpu_plane_color_fill() calls pdpu->pipe_hw->ops.setup_rects.
-
-So for solid fill, I presume that stride getting programmed is 0 as
-there is no buffer to fetch from.
-
-But with this separation, we will miss re-programming stride and it will 
-remain at the old value even for solid fil cases?
-
-You might want to add setup_sourceaddress call there? But that wont make 
-sense either because for solid fill there is nothing to fetch from.
-
-Perhaps, another op for stride programming then?
-
-
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 57 +++++++++++----------
->   1 file changed, 29 insertions(+), 28 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 30 ++++++++++-----------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  6 ++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |  7 ++---
+>   3 files changed, 21 insertions(+), 22 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> index 7194c14f87bc..2186506e6315 100644
+> index 2186506e6315..df6698778b6d 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> @@ -447,7 +447,7 @@ static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
+> @@ -486,7 +486,7 @@ static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
+>   }
+>   
+>   static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
+> -		struct dpu_hw_pipe_cfg *cfg)
+> +		struct dpu_hw_fmt_layout *layout)
 >   {
 >   	struct dpu_hw_pipe *ctx = pipe->sspp;
->   	struct dpu_hw_blk_reg_map *c;
-> -	u32 src_size, src_xy, dst_size, dst_xy, ystride0, ystride1;
-> +	u32 src_size, src_xy, dst_size, dst_xy;
->   	u32 src_size_off, src_xy_off, out_size_off, out_xy_off;
->   	u32 idx;
+>   	u32 ystride0, ystride1;
+> @@ -497,41 +497,41 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
+>   		return;
 >   
-> @@ -478,44 +478,18 @@ static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
->   	dst_size = (drm_rect_height(&cfg->dst_rect) << 16) |
->   		drm_rect_width(&cfg->dst_rect);
+>   	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+> -		for (i = 0; i < ARRAY_SIZE(cfg->layout.plane_addr); i++)
+> +		for (i = 0; i < ARRAY_SIZE(layout->plane_addr); i++)
+>   			DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx + i * 0x4,
+> -					cfg->layout.plane_addr[i]);
+> +					layout->plane_addr[i]);
+>   	} else if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx,
+> -				cfg->layout.plane_addr[0]);
+> +				layout->plane_addr[0]);
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC2_ADDR + idx,
+> -				cfg->layout.plane_addr[2]);
+> +				layout->plane_addr[2]);
+>   	} else {
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC1_ADDR + idx,
+> -				cfg->layout.plane_addr[0]);
+> +				layout->plane_addr[0]);
+>   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC3_ADDR + idx,
+> -				cfg->layout.plane_addr[2]);
+> +				layout->plane_addr[2]);
+>   	}
 >   
-> -	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+>   	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
 > -		ystride0 = (cfg->layout.plane_pitch[0]) |
 > -			(cfg->layout.plane_pitch[1] << 16);
 > -		ystride1 = (cfg->layout.plane_pitch[2]) |
 > -			(cfg->layout.plane_pitch[3] << 16);
-> -	} else {
-> -		ystride0 = DPU_REG_READ(c, SSPP_SRC_YSTRIDE0 + idx);
-> -		ystride1 = DPU_REG_READ(c, SSPP_SRC_YSTRIDE1 + idx);
-> -
-> -		if (pipe->multirect_index == DPU_SSPP_RECT_0) {
-> -			ystride0 = (ystride0 & 0xFFFF0000) |
+> +		ystride0 = (layout->plane_pitch[0]) |
+> +			(layout->plane_pitch[1] << 16);
+> +		ystride1 = (layout->plane_pitch[2]) |
+> +			(layout->plane_pitch[3] << 16);
+>   	} else {
+>   		ystride0 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE0 + idx);
+>   		ystride1 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE1 + idx);
+>   
+>   		if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+>   			ystride0 = (ystride0 & 0xFFFF0000) |
 > -				(cfg->layout.plane_pitch[0] & 0x0000FFFF);
-> -			ystride1 = (ystride1 & 0xFFFF0000)|
+> +				(layout->plane_pitch[0] & 0x0000FFFF);
+>   			ystride1 = (ystride1 & 0xFFFF0000)|
 > -				(cfg->layout.plane_pitch[2] & 0x0000FFFF);
-> -		} else {
-> -			ystride0 = (ystride0 & 0x0000FFFF) |
+> +				(layout->plane_pitch[2] & 0x0000FFFF);
+>   		} else {
+>   			ystride0 = (ystride0 & 0x0000FFFF) |
 > -				((cfg->layout.plane_pitch[0] << 16) &
-> -				 0xFFFF0000);
-> -			ystride1 = (ystride1 & 0x0000FFFF) |
+> +				((layout->plane_pitch[0] << 16) &
+>   				 0xFFFF0000);
+>   			ystride1 = (ystride1 & 0x0000FFFF) |
 > -				((cfg->layout.plane_pitch[2] << 16) &
-> -				 0xFFFF0000);
-> -		}
-> -	}
-> -
->   	/* rectangle register programming */
->   	DPU_REG_WRITE(c, src_size_off + idx, src_size);
->   	DPU_REG_WRITE(c, src_xy_off + idx, src_xy);
->   	DPU_REG_WRITE(c, out_size_off + idx, dst_size);
->   	DPU_REG_WRITE(c, out_xy_off + idx, dst_xy);
-> -
-> -	DPU_REG_WRITE(c, SSPP_SRC_YSTRIDE0 + idx, ystride0);
-> -	DPU_REG_WRITE(c, SSPP_SRC_YSTRIDE1 + idx, ystride1);
->   }
->   
->   static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
->   		struct dpu_hw_pipe_cfg *cfg)
->   {
->   	struct dpu_hw_pipe *ctx = pipe->sspp;
-> +	u32 ystride0, ystride1;
->   	int i;
->   	u32 idx;
->   
-> @@ -537,6 +511,33 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
->   		DPU_REG_WRITE(&ctx->hw, SSPP_SRC3_ADDR + idx,
->   				cfg->layout.plane_addr[2]);
+> +				((layout->plane_pitch[2] << 16) &
+>   				 0xFFFF0000);
+>   		}
 >   	}
-> +
-> +	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
-> +		ystride0 = (cfg->layout.plane_pitch[0]) |
-> +			(cfg->layout.plane_pitch[1] << 16);
-> +		ystride1 = (cfg->layout.plane_pitch[2]) |
-> +			(cfg->layout.plane_pitch[3] << 16);
-> +	} else {
-> +		ystride0 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE0 + idx);
-> +		ystride1 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE1 + idx);
-> +
-> +		if (pipe->multirect_index == DPU_SSPP_RECT_0) {
-> +			ystride0 = (ystride0 & 0xFFFF0000) |
-> +				(cfg->layout.plane_pitch[0] & 0x0000FFFF);
-> +			ystride1 = (ystride1 & 0xFFFF0000)|
-> +				(cfg->layout.plane_pitch[2] & 0x0000FFFF);
-> +		} else {
-> +			ystride0 = (ystride0 & 0x0000FFFF) |
-> +				((cfg->layout.plane_pitch[0] << 16) &
-> +				 0xFFFF0000);
-> +			ystride1 = (ystride1 & 0x0000FFFF) |
-> +				((cfg->layout.plane_pitch[2] << 16) &
-> +				 0xFFFF0000);
-> +		}
-> +	}
-> +
-> +	DPU_REG_WRITE(&ctx->hw, SSPP_SRC_YSTRIDE0 + idx, ystride0);
-> +	DPU_REG_WRITE(&ctx->hw, SSPP_SRC_YSTRIDE1 + idx, ystride1);
->   }
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index eee8501ea80d..93b60545ba98 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -155,13 +155,11 @@ struct dpu_hw_pixel_ext {
 >   
->   static void dpu_hw_sspp_setup_csc(struct dpu_hw_pipe *ctx,
+>   /**
+>    * struct dpu_hw_pipe_cfg : Pipe description
+> - * @layout:    format layout information for programming buffer to hardware
+>    * @src_rect:  src ROI, caller takes into account the different operations
+>    *             such as decimation, flip etc to program this field
+>    * @dest_rect: destination ROI.
+>    */
+>   struct dpu_hw_pipe_cfg {
+> -	struct dpu_hw_fmt_layout layout;
+>   	struct drm_rect src_rect;
+>   	struct drm_rect dst_rect;
+>   };
+> @@ -260,10 +258,10 @@ struct dpu_hw_sspp_ops {
+>   	/**
+>   	 * setup_sourceaddress - setup pipe source addresses
+>   	 * @pipe: Pointer to software pipe context
+> -	 * @cfg: Pointer to pipe config structure
+> +	 * @layout: format layout information for programming buffer to hardware
+>   	 */
+>   	void (*setup_sourceaddress)(struct dpu_sw_pipe *ctx,
+> -			struct dpu_hw_pipe_cfg *cfg);
+> +			struct dpu_hw_fmt_layout *layout);
+>   
+>   	/**
+>   	 * setup_csc - setup color space coversion
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index e9421fa2fb2e..a521c0681af6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1052,6 +1052,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   	const struct dpu_format *fmt =
+>   		to_dpu_format(msm_framebuffer_format(fb));
+>   	struct dpu_hw_pipe_cfg pipe_cfg;
+> +	struct dpu_hw_fmt_layout layout;
+>   	struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+>   	struct msm_gem_address_space *aspace = kms->base.aspace;
+>   	bool update_src_addr = true;
+> @@ -1059,7 +1060,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   
+>   	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
+>   
+> -	ret = dpu_format_populate_layout(aspace, fb, &pipe_cfg.layout);
+> +	ret = dpu_format_populate_layout(aspace, fb, &layout);
+>   	if (ret == -EAGAIN) {
+>   		DPU_DEBUG_PLANE(pdpu, "not updating same src addrs\n");
+>   		update_src_addr = false;
+> @@ -1070,8 +1071,8 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   
+>   	if (update_src_addr &&
+>   	    pipe->sspp->ops.setup_sourceaddress) {
+> -		trace_dpu_plane_set_scanout(pipe, &pipe_cfg.layout);
+> -		pipe->sspp->ops.setup_sourceaddress(pipe, &pipe_cfg);
+> +		trace_dpu_plane_set_scanout(pipe, &layout);
+> +		pipe->sspp->ops.setup_sourceaddress(pipe, &layout);
+>   	}
+>   
+>   	pstate->pending = true;
