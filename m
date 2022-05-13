@@ -2,42 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419DA525ECA
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 11:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BC9525F8E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 12:09:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF6F010F08A;
-	Fri, 13 May 2022 09:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 334CA10E4A0;
+	Fri, 13 May 2022 10:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A08110F08A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 09:54:30 +0000 (UTC)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4L03lP4m43zCsft;
- Fri, 13 May 2022 17:49:37 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 13 May 2022 17:54:27 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 13 May
- 2022 17:54:26 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>
-Subject: [PATCH -next] video: fbdev: pxa3xx-gcu: release the resources
- correctly in pxa3xx_gcu_probe/remove()
-Date: Fri, 13 May 2022 18:05:41 +0800
-Message-ID: <20220513100541.2665467-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF0AB10E08A;
+ Fri, 13 May 2022 10:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652436535; x=1683972535;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=5i3oSmoCYG0z99aFLyfO1/Lffb6G3ID6DMGfB1vnRWE=;
+ b=Ow1b4MWRgrwVXXhQocaum0ZojppucjRj9cu1VVyKt9G0a80RncJamK3v
+ t8Pncl64FHNdakg6afH+Lq28BtmxXYu00QKQ1JYMftGu6go7Bkv6IUv9u
+ VcJ4bh3b1YGrcN1fhWMZ0/ostcnu8aUXEhPP11ImBzQ5npYHBvjNXRbgF
+ rQB9/W2c8PhLRq7jvSP+j+kfo7hyd6LX8cqIrcAPj2nMp03qQs6xPRNsX
+ jrA+yynIomLoKf+76imCFzk5lnSRotAWHdDfdQFawHFTA4otVTxgTGOtd
+ wwKZdv/E1/8uqiAZ6vKOEjbsZPLflO9hbiC2RgsPOL5jcimwyFsffVyKG g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="250170290"
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="250170290"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 03:08:55 -0700
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="554167026"
+Received: from cpazx-mobl.ger.corp.intel.com (HELO [10.213.209.239])
+ ([10.213.209.239])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 03:08:52 -0700
+Message-ID: <d7fc4f81-1a04-3633-5d6b-ebc35acb5c4a@linux.intel.com>
+Date: Fri, 13 May 2022 11:08:50 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/i915: Fix CFI violation with show_dynamic_id()
+Content-Language: en-US
+To: Nathan Chancellor <nathan@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20220512211704.3158759-1-nathan@kernel.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220512211704.3158759-1-nathan@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,62 +63,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: deller@gmx.de
+Cc: Kees Cook <keescook@chromium.org>, Tom Rix <trix@redhat.com>,
+ intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
+ Sami Tolvanen <samitolvanen@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In pxa3xx_gcu_probe(), the sequence of error lable is wrong, it will
-leads some resource leaked, so adjust the sequence to handle the error
-correctly, and if pxa3xx_gcu_add_buffer() fails, pxa3xx_gcu_free_buffers()
-need be called.
-In pxa3xx_gcu_remove(), add missing clk_disable_unpreprare().
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/video/fbdev/pxa3xx-gcu.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+On 12/05/2022 22:17, Nathan Chancellor wrote:
+> When an attribute group is created with sysfs_create_group(), the
+> ->sysfs_ops() callback is set to kobj_sysfs_ops, which sets the ->show()
+> callback to kobj_attr_show(). kobj_attr_show() uses container_of() to
+> get the ->show() callback from the attribute it was passed, meaning the
+> ->show() callback needs to be the same type as the ->show() callback in
+> 'struct kobj_attribute'.
+> 
+> However, show_dynamic_id() has the type of the ->show() callback in
+> 'struct device_attribute', which causes a CFI violation when opening the
+> 'id' sysfs node under drm/card0/metrics. This happens to work because
+> the layout of 'struct kobj_attribute' and 'struct device_attribute' are
+> the same, so the container_of() cast happens to allow the ->show()
+> callback to still work.
+> 
+> Change the type of show_dynamic_id() to match the ->show() callback in
+> 'struct kobj_attributes' and update the type of sysfs_metric_id to
+> match, which resolves the CFI violation.
+> 
+> Fixes: f89823c21224 ("drm/i915/perf: Implement I915_PERF_ADD/REMOVE_CONFIG interface")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-diff --git a/drivers/video/fbdev/pxa3xx-gcu.c b/drivers/video/fbdev/pxa3xx-gcu.c
-index 350b3139c863..043cc8f9ef1c 100644
---- a/drivers/video/fbdev/pxa3xx-gcu.c
-+++ b/drivers/video/fbdev/pxa3xx-gcu.c
-@@ -646,6 +646,7 @@ static int pxa3xx_gcu_probe(struct platform_device *pdev)
- 	for (i = 0; i < 8; i++) {
- 		ret = pxa3xx_gcu_add_buffer(dev, priv);
- 		if (ret) {
-+			pxa3xx_gcu_free_buffers(dev, priv);
- 			dev_err(dev, "failed to allocate DMA memory\n");
- 			goto err_disable_clk;
- 		}
-@@ -662,15 +663,15 @@ static int pxa3xx_gcu_probe(struct platform_device *pdev)
- 			SHARED_SIZE, irq);
- 	return 0;
- 
--err_free_dma:
--	dma_free_coherent(dev, SHARED_SIZE,
--			priv->shared, priv->shared_phys);
-+err_disable_clk:
-+	clk_disable_unprepare(priv->clk);
- 
- err_misc_deregister:
- 	misc_deregister(&priv->misc_dev);
- 
--err_disable_clk:
--	clk_disable_unprepare(priv->clk);
-+err_free_dma:
-+	dma_free_coherent(dev, SHARED_SIZE,
-+			  priv->shared, priv->shared_phys);
- 
- 	return ret;
- }
-@@ -683,6 +684,7 @@ static int pxa3xx_gcu_remove(struct platform_device *pdev)
- 	pxa3xx_gcu_wait_idle(priv);
- 	misc_deregister(&priv->misc_dev);
- 	dma_free_coherent(dev, SHARED_SIZE, priv->shared, priv->shared_phys);
-+	clk_disable_unprepare(priv->clk);
- 	pxa3xx_gcu_free_buffers(dev, priv);
- 
- 	return 0;
--- 
-2.25.1
+Merged to drm-intel-gt-next, thanks for the fix and reviews!
 
+Regards,
+
+Tvrtko
+
+> ---
+>   drivers/gpu/drm/i915/i915_perf.c       | 4 ++--
+>   drivers/gpu/drm/i915/i915_perf_types.h | 2 +-
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+> index 0a9c3fcc09b1..1577ab6754db 100644
+> --- a/drivers/gpu/drm/i915/i915_perf.c
+> +++ b/drivers/gpu/drm/i915/i915_perf.c
+> @@ -4050,8 +4050,8 @@ static struct i915_oa_reg *alloc_oa_regs(struct i915_perf *perf,
+>   	return ERR_PTR(err);
+>   }
+>   
+> -static ssize_t show_dynamic_id(struct device *dev,
+> -			       struct device_attribute *attr,
+> +static ssize_t show_dynamic_id(struct kobject *kobj,
+> +			       struct kobj_attribute *attr,
+>   			       char *buf)
+>   {
+>   	struct i915_oa_config *oa_config =
+> diff --git a/drivers/gpu/drm/i915/i915_perf_types.h b/drivers/gpu/drm/i915/i915_perf_types.h
+> index 473a3c0544bb..05cb9a335a97 100644
+> --- a/drivers/gpu/drm/i915/i915_perf_types.h
+> +++ b/drivers/gpu/drm/i915/i915_perf_types.h
+> @@ -55,7 +55,7 @@ struct i915_oa_config {
+>   
+>   	struct attribute_group sysfs_metric;
+>   	struct attribute *attrs[2];
+> -	struct device_attribute sysfs_metric_id;
+> +	struct kobj_attribute sysfs_metric_id;
+>   
+>   	struct kref ref;
+>   	struct rcu_head rcu;
+> 
+> base-commit: 7ecc3cc8a7b39f08eee9aea7b718187583342a70
