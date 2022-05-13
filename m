@@ -1,66 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A03525EB4
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 11:26:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16130525EBB
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 11:39:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F1110F7F5;
-	Fri, 13 May 2022 09:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8700110E259;
+	Fri, 13 May 2022 09:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4BD10F75F
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 09:25:52 +0000 (UTC)
-X-UUID: 924b7ec1a7e040159c4316f30dd292ef-20220513
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:2dc767bd-aac2-4343-b605-c696962bf124, OB:10,
- L
- OB:30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
- CTION:release,TS:95
-X-CID-INFO: VERSION:1.1.5, REQID:2dc767bd-aac2-4343-b605-c696962bf124, OB:10,
- LOB
- :30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
- CTION:quarantine,TS:95
-X-CID-META: VersionHash:2a19b09, CLOUDID:cc8b1cf2-ab23-4aed-a67b-f96514452486,
- C
- OID:b20ba0dbcb63,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:0,BEC:nil
-X-UUID: 924b7ec1a7e040159c4316f30dd292ef-20220513
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1822043192; Fri, 13 May 2022 17:25:48 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 13 May 2022 17:25:47 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 13 May 2022 17:25:46 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 13 May 2022 17:25:42 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
- Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v6,
- 7/7] media: mediatek: vcodec: Add to support H264 inner racing mode
-Date: Fri, 13 May 2022 17:25:26 +0800
-Message-ID: <20220513092526.9670-8-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220513092526.9670-1-yunfei.dong@mediatek.com>
-References: <20220513092526.9670-1-yunfei.dong@mediatek.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1768110E259
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 09:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652434741; x=1683970741;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=Ez+FQiFpOQTlhI+vyJS9Bue8ypwJicksZwlgEN+UBjg=;
+ b=PHVMjXtE7ORS91Vrwn6oLah1vGO8ZAPY5PazCBTI8Jy8aLG4iRDdkjua
+ qgGd++ocslOdZiiSzXyWx+NsbPnCaFO9J17V4XfnJCEZKabbnu49mt6MW
+ BxKwNf6kzNACrwfCO28KVtez+LDX0sxOy6lNuguxfidT2QiP1v1djKxcU 8=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 13 May 2022 02:39:00 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 02:39:00 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 13 May 2022 02:38:59 -0700
+Received: from hu-charante-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 13 May 2022 02:38:55 -0700
+From: Charan Teja Kalla <quic_charante@quicinc.com>
+To: <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
+ <gregkh@linuxfoundation.org>, <hridya@google.com>, <daniel.vetter@ffwll.ch>,
+ <tjmercier@google.com>
+Subject: [PATCH V3] dma-buf: ensure unique directory name for dmabuf stats
+Date: Fri, 13 May 2022 15:08:09 +0530
+Message-ID: <1652434689-6203-1-git-send-email-quic_charante@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-MTK: N
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,194 +59,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org, Charan
+ Teja Kalla <quic_charante@quicinc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to reduce decoder latency, enable H264 inner racing mode.
+The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
+alloc_anon_inode()) to get an inode number and uses the same as a
+directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
+used to collect the dmabuf stats and it is created through
+dma_buf_stats_setup(). At current, failure to create this directory
+entry can make the dma_buf_export() to fail.
 
-Send lat trans buffer information to core when trigger lat to work,
-need not to wait until lat decode done.
+Now, as the get_next_ino() can definitely give a repetitive inode no
+causing the directory entry creation to fail with -EEXIST. This is a
+problem on the systems where dmabuf stats functionality is enabled on
+the production builds can make the dma_buf_export(), though the dmabuf
+memory is allocated successfully, to fail just because it couldn't
+create stats entry.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+This issue we are able to see on the snapdragon system within 13 days
+where there already exists a directory with inode no "122602" so
+dma_buf_stats_setup() failed with -EEXIST as it is trying to create
+the same directory entry.
+
+To make the dentry name as unique, use the dmabuf fs specific inode
+which is based on the simple atomic variable increment. There is tmpfs
+subsystem too which relies on its own inode generation rather than
+relying on the get_next_ino() for the same reason of avoiding the
+duplicate inodes[1].
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/patch/?id=e809d5f0b5c912fe981dce738f3283b2010665f0
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Charan Teja Kalla <quic_charante@quicinc.com>
 ---
- .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |  4 +++
- .../mediatek/vcodec/mtk_vcodec_dec_pm.c       | 34 +++++++++++++++++++
- .../platform/mediatek/vcodec/mtk_vcodec_drv.h | 11 ++++++
- .../vcodec/vdec/vdec_h264_req_multi_if.c      | 25 +++++++++++---
- 4 files changed, 69 insertions(+), 5 deletions(-)
+Changes in V3:
+  -- Used the atomic64 variable to have dmabuf files its own inodes.
+  -- Ensured no UAPI breakage as suggested by Christian.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index 928179354c24..3f63abbf289e 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -388,6 +388,10 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		}
- 	}
+Changes in V2:
+  -- Used the atomic64_t variable to generate a unique_id to be appended to inode
+     to have an unique directory with name <inode_number-unique_id> -- Suggested by christian
+  -- Updated the ABI documentation -- Identified by Greg.
+  -- Massaged the commit log.
+  -- https://lore.kernel.org/all/1652191562-18700-1-git-send-email-quic_charante@quicinc.com/
+
+Changes in V1:
+  -- Used the inode->i_ctime->tv_secs as an id appended to inode to create the
+     unique directory with name <inode_number-time_in_secs>.
+  -- https://lore.kernel.org/all/1652178212-22383-1-git-send-email-quic_charante@quicinc.com/
+
+ drivers/dma-buf/dma-buf.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index a6fc96e..0ad5039 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -407,6 +407,7 @@ static inline int is_dma_buf_file(struct file *file)
  
-+	atomic_set(&dev->dec_active_cnt, 0);
-+	memset(dev->vdec_racing_info, 0, sizeof(dev->vdec_racing_info));
-+	mutex_init(&dev->dec_racing_info_mutex);
-+
- 	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
- 	if (ret) {
- 		mtk_v4l2_err("Failed to register video device");
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
-index d69faa463d04..4305e4eb9900 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
-@@ -144,6 +144,34 @@ static void mtk_vcodec_dec_disable_irq(struct mtk_vcodec_dev *vdec_dev, int hw_i
- 	}
- }
- 
-+static void mtk_vcodec_load_racing_info(struct mtk_vcodec_ctx *ctx)
-+{
-+	void __iomem *vdec_racing_addr;
-+	int j;
-+
-+	mutex_lock(&ctx->dev->dec_racing_info_mutex);
-+	if (atomic_inc_return(&ctx->dev->dec_active_cnt) == 1) {
-+		vdec_racing_addr = ctx->dev->reg_base[VDEC_MISC] + 0x100;
-+		for (j = 0; j < 132; j++)
-+			writel(ctx->dev->vdec_racing_info[j], vdec_racing_addr + j * 4);
-+	}
-+	mutex_unlock(&ctx->dev->dec_racing_info_mutex);
-+}
-+
-+static void mtk_vcodec_record_racing_info(struct mtk_vcodec_ctx *ctx)
-+{
-+	void __iomem *vdec_racing_addr;
-+	int j;
-+
-+	mutex_lock(&ctx->dev->dec_racing_info_mutex);
-+	if (atomic_dec_and_test(&ctx->dev->dec_active_cnt)) {
-+		vdec_racing_addr = ctx->dev->reg_base[VDEC_MISC] + 0x100;
-+		for (j = 0; j < 132; j++)
-+			ctx->dev->vdec_racing_info[j] = readl(vdec_racing_addr + j * 4);
-+	}
-+	mutex_unlock(&ctx->dev->dec_racing_info_mutex);
-+}
-+
- static struct mtk_vcodec_pm *mtk_vcodec_dec_get_pm(struct mtk_vcodec_dev *vdec_dev,
- 						   int hw_idx)
+ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
  {
-@@ -214,11 +242,17 @@ void mtk_vcodec_dec_enable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx)
- 	mtk_vcodec_dec_child_dev_on(ctx->dev, hw_idx);
++	static atomic64_t dmabuf_inode = ATOMIC64_INIT(0);
+ 	struct file *file;
+ 	struct inode *inode = alloc_anon_inode(dma_buf_mnt->mnt_sb);
  
- 	mtk_vcodec_dec_enable_irq(ctx->dev, hw_idx);
-+
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		mtk_vcodec_load_racing_info(ctx);
- }
- EXPORT_SYMBOL_GPL(mtk_vcodec_dec_enable_hardware);
+@@ -416,6 +417,13 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
+ 	inode->i_size = dmabuf->size;
+ 	inode_set_bytes(inode, dmabuf->size);
  
- void mtk_vcodec_dec_disable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx)
- {
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		mtk_vcodec_record_racing_info(ctx);
-+
- 	mtk_vcodec_dec_disable_irq(ctx->dev, hw_idx);
- 
- 	mtk_vcodec_dec_child_dev_off(ctx->dev, hw_idx);
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-index 0e3db8ccb398..eeee880eccdd 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-@@ -28,6 +28,7 @@
- #define MTK_V4L2_BENCHMARK	0
- #define WAIT_INTR_TIMEOUT_MS	1000
- #define IS_VDEC_LAT_ARCH(hw_arch) ((hw_arch) >= MTK_VDEC_LAT_SINGLE_CORE)
-+#define IS_VDEC_INNER_RACING(capability) ((capability) & MTK_VCODEC_INNER_RACING)
- 
- /*
-  * enum mtk_hw_reg_idx - MTK hw register base index
-@@ -357,6 +358,7 @@ enum mtk_vdec_format_types {
- 	MTK_VDEC_FORMAT_H264_SLICE = 0x100,
- 	MTK_VDEC_FORMAT_VP8_FRAME = 0x200,
- 	MTK_VDEC_FORMAT_VP9_FRAME = 0x400,
-+	MTK_VCODEC_INNER_RACING = 0x20000,
- };
- 
- /**
-@@ -478,6 +480,10 @@ struct mtk_vcodec_enc_pdata {
-  * @subdev_dev: subdev hardware device
-  * @subdev_prob_done: check whether all used hw device is prob done
-  * @subdev_bitmap: used to record hardware is ready or not
-+ *
-+ * @dec_active_cnt: used to mark whether need to record register value
-+ * @vdec_racing_info: record register value
-+ * @dec_racing_info_mutex: mutex lock used for inner racing mode
-  */
- struct mtk_vcodec_dev {
- 	struct v4l2_device v4l2_dev;
-@@ -523,6 +529,11 @@ struct mtk_vcodec_dev {
- 	void *subdev_dev[MTK_VDEC_HW_MAX];
- 	int (*subdev_prob_done)(struct mtk_vcodec_dev *vdec_dev);
- 	DECLARE_BITMAP(subdev_bitmap, MTK_VDEC_HW_MAX);
-+
-+	atomic_t dec_active_cnt;
-+	u32 vdec_racing_info[132];
-+	/* Protects access to vdec_racing_info data */
-+	struct mutex dec_racing_info_mutex;
- };
- 
- static inline struct mtk_vcodec_ctx *fh_to_ctx(struct v4l2_fh *fh)
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-index 1d9e753cf894..394b76e5d6c3 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-@@ -626,6 +626,17 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 		goto err_scp_decode;
- 	}
- 
-+	share_info->trans_end = inst->ctx->msg_queue.wdma_addr.dma_addr +
-+		inst->vsi->wdma_end_addr_offset;
-+	share_info->trans_start = inst->ctx->msg_queue.wdma_wptr_addr;
-+	share_info->nal_info = inst->vsi->dec.nal_info;
-+
-+	if (IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability)) {
-+		memcpy(&share_info->h264_slice_params, &inst->vsi->h264_slice_params,
-+		       sizeof(share_info->h264_slice_params));
-+		vdec_msg_queue_qbuf(&inst->ctx->dev->msg_queue_core_ctx, lat_buf);
-+	}
-+
- 	/* wait decoder done interrupt */
- 	timeout = mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
- 					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
-@@ -639,18 +650,22 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 
- 	share_info->trans_end = inst->ctx->msg_queue.wdma_addr.dma_addr +
- 		inst->vsi->wdma_end_addr_offset;
--	share_info->trans_start = inst->ctx->msg_queue.wdma_wptr_addr;
--	share_info->nal_info = inst->vsi->dec.nal_info;
- 	vdec_msg_queue_update_ube_wptr(&lat_buf->ctx->msg_queue, share_info->trans_end);
- 
--	memcpy(&share_info->h264_slice_params, &inst->vsi->h264_slice_params,
--	       sizeof(share_info->h264_slice_params));
--	vdec_msg_queue_qbuf(&inst->ctx->dev->msg_queue_core_ctx, lat_buf);
-+	if (!IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability)) {
-+		memcpy(&share_info->h264_slice_params, &inst->vsi->h264_slice_params,
-+		       sizeof(share_info->h264_slice_params));
-+		vdec_msg_queue_qbuf(&inst->ctx->dev->msg_queue_core_ctx, lat_buf);
-+	}
-+	mtk_vcodec_debug(inst, "dec num: %d lat crc: 0x%x 0x%x 0x%x", inst->slice_dec_num,
-+			 inst->vsi->dec.crc[0], inst->vsi->dec.crc[1], inst->vsi->dec.crc[2]);
- 
- 	inst->slice_dec_num++;
- 	return 0;
- 
- err_scp_decode:
-+	if (!IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability))
-+		vdec_msg_queue_qbuf(&inst->ctx->msg_queue.lat_ctx, lat_buf);
- err_free_fb_out:
- 	vdec_msg_queue_qbuf(&inst->ctx->msg_queue.lat_ctx, lat_buf);
- 	mtk_vcodec_err(inst, "slice dec number: %d err: %d", inst->slice_dec_num, err);
++	/*
++	 * The ->i_ino acquired from get_next_ino() is not unique thus
++	 * not suitable for using it as dentry name by dmabuf stats.
++	 * Override ->i_ino with the unique and dmabuffs specific
++	 * value.
++	 */
++	inode->i_ino = atomic64_add_return(1, &dmabuf_inode);
+ 	file = alloc_file_pseudo(inode, dma_buf_mnt, "dmabuf",
+ 				 flags, &dma_buf_fops);
+ 	if (IS_ERR(file))
 -- 
-2.18.0
+2.7.4
 
