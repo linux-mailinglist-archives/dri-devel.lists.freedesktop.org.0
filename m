@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19302526D33
-	for <lists+dri-devel@lfdr.de>; Sat, 14 May 2022 00:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E16B526D46
+	for <lists+dri-devel@lfdr.de>; Sat, 14 May 2022 01:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C16010E7E4;
-	Fri, 13 May 2022 22:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0164210E29C;
+	Fri, 13 May 2022 23:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F60D10E7E4
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 22:56:14 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id ch13so18726373ejb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 15:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=yHYjKyDImi3l5dDyx9DR+vuao9yWufvS15O7CLzoC40=;
- b=cZh8FuRrzbQ1mOiYZTVxKh0ixLrtkMDJFWe6Sw1usjrJiAl5VRA0sAKlrUSLyc/QLx
- ADCbPxnI7oAyAwl//Ks/Iop8AnNmLxW2msVsfk950kX8BNheJhferrNLXBBPt6B7UADW
- gln+ly61FX3/OPch/MOjKDSVn2w+h8EJRJmJV4wAtQOkQ/eceKgidFphTwG8JygwCqH7
- m2bJckksP0ymgFooHLSBl9T8Pk7ehWILO65+5H/HuGKgNMSThraC44B/T5VSOywvVJYl
- rTdShpbqsux2Nruse0Hz42OOt0SEiO2jqfKsk7j0y22gbkr1za+20yMoHyr+7aWTix6A
- WmFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=yHYjKyDImi3l5dDyx9DR+vuao9yWufvS15O7CLzoC40=;
- b=eRvG2FmzeGRYBoZSvgE4RiKDfiSgdrP6FyHL0pQRpULGauRrro7QzD+TDgmiOR8feS
- H7y9vrEXUNmIPk0Xp5J4ltAoYvKQmjy7tS5MKTparRfcZEgIEIJb/oAx6GiWAWOzaW1K
- fWDM0Mu/b2YnRXR6p35FjMzjDaX/S4QGBFBMtEzu1zFbIgyEUk/vIHdhcRlp7UV9mH9Z
- xJt78/dupyQOuhtCnZSwv6KByj6zbTTFVOajItT4gidFAAH5pR7PW1gWFzrwFQsG/6rh
- npuiKXMLsaHXEUIVcMjr+ZZAfxUDA6i/NNoyA5b0I+pT0tlzPwmIPpGsjUdDYjHdA4P+
- Z6pw==
-X-Gm-Message-State: AOAM533H/dX0SU5WEuiKPQ1xPhhYwoynpGrxiVcWFYW2wXx5eki7Iypc
- MvRNhVstQHcm7cNnXJRd26V2qkKQ1NeQvnbH4MQF9pgZAxnnHg==
-X-Google-Smtp-Source: ABdhPJwJz/KBfqCWxJah+sFmFhNu0NNxcgima/D1cUeGVRvZtfdArdmTyYR5uMA5inyXdFvXN46H3XZNY9BtKBg9lDE=
-X-Received: by 2002:a17:906:6bd7:b0:6f4:e6e4:1d41 with SMTP id
- t23-20020a1709066bd700b006f4e6e41d41mr6295534ejs.770.1652482572925; Fri, 13
- May 2022 15:56:12 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31BC10E29C;
+ Fri, 13 May 2022 23:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652482816; x=1684018816;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zd4akutACWhnRdecwaK8kXBPem3f2j12QTdIA0rZnI8=;
+ b=eGuP5Ifizp4Xv70V00Zyv5SJ1CSJAbEmW5//H7xEkujpwktaVBsOhQ5A
+ D7IK1IjXWobfNdO2w8yWMJUm1WlEqtOfR8idtouJriqW3yfVZm9Ogx4LE
+ J31bkeIURYJNTqCLp1mdexD5i91+fBX6b65jBpB+EUTDVGSlEUAwQNcz2 Y=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 13 May 2022 16:00:14 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 16:00:14 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 13 May 2022 16:00:13 -0700
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 13 May 2022 16:00:13 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH] drm/msm/dpu: limit writeback modes according to max_linewidth
+Date: Fri, 13 May 2022 15:59:59 -0700
+Message-ID: <20220513225959.19004-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 14 May 2022 08:56:01 +1000
-Message-ID: <CAPM=9txpYhzyZtd60LEuBYYN+AVyeEQ8=h43bK=ZY8QCQpY5mg@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.18-rc7 (follow up)
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,140 +60,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com, quic_khsieh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+Writeback modes were being added according to mode_config.max_width
+but this is assigned to double of max_mixer_width.
 
-Turns out I was right, some fixes hadn't made it to me yet. The vmwgfx
-ones also popped up later, but all seem like bad enough things to fix.
-The dma-buf, vc4 and nouveau ones are all pretty small.
+For compositors/clients using a single SSPP, this will fail
+the dpu_plane's atomic check as it checks for max_linewidth.
 
-The fbdev fixes are a bit more complicated, a fix to cleanup fbdev
-devices properly, uncovered some use-after-free bugs in existing
-drivers. Then the fix for those bugs wasn't correct. This reverts that
-fix, and puts the proper fixes in place in the drivers to avoid the
-use-after-frees. This has had a fair number of eyes on it at this
-stage, and I'm confident enough that it puts things in the right
-place, and is less dangerous than reverting our way out of the initial
-change at this stage.
+Limit writeback modes according to max_linewidth to allow
+even compositors/clients which use only a single SSPP to
+use writeback.
 
-Let me know if you want more details, the commit msgs are quite verbose.
+Fixes: 77b001acdcfeb ("drm/msm/dpu: add the writeback connector layer")
+Reported-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Dave.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+index 7620ffe55779..399115e4e217 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+@@ -8,8 +8,10 @@
+ static int dpu_wb_conn_get_modes(struct drm_connector *connector)
+ {
+ 	struct drm_device *dev = connector->dev;
++	struct msm_drm_private *priv = dev->dev_private;
++	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+ 
+-	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
++	return drm_add_modes_noedid(connector, dpu_kms->catalog->caps->max_linewidth,
+ 			dev->mode_config.max_height);
+ }
+ 
+-- 
+2.35.1
 
-drm-fixes-2022-05-14:
-drm fixes for 5.18-rc7 (part two)
-
-fbdev:
-- revert NULL deref fix that turned into a use-after-free
-- prevent use-after-free in fbdev
-- efifb/simplefb/vesafb: fix cleanup paths to avoid use-after-frees
-
-dma-buf:
-- fix panic in stats setup
-
-vc4:
-- fix hdmi build
-
-nouveau:
-- tegra iommu present fix
-- fix leak in backlight name
-
-vmwgfx:
-- Black screen due to fences using FIFO checks on SVGA3
-- Random black screens on boot due to uninitialized drm_mode_fb_cmd2
-- Hangs on SVGA3 due to command buffers being used with gbobjects
-The following changes since commit 5005e9814698f47c5a3698fcc56c9f5e6f1d4644:
-
-  Merge tag 'amd-drm-fixes-5.18-2022-05-11' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2022-05-13
-10:40:56 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-05-14
-
-for you to fetch changes up to eb7bac3973d209e5227d1783676362ee5a8a7127:
-
-  Merge tag 'drm-misc-fixes-2022-05-13' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2022-05-14
-08:34:07 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.18-rc7 (part two)
-
-fbdev:
-- revert NULL deref fix that turned into a use-after-free
-- prevent use-after-free in fbdev
-- efifb/simplefb/vesafb: fix cleanup paths to avoid use-after-frees
-
-dma-buf:
-- fix panic in stats setup
-
-vc4:
-- fix hdmi build
-
-nouveau:
-- tegra iommu present fix
-- fix leak in backlight name
-
-vmwgfx:
-- Black screen due to fences using FIFO checks on SVGA3
-- Random black screens on boot due to uninitialized drm_mode_fb_cmd2
-- Hangs on SVGA3 due to command buffers being used with gbobjects
-
-----------------------------------------------------------------
-Charan Teja Reddy (1):
-      dma-buf: call dma_buf_stats_setup after dmabuf is in valid list
-
-Christophe JAILLET (1):
-      drm/nouveau: Fix a potential theorical leak in
-nouveau_get_backlight_name()
-
-Daniel Vetter (1):
-      fbdev: Prevent possible use-after-free in fb_release()
-
-Dave Airlie (2):
-      Merge tag 'vmwgfx-drm-fixes-5.18-2022-05-13' of
-https://gitlab.freedesktop.org/zack/vmwgfx into drm-fixes
-      Merge tag 'drm-misc-fixes-2022-05-13' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Hui Tang (1):
-      drm/vc4: hdmi: Fix build error for implicit function declaration
-
-Javier Martinez Canillas (5):
-      Revert "fbdev: Make fb_release() return -ENODEV if fbdev was unregistered"
-      fbdev: simplefb: Cleanup fb_info in .fb_destroy rather than .remove
-      fbdev: efifb: Cleanup fb_info in .fb_destroy rather than .remove
-      fbdev: vesafb: Cleanup fb_info in .fb_destroy rather than .remove
-      fbdev: efifb: Fix a use-after-free due early fb_info cleanup
-
-Maarten Lankhorst (1):
-      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
-
-Robin Murphy (1):
-      drm/nouveau/tegra: Stop using iommu_present()
-
-Zack Rusin (3):
-      drm/vmwgfx: Fix fencing on SVGAv3
-      drm/vmwgfx: Initialize drm_mode_fb_cmd2
-      drm/vmwgfx: Disable command buffers on svga3 without gbobjects
-
- drivers/dma-buf/dma-buf.c                          |  8 +++----
- drivers/gpu/drm/nouveau/nouveau_backlight.c        |  9 +++----
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c |  2 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |  1 +
- drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c                | 13 ++++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |  8 +++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_fb.c                 |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c              | 28 ++++++++++++++++------
- drivers/gpu/drm/vmwgfx/vmwgfx_irq.c                | 26 +++++++++++++-------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |  8 ++++---
- drivers/video/fbdev/core/fbmem.c                   |  5 +---
- drivers/video/fbdev/core/fbsysfs.c                 |  4 ++++
- drivers/video/fbdev/efifb.c                        |  9 ++++++-
- drivers/video/fbdev/simplefb.c                     |  8 ++++++-
- drivers/video/fbdev/vesafb.c                       |  8 ++++++-
- 15 files changed, 99 insertions(+), 40 deletions(-)
