@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C560F52608E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 13:03:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B235260A7
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 13:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C73B10E46A;
-	Fri, 13 May 2022 11:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EDBF10F218;
+	Fri, 13 May 2022 11:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB3810E391
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 11:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652439823; x=1683975823;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TLKqQ2wymwAEhGiToADns1nYw8QR22hogOXokBFX7Cc=;
- b=kkxHsaE/dln+K6ADfeLHo1ZDOUh8gra0AN7erW7WU+HI2LwG/awB6prc
- AfkTVQ9wmEBy0k17f5w5uUq/PapdVli4r5FQImQgCzQB5VeN3gkRM80PJ
- KD/Hm9bUK+A8HmWr8fzEX7ydaxn1IJg7FWIYq/T5JmN1c3s3Pn697LR/1
- 6W/VtQ1pnYZ9H4YlM3rZQ3Jb8Zq5+fJfMGVlp2zWeehVyq6dKIzaVSFI+
- fCkKHtjpN+xl0iI0a3xY1uqXGYiOZzNURRft8tc2KHygngRr6hjW7jhdo
- YBU80AKDvxrP2TMRqcH8HZrPcNxF0jcJ++ZJg9G6YiePxsxqZCnWKfZ06 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="295538833"
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="295538833"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2022 04:03:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="815340352"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 13 May 2022 04:03:36 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1npT55-000LfU-DL;
- Fri, 13 May 2022 11:03:35 +0000
-Date: Fri, 13 May 2022 19:03:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neal Liu <neal_liu@aspeedtech.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Felipe Balbi <balbi@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Li Yang <leoyang.li@nxp.com>
-Subject: Re: [PATCH 1/3] usb: gadget: add Aspeed ast2600 udc driver
-Message-ID: <202205131836.QEUySDoN-lkp@intel.com>
-References: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2981A10F4F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 11:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=ycYrarUJEufXCH2omp+EtWYOZFhhvSk/AQrTUw2e4mI=;
+ b=qggwjU3EhC5/pATh4sV42o38wT0vasEhSc4upipWvC0DsdGCZGaFCGrRulNKzpneq806Ip0wG5+mI
+ 6USD6gkWGcNNErlf1r0RTHnUTDzls30X/QiZND/SPKNfZQAlRiESvug/cBi6tNQJpfih7OyMKeKKBj
+ lc/jSgYcyoTMSOL38+q6h+bcd78roF1Ej32PN5oLZVoAdNPfhXU1g57AVX2SXGFH71vuusUDTMqDh9
+ Bslh0GSAq2rdrSOCp5+eAeO/E/0Jix9MvT9omeDYzS5QZ+/21Fj0CmMyFDLAX9+7U5ZxGoapNDmp5+
+ MseoZp95q/gfNkC2+gFZVZQUPAjvc9A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=ycYrarUJEufXCH2omp+EtWYOZFhhvSk/AQrTUw2e4mI=;
+ b=IUHPIP+rX1qsP6AcpNR9burVLLskKfnmvBypBUgjnptoEwo2rVGRu6GeohEzS2CYvgvAYSwi3gBuA
+ SyKwUJaAg==
+X-HalOne-Cookie: 3f36403fc3ef6843fb92b83b5a314c577899a670
+X-HalOne-ID: 8cf25cb0-d2ac-11ec-822c-d0431ea8bb10
+Received: from mailproxy1.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 8cf25cb0-d2ac-11ec-822c-d0431ea8bb10;
+ Fri, 13 May 2022 11:05:08 +0000 (UTC)
+Date: Fri, 13 May 2022 13:05:06 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+Subject: Re: [LINUX PATCH 2/2] drm: xlnx: dsi: driver for Xilinx DSI Tx
+ subsystem
+Message-ID: <Yn47YsSH4fn/wjKN@ravnborg.org>
+References: <1652363593-45799-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+ <1652363593-45799-3-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+In-Reply-To: <1652363593-45799-3-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,105 +60,579 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com,
- Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: airlied@linux.ie, vgannava@xilinx.com, laurent.pinchart@ideasonboard.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neal,
+Hi Venkateshwar,
 
-I love your patch! Perhaps something to improve:
+On Thu, May 12, 2022 at 07:23:13PM +0530, Venkateshwar Rao Gannavarapu wrote:
+> The Xilinx MIPI DSI Tx Subsystem soft IP is used to display video
+> data from AXI-4 stream interface.
+> 
+> It supports upto 4 lanes, optional register interface for the DPHY
+> and multiple RGB color formats.
+> This is a MIPI-DSI host driver and provides DSI bus for panels.
+> This driver also helps to communicate with its panel using panel
+> framework.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on robh/for-next v5.18-rc6 next-20220513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Thanks for submitting this driver. I have added a few comments in the
+following that I hope you will find useful to improve the driver.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220513/202205131836.QEUySDoN-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/272ae26f9fe89f60d584cf445431d0fa566eb24b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
-        git checkout 272ae26f9fe89f60d584cf445431d0fa566eb24b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/usb/gadget/udc/
+	Sam
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> 
+> Signed-off-by: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+> ---
+>  drivers/gpu/drm/xlnx/Kconfig    |  14 ++
+>  drivers/gpu/drm/xlnx/Makefile   |   1 +
+>  drivers/gpu/drm/xlnx/xlnx_dsi.c | 456 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 471 insertions(+)
+>  create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
+> 
+> diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
+> index c3d0826..caa632b 100644
+> --- a/drivers/gpu/drm/xlnx/Kconfig
+> +++ b/drivers/gpu/drm/xlnx/Kconfig
+> @@ -14,3 +14,17 @@ config DRM_ZYNQMP_DPSUB
+>  	  This is a DRM/KMS driver for ZynqMP DisplayPort controller. Choose
+>  	  this option if you have a Xilinx ZynqMP SoC with DisplayPort
+>  	  subsystem.
+It would be nice to have it in some sort of alphabetic order, both in
+the Kconfig file and also the Makefile.
 
-All warnings (new ones prefixed by >>):
+> +
+> +config DRM_XLNX_DSI
+> +	tristate "Xilinx DRM DSI Subsystem Driver"
+> +	depends on DRM && OF
+> +	select DRM_KMS_HELPER
+> +	select DRM_MIPI_DSI
+> +	select DRM_PANEL
+> +	select BACKLIGHT_LCD_SUPPORT
+The BACKLIGHT_LCD_SUPPORT symbol is not relevant and can be dropped.
 
-   drivers/usb/gadget/udc/aspeed_udc.c: In function 'ast_udc_ep0_out':
->> drivers/usb/gadget/udc/aspeed_udc.c:790:13: warning: variable 'buf' set but not used [-Wunused-but-set-variable]
-     790 |         u8 *buf;
-         |             ^~~
-   drivers/usb/gadget/udc/aspeed_udc.c: In function 'ast_udc_ep0_handle_setup':
->> drivers/usb/gadget/udc/aspeed_udc.c:1099:60: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-    1099 |                 SETUP_DBG(udc, "No gadget for request !\n");
-         |                                                            ^
->> drivers/usb/gadget/udc/aspeed_udc.c:1034:13: warning: variable 'ep_num' set but not used [-Wunused-but-set-variable]
-    1034 |         u16 ep_num = 0;
-         |             ^~~~~~
+> +	select BACKLIGHT_CLASS_DEVICE
+> +	select DRM_PANEL_SIMPLE
+The symbol DRM_PANEL_SIMPLE is used to enable the panel_simple driver
+and should not be selected here.
 
+> +	help
+> +	  DRM bridge driver for Xilinx programmable DSI subsystem controller.
+> +	  choose this option if you hava a Xilinx MIPI-DSI Tx subsytem in
+> +	  video pipeline.
+> diff --git a/drivers/gpu/drm/xlnx/Makefile b/drivers/gpu/drm/xlnx/Makefile
+> index 51c24b7..1e97fbe 100644
+> --- a/drivers/gpu/drm/xlnx/Makefile
+> +++ b/drivers/gpu/drm/xlnx/Makefile
+> @@ -1,2 +1,3 @@
+>  zynqmp-dpsub-y := zynqmp_disp.o zynqmp_dpsub.o zynqmp_dp.o
+>  obj-$(CONFIG_DRM_ZYNQMP_DPSUB) += zynqmp-dpsub.o
+> +obj-$(CONFIG_DRM_XLNX_DSI) += xlnx_dsi.o
+> diff --git a/drivers/gpu/drm/xlnx/xlnx_dsi.c b/drivers/gpu/drm/xlnx/xlnx_dsi.c
+> new file mode 100644
+> index 0000000..a5291f3
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xlnx/xlnx_dsi.c
+> @@ -0,0 +1,456 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *
+> + * Xilinx FPGA MIPI DSI Tx Controller driver.
+> + *
+> + * Copyright (C) 2022 Xilinx, Inc.
+> + *
+> + * Author: Venkateshwar Rao G <vgannava@xilinx.com>
+I noticed this is not the mail used in the s-o-b line.
 
-vim +/buf +790 drivers/usb/gadget/udc/aspeed_udc.c
+> + *
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
+> +
+> +/* DSI Tx IP registers */
+> +#define XDSI_CCR			0x00
+> +#define XDSI_CCR_COREENB		BIT(0)
+> +#define XDSI_CCR_SOFTRST		BIT(1)
+> +#define XDSI_CCR_CRREADY		BIT(2)
+> +#define XDSI_CCR_CMDMODE		BIT(3)
+> +#define XDSI_CCR_DFIFORST		BIT(4)
+> +#define XDSI_CCR_CMDFIFORST		BIT(5)
+> +#define XDSI_PCR			0x04
+> +#define XDSI_PCR_LANES_MASK		3
+> +#define XDSI_PCR_VIDEOMODE(x)		(((x) & 0x3) << 3)
+> +#define XDSI_PCR_VIDEOMODE_MASK		(0x3 << 3)
+GENMASK()?
+Same for other XXX_MASK definitions below
 
-   783	
-   784	static void ast_udc_ep0_out(struct ast_udc_dev *udc)
-   785	{
-   786		struct device *dev = &udc->pdev->dev;
-   787		struct ast_udc_ep *ep = &udc->ep[0];
-   788		struct ast_udc_request *req;
-   789		u16 rx_len;
- > 790		u8 *buf;
-   791	
-   792		if (list_empty(&ep->queue))
-   793			return;
-   794	
-   795		req = list_entry(ep->queue.next, struct ast_udc_request, queue);
-   796	
-   797		buf = req->req.buf;
-   798		rx_len = EP0_GET_RX_LEN(ast_udc_read(udc, AST_UDC_EP0_CTRL));
-   799		req->req.actual += rx_len;
-   800	
-   801		SETUP_DBG(udc, "req %p (%d/%d)\n", req,
-   802			  req->req.actual, req->req.length);
-   803	
-   804		if ((rx_len < ep->ep.maxpacket) ||
-   805		    (req->req.actual == req->req.length)) {
-   806			ast_udc_ep0_tx(udc);
-   807			if (!ep->dir_in)
-   808				ast_udc_done(ep, req, 0);
-   809	
-   810		} else {
-   811			if (rx_len > req->req.length) {
-   812				// Issue Fix
-   813				dev_warn(dev, "Something wrong (%d/%d)\n",
-   814					 req->req.actual, req->req.length);
-   815				ast_udc_ep0_tx(udc);
-   816				ast_udc_done(ep, req, 0);
-   817				return;
-   818			}
-   819	
-   820			ep->dir_in = 0;
-   821	
-   822			/* More works */
-   823			ast_udc_ep0_queue(ep, req);
-   824		}
-   825	}
-   826	
+> +#define XDSI_PCR_VIDEOMODE_SHIFT	3
+> +#define XDSI_PCR_BLLPTYPE(x)		((x) << 5)
+> +#define XDSI_PCR_BLLPMODE(x)		((x) << 6)
+> +#define XDSI_PCR_PIXELFORMAT_MASK	(0x3 << 11)
+> +#define XDSI_PCR_PIXELFORMAT_SHIFT	11
+> +#define XDSI_PCR_EOTPENABLE(x)		((x) << 13)
+> +#define XDSI_GIER			0x20
+> +#define XDSI_ISR			0x24
+> +#define XDSI_IER			0x28
+> +#define XDSI_STR			0x2C
+> +#define XDSI_STR_RDY_SHPKT		BIT(6)
+> +#define XDSI_STR_RDY_LNGPKT		BIT(7)
+> +#define XDSI_STR_DFIFO_FULL		BIT(8)
+> +#define XDSI_STR_DFIFO_EMPTY		BIT(9)
+> +#define XDSI_STR_WAITFR_DATA		BIT(10)
+> +#define XDSI_STR_CMD_EXE_PGS		BIT(11)
+> +#define XDSI_STR_CCMD_PROC		BIT(12)
+> +#define XDSI_STR_LPKT_MASK		(0x5 << 7)
+> +#define XDSI_CMD			0x30
+> +#define XDSI_CMD_QUEUE_PACKET(x)	((x) & GENMASK(23, 0))
+> +#define XDSI_DFR			0x34
+> +#define XDSI_TIME1			0x50
+> +#define XDSI_TIME1_BLLP_BURST(x)	((x) & GENMASK(15, 0))
+> +#define XDSI_TIME1_HSA(x)		(((x) & GENMASK(15, 0)) << 16)
+> +#define XDSI_TIME2			0x54
+> +#define XDSI_TIME2_VACT(x)		((x) & GENMASK(15, 0))
+> +#define XDSI_TIME2_HACT(x)		(((x) & GENMASK(15, 0)) << 16)
+> +#define XDSI_HACT_MULTIPLIER		GENMASK(1, 0)
+> +#define XDSI_TIME3			0x58
+> +#define XDSI_TIME3_HFP(x)		((x) & GENMASK(15, 0))
+> +#define XDSI_TIME3_HBP(x)		(((x) & GENMASK(15, 0)) << 16)
+> +#define XDSI_TIME4			0x5c
+> +#define XDSI_TIME4_VFP(x)		((x) & GENMASK(7, 0))
+> +#define XDSI_TIME4_VBP(x)		(((x) & GENMASK(7, 0)) << 8)
+> +#define XDSI_TIME4_VSA(x)		(((x) & GENMASK(7, 0)) << 16)
+> +#define XDSI_NUM_DATA_T			4
+> +
+> +/**
+> + * struct xlnx_dsi - Xilinx DSI-TX core
+> + * @bridge: DRM bridge structure
+> + * @dsi_host: DSI host device
+> + * @panel_bridge: Panel bridge structure
+> + * @panel:  DRM panel structure
+> + * @dev: device structure
+> + * @clks: clock source structure
+> + * @iomem: Base address of DSI subsystem
+> + * @mode_flags: DSI operation mode related flags
+> + * @lanes: number of active data lanes supported by DSI controller
+> + * @mul_factor: multiplication factor for HACT timing
+> + * @format: pixel format for video mode of DSI controller
+> + * @device_found: Flag to indicate device presence
+> + */
+> +struct xlnx_dsi {
+> +	struct drm_bridge bridge;
+> +	struct mipi_dsi_host dsi_host;
+> +	struct drm_bridge *panel_bridge;
+> +	struct drm_panel *panel;
+It looks wrong that both a panel and a panel_bridge is required.
+We should today only use the panel_bridge.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> +	struct device *dev;
+> +	struct clk_bulk_data *clks;
+> +	void __iomem *iomem;
+> +	unsigned long mode_flags;
+> +	u32 lanes;
+> +	u32 mul_factor;
+> +	enum mipi_dsi_pixel_format format;
+> +	bool device_found;
+> +};
+> +
+> +static const struct clk_bulk_data xdsi_clks[] = {
+> +	{ .id = "s_axis_aclk" },
+> +	{ .id = "dphy_clk_200M" },
+> +};
+> +
+> +static inline struct xlnx_dsi *host_to_dsi(struct mipi_dsi_host *host)
+> +{
+> +	return container_of(host, struct xlnx_dsi, dsi_host);
+> +}
+> +
+> +static inline struct xlnx_dsi *bridge_to_dsi(struct drm_bridge *bridge)
+> +{
+> +	return container_of(bridge, struct xlnx_dsi, bridge);
+> +}
+> +
+> +static inline void xlnx_dsi_writel(void __iomem *base, int offset, u32 val)
+> +{
+> +	writel(val, base + offset);
+> +}
+> +
+> +static inline u32 xlnx_dsi_readl(void __iomem *base, int offset)
+> +{
+> +	return readl(base + offset);
+> +}
+When I see implementations like this I wonder if a regmap would be
+beneficial?
+
+> +
+> +static int xlnx_dsi_panel_or_bridge(struct xlnx_dsi *dsi,
+> +				    struct device_node *node)
+> +{
+> +	struct drm_bridge *panel_bridge;
+> +	struct drm_panel *panel;
+> +	struct device *dev = dsi->dev;
+> +	struct device_node *endpoint = dev->of_node;
+> +	int ret;
+> +
+> +	ret = drm_of_find_panel_or_bridge(endpoint, 1, 0, &panel, &panel_bridge);
+
+From the documentation of drm_of_find_panel_or_bridge():
+
+* This function is deprecated and should not be used in new drivers. Use
+* devm_drm_of_get_bridge() instead.
+
+Please update accordingly.
+This will also avoid the panel/panel_bridge confusion.
+
+> +	if (ret < 0) {
+> +		dev_err(dsi->dev, "failed to find panel / bridge\n");
+> +		return ret;
+> +	}
+> +
+> +	if (panel) {
+> +		panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> +		if (IS_ERR(panel_bridge))
+> +			return PTR_ERR(panel_bridge);
+> +		dsi->panel = panel;
+> +	}
+> +
+> +	dsi->panel_bridge = panel_bridge;
+> +
+> +	if (!dsi->panel_bridge) {
+> +		dev_err(dsi->dev, "panel not found\n");
+> +		return -EPROBE_DEFER;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int xlnx_dsi_host_attach(struct mipi_dsi_host *host,
+> +				struct mipi_dsi_device *device)
+> +{
+> +	struct xlnx_dsi *dsi = host_to_dsi(host);
+> +	u32 reg;
+> +
+> +	reg = xlnx_dsi_readl(dsi->iomem, XDSI_PCR);
+> +	dsi->lanes = reg & XDSI_PCR_LANES_MASK;
+> +	dsi->format = (reg & XDSI_PCR_PIXELFORMAT_MASK) >>
+> +		XDSI_PCR_PIXELFORMAT_SHIFT;
+> +	dsi->mode_flags = device->mode_flags;
+> +
+> +	if (dsi->lanes != device->lanes) {
+> +		dev_err(dsi->dev, "Mismatch of lanes. panel = %d, DSI = %d\n",
+> +			device->lanes, dsi->lanes);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (dsi->lanes > 4 || dsi->lanes < 1) {
+> +		dev_err(dsi->dev, "%d lanes : invalid xlnx,dsi-num-lanes\n",
+> +			dsi->lanes);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (dsi->format != device->format) {
+> +		dev_err(dsi->dev, "Mismatch of format. panel = %d, DSI = %d\n",
+> +			device->format, dsi->format);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int xlnx_dsi_host_detach(struct mipi_dsi_host *host,
+> +				struct mipi_dsi_device *device)
+> +{
+> +	struct xlnx_dsi *dsi = host_to_dsi(host);
+> +
+> +	if (dsi->panel) {
+> +		drm_panel_disable(dsi->panel);
+> +		dsi->panel = NULL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct mipi_dsi_host_ops xlnx_dsi_ops = {
+> +	.attach = xlnx_dsi_host_attach,
+> +	.detach	= xlnx_dsi_host_detach,
+> +};
+> +
+> +static void
+> +xlnx_dsi_bridge_disable(struct drm_bridge *bridge,
+> +			struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
+> +	u32 reg = xlnx_dsi_readl(dsi->iomem, XDSI_CCR);
+> +
+> +	reg &= ~XDSI_CCR_COREENB;
+> +	xlnx_dsi_writel(dsi->iomem, XDSI_CCR, reg);
+> +	dev_dbg(dsi->dev, "DSI-Tx is disabled\n");
+> +}
+> +
+> +static void
+> +xlnx_dsi_bridge_mode_set(struct drm_bridge *bridge,
+> +			 const struct drm_display_mode *mode,
+> +			 const struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
+> +	u32 reg, video_mode;
+> +
+> +	reg = xlnx_dsi_readl(dsi->iomem, XDSI_PCR);
+> +	video_mode = (reg & XDSI_PCR_VIDEOMODE_MASK) >> XDSI_PCR_VIDEOMODE_SHIFT;
+> +
+> +	if (!video_mode && (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)) {
+> +		reg = XDSI_TIME1_HSA(adjusted_mode->hsync_end -
+> +				     adjusted_mode->hsync_start);
+> +		xlnx_dsi_writel(dsi->iomem, XDSI_TIME1, reg);
+> +	}
+> +
+> +	reg = XDSI_TIME4_VFP(adjusted_mode->vsync_start -
+> +			     adjusted_mode->vdisplay) |
+> +		XDSI_TIME4_VBP(adjusted_mode->vtotal -
+> +			       adjusted_mode->vsync_end) |
+> +		XDSI_TIME4_VSA(adjusted_mode->vsync_end -
+> +			       adjusted_mode->vsync_start);
+> +	xlnx_dsi_writel(dsi->iomem, XDSI_TIME4, reg);
+> +
+> +	reg = XDSI_TIME3_HFP(adjusted_mode->hsync_start -
+> +			     adjusted_mode->hdisplay) |
+> +		XDSI_TIME3_HBP(adjusted_mode->htotal -
+> +			       adjusted_mode->hsync_end);
+> +	xlnx_dsi_writel(dsi->iomem, XDSI_TIME3, reg);
+> +	dev_dbg(dsi->dev, "mul factor for parsed datatype is = %d\n",
+> +		(dsi->mul_factor) / 100);
+> +
+> +	if ((adjusted_mode->hdisplay & XDSI_HACT_MULTIPLIER) != 0)
+> +		dev_warn(dsi->dev, "Incorrect HACT will be programmed\n");
+Maybe catch this in a mode_valid() operation?
+
+> +
+> +	reg = XDSI_TIME2_HACT((adjusted_mode->hdisplay) * (dsi->mul_factor) / 100) |
+> +		XDSI_TIME2_VACT(adjusted_mode->vdisplay);
+> +
+> +	xlnx_dsi_writel(dsi->iomem, XDSI_PCR, XDSI_PCR_VIDEOMODE(BIT(0)));
+> +}
+> +
+> +static void xlnx_dsi_bridge_enable(struct drm_bridge *bridge,
+> +				   struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
+> +	u32 reg;
+> +
+> +	reg = xlnx_dsi_readl(dsi->iomem, XDSI_CCR);
+> +	reg |= XDSI_CCR_COREENB;
+> +	xlnx_dsi_writel(dsi->iomem, XDSI_CCR, reg);
+> +	dev_dbg(dsi->dev, "MIPI DSI Tx controller is enabled.\n");
+> +}
+> +
+> +static int xlnx_dsi_bridge_attach(struct drm_bridge *bridge,
+> +				  enum drm_bridge_attach_flags flags)
+> +{
+> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	if (!bridge->encoder) {
+> +		DRM_ERROR("Parent encoder object not found\n");
+DRM_ERROR and friends are deprecated. Use drm_xxx or dev_xxx if possible, otherwise
+fallback to pr_err.
+> +		return -ENODEV;
+> +	}
+> +
+> +	/* Set the encoder type as caller does not know it */
+> +	bridge->encoder->encoder_type = DRM_MODE_ENCODER_DSI;
+> +
+> +	if (!dsi->device_found) {
+> +		int ret;
+> +
+> +		ret = xlnx_dsi_panel_or_bridge(dsi, dsi->dev->of_node);
+> +		if (ret) {
+> +			dev_err(dsi->dev, "dsi_panel_or_bridge failed\n");
+> +			return ret;
+> +		}
+> +
+> +		dsi->device_found = true;
+> +	}
+> +
+> +	/* Attach the panel-bridge to the dsi bridge */
+> +	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge,
+> +				 flags);
+> +}
+> +
+> +static void xlnx_dsi_bridge_detach(struct drm_bridge *bridge)
+> +{
+> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	drm_of_panel_bridge_remove(dsi->dev->of_node, 1, 0);
+> +}
+> +
+> +static const struct drm_bridge_funcs xlnx_dsi_bridge_funcs = {
+> +	.mode_set	= xlnx_dsi_bridge_mode_set,
+From the documentation of the mode_set operation:
+ * This is deprecated, do not use!
+ * New drivers shall set their mode in the
+ * &drm_bridge_funcs.atomic_enable operation.
+
+Please adjust accordingly.
+
+> +	.atomic_enable	= xlnx_dsi_bridge_enable,
+> +	.atomic_disable	= xlnx_dsi_bridge_disable,
+> +	.attach		= xlnx_dsi_bridge_attach,
+> +	.detach		= xlnx_dsi_bridge_detach,
+> +};
+For a new bridge please implement all the mandatory atomic operations.
+
+You will need at least:
+	.atomic_get_output_bus_fmts = xlnx_dsi_bridge_get_output_bus_fmts,
+	.atomic_get_input_bus_fmts = xlnx_dsi_bridge_get_input_bus_fmts,
+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+	.atomic_reset = drm_atomic_helper_bridge_reset,
+};
+
+> +
+> +static int xlnx_dsi_parse_dt(struct xlnx_dsi *dsi)
+> +{
+> +	struct device *dev = dsi->dev;
+> +	struct device_node *node = dev->of_node;
+> +	int ret;
+> +	u32 datatype;
+> +	static const int xdsi_mul_fact[XDSI_NUM_DATA_T] = {300, 225, 225, 200};
+> +
+> +	/*
+> +	 * Used as a multiplication factor for HACT based on used
+> +	 * DSI data type.
+> +	 *
+> +	 * e.g. for RGB666_L datatype and 1920x1080 resolution,
+> +	 * the Hact (WC) would be as follows -
+> +	 * 1920 pixels * 18 bits per pixel / 8 bits per byte
+> +	 * = 1920 pixels * 2.25 bytes per pixel = 4320 bytes.
+> +	 *
+> +	 * Data Type - Multiplication factor
+> +	 * RGB888    - 3
+> +	 * RGB666_L  - 2.25
+> +-	 * RGB666_P  - 2.25
+> +	 * RGB565    - 2
+> +	 *
+> +	 * Since the multiplication factor is a floating number,
+> +	 * a 100x multiplication factor is used.
+> +	 */
+> +	ret = of_property_read_u32(node, "xlnx,dsi-data-type", &datatype);
+> +	if (ret < 0) {
+> +		dev_err(dsi->dev, "missing xlnx,dsi-data-type property\n");
+> +		return ret;
+> +	}
+> +	dsi->format = datatype;
+> +	if (datatype > MIPI_DSI_FMT_RGB565) {
+> +		dev_err(dsi->dev, "Invalid xlnx,dsi-data-type string\n");
+> +		return -EINVAL;
+> +	}
+> +	dsi->mul_factor = xdsi_mul_fact[datatype];
+> +
+> +	dev_dbg(dsi->dev, "DSI controller num lanes = %d", dsi->lanes);
+> +	dev_dbg(dsi->dev, "DSI controller datatype = %d\n", datatype);
+> +
+> +	return 0;
+> +}
+> +
+> +static int xlnx_dsi_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct resource *res;
+> +	struct xlnx_dsi *dsi;
+> +	int num_clks = ARRAY_SIZE(xdsi_clks);
+> +	int ret;
+> +
+> +	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+> +	if (!dsi)
+> +		return -ENOMEM;
+> +
+> +	dsi->dev = dev;
+> +	dsi->clks = devm_kmemdup(dev, xdsi_clks, sizeof(xdsi_clks),
+> +				 GFP_KERNEL);
+> +	if (!dsi->clks)
+> +		return -ENOMEM;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	dsi->iomem = devm_ioremap_resource(dev, res);
+> +	if (IS_ERR(dsi->iomem))
+> +		return PTR_ERR(dsi->iomem);
+> +
+> +	ret = clk_bulk_get(dev, num_clks, dsi->clks);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = xlnx_dsi_parse_dt(dsi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = clk_bulk_prepare_enable(num_clks, dsi->clks);
+> +	if (ret)
+> +		goto err_clk_put;
+> +
+> +	platform_set_drvdata(pdev, dsi);
+> +	dsi->dsi_host.ops = &xlnx_dsi_ops;
+> +	dsi->dsi_host.dev = dev;
+> +
+> +	ret = mipi_dsi_host_register(&dsi->dsi_host);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to register MIPI host: %d\n", ret);
+> +		goto err_clk_put;
+> +	}
+> +
+> +	dsi->bridge.driver_private = dsi;
+> +	dsi->bridge.funcs = &xlnx_dsi_bridge_funcs;
+> +#ifdef CONFIG_OF
+The driver depends on CONFIG_OF - so no need to check it here.
+
+> +	dsi->bridge.of_node = pdev->dev.of_node;
+> +#endif
+> +
+> +	drm_bridge_add(&dsi->bridge);
+> +
+> +err_clk_put:
+> +	clk_bulk_put(num_clks, dsi->clks);
+> +
+> +	return ret;
+> +}
+> +
+> +static int xlnx_dsi_remove(struct platform_device *pdev)
+> +{
+> +	struct xlnx_dsi *dsi = platform_get_drvdata(pdev);
+> +	int num_clks = ARRAY_SIZE(xdsi_clks);
+> +
+> +	mipi_dsi_host_unregister(&dsi->dsi_host);
+> +	clk_bulk_disable_unprepare(num_clks, dsi->clks);
+> +	clk_bulk_put(num_clks, dsi->clks);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id xlnx_dsi_of_match[] = {
+> +	{ .compatible = "xlnx,dsi-tx-v2.0"},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, xlnx_dsi_of_match);
+> +
+> +static struct platform_driver dsi_driver = {
+> +	.probe = xlnx_dsi_probe,
+> +	.remove = xlnx_dsi_remove,
+> +	.driver = {
+> +		.name = "xlnx-dsi",
+> +		.of_match_table = xlnx_dsi_of_match,
+> +	},
+> +};
+> +
+> +module_platform_driver(dsi_driver);
+> +
+> +MODULE_AUTHOR("Venkateshwar Rao G <vgannava@xilinx.com>");
+> +MODULE_DESCRIPTION("Xilinx MIPI DSI host controller driver");
+> +MODULE_LICENSE("GPL");
+> --
+> 1.8.3.1
