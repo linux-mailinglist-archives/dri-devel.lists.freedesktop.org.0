@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640495261E4
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 14:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF05D5261EE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 14:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA4B10FAD9;
-	Fri, 13 May 2022 12:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0921C10E19E;
+	Fri, 13 May 2022 12:33:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7074C10FAD0;
- Fri, 13 May 2022 12:31:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652445066; x=1683981066;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=p8mNLUEsri1ddcLBB/uzvSFjyNl3p+Jqy9usZYjWXAY=;
- b=mplLcxb2bTD8HwBWl4cd6ZzNFyxZGdFTeCXIF1JjBzHbtNySy2XjdZza
- ERLcrRbmFZdZk8dmMALl7cfPR4lH0kSoxgc+7f8PHrTXtx7EhA7K8IW2f
- DRk2J0nWFxyGFHlD/iYTw9KjFzw4QWrZR6sYTJBpwWmDgNdIrB8NSXtDh
- GmLfw2v4SnbjKNiC8RP+u9JbL+KRWSjE6IyUfXitx5u4BktShHmdBhXgx
- eBSZZ+PBQ3px/BEZG8B7PPVNWyvfJriYZpyxmg+fXnpM2bDA6ac5Cr11e
- yT1oYXEdZxmUj/QEMmf2MEBHnH9QXASeacEY+rAbuHJQwW8hhu1eAU/cs w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="267887517"
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="267887517"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2022 05:31:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,221,1647327600"; d="scan'208";a="624849747"
-Received: from linux.intel.com ([10.54.29.200])
- by fmsmga008.fm.intel.com with ESMTP; 13 May 2022 05:31:05 -0700
-Received: from [10.249.145.163] (unknown [10.249.145.163])
- by linux.intel.com (Postfix) with ESMTP id DB043580A88;
- Fri, 13 May 2022 05:31:01 -0700 (PDT)
-Message-ID: <08039c07-a32e-7725-bc98-db49eefb3e86@intel.com>
-Date: Fri, 13 May 2022 15:31:00 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3] uapi/drm/i915: Document memory residency and Flat-CCS
- capability of obj
-Content-Language: en-US
-To: Ramalingam C <ramalingam.c@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <20220502141508.2327-1-ramalingam.c@intel.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <20220502141508.2327-1-ramalingam.c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F01C910FB85
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 12:33:28 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-ed9ac77cbbso10350801fac.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 05:33:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=Y6SXqHq4jVINYnWAPbjFMrHoSh+02pvk+f0QJ78bs+8=;
+ b=iYCx3Yke+ImOab+TImmQ5ijv+n9lXsm48LywEfRoks8Zqf9n3PgLMwvkEC683msLL7
+ PmUSOTQu1vhcEtLEuoqlu/obCk35uSt+A2PX4vf5Ra2ieEZJpG1QLiZCxzZh6Pp9qiWW
+ 5s6QUuhXFpuBCVmhmdVf/4DJb9WuGvuVbsQtNJIP3pZKBid9tfYGWT6o1i/Us6BMnDHz
+ r5Q5UsKpBNrWUSh8q2pOL+lY+1kHcKw162pnt7fktV5VwveUByLvOcpCSyT1mM4TQp+0
+ OuNjc4lBmgO9udsYcM5Ej9z6rmsz/Xp/Kzm5R9AZp3VEID/AIiY35WSFMoHWqL39r4Fp
+ sTtQ==
+X-Gm-Message-State: AOAM5329zOJvOJQvXebc/VJThmrK/+CqiSvKiJTQKxkKsWbxTbDbvpZ0
+ gDpEmYXSv38bJPI6qxyDVw==
+X-Google-Smtp-Source: ABdhPJyPZn3Xgpi1f5vxZ52Fd5aXo/LxlG8R5JGXBiXK/g/Fud6q3u5VC0bItDo8dFuPlwtasN2xFg==
+X-Received: by 2002:a05:6870:a1a0:b0:dd:e471:8baf with SMTP id
+ a32-20020a056870a1a000b000dde4718bafmr8054392oaf.40.1652445206767; 
+ Fri, 13 May 2022 05:33:26 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ v3-20020a05683011c300b0060603221278sm866823otq.72.2022.05.13.05.33.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 05:33:26 -0700 (PDT)
+Received: (nullmailer pid 85833 invoked by uid 1000);
+ Fri, 13 May 2022 12:33:21 -0000
+From: Rob Herring <robh@kernel.org>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>
+In-Reply-To: <20220512080523.25082-4-rex-bc.chen@mediatek.com>
+References: <20220512080523.25082-1-rex-bc.chen@mediatek.com>
+ <20220512080523.25082-4-rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH v3 3/3] dt-bindings: mediatek: add ethdr definition for
+ mt8195
+Date: Fri, 13 May 2022 07:33:21 -0500
+Message-Id: <1652445201.080121.85831.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,81 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Nanley Chery <nanley.g.chery@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, mesa-dev@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, chunkuang.hu@kernel.org, airlied@linux.ie,
+ jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/05/2022 17:15, Ramalingam C wrote:
-> Capture the impact of memory region preference list of the objects, on
-> their memory residency and Flat-CCS capability.
->
-> v2:
->    Fix the Flat-CCS capability of an obj with {lmem, smem} preference
->    list [Thomas]
-> v3:
->    Reworded the doc [Matt]
->
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> cc: Matthew Auld <matthew.auld@intel.com>
-> cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-> cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> cc: Kenneth Graunke <kenneth@whitecape.org>
-> cc: mesa-dev@lists.freedesktop.org
-> cc: Jordan Justen <jordan.l.justen@intel.com>
-> cc: Tony Ye <tony.ye@intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+On Thu, 12 May 2022 16:05:23 +0800, Rex-BC Chen wrote:
+> From: "Nancy.Lin" <nancy.lin@mediatek.com>
+> 
+> Add vdosys1 ETHDR definition.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->   include/uapi/drm/i915_drm.h | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
->
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index a2def7b27009..b7e1c2fe08dc 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -3443,6 +3443,22 @@ struct drm_i915_gem_create_ext {
->    * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
->    * along with the final object size in &drm_i915_gem_create_ext.size, which
->    * should account for any rounding up, if required.
-> + *
-> + * Note that userspace has no means of knowing the current backing region
-> + * for objects where @num_regions is larger than one. The kernel will only
-> + * ensure that the priority order of the @regions array is honoured, either
-> + * when initially placing the object, or when moving memory around due to
-> + * memory pressure
-> + *
-> + * On Flat-CCS capable HW, compression is supported for the objects residing
-> + * in I915_MEMORY_CLASS_DEVICE. When such objects (compressed) has other
-> + * memory class in @regions and migrated (by I915, due to memory
-> + * constrain) to the non I915_MEMORY_CLASS_DEVICE region, then I915 needs to
-> + * decompress the content. But I915 dosen't have the required information to
-> + * decompress the userspace compressed objects.
-> + *
-> + * So I915 supports Flat-CCS, only on the objects which can reside only on
-> + * I915_MEMORY_CLASS_DEVICE regions.
+>  .../display/mediatek/mediatek,ethdr.yaml      | 188 ++++++++++++++++++
+>  1 file changed, 188 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-I think it's fine to assume Flat-CSS surface will always be in lmem.
+yamllint warnings/errors:
 
-I see no issue for the Anv Vulkan driver.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml: properties:compatible: [{'const': 'mediatek,mt8195-disp-ethdr'}] is not of type 'object', 'boolean'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml: ignoring, error in schema: properties: compatible
+Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.example.dts:24:18: fatal error: dt-bindings/memory/mt8195-memory-port.h: No such file or directory
+   24 |         #include <dt-bindings/memory/mt8195-memory-port.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1401: dt_binding_check] Error 2
 
+doc reference errors (make refcheckdocs):
 
-Maybe Nanley or Ken can speak for the Iris GL driver?
+See https://patchwork.ozlabs.org/patch/
 
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
--Lionel
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
+pip3 install dtschema --upgrade
 
->    */
->   struct drm_i915_gem_create_ext_memory_regions {
->   	/** @base: Extension link. See struct i915_user_extension. */
-
+Please check and re-submit.
 
