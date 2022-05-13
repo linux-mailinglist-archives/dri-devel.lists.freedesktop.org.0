@@ -1,56 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568B0525BA8
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 08:38:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2CC525C47
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 09:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12ADB10E215;
-	Fri, 13 May 2022 06:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC5D10E6D3;
+	Fri, 13 May 2022 07:20:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9360810F9DC
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 21:31:31 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id m128so12135088ybm.5
- for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 14:31:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3GME8g6CPueWMd7lO8qXn1DRp2ceHlUdCzpOykCHbrg=;
- b=sZeZsptj07txPT3pe6bg85WLBogL/niFdujvXhGmvGHvUMdf+ubK/UMpNHCLyogLwJ
- 1SzO61ddJPTl2rtfw/kEWCzbP/eORv0uCHNC9PQeJyNGrGAE73x2lB0kWBr2Kjmq3xRa
- mHwmaWFkL87Lq1cgfh194/MR4V/+H09KgB3y8gzFiALIbiGBD1RimwncOW3qBHBZ2PVs
- UJ6FI/VP/MEHjwSS79k9qDB+GAXe0Ehg7pg7yN/vCBgUpTkurP3pNm1JUOvBj2epSt4W
- zK35VaXeUyV2ai5LhbEjWsjFjQ7WQtGm92S5pR09fzSj8A5IT67/CPetqREViJP8tMHW
- dVyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3GME8g6CPueWMd7lO8qXn1DRp2ceHlUdCzpOykCHbrg=;
- b=CNLmamazV8IRK4Xl1Qt/zK/O0KOzJvLsG/jZuglD0YtOexYksesFQfPniy+bgXvzrn
- Uj639KOQbrer+/xjG8NAkh9LH60Kra+uZ4zNy/lxz+xfmzo244+qQdrCwgUUiLCfxuGl
- zxUf2glVsYo78+HNoeZtrgF9FJ8lgDOc2cY6dCnTQ6deDzGqwM7dJOWGpipgKURknE6z
- 6vriqzpeQmgrNf3kNE/juHF88DKlE3ZnqvQrd9Mx9kJ0ZRTdaqARBRlcL21q6j2w6/dT
- f/75qCIZKXJ93jHUxXx6UKz2ct2LCVmCuj4j+5ZA70J4t2ISqBpdvW8+vpZvrCx1v6//
- EFWQ==
-X-Gm-Message-State: AOAM532tsv0EhOm3liLs+pjVAtRnzweOgj5OKZt57YwiV4Uj7P/ZueYA
- HQW9GNL13Rg86F7E2D1+3qljSvcMxwJUDzo/NVeT2Q==
-X-Google-Smtp-Source: ABdhPJzRP9OzjWdpg6cI3ylhn4k+6QO0736A21gHd6fEDFV4tnKVbdWhReuAz2gSne+SFZ3750d7D1xL3b8UC7zpu2M=
-X-Received: by 2002:a25:84c3:0:b0:64a:de2c:2b75 with SMTP id
- x3-20020a2584c3000000b0064ade2c2b75mr1889370ybm.70.1652391089597; Thu, 12 May
- 2022 14:31:29 -0700 (PDT)
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1A910E59F;
+ Fri, 13 May 2022 07:19:57 +0000 (UTC)
+X-UUID: 43d5697e530f41e095fe965a3f140368-20220513
+X-Spam-Fingerprint: 0
+X-GW-Reason: 11101
+X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
+X-Content-Feature: ica/max.line-size 116 audit/email.address 1 meta/cnt.alert 1
+X-UUID: 43d5697e530f41e095fe965a3f140368-20220513
+Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
+ (envelope-from <pengfuyuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 482741696; Fri, 13 May 2022 14:24:51 +0800
+X-ns-mid: postfix-627DF8EE-8540214981
+Received: from localhost.localdomain (unknown [172.20.4.120])
+ by cs2c.com.cn (NSMail) with ESMTPA id 87CC6383C640;
+ Fri, 13 May 2022 06:21:34 +0000 (UTC)
+From: pengfuyuan <pengfuyuan@kylinos.cn>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: [PATCH] drm/amd/display: Remove macro DC_DEFAULT_LOG_MASK
+Date: Fri, 13 May 2022 14:20:45 +0800
+Message-Id: <20220513062045.840780-1-pengfuyuan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220512211704.3158759-1-nathan@kernel.org>
-In-Reply-To: <20220512211704.3158759-1-nathan@kernel.org>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 12 May 2022 14:30:53 -0700
-Message-ID: <CABCJKucbETQeRHx4bLG1fWZBnpszbrS9N+Ryp9sr2AcAY=9sxA@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Fix CFI violation with show_dynamic_id()
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Fri, 13 May 2022 06:38:31 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,72 +45,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, llvm@lists.linux.dev,
- Kees Cook <keescook@chromium.org>, Tom Rix <trix@redhat.com>,
- intel-gfx@lists.freedesktop.org, Nick Desaulniers <ndesaulniers@google.com>,
- LKML <linux-kernel@vger.kernel.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: pengfuyuan <pengfuyuan@kylinos.cn>, Leo Li <sunpeng.li@amd.com>,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 12, 2022 at 2:17 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> When an attribute group is created with sysfs_create_group(), the
-> ->sysfs_ops() callback is set to kobj_sysfs_ops, which sets the ->show()
-> callback to kobj_attr_show(). kobj_attr_show() uses container_of() to
-> get the ->show() callback from the attribute it was passed, meaning the
-> ->show() callback needs to be the same type as the ->show() callback in
-> 'struct kobj_attribute'.
->
-> However, show_dynamic_id() has the type of the ->show() callback in
-> 'struct device_attribute', which causes a CFI violation when opening the
-> 'id' sysfs node under drm/card0/metrics. This happens to work because
-> the layout of 'struct kobj_attribute' and 'struct device_attribute' are
-> the same, so the container_of() cast happens to allow the ->show()
-> callback to still work.
->
-> Change the type of show_dynamic_id() to match the ->show() callback in
-> 'struct kobj_attributes' and update the type of sysfs_metric_id to
-> match, which resolves the CFI violation.
->
-> Fixes: f89823c21224 ("drm/i915/perf: Implement I915_PERF_ADD/REMOVE_CONFIG interface")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/gpu/drm/i915/i915_perf.c       | 4 ++--
->  drivers/gpu/drm/i915/i915_perf_types.h | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 0a9c3fcc09b1..1577ab6754db 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -4050,8 +4050,8 @@ static struct i915_oa_reg *alloc_oa_regs(struct i915_perf *perf,
->         return ERR_PTR(err);
->  }
->
-> -static ssize_t show_dynamic_id(struct device *dev,
-> -                              struct device_attribute *attr,
-> +static ssize_t show_dynamic_id(struct kobject *kobj,
-> +                              struct kobj_attribute *attr,
->                                char *buf)
->  {
->         struct i915_oa_config *oa_config =
-> diff --git a/drivers/gpu/drm/i915/i915_perf_types.h b/drivers/gpu/drm/i915/i915_perf_types.h
-> index 473a3c0544bb..05cb9a335a97 100644
-> --- a/drivers/gpu/drm/i915/i915_perf_types.h
-> +++ b/drivers/gpu/drm/i915/i915_perf_types.h
-> @@ -55,7 +55,7 @@ struct i915_oa_config {
->
->         struct attribute_group sysfs_metric;
->         struct attribute *attrs[2];
-> -       struct device_attribute sysfs_metric_id;
-> +       struct kobj_attribute sysfs_metric_id;
->
->         struct kref ref;
->         struct rcu_head rcu;
+[Why]
+The DC_DEFAULT_LOG_MASK macro has not been used for a long time, so remove it.
 
-This looks correct to me. Thanks for testing this and fixing the issue!
+Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
+---
+ .../drm/amd/display/include/logger_types.h    | 33 -------------------
+ 1 file changed, 33 deletions(-)
 
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+diff --git a/drivers/gpu/drm/amd/display/include/logger_types.h b/drivers/gpu/drm/amd/display/include/logger_types.h
+index f093b49c5e6e..1b38cfc41718 100644
+--- a/drivers/gpu/drm/amd/display/include/logger_types.h
++++ b/drivers/gpu/drm/amd/display/include/logger_types.h
+@@ -131,37 +131,4 @@ enum dc_log_type {
+ #define DC_MIN_LOG_MASK ((1 << LOG_ERROR) | \
+ 		(1 << LOG_DETECTION_EDID_PARSER))
+ 
+-#define DC_DEFAULT_LOG_MASK ((1ULL << LOG_ERROR) | \
+-		(1ULL << LOG_WARNING) | \
+-		(1ULL << LOG_EVENT_MODE_SET) | \
+-		(1ULL << LOG_EVENT_DETECTION) | \
+-		(1ULL << LOG_EVENT_LINK_TRAINING) | \
+-		(1ULL << LOG_EVENT_LINK_LOSS) | \
+-		(1ULL << LOG_EVENT_UNDERFLOW) | \
+-		(1ULL << LOG_RESOURCE) | \
+-		(1ULL << LOG_FEATURE_OVERRIDE) | \
+-		(1ULL << LOG_DETECTION_EDID_PARSER) | \
+-		(1ULL << LOG_DC) | \
+-		(1ULL << LOG_HW_HOTPLUG) | \
+-		(1ULL << LOG_HW_SET_MODE) | \
+-		(1ULL << LOG_HW_RESUME_S3) | \
+-		(1ULL << LOG_HW_HPD_IRQ) | \
+-		(1ULL << LOG_SYNC) | \
+-		(1ULL << LOG_BANDWIDTH_VALIDATION) | \
+-		(1ULL << LOG_MST) | \
+-		(1ULL << LOG_DETECTION_DP_CAPS) | \
+-		(1ULL << LOG_BACKLIGHT)) | \
+-		(1ULL << LOG_I2C_AUX) | \
+-		(1ULL << LOG_IF_TRACE) | \
+-		(1ULL << LOG_HDMI_FRL) | \
+-		(1ULL << LOG_SCALER) | \
+-		(1ULL << LOG_DTN) /* | \
+-		(1ULL << LOG_DEBUG) | \
+-		(1ULL << LOG_BIOS) | \
+-		(1ULL << LOG_SURFACE) | \
+-		(1ULL << LOG_DML) | \
+-		(1ULL << LOG_HW_LINK_TRAINING) | \
+-		(1ULL << LOG_HW_AUDIO)| \
+-		(1ULL << LOG_BANDWIDTH_CALCS)*/
+-
+ #endif /* __DAL_LOGGER_TYPES_H__ */
+-- 
+2.25.1
 
-Sami
