@@ -1,44 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF4B526309
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 15:47:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2671526347
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 15:53:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B220A10FD9D;
-	Fri, 13 May 2022 13:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3A210F0BA;
+	Fri, 13 May 2022 13:53:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F213010FD9D
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 13:47:40 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1npVdq-0004CS-3r; Fri, 13 May 2022 15:47:38 +0200
-Message-ID: <fe7f31a9-ed0a-6ce2-561e-849b9cf76830@leemhuis.info>
-Date: Fri, 13 May 2022 15:47:36 +0200
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF4E10E59D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 13:53:44 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id f2so4541651wrc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 06:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7fZe7ZuhkcHkphV8RgWm+aqXThfc6HEs1D3+w7fnW1E=;
+ b=c8pvij0fZVSEifHuKb4ntHQFJbaoWeF16rwR0TUUzsGtGA4msQL9RdM3IaImMp0HAJ
+ QybhumSZY9ZmpjDfK/fwoZnyzH3wD712NJ8c6u6ePfCDoEDZBz7biWzeFeDbVQFjRqOK
+ izQcfAhhn3OGdfF1r1Z5Y3v1DI5xkS7k7cuUNUBvyTtuqDNSjLeVJNZx4KAZeIvO27cg
+ zHbge6ihXS69wXl3rGwOcBwzz/jumGXO/LNhxp0A1FqdwCenAty2cAih7XJMp2hu4r4Y
+ jocIg7tcpjXOeKeUPLiYGzz78K/M4ZYMC6cDamRbPwOW+Q+NEU7Xt+8lg2+zHdOweNd+
+ RQlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7fZe7ZuhkcHkphV8RgWm+aqXThfc6HEs1D3+w7fnW1E=;
+ b=vaMDmIoeS3pPxdAdOnYvWgARbzFZPm75NLXq4b6zuV2Z5bTOcXkTymoSlB1oMbYzIF
+ gyZgxEmT06oDb34R7wtNsuG2/sX1KSF8EDAKfC9uMfN4/OmKNAd7shtySzCrFxjNdsiW
+ fStolTeCZk7zFG9KsbPL83Y7oxZgrij0bJRZLxVwAUj+fBwajFfoQrorb/csFkFtTnZ6
+ Vyqo3RQj8xwUDt4H7p0EGzbYaJraUoFdDcQgO22YPhToBvmJkBRG9MXWjtZBakDhXMmJ
+ WPMyFvO7YS5Fd8R0NPWpL+SU4JrqDSgMGKkG8dYW1m3zQ2ms/Ti57qTsw2umbx6KIOd9
+ m4gQ==
+X-Gm-Message-State: AOAM530sNIFUkM3QWZM1ErniqTXM57oqzPg7VstgXzoE/BHOZirEj7Vh
+ ymbQ5LalDkkV+ayaoSq1NyI=
+X-Google-Smtp-Source: ABdhPJy+EwUp69L0cz2uBqQcXBfzCCAdTcl2Tk4p9WOhncRmnlPiaIfBKRewmbH8Fj20a+w1hQxW0w==
+X-Received: by 2002:adf:e449:0:b0:20c:d56a:6020 with SMTP id
+ t9-20020adfe449000000b0020cd56a6020mr4067091wrm.425.1652450023108; 
+ Fri, 13 May 2022 06:53:43 -0700 (PDT)
+Received: from localhost (245.218.125.91.dyn.plus.net. [91.125.218.245])
+ by smtp.gmail.com with ESMTPSA id
+ l6-20020adfa386000000b0020c5253d903sm2161229wrb.79.2022.05.13.06.53.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 May 2022 06:53:42 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH][next] drm/rockchip: Fix spelling mistake "aligened" ->
+ "aligned"
+Date: Fri, 13 May 2022 14:53:41 +0100
+Message-Id: <20220513135341.290289-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/vmwgfx: Fix passing partly uninitialized
- drm_mode_fb_cmd2 struct
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>
-References: <20220509110425.165537-1-hdegoede@redhat.com>
- <6eea44ce-4057-7267-8a0b-096cdc61dd94@redhat.com>
- <aa4c0305-c99b-050b-80a5-d13e8e10b78c@redhat.com>
- <f460b87a-a53c-0570-9c87-9997519ebb97@redhat.com>
- <8719f148-7e28-c5a6-08c4-3fbb28138b1c@leemhuis.info>
- <D060DAC5-4F3A-4268-8E20-24A56DF3AAB1@vmware.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <D060DAC5-4F3A-4268-8E20-24A56DF3AAB1@vmware.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1652449661;
- bea40df1; 
-X-HE-SMSGID: 1npVdq-0004CS-3r
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,70 +73,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.05.22 15:25, Zack Rusin wrote:
->> On May 13, 2022, at 3:43 AM, Thorsten Leemhuis
->> <regressions@leemhuis.info <mailto:regressions@leemhuis.info>> wrote:
->>
->> CCing airlied
->>
->> On 09.05.22 14:02, Javier Martinez Canillas wrote:
->>> On 5/9/22 13:55, Hans de Goede wrote:
->>> [snip]
->>>>>>
->>>>>> Fixes: dabdcdc9822a ("drm/vmwgfx: Switch to mode_cmd2")
->>>>>> BugLink:
->>>>>> https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D2072556&amp;data=05%7C01%7Czackr%40vmware.com%7Ca34647a1351748917ad608da34b459a0%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C0%7C637880246471436744%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=LSQP%2Bqnf4p51QsF%2B7ZkvKlB5gSx0%2FgRUsgcIPChR33g%3D&amp;reserved=0
->>>>>> <https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D2072556&amp;data=05%7C01%7Czackr%40vmware.com%7Ca34647a1351748917ad608da34b459a0%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C0%7C637880246471436744%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=LSQP%2Bqnf4p51QsF%2B7ZkvKlB5gSx0%2FgRUsgcIPChR33g%3D&amp;reserved=0>
->>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com
->>>>>> <mailto:hdegoede@redhat.com>>
->>>>>> ---
->>>>>
->>>>> Zack fixed this already:
->>>>>
->>>>> https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fcgit.freedesktop.org%2Fdrm%2Fdrm-misc%2Fcommit%2F%3Fid%3D5405d25b9e8e6&amp;data=05%7C01%7Czackr%40vmware.com%7Ca34647a1351748917ad608da34b459a0%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C0%7C637880246471436744%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=IMtLj94VBo3Bv8oCGmbatBmT%2F2%2B9xkIptnlPTPuHMHc%3D&amp;reserved=0
->>>>> <https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fcgit.freedesktop.org%2Fdrm%2Fdrm-misc%2Fcommit%2F%3Fid%3D5405d25b9e8e6&amp;data=05%7C01%7Czackr%40vmware.com%7Ca34647a1351748917ad608da34b459a0%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C0%7C637880246471436744%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=IMtLj94VBo3Bv8oCGmbatBmT%2F2%2B9xkIptnlPTPuHMHc%3D&amp;reserved=0>
->>>>
->>>> I see, but it seems that this was never pushed to drm-misc-fixes,
->>>> so this is still broken in 5.18-rc#
->>>
->>> Indeed. Agreed that should be cherry-picked in -fixes as well.
->>
->> Looks to me like nobody did that and this regression fix is missing in
-> 
-> No, it has been done. It’s after rc6 so the patch is in
-> drm-misc-next-fixes you can see it at:
-> https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/vmwgfx?h=drm-misc-next-fixes&id=5405d25b9e8e6e0d3bdb04833d528a9bb35fe7ce
-> <https://cgit.freedesktop.org/drm/drm-misc/commit/drivers/gpu/drm/vmwgfx?h=drm-misc-next-fixes&id=5405d25b9e8e6e0d3bdb04833d528a9bb35fe7ce>
+There is a spelling mistake in a drm_err message. Fix it.
 
-Sorry, I try, but keeping track of subsystem specific rules and branches
-is hard -- and Javier actually asked for "drm-misc-fixes".
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That being said: I'd like to question the approach here, as the docs for
-handling regression clearly explain that this regression fix should be
-applied this cycle:
-https://www.kernel.org/doc/html/latest/process/handling-regressions.html
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 0b49fed16535..04e8e22a8640 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1202,7 +1202,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		 */
+ 		stride = (fb->pitches[0] << 3) / bpp;
+ 		if ((stride & 0x3f) && (xmirror || rotate_90 || rotate_270))
+-			drm_err(vop2->drm, "vp%d %s stride[%d] not 64 pixel aligened\n",
++			drm_err(vop2->drm, "vp%d %s stride[%d] not 64 pixel aligned\n",
+ 				vp->id, win->data->name, stride);
+ 
+ 		rb_swap = vop2_afbc_rb_swap(fb->format->format);
+-- 
+2.35.1
 
-[background: the fixes tag in the change mentions an older commit, but
-it sees the problem surfaced post-5.17 cycle, as Hand pointed out at the
-start of this thread where he linked here:
-https://bugzilla.redhat.com/show_bug.cgi?id=2072556 ]
-
-Sure, there are fixes that are dangerous and maybe should wait for the
-next cycle, but from what I see this one doesn't look like one of those.
-And if we don't fix this now many more people will run into this.
-
-Dave, Daniel, could you please consider picking this up?
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I deal with a lot of
-reports and sometimes miss something important when writing mails like
-this. If that's the case here, don't hesitate to tell me in a public
-reply, it's in everyone's interest to set the public record straight.
