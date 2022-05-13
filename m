@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D742A525F97
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 12:11:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08707525F9B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 12:15:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7FF010FA75;
-	Fri, 13 May 2022 10:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1D110FA9F;
+	Fri, 13 May 2022 10:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B6410FA75
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 10:11:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C7E02B82C43;
- Fri, 13 May 2022 10:11:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35BFCC34100;
- Fri, 13 May 2022 10:11:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1652436691;
- bh=lu1qNSETH4oQiiGcY+W6ghL7tAUgm/HcpwE3q3hlxeU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GvRKQGY8QdRuBsjoRwGKUGEJOPqhtJd04jJbt9BELDR2VhG3abOS6wOGoYcviFycA
- +Bw3M1/8yZr5Vr79zxyQGUgIT1fRX5+K5jrqenJWlp6i71HRBfMtpxUBVtXXLM4h8P
- BHdOh8veoLZbq/mF1YIkpD+G26T89/oYb4sDgPbo=
-Date: Fri, 13 May 2022 12:11:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Charan Teja Kalla <quic_charante@quicinc.com>
-Subject: Re: [PATCH V3] dma-buf: ensure unique directory name for dmabuf stats
-Message-ID: <Yn4u0AG8iC33S3jO@kroah.com>
-References: <1652434689-6203-1-git-send-email-quic_charante@quicinc.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 433A410FA9F
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 10:15:17 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 497DD5A4;
+ Fri, 13 May 2022 12:15:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1652436915;
+ bh=iYmkML+vl0LJ0Ak1nVMPFnrebvvh9tOSY6bzl1L3XyU=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=CxXVQi6xZlZGnIualJ5kXlnY4PlHidXteRUCDZ4CYEn85TUuul75g1cWxV0bwQcP7
+ 9vnFTTEeNqiNDobkwHrV8miXXjjAqjWSo2Rr4i+nksTfXhXtJISQ+dGzr+dbg+UZlN
+ kdp1Hp+utADYrTE3L/rRk6qCZWyuvJFL9D3qlxJI=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652434689-6203-1-git-send-email-quic_charante@quicinc.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220426084157.10979-1-biju.das.jz@bp.renesas.com>
+References: <20220426084157.10979-1-biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2] drm: rcar-du: Fix Alpha blending issue on Gen3
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>
+Date: Fri, 13 May 2022 11:15:12 +0100
+Message-ID: <165243691268.2416244.4640685679737534741@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,95 +48,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tjmercier@google.com,
- linaro-mm-sig@lists.linaro.org, hridya@google.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, LUU HOAI <hoai.luu.ub@renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 13, 2022 at 03:08:09PM +0530, Charan Teja Kalla wrote:
-> The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
-> alloc_anon_inode()) to get an inode number and uses the same as a
-> directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
-> used to collect the dmabuf stats and it is created through
-> dma_buf_stats_setup(). At current, failure to create this directory
-> entry can make the dma_buf_export() to fail.
-> 
-> Now, as the get_next_ino() can definitely give a repetitive inode no
-> causing the directory entry creation to fail with -EEXIST. This is a
-> problem on the systems where dmabuf stats functionality is enabled on
-> the production builds can make the dma_buf_export(), though the dmabuf
-> memory is allocated successfully, to fail just because it couldn't
-> create stats entry.
-> 
-> This issue we are able to see on the snapdragon system within 13 days
-> where there already exists a directory with inode no "122602" so
-> dma_buf_stats_setup() failed with -EEXIST as it is trying to create
-> the same directory entry.
-> 
-> To make the dentry name as unique, use the dmabuf fs specific inode
-> which is based on the simple atomic variable increment. There is tmpfs
-> subsystem too which relies on its own inode generation rather than
-> relying on the get_next_ino() for the same reason of avoiding the
-> duplicate inodes[1].
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/patch/?id=e809d5f0b5c912fe981dce738f3283b2010665f0
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-
-The trest robot did not say that the dmabuf stat name was being
-duplicated, did it?
-
-> Signed-off-by: Charan Teja Kalla <quic_charante@quicinc.com>
+Quoting Biju Das (2022-04-26 09:41:57)
+> From: LUU HOAI <hoai.luu.ub@renesas.com>
+>=20
+> As per R-Car-Gen3_Common_OPC_Customer_Notifications_V30.1.pdf,
+> unexpected image output(such as incorrect colors or planes being
+> invisible) can happen on the below conditions, as PnALPHAR register
+> is not initialized by reset.
+>=20
+> When alpha blending (PpMRm.PpSPIM=3D0b101) is performed and:
+>         =E2=80=A2two Planes are enabled on any DUn (n=3D0,1,2,3)
+>                 oDSPRn=3D 0x0000 0031 or 0x0000 0013
+>         =E2=80=A2or DU0 and DU1 is used for display at the same time
+>                 oDSPR0=3D 0x0000 0001 and DSPR1=3D 0x0000 0003
+>                 oDSPR0=3D 0x0000 0003 and DSPR1=3D 0x0000 0001
+>         =E2=80=A2or DU2 and DU3(H3 Only) is used for display at the same =
+time
+>                 oDSPR2=3D 0x0000 0001 and DSPR3=3D 0x0000 0003
+>                 oDSPR2=3D 0x0000 0003 and DSPR3=3D 0x0000 0001
+>=20
+> This patch set PnALPHAR register to 0 to avoid this issue.
+>=20
+> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> Changes in V3:
->   -- Used the atomic64 variable to have dmabuf files its own inodes.
->   -- Ensured no UAPI breakage as suggested by Christian.
-> 
-> Changes in V2:
->   -- Used the atomic64_t variable to generate a unique_id to be appended to inode
->      to have an unique directory with name <inode_number-unique_id> -- Suggested by christian
->   -- Updated the ABI documentation -- Identified by Greg.
->   -- Massaged the commit log.
->   -- https://lore.kernel.org/all/1652191562-18700-1-git-send-email-quic_charante@quicinc.com/
-> 
-> Changes in V1:
->   -- Used the inode->i_ctime->tv_secs as an id appended to inode to create the
->      unique directory with name <inode_number-time_in_secs>.
->   -- https://lore.kernel.org/all/1652178212-22383-1-git-send-email-quic_charante@quicinc.com/
-> 
->  drivers/dma-buf/dma-buf.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index a6fc96e..0ad5039 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -407,6 +407,7 @@ static inline int is_dma_buf_file(struct file *file)
->  
->  static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
->  {
-> +	static atomic64_t dmabuf_inode = ATOMIC64_INIT(0);
->  	struct file *file;
->  	struct inode *inode = alloc_anon_inode(dma_buf_mnt->mnt_sb);
->  
-> @@ -416,6 +417,13 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
->  	inode->i_size = dmabuf->size;
->  	inode_set_bytes(inode, dmabuf->size);
->  
-> +	/*
-> +	 * The ->i_ino acquired from get_next_ino() is not unique thus
-> +	 * not suitable for using it as dentry name by dmabuf stats.
-> +	 * Override ->i_ino with the unique and dmabuffs specific
-> +	 * value.
-> +	 */
-> +	inode->i_ino = atomic64_add_return(1, &dmabuf_inode);
->  	file = alloc_file_pseudo(inode, dma_buf_mnt, "dmabuf",
->  				 flags, &dma_buf_fops);
->  	if (IS_ERR(file))
-> -- 
-> 2.7.4
-> 
+> v1->v2:
+>  * Updated commit description
+>  * Updated the code comments
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rc=
+ar-du/rcar_du_plane.c
+> index f214a8b6cfd3..aa80c44dd8d7 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> @@ -510,6 +510,18 @@ static void rcar_du_plane_setup_format_gen3(struct r=
+car_du_group *rgrp,
+> =20
+>         rcar_du_plane_write(rgrp, index, PnDDCR4,
+>                             state->format->edf | PnDDCR4_CODE);
+> +
+> +       /*
+> +        * On Gen3, some DU channels have two planes, each being wired to=
+ a
+> +        * separate VSPD instance. The DU can then blend two planes. While
+> +        * this feature isn't used by the driver, issues related to alpha
+> +        * blending (such as incorrect colors or planes being invisible) =
+may
+> +        * still occur if the PnALPHAR register has a stale value. Set the
+> +        * register to 0 to avoid this.
+> +        */
+> +
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Sounds reasonable.
+
+> +       /* TODO: Check if alpha-blending should be disabled in PnMR. */
+
+How will this be done? Do you have a specific test in mind to determine
+if it causes issues? Or does it need validating through the hardware
+teams?
+
+
+
+> +       rcar_du_plane_write(rgrp, index, PnALPHAR, 0);
+
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+>  }
+> =20
+>  static void rcar_du_plane_setup_format(struct rcar_du_group *rgrp,
+> --=20
+> 2.25.1
+>
