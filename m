@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F55525C57
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 09:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877A3525C74
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 09:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD0D310E33E;
-	Fri, 13 May 2022 07:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4040110E789;
+	Fri, 13 May 2022 07:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D2C10E33E;
- Fri, 13 May 2022 07:30:48 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 7D4DC5C0054;
- Fri, 13 May 2022 03:30:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 13 May 2022 03:30:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1652427046; x=1652513446; bh=hUsceP+Ueazcop04Mxyb5u1xpYIPj9uE4ap
- VBiH9t74=; b=qZCzjbghrC0MXLuu4fpJp6uzuyKerQx7gNWOsZAHzj/VvNKb6t6
- fskQUleOKFTUvn/qt50dJ3x0FPs5PGlK+O7zMRTKUXSVBAIT8FkJzp/pBFFAdW0q
- eXCVFw5d8GWEQnTkiWUA29+WNv5pf/cwCrKPPAQOh+HvBGELHOCtxyRvysHGejg3
- bWNYjIK6uReqz7KHw5G2DHgOSjCnOdGxZED7ZzSZZsYkDj2bB4Un2O9BDc/mlLDc
- vUJ4CC44nY74UyT7mw/H4DXMGvC3ACCBq2Y66pRCSj8cryPReyMHY6gBtuunB62Y
- xA3wKXOgW5GOHijFu9yOrteoxt8mzlXwNHQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1652427046; x=1652513446; bh=hUsceP+Ueazco
- p04Mxyb5u1xpYIPj9uE4apVBiH9t74=; b=NFOrDlHcrPDm5UeAVJOk9U2tzugLQ
- 5YSxHa3WWH2NDk3riu4ZoL1vdbRmfT3+rBz99qElTFAhHUE+qxOJoo3tpB6psFLg
- F0/5ChOpavND+UrKken0EwNUKYytIontfl00GnsZnEi3jp+rCBCe97hv0f7zEl63
- 8SZmK2op8BWrg8TdwBjZk4IlEdC/5bFDtOsjR8aGteXVda7T3/fBCmzZK7NHG5CS
- BVNR8OcVSEaMluSulxG5t6VTbT2Gb3JofV4x0nN0ix738NAdoq4hoI3R88irvicA
- PfE0ak2KJ6ZwizF6IO1rzsjnohTf852+eITVxJ4vIBvceg/K90r4lbQ8g==
-X-ME-Sender: <xms:Jgl-Yk2kshBet_qcboLLLLnRWXdMppaxNm9T4BQsD25aPgkQ8WpT2Q>
- <xme:Jgl-YvE-nyD195pU44KXtvXAsWwkobRHkUAOQc5sacjMlDX_jqGd6Of3Qqr72-6zj
- OTtu4rSjKrwygtK9zM>
-X-ME-Received: <xmr:Jgl-Ys6q5vEq3avfdvGsNy1cdSuF_f5m487RZGsn8wITddVsjk_S9mzn87tkJU2GCB4yCN6YGvyty9NT5zHCiQKzCIi8fiQdc0T5zsM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeekgdduudekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeuieehjefhieevtdehudfftdetgfdtuedvvdeugeetgfevgeevudegffduveej
- ieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:Jgl-Yt05d5sS9lgSuc0p9kVd0Kqn1tRsQPoq0FossuJyCBu4xh4Axw>
- <xmx:Jgl-YnH1v4niPS7eGFdfktEUZzRChcUS4mxnfn9iXsdIrbXSZowNOg>
- <xmx:Jgl-Ym-jUeDlvPAuRBvRWJBGTBxi_PEhV8I34ny6NomWFPibIgFBKA>
- <xmx:Jgl-Yv_FQqFsFFu0h4gz5txQxfLu_ARITaEp_88sRmUZuWunWbzRqg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 May 2022 03:30:45 -0400 (EDT)
-Date: Fri, 13 May 2022 09:30:44 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20220513073044.ymayac7x7bzatrt7@houat>
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5294510E76C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 07:42:39 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id u3so10284177wrg.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 00:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=h4Eoh4lUanKYZL6m5WR756e9/uQNhRUTKgBep3AgcuQ=;
+ b=OogmQrJbyJkdkJDDl0/KVR6lUqZEjYU6qz49Nd7B50AXo1s3Y3Ogp48dsrFTRT54lB
+ Jvmh6yAJui5uS6wKlEoMFwli7jhmuAOaBwB2Osmu0J5OS76JN580XKcwsbjdzS1Q4AMq
+ 1Gv/m9z+3ogePGRnEelhXr6BD3XlyU7DjFRU7Mm2ZzIvky5mXWcZFIyglTEUHB7wZQNS
+ gf8UZY+xlp2VmontV7mWk3qm/SnxQQmWmlKzbx8YEkO5a3/g65SY4cCIE3Spvz5VsSSp
+ vy++TZhpgNaShJNffmWSgbtS6mFkEgGUoqXcWmQPfqCwUznvgpQMK7ZvlPTuVIZDbGGD
+ e04g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=h4Eoh4lUanKYZL6m5WR756e9/uQNhRUTKgBep3AgcuQ=;
+ b=LdKITpqYeIghE3wmGKbQtZGANA+e9br9CyD2SlXjV1MvczptqsT1lx041ZOVjfHfda
+ 1JV3PC2TJfJWZW639yqXFPye/RhBaJ1RZNGoun7bZkhKTc3y2H6uALDSIFHPf+qudLKo
+ ruvuKURwvGwdHl8eqp12q3Oxdj/FAm9TVOdNO6kA5wopcvA0uCnju+0ViukRW0Z7tMFa
+ zC28459Yls+AfwYbvsNcaSCIZdkb1yQIsoI9qRSwajaUYUEkgU7wBRA1fNXfZ1zZ/T4Q
+ Cocxsmg+ROeJ9xKX1VhFbK9Qh2SiBDgWjm74b+CXOJlt2ICdG/bwoMAYS/65tp0ELp4I
+ jCyg==
+X-Gm-Message-State: AOAM533fXEKSk838eeCXQs3Ja819itg4BFYOrYUeyP+124B4qPM7BTNv
+ LwiYm/FMb2OEdozaxqyWrPI=
+X-Google-Smtp-Source: ABdhPJwwCL/Pxk8fkx+VxRZaxLIQFVPV/lfg/6rnAxvVEHihbxXjNAETy7pfrcZgSH4t7ZBGhpeDVQ==
+X-Received: by 2002:a05:6000:18a4:b0:20c:5603:c0bf with SMTP id
+ b4-20020a05600018a400b0020c5603c0bfmr2695184wri.145.1652427757703; 
+ Fri, 13 May 2022 00:42:37 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ t1-20020adfa2c1000000b0020c5253d8d2sm1462382wra.30.2022.05.13.00.42.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 May 2022 00:42:36 -0700 (PDT)
+Message-ID: <623fb170-b59a-84a0-3826-4b78968924bc@gmail.com>
+Date: Fri, 13 May 2022 09:42:34 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="indhsql6dmowzej7"
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v20 8/8] soc: mediatek: remove DDP_DOMPONENT_DITHER from
+ enum
+Content-Language: en-US
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
+ <20220419094143.9561-9-jason-jh.lin@mediatek.com>
+ <402f0e60-8d3c-850d-84ff-af5424b72b73@gmail.com>
+ <CAAOTY_-jiX_BhaZ5+skRu4RSZLjcHJerVtwH34fz4N6_jbVK0w@mail.gmail.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <CAAOTY_-jiX_BhaZ5+skRu4RSZLjcHJerVtwH34fz4N6_jbVK0w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,95 +77,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: DTML <devicetree@vger.kernel.org>,
+ "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Chun-Kuang,
 
---indhsql6dmowzej7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 02/05/2022 00:54, Chun-Kuang Hu wrote:
+> Hi, Matthias:
+> 
+> Matthias Brugger <matthias.bgg@gmail.com> 於 2022年4月22日 週五 下午8:42寫道：
+>>
+>>
+>>
+>> On 19/04/2022 11:41, jason-jh.lin wrote:
+>>> After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
+>>> mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
+>>>
+>>> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+>>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>
+>> Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
+>>
+>> Chun-Kuang, I think it would make sense to take that through your tree as it
+>> depends on the previous patches.
+>>
+>> I provide you a stable tag so that you can take it:
+>> v5.18-next-vdso0-stable-tag
+> 
+> After I take this tag, I find one checkpatch warning:
+> 
+> WARNING: DT compatible string "mediatek,mt8195-mmsys" appears
+> un-documented -- check ./Documentation/devicetree/bindings/
+> #670: FILE: drivers/soc/mediatek/mtk-mmsys.c:390:
+> +               .compatible = "mediatek,mt8195-mmsys",
+> 
+> I think this tag lost one binding patch, it's better that this tag has
+> no this warning.
+> 
 
-Hi Dave, Daniel,
+Sorry for the late reply I was sick.
+The warning is, because the stable branch misses commit:
+https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/commit/?h=v5.18-next/soc&id=81c5a41d10b968ea89d5f44fe1e5c2fc70289209
 
-Here's this week drm-misc-fixes. drm-misc-next-fixes is empty at the
-moment, so there won't be a PR for it this week.
+So it's not a real issue and will go away once our branches land in upstream.
+Is it OK for you to ignore the issue?
 
-Thanks!
-Maxime
+Regards,
+Matthias
 
-drm-misc-fixes-2022-05-13:
-Multiple fixes to fbdev to address a regression at unregistration, an
-iommu detection improvement for nouveau, a memory leak fix for nouveau,
-pointer dereference fix for dma_buf_file_release(), and a build breakage
-fix for vc4
-The following changes since commit c5eb0a61238dd6faf37f58c9ce61c9980aaffd7a:
-
-  Linux 5.18-rc6 (2022-05-08 13:54:17 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-05-13
-
-for you to fetch changes up to 6fed53de560768bde6d701a7c79c253b45b259e3:
-
-  drm/vc4: hdmi: Fix build error for implicit function declaration (2022-05-12 11:01:19 +0200)
-
-----------------------------------------------------------------
-Multiple fixes to fbdev to address a regression at unregistration, an
-iommu detection improvement for nouveau, a memory leak fix for nouveau,
-pointer dereference fix for dma_buf_file_release(), and a build breakage
-fix for vc4
-
-----------------------------------------------------------------
-Charan Teja Reddy (1):
-      dma-buf: call dma_buf_stats_setup after dmabuf is in valid list
-
-Christophe JAILLET (1):
-      drm/nouveau: Fix a potential theorical leak in nouveau_get_backlight_name()
-
-Daniel Vetter (1):
-      fbdev: Prevent possible use-after-free in fb_release()
-
-Hui Tang (1):
-      drm/vc4: hdmi: Fix build error for implicit function declaration
-
-Javier Martinez Canillas (5):
-      Revert "fbdev: Make fb_release() return -ENODEV if fbdev was unregistered"
-      fbdev: simplefb: Cleanup fb_info in .fb_destroy rather than .remove
-      fbdev: efifb: Cleanup fb_info in .fb_destroy rather than .remove
-      fbdev: vesafb: Cleanup fb_info in .fb_destroy rather than .remove
-      fbdev: efifb: Fix a use-after-free due early fb_info cleanup
-
-Maarten Lankhorst (1):
-      Merge remote-tracking branch 'drm/drm-fixes' into drm-misc-fixes
-
-Robin Murphy (1):
-      drm/nouveau/tegra: Stop using iommu_present()
-
- drivers/dma-buf/dma-buf.c                          | 8 ++++----
- drivers/gpu/drm/nouveau/nouveau_backlight.c        | 9 +++++----
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c | 2 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                     | 1 +
- drivers/video/fbdev/core/fbmem.c                   | 5 +----
- drivers/video/fbdev/core/fbsysfs.c                 | 4 ++++
- drivers/video/fbdev/efifb.c                        | 9 ++++++++-
- drivers/video/fbdev/simplefb.c                     | 8 +++++++-
- drivers/video/fbdev/vesafb.c                       | 8 +++++++-
- 9 files changed, 38 insertions(+), 16 deletions(-)
-
---indhsql6dmowzej7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYn4JJAAKCRDj7w1vZxhR
-xQU/AQDmrpG26RyjJZaA8bCjNHvPTh6jlx6WElOSXIO8nlknUAD8CZx1jolkB5Ll
-Z65UkVYo6lkwx07O193Wc1j9pbz4IgY=
-=0yUQ
------END PGP SIGNATURE-----
-
---indhsql6dmowzej7--
+> Regards,
+> Chun-Kuang.
+> 
+>>
+>> Regards,
+>> Matthias
+>>
+>>> ---
+>>>    include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
+>>>    1 file changed, 1 insertion(+), 2 deletions(-)
+>>>
+>>> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+>>> index 59117d970daf..fb719fd1281c 100644
+>>> --- a/include/linux/soc/mediatek/mtk-mmsys.h
+>>> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+>>> @@ -16,8 +16,7 @@ enum mtk_ddp_comp_id {
+>>>        DDP_COMPONENT_CCORR,
+>>>        DDP_COMPONENT_COLOR0,
+>>>        DDP_COMPONENT_COLOR1,
+>>> -     DDP_COMPONENT_DITHER,
+>>> -     DDP_COMPONENT_DITHER0 = DDP_COMPONENT_DITHER,
+>>> +     DDP_COMPONENT_DITHER0,
+>>>        DDP_COMPONENT_DITHER1,
+>>>        DDP_COMPONENT_DP_INTF0,
+>>>        DDP_COMPONENT_DP_INTF1,
