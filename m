@@ -2,121 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D73A525A48
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 05:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0BC525A49
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 05:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE1110E0D0;
-	Fri, 13 May 2022 03:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA47110E30A;
+	Fri, 13 May 2022 03:44:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CAB610E0D0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 03:43:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=laQ5G0dtGaZ5rCGKVOAEXhmQaYsyTvovRLUFJsjU4zGb95dWXJ9EUmYE4DDzQptpEd4+d1HCjMwtT06FQw9uuvgNwxV/Gl8Wy7xETVZ+EyVkOAoHujZ4SE2m+kDOGa0quTs7GOUHjFBDWDWSJsBunzHX4nCd5c6EFmhokDrW2CtC+WJ3k3Tk/QPmZGQkloutXdpWz92nJPwKNTOpGgnZPUy36+JIv0AUaoQkV+Q61fRzqpGXtWfgbwWlTUpC5y3FzWjAGPYCNn2vRPc9TQpu6cP4upbM6Pjtrn9ffF42+3pL3TLPal2ulucqdJ9Pz6oiGDdOgDCrpYlEwF+amdJ0GQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M88u3fCwGRGv+x6gSUJtmDnCraUFoRRyrAMgUcWaBxs=;
- b=LNIZqa/rnARQDMiQ9SGHu1SzJdCfJMHKwM3vtUuUKqRuZQrNSWMzqRG3Xq3dlrIUNZwq6kkqFhyH2p1a1P1Q8LahRrwNMweHh/z7aXnwaKE+SdhEDFwq2YqF1XsrChx0U/IyhkrjYR3OlpDbcITskZgt1n6JOfUfO/psjXh+d9h4m+gNiTnhor9HkR5yoXGLAeionyXKRh/qNlWcac3zYxRfWJr/kpzpiONYcUSKvu3mZabzbfAaUQzQvWZfFLZgmUlg1BDclr5Auw0HJmXKwHTKhHl+0XYnSlu2/FIKmrYljtPVwfVhLkKeBTZZyKlII5DhmbJjLM2GCSMfoQjhqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M88u3fCwGRGv+x6gSUJtmDnCraUFoRRyrAMgUcWaBxs=;
- b=ONeejBf5eHX16Gjs+qeqDwi48Jf9OgSyaEtBQXqTCBz9MATz2tOY0rXtM3mjIgOExhspX6/8eY+duIR9+gi19zNUKXOkiV1dsVeklw+G9aw7Qh7ouhxfQDHzQKGSdsQPnIArwc/0rLuuOLz52e54mhbPaCnX4vVx95ZURPPuv5A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- MN2PR12MB3727.namprd12.prod.outlook.com (2603:10b6:208:15a::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Fri, 13 May
- 2022 03:43:41 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::588c:699c:71b:b6f2]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::588c:699c:71b:b6f2%6]) with mapi id 15.20.5227.023; Fri, 13 May 2022
- 03:43:41 +0000
-Message-ID: <750ebec4-d192-6fdd-c991-7705b6acc794@amd.com>
-Date: Thu, 12 May 2022 23:43:38 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: Improve TTMs empty object handling
-Content-Language: en-CA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- bob.beckett@collabora.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch
-References: <20220509130951.486344-1-christian.koenig@amd.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-In-Reply-To: <20220509130951.486344-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT1PR01CA0059.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2e::28) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEAE210E30A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 03:44:05 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id m20so13765507ejj.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 May 2022 20:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bHsWM+Jemo/IE4V7RB9cRdmEwCfy/dzIlfh2KyXi40c=;
+ b=dqoqhLTVommukWekYXATDCaajEGXoveHVJmfJOKBRldg0JkH4yFwr2l/vQj5BS97A9
+ rTE2HKI8YMS4d/BBQJYi8PV2Xu+6CeAv6NQ1cUu7H2cN1JYq7xRWmcS0+2US8Rr7zlsH
+ OzLSSGQ2v/1eFDvg8T13gqwohDRs9o8pe82KgEHBthUwlYbRd/pI5cgIXPmpkg+n5onV
+ f9w/U2YFs6VFgaf8XeKnhDaCQqmYU0OAq49VXMalEEsW0GipsQNm4eJcukacT8AMi3Vl
+ PWyBTDGEl7JI0LagbJfAT7VQicCGnLaX6ZKI5KP4duD6OPAgmrMUvYCYFE+tla8aJ/V0
+ LSmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bHsWM+Jemo/IE4V7RB9cRdmEwCfy/dzIlfh2KyXi40c=;
+ b=bjeEqrUUo/8kvNWcKIa8tHfnumikwulTmryn7ikut6WDldxfHIxuu8Jeu0PUVetsfO
+ 7rsVBQ7CJmGzGtO1fx6XdQXXve3PvxSX1xYfhzfehGiW2wpjZHUM7D8vSokMj/bTtbC5
+ WZY8VbP1Jmwa9tri6m0ByXeTII11B7qj5BNiu9Im2zZLKDaC+G/3dIXONzRa6idRgCT+
+ YU8TZPJxPLiIAssGNQKM8z+Co5kdo/ecHwWDkrHap0DlFj7mIK9GO1x6lOKphmCDonQa
+ xmkEkTWFcp5lW3hsIx2rPFo+rFP0vyAmnZlG59vs4zTOVw5ZYVEolsX4aXm9U1QVLONZ
+ iEXA==
+X-Gm-Message-State: AOAM531usJEdjlhyXsJ/QYozHOlTgkBic8f6ho9+FwREmWLG6sl1Nwt7
+ U3h/DjG/nr8JWJd0AyPWXoN4JT/3l+kN7C5WScD+JA==
+X-Google-Smtp-Source: ABdhPJwFWNh6XhDKKc51rh3sa/hEc/yEhfmKOtpU/oxW7nRCQ8tw7lmd0fC7np1TYyHXTpHiZPSDwI53NnVsPAxmJaA=
+X-Received: by 2002:a17:906:6a0f:b0:6f5:15cf:2e5 with SMTP id
+ qw15-20020a1709066a0f00b006f515cf02e5mr2476733ejc.584.1652413444067; Thu, 12
+ May 2022 20:44:04 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8980d2d8-d62c-4b9e-7bb6-08da3492c5a6
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3727:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3727E8C4137C55546E0B97E799CA9@MN2PR12MB3727.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cqI2o2/4tF3Cb4urBLtG8917xIlK2AZL/yKnTwKb2R5C5KyaZcxuzIPxBvovRUykunf8d0XacA8Jk4c9k2KptHZDgPNHB2vHilLuYLgYLi7xBydoDRr/GW6rT9CjQC6BSN0OlcvguVjkXPhsnRbO8DnfHig9X6mNOiOpwrgIix6cvWV+ti5Ka4BlZGGxZYnlIlLHyshv7wl+PicWBSf6bPRHJjzPdgBy7wXckuXzQKCCilwzSxs0qPKYXPbKoK44OVRqGqeDXZbNt0dJUjp9haPSbJJtmqobFxA+0qmr3P2Hw+Uqn2F03yqeCVb1eLc/89fSeQo+UhSI2DD75szjext8uGtAq9oRGB/MnSjlVRe4LjD8EpgymPE4xoR/Oo3TTsYLzzDAIYTEKXzWqkyc1ZkoZoGWdyB3OYRVsP6jVpYGwLlWCazL/cmAWXlI7XAVhPFTLMXtqKCdWARcrFjpNyatecHFwo8Y5b5JNCmjzUnsIfy23IQtJa76RwaQiMBfzYcLesx3sEViDsfbyVe1xcsXBiYYah0+HXObQq7X5WR5iRQQvxQPc/VXTugOOxSKPvc4BNVvhXJVEBPXmSKC0s13Nxask+XxXMLGsKzVhlSC6WvynG7ANWj43AtagfZCRXE6gHCGEyXju4nUvJxlosk7tGk1SW/89L3fKclGtCi7IG0UmT/M8KazqDiajtc4TpQrTWwtcvcb3GRmdti+hE0TsAWAhkusbRISclGEwxM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(44832011)(4744005)(5660300002)(8936002)(53546011)(316002)(6506007)(66476007)(66946007)(66556008)(8676002)(186003)(6486002)(38100700002)(508600001)(86362001)(2616005)(26005)(2906002)(36756003)(31696002)(6512007)(6666004)(66574015)(83380400001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUZ5QlpCM1VRSTZDbTV6bmtkTWhPYUZQTTBNREFwdHE0YlBPNXhjTzV1R2pt?=
- =?utf-8?B?NjQ1cnhXUDNZbnJZTTFYcEg0c1prbVMzMGFhWWd6eEllay9HVndqS2MrZmJ3?=
- =?utf-8?B?d296dkdVbndTeXc1NENLbFR5aFRZNGFnMWNhYlFLMVFRWHlKUVl0RDlQQkJX?=
- =?utf-8?B?akw1anV2NitEVGxBSUxlRFMwdkU0YXlTbktPSUwrZ1BKMy90Z2ExTERBczJU?=
- =?utf-8?B?L29WZ2tsQWdHNENvSHhGWnlFd1hzeldITE1ucGlmTlhleGN3ODZhUkgwNVRZ?=
- =?utf-8?B?MTBjckhtN3I5ZjlCVW5aaXExaEdPWWNzbkhIZ3JseHR1VnZMQm9DbVp2Ym5H?=
- =?utf-8?B?QVVjdjNQUW1vYXRIZnF6cUJVWURNbXhJT3ZQeXpTL0VPdGZDaFN3QUFYQ0Ja?=
- =?utf-8?B?OXBVWXlibmM2dU9idmlTbE1TQkVreWxkQTNtaWtxRGg3TTZQNnNmOVBzSnlr?=
- =?utf-8?B?ZGphRnJ3Tm15WWdiTVBJVnhkcFluYjliMzJZdm1LRE9weWp1WDlWZ3NXWDdo?=
- =?utf-8?B?NXQ5VUNRZWNpUUgrVGkwYWJSN0Z4dGJub3Qrb0xBNHRuSldLbWJtQnVrRkFU?=
- =?utf-8?B?N1pYbUpSemt1QUtEcDJ6Rm5TTERaendITk1ndFh3ZXJ0TXhOYjBjSVk4K2Vx?=
- =?utf-8?B?RnpiNlI0RzJIZXB1a1Z1YUErTWdsYjJkK2dpSDZ0SVAvbm9VUHhBc3ZVaWdG?=
- =?utf-8?B?YkdmbmdVbzFkQTgzSnlpVWhKUHc1L3A5UFZXdUJyaDFjTWQ3U2JrL0pPbFRa?=
- =?utf-8?B?RE0xOUJsdStxK2o4TkZkanBpR2wxR3FJa0FEeXZJc2FGOFlYL3Z2OHdlK0dV?=
- =?utf-8?B?ZUduSGJiRlJMTEtnbys4Uzd2UlZ0d3M1S2RUbkt2MHNVTUhCcmF2VHZVMk1K?=
- =?utf-8?B?R3Zic01wcU1LOTVIb0pjMS96MHBoRXlKSHJOV0NOeGszYTBrbWdFaDduOTVK?=
- =?utf-8?B?b0hEeGJoNXJqcjZyVnMyakpIKzVZamVoMTlRN21vdWN5S0FHczlud2FZZzlm?=
- =?utf-8?B?dHVEUWdDVUdVY0xSdkxmNFN1VlhBMzkwYU1FV0ZRbnZMdTVINEJYbkYwNGlw?=
- =?utf-8?B?WjFRUktpYlBqbzVJTVVQS2oxYmNLWEhSL1lNWGhqRFJzaHIzN2JtM0ZMQW9B?=
- =?utf-8?B?OHRWakYwQzlRdFRRWS8vRmVoN2RRazh3b05MbXE1QzdMbFJNOGFCUUk5enRF?=
- =?utf-8?B?QURZVFdBMjQ2UlpEMm0xcVh2bm5sQU5OSGI1TE9EbjhEdWs2NnFYb09DZmlm?=
- =?utf-8?B?c0tBWnN1UENqVFJlSUFwRE00MVlsdmVzcnVlc0hJZTNiY05kalZjdk5VUnZN?=
- =?utf-8?B?WUF1MXFLb1VzUGpDa3hGYUFYSGQ0bHJSOFlFbzhMeHFFMTl6bmR2bmgxU1M4?=
- =?utf-8?B?bFBNcTRvUEhRR1lvT1RuR0lXQ1FzY3JsWW4yZk8zK2lsaWR6aG15djFyOUoy?=
- =?utf-8?B?RUNFZjNZbnJ3ZWpXVkZ3OGxyOERRTVY3TklKb2RFdjZIMTdzNDlKUHh3U0lG?=
- =?utf-8?B?UnJwRTIxZjVVUm8xNjg0T0pzbUQyMHVEa2J1SGJXeHJ3bjRDMVJtYWx2ZDh4?=
- =?utf-8?B?VmVyUk9mblRvSHF3TnhPclFtS2NXalB5QWI5VXlGdUU0bnV2bVJYMXc5d0U5?=
- =?utf-8?B?TytNN2sxV1VhWkQ4ZER6S3l4WmZZWVl6QnR1VWIwbW5QUTdXM3FjWlFmOWxs?=
- =?utf-8?B?cTk0WkVBMXA4NkRBV3Z4cTZDeWtCcmhsN1lDb0ZtbnNCcTE4LzJJbTE1L2ln?=
- =?utf-8?B?VzFLaU9VNjk0SDFHUUNJWW1wbjZkalY4S21WNmhLeTJKSnJQNEM5TWVyUE5p?=
- =?utf-8?B?RDJHYXQ2TzMyOU4yVmZ4c2ErWWgrK2wycm44M2JSMzRUT3lKTGkrYytsUWNX?=
- =?utf-8?B?TWo0bWtWcDlnQ0R1b0pXNzFGdnR0dEF0dFExWUl1ZkJHbzEvbksvM0d2Mm5r?=
- =?utf-8?B?TnFua0YyTG1YZDFUeXRObGk1Zzh1MTFPYmlqZVhybU42akdQZnkzdmJtWE03?=
- =?utf-8?B?QWJZRkZVOEZ3azZVOVU1M1VRWC9vK0liaUUxUHgvOTFxRWtnZW0yaGpBNGZQ?=
- =?utf-8?B?cEFkbTB4MDByNkVuYW4zL2FuaDhyd2liM1hZbzZobVAyZzBNaUZQd2JjZlBn?=
- =?utf-8?B?ZThqdStPUTJBL2NNTHoyOWVRQzJRbnpHd0hZVmVMMHZhYWd5VzQwdUVtU0R6?=
- =?utf-8?B?RVlyTlZmdDc5Zy9pdFh3MVBkeW5pWHJRR25wQ1RMNWI1RWs5NE9BazhVb0VC?=
- =?utf-8?B?QUQyOWlOVUdzRHIyYllzUkNHMlF2cjMrQXRockJUdGs5djZPUzNZWlFXRTlR?=
- =?utf-8?B?SW1jZjRhNldEK0wrQ0ltcHpVQ1BiUnZDb1l5NE9TZFl5TmNHeTVlUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8980d2d8-d62c-4b9e-7bb6-08da3492c5a6
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2022 03:43:41.4581 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: glUeGCxnZr7r9VYG2ugZH+aqK9yvheHTEj4Idk/uYyLZjaTGPvEUtDWyPtdTlUm5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3727
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+In-Reply-To: <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 12 May 2022 20:43:52 -0700
+Message-ID: <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,36 +67,359 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Laura Abbott <labbott@redhat.com>, kernel-team@android.com,
+ linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ linaro-mm-sig@lists.linaro.org, Hridya Valsaraju <hridya@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Patch set reviewed. Good stuff.
+On Thu, May 12, 2022 at 6:10 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le mercredi 11 mai 2022 =C3=A0 13:31 -0700, T.J. Mercier a =C3=A9crit :
+> > On Wed, May 11, 2022 at 6:21 AM Nicolas Dufresne <nicolas@ndufresne.ca>=
+ wrote:
+> > >
+> > > Hi,
+> > >
+> > > Le mardi 10 mai 2022 =C3=A0 23:56 +0000, T.J. Mercier a =C3=A9crit :
+> > > > This patch series revisits the proposal for a GPU cgroup controller=
+ to
+> > > > track and limit memory allocations by various device/allocator
+> > > > subsystems. The patch series also contains a simple prototype to
+> > > > illustrate how Android intends to implement DMA-BUF allocator
+> > > > attribution using the GPU cgroup controller. The prototype does not
+> > > > include resource limit enforcements.
+> > >
+> > > I'm sorry, since I'm not in-depth technically involve. But from readi=
+ng the
+> > > topic I don't understand the bound this creates between DMABuf Heaps =
+and GPU. Is
+> > > this an attempt to really track the DMABuf allocated by userland, or =
+just
+> > > something for GPU ? What about V4L2 devices ? Any way this can be cla=
+rified,
+> > > specially what would other subsystem needs to have cgroup DMABuf allo=
+cation
+> > > controller support ?
+> > >
+> > Hi Nicolas,
+> >
+> > The link between dmabufs, dmabuf heaps, and "GPU memory" is maybe
+> > somewhat of an Androidism. However this change aims to be usable for
+> > tracking all GPU related allocations. It's just that this initial
+> > series only adds support for tracking dmabufs allocated from dmabuf
+> > heaps.
+> >
+> > In Android most graphics buffers are dma buffers allocated from a
+> > dmabuf heap, so that is why these dmabuf heap allocations are being
+> > tracked under the GPU cgroup. Other dmabuf exporters like V4L2 might
+> > also want to track their buffers, but would probably want to do so
+> > under a bucket name of something like "v4l2". Same goes for GEM
+> > dmabufs. The naming scheme for this is still yet to be decided. It
+> > would be cool to be able to attribute memory at the driver level, or
+> > even different types of memory at the driver level, but I imagine
+> > there is a point of diminishing returns for fine-grained
+> > naming/bucketing.
+> >
+> > So far, I haven't tried to create a strict definition of what is and
+> > is not "GPU memory" for the purpose of this accounting, so I don't
+> > think we should be restricted to tracking just dmabufs. I don't see
+> > why this couldn't be anything a driver wants to consider as GPU memory
+> > as long as it is named/bucketed appropriately, such as both on-package
+> > graphics card memory use and CPU memory dedicated for graphics use
+> > like for host/device transfers.
+> >
+> > Is that helpful?
+>
+> I'm actually happy I've asked this question, wasn't silly after all. I th=
+ink the
+> problem here is a naming issue. What you really are monitor is "video mem=
+ory",
+> which consist of a memory segment allocated to store data used to render =
+images
+> (its not always images of course, GPU an VPU have specialized buffers for=
+ their
+> purpose).
+>
+> Whether this should be split between what is used specifically by the GPU
+> drivers, the display drivers, the VPU (CODEC and pre/post-processor) or c=
+amera
+> drivers is something that should be discussed. But in the current approac=
+h, you
+> really meant Video memory as a superset of the above. Personally, I think
+> generically (to de-Andronized your work), en-globing all video memory is
+> sufficient. What I fail to understand is how you will manage to distingui=
+shed
+> DMABuf Heap allocation (which are used outside of Android btw), from Vide=
+o
+> allocation or other type of usage. I'm sure non-video usage will exist in=
+ the
+> future (think of machine learning, compute, other high bandwidth streamin=
+g
+> thingy ...)
+>
+Ok thank you for pointing out the naming issue. The naming is a
+consequence of the initial use case, but I guess it's too specific.
+What I want out of this change is that android can track dmabufs that
+come out of heaps, and drm can track gpu memory. But other drivers
+could track different resources under different names. Imagine this
+were called a buffer cgroup controller instead of a GPU cgroup
+controller. Then the use component ("video memory") isn't tied up with
+the name of the controller, but it's up to the name of the bucket the
+resource is tracked under. I think this meets the needs of the two use
+cases I'm aware of now, while leaving the door open to other future
+needs. Really the controller is just enabling abstract named buckets
+for tracking and eventually limiting a type of resource.
 
-Acked-by: Luben Tuikov <luben.tuikov@amd.com>
+P.S. I will be unavailable starting tomorrow, but I'll be back on Monday.
 
-Regards,
-Luben
 
-On 2022-05-09 09:09, Christian König wrote:
-> Hi everyone,
-> 
-> re-sending this because Daniel was requesting a background why this is
-> useful.
-> 
-> When TTM creates a buffer this object initially should not have any
-> backing store and there no resource object associated with it. The same
-> can happen when a driver requests that the backing store of an object is
-> destroyed without allocating a new one.
-> 
-> This is really useful during initial buffer creation as well as temporary
-> buffers and page tables which content doesn't need to be preserved when
-> they are evicted.
-> 
-> Currently TTM allocates dummy system resources for that because drivers
-> couldn't handle a NULL pointer there. Audit the drivers and then clean
-> up TTM to stop making those dummy allocations.
-> 
-> Please review and comment,
-> Christian.
-> 
-> 
+
+
+> >
+> > Best,
+> > T.J.
+> >
+> > > >
+> > > > Changelog:
+> > > > v7:
+> > > > Hide gpucg and gpucg_bucket struct definitions per Michal Koutn=C3=
+=BD.
+> > > > This means gpucg_register_bucket now returns an internally allocate=
+d
+> > > > struct gpucg_bucket.
+> > > >
+> > > > Move all public function documentation to the cgroup_gpu.h header.
+> > > >
+> > > > Remove comment in documentation about duplicate name rejection whic=
+h
+> > > > is not relevant to cgroups users per Michal Koutn=C3=BD.
+> > > >
+> > > > v6:
+> > > > Move documentation into cgroup-v2.rst per Tejun Heo.
+> > > >
+> > > > Rename BINDER_FD{A}_FLAG_SENDER_NO_NEED ->
+> > > > BINDER_FD{A}_FLAG_XFER_CHARGE per Carlos Llamas.
+> > > >
+> > > > Return error on transfer failure per Carlos Llamas.
+> > > >
+> > > > v5:
+> > > > Rebase on top of v5.18-rc3
+> > > >
+> > > > Drop the global GPU cgroup "total" (sum of all device totals) porti=
+on
+> > > > of the design since there is no currently known use for this per
+> > > > Tejun Heo.
+> > > >
+> > > > Fix commit message which still contained the old name for
+> > > > dma_buf_transfer_charge per Michal Koutn=C3=BD.
+> > > >
+> > > > Remove all GPU cgroup code except what's necessary to support charg=
+e transfer
+> > > > from dma_buf. Previously charging was done in export, but for non-A=
+ndroid
+> > > > graphics use-cases this is not ideal since there may be a delay bet=
+ween
+> > > > allocation and export, during which time there is no accounting.
+> > > >
+> > > > Merge dmabuf: Use the GPU cgroup charge/uncharge APIs patch into
+> > > > dmabuf: heaps: export system_heap buffers with GPU cgroup charging =
+as a
+> > > > result of above.
+> > > >
+> > > > Put the charge and uncharge code in the same file (system_heap_allo=
+cate,
+> > > > system_heap_dma_buf_release) instead of splitting them between the =
+heap and
+> > > > the dma_buf_release. This avoids asymmetric management of the gpucg=
+ charges.
+> > > >
+> > > > Modify the dma_buf_transfer_charge API to accept a task_struct inst=
+ead
+> > > > of a gpucg. This avoids requiring the caller to manage the refcount
+> > > > of the gpucg upon failure and confusing ownership transfer logic.
+> > > >
+> > > > Support all strings for gpucg_register_bucket instead of just strin=
+g
+> > > > literals.
+> > > >
+> > > > Enforce globally unique gpucg_bucket names.
+> > > >
+> > > > Constrain gpucg_bucket name lengths to 64 bytes.
+> > > >
+> > > > Append "-heap" to gpucg_bucket names from dmabuf-heaps.
+> > > >
+> > > > Drop patch 7 from the series, which changed the types of
+> > > > binder_transaction_data's sender_pid and sender_euid fields. This w=
+as
+> > > > done in another commit here:
+> > > > https://lore.kernel.org/all/20220210021129.3386083-4-masahiroy@kern=
+el.org/
+> > > >
+> > > > Rename:
+> > > >   gpucg_try_charge -> gpucg_charge
+> > > >   find_cg_rpool_locked -> cg_rpool_find_locked
+> > > >   init_cg_rpool -> cg_rpool_init
+> > > >   get_cg_rpool_locked -> cg_rpool_get_locked
+> > > >   "gpu cgroup controller" -> "GPU controller"
+> > > >   gpucg_device -> gpucg_bucket
+> > > >   usage -> size
+> > > >
+> > > > Tests:
+> > > >   Support both binder_fd_array_object and binder_fd_object. This is
+> > > >   necessary because new versions of Android will use binder_fd_obje=
+ct
+> > > >   instead of binder_fd_array_object, and we need to support both.
+> > > >
+> > > >   Tests for both binder_fd_array_object and binder_fd_object.
+> > > >
+> > > >   For binder_utils return error codes instead of
+> > > >   struct binder{fs}_ctx.
+> > > >
+> > > >   Use ifdef __ANDROID__ to choose platform-dependent temp path inst=
+ead
+> > > >   of a runtime fallback.
+> > > >
+> > > >   Ensure binderfs_mntpt ends with a trailing '/' character instead =
+of
+> > > >   prepending it where used.
+> > > >
+> > > > v4:
+> > > > Skip test if not run as root per Shuah Khan
+> > > >
+> > > > Add better test logging for abnormal child termination per Shuah Kh=
+an
+> > > >
+> > > > Adjust ordering of charge/uncharge during transfer to avoid potenti=
+ally
+> > > > hitting cgroup limit per Michal Koutn=C3=BD
+> > > >
+> > > > Adjust gpucg_try_charge critical section for charge transfer functi=
+onality
+> > > >
+> > > > Fix uninitialized return code error for dmabuf_try_charge error cas=
+e
+> > > >
+> > > > v3:
+> > > > Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz
+> > > >
+> > > > Use more common dual author commit message format per John Stultz
+> > > >
+> > > > Remove android from binder changes title per Todd Kjos
+> > > >
+> > > > Add a kselftest for this new behavior per Greg Kroah-Hartman
+> > > >
+> > > > Include details on behavior for all combinations of kernel/userspac=
+e
+> > > > versions in changelog (thanks Suren Baghdasaryan) per Greg Kroah-Ha=
+rtman.
+> > > >
+> > > > Fix pid and uid types in binder UAPI header
+> > > >
+> > > > v2:
+> > > > See the previous revision of this change submitted by Hridya Valsar=
+aju
+> > > > at: https://lore.kernel.org/all/20220115010622.3185921-1-hridya@goo=
+gle.com/
+> > > >
+> > > > Move dma-buf cgroup charge transfer from a dma_buf_op defined by ev=
+ery
+> > > > heap to a single dma-buf function for all heaps per Daniel Vetter a=
+nd
+> > > > Christian K=C3=B6nig. Pointers to struct gpucg and struct gpucg_dev=
+ice
+> > > > tracking the current associations were added to the dma_buf struct =
+to
+> > > > achieve this.
+> > > >
+> > > > Fix incorrect Kconfig help section indentation per Randy Dunlap.
+> > > >
+> > > > History of the GPU cgroup controller
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > The GPU/DRM cgroup controller came into being when a consensus[1]
+> > > > was reached that the resources it tracked were unsuitable to be int=
+egrated
+> > > > into memcg. Originally, the proposed controller was specific to the=
+ DRM
+> > > > subsystem and was intended to track GEM buffers and GPU-specific
+> > > > resources[2]. In order to help establish a unified memory accountin=
+g model
+> > > > for all GPU and all related subsystems, Daniel Vetter put forth a
+> > > > suggestion to move it out of the DRM subsystem so that it can be us=
+ed by
+> > > > other DMA-BUF exporters as well[3]. This RFC proposes an interface =
+that
+> > > > does the same.
+> > > >
+> > > > [1]: https://patchwork.kernel.org/project/dri-devel/cover/201905011=
+40438.9506-1-brian.welty@intel.com/#22624705
+> > > > [2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.w=
+elty@intel.com/
+> > > > [3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwl=
+l.local/
+> > > >
+> > > > Hridya Valsaraju (3):
+> > > >   gpu: rfc: Proposal for a GPU cgroup controller
+> > > >   cgroup: gpu: Add a cgroup controller for allocator attribution of=
+ GPU
+> > > >     memory
+> > > >   binder: Add flags to relinquish ownership of fds
+> > > >
+> > > > T.J. Mercier (3):
+> > > >   dmabuf: heaps: export system_heap buffers with GPU cgroup chargin=
+g
+> > > >   dmabuf: Add gpu cgroup charge transfer function
+> > > >   selftests: Add binder cgroup gpu memory transfer tests
+> > > >
+> > > >  Documentation/admin-guide/cgroup-v2.rst       |  23 +
+> > > >  drivers/android/binder.c                      |  31 +-
+> > > >  drivers/dma-buf/dma-buf.c                     |  80 ++-
+> > > >  drivers/dma-buf/dma-heap.c                    |  38 ++
+> > > >  drivers/dma-buf/heaps/system_heap.c           |  28 +-
+> > > >  include/linux/cgroup_gpu.h                    | 146 +++++
+> > > >  include/linux/cgroup_subsys.h                 |   4 +
+> > > >  include/linux/dma-buf.h                       |  49 +-
+> > > >  include/linux/dma-heap.h                      |  15 +
+> > > >  include/uapi/linux/android/binder.h           |  23 +-
+> > > >  init/Kconfig                                  |   7 +
+> > > >  kernel/cgroup/Makefile                        |   1 +
+> > > >  kernel/cgroup/gpu.c                           | 390 +++++++++++++
+> > > >  .../selftests/drivers/android/binder/Makefile |   8 +
+> > > >  .../drivers/android/binder/binder_util.c      | 250 +++++++++
+> > > >  .../drivers/android/binder/binder_util.h      |  32 ++
+> > > >  .../selftests/drivers/android/binder/config   |   4 +
+> > > >  .../binder/test_dmabuf_cgroup_transfer.c      | 526 ++++++++++++++=
+++++
+> > > >  18 files changed, 1632 insertions(+), 23 deletions(-)
+> > > >  create mode 100644 include/linux/cgroup_gpu.h
+> > > >  create mode 100644 kernel/cgroup/gpu.c
+> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
+Makefile
+> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
+binder_util.c
+> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
+binder_util.h
+> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
+config
+> > > >  create mode 100644 tools/testing/selftests/drivers/android/binder/=
+test_dmabuf_cgroup_transfer.c
+> > > >
+> > >
+>
