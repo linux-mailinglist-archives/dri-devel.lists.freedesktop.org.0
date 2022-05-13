@@ -1,82 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315635260BE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 13:11:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 077A15260FA
+	for <lists+dri-devel@lfdr.de>; Fri, 13 May 2022 13:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 934D010E4F6;
-	Fri, 13 May 2022 11:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79B3110E0D4;
+	Fri, 13 May 2022 11:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61FBE10E4F6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 11:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652440264;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1dg98KrUX9HZ3UiGHczFtY+YKU5lrgUcO+i/Ssa7vQM=;
- b=P2oBC1eyKUgB+ySFgk6PKc66YX2OhKpo2Y8xdZVxWjT37btfIpr9efBDwI9QXQWm2xM2ER
- 6nSGlzH1+fuHa0IGlSdgc3M/m5d6znLDgqqxyFgEhfmGUHQUFGEF76X6euqrKhjSiNXRnM
- wmgFSLj2hYKL5MfJT7dmn0kwFZdRx68=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-220-U90lRVvTMy-iJWvD1MhsUA-1; Fri, 13 May 2022 07:11:03 -0400
-X-MC-Unique: U90lRVvTMy-iJWvD1MhsUA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v16-20020adfd190000000b0020c8fb5106dso2811932wrc.19
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 04:11:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1dg98KrUX9HZ3UiGHczFtY+YKU5lrgUcO+i/Ssa7vQM=;
- b=wV+vgRLFa5KaWiB9xxYtyUm1wV6KgM2PsqaeCEIZcSjnHfkFoBE7LaJh16VYJ1wkMW
- alsYEH/JlbrgHZSeslLQCQRup8uz0Vtzr+Yrxra1az0PyMzh+auhLpO3yS3LmllAjjF+
- UmbZYdZmIwmWgvRu66HP5X+SsVEgP19ls27I2F1xPsudgPoPSiC3ZjbqSdDOFzbOdmy4
- awQgxLfM2XlIoTYS0uQT7r/gg2gDxsXEdEN+gW4p8LphX6O61Cxl1KRlJ0WPBxegoL8N
- WtidWvSI5NQJZFT+1qLMEAPWWtBZUfihxE67G/ePWPpqiS608Y+blPNa/8EDicQbo+n9
- ITVA==
-X-Gm-Message-State: AOAM531NkSfUTtUt7iThCN7idpg8QtoshtFmjVlUOsHK0cMu/7KmWrbX
- sH5/PHV42NzTGxJGxGYC5LcMxXSIeSHUjC2vj0hg8/j+uCXbH/bEGz3E8mcIYkhAoKO96Q0C+cv
- TcDL+KRun3fBskQdd3ERlwWVYYCB+
-X-Received: by 2002:a05:6000:186f:b0:20c:5f3d:44a4 with SMTP id
- d15-20020a056000186f00b0020c5f3d44a4mr3503158wri.152.1652440261840; 
- Fri, 13 May 2022 04:11:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/YFMyk04oK3bo+dwXS1g1NDlB6m16iuaGSyBDul6+/O2Z2C7hErBVucJfnB5E8m7EhPFJSA==
-X-Received: by 2002:a05:6000:186f:b0:20c:5f3d:44a4 with SMTP id
- d15-20020a056000186f00b0020c5f3d44a4mr3503146wri.152.1652440261602; 
- Fri, 13 May 2022 04:11:01 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l12-20020adfbd8c000000b0020c547f75easm1820013wrh.101.2022.05.13.04.11.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 May 2022 04:11:01 -0700 (PDT)
-Message-ID: <cc0d6635-c739-490d-9c8d-7f53da48e61a@redhat.com>
-Date: Fri, 13 May 2022 13:10:59 +0200
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29B3610E592
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 11:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652441345; x=1683977345;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=P/NlOnIOwLTJMaLQ0xxo/4m2h4ZXIfabeanSs7X/D70=;
+ b=gOvL6jNGKQtmzT8nQdJYNxqTNp3xBrwTLSc0/T12T9JKg5H5DdriG32+
+ fVsk4+zIdNwjdcKnrcWqo1CZdXCnFefD8muSxcGN7jduAg2pEZUFHddcN
+ utP/+GZZcOdkS70FqUQV5JetUPjkSg7Dc5VXN4GTJs6MueFUl6+5dFlRm Q=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 13 May 2022 04:29:04 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 04:29:04 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 13 May 2022 04:29:03 -0700
+Received: from hu-charante-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 13 May 2022 04:28:59 -0700
+From: Charan Teja Kalla <quic_charante@quicinc.com>
+To: <gregkh@linuxfoundation.org>, <christian.koenig@amd.com>,
+ <sumit.semwal@linaro.org>, <hridya@google.com>, <daniel.vetter@ffwll.ch>,
+ <tjmercier@google.com>
+Subject: [PATCH V3 RESEND] dma-buf: ensure unique directory name for dmabuf
+ stats
+Date: Fri, 13 May 2022 16:58:16 +0530
+Message-ID: <1652441296-1986-1-git-send-email-quic_charante@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 0/7] Fix some races between sysfb device registration
- and drivers probe
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20220511112438.1251024-1-javierm@redhat.com>
- <f726c96b-1924-841f-0125-9f7ed37de20a@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <f726c96b-1924-841f-0125-9f7ed37de20a@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,87 +61,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Peter Jones <pjones@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, "# 5 . 15 . x+" <stable@vger.kernel.org>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org, Charan
+ Teja Kalla <quic_charante@quicinc.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+The dmabuf file uses get_next_ino()(through dma_buf_getfile() ->
+alloc_anon_inode()) to get an inode number and uses the same as a
+directory name under /sys/kernel/dmabuf/buffers/<ino>. This directory is
+used to collect the dmabuf stats and it is created through
+dma_buf_stats_setup(). At current, failure to create this directory
+entry can make the dma_buf_export() to fail.
 
-Thanks for your feedback and comments.
+Now, as the get_next_ino() can definitely give a repetitive inode no
+causing the directory entry creation to fail with -EEXIST. This is a
+problem on the systems where dmabuf stats functionality is enabled on
+the production builds can make the dma_buf_export(), though the dmabuf
+memory is allocated successfully, to fail just because it couldn't
+create stats entry.
 
-On 5/13/22 12:48, Thomas Zimmermann wrote:
-> Hi Javier,
-> 
-> thanks again for providing the examples. I think I now better get what 
-> you're trying to solve.
->
+This issue we are able to see on the snapdragon system within 13 days
+where there already exists a directory with inode no "122602" so
+dma_buf_stats_setup() failed with -EEXIST as it is trying to create
+the same directory entry.
 
-You are welcome.
+To make the dentry name as unique, use the dmabuf fs specific inode
+which is based on the simple atomic variable increment. There is tmpfs
+subsystem too which relies on its own inode generation rather than
+relying on the get_next_ino() for the same reason of avoiding the
+duplicate inodes[1].
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/patch/?id=e809d5f0b5c912fe981dce738f3283b2010665f0
+
+Signed-off-by: Charan Teja Kalla <quic_charante@quicinc.com>
+Cc: <stable@vger.kernel.org> # 5.15.x+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Changes in V3-resend:
+  -- Collect all the tags and apply stable tag.
+
+Changes in V3:
+  -- Used the atomic64 variable to have dmabuf files its own inodes.
+  -- Ensured no UAPI breakage as suggested by Christian.
+
+Changes in V2:
+  -- Used the atomic64_t variable to generate a unique_id to be appended to inode
+     to have an unique directory with name <inode_number-unique_id> -- Suggested by christian
+  -- Updated the ABI documentation -- Identified by Greg.
+  -- Massaged the commit log.
+  -- https://lore.kernel.org/all/1652191562-18700-1-git-send-email-quic_charante@quicinc.com/
+
+Changes in V1:
+  -- Used the inode->i_ctime->tv_secs as an id appended to inode to create the
+     unique directory with name <inode_number-time_in_secs>.
+  -- https://lore.kernel.org/all/1652178212-22383-1-git-send-email-quic_charante@quicinc.com/
+
+ drivers/dma-buf/dma-buf.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index a6fc96e..0ad5039 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -407,6 +407,7 @@ static inline int is_dma_buf_file(struct file *file)
  
-> First of all let's merge patch 3, as it seems unrelated.
->
-
-Agreed. I can push it to drm-misc-next.
+ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
+ {
++	static atomic64_t dmabuf_inode = ATOMIC64_INIT(0);
+ 	struct file *file;
+ 	struct inode *inode = alloc_anon_inode(dma_buf_mnt->mnt_sb);
  
-> For the other patches, I'd like to take a step back and try to solve the 
-> broader problem. IIRC we talked about this briefly already.
-> 
-
-Yes, that's what we discussed on IRC some time ago.
-
->  From my understanding, the problem of the current code is that removal 
-> of the firmware device is build around drivers (either DRM or fbdev). 
-> Everything works fine if a driver is bound to the firmware device and 
-> the native driver can remove it.  In other case, we have to manually 
-
-And this is the common case, since most kernels will have some driver
-that binds to a platform device registered to provide the firmware FB.
-
-> disable sysfb and force-remove unbound firmware devices.  And the 
-> patchset doesn't even cover firmware devices that come from DT nodes.
->
-
-Indeed.
+@@ -416,6 +417,13 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
+ 	inode->i_size = dmabuf->size;
+ 	inode_set_bytes(inode, dmabuf->size);
  
-> But what we really want is to track resource ownership based on devices. 
-> When we add a firmware device (via sysfb or DT), we immediately add it 
-> to a list of firmware devices. When the native driver arrives, it can 
-> remove the firmware device even if no driver has been bound.
-> 
-> We can also operate in the other way if the native drivers implicitly 
-> reserves the framebuffer range. If sysfb would try to register a 
-> firmware device in that range, he can let it fail. No more need to fully 
-> disable sysfb on the first arriving native device.
-> 
-> We already track the memory ranges in drm aperture helpers. We'd need to 
-> move the code to a more prominent location (e.g., <linux/aperture.h>) 
-> and change fbdev to use it. Sysfb and DT code needs to insert platform 
-> devices upon creation. We can then implement the more fancy stuff, such 
-> as tracking native-device memory.  (And if we ever get to fix all usage 
-> of Linux' request-mem-region, we can even move all the functionality there).
->
-
-Agreed. And as mentioned, the race that these patches attempt to fix are for
-the less common case when a native driver probes but either no generic driver
-registered a framebuffer yet or the platform device wasn't registered yet.
-
-But this can only happen if for example a native driver is built-in but the
-generic driver is build as a module, which is not the common configuration.
-
-What most distros do is the opposite, to have {simple,of,efi,vesa}fb or
-simpledrm built-in and the native drivers built as modules.
-
-So there's no rush to fix this by piling more hacks on top of the ones we
-already have and instead try to fix it more properly as you suggested.
- 
++	/*
++	 * The ->i_ino acquired from get_next_ino() is not unique thus
++	 * not suitable for using it as dentry name by dmabuf stats.
++	 * Override ->i_ino with the unique and dmabuffs specific
++	 * value.
++	 */
++	inode->i_ino = atomic64_add_return(1, &dmabuf_inode);
+ 	file = alloc_file_pseudo(inode, dma_buf_mnt, "dmabuf",
+ 				 flags, &dma_buf_fops);
+ 	if (IS_ERR(file))
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.7.4
 
