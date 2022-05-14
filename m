@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7F0526D83
-	for <lists+dri-devel@lfdr.de>; Sat, 14 May 2022 01:24:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58871526DCC
+	for <lists+dri-devel@lfdr.de>; Sat, 14 May 2022 03:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC4110ED8E;
-	Fri, 13 May 2022 23:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE7910E1D7;
+	Sat, 14 May 2022 01:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966B310EACA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 May 2022 23:24:03 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0EF06B830E3;
- Fri, 13 May 2022 23:24:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C994EC34100;
- Fri, 13 May 2022 23:24:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652484240;
- bh=/Lm84RWJelOTdP3T+xr4jDgjzowFvn2nQI1gg4nVsks=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=nmTHGRGz/zbFfZCJ8I9grLj/UkEUxPcD1mGINh+ezpFevEmw7JZuzRY0LlLyOIumQ
- saFLmhWXrafd4LIYT5aYj59Zu7WzNYSTA7rw2CPhUGa2Mxi4TVAG6/3IB9IILhsvEf
- mGmqiGxQS9b4ELYwhnEIiJ6aZDMxaHXXiQUJZq0U+ko1C0Amn+YT/aN+2f1isYbqoG
- s24VJiSJEYwfnV8OaqF0JB1JoA1EY9PCLUYRD8PUqbalpr4Ru89yrGOMbG6GNikCQs
- vMDDlVSIWp60+SRJ5//4x8thNKEx6FGSg8IvB2laq2oz3Dw9VVLdfxGPTJKA/rP2gp
- /Gp+b70kOTShA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- B39FFF0389D; Fri, 13 May 2022 23:24:00 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.18-rc7 (follow up)
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txpYhzyZtd60LEuBYYN+AVyeEQ8=h43bK=ZY8QCQpY5mg@mail.gmail.com>
-References: <CAPM=9txpYhzyZtd60LEuBYYN+AVyeEQ8=h43bK=ZY8QCQpY5mg@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9txpYhzyZtd60LEuBYYN+AVyeEQ8=h43bK=ZY8QCQpY5mg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-05-14
-X-PR-Tracked-Commit-Id: eb7bac3973d209e5227d1783676362ee5a8a7127
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ec7f49619d8ee13e108740c82f942cd401b989e9
-Message-Id: <165248424072.28273.15365436534682035448.pr-tracker-bot@kernel.org>
-Date: Fri, 13 May 2022 23:24:00 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8223A10E1D7;
+ Sat, 14 May 2022 01:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652493476; x=1684029476;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DDwU0MIIX7cHAeGzIXm3PASsFEXV/dXGCnlifbLzn+E=;
+ b=jjRHBy/8sSuv9EF0M5/fQ3vdPxRKqjddbqZcE6JRVftvuQsC+onlL0tM
+ Onu08EPMBAnbGil0BS5vdgM8gufz5sddRzMFW73eqd7aS7vRN6HXjfPsa
+ FTcsjboIPqdXto9Ud3w7N5ARzcvkEkERFsADmu7G/gdkEjE14DlmIpxXV 4=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 13 May 2022 18:57:56 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 18:57:55 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 13 May 2022 18:57:55 -0700
+Received: from [10.38.247.112] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 13 May
+ 2022 18:57:53 -0700
+Message-ID: <b0739528-881f-32ca-d026-a06ada7259a5@quicinc.com>
+Date: Fri, 13 May 2022 18:57:51 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 19/25] drm/msm/dpu: don't use unsupported blend stages
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-20-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220209172520.3719906-20-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,22 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sat, 14 May 2022 08:56:01 +1000:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-05-14
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ec7f49619d8ee13e108740c82f942cd401b989e9
+On 2/9/2022 9:25 AM, Dmitry Baryshkov wrote:
+> The atomic_check compares blending stage with DPU_STAGE_MAX (maximum
+> amount of blending stages supported by the driver), however we should
+> compare it against .max_mixer_blendstages, the maximum blend stage
+> supported by the mixer.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Thank you!
+This seems reasonable to me,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 637d164667e9..952ff11162c0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -927,9 +927,9 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+>   
+>   	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
+> -	if (pstate->stage >= DPU_STAGE_MAX) {
+> +	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
+>   		DPU_ERROR("> %d plane stages assigned\n",
+> -				DPU_STAGE_MAX - DPU_STAGE_0);
+> +				pdpu->catalog->caps->max_mixer_blendstages - DPU_STAGE_0);
+>   		return -EINVAL;
+>   	}
+>   
