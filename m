@@ -1,76 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE545273EC
-	for <lists+dri-devel@lfdr.de>; Sat, 14 May 2022 22:22:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BADD527488
+	for <lists+dri-devel@lfdr.de>; Sun, 15 May 2022 00:45:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA0C10E3D1;
-	Sat, 14 May 2022 20:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A96A10E7F9;
+	Sat, 14 May 2022 22:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C19810E3D1
- for <dri-devel@lists.freedesktop.org>; Sat, 14 May 2022 20:22:00 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id y19so13960864ljd.4
- for <dri-devel@lists.freedesktop.org>; Sat, 14 May 2022 13:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Y5VRY1Vg5U7FZOYxaP3jhw1GgftqMUz+kaXgWZO/zzo=;
- b=a9IbvRUaYC8Wc0vyxgFwHAxgU9mSVnhYPrySypKYv+QMWSeS0lIY4wxVjb/+x54LWq
- Ldc1cXpfGj905mcwbZhrOB2SdRWkkkJTcN8XmsLxZM3o1iVoUToVGPQqNwOLRWQqNkFV
- hvbA4emBw/8q79PftXEPsH+kSyqRfafhujdgE+P8fJGteGOcK7xMkyuufwBAw8bIrRFa
- gJuSbkhJHloXm+OQ9D+IZ7DsfUCXfPkNBD+eHfglA2cDMFd0vT8MnG+Zmj8mMlPJwnb4
- yTLeFaHM+EYpglB82UoRIxyn6Isw1Z9/jYS70nsrx3FRo+XYLmINHoUjvQQkh8OJSE4S
- gzNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Y5VRY1Vg5U7FZOYxaP3jhw1GgftqMUz+kaXgWZO/zzo=;
- b=c6iyza0xUc6EmhzccR9DBfqD99T4x9Lag8x+Rcs52HLjA0nVzcS5lo+U4XJpTUERkE
- 8HHaNM6y3fKD/E28soYe9lpOCDnlRFfwGPrEOECNAChKfgH8dDvfbuvjsGQ80Nx62FqE
- eRcq4oKp+74qYUykvGXrgKcY/EB1dXtG8xR+2xnmwNgCJBjENEZeSjq8EGyb1XQTLtkn
- 1uvGBjlvNKjI6JluW9RCr8v5EGsamDsYP4WrKZW3ByTjzrJmDcASGgbLcrJetF8ElpkL
- YGpCrKxjQDTBki3GE7BVMDg1VessA6S57PLzKuIezFCXtnjNtATBjPEcPglI8Z/RrO0M
- hcJQ==
-X-Gm-Message-State: AOAM530fKhuhYIsNwa6kAiH88Fm63Ggwqf1k/Ngr2goMb5mTUcuft0pv
- xPI7e1pCInZ4HMgAAsyIhZnyTQ==
-X-Google-Smtp-Source: ABdhPJzLyuqdkaQnJF2ClXg0Jx1DgHwKnG2ziP/ISkfSmc674JtqB4hc3nDy/CLvL1Xr59yD6peNiw==
-X-Received: by 2002:a05:651c:98d:b0:250:976b:4a0e with SMTP id
- b13-20020a05651c098d00b00250976b4a0emr6642090ljq.494.1652559718267; 
- Sat, 14 May 2022 13:21:58 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- z2-20020a2e9b82000000b0024f3d1daeaesm942625lji.54.2022.05.14.13.21.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 May 2022 13:21:57 -0700 (PDT)
-Message-ID: <567d135b-3d40-9958-e000-1357020b5650@linaro.org>
-Date: Sat, 14 May 2022 22:21:56 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19D7910E7F9
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 May 2022 22:45:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 40C3360C74
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 May 2022 22:45:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 241FFC3411A
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 May 2022 22:45:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1652568336;
+ bh=bS5HQAMDtikZldwnYUYBmDVi720L89RDOZV60SNkgDQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=G3X7Ev3uaoY/99lBrRDH0OqAad20kfM8hFPhKgOuiy71sVqP3jfe1TTCpq41mQr8L
+ kYPnzbCMHWA6jUl1tjPUWUgNSW/7ouRo/NPU6rQAdBI4Dy+yAtZq7xXfMT5mMX5NiM
+ N2W9MztlpmbJ/1e8Nr0FmquYQIAxKIs/0tYYng0cUog1vEKlaNMTvQVcxfRB73Pii3
+ mIx7UT970RvOi6UJLcfSvIMv5CISDxRVc2azYHrqQJOChXgkzjsadFFE/6yuGiOQav
+ W7s0iRCV6s0KCUxyKZa458d+pNBHY3TQQmOJ79m5r9t8R4HhM43mhaT8WwhII9tCn4
+ sZQjFC7Tih8+w==
+Received: by mail-yb1-f176.google.com with SMTP id r11so21145211ybg.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 May 2022 15:45:36 -0700 (PDT)
+X-Gm-Message-State: AOAM530RCP7sPMMbDt7ceTQz7iNjHxFoNTmd0QgtZ2rujO5OCRt2VvsF
+ 3nP7x/mVnVyfg1XtiOrlGMxTnsUHPSM03F/HIw==
+X-Google-Smtp-Source: ABdhPJzl9etzP0gMxcOzXLXqcN7qDo28gwQdlJmLqkufMpWnqlfrfltoJeXr0AOfQGCpVjoKglRILz+NUksdOsA4GYs=
+X-Received: by 2002:a25:df16:0:b0:64a:9f33:829c with SMTP id
+ w22-20020a25df16000000b0064a9f33829cmr11383457ybg.641.1652568335010; Sat, 14
+ May 2022 15:45:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 3/3] dt-bindings: usb: add documentation for aspeed udc
-Content-Language: en-US
-To: Neal Liu <neal_liu@aspeedtech.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Felipe Balbi <balbi@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Li Yang <leoyang.li@nxp.com>
-References: <20220513065728.857722-1-neal_liu@aspeedtech.com>
- <20220513065728.857722-4-neal_liu@aspeedtech.com>
- <da78aaf6-c9ae-d591-fdc4-723f097ace2c@linaro.org>
- <HK0PR06MB3202679A7FABAF7D0D045F0880CA9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <HK0PR06MB3202679A7FABAF7D0D045F0880CA9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
+ <20220419094143.9561-9-jason-jh.lin@mediatek.com>
+ <402f0e60-8d3c-850d-84ff-af5424b72b73@gmail.com>
+ <CAAOTY_-jiX_BhaZ5+skRu4RSZLjcHJerVtwH34fz4N6_jbVK0w@mail.gmail.com>
+ <623fb170-b59a-84a0-3826-4b78968924bc@gmail.com>
+In-Reply-To: <623fb170-b59a-84a0-3826-4b78968924bc@gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 15 May 2022 06:45:24 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9gReO45qVhd5-9UrDYsDkOeS+FZT2Dw2McVgZvK3jfeg@mail.gmail.com>
+Message-ID: <CAAOTY_9gReO45qVhd5-9UrDYsDkOeS+FZT2Dw2McVgZvK3jfeg@mail.gmail.com>
+Subject: Re: [PATCH v20 8/8] soc: mediatek: remove DDP_DOMPONENT_DITHER from
+ enum
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,133 +65,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- BMC-SW <BMC-SW@aspeedtech.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, DTML <devicetree@vger.kernel.org>,
+ "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/05/2022 17:39, Neal Liu wrote:
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Sent: Friday, May 13, 2022 5:07 PM
->> To: Neal Liu <neal_liu@aspeedtech.com>; Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org>; Rob Herring <robh+dt@kernel.org>;
->> Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley
->> <joel@jms.id.au>; Andrew Jeffery <andrew@aj.id.au>; Felipe Balbi
->> <balbi@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian
->> König <christian.koenig@amd.com>; Geert Uytterhoeven <geert@linux-
->> m68k.org>; Li Yang <leoyang.li@nxp.com>
->> Cc: linux-aspeed@lists.ozlabs.org; linux-usb@vger.kernel.org;
->> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
->> kernel@vger.kernel.org; linux-media@vger.kernel.org; dri-
->> devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; BMC-SW <BMC-
->> SW@aspeedtech.com>
->> Subject: Re: [PATCH 3/3] dt-bindings: usb: add documentation for aspeed
->> udc
->>
->> On 13/05/2022 08:57, Neal Liu wrote:
->>> Add device tree binding documentation for the Aspeed USB2.0 Device
->>> Controller.
->>>
->>> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
->>> ---
->>>  .../devicetree/bindings/usb/aspeed,udc.yaml   | 52
->> +++++++++++++++++++
->>>  1 file changed, 52 insertions(+)
->>>  create mode 100644
->>> Documentation/devicetree/bindings/usb/aspeed,udc.yaml
->>
->> Please name the file as first compatible, so "aspeed,ast2600-udc.yaml"
-> 
-> Okay, I could rename it for next patch if you preferred.
-> But there are lots of yaml files which are not named as first compatible.
+Hi, Matthias:
 
-Yes, I know, I quite likely I also produced such bindings, but a
-specific name is rather preferred. Otherwise you will have a difficult
-naming choice when your next Aspeed UDC requires new bindings file
-because of some differences (not yet known now).
+Matthias Brugger <matthias.bgg@gmail.com> =E6=96=BC 2022=E5=B9=B45=E6=9C=88=
+13=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:42=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> Hi Chun-Kuang,
+>
+> On 02/05/2022 00:54, Chun-Kuang Hu wrote:
+> > Hi, Matthias:
+> >
+> > Matthias Brugger <matthias.bgg@gmail.com> =E6=96=BC 2022=E5=B9=B44=E6=
+=9C=8822=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:42=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> >>
+> >>
+> >>
+> >> On 19/04/2022 11:41, jason-jh.lin wrote:
+> >>> After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
+> >>> mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
+> >>>
+> >>> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> >>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@co=
+llabora.com>
+> >>
+> >> Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
+> >>
+> >> Chun-Kuang, I think it would make sense to take that through your tree=
+ as it
+> >> depends on the previous patches.
+> >>
+> >> I provide you a stable tag so that you can take it:
+> >> v5.18-next-vdso0-stable-tag
+> >
+> > After I take this tag, I find one checkpatch warning:
+> >
+> > WARNING: DT compatible string "mediatek,mt8195-mmsys" appears
+> > un-documented -- check ./Documentation/devicetree/bindings/
+> > #670: FILE: drivers/soc/mediatek/mtk-mmsys.c:390:
+> > +               .compatible =3D "mediatek,mt8195-mmsys",
+> >
+> > I think this tag lost one binding patch, it's better that this tag has
+> > no this warning.
+> >
+>
+> Sorry for the late reply I was sick.
+> The warning is, because the stable branch misses commit:
+> https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/co=
+mmit/?h=3Dv5.18-next/soc&id=3D81c5a41d10b968ea89d5f44fe1e5c2fc70289209
+>
+> So it's not a real issue and will go away once our branches land in upstr=
+eam.
+> Is it OK for you to ignore the issue?
 
-> 
->>
->>>
->>> diff --git a/Documentation/devicetree/bindings/usb/aspeed,udc.yaml
->>> b/Documentation/devicetree/bindings/usb/aspeed,udc.yaml
->>> new file mode 100644
->>> index 000000000000..d1d2f77d1c54
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/usb/aspeed,udc.yaml
->>> @@ -0,0 +1,52 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) # Copyright
->>> +(c) 2020 Facebook Inc.
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/usb/aspeed,udc.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: ASPEED USB 2.0 Device Controller
->>> +
->>> +maintainers:
->>> +  - Neal Liu <neal_liu@aspeedtech.com>
->>> +
->>> +description: |+
->>> +  The ASPEED USB 2.0 Device Controller implements 1 control endpoint
->>> +and
->>> +  4 generic endpoints for AST260x.
->>> +
->>> +  Supports independent DMA channel for each generic endpoint.
->>> +  Supports 32/256 stages descriptor mode for all generic endpoints.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - aspeed,ast2600-udc
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  clocks:
->>> +    maxItems: 1
->>> +
->>> +  interrupts:
->>> +    maxItems: 1
->>
->> No child properties? No ports or any other devices? No usb-hcd.yaml?
-> 
-> Aspeed udc only has 1 port, no need extra properties for now.
+It's OK for me, but the patch would go through different maintainer's
+tree and I'm not sure it's OK for all of them. So I would wait for the
+necessary patch land in upstream.
 
-OK
+Regards,
+Chun-Kuang.
 
-> 
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - clocks
->>> +  - interrupts
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/clock/aspeed-clock.h>
->>> +    udc: udc@1e6a2000 {
->>
->> Node name: usb
->  
-> "udc" is more recognizable than "usb" I think. "usb" is too general, can be various like host or device.
-
-It's still required by schema for most of USB host controllers. Existing
-USB device controllers use usb as well (except Atmel mentioning gadget)
-Generic name is also expected by Devicetree spec and "udc" is not on a
-list of examples of generic names (usb is).
-
-
-Best regards,
-Krzysztof
+>
+> Regards,
+> Matthias
+>
+> > Regards,
+> > Chun-Kuang.
+> >
+> >>
+> >> Regards,
+> >> Matthias
+> >>
+> >>> ---
+> >>>    include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
+> >>>    1 file changed, 1 insertion(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/s=
+oc/mediatek/mtk-mmsys.h
+> >>> index 59117d970daf..fb719fd1281c 100644
+> >>> --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> >>> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> >>> @@ -16,8 +16,7 @@ enum mtk_ddp_comp_id {
+> >>>        DDP_COMPONENT_CCORR,
+> >>>        DDP_COMPONENT_COLOR0,
+> >>>        DDP_COMPONENT_COLOR1,
+> >>> -     DDP_COMPONENT_DITHER,
+> >>> -     DDP_COMPONENT_DITHER0 =3D DDP_COMPONENT_DITHER,
+> >>> +     DDP_COMPONENT_DITHER0,
+> >>>        DDP_COMPONENT_DITHER1,
+> >>>        DDP_COMPONENT_DP_INTF0,
+> >>>        DDP_COMPONENT_DP_INTF1,
