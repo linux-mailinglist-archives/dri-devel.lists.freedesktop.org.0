@@ -1,33 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC8E5279B7
-	for <lists+dri-devel@lfdr.de>; Sun, 15 May 2022 22:07:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1F45279FB
+	for <lists+dri-devel@lfdr.de>; Sun, 15 May 2022 22:44:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF02A10E6B1;
-	Sun, 15 May 2022 20:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8F710E12B;
+	Sun, 15 May 2022 20:44:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B40E710E6B1
- for <dri-devel@lists.freedesktop.org>; Sun, 15 May 2022 20:07:42 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1nqKWh-00069N-AL; Sun, 15 May 2022 22:07:39 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] drm/rockchip: vop2: unlock on error path in
- vop2_crtc_atomic_enable()
-Date: Sun, 15 May 2022 22:07:37 +0200
-Message-Id: <165264524621.2584623.18007054358707398354.b4-ty@sntech.de>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91F7010E12B
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 May 2022 20:44:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alarumbe) with ESMTPSA id 181AC1F40848
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1652647459;
+ bh=NDTySiDmKSwj7gbdz9Iao713A5gVozGrjrvvWD1ujRM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VS+hV8xjEEUP1cNYl11UorWIjKRuRCWdQ6QVD1u6Ta25skEYG4AoEhHHZjMccleBT
+ GxRi5xhKU5BVKHNjgRRNAsqYRwOWDM2ghQczEg6y8JB+W4Q2ThjXwMKBK9u6QKFWHL
+ SpPssIdbFuLi5UPjdI75MFtLNglA2riOBIjxJnqrVqfTGdbDPZvQBlPXRddio+I4gv
+ 4z/k42nCszeAUqB/Bc/xbeohlyRhwXd0DkBBb9PgVsdOxDHNSEFqd3K9nGr/hKrSoP
+ uPfyx4rtB6YAO3k/NWQsJg5RET/cGLogFcjPTm4cRLsQ2ayGC6WDvOoO6u9gJ1EnfD
+ 9mWYX8owjtUoQ==
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: narmstrong@baylibre.com, khilman@baylibre.com,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/meson: fix HDMI2 420 display mode selection logic
+Date: Sun, 15 May 2022 21:44:12 +0100
+Message-Id: <20220515204412.2733803-1-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <YnjZQRV9lpub2ET8@kili>
-References: <YnjZQRV9lpub2ET8@kili>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,21 +46,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: adrian.larumbe@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 9 May 2022 12:05:05 +0300, Dan Carpenter wrote:
-> This error path needs an unlock before returning.
+Commit e67f6037ae1be34b2b68 ("drm/meson: split out encoder from
+meson_dw_hdmi") introduced a new way of calculating the display's pixel
+clock. However, it leads to the wrong value being reckoned for Odroid N2+
+boards, where clock frequency is never halved when the display's videomode
+supports YCBCR420 output format.
 
-Applied, thanks!
+Fix the selection logic.
 
-[1/1] drm/rockchip: vop2: unlock on error path in vop2_crtc_atomic_enable()
-      commit: 98526c5bbe3267d447ddd076b685439e3e1396c6
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+---
+ drivers/gpu/drm/meson/meson_dw_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
+diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+index 5cd2b2ebbbd3..6c9640f4c82e 100644
+--- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+@@ -380,7 +380,7 @@ static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
+ 			 mode->clock > 340000 ? 40 : 10);
+ 
+ 	if (drm_mode_is_420_only(display, mode) ||
+-	    (!is_hdmi2_sink &&
++	    (is_hdmi2_sink &&
+ 	     drm_mode_is_420_also(display, mode)))
+ 		mode_is_420 = true;
+ 
 -- 
-Heiko Stuebner <heiko@sntech.de>
+2.35.1
+
