@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1299529456
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 00:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9647C529468
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 00:58:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA7610EB92;
-	Mon, 16 May 2022 22:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFAF610F760;
+	Mon, 16 May 2022 22:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
- [IPv6:2607:f8b0:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ABFD10F1D5;
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
+ [IPv6:2607:f8b0:4864:20::d2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B162D10F279;
  Mon, 16 May 2022 22:57:27 +0000 (UTC)
-Received: by mail-il1-x12b.google.com with SMTP id l15so11555902ilh.3;
- Mon, 16 May 2022 15:57:26 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id e3so17604991ios.6;
+ Mon, 16 May 2022 15:57:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=it6bLhFwPCS9KNMNbVAc9u0r1hyTQEpcTOU7DVjaIzc=;
- b=cLcNGP066hHaVqlFNtXCmZ1CGCDAlRmjr8Ddi2wGeCAS0G188epVjNoMgFTsYz1FhS
- KwC/fi5w0MCKcVhAzgWTaAyw+jbVNB24fPtZqpyM2QJFQ425pkWWyCI9IkbK/sjrV1Nr
- VH0wWrWNzvvR6xEjBnwkVSgs88cMc3hP8dkgdaIQ1LrtD/VWN/UO2s3FRnPa5oMd5so8
- fSnTqRZENTyoMjCDNvkBUwdEdImN8cxny/1EuyBgylEspCk+qlkkMhhF7mjiK7FL010n
- kgcvXTfvTotxDueX1P4iF6MOjOgVE7J7E3ZeBWAm2Cih8qFLTTugQGWmxTynuy+uGziA
- gtrg==
+ bh=275OPBiQ2XPDTBRqKvoZzw/+Pf2YOYW8BZL5aogRIAM=;
+ b=erXw/YodA3OXO6nPINUovqh61wUerUIUtr0unKej/ygKy09BntPa7b2Ga/snFnWqRN
+ mtoKDgBhHIuI18S7owrD22QKbctFTy/M6o9shAJ6+0ouzudUyjANzXNDMc0Q3hIV+f5q
+ XnYixuoQFoJZCiCQDsXoPHqPdfWbeEA0c/7106IbTnzOiTQOCS35fre1X9yfUACWftd8
+ LgQfxHSO1ccHM7ZFABS+oM9u+ZYIQfZXUVXowulqyibhSPLwsJiSFjdYhvpsOOygWG+u
+ n6kLxDSr0CYelPk7OPO3/RynfWIFOXZ/aAUWpWWu1hoV6RWlrK08yikqaaHJMadlmP8H
+ L6Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=it6bLhFwPCS9KNMNbVAc9u0r1hyTQEpcTOU7DVjaIzc=;
- b=Ixm+ezK+sjoxCMQ4vWbAzQTcFueoY5bJ+UdlIYELHTWpoPKOKkXfn4sTdAooHUTQT4
- 7BaIP7BbTuJT90uHX6k4W0wkpA59hE+egMuuzi838td9ko7gl4IQggZnbYwDOSTizDJE
- DZHERLbic+k5T+s9nJKDM/bk3DsyLTaAi1y8wvA44kcuMP/eU+dvFefzu1gz0Ue++8RH
- nWXhHeLZ99iT8UZlCe03JIbgza8xhgkyuMjK5F+oDV62T2hBc759PynZYEcwK4Wzeo/G
- ZQbHw2ojYM6X09vaJzhH4hUWCS+RfqR+lpaJ261JVichn7DFmDX2e27XG7ocpmq5NUzI
- OHkA==
-X-Gm-Message-State: AOAM533zJQkPC0A3yVpjpLs3c5R5zHJhv3NqtCw1a92EOYpZIhUvvaIg
- dY5c8Ea+6jACpLm7+71HDAk=
-X-Google-Smtp-Source: ABdhPJxL66r9um/Qj19jzq2i+w5GjaE1kV2BNicea7CTlLXB+S6WjzXBR8GSASV1PB+CpOnfV72D2w==
-X-Received: by 2002:a05:6e02:1d8a:b0:2cd:fa75:6395 with SMTP id
- h10-20020a056e021d8a00b002cdfa756395mr10067705ila.294.1652741845777; 
- Mon, 16 May 2022 15:57:25 -0700 (PDT)
+ bh=275OPBiQ2XPDTBRqKvoZzw/+Pf2YOYW8BZL5aogRIAM=;
+ b=My5MC/ELjX8A4W3l6x7SCU9L8Chi/yvUfPHLfAOhL3lxt8SsrdQaWgGXThRjZR9nSB
+ S1Iij5VoROjvaoIyEuG8Laf6ksGNtM8ZG0Rj2CPHT+hyl7FUkTQzM4OPNTc5ikd5XpLj
+ RLXEDN7OyuwwdW0LJwlRICSfCZeOhldiZ+OIwlVUWzf/1VSWJNy2pedTNm9oUNtdGGB0
+ /uRdXHf5CQ/HQJndGfBM4p8GdkPNjuYMtdlmgqEjchfSYMYOkS97PaXsoa6ZJDmypUXS
+ bv1p5l14mJju7x0dKGsY9OiEcevWpD2eaQzs/oUDvWBTKJeCHSSbQWnyrum4utsrf9MS
+ 2cgw==
+X-Gm-Message-State: AOAM532iq52CH1+i25vLdgZKbqz97AKEJNupC7qzjeIJI2wRdXqKCZpt
+ k8Pqb5AyzxfwTHeAASxtIqs=
+X-Google-Smtp-Source: ABdhPJz8ja5KMGhfVRvrrgjeLgWG6Cp8mO/6M9ENzbru9N3/0pmPE3IQ+As/ImX5TSoW3EuTo0LvtA==
+X-Received: by 2002:a05:6638:b:b0:32e:3b8d:3e5d with SMTP id
+ z11-20020a056638000b00b0032e3b8d3e5dmr2979106jao.91.1652741847355; 
+ Mon, 16 May 2022 15:57:27 -0700 (PDT)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:2010::dd9f])
  by smtp.googlemail.com with ESMTPSA id
- k26-20020a02661a000000b0032b74686763sm3133949jac.76.2022.05.16.15.57.24
+ k26-20020a02661a000000b0032b74686763sm3133949jac.76.2022.05.16.15.57.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 15:57:25 -0700 (PDT)
+ Mon, 16 May 2022 15:57:26 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 20/27] drm_print: refine drm_debug_enabled for jump-label
-Date: Mon, 16 May 2022 16:56:33 -0600
-Message-Id: <20220516225640.3102269-21-jim.cromie@gmail.com>
+Subject: [PATCH v2 21/27] drm_print: prefer bare printk KERN_DEBUG on generic
+ fn
+Date: Mon, 16 May 2022 16:56:34 -0600
+Message-Id: <20220516225640.3102269-22-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220516225640.3102269-1-jim.cromie@gmail.com>
 References: <20220516225640.3102269-1-jim.cromie@gmail.com>
@@ -79,104 +80,56 @@ Cc: maz@kernel.org, quic_saipraka@quicinc.com, catalin.marinas@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to use dynamic-debug's jump-label optimization in drm-debug,
-its clarifying to refine drm_debug_enabled into 3 uses:
+drm_print.c calls pr_debug() just once, from __drm_printfn_debug(),
+which is a generic/service fn.  The callsite is compile-time enabled
+by DEBUG in both DYNAMIC_DEBUG=y/n builds.
 
-1.   drm_debug_enabled - legacy, public
-2. __drm_debug_enabled - optimized for dyndbg jump-label enablement.
-3.  _drm_debug_enabled - pr_debug instrumented, observable
+For dyndbg builds, reverting this callsite back to bare printk is
+correcting a few anti-features:
 
-1. The legacy version always checks the bits.
+1- callsite is generic, serves multiple drm users.
+   its hardwired on currently
+   could accidentally: #> echo -p > /proc/dynamic_debug/control
 
-2. is privileged, for use by __drm_dbg(), __drm_dev_dbg(), which do an
-early return unless the category is enabled (free of call/NOOP side
-effects).  For dyndbg builds, debug callsites are selectively
-"pre-enabled", so __drm_debug_enabled() short-circuits to true there.
-Remaining callers of 1 may be able to use 2, case by case.
+2- optional "decorations" by dyndbg are unhelpful/misleading
+   they describe only the generic site, not end users
 
-3. is 1st wrapped in a macro, with a pr_debug, which reports each
-usage in /proc/dynamic_debug/control, making it observable in the
-logs.  The macro lets the pr_debug see the real caller, not an inline
-function.
+IOW, 1,2 are unhelpful at best, and possibly confusing.
 
-When plugged into 1, it identified ~10 remaining callers of the
-function, leading to the follow-on cleanup patch, and would allow
-activating the pr_debugs, estimating the callrate, and the potential
-savings by using the wrapper macro.  It is unused ATM, but it fills
-out the picture.
+reverting yields a nominal data and text shrink:
+
+   text    data     bss     dec     hex filename
+ 462583   36604   54592 553779   87333 /kernel/drivers/gpu/drm/drm.ko
+ 462515   36532   54592 553639   872a7 -dirty/kernel/drivers/gpu/drm/drm.ko
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_print.c |  4 ++--
- include/drm/drm_print.h     | 28 ++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_print.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 5192533794a2..22b7ab1c5c40 100644
+index 22b7ab1c5c40..1b11a15366b7 100644
 --- a/drivers/gpu/drm/drm_print.c
 +++ b/drivers/gpu/drm/drm_print.c
-@@ -272,7 +272,7 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 	struct va_format vaf;
- 	va_list args;
+@@ -23,8 +23,6 @@
+  * Rob Clark <robdclark@gmail.com>
+  */
  
--	if (!drm_debug_enabled(category))
-+	if (!__drm_debug_enabled(category))
- 		return;
+-#define DEBUG /* for pr_debug() */
+-
+ #include <linux/stdarg.h>
  
- 	va_start(args, format);
-@@ -295,7 +295,7 @@ void ___drm_dbg(enum drm_debug_category category, const char *format, ...)
- 	struct va_format vaf;
- 	va_list args;
+ #include <linux/io.h>
+@@ -172,7 +170,8 @@ EXPORT_SYMBOL(__drm_printfn_info);
  
--	if (!drm_debug_enabled(category))
-+	if (!__drm_debug_enabled(category))
- 		return;
- 
- 	va_start(args, format);
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 5c39bacac2b3..ccd177236ab3 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -324,11 +324,39 @@ enum drm_debug_category {
- 	DRM_UT_DRMRES
- };
- 
-+/*
-+ * 3 name flavors of drm_debug_enabled:
-+ *   drm_debug_enabled - public/legacy, always checks bits
-+ *  _drm_debug_enabled - instrumented to observe call-rates, est overheads.
-+ * __drm_debug_enabled - privileged - knows jump-label state, can short-circuit
-+ */
- static inline bool drm_debug_enabled(enum drm_debug_category category)
+ void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf)
  {
- 	return unlikely(__drm_debug & BIT(category));
+-	pr_debug("%s %pV", p->prefix, vaf);
++	/* pr_debug callsite decorations are unhelpful here */
++	printk(KERN_DEBUG "%s %pV", p->prefix, vaf);
  }
+ EXPORT_SYMBOL(__drm_printfn_debug);
  
-+/*
-+ * Wrap fn in macro, so that the pr_debug sees the actual caller, not
-+ * the inline fn.  Using this name creates a callsite entry / control
-+ * point in /proc/dynamic_debug/control.
-+ */
-+#define _drm_debug_enabled(category)				\
-+	({							\
-+		pr_debug("todo: maybe avoid via dyndbg\n");     \
-+		drm_debug_enabled(category);			\
-+	})
-+
-+#if defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
-+/*
-+ * dyndbg is wrapping the drm.debug API, so as to avoid the runtime
-+ * bit-test overheads of drm_debug_enabled() in those api calls.
-+ * In this case, executed callsites are known enabled, so true.
-+ */
-+#define __drm_debug_enabled(category)	true
-+#else
-+#define __drm_debug_enabled(category)	drm_debug_enabled(category)
-+#endif
-+
- /*
-  * struct device based logging
-  *
 -- 
 2.35.3
 
