@@ -1,78 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2975D527D34
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 07:54:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF10527DC6
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 08:48:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E4D10F354;
-	Mon, 16 May 2022 05:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08235112B11;
+	Mon, 16 May 2022 06:48:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1719510F354
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 05:54:07 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id y32so23912724lfa.6
- for <dri-devel@lists.freedesktop.org>; Sun, 15 May 2022 22:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iQu4lukAu6aND/lSxHXOC9CQZKXgScz0FZajkncufEw=;
- b=WOTncPc2v5NZjRnTIJIh4IXO1dj9ckDUzbSMpFADqaVVFteQj9TEczbboaO7BSW2/s
- XISBzIocyQtoLTgR7gWJ/xy+YDxJlUaAAnAbtnBo+Ja4yyTkPE3dNrqwQyJL1N6Lt4H0
- ++LYr9UXQs5/Qplz1Zqp2mpf5Mt3r7P9Z9O4UHYmkTLk3lPXMJ1Bwkihocd9f4kVWpdk
- 3IzpmTfXxrlrmJeAStqS0d+5hFCtGcTIYjrwdLrzg/HL53pH2ksHGVkx5ljLbGLK0EZE
- n33jLIToD1mvWSg0ZTsItxhaHXXnCYpgLBJ7kwzcMxk9kRkJfIChVs5xPxBONi0DnCfU
- rI9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iQu4lukAu6aND/lSxHXOC9CQZKXgScz0FZajkncufEw=;
- b=D8tV8/JHvNMzLhmV3OGIlPp1vEwwwxNoDwcC2zVX50tHfXhvpFMN3gZI6C2z2OEGPF
- sGrPhRRj8t8cqebrJEslyucmIhwLcJFxlsnD0fsS9HZWyYsuTvraC7breJpzpvj/i3Hs
- 7np/XZk5OCcpLTsjovazAXV3cz6cQrJArFNwqA3dMpbShYHMSQ/X7XjmcE3OQMnWlS7f
- MbP5+snGuzLXevtOPHZFXf9reK5aw36HrKT3D0exE/fekugsht0eqVfhYdI6g+vIxiYO
- Sg9i5/sScQPdfraTWi8u4VQsssixYgqbPPsHoiYNJDznrfFkC2V2OGGwI8p6rsjSAJ0v
- pDkA==
-X-Gm-Message-State: AOAM5318N6GO99gdQz0Z0pbSwSVhRo2F0cR5jabYC1jYmBqeSZ671wsC
- 6k9+D9x0VkglvCFeV5r6fQ6OiQ==
-X-Google-Smtp-Source: ABdhPJxDB/Sa5OHAguWRCgpV67m8ipVKXudtdyV00vw1QteYiiQh9fRXMYiofl5SGOVzWKsH/Wkjhg==
-X-Received: by 2002:a05:6512:228d:b0:473:f729:3219 with SMTP id
- f13-20020a056512228d00b00473f7293219mr12132861lfu.428.1652680445339; 
- Sun, 15 May 2022 22:54:05 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- m20-20020a2e9114000000b0024f3d1daeb5sm1384293ljg.61.2022.05.15.22.54.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 May 2022 22:54:04 -0700 (PDT)
-Message-ID: <3499cca2-1d7b-12f5-adbe-0c9b279cc51a@linaro.org>
-Date: Mon, 16 May 2022 07:54:03 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A523112B0A;
+ Mon, 16 May 2022 06:48:19 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2CA6D1F8FE;
+ Mon, 16 May 2022 06:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1652683698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/VxwhfMGZJ/R43Jur0qAAkcbyv2KGM6CayzfM3eb9a8=;
+ b=RcnRSwyIGPt8PoOuYWjSpDBz2UdEitRp5Aw2hFzHEIBgAmZlt+AcinzUsD55eyGVw3zftf
+ EMJGT5arOKRs2/lEVOZDk6XYviFicQOusz+6bewbpQUCbo+0cmabdfTTtaiJCvjRusH2Xf
+ AM6lbbp1htGMA2UJjys8sUxR7RQDI98=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B64FA13ADC;
+ Mon, 16 May 2022 06:48:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id eNy9KrHzgWK3PAAAMHmgww
+ (envelope-from <jgross@suse.com>); Mon, 16 May 2022 06:48:17 +0000
+Message-ID: <55436ae1-8255-1898-00df-51261080cd41@suse.com>
+Date: Mon, 16 May 2022 08:48:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 3/3] dt-bindings: usb: add documentation for aspeed udc
+ Thunderbird/91.8.0
 Content-Language: en-US
-To: Neal Liu <neal_liu@aspeedtech.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Felipe Balbi <balbi@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Li Yang <leoyang.li@nxp.com>
-References: <20220513065728.857722-1-neal_liu@aspeedtech.com>
- <20220513065728.857722-4-neal_liu@aspeedtech.com>
- <da78aaf6-c9ae-d591-fdc4-723f097ace2c@linaro.org>
- <HK0PR06MB3202679A7FABAF7D0D045F0880CA9@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <567d135b-3d40-9958-e000-1357020b5650@linaro.org>
- <HK0PR06MB32020539063F8A7C5D56E0B980CF9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <HK0PR06MB32020539063F8A7C5D56E0B980CF9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Demi Marie Obenour <demi@invisiblethingslab.com>,
+ Xen developer discussion <xen-devel@lists.xenproject.org>
+References: <Yn/Tgj1Ehs/BdpHp@itl-email>
+From: Juergen Gross <jgross@suse.com>
+Subject: Re: Hang in 5.17.4+ that appears to be due to Xen
+In-Reply-To: <Yn/Tgj1Ehs/BdpHp@itl-email>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------E3p00huEUrrTJ9brwKFwwior"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,31 +62,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= <marmarek@invisiblethingslab.com>,
+ linux-kernel@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Ostrovski <boris.ostrovsky@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/05/2022 03:59, Neal Liu wrote:
->>> Okay, I could rename it for next patch if you preferred.
->>> But there are lots of yaml files which are not named as first compatible.
->>
->> Yes, I know, I quite likely I also produced such bindings, but a specific name is
->> rather preferred. Otherwise you will have a difficult naming choice when your
->> next Aspeed UDC requires new bindings file because of some differences (not
->> yet known now).
->>
-> We can rename the bindings if next Aspeed UDC needs, don't you think?
-> Currently, Aspeed has no requirement.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------E3p00huEUrrTJ9brwKFwwior
+Content-Type: multipart/mixed; boundary="------------oH2iaJ0jTX0y0uRnsowBQVfz";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Demi Marie Obenour <demi@invisiblethingslab.com>,
+ Xen developer discussion <xen-devel@lists.xenproject.org>
+Cc: Boris Ostrovski <boris.ostrovsky@oracle.com>,
+ =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
+ <marmarek@invisiblethingslab.com>, linux-kernel@vger.kernel.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Message-ID: <55436ae1-8255-1898-00df-51261080cd41@suse.com>
+Subject: Re: Hang in 5.17.4+ that appears to be due to Xen
+References: <Yn/Tgj1Ehs/BdpHp@itl-email>
+In-Reply-To: <Yn/Tgj1Ehs/BdpHp@itl-email>
 
-So just use proper name from the beginning....
+--------------oH2iaJ0jTX0y0uRnsowBQVfz
+Content-Type: multipart/mixed; boundary="------------WKi2f0oZMCLjThKhlF63EhgJ"
 
+--------------WKi2f0oZMCLjThKhlF63EhgJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Best regards,
-Krzysztof
+T24gMTQuMDUuMjIgMTc6NTUsIERlbWkgTWFyaWUgT2Jlbm91ciB3cm90ZToNCj4gSW4gaHR0
+cHM6Ly9naXRodWIuY29tL1F1YmVzT1MvcXViZXMtaXNzdWVzL2lzc3Vlcy83NDgxLCBhIHVz
+ZXIgcmVwb3J0ZWQNCj4gdGhhdCBYb3JnIGxvY2tlZCB1cCB3aGVuIHJlc2l6aW5nIGEgVk0g
+d2luZG93LiAgV2hpbGUgSSBkbyBub3QgaGF2ZSB0aGUNCj4gc2FtZSBoYXJkd2FyZSB0aGUg
+dXNlciBkb2VzIGFuZCB0aHVzIGNhbm5vdCByZXByb2R1Y2UgdGhlIGJ1ZywgdGhlIHN0YWNr
+DQo+IHRyYWNlIHNlZW1zIHRvIGluZGljYXRlIGEgZGVhZGxvY2sgYmV0d2VlbiB4ZW5fZ250
+ZGV2IGFuZCBpOTE1LiAgSXQNCj4gYXBwZWFycyB0aGF0IGdudHRhYl91bm1hcF9yZWZzX3N5
+bmMoKSBpcyB3YWl0aW5nIGZvciBpOTE1IHRvIGZyZWUgdGhlDQo+IHBhZ2VzLCB3aGlsZSBp
+OTE1IGlzIHdhaXRpbmcgZm9yIHRoZSBNTVUgbm90aWZpZXIgdGhhdCBjYWxsZWQNCj4gZ250
+dGFiX3VubWFwX3JlZnNfc3luYygpIHRvIHJldHVybi4gIFJlc3VsdDogZGVhZGxvY2suDQo+
+IA0KPiBUaGUgcHJvYmxlbSBhcHBlYXJzIHRvIGJlIHRoYXQgYSBtYXBwZWQgZ3JhbnQgaW4g
+UFYgbW9kZSB3aWxsIHN0YXkgaW4NCj4gdGhlIOKAnGludmFsaWRhdGluZ+KAnSBzdGF0ZSB1
+bnRpbCBpdCBpcyBmcmVlZC4gIFdoaWxlIE1NVSBub3RpZmllcnMgYXJlDQo+IGFsbG93ZWQg
+dG8gc2xlZXAsIGl0IGFwcGVhcnMgdGhhdCB0aGV5IGNhbm5vdCB3YWl0IGZvciB0aGUgcGFn
+ZSB0byBiZQ0KPiBmcmVlZCwgYXMgaXMgaGFwcGVuaW5nIGhlcmUuICBUaGF0IHNhaWQsIEkg
+YW0gbm90IHZlcnkgZmFtaWxpYXIgd2l0aA0KPiB0aGlzIGNvZGUsIHNvIG15IGRpYWdub3Np
+cyBtaWdodCBiZSBpbmNvcnJlY3QuDQoNCkFsbCBJIGNhbiBzYXkgZm9yIG5vdyBpcyB0aGF0
+IHlvdXIgcGF0Y2ggc2VlbXMgdG8gYmUgaW50cm9kdWNpbmcgYSB1c2UgYWZ0ZXINCmZyZWUg
+aXNzdWUsIGFzIHRoZSBwYXJhbWV0ZXJzIG9mIHRoZSBkZWxheWVkIHdvcmsgbWlnaHQgZ2V0
+IGZyZWVkIG5vdyBiZWZvcmUNCnRoZSBkZWxheWVkIHdvcmsgaXMgYmVpbmcgZXhlY3V0ZWQu
+DQoNCkkgZG9uJ3Qga25vdyB3aHkgdGhpcyBpcyBoYXBwZW5pbmcgb25seSB3aXRoIHJhdGhl
+ciByZWNlbnQga2VybmVscywgYXMgdGhlDQpsYXN0IGdudGRldiBjaGFuZ2VzIGluIHRoaXMg
+YXJlYSBoYXZlIGJlZW4gbWFkZSBpbiBrZXJuZWwgNC4xMy4NCg0KSSdkIHN1Z2dlc3QgdG8g
+bG9vayBhdCBpOTE1LCBhcyBxdWl0ZSBzb21lIHdvcmsgaGFzIGhhcHBlbmVkIGluIHRoZSBj
+b2RlDQp2aXNpYmxlIGluIHlvdXIgc3RhY2sgYmFja3RyYWNlcyByYXRoZXIgcmVjZW50bHku
+IE1heWJlIGl0IHdvdWxkIGJlIHBvc3NpYmxlDQp0byBmcmVlIHRoZSBwYWdlcyBpbiBpOTE1
+IGJlZm9yZSBjYWxsaW5nIHRoZSBNTVUgbm90aWZpZXI/DQoNCkFkZGluZyB0aGUgaTkxNSBt
+YWludGFpbmVycy4NCg0KDQpKdWVyZ2VuDQo=
+--------------WKi2f0oZMCLjThKhlF63EhgJ
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+jR/i1DG86lem3iBDXzXsZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------WKi2f0oZMCLjThKhlF63EhgJ--
+
+--------------oH2iaJ0jTX0y0uRnsowBQVfz--
+
+--------------E3p00huEUrrTJ9brwKFwwior
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmKB87EFAwAAAAAACgkQsN6d1ii/Ey+C
+tQf/SGMmi/nRrYjUWG8qfocSmDp74/8ZPIwH5Mm3EjGlPbv7Rclq+7DwpgDWkFfXp2XDVqP1liWC
+jkC1jfmAWXVyREfrgLwM2FpuS3Lr+tnpXhds3f9oBthWrW92gbVFNzyZ2tQBmWFw99DJDcJ+gXtq
+3XVcspqAIwCz3RWF2v65HnPbQd3fHA9vHp7wtJP1syO25ZyNiAj7HZmWdISZ6EgAhYOtVeZN2Ux8
+mUMlalT18ACunsolrLIa6UV0JqYVrkvTAy0Tqas31mnMEBIMPrFmkmxL/iHNwnVR3ooVelddSsn5
+xcRc6SUsZ22X9Fdqh+n2a2USnJdh7BAWWchlymJmDg==
+=kaAe
+-----END PGP SIGNATURE-----
+
+--------------E3p00huEUrrTJ9brwKFwwior--
