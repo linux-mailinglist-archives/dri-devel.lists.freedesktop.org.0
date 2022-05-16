@@ -1,57 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462755281C7
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 12:22:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D2152820E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 12:28:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB4C910E1B9;
-	Mon, 16 May 2022 10:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A043410E623;
+	Mon, 16 May 2022 10:28:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC0BB10E1B9
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 10:22:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652696546; x=1684232546;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4m1rLHdZFdcKcCOwnZk3dcFtZOfNVE/31ZZkpnjq5xs=;
- b=KJgSkUCfvXyND2yEn8PqlulMlIWzU7B2vyZTJywuUxdgdc7uBONsZsJA
- XTEX7WP0oM9wnhu9QHe2ZrigXWq/ssKd7pY/002+T1wsmgdJ9YJQyIWX3
- /tVZ0ofDObRPBaKUuYQZCQ0Ud9FacphpxclX1O6QqoXqXPRID/Pzy4z3z
- XsjqSFXvMSoyX5QFehsog2ZZ/XY8qvn6niP5nGp/Rgdbaov55DiDW7SeH
- W/hglio6Aa8dak7o20xRN+HzQenF9CT+o4/LU2rK7LuAnz7JOtzQ2/LYI
- 68+cj4Em0xmagjggXSmFZx87zRbwcxogqh4AYl1LzNNqRiKheogCI5VGx A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10348"; a="331415908"
-X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; d="scan'208";a="331415908"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 May 2022 03:22:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; d="scan'208";a="544299728"
-Received: from lkp-server01.sh.intel.com (HELO d1462bc4b09b) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 16 May 2022 03:22:13 -0700
-Received: from kbuild by d1462bc4b09b with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nqXrh-0002KE-1O;
- Mon, 16 May 2022 10:22:13 +0000
-Date: Mon, 16 May 2022 18:21:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neal Liu <neal_liu@aspeedtech.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Felipe Balbi <balbi@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Li Yang <leoyang.li@nxp.com>
-Subject: Re: [PATCH 1/3] usb: gadget: add Aspeed ast2600 udc driver
-Message-ID: <202205161842.gsOJeWvM-lkp@intel.com>
-References: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB8210E623;
+ Mon, 16 May 2022 10:28:16 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9914521F76;
+ Mon, 16 May 2022 10:28:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1652696895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IbWdGpEaF5BmWaFq2MQ0/vY8Q/+HNZlu8w/vHFUL8w8=;
+ b=v02j2CwKvtzqRWoBHPXGswk38lBgr2/4EVQ0iGLjzwP3pzl7CGYhOU60M+nsKaWKU/kpRR
+ sWCI84kk3uR5Uct8YoaW6WvmtSZhQADjvFDgPy3YYeTdimgWpqDf+LmTwLa2VXIaD5gHFN
+ OxBXc/88aZwq96Lg2g6WrQchKPAB0h8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1652696895;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IbWdGpEaF5BmWaFq2MQ0/vY8Q/+HNZlu8w/vHFUL8w8=;
+ b=ejs6DnNNLBqhYQzEGCiZiLkfljgb3vZLJ8qe5yuVDsZwng7i/17oOORF4Dpc/AUiUcQ1V7
+ rWsIyCJxO4oX1TCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3CDD813ADC;
+ Mon, 16 May 2022 10:28:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id vFOqDT8ngmLBKgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 16 May 2022 10:28:15 +0000
+Message-ID: <5857c510-9783-a483-8414-65d7350618d6@suse.de>
+Date: Mon, 16 May 2022 12:28:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220513065728.857722-2-neal_liu@aspeedtech.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3] drm/probe-helper: Make 640x480 first if no EDID
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------e1LEwrNpciWji2gXoobnf7xw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,186 +69,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com,
- Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: quic_sbillaka@quicinc.com, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, quic_khsieh@quicinc.com,
+ dmitry.baryshkov@linaro.org, quic_aravindh@quicinc.com, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neal,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------e1LEwrNpciWji2gXoobnf7xw
+Content-Type: multipart/mixed; boundary="------------YFrukezgSqQ100MX0GePfkJ0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: quic_aravindh@quicinc.com, quic_khsieh@quicinc.com,
+ jani.nikula@linux.intel.com, robdclark@gmail.com, quic_sbillaka@quicinc.com,
+ ville.syrjala@linux.intel.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org
+Message-ID: <5857c510-9783-a483-8414-65d7350618d6@suse.de>
+Subject: Re: [PATCH v3] drm/probe-helper: Make 640x480 first if no EDID
+References: <20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+In-Reply-To: <20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
 
-I love your patch! Perhaps something to improve:
+--------------YFrukezgSqQ100MX0GePfkJ0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on robh/for-next balbi-usb/testing/next v5.18-rc7 next-20220513]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+SGkgRG91Z2xhcywNCg0KSSB1bmRlcnN0YW5kIHRoYXQgeW91J3JlIHRyeWluZyB0byB0ZWxs
+IHVzZXJzcGFjZSB0aGF0IHRoZSBtb2RlbGlzdCBoYXMgDQpiZWVuIG1hZGUgdXAsIGJ1dCBp
+dCdzIG5vdCBzb21ldGhpbmcgdGhhdCBzaG91bGQgYmUgZG9uZSB2aWEgZnJhZ2lsZSANCmhl
+dXJpc3RpY3MgSU1ITy4NCg0KSSBsb29rZWQgYXQgdGhlIENocm9taXVtIHNvdXJjZSBjb2Rl
+IHRoYXQgeW91IGxpbmtlZCwgYnV0IEkgY2Fubm90IHNheSANCndoZXRoZXIgaXQncyBkb2lu
+ZyB0aGUgY29ycmVjdCB0aGluZy4gSXQgYWxsIGRlcGVuZHMgb24gd2hhdCB5b3VyIA0KcHJv
+Z3JhbSBuZWVkcy4NCg0KSW4gdGhhdCBmdW5jdGlvbiwgeW91IGNvdWxkIGFsc28gc2VhcmNo
+IGZvciAnRFJNX01PREVfVFlQRV9VU0VSREVGJy4gDQpJdCdzIHRoZSBtb2RlIHRoYXQgdGhl
+IHVzZXIgc3BlY2lmaWVkIG9uIHRoZSBrZXJuZWwgY29tbWFuZCBsaW5lLiBJZiANCkNocm9t
+aXVtJ3MgYXV0b21hdGljIG1vZGUgc2VsZWN0aW9uIGZhaWxzLCB5b3UnZCBnaXZlIHlvdXIg
+dXNlcnMgZGlyZWN0IA0KY29udHJvbCBvdmVyIGl0LiAgV2hlbiB0aGVyZSdzIG5vIGZsYWdn
+ZWQgbW9kZSBvciBpZiANCi9zeXMvY2xhc3MvZHJtL2NhcmQ8Li4uPi9zdGF0dXMgY29udGFp
+bnMgInVuY29ubmVjdGVkIiwgeW91IGNhbiBhc3N1bWUgDQp0aGF0IHRoZSBtb2RlbGlzdCBp
+cyBhcnRpZmljaWFsIGFuZCB0cnkgdGhlIG1vZGVzIGluIGFuIGFwcHJvcHJpYXRlIG9yZGVy
+Lg0KDQpJZiB3ZSByZWFsbHkgd2FudCB0aGUga2VybmVsIHRvIGdpdmUgYWRkaXRpb25hbCBn
+dWFyYW50ZWVzLCB3ZSBzaG91bGQgDQpoYXZlIGEgYnJvYWRlciBkaXNjdXNzaW9uIGFib3V0
+IHRoaXMgdG9waWMgSU1ITy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0
+cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTcuOC9zb3VyY2UvZHJpdmVycy9n
+cHUvZHJtL2RybV9zeXNmcy5jI0wxOTYNCg0KQW0gMTMuMDUuMjIgdW0gMjI6MDYgc2Nocmll
+YiBEb3VnbGFzIEFuZGVyc29uOg0KPiBJZiB3ZSdyZSB1bmFibGUgdG8gcmVhZCB0aGUgRURJ
+RCBmb3IgYSBkaXNwbGF5IGJlY2F1c2UgaXQncyBjb3JydXB0IC8NCj4gYm9ndXMgLyBpbnZh
+bGlkIHRoZW4gd2UnbGwgYWRkIGEgc2V0IG9mIHN0YW5kYXJkIG1vZGVzIGZvciB0aGUNCj4g
+ZGlzcGxheS4gU2luY2Ugd2UgaGF2ZSBubyB0cnVlIGluZm9ybWF0aW9uIGFib3V0IHRoZSBj
+b25uZWN0ZWQNCj4gZGlzcGxheSwgdGhlc2UgbW9kZXMgYXJlIGVzc2VudGlhbGx5IGd1ZXNz
+ZXMgYnV0IGJldHRlciB0aGFuIG5vdGhpbmcuDQo+IE5vbmUgb2YgdGhlIG1vZGVzIHJldHVy
+bmVkIGlzIG1hcmtlZCBhcyBwcmVmZXJyZWQsIGJ1dCB0aGUgbW9kZXMgYXJlDQo+IGN1cnJl
+bnRseSBzb3J0ZWQgc3VjaCB0aGF0IHRoZSBoaWdoZXIgcmVzb2x1dGlvbiBtb2RlcyBhcmUg
+bGlzdGVkDQo+IGZpcnN0Lg0KPiANCj4gV2hlbiB1c2Vyc3BhY2Ugc2VlcyB0aGVzZSBtb2Rl
+cyBwcmVzZW50ZWQgYnkgdGhlIGtlcm5lbCBpdCBuZWVkcyB0bw0KPiBmaWd1cmUgb3V0IHdo
+aWNoIG9uZSB0byBwaWNrLiBBdCBsZWFzdCBvbmUgdXNlcnNwYWNlLCBDaHJvbWVPUyBbMV0N
+Cj4gc2VlbXMgdG8gdXNlIHRoZSBydWxlczoNCj4gMS4gVHJ5IHRvIHBpY2sgdGhlIGZpcnN0
+IG1vZGUgbWFya2VkIGFzIHByZWZlcnJlZC4NCj4gMi4gSWYgbm8gbW9kZXMgd2VyZSBtYXJr
+ZWQgYXMgcHJlZmVycmVkIHRoZW4gcGljayB0aGUgZmlyc3QgbW9kZS4NCj4gDQo+IFRoZSBy
+dWxlcyBhYm92ZSBzZWVtIHByZXR0eSByZWFzb25hYmxlLCBidXQgdGhleSBoYXZlIHVuZm9y
+dHVuYXRlIHNpZGUNCj4gZWZmZWN0IHRoYXQgd2hlbiB3ZSBoYXZlIG5vIEVESUQgcHJlc2Vu
+dCB3ZSdsbCBkZWZhdWx0IHRvIHRoZSBoaWdoZXN0DQo+IHJlc29sdXRpb24gKGxlYXN0IGxp
+a2VseSB0byB3b3JrKSBtb2RlLg0KPiANCj4gTGV0J3MgY2hhbmdlIHRoaW5ncyBzbGlnaHRs
+eS4gSW4gdGhlIGNhc2Ugb2YgYSBmYWlsZWQgRURJRCByZWFkIHdlDQo+IHN0aWxsIHdvbid0
+IG1hcmsgYW55dGhpbmcgcHJlZmVycmVkIGJ1dCB3ZSBfd29uJ3RfIHNvcnQgdGhlIG1vZGVz
+IGF0DQo+IHRoZSBlbmQgb2YgZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21v
+ZGVzKCkuIFRoZQ0KPiBkcm1fYWRkX21vZGVzX25vZWRpZCgpIGFkZHMgNjQweDQ4MCBmaXJz
+dCBhbmQgc28gYnkgc2tpcHBpbmcgdGhlIGNhbGwNCj4gdG8gZHJtX21vZGVfc29ydCgpIGl0
+IHdpbGwgc3RheSBmaXJzdC4gVGhhdCB3aWxsIGJlIGEgaGludCB0bw0KPiB1c2Vyc3BhY2Ug
+dG8gZGVmYXVsdCB0byA2NDB4NDgwLg0KPiANCj4gVGhpcyBjaGFuZ2UgbWFrZXMgdXNlcnNw
+YWNlIHRoYXQgYmVoYXZlcyBsaWtlIENocm9tZU9TIGRvZXMgY29tcGxpYW50DQo+IHdpdGgg
+c2VjdGlvbiA0LjIuMi42IChFRElEIENvcnJ1cHRpb24gRGV0ZWN0aW9uKSBvZiB0aGUgRFAg
+MS40YSBMaW5rDQo+IENUUy4gVGhhdCBzZWN0aW9uIGluZGljYXRlcyB0aGF0LCBhdCBsZWFz
+dCBvbiBEUCwgaWYgd2UgaGF2ZSBhIGNvcnJ1cHQNCj4gRURJRCB1c2Vyc3BhY2UgbWF5IGFs
+bG93IG90aGVyIG1vZGVzIHRvIGJlIHRyaWVkIGJ1dCBzaG91bGQgZGVmYXVsdCB0bw0KPiA2
+NDB4NDgwIGluIHRoZSBhYnNlbmNlIG9mIG1vcmUgaW5mb3JtYXRpb24uIE5vdGUgdGhhdCBp
+Zg0KPiBkcm1fYWRkX21vZGVzX25vZWRpZCgpIGV2ZXIgY2hhbmdlcyB0byBfbm90XyBsaXN0
+IDY0MHg0ODAgZmlyc3Qgd2UNCj4gbWlnaHQgbmVlZCB0byBkbyBtb3JlIGhlcmUsIGJ1dCB0
+aGF0IHNlZW1zIHVubGlrZWx5IGFuZCwgaW4gYW55IGNhc2UsDQo+IGl0IHdvdWxkIGJlIGNh
+dWdodCBieSBhIGZ1dHVyZSBydW4gb2YgRFAgY29tcGxpYW5jZSB0ZXN0aW5nLg0KPiANCj4g
+Tm90ZTogdGhpcyBjaGFuZ2UgY291bGQgcGF2ZSB0aGUgd2F5IHRvIGZ1cnRoZXIgaW1wcm92
+ZW1lbnQgdG8NCj4gZHJtX2hlbHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKCku
+IFNwZWNpZmljYWxseSwgaW4gdGhlIGNhc2UNCj4gb2Ygbm8gRURJRCB3ZSBjb3VsZCBhZGQg
+YWRkaXRpb25hbCAic3RhbmRhcmQiIG1vZGVzIHRoYXQgYXJlIHJpc2tpZXINCj4gdGhhbiAx
+MDI0eDc2OCAodGhlIGN1cnJlbnQgbWF4IHdlIGFkZCkuIE5vdyB0aGF0IHdlJ3JlIGdpdmlu
+Zw0KPiB1c2Vyc3BhY2UgdGhlIGhpbnQgdGhhdCBpdCBzaG91bGQgZGVmYXVsdCB0byA2NDB4
+NDgwIHBlcmhhcHMgaXQgd291bGQNCj4gYmUgT0sgdG8gb2ZmZXIgdGhlIG9wdGlvbnMgb2Yg
+dGhlIGhpZ2hlciByZXNvbHV0aW9uIG1vZGVzIGp1c3QgaW4gY2FzZQ0KPiB0aGV5IHdvcmsu
+IFRoaXMgZnVydGhlciBpbXByb3ZlbWVudCBpcyBsZWZ0IGFzIGFuIGV4ZXJjaXNlIHRvIHRo
+ZQ0KPiByZWFkZXIuDQo+IA0KPiBbMV0gaHR0cHM6Ly9zb3VyY2UuY2hyb21pdW0ub3JnL2No
+cm9taXVtL2Nocm9taXVtL3NyYy8rL2EwNTFmNzQxZDBhMTVjYWZmMjI1MTMwMWVmZTA4MWMz
+MGUwZjRhOTY6dWkvb3pvbmUvcGxhdGZvcm0vZHJtL2NvbW1vbi9kcm1fdXRpbC5jYztsPTQ4
+OA0KPiANCj4gU2lnbmVkLW9mZi1ieTogRG91Z2xhcyBBbmRlcnNvbiA8ZGlhbmRlcnNAY2hy
+b21pdW0ub3JnPg0KPiAtLS0NCj4gTm90ZSB0aGF0IHRoaXMgaXMgdGhlIHNlY29uZCBvZiB0
+d28gcmVsYXRlZCBhbmQgc2ltaWxhci1zb3VuZGluZyBidXQNCj4gZGlmZmVyZW50IHBhdGNo
+ZXMuIFNlZSBhbHNvICgiZHJtL3Byb2JlLWhlbHBlcjogRm9yIERQLCBhZGQgNjQweDQ4MCBp
+Zg0KPiBhbGwgb3RoZXIgbW9kZXMgYXJlIGJhZCIpIFsyXS4gSSdtIGhvcGluZyB0byBsYW5k
+IF9ib3RoXyBvZiB0aGUNCj4gcGF0Y2hlcyBzaW5jZSB0aGV5IGFkZHJlc3MgZGlmZmVyZW50
+IGlzc3Vlcy4gVGhpcyBwYXRjaCBhZGRyZXNzZXMgdGhlDQo+IGNhc2Ugb2YgYSBjb3JydXB0
+IEVESUQgYW5kIGhhdmluZyA2NDB4NDgwIGJlIHRoZSBkZWZhdWx0IGluIHRoZQ0KPiAiZ3Vl
+c3NlZCIgbW9kZXMuIFRoZSBvdGhlciBwYXRjaCBoYW5kbGVzIHRoZSBjYXNlIHdoZXJlIHRo
+ZSBFRElEDQo+IF9pc24ndF8gY29ycnVwdCBidXQgYWxsIHRoZSBtb2RlcyBsaXN0ZWQgY2Fu
+J3QgYmUgbWFkZSB3aXRoIHRoZQ0KPiBleGlzdGluZyBzaXR1YXRpb25zLiBUaGUgdHdvIHBh
+dGNoZXMgY2FuIGxhbmQgaW4gZWl0aGVyIG9yZGVyLg0KPiANCj4gQWxzbyBub3RlIHRoYXQg
+SSBkaWRuJ3QgY2FycnkgYW55IFRlc3RlZC1ieSAvIFJldmlld2VkLWJ5IHRhZ3Mgc2luY2UN
+Cj4gdGhlIHBhdGNoIGlzIG5vdyBxdWl0ZSBkaWZmZXJlbnQgKHlldCBhZ2FpbiBmb3IgdjIg
+dG8gdjMpLg0KPiANCj4gWzJdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyMjA1MTAx
+MzEzMDkudjIuMi5JNGFjN2Y1NWFhNDQ2Njk5ZjhjMjAwYTIzYzEwNDYzMjU2ZjZmNDM5ZkBj
+aGFuZ2VpZA0KPiANCj4gQ2hhbmdlcyBpbiB2MzoNCj4gLSBEb24ndCBzZXQgcHJlZmVycmVk
+LCBqdXN0IGRpc2FibGUgdGhlIHNvcnQuDQo+IA0KPiBDaGFuZ2VzIGluIHYyOg0KPiAtIERv
+bid0IG1vZGlmeSBkcm1fYWRkX21vZGVzX25vZWRpZCgpICdjYXVzZSB0aGF0J2xsIGJyZWFr
+IG90aGVycw0KPiAtIFNldCA2NDB4NDgwIGFzIHByZWZlcnJlZCBpbiBkcm1faGVscGVyX3By
+b2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMoKQ0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX3Byb2JlX2hlbHBlci5jIHwgMTQgKysrKysrKysrKysrLS0NCj4gICAxIGZpbGUgY2hh
+bmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9wcm9iZV9oZWxwZXIuYw0KPiBpbmRleCA2ODIzNTk1MTI5OTYuLjIxZGQ2MGYz
+MGNjNyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcm9iZV9oZWxwZXIu
+Yw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jDQo+IEBAIC00
+MjUsNiArNDI1LDcgQEAgaW50IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9t
+b2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLA0KPiAgIAlib29sIHZlcmJv
+c2VfcHJ1bmUgPSB0cnVlOw0KPiAgIAllbnVtIGRybV9jb25uZWN0b3Jfc3RhdHVzIG9sZF9z
+dGF0dXM7DQo+ICAgCXN0cnVjdCBkcm1fbW9kZXNldF9hY3F1aXJlX2N0eCBjdHg7DQo+ICsJ
+Ym9vbCBzb3J0X2xpc3QgPSB0cnVlOw0KPiAgIA0KPiAgIAlXQVJOX09OKCFtdXRleF9pc19s
+b2NrZWQoJmRldi0+bW9kZV9jb25maWcubXV0ZXgpKTsNCj4gICANCj4gQEAgLTUxNiw4ICs1
+MTcsMTYgQEAgaW50IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2Rlcyhz
+dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLA0KPiAgIAkJY291bnQgPSBkcm1fYWRk
+X292ZXJyaWRlX2VkaWRfbW9kZXMoY29ubmVjdG9yKTsNCj4gICANCj4gICAJaWYgKGNvdW50
+ID09IDAgJiYgKGNvbm5lY3Rvci0+c3RhdHVzID09IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVj
+dGVkIHx8DQo+IC0JCQkgICBjb25uZWN0b3ItPnN0YXR1cyA9PSBjb25uZWN0b3Jfc3RhdHVz
+X3Vua25vd24pKQ0KPiArCQkJICAgY29ubmVjdG9yLT5zdGF0dXMgPT0gY29ubmVjdG9yX3N0
+YXR1c191bmtub3duKSkgew0KPiAgIAkJY291bnQgPSBkcm1fYWRkX21vZGVzX25vZWRpZChj
+b25uZWN0b3IsIDEwMjQsIDc2OCk7DQo+ICsJCS8qDQo+ICsJCSAqIFdhbnQgbG93ZXIgcmVz
+IG1vZGVzLCBsaWtlIDY0MHg0ODAsIGZpcnN0LiBUaGF0IGluZGljYXRlcw0KPiArCQkgKiB0
+byB1c2Vyc3BhY2UgdGhhdCB0aGVzZSBhcmUgImJldHRlciIgbW9kZXMuIFNpbmNlIHdlIGhh
+dmUNCj4gKwkJICogbm8gRURJRCB0aGUgbW9kZXMgYXJlIGEgZ3Vlc3MgYW55d2F5LCBzbyBn
+dWVzcyB0aGUgc2FmZXINCj4gKwkJICogbW9kZSBmaXJzdC4NCj4gKwkJICovDQo+ICsJCXNv
+cnRfbGlzdCA9IGZhbHNlOw0KPiArCX0NCj4gICAJY291bnQgKz0gZHJtX2hlbHBlcl9wcm9i
+ZV9hZGRfY21kbGluZV9tb2RlKGNvbm5lY3Rvcik7DQo+ICAgCWlmIChjb3VudCA9PSAwKQ0K
+PiAgIAkJZ290byBwcnVuZTsNCj4gQEAgLTU3Niw3ICs1ODUsOCBAQCBpbnQgZHJtX2hlbHBl
+cl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IsDQo+ICAgCWlmIChsaXN0X2VtcHR5KCZjb25uZWN0b3ItPm1vZGVzKSkNCj4g
+ICAJCXJldHVybiAwOw0KPiAgIA0KPiAtCWRybV9tb2RlX3NvcnQoJmNvbm5lY3Rvci0+bW9k
+ZXMpOw0KPiArCWlmIChzb3J0X2xpc3QpDQo+ICsJCWRybV9tb2RlX3NvcnQoJmNvbm5lY3Rv
+ci0+bW9kZXMpOw0KPiAgIA0KPiAgIAlEUk1fREVCVUdfS01TKCJbQ09OTkVDVE9SOiVkOiVz
+XSBwcm9iZWQgbW9kZXMgOlxuIiwgY29ubmVjdG9yLT5iYXNlLmlkLA0KPiAgIAkJCWNvbm5l
+Y3Rvci0+bmFtZSk7DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
+ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4
+ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBO
+w7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-config: sparc-randconfig-s031-20220516 (https://download.01.org/0day-ci/archive/20220516/202205161842.gsOJeWvM-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 11.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/272ae26f9fe89f60d584cf445431d0fa566eb24b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
-        git checkout 272ae26f9fe89f60d584cf445431d0fa566eb24b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash drivers/usb/gadget/udc/
+--------------YFrukezgSqQ100MX0GePfkJ0--
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+--------------e1LEwrNpciWji2gXoobnf7xw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/udc/aspeed_udc.c:1009:34: sparse: sparse: restricted __le16 degrades to integer
->> drivers/usb/gadget/udc/aspeed_udc.c:1037:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *src @@     got struct usb_ctrlrequest *creq @@
-   drivers/usb/gadget/udc/aspeed_udc.c:1037:9: sparse:     expected void const volatile [noderef] __iomem *src
-   drivers/usb/gadget/udc/aspeed_udc.c:1037:9: sparse:     got struct usb_ctrlrequest *creq
->> drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le16 [addressable] [usertype] wValue @@
-   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     expected unsigned int [usertype] value
-   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     got restricted __le16 [addressable] [usertype] wValue
-   drivers/usb/gadget/udc/aspeed_udc.c:1070:37: sparse: sparse: restricted __le16 degrades to integer
-   drivers/usb/gadget/udc/aspeed_udc.c:1075:37: sparse: sparse: restricted __le16 degrades to integer
->> drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct usb_ctrlrequest *creq @@     got void [noderef] __iomem * @@
-   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     expected struct usb_ctrlrequest *creq
-   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     got void [noderef] __iomem *
->> drivers/usb/gadget/udc/aspeed_udc.c:619:38: sparse: sparse: cast truncates bits from constant value (80 becomes 0)
-   drivers/usb/gadget/udc/aspeed_udc.c:625:12: sparse: sparse: context imbalance in 'ast_udc_ep_queue' - different lock contexts for basic block
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKCJz4FAwAAAAAACgkQlh/E3EQov+C7
+6w/9EjxyAWV8Zxt2As/C/qK1z2rrznyCrnQNVe7CBT+zrIDGnqa2TG1Ekfi1xF1dnQP6v9KPgPwg
+E19CxvPXvb2zB2fDSdyyV0ubvkcQtZHsj8nflWOFyvu3YLkXY4fHy7t2DxXV6DNbAbvJ3qEb+84v
+Qe7lZr/gPEUAGVfaZLddMCBOjJLhdbR+r+lUUWBNScexIu8fF6oR5tmQOaa4ju0e9d87CdbMdfAs
+MzcORy0D2Up2Auzc5h84/fmSRJaDYyCN8ROTJlAGb2aJR4In0yLKqI0+bi0YXgJ1Tgfs48M+rpM2
+4urshvoboCJ0btP69us1YlFBpVIg/Pd7S3dZGwr6y3A4NXuWXJgJcrL1CxLOLp8gUUHEP4eqlt3H
+FF3RKWXOS4WHezw75X6FcHLBTHgRPQTk1NqUGDczH+TubUaGYEHqYbESADRF0FgcvUAkgmVhPzDH
+q8xat3QJty1rcXtgZP1615afPLIzUINFZCAItYEJRinPvvsWOq+V+RtZlVCpNMUhw17Wnc/9I/S3
+PTfUA/aYUJ22KOnGhmP2w6JgOQ1a1umSnYajvnuH/c2KZtwnykmwdQ0Cir5WAwuphToyoQmZUKcV
+MnIqz0bIDHKUjaxFTEm7MV4JPInqgnPPPHo5NTBXKqRge8upeCgcHqtMLQDCEg8YCF0vizxNow3r
+ATI=
+=/SuJ
+-----END PGP SIGNATURE-----
 
-vim +1009 drivers/usb/gadget/udc/aspeed_udc.c
-
-   994	
-   995	static void ast_udc_getstatus(struct ast_udc_dev *udc)
-   996	{
-   997		struct ast_udc_ep *ep;
-   998		u16 status = 0;
-   999		int epnum;
-  1000	
-  1001		switch (udc->creq->bRequestType & USB_RECIP_MASK) {
-  1002		case USB_RECIP_DEVICE:
-  1003			/* Get device status */
-  1004			status = 1 << USB_DEVICE_SELF_POWERED;
-  1005			break;
-  1006		case USB_RECIP_INTERFACE:
-  1007			break;
-  1008		case USB_RECIP_ENDPOINT:
-> 1009			epnum = udc->creq->wIndex & USB_ENDPOINT_NUMBER_MASK;
-  1010			status = udc->ep[epnum].stopped;
-  1011			break;
-  1012		default:
-  1013			goto stall;
-  1014		}
-  1015	
-  1016		ep = &udc->ep[epnum];
-  1017		EP_DBG(ep, "status: 0x%x\n", status);
-  1018		ast_udc_ep0_data_tx(udc, (u8 *)&status, sizeof(status));
-  1019	
-  1020		return;
-  1021	
-  1022	stall:
-  1023		EP_DBG(ep, "Can't respond request\n");
-  1024		ast_udc_write(udc, ast_udc_read(udc, AST_UDC_EP0_CTRL) | EP0_STALL,
-  1025			      AST_UDC_EP0_CTRL);
-  1026	}
-  1027	
-  1028	static void ast_udc_ep0_handle_setup(struct ast_udc_dev *udc)
-  1029	{
-  1030		struct ast_udc_ep *ep = &udc->ep[0];
-  1031		struct ast_udc_request *req;
-  1032		struct usb_ctrlrequest crq;
-  1033		int req_num = 0;
-  1034		u16 ep_num = 0;
-  1035		int rc;
-  1036	
-> 1037		memcpy_fromio(&crq, udc->creq, sizeof(crq));
-  1038	
-  1039		SETUP_DBG(udc, "SETEUP packet: %02x/%02x/%04x/%04x/%04x\n",
-  1040			  crq.bRequestType, crq.bRequest, le16_to_cpu(crq.wValue),
-  1041			  le16_to_cpu(crq.wIndex), le16_to_cpu(crq.wLength));
-  1042	
-  1043		/*
-  1044		 * Cleanup ep0 request(s) in queue because
-  1045		 * there is a new control setup comes.
-  1046		 */
-  1047		list_for_each_entry(req, &udc->ep[0].queue, queue) {
-  1048			req_num++;
-  1049			EP_DBG(ep, "there is req %p in ep0 queue !\n", req);
-  1050		}
-  1051	
-  1052		if (req_num)
-  1053			ast_udc_nuke(&udc->ep[0], -ETIMEDOUT);
-  1054	
-  1055		udc->ep[0].dir_in = crq.bRequestType & USB_DIR_IN;
-  1056	
-  1057		if ((crq.bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
-  1058			switch (crq.bRequest) {
-  1059			case USB_REQ_SET_ADDRESS:
-  1060				if (ast_udc_read(udc, AST_UDC_STS) & UDC_STS_HIGHSPEED)
-  1061					udc->gadget.speed = USB_SPEED_HIGH;
-  1062				else
-  1063					udc->gadget.speed = USB_SPEED_FULL;
-  1064	
-  1065				SETUP_DBG(udc, "set addr: 0x%x\n", crq.wValue);
-> 1066				ast_udc_write(udc, crq.wValue, AST_UDC_CONFIG);
-  1067				goto req_complete;
-  1068	
-  1069			case USB_REQ_CLEAR_FEATURE:
-  1070				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
-  1071				SETUP_DBG(udc, "ep%d: CLEAR FEATURE\n", ep_num);
-  1072				goto req_driver;
-  1073	
-  1074			case USB_REQ_SET_FEATURE:
-  1075				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
-  1076				SETUP_DBG(udc, "ep%d: SET FEATURE\n", ep_num);
-  1077				goto req_driver;
-  1078	
-  1079			case USB_REQ_GET_STATUS:
-  1080				ast_udc_getstatus(udc);
-  1081				return;
-  1082	
-  1083			default:
-  1084				goto req_driver;
-  1085			}
-  1086	
-  1087		}
-  1088	
-  1089	req_driver:
-  1090		if (udc->driver) {
-  1091			SETUP_DBG(udc, "Forwarding %s to gadget...\n",
-  1092				  udc->gadget.name);
-  1093	
-  1094			spin_unlock(&udc->lock);
-  1095			rc = udc->driver->setup(&udc->gadget, &crq);
-  1096			spin_lock(&udc->lock);
-  1097	
-  1098		} else
-  1099			SETUP_DBG(udc, "No gadget for request !\n");
-  1100	
-  1101		if (rc >= 0)
-  1102			return;
-  1103	
-  1104		/* Stall if gadget failed */
-  1105		SETUP_DBG(udc, "Stalling, rc:0x%x\n", rc);
-  1106		ast_udc_write(udc, ast_udc_read(udc, AST_UDC_EP0_CTRL) | EP0_STALL,
-  1107			      AST_UDC_EP0_CTRL);
-  1108		return;
-  1109	
-  1110	req_complete:
-  1111		SETUP_DBG(udc, "ep%d: Sending IN status without data\n", ep_num);
-  1112		ast_udc_write(udc, EP0_TX_BUFF_RDY, AST_UDC_EP0_CTRL);
-  1113	}
-  1114	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--------------e1LEwrNpciWji2gXoobnf7xw--
