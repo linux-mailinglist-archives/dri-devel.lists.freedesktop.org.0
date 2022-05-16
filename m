@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808C0528677
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 16:07:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF535286CF
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 16:20:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AA110E4DC;
-	Mon, 16 May 2022 14:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D502D10E110;
+	Mon, 16 May 2022 14:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF5C10E4DC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 14:07:18 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id m1so20695634wrb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 07:07:18 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426C110E349;
+ Mon, 16 May 2022 14:19:58 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id q8so18733768oif.13;
+ Mon, 16 May 2022 07:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=sM2sRGLVCJ3Fk4PRrn+4dC0xyoX9H+fcNcN8bioAh10=;
- b=XEldJpEHMASSsGBrI5Mmn0Pi9N670GLUxxVJp9B5HOBl43K97MwoAJgO8rLsByNaeb
- lGFHZLdSMp5plsxPECl1hu/RCE92lA3mQMUkELx5ggDkbKbIrRbWl2CF5epTn2VVa9Bk
- EKleAupnQa510VCDAbAdsbYftuIScC1x7XiBfKKGJN4+Q4XS1jPWRU5vVJ/+q3ubfCcV
- CqQx3Zr2V7XIS4AOAoBetY/mlyaYWA5HTpaVMVfXp3aqrxwJLDkgz7shVZ2/UZ8uhN3P
- XQJSOuKhPUftPUtyRVyYYoaZl0WFTnNY6kIltroHODF1It8/lBZoYSRFsyKFcmYNaD1w
- gFVw==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Mpj75KaCiBDC1z0Gq3wmQiK0bCjZ+/g+r2qV0jF0QRs=;
+ b=h7hGFYuETN0Js7lA4HRVafJbtT3J3KaiOp2PQl9zOveXQ58rogRbhMTVG+EEvFEUGm
+ mgiDgExHRSy3NmnDXGWIG/eqz8sOxhVtpQ6zdEtd6pXK3aHPuSX8NvSDLFQn8q3SxzKn
+ qPbJoCpOhtLyQtknnmObrNRPcp65M/9lc5+nMQH9EZ6DJ9zvyrxEPJUqB4ZpHgN65UT/
+ pZ6wxDTkwgT5vkbieo6BPojGLMCZK/KMf51dzWWT6GmojtBDWnBo2DB6cb2VCY+ARVbR
+ DGTOsgB1Jn3+eY0XLFzfo/yyoRwisMfFzPLHaOR+iwIgr/tYqlQaBS1PasQQKYWGO8WS
+ WSEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=sM2sRGLVCJ3Fk4PRrn+4dC0xyoX9H+fcNcN8bioAh10=;
- b=kK3p4C0OEA6i/lSW+QxcahX3UWfia+rmjpp0AE09+6QZY2PfLgZzGZUgceHKFFtlY/
- 99cpBQRF5EKQHAbIlLtVIJ89CbHyTIxNnsspIj+abn64V6zY6Vl8MJFvUKncEFFjsLaL
- RtFmz8VxcnoE3soWcswMzc3C+zKhFWJXaVY9+okCuUcUN21skuyNlWJBsmgpxuXC9MJO
- 3+caXGqSC6OePs4HjDnTPf0llrmUqIG7sQjJA0OOPi4Z3qSc4Q2BNCx0cPiC5Gf/+OR8
- T6y3U0of0MCQd7Iqf4VEmc6Atgp2up4a+8ToB2eGd4FLlGllC7LDegy0sebvPYBJlBTa
- jFhA==
-X-Gm-Message-State: AOAM533+rV2K6xQ6rZwidb09yJL2fDuANpPN5BtCEB4nYq7Py5RwYMz7
- ZIbrC00nUYNyxveH8mlBJ1I=
-X-Google-Smtp-Source: ABdhPJy6o0QTxOZPvxVZf6UA03LSbXaPI3cJ5caJlhMXQFfhV3BWO5alGfIPKD4PGJbIVes3G4Q8Uw==
-X-Received: by 2002:a5d:4988:0:b0:20d:9b8:e560 with SMTP id
- r8-20020a5d4988000000b0020d09b8e560mr3799784wrq.33.1652710036571; 
- Mon, 16 May 2022 07:07:16 -0700 (PDT)
-Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Mpj75KaCiBDC1z0Gq3wmQiK0bCjZ+/g+r2qV0jF0QRs=;
+ b=CHh+IhmGza7/WyoxqTP6BkjXA/Vsy8346Yp17i57EGECEnutxAeFp66PVissBKTE9r
+ S8UVtPFJmQOJ2yVbVQQWnV6nRGZkx7UQMM03ybJTyAs3HQ5NpUkm5pLIU+gFzwDzyD/L
+ bJGn+cFvRjY9AKAteplVcoE8XMb/S/3bGlnFOF1nxUdaZAKxWbOzAVzmoNel1rfBJ/PX
+ CKrBbYEvLmSl5tvJbmZkmTJbo/lozujTtkVZqbkbQs8DAJwkHfi/F5hFmsxYJoR8LRHy
+ a+ejTlDEdaZPFqh3i2jKSUAG0qg+bRYkrMUwWTWBDO2IjtZ5ZjMtOkbaQQMKXxZPuY+U
+ wJzw==
+X-Gm-Message-State: AOAM530tk6RnoEKuM6C92J+ZYPBhYeH6Nr30+3l0VQ4vKAyRAbMJzvUT
+ bc4HJ0rZuVR9RweR69bU0pg=
+X-Google-Smtp-Source: ABdhPJzHIEB8K5ECnXXfF0FVsk0B1nV5R/BR/kSU8cshU+jwA1/3rjPaKr6PQiWtdpcKDnk1QewaaA==
+X-Received: by 2002:a05:6808:a11:b0:325:e5c1:5912 with SMTP id
+ n17-20020a0568080a1100b00325e5c15912mr8321388oij.204.1652710797515; 
+ Mon, 16 May 2022 07:19:57 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- v8-20020adfa1c8000000b0020d050461c9sm5287367wrv.54.2022.05.16.07.07.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 07:07:15 -0700 (PDT)
-Date: Mon, 16 May 2022 16:07:13 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>
-Subject: Re: [PATCH v5 5/9] iommu/arm-smmu: Attach to host1x context device bus
-Message-ID: <YoJakX0ms7rBF3ia@orome>
-References: <20220516085258.1227691-1-cyndis@kapsi.fi>
- <20220516085258.1227691-6-cyndis@kapsi.fi>
- <20220516100721.GA1927@willie-the-truck>
- <4a170997-c893-1788-dcaa-8ed2193146ae@kapsi.fi>
- <099cf0f9-5c27-0247-7c5e-6704a9527b11@arm.com>
- <020a8244-760e-fe7c-594a-1d85e5645dbe@kapsi.fi>
+ i1-20020a9d6241000000b005b22a0d826csm3916917otk.1.2022.05.16.07.19.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 May 2022 07:19:56 -0700 (PDT)
+Message-ID: <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
+Date: Mon, 16 May 2022 07:19:53 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pzcJQLU+ls3tyqds"
-Content-Disposition: inline
-In-Reply-To: <020a8244-760e-fe7c-594a-1d85e5645dbe@kapsi.fi>
-User-Agent: Mutt/2.2.4 (c3baa83e) (2022-04-30)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20220228103142.3301082-1-arnd@kernel.org>
+ <20220516131023.GA2329080@roeck-us.net> <YoJSF8T5K9pPx3Ap@kroah.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <YoJSF8T5K9pPx3Ap@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,118 +76,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski@canonical.com,
- Robin Murphy <robin.murphy@arm.com>, joro@8bytes.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, iommu@lists.linux-foundation.org, robh+dt@kernel.org,
- linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Arnd Bergmann <arnd@kernel.org>, Michal Marek <michal.lkml@markovi.net>,
+ linux-doc@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-kbuild@vger.kernel.org, linux-staging@lists.linux.dev,
+ Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, Federico Vaga <federico.vaga@vaga.pv.it>,
+ Hu Haowen <src.res@email.cn>, intel-gfx@lists.freedesktop.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-btrfs@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-doc-tw-discuss@lists.sourceforge.net, Alex Shi <alexs@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 5/16/22 06:31, Greg KH wrote:
+> On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
+>> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> During a patch discussion, Linus brought up the option of changing
+>>> the C standard version from gnu89 to gnu99, which allows using variable
+>>> declaration inside of a for() loop. While the C99, C11 and later standards
+>>> introduce many other features, most of these are already available in
+>>> gnu89 as GNU extensions as well.
+>>
+>> The downside is that backporting affected patches to older kernel branches
+>> now fails with error messages such as
+>>
+>> mm/kfence/core.c: In function ‘kfence_init_pool’:
+>> mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+>>
+>> Just something to keep in mind when writing patches.
+> 
+> I just ran across this very issue on this commit.  It's an easy fixup
+> for 5.17.y to make this work, so I did that in my tree.  If this gets to
+> be too much, we might need to reconsider adding c11 to older stable
+> kernels.
+> 
 
---pzcJQLU+ls3tyqds
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think I'll do just that for ChromeOS; I don't want to have to deal
+with the backports, and we are using recent compilers anyway.
 
-On Mon, May 16, 2022 at 02:20:18PM +0300, Mikko Perttunen wrote:
-> On 5/16/22 13:44, Robin Murphy wrote:
-> > On 2022-05-16 11:13, Mikko Perttunen wrote:
-> > > On 5/16/22 13:07, Will Deacon wrote:
-> > > > On Mon, May 16, 2022 at 11:52:54AM +0300, cyndis@kapsi.fi wrote:
-> > > > > From: Mikko Perttunen <mperttunen@nvidia.com>
-> > > > >=20
-> > > > > Set itself as the IOMMU for the host1x context device bus, contai=
-ning
-> > > > > "dummy" devices used for Host1x context isolation.
-> > > > >=20
-> > > > > Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> > > > > ---
-> > > > > =C2=A0 drivers/iommu/arm/arm-smmu/arm-smmu.c | 13 +++++++++++++
-> > > > > =C2=A0 1 file changed, 13 insertions(+)
-> > > > >=20
-> > > > > diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> > > > > b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> > > > > index 568cce590ccc..9ff54eaecf81 100644
-> > > > > --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> > > > > +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> > > > > @@ -39,6 +39,7 @@
-> > > > > =C2=A0 #include <linux/amba/bus.h>
-> > > > > =C2=A0 #include <linux/fsl/mc.h>
-> > > > > +#include <linux/host1x_context_bus.h>
-> > > > > =C2=A0 #include "arm-smmu.h"
-> > > > > @@ -2053,8 +2054,20 @@ static int arm_smmu_bus_init(struct
-> > > > > iommu_ops *ops)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 goto err_reset_pci_ops;
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > > > =C2=A0 #endif
-> > > > > +#ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
-> > > > > +=C2=A0=C2=A0=C2=A0 if (!iommu_present(&host1x_context_device_bus=
-_type)) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 err =3D bus_set_iommu=
-(&host1x_context_device_bus_type, ops);
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (err)
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 goto err_reset_fsl_mc_ops;
-> > > > > +=C2=A0=C2=A0=C2=A0 }
-> > > > > +#endif
-> > > > > +
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> > > > > +err_reset_fsl_mc_ops: __maybe_unused;
-> > > > > +#ifdef CONFIG_FSL_MC_BUS
-> > > > > +=C2=A0=C2=A0=C2=A0 bus_set_iommu(&fsl_mc_bus_type, NULL);
-> > > > > +#endif
-> > > >=20
-> > > > bus_set_iommu() is going away:
-> > > >=20
-> > > > https://lore.kernel.org/r/cover.1650890638.git.robin.murphy@arm.com
-> > > >=20
-> > > > Will
-> > >=20
-> > > Thanks for the heads-up. Robin had pointed out that this work was
-> > > ongoing but I hadn't seen the patches yet. I'll look into it.
-> >=20
-> > Although that *is* currently blocked on the mystery intel-iommu problem
-> > that I can't reproduce... If this series is ready to land right now for
-> > 5.19 then in principle that might be the easiest option overall.
-> > Hopefully at least patch #2 could sneak in so that the compile-time
-> > dependencies are ready for me to roll up host1x into the next rebase of
-> > "iommu: Always register bus notifiers".
-> >=20
-> > Cheers,
-> > Robin.
->=20
-> My guess is that the series as a whole is not ready to land in the 5.19
-> timeframe, but #2 could be possible.
->=20
-> Thierry, any opinion?
-
-Dave and Daniel typically want new material to be in by -rc6 and I've
-already sent the PR for this cycle. I can ask them if they'd take
-another one, though, if it make things simpler for the next cycle.
-
-Thierry
-
---pzcJQLU+ls3tyqds
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmKCWpEACgkQ3SOs138+
-s6HS5g/+NDlKp3MuR8qOz2HUhNTb5hZJliQREJuGJiH3Lb+xlTr9HRTYFTog5h2o
-/8FYXEz/xNe0Ksteb58UEMgTzATGtPWYulLdKMfCLgHRSw9jwEG6IOtCweZv5fNf
-9oAzyL/ZTpTOF330ce1BRfk/PvlNVLnetImK4b8OGmaj9ZMgvfNhgJpzq0jSkf7S
-hTZozfgJ++nan7UBRnZofuYzhpbDGrTAbxhTgksppbF0nM6AykU1je/eQBZL6I05
-ASNkCmDqun5PBmXYyMZChBXBhJl6Di2qKGy1kuFwrT2/K8a1WghA+J4ZiW6nGCH+
-9jcbkiXYNiq6T8mwywq3zxONLKKB2gDr07doUPHr2ERBfmXtG+X6lxXq97Zq+eyV
-N8RGawUV8cCELULq/U9t7k9WjNtCLNiLIhXKGj7c1QNK8PervlLaJqY2+t1HQzwt
-JFWZcP2I1S3246kEhCbh+mPTKS+J5HkOgfgbVRkjcDY/lZrcK1QLmvsL95UFIt1f
-pPRcBG9O2CNtjsN2rH8mOHs7dMpR6G1562YhRiRjGJubFFCg5Tmt/Mt7KyER4HGS
-kosQh4xTIxzi6Cs0RIXDO/2krGcibkv3vlWJBsxNczzpoq63d7TIjXM5WaV0UKqL
-UreHGegFDP9Q2xzfuJhqmaYOYg/E/VuRbZOO19Zn28tLtD/wiGY=
-=fv4K
------END PGP SIGNATURE-----
-
---pzcJQLU+ls3tyqds--
+Guenter
