@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88355528A4D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 18:27:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BD6528A57
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 18:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3C58112AB4;
-	Mon, 16 May 2022 16:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440BA10F99D;
+	Mon, 16 May 2022 16:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
- [209.85.160.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30F1D112AB5
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 16:27:50 +0000 (UTC)
-Received: by mail-oa1-f48.google.com with SMTP id
- 586e51a60fabf-edf9ddb312so20798260fac.8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 09:27:50 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC4010FB88
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 16:29:09 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id tk15so6242456ejc.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 09:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z664EsRbmKvMTMJMIIbFibyESl4V8wTy2xC+qQ6EHX8=;
+ b=S/mO7960uNYEyhFA9Xj5FaZrLw0jj70ilWt3AWMKNI7ilvT8/W/389Tcb3DDQZpfuU
+ Y/7/i73+FLJPOpwFgSfWBvdJ6gwnWiakkcMWOb0keOrc5a6q2CcwdCwf38r41ZfG9uFE
+ QTDPHqMZiCvyGXWjts9lxESFX0q+IWXYbwUMV3N/lM0PJFeqkYYiG6f05BIkBoBNIyxP
+ bNdTMqRgOvRn9PpFfhEB5cYJ7ue9GvMnWme3G5V7LDC52rYegJsw7F+xThHg6PX65ktJ
+ SaLrlCzfZviz1WuRzPNL/H/+WlnioG3WqNJRxeWpAcKHkWD0NUVNVtY79yL0vbGbFkj7
+ kYpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=osVfxhsQi2p2dlDrhzZDuOBV7X+Ps662PG/MDdJu9W0=;
- b=DCFK23SWN8/g+fi0CZ5MlunzGgb+u1+/ytLW7LyrUsMtJbOGnb5PDjxaxL4VoCDw8m
- 1JJTiqPfcYjESW1Hd13NFz3E4XGEcVc7b+faDhoUprQaHir1449FhP0d6vhGX+IUXvAj
- PMIeBA7wiIvpNz86QOb+Gs3KklaLm+lbIY4aeUsDqq9+ReXls+qUyS2kkUurTEBgzxDN
- w/O1CAXyS8Ccn/Twjtr4+Rsn4o+BB4Nh9E6TDeY6IqQTyXp8GpMNS0ApzgsLF+fXV0Ub
- 2q6k4WKwSp64cZN6pg2SrBoZPZRQ0s0maXQttnLIREyahVRmQXigQC2jINGJ3dgJ2Jgf
- Eopg==
-X-Gm-Message-State: AOAM533Vtyr8V7V1UQGW4CUebZxAyoVgAoDdCmPXpPpKlybNXuD3/qai
- MOiiV/gV9QPuYaL5vsUxDw==
-X-Google-Smtp-Source: ABdhPJxaunhi1VLlqHvgFaK+EgjKjq0gVMM8ayHjAQzaIw/eUPKQEHsbfeLNaMcAuwFJet/LLjQYYg==
-X-Received: by 2002:a05:6870:890f:b0:e1:c92d:d84 with SMTP id
- i15-20020a056870890f00b000e1c92d0d84mr9757652oao.49.1652718469152; 
- Mon, 16 May 2022 09:27:49 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- b18-20020a9d6b92000000b00606b1f72fcbsm4071686otq.31.2022.05.16.09.27.47
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z664EsRbmKvMTMJMIIbFibyESl4V8wTy2xC+qQ6EHX8=;
+ b=CjvgM67yx9yTACXPfjLhuQWQ2OkotZBMkxbWUZ1XOBbCRBOoqpq5IswnHx6qX19yyK
+ Qvq13k0E0D2C+RtrWK8X9kKtkj4k4uFvdejyNVlZ68s6zwVz47rKQSV+dWeo55gOAe+H
+ GymoOFB+7IX5jdnoRmnu0DYKGgr9/F64xirB4yYko/PQ7f2KWif+JjKtUwJ8nkfdOj1N
+ DHyMLFXW68FT9wEpRTUNE0y1Zk7BbQEB2//KJMcXgc+f4o+AO/QIQHLVx9aJPwEL8o+I
+ vWdTp8A/EcpNDAgRcJ8v1b4l/oslO/lSVBSFpJ1k4UHRpdjviHvMXkskeIEyZ/tM+WKQ
+ Xd4Q==
+X-Gm-Message-State: AOAM531EZgrnNZ/sicqsiYbNqYlEe0nejyFNRlS3ZInO7TqqqG9I817N
+ zrZQulWE0fPUENqd1baNsG4=
+X-Google-Smtp-Source: ABdhPJwqdsWUekOMU8dN2Q7HZJY3pp4HFQiSwnN1K4N0Ebz3Z0wTMdmY/DKl2oOhTcjaattKUXcuEQ==
+X-Received: by 2002:a17:906:99c3:b0:6f4:a9d7:6dac with SMTP id
+ s3-20020a17090699c300b006f4a9d76dacmr16118497ejn.85.1652718547605; 
+ Mon, 16 May 2022 09:29:07 -0700 (PDT)
+Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch.
+ [31.10.206.125]) by smtp.gmail.com with ESMTPSA id
+ 9-20020a170906004900b006f3ef214e3bsm58819ejg.161.2022.05.16.09.29.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 09:27:48 -0700 (PDT)
-Received: (nullmailer pid 2793161 invoked by uid 1000);
- Mon, 16 May 2022 16:27:47 -0000
-Date: Mon, 16 May 2022 11:27:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: cyndis@kapsi.fi
-Subject: Re: [PATCH v5 1/9] dt-bindings: host1x: Add iommu-map property
-Message-ID: <20220516162747.GA2793126-robh@kernel.org>
-References: <20220516085258.1227691-1-cyndis@kapsi.fi>
- <20220516085258.1227691-2-cyndis@kapsi.fi>
+ Mon, 16 May 2022 09:29:07 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: max.krummenacher@toradex.com
+Subject: [PATCH v1 0/2] drm/panel: simple: add bus-format support for panel-dpi
+Date: Mon, 16 May 2022 18:28:24 +0200
+Message-Id: <20220516162826.23025-1-max.oss.09@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220516085258.1227691-2-cyndis@kapsi.fi>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,31 +67,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski@canonical.com,
- will@kernel.org, joro@8bytes.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, robh+dt@kernel.org,
- iommu@lists.linux-foundation.org, thierry.reding@gmail.com,
- linux-tegra@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Marek Vasut <marex@denx.de>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 May 2022 11:52:50 +0300, cyndis@kapsi.fi wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
-> 
-> Add schema information for specifying context stream IDs. This uses
-> the standard iommu-map property.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-> ---
-> v3:
-> * New patch
-> v4:
-> * Remove memory-contexts subnode.
-> ---
->  .../bindings/display/tegra/nvidia,tegra20-host1x.yaml        | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+From: Max Krummenacher <max.krummenacher@toradex.com>
 
-Acked-by: Rob Herring <robh@kernel.org>
+
+Commit 4a1d0dbc8332 ("drm/panel: simple: add panel-dpi support") added
+support for defining a panel from device tree provided data.
+
+However support for setting the bus format is missing, so that with
+the current implementation a 'panel-dpi' panel can only be used
+if the driver of the display interface connected can cope with a
+missing bus_format.
+
+This patch series defines the new property bus-format and adds it to
+the panel-dpi implementation.
+
+Check initial discussions [1] and [2].
+[1] https://lore.kernel.org/all/20220201110717.3585-1-cniedermaier@dh-electronics.com/
+[2] https://lore.kernel.org/all/20220222084723.14310-1-max.krummenacher@toradex.com/
+
+
+
+Max Krummenacher (2):
+  dt-bindings: display: add new bus-format property for panel-dpi
+  drm/panel: simple: add bus-format support for panel-dpi
+
+ .../bindings/display/panel/panel-dpi.yaml     | 11 +++++
+ drivers/gpu/drm/panel/panel-simple.c          | 43 +++++++++++++++++++
+ .../dt-bindings/display/dt-media-bus-format.h | 23 ++++++++++
+ 3 files changed, 77 insertions(+)
+ create mode 100644 include/dt-bindings/display/dt-media-bus-format.h
+
+-- 
+2.20.1
+
