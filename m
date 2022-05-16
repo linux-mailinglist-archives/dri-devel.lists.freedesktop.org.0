@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2911252801F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 10:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A755152801D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 10:53:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B9210F91A;
-	Mon, 16 May 2022 08:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C597610F3CF;
+	Mon, 16 May 2022 08:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8338C10FA08
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 08:53:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E787110EFE0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 08:53:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ahW4iZmMaeHR2imkET+ZUEfD0C88QvD2NHELBTx02Vw=; b=RQECGerS/MFzorT0+EOKb0rHfg
- gJk9QfilenpVE/vsYMO9xLCzn3wUk7Fe4j3Whd5wU2D03i8kIJQ1rpRtOqNdBDJDhhHq247pL9TMd
- X7N8+xO+sYbIYmGMscGu2oik1SJZ1nILzok1NgWzYu+XwC4obCB0MjoBE3IGotuMgi8xeCjMNMTdS
- F6waak3gJG7/466mAREt9CZ+ie5AO0eBwew6utThVNkjhmVmI+v6DYJrSU2cb9aBDhOSTopVst+HW
- LqKeyNFi9LaxVOVSNEqdo6kBFAYuvztelUvifSK8bttU50yibQaD1olPGS1WtlOsM/OI/qUPMokDx
- KFPR1ykA==;
+ bh=uAYlVlaSKiCol2osSU9jEMs5Zkro7eHEKz4SvQwuMgY=; b=cCYp7Uikdwy4YMIyYFg9ak33VM
+ fqrRscO41wzaLajhphHvOMz0bgejJ1Q/EjsjYJXfo17Q9RgxkM+8p8N2BksmBKCZ6hfu4SuKDWeAH
+ s+GCMR8khut5BBvOp86/atCC8yOk9RHCzaD2Y94b4B9ZOb0k5Caef8pY/FXDJvxLJBx+zjaoZUpgl
+ b5b/3mZc9OytMUowQOt8HvTF6HA6hqKgRK3FxkV20wX5WxgfjOqaq9H70FR2C/w4aaSg2wQJ8wPan
+ RR8O/XYPAqM2f7kVCKS5ykOom8V+vA2OIDAke3svSs6n0kyceqcI/RFY3FiSnDvZVeR2RxJXGVmkw
+ vTEWB4SA==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <cyndis@kapsi.fi>)
- id 1nqWTe-0005fd-Vw; Mon, 16 May 2022 11:53:19 +0300
+ id 1nqWTf-0005fd-2o; Mon, 16 May 2022 11:53:19 +0300
 From: cyndis@kapsi.fi
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
  will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
  krzysztof.kozlowski@canonical.com
-Subject: [PATCH v5 6/9] arm64: tegra: Add Host1x context stream IDs on
- Tegra186+
-Date: Mon, 16 May 2022 11:52:55 +0300
-Message-Id: <20220516085258.1227691-7-cyndis@kapsi.fi>
+Subject: [PATCH v5 7/9] drm/tegra: falcon: Set DMACTX field on DMA transactions
+Date: Mon, 16 May 2022 11:52:56 +0300
+Message-Id: <20220516085258.1227691-8-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220516085258.1227691-1-cyndis@kapsi.fi>
 References: <20220516085258.1227691-1-cyndis@kapsi.fi>
@@ -66,69 +65,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Add Host1x context stream IDs on systems that support Host1x context
-isolation. Host1x and attached engines can use these stream IDs to
-allow isolation between memory used by different processes.
-
-The specified stream IDs must match those configured by the hypervisor,
-if one is present.
+The DMACTX field determines which context, as specified in the
+TRANSCFG register, is used. While during boot it doesn't matter
+which is used, later on it matters and this value is reused by
+the firmware.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
-v2:
-* Added context devices on T194.
-* Use iommu-map instead of custom property.
-v4:
-* Remove memory-contexts subnode.
----
- arch/arm64/boot/dts/nvidia/tegra186.dtsi | 11 +++++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 11 +++++++++++
- 2 files changed, 22 insertions(+)
+ drivers/gpu/drm/tegra/falcon.c | 8 ++++++++
+ drivers/gpu/drm/tegra/falcon.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186.dtsi b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-index 0e9afc3e2f26..5f560f13ed93 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra186.dtsi
-@@ -1461,6 +1461,17 @@ host1x@13e00000 {
+diff --git a/drivers/gpu/drm/tegra/falcon.c b/drivers/gpu/drm/tegra/falcon.c
+index 3762d87759d9..c0d85463eb1a 100644
+--- a/drivers/gpu/drm/tegra/falcon.c
++++ b/drivers/gpu/drm/tegra/falcon.c
+@@ -48,6 +48,14 @@ static int falcon_copy_chunk(struct falcon *falcon,
+ 	if (target == FALCON_MEMORY_IMEM)
+ 		cmd |= FALCON_DMATRFCMD_IMEM;
  
- 		iommus = <&smmu TEGRA186_SID_HOST1X>;
- 
-+		/* Context isolation domains */
-+		iommu-map = <
-+			0 &smmu TEGRA186_SID_HOST1X_CTX0 1
-+			1 &smmu TEGRA186_SID_HOST1X_CTX1 1
-+			2 &smmu TEGRA186_SID_HOST1X_CTX2 1
-+			3 &smmu TEGRA186_SID_HOST1X_CTX3 1
-+			4 &smmu TEGRA186_SID_HOST1X_CTX4 1
-+			5 &smmu TEGRA186_SID_HOST1X_CTX5 1
-+			6 &smmu TEGRA186_SID_HOST1X_CTX6 1
-+			7 &smmu TEGRA186_SID_HOST1X_CTX7 1>;
++	/*
++	 * Use second DMA context (i.e. the one for firmware). Strictly
++	 * speaking, at this point both DMA contexts point to the firmware
++	 * stream ID, but this register's value will be reused by the firmware
++	 * for later DMA transactions, so we need to use the correct value.
++	 */
++	cmd |= FALCON_DMATRFCMD_DMACTX(1);
 +
- 		dpaux1: dpaux@15040000 {
- 			compatible = "nvidia,tegra186-dpaux";
- 			reg = <0x15040000 0x10000>;
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index d1f8248c00f4..613fd71dec25 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -1769,6 +1769,17 @@ host1x@13e00000 {
- 			interconnect-names = "dma-mem";
- 			iommus = <&smmu TEGRA194_SID_HOST1X>;
+ 	falcon_writel(falcon, offset, FALCON_DMATRFMOFFS);
+ 	falcon_writel(falcon, base, FALCON_DMATRFFBOFFS);
+ 	falcon_writel(falcon, cmd, FALCON_DMATRFCMD);
+diff --git a/drivers/gpu/drm/tegra/falcon.h b/drivers/gpu/drm/tegra/falcon.h
+index c56ee32d92ee..1955cf11a8a6 100644
+--- a/drivers/gpu/drm/tegra/falcon.h
++++ b/drivers/gpu/drm/tegra/falcon.h
+@@ -50,6 +50,7 @@
+ #define FALCON_DMATRFCMD_IDLE			(1 << 1)
+ #define FALCON_DMATRFCMD_IMEM			(1 << 4)
+ #define FALCON_DMATRFCMD_SIZE_256B		(6 << 8)
++#define FALCON_DMATRFCMD_DMACTX(v)		(((v) & 0x7) << 12)
  
-+			/* Context isolation domains */
-+			iommu-map = <
-+				0 &smmu TEGRA194_SID_HOST1X_CTX0 1
-+				1 &smmu TEGRA194_SID_HOST1X_CTX1 1
-+				2 &smmu TEGRA194_SID_HOST1X_CTX2 1
-+				3 &smmu TEGRA194_SID_HOST1X_CTX3 1
-+				4 &smmu TEGRA194_SID_HOST1X_CTX4 1
-+				5 &smmu TEGRA194_SID_HOST1X_CTX5 1
-+				6 &smmu TEGRA194_SID_HOST1X_CTX6 1
-+				7 &smmu TEGRA194_SID_HOST1X_CTX7 1>;
-+
- 			nvdec@15140000 {
- 				compatible = "nvidia,tegra194-nvdec";
- 				reg = <0x15140000 0x00040000>;
+ #define FALCON_DMATRFFBOFFS			0x0000111c
+ 
 -- 
 2.36.1
 
