@@ -1,39 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF6352826F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 12:44:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9B052830A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 13:20:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D99910EB40;
-	Mon, 16 May 2022 10:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DCE10F3E6;
+	Mon, 16 May 2022 11:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B215E10EB3F
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 10:44:49 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC6CC1063;
- Mon, 16 May 2022 03:44:48 -0700 (PDT)
-Received: from [10.57.82.175] (unknown [10.57.82.175])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 849D83F66F;
- Mon, 16 May 2022 03:44:46 -0700 (PDT)
-Message-ID: <099cf0f9-5c27-0247-7c5e-6704a9527b11@arm.com>
-Date: Mon, 16 May 2022 11:44:41 +0100
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEFE10F3E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 11:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=LUKhFyWGsJws4jt1m41drcAy5kgxr8adnAp720eLM7Y=; b=KlbgSdflonmdW6hPspTw/oFJYR
+ yLr4OzBTS5jTqa88i7yjnmsG6GpnO3VrGHQvwpaLGB2sica6hBO1nPPepUxvCjDJ/qMSWv2bqHO+b
+ ZmAAhzszkvaGdABMHDNLbFKBA/0X2cZLpA26IbwG1J+/WKn3BSeYHWPzAy1E2IXsArxpSxY1jKaNf
+ G7qksyN1vqqi7dVGF3f0eawRTnGOVi0UUGB2fOyVmQ+Pmj57atz5AZx29cjIHEp8OKaSWq9LTUTaz
+ ANu8h4V4ZNvvD3woDjGX8sWZqSmMJ69f3GKZYxGyFvG3KOEc3VaTNtMLpx3ov/1arKmls2ipz2Eax
+ IJtGDvbg==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <cyndis@kapsi.fi>)
+ id 1nqYlv-0001Dw-4J; Mon, 16 May 2022 14:20:19 +0300
+Message-ID: <020a8244-760e-fe7c-594a-1d85e5645dbe@kapsi.fi>
+Date: Mon, 16 May 2022 14:20:18 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
 Subject: Re: [PATCH v5 5/9] iommu/arm-smmu: Attach to host1x context device bus
-Content-Language: en-GB
-To: Mikko Perttunen <cyndis@kapsi.fi>, Will Deacon <will@kernel.org>
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
 References: <20220516085258.1227691-1-cyndis@kapsi.fi>
  <20220516085258.1227691-6-cyndis@kapsi.fi>
  <20220516100721.GA1927@willie-the-truck>
  <4a170997-c893-1788-dcaa-8ed2193146ae@kapsi.fi>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <4a170997-c893-1788-dcaa-8ed2193146ae@kapsi.fi>
+ <099cf0f9-5c27-0247-7c5e-6704a9527b11@arm.com>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+In-Reply-To: <099cf0f9-5c27-0247-7c5e-6704a9527b11@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,63 +70,72 @@ Cc: devicetree@vger.kernel.org, krzysztof.kozlowski@canonical.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-16 11:13, Mikko Perttunen wrote:
-> On 5/16/22 13:07, Will Deacon wrote:
->> On Mon, May 16, 2022 at 11:52:54AM +0300, cyndis@kapsi.fi wrote:
->>> From: Mikko Perttunen <mperttunen@nvidia.com>
+On 5/16/22 13:44, Robin Murphy wrote:
+> On 2022-05-16 11:13, Mikko Perttunen wrote:
+>> On 5/16/22 13:07, Will Deacon wrote:
+>>> On Mon, May 16, 2022 at 11:52:54AM +0300, cyndis@kapsi.fi wrote:
+>>>> From: Mikko Perttunen <mperttunen@nvidia.com>
+>>>>
+>>>> Set itself as the IOMMU for the host1x context device bus, containing
+>>>> "dummy" devices used for Host1x context isolation.
+>>>>
+>>>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>>>> ---
+>>>>   drivers/iommu/arm/arm-smmu/arm-smmu.c | 13 +++++++++++++
+>>>>   1 file changed, 13 insertions(+)
+>>>>
+>>>> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c 
+>>>> b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+>>>> index 568cce590ccc..9ff54eaecf81 100644
+>>>> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+>>>> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+>>>> @@ -39,6 +39,7 @@
+>>>>   #include <linux/amba/bus.h>
+>>>>   #include <linux/fsl/mc.h>
+>>>> +#include <linux/host1x_context_bus.h>
+>>>>   #include "arm-smmu.h"
+>>>> @@ -2053,8 +2054,20 @@ static int arm_smmu_bus_init(struct iommu_ops 
+>>>> *ops)
+>>>>               goto err_reset_pci_ops;
+>>>>       }
+>>>>   #endif
+>>>> +#ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
+>>>> +    if (!iommu_present(&host1x_context_device_bus_type)) {
+>>>> +        err = bus_set_iommu(&host1x_context_device_bus_type, ops);
+>>>> +        if (err)
+>>>> +            goto err_reset_fsl_mc_ops;
+>>>> +    }
+>>>> +#endif
+>>>> +
+>>>>       return 0;
+>>>> +err_reset_fsl_mc_ops: __maybe_unused;
+>>>> +#ifdef CONFIG_FSL_MC_BUS
+>>>> +    bus_set_iommu(&fsl_mc_bus_type, NULL);
+>>>> +#endif
 >>>
->>> Set itself as the IOMMU for the host1x context device bus, containing
->>> "dummy" devices used for Host1x context isolation.
+>>> bus_set_iommu() is going away:
 >>>
->>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->>> ---
->>>   drivers/iommu/arm/arm-smmu/arm-smmu.c | 13 +++++++++++++
->>>   1 file changed, 13 insertions(+)
+>>> https://lore.kernel.org/r/cover.1650890638.git.robin.murphy@arm.com
 >>>
->>> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c 
->>> b/drivers/iommu/arm/arm-smmu/arm-smmu.c
->>> index 568cce590ccc..9ff54eaecf81 100644
->>> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
->>> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
->>> @@ -39,6 +39,7 @@
->>>   #include <linux/amba/bus.h>
->>>   #include <linux/fsl/mc.h>
->>> +#include <linux/host1x_context_bus.h>
->>>   #include "arm-smmu.h"
->>> @@ -2053,8 +2054,20 @@ static int arm_smmu_bus_init(struct iommu_ops 
->>> *ops)
->>>               goto err_reset_pci_ops;
->>>       }
->>>   #endif
->>> +#ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
->>> +    if (!iommu_present(&host1x_context_device_bus_type)) {
->>> +        err = bus_set_iommu(&host1x_context_device_bus_type, ops);
->>> +        if (err)
->>> +            goto err_reset_fsl_mc_ops;
->>> +    }
->>> +#endif
->>> +
->>>       return 0;
->>> +err_reset_fsl_mc_ops: __maybe_unused;
->>> +#ifdef CONFIG_FSL_MC_BUS
->>> +    bus_set_iommu(&fsl_mc_bus_type, NULL);
->>> +#endif
+>>> Will
 >>
->> bus_set_iommu() is going away:
->>
->> https://lore.kernel.org/r/cover.1650890638.git.robin.murphy@arm.com
->>
->> Will
+>> Thanks for the heads-up. Robin had pointed out that this work was 
+>> ongoing but I hadn't seen the patches yet. I'll look into it.
 > 
-> Thanks for the heads-up. Robin had pointed out that this work was 
-> ongoing but I hadn't seen the patches yet. I'll look into it.
+> Although that *is* currently blocked on the mystery intel-iommu problem 
+> that I can't reproduce... If this series is ready to land right now for 
+> 5.19 then in principle that might be the easiest option overall. 
+> Hopefully at least patch #2 could sneak in so that the compile-time 
+> dependencies are ready for me to roll up host1x into the next rebase of 
+> "iommu: Always register bus notifiers".
+> 
+> Cheers,
+> Robin.
 
-Although that *is* currently blocked on the mystery intel-iommu problem 
-that I can't reproduce... If this series is ready to land right now for 
-5.19 then in principle that might be the easiest option overall. 
-Hopefully at least patch #2 could sneak in so that the compile-time 
-dependencies are ready for me to roll up host1x into the next rebase of 
-"iommu: Always register bus notifiers".
+My guess is that the series as a whole is not ready to land in the 5.19 
+timeframe, but #2 could be possible.
 
-Cheers,
-Robin.
+Thierry, any opinion?
+
+Thanks,
+Mikko
