@@ -1,84 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EB452852E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 15:20:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF5B528561
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 15:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C76010FD99;
-	Mon, 16 May 2022 13:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E5E810FDB5;
+	Mon, 16 May 2022 13:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840FB10FD99
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 13:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652707242;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dELa0kqJ48jnMsYrEzVOCsn1qNewVRHQLKLAt7lHW+o=;
- b=LCODEcfPLUpQR2fdrfZ6MkMyjdaFn2KRb3jZKEwCF1Z6AsRkdzfgiZqauHm1MGsiYzBVpo
- v/GZVASD/d1NORwrX5/i10vDErCL2BBMPDsdE4oJaqf9bFOwAIE6uSaKdDTSR4dIzTQie3
- wda3oRhC0354MP3RTHAFJ810hCy+bV4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-EE8sB1hcPcGaq41aU9WFSg-1; Mon, 16 May 2022 09:20:39 -0400
-X-MC-Unique: EE8sB1hcPcGaq41aU9WFSg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h6-20020a7bc926000000b0039470bcb9easo5651193wml.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 06:20:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dELa0kqJ48jnMsYrEzVOCsn1qNewVRHQLKLAt7lHW+o=;
- b=XTfgjL4xtudg/6EMEKjw2UmA9GLOUKCJUmoqL0HcOG9nnuetRyDhKYwOKVrQKHCHkZ
- Bz9piqJeZeiXxWW9CAYPcifYx4f8h+NPIeJThnhYtY6QtOx2PKXqOxqP/PySNHyldzqG
- LI3G1tMRrPkg+vEfqhR82o42mZ90T3+/8UpSMvZHQ1uFt6pykL0lF1xKf0fPfv3KDGUw
- kHmBCNSVy16EMI5oEF/lSrMlqrPjiasN5xujwLswoWI22BoToe96GcZdBaLoURL56Lhu
- YudvDt9/h6ZqiijUAG6NIpr+EMga+Y6EE1RI0iVFsDq2d7NL5eglxy4obbAAFqamJXNB
- re3A==
-X-Gm-Message-State: AOAM53253Q8l4DwZFE02lr+0LAquHW4sPg2VgdQdKsw8ZXuGWAp69z6x
- qL+wpIwKQhlSfn347K0eJal0otzv53W696rtJoIklmbCqJ0CWRYbfKZJQ5/5/nu3PhbEKzRxaCa
- oFTIXSEGw6sk25QKF067Sytg/whaB
-X-Received: by 2002:a5d:6802:0:b0:20d:295:cca2 with SMTP id
- w2-20020a5d6802000000b0020d0295cca2mr7218443wru.394.1652707238055; 
- Mon, 16 May 2022 06:20:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2cy4m3zyn9MsY3QyUWUJKTr/FN2J7BehI9TXrU3ZLt/Jjt5do8DDnCZaZxyWE9FUhtLmHlw==
-X-Received: by 2002:a5d:6802:0:b0:20d:295:cca2 with SMTP id
- w2-20020a5d6802000000b0020d0295cca2mr7218421wru.394.1652707237830; 
- Mon, 16 May 2022 06:20:37 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- e5-20020a05600c218500b003942a244ec1sm10705207wme.6.2022.05.16.06.20.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 May 2022 06:20:37 -0700 (PDT)
-Message-ID: <b618607c-4201-e0b1-7a71-a18910e67d4d@redhat.com>
-Date: Mon, 16 May 2022 15:20:36 +0200
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFA4210FE6A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 13:29:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=x8R1mkdr2H6XuHw1sFr97pfwIN3qzLna2pbCQJQJ5MA=; b=GxwUCHr955X6y2XjfI7C7y1pEl
+ 6RfF2/A+0xENYS/0zZIdlueRuZ8gy97SKNgClyIoZj9hIkwpR7KOKavGTGr/kbu/mC8n0kvy7fr2Y
+ GrRrgx8Fwiqt9vMgaMXZYjcuc5uyW5YDPDh6i8LF1sIVzm3lRHjlJ8r6rIhhcEs6RB3B9uFj4iFrD
+ RRHwAkWurTIAQFXG1xOOHh3EeAFoq8/NyNZQziYwfYvsrT6ftwDfkx/y2ar7fMAjn+aYZFC3tyCeD
+ hhwp2q6Nkh36A2aFweZyYe3Sj/2R2TnzvJsvLmNTL/+hpYMUWYObwKt6Xkh9WVPOS7rAbWoy4fWxV
+ eM0n2vpQ==;
+Received: from [2a01:799:961:d200:c8f8:d7f:27e0:1988] (port=51716)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1nqamc-0004xx-Kz; Mon, 16 May 2022 15:29:10 +0200
+Message-ID: <c130681a-980f-c7a8-1497-7a44db30c70c@tronnes.org>
+Date: Mon, 16 May 2022 15:29:08 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/4] drm/gem: Ignore color planes that are unused by
- framebuffer format
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 0/4] drm: Ignore non-existing color planes in helpers
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@linux.ie, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- noralf@tronnes.org, christian.koenig@amd.com
+ christian.koenig@amd.com
 References: <20220509081602.474-1-tzimmermann@suse.de>
- <20220509081602.474-3-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220509081602.474-3-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220509081602.474-1-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,24 +60,46 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/9/22 10:16, Thomas Zimmermann wrote:
-> Only handle color planes that exist in a framebuffer's color format.
-> Ignore non-existing planes.
+
+
+Den 09.05.2022 10.15, skrev Thomas Zimmermann:
+> Some DRM helpers assume that all potential color planes of a framebuffer
+> are available; even if the color format didn't specify them. Non-existing
+> planes are silently ignored. This behavior is inconsistent with other
+> helpers and apparently leads to subtle bugs with uninitialized GEM buffer
+> mappings. [1]
 > 
-> So far, several helpers assumed that all 4 planes are available and
-> silently ignored non-existing planes. This lead to subtil bugs with
-> uninitialized data in instances of struct iosys_map. [1]
+> Change all affected code to look at the framebuffer format's number of
+> color planes and only process these planes. The update has been discussed
+> in [2] before.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/dri-devel/20210730183511.20080-1-tzimmermann@suse.de/T/#md0172b10bb588d8f20f4f456e304f08d2a4505f7 # 1
-> ---
+> Tested with GEM SHMEM helpers on simpledrm.
+> 
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Tested with drm/gud, now there's only one UBSAN warning:
 
--- 
-Best regards,
+Tested-by: Noralf Trønnes <noralf@tronnes.org>
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+I was hoping to get some time to give a review, but it doesn't look like
+I'm able to do that.
 
+Noralf.
+
+
+> [1] https://lore.kernel.org/dri-devel/20210730183511.20080-1-tzimmermann@suse.de/T/#md0172b10bb588d8f20f4f456e304f08d2a4505f7
+> [2] https://lore.kernel.org/dri-devel/877dc0d9-c6c6-022c-20d8-14b33e863934@suse.de/
+> 
+> Thomas Zimmermann (4):
+>   drm/gem: Share code between drm_gem_fb_{begin,end}_cpu_access()
+>   drm/gem: Ignore color planes that are unused by framebuffer format
+>   drm/gem-vram: Ignore planes that are unused by framebuffer format
+>   drm/gem: Warn on trying to use a non-existing framebuffer plane
+> 
+>  drivers/gpu/drm/drm_gem_atomic_helper.c      |   6 +-
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 103 +++++++++----------
+>  drivers/gpu/drm/drm_gem_vram_helper.c        |  36 ++++---
+>  include/drm/drm_gem_framebuffer_helper.h     |  10 +-
+>  4 files changed, 81 insertions(+), 74 deletions(-)
+> 
+> 
+> base-commit: b0b93865a24c910fcbfa6e6fa0955fae930a56d3
