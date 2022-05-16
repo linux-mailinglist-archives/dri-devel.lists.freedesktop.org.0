@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E16528A59
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 18:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83CA528A5E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 18:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63FF51121D2;
-	Mon, 16 May 2022 16:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC4D112203;
+	Mon, 16 May 2022 16:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9339D10FDBC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 16:29:10 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id l18so29697290ejc.7
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 09:29:10 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE81A10FDBC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 16:29:11 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id z2so29735311ejj.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 09:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hJB5QWTkjOe+A3TmBJQWslNfP6ImokdCskIDq0K0JSM=;
- b=DnhHqyh6nEcagUBSwSL40ZweMeOpDzDwVizgwFmVcHjJ/CbyNvQe/YL0Q/Sm4VGTef
- snsNOJJGUmDBwBZmNxTZi/yeO28knuXU3t/9CaHyTMjnNfnA+TzcqyFqKjxsB9Y/ucmF
- K10r77Qx0BDVHbx/Qbc2sjxngOV2307zrtQNiPA3dNgys+L3hEaytD7diKMlFZoqZ+gH
- mxnrwG53b5Owa7VQ1Inessh3sUouGHbZEOLGjWEZ+vUC/vH9cRhFpaz4XhdzC+B9FsMz
- 4u2kjGEkmvPsnNVLbrePD09DJ2kODMtCttp9GHbTS2BuFJ4fysxycGxi/1+iRChtNXib
- 6Hag==
+ bh=Y5Y01zEzcSsKU36y1NINY4WVk0Q8FiEw0n1MhQ5vAp8=;
+ b=MzyxhcHxfpe4omR3oQIY9vDe3Ma0gJNH+l6vr8yMxzIcE7WLpzv3gQNngtko+7CHYK
+ wnP0JeSPU3TtjfSYW/enDtVoXotkr2zQaxjJ4/noQLVUmKYH/Evyj3q+VW9NG0M+7/sb
+ ytL/7GBUy8dZKftxMPUtkUWexMF7cLI54DvLkj9ENKp2ajx9lcLrjW/wH4upreuq5cYF
+ qM0rYYi40WxtyS/YxBSmjDaGd6XUd6zhO6FYmPFSzl9krsIP29DwGB1BnX/jGT0qMgxM
+ 5L27yb+KWA/IP1ElTWNYxoAkEazXi+bOENadZ9R133tfM5XSvTKGWI9l0NBcNVKqxbtX
+ 5PbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hJB5QWTkjOe+A3TmBJQWslNfP6ImokdCskIDq0K0JSM=;
- b=kVsUitUNRS8XanB1anTr5g1bZUFvpVUbD2Ii8Ok0PzYlE7lY+Iq70sIb7IKSbDGshG
- KLP+wgt/Cua8ahZH1LOU2ymTE9ZoxAoYPNTYirMTNLufguby5Fjuamcm6Q/zbgtmBXyn
- LiRQY2duirVwu1XBZjHeZ/+qNW5mh5iohkx0vAqJPlZeTf2ynSacBoQ1me9053EkK3ws
- rOst3xhxY+r+EcEDnowWV2qXHEawGA7Pm/7ws8Jh4z0BS20RTzcJ0kpqWmYexR8Ci2Wg
- LeeFWg5QzpxmI3bYFsoENEhiKPaiL+IdtxZNcB1vuBNjuaz3+Y6MEn7Ud67y7Q65qHHK
- oL0Q==
-X-Gm-Message-State: AOAM532V1tN5cba4ROvqkhg9LpC2CSJ4zSfzA/kuDEqwUEFzlrHD9Kcr
- SVDIr8nMaWiTye7qcDw9BX0=
-X-Google-Smtp-Source: ABdhPJyZcntD5axDOHiDmfr5EqB4Uv2Nmp/U52P8mLja7/bBTGWg/cytwgQKXKtLEFZNZBC9ymNpMw==
-X-Received: by 2002:a17:907:3e8f:b0:6f4:4f42:a75f with SMTP id
- hs15-20020a1709073e8f00b006f44f42a75fmr16158090ejc.695.1652718549038; 
- Mon, 16 May 2022 09:29:09 -0700 (PDT)
+ bh=Y5Y01zEzcSsKU36y1NINY4WVk0Q8FiEw0n1MhQ5vAp8=;
+ b=4Qjx1NV/Mbws/P3uDW3FdKZT9mahoZuKgOakawqVlJrH6GPg/QVv8SiRSLPLllq4Gg
+ VmdvUm+8ncVdLxoF826hM50bRh1ivVH01jpxWaVucn9WGIs+QHycuqK/rzu69G25od+Z
+ 8NolujF3Ag6bHinI4hEDO5vIeY2f6OBDj2i6Q74cFPAMdkdLApZ4Z4TE3rJD/Sqx8dLE
+ RYhCGSTYoYcNItn8HszUndotmeZeZzzM3tKHyl9XpuHhPFhN4+qXxVv6XGWmfiO34KOf
+ lKPPK5P+gPSjWBlxD2GcSgcSRan/5HInn206rJtvL7OCHZpekVeQtMtDW3SkCW9QZXH5
+ DAsA==
+X-Gm-Message-State: AOAM5327bHwD/lAuC1BUjVmI9n4FdU8zKCBRcXZvW96LxA7rpdlJrTZi
+ fYqVuRbZNueX6btvp8ef2Mw=
+X-Google-Smtp-Source: ABdhPJxCd+3OM7rVUlCJ415U5mos+W3z/pfP53EArLwIpkBM+GZj9NipDl9K9kC3z669g20z47imFg==
+X-Received: by 2002:a17:906:730e:b0:6f4:e9e7:4f4 with SMTP id
+ di14-20020a170906730e00b006f4e9e704f4mr15402269ejc.509.1652718550402; 
+ Mon, 16 May 2022 09:29:10 -0700 (PDT)
 Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch.
  [31.10.206.125]) by smtp.gmail.com with ESMTPSA id
- 9-20020a170906004900b006f3ef214e3bsm58819ejg.161.2022.05.16.09.29.08
+ 9-20020a170906004900b006f3ef214e3bsm58819ejg.161.2022.05.16.09.29.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 09:29:08 -0700 (PDT)
+ Mon, 16 May 2022 09:29:10 -0700 (PDT)
 From: Max Krummenacher <max.oss.09@gmail.com>
 To: max.krummenacher@toradex.com
-Subject: [PATCH v1 1/2] dt-bindings: display: add new bus-format property for
- panel-dpi
-Date: Mon, 16 May 2022 18:28:25 +0200
-Message-Id: <20220516162826.23025-2-max.oss.09@gmail.com>
+Subject: [PATCH v1 2/2] drm/panel: simple: add bus-format support for panel-dpi
+Date: Mon, 16 May 2022 18:28:26 +0200
+Message-Id: <20220516162826.23025-3-max.oss.09@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220516162826.23025-1-max.oss.09@gmail.com>
 References: <20220516162826.23025-1-max.oss.09@gmail.com>
@@ -73,91 +72,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
  Marek Vasut <marex@denx.de>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
  David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Francesco Dolcini <francesco.dolcini@toradex.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Max Krummenacher <max.krummenacher@toradex.com>
 
-The property is used to set the enum bus_format and infer the bpc
-for a panel defined by 'panel-dpi'.
-This specifies how the panel is connected to the display interface.
+Evaluate the device tree bus-format property to set bus_format for
+a 'panel-dpi' panel. Additionally infer the bpc value from the
+given bus-format.
+
+Valid values for bus-format are found in:
+<include/dt-bindings/display/dt-media-bus-format.h>
+
+This completes the addition of panel-dpi to completely specify
+a panel-simple panel from the device tree.
 
 Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+
 ---
 
- .../bindings/display/panel/panel-dpi.yaml     | 11 +++++++++
- .../dt-bindings/display/dt-media-bus-format.h | 23 +++++++++++++++++++
- 2 files changed, 34 insertions(+)
- create mode 100644 include/dt-bindings/display/dt-media-bus-format.h
+ drivers/gpu/drm/panel/panel-simple.c | 43 ++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-index dae0676b5c6e..ca44e96c3001 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-@@ -21,6 +21,14 @@ properties:
-       - {}
-       - const: panel-dpi
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index a34f4198a534..090c60abb014 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -21,6 +21,7 @@
+  * DEALINGS IN THE SOFTWARE.
+  */
  
-+  bus-format:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      Describes how the display panel is connected to the display interface.
-+      Valid values are defined in <dt-bindings/display/dt-media-bus-format.h>.
-+      The mapping between the color/significance of the panel lines to the
-+      parallel data lines are defined in [1].
-+      [1] https://www.kernel.org/doc/html/v5.17/userspace-api/media/v4l/subdev-formats.html#packed-rgb-formats
-   backlight: true
-   enable-gpios: true
-   height-mm: true
-@@ -39,11 +47,14 @@ additionalProperties: false
++#include <dt-bindings/display/dt-media-bus-format.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+@@ -453,6 +454,7 @@ static int panel_dpi_probe(struct device *dev,
+ 	struct panel_desc *desc;
+ 	unsigned int bus_flags;
+ 	struct videomode vm;
++	u32 bus_format;
+ 	int ret;
  
- examples:
-   - |
-+    #include <dt-bindings/display/dt-media-bus-format.h>
-+    ...
-     panel {
-         compatible = "startek,startek-kd050c", "panel-dpi";
-         label = "osddisplay";
-         power-supply = <&vcc_supply>;
-         backlight = <&backlight>;
-+        bus-format = "DT_MEDIA_BUS_FMT_RGB888_1X24";
+ 	np = dev->of_node;
+@@ -477,6 +479,47 @@ static int panel_dpi_probe(struct device *dev,
+ 	of_property_read_u32(np, "width-mm", &desc->size.width);
+ 	of_property_read_u32(np, "height-mm", &desc->size.height);
  
-         port {
-             lcd_in: endpoint {
-diff --git a/include/dt-bindings/display/dt-media-bus-format.h b/include/dt-bindings/display/dt-media-bus-format.h
-new file mode 100644
-index 000000000000..c0f2a7b59aa1
---- /dev/null
-+++ b/include/dt-bindings/display/dt-media-bus-format.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-+/*
-+ * Copyright 2022 Max Krummenacher <max.krummenacher@toradex.com>
-+ */
++	if (!of_property_read_u32(np, "bus-format", &bus_format)) {
++		/* infer bpc from bus-format */
++		switch (bus_format) {
++		case DT_MEDIA_BUS_FMT_RGB565_1X16:
++			desc->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
++			desc->bpc = 6;
++			break;
++		case DT_MEDIA_BUS_FMT_RGB666_1X18:
++			desc->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
++			desc->bpc = 6;
++			break;
++		case DT_MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
++			desc->bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
++			desc->bpc = 6;
++			break;
++		case DT_MEDIA_BUS_FMT_BGR888_1X24:
++			desc->bus_format = MEDIA_BUS_FMT_BGR888_1X24;
++			desc->bpc = 8;
++			break;
++		case DT_MEDIA_BUS_FMT_GBR888_1X24:
++			desc->bus_format = MEDIA_BUS_FMT_GBR888_1X24;
++			desc->bpc = 8;
++			break;
++		case DT_MEDIA_BUS_FMT_RBG888_1X24:
++			desc->bus_format = MEDIA_BUS_FMT_RBG888_1X24;
++			desc->bpc = 8;
++			break;
++		case DT_MEDIA_BUS_FMT_RGB888_1X24:
++			desc->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
++			desc->bpc = 8;
++			break;
++		case DT_MEDIA_BUS_FMT_RGB888_1X32_PADHI:
++			desc->bus_format = MEDIA_BUS_FMT_RGB888_1X32_PADHI;
++			desc->bpc = 8;
++			break;
++		default:
++			dev_err(dev, "%pOF: unknown bus-format property\n", np);
++			return -EINVAL;
++		}
++	}
 +
-+#ifndef __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H
-+#define __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H
-+
-+/*
-+ * Attention: Keep these macro names in sync with
-+ * include/uapi/linux/media-bus-format.h
-+ */
-+
-+#define DT_MEDIA_BUS_FMT_RGB565_1X16		1
-+#define DT_MEDIA_BUS_FMT_RGB666_1X18		2
-+#define DT_MEDIA_BUS_FMT_RBG888_1X24		3
-+#define DT_MEDIA_BUS_FMT_RGB666_1X24_CPADHI	4
-+#define DT_MEDIA_BUS_FMT_BGR888_1X24		5
-+#define DT_MEDIA_BUS_FMT_GBR888_1X24		6
-+#define DT_MEDIA_BUS_FMT_RGB888_1X24		7
-+#define DT_MEDIA_BUS_FMT_RGB888_1X32_PADHI	8
-+
-+#endif /* __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H */
+ 	/* Extract bus_flags from display_timing */
+ 	bus_flags = 0;
+ 	vm.flags = timing->flags;
 -- 
 2.20.1
 
