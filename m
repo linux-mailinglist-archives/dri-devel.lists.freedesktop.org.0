@@ -2,63 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE1D528504
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 15:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B8D52850C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 15:13:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18A4710E282;
-	Mon, 16 May 2022 13:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90EFE10FD9E;
+	Mon, 16 May 2022 13:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7111810FCBD;
- Mon, 16 May 2022 13:10:26 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id w123so18520654oiw.5;
- Mon, 16 May 2022 06:10:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=CaF92eBKzl8YhqaTS1Tzg7cnBN+wgBVFhVH+tqOT7PI=;
- b=q0OW4Ll0d1esJg4Bsi1gSdlTXNns+dyRXpjhWwy3TYP4n4qr8/NV4nZJZKjjduBKRi
- cA/1ac5Z/Sme7x9B3srXyZPtmX5SKG2ovm3cO9mWg1RmnkOoPJ3oT1jhhOpvYVxSxOtK
- EETC7rAwge3lFdAza0DWk9nk5BgdUO+u4Mgw7bEh4ZYJNK3Aeh9oPPg2Ig7eRjDoosqU
- UzYV1++XIwCfe0WO0MlnNE9IF9nupMaem9yK2ia5n1v/9WBmbIxEnxV0yjVXGEaFXtPd
- F/Q36d9JPkZFcTSysTH5PQ0es9AeN0p4TfoGPkBlB9oAT02H+Hc1mjA9INBnW3qT0TLE
- TCwA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5AEE10FD99
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 13:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652706774;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LQHsX37tf2+STKOZVa9TGMMSxaD1Yn7cwu7KTGclJUE=;
+ b=ELlRj8k1knvEbZac7E4LINBXRKnDMxR7l6HYZRLT6Cft09r4VwfPsZwCBVS5ndDucnsue4
+ DCSRJl55aWZ1W4Dq4Cg0SryuX6PHY0qcNyhxj5d9kwulf9sQtcsY3jE6ZUcz5xOGQwVHMB
+ Bpzpx+CKCIIo7peol3KL6vjpHDbTFlo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-67-FM7uT7xzObq7fwMVntOGJw-1; Mon, 16 May 2022 09:12:53 -0400
+X-MC-Unique: FM7uT7xzObq7fwMVntOGJw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m26-20020a7bcb9a000000b0039455e871b6so5626066wmi.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 06:12:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=CaF92eBKzl8YhqaTS1Tzg7cnBN+wgBVFhVH+tqOT7PI=;
- b=kYZEGePwTZDBlUQPHa89PuLX4bt1lB3wAbdKNTLvyLtX/2L17bwq5fB878M3kaXPGT
- zNlJ/oed8oXF0acF/iB0XKomyLfAUOA/DPmKGgJMeRCGfkcHj098piCOt+6av88qjA0U
- mKOEZJ6SweKbEgYnnYUC20nzldDXHRMoTazF8TfrgVBiNoNxedELJ4o3V660bu784a/N
- xh/NdXnMvF2QnoU+r/vKiKoaTLz5nK7W09Ehy24NbGyCRdpBD2rbCV7vy0U3RdBtHsih
- uJKuh9GnsLvzcWKMlh1iJzSNWgHhJBZQmT7Bulvr/Bi+NQ2NdHi32MBvFW02PGzx8mFZ
- 7a6A==
-X-Gm-Message-State: AOAM533GbK67mx7Bi8K3LhDlzZHNSzs3bnDYYzgcaBrbMkOK9hnprVSj
- Vzam/EKf5pxkpNKrViDpeEU=
-X-Google-Smtp-Source: ABdhPJzuSlHddEfPdlSooNCiKn9gKqW9iethwrrpTKVRacgUq5xfLq0fJvrzlLVkrWbJmB72AUE4Hw==
-X-Received: by 2002:a05:6808:148a:b0:326:c71a:f33c with SMTP id
- e10-20020a056808148a00b00326c71af33cmr12758233oiw.153.1652706625572; 
- Mon, 16 May 2022 06:10:25 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LQHsX37tf2+STKOZVa9TGMMSxaD1Yn7cwu7KTGclJUE=;
+ b=o95MhKPRoalYS/O7x1Qc0fJ+fox86vmRtU9YepsmnSLIKkxqtAF/rqITdbdYWKbeAZ
+ LNHVNBQMRGs0ax0sqRIBTTbqbzV0bYNfeKDLcMTRKT3/9cQ/sEsKZimlYVDRCC0EP3fM
+ 4VquawLDefiARCsxO4fFM8IuxUclby6pGwCXXsJlLPW+SAG8d20wYiDSugNF3boXlwoc
+ 8OV3J4BMr91j0p4e5GcD1M7xAsOxFPRnmlqGrHPgGl5P6HwqDJd8HWqmTxLCI3QLF+P/
+ uZ/OKSbcTEETvg01XGkqFlbVH4oeH8e6uKReK8tzNpLr3WSbrE+vKVK83xsEhBtvUjP4
+ 0utw==
+X-Gm-Message-State: AOAM530N2es3ui8FJRrrPu+JoMx8G0RqV1p1KoWuvKHyR+kMhKTpSsa4
+ 79DxprxgpXrDhKfC/dkIe64s1P1QVcs6oEaL8+0/I/qZ4AOzMu8zusYtHTo1ZXL2BA70GFu0Cvr
+ 79vN/Jh+9laaWQ//fFCD9/bdvbQa7
+X-Received: by 2002:a5d:64c6:0:b0:20c:6ffb:9584 with SMTP id
+ f6-20020a5d64c6000000b0020c6ffb9584mr13617512wri.156.1652706772609; 
+ Mon, 16 May 2022 06:12:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuQI0ox9wPgSMiwTCMuoGyvK64anVHZWbcIlZVK5Apdt/IGcgaFC7hWen4gdqM2AXZXz7F+A==
+X-Received: by 2002:a5d:64c6:0:b0:20c:6ffb:9584 with SMTP id
+ f6-20020a5d64c6000000b0020c6ffb9584mr13617502wri.156.1652706772460; 
+ Mon, 16 May 2022 06:12:52 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
  by smtp.gmail.com with ESMTPSA id
- r3-20020acac103000000b00325cda1ff95sm3795450oif.20.2022.05.16.06.10.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 06:10:24 -0700 (PDT)
-Date: Mon, 16 May 2022 06:10:23 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <20220516131023.GA2329080@roeck-us.net>
-References: <20220228103142.3301082-1-arnd@kernel.org>
+ b2-20020adfc742000000b0020c5253d90csm9567033wrh.88.2022.05.16.06.12.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 May 2022 06:12:51 -0700 (PDT)
+Message-ID: <ba3bbcdc-7e82-5f37-a12c-434f03ccc4d9@redhat.com>
+Date: Mon, 16 May 2022 15:12:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 0/3] mgag200: Improve damage handling
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ lyude@redhat.com
+References: <20220504134026.283417-1-jfalempe@redhat.com>
+ <c54fe066-27df-f317-0613-a7f20168508f@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <c54fe066-27df-f317-0613-a7f20168508f@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +90,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Michal Marek <michal.lkml@markovi.net>, linux-doc@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-staging@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- greybus-dev@lists.linaro.org, Alex Shi <alexs@kernel.org>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen <src.res@email.cn>,
- intel-gfx@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-doc-tw-discuss@lists.sourceforge.net, linux-kbuild@vger.kernel.org
+Cc: michel@daenzer.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 04/05/2022 16:59, Thomas Zimmermann wrote:
+> Hi Jocelyn,
 > 
-> During a patch discussion, Linus brought up the option of changing
-> the C standard version from gnu89 to gnu99, which allows using variable
-> declaration inside of a for() loop. While the C99, C11 and later standards
-> introduce many other features, most of these are already available in
-> gnu89 as GNU extensions as well.
+> with my comment on 3/3 considered, you can add
+> 
+> Reviewed-by: Thomas Zimemrmann <tzimemrmann@suse.de>
+> 
+> to this patchset.
+> 
+> You should get commit access for drm-misc, so that you can land the 
+> patchset on your own. Please see
+> 
+>    https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html
+> 
+> for how to do that.
 
-The downside is that backporting affected patches to older kernel branches
-now fails with error messages such as
+I pushed the patches with the requested changes to drm-misc-next last 
+Thursday.
 
-mm/kfence/core.c: In function ‘kfence_init_pool’:
-mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+Thanks a lot for your help.
 
-Just something to keep in mind when writing patches.
+-- 
 
-Guenter
+Jocelyn
+
+> 
+> Best regards
+> Thomas
+> 
+> Am 04.05.22 um 15:40 schrieb Jocelyn Falempe:
+>> mgag200: Improve damage handling
+>>
+>> This series improves the damage handling on Matrox gpu, and allows
+>> Gnome/Wayland to run much better.
+>> Also include some driver cleanup.
+>>
+>> Tested on a Dell T310 with Matrox MGA G200eW WPCM450 (rev 0a)
+>>
+>> v2:
+>>   Drop remove mgag200_probe_vram()
+>>   Rewrote the patch to warn if startaddr is not 0, and hw doesn't
+>>    support it. (instead of removing the unused flag).
+>>
+>> Thanks,
+>>
+> 
+
