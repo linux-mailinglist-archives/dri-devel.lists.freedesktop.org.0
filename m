@@ -1,79 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A972052B31F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 09:14:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A27352B31E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 09:14:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD3E113E0C;
-	Wed, 18 May 2022 07:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 065C910E270;
+	Wed, 18 May 2022 07:13:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4597F10E370;
- Mon, 16 May 2022 14:02:31 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 0412C5C0187;
- Mon, 16 May 2022 10:02:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 16 May 2022 10:02:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1652709747; x=
- 1652796147; bh=5+yjKYHPE1yoR5qIVYd0h7SQNO3dMIP7wshVKU2tLos=; b=k
- saUMyBATJHiD5hcBAlk1cIyhS1lpNsncGh0Ap4ZUTf/TWtLo6hce5e/Jb2UGcVPK
- nL6NcXTFYOzPQZ5/mnYsjoB/jgPhJDJ624lQQA2wE7c5xPoMdMSqAr8HI0/3+CkW
- eZr8gTDbC9l7Q/yiTwIIlFA8EtlwUY/FtcsgzZpZrQ+Lvbk+qXVtr/R1jQj34tpa
- 73t3PsRbsODttyToRASv9OjnPMFINxj5L443EkpRW/2I1UYw1u47sT2IiTp075os
- 6sRX0y6E/WPgQLABilj2gjj3SILxTVQv8bpt2FHNFCidB6Kldt9aS1JsYIBsGgb1
- Uwh0zqORhAMD6ZPNF695A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652709747; x=
- 1652796147; bh=5+yjKYHPE1yoR5qIVYd0h7SQNO3dMIP7wshVKU2tLos=; b=d
- i4A6NuCbon46rmfCdiNtEeyRKml5bH1dEYMsdrOArpkzpHB+MJR47Ls7B9vh4ikQ
- L0aZHA5SGNFR6RzZzTK/yPaqSXqe61DsdkXph2VK/JZqRJoMrFFGVUTe+6KpXr3n
- U5NJ9Y+CVNpTeiFvSz8Y127Q/Mn29hbE1sG+CNoB/13dr7grorrV0DgkkEBF4e1X
- koCzziX43Kr+9IwKHsgAW/iLx6qQiR6ohgzRNNhDTDXj0kDlDwIRvxeabG9U82jI
- 1KK3mSRMogtw6D5MsVbD8cJgLY8bJH98nJ1VZ7YdHXetoAzvUCFjbTs8DiHuCU8e
- ibgZKTkheqrujPBH6PEDw==
-X-ME-Sender: <xms:c1mCYvN49R8q91siQAlAHSsDYwW9JX6GZJK7uZoLaRKffOvOFebWHQ>
- <xme:c1mCYp_tKKjjaOLdt9zGxyRmVWfgWrXruRb4tYJdpuTXy0edv_fj3RYFSiLXCs0Rk
- M8kLkS5aKhSg9E>
-X-ME-Received: <xmr:c1mCYuRe3kZa1gLTTNUF7kXoIR0FgzK0qPyXdMiHZ7Ba33AHz6qT_sPuTZEt>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrheehgdejtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeffvghmihcu
- ofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvhhishhisghlvghthhhinhhgsh
- hlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeeutdehhfdtvdfffeejjedvhedvjeei
- heffheekkeehgeelueelveeludetheetteenucffohhmrghinhepghhithhhuhgsrdgtoh
- hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepuggv
- mhhisehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
-X-ME-Proxy: <xmx:c1mCYjurAm2dIPcJz8c-ZxluVFij2F_lxdkugh6HT3XxF5-0eFDUbQ>
- <xmx:c1mCYneuoRBaZp8LHp0Id6aAjgpjNZ-v-sODI87jBmo56m3R5PFyVA>
- <xmx:c1mCYv3OMOCsMbAlmIlcDY3-qItit44kex-WBnNpMPu847NOf50yqg>
- <xmx:c1mCYl3PEyg0TK6EZxQeWxycISQ5zefM9PK3N-nYBIkxIx_RTfCwyw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 May 2022 10:02:26 -0400 (EDT)
-Date: Mon, 16 May 2022 10:00:07 -0400
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Juergen Gross <jgross@suse.com>,
- Xen developer discussion <xen-devel@lists.xenproject.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: Hang in 5.17.4+ that appears to be due to Xen
-Message-ID: <YoJZcUsiE3y6oul5@itl-email>
-References: <Yn/Tgj1Ehs/BdpHp@itl-email>
- <55436ae1-8255-1898-00df-51261080cd41@suse.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0112810E08B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 19:38:44 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id n23so4752389edy.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 12:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LebDF3RuPxmX1Cw/8NAKFfKs/e37d3Ws73/ZUWsOSYY=;
+ b=bseiz9mTWBFks9ltjnA8R2a+/W7/FVLzfkmSDHkJfeKfQX1rYGRuIyUViZL8yKA9mF
+ MLEAdCbqCH+RPshFcSqj8Y/AkfxtyUTdOtL2F5UnpHv0UXW0mf1LKw3QS/uRg9BEqWq7
+ QMATuJ+nvY4vq7d4KZnFOq4VS8QyGepI2Sam7Qz6f6IallvZ+rxo7sHaARhKMtw359gl
+ 9H/CUYF9h8DrFCKvAY6T1zMs8VFaRAwHSyzzb1/zafJQy5vhl5bQ42vFNfVAh7T7ClI8
+ oRRmlyG0j5tAoD3DEzyuDLbHY6upzDkmAnY6zHLJ8BGTThl1mtVURC7BBqr7hvTVZUbw
+ kcCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LebDF3RuPxmX1Cw/8NAKFfKs/e37d3Ws73/ZUWsOSYY=;
+ b=ymjTuFxRU/YOnAyO8+t56qr8u0f6KSzCCfNx3wZ718r9vEuLVYRJW1niPdpJzrZjPF
+ 2HycCKJXdX0aTbqnh+DRg8j0FhX/G9vxyxu+4dv7U6PJhEPKSH9xPGUg7Ipl7YEX22Kd
+ nthrqgvaYqcek2gkxbAg1iArlca73RmBkpBId9fmdGQo1gLOZ46vB9FIj7j4ahsTmSks
+ 5O4xB4DtlRFB8owkcmuecHmEoV65gJ4I/bNFTK97XQ64jcoiotM/zc0rlVYoIeW3R7z/
+ ddRgRtkzLVhe0pLDOhTvDJelSdTITc4Nc+8xFz3RpHLF1nTYXrOOXu4HRsAWz9YGjTeK
+ IgJw==
+X-Gm-Message-State: AOAM532n5TdyBKgR7I2cZtfUHNtstlr5TpQtiYkfCBbdt12GkGbwV83V
+ g9SKoFpEPPWz5nvqNkmbO2c=
+X-Google-Smtp-Source: ABdhPJyTP9Rwj4orjplkbScv8cYbfHA3DBy1Z17s4DcQWsXitJXORWnR2TTE2sCfqqK/ke8zXrzj6Q==
+X-Received: by 2002:a05:6402:f13:b0:428:a849:d0c1 with SMTP id
+ i19-20020a0564020f1300b00428a849d0c1mr15059561eda.346.1652729923428; 
+ Mon, 16 May 2022 12:38:43 -0700 (PDT)
+Received: from adroid (102-167-184-091.ip-addr.vsenet.de. [91.184.167.102])
+ by smtp.gmail.com with ESMTPSA id
+ s7-20020a170906220700b006f3ef214e45sm94042ejs.171.2022.05.16.12.38.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 12:38:43 -0700 (PDT)
+From: =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>
+To: linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 1/3] dt-bindings: display: simple: add support for Samsung
+ LTL101AL01
+Date: Mon, 16 May 2022 21:37:07 +0200
+Message-Id: <20220516193709.10037-1-martin.juecker@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YnCoB7CFMTtqXZKs"
-Content-Disposition: inline
-In-Reply-To: <55436ae1-8255-1898-00df-51261080cd41@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 18 May 2022 07:13:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,126 +70,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
- linux-kernel@vger.kernel.org, Linux Memory Management <linux-mm@kvack.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Ostrovski <boris.ostrovsky@oracle.com>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add the Samsung LTL101AL01 WXGA LCD panel to the list.
 
---YnCoB7CFMTtqXZKs
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 May 2022 10:00:07 -0400
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Juergen Gross <jgross@suse.com>,
-	Xen developer discussion <xen-devel@lists.xenproject.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Boris Ostrovski <boris.ostrovsky@oracle.com>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	linux-kernel@vger.kernel.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Memory Management <linux-mm@kvack.org>
-Subject: Re: Hang in 5.17.4+ that appears to be due to Xen
+Signed-off-by: Martin Jücker <martin.juecker@gmail.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, May 16, 2022 at 08:48:17AM +0200, Juergen Gross wrote:
-> On 14.05.22 17:55, Demi Marie Obenour wrote:
-> > In https://github.com/QubesOS/qubes-issues/issues/7481, a user reported
-> > that Xorg locked up when resizing a VM window.  While I do not have the
-> > same hardware the user does and thus cannot reproduce the bug, the stack
-> > trace seems to indicate a deadlock between xen_gntdev and i915.  It
-> > appears that gnttab_unmap_refs_sync() is waiting for i915 to free the
-> > pages, while i915 is waiting for the MMU notifier that called
-> > gnttab_unmap_refs_sync() to return.  Result: deadlock.
-> >=20
-> > The problem appears to be that a mapped grant in PV mode will stay in
-> > the =E2=80=9Cinvalidating=E2=80=9D state until it is freed.  While MMU =
-notifiers are
-> > allowed to sleep, it appears that they cannot wait for the page to be
-> > freed, as is happening here.  That said, I am not very familiar with
-> > this code, so my diagnosis might be incorrect.
->=20
-> All I can say for now is that your patch seems to be introducing a use af=
-ter
-> free issue, as the parameters of the delayed work might get freed now bef=
-ore
-> the delayed work is being executed.
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 1eb9dd4f8f58..9501b5a3c011 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -270,6 +270,8 @@ properties:
+       - samsung,atna33xc20
+         # Samsung 12.2" (2560x1600 pixels) TFT LCD panel
+       - samsung,lsn122dl01-c01
++        # Samsung Electronics 10.1" WXGA (1280x800) TFT LCD panel
++      - samsung,ltl101al01
+         # Samsung Electronics 10.1" WSVGA TFT LCD panel
+       - samsung,ltn101nt05
+         # Samsung Electronics 14" WXGA (1366x768) TFT LCD panel
+-- 
+2.25.1
 
-I figured it was wrong, not least because I don=E2=80=99t think it compiles
-(invalid use of void value).  That said, the current behavior is quite
-suspicious to me.  For one, it appears that munmap() on a grant in a PV
-domain will not return until nobody else is using the page.  This is not
-what I would expect, and I can easily imagine it causing deadlocks in
-userspace.  Instead, I would expect for gntdev to automatically release
-the grant when the reference count hits zero.  This would also allow for
-the same grant to be mapped in multiple processes, and might even unlock
-DMA-BUF support.
-
-> I don't know why this is happening only with rather recent kernels, as the
-> last gntdev changes in this area have been made in kernel 4.13.
->=20
-> I'd suggest to look at i915, as quite some work has happened in the code
-> visible in your stack backtraces rather recently. Maybe it would be possi=
-ble
-> to free the pages in i915 before calling the MMU notifier?
-
-While I agree that the actual problem is almost certainly in i915, the
-gntdev code does appear rather fragile.  Since so few people use i915 +
-Xen, problems with the combination generally don=E2=80=99t show up until so=
-me
-Qubes user makes a bug report, which isn=E2=80=99t great.  It would be bett=
-er if
-Xen didn=E2=80=99t introduce requirements on other kernel code that did not=
- hold
-when not running on Xen.
-
-In this case, if it is actually an invariant that one must not call MMU
-notifiers for pages that are still in use, it would be better if this
-was caught by a WARN_ON() or BUG_ON() in the core memory management
-code.  That would have found the bug instantly and deterministically on
-all platforms, whereas the current failure is nondeterministic and only
-happens under Xen.
-
-I also wonder if this is a bug in the core MMU notifier infrastructure.
-My reading of the mmu_interval_notifier_remove() documentation is that
-it should only wait for the specific notifier being removed to finish,
-not for all notifiers to finish.  Adding the memory management
-maintainers.
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-Invisible Things Lab
-
---YnCoB7CFMTtqXZKs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmKCWXEACgkQsoi1X/+c
-IsEjNBAAz3hf+qemY+7SSkjIjwueaAyZFhnYLKo7R0cNfYPKD12S5Rt0z0iQbVNN
-PSXBm7/9WS5C9a3x4poKuE5k+HUbpBiu/xrUHSvWQgoCpJCT7ZIruIKQYYj7Ok9C
-BRf3ZjB47o9ZYkRjanMjNeCYJpx8JpAU4Kq1DtLtZW9vtibKdk/Yhn4bl54rqBtQ
-8UGtYK85sfxTnBegkR3/T2bXAuymx3tbi6+VF1NjzH1SYSNp0kUX7FJGfQrNaXXO
-jzNW7rCsA9AEeitHavIsRgBMSMGbeq+QLdGhx5I8TKS9fplT99b6ZvnEg3qMDDKe
-Y6l7SM765IqeByc+oi1cmZ25djJiRUKM7OVgDLvkC73F3auBKEzA+H56JOvMJDHu
-rrKdUt4Mbo5eOBxRJn1l9C/C/2Gxuu2UW8KOAXVoLk+yjWjzqUYrpO8lm/T1o/m7
-0lwBFi5KV2iEPuGcfS9cMNPmjNtkFSgKpSSmAatwH0D7nQCPPoN6Xf1WzQN/mAyz
-XP8VvvKkzB+QLyu+/niOIWHWNED2EwOiR1rhJ8ElESpDTz03qBGrSpIoffmwVngB
-nojEVAMrgCyzwmfB90myQAZ2MUvdfgOUj5Cy6qAZYctv2RXAwBvZOmZdgWMLYJvl
-IoWWk34NY57aVwFxvWnDQls/YRqzO8DZUimCHIt1CxqK64u35yk=
-=bUCk
------END PGP SIGNATURE-----
-
---YnCoB7CFMTtqXZKs--
