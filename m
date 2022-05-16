@@ -2,57 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1676D527E55
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 09:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE61527E5D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 09:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 549B810E02B;
-	Mon, 16 May 2022 07:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4ED910E213;
+	Mon, 16 May 2022 07:14:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C7910E078
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 07:13:41 +0000 (UTC)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2958E10E213
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 07:14:23 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id k30so6468702wrd.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 00:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652685221; x=1684221221;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ry9fillzxTcJhIM/nohUC0k407HyaSI/XvzlwJioUbU=;
- b=zf3s+eUHBxKmOv8QFUAlFgnlHQ6Nt94nfkVEQ7OzIv9eJ4JntlFnkC9i
- rNopsdWO2kb149Ibsa4oFKhNYjeIJmkwIXwlQBGNttfgcLEuwaPQNip3t
- UnPLhu+9tV/XEOJ5uhTJkmetUxUBrBIGn7IF9k0OWJwxEYsC3wcw+ZiBt E=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 16 May 2022 00:13:41 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 May 2022 00:13:41 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 16 May 2022 00:13:40 -0700
-Received: from [10.214.30.67] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 16 May
- 2022 00:13:38 -0700
-Message-ID: <779aaa3e-45cf-6eab-23f1-bbbc0d3f0c69@quicinc.com>
-Date: Mon, 16 May 2022 12:43:35 +0530
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:organization:in-reply-to:content-transfer-encoding;
+ bh=zQsNNvUNi+z3KjnydWQZCY9VMHgpS2nBISZRem1ZpSM=;
+ b=vG/J3EG4nIFFaIKEdNPZV0O+mo+pq//rR2qKLtQdzLDK92bNE3KRGzEqtPqMSQ3MGt
+ 5g45Mcf/8QFQx7o03NP5dXNIaDaMDoiaXT9i/4bh62p6jvEA8fNbuvSYVFKJxRflDRlZ
+ M1ln9a2GoQraK/6fW8JKxzmpkTo7YIVCwYLohiczvkJRRq0T3jsAJ5HutJrdfXjKk0eB
+ 0he+v26QZ4F4brAdZVmHrOat4xGym01wm3/SjOtcfdsOK2U5sfEPhFvAWuqq0Uy+uQbj
+ haXQ3ZRS6FnJumK4kI2YilQZrwZAd8N41PM/mTdVp2emI26gSVw4gHdR7S6gYnGvlDfp
+ F+ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=zQsNNvUNi+z3KjnydWQZCY9VMHgpS2nBISZRem1ZpSM=;
+ b=YJgoio7X3/AjOKbb0Yn36EhWxB8322n6lodiF/qwjCmJdK2XQPshJBVKixOYOJjCj9
+ /d9rfvSNHb5V8PMIv3579UNWqwfHA9G83r0yxY4+01YMBA8RGcgQXNojQ0jIoTfzqAcK
+ txOFRJRRv7/1CUZKTSz9Vd3fUHIHWGrHOpFWu7qvutoMogaTVfcPV9n0aGUBstVJV0Pn
+ mcHx7Pk7x/p4nuM0N96F+xl0QhhZw5S7VDlpj50s5nWi19tLY0Z1g9/ybhur2VPQVK0b
+ pCk7uIfPhOgW7T4YuGtEQLeah8SfsuYjLPRCnVLMgOw5tJRBjf1MdhB3pen1U7O51HcS
+ mo/A==
+X-Gm-Message-State: AOAM531ZL3w4l3I/qZdx1ug7i+hvuIIYO8mwP65jnLJQh89lgofom7CG
+ ZJP07Lxu6SP/qobyMl8YA7DTzg==
+X-Google-Smtp-Source: ABdhPJyT80VIVYKakoVYMbo5yyYAJS5OFAiVAhpJg6cjylzXy0C/ppjROORvRHaZSdFn7EcshbfFpw==
+X-Received: by 2002:adf:fb04:0:b0:20c:dcbb:95bc with SMTP id
+ c4-20020adffb04000000b0020cdcbb95bcmr13130849wrr.393.1652685261581; 
+ Mon, 16 May 2022 00:14:21 -0700 (PDT)
+Received: from ?IPV6:2001:861:44c0:66c0:a9c0:1a19:4204:1dc9?
+ ([2001:861:44c0:66c0:a9c0:1a19:4204:1dc9])
+ by smtp.gmail.com with ESMTPSA id
+ n12-20020adf8b0c000000b0020cdf6ecafbsm10730539wra.81.2022.05.16.00.14.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 May 2022 00:14:20 -0700 (PDT)
+Message-ID: <80bd164e-5ce9-7347-dc6b-39cef2da9df3@baylibre.com>
+Date: Mon, 16 May 2022 09:14:23 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [bug report] dma-buf: call dma_buf_stats_setup after dmabuf is in
- valid list
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/meson: fix HDMI2 420 display mode selection logic
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>
-References: <YoH0AcDvgowmOot4@kili>
-From: Charan Teja Kalla <quic_charante@quicinc.com>
-In-Reply-To: <YoH0AcDvgowmOot4@kili>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ khilman@baylibre.com, linux-amlogic@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+References: <20220515204412.2733803-1-adrian.larumbe@collabora.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <20220515204412.2733803-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,82 +78,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "T.J. Mercier" <tjmercier@google.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-++ Adding Christian
+Hi,
 
-On 5/16/2022 12:19 PM, Dan Carpenter wrote:
-> Hello Charan Teja Reddy,
-> 
-> The patch ef3a6b70507a: "dma-buf: call dma_buf_stats_setup after
-> dmabuf is in valid list" from May 10, 2022, leads to the following
-> Smatch static checker warning:
-> 
-> 	drivers/dma-buf/dma-buf.c:569 dma_buf_export()
-> 	warn: '&dmabuf->list_node' not removed from list
-> 
-> drivers/dma-buf/dma-buf.c
->    538          file = dma_buf_getfile(dmabuf, exp_info->flags);
->    539          if (IS_ERR(file)) {
->    540                  ret = PTR_ERR(file);
->    541                  goto err_dmabuf;
->    542          }
->    543  
->    544          file->f_mode |= FMODE_LSEEK;
->    545          dmabuf->file = file;
->    546  
->    547          mutex_init(&dmabuf->lock);
->    548          INIT_LIST_HEAD(&dmabuf->attachments);
->    549  
->    550          mutex_lock(&db_list.lock);
->    551          list_add(&dmabuf->list_node, &db_list.head);
-> 
-> Added to the list
-> 
->    552          mutex_unlock(&db_list.lock);
->    553  
->    554          ret = dma_buf_stats_setup(dmabuf);
->    555          if (ret)
->    556                  goto err_sysfs;
-> 
-> Goto
-> 
->    557  
->    558          return dmabuf;
->    559  
->    560  err_sysfs:
->    561          /*
->    562           * Set file->f_path.dentry->d_fsdata to NULL so that when
->    563           * dma_buf_release() gets invoked by dentry_ops, it exits
->    564           * early before calling the release() dma_buf op.
->    565           */
->    566          file->f_path.dentry->d_fsdata = NULL;
->    567          fput(file);
->    568  err_dmabuf:
->    569          kfree(dmabuf);
-> 
-> dmabuf is freed, but it's still on the list so it leads to a use after
-> free.
 
-This seems to be a false positive. On closing the file @line no:567, it
-ends up calling dma_buf_file_release() which does remove dmabuf from its
-list.
+On 15/05/2022 22:44, Adrián Larumbe wrote:
+> Commit e67f6037ae1be34b2b68 ("drm/meson: split out encoder from
+> meson_dw_hdmi") introduced a new way of calculating the display's pixel
+> clock. However, it leads to the wrong value being reckoned for Odroid N2+
+> boards, where clock frequency is never halved when the display's videomode
+> supports YCBCR420 output format.
 
-static int dma_buf_file_release(struct inode *inode, struct file *file) {
-	......
-	mutex_lock(&db_list.lock);
-	list_del(&dmabuf->list_node);
-	mutex_unlock(&db_list.lock);
-	......
-}
+The current logic is designed to select YUV420 for:
+- HDMI2 sinks when the selected mode is /only/ yu420
+- non-HDMI2 sinks when the selected mode is /also/ yuv420
+
+For the later, it's mainly for pre-HDMI2 TVs supporting 4k@24hz/30Hz but also
+4k@60Hz in yuv420 mode, this is exposed using the drm_mode_is_420_also().
+
+If I understand correctly, you want to always enable yuv420 when a mode /can/
+use yu420, which is not how the code is written right now.
+
+The current code code prioritizes YUV then RGB and 444->422>420 in case of YUV,
+the when a HDMI2 sink is connected and support 4k@60Hz in RGB, YUV444 and YUV420,
+the current logic will select 4k@60Hz-YUV444 because it the direct output (well
+not exactly, the pipeline is 10bit) of the video pipeline with no color conversion
+in the middle.
+
+If you want to introduce different bus format priority, you should then
+add HDMI content type, or non_desktop connector connector properties.
+
+Not this should be done in meson driver and dw-hdmi.
+
+Neil
 
 > 
->    570  err_module:
->    571          module_put(exp_info->owner);
->    572          return ERR_PTR(ret);
->    573  }
+> Fix the selection logic.
 > 
-> regards,
-> dan carpenter
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>   drivers/gpu/drm/meson/meson_dw_hdmi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> index 5cd2b2ebbbd3..6c9640f4c82e 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> @@ -380,7 +380,7 @@ static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
+>   			 mode->clock > 340000 ? 40 : 10);
+>   
+>   	if (drm_mode_is_420_only(display, mode) ||
+> -	    (!is_hdmi2_sink &&
+> +	    (is_hdmi2_sink &&
+>   	     drm_mode_is_420_also(display, mode)))
+>   		mode_is_420 = true;
+>   
+
