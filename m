@@ -2,63 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6005852837B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 13:47:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBDC5283D4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 14:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D292010F888;
-	Mon, 16 May 2022 11:46:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C079110E4E8;
+	Mon, 16 May 2022 12:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E2710F888
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 11:46:56 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B4CDC21FD2;
- Mon, 16 May 2022 11:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652701614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D602C10E46C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 12:05:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652702755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j830Fd2rLci+B5lZ1yKTLpSrijqWvIuQmBZfwbqmAmY=;
- b=wmaSrqnwXjqgtHJvejPrj7+wHbPKRqqM50oSwuUBiOmv+exAogiTMf3dwKQGnSxNStSO9q
- 4iR530TgBMHU5rLuLf9PtAZ7v+JR+pDYSsTdyWOU7RBARWW8n1oRwwct8DwFPHC9+bllN/
- WHqeMQjMQYXuQOfHgFCVJC36Y2SbGoY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652701614;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j830Fd2rLci+B5lZ1yKTLpSrijqWvIuQmBZfwbqmAmY=;
- b=ogYHzJOyG63JBTPTmN9F8CuvuQBoJOSuKU6R3Vy3onJq02vEH7JUWAUPPEqiLdGlcaAcyc
- uaEq8vVK0IKdkVDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F30D13AAB;
- Mon, 16 May 2022 11:46:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id k9kYIq45gmLqTAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 16 May 2022 11:46:54 +0000
-Message-ID: <116e5d17-6ac3-f189-7992-099d1c04eea6@suse.de>
-Date: Mon, 16 May 2022 13:46:54 +0200
+ bh=vG/ZLIgl/6sRfeOy7UnubeHdfQCIjGvrLP2A/YOFXi0=;
+ b=Fom5uD0x5rLilCSwlX9xDVvwSI4cMiVaQ068SP0oc3CWLf4jkWJzqPqnOBoIGsopmcaL/g
+ EVCOMsZB+6fljlpwFoVK59f52B+qT7VpmzEsu07qPI9upNPm5vDoDTrydpKrf94YKwuBKM
+ X77CB2G8f8nbQoM7pazU5/DHdsQaO9c=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-54-HmQMIqyTPem9ffthjDBhAg-1; Mon, 16 May 2022 08:05:52 -0400
+X-MC-Unique: HmQMIqyTPem9ffthjDBhAg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ p13-20020aa7c4cd000000b0042ab847aba8so982741edr.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 05:05:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vG/ZLIgl/6sRfeOy7UnubeHdfQCIjGvrLP2A/YOFXi0=;
+ b=pzR9MSiAvPFbWZXDu8yJ6Jd9XOHjVzEgu+s9zk95bYG3Uzj48Rc1H5gxVLPNUPtoFJ
+ Ke8y/Wbf90YWbWo7pTqfcO4rQn5TDd9fD4YajcUEca4okBdbzKtsDLmD7/1zBxS3SZbA
+ TJGsW0Wap95V0zmUyMl3cOYN0Z9aKS2FzmpWeo/4/cPpv3A5NIqS2ue828UoBd8LZ4v+
+ 4SFKH2C4NCiIQbEoZC1f8Q3CaloszFusckLwqYAALYOLxGuqYKKH6Hn5EHMTIi3trhRY
+ qSock9+5ebVllP3KJT6B0v1E8yCadHEyJ1pHrKCxyRP1Jz6dWZ40XbyIO5+bHxQPIGwD
+ /i8w==
+X-Gm-Message-State: AOAM533WlNCVtqA+jVRtm97/gTrCRK86PmsiYjYAlwGSlbvRRAoGVcEX
+ fRQ4heoL9XJXfR5VjrbiGlgS0EagdLmUNiCIlPSpDlu7AwkM1zM1ApU+PIULF9R9LmhJyIoTTeN
+ VQOdh4za6HacWeyQWHOyCl8RMy5dc
+X-Received: by 2002:a05:6402:b8f:b0:42a:be5d:7a94 with SMTP id
+ cf15-20020a0564020b8f00b0042abe5d7a94mr769283edb.150.1652702750683; 
+ Mon, 16 May 2022 05:05:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAN7T+5N/B7gyP+ujGejIQ5hVeT1KxXFDW1cynVLgUOmc51xLNbcUysPS1+TQF7PAajXo6tA==
+X-Received: by 2002:a05:6402:b8f:b0:42a:be5d:7a94 with SMTP id
+ cf15-20020a0564020b8f00b0042abe5d7a94mr769267edb.150.1652702750470; 
+ Mon, 16 May 2022 05:05:50 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+ by smtp.gmail.com with ESMTPSA id
+ jl6-20020a17090775c600b006fd6f7b3c84sm3646784ejc.46.2022.05.16.05.05.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 May 2022 05:05:49 -0700 (PDT)
+Message-ID: <63a9c130-a302-3fec-fcbc-e18c3918ae75@redhat.com>
+Date: Mon, 16 May 2022 14:05:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 0/4] drm: Ignore non-existing color planes in helpers
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v4 2/5] drm: Add HPD state to
+ drm_connector_oob_hotplug_event()
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+References: <20220502165316.4167199-1-bjorn.andersson@linaro.org>
+ <20220502165316.4167199-3-bjorn.andersson@linaro.org>
+ <YoI0wx/LPK4ZrUFf@kuha.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YoI0wx/LPK4ZrUFf@kuha.fi.intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
- christian.koenig@amd.com
-References: <20220509081602.474-1-tzimmermann@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220509081602.474-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------FSa5bL30oSe6K8wEb0MAcqjw"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,82 +91,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------FSa5bL30oSe6K8wEb0MAcqjw
-Content-Type: multipart/mixed; boundary="------------hKxivxncFmpqTQniBk1hLuWO";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
- christian.koenig@amd.com
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <116e5d17-6ac3-f189-7992-099d1c04eea6@suse.de>
-Subject: Re: [PATCH 0/4] drm: Ignore non-existing color planes in helpers
-References: <20220509081602.474-1-tzimmermann@suse.de>
-In-Reply-To: <20220509081602.474-1-tzimmermann@suse.de>
+Hi,
 
---------------hKxivxncFmpqTQniBk1hLuWO
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 5/16/22 13:25, Heikki Krogerus wrote:
+> +Hans
+> 
+> Hans, do you have any comments?
 
-cGluZ2luZyBmb3IgcmV2aWV3DQoNCkFtIDA5LjA1LjIyIHVtIDEwOjE1IHNjaHJpZWIgVGhv
-bWFzIFppbW1lcm1hbm46DQo+IFNvbWUgRFJNIGhlbHBlcnMgYXNzdW1lIHRoYXQgYWxsIHBv
-dGVudGlhbCBjb2xvciBwbGFuZXMgb2YgYSBmcmFtZWJ1ZmZlcg0KPiBhcmUgYXZhaWxhYmxl
-OyBldmVuIGlmIHRoZSBjb2xvciBmb3JtYXQgZGlkbid0IHNwZWNpZnkgdGhlbS4gTm9uLWV4
-aXN0aW5nDQo+IHBsYW5lcyBhcmUgc2lsZW50bHkgaWdub3JlZC4gVGhpcyBiZWhhdmlvciBp
-cyBpbmNvbnNpc3RlbnQgd2l0aCBvdGhlcg0KPiBoZWxwZXJzIGFuZCBhcHBhcmVudGx5IGxl
-YWRzIHRvIHN1YnRsZSBidWdzIHdpdGggdW5pbml0aWFsaXplZCBHRU0gYnVmZmVyDQo+IG1h
-cHBpbmdzLiBbMV0NCj4gDQo+IENoYW5nZSBhbGwgYWZmZWN0ZWQgY29kZSB0byBsb29rIGF0
-IHRoZSBmcmFtZWJ1ZmZlciBmb3JtYXQncyBudW1iZXIgb2YNCj4gY29sb3IgcGxhbmVzIGFu
-ZCBvbmx5IHByb2Nlc3MgdGhlc2UgcGxhbmVzLiBUaGUgdXBkYXRlIGhhcyBiZWVuIGRpc2N1
-c3NlZA0KPiBpbiBbMl0gYmVmb3JlLg0KPiANCj4gVGVzdGVkIHdpdGggR0VNIFNITUVNIGhl
-bHBlcnMgb24gc2ltcGxlZHJtLg0KPiANCj4gWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
-L2RyaS1kZXZlbC8yMDIxMDczMDE4MzUxMS4yMDA4MC0xLXR6aW1tZXJtYW5uQHN1c2UuZGUv
-VC8jbWQwMTcyYjEwYmI1ODhkOGYyMGY0ZjQ1NmUzMDRmMDhkMmE0NTA1ZjcNCj4gWzJdIGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC84NzdkYzBkOS1jNmM2LTAyMmMtMjBk
-OC0xNGIzM2U4NjM5MzRAc3VzZS5kZS8NCj4gDQo+IFRob21hcyBaaW1tZXJtYW5uICg0KToN
-Cj4gICAgZHJtL2dlbTogU2hhcmUgY29kZSBiZXR3ZWVuIGRybV9nZW1fZmJfe2JlZ2luLGVu
-ZH1fY3B1X2FjY2VzcygpDQo+ICAgIGRybS9nZW06IElnbm9yZSBjb2xvciBwbGFuZXMgdGhh
-dCBhcmUgdW51c2VkIGJ5IGZyYW1lYnVmZmVyIGZvcm1hdA0KPiAgICBkcm0vZ2VtLXZyYW06
-IElnbm9yZSBwbGFuZXMgdGhhdCBhcmUgdW51c2VkIGJ5IGZyYW1lYnVmZmVyIGZvcm1hdA0K
-PiAgICBkcm0vZ2VtOiBXYXJuIG9uIHRyeWluZyB0byB1c2UgYSBub24tZXhpc3RpbmcgZnJh
-bWVidWZmZXIgcGxhbmUNCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fYXRvbWlj
-X2hlbHBlci5jICAgICAgfCAgIDYgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9m
-cmFtZWJ1ZmZlcl9oZWxwZXIuYyB8IDEwMyArKysrKysrKystLS0tLS0tLS0tDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYyAgICAgICAgfCAgMzYgKysrKy0t
-LQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmggICAgIHwg
-IDEwICstDQo+ICAgNCBmaWxlcyBjaGFuZ2VkLCA4MSBpbnNlcnRpb25zKCspLCA3NCBkZWxl
-dGlvbnMoLSkNCj4gDQo+IA0KPiBiYXNlLWNvbW1pdDogYjBiOTM4NjVhMjRjOTEwZmNiZmE2
-ZTZmYTA5NTVmYWU5MzBhNTZkMw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
-OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Thanks for the ping, this looks good to me:
 
---------------hKxivxncFmpqTQniBk1hLuWO--
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
---------------FSa5bL30oSe6K8wEb0MAcqjw
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Hans
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKCOa4FAwAAAAAACgkQlh/E3EQov+C/
-gxAAy7wXvsF8afBhK9UXxuXo2eOqAx18/JxRPYKqIeS6KtRNY+b7i5S7pP3gwEyT6oBj3llZQ3YO
-Rpgm641/P+3IvySHUrKMTr/y2/G1mzmVgjJS9ZZc/JvXnEg6nyIQ65esI93ZloK6upv8qKGI8Ogf
-4M5ukyG+WEX78JHXiH53XLjQprgovOt8ceP42g/AIhawn4EOAqizU/jkoooGGQIkXnVSAuNjcPCn
-tzriVsyToz4G3Ui/3+x+YM0rFR8cGonEi22t8lhw7/YkG2Vpsme0Zr8/e7Rzb3E+er87XUZkn4CR
-2flxAYFiVhD68XtL5IW5ZP1t78N6mfKA3xLI/ux4fFQ7zl6I8E3QFmm2ZHv1kNMLsNBLn9uH0n+D
-aEn/ipf9Eoq7oPpPseBbJo2EjfKkYFtKWo0N1iecD4MLf2LiPbJ0QOhmynTnTZfDg+oRwbQ3opKE
-hiAeL0htg3II3qVjSe0rAYSgpouEy0T1fd6+ZQnL0u+YuWfGUv3bHSnXZRblfwp9lwO3h4b2W7k2
-+3zzzWuG+PUEyu+TCpafK2wnlmNINbZr+sXgS9YnyQY/C/5U+9zCWCThemxAJPqwIP4D/B5e3NJa
-oJ2fnANOD+eJjKFPZUyeyiFt4lQKm1GwQx+rP04a6Awym60het6EViPM3LYvQYzzrM0VvxlvWnww
-eTA=
-=QBfw
------END PGP SIGNATURE-----
 
---------------FSa5bL30oSe6K8wEb0MAcqjw--
+> 
+> On Mon, May 02, 2022 at 09:53:13AM -0700, Bjorn Andersson wrote:
+>> In some implementations, such as the Qualcomm platforms, the display
+>> driver has no way to query the current HPD state and as such it's
+>> impossible to distinguish between disconnect and attention events.
+>>
+>> Add a parameter to drm_connector_oob_hotplug_event() to pass the HPD
+>> state.
+>>
+>> Also push the test for unchanged state in the displayport altmode driver
+>> into the i915 driver, to allow other drivers to act upon each update.
+>>
+>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+>> ---
+>>
+>> Changes since v3:
+>> - Transition to drm_connector_status instead of custom hpd_state 
+>>
+>>  drivers/gpu/drm/drm_connector.c          |  6 ++++--
+>>  drivers/gpu/drm/i915/display/intel_dp.c  | 17 ++++++++++++++---
+>>  drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+>>  drivers/usb/typec/altmodes/displayport.c | 10 +++-------
+>>  include/drm/drm_connector.h              |  6 ++++--
+>>  5 files changed, 28 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index 1c48d162c77e..e86c69f0640f 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -2794,6 +2794,7 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>>  /**
+>>   * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
+>>   * @connector_fwnode: fwnode_handle to report the event on
+>> + * @status: hot plug detect logical state
+>>   *
+>>   * On some hardware a hotplug event notification may come from outside the display
+>>   * driver / device. An example of this is some USB Type-C setups where the hardware
+>> @@ -2803,7 +2804,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>>   * This function can be used to report these out-of-band events after obtaining
+>>   * a drm_connector reference through calling drm_connector_find_by_fwnode().
+>>   */
+>> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+>> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+>> +				     enum drm_connector_status status)
+>>  {
+>>  	struct drm_connector *connector;
+>>  
+>> @@ -2812,7 +2814,7 @@ void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+>>  		return;
+>>  
+>>  	if (connector->funcs->oob_hotplug_event)
+>> -		connector->funcs->oob_hotplug_event(connector);
+>> +		connector->funcs->oob_hotplug_event(connector, status);
+>>  
+>>  	drm_connector_put(connector);
+>>  }
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+>> index e4a79c11fd25..56cc023f7bbd 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> @@ -4951,15 +4951,26 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
+>>  	return intel_modeset_synced_crtcs(state, conn);
+>>  }
+>>  
+>> -static void intel_dp_oob_hotplug_event(struct drm_connector *connector)
+>> +static void intel_dp_oob_hotplug_event(struct drm_connector *connector,
+>> +				       enum drm_connector_status hpd_state)
+>>  {
+>>  	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+>>  	struct drm_i915_private *i915 = to_i915(connector->dev);
+>> +	bool hpd_high = hpd_state == connector_status_connected;
+>> +	unsigned int hpd_pin = encoder->hpd_pin;
+>> +	bool need_work = false;
+>>  
+>>  	spin_lock_irq(&i915->irq_lock);
+>> -	i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
+>> +	if (hpd_high != test_bit(hpd_pin, &i915->hotplug.oob_hotplug_last_state)) {
+>> +		i915->hotplug.event_bits |= BIT(hpd_pin);
+>> +
+>> +		__assign_bit(hpd_pin, &i915->hotplug.oob_hotplug_last_state, hpd_high);
+>> +		need_work = true;
+>> +	}
+>>  	spin_unlock_irq(&i915->irq_lock);
+>> -	queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+>> +
+>> +	if (need_work)
+>> +		queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+>>  }
+>>  
+>>  static const struct drm_connector_funcs intel_dp_connector_funcs = {
+>> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+>> index 24111bf42ce0..96c088bb5522 100644
+>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>> @@ -135,6 +135,9 @@ struct i915_hotplug {
+>>  	/* Whether or not to count short HPD IRQs in HPD storms */
+>>  	u8 hpd_short_storm_enabled;
+>>  
+>> +	/* Last state reported by oob_hotplug_event for each encoder */
+>> +	unsigned long oob_hotplug_last_state;
+>> +
+>>  	/*
+>>  	 * if we get a HPD irq from DP and a HPD irq from non-DP
+>>  	 * the non-DP HPD could block the workqueue on a mode config
+>> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+>> index c1d8c23baa39..9360ca177c7d 100644
+>> --- a/drivers/usb/typec/altmodes/displayport.c
+>> +++ b/drivers/usb/typec/altmodes/displayport.c
+>> @@ -59,7 +59,6 @@ struct dp_altmode {
+>>  	struct typec_displayport_data data;
+>>  
+>>  	enum dp_state state;
+>> -	bool hpd;
+>>  
+>>  	struct mutex lock; /* device lock */
+>>  	struct work_struct work;
+>> @@ -143,10 +142,8 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+>>  		if (!ret)
+>>  			dp->state = DP_STATE_CONFIGURE;
+>>  	} else {
+>> -		if (dp->hpd != hpd) {
+>> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+>> -			dp->hpd = hpd;
+>> -		}
+>> +		drm_connector_oob_hotplug_event(dp->connector_fwnode,
+>> +						hpd ? connector_status_connected : connector_status_disconnected);
+>>  	}
+>>  
+>>  	return ret;
+>> @@ -573,8 +570,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+>>  	cancel_work_sync(&dp->work);
+>>  
+>>  	if (dp->connector_fwnode) {
+>> -		if (dp->hpd)
+>> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+>> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, connector_status_disconnected);
+>>  
+>>  		fwnode_handle_put(dp->connector_fwnode);
+>>  	}
+>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>> index 3ac4bf87f257..886aa1861ed9 100644
+>> --- a/include/drm/drm_connector.h
+>> +++ b/include/drm/drm_connector.h
+>> @@ -1141,7 +1141,8 @@ struct drm_connector_funcs {
+>>  	 * This will get called when a hotplug-event for a drm-connector
+>>  	 * has been received from a source outside the display driver / device.
+>>  	 */
+>> -	void (*oob_hotplug_event)(struct drm_connector *connector);
+>> +	void (*oob_hotplug_event)(struct drm_connector *connector,
+>> +				  enum drm_connector_status status);
+>>  
+>>  	/**
+>>  	 * @debugfs_init:
+>> @@ -1749,7 +1750,8 @@ drm_connector_is_unregistered(struct drm_connector *connector)
+>>  		DRM_CONNECTOR_UNREGISTERED;
+>>  }
+>>  
+>> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode);
+>> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+>> +				     enum drm_connector_status status);
+>>  const char *drm_get_connector_type_name(unsigned int connector_type);
+>>  const char *drm_get_connector_status_name(enum drm_connector_status status);
+>>  const char *drm_get_subpixel_order_name(enum subpixel_order order);
+>> -- 
+>> 2.35.1
+> 
+
