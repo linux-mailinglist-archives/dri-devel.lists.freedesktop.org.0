@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EA55293F2
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 00:57:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F1A5293FF
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 00:57:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6262B10E6E4;
-	Mon, 16 May 2022 22:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C8610E7EC;
+	Mon, 16 May 2022 22:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5E310E8FC;
- Mon, 16 May 2022 22:57:01 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id b11so7612973ilr.4;
- Mon, 16 May 2022 15:57:01 -0700 (PDT)
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC35F10E66F;
+ Mon, 16 May 2022 22:57:04 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id f9so1820998ils.7;
+ Mon, 16 May 2022 15:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0q2zph1ZCXFs7WKRxPFWrSWi15W02opZe3T7QJQ5ap4=;
- b=D+2Nl0pQxEGTDTo5NEF/KAytSKaLe4sJXJOvqpnRcVc/IZnyy0W1wMyiITHglFfU+S
- pmgMHonBN1r0D+h6EVslkidi/tGcgNxCrfkplfoHiLHtENqxSaHXpEOV0hmlGsFAL1gy
- WMxhbfMRHDPmJQ/ima0D6KrMxyMEU/NPxcGgdV7u6BIi/1NfRuMaCWvgJ8b98Hsi8aaP
- 1/xNeEJKp2IotfVLQl30vHtClfiO0oBvomhf8Ch3ixkoss6Uu0JBJpVSpnl0gqlMhNEp
- cIX+I7Q981LaG/iyCIs3c9iLX+tz40fiurace8CRPhis2aLMQuPPHB3Us22EtfY/w7TJ
- OiwA==
+ bh=PoO/FHr0Tzfzf5P1B6XW1SDDzBeQTtD4lR71J35fVB4=;
+ b=hc4BLkqpCT9R4W4i7l0zefNNlEKY2zz43aOLOytEmIYryaqtFTXD70GWmf0k7ytBSm
+ PJqH1duNIjfaYz/dZu9lsTxRmq5rdkLB7Z5H4aiGjvlDvnq1O/sJxzCKbR9TGOBycAyj
+ YdFdyAGyiRyLaUCLyQnuZUzm7eymIHnN13wrUv+Ew5wXPQxZhXnhhBOfw7exNw7pSQSz
+ XNO3vMkVaXZUdfkfQSkLejRUdXE3fHM5Z8+efXpPJh3fM+yEvN81wzneSgdN2aB6Y8Iy
+ 3gppEV7yEv86QkoDdeYF3eQZNX5wy+pbp41VoYuA9IxX4Md64KSW12G9/JddFlYNgSEn
+ 8HFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0q2zph1ZCXFs7WKRxPFWrSWi15W02opZe3T7QJQ5ap4=;
- b=22gZVdCSMx2/B8NA7AqBdTbYCh0Ei55OO9tsRbNlxfsPYyqprztVBQBwylksQMkKt/
- kmHzRyUSASfNcyIS12SGSZHp894UfmL1rfJ8ugJvIYXD2mQfxXyrbhmJnsXN6jCHtD/H
- sNQbReHdl6kYFcSm8irhMSVLcjZVrXPfcCFmJ8GawWDGg8wSr6ls7R6vGSUCsG/3UjJg
- eZKqZY7UqHi1rEgqKmx/0F2R7XMeYQbXNHm7C1EMoc00/FajQOO6n285PfEyFcwUvdI3
- 8bcBTZfeX/C06z60NxjEzJjo9FOQ59zc56f9YcvocQH3q43wL7GCrglDxZPPtUNET1hn
- Roow==
-X-Gm-Message-State: AOAM533eZ3kwWoVx1eexN7KcDZC3qlLhIM7Y4sS+VztpGZ1sCbikNdh7
- YeTVWui29VOBSMSV/PKcXk8=
-X-Google-Smtp-Source: ABdhPJxzuDtDs3r2+Nl0gh2+cAwejD1t+Ts8LpHwPq/tWghODbyudseUdSlIKZM7WeMOEenc8xf2qA==
-X-Received: by 2002:a05:6e02:1a2f:b0:2d1:2399:dc36 with SMTP id
- g15-20020a056e021a2f00b002d12399dc36mr3231577ile.12.1652741820481; 
- Mon, 16 May 2022 15:57:00 -0700 (PDT)
+ bh=PoO/FHr0Tzfzf5P1B6XW1SDDzBeQTtD4lR71J35fVB4=;
+ b=tuV/LqkrP7kDgWVcqhHcaVfWFwB/ylXwUVNjKedFC7AVzZi16Q400jtq6/yRcI2zVp
+ ITaNDecJ1pLZjPKhM5pADDxfhl/vAC9BKrYlNStPm9IKKaCc9uAQZj2KYONvVt7LugH9
+ CTZWxTMrVRw2ib71alZ7F8thdelpMN5Ipq9BHn8UiAXMUsZ2KDV4yu0LOUzE1wTP+r95
+ AdJzS9+iaJFR90epLWdBdgA/NVV/LLcM5D3MtF3oOgwnH8G8bJskpGxxU0OG5dh2QvVF
+ ZHIG2YBPcv14E8AhOGM/neMGZ6xqpKytmhlo3fBvl5kKkXXXhaEhEUg/Q3+1bGby+c0Y
+ JhLQ==
+X-Gm-Message-State: AOAM53116xPPsd47C2WtHhm9KRU/EPTDwQmA8y4KBT/h9AcFe/WcleHY
+ X+NUY5e734Ty2Ui456P4VHo=
+X-Google-Smtp-Source: ABdhPJwuNA8eYlVKbPRsQ7MSW422HjHltNMa6MYgzwzBN3oyRsIKn3be980+iuLjBzfHqKn+YxCiwQ==
+X-Received: by 2002:a05:6e02:216c:b0:2cf:3b9f:72c5 with SMTP id
+ s12-20020a056e02216c00b002cf3b9f72c5mr10013301ilv.225.1652741824045; 
+ Mon, 16 May 2022 15:57:04 -0700 (PDT)
 Received: from frodo.hsd1.co.comcast.net ([2601:284:8204:2010::dd9f])
  by smtp.googlemail.com with ESMTPSA id
- k26-20020a02661a000000b0032b74686763sm3133949jac.76.2022.05.16.15.56.59
+ k26-20020a02661a000000b0032b74686763sm3133949jac.76.2022.05.16.15.57.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 15:57:00 -0700 (PDT)
+ Mon, 16 May 2022 15:57:03 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 02/27] dyndbg: show both old and new in change-info
-Date: Mon, 16 May 2022 16:56:15 -0600
-Message-Id: <20220516225640.3102269-3-jim.cromie@gmail.com>
+Subject: [PATCH v2 03/27] dyndbg: fix module.dyndbg handling
+Date: Mon, 16 May 2022 16:56:16 -0600
+Message-Id: <20220516225640.3102269-4-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220516225640.3102269-1-jim.cromie@gmail.com>
 References: <20220516225640.3102269-1-jim.cromie@gmail.com>
@@ -73,51 +73,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: maz@kernel.org, quic_saipraka@quicinc.com, catalin.marinas@arm.com,
  arnd@arndb.de, gregkh@linuxfoundation.org, linux-arm-msm@vger.kernel.org,
- rostedt@goodmis.org, mingo@redhat.com, mathieu.desnoyers@efficios.com,
- quic_psodagud@quicinc.com, daniel.vetter@ffwll.ch, seanpaul@chromium.org,
- will@kernel.org, linux-arm-kernel@lists.infradead.org
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, rostedt@goodmis.org,
+ mingo@redhat.com, mathieu.desnoyers@efficios.com, quic_psodagud@quicinc.com,
+ daniel.vetter@ffwll.ch, seanpaul@chromium.org, will@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-print "old -> new" flag values in the info("change") message.
+For CONFIG_DYNAMIC_DEBUG=N, the ddebug_dyndbg_module_param_cb()
+stub-fn is too permissive:
 
-no functional change.
+bash-5.1# modprobe drm JUNKdyndbg
+bash-5.1# modprobe drm dyndbgJUNK
+[   42.933220] dyndbg param is supported only in CONFIG_DYNAMIC_DEBUG builds
+[   42.937484] ACPI: bus type drm_connector registered
 
+This caused no ill effects, because unknown parameters are either
+ignored by default (with an "unknown parameter" warning, see below),
+or ignored because dyndbg allows its no-effect use on non-dyndbg builds.
+
+That said, the code has an explicit feedback message, which should be
+issued accurately.  Fix with strcmp, for exact param-name match.
+
+Here is fixed behavior:
+
+bash-5.1# modprobe drm dyndbgJUNK
+[   20.127473] drm: unknown parameter 'dyndbgJUNK' ignored
+[   20.128835] ACPI: bus type drm_connector registered
+bash-5.1# rmmod drm
+[   37.961656] ACPI: bus type drm_connector unregistered
+bash-5.1# modprobe drm dyndbg
+[   42.933220] dyndbg param is supported only in CONFIG_DYNAMIC_DEBUG builds
+[   42.937484] ACPI: bus type drm_connector registered
+
+Reported-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ include/linux/dynamic_debug.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index a56c1286ffa4..ca2a28f1d51c 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -156,7 +156,7 @@ static int ddebug_change(const struct ddebug_query *query,
- 	struct ddebug_table *dt;
- 	unsigned int newflags;
- 	unsigned int nfound = 0;
--	struct flagsbuf fbuf;
-+	struct flagsbuf fbuf, nbuf;
- 
- 	/* search for matching ddebugs */
- 	mutex_lock(&ddebug_lock);
-@@ -217,11 +217,12 @@ static int ddebug_change(const struct ddebug_query *query,
- 				static_branch_enable(&dp->key.dd_key_true);
- 			}
- #endif
-+			v4pr_info("changed %s:%d [%s]%s %s -> %s\n",
-+				  trim_prefix(dp->filename), dp->lineno,
-+				  dt->mod_name, dp->function,
-+				  ddebug_describe_flags(dp->flags, &fbuf),
-+				  ddebug_describe_flags(newflags, &nbuf));
- 			dp->flags = newflags;
--			v4pr_info("changed %s:%d [%s]%s =%s\n",
--				 trim_prefix(dp->filename), dp->lineno,
--				 dt->mod_name, dp->function,
--				 ddebug_describe_flags(dp->flags, &fbuf));
- 		}
- 	}
- 	mutex_unlock(&ddebug_lock);
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index dce631e678dd..f30b01aa9fa4 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -201,7 +201,7 @@ static inline int ddebug_remove_module(const char *mod)
+ static inline int ddebug_dyndbg_module_param_cb(char *param, char *val,
+ 						const char *modname)
+ {
+-	if (strstr(param, "dyndbg")) {
++	if (!strcmp(param, "dyndbg")) {
+ 		/* avoid pr_warn(), which wants pr_fmt() fully defined */
+ 		printk(KERN_WARNING "dyndbg param is supported only in "
+ 			"CONFIG_DYNAMIC_DEBUG builds\n");
 -- 
 2.35.3
 
