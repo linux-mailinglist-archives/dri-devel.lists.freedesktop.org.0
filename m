@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D82852881F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 17:11:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA871528829
+	for <lists+dri-devel@lfdr.de>; Mon, 16 May 2022 17:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC12112191;
-	Mon, 16 May 2022 15:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 593DB112495;
+	Mon, 16 May 2022 15:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4455112191
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 15:11:10 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id j4so26362219lfh.8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 08:11:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
- bh=ThtkhJjqmQfv2SviiAcmC8uKNvCTv+1Qfs3YExwXtrM=;
- b=AjpSNO+RwZkxk9UOYfbwCpYPaJePlh7oHjbLSRFeUi0zmB2xOIMXi5ZBJr625RCOqW
- RrV6ZMvjzumxfNzEYF65DfpGotjDd8oumRdmgUF4U0J6XGJDF7nl3AeCsxY67vKsk1v1
- Msru0Wty4qi5jhQCtr68vZDSjdPBoa0gPTL/k=
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9D7E112495
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 15:12:28 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-e93bbb54f9so20421966fac.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 May 2022 08:12:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:cc;
- bh=ThtkhJjqmQfv2SviiAcmC8uKNvCTv+1Qfs3YExwXtrM=;
- b=JLmCP6tzf7pX4N6cipSB3UI45HQJ1ROhGBByLan+NX/hqTlvjZ9XFTfmkYkPfo5w3z
- AlI7DfeVN9KbHt86oAqGIAcVsF1MhZBQbYa3tKIdw63OQz/rKPJ2+Ea1ukSsB+8frV/N
- vVM4H74EvNlDcqlWqTbZc/lgc+1KYAXMjDFC2vTR/iGfvlI+/NiVq2gFmQCsH/Mw8Fff
- xa7Teg74XbzZgYo3RIhGi1U2PUjXG83FWx2mQYwX1cbCSxodRa92dhXZuPhGIEE8F8HT
- SzeUYI4nYLD6yEkjHNxBtF9ph5rCEhF3/cSkLJke0LbrXJKSlT1zWIbyiKawYmLypJkR
- f1SQ==
-X-Gm-Message-State: AOAM530dZiHpUBikGbmBanl/QXDmHkRra1BCe2xQv4cbgBllSF2yTVbo
- DJMeUnZxQe2ZorQsmkQlcDo2X2CcClG1MdKLr854UA==
-X-Received: by 2002:ac2:4475:0:b0:473:f03c:a041 with SMTP id
- y21-20020ac24475000000b00473f03ca041mt3948438lfl.192.1652713868087; Mon, 16
- May 2022 08:11:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=znK6Xi/ZZGwAG1mufIgwNSTMcdTMg6wUp+SUygn6ioI=;
+ b=wuvMgDjA9hy6snvjbHnPt0xPx3RBFfjHoNfB5P/x50NyMMJicDQf+UOIBsSevYT4Ow
+ euKszb2Hewpqe67B9oJBQBdpJyBtvyffDD99/yfkriEG46vgtLHBN8QTvQnyTnK5fBud
+ YwPkSCmL4dtW8e2Aoaftsls2yVXLQBotMooB8igMgj/BU9wsJSfTLjX8d0XXwicitoz+
+ MXcbyRneG4xFbvcMChhOrErYcPehDLjdlPSGltI8SQRbwf3OLaqDBqlg2ryZtXY8VyUY
+ eCr1cNY/wX3qlum8SfegV03k5ESlBl49NeVqpXhT+XKeXDKih7J/KhE8TOPZH/kYiH7o
+ ZSmA==
+X-Gm-Message-State: AOAM531If/RqpZmNxAXmAf1tJq4qA0RxjgTfIS3noq+Jj3DP07n0ZVKe
+ +cCX/7eezvoaHdmYgLwirqaYyMSD3g==
+X-Google-Smtp-Source: ABdhPJxPwFMBKNVLxZpvbM0oKINdhczioV6MSSHnKVI7RMNwc5BdKvXqQN13cVGRLoewA3V9riVaNQ==
+X-Received: by 2002:a05:6870:4596:b0:da:b3f:2b1d with SMTP id
+ y22-20020a056870459600b000da0b3f2b1dmr16326831oao.188.1652713947847; 
+ Mon, 16 May 2022 08:12:27 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ r12-20020a056808210c00b00325cda1ff8fsm3826021oiw.14.2022.05.16.08.12.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 May 2022 08:12:27 -0700 (PDT)
+Received: (nullmailer pid 2653921 invoked by uid 1000);
+ Mon, 16 May 2022 15:12:26 -0000
+Date: Mon, 16 May 2022 10:12:26 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: rockchip: make reg-names
+ mandatory for VOP2
+Message-ID: <20220516151226.GA2653888-robh@kernel.org>
+References: <20220511082109.1110043-1-s.hauer@pengutronix.de>
+ <20220511082109.1110043-2-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-References: <20220510182810.1223574-1-markyacoub@chromium.org>
-In-Reply-To: <20220510182810.1223574-1-markyacoub@chromium.org>
-From: Mark Yacoub <markyacoub@chromium.org>
-Date: Mon, 16 May 2022 11:10:57 -0400
-Message-ID: <CAJUqKUp2OGxexZDncNZu9NAsScWtFaZqGKzBt8yf0JFzSLvaWA@mail.gmail.com>
-Subject: Re: [PATCH] drm: Add a debug message when getting a prop is missing
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220511082109.1110043-2-s.hauer@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,49 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- seanpaul@chromium.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, markyacoub@google.com
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-friendly ping :))
-
-On Tue, May 10, 2022 at 2:28 PM Mark Yacoub <markyacoub@chromium.org> wrote:
->
-> [Why]
-> If a connector property is attached but
-> drm_atomic_connector_get_property doesn't handle a case for it,
-> modeteset will crash with a segfault without.
->
-> [How]
-> Add a debug message indicating that a connector property is not handled
-> when user space is trying to read it.
->
-> TEST=modetest
->
-> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+On Wed, 11 May 2022 10:21:07 +0200, Sascha Hauer wrote:
+> The VOP2 driver relies on reg-names properties, but these are not
+> documented. Add the missing documentation, make reg-names mandatory
+> and increase minItems to 2 as always both register spaces are needed.
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 > ---
->  drivers/gpu/drm/drm_atomic_uapi.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index acb1ee93d206..36b0f664dd80 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -884,6 +884,12 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
->                 return connector->funcs->atomic_get_property(connector,
->                                 state, property, val);
->         } else {
-> +               // LOG that the kernel is missing handling this property as a case here.
-> +               drm_dbg_atomic(
-> +                       dev,
-> +                       "[CONNECTOR:%d:%s] Get Property [PROP:%d:%s] is not handled\n",
-> +                       connector->base.id, connector->name, property->base.id,
-> +                       property->name);
->                 return -EINVAL;
->         }
->
-> --
-> 2.36.0.512.ge40c2bad7a-goog
->
+> 
+> Notes:
+>     Changes since v1:
+>     - Drop minItems
+>     - Add reg-names properties to example
+> 
+>  .../bindings/display/rockchip/rockchip-vop2.yaml          | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
