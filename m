@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36DB52B31C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 09:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB11552B317
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 09:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C897E10FFCC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80A2910E41F;
 	Wed, 18 May 2022 07:13:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6427F10F01D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 08:26:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4BA10F01D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 08:26:49 +0000 (UTC)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 24H8CR7V039693;
+ by twspam01.aspeedtech.com with ESMTP id 24H8CR7W039693;
  Tue, 17 May 2022 16:12:27 +0800 (GMT-8)
  (envelope-from neal_liu@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 17 May
- 2022 16:26:04 +0800
+ 2022 16:26:05 +0800
 From: Neal Liu <neal_liu@aspeedtech.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -28,9 +28,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
  <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>, Geert Uytterhoeven <geert@linux-m68k.org>, "Li
  Yang" <leoyang.li@nxp.com>
-Subject: [PATCH v2 2/3] ARM: dts: aspeed: Add USB2.0 device controller node
-Date: Tue, 17 May 2022 16:25:57 +0800
-Message-ID: <20220517082558.3534161-3-neal_liu@aspeedtech.com>
+Subject: [PATCH v2 3/3] dt-bindings: usb: add documentation for aspeed udc
+Date: Tue, 17 May 2022 16:25:58 +0800
+Message-ID: <20220517082558.3534161-4-neal_liu@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220517082558.3534161-1-neal_liu@aspeedtech.com>
 References: <20220517082558.3534161-1-neal_liu@aspeedtech.com>
@@ -41,7 +41,7 @@ X-Originating-IP: [192.168.10.10]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 24H8CR7V039693
+X-MAIL: twspam01.aspeedtech.com 24H8CR7W039693
 X-Mailman-Approved-At: Wed, 18 May 2022 07:13:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,35 +63,73 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add USB2.0 device controller(udc) node to device tree
-for AST2600.
+Add device tree binding documentation for the Aspeed USB2.0 Device
+Controller.
 
 Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed-g6.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../bindings/usb/aspeed,ast2600-udc.yaml      | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 3d5ce9da42c3..5517313eb2b5 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -298,6 +298,16 @@ vhub: usb-vhub@1e6a0000 {
- 			status = "disabled";
- 		};
- 
-+		udc: udc@1e6a2000 {
-+			compatible = "aspeed,ast2600-udc";
-+			reg = <0x1e6a2000 0x300>;
-+			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&pinctrl_usb2bd_default>;
-+			status = "disabled";
-+		};
+diff --git a/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml b/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
+new file mode 100644
+index 000000000000..2e91d5179359
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
+@@ -0,0 +1,52 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2020 Facebook Inc.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/aspeed,ast2600-udc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 		apb {
- 			compatible = "simple-bus";
- 			#address-cells = <1>;
++title: ASPEED USB 2.0 Device Controller
++
++maintainers:
++  - Neal Liu <neal_liu@aspeedtech.com>
++
++description: |+
++  The ASPEED USB 2.0 Device Controller implements 1 control endpoint and
++  4 generic endpoints for AST260x.
++
++  Supports independent DMA channel for each generic endpoint.
++  Supports 32/256 stages descriptor mode for all generic endpoints.
++
++properties:
++  compatible:
++    enum:
++      - aspeed,ast2600-udc
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/aspeed-clock.h>
++    usb: usb@1e6a2000 {
++            compatible = "aspeed,ast2600-udc";
++            reg = <0x1e6a2000 0x300>;
++            interrupts = <9>;
++            clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&pinctrl_usb2bd_default>;
++    };
 -- 
 2.25.1
 
