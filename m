@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE6E529E30
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 11:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5AC529E45
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 11:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB4210E1C2;
-	Tue, 17 May 2022 09:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77EF110E61D;
+	Tue, 17 May 2022 09:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D70310E075;
- Tue, 17 May 2022 09:39:32 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E4A10E075;
+ Tue, 17 May 2022 09:41:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652780372; x=1684316372;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=AcDEQtD7QDj9+yQFcydieKmsiHyYluKZ+5KKe13Ra2I=;
- b=nLKe62qYY9YqJEvRB3YJ/XvgxPeX5rdzH+CMFZuOUpaCQb5IjRbWZd32
- Gqwk41OGgOodFTAGCOGVdoH0vpyCGRfIZBrKkvbeBrU79xZgrQnJldSyi
- aGcjUnPeLg/lZTXKkC9TbsYlq2L73jaawzQ5Qtd47isG3R31JUsr+WqdO
- vPwlkDLK3fc9r/B4GQXF5G6ALgl+xeB7FLxNQ8eTPI7+Fi5VSFKM7zX/1
- ailVXG5U6MwUMbkXjJsprG9MPuREDXQTEBoneuql9N6sADlo9DzB+mZ8u
- OC3M3Rn02cRM8c1QAHiRSTA0+mhxJXse7ozr26KlY7+DPPJx9UQyB9HI2 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="269950738"
-X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="269950738"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2022 02:39:31 -0700
+ t=1652780509; x=1684316509;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=krtV1GtbgBf2+Y5BPQUMRlBNrrlL71jREpmnMaQ5/fg=;
+ b=iJpyLrM9mYAc90E3f2xiQeiChp+f+RUo/+tUX1AO/56YnFSqS4Uk8xW+
+ 3im3PxJ1iX3KufLa4/qQUiHhAuq+M3u3ROWqou/Q/mnyC/+Ybepeuul+v
+ zSwWmmHT9/KdF8xp9NJr5f31Y/uozSFK/FC76hu3OY/bhaH8VZI3kUXx3
+ 8sbmZ6W5zM9Dx4GiMiiGd5fqpU3uI+KdnQZzSX1FZWQzi7B2d9eBUQJDL
+ 4GJZyy41G9soLctNkZzcnxZW2tSEYsmQKtDGlsyjRKG72peLQ/kJVVGL/
+ M9DxMqptP/wH1MfF807r64ofAvFo1oFcGUd8uk9LVhxUHHaFCHZ+e9ViX g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="268708891"
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="268708891"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2022 02:41:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="605283366"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga001.jf.intel.com with ESMTP; 17 May 2022 02:39:31 -0700
-Received: from [10.249.145.221] (unknown [10.249.145.221])
- by linux.intel.com (Postfix) with ESMTP id EB281580713;
- Tue, 17 May 2022 02:39:27 -0700 (PDT)
-Message-ID: <e3df207c-ddcf-3fe8-6ed2-84ed34992df8@intel.com>
-Date: Tue, 17 May 2022 12:39:26 +0300
+X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="713778342"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by fmsmga001.fm.intel.com with SMTP; 17 May 2022 02:41:42 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 17 May 2022 12:41:41 +0300
+Date: Tue, 17 May 2022 12:41:41 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH v4 2/5] drm: Add HPD state to
+ drm_connector_oob_hotplug_event()
+Message-ID: <YoNt1edoLJpo50LJ@kuha.fi.intel.com>
+References: <20220502165316.4167199-1-bjorn.andersson@linaro.org>
+ <20220502165316.4167199-3-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3] drm/doc: add rfc section for small BAR uapi
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220516181152.1236708-1-matthew.auld@intel.com>
- <bcea3c24-b9a4-f889-94ad-40c668ab42ac@linux.intel.com>
- <a60771bd-4f02-ca46-b202-5685c8df1393@intel.com>
- <bc190b2d-49d1-bd15-a53a-86da5aa1c6d9@linux.intel.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <bc190b2d-49d1-bd15-a53a-86da5aa1c6d9@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220502165316.4167199-3-bjorn.andersson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,439 +59,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, mesa-dev@lists.freedesktop.org,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/05/2022 12:23, Tvrtko Ursulin wrote:
->
-> On 17/05/2022 09:55, Lionel Landwerlin wrote:
->> On 17/05/2022 11:29, Tvrtko Ursulin wrote:
->>>
->>> On 16/05/2022 19:11, Matthew Auld wrote:
->>>> Add an entry for the new uapi needed for small BAR on DG2+.
->>>>
->>>> v2:
->>>>    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
->>>>    - Rework error capture interactions, including no longer needing
->>>>      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
->>>>    - Add probed_cpu_visible_size. (Lionel)
->>>> v3:
->>>>    - Drop the vma query for now.
->>>>    - Add unallocated_cpu_visible_size as part of the region query.
->>>>    - Improve the docs some more, including documenting the expected
->>>>      behaviour on older kernels, since this came up in some offline
->>>>      discussion.
->>>>
->>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
->>>> Cc: mesa-dev@lists.freedesktop.org
->>>> ---
->>>>   Documentation/gpu/rfc/i915_small_bar.h   | 164 
->>>> +++++++++++++++++++++++
->>>>   Documentation/gpu/rfc/i915_small_bar.rst |  47 +++++++
->>>>   Documentation/gpu/rfc/index.rst          |   4 +
->>>>   3 files changed, 215 insertions(+)
->>>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
->>>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
->>>>
->>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.h 
->>>> b/Documentation/gpu/rfc/i915_small_bar.h
->>>> new file mode 100644
->>>> index 000000000000..4079d287750b
->>>> --- /dev/null
->>>> +++ b/Documentation/gpu/rfc/i915_small_bar.h
->>>> @@ -0,0 +1,164 @@
->>>> +/**
->>>> + * struct __drm_i915_memory_region_info - Describes one region as 
->>>> known to the
->>>> + * driver.
->>>> + *
->>>> + * Note this is using both struct drm_i915_query_item and struct 
->>>> drm_i915_query.
->>>> + * For this new query we are adding the new query id 
->>>> DRM_I915_QUERY_MEMORY_REGIONS
->>>> + * at &drm_i915_query_item.query_id.
->>>> + */
->>>> +struct __drm_i915_memory_region_info {
->>>> +    /** @region: The class:instance pair encoding */
->>>> +    struct drm_i915_gem_memory_class_instance region;
->>>> +
->>>> +    /** @rsvd0: MBZ */
->>>> +    __u32 rsvd0;
->>>> +
->>>> +    /** @probed_size: Memory probed by the driver (-1 = unknown) */
->>>> +    __u64 probed_size;
->>>
->>> Is -1 possible today or when it will be? For system memory it 
->>> appears zeroes are returned today so that has to stay I think. Does 
->>> it effectively mean userspace has to consider both 0 and -1 as 
->>> unknown is the question.
->>
->>
->> I raised this on v2. As far as I can tell there are no situation 
->> where we would get -1.
->>
->> Is it really probed_size=0 on smem?? It's not the case on the 
->> internal branch.
->
-> My bad, I misread the arguments to intel_memory_region_create while 
-> grepping:
->
-> struct intel_memory_region *i915_gem_shmem_setup(struct 
-> drm_i915_private *i915,
->                          u16 type, u16 instance)
-> {
->     return intel_memory_region_create(i915, 0,
->                       totalram_pages() << PAGE_SHIFT,
->                       PAGE_SIZE, 0, 0,
->                       type, instance,
->                       &shmem_region_ops);
->
-> I saw "0, 0" and wrongly assumed that would be the data, since it 
-> matched with my mental model and the comment against unallocated_size 
-> saying it's only tracked for device memory.
->
-> Although I'd say it is questionable for i915 to return this data. I 
-> wonder it use case is possible where it would even be wrong but don't 
-> know. I guess the cat is out of the bag now.
+On Mon, May 02, 2022 at 09:53:13AM -0700, Bjorn Andersson wrote:
+> In some implementations, such as the Qualcomm platforms, the display
+> driver has no way to query the current HPD state and as such it's
+> impossible to distinguish between disconnect and attention events.
+> 
+> Add a parameter to drm_connector_oob_hotplug_event() to pass the HPD
+> state.
+> 
+> Also push the test for unchanged state in the displayport altmode driver
+> into the i915 driver, to allow other drivers to act upon each update.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Not sure how questionable that is. There are a bunch of tools reporting 
-the amount of memory available (free, top, htop, etc...).
+> ---
+> 
+> Changes since v3:
+> - Transition to drm_connector_status instead of custom hpd_state 
+> 
+>  drivers/gpu/drm/drm_connector.c          |  6 ++++--
+>  drivers/gpu/drm/i915/display/intel_dp.c  | 17 ++++++++++++++---
+>  drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+>  drivers/usb/typec/altmodes/displayport.c | 10 +++-------
+>  include/drm/drm_connector.h              |  6 ++++--
+>  5 files changed, 28 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 1c48d162c77e..e86c69f0640f 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -2794,6 +2794,7 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>  /**
+>   * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
+>   * @connector_fwnode: fwnode_handle to report the event on
+> + * @status: hot plug detect logical state
+>   *
+>   * On some hardware a hotplug event notification may come from outside the display
+>   * driver / device. An example of this is some USB Type-C setups where the hardware
+> @@ -2803,7 +2804,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
+>   * This function can be used to report these out-of-band events after obtaining
+>   * a drm_connector reference through calling drm_connector_find_by_fwnode().
+>   */
+> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+> +				     enum drm_connector_status status)
+>  {
+>  	struct drm_connector *connector;
+>  
+> @@ -2812,7 +2814,7 @@ void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
+>  		return;
+>  
+>  	if (connector->funcs->oob_hotplug_event)
+> -		connector->funcs->oob_hotplug_event(connector);
+> +		connector->funcs->oob_hotplug_event(connector, status);
+>  
+>  	drm_connector_put(connector);
+>  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index e4a79c11fd25..56cc023f7bbd 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -4951,15 +4951,26 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
+>  	return intel_modeset_synced_crtcs(state, conn);
+>  }
+>  
+> -static void intel_dp_oob_hotplug_event(struct drm_connector *connector)
+> +static void intel_dp_oob_hotplug_event(struct drm_connector *connector,
+> +				       enum drm_connector_status hpd_state)
+>  {
+>  	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+>  	struct drm_i915_private *i915 = to_i915(connector->dev);
+> +	bool hpd_high = hpd_state == connector_status_connected;
+> +	unsigned int hpd_pin = encoder->hpd_pin;
+> +	bool need_work = false;
+>  
+>  	spin_lock_irq(&i915->irq_lock);
+> -	i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
+> +	if (hpd_high != test_bit(hpd_pin, &i915->hotplug.oob_hotplug_last_state)) {
+> +		i915->hotplug.event_bits |= BIT(hpd_pin);
+> +
+> +		__assign_bit(hpd_pin, &i915->hotplug.oob_hotplug_last_state, hpd_high);
+> +		need_work = true;
+> +	}
+>  	spin_unlock_irq(&i915->irq_lock);
+> -	queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+> +
+> +	if (need_work)
+> +		queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
+>  }
+>  
+>  static const struct drm_connector_funcs intel_dp_connector_funcs = {
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 24111bf42ce0..96c088bb5522 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -135,6 +135,9 @@ struct i915_hotplug {
+>  	/* Whether or not to count short HPD IRQs in HPD storms */
+>  	u8 hpd_short_storm_enabled;
+>  
+> +	/* Last state reported by oob_hotplug_event for each encoder */
+> +	unsigned long oob_hotplug_last_state;
+> +
+>  	/*
+>  	 * if we get a HPD irq from DP and a HPD irq from non-DP
+>  	 * the non-DP HPD could block the workqueue on a mode config
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index c1d8c23baa39..9360ca177c7d 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -59,7 +59,6 @@ struct dp_altmode {
+>  	struct typec_displayport_data data;
+>  
+>  	enum dp_state state;
+> -	bool hpd;
+>  
+>  	struct mutex lock; /* device lock */
+>  	struct work_struct work;
+> @@ -143,10 +142,8 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
+>  		if (!ret)
+>  			dp->state = DP_STATE_CONFIGURE;
+>  	} else {
+> -		if (dp->hpd != hpd) {
+> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> -			dp->hpd = hpd;
+> -		}
+> +		drm_connector_oob_hotplug_event(dp->connector_fwnode,
+> +						hpd ? connector_status_connected : connector_status_disconnected);
+>  	}
+>  
+>  	return ret;
+> @@ -573,8 +570,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+>  	cancel_work_sync(&dp->work);
+>  
+>  	if (dp->connector_fwnode) {
+> -		if (dp->hpd)
+> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
+> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, connector_status_disconnected);
+>  
+>  		fwnode_handle_put(dp->connector_fwnode);
+>  	}
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 3ac4bf87f257..886aa1861ed9 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1141,7 +1141,8 @@ struct drm_connector_funcs {
+>  	 * This will get called when a hotplug-event for a drm-connector
+>  	 * has been received from a source outside the display driver / device.
+>  	 */
+> -	void (*oob_hotplug_event)(struct drm_connector *connector);
+> +	void (*oob_hotplug_event)(struct drm_connector *connector,
+> +				  enum drm_connector_status status);
+>  
+>  	/**
+>  	 * @debugfs_init:
+> @@ -1749,7 +1750,8 @@ drm_connector_is_unregistered(struct drm_connector *connector)
+>  		DRM_CONNECTOR_UNREGISTERED;
+>  }
+>  
+> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode);
+> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+> +				     enum drm_connector_status status);
+>  const char *drm_get_connector_type_name(unsigned int connector_type);
+>  const char *drm_get_connector_status_name(enum drm_connector_status status);
+>  const char *drm_get_subpixel_order_name(enum subpixel_order order);
+> -- 
+> 2.35.1
 
-It might not be totalram_pages() but probably something close to it.
+thanks,
 
-Having a non 0 & non -1 value is useful.
-
-
--Lionel
-
-
->
-> If the situation is -1 for unknown and some valid size (not zero) I 
-> don't think there is a problem here.
->
-> Regards,
->
-> Tvrtko
->
->> Anv is not currently handling that case.
->>
->>
->> I would very much like to not deal with 0 for smem.
->>
->> It really makes it easier for userspace rather than having to fish 
->> information from 2 different places and on top of dealing with 
->> multiple kernel versions.
->>
->>
->> -Lionel
->>
->>
->>>
->>>> +
->>>> +    /**
->>>> +     * @unallocated_size: Estimate of memory remaining (-1 = unknown)
->>>> +     *
->>>> +     * Note this is only currently tracked for 
->>>> I915_MEMORY_CLASS_DEVICE
->>>> +     * regions, and also requires CAP_PERFMON or CAP_SYS_ADMIN to get
->>>> +     * reliable accounting. Without this(or if this an older 
->>>> kernel) the
->>>
->>> s/if this an/if this is an/
->>>
->>> Also same question as above about -1.
->>>
->>>> +     * value here will always match the @probed_size.
->>>> +     */
->>>> +    __u64 unallocated_size;
->>>> +
->>>> +    union {
->>>> +        /** @rsvd1: MBZ */
->>>> +        __u64 rsvd1[8];
->>>> +        struct {
->>>> +            /**
->>>> +             * @probed_cpu_visible_size: Memory probed by the driver
->>>> +             * that is CPU accessible. (-1 = unknown).
->>>
->>> Also question about -1. In this case this could be done since the 
->>> field is yet to be added but I am curious if it ever can be -1.
->>>
->>>> +             *
->>>> +             * This will be always be <= @probed_size, and the
->>>> +             * remainder(if there is any) will not be CPU
->>>> +             * accessible.
->>>> +             *
->>>> +             * On systems without small BAR, the @probed_size will
->>>> +             * always equal the @probed_cpu_visible_size, since all
->>>> +             * of it will be CPU accessible.
->>>> +             *
->>>> +             * Note that if the value returned here is zero, then
->>>> +             * this must be an old kernel which lacks the relevant
->>>> +             * small-bar uAPI support(including
->>>
->>> I have noticed you prefer no space before parentheses throughout the 
->>> text so I guess it's just my preference to have it. Very nitpicky 
->>> even if I am right so up to you.
->>>
->>>> +             * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS), but on
->>>> +             * such systems we should never actually end up with a
->>>> +             * small BAR configuration, assuming we are able to load
->>>> +             * the kernel module. Hence it should be safe to treat
->>>> +             * this the same as when @probed_cpu_visible_size ==
->>>> +             * @probed_size.
->>>> +             */
->>>> +            __u64 probed_cpu_visible_size;
->>>> +
->>>> +            /**
->>>> +             * @unallocated_cpu_visible_size: Estimate of CPU
->>>> +             * visible memory remaining (-1 = unknown).
->>>> +             *
->>>> +             * Note this is only currently tracked for
->>>> +             * I915_MEMORY_CLASS_DEVICE regions, and also requires
->>>> +             * CAP_PERFMON or CAP_SYS_ADMIN to get reliable
->>>> +             * accounting. Without this the value here will always
->>>> +             * equal the @probed_cpu_visible_size.
->>>> +             */
->>>> +            __u64 unallocated_cpu_visible_size;
->>>> +        };
->>>> +    };
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct __drm_i915_gem_create_ext - Existing gem_create 
->>>> behaviour, with added
->>>> + * extension support using struct i915_user_extension.
->>>> + *
->>>> + * Note that new buffer flags should be added here, at least for 
->>>> the stuff that
->>>> + * is immutable. Previously we would have two ioctls, one to 
->>>> create the object
->>>> + * with gem_create, and another to apply various parameters, 
->>>> however this
->>>> + * creates some ambiguity for the params which are considered 
->>>> immutable. Also in
->>>> + * general we're phasing out the various SET/GET ioctls.
->>>> + */
->>>> +struct __drm_i915_gem_create_ext {
->>>> +    /**
->>>> +     * @size: Requested size for the object.
->>>> +     *
->>>> +     * The (page-aligned) allocated size for the object will be 
->>>> returned.
->>>> +     *
->>>> +     * Note that for some devices we have might have further minimum
->>>> +     * page-size restrictions(larger than 4K), like for device 
->>>> local-memory.
->>>> +     * However in general the final size here should always 
->>>> reflect any
->>>> +     * rounding up, if for example using the 
->>>> I915_GEM_CREATE_EXT_MEMORY_REGIONS
->>>> +     * extension to place the object in device local-memory.
->>>
->>> Is it defined how rounding up works when a list of regions is given 
->>> (like smem+lmem) and should that be explicitly mentioned here?
->>>
->>>> +     */
->>>> +    __u64 size;
->>>
->>> Blank line here (etc below) maybe to match the previous doc block?
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>> +    /**
->>>> +     * @handle: Returned handle for the object.
->>>> +     *
->>>> +     * Object handles are nonzero.
->>>> +     */
->>>> +    __u32 handle;
->>>> +    /**
->>>> +     * @flags: Optional flags.
->>>> +     *
->>>> +     * Supported values:
->>>> +     *
->>>> +     * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the 
->>>> kernel that
->>>> +     * the object will need to be accessed via the CPU.
->>>> +     *
->>>> +     * Only valid when placing objects in 
->>>> I915_MEMORY_CLASS_DEVICE, and only
->>>> +     * strictly required on configurations where some subset of 
->>>> the device
->>>> +     * memory is directly visible/mappable through the CPU(which 
->>>> we also
->>>> +     * call small BAR), like on some DG2+ systems. Note that this 
->>>> is quite
->>>> +     * undesirable, but due to various factors like the client 
->>>> CPU, BIOS etc
->>>> +     * it's something we can expect to see in the wild. See struct
->>>> +     * __drm_i915_memory_region_info.probed_cpu_visible_size for 
->>>> how to
->>>> +     * determine if this system applies.
->>>> +     *
->>>> +     * Note that one of the placements MUST be 
->>>> I915_MEMORY_CLASS_SYSTEM, to
->>>> +     * ensure the kernel can always spill the allocation to system 
->>>> memory,
->>>> +     * if the object can't be allocated in the mappable part of
->>>> +     * I915_MEMORY_CLASS_DEVICE.
->>>> +     *
->>>> +     * Also note that since the kernel only supports flat-CCS on 
->>>> objects
->>>> +     * that can *only* be placed in I915_MEMORY_CLASS_DEVICE, we 
->>>> therefore
->>>> +     * don't support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS 
->>>> together with
->>>> +     * flat-CCS.
->>>> +     *
->>>> +     * Without this hint, the kernel will assume that non-mappable
->>>> +     * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note 
->>>> that the
->>>> +     * kernel can still migrate the object to the mappable part, 
->>>> as a last
->>>> +     * resort, if userspace ever CPU faults this object, but this 
->>>> might be
->>>> +     * expensive, and so ideally should be avoided.
->>>> +     *
->>>> +     * On older kernels, where usage of this flag results in an 
->>>> error, since
->>>> +     * we lack the relevant small BAR uAPI(see also struct
->>>> +     * __drm_i915_memory_region_info.probed_cpu_visible_size) it 
->>>> should
->>>> +     * NEVER be possible to end up with a small BAR configuration, 
->>>> assuming
->>>> +     * we can also successfully load the i915 kernel module. In 
->>>> such cases
->>>> +     * the entire I915_MEMORY_CLASS_DEVICE region will be CPU 
->>>> accessible,
->>>> +     * and as such there are zero restrictions on where the object 
->>>> can be
->>>> +     * placed.
->>>> +     */
->>>> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
->>>> +    __u32 flags;
->>>> +    /**
->>>> +     * @extensions: The chain of extensions to apply to this object.
->>>> +     *
->>>> +     * This will be useful in the future when we need to support 
->>>> several
->>>> +     * different extensions, and we need to apply more than one when
->>>> +     * creating the object. See struct i915_user_extension.
->>>> +     *
->>>> +     * If we don't supply any extensions then we get the same old 
->>>> gem_create
->>>> +     * behaviour.
->>>> +     *
->>>> +     * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
->>>> +     * struct drm_i915_gem_create_ext_memory_regions.
->>>> +     *
->>>> +     * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
->>>> +     * struct drm_i915_gem_create_ext_protected_content.
->>>> +     */
->>>> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
->>>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
->>>> +    __u64 extensions;
->>>> +};
->>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst 
->>>> b/Documentation/gpu/rfc/i915_small_bar.rst
->>>> new file mode 100644
->>>> index 000000000000..a322481cea8b
->>>> --- /dev/null
->>>> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
->>>> @@ -0,0 +1,47 @@
->>>> +==========================
->>>> +I915 Small BAR RFC Section
->>>> +==========================
->>>> +Starting from DG2 we will have resizable BAR support for device 
->>>> local-memory(i.e
->>>> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size 
->>>> might still be
->>>> +smaller than the total probed_size. In such cases, only some 
->>>> subset of
->>>> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the 
->>>> first 256M),
->>>> +while the remainder is only accessible via the GPU.
->>>> +
->>>> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
->>>> +----------------------------------------------
->>>> +New gem_create_ext flag to tell the kernel that a BO will require 
->>>> CPU access.
->>>> +This becomes important when placing an object in 
->>>> I915_MEMORY_CLASS_DEVICE, where
->>>> +underneath the device has a small BAR, meaning only some portion 
->>>> of it is CPU
->>>> +accessible. Without this flag the kernel will assume that CPU 
->>>> access is not
->>>> +required, and prioritize using the non-CPU visible portion of
->>>> +I915_MEMORY_CLASS_DEVICE.
->>>> +
->>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>>> +   :functions: __drm_i915_gem_create_ext
->>>> +
->>>> +probed_cpu_visible_size attribute
->>>> +---------------------------------
->>>> +New struct__drm_i915_memory_region attribute which returns the 
->>>> total size of the
->>>> +CPU accessible portion, for the particular region. This should 
->>>> only be
->>>> +applicable for I915_MEMORY_CLASS_DEVICE. We also report the
->>>> +unallocated_cpu_visible_size, alongside the unallocated_size.
->>>> +
->>>> +Vulkan will need this as part of creating a separate VkMemoryHeap 
->>>> with the
->>>> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU 
->>>> visible portion,
->>>> +where the total size of the heap needs to be known. It also wants 
->>>> to be able to
->>>> +give a rough estimate of how memory can potentially be allocated.
->>>> +
->>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>>> +   :functions: __drm_i915_memory_region_info
->>>> +
->>>> +Error Capture restrictions
->>>> +--------------------------
->>>> +With error capture we have two new restrictions:
->>>> +
->>>> +    1) Error capture is best effort on small BAR systems; if the 
->>>> pages are not
->>>> +    CPU accessible, at the time of capture, then the kernel is 
->>>> free to skip
->>>> +    trying to capture them.
->>>> +
->>>> +    2) On discrete we now reject error capture on recoverable 
->>>> contexts. In the
->>>> +    future the kernel may want to blit during error capture, when 
->>>> for example
->>>> +    something is not currently CPU accessible.
->>>> diff --git a/Documentation/gpu/rfc/index.rst 
->>>> b/Documentation/gpu/rfc/index.rst
->>>> index 91e93a705230..5a3bd3924ba6 100644
->>>> --- a/Documentation/gpu/rfc/index.rst
->>>> +++ b/Documentation/gpu/rfc/index.rst
->>>> @@ -23,3 +23,7 @@ host such documentation:
->>>>   .. toctree::
->>>>         i915_scheduler.rst
->>>> +
->>>> +.. toctree::
->>>> +
->>>> +    i915_small_bar.rst
->>
->>
-
+-- 
+heikki
