@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3908052AE68
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 01:07:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0E252AE6E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 01:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0FE113BF9;
-	Tue, 17 May 2022 23:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69CF91127DB;
+	Tue, 17 May 2022 23:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43EEE113BF7;
- Tue, 17 May 2022 23:07:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652828832; x=1684364832;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=wmo18y74fRnnh3ecs8IVi4S/YNotLQWQ1xrRBglLbyg=;
- b=gzKlTOaNOq2kqj7/Qyvdw7kjxNvh6TY97fO4r//VvQVKaU6lJETg47T7
- ExRWPvKKES9CSVj6TbIGS0UK+/D42iuftmZvvoqKQqZt/QX/7nuJMKUOo
- Fb1EUfhfmYcnjCZbeoxaAgEsFIvtsoA5557PrEqnpnrNvmXzQfeC5C7SL
- CbSHs/vEpl2sHjrtQ6ZwXE+YlZ+eg6oXXxRpeH6XQe66cyPoSNAm9P020
- zX4YATKejYf9+GMtfTQfhdSfzyGLn1D2+GRMYXRPnzmDSX3ATF/gZaM/T
- zIetXhH+8pR/2ci51TNjBdln2VhHPJYeaRZ0Na1aZdP4RBOyUx6JuoaE8 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="271318248"
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; d="scan'208";a="271318248"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2022 16:07:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,233,1647327600"; d="scan'208";a="817134895"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
- by fmsmga006.fm.intel.com with ESMTP; 17 May 2022 16:07:07 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nr6HT-0001YG-4H;
- Tue, 17 May 2022 23:07:07 +0000
-Date: Wed, 18 May 2022 07:06:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 47c1c54d1bcd0a69a56b49473bc20f17b70e5242
-Message-ID: <62842a88.kfUYggQn50N4+5J7%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C05A1127DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 23:09:49 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id j28so795055eda.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 16:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YeWHEdiEl4Cq8ce8kfBVpVlo8D7OiDCUHl/qifLiacg=;
+ b=Ac44BK8Oxljl1wYTS+T/ipuXIsyXnhAcD2EFhI7JosK6s2AsQoPQngNUvXID4XQU8R
+ mW0BrgZPM9PBNfCplH1dStY4W0uPggK8Wt+6CMBU7mscY1UFX/6hj+LnoR0uGO52NXre
+ +l1DxyMl5Jwi0KNt25psFVNG6+TgblbCYW2TtaI+GwLWcc0rj9ss2lo1oue9eMU5+mcl
+ QXteQBsXYw0S2TIAGZrSAk7sk04efAskF4tiEnJP+nQNSTQe23HVsY46BflkEcbSzII4
+ b0A+fWJDBtTWwT2EvWpIPUBE45sfCcfqGke+ggcODtNpXcqxB5rOTK9AMM+Nb18pnlM0
+ rQ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YeWHEdiEl4Cq8ce8kfBVpVlo8D7OiDCUHl/qifLiacg=;
+ b=YqlYfYvu5A1cQhuzHqRAMUcn2s3wop5tv8u8vYnON8ivULd8j13oFEkD6ZlPn693po
+ SgBDEEP32WIChd6hA37X6FaaVzdqAHF8asnzDlonclyLq+DtomnTlpGXZizxVytmnr1p
+ lV/SmU1uBk3jrrYezvIujdH2UJs23WnoQuTSB1fXtsZe3QDtV8co/x5gLJ6E4POtPcK4
+ 9y+FfbpZx5Z4QLAkdQ9c9oZrYzgsGeEmfZ91f6fgTMXibLOXhD8TAE6zoLhNcryXyqsu
+ CoAS/1kEWCRKmRjqMTbq7smeCvIw3w/DWAJbU6pbNiHuBKOFDmqGhL93C+Bks8R9u1Ye
+ EkHg==
+X-Gm-Message-State: AOAM533n+H6aqFLcSnAS7JtfmwPSmusqd6H3p+pCwVmixQ0Y9xrw/boe
+ b8ZLW0ywaiSBoc+Zjt6PTjIlUU22+OkefrAidAdiSQ==
+X-Google-Smtp-Source: ABdhPJx4nt0FkvBklwCxEBBCV/UBFXuXao7+3ByQEB1fVw4PsnGPgV8/sCFzvyTI3gvxHW8FGK42C/aj4o8mMw44U6w=
+X-Received: by 2002:a50:ed8b:0:b0:42a:a7e0:f889 with SMTP id
+ h11-20020a50ed8b000000b0042aa7e0f889mr17019013edr.79.1652828987857; Tue, 17
+ May 2022 16:09:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
+ <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
+ <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
+ <YoM9BAwybcjG7K/H@kroah.com>
+In-Reply-To: <YoM9BAwybcjG7K/H@kroah.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 17 May 2022 16:09:36 -0700
+Message-ID: <CABdmKX3SngXeq+X0YiQ8d4X3xpUhnUtewPiUam5Bfi7PCC6nWQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,538 +69,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- kvm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-nvme@lists.infradead.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, bpf@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: kernel-team@android.com, Minchan Kim <minchan@google.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, John Stultz <jstultz@google.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Hridya Valsaraju <hridya@google.com>,
+ Greg Kroah-Hartman <gregkh@google.com>, Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 47c1c54d1bcd0a69a56b49473bc20f17b70e5242  Add linux-next specific files for 20220517
+On Mon, May 16, 2022 at 11:13 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
+> > On Mon, May 16, 2022 at 12:21 PM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> > >
+> > > Am 16.05.22 um 20:08 schrieb T.J. Mercier:
+> > > > On Mon, May 16, 2022 at 10:20 AM Christian K=C3=B6nig
+> > > > <christian.koenig@amd.com> wrote:
+> > > >> Am 16.05.22 um 19:13 schrieb T.J. Mercier:
+> > > >>> Recently, we noticed an issue where a process went into direct re=
+claim
+> > > >>> while holding the kernfs rw semaphore for sysfs in write (exclusi=
+ve)
+> > > >>> mode. This caused processes who were doing DMA-BUF exports and re=
+leases
+> > > >>> to go into uninterruptible sleep since they needed to acquire the=
+ same
+> > > >>> semaphore for the DMA-BUF sysfs entry creation/deletion. In order=
+ to avoid
+> > > >>> blocking DMA-BUF export for an indeterminate amount of time while
+> > > >>> another process is holding the sysfs rw semaphore in exclusive mo=
+de,
+> > > >>> this patch moves the per-buffer sysfs file creation to the defaul=
+t work
+> > > >>> queue. Note that this can lead to a short-term inaccuracy in the =
+dmabuf
+> > > >>> sysfs statistics, but this is a tradeoff to prevent the hot path =
+from
+> > > >>> being blocked. A work_struct is added to dma_buf to achieve this,=
+ but as
+> > > >>> it is unioned with the kobject in the sysfs_entry, dma_buf does n=
+ot
+> > > >>> increase in size.
+> > > >> I'm still not very keen of this approach as it strongly feels like=
+ we
+> > > >> are working around shortcoming somewhere else.
+> > > >>
+> > > > My read of the thread for the last version is that we're running in=
+to
+> > > > a situation where sysfs is getting used for something it wasn't
+> > > > originally intended for, but we're also stuck with this sysfs
+> > > > functionality for dmabufs.
+> > > >
+> > > >>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BU=
+F stats in sysfs")
+> > > >>> Originally-by: Hridya Valsaraju <hridya@google.com>
+> > > >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > > >>>
+> > > >>> ---
+> > > >>> See the originally submitted patch by Hridya Valsaraju here:
+> > > >>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F=
+%2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=3D05%7C01%7Cchristian.koe=
+nig%40amd.com%7C794614324d114880a25508da37672e4b%7C3dd8961fe4884e608e11a82d=
+994e183d%7C0%7C0%7C637883213566903705%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wL=
+jAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;s=
+data=3DbGlA2FeubfSeL5XDHYyWMZqUXfScoCphZjjK4jrqQJs%3D&amp;reserved=3D0
+> > > >>>
+> > > >>> v2 changes:
+> > > >>> - Defer only sysfs creation instead of creation and teardown per
+> > > >>> Christian K=C3=B6nig
+> > > >>>
+> > > >>> - Use a work queue instead of a kthread for deferred work per
+> > > >>> Christian K=C3=B6nig
+> > > >>> ---
+> > > >>>    drivers/dma-buf/dma-buf-sysfs-stats.c | 56 +++++++++++++++++++=
++-------
+> > > >>>    include/linux/dma-buf.h               | 14 ++++++-
+> > > >>>    2 files changed, 54 insertions(+), 16 deletions(-)
+> > > >>>
+> > > >>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-=
+buf/dma-buf-sysfs-stats.c
+> > > >>> index 2bba0babcb62..67b0a298291c 100644
+> > > >>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > >>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > >>> @@ -11,6 +11,7 @@
+> > > >>>    #include <linux/printk.h>
+> > > >>>    #include <linux/slab.h>
+> > > >>>    #include <linux/sysfs.h>
+> > > >>> +#include <linux/workqueue.h>
+> > > >>>
+> > > >>>    #include "dma-buf-sysfs-stats.h"
+> > > >>>
+> > > >>> @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
+> > > >>>        kset_unregister(dma_buf_stats_kset);
+> > > >>>    }
+> > > >>>
+> > > >>> +static void sysfs_add_workfn(struct work_struct *work)
+> > > >>> +{
+> > > >>> +     struct dma_buf_sysfs_entry *sysfs_entry =3D
+> > > >>> +             container_of(work, struct dma_buf_sysfs_entry, sysf=
+s_add_work);
+> > > >>> +     struct dma_buf *dmabuf =3D sysfs_entry->dmabuf;
+> > > >>> +
+> > > >>> +     /*
+> > > >>> +      * A dmabuf is ref-counted via its file member. If this han=
+dler holds the only
+> > > >>> +      * reference to the dmabuf, there is no need for sysfs kobj=
+ect creation. This is an
+> > > >>> +      * optimization and a race; when the reference count drops =
+to 1 immediately after
+> > > >>> +      * this check it is not harmful as the sysfs entry will sti=
+ll get cleaned up in
+> > > >>> +      * dma_buf_stats_teardown, which won't get called until the=
+ final dmabuf reference
+> > > >>> +      * is released, and that can't happen until the end of this=
+ function.
+> > > >>> +      */
+> > > >>> +     if (file_count(dmabuf->file) > 1) {
+> > > >> Please completely drop that. I see absolutely no justification for=
+ this
+> > > >> additional complexity.
+> > > >>
+> > > > This case gets hit around 5% of the time in my testing so the else =
+is
+> > > > not a completely unused branch.
+> > >
+> > > Well I can only repeat myself: This means that your userspace is
+> > > severely broken!
+> > >
+> > > DMA-buf are meant to be long living objects
+> > This patch addresses export *latency* regardless of how long-lived the
+> > object is. Even a single, long-lived export will benefit from this
+> > change if it would otherwise be blocked on adding an object to sysfs.
+> > I think attempting to improve this latency still has merit.
+>
+> Fixing the latency is nice, but as it's just pushing the needed work off
+> to another code path, it will take longer overall for the sysfs stuff to
+> be ready for userspace to see.
+>
+> Perhaps we need to step back and understand what this code is supposed
+> to be doing.  As I recall, it was created because some systems do not
+> allow debugfs anymore, and they wanted the debugging information that
+> the dmabuf code was exposing to debugfs on a "normal" system.  Moving
+> that logic to sysfs made sense, but now I am wondering why we didn't see
+> these issues in the debugfs code previously?
+>
+The debugfs stuff doesn't happen on every export, right?
 
-Error/Warning reports:
+> Perhaps we should go just one step further and make a misc device node
+> for dmabug debugging information to be in and just have userspace
+> poll/read on the device node and we spit the info that used to be in
+> debugfs out through that?  That way this only affects systems when they
+> want to read the information and not normal code paths?  Yeah that's a
+> hack, but this whole thing feels overly complex now.
+>
 
-https://lore.kernel.org/linux-mm/202204181931.klAC6fWo-lkp@intel.com
-https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205030636.LYGgeLHv-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205150051.3RzuooAG-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205150117.sd6HzBVm-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205172305.y8xOBeEG-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205172344.3GFeaum1-lkp@intel.com
-https://lore.kernel.org/llvm/202205052057.2TyEsXsL-lkp@intel.com
-https://lore.kernel.org/llvm/202205162125.ZhvoOFZf-lkp@intel.com
+And deprecate sysfs support? I'm happy to try out anything you think
+might be a better way. As far as complexity of this patch, this
+revision is a much simpler version of the one from Hridya you already
+reviewed.
 
-Error/Warning: (recently discovered and may have been fixed)
-
-arch/arm/mach-versatile/versatile.c:56:14: warning: no previous prototype for function 'mmc_status' [-Wmissing-prototypes]
-arch/riscv/include/asm/pgtable.h:695:9: error: call to undeclared function 'pud_leaf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-arch/x86/kvm/pmu.h:20:32: warning: 'vmx_icl_pebs_cpu' defined but not used [-Wunused-const-variable=]
-csky-linux-ld: drivers/nvme/host/fc.c:1915: undefined reference to `blkcg_get_fc_appid'
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1364:5: warning: no previous prototype for 'amdgpu_discovery_get_mall_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/soc21.c:171:6: warning: no previous prototype for 'soc21_grbm_select' [-Wmissing-prototypes]
-drivers/gpu/drm/solomon/ssd130x-spi.c:154:35: warning: 'ssd130x_spi_table' defined but not used [-Wunused-const-variable=]
-drivers/nvme/host/fc.c:1914: undefined reference to `blkcg_get_fc_appid'
-drivers/video/fbdev/omap/hwa742.c:492:5: warning: no previous prototype for 'hwa742_update_window_async' [-Wmissing-prototypes]
-fs/buffer.c:2254:5: warning: stack frame size (2152) exceeds limit (1024) in 'block_read_full_folio' [-Wframe-larger-than]
-fs/ntfs/aops.c:378:12: warning: stack frame size (2216) exceeds limit (1024) in 'ntfs_read_folio' [-Wframe-larger-than]
-kernel/trace/fgraph.c:37:12: warning: no previous prototype for 'ftrace_enable_ftrace_graph_caller' [-Wmissing-prototypes]
-kernel/trace/fgraph.c:37:12: warning: no previous prototype for function 'ftrace_enable_ftrace_graph_caller' [-Wmissing-prototypes]
-kernel/trace/fgraph.c:46:12: warning: no previous prototype for 'ftrace_disable_ftrace_graph_caller' [-Wmissing-prototypes]
-kernel/trace/fgraph.c:46:12: warning: no previous prototype for function 'ftrace_disable_ftrace_graph_caller' [-Wmissing-prototypes]
-powerpc64-linux-ld: drivers/nfc/nxp-nci/firmware.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/nfc/nxp-nci/core.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/nfc/s3fwrn5/nci.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/nfc/s3fwrn5/firmware.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/nvme/target/discovery.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/nvme/target/fabrics-cmd.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/ntfs/attrib.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/ntfs/aops.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/mac80211/he.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/mac80211/aead_api.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/nfc/nci/ntf.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/nfc/nci/data.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/nfc/rawsock.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; net/nfc/af_nfc.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: net/wireless/sysfs.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; net/wireless/core.o:(.bss+0x1c0): first defined here
-powerpc64-linux-ld: sound/pci/ac97/ac97_pcm.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; sound/pci/ac97/ac97_codec.o:(.bss+0x40): first defined here
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-Makefile:686: arch/h8300/Makefile: No such file or directory
-arch/Kconfig:10: can't open file "arch/h8300/Kconfig"
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5102:14: warning: variable 'allow_lttpr_non_transparent_mode' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:5147:6: warning: no previous prototype for 'dp_parse_lttpr_mode' [-Wmissing-prototypes]
-drivers/gpu/drm/bridge/adv7511/adv7511.h:229:17: warning: 'ADV7511_REG_CEC_RX_FRAME_HDR' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/bridge/adv7511/adv7511.h:235:17: warning: 'ADV7511_REG_CEC_RX_FRAME_LEN' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:276:27: error: implicit declaration of function 'sysfs_gt_attribute_r_max_func' [-Werror=implicit-function-declaration]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:327:16: error: implicit declaration of function 'sysfs_gt_attribute_w_func' [-Werror=implicit-function-declaration]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:416:24: error: implicit declaration of function 'sysfs_gt_attribute_r_min_func' [-Werror=implicit-function-declaration]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:47 sysfs_gt_attribute_w_func() error: uninitialized symbol 'ret'.
-drivers/tty/hvc/hvc_dcc.c:98:6: warning: Value stored to 'cpu' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-fc.c:(.text+0xad3): undefined reference to `blkcg_get_fc_appid'
-include/linux/userfaultfd_k.h:147 vma_can_userfault() warn: bitwise AND condition is false here
-kernel/bpf/verifier.c:5354 process_kptr_func() warn: passing zero to 'PTR_ERR'
-kismet: WARNING: unmet direct dependencies detected for RISCV_ALTERNATIVE when selected by ERRATA_THEAD
-kismet: WARNING: unmet direct dependencies detected for RISCV_ALTERNATIVE when selected by RISCV_ISA_SVPBMT
-ld.lld: error: undefined symbol: blkcg_get_fc_appid
-make[1]: *** No rule to make target 'arch/h8300/Makefile'.
-mm/shmem.c:1910 shmem_getpage_gfp() warn: should '(((1) << 12) / 512) << folio_order(folio)' be a 64 bit type?
-powerpc64-linux-ld: drivers/char/ipmi/ipmi_si_hardcode.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/char/ipmi/ipmi_si_hotmod.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/char/tpm/tpmrm-dev.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/char/tpm/tpm-dev.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/crypto/hisilicon/sec/sec_drv.o:(.bss+0x80): multiple definition of `____cacheline_aligned'; drivers/crypto/hisilicon/sec/sec_algs.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/gpu/drm/bridge/adv7511/adv7533.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/gpu/drm/bridge/adv7511/adv7511_drv.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/gpu/drm/drm_fb_cma_helper.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/gpu/drm/drm_gem_cma_helper.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/gpu/drm/mxsfb/mxsfb_kms.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/gpu/drm/mxsfb/mxsfb_drv.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/gpu/drm/selftests/test-drm_framebuffer.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/gpu/drm/selftests/test-drm_plane_helper.o:(.bss+0x340): first defined here
-powerpc64-linux-ld: drivers/gpu/drm/vgem/vgem_fence.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/gpu/drm/vgem/vgem_drv.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/gpu/drm/vkms/vkms_crtc.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/gpu/drm/vkms/vkms_plane.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/hid/hid-debug.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/hid/hid-quirks.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/hid/hid-picolcd_fb.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/hid/hid-picolcd_core.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/hid/hid-wiimote-modules.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/hid/hid-wiimote-core.o:(.bss+0x80): first defined here
-powerpc64-linux-ld: drivers/i2c/busses/i2c-designware-master.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/i2c/busses/i2c-designware-common.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/input/input-compat.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/input/input.o:(.bss+0x80): first defined here
-powerpc64-linux-ld: drivers/input/mouse/elan_i2c_i2c.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/input/mouse/elan_i2c_core.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/input/rmi4/rmi_driver.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/input/rmi4/rmi_bus.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/md/dm-bio-prison-v2.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/md/dm-bio-prison-v1.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/md/dm-cache-metadata.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/md/dm-cache-target.o:(.bss+0x100): first defined here
-powerpc64-linux-ld: drivers/md/dm-thin-metadata.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/md/dm-thin.o:(.bss+0x180): first defined here
-powerpc64-linux-ld: drivers/md/md-bitmap.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/md/md.o:(.bss+0x180): first defined here
-powerpc64-linux-ld: drivers/md/persistent-data/dm-bitset.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/md/persistent-data/dm-array.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/md/raid5-cache.o:(.bss+0xc0): multiple definition of `____cacheline_aligned'; drivers/md/raid5.o:(.bss+0x100): first defined here
-powerpc64-linux-ld: drivers/media/dvb-core/dvb_demux.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/media/dvb-core/dmxdev.o:(.bss+0x80): first defined here
-powerpc64-linux-ld: drivers/media/rc/rc-ir-raw.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/media/rc/rc-main.o:(.bss+0x80): first defined here
-powerpc64-linux-ld: drivers/media/tuners/tda18271-common.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/media/tuners/tda18271-maps.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/media/v4l2-core/v4l2-fh.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/media/v4l2-core/v4l2-dev.o:(.bss+0x900): first defined here
-powerpc64-linux-ld: drivers/mfd/cs47l35-tables.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/mfd/madera-core.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/mfd/mt6397-irq.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/mfd/mt6397-core.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/mfd/pcf50633-irq.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/mfd/pcf50633-core.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/misc/altera-stapl/altera-jtag.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/misc/altera-stapl/altera-lpt.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/mmc/core/host.o:(.bss+0x80): multiple definition of `____cacheline_aligned'; drivers/mmc/core/bus.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/mtd/spi-nor/swp.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/mtd/spi-nor/sfdp.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/net/can/dev/length.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/net/can/dev/bittiming.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/net/can/flexcan/flexcan-ethtool.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/net/can/flexcan/flexcan-core.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/slimbus/messaging.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/slimbus/core.o:(.bss+0x80): first defined here
-powerpc64-linux-ld: drivers/ssb/scan.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/ssb/main.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/staging/ks7010/ks_wlan_net.o:(.bss+0x80): multiple definition of `____cacheline_aligned'; drivers/staging/ks7010/ks_hostif.o:(.bss+0x80): first defined here
-powerpc64-linux-ld: drivers/video/fbdev/omap2/omapfb/dss/dispc_coefs.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/video/fbdev/omap2/omapfb/dss/dispc.o:(.bss+0x1100): first defined here
-powerpc64-linux-ld: drivers/video/fbdev/omap2/omapfb/omapfb-ioctl.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/autofs/symlink.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/autofs/inode.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: fs/befs/btree.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/befs/datastream.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/fat/dir.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/fat/cache.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: fs/fscache/io.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/fscache/cache.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: fs/hfs/bfind.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/hfs/bitmap.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/minix/itree_v1.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/minix/bitmap.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/netfs/objects.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; fs/netfs/buffered_read.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/overlayfs/namei.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/overlayfs/super.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: lib/raid6/recov.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; lib/raid6/algos.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: net/atm/svc.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/atm/pvc.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/ax25/ax25_dev.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; net/ax25/ax25_addr.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/bridge/br_forward.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/bridge/br_fdb.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/ceph/messenger.o:(.bss+0x880): multiple definition of `____cacheline_aligned'; net/ceph/ceph_common.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: net/phonet/socket.o:(.bss+0x940): multiple definition of `____cacheline_aligned'; net/phonet/pn_dev.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: net/rds/cong.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; net/rds/bind.o:(.bss+0x180): first defined here
-powerpc64-linux-ld: net/rds/tcp_connect.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/rds/tcp.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: net/x25/x25_out.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/x25/x25_in.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: security/keys/trusted-keys/trusted_tpm1.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; security/keys/trusted-keys/trusted_core.o:(.bss+0x40): first defined here
-{standard input}:1991: Error: unknown pseudo-op: `.lc'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- arm-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|-- arm-randconfig-r031-20220516
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- csky-randconfig-r025-20220516
-|   `-- csky-linux-ld:drivers-nvme-host-fc.c:undefined-reference-to-blkcg_get_fc_appid
-|-- h8300-allyesconfig
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- i386-allyesconfig
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|-- i386-debian-10.3
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- i386-debian-10.3-kselftests
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- i386-randconfig-a011-20220516
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-c021-20220516
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_max_func
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_min_func
-|   `-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_w_func
-|-- i386-randconfig-m021
-|   |-- kernel-bpf-verifier.c-process_kptr_func()-warn:passing-zero-to-PTR_ERR
-|   `-- mm-shmem.c-shmem_getpage_gfp()-warn:should-((()-)-)-folio_order(folio)-be-a-bit-type
-|-- i386-randconfig-r014-20220516
-|   `-- fc.c:(.text):undefined-reference-to-blkcg_get_fc_appid
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- microblaze-randconfig-s031-20220516
-|   |-- drivers-nvme-host-fc.c:undefined-reference-to-blkcg_get_fc_appid
-|   |-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_disable_ftrace_graph_caller
-|   `-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_enable_ftrace_graph_caller
-|-- mips-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- openrisc-randconfig-m031-20220517
-|   |-- include-linux-userfaultfd_k.h-vma_can_userfault()-warn:bitwise-AND-condition-is-false-here
-|   `-- kernel-bpf-verifier.c-process_kptr_func()-warn:passing-zero-to-PTR_ERR
-|-- parisc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-gpu-drm-rockchip-rockchip_drm_vop2.c:Unneeded-semicolon
-|-- powerpc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- powerpc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- powerpc64-randconfig-r015-20220516
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-char-ipmi-ipmi_si_hotmod.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-char-tpm-tpm-dev.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-bridge-adv7511-adv7511_drv.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-drm_gem_cma_helper.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-mxsfb-mxsfb_drv.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-selftests-test-drm_plane_helper.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-vgem-vgem_drv.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-vkms-vkms_plane.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-input-input.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-input-mouse-elan_i2c_core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-md-dm-bio-prison-v1.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-md-dm-cache-target.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-md-dm-thin.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-md-md.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-md-persistent-data-dm-array.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-md-raid5.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-media-dvb-core-dmxdev.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-media-rc-rc-main.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-media-tuners-tda18271-maps.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-media-v4l2-core-v4l2-dev.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mfd-mt6397-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mfd-pcf50633-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-misc-altera-stapl-altera-lpt.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mmc-core-bus.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-nvme-target-fabrics-cmd.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-staging-ks7010-ks_hostif.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-autofs-inode.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-befs-datastream.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-fat-cache.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-hfs-bitmap.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-minix-bitmap.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-ntfs-aops.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-overlayfs-super.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-lib-raid6-algos.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-atm-pvc.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-ceph-ceph_common.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-mac80211-aead_api.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-phonet-pn_dev.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-rds-bind.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-rds-tcp.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-wireless-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-x25-x25_in.o:(.bss):first-defined-here
-|   `-- multiple-definition-of-____cacheline_aligned-security-keys-trusted-keys-trusted_core.o:(.bss):first-defined-here
-|-- powerpc64-randconfig-r016-20220516
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-char-tpm-tpm-dev.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-crypto-hisilicon-sec-sec_algs.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-hid-hid-picolcd_core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-hid-hid-quirks.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-hid-hid-wiimote-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-i2c-busses-i2c-designware-common.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-input-rmi4-rmi_bus.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-media-rc-rc-main.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mfd-madera-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mfd-mt6397-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-misc-altera-stapl-altera-lpt.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mmc-core-bus.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mtd-spi-nor-sfdp.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-net-can-dev-bittiming.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-net-can-flexcan-flexcan-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-nfc-nxp-nci-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-nfc-s3fwrn5-firmware.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-slimbus-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-ssb-main.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-video-fbdev-omap2-omapfb-dss-dispc.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-video-fbdev-omap2-omapfb-omapfb-sysfs.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-fscache-cache.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-netfs-buffered_read.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-atm-pvc.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-ax25-ax25_addr.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-bridge-br_fdb.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-mac80211-aead_api.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-nfc-af_nfc.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-nfc-nci-data.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-wireless-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-security-keys-trusted-keys-trusted_core.o:(.bss):first-defined-here
-|   `-- multiple-definition-of-____cacheline_aligned-sound-pci-ac97-ac97_codec.o:(.bss):first-defined-here
-|-- riscv-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- riscv-allnoconfig
-|   |-- kismet:WARNING:unmet-direct-dependencies-detected-for-RISCV_ALTERNATIVE-when-selected-by-ERRATA_THEAD
-|   `-- kismet:WARNING:unmet-direct-dependencies-detected-for-RISCV_ALTERNATIVE-when-selected-by-RISCV_ISA_SVPBMT
-|-- riscv-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- s390-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- sh-allmodconfig
-|   `-- standard-input:Error:unknown-pseudo-op:lc
-|-- sparc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- sparc-randconfig-r003-20220516
-|   |-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_disable_ftrace_graph_caller
-|   `-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_enable_ftrace_graph_caller
-|-- sparc-randconfig-r036-20220516
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- um-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- x86_64-allyesconfig
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|-- x86_64-kexec
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-randconfig-a012-20220516
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- x86_64-randconfig-a014-20220516
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-randconfig-c001-20220516
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- x86_64-randconfig-m001-20220516
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c-sysfs_gt_attribute_w_func()-error:uninitialized-symbol-ret-.
-|   `-- kernel-bpf-verifier.c-process_kptr_func()-warn:passing-zero-to-PTR_ERR
-|-- x86_64-randconfig-r024-20220516
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- x86_64-rhel-8.3
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-rhel-8.3-func
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-rhel-8.3-kselftests
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-rhel-8.3-kunit
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-rhel-8.3-syz
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-`-- xtensa-allyesconfig
-    |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:no-previous-prototype-for-dp_parse_lttpr_mode
-    |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link_dp.c:warning:variable-allow_lttpr_non_transparent_mode-set-but-not-used
-    |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-    `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-
-clang_recent_errors
-|-- arm-randconfig-c002-20220516
-|   `-- drivers-tty-hvc-hvc_dcc.c:warning:Value-stored-to-cpu-during-its-initialization-is-never-read-clang-analyzer-deadcode.DeadStores
-|-- arm-versatile_defconfig
-|   `-- arch-arm-mach-versatile-versatile.c:warning:no-previous-prototype-for-function-mmc_status
-|-- hexagon-buildonly-randconfig-r005-20220516
-|   `-- ld.lld:error:undefined-symbol:blkcg_get_fc_appid
-|-- hexagon-randconfig-r045-20220516
-|   |-- fs-buffer.c:warning:stack-frame-size-()-exceeds-limit-()-in-block_read_full_folio
-|   `-- fs-ntfs-aops.c:warning:stack-frame-size-()-exceeds-limit-()-in-ntfs_read_folio
-|-- i386-randconfig-a006-20220516
-|   `-- ld.lld:error:undefined-symbol:blkcg_get_fc_appid
-|-- riscv-randconfig-r001-20220516
-|   |-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-function-ftrace_disable_ftrace_graph_caller
-|   `-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-function-ftrace_enable_ftrace_graph_caller
-`-- riscv-randconfig-r004-20220516
-    `-- arch-riscv-include-asm-pgtable.h:error:call-to-undeclared-function-pud_leaf-ISO-C99-and-later-do-not-support-implicit-function-declarations
-
-elapsed time: 730m
-
-configs tested: 114
-configs skipped: 3
-
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-arm64                            allyesconfig
-i386                 randconfig-c001-20220516
-arm                      integrator_defconfig
-sh                ecovec24-romimage_defconfig
-sh                            titan_defconfig
-powerpc                     redwood_defconfig
-sh                              ul2_defconfig
-xtensa                         virt_defconfig
-powerpc                   currituck_defconfig
-openrisc                 simple_smp_defconfig
-arc                          axs101_defconfig
-mips                         cobalt_defconfig
-sh                          urquell_defconfig
-sh                           se7722_defconfig
-m68k                          sun3x_defconfig
-sh                           se7780_defconfig
-sh                           se7705_defconfig
-powerpc                     sequoia_defconfig
-arm                  randconfig-c002-20220516
-x86_64               randconfig-c001-20220516
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-alpha                               defconfig
-csky                                defconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-arc                                 defconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-parisc64                            defconfig
-s390                             allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-nios2                               defconfig
-arc                              allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a012-20220516
-x86_64               randconfig-a011-20220516
-x86_64               randconfig-a013-20220516
-x86_64               randconfig-a014-20220516
-x86_64               randconfig-a016-20220516
-x86_64               randconfig-a015-20220516
-i386                 randconfig-a014-20220516
-i386                 randconfig-a011-20220516
-i386                 randconfig-a013-20220516
-i386                 randconfig-a015-20220516
-i386                 randconfig-a012-20220516
-i386                 randconfig-a016-20220516
-arc                  randconfig-r043-20220516
-s390                 randconfig-r044-20220516
-riscv                randconfig-r042-20220516
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                                  kexec
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                               rhel-8.3
-x86_64                         rhel-8.3-kunit
-
-clang tested configs:
-arm                       cns3420vb_defconfig
-arm                       versatile_defconfig
-arm                          collie_defconfig
-powerpc                     kilauea_defconfig
-mips                      malta_kvm_defconfig
-arm                       mainstone_defconfig
-arm                  colibri_pxa300_defconfig
-mips                            e55_defconfig
-powerpc                   microwatt_defconfig
-powerpc                     akebono_defconfig
-powerpc                    mvme5100_defconfig
-x86_64               randconfig-a002-20220516
-x86_64               randconfig-a001-20220516
-x86_64               randconfig-a003-20220516
-x86_64               randconfig-a005-20220516
-x86_64               randconfig-a004-20220516
-x86_64               randconfig-a006-20220516
-i386                 randconfig-a003-20220516
-i386                 randconfig-a001-20220516
-i386                 randconfig-a004-20220516
-i386                 randconfig-a006-20220516
-i386                 randconfig-a002-20220516
-i386                 randconfig-a005-20220516
-hexagon              randconfig-r045-20220516
-hexagon              randconfig-r041-20220516
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> thanks,
+>
+> greg k-h
