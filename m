@@ -2,67 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AF452A67D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 17:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A0852A67F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 17:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB9B4112F73;
-	Tue, 17 May 2022 15:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24696112FC6;
+	Tue, 17 May 2022 15:26:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C22112F8B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 15:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652801079;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hMV/pO71tp7Tnmw0apJUjOC22eI0KpMfGNgJNZ8mGcM=;
- b=M9d4sJGhna1ozfknrCBLS2RSk7Imt7uX/KDtR28gf848y7YWNWu+xHPyfD/vfkOxMaRkNS
- ccctT7az+wOVcMbKjKSQHklLZEppXc57Afuga8J/QxLqzXm7QFbnHUtkFo0u+KQEC54URq
- mvTZ5TwwMpMmfvU3T7+CDmcoqVqBJgE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-319-XN_9o3srMm2CwS02pjP2vw-1; Tue, 17 May 2022 11:24:34 -0400
-X-MC-Unique: XN_9o3srMm2CwS02pjP2vw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C029F1857F02;
- Tue, 17 May 2022 15:24:32 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 41153C15D70;
- Tue, 17 May 2022 15:24:29 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Ben Skeggs <bskeggs@redhat.com>,
-	Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
-	Daniel Dadap <ddadap@nvidia.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>, Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH 14/14] drm/radeon: Register ACPI video backlight when skipping
- radeon backlight registration
-Date: Tue, 17 May 2022 17:23:31 +0200
-Message-Id: <20220517152331.16217-15-hdegoede@redhat.com>
-In-Reply-To: <20220517152331.16217-1-hdegoede@redhat.com>
-References: <20220517152331.16217-1-hdegoede@redhat.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B38C3112FC6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 15:26:00 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id d15so31946727lfk.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 08:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=V+X+LRsejpzXZH7tsox7umkRY7xo5WQxZtVa62UBNjU=;
+ b=MAvqRFZMqTF2/qVoqgWL5T0C+ULSZS7SdHzVh6LuDRdT51k+tjmab0c7gpzsf0Ql7k
+ ReP/eAAoQU51GsQD4Bz0ywyVLUNnZh/mE3GNKvawkR7gvPqBw5mXHXDDgdkNrpfTpAs1
+ bAMk6xyeJ1g4mnjcaeSQMvlpPsF4rbwLd+zy7LuQWikYbxdBzh0GZpJaYHhJxcWDRPdr
+ liBJ3i5eBbWp55RwkiZwR+iHlOp6uft4OXTRqqT9OHhoOaU24sAJ7WOwFhn0hed1CrBs
+ PnWxpalasLu5anySlBVesTRozNRF6F1oQ8HwZT5nEhEcwxQOOhte+RNCH6dwDZuqzYvq
+ U0Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=V+X+LRsejpzXZH7tsox7umkRY7xo5WQxZtVa62UBNjU=;
+ b=itZgOxFTaxXQZHDzCHhT3YS2/YksQnI1zrD5VlA5ZzICmLfpKRWFY5gor0bgD1ewu7
+ z6XC5wZEv1mtoLT+7uE+ltknCiO9oFpvJO3Y5S+J+pPtFpkusrnM5rqtF4mJs+o4w4sf
+ PPS6RTy0X5+0TafsqB8fmzYqd7dsJXJE/cYFYMlWEDaaXIfsxFeBX1J8KVuWcD102+6+
+ u8MlJvr0yV8Yv66MOa9u4KBC+lW7r2Ykigveo+sLPOEH0RpZ8z8F/1nCVpj8dYWX89So
+ GbZruKu6CgXWYZbzqpSOobOyflCAT016J9vRCZySugKkErcgejiXfzVDvkALk41lSReU
+ 7z9w==
+X-Gm-Message-State: AOAM530LjNJKKv06OpEKxovTe/Z17KCmGNGbx1jvSVFfqrEQFBs0J+XP
+ VETFGfC1aEagWsJOLYWGVoArkQ==
+X-Google-Smtp-Source: ABdhPJxmP1/fh87kksGIF64YeOa63xcO4AZZoPfdVcUnKNeeAX7gyD0GjdDyznBoSgv6nNdqeC5cBA==
+X-Received: by 2002:a05:6512:280e:b0:473:a0c9:5bdf with SMTP id
+ cf14-20020a056512280e00b00473a0c95bdfmr17199543lfb.337.1652801159066; 
+ Tue, 17 May 2022 08:25:59 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ v2-20020a056512348200b0047255d21124sm2221lfr.83.2022.05.17.08.25.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 08:25:57 -0700 (PDT)
+Message-ID: <1327ec95-f6b4-838d-f3f2-a115c2ab632b@linaro.org>
+Date: Tue, 17 May 2022 17:25:56 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 2/3] ARM: dts: aspeed: Add USB2.0 device controller node
+Content-Language: en-US
+To: Neal Liu <neal_liu@aspeedtech.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Felipe Balbi <balbi@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Li Yang <leoyang.li@nxp.com>
+References: <20220517082558.3534161-1-neal_liu@aspeedtech.com>
+ <20220517082558.3534161-3-neal_liu@aspeedtech.com>
+ <96973d1d-c52c-d190-6989-3f7996dae70b@linaro.org>
+ <HK0PR06MB32027CAC4BEE443F426F587380CE9@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ <0bc5ba24-5bfb-593e-cbd0-828ef44aabc5@linaro.org>
+ <HK0PR06MB320295DB0748CEFC68B73CCF80CE9@HK0PR06MB3202.apcprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <HK0PR06MB320295DB0748CEFC68B73CCF80CE9@HK0PR06MB3202.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,77 +85,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, amd-gfx@lists.freedesktop.org,
- Len Brown <lenb@kernel.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Typically the acpi_video driver will initialize before radeon, which
-used to cause /sys/class/backlight/acpi_video0 to get registered and then
-radeon would register its own radeon_bl# device later. After which
-the drivers/acpi/video_detect.c code unregistered the acpi_video0 device
-to avoid there being 2 backlight devices.
+On 17/05/2022 17:21, Neal Liu wrote:
+>>>>>
+>>>>> +		udc: udc@1e6a2000 {
+>>>>
+>>>> The same as DTS in bindings - generic node name, please.
+>>>>
+>>>
+>>> Is it possible to use "udc: usb-udc@1e6a2000" to distinguish it between "vhub:
+>> usb-vhub@1e6a0000"?
+>>
+>> Possible yes :), but not recommended and not wanted. Nodes should be generic
+>> and prefixes are added only if there is no unit address. You can though use
+>> some more descriptive label.
+>>
+> "udc: usb@1e6a2000" is okay for you?
 
-This means that userspace used to briefly see 2 devices and the
-disappearing of acpi_video0 after a brief time confuses the systemd
-backlight level save/restore code, see e.g.:
-https://bbs.archlinux.org/viewtopic.php?id=269920
+Yes, it's perfect.
 
-To fix this the ACPI video code has been modified to make backlight class
-device registration a separate step, relying on the drm/kms driver to
-ask for the acpi_video backlight registration after it is done setting up
-its native backlight device.
 
-Add a call to the new acpi_video_register_backlight() when radeon skips
-registering its own backlight device because of e.g. the firmware_flags
-or the acpi_video_get_backlight_type() return value. This ensures that
-if the acpi_video backlight device should be used, it will be available
-before the radeon drm_device gets registered with userspace.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/radeon/radeon_encoders.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
-index 46549d5179ee..c1cbebb51be1 100644
---- a/drivers/gpu/drm/radeon/radeon_encoders.c
-+++ b/drivers/gpu/drm/radeon/radeon_encoders.c
-@@ -30,6 +30,8 @@
- #include <drm/drm_device.h>
- #include <drm/radeon_drm.h>
- 
-+#include <acpi/video.h>
-+
- #include "radeon.h"
- #include "radeon_atombios.h"
- #include "radeon_legacy_encoders.h"
-@@ -167,7 +169,7 @@ static void radeon_encoder_add_backlight(struct radeon_encoder *radeon_encoder,
- 		return;
- 
- 	if (radeon_backlight == 0) {
--		return;
-+		use_bl = false;
- 	} else if (radeon_backlight == 1) {
- 		use_bl = true;
- 	} else if (radeon_backlight == -1) {
-@@ -193,6 +195,13 @@ static void radeon_encoder_add_backlight(struct radeon_encoder *radeon_encoder,
- 		else
- 			radeon_legacy_backlight_init(radeon_encoder, connector);
- 	}
-+
-+	/*
-+	 * If there is no native backlight device (which may happen even when
-+	 * use_bl==true) try registering an ACPI video backlight device instead.
-+	 */
-+	if (!rdev->mode_info.bl_encoder)
-+		acpi_video_register_backlight();
- }
- 
- void
--- 
-2.36.0
-
+Best regards,
+Krzysztof
