@@ -1,48 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DB8529FCA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 12:52:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FA752A015
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 13:10:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D4F10E1B0;
-	Tue, 17 May 2022 10:52:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF42110E063;
+	Tue, 17 May 2022 11:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC91610E1EA;
- Tue, 17 May 2022 10:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652784730; x=1684320730;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=nKW6elfHlcJLlGb5UfAB6b+3SjXbXOyMpwDgnK04b+E=;
- b=eNLWYFi39XXUqQKlZPrMrSIS6CEic12e3rffDwgvd+bRtHPXN/aSKON9
- PV4+oWl8VBKMtnc7rmtjtIDcxgPVRsxjAk//PfppwEi+UaFRwUnAE7kbz
- vdu8BUhhyu1Oa0RKh1uj6K/qM+G9C/3oHv1cKC36fmKUec2Q4HMu5IoOF
- a3sC+8/YHW0DY0PTlnJgOfs7E/u4dE+rSK//H2AsV1H2znWYswRebrcbn
- pcIMjhc/N/ctv38nUXs0qniav82vqVIrjOHCNaBK2dxUdn/672QQOFOYZ
- r+pWdJ7Nzx+c04jxy1qp2jh46W1BtxQpNRjbudxumCaOEmfZ46q8U2ZDO g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="271264748"
-X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="271264748"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2022 03:52:10 -0700
-X-IronPort-AV: E=Sophos;i="5.91,232,1647327600"; d="scan'208";a="544849210"
-Received: from kanesean-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.16.201])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2022 03:52:07 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4] drm/doc: add rfc section for small BAR uapi
-Date: Tue, 17 May 2022 11:52:01 +0100
-Message-Id: <20220517105201.50278-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.34.3
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2261C10E028
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 11:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652785814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8+rXDyJTpld4kDiOOJTEx903NZLPEDrw5ckcuE3uWyI=;
+ b=D325ayt/o+9J74RqD1CGtbzBP32z+iNtZaDdQETSInmsPUQKcIXjkGTOlJm87rtfeFDdE0
+ YydwiseSJERb3AFOMNqlx+v3Ez9EIBpyAFXz1l2+QS9wCKtHgTTaa2mHhWORMmaHzAkFvl
+ 21vdPTA40Cr6XERpU8Ch7Ut/jQpyZro=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-GJJEGWYFOm6ZCZEHklTVpg-1; Tue, 17 May 2022 07:10:11 -0400
+X-MC-Unique: GJJEGWYFOm6ZCZEHklTVpg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ go17-20020a1709070d9100b006f46e53a2a9so7179419ejc.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 04:10:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:from:subject:content-transfer-encoding;
+ bh=8+rXDyJTpld4kDiOOJTEx903NZLPEDrw5ckcuE3uWyI=;
+ b=cGR9QYc7AcQGErwvn8OEnv7usARYEa+fUkBhDkkFxCvJNGuYYrxZLcyCvSiNt/ZwLu
+ 78j+q3ivOIV2NJWyPkOaMRMKEqMIjwrPsLRcV9QEIhPvOMI6rbNEpjxjJokI60F9VlVh
+ /cqG/LmTp5lKC5xrdB8FV3leMbhS4korD1IfCnpKY37YHJxOj+gmDtEpnv1u0Sk6wuXz
+ voYV13t0ZENZMDa/RVLSiGe3o/wTOi/GBrOE45b+cWM4kSBsgwE2uvJ2hiQ+4qGy/m4K
+ rFAAJv689uIk4sEPRjHhaH6Sp8eN2dRGcWBrymZDCnkKlcvhr03v4V3ewV7Lgf1P8FO1
+ 9TZA==
+X-Gm-Message-State: AOAM532oI1QllqJqkLLG/i5QMuvA0N0kxdJlbs5Fk2hakZkzT3Xt+Y4U
+ azZ0ytmGSqHQ8pNWrACUmi7XKJYgXakEycfDEhXf4doLDC+o8Bpo/YQFxutFuk2ksI4DQQBgBhH
+ YJlLUPYV3Ek+8e6CziPesr+8QGsdp
+X-Received: by 2002:a17:906:2c5a:b0:6fe:6045:2209 with SMTP id
+ f26-20020a1709062c5a00b006fe60452209mr2728127ejh.241.1652785809649; 
+ Tue, 17 May 2022 04:10:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjdrmSoB7F/0S7MAfPFidkkuz+RF0qsAaiTXK4hEl7Jkj77rUYOCuiLP547Qva/xoEmrsbXg==
+X-Received: by 2002:a17:906:2c5a:b0:6fe:6045:2209 with SMTP id
+ f26-20020a1709062c5a00b006fe60452209mr2728098ejh.241.1652785809365; 
+ Tue, 17 May 2022 04:10:09 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ c11-20020a056402100b00b0042617ba63a8sm6785951edu.50.2022.05.17.04.10.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 04:10:08 -0700 (PDT)
+Message-ID: <ac39455b-b85c-4cf7-8cd0-089325c9514a@redhat.com>
+Date: Tue, 17 May 2022 13:10:07 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: nouveau lockdep deadlock report with 5.18-rc6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,312 +86,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>, dri-devel@lists.freedesktop.org,
- Jordan Justen <jordan.l.justen@intel.com>, mesa-dev@lists.freedesktop.org,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an entry for the new uapi needed for small BAR on DG2+.
+Hi All,
 
-v2:
-  - Some spelling fixes and other small tweaks. (Akeem & Thomas)
-  - Rework error capture interactions, including no longer needing
-    NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
-  - Add probed_cpu_visible_size. (Lionel)
-v3:
-  - Drop the vma query for now.
-  - Add unallocated_cpu_visible_size as part of the region query.
-  - Improve the docs some more, including documenting the expected
-    behaviour on older kernels, since this came up in some offline
-    discussion.
-v4:
-  - Various improvements all over. (Tvrtko)
+I just noticed the below lockdep possible deadlock report with a 5.18-rc6
+kernel on a Dell Latitude E6430 laptop with the following nvidia GPU:
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
-Cc: mesa-dev@lists.freedesktop.org
----
- Documentation/gpu/rfc/i915_small_bar.h   | 189 +++++++++++++++++++++++
- Documentation/gpu/rfc/i915_small_bar.rst |  47 ++++++
- Documentation/gpu/rfc/index.rst          |   4 +
- 3 files changed, 240 insertions(+)
- create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
- create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
+01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GF108GLM [NVS 5200M] [10de:0dfc] (rev a1)
+01:00.1 Audio device [0403]: NVIDIA Corporation GF108 High Definition Audio Controller [10de:0bea] (rev a1)
 
-diff --git a/Documentation/gpu/rfc/i915_small_bar.h b/Documentation/gpu/rfc/i915_small_bar.h
-new file mode 100644
-index 000000000000..c676640b23ef
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_small_bar.h
-@@ -0,0 +1,189 @@
-+/**
-+ * struct __drm_i915_memory_region_info - Describes one region as known to the
-+ * driver.
-+ *
-+ * Note this is using both struct drm_i915_query_item and struct drm_i915_query.
-+ * For this new query we are adding the new query id DRM_I915_QUERY_MEMORY_REGIONS
-+ * at &drm_i915_query_item.query_id.
-+ */
-+struct __drm_i915_memory_region_info {
-+	/** @region: The class:instance pair encoding */
-+	struct drm_i915_gem_memory_class_instance region;
-+
-+	/** @rsvd0: MBZ */
-+	__u32 rsvd0;
-+
-+	/**
-+	 * @probed_size: Memory probed by the driver (-1 = unknown)
-+	 *
-+	 * Note that it should not be possible to ever encounter a zero value
-+	 * here, also note that no current region type will ever return -1 here.
-+	 * Although for future region types, this might be a possibility. The
-+	 * same applies to the other size fields.
-+	 */
-+	__u64 probed_size;
-+
-+	/**
-+	 * @unallocated_size: Estimate of memory remaining (-1 = unknown)
-+	 *
-+	 * Requires CAP_PERFMON or CAP_SYS_ADMIN to get reliable accounting.
-+	 * Without this (or if this is an older kernel) the value here will
-+	 * always equal the @probed_size. Note this is only currently tracked
-+	 * for I915_MEMORY_CLASS_DEVICE regions (for other types the value here
-+	 * will always equal the @probed_size).
-+	 */
-+	__u64 unallocated_size;
-+
-+	union {
-+		/** @rsvd1: MBZ */
-+		__u64 rsvd1[8];
-+		struct {
-+			/**
-+			 * @probed_cpu_visible_size: Memory probed by the driver
-+			 * that is CPU accessible. (-1 = unknown).
-+			 *
-+			 * This will be always be <= @probed_size, and the
-+			 * remainder (if there is any) will not be CPU
-+			 * accessible.
-+			 *
-+			 * On systems without small BAR, the @probed_size will
-+			 * always equal the @probed_cpu_visible_size, since all
-+			 * of it will be CPU accessible.
-+			 *
-+			 * Note this is only tracked for
-+			 * I915_MEMORY_CLASS_DEVICE regions (for other types the
-+			 * value here will always equal the @probed_size).
-+			 *
-+			 * Note that if the value returned here is zero, then
-+			 * this must be an old kernel which lacks the relevant
-+			 * small-bar uAPI support (including
-+			 * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS), but on
-+			 * such systems we should never actually end up with a
-+			 * small BAR configuration, assuming we are able to load
-+			 * the kernel module. Hence it should be safe to treat
-+			 * this the same as when @probed_cpu_visible_size ==
-+			 * @probed_size.
-+			 */
-+			__u64 probed_cpu_visible_size;
-+
-+			/**
-+			 * @unallocated_cpu_visible_size: Estimate of CPU
-+			 * visible memory remaining (-1 = unknown).
-+			 *
-+			 * Note this is only tracked for
-+			 * I915_MEMORY_CLASS_DEVICE regions (for other types the
-+			 * value here will always equal the
-+			 * @probed_cpu_visible_size).
-+			 *
-+			 * Requires CAP_PERFMON or CAP_SYS_ADMIN to get reliable
-+			 * accounting.  Without this the value here will always
-+			 * equal the @probed_cpu_visible_size. Note this is only
-+			 * currently tracked for I915_MEMORY_CLASS_DEVICE
-+			 * regions (for other types the value here will also
-+			 * always equal the @probed_cpu_visible_size).
-+			 *
-+			 * If this is an older kernel the value here will be
-+			 * zero, see also @probed_cpu_visible_size.
-+			 */
-+			__u64 unallocated_cpu_visible_size;
-+		};
-+	};
-+};
-+
-+/**
-+ * struct __drm_i915_gem_create_ext - Existing gem_create behaviour, with added
-+ * extension support using struct i915_user_extension.
-+ *
-+ * Note that new buffer flags should be added here, at least for the stuff that
-+ * is immutable. Previously we would have two ioctls, one to create the object
-+ * with gem_create, and another to apply various parameters, however this
-+ * creates some ambiguity for the params which are considered immutable. Also in
-+ * general we're phasing out the various SET/GET ioctls.
-+ */
-+struct __drm_i915_gem_create_ext {
-+	/**
-+	 * @size: Requested size for the object.
-+	 *
-+	 * The (page-aligned) allocated size for the object will be returned.
-+	 *
-+	 * Note that for some devices we have might have further minimum
-+	 * page-size restrictions (larger than 4K), like for device local-memory.
-+	 * However in general the final size here should always reflect any
-+	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
-+	 * extension to place the object in device local-memory. The kernel will
-+	 * always select the largest minimum page-size for the set of possible
-+	 * placements as the value to use when rounding up the @size.
-+	 */
-+	__u64 size;
-+
-+	/**
-+	 * @handle: Returned handle for the object.
-+	 *
-+	 * Object handles are nonzero.
-+	 */
-+	__u32 handle;
-+
-+	/**
-+	 * @flags: Optional flags.
-+	 *
-+	 * Supported values:
-+	 *
-+	 * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the kernel that
-+	 * the object will need to be accessed via the CPU.
-+	 *
-+	 * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, and only
-+	 * strictly required on configurations where some subset of the device
-+	 * memory is directly visible/mappable through the CPU (which we also
-+	 * call small BAR), like on some DG2+ systems. Note that this is quite
-+	 * undesirable, but due to various factors like the client CPU, BIOS etc
-+	 * it's something we can expect to see in the wild. See struct
-+	 * __drm_i915_memory_region_info.probed_cpu_visible_size for how to
-+	 * determine if this system applies.
-+	 *
-+	 * Note that one of the placements MUST be I915_MEMORY_CLASS_SYSTEM, to
-+	 * ensure the kernel can always spill the allocation to system memory,
-+	 * if the object can't be allocated in the mappable part of
-+	 * I915_MEMORY_CLASS_DEVICE.
-+	 *
-+	 * Also note that since the kernel only supports flat-CCS on objects
-+	 * that can *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore
-+	 * don't support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
-+	 * flat-CCS.
-+	 *
-+	 * Without this hint, the kernel will assume that non-mappable
-+	 * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note that the
-+	 * kernel can still migrate the object to the mappable part, as a last
-+	 * resort, if userspace ever CPU faults this object, but this might be
-+	 * expensive, and so ideally should be avoided.
-+	 *
-+	 * On older kernels which lack the relevant small-bar uAPI support (see
-+	 * also struct __drm_i915_memory_region_info.probed_cpu_visible_size),
-+	 * usage of the flag will result in an error, but it should NEVER be
-+	 * possible to end up with a small BAR configuration, assuming we can
-+	 * also successfully load the i915 kernel module. In such cases the
-+	 * entire I915_MEMORY_CLASS_DEVICE region will be CPU accessible, and as
-+	 * such there are zero restrictions on where the object can be placed.
-+	 */
-+#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
-+	__u32 flags;
-+
-+	/**
-+	 * @extensions: The chain of extensions to apply to this object.
-+	 *
-+	 * This will be useful in the future when we need to support several
-+	 * different extensions, and we need to apply more than one when
-+	 * creating the object. See struct i915_user_extension.
-+	 *
-+	 * If we don't supply any extensions then we get the same old gem_create
-+	 * behaviour.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
-+	 * struct drm_i915_gem_create_ext_memory_regions.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
-+	 * struct drm_i915_gem_create_ext_protected_content.
-+	 */
-+#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
-+#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+	__u64 extensions;
-+};
-diff --git a/Documentation/gpu/rfc/i915_small_bar.rst b/Documentation/gpu/rfc/i915_small_bar.rst
-new file mode 100644
-index 000000000000..a322481cea8b
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_small_bar.rst
-@@ -0,0 +1,47 @@
-+==========================
-+I915 Small BAR RFC Section
-+==========================
-+Starting from DG2 we will have resizable BAR support for device local-memory(i.e
-+I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size might still be
-+smaller than the total probed_size. In such cases, only some subset of
-+I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the first 256M),
-+while the remainder is only accessible via the GPU.
-+
-+I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
-+----------------------------------------------
-+New gem_create_ext flag to tell the kernel that a BO will require CPU access.
-+This becomes important when placing an object in I915_MEMORY_CLASS_DEVICE, where
-+underneath the device has a small BAR, meaning only some portion of it is CPU
-+accessible. Without this flag the kernel will assume that CPU access is not
-+required, and prioritize using the non-CPU visible portion of
-+I915_MEMORY_CLASS_DEVICE.
-+
-+.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
-+   :functions: __drm_i915_gem_create_ext
-+
-+probed_cpu_visible_size attribute
-+---------------------------------
-+New struct__drm_i915_memory_region attribute which returns the total size of the
-+CPU accessible portion, for the particular region. This should only be
-+applicable for I915_MEMORY_CLASS_DEVICE. We also report the
-+unallocated_cpu_visible_size, alongside the unallocated_size.
-+
-+Vulkan will need this as part of creating a separate VkMemoryHeap with the
-+VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU visible portion,
-+where the total size of the heap needs to be known. It also wants to be able to
-+give a rough estimate of how memory can potentially be allocated.
-+
-+.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
-+   :functions: __drm_i915_memory_region_info
-+
-+Error Capture restrictions
-+--------------------------
-+With error capture we have two new restrictions:
-+
-+    1) Error capture is best effort on small BAR systems; if the pages are not
-+    CPU accessible, at the time of capture, then the kernel is free to skip
-+    trying to capture them.
-+
-+    2) On discrete we now reject error capture on recoverable contexts. In the
-+    future the kernel may want to blit during error capture, when for example
-+    something is not currently CPU accessible.
-diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-index 91e93a705230..5a3bd3924ba6 100644
---- a/Documentation/gpu/rfc/index.rst
-+++ b/Documentation/gpu/rfc/index.rst
-@@ -23,3 +23,7 @@ host such documentation:
- .. toctree::
- 
-     i915_scheduler.rst
-+
-+.. toctree::
-+
-+    i915_small_bar.rst
--- 
-2.34.3
+This is with the laptop in Optimus mode, so with the Intel integrated
+gfx from the i5-3320M CPU driving the LCD panel and with nothing connected
+to the HDMI connector, which is always routed to the NVIDIA GPU on this
+laptop.
+
+The lockdep possible deadlock warning seems to happen when the NVIDIA GPU
+is runtime suspended shortly after gdm has loaded:
+
+[   24.859171] ======================================================
+[   24.859173] WARNING: possible circular locking dependency detected
+[   24.859175] 5.18.0-rc6+ #34 Tainted: G            E    
+[   24.859178] ------------------------------------------------------
+[   24.859179] kworker/1:1/46 is trying to acquire lock:
+[   24.859181] ffff92b0c0ee0518 (&cli->mutex){+.+.}-{3:3}, at: nouveau_vga_lastclose+0x910/0x1030 [nouveau]
+[   24.859231] 
+               but task is already holding lock:
+[   24.859233] ffff92b0c4bf35a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: ttm_bo_wait+0x7d/0x140 [ttm]
+[   24.859243] 
+               which lock already depends on the new lock.
+
+[   24.859244] 
+               the existing dependency chain (in reverse order) is:
+[   24.859246] 
+               -> #1 (reservation_ww_class_mutex){+.+.}-{3:3}:
+[   24.859249]        __ww_mutex_lock.constprop.0+0xb3/0xfb0
+[   24.859256]        ww_mutex_lock+0x38/0xa0
+[   24.859259]        nouveau_bo_pin+0x30/0x380 [nouveau]
+[   24.859297]        nouveau_channel_del+0x1d7/0x3e0 [nouveau]
+[   24.859328]        nouveau_channel_new+0x48/0x730 [nouveau]
+[   24.859358]        nouveau_abi16_ioctl_channel_alloc+0x113/0x360 [nouveau]
+[   24.859389]        drm_ioctl_kernel+0xa1/0x150
+[   24.859392]        drm_ioctl+0x21c/0x410
+[   24.859395]        nouveau_drm_ioctl+0x56/0x1820 [nouveau]
+[   24.859431]        __x64_sys_ioctl+0x8d/0xc0
+[   24.859436]        do_syscall_64+0x5b/0x80
+[   24.859440]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+[   24.859443] 
+               -> #0 (&cli->mutex){+.+.}-{3:3}:
+[   24.859446]        __lock_acquire+0x12e2/0x1f90
+[   24.859450]        lock_acquire+0xad/0x290
+[   24.859453]        __mutex_lock+0x90/0x830
+[   24.859456]        nouveau_vga_lastclose+0x910/0x1030 [nouveau]
+[   24.859493]        ttm_bo_move_to_lru_tail+0x32c/0x980 [ttm]
+[   24.859498]        ttm_mem_evict_first+0x25c/0x4b0 [ttm]
+[   24.859503]        ttm_resource_manager_evict_all+0x93/0x1b0 [ttm]
+[   24.859509]        nouveau_debugfs_fini+0x161/0x260 [nouveau]
+[   24.859545]        nouveau_drm_ioctl+0xa4a/0x1820 [nouveau]
+[   24.859582]        pci_pm_runtime_suspend+0x5c/0x180
+[   24.859585]        __rpm_callback+0x48/0x1b0
+[   24.859589]        rpm_callback+0x5a/0x70
+[   24.859591]        rpm_suspend+0x10a/0x6f0
+[   24.859594]        pm_runtime_work+0xa0/0xb0
+[   24.859596]        process_one_work+0x254/0x560
+[   24.859601]        worker_thread+0x4f/0x390
+[   24.859604]        kthread+0xe6/0x110
+[   24.859607]        ret_from_fork+0x22/0x30
+[   24.859611] 
+               other info that might help us debug this:
+
+[   24.859612]  Possible unsafe locking scenario:
+
+[   24.859613]        CPU0                    CPU1
+[   24.859615]        ----                    ----
+[   24.859616]   lock(reservation_ww_class_mutex);
+[   24.859618]                                lock(&cli->mutex);
+[   24.859620]                                lock(reservation_ww_class_mutex);
+[   24.859622]   lock(&cli->mutex);
+[   24.859624] 
+                *** DEADLOCK ***
+
+[   24.859625] 3 locks held by kworker/1:1/46:
+[   24.859627]  #0: ffff92b0c0bb4338 ((wq_completion)pm){+.+.}-{0:0}, at: process_one_work+0x1d0/0x560
+[   24.859634]  #1: ffffa8ffc02dfe80 ((work_completion)(&dev->power.work)){+.+.}-{0:0}, at: process_one_work+0x1d0/0x560
+[   24.859641]  #2: ffff92b0c4bf35a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: ttm_bo_wait+0x7d/0x140 [ttm]
+[   24.859649] 
+               stack backtrace:
+[   24.859651] CPU: 1 PID: 46 Comm: kworker/1:1 Tainted: G            E     5.18.0-rc6+ #34
+[   24.859654] Hardware name: Dell Inc. Latitude E6430/0H3MT5, BIOS A21 05/08/2017
+[   24.859656] Workqueue: pm pm_runtime_work
+[   24.859660] Call Trace:
+[   24.859662]  <TASK>
+[   24.859665]  dump_stack_lvl+0x5b/0x74
+[   24.859669]  check_noncircular+0xdf/0x100
+[   24.859672]  ? register_lock_class+0x38/0x470
+[   24.859678]  __lock_acquire+0x12e2/0x1f90
+[   24.859683]  lock_acquire+0xad/0x290
+[   24.859686]  ? nouveau_vga_lastclose+0x910/0x1030 [nouveau]
+[   24.859724]  ? lock_is_held_type+0xa6/0x120
+[   24.859730]  __mutex_lock+0x90/0x830
+[   24.859733]  ? nouveau_vga_lastclose+0x910/0x1030 [nouveau]
+[   24.859770]  ? nvif_vmm_map+0x114/0x130 [nouveau]
+[   24.859791]  ? nouveau_vga_lastclose+0x910/0x1030 [nouveau]
+[   24.859829]  ? nouveau_vga_lastclose+0x910/0x1030 [nouveau]
+[   24.859866]  nouveau_vga_lastclose+0x910/0x1030 [nouveau]
+[   24.859905]  ttm_bo_move_to_lru_tail+0x32c/0x980 [ttm]
+[   24.859912]  ttm_mem_evict_first+0x25c/0x4b0 [ttm]
+[   24.859919]  ? lock_release+0x20/0x2a0
+[   24.859923]  ttm_resource_manager_evict_all+0x93/0x1b0 [ttm]
+[   24.859930]  nouveau_debugfs_fini+0x161/0x260 [nouveau]
+[   24.859968]  nouveau_drm_ioctl+0xa4a/0x1820 [nouveau]
+[   24.860005]  pci_pm_runtime_suspend+0x5c/0x180
+[   24.860008]  ? pci_dev_put+0x20/0x20
+[   24.860011]  __rpm_callback+0x48/0x1b0
+[   24.860014]  ? pci_dev_put+0x20/0x20
+[   24.860018]  rpm_callback+0x5a/0x70
+[   24.860020]  ? pci_dev_put+0x20/0x20
+[   24.860023]  rpm_suspend+0x10a/0x6f0
+[   24.860025]  ? process_one_work+0x1d0/0x560
+[   24.860031]  pm_runtime_work+0xa0/0xb0
+[   24.860034]  process_one_work+0x254/0x560
+[   24.860039]  worker_thread+0x4f/0x390
+[   24.860043]  ? process_one_work+0x560/0x560
+[   24.860046]  kthread+0xe6/0x110
+[   24.860049]  ? kthread_complete_and_exit+0x20/0x20
+[   24.860053]  ret_from_fork+0x22/0x30
+[   24.860059]  </TASK>
+
+Regards,
+
+Hans
+
 
