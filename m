@@ -2,47 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03BC52AA33
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 20:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BBD452AA6F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 20:18:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0450111367F;
-	Tue, 17 May 2022 18:12:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60667113748;
+	Tue, 17 May 2022 18:18:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 132D8113674;
- Tue, 17 May 2022 18:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=Jb8A305OMLCpRcD0sT7krxesvTDTlCQWzCF6nIM8tMs=; b=EFbXcB47+R/URUg1IvwHrkdVfm
- No/V0ytUcUnson+PrqXrbEtLzEsyaXrk2bSzN4jvIAITSdayleey7+qr1w0hzTTBOF8MR3FgCEBrX
- X1J0ojEvlwr82JCZpWia0g3MhVxm/jnzIHfjlaLXypyDrhVUimtgj7cZDXDLZHnPqbnGionB1jfXu
- sx5cds0X3TBvbfe96N6Gtfxgkc3GplIRwPKvhjTlkE3jB2OAW+VxFQrAxiV9yOy2e+yH+RUSSA33f
- K8mb/ax+51bGPHnUj2gE3p9NQ157P3p6AGKi/YTkuu8oekICu/Oor43I0BqmEsFIz5HqhhbtpdIHD
- xD8ucdTg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nr1g0-00B3ta-90; Tue, 17 May 2022 18:12:08 +0000
-Message-ID: <ca123561-071a-bd75-71cb-bb66084ad38e@infradead.org>
-Date: Tue, 17 May 2022 11:12:02 -0700
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7DD1113752
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 18:18:20 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id c10so2339704edr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 11:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qH8JUwLx+nM2xLEZwshDyeOy6cvrct0hZrP49LTkuDM=;
+ b=EY9f44uXKvLkOY8iZd14BHawAhNUN5U4GqSLHNYuqKHcKS0Qke1+e4dR2Lr2q+pgtm
+ PuNJGHYdn8j0Q/PHfKAhuitiiKnVmprU51irprKmrChcHh4UC7xaOLSS3bNfv3rRF2Ws
+ I6aoIAW3INBzIFcGpdp5JQMEl5AHmprHor3Xc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qH8JUwLx+nM2xLEZwshDyeOy6cvrct0hZrP49LTkuDM=;
+ b=qgGERhhoZHyqMiepdVEhHOB2FKCRoq9U/29DORrx3iQ1N+VExrwZiF52VduXqfpJBz
+ ylR9ul45POQ+qFDLTUGlMh7XvUXX7uMTJChyAmYj72vWXeqddlvP9+BZYth7sjK9GB8v
+ S/2eKdMGEEooGYZE3oOAtRlKws+CYG4XnWpyU2tqrEUB67ptdJPLkgLdqm5BHBQ11bp4
+ WZ6JcH2o58kNgTpGcJznDOHiMzg7BkHsxHnySf9KPlUXX51m47zTY0FFlbLtgHLU+LNu
+ 15DsQFRxuyq2pti14Bc8EMYGrFITQEpZNFp1d3gEOmm7c8Wv0l1bFcYH1PPe5OBhilsZ
+ IeZw==
+X-Gm-Message-State: AOAM533vdLuB64eccl2+2mTxGaj1lwtSnimuenf/Ix6uLJLV34UpbJ5h
+ HN9eRk1Uf+412H1hWMY2DJyEiKe2O/fnbQ==
+X-Google-Smtp-Source: ABdhPJw83X8iyzBnoWfnS6//Pdn6ppxnt2GgOssxXJXjCy8e2OaFuU3lw7SSD79+pQpbhv+KW9wOTA==
+X-Received: by 2002:a05:6402:cad:b0:42a:bf29:a023 with SMTP id
+ cn13-20020a0564020cad00b0042abf29a023mr7776392edb.174.1652811499002; 
+ Tue, 17 May 2022 11:18:19 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com.
+ [209.85.221.44]) by smtp.gmail.com with ESMTPSA id
+ hx24-20020a170906847800b006f3ef214deesm1319260ejc.84.2022.05.17.11.18.17
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 11:18:18 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id f2so18825691wrc.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 11:18:17 -0700 (PDT)
+X-Received: by 2002:a5d:5009:0:b0:20d:846:f4da with SMTP id
+ e9-20020a5d5009000000b0020d0846f4damr10202605wrt.301.1652811497320; Tue, 17
+ May 2022 11:18:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: linux-next: Tree for May 16 (drm/i915/gt/intel_gt_sysfs_pm.c)
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20220516205718.2c5a52f9@canb.auug.org.au>
- <1af2e702-2ea4-02ad-7682-e39cee20cc13@infradead.org>
- <d7310d85-4e8e-6b3b-2ec5-3a56bb9babeb@linux.intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <d7310d85-4e8e-6b3b-2ec5-3a56bb9babeb@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1652808360-9830-1-git-send-email-quic_khsieh@quicinc.com>
+ <1652808360-9830-2-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1652808360-9830-2-git-send-email-quic_khsieh@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 17 May 2022 11:18:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U0Ba0th-jmF+3t9BPEisXU2ZmjiahV7YFUqC0fbUrvJQ@mail.gmail.com>
+Message-ID: <CAD=FV=U0Ba0th-jmF+3t9BPEisXU2ZmjiahV7YFUqC0fbUrvJQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] phy/qcom: add regulator_set_load to edp/dp phy
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,52 +72,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
+ Vinod Koul <vkoul@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+On Tue, May 17, 2022 at 10:26 AM Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> This patch add regulator_set_load() to both eDP and DP phy driver
+> to have totally control regulators.
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/phy/qualcomm/phy-qcom-edp.c | 25 +++++++++++++++++++++----
+>  drivers/phy/qualcomm/phy-qcom-qmp.c | 24 ++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+> index cacd32f..9b55095 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+> @@ -87,17 +87,24 @@ struct qcom_edp {
+>
+>         struct clk_bulk_data clks[2];
+>         struct regulator_bulk_data supplies[2];
+> +       int enable_load[2];
+> +       int disable_load[2];
+>  };
+>
+>  static int qcom_edp_phy_init(struct phy *phy)
+>  {
+>         struct qcom_edp *edp = phy_get_drvdata(phy);
+>         int ret;
+> +       int num_consumers = ARRAY_SIZE(edp->supplies);
+> +       int i;
+>
+> -       ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
+> +       ret = regulator_bulk_enable(num_consumers, edp->supplies);
+>         if (ret)
+>                 return ret;
+>
+> +       for (i = num_consumers - 1; i >= 0; --i)
+> +               regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
+> +
+>         ret = clk_bulk_prepare_enable(ARRAY_SIZE(edp->clks), edp->clks);
+>         if (ret)
+>                 goto out_disable_supplies;
+> @@ -425,9 +432,15 @@ static int qcom_edp_phy_power_off(struct phy *phy)
+>  static int qcom_edp_phy_exit(struct phy *phy)
+>  {
+>         struct qcom_edp *edp = phy_get_drvdata(phy);
+> +       int num_consumers = ARRAY_SIZE(edp->supplies);
+> +       int i;
+>
+>         clk_bulk_disable_unprepare(ARRAY_SIZE(edp->clks), edp->clks);
+> -       regulator_bulk_disable(ARRAY_SIZE(edp->supplies), edp->supplies);
+> +
+> +       for (i = num_consumers - 1; i >= 0; --i)
+> +               regulator_set_load(edp->supplies[i].consumer, edp->disable_load[i]);
+> +
+> +       regulator_bulk_disable(num_consumers, edp->supplies);
+>
+>         return 0;
+>  }
+> @@ -633,8 +646,12 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
+>         if (ret)
+>                 return ret;
+>
+> -       edp->supplies[0].supply = "vdda-phy";
+> -       edp->supplies[1].supply = "vdda-pll";
+> +       edp->supplies[0].supply = "vdda-1p2";
+> +       edp->supplies[1].supply = "vdda-0p9";
+> +       edp->enable_load[0] = 21800;    /* 1.2 V */
+> +       edp->enable_load[1] = 36000;    /* 1.2 V */
+> +       edp->disable_load[0] = 4;       /* 0.9 V */
+> +       edp->disable_load[1] = 4;       /* 10.9V */
+
+10.9V? That's a lot!
 
 
-On 5/17/22 00:35, Tvrtko Ursulin wrote:
-> 
-> Hi,
-> 
-> On 16/05/2022 22:22, Randy Dunlap wrote:
->>
->>
->> On 5/16/22 03:57, Stephen Rothwell wrote:
->>> Hi all,
->>>
->>> Changes since 20220513:
->>>
->>
->> on i386:
->>
->>    CC      drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.o
->> ../drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c: In function ‘act_freq_mhz_show’:
->> ../drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:276:20: error: implicit declaration of function ‘sysfs_gt_attribute_r_max_func’ [-Werror=implicit-function-declaration]
->>    u32 actual_freq = sysfs_gt_attribute_r_max_func(dev, attr,
->>                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> ../drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c: In function ‘boost_freq_mhz_store’:
->> ../drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:327:9: error: implicit declaration of function ‘sysfs_gt_attribute_w_func’ [-Werror=implicit-function-declaration]
->>    return sysfs_gt_attribute_w_func(dev, attr,
->>           ^~~~~~~~~~~~~~~~~~~~~~~~~
->> ../drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c: In function ‘min_freq_mhz_show’:
->> ../drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:416:17: error: implicit declaration of function ‘sysfs_gt_attribute_r_min_func’ [-Werror=implicit-function-declaration]
->>    u32 min_freq = sysfs_gt_attribute_r_min_func(dev, attr,
->>                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> cc1: some warnings being treated as errors
->>
->>
->> Full randconfig file is attached.
-> 
-> There is a fix for this in 09708b6d82ef ("drm/i915/gt: Fix build error without CONFIG_PM") queued up, waiting for the next pull request, which the plan was to send out next week or so. Is that okay?
+>         ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(edp->supplies), edp->supplies);
+>         if (ret)
+>                 return ret;
+> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
+> index b144ae1..c589231 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-qmp.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
+> @@ -3130,6 +3130,8 @@ struct qmp_phy_cfg {
+>         int num_resets;
+>         /* regulators to be requested */
+>         const char * const *vreg_list;
+> +       const unsigned int *vreg_enable_load;
+> +       const unsigned int *vreg_disable_load;
+>         int num_vregs;
+>
+>         /* array of registers with different offsets */
+> @@ -3346,6 +3348,14 @@ static const char * const qmp_phy_vreg_l[] = {
+>         "vdda-phy", "vdda-pll",
+>  };
+>
+> +static const unsigned int qmp_phy_vreg_enable_load[] = {
+> +       21800, 36000
+> +};
+> +
+> +static const unsigned int qmp_phy_vreg_disable_load[] = {
+> +       4, 32
+> +};
+> +
+>  static const struct qmp_phy_cfg ipq8074_usb3phy_cfg = {
+>         .type                   = PHY_TYPE_USB3,
+>         .nlanes                 = 1,
+> @@ -4072,6 +4082,8 @@ static const struct qmp_phy_cfg sm8250_usb3phy_cfg = {
+>         .reset_list             = msm8996_usb3phy_reset_l,
+>         .num_resets             = ARRAY_SIZE(msm8996_usb3phy_reset_l),
+>         .vreg_list              = qmp_phy_vreg_l,
+> +       .vreg_enable_load       = qmp_phy_vreg_enable_load,
+> +       .vreg_disable_load      = qmp_phy_vreg_disable_load,
+>         .num_vregs              = ARRAY_SIZE(qmp_phy_vreg_l),
+>         .regs                   = qmp_v4_usb3phy_regs_layout,
+>
+> @@ -4139,6 +4151,8 @@ static const struct qmp_phy_cfg sm8250_dpphy_cfg = {
+>         .reset_list             = msm8996_usb3phy_reset_l,
+>         .num_resets             = ARRAY_SIZE(msm8996_usb3phy_reset_l),
+>         .vreg_list              = qmp_phy_vreg_l,
+> +       .vreg_enable_load       = qmp_phy_vreg_enable_load,
+> +       .vreg_disable_load      = qmp_phy_vreg_disable_load,
+>         .num_vregs              = ARRAY_SIZE(qmp_phy_vreg_l),
+>         .regs                   = qmp_v4_usb3phy_regs_layout,
+>
+> @@ -5015,6 +5029,11 @@ static int qcom_qmp_phy_com_init(struct qmp_phy *qphy)
+>                 goto err_reg_enable;
+>         }
+>
+> +       if (cfg->vreg_enable_load) {
+> +               for (i = cfg->num_vregs - 1; i >= 0; --i)
+> +                       regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_enable_load[i]);
+> +       }
+> +
+>         for (i = 0; i < cfg->num_resets; i++) {
+>                 ret = reset_control_assert(qmp->resets[i]);
+>                 if (ret) {
+> @@ -5116,6 +5135,11 @@ static int qcom_qmp_phy_com_exit(struct qmp_phy *qphy)
+>
+>         clk_bulk_disable_unprepare(cfg->num_clks, qmp->clks);
+>
+> +       if (cfg->vreg_disable_load[i]) {
+> +               for (i = cfg->num_vregs - 1; i >= 0; --i)
+> +                       regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_disable_load[i]);
+> +       }
+> +
+>         regulator_bulk_disable(cfg->num_vregs, qmp->vregs);
 
-When will it be in linux-next?
+You don't haven't needed the regulator_set_load() on
+regulator_bulk_disable() for many years now. See commit 5451781dadf8
+("regulator: core: Only count load for enabled consumers")
 
-thanks.
--- 
-~Randy
+...so the only place you should set the load is in qcom_edp_phy_init()
+
+-Doug
