@@ -2,43 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6339529D2D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 11:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BBF529D85
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 11:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C59310E06F;
-	Tue, 17 May 2022 09:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3290210F8D1;
+	Tue, 17 May 2022 09:11:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5DD10E0A2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 09:03:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id E6B331F4439C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1652778223;
- bh=UYubMcn9ZLqkxXynnDr3S5Ixi/XQwp/zcG8Jzl6yAGY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nsd51A3QHf00rG6Hi57mYXcMCohcrFDwfxP2vm41heblBqYqP8pdbTedoIPenjYQg
- mbQs94iUCp2qwefb47xG401nrdU2yt+Rl+winnnME+eFXM/JThc01Nnazdb30flLt5
- XBQJtCZRigSTDLWb0i8lZAU8dxwVCkcGHPpnnJWxpRXXH/CvT0e65pnL1AOhyyxbaV
- UGu92yeY7/xGcFT9j0CZtSm1lM9cXCpZebKiLCHAs+utdb0q4mWslt+1OPZaqRzDli
- qOPYmdS5+29ArJIlZ9xwgkIkD0IJdXpkSA2njVHjVL41vHJRs1tE2FhBs46O8X/XRL
- LHWsl9p/kuutA==
-Message-ID: <ef88ec2c-77b5-fa0d-49d1-fdd2451713b7@collabora.com>
-Date: Tue, 17 May 2022 12:03:39 +0300
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B478D10F8D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 09:11:04 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1nqtEK-0000za-Qh; Tue, 17 May 2022 11:11:00 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ robh+dt@kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: rockchip: make reg-names
+ mandatory for VOP2
+Date: Tue, 17 May 2022 11:10:59 +0200
+Message-ID: <8064279.T7Z3S40VBb@diego>
+In-Reply-To: <c397bff2-b4c0-3f85-e5b9-22f03bc80a2b@linaro.org>
+References: <20220511082109.1110043-1-s.hauer@pengutronix.de>
+ <6824319.LvFx2qVVIh@phil> <c397bff2-b4c0-3f85-e5b9-22f03bc80a2b@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v1] drm/scheduler: Don't kill jobs in interrupt context
-Content-Language: en-US
-To: Erico Nunes <nunes.erico@gmail.com>, Steven Price <steven.price@arm.com>
-References: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
- <a78343c8-2a6d-b223-4219-6b6b0a4fcb1f@arm.com>
- <CAK4VdL2hCEoshWZbCh5mkHuS6wYMiPFR3v4MWTnrEKM9zyv6Mw@mail.gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAK4VdL2hCEoshWZbCh5mkHuS6wYMiPFR3v4MWTnrEKM9zyv6Mw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,39 +42,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, krzk+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/17/22 10:40, Erico Nunes wrote:
-> On Wed, Apr 13, 2022 at 12:05 PM Steven Price <steven.price@arm.com> wrote:
->>
->> On 11/04/2022 23:15, Dmitry Osipenko wrote:
->>> Interrupt context can't sleep. Drivers like Panfrost and MSM are taking
->>> mutex when job is released, and thus, that code can sleep. This results
->>> into "BUG: scheduling while atomic" if locks are contented while job is
->>> freed. There is no good reason for releasing scheduler's jobs in IRQ
->>> context, hence use normal context to fix the trouble.
->>>
->>> Cc: stable@vger.kernel.org
->>> Fixes: 542cff7893a3 ("drm/sched: Avoid lockdep spalt on killing a processes")
->>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>
->> Reviewed-by: Steven Price <steven.price@arm.com>
+Am Dienstag, 17. Mai 2022, 11:02:06 CEST schrieb Krzysztof Kozlowski:
+> On 14/05/2022 00:26, Heiko Stuebner wrote:
+> > Hi Rob, Krzysztof,
+> > 
+> > Am Mittwoch, 11. Mai 2022, 10:21:07 CEST schrieb Sascha Hauer:
+> >> The VOP2 driver relies on reg-names properties, but these are not
+> >> documented. Add the missing documentation, make reg-names mandatory
+> >> and increase minItems to 2 as always both register spaces are needed.
+> >>
+> >> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > 
+> > does this look ok now?
 > 
-> Is there something blocking this patch?
-> Mesa CI is still hitting the issue and I have been waiting for it to
-> be applied/backported to update CI with it.
-> Thanks
+> Neither Rob nor me was Cced on original email, so I don't have it in my
+> mailbox... I would expect that scripts/get_maintainers.pl is a known tool.
 
-If this patch won't be picked up anytime soon, then I'll include it into
-my "memory shrinker" patchset together with the rest of the fixes, so it
-won't get lost.
+Rob wrote in the past that he's working off of the devicetree-patchwork,
+and has reviewed the binding yesterday [0].
 
--- 
-Best regards,
-Dmitry
+But you're right, including all the maintainers get_maintainers.pl suggests
+would be better in the future.
+
+
+[0] https://lore.kernel.org/r/20220516151226.GA2653888-robh@kernel.org
+
+
