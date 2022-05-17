@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF2152AE70
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 01:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E092D52AE91
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 01:30:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C93E112F6B;
-	Tue, 17 May 2022 23:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B986A1133BE;
+	Tue, 17 May 2022 23:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87AA4112F6B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 23:09:53 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id p26so840949eds.5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 16:09:53 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1413310FB0B
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 23:30:42 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id kq17so623821ejb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 16:30:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=U5Soym7qWXyY7JHHb0K/zVq60rFDdnhUCY/M1J+u0uc=;
- b=i7fXoxo9pNvYtLCkTowvUdMSTNJYQ7r4Lum2lT1cZgVuF8QhKS28qm0bJCXCYqmrnb
- XB2JY71klKWwZ4xav+9wOicKJfIyB22XPd0I+tJcxgoHwd9PaEO+3MBHhCyTo34eNm23
- WYsU6hLjfAGNmX9n6pX8v5EdzZWkyO6BZM/ijGt3/PjraZQhXE6OgMF4aYx28WRJqIKS
- BMF4hJOIeyz1BHUJbAsS51jigCYqk02Lj3SLo0CBsc7urbg2h+CWmmLHT8CS8gCjoicM
- FSKcRkHfMqydJxwuRGlguvCbhcNDodtiZ3v9DwP04wyu4/rOKkEXAapUlBA5fgo/Xw2h
- u00A==
+ :cc; bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
+ b=BZgE0jkbkeLVvFmb8ruOV8av8A5Vi/cJesgkFUe7yW3/UIFp5JuLCAIksYmq6dxaPC
+ UTmFxH4fn4hS3/gzRePwOA9Zgz2QoeR/e7KsL6wHOQMvCBYOzvoW2yP96YAu1wlsdo/W
+ OYW4HOnAUXA1JVGJiazKgXoK/bUipg6BPRZaPd0iU4I6XDCU9CWewInibc8sy+vWJYxb
+ GbGtI+anWZDqWuOTylV0pzWc9p1n+hpH4zF0jqzCG43N/eDSdV5LLd69UT0bGeoGyGse
+ 0mKYTvfzrYVwqtPqL3gqbyjVL7SFmO6Pfdv96YRbeDf3urkh47YcrQa2GcXbFgbNtfr9
+ LXxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=U5Soym7qWXyY7JHHb0K/zVq60rFDdnhUCY/M1J+u0uc=;
- b=TZlZhr9kPl9qYreXlasN26sgaJFfbN3ccGMiNMJIWAgH0lt8b8rjSgR5CevVvAk7Qz
- lq3eMne9h0knQICfVUZldMsCjkw1MIrEj8gQI+KkFeO268aT9f0AaLXS0L0WcH0vvF3u
- 9Kk5fcHQFlaxo3h1yJv+Dije1QuYTBNZnwEBHZ1HxCfGtnVWOfgXxd7zs/c32vWdqJr2
- thlvBmOZ/WrlafOmAStOY3ViNmqhGBHfYLsWVj+BWQLKILIs/R+rD7Q7T/BPiP4KFTos
- OCXsfkz+P4O1pgoHdAl9ESEvhsEqRV3nytPENTlgMahnVQyHe/gXL7h9JXZkzRMgcW/N
- OKXA==
-X-Gm-Message-State: AOAM532CYEoJ5vrorkRottcmtWMH22sa4fga1P4fEajymLo316TWOr2F
- ItKa7/h2OArhbsvaV3Ecs2BYi3kqg6QKSFVVcckYwQ==
-X-Google-Smtp-Source: ABdhPJzjqZbkPojkl7ryNYN6yu6MbETJ8A/7eVt36SLKc6SOmVdzHyfFpwbYfCzYQuDl3cDRRaSbXjjEiAq22KdoMjo=
-X-Received: by 2002:a05:6402:2788:b0:42a:c7b2:3fb3 with SMTP id
- b8-20020a056402278800b0042ac7b23fb3mr5725320ede.58.1652828991876; Tue, 17 May
- 2022 16:09:51 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=kje1fxePklyTYdwuahnUd7jrh3kjOYPr65ooSYjVE44=;
+ b=RgAxynR8vvv8CETsQM5XdVstn328mW3bHwAyrJRBECvf3grnHCJTSa3tj/nkItY8/a
+ wRaiUAdjAq8ATsjgOm7uNua6LrtHm8/5kNYErIOlsT/Z38Xfw160L9pcl/d29VT+Wetx
+ ewWC9LHRiBzsiLTiOqjWdRFG1ab8yr87b2likQ6Z1dADO9Xtugw8G4YGtpn6w32l7YuS
+ 2xR1giHP1gNybAYW9gm4KtEVK+Kx92lHqXhTiX2sgRQrLaE2Kxns+hSR8LW1Ch+LlE/m
+ K+hV//IuX1U4jmjct5cZvlUozMecukvEhwTpuenB06XpkFo/SK2LdnCNpAG/6O8m6qTa
+ xsXQ==
+X-Gm-Message-State: AOAM532ZOARTZWp5nB0d7wqn5/303NFzk25G2JRJfmAvSuFvhbDKU/0F
+ 69Q5E4XGWN6Y0UZLunYLpjXjC7GV9sxKaLu3vefkRw==
+X-Google-Smtp-Source: ABdhPJynpuiODXlilJ4ccPPw09Oypx2Cww6BUXEGpKKQ1/r4bC3SNcHdzpBPpWcDWLBl7XOueU5+lIF135DZSaWqEEs=
+X-Received: by 2002:a17:906:6a10:b0:6f5:5e4:9d5 with SMTP id
+ qw16-20020a1709066a1000b006f505e409d5mr21615657ejc.122.1652830241187; Tue, 17
+ May 2022 16:30:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220516171315.2400578-1-tjmercier@google.com>
- <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
- <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
- <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
- <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
- <YoM9BAwybcjG7K/H@kroah.com> <d820893c-fa2e-3bac-88be-f39c06d89c01@amd.com>
-In-Reply-To: <d820893c-fa2e-3bac-88be-f39c06d89c01@amd.com>
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+In-Reply-To: <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
 From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 17 May 2022 16:09:40 -0700
-Message-ID: <CABdmKX2m1b1kdACKM19S+u9uR5RTy1UGMRgd+3QA_oAyCpeggg@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Date: Tue, 17 May 2022 16:30:29 -0700
+Message-ID: <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+To: Tejun Heo <tj@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,172 +67,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, kernel-team@android.com,
- Minchan Kim <minchan@google.com>,
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Laura Abbott <labbott@redhat.com>,
+ kernel-team@android.com, linux-media@vger.kernel.org,
+ Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- John Stultz <jstultz@google.com>, Kalesh Singh <kaleshsingh@google.com>,
- Hridya Valsaraju <hridya@google.com>, Greg Kroah-Hartman <gregkh@google.com>,
- Suren Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 16, 2022 at 11:59 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On Fri, May 13, 2022 at 9:13 AM Tejun Heo <tj@kernel.org> wrote:
 >
-> Am 17.05.22 um 08:13 schrieb Greg Kroah-Hartman:
-> > On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
-> >> [SNIP]
-> >>>>>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF=
- stats in sysfs")
-> >>>>>> Originally-by: Hridya Valsaraju <hridya@google.com>
-> >>>>>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> >>>>>>
-> >>>>>> ---
-> >>>>>> See the originally submitted patch by Hridya Valsaraju here:
-> >>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=3D05%7C01%7Cchristian.koen=
-ig%40amd.com%7C61d7d3acbe5f47c7d0e608da37cc5ed7%7C3dd8961fe4884e608e11a82d9=
-94e183d%7C0%7C0%7C637883648212878440%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj=
-AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sd=
-ata=3DHdSHA2vbBkBgdKxPXIp57EHW49yoMjgmigkVOKeTasI%3D&amp;reserved=3D0
-> >>>>>>
-> >>>>>> v2 changes:
-> >>>>>> - Defer only sysfs creation instead of creation and teardown per
-> >>>>>> Christian K=C3=B6nig
-> >>>>>>
-> >>>>>> - Use a work queue instead of a kthread for deferred work per
-> >>>>>> Christian K=C3=B6nig
-> >>>>>> ---
-> >>>>>>     drivers/dma-buf/dma-buf-sysfs-stats.c | 56 +++++++++++++++++++=
-+-------
-> >>>>>>     include/linux/dma-buf.h               | 14 ++++++-
-> >>>>>>     2 files changed, 54 insertions(+), 16 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-b=
-uf/dma-buf-sysfs-stats.c
-> >>>>>> index 2bba0babcb62..67b0a298291c 100644
-> >>>>>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> >>>>>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> >>>>>> @@ -11,6 +11,7 @@
-> >>>>>>     #include <linux/printk.h>
-> >>>>>>     #include <linux/slab.h>
-> >>>>>>     #include <linux/sysfs.h>
-> >>>>>> +#include <linux/workqueue.h>
-> >>>>>>
-> >>>>>>     #include "dma-buf-sysfs-stats.h"
-> >>>>>>
-> >>>>>> @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
-> >>>>>>         kset_unregister(dma_buf_stats_kset);
-> >>>>>>     }
-> >>>>>>
-> >>>>>> +static void sysfs_add_workfn(struct work_struct *work)
-> >>>>>> +{
-> >>>>>> +     struct dma_buf_sysfs_entry *sysfs_entry =3D
-> >>>>>> +             container_of(work, struct dma_buf_sysfs_entry, sysfs=
-_add_work);
-> >>>>>> +     struct dma_buf *dmabuf =3D sysfs_entry->dmabuf;
-> >>>>>> +
-> >>>>>> +     /*
-> >>>>>> +      * A dmabuf is ref-counted via its file member. If this hand=
-ler holds the only
-> >>>>>> +      * reference to the dmabuf, there is no need for sysfs kobje=
-ct creation. This is an
-> >>>>>> +      * optimization and a race; when the reference count drops t=
-o 1 immediately after
-> >>>>>> +      * this check it is not harmful as the sysfs entry will stil=
-l get cleaned up in
-> >>>>>> +      * dma_buf_stats_teardown, which won't get called until the =
-final dmabuf reference
-> >>>>>> +      * is released, and that can't happen until the end of this =
-function.
-> >>>>>> +      */
-> >>>>>> +     if (file_count(dmabuf->file) > 1) {
-> >>>>> Please completely drop that. I see absolutely no justification for =
-this
-> >>>>> additional complexity.
-> >>>>>
-> >>>> This case gets hit around 5% of the time in my testing so the else i=
-s
-> >>>> not a completely unused branch.
-> >>> Well I can only repeat myself: This means that your userspace is
-> >>> severely broken!
-> >>>
-> >>> DMA-buf are meant to be long living objects
-> >> This patch addresses export *latency* regardless of how long-lived the
-> >> object is. Even a single, long-lived export will benefit from this
-> >> change if it would otherwise be blocked on adding an object to sysfs.
-> >> I think attempting to improve this latency still has merit.
-> > Fixing the latency is nice, but as it's just pushing the needed work of=
-f
-> > to another code path, it will take longer overall for the sysfs stuff t=
-o
-> > be ready for userspace to see.
-> >
-> > Perhaps we need to step back and understand what this code is supposed
-> > to be doing.  As I recall, it was created because some systems do not
-> > allow debugfs anymore, and they wanted the debugging information that
-> > the dmabuf code was exposing to debugfs on a "normal" system.  Moving
-> > that logic to sysfs made sense, but now I am wondering why we didn't se=
-e
-> > these issues in the debugfs code previously?
+> Hello,
 >
-> Well, I think that some key information is that adding the sysfs support
-> was justified with the argument that this is not only used for debugging.
+> On Thu, May 12, 2022 at 08:43:52PM -0700, T.J. Mercier wrote:
+> > > I'm actually happy I've asked this question, wasn't silly after all. I think the
+> > > problem here is a naming issue. What you really are monitor is "video memory",
+> > > which consist of a memory segment allocated to store data used to render images
+> > > (its not always images of course, GPU an VPU have specialized buffers for their
+> > > purpose).
+> > >
+> > > Whether this should be split between what is used specifically by the GPU
+> > > drivers, the display drivers, the VPU (CODEC and pre/post-processor) or camera
+> > > drivers is something that should be discussed. But in the current approach, you
+> > > really meant Video memory as a superset of the above. Personally, I think
+> > > generically (to de-Andronized your work), en-globing all video memory is
+> > > sufficient. What I fail to understand is how you will manage to distinguished
+> > > DMABuf Heap allocation (which are used outside of Android btw), from Video
+> > > allocation or other type of usage. I'm sure non-video usage will exist in the
+> > > future (think of machine learning, compute, other high bandwidth streaming
+> > > thingy ...)
+> > >
+> > Ok thank you for pointing out the naming issue. The naming is a
+> > consequence of the initial use case, but I guess it's too specific.
+> > What I want out of this change is that android can track dmabufs that
+> > come out of heaps, and drm can track gpu memory. But other drivers
+> > could track different resources under different names. Imagine this
+> > were called a buffer cgroup controller instead of a GPU cgroup
+> > controller. Then the use component ("video memory") isn't tied up with
+> > the name of the controller, but it's up to the name of the bucket the
+> > resource is tracked under. I think this meets the needs of the two use
+> > cases I'm aware of now, while leaving the door open to other future
+> > needs. Really the controller is just enabling abstract named buckets
+> > for tracking and eventually limiting a type of resource.
 >
-> If it would be used only for debugging then debugfs would the right
-> choice for this. If debugfs is then not available in your environment
-> then you should *not* ask the kernel to work around that. Instead we
-> should discuss why you want to disable some debugging access, but not
-> all of that.
+> So, there hasn't been whole lot of discussion w/ other GPU folks and what
+> comes up still seems to indicate that we're still long way away from having
+> a meaningful gpu controller.
 >
-> So for now let's assume that this is also used for accounting, e.g. when
-> userspace wants to know how many DMA-bufs of which size are flying
-> around to make decisions like which process to put into background or
-> which to swap out based on that information.
->
-Yes, the accounting of buffers at runtime on production devices is
-part of the use case:
-https://lore.kernel.org/all/CA+wgaPPtoz_JSAwsVVpFGLrcrO8-tAGD+gdrsWmBA3jpid=
-igzQ@mail.gmail.com/
+Yes, and I would still be happy to collaborate.
 
-> > Perhaps we should go just one step further and make a misc device node
-> > for dmabug debugging information to be in and just have userspace
-> > poll/read on the device node and we spit the info that used to be in
-> > debugfs out through that?  That way this only affects systems when they
-> > want to read the information and not normal code paths?  Yeah that's a
-> > hack, but this whole thing feels overly complex now.
+> For your use case, would it make sense to just
+> add dmabuf as a key to the misc controller?
 >
-> Yeah, totally agree on the complexity note. I'm just absolutely not keen
-> to add hack over hack over hack to make something work which from my
-> point of view has some serious issues with it's design.
->
-Why is this patch a hack? We found a problem with the initial design
-which nobody saw when it was originally created, and now we're trying
-to address it within the constraints that exist. Is there some other
-solution to the problem of exports getting blocked that you would
-suggest here?
+Thanks for your suggestion. This almost works. "dmabuf" as a key could
+work, but I'd actually like to account for each heap. Since heaps can
+be dynamically added, I can't accommodate every potential heap name by
+hardcoding registrations in the misc controller.
 
-> For example trying to do accounting based on DMA-bufs is extremely
-> questionable to begin with. See a modern game for example can have
-> between 10k and 100k of different buffers, reserving one file descriptor
-> for each of those objects is absolutely not going to work.
+> I'm not sure it makes sense to
+> push "gpu controller" forward if there's no conceptual consensus around what
+> resources are.
 >
-> So my request is to please describe your full use case and not just why
-> you think this patch is justified.
+> Thanks.
 >
-The use case was described in the commit message when the feature was
-initially added (after discussion about it on the list) including
-links to code that uses the feature:
-https://lore.kernel.org/all/20210603214758.2955251-1-hridya@google.com/
-
-
-> Regards,
-> Christian.
->
-> >
-> > thanks,
-> >
-> > greg k-h
->
+> --
+> tejun
