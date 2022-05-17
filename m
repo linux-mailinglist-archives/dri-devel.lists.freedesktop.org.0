@@ -1,53 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB05E52A1B4
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 14:41:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD17952A379
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 15:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D0710E17A;
-	Tue, 17 May 2022 12:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD4110F48E;
+	Tue, 17 May 2022 13:33:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0581E10E17A
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 12:41:02 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id q8so22060669oif.13
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 05:41:01 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19B710F48E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 13:33:52 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id j4so31345371lfh.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 06:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=jujkXXpL/kb/c7aZAyCjUl23gmXI2y9oErwqfBwIlr0=;
+ b=OZEJ/Msp7XM8K+1vhwmBAlOo1ZNIN7ylNxEvoXh+uoCyiSwx/wEqHk0fKd2sW7xOZp
+ bNbcNseXOWJ/lELXwKYbllrd9tJwDVpc1OQwUqRbGMSsx9kTxKn9SmLTr0TN+F6y/haw
+ dkYskTaivYdRG8MnydOcW1QVMmZHuOZ360Llc6D7qcW9pFQrv4ziIqQ+mwU2xV8cOrIz
+ C+THD4t+tyLo22Udr7I9Ff0q9X/7L3pr0AHtQ0BavcH065say7bldIrfJ0isYuWaF/EN
+ o4UiyutD0Sp26Bz0HosBnNHEDrdE4KzAaJjRMyGlGi5YNovDdmhBJg2GyScU3Z5D58g7
+ oHiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=tU6K7uetAiw+rSP5T9+Sc20G5SXNExj5PkXgukoIQpY=;
- b=hkMTOnGKQRvjoII/Jfhn+AXUs3vZVhQ3C9hQM4TUkO+pvuwhrJXSGU5M/UkreK1K7y
- q4Ow5Jxrw+FGuNBOrxKTukeaN8QOzu2hX1Ci4hpeNzS0T1rHhLLIX5p2vKZiaO2YEqXg
- HaTUpRYTy2pZEB7DCcR+wDXeW2S+aHc+xtUQ4QwwksHGCFDgR0LuIMLADbJkem/Ky2mj
- ilHa0clcv/Yzn7I07aOB0Ch74kqr026EuS5uH88nbRymFnEV3XUfkKjVxkGpi9igIaTN
- bSiz0gGJVBCeZNn9mM1sfMJLpLj9oqoG9my3W55mY81GyhFZJf0lBoIQjFtHPBG7OUpN
- IuxA==
-X-Gm-Message-State: AOAM5311O0dwZ7AIrdN8kCxqZADS6lpDjNUymHISO1ouUo1k7ZSDAs2J
- vp94hyy3qqhPWa5IeKlY0Q==
-X-Google-Smtp-Source: ABdhPJxnbOAePBrL+7Vj6jx6SHaZRvhNaYbZt0r4+5WYZOCl4zrCDiMenp0OWItuwFOIpyqmNZ74CQ==
-X-Received: by 2002:a05:6808:2c8:b0:325:ad24:a002 with SMTP id
- a8-20020a05680802c800b00325ad24a002mr16074643oid.82.1652791261252; 
- Tue, 17 May 2022 05:41:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- m1-20020a05680806c100b003266e656d39sm4722981oih.4.2022.05.17.05.40.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 05:41:00 -0700 (PDT)
-Received: (nullmailer pid 785390 invoked by uid 1000);
- Tue, 17 May 2022 12:40:59 -0000
-From: Rob Herring <robh@kernel.org>
-To: Max Krummenacher <max.oss.09@gmail.com>
-In-Reply-To: <20220516162826.23025-2-max.oss.09@gmail.com>
-References: <20220516162826.23025-1-max.oss.09@gmail.com>
- <20220516162826.23025-2-max.oss.09@gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: add new bus-format property
- for panel-dpi
-Date: Tue, 17 May 2022 07:40:59 -0500
-Message-Id: <1652791259.418473.785387.nullmailer@robh.at.kernel.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jujkXXpL/kb/c7aZAyCjUl23gmXI2y9oErwqfBwIlr0=;
+ b=nu31wdCFexgePLCeIa3LMMg/LBvoTDgZjl82bNfGIdX01+xUjZ6ideHPFHJCsTBliM
+ N5D91UOhF1QAlX8eQ8Whv06RoH+C9NLzkgQE16u3LZ/F8Ik0/NaBZ81T5NHZc2VSdzYW
+ L4KWSzbANf8ArU1EJwMPz2hPA2A5rrjZEM07LyU3jbKNZ6gvwuCxw+aCa0KOTY5fLr9V
+ QTE2Th+42mslhXldPZNvJLbhZrzB9O2QFizIcYPxkhMU6kzCGWhcd0935AljOckY9A9h
+ IRfCtijwB55s96T/6+txyfiJ7Dg0ynIhbcUWPwc0WfOO0vFLn/inF1zqQHFgRWWsEUnm
+ 8vPg==
+X-Gm-Message-State: AOAM530QlRstekdovmlje9t7ejO2jri8qND2dg/DHpgLVWFlUHjL9hdr
+ vPQc5I1Iti1+qB9lziVfywQ3+w==
+X-Google-Smtp-Source: ABdhPJwvty/7HIe4QthtrDFz9rwI5bwb99VvY5FFuB5Si25wkdLQ00AWYk839j19WtxQgf14jzNdGw==
+X-Received: by 2002:a05:6512:b83:b0:44a:9fb7:784b with SMTP id
+ b3-20020a0565120b8300b0044a9fb7784bmr16713124lfv.547.1652794430970; 
+ Tue, 17 May 2022 06:33:50 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ c9-20020ac24149000000b0047255d21108sm1589584lfi.55.2022.05.17.06.33.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 May 2022 06:33:49 -0700 (PDT)
+Message-ID: <364d25ee-e7e3-96d3-a2ff-9befcce3f0ff@linaro.org>
+Date: Tue, 17 May 2022 15:33:47 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v1 03/13] arm64: tegra: Add Host1x and VIC on Tegra234
+Content-Language: en-US
+To: Mikko Perttunen <cyndis@kapsi.fi>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ digetx@gmail.com
+References: <20220516100213.1536571-1-cyndis@kapsi.fi>
+ <20220516100213.1536571-4-cyndis@kapsi.fi>
+ <424b02f3-eb53-68d0-bfee-5488dbcefa71@linaro.org>
+ <1fccdfe8-d44c-2d56-e572-628998efc985@kapsi.fi>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1fccdfe8-d44c-2d56-e572-628998efc985@kapsi.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +78,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Marek Vasut <marex@denx.de>, max.krummenacher@toradex.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 May 2022 18:28:25 +0200, Max Krummenacher wrote:
-> From: Max Krummenacher <max.krummenacher@toradex.com>
+On 17/05/2022 10:38, Mikko Perttunen wrote:
+>>>   
+>>> +		host1x@13e00000 {
+>>
+>> Generic node names, if that possible. Since the bindings do not exist in
+>> the next, I actually cannot figure out what's host1x...
 > 
-> The property is used to set the enum bus_format and infer the bpc
-> for a panel defined by 'panel-dpi'.
-> This specifies how the panel is connected to the display interface.
-> 
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> ---
-> 
->  .../bindings/display/panel/panel-dpi.yaml     | 11 +++++++++
->  .../dt-bindings/display/dt-media-bus-format.h | 23 +++++++++++++++++++
->  2 files changed, 34 insertions(+)
->  create mode 100644 include/dt-bindings/display/dt-media-bus-format.h
-> 
+> Host1x is a hardware block that provides programmable DMA channels, HW 
+> synchronization primitives, and virtualization support for IP blocks 
+> connected to its "host1x bus". So far I haven't found a one or two word 
+> way to describe it despite efforts. In any case, considering all the 
+> existing documentation and device trees that use this name, I'd prefer 
+> not changing it (especially as I don't know what else it could be called).
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+OK
 
-yamllint warnings/errors:
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/display/panel/panel-dpi.example.dts:20.9-10 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/panel/panel-dpi.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1401: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Best regards,
+Krzysztof
