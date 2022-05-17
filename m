@@ -2,113 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF185298F4
-	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 07:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B932E529963
+	for <lists+dri-devel@lfdr.de>; Tue, 17 May 2022 08:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2811510EB65;
-	Tue, 17 May 2022 05:02:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB5510E038;
+	Tue, 17 May 2022 06:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2113.outbound.protection.outlook.com [40.107.215.113])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDE210EB65
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 05:02:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L1+cmvwkQJfj3cAhJtmfIDgiZx2RY33pktMmQttZFnpGkTFJD4vNAmZhHEvuwPezDAXQbWZqZET1gk66YyiUfHCpSTSXga3iXSiAlkXkzwg8MjV1/FdTqQw808YmtAGquj4CuvjTnEP3xIF6KoD0va741L66RbB2Mgze41GSl5i0pvYoOlRPr7FpxgKevhTUgPEAok5bEMYoeljBOtExqA3OGhuo45nYA2hI8yqmRzksrONr2qWbgA41NUjRQ/MqBx262sCLvQRNYyNVDKEvwWNOuhpDIRQ8jRjXQy5pwJzwlDf6+acYTbSlaXmZxYx8adcFL884vJBuXvwD6kWtEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+FelbmIHjknLKG8fl0j/q1Kw/+XnwOQZ4oV0mhsmi5k=;
- b=PrsDN+qLB7TIVyQJ9sWc5cdOmsZyAd5zYajHXFBQol3c4YugTawsepY9OdI6jhCyn69mhhsEXblWL4hsYsvlWk5izQG97ie1YGtXOECWxK3PP6hiW3jOoJRYcJxA/431gS52Y4Ae6HvysvyR9HQB0LHyVRkZKwITpx4Hg4GDgnJ7TOyobJFcth7HPwkIRHW7bE/Zjxwb3gAiWCJMz+S8pg6LZvyZe8vPdJR7KwCUNURrNtx1bZ5AQCCN2fLf/3yFz6IY3j/2ZB08zZp3MtTS1H+VE2yCrIF1D8yENKthAruwwNW4AlO+CB6lAt9EgGa2pD6M4POTLokSgmNcB8bJjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+FelbmIHjknLKG8fl0j/q1Kw/+XnwOQZ4oV0mhsmi5k=;
- b=gtaKB2xQP5RYR1cMphJYt5k2BGqCYrrjDzTsU7Gb4LjhXeg/eusXcf0YuhZvAqziJl9kx57BLabywtpGTLlohEoHgKbK+rq7Ko4WFeaLZ942oP2xeK2ouHoO01B9jOOYmxW/pli7QI/vUOluBxXdo+T4T7tYNcY4tdJLRyvc+iE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from HK2PR06MB3492.apcprd06.prod.outlook.com (2603:1096:202:2f::10)
- by SI2PR06MB4235.apcprd06.prod.outlook.com (2603:1096:4:159::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.13; Tue, 17 May
- 2022 05:02:33 +0000
-Received: from HK2PR06MB3492.apcprd06.prod.outlook.com
- ([fe80::88e1:dc04:6851:ad08]) by HK2PR06MB3492.apcprd06.prod.outlook.com
- ([fe80::88e1:dc04:6851:ad08%7]) with mapi id 15.20.5250.018; Tue, 17 May 2022
- 05:02:33 +0000
-From: Guo Zhengkui <guozhengkui@vivo.com>
-To: Tomi Valkeinen <tomba@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Neil Armstrong <narmstrong@baylibre.com>,
- Benoit Parrot <bparrot@ti.com>, Cai Huoqing <cai.huoqing@linux.dev>,
- Arnd Bergmann <arnd@arndb.de>, Guo Zhengkui <guozhengkui@vivo.com>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR TI OMAP),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm: omapdrm: dss: replace ternary operator with max()
-Date: Tue, 17 May 2022 13:02:06 +0800
-Message-Id: <20220517050208.121488-1-guozhengkui@vivo.com>
-X-Mailer: git-send-email 2.20.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0098.jpnprd01.prod.outlook.com
- (2603:1096:405:4::14) To HK2PR06MB3492.apcprd06.prod.outlook.com
- (2603:1096:202:2f::10)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9FA610E038
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 06:13:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E9644B8171F;
+ Tue, 17 May 2022 06:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B4BC385B8;
+ Tue, 17 May 2022 06:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1652768008;
+ bh=OluTkCLxVeKSfegoojJgsJodih/APBSYOWtV2jU6qDs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=0lYCqDwjr5OYoqicVtqSeJAN0ZLbYKsMFKfl9UaOceG2HPSbwvA854qd10G0b87b/
+ Kv0pMNwDnZ8EI0snXGxoHXBin+GcRbqOe6rNeFHvZhJc4a5MhXftkPvEiJhD4y5Twm
+ TGtN9umVRlTw08eUyq2RPakU5ZNvxFrXIASNpOl0=
+Date: Tue, 17 May 2022 08:13:24 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "T.J. Mercier" <tjmercier@google.com>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+Message-ID: <YoM9BAwybcjG7K/H@kroah.com>
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
+ <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
+ <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5c5d489d-e7ca-4b1a-0dfa-08da37c2737e
-X-MS-TrafficTypeDiagnostic: SI2PR06MB4235:EE_
-X-Microsoft-Antispam-PRVS: <SI2PR06MB423570D2F21D8331E75B2BAFC7CE9@SI2PR06MB4235.apcprd06.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kxWi9zaZNQQpU9409p0PKJX/c/0r/vhptSff/s0Nmzn+/OD7NU8r7lQ22lAd+rwbagLfNuGn5R/TSWfg1c9HBOS6aOflDXo0La9iymkF9ubMUNfLhu/GOv2SrhNLfAXTK27qBo90U4wVUIrD9EBm33uC6RNrTj8USOzNvge7lmou2iJbfvqIiuFXLhxqEp9gY1HKzlLWmxQxQsOMTUrrXFFmD3MDbBD2wjsJvltJ9YKqk3731YUNH3i1VPLdFxb7v2jFd0mzt147xxtFF+fyqh1vIESzot4qKnT0Y0m6ztZqsgq3h8PcV1k9bv5piO0nUvNIkVXnkenhPfX6RUZwKk1Gs19YwkFjz6YV0WHuGha5t00BQ+pADV0G9DZZpxjtPOSGST4vugsPv0LI1QWVdm4lVOyxAyh/Ttkcw3JTrZRNXqrFOGwbbTQPXBXtlg/cSncsbOzGl6Cm7Yysjr0XkRoH5cepwmtXxU0nZpaXVBbSC502M/75old/1+tZWOFO0QJO3tp0azWbZ5USgTNXF64PHAJRo1swkbcI7qXZAg27iri/LZCe/eQGPQPzVnAGpjDEzrkAD156qhqYhPWGKmV7qSl718lU2bv1A6LH4Ky0be7Zy0KmtqkHUstR1J9yOSTgL0Nea6oqnlCxl8SaLkvvfy2o0sVVIZbxcO7tvWO24QlJ4SiGrTJzghTGX6Gu7CJarEIoRGL7fuOu40dqnuFqSfex5WP8JlhpjtbvREHFhuV/+ASaN0OQ4cIVa6XIsvE1LXZ/sslk9ZJ00h2gcw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK2PR06MB3492.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(36756003)(4326008)(110136005)(508600001)(6506007)(66556008)(66946007)(66476007)(6666004)(6512007)(921005)(8676002)(2906002)(2616005)(1076003)(86362001)(186003)(52116002)(6486002)(8936002)(26005)(4744005)(316002)(83380400001)(7416002)(5660300002)(38350700002)(38100700002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UFe9WSTgTFZeSVuYvLVADmRYHjKN/9MtMX4QtHvbdRJJSO0+nNdn+6iAhMde?=
- =?us-ascii?Q?FINd2iWsmkFdw6JTau3XsVHevHLfq5fIw1g5g8l7aq0OsLcrl1C25A3t7E3W?=
- =?us-ascii?Q?9WX4xenv7g0vP1V8sI8/McEa/pbASOprS49O7GSQy+3tHHPVvJjIc0Jeg8Dy?=
- =?us-ascii?Q?Da0Jf8aY5HsVUXO9ZFcQz3jKHMTW5cDZVT7TfTk/zcWrpul0/j3r4wg0kALc?=
- =?us-ascii?Q?LKnj9q+wr8UjzIzm7xrOlYIRxXiT2nlJSxZZ/bYjSeUlAickXIp0HEOwOaSJ?=
- =?us-ascii?Q?13v+XMiu4UGdXB/Sj59RFtfyKjr6BSCwFHEz4RlOwgvT1gXPBX1xGCQZ6Jb7?=
- =?us-ascii?Q?KranogsUSpMGzSW2q5f3UjSA5A+Af3Kqu8gIJZytJXaTxD1AgsCkFsHbPRBL?=
- =?us-ascii?Q?Ea+U0gmBu7YJoNVMlctIIfEi8D8gS+ntOttNAEec7d/JUuNbUc8ORUisQLL4?=
- =?us-ascii?Q?wP/f7BHVi1Sqe8OdOV6VbcFWI/0PUBkGWQ9Typok50k93EWILBJFN7an4I2z?=
- =?us-ascii?Q?WoMnBeL5BPjq6oH/hh8xdi58O33NZkvSoDVAQpNSGOdzQ1Dy4cYtqcvlR6oQ?=
- =?us-ascii?Q?+d4M36Lr9kazt8/HfqWi4leZchxydqzVmvNExgGAJ/UpumNitGbsuY93BOhK?=
- =?us-ascii?Q?eFEVcM1z+f6gd8ijobs5hF7lfjdjJIOTwJI2GKrLtqF07rrOEhTRQs+6Yo/L?=
- =?us-ascii?Q?Nhts2h5x9xb0/Y1/hHiD4/YjoxkN7mnKa+J3IRATbRAaNXMlNwOzNYJvr3gZ?=
- =?us-ascii?Q?flgeSZMaV1gDPf+Hzx+iH2ba2YLm4plX59Z7OR+0o8NRnLkVBNyWD3BlJQog?=
- =?us-ascii?Q?1sD9XVHCx23Rd15kZxcSZFLqQqHLf4y0u4/JofL/nt0Bw83wycxg5CyRD6XP?=
- =?us-ascii?Q?p8P09oqk5o/uPvOm4oQCLfR0Dq6+KLpAUtnHbWWt+fa9X7doA0o2hvOoOiDo?=
- =?us-ascii?Q?C6GZjgXYGo14U5zWFpcAX1lJVl+SjKTOnAN+ecUyrVV+c4UeuXAbex8qnYrC?=
- =?us-ascii?Q?a2ybf/7xfCeua8yXU7kVHMPakBYX6iihpRuGg+FS/8smZdDiL5CdFLS2iDIm?=
- =?us-ascii?Q?0d75d90z3JyMMXZLdEPTtettZ3sOPSxrcsVsyqytcTGKM4Fn8oC+khGzmgFb?=
- =?us-ascii?Q?0yUy0U3Ilfm/SQWb8pmEumf/v0nixr1UiCAhxOMjNrelaYJ+IRUhkURgpgVT?=
- =?us-ascii?Q?RPr9BH2Q2Bdf9COMtYwOO/VCnv2Z+ZyPxywXRpELengVz9OD2d5Mxs/UaSrH?=
- =?us-ascii?Q?o/ALRpwv1bahsIB22oyjbF57Nvcc7sHb1I2RA8iAeMhzjoKHx/oPgnSdifoN?=
- =?us-ascii?Q?DFeR1KphL6DUadrMkCO4aBxbDmmnCuIj6dzU2/Kvo06pZHFYKI9cqZz640Dq?=
- =?us-ascii?Q?XhNYg1FNR5ZOueyrJtv5Zdo0Q9fN9l2w9H5ZUAi2PbhaG9wugU39eJbpep+E?=
- =?us-ascii?Q?xloWKb8uMtAbWItSFQ+wXlOispgCLiuWSNSankl8s+nJtzbBFLsRUeCUk5O1?=
- =?us-ascii?Q?ZMmPds8ZZ9IgdMBORNDfqYuRRzbiDAGBp8YGoeMD/hoWzoDFIYULernvoEEx?=
- =?us-ascii?Q?jpo0m7vl1bh4ro3Xo6ikAbu6SwWlSWnVicNSzH4CRlFNSHU/urjAr/EZsXLl?=
- =?us-ascii?Q?nSnDV1OtHR4s8e661KFRArD8o0uw90Cnylvt3yWqeq2oA7scC3Inhh8x+2Vs?=
- =?us-ascii?Q?FS59RbS0iknhTyKloWGLQUmQOndh5JhM7Zna6AAEMSDu8V5s+JUObpJRhHIN?=
- =?us-ascii?Q?IYCbyOx6sg=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c5d489d-e7ca-4b1a-0dfa-08da37c2737e
-X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3492.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 05:02:33.0295 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nPIRnp0pQ52ydT20qNfPpjxIGGliNysNPWcmbuFUmiWYqPOrZ9HOdt/ccuZMwqf0OVQrzAulFow7VoFRv+H2sQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4235
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,32 +54,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhengkui_guo@outlook.com
+Cc: kernel-team@android.com, Minchan Kim <minchan@google.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, John Stultz <jstultz@google.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Hridya Valsaraju <hridya@google.com>,
+ Greg Kroah-Hartman <gregkh@google.com>, Suren Baghdasaryan <surenb@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following coccicheck warning:
+On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
+> On Mon, May 16, 2022 at 12:21 PM Christian König
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 16.05.22 um 20:08 schrieb T.J. Mercier:
+> > > On Mon, May 16, 2022 at 10:20 AM Christian König
+> > > <christian.koenig@amd.com> wrote:
+> > >> Am 16.05.22 um 19:13 schrieb T.J. Mercier:
+> > >>> Recently, we noticed an issue where a process went into direct reclaim
+> > >>> while holding the kernfs rw semaphore for sysfs in write (exclusive)
+> > >>> mode. This caused processes who were doing DMA-BUF exports and releases
+> > >>> to go into uninterruptible sleep since they needed to acquire the same
+> > >>> semaphore for the DMA-BUF sysfs entry creation/deletion. In order to avoid
+> > >>> blocking DMA-BUF export for an indeterminate amount of time while
+> > >>> another process is holding the sysfs rw semaphore in exclusive mode,
+> > >>> this patch moves the per-buffer sysfs file creation to the default work
+> > >>> queue. Note that this can lead to a short-term inaccuracy in the dmabuf
+> > >>> sysfs statistics, but this is a tradeoff to prevent the hot path from
+> > >>> being blocked. A work_struct is added to dma_buf to achieve this, but as
+> > >>> it is unioned with the kobject in the sysfs_entry, dma_buf does not
+> > >>> increase in size.
+> > >> I'm still not very keen of this approach as it strongly feels like we
+> > >> are working around shortcoming somewhere else.
+> > >>
+> > > My read of the thread for the last version is that we're running into
+> > > a situation where sysfs is getting used for something it wasn't
+> > > originally intended for, but we're also stuck with this sysfs
+> > > functionality for dmabufs.
+> > >
+> > >>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in sysfs")
+> > >>> Originally-by: Hridya Valsaraju <hridya@google.com>
+> > >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > >>>
+> > >>> ---
+> > >>> See the originally submitted patch by Hridya Valsaraju here:
+> > >>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C794614324d114880a25508da37672e4b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637883213566903705%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=bGlA2FeubfSeL5XDHYyWMZqUXfScoCphZjjK4jrqQJs%3D&amp;reserved=0
+> > >>>
+> > >>> v2 changes:
+> > >>> - Defer only sysfs creation instead of creation and teardown per
+> > >>> Christian König
+> > >>>
+> > >>> - Use a work queue instead of a kthread for deferred work per
+> > >>> Christian König
+> > >>> ---
+> > >>>    drivers/dma-buf/dma-buf-sysfs-stats.c | 56 ++++++++++++++++++++-------
+> > >>>    include/linux/dma-buf.h               | 14 ++++++-
+> > >>>    2 files changed, 54 insertions(+), 16 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > >>> index 2bba0babcb62..67b0a298291c 100644
+> > >>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > >>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > >>> @@ -11,6 +11,7 @@
+> > >>>    #include <linux/printk.h>
+> > >>>    #include <linux/slab.h>
+> > >>>    #include <linux/sysfs.h>
+> > >>> +#include <linux/workqueue.h>
+> > >>>
+> > >>>    #include "dma-buf-sysfs-stats.h"
+> > >>>
+> > >>> @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
+> > >>>        kset_unregister(dma_buf_stats_kset);
+> > >>>    }
+> > >>>
+> > >>> +static void sysfs_add_workfn(struct work_struct *work)
+> > >>> +{
+> > >>> +     struct dma_buf_sysfs_entry *sysfs_entry =
+> > >>> +             container_of(work, struct dma_buf_sysfs_entry, sysfs_add_work);
+> > >>> +     struct dma_buf *dmabuf = sysfs_entry->dmabuf;
+> > >>> +
+> > >>> +     /*
+> > >>> +      * A dmabuf is ref-counted via its file member. If this handler holds the only
+> > >>> +      * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
+> > >>> +      * optimization and a race; when the reference count drops to 1 immediately after
+> > >>> +      * this check it is not harmful as the sysfs entry will still get cleaned up in
+> > >>> +      * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
+> > >>> +      * is released, and that can't happen until the end of this function.
+> > >>> +      */
+> > >>> +     if (file_count(dmabuf->file) > 1) {
+> > >> Please completely drop that. I see absolutely no justification for this
+> > >> additional complexity.
+> > >>
+> > > This case gets hit around 5% of the time in my testing so the else is
+> > > not a completely unused branch.
+> >
+> > Well I can only repeat myself: This means that your userspace is
+> > severely broken!
+> >
+> > DMA-buf are meant to be long living objects
+> This patch addresses export *latency* regardless of how long-lived the
+> object is. Even a single, long-lived export will benefit from this
+> change if it would otherwise be blocked on adding an object to sysfs.
+> I think attempting to improve this latency still has merit.
 
-drivers/gpu/drm/omapdrm/dss/dispc.c:2454:21-22: WARNING opportunity for max()
+Fixing the latency is nice, but as it's just pushing the needed work off
+to another code path, it will take longer overall for the sysfs stuff to
+be ready for userspace to see.
 
-Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
----
- drivers/gpu/drm/omapdrm/dss/dispc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Perhaps we need to step back and understand what this code is supposed
+to be doing.  As I recall, it was created because some systems do not
+allow debugfs anymore, and they wanted the debugging information that
+the dmabuf code was exposing to debugfs on a "normal" system.  Moving
+that logic to sysfs made sense, but now I am wondering why we didn't see
+these issues in the debugfs code previously?
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-index c4de142cc85b..0ee344ebcd1c 100644
---- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-@@ -2451,7 +2451,7 @@ static int dispc_ovl_calc_scaling_44xx(struct dispc_device *dispc,
- 
- 	*decim_x = DIV_ROUND_UP(width, in_width_max);
- 
--	*decim_x = *decim_x > decim_x_min ? *decim_x : decim_x_min;
-+	*decim_x = max(*decim_x, decim_x_min);
- 	if (*decim_x > *x_predecim)
- 		return -EINVAL;
- 
--- 
-2.20.1
+Perhaps we should go just one step further and make a misc device node
+for dmabug debugging information to be in and just have userspace
+poll/read on the device node and we spit the info that used to be in
+debugfs out through that?  That way this only affects systems when they
+want to read the information and not normal code paths?  Yeah that's a
+hack, but this whole thing feels overly complex now.
 
+thanks,
+
+greg k-h
