@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA3C52C0E7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 19:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB78152C0EA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 19:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 867F310F3A3;
-	Wed, 18 May 2022 17:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A671910FA5B;
+	Wed, 18 May 2022 17:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1B710F3A3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 17:15:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1652894120;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FxD9P4XnF1NnW2znaHobWArEduFPf/Vy60CUDQ3Fi/M=;
- b=LZMt6UQk57+fcWwWv11g+M+YHVqPX2hqC5aA5kI4C9y63yu0fMAEPap2F7/KgyS262mErJ
- sart+SZkXp995FLdRoaKmdId4vhtQWX6ZAXFIXnNq9Yaxj2BbTycFHtMxLAYVS9W9VUvdL
- cTgDK2vwU+y5UX6mB6JKmInKXMsM2Uc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-399-UGKIbxl-PHS4oIRfLhl59Q-1; Wed, 18 May 2022 13:15:14 -0400
-X-MC-Unique: UGKIbxl-PHS4oIRfLhl59Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 639851801388;
- Wed, 18 May 2022 17:15:13 +0000 (UTC)
-Received: from starship (unknown [10.40.192.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDFC1C202D1;
- Wed, 18 May 2022 17:15:07 +0000 (UTC)
-Message-ID: <d009abe5488440e8e7e990a027868f3d29577b44.camel@redhat.com>
-Subject: Re: [RFC PATCH v3 02/19] KVM: x86: inhibit APICv/AVIC when the
- guest and/or host changes apic id/base from the defaults.
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Sean Christopherson <seanjc@google.com>
-Date: Wed, 18 May 2022 20:15:06 +0300
-In-Reply-To: <YoUTMsnFS+bSED+5@google.com>
-References: <20220427200314.276673-1-mlevitsk@redhat.com>
- <20220427200314.276673-3-mlevitsk@redhat.com>
- <20220518082811.GA8765@gao-cwp>
- <8c78939bf01a98554696add10e17b07631d97a28.camel@redhat.com>
- <YoUTMsnFS+bSED+5@google.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
+ [IPv6:2607:f8b0:4864:20::f30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82B6810FA17
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 17:16:50 +0000 (UTC)
+Received: by mail-qv1-xf30.google.com with SMTP id y20so1959881qvx.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 10:16:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AeSKmYpRieplJqbY6dZu9gnBsUw6uzmIsnN1W8K30V0=;
+ b=rLbXfVPr7deF6X6x3JTT+dODTXXHBuyYgpS/GGl1rtEAy1CEVGDA170Y9JrQu7WGzk
+ +cA8BopAxiZh9kaM0hqE2z1HxRmdGQbfwZdIjXDtR8mULrC+rOMwQ6mV1O6Y9QiaBRWy
+ f72wu3ZVo3173GbjXSNByN983NuGJzJIpnX7TtpZ+/K8+CMuWbm5R/igzyLyW2ffewlJ
+ yOted1Uir1/frn7sScctDnEm/BMkgP0Ukb1xP005pgvK/tXxe+z/VQ5hpzq0qZeictTC
+ e5ggi7/m3fB+TBwqa6jfyibDPjfdTckiNK4Lnl8FiDEs5PN42VklBFT0BPIPmabmkHgw
+ Mz6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AeSKmYpRieplJqbY6dZu9gnBsUw6uzmIsnN1W8K30V0=;
+ b=NBfe2WGSkyrpztmCsFKze+fjf4JWr9JeOdLitHxecjw/ujQa+pYLPaLqvTrLxsmLcu
+ svQgzVuUtM1bE1vXXmy6vTKUxlw5luHBhhQJpg7xaopg9WaZguyNFgNlbmjK99/8aqcC
+ ynBG1U5CPofEmqwqNSIz47NWM7740FTIsMCubrp9ZJVUvXNRE9J8rJ80U3DBwbk4eYjL
+ 6vo7yZxWLrXAmmPcS+kmEfOR0HlBYdeppB3Bg4MXEc7Oi8CGCWFgtgn2+m2/U2JHI404
+ Uk7c6NIHQCvyPRxTilE2E6yasexeA16WiK3w6NgNhUnY6cJXc/A8jYO3XEDxJK7CUaZg
+ 2X4g==
+X-Gm-Message-State: AOAM532qfagPZK2Mt4AhiYgmxOM4YsdffEdaGCISbN4oYKxgZcbf8Ew1
+ TcOg6dF370+wVhHtmFBukTP/1+bGz6dvYV1nMkQaTA==
+X-Google-Smtp-Source: ABdhPJzVWhb7JxBV/NHJBAs5arvGPcD2jM/v5t6AhXoRsB6n8cdbpK+D+p5XHnapodoBy5oTR6gn44rqH5iIEDFC8Kg=
+X-Received: by 2002:a05:6214:931:b0:461:d289:b7f6 with SMTP id
+ dk17-20020a056214093100b00461d289b7f6mr558590qvb.55.1652894209627; Wed, 18
+ May 2022 10:16:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+References: <1652892186-22346-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1652892186-22346-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 18 May 2022 20:16:38 +0300
+Message-ID: <CAA8EJpqq4fxxgY0mj0JBans3GE-HAuad4Zsf7Ntwy1WW3bHbTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] eDP/DP Phy vdda realted function
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,52 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, "H. Peter
- Anvin" <hpa@zytor.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Chao Gao <chao.gao@intel.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, intel-gfx@lists.freedesktop.org,
- Borislav Petkov <bp@alien8.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, intel-gvt-dev@lists.freedesktop.org,
- Jim Mattson <jmattson@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+ quic_aravindh@quicinc.com, swboyd@chromium.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-05-18 at 15:39 +0000, Sean Christopherson wrote:
-> On Wed, May 18, 2022, Maxim Levitsky wrote:
-> > On Wed, 2022-05-18 at 16:28 +0800, Chao Gao wrote:
-> > > > struct kvm_arch {
-> > > > @@ -1258,6 +1260,7 @@ struct kvm_arch {
-> > > > 	hpa_t	hv_root_tdp;
-> > > > 	spinlock_t hv_root_tdp_lock;
-> > > > #endif
-> > > > +	bool apic_id_changed;
-> > > 
-> > > What's the value of this boolean? No one reads it.
-> > 
-> > I use it in later patches to kill the guest during nested VM entry 
-> > if it attempts to use nested AVIC after any vCPU changed APIC ID.
-> 
-> Then the flag should be introduced in the later patch, because (a) it's dead code
-> if that patch is never merged and (b) it's impossible to review this patch for
-> correctness without seeing the usage, e.g. setting apic_id_changed isn't guarded
-> with a lock and so the usage may or may not be susceptible to races.
+On Wed, 18 May 2022 at 19:43, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> 1) add regulator_set_load() to eDP/DP phy
+> 2) remove vdda related function out of eDP/DP controller
 
-I can't disagree with you on this, this was just somewhat a hack I wasn't sure
-(and not yet 100% sure I will move forward with) so I cut this corner.
+These patches touch two subsystems and have a dependency between them.
+How do we merge them?
 
-Thanks for the review!
-
-Best regards,
-	Maxim Levitsky
-
-> 
-> > > > +	apic->vcpu->kvm->arch.apic_id_changed = true;
-> > > > +}
-> > > > +
+>
+> Kuogee Hsieh (2):
+>   phy/qcom: add regulator_set_load to edp/dp phy
+>   drm/msm/dp: delete vdda regulator related functions from eDP/DP
+>     controller
+>
+>  drivers/gpu/drm/msm/dp/dp_parser.c  | 14 ------
+>  drivers/gpu/drm/msm/dp/dp_parser.h  |  6 ---
+>  drivers/gpu/drm/msm/dp/dp_power.c   | 95 +------------------------------------
+>  drivers/phy/qualcomm/phy-qcom-edp.c | 25 ++++++++--
+>  drivers/phy/qualcomm/phy-qcom-qmp.c | 13 +++++
+>  5 files changed, 36 insertions(+), 117 deletions(-)
+>
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
 
 
+-- 
+With best wishes
+Dmitry
