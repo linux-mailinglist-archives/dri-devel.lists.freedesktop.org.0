@@ -2,61 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5EA52B2C3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 08:59:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5066E52B32F
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 09:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACAF10E215;
-	Wed, 18 May 2022 06:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE3D510E2CF;
+	Wed, 18 May 2022 07:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1825810E215
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 06:59:11 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id r71so1377202pgr.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 23:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YmSH4WeEBLasFK029hFJFejLoqVw7N7yZPY1rCf/FfU=;
- b=cvFS50VivsG2a7DUQM7O/jQw4CymgJ9LbNkb818N52p4s2zAa1WFjiS8iB6HMqZRvW
- 6qDOkWsWqkMxV+IyEMpYo2pRFTd/9TZ5lt8pF0UQyZtcQbsuHTemqTMQVtF/bL483l2c
- m7G7hqDQnoySGOYbKJka6x2gX3+X4P2/M+4NnZSMPttUt7hHaNBzTkSVcrqYxCxRnnhj
- FQXcFw6JMAY1/tz6Ad3E85ciWSSTPopjgDX41NV3dfcsJhdHgF5pQ+zN3GlKlPmPCmqX
- j2tlCJnnLs4PQvIQk5aNrS/AsMO5S3krdBtERgZkrYPZek/lVFVrpm2J6OwlcCy52AyQ
- GZnQ==
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F48C10E2CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 07:24:00 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ o12-20020a1c4d0c000000b00393fbe2973dso2636831wmh.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 00:24:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=C4huS1qwBfiQNftZ7pKsoc9bDCoDHvonAE+NZgu2h6c=;
+ b=mycV6ZeRycT/wvEF8CfEOMQzj0VfQb3FGo7c12/Ep8ZqxNC4W2svH+pgfN95xKMgYn
+ ufrTLl0vwd5hh4bNSD4f6D/Vz+7AxvTj30OA+7XweZrp2C4RhRSterHoxVAZWAJYBhgY
+ rsjDHCcMqzCUYWv0q8ULwqSsrXHSySBgleLvoys/Zl7q1FfRHe9N/w10jsIcdG4Vws/V
+ usqVnzRcc63YChfLUXpXTGnKI2/WeOSz7iVMTsJ+wQv0Qn4gXepNahyFUMLCI7JH1gKo
+ hx4TIbFBZpbcUvE50tpbuJ55KIBSpddZfxc5LNrl+9ghRAqus9Ps4s8HHdyDXgTa3ht5
+ DZ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YmSH4WeEBLasFK029hFJFejLoqVw7N7yZPY1rCf/FfU=;
- b=wiM9WhqpCaazKnfNgcz+2/TbzcJT5G4SR8M6Kakipo9huIR84sTZ9UGimZLQaJ3gWO
- ECpqhxtQ3Tf/1MiOAIVErLnnkNEwbI8kcbJ7+u0RYSTOSfSwv412Tzr4nr8DYSd3PM1x
- Sv7LITWJCSRIon4n3+CF+zJUy5rduiZVfl1MklBJ4Km4XB4AgD4FxhS4Csf4960ZDksE
- qQ2QpMlf2g3jzMYIVTJxuUdCDVAd1SVu4688JgFLvoNQlx0XKRFpvBie84XQ4dRwqS6S
- tdpLseH6BcrdurrGzB8yFwBNyIvBoxdWeoYjb6f59agm/+Y/5BjzVfKjzFIYshT43UFm
- kUcg==
-X-Gm-Message-State: AOAM533kvT67QZDEZmC5qPvpq0Vmm8iA2L0v+6v34Ul67qYaRBri8XBm
- 9+C7eOK8b0a9XzNy8VBIC6k=
-X-Google-Smtp-Source: ABdhPJxtTMXDI+f8tNs/ZUpIsUhmPUx1tJVZHzwxzEtN7KEf2Pc2d4NnQjrjCMBLpm/lgwNquFXuxA==
-X-Received: by 2002:a63:4602:0:b0:3f2:7215:1ac0 with SMTP id
- t2-20020a634602000000b003f272151ac0mr10925036pga.179.1652857150712; 
- Tue, 17 May 2022 23:59:10 -0700 (PDT)
-Received: from localhost.localdomain ([103.84.139.165])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=C4huS1qwBfiQNftZ7pKsoc9bDCoDHvonAE+NZgu2h6c=;
+ b=NKftq7OouQQAapewRof9V9fylhYwN71UwqvucK77uq2kMDkqus1eJ2lTlQosVnBbZw
+ IUyqU19AGYH71hDwah+CKlXk72R2+Ro1Um+OkV5I4659aL3lEPeutH76FNNsDSXHbygq
+ t3AK+XvaGYAHOhlrvHndzSMVP4g3jrGCP3JByX0j1MMKPX/nh6zMlEHaHVCmEvFaS21T
+ R3YmDjA/J2hOXDll7dcmwwqsgYRPc1LnSaXunenEq+SVC9cq6EfGnXFlOHEcbJIc6vcH
+ /7lmaMwaDSshyfNNMGiFHsaloMIDn5qLYc5Rx5ksWNaU8F3fGujnPv89IPgxHgKgtXLu
+ oBCQ==
+X-Gm-Message-State: AOAM532pHt3qgBDBjmwU3JN3s14Zc6LCxtAeyBSVtfQVnJEFPO3NMonl
+ Z3BqgmPUhyPjsobdWPz3Mn9bag==
+X-Google-Smtp-Source: ABdhPJxFJIKOj6RpfneFWB//eZ12oKA+Q0wI6It3Ms/9Bkk+MKHxerFLHNbKUh8rG8+aOHrrGwmJ9A==
+X-Received: by 2002:a1c:4b14:0:b0:394:2ece:c049 with SMTP id
+ y20-20020a1c4b14000000b003942ecec049mr36055344wma.158.1652858638809; 
+ Wed, 18 May 2022 00:23:58 -0700 (PDT)
+Received: from localhost.localdomain ([2001:861:44c0:66c0:dea9:338d:d500:c574])
  by smtp.gmail.com with ESMTPSA id
- g16-20020aa79f10000000b0050dc76281a6sm990241pfr.128.2022.05.17.23.59.06
+ e2-20020adfa742000000b0020d0b2de858sm1112113wrd.33.2022.05.18.00.23.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 23:59:10 -0700 (PDT)
-From: Hangyu Hua <hbh25y@gmail.com>
-To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- architt@codeaurora.org
-Subject: [PATCH] drm: bridge: sii8620: fix possible off-by-one
-Date: Wed, 18 May 2022 14:58:56 +0800
-Message-Id: <20220518065856.18936-1-hbh25y@gmail.com>
+ Wed, 18 May 2022 00:23:58 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: linux-amlogic@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Kevin Hilman <khilman@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org,
+ Miaoqian Lin <linmq006@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ David Airlie <airlied@linux.ie>
+Subject: Re: [PATCH] drm/meson: Fix refcount leak in meson_encoder_hdmi_init
+Date: Wed, 18 May 2022 09:23:54 +0200
+Message-Id: <165285860562.1281822.5287516325245345657.b4-ty@baylibre.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220511054052.51981-1-linmq006@gmail.com>
+References: <20220511054052.51981-1-linmq006@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,47 +78,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Hangyu Hua <hbh25y@gmail.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The next call to sii8620_burst_get_tx_buf will result in off-by-one
-When ctx->burst.tx_count + size == ARRAY_SIZE(ctx->burst.tx_buf). The same
-thing happens in sii8620_burst_get_rx_buf.
+Hi,
 
-This patch also change tx_count and tx_buf to rx_count and rx_buf in
-sii8620_burst_get_rx_buf. It is unreasonable to check tx_buf's size and
-use rx_buf.
+On Wed, 11 May 2022 09:40:51 +0400, Miaoqian Lin wrote:
+> of_find_device_by_node() takes reference, we should use put_device()
+> to release it when not need anymore.
+> Add missing put_device() in error path to avoid refcount
+> leak.
+> 
+> 
 
-Fixes: e19e9c692f81 ("drm/bridge/sii8620: add support for burst eMSC transmissions")
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
----
- drivers/gpu/drm/bridge/sil-sii8620.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
-index ec7745c31da0..ab0bce4a988c 100644
---- a/drivers/gpu/drm/bridge/sil-sii8620.c
-+++ b/drivers/gpu/drm/bridge/sil-sii8620.c
-@@ -605,7 +605,7 @@ static void *sii8620_burst_get_tx_buf(struct sii8620 *ctx, int len)
- 	u8 *buf = &ctx->burst.tx_buf[ctx->burst.tx_count];
- 	int size = len + 2;
- 
--	if (ctx->burst.tx_count + size > ARRAY_SIZE(ctx->burst.tx_buf)) {
-+	if (ctx->burst.tx_count + size >= ARRAY_SIZE(ctx->burst.tx_buf)) {
- 		dev_err(ctx->dev, "TX-BLK buffer exhausted\n");
- 		ctx->error = -EINVAL;
- 		return NULL;
-@@ -622,7 +622,7 @@ static u8 *sii8620_burst_get_rx_buf(struct sii8620 *ctx, int len)
- 	u8 *buf = &ctx->burst.rx_buf[ctx->burst.rx_count];
- 	int size = len + 1;
- 
--	if (ctx->burst.tx_count + size > ARRAY_SIZE(ctx->burst.tx_buf)) {
-+	if (ctx->burst.rx_count + size >= ARRAY_SIZE(ctx->burst.rx_buf)) {
- 		dev_err(ctx->dev, "RX-BLK buffer exhausted\n");
- 		ctx->error = -EINVAL;
- 		return NULL;
+[1/1] drm/meson: Fix refcount leak in meson_encoder_hdmi_init
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=7381076809586528e2a812a709e2758916318a99
+
 -- 
-2.25.1
-
+Neil
