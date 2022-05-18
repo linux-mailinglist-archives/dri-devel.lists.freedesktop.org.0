@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A1652C297
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 20:52:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6100D52C32E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 21:20:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9415B10E4B8;
-	Wed, 18 May 2022 18:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAD310EB97;
+	Wed, 18 May 2022 19:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C675E10E4B8
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 18:51:59 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 0E1E01F900;
- Wed, 18 May 2022 18:51:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652899918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FSNUzJxKkk6nSD1uYTkzh+6avrgkicsBUIFVHExJeX8=;
- b=vebJZ0MGi+IoMTE31S8Dq9G6sII+N9X5nBhJS9Ta97YV9otdzGs5bUNf3mji6kGs5aXbV2
- SCrp6GknWiGxPPMKCVAaSVQvEiGdoGfgDTNhokUn+0g2Xe/emg5kstrqyBuFIwDGQRGMBi
- G1MQNvs47U2dHDBECYCu5/Lssa19HTQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652899918;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FSNUzJxKkk6nSD1uYTkzh+6avrgkicsBUIFVHExJeX8=;
- b=8HQ6aHtRY73/FP7pF9MCZzot27QGE/kAHvc6f+zaTin1t0xFWYzczbrcjTYaG7gAYOuTXb
- ImdTkJ4RbaIjdbCQ==
-Received: from kunlun.suse.cz (unknown [10.100.128.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id C5CC22C141;
- Wed, 18 May 2022 18:51:57 +0000 (UTC)
-Date: Wed, 18 May 2022 20:51:56 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] drm/tiny: Add ofdrm for Open Firmware framebuffers
-Message-ID: <20220518185156.GJ163591@kunlun.suse.cz>
-References: <20220518183006.14548-1-tzimmermann@suse.de>
- <20220518183006.14548-3-tzimmermann@suse.de>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8992710EC19
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 19:20:20 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id bq30so5346840lfb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 12:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=0L/FNTLYazFc9GR438CvVRajnH///iO8Ms9EgsVnn/8=;
+ b=Ko40aNSPAlKJB7VuMUGtV+fRHGF55+Tx67dBvUvqIv9eO7XTGL/Np8DRblcp2iCB4L
+ z/yQGIx8nbDOGwvIN4sXt0aqtPZtljeabhHi4aVURUCKMG6ogyvMVone3oEEpuGcRf7D
+ sAf6Lg7Yhc/t55gD6BXGm8FlQtAvDyN4l7tIpQG03N2hplpMaZ6o/CnKV4SRxLvpQ7iO
+ TyzusJYkpXX38EwDRdUqDubA/9MK6NEGxRyshxTXioGHxb5GOgoi+RGa/9H6kc1X0K67
+ 3R53G3dvRERS2n/2YaBpZbpA6QqDzXCZDyPb5Wi1J35dwgPcw1ohMf+3gPDTbkfFOB0q
+ +61Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0L/FNTLYazFc9GR438CvVRajnH///iO8Ms9EgsVnn/8=;
+ b=JEzHBgxzfheHArRct9j5GiP+WgReTDSD30ijYOFYjypLDg8pTuKUSE+UyoOTGWNwOq
+ F7hbBtMAVOVwglYeFkhASAklSELdbiFdFzovn6EU1k5HDbbXXkQ9467PSiIUMp4Qzgnp
+ zIhTncBshegysqAjdH5Oua1r6wl6iF+qrftUJ7ffyiGCy+kPu2dIogi+79YEIICRTRhO
+ WKom42xMEjrk+bPwDziOVw6p3Ni4gDkfDF8V9U7GifF/jAvs+TAIP0uymfbZYZrnA2lQ
+ uoIgckIgokQBJHQLkc5jzs1AAl/f9THpZTKr6yvHycHxGjiKcFGGHgoTLx02uZOKLvc7
+ X6/A==
+X-Gm-Message-State: AOAM531xnK8CZUnmYxlKS9VTp/YMaaDReO4Q84VT//ZWL6oN0vW8x5Ea
+ rldoWfbZvwi85M/jh3HxaTtGTw==
+X-Google-Smtp-Source: ABdhPJx2TQQftncTAAwU+1FFE41NG8tqtmCVZDhL0EBWiEeb9IHiOOtytuFkHTOX+4gDIqviyVKSjg==
+X-Received: by 2002:ac2:5229:0:b0:476:7a25:374c with SMTP id
+ i9-20020ac25229000000b004767a25374cmr667370lfl.97.1652901618816; 
+ Wed, 18 May 2022 12:20:18 -0700 (PDT)
+Received: from ?IPV6:2001:470:dd84:abc0::8a5? ([2001:470:dd84:abc0::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ 189-20020a2e09c6000000b00251fcb946d2sm296691ljj.119.2022.05.18.12.20.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 12:20:18 -0700 (PDT)
+Message-ID: <7020a5e1-0579-abba-5e43-7d12f42d62b5@linaro.org>
+Date: Wed, 18 May 2022 22:20:17 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518183006.14548-3-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/msm/dpu: limit writeback modes according to
+ max_linewidth
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+References: <20220513225959.19004-1-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220513225959.19004-1-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,84 +74,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, mpe@ellerman.id.au,
- deller@gmx.de, linuxppc-dev@lists.ozlabs.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, paulus@samba.org, maxime@cerno.tech,
- sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com, quic_khsieh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On 14/05/2022 01:59, Abhinav Kumar wrote:
+> Writeback modes were being added according to mode_config.max_width
+> but this is assigned to double of max_mixer_width.
+> 
+> For compositors/clients using a single SSPP, this will fail
+> the dpu_plane's atomic check as it checks for max_linewidth.
+> 
+> Limit writeback modes according to max_linewidth to allow
+> even compositors/clients which use only a single SSPP to
+> use writeback.
+> 
+> Fixes: 77b001acdcfeb ("drm/msm/dpu: add the writeback connector layer")
+> Reported-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-On Wed, May 18, 2022 at 08:30:06PM +0200, Thomas Zimmermann wrote:
-> Open Firmware provides basic display output via the 'display' node.
-> DT platform code already provides a device that represents the node's
-> framebuffer. Add a DRM driver for the device. The display mode and
-> color format is pre-initialized by the system's firmware. Runtime
-> modesetting via DRM is not possible. The display is useful during
-> early boot stages or as error fallback.
-> 
-> Similar functionality is already provided by fbdev's offb driver,
-> which is insufficient for modern userspace. The old driver includes
-> support for BootX device tree, which can be found on old 32-bit
-> PowerPC Macintosh systems. If these are still in use, the
-> functionality can be added to ofdrm or implemented in a new
-> driver. As with simepldrm, the fbdev driver cannot be selected is
-> ofdrm is already enabled.
-> 
-> Two noteable points about the driver:
-> 
->  * Reading the framebuffer aperture from the device tree is not
-> reliable on all systems. Ofdrm takes the heuristics and a comment
-> from offb to pick the correct range.
-> 
->  * No resource management may be tied to the underlying PCI device.
-> Otherwise the handover to the native driver will fail with a resource
-> conflict. PCI management is therefore done as part of the platform
-> device's cleanup.
-> 
-> The driver has been tested on qemu's ppc64le emulation. The device
-> hand-over has been tested with bochs.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->  MAINTAINERS                   |   1 +
->  drivers/gpu/drm/tiny/Kconfig  |  12 +
->  drivers/gpu/drm/tiny/Makefile |   1 +
->  drivers/gpu/drm/tiny/ofdrm.c  | 748 ++++++++++++++++++++++++++++++++++
->  drivers/video/fbdev/Kconfig   |   1 +
->  5 files changed, 763 insertions(+)
->  create mode 100644 drivers/gpu/drm/tiny/ofdrm.c
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 43d833273ae9..090cbe1aa5e3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6395,6 +6395,7 @@ L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	drivers/gpu/drm/drm_aperture.c
-> +F:	drivers/gpu/drm/tiny/ofdrm.c
->  F:	drivers/gpu/drm/tiny/simpledrm.c
->  F:	include/drm/drm_aperture.h
->  
-> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-> index 627d637a1e7e..0bc54af42e7f 100644
-> --- a/drivers/gpu/drm/tiny/Kconfig
-> +++ b/drivers/gpu/drm/tiny/Kconfig
-> @@ -51,6 +51,18 @@ config DRM_GM12U320
->  	 This is a KMS driver for projectors which use the GM12U320 chipset
->  	 for video transfer over USB2/3, such as the Acer C120 mini projector.
->  
-> +config DRM_OFDRM
-> +	tristate "Open Firmware display driver"
-> +	depends on DRM && MMU && PPC
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> index 7620ffe55779..399115e4e217 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> @@ -8,8 +8,10 @@
+>   static int dpu_wb_conn_get_modes(struct drm_connector *connector)
+>   {
+>   	struct drm_device *dev = connector->dev;
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+>   
+> -	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
+> +	return drm_add_modes_noedid(connector, dpu_kms->catalog->caps->max_linewidth,
+>   			dev->mode_config.max_height);
+>   }
+>   
 
-Does this build with !PCI?
 
-The driver uses some PCI functions, so it might possibly break with
-randconfig. I don't think there are practical !PCI PPC configurations.
-
-Thanks
-
-Michal
+-- 
+With best wishes
+Dmitry
