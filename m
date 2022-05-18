@@ -1,52 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4BC52B2BE
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 08:51:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5EA52B2C3
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 08:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01A2A10E20F;
-	Wed, 18 May 2022 06:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACAF10E215;
+	Wed, 18 May 2022 06:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF34F10E0F5;
- Wed, 18 May 2022 06:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652856701; x=1684392701;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JVjJoL/kB24+LI3isyatzAgJIVLilwo26EY3gDvQSho=;
- b=kOGkCcr5h5qJoe5IiJGer4XKB41WwNuiSqS2iaXig0nOhPQUpaPblco5
- o5GET58wY9PTg8sb+Fk8gTAl5U6JuV9gEpvNgFP81LVZ0Xc4a9MMqaszb
- P9lN2x91jN0qFeES3i9fbFyPcrqG6dRzzweg/8TzeOo7FSpqp7eHSi+t5
- xlt1KZS2E/M5ZN1s7XmG1g3ortPJUMy+9fx+k0ZVMaZMMTBFVjevpaetQ
- +w0bEAk1s0YqbpxqpZ3vlSK1lJWGqgrQxaDKg2iF8GGo4Gb3q7Bbr4mRZ
- PFlTc9N7HFDeWzy5h3nnOyzO5ve2qWUb7Eufo371bqLdQabYq1ZYq42dL A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="269095567"
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="269095567"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2022 23:51:38 -0700
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="545286123"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
- by orsmga006-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2022 23:51:34 -0700
-Date: Wed, 18 May 2022 12:22:46 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Jordan Justen <jordan.l.justen@intel.com>
-Subject: Re: [PATCH v3] uapi/drm/i915: Document memory residency and Flat-CCS
- capability of obj
-Message-ID: <20220518065245.GA9500@intel.com>
-References: <20220502141508.2327-1-ramalingam.c@intel.com>
- <08039c07-a32e-7725-bc98-db49eefb3e86@intel.com>
- <165247597144.852381.16262736277926454494@jljusten-skl>
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1825810E215
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 06:59:11 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id r71so1377202pgr.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 May 2022 23:59:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YmSH4WeEBLasFK029hFJFejLoqVw7N7yZPY1rCf/FfU=;
+ b=cvFS50VivsG2a7DUQM7O/jQw4CymgJ9LbNkb818N52p4s2zAa1WFjiS8iB6HMqZRvW
+ 6qDOkWsWqkMxV+IyEMpYo2pRFTd/9TZ5lt8pF0UQyZtcQbsuHTemqTMQVtF/bL483l2c
+ m7G7hqDQnoySGOYbKJka6x2gX3+X4P2/M+4NnZSMPttUt7hHaNBzTkSVcrqYxCxRnnhj
+ FQXcFw6JMAY1/tz6Ad3E85ciWSSTPopjgDX41NV3dfcsJhdHgF5pQ+zN3GlKlPmPCmqX
+ j2tlCJnnLs4PQvIQk5aNrS/AsMO5S3krdBtERgZkrYPZek/lVFVrpm2J6OwlcCy52AyQ
+ GZnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YmSH4WeEBLasFK029hFJFejLoqVw7N7yZPY1rCf/FfU=;
+ b=wiM9WhqpCaazKnfNgcz+2/TbzcJT5G4SR8M6Kakipo9huIR84sTZ9UGimZLQaJ3gWO
+ ECpqhxtQ3Tf/1MiOAIVErLnnkNEwbI8kcbJ7+u0RYSTOSfSwv412Tzr4nr8DYSd3PM1x
+ Sv7LITWJCSRIon4n3+CF+zJUy5rduiZVfl1MklBJ4Km4XB4AgD4FxhS4Csf4960ZDksE
+ qQ2QpMlf2g3jzMYIVTJxuUdCDVAd1SVu4688JgFLvoNQlx0XKRFpvBie84XQ4dRwqS6S
+ tdpLseH6BcrdurrGzB8yFwBNyIvBoxdWeoYjb6f59agm/+Y/5BjzVfKjzFIYshT43UFm
+ kUcg==
+X-Gm-Message-State: AOAM533kvT67QZDEZmC5qPvpq0Vmm8iA2L0v+6v34Ul67qYaRBri8XBm
+ 9+C7eOK8b0a9XzNy8VBIC6k=
+X-Google-Smtp-Source: ABdhPJxtTMXDI+f8tNs/ZUpIsUhmPUx1tJVZHzwxzEtN7KEf2Pc2d4NnQjrjCMBLpm/lgwNquFXuxA==
+X-Received: by 2002:a63:4602:0:b0:3f2:7215:1ac0 with SMTP id
+ t2-20020a634602000000b003f272151ac0mr10925036pga.179.1652857150712; 
+ Tue, 17 May 2022 23:59:10 -0700 (PDT)
+Received: from localhost.localdomain ([103.84.139.165])
+ by smtp.gmail.com with ESMTPSA id
+ g16-20020aa79f10000000b0050dc76281a6sm990241pfr.128.2022.05.17.23.59.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 May 2022 23:59:10 -0700 (PDT)
+From: Hangyu Hua <hbh25y@gmail.com>
+To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ architt@codeaurora.org
+Subject: [PATCH] drm: bridge: sii8620: fix possible off-by-one
+Date: Wed, 18 May 2022 14:58:56 +0800
+Message-Id: <20220518065856.18936-1-hbh25y@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <165247597144.852381.16262736277926454494@jljusten-skl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,85 +70,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Nanley Chery <nanley.g.chery@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- mesa-dev@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hangyu Hua <hbh25y@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-13 at 14:06:11 -0700, Jordan Justen wrote:
-> On 2022-05-13 05:31:00, Lionel Landwerlin wrote:
-> > On 02/05/2022 17:15, Ramalingam C wrote:
-> > > Capture the impact of memory region preference list of the objects, on
-> > > their memory residency and Flat-CCS capability.
-> > >
-> > > v2:
-> > >    Fix the Flat-CCS capability of an obj with {lmem, smem} preference
-> > >    list [Thomas]
-> > > v3:
-> > >    Reworded the doc [Matt]
-> > >
-> > > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> > > cc: Matthew Auld <matthew.auld@intel.com>
-> > > cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-> > > cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> > > cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> > > cc: Kenneth Graunke <kenneth@whitecape.org>
-> > > cc: mesa-dev@lists.freedesktop.org
-> > > cc: Jordan Justen <jordan.l.justen@intel.com>
-> > > cc: Tony Ye <tony.ye@intel.com>
-> > > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> > > ---
-> > >   include/uapi/drm/i915_drm.h | 16 ++++++++++++++++
-> > >   1 file changed, 16 insertions(+)
-> > >
-> > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > > index a2def7b27009..b7e1c2fe08dc 100644
-> > > --- a/include/uapi/drm/i915_drm.h
-> > > +++ b/include/uapi/drm/i915_drm.h
-> > > @@ -3443,6 +3443,22 @@ struct drm_i915_gem_create_ext {
-> > >    * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
-> > >    * along with the final object size in &drm_i915_gem_create_ext.size, which
-> > >    * should account for any rounding up, if required.
-> > > + *
-> > > + * Note that userspace has no means of knowing the current backing region
-> > > + * for objects where @num_regions is larger than one. The kernel will only
-> > > + * ensure that the priority order of the @regions array is honoured, either
-> > > + * when initially placing the object, or when moving memory around due to
-> > > + * memory pressure
-> > > + *
-> > > + * On Flat-CCS capable HW, compression is supported for the objects residing
-> > > + * in I915_MEMORY_CLASS_DEVICE. When such objects (compressed) has other
-> > > + * memory class in @regions and migrated (by I915, due to memory
-> > > + * constrain) to the non I915_MEMORY_CLASS_DEVICE region, then I915 needs to
-> > > + * decompress the content. But I915 dosen't have the required information to
-> > > + * decompress the userspace compressed objects.
-> > > + *
-> > > + * So I915 supports Flat-CCS, only on the objects which can reside only on
-> > > + * I915_MEMORY_CLASS_DEVICE regions.
-> > 
-> > I think it's fine to assume Flat-CSS surface will always be in lmem.
-> > 
-> > I see no issue for the Anv Vulkan driver.
-> > 
-> > Maybe Nanley or Ken can speak for the Iris GL driver?
-> > 
-> 
-> Acked-by: Jordan Justen <jordan.l.justen@intel.com>
-Thank you Jordan for the Ack!
+The next call to sii8620_burst_get_tx_buf will result in off-by-one
+When ctx->burst.tx_count + size == ARRAY_SIZE(ctx->burst.tx_buf). The same
+thing happens in sii8620_burst_get_rx_buf.
 
-Ram
-> 
-> I think Nanley has accounted for this on iris with:
-> 
-> https://gitlab.freedesktop.org/mesa/mesa/-/commit/42a865730ef72574e179b56a314f30fdccc6cba8
-> 
-> -Jordan
+This patch also change tx_count and tx_buf to rx_count and rx_buf in
+sii8620_burst_get_rx_buf. It is unreasonable to check tx_buf's size and
+use rx_buf.
+
+Fixes: e19e9c692f81 ("drm/bridge/sii8620: add support for burst eMSC transmissions")
+Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+---
+ drivers/gpu/drm/bridge/sil-sii8620.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index ec7745c31da0..ab0bce4a988c 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -605,7 +605,7 @@ static void *sii8620_burst_get_tx_buf(struct sii8620 *ctx, int len)
+ 	u8 *buf = &ctx->burst.tx_buf[ctx->burst.tx_count];
+ 	int size = len + 2;
+ 
+-	if (ctx->burst.tx_count + size > ARRAY_SIZE(ctx->burst.tx_buf)) {
++	if (ctx->burst.tx_count + size >= ARRAY_SIZE(ctx->burst.tx_buf)) {
+ 		dev_err(ctx->dev, "TX-BLK buffer exhausted\n");
+ 		ctx->error = -EINVAL;
+ 		return NULL;
+@@ -622,7 +622,7 @@ static u8 *sii8620_burst_get_rx_buf(struct sii8620 *ctx, int len)
+ 	u8 *buf = &ctx->burst.rx_buf[ctx->burst.rx_count];
+ 	int size = len + 1;
+ 
+-	if (ctx->burst.tx_count + size > ARRAY_SIZE(ctx->burst.tx_buf)) {
++	if (ctx->burst.rx_count + size >= ARRAY_SIZE(ctx->burst.rx_buf)) {
+ 		dev_err(ctx->dev, "RX-BLK buffer exhausted\n");
+ 		ctx->error = -EINVAL;
+ 		return NULL;
+-- 
+2.25.1
+
