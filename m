@@ -2,61 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D190052C24D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 20:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E551C52C279
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 20:44:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA5B310E8DD;
-	Wed, 18 May 2022 18:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0958010E38F;
+	Wed, 18 May 2022 18:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4AA10E4CA
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 18:30:12 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8596221BD1;
- Wed, 18 May 2022 18:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652898610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1LZmqXnqoLRHn0z8fNCHYp7MUfgOyuVF4D+kDLyOxeo=;
- b=pehwwHtuNsGEdxxunPS0vO02yHhp9gBq7xoaizdKRBI1k6QkCNameyvh36bgIHBBz7pDPS
- LaRYIMY5wPO2zcZBtGqR2mKPEgFRHs6EcImtFfE620AChFOU8jon6hJqZSTOwyjG06hmkQ
- 4KHvbU/pXa2iDQ+WRDZaNQvP9bOTLgc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652898610;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1LZmqXnqoLRHn0z8fNCHYp7MUfgOyuVF4D+kDLyOxeo=;
- b=vgwT57oJhw97Sqp2txwjx7Vso2dppZh8VqDAy72acLJvecQNAT4LkOstT+KoCnvIuc1uZq
- 8KgKogXxKdz+k0BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 39BA413A6D;
- Wed, 18 May 2022 18:30:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WKQtDTI7hWLPGgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 18 May 2022 18:30:10 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de,
- maxime@cerno.tech, sam@ravnborg.org, msuchanek@suse.de, mpe@ellerman.id.au,
- benh@kernel.crashing.org, paulus@samba.org
-Subject: [PATCH 2/2] drm/tiny: Add ofdrm for Open Firmware framebuffers
-Date: Wed, 18 May 2022 20:30:06 +0200
-Message-Id: <20220518183006.14548-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220518183006.14548-1-tzimmermann@suse.de>
-References: <20220518183006.14548-1-tzimmermann@suse.de>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B741910E38F;
+ Wed, 18 May 2022 18:44:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652899452; x=1684435452;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=MpsZLOEv60R8vMdtnfihFY8tCpfgvFbwKwSLVC7JIKQ=;
+ b=nHKE4PDPx1hxsB2JJiV9wN7WyAbw7O01PABPXZxacka7Iu3cpG/Sylrx
+ KkhbRvS2sLV/Zycu9//RMFEWP3J7vDjwee4gvMw6PAeYO2Ahwr0Chgdss
+ QxD2k+PA51lNjTOo5BNjPssA+XwzV3cy5eUhEmAdcK/E9bbNvvkBa+hv0
+ y6iYcI21RabEiSGvfYIVIcffBx7jwLGe4WED1Pv6gcGsm1+zU5v/71lBU
+ hsELw7Cmlg5g/4dapONKKB9kVttRUbQhhfjwI3jWGzFCyVxBFzT3rFM6N
+ 8Srnu1QrbOJhDiOfjPs/yOhQPCrF56uIkHmHqcTy4VOm2JprweLdA0F/Z A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="269427646"
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="269427646"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 11:41:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="569687669"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga007.jf.intel.com with ESMTP; 18 May 2022 11:41:46 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 18 May 2022 11:41:46 -0700
+Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 18 May 2022 11:41:45 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Wed, 18 May 2022 11:41:45 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Wed, 18 May 2022 11:41:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aQk/Ax/dInoekCKe3odRsGndFhXn7Kntchk1tfOIYjAv/KHZ+LHTYDmklB/TK8zQZy82K44WXoSOt06zTdBPwFb3CWQl6Dq7Vhh3edWjT3a/YMCuEf+IFr8Gltet0FgYjJ3PX1mWPiOgX9GCtisTUZPeMvWtOWuKRM/xl85Ux8YLcKkM/UgGoSpfG1HAVAQa785FW6EsM1/kDx/ANd4Ujv42NcGbpd65IWZpYdugi2AIU5gPP0ymlUcY3QXfM7Qp5cIAQxrJ2pfMMMoSLqNy9xJinsbtmcOD2Sj4fUo2BjZLDhr5F/UmmBXA5/nnZhAlqNAScZghCh89+Ip5pT026w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3yY+ZXvDpMywvxPuQYN85qh0Y3c9+LWz+TaoP3eSMSM=;
+ b=RbZRPUaEahv4EKqjTmfgtRFVfFrnyxplWzr1MWcsPWiwungzd4f930OQ5Koc0UBBNW+dwPNx9602+2KLnDmKP2VNvnU5hrNKnn6ToYAE3BUggR29INBEcnOYiTgYf7P7aUesyjjFcYGrq73cJsCgvF/GyE/YvEFChsMfkk8+wVpKWanaeUOyyg22rSzkpJUZ/sep/w1x5TFRm/4vOqtcpvyN3dHog7TL8Vf3xKCgZ2BotRVWcdJZSM8LernqlqzuKJp9H8+7gyIzJzgxq/rsjCHj2HIrJQDyQOGLlcmKSMgExmP9wGykfQQSxoYlXNwcx8LvAzEM/J/BNJaYsaw8ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB4514.namprd11.prod.outlook.com (2603:10b6:5:2a3::17)
+ by CY4PR1101MB2182.namprd11.prod.outlook.com (2603:10b6:910:1e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Wed, 18 May
+ 2022 18:41:43 +0000
+Received: from DM6PR11MB4514.namprd11.prod.outlook.com
+ ([fe80::3874:dee4:2f1f:9f4c]) by DM6PR11MB4514.namprd11.prod.outlook.com
+ ([fe80::3874:dee4:2f1f:9f4c%9]) with mapi id 15.20.5273.014; Wed, 18 May 2022
+ 18:41:43 +0000
+Message-ID: <0b92c096-7d92-f0e9-5ea2-a6b88b75802d@intel.com>
+Date: Wed, 18 May 2022 11:41:40 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3] uapi/drm/i915: Document memory residency and Flat-CCS
+ capability of obj
+Content-Language: en-US
+To: Ramalingam C <ramalingam.c@intel.com>, intel-gfx
+ <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+References: <20220502141508.2327-1-ramalingam.c@intel.com>
+From: "Ye, Tony" <tony.ye@intel.com>
+In-Reply-To: <20220502141508.2327-1-ramalingam.c@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR02CA0007.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::20) To DM6PR11MB4514.namprd11.prod.outlook.com
+ (2603:10b6:5:2a3::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 475fed73-d38d-4282-d6ae-08da38fe0e18
+X-MS-TrafficTypeDiagnostic: CY4PR1101MB2182:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <CY4PR1101MB2182E63F9E1D07F086BBB82DF1D19@CY4PR1101MB2182.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kJVtXoRvQP1d8jspw6L1Pq9OAvSGgBnqJcT8fB1PQ6bN/uJidxYjByIRnMmkuyL5kqBIIe2sO/jTrUL0Hk+qbck/aDK/dlkIpwSIqAJSAZEZZrd+kOlqjiPeZq0iVOUqCVWXgHVVJi+ICPRpAMZHgUFHLTDbwtLTuCAR/VRHe33zQiCtWe+pFflK2hZJsSBU6ABNsmSAtGDdjzaNJudSYYYmvtIuSoX2hXWfAV+NMN1flmib6CVWNuXyDPmLemiV+qsU5pa/qIFsbeNkIJnPIf/KXZlyi8LpZDgCc+1Agc1DSNsaA0hrSQexycU+JAaj6WVaiRcQzXLgs+6FQaP1gk3yHwOYNXE1dVAgUiy7YpwqI0nFFA/AUyWnhmkFHXGB2VEX5NOoqlzRN262Or7UuEfKCmWDU8pLxQsDE0bBVBdYJpHzSo8QCAayec3YZJ+1tX/XKgU9E5QZa6+cGB9HdJCT/r6E1kdnc0WvSuy+q8MU7NkS9DGU+2zPAq4/fXWTmGgw5i5BGuzpebLyTBCWv+seozI6eK8ntX5Oa4wVHCiD0QLP9JDk1u72DFC6VOXMhuBkphEQfPdxcBoKVk0VmLGiuj3SjTZ7NsKCISZ+RVTR0NKwq2UeLZywfd0SZJgG9c6k44nTrAbchuZhFJMcd/cWCsP9T927WA7mRBnaj/nCx+J32B/qwm2WFH6url/hnGXCcyNV0e2HB9LI+OxNa41qSv3GyaLuTdfEy4fKlkl+HF7vw4K6H9oCsgweY+0O
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB4514.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6506007)(36756003)(83380400001)(53546011)(31686004)(6486002)(26005)(186003)(6512007)(2616005)(508600001)(2906002)(66946007)(54906003)(31696002)(86362001)(110136005)(5660300002)(8936002)(66476007)(82960400001)(316002)(38100700002)(4326008)(8676002)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dmdoMC9oc1V3YlZsY1cwRnc5akl4L0VGZ05zanNtdk5kWE1ORUFkMFdGeTBH?=
+ =?utf-8?B?THBZMUNBcnE2dDlqcCszc0owcDFrRVZkazExREZocnZWc3ppRys0SkxLb0hD?=
+ =?utf-8?B?UnFJU3gyQ1BZSytwRVhhVHZZaWpTeDJYY1ZHMnljQjRlTUhOMkpKT1BxeGFy?=
+ =?utf-8?B?dlluVDJQeHZhWVlWMzRqRHJBOWlrQlN2bTE2Zk9YTWw0R3JaRURvdEJQSHNh?=
+ =?utf-8?B?QlhOb3FkYlFoYnNtTHZMYStLNmFMWURIRStlL1J3SjZScHp3NW1QMjhsRUti?=
+ =?utf-8?B?YnRneEFSWE9Ocm94azUxa1k4RVEwNDNMLy9NdXpBdi9XVGNkU3FGNzFjNTht?=
+ =?utf-8?B?eEQvSEN1WVZsOEE3M0xRN1lXTVc0NzNNZFpabXFLb1RjeVF4REF2dWp3dEFy?=
+ =?utf-8?B?cTdHanNLYlJDSnFScElwUFBhY3Q0Zm0xRHBuYjFMTHNIdXZsTklpdldlNDQ0?=
+ =?utf-8?B?djJkSG1TNTNsRTZlUkMrRXA0RDRBd2o5UU4ydkgxOUFaVTAvdHBNYmdjTm0r?=
+ =?utf-8?B?SE1sTlN3M05LNkZxRTZuQUorNGdLSFVsbWF0UlV5SXV5VklLNVp3NFltZnkw?=
+ =?utf-8?B?NmRKODR3UTVUb21Nb2xaYkF0TzZreDlYTHFuNzVUU0JrTituMkV1M2pVakdm?=
+ =?utf-8?B?WXB1OXlscy92S1NKb2RwLzVDSDZQL3lMZFp4cUhDTWlCZ2x2UTJ0aUVqQlND?=
+ =?utf-8?B?RndZUDZ6ak9ZRU16WlFaMCtrZXgzZE5oajdNZ0ZYYmpka1pwQlN1SXpTb1FS?=
+ =?utf-8?B?VC9tWjZreHRGSmtJM2g3bTNTa2FKWHdtZlRKeHJqNEVRVHhKdm1GUFZkMk5q?=
+ =?utf-8?B?dXhKczhDUXg5NStTODYvTkhhVlh0VHNiUXA5SkVyWGhOYWVWbGliYjBHQzBW?=
+ =?utf-8?B?azMwSFRkZmtRMWprQVhwUldXU0FVZld1Q3ZkNVloUnFrMk1jRGdVbXh6Qi9h?=
+ =?utf-8?B?NUZ2dDJjSUlneGZXZm1sTlhyNE1Ib29GSS8rRU9vb1kwc1dDdHcwWHU2V2Fi?=
+ =?utf-8?B?R0dMUzFFTFNpT0xxakJSWXU0VWVyNDlJMUIrMC8vYjNoSE03NG05OEdrSDdB?=
+ =?utf-8?B?OGxOd0QrVGxwWE5hVlJ4Qjk3YzJCdXNkS2MyZEFJdFlVdWNHbmNBQ3JyaXFj?=
+ =?utf-8?B?bXZ5blJVcG00Q09aTXNhd1pIUklkNmhzS210R0ZKa2thdEI2ci83WHQxOWFu?=
+ =?utf-8?B?Z2oySkF2NHNqMXpDa21uMUNnNXJ0ZXpuekVWa1l5MmF3UHJwdjcvWVBIOXFQ?=
+ =?utf-8?B?eXBmVFQyanJVVW5vYUFvUUVZNTVCcW5jUGs5bkFPZFNDcFFCSWFNMEttWEk1?=
+ =?utf-8?B?bG9USCt0bFdsV2J1aDZ4R2lRb2kwRTNXRTV4cmR6eFhuR3kxQzBKV0c5RkRY?=
+ =?utf-8?B?cVJLUDJDSkZ5R2E5UnBYNGorY3FRV0NnVUZZZ1h1aE55dUFkSWxGL1BFWlp0?=
+ =?utf-8?B?UWk2Y1RHNDRzMWtkZFFDTUZjbWtjTitVNE9NZGIvYVA0bWxtVU92ZDllQjd6?=
+ =?utf-8?B?V3FUT2ord2Y0YUpIQ3cyd0FVWEIyaUM2R2JHRFY0N1pmRTBSaHcwbjN5UHBk?=
+ =?utf-8?B?RjdETFJNZUlDMmEyQkhWMHlTMmpDK2pwSEFQMU5QRVJpdlc2ZGNOZ0xUdWYx?=
+ =?utf-8?B?OHNGU1ZrOUFIaVZWbDdqMndObmI4L0NKeEJncGM1c1I2K1ZZL1pzakh4VFJ3?=
+ =?utf-8?B?WFVDUDF2MTdjN3dNc0FzV3ZFOVgvVEVRRXdjSkt4VGlYbGlEUDgwQkV0WUJa?=
+ =?utf-8?B?UWdMaGkvQXZUUkZ5dzN1OENnY3FKNHZYMFB5SVI0UVVWS1FCNmRyUVhtOTdI?=
+ =?utf-8?B?MEg2cFQ5SHNMOWFBc2xObFdZSUMvWkpianVib3Nyc3U3a3ZzUFdSMGgrZzNk?=
+ =?utf-8?B?VnFnWmNld2trMFFQQXlEcWR6Y3daUXh3c0NLOUdrdG92djZTVjVjYW8waVZG?=
+ =?utf-8?B?d2ZvRmN3cnNFT2ZZN2R1aEdGL3NxVzhIUzBmZU0zbDNXZHAyQjExWVZpSy9k?=
+ =?utf-8?B?ZEhDNjNqeXNUb00rUVAwaDJPbWkxRjFIVkR3Z3VSZXVtczUzQW1JaWVPQzNX?=
+ =?utf-8?B?QTdXV2JYTm1lWm9GWXE1V3pmdzJ5K0dSSDI2b21lOTVyZlRHSExMeHJBNlBl?=
+ =?utf-8?B?alJ6ZmlRajBHQ1FGeHFPaVM1UWJ2bDFtOEtGU0RBdzd2YXVZeGpCRUFMWm1h?=
+ =?utf-8?B?dEhXR2xyWFFmbEl6Mm9JY01LZ1hsTVFkcnpQZjc0ai84UDF1WGtIOWJ6U2w1?=
+ =?utf-8?B?eFp5QjNhZGR1bUc1RWxTcmZOZGt6R3VEZUxFNTlpYzhhZENxV1VhalVNRWN2?=
+ =?utf-8?B?c3NyU3V3b0w3d29hNVpqbXUwVFFuYVR4Q2grN1BFbVBBOUpudnlkUT09?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 475fed73-d38d-4282-d6ae-08da38fe0e18
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4514.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 18:41:43.8047 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8CYPjnC+5cUk519tz1sSSdXIIDUevpVU0pb7oPAVDw0/iLb+hfhVTMUa72QoWjGz7BKVd7pNSv7bnbyVnJYPxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2182
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,863 +164,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, mesa-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Open Firmware provides basic display output via the 'display' node.
-DT platform code already provides a device that represents the node's
-framebuffer. Add a DRM driver for the device. The display mode and
-color format is pre-initialized by the system's firmware. Runtime
-modesetting via DRM is not possible. The display is useful during
-early boot stages or as error fallback.
+Media driver never creates a BO with more than one backing regions.
 
-Similar functionality is already provided by fbdev's offb driver,
-which is insufficient for modern userspace. The old driver includes
-support for BootX device tree, which can be found on old 32-bit
-PowerPC Macintosh systems. If these are still in use, the
-functionality can be added to ofdrm or implemented in a new
-driver. As with simepldrm, the fbdev driver cannot be selected is
-ofdrm is already enabled.
+Acked-by: Tony Ye <tony.ye@intel.com>
 
-Two noteable points about the driver:
+Thanks,
 
- * Reading the framebuffer aperture from the device tree is not
-reliable on all systems. Ofdrm takes the heuristics and a comment
-from offb to pick the correct range.
+Tony
 
- * No resource management may be tied to the underlying PCI device.
-Otherwise the handover to the native driver will fail with a resource
-conflict. PCI management is therefore done as part of the platform
-device's cleanup.
-
-The driver has been tested on qemu's ppc64le emulation. The device
-hand-over has been tested with bochs.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- MAINTAINERS                   |   1 +
- drivers/gpu/drm/tiny/Kconfig  |  12 +
- drivers/gpu/drm/tiny/Makefile |   1 +
- drivers/gpu/drm/tiny/ofdrm.c  | 748 ++++++++++++++++++++++++++++++++++
- drivers/video/fbdev/Kconfig   |   1 +
- 5 files changed, 763 insertions(+)
- create mode 100644 drivers/gpu/drm/tiny/ofdrm.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 43d833273ae9..090cbe1aa5e3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6395,6 +6395,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/drm_aperture.c
-+F:	drivers/gpu/drm/tiny/ofdrm.c
- F:	drivers/gpu/drm/tiny/simpledrm.c
- F:	include/drm/drm_aperture.h
- 
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 627d637a1e7e..0bc54af42e7f 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -51,6 +51,18 @@ config DRM_GM12U320
- 	 This is a KMS driver for projectors which use the GM12U320 chipset
- 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
- 
-+config DRM_OFDRM
-+	tristate "Open Firmware display driver"
-+	depends on DRM && MMU && PPC
-+	select DRM_GEM_SHMEM_HELPER
-+	select DRM_KMS_HELPER
-+	help
-+	  DRM driver for Open Firmware framebuffers.
-+
-+	  This driver assumes that the display hardware has been initialized
-+	  by the Open Firmware before the kernel boots. Scanout buffer, size,
-+	  and display format must be provided via device tree.
-+
- config DRM_PANEL_MIPI_DBI
- 	tristate "DRM support for MIPI DBI compatible panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index 1d9d6227e7ab..76dde89a044b 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -4,6 +4,7 @@ obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
- obj-$(CONFIG_DRM_BOCHS)			+= bochs.o
- obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
-+obj-$(CONFIG_DRM_OFDRM)			+= ofdrm.o
- obj-$(CONFIG_DRM_PANEL_MIPI_DBI)	+= panel-mipi-dbi.o
- obj-$(CONFIG_DRM_SIMPLEDRM)		+= simpledrm.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
-diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-new file mode 100644
-index 000000000000..aca715b36179
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/ofdrm.c
-@@ -0,0 +1,748 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/pci.h>
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_aperture.h>
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_format_helper.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+
-+
-+#define DRIVER_NAME	"ofdrm"
-+#define DRIVER_DESC	"DRM driver for OF platform devices"
-+#define DRIVER_DATE	"20220501"
-+#define DRIVER_MAJOR	1
-+#define DRIVER_MINOR	0
-+
-+/*
-+ * Assume a monitor resolution of 96 dpi to
-+ * get a somewhat reasonable screen size.
-+ */
-+#define RES_MM(d)	\
-+	(((d) * 254ul) / (96ul * 10ul))
-+
-+#define OFDRM_MODE(hd, vd)	\
-+	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
-+
-+/*
-+ * Helpers for display nodes
-+ */
-+
-+static int display_get_validated_int(struct drm_device *dev, const char *name, uint32_t value)
-+{
-+	if (value > INT_MAX) {
-+		drm_err(dev, "invalid framebuffer %s of %u\n", name, value);
-+		return -EINVAL;
-+	}
-+	return (int)value;
-+}
-+
-+static int display_get_validated_int0(struct drm_device *dev, const char *name, uint32_t value)
-+{
-+	if (!value) {
-+		drm_err(dev, "invalid framebuffer %s of %u\n", name, value);
-+		return -EINVAL;
-+	}
-+	return display_get_validated_int(dev, name, value);
-+}
-+
-+static const struct drm_format_info *display_get_validated_format(struct drm_device *dev,
-+								  u32 depth)
-+{
-+	const struct drm_format_info *info;
-+	u32 format;
-+
-+	switch (depth) {
-+	case 8:
-+		format = drm_mode_legacy_fb_format(8, 8);
-+		break;
-+	case 15:
-+	case 16:
-+		format = drm_mode_legacy_fb_format(16, depth);
-+		break;
-+	case 32:
-+		format = drm_mode_legacy_fb_format(32, 24);
-+		break;
-+	default:
-+		drm_err(dev, "unsupported framebuffer depth %u\n", depth);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	info = drm_format_info(format);
-+	if (!info) {
-+		drm_err(dev, "cannot find framebuffer format for depth %u\n", depth);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	return info;
-+}
-+
-+static int display_read_u32_of(struct drm_device *dev, struct device_node *of_node,
-+			       const char *name, u32 *value)
-+{
-+	int ret = of_property_read_u32(of_node, name, value);
-+
-+	if (ret)
-+		drm_err(dev, "cannot parse framebuffer %s: error %d\n", name, ret);
-+	return ret;
-+}
-+
-+static int display_get_width_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	u32 width;
-+	int ret = display_read_u32_of(dev, of_node, "width", &width);
-+
-+	if (ret)
-+		return ret;
-+	return display_get_validated_int0(dev, "width", width);
-+}
-+
-+static int display_get_height_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	u32 height;
-+	int ret = display_read_u32_of(dev, of_node, "height", &height);
-+
-+	if (ret)
-+		return ret;
-+	return display_get_validated_int0(dev, "height", height);
-+}
-+
-+static int display_get_linebytes_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	u32 linebytes;
-+	int ret = display_read_u32_of(dev, of_node, "linebytes", &linebytes);
-+
-+	if (ret)
-+		return ret;
-+	return display_get_validated_int(dev, "linebytes", linebytes);
-+}
-+
-+static const struct drm_format_info *display_get_format_of(struct drm_device *dev,
-+							   struct device_node *of_node)
-+{
-+	u32 depth;
-+	int ret = display_read_u32_of(dev, of_node, "depth", &depth);
-+
-+	if (ret)
-+		return ERR_PTR(ret);
-+	return display_get_validated_format(dev, depth);
-+}
-+
-+static u64 display_get_address_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	u32 address;
-+	int ret;
-+
-+	/*
-+	 * Not all devices provide an address property, it's not
-+	 * a bug if this fails. The driver will try to find the
-+	 * framebuffer base address from the device's memory regions.
-+	 */
-+	ret = of_property_read_u32(of_node, "address", &address);
-+	if (ret)
-+		return OF_BAD_ADDR;
-+
-+	return address;
-+}
-+
-+#if defined(CONFIG_PCI)
-+static struct pci_dev *display_get_pci_dev_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	const __be32 *vendor_p, *device_p;
-+	u32 vendor, device;
-+	struct pci_dev *pcidev;
-+
-+	vendor_p = of_get_property(of_node, "vendor-id", NULL);
-+	if (!vendor_p)
-+		return ERR_PTR(-ENODEV);
-+	vendor = be32_to_cpup(vendor_p);
-+
-+	device_p = of_get_property(of_node, "device-id", NULL);
-+	if (!device_p)
-+		return ERR_PTR(-ENODEV);
-+	device = be32_to_cpup(device_p);
-+
-+	pcidev = pci_get_device(vendor, device, NULL);
-+	if (!pcidev)
-+		return ERR_PTR(-ENODEV);
-+
-+	return pcidev;
-+}
-+#else
-+static struct pci_dev *display_get_pci_dev_of(struct drm_device *dev, struct device_node *of_node)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
-+#endif
-+
-+/*
-+ * Open Firmware display device
-+ */
-+
-+struct ofdrm_device {
-+	struct drm_device dev;
-+	struct platform_device *pdev;
-+
-+	/* OF display settings */
-+	struct drm_display_mode mode;
-+	const struct drm_format_info *format;
-+	unsigned int pitch;
-+	resource_size_t fb_base;
-+	resource_size_t fb_size;
-+
-+	/* memory management */
-+	struct resource *mem;
-+	void __iomem *screen_base;
-+
-+	/* modesetting */
-+	uint32_t formats[8];
-+	size_t nformats;
-+	struct drm_connector connector;
-+	struct drm_simple_display_pipe pipe;
-+};
-+
-+static struct ofdrm_device *ofdrm_device_of_dev(struct drm_device *dev)
-+{
-+	return container_of(dev, struct ofdrm_device, dev);
-+}
-+
-+/*
-+ *  OF display settings
-+ */
-+
-+static void ofdrm_pci_release(void *data)
-+{
-+	struct pci_dev *pcidev = data;
-+
-+	pci_disable_device(pcidev);
-+}
-+
-+static struct drm_display_mode ofdrm_mode(unsigned int width, unsigned int height)
-+{
-+	struct drm_display_mode mode = { OFDRM_MODE(width, height) };
-+
-+	mode.clock = mode.hdisplay * mode.vdisplay * 60 / 1000 /* kHz */;
-+	drm_mode_set_name(&mode);
-+
-+	return mode;
-+}
-+
-+static struct resource *ofdrm_find_fb_resource(struct ofdrm_device *odev,
-+					       struct resource *fb_res)
-+{
-+	struct platform_device *pdev = to_platform_device(odev->dev.dev);
-+	struct resource *res, *max_res = NULL;
-+	u32 i;
-+
-+	for (i = 0; pdev->num_resources; ++i) {
-+		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-+		if (!res)
-+			break; /* all resources processed */
-+		if (resource_size(res) < resource_size(fb_res))
-+			continue; /* resource too small */
-+		if (fb_res->start && resource_contains(res, fb_res))
-+			return res; /* resource contains framebuffer */
-+		if (!max_res || resource_size(res) > resource_size(max_res))
-+			max_res = res; /* store largest resource as fallback */
-+	}
-+
-+	return max_res;
-+}
-+
-+static int ofdrm_device_init_fb(struct ofdrm_device *odev)
-+{
-+	struct drm_device *dev = &odev->dev;
-+	struct platform_device *pdev = odev->pdev;
-+	struct device_node *of_node = pdev->dev.of_node;
-+	int width, height, linebytes;
-+	u64 address;
-+	const struct drm_format_info *format;
-+	struct pci_dev *pcidev;
-+	struct resource *res;
-+	int ret;
-+
-+	width = display_get_width_of(dev, of_node);
-+	if (width < 0)
-+		return width;
-+	height = display_get_height_of(dev, of_node);
-+	if (height < 0)
-+		return height;
-+	linebytes = display_get_linebytes_of(dev, of_node);
-+	if (linebytes < 0)
-+		return linebytes;
-+	format = display_get_format_of(dev, of_node);
-+	if (IS_ERR(format))
-+		return PTR_ERR(format);
-+	address = display_get_address_of(dev, of_node);
-+
-+	/*
-+	 * Never use pcim_ or other managed helpers on the returned PCI
-+	 * device. Otherwise, probing the native driver will fail for
-+	 * resource conflicts. PCI-device management has to be tied to
-+	 * the lifetime of the platform device until the native driver
-+	 * takes over.
-+	 */
-+	pcidev = display_get_pci_dev_of(dev, of_node);
-+	if (!IS_ERR(pcidev)) {
-+		ret = pci_enable_device(pcidev);
-+		if (drm_WARN(dev, ret, "pci_enable_device(%s) failed: %d\n",
-+			     dev_name(&pcidev->dev), ret))
-+			return ret;
-+		ret = devm_add_action_or_reset(&pdev->dev, ofdrm_pci_release, pcidev);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	odev->mode = ofdrm_mode(width, height);
-+	odev->format = format;
-+
-+	if (linebytes)
-+		odev->pitch = linebytes;
-+	else
-+		odev->pitch = width * format->cpp[0];
-+
-+	odev->fb_size = odev->pitch * height;
-+
-+	/*
-+	 * Try to figure out the address of the framebuffer. Unfortunately, Open
-+	 * Firmware doesn't provide a standard way to do so. All we can do is a
-+	 * dodgy heuristic that happens to work in practice.
-+	 *
-+	 * On most machines, the "address" property contains what we need, though
-+	 * not on Matrox cards found in IBM machines. What appears to give good
-+	 * results is to go through the PCI ranges and pick one that encloses the
-+	 * "address" property. If none match, we pick the largest.
-+	 */
-+	if (address != OF_BAD_ADDR) {
-+		struct resource fb_res = DEFINE_RES_MEM(address, odev->fb_size);
-+
-+		res = ofdrm_find_fb_resource(odev, &fb_res);
-+		if (!res)
-+			return -EINVAL;
-+		if (resource_contains(res, &fb_res))
-+			odev->fb_base = address;
-+		else
-+			odev->fb_base = res->start;
-+	} else {
-+		struct resource fb_res = DEFINE_RES_MEM(0u, odev->fb_size);
-+
-+		res = ofdrm_find_fb_resource(odev, &fb_res);
-+		if (!res)
-+			return -EINVAL;
-+		odev->fb_base = res->start;
-+	}
-+
-+	drm_dbg(dev, "display mode={" DRM_MODE_FMT "}\n", DRM_MODE_ARG(&odev->mode));
-+	drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, linebytes=%d byte, address=0x%llx\n",
-+		&format->format, width, height, linebytes, address);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Memory management
-+ */
-+
-+static int ofdrm_device_init_mm(struct ofdrm_device *odev)
-+{
-+	struct drm_device *dev = &odev->dev;
-+	struct platform_device *pdev = odev->pdev;
-+	struct resource res = DEFINE_RES_MEM(odev->fb_base, round_up(odev->fb_size, PAGE_SIZE));
-+	struct resource *mem;
-+	void __iomem *screen_base;
-+	int ret;
-+
-+	ret = devm_aperture_acquire_from_firmware(dev, res.start, resource_size(&res));
-+	if (ret) {
-+		drm_err(dev, "could not acquire memory range %pr: error %d\n", &res, ret);
-+		return ret;
-+	}
-+
-+	mem = devm_request_mem_region(&pdev->dev, res.start, resource_size(&res),
-+				      odev->dev.driver->name);
-+	if (!mem) {
-+		drm_warn(dev, "could not acquire memory region %pr\n", &res);
-+		return -ENOMEM;
-+	}
-+
-+	drm_dbg(dev, "mapping framebuffer: %pr\n", mem);
-+
-+	screen_base = devm_ioremap(&pdev->dev, mem->start, resource_size(mem));
-+	if (drm_WARN_ON(dev, !screen_base))
-+		return -ENOMEM;
-+
-+	odev->mem = mem;
-+	odev->screen_base = screen_base;
-+
-+	drm_dbg(dev, "framebuffer at %pr, mapped at 0x%p\n", mem, screen_base);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Modesetting
-+ */
-+
-+/*
-+ * Support all formats of OF display and maybe more; in order
-+ * of preference. The display's update function will do any
-+ * conversion necessary.
-+ *
-+ * TODO: Add blit helpers for remaining formats and uncomment
-+ *       constants.
-+ */
-+static const uint32_t ofdrm_default_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_RGB565,
-+	//DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_C8,
-+};
-+
-+static const uint64_t ofdrm_format_modifiers[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
-+static int ofdrm_connector_helper_get_modes(struct drm_connector *connector)
-+{
-+	struct ofdrm_device *odev = ofdrm_device_of_dev(connector->dev);
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &odev->mode);
-+	if (!mode)
-+		return 0;
-+
-+	if (mode->name[0] == '\0')
-+		drm_mode_set_name(mode);
-+
-+	mode->type |= DRM_MODE_TYPE_PREFERRED;
-+	drm_mode_probed_add(connector, mode);
-+
-+	if (mode->width_mm)
-+		connector->display_info.width_mm = mode->width_mm;
-+	if (mode->height_mm)
-+		connector->display_info.height_mm = mode->height_mm;
-+
-+	return 1;
-+}
-+
-+static const struct drm_connector_helper_funcs ofdrm_connector_helper_funcs = {
-+	.get_modes = ofdrm_connector_helper_get_modes,
-+};
-+
-+static const struct drm_connector_funcs ofdrm_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int ofdrm_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
-+						const struct drm_display_mode *mode)
-+{
-+	struct ofdrm_device *odev = ofdrm_device_of_dev(pipe->crtc.dev);
-+
-+	if (mode->hdisplay != odev->mode.hdisplay &&
-+	    mode->vdisplay != odev->mode.vdisplay)
-+		return MODE_ONE_SIZE;
-+	else if (mode->hdisplay != odev->mode.hdisplay)
-+		return MODE_ONE_WIDTH;
-+	else if (mode->vdisplay != odev->mode.vdisplay)
-+		return MODE_ONE_HEIGHT;
-+
-+	return MODE_OK;
-+}
-+
-+static void ofdrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
-+					     struct drm_crtc_state *crtc_state,
-+					     struct drm_plane_state *plane_state)
-+{
-+	struct ofdrm_device *odev = ofdrm_device_of_dev(pipe->crtc.dev);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
-+	struct drm_device *dev = &odev->dev;
-+	void __iomem *dst = odev->screen_base;
-+	struct drm_rect src_clip, dst_clip;
-+	int idx;
-+
-+	if (!fb)
-+		return;
-+
-+	drm_rect_fp_to_int(&src_clip, &plane_state->src);
-+
-+	dst_clip = plane_state->dst;
-+	if (!drm_rect_intersect(&dst_clip, &src_clip))
-+		return;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
-+	dst += drm_fb_clip_offset(odev->pitch, odev->format, &dst_clip);
-+	drm_fb_blit_toio(dst, odev->pitch, odev->format->format, vmap, fb, &src_clip);
-+
-+	drm_dev_exit(idx);
-+}
-+
-+static void ofdrm_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
-+{
-+	struct ofdrm_device *odev = ofdrm_device_of_dev(pipe->crtc.dev);
-+	struct drm_device *dev = &odev->dev;
-+	int idx;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
-+	/* Clear screen to black if disabled */
-+	memset_io(odev->screen_base, 0, odev->pitch * odev->mode.vdisplay);
-+
-+	drm_dev_exit(idx);
-+}
-+
-+static void ofdrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
-+					     struct drm_plane_state *old_plane_state)
-+{
-+	struct ofdrm_device *odev = ofdrm_device_of_dev(pipe->crtc.dev);
-+	struct drm_plane_state *plane_state = pipe->plane.state;
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	void *vmap = shadow_plane_state->data[0].vaddr; /* TODO: Use mapping abstraction */
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_device *dev = &odev->dev;
-+	struct drm_atomic_helper_damage_iter damage_iter;
-+	struct drm_rect src_clip, dst_clip;
-+	void __iomem *dst;
-+	int idx;
-+
-+	if (!fb)
-+		return;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
-+	drm_atomic_helper_damage_iter_init(&damage_iter, old_plane_state, plane_state);
-+	drm_atomic_for_each_plane_damage(&damage_iter, &src_clip) {
-+
-+		dst_clip = plane_state->dst;
-+		if (!drm_rect_intersect(&dst_clip, &src_clip))
-+			continue;
-+
-+		dst = odev->screen_base;
-+		dst += drm_fb_clip_offset(odev->pitch, odev->format, &dst_clip);
-+		drm_fb_blit_toio(dst, odev->pitch, odev->format->format, vmap, fb, &src_clip);
-+	}
-+
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs ofdrm_simple_display_pipe_funcs = {
-+	.mode_valid = ofdrm_simple_display_pipe_mode_valid,
-+	.enable = ofdrm_simple_display_pipe_enable,
-+	.disable = ofdrm_simple_display_pipe_disable,
-+	.update = ofdrm_simple_display_pipe_update,
-+	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-+};
-+
-+static const struct drm_mode_config_funcs ofdrm_mode_config_funcs = {
-+	.fb_create = drm_gem_fb_create_with_dirty,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+};
-+
-+static const uint32_t *ofdrm_device_formats(struct ofdrm_device *odev, size_t *nformats_out)
-+{
-+	struct drm_device *dev = &odev->dev;
-+	size_t i;
-+
-+	if (odev->nformats)
-+		goto out; /* don't rebuild list on recurring calls */
-+
-+	/* native format goes first */
-+	odev->formats[0] = odev->format->format;
-+	odev->nformats = 1;
-+
-+	/* default formats go second */
-+	for (i = 0; i < ARRAY_SIZE(ofdrm_default_formats); ++i) {
-+		if (ofdrm_default_formats[i] == odev->format->format)
-+			continue; /* native format already went first */
-+		odev->formats[odev->nformats] = ofdrm_default_formats[i];
-+		odev->nformats++;
-+	}
-+
-+	/*
-+	 * TODO: The ofdrm driver converts framebuffers to the native
-+	 * format when copying them to device memory. If there are more
-+	 * formats listed than supported by the driver, the native format
-+	 * is not supported by the conversion helpers. Therefore *only*
-+	 * support the native format and add a conversion helper ASAP.
-+	 */
-+	if (drm_WARN_ONCE(dev, i != odev->nformats,
-+			  "format conversion helpers required for %p4cc",
-+			  &odev->format->format)) {
-+		odev->nformats = 1;
-+	}
-+
-+out:
-+	*nformats_out = odev->nformats;
-+	return odev->formats;
-+}
-+
-+static int ofdrm_device_init_modeset(struct ofdrm_device *odev)
-+{
-+	struct drm_device *dev = &odev->dev;
-+	struct drm_display_mode *mode = &odev->mode;
-+	struct drm_connector *connector = &odev->connector;
-+	struct drm_simple_display_pipe *pipe = &odev->pipe;
-+	unsigned long max_width, max_height;
-+	const uint32_t *formats;
-+	size_t nformats;
-+	int ret;
-+
-+	ret = drmm_mode_config_init(dev);
-+	if (ret)
-+		return ret;
-+
-+	max_width = max_t(unsigned long, mode->hdisplay, DRM_SHADOW_PLANE_MAX_WIDTH);
-+	max_height = max_t(unsigned long, mode->vdisplay, DRM_SHADOW_PLANE_MAX_HEIGHT);
-+
-+	dev->mode_config.min_width = mode->hdisplay;
-+	dev->mode_config.max_width = max_width;
-+	dev->mode_config.min_height = mode->vdisplay;
-+	dev->mode_config.max_height = max_height;
-+	dev->mode_config.preferred_depth = odev->format->cpp[0] * 8;
-+	dev->mode_config.funcs = &ofdrm_mode_config_funcs;
-+
-+	ret = drm_connector_init(dev, connector, &ofdrm_connector_funcs,
-+				 DRM_MODE_CONNECTOR_Unknown);
-+	if (ret)
-+		return ret;
-+	drm_connector_helper_add(connector, &ofdrm_connector_helper_funcs);
-+	drm_connector_set_panel_orientation_with_quirk(connector,
-+						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-+						       mode->hdisplay, mode->vdisplay);
-+
-+	formats = ofdrm_device_formats(odev, &nformats);
-+
-+	ret = drm_simple_display_pipe_init(dev, pipe, &ofdrm_simple_display_pipe_funcs,
-+					   formats, nformats, ofdrm_format_modifiers,
-+					   connector);
-+	if (ret)
-+		return ret;
-+
-+	drm_plane_enable_fb_damage_clips(&pipe->plane);
-+
-+	drm_mode_config_reset(dev);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Init / Cleanup
-+ */
-+
-+static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
-+						struct platform_device *pdev)
-+{
-+	struct ofdrm_device *odev;
-+	int ret;
-+
-+	odev = devm_drm_dev_alloc(&pdev->dev, drv, struct ofdrm_device, dev);
-+	if (IS_ERR(odev))
-+		return ERR_CAST(odev);
-+	odev->pdev = pdev;
-+	platform_set_drvdata(pdev, &odev->dev);
-+
-+	ret = ofdrm_device_init_fb(odev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	ret = ofdrm_device_init_mm(odev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	ret = ofdrm_device_init_modeset(odev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return odev;
-+}
-+
-+/*
-+ * DRM driver
-+ */
-+
-+DEFINE_DRM_GEM_FOPS(ofdrm_fops);
-+
-+static struct drm_driver ofdrm_driver = {
-+	DRM_GEM_SHMEM_DRIVER_OPS,
-+	.name			= DRIVER_NAME,
-+	.desc			= DRIVER_DESC,
-+	.date			= DRIVER_DATE,
-+	.major			= DRIVER_MAJOR,
-+	.minor			= DRIVER_MINOR,
-+	.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
-+	.fops			= &ofdrm_fops,
-+};
-+
-+/*
-+ * Platform driver
-+ */
-+
-+static int ofdrm_probe(struct platform_device *pdev)
-+{
-+	struct ofdrm_device *odev;
-+	struct drm_device *dev;
-+	int ret;
-+
-+	odev = ofdrm_device_create(&ofdrm_driver, pdev);
-+	if (IS_ERR(odev))
-+		return PTR_ERR(odev);
-+	dev = &odev->dev;
-+
-+	ret = drm_dev_register(dev, 0);
-+	if (ret)
-+		return ret;
-+
-+	drm_fbdev_generic_setup(dev, 0);
-+
-+	return 0;
-+}
-+
-+static int ofdrm_remove(struct platform_device *pdev)
-+{
-+	struct drm_device *dev = platform_get_drvdata(pdev);
-+
-+	drm_dev_unplug(dev);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ofdrm_of_match_display[] = {
-+	{ .compatible = "display", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, ofdrm_of_match_display);
-+
-+static struct platform_driver ofdrm_platform_driver = {
-+	.driver = {
-+		.name = "of-display",
-+		.of_match_table = ofdrm_of_match_display,
-+	},
-+	.probe = ofdrm_probe,
-+	.remove = ofdrm_remove,
-+};
-+
-+module_platform_driver(ofdrm_platform_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index e8a94e202d63..a4982dc3aa0d 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -455,6 +455,7 @@ config FB_ATARI
- config FB_OF
- 	bool "Open Firmware frame buffer device support"
- 	depends on (FB = y) && PPC && (!PPC_PSERIES || PCI)
-+	depends on !DRM_OFDRM
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
--- 
-2.36.1
-
+On 5/2/2022 7:15 AM, Ramalingam C wrote:
+> Capture the impact of memory region preference list of the objects, on
+> their memory residency and Flat-CCS capability.
+>
+> v2:
+>    Fix the Flat-CCS capability of an obj with {lmem, smem} preference
+>    list [Thomas]
+> v3:
+>    Reworded the doc [Matt]
+>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> cc: Matthew Auld <matthew.auld@intel.com>
+> cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+> cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> cc: Kenneth Graunke <kenneth@whitecape.org>
+> cc: mesa-dev@lists.freedesktop.org
+> cc: Jordan Justen <jordan.l.justen@intel.com>
+> cc: Tony Ye <tony.ye@intel.com>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> ---
+>   include/uapi/drm/i915_drm.h | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+>
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index a2def7b27009..b7e1c2fe08dc 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -3443,6 +3443,22 @@ struct drm_i915_gem_create_ext {
+>    * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
+>    * along with the final object size in &drm_i915_gem_create_ext.size, which
+>    * should account for any rounding up, if required.
+> + *
+> + * Note that userspace has no means of knowing the current backing region
+> + * for objects where @num_regions is larger than one. The kernel will only
+> + * ensure that the priority order of the @regions array is honoured, either
+> + * when initially placing the object, or when moving memory around due to
+> + * memory pressure
+> + *
+> + * On Flat-CCS capable HW, compression is supported for the objects residing
+> + * in I915_MEMORY_CLASS_DEVICE. When such objects (compressed) has other
+> + * memory class in @regions and migrated (by I915, due to memory
+> + * constrain) to the non I915_MEMORY_CLASS_DEVICE region, then I915 needs to
+> + * decompress the content. But I915 dosen't have the required information to
+> + * decompress the userspace compressed objects.
+> + *
+> + * So I915 supports Flat-CCS, only on the objects which can reside only on
+> + * I915_MEMORY_CLASS_DEVICE regions.
+>    */
+>   struct drm_i915_gem_create_ext_memory_regions {
+>   	/** @base: Extension link. See struct i915_user_extension. */
