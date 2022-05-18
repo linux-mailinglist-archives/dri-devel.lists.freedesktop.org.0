@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617C352C44E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 22:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD57152C450
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 22:24:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F22E010E5FC;
-	Wed, 18 May 2022 20:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE3A10E7A5;
+	Wed, 18 May 2022 20:24:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E59E610E175;
- Wed, 18 May 2022 20:24:17 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB0F710E495;
+ Wed, 18 May 2022 20:24:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652905457; x=1684441457;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=LKucHnSVE5Vnuk0DrUdSsCLARrJ4f522LxKAEPpDS9Y=;
- b=iX+OA+5PytFCDKUdX0tjyI3BXdLUpJc9ymOnV6rEIyyqRKAURsRJOME8
- ODD3v4dmaeCTU4gx98ZIsHt4TH61bbADhfF8F2UAPNt3THDEbfBbVBrwE
- W8CG5T6Z/ihubgCoMQMi+iPvVTMZLxBjs/Y0Z8rp6nrf8Sn/JLK9r9SAg A=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 18 May 2022 13:24:16 -0700
+ t=1652905459; x=1684441459;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version;
+ bh=GnaxIig/oqW+ydoYwAgeuskeVPOy2aTep1TMTrQ9jFs=;
+ b=czntjFZYFezc6Kk9QDKTCXapc/Wxhxwx8oL7Mjv6GM1AVmao9vYyz4Ns
+ UI+yUXePy6M1T3XNTexFlVkdBnUUNkth2Zg2hgN73OoYlmhXeuj4sDPjW
+ 8ZFhveBUBvkQAOhM+PZJ9MOHCD8ssOoOpfaA1BPYnmegGf0txqwVlM2kv I=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 18 May 2022 13:24:19 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 13:24:15 -0700
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 13:24:19 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 18 May 2022 13:24:15 -0700
+ 15.2.986.22; Wed, 18 May 2022 13:24:18 -0700
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 18 May 2022 13:24:14 -0700
+ 15.2.986.22; Wed, 18 May 2022 13:24:18 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
  <bjorn.andersson@linaro.org>
-Subject: [PATCH v3 0/3] eDP/DP Phy vdda realted function
-Date: Wed, 18 May 2022 13:24:01 -0700
-Message-ID: <1652905444-10130-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v3 1/3] phy/qualcomm: add regulator_set_load to edp phy
+Date: Wed, 18 May 2022 13:24:02 -0700
+Message-ID: <1652905444-10130-2-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1652905444-10130-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1652905444-10130-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -69,23 +72,54 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-1) add regulator_set_load() to eDP phy
-2) add regulator_set_load() to DP phy
-3) remove vdda related function out of eDP/DP controller
+This patch add regulator_set_load() before enable regulator at
+eDP phy driver.
 
-Kuogee Hsieh (3):
-  phy/qualcomm: add regulator_set_load to edp phy
-  phy/qualcomm: add regulator_set_load to dp phy
-  drm/msm/dp: delete vdda regulator related functions from eDP/DP
-    controller
+Changes in v3:
+-- no regulator_set_load before disable regulator
+-- no supply name string change at probe
+-- split into two patches
 
- drivers/gpu/drm/msm/dp/dp_parser.c  | 14 ------
- drivers/gpu/drm/msm/dp/dp_parser.h  |  6 ---
- drivers/gpu/drm/msm/dp/dp_power.c   | 95 +------------------------------------
- drivers/phy/qualcomm/phy-qcom-edp.c | 10 +++-
- drivers/phy/qualcomm/phy-qcom-qmp.c | 12 +++++
- 5 files changed, 23 insertions(+), 114 deletions(-)
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/phy/qualcomm/phy-qcom-edp.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+index cacd32f..00b6726 100644
+--- a/drivers/phy/qualcomm/phy-qcom-edp.c
++++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+@@ -87,14 +87,20 @@ struct qcom_edp {
+ 
+ 	struct clk_bulk_data clks[2];
+ 	struct regulator_bulk_data supplies[2];
++	int enable_load[2];
+ };
+ 
+ static int qcom_edp_phy_init(struct phy *phy)
+ {
+ 	struct qcom_edp *edp = phy_get_drvdata(phy);
+ 	int ret;
++	int num_consumers = ARRAY_SIZE(edp->supplies);
++	int i;
+ 
+-	ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
++	for (i = num_consumers - 1; i >= 0; --i)
++		regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
++
++	ret = regulator_bulk_enable(num_consumers, edp->supplies);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -635,6 +641,8 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
+ 
+ 	edp->supplies[0].supply = "vdda-phy";
+ 	edp->supplies[1].supply = "vdda-pll";
++	edp->enable_load[0] = 21800;	/* 1.2 V */
++	edp->enable_load[1] = 36000;	/* 1.2 V */
+ 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(edp->supplies), edp->supplies);
+ 	if (ret)
+ 		return ret;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
