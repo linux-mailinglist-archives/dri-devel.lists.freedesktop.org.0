@@ -2,137 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53CD52BBB6
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 16:08:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B3652BBC0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 16:15:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB2D010EFF0;
-	Wed, 18 May 2022 14:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEFD210E301;
+	Wed, 18 May 2022 14:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2045.outbound.protection.outlook.com [40.107.243.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B2A10EFF0;
- Wed, 18 May 2022 14:08:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a2c9JAhJnhtxu263BEcjn8dgHUpjX87s5OOXoM+ANBw3k7HYAng8d5bxZRw48Exx5gj5o7kcVOjh87/6CWkJbxZ1GXTaURJWo8xEjqJMHG5Gc4LkMzgMCYB1F8g+9KxXSWpwWqttc8e7r/0YxZxqZ7MCGp1eCElnjdnO3yE4xzSRl2X08l1VMxar5nbb+7cMtmETY+2uCO/91wihDzPHSm+BBZk6JKSbDxMNT4XapM1aaqkXEV1UnDRBycWoUg2+sP3fV0FTBqGtLC5zwcafMPIxHADWkR+qr6PNVifyJx4n9PT8Lf6BPLdQ7AzEDD9AtxvxL0kbcF2MuFcTGJz2cA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UAHLnudMYGSCuegRJLDHot21ZhxLoxod6jwDCcFy6nA=;
- b=UcjXSYaB0fENLW63uFHGS+ccZVAskkAs3d+cpVmhD8nzn7uxxOrkekG7JW8Occj8a/bBfhHStM4Fc0Y1HC0/6OiPrv3gBstQV/H9uSHj8ZQC7KPZflptkj5KToPchviE6TqeitrSfECMwk+8AYENcwoHGBOx3mx1gScymHY8V7CZjbUyUT75QcIGg1Frp2LN8gY3ni5xN3uXHZVLzLywzFhcWvp8NZPG8BMsGzTWupl3suzza4RmU5mqCXq2eocugXLkWB9vyqZ8PWJceZEzKnfMucaY6aR7ayZtRgETjNc8KFIC2wS4LL+eT4zxhALH1xg1ks4lFMx1iJMIQfjnAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UAHLnudMYGSCuegRJLDHot21ZhxLoxod6jwDCcFy6nA=;
- b=TpkcEJPKYCVqOOuL2ZqGbaOsAOzM2vzyyiGYHp663PCSIhpVoLwIdDrs6mb6aB3VIef4xmHfaFFGGP1zsv0K1ejaZ8tZ6d04tTdofS8XHPUrDxTfqrvVVTVS1Z2zEb8SwsPlVLCvs7eWSoqNyly74FOdH2CRBRECZyzHfUWg7x8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by SA0PR12MB4432.namprd12.prod.outlook.com (2603:10b6:806:98::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Wed, 18 May
- 2022 14:08:41 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::540e:d76a:bdf0:ed0d]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::540e:d76a:bdf0:ed0d%7]) with mapi id 15.20.5273.014; Wed, 18 May 2022
- 14:08:41 +0000
-Message-ID: <8110a6e0-1ba0-35dc-7fb6-1f4282cec4ff@amd.com>
-Date: Wed, 18 May 2022 10:08:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [Intel-gfx] [V2 3/3] drm/amd/display: Move connector debugfs to
- drm
-Content-Language: en-US
-To: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Harry Wentland <harry.wentland@amd.com>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "Sharma, Swati2" <swati2.sharma@intel.com>
-References: <20220411095129.1652096-1-bhanuprakash.modem@intel.com>
- <20220411095129.1652096-4-bhanuprakash.modem@intel.com>
- <DM6PR11MB31778321FCA58010AE44D867BAFC9@DM6PR11MB3177.namprd11.prod.outlook.com>
- <29f40e83-a9a8-c0ac-1702-f9d0bf0f8861@intel.com>
- <8a9ba046-5e2c-442f-aec2-f1683097d100@amd.com>
- <576d5993-8108-218e-45a0-bab1ae4ca84b@intel.com>
- <b87db6af-a2a0-8fba-b204-140db03ab79b@amd.com>
- <642bd366-7918-0f0f-a6fb-e6422eb7501d@amd.com> <87mtfhhnx4.fsf@intel.com>
- <7a61da79-90ac-b4e2-d06d-758616b12855@intel.com>
-From: Harry Wentland <hwentlan@amd.com>
-In-Reply-To: <7a61da79-90ac-b4e2-d06d-758616b12855@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR14CA0005.namprd14.prod.outlook.com
- (2603:10b6:610:60::15) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C510D10E48C
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 14:15:17 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220518141515euoutp01dbb8bfb9fb365e0cca290e5a7cd31ef5~wOJ5P-ud82827628276euoutp01H
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 14:15:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220518141515euoutp01dbb8bfb9fb365e0cca290e5a7cd31ef5~wOJ5P-ud82827628276euoutp01H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1652883315;
+ bh=5G9/RbCaRM5TxQQITzEg41P0za4L8bGRGmp4aFfPzTQ=;
+ h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
+ b=c5zqOmZ2zkpfn2dMZtztMXrhXHy5cKcSU11I+vfkqh+C/dynCjyM7IGdunJdxFxe9
+ I/XX+yt51FvfiwCVGkjYlek+VA/vVRJIfRnQLjwRNkg4ovYxCusbLodnYOq1RjZMlt
+ c40n90hIrveQib5jqiv907TNN/iMEK1D5XLvZEqs=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220518141515eucas1p2832a835ad3169f8e0c168303d38ea538~wOJ43dOw82741427414eucas1p2B;
+ Wed, 18 May 2022 14:15:15 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 15.43.09887.37FF4826; Wed, 18
+ May 2022 15:15:15 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220518141514eucas1p18b57f4f474c5477123746d1a3476e4a5~wOJ4YFxN_1671216712eucas1p1i;
+ Wed, 18 May 2022 14:15:14 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220518141514eusmtrp24a49a60eea8d70369c251079f1b318d4~wOJ4Wz9JK2883628836eusmtrp2Y;
+ Wed, 18 May 2022 14:15:14 +0000 (GMT)
+X-AuditID: cbfec7f4-45bff7000000269f-9a-6284ff73413e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 48.D9.09522.27FF4826; Wed, 18
+ May 2022 15:15:14 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220518141512eusmtip1d43c9f1dedc488d2a26030ec25d4f1af~wOJ2mebdn0513305133eusmtip1d;
+ Wed, 18 May 2022 14:15:12 +0000 (GMT)
+Message-ID: <b6b7de32-c822-9aba-9ab6-dedc29c6f8f1@samsung.com>
+Date: Wed, 18 May 2022 16:15:12 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f898d05e-33d7-4a0a-0635-08da38d7e907
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4432:EE_
-X-Microsoft-Antispam-PRVS: <SA0PR12MB44321EF2C744E4F6490F93BA8CD19@SA0PR12MB4432.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3jjeqpIDyaJ9He+EHNZIB0gYdqcpInbRf70yojTvCZB3MTJjy7UCzlNDzA5azBz5CP0r7iwsBuXS2P0V261TtaDWW9YIx/LfcG1CGkbGNypTK2XNCsMWVpcvrRSYQ/IeRi/fQ3MRpLnS8Hv+qH5MIC91C0+4pxxVNEJDqUngb05JrLl1BRqImHj6OO7VBnFwmqLES7B7Ex4coAS1le1Dl+T1fe1iz6LH4ZsPZm7mucnJpAQfl+pryH1rGmaPVezNHqLKBQsc8e/e5gkcUgSVKdp/Xz6Xn9QdKprS8UF/3CU1ukWgXXGvsI1PCIn58qb+5sO80OwJqO/IpuRvews7CzaDpiDxUYD+AuSoA2V5PAYyRMWwZcsWvx9dhjzRIvZcO6yO8j+MuzML7otBvFE0pQFOfn0sugnsz0I33n8gZ9W/L3alU4d1FZHYra5kf5mtxMf442+LoOQd2SmHEudXV99+qT8TrYlhkqYHNY6Ov8dmxF8u6fTUVy4/EJTZYt/GdTtHC4vKZ7KW99egOZg5EfIbHss1NeSoI7fCk7vr7vJtLnKV8M5kHk1QvkXNQlXQZ7UHjCTVAfK/RvRUjdo54lTNRQbiaOMTG2UvLR4s0I4ObEkc1jt2M2AIRIf7fTMNPDG5+zYrK5ONnztsTJdf1UGjzty9UmOrPE4GgSjFDtZ9IDjR6EmXMLlu5F9uG+gvM1bzNXlwUe4V2V827gqLNBNkTzJvsVYZFe+zU+KuEO9XmQob6HzvXD9Ubw2bppZg
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(2906002)(4744005)(5660300002)(316002)(31696002)(8936002)(6512007)(6506007)(26005)(53546011)(6666004)(36756003)(38100700002)(110136005)(186003)(31686004)(2616005)(921005)(8676002)(4326008)(66946007)(66556008)(66476007)(6486002)(508600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3VmKzFpc0pZdG1nekV6c3krYjNQeTVYR2g1bVp4eFdlN0FUQ29Yck5ZV0d1?=
- =?utf-8?B?NitkaFBKbllJdlphL25BMXJJdmNSNTJYZHJMUjltRXN2SSsvYU04QjgzUlVo?=
- =?utf-8?B?WkJnZzFIYzg0dUtNSytQMml5UENXSkNCWFB4VWNXYmphTXpEdGR5RHU3OVRX?=
- =?utf-8?B?QWluQVRyeTRSNXZQNDhWZjlJYUl0VytGNk9NQkFicHlOOWY1bXJENHdzamtu?=
- =?utf-8?B?K09VZ2ErTmVNcCt3OXd5NzZEbzQ5QnIzTWNGRmszRjJKenFIRzg4UHhSL3Qw?=
- =?utf-8?B?eWhWb25sUmdsNC9JOUp1RFM1cnJPYjFtMnMxakQwY3M3V1o3NDhBbDZQVFlx?=
- =?utf-8?B?VkxpNFpscmhHYmNXYzlMRjl5WXRJM3JMOWV0Z2grRXVvN1BYWVBPczFWR3E4?=
- =?utf-8?B?eURvYlVNQlJoY21yNUpTU2dQWndEKzdRVXMxUWw1eTNPaTQ4N25PdzdlRjRh?=
- =?utf-8?B?b1BtMkIrcmFBcy8zQm5qUzVuVHZPTEpyTWFWOStZYTR2Z2tJMnFBQTZNU1Fj?=
- =?utf-8?B?V29CVjM0OUtYalE3b3pIZEVIck84Sk5yU3VIQ2NVOVZPN0xYcW1JNk55WnR4?=
- =?utf-8?B?SEo4enlDNXdhTm1uYlN4eE1ZRHZJbUxOcTBRZEhLdVEwN1dVNGtlZElGRkV6?=
- =?utf-8?B?VmdYMEt4U2I4bFNkOUZaemVVcExpNUttY09TdVAyY1dscGZsYnczbjU5YzhO?=
- =?utf-8?B?U1JZLzNyMUtkNysxNEdNNm0xQ3ROTlRoM21RUnoyZjZMRENMQjkzT0JtRjhw?=
- =?utf-8?B?SFJ5T0I1MFgrY04vemlnR2tEUml5ZzA3TG1TR2xXU3BEN0U1SGNMZTI1bWFX?=
- =?utf-8?B?TEVwWi9MdVBrUER4Y2xLMW83VmhrazhwUnNkTyt5eS9GS2g1c0dFZHd5RWFP?=
- =?utf-8?B?ak05eE5GRG4xQTEvSlh2TllVdUMzWHFiQlE1QlZ5Wnp0eXlhV0xFMWNvand6?=
- =?utf-8?B?aStYU3l2dUNVOG4vc09DSkNaUzFpM25UVnV2M2VVRDVvdzBFajV6WVZNeUdw?=
- =?utf-8?B?ZVh3eUszVWZEbVBJcE1OVDN1OFhVMGV1SWVtNXRoMUJhcnh6dmw1WkZETzJ1?=
- =?utf-8?B?RXJXOFhtdGw2VVdlTnVKR2xQWXRhVENEYmgwMTVDU01WUllUS1BrRldaUml0?=
- =?utf-8?B?eGt2b2dzdTQxMGJiSVlhZ1NiWk9IanBwN0pJaUZJREIwcTF2ZWF3a2xBcUlF?=
- =?utf-8?B?RUloTll0WTBZQ24vdEtjdWh4a3BJMjVoREpzeXEwU1hjNjZYcXdFNFJicFM5?=
- =?utf-8?B?TEE3dVhoWFh4SnR0NlVRNW9URVBnTmRPc0dJQmxETkI2K25YVmJTMWNIWUF5?=
- =?utf-8?B?bDF5UWk1V2UwQU1jdVNKdFVESDFOeUZDVHpGVElQVm5lUlpPTzg0UGxITDkw?=
- =?utf-8?B?ZWJKRmdhOWxVc2cxa3BvaTlTcHY4ZzhRdmRVOE9UaWlsU3JaVUZHRlNLdWZP?=
- =?utf-8?B?QnY2bWRoLzZQdU1EeGRvZmZieDhFdjZQblFHUnFuZmtiNUlqUWppOWxFZlBa?=
- =?utf-8?B?UTkrSk8ydURqVGs5SDVvd3VMWUJ5YVVzSEdxTFd5eEp0aW9VQ3E1d01yTVcv?=
- =?utf-8?B?VUhRSnI2bE5pRStvWGFxUTlvbVhiNlJiL25VUVBNbDVjYmVjbEVqU3UzRm5O?=
- =?utf-8?B?bDVjZDAwbFJzYkhyWGp6R3pCeU4zNkNNTklrblRYL3drbzI5MTlUU0pCRE9N?=
- =?utf-8?B?eUFzWFROSVVOUXRLdDh1Ky9aU2pPTnA4NEFkTERQbFJRUW9OU1lnZXhMOGVL?=
- =?utf-8?B?QitLTDZHN3UwUHlYZHFDUC9rN0dvcmZqQnZBMngzLzJSditsbHUwWC84Qnln?=
- =?utf-8?B?b1IvQ3hKSHEwVzBDT2dqWmVlUjRSOUhEM1JIdmczOTRFeXBQdjVhV1cvcWpU?=
- =?utf-8?B?V2JvaUJMT2JSSCt0SEdXdGNaOVV3am90ZXpkQUdCalJPNnpZZ1RFcGxRMlV6?=
- =?utf-8?B?UW5QWUJpL1JsOEhtNzd0L0x4TW1GNUU2ZmUrY0ZNM2U0RW44TzNjN3JRNXFr?=
- =?utf-8?B?Qjc5K05EMWJnbjAzR2I2QTg4NU1wUTJIWkUyZ3BuZjJFZk9xb1Bnc0NOZ200?=
- =?utf-8?B?Zmozb1Jnd2wvelB6UlIwMFJPNTFGWEoyZ0U4VStYN0xWL3NGc1RTS08yV0c5?=
- =?utf-8?B?NXlnUW9iTHh2SXJ6TEJnZjVTZHpWWmN0VGVDdmRodGNDNmJTK1VFQmp3eGEz?=
- =?utf-8?B?azF0MUlGVDBkclhWbS9rSXp1SjFWYUJGcENybUI0eTZwa2t1VENzUm1LOFZn?=
- =?utf-8?B?UGh0MVVoWjdhL2FzWDY2TFpRN1htWVRUL0FiOGxwa2E0OU92RXhmME5LSSsx?=
- =?utf-8?B?RnRCQ29ZMkJLSjd4ajQwanZMMGtNdE91T2IrUTl4WkZnNEUzVy9jZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f898d05e-33d7-4a0a-0635-08da38d7e907
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 14:08:41.0802 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p4mZNdnMoR5yLIklJezr8wHM87I00k2Y4coejs1+XnzttX+PLjwG6R0tjBNsIlYytDGVtxoiJYScYA07YE0LsA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4432
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.0
+Subject: Re: [PATCH v2 05/12] drm: bridge: samsung-dsim: Add DSI init in
+ bridge pre_enable()
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>, Joonyoung Shim
+ <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
+ Park <kyungmin.park@samsung.com>, Frieder Schrempf
+ <frieder.schrempf@kontron.de>, Fancy Fang <chen.fang@nxp.com>, Tim Harvey
+ <tharvey@gateworks.com>, Michael Nazzareno Trimarchi
+ <michael@amarulasolutions.com>, Adam Ford <aford173@gmail.com>, Neil
+ Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Tommaso Merciai
+ <tommaso.merciai@amarulasolutions.com>
+In-Reply-To: <e8e56e98-59aa-62b1-2b96-3a0436e91dac@samsung.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxjGd+69vb3tVrjWdpypmUmdS2TjQ3TxbGO4Lfvj/qO4BHVINr2V
+ CzSjxbWwyTYzJl9aOof4QVsXNlcMBRGkAkEldVZjq0QQM6pCa8cgmZZi19INZVHm7d0H//3y
+ vO+T531ODoXL68gllEZXyul1bLGKlBK9Vx4NpRjmq9Tp0R4l8o0N4ChgmyHQ1JidRD//ESbR
+ NycGRaghUE+gmKOeRPfuDhPo+t6QGO0/2CxGLfVOEjkmvCJknGvFkXnIiaGBXztxdO3ragK5
+ DuShqHX8qX7oPomGPVEczf51HX9byZyKBERM+Ha1mDnsuSxiBk1+kjlr9YuZY/ssIsbWfx9j
+ Lo/YRIzP208ygTo3xpxp/orpetCHMQe62wAz43hxU8I2aWY+V6z5lNOnZe2QFjms57Bdvy/b
+ fdeXWAEOQiOQUJBeCy3N1ZgRSCk5bQcw1HNPxA/kdAzA6TaxMJgB8IjzKGkEVNxhP7pH0FsA
+ DB++9c9SBMArQT/g3TI6C3aMmHGeCXolnB1qxwV9EbxqmSR4VtJqGAqNxPXF9Eewr7oqzjid
+ BEcnv8d4JunV0DhtJHlW0A0iuDeWxIfhfJjp4XjcIKHXw59OhgjBvBxW9hzD+SVI10ih01cD
+ hKLvQVNfDBN4MQy6u8UCL4PzZ/k0vloJfGxeI8i7oXdKOBrSb0Lf4Fy8PU6vgp3n0gT5HTg7
+ 9xAIzgR4e3qRcEECbOhtxAVZBvfVyIXtl6HV3fFf5sUbN/F6oLIueBTrgvLWBV2s/+f+AIg2
+ kMSVGbSFnCFDx32WamC1hjJdYerOEq0DPP2vA0/csT7QEoykugBGAReAFK5SyIC2Si2X5bPl
+ n3P6ku36smLO4AJLKUKVJNupOc3K6UK2lPuY43Zx+n+nGCVZUoHZUkxbao2R418szdE/m62R
+ t5veXSulL+imfOSt47LwpU2vPRNIfrJh+Gr7eb/4Ytarm6eD2+6scwX3eP9M/q4xPUPB3BlM
+ mao939Kqr3w+PzN9rNxL19ndX7KeX9b32x7YC4qc29U5Mc/mxvL597vZiqGJxN+ifnMBvpXM
+ HFU+duc60LW0U2/lnTyh+KD0hcqCLZGmcIctrKw9PcF2rTmywtxLvtSwShZwSB71ehQ9Hzoo
+ NuqTy6sO7Vj3iu7CjeWJqdbOVnK0zXLz9UsrfsxLz6hltF1eS5MyI9H57SeMRKx+47nx7Ny6
+ XPXIQPaZ/U1QU7OBzsI8wVxRDuA2TqoIQxG7OhnXG9i/Ab9PkC8eBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRmVeSWpSXmKPExsVy+t/xu7pF/1uSDFrP6lvcuX2a2eL+4s8s
+ Fq9vr2CzuPL1PZtF79JzrBaT7k9gsfiyaQKbxYt7F1kszja9YbfonLiE3WL5hH1sFpseX2O1
+ 6Pq1ktlixvl9TBanH61ntjjV2Mpicagv2uLTrIdA8ckv2SwunvjEbPH991lmB1GPtR/vs3q8
+ v9HK7jHlxBFWj3M9d9k8ds66y+4xu2Mmq8fiPS+ZPI5cXczqcefaHjaP+93HmTw2L6n32Phu
+ B5NH35ZVjB6fN8kF8EXp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk
+ 5mSWpRbp2yXoZWyatYup4INMxb07/A2MEyW6GDk4JARMJFZMq+1i5OIQEljKKLF02WP2LkZO
+ oLiMxMlpDawQtrDEn2tdbBBF7xklPjZdYwRJ8ArYSay7OoMZxGYRUJX4fn4NM0RcUOLkzCcs
+ IAtEBZIkjhzmBwkLC8RJ7GhtASthFhCXuPVkPhOIzSZgKNH1FmK+iMA0Vol7b7+COcwCHxkl
+ Lk3ewg6x+R+jxKK7n8BO4hSwlziw+g0LxCgzia6tXYwQtrxE89bZzBMYhWYhOWQWko2zkLTM
+ QtKygJFlFaNIamlxbnpusaFecWJucWleul5yfu4mRmBa2Xbs5+YdjPNefdQ7xMjEwXiIUYKD
+ WUmElzG3JUmINyWxsiq1KD++qDQntfgQoykwNCYyS4km5wMTW15JvKGZgamhiZmlgamlmbGS
+ OK9nQUeikEB6YklqdmpqQWoRTB8TB6dUAxPr8qt6zQJM9ZLTS0pP3Ftwa1YPc6/WtzsTqyKv
+ Z/a/0tRecqvObOquurRDCx7M6tgQwl2bu8D9/lXJAN2mgBlMoX7/OzxFOXlYD1w+sbog6UPu
+ sQUszmv9BBoElWZ17Pf5ZfqDza4773Kwbo71hL7Hq635tmnsFJK/siOoo+V4Y/vUTJuQ9VUK
+ RvPZbtfeOnGsNGDrnoo60St7ow8vXBFWMuEWZ9gO4TkuIv/vGJSFCyr/yVsxN8nDyvwa5+Jq
+ 5hf7jm+Za7nmz5ZVJxmkJzxdETKJ47qx18cY/oCKjheTv9maiD2a4L717v0M7/+vPxirx4XM
+ zvb484D57WPDhQulPqYuunPn0Ewzt5liH+KUWIozEg21mIuKEwFCqp+UtAMAAA==
+X-CMS-MailID: 20220518141514eucas1p18b57f4f474c5477123746d1a3476e4a5
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220504114121eucas1p1aff92a52f2c4e1905b4c9672331b7db6
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220504114121eucas1p1aff92a52f2c4e1905b4c9672331b7db6
+References: <20220504114021.33265-1-jagan@amarulasolutions.com>
+ <CGME20220504114121eucas1p1aff92a52f2c4e1905b4c9672331b7db6@eucas1p1.samsung.com>
+ <20220504114021.33265-6-jagan@amarulasolutions.com>
+ <e8e56e98-59aa-62b1-2b96-3a0436e91dac@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,40 +128,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/18/22 01:38, Modem, Bhanuprakash wrote:
-> On Mon-16-05-2022 02:09 pm, Jani Nikula wrote:
->> On Mon, 02 May 2022, Harry Wentland <harry.wentland@amd.com> wrote:
->>> Both the kernel and IGT series look good to me.
->>>
->>> I recommend you merge the entire kernel set as one into drm-next. We
->>> can pull it into amd-staging-drm-next so as not to break our CI once
->>> the IGT patches land.
-> 
-> @Harry
-> 
-> Can we have your Ack-by to merge this series via drm-misc-next?
-> IGT patches are already landed. :-)
-
-Sure. :)
-
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-
-Harry
-
-> 
-> - Bhanu
-> 
+On 11.05.2022 17:02, Marek Szyprowski wrote:
+> On 04.05.2022 13:40, Jagan Teki wrote:
+>> Host transfer() in DSI master will invoke only when the DSI commands
+>> are sent from DSI devices like DSI Panel or DSI bridges and this
+>> host transfer wouldn't invoke for I2C-based-DSI bridge drivers.
 >>
->> Can we read that as an ack to merge via drm-misc-next? :)
+>> Handling DSI host initialization in transfer calls misses the
+>> controller setup for I2C configured DSI bridges.
 >>
->> BR,
->> Jani.
+>> This patch adds the DSI initialization from transfer to bridge
+>> pre_enable as the bridge pre_enable API is invoked by core as
+>> it is common across all classes of DSI device drivers.
 >>
+>> v2:
+>> * check initialized state in samsung_dsim_init
 >>
-> 
+>> v1:
+>> * keep DSI init in host transfer
+>>
+>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>
+> This doesn't work with Exynos DSI and DSI panels. Here is a bit more 
+> detailed explanation and my solution for this:
+>
+> https://lore.kernel.org/all/e96197f9-948a-997e-5453-9f9d179b5f5a@samsung.com/ 
+>
+
+
+I wonder if your modification works on i.MX8MM with a pure DSI-based 
+panel/bridge. In your tree I only see that you have tested it with the 
+i2c-controlled DSI-to-LVDS converter.
+
+
+After the comments from the above mentioned thread I've reworked the 
+initialization again. It looks that the ultimate solution for both 
+worlds is to call samsung_dsim_init() twice, once in pre_enable, then 
+before the first host_transfer, see 
+https://github.com/mszyprow/linux/tree/v5.18-next-20220511-dsi-rework-v2
+
+This way at least it works fine on all my Exynos based test boards.
+
+>> ---
+>>   drivers/gpu/drm/bridge/samsung-dsim.c | 18 ++++++++++++------
+>>   1 file changed, 12 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c 
+>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+>> index 60dc863113a0..b9361af5ef2d 100644
+>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>> @@ -1259,6 +1259,9 @@ static int samsung_dsim_init(struct 
+>> samsung_dsim *dsi)
+>>   {
+>>       const struct samsung_dsim_driver_data *driver_data = 
+>> dsi->driver_data;
+>>   +    if (dsi->state & DSIM_STATE_INITIALIZED)
+>> +        return 0;
+>> +
+>>       samsung_dsim_reset(dsi);
+>>       samsung_dsim_enable_irq(dsi);
+>>   @@ -1271,6 +1274,8 @@ static int samsung_dsim_init(struct 
+>> samsung_dsim *dsi)
+>>       samsung_dsim_set_phy_ctrl(dsi);
+>>       samsung_dsim_init_link(dsi);
+>>   +    dsi->state |= DSIM_STATE_INITIALIZED;
+>> +
+>>       return 0;
+>>   }
+>>   @@ -1290,6 +1295,10 @@ static void 
+>> samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+>>       }
+>>         dsi->state |= DSIM_STATE_ENABLED;
+>> +
+>> +    ret = samsung_dsim_init(dsi);
+>> +    if (ret)
+>> +        return;
+>>   }
+>>     static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+>> @@ -1464,12 +1473,9 @@ static ssize_t 
+>> samsung_dsim_host_transfer(struct mipi_dsi_host *host,
+>>       if (!(dsi->state & DSIM_STATE_ENABLED))
+>>           return -EINVAL;
+>>   -    if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
+>> -        ret = samsung_dsim_init(dsi);
+>> -        if (ret)
+>> -            return ret;
+>> -        dsi->state |= DSIM_STATE_INITIALIZED;
+>> -    }
+>> +    ret = samsung_dsim_init(dsi);
+>> +    if (ret)
+>> +        return ret;
+>>         ret = mipi_dsi_create_packet(&xfer.packet, msg);
+>>       if (ret < 0)
+>
+> Best regards
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
