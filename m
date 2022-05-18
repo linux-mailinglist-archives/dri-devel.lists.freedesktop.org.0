@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8842652B466
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 10:17:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D52C52B49D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 10:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C93AB10E90B;
-	Wed, 18 May 2022 08:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A92311275F;
+	Wed, 18 May 2022 08:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28FCA10E90B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 08:17:34 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AFC9421AF0;
- Wed, 18 May 2022 08:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1652861852; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OoTMGVjTXMFjqujWft0A9ctd9WVbuIHSWD5PCemQ9gs=;
- b=Cx4thwQpXep3HOjTTlNx1xHOoPd9Y97uthWHNNHohdfpPOheb6XDQg8ucvo1YlVmAu/Ndy
- 6wARnWaLqcUFdtn6yaLRjrKebPysB3gPt/9HXycq/4r9vjbo4XS+cRH4P1VaMt1zgce/Ba
- vCVDOHHxRmQdsj1JGYRmb5X4sJPlYp4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1652861852;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OoTMGVjTXMFjqujWft0A9ctd9WVbuIHSWD5PCemQ9gs=;
- b=Gmv3CJLLz4Bs8etjr+5plgvJo965a/5DcRS2F32mUH/4qbnVclBQcqTRvZ+i4Aln816bt+
- WdS4/j0OeLx3NvAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 82026133F5;
- Wed, 18 May 2022 08:17:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id VjSmHpyrhGIkZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 18 May 2022 08:17:32 +0000
-Message-ID: <0eef46cf-7678-3774-5736-e6f5f133fcc9@suse.de>
-Date: Wed, 18 May 2022 10:17:32 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB0C610EC1A;
+ Wed, 18 May 2022 08:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652862512; x=1684398512;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5CA8FtuEdlmAndh2dvdGmeNEcE6jVfqnArBWtfSrmrA=;
+ b=T77Ti53zY/cDro6twKpVk6a3ZYDPZrftjEvM7kSkp7WtVhjr9y0vL96h
+ zyynd+J5uz0rMxptYFR+qu/u25bkhfiahlOVuYZ68KDm92qiadTI1Z6TH
+ bGw1Q1OJlL3BH8YCztZU7eSDtFZtWMKDEVsTvrccDEm2z63brOET92W4j
+ nhi6FZdQ2d1YFSoDcR1rvzGsyLzx1QkB/J4TW5U6R86DHlfAFiwtEIhD2
+ eOdQ0Wh3LnrARM0D8R8NwSObMMrJgNsxVgM8eSS8xlPOopBJbe5XWOvO3
+ s8IvVMYbodQ44zSjJB0JEDHx1S2vY57rhTfpB6pcz8/4vtFGtfvV6RrR3 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="296842855"
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="296842855"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 01:28:32 -0700
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="523408190"
+Received: from gao-cwp.sh.intel.com (HELO gao-cwp) ([10.239.159.23])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 01:28:25 -0700
+Date: Wed, 18 May 2022 16:28:17 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [RFC PATCH v3 02/19] KVM: x86: inhibit APICv/AVIC when the guest
+ and/or host changes apic id/base from the defaults.
+Message-ID: <20220518082811.GA8765@gao-cwp>
+References: <20220427200314.276673-1-mlevitsk@redhat.com>
+ <20220427200314.276673-3-mlevitsk@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 0/5] drm: Ignore non-existing color planes in helpers
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, javierm@redhat.com, noralf@tronnes.org
-References: <20220517113327.26919-1-tzimmermann@suse.de>
- <d9d8a396-cb1f-054f-1309-c483dc1724f1@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <d9d8a396-cb1f-054f-1309-c483dc1724f1@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------EX7RFOPFSzFasW0TNVJWjZCS"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427200314.276673-3-mlevitsk@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,111 +58,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------EX7RFOPFSzFasW0TNVJWjZCS
-Content-Type: multipart/mixed; boundary="------------wezJm1IBUwF5c1ocZYzZDcz0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, javierm@redhat.com, noralf@tronnes.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <0eef46cf-7678-3774-5736-e6f5f133fcc9@suse.de>
-Subject: Re: [PATCH v2 0/5] drm: Ignore non-existing color planes in helpers
-References: <20220517113327.26919-1-tzimmermann@suse.de>
- <d9d8a396-cb1f-054f-1309-c483dc1724f1@amd.com>
-In-Reply-To: <d9d8a396-cb1f-054f-1309-c483dc1724f1@amd.com>
+On Wed, Apr 27, 2022 at 11:02:57PM +0300, Maxim Levitsky wrote:
+>Neither of these settings should be changed by the guest and it is
+>a burden to support it in the acceleration code, so just inhibit
+>it instead.
+>
+>Also add a boolean 'apic_id_changed' to indicate if apic id ever changed.
+>
+>Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+>---
+> arch/x86/include/asm/kvm_host.h |  3 +++
+> arch/x86/kvm/lapic.c            | 25 ++++++++++++++++++++++---
+> arch/x86/kvm/lapic.h            |  8 ++++++++
+> 3 files changed, 33 insertions(+), 3 deletions(-)
+>
+>diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+>index 63eae00625bda..636df87542555 100644
+>--- a/arch/x86/include/asm/kvm_host.h
+>+++ b/arch/x86/include/asm/kvm_host.h
+>@@ -1070,6 +1070,8 @@ enum kvm_apicv_inhibit {
+> 	APICV_INHIBIT_REASON_ABSENT,
+> 	/* AVIC is disabled because SEV doesn't support it */
+> 	APICV_INHIBIT_REASON_SEV,
+>+	/* APIC ID and/or APIC base was changed by the guest */
+>+	APICV_INHIBIT_REASON_RO_SETTINGS,
 
---------------wezJm1IBUwF5c1ocZYzZDcz0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+You need to add it to check_apicv_inhibit_reasons as well.
 
-SGkNCg0KQW0gMTcuMDUuMjIgdW0gMTM6NTYgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBBbSAxNy4wNS4yMiB1bSAxMzozMyBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4g
-U29tZSBEUk0gaGVscGVycyBhc3N1bWUgdGhhdCBhbGwgcG90ZW50aWFsIGNvbG9yIHBsYW5l
-cyBvZiBhIGZyYW1lYnVmZmVyDQo+PiBhcmUgYXZhaWxhYmxlOyBldmVuIGlmIHRoZSBjb2xv
-ciBmb3JtYXQgZGlkbid0IHNwZWNpZnkgdGhlbS4gTm9uLWV4aXN0aW5nDQo+PiBwbGFuZXMg
-YXJlIHNpbGVudGx5IGlnbm9yZWQuIFRoaXMgYmVoYXZpb3IgaXMgaW5jb25zaXN0ZW50IHdp
-dGggb3RoZXINCj4+IGhlbHBlcnMgYW5kIGFwcGFyZW50bHkgbGVhZHMgdG8gc3VidGxlIGJ1
-Z3Mgd2l0aCB1bmluaXRpYWxpemVkIEdFTSBidWZmZXINCj4+IG1hcHBpbmdzLiBbMV0NCj4+
-DQo+PiBDaGFuZ2UgYWxsIGFmZmVjdGVkIGNvZGUgdG8gbG9vayBhdCB0aGUgZnJhbWVidWZm
-ZXIgZm9ybWF0J3MgbnVtYmVyIG9mDQo+PiBjb2xvciBwbGFuZXMgYW5kIG9ubHkgcHJvY2Vz
-cyB0aGVzZSBwbGFuZXMuIFRoZSB1cGRhdGUgaGFzIGJlZW4gZGlzY3Vzc2VkDQo+PiBpbiBb
-Ml0gYmVmb3JlLg0KPj4NCj4+IFRlc3RlZCB3aXRoIEdFTSBTSE1FTSBoZWxwZXJzIG9uIHNp
-bXBsZWRybSBhbmQgd2l0aCBHRU0gVlJBTSBoZWxwZXJzIG9uDQo+PiBhc3QuDQo+IA0KPiBJ
-J20gbm90IGRlZXAgZW5vdWdoIGludG8gYWxsIHRoZSBkZXRhaWxzIGZvciBhIGZ1bGwgcmV2
-aWV3LCBidXQgZmVlbCANCj4gZnJlZSB0byBhZGQgYW4gQWNrZWQtYnk6IENocmlzdGlhbiBL
-w7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4gdG8gDQo+IHRoZSBzZXJpZXMuDQoN
-ClRoYW5rcyBhIGxvdC4gSSBjYydlZCB5b3UgYmVjYXVzZSB3ZSByZWNlbnRseSB0YWxrZWQg
-YWJvdXQgdGhlIA0KaW5jb25zaXN0ZW50IHVzZSBvZiBudW1fcGxhbmVzIHRocm91Z2hvdXQg
-dGhlIERSTSBoZWxwZXJzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBUaGFu
-a3MsDQo+IENocmlzdGlhbi4NCj4gDQo+Pg0KPj4gdjI6DQo+PiDCoMKgwqDCoCogcmVmYWN0
-b3IgR0VNIFZSQU0gY29kZSBiZWZvcmUgZml4aW5nIGl0IChKYXZpZXIpDQo+PiDCoMKgwqDC
-oCogcHJpbnQgbW9yZSBlcnJvciBpbmZvcm1hdGlvbiBpbiAjMSAoSmF2aWVyKQ0KPj4gwqDC
-oMKgwqAqIGNvbW1pdC1tZXNzYWdlIGZpeGVzIChKYXZpZXIpDQo+Pg0KPj4gWzFdIA0KPj4g
-aHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0
-dHBzJTNBJTJGJTJGbG9yZS5rZXJuZWwub3JnJTJGZHJpLWRldmVsJTJGMjAyMTA3MzAxODM1
-MTEuMjAwODAtMS10emltbWVybWFubiU0MHN1c2UuZGUlMkZUJTJGJTIzbWQwMTcyYjEwYmI1
-ODhkOGYyMGY0ZjQ1NmUzMDRmMDhkMmE0NTA1ZjcmYW1wO2RhdGE9MDUlN0MwMSU3Q2Nocmlz
-dGlhbi5rb2VuaWclNDBhbWQuY29tJTdDYzUxMmE5MmMyMDZmNGFmMDY5MTEwOGRhMzdmOTE1
-YTElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3ODgz
-ODQwMjU5MzczNzkxJTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdN
-REFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzMw
-MDAlN0MlN0MlN0MmYW1wO3NkYXRhPTZmWFJZJTJCV2xvMUk0N3RjdVJIaWFtQVo5SkdNJTJG
-SGFZVGZ5R254TnJxVXRzJTNEJmFtcDtyZXNlcnZlZD0wIA0KPj4NCj4+IFsyXSANCj4+IGh0
-dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRw
-cyUzQSUyRiUyRmxvcmUua2VybmVsLm9yZyUyRmRyaS1kZXZlbCUyRjg3N2RjMGQ5LWM2YzYt
-MDIyYy0yMGQ4LTE0YjMzZTg2MzkzNCU0MHN1c2UuZGUlMkYmYW1wO2RhdGE9MDUlN0MwMSU3
-Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDYzUxMmE5MmMyMDZmNGFmMDY5MTEwOGRh
-MzdmOTE1YTElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdD
-NjM3ODgzODQwMjU5MzczNzkxJTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0
-d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUz
-RCU3QzMwMDAlN0MlN0MlN0MmYW1wO3NkYXRhPTZpRll3NUV0UU5hU2lQckhJQWF3Qnc4N2xq
-Nk02Nm83ajBBRFkwaXBpZnMlM0QmYW1wO3Jlc2VydmVkPTAgDQo+Pg0KPj4NCj4+IFRob21h
-cyBaaW1tZXJtYW5uICg1KToNCj4+IMKgwqAgZHJtL2dlbTogU2hhcmUgY29kZSBiZXR3ZWVu
-IGRybV9nZW1fZmJfe2JlZ2luLGVuZH1fY3B1X2FjY2VzcygpDQo+PiDCoMKgIGRybS9nZW06
-IElnbm9yZSBjb2xvciBwbGFuZXMgdGhhdCBhcmUgdW51c2VkIGJ5IGZyYW1lYnVmZmVyIGZv
-cm1hdA0KPj4gwqDCoCBkcm0vZ2VtLXZyYW06IFNoYXJlIGNvZGUgYmV0d2VlbiBHRU0gVlJB
-TSdzIF97cHJlcGFyZSxjbGVhbnVwfV9mYigpDQo+PiDCoMKgIGRybS9nZW0tdnJhbTogSWdu
-b3JlIHBsYW5lcyB0aGF0IGFyZSB1bnVzZWQgYnkgZnJhbWVidWZmZXIgZm9ybWF0DQo+PiDC
-oMKgIGRybS9nZW06IFdhcm4gb24gdHJ5aW5nIHRvIHVzZSBhIG5vbi1leGlzdGluZyBmcmFt
-ZWJ1ZmZlciBwbGFuZQ0KPj4NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2F0b21p
-Y19oZWxwZXIuY8KgwqDCoMKgwqAgfMKgwqAgNiArLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJt
-L2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMgfCAxMDQgKysrKysrKysrLS0tLS0tLS0t
-LQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuY8KgwqDCoMKg
-wqDCoMKgIHzCoCA1NCArKysrKystLS0tDQo+PiDCoCBpbmNsdWRlL2RybS9kcm1fZ2VtX2Zy
-YW1lYnVmZmVyX2hlbHBlci5owqDCoMKgwqAgfMKgIDEwICstDQo+PiDCoCA0IGZpbGVzIGNo
-YW5nZWQsIDkyIGluc2VydGlvbnMoKyksIDgyIGRlbGV0aW9ucygtKQ0KPj4NCj4gDQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkg
-TsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOk
-ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> };
+> 
+> struct kvm_arch {
+>@@ -1258,6 +1260,7 @@ struct kvm_arch {
+> 	hpa_t	hv_root_tdp;
+> 	spinlock_t hv_root_tdp_lock;
+> #endif
+>+	bool apic_id_changed;
 
---------------wezJm1IBUwF5c1ocZYzZDcz0--
+What's the value of this boolean? No one reads it.
 
---------------EX7RFOPFSzFasW0TNVJWjZCS
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> };
+> 
+> struct kvm_vm_stat {
+>diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+>index 66b0eb0bda94e..8996675b3ef4c 100644
+>--- a/arch/x86/kvm/lapic.c
+>+++ b/arch/x86/kvm/lapic.c
+>@@ -2038,6 +2038,19 @@ static void apic_manage_nmi_watchdog(struct kvm_lapic *apic, u32 lvt0_val)
+> 	}
+> }
+> 
+>+static void kvm_lapic_check_initial_apic_id(struct kvm_lapic *apic)
+>+{
+>+	if (kvm_apic_has_initial_apic_id(apic))
+>+		return;
+>+
+>+	pr_warn_once("APIC ID change is unsupported by KVM");
 
------BEGIN PGP SIGNATURE-----
+It is misleading because changing xAPIC ID is supported by KVM; it just
+isn't compatible with APICv. Probably this pr_warn_once() should be
+removed.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKEq5wFAwAAAAAACgkQlh/E3EQov+AD
-1A/+KCqJ1DXMYabNEudGQr14hIYtznBQDr9ut9L2cZD+XTmUuTh7a0YHBrdo5IpePxYvKZhD3ssw
-L8/VywAMtJBOQCxQXPFZnqzNBvA+5mViKh+abs0Fzaa84+OkYiXHipU5Y211mRyh84i5BLeg0OYz
-sRgzWdlu1jiMBZ02AtgbVy9jVJ5ztoaJ3iRwt871VitrditmixXT1vScCYb1QD8/KotHpJtmmrEr
-F22Rn6qD+u4w9YwbtG8sPJnu4sHOkP6HTwe6jlmN3GWgIKvgwKbdkPL3mkCala5JbrIBQ32IYMNM
-6PLgjyQgen6KXAJzsJRjAQxpiVrkFSpt1UpNbRsTft0KLnnYmtSkxokv5jVLuvZdCSph3KLqpIkY
-0uMrQWlmrRmCo6WwCE7z4/HY8u141dKLLus0/BUFn0aW0xJDBfWwwBNlSoQq8kERmTCmOVGZ+cO4
-x1NUs/4Wypetzt4w47CBLQVzJccJhQvCPbOs+eQZKiMnkUZ7SJJfNwus2u1kgq+58n4UMhlYfWYy
-Zzhc7zbjLpH+PhT/5pydaeoRWVNLDhW+FpKySTUQyvbNU710ejHKxDD+ebsuY4XWcpJce4KSCMxQ
-jz+XbgVKBDqyJ14UsfSxq/5YEil6FW80ydbXGN1Djazs/KRT5cyDbC4T1tllM1KY/Ob/WMWum8Qu
-NBc=
-=f0nO
------END PGP SIGNATURE-----
+>+
+>+	kvm_set_apicv_inhibit(apic->vcpu->kvm,
+>+			APICV_INHIBIT_REASON_RO_SETTINGS);
 
---------------EX7RFOPFSzFasW0TNVJWjZCS--
+The indentation here looks incorrect to me.
+	kvm_set_apicv_inhibit(apic->vcpu->kvm,
+			      APICV_INHIBIT_REASON_RO_SETTINGS);
+
+>+
+>+	apic->vcpu->kvm->arch.apic_id_changed = true;
+>+}
+>+
+> static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+> {
+> 	int ret = 0;
+>@@ -2046,9 +2059,11 @@ static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+> 
+> 	switch (reg) {
+> 	case APIC_ID:		/* Local APIC ID */
+>-		if (!apic_x2apic_mode(apic))
+>+		if (!apic_x2apic_mode(apic)) {
+>+
+> 			kvm_apic_set_xapic_id(apic, val >> 24);
+>-		else
+>+			kvm_lapic_check_initial_apic_id(apic);
+>+		} else
+> 			ret = 1;
+> 		break;
+> 
+>@@ -2335,8 +2350,11 @@ void kvm_lapic_set_base(struct kvm_vcpu *vcpu, u64 value)
+> 			     MSR_IA32_APICBASE_BASE;
+> 
+> 	if ((value & MSR_IA32_APICBASE_ENABLE) &&
+>-	     apic->base_address != APIC_DEFAULT_PHYS_BASE)
+>+	     apic->base_address != APIC_DEFAULT_PHYS_BASE) {
+>+		kvm_set_apicv_inhibit(apic->vcpu->kvm,
+>+				APICV_INHIBIT_REASON_RO_SETTINGS);
+> 		pr_warn_once("APIC base relocation is unsupported by KVM");
+>+	}
+> }
+> 
+> void kvm_apic_update_apicv(struct kvm_vcpu *vcpu)
+>@@ -2649,6 +2667,7 @@ static int kvm_apic_state_fixup(struct kvm_vcpu *vcpu,
+> 		}
+> 	}
+> 
+>+	kvm_lapic_check_initial_apic_id(vcpu->arch.apic);
+> 	return 0;
+> }
+> 
+>diff --git a/arch/x86/kvm/lapic.h b/arch/x86/kvm/lapic.h
+>index 4e4f8a22754f9..b9c406d383080 100644
+>--- a/arch/x86/kvm/lapic.h
+>+++ b/arch/x86/kvm/lapic.h
+>@@ -252,4 +252,12 @@ static inline u8 kvm_xapic_id(struct kvm_lapic *apic)
+> 	return kvm_lapic_get_reg(apic, APIC_ID) >> 24;
+> }
+> 
+>+static inline bool kvm_apic_has_initial_apic_id(struct kvm_lapic *apic)
+>+{
+>+	if (apic_x2apic_mode(apic))
+>+		return true;
+
+I suggest warning of x2apic mode:
+	if (WARN_ON_ONCE(apic_x2apic_mode(apic)))
+
+Because it is weird that callers care about initial apic id when apic is
+in x2apic mode.
