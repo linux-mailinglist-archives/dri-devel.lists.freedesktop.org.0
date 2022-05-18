@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295BB52BD93
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 16:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FB652BECA
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 17:39:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A26610ECCC;
-	Wed, 18 May 2022 14:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48EA310F37F;
+	Wed, 18 May 2022 15:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7D4B10E5A2;
- Wed, 18 May 2022 14:41:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652884864; x=1684420864;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=N7/Lr13Nq3+cgQ9nRRBQsS1SbDGs6O+4RWMayy47cVU=;
- b=lGtU0NZWekHrr9bqn/Rx+cGLfUgwPErGBQYKlGPyKNnyDUMoy+VaziNR
- DqIBEtz5vRtxZRj4ksdsvpaf3/JOLE8Qm8urbFHUiR9Ps9n4SFo3lcbfN
- hNchNI6NTgzqtAp+L2a1g0C4rcSC8+fCRg10H9CmMuPzRTvUJXmcPS+fE
- jTuLO002r9/yI3oFfxrYXK3uc4SYQ8uzTJAnpAnJTn1XPIIq7uBJtv0yN
- 8JHdaQxgjl9a8SeadaiPpcE6DE1PdxxW+Gee2662aKjnKP3jo4/Ffjvw4
- qPbqaFkT/wHWXqUFCrpNYGliZbsCjc2KNJXIfpbHr7LO7/QW+k1yfOGOm Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="358112835"
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="358112835"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 07:41:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,235,1647327600"; d="scan'208";a="569502165"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.163])
- by orsmga007.jf.intel.com with SMTP; 18 May 2022 07:40:59 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 18 May 2022 17:40:58 +0300
-Date: Wed, 18 May 2022 17:40:58 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-Message-ID: <YoUFeoMMiTRSADrY@intel.com>
-References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
- <87pmljerpi.fsf@intel.com>
- <5423103a-3707-ba99-f45e-8608bc594bbd@redhat.com>
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9398510F152
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 15:39:35 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ w17-20020a17090a529100b001db302efed6so2428734pjh.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 08:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Z/HMrrvCFWNmAHmvXNwS49dfDiOpl1n+gYXOKnIc4zI=;
+ b=dar/R+iwJh6De/GxHOwX6pHMbcfNFw2VosEiMVS9rUR0uhV04veQWjUvNn1Um9Mals
+ wRoCyapdixfM61qMc2HADICJWAjNnbA0wtGr+uJWt1QyWrw8PNXt7Yv4NGDLvF2Gd909
+ XcWfnB1NhBE0JV5FT3WZn8Q7ynTgoH7QPo1cYLo2usyEG3DmpqGOF4Wvrv4j9nv286VG
+ lcdB7BWKcl6xOcJUlig3kblVxHP0L0b6ubldhuv/9M5eUxiQc66zPE9PTz5a6oeBRpRm
+ cN/wh3MpbOvQlWkpL/q6/zoIwYwptqGj6VxyDCscWcLs6MIpRyajD/xgVpEZAEStq968
+ ahlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Z/HMrrvCFWNmAHmvXNwS49dfDiOpl1n+gYXOKnIc4zI=;
+ b=te7sEaU9NDuiXvjy4ICb3i5jHOiPZ2yrc0LxQ54otXtvWENW6Ck+SOWku7bb9PB3aM
+ RRp5marW8TGM5urLVHfJ5pvFyo4qBRGUcIsrRZpFq6k3CZy/uD1DSFIXVX9p5LHemGj8
+ qtCc49wL5LXNQXms1oAGXvuQRsri0DqVwvze23Ocpdi+0TqFJ/YpnjQmSrYmdT5JWlu+
+ vtWRSNwA/ABd1redRdifhSCVuKAW7uP4QO4oHJoCo2jofBik89MTFpirQvk/iMNs/DGh
+ Wd3twr2s0hDTp6lr19vwxE44oQqjyk/DrYiGdGERmp6/PqydZtmkLGDJwsQ7vdFGdzCl
+ Gl2Q==
+X-Gm-Message-State: AOAM533REYL7soIekh2677KwBDKwjFZexuQZfnUhzHDMNwzikLApLeJz
+ 8/8Z25QapkEDQhgVoOEXznVy6g==
+X-Google-Smtp-Source: ABdhPJy4YDsen62GVqvNQ0gvtfR6xnGo8BpbBvHMqJCocqqqkTLqWVsTvmo43FO52CB7x/t5SXQ/jg==
+X-Received: by 2002:a17:902:f814:b0:161:505d:a4f4 with SMTP id
+ ix20-20020a170902f81400b00161505da4f4mr318446plb.6.1652888374834; 
+ Wed, 18 May 2022 08:39:34 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ gv3-20020a17090b11c300b001da160621d1sm1671704pjb.45.2022.05.18.08.39.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 May 2022 08:39:34 -0700 (PDT)
+Date: Wed, 18 May 2022 15:39:30 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [RFC PATCH v3 02/19] KVM: x86: inhibit APICv/AVIC when the guest
+ and/or host changes apic id/base from the defaults.
+Message-ID: <YoUTMsnFS+bSED+5@google.com>
+References: <20220427200314.276673-1-mlevitsk@redhat.com>
+ <20220427200314.276673-3-mlevitsk@redhat.com>
+ <20220518082811.GA8765@gao-cwp>
+ <8c78939bf01a98554696add10e17b07631d97a28.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5423103a-3707-ba99-f45e-8608bc594bbd@redhat.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <8c78939bf01a98554696add10e17b07631d97a28.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +74,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Chao Gao <chao.gao@intel.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, intel-gfx@lists.freedesktop.org,
+ Borislav Petkov <bp@alien8.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, intel-gvt-dev@lists.freedesktop.org,
+ Jim Mattson <jmattson@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 18, 2022 at 02:59:58PM +0200, Hans de Goede wrote:
-> Hi,
+On Wed, May 18, 2022, Maxim Levitsky wrote:
+> On Wed, 2022-05-18 at 16:28 +0800, Chao Gao wrote:
+> > > struct kvm_arch {
+> > > @@ -1258,6 +1260,7 @@ struct kvm_arch {
+> > > 	hpa_t	hv_root_tdp;
+> > > 	spinlock_t hv_root_tdp_lock;
+> > > #endif
+> > > +	bool apic_id_changed;
+> > 
+> > What's the value of this boolean? No one reads it.
 > 
-> On 4/14/22 15:10, Jani Nikula wrote:
-> > There are some cases where we can actually get a rough PWM/luminance
-> > curve from i915 opregion. I think maybe 16 data points. We've never
-> > exposed that. My idea was that you'd have a property where you could add
-> > data points for the curve, it could get pre-populated by the kernel if
-> > the kernel knows how to do it, defaulting to linear, but it could also
-> > be set or adjusted by userspace. The point would be that the userspace
-> > adjusts brightness linearly, and the kernel would use the curve data
-> > points to adjust it non-linearly. The userspace could have completely
-> > separated brightness adjustment and curve adjustment, and the brightness
-> > adjustment would be dead simple.
-> 
-> Interesting, I guess this could be a future feature addition on top
-> of my work.
+> I use it in later patches to kill the guest during nested VM entry 
+> if it attempts to use nested AVIC after any vCPU changed APIC ID.
 
-Here's an outdated branch:
-https://github.com/vsyrjala/linux/commits/blcm_backlight
+Then the flag should be introduced in the later patch, because (a) it's dead code
+if that patch is never merged and (b) it's impossible to review this patch for
+correctness without seeing the usage, e.g. setting apic_id_changed isn't guarded
+with a lock and so the usage may or may not be susceptible to races.
 
-Wrote that some years ago after getting fed up with the useless
-non-linear respose of the brightness up/down buttons on my laptop.
-Been running it ever since.
-
--- 
-Ville Syrjälä
-Intel
+> > > +	apic->vcpu->kvm->arch.apic_id_changed = true;
+> > > +}
+> > > +
