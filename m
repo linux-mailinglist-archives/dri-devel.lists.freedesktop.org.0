@@ -1,62 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D2652B0EF
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 05:55:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5C052B114
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 06:08:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B37110E0D0;
-	Wed, 18 May 2022 03:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1AA10F902;
+	Wed, 18 May 2022 04:08:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7527F10E0D0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 03:55:29 +0000 (UTC)
-X-UUID: 1eb2110649974ccf96322d0b2abd050a-20220518
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:1a1bee5f-6111-449b-9130-3d17e18b13ad, OB:0,
- LO
- B:30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:45
-X-CID-INFO: VERSION:1.1.5, REQID:1a1bee5f-6111-449b-9130-3d17e18b13ad, OB:0,
- LOB:
- 30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:45
-X-CID-META: VersionHash:2a19b09, CLOUDID:245194e2-edbf-4bd4-8a34-dfc5f7bb086d,
- C
- OID:e2ea877334d3,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:0,BEC:nil
-X-UUID: 1eb2110649974ccf96322d0b2abd050a-20220518
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 798156715; Wed, 18 May 2022 11:55:23 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 18 May 2022 11:55:22 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 18 May 2022 11:55:21 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Wed, 18 May 2022 11:55:21 +0800
-Message-ID: <cfa87a23495fe5d72c7deed49162b026466cb68a.camel@mediatek.com>
-Subject: Re: [PATCH v6, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
- transfer
-From: CK Hu <ck.hu@mediatek.com>
-To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <matthias.bgg@gmail.com>
-Date: Wed, 18 May 2022 11:55:21 +0800
-In-Reply-To: <1652337012-9053-4-git-send-email-xinlei.lee@mediatek.com>
-References: <1652337012-9053-1-git-send-email-xinlei.lee@mediatek.com>
- <1652337012-9053-4-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2086.outbound.protection.outlook.com [40.107.244.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9911410E2BA;
+ Wed, 18 May 2022 04:08:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RS0HH5Xq2jHmD13R1QlCk9LgaESK+N6Yet27U83uDd9+pCSTqCryMKqVyM2DaMvf8QRHkhcCMzfVKwrpq69KC/DDKbM6H7gkP1o/Lw3PaFktK1XoyaLgMHkeOY2suedKOsFveazVP9rBanG7xUgSvxjM4A9TZ5m9VmfWoNUPClomMRfd1k7PKee6nrV+AFF7+i+iuBFoCgnTyA1DNo/E11NpaLgslM5+HopWmEiPPsgDStrAogXx8n0odP1xuYY64pA3qUDnaHhfTgb9NH1ak7iKP4gom4O+yH47mfgu3hTZEOlARhUGIKP33v9y9HatBjgU7j2IcxKruQ9ceNw2Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l3x5MTjHwGwO0Hs9jDIeW8iNQbLARhrnkzjj7qvQZzk=;
+ b=bcVLZHEUoVFWgAZ97qVpPhcomIMPSI+7xH7UempJOT2L/CcD5+4GnZK0U9UrQBscZRK4nxSjJ3vXENfcPD48yZiVHYD2UM4gbss+FCf0DFGGYzYj6G4MTTh8UJQEWlLq24UcrGAcIDJVrJUA0VxIOqFFiiPQWDxp8Bo3NNDtOttMKyLQOL4GeoucqB24i1600vwAkYPSmkPrTb8newgcRbq3gO4kfTEUk4Bd4jmQhpuvZFnfHEipXzu31aBxhI8ua73HkLdLGwDr7ZnFdCxZau/u4PR5CH+0MK+8lJdxOUSk3PRnpy8sqftqEMaBVqWwECX1KXwLGcPvv7s0GxO/eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l3x5MTjHwGwO0Hs9jDIeW8iNQbLARhrnkzjj7qvQZzk=;
+ b=A5x2rsOLtVeX2mTYrAyKD4HEQNqfNNJMUeL1R0k+Oq2QiHpkmViBRQ7ObeY4IDh01iC6BPPHMn9vWXA3eC+c5++v7yT/jN72y2CXKB9rBRs8tbqUHUY9DAnOqH7W6bUiSB3KgKFXWcbNGGj2VyctQakQH6cJe4EH+jSP/aJgu4g=
+Received: from MW3PR05CA0017.namprd05.prod.outlook.com (2603:10b6:303:2b::22)
+ by MWHPR12MB1295.namprd12.prod.outlook.com (2603:10b6:300:11::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.15; Wed, 18 May
+ 2022 04:07:59 +0000
+Received: from CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:2b:cafe::8d) by MW3PR05CA0017.outlook.office365.com
+ (2603:10b6:303:2b::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.5 via Frontend
+ Transport; Wed, 18 May 2022 04:07:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1NAM11FT052.mail.protection.outlook.com (10.13.174.225) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5273.14 via Frontend Transport; Wed, 18 May 2022 04:07:59 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 17 May
+ 2022 23:07:58 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 17 May
+ 2022 23:07:58 -0500
+Received: from Ryan-AMD.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
+ Transport; Tue, 17 May 2022 23:07:48 -0500
+From: Ryan Lin <tsung-hua.lin@amd.com>
+To: 
+Subject: [PATCH v5] drm/amdgpu: Disable ABM when AC mode
+Date: Wed, 18 May 2022 08:40:14 +0800
+Message-ID: <20220518004018.311332-1-tsung-hua.lin@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
+References: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 29e00be7-4987-4d34-5cf5-08da3883ff1a
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1295:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR12MB12956D939A0C5B146318FF41B2D19@MWHPR12MB1295.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NvzN3tId/JRx4Ps+oXD0eMcttM9ObYf5vrDv4YBx0bVmUTtO6WyCUzm8pLz34+AAXpaDP8wfc/u96WFkLLSg4d4ueth97RH32dCY6VVVBngbAE+zXYeEGntVp8nVTn5ocOlGLNMjsXbwIaRLceJs31180UHO0GGrEEVX8uwgZO8Qg9kJJMtHy9JcfCuefkI1z14HKPXkSPxcQsdHgSAerbtPUKNlDUSoONllfXxKQI8s6hi1SKKKhuI/t5hs4DWCnGkGrKrAgJ01JeBg9xKRLyxqzmog8APqliCIt01XQbpJv8LXJH9CdbifuhosBqLTAnpD5RvtEh3b+Sm/u2t7mt+F77oyMZCJZXfckwBk30Ury+XpoGnZ0Gh2Du5omUE/Ts2KWoyScmQso3pvIrQmFptVqkKJKm8IpEPXobwmEpshJIkDDBSBQOHwt12/jschVmrX2Scp0ffDmjV7S/2BrUZfULMSHEzcrIoWdKSsdm7aNSZFo+rgXLATXoFbLUy4Lx62Z9RDuEyDg7eGVgisIl3TOxzPQRIlkzLTVdjcgJVnadWl6OxaJbQ3TVSPYQA+AxnEcPOJGfn/seon6dax0bSGQ8a/e9J64qoOoI0Saq+ElWadvJOyBlpZ8PU5eVQI9kwcHROj5cCRbRZ9WIsKpeSniXqJJ8Wx+2Wn5Bngt7OlLSl7m8LfPO8NDKF872g3Niqs8Je6zPjGR3bqlnXt0ZZfNiS3lO8J9lVv8vCVazU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(7416002)(109986005)(70206006)(1076003)(508600001)(5660300002)(8676002)(4326008)(316002)(36756003)(54906003)(426003)(2616005)(86362001)(82310400005)(81166007)(336012)(47076005)(40460700003)(83380400001)(36860700001)(2906002)(6666004)(26005)(8936002)(356005)(70586007)(7696005)(186003)(266003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 04:07:59.6260 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29e00be7-4987-4d34-5cf5-08da3883ff1a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1295
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,134 +105,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- "# 6 . 6 . x : b255d51e3967 : sched :
- Modify dsi funcs to atomic	  operations" <stable@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- rex-bc.chen@mediatek.com, linux-arm-kernel@lists.infradead.org
+Cc: Jake Wang <haonan.wang2@amd.com>, David Airlie <airlied@linux.ie>,
+ leon.li@amd.com, Lijo Lazar <lijo.lazar@amd.com>,
+ Shirish S <shirish.s@amd.corp-partner.google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Huang Rui <ray.huang@amd.com>, Eric Huang <jinhuieric.huang@amd.com>,
+ Likun Gao <Likun.Gao@amd.com>, Jun Lei <Jun.Lei@amd.com>,
+ Jimmy Kizito <Jimmy.Kizito@amd.com>, Rodrigo
+ Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Rouven Czerwinski <rouven@czerwinskis.de>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Robin Singh <robin.singh@amd.com>, Stylon Wang <stylon.wang@amd.com>,
+ Yifan Zhang <yifan1.zhang@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Nikola Cornij <nikola.cornij@amd.com>,
+ Sean Paul <seanpaul@chromium.org>, Chris Park <Chris.Park@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>, Ching-shih.Li@amd.com,
+ Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
+ Sathishkumar S <sathishkumar.sundararaju@amd.com>, Roy Chan <roy.chan@amd.com>,
+ Linux Patches Robot
+ <linux-patches-robot@chromeos-missing-patches.google.com.iam.gserviceaccount.com>,
+ Chengming Gui <Jack.Gui@amd.com>, Jiri Kosina <jkosina@suse.cz>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Roman Li <Roman.Li@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jude Shih <shenshih@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Ryan Lin <tsung-hua.lin@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Xinlei:
+Disable ABM feature when the system is running on AC mode to get the more
+perfect contrast of the display.
 
-On Thu, 2022-05-12 at 14:30 +0800, xinlei.lee@mediatek.com wrote:
-> From: Jitao Shi <jitao.shi@mediatek.com>
-> 
-> To comply with the panel sequence, hold the mipi signal to LP00
-> before the dcs cmds transmission,
-> and pull the mipi signal high from LP00 to LP11 until the start of
-> the dcs cmds transmission.
-> The normal panel timing is :
-> (1) pp1800 DC pull up
-> (2) avdd & avee AC pull high
-> (3) lcm_reset pull high -> pull low -> pull high
-> (4) Pull MIPI signal high (LP11) -> initial code -> send video
-> data(HS mode)
-> The power-off sequence is reversed.
-> If dsi is not in cmd mode, then dsi will pull the mipi signal high in
-> the mtk_output_dsi_enable function.
-> The delay in lane_ready func is the reaction time of dsi_rx after
-> pulling up the mipi signal.
-> 
-> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge
-> API")
-> 
-> Cc: <stable@vger.kernel.org> # 6.6.x: b255d51e3967: sched: Modify dsi
-> funcs to atomic operations
-> Cc: <stable@vger.kernel.org> # 6.6.x: 72c69c977502: sched: Separate
-> poweron/poweroff from enable/disable and define new funcs
-> Cc: <stable@vger.kernel.org> # 6.6.x
+v2: remove "UPSTREAM" from the subject.
 
-This patch looks good to me, but do you want to 'back' port this patch
-to Linux version 6.6?
+v3: adv->pm.ac_power updating by amd gpu_acpi_event_handler.
 
-Regards,
-CK
+v4: Add the file I lost to fix the build error.
 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++-------
->  1 file changed, 21 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index d9a6b928dba8..25e84d9426bf 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -203,6 +203,7 @@ struct mtk_dsi {
->  	struct mtk_phy_timing phy_timing;
->  	int refcount;
->  	bool enabled;
-> +	bool lanes_ready;
->  	u32 irq_data;
->  	wait_queue_head_t irq_wait_queue;
->  	const struct mtk_dsi_driver_data *driver_data;
-> @@ -661,18 +662,11 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
->  	mtk_dsi_reset_engine(dsi);
->  	mtk_dsi_phy_timconfig(dsi);
->  
-> -	mtk_dsi_rxtx_control(dsi);
-> -	usleep_range(30, 100);
-> -	mtk_dsi_reset_dphy(dsi);
->  	mtk_dsi_ps_control_vact(dsi);
->  	mtk_dsi_set_vm_cmd(dsi);
->  	mtk_dsi_config_vdo_timing(dsi);
->  	mtk_dsi_set_interrupt_enable(dsi);
->  
-> -	mtk_dsi_clk_ulp_mode_leave(dsi);
-> -	mtk_dsi_lane0_ulp_mode_leave(dsi);
-> -	mtk_dsi_clk_hs_mode(dsi, 0);
-> -
->  	return 0;
->  err_disable_engine_clk:
->  	clk_disable_unprepare(dsi->engine_clk);
-> @@ -701,6 +695,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi
-> *dsi)
->  	clk_disable_unprepare(dsi->digital_clk);
->  
->  	phy_power_off(dsi->phy);
-> +
-> +	dsi->lanes_ready = false;
-> +}
-> +
-> +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
-> +{
-> +	if (!dsi->lanes_ready) {
-> +		dsi->lanes_ready = true;
-> +		mtk_dsi_rxtx_control(dsi);
-> +		usleep_range(30, 100);
-> +		mtk_dsi_reset_dphy(dsi);
-> +		mtk_dsi_clk_ulp_mode_leave(dsi);
-> +		mtk_dsi_lane0_ulp_mode_leave(dsi);
-> +		mtk_dsi_clk_hs_mode(dsi, 0);
-> +		msleep(20);
-> +		/* The reaction time after pulling up the mipi signal
-> for dsi_rx */
-> +	}
->  }
->  
->  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
-> @@ -708,6 +719,7 @@ static void mtk_output_dsi_enable(struct mtk_dsi
-> *dsi)
->  	if (dsi->enabled)
->  		return;
->  
-> +	mtk_dsi_lane_ready(dsi);
->  	mtk_dsi_set_mode(dsi);
->  	mtk_dsi_clk_hs_mode(dsi, 1);
->  
-> @@ -1017,6 +1029,8 @@ static ssize_t mtk_dsi_host_transfer(struct
-> mipi_dsi_host *host,
->  	if (MTK_DSI_HOST_IS_READ(msg->type))
->  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
->  
-> +	mtk_dsi_lane_ready(dsi);
-> +
->  	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
->  	if (ret)
->  		goto restore_dsi_mode;
+v5: Move that function of the setting abm disabled from DC to amdgpu_dm.
+
+Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
+
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c        |  3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c      |  1 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 +++++++++++++++++
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c   | 10 ++++++++++
+ drivers/gpu/drm/amd/display/dc/dc_link.h        |  2 ++
+ drivers/gpu/drm/amd/include/amd_acpi.h          |  1 +
+ drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h         |  1 +
+ 7 files changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index 4811b0faafd9..6ac331ee4255 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -822,7 +822,8 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
+ 	struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
+ 	struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
+ 
+-	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
++	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0 ||
++	    strcmp(entry->device_class, ACPI_BATTERY_CLASS) == 0) {
+ 		if (power_supply_is_system_supplied() > 0)
+ 			DRM_DEBUG_DRIVER("pm: AC\n");
+ 		else
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index abfcc1304ba0..b959d256ce46 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+ 
+ 	adev->gfx.gfx_off_req_count = 1;
+ 	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
++	adev->pm.old_ac_power = false;
+ 
+ 	atomic_set(&adev->throttling_logging_enabled, 1);
+ 	/*
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 87283e2da8c1..1ed1f2d00350 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3652,6 +3652,11 @@ amdgpu_dm_register_backlight_device(struct amdgpu_display_manager *dm)
+ }
+ #endif
+ 
++static void amdgpu_dm_abm_set_level(struct amdgpu_display_manager *dm, int level)
++{
++	dc_link_set_abm_level(dm->backlight_link[0], level);
++}
++
+ static int initialize_plane(struct amdgpu_display_manager *dm,
+ 			    struct amdgpu_mode_info *mode_info, int plane_id,
+ 			    enum drm_plane_type plane_type,
+@@ -9072,6 +9077,9 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		hdr_changed =
+ 			!drm_connector_atomic_hdr_metadata_equal(old_con_state, new_con_state);
+ 
++		if (adev->pm.ac_power)
++			dm_new_crtc_state->abm_level = 0;
++
+ 		if (!scaling_changed && !abm_changed && !hdr_changed)
+ 			continue;
+ 
+@@ -9220,6 +9228,15 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 			amdgpu_dm_backlight_set_level(dm, i, dm->brightness[i]);
+ 	}
+ #endif
++
++	if (adev->pm.ac_power != adev->pm.old_ac_power) {
++		if (adev->pm.ac_power)
++			amdgpu_dm_abm_set_level(dm, 0);
++		else
++			amdgpu_dm_abm_set_level(dm, amdgpu_dm_abm_level);
++		adev->pm.old_ac_power = adev->pm.ac_power;
++	}
++
+ 	/*
+ 	 * send vblank event on all events not handled in flip and
+ 	 * mark consumed event for drm_atomic_helper_commit_hw_done
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index fb012ecd23a1..5edcf2a9dc4e 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -2616,6 +2616,16 @@ int dc_link_get_backlight_level(const struct dc_link *link)
+ 		return DC_ERROR_UNEXPECTED;
+ }
+ 
++int dc_link_set_abm_level(const struct dc_link *link, int level)
++{
++	struct abm *abm = get_abm_from_stream_res(link);
++
++	if (abm != NULL && abm->funcs->set_abm_level != NULL)
++		return (int) abm->funcs->set_abm_level(abm, level);
++	else
++		return DC_ERROR_UNEXPECTED;
++}
++
+ int dc_link_get_target_backlight_pwm(const struct dc_link *link)
+ {
+ 	struct abm *abm = get_abm_from_stream_res(link);
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_link.h b/drivers/gpu/drm/amd/display/dc/dc_link.h
+index 83845d006c54..b69a114ce154 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_link.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_link.h
+@@ -258,6 +258,8 @@ bool dc_link_set_default_brightness_aux(struct dc_link *link);
+ 
+ int dc_link_get_backlight_level(const struct dc_link *dc_link);
+ 
++int dc_link_set_abm_level(const struct dc_link *link, int level);
++
+ int dc_link_get_target_backlight_pwm(const struct dc_link *link);
+ 
+ bool dc_link_set_psr_allow_active(struct dc_link *dc_link, bool enable,
+diff --git a/drivers/gpu/drm/amd/include/amd_acpi.h b/drivers/gpu/drm/amd/include/amd_acpi.h
+index 2d089d30518f..2d9aad582985 100644
+--- a/drivers/gpu/drm/amd/include/amd_acpi.h
++++ b/drivers/gpu/drm/amd/include/amd_acpi.h
+@@ -25,6 +25,7 @@
+ #define AMD_ACPI_H
+ 
+ #define ACPI_AC_CLASS           "ac_adapter"
++#define ACPI_BATTERY_CLASS	 "battery"
+ 
+ struct atif_verify_interface {
+ 	u16 size;		/* structure size in bytes (includes size field) */
+diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+index f6e0e7d8a007..de459411a0e8 100644
+--- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
++++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+@@ -445,6 +445,7 @@ struct amdgpu_pm {
+ 	uint32_t                smu_prv_buffer_size;
+ 	struct amdgpu_bo        *smu_prv_buffer;
+ 	bool ac_power;
++	bool old_ac_power;
+ 	/* powerplay feature */
+ 	uint32_t pp_feature;
+ 
+-- 
+2.25.1
 
