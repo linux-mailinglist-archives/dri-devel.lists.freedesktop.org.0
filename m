@@ -2,58 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D523152C100
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 19:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B2752C109
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 19:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDA6113E59;
-	Wed, 18 May 2022 17:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E15E113EAD;
+	Wed, 18 May 2022 17:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53CF8113E43;
- Wed, 18 May 2022 17:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652895378; x=1684431378;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=4lEZS7ZjpuLroh1r56uWxsc7hOKN9/qPtTtqeb2mxMw=;
- b=fmFWM+dGSnvvCjlbBGIBQRKlj4+r3KzEC61PnYQu2w44RGMsYdbG0RGi
- hBHruHIRBezXd1WuNo/lI+sZMuKWbk1aDikAw8OqzhjTj1kv49EPLkLR2
- QccoMBzjcS2XjCS4vaNUGklFm5C/ZOIpXCt9MAR5oJBYFEUMk+oMZVDam c=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 18 May 2022 10:36:17 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 10:36:16 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 18 May 2022 10:36:16 -0700
-Received: from [10.110.42.114] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 18 May
- 2022 10:36:15 -0700
-Message-ID: <c5decaeb-2e88-ef23-ce6c-50d3d853766b@quicinc.com>
-Date: Wed, 18 May 2022 10:36:14 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2B8C113E82
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 17:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1652895597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gDGt/Rg9AZsxvRBAhR5KeMESGNTYZAfpSxQWVhbVFk4=;
+ b=aHVEiwnWBk0+bNDlKvdW7YJL8Bd5u/UpHJTC2PfM55nP+om+NkEm0VXGBuZNeK82X3rl4J
+ Ew7sDpjXOoLfcc1oLhXwJ35SWlMepEk+k5JiJtlxWBT1FFIgftvQoE3VIiTCuemUn0i6Pd
+ Uy+QcSCH/pJfN66S78Rl3JqSYjGJhc0=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-635-pLx-QSHFNc2QxPrH2-8FZQ-1; Wed, 18 May 2022 13:39:56 -0400
+X-MC-Unique: pLx-QSHFNc2QxPrH2-8FZQ-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ s18-20020a67df12000000b00324c903413cso312681vsk.23
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 10:39:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=gDGt/Rg9AZsxvRBAhR5KeMESGNTYZAfpSxQWVhbVFk4=;
+ b=4qkMexmOAF25T+f8VN36Gs2YDkP3XihJ+Gobowz2ADOiGN8HSpDH8BRQBZswXdJnar
+ rhNA+R3y9eBaFDKu4joscT3rxNiCOXfCosTMZw3rfHsvstlZ8Ub7dUUZG8TlC9I/H7cK
+ c0NRVzn5/P8BEVo8fBw/JfwdaiIawIMHeKdbuCPPiA37feQq0Wi13LBMDE0ibC3e82Jm
+ P8/xOIqrHOe9BEpppiQwdVO0iMA00FQcuAx+0vZIEFEh+abHrREfhoLvW58b7bZesW1p
+ BVePzGqkY98kxlyL850mqjBmXhB/fKpD62lZvkLnvEwkoKUe/xG34CWZ/jLkrRUVhYyc
+ /z7w==
+X-Gm-Message-State: AOAM531tp70ReYur3c/a2LQUOrt8XybV76aIh24f+2AgNQoUHZ3K0xkX
+ e9e1S7tUrlgqUnxgCxKuXU78M9Qb09xg9jzu3ILXL6X67LOmT9W8cgPY9VDRe2B5li5G5ik7Bso
+ IVv4e32/iY8pF+Vyp6vRw0Gf9In5x
+X-Received: by 2002:a05:6102:3706:b0:335:80be:bdf8 with SMTP id
+ s6-20020a056102370600b0033580bebdf8mr527612vst.17.1652895595669; 
+ Wed, 18 May 2022 10:39:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+wcU/dWMJlXfe/1930TJzCPdcc6Su+ICGYsTy4q9ZBSUQnSN+lF31nL1TGBauw8+rrCkI6g==
+X-Received: by 2002:a05:6102:3706:b0:335:80be:bdf8 with SMTP id
+ s6-20020a056102370600b0033580bebdf8mr527593vst.17.1652895595399; 
+ Wed, 18 May 2022 10:39:55 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ 143-20020a1f1995000000b0034e6f1fd055sm246132vkz.31.2022.05.18.10.39.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 May 2022 10:39:54 -0700 (PDT)
+Message-ID: <0c9c2c59ca9c351769921c47beb49dda79ddd5de.camel@redhat.com>
+Subject: Re: [PATCH 12/14] drm/nouveau: Register ACPI video backlight when
+ nv_backlight registration fails
+From: Lyude Paul <lyude@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>, 
+ Karol Herbst <kherbst@redhat.com>, Daniel Dadap <ddadap@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, Xinhui
+ <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>, Mika
+ Westerberg <mika.westerberg@linux.intel.com>, Mark Gross
+ <markgross@kernel.org>, Andy Shevchenko <andy@kernel.org>
+Date: Wed, 18 May 2022 13:39:52 -0400
+In-Reply-To: <20220517152331.16217-13-hdegoede@redhat.com>
+References: <20220517152331.16217-1-hdegoede@redhat.com>
+ <20220517152331.16217-13-hdegoede@redhat.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 1/2] phy/qcom: add regulator_set_load to edp/dp phy
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1652892186-22346-1-git-send-email-quic_khsieh@quicinc.com>
- <1652892186-22346-2-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpr9znfxLK+kDstMFFk3V8goyaceGXi4sDc9ghz4eryXMg@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAA8EJpr9znfxLK+kDstMFFk3V8goyaceGXi4sDc9ghz4eryXMg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,178 +99,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
- bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
- quic_aravindh@quicinc.com, swboyd@chromium.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2022-05-17 at 17:23 +0200, Hans de Goede wrote:
+> Typically the acpi_video driver will initialize before nouveau, which
+> used to cause /sys/class/backlight/acpi_video0 to get registered and then
+> nouveau would register its own nv_backlight device later. After which
+> the drivers/acpi/video_detect.c code unregistered the acpi_video0 device
+> to avoid there being 2 backlight devices.
+> 
+> This means that userspace used to briefly see 2 devices and the
+> disappearing of acpi_video0 after a brief time confuses the systemd
+> backlight level save/restore code, see e.g.:
+> https://bbs.archlinux.org/viewtopic.php?id=269920
+> 
+> To fix this the ACPI video code has been modified to make backlight class
+> device registration a separate step, relying on the drm/kms driver to
+> ask for the acpi_video backlight registration after it is done setting up
+> its native backlight device.
+> 
+> Add a call to the new acpi_video_register_backlight() when native backlight
+> device registration has failed / was skipped to ensure that there is a
+> backlight device available before the drm_device gets registered with
+> userspace.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_backlight.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> index f56ff797c78c..0ae8793357a4 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> @@ -436,6 +436,13 @@ nouveau_backlight_init(struct drm_connector *connector)
+>  
+>  fail_alloc:
+>         kfree(bl);
+> +       /*
+> +        * If we get here we have an internal panel, but no nv_backlight,
+> +        * try registering an ACPI video backlight device instead.
+> +        */
+> +       if (ret == 0)
+> +               acpi_video_register_backlight();
 
-On 5/18/2022 10:12 AM, Dmitry Baryshkov wrote:
-> On Wed, 18 May 2022 at 19:43, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->> This patch add regulator_set_load() to both eDP and DP phy driver
->> to have totally control regulators.
->>
->> Changes in v2:
->> -- no regulator_set_laod() before disable regulator
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   drivers/phy/qualcomm/phy-qcom-edp.c | 25 +++++++++++++++++++++----
->>   drivers/phy/qualcomm/phy-qcom-qmp.c | 13 +++++++++++++
-> Split into -edp and -qmp part.
->
->>   2 files changed, 34 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
->> index cacd32f..9b55095 100644
->> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
->> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
->> @@ -87,17 +87,24 @@ struct qcom_edp {
->>
->>          struct clk_bulk_data clks[2];
->>          struct regulator_bulk_data supplies[2];
->> +       int enable_load[2];
->> +       int disable_load[2];
-> As noticed in the review of the previous patch, disable_load is unnecessary.
->
->>   };
->>
->>   static int qcom_edp_phy_init(struct phy *phy)
->>   {
->>          struct qcom_edp *edp = phy_get_drvdata(phy);
->>          int ret;
->> +       int num_consumers = ARRAY_SIZE(edp->supplies);
->> +       int i;
->>
->> -       ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
->> +       ret = regulator_bulk_enable(num_consumers, edp->supplies);
->>          if (ret)
->>                  return ret;
->>
->> +       for (i = num_consumers - 1; i >= 0; --i)
->> +               regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
->> +
->>          ret = clk_bulk_prepare_enable(ARRAY_SIZE(edp->clks), edp->clks);
->>          if (ret)
->>                  goto out_disable_supplies;
->> @@ -425,9 +432,15 @@ static int qcom_edp_phy_power_off(struct phy *phy)
->>   static int qcom_edp_phy_exit(struct phy *phy)
->>   {
->>          struct qcom_edp *edp = phy_get_drvdata(phy);
->> +       int num_consumers = ARRAY_SIZE(edp->supplies);
->> +       int i;
->>
->>          clk_bulk_disable_unprepare(ARRAY_SIZE(edp->clks), edp->clks);
->> -       regulator_bulk_disable(ARRAY_SIZE(edp->supplies), edp->supplies);
->> +
->> +       for (i = num_consumers - 1; i >= 0; --i)
->> +               regulator_set_load(edp->supplies[i].consumer, edp->disable_load[i]);
->> +
->> +       regulator_bulk_disable(num_consumers, edp->supplies);
->>
->>          return 0;
->>   }
->> @@ -633,8 +646,12 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
->>          if (ret)
->>                  return ret;
->>
->> -       edp->supplies[0].supply = "vdda-phy";
->> -       edp->supplies[1].supply = "vdda-pll";
->> +       edp->supplies[0].supply = "vdda-1p2";
->> +       edp->supplies[1].supply = "vdda-0p9";
-> NAK, You can not randomly change supply names.
+Assuming we don't need to return the value of acpi_video_register_backlight()
+here:
 
-if you do no change here, then we have to change dtsi.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-They are not match.
+> +
+>         return ret;
+>  }
+>  
 
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-
->
->> +       edp->enable_load[0] = 21800;    /* 1.2 V */
->> +       edp->enable_load[1] = 36000;    /* 1.2 V */
->> +       edp->disable_load[0] = 4;       /* 0.9 V */
->> +       edp->disable_load[1] = 4;       /* 10.9V */
-> Again, 10.9V here. Kuogee. Have you read the review points?
-I have read it. but forget to make  change at edp file.
->
->>          ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(edp->supplies), edp->supplies);
->>          if (ret)
->>                  return ret;
->> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
->> index b144ae1..0a4c8a8 100644
->> --- a/drivers/phy/qualcomm/phy-qcom-qmp.c
->> +++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
->> @@ -3130,6 +3130,7 @@ struct qmp_phy_cfg {
->>          int num_resets;
->>          /* regulators to be requested */
->>          const char * const *vreg_list;
->> +       const unsigned int *vreg_enable_load;
->>          int num_vregs;
->>
->>          /* array of registers with different offsets */
->> @@ -3346,6 +3347,10 @@ static const char * const qmp_phy_vreg_l[] = {
->>          "vdda-phy", "vdda-pll",
->>   };
->>
->> +static const unsigned int qmp_phy_vreg_enable_load[] = {
->> +       21800, 36000
->> +};
->> +
->>   static const struct qmp_phy_cfg ipq8074_usb3phy_cfg = {
->>          .type                   = PHY_TYPE_USB3,
->>          .nlanes                 = 1,
->> @@ -4072,6 +4077,7 @@ static const struct qmp_phy_cfg sm8250_usb3phy_cfg = {
->>          .reset_list             = msm8996_usb3phy_reset_l,
->>          .num_resets             = ARRAY_SIZE(msm8996_usb3phy_reset_l),
->>          .vreg_list              = qmp_phy_vreg_l,
->> +       .vreg_enable_load       = qmp_phy_vreg_enable_load,
->>          .num_vregs              = ARRAY_SIZE(qmp_phy_vreg_l),
->>          .regs                   = qmp_v4_usb3phy_regs_layout,
->>
->> @@ -4139,6 +4145,7 @@ static const struct qmp_phy_cfg sm8250_dpphy_cfg = {
->>          .reset_list             = msm8996_usb3phy_reset_l,
->>          .num_resets             = ARRAY_SIZE(msm8996_usb3phy_reset_l),
->>          .vreg_list              = qmp_phy_vreg_l,
->> +       .vreg_enable_load       = qmp_phy_vreg_enable_load,
->>          .num_vregs              = ARRAY_SIZE(qmp_phy_vreg_l),
->>          .regs                   = qmp_v4_usb3phy_regs_layout,
->>
->> @@ -5008,6 +5015,11 @@ static int qcom_qmp_phy_com_init(struct qmp_phy *qphy)
->>                  return 0;
->>          }
->>
->> +       if (cfg->vreg_enable_load) {
->> +               for (i = cfg->num_vregs - 1; i >= 0; --i)
-> What's the point of iterating the list backwards?
-
-do no  know,
-
-I just follow the order from regulator_bulk_enable()
-
->
->> +                       regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_enable_load[i]);
->> +       }
->> +
->>          /* turn on regulator supplies */
->>          ret = regulator_bulk_enable(cfg->num_vregs, qmp->vregs);
->>          if (ret) {
->> @@ -5116,6 +5128,7 @@ static int qcom_qmp_phy_com_exit(struct qmp_phy *qphy)
->>
->>          clk_bulk_disable_unprepare(cfg->num_clks, qmp->clks);
->>
->> +       /* no minimum load set required before disable regulator */
-> No otneed for the comment.
->
->>          regulator_bulk_disable(cfg->num_vregs, qmp->vregs);
->>
->>          mutex_unlock(&qmp->phy_mutex);
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
->> a Linux Foundation Collaborative Project
->>
->
