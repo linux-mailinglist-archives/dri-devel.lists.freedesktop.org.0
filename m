@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF3F52B650
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 11:29:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C1D52B66A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 11:37:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C408B10E218;
-	Wed, 18 May 2022 09:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7BF10E6EE;
+	Wed, 18 May 2022 09:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A72D910E218;
- Wed, 18 May 2022 09:29:33 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA8D510E6EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 09:37:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DC54DB81EFA;
- Wed, 18 May 2022 09:29:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3214C385A5;
- Wed, 18 May 2022 09:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652866169;
- bh=mxYfw+GinqAjrXTEOeZE9mJTILflufdqzdNKepyHGvs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WnuDNuac+vgJ5XGYkmYhG9vNk3/I6KnCpiWaFtwNmTHgasum5pAR9I1Ia8/AVt6DN
- F3NuWnnkUTtKb9iOCd3/oC5u/Am6hb7Kg3DyrmvwrHrqkFFCcrYF1K62y+uJaM3Deg
- rpfqlGmc4TCKfQaB7wVFZQqjMtEj8LqJWUrYIWrhoClQs6eTv/AGwqPTkCTM5NSHlb
- cN8+C18E4CAWIF4nXhVX20/3ZV1YHMEzIXYds4gOYHvqg4joiG39+Kjp8tbbiglhX8
- Cx/Mho/xgs/KvziMEuryCU+NLzLcbSlWPQvSyC0y/LHz17ajEWeXM9VDOT2qFu4yo1
- euk6Iv9GMxRcg==
-Date: Wed, 18 May 2022 14:59:24 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v1 1/2] phy/qcom: add regulator_set_load to edp/dp phy
-Message-ID: <YoS8dMAhD9h+CtJa@matsya>
-References: <1652808360-9830-1-git-send-email-quic_khsieh@quicinc.com>
- <1652808360-9830-2-git-send-email-quic_khsieh@quicinc.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 71B196178B;
+ Wed, 18 May 2022 09:37:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0D1C385AA;
+ Wed, 18 May 2022 09:37:29 +0000 (UTC)
+Message-ID: <ea9a04fb-368d-daca-96ae-9366253a5e91@xs4all.nl>
+Date: Wed, 18 May 2022 11:37:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652808360-9830-2-git-send-email-quic_khsieh@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v6, 6/7] media: mediatek: vcodec: prevent kernel crash
+ when scp ipi timeout
+Content-Language: en-US
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20220513092526.9670-1-yunfei.dong@mediatek.com>
+ <20220513092526.9670-7-yunfei.dong@mediatek.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220513092526.9670-7-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,178 +55,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, bjorn.andersson@linaro.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-05-22, 10:25, Kuogee Hsieh wrote:
+Hi Yunfei,
 
-pls use the correct subsystem tag, "phy: xxx" in this case
+On 5/13/22 11:25, Yunfei Dong wrote:
+> When SCP timeout during playing video, kernel crashes with following
+> message. It's caused by accessing NULL pointer in vpu_dec_ipi_handler.
+> This patch doesn't solve the root cause of NULL pointer, but merely
+> prevent kernel crashed when encounter the NULL pointer.
 
-> This patch add regulator_set_load() to both eDP and DP phy driver
-> to have totally control regulators.
+Is the root cause being addressed as well? Where is the root cause? Is it
+in this driver or in the scp (i.e. the remoteproc) driver?
 
-Can you explain what is meant by "totally control regulators"
+I need a bit more information to decide whether this series is ready to
+be merged for 5.20 or not.
+
+Regards,
+
+	Hans
 
 > 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> After applied this patch, kernel keeps alive, only the video player turns
+> to green screen.
+> 
+> [67242.065474] pc : vpu_dec_ipi_handler+0xa0/0xb20 [mtk_vcodec_dec]
+> [67242.065485] [MTK_V4L2] level=0 fops_vcodec_open(),334:
+> 18000000.vcodec_dec decoder [135]
+> [67242.065523] lr : scp_ipi_handler+0x11c/0x244 [mtk_scp]
+> [67242.065540] sp : ffffffbb4207fb10
+> [67242.065557] x29: ffffffbb4207fb30 x28: ffffffd00a1d5000
+> [67242.065592] x27: 1ffffffa0143aa24 x26: 0000000000000000
+> [67242.065625] x25: dfffffd000000000 x24: ffffffd0168bfdb0
+> [67242.065659] x23: 1ffffff76840ff74 x22: ffffffbb41fa8a88
+> [67242.065692] x21: ffffffbb4207fb9c x20: ffffffbb4207fba0
+> [67242.065725] x19: ffffffbb4207fb98 x18: 0000000000000000
+> [67242.065758] x17: 0000000000000000 x16: ffffffd042022094
+> [67242.065791] x15: 1ffffff77ed4b71a x14: 1ffffff77ed4b719
+> [67242.065824] x13: 0000000000000000 x12: 0000000000000000
+> [67242.065857] x11: 0000000000000000 x10: dfffffd000000001
+> [67242.065890] x9 : 0000000000000000 x8 : 0000000000000002
+> [67242.065923] x7 : 0000000000000000 x6 : 000000000000003f
+> [67242.065956] x5 : 0000000000000040 x4 : ffffffffffffffe0
+> [67242.065989] x3 : ffffffd043b841b8 x2 : 0000000000000000
+> [67242.066021] x1 : 0000000000000010 x0 : 0000000000000010
+> [67242.066055] Call trace:
+> [67242.066092]  vpu_dec_ipi_handler+0xa0/0xb20 [mtk_vcodec_dec
+> 12220d230d83a7426fc38c56b3e7bc6066955bae]
+> [67242.066119]  scp_ipi_handler+0x11c/0x244 [mtk_scp
+> 8fb69c2ef141dd3192518b952b65aba35627b8bf]
+> [67242.066145]  mt8192_scp_irq_handler+0x70/0x128 [mtk_scp
+> 8fb69c2ef141dd3192518b952b65aba35627b8bf]
+> [67242.066172]  scp_irq_handler+0xa0/0x114 [mtk_scp
+> 8fb69c2ef141dd3192518b952b65aba35627b8bf]
+> [67242.066200]  irq_thread_fn+0x84/0xf8
+> [67242.066220]  irq_thread+0x170/0x1ec
+> [67242.066242]  kthread+0x2f8/0x3b8
+> [67242.066264]  ret_from_fork+0x10/0x30
+> [67242.066292] Code: 38f96908 35003628 91004340 d343fc08 (38f96908)
+> 
+> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Macpaul Lin <macpaul.lin@mediatek.com>
 > ---
->  drivers/phy/qualcomm/phy-qcom-edp.c | 25 +++++++++++++++++++++----
->  drivers/phy/qualcomm/phy-qcom-qmp.c | 24 ++++++++++++++++++++++++
->  2 files changed, 45 insertions(+), 4 deletions(-)
+>  drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-> index cacd32f..9b55095 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-> @@ -87,17 +87,24 @@ struct qcom_edp {
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
+> index 35f4d5583084..1041dd663e76 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
+> @@ -91,6 +91,11 @@ static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
+>  	struct vdec_vpu_inst *vpu = (struct vdec_vpu_inst *)
+>  					(unsigned long)msg->ap_inst_addr;
 >  
->  	struct clk_bulk_data clks[2];
->  	struct regulator_bulk_data supplies[2];
-> +	int enable_load[2];
-> +	int disable_load[2];
->  };
->  
->  static int qcom_edp_phy_init(struct phy *phy)
->  {
->  	struct qcom_edp *edp = phy_get_drvdata(phy);
->  	int ret;
-> +	int num_consumers = ARRAY_SIZE(edp->supplies);
-> +	int i;
->  
-> -	ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
-> +	ret = regulator_bulk_enable(num_consumers, edp->supplies);
->  	if (ret)
->  		return ret;
->  
-> +	for (i = num_consumers - 1; i >= 0; --i)
-> +		regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
-> +
->  	ret = clk_bulk_prepare_enable(ARRAY_SIZE(edp->clks), edp->clks);
->  	if (ret)
->  		goto out_disable_supplies;
-> @@ -425,9 +432,15 @@ static int qcom_edp_phy_power_off(struct phy *phy)
->  static int qcom_edp_phy_exit(struct phy *phy)
->  {
->  	struct qcom_edp *edp = phy_get_drvdata(phy);
-> +	int num_consumers = ARRAY_SIZE(edp->supplies);
-> +	int i;
->  
->  	clk_bulk_disable_unprepare(ARRAY_SIZE(edp->clks), edp->clks);
-> -	regulator_bulk_disable(ARRAY_SIZE(edp->supplies), edp->supplies);
-> +
-> +	for (i = num_consumers - 1; i >= 0; --i)
-> +		regulator_set_load(edp->supplies[i].consumer, edp->disable_load[i]);
-> +
-> +	regulator_bulk_disable(num_consumers, edp->supplies);
->  
->  	return 0;
->  }
-> @@ -633,8 +646,12 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> -	edp->supplies[0].supply = "vdda-phy";
-> -	edp->supplies[1].supply = "vdda-pll";
-> +	edp->supplies[0].supply = "vdda-1p2";
-> +	edp->supplies[1].supply = "vdda-0p9";
-
-These are documented in bindings, so cannot be removed, Reminder binding
-is an ABI
- 
-You have not documented the new names either...
-
-> +	edp->enable_load[0] = 21800;	/* 1.2 V */
-> +	edp->enable_load[1] = 36000;	/* 1.2 V */
-> +	edp->disable_load[0] = 4;	/* 0.9 V */
-> +	edp->disable_load[1] = 4;	/* 10.9V */
-
-is that correct, 10.9V?
-
->  	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(edp->supplies), edp->supplies);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
-> index b144ae1..c589231 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-qmp.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
-
-This is a different driver, so should be a different patch!
-
-> @@ -3130,6 +3130,8 @@ struct qmp_phy_cfg {
->  	int num_resets;
->  	/* regulators to be requested */
->  	const char * const *vreg_list;
-> +	const unsigned int *vreg_enable_load;
-> +	const unsigned int *vreg_disable_load;
->  	int num_vregs;
->  
->  	/* array of registers with different offsets */
-> @@ -3346,6 +3348,14 @@ static const char * const qmp_phy_vreg_l[] = {
->  	"vdda-phy", "vdda-pll",
->  };
->  
-> +static const unsigned int qmp_phy_vreg_enable_load[] = {
-> +	21800, 36000
-> +};
-> +
-> +static const unsigned int qmp_phy_vreg_disable_load[] = {
-> +	4, 32
-> +};
-> +
->  static const struct qmp_phy_cfg ipq8074_usb3phy_cfg = {
->  	.type			= PHY_TYPE_USB3,
->  	.nlanes			= 1,
-> @@ -4072,6 +4082,8 @@ static const struct qmp_phy_cfg sm8250_usb3phy_cfg = {
->  	.reset_list		= msm8996_usb3phy_reset_l,
->  	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
->  	.vreg_list		= qmp_phy_vreg_l,
-> +	.vreg_enable_load	= qmp_phy_vreg_enable_load,
-> +	.vreg_disable_load	= qmp_phy_vreg_disable_load,
->  	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
->  	.regs			= qmp_v4_usb3phy_regs_layout,
->  
-> @@ -4139,6 +4151,8 @@ static const struct qmp_phy_cfg sm8250_dpphy_cfg = {
->  	.reset_list		= msm8996_usb3phy_reset_l,
->  	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
->  	.vreg_list		= qmp_phy_vreg_l,
-> +	.vreg_enable_load	= qmp_phy_vreg_enable_load,
-> +	.vreg_disable_load	= qmp_phy_vreg_disable_load,
->  	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
->  	.regs			= qmp_v4_usb3phy_regs_layout,
->  
-> @@ -5015,6 +5029,11 @@ static int qcom_qmp_phy_com_init(struct qmp_phy *qphy)
->  		goto err_reg_enable;
->  	}
->  
-> +	if (cfg->vreg_enable_load) {
-> +		for (i = cfg->num_vregs - 1; i >= 0; --i)
-> +			regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_enable_load[i]);
+> +	if (!vpu) {
+> +		mtk_v4l2_err("ap_inst_addr is NULL");
+> +		return;
 > +	}
 > +
->  	for (i = 0; i < cfg->num_resets; i++) {
->  		ret = reset_control_assert(qmp->resets[i]);
->  		if (ret) {
-> @@ -5116,6 +5135,11 @@ static int qcom_qmp_phy_com_exit(struct qmp_phy *qphy)
+>  	mtk_vcodec_debug(vpu, "+ id=%X", msg->msg_id);
 >  
->  	clk_bulk_disable_unprepare(cfg->num_clks, qmp->clks);
->  
-> +	if (cfg->vreg_disable_load[i]) {
-> +		for (i = cfg->num_vregs - 1; i >= 0; --i)
-> +			regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_disable_load[i]);
-> +	}
-> +
->  	regulator_bulk_disable(cfg->num_vregs, qmp->vregs);
->  
->  	mutex_unlock(&qmp->phy_mutex);
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-
--- 
-~Vinod
+>  	vpu->failure = msg->status;
