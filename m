@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF61252B8E2
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 13:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D13452B8E6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 13:39:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E023210E07A;
-	Wed, 18 May 2022 11:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D36B110E068;
+	Wed, 18 May 2022 11:39:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBEDA89DD3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 11:34:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 552F960C94;
- Wed, 18 May 2022 11:34:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41CA7C385A5;
- Wed, 18 May 2022 11:34:15 +0000 (UTC)
-Message-ID: <31992c67-400e-8e14-38c2-4655995886f5@xs4all.nl>
-Date: Wed, 18 May 2022 13:34:13 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4F910E068;
+ Wed, 18 May 2022 11:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652873982; x=1684409982;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=rjF4zWNjVkRaA4u9AigM/0O/Su6Qa+NPXOPo2kzYSB0=;
+ b=I16iBUE0/p9kag9SgM12YwEc2hqFmYPL8AZAS77ocyah+/bwqKelCljU
+ wm2CgLOg8cblNcjcdk8s4FfkkStGY+H9FH+wCy0d0x8sNSIDm/7tOW4st
+ U+e9DXLcJDMiS114SUh3XJDGWz4tQjIb3EeUSJ06qBu4A8LnCtL6w32jf
+ FXipvgY1BpRuKlvsUCw/dQeLprcAkla9VF3coPWzYRE+zCFOjFAes5/S2
+ p8V6/ox/QAKtLfDpLwVbCGjvSUlOB/xC1br9VzIAWdTSx5Mb2QmL9h5mB
+ le4LsKeBQ/Z5yHaetHuKB/1aOl9u/evdMX/XlFKjpjF3kZqS7pJ2pef/z g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="270453941"
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="270453941"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 04:39:19 -0700
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="626998272"
+Received: from jwasiuki-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.133.47])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 04:39:16 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Borislav Petkov <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 11/11] drm/i915: Fix undefined behavior due to shift
+ overflowing the constant
+In-Reply-To: <YoSj9O/6yA0nn/xW@zn.tnic>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220405151517.29753-1-bp@alien8.de>
+ <20220405151517.29753-12-bp@alien8.de>
+ <78e67e42-7e1e-e9fa-036d-441168100731@infradead.org>
+ <YoSj9O/6yA0nn/xW@zn.tnic>
+Date: Wed, 18 May 2022 14:39:14 +0300
+Message-ID: <87k0ajdq8t.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v6, 6/7] media: mediatek: vcodec: prevent kernel crash
- when scp ipi timeout
-Content-Language: en-US
-To: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20220513092526.9670-1-yunfei.dong@mediatek.com>
- <20220513092526.9670-7-yunfei.dong@mediatek.com>
- <ea9a04fb-368d-daca-96ae-9366253a5e91@xs4all.nl>
- <f26d5225fc8c499226c297ed86feb5ee20e8f3d3.camel@mediatek.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <f26d5225fc8c499226c297ed86feb5ee20e8f3d3.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,88 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 18 May 2022, Borislav Petkov <bp@alien8.de> wrote:
+> On Tue, May 17, 2022 at 04:05:46PM -0700, Randy Dunlap wrote:
+>>=20
+>>=20
+>> On 4/5/22 08:15, Borislav Petkov wrote:
+>> > From: Borislav Petkov <bp@suse.de>
+>> >=20
+>> > Fix:
+>> >=20
+>> >   In file included from <command-line>:0:0:
+>> >   drivers/gpu/drm/i915/gt/uc/intel_guc.c: In function =E2=80=98intel_g=
+uc_send_mmio=E2=80=99:
+>> >   ././include/linux/compiler_types.h:352:38: error: call to =E2=80=98_=
+_compiletime_assert_1047=E2=80=99 \
+>> >   declared with attribute error: FIELD_PREP: mask is not constant
+>> >     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNT=
+ER__)
+>> >=20
+>> > and other build errors due to shift overflowing values.
+>> >=20
+>> > See https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic for the gory
+>> > details as to why it triggers with older gccs only.
+>> >=20
+>>=20
+>> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+>> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+>>=20
+>> Is this merged anywhere?
+>
+> It's state is "new" in their patchwork:
+>
+> https://patchwork.freedesktop.org/patch/480756/
+
+Basically we run all patches through CI before merging, and because only
+one patch was sent to intel-gfx, the CI just sat waiting for the rest of
+the series to arrive...
+
+Anyway, didn't really like the changes in i915_reg.h, sent my version of
+that and the rest separately [1].
+
+> so I guess not yet.
+>
+>> It could/should at least be in linux-next so that other people
+>> don't waste time on it.
+>
+> -ETOOMANYPATCHES I guess. :-\
+
+Yeah, sorry about that.
 
 
-On 5/18/22 13:29, yunfei.dong@mediatek.com wrote:
-> Dear Hans,
-> 
-> Thanks for your review.
-> On Wed, 2022-05-18 at 11:37 +0200, Hans Verkuil wrote:
->> Hi Yunfei,
->>
->> On 5/13/22 11:25, Yunfei Dong wrote:
->>> When SCP timeout during playing video, kernel crashes with
->>> following
->>> message. It's caused by accessing NULL pointer in
->>> vpu_dec_ipi_handler.
->>> This patch doesn't solve the root cause of NULL pointer, but merely
->>> prevent kernel crashed when encounter the NULL pointer.
->>
->> Is the root cause being addressed as well? Where is the root cause?
->> Is it
->> in this driver or in the scp (i.e. the remoteproc) driver?
->>
->> I need a bit more information to decide whether this series is ready
->> to
->> be merged for 5.20 or not.
->>
->> Regards,
->>
->> 	Hans
->>
-> Vpu will be NUll when scp(micro processor) is hang or crash. Need to
-> keep kernel works well , so add this patch.
+BR,
+Jani.
 
-OK, I think this should be stated in the commit log, and also in the code
-(see below).
+[1] https://patchwork.freedesktop.org/series/104122/
 
-> 
-> Best Regards,
-> Yunfei Dong
 
-<snip>
-
->>> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
->>> b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
->>> index 35f4d5583084..1041dd663e76 100644
->>> --- a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
->>> +++ b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
->>> @@ -91,6 +91,11 @@ static void vpu_dec_ipi_handler(void *data,
->>> unsigned int len, void *priv)
->>>  	struct vdec_vpu_inst *vpu = (struct vdec_vpu_inst *)
->>>  					(unsigned long)msg-
->>>> ap_inst_addr;
->>>  
->>> +	if (!vpu) {
->>> +		mtk_v4l2_err("ap_inst_addr is NULL");
-
-E.g., either add a comment here or perhaps change the error message to:
-
-"ap_inst_addr is NULL, did the SCP hang?"
-
-Or something along those lines.
-
-Shouldn't there be a \n at the end of this message as well? Or does
-mtk_v4l2_err add that?
-
-Regards,
-
-	Hans
-
->>> +		return;
->>> +	}
->>> +
->>>  	mtk_vcodec_debug(vpu, "+ id=%X", msg->msg_id);
->>>  
->>>  	vpu->failure = msg->status;
-> 
+--=20
+Jani Nikula, Intel Open Source Graphics Center
