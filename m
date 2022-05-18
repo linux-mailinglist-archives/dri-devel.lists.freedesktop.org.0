@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D52C52B49D
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 10:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27B752B520
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 10:44:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A92311275F;
-	Wed, 18 May 2022 08:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D53810EBCB;
+	Wed, 18 May 2022 08:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB0C610EC1A;
- Wed, 18 May 2022 08:28:32 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1C010E372;
+ Wed, 18 May 2022 08:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652862512; x=1684398512;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5CA8FtuEdlmAndh2dvdGmeNEcE6jVfqnArBWtfSrmrA=;
- b=T77Ti53zY/cDro6twKpVk6a3ZYDPZrftjEvM7kSkp7WtVhjr9y0vL96h
- zyynd+J5uz0rMxptYFR+qu/u25bkhfiahlOVuYZ68KDm92qiadTI1Z6TH
- bGw1Q1OJlL3BH8YCztZU7eSDtFZtWMKDEVsTvrccDEm2z63brOET92W4j
- nhi6FZdQ2d1YFSoDcR1rvzGsyLzx1QkB/J4TW5U6R86DHlfAFiwtEIhD2
- eOdQ0Wh3LnrARM0D8R8NwSObMMrJgNsxVgM8eSS8xlPOopBJbe5XWOvO3
- s8IvVMYbodQ44zSjJB0JEDHx1S2vY57rhTfpB6pcz8/4vtFGtfvV6RrR3 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="296842855"
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="296842855"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 01:28:32 -0700
-X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="523408190"
-Received: from gao-cwp.sh.intel.com (HELO gao-cwp) ([10.239.159.23])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 01:28:25 -0700
-Date: Wed, 18 May 2022 16:28:17 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [RFC PATCH v3 02/19] KVM: x86: inhibit APICv/AVIC when the guest
- and/or host changes apic id/base from the defaults.
-Message-ID: <20220518082811.GA8765@gao-cwp>
-References: <20220427200314.276673-1-mlevitsk@redhat.com>
- <20220427200314.276673-3-mlevitsk@redhat.com>
+ t=1652863472; x=1684399472;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=XWicXPx7qnhfFABNS1l5dl2VOO4pNX2GTW1hcTiZh/Y=;
+ b=JzpGjGKHK8tQfWVepD0V2+50aPAgGU/xoRx/jihhSYtPtBc18ocXZmMp
+ 1XiCqpIiowbGXdu3y+WOYwX4OO2Y+B54ifxJp9UtFb4WUGwX3D7CDLgBW
+ gFl2d/V2u60CfbNSrxC5/ribFzRFBMQgxjel6ykopYWZcnHorrJRky2DU
+ wKb/7MOGIefohPVYkFPwee4xTOp5BBV4HQjwK8tY4TTwxav7xG2jISZgA
+ 3K21+QJ/j2komdi7iJ4cGJeyLGUTTXvNReehzqPTeHJ5jyOYIggPq2MRm
+ wNoE2lNrh5cHH39cPP9QEFTXLtv1a4DfGdxNVZrXX3A1JU9WrKOz4QJkG w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10350"; a="269142376"
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="269142376"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 01:44:31 -0700
+X-IronPort-AV: E=Sophos;i="5.91,234,1647327600"; d="scan'208";a="742221317"
+Received: from ksobisz-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.132.195])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 01:44:23 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>, Daniel Dadap
+ <ddadap@nvidia.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Mark Gross <markgross@kernel.org>, Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH 00/14] drm/kms: Stop registering multiple
+ /sys/class/backlight devs for a single display
+In-Reply-To: <20220517152331.16217-1-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220517152331.16217-1-hdegoede@redhat.com>
+Date: Wed, 18 May 2022 11:44:20 +0300
+Message-ID: <871qwrfcwr.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220427200314.276673-3-mlevitsk@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,146 +68,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: linux-acpi@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 27, 2022 at 11:02:57PM +0300, Maxim Levitsky wrote:
->Neither of these settings should be changed by the guest and it is
->a burden to support it in the acceleration code, so just inhibit
->it instead.
+On Tue, 17 May 2022, Hans de Goede <hdegoede@redhat.com> wrote:
+> Hi All,
 >
->Also add a boolean 'apic_id_changed' to indicate if apic id ever changed.
+> As mentioned in my RFC titled "drm/kms: control display brightness through
+> drm_connector properties":
+> https://lore.kernel.org/dri-devel/0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com/
 >
->Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
->---
-> arch/x86/include/asm/kvm_host.h |  3 +++
-> arch/x86/kvm/lapic.c            | 25 ++++++++++++++++++++++---
-> arch/x86/kvm/lapic.h            |  8 ++++++++
-> 3 files changed, 33 insertions(+), 3 deletions(-)
+> The first step towards this is to deal with some existing technical debt
+> in backlight handling on x86/ACPI boards, specifically we need to stop
+> registering multiple /sys/class/backlight devs for a single display.
+
+I guess my question here is, how do you know it's for a *single*
+display?
+
+There are already designs out there with two flat panels, with
+independent brightness controls. They're still rare and I don't think we
+handle them very well. But we've got code to register multiple native
+backlight interfaces, see e.g. commit 20f85ef89d94 ("drm/i915/backlight:
+use unique backlight device names").
+
+So imagine a design where one of the panels needs backlight control via
+ACPI and the other via native backlight control. Granted, I don't know
+if one exists, but I think it's very much in the realm of possible
+things the OEMs might do. For example, have an EC PWM for primary panel
+backlight, and use GPU PWM for secondary. How do you know you actually
+do need to register two interfaces?
+
+I'm fine with dealing with such cases as they arise to avoid
+over-engineering up front, but I also don't want us to completely paint
+ourselves in a corner either.
+
+BR,
+Jani.
+
+
 >
->diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
->index 63eae00625bda..636df87542555 100644
->--- a/arch/x86/include/asm/kvm_host.h
->+++ b/arch/x86/include/asm/kvm_host.h
->@@ -1070,6 +1070,8 @@ enum kvm_apicv_inhibit {
-> 	APICV_INHIBIT_REASON_ABSENT,
-> 	/* AVIC is disabled because SEV doesn't support it */
-> 	APICV_INHIBIT_REASON_SEV,
->+	/* APIC ID and/or APIC base was changed by the guest */
->+	APICV_INHIBIT_REASON_RO_SETTINGS,
+> This series implements my RFC describing my plan for these cleanups:
+> https://lore.kernel.org/dri-devel/98519ba0-7f18-201a-ea34-652f50343158@redhat.com/
+>
+> Specifically patches 1-6 implement the "Fixing kms driver unconditionally
+> register their "native" backlight dev" part.
+>
+> And patches 7-14 implement the "Fixing acpi_video0 getting registered for
+> a brief time" time.
+>
+> Note this series does not deal yet with the "Other issues" part, I plan
+> to do a follow up series for that.
+>
+> The changes in this series are good to have regardless of the further
+> "drm/kms: control display brightness through drm_connector properties"
+> plans. So I plan to push these upstream once they are ready (once
+> reviewed). Since this crosses various subsystems / touches multiple
+> kms drivers my plan is to provide an immutable branch based on say
+> 5.19-rc1 and then have that get merged into all the relevant trees.
+>
+> Please review.
+>
+> Regards,
+>
+> Hans
+>
+>
+> Hans de Goede (14):
+>   ACPI: video: Add a native function parameter to
+>     acpi_video_get_backlight_type()
+>   drm/i915: Don't register backlight when another backlight should be
+>     used
+>   drm/amdgpu: Don't register backlight when another backlight should be
+>     used
+>   drm/radeon: Don't register backlight when another backlight should be
+>     used
+>   drm/nouveau: Don't register backlight when another backlight should be
+>     used
+>   ACPI: video: Drop backlight_device_get_by_type() call from
+>     acpi_video_get_backlight_type()
+>   ACPI: video: Remove acpi_video_bus from list before tearing it down
+>   ACPI: video: Simplify acpi_video_unregister_backlight()
+>   ACPI: video: Make backlight class device registration a separate step
+>   ACPI: video: Remove code to unregister acpi_video backlight when a
+>     native backlight registers
+>   drm/i915: Call acpi_video_register_backlight()
+>   drm/nouveau: Register ACPI video backlight when nv_backlight
+>     registration fails
+>   drm/amdgpu: Register ACPI video backlight when skipping amdgpu
+>     backlight registration
+>   drm/radeon: Register ACPI video backlight when skipping radeon
+>     backlight registration
+>
+>  drivers/acpi/acpi_video.c                     | 69 ++++++++++++++-----
+>  drivers/acpi/video_detect.c                   | 53 +++-----------
+>  drivers/gpu/drm/Kconfig                       |  2 +
+>  .../gpu/drm/amd/amdgpu/atombios_encoders.c    | 14 +++-
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  9 +++
+>  .../gpu/drm/i915/display/intel_backlight.c    |  7 ++
+>  drivers/gpu/drm/i915/display/intel_display.c  |  1 +
+>  drivers/gpu/drm/i915/display/intel_opregion.c |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_backlight.c   | 14 ++++
+>  drivers/gpu/drm/radeon/atombios_encoders.c    |  7 ++
+>  drivers/gpu/drm/radeon/radeon_encoders.c      | 11 ++-
+>  .../gpu/drm/radeon/radeon_legacy_encoders.c   |  7 ++
+>  drivers/platform/x86/acer-wmi.c               |  2 +-
+>  drivers/platform/x86/asus-laptop.c            |  2 +-
+>  drivers/platform/x86/asus-wmi.c               |  4 +-
+>  drivers/platform/x86/compal-laptop.c          |  2 +-
+>  drivers/platform/x86/dell/dell-laptop.c       |  2 +-
+>  drivers/platform/x86/eeepc-laptop.c           |  2 +-
+>  drivers/platform/x86/fujitsu-laptop.c         |  4 +-
+>  drivers/platform/x86/ideapad-laptop.c         |  2 +-
+>  drivers/platform/x86/intel/oaktrail.c         |  2 +-
+>  drivers/platform/x86/msi-laptop.c             |  2 +-
+>  drivers/platform/x86/msi-wmi.c                |  2 +-
+>  drivers/platform/x86/samsung-laptop.c         |  2 +-
+>  drivers/platform/x86/sony-laptop.c            |  2 +-
+>  drivers/platform/x86/thinkpad_acpi.c          |  4 +-
+>  drivers/platform/x86/toshiba_acpi.c           |  2 +-
+>  include/acpi/video.h                          |  8 ++-
+>  28 files changed, 156 insertions(+), 84 deletions(-)
 
-You need to add it to check_apicv_inhibit_reasons as well.
-
-> };
-> 
-> struct kvm_arch {
->@@ -1258,6 +1260,7 @@ struct kvm_arch {
-> 	hpa_t	hv_root_tdp;
-> 	spinlock_t hv_root_tdp_lock;
-> #endif
->+	bool apic_id_changed;
-
-What's the value of this boolean? No one reads it.
-
-> };
-> 
-> struct kvm_vm_stat {
->diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
->index 66b0eb0bda94e..8996675b3ef4c 100644
->--- a/arch/x86/kvm/lapic.c
->+++ b/arch/x86/kvm/lapic.c
->@@ -2038,6 +2038,19 @@ static void apic_manage_nmi_watchdog(struct kvm_lapic *apic, u32 lvt0_val)
-> 	}
-> }
-> 
->+static void kvm_lapic_check_initial_apic_id(struct kvm_lapic *apic)
->+{
->+	if (kvm_apic_has_initial_apic_id(apic))
->+		return;
->+
->+	pr_warn_once("APIC ID change is unsupported by KVM");
-
-It is misleading because changing xAPIC ID is supported by KVM; it just
-isn't compatible with APICv. Probably this pr_warn_once() should be
-removed.
-
->+
->+	kvm_set_apicv_inhibit(apic->vcpu->kvm,
->+			APICV_INHIBIT_REASON_RO_SETTINGS);
-
-The indentation here looks incorrect to me.
-	kvm_set_apicv_inhibit(apic->vcpu->kvm,
-			      APICV_INHIBIT_REASON_RO_SETTINGS);
-
->+
->+	apic->vcpu->kvm->arch.apic_id_changed = true;
->+}
->+
-> static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
-> {
-> 	int ret = 0;
->@@ -2046,9 +2059,11 @@ static int kvm_lapic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
-> 
-> 	switch (reg) {
-> 	case APIC_ID:		/* Local APIC ID */
->-		if (!apic_x2apic_mode(apic))
->+		if (!apic_x2apic_mode(apic)) {
->+
-> 			kvm_apic_set_xapic_id(apic, val >> 24);
->-		else
->+			kvm_lapic_check_initial_apic_id(apic);
->+		} else
-> 			ret = 1;
-> 		break;
-> 
->@@ -2335,8 +2350,11 @@ void kvm_lapic_set_base(struct kvm_vcpu *vcpu, u64 value)
-> 			     MSR_IA32_APICBASE_BASE;
-> 
-> 	if ((value & MSR_IA32_APICBASE_ENABLE) &&
->-	     apic->base_address != APIC_DEFAULT_PHYS_BASE)
->+	     apic->base_address != APIC_DEFAULT_PHYS_BASE) {
->+		kvm_set_apicv_inhibit(apic->vcpu->kvm,
->+				APICV_INHIBIT_REASON_RO_SETTINGS);
-> 		pr_warn_once("APIC base relocation is unsupported by KVM");
->+	}
-> }
-> 
-> void kvm_apic_update_apicv(struct kvm_vcpu *vcpu)
->@@ -2649,6 +2667,7 @@ static int kvm_apic_state_fixup(struct kvm_vcpu *vcpu,
-> 		}
-> 	}
-> 
->+	kvm_lapic_check_initial_apic_id(vcpu->arch.apic);
-> 	return 0;
-> }
-> 
->diff --git a/arch/x86/kvm/lapic.h b/arch/x86/kvm/lapic.h
->index 4e4f8a22754f9..b9c406d383080 100644
->--- a/arch/x86/kvm/lapic.h
->+++ b/arch/x86/kvm/lapic.h
->@@ -252,4 +252,12 @@ static inline u8 kvm_xapic_id(struct kvm_lapic *apic)
-> 	return kvm_lapic_get_reg(apic, APIC_ID) >> 24;
-> }
-> 
->+static inline bool kvm_apic_has_initial_apic_id(struct kvm_lapic *apic)
->+{
->+	if (apic_x2apic_mode(apic))
->+		return true;
-
-I suggest warning of x2apic mode:
-	if (WARN_ON_ONCE(apic_x2apic_mode(apic)))
-
-Because it is weird that callers care about initial apic id when apic is
-in x2apic mode.
+-- 
+Jani Nikula, Intel Open Source Graphics Center
