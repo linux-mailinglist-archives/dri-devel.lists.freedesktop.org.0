@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71EC52BEDC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 17:56:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 896B052BEE5
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 18:07:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE3E10F987;
-	Wed, 18 May 2022 15:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32BB210F9BD;
+	Wed, 18 May 2022 16:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED9B310F958
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 15:56:10 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id a19so2522037pgw.6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 08:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qWXKTxpMjmn1u6F63OBGUz8tILVO6jaTHdWT2R8iYlg=;
- b=eBaghM2dqTUIVv/7a2pxqIjSQL1Ktx2k9P6YqlUuVPZm2g5J8JNomOwqnfQufns4XX
- EkbC6Ht6q3Fl76dyOSK61FlnvJDZJJyMXoICbSld7XnACBvxHAd3sZqXbyrOAUx8VxZV
- Wxp0k/pkWhPgpQTw3Nufa/nCelbz5bgxvtzTtcWYrNcyVbYiXUkjh++XNiw8AUHfJgqx
- uxRfBFqLeQoJxXExhfJpce/LhRiPIjwXFrlPOJlXMFRHFvXmwSoBfUWcNk0BQLh9litq
- S0uKGx7PYGr6wsD5SrY4WHHMRNu7wiTpqLvuKvgBGptl3Qve+CjsXQnx11zkp8MuBFMA
- NpMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qWXKTxpMjmn1u6F63OBGUz8tILVO6jaTHdWT2R8iYlg=;
- b=B6UUj6Gs4OSwqNbDewFE/7slLEGuzaE8vDTVPnI4djPJ/APG0NXLHedLMqmDuHMdx4
- hUcBPKNr3Xu+OYq8QJuRvEl4mqaY7pZ4XsFrTHx2kkpQp6W/e+1OLvw7MI++X4x0/wdD
- /QAjsB3LQpv0pSDRP602XCiLzO6dM3QbRWVXB/Uz6VfXWwZmhUurbXeJA33V65h580xR
- 2FpAJ4QclemzWenFoSsZUQWM6p2n0BEgAH/IDSilrjG75uBN7B+QMFrVYG2C8lE76oT4
- as1mJPGlR8/hUvpluFDPclWJGs7aq4ZF380dAeYKrlmaNipPOW1MxjSErcfGN39H0qia
- BOug==
-X-Gm-Message-State: AOAM532Lh2d9nguuOQJODUlgPySNAABMZ6lCEAnWJ6iR8+lcpEet5ZAL
- NvlsGpF/4Lk3nikU6VluEZaAlQ==
-X-Google-Smtp-Source: ABdhPJxSEJX/gDr7F2yeujTeOEbh2dCd+3p9S2SawsVfH6UMPR5YU1kkRbp4HL/UBle/+eRE4D2uKA==
-X-Received: by 2002:a05:6a00:2444:b0:4fd:db81:cbdd with SMTP id
- d4-20020a056a00244400b004fddb81cbddmr381800pfj.32.1652889370308; 
- Wed, 18 May 2022 08:56:10 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
- h8-20020a654688000000b003f60df4a5d5sm1449792pgr.54.2022.05.18.08.56.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 May 2022 08:56:09 -0700 (PDT)
-Date: Wed, 18 May 2022 15:56:06 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [RFC PATCH v3 01/19] KVM: x86: document AVIC/APICv inhibit reasons
-Message-ID: <YoUXFmh9vef4CC+8@google.com>
-References: <20220427200314.276673-1-mlevitsk@redhat.com>
- <20220427200314.276673-2-mlevitsk@redhat.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C62F10F89D;
+ Wed, 18 May 2022 16:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652890074; x=1684426074;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lIMZKXFl8g4Cv2pg9aGtn7TJPKfW12wIqpWtwiAWWWQ=;
+ b=XQSs97EBRhlOYWxaH13Gl80lNyGJ/FhXa9SfHhb3x6ljOxurCTGZE3eO
+ c0quT9skE5XZUxsvw9Bohxyl2iYrFvyB6U34aXzpHUQKRl7L0FWo030Qd
+ zLiO0UKhLHBUs6N2Qt6YGghV/BEEUHzHlrPUD0akYnBQxke3V6cOXCW/f c=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 18 May 2022 09:07:52 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 09:07:52 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 18 May 2022 09:07:52 -0700
+Received: from [10.110.42.114] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 18 May
+ 2022 09:07:50 -0700
+Message-ID: <a2dda832-3aa0-a6da-85c9-2a8827e1feae@quicinc.com>
+Date: Wed, 18 May 2022 09:07:48 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220427200314.276673-2-mlevitsk@redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v1 1/2] phy/qcom: add regulator_set_load to edp/dp phy
+Content-Language: en-US
+To: Vinod Koul <vkoul@kernel.org>
+References: <1652808360-9830-1-git-send-email-quic_khsieh@quicinc.com>
+ <1652808360-9830-2-git-send-email-quic_khsieh@quicinc.com>
+ <YoS8dMAhD9h+CtJa@matsya>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <YoS8dMAhD9h+CtJa@matsya>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,98 +66,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, bjorn.andersson@linaro.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 27, 2022, Maxim Levitsky wrote:
-> These days there are too many AVIC/APICv inhibit
-> reasons, and it doesn't hurt to have some documentation
-> for them.
 
-Please wrap at ~75 chars.
+On 5/18/2022 2:29 AM, Vinod Koul wrote:
+> On 17-05-22, 10:25, Kuogee Hsieh wrote:
+>
+> pls use the correct subsystem tag, "phy: xxx" in this case
+>
+>> This patch add regulator_set_load() to both eDP and DP phy driver
+>> to have totally control regulators.
+> Can you explain what is meant by "totally control regulators"
 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index f164c6c1514a4..63eae00625bda 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -1046,14 +1046,29 @@ struct kvm_x86_msr_filter {
->  };
->  
->  enum kvm_apicv_inhibit {
-> +	/* APICv/AVIC is disabled by module param and/or not supported in hardware */
+Original regulator_set_load() is done by DP controller.
 
-Rather than tag every one as APICv vs. AVIC, what about reorganizing the enums so
-that the common vs. AVIC flags are bundled together?  And then the redundant info
-in the comments about "XYZ is inhibited" can go away too, i.e. the individual
-comments can focus on explaining what triggers the inhibit (and for some, why that
-action is incompatible with APIC virtualization).
+This patch has moved regulator_set_load() from DP controller to DP phy.
 
-E.g.
-	/***************************************************************/
-	/* INHIBITs are relevant to both Intel's APICv and AMD's AVIC. */
-	/***************************************************************/
+Therefore DP phy has total control of both vdda-phy and vda-pll regulators.
 
-	/* APIC/AVIC is unsupported and/or disabled via module param. */
-	APICV_INHIBIT_REASON_DISABLE,
 
-	/* The local APIC is not in-kernel.  See KVM_CREATE_IRQCHIP. */
-	APICV_INHIBIT_REASON_ABSENT,
-
-	/*
-	 * At least one IRQ vector is configured for HyperV's AutoEOI, which
-	 * requires manually injecting the IRQ to do EOI on behalf of the guest.
-	 */
-	APICV_INHIBIT_REASON_HYPERV,
-	
-
-	/**********************************************/
-	/* INHIBITs relevant only to AMD's AVIC. */
-	/**********************************************/
-
->  	APICV_INHIBIT_REASON_DISABLE,
-> +	/* APICv/AVIC is inhibited because AutoEOI feature is being used by a HyperV guest*/
->  	APICV_INHIBIT_REASON_HYPERV,
-> +	/* AVIC is inhibited on a CPU because it runs a nested guest */
->  	APICV_INHIBIT_REASON_NESTED,
-> +	/* AVIC is inhibited due to wait for an irq window (AVIC doesn't support this) */
->  	APICV_INHIBIT_REASON_IRQWIN,
-> +	/*
-> +	 * AVIC is inhibited because i8254 're-inject' mode is used
-> +	 * which needs EOI intercept which AVIC doesn't support
-> +	 */
->  	APICV_INHIBIT_REASON_PIT_REINJ,
-> +	/* AVIC is inhibited because the guest has x2apic in its CPUID*/
->  	APICV_INHIBIT_REASON_X2APIC,
-> +	/* AVIC/APICv is inhibited because KVM_GUESTDBG_BLOCKIRQ was enabled */
->  	APICV_INHIBIT_REASON_BLOCKIRQ,
-> +	/*
-> +	 * AVIC/APICv is inhibited because the guest didn't yet
-
-s/guest/userspace
-
-> +	 * enable kernel/split irqchip
-> +	 */
->  	APICV_INHIBIT_REASON_ABSENT,
-> +	/* AVIC is disabled because SEV doesn't support it */
->  	APICV_INHIBIT_REASON_SEV,
->  };
->  
-> -- 
-> 2.26.3
-> 
+>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/phy/qualcomm/phy-qcom-edp.c | 25 +++++++++++++++++++++----
+>>   drivers/phy/qualcomm/phy-qcom-qmp.c | 24 ++++++++++++++++++++++++
+>>   2 files changed, 45 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+>> index cacd32f..9b55095 100644
+>> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
+>> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+>> @@ -87,17 +87,24 @@ struct qcom_edp {
+>>   
+>>   	struct clk_bulk_data clks[2];
+>>   	struct regulator_bulk_data supplies[2];
+>> +	int enable_load[2];
+>> +	int disable_load[2];
+>>   };
+>>   
+>>   static int qcom_edp_phy_init(struct phy *phy)
+>>   {
+>>   	struct qcom_edp *edp = phy_get_drvdata(phy);
+>>   	int ret;
+>> +	int num_consumers = ARRAY_SIZE(edp->supplies);
+>> +	int i;
+>>   
+>> -	ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
+>> +	ret = regulator_bulk_enable(num_consumers, edp->supplies);
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> +	for (i = num_consumers - 1; i >= 0; --i)
+>> +		regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
+>> +
+>>   	ret = clk_bulk_prepare_enable(ARRAY_SIZE(edp->clks), edp->clks);
+>>   	if (ret)
+>>   		goto out_disable_supplies;
+>> @@ -425,9 +432,15 @@ static int qcom_edp_phy_power_off(struct phy *phy)
+>>   static int qcom_edp_phy_exit(struct phy *phy)
+>>   {
+>>   	struct qcom_edp *edp = phy_get_drvdata(phy);
+>> +	int num_consumers = ARRAY_SIZE(edp->supplies);
+>> +	int i;
+>>   
+>>   	clk_bulk_disable_unprepare(ARRAY_SIZE(edp->clks), edp->clks);
+>> -	regulator_bulk_disable(ARRAY_SIZE(edp->supplies), edp->supplies);
+>> +
+>> +	for (i = num_consumers - 1; i >= 0; --i)
+>> +		regulator_set_load(edp->supplies[i].consumer, edp->disable_load[i]);
+>> +
+>> +	regulator_bulk_disable(num_consumers, edp->supplies);
+>>   
+>>   	return 0;
+>>   }
+>> @@ -633,8 +646,12 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	edp->supplies[0].supply = "vdda-phy";
+>> -	edp->supplies[1].supply = "vdda-pll";
+>> +	edp->supplies[0].supply = "vdda-1p2";
+>> +	edp->supplies[1].supply = "vdda-0p9";
+> These are documented in bindings, so cannot be removed, Reminder binding
+> is an ABI
+>   
+> You have not documented the new names either...
+>
+>> +	edp->enable_load[0] = 21800;	/* 1.2 V */
+>> +	edp->enable_load[1] = 36000;	/* 1.2 V */
+>> +	edp->disable_load[0] = 4;	/* 0.9 V */
+>> +	edp->disable_load[1] = 4;	/* 10.9V */
+> is that correct, 10.9V?
+>
+>>   	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(edp->supplies), edp->supplies);
+>>   	if (ret)
+>>   		return ret;
+>> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
+>> index b144ae1..c589231 100644
+>> --- a/drivers/phy/qualcomm/phy-qcom-qmp.c
+>> +++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
+> This is a different driver, so should be a different patch!
+>
+>> @@ -3130,6 +3130,8 @@ struct qmp_phy_cfg {
+>>   	int num_resets;
+>>   	/* regulators to be requested */
+>>   	const char * const *vreg_list;
+>> +	const unsigned int *vreg_enable_load;
+>> +	const unsigned int *vreg_disable_load;
+>>   	int num_vregs;
+>>   
+>>   	/* array of registers with different offsets */
+>> @@ -3346,6 +3348,14 @@ static const char * const qmp_phy_vreg_l[] = {
+>>   	"vdda-phy", "vdda-pll",
+>>   };
+>>   
+>> +static const unsigned int qmp_phy_vreg_enable_load[] = {
+>> +	21800, 36000
+>> +};
+>> +
+>> +static const unsigned int qmp_phy_vreg_disable_load[] = {
+>> +	4, 32
+>> +};
+>> +
+>>   static const struct qmp_phy_cfg ipq8074_usb3phy_cfg = {
+>>   	.type			= PHY_TYPE_USB3,
+>>   	.nlanes			= 1,
+>> @@ -4072,6 +4082,8 @@ static const struct qmp_phy_cfg sm8250_usb3phy_cfg = {
+>>   	.reset_list		= msm8996_usb3phy_reset_l,
+>>   	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
+>>   	.vreg_list		= qmp_phy_vreg_l,
+>> +	.vreg_enable_load	= qmp_phy_vreg_enable_load,
+>> +	.vreg_disable_load	= qmp_phy_vreg_disable_load,
+>>   	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
+>>   	.regs			= qmp_v4_usb3phy_regs_layout,
+>>   
+>> @@ -4139,6 +4151,8 @@ static const struct qmp_phy_cfg sm8250_dpphy_cfg = {
+>>   	.reset_list		= msm8996_usb3phy_reset_l,
+>>   	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
+>>   	.vreg_list		= qmp_phy_vreg_l,
+>> +	.vreg_enable_load	= qmp_phy_vreg_enable_load,
+>> +	.vreg_disable_load	= qmp_phy_vreg_disable_load,
+>>   	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
+>>   	.regs			= qmp_v4_usb3phy_regs_layout,
+>>   
+>> @@ -5015,6 +5029,11 @@ static int qcom_qmp_phy_com_init(struct qmp_phy *qphy)
+>>   		goto err_reg_enable;
+>>   	}
+>>   
+>> +	if (cfg->vreg_enable_load) {
+>> +		for (i = cfg->num_vregs - 1; i >= 0; --i)
+>> +			regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_enable_load[i]);
+>> +	}
+>> +
+>>   	for (i = 0; i < cfg->num_resets; i++) {
+>>   		ret = reset_control_assert(qmp->resets[i]);
+>>   		if (ret) {
+>> @@ -5116,6 +5135,11 @@ static int qcom_qmp_phy_com_exit(struct qmp_phy *qphy)
+>>   
+>>   	clk_bulk_disable_unprepare(cfg->num_clks, qmp->clks);
+>>   
+>> +	if (cfg->vreg_disable_load[i]) {
+>> +		for (i = cfg->num_vregs - 1; i >= 0; --i)
+>> +			regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_disable_load[i]);
+>> +	}
+>> +
+>>   	regulator_bulk_disable(cfg->num_vregs, qmp->vregs);
+>>   
+>>   	mutex_unlock(&qmp->phy_mutex);
+>> -- 
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
