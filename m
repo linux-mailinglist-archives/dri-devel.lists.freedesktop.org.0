@@ -1,98 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5C052B114
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 06:08:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9AA52B140
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 06:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1AA10F902;
-	Wed, 18 May 2022 04:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B14F010E371;
+	Wed, 18 May 2022 04:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2086.outbound.protection.outlook.com [40.107.244.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9911410E2BA;
- Wed, 18 May 2022 04:08:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RS0HH5Xq2jHmD13R1QlCk9LgaESK+N6Yet27U83uDd9+pCSTqCryMKqVyM2DaMvf8QRHkhcCMzfVKwrpq69KC/DDKbM6H7gkP1o/Lw3PaFktK1XoyaLgMHkeOY2suedKOsFveazVP9rBanG7xUgSvxjM4A9TZ5m9VmfWoNUPClomMRfd1k7PKee6nrV+AFF7+i+iuBFoCgnTyA1DNo/E11NpaLgslM5+HopWmEiPPsgDStrAogXx8n0odP1xuYY64pA3qUDnaHhfTgb9NH1ak7iKP4gom4O+yH47mfgu3hTZEOlARhUGIKP33v9y9HatBjgU7j2IcxKruQ9ceNw2Nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l3x5MTjHwGwO0Hs9jDIeW8iNQbLARhrnkzjj7qvQZzk=;
- b=bcVLZHEUoVFWgAZ97qVpPhcomIMPSI+7xH7UempJOT2L/CcD5+4GnZK0U9UrQBscZRK4nxSjJ3vXENfcPD48yZiVHYD2UM4gbss+FCf0DFGGYzYj6G4MTTh8UJQEWlLq24UcrGAcIDJVrJUA0VxIOqFFiiPQWDxp8Bo3NNDtOttMKyLQOL4GeoucqB24i1600vwAkYPSmkPrTb8newgcRbq3gO4kfTEUk4Bd4jmQhpuvZFnfHEipXzu31aBxhI8ua73HkLdLGwDr7ZnFdCxZau/u4PR5CH+0MK+8lJdxOUSk3PRnpy8sqftqEMaBVqWwECX1KXwLGcPvv7s0GxO/eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l3x5MTjHwGwO0Hs9jDIeW8iNQbLARhrnkzjj7qvQZzk=;
- b=A5x2rsOLtVeX2mTYrAyKD4HEQNqfNNJMUeL1R0k+Oq2QiHpkmViBRQ7ObeY4IDh01iC6BPPHMn9vWXA3eC+c5++v7yT/jN72y2CXKB9rBRs8tbqUHUY9DAnOqH7W6bUiSB3KgKFXWcbNGGj2VyctQakQH6cJe4EH+jSP/aJgu4g=
-Received: from MW3PR05CA0017.namprd05.prod.outlook.com (2603:10b6:303:2b::22)
- by MWHPR12MB1295.namprd12.prod.outlook.com (2603:10b6:300:11::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.15; Wed, 18 May
- 2022 04:07:59 +0000
-Received: from CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:2b:cafe::8d) by MW3PR05CA0017.outlook.office365.com
- (2603:10b6:303:2b::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.5 via Frontend
- Transport; Wed, 18 May 2022 04:07:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT052.mail.protection.outlook.com (10.13.174.225) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5273.14 via Frontend Transport; Wed, 18 May 2022 04:07:59 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 17 May
- 2022 23:07:58 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 17 May
- 2022 23:07:58 -0500
-Received: from Ryan-AMD.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Tue, 17 May 2022 23:07:48 -0500
-From: Ryan Lin <tsung-hua.lin@amd.com>
-To: 
-Subject: [PATCH v5] drm/amdgpu: Disable ABM when AC mode
-Date: Wed, 18 May 2022 08:40:14 +0800
-Message-ID: <20220518004018.311332-1-tsung-hua.lin@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
-References: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D74310E371
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 04:25:02 +0000 (UTC)
+X-UUID: c9b7ad4095c84559b58e19bb7ac77634-20220518
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:92fa0d12-539f-4c30-89ed-7a5271ff7ebf, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:20,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:70
+X-CID-INFO: VERSION:1.1.5, REQID:92fa0d12-539f-4c30-89ed-7a5271ff7ebf, OB:0,
+ LOB:
+ 0,IP:0,URL:5,TC:0,Content:20,EDM:0,RT:0,SF:45,FILE:0,RULE:Spam_GS981B3D,AC
+ TION:quarantine,TS:70
+X-CID-META: VersionHash:2a19b09, CLOUDID:db6e95e2-edbf-4bd4-8a34-dfc5f7bb086d,
+ C
+ OID:30f6d911fb82,Recheck:0,SF:28|17|19|48,TC:nil,Content:3,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:0,BEC:nil
+X-UUID: c9b7ad4095c84559b58e19bb7ac77634-20220518
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1458528257; Wed, 18 May 2022 12:24:57 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 18 May 2022 12:24:56 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 18 May 2022 12:24:55 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 18 May 2022 12:24:55 +0800
+Message-ID: <3dc39acc0fae4045f7513a71432f99b66fdf9f99.camel@mediatek.com>
+Subject: Re: [PATCH v6 1/4] dt-bindings: display: mediatek: dsi: Convert
+ dsi_dtbinding to .yaml
+From: CK Hu <ck.hu@mediatek.com>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>
+Date: Wed, 18 May 2022 12:24:55 +0800
+In-Reply-To: <20220504091923.2219-2-rex-bc.chen@mediatek.com>
+References: <20220504091923.2219-1-rex-bc.chen@mediatek.com>
+ <20220504091923.2219-2-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 29e00be7-4987-4d34-5cf5-08da3883ff1a
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1295:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB12956D939A0C5B146318FF41B2D19@MWHPR12MB1295.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NvzN3tId/JRx4Ps+oXD0eMcttM9ObYf5vrDv4YBx0bVmUTtO6WyCUzm8pLz34+AAXpaDP8wfc/u96WFkLLSg4d4ueth97RH32dCY6VVVBngbAE+zXYeEGntVp8nVTn5ocOlGLNMjsXbwIaRLceJs31180UHO0GGrEEVX8uwgZO8Qg9kJJMtHy9JcfCuefkI1z14HKPXkSPxcQsdHgSAerbtPUKNlDUSoONllfXxKQI8s6hi1SKKKhuI/t5hs4DWCnGkGrKrAgJ01JeBg9xKRLyxqzmog8APqliCIt01XQbpJv8LXJH9CdbifuhosBqLTAnpD5RvtEh3b+Sm/u2t7mt+F77oyMZCJZXfckwBk30Ury+XpoGnZ0Gh2Du5omUE/Ts2KWoyScmQso3pvIrQmFptVqkKJKm8IpEPXobwmEpshJIkDDBSBQOHwt12/jschVmrX2Scp0ffDmjV7S/2BrUZfULMSHEzcrIoWdKSsdm7aNSZFo+rgXLATXoFbLUy4Lx62Z9RDuEyDg7eGVgisIl3TOxzPQRIlkzLTVdjcgJVnadWl6OxaJbQ3TVSPYQA+AxnEcPOJGfn/seon6dax0bSGQ8a/e9J64qoOoI0Saq+ElWadvJOyBlpZ8PU5eVQI9kwcHROj5cCRbRZ9WIsKpeSniXqJJ8Wx+2Wn5Bngt7OlLSl7m8LfPO8NDKF872g3Niqs8Je6zPjGR3bqlnXt0ZZfNiS3lO8J9lVv8vCVazU=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(7416002)(109986005)(70206006)(1076003)(508600001)(5660300002)(8676002)(4326008)(316002)(36756003)(54906003)(426003)(2616005)(86362001)(82310400005)(81166007)(336012)(47076005)(40460700003)(83380400001)(36860700001)(2906002)(6666004)(26005)(8936002)(356005)(70586007)(7696005)(186003)(266003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 04:07:59.6260 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29e00be7-4987-4d34-5cf5-08da3883ff1a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1295
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,184 +69,246 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jake Wang <haonan.wang2@amd.com>, David Airlie <airlied@linux.ie>,
- leon.li@amd.com, Lijo Lazar <lijo.lazar@amd.com>,
- Shirish S <shirish.s@amd.corp-partner.google.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Huang Rui <ray.huang@amd.com>, Eric Huang <jinhuieric.huang@amd.com>,
- Likun Gao <Likun.Gao@amd.com>, Jun Lei <Jun.Lei@amd.com>,
- Jimmy Kizito <Jimmy.Kizito@amd.com>, Rodrigo
- Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Rouven Czerwinski <rouven@czerwinskis.de>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Robin Singh <robin.singh@amd.com>, Stylon Wang <stylon.wang@amd.com>,
- Yifan Zhang <yifan1.zhang@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Nikola Cornij <nikola.cornij@amd.com>,
- Sean Paul <seanpaul@chromium.org>, Chris Park <Chris.Park@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, Ching-shih.Li@amd.com,
- Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>, Roy Chan <roy.chan@amd.com>,
- Linux Patches Robot
- <linux-patches-robot@chromeos-missing-patches.google.com.iam.gserviceaccount.com>,
- Chengming Gui <Jack.Gui@amd.com>, Jiri Kosina <jkosina@suse.cz>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Roman Li <Roman.Li@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jude Shih <shenshih@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Ryan Lin <tsung-hua.lin@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
+ airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disable ABM feature when the system is running on AC mode to get the more
-perfect contrast of the display.
+Hi, Rex:
 
-v2: remove "UPSTREAM" from the subject.
+On Wed, 2022-05-04 at 17:19 +0800, Rex-BC Chen wrote:
+> From: Xinlei Lee <xinlei.lee@mediatek.com>
+> 
+> Convert mediatek,dsi.txt to mediatek,dsi.yaml format
 
-v3: adv->pm.ac_power updating by amd gpu_acpi_event_handler.
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-v4: Add the file I lost to fix the build error.
-
-v5: Move that function of the setting abm disabled from DC to amdgpu_dm.
-
-Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
-
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c        |  3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c      |  1 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 +++++++++++++++++
- drivers/gpu/drm/amd/display/dc/core/dc_link.c   | 10 ++++++++++
- drivers/gpu/drm/amd/display/dc/dc_link.h        |  2 ++
- drivers/gpu/drm/amd/include/amd_acpi.h          |  1 +
- drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h         |  1 +
- 7 files changed, 34 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index 4811b0faafd9..6ac331ee4255 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -822,7 +822,8 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
- 	struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
- 	struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
- 
--	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
-+	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0 ||
-+	    strcmp(entry->device_class, ACPI_BATTERY_CLASS) == 0) {
- 		if (power_supply_is_system_supplied() > 0)
- 			DRM_DEBUG_DRIVER("pm: AC\n");
- 		else
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index abfcc1304ba0..b959d256ce46 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 
- 	adev->gfx.gfx_off_req_count = 1;
- 	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-+	adev->pm.old_ac_power = false;
- 
- 	atomic_set(&adev->throttling_logging_enabled, 1);
- 	/*
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 87283e2da8c1..1ed1f2d00350 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3652,6 +3652,11 @@ amdgpu_dm_register_backlight_device(struct amdgpu_display_manager *dm)
- }
- #endif
- 
-+static void amdgpu_dm_abm_set_level(struct amdgpu_display_manager *dm, int level)
-+{
-+	dc_link_set_abm_level(dm->backlight_link[0], level);
-+}
-+
- static int initialize_plane(struct amdgpu_display_manager *dm,
- 			    struct amdgpu_mode_info *mode_info, int plane_id,
- 			    enum drm_plane_type plane_type,
-@@ -9072,6 +9077,9 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 		hdr_changed =
- 			!drm_connector_atomic_hdr_metadata_equal(old_con_state, new_con_state);
- 
-+		if (adev->pm.ac_power)
-+			dm_new_crtc_state->abm_level = 0;
-+
- 		if (!scaling_changed && !abm_changed && !hdr_changed)
- 			continue;
- 
-@@ -9220,6 +9228,15 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 			amdgpu_dm_backlight_set_level(dm, i, dm->brightness[i]);
- 	}
- #endif
-+
-+	if (adev->pm.ac_power != adev->pm.old_ac_power) {
-+		if (adev->pm.ac_power)
-+			amdgpu_dm_abm_set_level(dm, 0);
-+		else
-+			amdgpu_dm_abm_set_level(dm, amdgpu_dm_abm_level);
-+		adev->pm.old_ac_power = adev->pm.ac_power;
-+	}
-+
- 	/*
- 	 * send vblank event on all events not handled in flip and
- 	 * mark consumed event for drm_atomic_helper_commit_hw_done
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index fb012ecd23a1..5edcf2a9dc4e 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -2616,6 +2616,16 @@ int dc_link_get_backlight_level(const struct dc_link *link)
- 		return DC_ERROR_UNEXPECTED;
- }
- 
-+int dc_link_set_abm_level(const struct dc_link *link, int level)
-+{
-+	struct abm *abm = get_abm_from_stream_res(link);
-+
-+	if (abm != NULL && abm->funcs->set_abm_level != NULL)
-+		return (int) abm->funcs->set_abm_level(abm, level);
-+	else
-+		return DC_ERROR_UNEXPECTED;
-+}
-+
- int dc_link_get_target_backlight_pwm(const struct dc_link *link)
- {
- 	struct abm *abm = get_abm_from_stream_res(link);
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_link.h b/drivers/gpu/drm/amd/display/dc/dc_link.h
-index 83845d006c54..b69a114ce154 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_link.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_link.h
-@@ -258,6 +258,8 @@ bool dc_link_set_default_brightness_aux(struct dc_link *link);
- 
- int dc_link_get_backlight_level(const struct dc_link *dc_link);
- 
-+int dc_link_set_abm_level(const struct dc_link *link, int level);
-+
- int dc_link_get_target_backlight_pwm(const struct dc_link *link);
- 
- bool dc_link_set_psr_allow_active(struct dc_link *dc_link, bool enable,
-diff --git a/drivers/gpu/drm/amd/include/amd_acpi.h b/drivers/gpu/drm/amd/include/amd_acpi.h
-index 2d089d30518f..2d9aad582985 100644
---- a/drivers/gpu/drm/amd/include/amd_acpi.h
-+++ b/drivers/gpu/drm/amd/include/amd_acpi.h
-@@ -25,6 +25,7 @@
- #define AMD_ACPI_H
- 
- #define ACPI_AC_CLASS           "ac_adapter"
-+#define ACPI_BATTERY_CLASS	 "battery"
- 
- struct atif_verify_interface {
- 	u16 size;		/* structure size in bytes (includes size field) */
-diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-index f6e0e7d8a007..de459411a0e8 100644
---- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-+++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-@@ -445,6 +445,7 @@ struct amdgpu_pm {
- 	uint32_t                smu_prv_buffer_size;
- 	struct amdgpu_bo        *smu_prv_buffer;
- 	bool ac_power;
-+	bool old_ac_power;
- 	/* powerplay feature */
- 	uint32_t pp_feature;
- 
--- 
-2.25.1
+> 
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> ---
+>  .../display/mediatek/mediatek,dsi.txt         |  62 ----------
+>  .../display/mediatek/mediatek,dsi.yaml        | 115
+> ++++++++++++++++++
+>  2 files changed, 115 insertions(+), 62 deletions(-)
+>  delete mode 100644
+> Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+>  create mode 100644
+> Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+> 
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> deleted file mode 100644
+> index 36b01458f45c..000000000000
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -Mediatek DSI Device
+> -===================
+> -
+> -The Mediatek DSI function block is a sink of the display subsystem
+> and can
+> -drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized for
+> dual-
+> -channel output.
+> -
+> -Required properties:
+> -- compatible: "mediatek,<chip>-dsi"
+> -- the supported chips are mt2701, mt7623, mt8167, mt8173 and mt8183.
+> -- reg: Physical base address and length of the controller's
+> registers
+> -- interrupts: The interrupt signal from the function block.
+> -- clocks: device clocks
+> -  See Documentation/devicetree/bindings/clock/clock-bindings.txt for
+> details.
+> -- clock-names: must contain "engine", "digital", and "hs"
+> -- phys: phandle link to the MIPI D-PHY controller.
+> -- phy-names: must contain "dphy"
+> -- port: Output port node with endpoint definitions as described in
+> -  Documentation/devicetree/bindings/graph.txt. This port should be
+> connected
+> -  to the input port of an attached DSI panel or DSI-to-eDP encoder
+> chip.
+> -
+> -Optional properties:
+> -- resets: list of phandle + reset specifier pair, as described in
+> [1].
+> -
+> -[1] Documentation/devicetree/bindings/reset/reset.txt
+> -
+> -MIPI TX Configuration Module
+> -============================
+> -
+> -See phy/mediatek,dsi-phy.yaml
+> -
+> -Example:
+> -
+> -mipi_tx0: mipi-dphy@10215000 {
+> -	compatible = "mediatek,mt8173-mipi-tx";
+> -	reg = <0 0x10215000 0 0x1000>;
+> -	clocks = <&clk26m>;
+> -	clock-output-names = "mipi_tx0_pll";
+> -	#clock-cells = <0>;
+> -	#phy-cells = <0>;
+> -	drive-strength-microamp = <4600>;
+> -	nvmem-cells= <&mipi_tx_calibration>;
+> -	nvmem-cell-names = "calibration-data";
+> -};
+> -
+> -dsi0: dsi@1401b000 {
+> -	compatible = "mediatek,mt8173-dsi";
+> -	reg = <0 0x1401b000 0 0x1000>;
+> -	interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_LOW>;
+> -	clocks = <&mmsys MM_DSI0_ENGINE>, <&mmsys MM_DSI0_DIGITAL>,
+> -		 <&mipi_tx0>;
+> -	clock-names = "engine", "digital", "hs";
+> -	resets = <&mmsys MT8173_MMSYS_SW0_RST_B_DISP_DSI0>;
+> -	phys = <&mipi_tx0>;
+> -	phy-names = "dphy";
+> -
+> -	port {
+> -		dsi0_out: endpoint {
+> -			remote-endpoint = <&panel_in>;
+> -		};
+> -	};
+> -};
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> l
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> l
+> new file mode 100644
+> index 000000000000..fa5bdf28668a
+> --- /dev/null
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> l
+> @@ -0,0 +1,115 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: 
+> https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml*__;Iw!!CTRNKA9wMg0ARbw!zKJCSsOqM0Bn_efj50JX_HvOItJ8ZUdgh54drCoUdMkmnmVb5pH4pd-gj5RZUQ$
+>  
+> +$schema: 
+> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!zKJCSsOqM0Bn_efj50JX_HvOItJ8ZUdgh54drCoUdMkmnmVb5pH4pd8zHOMcVQ$
+>  
+> +
+> +title: MediaTek DSI Controller Device Tree Bindings
+> +
+> +maintainers:
+> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +  - Jitao Shi <jitao.shi@mediatek.com>
+> +  - Xinlei Lee <xinlei.lee@mediatek.com>
+> +
+> +description: |
+> +  The MediaTek DSI function block is a sink of the display subsystem
+> and can
+> +  drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized
+> for dual-
+> +  channel output.
+> +
+> +allOf:
+> +  - $ref: /schemas/display/dsi-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt2701-dsi
+> +      - mediatek,mt7623-dsi
+> +      - mediatek,mt8167-dsi
+> +      - mediatek,mt8173-dsi
+> +      - mediatek,mt8183-dsi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Engine Clock
+> +      - description: Digital Clock
+> +      - description: HS Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: engine
+> +      - const: digital
+> +      - const: hs
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  phys:
+> +    maxItems: 1
+> +
+> +  phy-names:
+> +    items:
+> +      - const: dphy
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description:
+> +      Output port node. This port should be connected to the input
+> +      port of an attached DSI panel or DSI-to-eDP encoder chip.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+> +  - phys
+> +  - phy-names
+> +  - port
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/mt8183-power.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +    #include <dt-bindings/reset/mt8183-resets.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        dsi0: dsi@14014000 {
+> +            compatible = "mediatek,mt8183-dsi";
+> +            reg = <0 0x14014000 0 0x1000>;
+> +            interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_LOW>;
+> +            power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+> +            clocks = <&mmsys CLK_MM_DSI0_MM>,
+> +                <&mmsys CLK_MM_DSI0_IF>,
+> +                <&mipi_tx0>;
+> +            clock-names = "engine", "digital", "hs";
+> +            resets = <&mmsys MT8183_MMSYS_SW0_RST_B_DISP_DSI0>;
+> +            phys = <&mipi_tx0>;
+> +            phy-names = "dphy";
+> +            port {
+> +                dsi0_out: endpoint {
+> +                    remote-endpoint = <&panel_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
