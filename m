@@ -1,70 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2BB52BBB4
-	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 16:07:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E53CD52BBB6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 May 2022 16:08:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA3710EFED;
-	Wed, 18 May 2022 14:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB2D010EFF0;
+	Wed, 18 May 2022 14:08:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACB2F10ECCC;
- Wed, 18 May 2022 14:07:36 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id i66so2719161oia.11;
- Wed, 18 May 2022 07:07:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:content-language:to
- :cc:references:from:subject:in-reply-to:content-transfer-encoding;
- bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
- b=EE+Ok5Q3AOQEWrEsMLQ8bJwxLj5JWKC0uRQavySm46LGHksaEXSJblszKsh1MvsIVQ
- sDPRJcb4u60eXiklTNwE2U+LD49Wb+WD9qcumnXXeQJnMUEh+Cprmc8yCFMWDDAx/laZ
- tSGFznxKpbQzHqnKFUn6Obmd3DZeEhLOmDwgdK5v2kgO5opVsh+5I61QnC6uyCbqRb+P
- h2C/Fnjhf4h05p6b5Q8AMg4jSgBqBTEFQHak8Fh8GP7YqlfCZ9bfj2PBgjyDMGe6fFi6
- v1tCilE06OSMQ2Ap/40R6GV7SfyLOFpw0XtrB50yxlMyw4CFBhcTVnu1K1CJBROjIYsQ
- b0Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
- b=vTk7JJNhINkNmpz9N8xDdjXPebGVQFxAaIApzrt3kQxyLljKAC9juM0iQa4XDgOnHz
- NtgQSY4pH77nbqKbKOdqLMMNb9V0GuT0xYDXgtjKnEnUJIXpUlgX1u+amODYYn2HtMsT
- MrIV6TuF8u2pVeTRgwYQ7WcMUqymoKfhuOUmnr65ymZOCu/UU93G3R2xVJLx1jKo0usU
- xDNDo/xtKqlbyyblez0zUvyZ4Ps7Ngcvxz1z9SIL8CrW7fUSAcW4CHokAPH1w6ipgFfV
- U5EAhBOayHPApx+DKOZJNekRxDfiCOcxBHTuKjjrwBAGO8MpHbMmWH3gLk4Xfu+s2zab
- AnLA==
-X-Gm-Message-State: AOAM530nF86GHWEAZe5P0+ss1Jy8s9XlyWuuBX9cprcQPJ8DfvxWgsd+
- xwvfBdOBA6mTpsM8tWcMKRA=
-X-Google-Smtp-Source: ABdhPJyXPBsJSPb3qsIt30kakP/1viqje/dN0om/JEDZ69uJP4Erfc4CCzg7BfUTauTabr0j1dC5fA==
-X-Received: by 2002:a05:6808:23d2:b0:326:979a:46f3 with SMTP id
- bq18-20020a05680823d200b00326979a46f3mr12917oib.207.1652882855862; 
- Wed, 18 May 2022 07:07:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- v8-20020a056830140800b0060603221267sm782203otp.55.2022.05.18.07.07.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 May 2022 07:07:34 -0700 (PDT)
-Message-ID: <47c64195-6629-ba2b-4533-b0fe37518da0@roeck-us.net>
-Date: Wed, 18 May 2022 07:07:31 -0700
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2045.outbound.protection.outlook.com [40.107.243.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B2A10EFF0;
+ Wed, 18 May 2022 14:08:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a2c9JAhJnhtxu263BEcjn8dgHUpjX87s5OOXoM+ANBw3k7HYAng8d5bxZRw48Exx5gj5o7kcVOjh87/6CWkJbxZ1GXTaURJWo8xEjqJMHG5Gc4LkMzgMCYB1F8g+9KxXSWpwWqttc8e7r/0YxZxqZ7MCGp1eCElnjdnO3yE4xzSRl2X08l1VMxar5nbb+7cMtmETY+2uCO/91wihDzPHSm+BBZk6JKSbDxMNT4XapM1aaqkXEV1UnDRBycWoUg2+sP3fV0FTBqGtLC5zwcafMPIxHADWkR+qr6PNVifyJx4n9PT8Lf6BPLdQ7AzEDD9AtxvxL0kbcF2MuFcTGJz2cA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UAHLnudMYGSCuegRJLDHot21ZhxLoxod6jwDCcFy6nA=;
+ b=UcjXSYaB0fENLW63uFHGS+ccZVAskkAs3d+cpVmhD8nzn7uxxOrkekG7JW8Occj8a/bBfhHStM4Fc0Y1HC0/6OiPrv3gBstQV/H9uSHj8ZQC7KPZflptkj5KToPchviE6TqeitrSfECMwk+8AYENcwoHGBOx3mx1gScymHY8V7CZjbUyUT75QcIGg1Frp2LN8gY3ni5xN3uXHZVLzLywzFhcWvp8NZPG8BMsGzTWupl3suzza4RmU5mqCXq2eocugXLkWB9vyqZ8PWJceZEzKnfMucaY6aR7ayZtRgETjNc8KFIC2wS4LL+eT4zxhALH1xg1ks4lFMx1iJMIQfjnAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UAHLnudMYGSCuegRJLDHot21ZhxLoxod6jwDCcFy6nA=;
+ b=TpkcEJPKYCVqOOuL2ZqGbaOsAOzM2vzyyiGYHp663PCSIhpVoLwIdDrs6mb6aB3VIef4xmHfaFFGGP1zsv0K1ejaZ8tZ6d04tTdofS8XHPUrDxTfqrvVVTVS1Z2zEb8SwsPlVLCvs7eWSoqNyly74FOdH2CRBRECZyzHfUWg7x8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SA0PR12MB4432.namprd12.prod.outlook.com (2603:10b6:806:98::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Wed, 18 May
+ 2022 14:08:41 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::540e:d76a:bdf0:ed0d]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::540e:d76a:bdf0:ed0d%7]) with mapi id 15.20.5273.014; Wed, 18 May 2022
+ 14:08:41 +0000
+Message-ID: <8110a6e0-1ba0-35dc-7fb6-1f4282cec4ff@amd.com>
+Date: Wed, 18 May 2022 10:08:37 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
+ Thunderbird/91.8.0
+Subject: Re: [Intel-gfx] [V2 3/3] drm/amd/display: Move connector debugfs to
+ drm
 Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <20220516131023.GA2329080@roeck-us.net> <YoJSF8T5K9pPx3Ap@kroah.com>
- <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
- <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-In-Reply-To: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "Sharma, Swati2" <swati2.sharma@intel.com>
+References: <20220411095129.1652096-1-bhanuprakash.modem@intel.com>
+ <20220411095129.1652096-4-bhanuprakash.modem@intel.com>
+ <DM6PR11MB31778321FCA58010AE44D867BAFC9@DM6PR11MB3177.namprd11.prod.outlook.com>
+ <29f40e83-a9a8-c0ac-1702-f9d0bf0f8861@intel.com>
+ <8a9ba046-5e2c-442f-aec2-f1683097d100@amd.com>
+ <576d5993-8108-218e-45a0-bab1ae4ca84b@intel.com>
+ <b87db6af-a2a0-8fba-b204-140db03ab79b@amd.com>
+ <642bd366-7918-0f0f-a6fb-e6422eb7501d@amd.com> <87mtfhhnx4.fsf@intel.com>
+ <7a61da79-90ac-b4e2-d06d-758616b12855@intel.com>
+From: Harry Wentland <hwentlan@amd.com>
+In-Reply-To: <7a61da79-90ac-b4e2-d06d-758616b12855@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR14CA0005.namprd14.prod.outlook.com
+ (2603:10b6:610:60::15) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f898d05e-33d7-4a0a-0635-08da38d7e907
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4432:EE_
+X-Microsoft-Antispam-PRVS: <SA0PR12MB44321EF2C744E4F6490F93BA8CD19@SA0PR12MB4432.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3jjeqpIDyaJ9He+EHNZIB0gYdqcpInbRf70yojTvCZB3MTJjy7UCzlNDzA5azBz5CP0r7iwsBuXS2P0V261TtaDWW9YIx/LfcG1CGkbGNypTK2XNCsMWVpcvrRSYQ/IeRi/fQ3MRpLnS8Hv+qH5MIC91C0+4pxxVNEJDqUngb05JrLl1BRqImHj6OO7VBnFwmqLES7B7Ex4coAS1le1Dl+T1fe1iz6LH4ZsPZm7mucnJpAQfl+pryH1rGmaPVezNHqLKBQsc8e/e5gkcUgSVKdp/Xz6Xn9QdKprS8UF/3CU1ukWgXXGvsI1PCIn58qb+5sO80OwJqO/IpuRvews7CzaDpiDxUYD+AuSoA2V5PAYyRMWwZcsWvx9dhjzRIvZcO6yO8j+MuzML7otBvFE0pQFOfn0sugnsz0I33n8gZ9W/L3alU4d1FZHYra5kf5mtxMf442+LoOQd2SmHEudXV99+qT8TrYlhkqYHNY6Ov8dmxF8u6fTUVy4/EJTZYt/GdTtHC4vKZ7KW99egOZg5EfIbHss1NeSoI7fCk7vr7vJtLnKV8M5kHk1QvkXNQlXQZ7UHjCTVAfK/RvRUjdo54lTNRQbiaOMTG2UvLR4s0I4ObEkc1jt2M2AIRIf7fTMNPDG5+zYrK5ONnztsTJdf1UGjzty9UmOrPE4GgSjFDtZ9IDjR6EmXMLlu5F9uG+gvM1bzNXlwUe4V2V827gqLNBNkTzJvsVYZFe+zU+KuEO9XmQob6HzvXD9Ubw2bppZg
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2906002)(4744005)(5660300002)(316002)(31696002)(8936002)(6512007)(6506007)(26005)(53546011)(6666004)(36756003)(38100700002)(110136005)(186003)(31686004)(2616005)(921005)(8676002)(4326008)(66946007)(66556008)(66476007)(6486002)(508600001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3VmKzFpc0pZdG1nekV6c3krYjNQeTVYR2g1bVp4eFdlN0FUQ29Yck5ZV0d1?=
+ =?utf-8?B?NitkaFBKbllJdlphL25BMXJJdmNSNTJYZHJMUjltRXN2SSsvYU04QjgzUlVo?=
+ =?utf-8?B?WkJnZzFIYzg0dUtNSytQMml5UENXSkNCWFB4VWNXYmphTXpEdGR5RHU3OVRX?=
+ =?utf-8?B?QWluQVRyeTRSNXZQNDhWZjlJYUl0VytGNk9NQkFicHlOOWY1bXJENHdzamtu?=
+ =?utf-8?B?K09VZ2ErTmVNcCt3OXd5NzZEbzQ5QnIzTWNGRmszRjJKenFIRzg4UHhSL3Qw?=
+ =?utf-8?B?eWhWb25sUmdsNC9JOUp1RFM1cnJPYjFtMnMxakQwY3M3V1o3NDhBbDZQVFlx?=
+ =?utf-8?B?VkxpNFpscmhHYmNXYzlMRjl5WXRJM3JMOWV0Z2grRXVvN1BYWVBPczFWR3E4?=
+ =?utf-8?B?eURvYlVNQlJoY21yNUpTU2dQWndEKzdRVXMxUWw1eTNPaTQ4N25PdzdlRjRh?=
+ =?utf-8?B?b1BtMkIrcmFBcy8zQm5qUzVuVHZPTEpyTWFWOStZYTR2Z2tJMnFBQTZNU1Fj?=
+ =?utf-8?B?V29CVjM0OUtYalE3b3pIZEVIck84Sk5yU3VIQ2NVOVZPN0xYcW1JNk55WnR4?=
+ =?utf-8?B?SEo4enlDNXdhTm1uYlN4eE1ZRHZJbUxOcTBRZEhLdVEwN1dVNGtlZElGRkV6?=
+ =?utf-8?B?VmdYMEt4U2I4bFNkOUZaemVVcExpNUttY09TdVAyY1dscGZsYnczbjU5YzhO?=
+ =?utf-8?B?U1JZLzNyMUtkNysxNEdNNm0xQ3ROTlRoM21RUnoyZjZMRENMQjkzT0JtRjhw?=
+ =?utf-8?B?SFJ5T0I1MFgrY04vemlnR2tEUml5ZzA3TG1TR2xXU3BEN0U1SGNMZTI1bWFX?=
+ =?utf-8?B?TEVwWi9MdVBrUER4Y2xLMW83VmhrazhwUnNkTyt5eS9GS2g1c0dFZHd5RWFP?=
+ =?utf-8?B?ak05eE5GRG4xQTEvSlh2TllVdUMzWHFiQlE1QlZ5Wnp0eXlhV0xFMWNvand6?=
+ =?utf-8?B?aStYU3l2dUNVOG4vc09DSkNaUzFpM25UVnV2M2VVRDVvdzBFajV6WVZNeUdw?=
+ =?utf-8?B?ZVh3eUszVWZEbVBJcE1OVDN1OFhVMGV1SWVtNXRoMUJhcnh6dmw1WkZETzJ1?=
+ =?utf-8?B?RXJXOFhtdGw2VVdlTnVKR2xQWXRhVENEYmgwMTVDU01WUllUS1BrRldaUml0?=
+ =?utf-8?B?eGt2b2dzdTQxMGJiSVlhZ1NiWk9IanBwN0pJaUZJREIwcTF2ZWF3a2xBcUlF?=
+ =?utf-8?B?RUloTll0WTBZQ24vdEtjdWh4a3BJMjVoREpzeXEwU1hjNjZYcXdFNFJicFM5?=
+ =?utf-8?B?TEE3dVhoWFh4SnR0NlVRNW9URVBnTmRPc0dJQmxETkI2K25YVmJTMWNIWUF5?=
+ =?utf-8?B?bDF5UWk1V2UwQU1jdVNKdFVESDFOeUZDVHpGVElQVm5lUlpPTzg0UGxITDkw?=
+ =?utf-8?B?ZWJKRmdhOWxVc2cxa3BvaTlTcHY4ZzhRdmRVOE9UaWlsU3JaVUZHRlNLdWZP?=
+ =?utf-8?B?QnY2bWRoLzZQdU1EeGRvZmZieDhFdjZQblFHUnFuZmtiNUlqUWppOWxFZlBa?=
+ =?utf-8?B?UTkrSk8ydURqVGs5SDVvd3VMWUJ5YVVzSEdxTFd5eEp0aW9VQ3E1d01yTVcv?=
+ =?utf-8?B?VUhRSnI2bE5pRStvWGFxUTlvbVhiNlJiL25VUVBNbDVjYmVjbEVqU3UzRm5O?=
+ =?utf-8?B?bDVjZDAwbFJzYkhyWGp6R3pCeU4zNkNNTklrblRYL3drbzI5MTlUU0pCRE9N?=
+ =?utf-8?B?eUFzWFROSVVOUXRLdDh1Ky9aU2pPTnA4NEFkTERQbFJRUW9OU1lnZXhMOGVL?=
+ =?utf-8?B?QitLTDZHN3UwUHlYZHFDUC9rN0dvcmZqQnZBMngzLzJSditsbHUwWC84Qnln?=
+ =?utf-8?B?b1IvQ3hKSHEwVzBDT2dqWmVlUjRSOUhEM1JIdmczOTRFeXBQdjVhV1cvcWpU?=
+ =?utf-8?B?V2JvaUJMT2JSSCt0SEdXdGNaOVV3am90ZXpkQUdCalJPNnpZZ1RFcGxRMlV6?=
+ =?utf-8?B?UW5QWUJpL1JsOEhtNzd0L0x4TW1GNUU2ZmUrY0ZNM2U0RW44TzNjN3JRNXFr?=
+ =?utf-8?B?Qjc5K05EMWJnbjAzR2I2QTg4NU1wUTJIWkUyZ3BuZjJFZk9xb1Bnc0NOZ200?=
+ =?utf-8?B?Zmozb1Jnd2wvelB6UlIwMFJPNTFGWEoyZ0U4VStYN0xWL3NGc1RTS08yV0c5?=
+ =?utf-8?B?NXlnUW9iTHh2SXJ6TEJnZjVTZHpWWmN0VGVDdmRodGNDNmJTK1VFQmp3eGEz?=
+ =?utf-8?B?azF0MUlGVDBkclhWbS9rSXp1SjFWYUJGcENybUI0eTZwa2t1VENzUm1LOFZn?=
+ =?utf-8?B?UGh0MVVoWjdhL2FzWDY2TFpRN1htWVRUL0FiOGxwa2E0OU92RXhmME5LSSsx?=
+ =?utf-8?B?RnRCQ29ZMkJLSjd4ajQwanZMMGtNdE91T2IrUTl4WkZnNEUzVy9jZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f898d05e-33d7-4a0a-0635-08da38d7e907
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 14:08:41.0802 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p4mZNdnMoR5yLIklJezr8wHM87I00k2Y4coejs1+XnzttX+PLjwG6R0tjBNsIlYytDGVtxoiJYScYA07YE0LsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4432
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,79 +145,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, Michal Marek <michal.lkml@markovi.net>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- clang-built-linux <llvm@lists.linux.dev>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-staging@lists.linux.dev,
- greybus-dev@lists.linaro.org, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen <src.res@email.cn>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- linux-btrfs <linux-btrfs@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-doc-tw-discuss@lists.sourceforge.net, Alex Shi <alexs@kernel.org>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/18/22 00:46, Arnd Bergmann wrote:
-> On Mon, May 16, 2022 at 3:19 PM Guenter Roeck <linux@roeck-us.net> wrote:
->> On 5/16/22 06:31, Greg KH wrote:
->>> On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
->>>> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
->>>>> From: Arnd Bergmann <arnd@arndb.de>
->>>>>
->>>>> During a patch discussion, Linus brought up the option of changing
->>>>> the C standard version from gnu89 to gnu99, which allows using variable
->>>>> declaration inside of a for() loop. While the C99, C11 and later standards
->>>>> introduce many other features, most of these are already available in
->>>>> gnu89 as GNU extensions as well.
->>>>
->>>> The downside is that backporting affected patches to older kernel branches
->>>> now fails with error messages such as
->>>>
->>>> mm/kfence/core.c: In function ‘kfence_init_pool’:
->>>> mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
->>>>
->>>> Just something to keep in mind when writing patches.
+
+
+On 5/18/22 01:38, Modem, Bhanuprakash wrote:
+> On Mon-16-05-2022 02:09 pm, Jani Nikula wrote:
+>> On Mon, 02 May 2022, Harry Wentland <harry.wentland@amd.com> wrote:
+>>> Both the kernel and IGT series look good to me.
 >>>
->>> I just ran across this very issue on this commit.  It's an easy fixup
->>> for 5.17.y to make this work, so I did that in my tree.  If this gets to
->>> be too much, we might need to reconsider adding c11 to older stable
->>> kernels.
->>>
+>>> I recommend you merge the entire kernel set as one into drm-next. We
+>>> can pull it into amd-staging-drm-next so as not to break our CI once
+>>> the IGT patches land.
+> 
+> @Harry
+> 
+> Can we have your Ack-by to merge this series via drm-misc-next?
+> IGT patches are already landed. :-)
+
+Sure. :)
+
+Acked-by: Harry Wentland <harry.wentland@amd.com>
+
+Harry
+
+> 
+> - Bhanu
+> 
 >>
->> I think I'll do just that for ChromeOS; I don't want to have to deal
->> with the backports, and we are using recent compilers anyway.
+>> Can we read that as an ack to merge via drm-misc-next? :)
+>>
+>> BR,
+>> Jani.
+>>
+>>
 > 
-> I think it would be better not to have the --std=gnu11 change in the older
-> stable kernels by default, as this has introduced build warnings and other
-> smaller issues, as well as raising the minimum compiler version.
-> 
-> The users that are stuck on older kernels for some reason tend to
-> overlap with those on older compilers. One example here is Android,
-> which used to ship with a gcc-4.9 build as the only non-clang toolchain,
-> and was using this for building their kernels. If someone wants to
-> pull in stable updates into an older Android, this would fail with
-> -std=gnu11. Others may be in the same situation.
-> 
-> Changing some of the 5.x stable branches to -std=gnu11 is probably
-> less of a problem, but I would not know where to draw the line exactly.
-> Maybe check with the Android team to see what the newest kernel is
-> that they expect to be built with the old gcc-4.9.
-> 
-
-I don't think they still build anything with gcc. We (ChromeOS) only
-need it for test builds of chromeos-4.4 (sigh), and that will hopefully
-be gone in a couple of months.
-
-We already enabled -std=gnu11 in chromeos-5.10 and chromeos-5.15.
-We'll see if that is possible with chromeos-5.4 as well.
-We won't bother with older kernel branches, but those should not
-get many patches from upstream outside stable release merges,
-so it is less of a problem.
-
-Guenter
