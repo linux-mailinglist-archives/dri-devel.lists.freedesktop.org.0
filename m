@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3816152DB97
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 19:46:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B00F752DBDA
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 19:50:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5907610ECCE;
-	Thu, 19 May 2022 17:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A7C10E1BD;
+	Thu, 19 May 2022 17:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90BA210EC3B;
- Thu, 19 May 2022 17:45:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF88F10E1BD;
+ Thu, 19 May 2022 17:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652982357; x=1684518357;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=rI5ZKSOJKM0Bcjv9f134lRqpnioCEqKK1pNus30VpcY=;
- b=PTcJeMD5InwBODa2nZbJmftk6FsLFf2mExaSqcwy9pUAe2RLeZ+VA+Uy
- dXbIOblsNMCyPW48WYzggGgdYgxqEprnewIVeeOuNUjCaw3MbGw8oQV6M
- af2cJXN2Js3EBUB1x96L1KhoUGZJP0u+mcJVVb/N45wpClwxUQDoX1RJ8 o=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 19 May 2022 10:45:57 -0700
+ t=1652982653; x=1684518653;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=5kM8wfwdVVMpu4XIfWch6CVxolwvVx9Fn/lj75QXlMQ=;
+ b=ObgsH0SRuC7UHCT5ldlmMwZY5YLyDaX/IRHfHEP2rf59ierUxXwWZiYH
+ gDkH3g1ZS3C9OTjpSf9ZIDCISOODJ2eexDSxAKHRPETdhh3ICYR6zvL7m
+ UHPw7U/F2pPsJHHpNrYwGxqNJsrAmgd/TYvKyqDRTR9FF/oflliCnOhTb c=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 19 May 2022 10:50:53 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 10:45:56 -0700
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 10:50:52 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 19 May 2022 10:45:56 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 19 May 2022 10:45:55 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v5 3/3] drm/msm/dp: delete vdda regulator related functions
- from eDP/DP controller
-Date: Thu, 19 May 2022 10:45:39 -0700
-Message-ID: <1652982339-18190-4-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1652982339-18190-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1652982339-18190-1-git-send-email-quic_khsieh@quicinc.com>
+ 15.2.986.22; Thu, 19 May 2022 10:50:51 -0700
+Received: from [10.110.100.160] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 19 May
+ 2022 10:50:49 -0700
+Message-ID: <089aaf55-084b-9a29-629c-3096930fac3b@quicinc.com>
+Date: Thu, 19 May 2022 10:50:48 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v7] drm/msm/dp: Always clear mask bits to disable
+ interrupts at dp_ctrl_reset_irq_ctrl()
+Content-Language: en-US
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+References: <1652804494-19650-1-git-send-email-quic_khsieh@quicinc.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <1652804494-19650-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
@@ -66,224 +68,76 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Vdda regulators are related to both eDP and DP phy so that it should be
-managed at eDP and DP phy driver instead of controller. This patch removes
-vdda regulators related functions out of eDP/DP controller.
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_parser.c | 14 ------
- drivers/gpu/drm/msm/dp/dp_parser.h |  6 ---
- drivers/gpu/drm/msm/dp/dp_power.c  | 95 +-------------------------------------
- 3 files changed, 2 insertions(+), 113 deletions(-)
+On 5/17/2022 9:21 AM, Kuogee Hsieh wrote:
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-index 8f9fed9..4ef2130 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.c
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-@@ -22,14 +22,6 @@
- #define DP_DEFAULT_P0_OFFSET	0x1000
- #define DP_DEFAULT_P0_SIZE	0x0400
- 
--static const struct dp_regulator_cfg sdm845_dp_reg_cfg = {
--	.num = 2,
--	.regs = {
--		{"vdda-1p2", 21800, 4 },	/* 1.2 V */
--		{"vdda-0p9", 36000, 32 },	/* 0.9 V */
--	},
--};
--
- static void __iomem *dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
- {
- 	struct resource *res;
-@@ -298,12 +290,6 @@ static int dp_parser_parse(struct dp_parser *parser)
- 	if (rc)
- 		return rc;
- 
--	/* Map the corresponding regulator information according to
--	 * version. Currently, since we only have one supported platform,
--	 * mapping the regulator directly.
--	 */
--	parser->regulator_cfg = &sdm845_dp_reg_cfg;
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 3a4d797..b56b4d7 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -101,11 +101,6 @@ struct dp_reg_entry {
- 	int disable_load;
- };
- 
--struct dp_regulator_cfg {
--	int num;
--	struct dp_reg_entry regs[DP_DEV_REGULATOR_MAX];
--};
--
- /**
-  * struct dp_parser - DP parser's data exposed to clients
-  *
-@@ -121,7 +116,6 @@ struct dp_parser {
- 	struct dp_pinctrl pinctrl;
- 	struct dp_io io;
- 	struct dp_display_data disp_data;
--	const struct dp_regulator_cfg *regulator_cfg;
- 	u32 max_dp_lanes;
- 	struct drm_bridge *next_bridge;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-index d9e0117..b52ac1d 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.c
-+++ b/drivers/gpu/drm/msm/dp/dp_power.c
-@@ -20,82 +20,10 @@ struct dp_power_private {
- 	struct clk *link_clk_src;
- 	struct clk *pixel_provider;
- 	struct clk *link_provider;
--	struct regulator_bulk_data supplies[DP_DEV_REGULATOR_MAX];
- 
- 	struct dp_power dp_power;
- };
- 
--static void dp_power_regulator_disable(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	int num = power->parser->regulator_cfg->num;
--	int i;
--
--	DBG("");
--	for (i = num - 1; i >= 0; i--)
--		if (regs[i].disable_load >= 0)
--			regulator_set_load(s[i].consumer,
--					   regs[i].disable_load);
--
--	regulator_bulk_disable(num, s);
--}
--
--static int dp_power_regulator_enable(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	int num = power->parser->regulator_cfg->num;
--	int ret, i;
--
--	DBG("");
--	for (i = 0; i < num; i++) {
--		if (regs[i].enable_load >= 0) {
--			ret = regulator_set_load(s[i].consumer,
--						 regs[i].enable_load);
--			if (ret < 0) {
--				pr_err("regulator %d set op mode failed, %d\n",
--					i, ret);
--				goto fail;
--			}
--		}
--	}
--
--	ret = regulator_bulk_enable(num, s);
--	if (ret < 0) {
--		pr_err("regulator enable failed, %d\n", ret);
--		goto fail;
--	}
--
--	return 0;
--
--fail:
--	for (i--; i >= 0; i--)
--		regulator_set_load(s[i].consumer, regs[i].disable_load);
--	return ret;
--}
--
--static int dp_power_regulator_init(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	struct platform_device *pdev = power->pdev;
--	int num = power->parser->regulator_cfg->num;
--	int i, ret;
--
--	for (i = 0; i < num; i++)
--		s[i].supply = regs[i].name;
--
--	ret = devm_regulator_bulk_get(&pdev->dev, num, s);
--	if (ret < 0) {
--		pr_err("%s: failed to init regulator, ret=%d\n",
--						__func__, ret);
--		return ret;
--	}
--
--	return 0;
--}
--
- static int dp_power_clk_init(struct dp_power_private *power)
- {
- 	int rc = 0;
-@@ -318,21 +246,10 @@ int dp_power_client_init(struct dp_power *dp_power)
- 
- 	pm_runtime_enable(&power->pdev->dev);
- 
--	rc = dp_power_regulator_init(power);
--	if (rc) {
--		DRM_ERROR("failed to init regulators %d\n", rc);
--		goto error;
--	}
--
- 	rc = dp_power_clk_init(power);
--	if (rc) {
-+	if (rc)
- 		DRM_ERROR("failed to init clocks %d\n", rc);
--		goto error;
--	}
--	return 0;
- 
--error:
--	pm_runtime_disable(&power->pdev->dev);
- 	return rc;
- }
- 
-@@ -365,22 +282,15 @@ int dp_power_init(struct dp_power *dp_power, bool flip)
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
- 	pm_runtime_get_sync(&power->pdev->dev);
--	rc = dp_power_regulator_enable(power);
--	if (rc) {
--		DRM_ERROR("failed to enable regulators, %d\n", rc);
--		goto exit;
--	}
- 
- 	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
- 	if (rc) {
- 		DRM_ERROR("failed to enable DP core clocks, %d\n", rc);
--		goto err_clk;
-+		goto exit;
- 	}
- 
- 	return 0;
- 
--err_clk:
--	dp_power_regulator_disable(power);
- exit:
- 	pm_runtime_put_sync(&power->pdev->dev);
- 	return rc;
-@@ -393,7 +303,6 @@ int dp_power_deinit(struct dp_power *dp_power)
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
- 	dp_power_clk_enable(dp_power, DP_CORE_PM, false);
--	dp_power_regulator_disable(power);
- 	pm_runtime_put_sync(&power->pdev->dev);
- 	return 0;
- }
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Is anyone has comments on this patch?
+> dp_catalog_ctrl_reset() will software reset DP controller. But it will
+> not reset programmable registers to default value. DP driver still have
+> to clear mask bits to interrupt status registers to disable interrupts
+> after software reset of controller.
+>
+> At current implementation, dp_ctrl_reset_irq_ctrl() will software reset dp
+> controller but did not call dp_catalog_ctrl_enable_irq(false) to clear hpd
+> related interrupt mask bits to disable hpd related interrupts due to it
+> mistakenly think hpd related interrupt mask bits will be cleared by software
+> reset of dp controller automatically. This mistake may cause system to crash
+> during suspending procedure due to unexpected irq fired and trigger event
+> thread to access dp controller registers with controller clocks are disabled.
+>
+> This patch fixes system crash during suspending problem by removing "enable"
+> flag condition checking at dp_ctrl_reset_irq_ctrl() so that hpd related
+> interrupt mask bits are cleared to prevent unexpected from happening.
+>
+> Changes in v2:
+> -- add more details commit text
+>
+> Changes in v3:
+> -- add synchrons_irq()
+> -- add atomic_t suspended
+>
+> Changes in v4:
+> -- correct Fixes's commit ID
+> -- remove synchrons_irq()
+>
+> Changes in v5:
+> -- revise commit text
+>
+> Changes in v6:
+> -- add event_lock to protect "suspended"
+>
+> Changes in v7:
+> -- delete "suspended" flag
+>
+> Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index 5356856..5ddb4e8 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1380,8 +1380,13 @@ void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
+>   
+>   	dp_catalog_ctrl_reset(ctrl->catalog);
+>   
+> -	if (enable)
+> -		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
+> +	/*
+> +	 * all dp controller programmable registers will not
+> +	 * be reset to default value after DP_SW_RESET
+> +	 * therefore interrupt mask bits have to be updated
+> +	 * to enable/disable interrupts
+> +	 */
+> +	dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
+>   }
+>   
+>   void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
