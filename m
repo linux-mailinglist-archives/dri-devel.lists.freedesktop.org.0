@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A9052CD37
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 09:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25C752CBE8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 08:28:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1687911ADA3;
-	Thu, 19 May 2022 07:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 000C911A97A;
+	Thu, 19 May 2022 06:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66FBC10ECB1;
- Thu, 19 May 2022 03:06:06 +0000 (UTC)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4L3ZTL6WvgzgY8t;
- Thu, 19 May 2022 11:04:38 +0800 (CST)
-Received: from dggpemm500016.china.huawei.com (7.185.36.25) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 19 May 2022 11:06:01 +0800
-Received: from huawei.com (10.67.175.41) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 19 May
- 2022 11:06:01 +0800
-From: Yipeng Zou <zouyipeng@huawei.com>
-To: <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
- <rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
- <airlied@linux.ie>, <daniel@ffwll.ch>, <alan.previn.teres.alexis@intel.com>,
- <vinay.belgaumkar@intel.com>
-Subject: [PATCH -next] drm/i915: Fix some integer constant macro to unsigned
- type
-Date: Thu, 19 May 2022 11:04:23 +0800
-Message-ID: <20220519030423.169981-1-zouyipeng@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97DD411A97A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 06:28:12 +0000 (UTC)
+X-UUID: 28cdf1cd604e4171ba01530ba5530c76-20220519
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:422ac9c0-fbe6-4438-86eb-0dfa4c6d775f, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:2,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:2
+X-CID-META: VersionHash:2a19b09, CLOUDID:7104d279-5ef6-470b-96c9-bdb8ced32786,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:4,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 28cdf1cd604e4171ba01530ba5530c76-20220519
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1612375784; Thu, 19 May 2022 14:27:55 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 19 May 2022 14:27:54 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 19 May 2022 14:27:53 +0800
+Message-ID: <8b40430e1a2996a04554ee6679e0ac2e1adf0220.camel@mediatek.com>
+Subject: Re: [PATCH v6, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
+ transfer
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>
+Date: Thu, 19 May 2022 14:28:39 +0800
+In-Reply-To: <cfa87a23495fe5d72c7deed49162b026466cb68a.camel@mediatek.com>
+References: <1652337012-9053-1-git-send-email-xinlei.lee@mediatek.com>
+ <1652337012-9053-4-git-send-email-xinlei.lee@mediatek.com>
+ <cfa87a23495fe5d72c7deed49162b026466cb68a.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.41]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Thu, 19 May 2022 07:35:33 +0000
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,182 +63,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zouyipeng@huawei.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ "# 6 . 6 . x : b255d51e3967 : sched :
+ Modify dsi funcs to atomic	 	  operations" <stable@vger.kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ rex-bc.chen@mediatek.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Build Kernel with gcc 7.5.0 or older, will get some error message:
+On Wed, 2022-05-18 at 11:55 +0800, CK Hu wrote:
+> Hi, Xinlei:
+> 
+> On Thu, 2022-05-12 at 14:30 +0800, xinlei.lee@mediatek.com wrote:
+> > From: Jitao Shi <jitao.shi@mediatek.com>
+> > 
+> > To comply with the panel sequence, hold the mipi signal to LP00
+> > before the dcs cmds transmission,
+> > and pull the mipi signal high from LP00 to LP11 until the start of
+> > the dcs cmds transmission.
+> > The normal panel timing is :
+> > (1) pp1800 DC pull up
+> > (2) avdd & avee AC pull high
+> > (3) lcm_reset pull high -> pull low -> pull high
+> > (4) Pull MIPI signal high (LP11) -> initial code -> send video
+> > data(HS mode)
+> > The power-off sequence is reversed.
+> > If dsi is not in cmd mode, then dsi will pull the mipi signal high
+> > in
+> > the mtk_output_dsi_enable function.
+> > The delay in lane_ready func is the reaction time of dsi_rx after
+> > pulling up the mipi signal.
+> > 
+> > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
+> > drm_panel_bridge
+> > API")
+> > 
+> > Cc: <stable@vger.kernel.org> # 6.6.x: b255d51e3967: sched: Modify
+> > dsi
+> > funcs to atomic operations
+> > Cc: <stable@vger.kernel.org> # 6.6.x: 72c69c977502: sched: Separate
+> > poweron/poweroff from enable/disable and define new funcs
+> > Cc: <stable@vger.kernel.org> # 6.6.x
+> 
+> This patch looks good to me, but do you want to 'back' port this
+> patch
+> to Linux version 6.6?
+> 
+> Regards,
+> CK
+> 
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++-----
+> > --
+> >  1 file changed, 21 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > index d9a6b928dba8..25e84d9426bf 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -203,6 +203,7 @@ struct mtk_dsi {
+> >  	struct mtk_phy_timing phy_timing;
+> >  	int refcount;
+> >  	bool enabled;
+> > +	bool lanes_ready;
+> >  	u32 irq_data;
+> >  	wait_queue_head_t irq_wait_queue;
+> >  	const struct mtk_dsi_driver_data *driver_data;
+> > @@ -661,18 +662,11 @@ static int mtk_dsi_poweron(struct mtk_dsi
+> > *dsi)
+> >  	mtk_dsi_reset_engine(dsi);
+> >  	mtk_dsi_phy_timconfig(dsi);
+> >  
+> > -	mtk_dsi_rxtx_control(dsi);
+> > -	usleep_range(30, 100);
+> > -	mtk_dsi_reset_dphy(dsi);
+> >  	mtk_dsi_ps_control_vact(dsi);
+> >  	mtk_dsi_set_vm_cmd(dsi);
+> >  	mtk_dsi_config_vdo_timing(dsi);
+> >  	mtk_dsi_set_interrupt_enable(dsi);
+> >  
+> > -	mtk_dsi_clk_ulp_mode_leave(dsi);
+> > -	mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > -	mtk_dsi_clk_hs_mode(dsi, 0);
+> > -
+> >  	return 0;
+> >  err_disable_engine_clk:
+> >  	clk_disable_unprepare(dsi->engine_clk);
+> > @@ -701,6 +695,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > *dsi)
+> >  	clk_disable_unprepare(dsi->digital_clk);
+> >  
+> >  	phy_power_off(dsi->phy);
+> > +
+> > +	dsi->lanes_ready = false;
+> > +}
+> > +
+> > +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
+> > +{
+> > +	if (!dsi->lanes_ready) {
+> > +		dsi->lanes_ready = true;
+> > +		mtk_dsi_rxtx_control(dsi);
+> > +		usleep_range(30, 100);
+> > +		mtk_dsi_reset_dphy(dsi);
+> > +		mtk_dsi_clk_ulp_mode_leave(dsi);
+> > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > +		mtk_dsi_clk_hs_mode(dsi, 0);
+> > +		msleep(20);
+> > +		/* The reaction time after pulling up the mipi signal
+> > for dsi_rx */
+> > +	}
+> >  }
+> >  
+> >  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+> > @@ -708,6 +719,7 @@ static void mtk_output_dsi_enable(struct
+> > mtk_dsi
+> > *dsi)
+> >  	if (dsi->enabled)
+> >  		return;
+> >  
+> > +	mtk_dsi_lane_ready(dsi);
+> >  	mtk_dsi_set_mode(dsi);
+> >  	mtk_dsi_clk_hs_mode(dsi, 1);
+> >  
+> > @@ -1017,6 +1029,8 @@ static ssize_t mtk_dsi_host_transfer(struct
+> > mipi_dsi_host *host,
+> >  	if (MTK_DSI_HOST_IS_READ(msg->type))
+> >  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
+> >  
+> > +	mtk_dsi_lane_ready(dsi);
+> > +
+> >  	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
+> >  	if (ret)
+> >  		goto restore_dsi_mode;
+> 
+> 
 
-drivers/gpu/drm/i915/display/intel_ddi.c:1915:2: error: case label does not reduce to an integer constant
-  case PORT_CLK_SEL_WRPLL1:
-  ^~~~
-......
+Hi CK:
 
-Look here : https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic
-for the details why it happends.
+Thanks for your review.
+I had some misunderstandings before, and I will modify the back version
+to 5.10.x in the next version.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yipeng Zou <zouyipeng@huawei.com>
----
- drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h |  4 ++--
- .../i915/gt/uc/abi/guc_communication_ctb_abi.h   |  6 +++---
- .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h    | 14 +++++++-------
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h       | 12 ++++++------
- drivers/gpu/drm/i915/i915_reg.h                  | 16 ++++++++--------
- 5 files changed, 26 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index be9ac47fa9d0..cb16fd0ba8dd 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -50,8 +50,8 @@
- 
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_LEN		(GUC_HXG_REQUEST_MSG_MIN_LEN + 3u)
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_0_MBZ		GUC_HXG_REQUEST_MSG_0_DATA0
--#define HOST2GUC_SELF_CFG_REQUEST_MSG_1_KLV_KEY		(0xffff << 16)
--#define HOST2GUC_SELF_CFG_REQUEST_MSG_1_KLV_LEN		(0xffff << 0)
-+#define HOST2GUC_SELF_CFG_REQUEST_MSG_1_KLV_KEY		(0xffffu << 16)
-+#define HOST2GUC_SELF_CFG_REQUEST_MSG_1_KLV_LEN		(0xffffu << 0)
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_2_VALUE32		GUC_HXG_REQUEST_MSG_n_DATAn
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_3_VALUE64		GUC_HXG_REQUEST_MSG_n_DATAn
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-index c9086a600bce..e5c782283309 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-@@ -82,11 +82,11 @@ static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
- #define GUC_CTB_HDR_LEN				1u
- #define GUC_CTB_MSG_MIN_LEN			GUC_CTB_HDR_LEN
- #define GUC_CTB_MSG_MAX_LEN			256u
--#define GUC_CTB_MSG_0_FENCE			(0xffff << 16)
--#define GUC_CTB_MSG_0_FORMAT			(0xf << 12)
-+#define GUC_CTB_MSG_0_FENCE			(0xffffu << 16)
-+#define GUC_CTB_MSG_0_FORMAT			(0xfu << 12)
- #define   GUC_CTB_FORMAT_HXG			0u
- #define GUC_CTB_MSG_0_RESERVED			(0xf << 8)
--#define GUC_CTB_MSG_0_NUM_DWORDS		(0xff << 0)
-+#define GUC_CTB_MSG_0_NUM_DWORDS		(0xffu << 0)
- 
- /**
-  * DOC: CTB HXG Message
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-index 29ac823acd4c..30e3cc06b0b7 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-@@ -40,17 +40,17 @@
-  */
- 
- #define GUC_HXG_MSG_MIN_LEN			1u
--#define GUC_HXG_MSG_0_ORIGIN			(0x1 << 31)
-+#define GUC_HXG_MSG_0_ORIGIN			(0x1u << 31)
- #define   GUC_HXG_ORIGIN_HOST			0u
- #define   GUC_HXG_ORIGIN_GUC			1u
--#define GUC_HXG_MSG_0_TYPE			(0x7 << 28)
-+#define GUC_HXG_MSG_0_TYPE			(0x7u << 28)
- #define   GUC_HXG_TYPE_REQUEST			0u
- #define   GUC_HXG_TYPE_EVENT			1u
- #define   GUC_HXG_TYPE_NO_RESPONSE_BUSY		3u
- #define   GUC_HXG_TYPE_NO_RESPONSE_RETRY	5u
- #define   GUC_HXG_TYPE_RESPONSE_FAILURE		6u
- #define   GUC_HXG_TYPE_RESPONSE_SUCCESS		7u
--#define GUC_HXG_MSG_0_AUX			(0xfffffff << 0)
-+#define GUC_HXG_MSG_0_AUX			(0xfffffffu << 0)
- #define GUC_HXG_MSG_n_PAYLOAD			(0xffffffff << 0)
- 
- /**
-@@ -86,7 +86,7 @@
- 
- #define GUC_HXG_REQUEST_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
- #define GUC_HXG_REQUEST_MSG_0_DATA0		(0xfff << 16)
--#define GUC_HXG_REQUEST_MSG_0_ACTION		(0xffff << 0)
-+#define GUC_HXG_REQUEST_MSG_0_ACTION		(0xffffu << 0)
- #define GUC_HXG_REQUEST_MSG_n_DATAn		GUC_HXG_MSG_n_PAYLOAD
- 
- /**
-@@ -118,7 +118,7 @@
- 
- #define GUC_HXG_EVENT_MSG_MIN_LEN		GUC_HXG_MSG_MIN_LEN
- #define GUC_HXG_EVENT_MSG_0_DATA0		(0xfff << 16)
--#define GUC_HXG_EVENT_MSG_0_ACTION		(0xffff << 0)
-+#define GUC_HXG_EVENT_MSG_0_ACTION		(0xffffu << 0)
- #define GUC_HXG_EVENT_MSG_n_DATAn		GUC_HXG_MSG_n_PAYLOAD
- 
- /**
-@@ -188,8 +188,8 @@
-  */
- 
- #define GUC_HXG_FAILURE_MSG_LEN			GUC_HXG_MSG_MIN_LEN
--#define GUC_HXG_FAILURE_MSG_0_HINT		(0xfff << 16)
--#define GUC_HXG_FAILURE_MSG_0_ERROR		(0xffff << 0)
-+#define GUC_HXG_FAILURE_MSG_0_HINT		(0xfffu << 16)
-+#define GUC_HXG_FAILURE_MSG_0_ERROR		(0xffffu << 0)
- 
- /**
-  * DOC: HXG Response
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-index 66027a42cda9..70154e522c51 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-@@ -15,20 +15,20 @@
- 
- #define GUC_STATUS			_MMIO(0xc000)
- #define   GS_RESET_SHIFT		0
--#define   GS_MIA_IN_RESET		  (0x01 << GS_RESET_SHIFT)
-+#define   GS_MIA_IN_RESET		  (0x01u << GS_RESET_SHIFT)
- #define   GS_BOOTROM_SHIFT		1
--#define   GS_BOOTROM_MASK		  (0x7F << GS_BOOTROM_SHIFT)
--#define   GS_BOOTROM_RSA_FAILED		  (0x50 << GS_BOOTROM_SHIFT)
-+#define   GS_BOOTROM_MASK		  (0x7Fu << GS_BOOTROM_SHIFT)
-+#define   GS_BOOTROM_RSA_FAILED		  (0x50u << GS_BOOTROM_SHIFT)
- #define   GS_BOOTROM_JUMP_PASSED	  (0x76 << GS_BOOTROM_SHIFT)
- #define   GS_UKERNEL_SHIFT		8
--#define   GS_UKERNEL_MASK		  (0xFF << GS_UKERNEL_SHIFT)
-+#define   GS_UKERNEL_MASK		  (0xFFu << GS_UKERNEL_SHIFT)
- #define   GS_MIA_SHIFT			16
--#define   GS_MIA_MASK			  (0x07 << GS_MIA_SHIFT)
-+#define   GS_MIA_MASK			  (0x07u << GS_MIA_SHIFT)
- #define   GS_MIA_CORE_STATE		  (0x01 << GS_MIA_SHIFT)
- #define   GS_MIA_HALT_REQUESTED		  (0x02 << GS_MIA_SHIFT)
- #define   GS_MIA_ISR_ENTRY		  (0x04 << GS_MIA_SHIFT)
- #define   GS_AUTH_STATUS_SHIFT		30
--#define   GS_AUTH_STATUS_MASK		  (0x03 << GS_AUTH_STATUS_SHIFT)
-+#define   GS_AUTH_STATUS_MASK		  (0x03u << GS_AUTH_STATUS_SHIFT)
- #define   GS_AUTH_STATUS_BAD		  (0x01 << GS_AUTH_STATUS_SHIFT)
- #define   GS_AUTH_STATUS_GOOD		  (0x02 << GS_AUTH_STATUS_SHIFT)
- 
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 9ccb67eec1bd..8c10d66561b0 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -7566,19 +7566,19 @@ enum skl_power_gate {
- #define  PORT_CLK_SEL_LCPLL_810		(2 << 29)
- #define  PORT_CLK_SEL_SPLL		(3 << 29)
- #define  PORT_CLK_SEL_WRPLL(pll)	(((pll) + 4) << 29)
--#define  PORT_CLK_SEL_WRPLL1		(4 << 29)
--#define  PORT_CLK_SEL_WRPLL2		(5 << 29)
--#define  PORT_CLK_SEL_NONE		(7 << 29)
-+#define  PORT_CLK_SEL_WRPLL1		(4u << 29)
-+#define  PORT_CLK_SEL_WRPLL2		(5u << 29)
-+#define  PORT_CLK_SEL_NONE		(7u << 29)
- #define  PORT_CLK_SEL_MASK		(7 << 29)
- 
- /* On ICL+ this is the same as PORT_CLK_SEL, but all bits change. */
- #define DDI_CLK_SEL(port)		PORT_CLK_SEL(port)
- #define  DDI_CLK_SEL_NONE		(0x0 << 28)
--#define  DDI_CLK_SEL_MG			(0x8 << 28)
--#define  DDI_CLK_SEL_TBT_162		(0xC << 28)
--#define  DDI_CLK_SEL_TBT_270		(0xD << 28)
--#define  DDI_CLK_SEL_TBT_540		(0xE << 28)
--#define  DDI_CLK_SEL_TBT_810		(0xF << 28)
-+#define  DDI_CLK_SEL_MG			(0x8u << 28)
-+#define  DDI_CLK_SEL_TBT_162		(0xCu << 28)
-+#define  DDI_CLK_SEL_TBT_270		(0xDu << 28)
-+#define  DDI_CLK_SEL_TBT_540		(0xEu << 28)
-+#define  DDI_CLK_SEL_TBT_810		(0xFu << 28)
- #define  DDI_CLK_SEL_MASK		(0xF << 28)
- 
- /* Transcoder clock selection */
--- 
-2.17.1
+Best Regards!
+xinlei
 
