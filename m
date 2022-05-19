@@ -2,89 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B8152D5AE
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 16:13:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8247652D5BA
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 16:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2AF11A539;
-	Thu, 19 May 2022 14:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4176A10EB58;
+	Thu, 19 May 2022 14:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637BE11A539
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 14:13:12 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id m20so10198530ejj.10
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 07:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=vi8FLHHiPPyioIPEKRDcfMPiA7dt4CZBFdLz0VkHkSk=;
- b=Mx5msflnyEjn+csTnt3GB7T0omMZFuDuJt7I780xq0LRIqO3vUafELKRJ45PUXaNWe
- 74jJLzwXPU5CgbeFr1a9MeQK0ecteG6FKSVVqxfaiPerXonPNrppBNzGbGGPw2wGKJkR
- cyIQrFBNlKaA9Wm1gRyO0YEqUWg5RB3TROUSw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=vi8FLHHiPPyioIPEKRDcfMPiA7dt4CZBFdLz0VkHkSk=;
- b=Nwwn+ZfhLDXlJsYi7Ab66fBm5schI8C2c6+PGHFEx2dD+Gh312+HnE5BCze6DTtnDl
- ZsUmQvZBxookV5lUuvuje7aRQtV5BsUMjjRKZSzb412P9h5LP9OIByKwJiei5oVCsZoT
- MAq19XojpCAR1kLmpn3IVuIEQuU37qZAY38nX1PflPr+nFEUMcXO8fDrCflmkTrm2v40
- rulx6iK8v9y7HKV4DqKf3JuUfeZ5ecEbtlQIJ0gPNo4H5pW5wIIW17Zw1vnfHjaVHWEr
- 5tfvEN80MA3iBME4dXODQ5xwDx0Z90rFaBzeQPrkeZJYiHNVs+2uiLcRPeTme0fVZQK/
- Ns1g==
-X-Gm-Message-State: AOAM5307vClJopn6epE7616+0E/5X2eR+I5xtUiihbLS7XERwpUAueNC
- 1+pkRa+WC8e45V6Bk3FNCUJvJg==
-X-Google-Smtp-Source: ABdhPJz9BtWjj+WYurQcEsKgxbPJP2pEo6IeWwthzj+3hSJfKwWkIq7YhB5ln3V0VbEOPMseCwcIsg==
-X-Received: by 2002:a17:907:628c:b0:6ee:70cf:d59 with SMTP id
- nd12-20020a170907628c00b006ee70cf0d59mr4580472ejc.402.1652969590886; 
- Thu, 19 May 2022 07:13:10 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- i2-20020aa7c702000000b0042617ba6380sm2894441edq.10.2022.05.19.07.13.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 07:13:09 -0700 (PDT)
-Date: Thu, 19 May 2022 16:13:07 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v4 11/15] drm/shmem-helper: Add generic memory shrinker
-Message-ID: <YoZQc4fsPAiboTtC@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
-References: <e6108e9c-6e67-2d71-0665-654e11d9c3a5@suse.de>
- <ff97790a-fb64-1e15-74b4-59c807bce0b9@collabora.com>
- <Ynkb1U2nNWYPML88@phenom.ffwll.local>
- <5fdf5232-e2b2-b444-5a41-f1db7e6a04da@collabora.com>
- <Ynu1k5lH+xvqtObG@phenom.ffwll.local>
- <3429a12f-9fbe-b66b-dbbd-94a1df54714e@collabora.com>
- <YnwJ0kLwLS7RxuwS@phenom.ffwll.local>
- <0ae6fed7-b166-d2b8-0e42-84b94b777c20@collabora.com>
- <CAKMK7uGS3PSwbkW7gj1hd2pz591HwY6Gbb=P_X4N5KOM5+X85w@mail.gmail.com>
- <31bc7a14-ff30-6961-b4fc-0aad83551df9@collabora.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD1D10EB58;
+ Thu, 19 May 2022 14:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652969763; x=1684505763;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=sAhVQHrPDyjB2ow8CBU3PMazDWEf25oCuYjKF6HdM1w=;
+ b=nOWhX/JhtODomV7MMcBJsTDgs3dI4GPk/69zTA2tml9LoGkMcX4uO2BL
+ +YQcGI1nzWeLxKE9i2qLPOnHqasxnqO5PYuZvGqe8eqO85GLOTu3AG2LZ
+ f28GstQJphk0OCngdbWaILWG7Ebgz10gEM8G/VcmeFM7NShg62ekpbq5R
+ DQhNVehWMOFr7/mER1Q7HvXAZNY71p+/EwHIeLIPkR+f6+2DzmDSmc/b9
+ rl2uHL4glQP/N+nQVyi0T+KN0Pfagtd1I+Se2zqaNewYxd+klM+HhzZVy
+ uOQX/wNMxlgbiApXl4Os+tlYXCEGhGxsQEXOCgkEc0xETcHndmVRSylb8 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="272180693"
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="272180693"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 07:16:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="898782202"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by fmsmga005.fm.intel.com with ESMTP; 19 May 2022 07:16:01 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 19 May 2022 07:16:01 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Thu, 19 May 2022 07:16:01 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Thu, 19 May 2022 07:16:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jnR0Aw3EsMStJtuTH/KT2VWQSwb2695y9MMIKBB0GWXz7t3I8QzlRnHOLu8uBJmP/bAFRW23yHlvU8U5x29hhYq/9wToxV0NeAduoLGkZc0yGyJWtdB2uIeNngdd9zp9GG7JycGDQlaUsiLkf+I++JlxtNk0frztiYha3hMwf9LltMpCQQ9XxK3agVZ4yumxtCX30VmTrCuS0NjFx9SZIv/Mc9fyC3qrniwDDEhGI9SOFl2K4PqVK80UmWtzy5/TVyK3JbGMKG3tzJqVVFUSXG0GglgcApomaIK0XyQ3OWMFRNFesS6HDQi/hI3nzdA+ZlP5PsRvyyVVr3iBIDNplg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sAhVQHrPDyjB2ow8CBU3PMazDWEf25oCuYjKF6HdM1w=;
+ b=eZKFBj4IA0mSMEMcTmGiPdgPXpr9Kr0T/kPvtKKnSQZy/1nRYE5FUCEFjWwz0tgZMuouCUUuwonGXi3D8iJTFfuq17X/YZQTaUC5r4vziJFoi/Lhhe1mXzaAAUJPT3zTxgsW+uP6mgIyn778lfZXxsvKWIcXrs0vrZ5SGFYXxOHVoXGM7PfmmwG+tZUTsbU2QMt4TebR+zGGUtDn7Tdb9pLgoM5ttyYxgUGsw1hRtU6uzMl5EQu054NZ34MTFdJUDyCbO7ys6X4MZWH93F7s5tYUMcL/fyHI4CYczgeTKnSbEqD6xs72H74JowuGh1yBv0hmIvu274G155ZqGSbHbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM5PR11MB1324.namprd11.prod.outlook.com (2603:10b6:3:15::14) by
+ BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5250.18; Thu, 19 May 2022 14:15:54 +0000
+Received: from DM5PR11MB1324.namprd11.prod.outlook.com
+ ([fe80::2df3:4862:e431:2f20]) by DM5PR11MB1324.namprd11.prod.outlook.com
+ ([fe80::2df3:4862:e431:2f20%5]) with mapi id 15.20.5250.020; Thu, 19 May 2022
+ 14:15:54 +0000
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH 09/11] drm/ttm: audit bo->resource usage
+Thread-Topic: [PATCH 09/11] drm/ttm: audit bo->resource usage
+Thread-Index: AQHYa2aVqSO0ePN1+EyRUYzEGvyXQq0l9jsAgABIZpA=
+Date: Thu, 19 May 2022 14:15:54 +0000
+Message-ID: <DM5PR11MB1324B6CC2A401FDE291EDFD7C1D09@DM5PR11MB1324.namprd11.prod.outlook.com>
+References: <20220519095508.115203-1-christian.koenig@amd.com>
+ <20220519095508.115203-10-christian.koenig@amd.com>
+In-Reply-To: <20220519095508.115203-10-christian.koenig@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2ff64908-4ced-42d2-d4f3-08da39a215f6
+x-ms-traffictypediagnostic: BYAPR11MB3480:EE_
+x-microsoft-antispam-prvs: <BYAPR11MB34804870AA2D6DB442EECEE2C1D09@BYAPR11MB3480.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bXdFUNvdZ970SmRL7sG+tDZhsvkg1/CwcANad72WTd/CX2LRFQX395PZH/EZPxlvH2nWyz2x+YK0S7YBpQXbkHGX1mGIeUVN0mxFRDq0JJ++WmQe5URPlAD9TEsE7T+M16i18frQYxMHniva/UXUPQFk92bA6A8xRvZ/4I5E+DKk+njrzRPO+1FIYXdhuOHHGmoa9kksYMfd7nGXKaX4MopZXQ4xkRS2HKSeMsHPg8eimn5zwecorTndhO80ishj9zHXEnypDc9+I1gqRx06IAiT/k/XL6bl2kt6D931g+YYuc+uArVCju/HcoBDHb6uH0ljGt3s/lK4tPdqhaPdqsB38zCrqVj6P3zMloe0UI+p2+gF+d6jyS11wipfY91Y5FcJdZRBRhyxdLNg+ORhEvqrs8M0hQ9OHBomEZ/OiJNcfJ22cPCClm0QYA5U84Eo96gWV3yUhekDGamTHR+t1M4vF928aucNW7qMhx+0Vgq+S5wRzGc+MvbW/qB1Qc/RABFj2AegqZK1Yf6r47oA1m06uv4xBJtLEhQJ14+qdz3NEpYcSTNwutt84+7uqVM8PbI4iKyOWWR6h6EoyMyS5rPB3VAfwkFuQzMZdYb++bXJkVXMzCLPsr7PZatifP9OjZYGBOR0b6Vy9w5MLzpN0t8vyQY7de5h6lyo5BPRidYVRhUeXK6I4gEfSxXXbIZv2UmbMgZxf9uDcf/3Ld9RjA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR11MB1324.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(508600001)(66574015)(71200400001)(110136005)(7696005)(316002)(8936002)(6506007)(26005)(9686003)(83380400001)(86362001)(38070700005)(54906003)(122000001)(38100700002)(66446008)(52536014)(64756008)(66556008)(66476007)(76116006)(66946007)(55016003)(33656002)(8676002)(82960400001)(2906002)(5660300002)(186003)(4326008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U1RUVU9tVkJEWXBWRVZoUExyNTk5bUhiV3ZFb3lMNzhWM21nM21uSW10RS9w?=
+ =?utf-8?B?V0x0ZVZoMUdON1FvTklOTEYzLzl1TTR3eGZ2R0grMXZpdGs0QWkvZ09tQlpG?=
+ =?utf-8?B?bEQxcnprMzJRL1h5N25LdTIvWTZFK2xBd3krK3hCU0dzNDJrWXhzZEZmK0Jl?=
+ =?utf-8?B?aEJGNnl2bVIyQlZ3d25hNmxERk1MaC9iQUpKUEFwcEM4aFNqbUpCNnZFZXoy?=
+ =?utf-8?B?K0pJaGMxcWRCQzVIRGZsYnY4cHgrcm5FZW5UdDVjUzcyZDZRckNVOU4wRUxN?=
+ =?utf-8?B?dzhERFNjcUV4ZTlQQVJOQVVNY1o1T3N4OGxtdGxQdUhmZDJZZHQ2WmxwdXZN?=
+ =?utf-8?B?bU9PTmxKQnJsZUl3Z2tsN1Nka2c2dzBnQWl6Y3JlNnp4SzlVNUkrb2IwTlhW?=
+ =?utf-8?B?MndEVGFqZVFsTk1FeTVTQ0lLcVFjNFhYMER1anlscy9rdkpkTlp0MXExcnJq?=
+ =?utf-8?B?TUtyNnp3dnFMQVNmR1VjZGtLTGlkQ0U3a3kxZmFJRWRrUzBiaXhhUVBISFlI?=
+ =?utf-8?B?ZUhDY1l2amk1ZU14K2ZPU25DM1BPLzdUbDVSbXlOMUs3K2pPU0RML0U1dDJU?=
+ =?utf-8?B?em5xMUJxa0c4dnBuTEFxZkNQdUMyMU1oUVpMT3AvbklOTVlsRGdLTXVRb0tO?=
+ =?utf-8?B?dlFwR1orSTBHVEgwcTlxUGZYMGw1YjJVTU01dVBucXJjMit2YVpOU012YkIv?=
+ =?utf-8?B?a2RkWG52dkNXV2Jtb0FzUXlhVVMwSklCY1Uva2xFRG4wejhBNFFBcUE1b3JR?=
+ =?utf-8?B?Y0ZnZUxXbjdUamZoVDlRdnc4V252SDJaUStBa3RSeHJUWTlxVlBwdlFsN0V6?=
+ =?utf-8?B?TU5VYVFWVjhYcXpwTXcxUnUxT2IxYk91dS9RK0hSTzFtM2pDQXl0MVRWR2Nh?=
+ =?utf-8?B?dXBWcityWDRXUGJScGlBMVpBZWhIcmp3a1RjTzg5dXRaQk1wdWVjdVJpK2o2?=
+ =?utf-8?B?M1JXdHVXUzZ2YWNPWXZoWEU3dzVEanp6NmtzWkdKbjViQ2prVGRrZDExWHlr?=
+ =?utf-8?B?R3hvYlFwRVNZdzJhUVZtQ1NkRExFbjNkRG1zTVg3RFBwbWtkdkp4UzJPbVNZ?=
+ =?utf-8?B?QlNVQS9hK0VFV1R3K2lPakUzWkNPN2h0NnpibDhUZFVNaHNUVGVITk5HZnBv?=
+ =?utf-8?B?UGRqTGJ0MkcvZG03am41eGJqQ1NCWlh3bWNiYlllRVNaRnpGcE4yUU5UQWFG?=
+ =?utf-8?B?MnpxREpqLzZIWitjbGZyeWJ3V3VubkN6S1RQUklKRUg0akV0Z0Y3VjdMYTdQ?=
+ =?utf-8?B?VFJFdFFROVZYKzBmN1JPWWhMS2QwNXdncXNkMVBxRnFxVVkyU1ZkSWVMOEc2?=
+ =?utf-8?B?cStzcm5DZm52STlsRVZDZFR4THo2QjIzajBaVnRMeFdmQVJKUEt5VittTThl?=
+ =?utf-8?B?eWxpK3YrTGVzZkFvend6aXR0V3p4ejRoWXNxbU8wSFJLSmhJenY1Umw4QVlU?=
+ =?utf-8?B?eWo3eDhRT2tKUDVaSnRvUkp4dVI2L0ZsMGFDOUVzKzRPUVVUdFk1YURicmlo?=
+ =?utf-8?B?M3NwOVNLb1RObHpTV1R6MVpHcVlMdU1KUk9CM3hDMEtJaGo5bnd0ZnB1UjZv?=
+ =?utf-8?B?UTVZVGQwU1QvL2p2Tkd6emViZVpWUFBwbUlYb2NHZzYxejFiejlXR2JpZTlu?=
+ =?utf-8?B?ZW13MUZ4QTVRNmcvMlYrckRSbmg5VWVLVDhQZnZFdUJ4azNhbnJkMFNQaDhG?=
+ =?utf-8?B?ck5ub3RWMTZicDFKK2pGdnh3dksxN1NHZG9PUXVZQUM3cDRvUjJiWmh5M2VL?=
+ =?utf-8?B?N1ByTkhKWjY3QVd4dXRXWTZvWlBFOEl2RU9ENzFYY2JMMGU2QWF5anJ1ZzA3?=
+ =?utf-8?B?cEZKTzdKa3ZtZ2ZrMjZsSGt6OTIwRjRKQWtnRHFrZTVpLzhOVlNkVWZ1cGhR?=
+ =?utf-8?B?REZmZGsvUU5HUFlGVnhONEsvYU1valpFa3ZPSmlCVklwS1BaVGMwRHBRbVFo?=
+ =?utf-8?B?WVZFd0doRnpkT2V1TmxnTHIwQ0RzUXRXdWJ3S3BEK1ArK2RUNCtFZ3grWWFG?=
+ =?utf-8?B?d0NCNDIvQXNLNVNiUTloRWZhUzJ4K1RnblFYcE1FaFByTzdmNjlKSU5WVDFp?=
+ =?utf-8?B?OW0zWFk0d1RUM0cyN2JzNldWbGs3a0QxbUhIT3JuMGEwSDR6RzhUREdzcnUx?=
+ =?utf-8?B?c3NGeHBxZkJBUWdrRDh0a1ExSTZtVmNJazh3SEpYWVdOQmJQRDVMNlRNK000?=
+ =?utf-8?B?SmY1NjNBV2tldzZXdHZ4V1pMRlNwWEJRN2Z0cG03Y0lIZnV3bmM0OFVHVkQ2?=
+ =?utf-8?B?aXpqV0xTU0F4c0VPbHpLaFhWVDZDcHliVzhhdDFzR0ZlLzUwRWxYOXB3ak1o?=
+ =?utf-8?B?clpVZG1BdDlWWlF3Tk96aXRNVGpkVCtGR1RMbzlyemN2Z3JDTUZxYUE5UkdH?=
+ =?utf-8?Q?YlJeRyCGSd/KIiVg=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <31bc7a14-ff30-6961-b4fc-0aad83551df9@collabora.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1324.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ff64908-4ced-42d2-d4f3-08da39a215f6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2022 14:15:54.2017 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OUi1vMJJ+VEi+JgCBx43lSRcPXGmCexH5SWlJKZ5uPmIeGJrU/Sk7i0AAf8xTNBBGVLRssYkYpnWgoWsdGYauU4/6Tv6H2ymm/MJnDIpNMA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3480
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,150 +162,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
- Steven Price <steven.price@arm.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- virtualization@lists.linux-foundation.org,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>
+Cc: "matthew.william.auld@gmail.com" <matthew.william.auld@gmail.com>,
+ =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 12, 2022 at 10:04:53PM +0300, Dmitry Osipenko wrote:
-> On 5/12/22 20:04, Daniel Vetter wrote:
-> > On Thu, 12 May 2022 at 13:36, Dmitry Osipenko
-> > <dmitry.osipenko@collabora.com> wrote:
-> >>
-> >> On 5/11/22 22:09, Daniel Vetter wrote:
-> >>> On Wed, May 11, 2022 at 07:06:18PM +0300, Dmitry Osipenko wrote:
-> >>>> On 5/11/22 16:09, Daniel Vetter wrote:
-> >>>>>>>>> I'd like to ask you to reduce the scope of the patchset and build the
-> >>>>>>>>> shrinker only for virtio-gpu. I know that I first suggested to build
-> >>>>>>>>> upon shmem helpers, but it seems that it's easier to do that in a later
-> >>>>>>>>> patchset.
-> >>>>>>>> The first version of the VirtIO shrinker didn't support memory eviction.
-> >>>>>>>> Memory eviction support requires page fault handler to be aware of the
-> >>>>>>>> evicted pages, what should we do about it? The page fault handling is a
-> >>>>>>>> part of memory management, hence to me drm-shmem is already kinda a MM.
-> >>>>>>> Hm I still don't get that part, why does that also not go through the
-> >>>>>>> shmem helpers?
-> >>>>>> The drm_gem_shmem_vm_ops includes the page faults handling, it's a
-> >>>>>> helper by itself that is used by DRM drivers.
-> >>>>>>
-> >>>>>> I could try to move all the shrinker logic to the VirtIO and re-invent
-> >>>>>> virtio_gem_shmem_vm_ops, but what is the point of doing this for each
-> >>>>>> driver if we could have it once and for all in the common drm-shmem code?
-> >>>>>>
-> >>>>>> Maybe I should try to factor out all the shrinker logic from drm-shmem
-> >>>>>> into a new drm-shmem-shrinker that could be shared by drivers? Will you
-> >>>>>> be okay with this option?
-> >>>>> I think we're talking past each another a bit. I'm only bringing up the
-> >>>>> purge vs eviction topic we discussed in the other subthread again.
-> >>>>
-> >>>> Thomas asked to move the whole shrinker code to the VirtIO driver and
-> >>>> I's saying that this is not a great idea to me, or am I misunderstanding
-> >>>> the Thomas' suggestion? Thomas?
-> >>>
-> >>> I think it was just me creating a confusion here.
-> >>>
-> >>> fwiw I do also think that shrinker in shmem helpers makes sense, just in
-> >>> case that was also lost in confusion.
-> >>
-> >> Okay, good that we're on the same page now.
-> >>
-> >>>>>>> I'm still confused why drivers need to know the difference
-> >>>>>>> between evition and purging. Or maybe I'm confused again.
-> >>>>>> Example:
-> >>>>>>
-> >>>>>> If userspace uses IOV addresses, then these addresses must be kept
-> >>>>>> reserved while buffer is evicted.
-> >>>>>>
-> >>>>>> If BO is purged, then we don't need to retain the IOV space allocated
-> >>>>>> for the purged BO.
-> >>>>> Yeah but is that actually needed by anyone? If userspace fails to allocate
-> >>>>> another bo because of lack of gpu address space then it's very easy to
-> >>>>> handle that:
-> >>>>>
-> >>>>> 1. Make a rule that "out of gpu address space" gives you a special errno
-> >>>>> code like ENOSPC
-> >>>>>
-> >>>>> 2. If userspace gets that it walks the list of all buffers it marked as
-> >>>>> purgeable and nukes them (whether they have been evicted or not). Then it
-> >>>>> retries the bo allocation.
-> >>>>>
-> >>>>> Alternatively you can do step 2 also directly from the bo alloc ioctl in
-> >>>>> step 1. Either way you clean up va space, and actually a lot more (you
-> >>>>> potentially nuke all buffers marked as purgeable, not just the ones that
-> >>>>> have been purged already) and only when va cleanup is actually needed
-> >>>>>
-> >>>>> Trying to solve this problem at eviction time otoh means:
-> >>>>> - we have this difference between eviction and purging
-> >>>>> - it's still not complete, you still need to glue step 2 above into your
-> >>>>>   driver somehow, and once step 2 above is glued in doing additional
-> >>>>>   cleanup in the purge function is just duplicated logic
-> >>>>>
-> >>>>> So at least in my opinion this isn't the justification we need. And we
-> >>>>> should definitely not just add that complication "in case, for the
-> >>>>> future", if we don't have a real need right now. Adding it later on is
-> >>>>> easy, removing it later on because it just gets in the way and confuses is
-> >>>>> much harder.
-> >>>>
-> >>>> The IOVA space is only one example.
-> >>>>
-> >>>> In case of the VirtIO driver, we may have two memory allocation for a
-> >>>> BO. One is the shmem allcation in guest and the other is in host's vram.
-> >>>> If we will only release the guest's memory on purge, then the vram will
-> >>>> remain allocated until BO is destroyed, which unnecessarily sub-optimal.
-> >>>
-> >>> Hm but why don't you just nuke the memory on the host side too when you
-> >>> evict? Allowing the guest memory to be swapped out while keeping the host
-> >>> memory allocation alive also doesn't make a lot of sense for me. Both can
-> >>> be recreated (I guess at least?) on swap-in.
-> >>
-> >> Shouldn't be very doable or at least worth the efforts. It's userspace
-> >> that manages data uploading, kernel only provides transport for the
-> >> virtio-gpu commands.
-> >>
-> >> Drivers are free to use the same function for both purge() and evict()
-> >> callbacks if they want. Getting rid of the purge() callback creates more
-> >> problems than solves, IMO.
-> > 
-> > Hm this still sounds pretty funny and defeats the point of
-> > purgeable/evictable buffers a bit I think. But also I guess we'd
-> > pushed this bikeshed to the max, so I think if you make ->purge
-> > optional and just call ->evict if that's not present, and document it
-> > all in the kerneldoc, then I think that's good.
-> 
-> This is a good enough compromise to me.
-> 
-> > I just don't think that encouraging drivers to distinguish between
-> > evict/purge is a good idea for almost all of them.
-> 
-> Intel's shrinker checks the "madvise" status of BOs and then decides
-> what to do based on it. Perhaps we could move the decision-making about
-> purging to drivers and then it will be single evict() callback, but will
-> drivers really ever need to be responsible for this decision-making or
-> this will be an unnecessary boilerplate code in the drivers? I'll think
-> more about this.
-
-tbh I wouldn't worry about details, you've convinced me that some
-differentiation between evict and purged makes sense. And yeah maybe
-drivers should have a helper to check that instead of explicit argument,
-but that's a bikeshed color choice which should be fairly easy to adjust
-later on still.
-
-> Thank you all for taking time to look at this patchset. I'm preparing
-> the new version.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogZHJpLWRldmVsIDxkcmktZGV2ZWwt
+Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZg0KPkNocmlzdGlhbiBL
+w7ZuaWcNCj5TZW50OiBUaHVyc2RheSwgTWF5IDE5LCAyMDIyIDU6NTUgQU0NCj5UbzogaW50ZWwt
+Z2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPkNjOiBtYXR0aGV3LndpbGxpYW0uYXVsZEBnbWFp
+bC5jb207IENocmlzdGlhbiBLw7ZuaWcNCj48Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPjsgZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPlN1YmplY3Q6IFtQQVRDSCAwOS8xMV0gZHJt
+L3R0bTogYXVkaXQgYm8tPnJlc291cmNlIHVzYWdlDQo+DQo+QWxsb3cgQk9zIHRvIGV4aXN0IHdp
+dGhvdXQgYmFja2luZyBzdG9yZS4NCg0KVG9vayBtZSBhIHdoaWxlIHRvIGZpZ3VyZSBvdXQgdGhh
+dCBvbmx5IHRoZSBsYXN0IGxpbmUgaXMgcmVsYXRlZCB0byB0aGlzIGNvbW1pdA0KbWVzc2FnZS4N
+Cg0KQ291bGQgeW91IGFkZCBzb21ldGhpbmcgbGlrZToNCg0KUmVmYWN0b3IgdXNhZ2UgaW5mb3Jt
+YXRpb24uDQoNCkFsbG93IEJPcyB0byBleGlzdCB3aXRob3V0IGJhY2tpbmcgc3RvcmUuDQoNCj8N
+Cg0KV291bGQgbWFrZSB0aGlzIHBhdGNoIGEgbGl0dGxlIGVhc2llciB0byBkZWNpcGhlci4NCg0K
+TQ0KDQo+U2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0Bh
+bWQuY29tPg0KPi0tLQ0KPiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jIHwgMTYgKysrKysr
+KystLS0tLS0tLQ0KPiAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9u
+cygtKQ0KPg0KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jIGIvZHJp
+dmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYw0KPmluZGV4IDJiMDFjYjMwNjk0YS4uYTU1NTY0Yzhi
+NTdjIDEwMDY0NA0KPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMNCj4rKysgYi9k
+cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jDQo+QEAgLTExNywxMiArMTE3LDEzIEBAIHN0YXRp
+YyBpbnQgdHRtX2JvX2hhbmRsZV9tb3ZlX21lbShzdHJ1Y3QNCj50dG1fYnVmZmVyX29iamVjdCAq
+Ym8sDQo+IAkJCQkgIHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4LA0KPiAJCQkJICBzdHJ1
+Y3QgdHRtX3BsYWNlICpob3ApDQo+IHsNCj4tCXN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAq
+b2xkX21hbiwgKm5ld19tYW47DQo+IAlzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiA9IGJvLT5iZGV2
+Ow0KPisJYm9vbCBvbGRfdXNlX3R0LCBuZXdfdXNlX3R0Ow0KPiAJaW50IHJldDsNCj4NCj4tCW9s
+ZF9tYW4gPSB0dG1fbWFuYWdlcl90eXBlKGJkZXYsIGJvLT5yZXNvdXJjZS0+bWVtX3R5cGUpOw0K
+Pi0JbmV3X21hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYmRldiwgbWVtLT5tZW1fdHlwZSk7DQo+Kwlv
+bGRfdXNlX3R0ID0gYm8tPnJlc291cmNlICYmDQo+KwkJdHRtX21hbmFnZXJfdHlwZShiZGV2LCBi
+by0+cmVzb3VyY2UtPm1lbV90eXBlKS0NCj4+dXNlX3R0Ow0KPisJbmV3X3VzZV90dCA9IHR0bV9t
+YW5hZ2VyX3R5cGUoYmRldiwgbWVtLT5tZW1fdHlwZSktPnVzZV90dDsNCj4NCj4gCXR0bV9ib191
+bm1hcF92aXJ0dWFsKGJvKTsNCj4NCj5AQCAtMTMwLDExICsxMzEsMTEgQEAgc3RhdGljIGludCB0
+dG1fYm9faGFuZGxlX21vdmVfbWVtKHN0cnVjdA0KPnR0bV9idWZmZXJfb2JqZWN0ICpibywNCj4g
+CSAqIENyZWF0ZSBhbmQgYmluZCBhIHR0bSBpZiByZXF1aXJlZC4NCj4gCSAqLw0KPg0KPi0JaWYg
+KG5ld19tYW4tPnVzZV90dCkgew0KPisJaWYgKG5ld191c2VfdHQpIHsNCj4gCQkvKiBaZXJvIGlu
+aXQgdGhlIG5ldyBUVE0gc3RydWN0dXJlIGlmIHRoZSBvbGQgbG9jYXRpb24gc2hvdWxkDQo+IAkJ
+ICogaGF2ZSB1c2VkIG9uZSBhcyB3ZWxsLg0KPiAJCSAqLw0KPi0JCXJldCA9IHR0bV90dF9jcmVh
+dGUoYm8sIG9sZF9tYW4tPnVzZV90dCk7DQo+KwkJcmV0ID0gdHRtX3R0X2NyZWF0ZShibywgb2xk
+X3VzZV90dCk7DQo+IAkJaWYgKHJldCkNCj4gCQkJZ290byBvdXRfZXJyOw0KPg0KPkBAIC0xNjAs
+OCArMTYxLDcgQEAgc3RhdGljIGludCB0dG1fYm9faGFuZGxlX21vdmVfbWVtKHN0cnVjdA0KPnR0
+bV9idWZmZXJfb2JqZWN0ICpibywNCj4gCXJldHVybiAwOw0KPg0KPiBvdXRfZXJyOg0KPi0JbmV3
+X21hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYmRldiwgYm8tPnJlc291cmNlLT5tZW1fdHlwZSk7DQo+
+LQlpZiAoIW5ld19tYW4tPnVzZV90dCkNCj4rCWlmICghb2xkX3VzZV90dCkNCj4gCQl0dG1fYm9f
+dHRfZGVzdHJveShibyk7DQo+DQo+IAlyZXR1cm4gcmV0Ow0KPkBAIC04OTgsNyArODk4LDcgQEAg
+aW50IHR0bV9ib192YWxpZGF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLA0KPiAJLyoN
+Cj4gCSAqIENoZWNrIHdoZXRoZXIgd2UgbmVlZCB0byBtb3ZlIGJ1ZmZlci4NCj4gCSAqLw0KPi0J
+aWYgKCF0dG1fcmVzb3VyY2VfY29tcGF0KGJvLT5yZXNvdXJjZSwgcGxhY2VtZW50KSkgew0KPisJ
+aWYgKCFiby0+cmVzb3VyY2UgfHwgIXR0bV9yZXNvdXJjZV9jb21wYXQoYm8tPnJlc291cmNlLA0K
+PnBsYWNlbWVudCkpIHsNCj4gCQlyZXQgPSB0dG1fYm9fbW92ZV9idWZmZXIoYm8sIHBsYWNlbWVu
+dCwgY3R4KTsNCj4gCQlpZiAocmV0KQ0KPiAJCQlyZXR1cm4gcmV0Ow0KPi0tDQo+Mi4yNS4xDQoN
+Cg==
