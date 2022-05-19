@@ -1,65 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4DD52D9E0
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 18:10:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6EA852DA0E
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 18:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B374610E7AE;
-	Thu, 19 May 2022 16:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CAE610EEB3;
+	Thu, 19 May 2022 16:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4BAB10F19D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 16:10:35 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- l20-20020a17090a409400b001dd2a9d555bso5707906pjg.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=6P9aoIvTb4zsFevm1ytMUyd2KQeIyWHKWhq9w1IH5nA=;
- b=T7Cs1ly5aXcrAO13eVgUOej99XV/rj+jKzXmjsIRYzLGL6UcyV5iH3JPyRIq+djBCK
- xZwgz+2YFD4rDJcoJJQnFlzgl5yhdtM+Tl1MfQ7v8Umh9I3PJTj1hLvyRFkABe58SW16
- POlawmUVBZaIVFOqb03EeL2X0QGjr4FKdyMEBqsqx+cCqBgPbQd2WqMFBWGUqptRt32w
- 0evGt3E/n5lZ3OVJ02QNqIJ1p70D3x8T91iRJ8RaPT4E00lNzMt5J2CHdvh9fFVGl8jU
- VsdQSylxiBaFG13J+J0ZdQH6LgQUAwamWicXRZXy+pudNkYL6vebjtHQ3YAn0pE3UbJ3
- W1wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6P9aoIvTb4zsFevm1ytMUyd2KQeIyWHKWhq9w1IH5nA=;
- b=3JRnqAhskJgWaIYuapHFL8b4H4IoCu2yk7FUbwh03dapjPPGQRf0+iGAmasYkJ5T5y
- VwR5LxvdhYAAJ9utUVaHzhxVD9GbpHRNMXOvhfIlvGCwrdtzaubJXmDgdG+Mpyuf+hDU
- Zan3Qid/8IHg/hwVicrLm0BvsAaQJy6bqA1W+b+eKnM8ZMiLURkcWdp9H1EFAAVaJa4C
- lTHmpT0GdQ+XUc4Rw0l7L7HpXYUmK07TaqaOphumS+siaHjHtHU4EBg3mGLJ5jdMh9Hp
- 2X/7DakdhJKiktArPzX2qCgo0IPIJDzF78RvgfRXp3pcDIw1G2yYWYvbTJU1ZxsgQ/5m
- uxsg==
-X-Gm-Message-State: AOAM531I3IAUt24uX2VkWwUc2fthnewCjrjeD0TIoCDgQCcaqOrpFKuE
- Bw+3DQsjyVUwvUa922dIV1JnBA==
-X-Google-Smtp-Source: ABdhPJxDs1hTxUR5C4EzuM1SwmYr5BCL2DO/nb2Iv0FkQCnGAlR0Mez8mclqXftI71289BB5kbpqHw==
-X-Received: by 2002:a17:902:7d89:b0:15e:e999:6b88 with SMTP id
- a9-20020a1709027d8900b0015ee9996b88mr5500329plm.98.1652976635201; 
- Thu, 19 May 2022 09:10:35 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
- l17-20020a629111000000b00517d7fb695fsm4178516pfe.200.2022.05.19.09.10.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 09:10:34 -0700 (PDT)
-Date: Thu, 19 May 2022 16:10:31 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [RFC PATCH v3 03/19] KVM: x86: SVM: remove avic's broken code
- that updated APIC ID
-Message-ID: <YoZr9wC2KjTFHrQ7@google.com>
-References: <20220427200314.276673-1-mlevitsk@redhat.com>
- <20220427200314.276673-4-mlevitsk@redhat.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D278610E11D;
+ Thu, 19 May 2022 16:21:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1652977284; x=1684513284;
+ h=message-id:date:mime-version:to:cc:from:subject:
+ content-transfer-encoding;
+ bh=OgFPRDCgT5PDUUJnCeD3XeLnIAuSjY8zzzo6IowuC5Y=;
+ b=U8JK0OD7jGiDB67r11RtZyZzvsEJzxMZF69IIiMJlRXufHObXyGIkoMm
+ sdy8R35Ne3S0G1e/60IbflIzUgUNHDA2vyf320bhzfyPyc9KX2PEiU1Kz
+ dlWymEBerh7eFn7VYaVyuwLsRYK8t9Qa1YWmPZC0QYp17eCtyntFivpbx w=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 19 May 2022 09:21:23 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 09:21:23 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 19 May 2022 09:21:23 -0700
+Received: from [10.38.246.15] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 19 May
+ 2022 09:21:21 -0700
+Message-ID: <b011d51d-d634-123e-bf5f-27219ee33151@quicinc.com>
+Date: Thu, 19 May 2022 09:21:19 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220427200314.276673-4-mlevitsk@redhat.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [GIT PULL] drm/msm: drm-msm-fixes-2022-05-19
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,24 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 27, 2022, Maxim Levitsky wrote:
-> AVIC is now inhibited if the guest changes apic id, thus remove
-> that broken code.
+Hi Rob
 
-Can you explicitly call out what's broken?  Just something short on the code not
-handling the scenario where APIC ID is changed back to vcpu_id to help future
-archaeologists.  I forget if there are other bugs...
+Here is the pull request for the fixes for 5.19.
+
+Just a few more changes on top of msm-fixes-staging.
+
+Mainly it has the foll fixes:
+
+- Limiting WB modes to max sspp linewidth
+- Fixing the supported rotations to add 180 back for IGT
+- Fix to handle pm_runtime_get_sync() errors to avoid unclocked access
+   in the bind() path for dpu driver
+- Fix the irq_free() without request issue which was a big-time
+   hitter in the CI-runs.
+
+Thanks
+
+Abhinav
+
+
+
+The following changes since commit 947a844bb3ebff0f4736d244d792ce129f6700d7:
+
+   drm: msm: fix possible memory leak in mdp5_crtc_cursor_set() 
+(2022-05-18 11:05:21 -0700)
+
+are available in the git repository at:
+
+   https://gitlab.freedesktop.org/abhinavk/msm.git/ tags/msm-next-5.19-fixes
+
+for you to fetch changes up to 64b22a0da12adb571c01edd671ee43634ebd7e41:
+
+   drm/msm/dpu: handle pm_runtime_get_sync() errors in bind path 
+(2022-05-18 18:32:03 -0700)
+
+----------------------------------------------------------------
+5.19 fixes for msm-next
+
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+----------------------------------------------------------------
+Abhinav Kumar (3):
+       drm/msm/dpu: limit writeback modes according to max_linewidth
+       drm/msm/dpu: add DRM_MODE_ROTATE_180 back to supported rotations
+       drm/msm/dpu: handle pm_runtime_get_sync() errors in bind path
+
+Dmitry Baryshkov (1):
+       drm/msm: don't free the IRQ if it was not requested
+
+  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 4 +++-
+  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 2 +-
+  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 4 +++-
+  drivers/gpu/drm/msm/msm_drv.c                 | 7 ++++++-
+  drivers/gpu/drm/msm/msm_kms.h                 | 1 +
+  5 files changed, 14 insertions(+), 4 deletions(-)
