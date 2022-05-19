@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E03552CFE1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C9552D0D1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 12:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889C411B332;
-	Thu, 19 May 2022 09:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9598D11A16A;
+	Thu, 19 May 2022 10:51:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F77E11B2C0;
- Thu, 19 May 2022 09:55:23 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id n10so8893436ejk.5;
- Thu, 19 May 2022 02:55:23 -0700 (PDT)
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E930211A16A;
+ Thu, 19 May 2022 10:51:02 +0000 (UTC)
+Received: by mail-qt1-x836.google.com with SMTP id u35so4476171qtc.13;
+ Thu, 19 May 2022 03:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vMtJyoOWGkplINQgN2LXJLNYL8JAFOQc7afECfFknhc=;
- b=EbmF8HUOYLGK2WRdlUVpNwi6ZlH5uS5IUKxuYEZDxtgcYAD7G8vvVHowdBeITlLebX
- jkmscZRb9aLMTiOxn8uGKsDCe268+wC0A7etNu2WEwS75LKwfvh5nTuMD+sZQW/Vy+T9
- ZehrvjgYIJCkWWZCe4ah7ExJSbrI9/1Vo7IOdjiTig/w+3/WRO0lM6f1Q5sgLCuMCh7M
- IDvIDZOFJHxefc9KViAHqd4FQ+w4P7Is5BFX4iD97xOGZx4du9M/I/6TTCKZf0gAqFbG
- f0jFjEBKb0w6pd0406iC9/0QJ80kpmp/JyNb9SXGD1v0fQW4eGlzSM9CNFP7seyKEgh6
- IpIg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=c4O1oOgQR4Kv4FhhMi078PAReDESxrGJjsVloSpbOSE=;
+ b=McyIfy7gPmUGAPdX/GL8f9xuCPAEwIBxzOf8A/NJLF1rYzRi7QWDdyO0Q0tGejwJSX
+ mLcoA/YxcgxMUxBIQRRBXhCIQe9GIa4aoaOMjf77jbNb7lWGVskzyH8K5wIXDFiOswGA
+ azBxBS1NUOav8chzpbcp2Vf/ko+umXUx2F04eWeGKOnYElhVlSuJdCgpNtILlXZF+I20
+ aHD/l76m89c3PHdV9pdvmi1PMsroHVmWw0aoWiFK3B2QiR1GXYmD0YKRteEbOB8ULE72
+ 7E0BRmf3wabOX2ALCvp7uNtiJokqzPR0axQaH/BOYNO3J3EOLLilnZ5LyrGL9P2GzL4j
+ U9Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vMtJyoOWGkplINQgN2LXJLNYL8JAFOQc7afECfFknhc=;
- b=GOOfQeMgTqcbR8xu5b7Rz9OT2UdF0oEzCpUgueIq2T2gjj60gacKW6S691NCubRm8E
- svUthakhy+BhucgtNrwigjvMBPQEAKa5XvOPS1N/EhnBiChwaBg4i2F5gmz/6eNFGuHB
- YT7ZG1Z+OmwHpfqQeHPGp0SUYvpMgHox/mTJ+/X0y2tzkXpllEjmhBiTwFDz1pLiiP0J
- imu026Dci3VQS6EpbVINgG7Wx3j5kTAoJlfcLmpTWbZZze+q/fVRFRSZ1zXzndhTN0SX
- lstzICccLwsvQiGvcm9QlnlwoweNdWUh90kNY5skfzODC+Rq3xfzaaPUiVavHcLzAtHS
- zuxw==
-X-Gm-Message-State: AOAM531GQUFNme8vI6VPzk6ZLcMAr5P5QvuTXAsbVbJZz/al0uKBdMZ4
- v/Jb5KX6m5f6+zg1ANjgTLgsDmLYo30=
-X-Google-Smtp-Source: ABdhPJzhK6jKL27pHcBMxYMONuY/kY1703konpUhiCeSR1vb6ANXDzsRHrl9grT6xlG5RYNO0SAzAg==
-X-Received: by 2002:a17:907:3f0a:b0:6fe:34a2:1368 with SMTP id
- hq10-20020a1709073f0a00b006fe34a21368mr3505874ejc.130.1652954121802; 
- Thu, 19 May 2022 02:55:21 -0700 (PDT)
-Received: from able.fritz.box (p57b0bdaa.dip0.t-ipconnect.de. [87.176.189.170])
- by smtp.gmail.com with ESMTPSA id
- y6-20020a170906518600b006fe9c65ffb8sm388267ejk.92.2022.05.19.02.55.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 02:55:21 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 11/11] drm/ttm: stop allocating a dummy resource for pipelined
- gutting
-Date: Thu, 19 May 2022 11:55:08 +0200
-Message-Id: <20220519095508.115203-12-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220519095508.115203-1-christian.koenig@amd.com>
-References: <20220519095508.115203-1-christian.koenig@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=c4O1oOgQR4Kv4FhhMi078PAReDESxrGJjsVloSpbOSE=;
+ b=PTbj7tpWS2CDs49TPSO4yrgviCqUYQCaK4+bGaCriPGwGT60i6PbGFhm0G/+hhV9VO
+ I9crq069F+C/drIPqtoVccmsgR4z50ADY3Bqn5tUnVXI+GXOVZW+JEQdbtZRkLSTsOtT
+ Bfj+bf2PVCEnrHczc0Ss1EidAbcOamXhfJ10HYZuFzq+FBNRG0xHC1vmjziahCler8W8
+ vi6g9qnYcyQ1r8wAZ5SXQeILnPSL/qypMkU0AgqwC4IyKt5baClOYBW822jLlaaXYmXt
+ A2dWWuMD9LSR1iOv5xhNVg9VveHLm7ttDpw6Efspd5E06T5WNV8xRiQSPCihlVp0GNSa
+ UH2g==
+X-Gm-Message-State: AOAM530PD1uFJdan1pTchuu3RiOSYL0PdH0JWMCz802tBwPJ5pkxUauE
+ 6uZ0nuQT3XIv3eadTPOCRk1kWMcoootId/i2C54=
+X-Google-Smtp-Source: ABdhPJyZmv6hTUj3vsWvJRXN81mWJ2JIzYVv1kTw0R63LyRTGWwLQfKgQR040nIsScGnT1KE1wOc90x1/3e2j76X/8I=
+X-Received: by 2002:a05:622a:1a20:b0:2f7:3b31:7cba with SMTP id
+ f32-20020a05622a1a2000b002f73b317cbamr3288671qtb.689.1652957461795; Thu, 19
+ May 2022 03:51:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220519095508.115203-1-christian.koenig@amd.com>
+In-Reply-To: <20220519095508.115203-1-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 19 May 2022 11:50:35 +0100
+Message-ID: <CAM0jSHOP=vyuiWOaWqo5k3G+KbAEB2HhCZKgA1VScqZknZPEyg@mail.gmail.com>
+Subject: Re:
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,80 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.william.auld@gmail.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-That should not be necessary any more when drivers should at least be
-able to handle a move without a resource.
+On Thu, 19 May 2022 at 10:55, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Just sending that out once more to intel-gfx to let the CI systems take
+> a look.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/ttm/ttm_bo_util.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+If all went well it should normally appear at [1][2], if CI was able
+to pick up the series.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 1cbfb00c1d65..585fc529cc75 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -600,16 +600,10 @@ EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
-  */
- int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- {
--	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
- 	struct ttm_buffer_object *ghost;
--	struct ttm_resource *sys_res;
- 	struct ttm_tt *ttm;
- 	int ret;
- 
--	ret = ttm_resource_alloc(bo, &sys_mem, &sys_res);
--	if (ret)
--		return ret;
--
- 	/* If already idle, no need for ghost object dance. */
- 	ret = ttm_bo_wait(bo, false, true);
- 	if (ret != -EBUSY) {
-@@ -617,14 +611,13 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 			/* See comment below about clearing. */
- 			ret = ttm_tt_create(bo, true);
- 			if (ret)
--				goto error_free_sys_mem;
-+				return ret;
- 		} else {
- 			ttm_tt_unpopulate(bo->bdev, bo->ttm);
- 			if (bo->type == ttm_bo_type_device)
- 				ttm_tt_mark_for_clear(bo->ttm);
- 		}
- 		ttm_resource_free(bo, &bo->resource);
--		ttm_bo_assign_mem(bo, sys_res);
- 		return 0;
- 	}
- 
-@@ -641,7 +634,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	ret = ttm_tt_create(bo, true);
- 	swap(bo->ttm, ttm);
- 	if (ret)
--		goto error_free_sys_mem;
-+		return ret;
- 
- 	ret = ttm_buffer_object_transfer(bo, &ghost);
- 	if (ret)
-@@ -655,13 +648,9 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	dma_resv_unlock(&ghost->base._resv);
- 	ttm_bo_put(ghost);
- 	bo->ttm = ttm;
--	ttm_bo_assign_mem(bo, sys_res);
- 	return 0;
- 
- error_destroy_tt:
- 	ttm_tt_destroy(bo->bdev, ttm);
--
--error_free_sys_mem:
--	ttm_resource_free(bo, &sys_res);
- 	return ret;
- }
--- 
-2.25.1
+Since it's not currently there, I assume it's temporarily stuck in the
+moderation queue, assuming you are not subscribed to intel-gfx ml? If
+so, perhaps consider subscribing at [3] and then disable receiving any
+mail from the ml, so you get full use of CI without getting spammed.
 
+[1] https://intel-gfx-ci.01.org/queue/index.html
+[2] https://patchwork.freedesktop.org/project/intel-gfx/series/
+[3] https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
+>
+> No functional change compared to the last version.
+>
+> Christian.
+>
+>
