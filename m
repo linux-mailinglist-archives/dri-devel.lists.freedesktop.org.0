@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB0152DA49
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 18:30:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3C252DA5B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 18:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8646410E478;
-	Thu, 19 May 2022 16:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20DB7113168;
+	Thu, 19 May 2022 16:37:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F38610F1EF
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 16:29:59 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id i66so7050993oia.11
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eDj9YtrL+ME/X2nogJu52e1JjwHXOpFB8AWWGPpN1JI=;
- b=GopHsktLl1FQHiOTG2Rcl7tq6cJcuAMLUPz/tIktAVi4pFMYnsHSyGZ/yNj18WFDUC
- qVvLfkJjJBsrQ9FK3hKmBv/G2kWYIIGctov/JcnxBJpj6Fo2Dq5vH+K+7J1L7e3ChsVa
- oAlXRfBGdaapF58zbqZnvfDY2J/15YRO/sx91miCOxpNhbrH1aACE9iUw3kp/XAd/jXG
- ofWGsCWs9xkx9zdWP8X82Sp5A10NP+d+jfb8DWv6t59TgMlOZBxPdhYxOKuSVmklg2NU
- v+UThHdaGO4a2MCA1BahEdkdwuOOSV8jATDUHhwsurxzLnXZY8qRsUj4SWzrHpMK2+LW
- wt6g==
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C713C113E42
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 16:37:49 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id x12so5539987pgj.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=F28DbulQ0jEkQGLikm8EqDCBfoSZOeUw515EvhneCFA=;
+ b=mIZhrXQ4iFDgPsYFsZ60+OFftLbzg2tZW+uB4Ooe2VBWkW8cBXZysVagXo2RHoj2JB
+ lB5PsP+r0vtw5PFYL7B5Y3KWrKTQz5GQdLa12HpSuDW1l8BJQScklN/B+swR9iP2becL
+ eRKAYpFxwRMcG0SHKNoGGPgJxYRV9lyd62T7ErM9+iqtrSjZUFBFRxMcnzUY3VZ88IEl
+ dM/9ug6NofL/hobVN6loSHRaQ19j9XqB1sHW50BI4yWVP3eobgOMPogH4GixJA/neC7R
+ 4W7l6Z6XIGmCOCHUYVm1JJfgNgrAyb903+W2X5UumWnHyOF6RUtPiBKwafzpWnNSbDqk
+ JieQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eDj9YtrL+ME/X2nogJu52e1JjwHXOpFB8AWWGPpN1JI=;
- b=Ecb50NubpG4SRyF8hsmn25EfJppD5kUm0npDouskaWWYT1zPGjJAHSOMzODWjkvzIL
- 4ro5FD44wtdBxxzvuOIfW8WbMtLdgesQuO59n+oy5WITAfzhnNYRz/0iCd46NEYiwKJj
- uVPwmLM9QESNcsCv/YwbDd+7sO2IxiRjhMqxkTDNwcQo+HgTbqEQJdxNIVXNJT26nkrt
- xEaw+D9uchhottdm4M5JcXMybcRcqGOWbBmjAT9cvBR+6UO5MnUHWXDSBGp+uA0ucrsH
- fXdnmJ66Jgc70HalRjirV/SnQU4ntafEpy3yT0g285rxVmo7/j9mz585VZXKbGv/C1Xl
- f2fA==
-X-Gm-Message-State: AOAM533DnC3D9ViGRoSUrNRah/uDcKBCRRrY1VOXZ9tpt+vedx+eclcK
- ZO4G8cJtddgFEAWiA34lrl2MhwOrc8EpLw==
-X-Google-Smtp-Source: ABdhPJyRSED3NYB6g3npUapZBROIw+TePvZdH0R/K6jTKuECnoY/NSeSywuMIYCDp1g99Vxzp2Wo5Q==
-X-Received: by 2002:a05:6808:ec7:b0:322:2bcc:42c2 with SMTP id
- q7-20020a0568080ec700b003222bcc42c2mr3283588oiv.168.1652977796926; 
- Thu, 19 May 2022 09:29:56 -0700 (PDT)
-Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
- [76.183.134.35]) by smtp.gmail.com with ESMTPSA id
- n4-20020a056870844400b000e92295f8acsm36562oak.2.2022.05.19.09.29.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=F28DbulQ0jEkQGLikm8EqDCBfoSZOeUw515EvhneCFA=;
+ b=XjU8oOmAK30fEEVLxEPeU6IjgqGOq7B2bi2aMLGBjxt/FB+CCJLH1B/PJ7PoTfzmCf
+ fJ9/l/pxJqT1nbnn3sv4m3+KcYy3sMM0FhWhNEwSGnPfRDG0b45DLb2kBYXFnuxScXtG
+ aDovn3MuteDeqvNmLyksngKuXcHqXq5TQBXerDW8Vry8/VjElZ8gDLebk5qFlNybs9e1
+ rjbP0GN688Qh1ZJXYFn2RAa26yLFJ8/E8kDzz+ynPqHAXQy0f44MntqUrsxwgGFYVBJ3
+ Tossc82xXh/CTEkdXGZIso2T8SXHtNjQM3qjXoVzkGFWExcXgSPTW5u4x/Bjp6CnGPU2
+ QrGw==
+X-Gm-Message-State: AOAM533CYpYeyN86MjcnYpuaHOUCDPOB0Mzcgrpox96Zv9PUrbaFVdWE
+ C3VbGxyeiRVJx/hpVu9cUIEXgw==
+X-Google-Smtp-Source: ABdhPJx1nKZBsvM/1s0Knp+K6VPSacbbVwoq4r4yMLooMeqC6xBtrejZP6toBWYuM4j+VwQpyBM+WQ==
+X-Received: by 2002:a63:d611:0:b0:3c6:afdf:819b with SMTP id
+ q17-20020a63d611000000b003c6afdf819bmr4622740pgg.513.1652978269170; 
+ Thu, 19 May 2022 09:37:49 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ p6-20020a170902780600b0015e8d4eb24dsm4023212pll.151.2022.05.19.09.37.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 09:29:56 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RESEND 6/6 v2] drm/vc4: dpi: Support DPI interface in mode3 for
- RGB565
-Date: Thu, 19 May 2022 11:29:35 -0500
-Message-Id: <20220519162935.1585-7-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220519162935.1585-1-macroalpha82@gmail.com>
-References: <20220519162935.1585-1-macroalpha82@gmail.com>
+ Thu, 19 May 2022 09:37:48 -0700 (PDT)
+Date: Thu, 19 May 2022 16:37:44 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [RFC PATCH v3 04/19] KVM: x86: mmu: allow to enable write
+ tracking externally
+Message-ID: <YoZyWOh4NPA0uN5J@google.com>
+References: <20220427200314.276673-1-mlevitsk@redhat.com>
+ <20220427200314.276673-5-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427200314.276673-5-mlevitsk@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +71,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- emma@anholt.net, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- airlied@linux.ie, Chris Morgan <macromorgan@hotmail.com>, robh+dt@kernel.org,
- thierry.reding@gmail.com, mchehab@kernel.org, sam@ravnborg.org,
- linux-media@vger.kernel.org
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+On Wed, Apr 27, 2022, Maxim Levitsky wrote:
+> @@ -5753,6 +5752,10 @@ int kvm_mmu_init_vm(struct kvm *kvm)
+>  	node->track_write = kvm_mmu_pte_write;
+>  	node->track_flush_slot = kvm_mmu_invalidate_zap_pages_in_memslot;
+>  	kvm_page_track_register_notifier(kvm, node);
 
-Add support for the VC4 DPI driver to utilize DPI mode 3. This is
-defined here as xxxRRRRRxxGGGGGGxxxBBBBB:
-https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#parallel-display-interface-dpi
+Can you add a patch to move this call to kvm_page_track_register_notifier() into
+mmu_enable_write_tracking(), and simultaneously add a WARN in the register path
+that page tracking is enabled?
 
-This mode is required to use the Geekworm MZP280 DPI display.
+Oh, actually, a better idea. Add an inner __kvm_page_track_register_notifier()
+that is not exported and thus used only by KVM, invoke mmu_enable_write_tracking()
+from the exported kvm_page_track_register_notifier(), and then do the above.
+That will require modifying KVMGT and KVM in a single patch, but that's ok.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/gpu/drm/vc4/vc4_dpi.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index c180eb60b..3c58ade25 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -173,6 +173,10 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_3,
- 					       DPI_FORMAT);
- 			break;
-+		case MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-+			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_2,
-+					       DPI_FORMAT);
-+			break;
- 		default:
- 			DRM_ERROR("Unknown media bus format %d\n", bus_format);
- 			break;
--- 
-2.25.1
-
+That will avoid any possibility of an external user failing to enabling tracking
+before registering its notifier, and also avoids bikeshedding over what to do with
+the one-line wrapper to enable tracking.
