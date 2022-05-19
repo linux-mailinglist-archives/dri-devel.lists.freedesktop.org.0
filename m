@@ -2,58 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1452752E05A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 01:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FCB52E0C8
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 01:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C610310EE08;
-	Thu, 19 May 2022 23:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E68BA10E0F4;
+	Thu, 19 May 2022 23:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92DBB11A4AD;
- Thu, 19 May 2022 23:11:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653001919; x=1684537919;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=rI5ZKSOJKM0Bcjv9f134lRqpnioCEqKK1pNus30VpcY=;
- b=bctnYYIbbmRUCZN5KCG48F52IAzjb/BOAVfQKdUIhubHxkXU7mI1Nypl
- j1Fgc0VQKmm+fyk7Qt3JNkH1lg0FHNmL24F5Rg4pq1TPAYNcTijYasetm
- TvxzsspZ7aCWyULlzTZuBDIIC3IWQWHqLdIGAOYbrf0g47fg97ZQVh3je M=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 19 May 2022 16:11:59 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 16:11:59 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 19 May 2022 16:11:58 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 19 May 2022 16:11:57 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v6 3/3] drm/msm/dp: delete vdda regulator related functions
- from eDP/DP controller
-Date: Thu, 19 May 2022 16:11:42 -0700
-Message-ID: <1653001902-26910-4-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1653001902-26910-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1653001902-26910-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B09610E033
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 23:46:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1A109B828AF;
+ Thu, 19 May 2022 23:46:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C6DC385AA;
+ Thu, 19 May 2022 23:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653003959;
+ bh=J/86NYRxXvo0kg+4FsDJ+dYPDoSwx3afdJ6QdTs8OyA=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=D9rd4xxAzi+lnV0CSGhJNepB2FAXckzHnWQwdFd5MSxsL+/jhg/jVTREPtoj0gGPG
+ ctTGSF3Qk1uBFZoNhz7QvMwg5z+JWEdvsXVn2B+6/x3PZNVX0rt4otOkfWITG/IOYu
+ qlYc+Y3KAjPU+sRXBXmj5MtTMJTUshr/hvqzi7fPcZxCRnpAQyE1mZb6aBiBrH6AfX
+ 2L3+RMnZitJdoVtdpLLXMG2scFNHhq9OmgViHvJYun/lulKu747Xnf1H9aTJkyORy+
+ 9riGd3tUDuYRThZzmJVDGht+HDyYrVa6q9aGv+kZ6tgdLl6XFt67peXSMoK1CJ9o/X
+ 8i9/Qk6HWLj+A==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220314141643.22184-3-u.kleine-koenig@pengutronix.de>
+References: <20220314141643.22184-1-u.kleine-koenig@pengutronix.de>
+ <20220314141643.22184-3-u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v8 02/16] clk: Provide new devm_clk helpers for prepared
+ and enabled clocks
+From: Stephen Boyd <sboyd@kernel.org>
+To: Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Jean Delvare <jdelvare@suse.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Lars Povlsen <lars.povlsen@microchip.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee.jones@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Mark Brown <broonie@kernel.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Matt Mackall <mpm@selenic.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong <narmstrong@bayli
+ bre.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Nuno =?utf-8?q?S=C3=A1?= <nuno.sa@analog.com>,
+ Oleksij Rempel <linux@rempel-privat.de>, Paul Cercueil <paul@crapouillou.net>,
+ Russell King <linux@armlinux.org.uk>, Shawn Guo <shawnguo@kernel.org>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>, UNGLinuxDriver@microchip.com,
+ Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Vinod Koul <vkoul@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org
+Date: Thu, 19 May 2022 16:45:57 -0700
+User-Agent: alot/0.10
+Message-Id: <20220519234559.90C6DC385AA@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,225 +79,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Tomislav Denis <tomislav.denis@avl.com>,
+	linux-iio@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	dri-devel@lists.freedesktop.org,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	linux-i2c@vger.kernel.org,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	linux-clk@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-rtc@vger.kernel.org, Michal Simek <michal.simek@xilinx.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	".kernel.org"@freedesktop.org, Andy Gross <agross@kernel.org>,
+	Alexandru Ardelean <aardelean@deviqon.com>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>, kernel@pengutronix.de,
+	linux-arm-msm@vger.kernel.org,
+	Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, linux-gpio@vger.kernel.org,
+	=?utf-8?q?Andr=C3=A9?= Gustavo Nakagomi Lopez <andregnl@usp.br>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-amlogic@lists.infradead.org, linux-pwm@vger,
+	Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
+	linux-mips@vger.kernel.org, linux-spi@vger.kernel.org,
+	Cai Huoqing <caihuoqing@baidu.com>, linux-crypto@vger.kernel.org,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	dmaengine@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Vdda regulators are related to both eDP and DP phy so that it should be
-managed at eDP and DP phy driver instead of controller. This patch removes
-vdda regulators related functions out of eDP/DP controller.
+The Cc list is huge. Here it goes!
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_parser.c | 14 ------
- drivers/gpu/drm/msm/dp/dp_parser.h |  6 ---
- drivers/gpu/drm/msm/dp/dp_power.c  | 95 +-------------------------------------
- 3 files changed, 2 insertions(+), 113 deletions(-)
+Quoting Uwe Kleine-K=C3=B6nig (2022-03-14 07:16:29)
+> When a driver keeps a clock prepared (or enabled) during the whole
+> lifetime of the driver, these helpers allow to simplify the drivers.
+>=20
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Alexandru Ardelean <aardelean@deviqon.com>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-index 8f9fed9..4ef2130 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.c
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-@@ -22,14 +22,6 @@
- #define DP_DEFAULT_P0_OFFSET	0x1000
- #define DP_DEFAULT_P0_SIZE	0x0400
- 
--static const struct dp_regulator_cfg sdm845_dp_reg_cfg = {
--	.num = 2,
--	.regs = {
--		{"vdda-1p2", 21800, 4 },	/* 1.2 V */
--		{"vdda-0p9", 36000, 32 },	/* 0.9 V */
--	},
--};
--
- static void __iomem *dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
- {
- 	struct resource *res;
-@@ -298,12 +290,6 @@ static int dp_parser_parse(struct dp_parser *parser)
- 	if (rc)
- 		return rc;
- 
--	/* Map the corresponding regulator information according to
--	 * version. Currently, since we only have one supported platform,
--	 * mapping the regulator directly.
--	 */
--	parser->regulator_cfg = &sdm845_dp_reg_cfg;
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 3a4d797..b56b4d7 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -101,11 +101,6 @@ struct dp_reg_entry {
- 	int disable_load;
- };
- 
--struct dp_regulator_cfg {
--	int num;
--	struct dp_reg_entry regs[DP_DEV_REGULATOR_MAX];
--};
--
- /**
-  * struct dp_parser - DP parser's data exposed to clients
-  *
-@@ -121,7 +116,6 @@ struct dp_parser {
- 	struct dp_pinctrl pinctrl;
- 	struct dp_io io;
- 	struct dp_display_data disp_data;
--	const struct dp_regulator_cfg *regulator_cfg;
- 	u32 max_dp_lanes;
- 	struct drm_bridge *next_bridge;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-index d9e0117..b52ac1d 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.c
-+++ b/drivers/gpu/drm/msm/dp/dp_power.c
-@@ -20,82 +20,10 @@ struct dp_power_private {
- 	struct clk *link_clk_src;
- 	struct clk *pixel_provider;
- 	struct clk *link_provider;
--	struct regulator_bulk_data supplies[DP_DEV_REGULATOR_MAX];
- 
- 	struct dp_power dp_power;
- };
- 
--static void dp_power_regulator_disable(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	int num = power->parser->regulator_cfg->num;
--	int i;
--
--	DBG("");
--	for (i = num - 1; i >= 0; i--)
--		if (regs[i].disable_load >= 0)
--			regulator_set_load(s[i].consumer,
--					   regs[i].disable_load);
--
--	regulator_bulk_disable(num, s);
--}
--
--static int dp_power_regulator_enable(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	int num = power->parser->regulator_cfg->num;
--	int ret, i;
--
--	DBG("");
--	for (i = 0; i < num; i++) {
--		if (regs[i].enable_load >= 0) {
--			ret = regulator_set_load(s[i].consumer,
--						 regs[i].enable_load);
--			if (ret < 0) {
--				pr_err("regulator %d set op mode failed, %d\n",
--					i, ret);
--				goto fail;
--			}
--		}
--	}
--
--	ret = regulator_bulk_enable(num, s);
--	if (ret < 0) {
--		pr_err("regulator enable failed, %d\n", ret);
--		goto fail;
--	}
--
--	return 0;
--
--fail:
--	for (i--; i >= 0; i--)
--		regulator_set_load(s[i].consumer, regs[i].disable_load);
--	return ret;
--}
--
--static int dp_power_regulator_init(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	struct platform_device *pdev = power->pdev;
--	int num = power->parser->regulator_cfg->num;
--	int i, ret;
--
--	for (i = 0; i < num; i++)
--		s[i].supply = regs[i].name;
--
--	ret = devm_regulator_bulk_get(&pdev->dev, num, s);
--	if (ret < 0) {
--		pr_err("%s: failed to init regulator, ret=%d\n",
--						__func__, ret);
--		return ret;
--	}
--
--	return 0;
--}
--
- static int dp_power_clk_init(struct dp_power_private *power)
- {
- 	int rc = 0;
-@@ -318,21 +246,10 @@ int dp_power_client_init(struct dp_power *dp_power)
- 
- 	pm_runtime_enable(&power->pdev->dev);
- 
--	rc = dp_power_regulator_init(power);
--	if (rc) {
--		DRM_ERROR("failed to init regulators %d\n", rc);
--		goto error;
--	}
--
- 	rc = dp_power_clk_init(power);
--	if (rc) {
-+	if (rc)
- 		DRM_ERROR("failed to init clocks %d\n", rc);
--		goto error;
--	}
--	return 0;
- 
--error:
--	pm_runtime_disable(&power->pdev->dev);
- 	return rc;
- }
- 
-@@ -365,22 +282,15 @@ int dp_power_init(struct dp_power *dp_power, bool flip)
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
- 	pm_runtime_get_sync(&power->pdev->dev);
--	rc = dp_power_regulator_enable(power);
--	if (rc) {
--		DRM_ERROR("failed to enable regulators, %d\n", rc);
--		goto exit;
--	}
- 
- 	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
- 	if (rc) {
- 		DRM_ERROR("failed to enable DP core clocks, %d\n", rc);
--		goto err_clk;
-+		goto exit;
- 	}
- 
- 	return 0;
- 
--err_clk:
--	dp_power_regulator_disable(power);
- exit:
- 	pm_runtime_put_sync(&power->pdev->dev);
- 	return rc;
-@@ -393,7 +303,6 @@ int dp_power_deinit(struct dp_power *dp_power)
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
- 	dp_power_clk_enable(dp_power, DP_CORE_PM, false);
--	dp_power_regulator_disable(power);
- 	pm_runtime_put_sync(&power->pdev->dev);
- 	return 0;
- }
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+I'm ready to merge it! I'm largely waiting for Russell to ack the clk.h
+change, but if that doesn't happen then I think we'll have to merge it
+anyway. Can you resend with collected acks, maybe just the ones you want
+me to merge through clk tree? Then I'll go ahead and stage it. Some
+nitpicks below.
 
+>  drivers/clk/clk-devres.c | 31 ++++++++++++++
+>  include/linux/clk.h      | 90 +++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 120 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/clk-devres.c b/drivers/clk/clk-devres.c
+> index fb7761888b30..4707fe718f0b 100644
+> --- a/drivers/clk/clk-devres.c
+> +++ b/drivers/clk/clk-devres.c
+> @@ -67,12 +67,43 @@ struct clk *devm_clk_get(struct device *dev, const ch=
+ar *id)
+>  }
+>  EXPORT_SYMBOL(devm_clk_get);
+> =20
+> +struct clk *devm_clk_get_prepared(struct device *dev, const char *id)
+> +{
+> +       return __devm_clk_get(dev, id, clk_get, clk_prepare, clk_unprepar=
+e);
+> +
+
+Nitpick: Remove newline
+
+> +}
+> +EXPORT_SYMBOL(devm_clk_get_prepared);
+> +
+> +struct clk *devm_clk_get_enabled(struct device *dev, const char *id)
+> +{
+> +       return __devm_clk_get(dev, id, clk_get,
+> +                             clk_prepare_enable, clk_disable_unprepare);
+> +
+
+Nitpick: Remove newline
+
+> +}
+> +EXPORT_SYMBOL(devm_clk_get_enabled);
+> +
+>  struct clk *devm_clk_get_optional(struct device *dev, const char *id)
+>  {
+>         return __devm_clk_get(dev, id, clk_get_optional, NULL, NULL);
+>  }
+>  EXPORT_SYMBOL(devm_clk_get_optional);
+> =20
+> +struct clk *devm_clk_get_optional_prepared(struct device *dev, const cha=
+r *id)
+> +{
+> +       return __devm_clk_get(dev, id, clk_get_optional,
+> +                             clk_prepare, clk_unprepare);
+> +
+
+Nitpick: Remove newline
+
+> +}
+> +EXPORT_SYMBOL(devm_clk_get_optional_prepared);
+> +
+> +struct clk *devm_clk_get_optional_enabled(struct device *dev, const char=
+ *id)
+> +{
+> +       return __devm_clk_get(dev, id, clk_get_optional,
+> +                             clk_prepare_enable, clk_disable_unprepare);
+> +
+
+Nitpick: Remove newline
+
+> +}
+> +EXPORT_SYMBOL(devm_clk_get_optional_enabled);
+
+EXPORT_SYMBOL_GPL for all of these? Or make them macros and cut down on
+the number of symbols.
+
+> +
+>  struct clk_bulk_devres {
+>         struct clk_bulk_data *clks;
+>         int num_clks;
+> diff --git a/include/linux/clk.h b/include/linux/clk.h
+> index 266e8de3cb51..b011dbba7109 100644
+> --- a/include/linux/clk.h
+> +++ b/include/linux/clk.h
+> @@ -449,7 +449,7 @@ int __must_check devm_clk_bulk_get_all(struct device =
+*dev,
+>   * the clock producer.  (IOW, @id may be identical strings, but
+>   * clk_get may return different clock producers depending on @dev.)
+>   *
+> - * Drivers must assume that the clock source is not enabled.
+> + * Drivers must assume that the clock source is neither prepared nor ena=
+bled.
+>   *
+>   * devm_clk_get should not be called from within interrupt context.
+>   *
+
+Can you split this off to another patch? It's updating the doc to
+clarify the assumed state of a clk returned from this API.
+
+> @@ -458,6 +458,47 @@ int __must_check devm_clk_bulk_get_all(struct device=
+ *dev,
+>   */
+>  struct clk *devm_clk_get(struct device *dev, const char *id);
+> =20
+> +/**
+> + * devm_clk_get_prepared - devm_clk_get() + clk_prepare()
+> + * @dev: device for clock "consumer"
+> + * @id: clock consumer ID
+> + *
+> + * Returns a struct clk corresponding to the clock producer, or
+> + * valid IS_ERR() condition containing errno.  The implementation
+> + * uses @dev and @id to determine the clock consumer, and thereby
+> + * the clock producer.  (IOW, @id may be identical strings, but
+> + * clk_get may return different clock producers depending on @dev.)
+> + *
+> + * The returned clk (if valid) is prepared. Drivers must however assume =
+that the
+> + * clock is not enabled.
+> + *
+> + * devm_clk_get_prepared should not be called from within interrupt cont=
+ext.
+
+There's 'Context:' for this. Please use it.
+
+> + *
+> + * The clock will automatically be unprepared and freed when the
+> + * device is unbound from the bus.
+> + */
+> +struct clk *devm_clk_get_prepared(struct device *dev, const char *id);
+> +
+> +/**
+> + * devm_clk_get_enabled - devm_clk_get() + clk_prepare_enable()
+> + * @dev: device for clock "consumer"
+> + * @id: clock consumer ID
+> + *
+> + * Returns a struct clk corresponding to the clock producer, or valid IS=
+_ERR()
+
+There's 'Return:' for this. Please use it.
+
+> + * condition containing errno.  The implementation uses @dev and @id to
+> + * determine the clock consumer, and thereby the clock producer.  (IOW, =
+@id may
+> + * be identical strings, but clk_get may return different clock producers
+> + * depending on @dev.)
+> + *
+> + * The returned clk (if valid) is prepared and enabled.
+> + *
+> + * devm_clk_get_prepared should not be called from within interrupt cont=
+ext.
+> + *
+> + * The clock will automatically be disabled, unprepared and freed when t=
+he
+> + * device is unbound from the bus.
+> + */
+> +struct clk *devm_clk_get_enabled(struct device *dev, const char *id);
+> +
+>  /**
+>   * devm_clk_get_optional - lookup and obtain a managed reference to an o=
+ptional
+>   *                        clock producer.
+> @@ -469,6 +510,29 @@ struct clk *devm_clk_get(struct device *dev, const c=
+har *id);
+>   */
+>  struct clk *devm_clk_get_optional(struct device *dev, const char *id);
+> =20
+> +/**
+> + * devm_clk_get_optional_prepared - devm_clk_get_optional() + clk_prepar=
+e()
+> + * @dev: device for clock "consumer"
+> + * @id: clock consumer ID
+> + *
+> + * Behaves the same as devm_clk_get_prepared() except where there is no =
+clock
+> + * producer.  In this case, instead of returning -ENOENT, the function r=
+eturns
+> + * NULL.
+
+When it comes to kernel-doc I think the DRY principle should not apply.
+I don't want to have to jump to one doc block to jump to another doc
+block while holding the previous verbage in my head to understand what
+the difference is. Please be repetitive with documentation for APIs :)
+
+> + */
+> +struct clk *devm_clk_get_optional_prepared(struct device *dev, const cha=
+r *id);
+> +
+> +/**
+> + * devm_clk_get_optional_enabled - devm_clk_get_optional() +
+> + *                                 clk_prepare_enable()
+> + * @dev: device for clock "consumer"
+> + * @id: clock consumer ID
+> + *
+> + * Behaves the same as devm_clk_get_enabled() except where there is no c=
+lock
+> + * producer.  In this case, instead of returning -ENOENT, the function r=
+eturns
+> + * NULL.
+> + */
+> +struct clk *devm_clk_get_optional_enabled(struct device *dev, const char=
+ *id);
+> +
+>  /**
+>   * devm_get_clk_from_child - lookup and obtain a managed reference to a
+>   *                          clock producer from child node.
