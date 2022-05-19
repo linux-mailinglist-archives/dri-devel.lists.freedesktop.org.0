@@ -2,47 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF0752CF9F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9543D52CFC1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6E4112674;
-	Thu, 19 May 2022 09:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9969E11B2F8;
+	Thu, 19 May 2022 09:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770CE112674
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:45:18 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A66E011B2F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:52:04 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6258D83BDB;
- Thu, 19 May 2022 11:45:15 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id C774B80FC8;
+ Thu, 19 May 2022 11:52:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1652953516;
- bh=EVLGttC4nmw8Q9IevZuZbfbxpnpEmPQp3w3u1xWRC4c=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pXdD7Oso3ogyZPWNA7+pRP3RslLgu8JcIHes4WhiXXOvZkJAhkw5pbAt+R+5lfcjF
- 57asBLO5f1nOMbZQGRY3e4vg8mJf7HnlHXJvpf35uDJp8MuzBLjxTqmIBRDo14JpH6
- vzJSIEE1b+tXMhk/Tw7nwM6DbwO/3b9dTeNombk91cMIyJBSUNGMiyr5LDVg1deTBE
- TzP1L+X/VsnHGaXchyZxXRFHjM9FmsdAXRBwv1QOa8SwJ4ucrCbNkI1jwMGQDheYbj
- YNTV6p35Z81DPjJz6AAuGT2SQHlNigVlzWr6rbfAAaxtih1Ff4l9GcyMKqfUxWP2aL
- tdXUjlESP+Upg==
-Message-ID: <8cec9a37-b11b-9a04-8933-66058e140f1e@denx.de>
-Date: Thu, 19 May 2022 11:45:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/3] drm/bridge: tc358767: Handle dsi_lanes == 0 as invalid
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220518233602.248185-1-marex@denx.de>
- <cdaf30cf5090dedd2cf5a4145fa2137e1c7df859.camel@pengutronix.de>
+ s=phobos-20191101; t=1652953922;
+ bh=c8RTLF10V/NeLttTYW5MuXusbIaJnYY2r30V12DtxJQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VXc3cRBkUq1PsZ34oVU1qSWDIOniHFUZ23OA9/jiWBaHxnFWo4HSSPq9qL75wsp7A
+ xSToukxXQdEGm35SLYsJZ8R4KcADF7IS5rzyoU1I7VgiVFQWE0TfxyzJBzHTgWNZPQ
+ dvHiY1ev0uQdBZkAdwLbCsKafwOF+U7PSbfTACHD2iykJIMMrgP4kvgl1qium36cBB
+ 86njhFfekGFWldLzp4rFcqsCfFtyppTxlMFpI+8Kz/eIuuXhzkkg6N133SYdIVXyN6
+ tYLXZPLV71vrK/W+HRv/S4GF/HvC20eiU1rPijbUthuJuXA9tT+DaRLFQ32BdVB+aN
+ gaPpXAxwUST+g==
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <cdaf30cf5090dedd2cf5a4145fa2137e1c7df859.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/bridge: tc358767: Handle dsi_lanes == 0 as invalid
+Date: Thu, 19 May 2022 11:51:36 +0200
+Message-Id: <20220519095137.11896-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,19 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>, Maxime Ripard <maxime@cerno.tech>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
+ robert.foss@linaro.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/19/22 09:50, Lucas Stach wrote:
-> Am Donnerstag, dem 19.05.2022 um 01:36 +0200 schrieb Marek Vasut:
->> Handle empty data-lanes = < >; property, which translates to
->> dsi_lanes = 0 as invalid.
->>
-> I'm having a hard time imagining a situation where on would add a empty
-> data-lanes property to the DT.
+Handle empty data-lanes = < >; property, which translates to
+dsi_lanes = 0 as invalid.
 
-Like when you make a typo for example .
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Fixes: bbfd3190b6562 ("drm/bridge: tc358767: Add DSI-to-DPI mode support")
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
+V2: - Add RB from Andrzej and Lucas
+---
+ drivers/gpu/drm/bridge/tc358767.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 798da0e4d0863..f78c2ad845159 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -1899,7 +1899,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
+ 	of_node_put(host_node);
+ 	of_node_put(endpoint);
+ 
+-	if (dsi_lanes < 0 || dsi_lanes > 4)
++	if (dsi_lanes <= 0 || dsi_lanes > 4)
+ 		return -EINVAL;
+ 
+ 	if (!host)
+-- 
+2.35.1
+
