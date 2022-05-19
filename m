@@ -1,63 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B450E52D26A
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 14:25:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D5552D27B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 14:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAAB111A2B4;
-	Thu, 19 May 2022 12:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741DD11A266;
+	Thu, 19 May 2022 12:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2892B11A2B3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 12:25:46 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id g16so6048685lja.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 05:25:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=+XDjcMQak510AbIZ8jLkJgCvsFB2A35/wbL1HOG/INE=;
- b=lAaJmEzLeV3vj8T8CSED/mJMzic3+74SHUYEpH6rpNmlXcIRQJ7C+b0Zjroo6JCc+p
- sw7SiTRSHqFvu27HOAEoJgN50mU6H6jGIvxIVz1Qqt8HH/9qlWDMWOGArR12oDwWgY9v
- tUkLQUV530OJQO6ckRfmQQo22zxot9pSkAQ0bTH/Lie/ogo4VmqDwOuoPM9L+h4GO5z0
- Rlci8TgIRLcw+UjP/r+RBA3z+fqz+x2oAM0bYelrxvbIts5DkBckYKYzc6CtCJZ8OKhB
- d3SkhkjfQ/zXDIQ+3mEc3PfvvPbDsPc4RqZ0IvxZewlrEeQx+Db4pN5PLMX6OStKVPvA
- hVrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=+XDjcMQak510AbIZ8jLkJgCvsFB2A35/wbL1HOG/INE=;
- b=O1GldJDKtghH6Nm3IBqzRHt3uaw4M9S7CyPRwBajIeDADallBOvvcjtqK67zx7JB4k
- 9dRilovACdsb00z6Ww1Y1w1YJNSwx8l1wfkxsGhc59NjCJSNyduP32V8WmC0VHDbU+G6
- Lz//D/BTxLT9Tz5Kj+P4WkqU3ff706OGYxB+Ghedyw74SH3Y/XYqibBn/Ef38OVj1VFp
- K4KClwiTXfGblACC2aYEgW655aQiYp9y4thRSTENvAPIpaIq07ii3D/uT4+iJykj9To7
- KLr6pWE2x7aa1APnVCbLO1Ax1Ut6NMSS5WSsrWlipl6prt1PNc88lkdvxXP3bzFyHLYF
- oT3g==
-X-Gm-Message-State: AOAM533u5F+UlM++qSGe9hZZ/BvGYA/RQ593pqhWlJFL66mIdd3Pin4P
- mHSHzHcF2AbncObg7KGuXxvJVmcQcv0PUDZF2YB7Hw==
-X-Google-Smtp-Source: ABdhPJxGyJtgWwbX8S0lH1j2ZFkcMo+rRVbGhMPhGE4a6v5ghusnKHQReSrKTmWTBYwAlslvk0NjT5bOE5aDGCFRwmA=
-X-Received: by 2002:a05:651c:a11:b0:250:5da4:e7b1 with SMTP id
- k17-20020a05651c0a1100b002505da4e7b1mr2551149ljq.268.1652963144078; Thu, 19
- May 2022 05:25:44 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEEE11A266
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 12:29:27 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id DF7BB83C01;
+ Thu, 19 May 2022 14:29:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1652963365;
+ bh=VRbYxYHvOnOLtIQe2zvGS87b/1RIyW1cWwJJQjClkZY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mr2ss6Ern92SKeFDGNGMzCmHfr+ivS2Gb4qnAhVs8RP1s+Mwx4C0nNqJXm77ljCmM
+ TQuTIzp8XEtU5bWHOfOgAZifSDFs3TlToSTh5qBqb/1AjLWV5tA+Maa0MX7E3zOiFW
+ hShi8E1EjxvrOvBgHOCEpO5FtXF8y1lAAC5ABq7i1mo0OuJZbOtSR7CLYuD25a7P9q
+ TljWD/f4YPvJHeGh5uoQB6F4jBiY1lG3U60Zgw6ME9jOYQDrb8wx1/abjD/4+D8XSG
+ b6mwjwA8RhyiO7Vt9drjxbxN4Y9yAW7TG8r0KX1D9OyC2Y1lNZMCoADtDo5bVlWmXd
+ lrWmQlHnPJniw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/bridge: tc358767: Make sure Refclk clock are enabled
+Date: Thu, 19 May 2022 14:29:12 +0200
+Message-Id: <20220519122912.93536-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <000000000000f0196305d219b2fe@google.com>
- <000000000000b968f305d74b1195@google.com>
- <YgJhjdAbRHdnCZ4T@phenom.ffwll.local>
-In-Reply-To: <YgJhjdAbRHdnCZ4T@phenom.ffwll.local>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Thu, 19 May 2022 14:25:32 +0200
-Message-ID: <CACT4Y+ZiexzqBxeDQJAeQMR7Ef=JSh-2S8P73LN2BnibXhiC3Q@mail.gmail.com>
-Subject: Re: [syzbot] WARNING in __dma_map_sg_attrs
-To: syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, christian.koenig@amd.com, 
- dri-devel@lists.freedesktop.org, hch@lst.de, iommu@lists.linux-foundation.org, 
- linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- m.szyprowski@samsung.com, robin.murphy@arm.com, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,90 +51,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, robert.foss@linaro.org,
+ Maxime Ripard <maxime@cerno.tech>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 8 Feb 2022 at 13:26, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Sat, Feb 05, 2022 at 12:18:23PM -0800, syzbot wrote:
-> > syzbot has found a reproducer for the following issue on:
-> >
-> > HEAD commit:    0457e5153e0e Merge tag 'for-linus' of git://git.kernel.org..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=11b2637c700000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=6f043113811433a5
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=10e27961f4da37c443b2
-> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11c65542700000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1163f480700000
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
->
-> Adding Gerd, since this seems to blow up in udmabuf.
->
-> I wonder why syzbot didn't figure this out, since it seems to have
-> correctly added both dma-api and dma-buf people. Just not the maintainer
-> for the begin_cpu_udmabuf function in the middle of the backtrace?
+The Refclk may be supplied by SoC clock output instead of crystal
+oscillator, make sure the clock are enabled before any other action
+is performed with the bridge chip, otherwise it may either fail to
+operate at all, or miss reset GPIO toggle.
 
-Hi Daniel,
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Fixes: 7caff0fc4296e ("drm/bridge: tc358767: Add DPI to eDP bridge driver")
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
+V2: - Use devm_add_action_or_reset() to add clock disable hook instead
+      of wall of failpath
+V3: - Swap devm_add_action_or_reset()/clk_prepare_enable() to avoid
+      clock disable imbalance
+    - Add RB from Lucas
+---
+ drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
 
-syzbot selects only 1 file to get maintainers.
-Do you suggest using all files in the stack trace? I think it may lead
-to too many developers CCed since there can be something like 20 files
-including something from scheduler, arch, fs, etc.
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 45ea829d56601..7d4035ca26b19 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -2033,6 +2033,13 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
+ 	return -EINVAL;
+ }
+ 
++static void tc_clk_disable(void *data)
++{
++	struct clk *refclk = data;
++
++	clk_disable_unprepare(refclk);
++}
++
+ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ {
+ 	struct device *dev = &client->dev;
+@@ -2049,6 +2056,22 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	if (ret)
+ 		return ret;
+ 
++	tc->refclk = devm_clk_get(dev, "ref");
++	if (IS_ERR(tc->refclk)) {
++		ret = PTR_ERR(tc->refclk);
++		dev_err(dev, "Failed to get refclk: %d\n", ret);
++		return ret;
++	}
++
++	clk_prepare_enable(tc->refclk);
++
++	ret = devm_add_action_or_reset(dev, tc_clk_disable, tc->refclk);
++	if (ret)
++		return ret;
++
++	/* tRSTW = 100 cycles , at 13 MHz that is ~7.69 us */
++	usleep_range(10, 15);
++
+ 	/* Shut down GPIO is optional */
+ 	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(tc->sd_gpio))
+@@ -2069,13 +2092,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		usleep_range(5000, 10000);
+ 	}
+ 
+-	tc->refclk = devm_clk_get(dev, "ref");
+-	if (IS_ERR(tc->refclk)) {
+-		ret = PTR_ERR(tc->refclk);
+-		dev_err(dev, "Failed to get refclk: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	tc->regmap = devm_regmap_init_i2c(client, &tc_regmap_config);
+ 	if (IS_ERR(tc->regmap)) {
+ 		ret = PTR_ERR(tc->regmap);
+-- 
+2.35.1
 
-
-
-> > ------------[ cut here ]------------
-> > WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188 __dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-> > Modules linked in:
-> > CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted 5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> > RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-> > Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0 83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45 31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
-> > RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
-> > RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> > RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
-> > RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
-> > R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
-> > R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
-> > FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
-> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> > Call Trace:
-> >  <TASK>
-> >  dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
-> >  get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
-> >  begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
-> >  dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
-> >  dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
-> >  vfs_ioctl fs/ioctl.c:51 [inline]
-> >  __do_sys_ioctl fs/ioctl.c:874 [inline]
-> >  __se_sys_ioctl fs/ioctl.c:860 [inline]
-> >  __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
-> >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-> >  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-> >  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> > RIP: 0033:0x7f62fcf530f9
-> > Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-> > RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
-> > RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
-> > RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
-> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
-> > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> >  </TASK>
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/YgJhjdAbRHdnCZ4T%40phenom.ffwll.local.
