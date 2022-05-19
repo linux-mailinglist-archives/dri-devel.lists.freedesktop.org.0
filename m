@@ -2,58 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626F652CF08
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9381B52CF19
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA2811B09B;
-	Thu, 19 May 2022 09:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6022111B149;
+	Thu, 19 May 2022 09:14:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
- [IPv6:2607:f8b0:4864:20::112f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A913911B09B
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:09:53 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2ff155c239bso50619297b3.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 02:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fTYN8SQA1Kibj+1iEMNK2WJ4kiFH1jZy+Z6ZLSVIzN0=;
- b=hvulyA/9nIvcQL349rFarbnddLvY9KxNXVzOwnuziFMGzgoXJafIeq4MkYBy6jLk6W
- s3M1vHrQCdqvZAScHSvOaiC24sEZLHS49j0W88ksuOnZWzOJcz/qal8MrrGbJgy3AxE/
- jC8pn9TpW1Fsn7CRdkMKMPRWnyntyy4uNhTFYqyIsPsY3xLU+1Tj8BSmdpt+ZPQQREut
- hKV7/XAof2E30dQbV/qIr57X2zMxMUYLPtvgd3NWcR1W//0MOFeYlipiFSPiPdoYTRkl
- EVNnGm474dJJ1JPi1bY7lymcKpQU0jo24pOGJbZyS5KotlMFZoWGsrDcpf3mxJcprTz2
- 2QvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fTYN8SQA1Kibj+1iEMNK2WJ4kiFH1jZy+Z6ZLSVIzN0=;
- b=a67fNbgDhK2a8ukc3uVUNDQ8EevUGJn5Ljt0Kgys0rNd/dUnYHy+tXSZwQpJaMHSef
- rVcwDuFp1Xw18IscDjhUJcyPKYtym39tm7RPzq2mwUAVaH8V7N8CadBnTX/DtXoDpp0x
- aNvMCNkpjL4tQfeuaM3sE2X6eHXCBz6wpnp50hNTjmoUv1yLTqaijcZyV9JL0DugfRmu
- pLl3zh4cXg2T73stbkYHFKiDFzFJ7fA7M0m2zm2DGQa1E6MGqvz06URRelWGkoY2wP/X
- qAajYOOpBFPgYQOBMdHnPLZxCgnWwOREEyxSkDv9k/78paXkSeHcl5FkVZOag4v1tPrA
- biCw==
-X-Gm-Message-State: AOAM530Kfk0Hrv1jfK8S4QntCmkU/g7MLvPdeIVa+ajVza9bIrQEBwXY
- v7j28aGUfZlqNhTsvJlHFyNbIOrkYRSrnKD5mzU2kQ==
-X-Google-Smtp-Source: ABdhPJwWgBnbFPBng8jyysNwYozhHy5L14kmJuY8TO30we9HAg0aLzdUurH9h7SgBVzWDxYOJ2zAzts+I/soNqiTxJU=
-X-Received: by 2002:a0d:c4c2:0:b0:2f1:6c00:9eb4 with SMTP id
- g185-20020a0dc4c2000000b002f16c009eb4mr3757471ywd.448.1652951392715; Thu, 19
- May 2022 02:09:52 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8262611B149
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1652951653;
+ bh=vHKw+rNk4PT4DFmwJiIcNVVwqOfo5+7Vy/wOUy3KKrk=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=RcB7qkgMXlUofd83X33cmLaor+kHJ4nwDzTvXxjfbuhNeDLaHdWB9HtcjpfBZ41yP
+ 1X/o4SfRZpFIGuzoNuFoOce1Q12uIWsoCFahqTPJmJf1RoYLKnkQdwOuvLpGaD/Uap
+ 3B/ZWvTZFznNEVIrB+j4+5srmQA5//FQrs7fnLu8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.152.7]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MgvrL-1nOLQe376b-00hNYk; Thu, 19
+ May 2022 11:14:13 +0200
+Message-ID: <3976cf6a-0b40-4763-a233-eacf93925d53@gmx.de>
+Date: Thu, 19 May 2022 11:14:01 +0200
 MIME-Version: 1.0
-References: <cover.1651835715.git.jo@jsfamily.in>
- <BY5PR02MB7009B91FB7306503B58C264BD9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
- <CACRpkdYhkP9RYj98Lu=zkt+6aefx172R=8JtvOFpvh2uJ4byKA@mail.gmail.com>
- <BY5PR02MB7009831D8BC4DB2B34739CB6D9CF9@BY5PR02MB7009.namprd02.prod.outlook.com>
-In-Reply-To: <BY5PR02MB7009831D8BC4DB2B34739CB6D9CF9@BY5PR02MB7009.namprd02.prod.outlook.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 19 May 2022 11:09:41 +0200
-Message-ID: <CACRpkdZw+MwU42s8BWHkN2T3A-a-TGML8jJ0kQteMOE06m0UXg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/panel: introduce ebbg,ft8719 panel
-To: Joel Selvaraj <jo@jsfamily.in>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] video: fbdev: Fix refcount leak in clcdfb_of_vram_setup
+Content-Language: en-US
+To: Miaoqian Lin <linmq006@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Pawel Moll <pawel.moll@arm.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20220512115913.48685-1-linmq006@gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20220512115913.48685-1-linmq006@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:eSWg360NWdcrUA/fH7V7T9HE5h1fnVkRKaDvilzgt7TNnko8Egk
+ XlT5t0GUmFyJEH9cPREdc214vINJZC0DFKVSiVTdJBVUaP4BE613ytqfmd0Djcu+Q7nGkGC
+ ZJM0QToPIxtDal2B53SwVRk3nylfVXxqAnruvnw3W2/qfRCvdHLWdwAsKL+uXYQvRzGTho7
+ W2QJ+jXKfAkhPBZ7HNRAw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KQEVyUAnvU8=:Ubfs4GWvjk9jhIzN4c6pLH
+ fJy5OFciCIS6/B/O6PV1aEEn24aca0n7bUvA4dH/OuWQkbp9MvGFX2YWZgmOKrvCCi+6uHJcB
+ zkcp5IDZp4LVlqbBQ11YslCKM+E91um4KQo1EsTLjSwJ/xJsfYQp+GHmNbnsCv2w1l5KpDaIr
+ RRBz0v3lwOc+LraX7C1/lONonhc7a+CGIfKDYQbQzlgPVPNeuHPCRtq11O8f2rDuTPto3d7RN
+ LqnG6vFOpemAn6qLli3/kKsGmWDiOmJ16Ky4PQqQsUn4N37p5wRwSS39EljVy07bG0oyuJ1wn
+ 7lRin3nat/Nu2Yxb+uO+PomNdSRN3coiLmdVNn9haFuo6Ljxj44j3gXmvKdk2/IIZMyDdSMKq
+ tTve9r8LhlzL7kJiEIhqgk0sKAH7dCVnV+5GE0gYQQeRe/SDhmjAgPoeSjUVCHlDfADSZgkff
+ DkRdc5EJhIDYc2tFvj/lm+AIkp6ZPeIpVnbmro/Cscq/1CNeQyKTcB5f8V0KGDlE2bCdVWt3P
+ THjKz0H4Tj53ugXdnhtIH9jqYcPd/lgHlvv70MX0UfSaQknFCUhtbFbdBsdLTCMosEwlL5v53
+ 12sUiKRJcLHKlFW1qC+5h3bsxOtp52LREC4rJ5TdXd9O0ls58HyrOMWa6r5yjlI1a51ol2QET
+ 2Wyr7bgthrEdpI/BqxR76+4JQENPHKHU9pzU3r1zaLJRmOGJoVpllPacecfK7uGd3o3UC4b5w
+ 14IqdLOt2YUxEN+HandTJHmur55m2R5Ccfhp3l1v1hW1l5uKFv7wIAoKXVN92J/5JAEwkvFFx
+ QgKwh0Ez0PHLBvtxr4+w3y1pNkktFvTHuvbus3SJoL3QRPsruWorATRAsfYgd1C2vI5CCZA3W
+ +Zi/g6S5TyYgIDx2c7zwVVOWIr9fy/k/QZFYJOQ5+Aav9Fqi3LDQ/jOhzWdlKMb8uPuRsx2yA
+ Odmmk/5ZGiXi375GKzm0t0j7JoKbi8pxAbnVVHiD//8kKW0M6GqVzSA6UCloaFN3eDb60AAzy
+ +6Hnr0WRN2msdX79V1SZISD/7rCPZl/ss00qw0B2g1bKyrzewL0LKP4lCCqo7c2c9B/nGbb97
+ +sbby4TyKm2hEXbJg5u8e/dpa/dlzw2O5FXIoy2jp9XGcq1LgT2lpQtvg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,102 +73,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Hao Fang <fanghao11@huawei.com>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Oleksij Rempel <linux@rempel-privat.de>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, phone-devel@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Stanislav Jakubek <stano.jakubek@gmail.com>,
- Corentin Labbe <clabbe@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 16, 2022 at 2:56 PM Joel Selvaraj <jo@jsfamily.in> wrote:
-> On 13/05/22 03:21, Linus Walleij wrote:
-> > On Fri, May 6, 2022 at 2:18 PM Joel Selvaraj <jo@jsfamily.in> wrote:
-> >> +#define dsi_dcs_write_seq(dsi, seq...) do {                            \
-> >> +               static const u8 d[] = { seq };                          \
-> >> +               int ret;                                                \
-> >> +               ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d)); \
-> >> +               if (ret < 0)                                            \
-> >> +                       return ret;                                     \
-> >> +       } while (0)
-> >
-> > First I don't see what the do {} while (0) buys you, just use
-> > a basic block {}.
+On 5/12/22 13:59, Miaoqian Lin wrote:
+> of_parse_phandle() returns a node pointer with refcount
+> incremented, we should use of_node_put() on it when not need anymore.
+> Add missing of_node_put() to avoid refcount leak.
 >
-> The do {} while (0) in macro ensures there is a semicolon when it's
-> used. With normal blocking, it would have issues with if conditions?
-> I read about them here: https://stackoverflow.com/a/2381339
+> Fixes: d10715be03bd ("video: ARM CLCD: Add DT support")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 
-Hm that seems true, it enforces the semicolon ; at the end of the
-statement which is nice. I suppose we should fix the other macro
-as well.
+applied to the fbdev tree.
+Thanks!
+Helge
 
-Noralf added this ({}) form in 02dd95fe31693, so maybe he wants
-to chip in.
-
-> > Second look at mipi_dbi_command() in include/drm/drm_mipi_dbi.h
-> > this is very similar.
+> ---
+>  drivers/video/fbdev/amba-clcd.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> Does the ({..}) style blocking used in mipi_dbi_command help workaround
-> the semicolon issue I mentioned above?
-
-Nope. But add the rate limited error print please!
-
-> > It's dubious that you always have dsi_dcs_write_seq()
-> > followed by dsi_generic_write_seq().
-> >
-> > That means mipi_dsi_generic_write() followed by
-> > mipi_dsi_dcs_write_buffer(). But if you look at these
-> > commands in drivers/gpu/drm/drm_mipi_dsi.c
-> > you see that they do the same thing!
+> diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-=
+clcd.c
+> index 9ec969e136bf..8080116aea84 100644
+> --- a/drivers/video/fbdev/amba-clcd.c
+> +++ b/drivers/video/fbdev/amba-clcd.c
+> @@ -758,12 +758,15 @@ static int clcdfb_of_vram_setup(struct clcd_fb *fb=
+)
+>  		return -ENODEV;
 >
-> They almost do the same thing except for the msg.type values? Mostly the
-> msg.type value is used to just check whether it's a long or short write
-> in the msm dsi_host code. However, in mipi_dsi_create_packet function,
-> the msg->type value is used to calculate packet->header[0] as follows:
+>  	fb->fb.screen_base =3D of_iomap(memory, 0);
+> -	if (!fb->fb.screen_base)
+> +	if (!fb->fb.screen_base) {
+> +		of_node_put(memory);
+>  		return -ENOMEM;
+> +	}
 >
-> packet->header[0] = ((msg->channel & 0x3) << 6) | (msg->type & 0x3f);
+>  	fb->fb.fix.smem_start =3D of_translate_address(memory,
+>  			of_get_address(memory, 0, &size, NULL));
+>  	fb->fb.fix.smem_len =3D size;
+> +	of_node_put(memory);
 >
-> Wouldn't the difference between the mipi_dsi_dcs_write_buffer's and
-> mipi_dsi_generic_write's msg.type values cause issue here?
->
-> I tried using mipi_dsi_dcs_write_buffer for all commands and the panel
-> worked fine, but I am not sure if it's correct to do so?
+>  	return 0;
+>  }
 
-I think it's fine? The only issue would be if there is a DSI host controller
-that only supports short writes, and in that case it should emulate
-long writes by breaking long messages apart. (My amateur view at least.)
-
-> > Lots of magic numbers. You don't have a datasheet do you?
-> > So you could #define some of the magic?
->
-> Unfortunately, I don't have a datasheet and the power on sequence is
-> taken from downstream android dts. It works pretty well though. So I
-> don't think I can #define any of these magic.
-
-If you know which display controller the display is using (usually
-Novatek nnnnn, Ilitek nnnn etc someting like that) there is often
-a datasheet for the display controller available but the display per
-se often obscures the display controller.
-
->  > Doesn't it work to combine them into one call for each
->  > pair?
->  >> +       dsi_dcs_write_seq(dsi, );
->  >> +       dsi_generic_write_seq(dsi, 0xff, 0x87, 0x19);
->
-> By using a macro? We can... but I am not sure what (0x00, 0x80), (0x00,
-> 0xa0),etc type of commands signify without the datasheet, so I am not
-> sure what to name them in the macro and make any sensible meaning out of it.
-
-I meant just sending dsi_generic_write_seq() with everything in
-it:
-
-dsi_generic_write_seq(dsi, 0x00, 0x80, 0xff, 0x87, 0x19);
-
-Instead of two writes. Doesn't this work?
-
-Yours,
-Linus Walleij
