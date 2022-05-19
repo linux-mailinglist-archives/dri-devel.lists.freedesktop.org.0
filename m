@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8EED52CFC0
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:52:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6CE52CFD1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A1611B2F7;
-	Thu, 19 May 2022 09:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB81111B31D;
+	Thu, 19 May 2022 09:54:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F8C611B2EC
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:52:04 +0000 (UTC)
-Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6536E83BDB;
- Thu, 19 May 2022 11:52:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1652953922;
- bh=FabFjKys0PjvsUpRZzjTSjZ4fj1wVVLBbO0AL64YS1w=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pbLtoJU5SrJE1+huChh3F/gPhPyY1FkxzhbEjHcr8LLREDrmfaCGTnhBOcl5txpWH
- GlVxm27ohHI6dB3h5J2hfVY5WMemA6p555lTHOCwNl2TldPESR8cXA8F/z5imMOdTQ
- A9c6RlRu39iiA9fPYmBcMKCj3vC89bwTO2L8frzEvELxogs5IaHJdsda/gzszsxyxJ
- ySYIN2NkCEJGbMqDMqrAe5MMc+B2kCJcVUIyd4TaOequML+jf+R7R5xWr/NdXVU04O
- 9oQ7ISbBQ74Rd3dEoeHs9wMknQPmvGdVpRwkSFAB4sDhyiqjWdk5H14WWUzUqKyE29
- JB2A+aezmZfDA==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/bridge: tc358767: Report DSI-to-(e)DP as supported
-Date: Thu, 19 May 2022 11:51:37 +0200
-Message-Id: <20220519095137.11896-2-marex@denx.de>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07A9B11B31C;
+ Thu, 19 May 2022 09:54:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652954090; x=1684490090;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gLrNbsLL4R1/Ij+moC1oZoITvN+dHCZida9/VCiLqr0=;
+ b=F9N5/gqf6c6nh0UYr2Epdilld0hsJbSL+lquR2WHkeKcZ2pCiQ/fLRlD
+ dctaJbov0k/dpBEc8/L8dI6VGxyTjMxOukJaUdfK3Q+WKYGD+JzwxhXN7
+ PX132EAE6F3SBpUsGjK8bI+5X4LWzDPjEqdZfHCLxbnQxPrY/7J60oyEg
+ Wa4cPp2FTFpHddvCD6XarXKR8RrUXzhjJ09NZpyHpLtrAEqCqABL3bwFf
+ xRPiRXWQlkgm+pvXJRl1cJy/A2/WtVCrC5LkdlJOQ9aj3lCcFwjFd8XBN
+ 2TMcKf6WW2Tw04cBH4bBDtbGSjKFfH9o5gEN4rhYSqC1QBEajEOYslnov w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="252019937"
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="252019937"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 02:54:49 -0700
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="606404149"
+Received: from bhanu-nuclab.iind.intel.com ([10.145.162.173])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 02:54:47 -0700
+From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: [CI 0/3] Expose max and current bpc via debugfs
+Date: Thu, 19 May 2022 15:21:46 +0530
+Message-Id: <20220519095149.3560034-1-bhanuprakash.modem@intel.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220519095137.11896-1-marex@denx.de>
-References: <20220519095137.11896-1-marex@denx.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,53 +55,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Maxime Ripard <maxime@cerno.tech>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- robert.foss@linaro.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI-to-e(DP) mode is now supported, update the driver comment
-to reflect this. No functional change.
+This series will expose the Connector's max supported bpc via connector
+debugfs and Crtc's current bpc via crtc debugfs. Also move the existing
+vendor specific "output_bpc" logic to drm.
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-Fixes: 3080c21a043ab ("drm/bridge: tc358767: Add DSI-to-(e)DP mode support")
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
-V2: - Shorten the comment, since all modes are supported. This also
-      fixes disparity between -- and ... spacer on 1st and 2nd line
-      of the comment.
-    - Add RB from Andrzej and Lucas
----
- drivers/gpu/drm/bridge/tc358767.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Bhanuprakash Modem (3):
+  drm/debug: Expose connector's max supported bpc via debugfs
+  drm/i915/display/debug: Expose crtc current bpc via debugfs
+  drm/amd/display: Move connector debugfs to drm
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index f78c2ad845159..45ea829d56601 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -3,10 +3,7 @@
-  * TC358767/TC358867/TC9595 DSI/DPI-to-DPI/(e)DP bridge driver
-  *
-  * The TC358767/TC358867/TC9595 can operate in multiple modes.
-- * The following modes are supported:
-- *   DPI->(e)DP -- supported
-- *   DSI->DPI .... supported
-- *   DSI->(e)DP .. NOT supported
-+ * All modes are supported -- DPI->(e)DP / DSI->DPI / DSI->(e)DP .
-  *
-  * Copyright (C) 2016 CogentEmbedded Inc
-  * Author: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
--- 
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 --
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 38 +++++++------------
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.h |  2 -
+ drivers/gpu/drm/drm_debugfs.c                 | 21 ++++++++++
+ .../drm/i915/display/intel_display_debugfs.c  | 28 ++++++++++++++
+ 5 files changed, 62 insertions(+), 31 deletions(-)
+
+--
 2.35.1
 
