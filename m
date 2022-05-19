@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09D552D1C2
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA8652D1C6
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:49:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF07211A514;
-	Thu, 19 May 2022 11:48:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 255D310E44F;
+	Thu, 19 May 2022 11:48:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9182B11A51F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:48:03 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3694510E43F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:48:57 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D916680F7B;
- Thu, 19 May 2022 13:48:01 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6595080F7B;
+ Thu, 19 May 2022 13:48:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1652960882;
- bh=HXYJfqjuF52v1rNbbDwlXchE0DtWwDPijNPgs74D5CU=;
+ s=phobos-20191101; t=1652960935;
+ bh=DSjF9k2q+DOD4XgaS7PAMe2FSvkNtBoypkHjfcjMCak=;
  h=From:To:Cc:Subject:Date:From;
- b=En5LTPtJdxjyMxNQnro4Hklrm6XfWBz0zwwAvSZjE215SW1SDIEFF8S2ruwLNmr7n
- M0DXTL7KVyxaS4D7VVA8RQsQEuSw2fPqmNoGWw2N+V7nWzUU6vcxK88+kdaeE/awkW
- yAbVg5TO7wJqipZKG869QtrJkzkZfUlsew2XdPSxJqrNF8reecM8aX7K+HgF9uuhIa
- b62l0wHsC1yiOZGxyZjpgD/0QXZjecErJaTv4+iwmtK5HVSyGw3l4/nCip7irs2w7I
- mFOEjDaszfkn1FVxlWbaTyytsdhqLj0V0fX/yzaaa2p+5F/X9Lxx1F9JkNzDoR/8Nv
- qB7/2oFkJLgrA==
+ b=nr5P0xt2N21TIcaJVAlPY2EXVJ5EZzJnDHrSJoeRFUup5tcx5yECtqyDeicbppyGe
+ JlQAPs3su45qDH6T5YLTkXCKudVZU4CyunWdLrPfei8U8s1TrdKTbhZ+e8XLtCEIoW
+ VPEe0iFEVZKHzVbfEwYED6GtIoaBsbzCtIxksCL+/1uqHF5Or2EMzoZZcDYsWwWfy4
+ UFOP7Tb5AuAEXGSKRqK6AbYWvbQvT+d5b1XJjJHdwcwxEu9LrnLVpIiwUzrgmxqwLh
+ /ifuShmtr/5wwKXH3vuk7ZX41sYWxFW9eHw9lPlpVR/ay+tY3l79gmupw0U/ZtIUhE
+ vohgAAsje07GA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/bridge: tc358767: Make sure Refclk clock are enabled
-Date: Thu, 19 May 2022 13:47:51 +0200
-Message-Id: <20220519114751.69852-1-marex@denx.de>
+Subject: [PATCH v4 1/2] dt-bindings: lcdif: Add compatible for i.MX8MP
+Date: Thu, 19 May 2022 13:48:48 +0200
+Message-Id: <20220519114849.69918-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,91 +50,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
- robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Peng Fan <peng.fan@nxp.com>, martyn.welch@collabora.com,
+ robert.foss@linaro.org, Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Refclk may be supplied by SoC clock output instead of crystal
-oscillator, make sure the clock are enabled before any other action
-is performed with the bridge chip, otherwise it may either fail to
-operate at all, or miss reset GPIO toggle.
+Add compatible string for i.MX8MP LCDIF variant. This is called LCDIFv3
+and is completely different from the LCDIFv3 found in i.MX23 in that it
+has a completely scrambled register layout compared to all previous LCDIF
+variants. The new LCDIFv3 also supports 36bit address space. However,
+except for the complete bit reshuffling, this is still LCDIF and it still
+works like one.
 
-Fixes: 7caff0fc4296e ("drm/bridge: tc358767: Add DPI to eDP bridge driver")
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Robby Cai <robby.cai@nxp.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: devicetree@vger.kernel.org
 ---
-V2: Use devm_add_action_or_reset() to add clock disable hook instead
-    of wall of failpath
+V2: No change
+V3: No change
+V4: No change
 ---
- drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 45ea829d56601..b2ef01303be23 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2033,6 +2033,13 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
- 	return -EINVAL;
- }
- 
-+static void tc_clk_disable(void *data)
-+{
-+	struct clk *refclk = data;
-+
-+	clk_disable_unprepare(refclk);
-+}
-+
- static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- {
- 	struct device *dev = &client->dev;
-@@ -2049,6 +2056,22 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	if (ret)
- 		return ret;
- 
-+	tc->refclk = devm_clk_get(dev, "ref");
-+	if (IS_ERR(tc->refclk)) {
-+		ret = PTR_ERR(tc->refclk);
-+		dev_err(dev, "Failed to get refclk: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, tc_clk_disable, tc->refclk);
-+	if (ret)
-+		return ret;
-+
-+	clk_prepare_enable(tc->refclk);
-+
-+	/* tRSTW = 100 cycles , at 13 MHz that is ~7.69 us */
-+	usleep_range(10, 15);
-+
- 	/* Shut down GPIO is optional */
- 	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
- 	if (IS_ERR(tc->sd_gpio))
-@@ -2069,13 +2092,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		usleep_range(5000, 10000);
- 	}
- 
--	tc->refclk = devm_clk_get(dev, "ref");
--	if (IS_ERR(tc->refclk)) {
--		ret = PTR_ERR(tc->refclk);
--		dev_err(dev, "Failed to get refclk: %d\n", ret);
--		return ret;
--	}
--
- 	tc->regmap = devm_regmap_init_i2c(client, &tc_regmap_config);
- 	if (IS_ERR(tc->regmap)) {
- 		ret = PTR_ERR(tc->regmap);
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index 900a56cae80e6..876015a44a1e6 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -20,6 +20,7 @@ properties:
+           - fsl,imx23-lcdif
+           - fsl,imx28-lcdif
+           - fsl,imx6sx-lcdif
++          - fsl,imx8mp-lcdif
+       - items:
+           - enum:
+               - fsl,imx6sl-lcdif
 -- 
 2.35.1
 
