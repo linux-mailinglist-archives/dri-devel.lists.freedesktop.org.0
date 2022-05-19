@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9031252D15F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:24:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B062A52D161
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 478CF10E2C7;
-	Thu, 19 May 2022 11:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D209113DF3;
+	Thu, 19 May 2022 11:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E84B011A35E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:23:49 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47966113DF3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:24:23 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8073C83BDB;
- Thu, 19 May 2022 13:23:47 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 4100083C01;
+ Thu, 19 May 2022 13:24:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1652959428;
- bh=KW+9ViB5pzvRBUjFAW0Bj63gGgGCSaDRo9NCnBOYzt8=;
+ s=phobos-20191101; t=1652959461;
+ bh=uaNvpC8BHid5eFjZpAYzgbiNezSp7mj8t+rTmIOLrLU=;
  h=From:To:Cc:Subject:Date:From;
- b=DPpLGQbKQrlK6fCHVY7S1toxTUBwAVNlejQzoBWU4IsX1m9dKYy1+Ba39TrdJv8hv
- yUMMrohbtEddXJpL/OD8XwcCo+wiaF7ICBHOmcxTyrpaLTkn4zrDI+zE1WOLOASt+o
- 7ZHtVECGQrLtL8rVkvQtZk4OSq9FSQLlEN7dwnmrnbaZw+5tMosdkD0KnGzeBoDIW1
- Y8JARBplKf73ebkdA98gB6uWmjyqstWjHZw5LSq/DF1Bb3DEgUQsf9BihAF4Nbqir2
- OyNe0nDIqLRVdl4EiYThLv3f+R7oN7dtEXBQOt4FP2gRxonLVGWYSB3oRq8KZcuIRl
- GHk00SvLYVYaQ==
+ b=u41mgby9EH8DQdb3daqhyXzAE6bN2OscM+0w6RqggK67JUIuRc60R/iDz2sEep5sF
+ USNolD6nLhwQofw9DvLNuz+mv2f8I0SRcKTZuL1IheGl/c8wtq+LablB7VlaJEr5Wl
+ /HtSPCmOFf7eviPXuAjGVn0E/l9usV2E4WbgpbfmIDnjGBpJBGcUJaArVmvaWZ1uVO
+ w5n60NwCP11uILZFbeIDCiMrEMMPPQZ5gKA2MD/Luga3C0kyWAQVlD2BNESvsNLrAD
+ 3ddVpOoniOLI9cHiXyvDGZdEY+ZMrzxuGdckRL5VuiYnd2lEV1v+54H2BEcv/5QclG
+ DzVTA1br6jW1A==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: anx7625: Add missing of_node_put for endpoint
-Date: Thu, 19 May 2022 13:23:37 +0200
-Message-Id: <20220519112337.62198-1-marex@denx.de>
+Subject: [PATCH] drm/bridge: tc358767: Do not cache dsi_lanes twice
+Date: Thu, 19 May 2022 13:24:09 +0200
+Message-Id: <20220519112409.62223-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,36 +51,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- robert.foss@linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Xin Ji <xji@analogixsemi.com>
+Cc: Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org,
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add of_node_put call on the endpoint node after it is not needed.
+The DSI lane count can be accessed via the dsi device pointer,
+make use of that. No functional change.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Xin Ji <xji@analogixsemi.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/bridge/analogix/anx7625.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/tc358767.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 53a5da6c49dd3..e92eb4a407452 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1638,6 +1638,7 @@ static int anx7625_parse_dt(struct device *dev,
- 			bus_type = 0;
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 5e0de9974143c..8e210b1176906 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -288,7 +288,6 @@ struct tc_data {
+ 	struct drm_connector	connector;
  
- 		mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
-+		of_node_put(ep0);
- 	}
+ 	struct mipi_dsi_device	*dsi;
+-	u8			dsi_lanes;
  
- 	if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
+ 	/* link settings */
+ 	struct tc_edp_link	link;
+@@ -1264,7 +1263,7 @@ static int tc_dsi_rx_enable(struct tc_data *tc)
+ 	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+ 	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
+ 
+-	value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
++	value = ((LANEENABLE_L0EN << tc->dsi->lanes) - LANEENABLE_L0EN) |
+ 		LANEENABLE_CLEN;
+ 	regmap_write(tc->regmap, PPI_LANEENABLE, value);
+ 	regmap_write(tc->regmap, DSI_LANEENABLE, value);
+@@ -1912,8 +1911,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
+ 
+ 	tc->dsi = dsi;
+ 
+-	tc->dsi_lanes = dsi_lanes;
+-	dsi->lanes = tc->dsi_lanes;
++	dsi->lanes = dsi_lanes;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+ 
 -- 
 2.35.1
 
