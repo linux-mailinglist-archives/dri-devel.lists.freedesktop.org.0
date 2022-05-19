@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC78652CFE8
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:56:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4841C52CFE2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F10311B33F;
-	Thu, 19 May 2022 09:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F1511B333;
+	Thu, 19 May 2022 09:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1895E11B32E;
- Thu, 19 May 2022 09:55:19 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id g12so6335684edq.4;
- Thu, 19 May 2022 02:55:19 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1647411B2C0;
+ Thu, 19 May 2022 09:55:20 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id i19so8835391eja.11;
+ Thu, 19 May 2022 02:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9obn04yJj9rZ0fYrM+R/7zzmeeRej2X5M8LMjJ0gWi0=;
- b=n/tVsgsWcmyradZac6/uzeqFkNT/4lCETBxjeYmM9zsE3NBJ/Nhx2CcSSNxSrmz/LS
- 2QgpjgqsdXQM2zF2yfmtFQAuRfbt7gUeGGoVNR5gH4Bs2MmCF+hR+RPyTR46feE7O2r0
- QY+gryIucZyaAoWaOgc21KnGSEvNCTN/MhZMe2MLgCoPwgT6fugXFCIBnl5I2Nww2jSG
- nvhunGNUPmmtTewywm99F6huJkNMNs3aJHYKPeCGfHo+CL1JRoSqnynYBHMShOAYDuS+
- hOO2QqH90vJI3a7w1LmJGVNu/Bk1Kl4ZPsNFYd/sJ5lwrUfBu8igbgwi+DknBrGSEBjd
- PBcQ==
+ bh=9P3zYs6bGaCRflL6U752X074Zpse7jskvqxYho/Uxf4=;
+ b=Ji4m6iZL7jEjPG3qV/oPU/CK80RybvPGrqPUv3Q7H9WzhNa9qKEqxknaBzBym5dBIU
+ KkTS07KQK+qiC5vIurVt1vaDQvTjcvokm83loDPuSgPyBmgr3No51cl0krr0vYGu9FQc
+ NAb2XeXpsinHRn5FM+5ChYfqtbYoycKN+ZLmomaZzpEJ3VM9tVdLsBAXYklx4nsU8jXw
+ lRfkzj47qGRJEQ8iTNrt6q5st7QNuqraieLgBzC0xyj5vJA6JeBH+qtNEdKrO0fEpfJc
+ XvYl2BHp4rGMZLI1P/FsA8caHuzWVHO694J4K69DBqK2ERi+DZIqIvOs9V1Q3vnqO8ML
+ MN1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9obn04yJj9rZ0fYrM+R/7zzmeeRej2X5M8LMjJ0gWi0=;
- b=hwpK55TMmzN22MPHtwskQFwaiXwBv6vjOI44vQwIn3SKYakGuGRHf/Wxl9U4bk4HcW
- q0c/JKvbgb6WnUh+6hCY6uC+cpuTDKaSClj2oXUk3564breVOI77azvcmL9hK56nVKx1
- AKiKDbErunRsxeEEPjA293gRIVkf3h+Sv2aRU8JtT2ix9LcJk+ISLrN1XVFh37fQ4Nsw
- 2K3Z0URFA6ITbl8xmOoK828T4FteIvFmurJhiAw9az9vkIMuS046wYzK6LY7rjIxpo6u
- 6JtPUM/nnj6wvbvOarXgbschhWEsiE+vflUtRI9XnpXTDWHE+7b9p57QoQXUisj6EBDK
- VzuA==
-X-Gm-Message-State: AOAM533zYB+09GML+G/0QghOgKCIWwQJdoy3xGQ7PdTHHMEUPlMMB1PM
- 4tdk21fBUDDWRarFcd6QBm/sunN888s=
-X-Google-Smtp-Source: ABdhPJyk8YouP1AgPJiXFa1vnw+e6DXzEY0GNjUbDy4XIJ97jM7U0EzhiUkK5QRiKI6VzNIzpdJ/yA==
-X-Received: by 2002:aa7:c952:0:b0:42a:f08f:4d4c with SMTP id
- h18-20020aa7c952000000b0042af08f4d4cmr4407784edt.26.1652954117693; 
- Thu, 19 May 2022 02:55:17 -0700 (PDT)
+ bh=9P3zYs6bGaCRflL6U752X074Zpse7jskvqxYho/Uxf4=;
+ b=HRzG8mmsa0RsuOwx/UunlTGzZ4lCU5RtjpbVqENmVfs1HkQCETzh7/ZN9qWiJcnlM8
+ GHS1qJ78lBkJAo2pYQqaTgzCDzdQJ7eVbpkeeqFyWFIft2mbjRgeDYHU5amCoI0eGLTC
+ tLOCwUzddQgz8nWcqTn+sQtw6tVh/xDlYWZEaI4G0RttLS0FWnNIEDTuYRyomfOsPFkd
+ pHNhiW5JNvt/K+1nQ1EcIj/7NFjBURmoYhhtK43ljCfX6Vp0Ka+guhFNPqkcwuFBrARO
+ sTMhnlLqQa4BMW9mJVYAkXxxqJhBsefI+AI3SJI/UUMWNKI6kyy1SDGW7dzcM2kFmeWF
+ 6rgg==
+X-Gm-Message-State: AOAM5306uev2qpyNSz2oLd5yl48jlDn+xI1avc51Td7U4F+zEBa37Gt0
+ +g9N6TED0kFi8GAEdJccW4iMIgJjWvY=
+X-Google-Smtp-Source: ABdhPJw9dt14VMpNJ6IhJWdyzU8dWD6QTLEfRk8OJhfj+Xz8S+Y8AwOVHwkkvStJTco3lLCgGbWH5Q==
+X-Received: by 2002:a17:906:8301:b0:6e4:896d:59b1 with SMTP id
+ j1-20020a170906830100b006e4896d59b1mr3377239ejx.396.1652954118681; 
+ Thu, 19 May 2022 02:55:18 -0700 (PDT)
 Received: from able.fritz.box (p57b0bdaa.dip0.t-ipconnect.de. [87.176.189.170])
  by smtp.gmail.com with ESMTPSA id
- y6-20020a170906518600b006fe9c65ffb8sm388267ejk.92.2022.05.19.02.55.16
+ y6-20020a170906518600b006fe9c65ffb8sm388267ejk.92.2022.05.19.02.55.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 02:55:17 -0700 (PDT)
+ Thu, 19 May 2022 02:55:18 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 07/11] drm/amdgpu: audit bo->resource usage
-Date: Thu, 19 May 2022 11:55:04 +0200
-Message-Id: <20220519095508.115203-8-christian.koenig@amd.com>
+Subject: [PATCH 08/11] drm/nouveau: audit bo->resource usage
+Date: Thu, 19 May 2022 11:55:05 +0200
+Message-Id: <20220519095508.115203-9-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220519095508.115203-1-christian.koenig@amd.com>
 References: <20220519095508.115203-1-christian.koenig@amd.com>
@@ -82,35 +82,21 @@ Make sure we can at least move and release BOs without backing store.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 116c8d31e646..5cf3a58bc925 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1302,7 +1302,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (bo->base.resv == &bo->base._resv)
- 		amdgpu_amdkfd_remove_fence_on_pt_pd_bos(abo);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 666941804297..fb903c62d322 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1010,7 +1010,8 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	}
  
--	if (bo->resource->mem_type != TTM_PL_VRAM ||
-+	if (!bo->resource || bo->resource->mem_type != TTM_PL_VRAM ||
- 	    !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE) ||
- 	    adev->in_suspend || adev->shutdown)
- 		return;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index ec26edd4f4d8..b79c93812342 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -471,7 +471,8 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
- 
- 	adev = amdgpu_ttm_adev(bo->bdev);
- 
--	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
-+	if (!old_mem || (old_mem->mem_type == TTM_PL_SYSTEM &&
-+			 bo->ttm == NULL)) {
- 		ttm_bo_move_null(bo, new_mem);
+ 	/* Fake bo copy. */
+-	if (old_reg->mem_type == TTM_PL_SYSTEM && !bo->ttm) {
++	if (!old_reg || (old_reg->mem_type == TTM_PL_SYSTEM &&
++			 !bo->ttm)) {
+ 		ttm_bo_move_null(bo, new_reg);
  		goto out;
  	}
 -- 
