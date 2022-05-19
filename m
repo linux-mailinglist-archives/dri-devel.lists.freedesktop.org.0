@@ -1,49 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D0C52CF02
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:08:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDFB52CF03
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305B188FB2;
-	Thu, 19 May 2022 09:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102F511A824;
+	Thu, 19 May 2022 09:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5182011B121;
- Thu, 19 May 2022 09:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652951300; x=1684487300;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wwP1ksR/6Ok7OZe5W/BoGiQBDHGuq8r7iW0ClAQe9cc=;
- b=O10lYcj/X0Iu8lN8RpwMkyxWLmLoGN3aWK/RhT/8eQ/Hr8HSc8eT7UPo
- zjgaOLxfdtYbJ9OJTMl+tMAvHImXmzwjp3pqe2i5IT8jFo7D3oPV+PEEo
- ZkaO5i3X0MlGuIjtrphBhTUk8rttluXJc4Krvas4n02X1uQyW+pi4cAw1
- 4KFOiWq5BzQR9qB7l8Xx1DCUHS7lFrbU8KLwVxJWWVb3JhHswdP7D8xeC
- EqZ8MG4qCqPkqiMGdzX/RtVNbo69+9yzrtq29iiR7WqV8VrNLz5dFTZ5h
- vhjMSQqXl8MJUVKv2sfJCGVOSGjY7bzgVABiilOPr62ucdvhHdwCUYTHZ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="358511927"
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="358511927"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 02:08:20 -0700
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="639699301"
-Received: from wangyaqi-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.199.90])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 02:08:18 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 7/7] Revert "drm/i915: Drop has_gt_uc from device info"
-Date: Thu, 19 May 2022 10:08:02 +0100
-Message-Id: <20220519090802.1294691-8-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220519090802.1294691-1-tvrtko.ursulin@linux.intel.com>
-References: <20220519090802.1294691-1-tvrtko.ursulin@linux.intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25828112B7B
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:08:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1652951329;
+ bh=mow7febAtsiXYt2cZHELtD6fs3k1Y7cifTC+AMdNbm0=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=Q7XUbDCe/LyabFtLQpRjysmhHzaRsSwCdcHc+mrcAYOGzcs0LSXZcRCcgzgnBy/im
+ w+l4DmLAMLok/mR0RApY5ubSsczXO26OtS5cuCfWdj/j11+fJqiMDdQVwzB+Maye2l
+ 9Ad5tc97i0BWDshy7GVopNg7faEfOkjyEGZq970k=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.152.7]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MacOW-1nKCLL02Ic-00cAlv; Thu, 19
+ May 2022 11:08:49 +0200
+Message-ID: <4d8738fd-f8da-9e6b-3dae-f6b8f3bf6a73@gmx.de>
+Date: Thu, 19 May 2022 11:08:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] video: hyperv_fb: Allow resolutions with size > 64 MB for
+ Gen1
+Content-Language: en-US
+To: Dexuan Cui <decui@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+ Wei Liu <wei.liu@kernel.org>, Saurabh Sengar <ssengar@linux.microsoft.com>,
+ "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+References: <1651067273-6635-1-git-send-email-ssengar@linux.microsoft.com>
+ <20220428143746.sya775ro5zi3kgm3@liuwe-devbox-debian-v2>
+ <DM5PR21MB1749EE7458996FF22AAA9AF8CAC39@DM5PR21MB1749.namprd21.prod.outlook.com>
+ <BYAPR21MB12702855D53B456E898ED5E0BFC39@BYAPR21MB1270.namprd21.prod.outlook.com>
+ <BYAPR21MB1270E4CBA78869748D28C81BBFD19@BYAPR21MB1270.namprd21.prod.outlook.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <BYAPR21MB1270E4CBA78869748D28C81BBFD19@BYAPR21MB1270.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fsFTwQueqwO4oFMtMruopc536RUFH/jkjJGavwLAcqZycaqXjKl
+ aOAvA6Enmc0kqQQBV3TrqonTive5CT4O7gHe3MPJeNp2X3m8uC/4yhlJhTnkHSVOq6jNsJZ
+ v3BydNMRZ8uTe/2zMOG16g07i7t21L6nbs3nv+u6TW4jgO40HSSpKJ6M/0spwbCIMRamRin
+ tu2qJeojqc8oIoTY2lSWA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kJTEzCKtHG8=:XiqDKXyew94g1dpZi0TwlA
+ PI6J0k4AAHKobwYovTrfVaXEm8F4JyhC+lr8mJG935rELkCzoEgSCbo4lJ9C/YR+/R7D3risN
+ LCxwMbiP/ZpCG7MFH3XXcMyKN6KVMCjYAp3abd21AQagjT7+saBZ+QjOhXCu1QwsD0yf/muTX
+ Cn6IUz1RnMjdqeY33hPV2Xbk8WZogBBVe9wCcUAv3eAUkWSqdoLm/irfDqXGceHxpRDZZi2vq
+ ERk05zg2PRZCs+gi4oJm9c2zVBZ+x5V+D+CyziskVSE4ifvl5TnhtxYsBQ8kk3/Ue+4twmR6q
+ OjwfYLbWrXlp29LAD+cIvhrjHD2SlcyRm8B6ScHgmceENSc+osWH50hn869MWRVLXOPeRaOdk
+ TxzpP9UhwAfW+XLGXz5FDqJz66oiOB3nC5dkReSNotUNh674tZoNc/8qons0pvYo6YbDxvLWe
+ CkpDHsrlObQynU2r/1M57t6MA+WxTjLXW1aheDA8HXKBqNivNt+Ph7QrG21qoTy7ba4G2AGUL
+ ZQfsoriUSL0jnZt6ciRDmAws1ymcirrcSr3RXNztktIioOncHoQoJFpDhqg+4BOjBPMOGDGc/
+ zqjAciADxqQyjBhnaJ+kwBiGn3upVG1xyFyzztTUf9FSAib31g9CqNfkiJmmkTl4kVeyyJHN5
+ tdqNhebU9tH7eayKcEwTi+dI7U0V2p+6k37xi2JmV8WzqgkiJd24BA/Uun6kPlLoezJnyvnDJ
+ 2UywPA/FOaFnPzaVhnDd3EjfMRj/SozEDrdoanTRZczROatEovDguAZlSDAkHo38PmJ7gLqW1
+ SjWP/XvR0klkJw9LdqEHV91CJMozYOLisbOnfk8hCMJhsqovNMoRHaPhiDdxg5rvM9lB2FE5M
+ rP/AgHGawmZD72sCyKK9bbSETGN+BaJjBNfFCnMEReEryS00hKhIRO3x8JYguuhFY3WIwDpnl
+ m3uaWc3VafpSCo2WedlHiPHiV2JjITrDKayTfuGQopb4uobHLGDhIGJp2Vt7NAjRnyUye1hLs
+ SJxLeX13NccWP/m3vmSvndxTefv50l9wr8KKdxuTjVzI6gDImgX6O5eFsVXyEGEvGcmTzZIsT
+ LI1zrywtOLR7OdrjOi9bLeob6a6fkoAdM3pjUQwY3Qcmq5iK/QEVk6Apg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,91 +77,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ KY Srinivasan <kys@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On 5/18/22 20:48, Dexuan Cui wrote:
+>> From: Dexuan Cui <decui@microsoft.com>
+>> Sent: Wednesday, May 4, 2022 10:05 AM
+>> To: Haiyang Zhang <haiyangz@microsoft.com>; Wei Liu <wei.liu@kernel.org=
+>;
+>>> ...
+>>> When I initially implemented this driver 10 years ago, I believe there
+>>> was smaller limit for the fb... But I think this patch is good for the
+>>> newer MMIO alloc scheme. I hope to see reviews also from
+>>>  @Dexuan Cui @Michael Kelley (LINUX) who are more familiar with
+>>> the PCI/BAR/MMIO area.
+>>>
+>>> Thanks,
+>>> - Haiyang
+>>
+>> The patch looks good to me but I suggest we check with the Hyper-V
+>> team to figure out how a Gen1 Windows VM supports a higher
+>> resolution that needs a VRAM size of more than 64MB. Just in case we
+>> miss something..
+>>
+>> Thanks,
+>> -- Dexuan
+>
+> Reviewed-by: Dexuan Cui <decui@microsoft.com>
+>
+> Saurabh checked this with Hyper-V team, who said there is no
+> Generation 1-specific block for larger VRAM sizes in Windows VM.
+>
+> When the driver was originally developed, we didn't have the API
+> vmbus_allocate_mmio(), and I guess we just used the PCI device's BAR
+> address for simplicity, and didn't realize the restriction with very hig=
+h
+> resolutions that require >64 MB VRAM. It looks like the synthetic
+> VMBus framebuffer device doesn't have to use the same MMIO range
+> used by the Hyper-V legacy PCI framebuffer device, so the patch
+> looks good to me.
 
-This reverts commit 222ff6db8a0dcb86f2bb65fc8656aec635a737a6.
+Thanks for the review, Dexuan!
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Acked-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/i915/i915_drv.h          | 2 +-
- drivers/gpu/drm/i915/i915_gpu_error.c    | 2 +-
- drivers/gpu/drm/i915/i915_pci.c          | 3 +++
- drivers/gpu/drm/i915/intel_device_info.h | 1 +
- 4 files changed, 6 insertions(+), 2 deletions(-)
+I've applied this patch now to the fbdev git tree.
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 3a2db27cbe1c..b389674b5210 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1356,7 +1356,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
-  */
- #define HAS_FLAT_CCS(dev_priv)   (INTEL_INFO(dev_priv)->has_flat_ccs)
- 
--#define HAS_GT_UC(dev_priv)	(GRAPHICS_VER(dev_priv) >= 9)
-+#define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
- 
- #define HAS_POOLED_EU(dev_priv)	(INTEL_INFO(dev_priv)->has_pooled_eu)
- 
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 5bd9cb899852..0512c66fa4f3 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -2008,7 +2008,7 @@ __i915_gpu_coredump(struct intel_gt *gt, intel_engine_mask_t engine_mask, u32 du
- 			return ERR_PTR(-ENOMEM);
- 		}
- 
--		if (HAS_GT_UC(i915)) {
-+		if (INTEL_INFO(i915)->has_gt_uc) {
- 			error->gt->uc = gt_record_uc(error->gt, compress);
- 			if (error->gt->uc) {
- 				if (dump_flags & CORE_DUMP_FLAG_IS_GUC_CAPTURE)
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 938c18321ef8..07722cdf63ac 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -644,6 +644,7 @@ static const struct intel_device_info chv_info = {
- 	GEN(9), \
- 	GEN9_DEFAULT_PAGE_SIZES, \
- 	.display.has_dmc = 1, \
-+	.has_gt_uc = 1, \
- 	.display.has_hdcp = 1, \
- 	.display.has_ipc = 1, \
- 	.display.has_psr = 1, \
-@@ -704,6 +705,7 @@ static const struct intel_device_info skl_gt4_info = {
- 	.has_rps = true, \
- 	.display.has_dp_mst = 1, \
- 	.has_logical_ring_contexts = 1, \
-+	.has_gt_uc = 1, \
- 	.dma_mask_size = 39, \
- 	.ppgtt_type = INTEL_PPGTT_FULL, \
- 	.ppgtt_size = 48, \
-@@ -1006,6 +1008,7 @@ static const struct intel_device_info adl_p_info = {
- 	.has_64bit_reloc = 1, \
- 	.has_flat_ccs = 1, \
- 	.has_global_mocs = 1, \
-+	.has_gt_uc = 1, \
- 	.has_llc = 1, \
- 	.has_logical_ring_contexts = 1, \
- 	.has_logical_ring_elsq = 1, \
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index ecc3403c2aa9..09e33296157a 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -146,6 +146,7 @@ enum intel_ppgtt_type {
- 	func(has_4tile); \
- 	func(has_flat_ccs); \
- 	func(has_global_mocs); \
-+	func(has_gt_uc); \
- 	func(has_heci_pxp); \
- 	func(has_heci_gscfi); \
- 	func(has_guc_deprivilege); \
--- 
-2.32.0
+> BTW, please check the hyperv-drm driver as well:
+> drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+> I think we should make the same change there to support 7680x4320
+> for Gen1 VMs.
 
+Haiyang, can you check that as well and send another patch for
+the drm tree ?
+
+Helge
