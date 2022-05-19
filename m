@@ -2,73 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9AD52CDDF
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 10:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D8552CEC4
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 10:57:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F2A11AFB2;
-	Thu, 19 May 2022 08:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08CFB11B087;
+	Thu, 19 May 2022 08:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D469D11AFB2;
- Thu, 19 May 2022 08:06:04 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 5BC383200939;
- Thu, 19 May 2022 04:06:00 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 19 May 2022 04:06:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1652947559; x=1653033959; bh=36NEu9n6vCbbb7rTJz5ZZx0qkleGrUAN5Xt
- yxUg02G4=; b=r7GzPFnTKRB6T+O92lzs3S6/dxqsvpe1nqYIu+2ggJkM1pe2RPt
- AxZNucihUgvY/w0nUOVOOf95SsV7AGF2Qumj9aA4PvBqrN+Fj6V2kAVApAZtGxy9
- EPXsDZMdV5HefavGhTiGpXqOVkXQO0zYXMkPFx3NKKrSMRArzFANjH8I2IWVIZZF
- 88Sd875tZNYypgwl9pQitGYKHcHyxRcekFn4X5kEQHSs11I3sb70N0VnL0iD2Dvb
- 1s0eijGeRgoXH5E7FbwffWPRR2hYmvIQzOC1m1+QBHOpZRV+gGus0SwPyk08XWo2
- AQvyiG+yXDAfpDMG47wUkM0Mwcec0PIpZzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652947559; x=
- 1653033959; bh=36NEu9n6vCbbb7rTJz5ZZx0qkleGrUAN5XtyxUg02G4=; b=D
- WuMcrMQ3o2JTJAKwSf7rk9vY1pLLL6NgjjTy9+FUsNmgVOeRA3wT4nzoyKRxGdOa
- FGmFCes5LTUdJ2meY7Oxk9aFcVQpgpSKJ+EmKg/OqBaaES/SyQODPs87NtcCt/NI
- uq431YbvLyPMj057fnR20TqgdvXCp8l2cjPHvsRMvFL/3fFnHxXUA0JUqKfl4RLU
- u6LYBfHNcfKrRZyg5UkTp9C8i1VyC3L1G+qF5islVnVGkN29ZshoCatrGaej/27X
- wuyro+vVnpmsDXhnzlHHXh2xtaaqrtnmnBca2T7Boef24pgQNAi7RI+r7rga52uu
- Op9qCvQ9a59AjVr8i+CVg==
-X-ME-Sender: <xms:Z_qFYk8CG9AkbhzQMLJOg5qZR9uzaM25T1ofQith2gbUp7r5BE0FHg>
- <xme:Z_qFYssRXcrA-h6FbzYQ4f_3YhcvQOINBhPLgSpYGN4ca9oaBDeQgokVN-A6l9m6k
- OPSxOBrur_tFapEH60>
-X-ME-Received: <xmr:Z_qFYqBNITATkWcv1GLPoSyppuJP1_yTrGbYuaLFzXScjTgBPeqTGXJIsvifJNp9ZFLM7Dr6jicHE-R-Iil-7B0Jl6-li4_qWWJoJ5A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedriedtgdduvdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeuieehjefhieevtdehudfftdetgfdtuedvvdeugeetgfevgeevudegffduveej
- ieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:Z_qFYkc5T_7lCfKxdpIAIOlrCTjb20tzEP02lgm1M5TakTMDFAxsEg>
- <xmx:Z_qFYpPx6BBHM1nRi_RmkTFuLickfTuOwjCSJLHCib2lIuY0S7gNyg>
- <xmx:Z_qFYumJoypObvAWxWO1V93SOlR7UxDkGoRFog4z5iLqOD1qL5unWQ>
- <xmx:Z_qFYqEOC0TSUKDgEA5rSbsthDB7jMCFAIzjxiTunyzZ1z-ifxtCyA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 May 2022 04:05:59 -0400 (EDT)
-Date: Thu, 19 May 2022 10:05:56 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20220519080556.42p52cya4u6y3kps@houat>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE60611B086;
+ Thu, 19 May 2022 08:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652950661; x=1684486661;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=4aWfyUw6Oj8Sm+5Xi0npf24qw12vl/xNGZJOZfO0GQA=;
+ b=ZJEu1Opdk2OzxH9o812lMHPGHw5bTWokv/m+92X3hKyPMhMFr0bsNBp+
+ Xn2jIXvwKykH50VotcHvFUuD2N4hFfLgZPSz6VuiPR8N9VxlAMB1XdXzD
+ LRLLI+wEkdZl4Y8bJGZPaiqoMRtWCt4kz2q4XM4u3INKXj6A7oeef+OOD
+ 35YIdYTk6RCbUTLXjsGLDKOIgnZ9ReTL/8gI1NvIomd+DJdmfnFNxcccZ
+ wxnt3Gr6Eb/5MgzGqhuO4+V3wY4zMsSjJDQywWZ4KCOX+1tykPmDhXIBZ
+ AAgCeeVFRFQyxDy+o4SiObtnApoL13fB+hOhTEXQapaCQrhLPYN3yIjDK w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="269689973"
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="269689973"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 01:57:41 -0700
+X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; d="scan'208";a="673903928"
+Received: from wangyaqi-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.199.90])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 01:57:40 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [CI 1/3] drm/i915: Introduce has_media_ratio_mode
+Date: Thu, 19 May 2022 09:57:30 +0100
+Message-Id: <20220519085732.1276255-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3if6d3mzxbig65ik"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,59 +54,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
---3if6d3mzxbig65ik
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Media ratio mode (the ability for media IP to work at a different frequency
+from the GT) is available for a subset of dGfx platforms supporting
+GuC/SLPC. Introduce 'has_media_ratio_mode' flag in intel_device_info to
+identify these platforms and set it for XEHPSDV and DG2/ATS-M.
 
-Hi Daniel, Dave,
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_drv.h          | 2 ++
+ drivers/gpu/drm/i915/i915_pci.c          | 2 ++
+ drivers/gpu/drm/i915/intel_device_info.h | 1 +
+ 3 files changed, 5 insertions(+)
 
-Here's this week drm-misc-next-fixes PR
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 10f273800645..3897dcb5d68d 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1230,6 +1230,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ #define CCS_MASK(gt) \
+ 	ENGINE_INSTANCES_MASK(gt, CCS0, I915_MAX_CCS)
+ 
++#define HAS_MEDIA_RATIO_MODE(dev_priv) (INTEL_INFO(dev_priv)->has_media_ratio_mode)
++
+ /*
+  * The Gen7 cmdparser copies the scanned buffer to the ggtt for execution
+  * All later gens can run the final buffer from the ppgtt
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index d8d893bafa51..6e309595b1e7 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -1006,6 +1006,7 @@ static const struct intel_device_info xehpsdv_info = {
+ 	.display = { },
+ 	.has_64k_pages = 1,
+ 	.needs_compact_pt = 1,
++	.has_media_ratio_mode = 1,
+ 	.platform_engine_mask =
+ 		BIT(RCS0) | BIT(BCS0) |
+ 		BIT(VECS0) | BIT(VECS1) | BIT(VECS2) | BIT(VECS3) |
+@@ -1027,6 +1028,7 @@ static const struct intel_device_info xehpsdv_info = {
+ 	.has_guc_deprivilege = 1, \
+ 	.has_heci_pxp = 1, \
+ 	.needs_compact_pt = 1, \
++	.has_media_ratio_mode = 1, \
+ 	.platform_engine_mask = \
+ 		BIT(RCS0) | BIT(BCS0) | \
+ 		BIT(VECS0) | BIT(VECS1) | \
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index 60fc35ae81df..ebfaa6bcd508 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -152,6 +152,7 @@ enum intel_ppgtt_type {
+ 	func(has_l3_dpf); \
+ 	func(has_llc); \
+ 	func(has_logical_ring_contexts); \
++	func(has_media_ratio_mode); \
+ 	func(has_mslices); \
+ 	func(has_pooled_eu); \
+ 	func(has_pxp); \
+-- 
+2.32.0
 
-Maxime
-
-drm-misc-next-fixes-2022-05-19:
-A device tree binding change for Rockchip VOP2
-The following changes since commit 6071c4c2a319da360b0bf2bc397d4fefad10b2c8:
-
-  drm/qxl: add drm_gem_plane_helper_prepare_fb (2022-05-05 12:30:10 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2022-05-19
-
-for you to fetch changes up to 5ee8c8f930ba7d20717c4fc2d9f1ce0e757d1155:
-
-  drm/rockchip: Change register space names in vop2 (2022-05-17 00:16:33 +0200)
-
-----------------------------------------------------------------
-A device tree binding change for Rockchip VOP2
-
-----------------------------------------------------------------
-Sascha Hauer (2):
-      dt-bindings: display: rockchip: make reg-names mandatory for VOP2
-      drm/rockchip: Change register space names in vop2
-
- .../devicetree/bindings/display/rockchip/rockchip-vop2.yaml       | 8 +++++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c                      | 4 ++--
- 2 files changed, 9 insertions(+), 3 deletions(-)
-
---3if6d3mzxbig65ik
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYoX6ZAAKCRDj7w1vZxhR
-xfscAP4sBPQZkrxtH1zNtkrWA+BJIN2WBHeT4U+x8LixEOvTFQD8DpGWfb1e5ktu
-JuoUrW1cnH/TfK9zpLT2/JVQle8niQw=
-=R96Q
------END PGP SIGNATURE-----
-
---3if6d3mzxbig65ik--
