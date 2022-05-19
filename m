@@ -1,59 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104AF52C935
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 03:27:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9DF52CA76
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 05:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC9D210EA89;
-	Thu, 19 May 2022 01:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9541611A413;
+	Thu, 19 May 2022 03:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A715B10E23F;
- Thu, 19 May 2022 01:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1652923618; x=1684459618;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=djUsSThGWl8Oji0llWp8FRTEvQJkz4qmxWCclOn2LyI=;
- b=hKoUZatZo5ok1dE7enPsKRJc0RvyRJUy43Q2XcBbir+JpmrlM5LY3gws
- Q7kjt4exHZzVYbSEqz6NlAnR+LjYSN50/YqIwIt/i53tSF9Vv42ZKXRAH
- 0cP32fB+t8wP2jJvf1eFdoER2/C6ULGATSK5d1D3yjI51i1CjkttHdBfq U=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 18 May 2022 18:26:58 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2022 18:26:56 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 18 May 2022 18:26:57 -0700
-Received: from [10.111.161.138] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 18 May
- 2022 18:26:55 -0700
-Message-ID: <ef406fb0-f83e-81ef-071c-d92f7c16c1dd@quicinc.com>
-Date: Wed, 18 May 2022 18:26:53 -0700
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E50A11A413;
+ Thu, 19 May 2022 03:41:32 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id v66so5067162oib.3;
+ Wed, 18 May 2022 20:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:content-language:to
+ :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+ bh=E+Jeeum5dAYeu7JrVKgmUScX8K6q6nSaD3V1Uo7Z0xo=;
+ b=KFjvSCT6GXj5Kr0HO4phTFW0x5Mhrxpol/LwndM9mgk+gt2L/LZ/5khjHvxx9tCYCl
+ ccDkePOGAv4JpJmRo0Xqzh6ClQpZnN/1/b7sQl4OHAEBLezdGI2XWE9/o/Z1OZFdJplA
+ hvInyanC3HKTFBbmtIho+sxxjhNvtMvXN/SpDUcK6pzwbtXhkX4B8r6bM063uhwPRf2Y
+ cRgCWW0s7tOlAD3+MsxhCIYV0WDd/vE6gTqXbb2/O3YdWrgPTUK3f0QWoOCgnNy5j+zJ
+ Pm+2UwK0eLGDknVSYV48h5O6crlLJ0idezAZuMW3TB+ty1IBtVt29pHwTXbVrYvZnNon
+ S1IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=E+Jeeum5dAYeu7JrVKgmUScX8K6q6nSaD3V1Uo7Z0xo=;
+ b=alLxFgFcZK2TR4rusGjOR9GAp8LxfgCayNRPWdV9Jwz3seDAKN0Lc+iCkyZPsZcbfN
+ RfTPjl0aj/ttQHHUjQyiC0i8BIYhkY0o76bjW+4/fI4ooNG3VwrLM2y60DdzcgpSDgAV
+ Ok+nDquEfTY51N7lUGeM28gmgamP/3+B6/SogV6KNV8aMIAWO1P6Mud7kMKOrtBPlEnd
+ 4riC21ffpA2HLuH2STL3pylfTrq6GFihi9eATt/ebQrDHkd/BxBsYYlOTI9hn8JVhDb9
+ 038nr1ub0w+SgcCV4y1UTcVXJRP7bbaaELWSJ1r9TSXMw0Q1mCoHkNbQ7iypwdwiTIl5
+ jPZw==
+X-Gm-Message-State: AOAM531KQR97RzdtatA4fU1lD/9viS8yw1HYe1jJGjnZkvD+m8WurhRx
+ v86FsdtDnH2fQIPTf+h2XOVDfnr99FnR2w==
+X-Google-Smtp-Source: ABdhPJzNbyvmXREi3jFpQ1BXha9I4ZZcQvTagfhdtbiKBgx1gr2M0BpSR/Ospfm2JXh/HEBEZ+zfpQ==
+X-Received: by 2002:aca:4154:0:b0:322:7a9c:7daa with SMTP id
+ o81-20020aca4154000000b003227a9c7daamr1784072oia.52.1652931691271; 
+ Wed, 18 May 2022 20:41:31 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ p4-20020aca4204000000b0032694a9925esm1451284oia.10.2022.05.18.20.41.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 May 2022 20:41:30 -0700 (PDT)
+Message-ID: <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
+Date: Wed, 18 May 2022 20:41:27 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v2] drm/msm/dpu: handle pm_runtime_get_sync()
- errors in bind path
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
 Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, <freedreno@lists.freedesktop.org>
-References: <20220518223407.26147-1-quic_abhinavk@quicinc.com>
- <CAE-0n53Cffs82nQC3_2QADbvQm0f_7tX+NPac8rvJULYE10GvA@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAE-0n53Cffs82nQC3_2QADbvQm0f_7tX+NPac8rvJULYE10GvA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: kernel test robot <lkp@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
+In-Reply-To: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,41 +76,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- seanpaul@chromium.org, dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: linux-hwmon@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, kvm@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-nvme@lists.infradead.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/18/2022 5:40 PM, Stephen Boyd wrote:
-> Quoting Abhinav Kumar (2022-05-18 15:34:07)
->> If there are errors while trying to enable the pm in the
->> bind path, it will lead to unclocked access of hw revision
->> register thereby crashing the device.
->>
->> This will not address why the pm_runtime_get_sync() fails
->> but at the very least we should be able to prevent the
->> crash by handling the error and bailing out earlier.
->>
->> changes in v2:
->>          - use pm_runtime_resume_and_get() instead of
->>            pm_runtime_get_sync()
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
+On 5/18/22 17:55, kernel test robot wrote:
+> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> branch HEAD: 736ee37e2e8eed7fe48d0a37ee5a709514d478b3  Add linux-next specific files for 20220518
 > 
-> Any Fixes tag? When did pm errors start happening in the bind path?
+> Error/Warning reports:
 > 
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
+> https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
+> https://lore.kernel.org/linux-mm/202205122113.uLKzd3SZ-lkp@intel.com
+> https://lore.kernel.org/linux-mm/202205172344.3GFeaum1-lkp@intel.com
+> https://lore.kernel.org/linux-mm/202205190527.o9wVEvHI-lkp@intel.com
+> 
+> Error/Warning: (recently discovered and may have been fixed)
+> 
+[ .. ]
+> drivers/hwmon/nct6775-platform.c:199:9: sparse:    unsigned char
+> drivers/hwmon/nct6775-platform.c:199:9: sparse:    void
 
-This error got exposed with PANEL_EDP=m and DRM_MSM=y. We were not 
-testing this combination previously. This combination causes "clk stuck 
-at OFF" from the pm_runtime_get_sync() path which means we shouldnt 
-proceed with the next register access since it failed.
+This is getting tiresome. Every driver using outb() on m68k will
+experience that "problem". As far as I can see, it is caused by
 
-We are still debugging the root-cause of why "clk stuck at OFF" error is 
-present, this is just resolving the crash.
+#define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
 
-Fixes : 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+in arch/m68k/include/asm/raw_io.h. I have no idea what the
+"(void)" is for, but removing it "fixes" the problem.
+Either case, this is not a problem with the nct6775 driver,
+nor is it a new problem.
+
+Guenter
