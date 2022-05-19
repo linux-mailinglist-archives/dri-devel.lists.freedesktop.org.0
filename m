@@ -2,66 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A3D52D1AC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09D552D1C2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803ED11A5A3;
-	Thu, 19 May 2022 11:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF07211A514;
+	Thu, 19 May 2022 11:48:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B260111A5B3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:43:05 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id l13so1974394lfp.11
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 04:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=esfd+BsJwj1XPX4rLyeq0jZt7uj97kgKS5l+MuRHnb8=;
- b=qDk0VyWazyxkVxCnkxs20+VR22g9KFvkEbu0DV9aCjSlKkCiBm5ELbMkmtWE1Tr0MD
- KePBe/XGGNgPLpVa9QxA2soGmOYoQ8ZhbT3YSyWcljBY4GtaklAwsaezB9jKUh5ZEmNi
- vO3dRi5sDVGlwtJNhTh6hEYlAlLZyqhqAWnJJTCcRDSFCzgH2gQGSVppc9wXWrP55s1G
- kK/X2eSKgA8AtOT4tt1tr4HpbcJRn+PZoM0Xf6t5NFEiMtbOGAzLTRukKtZKwLZ6AwHE
- 90dG0n0anWiGfx7i5Sa3yE4Ty+Azzub/JzkIiYPAshOkzJNkM3BEZ6QUsrWjwxnKyndz
- bSFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=esfd+BsJwj1XPX4rLyeq0jZt7uj97kgKS5l+MuRHnb8=;
- b=S8GD2QaKOwQOIJiCfkR0OfaLiFb3Gp5rYJ5bxDcYgGODCEgm5IG167PEE+vbxKlp+F
- zKVWe9knFmSpLHimqkU33Zw90Q8oUUd1bVEns9RrYgdFmZwqEJwGWghPZ+dnG9QWKb0N
- p1Qm8Z7GhlH9gCVJaoL3+2fM+lOIJWVi24yIQYS4PFrT9jfPfPkR9Vz5M5XXmP1Y3Fj5
- gQqDgzb7kviYZ0dtrzux9/5Vc0+qYRCBxpB0C/V1J5GCygflAdDzobSURu2PZhkBbu50
- /dBTGBFn+A50lGth0IqK8tyM2Es45kgfxK58Rvfq8WDgWPoOivZF0uyxuCAj5wPGCw7k
- sXEw==
-X-Gm-Message-State: AOAM533YjKTdxfRg26b+ZmjmyiZFzuveDlleagciPt4A7fUtad+OIttc
- RwrBPnZh152qKIcAiP5Ro5DW/Q==
-X-Google-Smtp-Source: ABdhPJyJytkSIoSbNQhljkxfmFm5gdfD/C5ymFbsBDlg2mfq6yly5Ue0oSfd6H8vFjRiIMDAv5MglA==
-X-Received: by 2002:ac2:596a:0:b0:477:c166:5b60 with SMTP id
- h10-20020ac2596a000000b00477c1665b60mr3145034lfp.280.1652960583881; 
- Thu, 19 May 2022 04:43:03 -0700 (PDT)
-Received: from ?IPV6:2001:470:dd84:abc0::8a5? ([2001:470:dd84:abc0::8a5])
- by smtp.gmail.com with ESMTPSA id
- o6-20020ac24346000000b00477a8c6b08dsm264733lfl.100.2022.05.19.04.43.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 04:43:03 -0700 (PDT)
-Message-ID: <1951f060-bcd8-2182-9950-c86b88e12d45@linaro.org>
-Date: Thu, 19 May 2022 14:43:02 +0300
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9182B11A51F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:48:03 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D916680F7B;
+ Thu, 19 May 2022 13:48:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1652960882;
+ bh=HXYJfqjuF52v1rNbbDwlXchE0DtWwDPijNPgs74D5CU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=En5LTPtJdxjyMxNQnro4Hklrm6XfWBz0zwwAvSZjE215SW1SDIEFF8S2ruwLNmr7n
+ M0DXTL7KVyxaS4D7VVA8RQsQEuSw2fPqmNoGWw2N+V7nWzUU6vcxK88+kdaeE/awkW
+ yAbVg5TO7wJqipZKG869QtrJkzkZfUlsew2XdPSxJqrNF8reecM8aX7K+HgF9uuhIa
+ b62l0wHsC1yiOZGxyZjpgD/0QXZjecErJaTv4+iwmtK5HVSyGw3l4/nCip7irs2w7I
+ mFOEjDaszfkn1FVxlWbaTyytsdhqLj0V0fX/yzaaa2p+5F/X9Lxx1F9JkNzDoR/8Nv
+ qB7/2oFkJLgrA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/bridge: tc358767: Make sure Refclk clock are enabled
+Date: Thu, 19 May 2022 13:47:51 +0200
+Message-Id: <20220519114751.69852-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 10/11] drm/bridge: msm: Convert to drm_of_get_data_lanes
-Content-Language: en-GB
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-References: <20220519112657.62283-1-marex@denx.de>
- <20220519112657.62283-10-marex@denx.de>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220519112657.62283-10-marex@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,79 +51,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+Cc: Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <narmstrong@baylibre.com>,
  robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2022 14:26, Marek Vasut wrote:
-> Convert driver to use this new helper to standardize
-> OF "data-lanes" parsing.
+The Refclk may be supplied by SoC clock output instead of crystal
+oscillator, make sure the clock are enabled before any other action
+is performed with the bridge chip, otherwise it may either fail to
+operate at all, or miss reset GPIO toggle.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: 7caff0fc4296e ("drm/bridge: tc358767: Add DPI to eDP bridge driver")
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+---
+V2: Use devm_add_action_or_reset() to add clock disable hook instead
+    of wall of failpath
+---
+ drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
 
-Minor nit, if you resend this series for any reason: could you please 
-follow the usual subject prefix for the msm driver: 'drm/msm: ....'
-
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sean Paul <sean@poorly.run>
-> To: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/msm/dp/dp_parser.c | 6 ++----
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 7 +++----
->   2 files changed, 5 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index 8f9fed9fdafc4..6ef919cda0f5c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -102,11 +102,9 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   static int dp_parser_misc(struct dp_parser *parser)
->   {
->   	struct device_node *of_node = parser->pdev->dev.of_node;
-> -	int len = 0;
-> -	const char *data_lane_property = "data-lanes";
-> +	int len;
->   
-> -	len = of_property_count_elems_of_size(of_node,
-> -			 data_lane_property, sizeof(u32));
-> +	len = drm_of_get_data_lanes(of_node, 1, DP_MAX_NUM_DP_LANES);
->   	if (len < 0) {
->   		DRM_WARN("Invalid property %s, default max DP lanes = %d\n",
->   				data_lane_property, DP_MAX_NUM_DP_LANES);
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index a95d5df52653c..a0c7d23cd4939 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1779,11 +1779,10 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
->   		return 0;
->   	}
->   
-> -	num_lanes = len / sizeof(u32);
-> -
-> -	if (num_lanes < 1 || num_lanes > 4) {
-> +	num_lanes = drm_of_get_data_lanes(ep, 1, 4);
-> +	if (num_lanes < 0) {
->   		DRM_DEV_ERROR(dev, "bad number of data lanes\n");
-> -		return -EINVAL;
-> +		return num_lanes;
->   	}
->   
->   	msm_host->num_data_lanes = num_lanes;
-
-
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 45ea829d56601..b2ef01303be23 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -2033,6 +2033,13 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
+ 	return -EINVAL;
+ }
+ 
++static void tc_clk_disable(void *data)
++{
++	struct clk *refclk = data;
++
++	clk_disable_unprepare(refclk);
++}
++
+ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ {
+ 	struct device *dev = &client->dev;
+@@ -2049,6 +2056,22 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	if (ret)
+ 		return ret;
+ 
++	tc->refclk = devm_clk_get(dev, "ref");
++	if (IS_ERR(tc->refclk)) {
++		ret = PTR_ERR(tc->refclk);
++		dev_err(dev, "Failed to get refclk: %d\n", ret);
++		return ret;
++	}
++
++	ret = devm_add_action_or_reset(dev, tc_clk_disable, tc->refclk);
++	if (ret)
++		return ret;
++
++	clk_prepare_enable(tc->refclk);
++
++	/* tRSTW = 100 cycles , at 13 MHz that is ~7.69 us */
++	usleep_range(10, 15);
++
+ 	/* Shut down GPIO is optional */
+ 	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(tc->sd_gpio))
+@@ -2069,13 +2092,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 		usleep_range(5000, 10000);
+ 	}
+ 
+-	tc->refclk = devm_clk_get(dev, "ref");
+-	if (IS_ERR(tc->refclk)) {
+-		ret = PTR_ERR(tc->refclk);
+-		dev_err(dev, "Failed to get refclk: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	tc->regmap = devm_regmap_init_i2c(client, &tc_regmap_config);
+ 	if (IS_ERR(tc->regmap)) {
+ 		ret = PTR_ERR(tc->regmap);
 -- 
-With best wishes
-Dmitry
+2.35.1
+
