@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B8152DF88
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 23:46:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC6F52DF8A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 23:47:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6EE210E15A;
-	Thu, 19 May 2022 21:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F305010E4CD;
+	Thu, 19 May 2022 21:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E8510E15A;
- Thu, 19 May 2022 21:46:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652996804; x=1684532804;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Sa4M5VYb/V0ooZN0pwsFGyLhaPFaCG1gLYioyNINpss=;
- b=YAORx/0JXcB7irEgsHrZVuuxzJISYwYw1T/4ODXmte82bTldcLnS6IJr
- oUzSq/Fk1YD5CWf+dGynWWdKIq7uf74m6EP3fNF5Ul3OS/ed1PVVfmVqq
- Tem2lKUvQp/YPyVYTJBlLHQ9Y5v3DbDqq60FIw4EeRYm10pigkb7mMMgJ
- p1VLfQB5/YZuzHOptVlOtYAKo6D02zcKLryB6/iJBavIVznseigXmDXA6
- Q+Bb9X2l6kGvzusAvTn+3Mn+MnqF6karTaNGufZn846/gJcAQdHggCrUr
- ZfoVY/JRBPnzes6+u10LUQMMfTrkc52FnjKw+3plAfQEqmJUuWUysvTQp Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="335439281"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="335439281"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 14:46:44 -0700
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="570445189"
-Received: from annahenx-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.37.182])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 14:46:42 -0700
-Date: Thu, 19 May 2022 23:46:38 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix vm use-after-free in vma
- destruction
-Message-ID: <Yoa6vqN/BOfoF53j@intel.intel>
-References: <20220512094045.792373-1-thomas.hellstrom@linux.intel.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2952610E4CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 21:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=kTddhtx7FQlXKvG8iI5sagS7X5egDOVIA77mbT4W6bA=; b=oMaSk+Uu2RoMnHq5DGwlyqG2Xe
+ E4kWL9Gmeh5HBYegQnrYD8SoQBpxcIZstIvLeERvMwCevBHlzUi+NCA14TbscbWqIDtB95VBtDqZt
+ hT3zM8lFz4qAossLjEzSG8icKJXESPuVbtGoZ7PKVQx8JMmzizOiUxnX6wzXe1kQowXwzIADQulh9
+ tt02U1ClXGfONZjyuY2+HnYbha7f/j2KfyKnU4peXdXFtYpUN3pWJeC7CMMaiN6LauQS/MiIgDv90
+ xD4ReAlBTvEqyetUqtx5f50XAxGOWufktAP9ufITPlC/ngRVfObRHOoaEPg4IJHhcMZ/jIMwvQTVs
+ wc1L47Bw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nrnz0-00D7iA-0T; Thu, 19 May 2022 21:46:58 +0000
+Message-ID: <01c1e280-eec4-4f04-553b-670ae1376c33@infradead.org>
+Date: Thu, 19 May 2022 14:46:51 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220512094045.792373-1-thomas.hellstrom@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
+Content-Language: en-US
+To: Kalesh Singh <kaleshsingh@google.com>
+References: <20220519214021.3572840-1-kaleshsingh@google.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220519214021.3572840-1-kaleshsingh@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,48 +51,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ kernel-team@android.com, linux-doc@vger.kernel.org, ilkos@google.com,
+ linux-kernel@vger.kernel.org, Colin Cross <ccross@google.com>,
+ tjmercier@google.com, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, surenb@google.com,
+ Sumit Semwal <sumit.semwal@linaro.org>, Mike Rapoport <rppt@kernel.org>,
+ Kees Cook <keescook@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi--
 
-On Thu, May 12, 2022 at 11:40:45AM +0200, Thomas Hellström wrote:
-> In vma destruction, the following race may occur:
-> 
-> Thread 1:	    		  Thread 2:
-> i915_vma_destroy();
-> 
->   ...
->   list_del_init(vma->vm_link);
->   ...
->   mutex_unlock(vma->vm->mutex);
-> 				  __i915_vm_release();
-> release_references();
-> 
-> And in release_reference() we dereference vma->vm to get to the
-> vm gt pointer, leadin go a use-after free.
-
-leading to
-
-[...]
-
-> -static void release_references(struct i915_vma *vma, bool vm_ddestroy)
-> +static void release_references(struct i915_vma *vma, struct intel_gt *gt,
-> +			       bool vm_ddestroy)
->  {
->  	struct drm_i915_gem_object *obj = vma->obj;
-> -	struct intel_gt *gt = vma->vm->gt;
+On 5/19/22 14:40, Kalesh Singh wrote:
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 061744c436d9..ad66d78aca51 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -1922,13 +1922,16 @@ if precise results are needed.
+>  3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
+>  ---------------------------------------------------------------
+>  This file provides information associated with an opened file. The regular
+> -files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
+> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
+> +and 'path'.
+> +
+>  The 'pos' represents the current offset of the opened file in decimal
+>  form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
+>  file has been created with [see open(2) for details] and 'mnt_id' represents
+>  mount ID of the file system containing the opened file [see 3.5
+>  /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
+> -the file.
+> +the file, 'size' represents the size of the file in bytes, and 'path'
+> +represents the file path.
 >  
->  	GEM_BUG_ON(i915_vma_is_active(vma));
+>  A typical output is::
+>  
+> @@ -1936,6 +1939,8 @@ A typical output is::
+>  	flags:	0100002
+>  	mnt_id:	19
+>  	ino:	63107
+> +        size:   0
+> +        path:   /dev/null
+>  
+>  All locks associated with a file descriptor are shown in its fdinfo too::
+>  
+> @@ -1953,6 +1958,8 @@ Eventfd files
+>  	flags:	04002
+>  	mnt_id:	9
+>  	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[eventfd]
+>  	eventfd-count:	5a
+>  
+>  where 'eventfd-count' is hex value of a counter.
+> @@ -1966,6 +1973,8 @@ Signalfd files
+>  	flags:	04002
+>  	mnt_id:	9
+>  	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[signalfd]
+>  	sigmask:	0000000000000200
+>  
+>  where 'sigmask' is hex value of the signal mask associated
+> @@ -1980,6 +1989,8 @@ Epoll files
+>  	flags:	02
+>  	mnt_id:	9
+>  	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[eventpoll]
+>  	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
+>  
+>  where 'tfd' is a target file descriptor number in decimal form,
+> @@ -1998,6 +2009,8 @@ For inotify files the format is the following::
+>  	flags:	02000000
+>  	mnt_id:	9
+>  	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:inotify
+>  	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+>  
+>  where 'wd' is a watch descriptor in decimal form, i.e. a target file
+> @@ -2021,6 +2034,8 @@ For fanotify files the format is::
+>  	flags:	02
+>  	mnt_id:	9
+>  	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[fanotify]
+>  	fanotify flags:10 event-flags:0
+>  	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+>  	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+> @@ -2046,6 +2061,8 @@ Timerfd files
+>  	flags:	02
+>  	mnt_id:	9
+>  	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[timerfd]
+>  	clockid: 0
+>  	ticks: 0
+>  	settime flags: 01
+> @@ -2070,6 +2087,7 @@ DMA Buffer files
+>  	mnt_id:	9
+>  	ino:	63107
+>  	size:   32768
+> +        path:   /dmabuf:
+>  	count:  2
+>  	exp_name:  system-heap
 
-but then we have
+All of these added lines should be indented with a tab instead of spaces.
 
-	if (vm_ddestroy)
-		i915_vm_resv_put(vma->vm);
-
-were we reference to a freed vm, right? Do we need to check it
-here, as well?
-
-Andi
+thanks.
+-- 
+~Randy
