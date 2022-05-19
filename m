@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437EB52E47B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 07:44:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BE752E6CC
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 09:59:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2670A11B259;
-	Fri, 20 May 2022 05:44:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E751E11B7B6;
+	Fri, 20 May 2022 07:59:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA4F11B259
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 05:44:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98B4F10E2E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 10:11:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 460CDB82A4F;
- Fri, 20 May 2022 05:44:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69DAAC385AA;
- Fri, 20 May 2022 05:44:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1653025457;
- bh=mseK8CCtepf2Ga20exHmxu8FEYO1RmDnTjp8MjgdFRo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=xYQFxcBwfiillvnR2YKUZ8gbgnTwQyAJJxpaGGzJOukd56oPWr1Du+d1srmJCKtj2
- 7oZa6c45zqDAektaqNIUJ829XMqRGecoN4n0fKBIwco80slIt8P0OujNaPJtnVVBX3
- bbERy5dCVloC9oE6+7fBd6lE38vBJsV2OXRulLcI=
-Date: Fri, 20 May 2022 07:44:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH v3 1/3] usb: gadget: add Aspeed ast2600 udc driver
-Message-ID: <YocqrTHm29g9qU69@kroah.com>
-References: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
- <20220518062043.1075360-2-neal_liu@aspeedtech.com>
- <YoZoouI4EbnNYE6h@kroah.com>
- <HK0PR06MB32020AEF88CFFD4296762B2880D39@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CDE0161A08;
+ Thu, 19 May 2022 10:11:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A385C385AA;
+ Thu, 19 May 2022 10:11:14 +0000 (UTC)
+Date: Thu, 19 May 2022 11:11:10 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Subject: Re: [PATCH RFC v6 00/21] DEPT(Dependency Tracker)
+Message-ID: <YoYXvsgVJwwaWrrZ@arm.com>
+References: <CAHk-=whnPePcffsNQM+YSHMGttLXvpf8LbBQ8P7HEdqFXaV7Lg@mail.gmail.com>
+ <1651795895-8641-1-git-send-email-byungchul.park@lge.com>
+ <YnYd0hd+yTvVQxm5@hyeyoo> <20220509001637.GA6047@X58A-UD3R>
+ <YnpJ9Mtf+pjx4JYm@hyeyoo> <20220510233929.GB18445@X58A-UD3R>
+ <YnuKQ9UIhk9WYoz7@hyeyoo>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <HK0PR06MB32020AEF88CFFD4296762B2880D39@HK0PR06MB3202.apcprd06.prod.outlook.com>
+In-Reply-To: <YnuKQ9UIhk9WYoz7@hyeyoo>
+X-Mailman-Approved-At: Fri, 20 May 2022 07:59:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,62 +47,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, kernel test robot <lkp@intel.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Andrew Jeffery <andrew@aj.id.au>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Joel Stanley <joel@jms.id.au>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Li Yang <leoyang.li@nxp.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
+ djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
+ dennis@kernel.org, linux-ext4@vger.kernel.org, ngupta@vflare.org,
+ johannes.berg@intel.com, jack@suse.com, dan.j.williams@intel.com,
+ josef@toxicpanda.com, rostedt@goodmis.org,
+ Byungchul Park <byungchul.park@lge.com>, linux-fsdevel@vger.kernel.org,
+ jglisse@redhat.com, viro@zeniv.linux.org.uk, tglx@linutronix.de,
+ mhocko@kernel.org, vbabka@suse.cz, melissa.srw@gmail.com,
+ linux-block@vger.kernel.org, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 20, 2022 at 02:29:36AM +0000, Neal Liu wrote:
-> > -----Original Message-----
-> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Sent: Thursday, May 19, 2022 11:56 PM
-> > To: Neal Liu <neal_liu@aspeedtech.com>
-> > Cc: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
-> > <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>; Andrew
-> > Jeffery <andrew@aj.id.au>; Felipe Balbi <balbi@kernel.org>; Sumit Semwal
-> > <sumit.semwal@linaro.org>; Christian König <christian.koenig@amd.com>;
-> > Geert Uytterhoeven <geert@linux-m68k.org>; Li Yang <leoyang.li@nxp.com>;
-> > linux-aspeed@lists.ozlabs.org; linux-usb@vger.kernel.org;
-> > devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
-> > linux-kernel@vger.kernel.org; linux-media@vger.kernel.org;
-> > dri-devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org; kernel test
-> > robot <lkp@intel.com>
-> > Subject: Re: [PATCH v3 1/3] usb: gadget: add Aspeed ast2600 udc driver
-> > 
-> > On Wed, May 18, 2022 at 02:20:41PM +0800, Neal Liu wrote:
-> > > Aspeed udc is compliant with USB2.0, supports USB High Speed and Full
-> > > Speed, backward compatible with USB1.1.
-> > >
-> > > Supports independent DMA channel for each generic endpoint.
-> > > Supports 32/256 stages descriptor mode for all generic endpoints.
-> > >
-> > > This driver supports full functionality including single/multiple
-> > > stages descriptor mode, and exposes 1 UDC gadget driver.
-> > >
-> > > Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > 
-> > The kernel test robot did not report that you needed to add a new driver :(
-> 
-> I had received auto build test WARNING on usb/usb-testing reported from kernel test robot.
-> It still mentioned that if the issue is fixed, I can kindly add this tag.
-> Would you prefer not to add this tag for the first coming driver?
+On Wed, May 11, 2022 at 07:04:51PM +0900, Hyeonggon Yoo wrote:
+> On Wed, May 11, 2022 at 08:39:29AM +0900, Byungchul Park wrote:
+> > On Tue, May 10, 2022 at 08:18:12PM +0900, Hyeonggon Yoo wrote:
+> > > On Mon, May 09, 2022 at 09:16:37AM +0900, Byungchul Park wrote:
+> > > > CASE 1.
+> > > > 
+> > > >    lock L with depth n
+> > > >    lock_nested L' with depth n + 1
+> > > >    ...
+> > > >    unlock L'
+> > > >    unlock L
+> > > > 
+> > > > This case is allowed by Lockdep.
+> > > > This case is allowed by DEPT cuz it's not a deadlock.
+> > > > 
+> > > > CASE 2.
+> > > > 
+> > > >    lock L with depth n
+> > > >    lock A
+> > > >    lock_nested L' with depth n + 1
+> > > >    ...
+> > > >    unlock L'
+> > > >    unlock A
+> > > >    unlock L
+> > > > 
+> > > > This case is allowed by Lockdep.
+> > > > This case is *NOT* allowed by DEPT cuz it's a *DEADLOCK*.
+> > > 
+> > > Yeah, in previous threads we discussed this [1]
+> > > 
+> > > And the case was:
+> > > 	scan_mutex -> object_lock -> kmemleak_lock -> object_lock
+> > > And dept reported:
+> > > 	object_lock -> kmemleak_lock, kmemleak_lock -> object_lock as
+> > > 	deadlock.
+> > > 
+> > > But IIUC - What DEPT reported happens only under scan_mutex and it
+> > > is not simple just not to take them because the object can be
+> > > removed from the list and freed while scanning via kmemleak_free()
+> > > without kmemleak_lock and object_lock.
 
-Please do not add tags that do not make sense to.
+The above kmemleak sequence shouldn't deadlock since those locks, even
+if taken in a different order, are serialised by scan_mutex. For various
+reasons, trying to reduce the latency, I ended up with some
+fine-grained, per-object locking.
 
-thanks,
+For object allocation (rbtree modification) and tree search, we use
+kmemleak_lock. During scanning (which can take minutes under
+scan_mutex), we want to prevent (a) long latencies and (b) freeing the
+object being scanned. We release the locks regularly for (a) and hold
+the object->lock for (b).
 
-greg k-h
+In another thread Byungchul mentioned:
+
+|    context X			context Y
+| 
+|    lock mutex A		lock mutex A
+|    lock B			lock C
+|    lock C			lock B
+|    unlock C			unlock B
+|    unlock B			unlock C
+|    unlock mutex A		unlock mutex A
+| 
+| In my opinion, lock B and lock C are unnecessary if they are always
+| along with lock mutex A. Or we should keep correct lock order across all
+| the code.
+
+If these are the only two places, yes, locks B and C would be
+unnecessary. But we have those locks acquired (not nested) on the
+allocation path (kmemleak_lock) and freeing path (object->lock). We
+don't want to block those paths while scan_mutex is held.
+
+That said, we may be able to use a single kmemleak_lock for everything.
+The object freeing path may be affected slightly during scanning but the
+code does release it every MAX_SCAN_SIZE bytes. It may even get slightly
+faster as we'd hammer a single lock (I'll do some benchmarks).
+
+But from a correctness perspective, I think the DEPT tool should be
+improved a bit to detect when such out of order locking is serialised by
+an enclosing lock/mutex.
+
+-- 
+Catalin
