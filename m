@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1411C52D164
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:25:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A49752D167
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 13:27:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA70B11A2C1;
-	Thu, 19 May 2022 11:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D140911A291;
+	Thu, 19 May 2022 11:27:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47A2F11A2C1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:25:05 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE8E11A283
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 11:27:08 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id A002D83C01;
- Thu, 19 May 2022 13:25:03 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id D71AE83C01;
+ Thu, 19 May 2022 13:27:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1652959504;
- bh=UxNiUMkdLdkuX8BJjtqHE+UdoKRwzEcwzrgBgz1CZ50=;
+ s=phobos-20191101; t=1652959626;
+ bh=3Bg9b8ZoSbkKtq9P3SC7QvBO7phzcdHyJf2WdSpmqCE=;
  h=From:To:Cc:Subject:Date:From;
- b=f3N2tF1mXQJhY8SKd50BdZfjR8tf5bkDuQa4ArQ5IJjKBXG29g0hnCeIH/twfzY6q
- EVj4o4AtfHA2xWFjA5tiNu7BzTqZk/q+WRKmwnuwk7zXsZ1g2ShoO5irsxOXwiIQzf
- oDtEx3x/XUlwcbZOmrb/Gnlhdyw58CU4c6lPOWXDjAgPTSSesFw6IyQMgrtRQMBjId
- 9GdBoiyCtVG0E1g+8nF2SSdVlzvY3ToFxKAil7rbuIvDtFGmx8PvGmxbCpTsShXvkY
- QATw7loMZ2cY+47PTxKs2L3JwV6ej4Ll3IkuBT7E23bhdfhl9jlZwbyuQ/8izm0PaU
- XDyQdrkCPzt8w==
+ b=QzJdFq41Oo0TzOuZH/6finJn1TojWaEqujpjkk8ciFPFlhlSp0V1j2z3EtVXk9e/O
+ U6NGLIWja5CRfJelvYTlXRCXt064OhA8nVyoIHcgp7zq1z4LyFqIXV3ycWe/6c48ZN
+ tScx/dvMcQ05OWWfC23JwvOnVf9yCwdRVzRKZlVWW/27U1Iaho73jbXmFFMad8mJaj
+ ZR+1cg4uozTETR2OdIa/krBLwPE66U7b+H5UvPvn+f72soq/iRgLiGfHI72SKRlvtY
+ 5GTeEuye4fwZwJcif7JdBsCFXYObmkrcgJzf9VblwFlQ1SOOBL9dmGHIP9OyyICMaK
+ EP1j5YPpC+t1w==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi83: Do not cache dsi_lanes and host
- twice
-Date: Thu, 19 May 2022 13:24:58 +0200
-Message-Id: <20220519112458.62259-1-marex@denx.de>
+Subject: [PATCH 01/11] drm: of: Add drm_of_get_data_lanes and
+ drm_of_get_data_lanes_ep
+Date: Thu, 19 May 2022 13:26:47 +0200
+Message-Id: <20220519112657.62283-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,195 +52,139 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org,
  Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI lane count can be accessed via the dsi device pointer, make use
-of that. The DSI host pointer is only used in sn65dsi83_host_attach(),
-move the code around so that the host does not have to be cached in the
-driver private data. This simplifies the code further. No functional
-change.
-
-This has the added bonus that lt9211, tc358767, sn65dsi83 now use very
-similar *_mipi_dsi_host_attach() which is ripe for deduplication.
+Add helper function to count and sanitize DT "data-lanes" property
+and return either error or the data-lanes count. This is useful for
+both DSI and (e)DP "data-lanes" property. The later version of the
+function is an extra wrapper which handles the endpoint look up by
+regs, that's what majority of the drivers duplicate too, but not all
+of them.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Lucas Stach <l.stach@pengutronix.de>
 Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Robert Foss <robert.foss@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 64 +++++++++------------------
- 1 file changed, 22 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/drm_of.c | 61 ++++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_of.h     | 20 +++++++++++++
+ 2 files changed, 81 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index dc65f424e7f3c..f5c1819857665 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -141,12 +141,10 @@ struct sn65dsi83 {
- 	struct drm_bridge		bridge;
- 	struct device			*dev;
- 	struct regmap			*regmap;
--	struct device_node		*host_node;
- 	struct mipi_dsi_device		*dsi;
- 	struct drm_bridge		*panel_bridge;
- 	struct gpio_desc		*enable_gpio;
- 	struct regulator		*vcc;
--	int				dsi_lanes;
- 	bool				lvds_dual_link;
- 	bool				lvds_dual_link_even_odd_swap;
- 	atomic_t			enable_count;
-@@ -308,7 +306,7 @@ static u8 sn65dsi83_get_dsi_range(struct sn65dsi83 *ctx,
- 	 */
- 	return DIV_ROUND_UP(clamp((unsigned int)mode->clock *
- 			    mipi_dsi_pixel_format_to_bpp(ctx->dsi->format) /
--			    ctx->dsi_lanes / 2, 40000U, 500000U), 5000U);
-+			    ctx->dsi->lanes / 2, 40000U, 500000U), 5000U);
+diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+index 9a2cfab3a177f..2186f966d2820 100644
+--- a/drivers/gpu/drm/drm_of.c
++++ b/drivers/gpu/drm/drm_of.c
+@@ -430,3 +430,64 @@ int drm_of_lvds_get_data_mapping(const struct device_node *port)
+ 	return -EINVAL;
  }
- 
- static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
-@@ -316,7 +314,7 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
- 	/* The divider is (DSI_CLK / LVDS_CLK) - 1, which really is: */
- 	unsigned int dsi_div = mipi_dsi_pixel_format_to_bpp(ctx->dsi->format);
- 
--	dsi_div /= ctx->dsi_lanes;
-+	dsi_div /= ctx->dsi->lanes;
- 
- 	if (!ctx->lvds_dual_link)
- 		dsi_div /= 2;
-@@ -411,7 +409,7 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	/* Set number of DSI lanes and LVDS link config. */
- 	regmap_write(ctx->regmap, REG_DSI_LANE,
- 		     REG_DSI_LANE_DSI_CHANNEL_MODE_SINGLE |
--		     REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi_lanes - 1)) |
-+		     REG_DSI_LANE_CHA_DSI_LANES(~(ctx->dsi->lanes - 1)) |
- 		     /* CHB is DSI85-only, set to default on DSI83/DSI84 */
- 		     REG_DSI_LANE_CHB_DSI_LANES(3));
- 	/* No equalization. */
-@@ -577,22 +575,6 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
- {
- 	struct drm_bridge *panel_bridge;
- 	struct device *dev = ctx->dev;
--	struct device_node *endpoint;
--	int ret;
--
--	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
--	ctx->dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
--	ctx->host_node = of_graph_get_remote_port_parent(endpoint);
--	of_node_put(endpoint);
--
--	if (ctx->dsi_lanes <= 0 || ctx->dsi_lanes > 4) {
--		ret = -EINVAL;
--		goto err_put_node;
--	}
--	if (!ctx->host_node) {
--		ret = -ENODEV;
--		goto err_put_node;
--	}
- 
- 	ctx->lvds_dual_link = false;
- 	ctx->lvds_dual_link_even_odd_swap = false;
-@@ -618,10 +600,8 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
- 	}
- 
- 	panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 2, 0);
--	if (IS_ERR(panel_bridge)) {
--		ret = PTR_ERR(panel_bridge);
--		goto err_put_node;
--	}
-+	if (IS_ERR(panel_bridge))
-+		return PTR_ERR(panel_bridge);
- 
- 	ctx->panel_bridge = panel_bridge;
- 
-@@ -631,15 +611,13 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
- 				     "Failed to get supply 'vcc'\n");
- 
- 	return 0;
--
--err_put_node:
--	of_node_put(ctx->host_node);
--	return ret;
- }
- 
- static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- {
- 	struct device *dev = ctx->dev;
-+	struct device_node *host_node;
+ EXPORT_SYMBOL_GPL(drm_of_lvds_get_data_mapping);
++
++/**
++ * drm_of_get_data_lanes - Get DSI/(e)DP data lane count
++ * @endpoint: DT endpoint node of the DSI/(e)DP source or sink
++ * @min: minimum supported number of data lanes
++ * @max: maximum supported number of data lanes
++ *
++ * Count DT "data-lanes" property elements and check for validity.
++ *
++ * Return:
++ * * min..max - positive integer count of "data-lanes" elements
++ * * -ve - the "data-lanes" property is missing or invalid
++ * * -EINVAL - the "data-lanes" property is unsupported
++ */
++int drm_of_get_data_lanes(const struct device_node *endpoint,
++			  const unsigned int min, const unsigned int max)
++{
++	int ret;
++
++	ret = of_property_count_u32_elems(endpoint, "data-lanes");
++	if (ret < 0)
++		return ret;
++
++	if (ret < min || ret > max)
++		return -EINVAL;
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(drm_of_get_data_lanes);
++
++/**
++ * drm_of_get_data_lanes_ep - Get DSI/(e)DP data lane count by endpoint
++ * @port: DT port node of the DSI/(e)DP source or sink
++ * @port_reg: identifier (value of reg property) of the parent port node
++ * @reg: identifier (value of reg property) of the endpoint node
++ * @min: minimum supported number of data lanes
++ * @max: maximum supported number of data lanes
++ *
++ * Count DT "data-lanes" property elements and check for validity.
++ * This variant uses endpoint specifier.
++ *
++ * Return:
++ * * min..max - positive integer count of "data-lanes" elements
++ * * -EINVAL - the "data-mapping" property is unsupported
++ * * -ENODEV - the "data-mapping" property is missing
++ */
++int drm_of_get_data_lanes_ep(const struct device_node *port,
++			     int port_reg, int reg,
++			     const unsigned int min,
++			     const unsigned int max)
++{
 +	struct device_node *endpoint;
- 	struct mipi_dsi_device *dsi;
- 	struct mipi_dsi_host *host;
- 	const struct mipi_dsi_device_info info = {
-@@ -647,13 +625,20 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- 		.channel = 0,
- 		.node = NULL,
- 	};
--	int ret;
-+	int dsi_lanes, ret;
++	int ret;
 +
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
-+	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	host_node = of_graph_get_remote_port_parent(endpoint);
-+	host = of_find_mipi_dsi_host_by_node(host_node);
-+	of_node_put(host_node);
++	endpoint = of_graph_get_endpoint_by_regs(port, port_reg, reg);
++	ret = drm_of_get_data_lanes(endpoint, min, max);
 +	of_node_put(endpoint);
- 
--	host = of_find_mipi_dsi_host_by_node(ctx->host_node);
--	if (!host) {
--		dev_err(dev, "failed to find dsi host\n");
-+	if (!host)
- 		return -EPROBE_DEFER;
--	}
 +
-+	if (dsi_lanes < 0)
-+		return dsi_lanes;
- 
- 	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
- 	if (IS_ERR(dsi))
-@@ -662,7 +647,7 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- 
- 	ctx->dsi = dsi;
- 
--	dsi->lanes = ctx->dsi_lanes;
-+	dsi->lanes = dsi_lanes;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
- 
-@@ -709,10 +694,8 @@ static int sn65dsi83_probe(struct i2c_client *client,
- 		return ret;
- 
- 	ctx->regmap = devm_regmap_init_i2c(client, &sn65dsi83_regmap_config);
--	if (IS_ERR(ctx->regmap)) {
--		ret = PTR_ERR(ctx->regmap);
--		goto err_put_node;
--	}
-+	if (IS_ERR(ctx->regmap))
-+		return PTR_ERR(ctx->regmap);
- 
- 	dev_set_drvdata(dev, ctx);
- 	i2c_set_clientdata(client, ctx);
-@@ -729,8 +712,6 @@ static int sn65dsi83_probe(struct i2c_client *client,
- 
- err_remove_bridge:
- 	drm_bridge_remove(&ctx->bridge);
--err_put_node:
--	of_node_put(ctx->host_node);
- 	return ret;
++	return ret;
++}
++EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_ep);
+diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+index 99f79ac8b4cd7..b559c53756196 100644
+--- a/include/drm/drm_of.h
++++ b/include/drm/drm_of.h
+@@ -50,6 +50,12 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
+ int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
+ 					  const struct device_node *port2);
+ int drm_of_lvds_get_data_mapping(const struct device_node *port);
++int drm_of_get_data_lanes(const struct device_node *endpoint,
++			  const unsigned int min, const unsigned int max);
++int drm_of_get_data_lanes_ep(const struct device_node *port,
++			     int port_reg, int reg,
++			     const unsigned int min,
++			     const unsigned int max);
+ #else
+ static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
+ 					  struct device_node *port)
+@@ -105,6 +111,20 @@ drm_of_lvds_get_data_mapping(const struct device_node *port)
+ {
+ 	return -EINVAL;
  }
++
++int drm_of_get_data_lanes(const struct device_node *endpoint,
++			  const unsigned int min, const unsigned int max)
++{
++	return -EINVAL;
++}
++
++int drm_of_get_data_lanes_ep(const struct device_node *port,
++			     int port_reg, int reg
++			     const unsigned int min,
++			     const unsigned int max)
++{
++	return -EINVAL;
++}
+ #endif
  
-@@ -739,7 +720,6 @@ static int sn65dsi83_remove(struct i2c_client *client)
- 	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
- 
- 	drm_bridge_remove(&ctx->bridge);
--	of_node_put(ctx->host_node);
- 
- 	return 0;
- }
+ /*
 -- 
 2.35.1
 
