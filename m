@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F8852CAD6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 06:23:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5574752CBA6
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 07:51:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4677711A446;
-	Thu, 19 May 2022 04:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C086011A59A;
+	Thu, 19 May 2022 05:51:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85F4C11A444;
- Thu, 19 May 2022 04:23:18 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 09EE4B8218E;
- Thu, 19 May 2022 04:23:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44AACC385B8;
- Thu, 19 May 2022 04:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652934195;
- bh=6ta6aaI6tZYd4czjbXO9LuG4HfvGWt2Y/Ts7jlbhP/0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=j16VJIovr/SGv3ZmRNnW+P/VjcCm3XxU8S+Q2r7Is31qpQ7HK7uFdFMjj8HCFi/3o
- vcKDWB1ojUKaatdsHkBTngatO1oglaywdWX91smvl6wqZeGenURDV0wO6jYpJg700A
- CsyO2bgguOOYbqsNJlRCjLGtx/rIN6/CFCgZtzqecDKPwUwtsEnhncXG54lpgUpqiw
- TsGppih04cBPrElfBzM3OU99RG5JF445YX3QTAPlqF3v9ThQ6hcV2F5Ngs2ktgx+l1
- 7vkSwnTHp5pEm99S1Vxa6KgpF71ahYnh+Mle9yR6HGuJU2wKS37EOzH7dxmRTUd/Z9
- PYPT/fckxC7AA==
-Date: Thu, 19 May 2022 09:53:11 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v4 2/3] phy/qualcomm: add regulator_set_load to dp phy
-Message-ID: <YoXGL908lcypSaQc@matsya>
-References: <1652909790-16245-1-git-send-email-quic_khsieh@quicinc.com>
- <1652909790-16245-3-git-send-email-quic_khsieh@quicinc.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5859011A58C;
+ Thu, 19 May 2022 05:51:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652939492; x=1684475492;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=fanG2Gwoafyt4s3gbR1R7KWpo0kbkLYo2jGIYF0qyfc=;
+ b=nWKA9pKzjWAZu5IBez4cByYj68am4SW2o+Xj+Q6gX40o8dlsBB+E96/+
+ OSjVauFklPNWYNTZbhX6lNzb5LGsATE7zEXpzRX3Sfj146o112vzXVHhO
+ SUiVYeHTgJ+u2LcCU7xo4l4yL65jGEhJyE+RANv10SNirZQPiTXdcZS3+
+ bG+2eRIGqC8AzAOuBFUhHoaM9Z5gph0SUKp/Gz6EMhC89vMwl6daGfeA8
+ iyQ3tB92dmI33QsKHBHtRH5uadJCktIwmBUlNtyRUlDNSJv7hXtufzjxs
+ C7fk+hzFm1Zv1gy9tNnyTUZwdLrMLLPwuvMVnWvAEFdQWFFKeRUG0vsrD w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10351"; a="269621180"
+X-IronPort-AV: E=Sophos;i="5.91,236,1647327600"; d="scan'208";a="269621180"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 22:51:31 -0700
+X-IronPort-AV: E=Sophos;i="5.91,236,1647327600"; d="scan'208";a="598324047"
+Received: from edgarisx-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.37.58])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2022 22:51:28 -0700
+Date: Thu, 19 May 2022 08:51:25 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YoXa3YdfqiJNNo2W@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1652909790-16245-3-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,82 +53,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, bjorn.andersson@linaro.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18-05-22, 14:36, Kuogee Hsieh wrote:
-> This patch add regulator_set_load() before enable regulator at
-> DP phy driver.
+Hi Dave & Daniel,
 
-sigh! still wrong tags!
+Two final -fixes for v5.18.
 
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/phy/qualcomm/phy-qcom-qmp.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
-> index b144ae1..20ac446 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-qmp.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
-> @@ -3130,6 +3130,7 @@ struct qmp_phy_cfg {
->  	int num_resets;
->  	/* regulators to be requested */
->  	const char * const *vreg_list;
-> +	const unsigned int *vreg_enable_load;
->  	int num_vregs;
->  
->  	/* array of registers with different offsets */
-> @@ -3346,6 +3347,10 @@ static const char * const qmp_phy_vreg_l[] = {
->  	"vdda-phy", "vdda-pll",
->  };
->  
-> +static const unsigned int qmp_phy_vreg_enable_load[] = {
-> +	21800, 36000
-> +};
-> +
->  static const struct qmp_phy_cfg ipq8074_usb3phy_cfg = {
->  	.type			= PHY_TYPE_USB3,
->  	.nlanes			= 1,
-> @@ -4072,6 +4077,7 @@ static const struct qmp_phy_cfg sm8250_usb3phy_cfg = {
->  	.reset_list		= msm8996_usb3phy_reset_l,
->  	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
->  	.vreg_list		= qmp_phy_vreg_l,
-> +	.vreg_enable_load	= qmp_phy_vreg_enable_load,
->  	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
->  	.regs			= qmp_v4_usb3phy_regs_layout,
->  
-> @@ -4139,6 +4145,7 @@ static const struct qmp_phy_cfg sm8250_dpphy_cfg = {
->  	.reset_list		= msm8996_usb3phy_reset_l,
->  	.num_resets		= ARRAY_SIZE(msm8996_usb3phy_reset_l),
->  	.vreg_list		= qmp_phy_vreg_l,
-> +	.vreg_enable_load	= qmp_phy_vreg_enable_load,
->  	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
->  	.regs			= qmp_v4_usb3phy_regs_layout,
->  
-> @@ -5008,6 +5015,11 @@ static int qcom_qmp_phy_com_init(struct qmp_phy *qphy)
->  		return 0;
->  	}
->  
-> +	if (cfg->vreg_enable_load) {
-> +		for (i = cfg->num_vregs - 1; i >= 0; --i)
-> +			regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_enable_load[i]);
-> +	}
-> +
->  	/* turn on regulator supplies */
->  	ret = regulator_bulk_enable(cfg->num_vregs, qmp->vregs);
->  	if (ret) {
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
+One is to reject DMC with out-of-spec MMIO (Cc: stable) and another
+to correctly mark guilty contexts on GuC reset.
 
--- 
-~Vinod
+Regards, Joonas
+
+***
+
+drm-intel-fixes-2022-05-19:
+
+- Reject DMC firmware with out-of-spec MMIO addresses.
+- Correctly mark guilty context on GuC reset
+
+The following changes since commit 42226c989789d8da4af1de0c31070c96726d990c:
+
+  Linux 5.18-rc7 (2022-05-15 18:08:58 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-05-19
+
+for you to fetch changes up to 89e96d822bd51f7afe2d3e95a34099480b5c3d55:
+
+  i915/guc/reset: Make __guc_reset_context aware of guilty engines (2022-05-16 10:13:39 +0300)
+
+----------------------------------------------------------------
+- Reject DMC firmware with out-of-spec MMIO addresses.
+- Correctly mark guilty context on GuC reset
+
+----------------------------------------------------------------
+Anusha Srivatsa (1):
+      drm/i915/dmc: Add MMIO range restrictions
+
+Umesh Nerlige Ramappa (1):
+      i915/guc/reset: Make __guc_reset_context aware of guilty engines
+
+ drivers/gpu/drm/i915/display/intel_dmc.c          | 44 +++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_reset.c             |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h            |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 16 ++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c             |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h             |  2 +-
+ drivers/gpu/drm/i915/i915_reg.h                   | 16 +++++++++
+ 7 files changed, 72 insertions(+), 12 deletions(-)
