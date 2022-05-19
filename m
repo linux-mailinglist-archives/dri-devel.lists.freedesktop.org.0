@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDFB52CF03
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626F652CF08
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 11:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102F511A824;
-	Thu, 19 May 2022 09:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA2811B09B;
+	Thu, 19 May 2022 09:09:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25828112B7B
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1652951329;
- bh=mow7febAtsiXYt2cZHELtD6fs3k1Y7cifTC+AMdNbm0=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=Q7XUbDCe/LyabFtLQpRjysmhHzaRsSwCdcHc+mrcAYOGzcs0LSXZcRCcgzgnBy/im
- w+l4DmLAMLok/mR0RApY5ubSsczXO26OtS5cuCfWdj/j11+fJqiMDdQVwzB+Maye2l
- 9Ad5tc97i0BWDshy7GVopNg7faEfOkjyEGZq970k=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.152.7]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MacOW-1nKCLL02Ic-00cAlv; Thu, 19
- May 2022 11:08:49 +0200
-Message-ID: <4d8738fd-f8da-9e6b-3dae-f6b8f3bf6a73@gmx.de>
-Date: Thu, 19 May 2022 11:08:39 +0200
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A913911B09B
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:09:53 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2ff155c239bso50619297b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 02:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fTYN8SQA1Kibj+1iEMNK2WJ4kiFH1jZy+Z6ZLSVIzN0=;
+ b=hvulyA/9nIvcQL349rFarbnddLvY9KxNXVzOwnuziFMGzgoXJafIeq4MkYBy6jLk6W
+ s3M1vHrQCdqvZAScHSvOaiC24sEZLHS49j0W88ksuOnZWzOJcz/qal8MrrGbJgy3AxE/
+ jC8pn9TpW1Fsn7CRdkMKMPRWnyntyy4uNhTFYqyIsPsY3xLU+1Tj8BSmdpt+ZPQQREut
+ hKV7/XAof2E30dQbV/qIr57X2zMxMUYLPtvgd3NWcR1W//0MOFeYlipiFSPiPdoYTRkl
+ EVNnGm474dJJ1JPi1bY7lymcKpQU0jo24pOGJbZyS5KotlMFZoWGsrDcpf3mxJcprTz2
+ 2QvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fTYN8SQA1Kibj+1iEMNK2WJ4kiFH1jZy+Z6ZLSVIzN0=;
+ b=a67fNbgDhK2a8ukc3uVUNDQ8EevUGJn5Ljt0Kgys0rNd/dUnYHy+tXSZwQpJaMHSef
+ rVcwDuFp1Xw18IscDjhUJcyPKYtym39tm7RPzq2mwUAVaH8V7N8CadBnTX/DtXoDpp0x
+ aNvMCNkpjL4tQfeuaM3sE2X6eHXCBz6wpnp50hNTjmoUv1yLTqaijcZyV9JL0DugfRmu
+ pLl3zh4cXg2T73stbkYHFKiDFzFJ7fA7M0m2zm2DGQa1E6MGqvz06URRelWGkoY2wP/X
+ qAajYOOpBFPgYQOBMdHnPLZxCgnWwOREEyxSkDv9k/78paXkSeHcl5FkVZOag4v1tPrA
+ biCw==
+X-Gm-Message-State: AOAM530Kfk0Hrv1jfK8S4QntCmkU/g7MLvPdeIVa+ajVza9bIrQEBwXY
+ v7j28aGUfZlqNhTsvJlHFyNbIOrkYRSrnKD5mzU2kQ==
+X-Google-Smtp-Source: ABdhPJwWgBnbFPBng8jyysNwYozhHy5L14kmJuY8TO30we9HAg0aLzdUurH9h7SgBVzWDxYOJ2zAzts+I/soNqiTxJU=
+X-Received: by 2002:a0d:c4c2:0:b0:2f1:6c00:9eb4 with SMTP id
+ g185-20020a0dc4c2000000b002f16c009eb4mr3757471ywd.448.1652951392715; Thu, 19
+ May 2022 02:09:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] video: hyperv_fb: Allow resolutions with size > 64 MB for
- Gen1
-Content-Language: en-US
-To: Dexuan Cui <decui@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
- Wei Liu <wei.liu@kernel.org>, Saurabh Sengar <ssengar@linux.microsoft.com>,
- "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-References: <1651067273-6635-1-git-send-email-ssengar@linux.microsoft.com>
- <20220428143746.sya775ro5zi3kgm3@liuwe-devbox-debian-v2>
- <DM5PR21MB1749EE7458996FF22AAA9AF8CAC39@DM5PR21MB1749.namprd21.prod.outlook.com>
- <BYAPR21MB12702855D53B456E898ED5E0BFC39@BYAPR21MB1270.namprd21.prod.outlook.com>
- <BYAPR21MB1270E4CBA78869748D28C81BBFD19@BYAPR21MB1270.namprd21.prod.outlook.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <BYAPR21MB1270E4CBA78869748D28C81BBFD19@BYAPR21MB1270.namprd21.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:fsFTwQueqwO4oFMtMruopc536RUFH/jkjJGavwLAcqZycaqXjKl
- aOAvA6Enmc0kqQQBV3TrqonTive5CT4O7gHe3MPJeNp2X3m8uC/4yhlJhTnkHSVOq6jNsJZ
- v3BydNMRZ8uTe/2zMOG16g07i7t21L6nbs3nv+u6TW4jgO40HSSpKJ6M/0spwbCIMRamRin
- tu2qJeojqc8oIoTY2lSWA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kJTEzCKtHG8=:XiqDKXyew94g1dpZi0TwlA
- PI6J0k4AAHKobwYovTrfVaXEm8F4JyhC+lr8mJG935rELkCzoEgSCbo4lJ9C/YR+/R7D3risN
- LCxwMbiP/ZpCG7MFH3XXcMyKN6KVMCjYAp3abd21AQagjT7+saBZ+QjOhXCu1QwsD0yf/muTX
- Cn6IUz1RnMjdqeY33hPV2Xbk8WZogBBVe9wCcUAv3eAUkWSqdoLm/irfDqXGceHxpRDZZi2vq
- ERk05zg2PRZCs+gi4oJm9c2zVBZ+x5V+D+CyziskVSE4ifvl5TnhtxYsBQ8kk3/Ue+4twmR6q
- OjwfYLbWrXlp29LAD+cIvhrjHD2SlcyRm8B6ScHgmceENSc+osWH50hn869MWRVLXOPeRaOdk
- TxzpP9UhwAfW+XLGXz5FDqJz66oiOB3nC5dkReSNotUNh674tZoNc/8qons0pvYo6YbDxvLWe
- CkpDHsrlObQynU2r/1M57t6MA+WxTjLXW1aheDA8HXKBqNivNt+Ph7QrG21qoTy7ba4G2AGUL
- ZQfsoriUSL0jnZt6ciRDmAws1ymcirrcSr3RXNztktIioOncHoQoJFpDhqg+4BOjBPMOGDGc/
- zqjAciADxqQyjBhnaJ+kwBiGn3upVG1xyFyzztTUf9FSAib31g9CqNfkiJmmkTl4kVeyyJHN5
- tdqNhebU9tH7eayKcEwTi+dI7U0V2p+6k37xi2JmV8WzqgkiJd24BA/Uun6kPlLoezJnyvnDJ
- 2UywPA/FOaFnPzaVhnDd3EjfMRj/SozEDrdoanTRZczROatEovDguAZlSDAkHo38PmJ7gLqW1
- SjWP/XvR0klkJw9LdqEHV91CJMozYOLisbOnfk8hCMJhsqovNMoRHaPhiDdxg5rvM9lB2FE5M
- rP/AgHGawmZD72sCyKK9bbSETGN+BaJjBNfFCnMEReEryS00hKhIRO3x8JYguuhFY3WIwDpnl
- m3uaWc3VafpSCo2WedlHiPHiV2JjITrDKayTfuGQopb4uobHLGDhIGJp2Vt7NAjRnyUye1hLs
- SJxLeX13NccWP/m3vmSvndxTefv50l9wr8KKdxuTjVzI6gDImgX6O5eFsVXyEGEvGcmTzZIsT
- LI1zrywtOLR7OdrjOi9bLeob6a6fkoAdM3pjUQwY3Qcmq5iK/QEVk6Apg==
+References: <cover.1651835715.git.jo@jsfamily.in>
+ <BY5PR02MB7009B91FB7306503B58C264BD9C59@BY5PR02MB7009.namprd02.prod.outlook.com>
+ <CACRpkdYhkP9RYj98Lu=zkt+6aefx172R=8JtvOFpvh2uJ4byKA@mail.gmail.com>
+ <BY5PR02MB7009831D8BC4DB2B34739CB6D9CF9@BY5PR02MB7009.namprd02.prod.outlook.com>
+In-Reply-To: <BY5PR02MB7009831D8BC4DB2B34739CB6D9CF9@BY5PR02MB7009.namprd02.prod.outlook.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 19 May 2022 11:09:41 +0200
+Message-ID: <CACRpkdZw+MwU42s8BWHkN2T3A-a-TGML8jJ0kQteMOE06m0UXg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/panel: introduce ebbg,ft8719 panel
+To: Joel Selvaraj <jo@jsfamily.in>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +66,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- KY Srinivasan <kys@microsoft.com>
+Cc: devicetree@vger.kernel.org, Hao Fang <fanghao11@huawei.com>,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Oleksij Rempel <linux@rempel-privat.de>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, phone-devel@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>, Stanislav Jakubek <stano.jakubek@gmail.com>,
+ Corentin Labbe <clabbe@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/18/22 20:48, Dexuan Cui wrote:
->> From: Dexuan Cui <decui@microsoft.com>
->> Sent: Wednesday, May 4, 2022 10:05 AM
->> To: Haiyang Zhang <haiyangz@microsoft.com>; Wei Liu <wei.liu@kernel.org=
->;
->>> ...
->>> When I initially implemented this driver 10 years ago, I believe there
->>> was smaller limit for the fb... But I think this patch is good for the
->>> newer MMIO alloc scheme. I hope to see reviews also from
->>>  @Dexuan Cui @Michael Kelley (LINUX) who are more familiar with
->>> the PCI/BAR/MMIO area.
->>>
->>> Thanks,
->>> - Haiyang
->>
->> The patch looks good to me but I suggest we check with the Hyper-V
->> team to figure out how a Gen1 Windows VM supports a higher
->> resolution that needs a VRAM size of more than 64MB. Just in case we
->> miss something..
->>
->> Thanks,
->> -- Dexuan
+On Mon, May 16, 2022 at 2:56 PM Joel Selvaraj <jo@jsfamily.in> wrote:
+> On 13/05/22 03:21, Linus Walleij wrote:
+> > On Fri, May 6, 2022 at 2:18 PM Joel Selvaraj <jo@jsfamily.in> wrote:
+> >> +#define dsi_dcs_write_seq(dsi, seq...) do {                            \
+> >> +               static const u8 d[] = { seq };                          \
+> >> +               int ret;                                                \
+> >> +               ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d)); \
+> >> +               if (ret < 0)                                            \
+> >> +                       return ret;                                     \
+> >> +       } while (0)
+> >
+> > First I don't see what the do {} while (0) buys you, just use
+> > a basic block {}.
 >
-> Reviewed-by: Dexuan Cui <decui@microsoft.com>
+> The do {} while (0) in macro ensures there is a semicolon when it's
+> used. With normal blocking, it would have issues with if conditions?
+> I read about them here: https://stackoverflow.com/a/2381339
+
+Hm that seems true, it enforces the semicolon ; at the end of the
+statement which is nice. I suppose we should fix the other macro
+as well.
+
+Noralf added this ({}) form in 02dd95fe31693, so maybe he wants
+to chip in.
+
+> > Second look at mipi_dbi_command() in include/drm/drm_mipi_dbi.h
+> > this is very similar.
 >
-> Saurabh checked this with Hyper-V team, who said there is no
-> Generation 1-specific block for larger VRAM sizes in Windows VM.
+> Does the ({..}) style blocking used in mipi_dbi_command help workaround
+> the semicolon issue I mentioned above?
+
+Nope. But add the rate limited error print please!
+
+> > It's dubious that you always have dsi_dcs_write_seq()
+> > followed by dsi_generic_write_seq().
+> >
+> > That means mipi_dsi_generic_write() followed by
+> > mipi_dsi_dcs_write_buffer(). But if you look at these
+> > commands in drivers/gpu/drm/drm_mipi_dsi.c
+> > you see that they do the same thing!
 >
-> When the driver was originally developed, we didn't have the API
-> vmbus_allocate_mmio(), and I guess we just used the PCI device's BAR
-> address for simplicity, and didn't realize the restriction with very hig=
-h
-> resolutions that require >64 MB VRAM. It looks like the synthetic
-> VMBus framebuffer device doesn't have to use the same MMIO range
-> used by the Hyper-V legacy PCI framebuffer device, so the patch
-> looks good to me.
+> They almost do the same thing except for the msg.type values? Mostly the
+> msg.type value is used to just check whether it's a long or short write
+> in the msm dsi_host code. However, in mipi_dsi_create_packet function,
+> the msg->type value is used to calculate packet->header[0] as follows:
+>
+> packet->header[0] = ((msg->channel & 0x3) << 6) | (msg->type & 0x3f);
+>
+> Wouldn't the difference between the mipi_dsi_dcs_write_buffer's and
+> mipi_dsi_generic_write's msg.type values cause issue here?
+>
+> I tried using mipi_dsi_dcs_write_buffer for all commands and the panel
+> worked fine, but I am not sure if it's correct to do so?
 
-Thanks for the review, Dexuan!
+I think it's fine? The only issue would be if there is a DSI host controller
+that only supports short writes, and in that case it should emulate
+long writes by breaking long messages apart. (My amateur view at least.)
 
-I've applied this patch now to the fbdev git tree.
+> > Lots of magic numbers. You don't have a datasheet do you?
+> > So you could #define some of the magic?
+>
+> Unfortunately, I don't have a datasheet and the power on sequence is
+> taken from downstream android dts. It works pretty well though. So I
+> don't think I can #define any of these magic.
 
-> BTW, please check the hyperv-drm driver as well:
-> drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> I think we should make the same change there to support 7680x4320
-> for Gen1 VMs.
+If you know which display controller the display is using (usually
+Novatek nnnnn, Ilitek nnnn etc someting like that) there is often
+a datasheet for the display controller available but the display per
+se often obscures the display controller.
 
-Haiyang, can you check that as well and send another patch for
-the drm tree ?
+>  > Doesn't it work to combine them into one call for each
+>  > pair?
+>  >> +       dsi_dcs_write_seq(dsi, );
+>  >> +       dsi_generic_write_seq(dsi, 0xff, 0x87, 0x19);
+>
+> By using a macro? We can... but I am not sure what (0x00, 0x80), (0x00,
+> 0xa0),etc type of commands signify without the datasheet, so I am not
+> sure what to name them in the macro and make any sensible meaning out of it.
 
-Helge
+I meant just sending dsi_generic_write_seq() with everything in
+it:
+
+dsi_generic_write_seq(dsi, 0x00, 0x80, 0xff, 0x87, 0x19);
+
+Instead of two writes. Doesn't this work?
+
+Yours,
+Linus Walleij
