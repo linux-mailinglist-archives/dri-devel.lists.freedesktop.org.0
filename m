@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7919152C8C6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 02:40:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B308D52C8D6
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 02:44:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D8E10E5E5;
-	Thu, 19 May 2022 00:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3CC10E05B;
+	Thu, 19 May 2022 00:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A938113DDE
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 00:40:04 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-f16a3e0529so4903337fac.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 May 2022 17:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=E9klG2UgqGoR+B4vfVoEYPmVWhZp8MKNBr28kykx1i4=;
- b=P4QbUzoNL4SuGojYBX4E1vcV57VoJT9qywb2Q7UPlZNLvEIxlOhEt8vkjcws7DXjKL
- 0FBq4wA9likuzpAyIWirug8bmegBZeaE/h+yPyiB/U9zyDE3Ymvrg0sKinMECQ6P+uoG
- 1bO0kQiG2p1hTzHqGJC+vpxNP4W5FjTz8+OYk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=E9klG2UgqGoR+B4vfVoEYPmVWhZp8MKNBr28kykx1i4=;
- b=MqIUaSLV+PaIuYLSFdSuqGf9ZeDEcPDRKjmWReXv9HOAeJ2GYDDeEe/gwCNuWO1pxL
- zYKOlpVlwRTTAYBRvTqxoOtxDeom2dCp718eM+k3OLlpiPzYe157IIHuQV7HSs4pPIwB
- ltU8xg7R0Mw+mCU2aYASPNammLc4W8GStcJvSN39LmLuBA0+HSs+9OadstpyP+m/FFq7
- idEZsiIT0oAU5SfB3k1fdbb3ydPgxlxHrtE6LWMrpm6Xrm4KKPLZh3bC1A+GSQcF18MH
- /mkYtY9mWyPsSGgfa/r56JgXOXiABfi+LKpJjFPLWBgfTm3VXJK/iRRUxdSAh6xTFS2c
- bf7w==
-X-Gm-Message-State: AOAM53187YrVz2mKUae/dPS5C2fqw+8m6r4Yz8UggSfCDrFAVNWF6wdX
- WRAES5Ihw39pNrB3DuvP8SKNPCTrJ5K7VPcgUCEOeQ==
-X-Google-Smtp-Source: ABdhPJzonSJru6ZO3LeUWkbogtQydycvpfK3n/Yt5M2jS4+yt8uszcyLUMiADmES7++8Jw8dyPzqutdkAzE7g31L054=
-X-Received: by 2002:a05:6870:558e:b0:e1:db7c:26aa with SMTP id
- n14-20020a056870558e00b000e1db7c26aamr1318300oao.63.1652920803484; Wed, 18
- May 2022 17:40:03 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 18 May 2022 17:40:03 -0700
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF65510E05B
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 00:44:46 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 0FE3581E79;
+ Thu, 19 May 2022 02:44:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1652921084;
+ bh=dZlOJI931DEjQLjfeAS6aKY1K7jH2ESJJCmpOIH03+s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Epz5s1xXjbv1Izy4TArHGZupxEtbE5yBiadpAH3qkRm1CaKc3VVzol9lGDHlDidNl
+ qWxlKDBu3+vu+Qko9hmWgun/d371NCiUly0ShbT1ZvRbgY5C3/XoZuzvuJg+8HodiI
+ gr/B4uOc10FTjnn3rtPcpav7R68t6mH2UiC97MwEqdxbOHsOXdLJIMkKYD8KyRsMzG
+ Yu2Xq0JZoMnmTm3gdEXC+vn7eMmP2dAiiFauyfX9RDZNpvm+WS8J9SderfhdseLGps
+ qpsPFW0N1OF3kPBsLhjn1GzJZ3GVxpAUqh1RaSM0lgnmEcIKZpsPQBlHvOKXLhMbu4
+ ZcXiXNMKsQJMw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 1/2] dt-bindings: lcdif: Add compatible for i.MX8MP
+Date: Thu, 19 May 2022 02:44:30 +0200
+Message-Id: <20220519004431.320942-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <20220518223407.26147-1-quic_abhinavk@quicinc.com>
-References: <20220518223407.26147-1-quic_abhinavk@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 18 May 2022 17:40:03 -0700
-Message-ID: <CAE-0n53Cffs82nQC3_2QADbvQm0f_7tX+NPac8rvJULYE10GvA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dpu: handle pm_runtime_get_sync() errors in
- bind path
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,28 +51,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- seanpaul@chromium.org, dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Peng Fan <peng.fan@nxp.com>, martyn.welch@collabora.com,
+ robert.foss@linaro.org, Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2022-05-18 15:34:07)
-> If there are errors while trying to enable the pm in the
-> bind path, it will lead to unclocked access of hw revision
-> register thereby crashing the device.
->
-> This will not address why the pm_runtime_get_sync() fails
-> but at the very least we should be able to prevent the
-> crash by handling the error and bailing out earlier.
->
-> changes in v2:
->         - use pm_runtime_resume_and_get() instead of
->           pm_runtime_get_sync()
->
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
+Add compatible string for i.MX8MP LCDIF variant. This is called LCDIFv3
+and is completely different from the LCDIFv3 found in i.MX23 in that it
+has a completely scrambled register layout compared to all previous LCDIF
+variants. The new LCDIFv3 also supports 36bit address space. However,
+except for the complete bit reshuffling, this is still LCDIF and it still
+works like one.
 
-Any Fixes tag? When did pm errors start happening in the bind path?
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Robby Cai <robby.cai@nxp.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: devicetree@vger.kernel.org
+---
+V2: No change
+V3: No change
+---
+ Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index 900a56cae80e6..876015a44a1e6 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -20,6 +20,7 @@ properties:
+           - fsl,imx23-lcdif
+           - fsl,imx28-lcdif
+           - fsl,imx6sx-lcdif
++          - fsl,imx8mp-lcdif
+       - items:
+           - enum:
+               - fsl,imx6sl-lcdif
+-- 
+2.35.1
+
