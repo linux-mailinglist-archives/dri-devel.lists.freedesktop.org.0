@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DA452DF41
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 23:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BC552DF67
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 23:40:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1FF811A909;
-	Thu, 19 May 2022 21:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCF5910E1CC;
+	Thu, 19 May 2022 21:40:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCAF11A908
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 21:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652995542; x=1684531542;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5HLlWYcgzBtISfn1gKPyn+P9BLnVyOtVgVOJ7TSVO9o=;
- b=RKUR0HsgdDlO1LZJXItcXzXvD5sCtzuQgY7FCUmyMMnCSlkoAx2W16Gm
- 2O+jAABnaeUrHVentsHeRBlxOgHUJ9ZWcEZiVeSLq/zVDiz0ioo6KV5e2
- ViYoJvokjzepZh6njQsAfscAsXp4CfC5E0jwEOrXwtXaYoNAo/aDvwQax
- utiV/tjnsLYi2DiWHIPNNCwJvBUpdUzH6OE8th6nMvQkll0zYjdYOsQL/
- HKxaccw0VzYuK5adw274lL1gpjviYAmBtmXzcyzIp7JH0QQ0CMAnz3+QJ
- ZzDgfx6ciePt2bAyL/8pzHQ7UTBmz76W2Wj3BI5feJiFp15wSYrxxQ7GS Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="272514192"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="272514192"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 14:25:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="818204498"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
- by fmsmga006.fm.intel.com with ESMTP; 19 May 2022 14:25:36 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nrneJ-0003xV-SX;
- Thu, 19 May 2022 21:25:35 +0000
-Date: Fri, 20 May 2022 05:25:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uri Arev <me@wantyapps.xyz>
-Subject: Re: [PATCH] staging: fbtft: fix checkpatch.pl struct should normally
- be const
-Message-ID: <202205200517.BCEmgrh4-lkp@intel.com>
-References: <20220519172503.10821-1-me@wantyapps.xyz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519172503.10821-1-me@wantyapps.xyz>
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com
+ [IPv6:2607:f8b0:4864:20::1149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8228810E1CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 21:40:33 +0000 (UTC)
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-2f4e17a5809so56467757b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 14:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:cc;
+ bh=zuGBAgFMIoOSwoUwGfoJUnP1fJqCzNy1j+Zti0iP+ZM=;
+ b=IHIAjtp3yuP+65qTq0KG8dpflrO1+4q1eQKEYue6Hu5/7/JvfpRpxvQUs5El0hevSE
+ 1tuWFQgcd35rB//lFiwc+bfUwqddQK3/kyWp//JoHUCft6UppiI+gEtisDfWD2K1tCxU
+ C/nVZimKPg7Ayt6s6x1QQnk1gQj0TnjPeC17W7FRGQrsa0gEdxwUBn6HaT7bcseJjgUs
+ 0Em1Di29bEHCUQ38GVgzZ+ew189o+OpDCp8CgGHwYiHsXFo7t2OFHNUr1IwIV4Wm/4wO
+ Jez9ria/XhLsKZkm+bCWqOfdzNu7twDuBHPKptuhFf8MIpLxMY4K9O35jsZ2yiyWrgwo
+ ah5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:cc;
+ bh=zuGBAgFMIoOSwoUwGfoJUnP1fJqCzNy1j+Zti0iP+ZM=;
+ b=7pLubWWuDK2HRQUXh/LqKD7puzc+Q4gw8Y8CaZk6myU10R6cS3OFjSUg/3cEtBG3Ii
+ bcVjsphEAejrhfXpbE3ekx6/kWc8AtTH2VILoAL/Cuodrb4W8c1kWAIlwUObzNcHQ95B
+ x9x/JaqbN3Pd1G0NLCoDT0fc6l88yQJoGBmpKTtsTbC4dAN9j9v3Lh7553Fq+I+sqz98
+ DFTb9T5NV27tnLoJBcYkhOmV0ua6CJTVlJ1qUZ7lN0AeYEs/atopEE95fnTYGLc1XFT7
+ UNiTIAj/OXbAudSkzNyQWTEcIDLPAXqiafp3ZKSekqzDlNXc2lwE4tt6CFx2F/ZXDp5z
+ CBPA==
+X-Gm-Message-State: AOAM532vYD1qYQoX2GgRDZ+Yvo/MtaPVY2AejndvaQpiwQ/6N4n29BP3
+ 5FrgIjs9y6rIIHo4nDOWQrAMYZeNcETlZ3kyyg==
+X-Google-Smtp-Source: ABdhPJx4D0SEHOAjIttsmn42abQzuazkEeLC6F+ySQrARTkf0sslpCpaOFkHDaCUqhJIC32vG+HNE2dUVJKb6mGqUg==
+X-Received: from kaleshsingh.mtv.corp.google.com
+ ([2620:15c:211:200:f1b:a195:3f95:6a6f])
+ (user=kaleshsingh job=sendgmr) by 2002:a05:6902:120e:b0:634:6f29:6b84 with
+ SMTP id s14-20020a056902120e00b006346f296b84mr6656617ybu.604.1652996432268;
+ Thu, 19 May 2022 14:40:32 -0700 (PDT)
+Date: Thu, 19 May 2022 14:40:15 -0700
+Message-Id: <20220519214021.3572840-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
+Subject: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
+From: Kalesh Singh <kaleshsingh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,293 +62,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Srivathsa Dara <srivathsa729.8@gmail.com>, Uri Arev <me@wantyapps.xyz>,
- kbuild-all@lists.01.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Len Baker <len.baker@gmx.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ kernel-team@android.com, Randy Dunlap <rdunlap@infradead.org>,
+ ilkos@google.com, linux-kernel@vger.kernel.org,
+ Colin Cross <ccross@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Kalesh Singh <kaleshsingh@google.com>, linux-fsdevel@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, surenb@google.com, tjmercier@google.com,
+ Mike Rapoport <rppt@kernel.org>, Kees Cook <keescook@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uri,
+Processes can pin shared memory by keeping a handle to it through a
+file descriptor; for instance dmabufs, memfd, and ashsmem (in Android).
 
-Thank you for the patch! Perhaps something to improve:
+In the case of a memory leak, to identify the process pinning the
+memory, userspace needs to:
+  - Iterate the /proc/<pid>/fd/* for each process
+  - Do a readlink on each entry to identify the type of memory from
+    the file path.
+  - stat() each entry to get the size of the memory.
 
-[auto build test WARNING on staging/staging-testing]
+The file permissions on /proc/<pid>/fd/* only allows for the owner
+or root to perform the operations above; and so is not suitable for
+capturing the system-wide state in a production environment.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uri-Arev/staging-fbtft-fix-checkpatch-pl-struct-should-normally-be-const/20220520-012948
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 4d0cc9e0e53e9946d7b8dc58279c62dfa7a2191b
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220520/202205200517.BCEmgrh4-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d26e139bfc29011b0a147df71f0b91485189c66e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Uri-Arev/staging-fbtft-fix-checkpatch-pl-struct-should-normally-be-const/20220520-012948
-        git checkout d26e139bfc29011b0a147df71f0b91485189c66e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/staging/fbtft/
+This issue was addressed for dmabufs by making /proc/*/fdinfo/*
+accessible to a process with PTRACE_MODE_READ_FSCREDS credentials[1]
+To allow the same kind of tracking for other types of shared memory,
+add the following fields to /proc/<pid>/fdinfo/<fd>:
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+path - This allows identifying the type of memory based on common
+       prefixes: e.g. "/memfd...", "/dmabuf...", "/dev/ashmem..."
 
-All warnings (new ones prefixed by >>):
+       This was not an issued when dmabuf tracking was introduced
+       because the exp_name field of dmabuf fdinfo could be used
+       to distinguish dmabuf fds from other types.
 
-   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_framebuffer_alloc':
-   drivers/staging/fbtft/fbtft-core.c:617:15: error: type defaults to 'int' in declaration of 'fbops' [-Werror=implicit-int]
-     617 |         const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
-         |               ^~~~~
-   drivers/staging/fbtft/fbtft-core.c:617:15: error: conflicting type qualifiers for 'fbops'
-   drivers/staging/fbtft/fbtft-core.c:542:30: note: previous definition of 'fbops' with type 'const struct fb_ops *'
-     542 |         const struct fb_ops *fbops = NULL;
-         |                              ^~~~~
->> drivers/staging/fbtft/fbtft-core.c:617:23: warning: initialization of 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
-     617 |         const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
-         |                       ^~~~~~~~~~~~
->> drivers/staging/fbtft/fbtft-core.c:617:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     617 |         const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
-         |         ^~~~~
->> drivers/staging/fbtft/fbtft-core.c:644:21: warning: assignment to 'const struct fb_ops *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     644 |         info->fbops = fbops;
-         |                     ^
-   drivers/staging/fbtft/fbtft-core.c:647:14: error: invalid type argument of '->' (have 'int')
-     647 |         fbops->owner        =      dev->driver->owner;
-         |              ^~
-   drivers/staging/fbtft/fbtft-core.c:648:14: error: invalid type argument of '->' (have 'int')
-     648 |         fbops->fb_read      =      fb_sys_read;
-         |              ^~
-   drivers/staging/fbtft/fbtft-core.c:649:14: error: invalid type argument of '->' (have 'int')
-     649 |         fbops->fb_write     =      fbtft_fb_write;
-         |              ^~
-   drivers/staging/fbtft/fbtft-core.c:650:14: error: invalid type argument of '->' (have 'int')
-     650 |         fbops->fb_fillrect  =      fbtft_fb_fillrect;
-         |              ^~
-   drivers/staging/fbtft/fbtft-core.c:651:14: error: invalid type argument of '->' (have 'int')
-     651 |         fbops->fb_copyarea  =      fbtft_fb_copyarea;
-         |              ^~
-   drivers/staging/fbtft/fbtft-core.c:652:14: error: invalid type argument of '->' (have 'int')
-     652 |         fbops->fb_imageblit =      fbtft_fb_imageblit;
-         |              ^~
-   drivers/staging/fbtft/fbtft-core.c:653:14: error: invalid type argument of '->' (have 'int')
-     653 |         fbops->fb_setcolreg =      fbtft_fb_setcolreg;
-         |              ^~
-   drivers/staging/fbtft/fbtft-core.c:654:14: error: invalid type argument of '->' (have 'int')
-     654 |         fbops->fb_blank     =      fbtft_fb_blank;
-         |              ^~
-   cc1: some warnings being treated as errors
+size - To track the amount of memory that is being pinned.
 
+       dmabufs expose size as an additional field in fdinfo. Remove
+       this and make it a common field for all fds.
 
-vim +617 drivers/staging/fbtft/fbtft-core.c
+Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
+-- the same as for /proc/<pid>/maps which also exposes the path and
+size for mapped memory regions.
 
-   516	
-   517	/**
-   518	 * fbtft_framebuffer_alloc - creates a new frame buffer info structure
-   519	 *
-   520	 * @display: pointer to structure describing the display
-   521	 * @dev: pointer to the device for this fb, this can be NULL
-   522	 * @pdata: platform data for the display in use
-   523	 *
-   524	 * Creates a new frame buffer info structure.
-   525	 *
-   526	 * Also creates and populates the following structures:
-   527	 *   info->fbops
-   528	 *   info->fbdefio
-   529	 *   info->pseudo_palette
-   530	 *   par->fbtftops
-   531	 *   par->txbuf
-   532	 *
-   533	 * Returns the new structure, or NULL if an error occurred.
-   534	 *
-   535	 */
-   536	struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
-   537						struct device *dev,
-   538						struct fbtft_platform_data *pdata)
-   539	{
-   540		struct fb_info *info;
-   541		struct fbtft_par *par;
-   542		const struct fb_ops *fbops = NULL;
-   543		struct fb_deferred_io *fbdefio = NULL;
-   544		u8 *vmem = NULL;
-   545		void *txbuf = NULL;
-   546		void *buf = NULL;
-   547		unsigned int width;
-   548		unsigned int height;
-   549		int txbuflen = display->txbuflen;
-   550		unsigned int bpp = display->bpp;
-   551		unsigned int fps = display->fps;
-   552		int vmem_size;
-   553		const s16 *init_sequence = display->init_sequence;
-   554		char *gamma = display->gamma;
-   555		u32 *gamma_curves = NULL;
-   556	
-   557		/* sanity check */
-   558		if (display->gamma_num * display->gamma_len >
-   559				FBTFT_GAMMA_MAX_VALUES_TOTAL) {
-   560			dev_err(dev, "FBTFT_GAMMA_MAX_VALUES_TOTAL=%d is exceeded\n",
-   561				FBTFT_GAMMA_MAX_VALUES_TOTAL);
-   562			return NULL;
-   563		}
-   564	
-   565		/* defaults */
-   566		if (!fps)
-   567			fps = 20;
-   568		if (!bpp)
-   569			bpp = 16;
-   570	
-   571		if (!pdata) {
-   572			dev_err(dev, "platform data is missing\n");
-   573			return NULL;
-   574		}
-   575	
-   576		/* override driver values? */
-   577		if (pdata->fps)
-   578			fps = pdata->fps;
-   579		if (pdata->txbuflen)
-   580			txbuflen = pdata->txbuflen;
-   581		if (pdata->display.init_sequence)
-   582			init_sequence = pdata->display.init_sequence;
-   583		if (pdata->gamma)
-   584			gamma = pdata->gamma;
-   585		if (pdata->display.debug)
-   586			display->debug = pdata->display.debug;
-   587		if (pdata->display.backlight)
-   588			display->backlight = pdata->display.backlight;
-   589		if (pdata->display.width)
-   590			display->width = pdata->display.width;
-   591		if (pdata->display.height)
-   592			display->height = pdata->display.height;
-   593		if (pdata->display.buswidth)
-   594			display->buswidth = pdata->display.buswidth;
-   595		if (pdata->display.regwidth)
-   596			display->regwidth = pdata->display.regwidth;
-   597	
-   598		display->debug |= debug;
-   599		fbtft_expand_debug_value(&display->debug);
-   600	
-   601		switch (pdata->rotate) {
-   602		case 90:
-   603		case 270:
-   604			width =  display->height;
-   605			height = display->width;
-   606			break;
-   607		default:
-   608			width =  display->width;
-   609			height = display->height;
-   610		}
-   611	
-   612		vmem_size = display->width * display->height * bpp / 8;
-   613		vmem = vzalloc(vmem_size);
-   614		if (!vmem)
-   615			goto alloc_fail;
-   616	
- > 617		const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
-   618		if (!fbops)
-   619			goto alloc_fail;
-   620	
-   621		fbdefio = devm_kzalloc(dev, sizeof(struct fb_deferred_io), GFP_KERNEL);
-   622		if (!fbdefio)
-   623			goto alloc_fail;
-   624	
-   625		buf = devm_kzalloc(dev, 128, GFP_KERNEL);
-   626		if (!buf)
-   627			goto alloc_fail;
-   628	
-   629		if (display->gamma_num && display->gamma_len) {
-   630			gamma_curves = devm_kcalloc(dev,
-   631						    display->gamma_num *
-   632						    display->gamma_len,
-   633						    sizeof(gamma_curves[0]),
-   634						    GFP_KERNEL);
-   635			if (!gamma_curves)
-   636				goto alloc_fail;
-   637		}
-   638	
-   639		info = framebuffer_alloc(sizeof(struct fbtft_par), dev);
-   640		if (!info)
-   641			goto alloc_fail;
-   642	
-   643		info->screen_buffer = vmem;
- > 644		info->fbops = fbops;
-   645		info->fbdefio = fbdefio;
-   646	
-   647		fbops->owner        =      dev->driver->owner;
-   648		fbops->fb_read      =      fb_sys_read;
-   649		fbops->fb_write     =      fbtft_fb_write;
-   650		fbops->fb_fillrect  =      fbtft_fb_fillrect;
-   651		fbops->fb_copyarea  =      fbtft_fb_copyarea;
-   652		fbops->fb_imageblit =      fbtft_fb_imageblit;
-   653		fbops->fb_setcolreg =      fbtft_fb_setcolreg;
-   654		fbops->fb_blank     =      fbtft_fb_blank;
-   655	
-   656		fbdefio->delay =           HZ / fps;
-   657		fbdefio->sort_pagelist =   true;
-   658		fbdefio->deferred_io =     fbtft_deferred_io;
-   659		fb_deferred_io_init(info);
-   660	
-   661		snprintf(info->fix.id, sizeof(info->fix.id), "%s", dev->driver->name);
-   662		info->fix.type =           FB_TYPE_PACKED_PIXELS;
-   663		info->fix.visual =         FB_VISUAL_TRUECOLOR;
-   664		info->fix.xpanstep =	   0;
-   665		info->fix.ypanstep =	   0;
-   666		info->fix.ywrapstep =	   0;
-   667		info->fix.line_length =    width * bpp / 8;
-   668		info->fix.accel =          FB_ACCEL_NONE;
-   669		info->fix.smem_len =       vmem_size;
-   670	
-   671		info->var.rotate =         pdata->rotate;
-   672		info->var.xres =           width;
-   673		info->var.yres =           height;
-   674		info->var.xres_virtual =   info->var.xres;
-   675		info->var.yres_virtual =   info->var.yres;
-   676		info->var.bits_per_pixel = bpp;
-   677		info->var.nonstd =         1;
-   678	
-   679		/* RGB565 */
-   680		info->var.red.offset =     11;
-   681		info->var.red.length =     5;
-   682		info->var.green.offset =   5;
-   683		info->var.green.length =   6;
-   684		info->var.blue.offset =    0;
-   685		info->var.blue.length =    5;
-   686		info->var.transp.offset =  0;
-   687		info->var.transp.length =  0;
-   688	
-   689		info->flags =              FBINFO_FLAG_DEFAULT | FBINFO_VIRTFB;
-   690	
-   691		par = info->par;
-   692		par->info = info;
-   693		par->pdata = pdata;
-   694		par->debug = display->debug;
-   695		par->buf = buf;
-   696		spin_lock_init(&par->dirty_lock);
-   697		par->bgr = pdata->bgr;
-   698		par->startbyte = pdata->startbyte;
-   699		par->init_sequence = init_sequence;
-   700		par->gamma.curves = gamma_curves;
-   701		par->gamma.num_curves = display->gamma_num;
-   702		par->gamma.num_values = display->gamma_len;
-   703		mutex_init(&par->gamma.lock);
-   704		info->pseudo_palette = par->pseudo_palette;
-   705	
-   706		if (par->gamma.curves && gamma) {
-   707			if (fbtft_gamma_parse_str(par, par->gamma.curves, gamma,
-   708						  strlen(gamma)))
-   709				goto release_framebuf;
-   710		}
-   711	
-   712		/* Transmit buffer */
-   713		if (txbuflen == -1)
-   714			txbuflen = vmem_size + 2; /* add in case startbyte is used */
-   715		if (txbuflen >= vmem_size + 2)
-   716			txbuflen = 0;
-   717	
+This allows for a system process with PTRACE_MODE_READ_FSCREDS to
+account the pinned per-process memory via fdinfo.
 
+[1] https://lore.kernel.org/lkml/20210308170651.919148-1-kaleshsingh@google.com/
+
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+---
+ Documentation/filesystems/proc.rst | 22 ++++++++++++++++++++--
+ drivers/dma-buf/dma-buf.c          |  1 -
+ fs/proc/fd.c                       |  9 +++++++--
+ 3 files changed, 27 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 061744c436d9..ad66d78aca51 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1922,13 +1922,16 @@ if precise results are needed.
+ 3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
+ ---------------------------------------------------------------
+ This file provides information associated with an opened file. The regular
+-files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
++files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
++and 'path'.
++
+ The 'pos' represents the current offset of the opened file in decimal
+ form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
+ file has been created with [see open(2) for details] and 'mnt_id' represents
+ mount ID of the file system containing the opened file [see 3.5
+ /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
+-the file.
++the file, 'size' represents the size of the file in bytes, and 'path'
++represents the file path.
+ 
+ A typical output is::
+ 
+@@ -1936,6 +1939,8 @@ A typical output is::
+ 	flags:	0100002
+ 	mnt_id:	19
+ 	ino:	63107
++        size:   0
++        path:   /dev/null
+ 
+ All locks associated with a file descriptor are shown in its fdinfo too::
+ 
+@@ -1953,6 +1958,8 @@ Eventfd files
+ 	flags:	04002
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[eventfd]
+ 	eventfd-count:	5a
+ 
+ where 'eventfd-count' is hex value of a counter.
+@@ -1966,6 +1973,8 @@ Signalfd files
+ 	flags:	04002
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[signalfd]
+ 	sigmask:	0000000000000200
+ 
+ where 'sigmask' is hex value of the signal mask associated
+@@ -1980,6 +1989,8 @@ Epoll files
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[eventpoll]
+ 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
+ 
+ where 'tfd' is a target file descriptor number in decimal form,
+@@ -1998,6 +2009,8 @@ For inotify files the format is the following::
+ 	flags:	02000000
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:inotify
+ 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+ 
+ where 'wd' is a watch descriptor in decimal form, i.e. a target file
+@@ -2021,6 +2034,8 @@ For fanotify files the format is::
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[fanotify]
+ 	fanotify flags:10 event-flags:0
+ 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+ 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+@@ -2046,6 +2061,8 @@ Timerfd files
+ 	flags:	02
+ 	mnt_id:	9
+ 	ino:	63107
++        size:   0
++        path:   anon_inode:[timerfd]
+ 	clockid: 0
+ 	ticks: 0
+ 	settime flags: 01
+@@ -2070,6 +2087,7 @@ DMA Buffer files
+ 	mnt_id:	9
+ 	ino:	63107
+ 	size:   32768
++        path:   /dmabuf:
+ 	count:  2
+ 	exp_name:  system-heap
+ 
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index b1e25ae98302..d61183ff3c30 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -377,7 +377,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ {
+ 	struct dma_buf *dmabuf = file->private_data;
+ 
+-	seq_printf(m, "size:\t%zu\n", dmabuf->size);
+ 	/* Don't count the temporary reference taken inside procfs seq_show */
+ 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+ 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 913bef0d2a36..a8a968bc58f0 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -54,10 +54,15 @@ static int seq_show(struct seq_file *m, void *v)
+ 	if (ret)
+ 		return ret;
+ 
+-	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n",
++	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\nsize:\t%zu\n",
+ 		   (long long)file->f_pos, f_flags,
+ 		   real_mount(file->f_path.mnt)->mnt_id,
+-		   file_inode(file)->i_ino);
++		   file_inode(file)->i_ino,
++		   file_inode(file)->i_size);
++
++	seq_puts(m, "path:\t");
++	seq_file_path(m, file, "\n");
++	seq_putc(m, '\n');
+ 
+ 	/* show_fd_locks() never deferences files so a stale value is safe */
+ 	show_fd_locks(m, file, files);
+
+base-commit: b015dcd62b86d298829990f8261d5d154b8d7af5
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1.124.g0e6072fb45-goog
+
