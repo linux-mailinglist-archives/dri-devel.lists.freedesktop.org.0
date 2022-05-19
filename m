@@ -1,50 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781A552E00C
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 00:35:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 721EB52E016
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 00:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB17611AA01;
-	Thu, 19 May 2022 22:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E281710F289;
+	Thu, 19 May 2022 22:48:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC92611AA00;
- Thu, 19 May 2022 22:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1652999739; x=1684535739;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PHKAsX9pfjklkk6bTEdUjgP+Wh96UOMdmVwKeXu2Bg0=;
- b=c67fSZfe4XZkSymbNXxgxZ1HycqK212zS+gbT2V2nhCBFKqCWbRyUgFf
- Ts6psmy39bmktit4jihQQMih5JVNGU8n0TVRxlfVN/v321EbxXI+qUKUe
- G59bx0AqFQWgl5VtEOPYsIy8IE3LMOCGwHkLdhWj5Sil6bB+EIQfkFdQB
- SyQ1tkv72lwmO/zEwj+TKyTBN1aG/wpCab7Z7jseHCUG96584S88On2MM
- HfggPwThbYB4vIlLNNPnQEYYpscIff3fGg7DOIvvXO6Rk2nHani1kLV4g
- d9lRNjQVhFyOWEX1AeD6ZKzHwGlwiPh3D/sRiHnUwmc2iK1OCdHlJ6CBX A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="252919875"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="252919875"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 15:35:38 -0700
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="743170820"
-Received: from lab-ah.igk.intel.com ([10.91.215.196])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 15:35:36 -0700
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND v6] drm/i915/display: disable HPD workers before
- display driver unregister
-Date: Fri, 20 May 2022 00:35:20 +0200
-Message-Id: <20220519223520.3935225-1-andrzej.hajda@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D357B11A4FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 22:48:56 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-e5e433d66dso8493331fac.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 15:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=gPmJM59HilOSZAiNocBUyn1VGxu9PFrDrw8E4Yeqrfk=;
+ b=Ivbz2PDWtVwyLf0aE9K3mPrsVLOK80ClXfeDGxNsqdlxmI6lf/HqV7VfS+K1pFR238
+ KfAvg7i6sxEPBmB782C8Q6xIoiiz4VrGwKI6qxj4FpHIfeHM7VsU0oaEHwdpWxktouqK
+ 31WAtWkdHxSG3SjDgz+OusBnk+tjWjtiPafIw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=gPmJM59HilOSZAiNocBUyn1VGxu9PFrDrw8E4Yeqrfk=;
+ b=lFVkUJB1qTeYUvuMooCXm3FFEubCYgHn4xeYIm+2Y2i37l3G/iYT+X+3H+nOMDGdeX
+ 0yaCP8O1vysRo5XzBT2nQuv1se4Qqf1g87eloPdr4mvKZOILN64a/Is5/7Spba53Oe2l
+ fXAZe16f8Al8qh/tPlZXnq25GtTjgJdJLKm73G6domq1jx+PUs6JG4NMvisMwH6VFV9O
+ T4/NMk+CxxKmutWjTX0Jnj/kgCNIKzk2Wi6XmVZtGE7hzNsog+aPcdv7z0JthMR9tLm9
+ 4Okut16yZ9ST2Tkv5G1e03nbO3z+fAtVz/VRSqgbsvBJLI7pQMCpwvGUnuiOk3rdJ4js
+ EVLQ==
+X-Gm-Message-State: AOAM530X4IlrSlNMSnnooEl5nyvJnfX4HiHqzB4g4IRU+CWu42qMuYwd
+ w4bxUx4wuUFpEGYxClnz2zw9XkI27Pe2aZZvsdl7LQ==
+X-Google-Smtp-Source: ABdhPJw5ddHxY0cfryu3hgg4S9UcGUCH59iSaeUGGcNe4rzoKsPmMGWR455MyyYyru3KXBJ68SY9LKIemGUmA3oUAE4=
+X-Received: by 2002:a05:6870:240d:b0:f1:b878:e97c with SMTP id
+ n13-20020a056870240d00b000f1b878e97cmr3801393oap.193.1653000536016; Thu, 19
+ May 2022 15:48:56 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 19 May 2022 15:48:55 -0700
 MIME-Version: 1.0
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1652982339-18190-3-git-send-email-quic_khsieh@quicinc.com>
+References: <1652982339-18190-1-git-send-email-quic_khsieh@quicinc.com>
+ <1652982339-18190-3-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 19 May 2022 15:48:55 -0700
+Message-ID: <CAE-0n52ugbZfhP7BTYoo9yt1CMsKTW5uW74GdBNx14cRzj39gA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] phy: qcom-qmp: add regulator_set_load to dp phy
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,94 +68,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handling HPD during driver removal is pointless, and can cause different
-use-after-free/concurrency issues:
-1. Setup of deferred fbdev after fbdev unregistration.
-2. Access to DP-AUX after DP-AUX removal.
+Quoting Kuogee Hsieh (2022-05-19 10:45:38)
+> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp.c b/drivers/phy/qualcomm/phy-qcom-qmp.c
+> index b144ae1..24f39ee 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-qmp.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-qmp.c
+> @@ -5008,6 +5019,11 @@ static int qcom_qmp_phy_com_init(struct qmp_phy *qphy)
+>                 return 0;
+>         }
+>
+> +       if (cfg->vreg_enable_load) {
+> +               for (i = 0; i <= cfg->num_vregs; i++)
 
-Below stacktraces of both cases observed on CI:
+Just less than (<) cfg->num_vregs, not less than or equal to (<=)
 
-[272.634530] general protection fault, probably for non-canonical address 0x6b6b6b6b6b6b6b6b: 0000 [#1] PREEMPT SMP NOPTI
-[272.634536] CPU: 0 PID: 6030 Comm: i915_selftest Tainted: G     U            5.18.0-rc5-CI_DRM_11603-g12dccf4f5eef+ #1
-[272.634541] Hardware name: Intel Corporation Raptor Lake Client Platform/RPL-S ADP-S DDR5 UDIMM CRB, BIOS RPLSFWI1.R00.2397.A01.2109300731 09/30/2021
-[272.634545] RIP: 0010:fb_do_apertures_overlap.part.14+0x26/0x60
-...
-[272.634582] Call Trace:
-[272.634583]  <TASK>
-[272.634585]  do_remove_conflicting_framebuffers+0x59/0xa0
-[272.634589]  remove_conflicting_framebuffers+0x2d/0xc0
-[272.634592]  remove_conflicting_pci_framebuffers+0xc8/0x110
-[272.634595]  drm_aperture_remove_conflicting_pci_framebuffers+0x52/0x70
-[272.634604]  i915_driver_probe+0x63a/0xdd0 [i915]
-
-[283.405824] cpu_latency_qos_update_request called for unknown object
-[283.405866] WARNING: CPU: 2 PID: 240 at kernel/power/qos.c:296 cpu_latency_qos_update_request+0x2d/0x100
-[283.405912] CPU: 2 PID: 240 Comm: kworker/u64:9 Not tainted 5.18.0-rc6-Patchwork_103738v3-g1672d1c43e43+ #1
-[283.405915] Hardware name: Intel Corporation Raptor Lake Client Platform/RPL-S ADP-S DDR5 UDIMM CRB, BIOS RPLSFWI1.R00.2397.A01.2109300731 09/30/2021
-[283.405916] Workqueue: i915-dp i915_digport_work_func [i915]
-[283.406020] RIP: 0010:cpu_latency_qos_update_request+0x2d/0x100
-...
-[283.406040] Call Trace:
-[283.406041]  <TASK>
-[283.406044]  intel_dp_aux_xfer+0x60e/0x8e0 [i915]
-[283.406131]  ? finish_swait+0x80/0x80
-[283.406139]  intel_dp_aux_transfer+0xc5/0x2b0 [i915]
-[283.406218]  drm_dp_dpcd_access+0x79/0x130 [drm_display_helper]
-[283.406227]  drm_dp_dpcd_read+0xe2/0xf0 [drm_display_helper]
-[283.406233]  intel_dp_hpd_pulse+0x134/0x570 [i915]
-[283.406308]  ? __down_killable+0x70/0x140
-[283.406313]  i915_digport_work_func+0xba/0x150 [i915]
-
-Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
-Hi all,
-
-This is resend of [1]. For unknown reason CC-ing ppl did not work,
-so I've decided to resend. I hope this time it will work.
-The patch was already succesfully tested by CI (rev6, rev7 of [1]).
-
-[1]: https://patchwork.freedesktop.org/series/103811/
-
-Regards
-Andrzej
----
- drivers/gpu/drm/i915/display/intel_display.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 806d50b302ab92..007bc6daef7d31 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -10486,13 +10486,6 @@ void intel_modeset_driver_remove_noirq(struct drm_i915_private *i915)
- 	 */
- 	intel_hpd_poll_fini(i915);
- 
--	/*
--	 * MST topology needs to be suspended so we don't have any calls to
--	 * fbdev after it's finalized. MST will be destroyed later as part of
--	 * drm_mode_config_cleanup()
--	 */
--	intel_dp_mst_suspend(i915);
--
- 	/* poll work can call into fbdev, hence clean that up afterwards */
- 	intel_fbdev_fini(i915);
- 
-@@ -10584,6 +10577,10 @@ void intel_display_driver_unregister(struct drm_i915_private *i915)
- 	if (!HAS_DISPLAY(i915))
- 		return;
- 
-+	intel_dp_mst_suspend(i915);
-+	intel_hpd_cancel_work(i915);
-+	drm_kms_helper_poll_disable(&i915->drm);
-+
- 	intel_fbdev_unregister(i915);
- 	intel_audio_deinit(i915);
- 
--- 
-2.25.1
-
+> +                       regulator_set_load(qmp->vregs[i].consumer, cfg->vreg_enable_load[i]);
+> +       }
+>
