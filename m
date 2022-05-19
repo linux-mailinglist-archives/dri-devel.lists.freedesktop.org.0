@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF6552DA27
-	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 18:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F07252DA2D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 May 2022 18:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34ABF10F1BF;
-	Thu, 19 May 2022 16:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E731210F1E8;
+	Thu, 19 May 2022 16:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com
- [IPv6:2607:f8b0:4864:20::e2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3425110F1BF
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 16:27:01 +0000 (UTC)
-Received: by mail-vs1-xe2d.google.com with SMTP id o2so5713770vsd.13
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:user-agent:references:in-reply-to:mime-version:date:message-id
- :subject:to:cc;
- bh=D3BsvTGZmL9aXn8JC2DlxbBhxOaQqmVN5f5pOf4WE4o=;
- b=Wdbve9pVOQfTCQ8qHIZq21Qqz+xsUOAaavE8ZtUJ9EblcqE54EBHnNXjuCxpwYGpor
- x4JgBbxZg77ZEAnCTT0kqlEZ/o/n17D8A0eVw1bfm2qy1z6ki8Rk1os7osw5nwYQtmDJ
- dWe7PFxstS5Yi5ZvCBNqRNNi55N7BlBUXf4UbrdAgQFpVWfVo7+Qk0uy/cnuWKCmsn1F
- B7HDdWZgo2ml5tOL/yDMoTEHgTVr2MA4oll4/SoapPprGkcSufMBge8WouN5+m6vPQ49
- A+4KWf4Mi66zOuv/wwToUPvT+BZC3ilqbBHUO6PSVKpTz/Hmp8QRDEB6XzvnVrGrAt6Y
- o6eg==
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B95610F1CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 16:27:33 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ nk9-20020a17090b194900b001df2fcdc165so9280896pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 09:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=WjosEggMbaFmJXklvpWk1bBVyYWb+47bOUkqzBMuT0A=;
+ b=UKWWfuydr8fT3A8hPCbbDxlaqPyGaSQMcsj64NZjII+BVYfE+JtBP8u3hkzETTv7xx
+ BFVHPGww0iPFBghGB1PtBXNVOqTC3dhJ2e/pQ0W69ZGUbgK48se2PLuNJQYNQJ/kZHA5
+ 0/71W6CzHmhNHyd2YRYWZ1gt7MzTMKCQj/t6d43sx4iCrEMWpbLERMiZUcG/IJvXqU7j
+ Op4otRXSVIUYCtDEZNhLqkowuFTf4qSbJvFynTWlivqOZJcSYeTxkjxe43b0qfMJhG3m
+ yczV8IxNFfALUJ3lhIQv/BVLTNTKauupv+1HDC+wqT1Qqf869JX2lGP5dBaylyw4a3T1
+ hDbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:user-agent:references:in-reply-to
- :mime-version:date:message-id:subject:to:cc;
- bh=D3BsvTGZmL9aXn8JC2DlxbBhxOaQqmVN5f5pOf4WE4o=;
- b=M6NLxb/5DwlRp+SCNx5rjfwTuCn2s3RTkTj12vZ8DsyArDqze6ef92CJZqd+jEyLDl
- TlN8pirCfb3YnbB9Tmaqlk6ZaMusk7b7gybyk2ArXiB/9cLfpPf7W/QKQjxAfn651W1p
- 3wjq0ic652Eo6oNWfjLYIm5MT2Cd5zr1F8K2as6oQlKteL0ORgbpJVwZpO1LO2Kn/d6Y
- cXCQTElUpn8BjD6Hmxkwi95MAQk4TFZuaUwIS855f9UFOSm6mcqelfcybpQEoqR5Y+Zy
- hZfmngIoe7UQzXle1SQs8GuLtiZ42899dppTk+bm4izWLU0NSryFTMjntzEjyrBwM18g
- cuAg==
-X-Gm-Message-State: AOAM531VEXuqbV28Rlk1ER6NmwhoPcyA0QDHnRij/DXtheNSsm4d2DpF
- LJ/Q4m70bp+DzFbkHqdyUrqv9ikc7aGClNhWYxqseA==
-X-Google-Smtp-Source: ABdhPJx+NNr1h6VgTuwMD1Bhi8EcRUBgWUvE0krCGgcnnrPzo4cs17ylt6Dfy/iIo/Qh4cdkDItrCl7KQ2kO/HmmW/M=
-X-Received: by 2002:a67:d516:0:b0:335:c0b5:1e5d with SMTP id
- l22-20020a67d516000000b00335c0b51e5dmr2517279vsj.13.1652977620240; Thu, 19
- May 2022 09:27:00 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 19 May 2022 09:26:59 -0700
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-19-granquet@baylibre.com>
- <20220429083933.q3w75q3zuyyuvo4w@houat>
- <CABnWg9tzhZjrdKT4chkDrY-uH8BMUoxyNLUSwfuG6Sv1J+8ddg@mail.gmail.com>
- <20220512074446.ihilbbnbuwesxbbg@houat>
-In-Reply-To: <20220512074446.ihilbbnbuwesxbbg@houat>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WjosEggMbaFmJXklvpWk1bBVyYWb+47bOUkqzBMuT0A=;
+ b=TZXi/WNOj4Cu8839p1GtTD9oVzel0PG/U1Kw/alv7NsVYbLfFNDD8n00UL3gzeGIgM
+ LyxflSP6ZN0Y3tTxDuioIk3axaWiPiaHm5h3MEAlucy8CMRmMwtGpY+x/xzAwmDZjdFM
+ T8/9V/N4RhrU5pcW64h7R0VOTBqOHodhBLrJ5XgQucqg488sCvr17Gn0TJTaIUVyhAhe
+ IVWoE4uwgzqt6QgTdS/d/b6J38iNEFJYgTFXjYAztQ8pq3r2EQMsqTzNMDSF875HzSsh
+ PAbExuk32/udziFYftp+aiMKeYAMUdwwDn3iDNRtQOL88EVl9BrQQBTKtMHLyrjaRPpE
+ A2Ww==
+X-Gm-Message-State: AOAM533uGDNfGKCrSaG75e3clbVX3O/Y4z8Xglr23f4aKN75deLvevz1
+ pHnOkBVzhhnMgQwwbvvn06Etrg==
+X-Google-Smtp-Source: ABdhPJzDfK2W6t96hRQ9D62TXq3QwSGZOkUfs7W4Usij4gE2WqYZ0qSU8ytNCtAToHux6K6hqLsqMg==
+X-Received: by 2002:a17:902:eccc:b0:161:cad8:6ff5 with SMTP id
+ a12-20020a170902eccc00b00161cad86ff5mr5396740plh.164.1652977652519; 
+ Thu, 19 May 2022 09:27:32 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ n12-20020a63a50c000000b003c619f3d086sm3704536pgf.2.2022.05.19.09.27.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 May 2022 09:27:32 -0700 (PDT)
+Date: Thu, 19 May 2022 16:27:28 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [RFC PATCH v3 04/19] KVM: x86: mmu: allow to enable write
+ tracking externally
+Message-ID: <YoZv8HmRc7tqQbuL@google.com>
+References: <20220427200314.276673-1-mlevitsk@redhat.com>
+ <20220427200314.276673-5-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Date: Thu, 19 May 2022 09:26:59 -0700
-Message-ID: <CABnWg9tHRc_7VZ1z6NeMEDfQvxam_xOimBnM=hzBUqkhzPOSCA@mail.gmail.com>
-Subject: Re: [PATCH v9 18/22] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427200314.276673-5-mlevitsk@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,186 +72,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- kernel test robot <lkp@intel.com>, deller@gmx.de, kishon@ti.com,
- chunkuang.hu@kernel.org, jitao.shi@mediatek.com, tzimmermann@suse.de,
- Markus Schneider-Pargmann <msp@baylibre.com>, chunfeng.yun@mediatek.com,
- robh+dt@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
- markyacoub@google.com
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 May 2022 09:44, Maxime Ripard <maxime@cerno.tech> wrote:
->Hi,
->
->On Wed, May 11, 2022 at 05:59:13AM -0700, Guillaume Ranquet wrote:
->> >> +#include <drm/drm_atomic_helper.h>
->> >> +#include <drm/drm_bridge.h>
->> >> +#include <drm/drm_crtc.h>
->> >> +#include <drm/dp/drm_dp_helper.h>
->> >> +#include <drm/drm_edid.h>
->> >> +#include <drm/drm_of.h>
->> >> +#include <drm/drm_panel.h>
->> >> +#include <drm/drm_print.h>
->> >> +#include <drm/drm_probe_helper.h>
->> >> +#include <linux/arm-smccc.h>
->> >> +#include <linux/clk.h>
->> >> +#include <linux/delay.h>
->> >> +#include <linux/errno.h>
->> >> +#include <linux/kernel.h>
->> >> +#include <linux/mfd/syscon.h>
->> >> +#include <linux/nvmem-consumer.h>
->> >> +#include <linux/of.h>
->> >> +#include <linux/of_irq.h>
->> >> +#include <linux/of_platform.h>
->> >> +#include <linux/phy/phy.h>
->> >> +#include <linux/platform_device.h>
->> >> +#include <linux/pm_runtime.h>
->> >> +#include <linux/regmap.h>
->> >> +#include <sound/hdmi-codec.h>
->> >> +#include <video/videomode.h>
->> >> +
->> >> +#include "mtk_dp_reg.h"
->> >> +
->> >> +#define MTK_DP_AUX_WAIT_REPLY_COUNT 20
->> >> +#define MTK_DP_CHECK_SINK_CAP_TIMEOUT_COUNT 3
->> >> +
->> >> +//TODO: platform/device data or dts?
->> >
->> >DTS :)
->>
->> It's probably going to be a platform_data struct for v10...
->> If I have time, I'll change it to a dts property for v10.
->
->I can't really imagine a case where we would need platform_data
->nowadays. If you have a device tree, then it should be part of the
->binding.
->
->What issue would you like to address by using a platform_data?
->
+On Wed, Apr 27, 2022, Maxim Levitsky wrote:
+> This will be used to enable write tracking from nested AVIC code
+> and can also be used to enable write tracking in GVT-g module
+> when it actually uses it as opposed to always enabling it,
+> when the module is compiled in the kernel.
 
-Ok, I'll migrate to dt then. I didn't realize platform_data were depreciated.
+Wrap at ~75.
 
-Angelo wants the MAX_LINRATE and MAX_LANES defines to be configurable.
-I imagined platform_data would be more appropriate as (per my understanding) the
-limitation is associated with a specific SoC.
+> No functional change intended.
+> 
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  arch/x86/include/asm/kvm_host.h       |  2 +-
+>  arch/x86/include/asm/kvm_page_track.h |  1 +
+>  arch/x86/kvm/mmu.h                    |  8 +++++---
+>  arch/x86/kvm/mmu/mmu.c                | 17 ++++++++++-------
+>  arch/x86/kvm/mmu/page_track.c         | 10 ++++++++--
+>  5 files changed, 25 insertions(+), 13 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 636df87542555..fc7df778a3d71 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -1254,7 +1254,7 @@ struct kvm_arch {
+>  	 * is used as one input when determining whether certain memslot
+>  	 * related allocations are necessary.
+>  	 */
 
->> >> +static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
->> >> +{
->> >> +	return connector_status_connected;
->> >> +}
->> >
->> >I'm not quite sure what's going on there. You seem to have some support
->> >for HPD interrupts above, but you always report the display as
->> >connected?
->> >
->> >I'd assume that either you don't have HPD support and then always report
->> >it as connected, or you have HPD support and report the current status
->> >in detect, but that combination seems weird.
->>
->> The HPD logic needs more work, some things have been broken when I split
->> the driver into three patches eDP - DP - Audio
->> The assumption at first was that eDP didn't need any HPD handling... but it
->> seems I was wrong and the eDP driver needs to be reworked.
->
->That can be made into a patch of its own if you prefer.
->
->You first introduce the driver without status reporting (always
->returning connected or unknown), and then add the needed bits for HPD.
->
->However, that first patch shouldn't contain the interrupt plumbing and
->so on, it's just confusing.
->
+The above comment needs to be rewritten.
 
-After discussing a while with Mediatek, it appears that hot plug detection
-needs to be handled even for eDP... (which is always connected).
-So I'll revert to the split I made earlier in v8 where hot plug detection was
-part of the eDP patch the addition of the External display port was a
-trivial patch [1].
+> -	bool shadow_root_allocated;
+> +	bool mmu_page_tracking_enabled;
+>  #if IS_ENABLED(CONFIG_HYPERV)
+>  	hpa_t	hv_root_tdp;
+> diff --git a/arch/x86/include/asm/kvm_page_track.h b/arch/x86/include/asm/kvm_page_track.h
+> index eb186bc57f6a9..955a5ae07b10e 100644
+> --- a/arch/x86/include/asm/kvm_page_track.h
+> +++ b/arch/x86/include/asm/kvm_page_track.h
+> @@ -50,6 +50,7 @@ int kvm_page_track_init(struct kvm *kvm);
+>  void kvm_page_track_cleanup(struct kvm *kvm);
+>  
+>  bool kvm_page_track_write_tracking_enabled(struct kvm *kvm);
+> +int kvm_page_track_write_tracking_enable(struct kvm *kvm);
+>  int kvm_page_track_write_tracking_alloc(struct kvm_memory_slot *slot);
+>  
+>  void kvm_page_track_free_memslot(struct kvm_memory_slot *slot);
+> diff --git a/arch/x86/kvm/mmu.h b/arch/x86/kvm/mmu.h
+> index 671cfeccf04e9..44d15551f7156 100644
+> --- a/arch/x86/kvm/mmu.h
+> +++ b/arch/x86/kvm/mmu.h
+> @@ -269,7 +269,7 @@ int kvm_arch_write_log_dirty(struct kvm_vcpu *vcpu);
+>  int kvm_mmu_post_init_vm(struct kvm *kvm);
+>  void kvm_mmu_pre_destroy_vm(struct kvm *kvm);
+>  
+> -static inline bool kvm_shadow_root_allocated(struct kvm *kvm)
+> +static inline bool mmu_page_tracking_enabled(struct kvm *kvm)
+>  {
+>  	/*
+>  	 * Read shadow_root_allocated before related pointers. Hence, threads
+> @@ -277,9 +277,11 @@ static inline bool kvm_shadow_root_allocated(struct kvm *kvm)
+>  	 * see the pointers. Pairs with smp_store_release in
+>  	 * mmu_first_shadow_root_alloc.
+>  	 */
 
->> >> +static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
->> >> +				    struct drm_connector *connector)
->> >> +{
->> >> +	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
->> >> +	bool enabled = mtk_dp->enabled;
->> >> +	struct edid *new_edid = NULL;
->> >> +
->> >> +	if (!enabled)
->> >> +		drm_bridge_chain_pre_enable(bridge);
->> >> +
->> >> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
->> >> +	usleep_range(2000, 5000);
->> >> +
->> >> +	if (mtk_dp_plug_state(mtk_dp))
->> >> +		new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
->> >> +
->> >> +	if (!enabled)
->> >> +		drm_bridge_chain_post_disable(bridge);
->> >
->> >Are you sure we can't get a mode set while get_edid is called?
->> >
->> >If we can, then you could end up disabling the device while it's being
->> >powered on.
->>
->> I'm a bit unsure, I need to spend more time in the drm stack to make sure.
->> I'll get back to you when I have a definitive answer.
->
->So, it looks like it's ok.
->
->get_edid is your implementation of get_modes, which is called by
->drm_helper_probe_single_connector_modes
->
->https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_probe_helper.c#L416
->
->This is the standard implemantion of fill_modes, which is called
->whenever the get_connector ioctl is called (or similar paths, like
->drm_client_modeset_probe)
->
->drm_helper_probe_single_connector_modes is under the assumption that the
->mode_config.mutex is held though, and that the big lock. So it should be
->serialized there.
->
->Just for future proofing though, it would be better to use refcounting
->there. Would runtime_pm work for you there?
->
+This comment also needs to be rewritten.
 
-Thx for looking into this for me.
-Not sure runtime_pm works here as it would only refcount if compiled
-with CONFIG_PM?
-I'd rather use the enabled field as a refcounter instead of a boolean.
+> -	return smp_load_acquire(&kvm->arch.shadow_root_allocated);
+> +	return smp_load_acquire(&kvm->arch.mmu_page_tracking_enabled);
+>  }
 
-Unless I'm totally missing your point?
+...
 
-Thx,
-Guillaume.
+> diff --git a/arch/x86/kvm/mmu/page_track.c b/arch/x86/kvm/mmu/page_track.c
+> index 2e09d1b6249f3..8857d629036d7 100644
+> --- a/arch/x86/kvm/mmu/page_track.c
+> +++ b/arch/x86/kvm/mmu/page_track.c
+> @@ -21,10 +21,16 @@
+>  
+>  bool kvm_page_track_write_tracking_enabled(struct kvm *kvm)
 
->> >> +static void mtk_dp_parse_drm_mode_timings(struct mtk_dp *mtk_dp,
->> >> +					  struct drm_display_mode *mode)
->> >> +{
->> >> +	struct mtk_dp_timings *timings = &mtk_dp->info.timings;
->> >> +
->> >> +	drm_display_mode_to_videomode(mode, &timings->vm);
->> >> +	timings->frame_rate = mode->clock * 1000 / mode->htotal / mode->vtotal;
->> >
->> >drm_mode_vrefresh()
->> >
->> >> +	timings->htotal = mode->htotal;
->> >> +	timings->vtotal = mode->vtotal;
->> >> +}
->> >
->> >It's not really clear to me why you need to duplicate drm_display_mode
->> >here?
->> >
->> It's saved to be re-used in mtk_dp_set_msa().
->> It's not ideal, I'll check if I can get the mode directly from mtk_dp_set_msa()
->
->Yeah, it looks like mtk_dp_set_msa() uses fairly straightforward values,
->this will be just as easy with drm_display_mode.
->
->Maxime
+This can be static, it's now used only by page_track.c.
 
+>  {
+> -	return IS_ENABLED(CONFIG_KVM_EXTERNAL_WRITE_TRACKING) ||
+> -	       !tdp_enabled || kvm_shadow_root_allocated(kvm);
+> +	return mmu_page_tracking_enabled(kvm);
+>  }
+>  
+> +int kvm_page_track_write_tracking_enable(struct kvm *kvm)
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220218145437.18563-17-granquet@baylibre.com/
+This is too similar to the "enabled" version; "kvm_page_track_enable_write_tracking()"
+would maintain namespacing and be less confusing.
+
+Hmm, I'd probably vote to make this a "static inline" in kvm_page_track.h, and
+rename mmu_enable_write_tracking() to kvm_mmu_enable_write_tracking and export.
+Not a strong preference, just feels silly to export a one-liner.
+
+> +{
+> +	return mmu_enable_write_tracking(kvm);
+> +}
+> +EXPORT_SYMBOL_GPL(kvm_page_track_write_tracking_enable);
+> +
+> +
+>  void kvm_page_track_free_memslot(struct kvm_memory_slot *slot)
+>  {
+>  	int i;
+> -- 
+> 2.26.3
+> 
