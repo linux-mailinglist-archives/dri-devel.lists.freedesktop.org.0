@@ -1,123 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C7352E4FA
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 08:29:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6464C52E6C1
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 09:59:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D4411ACAC;
-	Fri, 20 May 2022 06:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63CE911B7AA;
+	Fri, 20 May 2022 07:59:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2045.outbound.protection.outlook.com [40.107.102.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4453611ACAC
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 06:29:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZUgcfFT8R+wKxNEb7QThBqUreTWQ8g7RORP7vhl9jZoNh+VekzJw1YHjPtl3nt0EGffcOer6+B7OcZZOuTt+7paSXHDlVajpgY989jK2iaTzNgT+gLgjs0VIi6El35YcWnyNN1qBKXut3XTIsh1M9dKgQhdsK88xXRPo3dVGsFKj5V+OjUqpWtGLDaUPeVXBX3uGH2l7HjESAX8XyvvpmHuhHHz/h31IcMigavTvSZWOkJ7TIUn1mWqUSRQ6fwtbhODDvu8pAPmGT0G8Tkwci3UnMGwr5SIo+2+aVXX1AbZS2eMicKstOsAFgt/5OFLjRrkkCosnsxbIFLR4tXhLeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RbHbPLiJpa/HyDLtdxyhgztgfUdoVwbXkv5/zsw6aMc=;
- b=Nb/floog+tdkwjAsr91wF0e41a0ePTa1x8D0RYsuwRfLgVlNytToeJMuQYuuSBF5E6gRUVaSbhpEZMjWw/q8QsEQCxWSDS2FfBnRQGRnh26UTZa6MguCSoOFNoWIZ4HfRWsxXoyZIYleWQprkwdmwdw7OFXNfp/K1y4KUjopacBqeA4Ka6ACMU1iycbzna9ewpuAWXSQVtphO2TqU4mUMK0ZUBdoX5UVzfLBlZz49FQ3xk3d9LTU0Pzim2HQGNhqtFoxHKyAlPF/sPMLQo3AgXmlYt0kqlw4/h8Ljqrqo8yRdp6+/Zt2Q4kcbI4hu26Hg4dlpzfBHFF0Ji09aKuvuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RbHbPLiJpa/HyDLtdxyhgztgfUdoVwbXkv5/zsw6aMc=;
- b=wDFoZX7f+GbIDbwh2aLsmBYZClvIV4zVvTC1DicTDAoOn2fK3ttEBAEqLsaZobxX+35t/A82EbsqJWrhWQWDdHT8X56HRPF4h2LMF2zqtK4g0cUH7wZVD9ODyJWq553bxJThpPC5VSgMYXF4B1szqO5WHuFjpulJJP7fQbr75fc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN6PR12MB1315.namprd12.prod.outlook.com (2603:10b6:404:1f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.16; Fri, 20 May
- 2022 06:29:26 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7146:65ee:8fd3:dd03]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7146:65ee:8fd3:dd03%4]) with mapi id 15.20.5273.017; Fri, 20 May 2022
- 06:29:26 +0000
-Message-ID: <4e35dc30-1157-50b3-e3b6-954481a0524d@amd.com>
-Date: Fri, 20 May 2022 08:29:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
-Content-Language: en-US
-To: Kalesh Singh <kaleshsingh@google.com>
-References: <20220519214021.3572840-1-kaleshsingh@google.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220519214021.3572840-1-kaleshsingh@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6PR04CA0050.eurprd04.prod.outlook.com
- (2603:10a6:20b:f0::27) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from sonic317-22.consmr.mail.gq1.yahoo.com
+ (sonic317-22.consmr.mail.gq1.yahoo.com [98.137.66.148])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5988A10F398
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 06:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netscape.net; s=a2048;
+ t=1653029971; bh=nAiiF/gaLx9YvHz1WBDFG9vBQFV8yYAG36DVxtUDGKg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=tLvZ3yzsCHOuV4WrX1KecYXs0pEIszI6bSoNzA1XE25GAU6V3pjIWuolHmY8padgkyekUiCsDaaE5QLypBFyYaxojzCWKxb1HJWRAAAWl8pTnJQzt91y4vddc0IkD9w+njtNwZxCGvjEM1955itIu76Fb4NkqaHPuzHRbySgIf/DSF01Zyn2MHsIE/fPPBHDRK9XxDjiz9wBqyqgy62WqZ59RZmQnDjG7X2UZ50N382AbyBV6BPqT50BZuatq78Oo6yxhouXC1BATI/ki9vBlszgc4BlDGSJCCyTVLHFwU0I8EDZQ0s/iS6i5KKQkoCO0ekSFRqhnES/hqkrMwOe2g==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1653029971; bh=qaC13H91UDc+VejYtnG4e4YoYUKSODRWjrwz7203O68=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=FBLtiV+7nG53sWH4vtivDlRsiQ7U9+H2O82e70byZhBu5q513G53nK2/vCRSAif2sFdKprG9M+VRbaSbxlPyjl8LeNIz4DVevl8m2I2aZVeTyV2zvt5JQ77fThijKOQjnX1jAM4vlFIsupDo53wkuhtSUATJWbIySkBTNAO90VV6Syv0Uk6qvAz1skwaI68hOtJ5RPindoD85fX5QgLH6b3Y91hDwRqCdlFX6bPvo23x9kojLsRd5jbpQHrEwWSk27ukIFwhqZm3KJ3OGRpbvezesfwLya8R/u1asItlsDqQnmRKsC6ODgy4H4wjahYYmEHyxNjnldMHwWkhM2+JDA==
+X-YMail-OSG: 7xtcaasVM1lx5OMihPL.hTlRrM1A8gAiFAluZtMNuTWzcGcv870G4vhNQPZRIZS
+ ilxDgYTnY6Km_vUamZlf4scV5t21_TYQ3L18f1vS8IF2oTF0jrqEYdQWjiwAD_po1Durvana8z9k
+ S5Nmu0gvJnezglWTF1P5xNECJtfXsYc75paLHUVCjR0eSwSKmztMsmNOGlP4eTVqXq.1NeSkl2g6
+ QvsEqSV3DWHURxjOEGXk68nRQY7hkY4U_3rrBNbxF9HlnxTDidZ2eU2uaytTPAaBYX8PLyMD6KfI
+ 8Qh4i6fIEQj27ZDyuBs7D2ejdSKXAawjuo0c1F_4jIJPUIIlLcYEmzlDXWaL6ryL_Nn3VPbreDzz
+ acD1Z73p_3ufdSev_GUX8DiMfR0Etah7zgfP_jGUa6ctalbF3NcnUck3NqSjO4iH.pT4IVDoO4g.
+ SsDFxvhI9kx1Qyw6q_YBnuCSE7Sa7PYi_Yg3g6Qoe5HDOXcze8BWT91QRrax9983YrQDuhSKcY1O
+ FdXs0nHPgFowx47xZOC5eoVOqmgT0DUEtE3FbioTjwoJuuX4IRGwookpeDxxLzS5xQ23QLdHNZen
+ DSCh3o5wUhfR1bgjTg7XORYgXc4GlXiKAU2svD41dsQIT3WB73cC88lcP_0Hm1P8cfEV1bXDqTV3
+ ITLSOplghvQymnxjEv7gLH0nca9XmBaeoLje_SBduuVgJX5rpoTIDZJs7d757Ic.vVqkIuSFTXrZ
+ 95Op_O8e1Oz7YS7rOcy8FJFk59NED_KjHBGe3mu61MCrFpN.4L7W.6eYBqL3se5ksp6w5LBerJqd
+ 98sTqB5wG70a5sA.SkXOG.S7wx3faRCL8J0XNFTNQluhnilgXbwIdL99WmBXkVgRFEJnafwoRYCa
+ Z8k8yUTnb7ckMJmZejnNq.b_hYLG41aZSXjzaveOZH3OXxuoL46_tQ3EQteu4jJ2yY5_eHWNYqat
+ Ri_jkXOsmNcD9_pr3VJITniq2Jn0ZNTY8ZJyraIM_M3PhVkaE8dI711kZ70YCzZRKnsyzq8exphZ
+ B_cnxDyPJIT88zju7u81eNctVt2ora4rVYrzPIptRU2HUhOW8_Jpkd4rN6vi5vs95cDPQkGnDaRQ
+ ZI_bObcrELFaOZ.ky3MZCLJp6K0gd5EdjeRdhKqtOS5f_hMeX5yiXP0lyRF0g4sswTTDKCUs7lAx
+ pwd9mINEq07kqdrZrVC3DKO.aFwFB.KjlW2lsgjl30OXphrTnlTNPkDt2Wb4BTKAzIAW1Zjl_0WD
+ Lc9vaypKYJ.vBO4ssOTh7KKvkv3JP1Mfu4jr6Tp70GE05I3QfJLghqxMzOtj5KlGj0FhcTLH3kcc
+ 0IiuJDtyjAgcQDU6zykDmf1SX.Rm_t1WgWrZ.bQ4vGk3ln56eftNhkBkewlMVT1iUaXlqUcwH8F4
+ wV.KlsDBRfUyrcfzEK.eatnVe_TNlQ1yxBd2rqjsl_vZfDPrYG8HywXgOSAlNHm_2VPX6NkoM5xT
+ 6G1N5lhaTXs1mXbT_F.3sWbISjecItVM5zKDNADFOjEW9MKOA_J1Ckgw37pIdFWPpVhtOcoG1qYT
+ oU2EALUQZ66qle9q5H50ck6o2jWgsQi5EAl6W2PzLXmdVGhFNcVHWk7lrkHcT6RgtE4gknfAi.12
+ h3C6m8F8CgMfO3GQ.5yxgl0wAxslMHGGqQU9FrpNecAJ4a88Aw9Zrk2rEUlB5iRePZiiA0t3DoE.
+ 2.egF7I7_T9cyNZyFPTsAdZGsAEn0ifH91EgCZvRvLy.Xa8M.pfNLN30TVHGYVRvzxijxcdXqDs1
+ g_20vFXNo.n824fOAMKq0yXKWg9ribjIxu.T69RwZAmsFFqtpMknS1OGHnsJrnb3T6vqsPYMMMMd
+ zP_8BlykH.soKnXEJY4YgY8NIWMLPXX1Oc7JaR7b5AkfNAHtJQZtGYFBo16RnUAFioTGM9vcij1D
+ RRNZbLbpvVkLOLeIffNQeqeQTJo3W2e9pZ2Ti6zWPvU0AY9fFGcYWPxmB8h4SKJmLat4MVnUGLcs
+ nmFw4uL21s9Hsiyb987egxLFul1L_70Jt7rQ.u3GuQX9BJ4GHNlmWJs0RI6iMrCRFWoyYmZNxO_P
+ aCcQdZDnCbMIIIFMaeYgF77GZlIzio6lCsPkWxOdUI7epcuPKOA0a97onBFS.bRWfb37uNZ0H8Au
+ ckQZogbtCcbzM4DuVH2c_hb_2GQhNuLSq72OSZ.m__vZtFIQwCLL6hH1jYdSlZbes5DIhL58aF2x
+ Z5C82
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic317.consmr.mail.gq1.yahoo.com with HTTP; Fri, 20 May 2022 06:59:31 +0000
+Received: by hermes--canary-production-ne1-5495f4d555-xgn59 (Yahoo Inc. Hermes
+ SMTP Server) with ESMTPA ID 077428ea294e9eca2cd83f945fe6833b; 
+ Fri, 20 May 2022 06:59:14 +0000 (UTC)
+Message-ID: <8b1ebea5-7820-69c4-2e2b-9866d55bc180@netscape.net>
+Date: Fri, 20 May 2022 02:59:11 -0400
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 40043f3e-713e-4085-ce2f-08da3a2a15e3
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1315:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR12MB131550335EABD2DC65C3FAA883D39@BN6PR12MB1315.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d14YZn+irmJVw34RjNcmW/gCfI3fQ87go371MwkzyiYWn6Ub+//5nuMkUQYZ1SSWQuPUCrUYz/sHws1p3Uo4olFMkteDLWEYEY/H0u3ME0yk0T1l6TGDUSL/IO0NzvLExg1SG67agPM07OWYzW9DJXd0rOSKcoJ+NQdndiliaZuT+uOHUTtTd37EGTw3tgo5ZMCtC0nHW0PCMJA21KfTgGrLZSRpklnyU7GJt46uSb8oDsBiHEe5MIEoT1haUdpXEeVktO2t/HEQZVaovLmhuVKwsirSxeOu/3cQceh7TdWqmO7TmOVLE3n+XgFNxD88B5JMpyZuC3JBM4uAwABN2Pj6fbGufevnvyIuij62uaI6Pnq71Mg0ANRzbg2g+Ax/cBVp38OoNafMwBSRYnMliOcrbVd+t61s3+3GUyXB9fD8Pj9H/0Iu3Wwc1WwbgRBj5Rf7rJFj3gSElhPVgZz+KmOdHwC6WFESqZo5BPwE6ysGQyM+MZozN5Kp53zu8rKNQWWJz/Co1N3yXhVhxo501Kup9iuDtybXQz29SDzbIKsM9BzJMgCS426K7joN4ryP0aC6spTmKfEKZcADCF0qYfTQn0JB0vhO70lTmq94m0LlWOpZsNIQZmCv1zKKDZUAcFzqSrkEKWQdqIWAKU1O/f0va5ZyPkJIF6RFEIE5C3IAG56jb9tMtTLUuOl7g/4eQJNRPFkHenwA4q/H2fQdy72fwNWvfNDNbm5u9R73e3GOdu8SkQKnrXTRDgNFH3W/NLAndzSV3rD9UZAecwkc84nDYydZaPBsT4UiRVgX3H3n0WjK8NIMy4pmUE8y3oOGUiyOVfTDfSnIF/c9B0xMg8X4g9tiRAt0eQ1F8SCc+rE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(83380400001)(2906002)(36756003)(8676002)(4326008)(2616005)(6506007)(6486002)(966005)(7416002)(8936002)(6512007)(66556008)(54906003)(66946007)(5660300002)(508600001)(45080400002)(38100700002)(86362001)(316002)(66476007)(31696002)(6666004)(6916009)(31686004)(186003)(21314003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXp1ZkRMVU9NRmZCSzdGMGlzazFnVHBTVEVYQmhUNEdBU01EcjM3Z29QV2dt?=
- =?utf-8?B?ajBZdjUvSUdjbXFaT0xIYmJEeFoybXQxbmMya1MwaEkrbXhjWWptdU5KYi9S?=
- =?utf-8?B?THIwRGwrMmNheU1PTG5BZlhreFpxTnhKNnZ1QXc1UTdSNm5tejhEbmdCeXdN?=
- =?utf-8?B?anIrZ0E2Ti8valdmRHA2ZU5KM244OXBnclpQVG9TRXkvNE41cFFrQVRta0p0?=
- =?utf-8?B?MXhqeHBTaWx0dWlGbHVZSHJtMi83YW1Ld1RqYXJnWGVFQ2RjQ25DOW9ITXdp?=
- =?utf-8?B?cWJNQS9DMTdvVXIvcTJlb3dkOWVmY3VSTEFRQzNtRlNlcmgrQWQyNjdPQjZE?=
- =?utf-8?B?bzJPZncvVFlXTWRtaXVNUGwwWTZCZEFGSEFWUTRwL3ArYmJUWVNKNXpyTHpK?=
- =?utf-8?B?OThJRlZ0R2pOUnZDSTVWbkJZTmlzcFZ1YmpHeGUvcmQyb2Z0MVVwdVJ2QjJG?=
- =?utf-8?B?U0tzb2VIZTVzUEprWXFZQUlGUnlLMmsyU1crVVp1aDZ1TTgyY0RmMjBZMndT?=
- =?utf-8?B?TUtTNmQ2M1prcDFHQ2JhWDlUd002TGlRZUI2d2VQb25kTDJaa2ZGUTdqWWN1?=
- =?utf-8?B?RWlkeEY4bE5OZ1JFWDRxNUx2Nm5kUjhOKzhCMnlvanpGN0NPTlJjMWxYdGt6?=
- =?utf-8?B?Nm9OdStadFk5T1NQRndBTSsyTXVhc2J4YVFFYTYxckRkSVNzK25xTllMbFJi?=
- =?utf-8?B?dEdNdHlPd2tZWWRWMjdJY2haUzlVWWVUZnR1b2cxV29DRnZXdWJ3OUlLM0ZP?=
- =?utf-8?B?R292T3k5NlMydXVyNHBrZEY4VTBzM2RpK2NFTGpHRmtEdWJNczlHMGVRNmQy?=
- =?utf-8?B?bkRKYnFFNFJqVUN0MFlaWnVIRnQ5eHlhNHhBaDZYaUVWZElEWU5WYkZ5cU0y?=
- =?utf-8?B?dzBGZUYrT0NlVEx1VE44NjRYZ0EzSDZsaEY0TWZtS3pmNTE3ckZhS1dyWktN?=
- =?utf-8?B?ZVFFMUVjTUNJbUxmbzF5dkREQU0zUkxYd2Y0S2w0K3MzWDdLbTZnR3h6cEd1?=
- =?utf-8?B?Z0lpbFA5WEh0NzBLcHQxQnlFUnJPZVFHSDlGdmUyazRGUFNHZGxleTdnK3RM?=
- =?utf-8?B?cVJQbkp2S1BhS3Y2Wnk3SGF0V3d3dHd0NU93MmsxOTRtZnJFK3lLb0ZYRXhS?=
- =?utf-8?B?U1FYcFhUUnV6V09NcnNEZ2VJdmJTZ2NYOWE2TXZSaG4rckEwSmhlNG5KL0dp?=
- =?utf-8?B?K3FyZDAxNjFYNHNBZzUwc1VkWnUvcGZVVEV5UE90SU1nUjdKZnVrd0xJcTA3?=
- =?utf-8?B?ODB2YVMvSFhqSW5wTWtVZk1BNE9EcFlaMkM3RGl3RVQxaWhUU0lvRndzNWJs?=
- =?utf-8?B?d0QxVkhHcFljU0VkMFJxRmg2bml2WWNGVFZEWnNDWGovQUx3aUJxckpmMG00?=
- =?utf-8?B?WW0xR0hjMzN4NFFhUk9Jek40Ujg4dFdTTXlXV29xZjVTVnNzVjhDK1QrU0Ro?=
- =?utf-8?B?WDExZDZhS2I1dnZhZ0ZkeHhXVkgraWJTSytyQzQ0ODdTWWxYNm5GVFNjbnBG?=
- =?utf-8?B?TXVXbVd1dTczbXQrK2h2L0wvY2FjbmltU0s1RS96R1YyditnaC9zZHpPeXlX?=
- =?utf-8?B?aVAwOU1GWmlZQWhMOUg3ek52REdlaXhoeUdGVXpPTkttcndQVzF2NDdRZ01Q?=
- =?utf-8?B?bGl3bytXeGc0aStPQTJkM29Ic20yUnBnbUFSUTFEVDFzQ3A1VDVqWFo4a0xs?=
- =?utf-8?B?dDI0aVVOUll2K0hWVFNZbmNkanFGOWI1Y2VydmZaOGRPNVpqRzZmbVplMk1x?=
- =?utf-8?B?d050QVVjajROZUt0QjFINk5hNFZJRk5mNGlxTUN2VnhFZ3hZU2NpaEUyZUI5?=
- =?utf-8?B?bGFDV2x3L3ZnVVlsSnRvUnIyaktjQisyNm00RCtsSXgvYXR6Vit3YzdaWlcv?=
- =?utf-8?B?cmQ4d2RkL0Z3Rm9Kc3pkYjM0TVFGZGpmYzZIYTVwOWgrREEzZFd4SFd1Qm1T?=
- =?utf-8?B?K2daR29NeEVrQndXWVlKV1BjNTZtQTdHdFN6dGk4MzczMlpaSXNHbldSUXFD?=
- =?utf-8?B?N0NHTGd1ZDdlZTlTNXYzcGpoMnFzWngwSmk0OUUzaU5sUUUrSlBnZi82ZG94?=
- =?utf-8?B?cUNGYkhRb29nU1JTaHBXbEdPTlNJZm5semwrb0ZqY2pNc2o1RUZKMC9LWkw1?=
- =?utf-8?B?UXJWY0I3WGZXNTNTMHl5amxZWTR4QXZWVWx1LzlPOFh4ZkFwczY3VjB0Vm9Q?=
- =?utf-8?B?Q0QzcGtqckI2QjlaMzZHc01oUlM1KzQ5Z0NrTWZLR3c0ejYrZzVrQXE0U1BF?=
- =?utf-8?B?RGtzMmtZd2RiUjliRXJLbmFwS0dvOTBOZStOU040ODN1WWI5MWo0TjJUQnJU?=
- =?utf-8?B?UmRrb2FrclpDbCs0Z25sSWp0endGN2kvaVBvUm94NmtiSHRpOTJwYlpCZjF5?=
- =?utf-8?Q?VhoBvsR6+H+F767+5Tp6Y3wCyG55ZeafLeU35Apumovd8?=
-X-MS-Exchange-AntiSpam-MessageData-1: 9U5E0eeqH8uiLg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40043f3e-713e-4085-ce2f-08da3a2a15e3
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2022 06:29:25.8978 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GlAlIRkuByxzRffjDqYa46Xl5xpGJeJpAu551ByIULurg5UBvsqCKr9DnAnm2k9a
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1315
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/2] x86/pat: add functions to query specific cache mode
+ availability
+Content-Language: en-US
+To: Jan Beulich <jbeulich@suse.com>
+References: <20220503132207.17234-1-jgross@suse.com>
+ <20220503132207.17234-3-jgross@suse.com>
+ <1d86d8ff-6878-5488-e8c4-cbe8a5e8f624@suse.com>
+ <0dcb05d0-108f-6252-e768-f75b393a7f5c@suse.com>
+ <77255e5b-12bf-5390-6910-dafbaff18e96@netscape.net>
+ <a2e95587-418b-879f-2468-8699a6df4a6a@suse.com>
+From: Chuck Zmudzinski <brchuckz@netscape.net>
+In-Reply-To: <a2e95587-418b-879f-2468-8699a6df4a6a@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20225
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+X-Mailman-Approved-At: Fri, 20 May 2022 07:59:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,212 +92,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- kernel-team@android.com, Randy Dunlap <rdunlap@infradead.org>,
- ilkos@google.com, linux-kernel@vger.kernel.org,
- Colin Cross <ccross@google.com>, tjmercier@google.com,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- surenb@google.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Mike Rapoport <rppt@kernel.org>, linux-media@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
+ Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ xen-devel@lists.xenproject.org, Thomas Gleixner <tglx@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 19.05.22 um 23:40 schrieb Kalesh Singh:
-> Processes can pin shared memory by keeping a handle to it through a
-> file descriptor; for instance dmabufs, memfd, and ashsmem (in Android).
+On 5/20/2022 2:05 AM, Jan Beulich wrote:
+> On 20.05.2022 06:43, Chuck Zmudzinski wrote:
+>> On 5/4/22 5:14 AM, Juergen Gross wrote:
+>>> On 04.05.22 10:31, Jan Beulich wrote:
+>>>> On 03.05.2022 15:22, Juergen Gross wrote:
+>>>>> Some drivers are using pat_enabled() in order to test availability of
+>>>>> special caching modes (WC and UC-). This will lead to false negatives
+>>>>> in case the system was booted e.g. with the "nopat" variant and the
+>>>>> BIOS did setup the PAT MSR supporting the queried mode, or if the
+>>>>> system is running as a Xen PV guest.
+>>>> ...
+>>>>> Add test functions for those caching modes instead and use them at the
+>>>>> appropriate places.
+>>>>>
+>>>>> Fixes: bdd8b6c98239 ("drm/i915: replace X86_FEATURE_PAT with
+>>>>> pat_enabled()")
+>>>>> Fixes: ae749c7ab475 ("PCI: Add arch_can_pci_mmap_wc() macro")
+>>>>> Signed-off-by: Juergen Gross <jgross@suse.com>
+>>>> ...
+>>>>
+>>>>> --- a/arch/x86/include/asm/pci.h
+>>>>> +++ b/arch/x86/include/asm/pci.h
+>>>>> @@ -94,7 +94,7 @@ int pcibios_set_irq_routing(struct pci_dev *dev,
+>>>>> int pin, int irq);
+>>>>>        #define HAVE_PCI_MMAP
+>>>>> -#define arch_can_pci_mmap_wc()    pat_enabled()
+>>>>> +#define arch_can_pci_mmap_wc()    x86_has_pat_wc()
+>>>> Besides this and ...
+>>>>
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>>> @@ -76,7 +76,7 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void
+>>>>> *data,
+>>>>>        if (args->flags & ~(I915_MMAP_WC))
+>>>>>            return -EINVAL;
+>>>>>    -    if (args->flags & I915_MMAP_WC && !pat_enabled())
+>>>>> +    if (args->flags & I915_MMAP_WC && !x86_has_pat_wc())
+>>>>>            return -ENODEV;
+>>>>>          obj = i915_gem_object_lookup(file, args->handle);
+>>>>> @@ -757,7 +757,7 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
+>>>>>          if (HAS_LMEM(to_i915(dev)))
+>>>>>            mmap_type = I915_MMAP_TYPE_FIXED;
+>>>>> -    else if (pat_enabled())
+>>>>> +    else if (x86_has_pat_wc())
+>>>>>            mmap_type = I915_MMAP_TYPE_WC;
+>>>>>        else if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
+>>>>>            return -ENODEV;
+>>>>> @@ -813,7 +813,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device
+>>>>> *dev, void *data,
+>>>>>            break;
+>>>>>          case I915_MMAP_OFFSET_WC:
+>>>>> -        if (!pat_enabled())
+>>>>> +        if (!x86_has_pat_wc())
+>>>>>                return -ENODEV;
+>>>>>            type = I915_MMAP_TYPE_WC;
+>>>>>            break;
+>>>>> @@ -823,7 +823,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device
+>>>>> *dev, void *data,
+>>>>>            break;
+>>>>>          case I915_MMAP_OFFSET_UC:
+>>>>> -        if (!pat_enabled())
+>>>>> +        if (!x86_has_pat_uc_minus())
+>>>>>                return -ENODEV;
+>>>>>            type = I915_MMAP_TYPE_UC;
+>>>>>            break;
+>>>> ... these uses there are several more. You say nothing on why those want
+>>>> leaving unaltered. When preparing my earlier patch I did inspect them
+>>>> and came to the conclusion that these all would also better observe the
+>>>> adjusted behavior (or else I couldn't have left pat_enabled() as the
+>>>> only
+>>>> predicate). In fact, as said in the description of my earlier patch, in
+>>>> my debugging I did find the use in i915_gem_object_pin_map() to be the
+>>>> problematic one, which you leave alone.
+>>> Oh, I missed that one, sorry.
+>> That is why your patch would not fix my Haswell unless
+>> it also touches i915_gem_object_pin_map() in
+>> drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>>
+>>> I wanted to be rather defensive in my changes, but I agree at least the
+>>> case in arch_phys_wc_add() might want to be changed, too.
+>> I think your approach needs to be more aggressive so it will fix
+>> all the known false negatives introduced by bdd8b6c98239
+>> such as the one in i915_gem_object_pin_map().
+>>
+>> I looked at Jan's approach and I think it would fix the issue
+>> with my Haswell as long as I don't use the nopat option. I
+>> really don't have a strong opinion on that question, but I
+>> think the nopat option as a Linux kernel option, as opposed
+>> to a hypervisor option, should only affect the kernel, and
+>> if the hypervisor provides the pat feature, then the kernel
+>> should not override that,
+> Hmm, why would the kernel not be allowed to override that? Such
+> an override would affect only the single domain where the
+> kernel runs; other domains could take their own decisions.
 >
-> In the case of a memory leak, to identify the process pinning the
-> memory, userspace needs to:
->    - Iterate the /proc/<pid>/fd/* for each process
->    - Do a readlink on each entry to identify the type of memory from
->      the file path.
->    - stat() each entry to get the size of the memory.
+> Also, for the sake of completeness: "nopat" used when running on
+> bare metal has the same bad effect on system boot, so there
+> pretty clearly is an error cleanup issue in the i915 driver. But
+> that's orthogonal, and I expect the maintainers may not even care
+> (but tell us "don't do that then").
 >
-> The file permissions on /proc/<pid>/fd/* only allows for the owner
-> or root to perform the operations above; and so is not suitable for
-> capturing the system-wide state in a production environment.
+> Jan
 >
-> This issue was addressed for dmabufs by making /proc/*/fdinfo/*
-> accessible to a process with PTRACE_MODE_READ_FSCREDS credentials[1]
-> To allow the same kind of tracking for other types of shared memory,
-> add the following fields to /proc/<pid>/fdinfo/<fd>:
->
-> path - This allows identifying the type of memory based on common
->         prefixes: e.g. "/memfd...", "/dmabuf...", "/dev/ashmem..."
->
->         This was not an issued when dmabuf tracking was introduced
->         because the exp_name field of dmabuf fdinfo could be used
->         to distinguish dmabuf fds from other types.
->
-> size - To track the amount of memory that is being pinned.
->
->         dmabufs expose size as an additional field in fdinfo. Remove
->         this and make it a common field for all fds.
->
-> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
-> -- the same as for /proc/<pid>/maps which also exposes the path and
-> size for mapped memory regions.
->
-> This allows for a system process with PTRACE_MODE_READ_FSCREDS to
-> account the pinned per-process memory via fdinfo.
+>> but because of the confusion,
 
-I think this should be split into two patches, one adding the size and 
-one adding the path.
+As I just wrote earlier, the confusion is whether or not "nopat"
+means the kernel drivers will not use pat even if the firmware
+and hypervisor provides it. I think you are correct to
+point out that is the way the i915 driver behaved with the nopat
+option before bdd8b6c98239 was applied, with the same
+bad effects on bare metal as with the hypervisor. I think perhaps
+dealing with the nopat option to fix bdd8b6c98239 is a solution in
+search of a problem, at least as regards the i915 driver.
 
-Adding the size is completely unproblematic, but the path might raise 
-some eyebrows.
+The only problem we have, as I see it, is with a false negative
+when the nopat option is *not* enabled. But the forced disabling
+of pat in Jan's patch when the nopat option is enabled is probably
+needed if the goal of the patch is to preserve the same
+behavior of the i915 driver that it had before bdd8b6c98239
+was applied.
 
->
-> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F20210308170651.919148-1-kaleshsingh%40google.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C95ee7bf71c2c4aa342fa08da39e03398%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637885932392014544%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=kf%2B2es12hV3z5zjOFhx3EyxI1XEMeHexqTLNpNoDhAY%3D&amp;reserved=0
->
-> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> ---
->   Documentation/filesystems/proc.rst | 22 ++++++++++++++++++++--
->   drivers/dma-buf/dma-buf.c          |  1 -
->   fs/proc/fd.c                       |  9 +++++++--
->   3 files changed, 27 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 061744c436d9..ad66d78aca51 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1922,13 +1922,16 @@ if precise results are needed.
->   3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
->   ---------------------------------------------------------------
->   This file provides information associated with an opened file. The regular
-> -files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
-> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
-> +and 'path'.
-> +
->   The 'pos' represents the current offset of the opened file in decimal
->   form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
->   file has been created with [see open(2) for details] and 'mnt_id' represents
->   mount ID of the file system containing the opened file [see 3.5
->   /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
-> -the file.
-> +the file, 'size' represents the size of the file in bytes, and 'path'
-> +represents the file path.
->   
->   A typical output is::
->   
-> @@ -1936,6 +1939,8 @@ A typical output is::
->   	flags:	0100002
->   	mnt_id:	19
->   	ino:	63107
-> +        size:   0
-> +        path:   /dev/null
->   
->   All locks associated with a file descriptor are shown in its fdinfo too::
->   
-> @@ -1953,6 +1958,8 @@ Eventfd files
->   	flags:	04002
->   	mnt_id:	9
->   	ino:	63107
-> +        size:   0
-> +        path:   anon_inode:[eventfd]
->   	eventfd-count:	5a
->   
->   where 'eventfd-count' is hex value of a counter.
-> @@ -1966,6 +1973,8 @@ Signalfd files
->   	flags:	04002
->   	mnt_id:	9
->   	ino:	63107
-> +        size:   0
-> +        path:   anon_inode:[signalfd]
->   	sigmask:	0000000000000200
->   
->   where 'sigmask' is hex value of the signal mask associated
-> @@ -1980,6 +1989,8 @@ Epoll files
->   	flags:	02
->   	mnt_id:	9
->   	ino:	63107
-> +        size:   0
-> +        path:   anon_inode:[eventpoll]
->   	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
->   
->   where 'tfd' is a target file descriptor number in decimal form,
-> @@ -1998,6 +2009,8 @@ For inotify files the format is the following::
->   	flags:	02000000
->   	mnt_id:	9
->   	ino:	63107
-> +        size:   0
-> +        path:   anon_inode:inotify
->   	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
->   
->   where 'wd' is a watch descriptor in decimal form, i.e. a target file
-> @@ -2021,6 +2034,8 @@ For fanotify files the format is::
->   	flags:	02
->   	mnt_id:	9
->   	ino:	63107
-> +        size:   0
-> +        path:   anon_inode:[fanotify]
->   	fanotify flags:10 event-flags:0
->   	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
->   	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> @@ -2046,6 +2061,8 @@ Timerfd files
->   	flags:	02
->   	mnt_id:	9
->   	ino:	63107
-> +        size:   0
-> +        path:   anon_inode:[timerfd]
->   	clockid: 0
->   	ticks: 0
->   	settime flags: 01
-> @@ -2070,6 +2087,7 @@ DMA Buffer files
->   	mnt_id:	9
->   	ino:	63107
->   	size:   32768
-> +        path:   /dmabuf:
->   	count:  2
->   	exp_name:  system-heap
->   
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index b1e25ae98302..d61183ff3c30 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -377,7 +377,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
->   {
->   	struct dma_buf *dmabuf = file->private_data;
->   
-> -	seq_printf(m, "size:\t%zu\n", dmabuf->size);
->   	/* Don't count the temporary reference taken inside procfs seq_show */
->   	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
->   	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
-> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> index 913bef0d2a36..a8a968bc58f0 100644
-> --- a/fs/proc/fd.c
-> +++ b/fs/proc/fd.c
-> @@ -54,10 +54,15 @@ static int seq_show(struct seq_file *m, void *v)
->   	if (ret)
->   		return ret;
->   
-> -	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n",
-> +	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\nsize:\t%zu\n",
->   		   (long long)file->f_pos, f_flags,
->   		   real_mount(file->f_path.mnt)->mnt_id,
-> -		   file_inode(file)->i_ino);
-> +		   file_inode(file)->i_ino,
-> +		   file_inode(file)->i_size);
+In any case, especially if we do include Jan's aggressive approach
+of disabling pat with the nopat option and preserving the same bad
+behavior we had with nopat before bdd8b6c98239 was applied, the
+i915 driver should log a warning when pat is disabled. Right now,
+the driver returns -ENODEV with the problem in
+i915_gem_object_pin_map(), but it does not log an error. The only
+log message I get now is the add_taint_for_CI in intel_gt_init
+which was not very helpful information for debugging
+this problem. It was only the starting point of a longer debugging
+process because of a lack of error log messages in the i915 driver.
 
-We might consider splitting this into multiple seq_printf calls, one for 
-each printed attribute.
-
-It becomes a bit unreadable and the minimal additional overhead 
-shouldn't matter that much.
-
-Regards,
-Christian.
-
-> +
-> +	seq_puts(m, "path:\t");
-> +	seq_file_path(m, file, "\n");
-> +	seq_putc(m, '\n');
->   
->   	/* show_fd_locks() never deferences files so a stale value is safe */
->   	show_fd_locks(m, file, files);
->
-> base-commit: b015dcd62b86d298829990f8261d5d154b8d7af5
-
+Chuck
