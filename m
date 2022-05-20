@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457A352E683
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 09:47:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC80852E6A2
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 09:54:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A84C11B736;
-	Fri, 20 May 2022 07:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F41511B6E8;
+	Fri, 20 May 2022 07:54:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75AC311B736
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 07:47:27 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- z7-20020a17090abd8700b001df78c7c209so10805389pjr.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=56ihVfI55g+5kWoCWi0j9KBKpP7u+QiASGOdishgsYU=;
- b=fI4qwgrFQO4hVvdc3SUyQ8Cdgd+sywkDfLxoX5FB2E66Rov05yQTZSVOzP7gpoXEQF
- 0elvCO46fIFZh0PGVYSb0zBP9E8rthiYU1kAunjlGADxZHVDIzKAD9lkoRKg2HXJ1W5y
- hXlwhv/t9DEN5z9vOFJjkOJHZlgbiKv1kt3tICg8ZW4m3WO5jv6iWCSmP7K1aB7qLYm4
- VMIP2whsDbn6dmzkcOergoPPDPGfcjXLPaXh/y5sNGVVKXZAO8zLhLtKDQfFcopimuD1
- iFzKXGu0GYsL7i2AAdYko6ymJb3ROx8/6svDCApNBiO36LmQDMIJe2JZDgJ2TmbOdK9q
- Eg8A==
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D8311B6E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 07:54:39 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id t25so12953726lfg.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:54:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DkuHinXI3lpMmDhaFWa7SWko/oLhe+xgW9Fvmx5frMg=;
+ b=oQIeO77e5MgSp87vBncmyxBCcoNdnnimJ9e849ruUM/OlNEC4TtFyCQMc52XjTugxL
+ Mpm3X4noT3dqQ3QrThtyXz3oRMvAXe741B1+TI5K+Kk6h3jzKgq31jYtKE12DrjsjdHM
+ MNAPx4+IKSlrc0imUA9WQ0ycuaubtFRt3+yfOV/qB18pXTMeLTNioxQJGuZHbi79lgoO
+ 0jkEb+h3ePU32ZHE1f748Who9IBdX6ggASCvaqI/WAkHw4rK/vVYNqoiDV8k/PNSXySm
+ 4W+wsnAU6k7YnWazIxiXl06tT7IVgiTM8RSW2oFmt1DIoo6zeSnXtKDT9wPX1seAJVCc
+ pgpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=56ihVfI55g+5kWoCWi0j9KBKpP7u+QiASGOdishgsYU=;
- b=5Q0J8htoTgVvU4Z/C/0a6H7vE7pfffHfDdaoZJtxW+piC0yvtLQO3/GCgOME6UHVJZ
- GQ0b9Jp3Nvei40XRVTYxm6qi2/D5B0mhOvMh+/zn/wtlCNxxT0BD6OJ8DbY93nsmjERZ
- wFee0X04oa9+A4IVqAIcl+/MRjcM1GPyxssR4Gq6hBOrNPAyLWFi5jWyHyUEISzEmSdc
- 8oWFmGyBBZcF9J2bqBeoW4KCgr0wkl7k06nESO2QhtUWHAuCHquFk3K0FHV+l48fwHpG
- I6YClsYzWVr7H++P4yjNDjDMwdFuEQxxcHJ8hoNy2udNt2tEBOMtDpSpDTj2JzNPlmFy
- mS6w==
-X-Gm-Message-State: AOAM533oiRi73TMrbMXnrPz7iTVY7GyyfqTGQDrcqdlgItNjluCONW3K
- dqWYLxvYQB4wbVLxfZelBA0=
-X-Google-Smtp-Source: ABdhPJzWP/OizPFgR9KmuaPsRGfMHikuqC99X6s0BZZQYR12Xiw5I0XneB0xM48YDFHIVgUBpKEfiw==
-X-Received: by 2002:a17:90a:760d:b0:1df:6423:d0b9 with SMTP id
- s13-20020a17090a760d00b001df6423d0b9mr10201911pjk.33.1653032846949; 
- Fri, 20 May 2022 00:47:26 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::4:1761])
- by smtp.gmail.com with ESMTPSA id
- v12-20020a17090331cc00b0015e8d4eb1ebsm4949822ple.53.2022.05.20.00.47.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 May 2022 00:47:26 -0700 (PDT)
-Date: Thu, 19 May 2022 21:47:25 -1000
-From: Tejun Heo <tj@kernel.org>
-To: "T.J. Mercier" <tjmercier@google.com>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-Message-ID: <YodHjYlMx1XGtM2+@slm.duckdns.org>
-References: <20220510235653.933868-1-tjmercier@google.com>
- <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
- <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
- <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
- <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
- <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
- <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DkuHinXI3lpMmDhaFWa7SWko/oLhe+xgW9Fvmx5frMg=;
+ b=FAEYE95aITKtZqsGk4oDo1wvAmGGxtUBMwLzalKmtZ09BIV0vQMogYcje9nyIOrmSA
+ diuehvknuM3QaZQfhqAxef/AxqK02wXTOW14f9n2d1nbcovhH7d/L7KeySPjFBwJ5dS8
+ jUHJfnVuSvj2SrLwJeGODlxEzx+o8ctcGwOzd1eiH3E2LrLsDBTP8UZvf29avot6j0KC
+ O9/AVOb2fX0nKf9peJpl+j/h0T0iw/beUVkvUbOS0KdkC280O7y88ucsOGxrDUkMV11V
+ CdeFrp9GrhAMS64mJ/i/oMYQFM1nfQ/pwFLI8sKG8oRUDo/z4EpxEUl1dkK5kQ2EjKJ6
+ BkVA==
+X-Gm-Message-State: AOAM530SR9HzvbeeblHpVbo8X2zMnlFIBADi1ttDwUqq751ScClVtBsD
+ 1h2lOSwZb7qqnApwmnBUuZqjmk/tLiLdPbME
+X-Google-Smtp-Source: ABdhPJwx9dWuIp8oYgAGP5r1AcEtYYPQ5RJYBals6FVrRICWBys5V20iJ9zuV2KCWvnUEUZ6OqbyYQ==
+X-Received: by 2002:a05:6512:1192:b0:473:cd3b:5f7b with SMTP id
+ g18-20020a056512119200b00473cd3b5f7bmr6129376lfr.391.1653033277469; 
+ Fri, 20 May 2022 00:54:37 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ x7-20020ac24887000000b004742b9065c4sm559298lfc.230.2022.05.20.00.54.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 May 2022 00:54:37 -0700 (PDT)
+Message-ID: <34d2664a-f4a6-31f9-c6d7-043bb6e14c58@linaro.org>
+Date: Fri, 20 May 2022 09:54:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [RESEND 4/6 v2] dt-bindings: display: simple: add Geekworm MZP280
+ Panel
+Content-Language: en-US
+To: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220519162935.1585-1-macroalpha82@gmail.com>
+ <20220519162935.1585-5-macroalpha82@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220519162935.1585-5-macroalpha82@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,42 +75,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
- John Stultz <jstultz@google.com>, Zefan Li <lizefan.x@bytedance.com>,
- Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Kenny.Ho@amd.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Laura Abbott <labbott@redhat.com>,
- kernel-team@android.com, linux-media@vger.kernel.org,
- Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
- Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ emma@anholt.net, airlied@linux.ie, Chris Morgan <macromorgan@hotmail.com>,
+ robh+dt@kernel.org, thierry.reding@gmail.com, mchehab@kernel.org,
+ sam@ravnborg.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On 19/05/2022 18:29, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> The Geekworm MZP280 panel is a 480x640 (portrait) panel with a
+> capacitive touch interface and a 40 pin header meant to interface
+> directly with the Raspberry Pi. The screen is 2.8 inches diagonally,
+> and there appear to be at least 4 distinct versions all with the same
+> panel timings.
+> 
+> Timings were derived from drivers posted on the github located here:
+> https://github.com/tianyoujian/MZDPI/tree/master/vga
+> 
+> Additional details about this panel family can be found here:
+> https://wiki.geekworm.com/2.8_inch_Touch_Screen_for_Pi_zero
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 
-On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
-> Thanks for your suggestion. This almost works. "dmabuf" as a key could
-> work, but I'd actually like to account for each heap. Since heaps can
-> be dynamically added, I can't accommodate every potential heap name by
-> hardcoding registrations in the misc controller.
 
-On its own, that's a pretty weak reason to be adding a separate gpu
-controller especially given that it doesn't really seem to be one with
-proper abstractions for gpu resources. We don't want to keep adding random
-keys to misc controller but can definitely add limited flexibility. What
-kind of keys do you need?
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thanks.
 
--- 
-tejun
+Best regards,
+Krzysztof
