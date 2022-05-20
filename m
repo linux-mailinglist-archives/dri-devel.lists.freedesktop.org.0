@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E18852F446
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 22:11:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED25652F44A
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 22:14:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C2810E102;
-	Fri, 20 May 2022 20:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE12E10E227;
+	Fri, 20 May 2022 20:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
- [IPv6:2001:4860:4864:20::2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A5610E11E
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 20:11:45 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-f17f1acffeso11511301fac.4
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 13:11:45 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBA010E11E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 20:14:24 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id w130so11251517oig.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 13:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=uCSJrMcblYtE68pI/o4aCmCDuyMBMTIK3XeFUPvOxus=;
- b=Aod2ILs1RijYKXW4aXOU2BMwT5hq9+n39aXCSNpVCSiKiV2mBseP2mnnLb2FxS2Mwt
- Q+miDEFv/E1MsuY0ay93RhZoZUTIMenvnIsznz8ZpLD8gyRukPy7eMXtndRB88hXyCzx
- I+KHm+DSXBvQFXaHFU7xEQJL28LCFHnGlgQ5c=
+ bh=HWJji6gVytG9NaepPJsUpOE+oqctRwW53y/Rg2/3daI=;
+ b=L5wdilZPPhLeZ6H9txo7C+yQMMnJoaeLu6EewH66Q73sZn7CgIshPVfGQt58p2T1rF
+ z7QeS2uLJnC624MbM5zt8fBPnBh+VHRq7OO8RY0kOqZapAwf1WxaNEnVe9wSh6nhfAU1
+ u6lKg8SoY9PqpD/V98ioNwwwLlmY/2daDSeTc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=uCSJrMcblYtE68pI/o4aCmCDuyMBMTIK3XeFUPvOxus=;
- b=IZvtaVS8EVTsB20zDdyhazanSgxb3gkRlCaWFQ9X5r74oc0DCym80eAWmwUFnXkowK
- RTLPEtOVCPaU830ZSmODkuMWq3d8jeNjDcKh2RYG5+vsBfuIgaMf0AIMayGe8F7K7P+I
- CH1s2anCSgWv7AJNaEPkXwl3pXirfxkpXJlg+UEhjZd5yOCRepZmVitrk27cXHBdnc90
- C4PdXzetenO/TxMzOEeqZq5GwJLHzJEbGgXcKFv+mV27gFAhjAnP8vDyofcCs2mm9jcS
- QFGUWNKgoPBvR+MTTD7bYP9/C/qlUA9kgS+nXBFmLACQ7Z/+9o6xF0UI3LhplkcHEiCb
- F5zA==
-X-Gm-Message-State: AOAM530gishQRpj1ogbAt1WY90ME2/6+AaSCesaWXapAoGnnVXLhApKZ
- 3RGmd9N1T6fhm1ycboaif7TXuSBEdU9i5xbr2IaXDA==
-X-Google-Smtp-Source: ABdhPJyZzp8Z8QM9GBZRwRI5IW+g6D1RrMyMk90vlJpNz5rkGtSO8wMKBpy5TYZYX78MlQGpAiU3hd3sIjiNZZb4lms=
-X-Received: by 2002:a05:6870:558e:b0:e1:db7c:26aa with SMTP id
- n14-20020a056870558e00b000e1db7c26aamr6766673oao.63.1653077504534; Fri, 20
- May 2022 13:11:44 -0700 (PDT)
+ bh=HWJji6gVytG9NaepPJsUpOE+oqctRwW53y/Rg2/3daI=;
+ b=OSxTFnGdtvsDIa10JE0EGQAVMxmnOWlrEvSguTZYRUD7HMCRBQTib/953sg9iGqM6B
+ Uar/vPhJRI867Q0eYOwmcWZgv2P1V8maoREMR4okReGIOr1jtyVeJrWPg4jiFU4DyDb5
+ w8T3yML1OB+Z605LOubnyLUi0RLL4/63jU0pRUfvu3zIHGhioag09MyIna3MGeLM7gLE
+ 6EXub6ko2qDm+2HXlUVwDYhM1W2cQgHE3Aptnd79rA+u2BBjsBg9XjMTOpgRBM2a4ZBI
+ T5oZ16L0Z+xwEdJ7rO/pyz//pbOWs1RG60mcsouBlFo5QZUoMKFrnRLtK+sECO29zQ+F
+ I0Zw==
+X-Gm-Message-State: AOAM532VpKSls/KDZDDI3mbY2QWB3I/9GC9FqOoBh/Wx0AqJcSYXTafp
+ WMjArkeI/05DREy3aBD3ll8YMQjHjDMFIvN8rqy85Q==
+X-Google-Smtp-Source: ABdhPJwP7L0SMXKFI6625vEQZTfFfECarUErW2tlmkzH+D2As2PkcfrO1Fh8376ZDCpcT7+qRqUbX8ACus/aB+6rZHQ=
+X-Received: by 2002:a05:6808:23c3:b0:326:bd8d:7993 with SMTP id
+ bq3-20020a05680823c300b00326bd8d7993mr6601653oib.63.1653077663519; Fri, 20
+ May 2022 13:14:23 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 20 May 2022 13:11:43 -0700
+ HTTPREST; Fri, 20 May 2022 13:14:23 -0700
 MIME-Version: 1.0
-In-Reply-To: <1652804494-19650-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1652804494-19650-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1653077167-16684-2-git-send-email-quic_khsieh@quicinc.com>
+References: <1653077167-16684-1-git-send-email-quic_khsieh@quicinc.com>
+ <1653077167-16684-2-git-send-email-quic_khsieh@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Fri, 20 May 2022 13:11:43 -0700
-Message-ID: <CAE-0n51_Bp50XbjvA7-4ZAf2ReXbRCWxt3wLe3tcqAeUKjE2kw@mail.gmail.com>
-Subject: Re: [PATCH v7] drm/msm/dp: Always clear mask bits to disable
- interrupts at dp_ctrl_reset_irq_ctrl()
+Date: Fri, 20 May 2022 13:14:23 -0700
+Message-ID: <CAE-0n51B3Crb0ZFUppu2MXAGfCEfRcO9FX-6KMTTcPia3w8TkQ@mail.gmail.com>
+Subject: Re: [PATCH v9 1/3] phy: qcom-edp: add regulator_set_load to edp phy
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
  bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
- dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org
+ dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,52 +68,29 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-05-17 09:21:34)
-> dp_catalog_ctrl_reset() will software reset DP controller. But it will
-> not reset programmable registers to default value. DP driver still have
-> to clear mask bits to interrupt status registers to disable interrupts
-> after software reset of controller.
+Quoting Kuogee Hsieh (2022-05-20 13:06:05)
+> This patch add regulator_set_load() before enable regulator at
+> eDP phy driver.
 >
-> At current implementation, dp_ctrl_reset_irq_ctrl() will software reset dp
-> controller but did not call dp_catalog_ctrl_enable_irq(false) to clear hpd
-> related interrupt mask bits to disable hpd related interrupts due to it
-> mistakenly think hpd related interrupt mask bits will be cleared by software
-> reset of dp controller automatically. This mistake may cause system to crash
-> during suspending procedure due to unexpected irq fired and trigger event
-> thread to access dp controller registers with controller clocks are disabled.
->
-> This patch fixes system crash during suspending problem by removing "enable"
-> flag condition checking at dp_ctrl_reset_irq_ctrl() so that hpd related
-> interrupt mask bits are cleared to prevent unexpected from happening.
->
-> Changes in v2:
-> -- add more details commit text
->
-> Changes in v3:
-> -- add synchrons_irq()
-> -- add atomic_t suspended
->
-> Changes in v4:
-> -- correct Fixes's commit ID
-> -- remove synchrons_irq()
->
-> Changes in v5:
-> -- revise commit text
->
-> Changes in v6:
-> -- add event_lock to protect "suspended"
->
-> Changes in v7:
-> -- delete "suspended" flag
->
-> Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
+>  drivers/phy/qualcomm/phy-qcom-edp.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+> index cacd32f..0b7f318 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+> @@ -639,6 +639,9 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
+>         if (ret)
+>                 return ret;
+>
+> +       regulator_set_load(edp->supplies[0].consumer, 21800); /* 1.2 V vdda-phy */
+> +       regulator_set_load(edp->supplies[1].consumer, 36000); /* 0.9 V vdda-pll */
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Why aren't there checks for errors on these API calls?
