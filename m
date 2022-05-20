@@ -1,55 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C5B52E8DE
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 11:33:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A9652E900
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 11:41:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3701610E6E3;
-	Fri, 20 May 2022 09:33:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E1610E6C3;
+	Fri, 20 May 2022 09:41:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A637710E4F0;
- Fri, 20 May 2022 09:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653039183; x=1684575183;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=P69/GOrxfu+VNhCctObgJ3Bnh1zpnG02Lus5qNBC+/Y=;
- b=h9LUgs45OUgKSewEQ6iYioIF1eUwxGwW3J+ApOBYGG1s7QINX8QOCy7z
- LXMV72YY7O8F5D0MsXsY6iWvumkpLxDP8FH6afXKGKQvVpQQml50o4O7F
- NklMf8yH3gDp2dOv/4CMTQM0QXaMJksPCc5Gp/S5p2y/JDj6iO78h06Ur
- B27gQ3b01jZkB4jSeuONHMbbEsW3qm9qevJAqj33CTNGleqZ1TufBY9Rf
- CwOfyQ9jSp840yLIk43Dv3t6SWMAEW7AkF2pRWfK6IhkRZDQL52qvsgt7
- +gI8UxVy7lGDYjizEvhgzyyGGwvi/EuTjvardIx7s/s+8g/3akMbygQL+ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="254608432"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="254608432"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2022 02:33:03 -0700
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="570724537"
-Received: from bpower2-mobl2.ger.corp.intel.com (HELO [10.213.200.132])
- ([10.213.200.132])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2022 02:33:01 -0700
-Message-ID: <227fae6c-5b37-6304-2bd5-b17dde802d89@linux.intel.com>
-Date: Fri, 20 May 2022 10:32:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 4/6] drm/i915/sseu: Don't try to store EU mask
- internally in UAPI format
+Received: from de-smtp-delivery-102.mimecast.com
+ (de-smtp-delivery-102.mimecast.com [194.104.111.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D75B10E651
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 09:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1653039669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kq0o3HFsRHNjMdV32ZHN/hvfJaOGtyVOMLJu1ZLX0U4=;
+ b=ffGYGavPc09HxyWldw5XqxXxMcKx2PJ6R9+AeSdWolsj6e0vcPmNRiasX6aIgC/xa3knIG
+ qiZuAZvESzVvyqexAByg+eNJXXAiPPJTgFmzKoqOUqZC24Yb9c1jysfXFFtCkNVfVqRnOq
+ spI77bGfzwvjIR1PuYQ5Z2KPjTlRMS4=
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur04lp2058.outbound.protection.outlook.com [104.47.13.58]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-10-0v1tkyQ-PGG5Rlt6bw6XTw-2; Fri, 20 May 2022 11:41:08 +0200
+X-MC-Unique: 0v1tkyQ-PGG5Rlt6bw6XTw-2
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ETO5EDsnavCoMBJJSKrRh3d4N56tZijZCAQEXON75vvkPhl59ViO+Rk+nYOKR3rtmrDZPOYePvUOA4iy/w9pZIxKkqcjKXaZNNne8BoCUIosJCWqeVc0jhEW5qV4ZhEakJ//FLP103Woo+uTpOojvnw+x7MdIEmZ0W3M6XaCOs377F+NJJrP56EjbW5OPEWBKoRs8DC9mfwqPA89xND3Xt6mWLH3Xq7wCtwNtDwj26NXZhAc1OH+jAyrCaJIO6eBA9EWbiFSlyTLLOvTsq6i3Xpgc4fLcHxhvZAvLKnOK2IgD+wILXC9853dRTK5bQHSDwkv1uzMrE1Ms1tfIIkO1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kq0o3HFsRHNjMdV32ZHN/hvfJaOGtyVOMLJu1ZLX0U4=;
+ b=ku2lmCC27HSgIrTgXB17OdvwZKt56Z8Gecm0bh6Em0oeKqhkzktewRMQtw0ccn/QCxa/sqEzEF4tx1n8Tx/YDqIAcOSoPpo8kYuxv+QtipUqtnVfYh6+gHCsGZpSDRBvuezf0dkVu15ramSplIbWphFZmcTdz+fvYOOcclkZTsgQfnAr2jpiz01DEvUiRHlvT2xz5Ri/KmdVZzKP4is1/2NWjEgIWMiaviAisI7xQHBhjTenc4vdoSTbX73nsdy3eQzF1Sl3z++DW9ym31vU2vSaBEBg+oywqcbMfNoF4D+kCJ6hJXF6VvrkXOQ2dWNmuzNGczZov/e+vcPc45ElFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from VE1PR04MB6560.eurprd04.prod.outlook.com (2603:10a6:803:122::25)
+ by AM0PR04MB6515.eurprd04.prod.outlook.com (2603:10a6:208:16f::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.17; Fri, 20 May
+ 2022 09:41:04 +0000
+Received: from VE1PR04MB6560.eurprd04.prod.outlook.com
+ ([fe80::91b8:8f7f:61ac:cc9b]) by VE1PR04MB6560.eurprd04.prod.outlook.com
+ ([fe80::91b8:8f7f:61ac:cc9b%7]) with mapi id 15.20.5273.017; Fri, 20 May 2022
+ 09:41:04 +0000
+Message-ID: <3bff3562-bb1e-04e6-6eca-8d9bc355f2eb@suse.com>
+Date: Fri, 20 May 2022 11:41:01 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/2] x86/pat: add functions to query specific cache mode
+ availability
 Content-Language: en-US
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220517032005.2694737-1-matthew.d.roper@intel.com>
- <20220517032005.2694737-5-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220517032005.2694737-5-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Chuck Zmudzinski <brchuckz@netscape.net>
+References: <20220503132207.17234-1-jgross@suse.com>
+ <20220503132207.17234-3-jgross@suse.com>
+ <1d86d8ff-6878-5488-e8c4-cbe8a5e8f624@suse.com>
+ <0dcb05d0-108f-6252-e768-f75b393a7f5c@suse.com>
+ <77255e5b-12bf-5390-6910-dafbaff18e96@netscape.net>
+ <a2e95587-418b-879f-2468-8699a6df4a6a@suse.com>
+ <8b1ebea5-7820-69c4-2e2b-9866d55bc180@netscape.net>
+ <c5fa3c3f-e602-ed68-d670-d59b93c012a0@netscape.net>
+From: Jan Beulich <jbeulich@suse.com>
+In-Reply-To: <c5fa3c3f-e602-ed68-d670-d59b93c012a0@netscape.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS9PR06CA0323.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45b::19) To VE1PR04MB6560.eurprd04.prod.outlook.com
+ (2603:10a6:803:122::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b17af9dd-760c-4e04-7b8a-08da3a44db4e
+X-MS-TrafficTypeDiagnostic: AM0PR04MB6515:EE_
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-Microsoft-Antispam-PRVS: <AM0PR04MB6515B4C94C38A53F34E13067B3D39@AM0PR04MB6515.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dAfJvDz03H6oRK0e8eDDJVj1nqiQGr59FkkJCCAWrEBnCJqwVEsTgnmpsHJ9s2R4M3XOTXwqB48tsZG0WPa60NCEqHaEFjLzqIYFB8XyYJCAonhBQf9c3eVv2xJ/fJ/852D8FRQCn64exKD3EiSfksavLk1E64nj+oUVqFB6k2aErzb7iuUznhRj4/EduoO4tbsSKCrHsnlVvlsAemfXrs0Ct3mXJEqjmHlPzgrqfbFdLkiiXTgXPB0SxGyA85cSp/3y5Nz3oLhU8lTdiqTbaR+/jk5pf0PRIcAHBi+a74RCysLkNjJBdQmJtm+fKhAgOLbCpyPV/jO1ULM3M/hb5pOSntTbZD53JFUOfUaqybE+0RSmHAR3eEpD1eVhiFuQ1Jtq9Ceucj58GjefZrqmJzg+DdwQDbWuFegaQhkIyh/x1WjhIXqskG1Mj//fuiChpLL3vCCHtdpv7QtvSs1OHVk8JTfxOJUo4GPUtCmdjSc/rCa0elm9wzPFNn/EfctYF5colGXBnVKVorGjg1CFU79w/dE2XqYjrNQUYGd97CvmUQwKtO8mfcvDr+6rG8Y3BmQCawWCOm16HEiSPIH5kOB8dydDlCxepwafVX7pnqTPK2iD7lz6apoPurTU9VNd3nOTcVs0katFWuqPJbJR3Lq6OXGY1G6Ps+HIObY2UwWLOjdBuynImeIVdzl+HN1mBmP/mD7+kPSRnaZSazYVgTV/H7/Z0xihojGUxly+csg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR04MB6560.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(8936002)(5660300002)(66476007)(66556008)(66946007)(86362001)(7416002)(36756003)(8676002)(31686004)(4326008)(107886003)(2616005)(31696002)(186003)(38100700002)(6486002)(53546011)(508600001)(6916009)(26005)(6512007)(6666004)(54906003)(6506007)(316002)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dUFkMWx1NWpWZUVIMS9XcHhzbXk0UzgwWk92Z0tJbWNrSWNxSWFZYW80YTRT?=
+ =?utf-8?B?dmIvQ2FhY0dSRGdqaUx5WXNKMXgvREllWFlsdWlTS1dmMVZYdlhwUzJkR29z?=
+ =?utf-8?B?Y3lhZ3cvaW9KRVZ3SVRDdjVpeGVrUEdjakhpUXd4NWFhY1BOV1MxLzhEVEhK?=
+ =?utf-8?B?MmdjcHM5aVRZdGdGWlFIQnNabTR5K2RYUkxhVWxrdElYRVp1Z3l2ZE90REVZ?=
+ =?utf-8?B?Tm9hWm9BbkMxeUpBQmxlUmZya1ZrMG1EWjJjQk9sWDBQbjh2aHd4M3lpT08r?=
+ =?utf-8?B?L3hLK3hCODFMWkxpMWFjdGVXNGpTcWY2aEE4Z3RScHFSZ0MzdzIwRTFQNkxG?=
+ =?utf-8?B?UDVnbFdQdnZDd1l1YUNFQ0dJZWd2aXdBc2kzOWQ3R2I3YmhVQUtQZG5xUVhq?=
+ =?utf-8?B?VzJaTjh3UStnclp4OWJCNjRVVHFpeTlDa3IyS1I3akxyRkM1OWZqaHdsZmMz?=
+ =?utf-8?B?cnMzQlhYRWRJMDh3ZmVqMjdCWDV0Y0VsMDB6UVQ4R0dscnRndFEyaEFHZDVn?=
+ =?utf-8?B?K1pJSFB1Rk1QOE5UaTRZTFZqTGR2eFdnTWkxRFJDejFDQVhFcXNXK2xQdVdK?=
+ =?utf-8?B?YTgra3E0bFc2ODZmZEJFK2Ywd29MWGwxbk1qNEVKTklXM0ExVTFYbDNrUUhD?=
+ =?utf-8?B?dGxrY3JLQlVaaGtKclRVNk93MjF0akhsVVJUVG5lSVA2VHR6SE96UnhVbWM2?=
+ =?utf-8?B?QzQrUjROTnF5L2g1YlE4bDduU2FRb094OWZzMXVqS1dxRUpIT0lCRit3MmpO?=
+ =?utf-8?B?ekhobmxPZkFSTDFPTHVMelFCZi9jSElFYm5oOURDeUNrV3QvbGYxYVFFYWtK?=
+ =?utf-8?B?Y2Z0bGV0cDhLRitURHdRMnJ2dzRQaHI0ak1XM0xqRHA0YW00VXFsSXNmekt0?=
+ =?utf-8?B?VDFPamEzOU9wWkRqVnM1OEl5SDlvL21VNDhjWXNLT255MHkzeGduaStHNXYr?=
+ =?utf-8?B?bGlIbFROa3llK0NPdFNQUTRPOGN0VktsYWVBc01nbEZ2UkswcFBxTStUTThP?=
+ =?utf-8?B?UmRBL01QT2RzbUdUaFIzQmpsZEhoQTlnaHhGWEs5WDNPZDVpVUdsTHhGb2Nl?=
+ =?utf-8?B?bzAzOGk1dnBmK1VYUytJYkUxME9iWDRYVmE0L3pVNVI2bmVyRkFjVnlzVGoz?=
+ =?utf-8?B?TUt6SU9nWFNXUU9UZUZJQWw3cnpmT0ZLWlp2NndxTWNYQ0ZWVlFwSGlwWmZs?=
+ =?utf-8?B?RjBzNC95bW5qN2Y3STVBTEhoS0JqSjAvdzBqUVpYVWVJMi85dHNDL0pTVlhx?=
+ =?utf-8?B?b1lBR0ZMWkRuOWtuNDFBdkw4ZWc0MjBLWW9FVmJHQmpmWG8wODIweHdjeVBL?=
+ =?utf-8?B?V1FsR21mMC9yVXVwYm1mZUhlanNrYlFyMUlWWVIxdmM2S3ovY2hGOEpveTZo?=
+ =?utf-8?B?enJOdFhFankzSit2MC8rMmRlYzZWUDlzZDVpMExGaG1UYnY4V2VLOHZWd1gx?=
+ =?utf-8?B?WVRPY1FraFpmMHdNZzc0emZGMFY1SUYzblBaQUV4ODNCdk1Tcm54Ny9RVmFv?=
+ =?utf-8?B?R2s5YlBDSnNRVzNaOGRta29lM0xBYUhuOWk1cU93OXM4anVKOTMxUVh4cjcw?=
+ =?utf-8?B?UDh2ZGp3RWJlZXljSE5wU0ZRc0IvbVFDYlJCREkxV3hvcDREVXJ1bXFpMkpn?=
+ =?utf-8?B?UVMxM1VmbVJwQk5mVnUrdzdQajBPU1lZK2dLNXhOUWZiWmdRWHhEanNFODlj?=
+ =?utf-8?B?c0xjak53QVVWeU9xTExvSVExazNFd2pLK0pTTHpFTDg4b3ZjWHI2amF0TmlV?=
+ =?utf-8?B?T3JSVWZibjZKSkMwMVdzcnRNWXJhK2p1eTRMT21ObVJkSEVLaE1ydTZPU3Jy?=
+ =?utf-8?B?VHRFeWU0bmdNM0NXcHdKaTZzdzRVU3k1d1dOcytqbllrYXltVEZhVFpjZDBZ?=
+ =?utf-8?B?ZGk4dmNsUlZHbmNhdWtmMHJzeWxBOE1hRDRxTU95YmxzNUNVWGt1TjBYeW5y?=
+ =?utf-8?B?Qlh0QlR2RWxDYzhtUmM1TDc4aFI1NmlTcDN1bm9ybGJ3U0M5T3FmM0p6dzNY?=
+ =?utf-8?B?amdKY0ZMeHMzS05kcUE3UEtka0FBR2xVd281ZFREVElWZXJjUCtiWFdxMDNZ?=
+ =?utf-8?B?U3U1aXpvRTNGaUpESjRBZ2k4bytXc1dDS3VtOHFKaEdZS29RdnZMYVFEdHlr?=
+ =?utf-8?B?bTNWdkRPU3o4c20zd0ZxZDNqMDViVnBOcGl6Zm1WcU1uL0pYTkhSR0p4S2d4?=
+ =?utf-8?B?ak80V0o0QU9RVWZManc1UHNoQmliRW1PbkhubjFnWkdtWThreWNUQjdmN1ln?=
+ =?utf-8?B?NDY1MHBSdzYxcEFyeFZpamxiblJNMWZiK0JPbkQ0N1cwMGI0K0doOFMrTWRR?=
+ =?utf-8?B?QUVyWDg3cFdUVDVXcENrYXNBalN1ZHVTYTE2eTB5RXBUNUwxQXM4dz09?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b17af9dd-760c-4e04-7b8a-08da3a44db4e
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6560.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2022 09:41:03.9918 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +hZqBG0s884oEYaKbJKP13sSNGGksMSgW1bpyv7CllHHZ04VAkyo9mTR42HhrePsGCDrfmB4ai/Ek1JXVwYC0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6515
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,203 +149,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Juergen Gross <jgross@suse.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
+ Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ xen-devel@lists.xenproject.org, Thomas Gleixner <tglx@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 17/05/2022 04:20, Matt Roper wrote:
-> Storing the EU mask internally in the same format the I915_QUERY
-> topology queries use makes the final copy_to_user() a bit simpler, but
-> makes the rest of the driver's SSEU more complicated and harder to
-> follow.  Let's switch to an internal representation that's more natural:
-> Xe_HP platforms will be a simple array of u16 masks, whereas pre-Xe_HP
-> platforms will be a two-dimensional array, indexed by [slice][subslice].
-> We'll convert to the uapi format only when the query uapi is called.
+On 20.05.2022 10:30, Chuck Zmudzinski wrote:
+> On 5/20/2022 2:59 AM, Chuck Zmudzinski wrote:
+>> On 5/20/2022 2:05 AM, Jan Beulich wrote:
+>>> On 20.05.2022 06:43, Chuck Zmudzinski wrote:
+>>>> On 5/4/22 5:14 AM, Juergen Gross wrote:
+>>>>> On 04.05.22 10:31, Jan Beulich wrote:
+>>>>>> On 03.05.2022 15:22, Juergen Gross wrote:
+>>>>>>
+>>>>>> ... these uses there are several more. You say nothing on why 
+>>>>>> those want
+>>>>>> leaving unaltered. When preparing my earlier patch I did inspect them
+>>>>>> and came to the conclusion that these all would also better 
+>>>>>> observe the
+>>>>>> adjusted behavior (or else I couldn't have left pat_enabled() as the
+>>>>>> only predicate). In fact, as said in the description of my earlier 
+>>>>>> patch, in
+>>>>>> my debugging I did find the use in i915_gem_object_pin_map() to be 
+>>>>>> the
+>>>>>> problematic one, which you leave alone.
+>>>>> Oh, I missed that one, sorry.
+>>>> That is why your patch would not fix my Haswell unless
+>>>> it also touches i915_gem_object_pin_map() in
+>>>> drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>>>>
+>>>>> I wanted to be rather defensive in my changes, but I agree at least 
+>>>>> the
+>>>>> case in arch_phys_wc_add() might want to be changed, too.
+>>>> I think your approach needs to be more aggressive so it will fix
+>>>> all the known false negatives introduced by bdd8b6c98239
+>>>> such as the one in i915_gem_object_pin_map().
+>>>>
+>>>> I looked at Jan's approach and I think it would fix the issue
+>>>> with my Haswell as long as I don't use the nopat option. I
+>>>> really don't have a strong opinion on that question, but I
+>>>> think the nopat option as a Linux kernel option, as opposed
+>>>> to a hypervisor option, should only affect the kernel, and
+>>>> if the hypervisor provides the pat feature, then the kernel
+>>>> should not override that,
+>>> Hmm, why would the kernel not be allowed to override that? Such
+>>> an override would affect only the single domain where the
+>>> kernel runs; other domains could take their own decisions.
+>>>
+>>> Also, for the sake of completeness: "nopat" used when running on
+>>> bare metal has the same bad effect on system boot, so there
+>>> pretty clearly is an error cleanup issue in the i915 driver. But
+>>> that's orthogonal, and I expect the maintainers may not even care
+>>> (but tell us "don't do that then").
 > 
-> v2:
->   - Drop has_common_ss_eumask.  We waste some space repeating identical
->     EU masks for every single DSS, but the code is simpler without it.
->     (Tvrtko)
-> 
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_sseu.c | 77 +++++++++++++++++++---------
->   drivers/gpu/drm/i915/gt/intel_sseu.h |  9 +++-
->   drivers/gpu/drm/i915/i915_query.c    |  8 +--
->   3 files changed, 65 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
-> index ade3e1805782..d89e2e0f05e5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_sseu.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
-> @@ -78,47 +78,76 @@ intel_sseu_subslices_per_slice(const struct sseu_dev_info *sseu, u8 slice)
->   	return hweight32(intel_sseu_get_subslices(sseu, slice));
->   }
->   
-> -static int sseu_eu_idx(const struct sseu_dev_info *sseu, int slice,
-> -		       int subslice)
-> -{
-> -	int slice_stride = sseu->max_subslices * sseu->eu_stride;
-> -
-> -	return slice * slice_stride + subslice * sseu->eu_stride;
-> -}
-> -
->   static u16 sseu_get_eus(const struct sseu_dev_info *sseu, int slice,
->   			int subslice)
->   {
-> -	int i, offset = sseu_eu_idx(sseu, slice, subslice);
-> -	u16 eu_mask = 0;
-> -
-> -	for (i = 0; i < sseu->eu_stride; i++)
-> -		eu_mask |=
-> -			((u16)sseu->eu_mask[offset + i]) << (i * BITS_PER_BYTE);
-> -
-> -	return eu_mask;
-> +	if (sseu->has_xehp_dss) {
-> +		WARN_ON(slice > 0);
-> +		return sseu->eu_mask.xehp[subslice];
-> +	} else {
-> +		return sseu->eu_mask.hsw[slice][subslice];
-> +	}
->   }
->   
->   static void sseu_set_eus(struct sseu_dev_info *sseu, int slice, int subslice,
->   			 u16 eu_mask)
->   {
-> -	int i, offset = sseu_eu_idx(sseu, slice, subslice);
-> -
-> -	for (i = 0; i < sseu->eu_stride; i++)
-> -		sseu->eu_mask[offset + i] =
-> -			(eu_mask >> (BITS_PER_BYTE * i)) & 0xff;
-> +	if (sseu->has_xehp_dss) {
-> +		WARN_ON(slice > 0);
-> +		sseu->eu_mask.xehp[subslice] = eu_mask;
-> +	} else {
-> +		eu_mask &= GENMASK(sseu->max_eus_per_subslice - 1, 0);
+> Actually I just did a test with the last official Debian kernel
+> build of Linux 5.16, that is, a kernel before bdd8b6c98239 was
+> applied. In fact, the nopat option does *not* break the i915 driver
+> in 5.16. That is, with the nopat option, the i915 driver loads
+> normally on both the bare metal and on the Xen hypervisor.
+> That means your presumption (and the presumption of
+> the author of bdd8b6c98239) that the "nopat" option was
+> being observed by the i915 driver is incorrect. Setting "nopat"
+> had no effect on my system with Linux 5.16. So after doing these
+> tests, I am against the aggressive approach of breaking the i915
+> driver with the "nopat" option because prior to bdd8b6c98239,
+> nopat did not break the i915 driver. Why break it now?
 
-Is this masking required? Oh I remember.. it's the type expansion! I thought that was wrong. I mean the callers are wrong. Some use u8 for the mask and then do ~mask passing it into u16 here. I don't think this function should account for that but callers should stop passing in garbage.
+Because that's, in my understanding, is the purpose of "nopat"
+(not breaking the driver of course - that's a driver bug -, but
+having an effect on the driver).
 
-I had this in my patch:
+Jan
 
-GEM_WARN_ON(mask && (__fls(mask) >= sseu->max_eus_per_subslice));
-
-And in the callers like:
-
--               sseu_set_eus(sseu, 0, 0, ~disabled_mask);
-+               sseu_set_eus(sseu, 0, 0, ~disabled_mask & 0xff);
-
--                       sseu_set_eus(sseu, s, ss, ~eu_disabled_mask);
-+                       sseu_set_eus(sseu, s, ss, ~eu_disabled_mask & eu_mask);
-
-> +		sseu->eu_mask.hsw[slice][subslice] = eu_mask;
-> +	}
->   }
->   
->   static u16 compute_eu_total(const struct sseu_dev_info *sseu)
->   {
-> -	u16 i, total = 0;
-> +	int s, ss, total = 0;
->   
-> -	for (i = 0; i < ARRAY_SIZE(sseu->eu_mask); i++)
-> -		total += hweight8(sseu->eu_mask[i]);
-> +	for (s = 0; s < sseu->max_slices; s++)
-> +		for (ss = 0; ss < sseu->max_subslices; ss++)
-> +			if (sseu->has_xehp_dss)
-> +				total += hweight16(sseu->eu_mask.xehp[ss]);
-> +			else
-> +				total += hweight16(sseu->eu_mask.hsw[s][ss]);
->   
->   	return total;
->   }
->   
-> +/**
-> + * intel_sseu_copy_eumask_to_user - Copy EU mask into a userspace buffer
-> + * @to: Pointer to userspace buffer to copy to
-> + * @sseu: SSEU structure containing EU mask to copy
-> + *
-> + * Copies the EU mask to a userspace buffer in the format expected by
-> + * the query ioctl's topology queries.
-> + *
-> + * Returns the result of the copy_to_user() operation.
-> + */
-> +int intel_sseu_copy_eumask_to_user(void __user *to,
-> +				   const struct sseu_dev_info *sseu)
-> +{
-> +	u8 eu_mask[GEN_SS_MASK_SIZE * GEN_MAX_EU_STRIDE] = {};
-> +	int len = sseu->max_slices * sseu->max_subslices * sseu->eu_stride;
-
-How compilcated to kick eu_stride out of kernel struct sseu_dev_info and just calculate it here? Since I don't think it belongs in the kernel struct.
-
-What about ss_stride - is that still in use at this point, or by the end of the series, and could it be dropped?
-
-Regards,
-
-Tvrtko
-
-> +	int s, ss, i;
-> +
-> +	for (s = 0; s < sseu->max_slices; s++) {
-> +		for (ss = 0; ss < sseu->max_subslices; ss++) {
-> +			int uapi_offset =
-> +				s * sseu->max_subslices * sseu->eu_stride +
-> +				ss * sseu->eu_stride;
-> +			u16 mask = sseu_get_eus(sseu, s, ss);
-> +
-> +			for (i = 0; i < sseu->eu_stride; i++)
-> +				eu_mask[uapi_offset + i] =
-> +					(mask >> (BITS_PER_BYTE * i)) & 0xff;
-> +		}
-> +	}
-> +
-> +	return copy_to_user(to, eu_mask, len);
-> +}
-> +
->   static void gen11_compute_sseu_info(struct sseu_dev_info *sseu,
->   				    u32 g_ss_en, u32 c_ss_en, u16 eu_en)
->   {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
-> index 4a041f9dc490..43a8f8f98687 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_sseu.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
-> @@ -57,7 +57,11 @@ struct sseu_dev_info {
->   	u8 subslice_mask[GEN_SS_MASK_SIZE];
->   	u8 geometry_subslice_mask[GEN_SS_MASK_SIZE];
->   	u8 compute_subslice_mask[GEN_SS_MASK_SIZE];
-> -	u8 eu_mask[GEN_SS_MASK_SIZE * GEN_MAX_EU_STRIDE];
-> +	union {
-> +		u16 hsw[GEN_MAX_HSW_SLICES][GEN_MAX_SS_PER_HSW_SLICE];
-> +		u16 xehp[GEN_MAX_DSS];
-> +	} eu_mask;
-> +
->   	u16 eu_total;
->   	u8 eu_per_subslice;
->   	u8 min_eu_in_pool;
-> @@ -150,4 +154,7 @@ void intel_sseu_print_topology(struct drm_i915_private *i915,
->   
->   u16 intel_slicemask_from_dssmask(u64 dss_mask, int dss_per_slice);
->   
-> +int intel_sseu_copy_eumask_to_user(void __user *to,
-> +				   const struct sseu_dev_info *sseu);
-> +
->   #endif /* __INTEL_SSEU_H__ */
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index 7584cec53d5d..16f43bf32a05 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -76,10 +76,10 @@ static int fill_topology_info(const struct sseu_dev_info *sseu,
->   			 subslice_mask, subslice_length))
->   		return -EFAULT;
->   
-> -	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
-> -					 sizeof(topo) +
-> -					 slice_length + subslice_length),
-> -			 sseu->eu_mask, eu_length))
-> +	if (intel_sseu_copy_eumask_to_user(u64_to_user_ptr(query_item->data_ptr +
-> +							   sizeof(topo) +
-> +							   slice_length + subslice_length),
-> +					   sseu))
->   		return -EFAULT;
->   
->   	return total_length;
