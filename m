@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B2E52F5FA
-	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 01:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA0E52F5FD
+	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 01:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66DDF10EC36;
-	Fri, 20 May 2022 23:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C09C10EC4D;
+	Fri, 20 May 2022 23:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A97DB10EB8E;
- Fri, 20 May 2022 23:04:19 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C07FD10E62E;
+ Fri, 20 May 2022 23:04:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653087859; x=1684623859;
+ t=1653087860; x=1684623860;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OJsqDh0pJ6zgcPFAvmzQ3TjQonOcpPpMlmQnFmaanxU=;
- b=eZ8mnVyCaNbhuB174zxhxubgXngebWcsWBN+pM0NvLQ1HHOTfdRoSKKx
- 8mLH0Xo/HDuR98dvn39wk2Blj8j3nIMDd/CqNPnR9QrkwNXa2pcxu/Dko
- Gwxa0/l7i48IZuNiSM1STwhsdBU/9Hl46uz5wxycLGD+Iy6k7JOn82SGc
- SpIEgvEx5kt4WEzawBrSLg2kbkjDPnUKEhjSzKCfetRV+zFclyEv4D19O
- Bs6OAUPMqKjY3GRvCZZestqI0OD7vQPrayau7b9g2VstM4OQ4QcLcu+nl
- 3dwh6SS0X4GJ5A+w6/iX7DN/GDcefzujVu25fOQosl56wiUXBGcPO93jd g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="260348900"
-X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; d="scan'208";a="260348900"
+ bh=hhJXgNs/DG2hKxtpc4aG2H94HVTUKZY5t5+0Mnn1kx0=;
+ b=ERypXjojK/VJHXGEXQBJEeLvSEDll9hbN4Gou7llm77pGk5E5/G92sFa
+ SATahDAJg98Lb/MQPv0/HCcAVeZbqZc/nOdX+UA4BgCqoe30sCnnFvqOR
+ eBt8U3LonJCgWUIMUf7lAWDhapeaHdnfWIo9W+m0205mwWviWNQDF6WZc
+ TWL07Fq1v772khC9YNyHSWMGJ5rWfv/eAOb8JKs/y8EL3fTYhCUX8mjKy
+ wsI+hmiWB8YdTk98D1ZYwoHEpNYF/3DaJslirZT95bemPs6b7RaAe1C5X
+ LeTb/6MgQfYmHOlq/eGSs6Cbsp24bDPeIirG4RzQUT8xYznmsTw+jjiTg w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="272472171"
+X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; d="scan'208";a="272472171"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 May 2022 16:04:18 -0700
-X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; d="scan'208";a="599482032"
+X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; d="scan'208";a="599482038"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 May 2022 16:04:14 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 3/6] drm/i915/sseu: Simplify gen11+ SSEU handling
-Date: Fri, 20 May 2022 16:04:05 -0700
-Message-Id: <20220520230408.3787166-4-matthew.d.roper@intel.com>
+Subject: [PATCH v4 4/6] drm/i915/sseu: Don't try to store EU mask internally
+ in UAPI format
+Date: Fri, 20 May 2022 16:04:06 -0700
+Message-Id: <20220520230408.3787166-5-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220520230408.3787166-1-matthew.d.roper@intel.com>
 References: <20220520230408.3787166-1-matthew.d.roper@intel.com>
@@ -60,155 +61,261 @@ Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although gen11 and gen12 architectures supported the concept of multiple
-slices, in practice all the platforms that were actually designed only
-had a single slice (i.e., note the parameters to 'intel_sseu_set_info'
-that we pass for each platform).  We can simplify the code slightly by
-dropping the multi-slice logic from gen11+ platforms.
+Storing the EU mask internally in the same format the I915_QUERY
+topology queries use makes the final copy_to_user() a bit simpler, but
+makes the rest of the driver's SSEU more complicated and harder to
+follow.  Let's switch to an internal representation that's more natural:
+Xe_HP platforms will be a simple array of u16 masks, whereas pre-Xe_HP
+platforms will be a two-dimensional array, indexed by [slice][subslice].
+We'll convert to the uapi format only when the query uapi is called.
 
 v2:
- - Promote drm_dbg to drm_WARN_ON if the slice fuse register reports
-   unexpected fusing.  (Tvrtko)
+ - Drop has_common_ss_eumask.  We waste some space repeating identical
+   EU masks for every single DSS, but the code is simpler without it.
+   (Tvrtko)
+
+v3:
+ - Mask down EUs passed to sseu_set_eus at the callsite rather than
+   inside the function.  (Tvrtko)
+ - Eliminate sseu->eu_stride and calculate it when needed.  (Tvrtko)
 
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_sseu.c | 76 +++++++++++++---------------
- 1 file changed, 36 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_sseu.c | 88 ++++++++++++++++++----------
+ drivers/gpu/drm/i915/gt/intel_sseu.h | 10 +++-
+ drivers/gpu/drm/i915/i915_query.c    | 13 ++--
+ 3 files changed, 73 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
-index b5fd479a7b85..7e5222ad2f98 100644
+index 7e5222ad2f98..285cfd758bdc 100644
 --- a/drivers/gpu/drm/i915/gt/intel_sseu.c
 +++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
-@@ -119,52 +119,37 @@ static u16 compute_eu_total(const struct sseu_dev_info *sseu)
+@@ -19,8 +19,6 @@ void intel_sseu_set_info(struct sseu_dev_info *sseu, u8 max_slices,
+ 
+ 	sseu->ss_stride = GEN_SSEU_STRIDE(sseu->max_subslices);
+ 	GEM_BUG_ON(sseu->ss_stride > GEN_MAX_SUBSLICE_STRIDE);
+-	sseu->eu_stride = GEN_SSEU_STRIDE(sseu->max_eus_per_subslice);
+-	GEM_BUG_ON(sseu->eu_stride > GEN_MAX_EU_STRIDE);
+ }
+ 
+ unsigned int
+@@ -78,47 +76,77 @@ intel_sseu_subslices_per_slice(const struct sseu_dev_info *sseu, u8 slice)
+ 	return hweight32(intel_sseu_get_subslices(sseu, slice));
+ }
+ 
+-static int sseu_eu_idx(const struct sseu_dev_info *sseu, int slice,
+-		       int subslice)
+-{
+-	int slice_stride = sseu->max_subslices * sseu->eu_stride;
+-
+-	return slice * slice_stride + subslice * sseu->eu_stride;
+-}
+-
+ static u16 sseu_get_eus(const struct sseu_dev_info *sseu, int slice,
+ 			int subslice)
+ {
+-	int i, offset = sseu_eu_idx(sseu, slice, subslice);
+-	u16 eu_mask = 0;
+-
+-	for (i = 0; i < sseu->eu_stride; i++)
+-		eu_mask |=
+-			((u16)sseu->eu_mask[offset + i]) << (i * BITS_PER_BYTE);
+-
+-	return eu_mask;
++	if (sseu->has_xehp_dss) {
++		WARN_ON(slice > 0);
++		return sseu->eu_mask.xehp[subslice];
++	} else {
++		return sseu->eu_mask.hsw[slice][subslice];
++	}
+ }
+ 
+ static void sseu_set_eus(struct sseu_dev_info *sseu, int slice, int subslice,
+ 			 u16 eu_mask)
+ {
+-	int i, offset = sseu_eu_idx(sseu, slice, subslice);
+-
+-	for (i = 0; i < sseu->eu_stride; i++)
+-		sseu->eu_mask[offset + i] =
+-			(eu_mask >> (BITS_PER_BYTE * i)) & 0xff;
++	GEM_WARN_ON(eu_mask && __fls(eu_mask) >= sseu->max_eus_per_subslice);
++	if (sseu->has_xehp_dss) {
++		GEM_WARN_ON(slice > 0);
++		sseu->eu_mask.xehp[subslice] = eu_mask;
++	} else {
++		sseu->eu_mask.hsw[slice][subslice] = eu_mask;
++	}
+ }
+ 
+ static u16 compute_eu_total(const struct sseu_dev_info *sseu)
+ {
+-	u16 i, total = 0;
++	int s, ss, total = 0;
+ 
+-	for (i = 0; i < ARRAY_SIZE(sseu->eu_mask); i++)
+-		total += hweight8(sseu->eu_mask[i]);
++	for (s = 0; s < sseu->max_slices; s++)
++		for (ss = 0; ss < sseu->max_subslices; ss++)
++			if (sseu->has_xehp_dss)
++				total += hweight16(sseu->eu_mask.xehp[ss]);
++			else
++				total += hweight16(sseu->eu_mask.hsw[s][ss]);
+ 
  	return total;
  }
  
--static u32 get_ss_stride_mask(struct sseu_dev_info *sseu, u8 s, u32 ss_en)
--{
--	u32 ss_mask;
--
--	ss_mask = ss_en >> (s * sseu->max_subslices);
--	ss_mask &= GENMASK(sseu->max_subslices - 1, 0);
--
--	return ss_mask;
--}
--
--static void gen11_compute_sseu_info(struct sseu_dev_info *sseu, u8 s_en,
-+static void gen11_compute_sseu_info(struct sseu_dev_info *sseu,
++/**
++ * intel_sseu_copy_eumask_to_user - Copy EU mask into a userspace buffer
++ * @to: Pointer to userspace buffer to copy to
++ * @sseu: SSEU structure containing EU mask to copy
++ *
++ * Copies the EU mask to a userspace buffer in the format expected by
++ * the query ioctl's topology queries.
++ *
++ * Returns the result of the copy_to_user() operation.
++ */
++int intel_sseu_copy_eumask_to_user(void __user *to,
++				   const struct sseu_dev_info *sseu)
++{
++	u8 eu_mask[GEN_SS_MASK_SIZE * GEN_MAX_EU_STRIDE] = {};
++	int eu_stride = GEN_SSEU_STRIDE(sseu->max_eus_per_subslice);
++	int len = sseu->max_slices * sseu->max_subslices * eu_stride;
++	int s, ss, i;
++
++	for (s = 0; s < sseu->max_slices; s++) {
++		for (ss = 0; ss < sseu->max_subslices; ss++) {
++			int uapi_offset =
++				s * sseu->max_subslices * eu_stride +
++				ss * eu_stride;
++			u16 mask = sseu_get_eus(sseu, s, ss);
++
++			for (i = 0; i < eu_stride; i++)
++				eu_mask[uapi_offset + i] =
++					(mask >> (BITS_PER_BYTE * i)) & 0xff;
++		}
++	}
++
++	return copy_to_user(to, eu_mask, len);
++}
++
+ static void gen11_compute_sseu_info(struct sseu_dev_info *sseu,
  				    u32 g_ss_en, u32 c_ss_en, u16 eu_en)
  {
--	int s, ss;
-+	u32 valid_ss_mask = GENMASK(sseu->max_subslices - 1, 0);
-+	int ss;
+@@ -278,7 +306,7 @@ static void cherryview_sseu_info_init(struct intel_gt *gt)
+ 			  CHV_FGT_EU_DIS_SS0_R1_SHIFT) << 4);
  
- 	/* g_ss_en/c_ss_en represent entire subslice mask across all slices */
- 	GEM_BUG_ON(sseu->max_slices * sseu->max_subslices >
- 		   sizeof(g_ss_en) * BITS_PER_BYTE);
+ 		subslice_mask |= BIT(0);
+-		sseu_set_eus(sseu, 0, 0, ~disabled_mask);
++		sseu_set_eus(sseu, 0, 0, ~disabled_mask & 0xFF);
+ 	}
  
--	for (s = 0; s < sseu->max_slices; s++) {
--		if ((s_en & BIT(s)) == 0)
--			continue;
-+	sseu->slice_mask |= BIT(0);
+ 	if (!(fuse & CHV_FGT_DISABLE_SS1)) {
+@@ -289,7 +317,7 @@ static void cherryview_sseu_info_init(struct intel_gt *gt)
+ 			  CHV_FGT_EU_DIS_SS1_R1_SHIFT) << 4);
  
--		sseu->slice_mask |= BIT(s);
--
--		/*
--		 * XeHP introduces the concept of compute vs geometry DSS. To
--		 * reduce variation between GENs around subslice usage, store a
--		 * mask for both the geometry and compute enabled masks since
--		 * userspace will need to be able to query these masks
--		 * independently.  Also compute a total enabled subslice count
--		 * for the purposes of selecting subslices to use in a
--		 * particular GEM context.
--		 */
--		intel_sseu_set_subslices(sseu, s, sseu->compute_subslice_mask,
--					 get_ss_stride_mask(sseu, s, c_ss_en));
--		intel_sseu_set_subslices(sseu, s, sseu->geometry_subslice_mask,
--					 get_ss_stride_mask(sseu, s, g_ss_en));
--		intel_sseu_set_subslices(sseu, s, sseu->subslice_mask,
--					 get_ss_stride_mask(sseu, s,
--							    g_ss_en | c_ss_en));
-+	/*
-+	 * XeHP introduces the concept of compute vs geometry DSS. To reduce
-+	 * variation between GENs around subslice usage, store a mask for both
-+	 * the geometry and compute enabled masks since userspace will need to
-+	 * be able to query these masks independently.  Also compute a total
-+	 * enabled subslice count for the purposes of selecting subslices to
-+	 * use in a particular GEM context.
-+	 */
-+	intel_sseu_set_subslices(sseu, 0, sseu->compute_subslice_mask,
-+				 c_ss_en & valid_ss_mask);
-+	intel_sseu_set_subslices(sseu, 0, sseu->geometry_subslice_mask,
-+				 g_ss_en & valid_ss_mask);
-+	intel_sseu_set_subslices(sseu, 0, sseu->subslice_mask,
-+				 (g_ss_en | c_ss_en) & valid_ss_mask);
+ 		subslice_mask |= BIT(1);
+-		sseu_set_eus(sseu, 0, 1, ~disabled_mask);
++		sseu_set_eus(sseu, 0, 1, ~disabled_mask & 0xFF);
+ 	}
+ 
+ 	intel_sseu_set_subslices(sseu, 0, sseu->subslice_mask, subslice_mask);
+@@ -362,7 +390,7 @@ static void gen9_sseu_info_init(struct intel_gt *gt)
+ 
+ 			eu_disabled_mask = (eu_disable >> (ss * 8)) & eu_mask;
+ 
+-			sseu_set_eus(sseu, s, ss, ~eu_disabled_mask);
++			sseu_set_eus(sseu, s, ss, ~eu_disabled_mask & eu_mask);
+ 
+ 			eu_per_ss = sseu->max_eus_per_subslice -
+ 				hweight8(eu_disabled_mask);
+@@ -475,7 +503,7 @@ static void bdw_sseu_info_init(struct intel_gt *gt)
+ 			eu_disabled_mask =
+ 				eu_disable[s] >> (ss * sseu->max_eus_per_subslice);
+ 
+-			sseu_set_eus(sseu, s, ss, ~eu_disabled_mask);
++			sseu_set_eus(sseu, s, ss, ~eu_disabled_mask & 0xFF);
+ 
+ 			n_disabled = hweight8(eu_disabled_mask);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+index 4a041f9dc490..ffa375e68959 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu.h
++++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+@@ -57,7 +57,11 @@ struct sseu_dev_info {
+ 	u8 subslice_mask[GEN_SS_MASK_SIZE];
+ 	u8 geometry_subslice_mask[GEN_SS_MASK_SIZE];
+ 	u8 compute_subslice_mask[GEN_SS_MASK_SIZE];
+-	u8 eu_mask[GEN_SS_MASK_SIZE * GEN_MAX_EU_STRIDE];
++	union {
++		u16 hsw[GEN_MAX_HSW_SLICES][GEN_MAX_SS_PER_HSW_SLICE];
++		u16 xehp[GEN_MAX_DSS];
++	} eu_mask;
 +
-+	for (ss = 0; ss < sseu->max_subslices; ss++)
-+		if (intel_sseu_has_subslice(sseu, 0, ss))
-+			sseu_set_eus(sseu, 0, ss, eu_en);
+ 	u16 eu_total;
+ 	u8 eu_per_subslice;
+ 	u8 min_eu_in_pool;
+@@ -78,7 +82,6 @@ struct sseu_dev_info {
+ 	u8 max_eus_per_subslice;
  
--		for (ss = 0; ss < sseu->max_subslices; ss++)
--			if (intel_sseu_has_subslice(sseu, s, ss))
--				sseu_set_eus(sseu, s, ss, eu_en);
--	}
- 	sseu->eu_per_subslice = hweight16(eu_en);
- 	sseu->eu_total = compute_eu_total(sseu);
- }
-@@ -196,7 +181,7 @@ static void xehp_sseu_info_init(struct intel_gt *gt)
- 		if (eu_en_fuse & BIT(eu))
- 			eu_en |= BIT(eu * 2) | BIT(eu * 2 + 1);
+ 	u8 ss_stride;
+-	u8 eu_stride;
+ };
  
--	gen11_compute_sseu_info(sseu, 0x1, g_dss_en, c_dss_en, eu_en);
-+	gen11_compute_sseu_info(sseu, g_dss_en, c_dss_en, eu_en);
- }
+ /*
+@@ -150,4 +153,7 @@ void intel_sseu_print_topology(struct drm_i915_private *i915,
  
- static void gen12_sseu_info_init(struct intel_gt *gt)
-@@ -216,8 +201,13 @@ static void gen12_sseu_info_init(struct intel_gt *gt)
- 	 */
- 	intel_sseu_set_info(sseu, 1, 6, 16);
+ u16 intel_slicemask_from_dssmask(u64 dss_mask, int dss_per_slice);
  
-+	/*
-+	 * Although gen12 architecture supported multiple slices, TGL, RKL,
-+	 * DG1, and ADL only had a single slice.
-+	 */
- 	s_en = intel_uncore_read(uncore, GEN11_GT_SLICE_ENABLE) &
- 		GEN11_GT_S_ENA_MASK;
-+	drm_WARN_ON(&gt->i915->drm, s_en != 0x1);
- 
- 	g_dss_en = intel_uncore_read(uncore, GEN12_GT_GEOMETRY_DSS_ENABLE);
- 
-@@ -229,7 +219,7 @@ static void gen12_sseu_info_init(struct intel_gt *gt)
- 		if (eu_en_fuse & BIT(eu))
- 			eu_en |= BIT(eu * 2) | BIT(eu * 2 + 1);
- 
--	gen11_compute_sseu_info(sseu, s_en, g_dss_en, 0, eu_en);
-+	gen11_compute_sseu_info(sseu, g_dss_en, 0, eu_en);
- 
- 	/* TGL only supports slice-level power gating */
- 	sseu->has_slice_pg = 1;
-@@ -248,14 +238,20 @@ static void gen11_sseu_info_init(struct intel_gt *gt)
- 	else
- 		intel_sseu_set_info(sseu, 1, 8, 8);
- 
-+	/*
-+	 * Although gen11 architecture supported multiple slices, ICL and
-+	 * EHL/JSL only had a single slice in practice.
-+	 */
- 	s_en = intel_uncore_read(uncore, GEN11_GT_SLICE_ENABLE) &
- 		GEN11_GT_S_ENA_MASK;
-+	drm_WARN_ON(&gt->i915->drm, s_en != 0x1);
++int intel_sseu_copy_eumask_to_user(void __user *to,
++				   const struct sseu_dev_info *sseu);
 +
- 	ss_en = ~intel_uncore_read(uncore, GEN11_GT_SUBSLICE_DISABLE);
+ #endif /* __INTEL_SSEU_H__ */
+diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+index 7584cec53d5d..89c475d525b8 100644
+--- a/drivers/gpu/drm/i915/i915_query.c
++++ b/drivers/gpu/drm/i915/i915_query.c
+@@ -35,6 +35,7 @@ static int fill_topology_info(const struct sseu_dev_info *sseu,
+ {
+ 	struct drm_i915_query_topology_info topo;
+ 	u32 slice_length, subslice_length, eu_length, total_length;
++	int eu_stride = GEN_SSEU_STRIDE(sseu->max_eus_per_subslice);
+ 	int ret;
  
- 	eu_en = ~(intel_uncore_read(uncore, GEN11_EU_DISABLE) &
- 		  GEN11_EU_DIS_MASK);
+ 	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
+@@ -44,7 +45,7 @@ static int fill_topology_info(const struct sseu_dev_info *sseu,
  
--	gen11_compute_sseu_info(sseu, s_en, ss_en, 0, eu_en);
-+	gen11_compute_sseu_info(sseu, ss_en, 0, eu_en);
+ 	slice_length = sizeof(sseu->slice_mask);
+ 	subslice_length = sseu->max_slices * sseu->ss_stride;
+-	eu_length = sseu->max_slices * sseu->max_subslices * sseu->eu_stride;
++	eu_length = sseu->max_slices * sseu->max_subslices * eu_stride;
+ 	total_length = sizeof(topo) + slice_length + subslice_length +
+ 		       eu_length;
  
- 	/* ICL has no power gating restrictions. */
- 	sseu->has_slice_pg = 1;
+@@ -61,7 +62,7 @@ static int fill_topology_info(const struct sseu_dev_info *sseu,
+ 	topo.subslice_offset = slice_length;
+ 	topo.subslice_stride = sseu->ss_stride;
+ 	topo.eu_offset = slice_length + subslice_length;
+-	topo.eu_stride = sseu->eu_stride;
++	topo.eu_stride = eu_stride;
+ 
+ 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
+ 			 &topo, sizeof(topo)))
+@@ -76,10 +77,10 @@ static int fill_topology_info(const struct sseu_dev_info *sseu,
+ 			 subslice_mask, subslice_length))
+ 		return -EFAULT;
+ 
+-	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
+-					 sizeof(topo) +
+-					 slice_length + subslice_length),
+-			 sseu->eu_mask, eu_length))
++	if (intel_sseu_copy_eumask_to_user(u64_to_user_ptr(query_item->data_ptr +
++							   sizeof(topo) +
++							   slice_length + subslice_length),
++					   sseu))
+ 		return -EFAULT;
+ 
+ 	return total_length;
 -- 
 2.35.3
 
