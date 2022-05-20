@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BE352F042
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 18:12:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8F452F045
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 18:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5324C10E723;
-	Fri, 20 May 2022 16:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0693A10E7A6;
+	Fri, 20 May 2022 16:13:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD32D10E723
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 16:12:15 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2ff90e0937aso17506797b3.4
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 09:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6649310E7A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 16:13:05 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id j25so12109782wrc.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 09:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Pqyi41QHS9ba9YCVsZZlxgBFqkmxdii+DOUhWsNf4JM=;
- b=pP66Xe8ijIgmgl31Z/kiMDxKh22aJaoVav0zIa60uSGQ4LdQCbEGb3tS0k2UT+HXEL
- gSMi0+ul0SutrYvq4AtHncggCfFsWrVWcylzfn189g5irleNcf0tCKxNfdM2nKIdUtH2
- M8XSoIjMjVZTi4WaWieoAkWZni/ICU8bi5lEmcU88oJqMNxUvIdXbnVgEqblseViKBrE
- sMMSqY7xRVqMSIdhKaMO1uzpgO2RXUoM8uz34W7aIeNKnXkifYS5QjEL05cYsNH58ZC+
- b5C3+QIswMaiwrfsk50mUmacgz/TorB8CI/2nKvVK/D7HzUM48TqywDKLE/UbO0C5P88
- ZBrQ==
+ :cc:content-transfer-encoding;
+ bh=ipqOEuFHu2Nd21bFt01/0+/z/eZlM2I6EgR6QTamA4c=;
+ b=Vi8bKKQtMJOCH6PWFXZrgIIwYCB1hRYAZN5J1IvH8FdLKxkln8YsdvvKPM736hEneU
+ t2+ggDTtFOQdzEmWNu8TxsS1dlmRzZ3mQX6h2YkC5Vd4Uf3mhAp9+hBuOKNJZpo8CQZo
+ umdy+46JvMpUIR5Io/nT1dTTZZ1uXG/SSQZ45xNVdZgP2Xi1dpDedndVCwQb5L5eXNaH
+ gPNHNRpnzahyzEfFg3EIWwf8hFsjbQ6rzJqjE2YcZKTKsMiWwAl2sSiq5UuJpvhq4Uqz
+ cSq1yEQIs9lLAZ9dFyOtH1oEBi7skSV2FcgLlF2MSOMvMgztU+TJ5EDyxxK14N0eLfYq
+ whtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Pqyi41QHS9ba9YCVsZZlxgBFqkmxdii+DOUhWsNf4JM=;
- b=l2o4a1myVhmazEEejhZGHcHK1wXzZfOVmzWvLBh/QRGPA8tZV/jkYxSGoLe4dPOaQs
- klLYP6OZvb+i3Fb+2I8tRZ83zWJLtfC6VhM4lPprgMc/gfsDqQlY18ggIlN4M6hO3qe2
- NtCQUMsfYtXFSZFWD4MOcQbiFPAvqQOzFQnmHM5wdHpgPKeDh7OJw1vS8R8gnyWmK59G
- 85JMkqeIi4qGpxoxVeEYy4UmJ7syImOchSJr1u7Rth3LPDcfzDAjtd3YmaqZ//gPJiMa
- im5BBr+F2VfhfbF34gItHkdDq1mCgKW0rfjlvQgagNnBw7jDAIQvFLwDFJB/9FHEZCWE
- PVbw==
-X-Gm-Message-State: AOAM531w7qsfYrc9pLD7HJF2OgUaet8PXH5DaEwrR5rwuP48QiimiNQv
- JYx85rqSpw34+GyBAVRRNMDfFbiOT72lgOSshVw=
-X-Google-Smtp-Source: ABdhPJxKP8s7sEVnqbYH7qAZQFC4arPAJxuj8I3habwoVp/wJFjzMmoEthmrmYhmLJq9L0XjlSC2xwc7eMXvYCjLJZY=
-X-Received: by 2002:a81:3605:0:b0:2ff:29ec:2ef2 with SMTP id
- d5-20020a813605000000b002ff29ec2ef2mr10708414ywa.137.1653063135013; Fri, 20
- May 2022 09:12:15 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ipqOEuFHu2Nd21bFt01/0+/z/eZlM2I6EgR6QTamA4c=;
+ b=Zv3p6m2UUsYgcPR9yaintTul7F+vB7RVl+d3racx/U/4a1x8y7MvZZea5N4XM672an
+ +rsRLyM6qFVXE+Cv5EofmArMzyehS6bX5lCRaM6jy/8w2tCIa6X76kEUKuYCwH0K/tGq
+ qTSR31ImRJavPJg1iNCt4b05AHuJg3DH5yByAJNtZC7PBXp5TrLmzANQ7MZROX0JCQve
+ qj9HSLj0BOFRVnSUd/yf+aeQP3vlcvloG4D/8e048SRQlATJVzLYdGRroRj4IFkL6sWH
+ /jQT5kiWxv0c7pfiKRVmI3aN5XOMnOAtfJZybeRJrL4ELIigwCHeJ0lAW1MeDe20qf7I
+ 2TJg==
+X-Gm-Message-State: AOAM533qKbzKFVu1O1vQt59pMtY4zVs2Ih5P3v+CWo9qxUyII15TtNpE
+ 8SakKsOWu9PaXnhIdBFWvPAIC+7HHCg3oKGGTVBuBg==
+X-Google-Smtp-Source: ABdhPJzjmqWEsH8KmAjKreitYthaopgQb5uZCsdbBmAh580hzRoKENMPcSwBNbVBbp99jxXB145gAI0PZpVqxd2TVMA=
+X-Received: by 2002:a5d:5846:0:b0:20c:7407:5fa1 with SMTP id
+ i6-20020a5d5846000000b0020c74075fa1mr8871905wrf.116.1653063183383; Fri, 20
+ May 2022 09:13:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <1653031240-13623-1-git-send-email-ssengar@linux.microsoft.com>
-In-Reply-To: <1653031240-13623-1-git-send-email-ssengar@linux.microsoft.com>
-From: Deepak Rawat <drawat.floss@gmail.com>
-Date: Fri, 20 May 2022 09:12:04 -0700
-Message-ID: <CAHFnvW01rOJq2yuFQ2u692XKz9uNfoDoYmXYShpkS+rjeZSyUg@mail.gmail.com>
-Subject: Re: [PATCH] drm/hyperv : Removing the restruction of VRAM allocation
- with PCI bar size
-To: Saurabh Sengar <ssengar@linux.microsoft.com>
+References: <20220519214021.3572840-1-kaleshsingh@google.com>
+ <4e35dc30-1157-50b3-e3b6-954481a0524d@amd.com>
+In-Reply-To: <4e35dc30-1157-50b3-e3b6-954481a0524d@amd.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Fri, 20 May 2022 09:12:51 -0700
+Message-ID: <CAC_TJvcObmm3=ZJSd9ucGF04LnO3B2U0PH=ajTorvx66rdeLBA@mail.gmail.com>
+Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,146 +65,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Haiyang Zhang <haiyangz@microsoft.com>, ssengar@microsoft.com,
- Dexuan Cui <decui@microsoft.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ "Cc: Android Kernel" <kernel-team@android.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, Colin Cross <ccross@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Mike Rapoport <rppt@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 20, 2022 at 12:20 AM Saurabh Sengar
-<ssengar@linux.microsoft.com> wrote:
+On Thu, May 19, 2022 at 11:29 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> There were two different approaches getting used in this driver to
-> allocate vram:
->         1. VRAM allocation from PCI region for Gen1
->         2. VRAM alloaction from MMIO region for Gen2
-> First approach limilts the vram to PCI BAR size, which is 64 MB in most
-> legacy systems. This limits the maximum resolution to be restricted to
-> 64 MB size, and with recent conclusion on fbdev issue its concluded to have
-> similar allocation strategy for both Gen1 and Gen2. This patch unifies
-> the Gen1 and Gen2 vram allocation strategy.
+> Am 19.05.22 um 23:40 schrieb Kalesh Singh:
+> > Processes can pin shared memory by keeping a handle to it through a
+> > file descriptor; for instance dmabufs, memfd, and ashsmem (in Android).
+> >
+> > In the case of a memory leak, to identify the process pinning the
+> > memory, userspace needs to:
+> >    - Iterate the /proc/<pid>/fd/* for each process
+> >    - Do a readlink on each entry to identify the type of memory from
+> >      the file path.
+> >    - stat() each entry to get the size of the memory.
+> >
+> > The file permissions on /proc/<pid>/fd/* only allows for the owner
+> > or root to perform the operations above; and so is not suitable for
+> > capturing the system-wide state in a production environment.
+> >
+> > This issue was addressed for dmabufs by making /proc/*/fdinfo/*
+> > accessible to a process with PTRACE_MODE_READ_FSCREDS credentials[1]
+> > To allow the same kind of tracking for other types of shared memory,
+> > add the following fields to /proc/<pid>/fdinfo/<fd>:
+> >
+> > path - This allows identifying the type of memory based on common
+> >         prefixes: e.g. "/memfd...", "/dmabuf...", "/dev/ashmem..."
+> >
+> >         This was not an issued when dmabuf tracking was introduced
+> >         because the exp_name field of dmabuf fdinfo could be used
+> >         to distinguish dmabuf fds from other types.
+> >
+> > size - To track the amount of memory that is being pinned.
+> >
+> >         dmabufs expose size as an additional field in fdinfo. Remove
+> >         this and make it a common field for all fds.
+> >
+> > Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
+> > -- the same as for /proc/<pid>/maps which also exposes the path and
+> > size for mapped memory regions.
+> >
+> > This allows for a system process with PTRACE_MODE_READ_FSCREDS to
+> > account the pinned per-process memory via fdinfo.
 >
-> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> ---
-> FBdev patch Ref :
-> https://lore.kernel.org/lkml/20220428143746.sya775ro5zi3kgm3@liuwe-devbox-debian-v2/T/
+> I think this should be split into two patches, one adding the size and
+> one adding the path.
 >
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 76 ++-----------------------
->  1 file changed, 4 insertions(+), 72 deletions(-)
->
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index 4a8941fa0815..a32afd84f361 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -69,57 +69,8 @@ static struct pci_driver hyperv_pci_driver = {
->         .remove =       hyperv_pci_remove,
->  };
->
-> -static int hyperv_setup_gen1(struct hyperv_drm_device *hv)
-> -{
-> -       struct drm_device *dev = &hv->dev;
-> -       struct pci_dev *pdev;
-> -       int ret;
-> -
-> -       pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-> -                             PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-> -       if (!pdev) {
-> -               drm_err(dev, "Unable to find PCI Hyper-V video\n");
-> -               return -ENODEV;
-> -       }
-> -
-> -       ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &hyperv_driver);
-> -       if (ret) {
-> -               drm_err(dev, "Not able to remove boot fb\n");
-> -               return ret;
-> -       }
-> -
-> -       if (pci_request_region(pdev, 0, DRIVER_NAME) != 0)
-> -               drm_warn(dev, "Cannot request framebuffer, boot fb still active?\n");
-> -
-> -       if ((pdev->resource[0].flags & IORESOURCE_MEM) == 0) {
-> -               drm_err(dev, "Resource at bar 0 is not IORESOURCE_MEM\n");
-> -               ret = -ENODEV;
-> -               goto error;
-> -       }
-> -
-> -       hv->fb_base = pci_resource_start(pdev, 0);
-> -       hv->fb_size = pci_resource_len(pdev, 0);
-> -       if (!hv->fb_base) {
-> -               drm_err(dev, "Resource not available\n");
-> -               ret = -ENODEV;
-> -               goto error;
-> -       }
-> -
-> -       hv->fb_size = min(hv->fb_size,
-> -                         (unsigned long)(hv->mmio_megabytes * 1024 * 1024));
-> -       hv->vram = devm_ioremap(&pdev->dev, hv->fb_base, hv->fb_size);
-> -       if (!hv->vram) {
-> -               drm_err(dev, "Failed to map vram\n");
-> -               ret = -ENOMEM;
-> -       }
-> -
-> -error:
-> -       pci_dev_put(pdev);
-> -       return ret;
-> -}
-> -
-> -static int hyperv_setup_gen2(struct hyperv_drm_device *hv,
-> -                            struct hv_device *hdev)
-> +static int hyperv_setup_gen(struct hyperv_drm_device *hv,
-> +                           struct hv_device *hdev)
->  {
+> Adding the size is completely unproblematic, but the path might raise
+> some eyebrows.
 
-nit: This can be renamed to hyperv_setup_vram instead.
+Hi Christian,
 
-Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
+Thanks for reviewing. "path" is exposed under the same ptrace
+capability as in /proc/pid/maps. If we want to be more cautious, then
+perhaps only adding "path" for the applicable anon inodes (dmabuf,
+memfd, ...)? But prefer to keep it generic if no one sees an issue
+with that.
 
->         struct drm_device *dev = &hv->dev;
->         int ret;
-> @@ -181,10 +132,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
->                 goto err_hv_set_drv_data;
->         }
 >
-> -       if (efi_enabled(EFI_BOOT))
-> -               ret = hyperv_setup_gen2(hv, hdev);
-> -       else
-> -               ret = hyperv_setup_gen1(hv);
-> +       ret = hyperv_setup_gen(hv, hdev);
+> >
+> > [1] https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
+Flore.kernel.org%2Flkml%2F20210308170651.919148-1-kaleshsingh%40google.com%=
+2F&amp;data=3D05%7C01%7Cchristian.koenig%40amd.com%7C95ee7bf71c2c4aa342fa08=
+da39e03398%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637885932392014544%=
+7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWw=
+iLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3Dkf%2B2es12hV3z5zjOFhx3EyxI1XEMe=
+HexqTLNpNoDhAY%3D&amp;reserved=3D0
+> >
+> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > ---
+> >   Documentation/filesystems/proc.rst | 22 ++++++++++++++++++++--
+> >   drivers/dma-buf/dma-buf.c          |  1 -
+> >   fs/proc/fd.c                       |  9 +++++++--
+> >   3 files changed, 27 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesys=
+tems/proc.rst
+> > index 061744c436d9..ad66d78aca51 100644
+> > --- a/Documentation/filesystems/proc.rst
+> > +++ b/Documentation/filesystems/proc.rst
+> > @@ -1922,13 +1922,16 @@ if precise results are needed.
+> >   3.8 /proc/<pid>/fdinfo/<fd> - Information about opened file
+> >   ---------------------------------------------------------------
+> >   This file provides information associated with an opened file. The re=
+gular
+> > -files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
+> > +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'si=
+ze',
+> > +and 'path'.
+> > +
+> >   The 'pos' represents the current offset of the opened file in decimal
+> >   form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask=
+ the
+> >   file has been created with [see open(2) for details] and 'mnt_id' rep=
+resents
+> >   mount ID of the file system containing the opened file [see 3.5
+> >   /proc/<pid>/mountinfo for details]. 'ino' represents the inode number=
+ of
+> > -the file.
+> > +the file, 'size' represents the size of the file in bytes, and 'path'
+> > +represents the file path.
+> >
+> >   A typical output is::
+> >
+> > @@ -1936,6 +1939,8 @@ A typical output is::
+> >       flags:  0100002
+> >       mnt_id: 19
+> >       ino:    63107
+> > +        size:   0
+> > +        path:   /dev/null
+> >
+> >   All locks associated with a file descriptor are shown in its fdinfo t=
+oo::
+> >
+> > @@ -1953,6 +1958,8 @@ Eventfd files
+> >       flags:  04002
+> >       mnt_id: 9
+> >       ino:    63107
+> > +        size:   0
+> > +        path:   anon_inode:[eventfd]
+> >       eventfd-count:  5a
+> >
+> >   where 'eventfd-count' is hex value of a counter.
+> > @@ -1966,6 +1973,8 @@ Signalfd files
+> >       flags:  04002
+> >       mnt_id: 9
+> >       ino:    63107
+> > +        size:   0
+> > +        path:   anon_inode:[signalfd]
+> >       sigmask:        0000000000000200
+> >
+> >   where 'sigmask' is hex value of the signal mask associated
+> > @@ -1980,6 +1989,8 @@ Epoll files
+> >       flags:  02
+> >       mnt_id: 9
+> >       ino:    63107
+> > +        size:   0
+> > +        path:   anon_inode:[eventpoll]
+> >       tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:6=
+1af sdev:7
+> >
+> >   where 'tfd' is a target file descriptor number in decimal form,
+> > @@ -1998,6 +2009,8 @@ For inotify files the format is the following::
+> >       flags:  02000000
+> >       mnt_id: 9
+> >       ino:    63107
+> > +        size:   0
+> > +        path:   anon_inode:inotify
+> >       inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fha=
+ndle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+> >
+> >   where 'wd' is a watch descriptor in decimal form, i.e. a target file
+> > @@ -2021,6 +2034,8 @@ For fanotify files the format is::
+> >       flags:  02
+> >       mnt_id: 9
+> >       ino:    63107
+> > +        size:   0
+> > +        path:   anon_inode:[fanotify]
+> >       fanotify flags:10 event-flags:0
+> >       fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+> >       fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:4000=
+0000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+> > @@ -2046,6 +2061,8 @@ Timerfd files
+> >       flags:  02
+> >       mnt_id: 9
+> >       ino:    63107
+> > +        size:   0
+> > +        path:   anon_inode:[timerfd]
+> >       clockid: 0
+> >       ticks: 0
+> >       settime flags: 01
+> > @@ -2070,6 +2087,7 @@ DMA Buffer files
+> >       mnt_id: 9
+> >       ino:    63107
+> >       size:   32768
+> > +        path:   /dmabuf:
+> >       count:  2
+> >       exp_name:  system-heap
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index b1e25ae98302..d61183ff3c30 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -377,7 +377,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m,=
+ struct file *file)
+> >   {
+> >       struct dma_buf *dmabuf =3D file->private_data;
+> >
+> > -     seq_printf(m, "size:\t%zu\n", dmabuf->size);
+> >       /* Don't count the temporary reference taken inside procfs seq_sh=
+ow */
+> >       seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+> >       seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+> > diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+> > index 913bef0d2a36..a8a968bc58f0 100644
+> > --- a/fs/proc/fd.c
+> > +++ b/fs/proc/fd.c
+> > @@ -54,10 +54,15 @@ static int seq_show(struct seq_file *m, void *v)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n"=
+,
+> > +     seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\ns=
+ize:\t%zu\n",
+> >                  (long long)file->f_pos, f_flags,
+> >                  real_mount(file->f_path.mnt)->mnt_id,
+> > -                file_inode(file)->i_ino);
+> > +                file_inode(file)->i_ino,
+> > +                file_inode(file)->i_size);
 >
->         if (ret)
->                 goto err_vmbus_close;
-> @@ -225,29 +173,13 @@ static int hyperv_vmbus_remove(struct hv_device *hdev)
->  {
->         struct drm_device *dev = hv_get_drvdata(hdev);
->         struct hyperv_drm_device *hv = to_hv(dev);
-> -       struct pci_dev *pdev;
+> We might consider splitting this into multiple seq_printf calls, one for
+> each printed attribute.
 >
->         drm_dev_unplug(dev);
->         drm_atomic_helper_shutdown(dev);
->         vmbus_close(hdev->channel);
->         hv_set_drvdata(hdev, NULL);
+> It becomes a bit unreadable and the minimal additional overhead
+> shouldn't matter that much.
+
+Agreed. WIll update in the next version.
+
+Thanks,
+Kalesh
 >
-> -       /*
-> -        * Free allocated MMIO memory only on Gen2 VMs.
-> -        * On Gen1 VMs, release the PCI device
-> -        */
-> -       if (efi_enabled(EFI_BOOT)) {
-> -               vmbus_free_mmio(hv->mem->start, hv->fb_size);
-> -       } else {
-> -               pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-> -                                     PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-> -               if (!pdev) {
-> -                       drm_err(dev, "Unable to find PCI Hyper-V video\n");
-> -                       return -ENODEV;
-> -               }
-> -               pci_release_region(pdev, 0);
-> -               pci_dev_put(pdev);
-> -       }
-> +       vmbus_free_mmio(hv->mem->start, hv->fb_size);
+> Regards,
+> Christian.
 >
->         return 0;
->  }
-> --
-> 2.25.1
+> > +
+> > +     seq_puts(m, "path:\t");
+> > +     seq_file_path(m, file, "\n");
+> > +     seq_putc(m, '\n');
+> >
+> >       /* show_fd_locks() never deferences files so a stale value is saf=
+e */
+> >       show_fd_locks(m, file, files);
+> >
+> > base-commit: b015dcd62b86d298829990f8261d5d154b8d7af5
 >
