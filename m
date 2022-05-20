@@ -2,49 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED3D52E4B9
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 08:10:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4991652E4E4
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 08:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E9211B3AE;
-	Fri, 20 May 2022 06:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B64411B4DF;
+	Fri, 20 May 2022 06:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E903111B3AE;
- Fri, 20 May 2022 06:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653027009; x=1684563009;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=0IGNZy702JKiu4Ffd+miSfnDB5aL95QU70i4umciOZU=;
- b=TKYXgI6BTAzMtqv9GmWFgcUXKN7/2zCtdORXykAOQSHhArIBlhh+Rn25
- LJqTAsEReu78iBAWbtJC8CmsOArWCj7INVkHvOsmAoE+qwxFuwHt56BOV
- a3Hec+00Sxlp6hD21uNHpnRRtqmlredu3guOlN+QZec0q/bIniNqxcDno
- IMM5Pp/N+BR1hq3jSvUVwneLu/BaMko8tUPEoHUq6xg0WeTpZqbF5b8t+
- ah8QArrch1bjdmGjbfEGSpcgkI1N2rnn7ZZjQRGvKFQQpOSYrcnSN8uUK
- gcM/4wkXGE/CaZU+NBxEmdMbDV5MSDpkwRInuRCyH+dGOKKVdhAkrtda+ g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="253019643"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="253019643"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 23:10:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="576024797"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
- by fmsmga007.fm.intel.com with ESMTP; 19 May 2022 23:10:03 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nrvpr-0004Lj-5P;
- Fri, 20 May 2022 06:10:03 +0000
-Date: Fri, 20 May 2022 14:08:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 21498d01d045c5b95b93e0a0625ae965b4330ebe
-Message-ID: <62873074.g1g0twvcKbX70gr/%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22F7A11B4DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 06:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653027558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WWnyUXwbnXllaQ0uv1b5t0P1ieqzLCHOX4I/wGwYkZE=;
+ b=dv33vae/q6R133aTOEuR7ZgcVIk6x++T7txCoP8qdnwNq2XudQG/rQIH89DSqIQ6knhXcM
+ eX9dQbcjUZ9iCROfmiqjFhevTEPUpOknj6XXRNPMS/MRc8obA2mOud67BMIO9UU7n7jgq2
+ 2Tl7MZG+WQabqmJYYvpDBBetF0ZVfWg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-626-QUyC9TbxM_G0g75OeFPJyg-1; Fri, 20 May 2022 02:19:14 -0400
+X-MC-Unique: QUyC9TbxM_G0g75OeFPJyg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v124-20020a1cac82000000b003948b870a8dso5647834wme.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 23:19:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WWnyUXwbnXllaQ0uv1b5t0P1ieqzLCHOX4I/wGwYkZE=;
+ b=6mAvbZVzYX6Hf8KfLfxyXHFcyMrDyKSqq01hLlIxuIUH8Vcf32ff5oP/4XyB8r8tIf
+ C8PO54w5kWbd2vowvIhH6QnPWsM2vTw//+u+N0N4325HkXERW9ueq8aT4/Sc2pEfV5d/
+ EJT0WcmzyzN4wzM6HbsofvgdmtdEDk+4NDVFsA+wa9BJYDoq2kqr/sicGPAaRFUWYe2H
+ JlXlDpnLlPEWsfCqFR3Xa46N4DaMFppvrpDwDp6w1+ln8lUJQErsUpEkRF/bzlnPBEkC
+ kJ3oaosr9xky7qBX8YwVf35oD5jJJjhx54ooObkdkWlPzYm3cap0Y5ueyQKivzIUz7pA
+ ppog==
+X-Gm-Message-State: AOAM531bhUMfvd4mp5q2dZFC4BuvNOazrz7Wbg5LnR7r3fYauSuhyeNe
+ O1slka3hBqbzmaEfHRJn80Wdf+mcUvw3a+YpZJT2oxv/+JYP+IVgzUB0xeJ6WJw9snNtS8VrQbd
+ a3FctfNRVmuv2D/UYWzpF0KB6JEYq
+X-Received: by 2002:adf:ea0a:0:b0:20f:afa:c885 with SMTP id
+ q10-20020adfea0a000000b0020f0afac885mr947013wrm.640.1653027553117; 
+ Thu, 19 May 2022 23:19:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1apKhwtDuwN5y6ql+wtzPt4dv5/GCFcazI5SvaYczGFn7reMg6aU/08qipp7Qzw+vBvg6qg==
+X-Received: by 2002:adf:ea0a:0:b0:20f:afa:c885 with SMTP id
+ q10-20020adfea0a000000b0020f0afac885mr946992wrm.640.1653027552861; 
+ Thu, 19 May 2022 23:19:12 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ s26-20020adfa29a000000b0020d069148bcsm1433018wra.110.2022.05.19.23.19.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 May 2022 23:19:12 -0700 (PDT)
+Message-ID: <84a550c3-dcef-17ac-0ae5-666cdf0fb67e@redhat.com>
+Date: Fri, 20 May 2022 08:19:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/2] drm/tiny: Add ofdrm for Open Firmware framebuffers
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
+ msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org
+References: <20220518183006.14548-1-tzimmermann@suse.de>
+ <20220518183006.14548-3-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220518183006.14548-3-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,500 +91,257 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fbdev@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- kvm@vger.kernel.org, linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-nvme@lists.infradead.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org,
- bpf@vger.kernel.org, linux-omap@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 21498d01d045c5b95b93e0a0625ae965b4330ebe  Add linux-next specific files for 20220519
+Hello Thomas,
 
-Error/Warning reports:
+On 5/18/22 20:30, Thomas Zimmermann wrote:
 
-https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205122113.uLKzd3SZ-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205172344.3GFeaum1-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205192041.eAjgoXSY-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205192334.DNijFnTC-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205200219.llzx7zfy-lkp@intel.com
-https://lore.kernel.org/llvm/202205052057.2TyEsXsL-lkp@intel.com
-https://lore.kernel.org/llvm/202205060132.uhqyUx1l-lkp@intel.com
-https://lore.kernel.org/llvm/202205170352.5YjuBP5H-lkp@intel.com
-https://lore.kernel.org/llvm/202205200012.68rPHREP-lkp@intel.com
+>  
+> +config DRM_OFDRM
+> +	tristate "Open Firmware display driver"
+> +	depends on DRM && MMU && PPC
 
-Error/Warning: (recently discovered and may have been fixed)
+Shouldn't depend on OF? I mean, is a DRM driver for Open Firmware after all :)
 
-<command-line>: fatal error: ./include/generated/utsrelease.h: No such file or directory
-ERROR: modpost: "devm_ioremap_resource" [drivers/net/can/ctucanfd/ctucanfd_platform.ko] undefined!
-arch/x86/kvm/hyperv.c:1983:22: error: shift count >= width of type [-Werror,-Wshift-count-overflow]
-arch/x86/kvm/pmu.h:20:32: warning: 'vmx_icl_pebs_cpu' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1364:5: warning: no previous prototype for 'amdgpu_discovery_get_mall_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:1986:6: warning: no previous prototype for function 'gfx_v11_0_rlc_stop' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/soc21.c:171:6: warning: no previous prototype for 'soc21_grbm_select' [-Wmissing-prototypes]
-drivers/gpu/drm/solomon/ssd130x-spi.c:154:35: warning: 'ssd130x_spi_table' defined but not used [-Wunused-const-variable=]
-drivers/hwmon/nct6775-platform.c:199:9: sparse:    unsigned char
-drivers/hwmon/nct6775-platform.c:199:9: sparse:    void
-drivers/net/ethernet/dec/tulip/eeprom.c:120:54: error: 'struct pci_dev' has no member named 'pdev'; did you mean 'dev'?
-drivers/net/ethernet/mellanox/mlx5/core/lag/mpesw.h:22:6: warning: no previous prototype for function 'mlx5_lag_mpesw_init' [-Wmissing-prototypes]
-drivers/net/ethernet/mellanox/mlx5/core/lag/mpesw.h:23:6: warning: no previous prototype for function 'mlx5_lag_mpesw_cleanup' [-Wmissing-prototypes]
-drivers/nvme/host/fc.c:1914: undefined reference to `blkcg_get_fc_appid'
-drivers/video/fbdev/omap/hwa742.c:492:5: warning: no previous prototype for 'hwa742_update_window_async' [-Wmissing-prototypes]
-include/asm-generic/bitops/const_hweight.h:21:76: warning: right shift count >= width of type [-Wshift-count-overflow]
-kernel/trace/fgraph.c:37:12: warning: no previous prototype for function 'ftrace_enable_ftrace_graph_caller' [-Wmissing-prototypes]
-kernel/trace/fgraph.c:46:12: warning: no previous prototype for function 'ftrace_disable_ftrace_graph_caller' [-Wmissing-prototypes]
+I know that the old drivers/video/fbdev/offb.c doesn't, but I think that is a
+but and should `depends on OF || COMPILE_TEST`
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+> +
+> +/*
+> + * Helpers for display nodes
+> + */
+> +
+> +static int display_get_validated_int(struct drm_device *dev, const char *name, uint32_t value)
+> +{
+> +	if (value > INT_MAX) {
+> +		drm_err(dev, "invalid framebuffer %s of %u\n", name, value);
+> +		return -EINVAL;
+> +	}
+> +	return (int)value;
+> +}
+> +
+> +static int display_get_validated_int0(struct drm_device *dev, const char *name, uint32_t value)
+> +{
+> +	if (!value) {
+> +		drm_err(dev, "invalid framebuffer %s of %u\n", name, value);
+> +		return -EINVAL;
+> +	}
+> +	return display_get_validated_int(dev, name, value);
+> +}
+> +
 
-Makefile:686: arch/h8300/Makefile: No such file or directory
-arch/Kconfig:10: can't open file "arch/h8300/Kconfig"
-arch/riscv/include/asm/tlbflush.h:23:2: error: expected assembly-time absolute expression
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1364:5: warning: no previous prototype for function 'amdgpu_discovery_get_mall_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c:129:6: warning: no previous prototype for function 'amdgpu_ucode_print_imu_hdr' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/imu_v11_0.c:302:6: warning: no previous prototype for function 'program_imu_rlc_ram' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/soc21.c:171:6: warning: no previous prototype for function 'soc21_grbm_select' [-Wmissing-prototypes]
-drivers/gpu/drm/bridge/adv7511/adv7511.h:229:17: warning: 'ADV7511_REG_CEC_RX_FRAME_HDR' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/bridge/adv7511/adv7511.h:235:17: warning: 'ADV7511_REG_CEC_RX_FRAME_LEN' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:276:27: error: implicit declaration of function 'sysfs_gt_attribute_r_max_func' [-Werror=implicit-function-declaration]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:327:16: error: implicit declaration of function 'sysfs_gt_attribute_w_func' [-Werror=implicit-function-declaration]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:416:24: error: implicit declaration of function 'sysfs_gt_attribute_r_min_func' [-Werror=implicit-function-declaration]
-drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:47 sysfs_gt_attribute_w_func() error: uninitialized symbol 'ret'.
-drivers/gpu/drm/i915/gt/intel_rps.c:2325 rps_read_mmio() error: uninitialized symbol 'val'.
-drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubious: x & !y
-drivers/staging/vt6655/card.c:759:16: sparse: sparse: cast to restricted __le64
-fc.c:(.text+0x432): undefined reference to `blkcg_get_fc_appid'
-fc.c:(.text+0x492): undefined reference to `blkcg_get_fc_appid'
-fc.c:(.text+0x5fe): undefined reference to `blkcg_get_fc_appid'
-fc.c:(.text+0x790): undefined reference to `blkcg_get_fc_appid'
-fc.c:(.text+0x7de): undefined reference to `blkcg_get_fc_appid'
-kernel/bpf/verifier.c:5354 process_kptr_func() warn: passing zero to 'PTR_ERR'
-ld.lld: error: undefined symbol: blkcg_get_fc_appid
-make[1]: *** No rule to make target 'arch/h8300/Makefile'.
-mm/shmem.c:1910 shmem_getpage_gfp() warn: should '(((1) << 12) / 512) << folio_order(folio)' be a 64 bit type?
-powerpc64-linux-ld: drivers/gpu/drm/bridge/analogix/analogix_dp_reg.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/gpu/drm/bridge/analogix/analogix_dp_core.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/mfd/mt6397-irq.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/mfd/mt6397-core.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/mmc/core/host.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/mmc/core/bus.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/mtd/mtdchar.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/mtd/mtdsuper.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/nfc/nxp-nci/firmware.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/nfc/nxp-nci/core.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/nfc/s3fwrn5/nci.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/nfc/s3fwrn5/firmware.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/soundwire/master.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/soundwire/bus.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: drivers/staging/greybus/audio_manager_module.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/staging/greybus/audio_manager.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: drivers/w1/w1_int.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; drivers/w1/w1.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: fs/exfat/namei.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/exfat/inode.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/hpfs/anode.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/hpfs/alloc.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/omfs/dir.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; fs/omfs/bitmap.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: fs/pstore/pmsg.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; fs/pstore/platform.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: net/decnet/dn_route.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; net/decnet/dn_nsp_out.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/nfc/nci/ntf.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/nfc/nci/data.o:(.bss+0x0): first defined here
-powerpc64-linux-ld: net/nfc/rawsock.o:(.bss+0x40): multiple definition of `____cacheline_aligned'; net/nfc/af_nfc.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: net/unix/sysctl_net_unix.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; net/unix/garbage.o:(.bss+0x40): first defined here
-powerpc64-linux-ld: sound/soc/bcm/bcm63xx-pcm-whistler.o:(.bss+0x0): multiple definition of `____cacheline_aligned'; sound/soc/bcm/bcm63xx-i2s-whistler.o:(.bss+0x0): first defined here
-{standard input}:1991: Error: unknown pseudo-op: `.lc'
+These two helpers are the same that we already have in simpledrm.c, maybe could
+include a preparatory patch that moves to drivers/gpu/drm/drm_format_helper.c
+and make them public for drivers to use ? Or maybe even as static inline in
+include/drm/drm_format_helper.h ?
 
-Error/Warning ids grouped by kconfigs:
+> +static const struct drm_format_info *display_get_validated_format(struct drm_device *dev,
+> +								  u32 depth)
+> +{
+> +	const struct drm_format_info *info;
+> +	u32 format;
+> +
+> +	switch (depth) {
+> +	case 8:
+> +		format = drm_mode_legacy_fb_format(8, 8);
+> +		break;
+> +	case 15:
 
-gcc_recent_errors
-|-- alpha-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- alpha-randconfig-s032-20220519
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- arc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- arc-randconfig-r043-20220519
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- arm-allmodconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|-- arm-allyesconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|-- arm-randconfig-r024-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- arm-rpc_defconfig
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- arm64-allmodconfig
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- arm64-allyesconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- arm64-randconfig-r006-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- csky-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- csky-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- h8300-allmodconfig
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-allyesconfig
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- i386-allmodconfig
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- i386-allyesconfig
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|-- i386-debian-10.3
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- i386-debian-10.3-kselftests
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- i386-randconfig-a003
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   `-- include-asm-generic-bitops-const_hweight.h:warning:right-shift-count-width-of-type
-|-- i386-randconfig-a012
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-a014
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- fc.c:(.text):undefined-reference-to-blkcg_get_fc_appid
-|-- i386-randconfig-a016
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-c001
-|   `-- fc.c:(.text):undefined-reference-to-blkcg_get_fc_appid
-|-- i386-randconfig-m021
-|   |-- kernel-bpf-verifier.c-process_kptr_func()-warn:passing-zero-to-PTR_ERR
-|   `-- mm-shmem.c-shmem_getpage_gfp()-warn:should-((()-)-)-folio_order(folio)-be-a-bit-type
-|-- i386-randconfig-s001
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_max_func
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_min_func
-|   `-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_w_func
-|-- i386-randconfig-s002
-|   `-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- ia64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- m68k-allmodconfig
-|   |-- drivers-hwmon-nct6775-platform.c:sparse:sparse:incompatible-types-in-conditional-expression-(different-base-types):
-|   |-- drivers-hwmon-nct6775-platform.c:sparse:unsigned-char
-|   `-- drivers-hwmon-nct6775-platform.c:sparse:void
-|-- m68k-allyesconfig
-|   |-- drivers-hwmon-nct6775-platform.c:sparse:sparse:incompatible-types-in-conditional-expression-(different-base-types):
-|   |-- drivers-hwmon-nct6775-platform.c:sparse:unsigned-char
-|   `-- drivers-hwmon-nct6775-platform.c:sparse:void
-|-- mips-allmodconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- mips-allyesconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- mips-randconfig-r014-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- nios2-randconfig-r015-20220519
-|   `-- drivers-nvme-host-fc.c:undefined-reference-to-blkcg_get_fc_appid
-|-- parisc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-net-ethernet-dec-tulip-eeprom.c:error:struct-pci_dev-has-no-member-named-pdev
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- parisc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-net-ethernet-dec-tulip-eeprom.c:error:struct-pci_dev-has-no-member-named-pdev
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- parisc-defconfig
-|   `-- drivers-net-ethernet-dec-tulip-eeprom.c:error:struct-pci_dev-has-no-member-named-pdev
-|-- parisc64-allmodconfig
-|   `-- drivers-net-ethernet-dec-tulip-eeprom.c:error:struct-pci_dev-has-no-member-named-pdev
-|-- parisc64-defconfig
-|   `-- drivers-net-ethernet-dec-tulip-eeprom.c:error:struct-pci_dev-has-no-member-named-pdev
-|-- powerpc-allmodconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- powerpc-allyesconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- powerpc-randconfig-r001-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- powerpc-randconfig-r005-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- powerpc64-randconfig-c003-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- powerpc64-randconfig-r036-20220519
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-bridge-analogix-analogix_dp_core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mfd-mt6397-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mmc-core-bus.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-mtd-mtdsuper.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-nfc-nxp-nci-core.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-nfc-s3fwrn5-firmware.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-soundwire-bus.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-staging-greybus-audio_manager.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-w1-w1.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-exfat-inode.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-hpfs-alloc.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-omfs-bitmap.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-fs-pstore-platform.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-decnet-dn_nsp_out.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-nfc-af_nfc.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-nfc-nci-data.o:(.bss):first-defined-here
-|   |-- multiple-definition-of-____cacheline_aligned-net-unix-garbage.o:(.bss):first-defined-here
-|   `-- multiple-definition-of-____cacheline_aligned-sound-soc-bcm-bcm63xx-i2s-whistler.o:(.bss):first-defined-here
-|-- riscv-allmodconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- riscv-allyesconfig
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- riscv-randconfig-r034-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- s390-allmodconfig
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- s390-allyesconfig
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- s390-randconfig-r002-20220519
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- s390-randconfig-r034-20220519
-|   `-- ERROR:devm_ioremap_resource-drivers-net-can-ctucanfd-ctucanfd_platform.ko-undefined
-|-- sh-allmodconfig
-|   |-- arch-sh-kernel-crash_dump.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-addr-got-void-noderef-__iomem
-|   `-- standard-input:Error:unknown-pseudo-op:lc
-|-- sh-allyesconfig
-|   |-- arch-sh-kernel-crash_dump.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-addr-got-void-noderef-__iomem
-|   `-- standard-input:Error:unknown-pseudo-op:lc
-|-- sparc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- sparc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- x86_64-allmodconfig
-|   `-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|-- x86_64-allyesconfig
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   |-- command-line:fatal-error:.-include-generated-utsrelease.h:No-such-file-or-directory
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|-- x86_64-kexec
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-randconfig-a002
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   `-- fc.c:(.text):undefined-reference-to-blkcg_get_fc_appid
-|-- x86_64-randconfig-a011
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_max_func
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_min_func
-|   `-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_w_func
-|-- x86_64-randconfig-a015
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   `-- fc.c:(.text):undefined-reference-to-blkcg_get_fc_appid
-|-- x86_64-randconfig-c002
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_max_func
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_r_min_func
-|   `-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c:error:implicit-declaration-of-function-sysfs_gt_attribute_w_func
-|-- x86_64-randconfig-s021
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- fc.c:(.text):undefined-reference-to-blkcg_get_fc_appid
-|-- x86_64-rhel-8.3
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-rhel-8.3-func
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-rhel-8.3-kselftests
-|   |-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|   |-- drivers-gpu-drm-i915-gt-intel_gt_sysfs_pm.c-sysfs_gt_attribute_w_func()-error:uninitialized-symbol-ret-.
-|   |-- drivers-gpu-drm-i915-gt-intel_rps.c-rps_read_mmio()-error:uninitialized-symbol-val-.
-|   `-- kernel-bpf-verifier.c-process_kptr_func()-warn:passing-zero-to-PTR_ERR
-|-- x86_64-rhel-8.3-kunit
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- x86_64-rhel-8.3-syz
-|   `-- arch-x86-kvm-pmu.h:warning:vmx_icl_pebs_cpu-defined-but-not-used
-|-- xtensa-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-`-- xtensa-allyesconfig
-    |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-    `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+I think is customary now to add /* fall through */ here to silence GCC warns ?
 
-clang_recent_errors
-|-- i386-randconfig-a002
-|   `-- arch-x86-kvm-hyperv.c:error:shift-count-width-of-type-Werror-Wshift-count-overflow
-|-- i386-randconfig-a004
-|   `-- ld.lld:error:undefined-symbol:blkcg_get_fc_appid
-|-- i386-randconfig-a015
-|   |-- drivers-net-ethernet-mellanox-mlx5-core-lag-mpesw.h:warning:no-previous-prototype-for-function-mlx5_lag_mpesw_cleanup
-|   `-- drivers-net-ethernet-mellanox-mlx5-core-lag-mpesw.h:warning:no-previous-prototype-for-function-mlx5_lag_mpesw_init
-|-- riscv-randconfig-r042-20220519
-|   |-- arch-riscv-include-asm-tlbflush.h:error:expected-assembly-time-absolute-expression
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-function-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ucode.c:warning:no-previous-prototype-for-function-amdgpu_ucode_print_imu_hdr
-|   |-- drivers-gpu-drm-amd-amdgpu-gfx_v11_0.c:warning:no-previous-prototype-for-function-gfx_v11_0_rlc_stop
-|   |-- drivers-gpu-drm-amd-amdgpu-imu_v11_0.c:warning:no-previous-prototype-for-function-program_imu_rlc_ram
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-function-soc21_grbm_select
-|   |-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-function-ftrace_disable_ftrace_graph_caller
-|   `-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-function-ftrace_enable_ftrace_graph_caller
-`-- x86_64-randconfig-a003
-    `-- ld.lld:error:undefined-symbol:blkcg_get_fc_appid
+> +}
+> +
+> +static int display_read_u32_of(struct drm_device *dev, struct device_node *of_node,
+> +			       const char *name, u32 *value)
+> +{
+> +	int ret = of_property_read_u32(of_node, name, value);
+> +
+> +	if (ret)
+> +		drm_err(dev, "cannot parse framebuffer %s: error %d\n", name, ret);
+> +	return ret;
+> +}
+> +
 
-elapsed time: 1189m
+[snip]
 
-configs tested: 102
-configs skipped: 4
+> +static u64 display_get_address_of(struct drm_device *dev, struct device_node *of_node)
+> +{
+> +	u32 address;
+> +	int ret;
+> +
+> +	/*
+> +	 * Not all devices provide an address property, it's not
+> +	 * a bug if this fails. The driver will try to find the
+> +	 * framebuffer base address from the device's memory regions.
+> +	 */
+> +	ret = of_property_read_u32(of_node, "address", &address);
+> +	if (ret)
+> +		return OF_BAD_ADDR;
+> +
+> +	return address;
+> +}
+> +
 
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-x86_64                           allyesconfig
-i386                             allyesconfig
-ia64                             allmodconfig
-mips                             allyesconfig
-riscv                            allyesconfig
-um                           x86_64_defconfig
-riscv                            allmodconfig
-um                             i386_defconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-m68k                             allyesconfig
-s390                             allmodconfig
-s390                             allyesconfig
-m68k                             allmodconfig
-powerpc                          allyesconfig
-i386                          randconfig-c001
-sparc                            allyesconfig
-parisc                           allyesconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-powerpc                     mpc83xx_defconfig
-sh                           se7705_defconfig
-powerpc                     taishan_defconfig
-arm                             rpc_defconfig
-m68k                       m5208evb_defconfig
-m68k                        mvme147_defconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-alpha                               defconfig
-csky                                defconfig
-arc                                 defconfig
-parisc                              defconfig
-s390                                defconfig
-parisc64                            defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-sparc                               defconfig
-nios2                               defconfig
-powerpc                           allnoconfig
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220519
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-riscv                             allnoconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-syz
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-x86_64                               rhel-8.3
-x86_64                              defconfig
+All these helpers seems to be quite generic and something that other OF
+drivers could benefit from. Maybe add them to drivers/gpu/drm/drm_of.c ?
 
-clang tested configs:
-powerpc                     mpc512x_defconfig
-arm                          pxa168_defconfig
-mips                      pic32mzda_defconfig
-mips                  cavium_octeon_defconfig
-mips                malta_qemu_32r6_defconfig
-arm                       mainstone_defconfig
-powerpc                   bluestone_defconfig
-arm                          ixp4xx_defconfig
-powerpc                  mpc866_ads_defconfig
-mips                           rs90_defconfig
-arm                         socfpga_defconfig
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r041-20220519
-hexagon              randconfig-r045-20220519
-s390                 randconfig-r044-20220519
-riscv                randconfig-r042-20220519
+> +#if defined(CONFIG_PCI)
+> +static struct pci_dev *display_get_pci_dev_of(struct drm_device *dev, struct device_node *of_node)
+> +{
+> +	const __be32 *vendor_p, *device_p;
+> +	u32 vendor, device;
+> +	struct pci_dev *pcidev;
+> +
+> +	vendor_p = of_get_property(of_node, "vendor-id", NULL);
+> +	if (!vendor_p)
+> +		return ERR_PTR(-ENODEV);
+> +	vendor = be32_to_cpup(vendor_p);
+> +
+> +	device_p = of_get_property(of_node, "device-id", NULL);
+> +	if (!device_p)
+> +		return ERR_PTR(-ENODEV);
+> +	device = be32_to_cpup(device_p);
+> +
+> +	pcidev = pci_get_device(vendor, device, NULL);
+> +	if (!pcidev)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	return pcidev;
+> +}
+> +#else
+> +static struct pci_dev *display_get_pci_dev_of(struct drm_device *dev, struct device_node *of_node)
+> +{
+> +	return ERR_PTR(-ENODEV);
+> +}
+> +#endif
+> +
+
+Unsure about this one, I don't see other display driver using a "vendor-id"
+or "device-id" when looking at Documentation/devicetree/bindings/, so guess
+this one would have to remain in the driver and not in a helper library.
+
+But since you have #ifdefery here, maybe would be cleaner to have that stub
+defined as static inline in include/drm/drm_of.h ?
+
+
+> +static struct ofdrm_device *ofdrm_device_of_dev(struct drm_device *dev)
+> +{
+> +	return container_of(dev, struct ofdrm_device, dev);
+> +}
+> +
+> +/*
+> + *  OF display settings
+> + */
+> +
+
+This seems like another candidate to move to the include/drm/drm_of.h header. 
+
+> +static struct drm_display_mode ofdrm_mode(unsigned int width, unsigned int height)
+> +{
+> +	struct drm_display_mode mode = { OFDRM_MODE(width, height) };
+> +
+> +	mode.clock = mode.hdisplay * mode.vdisplay * 60 / 1000 /* kHz */;
+
+Maybe a comment here about the clock value chosen ?
+
+> +	drm_mode_set_name(&mode);
+> +
+> +	return mode;
+> +}
+> +
+
+[snip]
+
+> +
+> +	/*
+> +	 * Never use pcim_ or other managed helpers on the returned PCI
+> +	 * device. Otherwise, probing the native driver will fail for
+> +	 * resource conflicts. PCI-device management has to be tied to
+> +	 * the lifetime of the platform device until the native driver
+> +	 * takes over.
+> +	 */
+
+Ah, was this the issue that you mentioned the other day? How interesting.
+
+
+> +/*
+> + * Support all formats of OF display and maybe more; in order
+> + * of preference. The display's update function will do any
+> + * conversion necessary.
+> + *
+> + * TODO: Add blit helpers for remaining formats and uncomment
+> + *       constants.
+> + */
+> +static const uint32_t ofdrm_default_formats[] = {
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_RGB565,
+> +	//DRM_FORMAT_XRGB1555,
+
+Wonder if makes sense to keep this commented and the TODO, why not
+leave that format from first version and just do it as follow-up ?
+
+> +static const struct drm_connector_funcs ofdrm_connector_funcs = {
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.destroy = drm_connector_cleanup,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +};
+
+All of the callbacks used comes from helper libraries so I maybe we
+could have a macro or something to set those ? It's the same set that
+are used in simpledrm so it would make sense to have them defined in
+the same place.
+
+> +static const struct drm_mode_config_funcs ofdrm_mode_config_funcs = {
+> +	.fb_create = drm_gem_fb_create_with_dirty,
+> +	.atomic_check = drm_atomic_helper_check,
+> +	.atomic_commit = drm_atomic_helper_commit,
+> +};
+> +
+
+Same for these. We could also have a macro to define this for both
+simpledrm and ofdrm.
+
+> +static const uint32_t *ofdrm_device_formats(struct ofdrm_device *odev, size_t *nformats_out)
+> +{
+> +	struct drm_device *dev = &odev->dev;
+> +	size_t i;
+> +
+> +	if (odev->nformats)
+> +		goto out; /* don't rebuild list on recurring calls */
+> +
+
+Nice optimization to cache this.
+
+> +	/*
+> +	 * TODO: The ofdrm driver converts framebuffers to the native
+> +	 * format when copying them to device memory. If there are more
+> +	 * formats listed than supported by the driver, the native format
+> +	 * is not supported by the conversion helpers. Therefore *only*
+> +	 * support the native format and add a conversion helper ASAP.
+> +	 */
+> +	if (drm_WARN_ONCE(dev, i != odev->nformats,
+> +			  "format conversion helpers required for %p4cc",
+> +			  &odev->format->format)) {
+> +		odev->nformats = 1;
+> +	}
+> +
+
+Interesting. Did you find some formats that were not supported ?
+
+The rest of the patch looks good to me, thanks a lot for writing this.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
