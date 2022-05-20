@@ -2,62 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C21B52EEC1
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 17:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67EAA52EEF0
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 17:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3364410E082;
-	Fri, 20 May 2022 15:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1FA210E625;
+	Fri, 20 May 2022 15:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D9510E082;
- Fri, 20 May 2022 15:09:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653059381; x=1684595381;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=P2WilbSU+L9bjk1wqlq1ZZlucavYPq5P1Ib9UN6A/h8=;
- b=ioS3ZOM2AOUzhTUbPrjew+nzkCwwpf4eMqkIhf20FtlWueDclFxJdgUP
- fZ/NhJckMqKFWhBoNG/ScyyWYa3t3OpFETLiiRRbXt0JN3j2QLKCBMfli
- 5iAq7/3jyCer74D8Njqr5fSqQPIvEzh8AhHI9Rjfg8y7aTI28TEOroDT9 U=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 20 May 2022 08:09:40 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2022 08:09:39 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 20 May 2022 08:09:39 -0700
-Received: from [10.110.100.160] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 20 May
- 2022 08:09:37 -0700
-Message-ID: <609bb4fc-1503-81ef-6fd8-dbb862c4ef80@quicinc.com>
-Date: Fri, 20 May 2022 08:09:36 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F35D10E4C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 15:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653060055;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yz0Slx19JCBpazZ4tpi7ccIYyos4fCxXXdsKFOTN7dA=;
+ b=Bbymod5vmp7CQErUjoqRfh/WRFOteWZnZRrUuTIIV8+qgR6cc9PzWjCxX2CfUYmyx1VuT5
+ pE3XMt/7VCE7eqTfWGAiMYhqoy3M/9eEorpeGW+BYI8LIUA6JXdKAMNHIRYaSCWwVXzdEm
+ ID18X25r6ow+EZccUB1f2foQmB8mbxI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-Nxuf3RFVPn6smcGIR2PsYg-1; Fri, 20 May 2022 11:20:53 -0400
+X-MC-Unique: Nxuf3RFVPn6smcGIR2PsYg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ oz9-20020a1709077d8900b006f3d9488090so4174176ejc.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 08:20:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yz0Slx19JCBpazZ4tpi7ccIYyos4fCxXXdsKFOTN7dA=;
+ b=8M4S+brnPikH0t0jrjcSt3pe2p53EFpq2dSQ7J1Ta2Wwgp340gKCiv4OtnE57Q8TWq
+ ormkTISFMIpXVv5WnRiabk2yuX6tZdEerwx09JTLLE4iFXqBoK3gaHHKicuoBDiGV9i+
+ udvKQiICA9aWohUbgrCCmQcxYTBJwUc0xwTw4qf3i9ppSdc+MjoL63S3k9Z3VwwGWjK5
+ ejWOqUPbsWcwyCEGWQ3S4CaP6/djxjKNz/S5pvZn+WMOYQuBmMDFytn4xTFN0OMskzbP
+ utOJtwrQ8RZFxlilb7293i6oD1IZvA1gb32I/ypPclQJSFiRTnX5mVmsel1Adpx54NBy
+ 5E9A==
+X-Gm-Message-State: AOAM531Luy5IBIoG5mjMPwY05sbj/X5CkLk+HGXf6dVY7eTHCoUWPsXH
+ ZhxDOJPmuD1ieZn0TATMqOO/C1c+jJR3tlSfrGF8u2UCB2aOcVdNQWxCQzZWjzVOXsUCo7ePOks
+ fBH7KQl4NePsF/kGo2qq7yBvIdoLC
+X-Received: by 2002:a17:906:6a1c:b0:6f4:b0e0:2827 with SMTP id
+ qw28-20020a1709066a1c00b006f4b0e02827mr8755723ejc.249.1653060052523; 
+ Fri, 20 May 2022 08:20:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2RvBjxmRR2qs6xK5yCatioK5zm43Ve9kb1bq94UCE1TZqaZBL5SaDvD3e4zSyeeTqTP7mTA==
+X-Received: by 2002:a17:906:6a1c:b0:6f4:b0e0:2827 with SMTP id
+ qw28-20020a1709066a1c00b006f4b0e02827mr8755712ejc.249.1653060052288; 
+ Fri, 20 May 2022 08:20:52 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6?
+ (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+ by smtp.gmail.com with ESMTPSA id
+ 17-20020a170906329100b006f3ef214dd2sm3287991ejw.56.2022.05.20.08.20.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 May 2022 08:20:51 -0700 (PDT)
+Message-ID: <57d16ed5-8bfc-ce29-9250-14e2de18710a@redhat.com>
+Date: Fri, 20 May 2022 17:20:50 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v6 1/3] phy: qcom-edp: add regulator_set_load to edp phy
+Subject: Re: How should "max bpc" KMS property work?
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YmgyArRaJCh6JkQh@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
- <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
- <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>, <sean@poorly.run>,
- <vkoul@kernel.org>
-References: <1653001902-26910-1-git-send-email-quic_khsieh@quicinc.com>
- <1653001902-26910-2-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n52yT6S4TLpc2e2-kkbMB2Fu2PcZskG-ZFLo7y1YVTyazQ@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAE-0n52yT6S4TLpc2e2-kkbMB2Fu2PcZskG-ZFLo7y1YVTyazQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,48 +90,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 5/19/2022 5:19 PM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2022-05-19 16:11:40)
->> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
->> index cacd32f..78b7306 100644
->> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
->> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
->> @@ -87,14 +87,19 @@ struct qcom_edp {
+On 4/26/22 19:55, Ville Syrjälä wrote:
+> On Tue, Apr 26, 2022 at 11:35:02AM +0300, Pekka Paalanen wrote:
+>> Hi all,
 >>
->>          struct clk_bulk_data clks[2];
->>          struct regulator_bulk_data supplies[2];
->> +       int enable_load[2];
->>   };
+>> I'm working on setting HDR & WCG video modes in Weston, and I thought
+>> setting "max bpc" KMS property on the connector would be a good idea.
+>> I'm confused about how it works though.
 >>
->>   static int qcom_edp_phy_init(struct phy *phy)
->>   {
->>          struct qcom_edp *edp = phy_get_drvdata(phy);
->>          int ret;
->> +       int i;
+>> I did some digging in https://gitlab.freedesktop.org/wayland/weston/-/issues/612
 >>
->> -       ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
->> +       for (i = 0; i < 2; i++)
-> Use ARRAY_SIZE(edp->supplies)?
->
->> +               regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
->> +
->> +       ret = regulator_bulk_enable(2, edp->supplies);
-> Why is ARRAY_SIZE() usage removed?
-
-
-remove it base on Dmitry's comment.
-
-I will restore it back to use ARRY_SIZE
-
-
->
->>          if (ret)
->>                  return ret;
+>> Summary:
 >>
+>> - Apparently the property was originally added as a manual workaround
+>>   for sink hardware behaving badly with high depth. A simple end user
+>>   setting for "max bpc" would suffice for this use.
+>>
+>> - Drivers will sometimes automatically choose a lower bpc than the "max
+>>   bpc" value, but never bigger.
+>>
+>> - amdgpu seems to (did?) default "max bpc" to 8, meaning that I
+>>   definitely want to raise it.
+> 
+> I've occasionally pondered about doing the same for i915, just to have
+> the safest default possible. But I'd hate to lose the deep color testing
+> coverage knowing very few people would in practice raise the limit.
+> Also the number of systems where deep color doesn't work reliably
+> (or can't be made to work by not using a crap cable) seems to be quite
+> low.
+
+I got pointed to this thread by Jonas Ådahl while asking some questions
+the "max bpc" property related to:
+
+https://gitlab.freedesktop.org/plymouth/plymouth/-/issues/102#note_1382328
+
+The current i915 behavior which you describe here, which if I understand
+things correctly is for "max bpc" to default to as high as possible is
+causing problems with flickerfree boot in plymouth. Plymouth does a modeset
+on the monitor's native resolution in case the BIOS/GOP setup the monitor
+in a non native mode. Plymouth does not touch the "max bpc" property when
+doing this modeset. Normally this works fine and when the BIOS/GOP has
+already configured the monitor at the native resolution the i915 driver
+will do a fastset and all is well.
+
+Still the modeset is causing the screen to go black for multiple seconds,
+despite the resolution being unchanged. What is happening according to
+the on screen mode info from the monitor is that on plymouth's modeset
+the link is being configured changes from 8 bpc to 10 bpc.
+
+Is there anyway to avoid this without hardcoding "max bpc" to 8 in
+plymouth (which would cause the same problem in the other direction
+if the firmware sets up the link for 10bpc I believe) ?
+
+Regards,
+
+Hans
+
