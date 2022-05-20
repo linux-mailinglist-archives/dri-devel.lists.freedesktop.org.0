@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B69952E226
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 03:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E9E52E251
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 04:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438A011A3AA;
-	Fri, 20 May 2022 01:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083FC10EB5D;
+	Fri, 20 May 2022 02:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1A1011A321
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 01:50:00 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- l7-20020a17090aaa8700b001dd1a5b9965so6705072pjq.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 18:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=bSYkUjPvAsu074e/VjNGWfjNftItgD9OU7BKxmchNu0=;
- b=IctWEQwULe+HOgPbU7d0NJ3bNOOh3R/ed9A6ET0Gs/piG+Bes/Utvzo/JOuyGD8RRU
- RcDWQ8n8fK3gVNdg7zOFFUdQGbLx/Yeu4mzOrLYeaNU76aARYW0jjqtvRRXuDmBVfrna
- g7qU8icOdLj7kU6hSvSdtAKN4mYIBgh28Dejc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bSYkUjPvAsu074e/VjNGWfjNftItgD9OU7BKxmchNu0=;
- b=pjwipSko4VHjvm6R+Fs5DBlCCyHelDz4IBfIiJLlWM4F6TBE7gjHaLC7726A6yaP2Y
- TMU2ZPT1j1qJz3SXtO63HAV+uw+u3Hpo6MFt3KZBuJmM1M61uIE1LRn33vEHm+D+JrZz
- MsaDMsbQGJRB04ZVn/aihT1+1K7jKQzoDgtYZ9+yVm254++2xHWzPAUshXWwPLPhB4zH
- F2Hc1tP3oZ3xsEQEeMWC87uXpw+xspicifgfzGRVmCpnRu5q15ziRTvcFHarjVLyzEvr
- vyZhcvA0SG8WN7wkZ2aGoWme788/NENqHTRdJmug+9pb3FYqkYFUQsm9SpeHlSAfWv3C
- iNFw==
-X-Gm-Message-State: AOAM531AZfWRGlhtOAe23PQJErWBUApTsEupy+eWV3fMU7ne5/a4p5y3
- uFdxsKQuIQehkKg5tD3CmQwwcQ==
-X-Google-Smtp-Source: ABdhPJxYCaKfJrQpyhnMwy4bw/c5zkQ+q174lh8wbUasjk9l4ZAUxrQCXZ8SzukBnlB3+yq5G+ayIg==
-X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id
- s7-20020a170902988700b001516e1c7082mr7427960plp.162.1653011400364; 
- Thu, 19 May 2022 18:50:00 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id
- a23-20020a056a001d1700b0050dc76281ddsm329776pfx.183.2022.05.19.18.49.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 May 2022 18:50:00 -0700 (PDT)
-Date: Thu, 19 May 2022 18:49:59 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Kalesh Singh <kaleshsingh@google.com>
-Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
-Message-ID: <202205191848.DEE05F6@keescook>
-References: <20220519214021.3572840-1-kaleshsingh@google.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3F810EA10
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 02:00:27 +0000 (UTC)
+X-UUID: 73926dfc9e754399b636968c2a995a38-20220520
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:b0a79d0d-62c9-4fa0-a64c-f1e191d76526, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:3a46dee2-edbf-4bd4-8a34-dfc5f7bb086d,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 73926dfc9e754399b636968c2a995a38-20220520
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 332516485; Fri, 20 May 2022 10:00:10 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Fri, 20 May 2022 10:00:09 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Fri, 20 May 2022 10:00:08 +0800
+From: <xinlei.lee@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
+Subject: [PATCH v7,
+ 0/4] Cooperate with DSI RX devices to modify dsi funcs and delay mipi
+ high to cooperate with panel sequence
+Date: Fri, 20 May 2022 10:00:03 +0800
+Message-ID: <1653012007-11854-1-git-send-email-xinlei.lee@mediatek.com>
+X-Mailer: git-send-email 2.6.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519214021.3572840-1-kaleshsingh@google.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +58,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- kernel-team@android.com, Randy Dunlap <rdunlap@infradead.org>,
- ilkos@google.com, linux-kernel@vger.kernel.org,
- Colin Cross <ccross@google.com>, tjmercier@google.com,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- surenb@google.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Mike Rapoport <rppt@kernel.org>, linux-media@vger.kernel.org
+Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 19, 2022 at 02:40:15PM -0700, Kalesh Singh wrote:
-> [...]
-> +	seq_file_path(m, file, "\n");
-> +	seq_putc(m, '\n');
->  
->  	/* show_fd_locks() never deferences files so a stale value is safe */
->  	show_fd_locks(m, file, files);
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-This comment implies "file" might be stale? Does that mean anything for
-the above seq_file_path()?
+In upstream-v5.8, dsi_enable will operate panel_enable, but this
+modification has been moved in v5.9. In order to ensure the timing of
+dsi_power_on/off and the timing of pulling up/down the MIPI signal,
+the modification of v5.9 is synchronized in this series of patches.
+
+Change since v6:
+1. Change comment back linux version to kernel 5.10.
+
+Change since v5:
+1. Merged [v5,1/5] drm/mediatek: Adjust the timing of mipi signal from
+LP00 to LP11 to [v5,4/5] drm/mediatek: keep dsi as LP00 before dcs cmds
+transfer, because in (v5,1/5) to adjust the dsi func sequence in order
+to move to lane_ready func together in (v5, 4/5).
+
+Changes since v4:
+1. Dsi func modified to atomic operation.
+2. Added fix tag.
+3. Removed lane_ready print statement.
+
+Changes since v3:
+1. Rebase kernel-5.18-rc1.
+2. Added dsi_enable protection.
+3. Encapsulates the dsi_lane_ready function.
+
+Changes since v2:
+1. Rebase linux-next.
+
+Changes since v1:
+1. Dsi sequence marked with patch adjustment.
+2. Fixes: mtk_dsi: Use the drm_panel_bridge.
+
+Jitao Shi (2):
+  drm/mediatek: Separate poweron/poweroff from enable/disable and define
+    new funcs
+  drm/mediatek: keep dsi as LP00 before dcs cmds transfer
+
+Xinlei Lee (2):
+  drm/mediatek: Modify dsi funcs to atomic operations
+  drm/mediatek: Add pull-down MIPI operation in mtk_dsi_poweroff
+    function
+
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 93 ++++++++++++++++++++----------
+ 1 file changed, 63 insertions(+), 30 deletions(-)
 
 -- 
-Kees Cook
+2.18.0
+
