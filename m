@@ -1,84 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98DC52E442
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 07:18:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FA952E475
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 07:44:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B9811B209;
-	Fri, 20 May 2022 05:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06FC11B257;
+	Fri, 20 May 2022 05:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1843911B208
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 05:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653023897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AojK9fdDlk+robhCF8PY6mP/b2uer1ZGJkY3jjz44AE=;
- b=N8I52IrBOSNy91jFX5//bN2zCNc2jSDWKe8CW7nIG9mhGbViRaNhwwVfRolCkdd/m0OxE8
- U2d0sk9jyQAEtmyp30b3CcYZYiWi6b9Vlqumv3Q4qd9mzW0ckiQLMSlV0a49r5H6N/o6Up
- GBnIP0wyv7XwA8AsvlGq1VI4L9cHq+4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-241-ph0BMTQcNPmVYQxI83JkHQ-1; Fri, 20 May 2022 01:18:12 -0400
-X-MC-Unique: ph0BMTQcNPmVYQxI83JkHQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- o11-20020adfca0b000000b0020adc114131so2205399wrh.8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 22:18:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AojK9fdDlk+robhCF8PY6mP/b2uer1ZGJkY3jjz44AE=;
- b=68t5lHYiNUDOzE26Iqxf51IjDE2UO0po8ZMxh1Oyeo5NA8bhhsz6ycbhKBKVCCwYtr
- dX8NmV6GcbeLQRMRSjGc7RwMGlCRS0tD8FyHAPM/aDIuyVL/w7cnXpYArKgwpEssjMBu
- +dH4V4FoD77zYwBj8QBNiUGaAZnmxTrIFhvr+UPK1ZW6jTj0rl3iqOIw8QIulfgsk3GC
- BseX0Vp+Cs8LUoqvWFfSbn6yIbdqzCJSOHItcPu8HUW4r9oxMu69Ss+sgdUbR+smmb5t
- tS+bw1h8t3I3TFoguSw3WUSxKgQjNqdJfyhIf+ovcTzVFX/5xkHcCa7GMeI51XdCeCoj
- qsbg==
-X-Gm-Message-State: AOAM533FTJXAs7kPHD97479tnKKVvDDehbqudf/K9Tmg/xpOG8piR9dr
- /w/CYvgKTm7sGj+TFqZDA9GsVy89XHS5ISccEUo/CZPuglRfIaudO9HSIjbQRbMWFHZF+lKBs4t
- DIDq35KjOHZmSSadL6NB81Fgyqr22
-X-Received: by 2002:adf:fe42:0:b0:20d:297:f86e with SMTP id
- m2-20020adffe42000000b0020d0297f86emr6731314wrs.382.1653023891707; 
- Thu, 19 May 2022 22:18:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZXqQy9NPRkq8RsuzAXsi3g2v9mePIB4+gjaCXquJOoX1jBb5+EgH3gcFfRjFHtBJgLajfaw==
-X-Received: by 2002:adf:fe42:0:b0:20d:297:f86e with SMTP id
- m2-20020adffe42000000b0020d0297f86emr6731295wrs.382.1653023891497; 
- Thu, 19 May 2022 22:18:11 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o9-20020adf8b89000000b0020d0351dbb6sm1345823wra.80.2022.05.19.22.18.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 22:18:11 -0700 (PDT)
-Message-ID: <1f63406f-5160-462a-2e79-0938421057a9@redhat.com>
-Date: Fri, 20 May 2022 07:18:09 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E8811B257;
+ Fri, 20 May 2022 05:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653025457; x=1684561457;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=AeJ3MjFKN/wjXXZTYpdl90oq2PK3OEXdCdRO2O/w3rE=;
+ b=Roz7joE9tPzxinb/5f3MUNYGTdoebjbvXHTqn5krUvRmsY6psEqcR5sE
+ eHaJMZyotYgURD8wierRNhwCT0nQkx0/eVlQ/k1f9Hhv5t4VigPd/OH5n
+ VTo1jfdeWSCt2Gbcm/QvPc/4cwdqEZWiIULXlSyv29eBVhbdmjI/IBy//
+ z4CcGRYkqxDZ6OZ7pz4sWPOS9igEJ6NzwXlZzFonTVaPi5MDog9IDTQBI
+ yeYbeItiDCOXuK0xRn6HFwKo5KPHbuZBsJUIEO/Xe/C9pZBR+a2kIsWzX
+ cY26vG75sfEQowyN04ywxstDPRb0Mi733grPS939o6/f5fjXklecleOr0 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="297807626"
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="297807626"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 22:44:16 -0700
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="599025483"
+Received: from kscholl-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.49])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 22:44:12 -0700
+Date: Fri, 20 May 2022 08:44:10 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YocqqvG6PbYx3QgJ@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 1/2] MAINTAINERS: Broaden scope of simpledrm entry
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
- msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
- paulus@samba.org
-References: <20220518183006.14548-1-tzimmermann@suse.de>
- <20220518183006.14548-2-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220518183006.14548-2-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,60 +53,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+Hi Dave & Daniel,
 
-On 5/18/22 20:30, Thomas Zimmermann wrote:
-> There will be more DRM drivers for firmware-provided framebuffers. Use
-> the existing entry for simpledrm instead of adding a new one for each
-> driver. Also add DRM's aperture helpers, which are part of the driver's
-> infrastructure.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Here's the previous PR + additional fix for regression #5806: GPU hangs
+and display artifacts on 5.18-rc3 on Intel GM45.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Was also discussed here:
 
-I think you could push this without waiting for 2/2 to be ready.
+https://lore.kernel.org/all/CAHk-=wj0gHsG6iw3D8ufptm9a_dvTSqrrOFY9WopObbYbyuwnA@mail.gmail.com/
 
->  MAINTAINERS | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5c1fd93d9050..43d833273ae9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6388,13 +6388,15 @@ S:	Orphan / Obsolete
->  F:	drivers/gpu/drm/savage/
->  F:	include/uapi/drm/savage_drm.h
->  
-> -DRM DRIVER FOR SIMPLE FRAMEBUFFERS
-> +DRM DRIVER FOR FIRMWARE FRAMEBUFFERS
->  M:	Thomas Zimmermann <tzimmermann@suse.de>
->  M:	Javier Martinez Canillas <javierm@redhat.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +F:	drivers/gpu/drm/drm_aperture.c
->  F:	drivers/gpu/drm/tiny/simpledrm.c
-> +F:	include/drm/drm_aperture.h
+Regards, Joonas
 
-I wonder if we could add drivers/firmware/sysfb* as well, it certainly is
-related since is the place where different platforms register the device.
+***
 
-But it's not in drivers/gpu, hence the question if we could include it 
-(and possibly merge it through drm-misc as well, etc).
+drm-intel-fixes-2022-05-20:
 
-Dave, Daniel, what do you think ?
+- Previous PR + fix for #5806: GPU hangs and display artifacts on 5.18-rc3 on Intel GM45
 
--- 
-Best regards,
+The following changes since commit 42226c989789d8da4af1de0c31070c96726d990c:
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+  Linux 5.18-rc7 (2022-05-15 18:08:58 -0700)
 
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-05-20
+
+for you to fetch changes up to 7b1d6924f27ba24b9e47abb9bd53d0bbc430a835:
+
+  drm/i915: Use i915_gem_object_ggtt_pin_ww for reloc_iomap (2022-05-19 12:49:49 +0300)
+
+----------------------------------------------------------------
+- Previous PR + fix for #5806: GPU hangs and display artifacts on 5.18-rc3 on Intel GM45
+
+----------------------------------------------------------------
+Anusha Srivatsa (1):
+      drm/i915/dmc: Add MMIO range restrictions
+
+Maarten Lankhorst (1):
+      drm/i915: Use i915_gem_object_ggtt_pin_ww for reloc_iomap
+
+Umesh Nerlige Ramappa (1):
+      i915/guc/reset: Make __guc_reset_context aware of guilty engines
+
+ drivers/gpu/drm/i915/display/intel_dmc.c          | 44 +++++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c    |  6 ++--
+ drivers/gpu/drm/i915/gt/intel_reset.c             |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h            |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 16 ++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c             |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h             |  2 +-
+ drivers/gpu/drm/i915/i915_reg.h                   | 16 +++++++++
+ 8 files changed, 74 insertions(+), 16 deletions(-)
