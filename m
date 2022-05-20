@@ -1,56 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C341352E371
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 06:01:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A98DC52E442
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 07:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 520EB11B03D;
-	Fri, 20 May 2022 04:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B9811B209;
+	Fri, 20 May 2022 05:18:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6871811B03A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 04:01:52 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id h14so9793809wrc.6
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 21:01:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lX20NL3YNPaKjNecI4oDdq3acoU2kOL0ZbPMHMv9mB0=;
- b=QUhqUNwjiYBBL+Gfy7USDRKlfhCB5po25WZwgPlSiSkUXf8omWvdSvXZzxRV41w1tT
- d5C/MVpxWJNzqMqMn4BsGlEqIb6rOVIxP+yf5DJ3CcD/CMFR7a+o3Nxfo0tiHS41+QJx
- 1G0voWhXE97nNh8TDu9IYnnRSfvefCogP4VsB5M0y74VMQ5qGopMDi1VQqUGm6PnvD78
- YluERYOhs/tCKgwebfwVE2yQreNBgLUaB4ZY4z6xzZTQ7LXJk9AbCoT54oExEPxtuCAM
- DF3gvipca18rnRT53tde7E+gUZik7VP0hR/Z6h4m5Gl7iRVkpIrQcRhWqQ2jBr0jnUJX
- zgOA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1843911B208
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 05:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653023897;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AojK9fdDlk+robhCF8PY6mP/b2uer1ZGJkY3jjz44AE=;
+ b=N8I52IrBOSNy91jFX5//bN2zCNc2jSDWKe8CW7nIG9mhGbViRaNhwwVfRolCkdd/m0OxE8
+ U2d0sk9jyQAEtmyp30b3CcYZYiWi6b9Vlqumv3Q4qd9mzW0ckiQLMSlV0a49r5H6N/o6Up
+ GBnIP0wyv7XwA8AsvlGq1VI4L9cHq+4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-241-ph0BMTQcNPmVYQxI83JkHQ-1; Fri, 20 May 2022 01:18:12 -0400
+X-MC-Unique: ph0BMTQcNPmVYQxI83JkHQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o11-20020adfca0b000000b0020adc114131so2205399wrh.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 22:18:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lX20NL3YNPaKjNecI4oDdq3acoU2kOL0ZbPMHMv9mB0=;
- b=4bDrHjaBOT5tD7cCeoEql6zL0rQOPyFpcMO/ZnyAbg/hvjlJruAmkusSKOW2k4RkJp
- ZWPruwALGAL0GLi18P+PznlM2azKEn6HkG6xEDShsxzwX9dy6xEyGS4kO5+VhWkyVjbF
- uvZleLLchMLcOmgt637STl9TS4QBKvzqMicwrB9o8c+NvnE3h8i8suIqm1qV0wRa0VoQ
- Vrur8oe+V9QDkQEQTCdbVTtzX4wpBa8AAjwUgXKzlF6IfDuM1seTPD/nLieUPT7TG/r/
- CmHlIwj81LXyN7TnxSROSk25m+MkbKpPMXkTkqr7usCE0I7pYqLH18AdUBu9iNtv4PM0
- 6+Dg==
-X-Gm-Message-State: AOAM533hzE5kpj0Etp+B9i0Ch8WRIQksCbqNPZW0V0thcZht6Pl0f9B6
- TaCd0M6tct2y2zVWT+FaHZ0uw6zI/OCeDffXZ6Q8rg==
-X-Google-Smtp-Source: ABdhPJzdvVJxxqGLhr1D82HU8Nge0YZ/NcyQRTLRKVqI4Jh/02FF2nx30JgW9qrXm/uIf/Cxvut3pYr3QoTiG9nq0a4=
-X-Received: by 2002:a5d:5846:0:b0:20c:7407:5fa1 with SMTP id
- i6-20020a5d5846000000b0020c74075fa1mr6448325wrf.116.1653019310813; Thu, 19
- May 2022 21:01:50 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AojK9fdDlk+robhCF8PY6mP/b2uer1ZGJkY3jjz44AE=;
+ b=68t5lHYiNUDOzE26Iqxf51IjDE2UO0po8ZMxh1Oyeo5NA8bhhsz6ycbhKBKVCCwYtr
+ dX8NmV6GcbeLQRMRSjGc7RwMGlCRS0tD8FyHAPM/aDIuyVL/w7cnXpYArKgwpEssjMBu
+ +dH4V4FoD77zYwBj8QBNiUGaAZnmxTrIFhvr+UPK1ZW6jTj0rl3iqOIw8QIulfgsk3GC
+ BseX0Vp+Cs8LUoqvWFfSbn6yIbdqzCJSOHItcPu8HUW4r9oxMu69Ss+sgdUbR+smmb5t
+ tS+bw1h8t3I3TFoguSw3WUSxKgQjNqdJfyhIf+ovcTzVFX/5xkHcCa7GMeI51XdCeCoj
+ qsbg==
+X-Gm-Message-State: AOAM533FTJXAs7kPHD97479tnKKVvDDehbqudf/K9Tmg/xpOG8piR9dr
+ /w/CYvgKTm7sGj+TFqZDA9GsVy89XHS5ISccEUo/CZPuglRfIaudO9HSIjbQRbMWFHZF+lKBs4t
+ DIDq35KjOHZmSSadL6NB81Fgyqr22
+X-Received: by 2002:adf:fe42:0:b0:20d:297:f86e with SMTP id
+ m2-20020adffe42000000b0020d0297f86emr6731314wrs.382.1653023891707; 
+ Thu, 19 May 2022 22:18:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZXqQy9NPRkq8RsuzAXsi3g2v9mePIB4+gjaCXquJOoX1jBb5+EgH3gcFfRjFHtBJgLajfaw==
+X-Received: by 2002:adf:fe42:0:b0:20d:297:f86e with SMTP id
+ m2-20020adffe42000000b0020d0297f86emr6731295wrs.382.1653023891497; 
+ Thu, 19 May 2022 22:18:11 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ o9-20020adf8b89000000b0020d0351dbb6sm1345823wra.80.2022.05.19.22.18.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 May 2022 22:18:11 -0700 (PDT)
+Message-ID: <1f63406f-5160-462a-2e79-0938421057a9@redhat.com>
+Date: Fri, 20 May 2022 07:18:09 +0200
 MIME-Version: 1.0
-References: <20220519214021.3572840-1-kaleshsingh@google.com>
- <202205191848.DEE05F6@keescook>
-In-Reply-To: <202205191848.DEE05F6@keescook>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Thu, 19 May 2022 21:01:39 -0700
-Message-ID: <CAC_TJve0iyPU0uKoKOi_qcwgxPkgNKgirBcMJ=oYBqhRC3a_+Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
-To: Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 1/2] MAINTAINERS: Broaden scope of simpledrm entry
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
+ msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org
+References: <20220518183006.14548-1-tzimmermann@suse.de>
+ <20220518183006.14548-2-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220518183006.14548-2-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,45 +91,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- "Cc: Android Kernel" <kernel-team@android.com>,
- Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
- LKML <linux-kernel@vger.kernel.org>, Colin Cross <ccross@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Suren Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mike Rapoport <rppt@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 19, 2022 at 6:50 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Thu, May 19, 2022 at 02:40:15PM -0700, Kalesh Singh wrote:
-> > [...]
-> > +     seq_file_path(m, file, "\n");
-> > +     seq_putc(m, '\n');
-> >
-> >       /* show_fd_locks() never deferences files so a stale value is safe */
-> >       show_fd_locks(m, file, files);
->
-> This comment implies "file" might be stale? Does that mean anything for
-> the above seq_file_path()?
+Hello Thomas,
 
-Hi Kees.
+On 5/18/22 20:30, Thomas Zimmermann wrote:
+> There will be more DRM drivers for firmware-provided framebuffers. Use
+> the existing entry for simpledrm instead of adding a new one for each
+> driver. Also add DRM's aperture helpers, which are part of the driver's
+> infrastructure.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Thanks for taking a look. The comment above says the "files" pointer
-can be stale. It doesn't affect our use of "file" here. seq_show()
-takes the reference with get_file() so "file" wouldn't be destroyed
-from under us.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Thanks,
-Kalesh
->
-> --
-> Kees Cook
+I think you could push this without waiting for 2/2 to be ready.
+
+>  MAINTAINERS | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5c1fd93d9050..43d833273ae9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6388,13 +6388,15 @@ S:	Orphan / Obsolete
+>  F:	drivers/gpu/drm/savage/
+>  F:	include/uapi/drm/savage_drm.h
+>  
+> -DRM DRIVER FOR SIMPLE FRAMEBUFFERS
+> +DRM DRIVER FOR FIRMWARE FRAMEBUFFERS
+>  M:	Thomas Zimmermann <tzimmermann@suse.de>
+>  M:	Javier Martinez Canillas <javierm@redhat.com>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Maintained
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +F:	drivers/gpu/drm/drm_aperture.c
+>  F:	drivers/gpu/drm/tiny/simpledrm.c
+> +F:	include/drm/drm_aperture.h
+
+I wonder if we could add drivers/firmware/sysfb* as well, it certainly is
+related since is the place where different platforms register the device.
+
+But it's not in drivers/gpu, hence the question if we could include it 
+(and possibly merge it through drm-misc as well, etc).
+
+Dave, Daniel, what do you think ?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
