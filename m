@@ -1,84 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4991652E4E4
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 08:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489CE52E522
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 08:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B64411B4DF;
-	Fri, 20 May 2022 06:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B897811B223;
+	Fri, 20 May 2022 06:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22F7A11B4DF
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 06:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653027558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WWnyUXwbnXllaQ0uv1b5t0P1ieqzLCHOX4I/wGwYkZE=;
- b=dv33vae/q6R133aTOEuR7ZgcVIk6x++T7txCoP8qdnwNq2XudQG/rQIH89DSqIQ6knhXcM
- eX9dQbcjUZ9iCROfmiqjFhevTEPUpOknj6XXRNPMS/MRc8obA2mOud67BMIO9UU7n7jgq2
- 2Tl7MZG+WQabqmJYYvpDBBetF0ZVfWg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-QUyC9TbxM_G0g75OeFPJyg-1; Fri, 20 May 2022 02:19:14 -0400
-X-MC-Unique: QUyC9TbxM_G0g75OeFPJyg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v124-20020a1cac82000000b003948b870a8dso5647834wme.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 23:19:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WWnyUXwbnXllaQ0uv1b5t0P1ieqzLCHOX4I/wGwYkZE=;
- b=6mAvbZVzYX6Hf8KfLfxyXHFcyMrDyKSqq01hLlIxuIUH8Vcf32ff5oP/4XyB8r8tIf
- C8PO54w5kWbd2vowvIhH6QnPWsM2vTw//+u+N0N4325HkXERW9ueq8aT4/Sc2pEfV5d/
- EJT0WcmzyzN4wzM6HbsofvgdmtdEDk+4NDVFsA+wa9BJYDoq2kqr/sicGPAaRFUWYe2H
- JlXlDpnLlPEWsfCqFR3Xa46N4DaMFppvrpDwDp6w1+ln8lUJQErsUpEkRF/bzlnPBEkC
- kJ3oaosr9xky7qBX8YwVf35oD5jJJjhx54ooObkdkWlPzYm3cap0Y5ueyQKivzIUz7pA
- ppog==
-X-Gm-Message-State: AOAM531bhUMfvd4mp5q2dZFC4BuvNOazrz7Wbg5LnR7r3fYauSuhyeNe
- O1slka3hBqbzmaEfHRJn80Wdf+mcUvw3a+YpZJT2oxv/+JYP+IVgzUB0xeJ6WJw9snNtS8VrQbd
- a3FctfNRVmuv2D/UYWzpF0KB6JEYq
-X-Received: by 2002:adf:ea0a:0:b0:20f:afa:c885 with SMTP id
- q10-20020adfea0a000000b0020f0afac885mr947013wrm.640.1653027553117; 
- Thu, 19 May 2022 23:19:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1apKhwtDuwN5y6ql+wtzPt4dv5/GCFcazI5SvaYczGFn7reMg6aU/08qipp7Qzw+vBvg6qg==
-X-Received: by 2002:adf:ea0a:0:b0:20f:afa:c885 with SMTP id
- q10-20020adfea0a000000b0020f0afac885mr946992wrm.640.1653027552861; 
- Thu, 19 May 2022 23:19:12 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- s26-20020adfa29a000000b0020d069148bcsm1433018wra.110.2022.05.19.23.19.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 23:19:12 -0700 (PDT)
-Message-ID: <84a550c3-dcef-17ac-0ae5-666cdf0fb67e@redhat.com>
-Date: Fri, 20 May 2022 08:19:11 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E603111B21E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 06:41:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653028863; x=1684564863;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0bQagf9gkdnDqM0hSW6K3TC5+1kyTBgDk4d5ktu9FPo=;
+ b=VhGdQoKyeaXsWSMAuirgc5OS+kSF3DOOi8sw892bxFVfnN1MvJKLgrhd
+ CArfKfaUqV8dBSU2d94mHQWREd5Kubo0UTFrwYial8PmP44WrRr77rhfv
+ 4ioHgydrgyTN9mvzcP2XBOZsgoX0zvRP4/wabfXvghhD7P3vc1IRIbnt9
+ qUnKmvrIdH1KszSlp9CESLtlKzHBZJeM/BLDFIkGMdWm5BrVBnG8MDjy2
+ uvvAppK7UlKPyc6bRw+Hl5/5QKZ1bz86K8IKsBQQeUKNs3AkUMIHi8MNN
+ BoI27Vo5mb95Jisl9+hT7WjkR4/wiMG5+cxS3Ef93RvoTgOVNFX32o9FN Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="254565610"
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="254565610"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 23:41:03 -0700
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="570652327"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 23:41:03 -0700
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] udmabuf: Set the DMA mask for the udmabuf device
+Date: Thu, 19 May 2022 23:23:08 -0700
+Message-Id: <20220520062308.3660563-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <CACT4Y+ZiexzqBxeDQJAeQMR7Ef=JSh-2S8P73LN2BnibXhiC3Q@mail.gmail.com>
+References: <CACT4Y+ZiexzqBxeDQJAeQMR7Ef=JSh-2S8P73LN2BnibXhiC3Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/2] drm/tiny: Add ofdrm for Open Firmware framebuffers
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel@ffwll.ch, deller@gmx.de, maxime@cerno.tech, sam@ravnborg.org,
- msuchanek@suse.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
- paulus@samba.org
-References: <20220518183006.14548-1-tzimmermann@suse.de>
- <20220518183006.14548-3-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220518183006.14548-3-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,257 +55,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
+If the DMA mask is not set explicitly, the following warning occurs
+when the userspace tries to access the dma-buf via the CPU as
+reported by syzbot here:
 
-On 5/18/22 20:30, Thomas Zimmermann wrote:
+WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188
+__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Modules linked in:
+CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted
+5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+Google 01/01/2011
+RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0
+83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45
+   31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
+RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
+RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
+R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
+R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
+FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000)
+knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
+ get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
+ begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
+ dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
+ dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:874 [inline]
+ __se_sys_ioctl fs/ioctl.c:860 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f62fcf530f9
+Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89
+f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01
+f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
+RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
+RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
 
->  
-> +config DRM_OFDRM
-> +	tristate "Open Firmware display driver"
-> +	depends on DRM && MMU && PPC
+Reported-by: syzbot+10e27961f4da37c443b2 at syzkaller.appspotmail.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/dma-buf/udmabuf.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-Shouldn't depend on OF? I mean, is a DRM driver for Open Firmware after all :)
-
-I know that the old drivers/video/fbdev/offb.c doesn't, but I think that is a
-but and should `depends on OF || COMPILE_TEST`
-
-> +
-> +/*
-> + * Helpers for display nodes
-> + */
-> +
-> +static int display_get_validated_int(struct drm_device *dev, const char *name, uint32_t value)
-> +{
-> +	if (value > INT_MAX) {
-> +		drm_err(dev, "invalid framebuffer %s of %u\n", name, value);
-> +		return -EINVAL;
-> +	}
-> +	return (int)value;
-> +}
-> +
-> +static int display_get_validated_int0(struct drm_device *dev, const char *name, uint32_t value)
-> +{
-> +	if (!value) {
-> +		drm_err(dev, "invalid framebuffer %s of %u\n", name, value);
-> +		return -EINVAL;
-> +	}
-> +	return display_get_validated_int(dev, name, value);
-> +}
-> +
-
-These two helpers are the same that we already have in simpledrm.c, maybe could
-include a preparatory patch that moves to drivers/gpu/drm/drm_format_helper.c
-and make them public for drivers to use ? Or maybe even as static inline in
-include/drm/drm_format_helper.h ?
-
-> +static const struct drm_format_info *display_get_validated_format(struct drm_device *dev,
-> +								  u32 depth)
-> +{
-> +	const struct drm_format_info *info;
-> +	u32 format;
-> +
-> +	switch (depth) {
-> +	case 8:
-> +		format = drm_mode_legacy_fb_format(8, 8);
-> +		break;
-> +	case 15:
-
-I think is customary now to add /* fall through */ here to silence GCC warns ?
-
-> +}
-> +
-> +static int display_read_u32_of(struct drm_device *dev, struct device_node *of_node,
-> +			       const char *name, u32 *value)
-> +{
-> +	int ret = of_property_read_u32(of_node, name, value);
-> +
-> +	if (ret)
-> +		drm_err(dev, "cannot parse framebuffer %s: error %d\n", name, ret);
-> +	return ret;
-> +}
-> +
-
-[snip]
-
-> +static u64 display_get_address_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	u32 address;
-> +	int ret;
-> +
-> +	/*
-> +	 * Not all devices provide an address property, it's not
-> +	 * a bug if this fails. The driver will try to find the
-> +	 * framebuffer base address from the device's memory regions.
-> +	 */
-> +	ret = of_property_read_u32(of_node, "address", &address);
-> +	if (ret)
-> +		return OF_BAD_ADDR;
-> +
-> +	return address;
-> +}
-> +
-
-All these helpers seems to be quite generic and something that other OF
-drivers could benefit from. Maybe add them to drivers/gpu/drm/drm_of.c ?
-
-> +#if defined(CONFIG_PCI)
-> +static struct pci_dev *display_get_pci_dev_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	const __be32 *vendor_p, *device_p;
-> +	u32 vendor, device;
-> +	struct pci_dev *pcidev;
-> +
-> +	vendor_p = of_get_property(of_node, "vendor-id", NULL);
-> +	if (!vendor_p)
-> +		return ERR_PTR(-ENODEV);
-> +	vendor = be32_to_cpup(vendor_p);
-> +
-> +	device_p = of_get_property(of_node, "device-id", NULL);
-> +	if (!device_p)
-> +		return ERR_PTR(-ENODEV);
-> +	device = be32_to_cpup(device_p);
-> +
-> +	pcidev = pci_get_device(vendor, device, NULL);
-> +	if (!pcidev)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	return pcidev;
-> +}
-> +#else
-> +static struct pci_dev *display_get_pci_dev_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	return ERR_PTR(-ENODEV);
-> +}
-> +#endif
-> +
-
-Unsure about this one, I don't see other display driver using a "vendor-id"
-or "device-id" when looking at Documentation/devicetree/bindings/, so guess
-this one would have to remain in the driver and not in a helper library.
-
-But since you have #ifdefery here, maybe would be cleaner to have that stub
-defined as static inline in include/drm/drm_of.h ?
-
-
-> +static struct ofdrm_device *ofdrm_device_of_dev(struct drm_device *dev)
-> +{
-> +	return container_of(dev, struct ofdrm_device, dev);
-> +}
-> +
-> +/*
-> + *  OF display settings
-> + */
-> +
-
-This seems like another candidate to move to the include/drm/drm_of.h header. 
-
-> +static struct drm_display_mode ofdrm_mode(unsigned int width, unsigned int height)
-> +{
-> +	struct drm_display_mode mode = { OFDRM_MODE(width, height) };
-> +
-> +	mode.clock = mode.hdisplay * mode.vdisplay * 60 / 1000 /* kHz */;
-
-Maybe a comment here about the clock value chosen ?
-
-> +	drm_mode_set_name(&mode);
-> +
-> +	return mode;
-> +}
-> +
-
-[snip]
-
-> +
-> +	/*
-> +	 * Never use pcim_ or other managed helpers on the returned PCI
-> +	 * device. Otherwise, probing the native driver will fail for
-> +	 * resource conflicts. PCI-device management has to be tied to
-> +	 * the lifetime of the platform device until the native driver
-> +	 * takes over.
-> +	 */
-
-Ah, was this the issue that you mentioned the other day? How interesting.
-
-
-> +/*
-> + * Support all formats of OF display and maybe more; in order
-> + * of preference. The display's update function will do any
-> + * conversion necessary.
-> + *
-> + * TODO: Add blit helpers for remaining formats and uncomment
-> + *       constants.
-> + */
-> +static const uint32_t ofdrm_default_formats[] = {
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_RGB565,
-> +	//DRM_FORMAT_XRGB1555,
-
-Wonder if makes sense to keep this commented and the TODO, why not
-leave that format from first version and just do it as follow-up ?
-
-> +static const struct drm_connector_funcs ofdrm_connector_funcs = {
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.destroy = drm_connector_cleanup,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +};
-
-All of the callbacks used comes from helper libraries so I maybe we
-could have a macro or something to set those ? It's the same set that
-are used in simpledrm so it would make sense to have them defined in
-the same place.
-
-> +static const struct drm_mode_config_funcs ofdrm_mode_config_funcs = {
-> +	.fb_create = drm_gem_fb_create_with_dirty,
-> +	.atomic_check = drm_atomic_helper_check,
-> +	.atomic_commit = drm_atomic_helper_commit,
-> +};
-> +
-
-Same for these. We could also have a macro to define this for both
-simpledrm and ofdrm.
-
-> +static const uint32_t *ofdrm_device_formats(struct ofdrm_device *odev, size_t *nformats_out)
-> +{
-> +	struct drm_device *dev = &odev->dev;
-> +	size_t i;
-> +
-> +	if (odev->nformats)
-> +		goto out; /* don't rebuild list on recurring calls */
-> +
-
-Nice optimization to cache this.
-
-> +	/*
-> +	 * TODO: The ofdrm driver converts framebuffers to the native
-> +	 * format when copying them to device memory. If there are more
-> +	 * formats listed than supported by the driver, the native format
-> +	 * is not supported by the conversion helpers. Therefore *only*
-> +	 * support the native format and add a conversion helper ASAP.
-> +	 */
-> +	if (drm_WARN_ONCE(dev, i != odev->nformats,
-> +			  "format conversion helpers required for %p4cc",
-> +			  &odev->format->format)) {
-> +		odev->nformats = 1;
-> +	}
-> +
-
-Interesting. Did you find some formats that were not supported ?
-
-The rest of the patch looks good to me, thanks a lot for writing this.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index e7330684d3b8..8f9aab9ece32 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -365,7 +365,22 @@ static struct miscdevice udmabuf_misc = {
+ 
+ static int __init udmabuf_dev_init(void)
+ {
+-	return misc_register(&udmabuf_misc);
++	int ret;
++
++	ret = misc_register(&udmabuf_misc);
++	if (ret < 0) {
++		pr_err("Could not initialize udmabuf device\n");
++		return ret;
++	}
++
++	ret = dma_coerce_mask_and_coherent(udmabuf_misc.this_device,
++					   DMA_BIT_MASK(64));
++	if (ret < 0) {
++		pr_err("Could not setup DMA mask for udmabuf device\n");
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static void __exit udmabuf_dev_exit(void)
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.35.1
 
