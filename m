@@ -1,65 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C951F52E131
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 02:29:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AF852E137
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 02:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B425C10E1DA;
-	Fri, 20 May 2022 00:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12B0310E337;
+	Fri, 20 May 2022 00:34:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B3510E1DA
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:29:49 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id i27so12790273ejd.9
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 17:29:49 -0700 (PDT)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85A210E337
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:34:19 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-f17f1acffeso8713385fac.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 17:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NkNsmxiQk+nW3UDbjO7QxzvaqncjAzBvhuR1VH6Vk60=;
- b=bA4kB8OhrG3AO6xz5No7HEoss1T72t7wOhdeRdSsdZLYCzD5aJYviGdcdpnznfPifZ
- yuRj+lDxOoXXam02skD8mXDZraaqUDT3pVNFce59ArewYDhYNcYKJahlU2Ir6PagSJtJ
- 9VEQUM21705l7JBJccvc9ZdGE5VGkEK28WMdE=
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=e9ljUUDHH/JyJI4aQ9kIel1eQTZZ1jPr0AhJXun2ykU=;
+ b=gXlvnDGCdBwNwVpzUu6dPjZu7hjujZnhRYw5U+bmqIlSChZfw/OgFYiEYX1UOjmt8C
+ EMmWLvNQR/CWX+kboCzZbsmEQVjW13Wm37nBkgZh8w8r9I4I3mDLxrAmUh7cttqcGqvX
+ VJ54e9ZT9WGzRe6fqS26MvM4QLCTL9Eal9+FY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NkNsmxiQk+nW3UDbjO7QxzvaqncjAzBvhuR1VH6Vk60=;
- b=CG8GM5Wi0roXa4BJuwscjiHN7zg4n1Pie9iW1PR3p6UiM8ZxAs/vUpqDTNW7fMvigG
- 68E93yK3Nv6zoFyj48VgtyG7Bk1y1yW1XyrjoJ6/vY2z81rQAwUxVknXMxCcSeOQMMKt
- 0zfF9tnvS20iShqlCMuyGmYZM8U4l2hSWnEONHCUlnLBKIPMydhFb0QoZfOln16bkezA
- DTy6h5pOaCQVUVsqYCpUBxsDegi3FxZTaP6e6f4eq0Y9u2tYU44agofZ9/jscqw8IGBL
- JHAZh+uqOhbzJ/O/SF1B2I+Itk+NzpWUCynLeCcLqTcvYSz+7h26L/7jsbiD/mMi+/tF
- +E3A==
-X-Gm-Message-State: AOAM532GKI4ycw/kxYfQcT8ueiT6PzwzCrjJnwvOFPaSXIQdK9c+i3v2
- NV43xRLtQvVBMg3DuYpgdHgXW28pIVJMbYAofI0=
-X-Google-Smtp-Source: ABdhPJzdOC912cxBErSjhdkTnMDNs83yGKjQEeKCciSeP8/6XtsWYSJiTSGuyskmdNe/2gOjZPRZzg==
-X-Received: by 2002:a17:907:96ab:b0:6f4:e973:7eba with SMTP id
- hd43-20020a17090796ab00b006f4e9737ebamr6772891ejc.593.1653006588188; 
- Thu, 19 May 2022 17:29:48 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com.
- [209.85.128.42]) by smtp.gmail.com with ESMTPSA id
- eo10-20020a1709069b0a00b006f3ef214e5dsm2595665ejc.195.2022.05.19.17.29.47
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 May 2022 17:29:47 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id
- h205-20020a1c21d6000000b003972dda143eso108907wmh.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 17:29:47 -0700 (PDT)
-X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
- bg25-20020a05600c3c9900b00392b49c7b79mr5830883wmb.199.1653006218866; Thu, 19
- May 2022 17:23:38 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=e9ljUUDHH/JyJI4aQ9kIel1eQTZZ1jPr0AhJXun2ykU=;
+ b=wXpbOtm7hYCL/yuFAiLo3jKXLxof3HlmxNOfoAHIIAE0GxmKWVTL6ZFfGvwbeWcK9o
+ QaVt+WKYeBfYDXGyCdK1NSIEVtszS0rHrs2L4JEO4WZkuNYr7mofIFsSyUC/oDAIEQLu
+ 6ADly3fqsLKdNe053lRclWFFiF4wYfI7cszfKF8ya/zEql/seFDiM0JtAdJcISy2xdjL
+ HkuUBCVppVf76D5ar/KB+4vFCjErri1J75pUTpDdEKJ45nEBEpY4RcN8MDAsPWS0O9za
+ fLWTztUw2l1/sSe1aoVdtI7WICr95JOXH/7a3RMgzmeSiV/gZAuigBueTs6SZ+iW52KL
+ CAbA==
+X-Gm-Message-State: AOAM531eTABiS/qt9L61ox1EBSffMHPhGgLzXKcMvgjBEjXvN93Fgd6c
+ 3OiG5PSCZm63K8EyEvJVeIoiL2/jBPUwpex7MkTM6A==
+X-Google-Smtp-Source: ABdhPJz7GCry66MK6mS2X/Oob/iO+dMt3elWph3akDsxT5xS/EtFSj9XGQ/M4XZ3r6HgPrufR7ngXa2CnDPqZiOI8Bk=
+X-Received: by 2002:a05:6870:240d:b0:f1:b878:e97c with SMTP id
+ n13-20020a056870240d00b000f1b878e97cmr4014027oap.193.1653006859019; Thu, 19
+ May 2022 17:34:19 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 19 May 2022 17:34:18 -0700
 MIME-Version: 1.0
-References: <20220509161733.v2.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
-In-Reply-To: <20220509161733.v2.1.Ia8651894026707e4fa61267da944ff739610d180@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 19 May 2022 17:23:26 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XWYFDMYvZJWDnV2Yc+5X=NThYnE78aOeMrhrEvBiDLkQ@mail.gmail.com>
-Message-ID: <CAD=FV=XWYFDMYvZJWDnV2Yc+5X=NThYnE78aOeMrhrEvBiDLkQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: Document the power requirements for DP AUX
- transfers
-To: dri-devel <dri-devel@lists.freedesktop.org>
+In-Reply-To: <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
+References: <20220418171757.2282651-1-dianders@chromium.org>
+ <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
+ <CAE-0n51iNXN4oOP-wAqrm9U6qC84fQ+qMUBu0BODXjsCDk+H=w@mail.gmail.com>
+ <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 19 May 2022 17:34:18 -0700
+Message-ID: <CAE-0n50RXmaUsu5F9syJT-ZXzX8WacpJDFnhb1xQaou1Pxizng@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] drm/dp: Add wait_hpd_asserted() callback to struct
+ drm_dp_aux
+To: Doug Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,95 +68,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Jani Nikula <jani.nikula@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Kees Cook <keescook@chromium.org>,
+ David Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Hsin-Yi Wang <hsinyi@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>, Maxime Ripard <maxime@cerno.tech>
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Quoting Doug Anderson (2022-05-12 16:24:13)
+> On Wed, May 11, 2022 at 6:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > Quoting Douglas Anderson (2022-04-18 10:17:54)
+> > > diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/dp/drm_dp_helper.h
+> > > index 53d1e722f4de..0940c415db8c 100644
+> > > --- a/include/drm/dp/drm_dp_helper.h
+> > > +++ b/include/drm/dp/drm_dp_helper.h
+> > > @@ -2035,6 +2035,32 @@ struct drm_dp_aux {
+> > >         ssize_t (*transfer)(struct drm_dp_aux *aux,
+> > >                             struct drm_dp_aux_msg *msg);
+> > >
+> > > +       /**
+> > > +        * @wait_hpd_asserted: wait for HPD to be asserted
+> > > +        *
+> > > +        * This is mainly useful for eDP panels drivers to wait for an eDP
+> > > +        * panel to finish powering on. This is an optional function.
+> >
+> > Is there any use for the opposite direction? For example, does anything
+> > care that HPD is deasserted?
+>
+> Not that I'm aware of. Originally I was planning to have it so that a
+> timeout of "0" meant to just poll without sleeping at all, but it
+> ended up making the code a lot more complicated because everywhere
+> else we had the "readx" semantics where 0 meant wait forever. It
+> didn't seem worth it. I can go back to that behavior if need be.
+>
 
-On Mon, May 9, 2022 at 4:18 PM Douglas Anderson <dianders@chromium.org> wrote:
->
-> When doing DP AUX transfers there are two actors that need to be
-> powered in order for the DP AUX transfer to work: the DP source and
-> the DP sink. Commit bacbab58f09d ("drm: Mention the power state
-> requirement on side-channel operations") added some documentation
-> saying that the DP source is required to power itself up (if needed)
-> to do AUX transfers. However, that commit doesn't talk anything about
-> the DP sink.
->
-> For full fledged DP the sink isn't really a problem. It's expected
-> that if an external DP monitor isn't plugged in that attempting to do
-> AUX transfers won't work. It's also expected that if a DP monitor is
-> plugged in (and thus asserting HPD) then AUX transfers will work.
->
-> When we're looking at eDP, however, things are less obvious. Let's add
-> some documentation about expectations. Here's what we'll say:
->
-> 1. We don't expect the DP AUX transfer function to power on an eDP
-> panel. If an eDP panel is physically connected but powered off then it
-> makes sense for the transfer to fail.
->
-> 2. We'll document that the official way to power on a panel is via the
-> bridge chain, specifically by making sure that the panel's prepare
-> function has been called (which is called by
-> panel_bridge_pre_enable()). It's already specified in the kernel doc
-> of drm_panel_prepare() that this is the way to power the panel on and
-> also that after this call "it is possible to communicate with any
-> integrated circuitry via a command bus."
->
-> 3. We'll also document that for code running in the panel driver
-> itself that it is legal for the panel driver to power itself up
-> however it wants (it doesn't need to officially call
-> drm_panel_pre_enable()) and then it can do AUX bus transfers. This is
-> currently the way that edp-panel works when it's running atop the DP
-> AUX bus.
->
-> NOTE: there was much discussion of all of this in response to v1 [1]
-> of this patch. A summary of that is:
-> * With the Intel i195 driver, apparently eDP panels do get powered
->   up. We won't forbid this but it is expected that code that wants to
->   run on a variety of platforms should ensure that the drm_panel's
->   prepare() function has been called.
-> * There is at least a reasonable amount of agreement that the
->   transfer() functions itself shouldn't be responsible for powering
->   the panel. It's proposed that if we need the DP AUX dev nodes to be
->   robust for eDP that the code handling the DP AUX dev nodes could
->   handle powering the panel by ensuring that the panel's prepare()
->   call was made. Potentially drm_dp_aux_dev_get_by_minor() could be a
->   good place to do this. This is left as a future exercise. Until
->   that's fixed the DP AUX dev nodes for eDP are probably best just
->   used for debugging.
-> * If a panel could be in PSR and DP AUX via the dev node needs to be
->   reliable then we need to be able to pull the panel out of PSR. On
->   i915 this is also apparently handled as part of the transfer()
->   function.
->
-> [1] https://lore.kernel.org/r/20220503162033.1.Ia8651894026707e4fa61267da944ff739610d180@changeid
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> ---
-> Hopefully I've resolved everything here to everyone's
-> satisfaction. There's no crazy hurry here. I'll give this a week or so
-> and then land it on drm-misc if there is no additional discussion.
->
-> Changes in v2:
-> - Updated wording as per discussion on v1.
-> - Updated commit message as per discussion on v1.
-> - Add pointer to v1 discussion for future reference.
->
->  include/drm/display/drm_dp_helper.h | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
+Got it.
 
-Pushed to drm-misc-next:
+>
+> > > +        *
+> > > +        * This function will efficiently wait for up to `wait_us` microseconds
+> > > +        * for HPD to be asserted and might sleep.
+> > > +        *
+> > > +        * This function returns 0 if HPD was asserted or -ETIMEDOUT if time
+> > > +        * expired and HPD wasn't asserted. This function should not print
+> > > +        * timeout errors to the log.
+> > > +        *
+> > > +        * The semantics of this function are designed to match the
+> > > +        * readx_poll_timeout() function. That means a `wait_us` of 0 means
+> > > +        * to wait forever. If you want to do a quick poll you could pass 1
+> > > +        * for `wait_us`.
+> >
+> > It would also make sense to have a drm_dp_wait_hpd_asserted() API
+> >
+> >   int drm_dp_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us);
+> >
+> > and then this aux function could be implemented in various ways. The API
+> > could poll if the aux can only read immediate state of HPD, or it could
+> > sleep (is sleeping allowed? that isn't clear) and wake up the process
+> > once HPD goes high. Or if this op isn't implemented maybe there's a
+> > fixed timeout member that is non-zero which means "sleep this long".
+> > Either way, making each drm_dp_aux implement that logic seems error
+> > prone vs. having the drm_dp_aux implement some function for
+> >
+> >         get_immediate_hpd(struct drm_dp_aux *aux)
+>
+> There's a reason why I changed the API to "wait" from "get". If you
+> can think of a good place to document this, I'm all ears.
+>
+> The basic problem is ps8640 (my nemesis, apparently). On ps8640,
+> because of the black box firmware blob that's on it, we have a crazy
+> long delay in its runtime resume (300ms). So what happens with ps8640
+> is that if we make the API "get_immediate_hpd()" it wasn't so
+> immediate. Even with autosuspend, that first "get" could take 300 ms,
+> which really screwed with everyone else who was waiting with a 200 ms
+> timeout.
+>
+> Now, in theory, one could argue that the fact that ps8640 had a 300 ms
+> sleep would mean that the very first "get" of the panel would already
+> show HPD high. I don't know why that wasn't the case, but ps8640 is an
+> annoying black box.
+>
+> In general, though, the DP controller might need some amount of time
+> to power itself back up and configure itself. Even though the ps8640
+> case is extreme, it wouldn't be totally extreme to assume that an AUX
+> controller might take 20 ms or 50 ms to power up. That could still
+> throw timings off. Implementing the API as a "wait" style API gets
+> around this problem. Now the DP controller can take as long as it
+> needs to power itself up and it can then wait with the requested
+> timeout.
 
-69ef4a192bba drm: Document the power requirements for DP AUX transfers
+To clarify, are you saying that the 'wait' passed in will be added to
+whatever time it takes for the driver to runtime resume to check HPD
+status? Or is the driver supposed to subtract any time to power up from the
+'wait' passed in and then poll or wait for an irq about HPD?
+
+Would it be incorrect to somehow have the pm_runtime_get_sync() call in
+the mythical wrapper API with a ktime_get() before and after and then
+subtract that from the 'wait' time and call "get_immediate_hpd()"?
+
+It would help me understand further if the 'wait' is described as a
+maximum time we're willing to wait or a minimum time we're willing to
+wait for hpd to be asserted. Usually a timeout is the maximum we're
+willing to wait so I think you're saying the wait is the maximum time
+after we know the drm_dp_aux is fully powered up and ready to check the
+state.
