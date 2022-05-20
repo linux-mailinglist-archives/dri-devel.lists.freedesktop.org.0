@@ -1,68 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC80852E6A2
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 09:54:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D59F852E772
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 10:31:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F41511B6E8;
-	Fri, 20 May 2022 07:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 642B811ADC0;
+	Fri, 20 May 2022 08:31:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D8311B6E8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 07:54:39 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id t25so12953726lfg.7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DkuHinXI3lpMmDhaFWa7SWko/oLhe+xgW9Fvmx5frMg=;
- b=oQIeO77e5MgSp87vBncmyxBCcoNdnnimJ9e849ruUM/OlNEC4TtFyCQMc52XjTugxL
- Mpm3X4noT3dqQ3QrThtyXz3oRMvAXe741B1+TI5K+Kk6h3jzKgq31jYtKE12DrjsjdHM
- MNAPx4+IKSlrc0imUA9WQ0ycuaubtFRt3+yfOV/qB18pXTMeLTNioxQJGuZHbi79lgoO
- 0jkEb+h3ePU32ZHE1f748Who9IBdX6ggASCvaqI/WAkHw4rK/vVYNqoiDV8k/PNSXySm
- 4W+wsnAU6k7YnWazIxiXl06tT7IVgiTM8RSW2oFmt1DIoo6zeSnXtKDT9wPX1seAJVCc
- pgpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DkuHinXI3lpMmDhaFWa7SWko/oLhe+xgW9Fvmx5frMg=;
- b=FAEYE95aITKtZqsGk4oDo1wvAmGGxtUBMwLzalKmtZ09BIV0vQMogYcje9nyIOrmSA
- diuehvknuM3QaZQfhqAxef/AxqK02wXTOW14f9n2d1nbcovhH7d/L7KeySPjFBwJ5dS8
- jUHJfnVuSvj2SrLwJeGODlxEzx+o8ctcGwOzd1eiH3E2LrLsDBTP8UZvf29avot6j0KC
- O9/AVOb2fX0nKf9peJpl+j/h0T0iw/beUVkvUbOS0KdkC280O7y88ucsOGxrDUkMV11V
- CdeFrp9GrhAMS64mJ/i/oMYQFM1nfQ/pwFLI8sKG8oRUDo/z4EpxEUl1dkK5kQ2EjKJ6
- BkVA==
-X-Gm-Message-State: AOAM530SR9HzvbeeblHpVbo8X2zMnlFIBADi1ttDwUqq751ScClVtBsD
- 1h2lOSwZb7qqnApwmnBUuZqjmk/tLiLdPbME
-X-Google-Smtp-Source: ABdhPJwx9dWuIp8oYgAGP5r1AcEtYYPQ5RJYBals6FVrRICWBys5V20iJ9zuV2KCWvnUEUZ6OqbyYQ==
-X-Received: by 2002:a05:6512:1192:b0:473:cd3b:5f7b with SMTP id
- g18-20020a056512119200b00473cd3b5f7bmr6129376lfr.391.1653033277469; 
- Fri, 20 May 2022 00:54:37 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- x7-20020ac24887000000b004742b9065c4sm559298lfc.230.2022.05.20.00.54.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 May 2022 00:54:37 -0700 (PDT)
-Message-ID: <34d2664a-f4a6-31f9-c6d7-043bb6e14c58@linaro.org>
-Date: Fri, 20 May 2022 09:54:35 +0200
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F45811ADC0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 08:30:58 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 69F5E5C01A4;
+ Fri, 20 May 2022 04:30:56 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 20 May 2022 04:30:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1653035456; x=1653121856; bh=JrboHXWXmW
+ g+Ajlsh4OSWnUOyEnSMZHY/Hyt6MK1IVs=; b=Tq8jyW9C0ubsdhKdvAIGjkLNIv
+ pPKSreQ3hoNBAPdrdg8i+u6vV+WO6fkN/YUc77xU6GCYR05AZ0jKa/+hTC63Hy9S
+ 4qpG7nXTayi0YngAWhVyyhGfjS+F1SPnR13oATJ0BC+x8N1UDThAN3HV0S70qrS3
+ 6B2fg57tc7v2cJeUoabpwqVjQQGinq+KwdCzwLVCwcxoM5Mx97rGG5pjaK2cf3yc
+ uKuzxZ5IEo79JflieNDjm7e2N6XRjDN+E/o+HRJ+67n/xldkgn2OrMs9sMhcbjI3
+ iGKR6VZJn9L+efGSYmjLzHLb4T/QKGBA7kzIBzzIQ6y2MIhBIHtBZA9PJoeQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1653035456; x=1653121856; bh=JrboHXWXmWg+Ajlsh4OSWnUOyEnS
+ MZHY/Hyt6MK1IVs=; b=jEsB6rvWLAokXqgNJH4u7Zx7etU7MIs5pFvIQ3IyZIis
+ NgKQdFXskcfa2Jc1uJdni003vaH7sclEal5EpsaNCXvQ6I1x+lyYbkw91et/VDz4
+ x02JHsxwnMCVi3o1ggzFTjrBGDtMDlkkaurDhj2BJmRe4MhgnQJGkI9ciQ/A33iS
+ dtsSKEGkDGUKV+YKp4zYzmmX8Vll01x3s41voYVbluJPl14D7SbYaIb6l+DouFDM
+ BDoQsuD9hUc/VALwyD8SBs2WgashpRnTw5qchBvRXb1Qz0/imUPcxFhrokSFnUbD
+ La640Mtxio/MJEdIrOguo9Adk6ZD21U+zQzs8LZwQQ==
+X-ME-Sender: <xms:v1GHYrS7mvQACgdXEjczqhwXSr0rhP9AUZNQvnvCeM7ttDGbIEQyqg>
+ <xme:v1GHYsy_a5RxqkJU_ZioSQOeJ75XWk8rUViGXCGcRxXdNKkXOvL74ysgEs6Dng00B
+ rWlH9yZsCZ6BzE0JNI>
+X-ME-Received: <xmr:v1GHYg1Koq_UdP5h1Qi2DmW7EMf1fvpCwTzH2gTw0oiYo7BOO_rwlVZHdub7mFf8_Q_IYpWyv8lQaatmqWaB4oulUgaYh4EbZLtiQ2M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrieefgddtfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:v1GHYrChgGUyTShyOPQdtrrCOh52ebHwBgBPMdF68RZ-lev284oysA>
+ <xmx:v1GHYki8jLPzTCEyvfIFtrWKldWvvg_iVlJCulx5_fdeoTaAxuKO1w>
+ <xmx:v1GHYvp2W2eKzwyQ0Ow8NS-5lNsNdVDeMY8tIXcVGgQnfZXam41Caw>
+ <xmx:wFGHYvV1vokLvNka_NhYL00HfslUJGACkIljue_IbA6AwXAza0ROMw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 May 2022 04:30:55 -0400 (EDT)
+Date: Fri, 20 May 2022 10:30:53 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3] drm/bridge: tc358767: Make sure Refclk clock are
+ enabled
+Message-ID: <20220520083053.qnyeuasyedyr2oza@houat>
+References: <20220519122912.93536-1-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [RESEND 4/6 v2] dt-bindings: display: simple: add Geekworm MZP280
- Panel
-Content-Language: en-US
-To: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220519162935.1585-1-macroalpha82@gmail.com>
- <20220519162935.1585-5-macroalpha82@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220519162935.1585-5-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="uhgnbm6o5hmlpkdf"
+Content-Disposition: inline
+In-Reply-To: <20220519122912.93536-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,33 +83,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- emma@anholt.net, airlied@linux.ie, Chris Morgan <macromorgan@hotmail.com>,
- robh+dt@kernel.org, thierry.reding@gmail.com, mchehab@kernel.org,
- sam@ravnborg.org, linux-media@vger.kernel.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, robert.foss@linaro.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2022 18:29, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> The Geekworm MZP280 panel is a 480x640 (portrait) panel with a
-> capacitive touch interface and a 40 pin header meant to interface
-> directly with the Raspberry Pi. The screen is 2.8 inches diagonally,
-> and there appear to be at least 4 distinct versions all with the same
-> panel timings.
-> 
-> Timings were derived from drivers posted on the github located here:
-> https://github.com/tianyoujian/MZDPI/tree/master/vga
-> 
-> Additional details about this panel family can be found here:
-> https://wiki.geekworm.com/2.8_inch_Touch_Screen_for_Pi_zero
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 
+--uhgnbm6o5hmlpkdf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Thu, May 19, 2022 at 02:29:12PM +0200, Marek Vasut wrote:
+> The Refclk may be supplied by SoC clock output instead of crystal
+> oscillator, make sure the clock are enabled before any other action
+> is performed with the bridge chip, otherwise it may either fail to
+> operate at all, or miss reset GPIO toggle.
+>=20
+> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> Fixes: 7caff0fc4296e ("drm/bridge: tc358767: Add DPI to eDP bridge driver=
+")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+> V2: - Use devm_add_action_or_reset() to add clock disable hook instead
+>       of wall of failpath
+> V3: - Swap devm_add_action_or_reset()/clk_prepare_enable() to avoid
+>       clock disable imbalance
+>     - Add RB from Lucas
+> ---
+>  drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++++++++++-------
+>  1 file changed, 23 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/t=
+c358767.c
+> index 45ea829d56601..7d4035ca26b19 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -2033,6 +2033,13 @@ static int tc_probe_bridge_endpoint(struct tc_data=
+ *tc)
+>  	return -EINVAL;
+>  }
+> =20
+> +static void tc_clk_disable(void *data)
+> +{
+> +	struct clk *refclk =3D data;
+> +
+> +	clk_disable_unprepare(refclk);
+> +}
+> +
+>  static int tc_probe(struct i2c_client *client, const struct i2c_device_i=
+d *id)
+>  {
+>  	struct device *dev =3D &client->dev;
+> @@ -2049,6 +2056,22 @@ static int tc_probe(struct i2c_client *client, con=
+st struct i2c_device_id *id)
+>  	if (ret)
+>  		return ret;
+> =20
+> +	tc->refclk =3D devm_clk_get(dev, "ref");
+> +	if (IS_ERR(tc->refclk)) {
+> +		ret =3D PTR_ERR(tc->refclk);
+> +		dev_err(dev, "Failed to get refclk: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	clk_prepare_enable(tc->refclk);
+> +
+> +	ret =3D devm_add_action_or_reset(dev, tc_clk_disable, tc->refclk);
+> +	if (ret)
+> +		return ret;
 
+We'll also have the imbalance if clk_prepare_enable fails.
 
-Best regards,
-Krzysztof
+Maxime
+
+--uhgnbm6o5hmlpkdf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYodRvQAKCRDj7w1vZxhR
+xaAcAQDbdU2SmxrLTxJQ/eblqX8TZzsG9oUtlThNOLlgNCLLEgD+PmsFdU2lKW+1
+qCBm3TQWSdXV9XqCgGkNDGlzuqw60wg=
+=97zy
+-----END PGP SIGNATURE-----
+
+--uhgnbm6o5hmlpkdf--
