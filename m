@@ -2,47 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489CE52E522
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 08:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C7352E4FA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 08:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B897811B223;
-	Fri, 20 May 2022 06:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9D4411ACAC;
+	Fri, 20 May 2022 06:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E603111B21E
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 06:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653028863; x=1684564863;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0bQagf9gkdnDqM0hSW6K3TC5+1kyTBgDk4d5ktu9FPo=;
- b=VhGdQoKyeaXsWSMAuirgc5OS+kSF3DOOi8sw892bxFVfnN1MvJKLgrhd
- CArfKfaUqV8dBSU2d94mHQWREd5Kubo0UTFrwYial8PmP44WrRr77rhfv
- 4ioHgydrgyTN9mvzcP2XBOZsgoX0zvRP4/wabfXvghhD7P3vc1IRIbnt9
- qUnKmvrIdH1KszSlp9CESLtlKzHBZJeM/BLDFIkGMdWm5BrVBnG8MDjy2
- uvvAppK7UlKPyc6bRw+Hl5/5QKZ1bz86K8IKsBQQeUKNs3AkUMIHi8MNN
- BoI27Vo5mb95Jisl9+hT7WjkR4/wiMG5+cxS3Ef93RvoTgOVNFX32o9FN Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="254565610"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="254565610"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 23:41:03 -0700
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="570652327"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 23:41:03 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] udmabuf: Set the DMA mask for the udmabuf device
-Date: Thu, 19 May 2022 23:23:08 -0700
-Message-Id: <20220520062308.3660563-1-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <CACT4Y+ZiexzqBxeDQJAeQMR7Ef=JSh-2S8P73LN2BnibXhiC3Q@mail.gmail.com>
-References: <CACT4Y+ZiexzqBxeDQJAeQMR7Ef=JSh-2S8P73LN2BnibXhiC3Q@mail.gmail.com>
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2045.outbound.protection.outlook.com [40.107.102.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4453611ACAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 06:29:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZUgcfFT8R+wKxNEb7QThBqUreTWQ8g7RORP7vhl9jZoNh+VekzJw1YHjPtl3nt0EGffcOer6+B7OcZZOuTt+7paSXHDlVajpgY989jK2iaTzNgT+gLgjs0VIi6El35YcWnyNN1qBKXut3XTIsh1M9dKgQhdsK88xXRPo3dVGsFKj5V+OjUqpWtGLDaUPeVXBX3uGH2l7HjESAX8XyvvpmHuhHHz/h31IcMigavTvSZWOkJ7TIUn1mWqUSRQ6fwtbhODDvu8pAPmGT0G8Tkwci3UnMGwr5SIo+2+aVXX1AbZS2eMicKstOsAFgt/5OFLjRrkkCosnsxbIFLR4tXhLeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RbHbPLiJpa/HyDLtdxyhgztgfUdoVwbXkv5/zsw6aMc=;
+ b=Nb/floog+tdkwjAsr91wF0e41a0ePTa1x8D0RYsuwRfLgVlNytToeJMuQYuuSBF5E6gRUVaSbhpEZMjWw/q8QsEQCxWSDS2FfBnRQGRnh26UTZa6MguCSoOFNoWIZ4HfRWsxXoyZIYleWQprkwdmwdw7OFXNfp/K1y4KUjopacBqeA4Ka6ACMU1iycbzna9ewpuAWXSQVtphO2TqU4mUMK0ZUBdoX5UVzfLBlZz49FQ3xk3d9LTU0Pzim2HQGNhqtFoxHKyAlPF/sPMLQo3AgXmlYt0kqlw4/h8Ljqrqo8yRdp6+/Zt2Q4kcbI4hu26Hg4dlpzfBHFF0Ji09aKuvuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RbHbPLiJpa/HyDLtdxyhgztgfUdoVwbXkv5/zsw6aMc=;
+ b=wDFoZX7f+GbIDbwh2aLsmBYZClvIV4zVvTC1DicTDAoOn2fK3ttEBAEqLsaZobxX+35t/A82EbsqJWrhWQWDdHT8X56HRPF4h2LMF2zqtK4g0cUH7wZVD9ODyJWq553bxJThpPC5VSgMYXF4B1szqO5WHuFjpulJJP7fQbr75fc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BN6PR12MB1315.namprd12.prod.outlook.com (2603:10b6:404:1f::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.16; Fri, 20 May
+ 2022 06:29:26 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7146:65ee:8fd3:dd03]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7146:65ee:8fd3:dd03%4]) with mapi id 15.20.5273.017; Fri, 20 May 2022
+ 06:29:26 +0000
+Message-ID: <4e35dc30-1157-50b3-e3b6-954481a0524d@amd.com>
+Date: Fri, 20 May 2022 08:29:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [RFC PATCH] procfs: Add file path and size to /proc/<pid>/fdinfo
+Content-Language: en-US
+To: Kalesh Singh <kaleshsingh@google.com>
+References: <20220519214021.3572840-1-kaleshsingh@google.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220519214021.3572840-1-kaleshsingh@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR04CA0050.eurprd04.prod.outlook.com
+ (2603:10a6:20b:f0::27) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 40043f3e-713e-4085-ce2f-08da3a2a15e3
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1315:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR12MB131550335EABD2DC65C3FAA883D39@BN6PR12MB1315.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: d14YZn+irmJVw34RjNcmW/gCfI3fQ87go371MwkzyiYWn6Ub+//5nuMkUQYZ1SSWQuPUCrUYz/sHws1p3Uo4olFMkteDLWEYEY/H0u3ME0yk0T1l6TGDUSL/IO0NzvLExg1SG67agPM07OWYzW9DJXd0rOSKcoJ+NQdndiliaZuT+uOHUTtTd37EGTw3tgo5ZMCtC0nHW0PCMJA21KfTgGrLZSRpklnyU7GJt46uSb8oDsBiHEe5MIEoT1haUdpXEeVktO2t/HEQZVaovLmhuVKwsirSxeOu/3cQceh7TdWqmO7TmOVLE3n+XgFNxD88B5JMpyZuC3JBM4uAwABN2Pj6fbGufevnvyIuij62uaI6Pnq71Mg0ANRzbg2g+Ax/cBVp38OoNafMwBSRYnMliOcrbVd+t61s3+3GUyXB9fD8Pj9H/0Iu3Wwc1WwbgRBj5Rf7rJFj3gSElhPVgZz+KmOdHwC6WFESqZo5BPwE6ysGQyM+MZozN5Kp53zu8rKNQWWJz/Co1N3yXhVhxo501Kup9iuDtybXQz29SDzbIKsM9BzJMgCS426K7joN4ryP0aC6spTmKfEKZcADCF0qYfTQn0JB0vhO70lTmq94m0LlWOpZsNIQZmCv1zKKDZUAcFzqSrkEKWQdqIWAKU1O/f0va5ZyPkJIF6RFEIE5C3IAG56jb9tMtTLUuOl7g/4eQJNRPFkHenwA4q/H2fQdy72fwNWvfNDNbm5u9R73e3GOdu8SkQKnrXTRDgNFH3W/NLAndzSV3rD9UZAecwkc84nDYydZaPBsT4UiRVgX3H3n0WjK8NIMy4pmUE8y3oOGUiyOVfTDfSnIF/c9B0xMg8X4g9tiRAt0eQ1F8SCc+rE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(2906002)(36756003)(8676002)(4326008)(2616005)(6506007)(6486002)(966005)(7416002)(8936002)(6512007)(66556008)(54906003)(66946007)(5660300002)(508600001)(45080400002)(38100700002)(86362001)(316002)(66476007)(31696002)(6666004)(6916009)(31686004)(186003)(21314003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXp1ZkRMVU9NRmZCSzdGMGlzazFnVHBTVEVYQmhUNEdBU01EcjM3Z29QV2dt?=
+ =?utf-8?B?ajBZdjUvSUdjbXFaT0xIYmJEeFoybXQxbmMya1MwaEkrbXhjWWptdU5KYi9S?=
+ =?utf-8?B?THIwRGwrMmNheU1PTG5BZlhreFpxTnhKNnZ1QXc1UTdSNm5tejhEbmdCeXdN?=
+ =?utf-8?B?anIrZ0E2Ti8valdmRHA2ZU5KM244OXBnclpQVG9TRXkvNE41cFFrQVRta0p0?=
+ =?utf-8?B?MXhqeHBTaWx0dWlGbHVZSHJtMi83YW1Ld1RqYXJnWGVFQ2RjQ25DOW9ITXdp?=
+ =?utf-8?B?cWJNQS9DMTdvVXIvcTJlb3dkOWVmY3VSTEFRQzNtRlNlcmgrQWQyNjdPQjZE?=
+ =?utf-8?B?bzJPZncvVFlXTWRtaXVNUGwwWTZCZEFGSEFWUTRwL3ArYmJUWVNKNXpyTHpK?=
+ =?utf-8?B?OThJRlZ0R2pOUnZDSTVWbkJZTmlzcFZ1YmpHeGUvcmQyb2Z0MVVwdVJ2QjJG?=
+ =?utf-8?B?U0tzb2VIZTVzUEprWXFZQUlGUnlLMmsyU1crVVp1aDZ1TTgyY0RmMjBZMndT?=
+ =?utf-8?B?TUtTNmQ2M1prcDFHQ2JhWDlUd002TGlRZUI2d2VQb25kTDJaa2ZGUTdqWWN1?=
+ =?utf-8?B?RWlkeEY4bE5OZ1JFWDRxNUx2Nm5kUjhOKzhCMnlvanpGN0NPTlJjMWxYdGt6?=
+ =?utf-8?B?Nm9OdStadFk5T1NQRndBTSsyTXVhc2J4YVFFYTYxckRkSVNzK25xTllMbFJi?=
+ =?utf-8?B?dEdNdHlPd2tZWWRWMjdJY2haUzlVWWVUZnR1b2cxV29DRnZXdWJ3OUlLM0ZP?=
+ =?utf-8?B?R292T3k5NlMydXVyNHBrZEY4VTBzM2RpK2NFTGpHRmtEdWJNczlHMGVRNmQy?=
+ =?utf-8?B?bkRKYnFFNFJqVUN0MFlaWnVIRnQ5eHlhNHhBaDZYaUVWZElEWU5WYkZ5cU0y?=
+ =?utf-8?B?dzBGZUYrT0NlVEx1VE44NjRYZ0EzSDZsaEY0TWZtS3pmNTE3ckZhS1dyWktN?=
+ =?utf-8?B?ZVFFMUVjTUNJbUxmbzF5dkREQU0zUkxYd2Y0S2w0K3MzWDdLbTZnR3h6cEd1?=
+ =?utf-8?B?Z0lpbFA5WEh0NzBLcHQxQnlFUnJPZVFHSDlGdmUyazRGUFNHZGxleTdnK3RM?=
+ =?utf-8?B?cVJQbkp2S1BhS3Y2Wnk3SGF0V3d3dHd0NU93MmsxOTRtZnJFK3lLb0ZYRXhS?=
+ =?utf-8?B?U1FYcFhUUnV6V09NcnNEZ2VJdmJTZ2NYOWE2TXZSaG4rckEwSmhlNG5KL0dp?=
+ =?utf-8?B?K3FyZDAxNjFYNHNBZzUwc1VkWnUvcGZVVEV5UE90SU1nUjdKZnVrd0xJcTA3?=
+ =?utf-8?B?ODB2YVMvSFhqSW5wTWtVZk1BNE9EcFlaMkM3RGl3RVQxaWhUU0lvRndzNWJs?=
+ =?utf-8?B?d0QxVkhHcFljU0VkMFJxRmg2bml2WWNGVFZEWnNDWGovQUx3aUJxckpmMG00?=
+ =?utf-8?B?WW0xR0hjMzN4NFFhUk9Jek40Ujg4dFdTTXlXV29xZjVTVnNzVjhDK1QrU0Ro?=
+ =?utf-8?B?WDExZDZhS2I1dnZhZ0ZkeHhXVkgraWJTSytyQzQ0ODdTWWxYNm5GVFNjbnBG?=
+ =?utf-8?B?TXVXbVd1dTczbXQrK2h2L0wvY2FjbmltU0s1RS96R1YyditnaC9zZHpPeXlX?=
+ =?utf-8?B?aVAwOU1GWmlZQWhMOUg3ek52REdlaXhoeUdGVXpPTkttcndQVzF2NDdRZ01Q?=
+ =?utf-8?B?bGl3bytXeGc0aStPQTJkM29Ic20yUnBnbUFSUTFEVDFzQ3A1VDVqWFo4a0xs?=
+ =?utf-8?B?dDI0aVVOUll2K0hWVFNZbmNkanFGOWI1Y2VydmZaOGRPNVpqRzZmbVplMk1x?=
+ =?utf-8?B?d050QVVjajROZUt0QjFINk5hNFZJRk5mNGlxTUN2VnhFZ3hZU2NpaEUyZUI5?=
+ =?utf-8?B?bGFDV2x3L3ZnVVlsSnRvUnIyaktjQisyNm00RCtsSXgvYXR6Vit3YzdaWlcv?=
+ =?utf-8?B?cmQ4d2RkL0Z3Rm9Kc3pkYjM0TVFGZGpmYzZIYTVwOWgrREEzZFd4SFd1Qm1T?=
+ =?utf-8?B?K2daR29NeEVrQndXWVlKV1BjNTZtQTdHdFN6dGk4MzczMlpaSXNHbldSUXFD?=
+ =?utf-8?B?N0NHTGd1ZDdlZTlTNXYzcGpoMnFzWngwSmk0OUUzaU5sUUUrSlBnZi82ZG94?=
+ =?utf-8?B?cUNGYkhRb29nU1JTaHBXbEdPTlNJZm5semwrb0ZqY2pNc2o1RUZKMC9LWkw1?=
+ =?utf-8?B?UXJWY0I3WGZXNTNTMHl5amxZWTR4QXZWVWx1LzlPOFh4ZkFwczY3VjB0Vm9Q?=
+ =?utf-8?B?Q0QzcGtqckI2QjlaMzZHc01oUlM1KzQ5Z0NrTWZLR3c0ejYrZzVrQXE0U1BF?=
+ =?utf-8?B?RGtzMmtZd2RiUjliRXJLbmFwS0dvOTBOZStOU040ODN1WWI5MWo0TjJUQnJU?=
+ =?utf-8?B?UmRrb2FrclpDbCs0Z25sSWp0endGN2kvaVBvUm94NmtiSHRpOTJwYlpCZjF5?=
+ =?utf-8?Q?VhoBvsR6+H+F767+5Tp6Y3wCyG55ZeafLeU35Apumovd8?=
+X-MS-Exchange-AntiSpam-MessageData-1: 9U5E0eeqH8uiLg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40043f3e-713e-4085-ce2f-08da3a2a15e3
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2022 06:29:25.8978 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GlAlIRkuByxzRffjDqYa46Xl5xpGJeJpAu551ByIULurg5UBvsqCKr9DnAnm2k9a
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1315
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,99 +130,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ kernel-team@android.com, Randy Dunlap <rdunlap@infradead.org>,
+ ilkos@google.com, linux-kernel@vger.kernel.org,
+ Colin Cross <ccross@google.com>, tjmercier@google.com,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ surenb@google.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Mike Rapoport <rppt@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the DMA mask is not set explicitly, the following warning occurs
-when the userspace tries to access the dma-buf via the CPU as
-reported by syzbot here:
+Am 19.05.22 um 23:40 schrieb Kalesh Singh:
+> Processes can pin shared memory by keeping a handle to it through a
+> file descriptor; for instance dmabufs, memfd, and ashsmem (in Android).
+>
+> In the case of a memory leak, to identify the process pinning the
+> memory, userspace needs to:
+>    - Iterate the /proc/<pid>/fd/* for each process
+>    - Do a readlink on each entry to identify the type of memory from
+>      the file path.
+>    - stat() each entry to get the size of the memory.
+>
+> The file permissions on /proc/<pid>/fd/* only allows for the owner
+> or root to perform the operations above; and so is not suitable for
+> capturing the system-wide state in a production environment.
+>
+> This issue was addressed for dmabufs by making /proc/*/fdinfo/*
+> accessible to a process with PTRACE_MODE_READ_FSCREDS credentials[1]
+> To allow the same kind of tracking for other types of shared memory,
+> add the following fields to /proc/<pid>/fdinfo/<fd>:
+>
+> path - This allows identifying the type of memory based on common
+>         prefixes: e.g. "/memfd...", "/dmabuf...", "/dev/ashmem..."
+>
+>         This was not an issued when dmabuf tracking was introduced
+>         because the exp_name field of dmabuf fdinfo could be used
+>         to distinguish dmabuf fds from other types.
+>
+> size - To track the amount of memory that is being pinned.
+>
+>         dmabufs expose size as an additional field in fdinfo. Remove
+>         this and make it a common field for all fds.
+>
+> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
+> -- the same as for /proc/<pid>/maps which also exposes the path and
+> size for mapped memory regions.
+>
+> This allows for a system process with PTRACE_MODE_READ_FSCREDS to
+> account the pinned per-process memory via fdinfo.
 
-WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188
-__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Modules linked in:
-CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted
-5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-Google 01/01/2011
-RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0
-83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45
-   31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
-RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
-RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
-R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
-R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
-FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000)
-knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
- get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
- begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
- dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
- dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:874 [inline]
- __se_sys_ioctl fs/ioctl.c:860 [inline]
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f62fcf530f9
-Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89
-f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01
-f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
-RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
-RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
+I think this should be split into two patches, one adding the size and 
+one adding the path.
 
-Reported-by: syzbot+10e27961f4da37c443b2 at syzkaller.appspotmail.com
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/dma-buf/udmabuf.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Adding the size is completely unproblematic, but the path might raise 
+some eyebrows.
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index e7330684d3b8..8f9aab9ece32 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -365,7 +365,22 @@ static struct miscdevice udmabuf_misc = {
- 
- static int __init udmabuf_dev_init(void)
- {
--	return misc_register(&udmabuf_misc);
-+	int ret;
-+
-+	ret = misc_register(&udmabuf_misc);
-+	if (ret < 0) {
-+		pr_err("Could not initialize udmabuf device\n");
-+		return ret;
-+	}
-+
-+	ret = dma_coerce_mask_and_coherent(udmabuf_misc.this_device,
-+					   DMA_BIT_MASK(64));
-+	if (ret < 0) {
-+		pr_err("Could not setup DMA mask for udmabuf device\n");
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static void __exit udmabuf_dev_exit(void)
--- 
-2.35.1
+>
+> [1] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F20210308170651.919148-1-kaleshsingh%40google.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C95ee7bf71c2c4aa342fa08da39e03398%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637885932392014544%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=kf%2B2es12hV3z5zjOFhx3EyxI1XEMeHexqTLNpNoDhAY%3D&amp;reserved=0
+>
+> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> ---
+>   Documentation/filesystems/proc.rst | 22 ++++++++++++++++++++--
+>   drivers/dma-buf/dma-buf.c          |  1 -
+>   fs/proc/fd.c                       |  9 +++++++--
+>   3 files changed, 27 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 061744c436d9..ad66d78aca51 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -1922,13 +1922,16 @@ if precise results are needed.
+>   3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
+>   ---------------------------------------------------------------
+>   This file provides information associated with an opened file. The regular
+> -files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
+> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
+> +and 'path'.
+> +
+>   The 'pos' represents the current offset of the opened file in decimal
+>   form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
+>   file has been created with [see open(2) for details] and 'mnt_id' represents
+>   mount ID of the file system containing the opened file [see 3.5
+>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
+> -the file.
+> +the file, 'size' represents the size of the file in bytes, and 'path'
+> +represents the file path.
+>   
+>   A typical output is::
+>   
+> @@ -1936,6 +1939,8 @@ A typical output is::
+>   	flags:	0100002
+>   	mnt_id:	19
+>   	ino:	63107
+> +        size:   0
+> +        path:   /dev/null
+>   
+>   All locks associated with a file descriptor are shown in its fdinfo too::
+>   
+> @@ -1953,6 +1958,8 @@ Eventfd files
+>   	flags:	04002
+>   	mnt_id:	9
+>   	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[eventfd]
+>   	eventfd-count:	5a
+>   
+>   where 'eventfd-count' is hex value of a counter.
+> @@ -1966,6 +1973,8 @@ Signalfd files
+>   	flags:	04002
+>   	mnt_id:	9
+>   	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[signalfd]
+>   	sigmask:	0000000000000200
+>   
+>   where 'sigmask' is hex value of the signal mask associated
+> @@ -1980,6 +1989,8 @@ Epoll files
+>   	flags:	02
+>   	mnt_id:	9
+>   	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[eventpoll]
+>   	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
+>   
+>   where 'tfd' is a target file descriptor number in decimal form,
+> @@ -1998,6 +2009,8 @@ For inotify files the format is the following::
+>   	flags:	02000000
+>   	mnt_id:	9
+>   	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:inotify
+>   	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+>   
+>   where 'wd' is a watch descriptor in decimal form, i.e. a target file
+> @@ -2021,6 +2034,8 @@ For fanotify files the format is::
+>   	flags:	02
+>   	mnt_id:	9
+>   	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[fanotify]
+>   	fanotify flags:10 event-flags:0
+>   	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+>   	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+> @@ -2046,6 +2061,8 @@ Timerfd files
+>   	flags:	02
+>   	mnt_id:	9
+>   	ino:	63107
+> +        size:   0
+> +        path:   anon_inode:[timerfd]
+>   	clockid: 0
+>   	ticks: 0
+>   	settime flags: 01
+> @@ -2070,6 +2087,7 @@ DMA Buffer files
+>   	mnt_id:	9
+>   	ino:	63107
+>   	size:   32768
+> +        path:   /dmabuf:
+>   	count:  2
+>   	exp_name:  system-heap
+>   
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index b1e25ae98302..d61183ff3c30 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -377,7 +377,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+>   {
+>   	struct dma_buf *dmabuf = file->private_data;
+>   
+> -	seq_printf(m, "size:\t%zu\n", dmabuf->size);
+>   	/* Don't count the temporary reference taken inside procfs seq_show */
+>   	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>   	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+> index 913bef0d2a36..a8a968bc58f0 100644
+> --- a/fs/proc/fd.c
+> +++ b/fs/proc/fd.c
+> @@ -54,10 +54,15 @@ static int seq_show(struct seq_file *m, void *v)
+>   	if (ret)
+>   		return ret;
+>   
+> -	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n",
+> +	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\nsize:\t%zu\n",
+>   		   (long long)file->f_pos, f_flags,
+>   		   real_mount(file->f_path.mnt)->mnt_id,
+> -		   file_inode(file)->i_ino);
+> +		   file_inode(file)->i_ino,
+> +		   file_inode(file)->i_size);
+
+We might consider splitting this into multiple seq_printf calls, one for 
+each printed attribute.
+
+It becomes a bit unreadable and the minimal additional overhead 
+shouldn't matter that much.
+
+Regards,
+Christian.
+
+> +
+> +	seq_puts(m, "path:\t");
+> +	seq_file_path(m, file, "\n");
+> +	seq_putc(m, '\n');
+>   
+>   	/* show_fd_locks() never deferences files so a stale value is safe */
+>   	show_fd_locks(m, file, files);
+>
+> base-commit: b015dcd62b86d298829990f8261d5d154b8d7af5
 
