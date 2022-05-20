@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A11453096F
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A5A53096C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:25:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7E6110E714;
-	Mon, 23 May 2022 06:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0935110E67D;
+	Mon, 23 May 2022 06:25:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D27FC10E1A3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 10:03:09 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- ob14-20020a17090b390e00b001dff2a43f8cso1290300pjb.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 03:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCF3F10E59C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 11:31:50 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id m20so15025772ejj.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 04:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kPDr2d9+6sr9lCyWq7WNBoRvBQxorjF1e30W8kRss44=;
- b=WtkN6qR9mLXwX5J+02dBVs103/z9HbD0uTfUEmErMVHDJhdDK5IQ6d25M9w58GTzR+
- X/VUrWaJjeKoFmbpJvWmqOWQJDiMfqZBGDgSkS5qZ29cvXRcKD+bX92ZZdvBBamlW12D
- tqUxEIkfWl8XjVS0IAoyXLqmfCvAfJZ7l3gn7FkEz+mF1919qtuUax9y3BOl8yrABq5p
- U4TJaMGM0PgDJqxNhGbleQszDn6sXJJXYsWAMnCyv68IFPtAWTbw4Y6wC8UMUMxTxcXa
- goNH8SgpC6j74ztPP8oVp05xpc8ePy875D72S+2RJIFuB385Z3Lun1avyq/tke8iVz0u
- kMUg==
+ :cc; bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
+ b=re4Sm8tWAvFHp6bKgAYMf09Z79Kgi3OEdhOIiBZ7/Rn2QXbgu5Ly14y4/nQN7Y/aTo
+ VlgbB9yG7Rlr2cuoabCyBxc2bGDLVKK0lXBLnASl6zsHCcOeA+1KzIBeqFsR+y75i5XZ
+ XvFFiPa9GJ2QyyaAdSmJuFi5RyYukwsFD78F77Gu/KxBhoXO8QeL/xhxXqgh8n2pVQ16
+ 5uSsdoWXuRrwj+2ip8smJzRExeR9DRqgQ7nZOdTto/19ei6AXbORk/Mx4Jr1TH0FheIZ
+ Rjk53cTk2OReyJUGfCv97XHsZ5d+q5q5c0jA2xxlOnKUomCD8mRuslxc9zsWStq2ZrCv
+ ptCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kPDr2d9+6sr9lCyWq7WNBoRvBQxorjF1e30W8kRss44=;
- b=0S/RIIqBiUzY2Typf9MahGyNsckR2F5ePMgjTBfZzrYlYPETEKIciJ0G2dJc45FhZr
- tEY1pqVi6g0AaiT/V59ub9bcsk2ggtAh9dUWv6nZiJHKrukPOMUGus6FxEwi+TDnv75L
- w3abwSUzOP3/HFQcR2Wl9F74sWnKBRdlMjG5mvVBADS2VWFshSDCKcmOY6G35zLOXeR3
- M9pz8Ju92wjxbzLVZQBCkXKrKc2Qf4I7bCeCsvEA67xSdcByC6T2IcR7D8XCQISkdkuA
- LlNKqsy3wUml2ES2sL82N4+7KjnYjJmB67HuUhDuzW1aYmPGOeGvOAa9lMPXaRWmdDQB
- CITg==
-X-Gm-Message-State: AOAM530axh2ZxLuO8S6wchlboM8oZxrjb0rzC/bVScuyTnOITS0cLEwg
- CBY5cy3QWBHHTpmSLAKUFkgbgCvRpoTMuFLuT5w=
-X-Google-Smtp-Source: ABdhPJyaUo5/8pAMO+rImvZojMftnGDKz35IDQMdVoew1yS276UO3vJMNfKLmkL7kfOMCpSbrXcEZFcNL9AE5q+Qs8M=
-X-Received: by 2002:a17:90b:180f:b0:1df:cc0c:bbfd with SMTP id
- lw15-20020a17090b180f00b001dfcc0cbbfdmr9913118pjb.84.1653040989493; Fri, 20
- May 2022 03:03:09 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=0NvptFqrj7j0InVdvvMmgqzBzN84J9LRB794rQxkFdY=;
+ b=ZVAbQ4mBwtAYl0zXjtfqiU0P2Rj6SOnmBa+i/JK2IW8r6IZ6PVeKoS3nU16R6dHbI/
+ BjaBd3WUbDOZtSFbpAU+1zz4n34x1dzJZXItMqD2gIo5A+JLkxjumyc4clMAGTLplp51
+ 9wCTmvemIboH5BR1qihaz7OnbePUlK9RhBx1bnbJ1QtqdeDVhSORL8Ceq4yGA0lAL/yd
+ BtVCoL7ntUEPR2CQpiV1hqg555Pka9CKQe3qvaPqhTVti4TtrT9LiiLdz7txTMqXKUDe
+ ntCM0RpRAeKqjIWH1/TZteJygHb2jHGbl68pDhuIBp6pxf4tbmrGRcN0FU7RmcP1hYk0
+ nbyQ==
+X-Gm-Message-State: AOAM531srjQCSUMS1qF6YXTLwq62bvHRQ70FkZf/a2tyaOEWo+EfozXg
+ twT9EPUNs84G66fiRTuLYKVlVxS4ZJXv3cU2i1ikPg==
+X-Google-Smtp-Source: ABdhPJyAADo7d4aXCmDNCVnTVXprJXf99iw8JPsCwtJN6tP2yH5Av5Yx22hVAD/QFIma8grUrwXZC/mCf6Av3T8PJbw=
+X-Received: by 2002:a17:907:6eab:b0:6fe:b5e2:7b0e with SMTP id
+ sh43-20020a1709076eab00b006feb5e27b0emr1053811ejc.736.1653046309443; Fri, 20
+ May 2022 04:31:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <23894515.EfDdHjke4D@phil>
-In-Reply-To: <23894515.EfDdHjke4D@phil>
-From: Maya Matuszczyk <maccraft123mc@gmail.com>
-Date: Fri, 20 May 2022 12:02:33 +0200
-Message-ID: <CAO_Mup+SCgeK9rBjYqnnOpJWUNXyJdXV9pjWXqi571sznS9-LA@mail.gmail.com>
-Subject: Re: [PATCH v11 00/24] drm/rockchip: RK356x VOP2 support
-To: Heiko Stuebner <heiko@sntech.de>
+References: <20220519211411.2200720-1-robh@kernel.org>
+In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 20 May 2022 13:31:38 +0200
+Message-ID: <CAMRc=McjvTE27BMbN-_W+Fdd7CJcswZQYsB-4N8cj=WfAQ9QOQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix properties without any type
+To: Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Mon, 23 May 2022 06:25:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,47 +64,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ linux-pci@vger.kernel.org,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Guenter Roeck <groeck@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, chrome-platform@lists.linux.dev,
+ Herbert Xu <herbert@gondor.apana.org.au>, linux-serial@vger.kernel.org,
+ Linux Input <linux-input@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>, Kalle Valo <kvalo@kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Matt Mackall <mpm@selenic.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, Peter Rosin <peda@axentia.se>,
+ "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
+ <linux-crypto@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Thu, May 19, 2022 at 11:14 PM Rob Herring <robh@kernel.org> wrote:
+>
+> Now that the schema tools can extract type information for all
+> properties (in order to decode dtb files), finding properties missing
+> any type definition is fairly trivial though not yet automated.
+>
+> Fix the various property schemas which are missing a type. Most of these
+> tend to be device specific properties which don't have a vendor prefix.
+> A vendor prefix is how we normally ensure a type is defined.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
+>  .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
+>  .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
+>  .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
+>  .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
+>  .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
+>  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
+>  .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
+>  Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
+>  Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
+>  Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
+>  Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
+>  .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
+>  .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
+>  .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
+>  Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
+>  .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
+>  Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
+>  .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
+>  .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
+>  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
+>  Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
+>  .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
+>  .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
+>  Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
+>  25 files changed, 55 insertions(+), 8 deletions(-)
+>
 
-wt., 17 maj 2022 o 20:28 Heiko Stuebner <heiko@sntech.de> napisa=C5=82(a):
->
-> Am Freitag, 22. April 2022, 09:28:17 CEST schrieb Sascha Hauer:
-> > It's v11 time. There's only one small change to v10. Discussion seems t=
-o
-> > have settled now. Is there anything left that prevents the series from
-> > being merged? I'd really like to have it in during the next merge
-> > window.
-> >
-> > This series still depends on:
-> > drm/rockchip: Refactor IOMMU initialisation (https://lists.freedesktop.=
-org/archives/dri-devel/2022-April/349548.html)
-> > arm64: dts: rockchip: add basic dts for the radxa rock3 model a
-> >
-> > Sascha
->
-> I've now picked up everything except the hdmi-rate stuff in some way.
-> The driver changes will go into 5.19 and the DT-changes into 5.20.
->
-> I'll now move the series out of my focus and would expect further
-> hdmi rate voodoo to start a new series :-) .
->
-> Thanks to all involved for working on this.
-> Heiko
+For GPIO:
 
-What do I need besides this patch series, mentioned before IOMMU refactor,
-and DTS changes for MIPI-DSI support on RK356x?
-I'm working on mainline kernel support for a a RK3566 board with
-a DSI display.
-
-Best Regards,
-Maya Matuszczyk
+Acked-by: Bartosz Golaszewski <brgl@bgdev.pl>
