@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A37252E14D
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 02:43:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906E452E20A
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 03:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8016910E41C;
-	Fri, 20 May 2022 00:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5B2510E072;
+	Fri, 20 May 2022 01:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A6E10E446
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:42:55 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 157E010E057
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 01:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653007375; x=1684543375;
+ t=1653010495; x=1684546495;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=BajxnFhDjeYK6OJdvg1bDjwAI7zO7CVIHlt3kCTR+TE=;
- b=e5WIt0gmSGgQ/tgXe2DaQ0S1d0TO6WFiLoaRH5wecEiZh2WfNB53VV8I
- RGYc0pB3knhBKv5JacoYBABuXp0S2cMUd3g2oKadu1Z42jpxD0Tn4pMBj
- Ro5Jmo1icyVk1UGiZ3RhUQS20WVwMpQFsYJ10XCchm1iEqz+KofuJJkrg
- zlZpzc7+X4lWwqh/3WTozp4SF5CYT6wg9k/BxMZg9/gDE+guESwITpfXh
- ERjh+65Y43BaWXa0whVIF++2DvbZddM5vChoNCdKGXxBG9AJd14nW0dRv
- FAzLwQKAc55QS629/x8+e8CSb7cMbK8awg/GK+QtMjcpESBIjIdf+ZBAm A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="358840109"
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="358840109"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 17:42:54 -0700
+ bh=NfdL/FzCFLB5InMgBmty5JY2QWGIPoi0Uc63oaN1Jzs=;
+ b=ezBoINmfb4k6N9olSj0uWoF9OuATgOW1ljo/W2XK5IyEupl+8dpf0v/1
+ fv1C1tN4vlq1zXVejoTwdFfFAYIxPFVt5Ovo0jaOPTBWhR2XS1QmZiYhE
+ PjZ0Ve6JF8Zk3+wsUZhobCT/rmVQ5A2FgmuV9yDCQvOx0We8mXiWYsYaw
+ s2JWenucET5pHM39GojABtDOZmjXv6nIvaUc2pGoeQTYSSsJvB+TAUXaI
+ guVzu60odoxOcewCeSbfHTDjJVyAgSsFPk8NfQ+S4fNIYIhr2CJcpUFjm
+ P0s5qHq1qunOAH07A6ZTICw4/anDT4utWNZWVXRUQ1nizJ47iXxyknomf g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="254495392"
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="254495392"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 18:34:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="598905012"
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="640085662"
 Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 19 May 2022 17:42:50 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 19 May 2022 18:34:51 -0700
 Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nrqjB-00045d-VE;
- Fri, 20 May 2022 00:42:49 +0000
-Date: Fri, 20 May 2022 08:41:58 +0800
+ (envelope-from <lkp@intel.com>) id 1nrrXW-000485-Mx;
+ Fri, 20 May 2022 01:34:50 +0000
+Date: Fri, 20 May 2022 09:34:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Uri Arev <me@wantyapps.xyz>
 Subject: Re: [PATCH] staging: fbtft: fix checkpatch.pl struct should normally
  be const
-Message-ID: <202205200821.nJQ0IfFt-lkp@intel.com>
+Message-ID: <202205200955.wBcgkXij-lkp@intel.com>
 References: <20220519172503.10821-1-me@wantyapps.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -60,10 +60,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Srivathsa Dara <srivathsa729.8@gmail.com>, Uri Arev <me@wantyapps.xyz>,
- linux-staging@lists.linux.dev, kbuild-all@lists.01.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, llvm@lists.linux.dev,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
+ kbuild-all@lists.01.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
  Len Baker <len.baker@gmx.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -80,92 +79,67 @@ Thank you for the patch! Yet something to improve:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Uri-Arev/staging-fbtft-fix-checkpatch-pl-struct-should-normally-be-const/20220520-012948
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 4d0cc9e0e53e9946d7b8dc58279c62dfa7a2191b
-config: arm64-randconfig-r011-20220519 (https://download.01.org/0day-ci/archive/20220520/202205200821.nJQ0IfFt-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e00cbbec06c08dc616a0d52a20f678b8fbd4e304)
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20220520/202205200955.wBcgkXij-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/d26e139bfc29011b0a147df71f0b91485189c66e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Uri-Arev/staging-fbtft-fix-checkpatch-pl-struct-should-normally-be-const/20220520-012948
         git checkout d26e139bfc29011b0a147df71f0b91485189c66e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/staging/fbtft/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/staging/fbtft/fbtft-core.c:332:6: warning: variable 'count' set but not used [-Wunused-but-set-variable]
-           int count = 0;
-               ^
->> drivers/staging/fbtft/fbtft-core.c:617:8: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-           const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
-           ~~~~~ ^
-           int
->> drivers/staging/fbtft/fbtft-core.c:617:8: error: redefinition of 'fbops' with a different type: 'const int' vs 'const struct fb_ops *'
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: previous definition is here
-           const struct fb_ops *fbops = NULL;
-                                ^
->> drivers/staging/fbtft/fbtft-core.c:647:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->owner        =      dev->driver->owner;
-           ~~~~~~~~~~~~        ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c:648:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->fb_read      =      fb_sys_read;
-           ~~~~~~~~~~~~~~      ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c:649:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->fb_write     =      fbtft_fb_write;
-           ~~~~~~~~~~~~~~~     ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c:650:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->fb_fillrect  =      fbtft_fb_fillrect;
-           ~~~~~~~~~~~~~~~~~~  ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c:651:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->fb_copyarea  =      fbtft_fb_copyarea;
-           ~~~~~~~~~~~~~~~~~~  ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c:652:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->fb_imageblit =      fbtft_fb_imageblit;
-           ~~~~~~~~~~~~~~~~~~~ ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c:653:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->fb_setcolreg =      fbtft_fb_setcolreg;
-           ~~~~~~~~~~~~~~~~~~~ ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c:654:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
-           fbops->fb_blank     =      fbtft_fb_blank;
-           ~~~~~~~~~~~~~~~     ^
-   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
-           const struct fb_ops *fbops = NULL;
-           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
->> drivers/staging/fbtft/fbtft-core.c:617:8: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-           const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
-                 ^
-   2 warnings and 10 errors generated.
+   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_framebuffer_alloc':
+>> drivers/staging/fbtft/fbtft-core.c:617:15: error: type defaults to 'int' in declaration of 'fbops' [-Werror=implicit-int]
+     617 |         const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
+         |               ^~~~~
+>> drivers/staging/fbtft/fbtft-core.c:617:15: error: conflicting type qualifiers for 'fbops'
+   drivers/staging/fbtft/fbtft-core.c:542:30: note: previous definition of 'fbops' with type 'const struct fb_ops *'
+     542 |         const struct fb_ops *fbops = NULL;
+         |                              ^~~~~
+   drivers/staging/fbtft/fbtft-core.c:617:23: warning: initialization of 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+     617 |         const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
+         |                       ^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:617:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     617 |         const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
+         |         ^~~~~
+   drivers/staging/fbtft/fbtft-core.c:644:21: warning: assignment to 'const struct fb_ops *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     644 |         info->fbops = fbops;
+         |                     ^
+>> drivers/staging/fbtft/fbtft-core.c:647:14: error: invalid type argument of '->' (have 'int')
+     647 |         fbops->owner        =      dev->driver->owner;
+         |              ^~
+   drivers/staging/fbtft/fbtft-core.c:648:14: error: invalid type argument of '->' (have 'int')
+     648 |         fbops->fb_read      =      fb_sys_read;
+         |              ^~
+   drivers/staging/fbtft/fbtft-core.c:649:14: error: invalid type argument of '->' (have 'int')
+     649 |         fbops->fb_write     =      fbtft_fb_write;
+         |              ^~
+   drivers/staging/fbtft/fbtft-core.c:650:14: error: invalid type argument of '->' (have 'int')
+     650 |         fbops->fb_fillrect  =      fbtft_fb_fillrect;
+         |              ^~
+   drivers/staging/fbtft/fbtft-core.c:651:14: error: invalid type argument of '->' (have 'int')
+     651 |         fbops->fb_copyarea  =      fbtft_fb_copyarea;
+         |              ^~
+   drivers/staging/fbtft/fbtft-core.c:652:14: error: invalid type argument of '->' (have 'int')
+     652 |         fbops->fb_imageblit =      fbtft_fb_imageblit;
+         |              ^~
+   drivers/staging/fbtft/fbtft-core.c:653:14: error: invalid type argument of '->' (have 'int')
+     653 |         fbops->fb_setcolreg =      fbtft_fb_setcolreg;
+         |              ^~
+   drivers/staging/fbtft/fbtft-core.c:654:14: error: invalid type argument of '->' (have 'int')
+     654 |         fbops->fb_blank     =      fbtft_fb_blank;
+         |              ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/int +617 drivers/staging/fbtft/fbtft-core.c
+vim +617 drivers/staging/fbtft/fbtft-core.c
 
    516	
    517	/**
