@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AF852E137
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 02:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A37252E14D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 02:43:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12B0310E337;
-	Fri, 20 May 2022 00:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8016910E41C;
+	Fri, 20 May 2022 00:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C85A210E337
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:34:19 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-f17f1acffeso8713385fac.4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 May 2022 17:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=e9ljUUDHH/JyJI4aQ9kIel1eQTZZ1jPr0AhJXun2ykU=;
- b=gXlvnDGCdBwNwVpzUu6dPjZu7hjujZnhRYw5U+bmqIlSChZfw/OgFYiEYX1UOjmt8C
- EMmWLvNQR/CWX+kboCzZbsmEQVjW13Wm37nBkgZh8w8r9I4I3mDLxrAmUh7cttqcGqvX
- VJ54e9ZT9WGzRe6fqS26MvM4QLCTL9Eal9+FY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=e9ljUUDHH/JyJI4aQ9kIel1eQTZZ1jPr0AhJXun2ykU=;
- b=wXpbOtm7hYCL/yuFAiLo3jKXLxof3HlmxNOfoAHIIAE0GxmKWVTL6ZFfGvwbeWcK9o
- QaVt+WKYeBfYDXGyCdK1NSIEVtszS0rHrs2L4JEO4WZkuNYr7mofIFsSyUC/oDAIEQLu
- 6ADly3fqsLKdNe053lRclWFFiF4wYfI7cszfKF8ya/zEql/seFDiM0JtAdJcISy2xdjL
- HkuUBCVppVf76D5ar/KB+4vFCjErri1J75pUTpDdEKJ45nEBEpY4RcN8MDAsPWS0O9za
- fLWTztUw2l1/sSe1aoVdtI7WICr95JOXH/7a3RMgzmeSiV/gZAuigBueTs6SZ+iW52KL
- CAbA==
-X-Gm-Message-State: AOAM531eTABiS/qt9L61ox1EBSffMHPhGgLzXKcMvgjBEjXvN93Fgd6c
- 3OiG5PSCZm63K8EyEvJVeIoiL2/jBPUwpex7MkTM6A==
-X-Google-Smtp-Source: ABdhPJz7GCry66MK6mS2X/Oob/iO+dMt3elWph3akDsxT5xS/EtFSj9XGQ/M4XZ3r6HgPrufR7ngXa2CnDPqZiOI8Bk=
-X-Received: by 2002:a05:6870:240d:b0:f1:b878:e97c with SMTP id
- n13-20020a056870240d00b000f1b878e97cmr4014027oap.193.1653006859019; Thu, 19
- May 2022 17:34:19 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 19 May 2022 17:34:18 -0700
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A6E10E446
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653007375; x=1684543375;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BajxnFhDjeYK6OJdvg1bDjwAI7zO7CVIHlt3kCTR+TE=;
+ b=e5WIt0gmSGgQ/tgXe2DaQ0S1d0TO6WFiLoaRH5wecEiZh2WfNB53VV8I
+ RGYc0pB3knhBKv5JacoYBABuXp0S2cMUd3g2oKadu1Z42jpxD0Tn4pMBj
+ Ro5Jmo1icyVk1UGiZ3RhUQS20WVwMpQFsYJ10XCchm1iEqz+KofuJJkrg
+ zlZpzc7+X4lWwqh/3WTozp4SF5CYT6wg9k/BxMZg9/gDE+guESwITpfXh
+ ERjh+65Y43BaWXa0whVIF++2DvbZddM5vChoNCdKGXxBG9AJd14nW0dRv
+ FAzLwQKAc55QS629/x8+e8CSb7cMbK8awg/GK+QtMjcpESBIjIdf+ZBAm A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="358840109"
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="358840109"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2022 17:42:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,238,1647327600"; d="scan'208";a="598905012"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+ by orsmga008.jf.intel.com with ESMTP; 19 May 2022 17:42:50 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nrqjB-00045d-VE;
+ Fri, 20 May 2022 00:42:49 +0000
+Date: Fri, 20 May 2022 08:41:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uri Arev <me@wantyapps.xyz>
+Subject: Re: [PATCH] staging: fbtft: fix checkpatch.pl struct should normally
+ be const
+Message-ID: <202205200821.nJQ0IfFt-lkp@intel.com>
+References: <20220519172503.10821-1-me@wantyapps.xyz>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
-References: <20220418171757.2282651-1-dianders@chromium.org>
- <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
- <CAE-0n51iNXN4oOP-wAqrm9U6qC84fQ+qMUBu0BODXjsCDk+H=w@mail.gmail.com>
- <CAD=FV=W6Z1TG4vQcDDeNsGkjZVAR8=A1L1pDfo1rDFCh84H4Rg@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 19 May 2022 17:34:18 -0700
-Message-ID: <CAE-0n50RXmaUsu5F9syJT-ZXzX8WacpJDFnhb1xQaou1Pxizng@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] drm/dp: Add wait_hpd_asserted() callback to struct
- drm_dp_aux
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220519172503.10821-1-me@wantyapps.xyz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,112 +59,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Kees Cook <keescook@chromium.org>,
- David Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
- Jani Nikula <jani.nikula@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Srivathsa Dara <srivathsa729.8@gmail.com>, Uri Arev <me@wantyapps.xyz>,
+ linux-staging@lists.linux.dev, kbuild-all@lists.01.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, llvm@lists.linux.dev,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Len Baker <len.baker@gmx.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Doug Anderson (2022-05-12 16:24:13)
-> On Wed, May 11, 2022 at 6:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> > Quoting Douglas Anderson (2022-04-18 10:17:54)
-> > > diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/dp/drm_dp_helper.h
-> > > index 53d1e722f4de..0940c415db8c 100644
-> > > --- a/include/drm/dp/drm_dp_helper.h
-> > > +++ b/include/drm/dp/drm_dp_helper.h
-> > > @@ -2035,6 +2035,32 @@ struct drm_dp_aux {
-> > >         ssize_t (*transfer)(struct drm_dp_aux *aux,
-> > >                             struct drm_dp_aux_msg *msg);
-> > >
-> > > +       /**
-> > > +        * @wait_hpd_asserted: wait for HPD to be asserted
-> > > +        *
-> > > +        * This is mainly useful for eDP panels drivers to wait for an eDP
-> > > +        * panel to finish powering on. This is an optional function.
-> >
-> > Is there any use for the opposite direction? For example, does anything
-> > care that HPD is deasserted?
->
-> Not that I'm aware of. Originally I was planning to have it so that a
-> timeout of "0" meant to just poll without sleeping at all, but it
-> ended up making the code a lot more complicated because everywhere
-> else we had the "readx" semantics where 0 meant wait forever. It
-> didn't seem worth it. I can go back to that behavior if need be.
->
+Hi Uri,
 
-Got it.
+Thank you for the patch! Yet something to improve:
 
->
-> > > +        *
-> > > +        * This function will efficiently wait for up to `wait_us` microseconds
-> > > +        * for HPD to be asserted and might sleep.
-> > > +        *
-> > > +        * This function returns 0 if HPD was asserted or -ETIMEDOUT if time
-> > > +        * expired and HPD wasn't asserted. This function should not print
-> > > +        * timeout errors to the log.
-> > > +        *
-> > > +        * The semantics of this function are designed to match the
-> > > +        * readx_poll_timeout() function. That means a `wait_us` of 0 means
-> > > +        * to wait forever. If you want to do a quick poll you could pass 1
-> > > +        * for `wait_us`.
-> >
-> > It would also make sense to have a drm_dp_wait_hpd_asserted() API
-> >
-> >   int drm_dp_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us);
-> >
-> > and then this aux function could be implemented in various ways. The API
-> > could poll if the aux can only read immediate state of HPD, or it could
-> > sleep (is sleeping allowed? that isn't clear) and wake up the process
-> > once HPD goes high. Or if this op isn't implemented maybe there's a
-> > fixed timeout member that is non-zero which means "sleep this long".
-> > Either way, making each drm_dp_aux implement that logic seems error
-> > prone vs. having the drm_dp_aux implement some function for
-> >
-> >         get_immediate_hpd(struct drm_dp_aux *aux)
->
-> There's a reason why I changed the API to "wait" from "get". If you
-> can think of a good place to document this, I'm all ears.
->
-> The basic problem is ps8640 (my nemesis, apparently). On ps8640,
-> because of the black box firmware blob that's on it, we have a crazy
-> long delay in its runtime resume (300ms). So what happens with ps8640
-> is that if we make the API "get_immediate_hpd()" it wasn't so
-> immediate. Even with autosuspend, that first "get" could take 300 ms,
-> which really screwed with everyone else who was waiting with a 200 ms
-> timeout.
->
-> Now, in theory, one could argue that the fact that ps8640 had a 300 ms
-> sleep would mean that the very first "get" of the panel would already
-> show HPD high. I don't know why that wasn't the case, but ps8640 is an
-> annoying black box.
->
-> In general, though, the DP controller might need some amount of time
-> to power itself back up and configure itself. Even though the ps8640
-> case is extreme, it wouldn't be totally extreme to assume that an AUX
-> controller might take 20 ms or 50 ms to power up. That could still
-> throw timings off. Implementing the API as a "wait" style API gets
-> around this problem. Now the DP controller can take as long as it
-> needs to power itself up and it can then wait with the requested
-> timeout.
+[auto build test ERROR on staging/staging-testing]
 
-To clarify, are you saying that the 'wait' passed in will be added to
-whatever time it takes for the driver to runtime resume to check HPD
-status? Or is the driver supposed to subtract any time to power up from the
-'wait' passed in and then poll or wait for an irq about HPD?
+url:    https://github.com/intel-lab-lkp/linux/commits/Uri-Arev/staging-fbtft-fix-checkpatch-pl-struct-should-normally-be-const/20220520-012948
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 4d0cc9e0e53e9946d7b8dc58279c62dfa7a2191b
+config: arm64-randconfig-r011-20220519 (https://download.01.org/0day-ci/archive/20220520/202205200821.nJQ0IfFt-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e00cbbec06c08dc616a0d52a20f678b8fbd4e304)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/d26e139bfc29011b0a147df71f0b91485189c66e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Uri-Arev/staging-fbtft-fix-checkpatch-pl-struct-should-normally-be-const/20220520-012948
+        git checkout d26e139bfc29011b0a147df71f0b91485189c66e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/staging/fbtft/
 
-Would it be incorrect to somehow have the pm_runtime_get_sync() call in
-the mythical wrapper API with a ktime_get() before and after and then
-subtract that from the 'wait' time and call "get_immediate_hpd()"?
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-It would help me understand further if the 'wait' is described as a
-maximum time we're willing to wait or a minimum time we're willing to
-wait for hpd to be asserted. Usually a timeout is the maximum we're
-willing to wait so I think you're saying the wait is the maximum time
-after we know the drm_dp_aux is fully powered up and ready to check the
-state.
+All error/warnings (new ones prefixed by >>):
+
+   drivers/staging/fbtft/fbtft-core.c:332:6: warning: variable 'count' set but not used [-Wunused-but-set-variable]
+           int count = 0;
+               ^
+>> drivers/staging/fbtft/fbtft-core.c:617:8: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+           const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
+           ~~~~~ ^
+           int
+>> drivers/staging/fbtft/fbtft-core.c:617:8: error: redefinition of 'fbops' with a different type: 'const int' vs 'const struct fb_ops *'
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: previous definition is here
+           const struct fb_ops *fbops = NULL;
+                                ^
+>> drivers/staging/fbtft/fbtft-core.c:647:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->owner        =      dev->driver->owner;
+           ~~~~~~~~~~~~        ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:648:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->fb_read      =      fb_sys_read;
+           ~~~~~~~~~~~~~~      ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:649:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->fb_write     =      fbtft_fb_write;
+           ~~~~~~~~~~~~~~~     ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:650:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->fb_fillrect  =      fbtft_fb_fillrect;
+           ~~~~~~~~~~~~~~~~~~  ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:651:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->fb_copyarea  =      fbtft_fb_copyarea;
+           ~~~~~~~~~~~~~~~~~~  ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:652:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->fb_imageblit =      fbtft_fb_imageblit;
+           ~~~~~~~~~~~~~~~~~~~ ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:653:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->fb_setcolreg =      fbtft_fb_setcolreg;
+           ~~~~~~~~~~~~~~~~~~~ ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c:654:22: error: cannot assign to variable 'fbops' with const-qualified type 'const struct fb_ops *'
+           fbops->fb_blank     =      fbtft_fb_blank;
+           ~~~~~~~~~~~~~~~     ^
+   drivers/staging/fbtft/fbtft-core.c:542:23: note: variable 'fbops' declared const here
+           const struct fb_ops *fbops = NULL;
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft-core.c:617:8: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
+           const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
+                 ^
+   2 warnings and 10 errors generated.
+
+
+vim +/int +617 drivers/staging/fbtft/fbtft-core.c
+
+   516	
+   517	/**
+   518	 * fbtft_framebuffer_alloc - creates a new frame buffer info structure
+   519	 *
+   520	 * @display: pointer to structure describing the display
+   521	 * @dev: pointer to the device for this fb, this can be NULL
+   522	 * @pdata: platform data for the display in use
+   523	 *
+   524	 * Creates a new frame buffer info structure.
+   525	 *
+   526	 * Also creates and populates the following structures:
+   527	 *   info->fbops
+   528	 *   info->fbdefio
+   529	 *   info->pseudo_palette
+   530	 *   par->fbtftops
+   531	 *   par->txbuf
+   532	 *
+   533	 * Returns the new structure, or NULL if an error occurred.
+   534	 *
+   535	 */
+   536	struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+   537						struct device *dev,
+   538						struct fbtft_platform_data *pdata)
+   539	{
+   540		struct fb_info *info;
+   541		struct fbtft_par *par;
+   542		const struct fb_ops *fbops = NULL;
+   543		struct fb_deferred_io *fbdefio = NULL;
+   544		u8 *vmem = NULL;
+   545		void *txbuf = NULL;
+   546		void *buf = NULL;
+   547		unsigned int width;
+   548		unsigned int height;
+   549		int txbuflen = display->txbuflen;
+   550		unsigned int bpp = display->bpp;
+   551		unsigned int fps = display->fps;
+   552		int vmem_size;
+   553		const s16 *init_sequence = display->init_sequence;
+   554		char *gamma = display->gamma;
+   555		u32 *gamma_curves = NULL;
+   556	
+   557		/* sanity check */
+   558		if (display->gamma_num * display->gamma_len >
+   559				FBTFT_GAMMA_MAX_VALUES_TOTAL) {
+   560			dev_err(dev, "FBTFT_GAMMA_MAX_VALUES_TOTAL=%d is exceeded\n",
+   561				FBTFT_GAMMA_MAX_VALUES_TOTAL);
+   562			return NULL;
+   563		}
+   564	
+   565		/* defaults */
+   566		if (!fps)
+   567			fps = 20;
+   568		if (!bpp)
+   569			bpp = 16;
+   570	
+   571		if (!pdata) {
+   572			dev_err(dev, "platform data is missing\n");
+   573			return NULL;
+   574		}
+   575	
+   576		/* override driver values? */
+   577		if (pdata->fps)
+   578			fps = pdata->fps;
+   579		if (pdata->txbuflen)
+   580			txbuflen = pdata->txbuflen;
+   581		if (pdata->display.init_sequence)
+   582			init_sequence = pdata->display.init_sequence;
+   583		if (pdata->gamma)
+   584			gamma = pdata->gamma;
+   585		if (pdata->display.debug)
+   586			display->debug = pdata->display.debug;
+   587		if (pdata->display.backlight)
+   588			display->backlight = pdata->display.backlight;
+   589		if (pdata->display.width)
+   590			display->width = pdata->display.width;
+   591		if (pdata->display.height)
+   592			display->height = pdata->display.height;
+   593		if (pdata->display.buswidth)
+   594			display->buswidth = pdata->display.buswidth;
+   595		if (pdata->display.regwidth)
+   596			display->regwidth = pdata->display.regwidth;
+   597	
+   598		display->debug |= debug;
+   599		fbtft_expand_debug_value(&display->debug);
+   600	
+   601		switch (pdata->rotate) {
+   602		case 90:
+   603		case 270:
+   604			width =  display->height;
+   605			height = display->width;
+   606			break;
+   607		default:
+   608			width =  display->width;
+   609			height = display->height;
+   610		}
+   611	
+   612		vmem_size = display->width * display->height * bpp / 8;
+   613		vmem = vzalloc(vmem_size);
+   614		if (!vmem)
+   615			goto alloc_fail;
+   616	
+ > 617		const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
+   618		if (!fbops)
+   619			goto alloc_fail;
+   620	
+   621		fbdefio = devm_kzalloc(dev, sizeof(struct fb_deferred_io), GFP_KERNEL);
+   622		if (!fbdefio)
+   623			goto alloc_fail;
+   624	
+   625		buf = devm_kzalloc(dev, 128, GFP_KERNEL);
+   626		if (!buf)
+   627			goto alloc_fail;
+   628	
+   629		if (display->gamma_num && display->gamma_len) {
+   630			gamma_curves = devm_kcalloc(dev,
+   631						    display->gamma_num *
+   632						    display->gamma_len,
+   633						    sizeof(gamma_curves[0]),
+   634						    GFP_KERNEL);
+   635			if (!gamma_curves)
+   636				goto alloc_fail;
+   637		}
+   638	
+   639		info = framebuffer_alloc(sizeof(struct fbtft_par), dev);
+   640		if (!info)
+   641			goto alloc_fail;
+   642	
+   643		info->screen_buffer = vmem;
+   644		info->fbops = fbops;
+   645		info->fbdefio = fbdefio;
+   646	
+ > 647		fbops->owner        =      dev->driver->owner;
+   648		fbops->fb_read      =      fb_sys_read;
+   649		fbops->fb_write     =      fbtft_fb_write;
+   650		fbops->fb_fillrect  =      fbtft_fb_fillrect;
+   651		fbops->fb_copyarea  =      fbtft_fb_copyarea;
+   652		fbops->fb_imageblit =      fbtft_fb_imageblit;
+   653		fbops->fb_setcolreg =      fbtft_fb_setcolreg;
+   654		fbops->fb_blank     =      fbtft_fb_blank;
+   655	
+   656		fbdefio->delay =           HZ / fps;
+   657		fbdefio->sort_pagelist =   true;
+   658		fbdefio->deferred_io =     fbtft_deferred_io;
+   659		fb_deferred_io_init(info);
+   660	
+   661		snprintf(info->fix.id, sizeof(info->fix.id), "%s", dev->driver->name);
+   662		info->fix.type =           FB_TYPE_PACKED_PIXELS;
+   663		info->fix.visual =         FB_VISUAL_TRUECOLOR;
+   664		info->fix.xpanstep =	   0;
+   665		info->fix.ypanstep =	   0;
+   666		info->fix.ywrapstep =	   0;
+   667		info->fix.line_length =    width * bpp / 8;
+   668		info->fix.accel =          FB_ACCEL_NONE;
+   669		info->fix.smem_len =       vmem_size;
+   670	
+   671		info->var.rotate =         pdata->rotate;
+   672		info->var.xres =           width;
+   673		info->var.yres =           height;
+   674		info->var.xres_virtual =   info->var.xres;
+   675		info->var.yres_virtual =   info->var.yres;
+   676		info->var.bits_per_pixel = bpp;
+   677		info->var.nonstd =         1;
+   678	
+   679		/* RGB565 */
+   680		info->var.red.offset =     11;
+   681		info->var.red.length =     5;
+   682		info->var.green.offset =   5;
+   683		info->var.green.length =   6;
+   684		info->var.blue.offset =    0;
+   685		info->var.blue.length =    5;
+   686		info->var.transp.offset =  0;
+   687		info->var.transp.length =  0;
+   688	
+   689		info->flags =              FBINFO_FLAG_DEFAULT | FBINFO_VIRTFB;
+   690	
+   691		par = info->par;
+   692		par->info = info;
+   693		par->pdata = pdata;
+   694		par->debug = display->debug;
+   695		par->buf = buf;
+   696		spin_lock_init(&par->dirty_lock);
+   697		par->bgr = pdata->bgr;
+   698		par->startbyte = pdata->startbyte;
+   699		par->init_sequence = init_sequence;
+   700		par->gamma.curves = gamma_curves;
+   701		par->gamma.num_curves = display->gamma_num;
+   702		par->gamma.num_values = display->gamma_len;
+   703		mutex_init(&par->gamma.lock);
+   704		info->pseudo_palette = par->pseudo_palette;
+   705	
+   706		if (par->gamma.curves && gamma) {
+   707			if (fbtft_gamma_parse_str(par, par->gamma.curves, gamma,
+   708						  strlen(gamma)))
+   709				goto release_framebuf;
+   710		}
+   711	
+   712		/* Transmit buffer */
+   713		if (txbuflen == -1)
+   714			txbuflen = vmem_size + 2; /* add in case startbyte is used */
+   715		if (txbuflen >= vmem_size + 2)
+   716			txbuflen = 0;
+   717	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
