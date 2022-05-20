@@ -1,59 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDC052F496
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 22:41:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E5852F49B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 22:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16B1E10E7E5;
-	Fri, 20 May 2022 20:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0906C10E70C;
+	Fri, 20 May 2022 20:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0AEC10E3A8;
- Fri, 20 May 2022 20:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653079304; x=1684615304;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=rI5ZKSOJKM0Bcjv9f134lRqpnioCEqKK1pNus30VpcY=;
- b=DGEYFwgcROYGM+cCXFM4XqW5quj8tj396taOHjczyKA9dAH6Yug2HIpN
- fCY5cf2ghbJNzSEKceZYSh7gj3cZp32XiIKbMUFR16DUfyEBGdoWaFRtP
- kbvbWEbnYT0uyPn0k4hGLslgkKfCaSVodbELHOlH1UGpx0lEzK7+JGQ4C 4=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 20 May 2022 13:41:44 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2022 13:41:43 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 20 May 2022 13:41:14 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 20 May 2022 13:41:13 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v10 3/3] drm/msm/dp: delete vdda regulator related functions
- from eDP/DP controller
-Date: Fri, 20 May 2022 13:40:57 -0700
-Message-ID: <1653079257-20894-4-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1653079257-20894-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1653079257-20894-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 021B110E512;
+ Fri, 20 May 2022 20:42:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653079361; x=1684615361;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=kxo40n+56M15FDOQoRl0gr0bB7E9LzLiW1zJVSjYl8k=;
+ b=Ejoauvcbx/4yqdJR/fVQK7dyvhfUHAjw9NTt5cJ1Xgh4fMMa3+0BtI+8
+ 0FHYapV+b0EGzLfynPQdiKVyIgNJOoH+ajlgNk6USNp4tBNdUOtomRe7a
+ 2x2/RopQgLfPfZoW0KLdSIzZS9c/GgliEPXx/S2Czwdo4EFn26IHWcmof
+ KDXuTTSszBjGE4mDLzm7bFka/Z3FrzJOyBUPsvNL0TYS8cPgLBOOq8Wzi
+ 2mJTKjgBRMY4XfdAtnMZsNpfk6zJU5VhkoUdGUxqzBO3Tq5RtHIyJgkvX
+ 0PhXW50JZ66Javf5BdGZ6R25mTZWqWuXKt3j4Y7e6wcl05BUrUma0itrD w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10353"; a="270315675"
+X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; d="scan'208";a="270315675"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2022 13:42:40 -0700
+X-IronPort-AV: E=Sophos;i="5.91,240,1647327600"; d="scan'208";a="628347507"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2022 13:42:40 -0700
+Date: Fri, 20 May 2022 13:42:39 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH v2 2/6] drm/i915/xehp: Drop GETPARAM lookups of
+ I915_PARAM_[SUB]SLICE_MASK
+Message-ID: <Yof9PwfBVpWnMqIn@mdroper-desk1.amr.corp.intel.com>
+References: <20220517032005.2694737-1-matthew.d.roper@intel.com>
+ <20220517032005.2694737-3-matthew.d.roper@intel.com>
+ <4123b22d-5018-bb08-4ae0-99140225dc1a@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4123b22d-5018-bb08-4ae0-99140225dc1a@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,225 +59,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Vdda regulators are related to both eDP and DP phy so that it should be
-managed at eDP and DP phy driver instead of controller. This patch removes
-vdda regulators related functions out of eDP/DP controller.
+On Fri, May 20, 2022 at 10:15:32AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 17/05/2022 04:20, Matt Roper wrote:
+> > Slice/subslice/EU information should be obtained via the topology
+> > queries provided by the I915_QUERY interface; let's turn off support for
+> > the old GETPARAM lookups on Xe_HP and beyond where we can't return
+> > meaningful values.
+> > 
+> > The slice mask lookup is meaningless since Xe_HP doesn't support
+> > traditional slices (and we make no attempt to return the various new
+> > units like gslices, cslices, mslices, etc.) here.
+> > 
+> > The subslice mask lookup is even more problematic; given the distinct
+> > masks for geometry vs compute purposes, the combined mask returned here
+> > is likely not what userspace would want to act upon anyway.  The value
+> > is also limited to 32-bits by the nature of the GETPARAM ioctl which is
+> > sufficient for the initial Xe_HP platforms, but is unable to convey the
+> > larger masks that will be needed on other upcoming platforms.  Finally,
+> > the value returned here becomes even less meaningful when used on
+> > multi-tile platforms where each tile will have its own masks.
+> > 
+> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/i915_getparam.c | 8 ++++++++
+> >   1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+> > index c12a0adefda5..ac9767c56619 100644
+> > --- a/drivers/gpu/drm/i915/i915_getparam.c
+> > +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> > @@ -148,11 +148,19 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+> >   		value = intel_engines_has_context_isolation(i915);
+> >   		break;
+> >   	case I915_PARAM_SLICE_MASK:
+> > +		/* Not supported from Xe_HP onward; use topology queries */
+> > +		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
+> > +			return -EINVAL;
+> > +
+> >   		value = sseu->slice_mask;
+> >   		if (!value)
+> >   			return -ENODEV;
+> >   		break;
+> >   	case I915_PARAM_SUBSLICE_MASK:
+> > +		/* Not supported from Xe_HP onward; use topology queries */
+> > +		if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
+> > +			return -EINVAL;
+> > +
+> >   		/* Only copy bits from the first slice */
+> >   		memcpy(&value, sseu->subslice_mask,
+> >   		       min(sseu->ss_stride, (u8)sizeof(value)));
+> 
+> Just in case lets run this by Jordan and Lionel since it affects DG2. Anyone
+> else on the userspace side who might be affected?
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_parser.c | 14 ------
- drivers/gpu/drm/msm/dp/dp_parser.h |  6 ---
- drivers/gpu/drm/msm/dp/dp_power.c  | 95 +-------------------------------------
- 3 files changed, 2 insertions(+), 113 deletions(-)
+When I grep'd Mesa, I found two uses of I915_PARAM_SLICE_MASK and
+I915_PARAM_SUBSLICE_MASK:
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-index 8f9fed9..4ef2130 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.c
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-@@ -22,14 +22,6 @@
- #define DP_DEFAULT_P0_OFFSET	0x1000
- #define DP_DEFAULT_P0_SIZE	0x0400
- 
--static const struct dp_regulator_cfg sdm845_dp_reg_cfg = {
--	.num = 2,
--	.regs = {
--		{"vdda-1p2", 21800, 4 },	/* 1.2 V */
--		{"vdda-0p9", 36000, 32 },	/* 0.9 V */
--	},
--};
--
- static void __iomem *dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
- {
- 	struct resource *res;
-@@ -298,12 +290,6 @@ static int dp_parser_parse(struct dp_parser *parser)
- 	if (rc)
- 		return rc;
- 
--	/* Map the corresponding regulator information according to
--	 * version. Currently, since we only have one supported platform,
--	 * mapping the regulator directly.
--	 */
--	parser->regulator_cfg = &sdm845_dp_reg_cfg;
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 3a4d797..b56b4d7 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -101,11 +101,6 @@ struct dp_reg_entry {
- 	int disable_load;
- };
- 
--struct dp_regulator_cfg {
--	int num;
--	struct dp_reg_entry regs[DP_DEV_REGULATOR_MAX];
--};
--
- /**
-  * struct dp_parser - DP parser's data exposed to clients
-  *
-@@ -121,7 +116,6 @@ struct dp_parser {
- 	struct dp_pinctrl pinctrl;
- 	struct dp_io io;
- 	struct dp_display_data disp_data;
--	const struct dp_regulator_cfg *regulator_cfg;
- 	u32 max_dp_lanes;
- 	struct drm_bridge *next_bridge;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-index d9e0117..b52ac1d 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.c
-+++ b/drivers/gpu/drm/msm/dp/dp_power.c
-@@ -20,82 +20,10 @@ struct dp_power_private {
- 	struct clk *link_clk_src;
- 	struct clk *pixel_provider;
- 	struct clk *link_provider;
--	struct regulator_bulk_data supplies[DP_DEV_REGULATOR_MAX];
- 
- 	struct dp_power dp_power;
- };
- 
--static void dp_power_regulator_disable(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	int num = power->parser->regulator_cfg->num;
--	int i;
--
--	DBG("");
--	for (i = num - 1; i >= 0; i--)
--		if (regs[i].disable_load >= 0)
--			regulator_set_load(s[i].consumer,
--					   regs[i].disable_load);
--
--	regulator_bulk_disable(num, s);
--}
--
--static int dp_power_regulator_enable(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	int num = power->parser->regulator_cfg->num;
--	int ret, i;
--
--	DBG("");
--	for (i = 0; i < num; i++) {
--		if (regs[i].enable_load >= 0) {
--			ret = regulator_set_load(s[i].consumer,
--						 regs[i].enable_load);
--			if (ret < 0) {
--				pr_err("regulator %d set op mode failed, %d\n",
--					i, ret);
--				goto fail;
--			}
--		}
--	}
--
--	ret = regulator_bulk_enable(num, s);
--	if (ret < 0) {
--		pr_err("regulator enable failed, %d\n", ret);
--		goto fail;
--	}
--
--	return 0;
--
--fail:
--	for (i--; i >= 0; i--)
--		regulator_set_load(s[i].consumer, regs[i].disable_load);
--	return ret;
--}
--
--static int dp_power_regulator_init(struct dp_power_private *power)
--{
--	struct regulator_bulk_data *s = power->supplies;
--	const struct dp_reg_entry *regs = power->parser->regulator_cfg->regs;
--	struct platform_device *pdev = power->pdev;
--	int num = power->parser->regulator_cfg->num;
--	int i, ret;
--
--	for (i = 0; i < num; i++)
--		s[i].supply = regs[i].name;
--
--	ret = devm_regulator_bulk_get(&pdev->dev, num, s);
--	if (ret < 0) {
--		pr_err("%s: failed to init regulator, ret=%d\n",
--						__func__, ret);
--		return ret;
--	}
--
--	return 0;
--}
--
- static int dp_power_clk_init(struct dp_power_private *power)
- {
- 	int rc = 0;
-@@ -318,21 +246,10 @@ int dp_power_client_init(struct dp_power *dp_power)
- 
- 	pm_runtime_enable(&power->pdev->dev);
- 
--	rc = dp_power_regulator_init(power);
--	if (rc) {
--		DRM_ERROR("failed to init regulators %d\n", rc);
--		goto error;
--	}
--
- 	rc = dp_power_clk_init(power);
--	if (rc) {
-+	if (rc)
- 		DRM_ERROR("failed to init clocks %d\n", rc);
--		goto error;
--	}
--	return 0;
- 
--error:
--	pm_runtime_disable(&power->pdev->dev);
- 	return rc;
- }
- 
-@@ -365,22 +282,15 @@ int dp_power_init(struct dp_power *dp_power, bool flip)
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
- 	pm_runtime_get_sync(&power->pdev->dev);
--	rc = dp_power_regulator_enable(power);
--	if (rc) {
--		DRM_ERROR("failed to enable regulators, %d\n", rc);
--		goto exit;
--	}
- 
- 	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
- 	if (rc) {
- 		DRM_ERROR("failed to enable DP core clocks, %d\n", rc);
--		goto err_clk;
-+		goto exit;
- 	}
- 
- 	return 0;
- 
--err_clk:
--	dp_power_regulator_disable(power);
- exit:
- 	pm_runtime_put_sync(&power->pdev->dev);
- 	return rc;
-@@ -393,7 +303,6 @@ int dp_power_deinit(struct dp_power *dp_power)
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
- 	dp_power_clk_enable(dp_power, DP_CORE_PM, false);
--	dp_power_regulator_disable(power);
- 	pm_runtime_put_sync(&power->pdev->dev);
- 	return 0;
- }
+ * oa_metrics_kernel_support:  The topology query is used on gen10+ so
+   the getparam code is only called on gen9 and below
+
+ * getparam_topology:  Invoked via intel_get_device_info_from_fd().  The
+   topology query is attempted first.  Only if that fails _and_ we're on
+   a pre-gen10 platform does it fall back to GETPARAM.
+
+I also checked https://github.com/intel/compute-runtime and only see
+these being issued in one place:
+
+ * HwInfoConfig::configureHwInfoDrm:  Only used if drm->queryTopology()
+   returns a failure first.
+
+
+I think those are the only relevant userspace for SSEU topology, so as
+far as I can tell nobody is still relying on the legacy getparams by the
+time we get to Xe_HP hardware.
+
+
+Matt
+
+> 
+> Regards,
+> 
+> Tvrtko
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
