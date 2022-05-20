@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A026752EF36
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 17:30:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CF552EFCB
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 17:56:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F115410E3D7;
-	Fri, 20 May 2022 15:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D55310E70D;
+	Fri, 20 May 2022 15:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0964610E3D7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 15:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=kwToCduxEHKRlf6xTfLStwKuhJjU+lyECx++Tp7rwBg=;
- b=dKidBF+iQ7d11gWNT/UoyXW+3Hs3JRy8MCTHjV+5ua+Tg8M5cogj66cbemiXXWJkpK0zsojA7lQyE
- +WqVoFZWQ6MJXXhEGgSw5lyAml+bPL2Bob4FIJw5qswzhyuzPAS6nncjClEcmRp8/q5uuFnaXkNE2d
- CPuaLrtvtWobbmHB9tsxsDLdpABvzpEFwrP2Hjj7G7q9P4zXpqd59UkkCfAXbqYiZX0JhO/0Al924K
- wFSjZf6TdiexU83WgAFrBKHbEHcVNpQIMy29BaLvT2CXdB5WMu+1QWT1QpW5jqN1dCLHfvlGz7DBJM
- XMgEyhF4mJWi5tS9mXMNT9APf2Wijnw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=kwToCduxEHKRlf6xTfLStwKuhJjU+lyECx++Tp7rwBg=;
- b=n6agCsCBqaR8eTktbf5YnuH91+U1tOyO7hFP5kGyWriJEdb5PGp+30pFXfAEW1f4wny+jHMBg9N+G
- uHm+DFOBg==
-X-HalOne-Cookie: 6d6a2faa20e68cf1e8fd7d3b59daf8d1323c09c1
-X-HalOne-ID: c1025af6-d851-11ec-a909-d0431ea8a290
-Received: from mailproxy2.cst.dirpod4-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id c1025af6-d851-11ec-a909-d0431ea8a290;
- Fri, 20 May 2022 15:30:19 +0000 (UTC)
-Date: Fri, 20 May 2022 17:30:17 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Fix properties without any type
-Message-ID: <Yoe0CRhygXOIrYJc@ravnborg.org>
-References: <20220519211411.2200720-1-robh@kernel.org>
+X-Greylist: delayed 1389 seconds by postgrey-1.36 at gabe;
+ Fri, 20 May 2022 15:56:51 UTC
+Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF6D10E70D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 15:56:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=3hmYwiverMb1N0J61Fi+8bzNM2DByfoLQaNKfPSLJ9k=; b=Ql9Sep6+YZYzeNT4c/2jhSUvgk
+ pu0cmPSjxKPfjL6DXri1z6i9804pTe+syIlCTXqR/QGA7ydZOV0hX1S/ExFEsalEIuAHjRZkjXyoR
+ l4brXxjojKL01gM75PAybV2oeWIcfcdpnsu1zbEAdiYJ9npo/V+Zq47sn7Wp4XvbIL9TuWmpxc3qz
+ 38U6YAwnEWq5NKnTqAObF0dVKw2stIQQ/7vuC5Ix6qlVEDl5YukGLOzfrhmww72MeUmb/HoGlH72Y
+ iZFsZ1IiFTZkmyaJlAYX0eZsylJvWO6hfUevE1LEK+B2UD0l+vXYoiV8YCe9CbU03g64AM8q4ml5C
+ eU28VhJw==;
+Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
+ ([108.198.5.147]:45970 helo=[192.168.0.134])
+ by vern.gendns.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.95)
+ (envelope-from <david@lechnology.com>) id 1ns4d4-0003zy-OF;
+ Fri, 20 May 2022 11:33:40 -0400
+Message-ID: <cb4aadab-0724-35d6-0a97-dc4425f31bb9@lechnology.com>
+Date: Fri, 20 May 2022 10:33:37 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] drm/st7735r: Fix module autoloading for Okaya RH128128T
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220520091602.179078-1-javierm@redhat.com>
+From: David Lechner <david@lechnology.com>
+In-Reply-To: <20220520091602.179078-1-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
+ davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,36 +69,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-usb@vger.kernel.org,
- linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
- Bartosz Golaszewski <brgl@bgdev.pl>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Kalle Valo <kvalo@kernel.org>, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Matt Mackall <mpm@selenic.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Sebastian Reichel <sre@kernel.org>, Peter Rosin <peda@axentia.se>,
- linux-crypto@vger.kernel.org, netdev@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 19, 2022 at 04:14:11PM -0500, Rob Herring wrote:
-> Now that the schema tools can extract type information for all
-> properties (in order to decode dtb files), finding properties missing
-> any type definition is fairly trivial though not yet automated.
+On 5/20/22 4:16 AM, Javier Martinez Canillas wrote:
+> The SPI core always reports a "MODALIAS=spi:<foo>", even if the device was
+> registered via OF. This means that the st7735r.ko module won't autoload if
+> a DT has a node with a compatible "okaya,rh128128t" string.
 > 
-> Fix the various property schemas which are missing a type. Most of these
-> tend to be device specific properties which don't have a vendor prefix.
-> A vendor prefix is how we normally ensure a type is defined.
+> In that case, kmod expects a "MODALIAS=of:N*T*Cokaya,rh128128t" uevent but
+> instead will get a "MODALIAS=spi:rh128128t", which is not present in the
+> list of aliases:
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org> # for everything in .../bindings/display/
+>    $ modinfo drivers/gpu/drm/tiny/st7735r.ko | grep alias
+>    alias:          of:N*T*Cokaya,rh128128tC*
+>    alias:          of:N*T*Cokaya,rh128128t
+>    alias:          of:N*T*Cjianda,jd-t18003-t01C*
+>    alias:          of:N*T*Cjianda,jd-t18003-t01
+>    alias:          spi:jd-t18003-t01
+> 
+> To workaround this issue, add in the SPI table an entry for that device.
+> 
+> Fixes: d1d511d516f7 ("drm: tiny: st7735r: Add support for Okaya RH128128T")
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+
+Acked-by: David Lechner <david@lechnology.com>
+
