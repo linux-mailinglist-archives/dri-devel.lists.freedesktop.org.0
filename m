@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A60652EFEF
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 18:03:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E0F52EFF7
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 18:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96CEA10E700;
-	Fri, 20 May 2022 16:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C519510E600;
+	Fri, 20 May 2022 16:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8D0410E723
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 16:03:10 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id bs17so7260667qkb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 09:03:10 -0700 (PDT)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE89310E76C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 16:03:49 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id 190so642800qkj.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 09:03:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Rl6lj9qx0jl8NDnbz3wyyCTgYol3jXu1zxcrwsJAVY0=;
- b=hEocKPTB0k/SuvhhyFT5SNEVGtwTVR9duxGaCyxkEPY5PB/c8W8gWNKQ7wBHvRQDTN
- v9JzO9ixObe7EqTnDEf+inUVqwi6/umiSrQFKktXHWrFUYsML5SMrrO8CRU51wbuky3i
- Wl+xXCZOIJ3zhbLnT8eJCt4tUv+9hDCNqaXW/v79Pfq2q6zMeOCAuRCwBBK6qpk8D5Nd
- +YGCkUJyHdekQg4X91lKQuCIjd/kPPyhS5Uv76TlZrckHPyN51WKd42D6fHaO5E2v4pk
- r5vGMgpedKX1tbFxC2h0WBTKV2GYdZ9xdxdoV5NUIjV14YE66alofZdAacWqFHmzdGDW
- czSg==
+ :cc; bh=MdtVgPrWdCotf9wN05tQ+Fm3z+o2BvCtpjvU0RkkeHQ=;
+ b=OsHMli1EJDxKXD0oi4SI7BaQUT1mjWDBkNrth0PCuX6BjsKhbMRNNEJzRIAgWpMl4z
+ FGjHEJw1fvk4l7PKUjSUZmZCqcnHe+c43wexzoH178vn1P9Drtlbx9FscKjKPIDp+gUC
+ T0x+kjKdJtMzvE9TQqSsmQpt6eSng1upz0HbOkRCuk03vPSQd8vxDcJYneFSIbzuchxn
+ eYHLDPeYauskzn826Zu3eH4yUPm20noiaBFKz5mN6kkB1BUWtp/Svlg9aGajFByOGvj6
+ ygElPF7dN2wNSlLp+alJ3+4vv89ibYmWa/45f0U3ZUqfvK2JzfaCTzYSN4SztwnlvdNu
+ XbuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Rl6lj9qx0jl8NDnbz3wyyCTgYol3jXu1zxcrwsJAVY0=;
- b=HzeorzZg8e8SDF8kCdj2qoKAZVZlgdbCL3QIeT16+uclRpEJlN22MflIk2RlJQ+u56
- 71D4w6S2SvjcFsbd9JyxymuY2WIqHl9/ErfE+TD2nVaUH5fsyivQacvBY78fZMhPbryn
- ++OezoUfTRw/X3MhGNyVSsLlQAp68d+RqqsgB9EMJFdjOyu+BKVvTRnlMgPfJ8AnJhsk
- yWbFK28bmKb72fPMy5Pt7596qPXME8pEza5nKovXcce+7tdPoCsQvqUo0tvhX+CeShVp
- YwsG3zomg0S11CrqiReiMDahYHMRxdRCQzGrje7f+vFt78Ue635KT1ZVPfjiPdn3KPpt
- 3zHw==
-X-Gm-Message-State: AOAM533396nad+PykzaoA8Mzo48brUh5qbVQOs+Fl41L1ECgG64V7aNr
- NVPPzDT9m1Z9UtmeepKmnwDsJjyuEXyp/GOLE0x1bw==
-X-Google-Smtp-Source: ABdhPJyZI37QRWTmfOC38IDzqhvOTFVeCbuF71qmUeFydjmoyAbLvyiloaSslSvLRc7a3lrInN3ClO7mlUtVPua/8TU=
-X-Received: by 2002:a05:620a:4311:b0:67e:8a0f:4cd5 with SMTP id
- u17-20020a05620a431100b0067e8a0f4cd5mr6809701qko.363.1653062589769; Fri, 20
- May 2022 09:03:09 -0700 (PDT)
+ bh=MdtVgPrWdCotf9wN05tQ+Fm3z+o2BvCtpjvU0RkkeHQ=;
+ b=IOm2V+ViviSpbu96rozW6JdDBDOS7ygO0QBcd25tpxOhW+NZnlElpwTZCEkrEiWlkD
+ FutSN1xgBY/uoiKgIfiL6zdNSkfZds+p0aOqcIwEqGKGoyd4h6zrgHKETj8UgJ9Eaxfj
+ TD6LMydSbvSprI/SpD7PSTaK4p3vz5x1HtAhk/lUpFqOOZMt6DSAfYpkSBFNEmXnLid1
+ pJALlZaWf3cZkxgpwBkoRsuwvxa8nAD+jq6D20sWeqnI3njYvHiUGTzhQpm3DoMcAwhz
+ kjcF/Lo/NoQ1UcF1F4o37ZbcDVzD2Pyyf6VeQ4Yd5NwTlfTl1nZMOuZ4zm9rvoNzNsMF
+ QWFg==
+X-Gm-Message-State: AOAM531iU3kzbkjiLEa4L8C2UBjo1z5ucUMcVh41kluVE9KwSYqjDArV
+ OHhi+wjGo111Kq2kl/vHdjhq6dukRd/2ZVw1RweSkA==
+X-Google-Smtp-Source: ABdhPJzLjUPH898P83+vLG4zDKSCgyesRwhebPGxJnX+Fd1ta1QNiUqPpPdwg3enEOBka0JBQPB7eL6M+5RJN8NwMag=
+X-Received: by 2002:a37:582:0:b0:6a3:2ce4:3c72 with SMTP id
+ 124-20020a370582000000b006a32ce43c72mr6289694qkf.203.1653062628721; Fri, 20
+ May 2022 09:03:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <1653001902-26910-1-git-send-email-quic_khsieh@quicinc.com>
- <1653001902-26910-2-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n52yT6S4TLpc2e2-kkbMB2Fu2PcZskG-ZFLo7y1YVTyazQ@mail.gmail.com>
- <609bb4fc-1503-81ef-6fd8-dbb862c4ef80@quicinc.com>
-In-Reply-To: <609bb4fc-1503-81ef-6fd8-dbb862c4ef80@quicinc.com>
+References: <1653060079-11086-1-git-send-email-quic_khsieh@quicinc.com>
+ <1653060079-11086-2-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1653060079-11086-2-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 20 May 2022 19:02:58 +0300
-Message-ID: <CAA8EJpqaGqHrdtX6NUHs2YOgeievpkbm8JbwQOU8+KoW4YNf2g@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] phy: qcom-edp: add regulator_set_load to edp phy
+Date: Fri, 20 May 2022 19:03:37 +0300
+Message-ID: <CAA8EJpp6dF_44=_ZsYP46JabV-MyW+3NtpKi45z4=m5wYhR7zA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] phy: qcom-edp: add regulator_set_load to edp phy
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,60 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
- airlied@linux.ie, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
- Stephen Boyd <swboyd@chromium.org>, sean@poorly.run,
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+ quic_aravindh@quicinc.com, swboyd@chromium.org, sean@poorly.run,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 May 2022 at 18:09, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+On Fri, 20 May 2022 at 18:21, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
 >
+> This patch add regulator_set_load() before enable regulator at
+> eDP phy driver.
 >
-> On 5/19/2022 5:19 PM, Stephen Boyd wrote:
-> > Quoting Kuogee Hsieh (2022-05-19 16:11:40)
-> >> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-> >> index cacd32f..78b7306 100644
-> >> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
-> >> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-> >> @@ -87,14 +87,19 @@ struct qcom_edp {
-> >>
-> >>          struct clk_bulk_data clks[2];
-> >>          struct regulator_bulk_data supplies[2];
-> >> +       int enable_load[2];
-> >>   };
-> >>
-> >>   static int qcom_edp_phy_init(struct phy *phy)
-> >>   {
-> >>          struct qcom_edp *edp = phy_get_drvdata(phy);
-> >>          int ret;
-> >> +       int i;
-> >>
-> >> -       ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
-> >> +       for (i = 0; i < 2; i++)
-> > Use ARRAY_SIZE(edp->supplies)?
-> >
-> >> +               regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
-> >> +
-> >> +       ret = regulator_bulk_enable(2, edp->supplies);
-> > Why is ARRAY_SIZE() usage removed?
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/phy/qualcomm/phy-qcom-edp.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 >
+> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
+> index cacd32f..6715dd2 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
+> @@ -87,14 +87,20 @@ struct qcom_edp {
 >
-> remove it base on Dmitry's comment.
+>         struct clk_bulk_data clks[2];
+>         struct regulator_bulk_data supplies[2];
+> +       int enable_load[2];
+>  };
+>
+>  static int qcom_edp_phy_init(struct phy *phy)
+>  {
+>         struct qcom_edp *edp = phy_get_drvdata(phy);
+>         int ret;
+> +       int num_consumers = ARRAY_SIZE(edp->supplies);
 
-Ugh. I asked to remove the num_consumers variable, not the ARRAY_SIZE.
+Please. Leave the ARRAY_SIZE in place, rather than moving it to the variable.
 
+> +       int i;
 >
-> I will restore it back to use ARRY_SIZE
+> -       ret = regulator_bulk_enable(ARRAY_SIZE(edp->supplies), edp->supplies);
+> +       for (i = 0; i < num_consumers; i++)
+> +               regulator_set_load(edp->supplies[i].consumer, edp->enable_load[i]);
+> +
+> +       ret = regulator_bulk_enable(num_consumers, edp->supplies);
+>         if (ret)
+>                 return ret;
 >
+> @@ -635,6 +641,8 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
 >
-> >
-> >>          if (ret)
-> >>                  return ret;
-> >>
-
+>         edp->supplies[0].supply = "vdda-phy";
+>         edp->supplies[1].supply = "vdda-pll";
+> +       edp->enable_load[0] = 21800;    /* load for 1.2 V vdda-phy supply */
+> +       edp->enable_load[1] = 36000;    /* load for 0.9 V vdda-pll supply */
+>         ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(edp->supplies), edp->supplies);
+>         if (ret)
+>                 return ret;
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
 
 
 -- 
