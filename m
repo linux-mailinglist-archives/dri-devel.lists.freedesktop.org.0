@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DDF52ECCC
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 15:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E83D52ECE9
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 15:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 016AB10FF6D;
-	Fri, 20 May 2022 13:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A638B10E929;
+	Fri, 20 May 2022 13:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F3910FF6B
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 13:01:20 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id B375D32008FA;
- Fri, 20 May 2022 09:01:16 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 20 May 2022 09:01:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1653051676; x=1653138076; bh=7WG2msiVtl
- Di+HfG6ZYZnoIURv7z4Laekuafd5LUeFM=; b=HZgiGWiZepfWLw9P4fR5xvzsri
- 6J8wFYdbAv6l3s9fVB70miLqTCaVR+IJs2DAoD5RERJ2eMJSLP0x9VHAeIAEvBA4
- CIMDYubvtNh33gMKJhDhx0tpQVpYEEuUNeUtR/VTkc6Sz/+jT+dB5FQ1Qr9JZ+Z5
- Sz9rUeEmAL4voylf+R+PUB1A6c5DeMNrgpj+PeSBCdM/hXdIPSEF65L6fm6fP1Jf
- qeVrL1fLiD0eqt7yMx8BE1SozLq0PcY9qp1430NU7tZQhzrAxqe3muNBRaoSu+o+
- hu0ibZpQBig26E1wCn5XO8ttT04NyhEB/KtO8gNecBAvul13Eamq+Ofkf7dQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1653051676; x=1653138076; bh=7WG2msiVtlDi+HfG6ZYZnoIURv7z
- 4Laekuafd5LUeFM=; b=V3mgdQlmhISLu7ofKI+Fp9K+hItMSLNKAVSP75mIyinQ
- MYmIJ8J9J0LJ2ZCTFs8m35t5CVyvBy9dm9Zk0d/lZ5GLTeshrg6nqjvHKjS1xG1J
- X+xzPUn/y8QWCvoPB7vc2B87TOmtiprx0ye2dyusLC6pIsCDid7VkmUT9fg0Y726
- 16rz9xCEa9M1JkV8BvE2q4EC/RKAbIy4DJHnldHqA0t1RyN7wd8NnK0HEuEzVzgL
- GY0zi/oMPJ48CFQSpVC3UOgQGFW3YqmUvSrihxGn5SnbqcPSkinr7VFvMaLUozyg
- WDwz3Q2TVpa5C1drmbrjQadUjhfa97pWixu4EGgrtw==
-X-ME-Sender: <xms:GpGHYkhVEm8powS2dDSLYA66RCvrK6IZ8Tc2GdERfz3CUsq0iJ_j7A>
- <xme:GpGHYtAbwxluLBcMIGPQd-99tMKe11sz2g-uzRQ_DnNHX1WjV4lxhS4XSr6Sanq_A
- 5WZ_bWLv-4ohj26jSc>
-X-ME-Received: <xmr:GpGHYsEPMD6Ta-kEqEqqEZwRIDoTY2sMlzQI3sGIk4n0yOJFFP5GiPkdcNDPbOp4PWaGaDLjT8bDBs0hujnpp2Ila50Ff65pTAh0-P4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrieefgdehiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:GpGHYlSHbdHN_5yF5SFoS5w2ricaPhgUWrRcvrhmkw7kgpQeoC_o_w>
- <xmx:GpGHYhzb62hIdFE1qt7WGqf4S0ByBBNZ3G-5PeGb1vbjU985GWC63A>
- <xmx:GpGHYj4P_lndFi2_xoUTAZBCnoX5m04g2MsnGsfLA_aUkHurayc7Bw>
- <xmx:HJGHYomcX6iqEZS5qTlw_7AF3oJ7tfHnGGSRT3CzqWZwk40rTY9ECA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 May 2022 09:01:13 -0400 (EDT)
-Date: Fri, 20 May 2022 15:01:11 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v4] drm/bridge: tc358767: Make sure Refclk clock are
- enabled
-Message-ID: <20220520130111.eamzbs2qnyzwxipa@houat>
-References: <20220520121543.11550-1-marex@denx.de>
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C2710E972;
+ Fri, 20 May 2022 13:14:14 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id t144so6653490oie.7;
+ Fri, 20 May 2022 06:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=J1TqYWvInWBNVGCPH/z2pZbWfdCQqeAMqP1BbNQTqhs=;
+ b=dJTZzvLoQ/LOjQgXGJKHVj1eCw3vf2YVGrT7mIWG8OX78B1yXTJTcbxbjNz/NWlMGr
+ YdI+WV2E3uR/ibEb/SgCUGfY6Mqj5g5X6/nXAFEd9SkKwYSuspKOAV49eIL7uC5BfrFD
+ GlxOAy2821DPIsTeIKzTZNvb5Z2Lvf9vp4U6K0bdNC7rMgBLD+u33XM4GJkgHCM4o+pb
+ pN+vPywZ1Jv25E50VjhVVSZDlg9NP5CGMQDliA8HWxZ/EO1VN0mmgeJQUZdKzXSmrhwV
+ QzngA/A4HJbjNmeVlRrnJx2pBMEJ9pjn5V8yMDNN6DTXpBJGONru6kP7wlLfHlEJbkbs
+ 3Yzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=J1TqYWvInWBNVGCPH/z2pZbWfdCQqeAMqP1BbNQTqhs=;
+ b=1jktSKVzLrvIRGQIk0K/p4Ga6gGwiITu/0XhCJq7fHxHUpnv4SbzHaY8eYeCmh8LSx
+ I5ZJs5cZxGABy7/WowzZK5VEMIiiWoMtlCPlX4VrX8t0O/B1ggQ8puAj9Z4bpDVSpMhW
+ J/gHp1C9e7BOF4dUvi87wKAoLhwr+TUwn4T28ObIf0yUwdOTkY+XfvFMcFQzd2bt/hF1
+ nPV59phk5kkl/QN9LcUruo++LFMF6P5qzPsuDvArhm4Hms5EVr7zu4sjTXFcHcB+7NdN
+ DkLplVK/Tp1DgKJtK19JHczoR1v1RZCCrfK7yzcRxUVFxNgyo4wv18a6Hr4UFXdUnW5p
+ xbTA==
+X-Gm-Message-State: AOAM533n2nTrZihkAlFDJPzqwZARY79RJjwQSeRCr73+yHmxPcTKqDm1
+ jF0SzGv2sitv9Q1CMqEqTDg=
+X-Google-Smtp-Source: ABdhPJzU22VIvkGyaVF3avLKa6ozH9kxgKgJqekRfWSD7N6WH8eRCArP/5ENzxPQFqJwygJBvySwOg==
+X-Received: by 2002:a05:6808:1308:b0:326:8e54:e93f with SMTP id
+ y8-20020a056808130800b003268e54e93fmr5436156oiv.274.1653052453675; 
+ Fri, 20 May 2022 06:14:13 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ eq37-20020a056870a92500b000e686d13883sm959266oab.29.2022.05.20.06.14.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 May 2022 06:14:11 -0700 (PDT)
+Message-ID: <f262df9e-ae89-f961-8b5e-1f4166eb1470@roeck-us.net>
+Date: Fri, 20 May 2022 06:14:09 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vcfuae2g537qkqea"
-Content-Disposition: inline
-In-Reply-To: <20220520121543.11550-1-marex@denx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/msm/adreno: Do not propagate void return values
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <483795c4fb7d215a3f2089c55df29a0064eb021b.1653051029.git.geert@linux-m68k.org>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <483795c4fb7d215a3f2089c55df29a0064eb021b.1653051029.git.geert@linux-m68k.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,51 +78,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>, robert.foss@linaro.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 5/20/22 05:53, Geert Uytterhoeven wrote:
+> With sparse ("make C=2"), lots of
+> 
+>    error: return expression in void function
+> 
+> messages are seen.
+> 
+> Fix this by removing the return statements to propagate void return
+> values.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
---vcfuae2g537qkqea
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-On Fri, May 20, 2022 at 02:15:43PM +0200, Marek Vasut wrote:
-> The Refclk may be supplied by SoC clock output instead of crystal
-> oscillator, make sure the clock are enabled before any other action
-> is performed with the bridge chip, otherwise it may either fail to
-> operate at all, or miss reset GPIO toggle.
->=20
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-> Fixes: 7caff0fc4296e ("drm/bridge: tc358767: Add DPI to eDP bridge driver=
-")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 2 +-
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.h | 4 ++--
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+>   3 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 3e325e2a2b1b68eb..d137136d93f3b4ca 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -504,7 +504,7 @@ static void a6xx_rpmh_stop(struct a6xx_gmu *gmu)
+>   
+>   static inline void pdc_write(void __iomem *ptr, u32 offset, u32 value)
+>   {
+> -	return msm_writel(value, ptr + (offset << 2));
+> +	msm_writel(value, ptr + (offset << 2));
+>   }
+>   
+>   static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> index 84bd516f01e895b2..e034935b3986f9f2 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> @@ -98,7 +98,7 @@ static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
+>   
+>   static inline void gmu_write(struct a6xx_gmu *gmu, u32 offset, u32 value)
+>   {
+> -	return msm_writel(value, gmu->mmio + (offset << 2));
+> +	msm_writel(value, gmu->mmio + (offset << 2));
+>   }
+>   
+>   static inline void
+> @@ -138,7 +138,7 @@ static inline u32 gmu_read_rscc(struct a6xx_gmu *gmu, u32 offset)
+>   
+>   static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
+>   {
+> -	return msm_writel(value, gmu->rscc + (offset << 2));
+> +	msm_writel(value, gmu->rscc + (offset << 2));
+>   }
+>   
+>   #define gmu_poll_timeout_rscc(gmu, addr, val, cond, interval, timeout) \
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index ccc4fcf7a630f49a..d671b75f3289fdff 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1446,7 +1446,7 @@ static void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 mask, u32 or)
+>   
+>   static void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 value)
+>   {
+> -	return msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
+> +	msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
+>   }
+>   
+>   static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
 
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-
-Maxime
-
---vcfuae2g537qkqea
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYoeRFwAKCRDj7w1vZxhR
-xdjkAQCCEhVoprjI8s9rFtk3y+aMYgbq6RhbJq1s2OIDp+N9aQD/VFZcBpGBfD8C
-ratausZdlWJZBPbry2+nhks/oWNFBQ0=
-=dozJ
------END PGP SIGNATURE-----
-
---vcfuae2g537qkqea--
