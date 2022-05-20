@@ -2,59 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF2B52EC7D
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 14:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F26A52ECB4
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 14:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51EB310FEF4;
-	Fri, 20 May 2022 12:46:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45FB510FF04;
+	Fri, 20 May 2022 12:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D42C710FEF4;
- Fri, 20 May 2022 12:46:34 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id l82so2077338qke.3;
- Fri, 20 May 2022 05:46:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UhZYflED6/DiNr1feOC9OhkU49iweDam4jS4WznrIsk=;
- b=Ta4euYGjfPlYNzyiiXwPaaqI7S6bWQ7TexuMbV3hPwFOrRqxjl0y4uba3DqKcR3QtX
- HBzZ8t4wqxXzyskaxqe7lxjsqrTBvvaQxeaBDdpxxcc/TO/AS+lzfm5yDSpFgpbUWpcj
- 4zr+i4qUlBhXFaJkW0q5DDUZw/mJstYMU6oKTxe5VfU+SnrPIG392gXIq8Htu9YUkR6P
- PuIStrQkAJP1lp2j1NMYyLXeVqbGT4Z7SVxt5riVE5m2Vj42AFGCSiXtYbM7H/UjX6Rf
- zq17qdVIA1ri1dc51pnHk6YI6oBa/z6ftmrp3XnQKUjHL/d9sbTCBO9W+vORL2g+Nr5y
- DkBA==
-X-Gm-Message-State: AOAM533nmnhxb2DleSWLNrniO+i2TEpWZmuiUhogx1kOfIWW/EzcT4OQ
- 7vk9vEQxAno+5/PUcaoyJQJFbLRyvtGSSA==
-X-Google-Smtp-Source: ABdhPJzB1jc1XLXmnyGxl21QSRhOw9QizcJZaupDuv9ySnl5WwongZWzEdSEpbyLaSmNf67WyUypOQ==
-X-Received: by 2002:a05:620a:c4c:b0:69c:57a8:4e3b with SMTP id
- u12-20020a05620a0c4c00b0069c57a84e3bmr5811900qki.635.1653050793668; 
- Fri, 20 May 2022 05:46:33 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
- [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
- f63-20020a379c42000000b006a34a22bc60sm1472944qke.9.2022.05.20.05.46.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 May 2022 05:46:33 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id r1so13984142ybo.7;
- Fri, 20 May 2022 05:46:32 -0700 (PDT)
-X-Received: by 2002:a05:6902:389:b0:633:31c1:d0f7 with SMTP id
- f9-20020a056902038900b0063331c1d0f7mr9068692ybs.543.1653050792549; Fri, 20
- May 2022 05:46:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
- <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
- <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
-In-Reply-To: <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB6E10FF0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 12:53:28 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:cdaa:735b:3efc:39fe])
+ by xavier.telenet-ops.be with bizsmtp
+ id Z0tP2700F38adXi010tPNB; Fri, 20 May 2022 14:53:25 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1ns28B-0010US-94; Fri, 20 May 2022 14:53:23 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1ns28A-0040pl-JZ; Fri, 20 May 2022 14:53:22 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 20 May 2022 14:46:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVx7r-4TVV9uVJppT-7ZAriov01BUNk4ghU9Bs4uY28vQ@mail.gmail.com>
-Message-ID: <CAMuHMdVx7r-4TVV9uVJppT-7ZAriov01BUNk4ghU9Bs4uY28vQ@mail.gmail.com>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/msm/adreno: Do not propagate void return values
+Date: Fri, 20 May 2022 14:53:20 +0200
+Message-Id: <483795c4fb7d215a3f2089c55df29a0064eb021b.1653051029.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,64 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- kernel test robot <lkp@intel.com>, KVM list <kvm@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-m68k <linux-m68k@lists.linux-m68k.org>,
- linux-nvme@lists.infradead.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-sparse@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "open list:TI ETHERNET SWITCH DRIVER \(CPSW\)" <linux-omap@vger.kernel.org>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ freedreno@lists.freedesktop.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 20, 2022 at 2:40 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, May 19, 2022 at 8:48 AM Guenter Roeck <linux@roeck-us.net> wrote:
-> > On 5/18/22 17:55, kernel test robot wrote:
-> > > tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > branch HEAD: 736ee37e2e8eed7fe48d0a37ee5a709514d478b3  Add linux-next specific files for 20220518
-> > >
-> > > Error/Warning reports:
-> > >
-> > > https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
-> > > https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
-> > > https://lore.kernel.org/linux-mm/202205122113.uLKzd3SZ-lkp@intel.com
-> > > https://lore.kernel.org/linux-mm/202205172344.3GFeaum1-lkp@intel.com
-> > > https://lore.kernel.org/linux-mm/202205190527.o9wVEvHI-lkp@intel.com
-> > >
-> > > Error/Warning: (recently discovered and may have been fixed)
-> > >
-> > [ .. ]
-> > > drivers/hwmon/nct6775-platform.c:199:9: sparse:    unsigned char
-> > > drivers/hwmon/nct6775-platform.c:199:9: sparse:    void
-> >
-> > This is getting tiresome. Every driver using outb() on m68k will
-> > experience that "problem". As far as I can see, it is caused by
-> >
-> > #define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
-> >
-> > in arch/m68k/include/asm/raw_io.h. I have no idea what the
-> > "(void)" is for,
->
-> The "(void)" makes sure there is no return value.
-> Which matters if the result of a function returning void is propagated
-> to another function returning void.
+With sparse ("make C=2"), lots of
 
-Which, FTR, sparse also doesn't like:
+  error: return expression in void function
 
-    error: return expression in void function
+messages are seen.
 
-Gr{oetje,eeting}s,
+Fix this by removing the return statements to propagate void return
+values.
 
-                        Geert
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h | 4 ++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 3e325e2a2b1b68eb..d137136d93f3b4ca 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -504,7 +504,7 @@ static void a6xx_rpmh_stop(struct a6xx_gmu *gmu)
+ 
+ static inline void pdc_write(void __iomem *ptr, u32 offset, u32 value)
+ {
+-	return msm_writel(value, ptr + (offset << 2));
++	msm_writel(value, ptr + (offset << 2));
+ }
+ 
+ static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index 84bd516f01e895b2..e034935b3986f9f2 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -98,7 +98,7 @@ static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
+ 
+ static inline void gmu_write(struct a6xx_gmu *gmu, u32 offset, u32 value)
+ {
+-	return msm_writel(value, gmu->mmio + (offset << 2));
++	msm_writel(value, gmu->mmio + (offset << 2));
+ }
+ 
+ static inline void
+@@ -138,7 +138,7 @@ static inline u32 gmu_read_rscc(struct a6xx_gmu *gmu, u32 offset)
+ 
+ static inline void gmu_write_rscc(struct a6xx_gmu *gmu, u32 offset, u32 value)
+ {
+-	return msm_writel(value, gmu->rscc + (offset << 2));
++	msm_writel(value, gmu->rscc + (offset << 2));
+ }
+ 
+ #define gmu_poll_timeout_rscc(gmu, addr, val, cond, interval, timeout) \
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index ccc4fcf7a630f49a..d671b75f3289fdff 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1446,7 +1446,7 @@ static void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 mask, u32 or)
+ 
+ static void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 value)
+ {
+-	return msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
++	msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
+ }
+ 
+ static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
+-- 
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
