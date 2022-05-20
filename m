@@ -1,61 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A110052F4CF
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 23:12:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3553952F4D2
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 23:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C72210EC7D;
-	Fri, 20 May 2022 21:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0623C10ECF2;
+	Fri, 20 May 2022 21:13:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F134110ECF2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 21:12:23 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- z5-20020a9d62c5000000b00606041d11f1so6322655otk.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 14:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=4ZcyIGcvDMZ0Wk1DSYhTSmlkdvT7fKKWDNVZgAqDgGs=;
- b=eaQmMn+s8uRwoapg8tdT+VIW36IHFmIaLDAaqPy1SY9nmnNRwYcHAUMMdYnfIhxJS0
- WshDX+JkE8GIL74lyEXI3yqi26ADb9QFljgwiKOGJMmas/u9kUsntbKtGzi2K8NGFiPm
- igQfJRlBr7mVQ0l7n/QR8CVQVCSAzlyw+6T6U=
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3874E10ECF2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 21:13:06 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id rs12so6034622ejb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 14:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5tfmEi05Xxp6dAU46ufHV2sPoKhSLRcQSmdSLO82mmA=;
+ b=bA/NyeZJkA1hcMARgGoi/q6CxSZb4tZNUCU2SXUH09N5rv135UYjG5RiL08e98QaZF
+ NIDWP0MjQkSWnDPFpM2qKUjPHNuJ/ehR4zvL7ebrBnqYtQLo7zmft+h3vEqrGGwyMA74
+ WQoSa3DGbkfxVg8lmGeuisHCLuaTOSzltsN2TrXtllC/61Mdk4tju1sfAu/xQeYNWZex
+ tz6pRHj5vNRbN7Co6i7gV6+4+bZhcD2rBiCZsPemvHbDopbhwfCTKM98kKdnLEn1MgEy
+ 1zCcGxm8mF/uw0lXTWu5s0kVMnYdtZJe+y0i9Q3glQNlBQgqkM0bpfONpICjraYnMrGd
+ KUNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=4ZcyIGcvDMZ0Wk1DSYhTSmlkdvT7fKKWDNVZgAqDgGs=;
- b=CQRXBso9REQV/gcl7m+a5w0WOb8P/vheuWirebuEDnFF0m1fltO9fWjZlJ6teIM0wg
- 3pVOdHFpGd2BOLnK8En+2maNopl2qPOS5eQjLWxDOvK5DXmched9N7JSZOSjuGu/STdp
- qJsdi8tIZ2kZB7F4w55XOyPcAf87/jTX8bBzB5R4Vz0iIJ/cPhUa6scTdLb2Rg/DIW8H
- LvoncnpPNZMCRr4VoKeq9iXZ6IYjzotZtz5JbH7yjytRdfliu4DMGMVl8IYWMOSTzNCO
- r3hRcisgIsMS2i/AnrBxKgIka9g14T2giA10pUggQEpVwJVCEXMyFOTcTmMwbClwUFJs
- 9POg==
-X-Gm-Message-State: AOAM5316onbPti4EWa9/PMHQIW9IQ2oSa1J4Do0Rg6Q64JkT1S9ulctI
- Sjiu8eU0C2iOhu4p+fxkSiBMMWyFA+jAidsK46qELg==
-X-Google-Smtp-Source: ABdhPJxk+2xo1hoJV75bGy29jmo3pmmEPymugHRbVngVyWNYYyVDr1T3jSaGlzrMC2H6l+67cPlv6Ov3vyOsySFzwTI=
-X-Received: by 2002:a9d:63cd:0:b0:606:9e7f:79f8 with SMTP id
- e13-20020a9d63cd000000b006069e7f79f8mr4797333otl.77.1653081143110; Fri, 20
- May 2022 14:12:23 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 20 May 2022 14:12:22 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5tfmEi05Xxp6dAU46ufHV2sPoKhSLRcQSmdSLO82mmA=;
+ b=fSKnHAROVB5pE4QS2g1lrRHPB3YNYxt4duoaQRkWh7k3ICHBGVl2xbcEM697eiZWi3
+ o5/W6aHKk9HpLwguPuORumJC1T9vuyboZLMg+br2B9uXCWyov9lb0c9X2u7jtV0XD4oX
+ zWD4Q7hzjRTm0pXuWsS6KhC5Jfjpbo46/wpclJIFEoEeB7wKCZ/4sBuyrK8hg9t+hf2F
+ VFnnGeOj2wHyvmFbU7GD5OcCAM9Zsd220hltmbt7FTLLp+J4a6j7PjlEwpA8pLvUHxhE
+ 4zqb/YFTpxdVdSa/6H7ulZFrd2LYZ9BP2384jE3vnHmU9RtN++6GVcebr0LcVx02wbQ4
+ Jznw==
+X-Gm-Message-State: AOAM530gDBk0RwcbRuIGkarCwIrqcxNO5gGru3u2cyFMA6n+djAN7LqU
+ nL/KINN3t0gECRz37/fdLbRhYXb8Sg3lnmB5HJuzag==
+X-Google-Smtp-Source: ABdhPJyFNfBP1soSSW+7t14vdrjq1IQP8RcJSq0V3+aYaQxEfVyt7JYMA4eZujIkkMiueV9zFTA+HtvtZUjGyJAAOV4=
+X-Received: by 2002:a17:907:6e18:b0:6fe:324a:65c1 with SMTP id
+ sd24-20020a1709076e1800b006fe324a65c1mr10678202ejc.368.1653081184534; Fri, 20
+ May 2022 14:13:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1653079257-20894-2-git-send-email-quic_khsieh@quicinc.com>
-References: <1653079257-20894-1-git-send-email-quic_khsieh@quicinc.com>
- <1653079257-20894-2-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 20 May 2022 14:12:22 -0700
-Message-ID: <CAE-0n50EUVwckogNT1ey-HP7QoMCPZPF9AyP+xw7J9o8MOk6YQ@mail.gmail.com>
-Subject: Re: [PATCH v10 1/3] phy: qcom-edp: add regulator_set_load to edp phy
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
- dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
- robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
+ <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
+ <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
+ <YoM9BAwybcjG7K/H@kroah.com> <d820893c-fa2e-3bac-88be-f39c06d89c01@amd.com>
+ <CABdmKX2m1b1kdACKM19S+u9uR5RTy1UGMRgd+3QA_oAyCpeggg@mail.gmail.com>
+ <7f895a99-adfa-bcbd-c130-a924c668b8af@amd.com>
+ <CABdmKX0XLvRZvXyiN0P_B-fUACiF5xwQ07+u_gaR+hDhu_x_TA@mail.gmail.com>
+ <953d4a2c-bf0c-9a92-9964-eae445a8f113@amd.com>
+In-Reply-To: <953d4a2c-bf0c-9a92-9964-eae445a8f113@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 20 May 2022 14:12:53 -0700
+Message-ID: <CABdmKX2dNYhgOYdrrJU6-jt6F=LjCidbKhR6t4F7yaa0SPr+-A@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +73,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, kernel-team@android.com,
+ Minchan Kim <minchan@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ John Stultz <jstultz@google.com>, Kalesh Singh <kaleshsingh@google.com>,
+ Hridya Valsaraju <hridya@google.com>, Greg Kroah-Hartman <gregkh@google.com>,
+ Suren Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-05-20 13:40:55)
-> This patch add regulator_set_load() before enable regulator at
-> eDP phy driver.
+On Fri, May 20, 2022 at 12:03 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/phy/qualcomm/phy-qcom-edp.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> Am 20.05.22 um 00:58 schrieb T.J. Mercier:
+> > [SNIP]
+> >>> Is there some other
+> >>> solution to the problem of exports getting blocked that you would
+> >>> suggest here?
+> >> Well pretty much the same as Greg outlined as well. Go back to your
+> >> drawing board and come back with a solution which does not need such
+> >> workarounds.
+> >>
+> >> Alternatively you can give me a full overview of the design and explai=
+n
+> >> why exactly that interface here is necessary in exactly that form.
+> >>
+> > We ended up here because we could not use debugfs.
 >
-> diff --git a/drivers/phy/qualcomm/phy-qcom-edp.c b/drivers/phy/qualcomm/phy-qcom-edp.c
-> index cacd32f..955466d 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-edp.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-edp.c
-> @@ -639,6 +639,18 @@ static int qcom_edp_phy_probe(struct platform_device *pdev)
->         if (ret)
->                 return ret;
+> [SNIP]
 >
-> +       ret = regulator_set_load(edp->supplies[0].consumer, 21800); /* 1.2 V vdda-phy */
-> +       if (ret) {
-> +               dev_err(dev, "failed to set load\n");
+> > Another idea was adding per-buffer stats to procfs, but that was not
+> > an option since per-buffer stats are not process specific.
+> >
+> > So it seemed like sysfs was an appropriate solution at the time. It
+> > comes with a stable interface as a bonus, but with the limitation of 1
+> > value per file this leads to creating lots of files in sysfs for all
+> > dma buffers. This leads to increased kernfs lock contention, and
+> > unfortunately we try to take the lock on the hot path.
+>
+> That's what I totally agree on about. debugfs is for debugging and not
+> for production use.
+>
+> So either sysfs or procfs or something completely different seems to be
+> the right direction for the solution of the problem.
+>
+> > With the description and links to the userspace code which actually
+> > uses the feature I feel like that's a complete picture of what's
+> > currently happening with this interface. If you could explain what
+> > information is missing I'll do my best to provide it.
+>
+> Yeah, I've realized that I didn't made it clear what my concerns are
+> here. So let me try once more from the beginning:
+>
+> DMA-buf is a framework for sharing device buffers and their handles
+> between different userspace processes and kernel device. It's based
+> around the concept of representing those buffers as files which can then
+> be mmap(), referenced with a file descriptor, etc....
+>
+> Those abilities come with a certain overhead, using inode numbers,
+> reference counters, creating virtual files for tracking (both debugfs,
+> sysfs, procfs) etc... So what both drivers and userspace implementing
+> DMA-buf is doing is that they share buffers using this framework only
+> when they have to.
+>
+> In other words for upstream graphics drivers 99.9% of the buffers are
+> *not* shared using DMA-buf. And this is perfectly intentional because of
+> the additional overhead. Only the 3 or 4 buffers which are shared per
+> process between the client and server in a display environment are
+> actually exported and imported as DMA-buf.
+>
+> What the recent patches suggest is that this is not the case on Android.
+> So for example overrunning a 32bit inode number means that you manage to
+> created and destroy over 4 billion DMA-bufs. Same for this sysfs based
+> accounting, this only makes sense when you really export *everything* as
+> DMA-buf.
+>
+> So if that is correct, then that would be a pretty clear design issue in
+> Android. Now, if you want to keep this design then that is perfectly
+> fine with the kernel, but it also means that you need to deal with any
+> arising problems by yourself.
+>
+> Pushing patches upstream indicates that you want to share your work with
+> others. And in this case it suggests that you want to encourage others
+> to follow the Android design and that is something I would pretty
+> clearly reject.
+>
+Ok thank you, this is clear and I understand your position. Yes
+Android does things a little differently. My team is actually hoping
+to create a presentation on this topic explaining why things are the
+way they are because these differences keep coming up in discussions.
 
-Which supply failed to set load?
+The inode number rollover happened after running for two weeks, but
+that's still around 300M a day which is extraordinary, so I think they
+must have been stress testing. But yes the Android graphics stack does
+make much more use of DMA-bufs than other users.
 
-> +               return ret;
-> +       }
-> +
-> +       ret = regulator_set_load(edp->supplies[1].consumer, 36000); /* 0.9 V vdda-pll */
-> +       if (ret) {
-> +               dev_err(dev, "failed to set load\n");
+> >> Yeah and to be honest I have the strong feeling now that this was
+> >> absolutely not well thought through.
+> > I'm open to working on a replacement for this if we can't find an
+> > acceptable solution here, but I would appreciate some direction on
+> > what would be acceptable. For example Greg's idea sounds workable, but
+> > the question is if it mergeable?
+>
+> Well one possibility would be to use cgroups. That framework needs to do
+> accounting as well, just with an additional limitation to it.
+>
+> And there are already some proposed cgroup patches for device driver
+> memory. While reviewing those both Daniel and I already made it pretty
+> clear that it must be separated from DMA-buf, exactly because of the
+> reason that we probably don't want every buffer exported.
+>
+Cgroups definitely would help out with per-application accounting.
+Much nicer than parsing through procfs. For our use case this requires
+associating the exporter name with the cgroup resource, which is part
+of the data that comes from sysfs now. I have some patches which do
+this, but this naming component is a point of contention at the
+moment. Maybe it would be better to focus efforts on the problem of
+how to categorize and aggregate (or not aggregate) graphics resources
+for accounting with cgroups in a way that suits everyone's needs.
 
-This printk is the same as above. I hope this print never happens or it
-will not be useful enough to narrow down the issue.
+Thanks,
+T.J.
 
-> +               return ret;
-> +       }
+
+> But to work on a full blown solution I need a better understanding of
+> how your userspace components do.
+>
+> Regards,
+> Christian.
