@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE00252E676
-	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 09:45:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457A352E683
+	for <lists+dri-devel@lfdr.de>; Fri, 20 May 2022 09:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B16D11B5ED;
-	Fri, 20 May 2022 07:45:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A84C11B736;
+	Fri, 20 May 2022 07:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23EC511B5ED
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 07:45:02 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id u23so12950124lfc.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+aBavLEkYJU8ppHKZfPEoTzJMPVM0ajWgFW8w1xSHTI=;
- b=lJ76KJ2sv44ZiGDsP12pyEW4q4uQr5xfyiwEalACZa8qvGzmBfyDqS+gVgH7Qk84w+
- HpHVZhzEwgzaOu48uV4DDYaKQ5Y1ffDlYlkjnpcCquL8VRF5SmY8Hq+Kwgy7HMt5EvSW
- qOKTVBru/qLwTm1sfcJmi1leUvzCmiXTuW2HOUlCvSL1PeQ36FD+zPEp2xTsJ4cOoesQ
- uIj0O0b5XCmWWI7pHW2Q3Rojxjcl9IMGsmdmpyNhFN7swsICmB1rtteOg7da0gMOfuFx
- EiBChwTia3ySw739to/i3eUzD2kk88AHr8s3BiFQMDE7vHWLoz9qcwKk09kVshszbBa4
- B2Ug==
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75AC311B736
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 07:47:27 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ z7-20020a17090abd8700b001df78c7c209so10805389pjr.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 00:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=56ihVfI55g+5kWoCWi0j9KBKpP7u+QiASGOdishgsYU=;
+ b=fI4qwgrFQO4hVvdc3SUyQ8Cdgd+sywkDfLxoX5FB2E66Rov05yQTZSVOzP7gpoXEQF
+ 0elvCO46fIFZh0PGVYSb0zBP9E8rthiYU1kAunjlGADxZHVDIzKAD9lkoRKg2HXJ1W5y
+ hXlwhv/t9DEN5z9vOFJjkOJHZlgbiKv1kt3tICg8ZW4m3WO5jv6iWCSmP7K1aB7qLYm4
+ VMIP2whsDbn6dmzkcOergoPPDPGfcjXLPaXh/y5sNGVVKXZAO8zLhLtKDQfFcopimuD1
+ iFzKXGu0GYsL7i2AAdYko6ymJb3ROx8/6svDCApNBiO36LmQDMIJe2JZDgJ2TmbOdK9q
+ Eg8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+aBavLEkYJU8ppHKZfPEoTzJMPVM0ajWgFW8w1xSHTI=;
- b=bd6JFMM2UqAt89+E2Ouy62rXM9Kzdm24bwWm6xORJHq1Pv84ELc+9GZGy/fl0c9D5w
- R7DzJ+gXO1x0cFbFnR8yEg84vy5gagaKWF0qSMbmIaDHlQhQry8KPw/nQm4iEm5vWW22
- V5oCxCQhZRE5VShGV2651mqOmUYRSzNcDFJ6Fk2r9hYEKng+dPkcGZ6nJ1Er1S/WYKqj
- 17yX1fzi+noTHDGMNQEytsiXwuGkq0DVBm0w8fKC4pBL15Kz7pW010rvNFeru8ZZ/k5B
- HV8vaYu2BP4lV01SABzsxOgckabqowdW1hXey//RZzU9WnU9VgiDbV9qKM+lkFSerU9S
- gUNQ==
-X-Gm-Message-State: AOAM532M1zHOeYWmzRyJTj7CQs7OmBQoa58Lva6fZSxxX0GqmaDg+JAw
- 5zvSUcZvnZXM1IeQy+MWn6sLATGEuiNAKcdJ
-X-Google-Smtp-Source: ABdhPJzny5YrTxA6USed7c9Qh1HoLb1QzlJ3c45ATl9O2YI4km3mZhR7V+Wsf+RupbtwytpqfGZvig==
-X-Received: by 2002:a05:6512:951:b0:477:aa57:3e9d with SMTP id
- u17-20020a056512095100b00477aa573e9dmr5763789lft.525.1653032700488; 
- Fri, 20 May 2022 00:45:00 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- n3-20020ac242c3000000b0047255d211e8sm556912lfl.279.2022.05.20.00.44.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 May 2022 00:44:59 -0700 (PDT)
-Message-ID: <02c3ef16-dbbb-e6b6-58f2-b0e691af2dfb@linaro.org>
-Date: Fri, 20 May 2022 09:44:58 +0200
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=56ihVfI55g+5kWoCWi0j9KBKpP7u+QiASGOdishgsYU=;
+ b=5Q0J8htoTgVvU4Z/C/0a6H7vE7pfffHfDdaoZJtxW+piC0yvtLQO3/GCgOME6UHVJZ
+ GQ0b9Jp3Nvei40XRVTYxm6qi2/D5B0mhOvMh+/zn/wtlCNxxT0BD6OJ8DbY93nsmjERZ
+ wFee0X04oa9+A4IVqAIcl+/MRjcM1GPyxssR4Gq6hBOrNPAyLWFi5jWyHyUEISzEmSdc
+ 8oWFmGyBBZcF9J2bqBeoW4KCgr0wkl7k06nESO2QhtUWHAuCHquFk3K0FHV+l48fwHpG
+ I6YClsYzWVr7H++P4yjNDjDMwdFuEQxxcHJ8hoNy2udNt2tEBOMtDpSpDTj2JzNPlmFy
+ mS6w==
+X-Gm-Message-State: AOAM533oiRi73TMrbMXnrPz7iTVY7GyyfqTGQDrcqdlgItNjluCONW3K
+ dqWYLxvYQB4wbVLxfZelBA0=
+X-Google-Smtp-Source: ABdhPJzWP/OizPFgR9KmuaPsRGfMHikuqC99X6s0BZZQYR12Xiw5I0XneB0xM48YDFHIVgUBpKEfiw==
+X-Received: by 2002:a17:90a:760d:b0:1df:6423:d0b9 with SMTP id
+ s13-20020a17090a760d00b001df6423d0b9mr10201911pjk.33.1653032846949; 
+ Fri, 20 May 2022 00:47:26 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::4:1761])
+ by smtp.gmail.com with ESMTPSA id
+ v12-20020a17090331cc00b0015e8d4eb1ebsm4949822ple.53.2022.05.20.00.47.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 May 2022 00:47:26 -0700 (PDT)
+Date: Thu, 19 May 2022 21:47:25 -1000
+From: Tejun Heo <tj@kernel.org>
+To: "T.J. Mercier" <tjmercier@google.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+Message-ID: <YodHjYlMx1XGtM2+@slm.duckdns.org>
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+ <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [RESEND 1/6 v2] dt-bindings: vendor-prefixes: Add Geekworm
-Content-Language: en-US
-To: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220519162935.1585-1-macroalpha82@gmail.com>
- <20220519162935.1585-2-macroalpha82@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220519162935.1585-2-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,25 +76,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- emma@anholt.net, airlied@linux.ie, Chris Morgan <macromorgan@hotmail.com>,
- robh+dt@kernel.org, thierry.reding@gmail.com, mchehab@kernel.org,
- sam@ravnborg.org, linux-media@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Laura Abbott <labbott@redhat.com>,
+ kernel-team@android.com, linux-media@vger.kernel.org,
+ Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2022 18:29, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add vendor prefix for Geekworm (https://geekworm.com).
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+Hello,
 
+On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
+> Thanks for your suggestion. This almost works. "dmabuf" as a key could
+> work, but I'd actually like to account for each heap. Since heaps can
+> be dynamically added, I can't accommodate every potential heap name by
+> hardcoding registrations in the misc controller.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On its own, that's a pretty weak reason to be adding a separate gpu
+controller especially given that it doesn't really seem to be one with
+proper abstractions for gpu resources. We don't want to keep adding random
+keys to misc controller but can definitely add limited flexibility. What
+kind of keys do you need?
 
+Thanks.
 
-Best regards,
-Krzysztof
+-- 
+tejun
