@@ -1,37 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979E652F77B
-	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 04:02:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C502C52F780
+	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 04:19:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF14A10E16E;
-	Sat, 21 May 2022 02:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBB210E39D;
+	Sat, 21 May 2022 02:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1379 seconds by postgrey-1.36 at gabe;
- Sat, 21 May 2022 02:02:44 UTC
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9813D10E16E
- for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 02:02:44 +0000 (UTC)
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
- by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 24L1ZFqO002400;
- Fri, 20 May 2022 20:35:16 -0500
-Message-ID: <ea7ef1e652f5664a41f2befc3cb97bd089f27e69.camel@kernel.crashing.org>
-Subject: Re: [PATCH 2/2] drm/tiny: Add ofdrm for Open Firmware framebuffers
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Michal
- =?ISO-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-Date: Sat, 21 May 2022 11:35:14 +1000
-In-Reply-To: <CAMuHMdUws2eJ4pHng4GD0PjuvMj5Hef_y_YyM4fUJV9xdUVuEQ@mail.gmail.com>
-References: <20220518183006.14548-1-tzimmermann@suse.de>
- <20220518183006.14548-3-tzimmermann@suse.de>
- <20220518185156.GJ163591@kunlun.suse.cz>
- <CAMuHMdUws2eJ4pHng4GD0PjuvMj5Hef_y_YyM4fUJV9xdUVuEQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 930A810E39D
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 02:19:31 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id jx22so5099743ejb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 19:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sQlK8EPAE1nmulIIgv5jRhcGPrhGOTgo4V3rKxqmaH4=;
+ b=rnCv4bfcViQifT0EnuLazBJP+RPyjJedUNb+XaGcQSXhNUZkgOYt7ievywxjV1c2EE
+ MJycHcYkWvToUmN9fth48vtDpbQ8998jU959vlLAp8q+kxszB9zEEIou0KXawjZ0tTVy
+ gIKIwNNtpdmIBb2uKjvJhKJoClgHdIw4qEo3rWw4wDzrYVOCXfuwX/+junNVwel4K6KY
+ DZMasQmbk8jAgtbeKOxbDF7OHmI6gInClz5ODkttVNJ9T4h+dbgBVX+8jOUQt572JzP/
+ q1QAJRiIxjo0ghtkLxdrCVDrXpSQXDQivzghlBw2O5NyNSWzB32vrSjS7mHu9XuiTqWp
+ PU3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sQlK8EPAE1nmulIIgv5jRhcGPrhGOTgo4V3rKxqmaH4=;
+ b=zyrhwGMtk8umHZ3j+J2/2Qoo+IrUA5fGRgTEURFSbdkv2D7Du1wIQVPJD9EnzbonJw
+ 7ZyOzyt1P6i7Gz3tPfr55kRptebVuXac2Ogvl5b9MJh/2/uNMtJgnWKu5IMmc34P5t9J
+ KJEXxWkDl9T+L2b0FWoLRwceHDRBXQc9wGdenVbKWCvBRQbn483xCcdCunyoa78viJPW
+ ZIwei77Ap4kCyAT32olgQPPfiJHpsHLWTG1EkLspPEE5G8Ysfe9E3rdqD9PlLYn/zeKf
+ RJbVPHFTJoO52qjCShrEqsdVaqWz/JZxZTlIWDDdk3VXHZc7JZJtBRqimyWMMmLxAcAL
+ ZHQg==
+X-Gm-Message-State: AOAM533ea9/l47KO3+6BoF/WHoIBoojUNU6Du8hm6OSo9yJ91Ggqow6g
+ s4h/C4+Tj+CCFRH2AGGQhmZNXK9RSb46vG0fSICewA==
+X-Google-Smtp-Source: ABdhPJzma20Jw8z2jDhsEaXVdc6gwk7GyQZeyDajs1P9GPAR8KSzzRz5P+0if2lufkSUvXOh/v8I91ajvbIFbhkcjPg=
+X-Received: by 2002:a17:906:6a0f:b0:6f5:15cf:2e5 with SMTP id
+ qw15-20020a1709066a0f00b006f515cf02e5mr10844216ejc.584.1653099569797; Fri, 20
+ May 2022 19:19:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <20220519093034.541481-1-eballetbo@kernel.org>
+In-Reply-To: <20220519093034.541481-1-eballetbo@kernel.org>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 20 May 2022 19:19:18 -0700
+Message-ID: <CABdmKX17aS3nh0UHf+FoM3VPdvMn5NvrZTkGSisznDgjZyeQxw@mail.gmail.com>
+Subject: Re: [PATCH v7 1/6] gpu: rfc: Proposal for a GPU cgroup controller
+To: eballetbo@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,46 +65,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Paul Mackerras <paulus@samba.org>, Maxime Ripard <maxime@cerno.tech>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Laura Abbott <labbott@redhat.com>, kernel-team@android.com,
+ linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ linaro-mm-sig@lists.linaro.org, Hridya Valsaraju <hridya@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-05-19 at 09:11 +0200, Geert Uytterhoeven wrote:
-> Hi Michal,
-> 
-> 
-> 
-> On Wed, May 18, 2022 at 8:54 PM Michal Suchánek <msuchanek@suse.de>
-> wrote:
-> 
-> > On Wed, May 18, 2022 at 08:30:06PM +0200, Thomas Zimmermann wrote:
-> > > --- a/drivers/gpu/drm/tiny/Kconfig
-> > > +++ b/drivers/gpu/drm/tiny/Kconfig
-> > > @@ -51,6 +51,18 @@ config DRM_GM12U320
-> > >         This is a KMS driver for projectors which use the
-> > > GM12U320 chipset
-> > >         for video transfer over USB2/3, such as the Acer C120
-> > > mini projector.
-> > > +config DRM_OFDRM
-> > > +     tristate "Open Firmware display driver"
-> > > +     depends on DRM && MMU && PPC
-> > Does this build with !PCI?
-> > The driver uses some PCI functions, so it might possibly break with
-> > randconfig. I don't think there are practical !PCI PPC
-> > configurations.
-> 
-> 
-> IIRC, the first PowerMacs didn't have PCI.
+On Thu, May 19, 2022 at 2:31 AM <eballetbo@kernel.org> wrote:
+>
+> From: Enric Balletbo i Serra <eballetbo@kernel.org>
+>
+> On Tue, 10 May 2022 23:56:45 +0000, T.J. Mercier wrote:
+> > From: Hridya Valsaraju <hridya@google.com>
+> >
+>
+> Hi T.J. Mercier,
+>
+> Many thanks for this effort. It caught my attention because we might have=
+ a use
+> case where this feature can be useful for us. Hence I'd like to jump and =
+be part
+> of the discussion, I'd really appreciate if you can cc'me for next versio=
+ns.
+>
+Hi Enric,
 
-They also don't have OF and we never supported them upstream :-)
+Sure thing, thanks for engaging.
 
-Cheers,
-Ben.
+> While reading the full patchset I was a bit confused about the status of =
+this
+> proposal. In fact, the rfc in the subject combined with the number of ite=
+rations
+> (already seven) confused me. So I'm wondering if this is a RFC or a 'real=
+'
+> proposal already that you want to land.
+>
+I'm sorry about this. I'm quite new to kernel development (this is my
+first set of patches) and the point at which I should have
+transitioned from RFC to PATCH was not clear to me. The status now
+could be described as adding initial support for accounting that would
+be built upon to expand what is tracked (more than just buffers from
+heaps) and to add support for limiting. I see you have also commented
+about this below.
 
+> If this is still a RFC I'd remove the 'rfc: Proposal' and use the more ca=
+nonical
+> way that is put RFC in the []. I.e [PATCH RFC v7] cgroup: Add a GPU cgrou=
+p
+> controller.
+>
+> If it is not, I'd just remove the RFC and make the subject in the cgroup
+> subsystem instead of the gpu. I.E [PATCH v7] cgroup: Add a GPU cgroup
+>
+> I don't want to nitpick but IMO that helps new people to join to the hist=
+ory of
+> the patchset.
+>
+> > This patch adds a proposal for a new GPU cgroup controller for
+> > accounting/limiting GPU and GPU-related memory allocations.
+>
+> As far as I can see the only thing that is adding here is the accounting,=
+ so I'd
+> remove any reference to limiting and just explain what the patch really
+> introduces, not the future, otherwise is confusing an you expect more tha=
+n the
+> patch really does.
+>
+> It is important maintain the commit message sync with what the patch real=
+ly
+> does.
+>
+Acknowledged, thank you.
+
+> > The proposed controller is based on the DRM cgroup controller[1] and
+> > follows the design of the RDMA cgroup controller.
+> >
+> > The new cgroup controller would:
+> > * Allow setting per-device limits on the total size of buffers
+> >   allocated by device within a cgroup.
+> > * Expose a per-device/allocator breakdown of the buffers charged to a
+> >   cgroup.
+> >
+> > The prototype in the following patches is only for memory accounting
+> > using the GPU cgroup controller and does not implement limit setting.
+> >
+> > [1]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty=
+@intel.com/
+> >
+>
+> I think this is material for the cover more than the commit message. When=
+ I read
+> this I was expecting all this in this patch.
+>
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > ---
+> > v7 changes
+> > Remove comment about duplicate name rejection which is not relevant to
+> > cgroups users per Michal Koutn=C3=BD.
+> >
+> > v6 changes
+> > Move documentation into cgroup-v2.rst per Tejun Heo.
+> >
+> > v5 changes
+> > Drop the global GPU cgroup "total" (sum of all device totals) portion
+> > of the design since there is no currently known use for this per
+> > Tejun Heo.
+> >
+> > Update for renamed functions/variables.
+> >
+> > v3 changes
+> > Remove Upstreaming Plan from gpu-cgroup.rst per John Stultz.
+> >
+> > Use more common dual author commit message format per John Stultz.
+> > ---
+> >  Documentation/admin-guide/cgroup-v2.rst | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
+min-guide/cgroup-v2.rst
+> > index 69d7a6983f78..2e1d26e327c7 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -2352,6 +2352,29 @@ first, and stays charged to that cgroup until th=
+at resource is freed. Migrating
+> >  a process to a different cgroup does not move the charge to the destin=
+ation
+> >  cgroup where the process has moved.
+> >
+> > +
+> > +GPU
+> > +---
+> > +
+> > +The GPU controller accounts for device and system memory allocated by =
+the GPU
+> > +and related subsystems for graphics use. Resource limits are not curre=
+ntly
+> > +supported.
+> > +
+> > +GPU Interface Files
+> > +~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +  gpu.memory.current
+> > +     A read-only file containing memory allocations in flat-keyed form=
+at. The key
+> > +     is a string representing the device name. The value is the size o=
+f the memory
+> > +     charged to the device in bytes. The device names are globally uni=
+que.::
+> > +
+> > +       $ cat /sys/kernel/fs/cgroup1/gpu.memory.current
+>
+> I think this is outdated, you are using cgroup v2, right?
+>
+Oh "cgroup1" was meant to refer to the name of a cgroup, not to cgroup
+v1. A different name would be better here.
+
+> > +       dev1 4194304
+> > +       dev2 104857600
+> > +
+>
+> When I applied the full series I was expecting see the memory allocated b=
+y the
+> gpu devices or users of the gpu in this file but, after some experiments,=
+ what I
+> saw is the memory allocated via any process that uses the dma-buf heap AP=
+I (not
+> necessary gpu users). For example, if you create a small program that all=
+ocates
+> some memory via the dma-buf heap API and then you cat the gpu.memory.curr=
+ent
+> file, you see that the memory accounted is not related to the gpu.
+>
+> This is really confusing, looks to me that the patches evolved to account=
+ memory
+> that is not really related to the GPU but allocated vi the dma-buf heap A=
+PI. IMO
+> the name of the file should be according to what really does to avoid
+> confusions.
+>
+> So, is this patchset meant to be GPU specific? If the answer is yes that'=
+s good
+> but that's not what I experienced. I'm missing something?
+>
+There are two reasons this exists as a GPU controller. The first is
+that most graphics buffers in Android come from these heaps, and this
+is primarily what we are interested in accounting. However the idea is
+to account other graphics memory types more commonly used on desktop
+under different resource names with this controller. The second reason
+predates my involvement, but my understanding is that Hridya tried to
+upstream heap tracking via tracepoints but was asked to try to use GPU
+cgroups instead, which led to her initial version of this series. So
+this is a starting point. Any commentary on why this controller would
+our would not work for any use cases you have in mind (provided the
+appropriate charging/uncharging code is plugged in) would be
+appreciated!
+
+By the way, discussion around earlier proposals on this topic
+suggested the "G" should be for "general" instead of "graphics", I
+think in recognition of the breadth of resources that would eventually
+be tracked by it.
+https://lore.kernel.org/amd-gfx/YBp4ap+1l2KWbqEJ@phenom.ffwll.local/
+
+
+
+> If the answer is that evolved to track dma-buf heap allocations I think a=
+ll the
+> patches need some rework to adapt the wording as right now, the gpu wordi=
+ng
+> seems confusing to me.
+>
+> > +     The device name string is set by a device driver when it register=
+s with the
+> > +     GPU cgroup controller to participate in resource accounting.
+> > +
+> >  Others
+> >  ------
+> >
+> >
+> Thanks,
+>  Enric
+>
