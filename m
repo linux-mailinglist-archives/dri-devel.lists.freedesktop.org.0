@@ -2,39 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E7D52FD3E
-	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 16:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EFC52FD7E
+	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 17:03:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8AE410E200;
-	Sat, 21 May 2022 14:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82EA710E110;
+	Sat, 21 May 2022 15:03:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 65A7010E200
- for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 14:23:44 +0000 (UTC)
-Received: from
- linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
- (linux.microsoft.com [13.77.154.182])
- by linux.microsoft.com (Postfix) with ESMTPSA id 4554E20B6C7C;
- Sat, 21 May 2022 07:23:43 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4554E20B6C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1653143023;
- bh=dJ9FOpSCgx5aFau9EXn3cqD6jLljJRXBBXibNoXWwbs=;
- h=From:To:Subject:Date:From;
- b=H55LDMs3ElWgyB3rRWyalm4i8ziWUCQUSXUdrPSIpXwF2uOsjuWjG09P4R57VYlL1
- VL1QFf+T/bjfjXXna3wsrvH+BLLNm3ZaugGh2Fk5ekClq+1nk2mcIlXBcA3A402qsL
- NxKsVBNnPN9f3bQX3CYuTgnF8vL3xRURRc3wfRgM=
-From: Saurabh Sengar <ssengar@linux.microsoft.com>
-To: ssengar@microsoft.com, drawat.floss@gmail.com, airlied@linux.ie,
- daniel@ffwll.ch, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- decui@microsoft.com, haiyangz@microsoft.com
-Subject: [PATCH v2] drm/hyperv : Removing the restruction of VRAM allocation
- with PCI bar size
-Date: Sat, 21 May 2022 07:23:39 -0700
-Message-Id: <1653143019-20032-1-git-send-email-ssengar@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A602A10E110
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 15:03:45 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id w14so18714622lfl.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 08:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4qCtL0+bm+n7u/HXMR/ejdT6S5mFrpV8yho83BhRO5s=;
+ b=y5RaZjFHrW8w0QDRcNsylDIFb53EJ2po4JTV2FpNAdkAYoZdu1qF5axrhsPQuGATng
+ IRhb46WEpzowjRCtShPff9kYW6hHmeuNWcNUVWWram5Vsu13pwjOphSj50HlavWfE75o
+ fl8HJqVUjSx8QbwUjbHsCAWiX5BauC0NO2ZKYDPS4ebr9JVbKM3hZESP+xBd6W4RKh33
+ MjPK1gRmYo1vuibvD7RGvzYvB0fQWdgtoSLYcw2VHu54BnbEvJcolLEa1EoGN8BAPKCL
+ xL8v5PmCr8qaYJ68UOqWoeB4NePuVP6tv4mkCntQBpW2qZmf/QlRL9lcpkc3pjzue05U
+ zOAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4qCtL0+bm+n7u/HXMR/ejdT6S5mFrpV8yho83BhRO5s=;
+ b=a6vGJbCncGySZ8N6QwUwk+qxgzOzZ0R6n0f2MHrKSP1VRQNqbatmEiFZJAewA6wVYl
+ Ne/OzChEhF0xu/q6ULm8awQskxQxKeXig7UcXT+6egDBjcORu8P5xUryx8FSJIvhB/Tz
+ G1j7lY4glp6Jv9C7CzGZZcHe6KJVM0kfEokQQ66CZ9c+RfWfGkCOg8CAIAUe4cqpfrcg
+ lGV+Hi1YKjIQgCsCpQKq02+R/zmOMc+mYM2As2Yr3BUdYSpVixM3cBpcZPkJn8P18Pow
+ yWekpXExmx+ZjK9jM9d1k/d3ari0iUDEeuScuwnDW+nNsX2CU4u79xKFV4bnqSa38YCj
+ Onjg==
+X-Gm-Message-State: AOAM530Bf8n+TP5/CkDC+0izKBk7Bpu0hjvV5MmTSftuHZg559JvxlcA
+ FNxlzoDLlWRyqszCDzgFPF6YgA==
+X-Google-Smtp-Source: ABdhPJxtHDtDb6cleVJCc0ulh0XswzEKTSNzq7RDBh7mwPl4obmqj7ZYfKIcfiHfX3+2J00L6fmtSQ==
+X-Received: by 2002:ac2:4f0c:0:b0:477:cb8e:bd8b with SMTP id
+ k12-20020ac24f0c000000b00477cb8ebd8bmr5791149lfr.209.1653145423865; 
+ Sat, 21 May 2022 08:03:43 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ p20-20020ac24ed4000000b0047255d210easm1087910lfr.25.2022.05.21.08.03.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 May 2022 08:03:43 -0700 (PDT)
+Message-ID: <6ae55a29-0b29-f53c-c9bd-fae929f3caf7@linaro.org>
+Date: Sat, 21 May 2022 17:03:41 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] dt-bindings: Fix properties without any type
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Peter Rosin <peda@axentia.se>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Sebastian Reichel <sre@kernel.org>,
+ Matt Mackall <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>
+References: <20220519211411.2200720-1-robh@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220519211411.2200720-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,130 +85,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: chrome-platform@lists.linux.dev, alsa-devel@alsa-project.org,
+ linux-pm@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There were two different approaches getting used in this driver to
-allocate vram:
-	1. VRAM allocation from PCI region for Gen1
-	2. VRAM alloaction from MMIO region for Gen2
-First approach limilts the vram to PCI BAR size, which is 64 MB in most
-legacy systems. This limits the maximum resolution to be restricted to
-64 MB size, and with recent conclusion on fbdev issue its concluded to have
-similar allocation strategy for both Gen1 and Gen2. This patch unifies
-the Gen1 and Gen2 vram allocation strategy.
+On 19/05/2022 23:14, Rob Herring wrote:
+> Now that the schema tools can extract type information for all
+> properties (in order to decode dtb files), finding properties missing
+> any type definition is fairly trivial though not yet automated.
+> 
+> Fix the various property schemas which are missing a type. Most of these
+> tend to be device specific properties which don't have a vendor prefix.
+> A vendor prefix is how we normally ensure a type is defined.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../arm/hisilicon/controller/hip04-bootwrapper.yaml       | 5 +++--
+>  .../bindings/display/bridge/toshiba,tc358768.yaml         | 1 +
+>  .../devicetree/bindings/display/panel/panel-timing.yaml   | 5 +++++
+>  .../bindings/display/panel/raydium,rm67191.yaml           | 1 +
+>  .../bindings/display/panel/samsung,s6e8aa0.yaml           | 1 +
+>  .../devicetree/bindings/gpio/fairchild,74hc595.yaml       | 1 +
+>  .../devicetree/bindings/input/google,cros-ec-keyb.yaml    | 1 +
+>  .../devicetree/bindings/input/matrix-keymap.yaml          | 4 ++++
+>  Documentation/devicetree/bindings/media/i2c/adv7604.yaml  | 3 ++-
+>  Documentation/devicetree/bindings/mux/reg-mux.yaml        | 8 ++++++--
+>  Documentation/devicetree/bindings/net/cdns,macb.yaml      | 1 +
+>  Documentation/devicetree/bindings/net/ingenic,mac.yaml    | 1 +
+>  .../devicetree/bindings/net/ti,davinci-mdio.yaml          | 1 +
+>  .../devicetree/bindings/net/wireless/ti,wlcore.yaml       | 2 ++
+>  .../devicetree/bindings/pci/snps,dw-pcie-ep.yaml          | 6 ++++--
+>  Documentation/devicetree/bindings/pci/snps,dw-pcie.yaml   | 2 ++
+>  .../devicetree/bindings/pinctrl/canaan,k210-fpioa.yaml    | 2 ++
+>  Documentation/devicetree/bindings/power/avs/qcom,cpr.yaml | 1 +
+>  .../devicetree/bindings/power/supply/battery.yaml         | 7 ++++++-
+>  .../devicetree/bindings/power/supply/charger-manager.yaml | 1 +
+>  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml   | 1 +
+>  Documentation/devicetree/bindings/serial/8250.yaml        | 1 +
+>  .../devicetree/bindings/sound/audio-graph-card2.yaml      | 3 +++
+>  .../devicetree/bindings/sound/imx-audio-hdmi.yaml         | 3 +++
+>  Documentation/devicetree/bindings/usb/smsc,usb3503.yaml   | 1 +
+>  25 files changed, 55 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
+> index 7378159e61df..483caf0ce25b 100644
+> --- a/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
+> +++ b/Documentation/devicetree/bindings/arm/hisilicon/controller/hip04-bootwrapper.yaml
+> @@ -17,14 +17,15 @@ properties:
+>        - const: hisilicon,hip04-bootwrapper
+>  
+>    boot-method:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+>      description: |
+>        Address and size of boot method.
+>        [0]: bootwrapper physical address
+>        [1]: bootwrapper size
+>        [2]: relocation physical address
+>        [3]: relocation size
+> -    minItems: 1
+> -    maxItems: 2
+> +    minItems: 2
+> +    maxItems: 4
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> index 3bd670b8e5cd..0b6f5bef120f 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> @@ -58,6 +58,7 @@ properties:
+>  
+>              properties:
+>                data-lines:
+> +                $ref: /schemas/types.yaml#/definitions/uint32
+>                  enum: [ 16, 18, 24 ]
+>  
+>        port@1:
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+> index 7749de95ee40..229e3b36ee29 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
+> @@ -146,6 +146,7 @@ properties:
+>        Horizontal sync pulse.
+>        0 selects active low, 1 selects active high.
+>        If omitted then it is not used by the hardware
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [0, 1]
+>  
+>    vsync-active:
+> @@ -153,6 +154,7 @@ properties:
+>        Vertical sync pulse.
+>        0 selects active low, 1 selects active high.
+>        If omitted then it is not used by the hardware
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [0, 1]
+>  
+>    de-active:
+> @@ -160,6 +162,7 @@ properties:
+>        Data enable.
+>        0 selects active low, 1 selects active high.
+>        If omitted then it is not used by the hardware
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [0, 1]
+>  
+>    pixelclk-active:
+> @@ -169,6 +172,7 @@ properties:
+>        sample data on rising edge.
+>        Use 1 to drive pixel data on rising edge and
+>        sample data on falling edge
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [0, 1]
+>  
+>    syncclk-active:
+> @@ -179,6 +183,7 @@ properties:
+>        sample sync on rising edge of pixel clock.
+>        Use 1 to drive sync on rising edge and
+>        sample sync on falling edge of pixel clock
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [0, 1]
+>  
+>    interlaced:
+> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+> index 745dd247c409..617aa8c8c03a 100644
+> --- a/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+> @@ -24,6 +24,7 @@ properties:
+>  
+>    dsi-lanes:
+>      description: Number of DSI lanes to be used must be <3> or <4>
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [3, 4]
+>  
+>    v3p3-supply:
+> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+> index ca959451557e..1cdc91b3439f 100644
+> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+> @@ -36,6 +36,7 @@ properties:
+>  
+>    init-delay:
+>      description: delay after initialization sequence [ms]
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>  
+>    panel-width-mm:
+>      description: physical panel width [mm]
+> diff --git a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
+> index 5fe19fa5f67c..a99e7842ca17 100644
+> --- a/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml
+> @@ -26,6 +26,7 @@ properties:
+>      const: 2
+>  
+>    registers-number:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>      description: Number of daisy-chained shift registers
+>  
+>    enable-gpios:
+> diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> index e8f137abb03c..aa61fe64be63 100644
+> --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+> @@ -31,6 +31,7 @@ properties:
+>      type: boolean
+>  
+>    function-row-physmap:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+>      minItems: 1
+>      maxItems: 15
+>      description: |
+> diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.yaml b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
+> index 6699d5e32dca..9f703bb51e12 100644
+> --- a/Documentation/devicetree/bindings/input/matrix-keymap.yaml
+> +++ b/Documentation/devicetree/bindings/input/matrix-keymap.yaml
+> @@ -27,6 +27,10 @@ properties:
+>        column and linux key-code. The 32-bit big endian cell is packed as:
+>            row << 24 | column << 16 | key-code
+>  
+> +  linux,no-autorepeat:
+> +    type: boolean
+> +    description: Disable keyrepeat
 
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
----
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 74 ++-------------------------------
- 1 file changed, 3 insertions(+), 71 deletions(-)
+This should be rather a separate patch - it's documenting a missing
+property, not only a type.
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-index 4a8941f..6d11e79 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-@@ -69,56 +69,7 @@ static void hyperv_pci_remove(struct pci_dev *pdev)
- 	.remove =	hyperv_pci_remove,
- };
- 
--static int hyperv_setup_gen1(struct hyperv_drm_device *hv)
--{
--	struct drm_device *dev = &hv->dev;
--	struct pci_dev *pdev;
--	int ret;
--
--	pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
--			      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
--	if (!pdev) {
--		drm_err(dev, "Unable to find PCI Hyper-V video\n");
--		return -ENODEV;
--	}
--
--	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &hyperv_driver);
--	if (ret) {
--		drm_err(dev, "Not able to remove boot fb\n");
--		return ret;
--	}
--
--	if (pci_request_region(pdev, 0, DRIVER_NAME) != 0)
--		drm_warn(dev, "Cannot request framebuffer, boot fb still active?\n");
--
--	if ((pdev->resource[0].flags & IORESOURCE_MEM) == 0) {
--		drm_err(dev, "Resource at bar 0 is not IORESOURCE_MEM\n");
--		ret = -ENODEV;
--		goto error;
--	}
--
--	hv->fb_base = pci_resource_start(pdev, 0);
--	hv->fb_size = pci_resource_len(pdev, 0);
--	if (!hv->fb_base) {
--		drm_err(dev, "Resource not available\n");
--		ret = -ENODEV;
--		goto error;
--	}
--
--	hv->fb_size = min(hv->fb_size,
--			  (unsigned long)(hv->mmio_megabytes * 1024 * 1024));
--	hv->vram = devm_ioremap(&pdev->dev, hv->fb_base, hv->fb_size);
--	if (!hv->vram) {
--		drm_err(dev, "Failed to map vram\n");
--		ret = -ENOMEM;
--	}
--
--error:
--	pci_dev_put(pdev);
--	return ret;
--}
--
--static int hyperv_setup_gen2(struct hyperv_drm_device *hv,
-+static int hyperv_setup_vram(struct hyperv_drm_device *hv,
- 			     struct hv_device *hdev)
- {
- 	struct drm_device *dev = &hv->dev;
-@@ -181,10 +132,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
- 		goto err_hv_set_drv_data;
- 	}
- 
--	if (efi_enabled(EFI_BOOT))
--		ret = hyperv_setup_gen2(hv, hdev);
--	else
--		ret = hyperv_setup_gen1(hv);
-+	ret = hyperv_setup_vram(hv, hdev);
- 
- 	if (ret)
- 		goto err_vmbus_close;
-@@ -225,29 +173,13 @@ static int hyperv_vmbus_remove(struct hv_device *hdev)
- {
- 	struct drm_device *dev = hv_get_drvdata(hdev);
- 	struct hyperv_drm_device *hv = to_hv(dev);
--	struct pci_dev *pdev;
- 
- 	drm_dev_unplug(dev);
- 	drm_atomic_helper_shutdown(dev);
- 	vmbus_close(hdev->channel);
- 	hv_set_drvdata(hdev, NULL);
- 
--	/*
--	 * Free allocated MMIO memory only on Gen2 VMs.
--	 * On Gen1 VMs, release the PCI device
--	 */
--	if (efi_enabled(EFI_BOOT)) {
--		vmbus_free_mmio(hv->mem->start, hv->fb_size);
--	} else {
--		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
--				      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
--		if (!pdev) {
--			drm_err(dev, "Unable to find PCI Hyper-V video\n");
--			return -ENODEV;
--		}
--		pci_release_region(pdev, 0);
--		pci_dev_put(pdev);
--	}
-+	vmbus_free_mmio(hv->mem->start, hv->fb_size);
- 
- 	return 0;
- }
--- 
-1.8.3.1
-
+Best regards,
+Krzysztof
