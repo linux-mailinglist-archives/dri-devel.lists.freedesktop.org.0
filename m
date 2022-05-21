@@ -1,88 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BB953096A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:25:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C1153098B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:26:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2FC10E6EB;
-	Mon, 23 May 2022 06:25:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA22B10ED64;
+	Mon, 23 May 2022 06:26:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic304-24.consmr.mail.gq1.yahoo.com
- (sonic304-24.consmr.mail.gq1.yahoo.com [98.137.68.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4E210E618
- for <dri-devel@lists.freedesktop.org>; Fri, 20 May 2022 17:17:33 +0000 (UTC)
+Received: from sonic315-54.consmr.mail.gq1.yahoo.com
+ (sonic315-54.consmr.mail.gq1.yahoo.com [98.137.65.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F14D10E204
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 13:24:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netscape.net; s=a2048;
- t=1653067052; bh=ca7iPlJkCoStYqyWys5LDO2Gdak2vbwjABNP3QbxdJg=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
- b=RLP+eUn0luQR8MFMsK/Bu5ozIMe3R3FhPOqzUlCheTcgF25eEhykrJNUvPSs+a0W8xnMrI9rbHzkLZgVpJtbL5TP+M7Ze1WB3ndhlmODjBS/83tU91WiIEv7q+6a/gq3uI8u2FBODzcy8OZmJc3xLlVbRCVGvFowyXb4vUOxf/CFG2TdClzQETllOExsOb34u/KtnpLCvyhJXcnjAnOJ/KtcKn7YR3wMxjOmD7OXZgxcObjquGGwXrWP05Aie06o3y61XbVbs+uOsDt0kGobUDuta2ORf7o4ZE3vmQJnh0MlR32dGuxnxY6MTfFPorKsNJzKPGFrNzwU2c6wHxJwNw==
+ t=1653139448; bh=u7Yu+KyEIfPZJbhWAIRqnrm/m3z+dGwiH+Er13915nE=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
+ b=Vz/X7Tg2KXqHVb0jKRQz9cJZrnXS6Y0rMqdMeizybrsocQSbPfzfutoh/J3UP0G1gsnBS02sQJLl4BPL4MVHEFtijFGTXttTpdw5UYoNFz9yzMMIDEA7FKHSbuQec1GzeBEiM83Kh+tnyu3YAns5Qr8CH/EzVHaN4rehQyCan/+Uf1Mb6jtvCi9O5T88AUxwxf9+8qsB55nQW/xqnSu17UuUPSxjrf4YuHm6dYwxxcl1IBQ9QCBK1iVmh2FEApWUmX/yap+reTSCOLChc5SVBIV53xjyUOaRsSjmhYp88c+l2Q6fRugEDhWn2vYsLRG9NhzKKDzAeIZC1OdwYgovMg==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1653067052; bh=7j3FEybidpG6WjHNRSwkmMNeWZDsakO25VD+3F7N2fN=;
- h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
- b=kmbnkkNnYg5sOtHb/xjdjF356Lx7YhHBck56jvGr0JFPI3CLpzpkJ1ZWBDvM1n92FHCRZsVb8tB0grNGXH/Es1KqY+cTfsm9CjEAWoadb3HaEiFmiLwKuGG5qhdR8+gCrhWu+8aFTXY5tPdUI31gXXTAD4ZLQVPGnL171CdHkN9ZE9sb94cRfUOIuoG2a5X+4tESTWVwMxK+dcKB/Z2o0GENJYUI6HBnrfR8EBq/JzDVzWCqup4++tV/QzqAHJaZubtqc8QtQ2FOtwG7GFZE0WrlNCLHo9kArDw3iTRi5gmKw9PxptiYnMacMunLO8V5v6zu8XTfEjJYjGIDVv4QBQ==
-X-YMail-OSG: H7OfiakVM1mSUOX8IbzsVvdwYO9oiQlgoDHPzQIgieY13RNtcqlf3ffrgLXFLu8
- ZMIugdCyo6V0GHELne5XGXeClyex4va1MyN77hEwq2jv0KS3SO7bb_M1Vd83duLCAfrPVzKFozOb
- YcIYKgw_soHeb4CerZhH5QsT5fpB5zt5dfFpDBfg.spni553wE8rJhgRezws_aP_U26M8LkhDdJF
- gJiUUwWm9fj7FeTtpfcULoF4EG7oANqLNMgMZ9U0J2qlgPcN9SmWeMG43haVPHavlwpS4b7Su2_i
- fbV5NNEa2pt70yItIwncyqm1k4Pzy6BJoKfdBkVJBCG2uspzHLysvCFOeW6jb.IS5D9EeDGDOcPV
- lPp.nZKJQRiUNuIOIZgrOWtXwiZ3JjbUuytT5Yf9O9Yqfi1HY2328fALl9MutLaCZe15UpVnWHbc
- xfspJigMbnWbgmlIW3E69FHPnlqWnunkkVfucABP90PZZ7VJHaHX4CmX_bxdCu0qeLwCdrJl5DNU
- R6EKUiqvC6R8Sbf5b5xxXowWnb9FPUQFvxNcQOf.OowStsZIK51oIFxJpPwu2UOjziXkxNCEn.jn
- LXeQ87r9NRPwn2c_aYfpFO2GH_7mHKB9oPNECRevc4kzflfbBj57nZrsRLTIhxgFgTxhfQMgTL0O
- ueCdodwiGPgxtj2U58Y9diorXJ6AlbjFZgA1lbVf1AqNdT2AvFHSfvw.6FHsO02ewjbXM6QZh0YC
- Phr_zV4wXnF9fombQJPfbb3JFTeTUWSJ83G_0XYyKDdVIf.LGd.eQTpr6abmVwyTwPWgnMyWnt.D
- 4dZ2AEnzX6B1biKSHNRVrQaWrQ0mp0NDBgeYCGG6F_TetndAl7a_qZ7gFCErvbFMqaQKeWCBeXGO
- Ev0UmswUVcg.SORIjsr5XRRo1J5Y8sn2Hny35byVnolGAL1omtzpv2BC2dXYOJMxksX9lxzoUhiw
- rrPJYlqY4qAswEz6dM_7S7l_M5KH5vm8FXSJOHi9slxWUvphi.v0af_UwptMiM9A36z7nmZi6X.d
- 4Gb9jQ.NSCZaxWu1Bv5u92SFOzTSD2GWza4ZlGwtVBAEwiBIBqK4ZwmD07JPnrWWPFfn.mY7Bwr6
- .cqwBuCJUJOiAOCSV3.mAX3.gM3RUuQ1xU_QPGCTBCBtKD8gW52Yp8l.0N8Wry9XHz6emY.Hqlln
- J8wSBkFwSq6azUKiZNtp1CA9kes7Stwwq1cNoIYUwthnzbD84Mp6wAT2a_.U10MdgXO..qOKaXzq
- IdGRsHQKX.s63.4U_sGMVLPjL2LrMP9nHyV.4vYxJJ8tsEpIfb8O00WVNOMaEXLgSZRPdhR6bZjU
- jQ.lQHx7IAUIvODcXDA.v1gsqok5cMZISxD.va0xMVrNKmzsCz.xA.eUgrJ2PvMYl80KXDGqGX8P
- orH5y_uyMjBPZiTBTOG5pjWx_6EHyglq3SHCJP.Ezpr9NH6tfG6U7GARFx.lqL_8ZFlehPTWHmrQ
- XaN60UihPwGuYhF9np8PS8nVPgt6f6BHjzezx6Z1a..YBsGFFenRdHwejTIVdCrt4v1HxRzWHQ5r
- xYqAwwKlhsbne7PSH5NIELGpSbwBHjww7vl9ZhEtdcji3Rhj8D5DYZlSj.qBxPUIKq5I5nbwydOb
- luZfq7cB5m22fajZUhwe8_1ZQTjqmTZ5V0KF.aeyBo6Pw02R0G.LBzrve7Jk6r3xmndggHaCDhse
- aU1g2pC.ycMbFjoxWsswE_W25RBpDQkHSkREvrMTcXWaNoZ7YuFxXuUm7xATDhGFuLTNm5gVz.u1
- Uc9V2edW286TNHq93GuvbYLUKxYsWu2qjo9E8flfg24wGTioyXtzR4qYs4Z0MUmKel_ztXvuX5Gz
- i2JULnrN3Q04PPsmRd0a2i_O43nWcycPW6IQd5u6mjcgPsvD0RRsGKjZUzbZVobxVet.cExc3taN
- 7rndFk6AhHHvRWZWKkWj1ZudFIAnQ5tIjRjEQGCOBge.qFeqp7Orl5eODciqINjUnOepKsK6ndeU
- vG_3hOUVzOTLEiyOo93sEaxe_g7FCfM6cLG6gorqRnZUC27HFuQBIpzjVByfhe.6OPt6oe04wZYt
- SVmFJpwuUVe.VUN5geIHcrLJgvfABoIoW5qZKO3YTnGTR5VDgjojz3_1iVoGCbqoJJ3HpWcQTs0U
- .JiWE0WZa0x3jUi1dZoJRmz97nvCGnpcujPjIL1ZziNDsu0Ep7H7FEVYkKWpnf6iaaYSKU7f_YgR
- MVWkN9jRib.rqmGQ9Iw--
+ t=1653139448; bh=fjywVtOkL+0USSEpOqb1IdSWmSiRUy7HljK9ZuevyH9=;
+ h=X-Sonic-MF:Date:From:Subject:To:From:Subject;
+ b=REmdCsNLmO5djeOLQ0OMVJaDeOY8bQKZoTfIErzQJX21RscnkKf0SYroqeSzNSXxJ0/cqSdLoBrPIoRdBoGHmA5DW7EzpFtJ3E4+og/ELN8uCdYYO2Q5pzWQVII0stCPD6+/76EBiknW7cgFBbQhcAMQL83XCBBZqtpxSRKrKZHQwdltsK3qogqF7gBBg2wXaAXQblY6Joowrq7TqO96Mk9GNmzT+lmjXPaXnNzS/m8G4RlWKz4GNpnonZiE4EU6XgNuyydgxLWfmBpSZfI15aJBzRPay8IrZtF3hYPfFoHwCxXmkoAbI0daWTRFgPZlbxNXXjIwsWkqWFFQUEtM1w==
+X-YMail-OSG: dGjnYDYVM1nZFIxMGgIyXvS33pdt8sJTeJDIiUVrevs4mbVRYc9JT4J52MOoXFo
+ 2cmWTv0ymmA5a.XrpPIirj2zCrOKW1cD4PDtyUkTkMvWgA.dQufwQHJ1bktN8Kn7TwSOpMhVt93L
+ DMCAfGwmhMRscJH_GslY1rGJdnTJNkFuEhbJu9UxrpM3JnHmFGSfZDlNyrtLvKuGl_4W8G741WCP
+ JDu97AzYxdMPQeJGJ7VEPUR7GAvgyZ4TQAKSpTTfI1WjWAW.cgNHO86ukAkrU5OVIbX2i4x.h5PJ
+ BHwgAHWpZ.VUIlvQn8rQ.J_WCXWvex.Wt8547Trf8THc6rnE2JMpE1MSWzHqf1UfIh_HGf4L9C8u
+ SCghkIwaj35mCeq5neDHxa9hr_Zv8tZMvHwv8kLMrEqk6XLaaVWFwAS1XD3M4KzJRa31tzI37FDk
+ QXt7bp3acIE72ibVmS.aUfRJG2W.mTwbSOKcUSXroteXR_2OS.2_W8i_K.4uvIHye0iPfYTJKXxC
+ lBTcqugQj0xiRAO96XTHSLHlitLK8ZMDztlXxiWP2UvV7587GzeuXEkFigVkm6KLqY4viE5ZIHvB
+ Pb0q25Av2XkjI2TBdfoeYqwqWh9F3WNBzTmS1IJXQPJ66JwQRiEfa3p9XKxztfx5FyeHFKoQUeId
+ PCZ9fpGXv5fhIZDC5l6X.RPDacaAtAwOEYNIsgfsEkA6S1y9XNdiiDs2BSoy68f3Mu0F99Uyh.9F
+ Wz9PUbH7AMcZ6iX0UKft1J8OUhrkW01WvbjuW0VB7lB4Z8PSwY9fpKXNNtPf6.lGr6bRCnBQv9v4
+ AoSI9FwsCPTqlAkhoJ3ftMih_G7GS.J3bC3gQvutP_9CGAvlzeU80xM8dOlgT7kCAvA7xI7SWBS6
+ 7L472O3tbs2Kog3Yn08ViAY4Ojx_n8JaGTOYC0jB6mQdaqbiXx0Dod9VhOi9NdROaQ7K_jM2Fg6q
+ jfX0lJFgcURmZxQIER9oqJUDNGSvwU3O3TI0GS5HLZXzWZOfDvsdLaZd7eAtgVCh7K7wiAvfe4F8
+ yMlzWfEgLxgtUWZRj8oz7KaSTL8otVTauLWgccOfaI4TXRJqLgfei7HaJJ5prAa2MDLVUXfcbrjK
+ AFezWEsMjJJz1jExkY.jVIJt2aHPZ5jU_iaGKWwIIckODByIMFrcKN._fRUrneCyXMBDajYVWi78
+ z8WxhwE961lFmVxFjJQHT6Gei1eRuSBe7CbMJpt7Sv2aCf_1aCiU1Zyk3g8newjwJyOcE8G0lln1
+ gFPLNp5LkdcHkL7DyxCwjk4KBX93L8E8QyyhR.cb6I3TVQUtE71AhHkQ9Oe8amJShJ5NxHx1t4ZS
+ qLoj9R3SozO1KD4nJzkHTa8xOGBaSBqMuWsi3L59zFykR19Rhm7mGPcvDEEdh8pQPb7miqjQSTAp
+ va.zuhmV.8nPmfugL63FgqXpMDWMj.noB0SXevpSCNu2pb0t971LbflvRku0dQ8sdidFPjP0T59e
+ n7j3zux1vsAKSVODZfBUylDIayyLZO8DyJ8s2Tjz2yqZELG6TkSnZhUQGt5uNaPzy3o64voqXyGw
+ CtKbYLMRO_4EEk.MH.roLBmZ0ErR_9n.FF339MWy6d.YUf.32MBVCTKaMt62vUjdqT8tFy8H0hlH
+ kD._tV6XPf9OcEVCtI9gDKBbjXfrh6CR.MMC9ldL4d1kHPg1amuhdc0riFynonchkfjKiDNjZVkz
+ 8S5e_cOKFB.ExWBtqIdS7hBeTiWkOi7V._.7UgwHrTUFT41CTEbHLNrTM0I32.xxYNn8izmJ0iWf
+ 6IOQPUAWyDt5_uZWxtpD7bsWgFRf1MHQnvsgd4D_edQEXfKITXduB20HO3aiB4amJZrRXev3maFv
+ .UaFb.y6uRbXN08phHBQmLW4RLEFFZK_bJLb_tCAXurN_k9Oc.nmmySBgde74mBIDbn3eJAZOZ.s
+ erewTSNVwNPlAZHCDrWjFs5u6kfAVA7rnW4vXS6Q0wOOOf8dyICsjYbJ4pxSfx3q6A_Y0cuYgP3A
+ AnCrTQQs5KzIWcZVrOuD7BWcykmDxlBfoYfJs1rvEiD1NLdNT2pkJe.9PfhsuoP2ZViKr3HYfH.0
+ jxgHneh0253SxqRrsGsiBskaaZcjTsdA1q7bhcfmfFhHKSPA8vBH3NkWKsbw_AL21U4OdW92qHRH
+ bWhDHPshEz_xyfbLkB.ESMn5LKE3_ATG4UDBb8t6tPXnMr9gOH6llQC7gxcyL7rz6O0rieSRKpNd
+ zst9pFHIsyguMlw--
 X-Sonic-MF: <brchuckz@aim.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.gq1.yahoo.com with HTTP; Fri, 20 May 2022 17:17:32 +0000
-Received: by hermes--canary-production-ne1-5495f4d555-xbnpg (Yahoo Inc. Hermes
- SMTP Server) with ESMTPA ID 4cde7a491d1a07ad2c7d8298ef77e73b; 
- Fri, 20 May 2022 17:17:30 +0000 (UTC)
-Message-ID: <3a69fa16-6b3e-e567-818c-30959e50e985@netscape.net>
-Date: Fri, 20 May 2022 13:17:29 -0400
+ sonic315.consmr.mail.gq1.yahoo.com with HTTP; Sat, 21 May 2022 13:24:08 +0000
+Received: by hermes--canary-production-bf1-5d4b57496-srbfg (Yahoo Inc. Hermes
+ SMTP Server) with ESMTPA ID b79d68d9aeaaa8a76906c73f93b0ea7b; 
+ Sat, 21 May 2022 13:24:06 +0000 (UTC)
+Message-ID: <6c13b3ec-dc39-8de1-8e5d-87138f2a3b4b@netscape.net>
+Date: Sat, 21 May 2022 09:24:03 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [REGRESSION} Re: [PATCH 2/2] x86/pat: add functions to query
- specific cache mode availability
-Content-Language: en-US
 From: Chuck Zmudzinski <brchuckz@netscape.net>
-To: Jan Beulich <jbeulich@suse.com>, regressions@lists.linux.dev,
- stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] x86/pat: add functions to query specific cache mode
+ availability
+To: Juergen Gross <jgross@suse.com>, xen-devel@lists.xenproject.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20220503132207.17234-1-jgross@suse.com>
  <20220503132207.17234-3-jgross@suse.com>
- <1d86d8ff-6878-5488-e8c4-cbe8a5e8f624@suse.com>
- <0dcb05d0-108f-6252-e768-f75b393a7f5c@suse.com>
- <77255e5b-12bf-5390-6910-dafbaff18e96@netscape.net>
- <a2e95587-418b-879f-2468-8699a6df4a6a@suse.com>
- <8b1ebea5-7820-69c4-2e2b-9866d55bc180@netscape.net>
- <c5fa3c3f-e602-ed68-d670-d59b93c012a0@netscape.net>
- <3bff3562-bb1e-04e6-6eca-8d9bc355f2eb@suse.com>
- <3ca084a9-768e-a6f5-ace4-cd347978dec7@netscape.net>
- <9af0181a-e143-4474-acda-adbe72fc6227@suse.com>
- <3efb9e54-b0d6-36db-c1c4-68d4f8f9a5ed@netscape.net>
- <0a2e61ea-a73c-bbdc-e7c7-5110162b39bb@netscape.net>
-In-Reply-To: <0a2e61ea-a73c-bbdc-e7c7-5110162b39bb@netscape.net>
+Content-Language: en-US
+In-Reply-To: <20220503132207.17234-3-jgross@suse.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Mailer: WebService/1.1.20225
@@ -100,236 +90,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jan Beulich <jbeulich@suse.com>, Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, David Airlie <airlied@linux.ie>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
- Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- xen-devel@lists.xenproject.org, Thomas Gleixner <tglx@linutronix.de>
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/20/2022 1:13 PM, Chuck Zmudzinski wrote:
-> I think this summary of the regression is appropriate for a top-post. 
-> Details follow below.
+On 5/3/22 9:22 AM, Juergen Gross wrote:
+> Some drivers are using pat_enabled() in order to test availability of
+> special caching modes (WC and UC-). This will lead to false negatives
+> in case the system was booted e.g. with the "nopat" variant and the
+> BIOS did setup the PAT MSR supporting the queried mode, or if the
+> system is running as a Xen PV guest.
 >
-> commit bdd8b6c98239: introduced what I call a real regression which 
-> persists in 5.17.x
+> Add test functions for those caching modes instead and use them at the
+> appropriate places.
 >
-> Jan's proposed patch: 
-> https://lore.kernel.org/lkml/9385fa60-fa5d-f559-a137-6608408f88b0@suse.com/
+> For symmetry reasons export the already existing x86_has_pat_wp() for
+> modules, too.
 >
-> Jan's patch would fix the real regression introduced by bdd8b6c98239 when
-> the nopat option is not enabled, but when the nopat option is enabled, 
-> this
-> patch would introduce what Jan calls a "perceived regression" that is 
-> really
-> caused by the failure of the i915 driver to handle the case of the 
-> nopat option
-> being provided on the command line properly.
+> Fixes: bdd8b6c98239 ("drm/i915: replace X86_FEATURE_PAT with pat_enabled()")
+> Fixes: ae749c7ab475 ("PCI: Add arch_can_pci_mmap_wc() macro")
+> Signed-off-by: Juergen Gross<jgross@suse.com>
+> ---
+>   arch/x86/include/asm/memtype.h           |  2 ++
+>   arch/x86/include/asm/pci.h               |  2 +-
+>   arch/x86/mm/init.c                       | 25 +++++++++++++++++++++---
+>   drivers/gpu/drm/i915/gem/i915_gem_mman.c |  8 ++++----
+>   4 files changed, 29 insertions(+), 8 deletions(-)
 >
-> What I request: commit Jan's proposed patch, and backport it to 5.17. 
-> That
-> would fix the real regression and only cause a perceived regression 
-> for the
-> case when nopat is enabled. In that case, patches to the i915 driver
-> would be helpful but necessary to fix a regression.
+> diff --git a/arch/x86/include/asm/memtype.h b/arch/x86/include/asm/memtype.h
+> index 9ca760e430b9..d00e0be854d4 100644
+> --- a/arch/x86/include/asm/memtype.h
+> +++ b/arch/x86/include/asm/memtype.h
+> @@ -25,6 +25,8 @@ extern void memtype_free_io(resource_size_t start, resource_size_t end);
+>   extern bool pat_pfn_immune_to_uc_mtrr(unsigned long pfn);
+>   
+>   bool x86_has_pat_wp(void);
+> +bool x86_has_pat_wc(void);
+> +bool x86_has_pat_uc_minus(void);
+>   enum page_cache_mode pgprot2cachemode(pgprot_t pgprot);
+>   
+>   #endif /* _ASM_X86_MEMTYPE_H */
+> diff --git a/arch/x86/include/asm/pci.h b/arch/x86/include/asm/pci.h
+> index f3fd5928bcbb..a5742268dec1 100644
+> --- a/arch/x86/include/asm/pci.h
+> +++ b/arch/x86/include/asm/pci.h
+> @@ -94,7 +94,7 @@ int pcibios_set_irq_routing(struct pci_dev *dev, int pin, int irq);
+>   
+>   
+>   #define HAVE_PCI_MMAP
+> -#define arch_can_pci_mmap_wc()	pat_enabled()
+> +#define arch_can_pci_mmap_wc()	x86_has_pat_wc()
+>   #define ARCH_GENERIC_PCI_MMAP_RESOURCE
+>   
+>   #ifdef CONFIG_PCI
+> diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
+> index 71e182ebced3..b6431f714dc2 100644
+> --- a/arch/x86/mm/init.c
+> +++ b/arch/x86/mm/init.c
+> @@ -77,12 +77,31 @@ static uint8_t __pte2cachemode_tbl[8] = {
+>   	[__pte2cm_idx(_PAGE_PWT | _PAGE_PCD | _PAGE_PAT)] = _PAGE_CACHE_MODE_UC,
+>   };
+>   
+> -/* Check that the write-protect PAT entry is set for write-protect */
+> +static bool x86_has_pat_mode(unsigned int mode)
+> +{
+> +	return __pte2cachemode_tbl[__cachemode2pte_tbl[mode]] == mode;
+> +}
+> +
+> +/* Check that PAT supports write-protect */
+>   bool x86_has_pat_wp(void)
+>   {
+> -	return __pte2cachemode_tbl[__cachemode2pte_tbl[_PAGE_CACHE_MODE_WP]] ==
+> -	       _PAGE_CACHE_MODE_WP;
+> +	return x86_has_pat_mode(_PAGE_CACHE_MODE_WP);
+> +}
+> +EXPORT_SYMBOL_GPL(x86_has_pat_wp);
+> +
+> +/* Check that PAT supports WC */
+> +bool x86_has_pat_wc(void)
+> +{
+> +	return x86_has_pat_mode(_PAGE_CACHE_MODE_WC);
+> +}
+> +EXPORT_SYMBOL_GPL(x86_has_pat_wc);
+> +
+> +/* Check that PAT supports UC- */
+> +bool x86_has_pat_uc_minus(void)
+> +{
+> +	return x86_has_pat_mode(_PAGE_CACHE_MODE_UC_MINUS);
+>   }
+> +EXPORT_SYMBOL_GPL(x86_has_pat_uc_minus);
+>   
+>   enum page_cache_mode pgprot2cachemode(pgprot_t pgprot)
+>   {
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> index 0c5c43852e24..f43ecf3f63eb 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> @@ -76,7 +76,7 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
+>   	if (args->flags & ~(I915_MMAP_WC))
+>   		return -EINVAL;
+>   
+> -	if (args->flags & I915_MMAP_WC && !pat_enabled())
+> +	if (args->flags & I915_MMAP_WC && !x86_has_pat_wc())
+>   		return -ENODEV;
+>   
+>   	obj = i915_gem_object_lookup(file, args->handle);
+> @@ -757,7 +757,7 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
+>   
+>   	if (HAS_LMEM(to_i915(dev)))
+>   		mmap_type = I915_MMAP_TYPE_FIXED;
+> -	else if (pat_enabled())
+> +	else if (x86_has_pat_wc())
+>   		mmap_type = I915_MMAP_TYPE_WC;
+>   	else if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
+>   		return -ENODEV;
+> @@ -813,7 +813,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+>   		break;
+>   
+>   	case I915_MMAP_OFFSET_WC:
+> -		if (!pat_enabled())
+> +		if (!x86_has_pat_wc())
+>   			return -ENODEV;
+>   		type = I915_MMAP_TYPE_WC;
+>   		break;
+> @@ -823,7 +823,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+>   		break;
+>   
+>   	case I915_MMAP_OFFSET_UC:
+> -		if (!pat_enabled())
+> +		if (!x86_has_pat_uc_minus())
+>   			return -ENODEV;
+>   		type = I915_MMAP_TYPE_UC;
+>   		break;
 
-Sorry again, I mean patches to i915 would be helpful but *not* necessary
-to fix a regression.
+This patch is advertised as a fix for
+bdd8b6c98239 ("drm/i915: replace X86_FEATURE_PAT with pat_enabled()")
 
-Regards,
+bdd8b6c98239 causes a serious regression on my system when
+running Linux as a Dom0 on Xen.
 
-Chuck Zmudzinski
+The regression is that on my system, the error caused by this issue
+causes the i915driver to call its add_taint_for_CI function, which
+in turn totally halts the system during early boot. So this makes
+it impossible for either 5.17.y or the 5.18-rc versions to run
+as a Dom0 on my system. I cannot upgrade my system to the 5.17.y
+or to 5.18-rc versions without a proper fix for bdd8b6c98239.
 
->
-> On 5/20/2022 11:46 AM, Chuck Zmudzinski wrote:
->> On 5/20/2022 10:06 AM, Jan Beulich wrote:
->>> On 20.05.2022 15:33, Chuck Zmudzinski wrote:
->>>> On 5/20/2022 5:41 AM, Jan Beulich wrote:
->>>>> On 20.05.2022 10:30, Chuck Zmudzinski wrote:
->>>>>> On 5/20/2022 2:59 AM, Chuck Zmudzinski wrote:
->>>>>>> On 5/20/2022 2:05 AM, Jan Beulich wrote:
->>>>>>>> On 20.05.2022 06:43, Chuck Zmudzinski wrote:
->>>>>>>>> On 5/4/22 5:14 AM, Juergen Gross wrote:
->>>>>>>>>> On 04.05.22 10:31, Jan Beulich wrote:
->>>>>>>>>>> On 03.05.2022 15:22, Juergen Gross wrote:
->>>>>>>>>>>
->>>>>>>>>>> ... these uses there are several more. You say nothing on why
->>>>>>>>>>> those want
->>>>>>>>>>> leaving unaltered. When preparing my earlier patch I did 
->>>>>>>>>>> inspect them
->>>>>>>>>>> and came to the conclusion that these all would also better
->>>>>>>>>>> observe the
->>>>>>>>>>> adjusted behavior (or else I couldn't have left 
->>>>>>>>>>> pat_enabled() as the
->>>>>>>>>>> only predicate). In fact, as said in the description of my 
->>>>>>>>>>> earlier
->>>>>>>>>>> patch, in
->>>>>>>>>>> my debugging I did find the use in i915_gem_object_pin_map() 
->>>>>>>>>>> to be
->>>>>>>>>>> the
->>>>>>>>>>> problematic one, which you leave alone.
->>>>>>>>>> Oh, I missed that one, sorry.
->>>>>>>>> That is why your patch would not fix my Haswell unless
->>>>>>>>> it also touches i915_gem_object_pin_map() in
->>>>>>>>> drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>>>>>>>
->>>>>>>>>> I wanted to be rather defensive in my changes, but I agree at 
->>>>>>>>>> least
->>>>>>>>>> the
->>>>>>>>>> case in arch_phys_wc_add() might want to be changed, too.
->>>>>>>>> I think your approach needs to be more aggressive so it will fix
->>>>>>>>> all the known false negatives introduced by bdd8b6c98239
->>>>>>>>> such as the one in i915_gem_object_pin_map().
->>>>>>>>>
->>>>>>>>> I looked at Jan's approach and I think it would fix the issue
->>>>>>>>> with my Haswell as long as I don't use the nopat option. I
->>>>>>>>> really don't have a strong opinion on that question, but I
->>>>>>>>> think the nopat option as a Linux kernel option, as opposed
->>>>>>>>> to a hypervisor option, should only affect the kernel, and
->>>>>>>>> if the hypervisor provides the pat feature, then the kernel
->>>>>>>>> should not override that,
->>>>>>>> Hmm, why would the kernel not be allowed to override that? Such
->>>>>>>> an override would affect only the single domain where the
->>>>>>>> kernel runs; other domains could take their own decisions.
->>>>>>>>
->>>>>>>> Also, for the sake of completeness: "nopat" used when running on
->>>>>>>> bare metal has the same bad effect on system boot, so there
->>>>>>>> pretty clearly is an error cleanup issue in the i915 driver. But
->>>>>>>> that's orthogonal, and I expect the maintainers may not even care
->>>>>>>> (but tell us "don't do that then").
->>>>>> Actually I just did a test with the last official Debian kernel
->>>>>> build of Linux 5.16, that is, a kernel before bdd8b6c98239 was
->>>>>> applied. In fact, the nopat option does *not* break the i915 driver
->>>>>> in 5.16. That is, with the nopat option, the i915 driver loads
->>>>>> normally on both the bare metal and on the Xen hypervisor.
->>>>>> That means your presumption (and the presumption of
->>>>>> the author of bdd8b6c98239) that the "nopat" option was
->>>>>> being observed by the i915 driver is incorrect. Setting "nopat"
->>>>>> had no effect on my system with Linux 5.16. So after doing these
->>>>>> tests, I am against the aggressive approach of breaking the i915
->>>>>> driver with the "nopat" option because prior to bdd8b6c98239,
->>>>>> nopat did not break the i915 driver. Why break it now?
->>>>> Because that's, in my understanding, is the purpose of "nopat"
->>>>> (not breaking the driver of course - that's a driver bug -, but
->>>>> having an effect on the driver).
->>>> I wouldn't call it a driver bug, but an incorrect configuration of the
->>>> kernel by the user.  I presume X86_FEATURE_PAT is required by the
->>>> i915 driver
->>> The driver ought to work fine without PAT (and hence without being
->>> able to make WC mappings). It would use UC instead and be slow, but
->>> it ought to work.
->>
->> I am not an expert, but I think the reason it failed on my box was
->> because of the requirements of CI. Maybe the driver would fall back
->> to UC if the add_taint_for_CI function did not halt the entire system
->> in response to the failed test for PAT when trying to use WC mappings.
->>
->>>> and therefore the driver should refuse to disable
->>>> it if the user requests to disable it and instead warn the user that
->>>> the driver did not disable the feature, contrary to what the user
->>>> requested with the nopat option.
->>>>
->>>> In any case, my test did not verify that when nopat is set in Linux 
->>>> 5.16,
->>>> the thread takes the same code path as when nopat is not set,
->>>> so I am not totally sure that the reason nopat does not break the
->>>> i915 driver in 5.16 is that static_cpu_has(X86_FEATURE_PAT)
->>>> returns true even when nopat is set. I could test it with a custom
->>>> log message in 5.16 if that is necessary.
->>>>
->>>> Are you saying it was wrong for
->>>> to return true in 5.16 when the user requests nopat?
->>> No, I'm not saying that. It was wrong for this construct to be used
->>> in the driver, which was fixed for 5.17 (and which had caused the
->>> regression I did observe, leading to the patch as a hopefully least
->>> bad option).
->>
->> Hmm, the patch I used to fix my box with 5.17.6 used
->> static_cpu_has(X86_FEATURE_PAT) so the driver could
->> continue to configure the hardware using WC. This is the
->> relevant part of the patch I used to fix my box, which includes
->> extra error logs, (against Debian's official build of 5.17.6):
->>
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c    2022-05-09 
->> 03:16:33.000000000 -0400
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c    2022-05-19 
->> 15:55:40.339778818 -0400
->> ...
->> @@ -430,17 +434,23 @@
->>          err = i915_gem_object_wait_moving_fence(obj, true);
->>          if (err) {
->>              ptr = ERR_PTR(err);
->> +            DRM_ERROR("i915_gem_object_wait_moving_fence error, err 
->> = %d\n", err);
->>              goto err_unpin;
->>          }
->>
->> -        if (GEM_WARN_ON(type == I915_MAP_WC && !pat_enabled()))
->> +        if (GEM_WARN_ON(type == I915_MAP_WC &&
->> +                !pat_enabled() && !static_cpu_has(X86_FEATURE_PAT))) {
->> +            DRM_ERROR("type == I915_MAP_WC && !pat_enabled(), err = 
->> %d\n", -ENODEV);
->>              ptr = ERR_PTR(-ENODEV);
->> +        }
->>          else if (i915_gem_object_has_struct_page(obj))
->>              ptr = i915_gem_object_map_page(obj, type);
->>          else
->>              ptr = i915_gem_object_map_pfn(obj, type);
->> -        if (IS_ERR(ptr))
->> +        if (IS_ERR(ptr)) {
->> +            DRM_ERROR("IS_ERR(PTR) is true, returning a (ptr) 
->> error\n");
->>              goto err_unpin;
->> +        }
->>
->>          obj->mm.mapping = page_pack_bits(ptr, type);
->>      }
->>
->> As you can see, adding the static_cpu_has(X86_FEATURE_PAT)
->> function to the test for PAT restored the behavior of 5.16 on the
->> Xen hypervisor to 5.17, and that is how I discovered the solution
->> to this problem on 5.17 on my box.
->>
->>>> I think that is
->>>> just permitting a bad configuration to break the driver that a
->>>> well-written operating system should not allow. The i915 driver
->>>> was, in my opinion, correctly ignoring the nopat option in 5.16
->>>> because that option is not compatible with the hardware the
->>>> i915 driver is trying to initialize and setup at boot time. At least
->>>> that is my understanding now, but I will need to test it on 5.16
->>>> to be sure I understand it correctly.
->>>>
->>>> Also, AFAICT, your patch would break the driver when the nopat
->>>> option is set and only fix the regression introduced by bdd8b6c98239
->>>> when nopat is not set on my box, so your patch would
->>>> introduce a regression relative to Linux 5.16 and earlier for the
->>>> case when nopat is set on my box. I think your point would
->>>> be that it is not a regression if it is an incorrect user 
->>>> configuration.
->>> Again no - my view is that there's a separate, pre-existing issue
->>> in the driver which was uncovered by the change. This may be a
->>> perceived regression, but is imo different from a real one.
->>
->> Maybe it is only a perceived regression if nopat is set, but
->> imo bdd8b6c98239 introduced a real regression in 5.17
->> relative to 5.16 for the correctly and identically configured
->> case when the nopat option is not set. That is why I still think
->> it should be reverted and the fix backported to 5.17 until the
->> regression for the case when nopat is not set is fixed. As I
->> said before, the i915 driver relies on the memory subsyste
->> to provide it with an accurate test for the x86 pat feature.
->> The test the driver used in bdd8b6c98239 gives the i915 driver
->> a false negative, and that caused a real regression when nopat
->> is not set. bdd8b6c98239 can be re-applied if we apply your
->> patch which corrects the false negative that pat_enabled() is
->> currently providing the i915 driver with. That false negative
->> from pat_enabled() is not an i915 bug, it is a bug in x86/pat.
->>
->> Chuck
->
+I did some testing with this patch on my system (my tests included
+the first patch of this 2-patch series), and here are the results:
 
+This patch does *not* fix it. I expected this patch, as is, to not
+fix it but allow me to add a simple patch that uses the new
+x86_has_pat_wc() function provided by this patch to the
+i915_gem_object_pin_map() function in i915_gem_pages.c
+that would fix it.
+
+However, even by adding the following simple patch to the
+i915_gem_object_pin_map() function to the patch, the
+patch series still does *not* fix the regression on my system:
+
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -428,7 +428,7 @@
+              goto err_unpin;
+          }
+
+-        if (GEM_WARN_ON(type == I915_MAP_WC && !pat_enabled()))
++        if (GEM_WARN_ON(type == I915_MAP_WC && !x86_has_pat_wc()))
+              ptr = ERR_PTR(-ENODEV);
+          else if (i915_gem_object_has_struct_page(obj))
+              ptr = i915_gem_object_map_page(obj, type);
+
+I verified that this is the function where pat_enabled() is returning
+a false negative on my system.
+
+This means x86_has_pat_wc() is still giving me a false negative, even
+when running as a Xen Dom0. I am not sure you understand what is
+really causing the problem Jan is trying to fix here with false
+negatives from pat_enabled(). I also tested Jan's patch that
+you are trying to replace with this patch, and his patch *does* fix
+the problem on my system. Jan's patch is very simple and solves the
+problem by editing pat_enabled() so that it returns true if
+boot_cpu_has(X86_FEATURE_HYPERVISOR)) is true after the
+other checks for the x86 pat feature failed.
+
+I expect you do not have a system that actually has the problem
+that Jan and I are trying to fix because the problem only exists on
+systems with specific hardware, and in my case it is an Intel Haswell
+CPU with integrated GPU. You might be able to test your patch,
+though, if you boot the patched kernel with the nopat option and
+check if your new functions return false when running on the bare
+metal and true when running in a Dom0 on the Xen hypervisor. That is
+what the new functions should do. I think you were expecting your
+new x86_has_pat_wc() function to return true when Linux is running
+as a Dom0 on the Xen hypervisor even when pat_enabled() returns
+false. But it does not seem to be working.
+
+In any case, after testing this patch, I cannot confirm that it
+fixes bdd8b6c98239.
+
+Best regards,
+
+Chuck
