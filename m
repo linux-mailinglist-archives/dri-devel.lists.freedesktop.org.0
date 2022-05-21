@@ -2,58 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C0152FE1B
-	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 18:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF8052FEE5
+	for <lists+dri-devel@lfdr.de>; Sat, 21 May 2022 21:07:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D631510E061;
-	Sat, 21 May 2022 16:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 163A610EF27;
+	Sat, 21 May 2022 19:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E154C10E061
- for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 16:28:53 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id q8so13179910oif.13
- for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 09:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oK1yB+pWX7DUbSOpiHUXdRbl5cSW3whx4lZdoBBpZGI=;
- b=UrqSD+LVWpiMGbElInA4v1zLlY3zz44S8My+BazS33dvc4USn2c/ACJivVLw21vW59
- 8tcYf2szyzOj5GjVLttevS5n+e2k7DtbJ5OHAGJ8NqfuwDOqtJhB9RSQnh9LeV5FuIid
- DBCRdv47mdQhwfLitq4LgbXd3yizYz5n1gG0s=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8260A10EF27
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 19:07:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653160058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Wjy70z3rYdJmy6N/G7PkmPiJBr+st53+xede1hwp8ZM=;
+ b=KSoD38oy523QpJjTpT5fFDJLtiYiZaJvtyskCt5fr/UGGnG7+I0kvpCmZL7eSqyrArUmrP
+ NDhLX2nmC99oX6ViEvIUpcAonyG1trWVRJrLohoFWkM8Rnj50V/TqtoCMvcClrQwQS+AFF
+ VpEujxrpK9VCxci4xRbjWquJZXgCasU=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-121-rjndA1x8O7WmeJqXPc0oMQ-1; Sat, 21 May 2022 15:07:36 -0400
+X-MC-Unique: rjndA1x8O7WmeJqXPc0oMQ-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ 109-20020a9d0ef6000000b0060afaebe813so1242296otj.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 May 2022 12:07:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oK1yB+pWX7DUbSOpiHUXdRbl5cSW3whx4lZdoBBpZGI=;
- b=6Dfsmeqqq53q/IS8FK2fKG3e+tPmqlyqdBO5NVOHJCzXgz45BudWW8JrXNqkutYtMM
- igsAmHfsc2CyRRjS+XMf+sIUquwL09kzRO5vn+XqOO7JXuBy0V4DK2UXZ9OyjbfDXBhe
- wE4KDaDfDUQYvNEcFodarraa0xEwqH1k3ug37JNO6sKICyBBbkVxSSXZnKKmuMYsj7vP
- IGcvyeyGWxbesH5eoU3Vf6LQjATMZf5nPgGyDrsdHcP2CTptna8l7vZx2C1+eA6d47Iy
- DlHDC33lCXAViE3XQQhdvGJAECEqhrpHPtSpFgR/W/ALtvJZPqRgb8+dNXIL5lxTp3MG
- yKuA==
-X-Gm-Message-State: AOAM531ilU1K3JYTyR8aMSql0WJiwPoPFpZCUTNDfrSXSdbJZZ1LdtyC
- xPa1BzVQ0K+eHk5ATzCF1fms1BfIMArNqUjLm56biA==
-X-Google-Smtp-Source: ABdhPJwjzViPzNj+UQE/C64zn+ilBV2EKusiLYfvuHVAdSNoX/9mTgUSq3Zi0TP0zUvswqDoY3TGHCLcMRNQuEz5lBY=
-X-Received: by 2002:a05:6808:2181:b0:326:901e:f5e7 with SMTP id
- be1-20020a056808218100b00326901ef5e7mr8641168oib.7.1653150533098; Sat, 21 May
- 2022 09:28:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Wjy70z3rYdJmy6N/G7PkmPiJBr+st53+xede1hwp8ZM=;
+ b=HM6nHVkcJ35IA/i5pWourhOgct8Dgbci7gpmaUzR+OkA6O7gu/Xgjgr4de5fYuHxsr
+ cH5jiVy1qMYZGEXTDLjfAWaBVGll9UnlZGK7KWYgVJCmRd5cQgQkeSLxcZp1gNRnsWfz
+ wNTDN8HcC8hs4k1MtvKo3yIkX9Hc1Fi2+tyfTnxUmnPQc1R9T/0pEqaSFgIRCKCougp1
+ jh6EUH0j792SXF3lkV0QeE4M8mc2EqwtltbLEE24e6hGqMCN8FMVsrDkDYiXl9RKsLNo
+ dCOHchmpjE3cK4GtgmX9rfZ00LrbG3AyyDTD12xsvxfo5rWYDCMBNojgVf4gGaigXicr
+ DenA==
+X-Gm-Message-State: AOAM532ts6w8AKZlnacRYBxkk5DNNA275edQOJjMdae8DC1gvwNlGrSc
+ sggJQFOOvlFY5ExO3INKJhfKIMha2r4tPchKFtibU6HY78ykVzWm9yyKdDW4J9BNEbOL3F6Hlk4
+ 04/gItC8hxjjGvoEBrf2xv0viuxv4
+X-Received: by 2002:a4a:d40d:0:b0:33a:33be:9c1e with SMTP id
+ n13-20020a4ad40d000000b0033a33be9c1emr6340072oos.96.1653160056113; 
+ Sat, 21 May 2022 12:07:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQFuSj7FFYoeGmIJnrtvUhAvMCbQ7XefIximmy8LWnPFdHFdaJq2T5go68pyrOKFdwywHEYg==
+X-Received: by 2002:a4a:d40d:0:b0:33a:33be:9c1e with SMTP id
+ n13-20020a4ad40d000000b0033a33be9c1emr6340058oos.96.1653160055856; 
+ Sat, 21 May 2022 12:07:35 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ q203-20020aca5cd4000000b00326cb6225f8sm2495564oib.44.2022.05.21.12.07.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 21 May 2022 12:07:35 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: hjc@rock-chips.com,
+	heiko@sntech.de,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/rockchip: remove vop_writel
+Date: Sat, 21 May 2022 15:07:16 -0400
+Message-Id: <20220521190716.1936193-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20220422084720.959271-1-xji@analogixsemi.com>
- <20220422084720.959271-4-xji@analogixsemi.com>
- <CAG3jFytWGSUM9mevHewdmEe-hq3JgB74s7_f0fsEQqkXr9VUHg@mail.gmail.com>
- <CAG3jFyvEYbwkdGtiNR-6vFEXTLjcyT_viqp9qeVxFTu0PrJEVA@mail.gmail.com>
- <CAGXv+5E1cCNWD98fMDjC38y2UztZd=PNQ+=G=wrBYfoXkswvHA@mail.gmail.com>
- <20220425091419.GA967110@anxtwsw-Precision-3640-Tower>
- <CAG3jFyvTim7P_y2G1Br5j3Pwz4KzvRjWgci_qQ3m_YW=3Bog8A@mail.gmail.com>
- <CAKMK7uFHyYTnGtP+vCzo2Uan90DW-QZpPFPn5S9bQ5aPiY=qzA@mail.gmail.com>
-In-Reply-To: <CAKMK7uFHyYTnGtP+vCzo2Uan90DW-QZpPFPn5S9bQ5aPiY=qzA@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 21 May 2022 18:28:42 +0200
-Message-ID: <CAKMK7uHFGsPMZf2SUF4HDXo3XuOLjP3-DLfyp=gB2qpKR964Eg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/bridge: anx7625: Use DPI bus type
-To: Robert Foss <robert.foss@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,112 +85,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- qwen@analogixsemi.com, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- bliang@analogixsemi.com, Xin Ji <xji@analogixsemi.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-rockchip@lists.infradead.org, Tom Rix <trix@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 21 May 2022 at 18:07, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, 17 May 2022 at 18:09, Robert Foss <robert.foss@linaro.org> wrote:
-> >
-> > On Mon, 25 Apr 2022 at 11:14, Xin Ji <xji@analogixsemi.com> wrote:
-> > >
-> > > On Mon, Apr 25, 2022 at 04:24:50PM +0800, Chen-Yu Tsai wrote:
-> > > > On Fri, Apr 22, 2022 at 10:13 PM Robert Foss <robert.foss@linaro.org> wrote:
-> > > > >
-> > > > > On Fri, 22 Apr 2022 at 16:01, Robert Foss <robert.foss@linaro.org> wrote:
-> > > > > >
-> > > > > > On Fri, 22 Apr 2022 at 10:49, Xin Ji <xji@analogixsemi.com> wrote:
-> > > > > > >
-> > > > > > > As V4L2_FWNODE_BUS_TYPE_PARALLEL not properly descript for DPI
-> > > > > > > interface, this patch use new defined V4L2_FWNODE_BUS_TYPE_DPI for it.
-> > > > > > >
-> > > > > > > Fixes: fd0310b6fe7d ("drm/bridge: anx7625: add MIPI DPI input feature")
-> > > > > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
-> > > > > > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > > > > index 376da01243a3..71df977e8f53 100644
-> > > > > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > > > > > @@ -1623,14 +1623,14 @@ static int anx7625_parse_dt(struct device *dev,
-> > > > > > >
-> > > > > > >         anx7625_get_swing_setting(dev, pdata);
-> > > > > > >
-> > > > > > > -       pdata->is_dpi = 1; /* default dpi mode */
-> > > > > > > +       pdata->is_dpi = 0; /* default dsi mode */
-> > > > > > >         pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
-> > > > > > >         if (!pdata->mipi_host_node) {
-> > > > > > >                 DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
-> > > > > > >                 return -ENODEV;
-> > > > > > >         }
-> > > > > > >
-> > > > > > > -       bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
-> > > > > > > +       bus_type = 0;
-> > > > > > >         mipi_lanes = MAX_LANES_SUPPORT;
-> > > > > > >         ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
-> > > > > > >         if (ep0) {
-> > > > > > > @@ -1640,8 +1640,8 @@ static int anx7625_parse_dt(struct device *dev,
-> > > > > > >                 mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
-> > > > > > >         }
-> > > > > > >
-> > > > > > > -       if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
-> > > > > > > -               pdata->is_dpi = 0;
-> > > > > > > +       if (bus_type == V4L2_FWNODE_BUS_TYPE_DPI) /* bus type is DPI */
-> > > > > > > +               pdata->is_dpi = 1;
-> > > > > > >
-> > > > > > >         pdata->mipi_lanes = mipi_lanes;
-> > > > > > >         if (pdata->mipi_lanes > MAX_LANES_SUPPORT || pdata->mipi_lanes <= 0)
-> > > > > >
-> > > > > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> > > > >
-> > > > > Acked-by: Robert Foss <robert.foss@linaro.org>
-> > > >
-> > > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > >
-> > > > Confirmed this fixes the display on Juniper (Acer Chromebook Spin 311) on
-> > > > mainline (next-20220422).
-> > > >
-> > > > Xin, in the future, please send the whole series to all recipients of
-> > > > all patches listed by get_maintainers.pl, not just the recipients of
-> > > > each patch. In the case of this series, they should have been sent
-> > > > to all of the mailing lists (media, devicetree, dri-devel) so that
-> > > > everyone has the same, full view of the patches.
-> > > Hi ChenYu, OK, I'll send to all media, devicetree, dri-devel next time.
-> > > Thanks,
-> > > Xin
-> > > >
-> > > > ChenYu
-> >
-> > Applied 3/4 + 4/4 to drm-misc-next.
->
-> This patch doesn't even compile. Can you pls fix this up asap? Also
-> pls compile-test before pushing ...
+cppcheck reports
+[drivers/gpu/drm/rockchip/rockchip_drm_vop.c:186]: (style) The function 'vop_writel' is never used.
 
-Marek says the prerequisite landed through linux-media, and that's why
-it compilers on linux-next but not in drm-misc-next.
+vop_writel is static function that is not used, so remove it.
 
-Don't do that.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Instead:
-- merge all patches through one branch, with the foreign patches acked
-for that merge patch
-- wait until you can backmerge all the dependencies
-- do a topic branch
-
-This probably needs to be reverted here and instead merged through
-linux-media. Or you wait until -rc1 and then apply it to
-drm-misc-next.
--Daniel
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index 74562d40f639..d1026e78feff 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -183,12 +183,6 @@ struct vop {
+ 	struct vop_win win[];
+ };
+ 
+-static inline void vop_writel(struct vop *vop, uint32_t offset, uint32_t v)
+-{
+-	writel(v, vop->regs + offset);
+-	vop->regsbak[offset >> 2] = v;
+-}
+-
+ static inline uint32_t vop_readl(struct vop *vop, uint32_t offset)
+ {
+ 	return readl(vop->regs + offset);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.27.0
+
