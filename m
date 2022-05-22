@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8091953026B
-	for <lists+dri-devel@lfdr.de>; Sun, 22 May 2022 12:30:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D675302F5
+	for <lists+dri-devel@lfdr.de>; Sun, 22 May 2022 14:13:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEB210E066;
-	Sun, 22 May 2022 10:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8266910E951;
+	Sun, 22 May 2022 12:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2722B10E066
- for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 10:30:38 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id b9so4633820qtx.11
- for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 03:30:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=flUjSOL8jzsTLGzNGG4aRYZ3gOkmaTV1EbLGclXSu1o=;
- b=o9GssBFk5iIQbAnBwhCQhprW15EHjiE0KYYBqKsfLU1M7CPGy8QstTCjCPCtFG1N1y
- SbNEHJ1DkglYaX4GVJTUTHJ+rEA8GGeIgfxj8RN0PLg2JMtNKdagzQxQU3cYho7bJtrE
- LKevZE3ZsiwZqy1y2wNhcA/ACiK7CN4CJe/QU8/iBVVvs7cR3QUcrP/eQ9jsMWh6obaG
- e/RURIwNgSFrPfn8V0x3Sp3KjHr+QWG7prOnhTsbr1CrXKB4zsmd2RRQV6TuXqezdbOD
- C/lMYrs6zyjXVqW8n54rldcw2Goim0NBkj6N34D4LKqlTpgDxlf+9FfaAN/2LHqahp67
- LHkA==
-X-Gm-Message-State: AOAM531jOb7cMHt3rsij0qEvfntd2jb8pvJGLeTGIF8LxHEYvTxPn0ru
- CuVb6iW3PP+mtLW+CLtwtt+7Y4N9hyLBpA==
-X-Google-Smtp-Source: ABdhPJymKXf1qr265QEVV54sDJ7PAP9sSz1HK7pHCrgu7x4YwOV8mowAQws+0yerpSqpsMhlnu4ytA==
-X-Received: by 2002:ac8:7dc5:0:b0:2f3:f4d4:50e1 with SMTP id
- c5-20020ac87dc5000000b002f3f4d450e1mr13257597qte.561.1653215436884; 
- Sun, 22 May 2022 03:30:36 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
- p189-20020a37a6c6000000b006a0ffae114fsm2688203qke.120.2022.05.22.03.30.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 03:30:36 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id j2so20933706ybu.0
- for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 03:30:36 -0700 (PDT)
-X-Received: by 2002:a25:e04d:0:b0:64d:6f23:b906 with SMTP id
- x74-20020a25e04d000000b0064d6f23b906mr16858388ybg.380.1653215436251; Sun, 22
- May 2022 03:30:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220521195942.645048-1-trix@redhat.com>
-In-Reply-To: <20220521195942.645048-1-trix@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 22 May 2022 12:30:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVELy4M2Xog+NykEpb=k5sw+B1iYzC6O1Otsz75qMWBRA@mail.gmail.com>
-Message-ID: <CAMuHMdVELy4M2Xog+NykEpb=k5sw+B1iYzC6O1Otsz75qMWBRA@mail.gmail.com>
-Subject: Re: [PATCH] xen: remove setting of 'transp' parameter
-To: Tom Rix <trix@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC2410E90F
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 12:13:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653221590;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MgC5JNYrsgqgs2qTUiLYfjxLufYrNUR4cj0BHzuGBF0=;
+ b=FGuYbbT1V3ANq4eyeS3oFZAm7PpZPDqLvyMsUQ5Y1Eekl84OI1n75c0mCsT5ebxN3Qa7jo
+ zgi+5UnDJZbVA9ghZ5ln+hILjPTpsp4h11unr9IFhlDuorh2A5b6NAhdftPUzIAqFTceP2
+ CpSFfbxM63QmE0hJz5g++vFux/Gv2JQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-381-iLoXoZYkOo6_1bgTYeSohw-1; Sun, 22 May 2022 08:13:05 -0400
+X-MC-Unique: iLoXoZYkOo6_1bgTYeSohw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A6EF801210;
+ Sun, 22 May 2022 12:13:04 +0000 (UTC)
+Received: from starship (unknown [10.40.192.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F17F40D2821;
+ Sun, 22 May 2022 12:12:57 +0000 (UTC)
+Message-ID: <f7ef15598cf350f8c5ec8d58c8e2eb51b48c48df.camel@redhat.com>
+Subject: Re: [RFC PATCH v3 06/19] KVM: x86: mmu: add gfn_in_memslot helper
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Sean Christopherson <seanjc@google.com>
+Date: Sun, 22 May 2022 15:12:56 +0300
+In-Reply-To: <YoZzx6f1XBWL3i8F@google.com>
+References: <20220427200314.276673-1-mlevitsk@redhat.com>
+ <20220427200314.276673-7-mlevitsk@redhat.com> <YoZzx6f1XBWL3i8F@google.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,33 +62,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 22, 2022 at 3:22 AM Tom Rix <trix@redhat.com> wrote:
-> cppcheck reports
-> [drivers/video/fbdev/xen-fbfront.c:226]: (style) Assignment of function parameter has no effect outside the function.
->
-> The value parameter 'transp' is not used, so setting it can be removed.
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
+On Thu, 2022-05-19 at 16:43 +0000, Sean Christopherson wrote:
+> On Wed, Apr 27, 2022, Maxim Levitsky wrote:
+> > This is a tiny refactoring, and can be useful to check
+> > if a GPA/GFN is within a memslot a bit more cleanly.
+> 
+> This doesn't explain the actual motivation, which is to use the new helper from
+> arch code.
+I'll add this in the next version
+> 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >  include/linux/kvm_host.h | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 252ee4a61b58b..12e261559070b 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -1580,6 +1580,13 @@ int kvm_request_irq_source_id(struct kvm *kvm);
+> >  void kvm_free_irq_source_id(struct kvm *kvm, int irq_source_id);
+> >  bool kvm_arch_irqfd_allowed(struct kvm *kvm, struct kvm_irqfd *args);
+> >  
+> > +
+> > +static inline bool gfn_in_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
+> > +{
+> > +	return (gfn >= slot->base_gfn && gfn < slot->base_gfn + slot->npages);
+> > +}
+> > +
+> 
+> Spurious newline.
+> 
+> > +
+> >  /*
+> >   * Returns a pointer to the memslot if it contains gfn.
+> >   * Otherwise returns NULL.
+> > @@ -1590,12 +1597,13 @@ try_get_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
+> >  	if (!slot)
+> >  		return NULL;
+> >  
+> > -	if (gfn >= slot->base_gfn && gfn < slot->base_gfn + slot->npages)
+> > +	if (gfn_in_memslot(slot, gfn))
+> >  		return slot;
+> >  	else
+> >  		return NULL;
+> 
+> At this point, maybe:
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+No objections.
 
-Gr{oetje,eeting}s,
+Thanks for the review.
 
-                        Geert
+Best regards,
+	Maxim Levitsky
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> 	if (!slot || !gfn_in_memslot(slot, gfn))
+> 		return NULL;
+> 
+> 	return slot;
+> 
+> >  }
+> >  
+> > +
+> >  /*
+> >   * Returns a pointer to the memslot that contains gfn. Otherwise returns NULL.
+> >   *
+> > -- 
+> > 2.26.3
+> > 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
