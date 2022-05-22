@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86BF530977
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:25:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FA5530976
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD95710EADC;
-	Mon, 23 May 2022 06:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8470D10EDF4;
+	Mon, 23 May 2022 06:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 609B910E00A
- for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 10:53:09 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id h13so5052451pfq.5
- for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 03:53:09 -0700 (PDT)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0619210E063;
+ Sun, 22 May 2022 11:44:21 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id q21so3216741ejm.1;
+ Sun, 22 May 2022 04:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:references:mime-version:message-id
- :content-transfer-encoding;
- bh=bSbLSYLiEVp5Ck75TvixzyuLOTYB4+YAC/RLwIpjiSE=;
- b=oOmOzcOCSEk/WVR9gogBlVXlbC+V8Yhj+SWAhCXFbfy9LncFZjitmN4O+IcmRrjmsV
- 2vOeMMJa3X7fb6G+0nUKOZQx43MAsPKyLqZfLl0aw3JjRcGdI2IPXGH5aEuLFIjwYlkE
- CJfPRxaTz4H+ld7jH40fhBkfE9k3uC1DE9KEZx61sAbPvj8XMerqLMcIPxpKu0+lEv9h
- jgXyaHSUMfa+CCaO1anbRFgBLMjxYhCXvgMslS897C7DqW3AkOZLImftxZfcMtpd7+Qi
- zNqqT86NHh1TS5Oqiaoht2Hrn6U4aJ1EqHjKaT2Vxja+HnEv2iTT9nme8+ah8jyQGOvq
- uqAQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=BOcP7c+b/aIig+wDwK1ySXDPQYBqPco/XJdaO5tL43M=;
+ b=HbiWaat1vy9fqglT1AQ5mQ5JjCpkhO+E8jnEtRhzPiif0qrvDKKdx8B95OMkJtx62f
+ 50z5Sn4S5OQoHLNAGBGDcg/pM3dJVc3FeOKAJ33h9DBUzBryUmLfBVNeEMKJeo3lBUaX
+ xorGA9zq+QsM0EimtbURXWG1azBOZqa655UGvWWFRHq2vv0bEgZ9hUSxdC7AyrZSM0K1
+ gmpjbX5Ksc66SeqRZbC++YgqZxATC9x3cgK6OQg6EKrLFj22uin13ycLwqXmbpFKdEyk
+ gTfnlwyzGuksJcevZj0OkBT28KA9vQfDd/xROApkgmO1+q7Yd8+18f+ljXPwZEs2QkaW
+ cj4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:references:mime-version
- :message-id:content-transfer-encoding;
- bh=bSbLSYLiEVp5Ck75TvixzyuLOTYB4+YAC/RLwIpjiSE=;
- b=eIzIuEWyT/P6TBpox+p+D/amWIUFCimOwexRgXTFyHXMpwBysNTx5uRU7+4/4E5ZXT
- cCo1WiV78/yN/xFEPQmqqDQBweUbig3pIZuLPDr+/4BhH/xOpfkRhmSWFNqQJ3pMoJF4
- sAr8VIEmGXWF5Jl9Ggo7SIxYokJdwVOvYQkMUHbb406W3oYhxn21wcEWddKMZqNUOACF
- OkwmV4q567Tmkw0mwyFV3K+VFfvijQjzIgBB86yAs+Yh6ZYl9FGcQRck0KcxY7EARBwp
- QleL9LygVPlA7cO8UnScLUwWartXylt3IRwEc6pFyo6zTsJRpF0BuPEi0jUHF6/Gbc9m
- QvuQ==
-X-Gm-Message-State: AOAM531f0TWxGOnlLdcrnW++DUPXOSaToY1KneoMmrI0FkUW2Y/tcq75
- sZRybziC9L6xLxMWE7+tWVn+QlXQXuIYLYzY
-X-Google-Smtp-Source: ABdhPJzuGobPl0n/IDwG0R6zGw+enGaFKapO6cpkrcksA2pK/rcVkCHeFnnQEze9bx97oxKIyAQWRQ==
-X-Received: by 2002:a63:3d87:0:b0:3f6:1c54:b315 with SMTP id
- k129-20020a633d87000000b003f61c54b315mr16471834pga.432.1653216789034; 
- Sun, 22 May 2022 03:53:09 -0700 (PDT)
-Received: from DESKTOP-PUVK7A5 ([144.24.65.202])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=BOcP7c+b/aIig+wDwK1ySXDPQYBqPco/XJdaO5tL43M=;
+ b=49qumZf3AORpepFbhYi6KxfmEV8lmespRA6GGlavhWzbIVvVdz/rDmv0NB1McmBZYi
+ 44hMJGLCJz7+VnxFi0h2DYNWmjxj9DJjOM8o/bJTfFdFIc8SHmWpTG108GBXZYqIXBYH
+ 1q9ZBZf1OMh6YfMKSohc7Da7k96xoexPHzQgfPnwOrCGXOhS20I8isXJLB+Omal77Bl/
+ VWmBqL2I3W3Ld9WtbNwZ7fwfedY8ELzA3mcp9GbaE6vQuZ2RrtUL9RkaAe5RNSorTJdr
+ H7PLMlgErPUCkwAtucRzP8SMIWkk5s4ybRBh6rdt3IueT5PWxAuthqK07ZF5+MP3QbUk
+ xCGA==
+X-Gm-Message-State: AOAM530wYIUfKvtE68qs28LMnHbsfKV4Z7sUKxXua5qAWWiLFAVFuRq+
+ fStBGlF6sbrEvAJSZxkY6+o=
+X-Google-Smtp-Source: ABdhPJzRfCqhzI7QwnogN+fhYc0fh38naDmT7SQjDe2PeOI83f57DAXoKHZfwtI5G/K8ujCSqBK8Kw==
+X-Received: by 2002:a17:907:6d98:b0:6fe:b83f:802d with SMTP id
+ sb24-20020a1709076d9800b006feb83f802dmr6984772ejc.182.1653219860369; 
+ Sun, 22 May 2022 04:44:20 -0700 (PDT)
+Received: from mail (239.125-180-91.adsl-dyn.isp.belgacom.be. [91.180.125.239])
  by smtp.gmail.com with ESMTPSA id
- v23-20020a1709028d9700b0016160b3331bsm973618plo.305.2022.05.22.03.53.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 22 May 2022 03:53:08 -0700 (PDT)
-Date: Sun, 22 May 2022 18:53:14 +0800
-From: "benlypan@gmail.com" <benlypan@gmail.com>
-To: jernej.skrabec <jernej.skrabec@gmail.com>, mripard <mripard@kernel.org>, 
- wens <wens@csie.org>
-Subject: Re: [PATCH] drm/sun4i: mixer: fix scanline for V3s and D1
-References: <20220521133443.1114749-1-benlypan@gmail.com>, 
- <3173956.44csPzL39Z@jernej-laptop>
-X-Priority: 3
-X-GUID: 44554B07-4D1B-4258-8E6F-B7B805B582F0
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.20.259[cn]
-Mime-Version: 1.0
-Message-ID: <202205221853133067396@gmail.com>
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: base64
+ 5-20020a170906024500b006fe8bf56f53sm4766942ejl.43.2022.05.22.04.44.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 22 May 2022 04:44:19 -0700 (PDT)
+Date: Sun, 22 May 2022 13:44:18 +0200
+From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
+Message-ID: <20220522114418.vcirenoehfx4efas@mail>
+References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
+ <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
+ <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
 X-Mailman-Approved-At: Mon, 23 May 2022 06:25:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,36 +75,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: samuel <samuel@sholland.org>, airlied <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-sunxi <linux-sunxi@lists.linux.dev>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: linux-hwmon@vger.kernel.org,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ kernel test robot <lkp@intel.com>, KVM list <kvm@vger.kernel.org>,
+ linux-staging@lists.linux.dev, linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ linux-nvme@lists.infradead.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-sparse@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "open list:TI ETHERNET SWITCH DRIVER \(CPSW\)" <linux-omap@vger.kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmVybmVqIQoKPiBXaGljaCBTREs/IEFsbCBTREtzIHRoYXQgSSBoYXZlIG9yIGZvdW5kIG9u
-IGludGVybmV0IGRvbid0IG1lbnRpb24gWVVWIG5vciBSR0IKPiBzY2FubGluZSBsaW1pdC4gVGhh
-dCBkb2Vzbid0IG1lYW4gdGhlcmUgaXMgbm9uZSwgSSdtIGp1c3QgdW5hYmxlIHRvIHZlcmlmeQo+
-IHlvdXIgY2xhaW0uIERpZCB5b3UgdGVzdCB0aGlzIGJ5IHlvdXJzZWxmPyBBbHNvLCBwbGVhc2Ug
-bWFrZSBZVVYgc2NhbmxpbmUKPiBjaGFuZ2Ugc2VwYXJhdGUgcGF0Y2ggd2l0aCBmaXhlcyB0YWcu
-CgpIZXJlIGlzIHRoZSBjb2RlIGFib3V0IHNjYW5saW5lIGNvbmZpZyBmb3IgVjNzOgpodHRwczov
-L2dpdGh1Yi5jb20vVGluYS1MaW51eC90aW5hLXYzcy1saW51eC00LjkvYmxvYi9tYXN0ZXIvZHJp
-dmVycy92aWRlby9mYmRldi9zdW54aS9kaXNwMi9kaXNwL2RlL2xvd2xldmVsX3N1bjhpdzgvZGVf
-ZmVhdC5jI0w1NQpodHRwczovL2dpdGh1Yi5jb20vVGluYS1MaW51eC90aW5hLXYzcy1saW51eC00
-LjkvYmxvYi9tYXN0ZXIvZHJpdmVycy92aWRlby9mYmRldi9zdW54aS9kaXNwMi9kaXNwL2RlL2xv
-d2xldmVsX3N1bjhpdzgvZGVfcnRteC5jI0wxMjEyCgpBbmQgaGVyZSBpcyBmb3IgRDE6Cmh0dHBz
-Oi8vZ2l0bGFiLmNvbS93ZWlkb25nc2hhbi90aW5hLWQxLWgvLS9ibG9iL21haW4vbGljaGVlL2xp
-bnV4LTUuNC9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3N1bnhpL2Rpc3AyL2Rpc3AvZGUvbG93bGV2ZWxf
-djJ4L2RlX2ZlYXQuYyNMMTgyCmh0dHBzOi8vZ2l0bGFiLmNvbS93ZWlkb25nc2hhbi90aW5hLWQx
-LWgvLS9ibG9iL21haW4vbGljaGVlL2xpbnV4LTUuNC9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3N1bnhp
-L2Rpc3AyL2Rpc3AvZGUvbG93bGV2ZWxfdjJ4L2RlX3J0bXguYyNMMTU4OAoKSSB3YXMgdGVzdGVk
-IGl0IG9uIFYzcy4gV2l0aG91dCB0aGlzIHBhdGNoLCB0aGUgcGxhbmUgd2lsbCBub3QgZGlzcGxh
-eQpjb3JyZWN0bHkgaWYgc3JjX3cgbGFyZ2UgdGhhbiAxMDI0LCBmb3IgYm90aCBZVVYgYW5kIFJH
-Qi4gSSBkb24ndCBoYXZlIGEKZGV2aWNlIHdpdGggRDEsIHNvIEQxIGlzIG5vdCB0ZXN0ZWQuIEJ1
-dCBhY2NvcmRpbmcgdG8gdGhlIFNESyBjb2RlIG9mIEQxLAp0aGUgc2NhbmxpbmUgdmFsdWUgb2Yg
-bWl4ZXIxIGlzIDEwMjQuCgpJJ20gbmV3IHRvIHN1Ym1pdHRpbmcgcGF0Y2hlcywgU28gbWF5IEkg
-YXNrIGEgcXVlc3Rpb24/IElmIHRoZXJlIGlzIG5vCnByb2JsZW0gd2l0aCB0aGlzIHBhdGNoLCB3
-aGF0IEkgbmVlZCB0byBkbyBpcyB0byBzZW5kIG5ldyBwYXRjaGVzIGFzIHlvdQpzdWdnZXN0ZWQ/
-CgpCZXN0IHJlZ2FyZHMsCkdlbmZ1IFBhbgoK
+On Fri, May 20, 2022 at 02:40:20PM +0200, Geert Uytterhoeven wrote:
+> Hi Günter
+> 
+> On Thu, May 19, 2022 at 8:48 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> > This is getting tiresome. Every driver using outb() on m68k will
+> > experience that "problem". As far as I can see, it is caused by
+> >
+> > #define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
 
+Not directly related to the root cause but the cast on the LHS is over-complex.
+*) If the types are correct, 'addr' should always be a 'u8 __iomem *'. Casting
+   it to an unsigned long will throw away all type checking: pointers of
+   any size, of any address space, any kind of integer, any scalar value will
+   be silently be accepted.
+*) Then, when casting an integer to a pointer '__force' is unneeded because
+   it's meaningless (because the integer has no type info about the pointee).
+
+The most correct way to write the above would be:
+	static inline void out_8(u8 __iomem *addr, ... b)
+	{
+		*((__force volatile u8 *)addr) = b;
+	}
+this way, you can typecheck 'addr' (but maybe it's the idea/the argument is
+not always type clean?).
+Otherwise, if the cast to unsigned long is kept, '__force' can be removed.
+ 
+> 
+> Indeed.
+> 
+> For the sparse people:
+> 
+> The full error is:
+> 
+>         drivers/net/appletalk/cops.c:382:17: error: incompatible types
+> in conditional expression (different base types):
+>         drivers/net/appletalk/cops.c:382:17:    unsigned char
+>         drivers/net/appletalk/cops.c:382:17:    void
+> 
+> Basically, sparse doesn't like "a ? b : c", if the return types of
+> b and c don't match, even if the resulting value is not used.
+
+Well, you know that the motivation for sparse was to be stricter than GCC.
+In this case it's simply what is required by the standard:
+	    
+    n1570 (C11) 6.5.15
+	One of the following shall hold for the second and third operands:
+	— both operands have arithmetic type;
+	— both operands have the same structure or union type;
+	— both operands have void type;
+	— both operands are pointers to qualified or unqualified versions
+          of compatible types;
+	— one operand is a pointer and the other is a null pointer constant; or
+	— one operand is a pointer to an object type and the other is a
+          pointer to a qualified or unqualified version of void.
+
+Also, yes, the type checking is independent from the fact of being used
+or not (because the type of an expression must be know before any kind
+of processing can be done on its value).
+
+> E.g. outb() on m68k:
+> 
+>     #define outb(val, port) (((port) < 1024 && ISA_TYPE ==
+> ISA_TYPE_ENEC) ? isa_rom_outb((val), (port)) : isa_outb((val),
+> (port)))
+> 
+> where isa_rom_outb() leads to rom_out_8() returning u8, while
+> isa_outb() leads to the out_8() that includes the cast to void.
+> 
+> So the best solution seems to be to add more "(void)" casts, to e.g.
+> rom_out_8() and friends?
+
+I kinda think so, yes (I suppose that rom_out_8() is never used as
+returning a non-void value). But in truth, I think it's the excessive use
+of relatively complex macros that is the real problem (an using a conditional
+expression not for its value but for its side-effects). Can't outb() be
+written as something like:
+	static inline void outb(....) {
+		if (port < 1024 && ISA_TYPE == ISA_TYPE_ENEC)
+			isa_rom_outb(val, port);
+		else
+			isa_outb(val, port);
+	}
+
+With this you have better type checking, no trickery, no need for extra
+casts, no problems with double evaluation, it's more readable (to me), ...
+But yes, I suppose it's not really simple to convert all this. Sorry for
+no being more helpful.
+
+Best regards,
+-- Luc
