@@ -1,66 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682BB530981
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:26:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D07530970
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 08:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4DA10EE06;
-	Mon, 23 May 2022 06:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D563210EB7C;
+	Mon, 23 May 2022 06:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07A4F10E60C;
- Sun, 22 May 2022 11:57:03 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id m20so23411248ejj.10;
- Sun, 22 May 2022 04:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DQtGOV8ehr9B0byuPgB/R0qAJIaG0/ZyE72cxpjHldY=;
- b=qG3Kocdsq2oYYGDEOFNTT93XeYI9iYcUWVQ/xcuqMlQWR+ZjOVjzShfb129BRCBeZA
- IbjnscCqLlyomggb5cyR9GpqqOBdpUuUo3+FbJYLbl0iiv4HCdnE6oUZAjMcMn8rI7k4
- 0hiscQzwOz5MmXbxTMw0aR1wARxwwUQ1FuY3GMHNU3MYRkf2+RKVREPc8am7/wzdyl9t
- oIyX9zl9X57zupPpZORXrjsSN9N5PSh3n0Y67eW7PS38UKVmdPQe7ua4dEOBiXOcWWqU
- BGUgHNpBaUTmrppJ4h/Xnpqc8TBObkcgTfQfATGh0SAgYKROqWnr/m2p+Lv8tSSupBQG
- Eqog==
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24CBB10E0A9
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 14:47:20 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ p12-20020a9d4e0c000000b00606b40860a3so8622003otf.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 May 2022 07:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qs1N4izsogFrS0OZ7oEYOqsnkQJp8brscTXYKO0KODg=;
+ b=n0ri6GuuRPbaGra3hsQb2Sl6zVFxnndY7NXm+jezsIjAi4V4h/jKv9xmJpQ6I7DZQK
+ ZHC18L/3KL9VZJgQ3UfNemR7n6cUs6mvd17BoYNecLqeWeUFjNKHeVSSnWB/YiUuAmgw
+ EZzXPq2St3RSIT9ak9KXc22WLER/LuPj8/mD4wpKl+sHPqCFajKOTaaYZTpJo23HlQ9r
+ vIyOhlHUtzqZ5aYIbnufJQVr/JrVrKAosPQSbKWl+zRzow3xjiz60kshBliNTxbaiC02
+ kGLQWcLi0+eGJMPrnpoZIvQsTgg/DupstjpIz9uiHIMA9zs39gjnzw9bvrcBWJV/32Xn
+ I6rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DQtGOV8ehr9B0byuPgB/R0qAJIaG0/ZyE72cxpjHldY=;
- b=BljOYq5r9KLqGwMvbNDeF0wVkh/eGAoYsyMzCKkyabpBimcsj6U8Hbr/FNGC8Rxixh
- rGMJpEoLC1mLxUG75jym/+1OXNd2QSZt3QvTA/U9DpN8QV9qGSyzuwY3RxepY84xPUkX
- 0V9lAixvClldO7touHJ/qLqxB1n96K4qB8n8XJjx5uNS8p2iOoigqv7tnvzW2kuAvFgf
- 1MFhDnEWp1vU+FaR/dqA4ZtJL97sC35NyZtrv/CN2w2Lsw0c/wFlGxT3ivKozDco70Tu
- ZZOR7/7L82e/YOT3UYk1+JeWr0aIcaSFfKOGxunbGB9/12yJ3g5hKSvhDOBJYS+O5La3
- zEQw==
-X-Gm-Message-State: AOAM531xHTSGBoyGDv1KlpEkfvoeFJ7J7OSOC7QbPhF/ouWilIQeiwJx
- dvwp3gKOFTkYhMoSQL894XL4CzN8g2U=
-X-Google-Smtp-Source: ABdhPJyUp97Woq4Tojt0R/LZFMRQbE+AliJIsobK1w7h8qb86kKoEvaA54Id06XPIzhUaW1XPVm0Cw==
-X-Received: by 2002:a17:907:7282:b0:6fa:9365:f922 with SMTP id
- dt2-20020a170907728200b006fa9365f922mr15297634ejc.262.1653220621612; 
- Sun, 22 May 2022 04:57:01 -0700 (PDT)
-Received: from mail (239.125-180-91.adsl-dyn.isp.belgacom.be. [91.180.125.239])
- by smtp.gmail.com with ESMTPSA id
- jo14-20020a170906f6ce00b006feb5cae5f0sm2338997ejb.132.2022.05.22.04.57.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 May 2022 04:57:01 -0700 (PDT)
-Date: Sun, 22 May 2022 13:57:00 +0200
-From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
-Message-ID: <20220522115700.vg4hsytav74sy3x6@mail>
-References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
- <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
- <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
- <CAMuHMdVx7r-4TVV9uVJppT-7ZAriov01BUNk4ghU9Bs4uY28vQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qs1N4izsogFrS0OZ7oEYOqsnkQJp8brscTXYKO0KODg=;
+ b=zyDRSVubSx/ZHzPr1vg4iTt0e72NE88sPh3Eab6rEW4+453pipNJHqJyCHvvArvV77
+ eIykXBTEPa394qDTGd6kLInDLi3SXIM/TNqRPTCNh+Us451LnX6oEEcT0DndcvovlUsQ
+ LPJPHC+WAynEh6Myi74JPsiyGNRKFMqOcw/rtN3QQGBRQAiq9GYryoVxdIBXMfPHCnVD
+ opvYT31yymj70aMvEuiuFyYSeU7iWqPX45S82paV2k0w9apxy4q16AqIsGmGJq9Fvqf9
+ Mcul3hhc9YUFmTEv+/aks00hgkfhGa0nRINUNnwUQAe7MpRtBDU7AhTgKq3MI4EIOigz
+ lrNw==
+X-Gm-Message-State: AOAM530+eAM57U5MFb/8jgxPxzq1MNcFARiy5AMdQq0jtq2R+WqzWA79
+ oG+sQXCO82INgGCPhR/+4/qr28PH7tjkb1C+cXIwLg==
+X-Google-Smtp-Source: ABdhPJymhdAfrmIP3RTOY2pkVWLq6TJ5BXlS/aT4ewlndrVWFaHL6w8GFbXgU4aDVUAXyxz4+oecu/U8A24wK/Ylz1Q=
+X-Received: by 2002:a05:6830:280e:b0:606:ae45:6110 with SMTP id
+ w14-20020a056830280e00b00606ae456110mr6973637otu.14.1653230839109; Sun, 22
+ May 2022 07:47:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVx7r-4TVV9uVJppT-7ZAriov01BUNk4ghU9Bs4uY28vQ@mail.gmail.com>
+References: <20220427200314.276673-1-mlevitsk@redhat.com>
+ <20220427200314.276673-3-mlevitsk@redhat.com>
+ <YoZrG3n5fgMp4LQl@google.com>
+ <e32f6c904c92e9e9efabcc697917a232f5e88881.camel@redhat.com>
+In-Reply-To: <e32f6c904c92e9e9efabcc697917a232f5e88881.camel@redhat.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Sun, 22 May 2022 07:47:07 -0700
+Message-ID: <CALMp9eSVji2CPW1AjFoSbWZ_b-r3y67HyatgdqXEqSyUaD1_BQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 02/19] KVM: x86: inhibit APICv/AVIC when the guest
+ and/or host changes apic id/base from the defaults.
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Mon, 23 May 2022 06:25:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,57 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- kernel test robot <lkp@intel.com>, KVM list <kvm@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-m68k <linux-m68k@lists.linux-m68k.org>,
- linux-nvme@lists.infradead.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-sparse@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "open list:TI ETHERNET SWITCH DRIVER \(CPSW\)" <linux-omap@vger.kernel.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ intel-gvt-dev@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 20, 2022 at 02:46:20PM +0200, Geert Uytterhoeven wrote:
-> > The "(void)" makes sure there is no return value.
-> > Which matters if the result of a function returning void is propagated
-> > to another function returning void.
-> 
-> Which, FTR, sparse also doesn't like:
-> 
->     error: return expression in void function
+On Sun, May 22, 2022 at 2:03 AM Maxim Levitsky <mlevitsk@redhat.com> wrote:
+>
+> On Thu, 2022-05-19 at 16:06 +0000, Sean Christopherson wrote:
+> > On Wed, Apr 27, 2022, Maxim Levitsky wrote:
+> > > Neither of these settings should be changed by the guest and it is
+> > > a burden to support it in the acceleration code, so just inhibit
+> > > it instead.
+> > >
+> > > Also add a boolean 'apic_id_changed' to indicate if apic id ever changed.
+> > >
+> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > ---
+> > > +           return;
+> > > +
+> > > +   pr_warn_once("APIC ID change is unsupported by KVM");
+> >
+> > It's supported (modulo x2APIC shenanigans), otherwise KVM wouldn't need to disable
+> > APICv.
+>
+> Here, as I said, it would be nice to see that warning if someone complains.
+> Fact is that AVIC code was totally broken in this regard, and there are probably more,
+> so it would be nice to see if anybody complains.
+>
+> If you insist, I'll remove this warning.
 
+This may be fine for a hobbyist, but it's a terrible API in an
+enterprise environment. To be honest, I have no way of propagating
+this warning from /var/log/messages on a particular host to a
+potentially impacted customer. Worse, if they're not the first
+impacted customer since the last host reboot, there's no warning to
+propagate. I suppose I could just tell every later customer, "Your VM
+was scheduled to run on a host that previously reported, 'APIC ID
+change is unsupported by KVM.' If you notice any unusual behavior,
+that might be the reason for it," but that isn't going to inspire
+confidence. I could schedule a drain and reboot of the host, but that
+defeats the whole point of the "_once" suffix.
 
-You should get this message only if the expression is itself not void.
-For example:
-	$ cat test.c
-	extern void fun(void);
-	
-	static void ko(int *ptr)
-	{
-		return *ptr;
-	}
-	
-	static void ok1(int *ptr)
-	{
-		return (void) *ptr;
-	}
-	
-	static void ok2(int *ptr)
-	{
-		return fun();
-	}
-	$ sparse test.c
-	test.c:5:16: error: return expression in void function
+I know that there's a long history of doing this in KVM, but I'd like
+to ask that we:
+a) stop piling on
+b) start fixing the existing uses
 
-IOW, sparse warn only for the ko() but not for ok1() or ok2().
+If KVM cannot emulate a perfectly valid operation, an exit to
+userspace with KVM_EXIT_INTERNAL_ERROR is warranted. Perhaps for
+operations that we suspect KVM might get wrong, we should have a new
+userspace exit: KVM_EXIT_WARNING?
 
-If you have a case whee it s not the case, please send me the
-pre-processed file and I'll be glad to investigate.
-
-Best regards,
--- Luc
+I'm not saying that you should remove the warning. I'm just asking
+that it be augmented with a direct signal to userspace that KVM may no
+longer be reliable.
