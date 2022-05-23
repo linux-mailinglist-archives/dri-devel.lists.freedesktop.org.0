@@ -1,56 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669EC5315F0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 22:17:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 383FE5315FE
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 22:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E93C910F592;
-	Mon, 23 May 2022 20:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF46E10E4D2;
+	Mon, 23 May 2022 20:43:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5047F10F592;
- Mon, 23 May 2022 20:17:46 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- t14-20020a9d66ce000000b0060af9ed4b87so5726311otm.9; 
- Mon, 23 May 2022 13:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9DUh6l8ZBN76lnS45q0wf6jiM8BayaXvjyPIbUUAWTA=;
- b=R/AES/FlpFR4Wmbz51yvQ/jtXB3RgnmZ9r8MHiSzVwh62L5Oj6rGCFpXrvzOZ6MUoN
- NJud8DwB0Kq3PwBJnPWnJZND/dRITJBxkz00GFyn0N6HLcOEJ9kMpvPuvXwdaLHio+U0
- 7uWAN8smybjlAD4Rjju8jBi4Sn4I+S5yVIdX4l1eQ2BjJiBUkM6W2V8Pyx3Ui275KdOn
- Mb1xB9hUOzo2joQecY5CnJNDZsLwImfMrALeAr1cFQkOINceHcBqI92wD3a0D3our4UV
- qiuvDuNR5kiBFXeqFAofGUaqibsL3JzaGqNLQWzVhnyz07v8/cAKJCim+h1qvvr/0IMa
- TWqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9DUh6l8ZBN76lnS45q0wf6jiM8BayaXvjyPIbUUAWTA=;
- b=KLtHmcvGLPhGNKOjNHkqKp4+ZVm0Iw7a7Y9ZPvV6fHOWjiUD+IE5dcSFiDd302rT3Q
- 14VRU1unC0C4J0d7Dsz8jU0ABVrFKvCuSbTVcis1jkkbQHx9HvwFdw9cec+4m/y/Hhjt
- pJZuOIjeQ7y6kQ/CZf7uh8uX9INauhOBFDo+mDJtMUbtExG9Z4riYfZtP9Spq1Vdo39s
- eko2J54asxCoUBZ9Brq9Q4nsGhXhE7vz44F1LBS4DI/ragbijZWEl7/xiPGeS/XF/Apy
- TLTCdKj8Es5gjYkytfknICAqszip072I8BDtbtL2W2kQuClLkY5UVYkIFhiTedZYA4ex
- bnXQ==
-X-Gm-Message-State: AOAM532Bx1OeAOOn+VW43wVT9d56XiEQlN3rlHBLpxkDJgHj4SpFlX5b
- bKaCrpvJwj5CUjrUlgTJB1pklf6pFzSGLYuNF9O5q4gW
-X-Google-Smtp-Source: ABdhPJwVz/W2po1d5TwSlFiQ3ZLNrMa1hBA0NDPQZsBA4wCrc5SAYByfN9LWffY9S9XDU65c6eFAONAuiF4zTdWNZaE=
-X-Received: by 2002:a9d:6543:0:b0:605:e789:271e with SMTP id
- q3-20020a9d6543000000b00605e789271emr9333863otl.200.1653337065638; Mon, 23
- May 2022 13:17:45 -0700 (PDT)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1E8B10E2A3;
+ Mon, 23 May 2022 20:43:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=PF2QZluFpG0B0SGot/0yZRsxkLgQZRVAXG0KLm186/s=; b=ePBn21i0dh+Ir40Tm9N7ZENfdT
+ hgszo8s9Ohf8SKMCxdkhgIqlNXEGRpqdZLUCRybtaAS8/hm/W8Ff6bQ81izzjpRezVYHFMOymW9EC
+ Bin8Q3tsmYgTbn9z2lho1IdfNt+lz5N+Q8fDswk9vtG8tzLUK5ZH1UAh8+j5DSi5FdxRGZmpZ2v6f
+ p+3JhjpLxZCASGhfj3V3htG+60bn0c3zvTJms+/Bd/QqfVgSxgcnHSZ9hRZV3kTsjXJK8B7xmZiQ0
+ y8rE4B1jYfh8YEsaXq2B9Ai4QJXkfodlDN8gte5uO4+D+xvBa2sniht1AAXFoEJ9sDvaBtzGBH60t
+ 2rN7lI8Q==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=casper.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1ntEtz-00GX1n-Gs; Mon, 23 May 2022 20:43:44 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH -next] drm/msm: DRM_DP_AUX_BUS depends on OF
+Date: Mon, 23 May 2022 13:43:37 -0700
+Message-Id: <20220523204337.19739-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20220521111145.81697-74-Julia.Lawall@inria.fr>
-In-Reply-To: <20220521111145.81697-74-Julia.Lawall@inria.fr>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 23 May 2022 16:17:34 -0400
-Message-ID: <CADnq5_NJq-b4UfF_PpwYc2PV8Nt++cj0RsC=yxkbCfQtJ+meJQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdkfd: fix typo in comment
-To: Julia Lawall <Julia.Lawall@inria.fr>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,42 +46,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Fix a Kconfig warning for DRM_MSM by making it depend on OF,
+since 'select' does not follow any dependency chaings.
 
-Alex
+WARNING: unmet direct dependencies detected for DRM_DP_AUX_BUS
+  Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && OF [=n]
+  Selected by [m]:
+  - DRM_MSM [=m] && HAS_IOMEM [=y] && DRM [=m] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=y] || QCOM_LLCC [=y]=n) && (QCOM_COMMAND_DB [=n] || QCOM_COMMAND_DB [=n]=n)
 
-On Sat, May 21, 2022 at 7:12 AM Julia Lawall <Julia.Lawall@inria.fr> wrote:
->
-> Spelling mistake (triple letters) in comment.
-> Detected with the help of Coccinelle.
->
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
->
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 8b5452a8d330..67abf8dcd30a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -1621,7 +1621,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
->
->         mutex_lock(&mem->lock);
->
-> -       /* Unpin MMIO/DOORBELL BO's that were pinnned during allocation */
-> +       /* Unpin MMIO/DOORBELL BO's that were pinned during allocation */
->         if (mem->alloc_flags &
->             (KFD_IOC_ALLOC_MEM_FLAGS_DOORBELL |
->              KFD_IOC_ALLOC_MEM_FLAGS_MMIO_REMAP)) {
->
+Fixes: f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus support")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ drivers/gpu/drm/msm/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -3,6 +3,7 @@
+ config DRM_MSM
+ 	tristate "MSM DRM"
+ 	depends on DRM
++	depends on OF
+ 	depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
+ 	depends on COMMON_CLK
+ 	depends on IOMMU_SUPPORT
