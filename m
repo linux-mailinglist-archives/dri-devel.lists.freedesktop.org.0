@@ -2,66 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5209F5314FE
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 18:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D65530ECA
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 15:15:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5578D10E0A6;
-	Mon, 23 May 2022 16:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BE310F8F6;
+	Mon, 23 May 2022 13:15:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 385 seconds by postgrey-1.36 at gabe;
- Mon, 23 May 2022 16:39:19 UTC
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
- [51.81.35.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A010310E0A6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 16:39:19 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
- by relay-us1.mymailcheap.com (Postfix) with ESMTPS id F22372018C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 16:32:52 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.155])
- by relay5.mymailcheap.com (Postfix) with ESMTPS id 8BB7B200FE
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 16:32:49 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
- [149.56.130.247])
- by relay4.mymailcheap.com (Postfix) with ESMTPS id 0C9B920057;
- Mon, 23 May 2022 16:32:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by filter1.mymailcheap.com (Postfix) with ESMTP id 63ECC2A3ED;
- Mon, 23 May 2022 16:32:46 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
- by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ovGxMFm9Hgml; Mon, 23 May 2022 16:32:45 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E4A10F8F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 13:15:51 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by filter1.mymailcheap.com (Postfix) with ESMTPS;
- Mon, 23 May 2022 16:32:45 +0000 (UTC)
-Received: from 127.0.0.1 (unknown [64.225.114.122])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id AE38240052;
- Mon, 23 May 2022 16:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
- t=1653323564; bh=eMM2/LtD774HPGpt7c9+GCfHLaVlFZojZGyfHiFMXgc=;
- h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
- b=rQP6QQMdXVt8a+M59gi/CGqj054PzWViKiKB+E2UK3QpNOb5azsnBVccs5pV9bTAF
- EpLSLfeC3gM9CDU4RfvEE/0aIbSiMsfbA8odAmCq3TXiFFD3XVlvpWvibWtkSjQggZ
- IVHrN8yGSMXC/j5+ViIn0Qh+QHJvJihInO2Wi1uE=
-Message-ID: <70b43ac2910ce9b3e3776d31eda7a791fbae5454.camel@aosc.io>
-Subject: Re: [PATCH] drm/sun4i: mixer: fix scanline for V3s and D1
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, 
- mripard@kernel.org, wens@csie.org, Genfu Pan <benlypan@gmail.com>
-In-Reply-To: <3173956.44csPzL39Z@jernej-laptop>
-References: <20220521133443.1114749-1-benlypan@gmail.com>
- <3173956.44csPzL39Z@jernej-laptop>
-Content-Type: text/plain; charset="UTF-8"
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3A1D983F63;
+ Mon, 23 May 2022 15:15:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1653311749;
+ bh=4bFiDiaYlV9Jugn/YdDfC17knBmSNXCDe6+1UHpydFc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DEuBIwpTpbH22FAo2v/WBXqNyEfLjd0odQyr8u+WZ2c/D422aIKtfncYfpUgu+5Lt
+ pvy+E2IEDwuB6wiX04e33SINQ2wGMGLdLD7Zh+pN/H3jGs/mjQpjWrTsKX40VlXGds
+ Vz2pzwXDTm59S+xjldIuzCbtZnWprdD7ImkLGo21UBugzmxXr9Lr4XK7Z1xhzScuE0
+ hNS0M/wusrot+Ssaqq7pvtv+VN1di0d5Wei0g0ABN7q6AzKo+SEn58REutF2NuB1H4
+ U4um2LD9D0HfUS2uoEWeZYydtxUewmM6450Gc5s/cgtp1so0qYs/PegBKxKyxjdry3
+ eoq4hUqT8W4yg==
+Message-ID: <868d010c-9fca-3fac-7657-faaa2f271c14@denx.de>
+Date: Mon, 23 May 2022 15:15:47 +0200
 MIME-Version: 1.0
-Date: Mon, 23 May 2022 21:14:45 +0800
-User-Agent: Evolution 3.40.4 
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2] drm: bridge: icn6211: Adjust clock phase using
+ SYS_CTRL_1
+Content-Language: en-US
+To: Jonathan Liu <net147@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220523130144.444225-1-net147@gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220523130144.444225-1-net147@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,203 +57,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: samuel@sholland.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-在 2022-05-22星期日的 10:36 +0200，Jernej Škrabec写道：
-> Hi!
+On 5/23/22 15:01, Jonathan Liu wrote:
+> The code from [1] sets SYS_CTRL_1 to different values depending on the
+> desired clock phase (0, 1/4, 1/2 or 3/4). A clock phase of 0 aligns the
+> positive edge of the clock with the pixel data while other values delay
+> the clock by a fraction of the clock period. A clock phase of 1/2 aligns
+> the negative edge of the clock with the pixel data.
 > 
-> Dne sobota, 21. maj 2022 ob 15:34:43 CEST je Genfu Pan napisal(a):
-> > Accrording the SDK from Allwinner, the scanline value of yuv and
-> > rgb for
-> > V3s are both 1024.
+> The driver currently hard codes SYS_CTRL_1 to 0x88 which corresponds to
+> aligning the positive edge of the clock with the pixel data. This won't
+> work correctly for panels that require aligning the negative edge of the
+> clock with the pixel data.
 > 
-> s/scanline value/scanline length/
+> Adjust the clock phase to 0 if DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE is
+> present in bus_flags, otherwise adjust the clock phase to 1/2 as
+> appropriate for DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE.
 > 
-> Which SDK? All SDKs that I have or found on internet don't mention
-> YUV nor RGB 
-> scanline limit. That doesn't mean there is none, I'm just unable to
-> verify 
-> your claim. Did you test this by yourself? Also, please make YUV
-> scanline 
-> change separate patch with fixes tag.
+> [1] https://github.com/tdjastrzebski/ICN6211-Configurator
+> 
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+> V2: Use GENMASK and FIELD_PREP macros
+> ---
+>   drivers/gpu/drm/bridge/chipone-icn6211.c | 18 ++++++++++++++++--
+>   1 file changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> index 47dea657a752..f1538fb5f8a9 100644
+> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
+> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> @@ -9,6 +9,8 @@
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_mipi_dsi.h>
+>   
+> +#include <linux/bitfield.h>
+> +#include <linux/bits.h>
+>   #include <linux/delay.h>
+>   #include <linux/gpio/consumer.h>
+>   #include <linux/i2c.h>
+> @@ -26,6 +28,11 @@
+>   #define PD_CTRL(n)		(0x0a + ((n) & 0x3)) /* 0..3 */
+>   #define RST_CTRL(n)		(0x0e + ((n) & 0x1)) /* 0..1 */
+>   #define SYS_CTRL(n)		(0x10 + ((n) & 0x7)) /* 0..4 */
+> +#define SYS_CTRL_1_CLK_PHASE_MSK	GENMASK(5, 4)
 
-BTW I think chip manuals all say that the chip supports NxN resolution
-in DE2 chapter, e.g. the V3 datasheet says DE2 "Output size up to
-1024x1024".
-
-However there's no information about D1's second mixer.
-
-> 
-> > The is also the same for mixer 1 of D1. Currently the
-> > scanline value of rgb is hardcoded to 2048 for all SOCs.
-> > 
-> > Change the scanline_yuv property of V3s to 1024. > Add the
-> > scanline_rgb
-> > property to the mixer config and replace the hardcoded value with
-> > it before
-> > scaling.
-> 
-> I guess RGB scanline patch would also need fixes tag, since it fixes
-> existing 
-> bug.
-> 
-> > 
-> > Signed-off-by: Genfu Pan <benlypan@gmail.com>
-> > ---
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 13 ++++++++++++-
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  1 +
-> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  3 +--
-> >  3 files changed, 14 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.c index 875a1156c..e64e08207
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > @@ -567,6 +567,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_a83t_mixer0_cfg = { .ccsc         = CCSC_MIXER0_LAYOUT,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -575,6 +576,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_a83t_mixer1_cfg = { .ccsc         = CCSC_MIXER1_LAYOUT,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -584,6 +586,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_h3_mixer0_cfg
-> > = { .mod_rate   = 432000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -593,6 +596,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_r40_mixer0_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -602,6 +606,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_r40_mixer1_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -610,7 +615,8 @@ static const struct sun8i_mixer_cfg
-> > sun8i_v3s_mixer_cfg
-> > = { .vi_num = 2,
-> >         .ui_num = 1,
-> >         .scaler_mask = 0x3,
-> > -       .scanline_yuv = 2048,
-> > +       .scanline_yuv = 1024,
-> > +       .scanline_rgb = 1024,
-> >         .ccsc = CCSC_MIXER0_LAYOUT,
-> >         .mod_rate = 150000000,
-> >  };
-> > @@ -620,6 +626,7 @@ static const struct sun8i_mixer_cfg
-> > sun20i_d1_mixer0_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -629,6 +636,7 @@ static const struct sun8i_mixer_cfg
-> > sun20i_d1_mixer1_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0x1,
-> >         .scanline_yuv   = 1024,
-> > +       .scanline_rgb   = 1024,
-> >         .ui_num         = 0,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -638,6 +646,7 @@ static const struct sun8i_mixer_cfg
-> > sun50i_a64_mixer0_cfg = { .mod_rate     = 297000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 4096,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -647,6 +656,7 @@ static const struct sun8i_mixer_cfg
-> > sun50i_a64_mixer1_cfg = { .mod_rate     = 297000000,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -657,6 +667,7 @@ static const struct sun8i_mixer_cfg
-> > sun50i_h6_mixer0_cfg
-> > = { .mod_rate   = 600000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 4096,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.h index 85c94884f..c01b3e9d6
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > @@ -172,6 +172,7 @@ struct sun8i_mixer_cfg {
-> >         unsigned long   mod_rate;
-> >         unsigned int    is_de3 : 1;
-> >         unsigned int    scanline_yuv;
-> > +       unsigned int    scanline_rgb;
-> 
-> This quirk needs to be documented above in the comment.
-> 
-> Best regards,
-> Jernej
-> 
-> >  };
-> > 
-> >  struct sun8i_mixer {
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c index f7d0b082d..30e6bde92
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > @@ -188,8 +188,7 @@ static int sun8i_vi_layer_update_coord(struct
-> > sun8i_mixer *mixer, int channel, src_h = vn;
-> >                 }
-> > 
-> > -               /* it seems that every RGB scaler has buffer for
-> > 2048 
-> pixels */
-> > -               scanline = subsampled ? mixer->cfg->scanline_yuv : 
-> 2048;
-> > +               scanline = subsampled ? mixer->cfg->scanline_yuv :
-> > mixer->cfg->scanline_rgb;
-> > 
-> >                 if (src_w > scanline) {
-> >                         DRM_DEBUG_DRIVER("Using horizontal coarse 
-> scaling\n");
-> 
-> 
-> 
-> 
-> 
-
-
+This should be GENMASK(7, 6) , no ?
