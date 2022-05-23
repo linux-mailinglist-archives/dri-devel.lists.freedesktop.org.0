@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA3D530EB7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 14:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64C8530EB8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 14:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53F0310F506;
-	Mon, 23 May 2022 12:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 715F910F511;
+	Mon, 23 May 2022 12:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80F2F10F505
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 12:50:33 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id t28so5990488pga.6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 05:50:33 -0700 (PDT)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A482F10F50F
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 12:50:57 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id v10so13573648pgl.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 05:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=YfnB11KMaX602mBm0PnlrHM5pqQzJfF9oigF++xZ/Ks=;
- b=UhKZbD+yQzdUWIBnTy9KAJYJYOuA2+70s+CqllAQ/sfA6KznKV5d+vWr5UMmThRA6t
- CN/wUjyaha4lokAFaS2EjzviEqNjZKn481mxdq73xHsysOXsSs0lN1Ioj0d8S7H3frGY
- zpktXvyQ8PNZz+rQJO4ONjCJNXfrpNMK+f+no0khs0tgm/GH/b91xMVDRll0IBzCL473
- zAd5sg7DTmGDlZUtmyRCDEe0etu0zWfk6hyquG2VAKDuO7UsaWt1MrChSlzBqVYXwWfO
- 9T2NuBUhVpWS4KRU3807MP9VlUovGOrfaSusS7L6EAmlHxxZkvZhckWBlgh/VMaYpMIl
- /86w==
+ bh=Ilj++Ggb7llLz57zgVX1b/Z8NvW2D80Wu/CN7999mMc=;
+ b=B/SsoT/+byAK0AaxCAVGEG6xRk+crrJBE0uiDdtI5grAW03H7hT9qJzmgI8VhBzp+Q
+ Va3elBHMweP63hMtDOR+m+DtbeuKRb5nGVeCeWOrTP8UPqwpcH1k2FDpepJ7P5sGvOhG
+ zFOU6f1Viw40N7nCcUWy9d07hq5uc/eXA3rXjiqvrP8G3moSMDgt15/MR9pNSJzuUQ8+
+ XlDaPIxkGwZAiZSUDcpLUwHDPq8tr09TqlXdfGr8A04VjLS9VFgqD7BQWl/iCJppElD8
+ OZ1jpoXPnWAruKbl73m2f6EYC6zz3aNX66d3R1aWeWdIywfZnKJiatMF6BIdJieo738z
+ 092g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to;
- bh=YfnB11KMaX602mBm0PnlrHM5pqQzJfF9oigF++xZ/Ks=;
- b=zWtkB0vZywCgh7TBCI9HJuPYT6fybrp5AcQPh9kc88RhRVFDxwysrCQ90U+1ZP1pAR
- BClpbNgqccgT1cXQTf3B+hZs6nqEW5fZVuGcq40fWhhylsdo1XIQSsgnyYoCU7pstvrV
- KyxYEmDrq1iYIBDu7PqN4NEv0rdNroAnsPkDZ21VTyUsHOFnegWpAER40MT5hqoYc9Xx
- PrbU8JT+shw+7Kut2KpicdTJHSZFhafZQNimoQTWkj0P3tx41OmVHhDprlTVbufAgTf1
- MoH82e+Zyv/FZQsaxHEA8boZBewqs7fD/w/irySkgdLJNOdEL2HWWJ5whlURx24uaqaC
- OMIA==
-X-Gm-Message-State: AOAM532GiYWzadpfCcLm9NJGQYzJwW0pAQNw+vBZtcOg/5H0nE7QGtH2
- 28+J70S7E2s48+o5814y9tlRwzkZYT9otSpTEYTA2g==
-X-Google-Smtp-Source: ABdhPJwVH/O6Xo9nRgajes4j9eCZ5mpZVShQyUWGA9JFDSxnW70LHrFHFYzJSTkvaEFwySG6g2LXOgM+0tGd1nPpuRs=
-X-Received: by 2002:a63:6901:0:b0:3f9:caa5:cffc with SMTP id
- e1-20020a636901000000b003f9caa5cffcmr12543131pgc.324.1653310233085; Mon, 23
- May 2022 05:50:33 -0700 (PDT)
+ bh=Ilj++Ggb7llLz57zgVX1b/Z8NvW2D80Wu/CN7999mMc=;
+ b=GLla3X4IL6Cvv4TwanlU3aqZKFwHAf8B5QIe/O3PWoFgwkQcc1BY0tOW2MfUjEv4jD
+ qgt5bIRZq3CWK1LKugeT1cl6MRjHAav4GbI/vnb7LXUYsKcV5IQsZCMLBURyHlTIaetF
+ Y3Fwskyj18b6Ke5FtIaJgU5ke9RSE/EyScNmpF2wX+CZy27CuyJN0WbFsEHnZd8Gn48X
+ oY2i42Pj17pDMbzLtls9dBnlzRcv1taYBnABYtHMw3s6y/q1FdYxGSf21bF+1mTjpZpP
+ jRsbnn6twSzJHs+NQtnw6LmGTAGgu6pp5DXlz7cThqZXLBZzvkyCnNvaRun3FnpUz1Xk
+ 39sw==
+X-Gm-Message-State: AOAM533mAd8uYluCb21kUIiWUOV1KXqUqftV/0r/1COKL+l1wLwSWn6z
+ qPjLpIOKJn2ND9rMayN8mKlwyLUrHQOx3m2trYSWEw==
+X-Google-Smtp-Source: ABdhPJyLSJ2440TIxfxfmgkgMC3GqHEF0cfFCLR88/BeyvY07y92xOk7gPrXsnjmllmXOES0I0RbHdLmMeWivM7EtDs=
+X-Received: by 2002:a63:d04a:0:b0:3c1:65f2:5d09 with SMTP id
+ s10-20020a63d04a000000b003c165f25d09mr20154616pgi.201.1653310257217; Mon, 23
+ May 2022 05:50:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220523084615.13510-1-robert.foss@linaro.org>
-In-Reply-To: <20220523084615.13510-1-robert.foss@linaro.org>
+ <20220523084615.13510-2-robert.foss@linaro.org>
+In-Reply-To: <20220523084615.13510-2-robert.foss@linaro.org>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 23 May 2022 14:50:22 +0200
-Message-ID: <CAG3jFytkFcmYjj6AHye3imsTDyP1LxHQvAzjswuRBsVVHRTnKg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] Revert "drm/bridge: anx7625: Use DPI bus type"
+Date: Mon, 23 May 2022 14:50:46 +0200
+Message-ID: <CAG3jFyt=wjbvgGOqgDZDk5ayChBaf6JcdVwv3L6wkGejbjrG4A@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] Revert "dt-bindings:drm/bridge:anx7625: add port@0
+ property"
 To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org, 
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com, 
@@ -74,43 +76,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, 23 May 2022 at 10:46, Robert Foss <robert.foss@linaro.org> wrote:
 >
-> This reverts commit a77c2af0994e24ee36c7ffb6dc852770bdf06fb1.
+> This reverts commit 7328736d270aa4fa6fcd033ade02acc2874a2db5.
 > ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .../display/bridge/analogix,anx7625.yaml      | 19 +------------------
+>  1 file changed, 1 insertion(+), 18 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 01f46d9189c1..53a5da6c49dd 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1623,14 +1623,14 @@ static int anx7625_parse_dt(struct device *dev,
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index 4590186c4a0b..35a48515836e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -94,22 +94,7 @@ properties:
+>          $ref: /schemas/graph.yaml#/$defs/port-base
+>          unevaluatedProperties: false
+>          description:
+> -          MIPI DSI/DPI input.
+> -
+> -        properties:
+> -          endpoint:
+> -            $ref: /schemas/media/video-interfaces.yaml#
+> -            type: object
+> -            additionalProperties: false
+> -
+> -            properties:
+> -              remote-endpoint: true
+> -
+> -              bus-type:
+> -                enum: [7]
+> -                default: 1
+> -
+> -              data-lanes: true
+> +          Video port for MIPI DSI input.
 >
->         anx7625_get_swing_setting(dev, pdata);
+>        port@1:
+>          $ref: /schemas/graph.yaml#/properties/port
+> @@ -158,8 +143,6 @@ examples:
+>                      reg = <0>;
+>                      anx7625_in: endpoint {
+>                          remote-endpoint = <&mipi_dsi>;
+> -                        bus-type = <7>;
+> -                        data-lanes = <0 1 2 3>;
+>                      };
+>                  };
 >
-> -       pdata->is_dpi = 0; /* default dsi mode */
-> +       pdata->is_dpi = 1; /* default dpi mode */
->         pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
->         if (!pdata->mipi_host_node) {
->                 DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
->                 return -ENODEV;
->         }
->
-> -       bus_type = 0;
-> +       bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
->         mipi_lanes = MAX_LANES_SUPPORT;
->         ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
->         if (ep0) {
-> @@ -1640,8 +1640,8 @@ static int anx7625_parse_dt(struct device *dev,
->                 mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
->         }
->
-> -       if (bus_type == V4L2_FWNODE_BUS_TYPE_DPI) /* bus type is DPI */
-> -               pdata->is_dpi = 1;
-> +       if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
-> +               pdata->is_dpi = 0;
->
->         pdata->mipi_lanes = mipi_lanes;
->         if (pdata->mipi_lanes > MAX_LANES_SUPPORT || pdata->mipi_lanes <= 0)
 > --
 > 2.34.1
 >
