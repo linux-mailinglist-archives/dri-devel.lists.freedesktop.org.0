@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3016C5311C9
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 18:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4539C5311CA
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 18:06:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA9F10E29F;
-	Mon, 23 May 2022 16:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1787B10F133;
+	Mon, 23 May 2022 16:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4142510E29F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 16:06:08 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-f189b07f57so19064984fac.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 09:06:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wfWyXqKDw6KMyeqQToN3+pb4tfYQnyQoFUsrYr2tg34=;
- b=kU/xLlvMMyizZPnrw/4g+bnPtd5LqlyHH+Wc94Nexqf4uQOgnwARiQhcDDDorC42GV
- f+4eN4fP6cKJUo1p5XyyBY5O+rFnPqiEyC9e6YUpIxAbC67AnnKN5mqBPvGl846M+Ft8
- Th/vxhr4vaBwomnkON2BJHdsPuv4Y2lnbNQAY=
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C71910F133
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 16:06:11 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id c22so14090525pgu.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 09:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=e7s4FvKYqhrIHrfJIpxpjB/w24p/UdFVYWYWqUaWKCk=;
+ b=u+/2mCLf6J1KoFIelxvEXFdSh+jzSICBISVLI//JWNo14YyvAtMd+uX8X8iD/e1aoa
+ fQXmAEVpeFJuFcRR8TmCaETYwyz92alhGttYY10gtz6DFZUKDEAvsbuiQ8PLIQlm7Apf
+ Puy2AmshCtrB/5CF9y8MnlDJRHQOm+gQo87KIkWvBTYonePUjdkXmp4fBuQqEgK1hDuW
+ ZopWDEGPHj9aBmoCu+NsIBqFxoA2ohlyKykn8L2/zrMxCMh6UE55yEg4VqGU0uTCe8HV
+ ZNXsRNK8UnxkJYnjh6VxjVAooHu3tCwDlw1g+RIwhqwh9q/qP1SR1rfjnOpsDm2E8S/i
+ QaFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wfWyXqKDw6KMyeqQToN3+pb4tfYQnyQoFUsrYr2tg34=;
- b=KtTHSi17TzRBQY9pcxctv9pZdXzbkxrtpXWPx5rKcOVNgPgZS6H9Hsgyq7WyUVy+lJ
- i7OKL5HuqlZCUtyMe0+E9bqqtpGt5O5rPghFxXEvZdCFQwluW35lI7w1kRV2t5mjMGDb
- FKqJreUD/fMPCxDPhqGxLi9QF839V75dKmArPZFmjtvm5ccwDkkKv69YiHDyOwKY5+xk
- 9zbA/SxqZqird745gyLe39Z32Smn9dPZjd1PE8VhTInSn7ke0193KyntOrU39kwcAfx0
- V5m9p+Ox1AQCax6K+b9djmKAQ5VoS4LVOjATNl7ipkn09qYLpw7WL5123n+d+mGmE5uD
- kdBg==
-X-Gm-Message-State: AOAM531BHOwmVkY1vVsN3h6GCNhN/w1PMsyRMvtm2mM2LWePbha+GSym
- hMUfvx3qG6FX6ZRorIU2cG5CAgPy29Md6X0zCM2eWw==
-X-Google-Smtp-Source: ABdhPJxCSCqEX0AX/mFMKV9Nszvd1kSvfb5PoopVXRLMDu0j/BF8/r6jTeX7U8ExRKBQB1j15KZ26tYC51B1MxbiPjE=
-X-Received: by 2002:a05:6870:eaa5:b0:da:b3f:2b45 with SMTP id
- s37-20020a056870eaa500b000da0b3f2b45mr13576965oap.228.1653321967446; Mon, 23
- May 2022 09:06:07 -0700 (PDT)
+ :message-id:subject:to;
+ bh=e7s4FvKYqhrIHrfJIpxpjB/w24p/UdFVYWYWqUaWKCk=;
+ b=4UWN+WEYGYqP5lIPKX9BlOlWrI0hJZIzbmrx9TSETzP/BbObS2M2/JhLBXS4+JViAL
+ P1HQUgs4G3LmvvGZGo16N0QwSi6cYfzVYpYF1740uKYjlZsKCMt7dR4kNWfx2AEsSO4s
+ EN/MlANeOcNCTZO+4SZCiV3iN6+T83x89JaW4umMXgiODl7KDPFmBO/UB9OVv5rwWRya
+ 2ylxB5Y8Gdwe04xMFklxQRoAyifiwL8s/LWQiBCjN8vez321BvPKogwUipndAt4abP/B
+ YQlKnt/hz0h1HZFnH+dS+RGAP9VceZ0aBPTU9qkbyofAWBAl8mq5BUtmeWtNnX4P418C
+ e7GQ==
+X-Gm-Message-State: AOAM531x9UlB44FDAZBxDCwarzmN8S6sSkiFW9KDr7oK6L5qVA8N3uLg
+ zwUbx4aBASUTjg9g8CA+M0I8VbXI+TkkVYOLB02e/g==
+X-Google-Smtp-Source: ABdhPJxYg9Yh2GQWHiZaU+6ZG0i119MD2rlka3d2WGblGGuHQ6wLbqOifgvk6vMY4clWHQGKswYOx7D+Pjege3lot0g=
+X-Received: by 2002:a63:6901:0:b0:3f9:caa5:cffc with SMTP id
+ e1-20020a636901000000b003f9caa5cffcmr13163645pgc.324.1653321971054; Mon, 23
+ May 2022 09:06:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220523084615.13510-1-robert.foss@linaro.org>
  <CAG3jFytkFcmYjj6AHye3imsTDyP1LxHQvAzjswuRBsVVHRTnKg@mail.gmail.com>
  <CAG3jFytGDm29GVAQ5bs7XQ+hMDABd7btggFGN2pASBEzRPE50A@mail.gmail.com>
 In-Reply-To: <CAG3jFytGDm29GVAQ5bs7XQ+hMDABd7btggFGN2pASBEzRPE50A@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 23 May 2022 18:05:56 +0200
-Message-ID: <CAKMK7uGmnM1GXi_6yovZApBo34B5ojrN1KZOqpKBDgUUDorQ6w@mail.gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 23 May 2022 18:05:59 +0200
+Message-ID: <CAG3jFyuRXLp3iS53rhXc9_-mT18kGcxNDHAA6UjMk7y_p_mwkQ@mail.gmail.com>
 Subject: Re: [PATCH v1 1/2] Revert "drm/bridge: anx7625: Use DPI bus type"
-To: Robert Foss <robert.foss@linaro.org>
+To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, 
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, xji@analogixsemi.com, hsinyi@chromium.org, 
+ sam@ravnborg.org, tzimmermann@suse.de, maxime@cerno.tech, 
+ jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,31 +71,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- jonas@kwiboo.se, airlied@linux.ie, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, robh+dt@kernel.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- hsinyi@chromium.org, jose.exposito89@gmail.com, sam@ravnborg.org,
- xji@analogixsemi.com, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, 23 May 2022 at 14:54, Robert Foss <robert.foss@linaro.org> wrote:
+>
 > These two patches need to be reverted since they were part (3/4 & 4/4)
 > of a series, that was partially (1/4 + 2/4) on the linux-media tree.
 > These two patches depend on the patches in the media tree, and will
 > not build without them, which leaves linux-drm-misc-next in a broken
 > state. Let's revert the two latter patches until rc1 has been branched
-
-"rc1 has been backmerged into drm-misc-next" is missing here.
-
 > and the dependency wont cause issues any more.
-
-With explainer and sob added to both:
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 >
 > On Mon, 23 May 2022 at 14:50, Robert Foss <robert.foss@linaro.org> wrote:
 > >
@@ -135,9 +130,4 @@ Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > >
 > > Signed-off-by: Robert Foss <robert.foss@linaro.org>
 
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
