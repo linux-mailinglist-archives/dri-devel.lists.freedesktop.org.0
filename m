@@ -2,54 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37A25309B7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 09:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70EA5309D6
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 09:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4951210F1BD;
-	Mon, 23 May 2022 07:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1EC10E0F5;
+	Mon, 23 May 2022 07:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEC110F1BD
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 07:02:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7287121A3B;
- Mon, 23 May 2022 07:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1653289354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4069D10E0F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 07:09:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653289790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sKl82hLMUsTACo0AxhS0VDCtjzFTpJq5uuIvIRwHMx8=;
- b=DOjuaA//OcW7zrnJSfegjC7Jau8ICwvrEhZoLcY7y+WICOh0S9qiKG44ME66uCEap0KBFt
- qsF3htc6Lr/7guRDW83EJrLaQ8zyEQx0mld320+hfHbVmHazfifiGQlqxy2Bcn9ZLs/LTy
- OssLHA5Dgdo5U737gRvxsv19UF57ho4=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 35BB1139F5;
- Mon, 23 May 2022 07:02:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6h9uC4oxi2L8CwAAMHmgww
- (envelope-from <jgross@suse.com>); Mon, 23 May 2022 07:02:34 +0000
-Message-ID: <acebacc1-3cca-81df-cfc4-2135e4e44e6d@suse.com>
-Date: Mon, 23 May 2022 09:02:33 +0200
+ bh=eNQlb8LFJ8a/pJQTESrmXgS1PNI+qnTKQtwhk4g/Ixk=;
+ b=BNqxrY0/sCVac6XjLB0oJF0fJGxpRbo7xh34FQnAep/5dxSdDVijum5r86lRe096QX2L8q
+ EdUXCUeecKXaXxixsdFYIVSCJzk9Ro25A1jfuA1VwUmMk0dT0Ki5CN0LznShK5suWRNlDV
+ gFkVjWoJexBqbfu1wD4Zzt3PCVc65vQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-160-d2SXEzT9NrmLWF71AgV20Q-1; Mon, 23 May 2022 03:09:46 -0400
+X-MC-Unique: d2SXEzT9NrmLWF71AgV20Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l15-20020a05600c1d0f00b003973901d3b4so2367156wms.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 00:09:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eNQlb8LFJ8a/pJQTESrmXgS1PNI+qnTKQtwhk4g/Ixk=;
+ b=s/f8AEseRtpX6nMpyWfMjQG2E0j4LgQToelJVHrBnWYU4y7uZzbLrEUyAeNEmlGYrG
+ DT14QQ8UCd2YCHjd66ToKdhNTWVvw6r/7yeTvML70N3ExhkXyp7TIZa0OO44/OCp+7ZX
+ 5dLv6jy/KzIftTuRpDJssQ85m3LYWHBWhXDT1ZFbecP8ZFaG8qpmpWMJzRIRT5QXMQLx
+ hFiawcio3c8VnqmMKRbhfCOsCEXJeAx7XroCFG+ZFvmmYcC+7BAuwec6yVKmmzOJKkCM
+ MutgvJGiSysNKvZ7Q7/vB8itAH2ODkz72lz+x3HORDU+C+1ATZaPSo7blPZOKtiExbn4
+ A0HQ==
+X-Gm-Message-State: AOAM531uOiinc3zn/iqlvww+kzeOvI76W9RYmdaS5PEo32KxdWFtFeev
+ NQFF4qY0V+q3i1yb7Uq9cAZ3pNmVRu1eYx2odo33itC+BZa3b47hgTb5gqxB9gbVcd0X6r1jIa5
+ kehZFiNWc7mqWW9wChikBTTtS85+Q
+X-Received: by 2002:a05:600c:4f15:b0:394:8ea0:bb45 with SMTP id
+ l21-20020a05600c4f1500b003948ea0bb45mr18505415wmq.206.1653289784873; 
+ Mon, 23 May 2022 00:09:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwt0KqW3DOu7yDCKKvMVOhfz5hwWAURISAJ/EMcQil88CN1EMPYrdompd8/fFwt1SDIoFFRjQ==
+X-Received: by 2002:a05:600c:4f15:b0:394:8ea0:bb45 with SMTP id
+ l21-20020a05600c4f1500b003948ea0bb45mr18505401wmq.206.1653289784638; 
+ Mon, 23 May 2022 00:09:44 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ h124-20020a1c2182000000b0039744bd664esm3253454wmh.13.2022.05.23.00.09.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 May 2022 00:09:44 -0700 (PDT)
+Message-ID: <396d6eb3-723b-6c74-d83d-40f15ef01893@redhat.com>
+Date: Mon, 23 May 2022 09:09:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] xen: remove setting of 'transp' parameter
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] drivers/firmware: Move sysfb_init() from device_initcall
+ to subsys_initcall_sync
+To: Huacai Chen <chenhuacai@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220521134110.2330908-1-chenhuacai@loongson.cn>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220521134110.2330908-1-chenhuacai@loongson.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Tom Rix <trix@redhat.com>, deller@gmx.de, tzimmermann@suse.de,
- javierm@redhat.com, boris.ostrovsky@oracle.com
-References: <20220521195942.645048-1-trix@redhat.com>
-From: Juergen Gross <jgross@suse.com>
-In-Reply-To: <20220521195942.645048-1-trix@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------oFSd0Rj5oWIoukOZwoO3CqLj"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,115 +90,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------oFSd0Rj5oWIoukOZwoO3CqLj
-Content-Type: multipart/mixed; boundary="------------TwzH70V59XqDZLsLkeZMl7VO";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Tom Rix <trix@redhat.com>, deller@gmx.de, tzimmermann@suse.de,
- javierm@redhat.com, boris.ostrovsky@oracle.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Message-ID: <acebacc1-3cca-81df-cfc4-2135e4e44e6d@suse.com>
-Subject: Re: [PATCH] xen: remove setting of 'transp' parameter
-References: <20220521195942.645048-1-trix@redhat.com>
-In-Reply-To: <20220521195942.645048-1-trix@redhat.com>
+Hello Huacai,
 
---------------TwzH70V59XqDZLsLkeZMl7VO
-Content-Type: multipart/mixed; boundary="------------si220VqrB4vEwFm0RsoB2qcI"
+Thanks for the patch.
 
---------------si220VqrB4vEwFm0RsoB2qcI
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 5/21/22 15:41, Huacai Chen wrote:
+> Consider a configuration like this:
+> 1, efifb (or simpledrm) is built-in;
+> 2, a native display driver (such as radeon) is also built-in.
+>
 
-T24gMjEuMDUuMjIgMjE6NTksIFRvbSBSaXggd3JvdGU6DQo+IGNwcGNoZWNrIHJlcG9ydHMN
-Cj4gW2RyaXZlcnMvdmlkZW8vZmJkZXYveGVuLWZiZnJvbnQuYzoyMjZdOiAoc3R5bGUpIEFz
-c2lnbm1lbnQgb2YgZnVuY3Rpb24gcGFyYW1ldGVyIGhhcyBubyBlZmZlY3Qgb3V0c2lkZSB0
-aGUgZnVuY3Rpb24uDQo+IA0KPiBUaGUgdmFsdWUgcGFyYW1ldGVyICd0cmFuc3AnIGlzIG5v
-dCB1c2VkLCBzbyBzZXR0aW5nIGl0IGNhbiBiZSByZW1vdmVkLg0KPiANCj4gU2lnbmVkLW9m
-Zi1ieTogVG9tIFJpeCA8dHJpeEByZWRoYXQuY29tPg0KDQpSZXZpZXdlZC1ieTogSnVlcmdl
-biBHcm9zcyA8amdyb3NzQHN1c2UuY29tPg0KDQoNCkp1ZXJnZW4NCg==
---------------si220VqrB4vEwFm0RsoB2qcI
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+As mentioned in the other thread, this is not a common configuration.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Usually the native display drivers are built as a module and only the
+generic drivers that use a firmware-provided firmware for scanout are
+built-in the kernel image.
+ 
+> Because efifb, radeon and sysfb are all in device_initcall() level, the
+> order in practise is like this:
+> 
+> efifb registered at first, but no "efi-framebuffer" device yet. radeon
+> registered later, and /dev/fb0 created. sysfb_init() comes at last, it
+> registers "efi-framebuffer" and then causes an error message "efifb: a
+> framebuffer is already registered". Make sysfb_init() to be subsys_
+> initcall_sync() can avoid this. But Javier Martinez Canillas has a more
+> general solution.
+>
 
-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
-jR/i1DG86lem3iBDXzXsZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
+You are talking about "[PATCH v5 0/7] Fix some races between sysfb device
+registration and drivers probe", but unfortunately that approach was not
+as general as needed, see:
 
---------------si220VqrB4vEwFm0RsoB2qcI--
+https://lore.kernel.org/all/026b1c6d-c258-fa88-ed08-d1b5784c95b0@suse.de/
 
---------------TwzH70V59XqDZLsLkeZMl7VO--
+I need to go back to that series but I'm not sure when will have the time.
+ 
+> However, this patch still makes sense because it can make the screen
+> display as early as possible (We cannot move to subsys_initcall, since
+> sysfb_init() should be executed after PCI enumeration).
+>
 
---------------oFSd0Rj5oWIoukOZwoO3CqLj
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Indeed. I agree that makes sense to move the platform device registration
+early. As you mentioned this only solve some of the issues since we don't
+know when the _driver_ is going to be registered. But at least we ensure
+that by the time built-in drivers are registered, the platform device is
+already there to match. Bringing the display output as early as possible.
+ 
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> ---
+>  drivers/firmware/sysfb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+> index 2bfbb05f7d89..aecf91517e54 100644
+> --- a/drivers/firmware/sysfb.c
+> +++ b/drivers/firmware/sysfb.c
+> @@ -80,4 +80,4 @@ static __init int sysfb_init(void)
+>  }
+>  
+>  /* must execute after PCI subsystem for EFI quirks */
+> -device_initcall(sysfb_init);
+> +subsys_initcall_sync(sysfb_init);
 
------BEGIN PGP SIGNATURE-----
+I would make the comment here more verbose. Mentioning that PCI enumeration
+happens in the subsys_initcall() init call level and so is safe to register
+this at subsys_initcall_sync(), which happens after or something like that.
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmKLMYkFAwAAAAAACgkQsN6d1ii/Ey+K
-ywf/WNI7S5qgoGTUdNEuBGByFOYK8/ka+iCCkz1d7UzcSVH3fCB6aMhD2vHbE4tsGvinVUemndPw
-Fsd4xFuhSu+BWJNT0f41MmprQxIWUI/3HGosgb6no/0ZItmSho6dBLuqQ2sY0DjV99CU4mXQNTh8
-MUmoN8mq14g+22nwDpBMrLsGjlqHj4ShW6XtaEhps2yFhfcatm+zjshs16mzxOUc2pnxWSgDFnYA
-29PU92x9j7o/Ey9ZdEv5iJ3tDpjpTzufxDhmnGM5oUXphOU34tEb5BfXxao3oTkylKQpYWd9Y6pc
-dpCSmdvXD/mkAVsOOghnv5r3JCZgsOu1AOLqRjHsJQ==
-=hga3
------END PGP SIGNATURE-----
+Probably would be good to also mention the same in the patch description.
 
---------------oFSd0Rj5oWIoukOZwoO3CqLj--
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
