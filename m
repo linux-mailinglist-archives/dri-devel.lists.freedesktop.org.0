@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4851B531DF7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3D5531E09
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:39:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DEB210F817;
-	Mon, 23 May 2022 21:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE6A10FDC7;
+	Mon, 23 May 2022 21:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C77A10F610
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 21:38:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2C3A10F610
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 21:38:53 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 1454C20526;
- Mon, 23 May 2022 23:38:50 +0200 (CEST)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id D742A20531;
+ Mon, 23 May 2022 23:38:51 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 3/9] clk: fixed-factor: Introduce
- *clk_hw_register_fixed_factor_parent_hw()
-Date: Mon, 23 May 2022 23:38:31 +0200
-Message-Id: <20220523213837.1016542-4-marijn.suijten@somainline.org>
+Subject: [PATCH 4/9] drm/msm/dsi_phy_28nm: Replace parent names with clk_hw
+ pointers
+Date: Mon, 23 May 2022 23:38:32 +0200
+Message-Id: <20220523213837.1016542-5-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220523213837.1016542-1-marijn.suijten@somainline.org>
 References: <20220523213837.1016542-1-marijn.suijten@somainline.org>
@@ -59,138 +59,106 @@ Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the devres and non-devres variant of
-clk_hw_register_fixed_factor_parent_hw() for registering a fixed factor
-clock with clk_hw parent pointer instead of parent name.
+parent_hw pointers are easier to manage and cheaper to use than
+repeatedly formatting the parent name and subsequently leaving the clk
+framework to perform lookups based on that name.
 
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/clk/clk-fixed-factor.c | 57 ++++++++++++++++++++++++++++------
- include/linux/clk-provider.h   |  8 +++++
- 2 files changed, 55 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 52 +++++++++-------------
+ 1 file changed, 22 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/clk/clk-fixed-factor.c b/drivers/clk/clk-fixed-factor.c
-index 54942d758ee6..fabb98d0cdb2 100644
---- a/drivers/clk/clk-fixed-factor.c
-+++ b/drivers/clk/clk-fixed-factor.c
-@@ -78,7 +78,8 @@ static void devm_clk_hw_register_fixed_factor_release(struct device *dev, void *
- 
- static struct clk_hw *
- __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
--		const char *name, const char *parent_name, int index,
-+		const char *name, const char *parent_name,
-+		const struct clk_hw *parent_hw, int index,
- 		unsigned long flags, unsigned int mult, unsigned int div,
- 		bool devm)
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+index 48eab80b548e..6926c8ff6255 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+@@ -519,7 +519,7 @@ static int dsi_28nm_pll_restore_state(struct msm_dsi_phy *phy)
+
+ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **provided_clocks)
  {
-@@ -108,7 +109,9 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
- 	init.name = name;
- 	init.ops = &clk_fixed_factor_ops;
- 	init.flags = flags;
--	if (parent_name)
-+	if (parent_hw)
-+		init.parent_hws = &parent_hw;
-+	else if (parent_name)
- 		init.parent_names = &parent_name;
- 	else
- 		init.parent_data = &pdata;
-@@ -148,17 +151,50 @@ struct clk_hw *devm_clk_hw_register_fixed_factor_index(struct device *dev,
- 		const char *name, unsigned int index, unsigned long flags,
- 		unsigned int mult, unsigned int div)
- {
--	return __clk_hw_register_fixed_factor(dev, NULL, name, NULL, index,
--					      flags, mult, div, true);
-+	return __clk_hw_register_fixed_factor(dev, NULL, name, NULL, NULL,
-+					      index, flags, mult, div, true);
- }
- EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor_index);
- 
-+/**
-+ * devm_clk_hw_register_fixed_factor_parent_hw - Register a fixed factor clock with
-+ * pointer to parent clock
-+ * @dev: device that is registering this clock
-+ * @name: name of this clock
-+ * @parent_hw: pointer to parent clk
-+ * @flags: fixed factor flags
-+ * @mult: multiplier
-+ * @div: divider
-+ *
-+ * Return: Pointer to fixed factor clk_hw structure that was registered or
-+ * an error pointer.
-+ */
-+struct clk_hw *devm_clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-+		const char *name, const struct clk_hw *parent_hw,
-+		unsigned long flags, unsigned int mult, unsigned int div)
-+{
-+	return __clk_hw_register_fixed_factor(dev, NULL, name, NULL, parent_hw,
-+					      -1, flags, mult, div, true);
-+}
-+EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor_parent_hw);
-+
-+struct clk_hw *clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-+		const char *name, const struct clk_hw *parent_hw,
-+		unsigned long flags, unsigned int mult, unsigned int div)
-+{
-+	return __clk_hw_register_fixed_factor(dev, NULL, name, NULL,
-+					      parent_hw, -1, flags, mult, div,
-+					      false);
-+}
-+EXPORT_SYMBOL_GPL(clk_hw_register_fixed_factor_parent_hw);
-+
- struct clk_hw *clk_hw_register_fixed_factor(struct device *dev,
- 		const char *name, const char *parent_name, unsigned long flags,
- 		unsigned int mult, unsigned int div)
- {
--	return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name, -1,
--					      flags, mult, div, false);
-+	return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name,
-+					      NULL, -1, flags, mult, div,
-+					      false);
- }
- EXPORT_SYMBOL_GPL(clk_hw_register_fixed_factor);
- 
-@@ -204,8 +240,9 @@ struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
- 		const char *name, const char *parent_name, unsigned long flags,
- 		unsigned int mult, unsigned int div)
- {
--	return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name, -1,
--			flags, mult, div, true);
-+	return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name,
-+					      NULL, -1, flags, mult, div,
-+					      true);
- }
- EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor);
- 
-@@ -240,8 +277,8 @@ static struct clk_hw *_of_fixed_factor_clk_setup(struct device_node *node)
- 	if (of_match_node(set_rate_parent_matches, node))
- 		flags |= CLK_SET_RATE_PARENT;
- 
--	hw = __clk_hw_register_fixed_factor(NULL, node, clk_name, NULL, 0,
--					    flags, mult, div, false);
-+	hw = __clk_hw_register_fixed_factor(NULL, node, clk_name, NULL, NULL,
-+					    0, flags, mult, div, false);
- 	if (IS_ERR(hw)) {
- 		/*
- 		 * Clear OF_POPULATED flag so that clock registration can be
-diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-index 316c7e082934..94458cb669f0 100644
---- a/include/linux/clk-provider.h
-+++ b/include/linux/clk-provider.h
-@@ -1032,6 +1032,14 @@ struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
- struct clk_hw *devm_clk_hw_register_fixed_factor_index(struct device *dev,
- 		const char *name, unsigned int index, unsigned long flags,
- 		unsigned int mult, unsigned int div);
-+
-+struct clk_hw *devm_clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-+		const char *name, const struct clk_hw *parent_hw,
-+		unsigned long flags, unsigned int mult, unsigned int div);
-+
-+struct clk_hw *clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-+		const char *name, const struct clk_hw *parent_hw,
-+		unsigned long flags, unsigned int mult, unsigned int div);
- /**
-  * struct clk_fractional_divider - adjustable fractional divider clock
-  *
--- 
+-	char clk_name[32], parent1[32], parent2[32], vco_name[32];
++	char clk_name[32], vco_name[32];
+ 	struct clk_init_data vco_init = {
+ 		.parent_data = &(const struct clk_parent_data) {
+ 			.fw_name = "ref", .name = "xo",
+@@ -529,7 +529,7 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+ 		.flags = CLK_IGNORE_UNUSED,
+ 	};
+ 	struct device *dev = &pll_28nm->phy->pdev->dev;
+-	struct clk_hw *hw;
++	struct clk_hw *hw, *analog_postdiv, *indirect_path_div2, *byte_mux;
+ 	int ret;
+
+ 	DBG("%d", pll_28nm->phy->id);
+@@ -546,48 +546,40 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+ 		return ret;
+
+ 	snprintf(clk_name, 32, "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
+-	snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
+-	hw = devm_clk_hw_register_divider(dev, clk_name,
+-			parent1, CLK_SET_RATE_PARENT,
++	analog_postdiv = devm_clk_hw_register_divider_parent_hw(dev, clk_name,
++			&pll_28nm->clk_hw, CLK_SET_RATE_PARENT,
+ 			pll_28nm->phy->pll_base +
+-			REG_DSI_28nm_PHY_PLL_POSTDIV1_CFG,
+-			0, 4, 0, NULL);
+-	if (IS_ERR(hw))
+-		return PTR_ERR(hw);
++			REG_DSI_28nm_PHY_PLL_POSTDIV1_CFG, 0, 4, 0, NULL);
++	if (IS_ERR(analog_postdiv))
++		return PTR_ERR(analog_postdiv);
+
+ 	snprintf(clk_name, 32, "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
+-	snprintf(parent1, 32, "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
+-	hw = devm_clk_hw_register_fixed_factor(dev, clk_name,
+-			parent1, CLK_SET_RATE_PARENT,
+-			1, 2);
+-	if (IS_ERR(hw))
+-		return PTR_ERR(hw);
++	indirect_path_div2 = devm_clk_hw_register_fixed_factor_parent_hw(dev,
++			clk_name, analog_postdiv, CLK_SET_RATE_PARENT, 1, 2);
++	if (IS_ERR(indirect_path_div2))
++		return PTR_ERR(indirect_path_div2);
+
+ 	snprintf(clk_name, 32, "dsi%dpll", pll_28nm->phy->id);
+-	snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
+-	hw = devm_clk_hw_register_divider(dev, clk_name,
+-				parent1, 0, pll_28nm->phy->pll_base +
+-				REG_DSI_28nm_PHY_PLL_POSTDIV3_CFG,
+-				0, 8, 0, NULL);
++	hw = devm_clk_hw_register_divider_parent_hw(dev, clk_name,
++			&pll_28nm->clk_hw, 0, pll_28nm->phy->pll_base +
++			REG_DSI_28nm_PHY_PLL_POSTDIV3_CFG, 0, 8, 0, NULL);
+ 	if (IS_ERR(hw))
+ 		return PTR_ERR(hw);
+ 	provided_clocks[DSI_PIXEL_PLL_CLK] = hw;
+
+ 	snprintf(clk_name, 32, "dsi%dbyte_mux", pll_28nm->phy->id);
+-	snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
+-	snprintf(parent2, 32, "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
+-	hw = devm_clk_hw_register_mux(dev, clk_name,
+-			((const char *[]){
+-				parent1, parent2
++	byte_mux = devm_clk_hw_register_mux_parent_hws(dev, clk_name,
++			((const struct clk_hw *[]){
++				&pll_28nm->clk_hw,
++				indirect_path_div2,
+ 			}), 2, CLK_SET_RATE_PARENT, pll_28nm->phy->pll_base +
+ 			REG_DSI_28nm_PHY_PLL_VREG_CFG, 1, 1, 0, NULL);
+-	if (IS_ERR(hw))
+-		return PTR_ERR(hw);
++	if (IS_ERR(byte_mux))
++		return PTR_ERR(byte_mux);
+
+ 	snprintf(clk_name, 32, "dsi%dpllbyte", pll_28nm->phy->id);
+-	snprintf(parent1, 32, "dsi%dbyte_mux", pll_28nm->phy->id);
+-	hw = devm_clk_hw_register_fixed_factor(dev, clk_name,
+-				parent1, CLK_SET_RATE_PARENT, 1, 4);
++	hw = devm_clk_hw_register_fixed_factor_parent_hw(dev, clk_name,
++			byte_mux, CLK_SET_RATE_PARENT, 1, 4);
+ 	if (IS_ERR(hw))
+ 		return PTR_ERR(hw);
+ 	provided_clocks[DSI_BYTE_PLL_CLK] = hw;
+--
 2.36.1
 
