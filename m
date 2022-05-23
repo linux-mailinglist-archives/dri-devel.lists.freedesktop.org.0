@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E867530E94
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 13:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C87530E99
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 13:56:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE16310EDB4;
-	Mon, 23 May 2022 11:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11E810F01D;
+	Mon, 23 May 2022 11:56:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F11A410F093
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 11:35:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A881F10E5B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 11:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653305748;
+ s=mimecast20190719; t=1653306905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=esB4CG60KOiYCNvFLfupKrK3na9cJg7bNU5W1vo473k=;
- b=A5UOaWu0RGWuiRwQ8OBpNpW0DnTBXMFlJ8OwGjEG/6wXeGnotlE6mh3suMhSHC22IO70AT
- JkJT4hbjSLem1xaCsxl0ILN++MLviu76AYKM/kFfGZcWfGNxG1djXVRM9yJM8OQYn8Lh8i
- o4fwkZ8PUpS317HrwJUZa1GWgQ3Ysho=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ej9Zs6EFiB+YEbaX93Flskh+k2YvWLrmTAGuKsjQTaI=;
+ b=Xhnsa0dPu36B0gDjmJE0eOCxo7yl5Uzfuc2GEH6Apd/JMf9IGQmoe52nnzAI6+rPxc+tfg
+ /9YFrP0kxoWZ1v6x5qkQ2G0NU26BwCM+NSx+O4g5S9IsQWWIU5XzZZeWHl7cTPfJTRmZnJ
+ WmYPLgi1rEvt/5m1ccLAAFvoVRszBYI=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-79-i-rtPCBMOienVfnApBUNJw-1; Mon, 23 May 2022 07:35:45 -0400
-X-MC-Unique: i-rtPCBMOienVfnApBUNJw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l15-20020a05600c1d0f00b003973901d3b4so2674263wms.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 04:35:44 -0700 (PDT)
+ us-mta-619-N4OJ4z-PPfatel97qfj_Yw-1; Mon, 23 May 2022 07:55:02 -0400
+X-MC-Unique: N4OJ4z-PPfatel97qfj_Yw-1
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-f11c3a4d85so7574633fac.23
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 04:55:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=esB4CG60KOiYCNvFLfupKrK3na9cJg7bNU5W1vo473k=;
- b=zbqFjuoZuPnuaSd9Fh89seizaGT/kiGJwmazQIoDAwuNTnkl1SENB8wu+MrIaJHPEF
- mZcfZhN3NcCWjnsEm3+gxjmGIw5gYAfLSGxjnoZynKgGcqReCzXAob1jPqSINyCJXXFZ
- toiP5ggDss9boHN3GarVnXdv4uAfLlr+UAqO5mR3noR+0oi744cOlzNgvcRFx0kfJc58
- Lq5b2+E5UquoAc3yfex5A0VZV7qFcZ5iBYLpDNn8PiDA7sfHl14C0HYcsVu17bLdWPK0
- fIO/VAa9n5cTS+X42Wbzq2RoA3Ps1oLQ0hKOvvs37DKrvpaM+P+3gGGjGGRhZZFjLW/5
- L+jA==
-X-Gm-Message-State: AOAM530vk75zbBCLPTiMDWO8cTgZiQx6Rjp0qH4DeKvkdgD6R22w8/wk
- jG25a3k8sjaX1mhZi5bbqwn7GVA+36ybt/7fPfymQP8GQ/u7wHHjbPeJXb9SF1EeUQ21xvtq837
- aUma+IJl++utukTJiT5yXjR0rE+MM
-X-Received: by 2002:a05:6000:1562:b0:20f:c999:fda7 with SMTP id
- 2-20020a056000156200b0020fc999fda7mr8843867wrz.65.1653305743952; 
- Mon, 23 May 2022 04:35:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwVT0wpZjAWWuYWqm00EefJbbozZgIflACNx9uqBlH4bB19uD4jcj1iQ0owk08/zmUDeBF02A==
-X-Received: by 2002:a05:6000:1562:b0:20f:c999:fda7 with SMTP id
- 2-20020a056000156200b0020fc999fda7mr8843843wrz.65.1653305743764; 
- Mon, 23 May 2022 04:35:43 -0700 (PDT)
-Received: from fedora.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- o16-20020adf8b90000000b0020fc3e24041sm7577841wra.106.2022.05.23.04.35.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 04:35:43 -0700 (PDT)
-From: Mark Menzynski <mmenzyns@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/nouveau: clear output poll workers before
- nouveau_fbcon_destroy()
-Date: Mon, 23 May 2022 13:35:41 +0200
-Message-Id: <20220523113541.10562-1-mmenzyns@redhat.com>
-X-Mailer: git-send-email 2.32.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ej9Zs6EFiB+YEbaX93Flskh+k2YvWLrmTAGuKsjQTaI=;
+ b=ySGdjPFw7unrn1f3yQFSPk9kxRII51apWyxZY0q45tI90u6io5sQ+afwHWqgzUHrSm
+ jYSCDiZx/MAPMCOo+Ra6Dr4gh32PxOkZKutBKxVb6BaM9i8Ga8jPAsvFrD9GyY6P+l27
+ w9FmhTX7Zw4s3q7SriG7B9L4XMWTebO3yepNO6nnnbwC5HkeJulxobgIeAbRi5zxgwNT
+ UI4cLZG0oV07iM8Qe4Lkf3rbohwmy+SkhYL62F+L70r2ULItLH/ZosoO8cQO0mrjzvGR
+ pu0WzCJyVzzHDsY/qnheW6u07avzMI0uTLhUFOWH0RcvAXk4PpcXMslJUo8OG+6NsKiv
+ /VQA==
+X-Gm-Message-State: AOAM533zT7mHH9oYM7RN8WPp4zajQBi5WGuxH4hMxIv69k3q3asUVcI8
+ WOEJW/Ig/L/DOewCWt8Pe20ldnU0IG/BsHdAOUZa0RquXTGhF8kmf24l5A7rGGFYi1f6vQ3X+6o
+ tMduBoYDaP0mNjyhdVsSwJf1rAI4dCK19Hf2beab/DoDT
+X-Received: by 2002:a05:6830:1c74:b0:60b:18a2:cf9b with SMTP id
+ s20-20020a0568301c7400b0060b18a2cf9bmr1098470otg.231.1653306901888; 
+ Mon, 23 May 2022 04:55:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWla1J9quXzSP05nPTpVkasnRIgQARMybBnw3rmgXvRtjrNpYXG2vyefgiK7XGFjn+P5dzxMTxzvswjvMAT9E=
+X-Received: by 2002:a05:6830:1c74:b0:60b:18a2:cf9b with SMTP id
+ s20-20020a0568301c7400b0060b18a2cf9bmr1098457otg.231.1653306901632; Mon, 23
+ May 2022 04:55:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
+ <57d16ed5-8bfc-ce29-9250-14e2de18710a@redhat.com>
+ <20220523112246.056ddc99@eldfell>
+In-Reply-To: <20220523112246.056ddc99@eldfell>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Mon, 23 May 2022 13:54:50 +0200
+Message-ID: <CA+hFU4wTHR9kLrFY3XkbeROZgxWamiZ6yGYL4jH+wpe8MzLvMw@mail.gmail.com>
+Subject: Re: How should "max bpc" KMS property work?
+To: Pekka Paalanen <ppaalanen@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mmenzyns@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sewick@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,57 +80,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Mark Menzynski <mmenzyns@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Resources needed for output poll workers are destroyed in
-nouveau_fbcon_fini() before output poll workers are cleared in
-nouveau_display_fini(). This means there is a time between fbcon_fini()
-and display_fini(), where if output poll happens, it crashes.
+On Mon, May 23, 2022 at 10:23 AM Pekka Paalanen <ppaalanen@gmail.com> wrote=
+:
+>
+> On Fri, 20 May 2022 17:20:50 +0200
+> Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> > I got pointed to this thread by Jonas =C3=85dahl while asking some ques=
+tions
+> > the "max bpc" property related to:
+> >
+> > https://gitlab.freedesktop.org/plymouth/plymouth/-/issues/102#note_1382=
+328
+> >
+> > The current i915 behavior which you describe here, which if I understan=
+d
+> > things correctly is for "max bpc" to default to as high as possible is
+> > causing problems with flickerfree boot in plymouth. Plymouth does a mod=
+eset
+> > on the monitor's native resolution in case the BIOS/GOP setup the monit=
+or
+> > in a non native mode. Plymouth does not touch the "max bpc" property wh=
+en
+> > doing this modeset. Normally this works fine and when the BIOS/GOP has
+> > already configured the monitor at the native resolution the i915 driver
+> > will do a fastset and all is well.
+> >
+> > Still the modeset is causing the screen to go black for multiple second=
+s,
+> > despite the resolution being unchanged. What is happening according to
+> > the on screen mode info from the monitor is that on plymouth's modeset
+> > the link is being configured changes from 8 bpc to 10 bpc.
+> >
+> > Is there anyway to avoid this without hardcoding "max bpc" to 8 in
+> > plymouth (which would cause the same problem in the other direction
+> > if the firmware sets up the link for 10bpc I believe) ?
+>
+> Hi Hans,
+>
+> there was an attempt to get much of the current link state information
+> delivered to userspace, but I've forgot most about it.
+> I did find https://lkml.org/lkml/2021/6/18/294 linked from
+> https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_963469 .
+> I said the same in the Plymouth Gitlab issue you linked to.
+>
+> Personally, I would need to know all current link details for
+> (professional) color management: am I still driving the monitor with
+> the same signal as I did when I measured the monitor one reboot ago?
+> If not, I cannot trust the color output and need to measure again.
 
-This patch introduces another output poll clearing before fbcon
-resources are destroyed.
+I would go further and say that not being in control of all the link
+details is an issue for user space.
 
-BUG: KASAN: use-after-free in
-__drm_fb_helper_initial_config_and_unlock.cold+0x1f3/0x291
-[drm_kms_helper]
+Max bpc doesn't give us a minimum guarantee.
+Bpc doesn't really make sense for YUV.
+We don't know if the link is using RGB or YUV.
+The Colorspace property requires user space to know if the link is RGB
+or YUV (or does the link change depending on the Colorspace property?
+What about the default Colorspace?).
+Link compression can mess up colors.
 
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Mark Menzynski <mmenzyns@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_fbcon.c | 2 ++
- 1 file changed, 2 insertions(+)
+There simply is no way to write a proper user space with the current KMS AP=
+I.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index 4f9b3aa5deda..5226323e55d3 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -39,6 +39,7 @@
- 
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
-+#include <drm/drm_probe_helper.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_atomic.h>
-@@ -605,6 +606,7 @@ nouveau_fbcon_fini(struct drm_device *dev)
- 	if (!drm->fbcon)
- 		return;
- 
-+	drm_kms_helper_poll_fini(dev);
- 	nouveau_fbcon_accel_fini(dev);
- 	nouveau_fbcon_destroy(dev, drm->fbcon);
- 	kfree(drm->fbcon);
--- 
-2.32.0
+>
+> Nice to see there would be other uses for knowing which might be higher
+> priority to the larger community.
+>
+> Would it be proper to initialize 'max bpc' to the link depth used by
+> boot-up firmware? I guess it could make things more reliable and solve
+> the Plymouth blanking issue, but not the professional color management
+> use cases.
+
+I was always under the impression that if you do an atomic commit
+without changing any properties that it won't result in a mode set
+which would clearly make the current behavior a bug.
+
+>
+>
+> Thanks,
+> pq
 
