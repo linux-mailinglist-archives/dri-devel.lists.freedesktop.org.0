@@ -1,49 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FF0531D8B
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:16:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB37531DEE
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:38:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7D8F112281;
-	Mon, 23 May 2022 21:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 276FC10F7CF;
+	Mon, 23 May 2022 21:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F35A112281;
- Mon, 23 May 2022 21:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653340592; x=1684876592;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Wdlu5qAck4K8hVuNjoIxo+xDWRf/YlAeklV60KNVFGU=;
- b=bj6q13pMD0nuFDNZSsVPhuiMm4wt4CxGrQ9hRSlZ8Cts5uEVdYb29L60
- H3AyDoJwTNjdYWUHlYnza2IzXy9WbKOyPf407FFgYEjxPKNKvsUoecmS4
- IxLepQ6qzVEIIxHHLlmeLQu7BXsBdPXG/qHBdSdANQT5iXEFU6mGcBzZp
- /mKS7D3eN/4NlNH40GyNbxWQJpo0zZ5YrvfaiUvHWorVh5gVzRLdGedtK
- njKf1LpQxIx2GhiSO8ojdAB41D2huET6/593jc4UKAZxFYDlkADRKxyOg
- PyG1G3YlFHd0qU4OqRs5bmNeHEOU0jnrbCl3pgLvVcxoRpqnzr8mhJJHB A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="273353241"
-X-IronPort-AV: E=Sophos;i="5.91,247,1647327600"; d="scan'208";a="273353241"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 14:16:15 -0700
-X-IronPort-AV: E=Sophos;i="5.91,247,1647327600"; d="scan'208";a="744934688"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 14:16:15 -0700
-Date: Mon, 23 May 2022 14:16:13 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Subject: Re: [PATCH] drm/i915/hwconfig: Report no hwconfig support on ADL-N
-Message-ID: <Yov5nSWY/uksVjp1@mdroper-desk1.amr.corp.intel.com>
-References: <20220523075116.207677-1-balasubramani.vivekanandan@intel.com>
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACC4D10F3BC;
+ Mon, 23 May 2022 21:38:50 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id F35032051B;
+ Mon, 23 May 2022 23:38:46 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/9] drm/msm/dsi_phy: Replace parent names with clk_hw pointers
+Date: Mon, 23 May 2022 23:38:28 +0200
+Message-Id: <20220523213837.1016542-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220523075116.207677-1-balasubramani.vivekanandan@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,42 +41,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, John.C.Harrison@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Arnd Bergmann <arnd@arndb.de>, Jami Kettunen <jami.kettunen@somainline.org>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 23, 2022 at 01:21:16PM +0530, Balasubramani Vivekanandan wrote:
-> ADL-N being a subplatform of ADL-P, it lacks support for hwconfig
-> table. Explicit check added to skip ADL-N.
-> 
-> Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+As stated in [1] I promised to tackle and send this series.
 
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+parent_hw pointers are easier to manage and cheaper to use than
+repeatedly formatting the parent name and subsequently leaving the clk
+framework to perform lookups based on that name.
 
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
-> index 79c66b6b51a3..5aaa3948de74 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
-> @@ -94,7 +94,7 @@ static int guc_hwconfig_fill_buffer(struct intel_guc *guc, struct intel_hwconfig
->  
->  static bool has_table(struct drm_i915_private *i915)
->  {
-> -	if (IS_ALDERLAKE_P(i915))
-> +	if (IS_ALDERLAKE_P(i915) && !IS_ADLP_N(i915))
->  		return true;
->  	if (IS_DG2(i915))
->  		return true;
-> -- 
-> 2.25.1
-> 
+This series starts out by adding extra constructors for divider, mux and
+fixed-factor clocks that have parent_hw(s) pointer argument(s) instead
+of some DT index or name.  Followed by individual patches performing the
+conversion, one DSI PHY at a time.
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
+dsi_phy_28nm_8960 includes an extra fixup to replace "eternal"
+devm_kzalloc allocations (for the lifetime of the device) with
+stack-local char arrays, like all the other DSI PHY drivers.
+
+I couldn't help but notice that clock names are wildly varying:
+
+- Some use underscores in the _clk suffix where others have nothing;
+- Some have an _ after the %d, others have not;
+- Some use a _pll suffix after dsi%d or even _phy_pll suffix.
+
+Are there any thoughts or feelings towards unifying these?
+Theoretically no clock names are used anywhere in the kernel, and
+everything is based on a phandle + index in DT (I have yet to validate
+this).  Obviously no .name/.fw_name will be updated to not break DT.
+
+Which, by the way, is there a particular reason for:
+
+  #define DSI_BYTE_PLL_CLK		0
+  #define DSI_PIXEL_PLL_CLK		1
+
+To not be in the dt-bindings and used in the DT?
+
+And with enough future improvements out of the way, let's round out this
+patch-series by stating that it has been successfully tested on:
+
+- Sony Nile Discovery (Xperia XA2 Ultra): 14nm;
+- Sony Seine PDX201 (Xperia 10II): 14nm;
+- Sony Loire Suzu (Xperia X): 28nm.
+
+And no diff is observed in debugfs's clk_summary.
+
+Unfortunately all other devices in my collection with a 7/10nm DSI PHY
+have a DSC panel which we have yet to get working.
+
+[1]: https://lore.kernel.org/linux-arm-msm/20220502214235.s5plebunh4ttjhge@SoMainline.org/
+
+Marijn Suijten (9):
+  clk: divider: Introduce devm_clk_hw_register_divider_parent_hw()
+  clk: mux: Introduce devm_clk_hw_register_mux_parent_hws()
+  clk: fixed-factor: Introduce *clk_hw_register_fixed_factor_parent_hw()
+  drm/msm/dsi_phy_28nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_28nm_8960: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_28nm_8960: Use stack memory for temporary clock names
+  drm/msm/dsi_phy_14nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_10nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_7nm: Replace parent names with clk_hw pointers
+
+ drivers/clk/clk-fixed-factor.c                | 57 ++++++++++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c    | 92 ++++++++-----------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    | 36 ++++----
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    | 52 +++++------
+ .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   | 26 ++----
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 92 +++++++++----------
+ include/linux/clk-provider.h                  | 34 +++++++
+ 7 files changed, 209 insertions(+), 180 deletions(-)
+
+--
+2.36.1
