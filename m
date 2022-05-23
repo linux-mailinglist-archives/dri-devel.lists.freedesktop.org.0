@@ -1,158 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB47531148
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 16:18:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07059531161
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 16:45:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FEC610F002;
-	Mon, 23 May 2022 14:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8EED11218C;
+	Mon, 23 May 2022 14:45:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87F8C10EF45
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 14:18:33 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E558B1121A6;
+ Mon, 23 May 2022 14:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653315513; x=1684851513;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=CaXpLN/HQ1IcLpDHNysOC2X+UevErWlykoTAqGdUUMY=;
- b=g4dS0NAx4mnFlm1vRaDiGvXlKb+O2WBDCcaAm+osgVGgbbPbaEnxBwY/
- FvJlwCJ8mptTbQlwBj/dXdpif8O9iS1Dx+9rgyJ61PPljqB4m9JN6rX9z
- Fyqmu4v8gwQCRhtb86XqdBxDWzHpkGAa9m1Tkvyq8PV+PLy03d6cFEcK3
- PPoo3jyLN60AZmyjYahioSsONG9aDu8jQ8ev9oFl3WYmCxJk6jVLSQIe6
- FIYuE2d2Bw5etYaRmw/HasuwQ/H0RBmSeLcuVILfJYAQaABtYVWuLjkrj
- YmYQnD+3rBXr+nX7AzTusnkECJpOsVevOC2CXUMwV443KcvSUL6FFwOfu Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="272051915"
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="272051915"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 07:18:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="600673340"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga008.jf.intel.com with ESMTP; 23 May 2022 07:18:31 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 23 May 2022 07:18:30 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 23 May 2022 07:18:30 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 23 May 2022 07:18:30 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.102)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 23 May 2022 07:18:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C4eW4ivq0q0E2bV2m7emVJ6rM6Jp+zJstEv5jb12vaoi6HSoKibM6g3nNi6jNJUWL5rU6hZzYXliRas+LdTaVg9G3bqZmAsyqGYcI8scIOfjOw+k/oLhXWN1XzocovAqUEj/SeysgCcmmMD0eli5b+x6RF2KKTolWaLntG3kmjEbnzkyL6rdIm8g0Bu3o3rxhMp1SNMkEt50mpsFaQxBcNUnRDbnFO+7n68rUr+p6lLmEPU82nIe7dbVevOeZKC98FIIqYu6DVYQ9U6i/muzpK7ZlXbW4uSvMiwhGcU5Ti05mwmtmNWZIiQtlpPiudfyS4INGAOIFsR4aXNe2KUDQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cpepqdKqRwkJTzjqq9KutpHWkStNTtVJH6hqbhGKRYk=;
- b=lU+cbBVv8U03pUK4451TxlN2tM77YHOJEQhBNjhO5HqDVHQ+KIIhWARsD+KSh9O5DQgi4rMA9DNaxU2j5lXPJSG0DNcCUCa+Jyg9Qfmia7FqwG9GBzoR6AzbfubAgNx29IjD5xETUN789rnczrlgmWHEp7Vix0EB3x/brSJn0mX1SAXIH1e5rEXG43osIAm+vxQeynWYSzTpzngE/6CgfyvOcM9OCaex7ORfdihXThx6MbUG6VaptR1SG/Zy353CYuiiY0lkUaVFDvMcr/PKHBGyclZuk1mEm+7yCDbTrDrTh8T+wYYuKrHDy4eqCSssH2IWgQkdtGdUcW/SnB4rKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- BL3PR11MB6531.namprd11.prod.outlook.com (2603:10b6:208:38e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.13; Mon, 23 May
- 2022 14:18:27 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::1079:a2cc:665e:f397]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::1079:a2cc:665e:f397%7]) with mapi id 15.20.5273.023; Mon, 23 May 2022
- 14:18:27 +0000
-Message-ID: <f926ee46-5977-d3ea-a8ce-e4cf6767c918@intel.com>
-Date: Mon, 23 May 2022 16:18:19 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [PATCH 01/11] drm: of: Add drm_of_get_data_lanes and
- drm_of_get_data_lanes_ep
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
-References: <20220519112657.62283-1-marex@denx.de>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220519112657.62283-1-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0273.eurprd06.prod.outlook.com
- (2603:10a6:20b:45a::13) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
+ t=1653317138; x=1684853138;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=4cY3U0qUZX2gkEN7s8AW/OO5A3CZgRPoURBalADkt0M=;
+ b=QloN/JNou+SDBCSmNdzGB7ZQcT0lBCxVYskTkwMFH8NvEAbSu/kty9Sg
+ /ynmY1G5s8FgBkVvRvmNf3MM+Jaj1DOLdCYLulDGbwjPsm+vdnrtIHvbd
+ 8lkNBOjR4cuLvPHMyTm5t6AkLFuInKN9Mjwn3BjqIrSDwxOYyGGEsKYtd
+ TCBe/j/NTlENNMZUySUCoNoMx0ZSITEH058h8CFjJBCLs3ZEy599tSfjy
+ 8ELv1gTa6++9MJNdHn7yftWvK2qEsPeCS1KnE0RsVtTAwAEfZKmGJB0a2
+ C4mZM0+oMz12Jpe5dkLdA63NKn7GsoZanikPnXhjXHgJVyVUIVs9K/gyC A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="270813516"
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="270813516"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 07:45:38 -0700
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="548006740"
+Received: from tlehuche-mobl1.ger.corp.intel.com (HELO [10.213.213.125])
+ ([10.213.213.125])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 07:45:34 -0700
+Message-ID: <84e03c5f-a3af-6592-d19a-a2f5d20b92fb@linux.intel.com>
+Date: Mon, 23 May 2022 15:45:33 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c4c80804-b73a-4ad5-e730-08da3cc71a73
-X-MS-TrafficTypeDiagnostic: BL3PR11MB6531:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <BL3PR11MB65315C19902DFE5679A0C4E6EBD49@BL3PR11MB6531.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R/o5De55CmTs4ofA4OfAYT9VdtBCVWoxsXMGhrRFf1+w/Fzv7+QJKxwCNtKOu3pvNmD7iqZLxkULImQdzcxC6NXuwXOY6pNejefqavAa8YIEe48+rsajjMwxLgQTXYY3JYPnfOga/n5OH5hbjh2/jdqW+6AZlqHu6MNAxE71gnV2GYUYgdsIsf8u8kmwcH/4DZ4AFdIt6cLcGBJTe54ISQz00nPcYESpklR63hhBfEqn/V3Ng+cTZ1EM6wtZMvPFWa+SXeLcj4RQnttVXCjodeiphnTFYzJAeCN2TvtvoyWsAZtkPZTTNNjMZd5mDZF0BWl+xLCPzkxUKKhEgCMa6gfvXLtm2u7BH0vDryOe/Ii8Tz/Q3diktQNGtqX5ekY8YCEtjKgVg5ZBdijyeAnPrAys3l3CsGh+tNCnGy9DiB3dRUU5HQNpWhxnRH12DizjANvgVZF8dhrDvfN/VgfA83mjUo35ADaZlQBQQyltP9sOazlkoYLbj0+ts8/g4KjZET+HRZQhnkNT49VCq4emAADppPoiM2rOG8nUbS4Xx4bcfStfr+L+4snRL56WbHFkD6aRT4VODbFbpJIyE0NdKIjF1+XbUS6XkK3JPMPwVCQYg8+1FHSrh9LH1vYHzDpDu6UFiFPgdtAY4b85LcihwOW5VHGbfrx550YFRwKV4kZp8o2dI6HIXblfk5C4ZoMSNJhWiZTSNtgw/RI9/ukqrCpnaxXExmmMUahzvd6L9elrjWswomOvSQQcLL7bEMQsHicVQbOLvxGuHpFqRXoRtg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(8936002)(44832011)(2906002)(36916002)(4326008)(5660300002)(316002)(6486002)(66476007)(66556008)(31686004)(54906003)(38100700002)(6666004)(36756003)(508600001)(6506007)(186003)(8676002)(82960400001)(2616005)(53546011)(86362001)(31696002)(6512007)(83380400001)(26005)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1h3NkNtbnBMSmFiVWUvd1hXVEUzNFJFdnlrNGQ0b3FCdTExUWZqa1pVS0d3?=
- =?utf-8?B?Tm42ODIxeExEZ2doaUI2RHl2R3lqcHhNV3luSUNGMDliMG00dnZCcnpWbStZ?=
- =?utf-8?B?ZXNJYWdJSERZOXJrQ1dIRFRNbnFDbmJvMXNpcW4vVE5aVWxYMzVsd1JEdUpX?=
- =?utf-8?B?V2ZsdjQ3R0ZWclVFb1lmMkQxd3RRVEdIL0Q4Q3R4UGFrQWJWMHc3RElxQWFF?=
- =?utf-8?B?b3EyWkNrSXQwQXpKVjFVckRobjU5aGNrMEJTTUZuMWttOW1tYnhQRDFjaHRG?=
- =?utf-8?B?TEExRG9pYUpaVDJxWjJHV0M5ekwzU3k4cG1TS0ZZeEFzbTBpL21VWkN0V29G?=
- =?utf-8?B?R3d4OW1yajUyYk4wY3BZVk1KQVRBYi9WVVQyQUYwYXk4RHVEOUNzY1p2aHNJ?=
- =?utf-8?B?cHhNUSs5K0RYR001UkI1TFpxYkI3UU8vbXlleUNXbmVZMmpuRHV0NEtqUng0?=
- =?utf-8?B?NGVaL3h6NjNRdnhZZFF1bzNsUVdnQVk4WWJickFqNHZ2dHJwOWhaV01Wa3o2?=
- =?utf-8?B?OFI1RG1kYStYdjJsMUVuZ2JWT0VwSXprS2ZZaFdqRzhXY05wdkRGVnZUSHA1?=
- =?utf-8?B?RU1mc09FY0h1anE3c01pMHFSYklscCtZK2JPNFR3VHlKNzVUb1V1bjRuN2hI?=
- =?utf-8?B?a2NlY2JEV0dBOG9VazdmaFF2M01SelBDNEhTVHRyMzVUSy9tM0JHU1V3cUdR?=
- =?utf-8?B?WXEvZXBlNGlyRmdqVmJUZ2NBSlRZcEpRUkdhc3IxOUNwZnZYWnpoMFhQdjJp?=
- =?utf-8?B?b2lRRGttVGtIL1k0UmRrblBDRWxWN0xsdWxPczFHS2lCUWNEajFKSVpoTVdp?=
- =?utf-8?B?UWhXT1paQzlqVmEraW5zcUtBSVQxOGRVV1lvOTluN0FobHNZRTV3UFBJU29x?=
- =?utf-8?B?NTdjNzNnMkcxY25IM3JHY1dzZ0taVzZ3WjZFUnpYVUZnYWt4TnYzRHhHWHFT?=
- =?utf-8?B?UE52ZUFUUSsxNU9yZWhNNk53TWJkdnZFVU1QbFl4NTVNTnNKU0xkeElTVHRy?=
- =?utf-8?B?dXdwOFl6bzhFdkwwRzgwcXNpbGpsWDUrRENKemRJK21YR0UrcnkyK0RsNHJP?=
- =?utf-8?B?NFVXbWtBcW0wY1dBbDh4WitWZ00xdmZYSk5PY1dwNnh4WlR5QUJKNjRmcGty?=
- =?utf-8?B?Vng2QTRENDg2UXJqM1orSDB6UlVMWjUwQjNoOHliL3hlRWdiYy9EUDdkNTVB?=
- =?utf-8?B?WGNGTVA0SE1nYzRPT0FxSStXMmxMYjJlR2cxa2FEUnZtMEVQMHJoYnE2Yy9i?=
- =?utf-8?B?Vk1xZ3BDOEc3d0tHVkNKcjFOUENESTBrMUd6Nmx6MUtyak5YU21vSHJoRDQy?=
- =?utf-8?B?VW9kWmRlTGV0YmhXdVByWHJQNHpKZW5jMjhsdWx1Mzg1YTc4cDZyYWMxUmNG?=
- =?utf-8?B?eEdLU3Z6Ulp5WitydGwvUnVBNFhPbWx2eUQ1Qk5IekdERElMNWtNSVc5NGV6?=
- =?utf-8?B?SjlJUmlyQm9lUmlMSzAwOXpyaWlqYW9wSC8xTkg1OVBlRWluNmkxajhNckh1?=
- =?utf-8?B?b0ZLWFNPcVpZb0JrS2prcTdrWEtHMGF2RkdIWGdnbnIyWkttVmNBMGNJWWxJ?=
- =?utf-8?B?WTBmNW5EN3pmOWZiSlBSVVNKUzRqbGt0NTNNMm9kTW1kK3JWcVZmcldIVHVn?=
- =?utf-8?B?blVRK3hGTXUrc0cwbzZRUzFJWXBaUGZrMkc3dzFYZldudENDVVRMbGt4UFNt?=
- =?utf-8?B?a004SGtJYmlrZnlPTGw5SXFaV0QxaE5WQVVTcVJvUmtXUEZGN1Bqd0R5eDVN?=
- =?utf-8?B?RVVsSFQzSlB3cG1yQkczZzV4cUwwRXlMdnlZZTZNUmp4NHI5RGxhNDdNeU9N?=
- =?utf-8?B?RjJpWjN6RElOSEJ6SVdSOFdUbmVQc1dYdGx1RTdyZ1F5T0xuTzhmYjMvTkEw?=
- =?utf-8?B?ZGJaSGNEYXV4bStTSVlzaGlreW94aTZjMmdVcEdZYm5WTUdmQUtwQjFDMU1M?=
- =?utf-8?B?QmpDR3h5SG9ZeTk5eDBQUEFUdzlOWUJrdXRLZzJDU2M4NTV2Nm5EaHl4T1Zi?=
- =?utf-8?B?U3RpcGg0RnJ5L3RISTVrSzVqTi96Q3BVSFhWcUR2VERjYUpXbnVIK3prQTFE?=
- =?utf-8?B?YXBVc1dVOG5QRURiVW5ZYXIwdk4vUVpGeWcwSGlSVTAxSTNkMVpwZjh4WFF3?=
- =?utf-8?B?dlZjSVljbUExTVl6bzlqU1ppanozQXNpNmZHWC96dllJS2lEYzRKYU5uMmNu?=
- =?utf-8?B?ZXZTT3NvSUw1KzkwK2h4WUQzaXNyVktMTUFLTDQrV3kxSktqOXI2ZEkvcmps?=
- =?utf-8?B?cG54RldKMmIyblZrL1l6blAydUdVengwemM0VmMwaGFsTXc2VUlQWEhIM2dm?=
- =?utf-8?B?Z0tvaVBkWlEyQVRnNkNxRjhEeHRBRlVQYlppL2NIOWVrMHpaN3FHMGdwam9N?=
- =?utf-8?Q?o1cqrWoiNLc4IJXQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4c80804-b73a-4ad5-e730-08da3cc71a73
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2022 14:18:26.9589 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QD9+FA56FHU//f4GpSJAXkfqNsZbdLJpzpNnOhOQth7Q3Arajh2ake4Lbx18uGVetM3mTr8Mjs979mc/wO/7fw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6531
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 12/13] drm/msm: Utilize gpu scheduler priorities
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20210728010632.2633470-1-robdclark@gmail.com>
+ <20210728010632.2633470-13-robdclark@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20210728010632.2633470-13-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,150 +61,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+Hi Rob,
 
-On 19.05.2022 13:26, Marek Vasut wrote:
-> Add helper function to count and sanitize DT "data-lanes" property
-> and return either error or the data-lanes count. This is useful for
-> both DSI and (e)DP "data-lanes" property. The later version of the
-> function is an extra wrapper which handles the endpoint look up by
-> regs, that's what majority of the drivers duplicate too, but not all
-> of them.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> To: dri-devel@lists.freedesktop.org
+On 28/07/2021 02:06, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The drm/scheduler provides additional prioritization on top of that
+> provided by however many number of ringbuffers (each with their own
+> priority level) is supported on a given generation.  Expose the
+> additional levels of priority to userspace and map the userspace
+> priority back to ring (first level of priority) and schedular priority
+> (additional priority levels within the ring).
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Acked-by: Christian König <christian.koenig@amd.com>
 > ---
->   drivers/gpu/drm/drm_of.c | 61 ++++++++++++++++++++++++++++++++++++++++
->   include/drm/drm_of.h     | 20 +++++++++++++
->   2 files changed, 81 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 9a2cfab3a177f..2186f966d2820 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -430,3 +430,64 @@ int drm_of_lvds_get_data_mapping(const struct device_node *port)
->   	return -EINVAL;
->   }
->   EXPORT_SYMBOL_GPL(drm_of_lvds_get_data_mapping);
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +-
+>   drivers/gpu/drm/msm/msm_gem_submit.c    |  4 +-
+>   drivers/gpu/drm/msm/msm_gpu.h           | 58 ++++++++++++++++++++++++-
+>   drivers/gpu/drm/msm/msm_submitqueue.c   | 35 +++++++--------
+>   include/uapi/drm/msm_drm.h              | 14 +++++-
+>   5 files changed, 88 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index bad4809b68ef..748665232d29 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -261,8 +261,8 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value)
+>   			return ret;
+>   		}
+>   		return -EINVAL;
+> -	case MSM_PARAM_NR_RINGS:
+> -		*value = gpu->nr_rings;
+> +	case MSM_PARAM_PRIORITIES:
+> +		*value = gpu->nr_rings * NR_SCHED_PRIORITIES;
+>   		return 0;
+>   	case MSM_PARAM_PP_PGTABLE:
+>   		*value = 0;
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index 450efe59abb5..c2ecec5b11c4 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -59,7 +59,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+>   	submit->gpu = gpu;
+>   	submit->cmd = (void *)&submit->bos[nr_bos];
+>   	submit->queue = queue;
+> -	submit->ring = gpu->rb[queue->prio];
+> +	submit->ring = gpu->rb[queue->ring_nr];
+>   	submit->fault_dumped = false;
+>   
+>   	INIT_LIST_HEAD(&submit->node);
+> @@ -749,7 +749,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>   	/* Get a unique identifier for the submission for logging purposes */
+>   	submitid = atomic_inc_return(&ident) - 1;
+>   
+> -	ring = gpu->rb[queue->prio];
+> +	ring = gpu->rb[queue->ring_nr];
+>   	trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
+>   		args->nr_bos, args->nr_cmds);
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index b912cacaecc0..0e4b45bff2e6 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -250,6 +250,59 @@ struct msm_gpu_perfcntr {
+>   	const char *name;
+>   };
+>   
+> +/*
+> + * The number of priority levels provided by drm gpu scheduler.  The
+> + * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in some
+> + * cases, so we don't use it (no need for kernel generated jobs).
+> + */
+> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_MIN)
 > +
 > +/**
-> + * drm_of_get_data_lanes - Get DSI/(e)DP data lane count
-> + * @endpoint: DT endpoint node of the DSI/(e)DP source or sink
-> + * @min: minimum supported number of data lanes
-> + * @max: maximum supported number of data lanes
+> + * msm_gpu_convert_priority - Map userspace priority to ring # and sched priority
 > + *
-> + * Count DT "data-lanes" property elements and check for validity.
+> + * @gpu:        the gpu instance
+> + * @prio:       the userspace priority level
+> + * @ring_nr:    [out] the ringbuffer the userspace priority maps to
+> + * @sched_prio: [out] the gpu scheduler priority level which the userspace
+> + *              priority maps to
 > + *
-> + * Return:
-> + * * min..max - positive integer count of "data-lanes" elements
-> + * * -ve - the "data-lanes" property is missing or invalid
-> + * * -EINVAL - the "data-lanes" property is unsupported
+> + * With drm/scheduler providing it's own level of prioritization, our total
+> + * number of available priority levels is (nr_rings * NR_SCHED_PRIORITIES).
+> + * Each ring is associated with it's own scheduler instance.  However, our
+> + * UABI is that lower numerical values are higher priority.  So mapping the
+> + * single userspace priority level into ring_nr and sched_prio takes some
+> + * care.  The userspace provided priority (when a submitqueue is created)
+> + * is mapped to ring nr and scheduler priority as such:
+> + *
+> + *   ring_nr    = userspace_prio / NR_SCHED_PRIORITIES
+> + *   sched_prio = NR_SCHED_PRIORITIES -
+> + *                (userspace_prio % NR_SCHED_PRIORITIES) - 1
+> + *
+> + * This allows generations without preemption (nr_rings==1) to have some
+> + * amount of prioritization, and provides more priority levels for gens
+> + * that do have preemption.
+
+I am exploring how different drivers handle priority levels and this 
+caught my eye.
+
+Is the implication of the last paragraphs that on hw with nr_rings > 1, 
+ring + 1 preempts ring? If so I am wondering does the "spreading" of 
+user visible priorities by NR_SCHED_PRIORITIES creates a non-preemptable 
+levels within every "bucket" or how does that work?
+
+Regards,
+
+Tvrtko
+
 > + */
-> +int drm_of_get_data_lanes(const struct device_node *endpoint,
-> +			  const unsigned int min, const unsigned int max)
-
-Adding count to the name would be more accurate,  for example 
-drm_of_get_data_lanes_count ?
-Up to you.
-
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-
-
+> +static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
+> +		unsigned *ring_nr, enum drm_sched_priority *sched_prio)
 > +{
-> +	int ret;
+> +	unsigned rn, sp;
 > +
-> +	ret = of_property_count_u32_elems(endpoint, "data-lanes");
-> +	if (ret < 0)
-> +		return ret;
+> +	rn = div_u64_rem(prio, NR_SCHED_PRIORITIES, &sp);
 > +
-> +	if (ret < min || ret > max)
+> +	/* invert sched priority to map to higher-numeric-is-higher-
+> +	 * priority convention
+> +	 */
+> +	sp = NR_SCHED_PRIORITIES - sp - 1;
+> +
+> +	if (rn >= gpu->nr_rings)
 > +		return -EINVAL;
 > +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_of_get_data_lanes);
+> +	*ring_nr = rn;
+> +	*sched_prio = sp;
 > +
-> +/**
-> + * drm_of_get_data_lanes_ep - Get DSI/(e)DP data lane count by endpoint
-> + * @port: DT port node of the DSI/(e)DP source or sink
-> + * @port_reg: identifier (value of reg property) of the parent port node
-> + * @reg: identifier (value of reg property) of the endpoint node
-> + * @min: minimum supported number of data lanes
-> + * @max: maximum supported number of data lanes
-> + *
-> + * Count DT "data-lanes" property elements and check for validity.
-> + * This variant uses endpoint specifier.
-> + *
-> + * Return:
-> + * * min..max - positive integer count of "data-lanes" elements
-> + * * -EINVAL - the "data-mapping" property is unsupported
-> + * * -ENODEV - the "data-mapping" property is missing
-> + */
-> +int drm_of_get_data_lanes_ep(const struct device_node *port,
-> +			     int port_reg, int reg,
-> +			     const unsigned int min,
-> +			     const unsigned int max)
-> +{
-> +	struct device_node *endpoint;
-> +	int ret;
-> +
-> +	endpoint = of_graph_get_endpoint_by_regs(port, port_reg, reg);
-> +	ret = drm_of_get_data_lanes(endpoint, min, max);
-> +	of_node_put(endpoint);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_ep);
-> diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-> index 99f79ac8b4cd7..b559c53756196 100644
-> --- a/include/drm/drm_of.h
-> +++ b/include/drm/drm_of.h
-> @@ -50,6 +50,12 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
->   int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
->   					  const struct device_node *port2);
->   int drm_of_lvds_get_data_mapping(const struct device_node *port);
-> +int drm_of_get_data_lanes(const struct device_node *endpoint,
-> +			  const unsigned int min, const unsigned int max);
-> +int drm_of_get_data_lanes_ep(const struct device_node *port,
-> +			     int port_reg, int reg,
-> +			     const unsigned int min,
-> +			     const unsigned int max);
->   #else
->   static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
->   					  struct device_node *port)
-> @@ -105,6 +111,20 @@ drm_of_lvds_get_data_mapping(const struct device_node *port)
->   {
->   	return -EINVAL;
->   }
-> +
-> +int drm_of_get_data_lanes(const struct device_node *endpoint,
-> +			  const unsigned int min, const unsigned int max)
-> +{
-> +	return -EINVAL;
+> +	return 0;
 > +}
 > +
-> +int drm_of_get_data_lanes_ep(const struct device_node *port,
-> +			     int port_reg, int reg
-> +			     const unsigned int min,
-> +			     const unsigned int max)
-> +{
-> +	return -EINVAL;
-> +}
->   #endif
+>   /**
+>    * A submitqueue is associated with a gl context or vk queue (or equiv)
+>    * in userspace.
+> @@ -257,7 +310,8 @@ struct msm_gpu_perfcntr {
+>    * @id:        userspace id for the submitqueue, unique within the drm_file
+>    * @flags:     userspace flags for the submitqueue, specified at creation
+>    *             (currently unusued)
+> - * @prio:      the submitqueue priority
+> + * @ring_nr:   the ringbuffer used by this submitqueue, which is determined
+> + *             by the submitqueue's priority
+>    * @faults:    the number of GPU hangs associated with this submitqueue
+>    * @ctx:       the per-drm_file context associated with the submitqueue (ie.
+>    *             which set of pgtables do submits jobs associated with the
+> @@ -272,7 +326,7 @@ struct msm_gpu_perfcntr {
+>   struct msm_gpu_submitqueue {
+>   	int id;
+>   	u32 flags;
+> -	u32 prio;
+> +	u32 ring_nr;
+>   	int faults;
+>   	struct msm_file_private *ctx;
+>   	struct list_head node;
+> diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+> index 682ba2a7c0ec..32a55d81b58b 100644
+> --- a/drivers/gpu/drm/msm/msm_submitqueue.c
+> +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+> @@ -68,6 +68,8 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+>   	struct msm_gpu_submitqueue *queue;
+>   	struct msm_ringbuffer *ring;
+>   	struct drm_gpu_scheduler *sched;
+> +	enum drm_sched_priority sched_prio;
+> +	unsigned ring_nr;
+>   	int ret;
 >   
->   /*
-
+>   	if (!ctx)
+> @@ -76,8 +78,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+>   	if (!priv->gpu)
+>   		return -ENODEV;
+>   
+> -	if (prio >= priv->gpu->nr_rings)
+> -		return -EINVAL;
+> +	ret = msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sched_prio);
+> +	if (ret)
+> +		return ret;
+>   
+>   	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
+>   
+> @@ -86,24 +89,13 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+>   
+>   	kref_init(&queue->ref);
+>   	queue->flags = flags;
+> -	queue->prio = prio;
+> +	queue->ring_nr = ring_nr;
+>   
+> -	ring = priv->gpu->rb[prio];
+> +	ring = priv->gpu->rb[ring_nr];
+>   	sched = &ring->sched;
+>   
+> -	/*
+> -	 * TODO we can allow more priorities than we have ringbuffers by
+> -	 * mapping:
+> -	 *
+> -	 *    ring = prio / 3;
+> -	 *    ent_prio = DRM_SCHED_PRIORITY_MIN + (prio % 3);
+> -	 *
+> -	 * Probably avoid using DRM_SCHED_PRIORITY_KERNEL as that is
+> -	 * treated specially in places.
+> -	 */
+>   	ret = drm_sched_entity_init(&queue->entity,
+> -			DRM_SCHED_PRIORITY_NORMAL,
+> -			&sched, 1, NULL);
+> +			sched_prio, &sched, 1, NULL);
+>   	if (ret) {
+>   		kfree(queue);
+>   		return ret;
+> @@ -134,16 +126,19 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+>   int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
+>   {
+>   	struct msm_drm_private *priv = drm->dev_private;
+> -	int default_prio;
+> +	int default_prio, max_priority;
+>   
+>   	if (!priv->gpu)
+>   		return -ENODEV;
+>   
+> +	max_priority = (priv->gpu->nr_rings * NR_SCHED_PRIORITIES) - 1;
+> +
+>   	/*
+> -	 * Select priority 2 as the "default priority" unless nr_rings is less
+> -	 * than 2 and then pick the lowest priority
+> +	 * Pick a medium priority level as default.  Lower numeric value is
+> +	 * higher priority, so round-up to pick a priority that is not higher
+> +	 * than the middle priority level.
+>   	 */
+> -	default_prio = clamp_t(uint32_t, 2, 0, priv->gpu->nr_rings - 1);
+> +	default_prio = DIV_ROUND_UP(max_priority, 2);
+>   
+>   	INIT_LIST_HEAD(&ctx->submitqueues);
+>   
+> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
+> index f075851021c3..6b8fffc28a50 100644
+> --- a/include/uapi/drm/msm_drm.h
+> +++ b/include/uapi/drm/msm_drm.h
+> @@ -73,11 +73,19 @@ struct drm_msm_timespec {
+>   #define MSM_PARAM_MAX_FREQ   0x04
+>   #define MSM_PARAM_TIMESTAMP  0x05
+>   #define MSM_PARAM_GMEM_BASE  0x06
+> -#define MSM_PARAM_NR_RINGS   0x07
+> +#define MSM_PARAM_PRIORITIES 0x07  /* The # of priority levels */
+>   #define MSM_PARAM_PP_PGTABLE 0x08  /* => 1 for per-process pagetables, else 0 */
+>   #define MSM_PARAM_FAULTS     0x09
+>   #define MSM_PARAM_SUSPENDS   0x0a
+>   
+> +/* For backwards compat.  The original support for preemption was based on
+> + * a single ring per priority level so # of priority levels equals the #
+> + * of rings.  With drm/scheduler providing additional levels of priority,
+> + * the number of priorities is greater than the # of rings.  The param is
+> + * renamed to better reflect this.
+> + */
+> +#define MSM_PARAM_NR_RINGS   MSM_PARAM_PRIORITIES
+> +
+>   struct drm_msm_param {
+>   	__u32 pipe;           /* in, MSM_PIPE_x */
+>   	__u32 param;          /* in, MSM_PARAM_x */
+> @@ -304,6 +312,10 @@ struct drm_msm_gem_madvise {
+>   
+>   #define MSM_SUBMITQUEUE_FLAGS (0)
+>   
+> +/*
+> + * The submitqueue priority should be between 0 and MSM_PARAM_PRIORITIES-1,
+> + * a lower numeric value is higher priority.
+> + */
+>   struct drm_msm_submitqueue {
+>   	__u32 flags;   /* in, MSM_SUBMITQUEUE_x */
+>   	__u32 prio;    /* in, Priority level */
