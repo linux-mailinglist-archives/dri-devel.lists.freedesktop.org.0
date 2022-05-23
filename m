@@ -1,38 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DEDF531E24
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:44:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AFC531E44
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C59710EC8D;
-	Mon, 23 May 2022 21:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A95C01121A3;
+	Mon, 23 May 2022 21:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3531110EA67;
- Mon, 23 May 2022 21:44:53 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 8E0EE1F644;
- Mon, 23 May 2022 23:44:51 +0200 (CEST)
-Date: Mon, 23 May 2022 23:44:42 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dsi: pll_7nm: remove unsupported dividers for
- DSI pixel clock
-Message-ID: <20220523214442.3tc5injctsqjwc5e@SoMainline.org>
-References: <20220501195620.4135080-1-dmitry.baryshkov@linaro.org>
- <CAE-0n51uV-BpuPSrTFiN2wvzh3+==WMU85j8kdi-td0X4xs8kg@mail.gmail.com>
- <20220502214235.s5plebunh4ttjhge@SoMainline.org>
- <f01f5ace-4ae9-2b65-2ce8-fb2cdc0a5af1@linaro.org>
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B517D1121A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 21:58:31 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id v66so19426035oib.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 14:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q8SrzKwXbwxEUVDgvvMve7Yi3txpWp8p+iQJgO5oLAk=;
+ b=iohk/agXfsij0LTxGdU0vY6kpIgx4QqFuvhQEnzmWnnDNBRfp7M+LaYZhlEqiOM+PD
+ 5Ofsc/QN1DC5SCtQ8cTlukZabTVMItX/J9cVbGmwqSVtQVsxHaKZnORw2esG2MBxarHq
+ LHaKztBDVV9SBBmVYUc7/xgb0bTh0We+ra5CE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q8SrzKwXbwxEUVDgvvMve7Yi3txpWp8p+iQJgO5oLAk=;
+ b=QCNSTmNbnVfCXih4jtCeixreGQHkEPTo7EZR+WCpSEpUMrM2EN8QuHvdd4jGxzaS0j
+ hy7q0OR+h5x7QLIz1xHyY0FuT8uINuXnL9ozjCn8Nhy35eqECEYswf5UXg8tm89fgdvF
+ YBtoX7ULdRdhwM6ycGU2OhiEVul9owgoz5MkiAvPjuJXWDV5iyYb1xyAOP13ekX3Ddek
+ hD4dux0e9HejMWIDnEwdEIKCLKHS05kGyV49LGPDxCbXX0sf93KwCZUZEjeEHHjj+taT
+ yH18C0wOw+7gLAmzC0cmfEJ+bsTduc/sx873uGM1IMVuDRadt+rQUn8SxKfhigyJL7Sf
+ Zh0w==
+X-Gm-Message-State: AOAM530bSxIQpkJ1R84JAQuraPKoFupIQVzOt/+Eevi2ZOE1x7jzquAo
+ PNgQWIIK6JIafadGrUAPlmBAuV2xXXue3A==
+X-Google-Smtp-Source: ABdhPJxMfxhR2rAFfE1G6S5/TKFsyWBPaZDpQLJMCJTa5rHP7DrwklaC7oT3bu6giwdD+QrQmDhb1w==
+X-Received: by 2002:a05:6808:1487:b0:32a:eee3:68c1 with SMTP id
+ e7-20020a056808148700b0032aeee368c1mr698986oiw.64.1653343110768; 
+ Mon, 23 May 2022 14:58:30 -0700 (PDT)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com.
+ [209.85.167.174]) by smtp.gmail.com with ESMTPSA id
+ p132-20020aca428a000000b00325cda1ff8esm4485401oia.13.2022.05.23.14.58.30
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 May 2022 14:58:30 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id r68so5220962oie.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 14:58:30 -0700 (PDT)
+X-Received: by 2002:aca:5e84:0:b0:2ec:9c1d:fc77 with SMTP id
+ s126-20020aca5e84000000b002ec9c1dfc77mr600365oib.291.1653342713974; Mon, 23
+ May 2022 14:51:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f01f5ace-4ae9-2b65-2ce8-fb2cdc0a5af1@linaro.org>
+References: <20220228202532.869740-1-briannorris@chromium.org>
+ <CA+ASDXNSThy7usMKkN22VBq2iyej7sCJ8CAmgnNvxDgZiMbukA@mail.gmail.com>
+In-Reply-To: <CA+ASDXNSThy7usMKkN22VBq2iyej7sCJ8CAmgnNvxDgZiMbukA@mail.gmail.com>
+From: Brian Norris <briannorris@chromium.org>
+Date: Mon, 23 May 2022 14:51:42 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXMW14GqJUAogQ0=dVdamhTTGDzcMRv-8Cx-TaXShHxj+A@mail.gmail.com>
+Message-ID: <CA+ASDXMW14GqJUAogQ0=dVdamhTTGDzcMRv-8Cx-TaXShHxj+A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm/bridge: analogix_dp: Self-refresh state
+ machine fixes
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,68 +79,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Doug Anderson <dianders@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Linux Kernel <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Liu Ying <victor.liu@oss.nxp.com>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-03 01:02:42, Dmitry Baryshkov wrote:
-> On 03/05/2022 00:42, Marijn Suijten wrote:
-> > On 2022-05-02 13:47:51, Stephen Boyd wrote:
-> >> Quoting Dmitry Baryshkov (2022-05-01 12:56:20)
-> >>> Remove dividers that are not recommended for DSI DPHY mode when setting
-> >>
-> >> Is "DPHY" intentional or just "PHY" should be here?
-> >>
-> >>> up the clock tree for the DSI pixel clock.
-> >>>
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>
-> >> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> >>
-> >>>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 10 ++++------
-> >>>   1 file changed, 4 insertions(+), 6 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >>> index 6e506feb111f..66ed1919a1db 100644
-> >>> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >>> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >>> @@ -687,15 +687,13 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
-> >>>                  snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_7nm->phy->id);
-> >>>                  snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
-> >>>                  snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
-> >>> -               snprintf(parent3, 32, "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
-> >>> -               snprintf(parent4, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
-> >>>
-> >>>                  hw = devm_clk_hw_register_mux(dev, clk_name,
-> >>>                                          ((const char *[]){
-> >>> -                                       parent, parent2, parent3, parent4
-> >>> -                                       }), 4, 0, pll_7nm->phy->base +
-> >>> +                                       parent, parent2,
-> >>> +                                       }), 2, 0, pll_7nm->phy->base +
-> >>>                                          REG_DSI_7nm_PHY_CMN_CLK_CFG1,
-> >>> -                                       0, 2, 0, NULL);
-> >>> +                                       0, 1, 0, NULL);
-> >>
-> >> Can you followup with a patch to move to clk_parent_data instead of
-> >> strings?
-> > 
-> > Dmitry and I discussed this a while ago, and I actually have patches in
-> > progress converting this.  Dmitry, if you haven't started on the
-> > conversion yet, perhaps it's efficient if I respin my efforts and submit
-> > them soon?
-> 
-> Yes, please. I'm under the pile of other things. Your patches will be 
-> appreciated. You don't have to convert all PHYs at once.
+On Thu, Mar 10, 2022 at 3:50 PM Brian Norris <briannorris@chromium.org> wrote:
+> On Mon, Feb 28, 2022 at 12:25 PM Brian Norris <briannorris@chromium.org> wrote:
 
-Holding to my promise, the patches are now available on the lists:
+> Ping for review? Sean, perhaps? (You already reviewed this on the
+> Chromium tracker.)
 
-https://lore.kernel.org/linux-arm-msm/20220523213837.1016542-1-marijn.suijten@somainline.org/T/#t
-
-It was more convenient to convert the remaining PHYs on top of the
-14/28nm I had already done, it's mostly trivial work anyway.
-
-- Marijn
+Ping
