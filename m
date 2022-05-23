@@ -1,57 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60AD5530EB2
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 14:46:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA3D530EB7
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 14:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB74410F2D7;
-	Mon, 23 May 2022 12:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F0310F506;
+	Mon, 23 May 2022 12:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C95410F27E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 12:46:17 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id f16so25188045ybk.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 05:46:17 -0700 (PDT)
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80F2F10F505
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 12:50:33 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id t28so5990488pga.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 05:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=O+ppO6uaT3HzCMb3hULH8hCXzl7PiBlC1jwCnqcgfHE=;
- b=WEtOarK4jpq+wCwX/9yC+UTrfJxpv7OHii0oCYtPbf3H56WwfrhYrsmCvVfpgKdwIa
- +pxhCdioQJtxmpQ9SJzV+cy5Vf/1hnJWlrslH6EiXg0KZClSN4C3pmVoFU+rd+Et80SY
- PKbZxRzi9Xtv/MuxGyKS4t87kUGCOWVLmrhc51oLcUzm0fpig+p9VS8WmTTPazWJxxb+
- LuJdDyw+uenhYOjkQdSuZiKM2PqkzOmR+BR00LbtMQnrUesNgG2B4Qhs2dec50umM7cb
- Dnah/hN+EzOePcrwGmlwc+KOl2q3a8ELivybRCpu47yEporw6ejYIS11ugKC6IZLToIu
- 5wPw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=YfnB11KMaX602mBm0PnlrHM5pqQzJfF9oigF++xZ/Ks=;
+ b=UhKZbD+yQzdUWIBnTy9KAJYJYOuA2+70s+CqllAQ/sfA6KznKV5d+vWr5UMmThRA6t
+ CN/wUjyaha4lokAFaS2EjzviEqNjZKn481mxdq73xHsysOXsSs0lN1Ioj0d8S7H3frGY
+ zpktXvyQ8PNZz+rQJO4ONjCJNXfrpNMK+f+no0khs0tgm/GH/b91xMVDRll0IBzCL473
+ zAd5sg7DTmGDlZUtmyRCDEe0etu0zWfk6hyquG2VAKDuO7UsaWt1MrChSlzBqVYXwWfO
+ 9T2NuBUhVpWS4KRU3807MP9VlUovGOrfaSusS7L6EAmlHxxZkvZhckWBlgh/VMaYpMIl
+ /86w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=O+ppO6uaT3HzCMb3hULH8hCXzl7PiBlC1jwCnqcgfHE=;
- b=X2OCyIqP0oHE8lmPhOac+H2XMNa0+HQmL/XapOtqsw//OMSBywOWmOlnN0l4ZSP+5U
- j+PzsG11O6H1uUSA4W7+NWC4U8DXEn6zbwl0quoYEiJ3qAxtnAYdxAUOetNgDnId+QhV
- TnTRAnFgQyEkHaQRL3PpWTWTGYU+4/SfLsHnBf8CNKj9Wi1/vf7W+5K2n6yOu/oLxkxQ
- 0/OunX5YqNZcencL0uHW37ngC2A5QMGARo1BnVc7Wmi/bfrFhQabtVik5PREs8WT5n6z
- cxNoygVVUtGGAQ1neFPMmLL4PZLWBf0nRdgwsh+EIdmvLGa+nVHrb9l185SADgdMbVfg
- G9gQ==
-X-Gm-Message-State: AOAM531J70fzh+9G19cUawrC4FGh3Yptnqd6NMBF8RjFfrOoWINlh6iP
- eEhCPnG00ZhuUkJI2dxX3+5ucsPXI4ShDvYza2QEeg==
-X-Google-Smtp-Source: ABdhPJwouBMGBTgRpDxe5aoUB6mzxiwqDafQ4SxktusCLNK6ylCETjs4yu813XGYZcUR/Th38ypf5hUsI1iX0luoVyU=
-X-Received: by 2002:a5b:302:0:b0:64b:a20a:fcd9 with SMTP id
- j2-20020a5b0302000000b0064ba20afcd9mr21068986ybp.492.1653309976782; Mon, 23
- May 2022 05:46:16 -0700 (PDT)
+ :message-id:subject:to;
+ bh=YfnB11KMaX602mBm0PnlrHM5pqQzJfF9oigF++xZ/Ks=;
+ b=zWtkB0vZywCgh7TBCI9HJuPYT6fybrp5AcQPh9kc88RhRVFDxwysrCQ90U+1ZP1pAR
+ BClpbNgqccgT1cXQTf3B+hZs6nqEW5fZVuGcq40fWhhylsdo1XIQSsgnyYoCU7pstvrV
+ KyxYEmDrq1iYIBDu7PqN4NEv0rdNroAnsPkDZ21VTyUsHOFnegWpAER40MT5hqoYc9Xx
+ PrbU8JT+shw+7Kut2KpicdTJHSZFhafZQNimoQTWkj0P3tx41OmVHhDprlTVbufAgTf1
+ MoH82e+Zyv/FZQsaxHEA8boZBewqs7fD/w/irySkgdLJNOdEL2HWWJ5whlURx24uaqaC
+ OMIA==
+X-Gm-Message-State: AOAM532GiYWzadpfCcLm9NJGQYzJwW0pAQNw+vBZtcOg/5H0nE7QGtH2
+ 28+J70S7E2s48+o5814y9tlRwzkZYT9otSpTEYTA2g==
+X-Google-Smtp-Source: ABdhPJwVH/O6Xo9nRgajes4j9eCZ5mpZVShQyUWGA9JFDSxnW70LHrFHFYzJSTkvaEFwySG6g2LXOgM+0tGd1nPpuRs=
+X-Received: by 2002:a63:6901:0:b0:3f9:caa5:cffc with SMTP id
+ e1-20020a636901000000b003f9caa5cffcmr12543131pgc.324.1653310233085; Mon, 23
+ May 2022 05:50:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220506123246.21788-1-yuehaibing@huawei.com>
-In-Reply-To: <20220506123246.21788-1-yuehaibing@huawei.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 23 May 2022 14:46:05 +0200
-Message-ID: <CACRpkdZUwfVNZyS6RgcupJ+TRUZVM+1_3ABj_-f_3+v+wNE6mg@mail.gmail.com>
-Subject: Re: [PATCH v2 -next] drm/display: Fix build error without CONFIG_OF
-To: YueHaibing <yuehaibing@huawei.com>
+References: <20220523084615.13510-1-robert.foss@linaro.org>
+In-Reply-To: <20220523084615.13510-1-robert.foss@linaro.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 23 May 2022 14:50:22 +0200
+Message-ID: <CAG3jFytkFcmYjj6AHye3imsTDyP1LxHQvAzjswuRBsVVHRTnKg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] Revert "drm/bridge: anx7625: Use DPI bus type"
+To: andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, 
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org, 
+ krzysztof.kozlowski+dt@linaro.org, xji@analogixsemi.com, hsinyi@chromium.org, 
+ sam@ravnborg.org, tzimmermann@suse.de, maxime@cerno.tech, 
+ jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +69,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- dmitry.baryshkov@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 6, 2022 at 2:33 PM YueHaibing <yuehaibing@huawei.com> wrote:
-
-> While CONFIG_OF is n but COMPILE_TEST is y, we got this:
+On Mon, 23 May 2022 at 10:46, Robert Foss <robert.foss@linaro.org> wrote:
 >
-> WARNING: unmet direct dependencies detected for DRM_DP_AUX_BUS
->   Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && OF [=3Dn]
->   Selected by [y]:
->   - DRM_MSM [=3Dy] && HAS_IOMEM [=3Dy] && DRM [=3Dy] && (ARCH_QCOM || SOC=
-_IMX5 || COMPILE_TEST [=3Dy]) && COMMON_CLK [=3Dy] && IOMMU_SUPPORT [=3Dy] =
-&& (QCOM_OCMEM [=3Dn] || QCOM_OCMEM [=3Dn]=3Dn) && (QCOM_LLCC [=3Dy] || QCO=
-M_LLCC [=3Dy]=3Dn) && (QCOM_COMMAND_DB [=3Dn] || QCOM_COMMAND_DB [=3Dn]=3Dn=
-)
+> This reverts commit a77c2af0994e24ee36c7ffb6dc852770bdf06fb1.
+> ---
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> Make DRM_DP_AUX_BUS depends on OF || COMPILE_TEST to fix this warning.
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 01f46d9189c1..53a5da6c49dd 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -1623,14 +1623,14 @@ static int anx7625_parse_dt(struct device *dev,
 >
-> Fixes: f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus supp=
-ort")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>         anx7625_get_swing_setting(dev, pdata);
+>
+> -       pdata->is_dpi = 0; /* default dsi mode */
+> +       pdata->is_dpi = 1; /* default dpi mode */
+>         pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
+>         if (!pdata->mipi_host_node) {
+>                 DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
+>                 return -ENODEV;
+>         }
+>
+> -       bus_type = 0;
+> +       bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
+>         mipi_lanes = MAX_LANES_SUPPORT;
+>         ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
+>         if (ep0) {
+> @@ -1640,8 +1640,8 @@ static int anx7625_parse_dt(struct device *dev,
+>                 mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
+>         }
+>
+> -       if (bus_type == V4L2_FWNODE_BUS_TYPE_DPI) /* bus type is DPI */
+> -               pdata->is_dpi = 1;
+> +       if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
+> +               pdata->is_dpi = 0;
+>
+>         pdata->mipi_lanes = mipi_lanes;
+>         if (pdata->mipi_lanes > MAX_LANES_SUPPORT || pdata->mipi_lanes <= 0)
+> --
+> 2.34.1
+>
 
-Patch applied to the DRM tree.
-
-Yours,
-Linus Walleij
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
