@@ -2,158 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27155311A3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 17:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF695311B5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 17:52:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A689E112352;
-	Mon, 23 May 2022 15:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8130710FF13;
+	Mon, 23 May 2022 15:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85077112352
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 15:35:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653320122; x=1684856122;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=J+IBRQoiPwuwqAdnCiRls07f+jN/JNvfSBXDsRCr2W0=;
- b=R+/arnxfpFuRz9YA1/Dinjj8FgUuUXsbtwZOemS2zESDrrdplh6Q5vVb
- 7Vsk6x2mScy2DyE9IDm59XBDrcn0dIYTKpb+cUgTfXa+uXT431fTbODMG
- +u2YHCCmAwvcF2GRNUFrJHUej9wjBO7IqGa3yaTDG+vWYrIdpM3Jb9AE1
- sCFL86tmxJ3wDP5/I4a3FN1iBL2MdskN2CTHrpbKKOqZ8pbBRCc/l4HQF
- ogBiO4Mf0yW6ZI86/ck1Li4Rn+3tjNSKL3Q4cBVOrjlnJ0yyq3gEdqLR8
- QbtV85kC2hfjCiWmIR/qAU2zmCxbJ4w5FdXGa6Pdo9a1AEl8PD5g/TSo4 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="272074707"
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="272074707"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 08:35:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; d="scan'208";a="629435142"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga008.fm.intel.com with ESMTP; 23 May 2022 08:35:21 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 23 May 2022 08:35:21 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 23 May 2022 08:35:21 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 23 May 2022 08:35:21 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 23 May 2022 08:35:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SCzp1ebj6CBSFeJi3FKR/8SqoWVkv9ZTQuNYsnOWZmSVm96ts9BXOpmEDzFc44hYcniEhHsArUZrW73kdRLzSUSQ6MyxUxyviV29/AZmrffaXuTLE3vSibF7cUQXu6sqeH/vp8Auzy0/gjJ/YT9s1vLngMCLQvapH63sGzDR0TBxSe/AJzJy6jbgFCZiBMweWIthBR+t1p6OlcXg2lHM9iXy3DRxKgYgqzQFvQxnFTYt7FYYSo/fv7LnKM299A0/n3L/eVP1HQZ4UC73yP9vbyiJFY/PTz6VUVADbY05qNi6KSjTytVbzbnUbMZrULV2OB8kEWgwAkiDOKxm/k5IVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ygPM+oVgnyiv9+P6wfg+7QIC2f0rQjBbqGvfwYF88Kw=;
- b=K9Aj7Q7sRVRqeiNuXcUQ8Zexv/P2h90TONVPsYBiiVcWPaqSQ2uuF5n6z80GROuiO6KamZM3KDYwBLUi1TuIjAK//cTZQcuNt1gTZ5A3o5lUu1GB6URiBffokmHMa3kzKnirOY6UhBmMS4ZLI6mUtWlUY9mlgPMEGSljN8kdAEmhsCHPb4RGfPK7c/C05z99uOAOC7IYrBz4AR0OmaOm8sKEOMEHwydxNUJTBxXSbZA01Pv+wzc/0nFkxoyaWRJtpN8XdDi6jkQqU+ZHhktEuXSTdGJR3PH/cNdNrPoY/Uw5uhlJqAcRmbATqb330ML2TELUQkmv/SEhdr83DZ+b2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
- DM6PR11MB3596.namprd11.prod.outlook.com (2603:10b6:5:13a::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.15; Mon, 23 May 2022 15:35:17 +0000
-Received: from DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::1079:a2cc:665e:f397]) by DM6PR11MB3180.namprd11.prod.outlook.com
- ([fe80::1079:a2cc:665e:f397%7]) with mapi id 15.20.5273.023; Mon, 23 May 2022
- 15:35:17 +0000
-Message-ID: <5635893f-2e90-656b-866a-ee8e9984c9c4@intel.com>
-Date: Mon, 23 May 2022 17:35:08 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.0
-Subject: Re: [PATCH 03/11] drm/bridge: icn6211: Convert to
- drm_of_get_data_lanes_ep
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
-References: <20220519112657.62283-1-marex@denx.de>
- <20220519112657.62283-3-marex@denx.de>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220519112657.62283-3-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P195CA0071.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:87::48) To DM6PR11MB3180.namprd11.prod.outlook.com
- (2603:10b6:5:9::13)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21FA910FD99;
+ Mon, 23 May 2022 15:52:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id 4B3311F43999
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1653321143;
+ bh=DA/mN+1BU4Nd9tCudbkLz/qbQo49NA3cNG9K0ROzBek=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=PmHIqMTFfkEfEjXHQhKBoKfR/Bed1U7zykhrRhdueC2AqwcYG4OASMJbFwiX/06mf
+ qitPcNGvzBgqUC1noiRGz6btaGdEAfVjdUC4ZoOHw4MZrI/r+6NGSz+iJylStaFcuM
+ EsSPt3/FGiAI+drcfTA68KRJ0AjTTlNY1mQbU8i3LCde4mpsB0HwKcZP2olVkmSiEb
+ kL9F8YSDitcajaQpC62d/QfNV8nJ67f4ydkJht9xu2NJPN6EyvHRCu6MSca6+dszTJ
+ CbSnlVRWz72TQbiKJ+1DgOVNzem3UtPdT4BOGf4VFtLi/1+uSyE7gx1gAA5E276vdZ
+ p+s5msBEfzXqg==
+Message-ID: <74e101c2-39c7-a169-f7c4-8947517dde8b@collabora.com>
+Date: Mon, 23 May 2022 16:52:21 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3f971a0c-1fcc-4172-0655-08da3cd1d675
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3596:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM6PR11MB3596FAC48A072BFB0E108A30EBD49@DM6PR11MB3596.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AkVQHe4Z4bV/yYbkONiyx8ml75GRgbkG/3PCoA9lWDBzlcZrFK10eq2i7TfRuNX2Rz/JktI+WPiAx2WWGGSfXA1Ec3Be1bPuaIGMJWZhtwut4BHZF82M0gPklwE6QpC3UVclO/nZkZADDAhT6OfkkZU5GfO3lDH+mwUrrh7haFaT/E5uMkesp3A8YnxHek7lbCBIzNlsvn230dUr9blyOjC3dX4b5dh1LqOjJoXMklOIQOR29vkgUg40ChjPiMSXHQzFjFM+EktiWFg7mliRRYMq7IDKRdpaVmuyNaorfRzfcrUQ8aajY27wUM9K6wHYHEmHBSB4tZrwnCCT/VFTS6YCCQ69n6AT0RkIA7e4oAccpbqOM/YK3v9971BGLP5i5puCBFnFQmV1AxrwfeSnM1bUjl5sggZt5soSPTZ2ZjQgwai0shsnfk/RpXW4t5ROinFLijzCRXyZPVaA2Eqvi9B/m2UN/UITBK7Wcw9zRNKNB7+Q12QVH1a4s7FoeQsQEPO+jylHryjQC3I+bPKlZZ+2/5RF8n6MQf21Yzi4U+BtLx810Q8OjdSim/PCXgbVwMrBrbh1IZrttbmrG1iJ2iMTfVAKCgws1AcayRE+jKU0HMfyv6xt2mX+1+PRZ+MXPlxFsd0kBwMQwaYigem3kW9Mr1s8rKRcBOYMRIkzuINenxhbjSAzUMxKLWIyGR6I3/Hx98cbF0c2UgE7+/fR8zKKKHXDAeqgcJuwv4gu2+A=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(186003)(83380400001)(82960400001)(38100700002)(36916002)(6506007)(6666004)(53546011)(36756003)(66476007)(54906003)(66946007)(508600001)(6486002)(2906002)(316002)(66556008)(2616005)(8936002)(26005)(8676002)(6512007)(44832011)(5660300002)(86362001)(31696002)(4326008)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MmIvY2M4YjRlYithc2t5MEp2SEFhcDZ0K3NUOW9MTzZXM285UWlJOVZDNW9v?=
- =?utf-8?B?VWZHT2FFVUZwQUVnUVh4aXMzNEllNjJxZzhSSklsZHhzMllJdlcvSDRUeElw?=
- =?utf-8?B?aUlCb1I5d3FtcFZCckYxdEpFY1VraUQ2eUhOMlNhRlE5NVM3eEZ5d1VWcnpQ?=
- =?utf-8?B?M0IvckFwQTdZOUNobHdIdWNITjlXWGhra1VIMVlSaW1FK21lVnhZVzRGdXU3?=
- =?utf-8?B?NlVnN29Lb3hLTktLbkxPd3NxQld6TFM3U3V2OXd5WnpQbGxXY0xQbXVVUk1J?=
- =?utf-8?B?Y1E1N3FsN3ovQnJ6cnpuZ00rb3hPeTZBNWp1MGJCRmIwRmVMOVhKc3pXMTl0?=
- =?utf-8?B?UTBBb3NsS0crc0dmZW1Nc1FhNlRYUS9yTHhhRUZUTUY2dnJmRDFkMUZWVUcy?=
- =?utf-8?B?SFEya25sa0dCODdZMWVCUVR5VmZzbWN4dFdoY01QdkQvSjhJNWRYLzUyOXBU?=
- =?utf-8?B?VXdzT2tmWEpQaXRVeGNjZC9jbUdsd0RVbm5CSFV5WEQ3Rm5FQmVoYzJka1pz?=
- =?utf-8?B?SUwrbFQ5TlF0cG9mQVY2SWdHcGVYeHdzQVc0a0dCT1gvTC9EYkgxZmN3TlJy?=
- =?utf-8?B?TGt1a2FXN2Q5ZXArelR2SDBtTTBuMjR0dERRMDJvcW45VnBzU3BGVTNlamNm?=
- =?utf-8?B?ZWxWbG8raStJRXc1U1MxaE4ydFRvUk14bGE3N2VrQ1pPRVV5ajdndjBPMCsy?=
- =?utf-8?B?djh2ZlpaWDBRRDB1Tk5PSXQwbUNxR2FNckZaMTJGOXZVS2pvTUUwcWtPQnYw?=
- =?utf-8?B?VnJTbm5BWHBqWmpvVlBlb0lEOEJON0NzWm1WZTROam0weVNJcjNzeW94b0ln?=
- =?utf-8?B?QXJodjlzaW1RMUNIcU4zRVZ3VFoxZ2pqK3VNSjdNWm1jVnlNTEQ1dEU3Uk1X?=
- =?utf-8?B?R1FBVnkzMy9hQ3U2SkxFMjBzRlZmQTVSZGhnNXRyZmEyUU1hbFlVTTVEWXlK?=
- =?utf-8?B?aW1iVW1ZaE9FVGp5ek1tdmJIMkIrS1Bidmp2WUxzT2NaMzM0WjlTbDRrWFJN?=
- =?utf-8?B?dTF5UzFTM2Yxc2hBYWV4bnpOdy9YbkZBQ3RrT1RiV0w4NTk1alZvUWExV1NY?=
- =?utf-8?B?RGNqQktDR25kbHNPVWVxZGlPZ3BUKzBVNGYyZ0lwcGpEeHo3MCtEVG5lSEZk?=
- =?utf-8?B?UnNPMCt0U2RGc2RDYUI1ZGgvWEZ1T004WkZYb3NKaFFNUHp6ZGN4Y29LTU1i?=
- =?utf-8?B?SCt1UU9rNjJ3TzFEODRlaTUyOUJneFV0TDQ4akZITVFWNWxvOUNZem1Vak8z?=
- =?utf-8?B?SmFTMlYySjJHa3FHTkVzUjkwbTFyRUtYWUdyL2Nqc3IwcnpFc0ZrNWNNenlL?=
- =?utf-8?B?cnpwQW9xc2VMVncxMjl1WCtjTEpvV1hBOWdCeWZWaS9maTlrMGJKZFc5ZWxT?=
- =?utf-8?B?bzM5NnZCOUhDMHRabGhmTmxaMVJSd05IYXJiaDUvZk1HRFltSEYweDBYRHdT?=
- =?utf-8?B?anJrWjU1OUJPWGhqVWVIVW9zLzJ5eFNZRjlaajRjTnRIRFZoTkVtQiszQ2Fr?=
- =?utf-8?B?MnNHQkFFamlKajI0Y0FjaWF5dGluWklyNnEycjJmYW9MaUdsSTZUUzV2ZzY4?=
- =?utf-8?B?NXVZWGR1ODVHTHJsU0JEcDYwcGNvYkJDV0dEbm9rMkN6N2I1Q1dab2hkOU03?=
- =?utf-8?B?N05HQVNVVXR6dDFYdXlPSEFKelF1NGVGNTZobHB1NWM0dEVySmhHSTBHY3JN?=
- =?utf-8?B?SFlKb1JjSVJ3WFFRTzBkenJqd2xveFBDMlVFbGhIb3lHaU5nZSt2NEJBSUZN?=
- =?utf-8?B?Z1FOeHFSdysvRmZERytPSmxEaUNoaVFGTnB2Nnh1d0VnVmM4RG1TQjlhZElr?=
- =?utf-8?B?NDF1SzJld0ZFZ2o4OTBZRi94UlFxbWJ3VXN1eDJJRlc0OW5xWjdtMnlQbEJX?=
- =?utf-8?B?WkxsTXMzU0tveW90NEw3NmxBQ25Zb0xKKzgwVTBZOVpoajBOck1EUC9XcGpN?=
- =?utf-8?B?Y0VEVkxNekhaVkdUbXlCOEUvd3NTVnNCb2lzZHJKckc2aFRybkhXemppUUxZ?=
- =?utf-8?B?NW1NOWkybUNpY1lIMFZOMFRiR2JBTUszQXB0YXRQMlpoWTJjY1ZiYWx1eXV6?=
- =?utf-8?B?WHhIenBxdjhUVXo1T1lEWTlWNWdCc2JmVDVsUzlDZE1QK2E5Zk1YeGVCaVd6?=
- =?utf-8?B?Zkh3Z1gxVTBMamUyZkV0WVVKRWZEcElIQ2dhT2xZblBURS9pL29yZzJZRndK?=
- =?utf-8?B?RkVvR2FpVDdyUXE5ZmN2ZDVEaUJJNVFvaHkzY0pSUkVPK1V4UytSMVZJL3k0?=
- =?utf-8?B?ZFJNbHlpYmJ1bnF5b2pKTDFzUUVYZGtFNjFlUFZTNDhiMzUrcUl0SUFVR21U?=
- =?utf-8?B?dW51OEd2RnRZWktOcnNhRHpVaS90eFhSdUJEUEQrY1JXeklHWGNQd1d1ekZE?=
- =?utf-8?Q?Uc2mudU9z9q8dJfs=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f971a0c-1fcc-4172-0655-08da3cd1d675
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2022 15:35:17.2983 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 54TBE/7XRNmInteb8h0F818FxwYwEnaLubZxZgCdJyy8JlKObfHNXU2+vRASgx5plvmgniWBzlrSDrskKiAdfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3596
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 4/4] drm/i915: internal buffers use ttm backend
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220503191316.1145124-1-bob.beckett@collabora.com>
+ <20220503191316.1145124-5-bob.beckett@collabora.com>
+ <4b4e59cf422819cd9dd18c7c73b7869b99ea4c65.camel@linux.intel.com>
+From: Robert Beckett <bob.beckett@collabora.com>
+In-Reply-To: <4b4e59cf422819cd9dd18c7c73b7869b99ea4c65.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,67 +57,546 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org,
- Maxime Ripard <maxime@cerno.tech>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Matthew Auld <matthew.auld@intel.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 19.05.2022 13:26, Marek Vasut wrote:
-> Convert driver to use this new helper to standardize
-> OF "data-lanes" parsing.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> To: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/bridge/chipone-icn6211.c | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
+On 11/05/2022 15:14, Thomas Hellström wrote:
+> On Tue, 2022-05-03 at 19:13 +0000, Robert Beckett wrote:
+>> refactor internal buffer backend to allocate volatile pages via
+>> ttm pool allocator
+>>
+>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_internal.c | 264 ++++++++---------
+>> --
+>>   drivers/gpu/drm/i915/gem/i915_gem_internal.h |   5 -
+>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  12 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.h      |  12 +-
+>>   4 files changed, 125 insertions(+), 168 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+>> b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+>> index c698f95af15f..815ec9466cc0 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+>> @@ -4,156 +4,119 @@
+>>    * Copyright © 2014-2016 Intel Corporation
+>>    */
+>>   
+>> -#include <linux/scatterlist.h>
+>> -#include <linux/slab.h>
+>> -#include <linux/swiotlb.h>
+>> -
+>> +#include <drm/ttm/ttm_bo_driver.h>
+>> +#include <drm/ttm/ttm_placement.h>
+>> +#include "drm/ttm/ttm_bo_api.h"
+>> +#include "gem/i915_gem_internal.h"
+>> +#include "gem/i915_gem_region.h"
+>> +#include "gem/i915_gem_ttm.h"
+>>   #include "i915_drv.h"
+>> -#include "i915_gem.h"
+>> -#include "i915_gem_internal.h"
+>> -#include "i915_gem_object.h"
+>> -#include "i915_scatterlist.h"
+>> -#include "i915_utils.h"
+>> -
+>> -#define QUIET (__GFP_NORETRY | __GFP_NOWARN)
+>> -#define MAYFAIL (__GFP_RETRY_MAYFAIL | __GFP_NOWARN)
+>> -
+>> -static void internal_free_pages(struct sg_table *st)
+>> -{
+>> -       struct scatterlist *sg;
+>> -
+>> -       for (sg = st->sgl; sg; sg = __sg_next(sg)) {
+>> -               if (sg_page(sg))
+>> -                       __free_pages(sg_page(sg), get_order(sg-
+>>> length));
+>> -       }
+>> -
+>> -       sg_free_table(st);
+>> -       kfree(st);
+>> -}
+>>   
+>> -static int i915_gem_object_get_pages_internal(struct
+>> drm_i915_gem_object *obj)
+>> +static int i915_internal_get_pages(struct drm_i915_gem_object *obj)
+>>   {
+>> -       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>> -       struct sg_table *st;
+>> -       struct scatterlist *sg;
+>> -       unsigned int sg_page_sizes;
+>> -       unsigned int npages;
+>> -       int max_order;
+>> -       gfp_t gfp;
+>> -
+>> -       max_order = MAX_ORDER;
+>> -#ifdef CONFIG_SWIOTLB
+>> -       if (is_swiotlb_active(obj->base.dev->dev)) {
+>> -               unsigned int max_segment;
+>> -
+>> -               max_segment = swiotlb_max_segment();
+>> -               if (max_segment) {
+>> -                       max_segment = max_t(unsigned int,
+>> max_segment,
+>> -                                           PAGE_SIZE) >> PAGE_SHIFT;
+>> -                       max_order = min(max_order,
+>> ilog2(max_segment));
+>> -               }
+>> +       struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>> +       struct ttm_operation_ctx ctx = {
+>> +               .interruptible = true,
+>> +               .no_wait_gpu = false,
+>> +       };
+>> +       struct ttm_place place = {
+>> +               .fpfn = 0,
+>> +               .lpfn = 0,
+>> +               .mem_type = I915_PL_SYSTEM,
+>> +               .flags = 0,
+>> +       };
+>> +       struct ttm_placement placement = {
+>> +               .num_placement = 1,
+>> +               .placement = &place,
+>> +               .num_busy_placement = 0,
+>> +               .busy_placement = NULL,
+>> +       };
+>> +       int ret;
+>> +
+>> +       ret = ttm_bo_validate(bo, &placement, &ctx);
+>> +       if (ret) {
+>> +               ret = i915_ttm_err_to_gem(ret);
+>> +               return ret;
+>>          }
+>> -#endif
+>>   
+>> -       gfp = GFP_KERNEL | __GFP_HIGHMEM | __GFP_RECLAIMABLE;
+>> -       if (IS_I965GM(i915) || IS_I965G(i915)) {
+>> -               /* 965gm cannot relocate objects above 4GiB. */
+>> -               gfp &= ~__GFP_HIGHMEM;
+>> -               gfp |= __GFP_DMA32;
+> 
+> 
+> It looks like we're losing this restriction?
+> 
+> There is a flag to ttm_device_init() to make TTM only do __GFP_DMA32
+> allocations.
 
-For this and the rest:
+agreed. will fix for v2
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> 
+>> +       if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
+>> +               ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
+>> +               if (ret)
+>> +                       return ret;
+>>          }
+>>   
+>> -create_st:
+>> -       st = kmalloc(sizeof(*st), GFP_KERNEL);
+>> -       if (!st)
+>> -               return -ENOMEM;
+>> +       if (!i915_gem_object_has_pages(obj)) {
+>> +               struct i915_refct_sgt *rsgt =
+>> +                       i915_ttm_resource_get_st(obj, bo->resource);
+>>   
+>> -       npages = obj->base.size / PAGE_SIZE;
+>> -       if (sg_alloc_table(st, npages, GFP_KERNEL)) {
+>> -               kfree(st);
+>> -               return -ENOMEM;
+>> -       }
+>> +               if (IS_ERR(rsgt))
+>> +                       return PTR_ERR(rsgt);
+>>   
+>> -       sg = st->sgl;
+>> -       st->nents = 0;
+>> -       sg_page_sizes = 0;
+>> -
+>> -       do {
+>> -               int order = min(fls(npages) - 1, max_order);
+>> -               struct page *page;
+>> -
+>> -               do {
+>> -                       page = alloc_pages(gfp | (order ? QUIET :
+>> MAYFAIL),
+>> -                                          order);
+>> -                       if (page)
+>> -                               break;
+>> -                       if (!order--)
+>> -                               goto err;
+>> -
+>> -                       /* Limit subsequent allocations as well */
+>> -                       max_order = order;
+>> -               } while (1);
+>> -
+>> -               sg_set_page(sg, page, PAGE_SIZE << order, 0);
+>> -               sg_page_sizes |= PAGE_SIZE << order;
+>> -               st->nents++;
+>> -
+>> -               npages -= 1 << order;
+>> -               if (!npages) {
+>> -                       sg_mark_end(sg);
+>> -                       break;
+>> -               }
+>> -
+>> -               sg = __sg_next(sg);
+>> -       } while (1);
+>> -
+>> -       if (i915_gem_gtt_prepare_pages(obj, st)) {
+>> -               /* Failed to dma-map try again with single page sg
+>> segments */
+>> -               if (get_order(st->sgl->length)) {
+>> -                       internal_free_pages(st);
+>> -                       max_order = 0;
+>> -                       goto create_st;
+>> -               }
+>> -               goto err;
+>> +               GEM_BUG_ON(obj->mm.rsgt);
+>> +               obj->mm.rsgt = rsgt;
+>> +               __i915_gem_object_set_pages(obj, &rsgt->table,
+>> +                                           i915_sg_dma_sizes(rsgt-
+>>> table.sgl));
+>>          }
+>>   
+>> -       __i915_gem_object_set_pages(obj, st, sg_page_sizes);
+>> +       GEM_BUG_ON(bo->ttm && ((obj->base.size >> PAGE_SHIFT) < bo-
+>>> ttm->num_pages));
+>> +       i915_ttm_adjust_lru(obj);
+>>   
+>>          return 0;
+>> +}
+>>   
+>> -err:
+>> -       sg_set_page(sg, NULL, 0, 0);
+>> -       sg_mark_end(sg);
+>> -       internal_free_pages(st);
+>> +static const struct drm_i915_gem_object_ops
+>> i915_gem_object_internal_ops = {
+>> +       .name = "i915_gem_object_ttm",
+>> +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE,
+>>   
+>> -       return -ENOMEM;
+>> -}
+>> +       .get_pages = i915_internal_get_pages,
+>> +       .put_pages = i915_ttm_put_pages,
+>> +       .adjust_lru = i915_ttm_adjust_lru,
+>> +       .delayed_free = i915_ttm_delayed_free,
+>> +};
+>>   
+>> -static void i915_gem_object_put_pages_internal(struct
+>> drm_i915_gem_object *obj,
+>> -                                              struct sg_table
+>> *pages)
+>> +void i915_ttm_internal_bo_destroy(struct ttm_buffer_object *bo)
+>>   {
+>> -       i915_gem_gtt_finish_pages(obj, pages);
+>> -       internal_free_pages(pages);
+>> +       struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>>   
+>> -       obj->mm.dirty = false;
+>> +       mutex_destroy(&obj->ttm.get_io_page.lock);
+>>   
+>> -       __start_cpu_write(obj);
+>> -}
+>> +       if (obj->ttm.created) {
+>> +               /* This releases all gem object bindings to the
+>> backend. */
+>> +               __i915_gem_free_object(obj);
+>>   
+>> -static const struct drm_i915_gem_object_ops
+>> i915_gem_object_internal_ops = {
+>> -       .name = "i915_gem_object_internal",
+>> -       .flags = I915_GEM_OBJECT_IS_SHRINKABLE,
+>> -       .get_pages = i915_gem_object_get_pages_internal,
+>> -       .put_pages = i915_gem_object_put_pages_internal,
+>> -};
+>> +               call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
+>> +       } else {
+>> +               __i915_gem_object_fini(obj);
+>> +       }
+>> +}
+>>   
+>> +/**
+>> + * i915_gem_object_create_internal: create an object with volatile
+>> pages
+>> + * @i915: the i915 device
+>> + * @size: the size in bytes of backing storage to allocate for the
+>> object
+>> + *
+>> + * Creates a new object that wraps some internal memory for private
+>> use.
+>> + * This object is not backed by swappable storage, and as such its
+>> contents
+>> + * are volatile and only valid whilst pinned. If the object is
+>> reaped by the
+>> + * shrinker, its pages and data will be discarded. Equally, it is
+>> not a full
+>> + * GEM object and so not valid for access from userspace. This makes
+>> it useful
+>> + * for hardware interfaces like ringbuffers (which are pinned from
+>> the time
+>> + * the request is written to the time the hardware stops accessing
+>> it), but
+>> + * not for contexts (which need to be preserved when not active for
+>> later
+>> + * reuse). Note that it is not cleared upon allocation.
+>> + */
+>>   struct drm_i915_gem_object *
+>> -__i915_gem_object_create_internal(struct drm_i915_private *i915,
+>> -                                 const struct
+>> drm_i915_gem_object_ops *ops,
+>> -                                 phys_addr_t size)
+>> +i915_gem_object_create_internal(struct drm_i915_private *i915,
+>> +                               phys_addr_t size)
+>>   {
+>>          static struct lock_class_key lock_class;
+>>          struct drm_i915_gem_object *obj;
+>>          unsigned int cache_level;
+>> +       struct ttm_operation_ctx ctx = {
+>> +               .interruptible = true,
+>> +               .no_wait_gpu = false,
+>> +       };
+>> +       int ret;
+>>   
+>>          GEM_BUG_ON(!size);
+>>          GEM_BUG_ON(!IS_ALIGNED(size, PAGE_SIZE));
+>> @@ -166,45 +129,34 @@ __i915_gem_object_create_internal(struct
+>> drm_i915_private *i915,
+>>                  return ERR_PTR(-ENOMEM);
+>>   
+>>          drm_gem_private_object_init(&i915->drm, &obj->base, size);
+>> -       i915_gem_object_init(obj, ops, &lock_class, 0);
+>> -       obj->mem_flags |= I915_BO_FLAG_STRUCT_PAGE;
+>> +       i915_gem_object_init(obj, &i915_gem_object_internal_ops,
+>> &lock_class,
+>> +                            I915_BO_ALLOC_VOLATILE);
+>> +
+>> +       INIT_LIST_HEAD(&obj->mm.region_link);
+>> +
+>> +       INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL |
+>> __GFP_NOWARN);
+>> +       mutex_init(&obj->ttm.get_io_page.lock);
+>>   
+>> -       /*
+>> -        * Mark the object as volatile, such that the pages are
+>> marked as
+>> -        * dontneed whilst they are still pinned. As soon as they are
+>> unpinned
+>> -        * they are allowed to be reaped by the shrinker, and the
+>> caller is
+>> -        * expected to repopulate - the contents of this object are
+>> only valid
+>> -        * whilst active and pinned.
+>> -        */
+>> -       i915_gem_object_set_volatile(obj);
+>> +       obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
+>>   
+>> +       ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj),
+>> size,
+>> +                                  ttm_bo_type_kernel,
+>> i915_ttm_sys_placement(),
+>> +                                  0, &ctx, NULL, NULL,
+>> i915_ttm_internal_bo_destroy);
+>> +       if (ret) {
+>> +               ret = i915_ttm_err_to_gem(ret);
+>> +               i915_gem_object_free(obj);
+>> +               return ERR_PTR(ret);
+>> +       }
+>> +
+>> +       obj->ttm.created = true;
+>>          obj->read_domains = I915_GEM_DOMAIN_CPU;
+>>          obj->write_domain = I915_GEM_DOMAIN_CPU;
+>> -
+>> +       obj->mem_flags &= ~I915_BO_FLAG_IOMEM;
+>> +       obj->mem_flags |= I915_BO_FLAG_STRUCT_PAGE;
+>>          cache_level = HAS_LLC(i915) ? I915_CACHE_LLC :
+>> I915_CACHE_NONE;
+>>          i915_gem_object_set_cache_coherency(obj, cache_level);
+>> +       i915_gem_object_unlock(obj);
+>>   
+>>          return obj;
+>>   }
+>>   
+>> -/**
+>> - * i915_gem_object_create_internal: create an object with volatile
+>> pages
+>> - * @i915: the i915 device
+>> - * @size: the size in bytes of backing storage to allocate for the
+>> object
+>> - *
+>> - * Creates a new object that wraps some internal memory for private
+>> use.
+>> - * This object is not backed by swappable storage, and as such its
+>> contents
+>> - * are volatile and only valid whilst pinned. If the object is
+>> reaped by the
+>> - * shrinker, its pages and data will be discarded. Equally, it is
+>> not a full
+>> - * GEM object and so not valid for access from userspace. This makes
+>> it useful
+>> - * for hardware interfaces like ringbuffers (which are pinned from
+>> the time
+>> - * the request is written to the time the hardware stops accessing
+>> it), but
+>> - * not for contexts (which need to be preserved when not active for
+>> later
+>> - * reuse). Note that it is not cleared upon allocation.
+>> - */
+>> -struct drm_i915_gem_object *
+>> -i915_gem_object_create_internal(struct drm_i915_private *i915,
+>> -                               phys_addr_t size)
+>> -{
+>> -       return __i915_gem_object_create_internal(i915,
+>> &i915_gem_object_internal_ops, size);
+> 
+> While we don't have a TTM shmem backend ready yet for internal,
+> 
+> Did you consider setting up just yet another region,
+> INTEL_REGION_INTERNAL,
+> .class = INTEL_MEMORY_SYSTEM and
+> .instance = 1,
+> 
+> And make it create a TTM system region on integrated, and use
+> same region as INTEL_REGION_SMEM on dgfx.
+> 
+> I think ttm should automatically map that to I915_PL_SYSTEM and the
+> backwards mapping in i915_ttm_region() should never get called since
+> the object is never moved.
+> 
+> Then I figure it should suffice to just call
+> __i915_gem_ttm_object_init() and we could drop a lot of code.
+> 
 
-Regards
-Andrzej
+i briefly considered using a new fake region, but with current precedent 
+mapping memory regions to real segemented memory areas I considered it 
+an abuse of the semantics of memory regions.
 
->
-> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-> index 45bb89ac3fff7..e53a19f721c8c 100644
-> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-> @@ -496,21 +496,18 @@ static int chipone_dsi_attach(struct chipone *icn)
->   {
->   	struct mipi_dsi_device *dsi = icn->dsi;
->   	struct device *dev = icn->dev;
-> -	struct device_node *endpoint;
->   	int dsi_lanes, ret;
->   
-> -	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> -	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-> -	of_node_put(endpoint);
-> +	dsi_lanes = drm_of_get_data_lanes_ep(dev->of_node, 0, 0, 1, 4);
->   
->   	/*
->   	 * If the 'data-lanes' property does not exist in DT or is invalid,
->   	 * default to previously hard-coded behavior, which was 4 data lanes.
->   	 */
-> -	if (dsi_lanes >= 1 && dsi_lanes <= 4)
-> -		icn->dsi->lanes = dsi_lanes;
-> -	else
-> +	if (dsi_lanes < 0)
->   		icn->dsi->lanes = 4;
-> +	else
-> +		icn->dsi->lanes = dsi_lanes;
->   
->   	dsi->format = MIPI_DSI_FMT_RGB888;
->   	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+If we are happy to have fake regions, I can revert it back to a previous 
+design of using system region for discreet and add a fake region setup 
+for integrated.
 
+Would this be preferred over the current design?
+
+> /Thomas
+> 
+> 
+> 
+> 
+>> -}
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.h
+>> b/drivers/gpu/drm/i915/gem/i915_gem_internal.h
+>> index 6664e06112fc..524e1042b20f 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.h
+>> @@ -15,9 +15,4 @@ struct drm_i915_private;
+>>   struct drm_i915_gem_object *
+>>   i915_gem_object_create_internal(struct drm_i915_private *i915,
+>>                                  phys_addr_t size);
+>> -struct drm_i915_gem_object *
+>> -__i915_gem_object_create_internal(struct drm_i915_private *i915,
+>> -                                 const struct
+>> drm_i915_gem_object_ops *ops,
+>> -                                 phys_addr_t size);
+>> -
+>>   #endif /* __I915_GEM_INTERNAL_H__ */
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> index fdb3a1c18cb6..92195ead8c11 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> @@ -83,7 +83,7 @@ struct ttm_placement *i915_ttm_sys_placement(void)
+>>          return &i915_sys_placement;
+>>   }
+>>   
+>> -static int i915_ttm_err_to_gem(int err)
+>> +int i915_ttm_err_to_gem(int err)
+>>   {
+>>          /* Fastpath */
+>>          if (likely(!err))
+>> @@ -745,8 +745,8 @@ struct ttm_device_funcs *i915_ttm_driver(void)
+>>          return &i915_ttm_bo_driver;
+>>   }
+>>   
+>> -static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+>> -                               struct ttm_placement *placement)
+>> +int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+>> +                        struct ttm_placement *placement)
+>>   {
+>>          struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>>          struct ttm_operation_ctx ctx = {
+>> @@ -871,8 +871,8 @@ static int i915_ttm_migrate(struct
+>> drm_i915_gem_object *obj,
+>>          return __i915_ttm_migrate(obj, mr, obj->flags);
+>>   }
+>>   
+>> -static void i915_ttm_put_pages(struct drm_i915_gem_object *obj,
+>> -                              struct sg_table *st)
+>> +void i915_ttm_put_pages(struct drm_i915_gem_object *obj,
+>> +                       struct sg_table *st)
+>>   {
+>>          /*
+>>           * We're currently not called from a shrinker, so put_pages()
+>> @@ -995,7 +995,7 @@ void i915_ttm_adjust_lru(struct
+>> drm_i915_gem_object *obj)
+>>    * it's not idle, and using the TTM destroyed list handling could
+>> help us
+>>    * benefit from that.
+>>    */
+>> -static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
+>> +void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
+>>   {
+>>          GEM_BUG_ON(!obj->ttm.created);
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+>> index 73e371aa3850..06701c46d8e2 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+>> @@ -26,6 +26,7 @@ i915_gem_to_ttm(struct drm_i915_gem_object *obj)
+>>    * i915 ttm gem object destructor. Internal use only.
+>>    */
+>>   void i915_ttm_bo_destroy(struct ttm_buffer_object *bo);
+>> +void i915_ttm_internal_bo_destroy(struct ttm_buffer_object *bo);
+>>   
+>>   /**
+>>    * i915_ttm_to_gem - Convert a struct ttm_buffer_object to an
+>> embedding
+>> @@ -37,8 +38,10 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object
+>> *bo);
+>>   static inline struct drm_i915_gem_object *
+>>   i915_ttm_to_gem(struct ttm_buffer_object *bo)
+>>   {
+>> -       if (bo->destroy != i915_ttm_bo_destroy)
+>> +       if (bo->destroy != i915_ttm_bo_destroy &&
+>> +           bo->destroy != i915_ttm_internal_bo_destroy) {
+>>                  return NULL;
+>> +       }
+>>   
+>>          return container_of(bo, struct drm_i915_gem_object,
+>> __do_not_access);
+>>   }
+>> @@ -66,6 +69,7 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object
+>> *obj,
+>>                           struct ttm_resource *res);
+>>   
+>>   void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
+>> +void i915_ttm_delayed_free(struct drm_i915_gem_object *obj);
+>>   
+>>   int i915_ttm_purge(struct drm_i915_gem_object *obj);
+>>   
+>> @@ -92,4 +96,10 @@ static inline bool i915_ttm_cpu_maps_iomem(struct
+>> ttm_resource *mem)
+>>          /* Once / if we support GGTT, this is also false for cached
+>> ttm_tts */
+>>          return mem->mem_type != I915_PL_SYSTEM;
+>>   }
+>> +
+>> +int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+>> +                        struct ttm_placement *placement);
+>> +void i915_ttm_put_pages(struct drm_i915_gem_object *obj, struct
+>> sg_table *st);
+>> +int i915_ttm_err_to_gem(int err);
+>> +
+>>   #endif
+> 
+> 
