@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027D3530B0C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 10:23:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03849530B17
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 10:37:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDC210EF6E;
-	Mon, 23 May 2022 08:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF3F10F0A2;
+	Mon, 23 May 2022 08:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A38C10EF6E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 08:22:58 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id w14so24186859lfl.13
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 01:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=IWA0nyJJ0Da8x7dz+uUT5ULJnVD5a01Qj3BKi7RLl+Q=;
- b=q7z9eCX1KtgnrL5z9vLuSau3OB5rUZyMMQnNCZFUm8+iHDywrtUqeWUQJyGBwUHfKN
- oLjx4ErAW8jG1uslZLhz8hth7n6MWOuDbwzeToGyJlUtOy5atYVBP9pFML3c8WWmHZ0x
- 7ZDeRBkxAnJmcmC2wuOaHHaZLe9C3CiizEpmaizwZpNmPnzGg7hmjo7YEw80Ja3zkkdw
- /5w/RBAMRoOHqdZ7fy2mRbKzKfAsvHO9EKjS34hAiCOHK7bi3a1LxtuHCETGA880Vvki
- l09sKSv6ULzGnrasX0Rt1siUD5GX+evs55a4YhZ4al+R2+Zh1aMpBdhk6zJ7v2LZWdeH
- cvSA==
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF0610F09A
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 08:37:36 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ oe17-20020a17090b395100b001df77d29587so16867844pjb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 01:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HORsqsRgVOBZA14nSE2e7FyTeWgEO5D6Vi4Q6hdDzkA=;
+ b=M4Bkd9gP/croFLXFB+CuZDimPMnOqzRihvoIdTgT51gZzf9whsUOIcNciLaH1v4CKE
+ SLpHCkc+viFdpVT8k9rgzb7hCI0SqUQIkE8KoIrVY/YGi6HtY/NHzrMC1Cr8VGpU3Hio
+ ERc2ZW6pZgZXueeFcM7zSwjsVMO4wFZjSHbjTZeWJ5W4dpnVbm5NgkVZpEKqPC2SV+mi
+ M+eT6uF2+qhDYmRLI9JytWWl/TWYVDRK915uTT/LlvTyldDCO9VOShR1yi1eiSI+gJvh
+ X8cS2KkTfutX17/8FDBeKF2zlRTKKI2DpVdm/ASJcCwbThWanCRRmOVeklO3KIq4eARv
+ Jtlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=IWA0nyJJ0Da8x7dz+uUT5ULJnVD5a01Qj3BKi7RLl+Q=;
- b=5mIcJj6N6BRgTnfqhrcDJQb9VI9h5Q+EYF2mDubuskLcBe/py0O9ZtCe/nTcfws41m
- iy3sI7x4kcYujGFixH80opx+lHWyzZstCsCAGREggWtVRMVO9LGuiat1OKcz0G97gp3W
- xb11lUedZRNcdCCmn3SVikc8yfEHt9KBM5bJ2crNEKdOtbKZaiyLWP4B8aSa0kA7oKbO
- hGYGFOjBaCWBIBLWKo4+3oIqxeLdUUeoPTyVKruacVxS00JFmeIkPza0LcwCR4v80yEF
- 8/FvTIzNni1yrVlEoBzve4hpLWDDllXeklWe3g7NJn1Yqb45Nzi6HcW+DEHjapO4YwEj
- IzCg==
-X-Gm-Message-State: AOAM530YIbM8chCKAlF74UnsRKZVIKnPOJlHXUbvQQ85EaZXkziwZpfF
- ylvCXtZokmi9uFVIeSqX/yA=
-X-Google-Smtp-Source: ABdhPJyvL7MiIsI6C5QYyEqqO2WyfBUUDmpih8nS6sDE/YYTpV/V0inuLgD3EnjR3BTbv4hqKevKHw==
-X-Received: by 2002:a05:6512:16a7:b0:445:862e:a1ba with SMTP id
- bu39-20020a05651216a700b00445862ea1bamr15195533lfb.85.1653294176507; 
- Mon, 23 May 2022 01:22:56 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- c25-20020ac25319000000b0047255d210e6sm1850590lfh.21.2022.05.23.01.22.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 01:22:56 -0700 (PDT)
-Date: Mon, 23 May 2022 11:22:46 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: How should "max bpc" KMS property work?
-Message-ID: <20220523112246.056ddc99@eldfell>
-In-Reply-To: <57d16ed5-8bfc-ce29-9250-14e2de18710a@redhat.com>
-References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
- <57d16ed5-8bfc-ce29-9250-14e2de18710a@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HORsqsRgVOBZA14nSE2e7FyTeWgEO5D6Vi4Q6hdDzkA=;
+ b=D+NyvfTyxig0YPlRJ1cGNgZdzCNjNDOdKEq5BDUjLE3vowo2UYFNzmTAQAYlB20tO2
+ 809vZlaGXtOSkxyu+zIHhbn+cvZEmAYnWW5SFaaL8M2RzeGvt1kwWteDgQUMaSVz7L6C
+ qkshi+5bI3hkna/8rjSAsLuZ229pmL0IJFzZb9cKHJbAITrtzH88126hhJpvGnqumZw5
+ qoiQEox5pMe74zNYPHV9C9VuQeiLHwcAHpn/ZUwh4eGZo37YPPa9WX8JpnDRKkPh4mPC
+ IIKA/LGleGXGQMyg+sFxHazazUvZf/NKNQa5ila3aGaOH9v988o/YtG+1kSLXAyT+spm
+ BnEg==
+X-Gm-Message-State: AOAM53167er+eQxsewWZLGbFxOiwB7U4ISsdc7JVhbyPX1E3lsCRd/MM
+ L0KELOTsdgs5kH6XBgOeFJvsShPSeorl0qX3rrzd1a40sYM=
+X-Google-Smtp-Source: ABdhPJySGKSRaC8Rp00cV7JgVN8Qpt/CJ89/rm7OeTgEfK5OPZ+3wbN4zqXoAhwGpjdOCLyhXZZOGQCGeNOPmTPZwhM=
+X-Received: by 2002:a17:902:8f81:b0:161:f4a7:f2fc with SMTP id
+ z1-20020a1709028f8100b00161f4a7f2fcmr14964010plo.117.1653295056365; Mon, 23
+ May 2022 01:37:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/YDi9kt5+Np1E2WPYM9bz0_y";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20220422084720.959271-1-xji@analogixsemi.com>
+ <20220422084720.959271-4-xji@analogixsemi.com>
+ <CAG3jFytWGSUM9mevHewdmEe-hq3JgB74s7_f0fsEQqkXr9VUHg@mail.gmail.com>
+ <CAG3jFyvEYbwkdGtiNR-6vFEXTLjcyT_viqp9qeVxFTu0PrJEVA@mail.gmail.com>
+ <CAGXv+5E1cCNWD98fMDjC38y2UztZd=PNQ+=G=wrBYfoXkswvHA@mail.gmail.com>
+ <20220425091419.GA967110@anxtwsw-Precision-3640-Tower>
+ <CAG3jFyvTim7P_y2G1Br5j3Pwz4KzvRjWgci_qQ3m_YW=3Bog8A@mail.gmail.com>
+ <CAKMK7uFHyYTnGtP+vCzo2Uan90DW-QZpPFPn5S9bQ5aPiY=qzA@mail.gmail.com>
+ <CAKMK7uHFGsPMZf2SUF4HDXo3XuOLjP3-DLfyp=gB2qpKR964Eg@mail.gmail.com>
+ <20220523031324.GA3738288@anxtwsw-Precision-3640-Tower>
+ <CAGXv+5EHghwSV+9Www9RvG74PkC7=AQuwn6sVG=cvCni-iwCyQ@mail.gmail.com>
+In-Reply-To: <CAGXv+5EHghwSV+9Www9RvG74PkC7=AQuwn6sVG=cvCni-iwCyQ@mail.gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 23 May 2022 10:37:25 +0200
+Message-ID: <CAG3jFysJLoQ2DMYw0oOfbQM3ifBmAhNLMxjPDEt12jq8sKCcSg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/bridge: anx7625: Use DPI bus type
+To: Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,89 +73,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, qwen@analogixsemi.com,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ bliang@analogixsemi.com, Xin Ji <xji@analogixsemi.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/YDi9kt5+Np1E2WPYM9bz0_y
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Mon, 23 May 2022 at 09:18, Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> On Mon, May 23, 2022 at 11:13 AM Xin Ji <xji@analogixsemi.com> wrote:
+> >
+> > On Sat, May 21, 2022 at 06:28:42PM +0200, Daniel Vetter wrote:
+> > > On Sat, 21 May 2022 at 18:07, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >
+> > > > On Tue, 17 May 2022 at 18:09, Robert Foss <robert.foss@linaro.org> wrote:
+> > > > >
+> > > > > On Mon, 25 Apr 2022 at 11:14, Xin Ji <xji@analogixsemi.com> wrote:
+> > > > > >
+> > > > > > On Mon, Apr 25, 2022 at 04:24:50PM +0800, Chen-Yu Tsai wrote:
+> > > > > > > On Fri, Apr 22, 2022 at 10:13 PM Robert Foss <robert.foss@linaro.org> wrote:
+> > > > > > > >
+> > > > > > > > On Fri, 22 Apr 2022 at 16:01, Robert Foss <robert.foss@linaro.org> wrote:
+> > > > > > > > >
+> > > > > > > > > On Fri, 22 Apr 2022 at 10:49, Xin Ji <xji@analogixsemi.com> wrote:
+> > > > > > > > > >
+> > > > > > > > > > As V4L2_FWNODE_BUS_TYPE_PARALLEL not properly descript for DPI
+> > > > > > > > > > interface, this patch use new defined V4L2_FWNODE_BUS_TYPE_DPI for it.
+> > > > > > > > > >
+> > > > > > > > > > Fixes: fd0310b6fe7d ("drm/bridge: anx7625: add MIPI DPI input feature")
+> > > > > > > > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > > > > > > > > ---
+> > > > > > > > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
+> > > > > > > > > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > > > > > > > >
+> > > > > > > > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > index 376da01243a3..71df977e8f53 100644
+> > > > > > > > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > @@ -1623,14 +1623,14 @@ static int anx7625_parse_dt(struct device *dev,
+> > > > > > > > > >
+> > > > > > > > > >         anx7625_get_swing_setting(dev, pdata);
+> > > > > > > > > >
+> > > > > > > > > > -       pdata->is_dpi = 1; /* default dpi mode */
+> > > > > > > > > > +       pdata->is_dpi = 0; /* default dsi mode */
+> > > > > > > > > >         pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
+> > > > > > > > > >         if (!pdata->mipi_host_node) {
+> > > > > > > > > >                 DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
+> > > > > > > > > >                 return -ENODEV;
+> > > > > > > > > >         }
+> > > > > > > > > >
+> > > > > > > > > > -       bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
+> > > > > > > > > > +       bus_type = 0;
+> > > > > > > > > >         mipi_lanes = MAX_LANES_SUPPORT;
+> > > > > > > > > >         ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
+> > > > > > > > > >         if (ep0) {
+> > > > > > > > > > @@ -1640,8 +1640,8 @@ static int anx7625_parse_dt(struct device *dev,
+> > > > > > > > > >                 mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
+> > > > > > > > > >         }
+> > > > > > > > > >
+> > > > > > > > > > -       if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
+> > > > > > > > > > -               pdata->is_dpi = 0;
+> > > > > > > > > > +       if (bus_type == V4L2_FWNODE_BUS_TYPE_DPI) /* bus type is DPI */
+> > > > > > > > > > +               pdata->is_dpi = 1;
+> > > > > > > > > >
+> > > > > > > > > >         pdata->mipi_lanes = mipi_lanes;
+> > > > > > > > > >         if (pdata->mipi_lanes > MAX_LANES_SUPPORT || pdata->mipi_lanes <= 0)
+> > > > > > > > >
+> > > > > > > > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> > > > > > > >
+> > > > > > > > Acked-by: Robert Foss <robert.foss@linaro.org>
+> > > > > > >
+> > > > > > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > > > >
+> > > > > > > Confirmed this fixes the display on Juniper (Acer Chromebook Spin 311) on
+> > > > > > > mainline (next-20220422).
+> > > > > > >
+> > > > > > > Xin, in the future, please send the whole series to all recipients of
+> > > > > > > all patches listed by get_maintainers.pl, not just the recipients of
+> > > > > > > each patch. In the case of this series, they should have been sent
+> > > > > > > to all of the mailing lists (media, devicetree, dri-devel) so that
+> > > > > > > everyone has the same, full view of the patches.
+> > > > > > Hi ChenYu, OK, I'll send to all media, devicetree, dri-devel next time.
+> > > > > > Thanks,
+> > > > > > Xin
+> > > > > > >
+> > > > > > > ChenYu
+> > > > >
+> > > > > Applied 3/4 + 4/4 to drm-misc-next.
+> > > >
+> > > > This patch doesn't even compile. Can you pls fix this up asap? Also
+> > > > pls compile-test before pushing ...
+> > >
+> > > Marek says the prerequisite landed through linux-media, and that's why
+> > > it compilers on linux-next but not in drm-misc-next.
+> > >
+> > > Don't do that.
+> > >
+> > > Instead:
+> > > - merge all patches through one branch, with the foreign patches acked
+> > > for that merge patch
+> > > - wait until you can backmerge all the dependencies
+> > > - do a topic branch
+> > >
+> > > This probably needs to be reverted here and instead merged through
+> > > linux-media. Or you wait until -rc1 and then apply it to
+> > > drm-misc-next.
+> > > -Daniel
+> > Hi Daniel, I use git send-email to upstream patch and automatically
+> > generated reviewer list, so patch 1/4 and 2/4 send to linux-media, and
+> > these 2 patches already merged in linux-media.
+>
+> This is one of the reasons why you should always send the "full" series
+> to all recipients. That way people, especially maintainers, are more
+> likely to notice build time cross tree dependencies like this one, and
+> work towards a common resolution.
 
-On Fri, 20 May 2022 17:20:50 +0200
-Hans de Goede <hdegoede@redhat.com> wrote:
+This mistake is mine, and I think the best solution is to revert 3+4 until rc1.
 
-> I got pointed to this thread by Jonas =C3=85dahl while asking some questi=
-ons
-> the "max bpc" property related to:
->=20
-> https://gitlab.freedesktop.org/plymouth/plymouth/-/issues/102#note_1382328
->=20
-> The current i915 behavior which you describe here, which if I understand
-> things correctly is for "max bpc" to default to as high as possible is
-> causing problems with flickerfree boot in plymouth. Plymouth does a modes=
-et
-> on the monitor's native resolution in case the BIOS/GOP setup the monitor
-> in a non native mode. Plymouth does not touch the "max bpc" property when
-> doing this modeset. Normally this works fine and when the BIOS/GOP has
-> already configured the monitor at the native resolution the i915 driver
-> will do a fastset and all is well.
->=20
-> Still the modeset is causing the screen to go black for multiple seconds,
-> despite the resolution being unchanged. What is happening according to
-> the on screen mode info from the monitor is that on plymouth's modeset
-> the link is being configured changes from 8 bpc to 10 bpc.
->=20
-> Is there anyway to avoid this without hardcoding "max bpc" to 8 in
-> plymouth (which would cause the same problem in the other direction
-> if the firmware sets up the link for 10bpc I believe) ?
-
-Hi Hans,
-
-there was an attempt to get much of the current link state information
-delivered to userspace, but I've forgot most about it.
-I did find https://lkml.org/lkml/2021/6/18/294 linked from
-https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_963469 .
-I said the same in the Plymouth Gitlab issue you linked to.
-
-Personally, I would need to know all current link details for
-(professional) color management: am I still driving the monitor with
-the same signal as I did when I measured the monitor one reboot ago?
-If not, I cannot trust the color output and need to measure again.
-
-Nice to see there would be other uses for knowing which might be higher
-priority to the larger community.
-
-Would it be proper to initialize 'max bpc' to the link depth used by
-boot-up firmware? I guess it could make things more reliable and solve
-the Plymouth blanking issue, but not the professional color management
-use cases.
+I'll send out the revert patches to the ML right away.
 
 
-Thanks,
-pq
-
---Sig_/YDi9kt5+Np1E2WPYM9bz0_y
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmKLRFYACgkQI1/ltBGq
-qqfDsQ/+ImT4nm095HozuXChgMyrrIYz+xwr+NWBKkQAQuY3lIx/gC2E5f8H3PHq
-hSiluJUTNg9MjVpBr9rt6hIlspBl8q9d+27wD+CdpkA2PWRi+INGz9BWJMBc3WBo
-eKk3ZgbC0eqJyyG7JZZpgqWzDk+OajaIkDiT9Jt0V30pO25fPCAeyDwpGPWyeh12
-rcHX+0G37QjdsUqtDCPqlkb44WmRKmr17UZlRvFoSfW5HrJEryQqBqSQA+LbMawE
-1dVfaEbRZ7DjW0DPf0yoaHsp0Yeq836p339AWc4bB7Ah52US0t55a2qzX4Cv3c72
-4ZhwDk2Fi5r/QbaNOwmaWlM6j4muAwleb76bqpS2euWoIpo9/95aN7mKuBJ+Dz9G
-qEUGUf9VTKa8aWbnQbv7fgWuzj7YL8rbCFX5NT+TiK43RRUKtMiYKUaTo5ISxuRm
-G2a6LY+BUKsK6A4bCBfAfB0kXoKel7PJ04+oPHWWj9TsKBlbQqp5rOSFDNISRAfY
-GdFhXFWes5CBsMAsrGcOTeOu2c6gWKMiSm1m5WE3v1KaYPmMYF3gnBjgHPw0nXx1
-vIh6v0kb9YUv5htLYhA6R3t7F8bFXEM0Jp7gvJvh1eYbx+/Kw08s2HHKOlpDQ2Yp
-DRAxW2XH9iu2g1QGxM4vthdadvWBpQgSVoH0FoSx/MbAwqsji5I=
-=tJIC
------END PGP SIGNATURE-----
-
---Sig_/YDi9kt5+Np1E2WPYM9bz0_y--
+Rob.
