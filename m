@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0CA531E8F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 00:23:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F38531E9D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 00:34:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24CFD10F41E;
-	Mon, 23 May 2022 22:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17C0C10E577;
+	Mon, 23 May 2022 22:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97BDE10E4C0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 22:23:53 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id w17so668244qtk.13
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 15:23:53 -0700 (PDT)
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 543CD10E909
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 22:34:31 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id l82so9189461qke.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 15:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rhBj+A73ELnQFoNbPkX2hSX+KSJvhC1M2m97Vu/479U=;
- b=gbPrlQWowkamDaF8K7+q80kVb+d89r/jamslVl4EJbre5cyL4MvX/5dcBKf6q2VH6I
- er0Sb4aM2gD/x/rh8OZFGe5f38F5QBLwjqdPHWy6SbvRKdEr1LsFj21PaHNR2RtAXp41
- xyRRDnUVrPJRirTm+W6lvH49HTZpDQ5DmBXXZVXbgnuR9FYs25IwKDgZAYRLtQJiyNEu
- HRytXtVkCaxl7VXdZRBaKy51L1K6gXsoxJF18WY+OsgHLGj/NYqt5M1Yhfhu6eanRMws
- XsB9QAYGXJvKLKb+Wh/Mq8dVVQ5IwnxBXFlrLM40n6unAK9HzEGRQ3TNMXvT5172SkoC
- SZTg==
+ :cc; bh=HQ0pqMkGPO55UZVFteq/t7UQsL7DsWYAaeh+h0/4AHw=;
+ b=Elmb2wuJeIQwOwyoYtoXj7BMSqe1Ie8BhMSfyh7oszPuVrwBsMgj+6CDb4Og1WmnoC
+ yzCf/MLIHHgn/Pz7iiqxLv3R4bE+fIiEEWspknnAEwYJjZCm98MVTVRUI7tmwaVW5Di9
+ rFVAyxuXvCOU+QdvbjKPWisSl0ds/fgP3xFm8H3zMzUQhGyqwFPBpybsSkuPOBoIr0a6
+ vjG+HxijuuXo61DoNWYo2Hr2ZnF0GwEK5JrWPS08r9bGmBDUKLoj8L+aPLujis4pA2db
+ 6cQ9JUfalXO06Or3s8GRa7C8474FrG9EPSYgnZBfAGap5G9vIVYoa/uWBJAo2g3h7bIk
+ IRmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rhBj+A73ELnQFoNbPkX2hSX+KSJvhC1M2m97Vu/479U=;
- b=GyWKfkcSJkV/SifpQGcemexwVP60K0xK01X60c5y/Z6t5N1fnh2ENVcJI0f8W4nnw6
- 7zpO69yHtMoFurDDD/GW8lR+94gMHiP+z8pn3uo8pKKhXXz1TfBBipx3aFI+b6aeexR+
- /zd6CyNsXNexZoPQwnf4FWIttdnOKOE8DA7Fl+BzQH9kGl7tsBnr6gg7Xvzp3hMUQ917
- wAdDGpcYfaBGBK0pADuLQb7q8DpPRSNw0xJUURf9lC/Dew7c7nogUvwzyWZc1eeUUX71
- UAFU8DCYnbYZIKIj3TN38lWKwXZ4WO6DyGN4EJXOwaw4rBz5ZkRJFIV3d7QRHIYwGANy
- +g6g==
-X-Gm-Message-State: AOAM531aZs//MxF9tTCtcv8R/k2LBvEP49zmheJvMvX6of3KcMkpYbXz
- /l38Yb4KSTSvIXpVizoEoFQ14lvW4bGnZj7WCq5Hkg==
-X-Google-Smtp-Source: ABdhPJy+5gX8nlhFRHAsmFRyR/Vx5wxFrt1lplOIzSVVkI5CsMu823+NB3bn7fO5Vn2JFo1KVJEaIHl+pCk04AND62M=
-X-Received: by 2002:a05:622a:13c8:b0:2f9:1cb4:9079 with SMTP id
- p8-20020a05622a13c800b002f91cb49079mr12977238qtk.629.1653344632711; Mon, 23
- May 2022 15:23:52 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=HQ0pqMkGPO55UZVFteq/t7UQsL7DsWYAaeh+h0/4AHw=;
+ b=GlTVif5wUTnyh9w+7EMmGkGoRIR3WLXuV3hkagqAAKtm2Csr5pIp1LVLtZM4Irbcub
+ 4+zsdvmjNuSJyDmEK5J5wg97WvZZTyDePLoebuFlves08rRMHUV7bsL+K/QuBr/lZG7G
+ yGrBVQk8gqV1a4tiGgTR/Sxflhz3qdy8W4LzNW/GuUUeqQ/iH+/N2ZKjXcGuUghzl7vt
+ M+gvcFyLAz04xffsiJ/04NqQwbJS1PW5WhHd0yXWAm32Cx87xowneVvFH9u1UDUndNsM
+ SDB3AEIoc2wdPUk3HhESUXKR1Rb27Yn1Kc3J9XMjC0Lvs9Yd+rbZV2RXN2l3AOde3JGW
+ qHWg==
+X-Gm-Message-State: AOAM5319W2RWRjKJZ3tFxN+ywsGBxVtDj9YPvxQuHMmPHCGD/88YFOJ8
+ I1VpUAq97XV+9rz6htAalkhXfo4NP5aFK6Zyhr+Oyg==
+X-Google-Smtp-Source: ABdhPJzgyd8M6po0gCsUtNfX7wRhP9f0kou7QpoyTW7nIY6wdzgcbzEl3gTil8T/z7vmEVnCVWL5Hvi0+mDVLNLoPMY=
+X-Received: by 2002:a37:6883:0:b0:6a3:42ae:e17b with SMTP id
+ d125-20020a376883000000b006a342aee17bmr13039864qkc.59.1653345269240; Mon, 23
+ May 2022 15:34:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220523204337.19739-1-rdunlap@infradead.org>
-In-Reply-To: <20220523204337.19739-1-rdunlap@infradead.org>
+References: <20220523213837.1016542-1-marijn.suijten@somainline.org>
+ <20220523213837.1016542-5-marijn.suijten@somainline.org>
+In-Reply-To: <20220523213837.1016542-5-marijn.suijten@somainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 24 May 2022 01:23:41 +0300
-Message-ID: <CAA8EJpoLBLVv3Snth2Jn-aLAXTOnOas=zcns829ddr4mF7sNig@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/msm: DRM_DP_AUX_BUS depends on OF
-To: Randy Dunlap <rdunlap@infradead.org>
+Date: Tue, 24 May 2022 01:34:18 +0300
+Message-ID: <CAA8EJpqcN=UdqVnuShetYY45f2QV8w5nk_vKW47B7oS74O38yQ@mail.gmail.com>
+Subject: Re: [PATCH 4/9] drm/msm/dsi_phy_28nm: Replace parent names with
+ clk_hw pointers
+To: Marijn Suijten <marijn.suijten@somainline.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +64,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Stephen Boyd <sboyd@kernel.org>, Vladimir Lypak <vladimir.lypak@gmail.com>,
+ linux-kernel@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, 23 May 2022 at 23:43, Randy Dunlap <rdunlap@infradead.org> wrote:
+On Tue, 24 May 2022 at 00:38, Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
 >
-> Fix a Kconfig warning for DRM_MSM by making it depend on OF,
-> since 'select' does not follow any dependency chaings.
+> parent_hw pointers are easier to manage and cheaper to use than
+> repeatedly formatting the parent name and subsequently leaving the clk
+> framework to perform lookups based on that name.
 >
-> WARNING: unmet direct dependencies detected for DRM_DP_AUX_BUS
-
-I think it was agreed that DRM_DP_AUX_BUS should depend on OF ||
-COMPILE_TEST (and the patch has been submitted by YueHaibing). See the
-thread at https://lore.kernel.org/dri-devel/9534934e-4c4a-ba2f-3bc3-d6d241e=
-625bb@linaro.org/T/
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
 
->   Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dm] && OF [=3Dn]
->   Selected by [m]:
->   - DRM_MSM [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && (ARCH_QCOM || SOC=
-_IMX5 || COMPILE_TEST [=3Dy]) && COMMON_CLK [=3Dy] && IOMMU_SUPPORT [=3Dy] =
-&& (QCOM_OCMEM [=3Dn] || QCOM_OCMEM [=3Dn]=3Dn) && (QCOM_LLCC [=3Dy] || QCO=
-M_LLCC [=3Dy]=3Dn) && (QCOM_COMMAND_DB [=3Dn] || QCOM_COMMAND_DB [=3Dn]=3Dn=
-)
->
-> Fixes: f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus supp=
-ort")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+
 > ---
->  drivers/gpu/drm/msm/Kconfig |    1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 52 +++++++++-------------
+>  1 file changed, 22 insertions(+), 30 deletions(-)
 >
-> --- a/drivers/gpu/drm/msm/Kconfig
-> +++ b/drivers/gpu/drm/msm/Kconfig
-> @@ -3,6 +3,7 @@
->  config DRM_MSM
->         tristate "MSM DRM"
->         depends on DRM
-> +       depends on OF
->         depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
->         depends on COMMON_CLK
->         depends on IOMMU_SUPPORT
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> index 48eab80b548e..6926c8ff6255 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> @@ -519,7 +519,7 @@ static int dsi_28nm_pll_restore_state(struct msm_dsi_phy *phy)
+>
+>  static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **provided_clocks)
+>  {
+> -       char clk_name[32], parent1[32], parent2[32], vco_name[32];
+> +       char clk_name[32], vco_name[32];
+
+While we are at it, we might also get rid of vco_name and use clk_name
+everywhere.
+
+>         struct clk_init_data vco_init = {
+>                 .parent_data = &(const struct clk_parent_data) {
+>                         .fw_name = "ref", .name = "xo",
+> @@ -529,7 +529,7 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+>                 .flags = CLK_IGNORE_UNUSED,
+>         };
+>         struct device *dev = &pll_28nm->phy->pdev->dev;
+> -       struct clk_hw *hw;
+> +       struct clk_hw *hw, *analog_postdiv, *indirect_path_div2, *byte_mux;
+>         int ret;
+>
+>         DBG("%d", pll_28nm->phy->id);
+> @@ -546,48 +546,40 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+>                 return ret;
+>
+>         snprintf(clk_name, 32, "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
+> -       snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
+> -       hw = devm_clk_hw_register_divider(dev, clk_name,
+> -                       parent1, CLK_SET_RATE_PARENT,
+> +       analog_postdiv = devm_clk_hw_register_divider_parent_hw(dev, clk_name,
+> +                       &pll_28nm->clk_hw, CLK_SET_RATE_PARENT,
+>                         pll_28nm->phy->pll_base +
+> -                       REG_DSI_28nm_PHY_PLL_POSTDIV1_CFG,
+> -                       0, 4, 0, NULL);
+> -       if (IS_ERR(hw))
+> -               return PTR_ERR(hw);
+> +                       REG_DSI_28nm_PHY_PLL_POSTDIV1_CFG, 0, 4, 0, NULL);
+
+The diff is already hard enough to read. Could you please drop
+syntax/whitespace/newline changes?
+
+> +       if (IS_ERR(analog_postdiv))
+> +               return PTR_ERR(analog_postdiv);
+>
+>         snprintf(clk_name, 32, "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
+> -       snprintf(parent1, 32, "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
+> -       hw = devm_clk_hw_register_fixed_factor(dev, clk_name,
+> -                       parent1, CLK_SET_RATE_PARENT,
+> -                       1, 2);
+> -       if (IS_ERR(hw))
+> -               return PTR_ERR(hw);
+> +       indirect_path_div2 = devm_clk_hw_register_fixed_factor_parent_hw(dev,
+> +                       clk_name, analog_postdiv, CLK_SET_RATE_PARENT, 1, 2);
+> +       if (IS_ERR(indirect_path_div2))
+> +               return PTR_ERR(indirect_path_div2);
+>
+>         snprintf(clk_name, 32, "dsi%dpll", pll_28nm->phy->id);
+> -       snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
+> -       hw = devm_clk_hw_register_divider(dev, clk_name,
+> -                               parent1, 0, pll_28nm->phy->pll_base +
+> -                               REG_DSI_28nm_PHY_PLL_POSTDIV3_CFG,
+> -                               0, 8, 0, NULL);
+> +       hw = devm_clk_hw_register_divider_parent_hw(dev, clk_name,
+> +                       &pll_28nm->clk_hw, 0, pll_28nm->phy->pll_base +
+> +                       REG_DSI_28nm_PHY_PLL_POSTDIV3_CFG, 0, 8, 0, NULL);
+>         if (IS_ERR(hw))
+>                 return PTR_ERR(hw);
+>         provided_clocks[DSI_PIXEL_PLL_CLK] = hw;
+>
+>         snprintf(clk_name, 32, "dsi%dbyte_mux", pll_28nm->phy->id);
+> -       snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
+> -       snprintf(parent2, 32, "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
+> -       hw = devm_clk_hw_register_mux(dev, clk_name,
+> -                       ((const char *[]){
+> -                               parent1, parent2
+> +       byte_mux = devm_clk_hw_register_mux_parent_hws(dev, clk_name,
+> +                       ((const struct clk_hw *[]){
+> +                               &pll_28nm->clk_hw,
+> +                               indirect_path_div2,
+>                         }), 2, CLK_SET_RATE_PARENT, pll_28nm->phy->pll_base +
+>                         REG_DSI_28nm_PHY_PLL_VREG_CFG, 1, 1, 0, NULL);
+> -       if (IS_ERR(hw))
+> -               return PTR_ERR(hw);
+> +       if (IS_ERR(byte_mux))
+> +               return PTR_ERR(byte_mux);
+>
+>         snprintf(clk_name, 32, "dsi%dpllbyte", pll_28nm->phy->id);
+> -       snprintf(parent1, 32, "dsi%dbyte_mux", pll_28nm->phy->id);
+> -       hw = devm_clk_hw_register_fixed_factor(dev, clk_name,
+> -                               parent1, CLK_SET_RATE_PARENT, 1, 4);
+> +       hw = devm_clk_hw_register_fixed_factor_parent_hw(dev, clk_name,
+> +                       byte_mux, CLK_SET_RATE_PARENT, 1, 4);
+>         if (IS_ERR(hw))
+>                 return PTR_ERR(hw);
+>         provided_clocks[DSI_BYTE_PLL_CLK] = hw;
+> --
+> 2.36.1
+>
 
 
-
---=20
+-- 
 With best wishes
 Dmitry
