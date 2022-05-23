@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D24C531E07
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96A1531E01
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 23:39:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE30510FF08;
-	Mon, 23 May 2022 21:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709B410F86D;
+	Mon, 23 May 2022 21:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C69810F610
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 21:38:57 +0000 (UTC)
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0684F10F7F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 21:38:59 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id E4C3A1F6E1;
- Mon, 23 May 2022 23:38:54 +0200 (CEST)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id B57431FBC6;
+ Mon, 23 May 2022 23:38:56 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 6/9] drm/msm/dsi_phy_28nm_8960: Use stack memory for temporary
- clock names
-Date: Mon, 23 May 2022 23:38:34 +0200
-Message-Id: <20220523213837.1016542-7-marijn.suijten@somainline.org>
+Subject: [PATCH 7/9] drm/msm/dsi_phy_14nm: Replace parent names with clk_hw
+ pointers
+Date: Mon, 23 May 2022 23:38:35 +0200
+Message-Id: <20220523213837.1016542-8-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220523213837.1016542-1-marijn.suijten@somainline.org>
 References: <20220523213837.1016542-1-marijn.suijten@somainline.org>
@@ -59,47 +59,116 @@ Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The clock names formatted into the hw_clk's init structure are only used
-for the duration of the registration function where they are kstrdup'ed,
-making it unnecessary to keep the allocations alive for the duration of
-the device (through devm).
-
-Just like the other DSI PHY PLL clock trees, use a stack-local char
-array and save on memory outside of the pll_28nm_register function.
+parent_hw pointers are easier to manage and cheaper to use than
+repeatedly formatting the parent name and subsequently leaving the clk
+framework to perform lookups based on that name.
 
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 36 ++++++++++------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-index 943a7e847c90..554978fc434d 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-@@ -383,7 +383,7 @@ static int dsi_28nm_pll_restore_state(struct msm_dsi_phy *phy)
- 
- static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **provided_clocks)
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+index 8199c53567f4..574f95ab2f22 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+@@ -764,14 +764,14 @@ static int dsi_14nm_set_usecase(struct msm_dsi_phy *phy)
+
+ static struct clk_hw *pll_14nm_postdiv_register(struct dsi_pll_14nm *pll_14nm,
+ 						const char *name,
+-						const char *parent_name,
++						const struct clk_hw *parent_hw,
+ 						unsigned long flags,
+ 						u8 shift)
  {
--	char *clk_name, *vco_name;
+ 	struct dsi_pll_14nm_postdiv *pll_postdiv;
+ 	struct device *dev = &pll_14nm->phy->pdev->dev;
+ 	struct clk_init_data postdiv_init = {
+-		.parent_names = (const char *[]) { parent_name },
++		.parent_hws = (const struct clk_hw *[]) { parent_hw },
+ 		.num_parents = 1,
+ 		.name = name,
+ 		.flags = flags,
+@@ -800,7 +800,7 @@ static struct clk_hw *pll_14nm_postdiv_register(struct dsi_pll_14nm *pll_14nm,
+
+ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **provided_clocks)
+ {
+-	char clk_name[32], parent[32], vco_name[32];
 +	char clk_name[32], vco_name[32];
  	struct clk_init_data vco_init = {
  		.parent_data = &(const struct clk_parent_data) {
  			.fw_name = "ref",
-@@ -404,14 +404,6 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- 	if (!bytediv)
- 		return -ENOMEM;
- 
--	vco_name = devm_kzalloc(dev, 32, GFP_KERNEL);
--	if (!vco_name)
--		return -ENOMEM;
--
--	clk_name = devm_kzalloc(dev, 32, GFP_KERNEL);
--	if (!clk_name)
--		return -ENOMEM;
--
- 	snprintf(vco_name, 32, "dsi%dvco_clk", pll_28nm->phy->id);
- 	vco_init.name = vco_name;
- 
--- 
+@@ -811,7 +811,7 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
+ 		.ops = &clk_ops_dsi_pll_14nm_vco,
+ 	};
+ 	struct device *dev = &pll_14nm->phy->pdev->dev;
+-	struct clk_hw *hw;
++	struct clk_hw *hw, *n1_postdiv, *n1_postdivby2;
+ 	int ret;
+
+ 	DBG("DSI%d", pll_14nm->phy->id);
+@@ -824,48 +824,46 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
+ 		return ret;
+
+ 	snprintf(clk_name, 32, "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
+-	snprintf(parent, 32, "dsi%dvco_clk", pll_14nm->phy->id);
+
+ 	/* N1 postdiv, bits 0-3 in REG_DSI_14nm_PHY_CMN_CLK_CFG0 */
+-	hw = pll_14nm_postdiv_register(pll_14nm, clk_name, parent,
+-				       CLK_SET_RATE_PARENT, 0);
+-	if (IS_ERR(hw))
+-		return PTR_ERR(hw);
++	n1_postdiv = pll_14nm_postdiv_register(pll_14nm, clk_name,
++			&pll_14nm->clk_hw, CLK_SET_RATE_PARENT, 0);
++	if (IS_ERR(n1_postdiv))
++		return PTR_ERR(n1_postdiv);
+
+ 	snprintf(clk_name, 32, "dsi%dpllbyte", pll_14nm->phy->id);
+-	snprintf(parent, 32, "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
+
+ 	/* DSI Byte clock = VCO_CLK / N1 / 8 */
+-	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
+-					  CLK_SET_RATE_PARENT, 1, 8);
++	hw = devm_clk_hw_register_fixed_factor_parent_hw(dev, clk_name,
++			n1_postdiv, CLK_SET_RATE_PARENT, 1, 8);
+ 	if (IS_ERR(hw))
+ 		return PTR_ERR(hw);
+
+ 	provided_clocks[DSI_BYTE_PLL_CLK] = hw;
+
+ 	snprintf(clk_name, 32, "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
+-	snprintf(parent, 32, "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
+
+ 	/*
+ 	 * Skip the mux for now, force DSICLK_SEL to 1, Add a /2 divider
+ 	 * on the way. Don't let it set parent.
+ 	 */
+-	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent, 0, 1, 2);
+-	if (IS_ERR(hw))
+-		return PTR_ERR(hw);
++	n1_postdivby2 = devm_clk_hw_register_fixed_factor_parent_hw(dev,
++			clk_name, n1_postdiv, 0, 1, 2);
++	if (IS_ERR(n1_postdivby2))
++		return PTR_ERR(n1_postdivby2);
+
+ 	snprintf(clk_name, 32, "dsi%dpll", pll_14nm->phy->id);
+-	snprintf(parent, 32, "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
+
+ 	/* DSI pixel clock = VCO_CLK / N1 / 2 / N2
+ 	 * This is the output of N2 post-divider, bits 4-7 in
+ 	 * REG_DSI_14nm_PHY_CMN_CLK_CFG0. Don't let it set parent.
+ 	 */
+-	hw = pll_14nm_postdiv_register(pll_14nm, clk_name, parent, 0, 4);
++	hw = pll_14nm_postdiv_register(pll_14nm, clk_name, n1_postdivby2,
++			0, 4);
+ 	if (IS_ERR(hw))
+ 		return PTR_ERR(hw);
+
+-	provided_clocks[DSI_PIXEL_PLL_CLK]	= hw;
++	provided_clocks[DSI_PIXEL_PLL_CLK] = hw;
+
+ 	return 0;
+ }
+--
 2.36.1
 
