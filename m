@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAA6531530
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 19:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE827531535
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 19:19:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD4B10E4DA;
-	Mon, 23 May 2022 17:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70AE010E773;
+	Mon, 23 May 2022 17:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E2510EBC1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 17:07:56 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id er5so19916221edb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 10:07:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+yqE1pGHx1x3KKc79e6Yq8sNIx1yXpNzstv/8bzqb5s=;
- b=ZjtsMPgQV6WFMaPsFE5wXrme9HyysqJfDxmCwYeAGbvKIHUWff1Cpyv4vRAIzb2+6g
- CaBM3u9mN7ChwiUoZn0x2jmbmh8Ids9Twb+q9Mx4bev++DIoBHEX+JPi/peV3/cHXpnt
- ki/dDbMZHLrt1JuRTfIjOmj46abGOccIRmJ+w=
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD71910E6EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 17:19:21 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id d22so13679531plr.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 10:19:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VcVFk3FcEgzfyMwYD0aU10qnYcHMUzYlGb8aE1VELAQ=;
+ b=sq3P/fw7RUx9aBXoSaVhkvBFulT5vCvnYlKSTPsTothpsy2pNOKALFyKKhn9W44OlL
+ +cZjRjNgRJKzURqhNHFr0bUheleEFwIHlJUOjHe6+8/H6czcQuaTKrXLrynQfLXa1OF7
+ yUB2nwoJ+3wh0pucpP+eqxwtGsKcnBiHhM/w+W1JdgmtzaTY+2NwOkQaG6/PtzHj0GWT
+ bVT25LrcpTLBknZo92GNsZz5UoQm3/XU+3fhcdLnlT4+qGXOXOpf5/bXgmbXK5zaHcwr
+ jCsXk2nSI0snXcDdnj6SEgHzF+u1KK7yHVrsA2Gf0yoGU3gPFccu7ykntQLChDo2pHOe
+ QTRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+yqE1pGHx1x3KKc79e6Yq8sNIx1yXpNzstv/8bzqb5s=;
- b=Jy0zjLy8agRgDo8L6zSZcireBjAEgq5udttgqbHHBKTHHT6GnxoB8Cv8SbsdFyB8+q
- nAg64qn1CaOSGtVW/N371B8NGNwcQpQeFiSgQlURSteIqSIb44M133ncNSg90pU5vdpn
- xj88mxFoBa40mXrdByGDcCAeHkP3wZkJiBMK9MpK1d1TeDyTda6KbHmBBgy3ZKY7264x
- glGf0UpCvFfROjiKLJitEAnDP0S5rB8q2AocC0Yybv0HYnWGxdDjO5eHZVzCiVBsBUy1
- u1YridFbMS2vndz1TECRjcN/sP3XfWV3VTM99QqtfxnA90UR5AxldpSIoCyzifXeAC3d
- tk1g==
-X-Gm-Message-State: AOAM531an2BKTzXXCzM6Bgq7IJnuEcWn72kpP3UUTNo3OU7PeSfT32hZ
- PhK9Vm5ZYHIQUnR5dp7MrqUuMH8X3fsHnlaKfMQ=
-X-Google-Smtp-Source: ABdhPJyNGfO9oECYjn2uV00V4bDBvnWWlIf0+HtgTpRsE9AGZs9EjqIB0Yfs3K/zWb/QA0WNfUe5Dg==
-X-Received: by 2002:aa7:d659:0:b0:42a:b0d5:a64e with SMTP id
- v25-20020aa7d659000000b0042ab0d5a64emr24991900edr.157.1653325674389; 
- Mon, 23 May 2022 10:07:54 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com.
- [209.85.218.45]) by smtp.gmail.com with ESMTPSA id
- 15-20020a170906004f00b006f3ef214dd9sm5925864ejg.63.2022.05.23.10.07.53
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 10:07:54 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id ck4so25898769ejb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 10:07:53 -0700 (PDT)
-X-Received: by 2002:a05:6000:1c03:b0:20e:5cac:1eb5 with SMTP id
- ba3-20020a0560001c0300b0020e5cac1eb5mr19994642wrb.422.1653325252721; Mon, 23
- May 2022 10:00:52 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VcVFk3FcEgzfyMwYD0aU10qnYcHMUzYlGb8aE1VELAQ=;
+ b=ZkRzi6q4LTFynvcOg6Yyuxp1xBxfzbm8z3LJpq2Koizgiky6cZn/GKfMT5MdvSulDL
+ WdwCUfkqtP7DdOhQP7tbR9QNZ1b89791ppUuXPtO37V4yxUBx7ANw+Ll9IjqQNQ+RW4g
+ WUFN13w5HMIAqoBOUtH+Hhk8TgwSwI0sJ4WmWHjPWP//jxm2RT6ZRS9Y3WxkMRDJIkWB
+ G89DMVsBSh+Ht/iMHqyYA98oB661byuIdujyfGiB/6SmBhHHFWMK/qutkOolUcz/sZUk
+ Np8i4mKIfR54Ux51mi7LPNscWiRvFYjGSpcv1ae2bfpryCxju3ydi9jwb7T0zi2ZnyVA
+ z2RA==
+X-Gm-Message-State: AOAM532E/a1VWVsDOYCGfqfOlAqojbBXT7pne/o5zPKAwm7UNnaFf8bx
+ oINgFbag5vPM0MjHvycFYH5MFA==
+X-Google-Smtp-Source: ABdhPJz0WtrjOJCip7mt3F57oMADC6YJYPp4ap9cajQlDw45E7nedRqS2OqtCHvUvpJcdnhIjwCnKw==
+X-Received: by 2002:a17:902:8501:b0:15f:173:40e1 with SMTP id
+ bj1-20020a170902850100b0015f017340e1mr23539994plb.74.1653326361089; 
+ Mon, 23 May 2022 10:19:21 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ t2-20020a170902e84200b0015e8d4eb273sm5392051plg.189.2022.05.23.10.19.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 May 2022 10:19:20 -0700 (PDT)
+Date: Mon, 23 May 2022 17:19:16 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [RFC PATCH v3 03/19] KVM: x86: SVM: remove avic's broken code
+ that updated APIC ID
+Message-ID: <YovCFBn5cKcv3iwD@google.com>
+References: <20220427200314.276673-1-mlevitsk@redhat.com>
+ <20220427200314.276673-4-mlevitsk@redhat.com>
+ <YoZr9wC2KjTFHrQ7@google.com>
+ <d1df82a17e6e89ab58d5f6aa911ee2d532efee31.camel@redhat.com>
 MIME-Version: 1.0
-References: <20220510192944.2408515-1-dianders@chromium.org>
- <20220510122726.v3.3.Iba4b9bf6c7a1ee5ea2835ad7bd5eaf84d7688520@changeid>
- <20220521091751.opeiqbmc5c2okdq6@houat>
-In-Reply-To: <20220521091751.opeiqbmc5c2okdq6@houat>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 23 May 2022 10:00:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wea0LT5umK4Xg87cDikim+dSuyLndfydO3_DnTujZr9Q@mail.gmail.com>
-Message-ID: <CAD=FV=Wea0LT5umK4Xg87cDikim+dSuyLndfydO3_DnTujZr9Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] drm/bridge: Add devm_drm_bridge_add()
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d1df82a17e6e89ab58d5f6aa911ee2d532efee31.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,47 +73,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sun, May 22, 2022, Maxim Levitsky wrote:
+> On Thu, 2022-05-19 at 16:10 +0000, Sean Christopherson wrote:
+> > On Wed, Apr 27, 2022, Maxim Levitsky wrote:
+> > > AVIC is now inhibited if the guest changes apic id, thus remove
+> > > that broken code.
+> > 
+> > Can you explicitly call out what's broken?  Just something short on the code not
+> > handling the scenario where APIC ID is changed back to vcpu_id to help future
+> > archaeologists.  I forget if there are other bugs...
+> > 
+> 
+> 
+> Well, the avic_handle_apic_id_update is called each time the AVIC is uninhibited,
+> because while it is inhibited, the AVIC code doesn't track changes to APIC ID and such.
+> 
+> Also there are many ways it is broken for example
+> 
+> 1. a CPU can't move its APIC ID to a free slot due to (!new) check
+> 
+> 2. If APIC ID is moved to a used slot, then the CPU that used that overwritten
+> slot can't correctly move it, since its now not its slot, not to mention races.
 
-On Sat, May 21, 2022 at 2:17 AM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi,
->
-> On Tue, May 10, 2022 at 12:29:43PM -0700, Douglas Anderson wrote:
-> > This adds a devm managed version of drm_bridge_add(). Like other
-> > "devm" function listed in drm_bridge.h, this function takes an
-> > explicit "dev" to use for the lifetime management. A few notes:
-> > * In general we have a "struct device" for bridges that makes a good
-> >   candidate for where the lifetime matches exactly what we want.
-> > * The "bridge->dev->dev" device appears to be the encoder
-> >   device. That's not the right device to use for lifetime management.
-> >
-> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
->
-> If we are to introduce more managed helpers, I think it'd be wiser to
-> introduce them as DRM-managed, and not device managed.
->
-> Otherwise, you'll end up in a weird state when a device has been removed
-> but the DRM device is still around.
+The more the merrier :-)  Any/all of those examples are great, just so long as it's
+obvious to future readers that the code truly is busted.
 
-I'm kinda confused. In this case there is no DRM device for the bridge
-and, as per my CL description, "bridge-dev->dev" appears to be the
-encoder device. I wasn't personally involved in discussions about it,
-but I was under the impression that this was expected / normal. Thus
-we can't make this DRM-managed.
+> BTW, if you see a value in it, I can fix this code instead - a lock + going over all the apic ids,
+> should be quite easy to implement. In case of two vCPUs using the same APIC ID,
+> I can write non present entry to the table, so none will be able to be addressed,
+> hoping that the situation is only temporary.
 
--Doug
+Very strong "no", let's keep this as simple as possible without outright killing
+the guest or breaking ABI.  Disabling APICv/AVIC is perfect.
