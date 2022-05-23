@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779DF530E67
-	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 12:51:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69530530E68
+	for <lists+dri-devel@lfdr.de>; Mon, 23 May 2022 12:51:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD9910EDCE;
-	Mon, 23 May 2022 10:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4348C10EDD1;
+	Mon, 23 May 2022 10:51:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D5510EDCE
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 10:50:57 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id r23so20786077wrr.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 03:50:57 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F42510EDC3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 10:51:04 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id k30so20742269wrd.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 03:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9jP9dq0eqNju1JFK7hi0cYxaapGwnNAhPGRZeD+o+7w=;
- b=M1PApx6JO0ucI5ZRRlGl3kXqjmvvORDiFf9UkR8kuE9PiPMj6LBUsOXOQkYghTqWM6
- Y42sddN4qCdj6Cc7brfNShxohE/SwqyqfOLeLv/zN7i4CeqEDu0/IrVGnghkWEatMuph
- 1lwMHmTxyavp/pTF6hk5EjgcSgP+Kz3zP5jgkEVbTLboSIVw++xZCi7NTOBqv5+bKIVv
- QL9/y/wZd9lzwop/5tkjaPlvmmFqgs/8W0qu77UmDJvIS55j3zJx+pgxdFe8GwqCcJQo
- 60IvuR05z6saM5V8DM4eI/hgCPbuj+ZMwVIj1R/1f7dFfIaLu+BjfsfnN+yXwBDedu2x
- lvXg==
+ bh=rtIhUcdCaZnm7jziZDR5Z3AGZFSQmzw1Ey7uWgPET0o=;
+ b=wah1jbM7UwwnnOKN9R9SdQNDY2U+2LnBjvHDreFlkmgM6crp7LUE26axhsKHnETs9x
+ fR1xJvrqPq4sbqRbxc1TWAN6DPtHiy6slEa8Gvp4dEmJjrC4hKyo7MFmbXD73ikJVWEf
+ ZBzqgF1U/EHOPF0GOGPVzUmCKzg3rgNZgVVLV7Hu3dpnKUFmmlX+DIrLoSkUCLm/8GKA
+ pSAPX1B6YfDSSalkTcXADWGOYATuLN1r8GlTGFgqjUn51EtxUcvU6gYeyr62c2AR8w15
+ XT+EC5FzCBl/Lx1yYauc0D2j8Zy6baO/AXzprpopx8OTp6idfNVzdhb30T/y0T0uEKVg
+ mSwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9jP9dq0eqNju1JFK7hi0cYxaapGwnNAhPGRZeD+o+7w=;
- b=7LbeC3b/5/nashDqM+noEmVaNHncNrJ1Ewt7pnRVv8v6LvuiRz4TNsDQoB9RHJP7yp
- +c7SqGVkN0y6lPEbijmIpxmg9iFWPgMtkBhfbrInasbmgSkfhPBXz1hkS1yMD0Pq2IAT
- bx+Mfy4QGIKKlX+rn/YhUdsG3oD/DGdJnoLevpHCqyxsFRmp6PNr3aV+swvq8q8eiOax
- NKZqPwHYUB5UD8Y+JYg7hhZq1BrFo7fnt4Mw9hlUtJ4jmBFOJudPEgPV+fedWIT9iTK2
- 5VpucmkvKCr7pWXgoD6LG6l8zfY3UBCyWPsYiIy26S6wcoh3pjEZNX0PMhFHTovDLaq3
- pjzg==
-X-Gm-Message-State: AOAM533xq4yDVkIA0r4UVHguMCdayXNMIIITEynctL/lt4O83YDOEPeG
- 9hnut9nv1SL5uXD6R+302qGeWA==
-X-Google-Smtp-Source: ABdhPJzFVsn52LLkc6F5P2MSaLKmhQPgvOfhCMFcPHG2HJ9CtCk4fi83gaSnITOg3ufjkMvUe7umaQ==
-X-Received: by 2002:a5d:6042:0:b0:20e:65c0:f69b with SMTP id
- j2-20020a5d6042000000b0020e65c0f69bmr18712524wrt.524.1653303056451; 
- Mon, 23 May 2022 03:50:56 -0700 (PDT)
+ bh=rtIhUcdCaZnm7jziZDR5Z3AGZFSQmzw1Ey7uWgPET0o=;
+ b=PFTTzNzRVFdrXJ134BxBMqBxe/JW0DTAYXQ2tQM0mbMPiPlZMHU5PIS/4puQabxcFs
+ hWRQ7B0HvYf7yBYOUPDiAXFMd2YV08AYXLqoG023RpWjnyNLX2t0CcXISLFoJDN8LOKu
+ 3/4ivD4dcgvYKzIEUejEYqmuEbPqmp75xIFtRbngi9Uwx8/G8mB08NB1i1NPD2KLCAQr
+ ElKgf4VJsyWOuT2WoBcHMeknYDYMM5Dq1gopklbZ7wzv/2msavSUxABMfYq7QckUqWiz
+ f6uWvKWX3PjDNIUzl66xKRW/MwKXXEL47jeb7TghF+u8lK2YCUlg3apa4u3TiiJojTWm
+ S+3w==
+X-Gm-Message-State: AOAM5300w+TKFZmJikdl4uu+ogHQawm0okZE0Zk5hDTI0BuQwdPPsTBu
+ CInAnLbcU6if9+JtOpzvNF4yUw==
+X-Google-Smtp-Source: ABdhPJwlpN+bAQcOMXPxLl3HE4/+S7AO5UZT/ZO654uU7ZtC36wAyqvn+dcGu2/sz9tF0vCBLin/Vw==
+X-Received: by 2002:adf:f584:0:b0:20d:431:27f8 with SMTP id
+ f4-20020adff584000000b0020d043127f8mr18646173wro.577.1653303063102; 
+ Mon, 23 May 2022 03:51:03 -0700 (PDT)
 Received: from localhost.localdomain
  (2a02-8440-6141-9d1b-3074-96af-9642-0003.rev.sfr.net.
  [2a02:8440:6141:9d1b:3074:96af:9642:3])
  by smtp.gmail.com with ESMTPSA id
- n11-20020a7bc5cb000000b003942a244f38sm8453607wmk.17.2022.05.23.03.50.54
+ n11-20020a7bc5cb000000b003942a244f38sm8453607wmk.17.2022.05.23.03.51.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 May 2022 03:50:56 -0700 (PDT)
+ Mon, 23 May 2022 03:51:02 -0700 (PDT)
 From: Guillaume Ranquet <granquet@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
@@ -63,10 +63,9 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
  Helge Deller <deller@gmx.de>, CK Hu <ck.hu@mediatek.com>,
  Jitao shi <jitao.shi@mediatek.com>
-Subject: [PATCH v10 08/21] drm/mediatek: dpi: implement a swap_input toggle in
- SoC config
-Date: Mon, 23 May 2022 12:47:41 +0200
-Message-Id: <20220523104758.29531-9-granquet@baylibre.com>
+Subject: [PATCH v10 09/21] drm/mediatek: dpi: move dimension mask to SoC config
+Date: Mon, 23 May 2022 12:47:42 +0200
+Message-Id: <20220523104758.29531-10-granquet@baylibre.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220523104758.29531-1-granquet@baylibre.com>
 References: <20220523104758.29531-1-granquet@baylibre.com>
@@ -92,81 +91,98 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds a bit of flexibility to support SoCs without swap_input support
+Add flexibility by moving the dimension mask to the SoC config
 
 Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 545a1337cc89..454f8563efae 100644
+index 454f8563efae..bf098f36a466 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -126,6 +126,7 @@ struct mtk_dpi_conf {
- 	const u32 *output_fmts;
+@@ -127,6 +127,8 @@ struct mtk_dpi_conf {
  	u32 num_output_fmts;
  	bool is_ck_de_pol;
-+	bool swap_input_support;
+ 	bool swap_input_support;
++	/* Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH (no shift) */
++	u32 dimension_mask;
  	const struct mtk_dpi_yc_limit *limit;
  };
  
-@@ -378,18 +379,21 @@ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
- 	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
- 		mtk_dpi_config_yuv422_enable(dpi, false);
- 		mtk_dpi_config_csc_enable(dpi, true);
--		mtk_dpi_config_swap_input(dpi, false);
-+		if (dpi->conf->swap_input_support)
-+			mtk_dpi_config_swap_input(dpi, false);
- 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_BGR);
- 	} else if ((format == MTK_DPI_COLOR_FORMAT_YCBCR_422) ||
- 		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
- 		mtk_dpi_config_yuv422_enable(dpi, true);
- 		mtk_dpi_config_csc_enable(dpi, true);
--		mtk_dpi_config_swap_input(dpi, true);
-+		if (dpi->conf->swap_input_support)
-+			mtk_dpi_config_swap_input(dpi, true);
- 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
- 	} else {
- 		mtk_dpi_config_yuv422_enable(dpi, false);
- 		mtk_dpi_config_csc_enable(dpi, false);
--		mtk_dpi_config_swap_input(dpi, false);
-+		if (dpi->conf->swap_input_support)
-+			mtk_dpi_config_swap_input(dpi, false);
- 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
- 	}
+@@ -156,30 +158,30 @@ static void mtk_dpi_disable(struct mtk_dpi *dpi)
+ static void mtk_dpi_config_hsync(struct mtk_dpi *dpi,
+ 				 struct mtk_dpi_sync_param *sync)
+ {
+-	mtk_dpi_mask(dpi, DPI_TGEN_HWIDTH,
+-		     sync->sync_width << HPW, HPW_MASK);
+-	mtk_dpi_mask(dpi, DPI_TGEN_HPORCH,
+-		     sync->back_porch << HBP, HBP_MASK);
++	mtk_dpi_mask(dpi, DPI_TGEN_HWIDTH, sync->sync_width << HPW,
++		     dpi->conf->dimension_mask << HPW);
++	mtk_dpi_mask(dpi, DPI_TGEN_HPORCH, sync->back_porch << HBP,
++		     dpi->conf->dimension_mask << HBP);
+ 	mtk_dpi_mask(dpi, DPI_TGEN_HPORCH, sync->front_porch << HFP,
+-		     HFP_MASK);
++		     dpi->conf->dimension_mask << HFP);
  }
-@@ -808,6 +812,7 @@ static const struct mtk_dpi_conf mt8173_conf = {
- 	.output_fmts = mt8173_output_fmts,
+ 
+ static void mtk_dpi_config_vsync(struct mtk_dpi *dpi,
+ 				 struct mtk_dpi_sync_param *sync,
+ 				 u32 width_addr, u32 porch_addr)
+ {
+-	mtk_dpi_mask(dpi, width_addr,
+-		     sync->sync_width << VSYNC_WIDTH_SHIFT,
+-		     VSYNC_WIDTH_MASK);
+ 	mtk_dpi_mask(dpi, width_addr,
+ 		     sync->shift_half_line << VSYNC_HALF_LINE_SHIFT,
+ 		     VSYNC_HALF_LINE_MASK);
++	mtk_dpi_mask(dpi, width_addr,
++		     sync->sync_width << VSYNC_WIDTH_SHIFT,
++		     dpi->conf->dimension_mask << VSYNC_WIDTH_SHIFT);
+ 	mtk_dpi_mask(dpi, porch_addr,
+ 		     sync->back_porch << VSYNC_BACK_PORCH_SHIFT,
+-		     VSYNC_BACK_PORCH_MASK);
++		     dpi->conf->dimension_mask << VSYNC_BACK_PORCH_SHIFT);
+ 	mtk_dpi_mask(dpi, porch_addr,
+ 		     sync->front_porch << VSYNC_FRONT_PORCH_SHIFT,
+-		     VSYNC_FRONT_PORCH_MASK);
++		     dpi->conf->dimension_mask << VSYNC_FRONT_PORCH_SHIFT);
+ }
+ 
+ static void mtk_dpi_config_vsync_lodd(struct mtk_dpi *dpi,
+@@ -813,6 +815,7 @@ static const struct mtk_dpi_conf mt8173_conf = {
  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
  	.is_ck_de_pol = true,
-+	.swap_input_support = true,
+ 	.swap_input_support = true,
++	.dimension_mask = HPW_MASK,
  	.limit = &mtk_dpi_limit,
  };
  
-@@ -819,6 +824,7 @@ static const struct mtk_dpi_conf mt2701_conf = {
- 	.output_fmts = mt8173_output_fmts,
+@@ -825,6 +828,7 @@ static const struct mtk_dpi_conf mt2701_conf = {
  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
  	.is_ck_de_pol = true,
-+	.swap_input_support = true,
+ 	.swap_input_support = true,
++	.dimension_mask = HPW_MASK,
  	.limit = &mtk_dpi_limit,
  };
  
-@@ -829,6 +835,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
- 	.output_fmts = mt8183_output_fmts,
+@@ -836,6 +840,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
  	.is_ck_de_pol = true,
-+	.swap_input_support = true,
+ 	.swap_input_support = true,
++	.dimension_mask = HPW_MASK,
  	.limit = &mtk_dpi_limit,
  };
  
-@@ -839,6 +846,7 @@ static const struct mtk_dpi_conf mt8192_conf = {
- 	.output_fmts = mt8173_output_fmts,
+@@ -847,6 +852,7 @@ static const struct mtk_dpi_conf mt8192_conf = {
  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
  	.is_ck_de_pol = true,
-+	.swap_input_support = true,
+ 	.swap_input_support = true,
++	.dimension_mask = HPW_MASK,
  	.limit = &mtk_dpi_limit,
  };
  
