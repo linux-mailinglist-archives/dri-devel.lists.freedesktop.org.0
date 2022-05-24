@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D13532198
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 05:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40C553219D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 05:36:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E11210E08E;
-	Tue, 24 May 2022 03:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F5310E182;
+	Tue, 24 May 2022 03:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBA5E10E0D4
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 03:29:37 +0000 (UTC)
-X-UUID: 5a719f18c2c6450882ea7ce05a4f03bb-20220524
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0E610E182
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 03:36:00 +0000 (UTC)
+X-UUID: 10ce425b9544498782f047918b3a7697-20220524
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:28cf4b3c-13b5-47c8-82ed-22aecfad8be9, OB:0,
+X-CID-O-INFO: VERSION:1.1.5, REQID:e7794dcc-2f7a-4448-b895-7aa5923d00d4, OB:0,
  LO
- B:10,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Release_Ham,A
- CTION:release,TS:76
-X-CID-INFO: VERSION:1.1.5, REQID:28cf4b3c-13b5-47c8-82ed-22aecfad8be9, OB:0,
- LOB:
- 10,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,RULE:Spam_GS981B3D,A
- CTION:quarantine,TS:76
-X-CID-META: VersionHash:2a19b09, CLOUDID:77bf617a-5ef6-470b-96c9-bdb8ced32786,
+ B:0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:25
+X-CID-META: VersionHash:2a19b09, CLOUDID:9610627a-5ef6-470b-96c9-bdb8ced32786,
  C
- OID:387ed2adb1b8,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:0,BEC:nil
-X-UUID: 5a719f18c2c6450882ea7ce05a4f03bb-20220524
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 236856401; Tue, 24 May 2022 11:29:31 +0800
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 10ce425b9544498782f047918b3a7697-20220524
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1951524685; Tue, 24 May 2022 11:35:57 +0800
+Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 24 May 2022 11:35:56 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 24 May 2022 11:29:30 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 24 May 2022 11:35:55 +0800
 Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 24 May 2022 11:29:28 +0800
-Message-ID: <d58f73dc0d50b9704399c080503151bea6791694.camel@mediatek.com>
-Subject: Re: [PATCH v10 01/21] dt-bindings: mediatek,dpi: Add DPINTF compatible
+ Transport; Tue, 24 May 2022 11:35:48 +0800
+Message-ID: <1998a59df3b27fbeb0ca7945925e47336977bcd5.camel@mediatek.com>
+Subject: Re: [PATCH v10 02/21] dt-bindings: mediatek,dp: Add Display Port
+ binding
 From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
@@ -51,10 +51,10 @@ To: Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
  <matthias.bgg@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, "Vinod
  Koul" <vkoul@kernel.org>, Helge Deller <deller@gmx.de>, CK Hu
  <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>
-Date: Tue, 24 May 2022 11:29:28 +0800
-In-Reply-To: <20220523104758.29531-2-granquet@baylibre.com>
+Date: Tue, 24 May 2022 11:35:46 +0800
+In-Reply-To: <20220523104758.29531-3-granquet@baylibre.com>
 References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-2-granquet@baylibre.com>
+ <20220523104758.29531-3-granquet@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -83,92 +83,137 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
 > From: Markus Schneider-Pargmann <msp@baylibre.com>
 > 
-> DPINTF is similar to DPI but does not have the exact same feature set
-> or register layouts.
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional
+> difference,
+> so only one compatible field is added.
 > 
-> DPINTF is the sink of the display pipeline that is connected to the
-> DisplayPort controller and encoder unit. It takes the same clocks as
-> DPI.
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
 > 
 > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 > ---
->  .../bindings/display/mediatek/mediatek,dpi.yaml     | 13 ++++++++---
-> --
->  1 file changed, 8 insertions(+), 5 deletions(-)
+>  .../display/mediatek/mediatek,dp.yaml         | 99
+> +++++++++++++++++++
+>  1 file changed, 99 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
 > 
 > diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
-> index dd2896a40ff0..6d9f6c11806e 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> new file mode 100644
+> index 000000000000..36ae0a6df299
+> --- /dev/null
 > +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
-> @@ -4,16 +4,16 @@
->  $id: 
-> http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: mediatek DPI Controller Device Tree Bindings
-> +title: mediatek DPI/DPINTF Controller
->  
->  maintainers:
->    - CK Hu <ck.hu@mediatek.com>
->    - Jitao shi <jitao.shi@mediatek.com>
->  
->  description: |
-> -  The Mediatek DPI function block is a sink of the display subsystem
-> and
-> -  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
-> parallel
-> -  output bus.
-> +  The Mediatek DPI and DPINTF function blocks are a sink of the
-> display
-> +  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422
-> pixel data on a
-> +  parallel output bus.
->  
->  properties:
->    compatible:
-> @@ -23,6 +23,7 @@ properties:
->        - mediatek,mt8173-dpi
->        - mediatek,mt8183-dpi
->        - mediatek,mt8192-dpi
-> +      - mediatek,mt8195-dpintf
->  
->    reg:
->      maxItems: 1
-> @@ -35,12 +36,14 @@ properties:
->        - description: Pixel Clock
->        - description: Engine Clock
->        - description: DPI PLL
-> +      - description: Optional CK CG Clock
->  
->    clock-names:
->      items:
->        - const: pixel
->        - const: engine
->        - const: pll
-> +      - const: ck_cg
-'ck_cg' seems not a exact clock names, could you pleas check it again
-with DE.
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> @@ -0,0 +1,99 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: 
+> http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Display Port Controller
+> +
+> +maintainers:
+> +  - CK Hu <ck.hu@mediatek.com>
+> +  - Jitao shi <jitao.shi@mediatek.com>
+> +
+> +description: |
+> +  Device tree bindings for the MediaTek (embedded) Display Port
+> controller
+> +  present on some MediaTek SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-dp-tx
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: faxi clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: faxi
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input endpoint of the controller, usually
+> dp_intf
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output endpoint of the controller
+> +
+> +  max-lanes:
+> +    maxItems: 1
+> +    description: maximum number of lanes supported by the hardware
+> +
+> +  max-linkrate:
+> +    maxItems: 1
+> +    description: maximum link rate supported by the hardware
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - ports
+> +  - max-lanes
+> +  - max-linkrate
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +    edp_tx: edp_tx@1c500000 {
+'edp_tx: ' can be removed
 
->  
->    pinctrl-0: true
->    pinctrl-1: true
-> @@ -54,7 +57,7 @@ properties:
->      $ref: /schemas/graph.yaml#/properties/port
->      description:
->        Output port node. This port should be connected to the input
-> port of an
-> -      attached HDMI or LVDS encoder chip.
-> +      attached HDMI, LVDS or DisplayPort encoder chip.
->  
->  required:
->    - compatible
+> +        compatible = "mediatek,mt8195-dp-tx";
+> +        reg = <0 0x1c500000 0 0x8000>;
+reg = <0x1c500000 0x8000>;
+#address-cells, #size-cells are both 1 by default
+
+> +        interrupts = <GIC_SPI 676 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        power-domains = <&spm MT8195_POWER_DOMAIN_EPD_TX>;
+> +        pinctrl-names = "default";
+> +        pinctrl-0 = <&edp_pin>;
+> +        max-lanes = /bits/ 8 <4>;
+> +        max-linkrate = /bits/ 8 <0x1e>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                edp_in: endpoint {
+> +                    remote-endpoint = <&dp_intf0_out>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                edp_out: endpoint {
+> +                	remote-endpoint = <&panel_in>;
+> +                };
+> +            };
+> +        };
+> +    };
 
