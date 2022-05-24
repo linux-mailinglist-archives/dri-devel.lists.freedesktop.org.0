@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9995A533169
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 21:07:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE968533172
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 21:08:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898FA10F2C7;
-	Tue, 24 May 2022 19:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D880710F2DC;
+	Tue, 24 May 2022 19:07:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2083.outbound.protection.outlook.com [40.107.243.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD70310F197;
- Tue, 24 May 2022 19:07:29 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B09310F197;
+ Tue, 24 May 2022 19:07:31 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UXUXkYQgnQrzoHmMALp/x8wde62uFkIJ/4+WD6dgvXMvB8rrZLGunWIR9cKuGnS8V3lZTpA0g+/2ACAPI5N33MeIXSyj3S0XFqFp10Zfyk0wWW07SRbxsJWCXvo+xyv+iVMncA6T//i47uByeOj9fPUcSO/OWaiJ89AxY9WR1x+ZdUuRN+dIyri/pJsVi3ZRTxgysKp98aou1GRC6WBsb26k4R4iqOMwTNpSWK12ytiuajkpYAolgx5oZkP/Peudxn7IkF3mILLWwH84tRUmWxg6u5qDE+UNZ7lP3GtFJZwVpuSvnCZI2Xz39NGkCChukbMDNSXhehr/u/oLuXqQtw==
+ b=YrSmnYxZA4faeQ1uvIgk4Se4AWVPKamtp2jq37GoseBmvWyUF6HculERXZtVm8MYk33OSCeV355U5Qc/VeKIg+koRLlRmKC/rsMOrHhu9WgKtsYPfJqT319cnRJA551ejxrY+BO+wsAbcvk6GULU3VpbioHplUXZ3lrNItXv0sd8n/evEeLzmlygwiE9lM2dOMDlNWLSFRweQlFDWMnPNde/s95uZvuLtC9fkdbbPsSkElGynJOJx4xJB07X5BazTCMkmXeeTt1HtZNarynPU/rx+23aqTNFVyQZxt0ed/9+cKrTWAPCl5gKKRM6sCctx7R8Qi4D9PwJX373rmm4JQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ds2C6hKBCPm3LMFGvWFrTQmYNyEijOJ3/DIUhvifx8M=;
- b=KWdjNGfPL+1B2d9F7kU6A9ejzyPlXntDodT1C5OIl+hDX/hSj1GNqOZrzWx+Y5ZiXgjwDMbD6S5DczNSFwpVq+MUCgIKrFYlqjfXv6OZQkhWm0OJSgHVvST3z0L5JypKm0+tI4dP5sW5OtspFSbIYYrUCInNmiUOY62Deo9QM2xTbSvSBgJ2ZoPQYoVwUA0ReKrIODqymLbWyTA8hUN5LktXJYW4XZUwUcXIQDgGxoCGpLMpA6aCcIG9SHb+6B+cG2v0M23F8/DsG0wffNyJQW8emS6uKmDh4vVstyayAcR6hUKbYLpWTs1Ax8IdY7cypCAdknBIuIJl2PbC5BpDyA==
+ bh=FDtE0UiWruDuhx3PGoXdolkeW/K0qLVDBaC3nvm9Xp8=;
+ b=Axb3vmCtZ0iJTtEDTXWB7rW1o6jcf23LVSdmkZL4vQtVZNvbusQkcRt9ussksK0f4IJv/ANRAIMf8BcGlaDYpMb96nAmU1JKRFYQJI3wh9EeG8oPRre/Bez4Hhgb9O7BjB6y7y1Qv1QDtbhNf5ghtdi6I/s4n928dBd640bzozTPk6N9MylTZhvPPhOo6HgU0QCn0T5bm/n6HPHQYR00ZJQWaj9Qjo7bXZJeYffmPVe0rteCkB+5ROu0ECeMJLnkT/rwG+doVm2mnVtMKVkVgvGTNTP6RynNfRUMbr/t9aWml4CJCBqI2/IaPx3mzwp8FHPkFT+JGm/3Rvd4rtlqwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ds2C6hKBCPm3LMFGvWFrTQmYNyEijOJ3/DIUhvifx8M=;
- b=AGNc/Q2K1Hbe6s+fFNlfXRXN/Cqg90O/GZz1u4KAPoJ2EmYMtbdVjLpGT/QoQFndKusd9zA63ZwGL2J+ak7/aE8IgYfMGBrpu4RLHphjQQ+g/F5tFaSCvkBAimQqNVCxzJc2ymU8T6JfFYLTjogVe0OjT3jTpd6Us7YnJ8gnW0Y=
-Received: from DM5PR19CA0035.namprd19.prod.outlook.com (2603:10b6:3:9a::21) by
- DM6PR12MB4338.namprd12.prod.outlook.com (2603:10b6:5:2a2::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5273.14; Tue, 24 May 2022 19:07:28 +0000
-Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:9a:cafe::97) by DM5PR19CA0035.outlook.office365.com
- (2603:10b6:3:9a::21) with Microsoft SMTP Server (version=TLS1_2,
+ bh=FDtE0UiWruDuhx3PGoXdolkeW/K0qLVDBaC3nvm9Xp8=;
+ b=fDDMcnp+uvcPBJS4lJbgS1ixMMA3zjQ5WGY5ElGWtFaEcqnVHwT+R8z9Xv88/dyIM3uKbbjjtlY0WJXU/iB+rHccRJUFuwsSIKOC1rbl/ZPdHJik6ypewEp5Uw2awRUzEGYlPTHe8GagpUrhc/zGw/pUepSjv5UWXPjC5wqItTI=
+Received: from DM5PR17CA0064.namprd17.prod.outlook.com (2603:10b6:3:13f::26)
+ by BYAPR12MB2806.namprd12.prod.outlook.com (2603:10b6:a03:70::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Tue, 24 May
+ 2022 19:07:28 +0000
+Received: from DM6NAM11FT016.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:13f:cafe::b0) by DM5PR17CA0064.outlook.office365.com
+ (2603:10b6:3:13f::26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.23 via Frontend
  Transport; Tue, 24 May 2022 19:07:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -45,18 +45,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
+ DM6NAM11FT016.mail.protection.outlook.com (10.13.173.139) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5293.13 via Frontend Transport; Tue, 24 May 2022 19:07:28 +0000
+ 15.20.5273.14 via Frontend Transport; Tue, 24 May 2022 19:07:28 +0000
 Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 24 May
- 2022 14:07:25 -0500
+ 2022 14:07:26 -0500
 From: Alex Sierra <alex.sierra@amd.com>
 To: <jgg@nvidia.com>
-Subject: [PATCH v3 11/13] tools: update test_hmm script to support SP config
-Date: Tue, 24 May 2022 14:06:30 -0500
-Message-ID: <20220524190632.3304-12-alex.sierra@amd.com>
+Subject: [PATCH v3 12/13] tools: add hmm gup tests for device coherent type
+Date: Tue, 24 May 2022 14:06:31 -0500
+Message-ID: <20220524190632.3304-13-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220524190632.3304-1-alex.sierra@amd.com>
 References: <20220524190632.3304-1-alex.sierra@amd.com>
@@ -68,27 +68,27 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c761fa70-9132-4c7d-5f60-08da3db8a546
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4338:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4338B2456C1F61A85D3EAFD3FDD79@DM6PR12MB4338.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 6fbb3b7c-ce5a-4e2a-0cf4-08da3db8a544
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2806:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB2806A5E345AFE2BF85237B76FDD79@BYAPR12MB2806.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JxgJ1r7W70lmTXsxM86VPYqOe504bot8uNBBl7W/Ya5Bm6C/+mUgLXZsrzB2xShKcMYKXiQlsL5LPnwC1+hdpp4+vnGWXj0emog0/T+j1hiJ2Kd7aQhetya7jZlpr+odbxp2eBBfADUJWKZZ5qpVeMQpVYbwtCkrN5nycZ4P9LwdZnUEFNxZINgsJtG0hNR7vc1B3JD47oCB7F0XHVhO3N3lp1gZNRk2SAVImHD3IW5jHBwhgLwVAm4DGvGGiZCEvPSrlwgGlKGa/FiArFjdJx4KMJUJvr0KGSfkNjPgRShpNfCJbpQ556IwpX8/++/7/3tAWIfDbWiDbumQDHhioTbQ4UAmSioR1hwWHb9mlx8sJ0HNizRjLL6hGRNelbAY01keqQtIFF4p7Ri+sO+Q+6/NCfaedf1LXKDxLBrZZK+rc9PcI7TOaPyTOFU9eprX7IvjAf3LRh711aAngmywt+R4LNHkifPU1Hjbpr/kzxY1XJkWQU7vsCx32TOHoJabGwonmp0rnXdcZWaUBcuHRKRKDTqbLNTdaNrcEKFiGHtrhQDnT13ziznv6xhHTB9w6A8XoNebTvZZQ4vwMFFpOb65/p4B+alNqsUxFyRhSmvNNSyNYg3eZy4adhWEJy/GUTQaJXLE5/zY9doa1LoeEE3b7Sab1yFxLI8mFSOVg4B6nrEGa+bp1RuJLCiDaxVI29sqWxW/AqZUbUqIT++PXA==
+X-Microsoft-Antispam-Message-Info: xLLS6WYHToXdJ0+aHNJG0XDOD/yYxcg7qs7YA22gLKXF0+hVemeseYJ+m86Vai+A3UBLZ4quzdCqRvrIhHgzdaNxgtMSG6CLIl4+6gT44Gk1gF/TaiRPCcnHNfx0xnDUtQFs2j2YHod4O/EEIfSgjswEYTMaCUzY+BrzkkbDsmBJIPpC6eYrsb5plNkqCl623w9IabjA7P2zanKwERlaX0hkQJm3nK8GNguQLHQkobXboZdmkvFhUdPV+dxYe5etQ4GfvQw3+CFixd0hwiLQpIN7lBRdj/ocytmnBC1kOVkOCEuVLiar9fBqqy4MWld6B9UJX0oKidthK39GTPFGIfQjsQBiHbb7SsKqUnp9gCVCjJwVt70Sgl5Pqlh6LWpjxHzUaytYxrTsXqCs3PdFS7/cvnLb9503XpfiK59POzt+11zxXlWcYe8Rh687XogXSrHO8nkbefkC/qWAOFqKF1Kww/TodVzJWAvH8gu0BY5vKmV/9E6hmA8OvDX9SCcFyWA1GmKXrAUj53DKR3LZCQsldobhRIzPPiAW/aS+W9Buy9ILHAyO04gK4PaYr1gwhGyJGK8+tWBupHvlzr3PR6iMqEpRJiVi1QMRrMXZRjPvkvs6T9hMwDF3mzfUNlAy7bigERrAwBBm1qKLwoFD+zSpfOXkAQn2vXUVnVN/mXXJFJnZsCBmFNzIiCfp3/jpGQ+9WGUOrWQMlnqmaSYUZg==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(81166007)(1076003)(36756003)(54906003)(316002)(6916009)(356005)(82310400005)(7696005)(2906002)(36860700001)(44832011)(6666004)(4326008)(47076005)(508600001)(26005)(70586007)(70206006)(83380400001)(8676002)(86362001)(16526019)(186003)(8936002)(2616005)(5660300002)(426003)(336012)(7416002)(40460700003)(36900700001);
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(36756003)(356005)(8676002)(4326008)(1076003)(7696005)(316002)(16526019)(6916009)(186003)(82310400005)(70206006)(70586007)(36860700001)(44832011)(40460700003)(8936002)(54906003)(83380400001)(81166007)(6666004)(2906002)(336012)(426003)(47076005)(86362001)(508600001)(26005)(2616005)(7416002)(5660300002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2022 19:07:28.1382 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c761fa70-9132-4c7d-5f60-08da3db8a546
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2022 19:07:28.1230 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fbb3b7c-ce5a-4e2a-0cf4-08da3db8a544
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT016.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4338
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2806
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,79 +109,145 @@ Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add two more parameters to set spm_addr_dev0 & spm_addr_dev1
-addresses. These two parameters configure the start SP
-addresses for each device in test_hmm driver.
-Consequently, this configures zone device type as coherent.
+The intention is to test hmm device coherent type under different get
+user pages paths. Also, test gup with FOLL_LONGTERM flag set in
+device coherent pages. These pages should get migrated back to system
+memory.
 
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Reviewed-by: Alistair Popple <apopple@nvidia.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- tools/testing/selftests/vm/test_hmm.sh | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ tools/testing/selftests/vm/hmm-tests.c | 105 +++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-diff --git a/tools/testing/selftests/vm/test_hmm.sh b/tools/testing/selftests/vm/test_hmm.sh
-index 0647b525a625..539c9371e592 100755
---- a/tools/testing/selftests/vm/test_hmm.sh
-+++ b/tools/testing/selftests/vm/test_hmm.sh
-@@ -40,11 +40,26 @@ check_test_requirements()
+diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
+index 84ec8c4a1dc7..61a02a6a3dea 100644
+--- a/tools/testing/selftests/vm/hmm-tests.c
++++ b/tools/testing/selftests/vm/hmm-tests.c
+@@ -36,6 +36,7 @@
+  * in the usual include/uapi/... directory.
+  */
+ #include "../../../../lib/test_hmm_uapi.h"
++#include "../../../../mm/gup_test.h"
  
- load_driver()
+ struct hmm_buffer {
+ 	void		*ptr;
+@@ -60,6 +61,8 @@ enum {
+ #define NTIMES		10
+ 
+ #define ALIGN(x, a) (((x) + (a - 1)) & (~((a) - 1)))
++/* Just the flags we need, copied from mm.h: */
++#define FOLL_WRITE	0x01	/* check pte is writable */
+ 
+ FIXTURE(hmm)
  {
--	modprobe $DRIVER > /dev/null 2>&1
-+	if [ $# -eq 0 ]; then
-+		modprobe $DRIVER > /dev/null 2>&1
-+	else
-+		if [ $# -eq 2 ]; then
-+			modprobe $DRIVER spm_addr_dev0=$1 spm_addr_dev1=$2
-+				> /dev/null 2>&1
-+		else
-+			echo "Missing module parameters. Make sure pass"\
-+			"spm_addr_dev0 and spm_addr_dev1"
-+			usage
-+		fi
-+	fi
- 	if [ $? == 0 ]; then
- 		major=$(awk "\$2==\"HMM_DMIRROR\" {print \$1}" /proc/devices)
- 		mknod /dev/hmm_dmirror0 c $major 0
- 		mknod /dev/hmm_dmirror1 c $major 1
-+		if [ $# -eq 2 ]; then
-+			mknod /dev/hmm_dmirror2 c $major 2
-+			mknod /dev/hmm_dmirror3 c $major 3
-+		fi
- 	fi
+@@ -1766,4 +1769,106 @@ TEST_F(hmm, exclusive_cow)
+ 	hmm_buffer_free(buffer);
  }
  
-@@ -58,7 +73,7 @@ run_smoke()
- {
- 	echo "Running smoke test. Note, this test provides basic coverage."
- 
--	load_driver
-+	load_driver $1 $2
- 	$(dirname "${BASH_SOURCE[0]}")/hmm-tests
- 	unload_driver
- }
-@@ -75,6 +90,9 @@ usage()
- 	echo "# Smoke testing"
- 	echo "./${TEST_NAME}.sh smoke"
- 	echo
-+	echo "# Smoke testing with SPM enabled"
-+	echo "./${TEST_NAME}.sh smoke <spm_addr_dev0> <spm_addr_dev1>"
-+	echo
- 	exit 0
- }
- 
-@@ -84,7 +102,7 @@ function run_test()
- 		usage
- 	else
- 		if [ "$1" = "smoke" ]; then
--			run_smoke
-+			run_smoke $2 $3
- 		else
- 			usage
- 		fi
++static int gup_test_exec(int gup_fd, unsigned long addr,
++			 int cmd, int npages, int size)
++{
++	struct gup_test gup = {
++		.nr_pages_per_call	= npages,
++		.addr			= addr,
++		.gup_flags		= FOLL_WRITE,
++		.size			= size,
++	};
++
++	if (ioctl(gup_fd, cmd, &gup)) {
++		perror("ioctl on error\n");
++		return errno;
++	}
++
++	return 0;
++}
++
++/*
++ * Test get user device pages through gup_test. Setting PIN_LONGTERM flag.
++ * This should trigger a migration back to system memory for both, private
++ * and coherent type pages.
++ * This test makes use of gup_test module. Make sure GUP_TEST_CONFIG is added
++ * to your configuration before you run it.
++ */
++TEST_F(hmm, hmm_gup_test)
++{
++	struct hmm_buffer *buffer;
++	int gup_fd;
++	unsigned long npages;
++	unsigned long size;
++	unsigned long i;
++	int *ptr;
++	int ret;
++	unsigned char *m;
++
++	gup_fd = open("/sys/kernel/debug/gup_test", O_RDWR);
++	if (gup_fd == -1)
++		SKIP(return, "Skipping test, could not find gup_test driver");
++
++	npages = 3;
++	size = npages << self->page_shift;
++
++	buffer = malloc(sizeof(*buffer));
++	ASSERT_NE(buffer, NULL);
++
++	buffer->fd = -1;
++	buffer->size = size;
++	buffer->mirror = malloc(size);
++	ASSERT_NE(buffer->mirror, NULL);
++
++	buffer->ptr = mmap(NULL, size,
++			   PROT_READ | PROT_WRITE,
++			   MAP_PRIVATE | MAP_ANONYMOUS,
++			   buffer->fd, 0);
++	ASSERT_NE(buffer->ptr, MAP_FAILED);
++
++	/* Initialize buffer in system memory. */
++	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
++		ptr[i] = i;
++
++	/* Migrate memory to device. */
++	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
++	ASSERT_EQ(ret, 0);
++	ASSERT_EQ(buffer->cpages, npages);
++	/* Check what the device read. */
++	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
++		ASSERT_EQ(ptr[i], i);
++
++	ASSERT_EQ(gup_test_exec(gup_fd,
++				(unsigned long)buffer->ptr,
++				GUP_BASIC_TEST, 1, self->page_size), 0);
++	ASSERT_EQ(gup_test_exec(gup_fd,
++				(unsigned long)buffer->ptr + 1 * self->page_size,
++				GUP_FAST_BENCHMARK, 1, self->page_size), 0);
++	ASSERT_EQ(gup_test_exec(gup_fd,
++				(unsigned long)buffer->ptr + 2 * self->page_size,
++				PIN_LONGTERM_BENCHMARK, 1, self->page_size), 0);
++
++	/* Take snapshot to CPU pagetables */
++	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT, buffer, npages);
++	ASSERT_EQ(ret, 0);
++	ASSERT_EQ(buffer->cpages, npages);
++	m = buffer->mirror;
++	if (hmm_is_coherent_type(variant->device_number)) {
++		ASSERT_EQ(HMM_DMIRROR_PROT_DEV_COHERENT_LOCAL | HMM_DMIRROR_PROT_WRITE, m[0]);
++		ASSERT_EQ(HMM_DMIRROR_PROT_DEV_COHERENT_LOCAL | HMM_DMIRROR_PROT_WRITE, m[1]);
++	} else {
++		ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[0]);
++		ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[1]);
++	}
++	ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[2]);
++	/*
++	 * Check again the content on the pages. Make sure there's no
++	 * corrupted data.
++	 */
++	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
++		ASSERT_EQ(ptr[i], i);
++
++	close(gup_fd);
++	hmm_buffer_free(buffer);
++}
+ TEST_HARNESS_MAIN
 -- 
 2.32.0
 
