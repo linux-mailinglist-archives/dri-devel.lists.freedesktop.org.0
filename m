@@ -1,69 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E455323AD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 09:09:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D40C5323BA
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 09:10:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBBA10E656;
-	Tue, 24 May 2022 07:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADFC010E3D2;
+	Tue, 24 May 2022 07:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A767510E656
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 07:09:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1653376164; x=1684912164;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DKCHDmwh8XhVdtSmQ4e5e9o0NAH7Ux/qqm1dCi2eM1w=;
- b=fOjxvh4TxWRy88EcbFvK6r6Ey5pPZNW8FwJL3eT81oqogsWa+sst6V3T
- YN4MRpVJSqMmxqBwQH/kQZrnXIfPoz/N7ED9BALt45sqaEStGzuxO/OJv
- A+tUut6eeplhujoN0MS9vJ70mfmnPhxLIRmBX9BDnxRoG04CKjddA8Jha
- 47RLqxP3oSLNheqRJgYUMWQPAbX1FyfKc1Af6E8DtcYhZ7bjG9Q7tmKR2
- JydEG2i27sLgwHgAck2n/pMiEFMi+f6cNEoSI0EEBwg1XNcJeoKIErqjU
- PeKXnMyEmMN1lnRcFrPIROukKITJ1ppR7nC9/YSUVtJrAF2I5PqYBxYrp A==;
-X-IronPort-AV: E=Sophos;i="5.91,248,1647298800"; d="scan'208";a="24050999"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 24 May 2022 09:09:22 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 24 May 2022 09:09:22 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 24 May 2022 09:09:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1653376162; x=1684912162;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DKCHDmwh8XhVdtSmQ4e5e9o0NAH7Ux/qqm1dCi2eM1w=;
- b=D9GU/jd1bfoVMkAmD5pcEHxp30rx+Qt3FYN0jgqg7h+YrMsfCPxDrDyG
- KlKB57ZK3bv+jTkJJQsbCW5bgDkPb7gKEGOsF6YQomqzH52SAueTGnwOQ
- vm7YYALi/tTbZQLcc6LkIE4b0JEbtI33sLjTs1HxDdcE8P058thKjDTKf
- /OYpX27zBMbcUKNN9F9WjgcEcdzBuQgP38eoyBlc2q9FYqdk7JzyndcqN
- eNOwObp8Ja3idmhK+TTlGfTHl8if+86r0BWn+rmjl4LIMD2/QvQ0YitbZ
- NTwJfAdXUqzBHXvQIZJQv2JQGk3ih3j7x+WYop5A/YJqQ05OX/P/Ti0FM Q==;
-X-IronPort-AV: E=Sophos;i="5.91,248,1647298800"; d="scan'208";a="24050998"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 24 May 2022 09:09:22 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D29DC280070;
- Tue, 24 May 2022 09:09:21 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v4 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
-Date: Tue, 24 May 2022 09:09:19 +0200
-Message-ID: <4403432.LvFx2qVVIh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220519114849.69918-2-marex@denx.de>
-References: <20220519114849.69918-1-marex@denx.de>
- <20220519114849.69918-2-marex@denx.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B838510E3D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 07:10:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653376220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rm/M+ffTEUa7aIDhK9zXABzAH48Pquc/I+FfLiaEMhA=;
+ b=esQp8rO3narkGe3RJVNyYCbbrH64wyiOLxaOL0m20EGkxfQECEiXo123jVZjxYO/1afRIy
+ 2Pl4lcN4wcJFKOcWSa+aDGE73GnV0iAanoqRA1gTk16m/Iz9bMxqRVNacGpbBgsvlX5wfe
+ 46DKSoLwvAK862SA2XY4C4wvAR9QU1s=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-jU3z96yDPm6HOlTb-UgfLw-1; Tue, 24 May 2022 03:10:17 -0400
+X-MC-Unique: jU3z96yDPm6HOlTb-UgfLw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ gh15-20020a170906e08f00b006fea2a22319so4811681ejb.20
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 00:10:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Rm/M+ffTEUa7aIDhK9zXABzAH48Pquc/I+FfLiaEMhA=;
+ b=PIxgii0cAeKNwT/4vhZ8PieBx4MlmINtX9kf9iO54aU1HViH5RxIj9EWOJ1OxRlwU+
+ aoFLJTl99H5ShIh0XABthHOwb0AaQk6Xa7DEpWjFMunLsuF/Ohcy8Od8Bm+KJhpz9wde
+ yXpWlrlRklIrNhN5RqogpVp3/iVC786PTIQ2HXOCB0JEt+XR+p7jW0MYNI3mvNXDrHk7
+ LyaDmIBxnNGV7r93J9nE8ozye0PoM5sWxvyHQt2v14j7xSTffk7vWS9XfxKvzG8bIJUK
+ UsbhIShAxfjfv5LjuBJnWlxtazKg7mzuCE6O0nNyq782t0gO05wlTwUNyDK51JcFr2Fr
+ xkPw==
+X-Gm-Message-State: AOAM532708vOzHDD0lnu1WdC/AcTBzbD994HrF8NIgDL4gOHt83bRL7i
+ R3iEVR8uHuULAJItViJMi/JrY6kUDzZ4O2FQyLeW68ogj22Gd3qbKnoibTGzbQtPT1B/9LjAc0S
+ WI55i7QX7ZlBRSrr7sPAwRk56qbZy
+X-Received: by 2002:a05:6402:520a:b0:42b:4576:b407 with SMTP id
+ s10-20020a056402520a00b0042b4576b407mr14504233edd.198.1653376216458; 
+ Tue, 24 May 2022 00:10:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNaNElrshw2hlQQf83n0EU8K78Tld8MyIgAeom/hV40aMeNAFmWh4fLyu/wh8NiS8S0ET4sg==
+X-Received: by 2002:a05:6402:520a:b0:42b:4576:b407 with SMTP id
+ s10-20020a056402520a00b0042b4576b407mr14504204edd.198.1653376216062; 
+ Tue, 24 May 2022 00:10:16 -0700 (PDT)
+Received: from [192.168.45.129] ([185.238.219.59])
+ by smtp.gmail.com with ESMTPSA id
+ md17-20020a170906ae9100b006feaf472637sm4399518ejb.53.2022.05.24.00.10.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 May 2022 00:10:15 -0700 (PDT)
+Message-ID: <8a1a684c-fb51-20ab-1047-89c0204ff78b@redhat.com>
+Date: Tue, 24 May 2022 09:10:13 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 09/14] ACPI: video: Make backlight class device
+ registration a separate step
+To: Daniel Dadap <ddadap@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Xinhui <Xinhui.Pan@amd.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Mark Gross <markgross@kernel.org>, Andy Shevchenko <andy@kernel.org>
+References: <20220517152331.16217-1-hdegoede@redhat.com>
+ <20220517152331.16217-10-hdegoede@redhat.com>
+ <80fa1ee5-6204-6178-e7e2-ac98038cd8d8@nvidia.com>
+ <c3741f32-87f8-5c7b-b505-4c3213774436@nvidia.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <c3741f32-87f8-5c7b-b505-4c3213774436@nvidia.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,1346 +103,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- martyn.welch@collabora.com, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, Robby Cai <robby.cai@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Len Brown <lenb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi,
 
-Am Donnerstag, 19. Mai 2022, 13:48:49 CEST schrieb Marek Vasut:
-> Add support for i.MX8MP LCDIF variant. This is called LCDIFv3 and is
-> completely different from the LCDIFv3 found in i.MX23 in that it has
-> a completely scrambled register layout compared to all previous LCDIF
-> variants. The new LCDIFv3 also supports 36bit address space.
+On 5/24/22 01:25, Daniel Dadap wrote:
+> On 5/20/22 16:41, Daniel Dadap wrote:
+>>
+>> On 5/17/22 10:23, Hans de Goede wrote:
+>>> On x86/ACPI boards the acpi_video driver will usually initializing before
+>>> the kms driver (except i915). This causes /sys/class/backlight/acpi_video0
+>>> to show up and then the kms driver registers its own native backlight
+>>> device after which the drivers/acpi/video_detect.c code unregisters
+>>> the acpi_video0 device (when acpi_video_get_backlight_type()==native).
+>>>
+>>> This means that userspace briefly sees 2 devices and the disappearing of
+>>> acpi_video0 after a brief time confuses the systemd backlight level
+>>> save/restore code, see e.g.:
+>>> https://bbs.archlinux.org/viewtopic.php?id=269920
+>>>
+>>> To fix this make backlight class device registration a separate step
+>>> done by a new acpi_video_register_backlight() function. The intend is for
+>>> this to be called by the drm/kms driver *after* it is done setting up its
+>>> own native backlight device. So that acpi_video_get_backlight_type() knows
+>>> if a native backlight will be available or not at acpi_video backlight
+>>> registration time, avoiding the add + remove dance.
+>>
+>>
+>> If I'm understanding this correctly, it seems we will want to call acpi_video_register_backlight() from the NVIDIA proprietary driver in a fallback path in case the driver's own GPU-controlled backlight handler either should not be used, or fails to register. That sounds reasonable enough, but I'm not sure what should be done about drivers like nvidia-wmi-ec-backlight, which are independent of the GPU hardware, and wouldn't be part of the acpi_video driver, either. There are a number of other similar vendor-y/platform-y type backlight drivers in drivers/video/backlight and drivers/platform/x86 that I think would be in a similar situation.
+>>
+>> From a quick skim of the ACPI video driver, it seems that perhaps nvidia-wmi-ec-backlight is missing a call to acpi_video_set_dmi_backlight_type(), perhaps with the acpi_backlight_vendor value? But I'm not familiar enough with this code to be sure that nobody will be checking acpi_video_get_backlight_type() before nvidia-wmi-ec-backlight loads. I'll take a closer look to try to convince myself that it makes sense.
+>>
+>>
+>>> Note the new acpi_video_register_backlight() function is also called from
+>>> a delayed work to ensure that the acpi_video backlight devices does get
+>>> registered if necessary even if there is no drm/kms driver or when it is
+>>> disabled.
+>>
+>>
+>> It sounds like maybe everything should be fine as long as nvidia-wmi-ec-backlight (and other vendor-y/platform-y type drivers) gets everything set up before the delayed work which calls acpi_video_register_backlight()? But then is it really necessary to explicitly call acpi_video_register_backlight() from the DRM drivers if it's going to be called later if no GPU driver registered a backlight handler, anyway? Then we'd just need to make sure that the iGPU and dGPU drivers won't attempt to register a backlight handler on systems where a vendor-y/platform-y driver is supposed to handle the backlight instead, which sounds like it has the potential to be quite messy.
+>>
 > 
-> Add a separate driver which is really a fork of MXSFB driver with the
-> i.MX8MP LCDIF variant handling filled in.
+> Ah, I see you addressed this concern in your RFC (sorry for missing that, earlier):
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Robby Cai <robby.cai@nxp.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stefan Agner <stefan@agner.ch>
-> ---
-> V2: - Drop the pitch check from lcdif_fb_create()
->     - Drop connector caching
->     - Wait for shadow load bit to be cleared in IRQ handler
->     - Make all clock mandatory and grab them all by name
->     - Wait for EN to be cleared in lcdif_disable_controller
->     - Rename to imx-lcdif
->     - Move shadow load to atomic_flush
-> V3: - Invert DE polarity to match MX8MPRM datasheet
->     - Enable CSC in RGB to YUV mode for MEDIA_BUS_FMT_UYVY8_1X16
-> V4: - Drop lcdif_overlay_plane_formats, it is unused
-
-Thanks for the update. With your change in V3 my HDMI output works now without 
-that hack mentioned. weston screen as well as 'fb-test -p 5' output seems 
-sensible.
-Unfortunately this isn't the case for LVDS output on LCDIF2. I somehow managed 
-to get the DT nodes for LCDIF and LDB done. Also the necessary addition to 
-imx8m-blk-ctl. So eventually I can see some output. But the screen is cutoff 
-on the right side of about 15-20% and the screen is flickering slighty. This 
-is especially visible in 'fb-test -p 5'. The red bars are only visible to less 
-than 1/3 and the text as well as the diagonal lines are flickering. Colors are 
-correct though.
-For the record: I am using a 'tianma,tm070jvhg33' panel.
-
-> ---
->  drivers/gpu/drm/mxsfb/Kconfig      |  16 +
->  drivers/gpu/drm/mxsfb/Makefile     |   2 +
->  drivers/gpu/drm/mxsfb/lcdif_drv.c  | 361 +++++++++++++++++++++
->  drivers/gpu/drm/mxsfb/lcdif_drv.h  |  47 +++
->  drivers/gpu/drm/mxsfb/lcdif_kms.c  | 497 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/mxsfb/lcdif_regs.h | 257 +++++++++++++++
->  6 files changed, 1180 insertions(+)
->  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.c
->  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.h
->  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_kms.c
->  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_regs.h
+>> The above only takes native vs acpi_video backlight issues into
+>> account, there are also a couple of other scenarios which may
+>> lead to multiple backlight-devices getting registered:
+>>
+>> 1) Apple laptops using the apple_gmux driver
+>> 2) Nvidia laptops using the (new) nvidia-wmi-ec-backlight driver
+>> 3) drivers/platform/x86 drivers calling acpi_video_set_dmi_backlight_type()
+>>    to override the normal acpi_video_get_backlight_type() heuristics after
+>>    the native/acpi_video drivers have already loaded
+>>
+>> The plan for 1) + 2) is to extend the acpi_backlight_type enum with
+>> acpi_backlight_gmux and acpi_backlight_nvidia_wmi_ec values and to add
+>> detection of these 2 to acpi_video_get_backlight_type().
 > 
-> diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-> index 987170e16ebd6..873551b4552f5 100644
-> --- a/drivers/gpu/drm/mxsfb/Kconfig
-> +++ b/drivers/gpu/drm/mxsfb/Kconfig
-> @@ -19,3 +19,19 @@ config DRM_MXSFB
->  	  i.MX28, i.MX6SX, i.MX7 and i.MX8M).
-> 
->  	  If M is selected the module will be called mxsfb.
-> +
-> +config DRM_IMX_LCDIF
-> +	tristate "i.MX LCDIFv3 LCD controller"
-> +	depends on DRM && OF
-> +	depends on COMMON_CLK
-> +	select DRM_MXS
-> +	select DRM_KMS_HELPER
-> +	select DRM_GEM_CMA_HELPER
-> +	select DRM_PANEL
-> +	select DRM_PANEL_BRIDGE
-> +	help
-> +	  Choose this option if you have an LCDIFv3 LCD controller.
-> +	  Those devices are found in various i.MX SoC (i.MX8MP,
-> +	  i.MXRT).
-> +
-> +	  If M is selected the module will be called imx-lcdif.
-> diff --git a/drivers/gpu/drm/mxsfb/Makefile b/drivers/gpu/drm/mxsfb/Makefile
-> index 26d153896d720..3fa44059b9d85 100644
-> --- a/drivers/gpu/drm/mxsfb/Makefile
-> +++ b/drivers/gpu/drm/mxsfb/Makefile
-> @@ -1,3 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  mxsfb-y := mxsfb_drv.o mxsfb_kms.o
->  obj-$(CONFIG_DRM_MXSFB)	+= mxsfb.o
-> +imx-lcdif-y := lcdif_drv.o lcdif_kms.o
-> +obj-$(CONFIG_DRM_IMX_LCDIF) += imx-lcdif.o
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> b/drivers/gpu/drm/mxsfb/lcdif_drv.c new file mode 100644
-> index 0000000000000..3e29c8a768487
-> --- /dev/null
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> @@ -0,0 +1,361 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
-> + *
-> + * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_fb_helper.h>
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_mode_config.h>
-> +#include <drm/drm_module.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include "lcdif_drv.h"
-> +#include "lcdif_regs.h"
-> +
-> +static struct drm_framebuffer *
-> +lcdif_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-> +		const struct drm_mode_fb_cmd2 *mode_cmd)
-> +{
-> +	const struct drm_format_info *info;
-> +
-> +	info = drm_get_format_info(dev, mode_cmd);
-> +	if (!info)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	return drm_gem_fb_create(dev, file_priv, mode_cmd);
-> +}
-> +
-> +static const struct drm_mode_config_funcs lcdif_mode_config_funcs = {
-> +	.fb_create		= lcdif_fb_create,
-> +	.atomic_check		= drm_atomic_helper_check,
-> +	.atomic_commit		= drm_atomic_helper_commit,
-> +};
-> +
-> +static const struct drm_mode_config_helper_funcs lcdif_mode_config_helpers
-> = { +	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-> +};
-> +
-> +static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
-> +{
-> +	struct drm_device *drm = lcdif->drm;
-> +	struct drm_bridge *bridge;
-> +	struct drm_panel *panel;
-> +	int ret;
-> +
-> +	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
-> +					  &bridge);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (panel) {
-> +		bridge = devm_drm_panel_bridge_add_typed(drm->dev, 
-panel,
-> +							 
-DRM_MODE_CONNECTOR_DPI);
-> +		if (IS_ERR(bridge))
-> +			return PTR_ERR(bridge);
-> +	}
-> +
-> +	if (!bridge)
-> +		return -ENODEV;
-> +
-> +	ret = drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
-> +	if (ret)
-> +		return dev_err_probe(drm->dev, ret, "Failed to attach 
-bridge\n");
-> +
-> +	lcdif->bridge = bridge;
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t lcdif_irq_handler(int irq, void *data)
-> +{
-> +	struct drm_device *drm = data;
-> +	struct lcdif_drm_private *lcdif = drm->dev_private;
-> +	u32 reg;
-> +	int ret;
-> +
-> +	ret = readl_poll_timeout(lcdif->base + LCDC_V8_CTRLDESCL0_5,
-> +				 reg, !(reg & 
-CTRLDESCL0_5_SHADOW_LOAD_EN),
-> +				 0, 36000);	/* Wait ~2 
-frame times max */
-> +	if (ret)
-> +		drm_err_ratelimited(drm, "Shadow load bit not cleared!
-\n");
-> +
-> +	reg = readl(lcdif->base + LCDC_V8_INT_STATUS_D0);
-> +
-> +	if (reg & INT_STATUS_D0_VS_BLANK)
-> +		drm_crtc_handle_vblank(&lcdif->crtc);
-> +
-> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + 
-LCDC_V8_INT_STATUS_D0);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int lcdif_load(struct drm_device *drm)
-> +{
-> +	struct platform_device *pdev = to_platform_device(drm->dev);
-> +	struct lcdif_drm_private *lcdif;
-> +	struct resource *res;
-> +	int ret;
-> +
-> +	lcdif = devm_kzalloc(&pdev->dev, sizeof(*lcdif), GFP_KERNEL);
-> +	if (!lcdif)
-> +		return -ENOMEM;
-> +
-> +	lcdif->drm = drm;
-> +	drm->dev_private = lcdif;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	lcdif->base = devm_ioremap_resource(drm->dev, res);
-> +	if (IS_ERR(lcdif->base))
-> +		return PTR_ERR(lcdif->base);
-> +
-> +	lcdif->clk = devm_clk_get(drm->dev, "pix");
-> +	if (IS_ERR(lcdif->clk))
-> +		return PTR_ERR(lcdif->clk);
-> +
-> +	lcdif->clk_axi = devm_clk_get(drm->dev, "axi");
-> +	if (IS_ERR(lcdif->clk_axi))
-> +		return PTR_ERR(lcdif->clk_axi);
-> +
-> +	lcdif->clk_disp_axi = devm_clk_get(drm->dev, "disp_axi");
-> +	if (IS_ERR(lcdif->clk_disp_axi))
-> +		return PTR_ERR(lcdif->clk_disp_axi);
-> +
-> +	platform_set_drvdata(pdev, drm);
-> +
-> +	ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(36));
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Modeset init */
-> +	drm_mode_config_init(drm);
-> +
-> +	ret = lcdif_kms_init(lcdif);
-> +	if (ret < 0) {
-> +		dev_err(drm->dev, "Failed to initialize KMS 
-pipeline\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-> +	if (ret < 0) {
-> +		dev_err(drm->dev, "Failed to initialise vblank\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Start with vertical blanking interrupt reporting disabled. */
-> +	drm_crtc_vblank_off(&lcdif->crtc);
-> +
-> +	ret = lcdif_attach_bridge(lcdif);
-> +	if (ret)
-> +		return dev_err_probe(drm->dev, ret, "Cannot connect 
-bridge\n");
-> +
-> +	drm->mode_config.min_width	= LCDIF_MIN_XRES;
-> +	drm->mode_config.min_height	= LCDIF_MIN_YRES;
-> +	drm->mode_config.max_width	= LCDIF_MAX_XRES;
-> +	drm->mode_config.max_height	= LCDIF_MAX_YRES;
-> +	drm->mode_config.funcs		= &lcdif_mode_config_funcs;
-> +	drm->mode_config.helper_private	= &lcdif_mode_config_helpers;
-> +
-> +	drm_mode_config_reset(drm);
-> +
-> +	ret = platform_get_irq(pdev, 0);
-> +	if (ret < 0)
-> +		return ret;
-> +	lcdif->irq = ret;
-> +
-> +	ret = request_irq(lcdif->irq, lcdif_irq_handler, 0,
-> +			  drm->driver->name, drm);
-> +	if (ret < 0) {
-> +		dev_err(drm->dev, "Failed to install IRQ handler\n");
-> +		return ret;
-> +	}
-> +
-> +	drm_kms_helper_poll_init(drm);
-> +
-> +	drm_helper_hpd_irq_event(drm);
-> +
-> +	pm_runtime_enable(drm->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static void lcdif_unload(struct drm_device *drm)
-> +{
-> +	struct lcdif_drm_private *lcdif = drm->dev_private;
-> +
-> +	pm_runtime_get_sync(drm->dev);
-> +
-> +	drm_crtc_vblank_off(&lcdif->crtc);
-> +
-> +	drm_kms_helper_poll_fini(drm);
-> +	drm_mode_config_cleanup(drm);
-> +
-> +	pm_runtime_put_sync(drm->dev);
-> +	pm_runtime_disable(drm->dev);
-> +
-> +	free_irq(lcdif->irq, drm->dev);
-> +
-> +	drm->dev_private = NULL;
-> +}
-> +
-> +DEFINE_DRM_GEM_CMA_FOPS(fops);
-> +
-> +static const struct drm_driver lcdif_driver = {
-> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | 
-DRIVER_ATOMIC,
-> +	DRM_GEM_CMA_DRIVER_OPS,
-> +	.fops	= &fops,
-> +	.name	= "imx-lcdif",
-> +	.desc	= "i.MX LCDIF Controller DRM",
-> +	.date	= "20220417",
-> +	.major	= 1,
-> +	.minor	= 0,
-> +};
-> +
-> +static const struct of_device_id lcdif_dt_ids[] = {
-> +	{ .compatible = "fsl,imx8mp-lcdif" },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, lcdif_dt_ids);
-> +
-> +static int lcdif_probe(struct platform_device *pdev)
-> +{
-> +	struct drm_device *drm;
-> +	int ret;
-> +
-> +	if (!pdev->dev.of_node)
-> +		return -ENODEV;
-> +
-> +	drm = drm_dev_alloc(&lcdif_driver, &pdev->dev);
-> +	if (IS_ERR(drm))
-> +		return PTR_ERR(drm);
-> +
-> +	ret = lcdif_load(drm);
-> +	if (ret)
-> +		goto err_free;
-> +
-> +	ret = drm_dev_register(drm, 0);
-> +	if (ret)
-> +		goto err_unload;
-> +
-> +	drm_fbdev_generic_setup(drm, 32);
-> +
-> +	return 0;
-> +
-> +err_unload:
-> +	lcdif_unload(drm);
-> +err_free:
-> +	drm_dev_put(drm);
-> +
-> +	return ret;
-> +}
-> +
-> +static int lcdif_remove(struct platform_device *pdev)
-> +{
-> +	struct drm_device *drm = platform_get_drvdata(pdev);
-> +
-> +	drm_dev_unregister(drm);
-> +	drm_atomic_helper_shutdown(drm);
-> +	lcdif_unload(drm);
-> +	drm_dev_put(drm);
-> +
-> +	return 0;
-> +}
-> +
-> +static void lcdif_shutdown(struct platform_device *pdev)
-> +{
-> +	struct drm_device *drm = platform_get_drvdata(pdev);
-> +
-> +	drm_atomic_helper_shutdown(drm);
-> +}
-> +
-> +static int lcdif_rpm_suspend(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	struct lcdif_drm_private *lcdif = drm->dev_private;
-> +
-> +	/* These clock supply the DISPLAY CLOCK Domain */
-> +	clk_disable_unprepare(lcdif->clk);
-> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
-> +	clk_disable_unprepare(lcdif->clk_disp_axi);
-> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
-> +	clk_disable_unprepare(lcdif->clk_axi);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lcdif_rpm_resume(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	struct lcdif_drm_private *lcdif = drm->dev_private;
-> +
-> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
-> +	clk_prepare_enable(lcdif->clk_axi);
-> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
-> +	clk_prepare_enable(lcdif->clk_disp_axi);
-> +	/* These clock supply the DISPLAY CLOCK Domain */
-> +	clk_prepare_enable(lcdif->clk);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lcdif_suspend(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = drm_mode_config_helper_suspend(drm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return lcdif_rpm_suspend(dev);
-> +}
-> +
-> +static int lcdif_resume(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +
-> +	lcdif_rpm_resume(dev);
-> +
-> +	return drm_mode_config_helper_resume(drm);
-> +}
-> +
-> +static const struct dev_pm_ops lcdif_pm_ops = {
-> +	.runtime_suspend = lcdif_rpm_suspend,
-> +	.runtime_resume = lcdif_rpm_resume,
-> +	SET_SYSTEM_SLEEP_PM_OPS(lcdif_suspend, lcdif_resume)
-> +};
-> +
-> +static struct platform_driver lcdif_platform_driver = {
-> +	.probe		= lcdif_probe,
-> +	.remove		= lcdif_remove,
-> +	.shutdown	= lcdif_shutdown,
-> +	.driver	= {
-> +		.name		= "imx-lcdif",
-> +		.of_match_table	= lcdif_dt_ids,
-> +		.pm		= &lcdif_pm_ops,
-> +	},
-> +};
-> +
-> +drm_module_platform_driver(lcdif_platform_driver);
-> +
-> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
-> +MODULE_DESCRIPTION("Freescale LCDIF DRM/KMS driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.h
-> b/drivers/gpu/drm/mxsfb/lcdif_drv.h new file mode 100644
-> index 0000000000000..d119abff5ccea
-> --- /dev/null
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.h
-> @@ -0,0 +1,47 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
-> + *
-> + * i.MX8MP/i.MXRT LCDIFv3 LCD controller driver.
-> + */
-> +
-> +#ifndef __LCDIF_DRV_H__
-> +#define __LCDIF_DRV_H__
-> +
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_encoder.h>
-> +#include <drm/drm_plane.h>
-> +
-> +struct clk;
-> +
-> +struct lcdif_drm_private {
-> +	void __iomem			*base;	/* registers 
-*/
-> +	struct clk			*clk;
-> +	struct clk			*clk_axi;
-> +	struct clk			*clk_disp_axi;
-> +
-> +	unsigned int			irq;
-> +
-> +	struct drm_device		*drm;
-> +	struct {
-> +		struct drm_plane	primary;
-> +		/* i.MXRT does support overlay planes, add them here. */
-> +	} planes;
-> +	struct drm_crtc			crtc;
-> +	struct drm_encoder		encoder;
-> +	struct drm_bridge		*bridge;
-> +};
-> +
-> +static inline struct lcdif_drm_private *
-> +to_lcdif_drm_private(struct drm_device *drm)
-> +{
-> +	return drm->dev_private;
-> +}
-> +
-> +void lcdif_enable_axi_clk(struct lcdif_drm_private *lcdif);
-> +void lcdif_disable_axi_clk(struct lcdif_drm_private *lcdif);
-> +
-> +int lcdif_kms_init(struct lcdif_drm_private *lcdif);
-> +
-> +#endif /* __LCDIF_DRV_H__ */
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> b/drivers/gpu/drm/mxsfb/lcdif_kms.c new file mode 100644
-> index 0000000000000..3d73af9f20f83
-> --- /dev/null
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> @@ -0,0 +1,497 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
-> + *
-> + * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/spinlock.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_encoder.h>
-> +#include <drm/drm_fb_cma_helper.h>
-> +#include <drm/drm_fourcc.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_plane.h>
-> +#include <drm/drm_plane_helper.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include "lcdif_drv.h"
-> +#include "lcdif_regs.h"
-> +
-> +/* 1 second delay should be plenty of time for block reset */
-> +#define RESET_TIMEOUT		1000000
-> +
-> +/*
-> ---------------------------------------------------------------------------
-> -- + * CRTC
-> + */
-> +static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
-> +			      const u32 bus_format)
-> +{
-> +	struct drm_device *drm = lcdif->drm;
-> +	const u32 format = lcdif->crtc.primary->state->fb->format->format;
-> +
-> +	writel(CSC0_CTRL_BYPASS, lcdif->base + LCDC_V8_CSC0_CTRL);
-> +
-> +	switch (bus_format) {
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		writel(DISP_PARA_LINE_PATTERN_RGB565,
-> +		       lcdif->base + LCDC_V8_DISP_PARA);
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +		writel(DISP_PARA_LINE_PATTERN_RGB888,
-> +		       lcdif->base + LCDC_V8_DISP_PARA);
-> +		break;
-> +	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +		writel(DISP_PARA_LINE_PATTERN_UYVY_H,
-> +		       lcdif->base + LCDC_V8_DISP_PARA);
-> +
-> +		/* CSC: BT.601 Full Range RGB to YCbCr coefficients. */
-> +		writel(CSC0_COEF0_A2(0x096) | CSC0_COEF0_A1(0x04c),
-> +		       lcdif->base + LCDC_V8_CSC0_COEF0);
-> +		writel(CSC0_COEF1_B1(0x7d5) | CSC0_COEF1_A3(0x01d),
-> +		       lcdif->base + LCDC_V8_CSC0_COEF1);
-> +		writel(CSC0_COEF2_B3(0x080) | CSC0_COEF2_B2(0x7ac),
-> +		       lcdif->base + LCDC_V8_CSC0_COEF2);
-> +		writel(CSC0_COEF3_C2(0x795) | CSC0_COEF3_C1(0x080),
-> +		       lcdif->base + LCDC_V8_CSC0_COEF3);
-> +		writel(CSC0_COEF4_D1(0x000) | CSC0_COEF4_C3(0x7ec),
-> +		       lcdif->base + LCDC_V8_CSC0_COEF4);
-> +		writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
-> +		       lcdif->base + LCDC_V8_CSC0_COEF5);
-> +
-> +		writel(CSC0_CTRL_CSC_MODE_RGB2YCbCr,
-> +		       lcdif->base + LCDC_V8_CSC0_CTRL);
-> +
-> +		break;
-> +	default:
-> +		dev_err(drm->dev, "Unknown media bus format 0x%x\n", 
-bus_format);
-> +		break;
-> +	}
-> +
-> +	switch (format) {
-> +	case DRM_FORMAT_RGB565:
-> +		writel(CTRLDESCL0_5_BPP_16_RGB565,
-> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +		break;
-> +	case DRM_FORMAT_RGB888:
-> +		writel(CTRLDESCL0_5_BPP_24_RGB888,
-> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +		break;
-> +	case DRM_FORMAT_XRGB1555:
-> +		writel(CTRLDESCL0_5_BPP_16_ARGB1555,
-> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +		break;
-> +	case DRM_FORMAT_XRGB4444:
-> +		writel(CTRLDESCL0_5_BPP_16_ARGB4444,
-> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +		break;
-> +	case DRM_FORMAT_XBGR8888:
-> +		writel(CTRLDESCL0_5_BPP_32_ABGR8888,
-> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +		break;
-> +	case DRM_FORMAT_XRGB8888:
-> +		writel(CTRLDESCL0_5_BPP_32_ARGB8888,
-> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +		break;
-> +	default:
-> +		dev_err(drm->dev, "Unknown pixel format 0x%x\n", 
-format);
-> +		break;
-> +	}
-> +}
-> +
-> +static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
-> +{
-> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
-> +	u32 ctrl = 0;
-> +
-> +	if (m->flags & DRM_MODE_FLAG_PHSYNC)
-> +		ctrl |= CTRL_INV_HS;
-> +	if (m->flags & DRM_MODE_FLAG_PVSYNC)
-> +		ctrl |= CTRL_INV_VS;
-> +	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
-> +		ctrl |= CTRL_INV_DE;
-> +	if (bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
-> +		ctrl |= CTRL_INV_PXCK;
-> +
-> +	writel(ctrl, lcdif->base + LCDC_V8_CTRL);
-> +
-> +	writel(DISP_SIZE_DELTA_Y(m->crtc_vdisplay) |
-> +	       DISP_SIZE_DELTA_X(m->crtc_hdisplay),
-> +	       lcdif->base + LCDC_V8_DISP_SIZE);
-> +
-> +	writel(HSYN_PARA_BP_H(m->htotal - m->hsync_end) |
-> +	       HSYN_PARA_FP_H(m->hsync_start - m->hdisplay),
-> +	       lcdif->base + LCDC_V8_HSYN_PARA);
-> +
-> +	writel(VSYN_PARA_BP_V(m->vtotal - m->vsync_end) |
-> +	       VSYN_PARA_FP_V(m->vsync_start - m->vdisplay),
-> +	       lcdif->base + LCDC_V8_VSYN_PARA);
-> +
-> +	writel(VSYN_HSYN_WIDTH_PW_V(m->vsync_end - m->vsync_start) |
-> +	       VSYN_HSYN_WIDTH_PW_H(m->hsync_end - m->hsync_start),
-> +	       lcdif->base + LCDC_V8_VSYN_HSYN_WIDTH);
-> +
-> +	writel(CTRLDESCL0_1_HEIGHT(m->crtc_vdisplay) |
-> +	       CTRLDESCL0_1_WIDTH(m->crtc_hdisplay),
-> +	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
-> +
-> +	writel(CTRLDESCL0_3_PITCH(lcdif->crtc.primary->state->fb-
->pitches[0]),
-> +	       lcdif->base + LCDC_V8_CTRLDESCL0_3);
-> +}
-> +
-> +static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
-> +{
-> +	u32 reg;
-> +
-> +	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
-> +	reg |= DISP_PARA_DISP_ON;
-> +	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
-> +
-> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +	reg |= CTRLDESCL0_5_EN;
-> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +}
-> +
-> +static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
-> +{
-> +	u32 reg;
-> +	int ret;
-> +
-> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +	reg &= ~CTRLDESCL0_5_EN;
-> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +
-> +	ret = readl_poll_timeout(lcdif->base + LCDC_V8_CTRLDESCL0_5,
-> +				 reg, !(reg & CTRLDESCL0_5_EN),
-> +				 0, 36000);	/* Wait ~2 
-frame times max */
-> +	if (ret)
-> +		drm_err(lcdif->drm, "Failed to disable controller!\n");
-> +
-> +	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
-> +	reg &= ~DISP_PARA_DISP_ON;
-> +	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
-> +}
-> +
-> +static int lcdif_reset_block(struct lcdif_drm_private *lcdif)
-> +{
-> +	u32 reg;
-> +	int ret;
-> +
-> +	writel(CTRL_SW_RESET, lcdif->base + LCDC_V8_CTRL + REG_SET);
-> +
-> +	ret = readl_poll_timeout(lcdif->base + LCDC_V8_CTRL, reg,
-> +				 (reg & CTRL_SW_RESET), 0,
-> +				 RESET_TIMEOUT);
-> +	if (ret)
-> +		return ret;
-> +
-> +	writel(CTRL_SW_RESET, lcdif->base + LCDC_V8_CTRL + REG_CLR);
-> +
-> +	return readl_poll_timeout(lcdif->base + LCDC_V8_CTRL, reg,
-> +				  !(reg & CTRL_SW_RESET), 0,
-> +				  RESET_TIMEOUT);
-> +}
-> +
-> +static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
-> +				     struct drm_bridge_state 
-*bridge_state,
-> +				     const u32 bus_format)
-> +{
-> +	struct drm_device *drm = lcdif->crtc.dev;
-> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
-> +	u32 bus_flags = 0;
-> +	int err;
-> +
-> +	if (lcdif->bridge && lcdif->bridge->timings)
-> +		bus_flags = lcdif->bridge->timings->input_bus_flags;
-> +	else if (bridge_state)
-> +		bus_flags = bridge_state->input_bus_cfg.flags;
-> +
-> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)
-\n",
-> +			     m->crtc_clock,
-> +			     (int)(clk_get_rate(lcdif->clk) / 1000));
-> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Connector bus_flags: 0x%08X\n",
-> +			     bus_flags);
-> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
-> +
-> +	/* Mandatory eLCDIF reset as per the Reference Manual */
-> +	err = lcdif_reset_block(lcdif);
-> +	if (err)
-> +		return;
-> +
-> +	lcdif_set_formats(lcdif, bus_format);
-> +
-> +	lcdif_set_mode(lcdif, bus_flags);
-> +}
-> +
-> +static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
-> +				   struct drm_atomic_state *state)
-> +{
-> +	struct drm_crtc_state *crtc_state = 
-drm_atomic_get_new_crtc_state(state,
-> +								
-	  crtc);
-> +	bool has_primary = crtc_state->plane_mask &
-> +			   drm_plane_mask(crtc->primary);
-> +
-> +	/* The primary plane has to be enabled when the CRTC is active. */
-> +	if (crtc_state->active && !has_primary)
-> +		return -EINVAL;
-> +
-> +	return drm_atomic_add_affected_planes(state, crtc);
-> +}
-> +
-> +static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
-> +				    struct drm_atomic_state 
-*state)
-> +{
-> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
-> +	struct drm_pending_vblank_event *event;
-> +	u32 reg;
-> +
-> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +	reg |= CTRLDESCL0_5_SHADOW_LOAD_EN;
-> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
-> +
-> +	event = crtc->state->event;
-> +	crtc->state->event = NULL;
-> +
-> +	if (!event)
-> +		return;
-> +
-> +	spin_lock_irq(&crtc->dev->event_lock);
-> +	if (drm_crtc_vblank_get(crtc) == 0)
-> +		drm_crtc_arm_vblank_event(crtc, event);
-> +	else
-> +		drm_crtc_send_vblank_event(crtc, event);
-> +	spin_unlock_irq(&crtc->dev->event_lock);
-> +}
-> +
-> +static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
-> +				     struct drm_atomic_state 
-*state)
-> +{
-> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
-> +	struct drm_plane_state *new_pstate = 
-drm_atomic_get_new_plane_state(state,
-> +								
-	    crtc->primary);
-> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
-> +	struct drm_bridge_state *bridge_state = NULL;
-> +	struct drm_device *drm = lcdif->drm;
-> +	u32 bus_format = 0;
-> +	dma_addr_t paddr;
-> +
-> +	/* If there is a bridge attached to the LCDIF, use its bus format 
-*/
-> +	if (lcdif->bridge) {
-> +		bridge_state =
-> +			drm_atomic_get_new_bridge_state(state,
-> +							
-lcdif->bridge);
-> +		if (!bridge_state)
-> +			bus_format = MEDIA_BUS_FMT_FIXED;
-> +		else
-> +			bus_format = bridge_state-
->input_bus_cfg.format;
-> +
-> +		if (bus_format == MEDIA_BUS_FMT_FIXED) {
-> +			dev_warn_once(drm->dev,
-> +				      "Bridge does not provide bus 
-format, assuming
-> MEDIA_BUS_FMT_RGB888_1X24.\n" +				      
-"Please fix bridge driver by
-> handling atomic_get_input_bus_fmts.\n"); +			bus_format =
-> MEDIA_BUS_FMT_RGB888_1X24;
-> +		}
-> +	}
-> +
-> +	/* If all else fails, default to RGB888_1X24 */
-> +	if (!bus_format)
-> +		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> +
-> +	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
-> +
-> +	pm_runtime_get_sync(drm->dev);
-> +
-> +	lcdif_crtc_mode_set_nofb(lcdif, bridge_state, bus_format);
-> +
-> +	/* Write cur_buf as well to avoid an initial corrupt frame */
-> +	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
-> +	if (paddr) {
-> +		writel(lower_32_bits(paddr),
-> +		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
-> +		
-writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
-> +		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
-> +	}
-> +	lcdif_enable_controller(lcdif);
-> +
-> +	drm_crtc_vblank_on(crtc);
-> +}
-> +
-> +static void lcdif_crtc_atomic_disable(struct drm_crtc *crtc,
-> +				      struct drm_atomic_state 
-*state)
-> +{
-> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
-> +	struct drm_device *drm = lcdif->drm;
-> +	struct drm_pending_vblank_event *event;
-> +
-> +	drm_crtc_vblank_off(crtc);
-> +
-> +	lcdif_disable_controller(lcdif);
-> +
-> +	spin_lock_irq(&drm->event_lock);
-> +	event = crtc->state->event;
-> +	if (event) {
-> +		crtc->state->event = NULL;
-> +		drm_crtc_send_vblank_event(crtc, event);
-> +	}
-> +	spin_unlock_irq(&drm->event_lock);
-> +
-> +	pm_runtime_put_sync(drm->dev);
-> +}
-> +
-> +static int lcdif_crtc_enable_vblank(struct drm_crtc *crtc)
-> +{
-> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
-> +
-> +	/* Clear and enable VBLANK IRQ */
-> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + 
-LCDC_V8_INT_STATUS_D0);
-> +	writel(INT_ENABLE_D0_VS_BLANK_EN, lcdif->base + 
-LCDC_V8_INT_ENABLE_D0);
-> +
-> +	return 0;
-> +}
-> +
-> +static void lcdif_crtc_disable_vblank(struct drm_crtc *crtc)
-> +{
-> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
-> +
-> +	/* Disable and clear VBLANK IRQ */
-> +	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D0);
-> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + 
-LCDC_V8_INT_STATUS_D0);
-> +}
-> +
-> +static const struct drm_crtc_helper_funcs lcdif_crtc_helper_funcs = {
-> +	.atomic_check = lcdif_crtc_atomic_check,
-> +	.atomic_flush = lcdif_crtc_atomic_flush,
-> +	.atomic_enable = lcdif_crtc_atomic_enable,
-> +	.atomic_disable = lcdif_crtc_atomic_disable,
-> +};
-> +
-> +static const struct drm_crtc_funcs lcdif_crtc_funcs = {
-> +	.reset = drm_atomic_helper_crtc_reset,
-> +	.destroy = drm_crtc_cleanup,
-> +	.set_config = drm_atomic_helper_set_config,
-> +	.page_flip = drm_atomic_helper_page_flip,
-> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-> +	.enable_vblank = lcdif_crtc_enable_vblank,
-> +	.disable_vblank = lcdif_crtc_disable_vblank,
-> +};
-> +
-> +/*
-> ---------------------------------------------------------------------------
-> -- + * Encoder
-> + */
-> +
-> +static const struct drm_encoder_funcs lcdif_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
-> +/*
-> ---------------------------------------------------------------------------
-> -- + * Planes
-> + */
-> +
-> +static int lcdif_plane_atomic_check(struct drm_plane *plane,
-> +				    struct drm_atomic_state 
-*state)
-> +{
-> +	struct drm_plane_state *plane_state =
-> drm_atomic_get_new_plane_state(state, +					
-				     plane);
-> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
-> +	struct drm_crtc_state *crtc_state;
-> +
-> +	crtc_state = drm_atomic_get_new_crtc_state(state,
-> +						   &lcdif-
->crtc);
-> +
-> +	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-> +						   
-DRM_PLANE_HELPER_NO_SCALING,
-> +						   
-DRM_PLANE_HELPER_NO_SCALING,
-> +						   false, 
-true);
-> +}
-> +
-> +static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
-> +					      struct 
-drm_atomic_state *state)
-> +{
-> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
-> +	struct drm_plane_state *new_pstate = 
-drm_atomic_get_new_plane_state(state,
-> +								
-	    plane);
-> +	dma_addr_t paddr;
-> +
-> +	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
-> +	if (paddr) {
-> +		writel(lower_32_bits(paddr),
-> +		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
-> +		
-writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
-> +		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
-> +	}
-> +}
-> +
-> +static bool lcdif_format_mod_supported(struct drm_plane *plane,
-> +				       uint32_t format,
-> +				       uint64_t modifier)
-> +{
-> +	return modifier == DRM_FORMAT_MOD_LINEAR;
-> +}
-> +
-> +static const struct drm_plane_helper_funcs lcdif_plane_primary_helper_funcs
-> = { +	.atomic_check = lcdif_plane_atomic_check,
-> +	.atomic_update = lcdif_plane_primary_atomic_update,
-> +};
-> +
-> +static const struct drm_plane_funcs lcdif_plane_funcs = {
-> +	.format_mod_supported	= lcdif_format_mod_supported,
-> +	.update_plane		= drm_atomic_helper_update_plane,
-> +	.disable_plane		= drm_atomic_helper_disable_plane,
-> +	.destroy		= drm_plane_cleanup,
-> +	.reset			= drm_atomic_helper_plane_reset,
-> +	.atomic_duplicate_state	= 
-drm_atomic_helper_plane_duplicate_state,
-> +	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-> +};
-> +
-> +static const u32 lcdif_primary_plane_formats[] = {
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_XRGB8888,
-> +};
-> +
-> +static const u64 lcdif_modifiers[] = {
-> +	DRM_FORMAT_MOD_LINEAR,
-> +	DRM_FORMAT_MOD_INVALID
-> +};
-> +
-> +/*
-> ---------------------------------------------------------------------------
-> -- + * Initialization
-> + */
-> +
-> +int lcdif_kms_init(struct lcdif_drm_private *lcdif)
-> +{
-> +	struct drm_encoder *encoder = &lcdif->encoder;
-> +	struct drm_crtc *crtc = &lcdif->crtc;
-> +	int ret;
-> +
-> +	drm_plane_helper_add(&lcdif->planes.primary,
-> +			     &lcdif_plane_primary_helper_funcs);
-> +	ret = drm_universal_plane_init(lcdif->drm, &lcdif->planes.primary, 
-1,
-> +				       &lcdif_plane_funcs,
-> +				       
-lcdif_primary_plane_formats,
-> +				       
-ARRAY_SIZE(lcdif_primary_plane_formats),
-> +				       lcdif_modifiers, 
-DRM_PLANE_TYPE_PRIMARY,
-> +				       NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_crtc_helper_add(crtc, &lcdif_crtc_helper_funcs);
-> +	ret = drm_crtc_init_with_planes(lcdif->drm, crtc,
-> +					&lcdif->planes.primary, 
-NULL,
-> +					&lcdif_crtc_funcs, 
-NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> +	return drm_encoder_init(lcdif->drm, encoder, &lcdif_encoder_funcs,
-> +				DRM_MODE_ENCODER_NONE, NULL);
-> +}
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> b/drivers/gpu/drm/mxsfb/lcdif_regs.h new file mode 100644
-> index 0000000000000..c70220651e3a5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
-> @@ -0,0 +1,257 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
-> + *
-> + * i.MX8MP/i.MXRT LCDIF LCD controller driver.
-> + */
-> +
-> +#ifndef __LCDIF_REGS_H__
-> +#define __LCDIF_REGS_H__
-> +
-> +#define REG_SET	4
-> +#define REG_CLR	8
-> +
-> +/* V8 register set */
-> +#define LCDC_V8_CTRL			0x00
-> +#define LCDC_V8_DISP_PARA		0x10
-> +#define LCDC_V8_DISP_SIZE		0x14
-> +#define LCDC_V8_HSYN_PARA		0x18
-> +#define LCDC_V8_VSYN_PARA		0x1c
-> +#define LCDC_V8_VSYN_HSYN_WIDTH		0x20
-> +#define LCDC_V8_INT_STATUS_D0		0x24
-> +#define LCDC_V8_INT_ENABLE_D0		0x28
-> +#define LCDC_V8_INT_STATUS_D1		0x30
-> +#define LCDC_V8_INT_ENABLE_D1		0x34
-> +#define LCDC_V8_CTRLDESCL0_1		0x200
-> +#define LCDC_V8_CTRLDESCL0_3		0x208
-> +#define LCDC_V8_CTRLDESCL_LOW0_4	0x20c
-> +#define LCDC_V8_CTRLDESCL_HIGH0_4	0x210
-> +#define LCDC_V8_CTRLDESCL0_5		0x214
-> +#define LCDC_V8_CSC0_CTRL		0x21c
-> +#define LCDC_V8_CSC0_COEF0		0x220
-> +#define LCDC_V8_CSC0_COEF1		0x224
-> +#define LCDC_V8_CSC0_COEF2		0x228
-> +#define LCDC_V8_CSC0_COEF3		0x22c
-> +#define LCDC_V8_CSC0_COEF4		0x230
-> +#define LCDC_V8_CSC0_COEF5		0x234
-> +#define LCDC_V8_PANIC0_THRES		0x238
-> +
-> +#define CTRL_SFTRST			BIT(31)
-> +#define CTRL_CLKGATE			BIT(30)
-> +#define CTRL_BYPASS_COUNT		BIT(19)
-> +#define CTRL_VSYNC_MODE			BIT(18)
-> +#define CTRL_DOTCLK_MODE		BIT(17)
-> +#define CTRL_DATA_SELECT		BIT(16)
-> +#define CTRL_BUS_WIDTH_16		(0 << 10)
-> +#define CTRL_BUS_WIDTH_8		(1 << 10)
-> +#define CTRL_BUS_WIDTH_18		(2 << 10)
-> +#define CTRL_BUS_WIDTH_24		(3 << 10)
-> +#define CTRL_BUS_WIDTH_MASK		(0x3 << 10)
-> +#define CTRL_WORD_LENGTH_16		(0 << 8)
-> +#define CTRL_WORD_LENGTH_8		(1 << 8)
-> +#define CTRL_WORD_LENGTH_18		(2 << 8)
-> +#define CTRL_WORD_LENGTH_24		(3 << 8)
-> +#define CTRL_MASTER			BIT(5)
-> +#define CTRL_DF16			BIT(3)
-> +#define CTRL_DF18			BIT(2)
-> +#define CTRL_DF24			BIT(1)
-> +#define CTRL_RUN			BIT(0)
-> +
-> +#define CTRL1_RECOVER_ON_UNDERFLOW	BIT(24)
-> +#define CTRL1_FIFO_CLEAR		BIT(21)
-> +#define CTRL1_SET_BYTE_PACKAGING(x)	(((x) & 0xf) << 16)
-> +#define CTRL1_GET_BYTE_PACKAGING(x)	(((x) >> 16) & 0xf)
-> +#define CTRL1_CUR_FRAME_DONE_IRQ_EN	BIT(13)
-> +#define CTRL1_CUR_FRAME_DONE_IRQ	BIT(9)
-> +
-> +#define CTRL2_SET_OUTSTANDING_REQS_1	0
-> +#define CTRL2_SET_OUTSTANDING_REQS_2	(0x1 << 21)
-> +#define CTRL2_SET_OUTSTANDING_REQS_4	(0x2 << 21)
-> +#define CTRL2_SET_OUTSTANDING_REQS_8	(0x3 << 21)
-> +#define CTRL2_SET_OUTSTANDING_REQS_16	(0x4 << 21)
-> +#define CTRL2_SET_OUTSTANDING_REQS_MASK	(0x7 << 21)
-> +
-> +#define TRANSFER_COUNT_SET_VCOUNT(x)	(((x) & 0xffff) << 16)
-> +#define TRANSFER_COUNT_GET_VCOUNT(x)	(((x) >> 16) & 0xffff)
-> +#define TRANSFER_COUNT_SET_HCOUNT(x)	((x) & 0xffff)
-> +#define TRANSFER_COUNT_GET_HCOUNT(x)	((x) & 0xffff)
-> +
-> +#define VDCTRL0_ENABLE_PRESENT		BIT(28)
-> +#define VDCTRL0_VSYNC_ACT_HIGH		BIT(27)
-> +#define VDCTRL0_HSYNC_ACT_HIGH		BIT(26)
-> +#define VDCTRL0_DOTCLK_ACT_FALLING	BIT(25)
-> +#define VDCTRL0_ENABLE_ACT_HIGH		BIT(24)
-> +#define VDCTRL0_VSYNC_PERIOD_UNIT	BIT(21)
-> +#define VDCTRL0_VSYNC_PULSE_WIDTH_UNIT	BIT(20)
-> +#define VDCTRL0_HALF_LINE		BIT(19)
-> +#define VDCTRL0_HALF_LINE_MODE		BIT(18)
-> +#define VDCTRL0_SET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
-> +#define VDCTRL0_GET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
-> +
-> +#define VDCTRL2_SET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
-> +#define VDCTRL2_GET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
-> +
-> +#define VDCTRL3_MUX_SYNC_SIGNALS	BIT(29)
-> +#define VDCTRL3_VSYNC_ONLY		BIT(28)
-> +#define SET_HOR_WAIT_CNT(x)		(((x) & 0xfff) << 16)
-> +#define GET_HOR_WAIT_CNT(x)		(((x) >> 16) & 0xfff)
-> +#define SET_VERT_WAIT_CNT(x)		((x) & 0xffff)
-> +#define GET_VERT_WAIT_CNT(x)		((x) & 0xffff)
-> +
-> +#define VDCTRL4_SET_DOTCLK_DLY(x)	(((x) & 0x7) << 29) /* v4 only */
-> +#define VDCTRL4_GET_DOTCLK_DLY(x)	(((x) >> 29) & 0x7) /* v4 only */
-> +#define VDCTRL4_SYNC_SIGNALS_ON		BIT(18)
-> +#define SET_DOTCLK_H_VALID_DATA_CNT(x)	((x) & 0x3ffff)
-> +
-> +#define DEBUG0_HSYNC			BIT(26)
-> +#define DEBUG0_VSYNC			BIT(25)
-> +
-> +#define AS_CTRL_PS_DISABLE		BIT(23)
-> +#define AS_CTRL_ALPHA_INVERT		BIT(20)
-> +#define AS_CTRL_ALPHA(a)		(((a) & 0xff) << 8)
-> +#define AS_CTRL_FORMAT_RGB565		(0xe << 4)
-> +#define AS_CTRL_FORMAT_RGB444		(0xd << 4)
-> +#define AS_CTRL_FORMAT_RGB555		(0xc << 4)
-> +#define AS_CTRL_FORMAT_ARGB4444		(0x9 << 4)
-> +#define AS_CTRL_FORMAT_ARGB1555		(0x8 << 4)
-> +#define AS_CTRL_FORMAT_RGB888		(0x4 << 4)
-> +#define AS_CTRL_FORMAT_ARGB8888		(0x0 << 4)
-> +#define AS_CTRL_ENABLE_COLORKEY		BIT(3)
-> +#define AS_CTRL_ALPHA_CTRL_ROP		(3 << 1)
-> +#define AS_CTRL_ALPHA_CTRL_MULTIPLY	(2 << 1)
-> +#define AS_CTRL_ALPHA_CTRL_OVERRIDE	(1 << 1)
-> +#define AS_CTRL_ALPHA_CTRL_EMBEDDED	(0 << 1)
-> +#define AS_CTRL_AS_ENABLE		BIT(0)
-> +
-> +/* V8 register set */
-> +#define CTRL_SW_RESET			BIT(31)
-> +#define CTRL_FETCH_START_OPTION_FPV	0
-> +#define CTRL_FETCH_START_OPTION_PWV	BIT(8)
-> +#define CTRL_FETCH_START_OPTION_BPV	BIT(9)
-> +#define CTRL_FETCH_START_OPTION_RESV	GENMASK(9, 8)
-> +#define CTRL_FETCH_START_OPTION_MASK	GENMASK(9, 8)
-> +#define CTRL_NEG				BIT(4)
-> +#define CTRL_INV_PXCK			BIT(3)
-> +#define CTRL_INV_DE			BIT(2)
-> +#define CTRL_INV_VS			BIT(1)
-> +#define CTRL_INV_HS			BIT(0)
-> +
-> +#define DISP_PARA_DISP_ON		BIT(31)
-> +#define DISP_PARA_SWAP_EN		BIT(30)
-> +#define DISP_PARA_LINE_PATTERN_UYVY_H	(GENMASK(29, 28) | BIT(26))
-> +#define DISP_PARA_LINE_PATTERN_RGB565	GENMASK(28, 26)
-> +#define DISP_PARA_LINE_PATTERN_RGB888	0
-> +#define DISP_PARA_LINE_PATTERN_MASK	GENMASK(29, 26)
-> +#define DISP_PARA_DISP_MODE_MASK	GENMASK(25, 24)
-> +#define DISP_PARA_BGND_R_MASK		GENMASK(23, 16)
-> +#define DISP_PARA_BGND_G_MASK		GENMASK(15, 8)
-> +#define DISP_PARA_BGND_B_MASK		GENMASK(7, 0)
-> +
-> +#define DISP_SIZE_DELTA_Y(n)		(((n) & 0xffff) << 16)
-> +#define DISP_SIZE_DELTA_Y_MASK		GENMASK(31, 16)
-> +#define DISP_SIZE_DELTA_X(n)		((n) & 0xffff)
-> +#define DISP_SIZE_DELTA_X_MASK		GENMASK(15, 0)
-> +
-> +#define HSYN_PARA_BP_H(n)		(((n) & 0xffff) << 16)
-> +#define HSYN_PARA_BP_H_MASK		GENMASK(31, 16)
-> +#define HSYN_PARA_FP_H(n)		((n) & 0xffff)
-> +#define HSYN_PARA_FP_H_MASK		GENMASK(15, 0)
-> +
-> +#define VSYN_PARA_BP_V(n)		(((n) & 0xffff) << 16)
-> +#define VSYN_PARA_BP_V_MASK		GENMASK(31, 16)
-> +#define VSYN_PARA_FP_V(n)		((n) & 0xffff)
-> +#define VSYN_PARA_FP_V_MASK		GENMASK(15, 0)
-> +
-> +#define VSYN_HSYN_WIDTH_PW_V(n)		(((n) & 0xffff) << 16)
-> +#define VSYN_HSYN_WIDTH_PW_V_MASK	GENMASK(31, 16)
-> +#define VSYN_HSYN_WIDTH_PW_H(n)		((n) & 0xffff)
-> +#define VSYN_HSYN_WIDTH_PW_H_MASK	GENMASK(15, 0)
-> +
-> +#define INT_STATUS_D0_FIFO_EMPTY	BIT(24)
-> +#define INT_STATUS_D0_DMA_DONE		BIT(16)
-> +#define INT_STATUS_D0_DMA_ERR		BIT(8)
-> +#define INT_STATUS_D0_VS_BLANK		BIT(2)
-> +#define INT_STATUS_D0_UNDERRUN		BIT(1)
-> +#define INT_STATUS_D0_VSYNC		BIT(0)
-> +
-> +#define INT_ENABLE_D0_FIFO_EMPTY_EN	BIT(24)
-> +#define INT_ENABLE_D0_DMA_DONE_EN	BIT(16)
-> +#define INT_ENABLE_D0_DMA_ERR_EN	BIT(8)
-> +#define INT_ENABLE_D0_VS_BLANK_EN	BIT(2)
-> +#define INT_ENABLE_D0_UNDERRUN_EN	BIT(1)
-> +#define INT_ENABLE_D0_VSYNC_EN		BIT(0)
-> +
-> +#define INT_STATUS_D1_PLANE_PANIC	BIT(0)
-> +
-> +#define INT_ENABLE_D1_PLANE_PANIC_EN	BIT(0)
-> +
-> +#define CTRLDESCL0_1_HEIGHT(n)		(((n) & 0xffff) << 16)
-> +#define CTRLDESCL0_1_HEIGHT_MASK		GENMASK(31, 16)
-> +#define CTRLDESCL0_1_WIDTH(n)		((n) & 0xffff)
-> +#define CTRLDESCL0_1_WIDTH_MASK		GENMASK(15, 0)
-> +
-> +#define CTRLDESCL0_3_PITCH(n)		((n) & 0xffff)
-> +#define CTRLDESCL0_3_PITCH_MASK		GENMASK(15, 0)
-> +
-> +#define CTRLDESCL_HIGH0_4_ADDR_HIGH(n)	((n) & 0xf)
-> +#define CTRLDESCL_HIGH0_4_ADDR_HIGH_MASK	GENMASK(3, 0)
-> +
-> +#define CTRLDESCL0_5_EN			BIT(31)
-> +#define CTRLDESCL0_5_SHADOW_LOAD_EN	BIT(30)
-> +#define CTRLDESCL0_5_BPP_16_RGB565	BIT(26)
-> +#define CTRLDESCL0_5_BPP_16_ARGB1555	(BIT(26) | BIT(24))
-> +#define CTRLDESCL0_5_BPP_16_ARGB4444	(BIT(26) | BIT(25))
-> +#define CTRLDESCL0_5_BPP_YCbCr422	(BIT(26) | BIT(25) | BIT(24))
-> +#define CTRLDESCL0_5_BPP_24_RGB888	BIT(27)
-> +#define CTRLDESCL0_5_BPP_32_ARGB8888	(BIT(27) | BIT(24))
-> +#define CTRLDESCL0_5_BPP_32_ABGR8888	(BIT(27) | BIT(25))
-> +#define CTRLDESCL0_5_BPP_MASK		GENMASK(27, 24)
-> +#define CTRLDESCL0_5_YUV_FORMAT_Y2VY1U	0
-> +#define CTRLDESCL0_5_YUV_FORMAT_Y2UY1V	BIT(14)
-> +#define CTRLDESCL0_5_YUV_FORMAT_VY2UY1	BIT(15)
-> +#define CTRLDESCL0_5_YUV_FORMAT_UY2VY1	(BIT(15) | BIT(14))
-> +#define CTRLDESCL0_5_YUV_FORMAT_MASK	GENMASK(15, 14)
-> +
-> +#define CSC0_CTRL_CSC_MODE_RGB2YCbCr	GENMASK(2, 1)
-> +#define CSC0_CTRL_CSC_MODE_MASK		GENMASK(2, 1)
-> +#define CSC0_CTRL_BYPASS		BIT(0)
-> +
-> +#define CSC0_COEF0_A2(n)		(((n) << 16) & CSC0_COEF0_A2_MASK)
-> +#define CSC0_COEF0_A2_MASK		GENMASK(26, 16)
-> +#define CSC0_COEF0_A1(n)		((n) & CSC0_COEF0_A1_MASK)
-> +#define CSC0_COEF0_A1_MASK		GENMASK(10, 0)
-> +
-> +#define CSC0_COEF1_B1(n)		(((n) << 16) & CSC0_COEF1_B1_MASK)
-> +#define CSC0_COEF1_B1_MASK		GENMASK(26, 16)
-> +#define CSC0_COEF1_A3(n)		((n) & CSC0_COEF1_A3_MASK)
-> +#define CSC0_COEF1_A3_MASK		GENMASK(10, 0)
-> +
-> +#define CSC0_COEF2_B3(n)		(((n) << 16) & CSC0_COEF2_B3_MASK)
-> +#define CSC0_COEF2_B3_MASK		GENMASK(26, 16)
-> +#define CSC0_COEF2_B2(n)		((n) & CSC0_COEF2_B2_MASK)
-> +#define CSC0_COEF2_B2_MASK		GENMASK(10, 0)
-> +
-> +#define CSC0_COEF3_C2(n)		(((n) << 16) & CSC0_COEF3_C2_MASK)
-> +#define CSC0_COEF3_C2_MASK		GENMASK(26, 16)
-> +#define CSC0_COEF3_C1(n)		((n) & CSC0_COEF3_C1_MASK)
-> +#define CSC0_COEF3_C1_MASK		GENMASK(10, 0)
-> +
-> +#define CSC0_COEF4_D1(n)		(((n) << 16) & CSC0_COEF4_D1_MASK)
-> +#define CSC0_COEF4_D1_MASK		GENMASK(24, 16)
-> +#define CSC0_COEF4_C3(n)		((n) & CSC0_COEF4_C3_MASK)
-> +#define CSC0_COEF4_C3_MASK		GENMASK(10, 0)
-> +
-> +#define CSC0_COEF5_D3(n)		(((n) << 16) & CSC0_COEF5_D3_MASK)
-> +#define CSC0_COEF5_D3_MASK		GENMASK(24, 16)
-> +#define CSC0_COEF5_D2(n)		((n) & CSC0_COEF5_D2_MASK)
-> +#define CSC0_COEF5_D2_MASK		GENMASK(8, 0)
-> +
-> +#define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
-> +#define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
-> +
-> +#define LCDIF_MIN_XRES			120
-> +#define LCDIF_MIN_YRES			120
-> +#define LCDIF_MAX_XRES			0xffff
-> +#define LCDIF_MAX_YRES			0xffff
-> +
-> +#endif /* __LCDIF_REGS_H__ */
+> Is there a reason these shouldn't have the same, generic, type, rather than separate, driver-specific ones?
+
+In case it is not clear, this needs to be separate from "vendor" because vendor is
+meant for the old (often pre windows XP) vendor specific BIOS interfaces used
+by the likes of dell-laptopo, thinkpad_acpi, etc. And acpi_video_get_backlight_type()
+returns vendor when it cannot find any other types, iow it is the type of
+last resort.
+
+So vendor is the fallback where as nvidia_wmi_ec and apple_gmux both
+must take precedence over anything else if detected.
+
+As for why not have a single type for nvidia_wmi_ec and apple_gmux,
+these will have 2 separate detection helper functions, so it seems
+cleaner to me to use 2 separate types to match this.
+Most drivers check for type != my-type, so an extra type does not hurt.
+
+> I don't foresee any situation where a system would need to use these two particular drivers simultaneously.
+
+Agreed.
+
+> Multiple DRM drivers can coexist on the same system, and even though the goal here is to remove the existing "multiple backlight interfaces for the same panel" situation, there shouldn't be any reason why more than one DRM driver couldn't register backlight handlers at the same time, so long as they are driving distinct panels. If we don't need separate backlight types for individual DRM drivers, why should we have them for apple_gmux and nvidia_wmi_ec_backlight?
+
+I don't think we need them, but as said since they use separate detection
+methods, it just feels cleaner.
+
+The drivers/acpi/video_detect.c code at the moment has the following detection
+methods:
+
+1. Check if any GPU drivers have *told* it that the GPU driver will register
+a GPU native backlight device for the panel (either direct PWM driving or
+over DP aux, etc.)
+
+2. Check if the ACPI tables have the ACPI video backlight control bits
+
+3. None of the above, assume vendor.
+
+For nvidia-wmi-ec and apple-gmux 2 separate detection helper functions +
+steps will get added and as said it just feels cleaner to have 2
+separate types to match.
+
+> I still think that relying on the GPU drivers to correctly know whether they should register their backlight handlers when a platform-level device is supposed to register one instead might be easier said than done, especially on systems where the same panel could potentially be driven by more than one GPU (but not at the same time).
+
+ATM the GPU drivers unconditionally register their native
+backlight device if they believe (e.g. the video bios tables say so)
+they can control the backlight.
+
+And then in the case of e.g. windows XP era laptops, where often
+the EC was still used, the GPU drivers atm rely on acpi_video also
+registering a backlight device and userspace then preferring that one.
+
+IOW atm the native GPU drivers rely on userspace ignoring their
+backlight device if another one is present.
+
+The adding of something like e.g.:
+
+	if (acpi_video_get_backlight_type(true) != acpi_backlight_native) {
+		NV_INFO(drm, "Skipping nv_backlight registration\n");
+		goto fail_alloc;
+	}
+
+To the code-paths doing the backlight-device registration, skipping
+tthe registration just replaces the "lets hope userspace ignores this
+if necessary" with outright skipping the registration of the sysfs
+backlight class device in the cases where before we would hope
+userspace behaves as expected.
+
+Also note that this just skips the registration of the sysfs class
+device, any prep work is still done, so as to not cause any behavior
+changes from the pov of which GPU registers get poked.
+
+>> Recall that on at least one system, both amdgpu and the NVIDIA proprietary driver registered a handler even when it shouldn't: https://patchwork.kernel.org/project/platform-driver-x86/patch/20220316203325.2242536-1-ddadap@nvidia.com/ - I didn't have direct access to this system, but the fact that the NVIDIA driver registered a handler was almost certainly a bug in either the driver or the system's firmware (on other systems with the same type of backlight hardware, NVIDIA does not register a handler), and I imagine the same is true of the amdgpu driver. In all likelihood nouveau would have probably tried to register one too; I am not certain whether the person who reported the issue to me had tested with nouveau. I'm not convinced that the GPU drivers can reliably determine whether or not they are supposed to register, but maybe cases where they aren't, such as the system mentioned above, are supposed to be handled in a quirks table somewhere.
+
+Right video_detect.c already has a DMI table for this which
+overrides the value returned by acpi_video_get_backlight_type().
+
+Although in this specific case it seems we may want
+acpi_video_get_backlight_type() to return native when
+called from the amdgpu driver and none when called from
+the nvidia/nouveau driver ?   That is not supported atm, but if
+necessary it seems reasonable to:
+
+1. Add a "const char *driver_name" to acpi_video_get_backlight_type()
+and maybe agree on nouveau and nvidia to pass the same value.
+
+2. Extend the quirk mechanism to allow using the driver_name to
+return different results to different drivers.
+
+Regards,
+
+Hans
 
 
 
+
+>>
+>>
+>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>> ---
+>>>   drivers/acpi/acpi_video.c | 45 ++++++++++++++++++++++++++++++++++++---
+>>>   include/acpi/video.h      |  2 ++
+>>>   2 files changed, 44 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
+>>> index 95d4868f6a8c..79e75dc86243 100644
+>>> --- a/drivers/acpi/acpi_video.c
+>>> +++ b/drivers/acpi/acpi_video.c
+>>> @@ -31,6 +31,12 @@
+>>>   #define ACPI_VIDEO_BUS_NAME        "Video Bus"
+>>>   #define ACPI_VIDEO_DEVICE_NAME        "Video Device"
+>>>   +/*
+>>> + * Display probing is known to take up to 5 seconds, so delay the fallback
+>>> + * backlight registration by 5 seconds + 3 seconds for some extra margin.
+>>> + */
+>>> +#define ACPI_VIDEO_REGISTER_BACKLIGHT_DELAY    (8 * HZ)
+>>> +
+>>>   #define MAX_NAME_LEN    20
+>>>     MODULE_AUTHOR("Bruno Ducrot");
+>>> @@ -80,6 +86,9 @@ static LIST_HEAD(video_bus_head);
+>>>   static int acpi_video_bus_add(struct acpi_device *device);
+>>>   static int acpi_video_bus_remove(struct acpi_device *device);
+>>>   static void acpi_video_bus_notify(struct acpi_device *device, u32 event);
+>>> +static void acpi_video_bus_register_backlight_work(struct work_struct *ignored);
+>>> +static DECLARE_DELAYED_WORK(video_bus_register_backlight_work,
+>>> +                acpi_video_bus_register_backlight_work);
+>>>   void acpi_video_detect_exit(void);
+>>>     /*
+>>> @@ -1862,8 +1871,6 @@ static int acpi_video_bus_register_backlight(struct acpi_video_bus *video)
+>>>       if (video->backlight_registered)
+>>>           return 0;
+>>>   -    acpi_video_run_bcl_for_osi(video);
+>>> -
+>>>       if (acpi_video_get_backlight_type(false) != acpi_backlight_video)
+>>>           return 0;
+>>>   @@ -2089,7 +2096,11 @@ static int acpi_video_bus_add(struct acpi_device *device)
+>>>       list_add_tail(&video->entry, &video_bus_head);
+>>>       mutex_unlock(&video_list_lock);
+>>>   -    acpi_video_bus_register_backlight(video);
+>>> +    /*
+>>> +     * The userspace visible backlight_device gets registered separately
+>>> +     * from acpi_video_register_backlight().
+>>> +     */
+>>> +    acpi_video_run_bcl_for_osi(video);
+>>>       acpi_video_bus_add_notify_handler(video);
+>>>         return 0;
+>>> @@ -2128,6 +2139,11 @@ static int acpi_video_bus_remove(struct acpi_device *device)
+>>>       return 0;
+>>>   }
+>>>   +static void acpi_video_bus_register_backlight_work(struct work_struct *ignored)
+>>> +{
+>>> +    acpi_video_register_backlight();
+>>> +}
+>>> +
+>>>   static int __init is_i740(struct pci_dev *dev)
+>>>   {
+>>>       if (dev->device == 0x00D1)
+>>> @@ -2238,6 +2254,17 @@ int acpi_video_register(void)
+>>>        */
+>>>       register_count = 1;
+>>>   +    /*
+>>> +     * acpi_video_bus_add() skips registering the userspace visible
+>>> +     * backlight_device. The intend is for this to be registered by the
+>>> +     * drm/kms driver calling acpi_video_register_backlight() *after* it is
+>>> +     * done setting up its own native backlight device. The delayed work
+>>> +     * ensures that acpi_video_register_backlight() always gets called
+>>> +     * eventually, in case there is no drm/kms driver or it is disabled.
+>>> +     */
+>>> +    schedule_delayed_work(&video_bus_register_backlight_work,
+>>> +                  ACPI_VIDEO_REGISTER_BACKLIGHT_DELAY);
+>>> +
+>>>   leave:
+>>>       mutex_unlock(&register_count_mutex);
+>>>       return ret;
+>>> @@ -2248,6 +2275,7 @@ void acpi_video_unregister(void)
+>>>   {
+>>>       mutex_lock(&register_count_mutex);
+>>>       if (register_count) {
+>>> +        cancel_delayed_work_sync(&video_bus_register_backlight_work);
+>>>           acpi_bus_unregister_driver(&acpi_video_bus);
+>>>           register_count = 0;
+>>>       }
+>>> @@ -2255,6 +2283,17 @@ void acpi_video_unregister(void)
+>>>   }
+>>>   EXPORT_SYMBOL(acpi_video_unregister);
+>>>   +void acpi_video_register_backlight(void)
+>>> +{
+>>> +    struct acpi_video_bus *video;
+>>> +
+>>> +    mutex_lock(&video_list_lock);
+>>> +    list_for_each_entry(video, &video_bus_head, entry)
+>>> +        acpi_video_bus_register_backlight(video);
+>>> +    mutex_unlock(&video_list_lock);
+>>> +}
+>>> +EXPORT_SYMBOL(acpi_video_register_backlight);
+>>> +
+>>>   void acpi_video_unregister_backlight(void)
+>>>   {
+>>>       struct acpi_video_bus *video;
+>>> diff --git a/include/acpi/video.h b/include/acpi/video.h
+>>> index e31afb93379a..b2f7dc1f354a 100644
+>>> --- a/include/acpi/video.h
+>>> +++ b/include/acpi/video.h
+>>> @@ -53,6 +53,7 @@ enum acpi_backlight_type {
+>>>   #if IS_ENABLED(CONFIG_ACPI_VIDEO)
+>>>   extern int acpi_video_register(void);
+>>>   extern void acpi_video_unregister(void);
+>>> +extern void acpi_video_register_backlight(void);
+>>>   extern int acpi_video_get_edid(struct acpi_device *device, int type,
+>>>                      int device_id, void **edid);
+>>>   extern enum acpi_backlight_type acpi_video_get_backlight_type(bool native);
+>>> @@ -68,6 +69,7 @@ extern int acpi_video_get_levels(struct acpi_device *device,
+>>>   #else
+>>>   static inline int acpi_video_register(void) { return -ENODEV; }
+>>>   static inline void acpi_video_unregister(void) { return; }
+>>> +static inline void acpi_video_register_backlight(void) { return; }
+>>>   static inline int acpi_video_get_edid(struct acpi_device *device, int type,
+>>>                         int device_id, void **edid)
+>>>   {
 
