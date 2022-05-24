@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAAD532020
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:06:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F40453201D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42DFC10E9B1;
-	Tue, 24 May 2022 01:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A45310E990;
+	Tue, 24 May 2022 01:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E980E10E928
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 01:05:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67DFA10E928
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 01:05:51 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 568218424A;
+ by phobos.denx.de (Postfix) with ESMTPSA id D114C8424E;
  Tue, 24 May 2022 03:05:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1653354349;
- bh=CBSTiNDi5v5Sf3BJn6YcLkd2L/qq/hka5NRyY0EHaLk=;
+ s=phobos-20191101; t=1653354350;
+ bh=giv7ZfZwMibJE21VuVm5HXlV628iQ7Rb/8zVU9LYbag=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eA5BmoR7dpqgENlGSaBOUzTrXgYV2J7NqdXxf7bMuOSByIpW/jxksxgzY83oZCga2
- iQDXsZvwMFOV17svvrn3IAnD4mBjBGL0JrzU5tBVaEA9QXtTfenINhohCFqJslWRE+
- p38ToGexWnPIGsBjdlGvBvroEL4UD3ArYlM9IXb30ET6FABVWksC2GrgUWDq0YxFMa
- 2yz/EnoJGVBBCmIEimubH8kztlv5tLoQQ0kkTj7FJNlGd6udp+/cF/gX+e41Y5G3ob
- GnRz8AgbEGWevG1Cj+dsf52lwUxi2l5E+kIOd67QG3SLNVIgvS4c+oJyBxbHuLExQt
- p6zrKxwgwhXLw==
+ b=UXNGlYExg4XxxALB5eT/VkdpCS0mcam3l2Gv8DAJD+Ix1Kxtcu8Y3id7Yujv+LsQQ
+ /bQ7BLS57dglp3j6cZqUFuE+Gz9ORAHH/64fpIE3RGDhI87KXKBgs3+kaiYK/TTJLJ
+ wrYNxojX3zBSAFFKiriFbWAqwR/IGo+KL4AUy/swFJBCCw8nK3BPYtMEiotkgVd1+1
+ ll1k+vdiVY1SYVDSSTCrWLpJYBFA0IQY8DmlXTA1cyn5kgTiPsJ2un6tE3WYupQK2z
+ IOLCI0RpdLNudbhgLw458d18mAG2lD4nnChnatCq28Ezbc2ciDU9dzWUU1rQJM29LH
+ r05E8FSVLMJYg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 08/11] drm/bridge: ti-sn65dsi83: Convert to
+Subject: [PATCH v2 09/11] drm/bridge: ti-sn65dsi86: Convert to
  drm_of_get_data_lanes_count
-Date: Tue, 24 May 2022 03:05:19 +0200
-Message-Id: <20220524010522.528569-8-marex@denx.de>
+Date: Tue, 24 May 2022 03:05:20 +0200
+Message-Id: <20220524010522.528569-9-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220524010522.528569-1-marex@denx.de>
 References: <20220524010522.528569-1-marex@denx.de>
@@ -77,22 +77,24 @@ To: dri-devel@lists.freedesktop.org
 V2: - Rename drm_of_get_data_lanes{,_ep} to drm_of_get_data_lanes_count{,_ep}
     - Add RB from Andrzej
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index f5c1819857665..66693a8a53263 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -628,7 +628,7 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- 	int dsi_lanes, ret;
- 
- 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
--	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	dsi_lanes = drm_of_get_data_lanes_count(endpoint, 1, 4);
- 	host_node = of_graph_get_remote_port_parent(endpoint);
- 	host = of_find_mipi_dsi_host_by_node(host_node);
- 	of_node_put(host_node);
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 8cad662de9bb5..c2b9227f7042a 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -1142,8 +1142,8 @@ static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
+ 	 * mappings that the hardware supports.
+ 	 */
+ 	endpoint = of_graph_get_endpoint_by_regs(np, 1, -1);
+-	dp_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+-	if (dp_lanes > 0 && dp_lanes <= SN_MAX_DP_LANES) {
++	dp_lanes = drm_of_get_data_lanes_count(endpoint, 1, SN_MAX_DP_LANES);
++	if (dp_lanes > 0) {
+ 		of_property_read_u32_array(endpoint, "data-lanes",
+ 					   lane_assignments, dp_lanes);
+ 		of_property_read_u32_array(endpoint, "lane-polarities",
 -- 
 2.35.1
 
