@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0178A53201B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:06:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D563532019
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2565310E965;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036B410E8C3;
 	Tue, 24 May 2022 01:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42E4E10E8C3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 659E810E928
  for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 01:05:49 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D619883F64;
- Tue, 24 May 2022 03:05:46 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 68A5883FEC;
+ Tue, 24 May 2022 03:05:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1653354347;
- bh=vsh1y74N+kIn1FtplRqRNgoDGBqO8p4JVoROz3Whxp0=;
+ bh=86c1TyioaKXqI7R2GwFIsReEQQX7RiiN/QRUoVOpl6k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=q/hkUqaZoN68vp8MDr8HQZIM15ey2MjzqBGGvWoh3PAGKx6vats0z4WHqS+W+mvJD
- uBcQF3bW2yfDg2UR7zwakZv1P/jGiusC8gwPegeopNT7hzWwJi7ii3eT0qcCknLVQt
- buiM2G37BafcDRqoirE4ENX+0db7Uy3yi3Datnt/3rf8PtURtCvOs+VqgXNZyCludd
- LvjTqGnwGeSbCIHlescB9VogOf+Nz3HPGcJSivb5Z+qfvAMirD51araWPcbaX2cbSk
- EMiLwGDh+WlJUizWj8w6IRKtitxUdNBJSx+pDNnemX7x2H9tQDwOeGh0JZ14ochbzb
- n+KM/4IXe3f8A==
+ b=s9uZOJlVYVR6aS4u0tLkRts/0LMrOU3D+1DozElaaEZ20zmdz+mug6NFlX+YvOmV7
+ YJZvTqx9WmqfmYuI6ayn++FWMpmkEvkL3hWPb2+X2tu3Vpcfqn0Vz/yJhtQH7ykXMI
+ DQar/StlRVd4cDVF7O6izi3HYsPcaNXE1PaNMEkLReOnsbarz4z6cZaEuPSxJLL0Sv
+ x6q0J66GUGQh1dbtOd+k7oW75LvxwHcPcFg9i+8srb3cL/AD+oOf56rw9gAnUhKK5v
+ rZxsfSZZBPz5UhR0J2u8rABGNUhO44Bn2iw3BkkzSMRWO6j892le18jYOm1jppWUcv
+ R3Y+w4gF5A2fA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 03/11] drm/bridge: icn6211: Convert to
+Subject: [PATCH v2 04/11] drm/bridge: lt8912: Convert to
  drm_of_get_data_lanes_count_ep
-Date: Tue, 24 May 2022 03:05:14 +0200
-Message-Id: <20220524010522.528569-3-marex@denx.de>
+Date: Tue, 24 May 2022 03:05:15 +0200
+Message-Id: <20220524010522.528569-4-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220524010522.528569-1-marex@denx.de>
 References: <20220524010522.528569-1-marex@denx.de>
@@ -54,10 +54,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Maxime Ripard <maxime@cerno.tech>, robert.foss@linaro.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>, Maxime Ripard <maxime@cerno.tech>,
+ robert.foss@linaro.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -66,8 +66,8 @@ OF "data-lanes" parsing.
 
 Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Adrien Grassein <adrien.grassein@gmail.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Lucas Stach <l.stach@pengutronix.de>
 Cc: Maxime Ripard <maxime@cerno.tech>
@@ -78,39 +78,40 @@ To: dri-devel@lists.freedesktop.org
 V2: - Rename drm_of_get_data_lanes{,_ep} to drm_of_get_data_lanes_count{,_ep}
     - Add RB from Andrzej
 ---
- drivers/gpu/drm/bridge/chipone-icn6211.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index 45bb89ac3fff7..6214990354d8f 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -496,21 +496,18 @@ static int chipone_dsi_attach(struct chipone *icn)
- {
- 	struct mipi_dsi_device *dsi = icn->dsi;
- 	struct device *dev = icn->dev;
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index c642d1e02b2f8..c92515834ff2d 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -607,7 +607,6 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ 	int ret;
+ 	int data_lanes;
+ 	struct device_node *port_node;
 -	struct device_node *endpoint;
- 	int dsi_lanes, ret;
  
--	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
--	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+ 	gp_reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(gp_reset)) {
+@@ -618,16 +617,12 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ 	}
+ 	lt->gp_reset = gp_reset;
+ 
+-	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+-	if (!endpoint)
+-		return -ENODEV;
+-
+-	data_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
 -	of_node_put(endpoint);
-+	dsi_lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
++	data_lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, -1, 1, 4);
+ 	if (data_lanes < 0) {
+ 		dev_err(lt->dev, "%s: Bad data-lanes property\n", __func__);
+ 		return data_lanes;
+ 	}
++
+ 	lt->data_lanes = data_lanes;
  
- 	/*
- 	 * If the 'data-lanes' property does not exist in DT or is invalid,
- 	 * default to previously hard-coded behavior, which was 4 data lanes.
- 	 */
--	if (dsi_lanes >= 1 && dsi_lanes <= 4)
--		icn->dsi->lanes = dsi_lanes;
--	else
-+	if (dsi_lanes < 0)
- 		icn->dsi->lanes = 4;
-+	else
-+		icn->dsi->lanes = dsi_lanes;
- 
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+ 	lt->host_node = of_graph_get_remote_node(dev->of_node, 0, -1);
 -- 
 2.35.1
 
