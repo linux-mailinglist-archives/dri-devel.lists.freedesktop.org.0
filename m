@@ -1,37 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F61E5322CA
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 08:02:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E455323AD
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 09:09:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E36B10F538;
-	Tue, 24 May 2022 06:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBBA10E656;
+	Tue, 24 May 2022 07:09:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by gabe.freedesktop.org (Postfix) with ESMTP id CC90910F4FB
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 06:02:23 +0000 (UTC)
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
- by 156.147.23.51 with ESMTP; 24 May 2022 15:02:21 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO X58A-UD3R) (10.177.244.38)
- by 156.147.1.125 with ESMTP; 24 May 2022 15:02:21 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-Date: Tue, 24 May 2022 15:00:29 +0900
-From: Byungchul Park <byungchul.park@lge.com>
-To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Subject: Re: [PATCH RFC v6 07/21] dept: Apply Dept to seqlock
-Message-ID: <20220524060029.GA1014@X58A-UD3R>
-References: <1651652269-15342-8-git-send-email-byungchul.park@lge.com>
- <Yoh3zzMPkCo2OP39@hyeyoo>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A767510E656
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 07:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1653376164; x=1684912164;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=DKCHDmwh8XhVdtSmQ4e5e9o0NAH7Ux/qqm1dCi2eM1w=;
+ b=fOjxvh4TxWRy88EcbFvK6r6Ey5pPZNW8FwJL3eT81oqogsWa+sst6V3T
+ YN4MRpVJSqMmxqBwQH/kQZrnXIfPoz/N7ED9BALt45sqaEStGzuxO/OJv
+ A+tUut6eeplhujoN0MS9vJ70mfmnPhxLIRmBX9BDnxRoG04CKjddA8Jha
+ 47RLqxP3oSLNheqRJgYUMWQPAbX1FyfKc1Af6E8DtcYhZ7bjG9Q7tmKR2
+ JydEG2i27sLgwHgAck2n/pMiEFMi+f6cNEoSI0EEBwg1XNcJeoKIErqjU
+ PeKXnMyEmMN1lnRcFrPIROukKITJ1ppR7nC9/YSUVtJrAF2I5PqYBxYrp A==;
+X-IronPort-AV: E=Sophos;i="5.91,248,1647298800"; d="scan'208";a="24050999"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 24 May 2022 09:09:22 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Tue, 24 May 2022 09:09:22 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Tue, 24 May 2022 09:09:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1653376162; x=1684912162;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=DKCHDmwh8XhVdtSmQ4e5e9o0NAH7Ux/qqm1dCi2eM1w=;
+ b=D9GU/jd1bfoVMkAmD5pcEHxp30rx+Qt3FYN0jgqg7h+YrMsfCPxDrDyG
+ KlKB57ZK3bv+jTkJJQsbCW5bgDkPb7gKEGOsF6YQomqzH52SAueTGnwOQ
+ vm7YYALi/tTbZQLcc6LkIE4b0JEbtI33sLjTs1HxDdcE8P058thKjDTKf
+ /OYpX27zBMbcUKNN9F9WjgcEcdzBuQgP38eoyBlc2q9FYqdk7JzyndcqN
+ eNOwObp8Ja3idmhK+TTlGfTHl8if+86r0BWn+rmjl4LIMD2/QvQ0YitbZ
+ NTwJfAdXUqzBHXvQIZJQv2JQGk3ih3j7x+WYop5A/YJqQ05OX/P/Ti0FM Q==;
+X-IronPort-AV: E=Sophos;i="5.91,248,1647298800"; d="scan'208";a="24050998"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 24 May 2022 09:09:22 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D29DC280070;
+ Tue, 24 May 2022 09:09:21 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v4 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
+Date: Tue, 24 May 2022 09:09:19 +0200
+Message-ID: <4403432.LvFx2qVVIh@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220519114849.69918-2-marex@denx.de>
+References: <20220519114849.69918-1-marex@denx.de>
+ <20220519114849.69918-2-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yoh3zzMPkCo2OP39@hyeyoo>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,345 +76,1346 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- bfields@fieldses.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- joel@joelfernandes.org, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- willy@infradead.org, hch@infradead.org, airlied@linux.ie, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- ngupta@vflare.org, johannes.berg@intel.com, jack@suse.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, mhocko@kernel.org, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ martyn.welch@collabora.com, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, Robby Cai <robby.cai@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 21, 2022 at 02:25:35PM +0900, Hyeonggon Yoo wrote:
-> Hello I got new report from dept, related to seqlock.
-> I applied dept 1.20 series on v5.18-rc7.
-> 
-> Below is what DEPT reported.
-> I think this is bogus because reader of p->alloc_lock cannot block
-> its writer. Or please kindly tell me if I'm missing something ;)
+Hi Marek,
 
-Hi,
+Am Donnerstag, 19. Mai 2022, 13:48:49 CEST schrieb Marek Vasut:
+> Add support for i.MX8MP LCDIF variant. This is called LCDIFv3 and is
+> completely different from the LCDIFv3 found in i.MX23 in that it has
+> a completely scrambled register layout compared to all previous LCDIF
+> variants. The new LCDIFv3 also supports 36bit address space.
+> 
+> Add a separate driver which is really a fork of MXSFB driver with the
+> i.MX8MP LCDIF variant handling filled in.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+> ---
+> V2: - Drop the pitch check from lcdif_fb_create()
+>     - Drop connector caching
+>     - Wait for shadow load bit to be cleared in IRQ handler
+>     - Make all clock mandatory and grab them all by name
+>     - Wait for EN to be cleared in lcdif_disable_controller
+>     - Rename to imx-lcdif
+>     - Move shadow load to atomic_flush
+> V3: - Invert DE polarity to match MX8MPRM datasheet
+>     - Enable CSC in RGB to YUV mode for MEDIA_BUS_FMT_UYVY8_1X16
+> V4: - Drop lcdif_overlay_plane_formats, it is unused
 
-Yes, it should've been silent. I will fix it. Thank you!
+Thanks for the update. With your change in V3 my HDMI output works now without 
+that hack mentioned. weston screen as well as 'fb-test -p 5' output seems 
+sensible.
+Unfortunately this isn't the case for LVDS output on LCDIF2. I somehow managed 
+to get the DT nodes for LCDIF and LDB done. Also the necessary addition to 
+imx8m-blk-ctl. So eventually I can see some output. But the screen is cutoff 
+on the right side of about 15-20% and the screen is flickering slighty. This 
+is especially visible in 'fb-test -p 5'. The red bars are only visible to less 
+than 1/3 and the text as well as the diagonal lines are flickering. Colors are 
+correct though.
+For the record: I am using a 'tianma,tm070jvhg33' panel.
 
-Just FYI, a reader of seq-reader is a wait blocking the following event
-e.i. spin_unlock(&host->lock) in here, not its writer. This report tells
-the writer is blocked by __raw_spin_lock(&dentry->d_lock), not by its
-reader. I've explained it just for your information. (:
+> ---
+>  drivers/gpu/drm/mxsfb/Kconfig      |  16 +
+>  drivers/gpu/drm/mxsfb/Makefile     |   2 +
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c  | 361 +++++++++++++++++++++
+>  drivers/gpu/drm/mxsfb/lcdif_drv.h  |  47 +++
+>  drivers/gpu/drm/mxsfb/lcdif_kms.c  | 497 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/mxsfb/lcdif_regs.h | 257 +++++++++++++++
+>  6 files changed, 1180 insertions(+)
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.c
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.h
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_kms.c
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_regs.h
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
+> index 987170e16ebd6..873551b4552f5 100644
+> --- a/drivers/gpu/drm/mxsfb/Kconfig
+> +++ b/drivers/gpu/drm/mxsfb/Kconfig
+> @@ -19,3 +19,19 @@ config DRM_MXSFB
+>  	  i.MX28, i.MX6SX, i.MX7 and i.MX8M).
+> 
+>  	  If M is selected the module will be called mxsfb.
+> +
+> +config DRM_IMX_LCDIF
+> +	tristate "i.MX LCDIFv3 LCD controller"
+> +	depends on DRM && OF
+> +	depends on COMMON_CLK
+> +	select DRM_MXS
+> +	select DRM_KMS_HELPER
+> +	select DRM_GEM_CMA_HELPER
+> +	select DRM_PANEL
+> +	select DRM_PANEL_BRIDGE
+> +	help
+> +	  Choose this option if you have an LCDIFv3 LCD controller.
+> +	  Those devices are found in various i.MX SoC (i.MX8MP,
+> +	  i.MXRT).
+> +
+> +	  If M is selected the module will be called imx-lcdif.
+> diff --git a/drivers/gpu/drm/mxsfb/Makefile b/drivers/gpu/drm/mxsfb/Makefile
+> index 26d153896d720..3fa44059b9d85 100644
+> --- a/drivers/gpu/drm/mxsfb/Makefile
+> +++ b/drivers/gpu/drm/mxsfb/Makefile
+> @@ -1,3 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  mxsfb-y := mxsfb_drv.o mxsfb_kms.o
+>  obj-$(CONFIG_DRM_MXSFB)	+= mxsfb.o
+> +imx-lcdif-y := lcdif_drv.o lcdif_kms.o
+> +obj-$(CONFIG_DRM_IMX_LCDIF) += imx-lcdif.o
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> b/drivers/gpu/drm/mxsfb/lcdif_drv.c new file mode 100644
+> index 0000000000000..3e29c8a768487
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> @@ -0,0 +1,361 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_mode_config.h>
+> +#include <drm/drm_module.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+> +
+> +#include "lcdif_drv.h"
+> +#include "lcdif_regs.h"
+> +
+> +static struct drm_framebuffer *
+> +lcdif_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> +		const struct drm_mode_fb_cmd2 *mode_cmd)
+> +{
+> +	const struct drm_format_info *info;
+> +
+> +	info = drm_get_format_info(dev, mode_cmd);
+> +	if (!info)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	return drm_gem_fb_create(dev, file_priv, mode_cmd);
+> +}
+> +
+> +static const struct drm_mode_config_funcs lcdif_mode_config_funcs = {
+> +	.fb_create		= lcdif_fb_create,
+> +	.atomic_check		= drm_atomic_helper_check,
+> +	.atomic_commit		= drm_atomic_helper_commit,
+> +};
+> +
+> +static const struct drm_mode_config_helper_funcs lcdif_mode_config_helpers
+> = { +	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+> +};
+> +
+> +static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+> +{
+> +	struct drm_device *drm = lcdif->drm;
+> +	struct drm_bridge *bridge;
+> +	struct drm_panel *panel;
+> +	int ret;
+> +
+> +	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
+> +					  &bridge);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (panel) {
+> +		bridge = devm_drm_panel_bridge_add_typed(drm->dev, 
+panel,
+> +							 
+DRM_MODE_CONNECTOR_DPI);
+> +		if (IS_ERR(bridge))
+> +			return PTR_ERR(bridge);
+> +	}
+> +
+> +	if (!bridge)
+> +		return -ENODEV;
+> +
+> +	ret = drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
+> +	if (ret)
+> +		return dev_err_probe(drm->dev, ret, "Failed to attach 
+bridge\n");
+> +
+> +	lcdif->bridge = bridge;
+> +
+> +	return 0;
+> +}
+> +
+> +static irqreturn_t lcdif_irq_handler(int irq, void *data)
+> +{
+> +	struct drm_device *drm = data;
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +	u32 reg;
+> +	int ret;
+> +
+> +	ret = readl_poll_timeout(lcdif->base + LCDC_V8_CTRLDESCL0_5,
+> +				 reg, !(reg & 
+CTRLDESCL0_5_SHADOW_LOAD_EN),
+> +				 0, 36000);	/* Wait ~2 
+frame times max */
+> +	if (ret)
+> +		drm_err_ratelimited(drm, "Shadow load bit not cleared!
+\n");
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_INT_STATUS_D0);
+> +
+> +	if (reg & INT_STATUS_D0_VS_BLANK)
+> +		drm_crtc_handle_vblank(&lcdif->crtc);
+> +
+> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + 
+LCDC_V8_INT_STATUS_D0);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int lcdif_load(struct drm_device *drm)
+> +{
+> +	struct platform_device *pdev = to_platform_device(drm->dev);
+> +	struct lcdif_drm_private *lcdif;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	lcdif = devm_kzalloc(&pdev->dev, sizeof(*lcdif), GFP_KERNEL);
+> +	if (!lcdif)
+> +		return -ENOMEM;
+> +
+> +	lcdif->drm = drm;
+> +	drm->dev_private = lcdif;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	lcdif->base = devm_ioremap_resource(drm->dev, res);
+> +	if (IS_ERR(lcdif->base))
+> +		return PTR_ERR(lcdif->base);
+> +
+> +	lcdif->clk = devm_clk_get(drm->dev, "pix");
+> +	if (IS_ERR(lcdif->clk))
+> +		return PTR_ERR(lcdif->clk);
+> +
+> +	lcdif->clk_axi = devm_clk_get(drm->dev, "axi");
+> +	if (IS_ERR(lcdif->clk_axi))
+> +		return PTR_ERR(lcdif->clk_axi);
+> +
+> +	lcdif->clk_disp_axi = devm_clk_get(drm->dev, "disp_axi");
+> +	if (IS_ERR(lcdif->clk_disp_axi))
+> +		return PTR_ERR(lcdif->clk_disp_axi);
+> +
+> +	platform_set_drvdata(pdev, drm);
+> +
+> +	ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(36));
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Modeset init */
+> +	drm_mode_config_init(drm);
+> +
+> +	ret = lcdif_kms_init(lcdif);
+> +	if (ret < 0) {
+> +		dev_err(drm->dev, "Failed to initialize KMS 
+pipeline\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> +	if (ret < 0) {
+> +		dev_err(drm->dev, "Failed to initialise vblank\n");
+> +		return ret;
+> +	}
+> +
+> +	/* Start with vertical blanking interrupt reporting disabled. */
+> +	drm_crtc_vblank_off(&lcdif->crtc);
+> +
+> +	ret = lcdif_attach_bridge(lcdif);
+> +	if (ret)
+> +		return dev_err_probe(drm->dev, ret, "Cannot connect 
+bridge\n");
+> +
+> +	drm->mode_config.min_width	= LCDIF_MIN_XRES;
+> +	drm->mode_config.min_height	= LCDIF_MIN_YRES;
+> +	drm->mode_config.max_width	= LCDIF_MAX_XRES;
+> +	drm->mode_config.max_height	= LCDIF_MAX_YRES;
+> +	drm->mode_config.funcs		= &lcdif_mode_config_funcs;
+> +	drm->mode_config.helper_private	= &lcdif_mode_config_helpers;
+> +
+> +	drm_mode_config_reset(drm);
+> +
+> +	ret = platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+> +		return ret;
+> +	lcdif->irq = ret;
+> +
+> +	ret = request_irq(lcdif->irq, lcdif_irq_handler, 0,
+> +			  drm->driver->name, drm);
+> +	if (ret < 0) {
+> +		dev_err(drm->dev, "Failed to install IRQ handler\n");
+> +		return ret;
+> +	}
+> +
+> +	drm_kms_helper_poll_init(drm);
+> +
+> +	drm_helper_hpd_irq_event(drm);
+> +
+> +	pm_runtime_enable(drm->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void lcdif_unload(struct drm_device *drm)
+> +{
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +
+> +	pm_runtime_get_sync(drm->dev);
+> +
+> +	drm_crtc_vblank_off(&lcdif->crtc);
+> +
+> +	drm_kms_helper_poll_fini(drm);
+> +	drm_mode_config_cleanup(drm);
+> +
+> +	pm_runtime_put_sync(drm->dev);
+> +	pm_runtime_disable(drm->dev);
+> +
+> +	free_irq(lcdif->irq, drm->dev);
+> +
+> +	drm->dev_private = NULL;
+> +}
+> +
+> +DEFINE_DRM_GEM_CMA_FOPS(fops);
+> +
+> +static const struct drm_driver lcdif_driver = {
+> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | 
+DRIVER_ATOMIC,
+> +	DRM_GEM_CMA_DRIVER_OPS,
+> +	.fops	= &fops,
+> +	.name	= "imx-lcdif",
+> +	.desc	= "i.MX LCDIF Controller DRM",
+> +	.date	= "20220417",
+> +	.major	= 1,
+> +	.minor	= 0,
+> +};
+> +
+> +static const struct of_device_id lcdif_dt_ids[] = {
+> +	{ .compatible = "fsl,imx8mp-lcdif" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, lcdif_dt_ids);
+> +
+> +static int lcdif_probe(struct platform_device *pdev)
+> +{
+> +	struct drm_device *drm;
+> +	int ret;
+> +
+> +	if (!pdev->dev.of_node)
+> +		return -ENODEV;
+> +
+> +	drm = drm_dev_alloc(&lcdif_driver, &pdev->dev);
+> +	if (IS_ERR(drm))
+> +		return PTR_ERR(drm);
+> +
+> +	ret = lcdif_load(drm);
+> +	if (ret)
+> +		goto err_free;
+> +
+> +	ret = drm_dev_register(drm, 0);
+> +	if (ret)
+> +		goto err_unload;
+> +
+> +	drm_fbdev_generic_setup(drm, 32);
+> +
+> +	return 0;
+> +
+> +err_unload:
+> +	lcdif_unload(drm);
+> +err_free:
+> +	drm_dev_put(drm);
+> +
+> +	return ret;
+> +}
+> +
+> +static int lcdif_remove(struct platform_device *pdev)
+> +{
+> +	struct drm_device *drm = platform_get_drvdata(pdev);
+> +
+> +	drm_dev_unregister(drm);
+> +	drm_atomic_helper_shutdown(drm);
+> +	lcdif_unload(drm);
+> +	drm_dev_put(drm);
+> +
+> +	return 0;
+> +}
+> +
+> +static void lcdif_shutdown(struct platform_device *pdev)
+> +{
+> +	struct drm_device *drm = platform_get_drvdata(pdev);
+> +
+> +	drm_atomic_helper_shutdown(drm);
+> +}
+> +
+> +static int lcdif_rpm_suspend(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +
+> +	/* These clock supply the DISPLAY CLOCK Domain */
+> +	clk_disable_unprepare(lcdif->clk);
+> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
+> +	clk_disable_unprepare(lcdif->clk_disp_axi);
+> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
+> +	clk_disable_unprepare(lcdif->clk_axi);
+> +
+> +	return 0;
+> +}
+> +
+> +static int lcdif_rpm_resume(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +
+> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
+> +	clk_prepare_enable(lcdif->clk_axi);
+> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
+> +	clk_prepare_enable(lcdif->clk_disp_axi);
+> +	/* These clock supply the DISPLAY CLOCK Domain */
+> +	clk_prepare_enable(lcdif->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int lcdif_suspend(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = drm_mode_config_helper_suspend(drm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return lcdif_rpm_suspend(dev);
+> +}
+> +
+> +static int lcdif_resume(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +
+> +	lcdif_rpm_resume(dev);
+> +
+> +	return drm_mode_config_helper_resume(drm);
+> +}
+> +
+> +static const struct dev_pm_ops lcdif_pm_ops = {
+> +	.runtime_suspend = lcdif_rpm_suspend,
+> +	.runtime_resume = lcdif_rpm_resume,
+> +	SET_SYSTEM_SLEEP_PM_OPS(lcdif_suspend, lcdif_resume)
+> +};
+> +
+> +static struct platform_driver lcdif_platform_driver = {
+> +	.probe		= lcdif_probe,
+> +	.remove		= lcdif_remove,
+> +	.shutdown	= lcdif_shutdown,
+> +	.driver	= {
+> +		.name		= "imx-lcdif",
+> +		.of_match_table	= lcdif_dt_ids,
+> +		.pm		= &lcdif_pm_ops,
+> +	},
+> +};
+> +
+> +drm_module_platform_driver(lcdif_platform_driver);
+> +
+> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
+> +MODULE_DESCRIPTION("Freescale LCDIF DRM/KMS driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> b/drivers/gpu/drm/mxsfb/lcdif_drv.h new file mode 100644
+> index 0000000000000..d119abff5ccea
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> @@ -0,0 +1,47 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * i.MX8MP/i.MXRT LCDIFv3 LCD controller driver.
+> + */
+> +
+> +#ifndef __LCDIF_DRV_H__
+> +#define __LCDIF_DRV_H__
+> +
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_plane.h>
+> +
+> +struct clk;
+> +
+> +struct lcdif_drm_private {
+> +	void __iomem			*base;	/* registers 
+*/
+> +	struct clk			*clk;
+> +	struct clk			*clk_axi;
+> +	struct clk			*clk_disp_axi;
+> +
+> +	unsigned int			irq;
+> +
+> +	struct drm_device		*drm;
+> +	struct {
+> +		struct drm_plane	primary;
+> +		/* i.MXRT does support overlay planes, add them here. */
+> +	} planes;
+> +	struct drm_crtc			crtc;
+> +	struct drm_encoder		encoder;
+> +	struct drm_bridge		*bridge;
+> +};
+> +
+> +static inline struct lcdif_drm_private *
+> +to_lcdif_drm_private(struct drm_device *drm)
+> +{
+> +	return drm->dev_private;
+> +}
+> +
+> +void lcdif_enable_axi_clk(struct lcdif_drm_private *lcdif);
+> +void lcdif_disable_axi_clk(struct lcdif_drm_private *lcdif);
+> +
+> +int lcdif_kms_init(struct lcdif_drm_private *lcdif);
+> +
+> +#endif /* __LCDIF_DRV_H__ */
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> b/drivers/gpu/drm/mxsfb/lcdif_kms.c new file mode 100644
+> index 0000000000000..3d73af9f20f83
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> @@ -0,0 +1,497 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/spinlock.h>
+> +
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_fb_cma_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_plane_helper.h>
+> +#include <drm/drm_vblank.h>
+> +
+> +#include "lcdif_drv.h"
+> +#include "lcdif_regs.h"
+> +
+> +/* 1 second delay should be plenty of time for block reset */
+> +#define RESET_TIMEOUT		1000000
+> +
+> +/*
+> ---------------------------------------------------------------------------
+> -- + * CRTC
+> + */
+> +static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
+> +			      const u32 bus_format)
+> +{
+> +	struct drm_device *drm = lcdif->drm;
+> +	const u32 format = lcdif->crtc.primary->state->fb->format->format;
+> +
+> +	writel(CSC0_CTRL_BYPASS, lcdif->base + LCDC_V8_CSC0_CTRL);
+> +
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_RGB565_1X16:
+> +		writel(DISP_PARA_LINE_PATTERN_RGB565,
+> +		       lcdif->base + LCDC_V8_DISP_PARA);
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +		writel(DISP_PARA_LINE_PATTERN_RGB888,
+> +		       lcdif->base + LCDC_V8_DISP_PARA);
+> +		break;
+> +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> +		writel(DISP_PARA_LINE_PATTERN_UYVY_H,
+> +		       lcdif->base + LCDC_V8_DISP_PARA);
+> +
+> +		/* CSC: BT.601 Full Range RGB to YCbCr coefficients. */
+> +		writel(CSC0_COEF0_A2(0x096) | CSC0_COEF0_A1(0x04c),
+> +		       lcdif->base + LCDC_V8_CSC0_COEF0);
+> +		writel(CSC0_COEF1_B1(0x7d5) | CSC0_COEF1_A3(0x01d),
+> +		       lcdif->base + LCDC_V8_CSC0_COEF1);
+> +		writel(CSC0_COEF2_B3(0x080) | CSC0_COEF2_B2(0x7ac),
+> +		       lcdif->base + LCDC_V8_CSC0_COEF2);
+> +		writel(CSC0_COEF3_C2(0x795) | CSC0_COEF3_C1(0x080),
+> +		       lcdif->base + LCDC_V8_CSC0_COEF3);
+> +		writel(CSC0_COEF4_D1(0x000) | CSC0_COEF4_C3(0x7ec),
+> +		       lcdif->base + LCDC_V8_CSC0_COEF4);
+> +		writel(CSC0_COEF5_D3(0x080) | CSC0_COEF5_D2(0x080),
+> +		       lcdif->base + LCDC_V8_CSC0_COEF5);
+> +
+> +		writel(CSC0_CTRL_CSC_MODE_RGB2YCbCr,
+> +		       lcdif->base + LCDC_V8_CSC0_CTRL);
+> +
+> +		break;
+> +	default:
+> +		dev_err(drm->dev, "Unknown media bus format 0x%x\n", 
+bus_format);
+> +		break;
+> +	}
+> +
+> +	switch (format) {
+> +	case DRM_FORMAT_RGB565:
+> +		writel(CTRLDESCL0_5_BPP_16_RGB565,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_RGB888:
+> +		writel(CTRLDESCL0_5_BPP_24_RGB888,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XRGB1555:
+> +		writel(CTRLDESCL0_5_BPP_16_ARGB1555,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XRGB4444:
+> +		writel(CTRLDESCL0_5_BPP_16_ARGB4444,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XBGR8888:
+> +		writel(CTRLDESCL0_5_BPP_32_ABGR8888,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XRGB8888:
+> +		writel(CTRLDESCL0_5_BPP_32_ARGB8888,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	default:
+> +		dev_err(drm->dev, "Unknown pixel format 0x%x\n", 
+format);
+> +		break;
+> +	}
+> +}
+> +
+> +static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
+> +{
+> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+> +	u32 ctrl = 0;
+> +
+> +	if (m->flags & DRM_MODE_FLAG_PHSYNC)
+> +		ctrl |= CTRL_INV_HS;
+> +	if (m->flags & DRM_MODE_FLAG_PVSYNC)
+> +		ctrl |= CTRL_INV_VS;
+> +	if (bus_flags & DRM_BUS_FLAG_DE_LOW)
+> +		ctrl |= CTRL_INV_DE;
+> +	if (bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+> +		ctrl |= CTRL_INV_PXCK;
+> +
+> +	writel(ctrl, lcdif->base + LCDC_V8_CTRL);
+> +
+> +	writel(DISP_SIZE_DELTA_Y(m->crtc_vdisplay) |
+> +	       DISP_SIZE_DELTA_X(m->crtc_hdisplay),
+> +	       lcdif->base + LCDC_V8_DISP_SIZE);
+> +
+> +	writel(HSYN_PARA_BP_H(m->htotal - m->hsync_end) |
+> +	       HSYN_PARA_FP_H(m->hsync_start - m->hdisplay),
+> +	       lcdif->base + LCDC_V8_HSYN_PARA);
+> +
+> +	writel(VSYN_PARA_BP_V(m->vtotal - m->vsync_end) |
+> +	       VSYN_PARA_FP_V(m->vsync_start - m->vdisplay),
+> +	       lcdif->base + LCDC_V8_VSYN_PARA);
+> +
+> +	writel(VSYN_HSYN_WIDTH_PW_V(m->vsync_end - m->vsync_start) |
+> +	       VSYN_HSYN_WIDTH_PW_H(m->hsync_end - m->hsync_start),
+> +	       lcdif->base + LCDC_V8_VSYN_HSYN_WIDTH);
+> +
+> +	writel(CTRLDESCL0_1_HEIGHT(m->crtc_vdisplay) |
+> +	       CTRLDESCL0_1_WIDTH(m->crtc_hdisplay),
+> +	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
+> +
+> +	writel(CTRLDESCL0_3_PITCH(lcdif->crtc.primary->state->fb-
+>pitches[0]),
+> +	       lcdif->base + LCDC_V8_CTRLDESCL0_3);
+> +}
+> +
+> +static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
+> +{
+> +	u32 reg;
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
+> +	reg |= DISP_PARA_DISP_ON;
+> +	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +	reg |= CTRLDESCL0_5_EN;
+> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +}
+> +
+> +static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
+> +{
+> +	u32 reg;
+> +	int ret;
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +	reg &= ~CTRLDESCL0_5_EN;
+> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +
+> +	ret = readl_poll_timeout(lcdif->base + LCDC_V8_CTRLDESCL0_5,
+> +				 reg, !(reg & CTRLDESCL0_5_EN),
+> +				 0, 36000);	/* Wait ~2 
+frame times max */
+> +	if (ret)
+> +		drm_err(lcdif->drm, "Failed to disable controller!\n");
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
+> +	reg &= ~DISP_PARA_DISP_ON;
+> +	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
+> +}
+> +
+> +static int lcdif_reset_block(struct lcdif_drm_private *lcdif)
+> +{
+> +	u32 reg;
+> +	int ret;
+> +
+> +	writel(CTRL_SW_RESET, lcdif->base + LCDC_V8_CTRL + REG_SET);
+> +
+> +	ret = readl_poll_timeout(lcdif->base + LCDC_V8_CTRL, reg,
+> +				 (reg & CTRL_SW_RESET), 0,
+> +				 RESET_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	writel(CTRL_SW_RESET, lcdif->base + LCDC_V8_CTRL + REG_CLR);
+> +
+> +	return readl_poll_timeout(lcdif->base + LCDC_V8_CTRL, reg,
+> +				  !(reg & CTRL_SW_RESET), 0,
+> +				  RESET_TIMEOUT);
+> +}
+> +
+> +static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
+> +				     struct drm_bridge_state 
+*bridge_state,
+> +				     const u32 bus_format)
+> +{
+> +	struct drm_device *drm = lcdif->crtc.dev;
+> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+> +	u32 bus_flags = 0;
+> +	int err;
+> +
+> +	if (lcdif->bridge && lcdif->bridge->timings)
+> +		bus_flags = lcdif->bridge->timings->input_bus_flags;
+> +	else if (bridge_state)
+> +		bus_flags = bridge_state->input_bus_cfg.flags;
+> +
+> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)
+\n",
+> +			     m->crtc_clock,
+> +			     (int)(clk_get_rate(lcdif->clk) / 1000));
+> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Connector bus_flags: 0x%08X\n",
+> +			     bus_flags);
+> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
+> +
+> +	/* Mandatory eLCDIF reset as per the Reference Manual */
+> +	err = lcdif_reset_block(lcdif);
+> +	if (err)
+> +		return;
+> +
+> +	lcdif_set_formats(lcdif, bus_format);
+> +
+> +	lcdif_set_mode(lcdif, bus_flags);
+> +}
+> +
+> +static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
+> +				   struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc_state *crtc_state = 
+drm_atomic_get_new_crtc_state(state,
+> +								
+	  crtc);
+> +	bool has_primary = crtc_state->plane_mask &
+> +			   drm_plane_mask(crtc->primary);
+> +
+> +	/* The primary plane has to be enabled when the CRTC is active. */
+> +	if (crtc_state->active && !has_primary)
+> +		return -EINVAL;
+> +
+> +	return drm_atomic_add_affected_planes(state, crtc);
+> +}
+> +
+> +static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
+> +				    struct drm_atomic_state 
+*state)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +	struct drm_pending_vblank_event *event;
+> +	u32 reg;
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +	reg |= CTRLDESCL0_5_SHADOW_LOAD_EN;
+> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +
+> +	event = crtc->state->event;
+> +	crtc->state->event = NULL;
+> +
+> +	if (!event)
+> +		return;
+> +
+> +	spin_lock_irq(&crtc->dev->event_lock);
+> +	if (drm_crtc_vblank_get(crtc) == 0)
+> +		drm_crtc_arm_vblank_event(crtc, event);
+> +	else
+> +		drm_crtc_send_vblank_event(crtc, event);
+> +	spin_unlock_irq(&crtc->dev->event_lock);
+> +}
+> +
+> +static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+> +				     struct drm_atomic_state 
+*state)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +	struct drm_plane_state *new_pstate = 
+drm_atomic_get_new_plane_state(state,
+> +								
+	    crtc->primary);
+> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+> +	struct drm_bridge_state *bridge_state = NULL;
+> +	struct drm_device *drm = lcdif->drm;
+> +	u32 bus_format = 0;
+> +	dma_addr_t paddr;
+> +
+> +	/* If there is a bridge attached to the LCDIF, use its bus format 
+*/
+> +	if (lcdif->bridge) {
+> +		bridge_state =
+> +			drm_atomic_get_new_bridge_state(state,
+> +							
+lcdif->bridge);
+> +		if (!bridge_state)
+> +			bus_format = MEDIA_BUS_FMT_FIXED;
+> +		else
+> +			bus_format = bridge_state-
+>input_bus_cfg.format;
+> +
+> +		if (bus_format == MEDIA_BUS_FMT_FIXED) {
+> +			dev_warn_once(drm->dev,
+> +				      "Bridge does not provide bus 
+format, assuming
+> MEDIA_BUS_FMT_RGB888_1X24.\n" +				      
+"Please fix bridge driver by
+> handling atomic_get_input_bus_fmts.\n"); +			bus_format =
+> MEDIA_BUS_FMT_RGB888_1X24;
+> +		}
+> +	}
+> +
+> +	/* If all else fails, default to RGB888_1X24 */
+> +	if (!bus_format)
+> +		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> +
+> +	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
+> +
+> +	pm_runtime_get_sync(drm->dev);
+> +
+> +	lcdif_crtc_mode_set_nofb(lcdif, bridge_state, bus_format);
+> +
+> +	/* Write cur_buf as well to avoid an initial corrupt frame */
+> +	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+> +	if (paddr) {
+> +		writel(lower_32_bits(paddr),
+> +		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
+> +		
+writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+> +		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+> +	}
+> +	lcdif_enable_controller(lcdif);
+> +
+> +	drm_crtc_vblank_on(crtc);
+> +}
+> +
+> +static void lcdif_crtc_atomic_disable(struct drm_crtc *crtc,
+> +				      struct drm_atomic_state 
+*state)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +	struct drm_device *drm = lcdif->drm;
+> +	struct drm_pending_vblank_event *event;
+> +
+> +	drm_crtc_vblank_off(crtc);
+> +
+> +	lcdif_disable_controller(lcdif);
+> +
+> +	spin_lock_irq(&drm->event_lock);
+> +	event = crtc->state->event;
+> +	if (event) {
+> +		crtc->state->event = NULL;
+> +		drm_crtc_send_vblank_event(crtc, event);
+> +	}
+> +	spin_unlock_irq(&drm->event_lock);
+> +
+> +	pm_runtime_put_sync(drm->dev);
+> +}
+> +
+> +static int lcdif_crtc_enable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +
+> +	/* Clear and enable VBLANK IRQ */
+> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + 
+LCDC_V8_INT_STATUS_D0);
+> +	writel(INT_ENABLE_D0_VS_BLANK_EN, lcdif->base + 
+LCDC_V8_INT_ENABLE_D0);
+> +
+> +	return 0;
+> +}
+> +
+> +static void lcdif_crtc_disable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +
+> +	/* Disable and clear VBLANK IRQ */
+> +	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D0);
+> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + 
+LCDC_V8_INT_STATUS_D0);
+> +}
+> +
+> +static const struct drm_crtc_helper_funcs lcdif_crtc_helper_funcs = {
+> +	.atomic_check = lcdif_crtc_atomic_check,
+> +	.atomic_flush = lcdif_crtc_atomic_flush,
+> +	.atomic_enable = lcdif_crtc_atomic_enable,
+> +	.atomic_disable = lcdif_crtc_atomic_disable,
+> +};
+> +
+> +static const struct drm_crtc_funcs lcdif_crtc_funcs = {
+> +	.reset = drm_atomic_helper_crtc_reset,
+> +	.destroy = drm_crtc_cleanup,
+> +	.set_config = drm_atomic_helper_set_config,
+> +	.page_flip = drm_atomic_helper_page_flip,
+> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> +	.enable_vblank = lcdif_crtc_enable_vblank,
+> +	.disable_vblank = lcdif_crtc_disable_vblank,
+> +};
+> +
+> +/*
+> ---------------------------------------------------------------------------
+> -- + * Encoder
+> + */
+> +
+> +static const struct drm_encoder_funcs lcdif_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+> +/*
+> ---------------------------------------------------------------------------
+> -- + * Planes
+> + */
+> +
+> +static int lcdif_plane_atomic_check(struct drm_plane *plane,
+> +				    struct drm_atomic_state 
+*state)
+> +{
+> +	struct drm_plane_state *plane_state =
+> drm_atomic_get_new_plane_state(state, +					
+				     plane);
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
+> +	struct drm_crtc_state *crtc_state;
+> +
+> +	crtc_state = drm_atomic_get_new_crtc_state(state,
+> +						   &lcdif-
+>crtc);
+> +
+> +	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+> +						   
+DRM_PLANE_HELPER_NO_SCALING,
+> +						   
+DRM_PLANE_HELPER_NO_SCALING,
+> +						   false, 
+true);
+> +}
+> +
+> +static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
+> +					      struct 
+drm_atomic_state *state)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
+> +	struct drm_plane_state *new_pstate = 
+drm_atomic_get_new_plane_state(state,
+> +								
+	    plane);
+> +	dma_addr_t paddr;
+> +
+> +	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+> +	if (paddr) {
+> +		writel(lower_32_bits(paddr),
+> +		       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
+> +		
+writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+> +		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+> +	}
+> +}
+> +
+> +static bool lcdif_format_mod_supported(struct drm_plane *plane,
+> +				       uint32_t format,
+> +				       uint64_t modifier)
+> +{
+> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> +}
+> +
+> +static const struct drm_plane_helper_funcs lcdif_plane_primary_helper_funcs
+> = { +	.atomic_check = lcdif_plane_atomic_check,
+> +	.atomic_update = lcdif_plane_primary_atomic_update,
+> +};
+> +
+> +static const struct drm_plane_funcs lcdif_plane_funcs = {
+> +	.format_mod_supported	= lcdif_format_mod_supported,
+> +	.update_plane		= drm_atomic_helper_update_plane,
+> +	.disable_plane		= drm_atomic_helper_disable_plane,
+> +	.destroy		= drm_plane_cleanup,
+> +	.reset			= drm_atomic_helper_plane_reset,
+> +	.atomic_duplicate_state	= 
+drm_atomic_helper_plane_duplicate_state,
+> +	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+> +};
+> +
+> +static const u32 lcdif_primary_plane_formats[] = {
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_XRGB8888,
+> +};
+> +
+> +static const u64 lcdif_modifiers[] = {
+> +	DRM_FORMAT_MOD_LINEAR,
+> +	DRM_FORMAT_MOD_INVALID
+> +};
+> +
+> +/*
+> ---------------------------------------------------------------------------
+> -- + * Initialization
+> + */
+> +
+> +int lcdif_kms_init(struct lcdif_drm_private *lcdif)
+> +{
+> +	struct drm_encoder *encoder = &lcdif->encoder;
+> +	struct drm_crtc *crtc = &lcdif->crtc;
+> +	int ret;
+> +
+> +	drm_plane_helper_add(&lcdif->planes.primary,
+> +			     &lcdif_plane_primary_helper_funcs);
+> +	ret = drm_universal_plane_init(lcdif->drm, &lcdif->planes.primary, 
+1,
+> +				       &lcdif_plane_funcs,
+> +				       
+lcdif_primary_plane_formats,
+> +				       
+ARRAY_SIZE(lcdif_primary_plane_formats),
+> +				       lcdif_modifiers, 
+DRM_PLANE_TYPE_PRIMARY,
+> +				       NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_crtc_helper_add(crtc, &lcdif_crtc_helper_funcs);
+> +	ret = drm_crtc_init_with_planes(lcdif->drm, crtc,
+> +					&lcdif->planes.primary, 
+NULL,
+> +					&lcdif_crtc_funcs, 
+NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> +	return drm_encoder_init(lcdif->drm, encoder, &lcdif_encoder_funcs,
+> +				DRM_MODE_ENCODER_NONE, NULL);
+> +}
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> b/drivers/gpu/drm/mxsfb/lcdif_regs.h new file mode 100644
+> index 0000000000000..c70220651e3a5
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> @@ -0,0 +1,257 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * i.MX8MP/i.MXRT LCDIF LCD controller driver.
+> + */
+> +
+> +#ifndef __LCDIF_REGS_H__
+> +#define __LCDIF_REGS_H__
+> +
+> +#define REG_SET	4
+> +#define REG_CLR	8
+> +
+> +/* V8 register set */
+> +#define LCDC_V8_CTRL			0x00
+> +#define LCDC_V8_DISP_PARA		0x10
+> +#define LCDC_V8_DISP_SIZE		0x14
+> +#define LCDC_V8_HSYN_PARA		0x18
+> +#define LCDC_V8_VSYN_PARA		0x1c
+> +#define LCDC_V8_VSYN_HSYN_WIDTH		0x20
+> +#define LCDC_V8_INT_STATUS_D0		0x24
+> +#define LCDC_V8_INT_ENABLE_D0		0x28
+> +#define LCDC_V8_INT_STATUS_D1		0x30
+> +#define LCDC_V8_INT_ENABLE_D1		0x34
+> +#define LCDC_V8_CTRLDESCL0_1		0x200
+> +#define LCDC_V8_CTRLDESCL0_3		0x208
+> +#define LCDC_V8_CTRLDESCL_LOW0_4	0x20c
+> +#define LCDC_V8_CTRLDESCL_HIGH0_4	0x210
+> +#define LCDC_V8_CTRLDESCL0_5		0x214
+> +#define LCDC_V8_CSC0_CTRL		0x21c
+> +#define LCDC_V8_CSC0_COEF0		0x220
+> +#define LCDC_V8_CSC0_COEF1		0x224
+> +#define LCDC_V8_CSC0_COEF2		0x228
+> +#define LCDC_V8_CSC0_COEF3		0x22c
+> +#define LCDC_V8_CSC0_COEF4		0x230
+> +#define LCDC_V8_CSC0_COEF5		0x234
+> +#define LCDC_V8_PANIC0_THRES		0x238
+> +
+> +#define CTRL_SFTRST			BIT(31)
+> +#define CTRL_CLKGATE			BIT(30)
+> +#define CTRL_BYPASS_COUNT		BIT(19)
+> +#define CTRL_VSYNC_MODE			BIT(18)
+> +#define CTRL_DOTCLK_MODE		BIT(17)
+> +#define CTRL_DATA_SELECT		BIT(16)
+> +#define CTRL_BUS_WIDTH_16		(0 << 10)
+> +#define CTRL_BUS_WIDTH_8		(1 << 10)
+> +#define CTRL_BUS_WIDTH_18		(2 << 10)
+> +#define CTRL_BUS_WIDTH_24		(3 << 10)
+> +#define CTRL_BUS_WIDTH_MASK		(0x3 << 10)
+> +#define CTRL_WORD_LENGTH_16		(0 << 8)
+> +#define CTRL_WORD_LENGTH_8		(1 << 8)
+> +#define CTRL_WORD_LENGTH_18		(2 << 8)
+> +#define CTRL_WORD_LENGTH_24		(3 << 8)
+> +#define CTRL_MASTER			BIT(5)
+> +#define CTRL_DF16			BIT(3)
+> +#define CTRL_DF18			BIT(2)
+> +#define CTRL_DF24			BIT(1)
+> +#define CTRL_RUN			BIT(0)
+> +
+> +#define CTRL1_RECOVER_ON_UNDERFLOW	BIT(24)
+> +#define CTRL1_FIFO_CLEAR		BIT(21)
+> +#define CTRL1_SET_BYTE_PACKAGING(x)	(((x) & 0xf) << 16)
+> +#define CTRL1_GET_BYTE_PACKAGING(x)	(((x) >> 16) & 0xf)
+> +#define CTRL1_CUR_FRAME_DONE_IRQ_EN	BIT(13)
+> +#define CTRL1_CUR_FRAME_DONE_IRQ	BIT(9)
+> +
+> +#define CTRL2_SET_OUTSTANDING_REQS_1	0
+> +#define CTRL2_SET_OUTSTANDING_REQS_2	(0x1 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_4	(0x2 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_8	(0x3 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_16	(0x4 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_MASK	(0x7 << 21)
+> +
+> +#define TRANSFER_COUNT_SET_VCOUNT(x)	(((x) & 0xffff) << 16)
+> +#define TRANSFER_COUNT_GET_VCOUNT(x)	(((x) >> 16) & 0xffff)
+> +#define TRANSFER_COUNT_SET_HCOUNT(x)	((x) & 0xffff)
+> +#define TRANSFER_COUNT_GET_HCOUNT(x)	((x) & 0xffff)
+> +
+> +#define VDCTRL0_ENABLE_PRESENT		BIT(28)
+> +#define VDCTRL0_VSYNC_ACT_HIGH		BIT(27)
+> +#define VDCTRL0_HSYNC_ACT_HIGH		BIT(26)
+> +#define VDCTRL0_DOTCLK_ACT_FALLING	BIT(25)
+> +#define VDCTRL0_ENABLE_ACT_HIGH		BIT(24)
+> +#define VDCTRL0_VSYNC_PERIOD_UNIT	BIT(21)
+> +#define VDCTRL0_VSYNC_PULSE_WIDTH_UNIT	BIT(20)
+> +#define VDCTRL0_HALF_LINE		BIT(19)
+> +#define VDCTRL0_HALF_LINE_MODE		BIT(18)
+> +#define VDCTRL0_SET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
+> +#define VDCTRL0_GET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
+> +
+> +#define VDCTRL2_SET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
+> +#define VDCTRL2_GET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
+> +
+> +#define VDCTRL3_MUX_SYNC_SIGNALS	BIT(29)
+> +#define VDCTRL3_VSYNC_ONLY		BIT(28)
+> +#define SET_HOR_WAIT_CNT(x)		(((x) & 0xfff) << 16)
+> +#define GET_HOR_WAIT_CNT(x)		(((x) >> 16) & 0xfff)
+> +#define SET_VERT_WAIT_CNT(x)		((x) & 0xffff)
+> +#define GET_VERT_WAIT_CNT(x)		((x) & 0xffff)
+> +
+> +#define VDCTRL4_SET_DOTCLK_DLY(x)	(((x) & 0x7) << 29) /* v4 only */
+> +#define VDCTRL4_GET_DOTCLK_DLY(x)	(((x) >> 29) & 0x7) /* v4 only */
+> +#define VDCTRL4_SYNC_SIGNALS_ON		BIT(18)
+> +#define SET_DOTCLK_H_VALID_DATA_CNT(x)	((x) & 0x3ffff)
+> +
+> +#define DEBUG0_HSYNC			BIT(26)
+> +#define DEBUG0_VSYNC			BIT(25)
+> +
+> +#define AS_CTRL_PS_DISABLE		BIT(23)
+> +#define AS_CTRL_ALPHA_INVERT		BIT(20)
+> +#define AS_CTRL_ALPHA(a)		(((a) & 0xff) << 8)
+> +#define AS_CTRL_FORMAT_RGB565		(0xe << 4)
+> +#define AS_CTRL_FORMAT_RGB444		(0xd << 4)
+> +#define AS_CTRL_FORMAT_RGB555		(0xc << 4)
+> +#define AS_CTRL_FORMAT_ARGB4444		(0x9 << 4)
+> +#define AS_CTRL_FORMAT_ARGB1555		(0x8 << 4)
+> +#define AS_CTRL_FORMAT_RGB888		(0x4 << 4)
+> +#define AS_CTRL_FORMAT_ARGB8888		(0x0 << 4)
+> +#define AS_CTRL_ENABLE_COLORKEY		BIT(3)
+> +#define AS_CTRL_ALPHA_CTRL_ROP		(3 << 1)
+> +#define AS_CTRL_ALPHA_CTRL_MULTIPLY	(2 << 1)
+> +#define AS_CTRL_ALPHA_CTRL_OVERRIDE	(1 << 1)
+> +#define AS_CTRL_ALPHA_CTRL_EMBEDDED	(0 << 1)
+> +#define AS_CTRL_AS_ENABLE		BIT(0)
+> +
+> +/* V8 register set */
+> +#define CTRL_SW_RESET			BIT(31)
+> +#define CTRL_FETCH_START_OPTION_FPV	0
+> +#define CTRL_FETCH_START_OPTION_PWV	BIT(8)
+> +#define CTRL_FETCH_START_OPTION_BPV	BIT(9)
+> +#define CTRL_FETCH_START_OPTION_RESV	GENMASK(9, 8)
+> +#define CTRL_FETCH_START_OPTION_MASK	GENMASK(9, 8)
+> +#define CTRL_NEG				BIT(4)
+> +#define CTRL_INV_PXCK			BIT(3)
+> +#define CTRL_INV_DE			BIT(2)
+> +#define CTRL_INV_VS			BIT(1)
+> +#define CTRL_INV_HS			BIT(0)
+> +
+> +#define DISP_PARA_DISP_ON		BIT(31)
+> +#define DISP_PARA_SWAP_EN		BIT(30)
+> +#define DISP_PARA_LINE_PATTERN_UYVY_H	(GENMASK(29, 28) | BIT(26))
+> +#define DISP_PARA_LINE_PATTERN_RGB565	GENMASK(28, 26)
+> +#define DISP_PARA_LINE_PATTERN_RGB888	0
+> +#define DISP_PARA_LINE_PATTERN_MASK	GENMASK(29, 26)
+> +#define DISP_PARA_DISP_MODE_MASK	GENMASK(25, 24)
+> +#define DISP_PARA_BGND_R_MASK		GENMASK(23, 16)
+> +#define DISP_PARA_BGND_G_MASK		GENMASK(15, 8)
+> +#define DISP_PARA_BGND_B_MASK		GENMASK(7, 0)
+> +
+> +#define DISP_SIZE_DELTA_Y(n)		(((n) & 0xffff) << 16)
+> +#define DISP_SIZE_DELTA_Y_MASK		GENMASK(31, 16)
+> +#define DISP_SIZE_DELTA_X(n)		((n) & 0xffff)
+> +#define DISP_SIZE_DELTA_X_MASK		GENMASK(15, 0)
+> +
+> +#define HSYN_PARA_BP_H(n)		(((n) & 0xffff) << 16)
+> +#define HSYN_PARA_BP_H_MASK		GENMASK(31, 16)
+> +#define HSYN_PARA_FP_H(n)		((n) & 0xffff)
+> +#define HSYN_PARA_FP_H_MASK		GENMASK(15, 0)
+> +
+> +#define VSYN_PARA_BP_V(n)		(((n) & 0xffff) << 16)
+> +#define VSYN_PARA_BP_V_MASK		GENMASK(31, 16)
+> +#define VSYN_PARA_FP_V(n)		((n) & 0xffff)
+> +#define VSYN_PARA_FP_V_MASK		GENMASK(15, 0)
+> +
+> +#define VSYN_HSYN_WIDTH_PW_V(n)		(((n) & 0xffff) << 16)
+> +#define VSYN_HSYN_WIDTH_PW_V_MASK	GENMASK(31, 16)
+> +#define VSYN_HSYN_WIDTH_PW_H(n)		((n) & 0xffff)
+> +#define VSYN_HSYN_WIDTH_PW_H_MASK	GENMASK(15, 0)
+> +
+> +#define INT_STATUS_D0_FIFO_EMPTY	BIT(24)
+> +#define INT_STATUS_D0_DMA_DONE		BIT(16)
+> +#define INT_STATUS_D0_DMA_ERR		BIT(8)
+> +#define INT_STATUS_D0_VS_BLANK		BIT(2)
+> +#define INT_STATUS_D0_UNDERRUN		BIT(1)
+> +#define INT_STATUS_D0_VSYNC		BIT(0)
+> +
+> +#define INT_ENABLE_D0_FIFO_EMPTY_EN	BIT(24)
+> +#define INT_ENABLE_D0_DMA_DONE_EN	BIT(16)
+> +#define INT_ENABLE_D0_DMA_ERR_EN	BIT(8)
+> +#define INT_ENABLE_D0_VS_BLANK_EN	BIT(2)
+> +#define INT_ENABLE_D0_UNDERRUN_EN	BIT(1)
+> +#define INT_ENABLE_D0_VSYNC_EN		BIT(0)
+> +
+> +#define INT_STATUS_D1_PLANE_PANIC	BIT(0)
+> +
+> +#define INT_ENABLE_D1_PLANE_PANIC_EN	BIT(0)
+> +
+> +#define CTRLDESCL0_1_HEIGHT(n)		(((n) & 0xffff) << 16)
+> +#define CTRLDESCL0_1_HEIGHT_MASK		GENMASK(31, 16)
+> +#define CTRLDESCL0_1_WIDTH(n)		((n) & 0xffff)
+> +#define CTRLDESCL0_1_WIDTH_MASK		GENMASK(15, 0)
+> +
+> +#define CTRLDESCL0_3_PITCH(n)		((n) & 0xffff)
+> +#define CTRLDESCL0_3_PITCH_MASK		GENMASK(15, 0)
+> +
+> +#define CTRLDESCL_HIGH0_4_ADDR_HIGH(n)	((n) & 0xf)
+> +#define CTRLDESCL_HIGH0_4_ADDR_HIGH_MASK	GENMASK(3, 0)
+> +
+> +#define CTRLDESCL0_5_EN			BIT(31)
+> +#define CTRLDESCL0_5_SHADOW_LOAD_EN	BIT(30)
+> +#define CTRLDESCL0_5_BPP_16_RGB565	BIT(26)
+> +#define CTRLDESCL0_5_BPP_16_ARGB1555	(BIT(26) | BIT(24))
+> +#define CTRLDESCL0_5_BPP_16_ARGB4444	(BIT(26) | BIT(25))
+> +#define CTRLDESCL0_5_BPP_YCbCr422	(BIT(26) | BIT(25) | BIT(24))
+> +#define CTRLDESCL0_5_BPP_24_RGB888	BIT(27)
+> +#define CTRLDESCL0_5_BPP_32_ARGB8888	(BIT(27) | BIT(24))
+> +#define CTRLDESCL0_5_BPP_32_ABGR8888	(BIT(27) | BIT(25))
+> +#define CTRLDESCL0_5_BPP_MASK		GENMASK(27, 24)
+> +#define CTRLDESCL0_5_YUV_FORMAT_Y2VY1U	0
+> +#define CTRLDESCL0_5_YUV_FORMAT_Y2UY1V	BIT(14)
+> +#define CTRLDESCL0_5_YUV_FORMAT_VY2UY1	BIT(15)
+> +#define CTRLDESCL0_5_YUV_FORMAT_UY2VY1	(BIT(15) | BIT(14))
+> +#define CTRLDESCL0_5_YUV_FORMAT_MASK	GENMASK(15, 14)
+> +
+> +#define CSC0_CTRL_CSC_MODE_RGB2YCbCr	GENMASK(2, 1)
+> +#define CSC0_CTRL_CSC_MODE_MASK		GENMASK(2, 1)
+> +#define CSC0_CTRL_BYPASS		BIT(0)
+> +
+> +#define CSC0_COEF0_A2(n)		(((n) << 16) & CSC0_COEF0_A2_MASK)
+> +#define CSC0_COEF0_A2_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF0_A1(n)		((n) & CSC0_COEF0_A1_MASK)
+> +#define CSC0_COEF0_A1_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF1_B1(n)		(((n) << 16) & CSC0_COEF1_B1_MASK)
+> +#define CSC0_COEF1_B1_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF1_A3(n)		((n) & CSC0_COEF1_A3_MASK)
+> +#define CSC0_COEF1_A3_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF2_B3(n)		(((n) << 16) & CSC0_COEF2_B3_MASK)
+> +#define CSC0_COEF2_B3_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF2_B2(n)		((n) & CSC0_COEF2_B2_MASK)
+> +#define CSC0_COEF2_B2_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF3_C2(n)		(((n) << 16) & CSC0_COEF3_C2_MASK)
+> +#define CSC0_COEF3_C2_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF3_C1(n)		((n) & CSC0_COEF3_C1_MASK)
+> +#define CSC0_COEF3_C1_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF4_D1(n)		(((n) << 16) & CSC0_COEF4_D1_MASK)
+> +#define CSC0_COEF4_D1_MASK		GENMASK(24, 16)
+> +#define CSC0_COEF4_C3(n)		((n) & CSC0_COEF4_C3_MASK)
+> +#define CSC0_COEF4_C3_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF5_D3(n)		(((n) << 16) & CSC0_COEF5_D3_MASK)
+> +#define CSC0_COEF5_D3_MASK		GENMASK(24, 16)
+> +#define CSC0_COEF5_D2(n)		((n) & CSC0_COEF5_D2_MASK)
+> +#define CSC0_COEF5_D2_MASK		GENMASK(8, 0)
+> +
+> +#define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
+> +#define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
+> +
+> +#define LCDIF_MIN_XRES			120
+> +#define LCDIF_MIN_YRES			120
+> +#define LCDIF_MAX_XRES			0xffff
+> +#define LCDIF_MAX_YRES			0xffff
+> +
+> +#endif /* __LCDIF_REGS_H__ */
 
-Thank you!
-
-	Byungchul
 
 
-> 
-> Thanks.
-> 
-> [    8.032674] ===================================================
-> [    8.032676] DEPT: Circular dependency has been detected.
-> [    8.032677] 5.18.0-rc7-dept+ #10 Tainted: G            E
-> [    8.032677] ---------------------------------------------------
-> [    8.032678] summary
-> [    8.032678] ---------------------------------------------------
-> [    8.032679] *** DEADLOCK ***
-> 
-> [    8.032679] context A
-> [    8.032679]     [S] __raw_spin_lock_irqsave(&host->lock:0)
-> [    8.032681]     [W] __seqprop_spinlock_wait(&p->alloc_lock:0)
-> [    8.032681]     [E] spin_unlock(&host->lock:0)
-> 
-> [    8.032682] context B
-> [    8.032682]     [S] __raw_spin_lock(&dentry->d_lock:0)
-> [    8.032683]     [W] __raw_spin_lock(&host->lock:0)
-> [    8.032684]     [E] spin_unlock(&dentry->d_lock:0)
-> 
-> [    8.032684] context C
-> [    8.032685]     [S] __raw_spin_lock(&p->alloc_lock:0)
-> [    8.032685]     [W] __raw_spin_lock(&dentry->d_lock:0)
-> [    8.032685]     [E] spin_unlock(&p->alloc_lock:0)
-> 
-> [    8.032686] [S]: start of the event context
-> [    8.032686] [W]: the wait blocked
-> [    8.032687] [E]: the event not reachable
-> [    8.032687] ---------------------------------------------------
-> [    8.032687] context A's detail
-> [    8.032688] ---------------------------------------------------
-> [    8.032688] context A
-> [    8.032688]     [S] __raw_spin_lock_irqsave(&host->lock:0)
-> [    8.032689]     [W] __seqprop_spinlock_wait(&p->alloc_lock:0)
-> [    8.032689]     [E] spin_unlock(&host->lock:0)
-> 
-> [    8.032690] [S] __raw_spin_lock_irqsave(&host->lock:0):
-> [    8.032690] ata_scsi_queuecmd (drivers/ata/libata-scsi.c:2734 drivers/ata/libata-scsi.c:4017) 
-> [    8.032694] stacktrace:
-> [    8.032694] ata_scsi_queuecmd (drivers/ata/libata-scsi.c:2734 drivers/ata/libata-scsi.c:4017) 
-> [    8.032696] scsi_queue_rq (drivers/scsi/scsi_lib.c:1517 drivers/scsi/scsi_lib.c:1745) 
-> [    8.032697] blk_mq_dispatch_rq_list (block/blk-mq.c:1858) 
-> [    8.032700] blk_mq_do_dispatch_sched (block/blk-mq-sched.c:173 block/blk-mq-sched.c:187) 
-> [    8.032701] __blk_mq_sched_dispatch_requests (block/blk-mq-sched.c:313) 
-> [    8.032702] blk_mq_sched_dispatch_requests (block/blk-mq-sched.c:339) 
-> [    8.032703] __blk_mq_run_hw_queue (./include/linux/rcupdate.h:723 block/blk-mq.c:1974) 
-> [    8.032704] __blk_mq_delay_run_hw_queue (block/blk-mq.c:2052) 
-> [    8.032705] blk_mq_run_hw_queue (block/blk-mq.c:2103) 
-> [    8.032706] blk_mq_sched_insert_requests (./include/linux/rcupdate.h:692 ./include/linux/percpu-refcount.h:330 ./include/linux/percpu-refcount.h:351 block/blk-mq-sched.c:495) 
-> [    8.032707] blk_mq_flush_plug_list (block/blk-mq.c:2640) 
-> [    8.032708] __blk_flush_plug (block/blk-core.c:1247) 
-> [    8.032709] blk_finish_plug (block/blk-core.c:1265 block/blk-core.c:1261) 
-> [    8.032710] read_pages (mm/readahead.c:181) 
-> [    8.032712] page_cache_ra_unbounded (./include/linux/fs.h:815 mm/readahead.c:262) 
-> [    8.032713] page_cache_ra_order (mm/readahead.c:547) 
-> 
-> [    8.032714] [W] __seqprop_spinlock_wait(&p->alloc_lock:0):
-> [    8.032714] __slab_alloc.constprop.0 (mm/slub.c:3092) 
-> [    8.032717] stacktrace:
-> [    8.032717] dept_wait (./arch/x86/include/asm/current.h:15 kernel/dependency/dept.c:227 kernel/dependency/dept.c:1013 kernel/dependency/dept.c:1057 kernel/dependency/dept.c:2216) 
-> [    8.032719] ___slab_alloc (./include/linux/seqlock.h:326 ./include/linux/cpuset.h:151 mm/slub.c:2223 mm/slub.c:2266 mm/slub.c:3000) 
-> [    8.032720] __slab_alloc.constprop.0 (mm/slub.c:3092) 
-> [    8.032721] kmem_cache_alloc (mm/slub.c:3183 mm/slub.c:3225 mm/slub.c:3232 mm/slub.c:3242) 
-> [    8.032722] alloc_iova (./include/linux/slab.h:704 drivers/iommu/iova.c:240 drivers/iommu/iova.c:316) 
-> [    8.032724] alloc_iova_fast (drivers/iommu/iova.c:455) 
-> [    8.032725] iommu_dma_alloc_iova (drivers/iommu/dma-iommu.c:628) 
-> [    8.032726] iommu_dma_map_sg (drivers/iommu/dma-iommu.c:1201) 
-> [    8.032727] __dma_map_sg_attrs (kernel/dma/mapping.c:195) 
-> [    8.032729] dma_map_sg_attrs (kernel/dma/mapping.c:232) 
-> [    8.032730] ata_qc_issue (drivers/ata/libata-core.c:4530 drivers/ata/libata-core.c:4876) 
-> [    8.032731] __ata_scsi_queuecmd (drivers/ata/libata-scsi.c:1710 drivers/ata/libata-scsi.c:3974) 
-> [    8.032732] ata_scsi_queuecmd (drivers/ata/libata-scsi.c:4019) 
-> [    8.032734] scsi_queue_rq (drivers/scsi/scsi_lib.c:1517 drivers/scsi/scsi_lib.c:1745) 
-> [    8.032734] blk_mq_dispatch_rq_list (block/blk-mq.c:1858) 
-> [    8.032735] blk_mq_do_dispatch_sched (block/blk-mq-sched.c:173 block/blk-mq-sched.c:187) 
-> 
-> [    8.032736] [E] spin_unlock(&host->lock:0):
-> [    8.032737] (N/A)
-> [    8.032737] ---------------------------------------------------
-> [    8.032738] context B's detail
-> [    8.032738] ---------------------------------------------------
-> [    8.032738] context B
-> [    8.032738]     [S] __raw_spin_lock(&dentry->d_lock:0)
-> [    8.032739]     [W] __raw_spin_lock(&host->lock:0)
-> [    8.032740]     [E] spin_unlock(&dentry->d_lock:0)
-> 
-> [    8.032740] [S] __raw_spin_lock(&dentry->d_lock:0):
-> [    8.032741] lockref_get (./include/linux/spinlock.h:410 lib/lockref.c:54) 
-> [    8.032743] stacktrace:
-> [    8.032743] lockref_get (./include/linux/spinlock.h:410 lib/lockref.c:54) 
-> [    8.032744] path_get (fs/namei.c:546) 
-> [    8.032746] do_dentry_open (fs/open.c:778) 
-> [    8.032747] vfs_open (fs/open.c:959) 
-> [    8.032748] path_openat (fs/namei.c:3583 fs/namei.c:3602) 
-> [    8.032749] do_filp_open (fs/namei.c:3636) 
-> [    8.032750] do_sys_openat2 (fs/open.c:1213) 
-> [    8.032751] __x64_sys_openat (fs/open.c:1240) 
-> [    8.032752] do_syscall_64 (arch/x86/entry/common.c:51 arch/x86/entry/common.c:82) 
-> [    8.032754] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:115) 
-> 
-> [    8.032756] [W] __raw_spin_lock(&host->lock:0):
-> [    8.032756] ahci_single_level_irq_intr (drivers/ata/libahci.c:1970) libahci
-> [    8.032759] stacktrace:
-> [    8.032760] ahci_single_level_irq_intr (drivers/ata/libahci.c:1970) libahci
-> [    8.032761] __handle_irq_event_percpu (kernel/irq/handle.c:158) 
-> [    8.032763] handle_irq_event (kernel/irq/handle.c:195 kernel/irq/handle.c:210) 
-> [    8.032763] handle_edge_irq (kernel/irq/chip.c:819) 
-> [    8.032764] __common_interrupt (./include/asm-generic/irq_regs.h:28 (discriminator 22) arch/x86/kernel/irq.c:263 (discriminator 22)) 
-> [    8.032766] common_interrupt (arch/x86/kernel/irq.c:240 (discriminator 14)) 
-> [    8.032768] asm_common_interrupt (./arch/x86/include/asm/idtentry.h:636) 
-> [    8.032769] lock_release (kernel/locking/lockdep.c:5665) 
-> [    8.032771] _raw_spin_unlock (./include/linux/spinlock_api_smp.h:141 kernel/locking/spinlock.c:186) 
-> [    8.032772] lockref_get (lib/lockref.c:55) 
-> [    8.032772] path_get (fs/namei.c:546) 
-> [    8.032774] do_dentry_open (fs/open.c:778) 
-> [    8.032774] vfs_open (fs/open.c:959) 
-> [    8.032775] path_openat (fs/namei.c:3583 fs/namei.c:3602) 
-> [    8.032776] do_filp_open (fs/namei.c:3636) 
-> [    8.032777] do_sys_openat2 (fs/open.c:1213) 
-> 
-> [    8.032778] [E] spin_unlock(&dentry->d_lock:0):
-> [    8.032778] (N/A)
-> [    8.032779] ---------------------------------------------------
-> [    8.032779] context C's detail
-> [    8.032779] ---------------------------------------------------
-> [    8.032780] context C
-> [    8.032780]     [S] __raw_spin_lock(&p->alloc_lock:0)
-> [    8.032780]     [W] __raw_spin_lock(&dentry->d_lock:0)
-> [    8.032781]     [E] spin_unlock(&p->alloc_lock:0)
-> 
-> [    8.032781] [S] __raw_spin_lock(&p->alloc_lock:0):
-> [    8.032782] proc_root_link (fs/proc/base.c:177 fs/proc/base.c:208) 
-> [    8.032784] stacktrace:
-> [    8.032784] proc_root_link (fs/proc/base.c:177 fs/proc/base.c:208) 
-> [    8.032784] proc_pid_get_link.part.0 (fs/proc/base.c:1756) 
-> [    8.032785] proc_pid_get_link (fs/proc/base.c:1762) 
-> [    8.032786] step_into (fs/namei.c:1819 fs/namei.c:1876) 
-> [    8.032787] walk_component (fs/namei.c:2027) 
-> [    8.032788] path_lookupat (fs/namei.c:2475 fs/namei.c:2499) 
-> [    8.032789] filename_lookup (fs/namei.c:2528) 
-> [    8.032790] vfs_statx (fs/stat.c:229) 
-> [    8.032791] vfs_fstatat (fs/stat.c:256) 
-> [    8.032792] __do_sys_newfstatat (fs/stat.c:426) 
-> [    8.032793] __x64_sys_newfstatat (fs/stat.c:419) 
-> [    8.032793] do_syscall_64 (arch/x86/entry/common.c:51 arch/x86/entry/common.c:82) 
-> [    8.032794] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:115) 
-> 
-> [    8.032796] [W] __raw_spin_lock(&dentry->d_lock:0):
-> [    8.032796] lockref_get (./include/linux/spinlock.h:410 lib/lockref.c:54) 
-> [    8.032797] stacktrace:
-> [    8.032797] lockref_get (./include/linux/spinlock.h:410 lib/lockref.c:54) 
-> [    8.032798] path_get (fs/namei.c:546) 
-> [    8.032799] proc_root_link (./include/linux/spinlock.h:410 ./include/linux/fs_struct.h:32 fs/proc/base.c:178 fs/proc/base.c:208) 
-> [    8.032800] proc_pid_get_link.part.0 (fs/proc/base.c:1756) 
-> [    8.032801] proc_pid_get_link (fs/proc/base.c:1762) 
-> [    8.032801] step_into (fs/namei.c:1819 fs/namei.c:1876) 
-> [    8.032802] walk_component (fs/namei.c:2027) 
-> [    8.032803] path_lookupat (fs/namei.c:2475 fs/namei.c:2499) 
-> [    8.032805] filename_lookup (fs/namei.c:2528) 
-> [    8.032805] vfs_statx (fs/stat.c:229) 
-> [    8.032806] vfs_fstatat (fs/stat.c:256) 
-> [    8.032807] __do_sys_newfstatat (fs/stat.c:426) 
-> [    8.032808] __x64_sys_newfstatat (fs/stat.c:419) 
-> [    8.032808] do_syscall_64 (arch/x86/entry/common.c:51 arch/x86/entry/common.c:82) 
-> [    8.032809] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:115) 
-> 
-> [    8.032810] [E] spin_unlock(&p->alloc_lock:0):
-> [    8.032811] (N/A)
-> [    8.032811] ---------------------------------------------------
-> [    8.032811] information that might be helpful
-> [    8.032812] ---------------------------------------------------
-> [    8.032812] CPU: 4 PID: 534 Comm: systemd-tmpfile Tainted: G            E     5.18.0-rc7-dept+ #10
-> [    8.032814] Hardware name: ASUS System Product Name/TUF GAMING B550-PLUS (WI-FI), BIOS 1401 12/03/2020
-> [    8.032814] Call Trace:
-> [    8.032815]  <TASK>
-> [    8.032816] dump_stack_lvl (lib/dump_stack.c:107 (discriminator 4)) 
-> [    8.032819] dump_stack (lib/dump_stack.c:114) 
-> [    8.032820] print_circle.cold (./arch/x86/include/asm/atomic.h:108 ./include/linux/atomic/atomic-instrumented.h:258 kernel/dependency/dept.c:143 kernel/dependency/dept.c:776) 
-> [    8.032822] ? print_circle (kernel/dependency/dept.c:1107) 
-> [    8.032824] cb_check_dl (kernel/dependency/dept.c:1133) 
-> [    8.032825] bfs (kernel/dependency/dept.c:874) 
-> [    8.032826] add_dep (kernel/dependency/dept.c:1457) 
-> [    8.032828] add_wait (kernel/dependency/dept.c:1505) 
-> [    8.032829] ? __slab_alloc.constprop.0 (mm/slub.c:3092) 
-> [    8.032831] __dept_wait (kernel/dependency/dept.c:2156 (discriminator 2)) 
-> [    8.032832] ? __slab_alloc.constprop.0 (mm/slub.c:3092) 
-> [    8.032833] ? __slab_alloc.constprop.0 (mm/slub.c:3092) 
-> [    8.032834] dept_wait (./arch/x86/include/asm/current.h:15 kernel/dependency/dept.c:227 kernel/dependency/dept.c:1013 kernel/dependency/dept.c:1057 kernel/dependency/dept.c:2216) 
-> [    8.032836] ___slab_alloc (./include/linux/seqlock.h:326 ./include/linux/cpuset.h:151 mm/slub.c:2223 mm/slub.c:2266 mm/slub.c:3000) 
-> [    8.032837] ? alloc_iova (./include/linux/slab.h:704 drivers/iommu/iova.c:240 drivers/iommu/iova.c:316) 
-> [    8.032839] ? arch_stack_walk (arch/x86/kernel/stacktrace.c:27 (discriminator 1)) 
-> [    8.032841] ? alloc_iova (./include/linux/slab.h:704 drivers/iommu/iova.c:240 drivers/iommu/iova.c:316) 
-> [    8.032842] __slab_alloc.constprop.0 (mm/slub.c:3092) 
-> [    8.032844] kmem_cache_alloc (mm/slub.c:3183 mm/slub.c:3225 mm/slub.c:3232 mm/slub.c:3242) 
-> [    8.032845] ? alloc_iova (./include/linux/slab.h:704 drivers/iommu/iova.c:240 drivers/iommu/iova.c:316) 
-> [    8.032846] alloc_iova (./include/linux/slab.h:704 drivers/iommu/iova.c:240 drivers/iommu/iova.c:316) 
-> [    8.032847] ? dept_ecxt_exit (kernel/dependency/dept.c:2506 (discriminator 1)) 
-> [    8.032849] alloc_iova_fast (drivers/iommu/iova.c:455) 
-> [    8.032851] iommu_dma_alloc_iova (drivers/iommu/dma-iommu.c:628) 
-> [    8.032852] iommu_dma_map_sg (drivers/iommu/dma-iommu.c:1201) 
-> [    8.032854] ? ata_scsi_mode_select_xlat (drivers/ata/libata-scsi.c:1503) 
-> [    8.032855] __dma_map_sg_attrs (kernel/dma/mapping.c:195) 
-> [    8.032856] dma_map_sg_attrs (kernel/dma/mapping.c:232) 
-> [    8.032858] ata_qc_issue (drivers/ata/libata-core.c:4530 drivers/ata/libata-core.c:4876) 
-> [    8.032859] __ata_scsi_queuecmd (drivers/ata/libata-scsi.c:1710 drivers/ata/libata-scsi.c:3974) 
-> [    8.032861] ata_scsi_queuecmd (drivers/ata/libata-scsi.c:4019) 
-> [    8.032862] scsi_queue_rq (drivers/scsi/scsi_lib.c:1517 drivers/scsi/scsi_lib.c:1745) 
-> [    8.032864] blk_mq_dispatch_rq_list (block/blk-mq.c:1858) 
-> [    8.032866] ? sbitmap_get (lib/sbitmap.c:179 lib/sbitmap.c:206 lib/sbitmap.c:231) 
-> [    8.032869] blk_mq_do_dispatch_sched (block/blk-mq-sched.c:173 block/blk-mq-sched.c:187) 
-> [    8.032871] ? __this_cpu_preempt_check (lib/smp_processor_id.c:67) 
-> [    8.032872] __blk_mq_sched_dispatch_requests (block/blk-mq-sched.c:313) 
-> [    8.032874] blk_mq_sched_dispatch_requests (block/blk-mq-sched.c:339) 
-> [    8.032875] __blk_mq_run_hw_queue (./include/linux/rcupdate.h:723 block/blk-mq.c:1974) 
-> [    8.032876] __blk_mq_delay_run_hw_queue (block/blk-mq.c:2052) 
-> [    8.032877] blk_mq_run_hw_queue (block/blk-mq.c:2103) 
-> [    8.032879] blk_mq_sched_insert_requests (./include/linux/rcupdate.h:692 ./include/linux/percpu-refcount.h:330 ./include/linux/percpu-refcount.h:351 block/blk-mq-sched.c:495) 
-> [    8.032880] blk_mq_flush_plug_list (block/blk-mq.c:2640) 
-> [    8.032882] __blk_flush_plug (block/blk-core.c:1247) 
-> [    8.032883] ? lock_release (./arch/x86/include/asm/paravirt.h:704 (discriminator 1) ./arch/x86/include/asm/irqflags.h:138 (discriminator 1) kernel/locking/lockdep.c:5664 (discriminator 1)) 
-> [    8.032885] blk_finish_plug (block/blk-core.c:1265 block/blk-core.c:1261) 
-> [    8.032886] read_pages (mm/readahead.c:181) 
-> [    8.032888] page_cache_ra_unbounded (./include/linux/fs.h:815 mm/readahead.c:262) 
-> [    8.032890] page_cache_ra_order (mm/readahead.c:547) 
-> [    8.032892] ondemand_readahead (mm/readahead.c:669) 
-> [    8.032893] page_cache_sync_ra (mm/readahead.c:696) 
-> [    8.032894] filemap_get_pages (mm/filemap.c:2613) 
-> [    8.032896] ? lock_is_held_type (./arch/x86/include/asm/paravirt.h:704 (discriminator 1) ./arch/x86/include/asm/irqflags.h:138 (discriminator 1) kernel/locking/lockdep.c:5686 (discriminator 1)) 
-> [    8.032898] filemap_read (mm/filemap.c:2698) 
-> [    8.032900] ? lock_is_held_type (./arch/x86/include/asm/paravirt.h:704 (discriminator 1) ./arch/x86/include/asm/irqflags.h:138 (discriminator 1) kernel/locking/lockdep.c:5686 (discriminator 1)) 
-> [    8.032901] ? __this_cpu_preempt_check (lib/smp_processor_id.c:67) 
-> [    8.032901] ? lock_is_held_type (./arch/x86/include/asm/paravirt.h:704 (discriminator 1) ./arch/x86/include/asm/irqflags.h:138 (discriminator 1) kernel/locking/lockdep.c:5686 (discriminator 1)) 
-> [    8.032903] ? sched_clock (arch/x86/kernel/tsc.c:254) 
-> [    8.032904] ? __this_cpu_preempt_check (lib/smp_processor_id.c:67) 
-> [    8.032905] ? lock_release (./arch/x86/include/asm/paravirt.h:704 (discriminator 1) ./arch/x86/include/asm/irqflags.h:138 (discriminator 1) kernel/locking/lockdep.c:5664 (discriminator 1)) 
-> [    8.032907] generic_file_read_iter (mm/filemap.c:2845) 
-> [    8.032908] ? aa_file_perm (security/apparmor/file.c:644) 
-> [    8.032910] ext4_file_read_iter (fs/ext4/file.c:133) 
-> [    8.032912] new_sync_read (fs/read_write.c:402 (discriminator 1)) 
-> [    8.032915] vfs_read (fs/read_write.c:482) 
-> [    8.032916] ksys_read (fs/read_write.c:620) 
-> [    8.032918] __x64_sys_read (fs/read_write.c:628) 
-> [    8.032919] do_syscall_64 (arch/x86/entry/common.c:51 arch/x86/entry/common.c:82) 
-> [    8.032920] ? do_syscall_64 (arch/x86/entry/common.c:89) 
-> [    8.032921] ? syscall_exit_to_user_mode (kernel/entry/common.c:297) 
-> [    8.032922] ? do_syscall_64 (arch/x86/entry/common.c:89) 
-> [    8.032924] ? do_syscall_64 (arch/x86/entry/common.c:89) 
-> [    8.032925] ? do_syscall_64 (./arch/x86/include/asm/jump_label.h:27 arch/x86/entry/common.c:77) 
-> [    8.032926] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:115) 
-> [    8.032927] RIP: 0033:0x7f66de513932
-> [ 8.032928] Code: c0 e9 b2 fe ff ff 50 48 8d 3d 3a b9 0c 00 e8 15 1a 02 00 0f 1f 44 00 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 0f 05 <48> 3d 00 f0 ff ff 77 56 c3 0f 1f 44 00 00 48 83 ec 28 48 89 54 24
-> All code
-> ========
->    0:	c0 e9 b2             	shr    $0xb2,%cl
->    3:	fe                   	(bad)  
->    4:	ff                   	(bad)  
->    5:	ff 50 48             	call   *0x48(%rax)
->    8:	8d 3d 3a b9 0c 00    	lea    0xcb93a(%rip),%edi        # 0xcb948
->    e:	e8 15 1a 02 00       	call   0x21a28
->   13:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
->   18:	f3 0f 1e fa          	endbr64 
->   1c:	64 8b 04 25 18 00 00 	mov    %fs:0x18,%eax
->   23:	00 
->   24:	85 c0                	test   %eax,%eax
->   26:	75 10                	jne    0x38
->   28:	0f 05                	syscall 
->   2a:*	48 3d 00 f0 ff ff    	cmp    $0xfffffffffffff000,%rax		<-- trapping instruction
->   30:	77 56                	ja     0x88
->   32:	c3                   	ret    
->   33:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
->   38:	48 83 ec 28          	sub    $0x28,%rsp
->   3c:	48                   	rex.W
->   3d:	89                   	.byte 0x89
->   3e:	54                   	push   %rsp
->   3f:	24                   	.byte 0x24
-> 
-> Code starting with the faulting instruction
-> ===========================================
->    0:	48 3d 00 f0 ff ff    	cmp    $0xfffffffffffff000,%rax
->    6:	77 56                	ja     0x5e
->    8:	c3                   	ret    
->    9:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
->    e:	48 83 ec 28          	sub    $0x28,%rsp
->   12:	48                   	rex.W
->   13:	89                   	.byte 0x89
->   14:	54                   	push   %rsp
->   15:	24                   	.byte 0x24
-> [    8.032929] RSP: 002b:00007ffcdce2cee8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-> [    8.032931] RAX: ffffffffffffffda RBX: 000056271b3552d0 RCX: 00007f66de513932
-> [    8.032932] RDX: 0000000000001000 RSI: 000056271b357f00 RDI: 0000000000000004
-> [    8.032932] RBP: 00007f66de616600 R08: 0000000000000004 R09: 000056271b358f00
-> [    8.032933] R10: 000056271b357ef0 R11: 0000000000000246 R12: 00007f66de62aec0
-> [    8.032934] R13: 0000000000000d68 R14: 00007f66de615a00 R15: 0000000000000d68
-> [    8.032936]  </TASK>
-> 
-> -- 
-> Thanks,
-> Hyeonggon
+
