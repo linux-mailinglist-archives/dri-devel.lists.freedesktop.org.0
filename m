@@ -1,42 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA8F5327D1
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 12:35:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BCD5327E9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 12:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C67DB10F0E0;
-	Tue, 24 May 2022 10:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3AB10F172;
+	Tue, 24 May 2022 10:39:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F8AF10EF81;
- Tue, 24 May 2022 10:35:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D714761204;
- Tue, 24 May 2022 10:35:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD1BBC385AA;
- Tue, 24 May 2022 10:35:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653388545;
- bh=gwBQJB78CCphDTIy50bjriGtJcPqoXOiI/qgg5bZ34M=;
- h=From:To:Cc:Subject:Date:From;
- b=WAaa2wtSlhxP+AHfoFOc7dz4elSiiUuzyEy1vVdV+SwfuFrdYunPJskyJPChaiIxC
- BTyqcwwyxlDOCdGAbnn3uICkHK8zjZzXNd1eCEOX8dBQOst+aEYkMJjh8DTsDS3ANj
- L0iMjphD/gyDwZQX18/+J7Lj+OXSsBcU0IipLFNONzZvRVJ1oXEYkD7+0ryzxHKFSt
- +o8pgUM9j1hAxWopwkURSx7V9YAYGi0L1fz11uKuV2Vuvo1RXD9v6AdPXrusjFsYUe
- F3as93AT0Kdb2i5/8N4SRkQhidQ13dhB8SI1gTUv+gJO4faL/ooWLnUvugDuGj9h7/
- 75Cd6qtQPPKmA==
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH] drm/msm/disp/dpu1: remove supoerflous init
-Date: Tue, 24 May 2022 16:05:34 +0530
-Message-Id: <20220524103534.2520439-1-vkoul@kernel.org>
-X-Mailer: git-send-email 2.34.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB3210F065;
+ Tue, 24 May 2022 10:39:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653388796; x=1684924796;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xu8FmKMr9TBT/1V60fCmMGsVqc8y1LIUAzbZM/oURTk=;
+ b=ZNu3+IWIEAO2PPfnAMUiCbiLb5v/YvBsTDAIVRLFkKsbqDhaMx7jgHX4
+ YgeznpyhsRjwGn/fMfWdYDGXlmLqEqR8uhMmyyvmpvZsWHnKHfg5t5A1x
+ vataNqlCKNG28qhR0Vzurqpp1/sJVK2DQxoMXSlq7EgQzDp1tSQ5k/EjG
+ lRtIkeEMBNR3ZuWtczDgL54iHv91UkNyhQkOXmh9Ic2A5zisPScksikNi
+ BwDEUzrsuWE/sMvkj/htdePd4mpBmmAG7GS1AxsONBo48JlgOyzIQtg7D
+ iFCaBFi5t5xm6ByvDAPUug0D6DH86ckJsC01k+puYzPAOj2Ewe0zepkKb Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="261101116"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="261101116"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 03:39:55 -0700
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="601163833"
+Received: from zychseba-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.136.104])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 03:39:47 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH v1 00/13] drm/edid: expand on struct drm_edid usage
+Date: Tue, 24 May 2022 13:39:22 +0300
+Message-Id: <cover.1653381821.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,36 +57,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <yujie.liu@intel.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- freedreno@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, jani.nikula@intel.com,
+ Robert Foss <robert.foss@linaro.org>, Xinhui Pan <Xinhui.Pan@amd.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ nouveau@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 58dca9810749 ("drm/msm/disp/dpu1: Add support for DSC in
-encoder") added dsc_common_mode variable which was set to zero but then
-again programmed, so drop the supoerflous init.
+Hey all, I'm adding a bunch of people to the cover letter, sorry for the
+noise.
 
-Fixes: 58dca9810749 ("drm/msm/disp/dpu1: Add support for DSC in encoder")
-Reported-by: kernel test robot <yujie.liu@intel.com>
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 1 -
- 1 file changed, 1 deletion(-)
+I've been putting a lot of effort lately into cleaning up our EDID
+parsing. It's been long overdue. Here, we finally leverage all that prep
+work to implement the HDMI Forum HF-EEODB extension. In short, HF-EEODB
+lets an EDID extension override the number of extensions indicated in
+the base block. That has a lot of implications when it comes to EDID
+parsing and memory allocation that is currently spread around the
+subsystem.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 51f24ba68375..388125c8bda1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1798,7 +1798,6 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
- 		}
- 	}
- 
--	dsc_common_mode = 0;
- 	pic_width = dsc->drm->pic_width;
- 
- 	dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
+I've added the opaque struct drm_edid in commit e4ccf9a777d3 ("drm/edid:
+add struct drm_edid container"). The commit message is worth a
+read. Here, I'm expanding struct drm_edid to the interfaces for EDID
+reading and parsing. They all get an overhaul, along with the probe
+helper .get_modes() hook.
+
+In my mind, there is really no alternative to centralizing the EDID
+parsing, and hiding the details in drm_edid.c.
+
+I'm also adding a TODO entry; there's still a bunch of work to be done
+across the subsystem.
+
+
+BR,
+Jani.
+
+
+Cc: Adam Jackson <ajax@redhat.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Xinhui Pan <Xinhui.Pan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+
+Jani Nikula (13):
+  drm/edid: add block count and data helper functions for drm_edid
+  drm/edid: keep track of alloc size in drm_do_get_edid()
+  drm/edid: add new interfaces around struct drm_edid
+  drm/edid: add drm_edid_connector_update()
+  drm/probe-helper: abstract .get_modes() connector helper call
+  drm/probe-helper: make .get_modes() optional, add default action
+  drm/probe-helper: add .get_edid() callback
+  drm/edid: add drm_edid_raw() to access the raw EDID data
+  drm/i915/edid: convert DP, HDMI and LVDS to drm_edid
+  drm/edid: do invalid block filtering in-place
+  drm/edid: add HF-EEODB support to EDID read and allocation
+  drm/edid: take HF-EEODB extension count into account
+  drm/todo: add entry for converting the subsystem to struct drm_edid
+
+ Documentation/gpu/todo.rst                    |  25 +
+ drivers/gpu/drm/drm_connector.c               |   2 +
+ drivers/gpu/drm/drm_edid.c                    | 538 ++++++++++++++++--
+ drivers/gpu/drm/drm_probe_helper.c            |  48 +-
+ .../gpu/drm/i915/display/intel_connector.c    |   4 +-
+ .../drm/i915/display/intel_display_types.h    |   4 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  72 +--
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  26 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c     |  35 +-
+ include/drm/drm_edid.h                        |  12 +
+ include/drm/drm_modeset_helper_vtables.h      |  19 +
+ 11 files changed, 650 insertions(+), 135 deletions(-)
+
 -- 
-2.34.1
+2.30.2
 
