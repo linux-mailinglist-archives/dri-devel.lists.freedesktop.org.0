@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03903532802
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 12:41:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17986532804
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 12:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24BB210F537;
-	Tue, 24 May 2022 10:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8F010F54F;
+	Tue, 24 May 2022 10:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9C810F537;
- Tue, 24 May 2022 10:41:00 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD4910F54F;
+ Tue, 24 May 2022 10:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653388860; x=1684924860;
+ t=1653388865; x=1684924865;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CepwBwgY+s3aNWsdZf7/Lynz4Jeac/gYeEglTRNhWCc=;
- b=kv8BsJHQU3/bWY+32IByuTYcrX9S1uFr2vW8yFm/4TWX+DTeRixbC76G
- L3Go7jTJaeeqnm71PRC+HP+nAgpBASbQIJ0G2OzVfgcjsuKtLIZY2/7GF
- M4ImRvA8UKjdRzwgg9RVMrwGJimsYK2+Cuzy4kZRfogJpye9qc309R6Ko
- PtAUXANl5NHRbqYbbsq3yMkpzfpf/3BmWB/JbjNJLdjhTW6qlmskwscRj
- 15wt5LVceYJYLw4752kMEHj6Y3X4GS1pKMv/lJXavwWpTKAUMOpSBKwwI
- IK3QPJ1WeKrwE5mZf0S/8VMFLL7vvUcM81iKxDIQKrc8eRdqhMy+9aJi1 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="273220151"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="273220151"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 03:40:59 -0700
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="608623255"
+ bh=wo+3CFaO/0urwWplVGx3rR0erSjhHgz5Klcse8I9E04=;
+ b=hA7pRN/AftYxSsE8+sEkQ88hQmYQBwH/TJXIvd58WLRd7bqB5HhvC1N1
+ zrP1eekrV23jMLIp9mQVe7dddKs/48JxQW47tJFcGMAYrbKl7ETsp1Mlq
+ 5MGNukSJ4SHyp6DQ4y6O+YgkmMQmwAIGe2UT/9UKaEJkj9uRijQGgkSW5
+ HEPgzB+4vY5KKtdacalfqiTcm1ZyOnjZZFB0EL/gdi1KNxEVuaZIlwBGw
+ 0AT55FEXoB5kBMVrPTclF9BEEVFTyCTooUrxuPCqv9bhHlf7fMEktRInF
+ 0PXl431B5FxCffgzJlgTNvjwvNKMi+KojNfSJLu99xJgwAxXV7p/4N6Fw A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="336548204"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="336548204"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 03:41:04 -0700
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="663858683"
 Received: from zychseba-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.136.104])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 03:40:57 -0700
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 03:41:02 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v1 11/13] drm/edid: add HF-EEODB support to EDID read and
- allocation
-Date: Tue, 24 May 2022 13:39:33 +0300
-Message-Id: <7451127fb889f9d2ed723a6d83e033d6a5196354.1653381821.git.jani.nikula@intel.com>
+Subject: [PATCH v1 12/13] drm/edid: take HF-EEODB extension count into account
+Date: Tue, 24 May 2022 13:39:34 +0300
+Message-Id: <3a37356e6f9ca2bbeb629e6e1d61c3b44a29692c.1653381821.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1653381821.git.jani.nikula@intel.com>
 References: <cover.1653381821.git.jani.nikula@intel.com>
@@ -63,161 +62,37 @@ Cc: jani.nikula@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI 2.1 section 10.3.6 defines an HDMI Forum EDID Extension Override
-Data Block, which may contain a different extension count than the base
-block claims. Add support for reading more EDID data if available. The
-extra blocks aren't parsed yet, though.
+Take the HF-EEODB extension count override into account.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 81 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 78 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 5e0a91da565e..ba0c880dc133 100644
+index ba0c880dc133..6b1284b895eb 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1581,6 +1581,15 @@ static bool version_greater(const struct drm_edid *drm_edid,
- 		(edid->version == version && edid->revision > revision);
- }
+@@ -1629,6 +1629,19 @@ static int drm_edid_block_count(const struct drm_edid *drm_edid)
+ 	/* Starting point */
+ 	num_blocks = edid_block_count(drm_edid->edid);
  
-+static int edid_hfeeodb_extension_block_count(const struct edid *edid);
++	/* HF-EEODB override */
++	if (drm_edid->size >= edid_size_by_blocks(2)) {
++		int eeodb;
 +
-+static int edid_hfeeodb_block_count(const struct edid *edid)
-+{
-+	int eeodb = edid_hfeeodb_extension_block_count(edid);
++		/*
++		 * Note: HF-EEODB may specify a smaller extension count than the
++		 * regular one. Unlike in buffer allocation, here we can use it.
++		 */
++		eeodb = edid_hfeeodb_block_count(drm_edid->edid);
++		if (eeodb)
++			num_blocks = eeodb;
++	}
 +
-+	return eeodb ? eeodb + 1 : 0;
-+}
-+
- static int edid_extension_block_count(const struct edid *edid)
- {
- 	return edid->extensions;
-@@ -2026,6 +2035,11 @@ static struct edid *edid_filter_invalid_blocks(struct edid *edid,
- 	struct edid *new;
- 	int i, valid_blocks = 0;
+ 	/* Limit by allocated size */
+ 	num_blocks = min(num_blocks, (int)drm_edid->size / EDID_LENGTH);
  
-+	/*
-+	 * Note: If the EDID uses HF-EEODB, but has invalid blocks, we'll revert
-+	 * back to regular extension count here. We don't want to start
-+	 * modifying the HF-EEODB extension too.
-+	 */
- 	for (i = 0; i < edid_block_count(edid); i++) {
- 		const void *src_block = edid_block_data(edid, i);
- 
-@@ -2235,7 +2249,7 @@ static struct edid *_drm_do_get_edid(struct drm_connector *connector,
- 				     size_t *size)
- {
- 	enum edid_block_status status;
--	int i, invalid_blocks = 0;
-+	int i, num_blocks, invalid_blocks = 0;
- 	struct edid *edid, *new;
- 	size_t alloc_size = EDID_LENGTH;
- 
-@@ -2277,7 +2291,8 @@ static struct edid *_drm_do_get_edid(struct drm_connector *connector,
- 		goto fail;
- 	edid = new;
- 
--	for (i = 1; i < edid_block_count(edid); i++) {
-+	num_blocks = edid_block_count(edid);
-+	for (i = 1; i < num_blocks; i++) {
- 		void *block = (void *)edid_block_data(edid, i);
- 
- 		status = edid_block_read(block, i, read_block, context);
-@@ -2288,11 +2303,31 @@ static struct edid *_drm_do_get_edid(struct drm_connector *connector,
- 			if (status == EDID_BLOCK_READ_FAIL)
- 				goto fail;
- 			invalid_blocks++;
-+		} else if (i == 1) {
-+			/*
-+			 * If the first EDID extension is a CTA extension, and
-+			 * the first Data Block is HF-EEODB, override the
-+			 * extension block count.
-+			 *
-+			 * Note: HF-EEODB could specify a smaller extension
-+			 * count too, but we can't risk allocating a smaller
-+			 * amount.
-+			 */
-+			int eeodb = edid_hfeeodb_block_count(edid);
-+
-+			if (eeodb > num_blocks) {
-+				num_blocks = eeodb;
-+				alloc_size = edid_size_by_blocks(num_blocks);
-+				new = krealloc(edid, alloc_size, GFP_KERNEL);
-+				if (!new)
-+					goto fail;
-+				edid = new;
-+			}
- 		}
- 	}
- 
- 	if (invalid_blocks) {
--		connector_bad_edid(connector, edid, edid_block_count(edid));
-+		connector_bad_edid(connector, edid, num_blocks);
- 
- 		edid = edid_filter_invalid_blocks(edid, &alloc_size);
- 	}
-@@ -3825,6 +3860,7 @@ static int add_detailed_modes(struct drm_connector *connector,
- #define CTA_EXT_DB_HDR_STATIC_METADATA	6
- #define CTA_EXT_DB_420_VIDEO_DATA	14
- #define CTA_EXT_DB_420_VIDEO_CAP_MAP	15
-+#define CTA_EXT_DB_HF_EEODB		0x78
- #define CTA_EXT_DB_HF_SCDB		0x79
- 
- #define EDID_BASIC_AUDIO	(1 << 6)
-@@ -4868,6 +4904,12 @@ static bool cea_db_is_hdmi_forum_vsdb(const struct cea_db *db)
- 		cea_db_payload_len(db) >= 7;
- }
- 
-+static bool cea_db_is_hdmi_forum_eeodb(const void *db)
-+{
-+	return cea_db_is_extended_tag(db, CTA_EXT_DB_HF_EEODB) &&
-+		cea_db_payload_len(db) >= 2;
-+}
-+
- static bool cea_db_is_microsoft_vsdb(const struct cea_db *db)
- {
- 	return cea_db_is_vendor(db, MICROSOFT_IEEE_OUI) &&
-@@ -4902,6 +4944,39 @@ static bool cea_db_is_hdmi_hdr_metadata_block(const struct cea_db *db)
- 		cea_db_payload_len(db) >= 3;
- }
- 
-+/*
-+ * Get the HF-EEODB override extension block count from EDID.
-+ *
-+ * The passed in EDID may be partially read, as long as it has at least two
-+ * blocks (base block and one extension block) if EDID extension count is > 0.
-+ *
-+ * References:
-+ * - HDMI 2.1 section 10.3.6 HDMI Forum EDID Extension Override Data Block
-+ */
-+static int edid_hfeeodb_extension_block_count(const struct edid *edid)
-+{
-+	const u8 *cta;
-+
-+	/* No extensions according to base block, no HF-EEODB. */
-+	if (!edid_extension_block_count(edid))
-+		return 0;
-+
-+	/* HF-EEODB is always in the first EDID extension block only */
-+	cta = edid_extension_block_data(edid, 0);
-+	if (edid_block_tag(cta) != CEA_EXT || cea_revision(cta) < 3)
-+		return 0;
-+
-+	/*
-+	 * Sinks that include the HF-EEODB in their E-EDID shall include one and
-+	 * only one instance of the HF-EEODB in the E-EDID, occupying bytes 4
-+	 * through 6 of Block 1 of the E-EDID.
-+	 */
-+	if (!cea_db_is_hdmi_forum_eeodb(&cta[4]))
-+		return 0;
-+
-+	return cta[4 + 2];
-+}
-+
- static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
- 				      const u8 *db)
- {
 -- 
 2.30.2
 
