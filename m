@@ -1,52 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6245B532806
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 12:41:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 145E5532875
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 13:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A68710F558;
-	Tue, 24 May 2022 10:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B06FF10EC59;
+	Tue, 24 May 2022 11:03:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687A810F558;
- Tue, 24 May 2022 10:41:11 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1A810E9DB;
+ Tue, 24 May 2022 11:03:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653388871; x=1684924871;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=m3JtCU5ZZfSmTvjoFXepJKjGW+Y13lPCL3zJPAOyLJ8=;
- b=aNhDi3MZbyGaWhjPSxzMEyatf4+QqvH5aC8b+NutPbFwaSCns5mNcvgD
- 6qAd6VMhtM7ynceAcHXB+DgafxO/ohtv9z7HF1vhkokEIx6QsQnoNYLvC
- SeoCDRuT35XuCuuw0b8x6pPH5TLwv07zVOr7LTYD+9LX8jzR9BtzB7ydm
- tjkIX703TA4VauFQdS2GRXXSRt5QeaJ9yTnvniKtetH9W1qNQ/JYsrSVA
- 2HBaKSHglB+0VB1vjWjk4YEQM6h+VxErK8HxbR0ss6PmsL0SiiG4RQZKu
- x1XGJj3TMG2PC5fsU3PM/picK5YnX2zQWGAYYvJn5wHtEho1f30HjSH38 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="273607417"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="273607417"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 03:41:11 -0700
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="676304995"
+ t=1653390217; x=1684926217;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=CntG2zT79s+rUqc/RwF4HmNc6O2cBy1aTPUYDsYRjjE=;
+ b=dh2PDazC+Hias72hL+YjkQm+4NV8DToFrS9UKRxKmiS3wgYrkk72n1tB
+ 4HB9DvustuCf75leTsWV2XTHhp/g+hpBKnjrdGuwzenebYvPq94XzybWQ
+ s1zPvooRPuxUqQc58hHj1Cq7cjoBqvpzVDjfb98Wbo4j8xSw5I9hLE9wb
+ tRHKJV2SdjpVuqjKnF7vHEArIBNa7kuAcpq7eJf2rKGc5fr5CAZ5dQyk1
+ VdQKcyihYFN9IuqXbLDzGRljMC7A+9nwHXaUA/KRi9xsK8iRezZJCDrWe
+ y61FScKe9PRfstwWtCrQcDW0AHHOXQVMLSQa0AVm+V4d3ZYUIquxtL5Bu A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="334144541"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="334144541"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 04:03:37 -0700
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="745175110"
 Received: from zychseba-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.136.104])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 03:41:08 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v1 13/13] drm/todo: add entry for converting the subsystem to
- struct drm_edid
-Date: Tue, 24 May 2022 13:39:35 +0300
-Message-Id: <8b7bf6b190aa8b9463a47006e1308b253139112a.1653381821.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1653381821.git.jani.nikula@intel.com>
-References: <cover.1653381821.git.jani.nikula@intel.com>
-MIME-Version: 1.0
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 04:03:33 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] drm/i915: fix typos in comments
+In-Reply-To: <20220521111145.81697-90-Julia.Lawall@inria.fr>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <20220521111145.81697-90-Julia.Lawall@inria.fr>
+Date: Tue, 24 May 2022 14:03:29 +0300
+Message-ID: <87ee0jw5tq.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +56,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, David Airlie <airlied@linux.ie>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to stop duplicating EDID validation and parsing all over the
-subsystem in various broken ways.
+On Sat, 21 May 2022, Julia Lawall <Julia.Lawall@inria.fr> wrote:
+> Spelling mistakes (triple letters) in comments.
+> Detected with the help of Coccinelle.
+>
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- Documentation/gpu/todo.rst | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Thanks, pushed to drm-intel-next.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 513b20ccef1e..982e4e29825f 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -480,6 +480,31 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Starter
- 
-+Convert core and drivers from struct edid to struct drm_edid
-+------------------------------------------------------------
-+
-+Go through all drivers and drm core KMS code to convert all raw struct edid
-+usage to the opaque struct drm_edid. See commit e4ccf9a777d3 ("drm/edid: add
-+struct drm_edid container") for rationale.
-+
-+Convert drm_get_edid() and drm_do_get_edid() usage to drm_edid_read(),
-+drm_edid_read_ddc(), or drm_edid_read_custom().
-+
-+Convert drm_add_edid_modes() and drm_connector_update_edid_property() to
-+drm_edid_connector_update(). See drm_helper_probe_get_modes() for reference for
-+converting the ->get_modes() hooks.
-+
-+Convert decentralized, direct struct edid parsing to centralized parsing in
-+drm_edid.c. Prefer one-time parsing as part of drm_edid_connector_update() and
-+storing the result in drm_connector->display_info over adding individual,
-+exported parser functions.
-+
-+During the transition period, it may be necessary to use drm_edid_raw(), but do
-+use it sparingly. Eventually, all of them need to go.
-+
-+Contact: Jani Nikula <jani.nikula@intel.com>
-+
-+Level: Intermediate
- 
- Core refactorings
- =================
+BR,
+Jani.
+
+>
+> ---
+>  drivers/gpu/drm/i915/display/intel_color.c           |    2 +-
+>  drivers/gpu/drm/i915/display/intel_pps.c             |    2 +-
+>  drivers/gpu/drm/i915/gt/intel_execlists_submission.c |    2 +-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c           |    2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+> index 34128c9c635c..a27ce874a9e8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_color.c
+> +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> @@ -1638,7 +1638,7 @@ static u32 icl_gamma_mode(const struct intel_crtc_state *crtc_state)
+>  	/*
+>  	 * Enable 10bit gamma for D13
+>  	 * ToDo: Extend to Logarithmic Gamma once the new UAPI
+> -	 * is acccepted and implemented by a userspace consumer
+> +	 * is accepted and implemented by a userspace consumer
+>  	 */
+>  	else if (DISPLAY_VER(i915) >= 13)
+>  		gamma_mode |= GAMMA_MODE_MODE_10BIT;
+> diff --git a/drivers/gpu/drm/i915/display/intel_pps.c b/drivers/gpu/drm/i915/display/intel_pps.c
+> index 5a598dd06039..4bc0563dde92 100644
+> --- a/drivers/gpu/drm/i915/display/intel_pps.c
+> +++ b/drivers/gpu/drm/i915/display/intel_pps.c
+> @@ -509,7 +509,7 @@ static void wait_panel_power_cycle(struct intel_dp *intel_dp)
+>  
+>  	drm_dbg_kms(&i915->drm, "Wait for panel power cycle\n");
+>  
+> -	/* take the difference of currrent time and panel power off time
+> +	/* take the difference of current time and panel power off time
+>  	 * and then make panel wait for t11_t12 if needed. */
+>  	panel_power_on_time = ktime_get_boottime();
+>  	panel_power_off_duration = ktime_ms_delta(panel_power_on_time, intel_dp->pps.panel_power_off_time);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index 86f7a9ac1c39..aa0d2bbbbcc4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -1350,7 +1350,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
+>  			 * submission. If we don't cancel the timer now,
+>  			 * we will see that the timer has expired and
+>  			 * reschedule the tasklet; continually until the
+> -			 * next context switch or other preeemption event.
+> +			 * next context switch or other preemption event.
+>  			 *
+>  			 * Since we have decided to reschedule based on
+>  			 * consumption of this timeslice, if we submit the
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> index 78d2989fe917..02311ad90264 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> @@ -588,7 +588,7 @@ int intel_guc_log_relay_open(struct intel_guc_log *log)
+>  	/*
+>  	 * We require SSE 4.1 for fast reads from the GuC log buffer and
+>  	 * it should be present on the chipsets supporting GuC based
+> -	 * submisssions.
+> +	 * submissions.
+>  	 */
+>  	if (!i915_has_memcpy_from_wc()) {
+>  		ret = -ENXIO;
+>
+
 -- 
-2.30.2
-
+Jani Nikula, Intel Open Source Graphics Center
