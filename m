@@ -1,92 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CA353307E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 20:34:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EE253308A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 20:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20E910EEA3;
-	Tue, 24 May 2022 18:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C094B10FB5D;
+	Tue, 24 May 2022 18:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2060.outbound.protection.outlook.com [40.107.92.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651CD10EEA3;
- Tue, 24 May 2022 18:33:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lDu5QAajNA/SfHDV1+lKEXCanWsx2Owv5+dHfaGKI/IGfF36MgYeLxgq+5BfIIsG4NX1RZlGZhDow3NOvs/8NoIQIEbeADPxE5c4/SCd6rR4BLOfPfnw1+10J0yYTh0Q417znNYgOjNmQD4sO6hhrR28T/6557sIGneHJil7Lr0/w4YbGgkyHUmOHqt12oHwiNzfPnNVe45fX73mAaEV3ZNVGJah7DivAa0pg2IbngaqgnDRTy5mhiq6KEtaHSmFRGXW6f6PZelFsb5Qew3Sr4w+aJ/wAGFf2jedHsMolN0lgnFvvPLPUvL5eRuUB1Qtn+wS62ZruPiAgArWIiIRbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RlqiNAaIB9Y+IIex/HsVnaVBoCD21HNTiLjvcr3R2q0=;
- b=Ynbck/3Cma1zxVAe0rO/hoILUH02QaJhO1nNt/BZlCCDC4ZCz0RF0pHGrx14EI1Fxs/LzBs/CYJx5BwFAsWRrlnk+xhrLVyxND59a8wPlrsYCp6qQVnSy6u5/kEmHqmTZ8tf7Cmpq+heRwBzyzVRxx4sAUfddlIFP7TYSYB4yzetSChoacl/NW0uTBgME4jnn6WDpOP9bmL7f0KJ2BC2ckF8qo8d1bQRah0LitvxfATMCWf+F8CDfKYdDI3fOGuZJgXf4pdc4D5D1bEXsdAPyKv+HDppO+xCHwrSVfvVEYOmAvTG3VnUDu+USCiYieiGkPLMEv+1tuPck5s0vJtYIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RlqiNAaIB9Y+IIex/HsVnaVBoCD21HNTiLjvcr3R2q0=;
- b=UoB8g4asud8/QG/BBHY7O9T6T+ci7cXvlC942La/cjc8vDAtxQ98PXiuqxtQw39x2k7TLOHYiSxgv18W4GalcXAPeMjpS7fSlzFw3s9e2CegXmF6q+yYb0Fceeg9dStoYzrePCK5m5H+OYVjIU0BN9niRxAklx/fZoxDRzx7OPg=
-Received: from MW4PR04CA0209.namprd04.prod.outlook.com (2603:10b6:303:86::34)
- by PH7PR12MB5832.namprd12.prod.outlook.com (2603:10b6:510:1d7::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.23; Tue, 24 May
- 2022 18:33:53 +0000
-Received: from CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:86:cafe::44) by MW4PR04CA0209.outlook.office365.com
- (2603:10b6:303:86::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.15 via Frontend
- Transport; Tue, 24 May 2022 18:33:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT041.mail.protection.outlook.com (10.13.174.217) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5293.13 via Frontend Transport; Tue, 24 May 2022 18:33:53 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 24 May
- 2022 13:33:51 -0500
-Received: from hwentlanryzen.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Tue, 24 May 2022 13:33:50 -0500
-From: Harry Wentland <harry.wentland@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm: Don't block HDR_OUTPUT_METADATA on unknown EOTF
-Date: Tue, 24 May 2022 14:33:20 -0400
-Message-ID: <20220524183320.28870-1-harry.wentland@amd.com>
-X-Mailer: git-send-email 2.36.1
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8680310FB5C;
+ Tue, 24 May 2022 18:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653417411; x=1684953411;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=55tMkLxJY/Mf1mN/1koHQFi/lO7FK680xUZAazWH2cI=;
+ b=RpEuRNFMtlhwbZl6ONgiUgK9qt1FZVffi52NO7ejoh2ltQLUXxA7As/U
+ s7zPZBPpGXqHVeNJJMsImaJ+KVrDeyRVHsd3On60XYckevzeOjs/gHrcU
+ PhoO3ripba1K5HbI7GGgpRo43Y/Bwyv48OTj3NyUFYDYQYnAkt/f0NpNt
+ LkE6KXWC2qK0WPwGpEBc6XCdqtbTueht8WhZ2uxSAVtW6t0e9wsNQKLjj
+ CWOCy+AIMGIe4eAkNQfQb1zm10BYvEAEI4gz938FQsqo7TpANtB8uC2vk
+ az9anfaA9aWHNfacwKc+sxFxazHyhKGf+LeZAnBKvEeUmJg4brJYw9ZTC Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10357"; a="255685382"
+X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="255685382"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 11:36:48 -0700
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="559249333"
+Received: from iucastil-mobl1.amr.corp.intel.com (HELO msatwood-mobl)
+ ([10.212.91.173])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2022 11:36:35 -0700
+Date: Tue, 24 May 2022 11:36:34 -0700
+From: Matt Atwood <matthew.s.atwood@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v3 2/5] drm/i915/pvc: Add forcewake support
+Message-ID: <Yo0lsqKotaIuTiIU@msatwood-mobl>
+References: <20220511060228.1179450-1-matthew.d.roper@intel.com>
+ <20220511060228.1179450-3-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 01cf33b4-028a-4294-41d3-08da3db3f43c
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5832:EE_
-X-Microsoft-Antispam-PRVS: <PH7PR12MB583226FE4B8A5AA63138B8AA8CD79@PH7PR12MB5832.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xIoMDER7I1+SRC8ypn2uFjXXrjwH/U31b7obEbwbiwTsyEbK5mQ2ceuKEQ7YeJkPbJk617iK5z3fjkzIL0yoJ4xKU69PP18P02HmWIB5ibpMdHsytnmH2LqQZfuwZU08zvTZJgygLX0xnrXvgoo2arETCsKXcNqYsMXQXdjveA+5/9qGCkqvYqgJol9bU42aBo3HbRABCq/5qzdmA6eD0c4CSFhYjg2CyFGVOIbP7EzDTQdr6JPIlc7Hr0QlxUbcm87TAXEdUlXZpsssq2jcY82Je4a1z2NHuhONr1q9Lb//NsLsm6wuSaWeAHBDF94zaYIGN6qNPqxfcMlKrOSIy/TXSGJPthYSzLcp9Dv3UZ9CubU8Nxpbdgx7iiSsyCE1AW+3Ut4ycbCEfyvIHkjyC452I70RcWUxiIpQ81CeaCB/4RscdSGRS1Un52qkhgGJwsHn3fw21+Wt3uVnSZ/BsgJL+eAww94r1ctNWmGGswWAHIXhUH2uKhar/dyectr3bg6Xyv5tOr1zzMRv0c+8D7OEOJMKPo4OJ6w8gix3HCKG3wQlsAj2ZZamFDhpil2FXMqjxdCWk7bXcWnC5hRfEWU7DnU2ICrjTv3z0ibL7q/CQyvtvpRueuLuwbna7Oxy5jvku5dJ11fEyyVUg5aNBuBXpwDixVZ3HD+LgegzoYSlh0s2GVhrw2p9RFhh1NjHPYgch945DWa4jjY2rsEQEw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(44832011)(2616005)(1076003)(4326008)(26005)(70586007)(8676002)(70206006)(40460700003)(966005)(508600001)(356005)(86362001)(316002)(5660300002)(7696005)(82310400005)(110136005)(6666004)(186003)(2906002)(8936002)(426003)(36756003)(83380400001)(36860700001)(47076005)(336012)(54906003)(81166007)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2022 18:33:53.0657 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01cf33b4-028a-4294-41d3-08da3db3f43c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5832
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220511060228.1179450-3-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,53 +58,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vprosyak@amd.com, ppaalanen@gmail.com, Uma Shankar <uma.shankar@intel.com>,
- sebastian.wick@redhat.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The supported EOTFs are defined in eotf_supported in drm_edid
-but userspace has no way of knowing what is and isn't supported
-when creating an HDR_OUTPUT_METADATA and will only know
-something is wrong when the atomic commit fails.
-
-Since it is expected that userspace reads the EDID to understand
-what the display supports it doesn't make sense for DRM to block
-an HDR_OUTPUT_METADATA if it contains an EOTF the kernel doesn't
-understand.
-
-This comes with the added benefit of future-proofing metadata
-support. If the spec defines a new EOTF there is no need to
-update DRM and an compositor can immediately make use of it.
-
-Fixes: https://gitlab.freedesktop.org/wayland/weston/-/issues/609
-
-Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-Cc: ppaalanen@gmail.com
-Cc: sebastian.wick@redhat.com
-Cc: vprosyak@amd.com
-Cc: Uma Shankar <uma.shankar@intel.com>
----
- drivers/gpu/drm/drm_edid.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 12893e7be89b..223f96a72064 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5691,10 +5691,8 @@ drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
- 
- 	/* Sink EOTF is Bit map while infoframe is absolute values */
- 	if (!is_eotf_supported(hdr_metadata->hdmi_metadata_type1.eotf,
--	    connector->hdr_sink_metadata.hdmi_type1.eotf)) {
--		DRM_DEBUG_KMS("EOTF Not Supported\n");
--		return -EINVAL;
--	}
-+	    connector->hdr_sink_metadata.hdmi_type1.eotf))
-+		DRM_DEBUG_KMS("Unknown EOTF %d\n", hdr_metadata->hdmi_metadata_type1.eotf);
- 
- 	err = hdmi_drm_infoframe_init(frame);
- 	if (err < 0)
--- 
-2.36.1
-
+On Tue, May 10, 2022 at 11:02:25PM -0700, Matt Roper wrote:
+> Add PVC's forcewake ranges.
+> 
+> v2:
+>  - Drop replicated comment completely; move general cleanup of the
+>    documentation to a separate patch.
+> 
+> Bspec: 67609
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Stuart Summers <stuart.summers@intel.com>
+Reviewed-by: Matt Atwood <matthew.s.atwood@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>  drivers/gpu/drm/i915/intel_uncore.c           | 142 +++++++++++++++++-
+>  drivers/gpu/drm/i915/selftests/intel_uncore.c |   2 +
+>  2 files changed, 143 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index 095e071e4053..fac0ff60bfbf 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -1076,6 +1076,45 @@ static const struct i915_range dg2_shadowed_regs[] = {
+>  	{ .start = 0x1F8510, .end = 0x1F8550 },
+>  };
+>  
+> +static const struct i915_range pvc_shadowed_regs[] = {
+> +	{ .start =   0x2030, .end =   0x2030 },
+> +	{ .start =   0x2510, .end =   0x2550 },
+> +	{ .start =   0xA008, .end =   0xA00C },
+> +	{ .start =   0xA188, .end =   0xA188 },
+> +	{ .start =   0xA278, .end =   0xA278 },
+> +	{ .start =   0xA540, .end =   0xA56C },
+> +	{ .start =   0xC4C8, .end =   0xC4C8 },
+> +	{ .start =   0xC4E0, .end =   0xC4E0 },
+> +	{ .start =   0xC600, .end =   0xC600 },
+> +	{ .start =   0xC658, .end =   0xC658 },
+> +	{ .start =  0x22030, .end =  0x22030 },
+> +	{ .start =  0x22510, .end =  0x22550 },
+> +	{ .start = 0x1C0030, .end = 0x1C0030 },
+> +	{ .start = 0x1C0510, .end = 0x1C0550 },
+> +	{ .start = 0x1C4030, .end = 0x1C4030 },
+> +	{ .start = 0x1C4510, .end = 0x1C4550 },
+> +	{ .start = 0x1C8030, .end = 0x1C8030 },
+> +	{ .start = 0x1C8510, .end = 0x1C8550 },
+> +	{ .start = 0x1D0030, .end = 0x1D0030 },
+> +	{ .start = 0x1D0510, .end = 0x1D0550 },
+> +	{ .start = 0x1D4030, .end = 0x1D4030 },
+> +	{ .start = 0x1D4510, .end = 0x1D4550 },
+> +	{ .start = 0x1D8030, .end = 0x1D8030 },
+> +	{ .start = 0x1D8510, .end = 0x1D8550 },
+> +	{ .start = 0x1E0030, .end = 0x1E0030 },
+> +	{ .start = 0x1E0510, .end = 0x1E0550 },
+> +	{ .start = 0x1E4030, .end = 0x1E4030 },
+> +	{ .start = 0x1E4510, .end = 0x1E4550 },
+> +	{ .start = 0x1E8030, .end = 0x1E8030 },
+> +	{ .start = 0x1E8510, .end = 0x1E8550 },
+> +	{ .start = 0x1F0030, .end = 0x1F0030 },
+> +	{ .start = 0x1F0510, .end = 0x1F0550 },
+> +	{ .start = 0x1F4030, .end = 0x1F4030 },
+> +	{ .start = 0x1F4510, .end = 0x1F4550 },
+> +	{ .start = 0x1F8030, .end = 0x1F8030 },
+> +	{ .start = 0x1F8510, .end = 0x1F8550 },
+> +};
+> +
+>  static int mmio_range_cmp(u32 key, const struct i915_range *range)
+>  {
+>  	if (key < range->start)
+> @@ -1525,6 +1564,103 @@ static const struct intel_forcewake_range __dg2_fw_ranges[] = {
+>  	XEHP_FWRANGES(FORCEWAKE_RENDER)
+>  };
+>  
+> +static const struct intel_forcewake_range __pvc_fw_ranges[] = {
+> +	GEN_FW_RANGE(0x0, 0xaff, 0),
+> +	GEN_FW_RANGE(0xb00, 0xbff, FORCEWAKE_GT),
+> +	GEN_FW_RANGE(0xc00, 0xfff, 0),
+> +	GEN_FW_RANGE(0x1000, 0x1fff, FORCEWAKE_GT),
+> +	GEN_FW_RANGE(0x2000, 0x26ff, FORCEWAKE_RENDER),
+> +	GEN_FW_RANGE(0x2700, 0x2fff, FORCEWAKE_GT),
+> +	GEN_FW_RANGE(0x3000, 0x3fff, FORCEWAKE_RENDER),
+> +	GEN_FW_RANGE(0x4000, 0x813f, FORCEWAKE_GT), /*
+> +		0x4000 - 0x4aff: gt
+> +		0x4b00 - 0x4fff: reserved
+> +		0x5000 - 0x51ff: gt
+> +		0x5200 - 0x52ff: reserved
+> +		0x5300 - 0x53ff: gt
+> +		0x5400 - 0x7fff: reserved
+> +		0x8000 - 0x813f: gt */
+> +	GEN_FW_RANGE(0x8140, 0x817f, FORCEWAKE_RENDER),
+> +	GEN_FW_RANGE(0x8180, 0x81ff, 0),
+> +	GEN_FW_RANGE(0x8200, 0x94cf, FORCEWAKE_GT), /*
+> +		0x8200 - 0x82ff: gt
+> +		0x8300 - 0x84ff: reserved
+> +		0x8500 - 0x887f: gt
+> +		0x8880 - 0x8a7f: reserved
+> +		0x8a80 - 0x8aff: gt
+> +		0x8b00 - 0x8fff: reserved
+> +		0x9000 - 0x947f: gt
+> +		0x9480 - 0x94cf: reserved */
+> +	GEN_FW_RANGE(0x94d0, 0x955f, FORCEWAKE_RENDER),
+> +	GEN_FW_RANGE(0x9560, 0x967f, 0), /*
+> +		0x9560 - 0x95ff: always on
+> +		0x9600 - 0x967f: reserved */
+> +	GEN_FW_RANGE(0x9680, 0x97ff, FORCEWAKE_RENDER), /*
+> +		0x9680 - 0x96ff: render
+> +		0x9700 - 0x97ff: reserved */
+> +	GEN_FW_RANGE(0x9800, 0xcfff, FORCEWAKE_GT), /*
+> +		0x9800 - 0xb4ff: gt
+> +		0xb500 - 0xbfff: reserved
+> +		0xc000 - 0xcfff: gt */
+> +	GEN_FW_RANGE(0xd000, 0xd3ff, 0),
+> +	GEN_FW_RANGE(0xd400, 0xdbff, FORCEWAKE_GT),
+> +	GEN_FW_RANGE(0xdc00, 0xdcff, FORCEWAKE_RENDER),
+> +	GEN_FW_RANGE(0xdd00, 0xde7f, FORCEWAKE_GT), /*
+> +		0xdd00 - 0xddff: gt
+> +		0xde00 - 0xde7f: reserved */
+> +	GEN_FW_RANGE(0xde80, 0xe8ff, FORCEWAKE_RENDER), /*
+> +		0xde80 - 0xdeff: render
+> +		0xdf00 - 0xe1ff: reserved
+> +		0xe200 - 0xe7ff: render
+> +		0xe800 - 0xe8ff: reserved */
+> +	GEN_FW_RANGE(0xe900, 0x11fff, FORCEWAKE_GT), /*
+> +		 0xe900 -  0xe9ff: gt
+> +		 0xea00 -  0xebff: reserved
+> +		 0xec00 -  0xffff: gt
+> +		0x10000 - 0x11fff: reserved */
+> +	GEN_FW_RANGE(0x12000, 0x12fff, 0), /*
+> +		0x12000 - 0x127ff: always on
+> +		0x12800 - 0x12fff: reserved */
+> +	GEN_FW_RANGE(0x13000, 0x23fff, FORCEWAKE_GT), /*
+> +		0x13000 - 0x135ff: gt
+> +		0x13600 - 0x147ff: reserved
+> +		0x14800 - 0x153ff: gt
+> +		0x15400 - 0x19fff: reserved
+> +		0x1a000 - 0x1ffff: gt
+> +		0x20000 - 0x21fff: reserved
+> +		0x22000 - 0x23fff: gt */
+> +	GEN_FW_RANGE(0x24000, 0x2417f, 0), /*
+> +		24000 - 0x2407f: always on
+> +		24080 - 0x2417f: reserved */
+> +	GEN_FW_RANGE(0x24180, 0x3ffff, FORCEWAKE_GT), /*
+> +		0x24180 - 0x241ff: gt
+> +		0x24200 - 0x251ff: reserved
+> +		0x25200 - 0x252ff: gt
+> +		0x25300 - 0x25fff: reserved
+> +		0x26000 - 0x27fff: gt
+> +		0x28000 - 0x2ffff: reserved
+> +		0x30000 - 0x3ffff: gt */
+> +	GEN_FW_RANGE(0x40000, 0x1bffff, 0),
+> +	GEN_FW_RANGE(0x1c0000, 0x1c3fff, FORCEWAKE_MEDIA_VDBOX0), /*
+> +		0x1c0000 - 0x1c2bff: VD0
+> +		0x1c2c00 - 0x1c2cff: reserved
+> +		0x1c2d00 - 0x1c2dff: VD0
+> +		0x1c2e00 - 0x1c3eff: reserved
+> +		0x1c3f00 - 0x1c3fff: VD0 */
+> +	GEN_FW_RANGE(0x1c4000, 0x1cffff, FORCEWAKE_MEDIA_VDBOX1), /*
+> +		0x1c4000 - 0x1c6aff: VD1
+> +		0x1c6b00 - 0x1c7eff: reserved
+> +		0x1c7f00 - 0x1c7fff: VD1
+> +		0x1c8000 - 0x1cffff: reserved */
+> +	GEN_FW_RANGE(0x1d0000, 0x23ffff, FORCEWAKE_MEDIA_VDBOX2), /*
+> +		0x1d0000 - 0x1d2aff: VD2
+> +		0x1d2b00 - 0x1d3eff: reserved
+> +		0x1d3f00 - 0x1d3fff: VD2
+> +		0x1d4000 - 0x23ffff: reserved */
+> +	GEN_FW_RANGE(0x240000, 0x3dffff, 0),
+> +	GEN_FW_RANGE(0x3e0000, 0x3effff, FORCEWAKE_GT),
+> +};
+> +
+>  static void
+>  ilk_dummy_write(struct intel_uncore *uncore)
+>  {
+> @@ -2160,7 +2296,11 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
+>  
+>  	ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+>  
+> -	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55)) {
+> +	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 60)) {
+> +		ASSIGN_FW_DOMAINS_TABLE(uncore, __pvc_fw_ranges);
+> +		ASSIGN_SHADOW_TABLE(uncore, pvc_shadowed_regs);
+> +		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+> +	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55)) {
+>  		ASSIGN_FW_DOMAINS_TABLE(uncore, __dg2_fw_ranges);
+>  		ASSIGN_SHADOW_TABLE(uncore, dg2_shadowed_regs);
+>  		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+> diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
+> index cdd196783535..fda9bb79c049 100644
+> --- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
+> @@ -69,6 +69,7 @@ static int intel_shadow_table_check(void)
+>  		{ gen11_shadowed_regs, ARRAY_SIZE(gen11_shadowed_regs) },
+>  		{ gen12_shadowed_regs, ARRAY_SIZE(gen12_shadowed_regs) },
+>  		{ dg2_shadowed_regs, ARRAY_SIZE(dg2_shadowed_regs) },
+> +		{ pvc_shadowed_regs, ARRAY_SIZE(pvc_shadowed_regs) },
+>  	};
+>  	const struct i915_range *range;
+>  	unsigned int i, j;
+> @@ -115,6 +116,7 @@ int intel_uncore_mock_selftests(void)
+>  		{ __gen11_fw_ranges, ARRAY_SIZE(__gen11_fw_ranges), true },
+>  		{ __gen12_fw_ranges, ARRAY_SIZE(__gen12_fw_ranges), true },
+>  		{ __xehp_fw_ranges, ARRAY_SIZE(__xehp_fw_ranges), true },
+> +		{ __pvc_fw_ranges, ARRAY_SIZE(__pvc_fw_ranges), true },
+>  	};
+>  	int err, i;
+>  
+> -- 
+> 2.35.1
+> 
