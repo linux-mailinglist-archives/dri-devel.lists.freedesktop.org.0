@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347C053201A
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297EA53201E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1107C10E928;
-	Tue, 24 May 2022 01:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709E510E993;
+	Tue, 24 May 2022 01:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9FD10E928
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B5610E8C3
  for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 01:05:50 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 67C0484211;
+ by phobos.denx.de (Postfix) with ESMTPSA id D687D8421D;
  Tue, 24 May 2022 03:05:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1653354348;
- bh=t5rC/mbam5ZpbSy6PkWxNVnsIjP4ZmhHCmSTF/T59YQ=;
+ s=phobos-20191101; t=1653354349;
+ bh=W+TeGyJol84CQFlbMVtTrJ1W7TDJcNXoe1izVFNKQto=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P3BupvdJ+y54JWn0EsWrRWh+4YwY+VBcjHDpyvmlzvkOBBrINjDgbr+qE0Ij0BrNU
- OzDK98UKDUohAOn+nIt9SnT5dndpTWGolzTAVnTU7Qtah/emFQ9+cjAafaltfv3iog
- vM+TF+Lt08eUN5qjyyAVE6JQGZV1T7nw+aFfA/1q/P8D0Z5sqgc75bCwCYdrJcl/38
- Bb7PvFjliFEQKoVxYrth5th3exS+9PPs9Wousk43u3owdx2HevzHyve9nwhyADPR/Y
- 4Bl0jFcIKqFnyImYzbBjRi0hnaUzlHzC57KxGm2uSGWbt0fIgZVx4kxfe6iCbkptLi
- Ca9IkgvMnMboQ==
+ b=oe4noGU+OGxDbLDWlPHwA8S1DVQ+x6pRbOpQPi192/YrECtxLV1jdhoSCsvJU6f8K
+ zoqSQyn0R1E50RYQiFIzllTdtQg6dtaTt0ef7gz83wjJpa7o6mP00JFhMbtzPfuYfB
+ 32FvgF7kuQlWvfgbKg7kuJgv35WW2+5OQ9WFKTPbabDztLOWjMzLoBBvfVicIUngkI
+ qWZIjaD9Z2qTU8MTUTgG/33WVkstiopSKM1UYyh7FjFWjIjjSeh69b7hIxNSGaYD5T
+ nLpEheRjRt4rsm7zmnJnZmwwE9VVx9hcSRrFnSqTJDmJI6bymoz73y8RQoPUdwm2et
+ iPgM20o0Ll73A==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 06/11] drm/bridge: tc358767: Convert to
- drm_of_get_data_lanes_count
-Date: Tue, 24 May 2022 03:05:17 +0200
-Message-Id: <20220524010522.528569-6-marex@denx.de>
+Subject: [PATCH v2 07/11] drm/bridge: tc358775: Convert to
+ drm_of_get_data_lanes_count_ep
+Date: Tue, 24 May 2022 03:05:18 +0200
+Message-Id: <20220524010522.528569-7-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220524010522.528569-1-marex@denx.de>
 References: <20220524010522.528569-1-marex@denx.de>
@@ -74,38 +75,56 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 ---
 V2: - Rename drm_of_get_data_lanes{,_ep} to drm_of_get_data_lanes_count{,_ep}
+    - Drop now unused prop and len local variables
     - Add RB from Andrzej
 ---
- drivers/gpu/drm/bridge/tc358767.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 21 +++++----------------
+ 1 file changed, 5 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index cec0f50f4874f..44f32bf483c51 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1889,18 +1889,18 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
- 	int dsi_lanes, ret;
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index 62a7ef352daa5..5b1fb8e2f9a7d 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -529,8 +529,7 @@ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+ 	struct device_node *endpoint;
+ 	struct device_node *parent;
+ 	struct device_node *remote;
+-	struct property *prop;
+-	int len = 0;
++	int dsi_lanes;
  
- 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
--	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	dsi_lanes = drm_of_get_data_lanes_count(endpoint, 1, 4);
- 	host_node = of_graph_get_remote_port_parent(endpoint);
- 	host = of_find_mipi_dsi_host_by_node(host_node);
- 	of_node_put(host_node);
- 	of_node_put(endpoint);
+ 	/*
+ 	 * To get the data-lanes of dsi, we need to access the dsi0_out of port1
+@@ -544,25 +543,15 @@ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+ 		of_node_put(endpoint);
+ 		if (parent) {
+ 			/* dsi0 port 1 */
+-			endpoint = of_graph_get_endpoint_by_regs(parent, 1, -1);
++			dsi_lanes = drm_of_get_data_lanes_count_ep(parent, 1, -1, 1, 4);
+ 			of_node_put(parent);
+-			if (endpoint) {
+-				prop = of_find_property(endpoint, "data-lanes",
+-							&len);
+-				of_node_put(endpoint);
+-				if (!prop) {
+-					dev_err(tc->dev,
+-						"failed to find data lane\n");
+-					return -EPROBE_DEFER;
+-				}
+-			}
+ 		}
+ 	}
  
--	if (dsi_lanes <= 0 || dsi_lanes > 4)
--		return -EINVAL;
--
- 	if (!host)
- 		return -EPROBE_DEFER;
- 
+-	tc->num_dsi_lanes = len / sizeof(u32);
 +	if (dsi_lanes < 0)
 +		return dsi_lanes;
-+
- 	dsi = mipi_dsi_device_register_full(host, &info);
- 	if (IS_ERR(dsi))
- 		return dev_err_probe(dev, PTR_ERR(dsi),
+ 
+-	if (tc->num_dsi_lanes < 1 || tc->num_dsi_lanes > 4)
+-		return -EINVAL;
++	tc->num_dsi_lanes = dsi_lanes;
+ 
+ 	tc->host_node = of_graph_get_remote_node(np, 0, 0);
+ 	if (!tc->host_node)
 -- 
 2.35.1
 
