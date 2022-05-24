@@ -1,69 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39730532016
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:05:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C67532017
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:05:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4467B10E31B;
-	Tue, 24 May 2022 01:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F018310E829;
+	Tue, 24 May 2022 01:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADAA10E31B
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 01:05:17 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id i40so21168732eda.7
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 18:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OFIx7s/L3YnWfFaGk/Iok1k3YIHu8uSKhlMvRjqHwqQ=;
- b=KSe/i6TaqXpR9n9Kj7do5tEUVCruj9NeCfJis7lHPt4XCGpfoUSsdoXddyYwkGuok5
- 3r/Zv3GeYnYa3EkuzsUa+waSAnvXSIr8oza+OoPRxZNq0zKswJLBHr1tZeo9hc1oY5l1
- INhxu0T4ehuftGE/tXzigmaJGDdwu9VGppBZ4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OFIx7s/L3YnWfFaGk/Iok1k3YIHu8uSKhlMvRjqHwqQ=;
- b=SVxSRYqaZZ8HLSp79vlNDRd0LOr2Fz2bSm6GK4DB1uTN8whKr6lg/cW/OMiAR3UiJY
- qmm7qXo7prR9oh1Nf8vYimx34M+ZkeYm58Ye3ajuXRnfd28t+iu3wtmdyUTnqwIw937p
- yuFQJD5xNsT0K1NOnAHB9L9hpN2LlEkWg3YCYSYaCJxM48hMurioYXchDytSCP+CCN3q
- jUv3O4/GIrBoykiyu9uOelVd2s3v4flilJMrlmAM5HCC9D8yFCa3DM8u1oFIS58P/0mD
- 04q95qAPII6Vb9QelFZip5jdAOTBs0HScLsXHuVNltlUgf/aRBDAJXWOeqDf/I7XmHhK
- I6Xg==
-X-Gm-Message-State: AOAM533ld5IfNruhvgKPm3/TkbqvOwdqSUd2aDdZqaeDncunUQWs6NDl
- YPJVUefNdevNkg/9TW1JhUQVwFfCgIiOJG7nUPA=
-X-Google-Smtp-Source: ABdhPJyrMId/5GIpoABVAu9dj8p4n0RTiU23tBukauytmAw4XxzKc4F3yU+OaJdvkdEpDHKGrVLyrQ==
-X-Received: by 2002:a50:fd95:0:b0:42a:b7ba:291a with SMTP id
- o21-20020a50fd95000000b0042ab7ba291amr26229699edt.247.1653354315904; 
- Mon, 23 May 2022 18:05:15 -0700 (PDT)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com.
- [209.85.221.43]) by smtp.gmail.com with ESMTPSA id
- w5-20020aa7cb45000000b0042aa7e0f892sm8957620edt.15.2022.05.23.18.05.14
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 May 2022 18:05:15 -0700 (PDT)
-Received: by mail-wr1-f43.google.com with SMTP id u27so22739066wru.8
- for <dri-devel@lists.freedesktop.org>; Mon, 23 May 2022 18:05:14 -0700 (PDT)
-X-Received: by 2002:a05:6000:1548:b0:20f:c4e3:637a with SMTP id
- 8-20020a056000154800b0020fc4e3637amr11832701wry.513.1653353955258; Mon, 23
- May 2022 17:59:15 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D72610E829
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 01:05:47 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 5C09E8006F;
+ Tue, 24 May 2022 03:05:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1653354346;
+ bh=eax988FP+ukKcfRFQx360ite4mvfr/D/rb6PrVw2NvU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=w8sK/7Lc8QMTv1qfL4ywvO+6F33uPi0LRKRfzmzyhcihaZE2Lh5ANA0NMRkFy2SdM
+ TQkCB2eKfRsv/YcqnELxCAtEC91ZSmt6/J7GmqEPBuyiv4GU5loq8xJmZ9FlUDyQbk
+ UgLYNdtgep+YC8Za9oYsdDi9SXXKtGphpX9R/YXW5z4jwow2N4QpXGoH8ufG6L5UUr
+ XubwIY7BggUpLLXdlMYFbolNYs7PHuAtKWRFS7n+9jzEBXWL8jkimSgFNAO1xb24so
+ Ouxj2Wl5F98Aw5wDg+tpqJcfZCubZkzgjbXbazrKMayRMQSdACpioTRzTn0Z4JAxl/
+ z80n34vf+iwZg==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 01/11] drm: of: Add drm_of_get_data_lanes_count and
+ drm_of_get_data_lanes_ep
+Date: Tue, 24 May 2022 03:05:12 +0200
+Message-Id: <20220524010522.528569-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
- <5857c510-9783-a483-8414-65d7350618d6@suse.de>
- <CAD=FV=X99EWmRk82ako7cL7BWPEsTG=L7VVBVDFX5qKc1MifSA@mail.gmail.com>
-In-Reply-To: <CAD=FV=X99EWmRk82ako7cL7BWPEsTG=L7VVBVDFX5qKc1MifSA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 23 May 2022 17:59:02 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U3Wywjev9tEhkL_zE1cV5NwEknH2YwHqyhd5TQtiJ=AQ@mail.gmail.com>
-Message-ID: <CAD=FV=U3Wywjev9tEhkL_zE1cV5NwEknH2YwHqyhd5TQtiJ=AQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/probe-helper: Make 640x480 first if no EDID
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,103 +51,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- LKML <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org,
+ Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add helper function to count and sanitize DT "data-lanes" property
+and return either error or the data-lanes count. This is useful for
+both DSI and (e)DP "data-lanes" property. The later version of the
+function is an extra wrapper which handles the endpoint look up by
+regs, that's what majority of the drivers duplicate too, but not all
+of them.
 
-On Fri, May 20, 2022 at 5:01 PM Doug Anderson <dianders@chromium.org> wrote=
-:
->
-> Hi,
->
-> On Mon, May 16, 2022 at 3:28 AM Thomas Zimmermann <tzimmermann@suse.de> w=
-rote:
-> >
-> > Hi Douglas,
-> >
-> > I understand that you're trying to tell userspace that the modelist has
-> > been made up, but it's not something that should be done via fragile
-> > heuristics IMHO.
-> >
-> > I looked at the Chromium source code that you linked, but I cannot say
-> > whether it's doing the correct thing. It all depends on what your
-> > program needs.
-> >
-> > In that function, you could also search for 'DRM_MODE_TYPE_USERDEF'.
-> > It's the mode that the user specified on the kernel command line. If
-> > Chromium's automatic mode selection fails, you'd give your users direct
-> > control over it.
->
-> That doesn't really work for Chrome OS. Certainly a kernel hacker
-> could do this, but it's not something I could imagine us exposing to
-> an average user of a Chromebook.
->
->
-> > When there's no flagged mode or if
-> > /sys/class/drm/card<...>/status contains "unconnected", you can assume
-> > that the modelist is artificial and try the modes in an appropriate ord=
-er.
->
-> So "no flagged" means that nothing is marked as preferred, correct?
->
-> ...so I guess what you're suggesting is that the order that the kernel
-> is presenting the modes to userspace is not ABI. If there are no
-> preferred modes then userspace shouldn't necessarily assume that the
-> first mode returned is the best mode. Instead it should assume that if
-> there is no preferred mode then the mode list is made up and it should
-> make its own decisions about the best mode to start with. If this is
-> the ABI from the kernel then plausibly I could convince people to
-> change userspace to pick 640x480 first in this case.
->
-> > If we really want the kernel to give additional guarantees, we should
-> > have a broader discussion about this topic IMHO.
->
-> Sure. I've added St=C3=A9phane Marchesin to this thread in case he wants =
-to
-> chime in about anything.
->
-> Overall, my take on the matter:
->
-> * Mostly I got involved because, apparently, a DP compliance test was
-> failing. The compliance test was upset that when it presented us with
-> no EDID that we didn't default to 640x480. There was a push to make a
-> fix for this in the Qualcomm specific driver but that didn't sit right
-> with me.
->
-> * On all devices I'm currently working with (laptops), the DP is a
-> secondary display. If a user was trying to plug in a display with a
-> bad EDID and the max mode (1024x768) didn't work, they could just use
-> the primary display to choose a different resolution. It seems
-> unlikely a user would truly be upset and would probably be happy they
-> could get their broken display to work at all. Even if this is a
-> primary display, I believe there are documented key combos to change
-> the resolution of the primary display even if you can't see anything.
->
-> * That all being said, defaulting to 640x480 when there's no EDID made
-> sense to me, especially since it's actually defined in the DP spec. So
-> I'm trying to do the right thing and solve this corner case. That
-> being said, if it's truly controversial I can just drop it.
->
->
-> So I guess my plan will be to give St=C3=A9phane a little while in case h=
-e
-> wants to chime in. If not then I guess I'll try a Chrome patch...
-> ...and if that doesn't work, I'll just drop it.
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org
+---
+V2: - Rename drm_of_get_data_lanes{,_ep} to drm_of_get_data_lanes_count{,_ep}
+    - Add RB from Andrzej
+---
+ drivers/gpu/drm/drm_of.c | 61 ++++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_of.h     | 20 +++++++++++++
+ 2 files changed, 81 insertions(+)
 
-OK, this userspace code seems to work:
+diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+index 9a2cfab3a177f..2c1ee601f1d83 100644
+--- a/drivers/gpu/drm/drm_of.c
++++ b/drivers/gpu/drm/drm_of.c
+@@ -430,3 +430,64 @@ int drm_of_lvds_get_data_mapping(const struct device_node *port)
+ 	return -EINVAL;
+ }
+ EXPORT_SYMBOL_GPL(drm_of_lvds_get_data_mapping);
++
++/**
++ * drm_of_get_data_lanes_count - Get DSI/(e)DP data lane count
++ * @endpoint: DT endpoint node of the DSI/(e)DP source or sink
++ * @min: minimum supported number of data lanes
++ * @max: maximum supported number of data lanes
++ *
++ * Count DT "data-lanes" property elements and check for validity.
++ *
++ * Return:
++ * * min..max - positive integer count of "data-lanes" elements
++ * * -ve - the "data-lanes" property is missing or invalid
++ * * -EINVAL - the "data-lanes" property is unsupported
++ */
++int drm_of_get_data_lanes_count(const struct device_node *endpoint,
++				const unsigned int min, const unsigned int max)
++{
++	int ret;
++
++	ret = of_property_count_u32_elems(endpoint, "data-lanes");
++	if (ret < 0)
++		return ret;
++
++	if (ret < min || ret > max)
++		return -EINVAL;
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count);
++
++/**
++ * drm_of_get_data_lanes_count_ep - Get DSI/(e)DP data lane count by endpoint
++ * @port: DT port node of the DSI/(e)DP source or sink
++ * @port_reg: identifier (value of reg property) of the parent port node
++ * @reg: identifier (value of reg property) of the endpoint node
++ * @min: minimum supported number of data lanes
++ * @max: maximum supported number of data lanes
++ *
++ * Count DT "data-lanes" property elements and check for validity.
++ * This variant uses endpoint specifier.
++ *
++ * Return:
++ * * min..max - positive integer count of "data-lanes" elements
++ * * -EINVAL - the "data-mapping" property is unsupported
++ * * -ENODEV - the "data-mapping" property is missing
++ */
++int drm_of_get_data_lanes_count_ep(const struct device_node *port,
++				   int port_reg, int reg,
++				   const unsigned int min,
++				   const unsigned int max)
++{
++	struct device_node *endpoint;
++	int ret;
++
++	endpoint = of_graph_get_endpoint_by_regs(port, port_reg, reg);
++	ret = drm_of_get_data_lanes_count(endpoint, min, max);
++	of_node_put(endpoint);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(drm_of_get_data_lanes_count_ep);
+diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+index 99f79ac8b4cd7..92387eabcb6f0 100644
+--- a/include/drm/drm_of.h
++++ b/include/drm/drm_of.h
+@@ -50,6 +50,12 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
+ int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
+ 					  const struct device_node *port2);
+ int drm_of_lvds_get_data_mapping(const struct device_node *port);
++int drm_of_get_data_lanes_count(const struct device_node *endpoint,
++				const unsigned int min, const unsigned int max);
++int drm_of_get_data_lanes_count_ep(const struct device_node *port,
++				   int port_reg, int reg,
++				   const unsigned int min,
++				   const unsigned int max);
+ #else
+ static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
+ 					  struct device_node *port)
+@@ -105,6 +111,20 @@ drm_of_lvds_get_data_mapping(const struct device_node *port)
+ {
+ 	return -EINVAL;
+ }
++
++int drm_of_get_data_lanes_count(const struct device_node *endpoint,
++				const unsigned int min, const unsigned int max)
++{
++	return -EINVAL;
++}
++
++int drm_of_get_data_lanes_count_ep(const struct device_node *port,
++				   int port_reg, int reg
++				   const unsigned int min,
++				   const unsigned int max)
++{
++	return -EINVAL;
++}
+ #endif
+ 
+ /*
+-- 
+2.35.1
 
-https://crrev.com/c/3662501 - ozone/drm: Try 640x480 before picking
-the first mode if no EDID
-
-...so we'll see how review of that goes. :-)
