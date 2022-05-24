@@ -2,46 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46586532484
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 09:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A46805324FD
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 10:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E20810EC46;
-	Tue, 24 May 2022 07:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7183B10E559;
+	Tue, 24 May 2022 08:12:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6111B10EBC0;
- Tue, 24 May 2022 07:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653378930; x=1684914930;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Ri89ScPQ7oq+a4jOmp7mj209IJeqLk6OglWquWkecCQ=;
- b=TI3YYNuzvRi46UBWxnVnoDmOa+hdYfwHXWenB49vpmpM+8DhAh7+8irt
- BVWYx36PHnDTrMlnVAjEdSCcjFD6CHz1wZuDB/aGvEY7bzsXquhiHnMGX
- STUFsCgI3rr8UnRP8lfMeYHOBmoy8BK7MWuDJomJih9QF5SsSNFgIn37n
- K/QA/P5tkXnttgcA7J0wJbn8TTl67RgolqIwursm1fx6fTfdWblIn1H+b
- PiaqiEozJpckwk26iymeIXvHLQTXCpQHV6LeviyzLgVBnTHOsizaVHGku
- LqgA5CxNkGQvG8II0keObPPbt21jA1WBdq+A4kWLhy4XcVKmCkliOCdYl w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="261068578"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="261068578"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 00:55:29 -0700
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="548359103"
-Received: from cennis-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.213.170])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 00:55:27 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Complete and clarify per client usage stats
- documentation
-Date: Tue, 24 May 2022 08:55:19 +0100
-Message-Id: <20220524075519.1553540-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from out30-43.freemail.mail.aliyun.com
+ (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F31610E4A0;
+ Tue, 24 May 2022 08:12:08 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R711e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=alimailimapcm10staff010182156082;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=14; SR=0;
+ TI=SMTPD_---0VEHD8XS_1653379916; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VEHD8XS_1653379916) by smtp.aliyun-inc.com(127.0.0.1);
+ Tue, 24 May 2022 16:12:04 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amdgpu/discovery: make amdgpu_discovery_get_mall_info
+ static
+Date: Tue, 24 May 2022 16:11:54 +0800
+Message-Id: <20220524081154.35061-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,33 +42,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: yifan1.zhang@amd.com, Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ airlied@linux.ie, Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ luben.tuikov@amd.com, dri-devel@lists.freedesktop.org, Likun.Gao@amd.com,
+ flora.cui@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+This symbol is not used outside of amdgpu_discovery.c, so marks it static.
 
-Mention the compute engine which was recently added to the driver and also
-clarify that userspace should be written in a forward compatible way.
+Fixes the following w1 warning:
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1364:5: warning: no
+previous prototype for ‘amdgpu_discovery_get_mall_info’
+[-Wmissing-prototypes].
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- Documentation/gpu/i915.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 54060cd6c419..3e28b08ba6f6 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -723,5 +723,6 @@ the currently possible format options:
-       drm-engine-capacity-video:   2
-       drm-engine-video-enhance:   0 ns
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+index 881570dced41..16cdfb30b013 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
+@@ -1361,7 +1361,7 @@ union mall_info {
+ 	struct mall_info_v1_0 v1;
+ };
  
--Possible `drm-engine-` key names are: `render`, `copy`, `video` and
--`video-enhance`.
-+Possible `drm-engine-` key names are: `render`, `copy`, `video`,
-+`video-enhance` and `compute`. This list may not be complete and userspace
-+parsers should in any case handle new names appearing with new kernel releases.
+-int amdgpu_discovery_get_mall_info(struct amdgpu_device *adev)
++static int amdgpu_discovery_get_mall_info(struct amdgpu_device *adev)
+ {
+ 	struct binary_header *bhdr;
+ 	union mall_info *mall_info;
 -- 
-2.32.0
+2.20.1.7.g153144c
 
