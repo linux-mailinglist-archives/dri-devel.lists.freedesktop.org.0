@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62C4532024
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 03:07:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 771455320ED
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 04:27:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9825310E9D5;
-	Tue, 24 May 2022 01:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9D810E140;
+	Tue, 24 May 2022 02:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6293510E9D5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 01:07:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653354441; x=1684890441;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=04sFJAdFzSSOKF5S3OmhGmikP+EvjqHBy1pEPF+1/oA=;
- b=F7hRM2Bwbow+QdnJe1aQzxkjz5Y+0Vv/Mt1VY3ZXgdou3IoLTcYT/XH9
- Pkeqm2uT/0E7bD3mUPBV89WSxoX6hNoq/pnutTrmK6Y6cKV1Z2bo2p8de
- hBx2crd89Go/jVLe74cmPuT5eRAdkWTHtJ6wSwIhHzVSwgs/Wqfs/NJFF 0=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 23 May 2022 18:07:20 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 18:07:20 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 23 May 2022 18:07:20 -0700
-Received: from [10.38.240.101] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 23 May
- 2022 18:07:17 -0700
-Message-ID: <d438fa5a-5c3d-513c-db0b-2989a09fb8c1@quicinc.com>
-Date: Mon, 23 May 2022 18:07:15 -0700
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A3510E140
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 02:27:38 +0000 (UTC)
+Received: from kwepemi100014.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4L6dLq1NYszQk8F;
+ Tue, 24 May 2022 10:24:35 +0800 (CST)
+Received: from kwepemm600018.china.huawei.com (7.193.23.140) by
+ kwepemi100014.china.huawei.com (7.221.188.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 24 May 2022 10:27:34 +0800
+Received: from [10.174.176.88] (10.174.176.88) by
+ kwepemm600018.china.huawei.com (7.193.23.140) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 24 May 2022 10:27:33 +0800
+Message-ID: <4e513db6-6b42-0b86-d0ed-fac762d9c746@huawei.com>
+Date: Tue, 24 May 2022 10:27:32 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 10/11] drm/msm: Convert to drm_of_get_data_lanes_count
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
-References: <20220524010522.528569-1-marex@denx.de>
- <20220524010522.528569-10-marex@denx.de>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220524010522.528569-10-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ Thunderbird/91.9.0
+Subject: Re: [PATCH -next] drm/panel: Fix build error when
+ CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=y && CONFIG_DRM_DISPLAY_HELPER=m
+To: Doug Anderson <dianders@chromium.org>
+References: <20220523085745.276-1-gaochao49@huawei.com>
+ <CAD=FV=VVZo+wsR0yPLvq-8jkZg12+Sw0NM0TkgQLHDCxCiFdGw@mail.gmail.com>
+From: "gaochao (L)" <gaochao49@huawei.com>
+In-Reply-To: <CAD=FV=VVZo+wsR0yPLvq-8jkZg12+Sw0NM0TkgQLHDCxCiFdGw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.176.88]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600018.china.huawei.com (7.193.23.140)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,80 +53,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Paul <sean@poorly.run>, robert.foss@linaro.org,
- Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sam
- Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, zhengbin13@huawei.com,
+ Thierry Reding <thierry.reding@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/23/2022 6:05 PM, Marek Vasut wrote:
-> Convert driver to use this new helper to standardize
-> OF "data-lanes" parsing.
+在 2022/5/24 0:47, Doug Anderson 写道:
+> Hi,
 > 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Marek Vasut <marex@denx.de>
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sean Paul <sean@poorly.run>
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V2: - Use drm/msm prefix
->      - Rename drm_of_get_data_lanes{,_ep} to drm_of_get_data_lanes_count{,_ep}
->      - Add RB from Andrzej and Dmitry
-> ---
->   drivers/gpu/drm/msm/dp/dp_parser.c | 6 ++----
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 7 +++----
->   2 files changed, 5 insertions(+), 8 deletions(-)
+> On Mon, May 23, 2022 at 1:58 AM gaochao <gaochao49@huawei.com> wrote:
+>>
+>> If CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=y && CONFIG_DRM_DISPLAY_HELPER=m,
+>> bulding fails:
+>>
+>> drivers/gpu/drm/panel/panel-samsung-atna33xc20.o: In function `atana33xc20_probe':
+>> panel-samsung-atna33xc20.c:(.text+0x744): undefined reference to
+>>  `drm_panel_dp_aux_backlight'
+>> make: *** [vmlinux] Error 1
+>>
+>> Let CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20 select DRM_DISPLAY_DP_HELPER and
+>> CONFIG_DRM_DISPLAY_HELPER to fix this error.
+>>
+>> Fixes: 32ce3b320343 ("drm/panel: atna33xc20: Introduce the Samsung ATNA33XC20 panel")
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Signed-off-by: gaochao <gaochao49@huawei.com>
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index 8f9fed9fdafc4..346556c5706d7 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -102,11 +102,9 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
->   static int dp_parser_misc(struct dp_parser *parser)
->   {
->   	struct device_node *of_node = parser->pdev->dev.of_node;
-> -	int len = 0;
-> -	const char *data_lane_property = "data-lanes";
-> +	int len;
->   
-> -	len = of_property_count_elems_of_size(of_node,
-> -			 data_lane_property, sizeof(u32));
-> +	len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
->   	if (len < 0) {
->   		DRM_WARN("Invalid property %s, default max DP lanes = %d\n",
->   				data_lane_property, DP_MAX_NUM_DP_LANES);
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index a95d5df52653c..90f9d3daa9a6d 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1779,11 +1779,10 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
->   		return 0;
->   	}
->   
-> -	num_lanes = len / sizeof(u32);
-> -
-> -	if (num_lanes < 1 || num_lanes > 4) {
-> +	num_lanes = drm_of_get_data_lanes_count(ep, 1, 4);
-> +	if (num_lanes < 0) {
->   		DRM_DEV_ERROR(dev, "bad number of data lanes\n");
-> -		return -EINVAL;
-> +		return num_lanes;
->   	}
->   
->   	msm_host->num_data_lanes = num_lanes;
+> I think the author / Signed-off-by are supposed to be real names. Is
+> "gaochao" your legal name?
+Thank you for the review.
+Should be "Gao Chao", fixing in the second version.
+> 
+>> ---
+>>  drivers/gpu/drm/panel/Kconfig | 2 ++
+>>  1 file changed, 2 insertions(+)
+> 
+> Other than the Signed-off-by / Author issue:
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> .
