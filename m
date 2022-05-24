@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6035E532C90
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 16:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F47532CB7
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 16:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7F110F208;
-	Tue, 24 May 2022 14:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91C710F0FB;
+	Tue, 24 May 2022 14:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4316210F2D8;
- Tue, 24 May 2022 14:50:14 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id z15so2232699wrg.11;
- Tue, 24 May 2022 07:50:14 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 265D810F0DC;
+ Tue, 24 May 2022 14:57:40 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id f2so26144295wrc.0;
+ Tue, 24 May 2022 07:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kIY8SwXkyQHVWu+ZYCWYINzybbhqc/eSn/MnJ0CVSeg=;
- b=fpXZ2z7K+jtT26hMRH7ShiF9SE+89YRbSVhNSdIqKjGOqiWi3ZN1HcRb+3yGjBHq47
- Z5UL7WefFLba4BOX225Ci6oPRtxOay2CG3ceJfuf8MU1JMSJoWdNz4WUZ5nKXdfFobo3
- wiOryevVFsgkf4aBkhsvjGt3HzwnlF7L/1OzQ3ZIwGQksnPt+Pgx3M+hMEiQDtsi6TxG
- 3OqCpKmO/scCjBezH+NCrUfunVOs6K7XRD1JGjA8uu8Gs7p3/Q4wm13Lpg+0LXQnghg5
- wSjvTCdXujqJacZ/ObJtL+4RsvsOF5fiVCeDmdLFw16K+C/c+A5boWTCSbol7H1rNHut
- HPZA==
+ :cc; bh=8QCXWE8pHcx/LPFOM0jnsp7YMG7xupSlYpQdCSFNUHw=;
+ b=XU4G4jEKkCzsqX+M6RhH9F1TCMT0asu3D+KLqRNZfWNgVR3Wf/7Alp0e5T6HCNh6Vh
+ dBc1UBuoA83+xqkYyILM4dx9Ji9q8Mxqv1NyjByaxPpmVsX+MWO1uqPW5XmP5KSmCJep
+ URkMiksoRfX8IjBrTXJefT2GuEGX1gF89kQXmSH9uV7EI996f8Fe69hhl2D5WY5cIDtS
+ jyZdGzmlTgLSUdrp3dQ9AA+7XIsjPsHZS03ag+dKBJ++Rd2Z2vWPzM/CyPF190MxlpDu
+ q8834SNZa0HKzU7aijqOdl1sKEfhiqRx5B3y1ZWXrdr87O/PIgV30hMFrJkaEBRYxxDh
+ gsrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kIY8SwXkyQHVWu+ZYCWYINzybbhqc/eSn/MnJ0CVSeg=;
- b=d5hZ64DY54VHzbI1E5q2Z0jQhcec35SFf+OvaT632zUJUEaKhez//rfwx3WteaTgqD
- ooAb2VnJSVb7OpAzD8LFsD6Ga8rrODZiyoddtP4eUc4oAtaGwLuNZjKO9GmyljZX+3Ll
- QdqXAMBpTd2QsxtUn0sMLVNG+/AuPQOuLgkCsBJzqJkHVfqCZFHiubsjqdo7qH3DmG3N
- HMdydB4ajQo2dRNXARGk5FndIlLMNdPJncsxXBUGqFoSpJbNNltbhCJnFHdeZfCDI1G4
- pbnvSojqu/Eo5B4hAHnuPv7qf4K9TUILqNEP3bel70uhM9r4RsQOlHG11F8TcqLDhud/
- Z5FQ==
-X-Gm-Message-State: AOAM532enfAH6Q/9D+643jGIJs4H+knX4R6u4lJ/H6lWsgi5Lz+ynM9W
- 8l0G+czaTe0k+bY85QO9mx6wjmHG5SNpeltShTYFCQhBOOY=
-X-Google-Smtp-Source: ABdhPJyJPJGQNdXm00PRx0f7dWblPP276+2SaSmi1JmN/5N63sEYUqWW6/NHnpdDgiFyIEizNKaZz3jGLZmJpVQ3yqg=
-X-Received: by 2002:adf:f645:0:b0:20e:652d:2a4e with SMTP id
- x5-20020adff645000000b0020e652d2a4emr24054581wrp.344.1653403812398; Tue, 24
- May 2022 07:50:12 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=8QCXWE8pHcx/LPFOM0jnsp7YMG7xupSlYpQdCSFNUHw=;
+ b=2xA8Qbr+DHYY6B9ZQ2Sio6FLPsWfO9oZpv750EZt6MMuTpmDooD0QU83YcwUwmOBMm
+ 7vx9YAH3i8U5MxhZGWTGWCDyyGdu9LZXWFtW7znI2/66CO0+pNzPrpd1pmRzU2FfL+sh
+ r88SiqkRTm69pglTx14NtRUKkd2ngL94IPXp2AIkTW65ylEyS2nFIG/SkDw4IJxwMgT4
+ B/PR4Ml19NwYkxmlnl+2OqiqUh3hg6upsQ3y3thzTkb2pq3YLhg6bLZovt13ZpBB1krV
+ 0IHpieJe6FuLs8piDu9GHhximfG8PPpEpn5DZuCrURAlZdTKYfhxzLeC/EweJmXPSyca
+ 6aeg==
+X-Gm-Message-State: AOAM5321iWLOE4XMvssr9Q1l3JhM4k95vFJPadYsMcDFA9lqCBi0IE1u
+ RtTvitRwhrsSXukiOyJIuyD9cgbYNzeTQWIx7kY=
+X-Google-Smtp-Source: ABdhPJysZ2H+hEScT6iz94cgUKE3RmyT0gSy6SbonGVwdaIBdcNtxyO4YfpOfg4amI95k5hZykP/nC4Z+b5/pRjd6zc=
+X-Received: by 2002:adf:fb0d:0:b0:20d:97e:17ce with SMTP id
+ c13-20020adffb0d000000b0020d097e17cemr24151626wrr.585.1653404258483; Tue, 24
+ May 2022 07:57:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210728010632.2633470-1-robdclark@gmail.com>
  <20210728010632.2633470-13-robdclark@gmail.com>
@@ -50,12 +49,11 @@ References: <20210728010632.2633470-1-robdclark@gmail.com>
  <904ae104-1c30-d130-129f-ccae381261d5@linux.intel.com>
 In-Reply-To: <904ae104-1c30-d130-129f-ccae381261d5@linux.intel.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 24 May 2022 07:50:00 -0700
-Message-ID: <CAF6AEGsH=K1Hut7QBmF1kX40xS+9px=BrtZecAXVQopNs67Feg@mail.gmail.com>
+Date: Tue, 24 May 2022 07:57:26 -0700
+Message-ID: <CAF6AEGuVhXuX63Od+kcJ0QtfAZ2-wqZsN0KOuEzKbivJdouzog@mail.gmail.com>
 Subject: Re: [PATCH v4 12/13] drm/msm: Utilize gpu scheduler priorities
 To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,195 +83,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, May 24, 2022 at 6:45 AM Tvrtko Ursulin
 <tvrtko.ursulin@linux.intel.com> wrote:
 >
->
 > On 23/05/2022 23:53, Rob Clark wrote:
-> > On Mon, May 23, 2022 at 7:45 AM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >>
-> >> Hi Rob,
-> >>
-> >> On 28/07/2021 02:06, Rob Clark wrote:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> The drm/scheduler provides additional prioritization on top of that
-> >>> provided by however many number of ringbuffers (each with their own
-> >>> priority level) is supported on a given generation.  Expose the
-> >>> additional levels of priority to userspace and map the userspace
-> >>> priority back to ring (first level of priority) and schedular priorit=
-y
-> >>> (additional priority levels within the ring).
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>> ---
-> >>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +-
-> >>>    drivers/gpu/drm/msm/msm_gem_submit.c    |  4 +-
-> >>>    drivers/gpu/drm/msm/msm_gpu.h           | 58 +++++++++++++++++++++=
-+++-
-> >>>    drivers/gpu/drm/msm/msm_submitqueue.c   | 35 +++++++--------
-> >>>    include/uapi/drm/msm_drm.h              | 14 +++++-
-> >>>    5 files changed, 88 insertions(+), 27 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/dr=
-m/msm/adreno/adreno_gpu.c
-> >>> index bad4809b68ef..748665232d29 100644
-> >>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> >>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> >>> @@ -261,8 +261,8 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_=
-t param, uint64_t *value)
-> >>>                        return ret;
-> >>>                }
-> >>>                return -EINVAL;
-> >>> -     case MSM_PARAM_NR_RINGS:
-> >>> -             *value =3D gpu->nr_rings;
-> >>> +     case MSM_PARAM_PRIORITIES:
-> >>> +             *value =3D gpu->nr_rings * NR_SCHED_PRIORITIES;
-> >>>                return 0;
-> >>>        case MSM_PARAM_PP_PGTABLE:
-> >>>                *value =3D 0;
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/m=
-sm/msm_gem_submit.c
-> >>> index 450efe59abb5..c2ecec5b11c4 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> >>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> >>> @@ -59,7 +59,7 @@ static struct msm_gem_submit *submit_create(struct =
-drm_device *dev,
-> >>>        submit->gpu =3D gpu;
-> >>>        submit->cmd =3D (void *)&submit->bos[nr_bos];
-> >>>        submit->queue =3D queue;
-> >>> -     submit->ring =3D gpu->rb[queue->prio];
-> >>> +     submit->ring =3D gpu->rb[queue->ring_nr];
-> >>>        submit->fault_dumped =3D false;
-> >>>
-> >>>        INIT_LIST_HEAD(&submit->node);
-> >>> @@ -749,7 +749,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, =
-void *data,
-> >>>        /* Get a unique identifier for the submission for logging purp=
-oses */
-> >>>        submitid =3D atomic_inc_return(&ident) - 1;
-> >>>
-> >>> -     ring =3D gpu->rb[queue->prio];
-> >>> +     ring =3D gpu->rb[queue->ring_nr];
-> >>>        trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
-> >>>                args->nr_bos, args->nr_cmds);
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_=
-gpu.h
-> >>> index b912cacaecc0..0e4b45bff2e6 100644
-> >>> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> >>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> >>> @@ -250,6 +250,59 @@ struct msm_gpu_perfcntr {
-> >>>        const char *name;
-> >>>    };
-> >>>
-> >>> +/*
-> >>> + * The number of priority levels provided by drm gpu scheduler.  The
-> >>> + * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in =
-some
-> >>> + * cases, so we don't use it (no need for kernel generated jobs).
-> >>> + */
-> >>> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED=
-_PRIORITY_MIN)
-> >>> +
-> >>> +/**
-> >>> + * msm_gpu_convert_priority - Map userspace priority to ring # and s=
-ched priority
-> >>> + *
-> >>> + * @gpu:        the gpu instance
-> >>> + * @prio:       the userspace priority level
-> >>> + * @ring_nr:    [out] the ringbuffer the userspace priority maps to
-> >>> + * @sched_prio: [out] the gpu scheduler priority level which the use=
-rspace
-> >>> + *              priority maps to
-> >>> + *
-> >>> + * With drm/scheduler providing it's own level of prioritization, ou=
-r total
-> >>> + * number of available priority levels is (nr_rings * NR_SCHED_PRIOR=
-ITIES).
-> >>> + * Each ring is associated with it's own scheduler instance.  Howeve=
-r, our
-> >>> + * UABI is that lower numerical values are higher priority.  So mapp=
-ing the
-> >>> + * single userspace priority level into ring_nr and sched_prio takes=
- some
-> >>> + * care.  The userspace provided priority (when a submitqueue is cre=
-ated)
-> >>> + * is mapped to ring nr and scheduler priority as such:
-> >>> + *
-> >>> + *   ring_nr    =3D userspace_prio / NR_SCHED_PRIORITIES
-> >>> + *   sched_prio =3D NR_SCHED_PRIORITIES -
-> >>> + *                (userspace_prio % NR_SCHED_PRIORITIES) - 1
-> >>> + *
-> >>> + * This allows generations without preemption (nr_rings=3D=3D1) to h=
-ave some
-> >>> + * amount of prioritization, and provides more priority levels for g=
-ens
-> >>> + * that do have preemption.
-> >>
-> >> I am exploring how different drivers handle priority levels and this
-> >> caught my eye.
-> >>
-> >> Is the implication of the last paragraphs that on hw with nr_rings > 1=
-,
-> >> ring + 1 preempts ring?
-> >
-> > Other way around, at least from the uabi standpoint.  Ie. ring[0]
-> > preempts ring[1]
->
-> Ah yes, I figure it out from the comments but then confused myself when
-> writing the email.
->
-> >> If so I am wondering does the "spreading" of
-> >> user visible priorities by NR_SCHED_PRIORITIES creates a non-preemptab=
-le
-> >> levels within every "bucket" or how does that work?
-> >
-> > So, preemption is possible between any priority level before run_job()
-> > gets called, which writes the job into the ringbuffer.  After that
->
-> Hmm how? Before run_job() the jobs are not runnable, sitting in the
-> scheduler queues, right?
-
-I mean, if prio[0]+prio[1]+prio[2] map to a single ring, submit A on
-prio[1] could be executed after submit B on prio[2] provided that
-run_job(submitA) hasn't happened yet.  So I guess it isn't "really"
-preemption because the submit hasn't started running on the GPU yet.
-But rather just scheduling according to priority.
-
-> > point, you only have "bucket" level preemption, because
-> > NR_SCHED_PRIORITIES levels of priority get mapped to a single FIFO
-> > ringbuffer.
->
-> Right, and you have one GPU with four rings, which means you expose 12
-> priority levels to userspace, did I get that right?
-
-Correct
-
-> If so how do you convey in the ABI that not all there priority levels
-> are equal? Like userspace can submit at prio 4 and expect prio 3 to
-> preempt, as would prio 2 preempt prio 3. While actual behaviour will not
-> match - 3 will not preempt 4.
-
-It isn't really exposed to userspace, but perhaps it should be..
-Userspace just knows that, to the extent possible, the kernel will try
-to execute prio 3 before prio 4.
-
-> Also, does your userspace stack (EGL/Vulkan) use the priorities? I had a
-> quick peek in Mesa but did not spot it - although I am not really at
-> home there yet so maybe I missed it.
-
-Yes, there is an EGL extension:
-
-https://www.khronos.org/registry/EGL/extensions/IMG/EGL_IMG_context_priorit=
-y.txt
-
-It is pretty limited, it only exposes three priority levels.
-
-BR,
--R
-
-> > -----
 > >
 > > btw, one fun (but unrelated) issue I'm hitting with scheduler... I'm
 > > trying to add an igt test to stress shrinker/eviction, similar to the
@@ -288,7 +98,12 @@ BR,
 > > RAM..
 >
 > Is that one or multiple threads submitting jobs?
->
+
+In this case multiple.. but I think it could also happen with a single
+thread (provided it didn't stall on a fence, directly or indirectly,
+from an earlier submit), because of how resume and actual job
+submission happens from scheduler kthread.
+
 > > I'm not sure if we want a way to prevent userspace from getting *too*
 > > far ahead of the kthread.  Or maybe at some point the shrinker should
 > > sleep on non-idle buffers?
@@ -297,7 +112,22 @@ BR,
 > we only shrink idle objects on direct reclaim and leave active ones for
 > the swapper. It depends on how your locking looks like whether you could
 > do them, whether there would be coupling of locks and fs-reclaim context.
->
+
+I think the locking is more or less ok, although lockdep is unhappy
+about one thing[1] which is I think a false warning (ie. not
+recognizing that we'd already successfully acquired the obj lock via
+trylock).  We can already reclaim idle bo's in this path.  But the
+problem with a bunch of submits queued up in the scheduler, is that
+they are already considered pinned and active.  So at some point we
+need to sleep (hopefully interruptabley) until they are no longer
+active, ie. to throttle userspace trying to shove in more submits
+until some of the enqueued ones have a chance to run and complete.
+
+BR,
+-R
+
+[1] https://gitlab.freedesktop.org/drm/msm/-/issues/14
+
 > Regards,
 >
 > Tvrtko
@@ -311,48 +141,40 @@ BR,
 > >> Tvrtko
 > >>
 > >>> + */
-> >>> +static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int =
-prio,
+> >>> +static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
 > >>> +             unsigned *ring_nr, enum drm_sched_priority *sched_prio)
 > >>> +{
 > >>> +     unsigned rn, sp;
 > >>> +
-> >>> +     rn =3D div_u64_rem(prio, NR_SCHED_PRIORITIES, &sp);
+> >>> +     rn = div_u64_rem(prio, NR_SCHED_PRIORITIES, &sp);
 > >>> +
 > >>> +     /* invert sched priority to map to higher-numeric-is-higher-
 > >>> +      * priority convention
 > >>> +      */
-> >>> +     sp =3D NR_SCHED_PRIORITIES - sp - 1;
+> >>> +     sp = NR_SCHED_PRIORITIES - sp - 1;
 > >>> +
-> >>> +     if (rn >=3D gpu->nr_rings)
+> >>> +     if (rn >= gpu->nr_rings)
 > >>> +             return -EINVAL;
 > >>> +
-> >>> +     *ring_nr =3D rn;
-> >>> +     *sched_prio =3D sp;
+> >>> +     *ring_nr = rn;
+> >>> +     *sched_prio = sp;
 > >>> +
 > >>> +     return 0;
 > >>> +}
 > >>> +
 > >>>    /**
-> >>>     * A submitqueue is associated with a gl context or vk queue (or e=
-quiv)
+> >>>     * A submitqueue is associated with a gl context or vk queue (or equiv)
 > >>>     * in userspace.
 > >>> @@ -257,7 +310,8 @@ struct msm_gpu_perfcntr {
-> >>>     * @id:        userspace id for the submitqueue, unique within the=
- drm_file
-> >>>     * @flags:     userspace flags for the submitqueue, specified at c=
-reation
+> >>>     * @id:        userspace id for the submitqueue, unique within the drm_file
+> >>>     * @flags:     userspace flags for the submitqueue, specified at creation
 > >>>     *             (currently unusued)
 > >>> - * @prio:      the submitqueue priority
-> >>> + * @ring_nr:   the ringbuffer used by this submitqueue, which is det=
-ermined
+> >>> + * @ring_nr:   the ringbuffer used by this submitqueue, which is determined
 > >>> + *             by the submitqueue's priority
-> >>>     * @faults:    the number of GPU hangs associated with this submit=
-queue
-> >>>     * @ctx:       the per-drm_file context associated with the submit=
-queue (ie.
-> >>>     *             which set of pgtables do submits jobs associated wi=
-th the
+> >>>     * @faults:    the number of GPU hangs associated with this submitqueue
+> >>>     * @ctx:       the per-drm_file context associated with the submitqueue (ie.
+> >>>     *             which set of pgtables do submits jobs associated with the
 > >>> @@ -272,7 +326,7 @@ struct msm_gpu_perfcntr {
 > >>>    struct msm_gpu_submitqueue {
 > >>>        int id;
@@ -362,13 +184,11 @@ th the
 > >>>        int faults;
 > >>>        struct msm_file_private *ctx;
 > >>>        struct list_head node;
-> >>> diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/=
-msm/msm_submitqueue.c
+> >>> diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
 > >>> index 682ba2a7c0ec..32a55d81b58b 100644
 > >>> --- a/drivers/gpu/drm/msm/msm_submitqueue.c
 > >>> +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-> >>> @@ -68,6 +68,8 @@ int msm_submitqueue_create(struct drm_device *drm, =
-struct msm_file_private *ctx,
+> >>> @@ -68,6 +68,8 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
 > >>>        struct msm_gpu_submitqueue *queue;
 > >>>        struct msm_ringbuffer *ring;
 > >>>        struct drm_gpu_scheduler *sched;
@@ -377,78 +197,67 @@ struct msm_file_private *ctx,
 > >>>        int ret;
 > >>>
 > >>>        if (!ctx)
-> >>> @@ -76,8 +78,9 @@ int msm_submitqueue_create(struct drm_device *drm, =
-struct msm_file_private *ctx,
+> >>> @@ -76,8 +78,9 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
 > >>>        if (!priv->gpu)
 > >>>                return -ENODEV;
 > >>>
-> >>> -     if (prio >=3D priv->gpu->nr_rings)
+> >>> -     if (prio >= priv->gpu->nr_rings)
 > >>> -             return -EINVAL;
-> >>> +     ret =3D msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sc=
-hed_prio);
+> >>> +     ret = msm_gpu_convert_priority(priv->gpu, prio, &ring_nr, &sched_prio);
 > >>> +     if (ret)
 > >>> +             return ret;
 > >>>
-> >>>        queue =3D kzalloc(sizeof(*queue), GFP_KERNEL);
+> >>>        queue = kzalloc(sizeof(*queue), GFP_KERNEL);
 > >>>
-> >>> @@ -86,24 +89,13 @@ int msm_submitqueue_create(struct drm_device *drm=
-, struct msm_file_private *ctx,
+> >>> @@ -86,24 +89,13 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
 > >>>
 > >>>        kref_init(&queue->ref);
-> >>>        queue->flags =3D flags;
-> >>> -     queue->prio =3D prio;
-> >>> +     queue->ring_nr =3D ring_nr;
+> >>>        queue->flags = flags;
+> >>> -     queue->prio = prio;
+> >>> +     queue->ring_nr = ring_nr;
 > >>>
-> >>> -     ring =3D priv->gpu->rb[prio];
-> >>> +     ring =3D priv->gpu->rb[ring_nr];
-> >>>        sched =3D &ring->sched;
+> >>> -     ring = priv->gpu->rb[prio];
+> >>> +     ring = priv->gpu->rb[ring_nr];
+> >>>        sched = &ring->sched;
 > >>>
 > >>> -     /*
-> >>> -      * TODO we can allow more priorities than we have ringbuffers b=
-y
+> >>> -      * TODO we can allow more priorities than we have ringbuffers by
 > >>> -      * mapping:
 > >>> -      *
-> >>> -      *    ring =3D prio / 3;
-> >>> -      *    ent_prio =3D DRM_SCHED_PRIORITY_MIN + (prio % 3);
+> >>> -      *    ring = prio / 3;
+> >>> -      *    ent_prio = DRM_SCHED_PRIORITY_MIN + (prio % 3);
 > >>> -      *
 > >>> -      * Probably avoid using DRM_SCHED_PRIORITY_KERNEL as that is
 > >>> -      * treated specially in places.
 > >>> -      */
-> >>>        ret =3D drm_sched_entity_init(&queue->entity,
+> >>>        ret = drm_sched_entity_init(&queue->entity,
 > >>> -                     DRM_SCHED_PRIORITY_NORMAL,
 > >>> -                     &sched, 1, NULL);
 > >>> +                     sched_prio, &sched, 1, NULL);
 > >>>        if (ret) {
 > >>>                kfree(queue);
 > >>>                return ret;
-> >>> @@ -134,16 +126,19 @@ int msm_submitqueue_create(struct drm_device *d=
-rm, struct msm_file_private *ctx,
-> >>>    int msm_submitqueue_init(struct drm_device *drm, struct msm_file_p=
-rivate *ctx)
+> >>> @@ -134,16 +126,19 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+> >>>    int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
 > >>>    {
-> >>>        struct msm_drm_private *priv =3D drm->dev_private;
+> >>>        struct msm_drm_private *priv = drm->dev_private;
 > >>> -     int default_prio;
 > >>> +     int default_prio, max_priority;
 > >>>
 > >>>        if (!priv->gpu)
 > >>>                return -ENODEV;
 > >>>
-> >>> +     max_priority =3D (priv->gpu->nr_rings * NR_SCHED_PRIORITIES) - =
-1;
+> >>> +     max_priority = (priv->gpu->nr_rings * NR_SCHED_PRIORITIES) - 1;
 > >>> +
 > >>>        /*
-> >>> -      * Select priority 2 as the "default priority" unless nr_rings =
-is less
+> >>> -      * Select priority 2 as the "default priority" unless nr_rings is less
 > >>> -      * than 2 and then pick the lowest priority
-> >>> +      * Pick a medium priority level as default.  Lower numeric valu=
-e is
-> >>> +      * higher priority, so round-up to pick a priority that is not =
-higher
+> >>> +      * Pick a medium priority level as default.  Lower numeric value is
+> >>> +      * higher priority, so round-up to pick a priority that is not higher
 > >>> +      * than the middle priority level.
 > >>>         */
-> >>> -     default_prio =3D clamp_t(uint32_t, 2, 0, priv->gpu->nr_rings - =
-1);
-> >>> +     default_prio =3D DIV_ROUND_UP(max_priority, 2);
+> >>> -     default_prio = clamp_t(uint32_t, 2, 0, priv->gpu->nr_rings - 1);
+> >>> +     default_prio = DIV_ROUND_UP(max_priority, 2);
 > >>>
 > >>>        INIT_LIST_HEAD(&ctx->submitqueues);
 > >>>
@@ -462,19 +271,14 @@ higher
 > >>>    #define MSM_PARAM_GMEM_BASE  0x06
 > >>> -#define MSM_PARAM_NR_RINGS   0x07
 > >>> +#define MSM_PARAM_PRIORITIES 0x07  /* The # of priority levels */
-> >>>    #define MSM_PARAM_PP_PGTABLE 0x08  /* =3D> 1 for per-process paget=
-ables, else 0 */
+> >>>    #define MSM_PARAM_PP_PGTABLE 0x08  /* => 1 for per-process pagetables, else 0 */
 > >>>    #define MSM_PARAM_FAULTS     0x09
 > >>>    #define MSM_PARAM_SUSPENDS   0x0a
 > >>>
-> >>> +/* For backwards compat.  The original support for preemption was ba=
-sed on
-> >>> + * a single ring per priority level so # of priority levels equals t=
-he #
-> >>> + * of rings.  With drm/scheduler providing additional levels of prio=
-rity,
-> >>> + * the number of priorities is greater than the # of rings.  The par=
-am is
+> >>> +/* For backwards compat.  The original support for preemption was based on
+> >>> + * a single ring per priority level so # of priority levels equals the #
+> >>> + * of rings.  With drm/scheduler providing additional levels of priority,
+> >>> + * the number of priorities is greater than the # of rings.  The param is
 > >>> + * renamed to better reflect this.
 > >>> + */
 > >>> +#define MSM_PARAM_NR_RINGS   MSM_PARAM_PRIORITIES
@@ -487,8 +291,7 @@ am is
 > >>>    #define MSM_SUBMITQUEUE_FLAGS (0)
 > >>>
 > >>> +/*
-> >>> + * The submitqueue priority should be between 0 and MSM_PARAM_PRIORI=
-TIES-1,
+> >>> + * The submitqueue priority should be between 0 and MSM_PARAM_PRIORITIES-1,
 > >>> + * a lower numeric value is higher priority.
 > >>> + */
 > >>>    struct drm_msm_submitqueue {
