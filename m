@@ -1,49 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145E5532875
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 13:03:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BC7532903
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 13:30:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06FF10EC59;
-	Tue, 24 May 2022 11:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0857310F74C;
+	Tue, 24 May 2022 11:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1A810E9DB;
- Tue, 24 May 2022 11:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653390217; x=1684926217;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=CntG2zT79s+rUqc/RwF4HmNc6O2cBy1aTPUYDsYRjjE=;
- b=dh2PDazC+Hias72hL+YjkQm+4NV8DToFrS9UKRxKmiS3wgYrkk72n1tB
- 4HB9DvustuCf75leTsWV2XTHhp/g+hpBKnjrdGuwzenebYvPq94XzybWQ
- s1zPvooRPuxUqQc58hHj1Cq7cjoBqvpzVDjfb98Wbo4j8xSw5I9hLE9wb
- tRHKJV2SdjpVuqjKnF7vHEArIBNa7kuAcpq7eJf2rKGc5fr5CAZ5dQyk1
- VdQKcyihYFN9IuqXbLDzGRljMC7A+9nwHXaUA/KRi9xsK8iRezZJCDrWe
- y61FScKe9PRfstwWtCrQcDW0AHHOXQVMLSQa0AVm+V4d3ZYUIquxtL5Bu A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="334144541"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="334144541"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 04:03:37 -0700
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600"; d="scan'208";a="745175110"
-Received: from zychseba-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.136.104])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 04:03:33 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [PATCH] drm/i915: fix typos in comments
-In-Reply-To: <20220521111145.81697-90-Julia.Lawall@inria.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220521111145.81697-90-Julia.Lawall@inria.fr>
-Date: Tue, 24 May 2022 14:03:29 +0300
-Message-ID: <87ee0jw5tq.fsf@intel.com>
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 113C610F5EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 11:30:41 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id g21so6001081qtg.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 04:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bGLq4W32TEzpUZBXnWRpdyd7/FBRGgFvTqPNT1jEfoA=;
+ b=OAKqDk3Zf2X9iX5TDmh7ABpCDzVGMUrpUY8i6x6nJcwoF12F3W5mAEj2t6xv93hbYo
+ SvZnm8yU58A2KMSqCKgsdkPWHTmFO3UvANgtMFVocPMJjBCD0RYArw+Sy6P/NnWM6gb+
+ ihqbRdP+zooyMawnQUTMNCamUE5z+YXZx1552uiZbUDlzzWCpj4HnqUx4hRx/IXA1Rm1
+ GiAhUUo0rV41YOoBdkwhrYkuU6uuUh6G4KaQVc6aLMdIcxF1ABvti9SSrLXXNuvrqMga
+ 9Ax5oakjTNn8gmAYKrgJVk7GMmLq5D8gtAURyFnoJVQfLbT3YXQCtx/dAKBVDECSxjkP
+ Rn8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bGLq4W32TEzpUZBXnWRpdyd7/FBRGgFvTqPNT1jEfoA=;
+ b=R2AwnCkvvH07i9HCNMsoDkCTmOcd1uH8tw3AhqfoqYr6+UH5fuTaGESP0tRHn8hPU5
+ exGx779OnA9cM1qY8ryuMArZ6i5FC/hmMOinc/SX7X2t6GpewET3BHuisNPtywItV2rk
+ s77grt7LBmEEcY+Rx8BAOt5Ds0MXXp63ntOUo3ovWltGxZ+lQgfdiUXlpqQAYGyWsJo6
+ QvLYJnbkMTvhklLvQXynXG7+njFyHSYsODpr5ZKrYIVy5Rw5N+NacDfy5l/i/xBnj39N
+ EjQbt1ps/oO42G2LRHW4l9SKyxi/7FFT/EWgIA1CkMVSy34VOSCB2Hcuc3cUSnsqmM25
+ fmnA==
+X-Gm-Message-State: AOAM532+phx+0e1Yfp3lCjBB5f7LPKsEiDincRUK9esWBwy3Cd4gtw0H
+ 82HRivpHG7fLUq7YVY5fEED1gFX4o7MJ35o4xWWnOQ==
+X-Google-Smtp-Source: ABdhPJzWUliZZ3coRed1/OyusyZ5AuNUEzDPp+9amUhMmBiouK3cjF+RoHYC0NtfjmsJyLr1LVC9fSARx4kUKXhxdD8=
+X-Received: by 2002:a05:622a:188e:b0:2f3:dc9f:946 with SMTP id
+ v14-20020a05622a188e00b002f3dc9f0946mr19907509qtc.682.1653391839062; Tue, 24
+ May 2022 04:30:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220524103534.2520439-1-vkoul@kernel.org>
+In-Reply-To: <20220524103534.2520439-1-vkoul@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 24 May 2022 14:30:28 +0300
+Message-ID: <CAA8EJpp0F+wP0Uoz+i07f0C1H4UJVdJdPrFquvGUEMB8gQUu-g@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/disp/dpu1: remove supoerflous init
+To: Vinod Koul <vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,85 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: kernel test robot <yujie.liu@intel.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 21 May 2022, Julia Lawall <Julia.Lawall@inria.fr> wrote:
-> Spelling mistakes (triple letters) in comments.
-> Detected with the help of Coccinelle.
+On Tue, 24 May 2022 at 13:35, Vinod Koul <vkoul@kernel.org> wrote:
 >
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-
-Thanks, pushed to drm-intel-next.
-
-BR,
-Jani.
-
+> Commit 58dca9810749 ("drm/msm/disp/dpu1: Add support for DSC in
+> encoder") added dsc_common_mode variable which was set to zero but then
+> again programmed, so drop the supoerflous init.
 >
+> Fixes: 58dca9810749 ("drm/msm/disp/dpu1: Add support for DSC in encoder")
+> Reported-by: kernel test robot <yujie.liu@intel.com>
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->  drivers/gpu/drm/i915/display/intel_color.c           |    2 +-
->  drivers/gpu/drm/i915/display/intel_pps.c             |    2 +-
->  drivers/gpu/drm/i915/gt/intel_execlists_submission.c |    2 +-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_log.c           |    2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-> index 34128c9c635c..a27ce874a9e8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_color.c
-> +++ b/drivers/gpu/drm/i915/display/intel_color.c
-> @@ -1638,7 +1638,7 @@ static u32 icl_gamma_mode(const struct intel_crtc_state *crtc_state)
->  	/*
->  	 * Enable 10bit gamma for D13
->  	 * ToDo: Extend to Logarithmic Gamma once the new UAPI
-> -	 * is acccepted and implemented by a userspace consumer
-> +	 * is accepted and implemented by a userspace consumer
->  	 */
->  	else if (DISPLAY_VER(i915) >= 13)
->  		gamma_mode |= GAMMA_MODE_MODE_10BIT;
-> diff --git a/drivers/gpu/drm/i915/display/intel_pps.c b/drivers/gpu/drm/i915/display/intel_pps.c
-> index 5a598dd06039..4bc0563dde92 100644
-> --- a/drivers/gpu/drm/i915/display/intel_pps.c
-> +++ b/drivers/gpu/drm/i915/display/intel_pps.c
-> @@ -509,7 +509,7 @@ static void wait_panel_power_cycle(struct intel_dp *intel_dp)
->  
->  	drm_dbg_kms(&i915->drm, "Wait for panel power cycle\n");
->  
-> -	/* take the difference of currrent time and panel power off time
-> +	/* take the difference of current time and panel power off time
->  	 * and then make panel wait for t11_t12 if needed. */
->  	panel_power_on_time = ktime_get_boottime();
->  	panel_power_off_duration = ktime_ms_delta(panel_power_on_time, intel_dp->pps.panel_power_off_time);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 86f7a9ac1c39..aa0d2bbbbcc4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -1350,7 +1350,7 @@ static void execlists_dequeue(struct intel_engine_cs *engine)
->  			 * submission. If we don't cancel the timer now,
->  			 * we will see that the timer has expired and
->  			 * reschedule the tasklet; continually until the
-> -			 * next context switch or other preeemption event.
-> +			 * next context switch or other preemption event.
->  			 *
->  			 * Since we have decided to reschedule based on
->  			 * consumption of this timeslice, if we submit the
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-> index 78d2989fe917..02311ad90264 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-> @@ -588,7 +588,7 @@ int intel_guc_log_relay_open(struct intel_guc_log *log)
->  	/*
->  	 * We require SSE 4.1 for fast reads from the GuC log buffer and
->  	 * it should be present on the chipsets supporting GuC based
-> -	 * submisssions.
-> +	 * submissions.
->  	 */
->  	if (!i915_has_memcpy_from_wc()) {
->  		ret = -ENXIO;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 51f24ba68375..388125c8bda1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -1798,7 +1798,6 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+>                 }
+>         }
 >
+> -       dsc_common_mode = 0;
+>         pic_width = dsc->drm->pic_width;
+>
+>         dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
+> --
+> 2.34.1
+>
+
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+With best wishes
+Dmitry
