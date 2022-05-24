@@ -2,64 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA94F533115
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 21:01:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B591533150
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 21:07:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2453E10E12C;
-	Tue, 24 May 2022 19:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6088110E5F9;
+	Tue, 24 May 2022 19:07:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C95B10E12C
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 19:01:33 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id fd25so24260814edb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 12:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=p/LRcRqLMyeqKvQf1eqR0kvhGi6WSgrWgvB3HWqz/40=;
- b=bvixvnK/jmXe4FX2KH6IkCO+rTvQ6XL9e+QaLOKUvAH5zBa+Rb55pQnSQJJdbFMZ0D
- b3agVkbri00VAYLSh6NMoVS8VR6qW7+6/ORLbqC47T57yGA4LTQ/JzC5ViZILu4GY2m8
- VMmuhZe9Rn+2LrIp3dPGye/TpDpwhDKmHm+TIhPgd7oY2ppk7296jJSmuNs9cfdwSzg1
- AJFllVILBf1gApb6M4AamjsocrjHSXoApSzwd8eoicdgXhOYWz0jigDcXyTSeFaEa2in
- 797VPsBzH8cf52zjuWFh79RGZijrVyANrha/9GbbsOWt2FxJ/V3iFh7bHcMU8bet2ld9
- 4jnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=p/LRcRqLMyeqKvQf1eqR0kvhGi6WSgrWgvB3HWqz/40=;
- b=lv71EbbEXhPGB29k9at6mOl0COey+qBm/Cr+Ep1DS4KlYWVUK9HMwzdReAFahP6sEE
- J2lsarwDRHkp2oX6hPOrKUJpOEcyPlNY/0kuts+9rAD/jHY0/RvwD46V3g1XxjDTi5ae
- 6NPqUUNWs+0JrBpufPIk1hI4byE0dTcKizCtq8G97vPkU3HLUkR3RMdYgwe83i6I/pra
- 927DMMh7dvpIb/9/hPO11PsUSvYnz5b7L4INph0zzWyknRd79Cum7N8U1ZLRUcGJ+dJo
- aZpVDQocRZ/xjItf7qOlEUkHBhDwIoj6Svf/AFVX/A9IZId704X2lne5qv13F1ZizuKp
- tYpg==
-X-Gm-Message-State: AOAM532gezhPnRPNejlCXREgv9e3KefeogrLKjYLpxcrEdN1Nkw0ew2p
- UWPJn5TsyMt0Gtzl9zF6i5w=
-X-Google-Smtp-Source: ABdhPJyXfVLVAhAn3Vtb2xtg0915wucMnM2SyXUZW1SXcuju6qSLOZ8ENWrXeCTRFzFNOP/hv35G8g==
-X-Received: by 2002:a05:6402:390b:b0:42a:acb3:bb5 with SMTP id
- fe11-20020a056402390b00b0042aacb30bb5mr29413164edb.236.1653418891911; 
- Tue, 24 May 2022 12:01:31 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net.
- [213.161.3.76]) by smtp.gmail.com with ESMTPSA id
- hh15-20020a170906a94f00b006fec41b21e1sm3576351ejb.171.2022.05.24.12.01.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 May 2022 12:01:31 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Icenowy Zheng <icenowy@aosc.io>, mripard@kernel.org, wens@csie.org,
- Genfu Pan <benlypan@gmail.com>, Samuel Holland <samuel@sholland.org>
-Subject: Re: Re: [PATCH] drm/sun4i: mixer: fix scanline for V3s and D1
-Date: Tue, 24 May 2022 21:01:29 +0200
-Message-ID: <5568249.DvuYhMxLoT@kista>
-In-Reply-To: <86a208c1-9277-32de-3f8f-8976eab15524@sholland.org>
-References: <20220521133443.1114749-1-benlypan@gmail.com>
- <70b43ac2910ce9b3e3776d31eda7a791fbae5454.camel@aosc.io>
- <86a208c1-9277-32de-3f8f-8976eab15524@sholland.org>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2063.outbound.protection.outlook.com [40.107.220.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0026910E5A2;
+ Tue, 24 May 2022 19:07:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iwvunpSdVUYsfdJ9HQmuKkp08neG2XufEUy5qLjugu7g807J0q9qPy4uUHc3CMfX6ADmK0D+BphR5+2ghuO+2BOI7dPcdAe3FuaWZ+rL9/M6p9mRphyP0agczCPiS781X8YZTnh/Pak7M8eMgiKIzoVb/JxuChnOFd4//t0O4M8a95U/5ZFSDE7UfomgXmlJqLczJvmDHw10sMgb7ZU58wmgzTGOssat5NmM4A9AwuBVmM0ebMh8kwAbNN5Dz4nDVhkKL4guJ9wM7+FGV9ilQKOKpwHriaaQ4dcapw0qvtvuxKy75jj2/B089/3Jh0j+yTHOOWAoMILukmbjTpAhpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Eqx403lcDCZ7rTo+cR2k6lk04wk+W+uduTiqrZ9srsk=;
+ b=eT+qwaFK53elV1sfcXDSLKsVDy/Ncrn0SlbhZ8mtSesAXiWRnDW8iv/dveUxl1eMzqhfSvlAVLR2gtYoivclCzUcJkxk55uOGnTlTAmddopnwImZLy+mI4jyNCrJpv7EADgHiWc7u7J7cBDfDz894aylsnSiDGSL4N18utGbJNwOIGQmyazYZv6xK0JAbp35yVCjzvjqFJ2XD5mOCIC/Il5xEkFEzyB0U9REANJPIol/0O/ccryHczH28k0VbTXNNwCP4V5sI7/EikwqXD5HXLZvZYZLP0XenjN9dNlPIiqWOsDs07nXgNY1PCq8FcuxALoU5sp+o5pmkB4zHsMp8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Eqx403lcDCZ7rTo+cR2k6lk04wk+W+uduTiqrZ9srsk=;
+ b=4YvjjVXOM53FZPBrY2wZW2t/WO8MuvXh7T/0E3xMlcmHKCwgihV9Tz5iItEdhiWxpf9LWqWsK0OIyQGRlS65R2kFja2OL+aTSzipou2XYzEQY6RJZ9yC+9x0LwfIl14rOukNjW/dftlzvYiesm+fQJUsutHSHkLZkvBs9Fejl9Q=
+Received: from DM5PR17CA0063.namprd17.prod.outlook.com (2603:10b6:3:13f::25)
+ by MW2PR12MB2553.namprd12.prod.outlook.com (2603:10b6:907:9::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.17; Tue, 24 May
+ 2022 19:07:21 +0000
+Received: from DM6NAM11FT016.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:13f:cafe::28) by DM5PR17CA0063.outlook.office365.com
+ (2603:10b6:3:13f::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13 via Frontend
+ Transport; Tue, 24 May 2022 19:07:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT016.mail.protection.outlook.com (10.13.173.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5273.14 via Frontend Transport; Tue, 24 May 2022 19:07:21 +0000
+Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 24 May
+ 2022 14:07:16 -0500
+From: Alex Sierra <alex.sierra@amd.com>
+To: <jgg@nvidia.com>
+Subject: [PATCH v3 00/13] Add MEMORY_DEVICE_COHERENT for coherent device
+ memory mapping
+Date: Tue, 24 May 2022 14:06:19 -0500
+Message-ID: <20220524190632.3304-1-alex.sierra@amd.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f194055f-5dd9-4785-1124-08da3db8a14a
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2553:EE_
+X-Microsoft-Antispam-PRVS: <MW2PR12MB25538D1F2BDE467368A15655FDD79@MW2PR12MB2553.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NwJqwyaGckPH+wPm+If3CI8gSttFEDNctO0b48drX8uSlOfbT5Lk98N7+h2y/0JObcIFDY6oVmOXpnHM0thkt0tLb4oqSIYPxpf0B9oKw+OyzglJaRoq8nNKFzRnP9QXXsEBLbxSESRCORs5FG8nHMoKTsH19xvrVDqhCuDOCr6xDmSgMVFLC92MSfkX2s7Rx/PDQpHkXnbsyNzZjJC4tgFBHPJ4cqCUB/nyRLS28hJqBF26a4ZcUl3naREE62uAVAB/6QntHFLmZI5nV3fItiMq/vJeHaxiNbC4UDCNm5MIUx9jwaHFjff0COei20wd4ccKbJO2uwzsHQoFQuBxTVXu+IY3gSG1NOrU8VA0Ogzrwp9zTpnlxbqopUkxL0SUn6KVX/cikICgsiTVfqyhZq5omw9fiETZq21dgqw+pw5dyOdUzLyqJmesvb3+67bcM3MCw87Mco5qykqqwmw6kvO5tT4l2Mbh8KoLE8D+ELbLDfV7OioZwfURjQtBIU49wApnd0Zeej8ojH52bX+WttneC53sD6P+vBSKIxzWa/KO1GP5KmitmxYhQB1B0o6vuB61N4KNy6JED+tiz8/XvOHgprLhni8c0/vDC3xK0vXHSPDKk1/ggXwRrXbtoNj7pIKJFvFv3/3zACV1YXEFPrgktNdtwQcQdS0oRUVeKN4VNWCloHTpvyAsN0/SOLocDF67WpZLd1Pci6mK+6MHHQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(1076003)(40460700003)(47076005)(426003)(16526019)(336012)(186003)(83380400001)(81166007)(82310400005)(356005)(7696005)(36860700001)(6916009)(508600001)(316002)(70206006)(70586007)(2906002)(54906003)(2616005)(44832011)(8676002)(8936002)(26005)(5660300002)(7416002)(36756003)(86362001)(4326008)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2022 19:07:21.4515 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f194055f-5dd9-4785-1124-08da3db8a14a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT016.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2553
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,256 +100,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
+ Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
+ linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
+ dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
+ linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne torek, 24. maj 2022 ob 19:07:27 CEST je Samuel Holland napisal(a):
-> On 5/23/22 8:14 AM, Icenowy Zheng wrote:
-> > =E5=9C=A8 2022-05-22=E6=98=9F=E6=9C=9F=E6=97=A5=E7=9A=84 10:36 +0200=EF=
-=BC=8CJernej =C5=A0krabec=E5=86=99=E9=81=93=EF=BC=9A
-> >> Hi!
-> >>
-> >> Dne sobota, 21. maj 2022 ob 15:34:43 CEST je Genfu Pan napisal(a):
-> >>> Accrording the SDK from Allwinner, the scanline value of yuv and
-> >>> rgb for
-> >>> V3s are both 1024.
-> >>
-> >> s/scanline value/scanline length/
-> >>
-> >> Which SDK? All SDKs that I have or found on internet don't mention
-> >> YUV nor RGB=20
-> >> scanline limit. That doesn't mean there is none, I'm just unable to
-> >> verify=20
-> >> your claim. Did you test this by yourself? Also, please make YUV
-> >> scanline=20
-> >> change separate patch with fixes tag.
-> >=20
-> > BTW I think chip manuals all say that the chip supports NxN resolution
-> > in DE2 chapter, e.g. the V3 datasheet says DE2 "Output size up to
-> > 1024x1024".
-> >=20
-> > However there's no information about D1's second mixer.
->=20
-> My information comes from the BSP driver[0]:
->=20
-> static const int sun8iw20_de_scale_line_buffer[] =3D {
->         /* DISP0 */
->         2048,
->         /* DISP1 */
->         1024,
-> };
->=20
-> It looks like the value returned from de_feat_get_scale_linebuf() may be=
-=20
-used
-> for RGB as well, if scaling is enabled. This appears to be the "format =
-=3D=3D 3"
-> case in de_rtmx_get_coarse_fac[1]. On the other hand, the code for V3 has
-> specific code for the RGB limit[2].
->=20
-> Is there some test I can do on D1 to see what the right value for RGB is?
+This is our MEMORY_DEVICE_COHERENT patch series rebased and updated
+for current 5.18.0
 
-I use modetest for such tests. It's part of libdrm. In general, you want to=
-=20
-make plane wider than scanline and then scale it down. Obviously you want t=
-o=20
-test this once with RGB and once with YUV format. This is all done with=20
-"modetest -P".
+Changes since the last version:
+- Fixed problems with migration during long-term pinning in
+get_user_pages
+- Open coded vm_normal_lru_pages as suggested in previous code review
+- Update hmm_gup_test with more get_user_pages calls, include
+hmm_cow_in_device in hmm-test.
 
-Best regards,
-Jernej
+This patch series introduces MEMORY_DEVICE_COHERENT, a type of memory
+owned by a device that can be mapped into CPU page tables like
+MEMORY_DEVICE_GENERIC and can also be migrated like
+MEMORY_DEVICE_PRIVATE.
 
->=20
-> Regards,
-> Samuel
->=20
-> [0]:
-> https://github.com/Tina-Linux/tina-d1x-linux-5.4/blob/master/drivers/vide=
-o/
-fbdev/sunxi/disp2/disp/de/lowlevel_v2x/de_feat.c#L182
-> [1]:
-> https://github.com/Tina-Linux/tina-d1x-linux-5.4/blob/master/drivers/vide=
-o/
-fbdev/sunxi/disp2/disp/de/lowlevel_v2x/de_rtmx.c#L1588
-> [2]:
-> https://github.com/Tina-Linux/tina-d1x-linux-5.4/blob/master/drivers/vide=
-o/
-fbdev/sunxi/disp2/disp/de/lowlevel_sun8iw8/de_rtmx.c#L1211
->=20
-> >>> The is also the same for mixer 1 of D1. Currently the
-> >>> scanline value of rgb is hardcoded to 2048 for all SOCs.
-> >>>
-> >>> Change the scanline_yuv property of V3s to 1024. > Add the
-> >>> scanline_rgb
-> >>> property to the mixer config and replace the hardcoded value with
-> >>> it before
-> >>> scaling.
-> >>
-> >> I guess RGB scanline patch would also need fixes tag, since it fixes
-> >> existing=20
-> >> bug.
-> >>
-> >>>
-> >>> Signed-off-by: Genfu Pan <benlypan@gmail.com>
-> >>> ---
-> >>>  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 13 ++++++++++++-
-> >>>  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  1 +
-> >>>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  3 +--
-> >>>  3 files changed, 14 insertions(+), 3 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> >>> b/drivers/gpu/drm/sun4i/sun8i_mixer.c index 875a1156c..e64e08207
-> >>> 100644
-> >>> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> >>> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> >>> @@ -567,6 +567,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun8i_a83t_mixer0_cfg =3D { .ccsc         =3D CCSC_MIXER0_LAYOUT,
-> >>>         .scaler_mask    =3D 0xf,
-> >>>         .scanline_yuv   =3D 2048,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 3,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -575,6 +576,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun8i_a83t_mixer1_cfg =3D { .ccsc         =3D CCSC_MIXER1_LAYOUT,
-> >>>         .scaler_mask    =3D 0x3,
-> >>>         .scanline_yuv   =3D 2048,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 1,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -584,6 +586,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun8i_h3_mixer0_cfg
-> >>> =3D { .mod_rate   =3D 432000000,
-> >>>         .scaler_mask    =3D 0xf,
-> >>>         .scanline_yuv   =3D 2048,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 3,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -593,6 +596,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun8i_r40_mixer0_cfg
-> >>> =3D { .mod_rate   =3D 297000000,
-> >>>         .scaler_mask    =3D 0xf,
-> >>>         .scanline_yuv   =3D 2048,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 3,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -602,6 +606,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun8i_r40_mixer1_cfg
-> >>> =3D { .mod_rate   =3D 297000000,
-> >>>         .scaler_mask    =3D 0x3,
-> >>>         .scanline_yuv   =3D 2048,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 1,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -610,7 +615,8 @@ static const struct sun8i_mixer_cfg
-> >>> sun8i_v3s_mixer_cfg
-> >>> =3D { .vi_num =3D 2,
-> >>>         .ui_num =3D 1,
-> >>>         .scaler_mask =3D 0x3,
-> >>> -       .scanline_yuv =3D 2048,
-> >>> +       .scanline_yuv =3D 1024,
-> >>> +       .scanline_rgb =3D 1024,
-> >>>         .ccsc =3D CCSC_MIXER0_LAYOUT,
-> >>>         .mod_rate =3D 150000000,
-> >>>  };
-> >>> @@ -620,6 +626,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun20i_d1_mixer0_cfg
-> >>> =3D { .mod_rate   =3D 297000000,
-> >>>         .scaler_mask    =3D 0x3,
-> >>>         .scanline_yuv   =3D 2048,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 1,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -629,6 +636,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun20i_d1_mixer1_cfg
-> >>> =3D { .mod_rate   =3D 297000000,
-> >>>         .scaler_mask    =3D 0x1,
-> >>>         .scanline_yuv   =3D 1024,
-> >>> +       .scanline_rgb   =3D 1024,
-> >>>         .ui_num         =3D 0,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -638,6 +646,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun50i_a64_mixer0_cfg =3D { .mod_rate     =3D 297000000,
-> >>>         .scaler_mask    =3D 0xf,
-> >>>         .scanline_yuv   =3D 4096,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 3,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -647,6 +656,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun50i_a64_mixer1_cfg =3D { .mod_rate     =3D 297000000,
-> >>>         .scaler_mask    =3D 0x3,
-> >>>         .scanline_yuv   =3D 2048,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 1,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> @@ -657,6 +667,7 @@ static const struct sun8i_mixer_cfg
-> >>> sun50i_h6_mixer0_cfg
-> >>> =3D { .mod_rate   =3D 600000000,
-> >>>         .scaler_mask    =3D 0xf,
-> >>>         .scanline_yuv   =3D 4096,
-> >>> +       .scanline_rgb   =3D 2048,
-> >>>         .ui_num         =3D 3,
-> >>>         .vi_num         =3D 1,
-> >>>  };
-> >>> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> >>> b/drivers/gpu/drm/sun4i/sun8i_mixer.h index 85c94884f..c01b3e9d6
-> >>> 100644
-> >>> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> >>> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> >>> @@ -172,6 +172,7 @@ struct sun8i_mixer_cfg {
-> >>>         unsigned long   mod_rate;
-> >>>         unsigned int    is_de3 : 1;
-> >>>         unsigned int    scanline_yuv;
-> >>> +       unsigned int    scanline_rgb;
-> >>
-> >> This quirk needs to be documented above in the comment.
-> >>
-> >> Best regards,
-> >> Jernej
-> >>
-> >>>  };
-> >>>
-> >>>  struct sun8i_mixer {
-> >>> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> >>> b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c index f7d0b082d..30e6bde92
-> >>> 100644
-> >>> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> >>> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> >>> @@ -188,8 +188,7 @@ static int sun8i_vi_layer_update_coord(struct
-> >>> sun8i_mixer *mixer, int channel, src_h =3D vn;
-> >>>                 }
-> >>>
-> >>> -               /* it seems that every RGB scaler has buffer for
-> >>> 2048=20
-> >> pixels */
-> >>> -               scanline =3D subsampled ? mixer->cfg->scanline_yuv :=
-=20
-> >> 2048;
-> >>> +               scanline =3D subsampled ? mixer->cfg->scanline_yuv :
-> >>> mixer->cfg->scanline_rgb;
-> >>>
-> >>>                 if (src_w > scanline) {
-> >>>                         DRM_DEBUG_DRIVER("Using horizontal coarse=20
-> >> scaling\n");
-> >>
-> >>
-> >>
-> >>
-> >>
-> >=20
-> >=20
->=20
->=20
+This patch series is mostly self-contained except for a few places where
+it needs to update other subsystems to handle the new memory type.
 
+System stability and performance are not affected according to our
+ongoing testing, including xfstests.
+
+How it works: The system BIOS advertises the GPU device memory
+(aka VRAM) as SPM (special purpose memory) in the UEFI system address
+map.
+
+The amdgpu driver registers the memory with devmap as
+MEMORY_DEVICE_COHERENT using devm_memremap_pages. The initial user for
+this hardware page migration capability is the Frontier supercomputer
+project. This functionality is not AMD-specific. We expect other GPU
+vendors to find this functionality useful, and possibly other hardware
+types in the future.
+
+Our test nodes in the lab are similar to the Frontier configuration,
+with .5 TB of system memory plus 256 GB of device memory split across
+4 GPUs, all in a single coherent address space. Page migration is
+expected to improve application efficiency significantly. We will
+report empirical results as they become available.
+
+Coherent device type pages at gup are now migrated back to system
+memory if they are being pinned long-term (FOLL_LONGTERM). The reason
+is, that long-term pinning would interfere with the device memory
+manager owning the device-coherent pages (e.g. evictions in TTM).
+These series incorporate Alistair Popple patches to do this
+migration from pin_user_pages() calls. hmm_gup_test has been added to
+hmm-test to test different get user pages calls.
+
+This series includes handling of device-managed anonymous pages
+returned by vm_normal_pages. Although they behave like normal pages
+for purposes of mapping in CPU page tables and for COW, they do not
+support LRU lists, NUMA migration or THP.
+
+We also introduced a FOLL_LRU flag that adds the same behaviour to
+follow_page and related APIs, to allow callers to specify that they
+expect to put pages on an LRU list.
+
+v2:
+- Rebase to latest 5.18-rc7.
+- Drop patch "mm: add device coherent checker to remove migration pte"
+and modify try_to_migrate_one, to let DEVICE_COHERENT pages fall
+through to normal page path. Based on Alistair Popple's comment.
+- Fix comment formatting.
+- Reword comment in vm_normal_page about pte_devmap().
+- Merge "drm/amdkfd: coherent type as sys mem on migration to ram" to
+"drm/amdkfd: add SPM support for SVM".
+
+v3:
+- Rebase to latest 5.18.0.
+- Patch "mm: handling Non-LRU pages returned by vm_normal_pages"
+reordered.
+- Add WARN_ON_ONCE for thp device coherent case.
+
+Alex Sierra (11):
+  mm: add zone device coherent type memory support
+  mm: handling Non-LRU pages returned by vm_normal_pages
+  mm: add device coherent vma selection for memory migration
+  drm/amdkfd: add SPM support for SVM
+  lib: test_hmm add ioctl to get zone device type
+  lib: test_hmm add module param for zone device type
+  lib: add support for device coherent type in test_hmm
+  tools: update hmm-test to support device coherent type
+  tools: update test_hmm script to support SP config
+  tools: add hmm gup tests for device coherent type
+  tools: add selftests to hmm for COW in device memory
+
+Alistair Popple (2):
+  mm: remove the vma check in migrate_vma_setup()
+  mm/gup: migrate device coherent pages when pinning instead of failing
+
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  33 ++-
+ fs/proc/task_mmu.c                       |   2 +-
+ include/linux/memremap.h                 |  19 ++
+ include/linux/migrate.h                  |   1 +
+ include/linux/mm.h                       |   3 +-
+ lib/test_hmm.c                           | 349 +++++++++++++++++------
+ lib/test_hmm_uapi.h                      |  22 +-
+ mm/gup.c                                 |  49 +++-
+ mm/huge_memory.c                         |   2 +-
+ mm/internal.h                            |   1 +
+ mm/khugepaged.c                          |   9 +-
+ mm/ksm.c                                 |   6 +-
+ mm/madvise.c                             |   4 +-
+ mm/memcontrol.c                          |   7 +-
+ mm/memory-failure.c                      |   8 +-
+ mm/memory.c                              |   9 +-
+ mm/mempolicy.c                           |   2 +-
+ mm/memremap.c                            |  10 +
+ mm/migrate.c                             |   4 +-
+ mm/migrate_device.c                      | 115 ++++++--
+ mm/mlock.c                               |   2 +-
+ mm/mprotect.c                            |   2 +-
+ mm/rmap.c                                |   5 +-
+ tools/testing/selftests/vm/hmm-tests.c   | 308 ++++++++++++++++++--
+ tools/testing/selftests/vm/test_hmm.sh   |  24 +-
+ 25 files changed, 814 insertions(+), 182 deletions(-)
+
+-- 
+2.32.0
 
