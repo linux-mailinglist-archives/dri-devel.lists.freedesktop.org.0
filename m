@@ -1,93 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AC0533074
-	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 20:32:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CA353307E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 May 2022 20:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94F0C10FB10;
-	Tue, 24 May 2022 18:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A20E910EEA3;
+	Tue, 24 May 2022 18:33:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic317-20.consmr.mail.gq1.yahoo.com
- (sonic317-20.consmr.mail.gq1.yahoo.com [98.137.66.146])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 552B210FB18
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 18:32:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netscape.net; s=a2048;
- t=1653417157; bh=bWdvczIx7ry7wZOALAI1wr+HsImsxjNz7PtVMvZvtj8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=lBrYG59B4NAY+zeSFmHe92QcF1AtKxVljoQibxCKbJeGAH6xT4wrcxRqmVgG+ZOnF/NwJnyx2D2jrxTQFFqcrnsNlQGzqyBr5FBJqtk4pi20bJU2LWH5nt4WpEOYVPfuX/21cWrYreqcQWzIW3bKDCN1zS/9lbxTnCbXPvnX3ZjxQ+R/5bhf6v7zWSSZK5o9Lmxj2GTwf3/bdDZH9StPsPqz35Mce5ne2lTmyWvajx/dMfqjTw4Pj0lYyatwW5y/sJEvGh1y0rOGiz3cyRN3KY927n2ZsoCD++cxgFVxAB7Aa0L9w+gA+GQUMTzOEf1asJoeqnEjrBV3QOonXUDNAw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1653417157; bh=s3RpZhgR4s9uWwhVoE5EIzWfLL3MAfA6mE5D7/0OW9A=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=XrB1Ps2zvpEsObxvQNaMgTqSxGlBkUGvkxRXCc3LJIL9Ix9+giBk514R43WYLmzpvcT5yUIeaeMertglYe0cAsiPxgqXTudWefTGZVv0eZ30RFj1BMIubkW5z362+2jITR0lCNEhFCMWOVm1b7Diio8crHcxT3hUT1uXvdGPOuMzi12PmZ/KNzkksfLObxZNgb8mNiuLxXB2xOV2ysRLkuI6OKzAq6zaS7NP064Ao4o8x+Y7nVk5NQIdd1IYsv8hbUYkpv7YvVUw8bju8kc5/IknnI7C5gDhpfuZwR892FeSehs4tQqExb0gJ94bzSVw6FFnyVrupqGThIPulLOE2g==
-X-YMail-OSG: J42Z.mEVM1mppfHkyqWoRpCGB0mXn4dGsrlfQrFalIJjwaJPzLD9X6PbJIQodNc
- I1oX7Jwl3xDkSLGmOgC5IpFTFwncYKvZWjVHTKDLXTLUvGnVEZkhM.cT1_Qe32_VHoIQ3K7QhF_T
- fs2bSdHo8POl2vloU_or9Ynxo84f3n.pglT46gC4Q4zpaZHmvPUxNn0LpHNAkoLizYif2vDzLkDN
- L2J.leqIbGq61xTEGg37LZLVNmrLtecDoe_l80EkYfKzUGob7bKDek3tx3HXFvq4XeZGmXPVBRgI
- x04Y0LzovydetX11xkm9BEmp9VplSympKgWB_sopf7ndo2VPviGMVxPCkUTzdGzmQTHZeuHK0baM
- nwY95HLmK1tKFLfmUIyfsOf5Sh.SoTzGFP6KNI5prw3OwnfgXTEb2Xvn5VkHva.Lbb_hWgKRBi8G
- QY5avLVfQkfBm6rlcpDdAyoFgVQg91OsH0xDDQmw.JUiU_h3O39Vdw6GHo1Z6CSnKa.8mHrCZ2_K
- oC4Ic26g68biMyU7QCQJLoQO3td.jifMKrUOMzd4Yqnl2nus4HtKD5tlFy6mZVRiIQwkfhYnZuHf
- Uh_bh0hSTs6dE5rb7ionVmwIdwcxkEeLN_s_jFj8.TDWfS4oWJGG5yGmLBstw4rdPrCnx9tMoote
- F_KQxur7Sj9Ruo1OK0xckP0ZgJ3f0v.CEkt7kSE0j_ScNJ1v3Q553xBBj6PlyTXa41Q1hTBLmCnl
- wbhkOGD92YNzz.4nG5x2jfC7L2nwVlXI8RAUlPQTj1eqK1Qys5ECNU10auqEMFbXQDaNUdYJQ4tY
- udzuQWNh4CMSf93DwYXh7cOuc5rmERY7rfYkGnbmn2y4MeTBJmyFFo03_p.DSotwbJUAsDBxYdXR
- HeH30PSe8o3Ni0rcOFixzqo8jA3bZ27ISECfahxR1842QNS.3j_Bw7.kyikWGTxKZza03bcbF_re
- s8Hs9syqWwy37LhyVfe1Clm.rCIN1QHsWR2hxOMwERAHqL4DDCO4MMe8LrgGRJWdTwZdxyuNYSBB
- 8CNU65ORiE5idkjg44.En3efNoi06JYJRY9h3r8eULAFVTUr.MO3XCxmsipHeIlxx4a8PYp9DU15
- F0Gm_CiSgul2mWQzUs.nE0FRzMnU6BjZ4d2WU7k6UKNpp79v1QfKy4DCjPzNnAiBS793Mdd6IBCu
- WHkQmdAT.VgfAfi7pJvHVWH_iZu5fV1rJT7l1Rx.2heRhzdabGeZPi0QbUcG4wbKybegpH_EACkF
- vOgMlKG6W5vcpNztXUerPYCueShA1SWGTgpz5bnwoqo2GbZOMjo.IR8Ynb.AYp5Flc.iKINKy4s_
- X911QoCXMBQzNfz9An9pQfeZuVFZJBripjQQ50X3v4tOn0rlSMMZZSXSpoVY2x6iFkyAof0PfENZ
- tHSP8r8ssIS.y8Fmj_9gc._SeczNxPHfThrqEluHwUQf35vlYvTfh6XHJKGzuECWx5uNgsuNWsqj
- 0f_S.WJHzmAJ9URgVJQlIzI_pHXQt9nPBoXkmz_7c6PsZRN9cJniMmvaf68QUryyFy5V36_LDfHo
- SdxQy7829U58fbic2I.iEfnQ3hh8KCaMUqihkmRXOSZlHxxqRjNin4eFDoi_qSAqFB7o1h6YSwSS
- .sm9dDBiw1C_sJSRJLUYxCKJPxkkFb3NsgDodKxcUVAN3nBzY6QW9JkRLTfXIhZ7SMrrmknSQhw1
- Dzhd6yHj4lcrd_4VFOFi5lMKOMsLdD6ydUpoWhwkCt.vDH8OJbd4Nk0ruPBOscAbBl0MJgzAMjEs
- zvO3sePr.8oHBgzNEw2wYX5u9Y7ykffC_YtgPSLRg.HAZxlWLMGVDWT4a5UKhsPuoHpX_Xf19WGf
- UdAqS6bb7MlA_K_coB3EGR3.CvJst2VQD5ewL5XK0s7NWI28ks1WbdmImZr9yQE3dkHLe7YYmq2t
- SS90c4vme4OWiiEokiOsIIb94tvgpAUhGXsVSu9Cp9Cjv_hr9ImPppkeec9Fjv944GfzlIQ2a18w
- P1eeVMx2c2mRgA3n0r8aq.LnmhxnQ3Ee2CFIPGpkb1ptoJ3mdELhzQiQ3wdzcwJhSAzoTPoQY4V.
- YBEK7no8jP6Ftxfj9Gh1k9rgPy9qGCbS9iJpa3bdVmnahP7gkZ244Pn0W6lEHIt7.RGpVG1lkkL9
- mZhwuqB4VikkxukFkcgJR6rdy99.nUF.0YiAAf8kMksIXv0sT.YrlDYaraSWuXayrHTSNnURDwu4
- 0
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic317.consmr.mail.gq1.yahoo.com with HTTP; Tue, 24 May 2022 18:32:37 +0000
-Received: by hermes--canary-production-ne1-5495f4d555-xgn59 (Yahoo Inc. Hermes
- SMTP Server) with ESMTPA ID f18826b5cd811627c8ace28c66b17372; 
- Tue, 24 May 2022 18:32:32 +0000 (UTC)
-Message-ID: <3fc70595-3dcc-4901-0f3f-193f043b753f@netscape.net>
-Date: Tue, 24 May 2022 14:32:30 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2060.outbound.protection.outlook.com [40.107.92.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 651CD10EEA3;
+ Tue, 24 May 2022 18:33:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lDu5QAajNA/SfHDV1+lKEXCanWsx2Owv5+dHfaGKI/IGfF36MgYeLxgq+5BfIIsG4NX1RZlGZhDow3NOvs/8NoIQIEbeADPxE5c4/SCd6rR4BLOfPfnw1+10J0yYTh0Q417znNYgOjNmQD4sO6hhrR28T/6557sIGneHJil7Lr0/w4YbGgkyHUmOHqt12oHwiNzfPnNVe45fX73mAaEV3ZNVGJah7DivAa0pg2IbngaqgnDRTy5mhiq6KEtaHSmFRGXW6f6PZelFsb5Qew3Sr4w+aJ/wAGFf2jedHsMolN0lgnFvvPLPUvL5eRuUB1Qtn+wS62ZruPiAgArWIiIRbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RlqiNAaIB9Y+IIex/HsVnaVBoCD21HNTiLjvcr3R2q0=;
+ b=Ynbck/3Cma1zxVAe0rO/hoILUH02QaJhO1nNt/BZlCCDC4ZCz0RF0pHGrx14EI1Fxs/LzBs/CYJx5BwFAsWRrlnk+xhrLVyxND59a8wPlrsYCp6qQVnSy6u5/kEmHqmTZ8tf7Cmpq+heRwBzyzVRxx4sAUfddlIFP7TYSYB4yzetSChoacl/NW0uTBgME4jnn6WDpOP9bmL7f0KJ2BC2ckF8qo8d1bQRah0LitvxfATMCWf+F8CDfKYdDI3fOGuZJgXf4pdc4D5D1bEXsdAPyKv+HDppO+xCHwrSVfvVEYOmAvTG3VnUDu+USCiYieiGkPLMEv+1tuPck5s0vJtYIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RlqiNAaIB9Y+IIex/HsVnaVBoCD21HNTiLjvcr3R2q0=;
+ b=UoB8g4asud8/QG/BBHY7O9T6T+ci7cXvlC942La/cjc8vDAtxQ98PXiuqxtQw39x2k7TLOHYiSxgv18W4GalcXAPeMjpS7fSlzFw3s9e2CegXmF6q+yYb0Fceeg9dStoYzrePCK5m5H+OYVjIU0BN9niRxAklx/fZoxDRzx7OPg=
+Received: from MW4PR04CA0209.namprd04.prod.outlook.com (2603:10b6:303:86::34)
+ by PH7PR12MB5832.namprd12.prod.outlook.com (2603:10b6:510:1d7::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.23; Tue, 24 May
+ 2022 18:33:53 +0000
+Received: from CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:86:cafe::44) by MW4PR04CA0209.outlook.office365.com
+ (2603:10b6:303:86::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.15 via Frontend
+ Transport; Tue, 24 May 2022 18:33:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT041.mail.protection.outlook.com (10.13.174.217) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5293.13 via Frontend Transport; Tue, 24 May 2022 18:33:53 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 24 May
+ 2022 13:33:51 -0500
+Received: from hwentlanryzen.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
+ Transport; Tue, 24 May 2022 13:33:50 -0500
+From: Harry Wentland <harry.wentland@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: Don't block HDR_OUTPUT_METADATA on unknown EOTF
+Date: Tue, 24 May 2022 14:33:20 -0400
+Message-ID: <20220524183320.28870-1-harry.wentland@amd.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/2] x86/pat: add functions to query specific cache mode
- availability
-Content-Language: en-US
-To: Thorsten Leemhuis <regressions@leemhuis.info>,
- Jan Beulich <jbeulich@suse.com>, regressions@lists.linux.dev,
- stable@vger.kernel.org
-References: <20220503132207.17234-1-jgross@suse.com>
- <20220503132207.17234-3-jgross@suse.com>
- <1d86d8ff-6878-5488-e8c4-cbe8a5e8f624@suse.com>
- <0dcb05d0-108f-6252-e768-f75b393a7f5c@suse.com>
- <77255e5b-12bf-5390-6910-dafbaff18e96@netscape.net>
- <a2e95587-418b-879f-2468-8699a6df4a6a@suse.com>
- <8b1ebea5-7820-69c4-2e2b-9866d55bc180@netscape.net>
- <c5fa3c3f-e602-ed68-d670-d59b93c012a0@netscape.net>
- <3bff3562-bb1e-04e6-6eca-8d9bc355f2eb@suse.com>
- <3ca084a9-768e-a6f5-ace4-cd347978dec7@netscape.net>
- <9af0181a-e143-4474-acda-adbe72fc6227@suse.com>
- <b2585c19-d38b-9640-64ab-d0c9be24be34@netscape.net>
- <dae4cc45-a1cd-e33f-25ef-c536df9b49e6@leemhuis.info>
-From: Chuck Zmudzinski <brchuckz@netscape.net>
-In-Reply-To: <dae4cc45-a1cd-e33f-25ef-c536df9b49e6@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20225
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 01cf33b4-028a-4294-41d3-08da3db3f43c
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5832:EE_
+X-Microsoft-Antispam-PRVS: <PH7PR12MB583226FE4B8A5AA63138B8AA8CD79@PH7PR12MB5832.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xIoMDER7I1+SRC8ypn2uFjXXrjwH/U31b7obEbwbiwTsyEbK5mQ2ceuKEQ7YeJkPbJk617iK5z3fjkzIL0yoJ4xKU69PP18P02HmWIB5ibpMdHsytnmH2LqQZfuwZU08zvTZJgygLX0xnrXvgoo2arETCsKXcNqYsMXQXdjveA+5/9qGCkqvYqgJol9bU42aBo3HbRABCq/5qzdmA6eD0c4CSFhYjg2CyFGVOIbP7EzDTQdr6JPIlc7Hr0QlxUbcm87TAXEdUlXZpsssq2jcY82Je4a1z2NHuhONr1q9Lb//NsLsm6wuSaWeAHBDF94zaYIGN6qNPqxfcMlKrOSIy/TXSGJPthYSzLcp9Dv3UZ9CubU8Nxpbdgx7iiSsyCE1AW+3Ut4ycbCEfyvIHkjyC452I70RcWUxiIpQ81CeaCB/4RscdSGRS1Un52qkhgGJwsHn3fw21+Wt3uVnSZ/BsgJL+eAww94r1ctNWmGGswWAHIXhUH2uKhar/dyectr3bg6Xyv5tOr1zzMRv0c+8D7OEOJMKPo4OJ6w8gix3HCKG3wQlsAj2ZZamFDhpil2FXMqjxdCWk7bXcWnC5hRfEWU7DnU2ICrjTv3z0ibL7q/CQyvtvpRueuLuwbna7Oxy5jvku5dJ11fEyyVUg5aNBuBXpwDixVZ3HD+LgegzoYSlh0s2GVhrw2p9RFhh1NjHPYgch945DWa4jjY2rsEQEw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(44832011)(2616005)(1076003)(4326008)(26005)(70586007)(8676002)(70206006)(40460700003)(966005)(508600001)(356005)(86362001)(316002)(5660300002)(7696005)(82310400005)(110136005)(6666004)(186003)(2906002)(8936002)(426003)(36756003)(83380400001)(36860700001)(47076005)(336012)(54906003)(81166007)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2022 18:33:53.0657 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01cf33b4-028a-4294-41d3-08da3db3f43c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5832
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,233 +99,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
- Andy Lutomirski <luto@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- xen-devel@lists.xenproject.org, Thomas Gleixner <tglx@linutronix.de>
+Cc: vprosyak@amd.com, ppaalanen@gmail.com, Uma Shankar <uma.shankar@intel.com>,
+ sebastian.wick@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/21/22 6:47 AM, Thorsten Leemhuis wrote:
-> On 20.05.22 16:48, Chuck Zmudzinski wrote:
->> On 5/20/2022 10:06 AM, Jan Beulich wrote:
->>> On 20.05.2022 15:33, Chuck Zmudzinski wrote:
->>>> On 5/20/2022 5:41 AM, Jan Beulich wrote:
->>>>> On 20.05.2022 10:30, Chuck Zmudzinski wrote:
->>>>>> On 5/20/2022 2:59 AM, Chuck Zmudzinski wrote:
->>>>>>> On 5/20/2022 2:05 AM, Jan Beulich wrote:
->>>>>>>> On 20.05.2022 06:43, Chuck Zmudzinski wrote:
->>>>>>>>> On 5/4/22 5:14 AM, Juergen Gross wrote:
->>>>>>>>>> On 04.05.22 10:31, Jan Beulich wrote:
->>>>>>>>>>> On 03.05.2022 15:22, Juergen Gross wrote:
->>>>>>>>>>>
->>>>>>>>>>> ... these uses there are several more. You say nothing on why
->>>>>>>>>>> those want
->>>>>>>>>>> leaving unaltered. When preparing my earlier patch I did
->>>>>>>>>>> inspect them
->>>>>>>>>>> and came to the conclusion that these all would also better
->>>>>>>>>>> observe the
->>>>>>>>>>> adjusted behavior (or else I couldn't have left pat_enabled()
->>>>>>>>>>> as the
->>>>>>>>>>> only predicate). In fact, as said in the description of my
->>>>>>>>>>> earlier
->>>>>>>>>>> patch, in
->>>>>>>>>>> my debugging I did find the use in i915_gem_object_pin_map()
->>>>>>>>>>> to be
->>>>>>>>>>> the
->>>>>>>>>>> problematic one, which you leave alone.
->>>>>>>>>> Oh, I missed that one, sorry.
->>>>>>>>> That is why your patch would not fix my Haswell unless
->>>>>>>>> it also touches i915_gem_object_pin_map() in
->>>>>>>>> drivers/gpu/drm/i915/gem/i915_gem_pages.c
->>>>>>>>>
->>>>>>>>>> I wanted to be rather defensive in my changes, but I agree at
->>>>>>>>>> least
->>>>>>>>>> the
->>>>>>>>>> case in arch_phys_wc_add() might want to be changed, too.
->>>>>>>>> I think your approach needs to be more aggressive so it will fix
->>>>>>>>> all the known false negatives introduced by bdd8b6c98239
->>>>>>>>> such as the one in i915_gem_object_pin_map().
->>>>>>>>>
->>>>>>>>> I looked at Jan's approach and I think it would fix the issue
->>>>>>>>> with my Haswell as long as I don't use the nopat option. I
->>>>>>>>> really don't have a strong opinion on that question, but I
->>>>>>>>> think the nopat option as a Linux kernel option, as opposed
->>>>>>>>> to a hypervisor option, should only affect the kernel, and
->>>>>>>>> if the hypervisor provides the pat feature, then the kernel
->>>>>>>>> should not override that,
->>>>>>>> Hmm, why would the kernel not be allowed to override that? Such
->>>>>>>> an override would affect only the single domain where the
->>>>>>>> kernel runs; other domains could take their own decisions.
->>>>>>>>
->>>>>>>> Also, for the sake of completeness: "nopat" used when running on
->>>>>>>> bare metal has the same bad effect on system boot, so there
->>>>>>>> pretty clearly is an error cleanup issue in the i915 driver. But
->>>>>>>> that's orthogonal, and I expect the maintainers may not even care
->>>>>>>> (but tell us "don't do that then").
->>>>>> Actually I just did a test with the last official Debian kernel
->>>>>> build of Linux 5.16, that is, a kernel before bdd8b6c98239 was
->>>>>> applied. In fact, the nopat option does *not* break the i915 driver
->>>>>> in 5.16. That is, with the nopat option, the i915 driver loads
->>>>>> normally on both the bare metal and on the Xen hypervisor.
->>>>>> That means your presumption (and the presumption of
->>>>>> the author of bdd8b6c98239) that the "nopat" option was
->>>>>> being observed by the i915 driver is incorrect. Setting "nopat"
->>>>>> had no effect on my system with Linux 5.16. So after doing these
->>>>>> tests, I am against the aggressive approach of breaking the i915
->>>>>> driver with the "nopat" option because prior to bdd8b6c98239,
->>>>>> nopat did not break the i915 driver. Why break it now?
->>>>> Because that's, in my understanding, is the purpose of "nopat"
->>>>> (not breaking the driver of course - that's a driver bug -, but
->>>>> having an effect on the driver).
->>>> I wouldn't call it a driver bug, but an incorrect configuration of the
->>>> kernel by the user.  I presume X86_FEATURE_PAT is required by the
->>>> i915 driver
->>> The driver ought to work fine without PAT (and hence without being
->>> able to make WC mappings). It would use UC instead and be slow, but
->>> it ought to work.
->>>
->>>> and therefore the driver should refuse to disable
->>>> it if the user requests to disable it and instead warn the user that
->>>> the driver did not disable the feature, contrary to what the user
->>>> requested with the nopat option.
->>>>
->>>> In any case, my test did not verify that when nopat is set in Linux
->>>> 5.16,
->>>> the thread takes the same code path as when nopat is not set,
->>>> so I am not totally sure that the reason nopat does not break the
->>>> i915 driver in 5.16 is that static_cpu_has(X86_FEATURE_PAT)
->>>> returns true even when nopat is set. I could test it with a custom
->>>> log message in 5.16 if that is necessary.
->>>>
->>>> Are you saying it was wrong for static_cpu_has(X86_FEATURE_PAT)
->>>> to return true in 5.16 when the user requests nopat?
->>> No, I'm not saying that. It was wrong for this construct to be used
->>> in the driver, which was fixed for 5.17 (and which had caused the
->>> regression I did observe, leading to the patch as a hopefully least
->>> bad option).
->>>
->>>> I think that is
->>>> just permitting a bad configuration to break the driver that a
->>>> well-written operating system should not allow. The i915 driver
->>>> was, in my opinion, correctly ignoring the nopat option in 5.16
->>>> because that option is not compatible with the hardware the
->>>> i915 driver is trying to initialize and setup at boot time. At least
->>>> that is my understanding now, but I will need to test it on 5.16
->>>> to be sure I understand it correctly.
->>>>
->>>> Also, AFAICT, your patch would break the driver when the nopat
->>>> option is set and only fix the regression introduced by bdd8b6c98239
->>>> when nopat is not set on my box, so your patch would
->>>> introduce a regression relative to Linux 5.16 and earlier for the
->>>> case when nopat is set on my box. I think your point would
->>>> be that it is not a regression if it is an incorrect user configuration.
->>> Again no - my view is that there's a separate, pre-existing issue
->>> in the driver which was uncovered by the change. This may be a
->>> perceived regression, but is imo different from a real one.
-> Sorry, for you maybe, but I'm pretty sure for Linus it's not when it
-> comes to the "no regressions rule". Just took a quick look at quotes
-> from Linus
-> https://www.kernel.org/doc/html/latest/process/handling-regressions.html
-> and found this statement from Linus to back this up:
->
-> ```
-> One _particularly_ last-minute revert is the top-most commit (ignoring
-> the version change itself) done just before the release, and while
-> it's very annoying, it's perhaps also instructive.
->
-> What's instructive about it is that I reverted a commit that wasn't
-> actually buggy. In fact, it was doing exactly what it set out to do,
-> and did it very well. In fact it did it _so_ well that the much
-> improved IO patterns it caused then ended up revealing a user-visible
-> regression due to a real bug in a completely unrelated area.
-> ```
->
-> He said that here:
-> https://www.kernel.org/doc/html/latest/process/handling-regressions.html
->
-> The situation is of course different here, but similar enough.
->
->> Since it is a regression, I think for now bdd8b6c98239 should
->> be reverted and the fix backported to Linux 5.17 stable until
->> the underlying memory subsystem can provide the i915 driver
->> with an updated test for the PAT feature that also meets the
->> requirements of the author of bdd8b6c98239 without breaking
->> the i915 driver.
-> I'm not a developer and I'm don't known the details of this thread and
-> the backstory of the regression, but it sounds like that's the approach
-> that is needed here until someone comes up with a fix for the regression
-> exposed by bdd8b6c98239.
->
-> But if I'm wrong, please tell me.
+The supported EOTFs are defined in eotf_supported in drm_edid
+but userspace has no way of knowing what is and isn't supported
+when creating an HDR_OUTPUT_METADATA and will only know
+something is wrong when the atomic commit fails.
 
-You are mostly right, I think. Reverting bdd8b6c98239 fixes
-it. There is another way to fix it, though. The patch proposed
-by Jan Beulich also fixes the regression on my system, so as
-the person reporting this is a regression, I would also be satisfied
-with Jan's patch instead of reverting bdd8b6c98239 as a fix. Jan
-posted his proposed patch here:
+Since it is expected that userspace reads the EDID to understand
+what the display supports it doesn't make sense for DRM to block
+an HDR_OUTPUT_METADATA if it contains an EOTF the kernel doesn't
+understand.
 
-https://lore.kernel.org/lkml/9385fa60-fa5d-f559-a137-6608408f88b0@suse.com/
+This comes with the added benefit of future-proofing metadata
+support. If the spec defines a new EOTF there is no need to
+update DRM and an compositor can immediately make use of it.
 
-The only reservation I have about Jan's patch is that the commit
-message does not clearly explain how the patch changes what
-the nopat kernel boot option does. It doesn't affect me because
-I don't use nopat, but it should probably be mentioned in the
-commit message, as pointed out here:
+Fixes: https://gitlab.freedesktop.org/wayland/weston/-/issues/609
 
-https://lore.kernel.org/lkml/bd9ed2c2-1337-27bb-c9da-dfc7b31d492c@netscape.net/
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Cc: ppaalanen@gmail.com
+Cc: sebastian.wick@redhat.com
+Cc: vprosyak@amd.com
+Cc: Uma Shankar <uma.shankar@intel.com>
+---
+ drivers/gpu/drm/drm_edid.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Whatever fix for the regression exposed by bdd8b6c98239 also
-needs to be backported to the stable versions 5.17 and 5.18.
-
-Regards,
-
-Chuck Zmudzinski
->
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->
-> P.S.: As the Linux kernel's regression tracker I deal with a lot of
-> reports and sometimes miss something important when writing mails like
-> this. If that's the case here, don't hesitate to tell me in a public
-> reply, it's in everyone's interest to set the public record straight.
->
->> The i915 driver relies on the memory subsytem
->> to provide it with an accurate test for the existence of
->> X86_FEATURE_PAT. I think your patch provides that more accurate
->> test so that bdd8b6c98239 could be re-applied when your patch is
->> committed. Juergen's patch would have to touch bdd8b6c98239
->> with new functions that probably have unknown and unintended
->> consequences, so I think your approach is also better in that regard.
->> As regards your patch, there is just a disagreement about how the
->> i915 driver should behave if nopat is set. I agree the i915 driver
->> could do a better job handling that case, at least with better error
->> logs.
->>
->> Chuck
->>
->>>> I respond by saying a well-written driver should refuse to honor
->>>> the incorrect configuration requested by the user and instead
->>>> warn the user that it did not honor the incorrect kernel option.
->>>>
->>>> I am only presuming what your patch would do on my box based
->>>> on what I learned about this problem from my debugging. I can
->>>> also test your patch on my box to verify that my understanding of
->>>> it is correct.
->>>>
->>>> I also have not yet verified Juergen's patch will not fix it, but
->>>> I am almost certain it will not unless it is expanded so it also
->>>> touches i915_gem_object_pin_map() with the fix. I plan to test
->>>> his patch, but expanded so it touches that function also.
->>>>
->>>> I also plan to test your patch with and without nopat and report the
->>>> results in the thread where you posted your patch. Hopefully
->>>> by tomorrow I will have the results.
->>>>
->>>> Chuck
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 12893e7be89b..223f96a72064 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5691,10 +5691,8 @@ drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
+ 
+ 	/* Sink EOTF is Bit map while infoframe is absolute values */
+ 	if (!is_eotf_supported(hdr_metadata->hdmi_metadata_type1.eotf,
+-	    connector->hdr_sink_metadata.hdmi_type1.eotf)) {
+-		DRM_DEBUG_KMS("EOTF Not Supported\n");
+-		return -EINVAL;
+-	}
++	    connector->hdr_sink_metadata.hdmi_type1.eotf))
++		DRM_DEBUG_KMS("Unknown EOTF %d\n", hdr_metadata->hdmi_metadata_type1.eotf);
+ 
+ 	err = hdmi_drm_infoframe_init(frame);
+ 	if (err < 0)
+-- 
+2.36.1
 
