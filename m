@@ -1,85 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76842533DDA
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 15:26:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B81ED533DDF
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 15:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8966A10EE09;
-	Wed, 25 May 2022 13:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA3A310EF8E;
+	Wed, 25 May 2022 13:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C384910EE09
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 13:26:25 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id y24so4735713wmq.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 06:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=MpAJjoRKwGLkh3LcW90CCOydeHbiAiNXwW2FaiG7+5Y=;
- b=QQ8HN/d+PVpdcmWvwIk13yOR6arO1frU91StcQ9M/kCJ8FdOEutASVqNnl0oFm/EZH
- tEt0nVXQW764JiFG5GFiAGbr/Es2hBMAJ0BqVNCWdma0pXaFu0SUXYi0eyKowEidI3w3
- 7p7kfRhKxEPT55ahiSMGxdfw22s2xnhjVcBrc=
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8824110EF8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 13:27:14 +0000 (UTC)
+Received: by mail-qt1-x835.google.com with SMTP id u3so16888892qta.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 06:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=cBojj6MpEXmYefKAyC1SpUSJ7IkaCxvI2NkFyguhyrY=;
+ b=mqnTsqAFXps2Pl7x6v6joLF9cz66CNH/7h+mZM0kJESATvcanx0/egojKS+ciSY+C3
+ /G52Y0alzTf/m7fB6CCRbK+lXCQz+MtjcK6UgCEKbiiLgnbBxf7oe38i5emi8sOeS4Ra
+ RiXivhNDGeT4lV+mtbxObbY8NfeieXI2+uBFB8Ut0Ww3zv0TXNh5DqWDxq3pPJotzZHR
+ snL1oXIeUOF3hJdCQcT5nZyBPFHexhSWoiHvBRG3cI1WZVjSgnWJDRk8sOI1XjtjPL5v
+ 5UQtOZcSJ9fJN10+oMpqDnDMJ9S4rPeaDqBbCGNoN8AlzF6YI11f5Ox3/WcAcdlJz1fJ
+ yGrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=MpAJjoRKwGLkh3LcW90CCOydeHbiAiNXwW2FaiG7+5Y=;
- b=6hoRfOhPxgiRyXgaGu4IugM48uuWX18k6o3OPJizrE1BX3rHEp3KKaUUPomOqUpIF1
- tjOuiw9NiIwE+K72IATHN4GnVfTiw8KfEFWn4pmfC3xycNXHf+H2bC4q3evgdy0Me0Gq
- Kag6ATJO6PCBlrLN1eBdbkTbZOW97J11XK0zR/KqgBR03nX2+I4/NSqcDxfF80bi0Op+
- Bg82dYlTddskOEJ852sAyM0TmDb6823pOaDQv1VYR9/KGjJGnk5C8dBOqI/BWLt8vyp5
- edCGLCe82/wSf/HbBDRAJkunwvb+W2ngJxcyV32khCL20bM6YQR4HZW1vYsKLXElbAZe
- w80A==
-X-Gm-Message-State: AOAM532qy5XSCNJVhzmtIkJm5gEQqnmIhMCE/PvEDvvGa4McQcRfKbnb
- pGXsoVn3wlSVPDaV1XyKPmwiJw==
-X-Google-Smtp-Source: ABdhPJzAkynVKxqfhn4pVC8Fu0ef4gHIkJfVw0FJOU2QlVfLYEJ7eKnSnAbOa7QOcrhCIDLgMvWWWA==
-X-Received: by 2002:a05:600c:3b20:b0:397:6311:c0c7 with SMTP id
- m32-20020a05600c3b2000b003976311c0c7mr5836015wms.69.1653485184116; 
- Wed, 25 May 2022 06:26:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- t22-20020a1c7716000000b0039749bab534sm5164109wmi.1.2022.05.25.06.26.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 06:26:23 -0700 (PDT)
-Date: Wed, 25 May 2022 15:26:21 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3] drm/probe-helper: Make 640x480 first if no EDID
-Message-ID: <Yo4ufWm5WiXsnRX8@phenom.ffwll.local>
-Mail-Followup-To: Doug Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Aravind Venkateswaran (QUIC)" <quic_aravindh@quicinc.com>,
- "Kuogee Hsieh (QUIC)" <quic_khsieh@quicinc.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- "Abhinav Kumar (QUIC)" <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Sean Paul <seanpaul@chromium.org>
-References: <20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
- <5857c510-9783-a483-8414-65d7350618d6@suse.de>
- <CAD=FV=X99EWmRk82ako7cL7BWPEsTG=L7VVBVDFX5qKc1MifSA@mail.gmail.com>
- <CAD=FV=U3Wywjev9tEhkL_zE1cV5NwEknH2YwHqyhd5TQtiJ=AQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cBojj6MpEXmYefKAyC1SpUSJ7IkaCxvI2NkFyguhyrY=;
+ b=J0PLPCeaKdFHeTfJ9NkW/5ECxWBXc/iylqaL9RGWWK67l4w33HfXn7AAAWy5mtxL9o
+ 2ExjTX+zeOdtAhRNh7ZrrWNJ8LiuSebfge63s6oWXxPzzTalOC3JSdQFVmWyPD8ircwi
+ 4EWtOibMXdiJHF1vHzo++E0e/AhOf2VNxxEs4WKaJj9kf4TSCoMAxFAKf3Y5hCMp72mp
+ ncJ35Tdk44RSROjOLhE+HhK691xQHuwL3D80VsTAWcj33n6QnLpRGzZ02cNIyuArfH1U
+ 1f+NhmghtvK/IvbU4b84LEjl5SyYdlVrUUug1qKpdO3eCu2SFK29oasvBhP+uTThFHLU
+ Imyw==
+X-Gm-Message-State: AOAM531ockAjbd7pMUlJn5D94EqSJUHuIdrZiYJPuH75M47T2vvyakPT
+ CFmrOTAxb6VIyYrQiod67raRPuLWMCM5ikfbV4Y=
+X-Google-Smtp-Source: ABdhPJxhazuDHonCNhpPPdZLaSargctF1mN+NcWPhe8tsOoI1BAuuYQ+31tJOMpClVLWvTm2pAbrPrgf1dZkIqli5uY=
+X-Received: by 2002:ac8:5781:0:b0:2fb:9795:d87a with SMTP id
+ v1-20020ac85781000000b002fb9795d87amr699667qta.103.1653485233263; Wed, 25 May
+ 2022 06:27:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=U3Wywjev9tEhkL_zE1cV5NwEknH2YwHqyhd5TQtiJ=AQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220524135249.49993-1-roman.o.stratiienko@globallogic.com>
+ <2629819.mvXUDI8C0e@kista>
+ <CAGphcdn=7r1p217m0DczgYZeGV+STe9PAAAuMjb0qXq2cteEwg@mail.gmail.com>
+ <2827541.e9J7NaK4W3@kista>
+In-Reply-To: <2827541.e9J7NaK4W3@kista>
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+Date: Wed, 25 May 2022 16:27:02 +0300
+Message-ID: <CAGphcd=CE4=ugnku0Qpb7baP7zvB8niR_QGJcFYiiDUvExMM-w@mail.gmail.com>
+Subject: Re: Re: Re: [PATCH] drm/sun4i: Fix blend registers corruption for
+ DE2.0/DE3.0
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,121 +68,407 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- LKML <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Samuel Holland <samuel@sholland.org>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ megi@xff.cz, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 23, 2022 at 05:59:02PM -0700, Doug Anderson wrote:
-> Hi,
-> 
-> On Fri, May 20, 2022 at 5:01 PM Doug Anderson <dianders@chromium.org> wrote:
+=D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 22:13, Jernej =C5=
+=A0krabec <jernej.skrabec@gmail.com>:
+>
+> Don't top post, it's annoying and against rules.
+>
+> Dne torek, 24. maj 2022 ob 19:10:06 CEST je Roman Stratiienko napisal(a):
+> > Please draft a test for the zpos issue you're mentioning.
 > >
-> > Hi,
+> > It's very easy to do with kmsxx using python wrapper.
 > >
-> > On Mon, May 16, 2022 at 3:28 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > >
-> > > Hi Douglas,
-> > >
-> > > I understand that you're trying to tell userspace that the modelist has
-> > > been made up, but it's not something that should be done via fragile
-> > > heuristics IMHO.
-> > >
-> > > I looked at the Chromium source code that you linked, but I cannot say
-> > > whether it's doing the correct thing. It all depends on what your
-> > > program needs.
-> > >
-> > > In that function, you could also search for 'DRM_MODE_TYPE_USERDEF'.
-> > > It's the mode that the user specified on the kernel command line. If
-> > > Chromium's automatic mode selection fails, you'd give your users direct
-> > > control over it.
-> >
-> > That doesn't really work for Chrome OS. Certainly a kernel hacker
-> > could do this, but it's not something I could imagine us exposing to
-> > an average user of a Chromebook.
-> >
-> >
-> > > When there's no flagged mode or if
-> > > /sys/class/drm/card<...>/status contains "unconnected", you can assume
-> > > that the modelist is artificial and try the modes in an appropriate order.
-> >
-> > So "no flagged" means that nothing is marked as preferred, correct?
-> >
-> > ...so I guess what you're suggesting is that the order that the kernel
-> > is presenting the modes to userspace is not ABI. If there are no
-> > preferred modes then userspace shouldn't necessarily assume that the
-> > first mode returned is the best mode. Instead it should assume that if
-> > there is no preferred mode then the mode list is made up and it should
-> > make its own decisions about the best mode to start with. If this is
-> > the ABI from the kernel then plausibly I could convince people to
-> > change userspace to pick 640x480 first in this case.
-> >
-> > > If we really want the kernel to give additional guarantees, we should
-> > > have a broader discussion about this topic IMHO.
-> >
-> > Sure. I've added Stéphane Marchesin to this thread in case he wants to
-> > chime in about anything.
-> >
-> > Overall, my take on the matter:
-> >
-> > * Mostly I got involved because, apparently, a DP compliance test was
-> > failing. The compliance test was upset that when it presented us with
-> > no EDID that we didn't default to 640x480. There was a push to make a
-> > fix for this in the Qualcomm specific driver but that didn't sit right
-> > with me.
-> >
-> > * On all devices I'm currently working with (laptops), the DP is a
-> > secondary display. If a user was trying to plug in a display with a
-> > bad EDID and the max mode (1024x768) didn't work, they could just use
-> > the primary display to choose a different resolution. It seems
-> > unlikely a user would truly be upset and would probably be happy they
-> > could get their broken display to work at all. Even if this is a
-> > primary display, I believe there are documented key combos to change
-> > the resolution of the primary display even if you can't see anything.
-> >
-> > * That all being said, defaulting to 640x480 when there's no EDID made
-> > sense to me, especially since it's actually defined in the DP spec. So
-> > I'm trying to do the right thing and solve this corner case. That
-> > being said, if it's truly controversial I can just drop it.
-> >
-> >
-> > So I guess my plan will be to give Stéphane a little while in case he
-> > wants to chime in. If not then I guess I'll try a Chrome patch...
-> > ...and if that doesn't work, I'll just drop it.
-> 
-> OK, this userspace code seems to work:
-> 
-> https://crrev.com/c/3662501 - ozone/drm: Try 640x480 before picking
-> the first mode if no EDID
-> 
-> ...so we'll see how review of that goes. :-)
+> > Or explain steps to reproduce here, I will write it by myself.
+>
+> I'm talking about the issue which you, Ondrej Jirman and me all tried to =
+fix it
+> in the past one way or another:
+>
+> https://patchwork.kernel.org/project/dri-devel/patch/20190914220337.64671=
+9-1-megous@megous.com/
+> https://patchwork.kernel.org/project/dri-devel/patch/20210106204630.18002=
+84-1-jernej.skrabec@siol.net/
 
-Yeah it sucks a bit but I'm mildly afraid that if we muck around with the
-absolute fallback mode list in upstream we get whacked by a regression
-report :-/
+This particular patch and the one I've sent  today [1] aims to fix the
+ZPOS issue you're talking about.
+Second patch [1] fixes https://github.com/rsglobal/kmsxx/pull/3 test
+and unlike this patch it does not cause additional regressions (as far
+as I can test).
 
-There's the additional fun that on modern displays probably 720p (or maybe
-720i) is a lot more likely to work than anything else really, so best we
-can do here maybe is to make it an uapi guarantee that if there's no
-preferred mode, then most likely the kernel invent random noise out of
-thin air, and userspace has to be careful and do its own magic heuristics.
-Or maybe we should add a flag for "this stuff is invented, buyer beware".
+[1]: https://patchwork.kernel.org/project/dri-devel/patch/20220525115445.93=
+500-1-roman.o.stratiienko@globallogic.com/
 
-I think clarifying that would be good. Changing defaults feels a bit too
-risky, we had some really hilarious regression reports in the past along
-the lines of the infamous xkcd.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> Best regards,
+> Jernej
+>
+> >
+> > Thanks.
+> > Regards
+> > Roman
+> >
+> > =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 19:21, Jernej =
+=C5=A0krabec <jernej.skrabec@gmail.com>:
+> > >
+> > > Dne torek, 24. maj 2022 ob 17:31:13 CEST je Roman Stratiienko napisal=
+(a):
+> > > > NAK for this. Further testing showed such an approach is not reliab=
+le
+> > > > due to .atomic_update() callback called only in case planes have so=
+me
+> > > > changes.
+> > >
+> > > Additionally, I think it would be better to fix underlaying zpos issu=
+e first
+> > > (attempted many times) and then worry about blending.
+> > >
+> > > Best regards,
+> > > Jernej
+> > >
+> > > >
+> > > > =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 16:52, Roma=
+n Stratiienko <r.stratiienko@gmail.com>:
+> > > > >
+> > > > > Corruption happens when plane zpos is updated
+> > > > >
+> > > > > Example scenario:
+> > > > >
+> > > > > Initial frame blender state:
+> > > > >     PLANE_ZPOS =3D {0, 1, 2, 3}
+> > > > >     BLD_ROUTE  =3D {0, 1, 2, 0}
+> > > > >     BLD_EN     =3D {1, 1, 1, 0}
+> > > > >
+> > > > > New frame commit (Only ZPOS has been changed):
+> > > > >
+> > > > >     PLANE_ZPOS =3D {0->2, 1->0, 2->1, 3}
+> > > > >
+> > > > > Expected results after plane state update:
+> > > > >                 Z0 Z1 Z2 Z3
+> > > > >     BLD_ROUTE =3D {1, 2, 0, 0}
+> > > > >     BLD_EN    =3D {1, 1, 1, 0}
+> > > > >
+> > > > > What is currently happening:
+> > > > >
+> > > > > 1. sun8i_vi_layer_enable(enabled=3Dtrue, zpos=3D2, old_zpos=3D0):
+> > > > >     BLD_ROUTE =3D {1->0, 1, 2->0, 0}
+> > > > >     BLD_EN    =3D {1->0, 1, 1->1, 0}
+> > > > >
+> > > > > 2. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D0, old_zpos=3D1):
+> > > > >     BLD_ROUTE =3D {0->1, 1->0, 0, 0}
+> > > > >     BLD_EN    =3D {0->1, 1->0, 1, 0}
+> > > > >
+> > > > > 3. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D1, old_zpos=3D2):
+> > > > >     BLD_ROUTE =3D {1, 0->2, 0->0, 0}
+> > > > >     BLD_EN    =3D {1, 0->2, 1->0, 0}
+> > > > >
+> > > > > After updating of all the planes we are ending up with BLD_EN[2]=
+=3D0,
+> > > > > which makes this channel disabled.
+> > > > >
+> > > > > To fix this issue, clear BLEND registers before updating the plan=
+es
+> > > > > and do not clear the old state while processing every plane.
+> > > > >
+> > > > > Signed-off-by: Roman Stratiienko <roman.o.stratiienko@globallogic=
+.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 16 +++++++++++++++
+> > > > >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 28 +++
+> +----------------------
+> > > > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 28 +++
+> +----------------------
+> > > > >  3 files changed, 24 insertions(+), 48 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/dr=
+m/
+> sun4i/
+> > > sun8i_mixer.c
+> > > > > index f5e8aeaa3cdf..004377a000fc 100644
+> > > > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > > > @@ -248,6 +248,21 @@ int sun8i_mixer_drm_format_to_hw(u32 format,=
+ u32
+> > > *hw_format)
+> > > > >         return -EINVAL;
+> > > > >  }
+> > > > >
+> > > > > +static void sun8i_atomic_begin(struct sunxi_engine *engine,
+> > > > > +                              struct drm_crtc_state *old_state)
+> > > > > +{
+> > > > > +       struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engin=
+e);
+> > > > > +       u32 bld_base =3D sun8i_blender_base(mixer);
+> > > > > +
+> > > > > +       regmap_write(engine->regs,
+> > > > > +                    SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > > > > +                    0);
+> > > > > +
+> > > > > +       regmap_write(engine->regs,
+> > > > > +                    SUN8I_MIXER_BLEND_ROUTE(bld_base),
+> > > > > +                    0);
+> > > > > +}
+> > > > > +
+> > > > >  static void sun8i_mixer_commit(struct sunxi_engine *engine)
+> > > > >  {
+> > > > >         DRM_DEBUG_DRIVER("Committing changes\n");
+> > > > > @@ -299,6 +314,7 @@ static struct drm_plane **sun8i_layers_init(s=
+truct
+> > > drm_device *drm,
+> > > > >  }
+> > > > >
+> > > > >  static const struct sunxi_engine_ops sun8i_engine_ops =3D {
+> > > > > +       .atomic_begin   =3D sun8i_atomic_begin,
+> > > > >         .commit         =3D sun8i_mixer_commit,
+> > > > >         .layers_init    =3D sun8i_layers_init,
+> > > > >  };
+> > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu=
+/drm/
+> > > sun4i/sun8i_ui_layer.c
+> > > > > index 7845c2a53a7f..b294a882626a 100644
+> > > > > --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > > > > @@ -24,8 +24,7 @@
+> > > > >  #include "sun8i_ui_scaler.h"
+> > > > >
+> > > > >  static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int
+> channel,
+> > > > > -                                 int overlay, bool enable, unsig=
+ned
+> int
+> > > zpos,
+> > > > > -                                 unsigned int old_zpos)
+> > > > > +                                 int overlay, bool enable, unsig=
+ned
+> int
+> > > zpos)
+> > > > >  {
+> > > > >         u32 val, bld_base, ch_base;
+> > > > >
+> > > > > @@ -44,18 +43,6 @@ static void sun8i_ui_layer_enable(struct
+> sun8i_mixer
+> > > *mixer, int channel,
+> > > > >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base=
+,
+> > > overlay),
+> > > > >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val=
+);
+> > > > >
+> > > > > -       if (!enable || zpos !=3D old_zpos) {
+> > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > -
+> SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > > > > -
+> > > SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+> > > > > -                                  0);
+> > > > > -
+> > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > -                                  SUN8I_MIXER_BLEND_ROUTE(bld_ba=
+se),
+> > > > > -
+> > > SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+> > > > > -                                  0);
+> > > > > -       }
+> > > > > -
+> > > > >         if (enable) {
+> > > > >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+> > > > >
+> > > > > @@ -291,31 +278,24 @@ static int sun8i_ui_layer_atomic_check(stru=
+ct
+> > > drm_plane *plane,
+> > > > >  static void sun8i_ui_layer_atomic_disable(struct drm_plane *plan=
+e,
+> > > > >                                           struct drm_atomic_state
+> *state)
+> > > > >  {
+> > > > > -       struct drm_plane_state *old_state =3D
+> > > drm_atomic_get_old_plane_state(state,
+> > > > > -
+> > > plane);
+> > > > >         struct sun8i_ui_layer *layer =3D plane_to_sun8i_ui_layer(=
+plane);
+> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > >
+> > > > > -       sun8i_ui_layer_enable(mixer, layer->channel, layer->overl=
+ay,
+> > > false, 0,
+> > > > > -                             old_zpos);
+> > > > > +       sun8i_ui_layer_enable(mixer, layer->channel, layer->overl=
+ay,
+> > > false, 0);
+> > > > >  }
+> > > > >
+> > > > >  static void sun8i_ui_layer_atomic_update(struct drm_plane *plane=
+,
+> > > > >                                          struct drm_atomic_state
+> *state)
+> > > > >  {
+> > > > > -       struct drm_plane_state *old_state =3D
+> > > drm_atomic_get_old_plane_state(state,
+> > > > > -
+> > > plane);
+> > > > >         struct drm_plane_state *new_state =3D
+> > > drm_atomic_get_new_plane_state(state,
+> > > > >
+> > > plane);
+> > > > >         struct sun8i_ui_layer *layer =3D plane_to_sun8i_ui_layer(=
+plane);
+> > > > >         unsigned int zpos =3D new_state->normalized_zpos;
+> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > >
+> > > > >         if (!new_state->visible) {
+> > > > >                 sun8i_ui_layer_enable(mixer, layer->channel,
+> > > > > -                                     layer->overlay, false, 0,
+> old_zpos);
+> > > > > +                                     layer->overlay, false, 0);
+> > > > >                 return;
+> > > > >         }
+> > > > >
+> > > > > @@ -328,7 +308,7 @@ static void sun8i_ui_layer_atomic_update(stru=
+ct
+> > > drm_plane *plane,
+> > > > >         sun8i_ui_layer_update_buffer(mixer, layer->channel,
+> > > > >                                      layer->overlay, plane);
+> > > > >         sun8i_ui_layer_enable(mixer, layer->channel, layer->overl=
+ay,
+> > > > > -                             true, zpos, old_zpos);
+> > > > > +                             true, zpos);
+> > > > >  }
+> > > > >
+> > > > >  static const struct drm_plane_helper_funcs
+> sun8i_ui_layer_helper_funcs =3D
+> > > {
+> > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu=
+/drm/
+> > > sun4i/sun8i_vi_layer.c
+> > > > > index bb7c43036dfa..4653244b2fd8 100644
+> > > > > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > > > > @@ -18,8 +18,7 @@
+> > > > >  #include "sun8i_vi_scaler.h"
+> > > > >
+> > > > >  static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int
+> channel,
+> > > > > -                                 int overlay, bool enable, unsig=
+ned
+> int
+> > > zpos,
+> > > > > -                                 unsigned int old_zpos)
+> > > > > +                                 int overlay, bool enable, unsig=
+ned
+> int
+> > > zpos)
+> > > > >  {
+> > > > >         u32 val, bld_base, ch_base;
+> > > > >
+> > > > > @@ -38,18 +37,6 @@ static void sun8i_vi_layer_enable(struct
+> sun8i_mixer
+> > > *mixer, int channel,
+> > > > >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base=
+,
+> > > overlay),
+> > > > >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, val=
+);
+> > > > >
+> > > > > -       if (!enable || zpos !=3D old_zpos) {
+> > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > -
+> SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > > > > -
+> > > SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+> > > > > -                                  0);
+> > > > > -
+> > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > -                                  SUN8I_MIXER_BLEND_ROUTE(bld_ba=
+se),
+> > > > > -
+> > > SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+> > > > > -                                  0);
+> > > > > -       }
+> > > > > -
+> > > > >         if (enable) {
+> > > > >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+> > > > >
+> > > > > @@ -395,31 +382,24 @@ static int sun8i_vi_layer_atomic_check(stru=
+ct
+> > > drm_plane *plane,
+> > > > >  static void sun8i_vi_layer_atomic_disable(struct drm_plane *plan=
+e,
+> > > > >                                           struct drm_atomic_state
+> *state)
+> > > > >  {
+> > > > > -       struct drm_plane_state *old_state =3D
+> > > drm_atomic_get_old_plane_state(state,
+> > > > > -
+> > > plane);
+> > > > >         struct sun8i_vi_layer *layer =3D plane_to_sun8i_vi_layer(=
+plane);
+> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > >
+> > > > > -       sun8i_vi_layer_enable(mixer, layer->channel, layer->overl=
+ay,
+> > > false, 0,
+> > > > > -                             old_zpos);
+> > > > > +       sun8i_vi_layer_enable(mixer, layer->channel, layer->overl=
+ay,
+> > > false, 0);
+> > > > >  }
+> > > > >
+> > > > >  static void sun8i_vi_layer_atomic_update(struct drm_plane *plane=
+,
+> > > > >                                          struct drm_atomic_state
+> *state)
+> > > > >  {
+> > > > > -       struct drm_plane_state *old_state =3D
+> > > drm_atomic_get_old_plane_state(state,
+> > > > > -
+> > > plane);
+> > > > >         struct drm_plane_state *new_state =3D
+> > > drm_atomic_get_new_plane_state(state,
+> > > > >
+> > > plane);
+> > > > >         struct sun8i_vi_layer *layer =3D plane_to_sun8i_vi_layer(=
+plane);
+> > > > >         unsigned int zpos =3D new_state->normalized_zpos;
+> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > >
+> > > > >         if (!new_state->visible) {
+> > > > >                 sun8i_vi_layer_enable(mixer, layer->channel,
+> > > > > -                                     layer->overlay, false, 0,
+> old_zpos);
+> > > > > +                                     layer->overlay, false, 0);
+> > > > >                 return;
+> > > > >         }
+> > > > >
+> > > > > @@ -432,7 +412,7 @@ static void sun8i_vi_layer_atomic_update(stru=
+ct
+> > > drm_plane *plane,
+> > > > >         sun8i_vi_layer_update_buffer(mixer, layer->channel,
+> > > > >                                      layer->overlay, plane);
+> > > > >         sun8i_vi_layer_enable(mixer, layer->channel, layer->overl=
+ay,
+> > > > > -                             true, zpos, old_zpos);
+> > > > > +                             true, zpos);
+> > > > >  }
+> > > > >
+> > > > >  static const struct drm_plane_helper_funcs
+> sun8i_vi_layer_helper_funcs =3D
+> > > {
+> > > > > --
+> > > > > 2.30.2
+> > > > >
+> > > >
+> > >
+> > >
+> >
+>
+>
