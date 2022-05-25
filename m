@@ -2,65 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA075346FB
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 01:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F54853470C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 01:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA53A10E10F;
-	Wed, 25 May 2022 23:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECB310E33B;
+	Wed, 25 May 2022 23:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70FFF10E10F
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 23:24:18 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id w21so2209044edi.9
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 16:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=izUkwPGGxBZu6bQbI1S3gbHIYHJd/Kx9MigGiHCcKQA=;
- b=D5mVvCtGLAYUINLafQ9DPym4MJXRyvQLXXWRjrx7n1C1uIfy36sHQGOdCF5ZndroFS
- ojwLK0DYMvLQiWqXThTIuQmhTToL+5gScEAtihj4NfqxoP3DZ16DKqcSvXm9o0uccQ4x
- DiJ6myHRPJJsJ/KmAp/PUbZBYGYej0SMRpdWo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=izUkwPGGxBZu6bQbI1S3gbHIYHJd/Kx9MigGiHCcKQA=;
- b=4dLwqV9H8hqR+uQWs1KxIXV3VIM1qYMnrncujqzAfrsbBwUZOodlPvdTuM6fgROZ4d
- LNUcVphdEksfiiVUoTizAjgTQ83BVQdSpkx5a8rSlcuPVV1Bxb+gFvl6WJeqG1hCmFRM
- yQKakdHNqway2PY8fvBkGDeV3wXQ00dOI16oyyHZc5zL6XelxKeLAqCI2vU5lxifXRg4
- rauR5ZaWXE0AdJ6LRm8cmncYJKX6dBsWO3R0C3gvjYF7Zp7HmhzMiArPp2jV4UA26LQI
- S8x0UyV3hmpM366W5q/iDPB1EVN5x3iKGPk5LnkNf/MIQ5KPo/pSyWN7f35WTadYXz+3
- GuTg==
-X-Gm-Message-State: AOAM53295MSb2OxfPdSVZ4Sbjxe7mjQrSFw/6s+lVsxTsAOF6EGZe1Dt
- agkaW44RocOGqMEbwK+sES4bnLWrCRn4Wy36CZw=
-X-Google-Smtp-Source: ABdhPJzJ0blFebEfQejN0UZ5jrEv07wL/jwBCxNfzNLxHtdFVhFe0/QpJG0E6G3NaQ3BIsjZcdQyRw==
-X-Received: by 2002:a05:6402:4316:b0:42b:4d3d:c064 with SMTP id
- m22-20020a056402431600b0042b4d3dc064mr22855227edc.194.1653521056741; 
- Wed, 25 May 2022 16:24:16 -0700 (PDT)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
- [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
- b3-20020a50e783000000b0042617ba637fsm2825edn.9.2022.05.25.16.24.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 May 2022 16:24:16 -0700 (PDT)
-Received: by mail-wm1-f47.google.com with SMTP id
- d5-20020a05600c34c500b0039776acee62so233890wmq.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 16:24:16 -0700 (PDT)
-X-Received: by 2002:a1c:7207:0:b0:397:66ee:9d71 with SMTP id
- n7-20020a1c7207000000b0039766ee9d71mr6432677wmc.8.1653521055778; Wed, 25 May
- 2022 16:24:15 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F3F10E2E5;
+ Wed, 25 May 2022 23:47:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653522456; x=1685058456;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+1StdJE03LcIYnT3PGtasawU35+MjgHuRxmj/a7neLY=;
+ b=NSLGuQjH5I8OjuLgiLf6k6u+cKU2S1XiKMThIiHutuUWJdKnuA7GmEqI
+ QkSoXpcWFCH9Wau71vH96gXFhvAAmFKdFG4Ej8oafcA939zNQmCYGsxW2
+ bT53r5wHu1qC68eTLX33h66xlFJok/WEd20+g2ybKIKQ6v0DVurhvByM2
+ 1NXwu0P56gG0T+JIGATWrk2Rs+KwZPItTvR0hJFYeiRUPzGqCqRGhaQ2H
+ Tuz+xwc+EWclfgZPbBPIDJ8khiJBgL0IynIlKieadIQAL+A6OE4VIWFRF
+ lYmyEeBUXXT1CI04SORgxi0AFbCOkcNkjtZySBwW+Hedxq3qK461YrUNi A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="261576913"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="261576913"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 16:47:35 -0700
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="549264421"
+Received: from nazirhos-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.165.86])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 16:47:35 -0700
+Date: Wed, 25 May 2022 16:47:35 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/hwconfig: Future-proof platform
+ checks
+Message-ID: <20220525234735.plbjjpvympaczfmx@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220524235906.529771-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-References: <CAPM=9tw62EZfAm0PbiOPmMrpfR98QMFTWGEQcA34G4ap4xxNkA@mail.gmail.com>
-In-Reply-To: <CAPM=9tw62EZfAm0PbiOPmMrpfR98QMFTWGEQcA34G4ap4xxNkA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 25 May 2022 16:23:59 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgg86+1n550uM3gkhpRyauvWySnRwPHHP6Mm90FF5f7dw@mail.gmail.com>
-Message-ID: <CAHk-=wgg86+1n550uM3gkhpRyauvWySnRwPHHP6Mm90FF5f7dw@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.19-rc1
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220524235906.529771-1-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,15 +58,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 24, 2022 at 11:07 PM Dave Airlie <airlied@gmail.com> wrote:
+On Tue, May 24, 2022 at 04:59:06PM -0700, Matt Roper wrote:
+>PVC also has a hwconfig table.  Actually the current expectation is that
+>all future platforms will have hwconfig, so let's just change the
+>condition to an IP version check so that we don't need to keep updating
+>this for each new platform that shows up.
 >
-> AMD has started some new GPU support [...]
+>Cc: John Harrison <john.c.harrison@intel.com>
+>Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>---
+> drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+>index 5aaa3948de74..4781fccc2687 100644
+>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+>@@ -96,7 +96,7 @@ static bool has_table(struct drm_i915_private *i915)
+> {
+> 	if (IS_ALDERLAKE_P(i915) && !IS_ADLP_N(i915))
+> 		return true;
+>-	if (IS_DG2(i915))
+>+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55))
+> 		return true;
 
-Oh Christ. Which means another set of auto-generated monster headers. Lovely.
+probably a matter of taste, but given gcc's history on how to decide
+when to inline[1], could be better as
 
-                  Linus
+	return GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55) ||
+		(IS_ALDERLAKE_P(i915) && !IS_ADLP_N(i915));
+
+Lucas De Marchi
+
+[1] https://lwn.net/Articles/767884/
+
+>
+> 	return false;
+>-- 
+>2.35.3
+>
