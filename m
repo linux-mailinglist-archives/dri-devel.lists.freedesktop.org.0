@@ -2,78 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D8B533F56
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 16:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFCD533F9D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 16:56:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EA710F8FF;
-	Wed, 25 May 2022 14:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D652F10FA6E;
+	Wed, 25 May 2022 14:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B779E10FA82
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 14:38:26 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id j25so5987546wrb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 07:38:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=EgY0jaM9vHozFElUnQ8vjV07u7clksrPr+0iIxlv5TU=;
- b=ZSAPAZI1ZzKFU26CKEpOFJwGxkDb48U0LhHGHNPMF66cJksDw2s26PhE92m2sP0/Lt
- 0CrCMZVem2RauRgZf+QX2owKSP9hBndUIrO6pTxX6yjcvxSobJbCppPOaTGaOss3ce5s
- styIG9bn7WYlE9VRwM63fyU/WLG9nLL5z0hBQ=
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C655210FA6E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 14:56:08 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id t2so13373762qkb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 07:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/Ot+95wTH85e61GEd+xt96zGn3altJgPirB7QC1WIJI=;
+ b=BmdVEbsQEp88423D8G5qsAheFzlxeCOflLaevWMMMRd5FWEOsIl5uRQ/F1Piw9DwHR
+ aZPIaQipGgloI0ZxtDehg3E2fr+/LW4q5A6cXZTuLnTME8743NWCpGXCYM1leW/87Eo4
+ kikrEIogY7JfY7TlMSKyjmQZYHwVaT5XsrJ1+yfXM4xq5bwcrmvnYwWmb89/bUwhggX/
+ WwhKM3dKwvrFfxbg8+q9R7fMznCn+eW/jkXE4TkxD9tyS+aL6Z9tGcOu2gGM1PK4Apkm
+ 5Vr7jNI+Nx8WWW0KEj95QOHMxRcXw7tRoiMv9MMdtQh8oI76st5gamoVoPv/rm4ahBtv
+ 2mDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=EgY0jaM9vHozFElUnQ8vjV07u7clksrPr+0iIxlv5TU=;
- b=RxpldyEUzMQq+NToSsU3YuF+JrGFiJFXKE4L8U6FznCfjOfmZmahJCy73BfZdVh2pt
- YPZeeT9UA/1DQvUzM81XLYjCxPymSuDqc+cRqm2xITHO10Kpn367nTPt3g0QZ8byhv2V
- fVWhf2bQrujn1bfXJYt0MIZt5lpp9DjcVF6lAdpwblACW7pnQNv+H7tY/q3AQTevowGE
- ahjp/9XUefjeEUdaK8jEB+wIqF1Mlfp5s7qUQlcUl5zEy5x/+wbgTiwolewtwoVleXps
- CZ/aEiOQeKipR1Oxpvvrb4+g6p/UttnK8CEo/ZaX3c1kaK7Wve+VGSoij5O1gvroHEHg
- +FyA==
-X-Gm-Message-State: AOAM530e1bJnAMJtmuB9pgW1peWupT3daUzP93uMlnmFWNK9AB3XfVUb
- qL/RJwvl2GdKZ3RD37jtrfhHVg==
-X-Google-Smtp-Source: ABdhPJzLNNEykkR4Jh5XLHgXxwE9aky/euCfurPFRV26dc5jYUXygZu7DY5BbEHKBLSkPW+aTFGinA==
-X-Received: by 2002:a05:6000:246:b0:20f:fff4:e1ec with SMTP id
- m6-20020a056000024600b0020ffff4e1ecmr2580893wrz.485.1653489505042; 
- Wed, 25 May 2022 07:38:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- h15-20020adf9ccf000000b0020e58b3e064sm2292198wre.74.2022.05.25.07.38.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 07:38:24 -0700 (PDT)
-Date: Wed, 25 May 2022 16:38:22 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
-Message-ID: <Yo4/XhWQkACWaPIh@phenom.ffwll.local>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Kalesh Singh <kaleshsingh@google.com>,
- Minchan Kim <minchan@google.com>,
- Greg Kroah-Hartman <gregkh@google.com>,
- John Stultz <jstultz@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Hridya Valsaraju <hridya@google.com>, kernel-team@android.com,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220516171315.2400578-1-tjmercier@google.com>
- <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
- <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
- <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
- <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
- <YoM9BAwybcjG7K/H@kroah.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/Ot+95wTH85e61GEd+xt96zGn3altJgPirB7QC1WIJI=;
+ b=0kF/I65YvnOaj2ocqZBKxXgh1DK0vxQgEMjYFrtYX0oV1xcRGxphWWpqNdLq3RhBYs
+ xByCbwSaJ4BOhBjE4PHDUIeWFlIiST3zKC8HyjkO8irSyi4wj+q/jCMH6x4Ur5cXVnY7
+ tMuQkmLCHXjaaEchbYBQnaxCb9Oryxbz2VqPxaDOYVLFDE4Z/dwUKEgkpQNmpdIXXqXB
+ 8w7V5CjOfkbRgpJU+qpauYpDMfu8ovN6IM1hOBZkhwhi4pDdNDLCHVuz8i1IBjxRXPP4
+ OFf/4Rp4n9u6pX05dVVdDPbAXUcXGX7IVg6Pn1o5N+wuUtBNXhrXx+bhxR29Rd4p241n
+ Ef6A==
+X-Gm-Message-State: AOAM533AAuxelcwHXXqVeRAaECz8a/7INeUz/JGqSBiazXT889rWEFhe
+ C/ihIj+ziCL4hnyuT+Mg2N1Zz7MbCkzq81T4fkVtQ4Le
+X-Google-Smtp-Source: ABdhPJz4ANZBeCyoxb1Xwja6okypsKoE/aUiXFywiyVvRKRVB1VexVdGTQCR+UbMXhN2ttDHH4+uIfvCdCjTbb57v7A=
+X-Received: by 2002:a05:620a:c4f:b0:67d:4996:fd8 with SMTP id
+ u15-20020a05620a0c4f00b0067d49960fd8mr20226797qki.518.1653490567736; Wed, 25
+ May 2022 07:56:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YoM9BAwybcjG7K/H@kroah.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220524135249.49993-1-roman.o.stratiienko@globallogic.com>
+ <CAGphcdn=7r1p217m0DczgYZeGV+STe9PAAAuMjb0qXq2cteEwg@mail.gmail.com>
+ <CAGphcdnbAS64yUomkaAMWqStO6mO3nLq2qrOU-W99htH0_Fz-g@mail.gmail.com>
+ <3174733.44csPzL39Z@kista>
+In-Reply-To: <3174733.44csPzL39Z@kista>
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+Date: Wed, 25 May 2022 17:55:56 +0300
+Message-ID: <CAGphcdmfm43aTim5tVL+LYTrtq+mrwJU9nJxinafXqN4xEhz9w@mail.gmail.com>
+Subject: Re: Re: Re: [PATCH] drm/sun4i: Fix blend registers corruption for
+ DE2.0/DE3.0
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,154 +68,426 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, kernel-team@android.com,
- Minchan Kim <minchan@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, John Stultz <jstultz@google.com>,
- Kalesh Singh <kaleshsingh@google.com>, Hridya Valsaraju <hridya@google.com>,
- Greg Kroah-Hartman <gregkh@google.com>, Suren Baghdasaryan <surenb@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org
+Cc: Samuel Holland <samuel@sholland.org>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ megi@xff.cz, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 17, 2022 at 08:13:24AM +0200, Greg Kroah-Hartman wrote:
-> On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
-> > On Mon, May 16, 2022 at 12:21 PM Christian König
-> > <christian.koenig@amd.com> wrote:
+=D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 22:14, Jernej =C5=
+=A0krabec <jernej.skrabec@gmail.com>:
+>
+> Dne torek, 24. maj 2022 ob 19:14:35 CEST je Roman Stratiienko napisal(a):
+> > By the way, not related to this issue:
+> >
+> > I cherry-picked
+> > https://patchwork.kernel.org/project/dri-devel/patch/20220424162633.123=
+69-9-samuel@sholland.org/
+> > and got a blank FB console on OPI3.
+> > Can you check it please?
+>
+> Reply to that patch and we'll talk.
+
+Despite the fact that I am the original author of the patches I'm not
+even in CC, so I can respond to this thread.
+Is there any other way to respond to the message where you're not in CC?
+
+>
+> Best regards,
+> Jernej
+>
+> >
+> > Regards,
+> > Roman
+> >
+> >
+> >
+> > =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 20:10, Roman St=
+ratiienko <r.stratiienko@gmail.com>:
 > > >
-> > > Am 16.05.22 um 20:08 schrieb T.J. Mercier:
-> > > > On Mon, May 16, 2022 at 10:20 AM Christian König
-> > > > <christian.koenig@amd.com> wrote:
-> > > >> Am 16.05.22 um 19:13 schrieb T.J. Mercier:
-> > > >>> Recently, we noticed an issue where a process went into direct reclaim
-> > > >>> while holding the kernfs rw semaphore for sysfs in write (exclusive)
-> > > >>> mode. This caused processes who were doing DMA-BUF exports and releases
-> > > >>> to go into uninterruptible sleep since they needed to acquire the same
-> > > >>> semaphore for the DMA-BUF sysfs entry creation/deletion. In order to avoid
-> > > >>> blocking DMA-BUF export for an indeterminate amount of time while
-> > > >>> another process is holding the sysfs rw semaphore in exclusive mode,
-> > > >>> this patch moves the per-buffer sysfs file creation to the default work
-> > > >>> queue. Note that this can lead to a short-term inaccuracy in the dmabuf
-> > > >>> sysfs statistics, but this is a tradeoff to prevent the hot path from
-> > > >>> being blocked. A work_struct is added to dma_buf to achieve this, but as
-> > > >>> it is unioned with the kobject in the sysfs_entry, dma_buf does not
-> > > >>> increase in size.
-> > > >> I'm still not very keen of this approach as it strongly feels like we
-> > > >> are working around shortcoming somewhere else.
-> > > >>
-> > > > My read of the thread for the last version is that we're running into
-> > > > a situation where sysfs is getting used for something it wasn't
-> > > > originally intended for, but we're also stuck with this sysfs
-> > > > functionality for dmabufs.
+> > > Please draft a test for the zpos issue you're mentioning.
+> > >
+> > > It's very easy to do with kmsxx using python wrapper.
+> > >
+> > > Or explain steps to reproduce here, I will write it by myself.
+> > >
+> > > Thanks.
+> > > Regards
+> > > Roman
+> > >
+> > > =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 19:21, Jernej=
+ =C5=A0krabec <jernej.skrabec@gmail.com>:
 > > > >
-> > > >>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats in sysfs")
-> > > >>> Originally-by: Hridya Valsaraju <hridya@google.com>
-> > > >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > >>>
-> > > >>> ---
-> > > >>> See the originally submitted patch by Hridya Valsaraju here:
-> > > >>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C794614324d114880a25508da37672e4b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637883213566903705%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=bGlA2FeubfSeL5XDHYyWMZqUXfScoCphZjjK4jrqQJs%3D&amp;reserved=0
-> > > >>>
-> > > >>> v2 changes:
-> > > >>> - Defer only sysfs creation instead of creation and teardown per
-> > > >>> Christian König
-> > > >>>
-> > > >>> - Use a work queue instead of a kthread for deferred work per
-> > > >>> Christian König
-> > > >>> ---
-> > > >>>    drivers/dma-buf/dma-buf-sysfs-stats.c | 56 ++++++++++++++++++++-------
-> > > >>>    include/linux/dma-buf.h               | 14 ++++++-
-> > > >>>    2 files changed, 54 insertions(+), 16 deletions(-)
-> > > >>>
-> > > >>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > > >>> index 2bba0babcb62..67b0a298291c 100644
-> > > >>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > > >>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> > > >>> @@ -11,6 +11,7 @@
-> > > >>>    #include <linux/printk.h>
-> > > >>>    #include <linux/slab.h>
-> > > >>>    #include <linux/sysfs.h>
-> > > >>> +#include <linux/workqueue.h>
-> > > >>>
-> > > >>>    #include "dma-buf-sysfs-stats.h"
-> > > >>>
-> > > >>> @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(void)
-> > > >>>        kset_unregister(dma_buf_stats_kset);
-> > > >>>    }
-> > > >>>
-> > > >>> +static void sysfs_add_workfn(struct work_struct *work)
-> > > >>> +{
-> > > >>> +     struct dma_buf_sysfs_entry *sysfs_entry =
-> > > >>> +             container_of(work, struct dma_buf_sysfs_entry, sysfs_add_work);
-> > > >>> +     struct dma_buf *dmabuf = sysfs_entry->dmabuf;
-> > > >>> +
-> > > >>> +     /*
-> > > >>> +      * A dmabuf is ref-counted via its file member. If this handler holds the only
-> > > >>> +      * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
-> > > >>> +      * optimization and a race; when the reference count drops to 1 immediately after
-> > > >>> +      * this check it is not harmful as the sysfs entry will still get cleaned up in
-> > > >>> +      * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
-> > > >>> +      * is released, and that can't happen until the end of this function.
-> > > >>> +      */
-> > > >>> +     if (file_count(dmabuf->file) > 1) {
-> > > >> Please completely drop that. I see absolutely no justification for this
-> > > >> additional complexity.
-> > > >>
-> > > > This case gets hit around 5% of the time in my testing so the else is
-> > > > not a completely unused branch.
-> > >
-> > > Well I can only repeat myself: This means that your userspace is
-> > > severely broken!
-> > >
-> > > DMA-buf are meant to be long living objects
-> > This patch addresses export *latency* regardless of how long-lived the
-> > object is. Even a single, long-lived export will benefit from this
-> > change if it would otherwise be blocked on adding an object to sysfs.
-> > I think attempting to improve this latency still has merit.
-> 
-> Fixing the latency is nice, but as it's just pushing the needed work off
-> to another code path, it will take longer overall for the sysfs stuff to
-> be ready for userspace to see.
-> 
-> Perhaps we need to step back and understand what this code is supposed
-> to be doing.  As I recall, it was created because some systems do not
-> allow debugfs anymore, and they wanted the debugging information that
-> the dmabuf code was exposing to debugfs on a "normal" system.  Moving
-> that logic to sysfs made sense, but now I am wondering why we didn't see
-> these issues in the debugfs code previously?
-> 
-> Perhaps we should go just one step further and make a misc device node
-> for dmabug debugging information to be in and just have userspace
-> poll/read on the device node and we spit the info that used to be in
-> debugfs out through that?  That way this only affects systems when they
-> want to read the information and not normal code paths?  Yeah that's a
-> hack, but this whole thing feels overly complex now.
-
-A bit late on this discussion, but just wanted to add my +1 that we should
-either redesign the uapi, or fix the underlying latency issue in sysfs, or
-whatever else is deemed the proper fix.
-
-Making uapi interfaces async in ways that userspace can't discover is a
-hack that we really shouldn't consider, at least for upstream. All kinds
-of hilarious things might start to happen when an object exists, but not
-consistently in all the places where it should be visible. There's a
-reason sysfs has all these neat property groups so that absolutely
-everything is added atomically. Doing stuff later on just because usually
-no one notices that the illusion falls apart isn't great.
-
-Unfortunately I don't have a clear idea here what would be the right
-solution :-/ One idea perhaps: Should we dynamically enumerate the objects
-when userspace does a readdir()? That's absolutely not how sysfs works,
-but procfs works like that and there's discussions going around about
-moving these optimizations to other kernfs implementations. At least there
-was a recent lwn article on this:
-
-https://lwn.net/Articles/895111/
-
-But that would be serious amounts of work I guess.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > > > Dne torek, 24. maj 2022 ob 17:31:13 CEST je Roman Stratiienko
+> napisal(a):
+> > > > > NAK for this. Further testing showed such an approach is not reli=
+able
+> > > > > due to .atomic_update() callback called only in case planes have =
+some
+> > > > > changes.
+> > > >
+> > > > Additionally, I think it would be better to fix underlaying zpos is=
+sue
+> first
+> > > > (attempted many times) and then worry about blending.
+> > > >
+> > > > Best regards,
+> > > > Jernej
+> > > >
+> > > > >
+> > > > > =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 16:52, Ro=
+man Stratiienko
+> <r.stratiienko@gmail.com>:
+> > > > > >
+> > > > > > Corruption happens when plane zpos is updated
+> > > > > >
+> > > > > > Example scenario:
+> > > > > >
+> > > > > > Initial frame blender state:
+> > > > > >     PLANE_ZPOS =3D {0, 1, 2, 3}
+> > > > > >     BLD_ROUTE  =3D {0, 1, 2, 0}
+> > > > > >     BLD_EN     =3D {1, 1, 1, 0}
+> > > > > >
+> > > > > > New frame commit (Only ZPOS has been changed):
+> > > > > >
+> > > > > >     PLANE_ZPOS =3D {0->2, 1->0, 2->1, 3}
+> > > > > >
+> > > > > > Expected results after plane state update:
+> > > > > >                 Z0 Z1 Z2 Z3
+> > > > > >     BLD_ROUTE =3D {1, 2, 0, 0}
+> > > > > >     BLD_EN    =3D {1, 1, 1, 0}
+> > > > > >
+> > > > > > What is currently happening:
+> > > > > >
+> > > > > > 1. sun8i_vi_layer_enable(enabled=3Dtrue, zpos=3D2, old_zpos=3D0=
+):
+> > > > > >     BLD_ROUTE =3D {1->0, 1, 2->0, 0}
+> > > > > >     BLD_EN    =3D {1->0, 1, 1->1, 0}
+> > > > > >
+> > > > > > 2. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D0, old_zpos=3D1=
+):
+> > > > > >     BLD_ROUTE =3D {0->1, 1->0, 0, 0}
+> > > > > >     BLD_EN    =3D {0->1, 1->0, 1, 0}
+> > > > > >
+> > > > > > 3. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D1, old_zpos=3D2=
+):
+> > > > > >     BLD_ROUTE =3D {1, 0->2, 0->0, 0}
+> > > > > >     BLD_EN    =3D {1, 0->2, 1->0, 0}
+> > > > > >
+> > > > > > After updating of all the planes we are ending up with BLD_EN[2=
+]=3D0,
+> > > > > > which makes this channel disabled.
+> > > > > >
+> > > > > > To fix this issue, clear BLEND registers before updating the pl=
+anes
+> > > > > > and do not clear the old state while processing every plane.
+> > > > > >
+> > > > > > Signed-off-by: Roman Stratiienko
+> <roman.o.stratiienko@globallogic.com>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 16 +++++++++++++++
+> > > > > >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 28 +++
+> +----------------------
+> > > > > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 28 +++
+> +----------------------
+> > > > > >  3 files changed, 24 insertions(+), 48 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/=
+drm/
+> sun4i/
+> > > > sun8i_mixer.c
+> > > > > > index f5e8aeaa3cdf..004377a000fc 100644
+> > > > > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > > > > @@ -248,6 +248,21 @@ int sun8i_mixer_drm_format_to_hw(u32 forma=
+t,
+> u32
+> > > > *hw_format)
+> > > > > >         return -EINVAL;
+> > > > > >  }
+> > > > > >
+> > > > > > +static void sun8i_atomic_begin(struct sunxi_engine *engine,
+> > > > > > +                              struct drm_crtc_state *old_state=
+)
+> > > > > > +{
+> > > > > > +       struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(eng=
+ine);
+> > > > > > +       u32 bld_base =3D sun8i_blender_base(mixer);
+> > > > > > +
+> > > > > > +       regmap_write(engine->regs,
+> > > > > > +                    SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > > > > > +                    0);
+> > > > > > +
+> > > > > > +       regmap_write(engine->regs,
+> > > > > > +                    SUN8I_MIXER_BLEND_ROUTE(bld_base),
+> > > > > > +                    0);
+> > > > > > +}
+> > > > > > +
+> > > > > >  static void sun8i_mixer_commit(struct sunxi_engine *engine)
+> > > > > >  {
+> > > > > >         DRM_DEBUG_DRIVER("Committing changes\n");
+> > > > > > @@ -299,6 +314,7 @@ static struct drm_plane
+> **sun8i_layers_init(struct
+> > > > drm_device *drm,
+> > > > > >  }
+> > > > > >
+> > > > > >  static const struct sunxi_engine_ops sun8i_engine_ops =3D {
+> > > > > > +       .atomic_begin   =3D sun8i_atomic_begin,
+> > > > > >         .commit         =3D sun8i_mixer_commit,
+> > > > > >         .layers_init    =3D sun8i_layers_init,
+> > > > > >  };
+> > > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/g=
+pu/
+> drm/
+> > > > sun4i/sun8i_ui_layer.c
+> > > > > > index 7845c2a53a7f..b294a882626a 100644
+> > > > > > --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > > > > > @@ -24,8 +24,7 @@
+> > > > > >  #include "sun8i_ui_scaler.h"
+> > > > > >
+> > > > > >  static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, i=
+nt
+> channel,
+> > > > > > -                                 int overlay, bool enable, uns=
+igned
+> int
+> > > > zpos,
+> > > > > > -                                 unsigned int old_zpos)
+> > > > > > +                                 int overlay, bool enable, uns=
+igned
+> int
+> > > > zpos)
+> > > > > >  {
+> > > > > >         u32 val, bld_base, ch_base;
+> > > > > >
+> > > > > > @@ -44,18 +43,6 @@ static void sun8i_ui_layer_enable(struct
+> sun8i_mixer
+> > > > *mixer, int channel,
+> > > > > >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_ba=
+se,
+> > > > overlay),
+> > > > > >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, v=
+al);
+> > > > > >
+> > > > > > -       if (!enable || zpos !=3D old_zpos) {
+> > > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > > -
+> SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > > > > > -
+> > > > SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+> > > > > > -                                  0);
+> > > > > > -
+> > > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > > -
+> SUN8I_MIXER_BLEND_ROUTE(bld_base),
+> > > > > > -
+> > > > SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+> > > > > > -                                  0);
+> > > > > > -       }
+> > > > > > -
+> > > > > >         if (enable) {
+> > > > > >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+> > > > > >
+> > > > > > @@ -291,31 +278,24 @@ static int sun8i_ui_layer_atomic_check(st=
+ruct
+> > > > drm_plane *plane,
+> > > > > >  static void sun8i_ui_layer_atomic_disable(struct drm_plane *pl=
+ane,
+> > > > > >                                           struct drm_atomic_sta=
+te
+> *state)
+> > > > > >  {
+> > > > > > -       struct drm_plane_state *old_state =3D
+> > > > drm_atomic_get_old_plane_state(state,
+> > > > > > -
+> > > > plane);
+> > > > > >         struct sun8i_ui_layer *layer =3D
+> plane_to_sun8i_ui_layer(plane);
+> > > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > > >
+> > > > > > -       sun8i_ui_layer_enable(mixer, layer->channel, layer->ove=
+rlay,
+> > > > false, 0,
+> > > > > > -                             old_zpos);
+> > > > > > +       sun8i_ui_layer_enable(mixer, layer->channel, layer->ove=
+rlay,
+> > > > false, 0);
+> > > > > >  }
+> > > > > >
+> > > > > >  static void sun8i_ui_layer_atomic_update(struct drm_plane *pla=
+ne,
+> > > > > >                                          struct drm_atomic_stat=
+e
+> *state)
+> > > > > >  {
+> > > > > > -       struct drm_plane_state *old_state =3D
+> > > > drm_atomic_get_old_plane_state(state,
+> > > > > > -
+> > > > plane);
+> > > > > >         struct drm_plane_state *new_state =3D
+> > > > drm_atomic_get_new_plane_state(state,
+> > > > > >
+> > > > plane);
+> > > > > >         struct sun8i_ui_layer *layer =3D
+> plane_to_sun8i_ui_layer(plane);
+> > > > > >         unsigned int zpos =3D new_state->normalized_zpos;
+> > > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > > >
+> > > > > >         if (!new_state->visible) {
+> > > > > >                 sun8i_ui_layer_enable(mixer, layer->channel,
+> > > > > > -                                     layer->overlay, false, 0,
+> old_zpos);
+> > > > > > +                                     layer->overlay, false, 0)=
+;
+> > > > > >                 return;
+> > > > > >         }
+> > > > > >
+> > > > > > @@ -328,7 +308,7 @@ static void sun8i_ui_layer_atomic_update(st=
+ruct
+> > > > drm_plane *plane,
+> > > > > >         sun8i_ui_layer_update_buffer(mixer, layer->channel,
+> > > > > >                                      layer->overlay, plane);
+> > > > > >         sun8i_ui_layer_enable(mixer, layer->channel, layer->ove=
+rlay,
+> > > > > > -                             true, zpos, old_zpos);
+> > > > > > +                             true, zpos);
+> > > > > >  }
+> > > > > >
+> > > > > >  static const struct drm_plane_helper_funcs
+> sun8i_ui_layer_helper_funcs =3D
+> > > > {
+> > > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/g=
+pu/
+> drm/
+> > > > sun4i/sun8i_vi_layer.c
+> > > > > > index bb7c43036dfa..4653244b2fd8 100644
+> > > > > > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > > > > > @@ -18,8 +18,7 @@
+> > > > > >  #include "sun8i_vi_scaler.h"
+> > > > > >
+> > > > > >  static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, i=
+nt
+> channel,
+> > > > > > -                                 int overlay, bool enable, uns=
+igned
+> int
+> > > > zpos,
+> > > > > > -                                 unsigned int old_zpos)
+> > > > > > +                                 int overlay, bool enable, uns=
+igned
+> int
+> > > > zpos)
+> > > > > >  {
+> > > > > >         u32 val, bld_base, ch_base;
+> > > > > >
+> > > > > > @@ -38,18 +37,6 @@ static void sun8i_vi_layer_enable(struct
+> sun8i_mixer
+> > > > *mixer, int channel,
+> > > > > >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_ba=
+se,
+> > > > overlay),
+> > > > > >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, v=
+al);
+> > > > > >
+> > > > > > -       if (!enable || zpos !=3D old_zpos) {
+> > > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > > -
+> SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > > > > > -
+> > > > SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+> > > > > > -                                  0);
+> > > > > > -
+> > > > > > -               regmap_update_bits(mixer->engine.regs,
+> > > > > > -
+> SUN8I_MIXER_BLEND_ROUTE(bld_base),
+> > > > > > -
+> > > > SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+> > > > > > -                                  0);
+> > > > > > -       }
+> > > > > > -
+> > > > > >         if (enable) {
+> > > > > >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+> > > > > >
+> > > > > > @@ -395,31 +382,24 @@ static int sun8i_vi_layer_atomic_check(st=
+ruct
+> > > > drm_plane *plane,
+> > > > > >  static void sun8i_vi_layer_atomic_disable(struct drm_plane *pl=
+ane,
+> > > > > >                                           struct drm_atomic_sta=
+te
+> *state)
+> > > > > >  {
+> > > > > > -       struct drm_plane_state *old_state =3D
+> > > > drm_atomic_get_old_plane_state(state,
+> > > > > > -
+> > > > plane);
+> > > > > >         struct sun8i_vi_layer *layer =3D
+> plane_to_sun8i_vi_layer(plane);
+> > > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > > >
+> > > > > > -       sun8i_vi_layer_enable(mixer, layer->channel, layer->ove=
+rlay,
+> > > > false, 0,
+> > > > > > -                             old_zpos);
+> > > > > > +       sun8i_vi_layer_enable(mixer, layer->channel, layer->ove=
+rlay,
+> > > > false, 0);
+> > > > > >  }
+> > > > > >
+> > > > > >  static void sun8i_vi_layer_atomic_update(struct drm_plane *pla=
+ne,
+> > > > > >                                          struct drm_atomic_stat=
+e
+> *state)
+> > > > > >  {
+> > > > > > -       struct drm_plane_state *old_state =3D
+> > > > drm_atomic_get_old_plane_state(state,
+> > > > > > -
+> > > > plane);
+> > > > > >         struct drm_plane_state *new_state =3D
+> > > > drm_atomic_get_new_plane_state(state,
+> > > > > >
+> > > > plane);
+> > > > > >         struct sun8i_vi_layer *layer =3D
+> plane_to_sun8i_vi_layer(plane);
+> > > > > >         unsigned int zpos =3D new_state->normalized_zpos;
+> > > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> > > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
+> > > > > >
+> > > > > >         if (!new_state->visible) {
+> > > > > >                 sun8i_vi_layer_enable(mixer, layer->channel,
+> > > > > > -                                     layer->overlay, false, 0,
+> old_zpos);
+> > > > > > +                                     layer->overlay, false, 0)=
+;
+> > > > > >                 return;
+> > > > > >         }
+> > > > > >
+> > > > > > @@ -432,7 +412,7 @@ static void sun8i_vi_layer_atomic_update(st=
+ruct
+> > > > drm_plane *plane,
+> > > > > >         sun8i_vi_layer_update_buffer(mixer, layer->channel,
+> > > > > >                                      layer->overlay, plane);
+> > > > > >         sun8i_vi_layer_enable(mixer, layer->channel, layer->ove=
+rlay,
+> > > > > > -                             true, zpos, old_zpos);
+> > > > > > +                             true, zpos);
+> > > > > >  }
+> > > > > >
+> > > > > >  static const struct drm_plane_helper_funcs
+> sun8i_vi_layer_helper_funcs =3D
+> > > > {
+> > > > > > --
+> > > > > > 2.30.2
+> > > > > >
+> > > > >
+> > > >
+> > > >
+> >
+>
+>
