@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BF2533A35
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 11:46:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8431C533A3F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 11:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B94DB10F9F4;
-	Wed, 25 May 2022 09:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29A4A10F4F9;
+	Wed, 25 May 2022 09:50:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D424510F9C1;
- Wed, 25 May 2022 09:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653471994; x=1685007994;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=nGymsr8SSj+sne0ImeoCBh2PzvGkNLmIxBxKIlbfpMo=;
- b=fjgC3T1eQ+yElOd1vWLWH9PJk85lbBkryQgHvAnqa1J2+JFIKaLWRPbl
- BcuSHe6JWf6lYEzUFR8nUHqZhAu1AmdbUrqnGqc0YD5iWn0DUy8qA1Rpe
- mGgRpqTVDUsnZYGCZa6s3KES8pOjYOx2/Jjt2yJA58fFy2kYazwhxoEek
- 9U77kvjaCY/HI6i0m4JxyXjMp3MTKc9DKT+2PFLMbnb8y8UVdnzszdoDs
- A1y2vPCBdO62soGnPUJbqrwP7afnJSTJ79lxlNXZuQyxWj/NB1ZRDMipV
- VuUAanq3qRpcLU4Bhgn8h/Axr3W3WnAzEyBpkUCVYik8PetzTZAIod9zO g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10357"; a="360160826"
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="360160826"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 02:46:34 -0700
-X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="676799098"
-Received: from isobansk-mobl.ger.corp.intel.com (HELO [10.213.230.191])
- ([10.213.230.191])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 02:46:31 -0700
-Message-ID: <1cd913da-6e51-509c-a6e6-83bf79cae20b@linux.intel.com>
-Date: Wed, 25 May 2022 10:46:29 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A69710F4F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 09:50:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 71BAF1F44B84
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1653472204;
+ bh=syTUXEsw9/n/6NDfW7WVBL7ZaRtUq32UuldrTBYAPc4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cUME8Mii9tR0Tu01mYdGkHp05qEJkOXwdrQIlvvfG38MQrP5H3GB6ASGPt9iwDqgv
+ d1mRtNNHL1u+o4bjHckBdvy5LqcIiLNB/+TGq8Zt2paL3/AO0a7XCsF1e5I04EVCvn
+ KDTyX8xJHIT1GYRk7c6lh+jl8fnPDZDeJEOak7bxJwGPv/sph7p+SHf8EGqGZYT3Tb
+ cMLALx0Bg0h25UbxIml54g7j5SnPiPH5ZAT5Dp7DFGV3CHcFAJSDpWBxTZlAh3H2gN
+ /6Du8ufh33EOgXlIgWtnnVhCMXYJ7X3BEkwRZgFyrGfd+d5BWEmIGYUL1kB7yJ9fD0
+ RFYnM0I0gTxeg==
+Message-ID: <43a102cf-6971-8083-d24f-629d6d39810f@collabora.com>
+Date: Wed, 25 May 2022 11:50:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v4 12/13] drm/msm: Utilize gpu scheduler priorities
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v20 0/8] Add Mediatek Soc DRM (vdosys0) support for mt8195
 Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20210728010632.2633470-1-robdclark@gmail.com>
- <20210728010632.2633470-13-robdclark@gmail.com>
- <84e03c5f-a3af-6592-d19a-a2f5d20b92fb@linux.intel.com>
- <CAJs_Fx6Nc337LPNh=p2GT2d2yDTdLWH934o4Cof3urDGhUJB6A@mail.gmail.com>
- <904ae104-1c30-d130-129f-ccae381261d5@linux.intel.com>
- <CAF6AEGsH=K1Hut7QBmF1kX40xS+9px=BrtZecAXVQopNs67Feg@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAF6AEGsH=K1Hut7QBmF1kX40xS+9px=BrtZecAXVQopNs67Feg@mail.gmail.com>
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,203 +51,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- freedreno <freedreno@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org,
+ jason-jhlin <jason-jh.lin@mediatek.corp-partner.google.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 19/04/22 11:41, jason-jh.lin ha scritto:
+> From: jason-jhlin <jason-jh.lin@mediatek.corp-partner.google.com>
+> 
 
-On 24/05/2022 15:50, Rob Clark wrote:
-> On Tue, May 24, 2022 at 6:45 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>
->> On 23/05/2022 23:53, Rob Clark wrote:
->>> On Mon, May 23, 2022 at 7:45 AM Tvrtko Ursulin
->>> <tvrtko.ursulin@linux.intel.com> wrote:
->>>>
->>>>
->>>> Hi Rob,
->>>>
->>>> On 28/07/2021 02:06, Rob Clark wrote:
->>>>> From: Rob Clark <robdclark@chromium.org>
->>>>>
->>>>> The drm/scheduler provides additional prioritization on top of that
->>>>> provided by however many number of ringbuffers (each with their own
->>>>> priority level) is supported on a given generation.  Expose the
->>>>> additional levels of priority to userspace and map the userspace
->>>>> priority back to ring (first level of priority) and schedular priority
->>>>> (additional priority levels within the ring).
->>>>>
->>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>>>> Acked-by: Christian König <christian.koenig@amd.com>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +-
->>>>>     drivers/gpu/drm/msm/msm_gem_submit.c    |  4 +-
->>>>>     drivers/gpu/drm/msm/msm_gpu.h           | 58 ++++++++++++++++++++++++-
->>>>>     drivers/gpu/drm/msm/msm_submitqueue.c   | 35 +++++++--------
->>>>>     include/uapi/drm/msm_drm.h              | 14 +++++-
->>>>>     5 files changed, 88 insertions(+), 27 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>>> index bad4809b68ef..748665232d29 100644
->>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>>> @@ -261,8 +261,8 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value)
->>>>>                         return ret;
->>>>>                 }
->>>>>                 return -EINVAL;
->>>>> -     case MSM_PARAM_NR_RINGS:
->>>>> -             *value = gpu->nr_rings;
->>>>> +     case MSM_PARAM_PRIORITIES:
->>>>> +             *value = gpu->nr_rings * NR_SCHED_PRIORITIES;
->>>>>                 return 0;
->>>>>         case MSM_PARAM_PP_PGTABLE:
->>>>>                 *value = 0;
->>>>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
->>>>> index 450efe59abb5..c2ecec5b11c4 100644
->>>>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
->>>>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
->>>>> @@ -59,7 +59,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
->>>>>         submit->gpu = gpu;
->>>>>         submit->cmd = (void *)&submit->bos[nr_bos];
->>>>>         submit->queue = queue;
->>>>> -     submit->ring = gpu->rb[queue->prio];
->>>>> +     submit->ring = gpu->rb[queue->ring_nr];
->>>>>         submit->fault_dumped = false;
->>>>>
->>>>>         INIT_LIST_HEAD(&submit->node);
->>>>> @@ -749,7 +749,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
->>>>>         /* Get a unique identifier for the submission for logging purposes */
->>>>>         submitid = atomic_inc_return(&ident) - 1;
->>>>>
->>>>> -     ring = gpu->rb[queue->prio];
->>>>> +     ring = gpu->rb[queue->ring_nr];
->>>>>         trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
->>>>>                 args->nr_bos, args->nr_cmds);
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
->>>>> index b912cacaecc0..0e4b45bff2e6 100644
->>>>> --- a/drivers/gpu/drm/msm/msm_gpu.h
->>>>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
->>>>> @@ -250,6 +250,59 @@ struct msm_gpu_perfcntr {
->>>>>         const char *name;
->>>>>     };
->>>>>
->>>>> +/*
->>>>> + * The number of priority levels provided by drm gpu scheduler.  The
->>>>> + * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in some
->>>>> + * cases, so we don't use it (no need for kernel generated jobs).
->>>>> + */
->>>>> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_MIN)
->>>>> +
->>>>> +/**
->>>>> + * msm_gpu_convert_priority - Map userspace priority to ring # and sched priority
->>>>> + *
->>>>> + * @gpu:        the gpu instance
->>>>> + * @prio:       the userspace priority level
->>>>> + * @ring_nr:    [out] the ringbuffer the userspace priority maps to
->>>>> + * @sched_prio: [out] the gpu scheduler priority level which the userspace
->>>>> + *              priority maps to
->>>>> + *
->>>>> + * With drm/scheduler providing it's own level of prioritization, our total
->>>>> + * number of available priority levels is (nr_rings * NR_SCHED_PRIORITIES).
->>>>> + * Each ring is associated with it's own scheduler instance.  However, our
->>>>> + * UABI is that lower numerical values are higher priority.  So mapping the
->>>>> + * single userspace priority level into ring_nr and sched_prio takes some
->>>>> + * care.  The userspace provided priority (when a submitqueue is created)
->>>>> + * is mapped to ring nr and scheduler priority as such:
->>>>> + *
->>>>> + *   ring_nr    = userspace_prio / NR_SCHED_PRIORITIES
->>>>> + *   sched_prio = NR_SCHED_PRIORITIES -
->>>>> + *                (userspace_prio % NR_SCHED_PRIORITIES) - 1
->>>>> + *
->>>>> + * This allows generations without preemption (nr_rings==1) to have some
->>>>> + * amount of prioritization, and provides more priority levels for gens
->>>>> + * that do have preemption.
->>>>
->>>> I am exploring how different drivers handle priority levels and this
->>>> caught my eye.
->>>>
->>>> Is the implication of the last paragraphs that on hw with nr_rings > 1,
->>>> ring + 1 preempts ring?
->>>
->>> Other way around, at least from the uabi standpoint.  Ie. ring[0]
->>> preempts ring[1]
->>
->> Ah yes, I figure it out from the comments but then confused myself when
->> writing the email.
->>
->>>> If so I am wondering does the "spreading" of
->>>> user visible priorities by NR_SCHED_PRIORITIES creates a non-preemptable
->>>> levels within every "bucket" or how does that work?
->>>
->>> So, preemption is possible between any priority level before run_job()
->>> gets called, which writes the job into the ringbuffer.  After that
->>
->> Hmm how? Before run_job() the jobs are not runnable, sitting in the
->> scheduler queues, right?
-> 
-> I mean, if prio[0]+prio[1]+prio[2] map to a single ring, submit A on
-> prio[1] could be executed after submit B on prio[2] provided that
-> run_job(submitA) hasn't happened yet.  So I guess it isn't "really"
-> preemption because the submit hasn't started running on the GPU yet.
-> But rather just scheduling according to priority.
-> 
->>> point, you only have "bucket" level preemption, because
->>> NR_SCHED_PRIORITIES levels of priority get mapped to a single FIFO
->>> ringbuffer.
->>
->> Right, and you have one GPU with four rings, which means you expose 12
->> priority levels to userspace, did I get that right?
-> 
-> Correct
-> 
->> If so how do you convey in the ABI that not all there priority levels
->> are equal? Like userspace can submit at prio 4 and expect prio 3 to
->> preempt, as would prio 2 preempt prio 3. While actual behaviour will not
->> match - 3 will not preempt 4.
-> 
-> It isn't really exposed to userspace, but perhaps it should be..
-> Userspace just knows that, to the extent possible, the kernel will try
-> to execute prio 3 before prio 4.
-> 
->> Also, does your userspace stack (EGL/Vulkan) use the priorities? I had a
->> quick peek in Mesa but did not spot it - although I am not really at
->> home there yet so maybe I missed it.
-> 
-> Yes, there is an EGL extension:
-> 
-> https://www.khronos.org/registry/EGL/extensions/IMG/EGL_IMG_context_priority.txt
-> 
-> It is pretty limited, it only exposes three priority levels.
+Hello Jason,
 
-Right, is that wired up on msm? And if it is, or could be, how do/would 
-you map the three priority levels for GPUs which expose 3 priority 
-levels versus the one which exposes 12?
+this series does not apply cleanly anymore on next-20220525, can you please
+rebase and resend?
 
-Is it doable properly without leaking the fact drm/sched internal 
-implementation detail of three priority levels? Or if you went the other 
-way and only exposed up to max 3 levels, then you lose one priority 
-level your hardware suppose which is also not good.
+I hope that with a bit of coordination, we can get the entire display stack
+finally upstreamed in v5.19... it's been quite a while... :-)
 
-It is all quite interesting because your hardware is completely 
-different from ours in this respect. In our case i915 decides when to 
-preempt, hardware has no concept of priority (*).
+Cheers,
+Angelo
 
-Regards,
+> Change in v20:
+> - split binding patch to another series 'MediaTek MT8195 display binding':
+>    https://patchwork.ozlabs.org/project/devicetree-bindings/list/?series=295669
+> - fix io_start type from u32 to resource_size_t
+> - fix some commit message for DITHER enum
+> 
+> Change in v19:
+> - fix checking condition for the return vaule of platform resource
+> - drm/mediatek fix build waning for [-Wunused-const-variable]
+> 
+> Change in v18:
+> - change get driver data by io_start and wrap mmsys driver data into
+>    mmsys match data structure to support identifying multi mmsys driver
+>    data with the same compatible name
+> - change DDP_COMPONENT_DITHER to DDP_CONPONENT_DITHER0
+> 
+> Change in v17:
+> - change compatible name from 2 vdosys to 1 mmsys
+> - add get driver data by clk name function to get corresponding
+>    driver data for mt8195 vdosys0
+> - add all routing table setting for mt8195 vdosys0
+> - remove useless mutex define
+> 
+> Change in v16:
+> - rebase on linu-next tag: 'next-20220303'
+> - rebase on series: 'Fix MediaTek display dt-bindings issues'
+> 
+> Change in v15:
+> - remove mt8195-mmsys.h comment for mux settings
+> - define the mask macro to replace using value as mask
+>    to fix zero mask problem
+> - add EOF setting comment for MUTEX sof register
+> 
+> Change in v14:
+> - rebase on mediatek-drm-next-5.17
+> - rebase on "Add mmsys and mutex support for MDP" series
+> - rebase on "media: mediatek: support mdp3 on mt8183 platform" series
+> 
+> Change in v13:
+> - remove dts patch
+> - rebase on kernel-5.16-rc1
+> - rebase on mediatek-drm-next
+> 
+> Change in v12:
+> - add clock-names property to merge yaml
+> - using BIT(nr) macro to define the settings of mmsys routing table
+> - fix clk_get and clk_prepare_enable error handling issue
+> 
+> Change in v11:
+> - rebase on kernel-5.15-rc1
+> - change mbox label to gce0 for dts node of vdosys0
+> - change ovl compatibale to mt8192 to set smi_id_en=true in driver data
+> - move common module from display folder to common folder,
+>    such as AAL, COCLOR, CCORR and MUTEX
+> 
+> Change in v10:
+> - rebase on "drm/mediatek: add support for mediatek SOC MT8192" series
+> - rebase on "soc: mediatek: mmsys: add mt8192 mmsys support" series
+> - fix some typo and "mediatek" start with capital in every dt-bindings
+> - move mutex yaml from dfisplay folder to soc folder
+> - separate merge additional propoerties to an individual dt-bindings patch
+> 
+> Change in v9:
+> - separate power and gce properties of mmsys into another dt-binding patch
+> - rebase on "Separate aal module" series
+> - keep mtk_ddp_clk_enable/disable in the same place
+> - change mtk_dsc_start config register to mtk_drm_ddp_write_mask
+> - remove the 0 setting of merge fifo config function
+> - add CCORR driver data for mt8195
+> 
+> Change in v8:
+> - add DP_INTF0 mux into mmsys routing table
+> - add DP_INTF0 mutex mod and enum into add/remove comp function
+> - remove bypass DSC enum in mtk_ddp_comp_init
+> 
+> Change in v7:
+> - add dt=binding of mmsys and disp path into this series
+> - separate th modidfication of alphabetic order, remove unused define and
+>    rename the define of register offset to individual patch
+> - add comment for MERGE ultra and preultra setting
+> 
+> Change in v6:
+> - adjust alphabetic order for mediatek-drm
+> - move the patch that add mt8195 support for mediatek-drm as
+>    the lastest patch
+> - add MERGE define for const varriable
+> 
+> Change in v5:
+> - add power-domain property into vdosys0 and vdosys1 dts node.
+> - add MT8195 prifix and remove unused VDO1 define in mt8195-mmsys.h
+> 
+> Change in v4:
+> - extract dt-binding patches to another patch series
+> - squash DSC module into mtk_drm_ddp_comp.c
+> - add coment and simplify MERGE config function
+> 
+> Change in v3:
+> - change mmsys and display dt-bindings document from txt to yaml
+> - add MERGE additional description in display dt-bindings document
+> - fix mboxes-cells number of vdosys0 node in dts
+> - drop mutex eof convert define
+> - remove pm_runtime apis in DSC and MERGE
+> - change DSC and MERGE enum to alphabetic order
+> 
+> Change in v2:
+> - add DSC yaml file
+> - add mt8195 drm driver porting parts in to one patch
+> - remove useless define, variable, structure member and function
+> - simplify DSC and MERGE file and switch threre order
+> 
+> jason-jh.lin (8):
+>    soc: mediatek: add mtk-mmsys support for mt8195 vdosys0
+>    soc: mediatek: add mtk-mutex support for mt8195 vdosys0
+>    drm/mediatek: add DSC support for mediatek-drm
+>    drm/mediatek: add MERGE support for mediatek-drm
+>    drm/mediatek: add mediatek-drm of vdosys0 support for mt8195
+>    soc: mediatek: add DDP_DOMPONENT_DITHER0 enum for mt8195 vdosys0
+>    drm/mediatek: add suffix 0 to DDP_COMPONENT_DITHER for mt8195 vdosys0
+>    soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
+> 
+>   drivers/gpu/drm/mediatek/Makefile           |   1 +
+>   drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   8 +
+>   drivers/gpu/drm/mediatek/mtk_disp_merge.c   | 246 +++++++++++++
+>   drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |   6 +
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  65 +++-
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   2 +
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 151 +++++++-
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   7 +
+>   drivers/soc/mediatek/mt8167-mmsys.h         |   2 +-
+>   drivers/soc/mediatek/mt8183-mmsys.h         |   2 +-
+>   drivers/soc/mediatek/mt8186-mmsys.h         |   4 +-
+>   drivers/soc/mediatek/mt8192-mmsys.h         |   4 +-
+>   drivers/soc/mediatek/mt8195-mmsys.h         | 370 ++++++++++++++++++++
+>   drivers/soc/mediatek/mt8365-mmsys.h         |   4 +-
+>   drivers/soc/mediatek/mtk-mmsys.c            | 152 +++++++-
+>   drivers/soc/mediatek/mtk-mmsys.h            |   6 +
+>   drivers/soc/mediatek/mtk-mutex.c            |  95 ++++-
+>   include/linux/soc/mediatek/mtk-mmsys.h      |  13 +-
+>   18 files changed, 1098 insertions(+), 40 deletions(-)
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_merge.c
+>   create mode 100644 drivers/soc/mediatek/mt8195-mmsys.h
+> 
 
-Tvrtko
 
-(*) Almost no concept of priority in hardware - we do have it on new 
-GPUs and only on a subset of engine classes where render and compute 
-share the EUs. But I think it's way different from Ardenos.
