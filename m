@@ -2,81 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2406533A27
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 11:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BF2533A35
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 11:46:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0E7510F5EF;
-	Wed, 25 May 2022 09:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94DB10F9F4;
+	Wed, 25 May 2022 09:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 064F910F663
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 09:44:44 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id B141D2B05006;
- Wed, 25 May 2022 05:44:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 25 May 2022 05:44:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1653471878; x=1653479078; bh=ys3iQzhNHF
- k+i8WtIf+H8WQ46WfOZFCztCK2dX/C9P0=; b=N/JRB+WnexRIZ9dX5PcEm/8f/H
- cPBsMsbDuSTmVpILRSXnNlFoPgXwTnB9sG5c2CBpqvmmZti7TCvET1ygVyPq4fwA
- fQ5OKTgoJNLZ2M0ZTBEABVgD9xQIGnhTbnxt6XkIAVCIzuLJXBs7WAGfC96irWbw
- lr6953LnsKHvebopgcw5k3L/zNh8kVTad2/799qbT1ZNmy0HBuUmu2c1k8Ro/kCY
- bvMC07VkU0pJwn8wysn6o8m1M2Ne1dICZCA2GfRKAkRG+uRlxyGobz3yN2r1jOok
- pxntt2LaG8S5EYl12Kr5IDS1ImVsXzQyl8d4WYDx7OYzrJX/5YAypClUA6hQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1653471878; x=1653479078; bh=ys3iQzhNHFk+i8WtIf+H8WQ46WfO
- ZFCztCK2dX/C9P0=; b=XJwcQJysHomLv8q3I/a024YNpcHuA7CVVSfdAKLSNh3e
- yCo6zETnKg3Mmiy6LoUaiq2nQu9FmR/S85oMTwF7btYoM842Xj+nV71rUSMChwSf
- dqf2GI+aNWNs5ombF58vGOinb8gsdVPNIx+xirIXrd2MM5HTFxrTtiWm/87u7xJG
- g2dLVRdU0LdTz2v5YPgzkl1T0mdMsa+3PlpXoMfDj0mFo5gdyV+0rNllM1Gs6YzH
- v42Dafl6F/jY8Nx/xQNz9BWuJQwjez2vm5rfwevvrJNdAG3j0FQLxK/8UQJ0nJ0c
- WDUETgLd5XsVCXp/jcUW6Bu92Nyy4tEdyF1vOAVWKg==
-X-ME-Sender: <xms:hfqNYq_j5GFf5Uz1mDgmLdV70fLnuq6aSKWevLqyWIawg4NmhGrHQg>
- <xme:hfqNYqtHTkLzDuf9wZyjFbHZAlnHbcr-0YckTlhEp7Xi4YnN4O9Rj5_Rgh6byONs6
- vUf5M6n4txqCdpV9vw>
-X-ME-Received: <xmr:hfqNYgB-vOJM3N79sWpwTBKgf_FqXdlgWKqgCm2OFJA94fiDo67jizwJV9YM_HUjfM0eagMIdOKEsmwTFs1RY076g0I827v4G1dOjck>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrjeehgddukecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepgfeuuedtfefgveevheejfeeghedvjeejfeehkeffudetuedtgfeiieeiffeu
- tdffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:hfqNYicSWVCNxtPjO2OP-dTZTG5RnA-8HT0mTEUaKkDRVcwql_I2Ug>
- <xmx:hfqNYvOIcwaM76cNjFwwp5PA3zMSONCG2MMRXEw6yETvTmp88gEfoQ>
- <xmx:hfqNYsk9JgcQt1Fcfw7pvS3BYvWH_sfA1sMh1fLYGKJSYXOJnHLW1A>
- <xmx:hvqNYpW3xzQCmkMOuNOuoVddp28C1T8FymU-PtWuCJdZO9MFWihypK9P9TQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 May 2022 05:44:36 -0400 (EDT)
-Date: Wed, 25 May 2022 11:44:34 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Guillaume Ranquet <granquet@baylibre.com>
-Subject: Re: [PATCH v9 18/22] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-Message-ID: <20220525094434.7qhycnobrmgiihuf@houat>
-References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-19-granquet@baylibre.com>
- <20220429083933.q3w75q3zuyyuvo4w@houat>
- <CABnWg9tzhZjrdKT4chkDrY-uH8BMUoxyNLUSwfuG6Sv1J+8ddg@mail.gmail.com>
- <20220512074446.ihilbbnbuwesxbbg@houat>
- <CABnWg9tHRc_7VZ1z6NeMEDfQvxam_xOimBnM=hzBUqkhzPOSCA@mail.gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D424510F9C1;
+ Wed, 25 May 2022 09:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653471994; x=1685007994;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=nGymsr8SSj+sne0ImeoCBh2PzvGkNLmIxBxKIlbfpMo=;
+ b=fjgC3T1eQ+yElOd1vWLWH9PJk85lbBkryQgHvAnqa1J2+JFIKaLWRPbl
+ BcuSHe6JWf6lYEzUFR8nUHqZhAu1AmdbUrqnGqc0YD5iWn0DUy8qA1Rpe
+ mGgRpqTVDUsnZYGCZa6s3KES8pOjYOx2/Jjt2yJA58fFy2kYazwhxoEek
+ 9U77kvjaCY/HI6i0m4JxyXjMp3MTKc9DKT+2PFLMbnb8y8UVdnzszdoDs
+ A1y2vPCBdO62soGnPUJbqrwP7afnJSTJ79lxlNXZuQyxWj/NB1ZRDMipV
+ VuUAanq3qRpcLU4Bhgn8h/Axr3W3WnAzEyBpkUCVYik8PetzTZAIod9zO g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10357"; a="360160826"
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="360160826"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 02:46:34 -0700
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="676799098"
+Received: from isobansk-mobl.ger.corp.intel.com (HELO [10.213.230.191])
+ ([10.213.230.191])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 02:46:31 -0700
+Message-ID: <1cd913da-6e51-509c-a6e6-83bf79cae20b@linux.intel.com>
+Date: Wed, 25 May 2022 10:46:29 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="frqxb4oy2hxaw6mk"
-Content-Disposition: inline
-In-Reply-To: <CABnWg9tHRc_7VZ1z6NeMEDfQvxam_xOimBnM=hzBUqkhzPOSCA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4 12/13] drm/msm: Utilize gpu scheduler priorities
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <20210728010632.2633470-1-robdclark@gmail.com>
+ <20210728010632.2633470-13-robdclark@gmail.com>
+ <84e03c5f-a3af-6592-d19a-a2f5d20b92fb@linux.intel.com>
+ <CAJs_Fx6Nc337LPNh=p2GT2d2yDTdLWH934o4Cof3urDGhUJB6A@mail.gmail.com>
+ <904ae104-1c30-d130-129f-ccae381261d5@linux.intel.com>
+ <CAF6AEGsH=K1Hut7QBmF1kX40xS+9px=BrtZecAXVQopNs67Feg@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAF6AEGsH=K1Hut7QBmF1kX40xS+9px=BrtZecAXVQopNs67Feg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,156 +65,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- kernel test robot <lkp@intel.com>, deller@gmx.de, kishon@ti.com,
- chunkuang.hu@kernel.org, jitao.shi@mediatek.com, tzimmermann@suse.de,
- Markus Schneider-Pargmann <msp@baylibre.com>, chunfeng.yun@mediatek.com,
- robh+dt@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
- markyacoub@google.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---frqxb4oy2hxaw6mk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 24/05/2022 15:50, Rob Clark wrote:
+> On Tue, May 24, 2022 at 6:45 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>>
+>> On 23/05/2022 23:53, Rob Clark wrote:
+>>> On Mon, May 23, 2022 at 7:45 AM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>
+>>>>
+>>>> Hi Rob,
+>>>>
+>>>> On 28/07/2021 02:06, Rob Clark wrote:
+>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>
+>>>>> The drm/scheduler provides additional prioritization on top of that
+>>>>> provided by however many number of ringbuffers (each with their own
+>>>>> priority level) is supported on a given generation.  Expose the
+>>>>> additional levels of priority to userspace and map the userspace
+>>>>> priority back to ring (first level of priority) and schedular priority
+>>>>> (additional priority levels within the ring).
+>>>>>
+>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>>> Acked-by: Christian König <christian.koenig@amd.com>
+>>>>> ---
+>>>>>     drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +-
+>>>>>     drivers/gpu/drm/msm/msm_gem_submit.c    |  4 +-
+>>>>>     drivers/gpu/drm/msm/msm_gpu.h           | 58 ++++++++++++++++++++++++-
+>>>>>     drivers/gpu/drm/msm/msm_submitqueue.c   | 35 +++++++--------
+>>>>>     include/uapi/drm/msm_drm.h              | 14 +++++-
+>>>>>     5 files changed, 88 insertions(+), 27 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>>> index bad4809b68ef..748665232d29 100644
+>>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>>> @@ -261,8 +261,8 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value)
+>>>>>                         return ret;
+>>>>>                 }
+>>>>>                 return -EINVAL;
+>>>>> -     case MSM_PARAM_NR_RINGS:
+>>>>> -             *value = gpu->nr_rings;
+>>>>> +     case MSM_PARAM_PRIORITIES:
+>>>>> +             *value = gpu->nr_rings * NR_SCHED_PRIORITIES;
+>>>>>                 return 0;
+>>>>>         case MSM_PARAM_PP_PGTABLE:
+>>>>>                 *value = 0;
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>>>> index 450efe59abb5..c2ecec5b11c4 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+>>>>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+>>>>> @@ -59,7 +59,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+>>>>>         submit->gpu = gpu;
+>>>>>         submit->cmd = (void *)&submit->bos[nr_bos];
+>>>>>         submit->queue = queue;
+>>>>> -     submit->ring = gpu->rb[queue->prio];
+>>>>> +     submit->ring = gpu->rb[queue->ring_nr];
+>>>>>         submit->fault_dumped = false;
+>>>>>
+>>>>>         INIT_LIST_HEAD(&submit->node);
+>>>>> @@ -749,7 +749,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+>>>>>         /* Get a unique identifier for the submission for logging purposes */
+>>>>>         submitid = atomic_inc_return(&ident) - 1;
+>>>>>
+>>>>> -     ring = gpu->rb[queue->prio];
+>>>>> +     ring = gpu->rb[queue->ring_nr];
+>>>>>         trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
+>>>>>                 args->nr_bos, args->nr_cmds);
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+>>>>> index b912cacaecc0..0e4b45bff2e6 100644
+>>>>> --- a/drivers/gpu/drm/msm/msm_gpu.h
+>>>>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+>>>>> @@ -250,6 +250,59 @@ struct msm_gpu_perfcntr {
+>>>>>         const char *name;
+>>>>>     };
+>>>>>
+>>>>> +/*
+>>>>> + * The number of priority levels provided by drm gpu scheduler.  The
+>>>>> + * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in some
+>>>>> + * cases, so we don't use it (no need for kernel generated jobs).
+>>>>> + */
+>>>>> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_MIN)
+>>>>> +
+>>>>> +/**
+>>>>> + * msm_gpu_convert_priority - Map userspace priority to ring # and sched priority
+>>>>> + *
+>>>>> + * @gpu:        the gpu instance
+>>>>> + * @prio:       the userspace priority level
+>>>>> + * @ring_nr:    [out] the ringbuffer the userspace priority maps to
+>>>>> + * @sched_prio: [out] the gpu scheduler priority level which the userspace
+>>>>> + *              priority maps to
+>>>>> + *
+>>>>> + * With drm/scheduler providing it's own level of prioritization, our total
+>>>>> + * number of available priority levels is (nr_rings * NR_SCHED_PRIORITIES).
+>>>>> + * Each ring is associated with it's own scheduler instance.  However, our
+>>>>> + * UABI is that lower numerical values are higher priority.  So mapping the
+>>>>> + * single userspace priority level into ring_nr and sched_prio takes some
+>>>>> + * care.  The userspace provided priority (when a submitqueue is created)
+>>>>> + * is mapped to ring nr and scheduler priority as such:
+>>>>> + *
+>>>>> + *   ring_nr    = userspace_prio / NR_SCHED_PRIORITIES
+>>>>> + *   sched_prio = NR_SCHED_PRIORITIES -
+>>>>> + *                (userspace_prio % NR_SCHED_PRIORITIES) - 1
+>>>>> + *
+>>>>> + * This allows generations without preemption (nr_rings==1) to have some
+>>>>> + * amount of prioritization, and provides more priority levels for gens
+>>>>> + * that do have preemption.
+>>>>
+>>>> I am exploring how different drivers handle priority levels and this
+>>>> caught my eye.
+>>>>
+>>>> Is the implication of the last paragraphs that on hw with nr_rings > 1,
+>>>> ring + 1 preempts ring?
+>>>
+>>> Other way around, at least from the uabi standpoint.  Ie. ring[0]
+>>> preempts ring[1]
+>>
+>> Ah yes, I figure it out from the comments but then confused myself when
+>> writing the email.
+>>
+>>>> If so I am wondering does the "spreading" of
+>>>> user visible priorities by NR_SCHED_PRIORITIES creates a non-preemptable
+>>>> levels within every "bucket" or how does that work?
+>>>
+>>> So, preemption is possible between any priority level before run_job()
+>>> gets called, which writes the job into the ringbuffer.  After that
+>>
+>> Hmm how? Before run_job() the jobs are not runnable, sitting in the
+>> scheduler queues, right?
+> 
+> I mean, if prio[0]+prio[1]+prio[2] map to a single ring, submit A on
+> prio[1] could be executed after submit B on prio[2] provided that
+> run_job(submitA) hasn't happened yet.  So I guess it isn't "really"
+> preemption because the submit hasn't started running on the GPU yet.
+> But rather just scheduling according to priority.
+> 
+>>> point, you only have "bucket" level preemption, because
+>>> NR_SCHED_PRIORITIES levels of priority get mapped to a single FIFO
+>>> ringbuffer.
+>>
+>> Right, and you have one GPU with four rings, which means you expose 12
+>> priority levels to userspace, did I get that right?
+> 
+> Correct
+> 
+>> If so how do you convey in the ABI that not all there priority levels
+>> are equal? Like userspace can submit at prio 4 and expect prio 3 to
+>> preempt, as would prio 2 preempt prio 3. While actual behaviour will not
+>> match - 3 will not preempt 4.
+> 
+> It isn't really exposed to userspace, but perhaps it should be..
+> Userspace just knows that, to the extent possible, the kernel will try
+> to execute prio 3 before prio 4.
+> 
+>> Also, does your userspace stack (EGL/Vulkan) use the priorities? I had a
+>> quick peek in Mesa but did not spot it - although I am not really at
+>> home there yet so maybe I missed it.
+> 
+> Yes, there is an EGL extension:
+> 
+> https://www.khronos.org/registry/EGL/extensions/IMG/EGL_IMG_context_priority.txt
+> 
+> It is pretty limited, it only exposes three priority levels.
 
-On Thu, May 19, 2022 at 09:26:59AM -0700, Guillaume Ranquet wrote:
-> On Thu, 12 May 2022 09:44, Maxime Ripard <maxime@cerno.tech> wrote:
-> >Hi,
-> >
-> >On Wed, May 11, 2022 at 05:59:13AM -0700, Guillaume Ranquet wrote:
-> >> >> +#include <drm/drm_atomic_helper.h>
-> >> >> +#include <drm/drm_bridge.h>
-> >> >> +#include <drm/drm_crtc.h>
-> >> >> +#include <drm/dp/drm_dp_helper.h>
-> >> >> +#include <drm/drm_edid.h>
-> >> >> +#include <drm/drm_of.h>
-> >> >> +#include <drm/drm_panel.h>
-> >> >> +#include <drm/drm_print.h>
-> >> >> +#include <drm/drm_probe_helper.h>
-> >> >> +#include <linux/arm-smccc.h>
-> >> >> +#include <linux/clk.h>
-> >> >> +#include <linux/delay.h>
-> >> >> +#include <linux/errno.h>
-> >> >> +#include <linux/kernel.h>
-> >> >> +#include <linux/mfd/syscon.h>
-> >> >> +#include <linux/nvmem-consumer.h>
-> >> >> +#include <linux/of.h>
-> >> >> +#include <linux/of_irq.h>
-> >> >> +#include <linux/of_platform.h>
-> >> >> +#include <linux/phy/phy.h>
-> >> >> +#include <linux/platform_device.h>
-> >> >> +#include <linux/pm_runtime.h>
-> >> >> +#include <linux/regmap.h>
-> >> >> +#include <sound/hdmi-codec.h>
-> >> >> +#include <video/videomode.h>
-> >> >> +
-> >> >> +#include "mtk_dp_reg.h"
-> >> >> +
-> >> >> +#define MTK_DP_AUX_WAIT_REPLY_COUNT 20
-> >> >> +#define MTK_DP_CHECK_SINK_CAP_TIMEOUT_COUNT 3
-> >> >> +
-> >> >> +//TODO: platform/device data or dts?
-> >> >
-> >> >DTS :)
-> >>
-> >> It's probably going to be a platform_data struct for v10...
-> >> If I have time, I'll change it to a dts property for v10.
-> >
-> >I can't really imagine a case where we would need platform_data
-> >nowadays. If you have a device tree, then it should be part of the
-> >binding.
-> >
-> >What issue would you like to address by using a platform_data?
-> >
->=20
-> Ok, I'll migrate to dt then. I didn't realize platform_data were deprecia=
-ted.
->=20
-> Angelo wants the MAX_LINRATE and MAX_LANES defines to be configurable.
-> I imagined platform_data would be more appropriate as (per my understandi=
-ng) the
-> limitation is associated with a specific SoC.
+Right, is that wired up on msm? And if it is, or could be, how do/would 
+you map the three priority levels for GPUs which expose 3 priority 
+levels versus the one which exposes 12?
 
-The entire device tree is nothing but a collection of data associated to
-a specific SoC though :)
+Is it doable properly without leaking the fact drm/sched internal 
+implementation detail of three priority levels? Or if you went the other 
+way and only exposed up to max 3 levels, then you lose one priority 
+level your hardware suppose which is also not good.
 
-> >> >> +static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
-> >> >> +				    struct drm_connector *connector)
-> >> >> +{
-> >> >> +	struct mtk_dp *mtk_dp =3D mtk_dp_from_bridge(bridge);
-> >> >> +	bool enabled =3D mtk_dp->enabled;
-> >> >> +	struct edid *new_edid =3D NULL;
-> >> >> +
-> >> >> +	if (!enabled)
-> >> >> +		drm_bridge_chain_pre_enable(bridge);
-> >> >> +
-> >> >> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
-> >> >> +	usleep_range(2000, 5000);
-> >> >> +
-> >> >> +	if (mtk_dp_plug_state(mtk_dp))
-> >> >> +		new_edid =3D drm_get_edid(connector, &mtk_dp->aux.ddc);
-> >> >> +
-> >> >> +	if (!enabled)
-> >> >> +		drm_bridge_chain_post_disable(bridge);
-> >> >
-> >> >Are you sure we can't get a mode set while get_edid is called?
-> >> >
-> >> >If we can, then you could end up disabling the device while it's being
-> >> >powered on.
-> >>
-> >> I'm a bit unsure, I need to spend more time in the drm stack to make s=
-ure.
-> >> I'll get back to you when I have a definitive answer.
-> >
-> >So, it looks like it's ok.
-> >
-> >get_edid is your implementation of get_modes, which is called by
-> >drm_helper_probe_single_connector_modes
-> >
-> >https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_probe=
-_helper.c#L416
-> >
-> >This is the standard implemantion of fill_modes, which is called
-> >whenever the get_connector ioctl is called (or similar paths, like
-> >drm_client_modeset_probe)
-> >
-> >drm_helper_probe_single_connector_modes is under the assumption that the
-> >mode_config.mutex is held though, and that the big lock. So it should be
-> >serialized there.
-> >
-> >Just for future proofing though, it would be better to use refcounting
-> >there. Would runtime_pm work for you there?
-> >
->=20
-> Thx for looking into this for me.
-> Not sure runtime_pm works here as it would only refcount if compiled
-> with CONFIG_PM?
+It is all quite interesting because your hardware is completely 
+different from ours in this respect. In our case i915 decides when to 
+preempt, hardware has no concept of priority (*).
 
-It should be enabled in most configurations these days, and you can
-always depend on it in your Kconfig option.
+Regards,
 
-> I'd rather use the enabled field as a refcounter instead of a boolean.
+Tvrtko
 
-It's a bit more ad-hoc, but that would work too. Make sure to use a lock
-or atomic operations though
-
-Maxime
-
---frqxb4oy2hxaw6mk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYo36ggAKCRDj7w1vZxhR
-xZ8uAQD4p9FP6n4HWaV/eeMy9XLCytn17FejCmxsGJ+BVRXkngEA7rKJQeM++TcT
-7XF+Ij2881A16a/1Cfs+sVBCS9T7/Ao=
-=cDEf
------END PGP SIGNATURE-----
-
---frqxb4oy2hxaw6mk--
+(*) Almost no concept of priority in hardware - we do have it on new 
+GPUs and only on a subset of engine classes where render and compute 
+share the EUs. But I think it's way different from Ardenos.
