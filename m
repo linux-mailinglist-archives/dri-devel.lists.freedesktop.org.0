@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164615338B3
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 10:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57085338CB
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 10:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A920E10E4BC;
-	Wed, 25 May 2022 08:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7833010E83F;
+	Wed, 25 May 2022 08:51:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
- [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2128310E54E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 08:42:38 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4L7PhV3zsfz9sd3;
- Wed, 25 May 2022 10:42:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1653468154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I9Ca66IuoUejRtyMbbQC46KBV4HuFBLq8Gb16DmXtuw=;
- b=o5cF3CPSO7E0PXfcmDMQ0ksC1IIo3OLDIGkAgI0tVz6ltDu22M1eRmDVB9rT5PW6w0MKih
- nL5y/116AvkbTdp3z8F59rTHrZiSeA2NhwuDMJhbqC6oB1sk2FDTVruWBFmkofcxxBOCRw
- GD37YtZDrb04006SjMvmrdOk5+IyzuzRtfirU7C7lOqeU46C7xHCCo/5Wsp1XJkw5YJyV3
- j3hUp9/T8cPFE8hUhbdFO3UPt1WIDvdXZ9e42C7UWhWXT1yyOU/g7OXxfz1SVMeKpCYrF2
- QvAyX50Dea7QPHWvZff+eTpU3ck5NoPBEEQw7tqbfXkZYT/Wcxs/2dnkqgqrGA==
-Message-ID: <04ba0498-5b2b-ef01-6393-0db90fd343e8@mailbox.org>
-Date: Wed, 25 May 2022 10:42:27 +0200
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [IPv6:2a01:488:42:1000:50ed:8234::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 753EF10E83F;
+ Wed, 25 May 2022 08:51:52 +0000 (UTC)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1ntmjl-0003D1-IO; Wed, 25 May 2022 10:51:25 +0200
+Message-ID: <5334d001-af50-eacb-8845-dd83df35be56@leemhuis.info>
+Date: Wed, 25 May 2022 10:51:24 +0200
 MIME-Version: 1.0
-Subject: Re: How should "max bpc" KMS property work?
-Content-Language: en-CA
-To: Alex Deucher <alexdeucher@gmail.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
- <57d16ed5-8bfc-ce29-9250-14e2de18710a@redhat.com>
- <20220523112246.056ddc99@eldfell>
- <CA+hFU4wTHR9kLrFY3XkbeROZgxWamiZ6yGYL4jH+wpe8MzLvMw@mail.gmail.com>
- <d9c4b940-4a16-cd6f-2672-752a2678c32c@redhat.com>
- <Yoz9GisEO9M4KRPB@intel.com>
- <CADnq5_N9gLzLnmPa4K9+40wTfgyC5TN4sZsuaK6+011DAgMPPA@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <CADnq5_N9gLzLnmPa4K9+40wTfgyC5TN4sZsuaK6+011DAgMPPA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/2] x86/pat: add functions to query specific cache mode
+ availability
+Content-Language: en-US
+To: Jan Beulich <jbeulich@suse.com>
+References: <20220503132207.17234-1-jgross@suse.com>
+ <20220503132207.17234-3-jgross@suse.com>
+ <1d86d8ff-6878-5488-e8c4-cbe8a5e8f624@suse.com>
+ <0dcb05d0-108f-6252-e768-f75b393a7f5c@suse.com>
+ <77255e5b-12bf-5390-6910-dafbaff18e96@netscape.net>
+ <a2e95587-418b-879f-2468-8699a6df4a6a@suse.com>
+ <8b1ebea5-7820-69c4-2e2b-9866d55bc180@netscape.net>
+ <c5fa3c3f-e602-ed68-d670-d59b93c012a0@netscape.net>
+ <3bff3562-bb1e-04e6-6eca-8d9bc355f2eb@suse.com>
+ <3ca084a9-768e-a6f5-ace4-cd347978dec7@netscape.net>
+ <9af0181a-e143-4474-acda-adbe72fc6227@suse.com>
+ <b2585c19-d38b-9640-64ab-d0c9be24be34@netscape.net>
+ <dae4cc45-a1cd-e33f-25ef-c536df9b49e6@leemhuis.info>
+ <3fc70595-3dcc-4901-0f3f-193f043b753f@netscape.net>
+ <eab9fdb0-11ef-4556-bdd7-f021cc5f10b7@leemhuis.info>
+ <83cbd5ce-7f00-9121-44b3-5d1b94d66f02@suse.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <83cbd5ce-7f00-9121-44b3-5d1b94d66f02@suse.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: iqu9gea11i7kc91z3ab6e5nwrbcmbb6h
-X-MBO-RS-ID: c1b5afd6bd5e1bae625
-X-Rspamd-Queue-Id: 4L7PhV3zsfz9sd3
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1653468712;
+ 2440a18d; 
+X-HE-SMSGID: 1ntmjl-0003D1-IO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,52 +61,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: regressions@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
+ dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
+ x86@kernel.org, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Chuck Zmudzinski <brchuckz@netscape.net>,
+ xen-devel@lists.xenproject.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Juergen Gross <jgross@suse.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-25 00:03, Alex Deucher wrote:
-> On Tue, May 24, 2022 at 11:43 AM Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
->> On Tue, May 24, 2022 at 11:36:22AM +0200, Hans de Goede wrote:
->>> Hi,
->>> On 5/23/22 13:54, Sebastian Wick wrote:
->>>> On Mon, May 23, 2022 at 10:23 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>>>
->>>>> Nice to see there would be other uses for knowing which might be higher
->>>>> priority to the larger community.
->>>>>
->>>>> Would it be proper to initialize 'max bpc' to the link depth used by
->>>>> boot-up firmware? I guess it could make things more reliable and solve
->>>>> the Plymouth blanking issue, but not the professional color management
->>>>> use cases.
+On 25.05.22 10:37, Jan Beulich wrote:
+> On 25.05.2022 09:45, Thorsten Leemhuis wrote:
+>> On 24.05.22 20:32, Chuck Zmudzinski wrote:
+>>> On 5/21/22 6:47 AM, Thorsten Leemhuis wrote:
+>>>> I'm not a developer and I'm don't known the details of this thread and
+>>>> the backstory of the regression, but it sounds like that's the approach
+>>>> that is needed here until someone comes up with a fix for the regression
+>>>> exposed by bdd8b6c98239.
 >>>>
->>>> I was always under the impression that if you do an atomic commit
->>>> without changing any properties that it won't result in a mode set
->>>> which would clearly make the current behavior a bug.
+>>>> But if I'm wrong, please tell me.
 >>>
->>> I agree, IMHO the i915 driver currently setting max-bpc to 12 by default,
->>> causing an unrequested link re-negotation on the first modeset is
->>> a bug in the i195 driver and is also the root cause of this
->>> plymouth bug-report:
->>>
->>> https://gitlab.freedesktop.org/plymouth/plymouth/-/issues/102
+>>> You are mostly right, I think. Reverting bdd8b6c98239 fixes
+>>> it. There is another way to fix it, though.
 >>
->> Why would anyone want to run at 8bpc when they have a panel with
->> higher color depth? So I think someone is going to be doing that
->> modeset eventually anyway.
+>> Yeah, I'm aware of it. But it seems...
+>>
+>>> The patch proposed
+>>> by Jan Beulich also fixes the regression on my system, so as
+>>> the person reporting this is a regression, I would also be satisfied
+>>> with Jan's patch instead of reverting bdd8b6c98239 as a fix. Jan
+>>> posted his proposed patch here:
+>>>
+>>> https://lore.kernel.org/lkml/9385fa60-fa5d-f559-a137-6608408f88b0@suse.com/
+>>
+>> ...that approach is not making any progress either?
+>>
+>> Jan, can could provide a short status update here? I'd really like to
+>> get this regression fixed one way or another rather sooner than later,
+>> as this is taken way to long already IMHO.
 > 
-> We used to do something similar, but then got piles of bug reports
-> about the displays running at 30Hz rather than 60 so we changed it to
-> 8.  It's hard to say what a user will prefer.
+> What kind of status update could I provide? I've not heard back from
+> anyone of the maintainers, so I have no way to know what (if anything)
+> I need to do.
 
-Ville's suggestion elsewhere to filter modes based on minimum bpc (and lower effective bpc as needed for the selected mode, while there's only the "max bpc" property) should take care of that particular issue?
+That is perfectly fine as a status update for me (I track a lot of
+regression and it's easy to miss updated patches, discussion in other
+places, and things like that).
 
+Could you maybe send a reminder to the maintainer that this is a fix for
+regression that is bothering people and needs to be handled with high
+priority? Feel free to tell them the Linux kernel regression tracker is
+pestering you because things are taken so long. :-D
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
