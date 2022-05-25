@@ -1,72 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D6D533AB9
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 12:38:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A7A533C00
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 13:54:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B391710ECAA;
-	Wed, 25 May 2022 10:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0579810E04D;
+	Wed, 25 May 2022 11:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3113310EB1F;
- Wed, 25 May 2022 10:38:55 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id ck4so36525802ejb.8;
- Wed, 25 May 2022 03:38:54 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E6410E04D
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 11:54:21 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id y199so18997882pfb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 04:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=W5JzJsJwP88oawILv+IlIHtyqfyhk00ztKXLTFFA6Ik=;
- b=Yqc5ZS/xUr5ImHFsCUWHBG9Ieo7TBg8oz+wxW/wYWROlja8/lgKYkiPZ0Az0aAFbAi
- aTjXmo3vxRAokNNNraN5ZGZI3cmKyqdkhsMDK34oZDEbfaBEXH/Qb/8Vf1OxFGbYv3UW
- fm5aet+OyGFzBS1snU0/2jv0/CwnJ0xvIPFhyStWoFBXzIyfWPIFaTvXXO+CmXf/xxGq
- L0mwHR20vfIIztw/y1GUcbtFJScce3Inf/eYRUOVEOqZP7KZCdcE6oPd1swAZ8huJY1v
- v7vDNM5s4RTDaiV3PpgAM0NGnO96hXxEXuqCyxZsU1bmfPKqznyiR1l1uYv3xtk+p8GO
- g77w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8yxWvcY2SALhCu7O1YfNmzl9qm4kjTTfVDTmiCC4+Dk=;
+ b=q5+JawkNSA+SJWs7Kaab97339qddNR/hzU/H6kDcQ4pirilP6uf+8B+PyDh47W3e8d
+ ihdx6zfJyu8iF/4osmZ8BmYiqhYGJzFdb40929Lp7xuhUpCAvffX5qEh0cLe1cCL2ARx
+ shfLl4DKC4gMpQRWU9wjluyCU/RK2dVgeRMaUNTxEAqWyZEoBatwRT46tBoXGB76ZwQj
+ T8Gv1DI9kV+Wqs3i2YOn8+dE66MXiYrMr7e+CnpNs64XHQYRQiR9L4JeZz1u1bugz6hl
+ IX3HumOGRa1IPyYxCmtm4PjNjnQuMGE7rYWREj8prbV/wKLXUAuWqR02HYTEc6sSdjeA
+ exNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=W5JzJsJwP88oawILv+IlIHtyqfyhk00ztKXLTFFA6Ik=;
- b=L30s32wX8omjlVLX3aeZT++zkxE40ax3hm0uT6xpR+RUonnIApRKKS00KRo//v7A1p
- gskVii762eW/FLOoktMgkUUdeXoZHe2mADYN1gye/dMxMpaxDWInJZ1rZF1gobbYACGx
- lh/k5vcQxRzBkkanrK33OFeJR8wJHJQpOIppeItIbbhDSAeonfoMQmq4YCB22KBbhXcs
- 6vV9XnK/NSmf4cRgif1VPlrUMJJ9rVc0JPMoxbXXs6Fefc1c9L7H64RebLVogSN3D8X3
- BenG9+09Oa6YWXCdDc6j/281Y2gM2BoTj2j971MoaLbU7gVyl/gdYQaISCI87jSx6hn9
- /gEA==
-X-Gm-Message-State: AOAM532M3pTyttVXIzhqXU2KJiLQj2y9TVchUqjW1H6kBLgC54zuf/zs
- 2w1OR9fHsrfYxQkVzKWmewcNydqM2j0=
-X-Google-Smtp-Source: ABdhPJzPbqRSm1Lq1vHWEi0uUwoBIGqZ5KHquiXJhA1TchFs01d462GXXpd/BP9Wf8g0geOYGYPfbg==
-X-Received: by 2002:a17:906:6a26:b0:6ff:a5d:88b8 with SMTP id
- qw38-20020a1709066a2600b006ff0a5d88b8mr4922445ejc.6.1653475133528; 
- Wed, 25 May 2022 03:38:53 -0700 (PDT)
-Received: from [192.168.178.21] (p57b0bdaa.dip0.t-ipconnect.de.
- [87.176.189.170]) by smtp.gmail.com with ESMTPSA id
- z16-20020a50e690000000b0042bc7635534sm687537edm.62.2022.05.25.03.38.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 May 2022 03:38:52 -0700 (PDT)
-Message-ID: <419c9bff-4292-3062-b7f2-efeb64b9e79f@gmail.com>
-Date: Wed, 25 May 2022 12:38:51 +0200
+ bh=8yxWvcY2SALhCu7O1YfNmzl9qm4kjTTfVDTmiCC4+Dk=;
+ b=k3VaJ8PNdGhyAKIHo+3wyPfttTkuMdblS67HtxIVAQUK3lVMSU2YBO9fDHLU4as01d
+ x4k2IxLdpScAtBgIeBjYSNfSFFYLIHJ/EQtGhWyrjdvEPCjr3Jx5+oTQ7+qhOhnC8OP+
+ U3ZficaXTx8E5CQMfu0pDbJG7W7H9k4SSWV3nN7u6+PjiDEfdVjZdHueZI2mRCcrapNc
+ 4LFuLN8OZ6ugqJQmgXFUTVfKYJilAmtf+u1m01L+6fLfkYBTP0qsOdn10E0Hyww/mtGa
+ TcDSWWs1K1MOSzerKY1P2IXT2FIDduI6lsa18EysEh0qXrCr9SKOZ7q0zfdB2LZsOxrt
+ pvyg==
+X-Gm-Message-State: AOAM532cjqfAq3hheHvH8zEDYXZ+M6jJL0vEZw/9KNaJ8VdZLCwFraPY
+ IHXhATtINmlD3bujTYzkhMo=
+X-Google-Smtp-Source: ABdhPJym/TjfU6YuFpUgkO1ZxmprHrgC5PQcEiARQ+48NCFRNJ8Q73Y7W+gum6ApxrbSM5L8w+T58Q==
+X-Received: by 2002:a63:95:0:b0:3da:ec5a:141 with SMTP id
+ 143-20020a630095000000b003daec5a0141mr28135869pga.480.1653479660841; 
+ Wed, 25 May 2022 04:54:20 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+ by smtp.googlemail.com with ESMTPSA id
+ x15-20020a170902a38f00b00162496617b9sm3326519pla.286.2022.05.25.04.54.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 May 2022 04:54:19 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/mcde: Fix refcount leak in mcde_dsi_bind
+Date: Wed, 25 May 2022 15:54:11 +0400
+Message-Id: <20220525115411.65455-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [Intel-gfx] [PATCH] drm/syncobj: flatten dma_fence_chains on
- transfer
-Content-Language: en-US
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- thomas.hellstrom@linux.intel.com, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20220209182600.434803-1-christian.koenig@amd.com>
- <2bf6b110-cd85-e17f-e9c5-69e5e7eedd0d@intel.com>
- <dbdb02cb-26fa-4f08-b125-c4a850e73780@gmail.com>
- <d97d1700-4f05-a78c-aa3c-d4c52226d0ca@intel.com>
- <996331e1-4442-7b43-b3f4-24bd6861eacd@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <996331e1-4442-7b43-b3f4-24bd6861eacd@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,212 +69,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "De Marchi, Lucas" <lucas.demarchi@intel.com>
+Cc: linmq006@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 25.05.22 um 11:35 schrieb Lionel Landwerlin:
-> On 25/05/2022 12:26, Lionel Landwerlin wrote:
->> On 25/05/2022 11:24, Christian König wrote:
->>> Am 25.05.22 um 08:47 schrieb Lionel Landwerlin:
->>>> On 09/02/2022 20:26, Christian König wrote:
->>>>> It is illegal to add a dma_fence_chain as timeline point. Flatten out
->>>>> the fences into a dma_fence_array instead.
->>>>>
->>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>> ---
->>>>>   drivers/gpu/drm/drm_syncobj.c | 61 
->>>>> ++++++++++++++++++++++++++++++++---
->>>>>   1 file changed, 56 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_syncobj.c 
->>>>> b/drivers/gpu/drm/drm_syncobj.c
->>>>> index c313a5b4549c..7e48dcd1bee4 100644
->>>>> --- a/drivers/gpu/drm/drm_syncobj.c
->>>>> +++ b/drivers/gpu/drm/drm_syncobj.c
->>>>> @@ -853,12 +853,57 @@ drm_syncobj_fd_to_handle_ioctl(struct 
->>>>> drm_device *dev, void *data,
->>>>>                       &args->handle);
->>>>>   }
->>>>>   +
->>>>> +/*
->>>>> + * Try to flatten a dma_fence_chain into a dma_fence_array so 
->>>>> that it can be
->>>>> + * added as timeline fence to a chain again.
->>>>> + */
->>>>> +static int drm_syncobj_flatten_chain(struct dma_fence **f)
->>>>> +{
->>>>> +    struct dma_fence_chain *chain = to_dma_fence_chain(*f);
->>>>> +    struct dma_fence *tmp, **fences;
->>>>> +    struct dma_fence_array *array;
->>>>> +    unsigned int count;
->>>>> +
->>>>> +    if (!chain)
->>>>> +        return 0;
->>>>> +
->>>>> +    count = 0;
->>>>> +    dma_fence_chain_for_each(tmp, &chain->base)
->>>>> +        ++count;
->>>>> +
->>>>> +    fences = kmalloc_array(count, sizeof(*fences), GFP_KERNEL);
->>>>> +    if (!fences)
->>>>> +        return -ENOMEM;
->>>>> +
->>>>> +    count = 0;
->>>>> +    dma_fence_chain_for_each(tmp, &chain->base)
->>>>> +        fences[count++] = dma_fence_get(tmp);
->>>>> +
->>>>> +    array = dma_fence_array_create(count, fences,
->>>>> +                       dma_fence_context_alloc(1),
->>>>
->>>>
->>>> Hi Christian,
->>>>
->>>>
->>>> Sorry for the late answer to this.
->>>>
->>>>
->>>> It appears this commit is trying to remove the warnings added by 
->>>> "dma-buf: Warn about dma_fence_chain container rules"
->>>
->>> Yes, correct. We are now enforcing some rules with warnings and this 
->>> here bubbled up.
->>>
->>>>
->>>> But the context allocation you added just above is breaking some 
->>>> tests. In particular igt@syncobj_timeline@transfer-timeline-point
->>>>
->>>> That test transfer points into the timeline at point 3 and expects 
->>>> that we'll still on the previous points to complete.
->>>
->>> Hui what? I don't understand the problem you are seeing here. What 
->>> exactly is the test doing?
->>>
->>>>
->>>> In my opinion we should be reusing the previous context number if 
->>>> there is one and only allocate if we don't have a point.
->>>
->>> Scratching my head what you mean with that. The functionality 
->>> transfers a synchronization fence from one timeline to another.
->>>
->>> So as far as I can see the new point should be part of the timeline 
->>> of the syncobj we are transferring to.
->>>
->>>> If the application wants to not depend on previous points for wait 
->>>> operations, it can reset the syncobj prior to adding a new point.
->>>
->>> Well we should never lose synchronization. So what happens is that 
->>> when we do the transfer all the fences of the source are flattened 
->>> out into an array. And that array is then added as new point into 
->>> the destination timeline.
->>
->>
->> In this case would be broken :
->>
->>
->> syncobjA <- signal point 1
->>
->> syncobjA <- import syncobjB point 1 into syncobjA point 2
->>
->> syncobjA <- query returns 0
->>
->>
->> -Lionel
->
->
-> Err... Let's double check with my colleagues.
->
-> It seems we're running into a test failure in IGT with this patch, but 
-> now I have doubts that it's where the problem lies.
+Every iteration of for_each_available_child_of_node() decrements
+the reference counter of the previous node. There is no decrement
+when break out from the loop and results in refcount leak.
+Add missing of_node_put() to fix this.
 
-Yeah, exactly that's what I couldn't understand as well.
+Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/mcde/mcde_dsi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-What you describe above should still work fine.
-
-Thanks for taking a look into this,
-Christian.
-
->
->
-> -Lionel
->
->
->>
->>
->>>
->>> Where exactly is the problem?
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>>
->>>>
->>>> Cheers,
->>>>
->>>>
->>>> -Lionel
->>>>
->>>>
->>>>
->>>>> +                       1, false);
->>>>> +    if (!array)
->>>>> +        goto free_fences;
->>>>> +
->>>>> +    dma_fence_put(*f);
->>>>> +    *f = &array->base;
->>>>> +    return 0;
->>>>> +
->>>>> +free_fences:
->>>>> +    while (count--)
->>>>> +        dma_fence_put(fences[count]);
->>>>> +
->>>>> +    kfree(fences);
->>>>> +    return -ENOMEM;
->>>>> +}
->>>>> +
->>>>>   static int drm_syncobj_transfer_to_timeline(struct drm_file 
->>>>> *file_private,
->>>>>                           struct drm_syncobj_transfer *args)
->>>>>   {
->>>>>       struct drm_syncobj *timeline_syncobj = NULL;
->>>>> -    struct dma_fence *fence;
->>>>>       struct dma_fence_chain *chain;
->>>>> +    struct dma_fence *fence;
->>>>>       int ret;
->>>>>         timeline_syncobj = drm_syncobj_find(file_private, 
->>>>> args->dst_handle);
->>>>> @@ -869,16 +914,22 @@ static int 
->>>>> drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
->>>>>                        args->src_point, args->flags,
->>>>>                        &fence);
->>>>>       if (ret)
->>>>> -        goto err;
->>>>> +        goto err_put_timeline;
->>>>> +
->>>>> +    ret = drm_syncobj_flatten_chain(&fence);
->>>>> +    if (ret)
->>>>> +        goto err_free_fence;
->>>>> +
->>>>>       chain = dma_fence_chain_alloc();
->>>>>       if (!chain) {
->>>>>           ret = -ENOMEM;
->>>>> -        goto err1;
->>>>> +        goto err_free_fence;
->>>>>       }
->>>>> +
->>>>>       drm_syncobj_add_point(timeline_syncobj, chain, fence, 
->>>>> args->dst_point);
->>>>> -err1:
->>>>> +err_free_fence:
->>>>>       dma_fence_put(fence);
->>>>> -err:
->>>>> +err_put_timeline:
->>>>>       drm_syncobj_put(timeline_syncobj);
->>>>>         return ret;
->>>>
->>>>
->>>
->>
->
+diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
+index 5651734ce977..9f9ac8699310 100644
+--- a/drivers/gpu/drm/mcde/mcde_dsi.c
++++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+@@ -1111,6 +1111,7 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
+ 			bridge = of_drm_find_bridge(child);
+ 			if (!bridge) {
+ 				dev_err(dev, "failed to find bridge\n");
++				of_node_put(child);
+ 				return -EINVAL;
+ 			}
+ 		}
+-- 
+2.25.1
 
