@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70312533E6E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 15:58:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF33B533EC3
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 16:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4812610E7ED;
-	Wed, 25 May 2022 13:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C146C10E53E;
+	Wed, 25 May 2022 14:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA11E10ECD7
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 13:58:50 +0000 (UTC)
-X-UUID: f5969edd41324951b5f4bc4cde4c729e-20220525
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:6119fb19-4171-48a8-b8fb-5bec2bb54874, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:2a19b09, CLOUDID:90b37247-4fb1-496b-8f1d-39e733fed1ea,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:0,BEC:nil
-X-UUID: f5969edd41324951b5f4bc4cde4c729e-20220525
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1443576881; Wed, 25 May 2022 21:58:45 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 25 May 2022 21:58:44 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 25 May 2022 21:58:43 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Wed, 25 May 2022 21:58:43 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v21 5/5] soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
-Date: Wed, 25 May 2022 21:58:41 +0800
-Message-ID: <20220525135841.32078-6-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220525135841.32078-1-jason-jh.lin@mediatek.com>
-References: <20220525135841.32078-1-jason-jh.lin@mediatek.com>
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD59510E53E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 14:07:39 +0000 (UTC)
+Date: Wed, 25 May 2022 14:07:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1653487656; x=1653746856;
+ bh=PGuICWR5xVp/hCJM7WV+UGw5LoWMo7s78Bo1j4hSxSg=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+ Feedback-ID:Message-ID;
+ b=qT4+QW8hyugNtSkw43k7pfEVyQgD6A+Aga3W1hXw3vX9zWQC1HwxIyMo289XmtljB
+ oJrdgZxNrifrPw8DTtyTmfLhsQ3VyX8e0tRHFC8OYVb8IMMk1j7Qf75x/JUQvnTQyf
+ zlQVt8VjvJrFDOTZywKhdHh3ecIfn5bxAv9TH1EEbp7TkLf/LB4ZtkqoiAFZ/mn3IN
+ wrGjvYpe+b1+iRDUGqEN802SfLnr4AKZnYjDLS3uoSnRINbB7NOZoipx0V0PsHmbqO
+ ItwFaPoZDciNaBmA4qka6r59aZQGLzj4n1XQjdpcGaQ58Kmn3ashHlsTt3Xc7sJLKV
+ l7obvdMrZMRjg==
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: Tackling the indefinite/user DMA fence problem
+Message-ID: <nR302DiNnOEkhrGg7TsRINiS2R-WuPiI2uJiERdMMaSUV9e_0xlX1eu1CzzhlCXJmJ-ss1BdkTSZ-XiEOnyMUTn6v3A_sb1jTkvAxfuS-f8=@emersion.fr>
+In-Reply-To: <Yo40X03axFXXN9/d@phenom.ffwll.local>
+References: <20220502163722.3957-1-christian.koenig@amd.com>
+ <YnJQs1iusrBvpuMs@phenom.ffwll.local>
+ <a01c7703-f7f7-f8ce-f80e-632a6fdcbbbe@gmail.com>
+ <Ynkg81p6ADyZBa/L@phenom.ffwll.local>
+ <a249c0c4-ee6c-bfb0-737b-eb6afae29602@amd.com>
+ <Yo4pin1Js4KXs2HL@phenom.ffwll.local>
+ <19808e9e-a5a6-c878-a2f7-5b33444f547d@mailbox.org>
+ <Yo40X03axFXXN9/d@phenom.ffwll.local>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,43 +54,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, "jason-jh.lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: tvrtko.ursulin@linux.intel.com, daniels@collabora.com,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ gustavo@padovan.org, Felix.Kuehling@amd.com, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy
- Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, sergemetral@google.com, tzimmermann@suse.de,
+ alexander.deucher@amd.com, skhawaja@google.com, sumit.semwal@linaro.org,
+ jason@jlekstrand.net, maad.aldabagh@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+On Wednesday, May 25th, 2022 at 15:51, Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
 
-After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
-mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
+> > > Ofc in reality you can still flood your compositor and they're not ve=
+ry
+> > > robust, but with umf it's trivial to just hang your compositor foreve=
+r and
+> > > nothing happens.
+> >
+> > You can add that to the list of reasons why compositors need to stop
+> > using buffers with unsignaled fences. There's plenty of other reasons
+> > there already (the big one being that otherwise slow clients can slow
+> > down the compositor, even if the compositor uses a high priority contex=
+t
+> > and the HW supports preemption).
+>
+>
+> Yeah that's tbh another reason why I think we shouldn't do umf as a
+> transparent thing - compositors need to get better anyway, so we might as
+> well take this as a chance to do this right.
 
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
----
- include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-index 59117d970daf..fb719fd1281c 100644
---- a/include/linux/soc/mediatek/mtk-mmsys.h
-+++ b/include/linux/soc/mediatek/mtk-mmsys.h
-@@ -16,8 +16,7 @@ enum mtk_ddp_comp_id {
- 	DDP_COMPONENT_CCORR,
- 	DDP_COMPONENT_COLOR0,
- 	DDP_COMPONENT_COLOR1,
--	DDP_COMPONENT_DITHER,
--	DDP_COMPONENT_DITHER0 = DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DITHER0,
- 	DDP_COMPONENT_DITHER1,
- 	DDP_COMPONENT_DP_INTF0,
- 	DDP_COMPONENT_DP_INTF1,
--- 
-2.18.0
-
+As a compositor dev, I agree -- we should definitely be smarter about
+this. Note, it would help a lot to have a good way to integrate the
+waits into a poll(2) event loop.
