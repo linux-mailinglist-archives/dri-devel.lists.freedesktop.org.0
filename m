@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C93533FA5
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 16:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67852533FA7
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 16:58:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820CC10FA82;
-	Wed, 25 May 2022 14:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4302510FA89;
+	Wed, 25 May 2022 14:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 545AC10FA82
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 14:58:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE41210FA83
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 14:58:08 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id E979D1F450F2
+ (Authenticated sender: alyssa) with ESMTPSA id 6B8481F450F4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1653490685;
- bh=9bRShdzh+eFKzI1iX/FrVehRhjCGpbUYT7uXkboDLFA=;
- h=From:To:Cc:Subject:Date:From;
- b=ff9drY7INcYIJup2RVvMPpszBqC32CT5ohYQyiXUkCP8LNum6WAjATumWLGFHa2sb
- TYwtNWK46RuqmcOypV9L9Yq4zzPDhPG5dIeeS1QEGl5ICTAuaVBPoZXf+zAeHkaCvB
- VA9M4ph/jpmJc0S1lkku7xMWWNi3E6MKm/1U5PLtRPZXcPE4W6WzkiOFnN2BEUrUoi
- l+dfbatSu2qZwLdKpb4vosiG93X/h6nJIglT3TkdXU+KZ5NDwfIYwxzlgN5/udwZcI
- Bk2ekki8HjOFhXDX5HkPvh+NUujpo6qKjANFpmXY8W0U2nqGx6XsauFVdN63o2SAsd
- sgdTg9IKruY8A==
+ s=mail; t=1653490687;
+ bh=+4m7P+pQtDoPRLeJ/o/TRoRtSsTCzrenQkb157P79lQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TlKOHXS3aCs3rvje9nB1n31DpTc3NvRCrZn0OdKzxRi9cxs4OLRCPXZpVxuGqj0GX
+ R5j8gxzle1zXngChlMkXIILoTvIpAvjWBNDuIvAM9yY3TXpkf354PccFwBpqSJwbk4
+ qsutJTt2eILUFYhM7/33ZP8HXp3a91pV3NsKqnR4JV4NhaEC++K+n1qcW5h+wpLNDU
+ qcYbmr/ynYBC/IkbqNxvPinv6L1kcyEfKBHzdQrymVcKCQ7NRQ/TzDrQnp5dEWf1y5
+ ILHxR8jodll6ex09bsZZYvTz2ZmLPqXKFQDhoAvMbnZAw/jp2uF6g7j0GuW/xpAOdx
+ J/8Z0nqT5Ving==
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/9] drm/panfrost: Valhall (JM) support
-Date: Wed, 25 May 2022 10:57:45 -0400
-Message-Id: <20220525145754.25866-1-alyssa.rosenzweig@collabora.com>
+Subject: [PATCH v2 1/9] dt-bindings: Add compatible for Mali Valhall (JM)
+Date: Wed, 25 May 2022 10:57:46 -0400
+Message-Id: <20220525145754.25866-2-alyssa.rosenzweig@collabora.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220525145754.25866-1-alyssa.rosenzweig@collabora.com>
+References: <20220525145754.25866-1-alyssa.rosenzweig@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,45 +48,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
  <nfraprado@collabora.com>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Here is version 2 of the series adding support for job manager Valhall
-(v9). CSF Valhall is not supported in this series. The core
-issues/features are added for Mali-G57 "Natt" as the current target.
-Natt is used in MT8192, which needs a few extra patches to follow
-(currently blocked on MediaTek integration issues.)
+From the kernel's perspective, (pre-CSF, "Job Manager") Valhall is more
+or less compatible with Bifrost, although they differ to userspace. Add
+a compatible for Valhall to the existing Bifrost bindings documentation.
 
-In terms of userspace, Mesa has almost all the required code for GLES3.1
-conformance and is just missing a few patches to merge for remaining
-features.
+As the first SoC with a Valhall GPU receiving mainline support, add a
+specific compatible for the MediaTek MT8192, which instantiates a
+Mali-G57.
 
-v2 addresses minor issues found in v1, but no major changes.
+v2: Change compatible to arm,mali-valhall-jm (Daniel Stone).
 
-Alyssa Rosenzweig (9):
-  dt-bindings: Add compatibles for Mali Valhall GPU
-  drm/panfrost: Handle HW_ISSUE_TTRX_2968_TTRX_3162
-  drm/panfrost: Constify argument to has_hw_issue
-  drm/panfrost: Handle HW_ISSUE_TTRX_3076
-  drm/panfrost: Add HW_ISSUE_TTRX_3485 quirk
-  drm/panfrost: Add "clean only safe" feature bit
-  drm/panfrost: Don't set L2_MMU_CONFIG quirks
-  drm/panfrost: Add Mali-G57 "Natt" support
-  drm/panfrost: Add arm,mali-valhall-jm compatible
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+CC: devicetree@vger.kernel.org
+---
+ .../bindings/gpu/arm,mali-bifrost.yaml        | 25 +++++++++++--------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
- .../bindings/gpu/arm,mali-bifrost.yaml        | 53 +++++++++++++++----
- drivers/gpu/drm/panfrost/panfrost_device.c    |  9 +++-
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  1 +
- drivers/gpu/drm/panfrost/panfrost_features.h  | 13 +++++
- drivers/gpu/drm/panfrost/panfrost_gpu.c       | 18 +++----
- drivers/gpu/drm/panfrost/panfrost_issues.h    | 21 +++++++-
- drivers/gpu/drm/panfrost/panfrost_regs.h      |  1 +
- 7 files changed, 91 insertions(+), 25 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index 85f8d4764740..78964c140b46 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -14,16 +14,21 @@ properties:
+     pattern: '^gpu@[a-f0-9]+$'
+ 
+   compatible:
+-    items:
+-      - enum:
+-          - amlogic,meson-g12a-mali
+-          - mediatek,mt8183-mali
+-          - realtek,rtd1619-mali
+-          - renesas,r9a07g044-mali
+-          - renesas,r9a07g054-mali
+-          - rockchip,px30-mali
+-          - rockchip,rk3568-mali
+-      - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
++    oneOf:
++      - items:
++          - enum:
++              - amlogic,meson-g12a-mali
++              - mediatek,mt8183-mali
++              - realtek,rtd1619-mali
++              - renesas,r9a07g044-mali
++              - renesas,r9a07g054-mali
++              - rockchip,px30-mali
++              - rockchip,rk3568-mali
++          - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
++      - items:
++          - enum:
++              - mediatek,mt8192-mali
++          - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision is fully discoverable
+ 
+   reg:
+     maxItems: 1
 -- 
 2.35.1
 
