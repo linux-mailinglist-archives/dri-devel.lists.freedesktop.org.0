@@ -2,43 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808A0534610
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 23:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70103534614
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 23:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F0FA10E399;
-	Wed, 25 May 2022 21:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645E210E600;
+	Wed, 25 May 2022 21:53:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F20FC10E600;
- Wed, 25 May 2022 21:50:58 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EA7F761AB6;
- Wed, 25 May 2022 21:50:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C68EFC385B8;
- Wed, 25 May 2022 21:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1653515457;
- bh=RJBqCEbCNY0ooTTHUDW8T5ccFZ9a+R65ZzhmVt+2S44=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=R8xzes5UjWb8BqqxzRNWgPf7cEHyaAbeSDj+v3F0k3sq8Asguyz6Vmo/uMlX6uzmY
- 8HryaeniW2c258rIiLOGG2MjKsnv6NbBuzhNNsrGT4ET41NSmI5sqMNPKOc8It7ZVv
- QGSPkTQx3i5p9WrHix2LggCVXiwA2BU9p5l/o92c=
-Date: Wed, 25 May 2022 14:50:56 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 8cb8311e95e3bb58bd84d6350365f14a718faa6d
-Message-Id: <20220525145056.953631743a4c494aabf000dc@linux-foundation.org>
-In-Reply-To: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
-References: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC7710E710
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 21:53:23 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id q8so94462oif.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 14:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=04OjMw2JMyuIJljrrmu099/55pxpfAsMDeUb49afxG0=;
+ b=SjyPuA0QC1kxxE4E+mU7isGXjd294S4bs1nVurchs/W33aNYEVRx9fkjR0xk5Bhgt5
+ MImcNPzLEUGRMelW9mOkwXh8lrxPFfuhfj9bwT0S8QtzfW0XI4brePUsfv73BMIOkExS
+ ZIZnfYs73+DyaggSaUTiYYy41OPEl/XSOJsgwaztAUovCQItl6QqfOaQJpfIChltjMk5
+ WS0zNs2bemOUBLMd2ReMqCoTKq9hRhl76m9qSvvhufFOeHIMuVFoiSUN7Epk6QjEf1u4
+ sZmpzQmkT1ecfGE+/KGzsF30ZO8Tinx/FBR4eaBDlenHZoSZX/fhp85MYa7DuADPL2fZ
+ En0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=04OjMw2JMyuIJljrrmu099/55pxpfAsMDeUb49afxG0=;
+ b=4Hb8Uvv8YGPb0hyFPhNC98IiISEvueEzrSzlrJG9lDuw2+HKpaWra4EwegedvrOb43
+ ETvCs5WV5L0g3ekYM+x29nvUC+QmYdeOtJtPP5YzTiQmNh4NX6cPb3WjBFVXaFr3tRVX
+ YE6hG8rJFPpEDOexTqSyOHHjWs42m/DoFjo1N5lgA/Qx631RSN6iMToF//LaOrM9oRVg
+ 9VTHMjfR+qrHHqUFP734JIf8R/XNIJsZ/pdjT99iyPTrXxK5gQ0QOMJVXYegf/J3W8d7
+ abYN6N+mHPBxgwSMjzGCn0Vy5HCTH4w3YSW+Teqo1li520Ehk3yl8dd1CTgDDyPyFuja
+ ROEw==
+X-Gm-Message-State: AOAM531Qz+HejzwUJGvA8FrWvAvDDe56YD9nI8+yzA6kj6Lnqxpmhy+Y
+ niHFsE6rW6ZyD3amn6qI7Dv5ZSpFspJ4Vg==
+X-Google-Smtp-Source: ABdhPJwu7pnNPbHIj7TqO0MW7jH+BuQXhSIlTz0+Gh1KcWfFoMNroRdWZvJvDgF2+h27MYudQeccGg==
+X-Received: by 2002:a05:6808:148f:b0:32b:a86b:3cb8 with SMTP id
+ e15-20020a056808148f00b0032ba86b3cb8mr1866067oiw.243.1653515602907; 
+ Wed, 25 May 2022 14:53:22 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:4b69:8e74:fc8e:b11f:9d42])
+ by smtp.gmail.com with ESMTPSA id
+ t192-20020acaaac9000000b00325cda1ffa6sm25017oie.37.2022.05.25.14.53.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 May 2022 14:53:22 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: robert.foss@linaro.org
+Subject: [PATCH] drm: bridge: adv7511: Move CEC definitions to adv7511_cec.c
+Date: Wed, 25 May 2022 18:53:16 -0300
+Message-Id: <20220525215316.1133057-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,53 +67,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parport@lists.infradead.org,
- kvm@vger.kernel.org, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-staging@lists.linux.dev, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
- bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org,
+ alsi@bang-olufsen.dk
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 26 May 2022 05:35:20 +0800 kernel test robot <lkp@intel.com> wrote:
+ADV7511_REG_CEC_RX_FRAME_HDR[] and ADV7511_REG_CEC_RX_FRAME_LEN[]
+are only used inside adv7511_cec.c.
 
-> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> branch HEAD: 8cb8311e95e3bb58bd84d6350365f14a718faa6d  Add linux-next specific files for 20220525
-> 
-> Error/Warning reports:
-> 
-> ...
->
-> Unverified Error/Warning (likely false positive, please contact us if interested):
+Move their definitions to this file to avoid the following build
+warnings when CONFIG_DRM_I2C_ADV7511_CEC is not selected:
 
-Could be so.
+drivers/gpu/drm/bridge/adv7511/adv7511.h:229:17: warning: 'ADV7511_REG_CEC_RX_FRAME_HDR' defined but not used [-Wunused-const-variable=]
+drivers/gpu/drm/bridge/adv7511/adv7511.h:235:17: warning: 'ADV7511_REG_CEC_RX_FRAME_LEN' defined but not used [-Wunused-const-variable=]
 
-> mm/shmem.c:1948 shmem_getpage_gfp() warn: should '(((1) << 12) / 512) << folio_order(folio)' be a 64 bit type?
+Reported-by: kernel test robot <lkp@intel.com>
+Fixes: ab0af093bf90 ("drm: bridge: adv7511: use non-legacy mode for CEC RX")
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     | 12 ------------
+ drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 12 ++++++++++++
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-I've been seeing this one for a while.  And from this report I can't
-figure out what tool emitted it.  Clang?
-
->
-> ...
->
-> |-- i386-randconfig-m021
-> |   `-- mm-shmem.c-shmem_getpage_gfp()-warn:should-((()-)-)-folio_order(folio)-be-a-bit-type
-
-If you're going to use randconfig then shouldn't you make the config
-available?  Or maybe quote the KCONFIG_SEED - presumably there's a way
-for others to regenerate.
-
-Anyway, the warning seems wrong to me.
-
-
-#define PAGE_SIZE               (_AC(1,UL) << PAGE_SHIFT)
-
-#define BLOCKS_PER_PAGE  (PAGE_SIZE/512)
-
-	inode->i_blocks += BLOCKS_PER_PAGE << folio_order(folio);
-
-so the RHS here should have unsigned long type.  Being able to generate
-the cpp output would be helpful.  That requires the .config.
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+index 9e3bb8a8ee40..a031a0cd1f18 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+@@ -226,18 +226,6 @@
+ #define ADV7511_REG_CEC_CLK_DIV		0x4e
+ #define ADV7511_REG_CEC_SOFT_RESET	0x50
+ 
+-static const u8 ADV7511_REG_CEC_RX_FRAME_HDR[] = {
+-	ADV7511_REG_CEC_RX1_FRAME_HDR,
+-	ADV7511_REG_CEC_RX2_FRAME_HDR,
+-	ADV7511_REG_CEC_RX3_FRAME_HDR,
+-};
+-
+-static const u8 ADV7511_REG_CEC_RX_FRAME_LEN[] = {
+-	ADV7511_REG_CEC_RX1_FRAME_LEN,
+-	ADV7511_REG_CEC_RX2_FRAME_LEN,
+-	ADV7511_REG_CEC_RX3_FRAME_LEN,
+-};
+-
+ #define ADV7533_REG_CEC_OFFSET		0x70
+ 
+ enum adv7511_input_clock {
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+index 399f625a50c8..0b266f28f150 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+@@ -15,6 +15,18 @@
+ 
+ #include "adv7511.h"
+ 
++static const u8 ADV7511_REG_CEC_RX_FRAME_HDR[] = {
++	ADV7511_REG_CEC_RX1_FRAME_HDR,
++	ADV7511_REG_CEC_RX2_FRAME_HDR,
++	ADV7511_REG_CEC_RX3_FRAME_HDR,
++};
++
++static const u8 ADV7511_REG_CEC_RX_FRAME_LEN[] = {
++	ADV7511_REG_CEC_RX1_FRAME_LEN,
++	ADV7511_REG_CEC_RX2_FRAME_LEN,
++	ADV7511_REG_CEC_RX3_FRAME_LEN,
++};
++
+ #define ADV7511_INT1_CEC_MASK \
+ 	(ADV7511_INT1_CEC_TX_READY | ADV7511_INT1_CEC_TX_ARBIT_LOST | \
+ 	 ADV7511_INT1_CEC_TX_RETRY_TIMEOUT | ADV7511_INT1_CEC_RX_READY1 | \
+-- 
+2.25.1
 
