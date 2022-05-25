@@ -1,83 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BAE53421B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 19:18:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA645342AC
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 20:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E252210E700;
-	Wed, 25 May 2022 17:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E6A10E3B9;
+	Wed, 25 May 2022 18:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED0F010E700
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 17:18:11 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id t13so11846075wrg.9
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 10:18:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=mSMNPQ5KK6YsA0z6pBHKv8hLf5a2qU6nE4AoCo7IdWI=;
- b=fJGduJon9UX+/MDCq64jwD4jxYhIn31QF1pGdMs8PSFiMlgFlXxgLIVxETbNxWDLMt
- 6g3wXrECUTQj41d4M980QT0MRiCzku+tMGl/7TUqgr93na92xqke3ns4n4tuPn78nL1e
- IwcN03P9L0IY2sw1d5Cd916Iq4EmZV44gdgbM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=mSMNPQ5KK6YsA0z6pBHKv8hLf5a2qU6nE4AoCo7IdWI=;
- b=0U03Hnk+VyRVzu75+ifwKeH+WiTXTxLiO9M5/u2l3YCD1t0YwpscPYmFf5D8R2cIYp
- 1Q0dCr3W2Wql6S8scz1qa380xQdSzsnCJK75l6+R6+S2fn0phf0fmLkRNhjtg/prvLW8
- NmoPPqhVKgqRg/fkMYlyapWshOL3imAZ2s4wLFwCsKaJ4EKTiowrOk6OP02Y09yHGPRV
- Qmoq2Th+YJaIWYBpR7VIQmIFIEfCGKNLLpGumXWRoWuHSj4VaW6B6+gYsAch0gfBoTK3
- 1wIEDh7VhzVXszpUIv+wIoy3aSd5xE9xbLi5b3PHonjND5OUV84M5LGgzxEI9OYIn3JB
- K/eg==
-X-Gm-Message-State: AOAM5303aHG6/JChsOycdASBs6J35f7yau6kxFwCV7Zw2TDBscPk+FPY
- 7C2RkWqYqJeGZcmSegdkRlj9NUP8o2L0DA==
-X-Google-Smtp-Source: ABdhPJzsdHYg5Dpp88obJIiM7Dhw/HPhB8owGCNkfmE6OH+ietsqIRSGDzN+swc+xg/bnjU0j19AwA==
-X-Received: by 2002:a05:6000:2cc:b0:20d:e6c:e4f8 with SMTP id
- o12-20020a05600002cc00b0020d0e6ce4f8mr27246085wry.374.1653499090255; 
- Wed, 25 May 2022 10:18:10 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- g5-20020a5d64e5000000b0020d0c9c95d3sm2613468wri.77.2022.05.25.10.18.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 May 2022 10:18:09 -0700 (PDT)
-Date: Wed, 25 May 2022 19:18:07 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [RFC PATCH 00/16] drm/rockchip: Rockchip EBC ("E-Book
- Controller") display driver
-Message-ID: <Yo5kz/9cSd6ewC5f@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
- Samuel Holland <samuel@sholland.org>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org,
- Alistair Francis <alistair@alistair23.me>,
- =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xff.cz>,
- Andreas Kemnade <andreas@kemnade.info>,
- David Airlie <airlied@linux.ie>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liang Chen <cl@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Peter Geis <pgwipeout@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220413221916.50995-1-samuel@sholland.org>
- <20220414085018.ayjvscgdkoen5nw5@houat>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F7C210E3B9;
+ Wed, 25 May 2022 18:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653501938; x=1685037938;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gd8CqV6OzJ5Z6cWKDN8HWPNGEQlHus6jWNy48dpbSaA=;
+ b=Sx9Z4h2wXSHlYrrsDzkqEpy0Rwhg16akDCgWqUXLXyWRsjiXeVi9stmF
+ uUnGwCETqO6TshKIicH18B0K5LqomhCyN+ybf026fgDTOOEtFXj3MoPY6
+ ewDXG1m/8GebjWSPyXu2sZsd7L6QpY82XcwjpmTQrw8Yah3nwa4MJpPVt
+ KF/mSYo1ejUV9EFP7kq0pBwABCbqCObtt59KMTe03zyEkQbKas0dYxCSZ
+ GImHPY1SwCelZopuRwbSHe7k5mVRf6kTlLxK1RoXA+epNHRv0iOy3T+gA
+ srDe/1NylhiQrN+xXVJxyxCQh3/b6zfbzVc0giFHmcQE2iE4laWH2nMWi w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="274002806"
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="274002806"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 11:05:37 -0700
+X-IronPort-AV: E=Sophos;i="5.91,250,1647327600"; d="scan'208";a="704108327"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 11:05:37 -0700
+Date: Wed, 25 May 2022 11:05:35 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/dg2: Catch and log more unexpected values in
+ DG1_MSTR_TILE_INTR
+Message-ID: <Yo5v7/pLw4eF8xxw@mdroper-desk1.amr.corp.intel.com>
+References: <20220524094339.1692212-1-tvrtko.ursulin@linux.intel.com>
+ <Yo0bBxHBH8cZcnN4@mdroper-desk1.amr.corp.intel.com>
+ <f37468b3-1066-ee4b-fb5b-7664fd180fd6@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220414085018.ayjvscgdkoen5nw5@houat>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <f37468b3-1066-ee4b-fb5b-7664fd180fd6@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,400 +59,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xff.cz>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, Samuel Holland <samuel@sholland.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-rockchip@lists.infradead.org, Andreas Kemnade <andreas@kemnade.info>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Liang Chen <cl@rock-chips.com>,
- devicetree@vger.kernel.org, Alistair Francis <alistair@alistair23.me>,
- Rob Herring <robh+dt@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some comments on this from my side too, not sure how good they are when it
-comes more to the hw side of things :-)
+On Wed, May 25, 2022 at 05:03:13PM +0100, Tvrtko Ursulin wrote:
+> 
+> On 24/05/2022 18:51, Matt Roper wrote:
+> > On Tue, May 24, 2022 at 10:43:39AM +0100, Tvrtko Ursulin wrote:
+> > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > 
+> > > Catch and log any garbage in the register, including no tiles marked, or
+> > > multiple tiles marked.
+> > > 
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > > ---
+> > > We caught garbage in DG1_MSTR_TILE_INTR with DG2 (actual value 0xF9D2C008)
+> > > during glmark and more badness. So I thought lets log all possible failure
+> > > modes from here and also use per device logging.
+> > > ---
+> > >   drivers/gpu/drm/i915/i915_irq.c | 33 ++++++++++++++++++++++-----------
+> > >   drivers/gpu/drm/i915/i915_reg.h |  1 +
+> > >   2 files changed, 23 insertions(+), 11 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> > > index 73cebc6aa650..79853d3fc1ed 100644
+> > > --- a/drivers/gpu/drm/i915/i915_irq.c
+> > > +++ b/drivers/gpu/drm/i915/i915_irq.c
+> > > @@ -2778,24 +2778,30 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
+> > >   	u32 gu_misc_iir;
+> > >   	if (!intel_irqs_enabled(i915))
+> > > -		return IRQ_NONE;
+> > > +		goto none;
+> > >   	master_tile_ctl = dg1_master_intr_disable(regs);
+> > > -	if (!master_tile_ctl) {
+> > > -		dg1_master_intr_enable(regs);
+> > > -		return IRQ_NONE;
+> > > +	if (!master_tile_ctl)
+> > > +		goto enable_none;
+> > > +
+> > > +	if (master_tile_ctl & ~(DG1_MSTR_IRQ | DG1_MSTR_TILE_MASK)) {
+> > > +		drm_warn(&i915->drm, "Garbage in master_tile_ctl: 0x%08x!\n",
+> > > +			 master_tile_ctl);
+> > 
+> > I know we have a bunch of them already, but shouldn't we be avoiding
+> > printk-based stuff like this inside interrupt handlers?  Should we be
+> > migrating all these error messages over to trace_printk or something
+> > similar that's safer to use?
+> 
+> Not sure - I kind of think some really unexpected and worrying situations
+> should be loud and on by default. Risk is then spam if not ratelimited.
+> Maybe we should instead ratelimit most errors/warnings coming for irq
+> handlers?
 
-On Thu, Apr 14, 2022 at 10:50:18AM +0200, Maxime Ripard wrote:
-> On Wed, Apr 13, 2022 at 05:19:00PM -0500, Samuel Holland wrote:
-> > This series adds a DRM driver for the electrophoretic display controller
-> > found in a few different Rockchip SoCs, specifically the RK3566/RK3568
-> > variant[0] used by the PineNote tablet[1].
-> > 
-> > This is my first real involvement with the DRM subsystem, so please let
-> > me know where I am misunderstanding things.
-> > 
-> > This is now the second SoC-integrated EPD controller with a DRM driver
-> > submission -- the first one being the i.MX6 EPDC[2]. I want to thank
-> > Andreas for sending that series, and for his advice while writing this
-> > driver.
-> > 
-> > One goal I have with sending this series is to discuss how to support
-> > EPDs more generally within the DRM subsystem, so the interfaces with
-> > panels and PMICs and waveform LUTs can be controller-independent.
-> > 
-> > My understanding is that the i.MX6 EPDC series is at least partly based
-> > on the downstream vendor driver. This driver is a clean-sheet design for
-> > hardware with different (read: fewer) capabilities, so we took some
-> > different design paths, but we ran into many of the same sharp edges.
-> > 
-> > Here are some of the areas I would like input on:
-> > 
-> > Panel Lifecycle
-> > ===============
-> > Panels use prepare/unprepare callbacks for their power supply. EPDs
-> > should only be powered up when the display contents are changed. Should
-> > the controller call both drm_panel_(un)prepare during each atomic update
-> > when the framebuffer is dirty?
-> > 
-> > Similarly, panel enable/disable callbacks are tied to backlight state.
-> > For an EPD, it makes sense to have the backlight enabled while the panel
-> > is powered down (because the contents are static). Is it acceptable to
-> > call drm_panel_{en,dis}able while the panel is not prepared?
-> > 
-> > With panel_bridge, the "normal" callback ordering is enforced, and tied
-> > to the atomic state, so neither of these is possible.
-> > 
-> > As a result, neither the backlight nor the voltage regulators are tied
-> > to the panel. The panel's regulators are consumed by the EBC itself.
-> 
-> At least to manage the power state, that looks fairly similar to what we
-> have already to enter / exit from panel self refresh, so maybe we can
-> leverage that infrastructure?
-> 
-> And thus we would have something like enabling the backlight when we
-> prepare the panel, but only enable / disable the regulator when we exit
-> / enter PSR mode?
-> 
-> Would that make sense?
-> 
-> > Panel Timing Parameters
-> > =======================
-> > EPDs have more timing parameters than LCDs, and there are several
-> > different ways of labeling these parameters. See for example the timing
-> > diagrams on pp. 2237-2239 of the RK3568 TRM[0], the descriptions in the
-> > ED103TC2 panel datasheet[3], and the submitted EPDC bindings[2].
-> > 
-> > Both the EPDC and EBC vendor drivers put all of the timing parameters in
-> > the controller's OF node. There is no panel device/node.
-> > 
-> > I was able to squeeze everything needed for my specific case into a
-> > struct drm_display_mode (see patches 5 and 14), but I don't know if this
-> > is an acceptable use of those fields, or if will work with other
-> > controllers. Is adding more fields to drm_display_mode an option?
-> > 
-> > See also the discussion of "dumb" LCD TCONs below.
-> 
-> Reading that datasheet and patch series, it's not clear to me whether
-> it's just a set of generic parameters for E-ink display, or if it's some
-> hardware specific representation of those timings.
-> 
-> Generally speaking, drm_display_mode is an approximation of what the
-> timings are. The exact clock rate for example will be widely different
-> between RGB, HDMI or MIPI-DSI (with or without burst). I think that as
-> long as you can derive a drm_display_mode from those parameters, and can
-> infer those parameters from a drm_display_mode, you can definitely reuse
-> it.
-> 
-> > Panel Connector Type / Media Bus Format
-> > =======================================
-> > The EBC supports either an 8-bit or 16-bit wide data bus, where each
-> > pair of data lines represents the source driver polarity (positive,
-> > negative, or neutral) for a pixel.
-> > 
-> > The only effect of the data bus width is the number of pixels that are
-> > transferred per clock cycle. It has no impact on the number of possible
-> > grayscale levels.
-> > 
-> > How does that translate to DRM_MODE_CONNECTOR_* or MEDIA_BUS_FMT_*?
-> 
-> We'll probably want a separate connector mode, but you could add a
-> parameter on the OF-graph endpoint to set the media bus format.
-> 
-> > Panel Reflection
-> > ================
-> > The ED103TC2 panel scans from right to left. Currently, there is no API
-> > or OF property to represent this. I can add something similar to
-> > drm_panel_orientation.
-> 
-> Yeah, leveraging DRM_MODE_REFLECT_X into something similar to
-> drm_panel_orientation makes sense
+It's not the risk of spam that's the problem, but rather that
+printk-based stuff eventually calls into the console code to flush its
+buffers.  That's way more overhead than you want in an interrupt handler
+so it's bad on its own, but if you're using something slow like a serial
+console, it becomes even more of a problem.
 
-Yeah
+While the unexpected bits in the master tile register are strange and
+may point to a bigger problem somewhere else, they're also harmless on
+their own since we should just ignore those bits and only process the
+valid tiles.
 
-> > Should this be exposed to userspace? It is acceptable for the kernel
-> > driver to flip the image when blitting from the framebuffer?
 > 
-> I'm not sure about whether or not we should expose it to userspace. I'd
-> say yes, but I'll leave it to others :)
+> In this particular case at least DRM_ERROR with no device info is the odd
+> one out in the entire file so I'd suggest changing at least that, if the
+> rest of my changes is of questionable benefit.
 
-Same. I'm very grumpily accepting that we need sw conversion tools from
-xrgb8888 to more unusual framebuffer formats, but everything else should
-be userspace problems imo.
+Changing DRM_ERROR -> drm_err would probably be fine in the short term
+since it doesn't really make us any worse off.  Changing to drm_warn
+might not be great since we're generating a lot more lines of output and
+probably multiplying the already bad overhead that shouldn't be
+happening in an interrupt handler.  But if we could update the interrupt
+handler to just save away the details and do the actual drm_warn later,
+outside the interrupt handler code, that would be okay.  We should
+probably work toward something like that for all of our interrupt
+handler warning/error messages.
 
-It's a bit more awkard than a wrongly rotate screen if it's mirrored, but
-I guess that's it.
 
-What is surprising is that your hw really doesn't have any hw support to
-mirror things, since that's generally really easy to implement.
+Matt
 
-For the blitter I guess that would be a v4l mem2mem device?
-
-> > CRTC "active" and "enabled" states
-> > ==================================
-> > What do these states mean in the context of an EPD? Currently, the
-> > driver ignores "active" and clears the screen to solid white when the
-> > CRTC is disabled.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
 > > 
-> > The vendor drivers can switch to a user-provided image when the CRTC is
-> > disabled. Is this something that can/should be supported upstream? If
-> > so, how? Would userspace provide the image to the kernel, or just tell
-> > the kernel not to clear the screen?
-> 
-> I think the semantics are that whenever the CRTC is disabled, the panel
-> is expected to be blank.
-> 
-> Leaving an image on after it's been disabled would have a bunch of
-> side-effects we probably don't want. For example, let's assume we have
-> that support, an application sets a "disabled image" and quits. Should
-> we leave the content on? If so, for how long exactly?
-> 
-> Either way, this is likely to be doable with PSR as well, so I think
-> it's a bit out of scope of this series for now.
-
-active is hw state
-
-enabled is a pure sw state on top, to make sure that all the hw resources
-you need are still reserved. E.g. when you have 2 crtc and you enable one,
-but keep it off (i.e. active = false), then the clocks, memory bw and all
-that are still reserved. This is to be able to guarantee that dpms off ->
-on transitions always work.
-
-Iow, in atomic_check you need to look at enabled, in atomic commit you
-need to look at active.
-
-With a single crtc there should never be any issue here really, since
-there's no other crtc where you can steal clocks or similar things from.
-
-Note that kerneldoc should explain this all, pls double check and if it's
-not clear submit a patch please.
-
-> > VBLANK Events and Asynchronous Commits
-> > ======================================
-> > When should the VBLANK event complete? When the pixels have been blitted
-> > to the kernel's shadow buffer? When the first frame of the waveform is
-> > sent to the panel? When the last frame is sent to the panel?
 > > 
-> > Currently, the driver is taking the first option, letting
-> > drm_atomic_helper_fake_vblank() send the VBLANK event without waiting on
-> > the refresh thread. This is the only way I was able to get good
-> > performance with existing userspace.
-> 
-> I've been having the same kind of discussions in private lately, so I'm
-> interested by the answer as well :)
-> 
-> It would be worth looking into the SPI/I2C panels for this, since it's
-> basically the same case.
-
-So it's maybe a bit misnamed and maybe kerneldocs aren't super clear (pls
-help improve them), but there's two modes:
-
-- drivers which have vblank, which might be somewhat variable (VRR) or
-  become simulated (self-refresh panels), but otherwise is a more-or-less
-  regular clock. For this case the atomic commit event must match the
-  vblank events exactly (frame count and timestamp)
-
-- drivers which don't have vblank at all, mostly these are i2c/spi panels
-  or virtual hw and stuff like that. In this case the event simply happens
-  when the driver is done with refresh/upload, and the frame count should
-  be zero (since it's meaningless).
-
-Unfortuantely the helper to dtrt has fake_vblank in it's name, maybe
-should be renamed to no_vblank or so (the various flags that control it
-are a bit better named).
-
-Again the docs should explain it all, but maybe we should clarify them or
-perhaps rename that helper to be more meaningful.
-
-> > Waveform Loading
-> > ================
-> > Waveform files are calibrated for each batch of panels. So while a
-> > single waveform file may be "good enough" for all panels of a certain
-> > model, the correctly-calibrated file will have better image quality.
+> > Matt
 > > 
-> > I don't know of a good way to choose the calibrated file. Even the
-> > board's compatible string may not be specific enough, if the board is
-> > manufactured with multiple batches of panels.
+> > > +		goto enable_none;
+> > >   	}
+> > >   	/* FIXME: we only support tile 0 for now. */
+> > > -	if (master_tile_ctl & DG1_MSTR_TILE(0)) {
+> > > -		master_ctl = raw_reg_read(regs, GEN11_GFX_MSTR_IRQ);
+> > > -		raw_reg_write(regs, GEN11_GFX_MSTR_IRQ, master_ctl);
+> > > -	} else {
+> > > -		DRM_ERROR("Tile not supported: 0x%08x\n", master_tile_ctl);
+> > > -		dg1_master_intr_enable(regs);
+> > > -		return IRQ_NONE;
+> > > +	if (REG_FIELD_GET(DG1_MSTR_TILE_MASK, master_tile_ctl) !=
+> > > +	    DG1_MSTR_TILE(0)) {
+> > > +		drm_warn(&i915->drm, "Unexpected irq from tile %u!\n",
+> > > +			 ilog2(REG_FIELD_GET(DG1_MSTR_TILE_MASK,
+> > > +					     master_tile_ctl)));
+> > > +		goto enable_none;
+> > >   	}
+> > > +	master_ctl = raw_reg_read(regs, GEN11_GFX_MSTR_IRQ);
+> > > +	raw_reg_write(regs, GEN11_GFX_MSTR_IRQ, master_ctl);
+> > > +
+> > >   	gen11_gt_irq_handler(gt, master_ctl);
+> > >   	if (master_ctl & GEN11_DISPLAY_IRQ)
+> > > @@ -2810,6 +2816,11 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
+> > >   	pmu_irq_stats(i915, IRQ_HANDLED);
+> > >   	return IRQ_HANDLED;
+> > > +
+> > > +enable_none:
+> > > +	dg1_master_intr_enable(regs);
+> > > +none:
+> > > +	return IRQ_NONE;
+> > >   }
+> > >   /* Called from drm generic code, passed 'crtc' which
+> > > diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> > > index d8579ab9384c..eefa301c6430 100644
+> > > --- a/drivers/gpu/drm/i915/i915_reg.h
+> > > +++ b/drivers/gpu/drm/i915/i915_reg.h
+> > > @@ -5774,6 +5774,7 @@
+> > >   #define DG1_MSTR_TILE_INTR		_MMIO(0x190008)
+> > >   #define   DG1_MSTR_IRQ			REG_BIT(31)
+> > > +#define   DG1_MSTR_TILE_MASK		REG_GENMASK(3, 0)
+> > >   #define   DG1_MSTR_TILE(t)		REG_BIT(t)
+> > >   #define GEN11_DISPLAY_INT_CTL		_MMIO(0x44200)
+> > > -- 
+> > > 2.32.0
+> > > 
 > > 
-> > Maybe the filename should just be the panel compatible, and the user is
-> > responsible for putting the right file there? In that case, how should I
-> > get the compatible string from the panel_bridge? Traverse the OF graph
-> > myself?
-> 
-> It's not really clear to me what panel_bridge has to do with it? I'm
-> assuming that file has to be uploaded some way or another to the
-> encoder?
-> 
-> If so, yeah, you should just follow through the OF-graph and use the
-> panel compatible. We have a similar case already with panel-mipi-dbi
-> (even though it's standalone)
 
-Yeah if there's really on difference then I guess the best we can do is
-"make sure you put the right file into the firmware directory". Sucks but
-anything else isn't really better.
-
-> > There is also the issue that different controllers need the waveform
-> > data in different formats. ".wbf" appears to be the format provided by
-> > PVI/eInk, the panel manufacturer. The Rockchip EBC hardware expects a
-> > single waveform in a flat array, so the driver has to extract/decompress
-> > that from the .wbf file (this is done in patch 1). On the other hand,
-> > the i.MX EPDC expects a ".wrf" file containing multiple waveforms[8].
-> > 
-> > I propose that the waveform file on disk should always be what was
-> > shipped with the panel -- the .wbf file -- and any extracting or
-> > reformatting is done in the kernel.
-> 
-> Any kind of parsing in the kernel from a file you have no control over
-> always irks me :)
-> 
-> Why and how are those files different in the first place?
-> 
-> > Waveform Selection From Userspace
-> > =================================
-> > EPDs use different waveforms for different purposes: high-quality
-> > grayscale vs. monochrome text vs. dithered monochrome video. How can
-> > userspace select which waveform to use? Should this be a plane property?
-> >
-> > It is also likely that userspace will want to use different waveforms at
-> > the same time for different parts of the screen, for example a fast
-> > monochrome waveform for the drawing area of a note-taking app, but a
-> > grayscale waveform for surrounding UI and window manager.
-> > 
-> > I believe the i.MX6 EPDC supports multiple planes, each with their own
-> > waveform choice. That seems like a good abstraction,
-> 
-> I agree
-> 
-> > but the EBC only supports one plane in hardware. So using this
-> > abstraction with the EBC would require blending pixels and doing
-> > waveform lookups in software.
-> 
-> Not really? You'd have a single plane available, with only one waveform
-> pick for that plane?
-> 
-> > Blitting/Blending in Software
-> > =============================
-> > There are multiple layers to this topic (pun slightly intended):
-> >  1) Today's userspace does not expect a grayscale framebuffer.
-> >     Currently, the driver advertises XRGB8888 and converts to Y4
-> >     in software. This seems to match other drivers (e.g. repaper).
-> >
-> >  2) Ignoring what userspace "wants", the closest existing format is
-> >     DRM_FORMAT_R8. Geert sent a series[4] adding DRM_FORMAT_R1 through
-> >     DRM_FORMAT_R4 (patch 9), which I believe are the "correct" formats
-> >     to use.
-> > 
-> >  3) The RK356x SoCs have an "RGA" hardware block that can do the
-> >     RGB-to-grayscale conversion, and also RGB-to-dithered-monochrome
-> >     which is needed for animation/video. Currently this is exposed with
-> >     a V4L2 platform driver. Can this be inserted into the pipeline in a
-> >     way that is transparent to userspace? Or must some userspace library
-> >     be responsible for setting up the RGA => EBC pipeline?
-> 
-> I'm very interested in this answer as well :)
-> 
-> I think the current consensus is that it's up to userspace to set this
-> up though.
-
-Yeah I think v4l mem2mem device is the answer for these, and then
-userspace gets to set it all up.
-
-> >  4) Supporting multiple planes (for multiple concurrent waveforms)
-> >     implies blending in software. Is that acceptable?
-> > 
-> >  5) Thoughts on SIMD-optimized blitting and waveform lookup functions?
-> > 
-> >  5) Currently the driver uses kmalloc() and dma_sync_single_for_device()
-> >     for its buffers, because it needs both fast reads and fast writes to
-> >     several of them. Maybe cma_alloc() or dma_alloc_from_contiguous()
-> >     would be more appropriate, but I don't see any drivers using those
-> >     directly.
-> 
-> cma_alloc isn't meant to be used directly by drivers anyway, one of the
-> main reason being that CMA might not be available (or desirable) in the
-> first place on the platform the code will run.
-> 
-> The most common option would be dma_alloc_coherent. It often means that
-> the buffer will be mapped non-cacheable, so it kills the access
-> performances. So it completely depends on your access patterns whether
-> it makes sense in your driver or not. kmalloc + dma_sync_single or
-> dma_map_single is also a valid option.
-> 
-> > EPDs connected to "dumb" LCD TCONs
-> > ==================================
-> > This topic is mostly related to my first patch. Some boards exist that
-> > hook up an EPD to a normal LCD TCON, not a dedicated EPD controller. For
-> > example, there's the reMarkable 2[5] and some PocketBook models[6][7].
-> > 
-> > I have some concerns about this:
-> >  1) If we put EPD panel timings in panel drivers (e.g. panel-simple),
-> >     can the same timings work with LCD TCONs and EPD controllers?
-> 
-> I'll think we'll need a separate panel driver for this anyway
-> 
-> >     For example: one cycle of the 16-bit data bus is "one pixel" to an
-> >     LCD controller, but is "8 pixels" to an EPD controller. So there is
-> >     a factor-of-8 difference in horizontal resolution depending on your
-> >     perspective. Should we have the "number of pixel clock cycles" or
-> >     "number of pixels" in .hdisplay/.htotal in the panel timings?
-> > 
-> >     Patch 14 adds a panel with "number of pixels" horizontal resolution,
-> >     so the correct resolution is reported to userspace, but the existing
-> >     eink_vb3300_kca_timing in panel-simple.c appears to use "number of
-> >     pixel clocks" for its horizontal resolution. This makes the panel
-> >     timing definitions incompatible across controllers.
-
-Yeah that sounds bad. And I guess this really should be "number of pixels"
-and the drivers need to be adjusted/fixed to be consistent.
-
-> > 
-> >  2) Using fbdev/fbcon with an EPD hooked up to an LCD TCON will have
-> >     unintended consequences, and possibly damage the panel. Currently,
-> >     there is no way to mark the framebuffer as expecting "source driver
-> >     polarity waveforms" and not pixel data. Is there a specific
-> >     DRM_FORMAT_* we should use for these cases to prevent accidental use
-> >     by userspace?
-> > 
-> >     Or should we disallow this entirely, and have some wrapper layer to
-> >     do the waveform lookups in kernelspace?
-> > 
-> >     I like the wrapper layer idea because it allows normal userspace and
-> >     fbcon to work. It would not be much new code, especially since this
-> >     driver already supports doing the whole pipeline in software. So
-> >     that's why I wrote a separate helper library; I hope this code can
-> >     be reused.
-> 
-> If exposing the panel as a KMS connector can damage the display, I don't
-> think we should expose it at all. Even a property or something won't
-> work, because older applications won't know about that property and will
-> try to use it anyway.
-> 
-> So whatever the solution is, it can't be "you have to know that this
-> device is special, or else...". The default, trivial, case where an
-> application just comes up and tries to display something should somewhat
-> work (even if it might be a bit absurd, like ignoring non_desktop)
-
-Yeah I think if you can wreak the panel that's no good, and should be
-hidden I guess. So I guess for these the kernel gets to apply the waveform
-stuff internally, which I really don't like but oh well. We have plenty of
-cpu slicing and dicing in other spi/i2c/usb drivers too.
--Daniel
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
