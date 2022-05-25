@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EA6533DE1
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 15:28:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 337D5533DF8
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 15:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BBF10EA00;
-	Wed, 25 May 2022 13:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34CF410F660;
+	Wed, 25 May 2022 13:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org
- [IPv6:2001:67c:2050:0:465::102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9CE610EA00
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 13:28:48 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4L7X2j0JCbz9ssr;
- Wed, 25 May 2022 15:28:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1653485325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aRQWRPkRkCsk8MA5HurITXUbflKlQ4WCJAgVg/vNYHk=;
- b=HO/tvAbhDOGVkDR3da/Ya/vEZi1mu2iAdJcq08PmEAlrtSsP9U/m4LQVZM+fk5M3j4n7TO
- QghFjVElgpTLVRc6mgQt9M3Jos4R4Z+CSDyz1MP25QCyGHcxjYZrmXUiqNxwgmGIleGeif
- JdbZd8vDyLntbeceJYQ+NuCdI7cIV61d5aiMbrcEixkOkN42TMNHepRybX/JbYBZxPQNGU
- sIGhpuHPPidUcXvJBh0HOYnyozabG2S70Vh6dqTWnNvOW7opWVUlMNohy1fxFfz9sq6F4G
- qzbkYfq7JRk1iIgSSCzHWWc9wmpHfAqCdZn0Bcmy24nDwKKeIOkzWK3A79KiGw==
-Message-ID: <19808e9e-a5a6-c878-a2f7-5b33444f547d@mailbox.org>
-Date: Wed, 25 May 2022 15:28:41 +0200
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3BC10F660
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 13:36:40 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id v11so17322395qkf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 06:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Grl0Ici88Sz79dptO2NKdwHQ/Da4OTXc3PiSI2iuCc0=;
+ b=a5EvdQu8GXKYLoSSQf4xu1FRP1hgPhOmTbu2FDWWbmOzV5Ntklf9Nlrv3nV6lJ7ekU
+ C4qhdh1Gkmjti9yRGXzDw8ElJUJZ/SJum4YR5Uo3NqUZDhLtHJPHWqASQV7ExreaTWtV
+ yJ7M/ZQarL7+2mOdB991AzntXNdtU+2AKk4hvgCgTgLjyF2OW6nfuGxaObE4LN+ruKRR
+ a5FZ1ibYTUlzCTHLNd9xaqM7mIfxv4HFsfhZZbz0bk+5bC4qqVXMvkZQLnORCqz0iauu
+ /sC+d/9sXN8rqezTGUE1TW/9imq5iX6i4ppYBnBPgmaf9Exgw5UfiIoor/0L0eG+L9vd
+ cpMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Grl0Ici88Sz79dptO2NKdwHQ/Da4OTXc3PiSI2iuCc0=;
+ b=1pz0qF//BXXdSEGBVt04vqJuktyyy11ZR485qXFAXcIpxD8FM/1MTkpubrXy+FNoRm
+ C/UCMWsTZpYeK5HcBylJDI6THygJZ9atSmefyJGOU2zKzQV9KUEmPseRkVj2EQeCJrit
+ mpdXBP66bsYU+H3a176BsPzvLPNXLQtpKw9GsQFsfStiO3Nj5WNdG7JujmSuEd/gAi1m
+ pUuAskIt//2WhiOr/iz7RtWPN4DdaeJK+YPe4HSy1V2No13tzBHfef4D7+ZC+0lZWhVT
+ jPXDtXNW3C3GAT7iaAuoymuxfJ7HH7WEAyh5aoNnXkdtG2s4Y1hSt7rk9SiUU+D8S7W5
+ usQA==
+X-Gm-Message-State: AOAM532UVg67dog94ZND6BkeLLJCFE6FJMsqmoVdg2QtNb76q3d0bUnp
+ Ha+4b9M80loOAoB4bEGlr0FQy/ZxW3XPF4XUZAXxPg==
+X-Google-Smtp-Source: ABdhPJw57giukrH8SEV/1DnIMT1VYzjINsEONrnCwIvtLMWg5+DgDLaOww+wXaHsR9IN4sMCXzPgBW5H8FKR1oaCfoQ=
+X-Received: by 2002:a05:620a:414e:b0:6a5:8dec:57bb with SMTP id
+ k14-20020a05620a414e00b006a58dec57bbmr2717852qko.30.1653485799502; Wed, 25
+ May 2022 06:36:39 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: Tackling the indefinite/user DMA fence problem
-Content-Language: en-CA
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220502163722.3957-1-christian.koenig@amd.com>
- <YnJQs1iusrBvpuMs@phenom.ffwll.local>
- <a01c7703-f7f7-f8ce-f80e-632a6fdcbbbe@gmail.com>
- <Ynkg81p6ADyZBa/L@phenom.ffwll.local>
- <a249c0c4-ee6c-bfb0-737b-eb6afae29602@amd.com>
- <Yo4pin1Js4KXs2HL@phenom.ffwll.local>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <Yo4pin1Js4KXs2HL@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 8fobohk8h85i8nfr1u7m7beikuii4hc6
-X-MBO-RS-ID: acba8404cc4e0ad8a77
+References: <20220506123246.21788-1-yuehaibing@huawei.com>
+ <CACRpkdZUwfVNZyS6RgcupJ+TRUZVM+1_3ABj_-f_3+v+wNE6mg@mail.gmail.com>
+ <CACRpkdaKrk+cj9Yvpe3kmR1iJFczi-yckHiKeLGu9F=hRFiU9w@mail.gmail.com>
+In-Reply-To: <CACRpkdaKrk+cj9Yvpe3kmR1iJFczi-yckHiKeLGu9F=hRFiU9w@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 25 May 2022 16:36:28 +0300
+Message-ID: <CAA8EJpq7_V7mZbN+G5fZdK0a4kTcxROAd_bGJtQ5mhzdYr6pNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 -next] drm/display: Fix build error without CONFIG_OF
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +66,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, sergemetral@google.com, gustavo@padovan.org,
- Felix.Kuehling@amd.com, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, maad.aldabagh@amd.com, tzimmermann@suse.de,
- alexander.deucher@amd.com, daniels@collabora.com, skhawaja@google.com,
- sumit.semwal@linaro.org, jason@jlekstrand.net, linux-media@vger.kernel.org
+Cc: airlied@linux.ie, YueHaibing <yuehaibing@huawei.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-05-25 15:05, Daniel Vetter wrote:
-> On Tue, May 17, 2022 at 12:28:17PM +0200, Christian König wrote:
->> Am 09.05.22 um 16:10 schrieb Daniel Vetter:
->>> On Mon, May 09, 2022 at 08:56:41AM +0200, Christian König wrote:
->>>> Am 04.05.22 um 12:08 schrieb Daniel Vetter:
->>>>>
->>>>> If the goal is specifically atomic kms, then there's an entire can of
->>>>> worms there that I really don't want to think about, but it exists: We
->>>>> have dma_fence as out-fences from atomic commit, and that's already
->>>>> massively broken since most drivers allocate some memory or at least take
->>>>> locks which can allocate memory in their commit path. Like i2c. Putting a
->>>>> userspace memory fence as in-fence in there makes that problem
->>>>> substantially worse, since at least in theory you're just not allowed to
->>>>> might_faul in atomic_commit_tail.
->>>> Yes, that's unfortunately one of the goals as well and yes I completely
->>>> agree on the can of worms. But I think I've solved that.
->>>>
->>>> What I do in the patch set is to enforce that the out fence is an user fence
->>>> when the driver supports user in fences as well.
->>>>
->>>> Since user fences doesn't have the memory management dependency drivers can
->>>> actually allocate memory or call I2C functions which takes locks which have
->>>> memory allocation dependencies.
->>>>
->>>> Or do I miss some other reason why you can't fault or allocate memory in
->>>> atomic_commit_tail? At least lockdep seems to be happy about that now.
->>> The problem is a bit that this breaks the uapi already. At least if the
->>> goal is to have this all be perfectly transparent for userspace - as you
->>> as you have multi-gpu setups going on at least.
->>
->> Question here is why do you think there is an UAPI break? We currently wait
->> in a work item already, so where exactly is the problem?
-> 
-> It's a bit washy, but dma_fence and hence implicit sync is supposed to
-> finish in finite time. umf just doesn't.
-> 
-> Ofc in reality you can still flood your compositor and they're not very
-> robust, but with umf it's trivial to just hang your compositor forever and
-> nothing happens.
+On Mon, 23 May 2022 at 15:55, Linus Walleij <linus.walleij@linaro.org> wrot=
+e:
+>
+> On Mon, May 23, 2022 at 2:46 PM Linus Walleij <linus.walleij@linaro.org> =
+wrote:
+> > On Fri, May 6, 2022 at 2:33 PM YueHaibing <yuehaibing@huawei.com> wrote=
+:
+> >
+> > > While CONFIG_OF is n but COMPILE_TEST is y, we got this:
+> > >
+> > > WARNING: unmet direct dependencies detected for DRM_DP_AUX_BUS
+> > >   Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && OF [=3Dn]
+> > >   Selected by [y]:
+> > >   - DRM_MSM [=3Dy] && HAS_IOMEM [=3Dy] && DRM [=3Dy] && (ARCH_QCOM ||=
+ SOC_IMX5 || COMPILE_TEST [=3Dy]) && COMMON_CLK [=3Dy] && IOMMU_SUPPORT [=
+=3Dy] && (QCOM_OCMEM [=3Dn] || QCOM_OCMEM [=3Dn]=3Dn) && (QCOM_LLCC [=3Dy] =
+|| QCOM_LLCC [=3Dy]=3Dn) && (QCOM_COMMAND_DB [=3Dn] || QCOM_COMMAND_DB [=3D=
+n]=3Dn)
+> > >
+> > > Make DRM_DP_AUX_BUS depends on OF || COMPILE_TEST to fix this warning=
+.
+> > >
+> > > Fixes: f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus =
+support")
+> > > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> >
+> > Patch applied to the DRM tree.
+>
+> Nope, failed:
+>
+> $ dim push-branch drm-misc-next
+> dim: ac890b9eeb9b ("drm/display: Fix build error without CONFIG_OF"):
+> Fixes: SHA1 in not pointing at an ancestor:
+> dim:     f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus su=
+pport")
+> dim: ERROR: issues in commits detected, aborting
+>
+> I don't know what to do with this, sorry. The other committers are maybe =
+better
+> with this kind of situations. I think it is designed to stop me from
+> shooting myself
+> in the foot.
 
-You can add that to the list of reasons why compositors need to stop using buffers with unsignaled fences. There's plenty of other reasons there already (the big one being that otherwise slow clients can slow down the compositor, even if the compositor uses a high priority context and the HW supports preemption).
+Linus, can we get an ack from you (or anybody else from DRM core) to
+merge it through drm/msm tree?
 
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+--=20
+With best wishes
+Dmitry
