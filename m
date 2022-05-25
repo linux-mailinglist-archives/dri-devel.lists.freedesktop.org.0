@@ -2,50 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DC85345D3
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 23:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451E75345E1
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 23:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3968710E3F2;
-	Wed, 25 May 2022 21:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 271C210E034;
+	Wed, 25 May 2022 21:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8370910E3B2;
- Wed, 25 May 2022 21:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653514582; x=1685050582;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=p2xIr7qIJQysFb3ESgxRnboAHXPwDgkY8y4Y8EPMgTo=;
- b=YWMEkIiezc9wDJOgqhfXOfpVtl2cW0JmK2qo/CFCxn4XsKFAw8LMBjwk
- lhn+v5zG9dJw/EardVSKSaEXwz2zgbbvO9u2V7Cs4aVDUCyyapHCFutaO
- 8HFZoWAJ6R9foK26W6UCA1lDyFPx0R3EsXmnEhdo5J356+I7ddi9fQBNN
- AFnHCPhFSZUaxpc46n1obc5p5F2rEQb6wAJvuDVFBcfqpn1LYRi2zn534
- THo53DEZV1bHo10kobv7NLrzxMPPSsJ5zjNqkKB85HPGJFd/LhoGcsHch
- 5WDgfAGg60O7FtvKom9o/RQkFW+WOInB2tbeSAk6eVZ8NBEomRhdIcRMK Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="254439436"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="254439436"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2022 14:36:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="717928351"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 25 May 2022 14:36:17 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1ntyfw-0003KS-WB;
- Wed, 25 May 2022 21:36:17 +0000
-Date: Thu, 26 May 2022 05:35:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 8cb8311e95e3bb58bd84d6350365f14a718faa6d
-Message-ID: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A774810E034
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 21:39:45 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id er5so28577254edb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 14:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YkKRJ1yUuH42jH2+egPvmJc2QWPvILlcWZlWZWTzpDk=;
+ b=q60MGtxeHRheg6iknuJY3qS0l27CyN0DuaX3wtTehHVlNTbiMft9I9zR2e2vAvrOl9
+ z+2Z93ol7OJ9i5PoauV6NSy2c1D60fkHajAD/RB4QXX96Mydyibnsj/Wk/vecX8Ep+fF
+ hhaIOKTCMRSJiVOpIY2LwpjrhClakTh8k2emKV0Y6Uw46GW6K2BirOeemrAbxlkFXPVo
+ K8D4gcpwecTxV/gckYGN4phWydDlzvoB2g+VDwsALMvVpE5AK3uflfq/2Wd69DLxBf3r
+ +WZ/86EAAJmu98KdRsJvKeZZ/dbx3O262MY1Z98hCQ26U/wmX1hf5dt0zqvybuNNR1qA
+ tfvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YkKRJ1yUuH42jH2+egPvmJc2QWPvILlcWZlWZWTzpDk=;
+ b=B9UvAeWUPrIbWX0c3e7sCmI5DnLl3UI/L7HaLdcQQlQFFWUACrUkvamfQFcdjxSGV1
+ 81zBPudOJ9Spk2mvbaW4rg23mon+iWQ9N6mdVDNayYaY98GlDrhfGT8MswWHISDvTtKu
+ hemAZtolT2JVCw3/8uwfYBDnia8lIntjoXwal9eD7fW63gLKKyvB1S3j2lR5y44a1Ql4
+ /f1Ot7eb1LlwiwYr2ILRq88fPSzVcKtud076t9PKP9rx3GHmtilhoUK339++YXHxwaWh
+ w1etH8jM62rRy9U+1mS7L2x9+RgXLMPfnJ5dzuAOz4QotRFOW5R3ARP6xD5uwpOJk9kn
+ uhgQ==
+X-Gm-Message-State: AOAM531tIXCckFk0+IwSmYP9CS+HWYWGMi/4+9QeRf36Nv6GQqzJNc3K
+ mZAv1LOUnmJym+FwJa20O4sEsZ4DdcOzuQiRTqooLg==
+X-Google-Smtp-Source: ABdhPJz06OtV9t6/CMKQQ4DixHbF8wC6aLzsK8RljcfFkSHfazdAJXxJul4fBqp2cA1GKzwjsvmZSjZ+kQD/lM1L+D4=
+X-Received: by 2002:a05:6402:1f03:b0:42b:38ed:a9ff with SMTP id
+ b3-20020a0564021f0300b0042b38eda9ffmr14557441edb.218.1653514783855; Wed, 25
+ May 2022 14:39:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20220516171315.2400578-1-tjmercier@google.com>
+ <175c5af3-9224-9c8e-0784-349dad9a2954@amd.com>
+ <CABdmKX2GcgCs1xANYPBp8OEtk9qqH7AvCzpdppj9rHXvMqWSAw@mail.gmail.com>
+ <0875fa95-3a25-a354-1433-201fca81ed3e@amd.com>
+ <CABdmKX1+VYfdzyVYOS5MCsr4ptGTygmuUP9ikyh-vW6DgKk2kg@mail.gmail.com>
+ <YoM9BAwybcjG7K/H@kroah.com> <Yo4/XhWQkACWaPIh@phenom.ffwll.local>
+ <CABdmKX2dC0fkFrCedjhzmheYiDVP4PnKBMeGkX3_bgrLjOiYOg@mail.gmail.com>
+In-Reply-To: <CABdmKX2dC0fkFrCedjhzmheYiDVP4PnKBMeGkX3_bgrLjOiYOg@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 25 May 2022 14:39:32 -0700
+Message-ID: <CABdmKX0-8s9XZDo9o9R3j-fkQzAhLB72+ng9Q087thdBbsiT2g@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Move sysfs work out of DMA-BUF export path
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Suren Baghdasaryan <surenb@google.com>, Kalesh Singh <kaleshsingh@google.com>, 
+ Minchan Kim <minchan@google.com>, Greg Kroah-Hartman <gregkh@google.com>,
+ John Stultz <jstultz@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Hridya Valsaraju <hridya@google.com>,
+ kernel-team@android.com, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,384 +79,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parport@lists.infradead.org,
- kvm@vger.kernel.org, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-staging@lists.linux.dev, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
- bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 8cb8311e95e3bb58bd84d6350365f14a718faa6d  Add linux-next specific files for 20220525
+On Wed, May 25, 2022 at 2:05 PM T.J. Mercier <tjmercier@google.com> wrote:
+>
+> On Wed, May 25, 2022 at 7:38 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Tue, May 17, 2022 at 08:13:24AM +0200, Greg Kroah-Hartman wrote:
+> > > On Mon, May 16, 2022 at 05:08:05PM -0700, T.J. Mercier wrote:
+> > > > On Mon, May 16, 2022 at 12:21 PM Christian K=C3=B6nig
+> > > > <christian.koenig@amd.com> wrote:
+> > > > >
+> > > > > Am 16.05.22 um 20:08 schrieb T.J. Mercier:
+> > > > > > On Mon, May 16, 2022 at 10:20 AM Christian K=C3=B6nig
+> > > > > > <christian.koenig@amd.com> wrote:
+> > > > > >> Am 16.05.22 um 19:13 schrieb T.J. Mercier:
+> > > > > >>> Recently, we noticed an issue where a process went into direc=
+t reclaim
+> > > > > >>> while holding the kernfs rw semaphore for sysfs in write (exc=
+lusive)
+> > > > > >>> mode. This caused processes who were doing DMA-BUF exports an=
+d releases
+> > > > > >>> to go into uninterruptible sleep since they needed to acquire=
+ the same
+> > > > > >>> semaphore for the DMA-BUF sysfs entry creation/deletion. In o=
+rder to avoid
+> > > > > >>> blocking DMA-BUF export for an indeterminate amount of time w=
+hile
+> > > > > >>> another process is holding the sysfs rw semaphore in exclusiv=
+e mode,
+> > > > > >>> this patch moves the per-buffer sysfs file creation to the de=
+fault work
+> > > > > >>> queue. Note that this can lead to a short-term inaccuracy in =
+the dmabuf
+> > > > > >>> sysfs statistics, but this is a tradeoff to prevent the hot p=
+ath from
+> > > > > >>> being blocked. A work_struct is added to dma_buf to achieve t=
+his, but as
+> > > > > >>> it is unioned with the kobject in the sysfs_entry, dma_buf do=
+es not
+> > > > > >>> increase in size.
+> > > > > >> I'm still not very keen of this approach as it strongly feels =
+like we
+> > > > > >> are working around shortcoming somewhere else.
+> > > > > >>
+> > > > > > My read of the thread for the last version is that we're runnin=
+g into
+> > > > > > a situation where sysfs is getting used for something it wasn't
+> > > > > > originally intended for, but we're also stuck with this sysfs
+> > > > > > functionality for dmabufs.
+> > > > > >
+> > > > > >>> Fixes: bdb8d06dfefd ("dmabuf: Add the capability to expose DM=
+A-BUF stats in sysfs")
+> > > > > >>> Originally-by: Hridya Valsaraju <hridya@google.com>
+> > > > > >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > > > > >>>
+> > > > > >>> ---
+> > > > > >>> See the originally submitted patch by Hridya Valsaraju here:
+> > > > > >>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3=
+A%2F%2Flkml.org%2Flkml%2F2022%2F1%2F4%2F1066&amp;data=3D05%7C01%7Cchristian=
+.koenig%40amd.com%7C794614324d114880a25508da37672e4b%7C3dd8961fe4884e608e11=
+a82d994e183d%7C0%7C0%7C637883213566903705%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiM=
+C4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&a=
+mp;sdata=3DbGlA2FeubfSeL5XDHYyWMZqUXfScoCphZjjK4jrqQJs%3D&amp;reserved=3D0
+> > > > > >>>
+> > > > > >>> v2 changes:
+> > > > > >>> - Defer only sysfs creation instead of creation and teardown =
+per
+> > > > > >>> Christian K=C3=B6nig
+> > > > > >>>
+> > > > > >>> - Use a work queue instead of a kthread for deferred work per
+> > > > > >>> Christian K=C3=B6nig
+> > > > > >>> ---
+> > > > > >>>    drivers/dma-buf/dma-buf-sysfs-stats.c | 56 +++++++++++++++=
++++++-------
+> > > > > >>>    include/linux/dma-buf.h               | 14 ++++++-
+> > > > > >>>    2 files changed, 54 insertions(+), 16 deletions(-)
+> > > > > >>>
+> > > > > >>> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/=
+dma-buf/dma-buf-sysfs-stats.c
+> > > > > >>> index 2bba0babcb62..67b0a298291c 100644
+> > > > > >>> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > > > >>> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > > > > >>> @@ -11,6 +11,7 @@
+> > > > > >>>    #include <linux/printk.h>
+> > > > > >>>    #include <linux/slab.h>
+> > > > > >>>    #include <linux/sysfs.h>
+> > > > > >>> +#include <linux/workqueue.h>
+> > > > > >>>
+> > > > > >>>    #include "dma-buf-sysfs-stats.h"
+> > > > > >>>
+> > > > > >>> @@ -168,10 +169,46 @@ void dma_buf_uninit_sysfs_statistics(vo=
+id)
+> > > > > >>>        kset_unregister(dma_buf_stats_kset);
+> > > > > >>>    }
+> > > > > >>>
+> > > > > >>> +static void sysfs_add_workfn(struct work_struct *work)
+> > > > > >>> +{
+> > > > > >>> +     struct dma_buf_sysfs_entry *sysfs_entry =3D
+> > > > > >>> +             container_of(work, struct dma_buf_sysfs_entry, =
+sysfs_add_work);
+> > > > > >>> +     struct dma_buf *dmabuf =3D sysfs_entry->dmabuf;
+> > > > > >>> +
+> > > > > >>> +     /*
+> > > > > >>> +      * A dmabuf is ref-counted via its file member. If this=
+ handler holds the only
+> > > > > >>> +      * reference to the dmabuf, there is no need for sysfs =
+kobject creation. This is an
+> > > > > >>> +      * optimization and a race; when the reference count dr=
+ops to 1 immediately after
+> > > > > >>> +      * this check it is not harmful as the sysfs entry will=
+ still get cleaned up in
+> > > > > >>> +      * dma_buf_stats_teardown, which won't get called until=
+ the final dmabuf reference
+> > > > > >>> +      * is released, and that can't happen until the end of =
+this function.
+> > > > > >>> +      */
+> > > > > >>> +     if (file_count(dmabuf->file) > 1) {
+> > > > > >> Please completely drop that. I see absolutely no justification=
+ for this
+> > > > > >> additional complexity.
+> > > > > >>
+> > > > > > This case gets hit around 5% of the time in my testing so the e=
+lse is
+> > > > > > not a completely unused branch.
+> > > > >
+> > > > > Well I can only repeat myself: This means that your userspace is
+> > > > > severely broken!
+> > > > >
+> > > > > DMA-buf are meant to be long living objects
+> > > > This patch addresses export *latency* regardless of how long-lived =
+the
+> > > > object is. Even a single, long-lived export will benefit from this
+> > > > change if it would otherwise be blocked on adding an object to sysf=
+s.
+> > > > I think attempting to improve this latency still has merit.
+> > >
+> > > Fixing the latency is nice, but as it's just pushing the needed work =
+off
+> > > to another code path, it will take longer overall for the sysfs stuff=
+ to
+> > > be ready for userspace to see.
+> > >
+> > > Perhaps we need to step back and understand what this code is suppose=
+d
+> > > to be doing.  As I recall, it was created because some systems do not
+> > > allow debugfs anymore, and they wanted the debugging information that
+> > > the dmabuf code was exposing to debugfs on a "normal" system.  Moving
+> > > that logic to sysfs made sense, but now I am wondering why we didn't =
+see
+> > > these issues in the debugfs code previously?
+> > >
+> > > Perhaps we should go just one step further and make a misc device nod=
+e
+> > > for dmabug debugging information to be in and just have userspace
+> > > poll/read on the device node and we spit the info that used to be in
+> > > debugfs out through that?  That way this only affects systems when th=
+ey
+> > > want to read the information and not normal code paths?  Yeah that's =
+a
+> > > hack, but this whole thing feels overly complex now.
+> >
+> > A bit late on this discussion, but just wanted to add my +1 that we sho=
+uld
+> > either redesign the uapi, or fix the underlying latency issue in sysfs,=
+ or
+> > whatever else is deemed the proper fix.
+> >
+> > Making uapi interfaces async in ways that userspace can't discover is a
+> > hack that we really shouldn't consider, at least for upstream. All kind=
+s
+> > of hilarious things might start to happen when an object exists, but no=
+t
+> > consistently in all the places where it should be visible. There's a
+> > reason sysfs has all these neat property groups so that absolutely
+> > everything is added atomically. Doing stuff later on just because usual=
+ly
+> > no one notices that the illusion falls apart isn't great.
+> >
+> > Unfortunately I don't have a clear idea here what would be the right
+> > solution :-/ One idea perhaps: Should we dynamically enumerate the obje=
+cts
+> > when userspace does a readdir()? That's absolutely not how sysfs works,
+> > but procfs works like that and there's discussions going around about
+> > moving these optimizations to other kernfs implementations. At least th=
+ere
+> > was a recent lwn article on this:
+> >
+> > https://lwn.net/Articles/895111/
+> >
+> > But that would be serious amounts of work I guess.
+> > -Daniel
+> > --
+> > Daniel Vetter"
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+>
+> Hi Daniel,
+>
+> My team has been discussing this, and I think we're approaching a
+> consensus on a way forward that involves deprecating the existing
+> uapi.
+>
+> I actually proposed a similar (but less elegant) idea to the readdir()
+> one. A new "dump_dmabuf_data" sysfs file that a user would write to,
+> which would cause a one-time creation of the per-buffer files. These
+> could be left around to become stale, or get cleaned up after first
+> read. However to me it seems impossible to correctly deal with
+> multiple simultaneous users with this technique. We're not currently
+> planning to pursue this.
+>
+> Thanks for the link to the article. That on-demand creation sounds
+> like it would allow us to keep the existing structure and files for
+> DMA-buf, assuming there is not a similar lock contention issue when
+> adding a new node to the virtual tree. :)
 
-Error/Warning reports:
-
-https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205031017.4TwMan3l-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205150051.3RzuooAG-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205150117.sd6HzBVm-lkp@intel.com
-https://lore.kernel.org/lkml/202205100617.5UUm3Uet-lkp@intel.com
-https://lore.kernel.org/llvm/202205251645.gusu3spL-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1364:5: warning: no previous prototype for 'amdgpu_discovery_get_mall_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/soc21.c:171:6: warning: no previous prototype for 'soc21_grbm_select' [-Wmissing-prototypes]
-drivers/gpu/drm/solomon/ssd130x-spi.c:154:35: warning: 'ssd130x_spi_table' defined but not used [-Wunused-const-variable=]
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1093:9: warning: 'CAUSE' macro redefined [-Wmacro-redefined]
-drivers/video/fbdev/omap/hwa742.c:492:5: warning: no previous prototype for 'hwa742_update_window_async' [-Wmissing-prototypes]
-fs/buffer.c:2254:5: warning: stack frame size (2144) exceeds limit (1024) in 'block_read_full_folio' [-Wframe-larger-than]
-fs/ntfs/aops.c:378:12: warning: stack frame size (2216) exceeds limit (1024) in 'ntfs_read_folio' [-Wframe-larger-than]
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-.__mulsi3.o.cmd: No such file or directory
-Makefile:686: arch/h8300/Makefile: No such file or directory
-Makefile:765: arch/h8300/Makefile: No such file or directory
-arch/Kconfig:10: can't open file "arch/h8300/Kconfig"
-arch/riscv/purgatory/kexec-purgatory.c:1860:9: sparse: sparse: trying to concatenate 29720-character string (8191 bytes max)
-drivers/gpu/drm/bridge/adv7511/adv7511.h:229:17: warning: 'ADV7511_REG_CEC_RX_FRAME_HDR' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/bridge/adv7511/adv7511.h:235:17: warning: 'ADV7511_REG_CEC_RX_FRAME_LEN' defined but not used [-Wunused-const-variable=]
-drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubious: x & !y
-drivers/pinctrl/meson/pinctrl-meson8-pmx.c:60:25: warning: Value stored to 'func' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-drivers/staging/vt6655/card.c:758:16: sparse: sparse: cast to restricted __le64
-drivers/vhost/vdpa.c:595 vhost_vdpa_unlocked_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
-kernel/bpf/helpers.c:1468:29: sparse: sparse: symbol 'bpf_dynptr_from_mem_proto' was not declared. Should it be static?
-kernel/bpf/helpers.c:1490:29: sparse: sparse: symbol 'bpf_dynptr_from_mem_proto' was not declared. Should it be static?
-kernel/bpf/helpers.c:1516:29: sparse: sparse: symbol 'bpf_dynptr_read_proto' was not declared. Should it be static?
-kernel/bpf/helpers.c:1542:29: sparse: sparse: symbol 'bpf_dynptr_write_proto' was not declared. Should it be static?
-kernel/bpf/helpers.c:1569:29: sparse: sparse: symbol 'bpf_dynptr_data_proto' was not declared. Should it be static?
-make[1]: *** No rule to make target 'arch/h8300/Makefile'.
-mm/shmem.c:1948 shmem_getpage_gfp() warn: should '(((1) << 12) / 512) << folio_order(folio)' be a 64 bit type?
-sound/soc/intel/avs/ipc.c:87:5-24: atomic_dec_and_test variation before object free at line 88.
-{standard input}:3488: Error: unknown pseudo-op: `.l28'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- arm-allmodconfig
-|   |-- arch-arm-mach-omap2-dma.c:Unneeded-variable:errata-Return-on-line
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|-- arm-allyesconfig
-|   |-- arch-arm-mach-omap2-dma.c:Unneeded-variable:errata-Return-on-line
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|-- arm64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-signal.c:sparse:sparse:dereference-of-noderef-expression
-|   |-- arch-arm64-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-user_ctxs-noderef-__user-user-got-struct-user_ctxs
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-stackleak.c:sparse:sparse:symbol-stackleak_erase_off_task_stack-was-not-declared.-Should-it-be-static
-|-- csky-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- csky-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- csky-randconfig-s032-20220524
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- h8300-allmodconfig
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-allyesconfig
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-buildonly-randconfig-r004-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r033-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|-- i386-randconfig-a012
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-a014
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-m021
-|   `-- mm-shmem.c-shmem_getpage_gfp()-warn:should-((()-)-)-folio_order(folio)-be-a-bit-type
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- ia64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- ia64-randconfig-r036-20220524
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- m68k-allyesconfig
-|   |-- drivers-block-paride-bpck.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-comm.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-dstr.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-epat.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-epia.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-friq.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-frpw.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-kbic.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-on26.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-ppc6lnx.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-aio_aio12_8.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-das16m1.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-ni_at_ao.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-ni_daq_700.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-net-ethernet-apne.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-net-ethernet-xircom-xirc2ps_cs.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-tty-ipwireless-hardware.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le16-usertype-raw_data-got-int
-|   `-- drivers-tty-ipwireless-hardware.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-unsigned-short-unused-usertype-__v-got-restricted-__le16-assigned-usertype-raw_data
-|-- microblaze-randconfig-m031-20220524
-|   `-- drivers-vhost-vdpa.c-vhost_vdpa_unlocked_ioctl()-warn:maybe-return-EFAULT-instead-of-the-bytes-remaining
-|-- mips-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   `-- sound-soc-intel-avs-ipc.c:atomic_dec_and_test-variation-before-object-free-at-line-.
-|-- openrisc-randconfig-s032-20220524
-|   `-- __mulsi3.o.cmd:No-such-file-or-directory
-|-- parisc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- parisc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- powerpc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- powerpc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|-- riscv-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- riscv-allyesconfig
-|   |-- arch-riscv-kernel-machine_kexec.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-got-void-noderef-__user-buf
-|   |-- arch-riscv-purgatory-kexec-purgatory.c:sparse:sparse:trying-to-concatenate-character-string-(-bytes-max)
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- kernel-fork.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-atomic_t-usertype-lock-got-struct-atomic_t-noderef-__rcu
-|   `-- kernel-seccomp.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-atomic_t-usertype-lock-got-struct-atomic_t-noderef-__rcu
-|-- riscv-randconfig-r042-20220524
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- s390-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   `-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|-- s390-randconfig-r014-20220524
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|-- sh-buildonly-randconfig-r003-20220524
-|   `-- standard-input:Error:unknown-pseudo-op:l28
-|-- sparc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- sparc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- x86_64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|-- x86_64-randconfig-a011
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- xtensa-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-`-- xtensa-allyesconfig
-    |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
-    `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
-
-clang_recent_errors
-|-- arm-randconfig-c002-20220524
-|   `-- drivers-pinctrl-meson-pinctrl-meson8-pmx.c:warning:Value-stored-to-func-during-its-initialization-is-never-read-clang-analyzer-deadcode.DeadStores
-|-- hexagon-randconfig-r011-20220524
-|   `-- fs-buffer.c:warning:stack-frame-size-()-exceeds-limit-()-in-block_read_full_folio
-|-- hexagon-randconfig-r035-20220524
-|   |-- fs-buffer.c:warning:stack-frame-size-()-exceeds-limit-()-in-block_read_full_folio
-|   `-- fs-ntfs-aops.c:warning:stack-frame-size-()-exceeds-limit-()-in-ntfs_read_folio
-`-- mips-randconfig-r022-20220524
-    `-- drivers-net-wireless-intel-iwlwifi-pcie-trans.c:warning:CAUSE-macro-redefined
-
-elapsed time: 858m
-
-configs tested: 94
-configs skipped: 3
-
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-mips                             allyesconfig
-riscv                            allyesconfig
-um                           x86_64_defconfig
-riscv                            allmodconfig
-um                             i386_defconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-s390                             allmodconfig
-m68k                             allmodconfig
-powerpc                          allyesconfig
-s390                             allyesconfig
-m68k                             allyesconfig
-sparc                            allyesconfig
-parisc                           allyesconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-m68k                            mac_defconfig
-arc                 nsimosci_hs_smp_defconfig
-sh                              ul2_defconfig
-mips                    maltaup_xpa_defconfig
-xtensa                          iss_defconfig
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                                defconfig
-nios2                               defconfig
-alpha                               defconfig
-csky                                defconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-parisc                              defconfig
-parisc64                            defconfig
-s390                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-powerpc                           allnoconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-riscv                randconfig-r042-20220524
-arc                  randconfig-r043-20220524
-s390                 randconfig-r044-20220524
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-riscv                             allnoconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-
-clang tested configs:
-mips                        bcm63xx_defconfig
-mips                       lemote2f_defconfig
-mips                         tb0287_defconfig
-arm                          ep93xx_defconfig
-arm                     am200epdkit_defconfig
-powerpc                     tqm5200_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220524
-hexagon              randconfig-r041-20220524
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+I'll follow up with Steven on this topic. Thanks again.
