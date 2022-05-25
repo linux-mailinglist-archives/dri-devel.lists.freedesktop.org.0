@@ -1,64 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CDA533E0F
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 15:41:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B39E2533E3E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 15:51:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE7010F549;
-	Wed, 25 May 2022 13:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E148710F6EA;
+	Wed, 25 May 2022 13:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB67910F549;
- Wed, 25 May 2022 13:41:17 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- r6-20020a1c2b06000000b00396fee5ebc9so3381917wmr.1; 
- Wed, 25 May 2022 06:41:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+Rn9yjKh215bpY7auwukJu0S8qK5W3YXbK+MSktpduU=;
- b=EOjPQPW0mcEnepIFbzBmobZ2A70gO1Sr44nK0FBTKb5DS8IJzLQ8cYWZX2XZ/Nynx/
- mQIpCeQm8ThG4yRlCuseiVNlPeRdNkEEAXVcbrKjGq8ao1Phzr8ZAEE/XnnjBL69f9P2
- YddhgIPz2YDikWKYJz54hKQNF90s86XkwO5PoBVkQT8yW2TCEYUxgHAYICFoWaQq0biY
- +9InBO3O4ZvPKXia/SxgEJ0wihVsAzg1tTgbbmBKbcAoHWuo/62F3TXVRaP0VgfMhye2
- 5KDM77UVpNki43MQX6s1XUMeXoK/Q4AvpPVq5vgRNtjECzVtUJXgH5NBBHI7y+PNG6yG
- UvbQ==
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91D1E10F6E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 13:51:31 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id f2so30272207wrc.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 06:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=sGIIQaffh8qdkdQN2TXQM0yr8CUtzn4ce76styDebts=;
+ b=kbY52ZA4DFb987YS0okGoh3t5eIgdmKEuolgdMxKh7Hkla0pfFOMjVrqzO1N4XkIeA
+ /GgnyDTr+mP93p+H3sGbXt9dqPxADYbI0ixUTIikdlnBDJOxTd8ZVmKSdtbpSOM4BBx2
+ gZuMHTab7nxWtS+2Rd9Y1FyeMf0lIY+hJas2o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+Rn9yjKh215bpY7auwukJu0S8qK5W3YXbK+MSktpduU=;
- b=faFtDS3aL8jENspryKnmNL4N5jcdoqCQUeJeFg73CExUVgL5FH7r5FgI88YFdWWL6p
- sTVYRi/RLtgN8K78pB8cDbI2eWcYB0uh7C8HvpbIDmSJTSOV+VMPH2ix3FCoBt5eH4ph
- lUr7fp1SH2CZJQ7+RSo/5fvwYUjqyaZvPiUhYmsjEM8ZevAsZu0eb0KCA/ShtqL5XX7i
- V0hSCSGwybE3jdvnGrhOkhMFtSJvCkYr8xkpcZTZxLzjESxhoNcqbQ5BsRsKZEGGo14H
- b3QU/T0Ak8GeQpr4c+in0y2KDEfQp3OOvYaVEweGhfewyX5sSq3VITeaEW49JH9gIzf0
- KFng==
-X-Gm-Message-State: AOAM531+mgZV0uJwIjF0Z+ajVD5XZK+Da7138rf7bmT2ystzWQSwhj+f
- 6NUczx75icLjw3LnF21MOSu1rIZrAxnqrEAmFv0FGrPh
-X-Google-Smtp-Source: ABdhPJzF87lAe8rfLoVNj8H1nmHxKAUsJmB0ezdqMtSTV4cj2PiMVVJufheJsxrWKfETg3BdugFWee/9MerkP/cJP/8=
-X-Received: by 2002:a05:600c:3d89:b0:397:104:b1c9 with SMTP id
- bi9-20020a05600c3d8900b003970104b1c9mr8481489wmb.84.1653486076174; Wed, 25
- May 2022 06:41:16 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=sGIIQaffh8qdkdQN2TXQM0yr8CUtzn4ce76styDebts=;
+ b=peNJYlZ4lJAcqSyCo3fqyn/DfcsM47NWhGgCa/Nmf7NXzBU/oM3Dd8Dt03iY68gvn2
+ DzhavUe+Sgsb9VicV8oFzjNGRgHh5eeNvN6uuB/0ZPCXK/WC1q3p2kN3EJ8VSQJ4Hwov
+ 6kQxm3hluKr4OZKGpLIXGLVWolRO51kz4YAhGDII44Gf97yVD1TCVSvWLU9Y6EidDdFX
+ QnMo3pCO3GApyBnPrLCZAyMxI3RKyxNSUaw0WdgxrujhmhCUELhIBPCZGSBKJwkFJF1w
+ diIB92QV75S2hBfqLIHUWNrnHxwDjQeON/mJ0YusPyvgx8ijY8jSpnNTNfXcnVEt+GCY
+ rvAw==
+X-Gm-Message-State: AOAM533gJGoG5Ablr1M1ySU4R4SxBCN6wwlEVj0bZONEATMz/MxBMw9+
+ G5v2HlLeyu6/LhjDZNg11V78nw==
+X-Google-Smtp-Source: ABdhPJyRr1tz+y8O4y7skfjqjEb9iHPo/NOjJwcynFRmI5qq8NQRQGpHAaROpLCZFV846v9TlslNUQ==
+X-Received: by 2002:a5d:560f:0:b0:20d:b24:dadb with SMTP id
+ l15-20020a5d560f000000b0020d0b24dadbmr26795298wrv.121.1653486690098; 
+ Wed, 25 May 2022 06:51:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ bi19-20020a05600c3d9300b003942a244f39sm2047172wmb.18.2022.05.25.06.51.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 May 2022 06:51:29 -0700 (PDT)
+Date: Wed, 25 May 2022 15:51:27 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: Tackling the indefinite/user DMA fence problem
+Message-ID: <Yo40X03axFXXN9/d@phenom.ffwll.local>
+References: <20220502163722.3957-1-christian.koenig@amd.com>
+ <YnJQs1iusrBvpuMs@phenom.ffwll.local>
+ <a01c7703-f7f7-f8ce-f80e-632a6fdcbbbe@gmail.com>
+ <Ynkg81p6ADyZBa/L@phenom.ffwll.local>
+ <a249c0c4-ee6c-bfb0-737b-eb6afae29602@amd.com>
+ <Yo4pin1Js4KXs2HL@phenom.ffwll.local>
+ <19808e9e-a5a6-c878-a2f7-5b33444f547d@mailbox.org>
 MIME-Version: 1.0
-References: <20210728010632.2633470-1-robdclark@gmail.com>
- <20210728010632.2633470-13-robdclark@gmail.com>
- <84e03c5f-a3af-6592-d19a-a2f5d20b92fb@linux.intel.com>
- <CAJs_Fx6Nc337LPNh=p2GT2d2yDTdLWH934o4Cof3urDGhUJB6A@mail.gmail.com>
- <904ae104-1c30-d130-129f-ccae381261d5@linux.intel.com>
- <CAF6AEGsH=K1Hut7QBmF1kX40xS+9px=BrtZecAXVQopNs67Feg@mail.gmail.com>
- <1cd913da-6e51-509c-a6e6-83bf79cae20b@linux.intel.com>
-In-Reply-To: <1cd913da-6e51-509c-a6e6-83bf79cae20b@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 25 May 2022 06:41:13 -0700
-Message-ID: <CAF6AEGs_+mhY9x1HG=jHmpwGU6jUS1G4mF6bJCd3yN0JRhocsQ@mail.gmail.com>
-Subject: Re: [PATCH v4 12/13] drm/msm: Utilize gpu scheduler priorities
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <19808e9e-a5a6-c878-a2f7-5b33444f547d@mailbox.org>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,246 +75,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- freedreno <freedreno@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- open list <linux-kernel@vger.kernel.org>
+Cc: tvrtko.ursulin@linux.intel.com, skhawaja@google.com, gustavo@padovan.org,
+ Felix.Kuehling@amd.com, dri-devel@lists.freedesktop.org,
+ sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org, maad.aldabagh@amd.com,
+ tzimmermann@suse.de, alexander.deucher@amd.com, daniels@collabora.com,
+ linux-media@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ jason@jlekstrand.net, sergemetral@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 25, 2022 at 2:46 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 24/05/2022 15:50, Rob Clark wrote:
-> > On Tue, May 24, 2022 at 6:45 AM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >>
-> >> On 23/05/2022 23:53, Rob Clark wrote:
-> >>> On Mon, May 23, 2022 at 7:45 AM Tvrtko Ursulin
-> >>> <tvrtko.ursulin@linux.intel.com> wrote:
+On Wed, May 25, 2022 at 03:28:41PM +0200, Michel Dänzer wrote:
+> On 2022-05-25 15:05, Daniel Vetter wrote:
+> > On Tue, May 17, 2022 at 12:28:17PM +0200, Christian König wrote:
+> >> Am 09.05.22 um 16:10 schrieb Daniel Vetter:
+> >>> On Mon, May 09, 2022 at 08:56:41AM +0200, Christian König wrote:
+> >>>> Am 04.05.22 um 12:08 schrieb Daniel Vetter:
+> >>>>>
+> >>>>> If the goal is specifically atomic kms, then there's an entire can of
+> >>>>> worms there that I really don't want to think about, but it exists: We
+> >>>>> have dma_fence as out-fences from atomic commit, and that's already
+> >>>>> massively broken since most drivers allocate some memory or at least take
+> >>>>> locks which can allocate memory in their commit path. Like i2c. Putting a
+> >>>>> userspace memory fence as in-fence in there makes that problem
+> >>>>> substantially worse, since at least in theory you're just not allowed to
+> >>>>> might_faul in atomic_commit_tail.
+> >>>> Yes, that's unfortunately one of the goals as well and yes I completely
+> >>>> agree on the can of worms. But I think I've solved that.
 > >>>>
+> >>>> What I do in the patch set is to enforce that the out fence is an user fence
+> >>>> when the driver supports user in fences as well.
 > >>>>
-> >>>> Hi Rob,
+> >>>> Since user fences doesn't have the memory management dependency drivers can
+> >>>> actually allocate memory or call I2C functions which takes locks which have
+> >>>> memory allocation dependencies.
 > >>>>
-> >>>> On 28/07/2021 02:06, Rob Clark wrote:
-> >>>>> From: Rob Clark <robdclark@chromium.org>
-> >>>>>
-> >>>>> The drm/scheduler provides additional prioritization on top of that
-> >>>>> provided by however many number of ringbuffers (each with their own
-> >>>>> priority level) is supported on a given generation.  Expose the
-> >>>>> additional levels of priority to userspace and map the userspace
-> >>>>> priority back to ring (first level of priority) and schedular prior=
-ity
-> >>>>> (additional priority levels within the ring).
-> >>>>>
-> >>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>>>> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>>>> ---
-> >>>>>     drivers/gpu/drm/msm/adreno/adreno_gpu.c |  4 +-
-> >>>>>     drivers/gpu/drm/msm/msm_gem_submit.c    |  4 +-
-> >>>>>     drivers/gpu/drm/msm/msm_gpu.h           | 58 ++++++++++++++++++=
-++++++-
-> >>>>>     drivers/gpu/drm/msm/msm_submitqueue.c   | 35 +++++++--------
-> >>>>>     include/uapi/drm/msm_drm.h              | 14 +++++-
-> >>>>>     5 files changed, 88 insertions(+), 27 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/=
-drm/msm/adreno/adreno_gpu.c
-> >>>>> index bad4809b68ef..748665232d29 100644
-> >>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> >>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> >>>>> @@ -261,8 +261,8 @@ int adreno_get_param(struct msm_gpu *gpu, uint3=
-2_t param, uint64_t *value)
-> >>>>>                         return ret;
-> >>>>>                 }
-> >>>>>                 return -EINVAL;
-> >>>>> -     case MSM_PARAM_NR_RINGS:
-> >>>>> -             *value =3D gpu->nr_rings;
-> >>>>> +     case MSM_PARAM_PRIORITIES:
-> >>>>> +             *value =3D gpu->nr_rings * NR_SCHED_PRIORITIES;
-> >>>>>                 return 0;
-> >>>>>         case MSM_PARAM_PP_PGTABLE:
-> >>>>>                 *value =3D 0;
-> >>>>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm=
-/msm/msm_gem_submit.c
-> >>>>> index 450efe59abb5..c2ecec5b11c4 100644
-> >>>>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> >>>>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> >>>>> @@ -59,7 +59,7 @@ static struct msm_gem_submit *submit_create(struc=
-t drm_device *dev,
-> >>>>>         submit->gpu =3D gpu;
-> >>>>>         submit->cmd =3D (void *)&submit->bos[nr_bos];
-> >>>>>         submit->queue =3D queue;
-> >>>>> -     submit->ring =3D gpu->rb[queue->prio];
-> >>>>> +     submit->ring =3D gpu->rb[queue->ring_nr];
-> >>>>>         submit->fault_dumped =3D false;
-> >>>>>
-> >>>>>         INIT_LIST_HEAD(&submit->node);
-> >>>>> @@ -749,7 +749,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev=
-, void *data,
-> >>>>>         /* Get a unique identifier for the submission for logging p=
-urposes */
-> >>>>>         submitid =3D atomic_inc_return(&ident) - 1;
-> >>>>>
-> >>>>> -     ring =3D gpu->rb[queue->prio];
-> >>>>> +     ring =3D gpu->rb[queue->ring_nr];
-> >>>>>         trace_msm_gpu_submit(pid_nr(pid), ring->id, submitid,
-> >>>>>                 args->nr_bos, args->nr_cmds);
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/ms=
-m_gpu.h
-> >>>>> index b912cacaecc0..0e4b45bff2e6 100644
-> >>>>> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> >>>>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> >>>>> @@ -250,6 +250,59 @@ struct msm_gpu_perfcntr {
-> >>>>>         const char *name;
-> >>>>>     };
-> >>>>>
-> >>>>> +/*
-> >>>>> + * The number of priority levels provided by drm gpu scheduler.  T=
-he
-> >>>>> + * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially i=
-n some
-> >>>>> + * cases, so we don't use it (no need for kernel generated jobs).
-> >>>>> + */
-> >>>>> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCH=
-ED_PRIORITY_MIN)
-> >>>>> +
-> >>>>> +/**
-> >>>>> + * msm_gpu_convert_priority - Map userspace priority to ring # and=
- sched priority
-> >>>>> + *
-> >>>>> + * @gpu:        the gpu instance
-> >>>>> + * @prio:       the userspace priority level
-> >>>>> + * @ring_nr:    [out] the ringbuffer the userspace priority maps t=
-o
-> >>>>> + * @sched_prio: [out] the gpu scheduler priority level which the u=
-serspace
-> >>>>> + *              priority maps to
-> >>>>> + *
-> >>>>> + * With drm/scheduler providing it's own level of prioritization, =
-our total
-> >>>>> + * number of available priority levels is (nr_rings * NR_SCHED_PRI=
-ORITIES).
-> >>>>> + * Each ring is associated with it's own scheduler instance.  Howe=
-ver, our
-> >>>>> + * UABI is that lower numerical values are higher priority.  So ma=
-pping the
-> >>>>> + * single userspace priority level into ring_nr and sched_prio tak=
-es some
-> >>>>> + * care.  The userspace provided priority (when a submitqueue is c=
-reated)
-> >>>>> + * is mapped to ring nr and scheduler priority as such:
-> >>>>> + *
-> >>>>> + *   ring_nr    =3D userspace_prio / NR_SCHED_PRIORITIES
-> >>>>> + *   sched_prio =3D NR_SCHED_PRIORITIES -
-> >>>>> + *                (userspace_prio % NR_SCHED_PRIORITIES) - 1
-> >>>>> + *
-> >>>>> + * This allows generations without preemption (nr_rings=3D=3D1) to=
- have some
-> >>>>> + * amount of prioritization, and provides more priority levels for=
- gens
-> >>>>> + * that do have preemption.
-> >>>>
-> >>>> I am exploring how different drivers handle priority levels and this
-> >>>> caught my eye.
-> >>>>
-> >>>> Is the implication of the last paragraphs that on hw with nr_rings >=
- 1,
-> >>>> ring + 1 preempts ring?
-> >>>
-> >>> Other way around, at least from the uabi standpoint.  Ie. ring[0]
-> >>> preempts ring[1]
+> >>>> Or do I miss some other reason why you can't fault or allocate memory in
+> >>>> atomic_commit_tail? At least lockdep seems to be happy about that now.
+> >>> The problem is a bit that this breaks the uapi already. At least if the
+> >>> goal is to have this all be perfectly transparent for userspace - as you
+> >>> as you have multi-gpu setups going on at least.
 > >>
-> >> Ah yes, I figure it out from the comments but then confused myself whe=
-n
-> >> writing the email.
-> >>
-> >>>> If so I am wondering does the "spreading" of
-> >>>> user visible priorities by NR_SCHED_PRIORITIES creates a non-preempt=
-able
-> >>>> levels within every "bucket" or how does that work?
-> >>>
-> >>> So, preemption is possible between any priority level before run_job(=
-)
-> >>> gets called, which writes the job into the ringbuffer.  After that
-> >>
-> >> Hmm how? Before run_job() the jobs are not runnable, sitting in the
-> >> scheduler queues, right?
-> >
-> > I mean, if prio[0]+prio[1]+prio[2] map to a single ring, submit A on
-> > prio[1] could be executed after submit B on prio[2] provided that
-> > run_job(submitA) hasn't happened yet.  So I guess it isn't "really"
-> > preemption because the submit hasn't started running on the GPU yet.
-> > But rather just scheduling according to priority.
-> >
-> >>> point, you only have "bucket" level preemption, because
-> >>> NR_SCHED_PRIORITIES levels of priority get mapped to a single FIFO
-> >>> ringbuffer.
-> >>
-> >> Right, and you have one GPU with four rings, which means you expose 12
-> >> priority levels to userspace, did I get that right?
-> >
-> > Correct
-> >
-> >> If so how do you convey in the ABI that not all there priority levels
-> >> are equal? Like userspace can submit at prio 4 and expect prio 3 to
-> >> preempt, as would prio 2 preempt prio 3. While actual behaviour will n=
-ot
-> >> match - 3 will not preempt 4.
-> >
-> > It isn't really exposed to userspace, but perhaps it should be..
-> > Userspace just knows that, to the extent possible, the kernel will try
-> > to execute prio 3 before prio 4.
-> >
-> >> Also, does your userspace stack (EGL/Vulkan) use the priorities? I had=
- a
-> >> quick peek in Mesa but did not spot it - although I am not really at
-> >> home there yet so maybe I missed it.
-> >
-> > Yes, there is an EGL extension:
-> >
-> > https://www.khronos.org/registry/EGL/extensions/IMG/EGL_IMG_context_pri=
-ority.txt
-> >
-> > It is pretty limited, it only exposes three priority levels.
->
-> Right, is that wired up on msm? And if it is, or could be, how do/would
-> you map the three priority levels for GPUs which expose 3 priority
-> levels versus the one which exposes 12?
+> >> Question here is why do you think there is an UAPI break? We currently wait
+> >> in a work item already, so where exactly is the problem?
+> > 
+> > It's a bit washy, but dma_fence and hence implicit sync is supposed to
+> > finish in finite time. umf just doesn't.
+> > 
+> > Ofc in reality you can still flood your compositor and they're not very
+> > robust, but with umf it's trivial to just hang your compositor forever and
+> > nothing happens.
+> 
+> You can add that to the list of reasons why compositors need to stop
+> using buffers with unsignaled fences. There's plenty of other reasons
+> there already (the big one being that otherwise slow clients can slow
+> down the compositor, even if the compositor uses a high priority context
+> and the HW supports preemption).
 
-We don't yet, but probably should, expose a cap to indicate to
-userspace the # of hw rings vs # of levels of sched priority
-
-> Is it doable properly without leaking the fact drm/sched internal
-> implementation detail of three priority levels? Or if you went the other
-> way and only exposed up to max 3 levels, then you lose one priority
-> level your hardware suppose which is also not good.
->
-> It is all quite interesting because your hardware is completely
-> different from ours in this respect. In our case i915 decides when to
-> preempt, hardware has no concept of priority (*).
-
-It is really pretty much all in firmware.. a6xx is the first gen that
-could do actual (non-cooperative) preemption (but that isn't
-implemented yet in upstream driver)
-
-BR,
--R
-
-> Regards,
->
-> Tvrtko
->
-> (*) Almost no concept of priority in hardware - we do have it on new
-> GPUs and only on a subset of engine classes where render and compute
-> share the EUs. But I think it's way different from Ardenos.
+Yeah that's tbh another reason why I think we shouldn't do umf as a
+transparent thing - compositors need to get better anyway, so we might as
+well take this as a chance to do this right.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
