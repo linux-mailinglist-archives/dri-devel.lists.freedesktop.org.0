@@ -1,65 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322CD533442
-	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 02:21:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3575334CE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 May 2022 03:40:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2D410FA9F;
-	Wed, 25 May 2022 00:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD44E10E0F4;
+	Wed, 25 May 2022 01:40:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3B2910FA65
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 00:21:07 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id c12so25026725eds.10
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 17:21:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=po9Z+ZnC7Ru+UUqihsKbLp4miOkDQWGaTskPH6Fy5Dg=;
- b=DogEVOs1h9Ij4NbEnwQCFgHrnO+6c/aG33k1MdmT+QsVZDGJ5A1Xid8Y6NhT55/YZB
- wcIwCwdH49o+G8LNtX6oQ89Hi/v8+WA2AYdKpNkXEYzqSv3TpfNn42nSqr/xaiyJvA1P
- K9imYTOTjx9raNfGaw0DwbkGCwB+CKBzlOR6A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=po9Z+ZnC7Ru+UUqihsKbLp4miOkDQWGaTskPH6Fy5Dg=;
- b=PyAD60uhgWoOm+vv6Oj1rRgGTvapWjHKILA/jOEaLT6mlnqJUlKgr+96xgOMtjkvH4
- XhgCWDUC/l/LppHxvJ/0jqrZcEc/6dbup0e307sZ9xvXhoLy7W1mNwzm8VlGUmoM1621
- yBJgb7cU6G2kaKeB3o05RW2rv1DecQZpWYZVCVnQ/+riOz6Nk1nHT8anWlTzpPc2lggz
- rIjuT9/ypvSk1LLN4a8MnoxEsXehjEcRm0PS7ir4SjwKfmVoMS1WP9ofNZrFTGVRtogF
- IT1+wU2OLvbCMUIgQxux1eh/TGizSp/YXiXqSrcOvKnpMbR1JwGv6j0AlGZaJtjZp4C/
- lAJQ==
-X-Gm-Message-State: AOAM532ur4WqNd2FrSF1X/OsibLG9plRjNEButrJd1iT5XTtHHusL+9W
- ek8tZs9c8GW6Jia+AmNpO1cMHFxFl57Y1p4ARSw=
-X-Google-Smtp-Source: ABdhPJzhy1dKdbItxfAyvcGh+oTDkqidR8z3tpbgsSgb7jmQb66uImZIreB/4o2GFVp3ngIPjPfKaQ==
-X-Received: by 2002:a05:6402:3582:b0:42b:32a8:912b with SMTP id
- y2-20020a056402358200b0042b32a8912bmr22980563edc.137.1653438066215; 
- Tue, 24 May 2022 17:21:06 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
- [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
- kt1-20020a170906aac100b006fecb577060sm3299940ejb.119.2022.05.24.17.21.03
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 May 2022 17:21:04 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id u27so27069540wru.8
- for <dri-devel@lists.freedesktop.org>; Tue, 24 May 2022 17:21:03 -0700 (PDT)
-X-Received: by 2002:a5d:5009:0:b0:20d:846:f4da with SMTP id
- e9-20020a5d5009000000b0020d0846f4damr25355018wrt.301.1653438063415; Tue, 24
- May 2022 17:21:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <1653082028-10211-1-git-send-email-quic_khsieh@quicinc.com>
- <1653082028-10211-2-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1653082028-10211-2-git-send-email-quic_khsieh@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 24 May 2022 17:20:51 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VRNAC3=VAZcw5H1jReGzdbTCbD83OqRcYztrzhPD3PAg@mail.gmail.com>
-Message-ID: <CAD=FV=VRNAC3=VAZcw5H1jReGzdbTCbD83OqRcYztrzhPD3PAg@mail.gmail.com>
-Subject: Re: [PATCH v11 1/3] phy: qcom-edp: add regulator_set_load to edp phy
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CFFC10E0F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 01:40:38 +0000 (UTC)
+X-UUID: e56487e752064495a040109dce418dbb-20220525
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:51c6442a-f7bb-4eaa-be1b-5cd552073914, OB:10,
+ L
+ OB:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:50
+X-CID-INFO: VERSION:1.1.5, REQID:51c6442a-f7bb-4eaa-be1b-5cd552073914, OB:10,
+ LOB
+ :0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:50
+X-CID-META: VersionHash:2a19b09, CLOUDID:d2c31ab8-3c45-407b-8f66-25095432a27a,
+ C
+ OID:4f79718f65cf,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:0,BEC:nil
+X-UUID: e56487e752064495a040109dce418dbb-20220525
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2115371326; Wed, 25 May 2022 09:40:32 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 25 May 2022 09:40:32 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Wed, 25 May 2022 09:40:32 +0800
+Message-ID: <35d23d9ffd1d804fc3253d192f7de3eaebf3fcff.camel@mediatek.com>
+Subject: Re: [PATCH v7, 2/4] drm/mediatek: Separate poweron/poweroff from
+ enable/disable and define new funcs
+From: CK Hu <ck.hu@mediatek.com>
+To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>
+Date: Wed, 25 May 2022 09:40:32 +0800
+In-Reply-To: <1653012007-11854-3-git-send-email-xinlei.lee@mediatek.com>
+References: <1653012007-11854-1-git-send-email-xinlei.lee@mediatek.com>
+ <1653012007-11854-3-git-send-email-xinlei.lee@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,29 +66,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
- Vinod Koul <vkoul@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi, Xinlei:
 
-On Fri, May 20, 2022 at 2:28 PM Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> This patch add regulator_set_load() before enable regulator at
-> eDP phy driver.
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+On Fri, 2022-05-20 at 10:00 +0800, xinlei.lee@mediatek.com wrote:
+> From: Jitao Shi <jitao.shi@mediatek.com>
+> 
+> In order to match the changes of "Use the drm_panel_bridge API",
+> the poweron/poweroff of dsi is extracted from enable/disable and
+> defined as new funcs (atomic_pre_enable/atomic_post_disable).
+> 
+> Since dsi_poweron is moved from dsi_enable to pre_enable function, in
+> order to avoid poweron failure, the operation of dsi register fails
+> to
+> cause bus hang. Therefore, the protection mechanism is added to the
+> dsi_enable function.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
+> 
+> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge
+> API")
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 > ---
->  drivers/phy/qualcomm/phy-qcom-edp.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 53 +++++++++++++++++++---------
+> --
+>  1 file changed, 34 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index f880136cec09..d9a6b928dba8 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -691,16 +691,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> *dsi)
+>  	if (--dsi->refcount != 0)
+>  		return;
+>  
+> -	/*
+> -	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+> -	 * mtk_dsi_stop() should be called after
+> mtk_drm_crtc_atomic_disable(),
+> -	 * which needs irq for vblank, and mtk_dsi_stop() will disable
+> irq.
+> -	 * mtk_dsi_start() needs to be called in
+> mtk_output_dsi_enable(),
+> -	 * after dsi is fully set.
+> -	 */
+> -	mtk_dsi_stop(dsi);
+> -
+> -	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+>  	mtk_dsi_reset_engine(dsi);
+>  	mtk_dsi_lane0_ulp_mode_enter(dsi);
+>  	mtk_dsi_clk_ulp_mode_enter(dsi);
+> @@ -715,17 +705,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> *dsi)
+>  
+>  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+>  {
+> -	int ret;
+> -
+>  	if (dsi->enabled)
+>  		return;
+>  
+> -	ret = mtk_dsi_poweron(dsi);
+> -	if (ret < 0) {
+> -		DRM_ERROR("failed to power on dsi\n");
+> -		return;
+> -	}
+> -
+>  	mtk_dsi_set_mode(dsi);
+>  	mtk_dsi_clk_hs_mode(dsi, 1);
+>  
+> @@ -739,7 +721,16 @@ static void mtk_output_dsi_disable(struct
+> mtk_dsi *dsi)
+>  	if (!dsi->enabled)
+>  		return;
+>  
+> -	mtk_dsi_poweroff(dsi);
+> +	/*
+> +	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
+> +	 * mtk_dsi_stop() should be called after
+> mtk_drm_crtc_atomic_disable(),
+> +	 * which needs irq for vblank, and mtk_dsi_stop() will disable
+> irq.
+> +	 * mtk_dsi_start() needs to be called in
+> mtk_output_dsi_enable(),
+> +	 * after dsi is fully set.
+> +	 */
+> +	mtk_dsi_stop(dsi);
+> +
+> +	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
+>  
+>  	dsi->enabled = false;
+>  }
+> @@ -776,13 +767,37 @@ static void mtk_dsi_bridge_atomic_enable(struct
+> drm_bridge *bridge,
+>  {
+>  	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+>  
+> +	if (dsi->refcount == 0)
+> +		return;
+> +
+>  	mtk_output_dsi_enable(dsi);
+>  }
+>  
+> +static void mtk_dsi_bridge_atomic_pre_enable(struct drm_bridge
+> *bridge,
+> +					     struct drm_bridge_state
+> *old_bridge_state)
+> +{
+> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> +	int ret;
+> +
+> +	ret = mtk_dsi_poweron(dsi);
+> +	if (ret < 0)
+> +		DRM_ERROR("failed to power on dsi\n");
+> +}
+> +
+> +static void mtk_dsi_bridge_atomic_post_disable(struct drm_bridge
+> *bridge,
+> +					       struct drm_bridge_state
+> *old_bridge_state)
+> +{
+> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	mtk_dsi_poweroff(dsi);
+> +}
+> +
+>  static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
+>  	.attach = mtk_dsi_bridge_attach,
+>  	.atomic_disable = mtk_dsi_bridge_atomic_disable,
+>  	.atomic_enable = mtk_dsi_bridge_atomic_enable,
+> +	.atomic_pre_enable = mtk_dsi_bridge_atomic_pre_enable,
+> +	.atomic_post_disable = mtk_dsi_bridge_atomic_post_disable,
+>  	.mode_set = mtk_dsi_bridge_mode_set,
+>  };
+>  
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
