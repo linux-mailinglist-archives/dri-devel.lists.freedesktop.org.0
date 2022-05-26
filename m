@@ -2,53 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17767534750
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 02:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FC55347F8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 03:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A1D10F698;
-	Thu, 26 May 2022 00:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601AC10E129;
+	Thu, 26 May 2022 01:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C0D10F698
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 00:09:17 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DC5F5B81EC0;
- Thu, 26 May 2022 00:09:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 11D66C34118;
- Thu, 26 May 2022 00:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653523754;
- bh=dg0cMATWEEeBg9rG4Uve1+Cswpobi3GWRVoLrBPHiGw=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=u24Lwt1KAjMm7MZuNETGfQeqTEeFuzzWaFqj/UEpRi8muh7W5oqE2H59+9Apbtot1
- Pd9l8vwotSEHMUdPGiA0+SDfgQzeD0I6xG/Bn9TwTaj3sEbYVY4fjdpk61VGrChs3B
- kz8AIpE1FpIn5JF3EVvGigfbSWylZ0QcpMixl9x1ujJHIvTsGcTr4C538tVn/TJXEX
- /QbcfUYVU50PSDKRNI9H6OLn4pHeTQDIevHRx51JeL56R+2F6ybmD/q5Uaviu4NKKv
- QEIFG+oudLc5aERuk8xwLxbOwCpJzrhPFz9x6fXzVR0Exh1umWAznETv0Sdqf/5Fmc
- lG3eNbMBiY6Lg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 00F90E8DBDA; Thu, 26 May 2022 00:09:14 +0000 (UTC)
-Subject: Re: [git pull] drm for 5.19-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tw62EZfAm0PbiOPmMrpfR98QMFTWGEQcA34G4ap4xxNkA@mail.gmail.com>
-References: <CAPM=9tw62EZfAm0PbiOPmMrpfR98QMFTWGEQcA34G4ap4xxNkA@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tw62EZfAm0PbiOPmMrpfR98QMFTWGEQcA34G4ap4xxNkA@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-next-2022-05-25
-X-PR-Tracked-Commit-Id: c4955d9cd2fc56c43e78c908dad4e2cac7cc9073
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2518f226c60d8e04d18ba4295500a5b0b8ac7659
-Message-Id: <165352375400.5177.660648340109162209.pr-tracker-bot@kernel.org>
-Date: Thu, 26 May 2022 00:09:14 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB6A10E129;
+ Thu, 26 May 2022 01:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=qYg8IKyL/r8f2Vg1ESuYjuOnE5g2jafpU06hhSyNUpw=; b=FU/B4l/86GX2mfAVzdnOZlet7o
+ 4YIMhkZpbCoSmgTvSZ+0srZ6BwOG40pWCCMj19qhaZ7LyhuSaw2+YdDV5a6+88avQFq2cWdQHfPWr
+ byuXc0vT/MGU7fDuPvzVefIP3U6jrYIpaAmCNdJioEzp88SsKae4gtRxxjsbwJwKjR30fWyrk6jS+
+ 6N+w+qBIVJaEKMA2SIN/QJXQZdAFNIwoALKz9JWYzo9WKGMkqQ+rWdT359dIGkZ8Sy1ZcS2tNgQxZ
+ uFqnsZqHJyvAVlUVWnv0GfWFHqg8A7Yfpa485ULCi1tDMGcQd2T2bgnhjP4//0FFa8Q9P8q43x6cS
+ bXqNJBtA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1nu278-000pxs-VA; Thu, 26 May 2022 01:16:35 +0000
+Date: Thu, 26 May 2022 02:16:34 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 8cb8311e95e3bb58bd84d6350365f14a718faa6d
+Message-ID: <Yo7U8kglHlcvQ0Ri@casper.infradead.org>
+References: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
+ <20220525145056.953631743a4c494aabf000dc@linux-foundation.org>
+ <F0E25DFF-8256-48FF-8B88-C0E3730A3E5E@jrtc27.com>
+ <20220525152006.e87d3fa50aca58fdc1b43b6a@linux-foundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220525152006.e87d3fa50aca58fdc1b43b6a@linux-foundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ kvm@vger.kernel.org, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, alsa-devel@alsa-project.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
+ Jessica Clarke <jrtc27@jrtc27.com>, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-parport@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Wed, 25 May 2022 16:06:58 +1000:
+On Wed, May 25, 2022 at 03:20:06PM -0700, Andrew Morton wrote:
+> On Wed, 25 May 2022 23:07:35 +0100 Jessica Clarke <jrtc27@jrtc27.com> wrote:
+> 
+> > This is i386, so an unsigned long is 32-bit, but i_blocks is a blkcnt_t
+> > i.e. a u64, which makes the shift without a cast of the LHS fishy.
+> 
+> Ah, of course, thanks.  I remember 32 bits ;)
+> 
+> --- a/mm/shmem.c~mm-shmemc-suppress-shift-warning
+> +++ a/mm/shmem.c
+> @@ -1945,7 +1945,7 @@ alloc_nohuge:
+>  
+>  	spin_lock_irq(&info->lock);
+>  	info->alloced += folio_nr_pages(folio);
+> -	inode->i_blocks += BLOCKS_PER_PAGE << folio_order(folio);
+> +	inode->i_blocks += (blkcnt_t)BLOCKS_PER_PAGE << folio_order(folio);
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-next-2022-05-25
+Bizarre this started showing up now.  The recent patch was:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2518f226c60d8e04d18ba4295500a5b0b8ac7659
+-       info->alloced += compound_nr(page);
+-       inode->i_blocks += BLOCKS_PER_PAGE << compound_order(page);
++       info->alloced += folio_nr_pages(folio);
++       inode->i_blocks += BLOCKS_PER_PAGE << folio_order(folio);
 
-Thank you!
+so it could tell that compound_order() was small, but folio_order()
+might be large?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Silencing the warning is a good thing, but folio_order() can (at the
+moment) be at most 9 on i386, so it isn't actually going to be
+larger than 4096.
