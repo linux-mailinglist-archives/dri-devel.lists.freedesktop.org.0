@@ -2,53 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C2E53564E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D866B53566B
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:34:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8FA310E603;
-	Thu, 26 May 2022 23:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0279410E2CB;
+	Thu, 26 May 2022 23:34:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3ED10E603;
- Thu, 26 May 2022 23:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653606566; x=1685142566;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=Eu1TB8lO4RI0dmN05S+4d62yQlVMgFzQS6LVRnYCMCk=;
- b=Dhpfn3gVlKDIXcFHBFjrWAo2Mip/xxv8xPC3Y3oPlXcSg94Hzo4eho4I
- WmoHcoiJGKfq4SGlxU4CixEW5SY0NV+Fo5yGnCmDt8wBnKLzDouMk9O2d
- Zt9zzQcjWyr9WpFqHeSzAyKB+9XiX97iGcnbEC0Rq+m0jAVx7h4P6F8VS A=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 26 May 2022 16:09:25 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2022 16:09:24 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 26 May 2022 16:09:24 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 26 May 2022 16:09:23 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v2] drm/msm/dp: force link training for display resolution
- change
-Date: Thu, 26 May 2022 16:09:15 -0700
-Message-ID: <1653606555-18675-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D6010E2CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 23:34:44 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id wh22so5754136ejb.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 16:34:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=jGWDd1k+QnoJ5pqSff/7/gA81Dp7iVjKRR7beBIAKWM=;
+ b=baQWS40EjicfD7EK1Z84Ora3fybhN1jJKR3zil3Q3sWyaPePR8s80CfolLuUY/YAd8
+ n/SFZN9VFZEP88ntMeTUjocKs9dsy0nahAszIPHNJO3/W34bseBpBP9HCgFb7TyYIq4a
+ A36A0N+nvMAfArqqEdiESmg2NU5fexZRCI8vNemcoWB2gMQmuMrX7trBwHSN22XOJYO1
+ pR4hyCRuumWh09pKXADStPwq2vuPp5PyCrzrdXgxGupx2z83bTP0XELZPU+X+CYJNomf
+ DrtTNdFzNCC5+Rg1YYG9GKlc63k06HzgRkJW/JQ4begjMxKToneEUyOAC2XFt8dUz+uV
+ VDrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jGWDd1k+QnoJ5pqSff/7/gA81Dp7iVjKRR7beBIAKWM=;
+ b=7w6gJYV2PECg9QA+rAv1HW/3+5RfI8EE3IZo3CLFeO6Qb9TGLKRvCRi2WToQdY7lHP
+ QQLWG7KdoVU4i1LePqxo61Y6YGlQOacYLC4IExiSUc8WiP7PSOdWHhEvA0uQucvQAY87
+ SuHmVsLzxzCizsobUnFBRduvkalSLPO+lkWOm17AhCgKteASQtIzhKCz0AUQJmpT93J5
+ 5+SD6BXC0sWAD7rKGc6jqU6kwdxMLfH5A4VbXh+JOcWiPek1igiJcqUJttY9j6ryCiTS
+ /Eo/BYtDgecPs26CkRx8i+GXJiuj66auh6Wa8jJbtNkTWveunk3LY6jwhkbam09DKyyG
+ 80FA==
+X-Gm-Message-State: AOAM532u8xzNMuyNT30zmVdqu/vCEM3oQV2xTvfodUFDf7rLDan1yiQN
+ c89JnF8n+7Hchofg3kjAc5zgfWNAkr2E5g==
+X-Google-Smtp-Source: ABdhPJyl+VGTHHPPz85RqgizD9I16K0B9+ajp3UhfsS3Bc7kXIJ8uD6ui0YU4YXDswD2c+xRZ/53Hg==
+X-Received: by 2002:a17:907:1b20:b0:6da:649b:d99e with SMTP id
+ mp32-20020a1709071b2000b006da649bd99emr36038154ejc.712.1653608082426; 
+ Thu, 26 May 2022 16:34:42 -0700 (PDT)
+Received: from adroid (102-167-184-091.ip-addr.vsenet.de. [91.184.167.102])
+ by smtp.gmail.com with ESMTPSA id
+ a1-20020a50f0c1000000b0042be30c95fbsm727049edm.39.2022.05.26.16.34.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 May 2022 16:34:41 -0700 (PDT)
+Date: Fri, 27 May 2022 01:34:39 +0200
+From: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: Re: Exynos vblank timeout issue
+Message-ID: <20220526233439.GA81797@adroid>
+References: <20220522000219.GB241035@adroid>
+ <6aa0b632-674d-d9ca-2ba9-cab497aa1f37@kernel.org>
+ <20220522100639.GA191106@adroid>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220522100639.GA191106@adroid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,123 +73,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During display resolution changes display have to be disabled first
-followed by display enable with new resolution. This patch force
-main link always be retrained during display enable procedure to
-simplify implementation instead of manually kicking of irq_hpd
-handle.
+Hello again,
 
-Changes in v2:
--- set force_link_train flag on DP only (is_edp == false)
+I tried to dig around a bit to unearth some more information. What I'm
+seeing is that it works just fine in the beginning, planes are updated a
+couple of times and suddenly, after one of the plane updates, the
+interrupt handler in the FIMD driver is no longer called. The screen
+goes dark but the device is still operational, e.g. ADB works fine, I
+can connect and execute commands.
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c    |  6 +++---
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c | 15 ++++++++-------
- 3 files changed, 12 insertions(+), 11 deletions(-)
+Trying to figure out what is called when and curious about the state of
+the registers, I littered the code with print statements and it looks
+like vsync is still active, no other code calls into disabling it. All
+registers are as expected, e.g. VIDINTCON0 has the interrupt bit set. I
+also had a look at the interrupt combiner, this too has the
+corresponding lcd0-1 interrupt enabled at all times and there is no
+interrupt pending, even after FIMD stopped receiving them.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index af7a80c..ac226f5 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1551,7 +1551,7 @@ static int dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
- 
- 	ret = dp_ctrl_on_link(&ctrl->dp_ctrl);
- 	if (!ret)
--		ret = dp_ctrl_on_stream(&ctrl->dp_ctrl);
-+		ret = dp_ctrl_on_stream(&ctrl->dp_ctrl, false);
- 	else
- 		DRM_ERROR("failed to enable DP link controller\n");
- 
-@@ -1807,7 +1807,7 @@ static int dp_ctrl_link_retrain(struct dp_ctrl_private *ctrl)
- 	return dp_ctrl_setup_main_link(ctrl, &training_step);
- }
- 
--int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
-+int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
- {
- 	int ret = 0;
- 	bool mainlink_ready = false;
-@@ -1848,7 +1848,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 		return 0;
- 	}
- 
--	if (!dp_ctrl_channel_eq_ok(ctrl))
-+	if (force_link_tarin || !dp_ctrl_channel_eq_ok(ctrl))
- 		dp_ctrl_link_retrain(ctrl);
- 
- 	/* stop txing train pattern to end link training */
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 0745fde..b563e2e 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -21,7 +21,7 @@ struct dp_ctrl {
- };
- 
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
--int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
-+int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train);
- int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index c388323..370348d 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -872,7 +872,7 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
- 		return 0;
- 	}
- 
--	rc = dp_ctrl_on_stream(dp->ctrl);
-+	rc = dp_ctrl_on_stream(dp->ctrl, data);
- 	if (!rc)
- 		dp_display->power_on = true;
- 
-@@ -1654,6 +1654,7 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 	int rc = 0;
- 	struct dp_display_private *dp_display;
- 	u32 state;
-+	bool force_link_train = false;
- 
- 	dp_display = container_of(dp, struct dp_display_private, dp_display);
- 	if (!dp_display->dp_mode.drm_mode.clock) {
-@@ -1688,10 +1689,14 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 
- 	state =  dp_display->hpd_state;
- 
--	if (state == ST_DISPLAY_OFF)
-+	if (state == ST_DISPLAY_OFF) {
- 		dp_display_host_phy_init(dp_display);
- 
--	dp_display_enable(dp_display, 0);
-+		if (!dp->is_edp)
-+			force_link_train = true;
-+	}
-+
-+	dp_display_enable(dp_display, force_link_train);
- 
- 	rc = dp_display_post_enable(dp);
- 	if (rc) {
-@@ -1700,10 +1705,6 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 		dp_display_unprepare(dp);
- 	}
- 
--	/* manual kick off plug event to train link */
--	if (state == ST_DISPLAY_OFF)
--		dp_add_event(dp_display, EV_IRQ_HPD_INT, 0, 0);
+Looking at the wiki at https://exynos.wiki.kernel.org/todo_tasks I found
+issue #9. It's about trashed display or DMA freeze if planes are too
+narrow and I was wondering if this could be related. So I had a look at
+the drm debug output and planes are indeed getting very small. This
+happens exactly when the animation that is triggering the issue is
+playing, so this would match. Looking a bit closer at the position and
+size of the planes, I could see that the last working vsync was right
+after one of the planes was exactly 1 pixel in width and vsync only
+stopped working one update later. Here are the plane updates from the
+logs:
+
 -
- 	/* completed connection */
- 	dp_display->hpd_state = ST_CONNECTED;
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
 
+Planes getting smaller and smaller with each update:
+plane : offset_x/y(0,0), width/height(4,800)
+plane : offset_x/y(4,0), width/height(1276,800)
+plane : offset_x/y(0,0), width/height(1280,800)
+plane : offset_x/y(0,776), width/height(1280,24)
+
+plane : offset_x/y(0,0), width/height(2,800)
+plane : offset_x/y(2,0), width/height(1278,800)
+plane : offset_x/y(0,0), width/height(1280,800)
+plane : offset_x/y(0,776), width/height(1280,24)
+
+plane : offset_x/y(0,0), width/height(1,800)
+plane : offset_x/y(1,0), width/height(1279,800)
+plane : offset_x/y(0,0), width/height(1280,800)
+plane : offset_x/y(0,776), width/height(1280,24)
+
+Still got a vsync in between those two. But after the following update,
+it's dead:
+plane : offset_x/y(0,0), width/height(1280,800)
+plane : offset_x/y(0,0), width/height(1280,24)
+plane : offset_x/y(0,740), width/height(1280,60)
+plane : offset_x/y(0,0), width/height(1280,800)
+
+-> vsync timeout comes here
+
+-
+
+I have no idea how to analyze this further on the kernel side. I'll try
+to write an executable that triggers this bug next. If you have any
+ideas on that, I'd be very grateful.
+
+Kind Regards
+Martin
+
+On Sun, May 22, 2022 at 12:06:39PM +0200, Martin Jücker wrote:
+> On Sun, May 22, 2022 at 09:45:51AM +0200, Krzysztof Kozlowski wrote:
+> > On 22/05/2022 02:02, Martin Jücker wrote:
+> > > Hello,
+> > > 
+> > > I'm trying to get Android 12 up and running on my Galaxy Note 10.1 which
+> > > is based on Exynos 4412 with a Mali GPU. For Android 11, I had no issues
+> > > with graphics but after upgrading and building Android 12, I'm getting a
+> > > vblank wait timeout shortly after starting the device setup, which in
+> > > turn leads to my display turning black and SurfaceFlinger hanging. This
+> > > can be reliably reproduced after every reboot, so much so that it's
+> > > basically always on the exact same step of the setup.
+> > > 
+> > > I'm using the following setup:
+> > > 
+> > > * 5.10.101 Android Common Kernel with some patches to get
+> > > the Note 10.1 up and running
+> > 
+> > It's Android kernel, so not upstream. It is perfectly fine to use
+> > downstream kernels, but with the issues you also go to downstream folks.
+> > I have no clue what Android did to Exynos.
+> 
+> Hi Krzysztof,
+> 
+> indeed, that was my mistake. Should have done that on mainline first.
+> 
+> I rebased some patches on top of v5.17.9 and tried again, same result.
+> There are no Android patches in there, only p4note related things. You
+> can have a look here: 
+> 
+> https://github.com/Viciouss/linux/commits/v5.17.9-android
+> 
+> The behaviour is exactly the same, as soon as I try to advance in the
+> setup process, it suddenly turns the screen all black.
+> 
+> Here is the warning again, just in case there are any differences.
+> 
+> [   77.651495] ------------[ cut here ]------------
+> [   77.651527] WARNING: CPU: 2 PID: 8 at
+> ../drivers/gpu/drm/drm_atomic_helper.c:1530
+> drm_atomic_helper_wait_for_vblanks.part.1+0x2b0/0x2b4
+> [   77.651593] [CRTC:49:crtc-0] vblank wait timed out
+> [   77.651608] Modules linked in: s5p_mfc s5p_jpeg v4l2_mem2mem
+> videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common
+> rfcomm kheaders hidp hci_uart cpufreq_userspace cpufreq_powersave
+> cpufreq_conservative btbcm brcmfmac brcmutil bnep bluetooth atmel_mxt_ts
+> [   77.651789] CPU: 2 PID: 8 Comm: kworker/u8:0 Not tainted 5.17.9+ #3
+> [   77.651813] Hardware name: Samsung Exynos (Flattened Device Tree)
+> [   77.651828] Workqueue: events_unbound commit_work
+> [   77.651858] Backtrace: 
+> [   77.651874] dump_backtrace from show_stack+0x20/0x24
+> [   77.651915] r7:c071097c r6:00000000 r5:c10ec66c r4:600f0013
+> [   77.651926] show_stack from dump_stack_lvl+0x48/0x54
+> [   77.651958] dump_stack_lvl from dump_stack+0x18/0x1c
+> [   77.651986] r5:c113dcf4 r4:c1d51e04
+> [   77.651996] dump_stack from __warn+0x18c/0x190
+> [   77.652030] __warn from warn_slowpath_fmt+0x80/0xbc
+> [   77.652070] r9:00000009 r8:c071097c r7:000005fa r6:c113dcf4
+> r5:c1d8cb40 r4:c113e338
+> [   77.652081] warn_slowpath_fmt from
+> drm_atomic_helper_wait_for_vblanks.part.1+0x2b0/0x2b4
+> [   77.652123] r9:00000001 r8:00000000 r7:00000000 r6:00000000
+> r5:00000000 r4:c398c800
+> [   77.652135] drm_atomic_helper_wait_for_vblanks.part.1 from
+> drm_atomic_helper_commit_tail_rpm+0x6c/0x7c
+> [   77.652175] r10:c14cce68 r9:c1c2a005 r8:00000000 r7:0e3f351d
+> r6:00000012 r5:c398c000
+> [   77.652188] r4:d42943c0
+> [   77.652197] drm_atomic_helper_commit_tail_rpm from
+> commit_tail+0xb8/0x1d8
+> [   77.652228] r5:00000000 r4:d42943c0
+> [   77.652238] commit_tail from commit_work+0x1c/0x20
+> [   77.652274] r10:c1518d20 r9:c1c2a005 r8:00000000 r7:c1c2a000
+> r6:c1c0a800 r5:c1c08a00
+> [   77.652287] r4:d42943ec
+> [   77.652297] commit_work from process_one_work+0x1b0/0x528
+> [   77.652324] process_one_work from worker_thread+0x54/0x4d8
+> [   77.652356] r10:c1c0a800 r9:00000088 r8:c1403d00 r7:c1c0a81c
+> r6:c1c08a18 r5:c1c0a800
+> [   77.652368] r4:c1c08a00
+> [   77.652378] worker_thread from kthread+0x104/0x134
+> [   77.652419] r10:00000000 r9:c1d43e5c r8:c1d05880 r7:c1d8cb40
+> r6:c1c08a00 r5:c015530c
+> [   77.652432] r4:c1d05700
+> [   77.652441] kthread from ret_from_fork+0x14/0x2c
+> [   77.652468] Exception stack(0xc1d51fb0 to 0xc1d51ff8)
+> [   77.652488] 1fa0:                                     00000000
+> 00000000 00000000 00000000
+> [   77.652509] 1fc0: 00000000 00000000 00000000 00000000 00000000
+> 00000000 00000000 00000000
+> [   77.652528] 1fe0: 00000000 00000000 00000000 00000000 00000013
+> 00000000
+> [   77.652550] r9:00000000 r8:00000000 r7:00000000 r6:00000000
+> r5:c015da78 r4:c1d05700
+> [   77.652561] ---[ end trace 0000000000000000 ]---
+> 
+> Kind Regards
+> Martin
+> 
+> > 
+> > Best regards,
+> > Krzysztof
