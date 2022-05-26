@@ -1,56 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B7153563F
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 00:58:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE12D535645
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 00:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A5610FB41;
-	Thu, 26 May 2022 22:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71ADE10EE82;
+	Thu, 26 May 2022 22:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C58F10FB41
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 22:58:12 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id p190so5228195ybg.4
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 15:58:12 -0700 (PDT)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5B3F10EE82;
+ Thu, 26 May 2022 22:59:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MhVmMHw7ICVhAafPllDIHwDL80t/aJRGK27p3OyO64U=;
- b=OBGE97dSjTQGlbJnPPMoD0lldvThfKV96dxtovUcGuTaHcTr/LidEmk8RnNTeIY0cl
- 1aKQgS6srXQkJ8IShv18Ke43pLh8w0stRYbCOzJS0VlYfMKu7WRkmMOagXdM56ZQlXW8
- Td8SrZxLHXcWiB+SKHMSHZicMU17TXRupviimNQTdMB5v6inXrO+BvrWgAZPC/EKcqPo
- uAG7fadrXsvsV8pi/hKBzetL7sHICIAZQMQab8ZS8IlbkLqbnq1GVUtzSGdpKxyhymFc
- e7LXlYFp1S5hL8bLQ0bc8tshHiIC+M4S3RyJKWNmzB82ZRcWdWwtm23+WIzYZtTF/Jjb
- ZT0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MhVmMHw7ICVhAafPllDIHwDL80t/aJRGK27p3OyO64U=;
- b=a81CaOqb4cegnWxzloYF3uPm0ugngxVfFHwdQszX1hJ6kBUpJKoHfwCThzhp5F1HC0
- cpo5jFO+c7qLMLJgpdoucQCcnilHgjAOxr8HWKuB9odjl3oPEIBTMFLiMoR8qzNjeQPN
- WgOeVHhZ/WHwThAFNzlP7uFYacBY+zPRchZ5+fwinl/ENPoGaa1Po3soIy2c7kTp2OdK
- I+2GN8GEXlES8CIfwn13/SeWvSPwhjBsS+TKuLKGUME7bT8JU/Ei6vKFn1t3GX31gpO6
- IFiy5y3LZoNXtQYhbtl3Odt4OSafz7X7QbMBy5YN+ah+BMvSqay29HIUuukZS76koeEJ
- g6gg==
-X-Gm-Message-State: AOAM531gOoeXI6rn1CqISlQSpH7e/nATsAPbn9YdI4qx/Q7twL1+L//a
- coWZTzTu3DEApxGJFffSBdQRrqOShCjtAu2oGuoK9g==
-X-Google-Smtp-Source: ABdhPJwY7kKz4PIdqv34Y/bWWCaHiZaM4Y+zPY/MTdjVhHEUNGKHoeOf7dMU9X/PojYuec7hSZgOIo65KFlIBrqOHaA=
-X-Received: by 2002:a25:9742:0:b0:64e:2c40:b33e with SMTP id
- h2-20020a259742000000b0064e2c40b33emr38025204ybo.455.1653605891184; Thu, 26
- May 2022 15:58:11 -0700 (PDT)
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1653605984; x=1685141984;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=EjlOLw6oLAfXK2hKbCs9hYy6HvUERt+vUOVFrzi8Lkk=;
+ b=ZgZIiY1ZZVY4KFvQ3Mi/indoT6S7rDfzqjih/U2i7tulTLRH4BLu3SC5
+ I7Tq9xhHYiVa4c2hkE1u5APVQL5jAK3I8mN4AqYROaNEo8nytqih1I2BM
+ TJCVY2fa+1lfGlWjdux/QNsMKL8UTLnqPpKpQo7OGrr+VE6U+9ucYCoLY s=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 26 May 2022 15:59:43 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2022 15:59:42 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 26 May 2022 15:59:42 -0700
+Received: from [10.111.172.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 26 May
+ 2022 15:59:40 -0700
+Message-ID: <bebe59d7-cb8d-5e34-919d-703d2b477d25@quicinc.com>
+Date: Thu, 26 May 2022 15:59:38 -0700
 MIME-Version: 1.0
-References: <20220526174025.344908-1-contact@emersion.fr>
-In-Reply-To: <20220526174025.344908-1-contact@emersion.fr>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Thu, 26 May 2022 17:58:00 -0500
-Message-ID: <CAOFGe94BdiRwELFvVygdj6kTrsF5ofdxyeDG8R8yUgQR_KBQnQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] dma-buf: Add a capabilities directory
-To: Simon Ser <contact@emersion.fr>
-Content-Type: multipart/alternative; boundary="000000000000be30a305dff21fc0"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 17/25] drm/msm/dpu: drop src_split and multirect check
+ from dpu_crtc_atomic_check
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-18-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220209172520.3719906-18-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,772 +68,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000be30a305dff21fc0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 26, 2022 at 12:40 PM Simon Ser <contact@emersion.fr> wrote:
 
-> To discover support for new DMA-BUF IOCTLs, user-space has no
-> choice but to try to perform the IOCTL on an existing DMA-BUF.
-> However, user-space may want to figure out whether or not the
-> IOCTL is available before it has a DMA-BUF at hand, e.g. at
-> initialization time in a Wayland compositor.
->
-> Add a /sys/kernel/dmabuf/caps directory which allows the DMA-BUF
-> subsystem to advertise supported features. Add a
-> sync_file_import_export entry which indicates that importing and
-> exporting sync_files from/to DMA-BUFs is supported.
->
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+On 2/9/2022 9:25 AM, Dmitry Baryshkov wrote:
+> Neither source split nor multirect are properly supported at this
+> moment. Both of these checks depend on normalized_zpos being equal for
+> several planes (which is never the case for normalized zpos).
+> Drop these checks to simplify dpu_crtc_atomic_check(). The actual
+> support for either of these features is not removed from the backend
+> code (sspp, ctl, etc).
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+This is true that current implementation of these features is not really 
+compatible with any of the existing opensource compositors.
+
+Till we have a better way to utilize this, I am okay to drop this code.
+
+When we do re-visit this implementation especially for src split, 
+atleast we have a reference of this PW link of what has been removed and 
+can take it from there.
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->
-> Oops, I forgot to check in new files after spliting a commit.
-> Fixed.
->
-> This depends on:
-> https://patchwork.freedesktop.org/series/103715/
->
->  .../ABI/testing/sysfs-kernel-dmabuf-buffers   | 14 +++++
->  drivers/dma-buf/Makefile                      |  2 +-
->  drivers/dma-buf/dma-buf-sysfs-caps.c          | 51 +++++++++++++++++++
->  drivers/dma-buf/dma-buf-sysfs-caps.h          | 16 ++++++
->  drivers/dma-buf/dma-buf-sysfs-stats.c         | 13 +----
->  drivers/dma-buf/dma-buf-sysfs-stats.h         |  6 ++-
->  drivers/dma-buf/dma-buf.c                     | 43 ++++++++++++++--
->  include/uapi/linux/dma-buf.h                  |  6 +++
->  8 files changed, 133 insertions(+), 18 deletions(-)
->  create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.c
->  create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.h
->
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> index 5d3bc997dc64..682d313689d8 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
-> @@ -22,3 +22,17 @@ KernelVersion:       v5.13
->  Contact:       Hridya Valsaraju <hridya@google.com>
->  Description:   This file is read-only and specifies the size of the
-> DMA-BUF in
->                 bytes.
-> +
-> +What:          /sys/kernel/dmabuf/caps
-> +Date:          May 2022
-> +KernelVersion: v5.19
-> +Contact:       Simon Ser <contact@emersion.fr>
-> +Description:   This directory advertises DMA-BUF capabilities supported
-> by the
-> +               kernel.
-> +
-> +What:          /sys/kernel/dmabuf/caps/sync_file_import_export
-> +Date:          May 2022
-> +KernelVersion: v5.19
-> +Contact:       Simon Ser <contact@emersion.fr>
-> +Description:   This file is read-only and advertises support for
-> importing and
-> +               exporting sync_files from/to DMA-BUFs.
-> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> index 4c9eb53ba3f8..afc874272710 100644
-> --- a/drivers/dma-buf/Makefile
-> +++ b/drivers/dma-buf/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-y :=3D dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
-> -        dma-resv.o
-> +        dma-resv.o dma-buf-sysfs-caps.o
->  obj-$(CONFIG_DMABUF_HEAPS)     +=3D dma-heap.o
->  obj-$(CONFIG_DMABUF_HEAPS)     +=3D heaps/
->  obj-$(CONFIG_SYNC_FILE)                +=3D sync_file.o
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.c
-> b/drivers/dma-buf/dma-buf-sysfs-caps.c
-> new file mode 100644
-> index 000000000000..c760e55353bc
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-buf-sysfs-caps.c
-> @@ -0,0 +1,51 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * DMA-BUF sysfs capabilities.
-> + *
-> + * Copyright (C) 2022 Simon Ser
-> + */
-> +
-> +#include <linux/kobject.h>
-> +#include <linux/sysfs.h>
-> +
-> +#include "dma-buf-sysfs-caps.h"
-> +
-> +static ssize_t sync_file_import_export_show(struct kobject *kobj,
-> +                                           struct kobj_attribute *attr,
-> +                                           char *buf)
-> +{
-> +       return sysfs_emit(buf, "1\n");
-> +}
-> +
-> +static struct kobj_attribute dma_buf_sync_file_import_export_attr =3D
-> +       __ATTR_RO(sync_file_import_export);
-> +
-> +static struct attribute *dma_buf_caps_attrs[] =3D {
-> +       &dma_buf_sync_file_import_export_attr.attr,
-> +       NULL,
-> +};
-> +
-> +static const struct attribute_group dma_buf_caps_attr_group =3D {
-> +       .attrs =3D dma_buf_caps_attrs,
-> +};
-> +
-> +static struct kobject *dma_buf_caps_kobj;
-> +
-> +int dma_buf_init_sysfs_capabilities(struct kset *kset)
-> +{
-> +       int ret;
-> +
-> +       dma_buf_caps_kobj =3D kobject_create_and_add("caps", &kset->kobj)=
-;
-> +       if (!dma_buf_caps_kobj)
-> +               return -ENOMEM;
-> +
-> +       ret =3D sysfs_create_group(dma_buf_caps_kobj,
-> &dma_buf_caps_attr_group);
-> +       if (ret)
-> +               kobject_put(dma_buf_caps_kobj);
-> +       return ret;
-> +}
-> +
-> +void dma_buf_uninit_sysfs_capabilities(void)
-> +{
-> +       kobject_put(dma_buf_caps_kobj);
-> +}
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.h
-> b/drivers/dma-buf/dma-buf-sysfs-caps.h
-> new file mode 100644
-> index 000000000000..d7bcef490b31
-> --- /dev/null
-> +++ b/drivers/dma-buf/dma-buf-sysfs-caps.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * DMA-BUF sysfs capabilities.
-> + *
-> + * Copyright (C) 2022 Simon Ser
-> + */
-> +
-> +#ifndef _DMA_BUF_SYSFS_CAPS_H
-> +#define _DMA_BUF_SYSFS_CAPS_H
-> +
-> +struct kset;
-> +
-> +int dma_buf_init_sysfs_capabilities(struct kset *kset);
-> +void dma_buf_uninit_sysfs_capabilities(void);
-> +
-> +#endif // _DMA_BUF_SYSFS_CAPS_H
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> index 2bba0babcb62..09e43c8891d6 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-> @@ -141,21 +141,13 @@ static const struct kset_uevent_ops
-> dmabuf_sysfs_no_uevent_ops =3D {
->         .filter =3D dmabuf_sysfs_uevent_filter,
->  };
->
-> -static struct kset *dma_buf_stats_kset;
->  static struct kset *dma_buf_per_buffer_stats_kset;
-> -int dma_buf_init_sysfs_statistics(void)
-> +int dma_buf_init_sysfs_statistics(struct kset *kset)
->  {
-> -       dma_buf_stats_kset =3D kset_create_and_add("dmabuf",
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 166 ++---------------------
+>   1 file changed, 12 insertions(+), 154 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 751c64012058..cbd0e50c2bd3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1046,13 +1046,6 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
+>   	drm_crtc_vblank_on(crtc);
+>   }
+>   
+> -struct plane_state {
+> -	struct dpu_plane_state *dpu_pstate;
+> -	const struct drm_plane_state *drm_pstate;
+> -	int stage;
+> -	u32 pipe_id;
+> -};
 > -
-> &dmabuf_sysfs_no_uevent_ops,
-> -                                                kernel_kobj);
-> -       if (!dma_buf_stats_kset)
-> -               return -ENOMEM;
+>   static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   		struct drm_atomic_state *state)
+>   {
+> @@ -1060,28 +1053,21 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   									  crtc);
+>   	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+>   	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
+> -	struct plane_state *pstates;
+>   
+>   	const struct drm_plane_state *pstate;
+>   	struct drm_plane *plane;
+>   	struct drm_display_mode *mode;
+>   
+> -	int cnt = 0, rc = 0, mixer_width = 0, i, z_pos;
+> +	int rc = 0;
+>   
+> -	struct dpu_multirect_plane_states multirect_plane[DPU_STAGE_MAX * 2];
+> -	int multirect_count = 0;
+> -	const struct drm_plane_state *pipe_staged[SSPP_MAX];
+> -	int left_zpos_cnt = 0, right_zpos_cnt = 0;
+>   	struct drm_rect crtc_rect = { 0 };
+>   
+> -	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
 > -
->         dma_buf_per_buffer_stats_kset =3D kset_create_and_add("buffers",
->
-> &dmabuf_sysfs_no_uevent_ops,
+>   	if (!crtc_state->enable || !crtc_state->active) {
+>   		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
+>   				crtc->base.id, crtc_state->enable,
+>   				crtc_state->active);
+>   		memset(&cstate->new_perf, 0, sizeof(cstate->new_perf));
+> -		goto end;
+> +		return 0;
+>   	}
+>   
+>   	mode = &crtc_state->adjusted_mode;
+> @@ -1091,13 +1077,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   	if (crtc_state->active_changed)
+>   		crtc_state->mode_changed = true;
+>   
+> -	memset(pipe_staged, 0, sizeof(pipe_staged));
 > -
->  &dma_buf_stats_kset->kobj);
-> +                                                           &kset->kobj);
->         if (!dma_buf_per_buffer_stats_kset) {
->
-
-You can drop the braces now.  Otherwise,
-
-Reviewed-by: Jason Ekstrand <jason.ekstrand@collabora.com>
-
-I've updated my Mesa MR to use this so someone should go review that patch
-so we have userspace.  I've tested everything and it works nicely together.
-
-
-> -               kset_unregister(dma_buf_stats_kset);
->                 return -ENOMEM;
->         }
->
-> @@ -165,7 +157,6 @@ int dma_buf_init_sysfs_statistics(void)
->  void dma_buf_uninit_sysfs_statistics(void)
->  {
->         kset_unregister(dma_buf_per_buffer_stats_kset);
-> -       kset_unregister(dma_buf_stats_kset);
->  }
->
->  int dma_buf_stats_setup(struct dma_buf *dmabuf)
-> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h
-> b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> index a49c6e2650cc..798c54fb8ee3 100644
-> --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
-> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
-> @@ -8,9 +8,11 @@
->  #ifndef _DMA_BUF_SYSFS_STATS_H
->  #define _DMA_BUF_SYSFS_STATS_H
->
-> +struct kset;
-> +
->  #ifdef CONFIG_DMABUF_SYSFS_STATS
->
-> -int dma_buf_init_sysfs_statistics(void);
-> +int dma_buf_init_sysfs_statistics(struct kset *kset);
->  void dma_buf_uninit_sysfs_statistics(void);
->
->  int dma_buf_stats_setup(struct dma_buf *dmabuf);
-> @@ -18,7 +20,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf);
->  void dma_buf_stats_teardown(struct dma_buf *dmabuf);
->  #else
->
-> -static inline int dma_buf_init_sysfs_statistics(void)
-> +static inline int dma_buf_init_sysfs_statistics(struct kset *kset)
->  {
->         return 0;
->  }
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 5e1b0534b3ce..b5c5a5050508 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -30,6 +30,7 @@
->  #include <uapi/linux/dma-buf.h>
->  #include <uapi/linux/magic.h>
->
-> +#include "dma-buf-sysfs-caps.h"
->  #include "dma-buf-sysfs-stats.h"
->
->  static inline int is_dma_buf_file(struct file *);
-> @@ -1546,22 +1547,54 @@ static inline void dma_buf_uninit_debugfs(void)
->  }
->  #endif
->
-> +/* Capabilities and statistics files do not need to send uevents. */
-> +static int dmabuf_sysfs_uevent_filter(struct kobject *kobj)
-> +{
-> +       return 0;
-> +}
-> +
-> +static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {
-> +       .filter =3D dmabuf_sysfs_uevent_filter,
-> +};
-> +
-> +static struct kset *dma_buf_kset;
-> +
->  static int __init dma_buf_init(void)
->  {
->         int ret;
->
-> -       ret =3D dma_buf_init_sysfs_statistics();
-> +       dma_buf_kset =3D kset_create_and_add("dmabuf",
-> +                                          &dmabuf_sysfs_no_uevent_ops,
-> +                                          kernel_kobj);
-> +       if (!dma_buf_kset)
-> +               return -ENOMEM;
-> +
-> +       ret =3D dma_buf_init_sysfs_capabilities(dma_buf_kset);
->         if (ret)
-> -               return ret;
-> +               goto err_kset;
-> +
-> +       ret =3D dma_buf_init_sysfs_statistics(dma_buf_kset);
-> +       if (ret)
-> +               goto err_sysfs_caps;
->
->         dma_buf_mnt =3D kern_mount(&dma_buf_fs_type);
-> -       if (IS_ERR(dma_buf_mnt))
-> -               return PTR_ERR(dma_buf_mnt);
-> +       if (IS_ERR(dma_buf_mnt)) {
-> +               ret =3D PTR_ERR(dma_buf_mnt);
-> +               goto err_sysfs_stats;
-> +       }
->
->         mutex_init(&db_list.lock);
->         INIT_LIST_HEAD(&db_list.head);
->         dma_buf_init_debugfs();
->         return 0;
-> +
-> +err_sysfs_stats:
-> +       dma_buf_uninit_sysfs_statistics();
-> +err_sysfs_caps:
-> +       dma_buf_uninit_sysfs_capabilities();
-> +err_kset:
-> +       kset_unregister(dma_buf_kset);
-> +       return ret;
->  }
->  subsys_initcall(dma_buf_init);
->
-> @@ -1570,5 +1603,7 @@ static void __exit dma_buf_deinit(void)
->         dma_buf_uninit_debugfs();
->         kern_unmount(dma_buf_mnt);
->         dma_buf_uninit_sysfs_statistics();
-> +       dma_buf_uninit_sysfs_capabilities();
-> +       kset_unregister(dma_buf_kset);
->  }
->  __exitcall(dma_buf_deinit);
-> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> index 70e213a0d7d9..ab3afd5da75a 100644
-> --- a/include/uapi/linux/dma-buf.h
-> +++ b/include/uapi/linux/dma-buf.h
-> @@ -114,6 +114,9 @@ struct dma_buf_sync {
->   * ordering via these fences, it is the respnosibility of userspace to u=
-se
->   * locks or other mechanisms to ensure that no other context adds fences
-> or
->   * submits work between steps 1 and 3 above.
-> + *
-> + * Userspace can check the availability of this API via
-> + * /sys/kernel/dmabuf/caps/sync_file_import_export.
->   */
->  struct dma_buf_export_sync_file {
->         /**
-> @@ -146,6 +149,9 @@ struct dma_buf_export_sync_file {
->   * synchronized APIs such as Vulkan to inter-op with dma-buf consumers
->   * which expect implicit synchronization such as OpenGL or most media
->   * drivers/video.
-> + *
-> + * Userspace can check the availability of this API via
-> + * /sys/kernel/dmabuf/caps/sync_file_import_export.
->   */
->  struct dma_buf_import_sync_file {
->         /**
-> --
-> 2.36.1
->
->
->
-
---000000000000be30a305dff21fc0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, May 26, 2022 at 12:40 PM Simon Ser &lt;<a href=3D"mailto:con=
-tact@emersion.fr">contact@emersion.fr</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">To discover support for new DMA-BUF IO=
-CTLs, user-space has no<br>
-choice but to try to perform the IOCTL on an existing DMA-BUF.<br>
-However, user-space may want to figure out whether or not the<br>
-IOCTL is available before it has a DMA-BUF at hand, e.g. at<br>
-initialization time in a Wayland compositor.<br>
-<br>
-Add a /sys/kernel/dmabuf/caps directory which allows the DMA-BUF<br>
-subsystem to advertise supported features. Add a<br>
-sync_file_import_export entry which indicates that importing and<br>
-exporting sync_files from/to DMA-BUFs is supported.<br>
-<br>
-Signed-off-by: Simon Ser &lt;<a href=3D"mailto:contact@emersion.fr" target=
-=3D"_blank">contact@emersion.fr</a>&gt;<br>
-Cc: Jason Ekstrand &lt;<a href=3D"mailto:jason@jlekstrand.net" target=3D"_b=
-lank">jason@jlekstrand.net</a>&gt;<br>
-Cc: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch" target=3D"_=
-blank">daniel.vetter@ffwll.ch</a>&gt;<br>
-Cc: Bas Nieuwenhuizen &lt;<a href=3D"mailto:bas@basnieuwenhuizen.nl" target=
-=3D"_blank">bas@basnieuwenhuizen.nl</a>&gt;<br>
-Cc: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@amd.com" ta=
-rget=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
----<br>
-<br>
-Oops, I forgot to check in new files after spliting a commit.<br>
-Fixed.<br>
-<br>
-This depends on:<br>
-<a href=3D"https://patchwork.freedesktop.org/series/103715/" rel=3D"norefer=
-rer" target=3D"_blank">https://patchwork.freedesktop.org/series/103715/</a>=
-<br>
-<br>
-=C2=A0.../ABI/testing/sysfs-kernel-dmabuf-buffers=C2=A0 =C2=A0| 14 +++++<br=
->
-=C2=A0drivers/dma-buf/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0drivers/dma-buf/dma-buf-sysfs-caps.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 51 +++++++++++++++++++<br>
-=C2=A0drivers/dma-buf/dma-buf-sysfs-caps.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 16 ++++++<br>
-=C2=A0drivers/dma-buf/dma-buf-sysfs-stats.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 13 +----<br>
-=C2=A0drivers/dma-buf/dma-buf-sysfs-stats.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 6 ++-<br>
-=C2=A0drivers/dma-buf/dma-buf.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 43 ++++++++++++++--<br>
-=C2=A0include/uapi/linux/dma-buf.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 +++<br>
-=C2=A08 files changed, 133 insertions(+), 18 deletions(-)<br>
-=C2=A0create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.c<br>
-=C2=A0create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.h<br>
-<br>
-diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Docume=
-ntation/ABI/testing/sysfs-kernel-dmabuf-buffers<br>
-index 5d3bc997dc64..682d313689d8 100644<br>
---- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers<br>
-+++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers<br>
-@@ -22,3 +22,17 @@ KernelVersion:=C2=A0 =C2=A0 =C2=A0 =C2=A0v5.13<br>
-=C2=A0Contact:=C2=A0 =C2=A0 =C2=A0 =C2=A0Hridya Valsaraju &lt;<a href=3D"ma=
-ilto:hridya@google.com" target=3D"_blank">hridya@google.com</a>&gt;<br>
-=C2=A0Description:=C2=A0 =C2=A0This file is read-only and specifies the siz=
-e of the DMA-BUF in<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bytes.<br>
-+<br>
-+What:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /sys/kernel/dmabuf/caps<br>
-+Date:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 May 2022<br>
-+KernelVersion: v5.19<br>
-+Contact:=C2=A0 =C2=A0 =C2=A0 =C2=A0Simon Ser &lt;<a href=3D"mailto:contact=
-@emersion.fr" target=3D"_blank">contact@emersion.fr</a>&gt;<br>
-+Description:=C2=A0 =C2=A0This directory advertises DMA-BUF capabilities su=
-pported by the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel.<br>
-+<br>
-+What:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /sys/kernel/dmabuf/caps/sync_file_=
-import_export<br>
-+Date:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 May 2022<br>
-+KernelVersion: v5.19<br>
-+Contact:=C2=A0 =C2=A0 =C2=A0 =C2=A0Simon Ser &lt;<a href=3D"mailto:contact=
-@emersion.fr" target=3D"_blank">contact@emersion.fr</a>&gt;<br>
-+Description:=C2=A0 =C2=A0This file is read-only and advertises support for=
- importing and<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exporting sync_file=
-s from/to DMA-BUFs.<br>
-diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile<br>
-index 4c9eb53ba3f8..afc874272710 100644<br>
---- a/drivers/dma-buf/Makefile<br>
-+++ b/drivers/dma-buf/Makefile<br>
-@@ -1,6 +1,6 @@<br>
-=C2=A0# SPDX-License-Identifier: GPL-2.0-only<br>
-=C2=A0obj-y :=3D dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o =
-\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 dma-resv.o<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 dma-resv.o dma-buf-sysfs-caps.o<br>
-=C2=A0obj-$(CONFIG_DMABUF_HEAPS)=C2=A0 =C2=A0 =C2=A0+=3D dma-heap.o<br>
-=C2=A0obj-$(CONFIG_DMABUF_HEAPS)=C2=A0 =C2=A0 =C2=A0+=3D heaps/<br>
-=C2=A0obj-$(CONFIG_SYNC_FILE)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 +=3D sync_file.o<br>
-diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.c b/drivers/dma-buf/dma-buf=
--sysfs-caps.c<br>
-new file mode 100644<br>
-index 000000000000..c760e55353bc<br>
---- /dev/null<br>
-+++ b/drivers/dma-buf/dma-buf-sysfs-caps.c<br>
-@@ -0,0 +1,51 @@<br>
-+/* SPDX-License-Identifier: GPL-2.0-only */<br>
-+/*<br>
-+ * DMA-BUF sysfs capabilities.<br>
-+ *<br>
-+ * Copyright (C) 2022 Simon Ser<br>
-+ */<br>
-+<br>
-+#include &lt;linux/kobject.h&gt;<br>
-+#include &lt;linux/sysfs.h&gt;<br>
-+<br>
-+#include &quot;dma-buf-sysfs-caps.h&quot;<br>
-+<br>
-+static ssize_t sync_file_import_export_show(struct kobject *kobj,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0struct kobj_attribute *attr,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0char *buf)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return sysfs_emit(buf, &quot;1\n&quot;);<br>
-+}<br>
-+<br>
-+static struct kobj_attribute dma_buf_sync_file_import_export_attr =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0__ATTR_RO(sync_file_import_export);<br>
-+<br>
-+static struct attribute *dma_buf_caps_attrs[] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;dma_buf_sync_file_import_export_attr.attr,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0NULL,<br>
-+};<br>
-+<br>
-+static const struct attribute_group dma_buf_caps_attr_group =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.attrs =3D dma_buf_caps_attrs,<br>
-+};<br>
-+<br>
-+static struct kobject *dma_buf_caps_kobj;<br>
-+<br>
-+int dma_buf_init_sysfs_capabilities(struct kset *kset)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_caps_kobj =3D kobject_create_and_add(&q=
-uot;caps&quot;, &amp;kset-&gt;kobj);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!dma_buf_caps_kobj)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D sysfs_create_group(dma_buf_caps_kobj, &=
-amp;dma_buf_caps_attr_group);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kobject_put(dma_buf=
-_caps_kobj);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-+}<br>
-+<br>
-+void dma_buf_uninit_sysfs_capabilities(void)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0kobject_put(dma_buf_caps_kobj);<br>
-+}<br>
-diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.h b/drivers/dma-buf/dma-buf=
--sysfs-caps.h<br>
-new file mode 100644<br>
-index 000000000000..d7bcef490b31<br>
---- /dev/null<br>
-+++ b/drivers/dma-buf/dma-buf-sysfs-caps.h<br>
-@@ -0,0 +1,16 @@<br>
-+/* SPDX-License-Identifier: GPL-2.0-only */<br>
-+/*<br>
-+ * DMA-BUF sysfs capabilities.<br>
-+ *<br>
-+ * Copyright (C) 2022 Simon Ser<br>
-+ */<br>
-+<br>
-+#ifndef _DMA_BUF_SYSFS_CAPS_H<br>
-+#define _DMA_BUF_SYSFS_CAPS_H<br>
-+<br>
-+struct kset;<br>
-+<br>
-+int dma_buf_init_sysfs_capabilities(struct kset *kset);<br>
-+void dma_buf_uninit_sysfs_capabilities(void);<br>
-+<br>
-+#endif // _DMA_BUF_SYSFS_CAPS_H<br>
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-bu=
-f-sysfs-stats.c<br>
-index 2bba0babcb62..09e43c8891d6 100644<br>
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c<br>
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c<br>
-@@ -141,21 +141,13 @@ static const struct kset_uevent_ops dmabuf_sysfs_no_u=
-event_ops =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .filter =3D dmabuf_sysfs_uevent_filter,<br>
-=C2=A0};<br>
-<br>
--static struct kset *dma_buf_stats_kset;<br>
-=C2=A0static struct kset *dma_buf_per_buffer_stats_kset;<br>
--int dma_buf_init_sysfs_statistics(void)<br>
-+int dma_buf_init_sysfs_statistics(struct kset *kset)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_stats_kset =3D kset_create_and_add(&quo=
-t;dmabuf&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 &amp;dmabuf_sysfs_no_uevent_ops,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 kernel_kobj);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!dma_buf_stats_kset)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_buf_per_buffer_stats_kset =3D kset_create_a=
-nd_add(&quot;buffers&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;dmabuf_=
-sysfs_no_uevent_ops,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;dma_buf_=
-stats_kset-&gt;kobj);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;kset-&gt=
-;kobj);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!dma_buf_per_buffer_stats_kset) {<br></bloc=
-kquote><div><br></div><div>You can drop the braces now.=C2=A0 Otherwise,</d=
-iv><div><br></div><div>Reviewed-by: Jason Ekstrand &lt;<a href=3D"mailto:ja=
-son.ekstrand@collabora.com">jason.ekstrand@collabora.com</a>&gt;</div><div>=
-<br></div><div>I&#39;ve updated my Mesa MR to use this so someone should go=
- review that patch so we have userspace.=C2=A0 I&#39;ve tested everything a=
-nd it works nicely together.<br></div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kset_unregister(dma=
-_buf_stats_kset);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOMEM;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-@@ -165,7 +157,6 @@ int dma_buf_init_sysfs_statistics(void)<br>
-=C2=A0void dma_buf_uninit_sysfs_statistics(void)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 kset_unregister(dma_buf_per_buffer_stats_kset);=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0kset_unregister(dma_buf_stats_kset);<br>
-=C2=A0}<br>
-<br>
-=C2=A0int dma_buf_stats_setup(struct dma_buf *dmabuf)<br>
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-bu=
-f-sysfs-stats.h<br>
-index a49c6e2650cc..798c54fb8ee3 100644<br>
---- a/drivers/dma-buf/dma-buf-sysfs-stats.h<br>
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.h<br>
-@@ -8,9 +8,11 @@<br>
-=C2=A0#ifndef _DMA_BUF_SYSFS_STATS_H<br>
-=C2=A0#define _DMA_BUF_SYSFS_STATS_H<br>
-<br>
-+struct kset;<br>
-+<br>
-=C2=A0#ifdef CONFIG_DMABUF_SYSFS_STATS<br>
-<br>
--int dma_buf_init_sysfs_statistics(void);<br>
-+int dma_buf_init_sysfs_statistics(struct kset *kset);<br>
-=C2=A0void dma_buf_uninit_sysfs_statistics(void);<br>
-<br>
-=C2=A0int dma_buf_stats_setup(struct dma_buf *dmabuf);<br>
-@@ -18,7 +20,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf);<br>
-=C2=A0void dma_buf_stats_teardown(struct dma_buf *dmabuf);<br>
-=C2=A0#else<br>
-<br>
--static inline int dma_buf_init_sysfs_statistics(void)<br>
-+static inline int dma_buf_init_sysfs_statistics(struct kset *kset)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-=C2=A0}<br>
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c<br>
-index 5e1b0534b3ce..b5c5a5050508 100644<br>
---- a/drivers/dma-buf/dma-buf.c<br>
-+++ b/drivers/dma-buf/dma-buf.c<br>
-@@ -30,6 +30,7 @@<br>
-=C2=A0#include &lt;uapi/linux/dma-buf.h&gt;<br>
-=C2=A0#include &lt;uapi/linux/magic.h&gt;<br>
-<br>
-+#include &quot;dma-buf-sysfs-caps.h&quot;<br>
-=C2=A0#include &quot;dma-buf-sysfs-stats.h&quot;<br>
-<br>
-=C2=A0static inline int is_dma_buf_file(struct file *);<br>
-@@ -1546,22 +1547,54 @@ static inline void dma_buf_uninit_debugfs(void)<br>
-=C2=A0}<br>
-=C2=A0#endif<br>
-<br>
-+/* Capabilities and statistics files do not need to send uevents. */<br>
-+static int dmabuf_sysfs_uevent_filter(struct kobject *kobj)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-+}<br>
-+<br>
-+static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.filter =3D dmabuf_sysfs_uevent_filter,<br>
-+};<br>
-+<br>
-+static struct kset *dma_buf_kset;<br>
-+<br>
-=C2=A0static int __init dma_buf_init(void)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_init_sysfs_statistics();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_kset =3D kset_create_and_add(&quot;dmab=
-uf&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
-amp;dmabuf_sysfs_no_uevent_ops,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 k=
-ernel_kobj);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!dma_buf_kset)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_init_sysfs_capabilities(dma_buf=
-_kset);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_kset;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D dma_buf_init_sysfs_statistics(dma_buf_k=
-set);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_sysfs_caps=
-;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_buf_mnt =3D kern_mount(&amp;dma_buf_fs_type=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(dma_buf_mnt))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(dma_=
-buf_mnt);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(dma_buf_mnt)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D PTR_ERR(dma=
-_buf_mnt);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_sysfs_stat=
-s;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mutex_init(&amp;db_list.lock);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 INIT_LIST_HEAD(&amp;db_list.head);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_buf_init_debugfs();<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+<br>
-+err_sysfs_stats:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_uninit_sysfs_statistics();<br>
-+err_sysfs_caps:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_uninit_sysfs_capabilities();<br>
-+err_kset:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0kset_unregister(dma_buf_kset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-=C2=A0}<br>
-=C2=A0subsys_initcall(dma_buf_init);<br>
-<br>
-@@ -1570,5 +1603,7 @@ static void __exit dma_buf_deinit(void)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_buf_uninit_debugfs();<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 kern_unmount(dma_buf_mnt);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_buf_uninit_sysfs_statistics();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dma_buf_uninit_sysfs_capabilities();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0kset_unregister(dma_buf_kset);<br>
-=C2=A0}<br>
-=C2=A0__exitcall(dma_buf_deinit);<br>
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h<br=
->
-index 70e213a0d7d9..ab3afd5da75a 100644<br>
---- a/include/uapi/linux/dma-buf.h<br>
-+++ b/include/uapi/linux/dma-buf.h<br>
-@@ -114,6 +114,9 @@ struct dma_buf_sync {<br>
-=C2=A0 * ordering via these fences, it is the respnosibility of userspace t=
-o use<br>
-=C2=A0 * locks or other mechanisms to ensure that no other context adds fen=
-ces or<br>
-=C2=A0 * submits work between steps 1 and 3 above.<br>
-+ *<br>
-+ * Userspace can check the availability of this API via<br>
-+ * /sys/kernel/dmabuf/caps/sync_file_import_export.<br>
-=C2=A0 */<br>
-=C2=A0struct dma_buf_export_sync_file {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /**<br>
-@@ -146,6 +149,9 @@ struct dma_buf_export_sync_file {<br>
-=C2=A0 * synchronized APIs such as Vulkan to inter-op with dma-buf consumer=
-s<br>
-=C2=A0 * which expect implicit synchronization such as OpenGL or most media=
-<br>
-=C2=A0 * drivers/video.<br>
-+ *<br>
-+ * Userspace can check the availability of this API via<br>
-+ * /sys/kernel/dmabuf/caps/sync_file_import_export.<br>
-=C2=A0 */<br>
-=C2=A0struct dma_buf_import_sync_file {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /**<br>
--- <br>
-2.36.1<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000be30a305dff21fc0--
+> -	if (cstate->num_mixers) {
+> -		mixer_width = mode->hdisplay / cstate->num_mixers;
+> -
+> +	if (cstate->num_mixers)
+>   		_dpu_crtc_setup_lm_bounds(crtc, crtc_state);
+> -	}
+>   
+>   	crtc_rect.x2 = mode->hdisplay;
+>   	crtc_rect.y2 = mode->vdisplay;
+> @@ -1105,33 +1086,16 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   	 /* get plane state for all drm planes associated with crtc state */
+>   	drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
+>   		struct drm_rect dst, clip = crtc_rect;
+> +		int z_pos;
+>   
+>   		if (IS_ERR_OR_NULL(pstate)) {
+>   			rc = PTR_ERR(pstate);
+>   			DPU_ERROR("%s: failed to get plane%d state, %d\n",
+>   					dpu_crtc->name, plane->base.id, rc);
+> -			goto end;
+> -		}
+> -		if (cnt >= DPU_STAGE_MAX * 4)
+> -			continue;
+> -
+> -		pstates[cnt].dpu_pstate = to_dpu_plane_state(pstate);
+> -		pstates[cnt].drm_pstate = pstate;
+> -		pstates[cnt].stage = pstate->normalized_zpos;
+> -		pstates[cnt].pipe_id = to_dpu_plane_state(pstate)->pipe.sspp->idx;
+> -
+> -		if (pipe_staged[pstates[cnt].pipe_id]) {
+> -			multirect_plane[multirect_count].r0 =
+> -				pipe_staged[pstates[cnt].pipe_id];
+> -			multirect_plane[multirect_count].r1 = pstate;
+> -			multirect_count++;
+> -
+> -			pipe_staged[pstates[cnt].pipe_id] = NULL;
+> -		} else {
+> -			pipe_staged[pstates[cnt].pipe_id] = pstate;
+> +			return rc;
+>   		}
+>   
+> -		cnt++;
+> +		dpu_plane_clear_multirect(pstate);
+>   
+>   		dst = drm_plane_state_dest(pstate);
+>   		if (!drm_rect_intersect(&clip, &dst)) {
+> @@ -1139,63 +1103,21 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   			DPU_ERROR("display: " DRM_RECT_FMT " plane: "
+>   				  DRM_RECT_FMT "\n", DRM_RECT_ARG(&crtc_rect),
+>   				  DRM_RECT_ARG(&dst));
+> -			rc = -E2BIG;
+> -			goto end;
+> +			return -E2BIG;
+>   		}
+> -	}
+> -
+> -	for (i = 1; i < SSPP_MAX; i++) {
+> -		if (pipe_staged[i])
+> -			dpu_plane_clear_multirect(pipe_staged[i]);
+> -	}
+>   
+> -	z_pos = -1;
+> -	for (i = 0; i < cnt; i++) {
+> -		/* reset counts at every new blend stage */
+> -		if (pstates[i].stage != z_pos) {
+> -			left_zpos_cnt = 0;
+> -			right_zpos_cnt = 0;
+> -			z_pos = pstates[i].stage;
+> -		}
+> +		z_pos = pstate->normalized_zpos;
+>   
+>   		/* verify z_pos setting before using it */
+>   		if (z_pos >= DPU_STAGE_MAX - DPU_STAGE_0) {
+>   			DPU_ERROR("> %d plane stages assigned\n",
+>   					DPU_STAGE_MAX - DPU_STAGE_0);
+> -			rc = -EINVAL;
+> -			goto end;
+> -		} else if (pstates[i].drm_pstate->crtc_x < mixer_width) {
+> -			if (left_zpos_cnt == 2) {
+> -				DPU_ERROR("> 2 planes @ stage %d on left\n",
+> -					z_pos);
+> -				rc = -EINVAL;
+> -				goto end;
+> -			}
+> -			left_zpos_cnt++;
+> -
+> -		} else {
+> -			if (right_zpos_cnt == 2) {
+> -				DPU_ERROR("> 2 planes @ stage %d on right\n",
+> -					z_pos);
+> -				rc = -EINVAL;
+> -				goto end;
+> -			}
+> -			right_zpos_cnt++;
+> +			return -EINVAL;
+>   		}
+>   
+> -		pstates[i].dpu_pstate->stage = z_pos + DPU_STAGE_0;
+> +		to_dpu_plane_state(pstate)->stage = z_pos + DPU_STAGE_0;
+>   		DRM_DEBUG_ATOMIC("%s: zpos %d\n", dpu_crtc->name, z_pos);
+> -	}
+>   
+> -	for (i = 0; i < multirect_count; i++) {
+> -		if (dpu_plane_validate_multirect_v2(&multirect_plane[i])) {
+> -			DPU_ERROR(
+> -			"multirect validation failed for planes (%d - %d)\n",
+> -					multirect_plane[i].r0->plane->base.id,
+> -					multirect_plane[i].r1->plane->base.id);
+> -			rc = -EINVAL;
+> -			goto end;
+> -		}
+>   	}
+>   
+>   	atomic_inc(&_dpu_crtc_get_kms(crtc)->bandwidth_ref);
+> @@ -1204,74 +1126,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>   	if (rc) {
+>   		DPU_ERROR("crtc%d failed performance check %d\n",
+>   				crtc->base.id, rc);
+> -		goto end;
+> -	}
+> -
+> -	/* validate source split:
+> -	 * use pstates sorted by stage to check planes on same stage
+> -	 * we assume that all pipes are in source split so its valid to compare
+> -	 * without taking into account left/right mixer placement
+> -	 */
+> -	for (i = 1; i < cnt; i++) {
+> -		struct plane_state *prv_pstate, *cur_pstate;
+> -		struct drm_rect left_rect, right_rect;
+> -		int32_t left_pid, right_pid;
+> -		int32_t stage;
+> -
+> -		prv_pstate = &pstates[i - 1];
+> -		cur_pstate = &pstates[i];
+> -		if (prv_pstate->stage != cur_pstate->stage)
+> -			continue;
+> -
+> -		stage = cur_pstate->stage;
+> -
+> -		left_pid = prv_pstate->dpu_pstate->base.plane->base.id;
+> -		left_rect = drm_plane_state_dest(prv_pstate->drm_pstate);
+> -
+> -		right_pid = cur_pstate->dpu_pstate->base.plane->base.id;
+> -		right_rect = drm_plane_state_dest(cur_pstate->drm_pstate);
+> -
+> -		if (right_rect.x1 < left_rect.x1) {
+> -			swap(left_pid, right_pid);
+> -			swap(left_rect, right_rect);
+> -		}
+> -
+> -		/**
+> -		 * - planes are enumerated in pipe-priority order such that
+> -		 *   planes with lower drm_id must be left-most in a shared
+> -		 *   blend-stage when using source split.
+> -		 * - planes in source split must be contiguous in width
+> -		 * - planes in source split must have same dest yoff and height
+> -		 */
+> -		if (right_pid < left_pid) {
+> -			DPU_ERROR(
+> -				"invalid src split cfg. priority mismatch. stage: %d left: %d right: %d\n",
+> -				stage, left_pid, right_pid);
+> -			rc = -EINVAL;
+> -			goto end;
+> -		} else if (right_rect.x1 != drm_rect_width(&left_rect)) {
+> -			DPU_ERROR("non-contiguous coordinates for src split. "
+> -				  "stage: %d left: " DRM_RECT_FMT " right: "
+> -				  DRM_RECT_FMT "\n", stage,
+> -				  DRM_RECT_ARG(&left_rect),
+> -				  DRM_RECT_ARG(&right_rect));
+> -			rc = -EINVAL;
+> -			goto end;
+> -		} else if (left_rect.y1 != right_rect.y1 ||
+> -			   drm_rect_height(&left_rect) != drm_rect_height(&right_rect)) {
+> -			DPU_ERROR("source split at stage: %d. invalid "
+> -				  "yoff/height: left: " DRM_RECT_FMT " right: "
+> -				  DRM_RECT_FMT "\n", stage,
+> -				  DRM_RECT_ARG(&left_rect),
+> -				  DRM_RECT_ARG(&right_rect));
+> -			rc = -EINVAL;
+> -			goto end;
+> -		}
+> +		return rc;
+>   	}
+>   
+> -end:
+> -	kfree(pstates);
+> -	return rc;
+> +	return 0;
+>   }
+>   
+>   int dpu_crtc_vblank(struct drm_crtc *crtc, bool en)
