@@ -2,55 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03629534BD4
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 10:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89AB534BF0
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 10:49:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C6D10EAD7;
-	Thu, 26 May 2022 08:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9433410F05E;
+	Thu, 26 May 2022 08:49:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 646BC10EAD7;
- Thu, 26 May 2022 08:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653554015; x=1685090015;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mb2bXkrjsFUmnTYtYHh4DKyswPqkgntlZ/AqQBxXyNQ=;
- b=kIYn8kNx0Ah03EFQ5VRnoN2+ZvyqrhMWxxXa2BgxKtFdGIaORCt/uN8o
- N9in8IHIMcxk0IVdKi/qvRJjTixhANCs2oSfJOnmoaIr3B2eR6xFYf7Xx
- PGP64daoDfhYkIp1fFdnZmoA0cCWfw5Acks+eSvENcmJPH1Qj99X+2f1i
- sIJKQEukcPmMcS9SqE9nNbeV/KjHdEv/L62Xh7mDq+JCEyXSbazlpL2Fi
- ImUUf2WOhualEGglCmqoDWYzp5b3MXa2tlDWvZdqcooIg/2/gAlKRKR9+
- WA+FImwlLpUYEvtvQebvQf1dgCLuHMuRMTg1irD15mWZQku0ZvmsjGHML g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="334723784"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="334723784"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2022 01:33:34 -0700
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="664833804"
-Received: from tkinch-mobl.ger.corp.intel.com (HELO [10.213.214.182])
- ([10.213.214.182])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2022 01:33:31 -0700
-Message-ID: <c9affa00-1d47-094a-4b21-bdd1522c02c7@linux.intel.com>
-Date: Thu, 26 May 2022 09:33:30 +0100
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05DB010ED44;
+ Thu, 26 May 2022 08:49:28 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24Q6TUP5019140;
+ Thu, 26 May 2022 08:49:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=gp8R1iDlNHe3KhfyxbkD7LcxRWOfrk8kRSnvpwqyIN8=;
+ b=N6L8IGIQjj70heLtzim+83fHGJYaf7iolQ+j1fHsIMVe6yTX4Z2rs+e9X0OwqP1vXlXY
+ vpbzP2AzQAa7brjfiuHpDYiqneAqVKsnuE94DPGZUf/33q5SguvgBrnhibhxXj3ouRYC
+ FbZYEjW8YMHpU2r9MjraHLa1aSyfQ1voYzFFXDZ4K7XOJLCACpfXwooPKfsECOE+g4Jg
+ 9LGFqgrmfFKmQAszdvabOKK41hSdnx52iq27W4+E3IA29qL9MsvSTOIETwVTtv926K19
+ C/KrBDAOrEaVcYtpBIlvu2cIgqDjw+hc8GvhJUXldVXJi5jDAZiOCrFKWAnXcOtLOHFK 3A== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g93tavart-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 26 May 2022 08:49:01 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 24Q8gUFi016249; Thu, 26 May 2022 08:49:00 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3g93wx4qe4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 26 May 2022 08:49:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HqnPo4eTIJG1ZN66gA/oAbADwqQ0ro52smLjPdNH93ctAhZaxHY7+fxaRDUQ7Nfagm22JAzTEyv/c7BqJ2LgpdtNXbHtcQ+I2vmR4HjSTMTUURK/wApd9QpzgrkCGzToJmFSoxvgDvhsGaPjnuxdnkYX9Vyu+N7sKFKMh7g+PzVU8TdMTyOaqxLoMCIJ9Auvc5ILBZQL0BEWCJYHwyQ2eFEdvBk9J3Y+eddIvfObi9v1/K9ny8ZA7ASG6CmtobJjZtB9Ze8d8Sij4jz5YKvixSC6ZuJ8UYwuNQNL31/sLVNaAqKyvrAEl8XcDgtyzlo3tLOx5ItE/81DMEv+Fmo0dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gp8R1iDlNHe3KhfyxbkD7LcxRWOfrk8kRSnvpwqyIN8=;
+ b=cufX3CyEu4FSJtUWhhDztdshOErtPgv2LHi+IZteqR10kEQQmPgcWfAwu9Rg6EppT29ruvEyezzwJbPZqBkKzHLWYbzHGoSvklmptauLaSbDArbhChaRb7s2sgShz+iT069CpUvqcYzFT0MBz7PuRYppvOiZakR7UiHToJXApX2Of+4R9jyqhqsd0PKsFxLZGL+TZ/QzgX5lEXBy9Jr/ZRsS6yxCnGOCAVloap5B01+a/M0qU2ApE4gWG+pLllPqnLgoAzyAqKkjxJ0qK+bJJhZVqKUapzXWFYmtz8NVoI7gM+LnDEQzulJSY6911dd12mm+8EFCQcrAw87ZRw6x7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gp8R1iDlNHe3KhfyxbkD7LcxRWOfrk8kRSnvpwqyIN8=;
+ b=zA7uTSM7vGs6q9/cXznfrrNjkPuYpoq7bTjDA/asYOifQyu+b+jNaKCkSNbJgMZDHqq1xM67r5yMrpAxDZNoQUH604ve84deNRjD8DWaSQdPhzn58wPTelg3getWcycYnRDELdgCvWP1WpZI7sH/HAE6yTQRwJlkWydWrlCGqpo=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MW5PR10MB5763.namprd10.prod.outlook.com
+ (2603:10b6:303:19c::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.23; Thu, 26 May
+ 2022 08:48:58 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5273.023; Thu, 26 May 2022
+ 08:48:58 +0000
+Date: Thu, 26 May 2022 11:48:32 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 8cb8311e95e3bb58bd84d6350365f14a718faa6d
+Message-ID: <20220526084832.GC2146@kadam>
+References: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
+ <20220525145056.953631743a4c494aabf000dc@linux-foundation.org>
+ <F0E25DFF-8256-48FF-8B88-C0E3730A3E5E@jrtc27.com>
+ <20220525152006.e87d3fa50aca58fdc1b43b6a@linux-foundation.org>
+ <Yo7U8kglHlcvQ0Ri@casper.infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yo7U8kglHlcvQ0Ri@casper.infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0049.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::12)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 03/10] drm/i915/uapi: expose the avail tracking
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220525184337.491763-1-matthew.auld@intel.com>
- <20220525184337.491763-4-matthew.auld@intel.com>
- <db5b82b1-4eb0-0d26-eaa8-b814b0de4dc0@linux.intel.com>
- <4acbf57d-fe19-8e6a-2521-5557bf842e54@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <4acbf57d-fe19-8e6a-2521-5557bf842e54@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5a8480aa-9787-4c8a-788c-08da3ef49261
+X-MS-TrafficTypeDiagnostic: MW5PR10MB5763:EE_
+X-Microsoft-Antispam-PRVS: <MW5PR10MB576391773DA5C21D153594AF8ED99@MW5PR10MB5763.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UnbmCcXN+b9yKw5ZKUKBbMf6H9DfeTElBOvndXSm4DAUuxQVbLVzcuMg/VQVMhI4uR1vJr2F4nhcuOld5h8QHl6AWa0aQFKJp/jwfoV7kkCT9m8OWUnxCutWPP8+hkA9DL/tkhyKL5RGdAtSW6XFTuQCSwPGbyNMcbdF7OtFgSLZPDw1guAHgSDAYJvPMUYTFBPyutWHBwGYKZECcoWtMYl5UGnz1XkUy6Mjn0RmMrNYPp1fWG7EErO38RqGzPvPwcB6mBNgEvi3qM+BynK8zFNpVyJFmy0HMfRyFtXr8aslPnlgl55wc3HvGLlw7s8yp3z0Q6IxTDu7ZuHNTGOSMTPUXcJ/XHMJehnocuiVmUoOol1y5zUYOVUq01uD5bwo56ilhNuRGYFtrE8s83gcZQsYCYaEuim6tJ1oTBmupUgLEMNivlgxNr/0VuRZ2GS94LlhzoPsFzQniZEGum6ek3ItKc+tAgVaTReLEIm1cs2EXYpWXpyaGK1Uc0QOwaIt+9s1xvF4Zc3h1nw4NYpGY5F8ay2C6KMWTU9IiDD5wpPt9B3CI78V8m9iRJhJmwbwofLa2I/yjcBzR6xoI7ePgiMO+zLvPDlN4BDf3kYN7ccDRpae5f+cv5hWbdP5nQrCiZk+nWk/F8btCel7BwyQrWMPOzrdC+Ptoy161eCiQY0BrT+kFyhDmjd5AEZE1gsc/ZOOJiGqVeOOmfXOc04KPg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(4326008)(6666004)(6506007)(86362001)(52116002)(66476007)(66946007)(9686003)(8676002)(66556008)(6512007)(26005)(6916009)(6486002)(316002)(44832011)(54906003)(508600001)(38100700002)(38350700002)(1076003)(186003)(83380400001)(2906002)(33656002)(5660300002)(33716001)(8936002)(4744005)(7416002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zul1lsNQxRYiON0dY2cqMQzZ54UDTG5679WWQxeHa7rPVVQR64+7MLmsArJ1?=
+ =?us-ascii?Q?V8DtoKpFqTyOmZ91wPaLJl0XYq2gCE3rsCsJt9rjh0W+dKB1iTYkND2ZFoq5?=
+ =?us-ascii?Q?R8hIxgQTfJmpx3n+ES/ww5L6k4TIQ+T3M/0WUP7l6ZRkT8QxHyToqLj7dTAo?=
+ =?us-ascii?Q?3nPPvPPMUGiezucB2KD2+MVxC/Evg2IiTxvhwWIjDL6xjswQm+oYUkd1SB2d?=
+ =?us-ascii?Q?DH7SJuT9qyteKKYhrdX+8rBj7eY79DRqQeN7Zw6MIF9y7AsEQtoZgdU0QhbZ?=
+ =?us-ascii?Q?mDy+yvismRjwwItx0rFfrBpbl3Q3a3PJn1zetfq/0Fbi4WMgiJ2Kf6CfAoT4?=
+ =?us-ascii?Q?lv/LTdC8EWqwQJo//4yO9dMPdsJN+qJFHXf9Ud8s89uQMcVLgwC4k09pqiel?=
+ =?us-ascii?Q?TuMb0V2P5AEMoMHP/cQ3xpKWnZoj8jdYa/WAjsDXKi6oK7K/ihSPkRiP4WLa?=
+ =?us-ascii?Q?JDdR4Y2YxoHYUaLmgaJQKY8LG8lXr/Ev4DUw7mbPMw9jojttovb8DTwGlJLZ?=
+ =?us-ascii?Q?yTAnILfCdCFNQKJfgLQbB4Pvjzu9GOMB+FSZEVt51SeVMcK8g8QTmT3bpBLz?=
+ =?us-ascii?Q?zWt9Kn4Iaqwe0q2vGxio5utoblFHgWPhSGxoGf6ZGTcntnYYiqVz5krR17RR?=
+ =?us-ascii?Q?ut+hNW8mqMx8E+deOOvkrDophMsqjg6LuDyBdqW7yyX2aX6nrHwb5mQIIe2L?=
+ =?us-ascii?Q?9kOhg7NCjtoYfQhvRmY7GKS7VSMwRqJ6c/5hFehiq4RoYiizva4Pb6gPWfjn?=
+ =?us-ascii?Q?Oz99vMNK+eObEujmH5TYNVvzOfkSB6247RwonXerDAVP/vUvpTu86gGSONOB?=
+ =?us-ascii?Q?j5f21mBYF89zfMQ5VW/alhN4BvfCr2oCs6hEa1iEnBQHF+Nur5ztYpcDlDrv?=
+ =?us-ascii?Q?fkE69bHEHs+esn47WDFEgFQZHvlFBnPTa5RAAcH3iSE2YK4YMYNGoYwBlQ33?=
+ =?us-ascii?Q?oS1mpB6tXi+gYZCqqqfhhSot8xyNtzqpCxqapSXu/VYFJbcH4c2GYcQJ2UVO?=
+ =?us-ascii?Q?/xGuxFJB12ACp6Qiq53iNSrxgMo9hdpsNBb/TIDS3AstLEyNpjvL6OAhG4Cj?=
+ =?us-ascii?Q?sPE/tdDbc2Fhi8csgma8+Y9ecWDtkKTJePdgBvd3btpWmFsWiA6FeysPqH4K?=
+ =?us-ascii?Q?GH+ll3THcizly2pKPx7+ml56F2+PuNCLeqCdS6ksjfyCkPH6Hso/1rgCTUI2?=
+ =?us-ascii?Q?P+y1kdG6H5SIJWzKLFIRA2jj5p5x2GVTNv6aLjpO3cjTBm+txrhoUdDkYQBI?=
+ =?us-ascii?Q?4wAuOTp9I56ZRF6l6Icy1c06LD6GX/ayc6ax/8DlINa9HzBzolFoNLdU6w/a?=
+ =?us-ascii?Q?iyNYFQvNRWImEflUD+nBby4JhxbWUEDBFXX0EqCXTPhyktPSBDRCUq0OAgBp?=
+ =?us-ascii?Q?mhB3vAYCL1UKzpyiLS4i213YgRaexCYLHsAAY8BzeqoW3M+J2cLasSeDmNQ9?=
+ =?us-ascii?Q?WBLxjdmVO1tEgppjU2Wgxp41pzE7GS1xCWEitctgPbSvuSJg3Q+gBqwRMXhI?=
+ =?us-ascii?Q?fHaC9tVpTktAzFndfnuUZODjQZmH08t/QrVEcRUlUE5chVFCy96qqxmtYNst?=
+ =?us-ascii?Q?1xv5idClHjZueKJjxsaWhbAFHEgFRKrsDNgBJR2L0MGC93TOrX+nZSlvqtDg?=
+ =?us-ascii?Q?Hlxs0XmIcheOQnEU1HNcE6PlR6hLN6S+74DjafzGCH5w1hwb7dBQcOqs0R98?=
+ =?us-ascii?Q?qSV3a0f1casEiywUq/o47EJrZqumk3NTxMndu6HlU2o3cWD77FjftQR6zF4H?=
+ =?us-ascii?Q?fo8mtMSFEft462iXQk4LId3Yi2Wdfqw=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a8480aa-9787-4c8a-788c-08da3ef49261
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2022 08:48:58.0774 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F8TVMs3YUkyp6UIcO4oQn/Bj0riPTlCb/HWarErHHzM8QLxw0hYPwul3kslzgCRAHW7ZN5hydZ9iR2tljAPmM0lL/x5F1sRaVlzcL2mThjQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5763
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.874
+ definitions=2022-05-26_03:2022-05-25,
+ 2022-05-26 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 mlxscore=0
+ phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2205260043
+X-Proofpoint-GUID: Yeg_fN2H03I3-DgomnM61R0bKPzI993G
+X-Proofpoint-ORIG-GUID: Yeg_fN2H03I3-DgomnM61R0bKPzI993G
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,260 +159,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: alsa-devel@alsa-project.org, linux-fbdev@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, kvm@vger.kernel.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, bpf@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-omap@vger.kernel.org,
+ Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-parport@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 26/05/2022 09:10, Matthew Auld wrote:
-> On 26/05/2022 08:58, Tvrtko Ursulin wrote:
->>
->> On 25/05/2022 19:43, Matthew Auld wrote:
->>> Vulkan would like to have a rough measure of how much device memory can
->>> in theory be allocated. Also add unallocated_cpu_visible_size to track
->>> the visible portion, in case the device is using small BAR.
->>
->> I have concerns here that it isn't useful and could even be 
->> counter-productive. If we give unprivileged access it may be 
->> considered a side channel, but if we "lie" (report total region size) 
->> to unprivileged clients (like in this patch), then they don't 
->> co-operate well and end trashing.
->>
->> Is Vulkan really sure it wants this and why?
+On Thu, May 26, 2022 at 02:16:34AM +0100, Matthew Wilcox wrote:
+> Bizarre this started showing up now.  The recent patch was:
 > 
-> Lionel pointed out: 
-> https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/VK_EXT_memory_budget.html 
+> -       info->alloced += compound_nr(page);
+> -       inode->i_blocks += BLOCKS_PER_PAGE << compound_order(page);
+> +       info->alloced += folio_nr_pages(folio);
+> +       inode->i_blocks += BLOCKS_PER_PAGE << folio_order(folio);
+> 
+> so it could tell that compound_order() was small, but folio_order()
+> might be large?
 
-So this query would provide 
-VkPhysicalDeviceMemoryBudgetPropertiesEXT::heapBudget. Apart that it 
-wouldn't since we thought to lie. And apart that it's text says:
+The old code also generates a warning on my test system.  Smatch thinks
+both compound_order() and folio_order() are 0-255.  I guess because of
+the "unsigned char compound_order;" in the struct page.
 
-"""
-...how much total memory from each heap the current process can use at 
-any given time, before allocations may start failing or causing 
-performance degradation. The values may change based on other activity 
-in the system that is outside the scope and control of the Vulkan 
-implementation.
-"""
+regards,
+dan carpenter
 
-It acknowledges itself in the second sentence that the first sentence is 
-questionable.
-
-And VkPhysicalDeviceMemoryBudgetPropertiesEXT::heapUsage would be still 
-missing and would maybe come via fdinfo? Or you plan to add it to this 
-same query later?
-
-I like to source knowledge of best practices from the long established 
-world of CPU scheduling and process memory management. Is anyone aware 
-of this kind of techniques there - applications actively looking at free 
-memory data from /proc/meminfo and dynamically adjusting their runtime 
-behaviour based on it? And that they are not single application on a 
-dedicated system type of things.
-
-Or perhaps this Vk extension is envisaged for exactly those kind of 
-scenarios? However if so then userspace can know all this data from 
-probed size and the data set it created.
-
-> Also note that the existing behaviour was to lie. I'm not sure what's 
-> the best option here.
-
-Uapi reserved -1 for unknown so we could do that?
-
-Regards,
-
-Tvrtko
-
->>
->> Regards,
->>
->> Tvrtko
->>
->>> Testcase: igt@i915_query@query-regions-unallocated
->>> Testcase: igt@i915_query@query-regions-sanity-check
->>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/i915_query.c             | 10 +++++-
->>>   drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 20 ++++++++++++
->>>   drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |  3 ++
->>>   drivers/gpu/drm/i915/intel_memory_region.c    | 14 +++++++++
->>>   drivers/gpu/drm/i915/intel_memory_region.h    |  3 ++
->>>   include/uapi/drm/i915_drm.h                   | 31 ++++++++++++++++++-
->>>   6 files changed, 79 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_query.c 
->>> b/drivers/gpu/drm/i915/i915_query.c
->>> index 9aa0b28aa6ee..e095c55f4d4b 100644
->>> --- a/drivers/gpu/drm/i915/i915_query.c
->>> +++ b/drivers/gpu/drm/i915/i915_query.c
->>> @@ -502,7 +502,15 @@ static int query_memregion_info(struct 
->>> drm_i915_private *i915,
->>>           else
->>>               info.probed_cpu_visible_size = mr->total;
->>> -        info.unallocated_size = mr->avail;
->>> +        if (perfmon_capable()) {
->>> +            intel_memory_region_avail(mr,
->>> +                          &info.unallocated_size,
->>> +                          &info.unallocated_cpu_visible_size);
->>> +        } else {
->>> +            info.unallocated_size = info.probed_size;
->>> +            info.unallocated_cpu_visible_size =
->>> +                info.probed_cpu_visible_size;
->>> +        }
->>>           if (__copy_to_user(info_ptr, &info, sizeof(info)))
->>>               return -EFAULT;
->>> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c 
->>> b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->>> index a5109548abc0..aa5c91e44438 100644
->>> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->>> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->>> @@ -365,6 +365,26 @@ u64 i915_ttm_buddy_man_visible_size(struct 
->>> ttm_resource_manager *man)
->>>       return bman->visible_size;
->>>   }
->>> +/**
->>> + * i915_ttm_buddy_man_visible_size - Query the avail tracking for 
->>> the manager.
->>> + *
->>> + * @man: The buddy allocator ttm manager
->>> + * @avail: The total available memory in pages for the entire manager.
->>> + * @visible_avail: The total available memory in pages for the CPU 
->>> visible
->>> + * portion. Note that this will always give the same value as @avail on
->>> + * configurations that don't have a small BAR.
->>> + */
->>> +void i915_ttm_buddy_man_avail(struct ttm_resource_manager *man,
->>> +                 u64 *avail, u64 *visible_avail)
->>> +{
->>> +    struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
->>> +
->>> +    mutex_lock(&bman->lock);
->>> +    *avail = bman->mm.avail >> PAGE_SHIFT;
->>> +    *visible_avail = bman->visible_avail;
->>> +    mutex_unlock(&bman->lock);
->>> +}
->>> +
->>>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->>>   void i915_ttm_buddy_man_force_visible_size(struct 
->>> ttm_resource_manager *man,
->>>                          u64 size)
->>> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h 
->>> b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
->>> index 52d9586d242c..d64620712830 100644
->>> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
->>> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
->>> @@ -61,6 +61,9 @@ int i915_ttm_buddy_man_reserve(struct 
->>> ttm_resource_manager *man,
->>>   u64 i915_ttm_buddy_man_visible_size(struct ttm_resource_manager *man);
->>> +void i915_ttm_buddy_man_avail(struct ttm_resource_manager *man,
->>> +                  u64 *avail, u64 *avail_visible);
->>> +
->>>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->>>   void i915_ttm_buddy_man_force_visible_size(struct 
->>> ttm_resource_manager *man,
->>>                          u64 size);
->>> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c 
->>> b/drivers/gpu/drm/i915/intel_memory_region.c
->>> index e38d2db1c3e3..94ee26e99549 100644
->>> --- a/drivers/gpu/drm/i915/intel_memory_region.c
->>> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
->>> @@ -279,6 +279,20 @@ void intel_memory_region_set_name(struct 
->>> intel_memory_region *mem,
->>>       va_end(ap);
->>>   }
->>> +void intel_memory_region_avail(struct intel_memory_region *mr,
->>> +                   u64 *avail, u64 *visible_avail)
->>> +{
->>> +    if (mr->type == INTEL_MEMORY_LOCAL) {
->>> +        i915_ttm_buddy_man_avail(mr->region_private,
->>> +                     avail, visible_avail);
->>> +        *avail <<= PAGE_SHIFT;
->>> +        *visible_avail <<= PAGE_SHIFT;
->>> +    } else {
->>> +        *avail = mr->total;
->>> +        *visible_avail = mr->total;
->>> +    }
->>> +}
->>> +
->>>   void intel_memory_region_destroy(struct intel_memory_region *mem)
->>>   {
->>>       int ret = 0;
->>> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h 
->>> b/drivers/gpu/drm/i915/intel_memory_region.h
->>> index 3d8378c1b447..2214f251bec3 100644
->>> --- a/drivers/gpu/drm/i915/intel_memory_region.h
->>> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
->>> @@ -127,6 +127,9 @@ int intel_memory_region_reserve(struct 
->>> intel_memory_region *mem,
->>>   void intel_memory_region_debug(struct intel_memory_region *mr,
->>>                      struct drm_printer *printer);
->>> +void intel_memory_region_avail(struct intel_memory_region *mr,
->>> +                   u64 *avail, u64 *visible_avail);
->>> +
->>>   struct intel_memory_region *
->>>   i915_gem_ttm_system_setup(struct drm_i915_private *i915,
->>>                 u16 type, u16 instance);
->>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->>> index 9df419a45244..e30f31a440b3 100644
->>> --- a/include/uapi/drm/i915_drm.h
->>> +++ b/include/uapi/drm/i915_drm.h
->>> @@ -3228,7 +3228,15 @@ struct drm_i915_memory_region_info {
->>>        */
->>>       __u64 probed_size;
->>> -    /** @unallocated_size: Estimate of memory remaining (-1 = 
->>> unknown) */
->>> +    /**
->>> +     * @unallocated_size: Estimate of memory remaining (-1 = unknown)
->>> +     *
->>> +     * Requires CAP_PERFMON or CAP_SYS_ADMIN to get reliable 
->>> accounting.
->>> +     * Without this (or if this is an older kernel) the value here will
->>> +     * always equal the @probed_size. Note this is only currently 
->>> tracked
->>> +     * for I915_MEMORY_CLASS_DEVICE regions (for other types the 
->>> value here
->>> +     * will always equal the @probed_size).
->>> +     */
->>>       __u64 unallocated_size;
->>>       union {
->>> @@ -3262,6 +3270,27 @@ struct drm_i915_memory_region_info {
->>>                * @probed_size.
->>>                */
->>>               __u64 probed_cpu_visible_size;
->>> +
->>> +            /**
->>> +             * @unallocated_cpu_visible_size: Estimate of CPU
->>> +             * visible memory remaining (-1 = unknown).
->>> +             *
->>> +             * Note this is only tracked for
->>> +             * I915_MEMORY_CLASS_DEVICE regions (for other types the
->>> +             * value here will always equal the
->>> +             * @probed_cpu_visible_size).
->>> +             *
->>> +             * Requires CAP_PERFMON or CAP_SYS_ADMIN to get reliable
->>> +             * accounting.  Without this the value here will always
->>> +             * equal the @probed_cpu_visible_size. Note this is only
->>> +             * currently tracked for I915_MEMORY_CLASS_DEVICE
->>> +             * regions (for other types the value here will also
->>> +             * always equal the @probed_cpu_visible_size).
->>> +             *
->>> +             * If this is an older kernel the value here will be
->>> +             * zero, see also @probed_cpu_visible_size.
->>> +             */
->>> +            __u64 unallocated_cpu_visible_size;
->>>           };
->>>       };
->>>   };
