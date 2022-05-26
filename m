@@ -1,70 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB2653473F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 02:00:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0231C53474D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 02:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 272AE10F022;
-	Thu, 26 May 2022 00:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB05F10F6D1;
+	Thu, 26 May 2022 00:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1B010EF6B
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 00:00:44 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id 27so176753ljw.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 17:00:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5zFPj/Lsz3VZ73WXe7ELTaWMJ+ZxRrgEb+Xb7Ni6Ng8=;
- b=rRb5O2lnxUEM86uGzt4QARS8Zro0rCTRgxDkl72s/BixfUdbeOJwKVcaD6sELjlSeL
- 4wmxYHFoW+AHCNuRytUGE4osuUmVWxyQCJatTr9mFb0JWbVTuj5hDcbb9Bx8ah5Y2ANr
- oZTJ2gOqyKcx6NfQ1+DdnUw4f+31qvAbu/fiaIekn4aWvMj0V7Z20BLH0f0nR83FZBeU
- 8K4sAyz8DXY7Xn2Bgx2Y+YDU1ceZ5+zxwx6tlN/oN5VCtrNT8SE8QCnKSE4zm7F87OUp
- ALjVkTFCx/ZYSdNj/vQB71ouBav/PQRWiNsrSOYkR4UPxJwDV5WsXpsy1zIVEox2c/E7
- 8wnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5zFPj/Lsz3VZ73WXe7ELTaWMJ+ZxRrgEb+Xb7Ni6Ng8=;
- b=3/x7x2JFSAALiVld7j3I/wSc4oG8S2fDU7of2rrQ7hcTjP9q/N77VKdX5muk3Df/aF
- WdZGvmnzH3mQNrPCNSlXpGN8Vzk0dHa9uFA0jiNTvVZj4kl1CzmBo6eEqtvsd6ZK8wFS
- mdhSOrksBKAHq/L4MXpGZFCB0Li+P3k2MkqArKOeFIWIVm+ldvYZo8zYO3vnNMkxzlRP
- SpWa9ggPDiLT7c4lssPz+GcD5qbBpnGz6xRTXqLWmXxbyEV/9UyONIqbLfojFqdCZZDY
- CcNSL7cjI99C1StAiVOi6OYNjkz1MXPFr9KUZi/ofWAVLpEkV1C7R9B9oip9E5FqZNXH
- DrbA==
-X-Gm-Message-State: AOAM530annRZM8Wa6kBT5oDtCl01T95gIaown0nVfhf/7OzpMOSf0Bt1
- d5J9rLQ0mlkzL7cUu5BqrDDheQ==
-X-Google-Smtp-Source: ABdhPJziV0fg3DLoCNTmn2wELrZo2bGxcnHBlQlnXkE4kaPIaEikeAE1K5M8cxYQfWgnJZf5fwVgtQ==
-X-Received: by 2002:a05:651c:512:b0:253:fd41:12eb with SMTP id
- o18-20020a05651c051200b00253fd4112ebmr5878583ljp.429.1653523242170; 
- Wed, 25 May 2022 17:00:42 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- d13-20020a19384d000000b0047255d2118fsm16353lfj.190.2022.05.25.17.00.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 May 2022 17:00:41 -0700 (PDT)
-Message-ID: <941eb91e-cc80-4987-f481-63bd53b739e0@linaro.org>
-Date: Thu, 26 May 2022 03:00:40 +0300
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38EBE10F698;
+ Thu, 26 May 2022 00:08:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653523707; x=1685059707;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tmwrit1dgQxdQl6Jk490SmR8Scnt8+kfrNYjj+boFjg=;
+ b=MgT0EzAF+0mV26n1J5RcJ8kinbovJq5Di4OQEbMez+ZzjEymNy66yKbB
+ xwAfuqez7wrYDe4G8mB3hlIvUlarYFNrB8538i4r3jR4yL6/zUvT+PWPi
+ ciPyHKHi36dPRnM/01Vl086RfGw7uLzU8GFzO23x/IpSWEHD7b1bHQB2+
+ MZqGzkISvH12CwVYnUfTYSknU1gZKv1tDyZeHuqBe6kuCIam6sNm/z6CE
+ CZ2uiZMMl7Qrc9BttR6X41LOOXynvR3rgOvQJX2brBnm6WqXlwZTRiuH5
+ j4D1BkDNOze7jTDi3IQROcjiIqG8dIAl6H/aybHnEDHRS8txj7yzgrBa3 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="273696458"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="273696458"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2022 17:08:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="642595075"
+Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 25 May 2022 17:08:22 -0700
+Received: from kbuild by db63a1be7222 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nu137-0003R7-Pc;
+ Thu, 26 May 2022 00:08:21 +0000
+Date: Thu, 26 May 2022 08:08:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 08/10] drm/i915/uapi: disable capturing
+ objects on recoverable contexts
+Message-ID: <202205260728.itOPg4qx-lkp@intel.com>
+References: <20220525184337.491763-9-matthew.auld@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v13 1/3] phy: qcom-edp: add regulator_set_load to edp phy
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
- agross@kernel.org, bjorn.andersson@linaro.org
-References: <1653512540-21956-1-git-send-email-quic_khsieh@quicinc.com>
- <1653512540-21956-2-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1653512540-21956-2-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220525184337.491763-9-matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,25 +59,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ kbuild-all@lists.01.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/05/2022 00:02, Kuogee Hsieh wrote:
-> This patch add regulator_set_load() before enable regulator at
-> eDP phy driver.
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Hi Matthew,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Thank you for the patch! Yet something to improve:
 
-> ---
->   drivers/phy/qualcomm/phy-qcom-edp.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+[auto build test ERROR on drm-tip/drm-tip]
+[also build test ERROR on v5.18 next-20220525]
+[cannot apply to drm-intel/for-linux-next drm/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Auld/small-BAR-uapi-bits/20220526-024641
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20220526/202205260728.itOPg4qx-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d52a6e75b0c402c7f3b42a2b1b2873f151220947)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/fdc3574e30bb0fdfdc9569fa42d369b1fae41e9e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Matthew-Auld/small-BAR-uapi-bits/20220526-024641
+        git checkout fdc3574e30bb0fdfdc9569fa42d369b1fae41e9e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:3429:6: error: assigning to 'int' from incompatible type 'void'
+           err = eb_capture_stage(&eb);
+               ^ ~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +3429 drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+
+  3384	
+  3385		if (args->flags & I915_EXEC_FENCE_OUT) {
+  3386			out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
+  3387			if (out_fence_fd < 0) {
+  3388				err = out_fence_fd;
+  3389				goto err_in_fence;
+  3390			}
+  3391		}
+  3392	
+  3393		err = eb_create(&eb);
+  3394		if (err)
+  3395			goto err_out_fence;
+  3396	
+  3397		GEM_BUG_ON(!eb.lut_size);
+  3398	
+  3399		err = eb_select_context(&eb);
+  3400		if (unlikely(err))
+  3401			goto err_destroy;
+  3402	
+  3403		err = eb_select_engine(&eb);
+  3404		if (unlikely(err))
+  3405			goto err_context;
+  3406	
+  3407		err = eb_lookup_vmas(&eb);
+  3408		if (err) {
+  3409			eb_release_vmas(&eb, true);
+  3410			goto err_engine;
+  3411		}
+  3412	
+  3413		i915_gem_ww_ctx_init(&eb.ww, true);
+  3414	
+  3415		err = eb_relocate_parse(&eb);
+  3416		if (err) {
+  3417			/*
+  3418			 * If the user expects the execobject.offset and
+  3419			 * reloc.presumed_offset to be an exact match,
+  3420			 * as for using NO_RELOC, then we cannot update
+  3421			 * the execobject.offset until we have completed
+  3422			 * relocation.
+  3423			 */
+  3424			args->flags &= ~__EXEC_HAS_RELOC;
+  3425			goto err_vma;
+  3426		}
+  3427	
+  3428		ww_acquire_done(&eb.ww.ctx);
+> 3429		err = eb_capture_stage(&eb);
+  3430		if (err)
+  3431			goto err_vma;
+  3432	
+  3433		out_fence = eb_requests_create(&eb, in_fence, out_fence_fd);
+  3434		if (IS_ERR(out_fence)) {
+  3435			err = PTR_ERR(out_fence);
+  3436			out_fence = NULL;
+  3437			if (eb.requests[0])
+  3438				goto err_request;
+  3439			else
+  3440				goto err_vma;
+  3441		}
+  3442	
+  3443		err = eb_submit(&eb);
+  3444	
+  3445	err_request:
+  3446		eb_requests_get(&eb);
+  3447		err = eb_requests_add(&eb, err);
+  3448	
+  3449		if (eb.fences)
+  3450			signal_fence_array(&eb, eb.composite_fence ?
+  3451					   eb.composite_fence :
+  3452					   &eb.requests[0]->fence);
+  3453	
+  3454		if (out_fence) {
+  3455			if (err == 0) {
+  3456				fd_install(out_fence_fd, out_fence->file);
+  3457				args->rsvd2 &= GENMASK_ULL(31, 0); /* keep in-fence */
+  3458				args->rsvd2 |= (u64)out_fence_fd << 32;
+  3459				out_fence_fd = -1;
+  3460			} else {
+  3461				fput(out_fence->file);
+  3462			}
+  3463		}
+  3464	
+  3465		if (unlikely(eb.gem_context->syncobj)) {
+  3466			drm_syncobj_replace_fence(eb.gem_context->syncobj,
+  3467						  eb.composite_fence ?
+  3468						  eb.composite_fence :
+  3469						  &eb.requests[0]->fence);
+  3470		}
+  3471	
+  3472		if (!out_fence && eb.composite_fence)
+  3473			dma_fence_put(eb.composite_fence);
+  3474	
+  3475		eb_requests_put(&eb);
+  3476	
+  3477	err_vma:
+  3478		eb_release_vmas(&eb, true);
+  3479		WARN_ON(err == -EDEADLK);
+  3480		i915_gem_ww_ctx_fini(&eb.ww);
+  3481	
+  3482		if (eb.batch_pool)
+  3483			intel_gt_buffer_pool_put(eb.batch_pool);
+  3484	err_engine:
+  3485		eb_put_engine(&eb);
+  3486	err_context:
+  3487		i915_gem_context_put(eb.gem_context);
+  3488	err_destroy:
+  3489		eb_destroy(&eb);
+  3490	err_out_fence:
+  3491		if (out_fence_fd != -1)
+  3492			put_unused_fd(out_fence_fd);
+  3493	err_in_fence:
+  3494		dma_fence_put(in_fence);
+  3495	err_ext:
+  3496		put_fence_array(eb.fences, eb.num_fences);
+  3497		return err;
+  3498	}
+  3499	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://01.org/lkp
