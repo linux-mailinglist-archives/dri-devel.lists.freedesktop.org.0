@@ -1,57 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7312534D31
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 12:18:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7899C534D3B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 12:21:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 758E610E997;
-	Thu, 26 May 2022 10:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8CD510ED44;
+	Thu, 26 May 2022 10:21:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2657B10E927;
- Thu, 26 May 2022 10:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653560300; x=1685096300;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=dU/2BP1rSwAhJwBPTy3VgikcoeYKXhnupFLGjaT35+A=;
- b=W7qSIE6WfpMCQhvJoA60h7U83qwQcLgkcWg3yMo5424/2e74oawlVPYK
- sI7DnlUznuylzvzTTla415QgkXTk9gpU8nJu7i4QMqR2Z1SYdCQFFuy0/
- lm5n5V9ZDrBdHMLojUwcoBPzPV0rYdEBAf8SSmVNCzRMdGicz7okUn39H
- 6vesZt4fzrx19OWVR03V9JAiIuYLHUFRoSeyGcPP2WfGnN04UFbTrhwdo
- QsHQYe0Rh525nicseoO/6eOqNBCxskIqU3rR1TKcgM+ORqXB5XOAjWG8s
- 8l4eBq7QlKX20QndiKkxn8nrJakV0eex5m7qQRMA3So9VR24sykNjqX+k A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="360499470"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="360499470"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2022 03:18:19 -0700
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="664869992"
-Received: from tkinch-mobl.ger.corp.intel.com (HELO [10.213.214.182])
- ([10.213.214.182])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2022 03:18:18 -0700
-Message-ID: <53ebd108-c9db-0673-f2c8-5a237dbf354a@linux.intel.com>
-Date: Thu, 26 May 2022 11:18:17 +0100
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 538C110EBE2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 10:21:37 +0000 (UTC)
+X-UUID: ab0ea9fc6ee54cb3a76822d40887aca9-20220526
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:009eb02e-ede3-409f-b892-9b2fbdb185ec, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:659c9447-4fb1-496b-8f1d-39e733fed1ea,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: ab0ea9fc6ee54cb3a76822d40887aca9-20220526
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 711455987; Thu, 26 May 2022 18:21:28 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 26 May 2022 18:21:27 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Thu, 26 May 2022 18:21:27 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v22 0/5] Add Mediatek Soc DRM (vdosys0) support for mt8195
+Date: Thu, 26 May 2022 18:21:21 +0800
+Message-ID: <20220526102126.19756-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/i915/dg2: Catch and log more unexpected values in
- DG1_MSTR_TILE_INTR
-Content-Language: en-US
-To: Matt Roper <matthew.d.roper@intel.com>
-References: <20220524094339.1692212-1-tvrtko.ursulin@linux.intel.com>
- <Yo0bBxHBH8cZcnN4@mdroper-desk1.amr.corp.intel.com>
- <f37468b3-1066-ee4b-fb5b-7664fd180fd6@linux.intel.com>
- <Yo5v7/pLw4eF8xxw@mdroper-desk1.amr.corp.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Yo5v7/pLw4eF8xxw@mdroper-desk1.amr.corp.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,118 +57,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: devicetree@vger.kernel.org, "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy
+ Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Chnage in v22:
+- fix build fail in mtk_drm_drv.c:190
 
-On 25/05/2022 19:05, Matt Roper wrote:
-> On Wed, May 25, 2022 at 05:03:13PM +0100, Tvrtko Ursulin wrote:
->>
->> On 24/05/2022 18:51, Matt Roper wrote:
->>> On Tue, May 24, 2022 at 10:43:39AM +0100, Tvrtko Ursulin wrote:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>
->>>> Catch and log any garbage in the register, including no tiles marked, or
->>>> multiple tiles marked.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>> Cc: Matt Roper <matthew.d.roper@intel.com>
->>>> ---
->>>> We caught garbage in DG1_MSTR_TILE_INTR with DG2 (actual value 0xF9D2C008)
->>>> during glmark and more badness. So I thought lets log all possible failure
->>>> modes from here and also use per device logging.
->>>> ---
->>>>    drivers/gpu/drm/i915/i915_irq.c | 33 ++++++++++++++++++++++-----------
->>>>    drivers/gpu/drm/i915/i915_reg.h |  1 +
->>>>    2 files changed, 23 insertions(+), 11 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
->>>> index 73cebc6aa650..79853d3fc1ed 100644
->>>> --- a/drivers/gpu/drm/i915/i915_irq.c
->>>> +++ b/drivers/gpu/drm/i915/i915_irq.c
->>>> @@ -2778,24 +2778,30 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
->>>>    	u32 gu_misc_iir;
->>>>    	if (!intel_irqs_enabled(i915))
->>>> -		return IRQ_NONE;
->>>> +		goto none;
->>>>    	master_tile_ctl = dg1_master_intr_disable(regs);
->>>> -	if (!master_tile_ctl) {
->>>> -		dg1_master_intr_enable(regs);
->>>> -		return IRQ_NONE;
->>>> +	if (!master_tile_ctl)
->>>> +		goto enable_none;
->>>> +
->>>> +	if (master_tile_ctl & ~(DG1_MSTR_IRQ | DG1_MSTR_TILE_MASK)) {
->>>> +		drm_warn(&i915->drm, "Garbage in master_tile_ctl: 0x%08x!\n",
->>>> +			 master_tile_ctl);
->>>
->>> I know we have a bunch of them already, but shouldn't we be avoiding
->>> printk-based stuff like this inside interrupt handlers?  Should we be
->>> migrating all these error messages over to trace_printk or something
->>> similar that's safer to use?
->>
->> Not sure - I kind of think some really unexpected and worrying situations
->> should be loud and on by default. Risk is then spam if not ratelimited.
->> Maybe we should instead ratelimit most errors/warnings coming for irq
->> handlers?
-> 
-> It's not the risk of spam that's the problem, but rather that
-> printk-based stuff eventually calls into the console code to flush its
-> buffers.  That's way more overhead than you want in an interrupt handler
-> so it's bad on its own, but if you're using something slow like a serial
-> console, it becomes even more of a problem.
+Change in v21:
+- rebase on next-20220525
 
-Is it a problem for messages which we never expect to see?
+Change in v20:
+- split binding patch to another series 'MediaTek MT8195 display binding':
+  https://patchwork.ozlabs.org/project/devicetree-bindings/list/?series=295669
+- fix io_start type from u32 to resource_size_t
+- fix some commit message for DITHER enum
 
-> While the unexpected bits in the master tile register are strange and
-> may point to a bigger problem somewhere else, they're also harmless on
-> their own since we should just ignore those bits and only process the
-> valid tiles.
+Change in v19:
+- fix checking condition for the return vaule of platform resource
+- drm/mediatek fix build waning for [-Wunused-const-variable]
 
-Yes, I was expecting that a patch belonging to multi-tile enablement 
-would be incoming soon, which would be changing:
+Change in v18:
+- change get driver data by io_start and wrap mmsys driver data into
+  mmsys match data structure to support identifying multi mmsys driver
+  data with the same compatible name
+- change DDP_COMPONENT_DITHER to DDP_CONPONENT_DITHER0
 
-+	if (REG_FIELD_GET(DG1_MSTR_TILE_MASK, master_tile_ctl) !=
-+	    DG1_MSTR_TILE(0)) {
-+		drm_warn(&i915->drm, "Unexpected irq from tile %u!\n",
-+			 ilog2(REG_FIELD_GET(DG1_MSTR_TILE_MASK,
-+					     master_tile_ctl)));
-+		goto enable_none;
-  	}
+Change in v17:
+- change compatible name from 2 vdosys to 1 mmsys
+- add get driver data by clk name function to get corresponding
+  driver data for mt8195 vdosys0
+- add all routing table setting for mt8195 vdosys0
+- remove useless mutex define
 
- From this patch, into something completely different like walking bit 
-by bit, handling the present tiles, and warning on unexpected ones. What 
-should remain though is warning on no tiles signaled (which what we saw, 
-together with garbage in reserved bits).
+Change in v16:
+- rebase on linu-next tag: 'next-20220303'
+- rebase on series: 'Fix MediaTek display dt-bindings issues'
 
->> In this particular case at least DRM_ERROR with no device info is the odd
->> one out in the entire file so I'd suggest changing at least that, if the
->> rest of my changes is of questionable benefit.
-> 
-> Changing DRM_ERROR -> drm_err would probably be fine in the short term
-> since it doesn't really make us any worse off.  Changing to drm_warn
-> might not be great since we're generating a lot more lines of output and
+Change in v15:
+- remove mt8195-mmsys.h comment for mux settings
+- define the mask macro to replace using value as mask
+  to fix zero mask problem
+- add EOF setting comment for MUTEX sof register
 
-Sorry I don't follow - why does replacing drm_err with drm_warn generate 
-(a lot) more lines of output?
+Change in v14:
+- rebase on mediatek-drm-next-5.17
+- rebase on "Add mmsys and mutex support for MDP" series
+- rebase on "media: mediatek: support mdp3 on mt8183 platform" series
 
-But it can be drm_err for all I care, I don't think we really have 
-consistent story between errors and warnings in this area.
+Change in v13:
+- remove dts patch
+- rebase on kernel-5.16-rc1
+- rebase on mediatek-drm-next
 
-> probably multiplying the already bad overhead that shouldn't be
-> happening in an interrupt handler.  But if we could update the interrupt
-> handler to just save away the details and do the actual drm_warn later,
-> outside the interrupt handler code, that would be okay.  We should
-> probably work toward something like that for all of our interrupt
-> handler warning/error messages.
+Change in v12:
+- add clock-names property to merge yaml
+- using BIT(nr) macro to define the settings of mmsys routing table
+- fix clk_get and clk_prepare_enable error handling issue
 
-Not sure I agree - for messages which we don't expect to see it doesn't 
-really matter that there will be overhead when they are hit. Presumably 
-bad things are already happening there so spending effort to optimise 
-those path is questionable.
+Change in v11:
+- rebase on kernel-5.15-rc1
+- change mbox label to gce0 for dts node of vdosys0
+- change ovl compatibale to mt8192 to set smi_id_en=true in driver data
+- move common module from display folder to common folder,
+  such as AAL, COCLOR, CCORR and MUTEX
 
-Regards,
+Change in v10:
+- rebase on "drm/mediatek: add support for mediatek SOC MT8192" series
+- rebase on "soc: mediatek: mmsys: add mt8192 mmsys support" series
+- fix some typo and "mediatek" start with capital in every dt-bindings
+- move mutex yaml from dfisplay folder to soc folder
+- separate merge additional propoerties to an individual dt-bindings patch
 
-Tvrtko
+Change in v9:
+- separate power and gce properties of mmsys into another dt-binding patch
+- rebase on "Separate aal module" series
+- keep mtk_ddp_clk_enable/disable in the same place
+- change mtk_dsc_start config register to mtk_drm_ddp_write_mask
+- remove the 0 setting of merge fifo config function
+- add CCORR driver data for mt8195
+
+Change in v8:
+- add DP_INTF0 mux into mmsys routing table
+- add DP_INTF0 mutex mod and enum into add/remove comp function
+- remove bypass DSC enum in mtk_ddp_comp_init
+
+Change in v7:
+- add dt=binding of mmsys and disp path into this series
+- separate th modidfication of alphabetic order, remove unused define and
+  rename the define of register offset to individual patch
+- add comment for MERGE ultra and preultra setting
+
+Change in v6:
+- adjust alphabetic order for mediatek-drm
+- move the patch that add mt8195 support for mediatek-drm as
+  the lastest patch
+- add MERGE define for const varriable 
+
+Change in v5:
+- add power-domain property into vdosys0 and vdosys1 dts node.
+- add MT8195 prifix and remove unused VDO1 define in mt8195-mmsys.h
+
+Change in v4:
+- extract dt-binding patches to another patch series
+- squash DSC module into mtk_drm_ddp_comp.c
+- add coment and simplify MERGE config function
+
+Change in v3:
+- change mmsys and display dt-bindings document from txt to yaml
+- add MERGE additional description in display dt-bindings document
+- fix mboxes-cells number of vdosys0 node in dts
+- drop mutex eof convert define
+- remove pm_runtime apis in DSC and MERGE
+- change DSC and MERGE enum to alphabetic order
+
+Change in v2:
+- add DSC yaml file
+- add mt8195 drm driver porting parts in to one patch
+- remove useless define, variable, structure member and function
+- simplify DSC and MERGE file and switch threre order
+
+jason-jh.lin (5):
+  drm/mediatek: add DSC support for mediatek-drm
+  drm/mediatek: add MERGE support for mediatek-drm
+  drm/mediatek: add mediatek-drm of vdosys0 support for mt8195
+  drm/mediatek: add suffix 0 to DDP_COMPONENT_DITHER for mt8195 vdosys0
+  soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
+
+ drivers/gpu/drm/mediatek/Makefile           |   1 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   8 +
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c   | 246 ++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |   6 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  65 +++++-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 162 +++++++++++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   7 +
+ include/linux/soc/mediatek/mtk-mmsys.h      |   3 +-
+ 9 files changed, 483 insertions(+), 17 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_merge.c
+
+-- 
+2.18.0
+
