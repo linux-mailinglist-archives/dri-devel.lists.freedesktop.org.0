@@ -1,61 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA419534E4F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 13:44:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7918534EA2
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 13:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D9F10F2C8;
-	Thu, 26 May 2022 11:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B9110E0A7;
+	Thu, 26 May 2022 11:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3968210E083
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 11:44:16 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id s68so1116306pgs.10
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 04:44:16 -0700 (PDT)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F191E10E083
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 11:52:47 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id r3so1484766ljd.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 04:52:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Mf/PBhXudWeikzmFArA4THf+WTmY69KBHxrOKvhpwhE=;
- b=JJrDny96JbGaIUMj4x/xpDMp+oQkXSZkQxSJGDuiTpnzlerMBuCp6OEPjlDrZjuPGT
- Ko/TRfplkx+duYaqEwQlc0npS3jyDJoPUUj95Jj7S1x78QZlaZpnETowzov1T7FLNHKU
- WwhZ5zjbbr6Y21jmTQLTrFTh3LFNLxfdnUmOgs8YH+knP5vuy3iYUy+BqPnqIgXEJgQF
- 6MlBwSUd/twgwhmgeO4ve2f17aHiDTqmPYpNpwHO8HQ5mZCaJ6iDUFUENAp/dQOh8H7d
- XjUQRyeQoBQTh7b7PW0XCab62PJdTIzFONf+GOV+J2n7JXOk0ovYgBxDCyJ7plc4qzKt
- +rvA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=MVQ54/b1Bl5zWRXm8QvTFiSCRNNAIcNHd+D1lpI9ZC4=;
+ b=UmO31J8nUxjp24jXb9Co3KN+CJRVqgMArHtMvcSuJO9jKWXYfcw9VbrPq5AxzeSKve
+ XwfqJ/YWWzlM15YQ7L2Ar4pTSJS8dStrVzFwMFmeJMwAmPVRdVZIWB7lXBbtMiRV/L8u
+ 29u8sVAXQFS16oufZNyiAaly3L2FSIJ1ztnAN8iBfmvpauGpqCbbqKEzm/2gYtzrNU6T
+ 8zgAjq7HS3lwy70SilPNTgXtbtFb/g0QQ3CWw0wjAWNdSVwWw05wn4fSVjMrCMyN+SZ/
+ /WUfUezYDuuF7PU0JAQylw8BVe3pxpyp/5CEh9LrIjr7sHcFRJTrpqgKZsPsaeHdQa4h
+ dxNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Mf/PBhXudWeikzmFArA4THf+WTmY69KBHxrOKvhpwhE=;
- b=L3rIep8wootgfepmZiI1OtsBPIRfgDmiE6hp00utAFjFckZ18vWGCOcIkGQFZvM9cu
- csacfKF6njWM0zM2+VH1tkmoukkJT54RY2X5XzmInQrSaP4++MicDPax+j08O+f+hEXh
- Y+UrY5pBVwiA5a3gABWCs/1pwMclZ8hYShNimZAPy8+9DBgwe2zef9CgXXfkLpOPS843
- pOyyw3BM6+K5/7gF6dEjzKPc/pty9y2AyWI3oGuYuBOsKy0jur+AprKe00lnpSeiZlXz
- k5rvtBKeIlvRJ/8Oz0mcb8k9r5suOtmHfQdjpDo64ppAJUKrGkwrx6F83EaAbuZKun3m
- nVsw==
-X-Gm-Message-State: AOAM530SjXXmdk9q0eaJrOVxTqM6rqSZi/jLkpFDB7BsfzcbjYD3+mTD
- vZrDgbONNaVzUpAgiSaUSU+uFg==
-X-Google-Smtp-Source: ABdhPJziKnYEnwECbcUqLKProhmiWCkQ4BTngGPQbdjiQrftLw4d0/7RPvrSr33wj3o4SRqnCdRUlQ==
-X-Received: by 2002:a62:15ca:0:b0:518:2bd1:aa65 with SMTP id
- 193-20020a6215ca000000b005182bd1aa65mr37845386pfv.78.1653565455809; 
- Thu, 26 May 2022 04:44:15 -0700 (PDT)
-Received: from localhost ([122.162.234.2]) by smtp.gmail.com with ESMTPSA id
- j17-20020a170903025100b00161b407771dsm1313142plh.48.2022.05.26.04.44.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 04:44:15 -0700 (PDT)
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 16/31] drm/tegra: Migrate to dev_pm_opp_set_config()
-Date: Thu, 26 May 2022 17:12:15 +0530
-Message-Id: <b2272734b4ab0063569ea033dc218d18fec6aba8.1653564321.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1653564321.git.viresh.kumar@linaro.org>
-References: <cover.1653564321.git.viresh.kumar@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MVQ54/b1Bl5zWRXm8QvTFiSCRNNAIcNHd+D1lpI9ZC4=;
+ b=U7CuBioFvQtD+zmFchdx9oLnv09SDY1rjzaf6AxZ/osk10YWLpE3qFcCozidMnZ255
+ K+ZM9poGw1ft2K3Hrlyn9ayBvanfgtlpx6o8pzqrswMulfmhxLH2mDcz6rK1qanA841K
+ gQiQEmASXbiherczNx5aTTJPrOewm+6HYQFsLMOEqZMSQYjNTA6AJC9CC5HVWyxWbm5z
+ z+BMo1wQDXdfRxvE9TPSQyIoZ5zsBgy9AS2yG28YmR6rezBP4a/B4o0NItl2kQ4z8rgD
+ FHyZ243J/BEMSAsEXOuXGZnxUogOIGAosUj2FGcuDfNih9NcizNPci2cYFSi+h9CLWnJ
+ N84A==
+X-Gm-Message-State: AOAM532CIzmpT/rHVPft/OqCo5S2Vj9rP3oVv1i3Ld6YVIequFshlkMz
+ /8TwPE7bjhWmEHdSzSnMBU/dAQ==
+X-Google-Smtp-Source: ABdhPJztaBE9q35bXW9bdbc3Uh0AoR+2BUwqLHJO3rjZrvvCaUtOnyrtI6FYp/7+up8Ee6UQVdXDxQ==
+X-Received: by 2002:a2e:a60a:0:b0:253:dbf2:cf with SMTP id
+ v10-20020a2ea60a000000b00253dbf200cfmr18285606ljp.498.1653565966201; 
+ Thu, 26 May 2022 04:52:46 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ t4-20020a199104000000b0047255d211c8sm308410lfd.247.2022.05.26.04.52.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 May 2022 04:52:45 -0700 (PDT)
+Message-ID: <fbbb223b-c0cd-6cd9-ca1f-1c1ebaa5f6ce@linaro.org>
+Date: Thu, 26 May 2022 14:52:45 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [GIT PULL] drm/msm: drm-msm-fixes-2022-05-19
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>
+References: <b011d51d-d634-123e-bf5f-27219ee33151@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <b011d51d-d634-123e-bf5f-27219ee33151@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,49 +73,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Rafael Wysocki <rjw@rjwysocki.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-tegra@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The OPP core now provides a unified API for setting all configuration
-types, i.e. dev_pm_opp_set_config().
+On 19/05/2022 19:21, Abhinav Kumar wrote:
+> Hi Rob
+> 
+> Here is the pull request for the fixes for 5.19.
+> 
+> Just a few more changes on top of msm-fixes-staging.
+> 
+> Mainly it has the foll fixes:
+> 
+> - Limiting WB modes to max sspp linewidth
+> - Fixing the supported rotations to add 180 back for IGT
+> - Fix to handle pm_runtime_get_sync() errors to avoid unclocked access
+>    in the bind() path for dpu driver
+> - Fix the irq_free() without request issue which was a big-time
+>    hitter in the CI-runs.
 
-Lets start using it.
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- drivers/gpu/drm/tegra/gr3d.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> Thanks
+> 
+> Abhinav
+> 
+> 
+> 
+> The following changes since commit 
+> 947a844bb3ebff0f4736d244d792ce129f6700d7:
+> 
+>    drm: msm: fix possible memory leak in mdp5_crtc_cursor_set() 
+> (2022-05-18 11:05:21 -0700)
+> 
+> are available in the git repository at:
+> 
+>    https://gitlab.freedesktop.org/abhinavk/msm.git/ 
+> tags/msm-next-5.19-fixes
+> 
+> for you to fetch changes up to 64b22a0da12adb571c01edd671ee43634ebd7e41:
+> 
+>    drm/msm/dpu: handle pm_runtime_get_sync() errors in bind path 
+> (2022-05-18 18:32:03 -0700)
+> 
+> ----------------------------------------------------------------
+> 5.19 fixes for msm-next
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> ----------------------------------------------------------------
+> Abhinav Kumar (3):
+>        drm/msm/dpu: limit writeback modes according to max_linewidth
+>        drm/msm/dpu: add DRM_MODE_ROTATE_180 back to supported rotations
+>        drm/msm/dpu: handle pm_runtime_get_sync() errors in bind path
+> 
+> Dmitry Baryshkov (1):
+>        drm/msm: don't free the IRQ if it was not requested
+> 
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 4 +++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 4 +++-
+>   drivers/gpu/drm/msm/msm_drv.c                 | 7 ++++++-
+>   drivers/gpu/drm/msm/msm_kms.h                 | 1 +
+>   5 files changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/gr3d.c b/drivers/gpu/drm/tegra/gr3d.c
-index a1fd3113ea96..05c45c104e13 100644
---- a/drivers/gpu/drm/tegra/gr3d.c
-+++ b/drivers/gpu/drm/tegra/gr3d.c
-@@ -389,6 +389,10 @@ static int gr3d_init_power(struct device *dev, struct gr3d *gr3d)
- 	struct device_link *link;
- 	unsigned int i;
- 	int err;
-+	struct dev_pm_opp_config config = {
-+		.genpd_names = opp_genpd_names,
-+		.virt_devs = &opp_virt_devs,
-+	};
- 
- 	err = of_count_phandle_with_args(dev->of_node, "power-domains",
- 					 "#power-domain-cells");
-@@ -421,7 +425,7 @@ static int gr3d_init_power(struct device *dev, struct gr3d *gr3d)
- 	if (dev->pm_domain)
- 		return 0;
- 
--	err = devm_pm_opp_attach_genpd(dev, opp_genpd_names, &opp_virt_devs);
-+	err = devm_pm_opp_set_config(dev, &config);
- 	if (err)
- 		return err;
- 
+
 -- 
-2.31.1.272.g89b43f80a514
-
+With best wishes
+Dmitry
