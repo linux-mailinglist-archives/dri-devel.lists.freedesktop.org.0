@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD30D535694
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:54:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D16F5356A2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:55:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3DDF10F913;
-	Thu, 26 May 2022 23:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2A8810FC57;
+	Thu, 26 May 2022 23:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B141D10EF7E;
- Thu, 26 May 2022 23:54:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D9410FA22;
+ Thu, 26 May 2022 23:54:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id B73371F409FB
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id E84531F459ED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1653609282;
- bh=LFlzHZwAyFsCuldzWdNWjboYshAvld5NVcB549Tumb8=;
+ s=mail; t=1653609290;
+ bh=a6CciZvu/niFj4gUJ7nmx5idPKuwsFoNvS/I3tYS4zY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GigVHXqPQ1UcTCnTuhxphImtODnG4CrWAiWlc/yC2oNfRDmECLgFzjbCbAqw6EqH4
- DPtlp2TWrOSVV6pGFDCFYmNLgEOptU8xcB0QOIlh0yWVfKeAaN9PCezXe3xK6Mvrko
- lSylmljH7iRLpOWD46t5xooOTpr0QnnfMIohLV7J58MsxWCv8OZgEjyHYZfiVquXLs
- uGYkUAkUFtI6WdG3LX5ervwkZ1Lx0jLKsUeob7yi2N1kJ8hYtzVvu6EEpogKBGG1e7
- 2L8cjj9dcRrwg0HPMXFBuWbzWGKBTo2O2dYBlPnAl2pp4j5ilPU7yIz5HHHbTT+5B0
- 49FbriWR//k1g==
+ b=WGNfPLqGoNps/+DSLrepwv9EQg2HT/Vjb2fWG+klzDhKtzKgTkNc6akuOSiIZrnAL
+ jSfAnstFuKBe9Oo4rLCuS+SbAQjn6fpsUy2CAs+d6q7twRJi2aobsl3R6YgbCD4oVP
+ L72O5Rr4QHy4/A9Qf2yQhzq5nm6554SYVmTW+eT5s/HRqCTsb2n5JC8jTatnbmlLpS
+ J3z8OWGv1bK4Kp/Ol3IXc69207qWAcJLtvsKLSQhouNY8Udugypc7bq1huPS35p1RJ
+ S5W897eU44N8wVcjuTKs+Kvk6KhS/AeKz47+xSc663FPGf8B9hTP+41NIJMb+oO8XV
+ ywGN87A7zBj6Q==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -52,10 +52,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH v6 11/22] drm/shmem-helper: Correct doc-comment of
- drm_gem_shmem_get_sg_table()
-Date: Fri, 27 May 2022 02:50:29 +0300
-Message-Id: <20220526235040.678984-12-dmitry.osipenko@collabora.com>
+Subject: [PATCH v6 12/22] drm/virtio: Simplify error handling of
+ virtio_gpu_object_create()
+Date: Fri, 27 May 2022 02:50:30 +0300
+Message-Id: <20220526235040.678984-13-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
 References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
@@ -82,39 +82,52 @@ Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_shmem_get_sg_table() never returns NULL on error, but a ERR_PTR.
-Correct the doc comment which says that it returns NULL on error.
+Change the order of SHMEM initialization and reservation locking
+to make code cleaner and to prepare for transitioning of the common
+GEM SHMEM code to use the GEM's reservation lock instead of the
+shmem.page_lock.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+There is no need to lock reservation during allocation of the SHMEM pages
+because the lock is needed only to avoid racing with the async host-side
+allocation. Hence we can safely move the SHMEM initialization out of the
+reservation lock.
+
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_object.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 54b0ba28aa0a..7232e321fdb4 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -654,7 +654,8 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
-  * drm_gem_shmem_get_pages_sgt() instead.
-  *
-  * Returns:
-- * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-+ * A pointer to the scatter/gather table of pinned pages or an ERR_PTR()-encoded
-+ * error code on failure.
-  */
- struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
- {
-@@ -680,7 +681,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
-  * drm_gem_shmem_get_sg_table() should not be directly called by drivers.
-  *
-  * Returns:
-- * A pointer to the scatter/gather table of pinned pages or errno on failure.
-+ * A pointer to the scatter/gather table of pinned pages or an ERR_PTR()-encoded
-+ * error code on failure.
-  */
- struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
- {
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 21c19cdedce0..18f70ef6b4d0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -236,6 +236,10 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 
+ 	bo->dumb = params->dumb;
+ 
++	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
++	if (ret != 0)
++		goto err_put_id;
++
+ 	if (fence) {
+ 		ret = -ENOMEM;
+ 		objs = virtio_gpu_array_alloc(1);
+@@ -248,15 +252,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 			goto err_put_objs;
+ 	}
+ 
+-	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+-	if (ret != 0) {
+-		if (fence)
+-			virtio_gpu_array_unlock_resv(objs);
+-		virtio_gpu_array_put_free(objs);
+-		virtio_gpu_free_object(&shmem_obj->base);
+-		return ret;
+-	}
+-
+ 	if (params->blob) {
+ 		if (params->blob_mem == VIRTGPU_BLOB_MEM_GUEST)
+ 			bo->guest_blob = true;
 -- 
 2.35.3
 
