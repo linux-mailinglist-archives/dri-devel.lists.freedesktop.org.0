@@ -1,74 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA93534C3B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 11:05:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14546534C81
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 11:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0151F10EF0B;
-	Thu, 26 May 2022 09:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96AA110EF25;
+	Thu, 26 May 2022 09:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B434610EAC8;
- Thu, 26 May 2022 09:05:38 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 2492E5C00E0;
- Thu, 26 May 2022 05:05:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 26 May 2022 05:05:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1653555936; x=1653642336; bh=pFj+7WO1SOJz0ZXjigSsoFbHLjS7TjhY+yv
- REBYg6J8=; b=fYqBH5IfvkB3qu1T0bzOyOP+miDiSriLbrNGHjncVzoO+/ECh31
- bgY2nWPPdKyt0RmO6hAT5X9x5y6/PDc8L+/Pvtj1zhk9ctXCDtmo4gjCQgT5aMZJ
- mlcpe2c6VI+YnyyOKCEnjheHfopE62SKErm0LHI7dMJl3ejdXsBk7cmzU15dNHdc
- e7P+IXDcGUfJpPQcU12m/ewSXq4qTrdcK2yE0urHt154JyZl6Cd+lTIb/fM/Ritw
- N3CNPA5MECOTT2CbctGqGN06l9FTpltnssdkMis74RQmvlfhfR9GunoIa8YjEsyb
- CotTNySuCBTyTFOs30r/kWHhtcz13fcDAzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653555936; x=
- 1653642336; bh=pFj+7WO1SOJz0ZXjigSsoFbHLjS7TjhY+yvREBYg6J8=; b=e
- /3rr5Gjy/Bycch+dvWMi1X8ikNEoQX7etjr0T46ypxXr8c0I/cnXWbL2nxja1O2M
- 8fv3P3/fKb6NJVAAdmeWBPR0aiWpQ9VtZKgPtFxdUIg02Rbm6dBz38ho77nEicAt
- yi3QQCgVAmLw+LoHnMF/md/8n9WV7UQG86fFPYGT2Gd5fDvXZ+IvAiOz16Knr/eP
- cqApw/kelWDzOMKPRkBL989bk+Sr31w0/eScikiB4f9eTCH1fd493zaZ/Y1lkW4q
- 4JD1uKPpojj++BdedsMu0JY14kpApEYqiCVFj1Fm3aMbwgoK68z6A/kH1hi+NgYm
- rJT9zIGms5C4DhctAcukQ==
-X-ME-Sender: <xms:30KPYjYOs-0RXxDqQE41tlNMnjPPFD5ukmn8um-1FLnyISrQlgeQ4w>
- <xme:30KPYiatv0nGajRW2vDKHDV-KjBY3iR7olp187erdkgLrHTtobjQqj0we2FFkuWkU
- IG0AFJYhEk2fJNiQtk>
-X-ME-Received: <xmr:30KPYl81lSZNS2JjnNv-a78yDXAFZuWnpgVmxJK_k02QEUsC1ng10tbhpsUzswhngHjW_Z_MwP7unWLkea53azqgOB1mqMP53YLkDiY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrjeejgddtlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepueeiheejhfeivedtheduffdttefgtdeuvddvueegtefgveegvedugeffudevjeei
- necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
- vggthh
-X-ME-Proxy: <xmx:30KPYpp_8lWNcaMff_mfPmwXvvbTHtj_MWRSXBe93BbIWrV0YL8vhg>
- <xmx:30KPYup0IOEGjA5spiwUuuEeoYi2KhBmhesXaWU8fmRKx0zxQOuVCw>
- <xmx:30KPYvSfejj8asWvKNonopByLu5-nElj_Ryc3ujEcSG6bo6fIJ3KjQ>
- <xmx:4EKPYrgVlrTLX6t5GXT_HCp72soRjZ_8GRAY3ZtalCG1ljiF0UdKSw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 May 2022 05:05:35 -0400 (EDT)
-Date: Thu, 26 May 2022 11:05:32 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20220526090532.nvhlmwev5qgln3nb@houat>
+X-Greylist: delayed 13773 seconds by postgrey-1.36 at gabe;
+ Thu, 26 May 2022 09:29:18 UTC
+Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com
+ [162.62.57.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63DC010EF25
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 09:29:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1653557353; bh=YiVO9Z+7BbDvulQLJMKhwpIkzvy8COlR1+pQfWMbqW8=;
+ h=From:To:Cc:Subject:Date;
+ b=fRsiPBYMixYGynNUZJGj9Mol8HoPDd53IFFBt281YOjYnZv0lwyEwxB7sbUnZ3BML
+ OPe5o3eBkZ+Xi3t2etHNdsJFnQwzgvj+mcQNz4hb/96yYP6fEJL30pN+YxFQo5JJsu
+ N3nYF5yW/mjSaafvK9SZc7an6qttcgCfnMfUUB2A=
+Received: from localhost.localdomain ([116.128.244.169])
+ by newxmesmtplogicsvrsza7.qq.com (NewEsmtp) with SMTP
+ id 74B23E43; Thu, 26 May 2022 17:29:11 +0800
+X-QQ-mid: xmsmtpt1653557351t2ogozzdr
+Message-ID: <tencent_9934C5D4CD39D3C35606F674AE61310F2007@qq.com>
+X-QQ-XMAILINFO: MyHh0PQai9Fp6tHOjQ0UYffo5ElvQ5paDEg2XYJB+HIITHW6nzyPwpdeFV1pvb
+ 9tSW+PeFMKB8/pGBjoIwkRQqCZGP0YPYVx0uzDxkY6MbHCtUdLVw1TfZ9vfAtG8/nlHUuZ/j552m
+ HC1E0JyY1OGC46TuGaPK5PyGWonxJa9mIAn4s5rIZ/uS5Ia5MKTtUIt3MRyark65fIGCcj0e+iy3
+ D4Qu//IJhchvyd3VPTfsKIPuazGvYTYsVluUB/wJx9efn2LOKGOsM0e9rs4qlAlsw6kCcd+VoStJ
+ pZJE2gPTQUUOzwPcly1dlinwWlV7HMdN9YPAe4XJ2gk28BEapk4nJUKGsl6UOE1JolFQEqks7uxO
+ OjvS9tO52WWICLTsPqdpcu32wGU0h4iCtMkDW+rP0cGTE1gyDFmBQD4yT+RGzuX7p6qkvv2KRdnz
+ dufEmrwqk2KFSTWfn5qL72dtTeuoFSAPWCqve9WYfvh5ng/5hHjunu8P1ggiR0l2YgRaqvu2853v
+ bPFf4LFxaYydBscJ6HT+kWgAJLXAv4Ha+8RkJXCFY9SLdhhtVDWZf5mGPFcSwgABoPPUiPEitNlm
+ Lt2QvNQnlqEn/UN3EXL9OOPqu9zIxbzXTZD0a3PvYr7NEhLPZPFOETSOTN+pK74FsMG4mWaM7pry
+ WN+n7CztCgbRjnnBHlYRVdWpdLXvOYXGhC7n8lBVnI3g/VBADAzyriEh1ymeRbpGY63L8QX3dmcg
+ gfxheZiGVmGkxqvGD/RQSg9ga9KWONY6Mx91IlYOgHqmZTnV2gnBitjPrDFE7Jmzbtrm/gTndjgs
+ JI9q/PLht8/zzzMfr+h5NOxr/FyOx4DByyxp31KEZ/PdjI6koewk1yDNSxoFRbFkpuInGjqpi5UQ
+ ==
+From: 1064094935@qq.com
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] drm/amd: Fix spelling typo in comments
+Date: Thu, 26 May 2022 17:29:09 +0800
+X-OQ-MSGID: <20220526092909.1164946-1-1064094935@qq.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="32d6m4fojbj5xljq"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,65 +59,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ pengfuyuan <pengfuyuan@kylinos.cn>, amd-gfx@lists.freedesktop.org,
+ k2ci <kernel-bot@kylinos.cn>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: pengfuyuan <pengfuyuan@kylinos.cn>
 
---32d6m4fojbj5xljq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fix spelling typo in comments.
 
-Hi Daniel, Dave,
+Reported-by: k2ci <kernel-bot@kylinos.cn>
+Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                       | 2 +-
+ drivers/gpu/drm/amd/amdgpu/mes_api_def.h                  | 2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 2 +-
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c               | 4 ++--
+ drivers/gpu/drm/amd/display/modules/vmid/vmid.c           | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-Here's this week drm-misc-fixes PR.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 7606e3b6361e..35c303c865be 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -271,7 +271,7 @@ extern int amdgpu_vcnfw_log;
+ #define CIK_CURSOR_WIDTH 128
+ #define CIK_CURSOR_HEIGHT 128
+ 
+-/* smasrt shift bias level limits */
++/* smart shift bias level limits */
+ #define AMDGPU_SMARTSHIFT_MAX_BIAS (100)
+ #define AMDGPU_SMARTSHIFT_MIN_BIAS (-100)
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_api_def.h b/drivers/gpu/drm/amd/amdgpu/mes_api_def.h
+index 3f4fca5fd1da..c31abf554878 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_api_def.h
++++ b/drivers/gpu/drm/amd/amdgpu/mes_api_def.h
+@@ -33,7 +33,7 @@
+  */
+ enum { API_FRAME_SIZE_IN_DWORDS = 64 };
+ 
+-/* To avoid command in scheduler context to be overwritten whenenver mutilple
++/* To avoid command in scheduler context to be overwritten whenever multiple
+  * interrupts come in, this creates another queue.
+  */
+ enum { API_NUMBER_OF_COMMAND_MAX = 32 };
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 62139ff35476..8855a75dc75e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6705,7 +6705,7 @@ static void dm_disable_vblank(struct drm_crtc *crtc)
+ 	dm_set_vblank(crtc, false);
+ }
+ 
+-/* Implemented only the options currently availible for the driver */
++/* Implemented only the options currently available for the driver */
+ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
+ 	.reset = dm_crtc_reset_state,
+ 	.destroy = amdgpu_dm_crtc_destroy,
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index 4385d19bc489..733f99a6e8e6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -619,7 +619,7 @@ static int get_max_dsc_slices(union dsc_enc_slice_caps slice_caps)
+ }
+ 
+ 
+-// Increment sice number in available sice numbers stops if possible, or just increment if not
++// Increment slice number in available slice numbers stops if possible, or just increment if not
+ static int inc_num_slices(union dsc_enc_slice_caps slice_caps, int num_slices)
+ {
+ 	// Get next bigger num slices available in common caps
+@@ -650,7 +650,7 @@ static int inc_num_slices(union dsc_enc_slice_caps slice_caps, int num_slices)
+ }
+ 
+ 
+-// Decrement sice number in available sice numbers stops if possible, or just decrement if not. Stop at zero.
++// Decrement slice number in available slice numbers stops if possible, or just decrement if not. Stop at zero.
+ static int dec_num_slices(union dsc_enc_slice_caps slice_caps, int num_slices)
+ {
+ 	// Get next bigger num slices available in common caps
+diff --git a/drivers/gpu/drm/amd/display/modules/vmid/vmid.c b/drivers/gpu/drm/amd/display/modules/vmid/vmid.c
+index 61ee4be35d27..2c40212d86da 100644
+--- a/drivers/gpu/drm/amd/display/modules/vmid/vmid.c
++++ b/drivers/gpu/drm/amd/display/modules/vmid/vmid.c
+@@ -66,7 +66,7 @@ static void evict_vmids(struct core_vmid *core_vmid)
+ 	}
+ }
+ 
+-// Return value of -1 indicates vmid table unitialized or ptb dne in the table
++// Return value of -1 indicates vmid table uninitialized or ptb dne in the table
+ static int get_existing_vmid_for_ptb(struct core_vmid *core_vmid, uint64_t ptb)
+ {
+ 	int i;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h
+index 45f5d29bc705..15b313baa0ee 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h
+@@ -120,7 +120,7 @@
+ #define PPSMC_MSG_ReadSerialNumTop32		 0x40
+ #define PPSMC_MSG_ReadSerialNumBottom32		 0x41
+ 
+-/* paramater for MSG_LightSBR
++/* parameter for MSG_LightSBR
+  * 1 -- Enable light secondary bus reset, only do nbio respond without further handling,
+  *      leave driver to handle the real reset
+  * 0 -- Disable LightSBR, default behavior, SMU will pass the reset to PSP
+-- 
+2.25.1
 
-Maxime
 
-drm-misc-fixes-2022-05-26:
-A use-after-free fix for panfrost, and a DT invalid configuration fix for
-ti-sn65dsi83
-The following changes since commit 6e03b13cc7d9427c2c77feed1549191015615202:
-
-  drm/dp/mst: fix a possible memory leak in fetch_monitor_name() (2022-05-17 15:56:18 -0400)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-05-26
-
-for you to fetch changes up to 6e516faf04317db2c46cbec4e3b78b4653a5b109:
-
-  drm/panfrost: Job should reference MMU not file_priv (2022-05-25 09:14:22 +0100)
-
-----------------------------------------------------------------
-A use-after-free fix for panfrost, and a DT invalid configuration fix for
-ti-sn65dsi83
-
-----------------------------------------------------------------
-Marek Vasut (1):
-      drm/bridge: ti-sn65dsi83: Handle dsi_lanes == 0 as invalid
-
-Steven Price (1):
-      drm/panfrost: Job should reference MMU not file_priv
-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c   | 2 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c | 5 +++--
- drivers/gpu/drm/panfrost/panfrost_job.c | 6 +++---
- drivers/gpu/drm/panfrost/panfrost_job.h | 2 +-
- 4 files changed, 8 insertions(+), 7 deletions(-)
-
---32d6m4fojbj5xljq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYo9C2wAKCRDj7w1vZxhR
-xc3zAQCNGP7xktDmUynaCW84jLAqAQlvKYnXqVxXEwDhq6iM9gD6Ar0h9oD5O+Sv
-lniSFuPd2MnqHp0khJmKYZgTbEdRnwI=
-=K1ck
------END PGP SIGNATURE-----
-
---32d6m4fojbj5xljq--
+No virus found
+		Checked by Hillstone Network AntiVirus
