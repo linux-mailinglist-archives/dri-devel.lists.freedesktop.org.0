@@ -2,153 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA1A535128
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 17:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C8E535194
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 17:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5485310E271;
-	Thu, 26 May 2022 15:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E04610E2C5;
+	Thu, 26 May 2022 15:42:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09C1310E271;
- Thu, 26 May 2022 15:03:40 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24QEIbqw023102;
- Thu, 26 May 2022 15:03:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=A9gYVVzNysph+up9zBB3jlC53MHMwEss4RNCPYTZk/A=;
- b=tlwaHAtWRPD5G1vTjq/lcbCk/m6n32uiYJUF+MurUHIRneTBYSKdLdjN4SZ33NCvbvkL
- ssPcKDtbwCaUj62jR7N9qsZAPj73QGvsV4jon0cHMzgruNI1/fPG5VUJmYGKYHEY1B4n
- RETQSeFy5GmXe407YZTAsBF7aHUkPW8lekOG7c1ZJHLPMKeEnwhUKGbMlX2Ol0DvT4lG
- /cRrdDolcFeSPkf78um+ugFNqeTpTGslHEclOW3imH8KTgzW3RiidLxHwH79Yaonmhgm
- B4uy1xSnxfdapJy718JT8unGHsD/Yhpu/0bRYqw0ZPIp6RIcCDf+CpCc/cm3Q8WXXEvk 0A== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g93t9w2w1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 26 May 2022 15:03:24 +0000
-Received: from pps.filterd
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 24QExMFr012302; Thu, 26 May 2022 15:03:23 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com
- (mail-bn1nam07lp2045.outbound.protection.outlook.com [104.47.51.45])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3g93wxe0mc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 26 May 2022 15:03:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bh6AW3CZ5bFVjgTD0/+NJG+gmsLH8f5bXnpKFKduDc+3O+WHXiuz1lOszsQkejMxnsW8qrbR9GD8Aehxkd+5XW+CCVAdHnwy8lmvmda//2Cg8tFJ02RFypkB4WyOiMsWBsgk4V/UeEUN8r3QPMjgB7ULCHcXH8bq0MIiy68fzHoVBCDSzjCbAE+HsrsZ6BmxzlGi8TGnLbJF4yJvrAA1KInTu1VYXmkS17oIfLamXTKVJAT+8N6EdkfIQVdGbJlCYcDONrslJIRRO+yqy2F/Cgzaj94xhViW0c6u0t3E5lQDdERZSs2pZHV3dqU3DQ88FOAHjVcpbQ6+nfW9dNiKCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A9gYVVzNysph+up9zBB3jlC53MHMwEss4RNCPYTZk/A=;
- b=K+Osf9mLOPZkyngjkYuPAdna3mPifM/kxHWIBsj6s8bShF5IrC36QnT0RWd08J6ZzxRc3UGtwixSMZwpWm/+x9O48qnn6XbnZZBsSkSUnk2QRxNxuce+dPbbtHtYPMkBsysg9fLpYaTg39V0gPG+CuHC266rLx0AOM0I/sPpo9FjDtDpiJcaOuVmzYATJW3FRryqprpgIHLmkTlnKYJYSeCPuyoggdZD6gm3r7cZDRox2BHafeP6CfM58AyJkQrtkZXlhQJmbsR/NcWTLHVQRRRacw+s6hfVX+dO4f7NafBUcOtoiNE7ODL9KYvdUuaAE4d141qoJRCzQKPdUzDr1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A9gYVVzNysph+up9zBB3jlC53MHMwEss4RNCPYTZk/A=;
- b=R1U1gp1GvF1gDYJBl4zBnx/CmNZbv9oRmOVU7WIL5E0Fix87GdHnCeAEnCFUmRuvAHbcwHhK8Gu5Y6hR+/cbOWVaOcZy6fcqdvtJ3RB/PEq+Ix7pSZVU44/N63XGncVxhclYURNWLVJutD/lyFmBKJjTOtM+BObMyIatq8b5VQE=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DS7PR10MB4864.namprd10.prod.outlook.com
- (2603:10b6:5:3a2::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Thu, 26 May
- 2022 15:03:21 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5293.013; Thu, 26 May 2022
- 15:03:20 +0000
-Date: Thu, 26 May 2022 18:03:05 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Matthew Wilcox <willy@infradead.org>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 8cb8311e95e3bb58bd84d6350365f14a718faa6d
-Message-ID: <20220526150305.GH2168@kadam>
-References: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
- <20220525145056.953631743a4c494aabf000dc@linux-foundation.org>
- <F0E25DFF-8256-48FF-8B88-C0E3730A3E5E@jrtc27.com>
- <20220525152006.e87d3fa50aca58fdc1b43b6a@linux-foundation.org>
- <Yo7U8kglHlcvQ0Ri@casper.infradead.org>
- <20220526084832.GC2146@kadam>
- <Yo+OiR6abzVksVTM@casper.infradead.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yo+OiR6abzVksVTM@casper.infradead.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR2P264CA0027.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500::15)
- To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 178EC10E1C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 15:42:30 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ s4-20020a4ac804000000b0040e93a35508so352100ooq.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 08:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=n3qAlBBeFNZ+aBiN6togZG6C5YO85T5AdGF+1zBN49Q=;
+ b=LNeZtIBX+bOWD9mIM2QZXpdX6WjvRHSLWEP2lSAtqY2RGtmgC4uI0ByD2SrOR8Gn/C
+ 4GISyRYSnQz5XJf6zQ95LO7pedctMPzi1eqhI3kJNAjZFJG0XgYdl0iNysJjElmEP/YO
+ w3qVbdfNem8fDY0R4sWLFbwufVJ1kfzgRhw6g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=n3qAlBBeFNZ+aBiN6togZG6C5YO85T5AdGF+1zBN49Q=;
+ b=s6Ect3ZPRMWH2YgLZ0ludo+gzEAXKv/mdw4nHPH9bsECpiK8+LMYVCFo0ChP7zMCVZ
+ ENMnpIYyD1fEnilofOBB18cX3LBM2qs9vA1Nj2TocwGQ1rO1aXDxmLmx/JCvior4sMjA
+ u4F4w4qpkmmUdix1hwxcUFDW9NkRggNLqx1xfZo5yhXePnRYvyBaXq48TkZa2lshPZyR
+ tRRkmkQcO1Ez4KUHqLY0NamU5Q2T1zW8XBW2zGidjAUQ8fwTBb3YmK4P/Gtt1h7tIpQZ
+ S3G2qhQYtfmdXF6nEng9oyWB/TpIn9HcL+PtVXPDvcT2+/nGKxk8pO/y46y9dS1nl9Tz
+ J0+A==
+X-Gm-Message-State: AOAM533Oa9YnO5XBsUMCefD8BJx8Ad6+K4oTiIV4uY+jggfNavz/od2b
+ jsW0QEEcUR4b/tlG/suAKJFAuRqA22Z+W8rUV22/ig==
+X-Google-Smtp-Source: ABdhPJxQyvd/QD9jWHOhsULI65vBT79Z2iZL/7QARVVGluoa3p4MpGO4pbDMFwaxqzoo8wfw2Vtnarv7PDsGdIhhjbQ=
+X-Received: by 2002:a4a:95c6:0:b0:35f:7f11:7055 with SMTP id
+ p6-20020a4a95c6000000b0035f7f117055mr15159789ooi.87.1653579749268; Thu, 26
+ May 2022 08:42:29 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ae00354d-9cee-4d24-b13d-08da3f28df67
-X-MS-TrafficTypeDiagnostic: DS7PR10MB4864:EE_
-X-Microsoft-Antispam-PRVS: <DS7PR10MB4864C5CC12C33A44ECC1124E8ED99@DS7PR10MB4864.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tnPiCPFlzY6jwItTS5pncvpPP9j2kGbohE1gfbCuVzJLRDhTIYFn7fv+WaVVzEGhXwPjdjmpSd/eEFDwYInnDSWzTGdECtu4V27JJHfgwd+ybhOXLHFp3naKVuL9jCy1g9A9ZvnDBfUmKX94iklJvj2NexaYoKCSeZgn0zXrWS3c8L9bR5Y4bzPYHTSspxneXCxPOxPs9Jct6bmTKYJFfXg5q7/jJXgMFBq93B9nz22i+sxuA5NbChg4IYcb/9TnhPCqPx86jVxZTehk503U3wSi2m/Zk9u8cdkoUExO+AsYnU/D8g7WCZYYqwivg+syFkt6mZubs2UUI3F2T5knPOIFWhFcE+wgX4CxDIzVG3NOZjEHd5pkjbfH6MwI68LOczkkL6g6ePP5at+Yjv7lEOOrfnZs58lYp0WLr9nHBPNWqqVwbTkSvB/23FoHbJ5gr/3d/9/Kei9Dj1QVi5mpJvO2xGU8iHxXOWWMHLmwyvYeezHfeJuHmnDO4VGUZCsQ5ETx75lk7E5ka/JcAf0TmFKhGkUDRK/Ak3EJ7nTdVpcFhaeP1U2i5sczwH6Y3+hPAh59EjX5CCKiYMU11RFnLGHwCJogLdZM+dH0mrmMzU8sBquMpDDPLm1psNm1mVuuqDI1xOEXU9uxvgbJH2w3LfYZ+LCTp8TYoDyft0qGoO/3UQhnNgdzdxnOl8reLNhCBVw1TH6e4HrrWassZg80Jnl7ixcfVi0XNvdX2rws6kq1iXd6MW3CuwgjVyhol3IWKWn6B7lRADKgFzjCPI8662+YVeY5nkqX8t9ThSS1VRk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(366004)(38100700002)(316002)(6666004)(38350700002)(8936002)(83380400001)(6486002)(1076003)(2906002)(966005)(186003)(6916009)(54906003)(7416002)(4326008)(66946007)(52116002)(8676002)(44832011)(6506007)(66556008)(9686003)(6512007)(66476007)(26005)(86362001)(33656002)(5660300002)(508600001)(33716001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?raDkuo2GVu/vCS1uFW/R2WZ5j1q+7rFgh3rRfhEpouijlHkoPITumDK9PExl?=
- =?us-ascii?Q?h5rDl/J51xrdlvJ2pb02djgwYXxg9HN+ZRYYzbaEDhbmEPDa65Skt96sduVo?=
- =?us-ascii?Q?bcopJyo6L2akldrQQ4QacN4aZJiVndcWzi/9L2CxamgdGQSIkyB/+dajnX6E?=
- =?us-ascii?Q?bFsGAfl1vTVdVervMjOexFv/lRRRm6btefxO0xUI+mBVxmz8xhIIy18kt14m?=
- =?us-ascii?Q?Eq/ESWG3Nzyb0x6vCmAz8VqUbNYyxVCwheNEWb7Dz7o0nOYYCWjFIzGM/W0I?=
- =?us-ascii?Q?AMTbh9c5/5qz2BY6eNZTg6JlLAgI2q05H6OqEPfcbODUqnKbCRc7w5AujwqS?=
- =?us-ascii?Q?+71xJhyUpfQwN4DYbqa5sbLLUJocjql+wYI88+zkfVP/fTmTjTWAyHipCtTX?=
- =?us-ascii?Q?OTMGW3pTG9GpHLK6T72zfr1xtTkusMYYimQlUt7brFjKzKAX54fT1fd1MrVg?=
- =?us-ascii?Q?B4Kj9shNeN8Y1IUDCkIntK6MUu2oQieON+Tcz17LbtXY9MMJxgjgsS/hXGgs?=
- =?us-ascii?Q?VUnLPzLJv+RAQPAtjXrwQOjR3GJAUrAA3Y0FwiI7bWGOygbZbjefnz0VZZOQ?=
- =?us-ascii?Q?vu+4rnSFNFtYojd/sUUcEpsNowrmsO8Z9IErUWtiKrhhTYe3kE8DeMgdZ99B?=
- =?us-ascii?Q?tj5J1hFpZxIlkl3ttC9FGGsLsko+TaeDKhHArvwWN+vpUdXsKS7vXcAOpO0t?=
- =?us-ascii?Q?4b3mOIF9gS0RZV+6WJJiGQbrXxc+d41cqg9k7TqjJ0CFlFx1rX9bj7aHAEl5?=
- =?us-ascii?Q?9aPRZHJz4vlwlmrT+8TY93GquGGtl4gvk2ZNQAC0SQ+YoXyz+T6CV7v8UWtn?=
- =?us-ascii?Q?LtOGDFStAvLZ1VcbTLnQctZj/RPiesGSNYJ817skT/A1p496LU9dhktOkd6A?=
- =?us-ascii?Q?QOQunxSZzZGuH7xPvvzRM5ht2NOyK1mXZ8Y/QNd51NPpCePhYvfeaL0xBNkQ?=
- =?us-ascii?Q?J4AkBxJ4ulLRGu1Yi7znAiErsuUiWY8fhKySRqzQwWsq4Ns+JAPyjfWW1z+a?=
- =?us-ascii?Q?AbBdKpeYprbor9UMUriDUshW6lKI7hDdh72PciNYtYKAFJkihtJfVoUVKa+f?=
- =?us-ascii?Q?zUe6hSXDXFOTC6VkItxJ0gYH3HJr7iVyo9vd96BRBEX0d30ejWiZ4k0oK/X2?=
- =?us-ascii?Q?Ycnvdn/HJyvlTqrXP054PBevBh0/cmXQ1jvubJBtaXST9pUIJ/yU29zUKXG6?=
- =?us-ascii?Q?j++3GJB3H8Ap+aInIMPC1Drnb6Srm057zjLLFTZuZcF/uo74elHnNaE2O5ht?=
- =?us-ascii?Q?/nKJkJSRic5PBdedrlIX6i+dCE7HPa4i7pGxrdOL+t/4P2+g7aQMYg4RkPjy?=
- =?us-ascii?Q?REi3LcLUX0me2c6JCO+X/WZuLI8E1IseZ/X6LqmdIR4WktLFf4nBEEfLjpDJ?=
- =?us-ascii?Q?f8IOETtntmlBGtfMPxt8zJ45UTXedAvMEDkGJMKrknqvnGURUMhMzhx1OXc2?=
- =?us-ascii?Q?Wfx+gsZDQQhaLk80nUOYF3k4BSx+fgNAC5ECgz0SA7Dq8oyA7w50vTwB6474?=
- =?us-ascii?Q?27LB6OLJ1c/3pLLrVrZVL8GGe9MWW2kI3iX1uyetIq2WvqLrlpFuwSyM3krd?=
- =?us-ascii?Q?+TDT/wEqbB+yJ1l8m0lfFhL/5iQAl6r4YO7klAEFhagXGNV8DILAs7as1I90?=
- =?us-ascii?Q?cyMJ6WqQ/BtfDPDwwxzgVaRLIPyOhOi7xTESelCHfbtMR5eJy/PtFp5qjOc2?=
- =?us-ascii?Q?MrnZkzal/sItYgK4gGFiDuJNs68NK7mFD79lzmZorc00xtLhkmRKdTHRUXU7?=
- =?us-ascii?Q?RYLx7Whnci5bGG0hG0tz2gf2Kt0Z1B4=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae00354d-9cee-4d24-b13d-08da3f28df67
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2022 15:03:20.6952 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vg+ASQsPLS7+2Re+X6SaTzi8KmZj7NDR9lCqb6gz3y2vYDcj76ldNQCmWVtDXAJcXstJCVw0rDAbH/sggJveA9AcutWqbIrl8keD6Okqqts=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4864
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.874
- definitions=2022-05-26_06:2022-05-25,
- 2022-05-26 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 mlxscore=0
- phishscore=0 spamscore=0 mlxlogscore=865 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2205260072
-X-Proofpoint-ORIG-GUID: 0oDiZ2vguk5fK6cCtV9ekvcyzyyGmwt5
-X-Proofpoint-GUID: 0oDiZ2vguk5fK6cCtV9ekvcyzyyGmwt5
+References: <20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+ <5857c510-9783-a483-8414-65d7350618d6@suse.de>
+ <CAD=FV=X99EWmRk82ako7cL7BWPEsTG=L7VVBVDFX5qKc1MifSA@mail.gmail.com>
+ <CAD=FV=U3Wywjev9tEhkL_zE1cV5NwEknH2YwHqyhd5TQtiJ=AQ@mail.gmail.com>
+ <Yo4ufWm5WiXsnRX8@phenom.ffwll.local>
+ <CAOw6vbLu7TzTppUYv1cynMvn+ykTuGiYBCNhN7FO2kYqZj4DUg@mail.gmail.com>
+In-Reply-To: <CAOw6vbLu7TzTppUYv1cynMvn+ykTuGiYBCNhN7FO2kYqZj4DUg@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 26 May 2022 17:42:18 +0200
+Message-ID: <CAKMK7uHTkQjQ5=HOb0MtXD4JZRj3Szt5vm9gQZ6BixZ8LtUpxQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/probe-helper: Make 640x480 first if no EDID
+To: Sean Paul <seanpaul@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,54 +67,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-fbdev@vger.kernel.org,
- kernel test robot <lkp@intel.com>, kvm@vger.kernel.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-staging@lists.linux.dev, bpf@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linux-omap@vger.kernel.org,
- Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-parport@lists.infradead.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ LKML <linux-kernel@vger.kernel.org>, Sean Paul <seanpaul@google.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Doug Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 26, 2022 at 03:28:25PM +0100, Matthew Wilcox wrote:
-> On Thu, May 26, 2022 at 11:48:32AM +0300, Dan Carpenter wrote:
-> > On Thu, May 26, 2022 at 02:16:34AM +0100, Matthew Wilcox wrote:
-> > > Bizarre this started showing up now.  The recent patch was:
-> > > 
-> > > -       info->alloced += compound_nr(page);
-> > > -       inode->i_blocks += BLOCKS_PER_PAGE << compound_order(page);
-> > > +       info->alloced += folio_nr_pages(folio);
-> > > +       inode->i_blocks += BLOCKS_PER_PAGE << folio_order(folio);
-> > > 
-> > > so it could tell that compound_order() was small, but folio_order()
-> > > might be large?
-> > 
-> > The old code also generates a warning on my test system.  Smatch thinks
-> > both compound_order() and folio_order() are 0-255.  I guess because of
-> > the "unsigned char compound_order;" in the struct page.
-> 
-> It'd be nice if we could annotate that as "contains a value between
-> 1 and BITS_PER_LONG - PAGE_SHIFT".  Then be able to optionally enable
-> a checker that ensures that's true on loads/stores.  Maybe we need a
-> language that isn't C :-P  Ada can do this ... I don't think Rust can.
+On Thu, 26 May 2022 at 03:28, Sean Paul <seanpaul@chromium.org> wrote:
+>
+> On Wed, May 25, 2022 at 9:26 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, May 23, 2022 at 05:59:02PM -0700, Doug Anderson wrote:
+> > > Hi,
+> > >
+> > > On Fri, May 20, 2022 at 5:01 PM Doug Anderson <dianders@chromium.org>=
+ wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > On Mon, May 16, 2022 at 3:28 AM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+> > > > >
+> > > > > Hi Douglas,
+> > > > >
+> > > > > I understand that you're trying to tell userspace that the modeli=
+st has
+> > > > > been made up, but it's not something that should be done via frag=
+ile
+> > > > > heuristics IMHO.
+> > > > >
+> > > > > I looked at the Chromium source code that you linked, but I canno=
+t say
+> > > > > whether it's doing the correct thing. It all depends on what your
+> > > > > program needs.
+> > > > >
+> > > > > In that function, you could also search for 'DRM_MODE_TYPE_USERDE=
+F'.
+> > > > > It's the mode that the user specified on the kernel command line.=
+ If
+> > > > > Chromium's automatic mode selection fails, you'd give your users =
+direct
+> > > > > control over it.
+> > > >
+> > > > That doesn't really work for Chrome OS. Certainly a kernel hacker
+> > > > could do this, but it's not something I could imagine us exposing t=
+o
+> > > > an average user of a Chromebook.
+> > > >
+> > > >
+> > > > > When there's no flagged mode or if
+> > > > > /sys/class/drm/card<...>/status contains "unconnected", you can a=
+ssume
+> > > > > that the modelist is artificial and try the modes in an appropria=
+te order.
+> > > >
+> > > > So "no flagged" means that nothing is marked as preferred, correct?
+> > > >
+> > > > ...so I guess what you're suggesting is that the order that the ker=
+nel
+> > > > is presenting the modes to userspace is not ABI. If there are no
+> > > > preferred modes then userspace shouldn't necessarily assume that th=
+e
+> > > > first mode returned is the best mode. Instead it should assume that=
+ if
+> > > > there is no preferred mode then the mode list is made up and it sho=
+uld
+> > > > make its own decisions about the best mode to start with. If this i=
+s
+> > > > the ABI from the kernel then plausibly I could convince people to
+> > > > change userspace to pick 640x480 first in this case.
+> > > >
+> > > > > If we really want the kernel to give additional guarantees, we sh=
+ould
+> > > > > have a broader discussion about this topic IMHO.
+> > > >
+> > > > Sure. I've added St=C3=A9phane Marchesin to this thread in case he =
+wants to
+> > > > chime in about anything.
+> > > >
+> > > > Overall, my take on the matter:
+> > > >
+> > > > * Mostly I got involved because, apparently, a DP compliance test w=
+as
+> > > > failing. The compliance test was upset that when it presented us wi=
+th
+> > > > no EDID that we didn't default to 640x480. There was a push to make=
+ a
+> > > > fix for this in the Qualcomm specific driver but that didn't sit ri=
+ght
+> > > > with me.
+> > > >
+> > > > * On all devices I'm currently working with (laptops), the DP is a
+> > > > secondary display. If a user was trying to plug in a display with a
+> > > > bad EDID and the max mode (1024x768) didn't work, they could just u=
+se
+> > > > the primary display to choose a different resolution. It seems
+> > > > unlikely a user would truly be upset and would probably be happy th=
+ey
+> > > > could get their broken display to work at all. Even if this is a
+> > > > primary display, I believe there are documented key combos to chang=
+e
+> > > > the resolution of the primary display even if you can't see anythin=
+g.
+> > > >
+> > > > * That all being said, defaulting to 640x480 when there's no EDID m=
+ade
+> > > > sense to me, especially since it's actually defined in the DP spec.=
+ So
+> > > > I'm trying to do the right thing and solve this corner case. That
+> > > > being said, if it's truly controversial I can just drop it.
+> > > >
+> > > >
+> > > > So I guess my plan will be to give St=C3=A9phane a little while in =
+case he
+> > > > wants to chime in. If not then I guess I'll try a Chrome patch...
+> > > > ...and if that doesn't work, I'll just drop it.
+> > >
+> > > OK, this userspace code seems to work:
+> > >
+> > > https://crrev.com/c/3662501 - ozone/drm: Try 640x480 before picking
+> > > the first mode if no EDID
+> > >
+> > > ...so we'll see how review of that goes. :-)
+>
+> Mirroring some of my comments on that review here :-)
+>
+> IMO, this should be addressed in the kernel, or not at all. The kernel
+> ensures other aspects of DisplayPort implementation are compliant, so
+> I don't think this would be any exception. Further, the kernel is the
+> one creating the "safe" mode list, so it seems odd that userspace
+> would override that. Finally, relying on every userspace to do the
+> right thing is asking for trouble (we have 3 places which would need
+> this logic in CrOS).
 
-Machine Parsable Comments.  It's a matter of figuring out the best
-format and writing the code.
+Oh I missed the part that this is defined in the DP spec as _the_ fallback =
+mode.
 
-In Smatch, I have table of hard coded return values in the format:
-<function> <old return> <new hard coded return>
-https://github.com/error27/smatch/blob/master/smatch_data/db/kernel.return_fixes
-I don't have code to handle something like BITS_PER_LONG or PAGE_SHIFT.
-To be honest, Smatch code always assumes that PAGE_SIZE is 4096 but I
-should actually look it up...  It's not impossible to do.  The GFP_KERNEL
-values changed enough so that I eventually made that look up the actual
-defines.
+I think the probe helpers could check whether it's a DP connector and
+then dtrt per DP spec? I think that should have a solid chance of
+avoiding the regression mess, since the really shoddy stuff tends to
+be VGA/HDMI.
 
-I also have a table in the database where I could edit the values of
-(struct page)->compound_order.
+Also if DP says only 640x480 should be the fallback if there's no
+other mode list source, then I think we should trim it down to only
+that. But also only for DP.
 
-regards,
-dan carpenter
+Also ofc that patch should reference the right DP spec sections :-)
+-Daniel
+
+>
+> >
+> > Yeah it sucks a bit but I'm mildly afraid that if we muck around with t=
+he
+> > absolute fallback mode list in upstream we get whacked by a regression
+> > report :-/
+>
+> Yeah, this seems likely (unfortunately).
+>
+> >
+> > There's the additional fun that on modern displays probably 720p (or ma=
+ybe
+> > 720i) is a lot more likely to work than anything else really, so best w=
+e
+> > can do here maybe is to make it an uapi guarantee that if there's no
+> > preferred mode, then most likely the kernel invent random noise out of
+> > thin air, and userspace has to be careful and do its own magic heuristi=
+cs.
+> > Or maybe we should add a flag for "this stuff is invented, buyer beware=
+".
+> >
+>
+> This seems like a reasonable compromise. Perhaps marking 640x480 as
+> preferred would be a middle road?
+>
+> > I think clarifying that would be good. Changing defaults feels a bit to=
+o
+> > risky, we had some really hilarious regression reports in the past alon=
+g
+> > the lines of the infamous xkcd.
+>
+> FWIW, I don't really have a strong opinion as to whether this should
+> be fixed or not. I have a hard time believing that either 1024x768 or
+> 640x480 would result in a happy result for the user, so we're really
+> just choosing a mode which is bad enough for the user to
+> unplug/replug. If 640x480 makes the compliance machine happy, I
+> suppose that's a compelling reason, but I don't really feel like this
+> is worth special casing each userspace.
+>
+> Sean
+>
+> > -Daniel
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
