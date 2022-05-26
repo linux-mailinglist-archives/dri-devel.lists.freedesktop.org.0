@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D866B53566B
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:34:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE22C53567F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:54:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0279410E2CB;
-	Thu, 26 May 2022 23:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7272610EFB9;
+	Thu, 26 May 2022 23:54:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D6010E2CB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 23:34:44 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id wh22so5754136ejb.7
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 16:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=jGWDd1k+QnoJ5pqSff/7/gA81Dp7iVjKRR7beBIAKWM=;
- b=baQWS40EjicfD7EK1Z84Ora3fybhN1jJKR3zil3Q3sWyaPePR8s80CfolLuUY/YAd8
- n/SFZN9VFZEP88ntMeTUjocKs9dsy0nahAszIPHNJO3/W34bseBpBP9HCgFb7TyYIq4a
- A36A0N+nvMAfArqqEdiESmg2NU5fexZRCI8vNemcoWB2gMQmuMrX7trBwHSN22XOJYO1
- pR4hyCRuumWh09pKXADStPwq2vuPp5PyCrzrdXgxGupx2z83bTP0XELZPU+X+CYJNomf
- DrtTNdFzNCC5+Rg1YYG9GKlc63k06HzgRkJW/JQ4begjMxKToneEUyOAC2XFt8dUz+uV
- VDrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=jGWDd1k+QnoJ5pqSff/7/gA81Dp7iVjKRR7beBIAKWM=;
- b=7w6gJYV2PECg9QA+rAv1HW/3+5RfI8EE3IZo3CLFeO6Qb9TGLKRvCRi2WToQdY7lHP
- QQLWG7KdoVU4i1LePqxo61Y6YGlQOacYLC4IExiSUc8WiP7PSOdWHhEvA0uQucvQAY87
- SuHmVsLzxzCizsobUnFBRduvkalSLPO+lkWOm17AhCgKteASQtIzhKCz0AUQJmpT93J5
- 5+SD6BXC0sWAD7rKGc6jqU6kwdxMLfH5A4VbXh+JOcWiPek1igiJcqUJttY9j6ryCiTS
- /Eo/BYtDgecPs26CkRx8i+GXJiuj66auh6Wa8jJbtNkTWveunk3LY6jwhkbam09DKyyG
- 80FA==
-X-Gm-Message-State: AOAM532u8xzNMuyNT30zmVdqu/vCEM3oQV2xTvfodUFDf7rLDan1yiQN
- c89JnF8n+7Hchofg3kjAc5zgfWNAkr2E5g==
-X-Google-Smtp-Source: ABdhPJyl+VGTHHPPz85RqgizD9I16K0B9+ajp3UhfsS3Bc7kXIJ8uD6ui0YU4YXDswD2c+xRZ/53Hg==
-X-Received: by 2002:a17:907:1b20:b0:6da:649b:d99e with SMTP id
- mp32-20020a1709071b2000b006da649bd99emr36038154ejc.712.1653608082426; 
- Thu, 26 May 2022 16:34:42 -0700 (PDT)
-Received: from adroid (102-167-184-091.ip-addr.vsenet.de. [91.184.167.102])
- by smtp.gmail.com with ESMTPSA id
- a1-20020a50f0c1000000b0042be30c95fbsm727049edm.39.2022.05.26.16.34.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 16:34:41 -0700 (PDT)
-Date: Fri, 27 May 2022 01:34:39 +0200
-From: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: Exynos vblank timeout issue
-Message-ID: <20220526233439.GA81797@adroid>
-References: <20220522000219.GB241035@adroid>
- <6aa0b632-674d-d9ca-2ba9-cab497aa1f37@kernel.org>
- <20220522100639.GA191106@adroid>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA1610EF99;
+ Thu, 26 May 2022 23:54:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 4483D1F40874
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1653609249;
+ bh=I1kxpdsP20qNcPlQ3S/qdgM736mICTGXs/ZrSWQ9ttc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=SHTmQV0zLXeImrn1UeqN8m/fhyY2ZlGh7b2rESG1aXUjlVDdXNI3FpYp6JOICoEZh
+ 5GQ2IQpyAa6+nUjxNM3vdRz+3PsfbOvfvICH/GRnjGtourjs7kudOWxAtn1fOSFI2c
+ R+Cmmthp+WNj6cUZOnsaaoF4uEoyolk89saEo7fhwOlfATSVvHgar+q2KcmLkKQlw4
+ /5kuYHnGiQH0YLWwcbnz9PEUZNMprm1gTg4gWGImZfS3MwxoibI8dRcVa3r8hbKZgf
+ GV+5b/rY9nDxIHehUUckXeVTx9PGzo1xn8PLR5JL69vXvnYsi5M36LXQgDHFmJHYEw
+ wNCXZkqbwXICA==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Date: Fri, 27 May 2022 02:50:18 +0300
+Message-Id: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220522100639.GA191106@adroid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,175 +71,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello again,
+Hello,
 
-I tried to dig around a bit to unearth some more information. What I'm
-seeing is that it works just fine in the beginning, planes are updated a
-couple of times and suddenly, after one of the plane updates, the
-interrupt handler in the FIMD driver is no longer called. The screen
-goes dark but the device is still operational, e.g. ADB works fine, I
-can connect and execute commands.
+This patchset introduces memory shrinker for the VirtIO-GPU DRM driver
+and adds memory purging and eviction support to VirtIO-GPU driver.
 
-Trying to figure out what is called when and curious about the state of
-the registers, I littered the code with print statements and it looks
-like vsync is still active, no other code calls into disabling it. All
-registers are as expected, e.g. VIDINTCON0 has the interrupt bit set. I
-also had a look at the interrupt combiner, this too has the
-corresponding lcd0-1 interrupt enabled at all times and there is no
-interrupt pending, even after FIMD stopped receiving them.
+The new dma-buf locking convention is introduced here as well.
 
-Looking at the wiki at https://exynos.wiki.kernel.org/todo_tasks I found
-issue #9. It's about trashed display or DMA freeze if planes are too
-narrow and I was wondering if this could be related. So I had a look at
-the drm debug output and planes are indeed getting very small. This
-happens exactly when the animation that is triggering the issue is
-playing, so this would match. Looking a bit closer at the position and
-size of the planes, I could see that the last working vsync was right
-after one of the planes was exactly 1 pixel in width and vsync only
-stopped working one update later. Here are the plane updates from the
-logs:
+During OOM, the shrinker will release BOs that are marked as "not needed"
+by userspace using the new madvise IOCTL, it will also evict idling BOs
+to SWAP. The userspace in this case is the Mesa VirGL driver, it will mark
+the cached BOs as "not needed", allowing kernel driver to release memory
+of the cached shmem BOs on lowmem situations, preventing OOM kills.
 
--
+The Panfrost driver is switched to use generic memory shrinker.
 
-Planes getting smaller and smaller with each update:
-plane : offset_x/y(0,0), width/height(4,800)
-plane : offset_x/y(4,0), width/height(1276,800)
-plane : offset_x/y(0,0), width/height(1280,800)
-plane : offset_x/y(0,776), width/height(1280,24)
+This patchset includes improvements and fixes for various things that
+I found while was working on the shrinker.
 
-plane : offset_x/y(0,0), width/height(2,800)
-plane : offset_x/y(2,0), width/height(1278,800)
-plane : offset_x/y(0,0), width/height(1280,800)
-plane : offset_x/y(0,776), width/height(1280,24)
+The Mesa and IGT patches will be kept on hold until this kernel series
+will be approved and merged.
 
-plane : offset_x/y(0,0), width/height(1,800)
-plane : offset_x/y(1,0), width/height(1279,800)
-plane : offset_x/y(0,0), width/height(1280,800)
-plane : offset_x/y(0,776), width/height(1280,24)
+This patchset was tested using Qemu and crosvm, including both cases of
+IOMMU off/on.
 
-Still got a vsync in between those two. But after the following update,
-it's dead:
-plane : offset_x/y(0,0), width/height(1280,800)
-plane : offset_x/y(0,0), width/height(1280,24)
-plane : offset_x/y(0,740), width/height(1280,60)
-plane : offset_x/y(0,0), width/height(1280,800)
+Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
+IGT:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/virtio-madvise
+      https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/panfrost-madvise
 
--> vsync timeout comes here
+Changelog:
 
--
+v6: - Added new VirtIO-related fix patch that previously was sent separately
+      and didn't get much attention:
 
-I have no idea how to analyze this further on the kernel side. I'll try
-to write an executable that triggers this bug next. If you have any
-ideas on that, I'd be very grateful.
+        drm/gem: Properly annotate WW context on drm_gem_lock_reservations() error
 
-Kind Regards
-Martin
+    - Added new patch that fixes mapping of imported dma-bufs for
+      Tegra DRM and other affected drivers. It's also handy to have it
+      for switching to the new dma-buf locking convention scheme:
 
-On Sun, May 22, 2022 at 12:06:39PM +0200, Martin Jücker wrote:
-> On Sun, May 22, 2022 at 09:45:51AM +0200, Krzysztof Kozlowski wrote:
-> > On 22/05/2022 02:02, Martin Jücker wrote:
-> > > Hello,
-> > > 
-> > > I'm trying to get Android 12 up and running on my Galaxy Note 10.1 which
-> > > is based on Exynos 4412 with a Mali GPU. For Android 11, I had no issues
-> > > with graphics but after upgrading and building Android 12, I'm getting a
-> > > vblank wait timeout shortly after starting the device setup, which in
-> > > turn leads to my display turning black and SurfaceFlinger hanging. This
-> > > can be reliably reproduced after every reboot, so much so that it's
-> > > basically always on the exact same step of the setup.
-> > > 
-> > > I'm using the following setup:
-> > > 
-> > > * 5.10.101 Android Common Kernel with some patches to get
-> > > the Note 10.1 up and running
-> > 
-> > It's Android kernel, so not upstream. It is perfectly fine to use
-> > downstream kernels, but with the issues you also go to downstream folks.
-> > I have no clue what Android did to Exynos.
-> 
-> Hi Krzysztof,
-> 
-> indeed, that was my mistake. Should have done that on mainline first.
-> 
-> I rebased some patches on top of v5.17.9 and tried again, same result.
-> There are no Android patches in there, only p4note related things. You
-> can have a look here: 
-> 
-> https://github.com/Viciouss/linux/commits/v5.17.9-android
-> 
-> The behaviour is exactly the same, as soon as I try to advance in the
-> setup process, it suddenly turns the screen all black.
-> 
-> Here is the warning again, just in case there are any differences.
-> 
-> [   77.651495] ------------[ cut here ]------------
-> [   77.651527] WARNING: CPU: 2 PID: 8 at
-> ../drivers/gpu/drm/drm_atomic_helper.c:1530
-> drm_atomic_helper_wait_for_vblanks.part.1+0x2b0/0x2b4
-> [   77.651593] [CRTC:49:crtc-0] vblank wait timed out
-> [   77.651608] Modules linked in: s5p_mfc s5p_jpeg v4l2_mem2mem
-> videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common
-> rfcomm kheaders hidp hci_uart cpufreq_userspace cpufreq_powersave
-> cpufreq_conservative btbcm brcmfmac brcmutil bnep bluetooth atmel_mxt_ts
-> [   77.651789] CPU: 2 PID: 8 Comm: kworker/u8:0 Not tainted 5.17.9+ #3
-> [   77.651813] Hardware name: Samsung Exynos (Flattened Device Tree)
-> [   77.651828] Workqueue: events_unbound commit_work
-> [   77.651858] Backtrace: 
-> [   77.651874] dump_backtrace from show_stack+0x20/0x24
-> [   77.651915] r7:c071097c r6:00000000 r5:c10ec66c r4:600f0013
-> [   77.651926] show_stack from dump_stack_lvl+0x48/0x54
-> [   77.651958] dump_stack_lvl from dump_stack+0x18/0x1c
-> [   77.651986] r5:c113dcf4 r4:c1d51e04
-> [   77.651996] dump_stack from __warn+0x18c/0x190
-> [   77.652030] __warn from warn_slowpath_fmt+0x80/0xbc
-> [   77.652070] r9:00000009 r8:c071097c r7:000005fa r6:c113dcf4
-> r5:c1d8cb40 r4:c113e338
-> [   77.652081] warn_slowpath_fmt from
-> drm_atomic_helper_wait_for_vblanks.part.1+0x2b0/0x2b4
-> [   77.652123] r9:00000001 r8:00000000 r7:00000000 r6:00000000
-> r5:00000000 r4:c398c800
-> [   77.652135] drm_atomic_helper_wait_for_vblanks.part.1 from
-> drm_atomic_helper_commit_tail_rpm+0x6c/0x7c
-> [   77.652175] r10:c14cce68 r9:c1c2a005 r8:00000000 r7:0e3f351d
-> r6:00000012 r5:c398c000
-> [   77.652188] r4:d42943c0
-> [   77.652197] drm_atomic_helper_commit_tail_rpm from
-> commit_tail+0xb8/0x1d8
-> [   77.652228] r5:00000000 r4:d42943c0
-> [   77.652238] commit_tail from commit_work+0x1c/0x20
-> [   77.652274] r10:c1518d20 r9:c1c2a005 r8:00000000 r7:c1c2a000
-> r6:c1c0a800 r5:c1c08a00
-> [   77.652287] r4:d42943ec
-> [   77.652297] commit_work from process_one_work+0x1b0/0x528
-> [   77.652324] process_one_work from worker_thread+0x54/0x4d8
-> [   77.652356] r10:c1c0a800 r9:00000088 r8:c1403d00 r7:c1c0a81c
-> r6:c1c08a18 r5:c1c0a800
-> [   77.652368] r4:c1c08a00
-> [   77.652378] worker_thread from kthread+0x104/0x134
-> [   77.652419] r10:00000000 r9:c1d43e5c r8:c1d05880 r7:c1d8cb40
-> r6:c1c08a00 r5:c015530c
-> [   77.652432] r4:c1d05700
-> [   77.652441] kthread from ret_from_fork+0x14/0x2c
-> [   77.652468] Exception stack(0xc1d51fb0 to 0xc1d51ff8)
-> [   77.652488] 1fa0:                                     00000000
-> 00000000 00000000 00000000
-> [   77.652509] 1fc0: 00000000 00000000 00000000 00000000 00000000
-> 00000000 00000000 00000000
-> [   77.652528] 1fe0: 00000000 00000000 00000000 00000000 00000013
-> 00000000
-> [   77.652550] r9:00000000 r8:00000000 r7:00000000 r6:00000000
-> r5:c015da78 r4:c1d05700
-> [   77.652561] ---[ end trace 0000000000000000 ]---
-> 
-> Kind Regards
-> Martin
-> 
-> > 
-> > Best regards,
-> > Krzysztof
+        drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
+
+    - Added new patch that fixes shrinker list corruption for stable Panfrost
+      driver:
+
+        drm/panfrost: Fix shrinker list corruption by madvise IOCTL
+
+    - Added new minor patch-fix for drm-shmem:
+
+        drm/shmem-helper: Add missing vunmap on error
+
+    - Added fixes tag to the "Put mapping ..." patch like was suggested by
+      Steven Price.
+
+    - Added new VirtIO-GPU driver improvement patch:
+
+        drm/virtio: Return proper error codes instead of -1
+
+    - Reworked shrinker patches like was suggested by Daniel Vetter:
+
+        - Introduced the new locking convention for dma-bufs. Tested on
+          VirtIO-GPU, Panfrost, Lima, Tegra and Intel selftests.
+
+        - Dropped separate purge() callback. Now single evict() does
+          everything.
+
+        - Dropped swap_in() callback from drm-shmem objects. DRM drivers
+          now could and should restore only the required mappings.
+
+        - Dropped dynamic counting of evictable pages. This simplifies
+          code in exchange to *potentially* burning more CPU time on OOM.
+
+v5: - Added new for-stable patch "drm/panfrost: Put mapping instead of
+      shmem obj on panfrost_mmu_map_fault_addr() error" that corrects GEM's
+      refcounting in case of error.
+
+    - The drm_gem_shmem_v[un]map() now takes a separate vmap_lock for
+      imported GEMs to avoid recursive locking of DMA reservations.
+      This addresses v4 comment from Thomas Zimmermann about the potential
+      deadlocking of vmapping.
+
+    - Added ack from Thomas Zimmermann to "drm/shmem-helper: Correct
+      doc-comment of drm_gem_shmem_get_sg_table()" patch.
+
+    - Dropped explicit shmem states from the generic shrinker patch as
+      was requested by Thomas Zimmermann.
+
+    - Improved variable names and comments of the generic shrinker code.
+
+    - Extended drm_gem_shmem_print_info() with the shrinker-state info in
+      the "drm/virtio: Support memory shrinking" patch.
+
+    - Moved evict()/swap_in()/purge() callbacks from drm_gem_object_funcs
+      to drm_gem_shmem_object in the generic shrinker patch, for more
+      consistency.
+
+    - Corrected bisectability of the patches that was broken in v4
+      by accident.
+
+    - The virtio_gpu_plane_prepare_fb() now uses drm_gem_shmem_pin() instead
+      of drm_gem_shmem_set_unpurgeable_and_unevictable() and does it only for
+      shmem BOs in the "drm/virtio: Support memory shrinking" patch.
+
+    - Made more functions private to drm_gem_shmem_helper.c as was requested
+      by Thomas Zimmermann. This minimizes number of the public shmem helpers.
+
+v4: - Corrected minor W=1 warnings reported by kernel test robot for v3.
+
+    - Renamed DRM_GEM_SHMEM_PAGES_STATE_ACTIVE/INACTIVE to PINNED/UNPINNED,
+      for more clarity.
+
+v3: - Hardened shrinker's count() with usage of READ_ONCE() since we don't
+      use atomic type for counting and technically compiler is free to
+      re-fetch counter's variable.
+
+    - "Correct drm_gem_shmem_get_sg_table() error handling" now uses
+      PTR_ERR_OR_ZERO(), fixing typo that was made in v2.
+
+    - Removed obsoleted shrinker from the Panfrost driver, which I missed to
+      do in v2 by accident and Alyssa Rosenzweig managed to notice it.
+
+    - CCed stable kernels in all patches that make fixes, even the minor ones,
+      like was suggested by Emil Velikov and added his r-b to the patches.
+
+    - Added t-b from Steven Price to the Panfrost's shrinker patch.
+
+    - Corrected doc-comment of drm_gem_shmem_object.madv, like was suggested
+      by Steven Price. Comment now says that madv=1 means "object is purged"
+      instead of saying that value is unused.
+
+    - Added more doc-comments to the new shmem shrinker API.
+
+    - The "Improve DMA API usage for shmem BOs" patch got more improvements
+      by removing the obsoleted drm_dev_set_unique() quirk and its comment.
+
+    - Added patch that makes Virtio-GPU driver to use common dev_is_pci()
+      helper, which was suggested by Robin Murphy.
+
+    - Added new "drm/shmem-helper: Take GEM reservation lock instead of
+      drm_gem_shmem locks" patch, which was suggested by Daniel Vetter.
+
+    - Added new "drm/virtio: Simplify error handling of
+      virtio_gpu_object_create()" patch.
+
+    - Improved "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+      like was suggested by Daniel Vetter, by saying that function returns
+      ERR_PTR() and not errno.
+
+    - virtio_gpu_purge_object() is fenced properly now, turned out
+      virtio_gpu_notify() doesn't do fencing as I was supposing before.
+      Stress testing of memory eviction revealed that.
+
+    - Added new patch that corrects virtio_gpu_plane_cleanup_fb() to use
+      appropriate atomic plane state.
+
+    - SHMEM shrinker got eviction support.
+
+    - VirtIO-GPU driver now supports memory eviction. It's enabled for a
+      non-blob GEMs only, i.e. for VirGL. The blobs don't support dynamic
+      attaching/detaching of guest's memory, so it's not trivial to enable
+      them.
+
+    - Added patch that removes obsoleted drm_gem_shmem_purge()
+
+    - Added patch that makes drm_gem_shmem_get_pages() private.
+
+    - Added patch that fixes lockup on dma_resv_reserve_fences() error.
+
+v2: - Improved shrinker by using a more fine-grained locking to reduce
+      contention during scan of objects and dropped locking from the
+      'counting' callback by tracking count of shrinkable pages. This
+      was suggested by Rob Clark in the comment to v1.
+
+    - Factored out common shrinker code into drm_gem_shmem_helper.c
+      and switched Panfrost driver to use the new common memory shrinker.
+      This was proposed by Thomas Zimmermann in his prototype series that
+      he shared with us in the comment to v1. Note that I only compile-tested
+      the Panfrost driver.
+
+    - Shrinker now takes object_name_lock during scan to prevent racing
+      with dma-buf exporting.
+
+    - Shrinker now takes vmap_lock during scan to prevent racing with shmem
+      vmap/unmap code.
+
+    - Added "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+      which I sent out previously as a standalone change, since the
+      drm_gem_shmem_helper.c is now touched by this patchset anyways and
+      it doesn't hurt to group all the patches together.
+
+Dmitry Osipenko (22):
+  drm/gem: Properly annotate WW context on drm_gem_lock_reservations()
+    error
+  drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
+  drm/panfrost: Put mapping instead of shmem obj on
+    panfrost_mmu_map_fault_addr() error
+  drm/panfrost: Fix shrinker list corruption by madvise IOCTL
+  drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
+  drm/virtio: Check whether transferred 2D BO is shmem
+  drm/virtio: Unlock reservations on virtio_gpu_object_shmem_init()
+    error
+  drm/virtio: Unlock reservations on dma_resv_reserve_fences() error
+  drm/virtio: Use appropriate atomic state in
+    virtio_gpu_plane_cleanup_fb()
+  drm/shmem-helper: Add missing vunmap on error
+  drm/shmem-helper: Correct doc-comment of drm_gem_shmem_get_sg_table()
+  drm/virtio: Simplify error handling of virtio_gpu_object_create()
+  drm/virtio: Improve DMA API usage for shmem BOs
+  dma-buf: Introduce new locking convention
+  drm/shmem-helper: Don't use vmap_use_count for dma-bufs
+  drm/shmem-helper: Use reservation lock
+  drm/shmem-helper: Add generic memory shrinker
+  drm/gem: Add drm_gem_pin_unlocked()
+  drm/virtio: Support memory shrinking
+  drm/virtio: Use dev_is_pci()
+  drm/virtio: Return proper error codes instead of -1
+  drm/panfrost: Switch to generic memory shrinker
+
+ drivers/dma-buf/dma-buf.c                     | 270 ++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   6 +-
+ drivers/gpu/drm/drm_client.c                  |   4 +-
+ drivers/gpu/drm/drm_gem.c                     |  69 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 718 ++++++++++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  10 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+ drivers/gpu/drm/panfrost/Makefile             |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  26 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  33 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 -
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ---
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  18 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  21 +-
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
+ drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
+ drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+ drivers/gpu/drm/tegra/gem.c                   |   4 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  53 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |  23 +-
+ drivers/gpu/drm/virtio/virtgpu_gem.c          |  59 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  37 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c          |  16 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c       | 203 +++--
+ drivers/gpu/drm/virtio/virtgpu_plane.c        |  28 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c           |  61 +-
+ .../common/videobuf2/videobuf2-dma-contig.c   |  11 +-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |  11 +-
+ .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
+ include/drm/drm_device.h                      |   4 +
+ include/drm/drm_gem.h                         |   6 +
+ include/drm/drm_gem_shmem_helper.h            |  99 ++-
+ include/linux/dma-buf.h                       |  14 +-
+ include/uapi/drm/virtgpu_drm.h                |  14 +
+ 37 files changed, 1349 insertions(+), 661 deletions(-)
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+
+-- 
+2.35.3
+
