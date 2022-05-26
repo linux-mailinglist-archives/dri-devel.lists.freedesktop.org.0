@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E441B535681
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:54:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCABC535683
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:54:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D54D10F11C;
-	Thu, 26 May 2022 23:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF90E10F578;
+	Thu, 26 May 2022 23:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7161910EFD4;
- Thu, 26 May 2022 23:54:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADB510F05D;
+ Thu, 26 May 2022 23:54:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 62C221F40887
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 7343C1F4088D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1653609255;
- bh=5LIdhJtan+LZ6LnQ64jsbMrAvP7fINcUYf3MaY5BoNM=;
+ s=mail; t=1653609258;
+ bh=5Mavp4oALIXdPN+ziHKcCdoikrrk4yQKrexW04s8O+A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f3hb0zk7VJGPn7ap02Rwgz7TrZ/O5CjxmjebLky7DXFjxwh1bGhEp5KdhmP9PuAlW
- ZVs/oT2mQG2LHjkG94AHUpI5j+6jkKfSTeC666f+Vnzg0MCBoFk/HB3KqNV3aFCeci
- mpb/yMpgDiuKC91hpp/ErpjhLFcDMsOCGcnUis/tlNxRRYM9dL5Uuyh0AVkOuuqyZO
- XjbeTgTToclrmOeI+ZEO+N7ioYFvs6q7MdaRDWNUK8Q/TVFV5+m5BBeUhPTERr1jrH
- ZVjKt8stdo9RGE876EpODo2XGhnQLHZHg8h4JGFnvYopRH/EBRHZs+lbAB8TtOY3Jk
- oFSx0RPGOuLSw==
+ b=GCNfDyHwva3jnk23dJ6QCm8KOFAi1gjRCYP9xvOs94W2p7deUvj44P68aLsjE/7u4
+ yfwcfvNQr4nmbq52kvoniOE8I9kqYDxW3E/zJsq0wztbyxUJoWfBM+sGz5sj1vP3H1
+ 2vGOjrTvEf1oTtWzvBJYCeI30H+IFh8vs5cf8GYlVPtAuYsIX/4NOWwLNjQpHii/el
+ xpF91QL9vdycQFlnx5rTQyBbB8eKCgGWzed9YAwG2heRHBLbIhmlReZDCc5gSLh54+
+ qewVvEolbc/vSS/eRiv+h9jFugsNQsuaCSWUqlG3uE3J5QZULCTn9GPAlkp9ZR9mS8
+ 1NxdCkIbiyuoQ==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -52,10 +52,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH v6 02/22] drm/gem: Move mapping of imported dma-bufs to
- drm_gem_mmap_obj()
-Date: Fri, 27 May 2022 02:50:20 +0300
-Message-Id: <20220526235040.678984-3-dmitry.osipenko@collabora.com>
+Subject: [PATCH v6 03/22] drm/panfrost: Put mapping instead of shmem obj on
+ panfrost_mmu_map_fault_addr() error
+Date: Fri, 27 May 2022 02:50:21 +0300
+Message-Id: <20220526235040.678984-4-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
 References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
@@ -82,74 +82,30 @@ Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
-handle imported dma-bufs properly, which results in mapping of something
-else than the imported dma-buf. For example, on NVIDIA Tegra we get a hard
-lockup when userspace writes to the memory mapping of a dma-buf that was
-imported into Tegra's DRM GEM.
-
-To fix this bug, move mapping of imported dma-bufs to drm_gem_mmap_obj().
-Now mmaping of imported dma-bufs works properly for all DRM drivers.
+When panfrost_mmu_map_fault_addr() fails, the BO's mapping should be
+unreferenced and not the shmem object which backs the mapping.
 
 Cc: stable@vger.kernel.org
+Fixes: bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
+Reviewed-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c              | 3 +++
- drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ---------
- drivers/gpu/drm/tegra/gem.c            | 4 ++++
- 3 files changed, 7 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 86d670c71286..7c0b025508e4 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1038,6 +1038,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 	if (obj_size < vma->vm_end - vma->vm_start)
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index d3f82b26a631..b285a8001b1d 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -518,7 +518,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ err_pages:
+ 	drm_gem_shmem_put_pages(&bo->base);
+ err_bo:
+-	drm_gem_object_put(&bo->base.base);
++	panfrost_gem_mapping_put(bomapping);
+ 	return ret;
+ }
  
-+	if (obj->import_attach)
-+		return dma_buf_mmap(obj->dma_buf, vma, 0);
-+
- 	/* Take a ref for this mapping of the object, so that the fault
- 	 * handler can dereference the mmap offset's pointer to the object.
- 	 * This reference is cleaned up by the corresponding vm_close
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 8ad0e02991ca..6190f5018986 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -609,17 +609,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
-  */
- int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma)
- {
--	struct drm_gem_object *obj = &shmem->base;
- 	int ret;
- 
--	if (obj->import_attach) {
--		/* Drop the reference drm_gem_mmap_obj() acquired.*/
--		drm_gem_object_put(obj);
--		vma->vm_private_data = NULL;
--
--		return dma_buf_mmap(obj->dma_buf, vma, 0);
--	}
--
- 	ret = drm_gem_shmem_get_pages(shmem);
- 	if (ret) {
- 		drm_gem_vm_close(vma);
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index 7c7dd84e6db8..f92aa20d63bb 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -564,6 +564,10 @@ int __tegra_gem_mmap(struct drm_gem_object *gem, struct vm_area_struct *vma)
- {
- 	struct tegra_bo *bo = to_tegra_bo(gem);
- 
-+	/* imported dmu-buf is mapped by drm_gem_mmap_obj()  */
-+	if (gem->import_attach)
-+		return 0;
-+
- 	if (!bo->pages) {
- 		unsigned long vm_pgoff = vma->vm_pgoff;
- 		int err;
 -- 
 2.35.3
 
