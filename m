@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87206534E49
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 13:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C82C534E4A
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 13:44:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9903410E035;
-	Thu, 26 May 2022 11:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1DB610F0AE;
+	Thu, 26 May 2022 11:44:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEE5D10E078
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 11:44:05 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id h186so1136230pgc.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 04:44:05 -0700 (PDT)
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2ECD10F0AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 11:44:09 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ x2-20020a17090a1f8200b001e07a64c461so4191357pja.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 04:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3XNML7XiFhEmWhS7Wmn0QQk81yeWXZBxdfXtoqtiuEE=;
- b=F0RZwf+QVtfdPntABkUWCqnKWd9ZvaRtPa4RLbnjoS3Mv9huYArM/2p97ntmluKcx5
- sbuzSjy+OWEN6dzN7C6RYQgoNFlHohr4VKNTUfutPa7zwq1JV6AtX9/fNvPMAlVNPSPb
- KXM9WqnEd/bX9iVNhvKaU4SeqlFiBrGMgDvhqFvZDYJz3W6jnOESDByw3Ffm0L/ubDbR
- Bsb4ZMDq0fueO+vqGE5Nen8Ix6yV//gu8uLXJcIAIAtx1hxrVAeCjxHqFjCo+/yp4cL8
- YAFRMkagm/VLnmb1a+Jz/JKzq00ysjOHsH0DS9QGm64iB/sk/GCEc4J+kb224nRIYVL/
- uK7g==
+ bh=bM3evDjfiE3dprTsclqC+/G6p3TK8Ys0Oy1ZcImUYfI=;
+ b=laC4QuTRCSg15JyXcb0ZD2Q4k53G7vghjfyxzv8umgfoorTsmmpQfMbYRec0NDOGhY
+ ZE0ZNojePoqY3DSa/G78FdLptguqGGFfqzBBeXXMtwm/h7U7JYySMx7+JuJ2G2PWb3bF
+ PeCNYJfs5DMIsiIbeRrYXdDW32Yaz4CxTKzg74MkpPCwWlM8X1FpLYNQf3pyAK8WTICf
+ 8TYeST48ot3aMLkvlkVrIqlqckVx0E8VRNIYFTuZMyd/flWwH0p6GgIs0sTfN2G+gAse
+ HFr9P6EcchTDffeVhYQex9XhPyJ9Fh+fa8aoXzjKUaa1c3/Z2YLN8kK8lbl24keZ9tzc
+ tJaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3XNML7XiFhEmWhS7Wmn0QQk81yeWXZBxdfXtoqtiuEE=;
- b=2oMnDbiq/LiNBcGyNnUb0thiAwKrWFQmLWBFwp40r9lVGL4VgKSUyQwX8/JgpdVx19
- laK3hpXS0QggCkNzxPcP7VplOA/yYPNY1a8ei6XzRg2BbIqqmPKz+XAN2ddPEjKeSBbg
- uiWWstU+xP45KLiPE7ELvDSrV3fxu9CoW/l7NBSDKYt6hthJu3cS0n8dyqsoaY+0Bn9r
- 8p3siL100VRonL4pB+QqH2fJrz/nRBrVp/LEmgwakEUaK2VrfiJJYk2aq4ipaNBzVNBL
- mAxXAcnQzjKeAemNkia6UhobUaig38NvBHSZwoD1XWgEnxQmcopzMvbi2N6e8G44hn8W
- oQdA==
-X-Gm-Message-State: AOAM531wTY50b72Hp90SIopIde6KXOd7im3EreY1QonmuHey1pxYy/Ud
- r+81PL0Qf8FSgizfIGO8TgjNVw==
-X-Google-Smtp-Source: ABdhPJz4oCK0FlHgCt3OpAXEyjzMx8MM0BIoifZPvN2PfUIfJKR2EWbMtcAxZKXzchUrRLOzNjahKA==
-X-Received: by 2002:a05:6a00:1487:b0:518:b952:889b with SMTP id
- v7-20020a056a00148700b00518b952889bmr16382659pfu.43.1653565445537; 
- Thu, 26 May 2022 04:44:05 -0700 (PDT)
+ bh=bM3evDjfiE3dprTsclqC+/G6p3TK8Ys0Oy1ZcImUYfI=;
+ b=wWNN3kpN5Ph5qQWQqww06+lrdUx28XCo6PIAWhUjq/Nuzj3OliozjWD0sIPM4lNhCU
+ /D/c+GeiomuA/XlIDv3tcl44IX7z8+mDvsrAy2WtpzYxmXwmTao3+EhICRYLWgx7aqPu
+ 51W/xuP2p4dBtKkoDQ+DGKYZaUt3ZmV/Y6Ch0iOwBhTNGOUiMqyxQUJGb0bSEQUUUW/5
+ qs7qXUQxYWwjqSHIk5J23+xC7NpQSnpCjLf581ovmVMAVHr9lMxkD5ziddmegBSPjnAt
+ crsbP5mQlqa0gdBDnfmTfJgMYrbAjq0NzegINM/bnJIXWKzOeLKZwv2kMq+6ZVcEUZIT
+ 0RVQ==
+X-Gm-Message-State: AOAM530HKKfytcd6v5d8B+y5g0OOQQ8XsMDYYeRR2WrpLrCL3oTp99Z8
+ fTnVMlISEB4gKn2FIZ+WpkxLrQ==
+X-Google-Smtp-Source: ABdhPJzFEsV7cJrNzaIFA5do0FQhIQLA3swJDrst+zf/HBD8jNqWQ/kokmEk7NyfDIO4ycChLj/aKw==
+X-Received: by 2002:a17:90a:4803:b0:1dc:b4c9:1958 with SMTP id
+ a3-20020a17090a480300b001dcb4c91958mr2177698pjh.61.1653565449495; 
+ Thu, 26 May 2022 04:44:09 -0700 (PDT)
 Received: from localhost ([122.162.234.2]) by smtp.gmail.com with ESMTPSA id
- o13-20020a170903210d00b0015e8d4eb213sm1283995ple.93.2022.05.26.04.44.04
+ jb14-20020a170903258e00b00161527e1d9fsm1270109plb.294.2022.05.26.04.44.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 May 2022 04:44:05 -0700 (PDT)
+ Thu, 26 May 2022 04:44:09 -0700 (PDT)
 From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Qiang Yu <yuq825@gmail.com>
-Subject: [PATCH 13/31] drm/lima: Migrate to dev_pm_opp_set_config()
-Date: Thu, 26 May 2022 17:12:12 +0530
-Message-Id: <22268a714109e8f18ee0612d2e0f746a357af9c3.1653564321.git.viresh.kumar@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH 14/31] drm/msm: Migrate to dev_pm_opp_set_config()
+Date: Thu, 26 May 2022 17:12:13 +0530
+Message-Id: <f6a74bce04534144719ee4811a663dac85056815.1653564321.git.viresh.kumar@linaro.org>
 X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 In-Reply-To: <cover.1653564321.git.viresh.kumar@linaro.org>
 References: <cover.1653564321.git.viresh.kumar@linaro.org>
@@ -69,11 +71,11 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- lima@lists.freedesktop.org, linux-pm@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Rafael Wysocki <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Rafael Wysocki <rjw@rjwysocki.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -84,38 +86,137 @@ Lets start using it.
 
 Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 ---
- drivers/gpu/drm/lima/lima_devfreq.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |  8 ++++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 10 +++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  5 ++++-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c        |  5 ++++-
+ drivers/gpu/drm/msm/dsi/dsi_host.c      |  5 ++++-
+ 5 files changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-index 8989e215dfc9..e792ab5cd76a 100644
---- a/drivers/gpu/drm/lima/lima_devfreq.c
-+++ b/drivers/gpu/drm/lima/lima_devfreq.c
-@@ -111,6 +111,11 @@ int lima_devfreq_init(struct lima_device *ldev)
- 	struct dev_pm_opp *opp;
- 	unsigned long cur_freq;
- 	int ret;
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 407f50a15faa..c39fb085a762 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1728,10 +1728,14 @@ static void check_speed_bin(struct device *dev)
+ {
+ 	struct nvmem_cell *cell;
+ 	u32 val;
 +	struct dev_pm_opp_config config = {
-+		.regulator_names = (const char *[]){ "mali" },
-+		.regulator_count = 1,
-+		.clk_name = "core",
++		.supported_hw = &val,
++		.supported_hw_count = 1,
 +	};
  
- 	if (!device_property_present(dev, "operating-points-v2"))
- 		/* Optional, continue without devfreq */
-@@ -118,11 +123,7 @@ int lima_devfreq_init(struct lima_device *ldev)
+ 	/*
+ 	 * If the OPP table specifies a opp-supported-hw property then we have
+-	 * to set something with dev_pm_opp_set_supported_hw() or the table
++	 * to set something with dev_pm_opp_set_config() or the table
+ 	 * doesn't get populated so pick an arbitrary value that should
+ 	 * ensure the default frequencies are selected but not conflict with any
+ 	 * actual bins
+@@ -1753,7 +1757,7 @@ static void check_speed_bin(struct device *dev)
+ 		nvmem_cell_put(cell);
+ 	}
  
- 	spin_lock_init(&ldevfreq->lock);
+-	devm_pm_opp_set_supported_hw(dev, &val, 1);
++	devm_pm_opp_set_config(dev, &config);
+ }
  
--	ret = devm_pm_opp_set_clkname(dev, "core");
+ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 83c31b2ad865..ddb2812b1ff7 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1805,6 +1805,10 @@ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+ 	u32 supp_hw = UINT_MAX;
+ 	u32 speedbin;
+ 	int ret;
++	struct dev_pm_opp_config config = {
++		.supported_hw = &supp_hw,
++		.supported_hw_count = 1,
++	};
+ 
+ 	ret = adreno_read_speedbin(dev, &speedbin);
+ 	/*
+@@ -1823,11 +1827,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+ 	supp_hw = fuse_to_supp_hw(dev, rev, speedbin);
+ 
+ done:
+-	ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
 -	if (ret)
 -		return ret;
 -
--	ret = devm_pm_opp_set_regulators(dev, (const char *[]){ "mali" }, 1);
+-	return 0;
++	return devm_pm_opp_set_config(dev, &config);
+ }
+ 
+ static const struct adreno_gpu_funcs funcs = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index e29796c4f27b..43f943fdfde5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1203,12 +1203,15 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+ 	struct drm_device *ddev = priv->dev;
+ 	struct dpu_kms *dpu_kms;
+ 	int ret = 0;
++	struct dev_pm_opp_config config = {
++		.clk_name = "core",
++	};
+ 
+ 	dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
+ 	if (!dpu_kms)
+ 		return -ENOMEM;
+ 
+-	ret = devm_pm_opp_set_clkname(dev, "core");
++	ret = devm_pm_opp_set_config(dev, &config);
+ 	if (ret)
+ 		return ret;
+ 	/* OPP table is optional */
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 53568567e05b..54bdb33eef45 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1974,6 +1974,9 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+ {
+ 	struct dp_ctrl_private *ctrl;
+ 	int ret;
++	struct dev_pm_opp_config config = {
++		.clk_name = "ctrl_link",
++	};
+ 
+ 	if (!dev || !panel || !aux ||
+ 	    !link || !catalog) {
+@@ -1987,7 +1990,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+-	ret = devm_pm_opp_set_clkname(dev, "ctrl_link");
 +	ret = devm_pm_opp_set_config(dev, &config);
  	if (ret) {
- 		/* Continue if the optional regulator is missing */
- 		if (ret != -ENODEV)
+ 		dev_err(dev, "invalid DP OPP table in device tree\n");
+ 		/* caller do PTR_ERR(opp_table) */
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index d51e70fab93d..7d5b027629d2 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1801,6 +1801,9 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 	struct msm_dsi_host *msm_host = NULL;
+ 	struct platform_device *pdev = msm_dsi->pdev;
+ 	int ret;
++	struct dev_pm_opp_config config = {
++		.clk_name = "byte",
++	};
+ 
+ 	msm_host = devm_kzalloc(&pdev->dev, sizeof(*msm_host), GFP_KERNEL);
+ 	if (!msm_host) {
+@@ -1862,7 +1865,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 		goto fail;
+ 	}
+ 
+-	ret = devm_pm_opp_set_clkname(&pdev->dev, "byte");
++	ret = devm_pm_opp_set_config(&pdev->dev, &config);
+ 	if (ret)
+ 		return ret;
+ 	/* OPP table is optional */
 -- 
 2.31.1.272.g89b43f80a514
 
