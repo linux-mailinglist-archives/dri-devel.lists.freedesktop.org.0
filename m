@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6C9535295
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 19:36:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 548D95352CF
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 19:40:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99CA710E630;
-	Thu, 26 May 2022 17:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF9E10E73A;
+	Thu, 26 May 2022 17:40:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B374B10E630
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 17:36:28 +0000 (UTC)
-Date: Thu, 26 May 2022 17:36:13 +0000
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09D4E10E728
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 17:40:35 +0000 (UTC)
+Date: Thu, 26 May 2022 17:40:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1653586586; x=1653845786;
- bh=txweeAJ1rZv2DCIYdqWpWTX7sSgQeIFtPSLSqchfhMY=;
+ s=protonmail2; t=1653586833; x=1653846033;
+ bh=ewT0ecdThNEKybTb8DbvIn1V6eZxJghRW/3Bxft4Qik=;
  h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
  Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
- b=ndIL73ZXwtzit3szV+xhIvvH9UPm7I3xCDeimw0BghDFNXTZlML029E7hWFIpPVPt
- 8GdSeQNsoHRpNSbfA3qRcrnODSXcxeUOGAF0RwC+dnzVn1ms4nDE2C2kDWAyTqsqS+
- KVOeQJmlzJxAEXjhlq/reTW5HTIu3ComeZE84qIu7bj23anHTmH4+VFcsbWzIwUvzV
- DNtfVp2w+rLIaqIDdIsl3kAHyxcX+n9KxoukNDt0bU4rQD5aTdLEOnhWYDwSRs3upx
- BPqPTDofgxs522n2ve6eCXyKNeDYX9rMWLYSFEbPiWhO6CUqj/EkTH8KVVIekfcEb8
- KbexkmofsiXnA==
+ b=fY6EY31p94sD8atu/9ajl4sGmPdNhx6J/3gOyJNVBBBoTfVTL6mfap1UghdGYIILJ
+ 0wNJTmwXGB9hsFtC9QHPy4AiwQGyOxD6eWp7Kr0cKPBHKNKMwxIPaVIW6mYqQ1M6Ll
+ +qNbLayZjIv2VCQzBfMcUSZP46T3pX9Hcg9Y1f8CYG0zTv7w2yVCP/9GDLi31jLIZI
+ dDJp60ZaCovy4PnMm4dwPhLW/tJMOtxz4j84NQoyLQOz3sPwkn4SdmCj6hI6iHUzFS
+ 48T8bX1pa7JrR83iOyhteGWSWyhOlq7QtOiS/Hzk0r8urM9C+f7rzqRCm3tfLT4gRj
+ YHdamP1HnCSTQ==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [RFC PATCH] dma-buf: Add a capabilities directory
-Message-ID: <20220526173602.344386-1-contact@emersion.fr>
+Subject: [RFC PATCH v2] dma-buf: Add a capabilities directory
+Message-ID: <20220526174025.344908-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -69,16 +69,23 @@ Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
 ---
 
+Oops, I forgot to check in new files after spliting a commit.
+Fixed.
+
 This depends on:
 https://patchwork.freedesktop.org/series/103715/
 
- .../ABI/testing/sysfs-kernel-dmabuf-buffers   | 14 ++++++
+ .../ABI/testing/sysfs-kernel-dmabuf-buffers   | 14 +++++
  drivers/dma-buf/Makefile                      |  2 +-
- drivers/dma-buf/dma-buf-sysfs-stats.c         | 13 +-----
+ drivers/dma-buf/dma-buf-sysfs-caps.c          | 51 +++++++++++++++++++
+ drivers/dma-buf/dma-buf-sysfs-caps.h          | 16 ++++++
+ drivers/dma-buf/dma-buf-sysfs-stats.c         | 13 +----
  drivers/dma-buf/dma-buf-sysfs-stats.h         |  6 ++-
- drivers/dma-buf/dma-buf.c                     | 43 +++++++++++++++++--
+ drivers/dma-buf/dma-buf.c                     | 43 ++++++++++++++--
  include/uapi/linux/dma-buf.h                  |  6 +++
- 6 files changed, 66 insertions(+), 18 deletions(-)
+ 8 files changed, 133 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.c
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.h
 
 diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Docume=
 ntation/ABI/testing/sysfs-kernel-dmabuf-buffers
@@ -118,6 +125,88 @@ index 4c9eb53ba3f8..afc874272710 100644
  obj-$(CONFIG_DMABUF_HEAPS)=09+=3D dma-heap.o
  obj-$(CONFIG_DMABUF_HEAPS)=09+=3D heaps/
  obj-$(CONFIG_SYNC_FILE)=09=09+=3D sync_file.o
+diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.c b/drivers/dma-buf/dma-buf=
+-sysfs-caps.c
+new file mode 100644
+index 000000000000..c760e55353bc
+--- /dev/null
++++ b/drivers/dma-buf/dma-buf-sysfs-caps.c
+@@ -0,0 +1,51 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * DMA-BUF sysfs capabilities.
++ *
++ * Copyright (C) 2022 Simon Ser
++ */
++
++#include <linux/kobject.h>
++#include <linux/sysfs.h>
++
++#include "dma-buf-sysfs-caps.h"
++
++static ssize_t sync_file_import_export_show(struct kobject *kobj,
++=09=09=09=09=09    struct kobj_attribute *attr,
++=09=09=09=09=09    char *buf)
++{
++=09return sysfs_emit(buf, "1\n");
++}
++
++static struct kobj_attribute dma_buf_sync_file_import_export_attr =3D
++=09__ATTR_RO(sync_file_import_export);
++
++static struct attribute *dma_buf_caps_attrs[] =3D {
++=09&dma_buf_sync_file_import_export_attr.attr,
++=09NULL,
++};
++
++static const struct attribute_group dma_buf_caps_attr_group =3D {
++=09.attrs =3D dma_buf_caps_attrs,
++};
++
++static struct kobject *dma_buf_caps_kobj;
++
++int dma_buf_init_sysfs_capabilities(struct kset *kset)
++{
++=09int ret;
++
++=09dma_buf_caps_kobj =3D kobject_create_and_add("caps", &kset->kobj);
++=09if (!dma_buf_caps_kobj)
++=09=09return -ENOMEM;
++
++=09ret =3D sysfs_create_group(dma_buf_caps_kobj, &dma_buf_caps_attr_group)=
+;
++=09if (ret)
++=09=09kobject_put(dma_buf_caps_kobj);
++=09return ret;
++}
++
++void dma_buf_uninit_sysfs_capabilities(void)
++{
++=09kobject_put(dma_buf_caps_kobj);
++}
+diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.h b/drivers/dma-buf/dma-buf=
+-sysfs-caps.h
+new file mode 100644
+index 000000000000..d7bcef490b31
+--- /dev/null
++++ b/drivers/dma-buf/dma-buf-sysfs-caps.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * DMA-BUF sysfs capabilities.
++ *
++ * Copyright (C) 2022 Simon Ser
++ */
++
++#ifndef _DMA_BUF_SYSFS_CAPS_H
++#define _DMA_BUF_SYSFS_CAPS_H
++
++struct kset;
++
++int dma_buf_init_sysfs_capabilities(struct kset *kset);
++void dma_buf_uninit_sysfs_capabilities(void);
++
++#endif // _DMA_BUF_SYSFS_CAPS_H
 diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-bu=
 f-sysfs-stats.c
 index 2bba0babcb62..09e43c8891d6 100644
