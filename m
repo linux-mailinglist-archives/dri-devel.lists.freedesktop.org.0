@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB8F534938
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 05:16:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9914053493B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 05:16:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBBF410E0A4;
-	Thu, 26 May 2022 03:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E76B10E222;
+	Thu, 26 May 2022 03:16:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B5110E222
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 03:16:44 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- m14-20020a17090a414e00b001df77d29587so3305674pjg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 20:16:44 -0700 (PDT)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDBA210E222
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 03:16:47 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id b135so610105pfb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 May 2022 20:16:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=f6jLMtJrLguZvRlHX76uP5bxS6yNfg/KmTP+kPMFw2A=;
- b=NeNH04nEYmKlxRrFKbjU/A5gGFIWu4QfR8rsFuFLIoMj/OrRI/CL7ER+lH9qLFt6v7
- ooZ8tD4znoyV6cfroKC0X30K+JpBNll7tDwyoQEOt1T0x31lWIx3QTniGgdXW7dIvOtc
- b4aaIVHO7NsdfcTDz7PzU/L+pt0XpbvhZgKefdOaQjl+N/0EiOKDACOvqf0WbJ2hsd8J
- 4w2hNrFaONz10ivo7QxmqlKWabHG9lJ26TdaR4QRjHgfuLuKGy51TlVwRzWEHXe1l3Yn
- SOYziVzsEMKCg13T/uWvBClWFNplGswFouHdSq9sQdGi607cYz47CyI8t2H7vZtNMnC7
- gTWg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=gJkpAY5J5OYSDURsc529cHvymHUqP4kRqRfmka6ZmsE=;
+ b=Jk45dUi05epNEnQ36gijQX1NTzUXD12rkoFLcqm8oqmaTFnvBHCdCZQAy96Z4Npq46
+ VMh8/2W+NmJGoOdR93zVjJIt+Gz7u4CIaB1V1vt2/Vh9Q8BrZa1eINivIkxRaiWCxYJO
+ pGC3vPyFzs5ynmUKlCRC9AziQLPA/A3T4t1gjD50EIw8jOjMBYlQGrgDkpmhpNkyzlZm
+ pOQeHmTtiYZCIWi0N8EQVWLKlut/jMETw/Rf13/zJTpEbZUc6YzhhnJ4wYVrviup8E9G
+ Qd6EiTalyqlocZCiiHk6Y23sjKQ8rAW/P+ImhKqmvBrmMhxiAS086hmv0rtsER8+VQnF
+ cP5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=f6jLMtJrLguZvRlHX76uP5bxS6yNfg/KmTP+kPMFw2A=;
- b=O431bANB5kJJlZnDWH1zJPc8Hl7ORW77Izwt2FX9zkx5yiaKGyDl90OA9mfv3yRla4
- SPzdAzppwV58jBiytvEjNC/+ODWih/gFVehToOH8YzdIzykHgeDr93RdRjTigw+wnzN1
- q+o0s42QROxmc4vaDyUqjP1uBDr0ydxud97Qrwf9gv73JvfW4jhzPWpuoZbMsaJK2Jdw
- fPVKp+IsZyYxgv8uLqNdtqMi7e65L8ODkzgWTdMaqSqbPuOjxvw+jchS8YGTIlnvfr2j
- kiK/lOwBBuLi6DEV6tPZKPFGX7rutGyFMeosvjGfAPQy7H9mLv6HJuD/QbeYZ4XD3q6y
- cDFA==
-X-Gm-Message-State: AOAM5306bGoqcA4WJJwQOwV+NuHUaIs5elPjCuqljDS05h80FGzz77fC
- 753fu8BcrJYyGHtcQk89V2tXN2dqqrs4fQ==
-X-Google-Smtp-Source: ABdhPJz/ng9MEzMr2C0bCqTgfwmdUaqu1tPBtgobFs5R3bzVReetE9dkkSyLpZEelrkVQ1dPShLBuQ==
-X-Received: by 2002:a17:903:2309:b0:163:5c82:640e with SMTP id
- d9-20020a170903230900b001635c82640emr5614243plh.100.1653535003625; 
- Wed, 25 May 2022 20:16:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=gJkpAY5J5OYSDURsc529cHvymHUqP4kRqRfmka6ZmsE=;
+ b=knpeoJ3hnzjriHVXRjjzABogIK6e3NahFFgGNNrqVWh5OWO9J6pTY/9Pi2Lltp2qVJ
+ dQbkGPibXu1BdoIpRoUQdHi9ZLblSyfhNOG5EDxQex8dO/5nEH4z9ZuE9bzgP9ALLR/J
+ 7PJJuvVTNaGEJAo4NNvUR5VU2wgWbXYvOASRolKSxU/rfp3AGwkFLBpAwyV5WIn6EJxC
+ cog9nn2HrCwAIDyZGTEA2XNRo7WM2ip3PKEXCRhfL3NfdepO4KZD5cJqlWgqmhA18/TO
+ 83NXk6pME3jJD2nmaNOGrI1t7AlTM7LU+FCbX7IGaqvlvRq730YKgOTq0E+ePf6KDRjR
+ Onxg==
+X-Gm-Message-State: AOAM531edOMPEEwR15bx2zFhJRajGP3+CAasvimFV1a6svzpspaxyJx4
+ CgmbjppA77yWCS/mkWX8GhE=
+X-Google-Smtp-Source: ABdhPJwX32UAU3Bp3W9+y/lNWbYLb1ZL1Eord0ZY0yd4gzpVlC3AhrFJI1Wn7OP4oyRPTLFJD4K8vA==
+X-Received: by 2002:a63:28c:0:b0:3c1:6f72:7288 with SMTP id
+ 134-20020a63028c000000b003c16f727288mr30961365pgc.564.1653535007427; 
+ Wed, 25 May 2022 20:16:47 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:569:6b12:f420:101e:bfc0:b57c])
  by smtp.gmail.com with ESMTPSA id
- t25-20020aa79479000000b0050dc7628181sm152964pfq.91.2022.05.25.20.16.39
+ t25-20020aa79479000000b0050dc7628181sm152964pfq.91.2022.05.25.20.16.43
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 25 May 2022 20:16:43 -0700 (PDT)
+ Wed, 25 May 2022 20:16:47 -0700 (PDT)
 From: cy_huang <u0084500@gmail.com>
 To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
  lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com
-Subject: [PATCH 0/2] Add the property to make ocp level selectable
-Date: Thu, 26 May 2022 11:16:33 +0800
-Message-Id: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property for
+ ocp level selection
+Date: Thu, 26 May 2022 11:16:34 +0800
+Message-Id: <1653534995-30794-2-git-send-email-u0084500@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
+References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,24 +77,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: ChiYuan Huang <cy_huang@richtek.com>
 
-This patch series is to make ocp level selectable.
+Add the new property for ocp level selection.
 
-Some application design use small inductor. And it's easy to trigger the
-over current protection. Due to the OCP limit, It make the brightness current
-not match the configured value.
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+---
+ .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
+ include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
+ 2 files changed, 13 insertions(+)
 
-To meet the HW design, the ocp level have to be selectable.
-
-ChiYuan Huang (2):
-  dt-bindings: backlight: rt4831: Add the new property for ocp level
-    selection
-  backlight: rt4831: Add the property parsing for ocp level selection
-
- .../bindings/leds/backlight/richtek,rt4831-backlight.yaml   |  8 ++++++++
- drivers/video/backlight/rt4831-backlight.c                  | 13 +++++++++++++
- include/dt-bindings/leds/rt4831-backlight.h                 |  5 +++++
- 3 files changed, 26 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+index e0ac686..c1c59de 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+@@ -47,6 +47,14 @@ properties:
+     minimum: 0
+     maximum: 3
+ 
++  richtek,bled-ocp-sel:
++    description: |
++      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
++    $ref: /schemas/types.yaml#/definitions/uint8
++    default: 1
++    minimum: 0
++    maximum: 3
++
+   richtek,channel-use:
+     description: |
+       Backlight LED channel to be used.
+diff --git a/include/dt-bindings/leds/rt4831-backlight.h b/include/dt-bindings/leds/rt4831-backlight.h
+index 125c635..e8b8609 100644
+--- a/include/dt-bindings/leds/rt4831-backlight.h
++++ b/include/dt-bindings/leds/rt4831-backlight.h
+@@ -14,6 +14,11 @@
+ #define RT4831_BLOVPLVL_25V	2
+ #define RT4831_BLOVPLVL_29V	3
+ 
++#define RT4831_BLOCPLVL_0P9A	0
++#define RT4831_BLOCPLVL_1P2A	1
++#define RT4831_BLOCPLVL_1P5A	2
++#define RT4831_BLOCPLVL_1P8A	3
++
+ #define RT4831_BLED_CH1EN	(1 << 0)
+ #define RT4831_BLED_CH2EN	(1 << 1)
+ #define RT4831_BLED_CH3EN	(1 << 2)
 -- 
 2.7.4
 
