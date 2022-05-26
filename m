@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDFA53569D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD30D535694
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 01:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C50A10EF7E;
-	Thu, 26 May 2022 23:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3DDF10F913;
+	Thu, 26 May 2022 23:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFB3010EF7E;
- Thu, 26 May 2022 23:54:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B141D10EF7E;
+ Thu, 26 May 2022 23:54:43 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id AF11D1F459E1
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id B73371F409FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1653609279;
- bh=+dsYPBe0MtL9U6A9MrplQ6Fk/h2u9i7WdSCVoC7x6z4=;
+ s=mail; t=1653609282;
+ bh=LFlzHZwAyFsCuldzWdNWjboYshAvld5NVcB549Tumb8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eJE7wbdhuCKQ7ARuAxD2jakaOllV4XZp+wGbuzmwdjZ3AIJXdidlMp45UgBjdSOOD
- glpNR2ysMVh/exq/dF/BlNApylcmRvmKbtxJTe3lAZ9yCQHa0gOmlq6OmSU4HNZ8AQ
- j/1OuqQJfB6lruRLryGyl0wPtlwowLPhFkznUgbswyosxFmRIUNzNITJOclCMrRhnn
- 65Fat7aAvOkrbl9cliJKjoeEIg4SJmxvXHlZ44NBvwxUzbEvT10c6y0M8rp7mmWGF4
- 9tQvQ9uNi7WLf/gkC4tjw1g2Jff4+nRrg4Fick8NUGQ+gbgjFX/RBeFTv37OoCYeNg
- FRZZFSrdn9H4w==
+ b=GigVHXqPQ1UcTCnTuhxphImtODnG4CrWAiWlc/yC2oNfRDmECLgFzjbCbAqw6EqH4
+ DPtlp2TWrOSVV6pGFDCFYmNLgEOptU8xcB0QOIlh0yWVfKeAaN9PCezXe3xK6Mvrko
+ lSylmljH7iRLpOWD46t5xooOTpr0QnnfMIohLV7J58MsxWCv8OZgEjyHYZfiVquXLs
+ uGYkUAkUFtI6WdG3LX5ervwkZ1Lx0jLKsUeob7yi2N1kJ8hYtzVvu6EEpogKBGG1e7
+ 2L8cjj9dcRrwg0HPMXFBuWbzWGKBTo2O2dYBlPnAl2pp4j5ilPU7yIz5HHHbTT+5B0
+ 49FbriWR//k1g==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -52,9 +52,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH v6 10/22] drm/shmem-helper: Add missing vunmap on error
-Date: Fri, 27 May 2022 02:50:28 +0300
-Message-Id: <20220526235040.678984-11-dmitry.osipenko@collabora.com>
+Subject: [PATCH v6 11/22] drm/shmem-helper: Correct doc-comment of
+ drm_gem_shmem_get_sg_table()
+Date: Fri, 27 May 2022 02:50:29 +0300
+Message-Id: <20220526235040.678984-12-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
 References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
@@ -81,29 +82,39 @@ Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vmapping of dma-buf may succeed, but DRM SHMEM rejects the iomem
-mappings, and thus, drm_gem_shmem_vmap_locked() should unvmap the iomem
-before erroring out.
+drm_gem_shmem_get_sg_table() never returns NULL on error, but a ERR_PTR.
+Correct the doc comment which says that it returns NULL on error.
 
-Cc: stable@vger.kernel.org
-Fixes: 49a3f51dfeee ("drm/gem: Use struct dma_buf_map in GEM vmap ops and convert GEM backends")
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 6190f5018986..54b0ba28aa0a 100644
+index 54b0ba28aa0a..7232e321fdb4 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -302,6 +302,7 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
- 		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
- 		if (!ret) {
- 			if (WARN_ON(map->is_iomem)) {
-+				dma_buf_vunmap(obj->import_attach->dmabuf, map);
- 				ret = -EIO;
- 				goto err_put_pages;
- 			}
+@@ -654,7 +654,8 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
+  * drm_gem_shmem_get_pages_sgt() instead.
+  *
+  * Returns:
+- * A pointer to the scatter/gather table of pinned pages or NULL on failure.
++ * A pointer to the scatter/gather table of pinned pages or an ERR_PTR()-encoded
++ * error code on failure.
+  */
+ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
+ {
+@@ -680,7 +681,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+  * drm_gem_shmem_get_sg_table() should not be directly called by drivers.
+  *
+  * Returns:
+- * A pointer to the scatter/gather table of pinned pages or errno on failure.
++ * A pointer to the scatter/gather table of pinned pages or an ERR_PTR()-encoded
++ * error code on failure.
+  */
+ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
+ {
 -- 
 2.35.3
 
