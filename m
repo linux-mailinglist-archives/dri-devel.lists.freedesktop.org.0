@@ -1,61 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD70E535119
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 16:59:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BAB5535124
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 17:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35BB310E1C1;
-	Thu, 26 May 2022 14:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A90D10E1BD;
+	Thu, 26 May 2022 15:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
- [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D68F10E1C1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 14:58:59 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-2f83983782fso18133397b3.6
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 07:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sfTa8XVvRW1iQz8Afci7PUrunTxrM+3anYqi5ZHWbgU=;
- b=NASTEjcWoY+Y/UljW8w6M11A180yLttIP2cuwdIWDRfzq0/OIEaMjtg9SD0ljU+oi9
- wlgYuL1eiB4YBhbIpJREawZ4EMbl8v/NJJ91gOZGTTOZj9TLgGSWSbJBBu14L/lGz3kj
- RNYTjYMK/NyO6AA7IMuWhJ51P9UkgXgwcGSI96fUhWDsJM0epg601uG00ct5v7yd2CWf
- AasWjChh1hmr6Z3P/S7XHZAakVJPhEDV2ZJuHTfZRgfiU/d/olvTLouq/q+NDM8unF9W
- cTulodDAvAPHXNl0j8WtMuc3VFY7Y6pZXuP9H7DUgidoe/sKF7Fm+Dhem5MPaeixJspI
- pAhg==
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F89C10E15F
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 15:02:19 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id a23so2037929ljd.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 08:02:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=0D8beMvITCEnQx8kNlsoiMBAwRlvlYs/p4e3T9UBysk=;
+ b=OR6Rn0cIwMEBUkUXJ1VyIu9n2UbV0stSHvaMzeU1kJ8kDh5lCNQlz1mNu6sD4hHaA0
+ dsQbVAi+wzj9faH/mKfIHl6OHg8vSDYfvVfGL7nDV0zDbUdYLM/PEvvKA41sSrKUmhNa
+ Bza8cJbKFMFqMb38bLJ9tRAbpyPb+z30Go1M6a3e1PvUVdxAgWCKgkFhExjpjUVXpw9t
+ VJW3ngnXh77cwHNots7cBAFoRGuaHz+/s5GLwa6f/BB8OYwQSJhTy8x5G6KNtJcil68y
+ qHH8/clbfVYNMeGjJ27vJdWGCJBHSA/KAVz1PQB1QZMFNOFrA4XuwtJKrGPqcm0Vj6pp
+ anbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sfTa8XVvRW1iQz8Afci7PUrunTxrM+3anYqi5ZHWbgU=;
- b=eb/Wpx1yM2gEmc0ttJV9UDyKPTCVTqZvlfCUtJIsjvKdnWoceVgd6DFlP9SWDbM01V
- EIrkpl2QkxZIRy3rCq+VqaYbgesA1DFiSQaALDqJThm6PTWZKzPeFxHj7czcFyCw/a0G
- hS77T/h56to0O1Kf9VvOAmDR1O5oBHLDHVhYM8wjTuIh3vS0fgDJeIdLbRfHoEs6roDX
- 9t+ik1CaAbKfygphG/4fr8V9xcQMa6p7pyfL6zi/AG4rZbTY0suRn7C1BdHvTYVXOM4M
- xV1gVUE0tOOGuXLv5u7pOoKK+Qr3aenS+Xr+x5ZHFCdepubJXTUIw0zUS2v1jH6jVxWB
- 2ApQ==
-X-Gm-Message-State: AOAM530YU0XB2R+ThEapx7eYavglS/vJxLQKZrDzdJWsy6C6Ck4UARG0
- N41GNiO4i/HZiO5qsWZ0fvWtK8Xvn7IpJiMvWP1BuQ==
-X-Google-Smtp-Source: ABdhPJwcL5Kq+XCXqJAWDizNvQB5UG0yEOnGjmvIi9DnQd8HoR1FQyIb0xaceM+/tDqyPxufoMAx8/OWsgJ3yFWBMnY=
-X-Received: by 2002:a05:690c:97:b0:2f1:9582:6685 with SMTP id
- be23-20020a05690c009700b002f195826685mr40735795ywb.395.1653577138433; Thu, 26
- May 2022 07:58:58 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0D8beMvITCEnQx8kNlsoiMBAwRlvlYs/p4e3T9UBysk=;
+ b=JrLSq3w0kkkLxt9WCv/dtH6nusRow02ObDujfMl3AnSY8XbLFMuK4xSIKcjGt8Ufoo
+ NbDTYAw3GL5XUxVQSuv85QI0hbSypzsiC0HvJQ5A5ByazFrEITiqy6T+7dXyH0SY0D6R
+ Qs7dzAhJuqpYiA8mDgMWSRaejk7eHKTVQGDd39fd4YDO2eDq5SxEA+QI/IMyTDzGdLou
+ uOkHfBry0I1qtKHcToBH9Ggsbk2v15pm3bAZ584pAjK4DB0RtfzZ4yfH9zeJctjpYUso
+ FuJ25N016QaLy4aPWFcJwHuPNroYieqBPD0Um9rUcg9eov6w7pMGgOo6rKglTvgwps0J
+ 5ktA==
+X-Gm-Message-State: AOAM5327tdRcJsQAPUxy5uMOrNWfD62QyvIP8LuvyISZG0kmQ+dgiXrr
+ s4poXNFslHnJl+SXLuy71604hA==
+X-Google-Smtp-Source: ABdhPJwzG8K/zqLzj6k+ONVQDWc9rr4vNc0HCZhyxgpG25v5q4sJTfmZUi0az3S8isaPu1yB9kMinw==
+X-Received: by 2002:a2e:bc2a:0:b0:253:edc9:dc73 with SMTP id
+ b42-20020a2ebc2a000000b00253edc9dc73mr11569641ljf.351.1653577336150; 
+ Thu, 26 May 2022 08:02:16 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ e13-20020a05651236cd00b0047255d211d6sm390892lfs.261.2022.05.26.08.02.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 May 2022 08:02:15 -0700 (PDT)
+Message-ID: <310e5453-9771-eb90-1a67-b04ec695fee0@linaro.org>
+Date: Thu, 26 May 2022 18:02:13 +0300
 MIME-Version: 1.0
-References: <20220506180216.2095060-1-jason@jlekstrand.net>
- <CAPj87rPwx6tL5NtcmP=589wWCyKvZpFfLveaGtsd2wcyCh-1=A@mail.gmail.com>
- <CAOFGe95eEkhGRiDcSb4mvVry1zMYB36aNYm3XWOKb4NESh7wKQ@mail.gmail.com>
-In-Reply-To: <CAOFGe95eEkhGRiDcSb4mvVry1zMYB36aNYm3XWOKb4NESh7wKQ@mail.gmail.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Thu, 26 May 2022 16:59:11 +0200
-Message-ID: <CAP+8YyGwEAbsYV_ieDj-vDJYCzhY52yw=iqERJ40PjsPUDHB-Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] dma-buf: Add an API for exporting sync files (v14)
-To: Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 -next] drm/display: Fix build error without CONFIG_OF
+Content-Language: en-GB
+To: Linus Walleij <linus.walleij@linaro.org>,
+ YueHaibing <yuehaibing@huawei.com>
+References: <20220506123246.21788-1-yuehaibing@huawei.com>
+ <CACRpkdZUwfVNZyS6RgcupJ+TRUZVM+1_3ABj_-f_3+v+wNE6mg@mail.gmail.com>
+ <CACRpkdaKrk+cj9Yvpe3kmR1iJFczi-yckHiKeLGu9F=hRFiU9w@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CACRpkdaKrk+cj9Yvpe3kmR1iJFczi-yckHiKeLGu9F=hRFiU9w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +76,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Hi Linus, Yue,
 
-Didn't test the latest version of everything, but I can confirm the
-UAPI worked fine for what we'd want to use it for with radv.
+On 23/05/2022 15:54, Linus Walleij wrote:
+> On Mon, May 23, 2022 at 2:46 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>> On Fri, May 6, 2022 at 2:33 PM YueHaibing <yuehaibing@huawei.com> wrote:
+>>
+>>> While CONFIG_OF is n but COMPILE_TEST is y, we got this:
+>>>
+>>> WARNING: unmet direct dependencies detected for DRM_DP_AUX_BUS
+>>>    Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && OF [=n]
+>>>    Selected by [y]:
+>>>    - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=y] || QCOM_LLCC [=y]=n) && (QCOM_COMMAND_DB [=n] || QCOM_COMMAND_DB [=n]=n)
+>>>
+>>> Make DRM_DP_AUX_BUS depends on OF || COMPILE_TEST to fix this warning.
+>>>
+>>> Fixes: f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus support")
+>>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>>
+>> Patch applied to the DRM tree.
+> 
+> Nope, failed:
+> 
+> $ dim push-branch drm-misc-next
+> dim: ac890b9eeb9b ("drm/display: Fix build error without CONFIG_OF"):
+> Fixes: SHA1 in not pointing at an ancestor:
+> dim:     f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus support")
+> dim: ERROR: issues in commits detected, aborting
 
-On Thu, May 26, 2022 at 8:47 AM Jason Ekstrand <jason@jlekstrand.net> wrote=
-:
->
-> On Wed, May 25, 2022 at 5:02 AM Daniel Stone <daniel@fooishbar.org> wrote=
-:
->>
->> On Sat, 7 May 2022 at 14:18, Jason Ekstrand <jason@jlekstrand.net> wrote=
-:
->> > This patch series actually contains two new ioctls.  There is the expo=
-rt one
->> > mentioned above as well as an RFC for an import ioctl which provides t=
-he other
->> > half.  The intention is to land the export ioctl since it seems like t=
-here's
->> > no real disagreement on that one.  The import ioctl, however, has a lo=
-t of
->> > debate around it so it's intended to be RFC-only for now.
->>
->> Errr, I think we're good with this one now right?
->
->
-> Yeah, I dropped the RFC from the patch, just not the description in the c=
-over letter, apparently.
->
->>
->> From the uAPI point of view, having looked through the Mesa MR, both are=
-:
->> Acked-by: Daniel Stone <daniels@collabora.com>
->
->
-> For reference: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/=
-4037
->
-> Yes, I agree it's gotten sufficient review at this point that I think we =
-can call the uAPI reviewed.  I'm good with landing now.  Sorry that took so=
- long but the original version I had only used half of the new API and I wa=
-nted to make sure both halves got good testing.
->
-> --Jason
->
->
->>
->> Cheers,
->> Daniel
+After a second thought, I think the patch contains wrong Fixes tag. It 
+should be:
+
+Fixes: 1e0f66420b13 ("drm/display: Introduce a DRM display-helper module")
+
+With that in place would we be able to merge it through drm-misc? Does 
+it needs to be resubmitted?
+
+> 
+> I don't know what to do with this, sorry. The other committers are maybe better
+> with this kind of situations. I think it is designed to stop me from
+> shooting myself
+> in the foot.
+> 
+> Yours,
+> Linus Walleij
+
+
+-- 
+With best wishes
+Dmitry
