@@ -1,70 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2084534D54
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 12:32:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A22C9534DAC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 13:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8204C10F079;
-	Thu, 26 May 2022 10:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA4110E46C;
+	Thu, 26 May 2022 11:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF4D810F061
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 10:32:15 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id rs12so2080842ejb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 03:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IhOoJiEVW1f9NZEh+LjhXs1p495IAP76V+trW0SBtRo=;
- b=fHJSBncXPQADirHt+O19VJemtFTXXzyJ9q03nrECjDpx0gclUcHS+ieBBLezoqaGC8
- fC9IFFI8ajtjcsHFcgywLvOMp38YGvBMAleD8t3/LJ+AzXKH8Ws0VP/al+A5cV+dvndp
- vbwzgeE6XPTvGSWaBMWaPbxOPw5U6SbRdTI6AzE9Ukhmj4/OFvziEXy8j39zUB7eEJhj
- FTN8mM+nJh+j543Nxch1kt4Eb2DiZFyFlU6AkDNnAYa7Thb88HRDsTB2Yf2h7GIIM3UL
- 5G3W+O3JObh5EYYc+QDGbPhCcusMC6Vv+6UPGGM5+QCWxR3F7NvdX/5JM+LR+olH2syZ
- kYmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IhOoJiEVW1f9NZEh+LjhXs1p495IAP76V+trW0SBtRo=;
- b=Wfu5+4Wr0xcr/IWE0+AY/aEh1Dp/NRIyxDK1z1u3FtK+1W9GqAafr3d61A0szLqSkF
- X5k4Dkx8ptyLSkAD1Mn1H7Gw26+QN9uYDHVxXkfAhnquotMBaKVdEqmnwGXHb28Jfnxc
- ypQd6I8JvLnr/o/3xBU/E7ldgA4aoOK5XS5ECOhgRPQZmr9iF1UAmzbQIAwp7fmsDArQ
- n43JnnHoAUwLPSGrCrW+83Fpz4hHndOIc9LjQuc9ILM04Yvcq0D8OssPcV8cPcMVv8Zi
- 6g8smvezwbGG1LdrVoX7AMycIqHGoB27Pmhi3PYIfUTxpiWdRUdbG6matCAQgih6ocOp
- g12Q==
-X-Gm-Message-State: AOAM530kmOk5nVvUk7ehuycy52t5LfiBnLo5i6kImjME8BnsCELvOVup
- MhWcmyTqBlzlMO/ct61OpiXOlw==
-X-Google-Smtp-Source: ABdhPJytcoRzpFy9P5lbgclcSPwMfqb4FHL8nr2e5PQ5uM1dp3kx1YyMinkEiWBL0zjylUDn4i5I3w==
-X-Received: by 2002:a17:907:d21:b0:6fe:c340:616 with SMTP id
- gn33-20020a1709070d2100b006fec3400616mr22342567ejc.177.1653561134125; 
- Thu, 26 May 2022 03:32:14 -0700 (PDT)
-Received: from [192.168.0.177] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- i8-20020a50c3c8000000b0042617ba63basm610186edf.68.2022.05.26.03.32.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 May 2022 03:32:13 -0700 (PDT)
-Message-ID: <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
-Date: Thu, 26 May 2022 12:32:12 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF06C10E3F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 11:02:40 +0000 (UTC)
+X-UUID: b7269a4d70e9475b97e1f46055e9f418-20220526
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:f14550b2-6f48-4661-92e9-b63ec80a0eae, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:fec29547-4fb1-496b-8f1d-39e733fed1ea,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:0,BEC:nil
+X-UUID: b7269a4d70e9475b97e1f46055e9f418-20220526
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1775366651; Thu, 26 May 2022 19:02:36 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 26 May 2022 19:02:36 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Thu, 26 May 2022 19:02:36 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v22 00/24] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Thu, 26 May 2022 19:02:09 +0800
+Message-ID: <20220526110233.20080-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property
- for ocp level selection
-Content-Language: en-US
-To: ChiYuan Huang <u0084500@gmail.com>
-References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
- <1653534995-30794-2-git-send-email-u0084500@gmail.com>
- <1c7ab94c-a736-c629-bd8c-8a974803e2b9@linaro.org>
- <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,71 +58,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- lucas_tsai@richtek.com, jingoohan1@gmail.com, deller@gmx.de,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lkml <linux-kernel@vger.kernel.org>, cy_huang <cy_huang@richtek.com>,
- Rob Herring <robh+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/05/2022 10:13, ChiYuan Huang wrote:
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年5月26日 週四 下午4:06寫道：
->>
->> On 26/05/2022 05:16, cy_huang wrote:
->>> From: ChiYuan Huang <cy_huang@richtek.com>
->>>
->>> Add the new property for ocp level selection.
->>>
->>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
->>> ---
->>>  .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
->>>  include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
->>>  2 files changed, 13 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>> index e0ac686..c1c59de 100644
->>> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
->>> @@ -47,6 +47,14 @@ properties:
->>>      minimum: 0
->>>      maximum: 3
->>>
->>> +  richtek,bled-ocp-sel:
->>
->> Skip "sel" as it is a shortcut of selection. Name instead:
->> "richtek,backlight-ocp"
->>
-> OK, if so, do I need to rename all properties from 'bled' to 'backlight' ?
-> If  only this property is naming as 'backlight'. it may conflict with
-> the others like as "richtek,bled-ovp-sel".
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-Ah, no, no need.
+Add DRM and these modules support by the patches below:
 
->>
->>> +    description: |
->>> +      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
->>
->> Could you explain here what is OCP (unfold the acronym)?
-> Yes. And the full name is 'over current protection'.
+Changes in v22:
+- rebase to next-20220525
+- rebase to vdosys0 series v22
+- separate dts to a new patch
 
-Thanks and this leads to second thing - you encode register value
-instead of logical value. This must be a logical value in mA, so
-"richtek,bled-ocp-microamp".
+Changes in v21:
+- fix reviewer comment
+  - fix rdma and ethdr binding doc and dts
 
-I see you already did some register-style for voltage. It's wrong but it
-was done, so let it be. But let's don't make that a pattern...
+Changes in v20:
+- fix reviewer comment
+  - update mmsys update bit api name
+  - add mtk_mmsys_update_bits error message if lose gce property
+  - list all mt8195 vdosys1 reset bits
 
+Changes in v19:
+- fix reviewer comment
+  - separate mt8195 mmsys component to a new patch
+  - separate mt8195 vdo0 and vdo1 routing table
+  - separate mmsys_write_reg api to a new patch and simplify write reg code
+  - separate mmsys 64 bit reset to a new patch
+  - separate mtk-mutex dp_intf1 component to a new patch
 
->>
->>
->> Best regards,
->> Krzysztof
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
 
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
 
-Best regards,
-Krzysztof
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
+
+Changes in v15:
+- fix ethdr uppercase hex number in dts
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    20220112114724.1953-4-tinghan.shen@mediatek.com
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    20210615173233.26682-15-tinghan.shen@mediatek.com
+[3] arm64: dts: mt8195: add gce node
+    20220126090109.32143-1-jason-jh.lin@mediatek.com
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    20220225021535.2655-1-jason-jh.lin@mediatek.com
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v22 series
+    20220526102126.19756-1-jason-jh.lin@mediatek.com
+[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    20220407075726.17771-2-yong.wu@mediatek.com
+
+Nancy.Lin (24):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk_mmsys_update_bits API
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: add mmsys for support 64 reset bits
+  soc: mediatek: mmsys: add reset control for MT8195 vdosys1
+  soc: mediatek: add mtk-mutex component - dp_intf1
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+
+ .../display/mediatek/mediatek,ethdr.yaml      | 188 +++++++
+ .../display/mediatek/mediatek,mdp-rdma.yaml   |  88 +++
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  38 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  94 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 514 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  96 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 125 +++--
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 360 ++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  25 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 369 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  26 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 146 +++++
+ drivers/soc/mediatek/mtk-mmsys.c              | 134 +++--
+ drivers/soc/mediatek/mtk-mmsys.h              |   1 +
+ drivers/soc/mediatek/mtk-mutex.c              |  37 ++
+ include/dt-bindings/reset/mt8195-resets.h     |  45 ++
+ include/linux/soc/mediatek/mtk-mmsys.h        |  25 +
+ 24 files changed, 2479 insertions(+), 238 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+
+-- 
+2.18.0
+
