@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22C9534DAC
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 13:02:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A6F534DAF
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 13:02:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA4110E46C;
-	Thu, 26 May 2022 11:02:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CAAC10F06D;
+	Thu, 26 May 2022 11:02:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF06C10E3F6
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 11:02:40 +0000 (UTC)
-X-UUID: b7269a4d70e9475b97e1f46055e9f418-20220526
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A874B10F060
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 11:02:43 +0000 (UTC)
+X-UUID: 8a52fcc70c134075bca4b9638ab9ee2e-20220526
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:f14550b2-6f48-4661-92e9-b63ec80a0eae, OB:0,
+X-CID-O-INFO: VERSION:1.1.5, REQID:960b8d34-2172-47d4-bcc6-3d6d3360fe31, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:2a19b09, CLOUDID:fec29547-4fb1-496b-8f1d-39e733fed1ea,
+ B:0,IP:0,URL:25,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:20
+X-CID-META: VersionHash:2a19b09, CLOUDID:20c39547-4fb1-496b-8f1d-39e733fed1ea,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
  ,QS:0,BEC:nil
-X-UUID: b7269a4d70e9475b97e1f46055e9f418-20220526
+X-UUID: 8a52fcc70c134075bca4b9638ab9ee2e-20220526
 Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1775366651; Thu, 26 May 2022 19:02:36 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ with ESMTP id 137277219; Thu, 26 May 2022 19:02:37 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
  Thu, 26 May 2022 19:02:36 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -39,10 +39,13 @@ To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
  Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, AngeloGioacchino
  Del Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Subject: [PATCH v22 00/24] Add MediaTek SoC DRM (vdosys1) support for mt8195
-Date: Thu, 26 May 2022 19:02:09 +0800
-Message-ID: <20220526110233.20080-1-nancy.lin@mediatek.com>
+Subject: [PATCH v22 01/24] dt-bindings: mediatek: add vdosys1 RDMA definition
+ for mt8195
+Date: Thu, 26 May 2022 19:02:10 +0800
+Message-ID: <20220526110233.20080-2-nancy.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220526110233.20080-1-nancy.lin@mediatek.com>
+References: <20220526110233.20080-1-nancy.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -69,213 +72,111 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
-
-Add DRM and these modules support by the patches below:
-
-Changes in v22:
-- rebase to next-20220525
-- rebase to vdosys0 series v22
-- separate dts to a new patch
-
-Changes in v21:
-- fix reviewer comment
-  - fix rdma and ethdr binding doc and dts
-
-Changes in v20:
-- fix reviewer comment
-  - update mmsys update bit api name
-  - add mtk_mmsys_update_bits error message if lose gce property
-  - list all mt8195 vdosys1 reset bits
-
-Changes in v19:
-- fix reviewer comment
-  - separate mt8195 mmsys component to a new patch
-  - separate mt8195 vdo0 and vdo1 routing table
-  - separate mmsys_write_reg api to a new patch and simplify write reg code
-  - separate mmsys 64 bit reset to a new patch
-  - separate mtk-mutex dp_intf1 component to a new patch
-
-Changes in v18:
-- fix reviewer comment
-  - fix rdma binding doc
-  - fix ethdr binding doc
-  - refine mmsys config cmdq support
-  - refine merge reset control flow, get reset control in probe function
-  - add ethdr reset control error handling and remove dbg log
-- rebase to vdosys0 series v20 (ref [5])
-
-Changes in v17:
-- fix reviewer comment in v16
-  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
-  - separate mmsys config API
-  - move mdp_rdma binding yaml
-- fix ovl adaptor pm runtime get sync timing issue
-- rebase to vdosys0 series v19 (ref [5])
-- rebase to [7] for modify vblank register change
-
-Changes in v16:
-- fix reviewer comment in v 15
-  - fix mtk_drm_ddp_comp.c alignment
-  - fix vdosys0 mmsys num before adding vdosys1 patch
-
-Changes in v15:
-- fix ethdr uppercase hex number in dts
-
-Changes in v14:
-- remove MTK_MMSYS 64 bit dependency
-- add ethdr.yaml back and fix dt_schema check fail
-
-Resend v13
-- add related maintainer in maillist
-
-Changes in v13:
-- fix reviewer comment in v12
-  - fix rdma dt-binding format
-  - fix dts node naming
-- fix 32 bit build error
-  - modify 64bit dependency for mtk-mmsys
-- rebase to vdosys0 series v16. (ref [5])
-
-Changes in v12:
-- fix reviewer comment in v11
-  - modify mbox index
-  - refine dma dev for ovl_adaptor sub driver
-
-Changes in v11:
-- remove ethdr vblank spin lock
-- refine ovl_adaptor print message
-
-Changes in v10:
-- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
-- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
-
-Changes in v9:
-- rebase on kernel-5.16-rc1
-- rebase on vdosys0 series v13. (ref [5])
-- fix ovl_adaptor sub driver is brought up unintentionally
-- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
-
-Changes in v8:
-- separate merge async reset to new patch.
-- separate drm ovl_adaptor sub driver to new patch.
-- fix reviewer comment in v7.
-
-Changes in v7:
-- rebase on vdosys0 series v12 (ref[5])
-- add dma description in ethdr binding document.
-- refine vdosys1 bit definition of mmsys routing table.
-- separate merge modification into 3 pathces.
-- separate mutex modification into 2 patches.
-- add plane color coding for mdp_rdma csc.
-- move mdp_rdma pm control to ovl_adaptor.
-- fix reviewer comment in v6.
-
-Changes in v6:
-- rebase on kernel-5.15-rc1.
-- change mbox label to gce0 for dts node of vdosys1.
-- modify mmsys reset num for mt8195.
-- rebase on vdosys0 series v10. (ref [5])
-- use drm to bring up ovl_adaptor driver.
-- move drm iommu/mutex check from kms init to drm bind.
-- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
-- modify for reviewer's comment in v5.
-
-Changes in v5:
-- add mmsys reset controller reference.
-
-Changes in v4:
-- use merge common driver for merge1~4.
-- refine ovl_adaptor rdma driver.
-- use ovl_adaptor ddp_comp function instead of ethdr.
-- modify for reviewer's comment in v3.
-
-Changes in v3:
-- modify for reviewer's comment in v2.
-- add vdosys1 2 pixels align limit.
-- add mixer odd offset support.
-
-Changes in v2:
-- Merge PSEUDO_OVL and ETHDR into one DRM component.
-- Add mmsys config API for vdosys1 hardware setting.
-- Add mmsys reset control using linux reset framework.
+Add vdosys1 RDMA definition.
 
 Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-
-This series are based on the following patch:
-[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
-    20220112114724.1953-4-tinghan.shen@mediatek.com
-[2] arm64: dts: mt8195: add IOMMU and smi nodes
-    20210615173233.26682-15-tinghan.shen@mediatek.com
-[3] arm64: dts: mt8195: add gce node
-    20220126090109.32143-1-jason-jh.lin@mediatek.com
-[4] [v2] arm64: dts: mt8195: add display node for vdosys0
-    20220225021535.2655-1-jason-jh.lin@mediatek.com
-[5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v22 series
-    20220526102126.19756-1-jason-jh.lin@mediatek.com
-[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
-    20220407075726.17771-2-yong.wu@mediatek.com
-
-Nancy.Lin (24):
-  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
-  dt-bindings: reset: mt8195: add vdosys1 reset control bit
-  dt-bindings: mediatek: add ethdr definition for mt8195
-  soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
-  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
-  soc: mediatek: add mtk_mmsys_update_bits API
-  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
-  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
-    vdosys1
-  soc: mediatek: mmsys: add mmsys for support 64 reset bits
-  soc: mediatek: mmsys: add reset control for MT8195 vdosys1
-  soc: mediatek: add mtk-mutex component - dp_intf1
-  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
-  drm/mediatek: add display MDP RDMA support for MT8195
-  drm/mediatek: add display merge advance config API for MT8195
-  drm/mediatek: add display merge start/stop API for cmdq support
-  drm/mediatek: add display merge mute/unmute support for MT8195
-  drm/mediatek: add display merge async reset control
-  drm/mediatek: add ETHDR support for MT8195
-  drm/mediatek: add mediatek-drm plane color encoding info
-  drm/mediatek: add ovl_adaptor support for MT8195
-  drm/mediatek: add dma dev get function
-  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
-  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
-  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
-
- .../display/mediatek/mediatek,ethdr.yaml      | 188 +++++++
- .../display/mediatek/mediatek,mdp-rdma.yaml   |  88 +++
- drivers/gpu/drm/mediatek/Makefile             |   5 +-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  38 ++
- drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  94 +++-
- .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 514 ++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  96 ++--
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 125 +++--
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 360 ++++++++----
- drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  25 +-
- drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
- drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
- drivers/gpu/drm/mediatek/mtk_ethdr.c          | 369 +++++++++++++
- drivers/gpu/drm/mediatek/mtk_ethdr.h          |  26 +
- drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++
- drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
- drivers/soc/mediatek/mt8195-mmsys.h           | 146 +++++
- drivers/soc/mediatek/mtk-mmsys.c              | 134 +++--
- drivers/soc/mediatek/mtk-mmsys.h              |   1 +
- drivers/soc/mediatek/mtk-mutex.c              |  37 ++
- include/dt-bindings/reset/mt8195-resets.h     |  45 ++
- include/linux/soc/mediatek/mtk-mmsys.h        |  25 +
- 24 files changed, 2479 insertions(+), 238 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ .../display/mediatek/mediatek,mdp-rdma.yaml   | 88 +++++++++++++++++++
+ 1 file changed, 88 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
- create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
- create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
- create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
- create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
- create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
 
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+new file mode 100644
+index 000000000000..678abb321cc2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+@@ -0,0 +1,88 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek MDP RDMA
++
++maintainers:
++  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
++  - Philipp Zabel <p.zabel@pengutronix.de>
++
++description:
++  The MediaTek MDP RDMA stands for Read Direct Memory Access.
++  It provides real time data to the back-end panel driver, such as DSI,
++  DPI and DP_INTF.
++  It contains one line buffer to store the sufficient pixel data.
++  RDMA device node must be siblings to the central MMSYS_CONFIG node.
++  For a description of the MMSYS_CONFIG binding, see
++  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml for details.
++
++properties:
++  compatible:
++    - const: mediatek,mt8195-vdo1-rdma
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: RDMA Clock
++
++  iommus:
++    maxItems: 1
++
++  mediatek,gce-client-reg:
++    description:
++      The register of display function block to be set by gce. There are 4 arguments,
++      such as gce node, subsys id, offset and register size. The subsys id that is
++      mapping to the register of display function blocks is defined in the gce header
++      include/dt-bindings/gce/<chip>-gce.h of each chips.
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      items:
++        - description: phandle of GCE
++        - description: GCE subsys id
++        - description: register offset
++        - description: register size
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - power-domains
++  - clocks
++  - iommus
++  - mediatek,gce-client-reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/mt8195-clk.h>
++    #include <dt-bindings/power/mt8195-power.h>
++    #include <dt-bindings/gce/mt8195-gce.h>
++    #include <dt-bindings/memory/mt8195-memory-port.h>
++
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        rdma@1c104000 {
++            compatible = "mediatek,mt8195-vdo1-rdma";
++            reg = <0 0x1c104000 0 0x1000>;
++            interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
++            clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
++            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
++            iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
++            mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX 0x4000 0x1000>;
++        };
++    };
 -- 
 2.18.0
 
