@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B665350B4
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 16:35:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD70E535119
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 16:59:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5712010E352;
-	Thu, 26 May 2022 14:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35BB310E1C1;
+	Thu, 26 May 2022 14:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0C610E311;
- Thu, 26 May 2022 14:35:28 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id y66so2350719oia.1;
- Thu, 26 May 2022 07:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D68F10E1C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 14:58:59 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-2f83983782fso18133397b3.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 07:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SseFHQrYqsoiZU4lHBY7v6WlEb6Zc74S0Pekb8gbhbk=;
- b=bA/+pu+73q/F1nqqZVrKTLlDEEGliwvaphD4kjN5IussQDR1RT+LafcTtpE32pizwW
- 5dPwTS970mqKljzjNAte0/NdbOea5wT+coJEFgNIKfm8TqisDBtN8JHRATwOARgUQkdb
- JiN0iQiOFrO9nw4RKVhlge/bVe9kX1M/dBkYPgC+cJYlITx5HA3WRtJx4SImqF4g0oJG
- zbiy1e/k6lQYiVqizI594lNj67E1NOcArlw0klXIhCVoEB5zvZJS4pMal3ZoQ0E9F38b
- L8FLeQcgpFxSkizkgKJmpQEUNIcYS5Mi0OCO+xg4pzrSZbGXYVPVbOPzdortLssFKDAi
- cBTA==
+ :cc:content-transfer-encoding;
+ bh=sfTa8XVvRW1iQz8Afci7PUrunTxrM+3anYqi5ZHWbgU=;
+ b=NASTEjcWoY+Y/UljW8w6M11A180yLttIP2cuwdIWDRfzq0/OIEaMjtg9SD0ljU+oi9
+ wlgYuL1eiB4YBhbIpJREawZ4EMbl8v/NJJ91gOZGTTOZj9TLgGSWSbJBBu14L/lGz3kj
+ RNYTjYMK/NyO6AA7IMuWhJ51P9UkgXgwcGSI96fUhWDsJM0epg601uG00ct5v7yd2CWf
+ AasWjChh1hmr6Z3P/S7XHZAakVJPhEDV2ZJuHTfZRgfiU/d/olvTLouq/q+NDM8unF9W
+ cTulodDAvAPHXNl0j8WtMuc3VFY7Y6pZXuP9H7DUgidoe/sKF7Fm+Dhem5MPaeixJspI
+ pAhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SseFHQrYqsoiZU4lHBY7v6WlEb6Zc74S0Pekb8gbhbk=;
- b=GPG5ncK8ZpDivy4NXHNx0XYotizpklNQqgxbp3l7+UtIbq6R6cUpfvf0FL1DuvEjMD
- w6igK3DDlN0V22ErhyS/07DUeI0QeQ/iD8j+l3Iat0Cp6W2sOxn2WZ2C4s4LtzVMgtpB
- xkO1+rpMfKH2X8LjvORrtHjKENUT0fncamtcPJjrDCRFdpyxWJgh8WLF7VDgLA9tkkNX
- WoyPwYqs8kwytvzxvpkPfnEXUysPXZ+blSUxWEUwJNI/wRNetlnPgKzFUV8T2Rt8rwJf
- GfuYDh8Y1/CIQOD2iqVIrO5ygUIyzEbcwdtdzFc3Yzxg/QMPAvR/fGRKtzPscVjDrjMJ
- Vp7Q==
-X-Gm-Message-State: AOAM531A0dC8kReSgvgj2o4ID74eY05u239tgSwncuHWmVLHbzcB6r0j
- TAoMMqCDMldww5Z6+ifWbBwGp+xZqmkBIrdZSw6ZddWt
-X-Google-Smtp-Source: ABdhPJzNZv+k/h0FR9Rb+y50dnXu1h+Z3Etv2f+nFqPNGtYeA35QZOEZVBaTAvm2VYa/WFQuUf4Vq48I49j3QoNdaY4=
-X-Received: by 2002:a05:6808:15a7:b0:32b:aeac:84d0 with SMTP id
- t39-20020a05680815a700b0032baeac84d0mr1340522oiw.253.1653575727150; Thu, 26
- May 2022 07:35:27 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sfTa8XVvRW1iQz8Afci7PUrunTxrM+3anYqi5ZHWbgU=;
+ b=eb/Wpx1yM2gEmc0ttJV9UDyKPTCVTqZvlfCUtJIsjvKdnWoceVgd6DFlP9SWDbM01V
+ EIrkpl2QkxZIRy3rCq+VqaYbgesA1DFiSQaALDqJThm6PTWZKzPeFxHj7czcFyCw/a0G
+ hS77T/h56to0O1Kf9VvOAmDR1O5oBHLDHVhYM8wjTuIh3vS0fgDJeIdLbRfHoEs6roDX
+ 9t+ik1CaAbKfygphG/4fr8V9xcQMa6p7pyfL6zi/AG4rZbTY0suRn7C1BdHvTYVXOM4M
+ xV1gVUE0tOOGuXLv5u7pOoKK+Qr3aenS+Xr+x5ZHFCdepubJXTUIw0zUS2v1jH6jVxWB
+ 2ApQ==
+X-Gm-Message-State: AOAM530YU0XB2R+ThEapx7eYavglS/vJxLQKZrDzdJWsy6C6Ck4UARG0
+ N41GNiO4i/HZiO5qsWZ0fvWtK8Xvn7IpJiMvWP1BuQ==
+X-Google-Smtp-Source: ABdhPJwcL5Kq+XCXqJAWDizNvQB5UG0yEOnGjmvIi9DnQd8HoR1FQyIb0xaceM+/tDqyPxufoMAx8/OWsgJ3yFWBMnY=
+X-Received: by 2002:a05:690c:97:b0:2f1:9582:6685 with SMTP id
+ be23-20020a05690c009700b002f195826685mr40735795ywb.395.1653577138433; Thu, 26
+ May 2022 07:58:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <tencent_9934C5D4CD39D3C35606F674AE61310F2007@qq.com>
-In-Reply-To: <tencent_9934C5D4CD39D3C35606F674AE61310F2007@qq.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 26 May 2022 10:35:15 -0400
-Message-ID: <CADnq5_Nf=qoLDci2q1MJsLrf=cSVXs8+gX_ZZgx6Ovbi3j-eJw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd: Fix spelling typo in comments
-To: 1064094935@qq.com
+References: <20220506180216.2095060-1-jason@jlekstrand.net>
+ <CAPj87rPwx6tL5NtcmP=589wWCyKvZpFfLveaGtsd2wcyCh-1=A@mail.gmail.com>
+ <CAOFGe95eEkhGRiDcSb4mvVry1zMYB36aNYm3XWOKb4NESh7wKQ@mail.gmail.com>
+In-Reply-To: <CAOFGe95eEkhGRiDcSb4mvVry1zMYB36aNYm3XWOKb4NESh7wKQ@mail.gmail.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Thu, 26 May 2022 16:59:11 +0200
+Message-ID: <CAP+8YyGwEAbsYV_ieDj-vDJYCzhY52yw=iqERJ40PjsPUDHB-Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] dma-buf: Add an API for exporting sync files (v14)
+To: Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,127 +68,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- pengfuyuan <pengfuyuan@kylinos.cn>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, k2ci <kernel-bot@kylinos.cn>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Acked-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 
-Alex
+Didn't test the latest version of everything, but I can confirm the
+UAPI worked fine for what we'd want to use it for with radv.
 
-On Thu, May 26, 2022 at 5:29 AM <1064094935@qq.com> wrote:
+On Thu, May 26, 2022 at 8:47 AM Jason Ekstrand <jason@jlekstrand.net> wrote=
+:
 >
-> From: pengfuyuan <pengfuyuan@kylinos.cn>
->
-> Fix spelling typo in comments.
->
-> Reported-by: k2ci <kernel-bot@kylinos.cn>
-> Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h                       | 2 +-
->  drivers/gpu/drm/amd/amdgpu/mes_api_def.h                  | 2 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 2 +-
->  drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c               | 4 ++--
->  drivers/gpu/drm/amd/display/modules/vmid/vmid.c           | 2 +-
->  drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h | 2 +-
->  6 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 7606e3b6361e..35c303c865be 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -271,7 +271,7 @@ extern int amdgpu_vcnfw_log;
->  #define CIK_CURSOR_WIDTH 128
->  #define CIK_CURSOR_HEIGHT 128
->
-> -/* smasrt shift bias level limits */
-> +/* smart shift bias level limits */
->  #define AMDGPU_SMARTSHIFT_MAX_BIAS (100)
->  #define AMDGPU_SMARTSHIFT_MIN_BIAS (-100)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/mes_api_def.h b/drivers/gpu/drm/amd/amdgpu/mes_api_def.h
-> index 3f4fca5fd1da..c31abf554878 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/mes_api_def.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/mes_api_def.h
-> @@ -33,7 +33,7 @@
->   */
->  enum { API_FRAME_SIZE_IN_DWORDS = 64 };
->
-> -/* To avoid command in scheduler context to be overwritten whenenver mutilple
-> +/* To avoid command in scheduler context to be overwritten whenever multiple
->   * interrupts come in, this creates another queue.
->   */
->  enum { API_NUMBER_OF_COMMAND_MAX = 32 };
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 62139ff35476..8855a75dc75e 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6705,7 +6705,7 @@ static void dm_disable_vblank(struct drm_crtc *crtc)
->         dm_set_vblank(crtc, false);
->  }
->
-> -/* Implemented only the options currently availible for the driver */
-> +/* Implemented only the options currently available for the driver */
->  static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
->         .reset = dm_crtc_reset_state,
->         .destroy = amdgpu_dm_crtc_destroy,
-> diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-> index 4385d19bc489..733f99a6e8e6 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
-> @@ -619,7 +619,7 @@ static int get_max_dsc_slices(union dsc_enc_slice_caps slice_caps)
->  }
+> On Wed, May 25, 2022 at 5:02 AM Daniel Stone <daniel@fooishbar.org> wrote=
+:
+>>
+>> On Sat, 7 May 2022 at 14:18, Jason Ekstrand <jason@jlekstrand.net> wrote=
+:
+>> > This patch series actually contains two new ioctls.  There is the expo=
+rt one
+>> > mentioned above as well as an RFC for an import ioctl which provides t=
+he other
+>> > half.  The intention is to land the export ioctl since it seems like t=
+here's
+>> > no real disagreement on that one.  The import ioctl, however, has a lo=
+t of
+>> > debate around it so it's intended to be RFC-only for now.
+>>
+>> Errr, I think we're good with this one now right?
 >
 >
-> -// Increment sice number in available sice numbers stops if possible, or just increment if not
-> +// Increment slice number in available slice numbers stops if possible, or just increment if not
->  static int inc_num_slices(union dsc_enc_slice_caps slice_caps, int num_slices)
->  {
->         // Get next bigger num slices available in common caps
-> @@ -650,7 +650,7 @@ static int inc_num_slices(union dsc_enc_slice_caps slice_caps, int num_slices)
->  }
+> Yeah, I dropped the RFC from the patch, just not the description in the c=
+over letter, apparently.
+>
+>>
+>> From the uAPI point of view, having looked through the Mesa MR, both are=
+:
+>> Acked-by: Daniel Stone <daniels@collabora.com>
 >
 >
-> -// Decrement sice number in available sice numbers stops if possible, or just decrement if not. Stop at zero.
-> +// Decrement slice number in available slice numbers stops if possible, or just decrement if not. Stop at zero.
->  static int dec_num_slices(union dsc_enc_slice_caps slice_caps, int num_slices)
->  {
->         // Get next bigger num slices available in common caps
-> diff --git a/drivers/gpu/drm/amd/display/modules/vmid/vmid.c b/drivers/gpu/drm/amd/display/modules/vmid/vmid.c
-> index 61ee4be35d27..2c40212d86da 100644
-> --- a/drivers/gpu/drm/amd/display/modules/vmid/vmid.c
-> +++ b/drivers/gpu/drm/amd/display/modules/vmid/vmid.c
-> @@ -66,7 +66,7 @@ static void evict_vmids(struct core_vmid *core_vmid)
->         }
->  }
+> For reference: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/=
+4037
 >
-> -// Return value of -1 indicates vmid table unitialized or ptb dne in the table
-> +// Return value of -1 indicates vmid table uninitialized or ptb dne in the table
->  static int get_existing_vmid_for_ptb(struct core_vmid *core_vmid, uint64_t ptb)
->  {
->         int i;
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h
-> index 45f5d29bc705..15b313baa0ee 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/arcturus_ppsmc.h
-> @@ -120,7 +120,7 @@
->  #define PPSMC_MSG_ReadSerialNumTop32            0x40
->  #define PPSMC_MSG_ReadSerialNumBottom32                 0x41
+> Yes, I agree it's gotten sufficient review at this point that I think we =
+can call the uAPI reviewed.  I'm good with landing now.  Sorry that took so=
+ long but the original version I had only used half of the new API and I wa=
+nted to make sure both halves got good testing.
 >
-> -/* paramater for MSG_LightSBR
-> +/* parameter for MSG_LightSBR
->   * 1 -- Enable light secondary bus reset, only do nbio respond without further handling,
->   *      leave driver to handle the real reset
->   * 0 -- Disable LightSBR, default behavior, SMU will pass the reset to PSP
-> --
-> 2.25.1
+> --Jason
 >
 >
-> No virus found
->                 Checked by Hillstone Network AntiVirus
+>>
+>> Cheers,
+>> Daniel
