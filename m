@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E858653543E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 22:08:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A97535442
+	for <lists+dri-devel@lfdr.de>; Thu, 26 May 2022 22:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF70D10E404;
-	Thu, 26 May 2022 20:08:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D0510E619;
+	Thu, 26 May 2022 20:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E62C510E404
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 20:08:12 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id p190so4652888ybg.4
- for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 13:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=91qa2V3ADLkVZ93Ejl4u/cWja6JFjs7BLRXshFe5jJU=;
- b=yp1JaNWo4BgiZLOAe9Ihy2/d/xZc+8TE1uwEwXii0dvjY7Y/DrwgAoxXI7YRF18Hds
- VaOVF/Kb59Q34eYLiQwzUv//B1PDfBtXhfp57HNtXmOlFr0n4tJsUCZnydx0+far551T
- ynAsAn/h62i8bnXHl0ZD3IfRgcC4eTMMfzwSLlFDSNJEu6e8cbsTvDZkFEOVwo1wdzPW
- kqrsI2m13WR/FFckcIc9MKl95kNHwIs1t5/qhk077rgSUfbesvJEVVTyDgyvlK2rZN/J
- YWy89TD07BAVCS5UAW/GbFNVpAsJBrhPLi8fw4YZbIz7/S0ThGNJywbEktsF+c7up1Ui
- 5hMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=91qa2V3ADLkVZ93Ejl4u/cWja6JFjs7BLRXshFe5jJU=;
- b=N+szm5jAuh0ASvj3GbWI1HOcAS7jvSfu/Ob5HHmy/x15vF2Mode1mhiOa3799wPk+A
- l8PfWMtohURyTj3PjXXA+4KdXXOFf1s757YRXnCmM+nGkUl0fD6sbbxFDZX2HK7+TZN9
- JfFjRmLJabw7hP1p6hAe1bYyWvnjYb1de/18aLKiq2QwiG4IOfbfTn/mJUCDKvznwGgl
- aiQldK562W7dXMifZbRfXqru2hXuuAPPs/2qvdUBl/NfXtJt7c5uCWHkzewVnKsA81Pc
- eEnlFk1aKgZa8VYLrb3SHQRSZZUOXL6k0xfsxCRaD/qx773pIok0O/245jDJ+lK6v066
- DiGw==
-X-Gm-Message-State: AOAM533xmWV6bVNAiXP/OLmMtYB/8e/tpsXs7HK3HRsCp/bLb69XTGKp
- I0fSNya4zMIqL141dJbyksGQSxy/o7PLpE1IGAn6+L7CyxOeVQ==
-X-Google-Smtp-Source: ABdhPJxW1KNzu0HAhdfeemIAiUAhc/ZiQ1/1QtGNgn22Gl7C2oKqOUbL9SvfnLyiD2fJCfw6Cx2mlZrP2o8bp1rpp9E=
-X-Received: by 2002:a05:6902:704:b0:64d:f270:22b0 with SMTP id
- k4-20020a056902070400b0064df27022b0mr36943301ybt.626.1653595692147; Thu, 26
- May 2022 13:08:12 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F119C10E619
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 20:10:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653595854; x=1685131854;
+ h=message-id:date:mime-version:to:reply-to:from:subject:
+ content-transfer-encoding;
+ bh=YyqmXpdJFKAGANkPj9NSIDpH2Nj2UX/7kJJxv2yBbN8=;
+ b=C6cm/+HqyNLZ83XgyGqJt2E21nAtCpNclgv28iF01SzTiwTkgKY90R3H
+ XTF4GXiJb5reLQhQQ6v6QFcIwNHhA97Mit9XoBhR1Jg/DMGAY9+BHE34x
+ g0vO++10NRWh7WwedRaEfr983SAmjE+n7lPmw/E6oRZn1/Jve/yXv5hQj
+ xtXlKyWx2dcqjkS3ZToTh8vJa8OKbHLhjCOgiVALNWnjm+/UupUr6VTWC
+ f4K5Ag7WKIFbKnx/g19leEkg1AAIx7VkwkAOx4QvnzTN28r0J84FEEgOM
+ 0u9yEExAio+3HXW9BXCul0Zrb5/IFtgwHuA/mSP5L5U1pn22Be4N3vi+f w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="274278318"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="274278318"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2022 13:10:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; d="scan'208";a="549760781"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga006.jf.intel.com with ESMTP; 26 May 2022 13:10:53 -0700
+Received: from [10.249.136.244] (patrykma-MOBL.ger.corp.intel.com
+ [10.249.136.244])
+ by linux.intel.com (Postfix) with ESMTP id F1905580B54
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 May 2022 13:10:52 -0700 (PDT)
+Message-ID: <98362bde-8607-c5b3-6d56-5cd14128685f@intel.com>
+Date: Thu, 26 May 2022 23:10:51 +0300
 MIME-Version: 1.0
-References: <20220506123246.21788-1-yuehaibing@huawei.com>
- <CACRpkdZUwfVNZyS6RgcupJ+TRUZVM+1_3ABj_-f_3+v+wNE6mg@mail.gmail.com>
- <CACRpkdaKrk+cj9Yvpe3kmR1iJFczi-yckHiKeLGu9F=hRFiU9w@mail.gmail.com>
- <CAA8EJpq7_V7mZbN+G5fZdK0a4kTcxROAd_bGJtQ5mhzdYr6pNQ@mail.gmail.com>
-In-Reply-To: <CAA8EJpq7_V7mZbN+G5fZdK0a4kTcxROAd_bGJtQ5mhzdYr6pNQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 26 May 2022 22:08:00 +0200
-Message-ID: <CACRpkdYATkP2ONCxHq6+XsWM8949tXxd5r=OKM36dgwWp3Sxgg@mail.gmail.com>
-Subject: Re: [PATCH v2 -next] drm/display: Fix build error without CONFIG_OF
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Content-Language: en-US
+To: dri-devel <dri-devel@lists.freedesktop.org>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Subject: Re: [1/2] dma-buf: Add an API for exporting sync files (v14)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,43 +60,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, YueHaibing <yuehaibing@huawei.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
+Reply-To: 20220506180216.2095060-2-jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 25, 2022 at 3:36 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-> On Mon, 23 May 2022 at 15:55, Linus Walleij <linus.walleij@linaro.org> wrote:
+Acked-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 
-> > Nope, failed:
-> >
-> > $ dim push-branch drm-misc-next
-> > dim: ac890b9eeb9b ("drm/display: Fix build error without CONFIG_OF"):
-> > Fixes: SHA1 in not pointing at an ancestor:
-> > dim:     f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus support")
-> > dim: ERROR: issues in commits detected, aborting
-> >
-> > I don't know what to do with this, sorry. The other committers are maybe better
-> > with this kind of situations. I think it is designed to stop me from
-> > shooting myself
-> > in the foot.
->
-> Linus, can we get an ack from you (or anybody else from DRM core) to
-> merge it through drm/msm tree?
-
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-
-> After a second thought, I think the patch contains wrong Fixes tag. It
-> should be:
->
-> Fixes: 1e0f66420b13 ("drm/display: Introduce a DRM display-helper module")
->
-> With that in place would we be able to merge it through drm-misc? Does
-> it needs to be resubmitted?
-
-But it doesn't apply to drm-misc... that's my problem :/
-
-Yours,
-Linus Walleij
