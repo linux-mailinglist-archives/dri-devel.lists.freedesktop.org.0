@@ -2,53 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5261B5365B1
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 18:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EAC5365F5
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 18:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79E2510FD57;
-	Fri, 27 May 2022 16:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F282A10E0A1;
+	Fri, 27 May 2022 16:27:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D44010FA7F;
- Fri, 27 May 2022 16:08:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653667707; x=1685203707;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=7LWKa5uK/HBcrdAGPDiw0XsZaR+hzoSnR4DiYW1nRCw=;
- b=hcCmrV6bueZimr0FCSdXRjVklgTaHyB36aZNvDS6DmJMY6sUAe/nZI8Q
- SR63t3UTG/M0ywlyk/Y38q7ITvf/jGBu8dBufaynTrLOYIjLrjzmzzZo9
- aDF/H1pVd+5w1A9taQkljWjzzbByYAGa+Qb42zWHJEnlbmBk7kS+A/0g3 g=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 27 May 2022 09:08:26 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2022 09:08:26 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 27 May 2022 09:08:25 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 27 May 2022 09:08:24 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v3] drm/msm/dp: force link training for display resolution
- change
-Date: Fri, 27 May 2022 09:08:16 -0700
-Message-ID: <1653667696-25560-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D5310F6DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 16:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653668841;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hCQWiLeW5qUsRPrZU5r1fc6h36nurC5ojFEAsj8ddWE=;
+ b=dZe+12grPakHrpmXzOMMj9Ar4/0vv1EJbVm0ZkxiUl9Na4V/ldeQ6KLaYnZVIC04tJf8qQ
+ yffBLlVUaYGJPvCyw+CtYQPtJPEWOBXT9x1gjogqOnOiDh68ukT13ZFFV1m0RMXdRs0V+c
+ B1UsNoMKoIa6PQ7wUQkKykILnicKc8s=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-KVOpDZxCPTGklYsCw14QBw-1; Fri, 27 May 2022 12:27:20 -0400
+X-MC-Unique: KVOpDZxCPTGklYsCw14QBw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ j2-20020a0cfd42000000b0045ad9cba5deso3899883qvs.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 09:27:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=hCQWiLeW5qUsRPrZU5r1fc6h36nurC5ojFEAsj8ddWE=;
+ b=MGZOBUxlhtY7s8Ls9vyZRPm6ZAH5t0+ikrNBcEipy02ZXEiLpPuxPdkFPaGL8ZlyRt
+ EFkT+QJjE2pW3plyeRsmn3bT8+toIA+TdbSJ9xql847wmtNpHfMq2f5fAsmqSCWhOohB
+ SvAphrguBRvEX28RTNEqcFFuAV3yD92BW4KJtA9KF32yvllEYXdymjZFhAj+a9ZMUk/u
+ XDQPwkeOodSHxg3rlfRB1AlJmOyZ9uJXTD92cfFkSxRne5i10un1sAFb/bmPsGRmgXaC
+ TnIjkObyrsNHSnUlikBuaA2Dh84Dusp7ccwTFQ4KKbfUEA/1i3DCj0ghDX7FlSzHx2QA
+ gA9Q==
+X-Gm-Message-State: AOAM530KxarY23qVZJHM8nAT80SMBDI/mE71WwKsXTToUHWc13z2zk9q
+ G1QG2bkCBh0QY0VWs9ugFGbBcMrFZ9XrMLpfubEzOkh3qJHM1FAJAYs6lGVdZ2i8qvnRk9YFzO4
+ VECtsuJ7Z8xToClfR9XM82Uf133we
+X-Received: by 2002:a05:622a:8c:b0:2fb:4df4:3421 with SMTP id
+ o12-20020a05622a008c00b002fb4df43421mr10819799qtw.144.1653668839663; 
+ Fri, 27 May 2022 09:27:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiVpHPTtun+A+ekQ9OvBfz2OZyj/VWxMpfPUOhnLBH21qzgnM33CVE7ErnqS3tvCVpXeyueA==
+X-Received: by 2002:a05:622a:8c:b0:2fb:4df4:3421 with SMTP id
+ o12-20020a05622a008c00b002fb4df43421mr10819780qtw.144.1653668839419; 
+ Fri, 27 May 2022 09:27:19 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ f13-20020a05622a1a0d00b002f39b99f695sm2899986qtb.47.2022.05.27.09.27.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 May 2022 09:27:18 -0700 (PDT)
+Message-ID: <d8a12051e71ec322f489beed252576e16802a172.camel@redhat.com>
+Subject: Re: [PATCH 5/5] drm/nouveau: Fix spelling typo in comments
+From: Lyude Paul <lyude@redhat.com>
+To: 1064094935@qq.com, Ben Skeggs <bskeggs@redhat.com>
+Date: Fri, 27 May 2022 12:27:17 -0400
+In-Reply-To: <tencent_655C23622640268A069B49A6A5ADDEECB508@qq.com>
+References: <tencent_655C23622640268A069B49A6A5ADDEECB508@qq.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,133 +86,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, pengfuyuan <pengfuyuan@kylinos.cn>,
+ k2ci <kernel-bot@kylinos.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During display resolution changes display have to be disabled first
-followed by display enabling with new resolution. At current
-implementation, display enable function manually kicks up
-irq_hpd_handle which will read panel link status and start link
-training if link status is not in sync state. However, there is rare
-case that panel links status stay in synch which cause link training
-be skipped. Hence display resolution change failed. This patch force
-main link always be retrained during display enable procedure to
-prevent rare failed case from happening. Also this implementation
-are more efficient than manual kicking off irq_hpd_handle function.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Changes in v2:
--- set force_link_train flag on DP only (is_edp == false)
+Do you need me to push this to drm-misc? Or will this be pushed as one series?
 
-Changes in v3:
--- revise commit  text
--- add Fixes tag
+On Fri, 2022-05-27 at 12:22 +0800, 1064094935@qq.com wrote:
+> From: pengfuyuan <pengfuyuan@kylinos.cn>
+> 
+> Fix spelling typo in comments.
+> 
+> Reported-by: k2ci <kernel-bot@kylinos.cn>
+> Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
+> ---
+>  drivers/gpu/drm/nouveau/include/nvhw/drf.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/include/nvhw/drf.h
+> b/drivers/gpu/drm/nouveau/include/nvhw/drf.h
+> index bd0fc41446e2..d6969c0e2f29 100644
+> --- a/drivers/gpu/drm/nouveau/include/nvhw/drf.h
+> +++ b/drivers/gpu/drm/nouveau/include/nvhw/drf.h
+> @@ -190,7 +190,7 @@
+>  #define DRF_MD_(X,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,IMPL,...) IMPL
+>  #define DRF_MD(A...) DRF_MD_(X, ##A, DRF_MD_I, DRF_MD_N)(X, ##A)
+>  
+> -/* Helper for testing against field value in aribtrary object */
+> +/* Helper for testing against field value in arbitrary object */
+>  #define DRF_TV_N(X,e,p,o,d,r, 
+> f,cmp,v)                                          \
+>         NVVAL_TEST_X(DRF_RD_X(e, (p), (o), d##_##r   ), d##_##r##_##f, cmp,
+> (v))
+>  #define
+> DRF_TV_I(X,e,p,o,d,r,i,f,cmp,v)                                          \
+> @@ -198,7 +198,7 @@
+>  #define DRF_TV_(X,_1,_2,_3,_4,_5,_6,_7,_8,_9,IMPL,...) IMPL
+>  #define DRF_TV(A...) DRF_TV_(X, ##A, DRF_TV_I, DRF_TV_N)(X, ##A)
+>  
+> -/* Helper for testing against field definition in aribtrary object */
+> +/* Helper for testing against field definition in arbitrary object */
+>  #define DRF_TD_N(X,e,p,o,d,r, 
+> f,cmp,v)                                                          \
+>         NVVAL_TEST_X(DRF_RD_X(e, (p), (o), d##_##r   ), d##_##r##_##f, cmp,
+> d##_##r##_##f##_##v)
+>  #define
+> DRF_TD_I(X,e,p,o,d,r,i,f,cmp,v)                                             
+>              \
 
-Fixes: 62671d2ef24b ("drm/msm/dp: fixes wrong connection state caused by failure of link train")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c    |  6 +++---
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c | 15 ++++++++-------
- 3 files changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index af7a80c..bea93eb 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1551,7 +1551,7 @@ static int dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
- 
- 	ret = dp_ctrl_on_link(&ctrl->dp_ctrl);
- 	if (!ret)
--		ret = dp_ctrl_on_stream(&ctrl->dp_ctrl);
-+		ret = dp_ctrl_on_stream(&ctrl->dp_ctrl, false);
- 	else
- 		DRM_ERROR("failed to enable DP link controller\n");
- 
-@@ -1807,7 +1807,7 @@ static int dp_ctrl_link_retrain(struct dp_ctrl_private *ctrl)
- 	return dp_ctrl_setup_main_link(ctrl, &training_step);
- }
- 
--int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
-+int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
- {
- 	int ret = 0;
- 	bool mainlink_ready = false;
-@@ -1848,7 +1848,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 		return 0;
- 	}
- 
--	if (!dp_ctrl_channel_eq_ok(ctrl))
-+	if (force_link_train || !dp_ctrl_channel_eq_ok(ctrl))
- 		dp_ctrl_link_retrain(ctrl);
- 
- 	/* stop txing train pattern to end link training */
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 0745fde..b563e2e 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -21,7 +21,7 @@ struct dp_ctrl {
- };
- 
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
--int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
-+int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train);
- int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index c388323..370348d 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -872,7 +872,7 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
- 		return 0;
- 	}
- 
--	rc = dp_ctrl_on_stream(dp->ctrl);
-+	rc = dp_ctrl_on_stream(dp->ctrl, data);
- 	if (!rc)
- 		dp_display->power_on = true;
- 
-@@ -1654,6 +1654,7 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 	int rc = 0;
- 	struct dp_display_private *dp_display;
- 	u32 state;
-+	bool force_link_train = false;
- 
- 	dp_display = container_of(dp, struct dp_display_private, dp_display);
- 	if (!dp_display->dp_mode.drm_mode.clock) {
-@@ -1688,10 +1689,14 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 
- 	state =  dp_display->hpd_state;
- 
--	if (state == ST_DISPLAY_OFF)
-+	if (state == ST_DISPLAY_OFF) {
- 		dp_display_host_phy_init(dp_display);
- 
--	dp_display_enable(dp_display, 0);
-+		if (!dp->is_edp)
-+			force_link_train = true;
-+	}
-+
-+	dp_display_enable(dp_display, force_link_train);
- 
- 	rc = dp_display_post_enable(dp);
- 	if (rc) {
-@@ -1700,10 +1705,6 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 		dp_display_unprepare(dp);
- 	}
- 
--	/* manual kick off plug event to train link */
--	if (state == ST_DISPLAY_OFF)
--		dp_add_event(dp_display, EV_IRQ_HPD_INT, 0, 0);
--
- 	/* completed connection */
- 	dp_display->hpd_state = ST_CONNECTED;
- 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
