@@ -1,68 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE3A535DAD
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 11:57:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 803B4535EB6
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 12:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72E2210E9D4;
-	Fri, 27 May 2022 09:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 032AC10E174;
+	Fri, 27 May 2022 10:55:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D194C10E9D4
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 09:57:00 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id t25so6128357lfg.7
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 02:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=e0tqh7qqeg/7ehiexIPgsAiDdSoZS7aeFNTayUPMdOc=;
- b=ZLNumBwMjmYz6Ddz8l4E2qz1MRkHPqE7mQJC9CNLFuEaHUR0cfrIBdygNdA/Ny4Mv6
- rp/F0FVbaIMEK/PbDA1txZDM+QZynz6bdG/YBBF7tZdfUrzZLXmoaMTBIGDx4nVetifA
- RgaYMbHFsRKj3w6ZSXklGPByUn3iubvjr98VjEVQ2J0SMeLhlFwt23IiHavr3PjJdzvw
- KOq1x7q4bL0pp4pwfnRt9HLodEYBWgQiHaeJaHS1aFTpikMLgsEo4/zNvhcQlybydzYX
- zwPwiqMWvOtpDMrKi5aTBqxls/5n91GIjM28071jM2dsNQ8xKuyJA68BvePufLBdginC
- m9Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=e0tqh7qqeg/7ehiexIPgsAiDdSoZS7aeFNTayUPMdOc=;
- b=E0onKc/o4t4sQXBnd1V+gm0u3BL3gWpe97fToZWJ3MZWHTayZzcsKs/KpspxL1c8dp
- YU9xuQx+KlSG6BiTp6qhD+c5qpMuwaHBM2UUiTo4I9hkYspxGNVCkrW/SUdfzXSSy+qa
- LTVMVGZm/y87t2w+eOKERrpYQQCGO5vz/npKlFYIDo1CSawH0m8ymIrWE+qr3ZK/9HEE
- 2hKuf2OCZghwuFSuh5t+JBroFrZ+oLDEvTNYepyEEhUI7D5RSW5LKMY+L5FpOBvwRUrQ
- PHOups2c5Isgso8MO/A+yOTirL7WWsO6WlgAzAEIJo6bAIfFQ/rPixG+rFA8lWzCosfM
- JQ2w==
-X-Gm-Message-State: AOAM532ym93tEGPJf7ZNdcCgGaWcw/1s4FDHldTBGPLoFdkO8JGQuNVT
- BvGca8mKVO5uHWwrmvxWsoo4Tw==
-X-Google-Smtp-Source: ABdhPJz1lmb5CKBAD9Igt8Z+9gebkQewb8KfLfs/WVghEp6rr2duyaG6bgXXnHEH9ITbnlE44kqHSQ==
-X-Received: by 2002:ac2:4c53:0:b0:478:6908:c76f with SMTP id
- o19-20020ac24c53000000b004786908c76fmr18791795lfk.634.1653645419012; 
- Fri, 27 May 2022 02:56:59 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- a17-20020a05651c031100b0024f3d1daf04sm911304ljp.140.2022.05.27.02.56.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 May 2022 02:56:58 -0700 (PDT)
-Message-ID: <7c22e193-2a7b-2537-feff-c4656c022f31@linaro.org>
-Date: Fri, 27 May 2022 12:56:57 +0300
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4420D10E066;
+ Fri, 27 May 2022 10:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653648956; x=1685184956;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Yc4S0u2C2VhURypEc36HrClevcfxM811/nQDJ6YeXwQ=;
+ b=LosCs00tdiDokxzpAiT1l1udtO319vEwXFFRiC1kZago+EWrbB/YgvDD
+ uecHdGNB+/NTFd6Spm4DiJYGQmMKWC61TD2Io5/X/cnGkoj1CxWdfPGnc
+ mWgJSA7MiG5iDu0QQSFRSFpNCxsIvlOavqVnnfnyDwXF6SjYVpCI6snjH
+ MtPPTWSaMu+jU8D5oQmTdJ5SIO2txr288AaaeqNH98o9rWvAscSbXch8n
+ xh9nImndfhztJu6mc5gEO5yGwHErrcXDBBMnRX5dc3elUuIkjv936UNmv
+ jNCs/M4J0qNmkH7bl0ubarufsIscnFi9EDcSEU/rzvu+tsgPEmxEx1YsD g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="274550278"
+X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; d="scan'208";a="274550278"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 03:55:55 -0700
+X-IronPort-AV: E=Sophos;i="5.91,255,1647327600"; d="scan'208";a="574524669"
+Received: from dnanduri-mobl.ger.corp.intel.com (HELO [10.213.215.174])
+ ([10.213.215.174])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 03:55:44 -0700
+Message-ID: <d981f429-d01f-4576-2e5c-0ae153d24df1@linux.intel.com>
+Date: Fri, 27 May 2022 11:55:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 -next] drm/display: Fix build error without CONFIG_OF
-Content-Language: en-GB
-To: Linus Walleij <linus.walleij@linaro.org>
-References: <20220506123246.21788-1-yuehaibing@huawei.com>
- <CACRpkdZUwfVNZyS6RgcupJ+TRUZVM+1_3ABj_-f_3+v+wNE6mg@mail.gmail.com>
- <CACRpkdaKrk+cj9Yvpe3kmR1iJFczi-yckHiKeLGu9F=hRFiU9w@mail.gmail.com>
- <CAA8EJpq7_V7mZbN+G5fZdK0a4kTcxROAd_bGJtQ5mhzdYr6pNQ@mail.gmail.com>
- <CACRpkdYATkP2ONCxHq6+XsWM8949tXxd5r=OKM36dgwWp3Sxgg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CACRpkdYATkP2ONCxHq6+XsWM8949tXxd5r=OKM36dgwWp3Sxgg@mail.gmail.com>
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] drm/i915: don't flush TLB on GEN8
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <b6417c5bf1b0ee8e093712264f325bd1268ed1e4.1653642514.git.mchehab@kernel.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <b6417c5bf1b0ee8e093712264f325bd1268ed1e4.1653642514.git.mchehab@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,50 +60,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, YueHaibing <yuehaibing@huawei.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Dave Airlie <airlied@redhat.com>,
+ Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, mauro.chehab@linux.intel.com,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Jon Bloomfield <jon.bloomfield@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/05/2022 23:08, Linus Walleij wrote:
-> On Wed, May 25, 2022 at 3:36 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->> On Mon, 23 May 2022 at 15:55, Linus Walleij <linus.walleij@linaro.org> wrote:
-> 
->>> Nope, failed:
->>>
->>> $ dim push-branch drm-misc-next
->>> dim: ac890b9eeb9b ("drm/display: Fix build error without CONFIG_OF"):
->>> Fixes: SHA1 in not pointing at an ancestor:
->>> dim:     f5d01644921b ("drm/msm: select DRM_DP_AUX_BUS for the AUX bus support")
->>> dim: ERROR: issues in commits detected, aborting
->>>
->>> I don't know what to do with this, sorry. The other committers are maybe better
->>> with this kind of situations. I think it is designed to stop me from
->>> shooting myself
->>> in the foot.
->>
->> Linus, can we get an ack from you (or anybody else from DRM core) to
->> merge it through drm/msm tree?
-> 
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> 
->> After a second thought, I think the patch contains wrong Fixes tag. It
->> should be:
->>
->> Fixes: 1e0f66420b13 ("drm/display: Introduce a DRM display-helper module")
->>
->> With that in place would we be able to merge it through drm-misc? Does
->> it needs to be resubmitted?
-> 
-> But it doesn't apply to drm-misc... that's my problem :/
 
-I think it didn't apply because of the Fixes from msm-next.
-If we change that to the mentioned commit (1e0f66420b13), then you 
-should be able to push it.
+On 27/05/2022 10:09, Mauro Carvalho Chehab wrote:
+> i915 selftest hangcheck is causing the i915 driver timeouts, as
+> reported by Intel CI:
+> 
+> 	http://gfx-ci.fi.intel.com/cibuglog-ng/issuefilterassoc/24297?query_key=42a999f48fa6ecce068bc8126c069be7c31153b4
+> 
+> When such test runs, the only output is:
+> 
+> 	[   68.811639] i915: Performing live selftests with st_random_seed=0xe138eac7 st_timeout=500
+> 	[   68.811792] i915: Running hangcheck
+> 	[   68.811859] i915: Running intel_hangcheck_live_selftests/igt_hang_sanitycheck
+> 	[   68.816910] i915 0000:00:02.0: [drm] Cannot find any crtc or sizes
+> 	[   68.841597] i915: Running intel_hangcheck_live_selftests/igt_reset_nop
+> 	[   69.346347] igt_reset_nop: 80 resets
+> 	[   69.362695] i915: Running intel_hangcheck_live_selftests/igt_reset_nop_engine
+> 	[   69.863559] igt_reset_nop_engine(rcs0): 709 resets
+> 	[   70.364924] igt_reset_nop_engine(bcs0): 903 resets
+> 	[   70.866005] igt_reset_nop_engine(vcs0): 659 resets
+> 	[   71.367934] igt_reset_nop_engine(vcs1): 549 resets
+> 	[   71.869259] igt_reset_nop_engine(vecs0): 553 resets
+> 	[   71.882592] i915: Running intel_hangcheck_live_selftests/igt_reset_idle_engine
+> 	[   72.383554] rcs0: Completed 16605 idle resets
+> 	[   72.884599] bcs0: Completed 18641 idle resets
+> 	[   73.385592] vcs0: Completed 17517 idle resets
+> 	[   73.886658] vcs1: Completed 15474 idle resets
+> 	[   74.387600] vecs0: Completed 17983 idle resets
+> 	[   74.387667] i915: Running intel_hangcheck_live_selftests/igt_reset_active_engine
+> 	[   74.889017] rcs0: Completed 747 active resets
+> 	[   75.174240] intel_engine_reset(bcs0) failed, err:-110
+> 	[   75.174301] bcs0: Completed 525 active resets
+> 
+> After that, the machine just silently hangs.
+> 
+> The root cause is that the flush TLB logic is not working as
+> expected on GEN8.
+> 
+> Tested on an Intel NUC5i7RYB with an i7-5557U Broadwell CPU.
+> 
+> This patch partially reverts the logic by skipping GEN8 from
+> the TLB cache flush.
 
+Since I am pretty sure no such failures were spotted when merging the 
+feature I assume the failure is sporadic and/or limited to some 
+configurations? Do you have any details there? Because it is an 
+important security issue we should not revert it lightly.
 
--- 
-With best wishes
-Dmitry
+Regards,
+
+Tvrtko
+
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: stable@vger.kernel.org # Kernel 5.17 and upper
+> 
+> Fixes: 494c2c9b630e ("drm/i915: Flush TLBs before releasing backing store")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> Patch resent, as the first version was using an old email. That's what happens
+> when writing patches on old test machines ;-)
+> 
+>   drivers/gpu/drm/i915/gt/intel_gt.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 034182f85501..7965a77e5046 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -1191,10 +1191,10 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+>   	if (GRAPHICS_VER(i915) == 12) {
+>   		regs = gen12_regs;
+>   		num = ARRAY_SIZE(gen12_regs);
+> -	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
+> +	} else if (GRAPHICS_VER(i915) > 8 && GRAPHICS_VER(i915) <= 11) {
+>   		regs = gen8_regs;
+>   		num = ARRAY_SIZE(gen8_regs);
+> -	} else if (GRAPHICS_VER(i915) < 8) {
+> +	} else if (GRAPHICS_VER(i915) <= 8) {
+>   		return;
+>   	}
+>   
