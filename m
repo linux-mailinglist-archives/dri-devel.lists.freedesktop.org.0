@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65C3535EBD
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 12:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BE2535F35
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 13:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C03EC10EDB9;
-	Fri, 27 May 2022 10:56:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59FF910E147;
+	Fri, 27 May 2022 11:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61BDB10EDB9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 10:56:11 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id e2so5424659wrc.1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 03:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=jrGgy+PH692lFsYF+dtk7dWio1nqD2I64lL7+wih4a8=;
- b=dQx4ferhWG44Xidn1n3UXaPwXV1KQVTCRSqgo0w8ELub1AkvMVX5/sRdkmO8ll4Zk3
- 2v2PAzhmidtq0rPpqmDFMVImttdAqw0LCrUsnUjRg6+TQ4ewZ8mo8kf13oO5kYzr+Y7C
- G316PQHNrGhLNoxEf5ytwoBjH58Aakl6bYJb1i9T0KD0R6nvAygYc435xX6d2GLtJVXB
- BlfiQyEUXPaQW+4LVfQbk0raKU4G9lIfa/mQ03fIJUQ4jlooeuRj1C0DUesiFQdYPQOn
- 7gBzBMLVG4ey+Y2HFPs+TEP4c5xMyeb8EFvsv/5qGP6Y1ra/xldI/YhZd5PiZYVKJreT
- 9HwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=jrGgy+PH692lFsYF+dtk7dWio1nqD2I64lL7+wih4a8=;
- b=dKmQ6X8wrWu1NTwTElexLMj7rgj/DVtBOF/mjHhENGTPmoBEZIjDCRrO3Bh72Zd9Ym
- vZeVztGzkQQe8qSM7PTThSG+VefevvOnkwhVDk0kvwuexghAyZ29ZVLX/6Lzqx/iCjzy
- vI1QQWn6A7neU7AhoQqDyU5D/l0Jt6eH8dfIqAEkAvtKn7c/Lgzshc8KNn/41U27uL/s
- EF9owVRtdxuxzuz1Ln3UXrXCwh25Uli/9jbg4tFHyS5WQBkJwzdK8p0VvRLKCCegfkC7
- aLv1NoYEkYIf1uUK5DIDL5Uq+RqaS8ZbyajZesozpIvrHrLVWFQrZ9H/f1z5tttSwR1C
- L7aQ==
-X-Gm-Message-State: AOAM530r5xTCEX/eHVARi8SOarTKS74ZaeRC8xZQBHGePNzygd3L3LOx
- CTRyBjn8UVjBgcdIIy4lxHll5g==
-X-Google-Smtp-Source: ABdhPJwOt3C8JBzWvWP9ZBSLuDdffF2lB32gd6PKxfF9FArTmlC1qflYGl5xnT+8PL6XweEjZG5ZcQ==
-X-Received: by 2002:adf:ed0c:0:b0:210:e82:898 with SMTP id
- a12-20020adfed0c000000b002100e820898mr5148595wro.399.1653648969762; 
- Fri, 27 May 2022 03:56:09 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- v18-20020adfebd2000000b0020c5253d8besm1451810wrn.10.2022.05.27.03.56.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 03:56:09 -0700 (PDT)
-Date: Fri, 27 May 2022 11:56:07 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: ChiYuan Huang <u0084500@gmail.com>
-Subject: Re: [PATCH 2/2] backlight: rt4831: Add the property parsing for ocp
- level selection
-Message-ID: <20220527105607.gk5ge77byuojxkkc@maple.lan>
-References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
- <1653534995-30794-3-git-send-email-u0084500@gmail.com>
- <20220526100510.3utwh5bov4ax2jmg@maple.lan>
- <CADiBU3_3rJ6uCYx_W+TZJpuPzGtt61QEDwZWtxy_abzynTr8VQ@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2528C10E16D
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 11:22:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 81F8961CD8
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 11:22:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4055FC341C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 11:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653650545;
+ bh=8bey/fZWGx48EZ1uVzJIlGwtVg7djHRgBxE2nvwWusk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=sUFbgsvCj6WGLYeEXUXfL3ojyWiIdh81/GVV7WMwEdnBs/ramNe6QJZkz2Vj7WqJR
+ kDuJmueLg9Tn547sibHqPKlyQrBqEA8sBBfe6a8fUezoHsuMNYEhu/2wf54aAVySBx
+ 6RI3O0F1Nzx/OnMUKritOEgh4ZhsiYTYWiSfjOEh1eZS360SFU7MQ9Me3uNZxjjdzJ
+ QHA9xDoyEMqsLNJSfiDdnn6QKiuVSPylw6H5qFYusRrOPFNWm4QS8MVrw/ziu0tWGo
+ UeuT/xiY+r6ACFAeQ3kT8aQeZbr/4p+Ia0dic+lgdZmfKj/NuBdCSLpRFFs5tmppF/
+ /mvGh01yzz18Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 30631CC13B2; Fri, 27 May 2022 11:22:25 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
+ parser -125
+Date: Fri, 27 May 2022 11:22:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: laguest@archeia.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-205089-2300-Fgg68R5KIX@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
+References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADiBU3_3rJ6uCYx_W+TZJpuPzGtt61QEDwZWtxy_abzynTr8VQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,103 +71,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- lucas_tsai@richtek.com, jingoohan1@gmail.com, deller@gmx.de,
- lkml <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- cy_huang <cy_huang@richtek.com>, Rob Herring <robh+dt@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 27, 2022 at 10:24:42AM +0800, ChiYuan Huang wrote:
-> Daniel Thompson <daniel.thompson@linaro.org> 於 2022年5月26日 週四 下午6:05寫道：
-> >
-> > On Thu, May 26, 2022 at 11:16:35AM +0800, cy_huang wrote:
-> > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > >
-> > > Add the property parsing for ocp level selection.
-> >
-> > Isn't this just restating the Subject: line?
-> >
-> Ah, that's my fault. I didn't state too much in the patch comment.
-> I only left it in the cover letter.
-> 
-> > It would be better to provide information useful to the reviewer here.
-> > Something like:
-> >
-> > "Currently this driver simply inherits whatever over-current protection
-> > level is programmed into the hardware when it is handed over. Typically
-> > this will be the reset value, <whatever>A, although the bootloader could
-> > have established a different value.
-> >
-> > Allow the correct OCP value to be provided by the DT."
-> >
-> > BTW please don't uncritically copy the above into the patch header. It is
-> > just made something up as an example and I did no fact checking...
-> >
-> OK, got it.
-> >
-> > >
-> > > Reported-by: Lucas Tsai <lucas_tsai@richtek.com>
-> > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > ---
-> > >  drivers/video/backlight/rt4831-backlight.c | 13 +++++++++++++
-> > >  1 file changed, 13 insertions(+)
-> > >
-> > > diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
-> > > index 42155c7..c81f7d9 100644
-> > > --- a/drivers/video/backlight/rt4831-backlight.c
-> > > +++ b/drivers/video/backlight/rt4831-backlight.c
-> > > @@ -12,6 +12,7 @@
-> > >  #define RT4831_REG_BLCFG     0x02
-> > >  #define RT4831_REG_BLDIML    0x04
-> > >  #define RT4831_REG_ENABLE    0x08
-> > > +#define RT4831_REG_BLOPT2    0x11
-> > >
-> > >  #define RT4831_BLMAX_BRIGHTNESS      2048
-> > >
-> > > @@ -23,6 +24,8 @@
-> > >  #define RT4831_BLDIML_MASK   GENMASK(2, 0)
-> > >  #define RT4831_BLDIMH_MASK   GENMASK(10, 3)
-> > >  #define RT4831_BLDIMH_SHIFT  3
-> > > +#define RT4831_BLOCP_MASK    GENMASK(1, 0)
-> > > +#define RT4831_BLOCP_SHIFT   0
-> > >
-> > >  struct rt4831_priv {
-> > >       struct device *dev;
-> > > @@ -120,6 +123,16 @@ static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
-> > >       if (ret)
-> > >               return ret;
-> > >
-> > > +     ret = device_property_read_u8(dev, "richtek,bled-ocp-sel", &propval);
-> > > +     if (ret)
-> > > +             propval = RT4831_BLOCPLVL_1P2A;
-> >
-> > Is 1.2A the reset value for the register?
-> Yes, it's the HW default value.
-> >
-> > Additionally, it looks like adding a hard-coded default would cause
-> > problems for existing platforms where the bootloader doesn't use
-> > richtek,bled-ocp-sel and pre-configures a different value itself.
-> >
-> > Would it be safer (in terms of working nicely with older bootloaders)
-> > to only write to the RT4831_BLOCP_MASK if the new property is set?
-> >
-> Ah, my excuse. I really didn't consider the case that you mentioned.
-> It seems it's better to do the judgement here for two cases.
-> 1) property not exist, keep the current HW value
-> 2) property exist, clamp align and update the suitable selector to HW.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
-Ok, great.
+Luke A. Guest (laguest@archeia.com) changed:
 
-When you make this change can you make sure there is a comment in the
-source code explaining that concerns about older firmware is *why* we
-treat bled-ocp-sel differently to bled-ovp-sel!
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |laguest@archeia.com
 
+--- Comment #42 from Luke A. Guest (laguest@archeia.com) ---
+(In reply to MasterCATZ from comment #38)
+> amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize parser -125
 
-Thanks
+I'm getting the same with VLC hanging my machine, R9 390.
 
-Daniel.
+# uname -a=20
+Linux rogue 5.18.0-gentoo-x86_64 #1 SMP PREEMPT_DYNAMIC Thu May 26 15:51:54=
+ BST
+2022 x86_64 AMD FX(tm)-8350 Eight-Core Processor AuthenticAMD GNU/Linux
+
+I updated my firmware and there are no binary differences between the old a=
+nd
+the new, they weren't updated others were; taken from git HEAD.
+
+sys-kernel/linux-firmware
+     Available versions:  20210518^bstd 20210629^bstd 20210716^bstd
+20210818^bstd 20210919^bstd 20211027^bstd 20211216^bstd 20220209^bstd
+20220310^bstd 20220411^bstd 20220509^bstd (**)99999999*l^bstd {initramfs
++redistributable savedconfig unknown-license}
+     Installed versions:  99999999*l^bst(12:08:44 27/05/22)(redistributable
+-initramfs -savedconfig -unknown-license)
+     Homepage:=20=20=20=20=20=20=20=20=20=20=20
+https://git.kernel.org/?p=3Dlinux/kernel/git/firmware/linux-firmware.git
+     Description:         Linux firmware files
+
+I get this on using vlc:
+
+[  229.233581] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring uvd timeout,
+signaled seq=3D3, emitted seq=3D5
+[  229.233720] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process  pid 0 thread  pid 0
+[  229.233825] amdgpu 0000:01:00.0: amdgpu: GPU reset begin!
+[  233.233843] amdgpu 0000:01:00.0: amdgpu: failed to suspend display audio
+[  234.612017] amdgpu: VI should always have 2 performance levels
+[  234.719098] amdgpu 0000:01:00.0: amdgpu: BACO reset
+[  235.160372] amdgpu 0000:01:00.0: amdgpu: GPU reset succeeded, trying to
+resume
+[  235.160416] [drm] PCIE gen 2 link speeds already enabled
+[  235.161162] [drm] PCIE GART of 1024M enabled (table at 0x000000F4007E900=
+0).
+[  235.161207] [drm] VRAM is lost due to GPU reset!
+[  235.163312] amdgpu 0000:01:00.0: amdgpu: SRBM_SOFT_RESET=3D0x00100040
+[  235.338304] [drm] UVD initialized successfully.
+[  235.459249] [drm] VCE initialized successfully.
+[  235.461738] amdgpu 0000:01:00.0: amdgpu: recover vram bo from shadow sta=
+rt
+[  235.461827] amdgpu 0000:01:00.0: amdgpu: recover vram bo from shadow done
+[  235.461867] [drm] Skip scheduling IBs!
+[  235.461869] [drm] Skip scheduling IBs!
+[  235.461890] amdgpu 0000:01:00.0: amdgpu: GPU reset(1) succeeded!
+[  235.461926] [drm] Skip scheduling IBs!
+[  235.461930] [drm] Skip scheduling IBs!
+[  235.461934] [drm] Skip scheduling IBs!
+[  235.461937] [drm] Skip scheduling IBs!
+[  235.461941] [drm] Skip scheduling IBs!
+[  235.461954] [drm] Skip scheduling IBs!
+[  235.461958] [drm] Skip scheduling IBs!
+[  235.461962] [drm] Skip scheduling IBs!
+[  235.461963] [drm] Skip scheduling IBs!
+[  235.461965] [drm] Skip scheduling IBs!
+[  235.461968] [drm] Skip scheduling IBs!
+[  235.461973] [drm] Skip scheduling IBs!
+[  235.461975] [drm] Skip scheduling IBs!
+[  235.461979] [drm] Skip scheduling IBs!
+[  235.461981] [drm] Skip scheduling IBs!
+[  235.461983] [drm] Skip scheduling IBs!
+[  235.461989] [drm] Skip scheduling IBs!
+[  235.461992] [drm] Skip scheduling IBs!
+[  235.461994] [drm] Skip scheduling IBs!
+[  235.461998] [drm] Skip scheduling IBs!
+[  235.462003] [drm] Skip scheduling IBs!
+[  235.461983] [drm:amdgpu_uvd_cs_pass2 [amdgpu]] *ERROR* Invalid UVD handle
+0xdca40001!
+[  235.462198] amdgpu_cs_ioctl: 131 callbacks suppressed
+[  235.462201] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.462236] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.462260] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.462545] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.462569] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.462608] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.464578] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.464793] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.466719] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+[  235.466957] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
+parser -125!
+( REPEATS )
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
