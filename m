@@ -2,47 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D54C535A49
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 09:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C64535A7E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 09:34:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47DCE10EE79;
-	Fri, 27 May 2022 07:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF23F10E3B8;
+	Fri, 27 May 2022 07:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21CFE10EE79;
- Fri, 27 May 2022 07:25:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653636305; x=1685172305;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=7b1rWfLeymebFI17WtXzZBq+waBMZJGhRs07MuZRlA0=;
- b=m6MLz4r9AY0rDnJwa7arEJaJJKDYOwUGi/NdjX+r0UNHVMOa/Pyv5yc3
- XL8LAaiws9RiQWsqUCIfnkJGCWt9expOXSiQV2gjskMEAX9xmIcs3rEU+
- z+YtAaXEvcK4Ukoq3iNU3OPxys3vjFojkJd/9BTTGDvwfu+Xy0FuFBr8q
- AIhsHtQKYso4BFTWwybvJRxNSwwLjNkVnnShblSVO4LqThOx63sQKAYX9
- STbCmV/HmhkjPqejQORMomorWM9vo2wwkmNp/eNRvUGwsz4iVaFyNKico
- b7/CRD6C4ZUVXhqRzpP+SRXvQQCgAaTCut9wtcfqg9DHetrgjSmBMxz2x g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10359"; a="274413023"
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; d="scan'208";a="274413023"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2022 00:25:04 -0700
-X-IronPort-AV: E=Sophos;i="5.91,254,1647327600"; d="scan'208";a="704989257"
-Received: from dnanduri-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.215.174])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2022 00:24:59 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Improve user experience and driver robustness under
- SIGINT or similar
-Date: Fri, 27 May 2022 08:24:52 +0100
-Message-Id: <20220527072452.2225610-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA0CC10E3B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 07:34:40 +0000 (UTC)
+Date: Fri, 27 May 2022 07:34:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1653636878; x=1653896078;
+ bh=iCmZqK0pcyNJm14TV+DQNW8NAUAYmurmAxGBQzhleks=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:Feedback-ID:From:To:
+ Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID;
+ b=Kvx1sKbPuEZuuSaXVn/97qdSOKztn/sxu/vpSM4EVgmKzHQqJA7vHwaHTvVwzs7iU
+ 3fjL8EGk03xMc+tazDC4Sv2APm+SAAF/5yQo2S1MNtVj9IuAb0l72GedQMiKPjkSR7
+ ZjDnCulAIWHwcn55LnoFuF+wTyVX5uQn1V+mtzRQeU3A0psUHUfOuVArXy9Ys44Hhl
+ JeSP4bMQVHHUt2wvMdOdN+pW6XQ2wf7ur79Zb2aG3nBZDX0sV3DJKKaENqKnsx+bGP
+ znyKB3g7quiEs2On7EiK7Qv1aXwNzWqiM2x7VqBpVWDUTa1YNBJ0v3yJK0a/rFekkx
+ Al/vMyPKuxniw==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v3] dma-buf: Add a capabilities directory
+Message-ID: <20220527073422.367910-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,350 +44,355 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Jason Ekstrand <jason.ekstrand@collabora.com>, Greg KH <greg@kroah.com>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+To discover support for new DMA-BUF IOCTLs, user-space has no
+choice but to try to perform the IOCTL on an existing DMA-BUF.
+However, user-space may want to figure out whether or not the
+IOCTL is available before it has a DMA-BUF at hand, e.g. at
+initialization time in a Wayland compositor.
 
-We have long standing customer complaints that pressing Ctrl-C (or to the
-effect of) causes engine resets with otherwise well behaving programs.
+Add a /sys/kernel/dmabuf/caps directory which allows the DMA-BUF
+subsystem to advertise supported features. Add a
+sync_file_import_export entry which indicates that importing and
+exporting sync_files from/to DMA-BUFs is supported.
 
-Not only is logging engine resets during normal operation not desirable
-since it creates support incidents, but more fundamentally we should avoid
-going the engine reset path when we can since any engine reset introduces
-a chance of harming an innocent context.
+v2: Add missing files lost in a rebase
 
-Reason for this undesirable behaviour is that the driver currently does
-not distinguish between banned contexts and non-persistent contexts which
-have been closed.
+v3:
+- Create separate file in Documentation/ABI/testing/, add it to
+  MAINTAINERS
+- Fix kernel version (Daniel)
+- Remove unnecessary brackets (Jason)
+- Fix SPDX comment style
 
-To fix this we add the distinction between the two reasons for revoking
-contexts, which then allows the strict timeout only be applied to banned,
-while innocent contexts (well behaving) can preempt cleanly and exit
-without triggering the engine reset path.
-
-Note that the added context exiting category applies both to closed non-
-persistent context, and any exiting context when hangcheck has been
-disabled by the user.
-
-At the same time we rename the backend operation from 'ban' to 'revoke'
-which more accurately describes the actual semantics. (There is no ban at
-the backend level since banning is a concept driven by the scheduling
-frontend. Backends are simply able to revoke a running context so that
-is the more appropriate name chosen.)
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Reviewed-by: Jason Ekstrand <jason.ekstrand@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+Cc: Greg KH <greg@kroah.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 23 +++++++++++------
- drivers/gpu/drm/i915/gt/intel_context.c       | 24 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_context.h       | 25 +++++++++++++------
- drivers/gpu/drm/i915/gt/intel_context_types.h |  4 ++-
- .../drm/i915/gt/intel_execlists_submission.c  |  6 ++---
- .../gpu/drm/i915/gt/intel_ring_submission.c   |  7 +++---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 ++++++-----
- drivers/gpu/drm/i915/i915_request.c           |  2 +-
- 8 files changed, 77 insertions(+), 29 deletions(-)
+ .../ABI/testing/sysfs-kernel-dmabuf-caps      | 13 +++++
+ MAINTAINERS                                   |  1 +
+ drivers/dma-buf/Makefile                      |  2 +-
+ drivers/dma-buf/dma-buf-sysfs-caps.c          | 51 +++++++++++++++++++
+ drivers/dma-buf/dma-buf-sysfs-caps.h          | 16 ++++++
+ drivers/dma-buf/dma-buf-sysfs-stats.c         | 16 ++----
+ drivers/dma-buf/dma-buf-sysfs-stats.h         |  6 ++-
+ drivers/dma-buf/dma-buf.c                     | 43 ++++++++++++++--
+ include/uapi/linux/dma-buf.h                  |  6 +++
+ 9 files changed, 134 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-caps
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.c
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-caps.h
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index ab4c5ab28e4d..6b171c89b1b3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1367,7 +1367,8 @@ static struct intel_engine_cs *active_engine(struct intel_context *ce)
- 	return engine;
- }
- 
--static void kill_engines(struct i915_gem_engines *engines, bool ban)
-+static void
-+kill_engines(struct i915_gem_engines *engines, bool exit, bool persistent)
- {
- 	struct i915_gem_engines_iter it;
- 	struct intel_context *ce;
-@@ -1381,9 +1382,15 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 	 */
- 	for_each_gem_engine(ce, engines, it) {
- 		struct intel_engine_cs *engine;
-+		bool skip = false;
- 
--		if (ban && intel_context_ban(ce, NULL))
--			continue;
-+		if (exit)
-+			skip = intel_context_set_exiting(ce);
-+		else if (!persistent)
-+			skip = intel_context_exit_nonpersistent(ce, NULL);
+diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-caps b/Documenta=
+tion/ABI/testing/sysfs-kernel-dmabuf-caps
+new file mode 100644
+index 000000000000..f83af422fd18
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-caps
+@@ -0,0 +1,13 @@
++What:=09=09/sys/kernel/dmabuf/caps
++Date:=09=09May 2022
++KernelVersion:=09v5.20
++Contact:=09Simon Ser <contact@emersion.fr>
++Description:=09This directory advertises DMA-BUF capabilities supported by=
+ the
++=09=09kernel.
 +
-+		if (skip)
-+			continue; /* Already marked. */
- 
- 		/*
- 		 * Check the current active state of this context; if we
-@@ -1395,7 +1402,7 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 		engine = active_engine(ce);
- 
- 		/* First attempt to gracefully cancel the context */
--		if (engine && !__cancel_engine(engine) && ban)
-+		if (engine && !__cancel_engine(engine) && (exit || !persistent))
- 			/*
- 			 * If we are unable to send a preemptive pulse to bump
- 			 * the context from the GPU, we have to resort to a full
-@@ -1407,8 +1414,6 @@ static void kill_engines(struct i915_gem_engines *engines, bool ban)
- 
- static void kill_context(struct i915_gem_context *ctx)
- {
--	bool ban = (!i915_gem_context_is_persistent(ctx) ||
--		    !ctx->i915->params.enable_hangcheck);
- 	struct i915_gem_engines *pos, *next;
- 
- 	spin_lock_irq(&ctx->stale.lock);
-@@ -1421,7 +1426,8 @@ static void kill_context(struct i915_gem_context *ctx)
- 
- 		spin_unlock_irq(&ctx->stale.lock);
- 
--		kill_engines(pos, ban);
-+		kill_engines(pos, !ctx->i915->params.enable_hangcheck,
-+			     i915_gem_context_is_persistent(ctx));
- 
- 		spin_lock_irq(&ctx->stale.lock);
- 		GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
-@@ -1467,7 +1473,8 @@ static void engines_idle_release(struct i915_gem_context *ctx,
- 
- kill:
- 	if (list_empty(&engines->link)) /* raced, already closed */
--		kill_engines(engines, true);
-+		kill_engines(engines, true,
-+			     i915_gem_context_is_persistent(ctx));
- 
- 	i915_sw_fence_commit(&engines->fence);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 4070cb5711d8..654a092ed3d6 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -601,6 +601,30 @@ u64 intel_context_get_avg_runtime_ns(struct intel_context *ce)
- 	return avg;
- }
- 
-+bool intel_context_ban(struct intel_context *ce, struct i915_request *rq)
++What:=09=09/sys/kernel/dmabuf/caps/sync_file_import_export
++Date:=09=09May 2022
++KernelVersion:=09v5.20
++Contact:=09Simon Ser <contact@emersion.fr>
++Description:=09This file is read-only and advertises support for importing=
+ and
++=09=09exporting sync_files from/to DMA-BUFs.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 11da16bfa123..8966686f7231 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5871,6 +5871,7 @@ L:=09dri-devel@lists.freedesktop.org
+ L:=09linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+ S:=09Maintained
+ T:=09git git://anongit.freedesktop.org/drm/drm-misc
++F:=09Documentation/ABI/testing/sysfs-kernel-dmabuf-caps
+ F:=09Documentation/driver-api/dma-buf.rst
+ F:=09drivers/dma-buf/
+ F:=09include/linux/*fence.h
+diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+index 4c9eb53ba3f8..afc874272710 100644
+--- a/drivers/dma-buf/Makefile
++++ b/drivers/dma-buf/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y :=3D dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
+-=09 dma-resv.o
++=09 dma-resv.o dma-buf-sysfs-caps.o
+ obj-$(CONFIG_DMABUF_HEAPS)=09+=3D dma-heap.o
+ obj-$(CONFIG_DMABUF_HEAPS)=09+=3D heaps/
+ obj-$(CONFIG_SYNC_FILE)=09=09+=3D sync_file.o
+diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.c b/drivers/dma-buf/dma-buf=
+-sysfs-caps.c
+new file mode 100644
+index 000000000000..82b91eb874a9
+--- /dev/null
++++ b/drivers/dma-buf/dma-buf-sysfs-caps.c
+@@ -0,0 +1,51 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * DMA-BUF sysfs capabilities.
++ *
++ * Copyright (C) 2022 Simon Ser
++ */
++
++#include <linux/kobject.h>
++#include <linux/sysfs.h>
++
++#include "dma-buf-sysfs-caps.h"
++
++static ssize_t sync_file_import_export_show(struct kobject *kobj,
++=09=09=09=09=09    struct kobj_attribute *attr,
++=09=09=09=09=09    char *buf)
 +{
-+	bool ret = intel_context_set_banned(ce);
-+
-+	trace_intel_context_ban(ce);
-+
-+	if (ce->ops->revoke)
-+		ce->ops->revoke(ce, rq,
-+				INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS);
-+
-+	return ret;
++=09return sysfs_emit(buf, "1\n");
 +}
 +
-+bool intel_context_exit_nonpersistent(struct intel_context *ce,
-+				      struct i915_request *rq)
++static struct kobj_attribute dma_buf_sync_file_import_export_attr =3D
++=09__ATTR_RO(sync_file_import_export);
++
++static struct attribute *dma_buf_caps_attrs[] =3D {
++=09&dma_buf_sync_file_import_export_attr.attr,
++=09NULL,
++};
++
++static const struct attribute_group dma_buf_caps_attr_group =3D {
++=09.attrs =3D dma_buf_caps_attrs,
++};
++
++static struct kobject *dma_buf_caps_kobj;
++
++int dma_buf_init_sysfs_capabilities(struct kset *kset)
 +{
-+	bool ret = intel_context_set_exiting(ce);
++=09int ret;
 +
-+	if (ce->ops->revoke)
-+		ce->ops->revoke(ce, rq, ce->engine->props.preempt_timeout_ms);
++=09dma_buf_caps_kobj =3D kobject_create_and_add("caps", &kset->kobj);
++=09if (!dma_buf_caps_kobj)
++=09=09return -ENOMEM;
 +
-+	return ret;
++=09ret =3D sysfs_create_group(dma_buf_caps_kobj, &dma_buf_caps_attr_group)=
+;
++=09if (ret)
++=09=09kobject_put(dma_buf_caps_kobj);
++=09return ret;
 +}
 +
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftest_context.c"
++void dma_buf_uninit_sysfs_capabilities(void)
++{
++=09kobject_put(dma_buf_caps_kobj);
++}
+diff --git a/drivers/dma-buf/dma-buf-sysfs-caps.h b/drivers/dma-buf/dma-buf=
+-sysfs-caps.h
+new file mode 100644
+index 000000000000..d7bcef490b31
+--- /dev/null
++++ b/drivers/dma-buf/dma-buf-sysfs-caps.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * DMA-BUF sysfs capabilities.
++ *
++ * Copyright (C) 2022 Simon Ser
++ */
++
++#ifndef _DMA_BUF_SYSFS_CAPS_H
++#define _DMA_BUF_SYSFS_CAPS_H
++
++struct kset;
++
++int dma_buf_init_sysfs_capabilities(struct kset *kset);
++void dma_buf_uninit_sysfs_capabilities(void);
++
++#endif // _DMA_BUF_SYSFS_CAPS_H
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-bu=
+f-sysfs-stats.c
+index 2bba0babcb62..e2e62f83ce18 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -141,23 +141,14 @@ static const struct kset_uevent_ops dmabuf_sysfs_no_u=
+event_ops =3D {
+ =09.filter =3D dmabuf_sysfs_uevent_filter,
+ };
+=20
+-static struct kset *dma_buf_stats_kset;
+ static struct kset *dma_buf_per_buffer_stats_kset;
+-int dma_buf_init_sysfs_statistics(void)
++int dma_buf_init_sysfs_statistics(struct kset *kset)
+ {
+-=09dma_buf_stats_kset =3D kset_create_and_add("dmabuf",
+-=09=09=09=09=09=09 &dmabuf_sysfs_no_uevent_ops,
+-=09=09=09=09=09=09 kernel_kobj);
+-=09if (!dma_buf_stats_kset)
+-=09=09return -ENOMEM;
+-
+ =09dma_buf_per_buffer_stats_kset =3D kset_create_and_add("buffers",
+ =09=09=09=09=09=09=09    &dmabuf_sysfs_no_uevent_ops,
+-=09=09=09=09=09=09=09    &dma_buf_stats_kset->kobj);
+-=09if (!dma_buf_per_buffer_stats_kset) {
+-=09=09kset_unregister(dma_buf_stats_kset);
++=09=09=09=09=09=09=09    &kset->kobj);
++=09if (!dma_buf_per_buffer_stats_kset)
+ =09=09return -ENOMEM;
+-=09}
+=20
+ =09return 0;
+ }
+@@ -165,7 +156,6 @@ int dma_buf_init_sysfs_statistics(void)
+ void dma_buf_uninit_sysfs_statistics(void)
+ {
+ =09kset_unregister(dma_buf_per_buffer_stats_kset);
+-=09kset_unregister(dma_buf_stats_kset);
+ }
+=20
+ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-bu=
+f-sysfs-stats.h
+index a49c6e2650cc..798c54fb8ee3 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.h
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+@@ -8,9 +8,11 @@
+ #ifndef _DMA_BUF_SYSFS_STATS_H
+ #define _DMA_BUF_SYSFS_STATS_H
+=20
++struct kset;
++
+ #ifdef CONFIG_DMABUF_SYSFS_STATS
+=20
+-int dma_buf_init_sysfs_statistics(void);
++int dma_buf_init_sysfs_statistics(struct kset *kset);
+ void dma_buf_uninit_sysfs_statistics(void);
+=20
+ int dma_buf_stats_setup(struct dma_buf *dmabuf);
+@@ -18,7 +20,7 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf);
+ void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+ #else
+=20
+-static inline int dma_buf_init_sysfs_statistics(void)
++static inline int dma_buf_init_sysfs_statistics(struct kset *kset)
+ {
+ =09return 0;
+ }
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 5e1b0534b3ce..b5c5a5050508 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -30,6 +30,7 @@
+ #include <uapi/linux/dma-buf.h>
+ #include <uapi/linux/magic.h>
+=20
++#include "dma-buf-sysfs-caps.h"
+ #include "dma-buf-sysfs-stats.h"
+=20
+ static inline int is_dma_buf_file(struct file *);
+@@ -1546,22 +1547,54 @@ static inline void dma_buf_uninit_debugfs(void)
+ }
  #endif
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index b7d3214d2cdd..8e2d70630c49 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -25,6 +25,8 @@
- 		     ##__VA_ARGS__);					\
- } while (0)
- 
-+#define INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS (1)
-+
- struct i915_gem_ww_ctx;
- 
- void intel_context_init(struct intel_context *ce,
-@@ -309,18 +311,27 @@ static inline bool intel_context_set_banned(struct intel_context *ce)
- 	return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
- }
- 
--static inline bool intel_context_ban(struct intel_context *ce,
--				     struct i915_request *rq)
-+bool intel_context_ban(struct intel_context *ce, struct i915_request *rq);
-+
-+static inline bool intel_context_is_schedulable(const struct intel_context *ce)
- {
--	bool ret = intel_context_set_banned(ce);
-+	return !test_bit(CONTEXT_EXITING, &ce->flags) &&
-+	       !test_bit(CONTEXT_BANNED, &ce->flags);
-+}
- 
--	trace_intel_context_ban(ce);
--	if (ce->ops->ban)
--		ce->ops->ban(ce, rq);
-+static inline bool intel_context_is_exiting(const struct intel_context *ce)
+=20
++/* Capabilities and statistics files do not need to send uevents. */
++static int dmabuf_sysfs_uevent_filter(struct kobject *kobj)
 +{
-+	return test_bit(CONTEXT_EXITING, &ce->flags);
++=09return 0;
 +}
- 
--	return ret;
-+static inline bool intel_context_set_exiting(struct intel_context *ce)
-+{
-+	return test_and_set_bit(CONTEXT_EXITING, &ce->flags);
- }
- 
-+bool intel_context_exit_nonpersistent(struct intel_context *ce,
-+				      struct i915_request *rq);
 +
- static inline bool
- intel_context_force_single_submission(const struct intel_context *ce)
++static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops =3D {
++=09.filter =3D dmabuf_sysfs_uevent_filter,
++};
++
++static struct kset *dma_buf_kset;
++
+ static int __init dma_buf_init(void)
  {
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index 09f82545789f..d2d75d9c0c8d 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -40,7 +40,8 @@ struct intel_context_ops {
- 
- 	int (*alloc)(struct intel_context *ce);
- 
--	void (*ban)(struct intel_context *ce, struct i915_request *rq);
-+	void (*revoke)(struct intel_context *ce, struct i915_request *rq,
-+		       unsigned int preempt_timeout_ms);
- 
- 	int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx *ww, void **vaddr);
- 	int (*pin)(struct intel_context *ce, void *vaddr);
-@@ -122,6 +123,7 @@ struct intel_context {
- #define CONTEXT_GUC_INIT		10
- #define CONTEXT_PERMA_PIN		11
- #define CONTEXT_IS_PARKING		12
-+#define CONTEXT_EXITING			13
- 
- 	struct {
- 		u64 timeout_us;
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index a4510b5c0c3d..ad72e2c5c4e7 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -480,9 +480,9 @@ __execlists_schedule_in(struct i915_request *rq)
- 
- 	if (unlikely(intel_context_is_closed(ce) &&
- 		     !intel_engine_has_heartbeat(engine)))
--		intel_context_set_banned(ce);
-+		intel_context_set_exiting(ce);
- 
--	if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
-+	if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
- 		reset_active(rq, engine);
- 
- 	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
-@@ -1243,7 +1243,7 @@ static unsigned long active_preempt_timeout(struct intel_engine_cs *engine,
- 
- 	/* Force a fast reset for terminated contexts (ignoring sysfs!) */
- 	if (unlikely(intel_context_is_banned(rq->context) || bad_request(rq)))
--		return 1;
-+		return INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS;
- 
- 	return READ_ONCE(engine->props.preempt_timeout_ms);
+ =09int ret;
+=20
+-=09ret =3D dma_buf_init_sysfs_statistics();
++=09dma_buf_kset =3D kset_create_and_add("dmabuf",
++=09=09=09=09=09   &dmabuf_sysfs_no_uevent_ops,
++=09=09=09=09=09   kernel_kobj);
++=09if (!dma_buf_kset)
++=09=09return -ENOMEM;
++
++=09ret =3D dma_buf_init_sysfs_capabilities(dma_buf_kset);
+ =09if (ret)
+-=09=09return ret;
++=09=09goto err_kset;
++
++=09ret =3D dma_buf_init_sysfs_statistics(dma_buf_kset);
++=09if (ret)
++=09=09goto err_sysfs_caps;
+=20
+ =09dma_buf_mnt =3D kern_mount(&dma_buf_fs_type);
+-=09if (IS_ERR(dma_buf_mnt))
+-=09=09return PTR_ERR(dma_buf_mnt);
++=09if (IS_ERR(dma_buf_mnt)) {
++=09=09ret =3D PTR_ERR(dma_buf_mnt);
++=09=09goto err_sysfs_stats;
++=09}
+=20
+ =09mutex_init(&db_list.lock);
+ =09INIT_LIST_HEAD(&db_list.head);
+ =09dma_buf_init_debugfs();
+ =09return 0;
++
++err_sysfs_stats:
++=09dma_buf_uninit_sysfs_statistics();
++err_sysfs_caps:
++=09dma_buf_uninit_sysfs_capabilities();
++err_kset:
++=09kset_unregister(dma_buf_kset);
++=09return ret;
  }
-diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-index f8f279a195c0..d5d6f1fadcae 100644
---- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
-@@ -598,8 +598,9 @@ static void ring_context_reset(struct intel_context *ce)
- 	clear_bit(CONTEXT_VALID_BIT, &ce->flags);
+ subsys_initcall(dma_buf_init);
+=20
+@@ -1570,5 +1603,7 @@ static void __exit dma_buf_deinit(void)
+ =09dma_buf_uninit_debugfs();
+ =09kern_unmount(dma_buf_mnt);
+ =09dma_buf_uninit_sysfs_statistics();
++=09dma_buf_uninit_sysfs_capabilities();
++=09kset_unregister(dma_buf_kset);
  }
- 
--static void ring_context_ban(struct intel_context *ce,
--			     struct i915_request *rq)
-+static void ring_context_revoke(struct intel_context *ce,
-+				struct i915_request *rq,
-+				unsigned int preempt_timeout_ms)
- {
- 	struct intel_engine_cs *engine;
- 
-@@ -634,7 +635,7 @@ static const struct intel_context_ops ring_context_ops = {
- 
- 	.cancel_request = ring_context_cancel_request,
- 
--	.ban = ring_context_ban,
-+	.revoke = ring_context_revoke,
- 
- 	.pre_pin = ring_context_pre_pin,
- 	.pin = ring_context_pin,
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 5a1dfacf24ea..e62ea35513ea 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2790,7 +2790,9 @@ static void __guc_context_set_preemption_timeout(struct intel_guc *guc,
- 	__guc_context_set_context_policies(guc, &policy, true);
- }
- 
--static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
-+static void
-+guc_context_revoke(struct intel_context *ce, struct i915_request *rq,
-+		   unsigned int preempt_timeout_ms)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
- 	struct intel_runtime_pm *runtime_pm =
-@@ -2829,7 +2831,8 @@ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
- 		 * gets kicked off the HW ASAP.
- 		 */
- 		with_intel_runtime_pm(runtime_pm, wakeref) {
--			__guc_context_set_preemption_timeout(guc, guc_id, 1);
-+			__guc_context_set_preemption_timeout(guc, guc_id,
-+							     preempt_timeout_ms);
- 			__guc_context_sched_disable(guc, ce, guc_id);
- 		}
- 	} else {
-@@ -2837,7 +2840,7 @@ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
- 			with_intel_runtime_pm(runtime_pm, wakeref)
- 				__guc_context_set_preemption_timeout(guc,
- 								     ce->guc_id.id,
--								     1);
-+								     preempt_timeout_ms);
- 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
- 	}
- }
-@@ -3190,7 +3193,7 @@ static const struct intel_context_ops guc_context_ops = {
- 	.unpin = guc_context_unpin,
- 	.post_unpin = guc_context_post_unpin,
- 
--	.ban = guc_context_ban,
-+	.revoke = guc_context_revoke,
- 
- 	.cancel_request = guc_context_cancel_request,
- 
-@@ -3439,7 +3442,7 @@ static const struct intel_context_ops virtual_guc_context_ops = {
- 	.unpin = guc_virtual_context_unpin,
- 	.post_unpin = guc_context_post_unpin,
- 
--	.ban = guc_context_ban,
-+	.revoke = guc_context_revoke,
- 
- 	.cancel_request = guc_context_cancel_request,
- 
-@@ -3528,7 +3531,7 @@ static const struct intel_context_ops virtual_parent_context_ops = {
- 	.unpin = guc_parent_context_unpin,
- 	.post_unpin = guc_context_post_unpin,
- 
--	.ban = guc_context_ban,
-+	.revoke = guc_context_revoke,
- 
- 	.cancel_request = guc_context_cancel_request,
- 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 73d5195146b0..c3937640b119 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -611,7 +611,7 @@ bool __i915_request_submit(struct i915_request *request)
- 		goto active;
- 	}
- 
--	if (unlikely(intel_context_is_banned(request->context)))
-+	if (unlikely(!intel_context_is_schedulable(request->context)))
- 		i915_request_set_error_once(request, -EIO);
- 
- 	if (unlikely(fatal_error(request->fence.error)))
--- 
-2.32.0
+ __exitcall(dma_buf_deinit);
+diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+index 70e213a0d7d9..ab3afd5da75a 100644
+--- a/include/uapi/linux/dma-buf.h
++++ b/include/uapi/linux/dma-buf.h
+@@ -114,6 +114,9 @@ struct dma_buf_sync {
+  * ordering via these fences, it is the respnosibility of userspace to use
+  * locks or other mechanisms to ensure that no other context adds fences o=
+r
+  * submits work between steps 1 and 3 above.
++ *
++ * Userspace can check the availability of this API via
++ * /sys/kernel/dmabuf/caps/sync_file_import_export.
+  */
+ struct dma_buf_export_sync_file {
+ =09/**
+@@ -146,6 +149,9 @@ struct dma_buf_export_sync_file {
+  * synchronized APIs such as Vulkan to inter-op with dma-buf consumers
+  * which expect implicit synchronization such as OpenGL or most media
+  * drivers/video.
++ *
++ * Userspace can check the availability of this API via
++ * /sys/kernel/dmabuf/caps/sync_file_import_export.
+  */
+ struct dma_buf_import_sync_file {
+ =09/**
+--=20
+2.36.1
+
 
