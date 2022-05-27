@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A1C536609
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 18:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6728453663F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 19:00:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244FF10E654;
-	Fri, 27 May 2022 16:33:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF7BD10E086;
+	Fri, 27 May 2022 17:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADBB710E05E;
- Fri, 27 May 2022 16:33:52 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C95910E00D;
+ Fri, 27 May 2022 17:00:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653669232; x=1685205232;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=w1vONPN47xOyyKOpmudwJX89R2SeyDcWwVuN5Syjuwc=;
- b=C/4L25ShSYKj7TLFpZmBXDky6Mnu1/fORlfxbW1042o7G96xvg1AvV5h
- 4Xz3e4rTuK9jJRFana9e35EshX9TZmQSmi9EfcBJP38+n9Oxdz/amntX5
- 1UPScYbiGq70Oz5HDWnOE5o2bPMpTIdSFT7Rb03BhXyF4uQC9Jp78cjIp
- Rld02KnCWzXiYGl0faa78sS2RLbdh6iNtYxy8R7EI7hvhXGdBx2L6YxMk
- 4VEmjqWMBV4rxfenXtXDJHT5qpH6XI6SnrbRbggibud8joyI7pLevXkZ5
- CQEVW/e7WNfzsJQakuibtSWhqrbY2597EKHbdDzb59VYb3xqwI9YpKx6W g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10360"; a="262138729"
-X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; d="scan'208";a="262138729"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2022 09:33:52 -0700
-X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; d="scan'208";a="550291706"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2022 09:33:51 -0700
+ t=1653670833; x=1685206833;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Tjul+Wdkz0iZL5egZsqCl8R7b7Db0zLor30i4I4LNCo=;
+ b=MB07vpuYVAKgPzwzOzuNBFOEnpW5qZbS1BKZvpzpcEdoyYNw2/ycL6nv
+ U0H2GZquCCiXwIQvKGqLphQ9cW8lvmjp85kWqOJ32Ejk94Jc9ZiDGhUbd
+ u1D9QPMa84fsdQfJ0AAzZRDmRUkXVocOdhLyuCIsyaR7WkO9rqkQ4akZb
+ S2gigopUMcBjXHv4eLMXxqYSWhdpNKAZLuSu0Wzp0iiiY9pRd4ZshGSND
+ 96GaWi9A8hsDqzlAvjbY4S2lM1dOjQkT2hUdbzQ7Le0GP7rqgRtDczPgZ
+ h0Pbscrk9hBvj0Yf0WrcGm7A+BOLGSC3I4yd6x3TSQmASx8bpfhmo6drN Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10360"; a="274535365"
+X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; d="scan'208";a="274535365"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 10:00:32 -0700
+X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; d="scan'208";a="643469372"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 10:00:32 -0700
+Date: Fri, 27 May 2022 10:00:31 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915/pvc: Add initial PVC workarounds
-Date: Fri, 27 May 2022 09:33:48 -0700
-Message-Id: <20220527163348.1936146-3-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220527163348.1936146-1-matthew.d.roper@intel.com>
-References: <20220527163348.1936146-1-matthew.d.roper@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-gfx] [CI] Revert "drm/i915: Add relocation exceptions for
+ two other platforms"
+Message-ID: <YpEDr+yzOJFb+K/A@mdroper-desk1.amr.corp.intel.com>
+References: <20220527081046.2692809-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220527081046.2692809-1-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,222 +57,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Summers <stuart.summers@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stuart Summers <stuart.summers@intel.com>
+On Fri, May 27, 2022 at 01:10:46AM -0700, Lucas De Marchi wrote:
+> This reverts commit bcefacd359f07dee18795dd80f834acb47fd21eb.
+> 
+> IGT conversion is ready, so these execptions can already be removed.
+> Once CI is clean, this commit will actually be removed from
+> topic/core-for-CI.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-Bspec: 64027
-Signed-off-by: Stuart Summers <stuart.summers@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_regs.h |  5 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  3 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 61 ++++++++++++++++++---
- drivers/gpu/drm/i915/intel_pm.c             | 16 +++++-
- 4 files changed, 73 insertions(+), 12 deletions(-)
+Acked-by: Matt Roper <matthew.d.roper@intel.com>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_regs.h b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-index 75a0c55c5aa5..44de10cf7837 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
-@@ -196,6 +196,7 @@
- #define RING_CTX_TIMESTAMP(base)		_MMIO((base) + 0x3a8) /* gen8+ */
- #define RING_PREDICATE_RESULT(base)		_MMIO((base) + 0x3b8)
- #define RING_FORCE_TO_NONPRIV(base, i)		_MMIO(((base) + 0x4D0) + (i) * 4)
-+#define   RING_FORCE_TO_NONPRIV_DENY		REG_BIT(30)
- #define   RING_FORCE_TO_NONPRIV_ADDRESS_MASK	REG_GENMASK(25, 2)
- #define   RING_FORCE_TO_NONPRIV_ACCESS_RW	(0 << 28)    /* CFL+ & Gen11+ */
- #define   RING_FORCE_TO_NONPRIV_ACCESS_RD	(1 << 28)
-@@ -208,7 +209,9 @@
- #define   RING_FORCE_TO_NONPRIV_RANGE_64	(3 << 0)
- #define   RING_FORCE_TO_NONPRIV_RANGE_MASK	(3 << 0)
- #define   RING_FORCE_TO_NONPRIV_MASK_VALID	\
--	(RING_FORCE_TO_NONPRIV_RANGE_MASK | RING_FORCE_TO_NONPRIV_ACCESS_MASK)
-+	(RING_FORCE_TO_NONPRIV_RANGE_MASK | \
-+	 RING_FORCE_TO_NONPRIV_ACCESS_MASK | \
-+	 RING_FORCE_TO_NONPRIV_DENY)
- #define   RING_MAX_NONPRIV_SLOTS  12
- 
- #define RING_EXECLIST_SQ_CONTENTS(base)		_MMIO((base) + 0x510)
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index b4642dcc192f..58e9b464d564 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1070,8 +1070,9 @@
- 
- #define GEN10_CACHE_MODE_SS			_MMIO(0xe420)
- #define   ENABLE_EU_COUNT_FOR_TDL_FLUSH		REG_BIT(10)
--#define   ENABLE_PREFETCH_INTO_IC		REG_BIT(3)
-+#define   DISABLE_ECC				REG_BIT(5)
- #define   FLOAT_BLEND_OPTIMIZATION_ENABLE	REG_BIT(4)
-+#define   ENABLE_PREFETCH_INTO_IC		REG_BIT(3)
- 
- #define EU_PERF_CNTL0				_MMIO(0xe458)
- #define EU_PERF_CNTL4				_MMIO(0xe45c)
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 73b59ea6fd3b..a604bc7c0701 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -776,7 +776,9 @@ __intel_engine_init_ctx_wa(struct intel_engine_cs *engine,
- 	if (engine->class != RENDER_CLASS)
- 		goto done;
- 
--	if (IS_DG2(i915))
-+	if (IS_PONTEVECCHIO(i915))
-+		; /* noop; none at this time */
-+	else if (IS_DG2(i915))
- 		dg2_ctx_workarounds_init(engine, wal);
- 	else if (IS_XEHPSDV(i915))
- 		; /* noop; none at this time */
-@@ -1494,7 +1496,9 @@ gt_init_workarounds(struct intel_gt *gt, struct i915_wa_list *wal)
- {
- 	struct drm_i915_private *i915 = gt->i915;
- 
--	if (IS_DG2(i915))
-+	if (IS_PONTEVECCHIO(i915))
-+		; /* none yet */
-+	else if (IS_DG2(i915))
- 		dg2_gt_workarounds_init(gt, wal);
- 	else if (IS_XEHPSDV(i915))
- 		xehpsdv_gt_workarounds_init(gt, wal);
-@@ -1924,6 +1928,32 @@ static void dg2_whitelist_build(struct intel_engine_cs *engine)
- 	}
- }
- 
-+static void blacklist_trtt(struct intel_engine_cs *engine)
-+{
-+	struct i915_wa_list *w = &engine->whitelist;
-+
-+	/*
-+	 * Prevent read/write access to [0x4400, 0x4600) which covers
-+	 * the TRTT range across all engines. Note that normally userspace
-+	 * cannot access the other engines' trtt control, but for simplicity
-+	 * we cover the entire range on each engine.
-+	 */
-+	whitelist_reg_ext(w, _MMIO(0x4400),
-+			  RING_FORCE_TO_NONPRIV_DENY |
-+			  RING_FORCE_TO_NONPRIV_RANGE_64);
-+	whitelist_reg_ext(w, _MMIO(0x4500),
-+			  RING_FORCE_TO_NONPRIV_DENY |
-+			  RING_FORCE_TO_NONPRIV_RANGE_64);
-+}
-+
-+static void pvc_whitelist_build(struct intel_engine_cs *engine)
-+{
-+	allow_read_ctx_timestamp(engine);
-+
-+	/* Wa_16014440446:pvc */
-+	blacklist_trtt(engine);
-+}
-+
- void intel_engine_init_whitelist(struct intel_engine_cs *engine)
- {
- 	struct drm_i915_private *i915 = engine->i915;
-@@ -1931,7 +1961,9 @@ void intel_engine_init_whitelist(struct intel_engine_cs *engine)
- 
- 	wa_init_start(w, "whitelist", engine->name);
- 
--	if (IS_DG2(i915))
-+	if (IS_PONTEVECCHIO(i915))
-+		pvc_whitelist_build(engine);
-+	else if (IS_DG2(i915))
- 		dg2_whitelist_build(engine);
- 	else if (IS_XEHPSDV(i915))
- 		xehpsdv_whitelist_build(engine);
-@@ -2041,9 +2073,6 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 	struct drm_i915_private *i915 = engine->i915;
- 
- 	if (IS_DG2(i915)) {
--		/* Wa_14015227452:dg2 */
--		wa_masked_en(wal, GEN9_ROW_CHICKEN4, XEHP_DIS_BBL_SYSPIPE);
--
- 		/* Wa_1509235366:dg2 */
- 		wa_write_or(wal, GEN12_GAMCNTRL_CTRL, INVALIDATION_BROADCAST_MODE_DIS |
- 			    GLOBAL_INVALIDATION_MODE);
-@@ -2611,6 +2640,15 @@ xcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 	}
- }
- 
-+static void
-+ccs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
-+{
-+	if (IS_PVC_CT_STEP(engine->i915, STEP_A0, STEP_C0)) {
-+		/* Wa_14014999345:pvc */
-+		wa_masked_en(wal, GEN10_CACHE_MODE_SS, DISABLE_ECC);
-+	}
-+}
-+
- /*
-  * The workarounds in this function apply to shared registers in
-  * the general render reset domain that aren't tied to a
-@@ -2657,8 +2695,11 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
- 				GLOBAL_INVALIDATION_MODE);
- 	}
- 
--	if (IS_DG2(i915)) {
--		/* Wa_22014226127:dg2 */
-+	if (IS_DG2(i915) || IS_PONTEVECCHIO(i915)) {
-+		/* Wa_14015227452:dg2,pvc */
-+		wa_masked_en(wal, GEN9_ROW_CHICKEN4, XEHP_DIS_BBL_SYSPIPE);
-+
-+		/* Wa_22014226127:dg2,pvc */
- 		wa_write_or(wal, LSC_CHICKEN_BIT_0, DISABLE_D8_D16_COASLESCE);
- 	}
- }
-@@ -2679,7 +2720,9 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
- 	if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE)
- 		general_render_compute_wa_init(engine, wal);
- 
--	if (engine->class == RENDER_CLASS)
-+	if (engine->class == COMPUTE_CLASS)
-+		ccs_engine_wa_init(engine, wal);
-+	else if (engine->class == RENDER_CLASS)
- 		rcs_engine_wa_init(engine, wal);
- 	else
- 		xcs_engine_wa_init(engine, wal);
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index 42db41c8e3b3..7a3f023d39e9 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -7526,6 +7526,17 @@ static void dg2_init_clock_gating(struct drm_i915_private *i915)
- 				 SGR_DIS | SGGI_DIS);
- }
- 
-+static void pvc_init_clock_gating(struct drm_i915_private *dev_priv)
-+{
-+	/* Wa_14012385139:pvc */
-+	if (IS_PVC_BD_STEP(dev_priv, STEP_A0, STEP_B0))
-+		intel_uncore_rmw(&dev_priv->uncore, XEHP_CLOCK_GATE_DIS, 0, SGR_DIS);
-+
-+	/* Wa_22010954014:pvc */
-+	if (IS_PVC_BD_STEP(dev_priv, STEP_A0, STEP_B0))
-+		intel_uncore_rmw(&dev_priv->uncore, XEHP_CLOCK_GATE_DIS, 0, SGSI_SIDECLK_DIS);
-+}
-+
- static void cnp_init_clock_gating(struct drm_i915_private *dev_priv)
- {
- 	if (!HAS_PCH_CNP(dev_priv))
-@@ -7942,6 +7953,7 @@ static const struct drm_i915_clock_gating_funcs platform##_clock_gating_funcs =
- 	.init_clock_gating = platform##_init_clock_gating,		\
- }
- 
-+CG_FUNCS(pvc);
- CG_FUNCS(dg2);
- CG_FUNCS(xehpsdv);
- CG_FUNCS(adlp);
-@@ -7980,7 +7992,9 @@ CG_FUNCS(nop);
-  */
- void intel_init_clock_gating_hooks(struct drm_i915_private *dev_priv)
- {
--	if (IS_DG2(dev_priv))
-+	if (IS_PONTEVECCHIO(dev_priv))
-+		dev_priv->clock_gating_funcs = &pvc_clock_gating_funcs;
-+	else if (IS_DG2(dev_priv))
- 		dev_priv->clock_gating_funcs = &dg2_clock_gating_funcs;
- 	else if (IS_XEHPSDV(dev_priv))
- 		dev_priv->clock_gating_funcs = &xehpsdv_clock_gating_funcs;
+> ---
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 21 +++++--------------
+>  1 file changed, 5 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index b279588c0672..c326bd2b444f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -492,27 +492,16 @@ eb_unreserve_vma(struct eb_vma *ev)
+>  	ev->flags &= ~__EXEC_OBJECT_RESERVED;
+>  }
+>  
+> -static bool platform_has_relocs_enabled(const struct i915_execbuffer *eb)
+> -{
+> -	/*
+> -	 * Relocations are disallowed starting from gen12 with Tigerlake
+> -	 * as an exception. To unblock CI, we are temporarily allowing it
+> -	 * for Rocketlake and Alderlake.
+> -	 */
+> -	if (GRAPHICS_VER(eb->i915) < 12 || IS_TIGERLAKE(eb->i915) ||
+> -	    IS_ROCKETLAKE(eb->i915) || IS_ALDERLAKE_S(eb->i915) ||
+> -	    IS_ALDERLAKE_P(eb->i915))
+> -		return true;
+> -
+> -	return false;
+> -}
+> -
+>  static int
+>  eb_validate_vma(struct i915_execbuffer *eb,
+>  		struct drm_i915_gem_exec_object2 *entry,
+>  		struct i915_vma *vma)
+>  {
+> -	if (entry->relocation_count && !platform_has_relocs_enabled(eb))
+> +	/* Relocations are disallowed for all platforms after TGL-LP.  This
+> +	 * also covers all platforms with local memory.
+> +	 */
+> +	if (entry->relocation_count &&
+> +	    GRAPHICS_VER(eb->i915) >= 12 && !IS_TIGERLAKE(eb->i915))
+>  		return -EINVAL;
+>  
+>  	if (unlikely(entry->flags & eb->invalid_flags))
+> -- 
+> 2.36.1
+> 
+
 -- 
-2.35.3
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
