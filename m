@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE73536687
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 19:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C730536700
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 20:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D47DB10E090;
-	Fri, 27 May 2022 17:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 558B410E198;
+	Fri, 27 May 2022 18:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4027C10E090;
- Fri, 27 May 2022 17:23:37 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- cs3-20020a17090af50300b001e0808b5838so4919950pjb.1; 
- Fri, 27 May 2022 10:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YY3IoyZFp/BwhNMVSMZRFp4gxgsaRvLLtyLrygtSwvg=;
- b=LMEqIzPhVuILqTqSu/V53/iwh7+emAhi6EP4B9inXZnH/3WjlMrUgFDTNerBCFGv9e
- o9nTy/6Y0Jl2qpbuieyBiP5y/Cb5WYdvIIsiIBbECuLoh+U8UUrNY2fCy2f6Y/+8ER1b
- fw0X6xnUEFjkLbhkAS0CIe5OCHQmhtTOgkJG8U9whDOB83yqKfVmIY/gGioZRz8wzN0l
- FlnWZsoYjzLAdxfaKQhQNOK43H5Fi5pYllg937TZCcHvDjsxdiELWSB2THbVv2frcz6p
- ce3kWVz4HlsRZXfk3lxKU0ix4rlFZcRy+yKefQHHmChxSu0VJgMH7/zHM9gk75crBFm1
- Vt3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YY3IoyZFp/BwhNMVSMZRFp4gxgsaRvLLtyLrygtSwvg=;
- b=J+Llrb6QyxITS+ENas0DLWqRc5+O2Y/2o0x0uVemAWcfQ/AF27Zd7sw+LIR8X5GUaT
- P4hd1bFSSLbv+nHK3VgYaRZjgVDpzBnau85fsfKUpHSwqSp5BUdUdCNBLxP0LNf7vCG4
- xSc66REOZC7CQAsbHhy0Qg9/Ou35mzU1OzV4FgIbb6HyrCgU4scz7qwEoAgs8wuwUNqN
- YuK8mOxBU8Sus4vUOZD6cJWJzOrya+oyHqLmfbze5liyn7ByKtCvNkSAu3ArimeFBh/l
- nIsYxNlH5lewbgDTmR7s3QLYxkQcBEf5sB78aOwZ368OOmofcfIKUGgm3DfWWYPK613m
- NWFQ==
-X-Gm-Message-State: AOAM532KdSECNUcq0N757vA4m5sjUo6Bpjw8lFwh+nN8vxKDPK3ZukQs
- POiYdlXqv5gz820kBEkS/ageuIdjyRw=
-X-Google-Smtp-Source: ABdhPJznCAfmZY0ixAj2Yu27xibqHyPKUZxaLE82O0xTZYrZ6uR+EoCqezINMy7TQGOtvSaEluItnw==
-X-Received: by 2002:a17:90a:c90e:b0:1df:53ff:e149 with SMTP id
- v14-20020a17090ac90e00b001df53ffe149mr9303665pjt.210.1653672215967; 
- Fri, 27 May 2022 10:23:35 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- be3-20020a170902aa0300b001621cdf7172sm4076520plb.58.2022.05.27.10.23.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 May 2022 10:23:34 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/gem: Separate object and vma unpin
-Date: Fri, 27 May 2022 10:23:40 -0700
-Message-Id: <20220527172341.2151005-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.35.3
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 182C010E198;
+ Fri, 27 May 2022 18:42:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653676930; x=1685212930;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=h9irHQSQDKa4ZZ/PvMKpfPKceflYbQuqSyljaWS1FR8=;
+ b=cOA6zfA/UVq2ZlmumtVQ5bUhkHmmNoOR5uVmOwm+5i/ycxfAcI+MQhyK
+ 02SNkQPQP3Sf05p+2jteyy1JwJr75pkXMwJUtmhpW+4AHWB98lnjdPBol
+ WLqwxPsmumMI3MdKiBnuG+G7ldCNdOGcMCLVpnoUnaVvH6X3PPUi0xKT+
+ 0HykPZmEmpFgbEJjFcS+HXNEur6J9hcYlFaJeFXMHOim5dnee8OC0JTRr
+ 4ry6w8q1D/DtFtI97oyjKwBy1uKhrFiVQxAfcirVLAbDdaO+DhUPD2080
+ I/nny3kdHoLS+TsFiZ6tkL5bhitdK6FlcQwB7LaWltHTD5k9W5Gv0Jd8U w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10360"; a="335202304"
+X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; d="scan'208";a="335202304"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 11:42:06 -0700
+X-IronPort-AV: E=Sophos;i="5.91,256,1647327600"; d="scan'208";a="528248425"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2022 11:42:06 -0700
+Date: Fri, 27 May 2022 11:42:05 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/dg2: Catch and log more unexpected values in
+ DG1_MSTR_TILE_INTR
+Message-ID: <YpEbfVS5y+yYUddP@mdroper-desk1.amr.corp.intel.com>
+References: <20220524094339.1692212-1-tvrtko.ursulin@linux.intel.com>
+ <Yo0bBxHBH8cZcnN4@mdroper-desk1.amr.corp.intel.com>
+ <f37468b3-1066-ee4b-fb5b-7664fd180fd6@linux.intel.com>
+ <Yo5v7/pLw4eF8xxw@mdroper-desk1.amr.corp.intel.com>
+ <53ebd108-c9db-0673-f2c8-5a237dbf354a@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53ebd108-c9db-0673-f2c8-5a237dbf354a@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,165 +61,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Thu, May 26, 2022 at 11:18:17AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 25/05/2022 19:05, Matt Roper wrote:
+> > On Wed, May 25, 2022 at 05:03:13PM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 24/05/2022 18:51, Matt Roper wrote:
+> > > > On Tue, May 24, 2022 at 10:43:39AM +0100, Tvrtko Ursulin wrote:
+> > > > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > > 
+> > > > > Catch and log any garbage in the register, including no tiles marked, or
+> > > > > multiple tiles marked.
+> > > > > 
+> > > > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > > > > ---
+> > > > > We caught garbage in DG1_MSTR_TILE_INTR with DG2 (actual value 0xF9D2C008)
+> > > > > during glmark and more badness. So I thought lets log all possible failure
+> > > > > modes from here and also use per device logging.
+> > > > > ---
+> > > > >    drivers/gpu/drm/i915/i915_irq.c | 33 ++++++++++++++++++++++-----------
+> > > > >    drivers/gpu/drm/i915/i915_reg.h |  1 +
+> > > > >    2 files changed, 23 insertions(+), 11 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> > > > > index 73cebc6aa650..79853d3fc1ed 100644
+> > > > > --- a/drivers/gpu/drm/i915/i915_irq.c
+> > > > > +++ b/drivers/gpu/drm/i915/i915_irq.c
+> > > > > @@ -2778,24 +2778,30 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
+> > > > >    	u32 gu_misc_iir;
+> > > > >    	if (!intel_irqs_enabled(i915))
+> > > > > -		return IRQ_NONE;
+> > > > > +		goto none;
+> > > > >    	master_tile_ctl = dg1_master_intr_disable(regs);
+> > > > > -	if (!master_tile_ctl) {
+> > > > > -		dg1_master_intr_enable(regs);
+> > > > > -		return IRQ_NONE;
+> > > > > +	if (!master_tile_ctl)
+> > > > > +		goto enable_none;
+> > > > > +
+> > > > > +	if (master_tile_ctl & ~(DG1_MSTR_IRQ | DG1_MSTR_TILE_MASK)) {
+> > > > > +		drm_warn(&i915->drm, "Garbage in master_tile_ctl: 0x%08x!\n",
+> > > > > +			 master_tile_ctl);
+> > > > 
+> > > > I know we have a bunch of them already, but shouldn't we be avoiding
+> > > > printk-based stuff like this inside interrupt handlers?  Should we be
+> > > > migrating all these error messages over to trace_printk or something
+> > > > similar that's safer to use?
+> > > 
+> > > Not sure - I kind of think some really unexpected and worrying situations
+> > > should be loud and on by default. Risk is then spam if not ratelimited.
+> > > Maybe we should instead ratelimit most errors/warnings coming for irq
+> > > handlers?
+> > 
+> > It's not the risk of spam that's the problem, but rather that
+> > printk-based stuff eventually calls into the console code to flush its
+> > buffers.  That's way more overhead than you want in an interrupt handler
+> > so it's bad on its own, but if you're using something slow like a serial
+> > console, it becomes even more of a problem.
+> 
+> Is it a problem for messages which we never expect to see?
 
-Previously the BO_PINNED state in the submit was tracking two related
-but different things: (1) that the buffer object was pinned, and (2)
-that the vma (mapping within a set of pagetables) was pinned.  But with
-fenced vma unpin (needed so that userspace couldn't race with retire
-path for releasing a vma) these two were decoupled.  The fact that the
-BO_PINNED flag was already cleared meant that we leaked the bo pin count
-which should have been dropped when the submit was retired.
+Kind of.  While not as catastrophic, it's the same argument for why we
+don't use BUG() anymore...when the impossible does manage to happen
+there's unnecessary collateral damage on things outside of graphics.  If
+we're adding huge delays inside an interrupt handler (while other
+interrupts are disabled) that impacts the system-wide usability, not
+just our own driver.
 
-So split this state into BO_OBJ_PINNED and BO_VMA_PINNED, so they can be
-dropped independently.
+I'd also argue that these messages actually are semi-expected.  Random
+bits being set shouldn't happen, but in the world of dgpu's, we do
+occasionally see cases where the PCI link itself goes down for reasons
+outside our control and then all registers read back as 0xFFFFFFFF,
+which will probably trigger error messages here (as well as a bunch of
+other places).
 
-Fixes: 95d1deb02a9c ("drm/msm/gem: Add fenced vma unpin")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gem.c        |  7 +++----
- drivers/gpu/drm/msm/msm_gem.h        | 11 ++++++-----
- drivers/gpu/drm/msm/msm_gem_submit.c | 18 ++++++++++++------
- drivers/gpu/drm/msm/msm_ringbuffer.c |  2 +-
- 4 files changed, 22 insertions(+), 16 deletions(-)
+> 
+> > While the unexpected bits in the master tile register are strange and
+> > may point to a bigger problem somewhere else, they're also harmless on
+> > their own since we should just ignore those bits and only process the
+> > valid tiles.
+> 
+> Yes, I was expecting that a patch belonging to multi-tile enablement would
+> be incoming soon, which would be changing:
+> 
+> +	if (REG_FIELD_GET(DG1_MSTR_TILE_MASK, master_tile_ctl) !=
+> +	    DG1_MSTR_TILE(0)) {
+> +		drm_warn(&i915->drm, "Unexpected irq from tile %u!\n",
+> +			 ilog2(REG_FIELD_GET(DG1_MSTR_TILE_MASK,
+> +					     master_tile_ctl)));
+> +		goto enable_none;
+>  	}
+> 
+> From this patch, into something completely different like walking bit by
+> bit, handling the present tiles, and warning on unexpected ones. What should
+> remain though is warning on no tiles signaled (which what we saw, together
+> with garbage in reserved bits).
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 52fe6428a341..916e7f418fe1 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -439,14 +439,12 @@ int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma)
- 	return ret;
- }
- 
--void msm_gem_unpin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma)
-+void msm_gem_unpin_locked(struct drm_gem_object *obj)
- {
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 
- 	GEM_WARN_ON(!msm_gem_is_locked(obj));
- 
--	msm_gem_unpin_vma(vma);
--
- 	msm_obj->pin_count--;
- 	GEM_WARN_ON(msm_obj->pin_count < 0);
- 
-@@ -586,7 +584,8 @@ void msm_gem_unpin_iova(struct drm_gem_object *obj,
- 	msm_gem_lock(obj);
- 	vma = lookup_vma(obj, aspace);
- 	if (!GEM_WARN_ON(!vma)) {
--		msm_gem_unpin_vma_locked(obj, vma);
-+		msm_gem_unpin_vma(vma);
-+		msm_gem_unpin_locked(obj);
- 	}
- 	msm_gem_unlock(obj);
- }
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index c75d3b879a53..6b7d5bb3b575 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -145,7 +145,7 @@ struct msm_gem_object {
- 
- uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
- int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma);
--void msm_gem_unpin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma);
-+void msm_gem_unpin_locked(struct drm_gem_object *obj);
- struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
- 					   struct msm_gem_address_space *aspace);
- int msm_gem_get_iova(struct drm_gem_object *obj,
-@@ -377,10 +377,11 @@ struct msm_gem_submit {
- 	} *cmd;  /* array of size nr_cmds */
- 	struct {
- /* make sure these don't conflict w/ MSM_SUBMIT_BO_x */
--#define BO_VALID    0x8000   /* is current addr in cmdstream correct/valid? */
--#define BO_LOCKED   0x4000   /* obj lock is held */
--#define BO_ACTIVE   0x2000   /* active refcnt is held */
--#define BO_PINNED   0x1000   /* obj is pinned and on active list */
-+#define BO_VALID	0x8000	/* is current addr in cmdstream correct/valid? */
-+#define BO_LOCKED	0x4000	/* obj lock is held */
-+#define BO_ACTIVE	0x2000	/* active refcnt is held */
-+#define BO_OBJ_PINNED	0x1000	/* obj (pages) is pinned and on active list */
-+#define BO_VMA_PINNED	0x0800	/* vma (virtual address) is pinned */
- 		uint32_t flags;
- 		union {
- 			struct msm_gem_object *obj;
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 9cd8c8708990..286124008445 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -232,8 +232,11 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
- 	 */
- 	submit->bos[i].flags &= ~cleanup_flags;
- 
--	if (flags & BO_PINNED)
--		msm_gem_unpin_vma_locked(obj, submit->bos[i].vma);
-+	if (flags & BO_VMA_PINNED)
-+		msm_gem_unpin_vma(submit->bos[i].vma);
-+
-+	if (flags & BO_OBJ_PINNED)
-+		msm_gem_unpin_locked(obj);
- 
- 	if (flags & BO_ACTIVE)
- 		msm_gem_active_put(obj);
-@@ -244,7 +247,9 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
- 
- static void submit_unlock_unpin_bo(struct msm_gem_submit *submit, int i)
- {
--	submit_cleanup_bo(submit, i, BO_PINNED | BO_ACTIVE | BO_LOCKED);
-+	unsigned cleanup_flags = BO_VMA_PINNED | BO_OBJ_PINNED |
-+				 BO_ACTIVE | BO_LOCKED;
-+	submit_cleanup_bo(submit, i, cleanup_flags);
- 
- 	if (!(submit->bos[i].flags & BO_VALID))
- 		submit->bos[i].iova = 0;
-@@ -377,7 +382,7 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
- 		if (ret)
- 			break;
- 
--		submit->bos[i].flags |= BO_PINNED;
-+		submit->bos[i].flags |= BO_OBJ_PINNED | BO_VMA_PINNED;
- 		submit->bos[i].vma = vma;
- 
- 		if (vma->iova == submit->bos[i].iova) {
-@@ -511,7 +516,7 @@ static void submit_cleanup(struct msm_gem_submit *submit, bool error)
- 	unsigned i;
- 
- 	if (error)
--		cleanup_flags |= BO_PINNED | BO_ACTIVE;
-+		cleanup_flags |= BO_VMA_PINNED | BO_OBJ_PINNED | BO_ACTIVE;
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
-@@ -529,7 +534,8 @@ void msm_submit_retire(struct msm_gem_submit *submit)
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 
- 		msm_gem_lock(obj);
--		submit_cleanup_bo(submit, i, BO_PINNED | BO_ACTIVE);
-+		/* Note, VMA already fence-unpinned before submit: */
-+		submit_cleanup_bo(submit, i, BO_OBJ_PINNED | BO_ACTIVE);
- 		msm_gem_unlock(obj);
- 		drm_gem_object_put(obj);
- 	}
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 43066320ff8c..56eecb4a72dc 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -25,7 +25,7 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
- 
- 		msm_gem_lock(obj);
- 		msm_gem_unpin_vma_fenced(submit->bos[i].vma, fctx);
--		submit->bos[i].flags &= ~BO_PINNED;
-+		submit->bos[i].flags &= ~BO_VMA_PINNED;
- 		msm_gem_unlock(obj);
- 	}
- 
+Yeah.  Although I still feel the interrupt handler should really just be
+flagging the errors so that the actual prints themselves can happen
+outside the interrupt.
+
+> 
+> > > In this particular case at least DRM_ERROR with no device info is the odd
+> > > one out in the entire file so I'd suggest changing at least that, if the
+> > > rest of my changes is of questionable benefit.
+> > 
+> > Changing DRM_ERROR -> drm_err would probably be fine in the short term
+> > since it doesn't really make us any worse off.  Changing to drm_warn
+> > might not be great since we're generating a lot more lines of output and
+> 
+> Sorry I don't follow - why does replacing drm_err with drm_warn generate (a
+> lot) more lines of output?
+
+Sorry, my mistake; I had it in my mind that we were talking about a
+drm_WARN_ON rather than just drm_warn (i.e., including a big stacktrace
+and such).  DRM_ERROR -> drm_warn alone shouldn't have any extra
+negative impact.
+
+> 
+> But it can be drm_err for all I care, I don't think we really have
+> consistent story between errors and warnings in this area.
+> 
+> > probably multiplying the already bad overhead that shouldn't be
+> > happening in an interrupt handler.  But if we could update the interrupt
+> > handler to just save away the details and do the actual drm_warn later,
+> > outside the interrupt handler code, that would be okay.  We should
+> > probably work toward something like that for all of our interrupt
+> > handler warning/error messages.
+> 
+> Not sure I agree - for messages which we don't expect to see it doesn't
+> really matter that there will be overhead when they are hit. Presumably bad
+> things are already happening there so spending effort to optimise those path
+> is questionable.
+
+Something bad is happening to graphics is we hit one of these cases.
+But if we start doing prints while interrupts are disabled, we start
+having more of a negative impact on the rest of the system too.
+
+
+Matt
+
+> 
+> Regards,
+> 
+> Tvrtko
+
 -- 
-2.35.3
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
