@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C7B53583A
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 06:19:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA12F53583F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 06:22:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E08C10E7D0;
-	Fri, 27 May 2022 04:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700F510E8D5;
+	Fri, 27 May 2022 04:22:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com
- [203.205.221.239])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE1810E7D0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 04:19:17 +0000 (UTC)
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com
+ [162.62.57.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1CDA10E8D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 04:22:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1653625155; bh=klKsYD1Nj6hWz9O3S8o23IuwwKAdUpwpOif9gA33l4U=;
+ t=1653625369; bh=lVrj+B/OXD3/d9PND/gW3vEGIbfEhk331+xQfhE35V8=;
  h=From:To:Cc:Subject:Date;
- b=jrN+eUBffdBnnm1uH8RcfPjPGbByjtIAUxh1ABZJrAKNugqlm7dN52LncXZg68qJt
- r4wpx1XQE5oi2SAewL9M6sHGdnPCBIMukhD7vsXIGTXejUn8/dqGCC96pv9m4EtRur
- xDM+vZiVCC2H8MbHzlmDZHzhqlVOePwR7BP8yVEo=
+ b=j4/Ug1qrtu8dVDwKpE2DXjI0OPx7yG3p3TPxVUJNY2Xu0ofMvTY6Wlo+EWbxuj+x0
+ x5ejsstnzvtwus/RBqPCdT1Rj/bT51AIqgvzwrCC0qckb5cPN/pqWfeKFZ0TecIkIL
+ jAtRoFubYBRU6sTtbahyatkkknGo1uPgVghaB/nU=
 Received: from localhost.localdomain ([116.128.244.169])
  by newxmesmtplogicsvrszc7.qq.com (NewEsmtp) with SMTP
- id 4CE074DA; Fri, 27 May 2022 12:19:14 +0800
-X-QQ-mid: xmsmtpt1653625154tvoimzcqd
-Message-ID: <tencent_40358B3D828B40AC0C4848516113CAB4BF05@qq.com>
-X-QQ-XMAILINFO: NiDupExshEc7gdT0P42cVWnG1f2vuyL6AXgJG6TdCMU4IU+0kvNcK9aQAI8/Dt
- piV/o/aTN3zFns5aTN+D+QzPlagTbNDYogz52uoSw2j00XYKH5WXbPOOM7ha4LaUPXFS31wNhjWp
- HVdq28pz9WSSO5NO5n//vZCM1zgCssZTyczrrXMVG+fDTz6SLotf0rubY02rZFgs9TOGi4XrqXY8
- fATuvgXxin2VLywWYOVqldORE1o10vFYPrwn/BPj6g21O3LxTBYF5eakbJzfan/DL+CGfu71hn/9
- OHl1Ttutu7o1PG8VPXawFX8RQhDvVhz/9WcCbzNVhMcYUW9TZkQwU7O8PvitdSD74rYY68gXXHEm
- j8NozEbv1vJALcBvUtD9RpCcjtgAmdJuZTWzIHJWiQgLb8d0qmpYT9bYVk+Rx8FB94WfhC46wakL
- iwSXe7Q+MF34CW+LEo/UdNULwLsmeTlz16JgkoP+wYJOtNY83PSscs9IfV4a/2f2oCOIPQ1LJRle
- cf95xnZQ3MCIeozsn+koLCcAbPe/rNGCxx7EnU6O+8+heySDgwS18lVOkbWg07HpHjeG8R9XbUkb
- IxR2fX5OdbwQLgtAdOZFjl6dNXiD60Yd5IRyzUvUx0UHZhp+ZhLR9pW4yLh9ZxSHCwOtzxVcfJ8p
- Eal/T2cz5vejY2WciMI8gEmP0b74PcQWbBZLiZC8gQJnNw4SEjIqTol/FxPJLOQi5PJG97nVhPfL
- 7ifgPYa6r16UuFWAfDy0dPYAP2kdGxXf3oojjvm27+lGPxfOx/RRAkvT6A4N525oJasmVR9PvG0X
- PDjgEwuZsagwekFBujfRfVBk2CwqIs8VgHexHSOtdL6txynB+8gw4/TyhHEmq5WzFkNQBH9j8Gt9
- sC9v/ed1l8FqHoUYJ3/KRF5XjVoyqyDg==
+ id 5AEBC498; Fri, 27 May 2022 12:22:46 +0800
+X-QQ-mid: xmsmtpt1653625366tnj5gygud
+Message-ID: <tencent_655C23622640268A069B49A6A5ADDEECB508@qq.com>
+X-QQ-XMAILINFO: MK5U7QanZrCwqCwSYwSirFlzWFG5zIgOyTkGd65Vft9mgbp5DdonQm/3PwkaOP
+ SYRJX5dTFxkoCB5E+yvhAumKkQtTuTrmfQQVwBXCfZn53K40Kv8JjrnXeGvf/oF7nB8yupW++14c
+ ppWtWH4CpwhrJAn6gA0fTV5sda3SjqQTDYeMRjI0Y9QKNzQzmwfYlOnXgU/JqwuiJaXSt6MO977W
+ ATXoarLSv43QYqrXqdjaV4CDmejRWHMpDaTPLv0j8Q0kylSNC+KjWVwwcRIZRJm6Kf89hEnz+zH7
+ 1TMLyJOWfienc5irCgKeFcOACRisOURYrUCr2v9yKQ6ODRaJbk5eEpL/APumk0bjdT0Yl3AGBW70
+ RLEMR94FW4EZi9NnFRK4EqmLuO3zr7C0BODS4D0J6j10vLQHbDq7R9K3NocEjT4tY0DPD/Y3fNhV
+ 83wOqwUGWTpxHr0TOY6dldb2y8af8iWpljVEJ6oYCL/DaiGMYWqokFg7p4iGBZAhSiO5GxGdF+xz
+ za/T/QSFHo5HWjFKy7kWYYqMlZuwB9XPAUapZGAIQzTEn9cm1ZkUCC9Oyq8O0OaM1Iu+kIUEND7S
+ pV3lT9UDIFROtrgEcYdbKIFKbbxtrhNlDeTrILQaS6WTDVGwOCUqoLxSNDXalQCwromacjY9mZyH
+ /99BbTYgD+OQFSAMPD/nQufvHCkEWi/JSe4lALIJARnCMLBh2nsIYD/8DrIkpt8HaN0sV7a2kt5J
+ PEAufnqL8ETZy7aKqwaYDKQAS4KgA/W7BWaL8fzMpqOWYCV1KVgmQ1xwJQQHFO9gLmrLA5YdpI8I
+ cX3FeJE/Qk2gMM7QDKeec2pGnRcBDjvhEmTJ4lhWLdgzWG+LsIlOnG5rXMwMSazQGdxmPlX4HFlh
+ JAHPG2MTlAvgavR3VroC8ALqu4SAckpToqm8stTgtC7eXfvNj4WkFXYYlo3RhI1A==
 From: 1064094935@qq.com
-To: David Airlie <airlied@linux.ie>
-Subject: [PATCH 4/5] drm/mga: Fix spelling typo in comment
-Date: Fri, 27 May 2022 12:18:42 +0800
-X-OQ-MSGID: <20220527041842.1205071-1-1064094935@qq.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Subject: [PATCH 5/5] drm/nouveau: Fix spelling typo in comments
+Date: Fri, 27 May 2022 12:22:24 +0800
+X-OQ-MSGID: <20220527042224.1205232-1-1064094935@qq.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,34 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pengfuyuan <pengfuyuan@kylinos.cn>, k2ci <kernel-bot@kylinos.cn>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, pengfuyuan <pengfuyuan@kylinos.cn>,
+ k2ci <kernel-bot@kylinos.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: pengfuyuan <pengfuyuan@kylinos.cn>
 
-Fix spelling typo in comment.
+Fix spelling typo in comments.
 
 Reported-by: k2ci <kernel-bot@kylinos.cn>
 Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
 ---
- drivers/gpu/drm/mga/mga_state.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/include/nvhw/drf.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mga/mga_state.c b/drivers/gpu/drm/mga/mga_state.c
-index 5b7247b58451..023e0cf12ef2 100644
---- a/drivers/gpu/drm/mga/mga_state.c
-+++ b/drivers/gpu/drm/mga/mga_state.c
-@@ -712,7 +712,7 @@ static void mga_dma_dispatch_indices(struct drm_device *dev, struct drm_buf *buf
- 	FLUSH_DMA();
- }
+diff --git a/drivers/gpu/drm/nouveau/include/nvhw/drf.h b/drivers/gpu/drm/nouveau/include/nvhw/drf.h
+index bd0fc41446e2..d6969c0e2f29 100644
+--- a/drivers/gpu/drm/nouveau/include/nvhw/drf.h
++++ b/drivers/gpu/drm/nouveau/include/nvhw/drf.h
+@@ -190,7 +190,7 @@
+ #define DRF_MD_(X,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,IMPL,...) IMPL
+ #define DRF_MD(A...) DRF_MD_(X, ##A, DRF_MD_I, DRF_MD_N)(X, ##A)
  
--/* This copies a 64 byte aligned agp region to the frambuffer with a
-+/* This copies a 64 byte aligned agp region to the framebuffer with a
-  * standard blit, the ioctl needs to do checking.
-  */
- static void mga_dma_dispatch_iload(struct drm_device *dev, struct drm_buf *buf,
+-/* Helper for testing against field value in aribtrary object */
++/* Helper for testing against field value in arbitrary object */
+ #define DRF_TV_N(X,e,p,o,d,r,  f,cmp,v)                                          \
+ 	NVVAL_TEST_X(DRF_RD_X(e, (p), (o), d##_##r   ), d##_##r##_##f, cmp, (v))
+ #define DRF_TV_I(X,e,p,o,d,r,i,f,cmp,v)                                          \
+@@ -198,7 +198,7 @@
+ #define DRF_TV_(X,_1,_2,_3,_4,_5,_6,_7,_8,_9,IMPL,...) IMPL
+ #define DRF_TV(A...) DRF_TV_(X, ##A, DRF_TV_I, DRF_TV_N)(X, ##A)
+ 
+-/* Helper for testing against field definition in aribtrary object */
++/* Helper for testing against field definition in arbitrary object */
+ #define DRF_TD_N(X,e,p,o,d,r,  f,cmp,v)                                                          \
+ 	NVVAL_TEST_X(DRF_RD_X(e, (p), (o), d##_##r   ), d##_##r##_##f, cmp, d##_##r##_##f##_##v)
+ #define DRF_TD_I(X,e,p,o,d,r,i,f,cmp,v)                                                          \
 -- 
 2.25.1
 
