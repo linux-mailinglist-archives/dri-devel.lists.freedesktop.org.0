@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2A1535815
-	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 05:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301C0535816
+	for <lists+dri-devel@lfdr.de>; Fri, 27 May 2022 05:42:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74C4910F080;
-	Fri, 27 May 2022 03:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C51410F10F;
+	Fri, 27 May 2022 03:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com
- [162.62.57.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2214D10F080
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 03:39:31 +0000 (UTC)
+X-Greylist: delayed 79272 seconds by postgrey-1.36 at gabe;
+ Fri, 27 May 2022 03:42:05 UTC
+Received: from out203-205-251-27.mail.qq.com (out203-205-251-27.mail.qq.com
+ [203.205.251.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F8210F10D
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 03:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1653622767; bh=VgYCARJCxZ73I3FQzoEKx0mY8qF/+EnWnCaE7wWATmo=;
+ t=1653622921; bh=Tc5FCCZeEqnBcWCXDPJXsXDMs5vSLuP0zWO089nqAJU=;
  h=From:To:Cc:Subject:Date;
- b=TAP2w7BTx04xGKL+2y4L6/SMGGvLjceNoJLU+bN1lZuT+qLKYaUeaQglEToewAsvJ
- +J1SPbMjIIh2lOWrZn+DIjLmxzxgC45Cf9OBhD8CfqJhxmDXXKcfWZUC3ltge80wUY
- ui/lbaOpN6MLn0CSiRz3VGNYPRcys7drT91xmTSM=
+ b=NoNXzFbEq10EuTx01p2AMoqZCbQVJRbVBFweOgPniT3vNc37Mh8Ic5poV+5Zq0+k8
+ sb859inOPS1pSw33XNm5IBS+cjPSKFfrwOMMOs9ZhiPBh9acI0LR3ok5WTLW7zaOsP
+ 6EG76LqNv2k+lvILxTV2Qw4uQCMHDdOHTIE58Vjc=
 Received: from localhost.localdomain ([116.128.244.169])
- by newxmesmtplogicsvrsza7.qq.com (NewEsmtp) with SMTP
- id 9D8B2C65; Fri, 27 May 2022 11:39:24 +0800
-X-QQ-mid: xmsmtpt1653622764tvua4nhxo
-Message-ID: <tencent_3F6C6B27BB06D7A05825908262DBE693E906@qq.com>
-X-QQ-XMAILINFO: NnBlO8MsmACrj+nUmOY9ByB4oR0mQf7Dia0yKDkARyALSSm3N2z0WJoEzqZ6HT
- Z0Ukhc460xxdCzuWq/Yvi6FX3ykXNiCF6l7yY1wWhM3zMpFcnPWHzKywSImf6elflyuJzK0WSovt
- eYnBXYpAvUG4D4tsBeK+zLxl8m865Wk5L+rQE0idWJTktJ+ONqQNY94MgRvs0rhU7P0TfhSoWWWK
- 0/EDduAstGiXl7tn4fGQh0JOFwq7DkR4Wxg+9B/bcZQhQyGivNruMql/bHpwSVsURmD2i0Yfd/4t
- QUYW0tCVCiGVTCq7WBNEE4CBmwEqs98yBPDmsJYz+CV9fIR7PkMSQDW2IenxdX3eJVAqRc37aHr+
- qtko4riFAP0GdyaRdQruz5TUf3hfmoGriCK+hWO6+ZjjNFCQZRO/tsIPXwYQxBoQOvlRYsRIbmdh
- mBjIwY5D7Ov7loI76iLMo4ooDjA2b27RAaHX21VkF6167gG5UYthOZZOSRqOhpYwFWBcvuI+RWJR
- /Rb9ofUY5zoVV3HlqT+rBP1yNdlnHawiH2p/4FDjVnR32HMgl4XBCWF2dBTuWXbEa/cZs5PZa3AW
- yYA72uMS6JNqtyZCWLBlMHJEY8YdFixhYXdQ9CH/NkOAZOHdfSrguuj5Ho6lo76v+aDwLxlqXrmu
- GmmJLhrnJd6XLdktmfZQpQsNQw6MSZGctNhuE8FfCG0vDwzkGj6hmQguYrUDkjE3rGslh66AV2u3
- u+S8c2DR3tROTGG+DRA5y2rX6ccHMk/zGuK14uqghxaKrHFNkv2SnTsqjDWmSZN4xEcLuIGfLGtZ
- SxJdYKwMaJZJqa6lLvL0eW1faByIywk0jrmrmUohPTPgsaLckuRK9bNpCCXz7eCzCkzpEvKwLhBA
- ==
+ by newxmesmtplogicsvrszc11.qq.com (NewEsmtp) with SMTP
+ id A7B238B7; Fri, 27 May 2022 11:41:59 +0800
+X-QQ-mid: xmsmtpt1653622919t6sdv0cgn
+Message-ID: <tencent_E15665F62AAE22B108A00645874D3F53CF07@qq.com>
+X-QQ-XMAILINFO: MyIXMys/8kCthJDN0SBEBaisZTrDtJZ/56QhrCr/sHDqn7jyMNc93yfePA0xUA
+ QczYeHFkTXGXNgFgl4aKEP1eMiBeyO4w5//84v/Sqy2HmMN1A5OJr7Nq4BCz40J0dKF1IqPqR/Qt
+ e4uERjmX9qnKsuA0FmA5Co/L4f1Ejyd7gg2xuZGaxlxT6lv6B39ngzaUdnQyKC/EJvfVD7r4FRV0
+ Y08RbilgNA/uOCBEU+WxyzQSoAGVzLcLYNHt+aMiE1UaOVhsD6IvuxCRQbJcjgsAXnwciCI0KVLi
+ WFz3Gm26vXypj5jUt07iBI/SatRrBb+IdRGG1Ck60Dmq7QB7SAOnXqm8qDtqoerjKDXtaHLrP6tW
+ 7N6gBFycmbLgfYgPHFAE3Ycg/4ZowG3aNXy5bRCQxH1sI8TH3lFnS9InzG3CPdwpl67atPxa5YiN
+ TopoC5Rc4592SEVm6+3NJ0HhIH9HGvpFT7SpqM0qZP491thMH9DVhWRv2jF0m+nw8Ls4R1YPVM9G
+ ydeWhfa1AKpA8I0+xnGBGTA5aOKEyX+tfUJGaSOLdS/sK+F6S64i0yzHtZzzBHIAgfgLIeU45+L9
+ lm3DrFiZ9UQdqD2llJBEmco4XGuXCfCbc0pv7VjFG4Pi7yLmLqruSIYBfgyKvx3oQL4yQWRQDC2e
+ z1PEQrM17JGLwRA/KGSjRO6yrMmtL74gqH972c4OVvQOnCT5NhotK6DVsD7N0YLZdFeNJZ+yFguk
+ RVkW6Hjdm7MY09EXNVPWe0TYWKgDNVQpjcD/bHHjaoMpZjoG4KdtCnwL6YaVCZ2L0ilaUURsoscg
+ n3KOZJJdstlCJD+n8ITlBpn1dB9vfx2XTjcJGpO5xBER+HyTcGnVGJfVVEEBVr3TFHFQz0MRHN38
+ UEc5biYdkqeQ1Yw8HH4GBD1lFswOPupg==
 From: 1064094935@qq.com
-To: James Wang <james.qian.wang@arm.com>
-Subject: [PATCH 1/5] drm/arm: Fix spelling typo in comments
-Date: Fri, 27 May 2022 11:39:03 +0800
-X-OQ-MSGID: <20220527033903.1203791-1-1064094935@qq.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 2/5] drm/gma500: Fix spelling typo in comment
+Date: Fri, 27 May 2022 11:41:47 +0800
+X-OQ-MSGID: <20220527034147.1203944-1-1064094935@qq.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -57,50 +59,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- pengfuyuan <pengfuyuan@kylinos.cn>,
- Mihail Atanassov <mihail.atanassov@arm.com>, k2ci <kernel-bot@kylinos.cn>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, pengfuyuan <pengfuyuan@kylinos.cn>,
+ k2ci <kernel-bot@kylinos.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: pengfuyuan <pengfuyuan@kylinos.cn>
 
-Fix spelling typo in comments.
+Fix spelling typo in comment.
 
 Reported-by: k2ci <kernel-bot@kylinos.cn>
 Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c | 2 +-
- drivers/gpu/drm/arm/malidp_regs.h                          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-index e672b9cffee3..3276a3e82c62 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
-@@ -1271,7 +1271,7 @@ int komeda_release_unclaimed_resources(struct komeda_pipeline *pipe,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h b/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h
+index 600e79744d68..7efbd7c45c90 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h
++++ b/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h
+@@ -371,7 +371,7 @@ struct psb_intel_sdvo_tv_format {
  
--/* Since standalong disabled components must be disabled separately and in the
-+/* Since standalone disabled components must be disabled separately and in the
-  * last, So a complete disable operation may needs to call pipeline_disable
-  * twice (two phase disabling).
-  * Phase 1: disable the common components, flush it.
-diff --git a/drivers/gpu/drm/arm/malidp_regs.h b/drivers/gpu/drm/arm/malidp_regs.h
-index 514c50dcb74d..59f63cc2b304 100644
---- a/drivers/gpu/drm/arm/malidp_regs.h
-+++ b/drivers/gpu/drm/arm/malidp_regs.h
-@@ -145,7 +145,7 @@
- #define     MALIDP_SE_COEFFTAB_DATA_MASK	0x3fff
- #define     MALIDP_SE_SET_COEFFTAB_DATA(x) \
- 		((x) & MALIDP_SE_COEFFTAB_DATA_MASK)
--/* Enhance coeffents reigster offset */
-+/* Enhance coeffents register offset */
- #define MALIDP_SE_IMAGE_ENH			0x3C
- /* ENH_LIMITS offset 0x0 */
- #define     MALIDP_SE_ENH_LOW_LEVEL		24
+ #define SDVO_CMD_SET_TV_FORMAT				0x29
+ 
+-/** Returns the resolutiosn that can be used with the given TV format */
++/** Returns the resolution that can be used with the given TV format */
+ #define SDVO_CMD_GET_SDTV_RESOLUTION_SUPPORT		0x83
+ struct psb_intel_sdvo_sdtv_resolution_request {
+     unsigned int ntsc_m:1;
 -- 
 2.25.1
 
