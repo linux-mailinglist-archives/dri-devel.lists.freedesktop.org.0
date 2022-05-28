@@ -1,64 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BB1536DF4
-	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 19:28:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEEC536DFD
+	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 19:41:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 162E610E0A6;
-	Sat, 28 May 2022 17:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B78D10E2F9;
+	Sat, 28 May 2022 17:41:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC16889875
- for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 17:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1653758903;
- bh=lR1SmAw3TFZ2GVQGx6Xrltu1975YzeKIyfCgmu3IbmI=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=TwY7VeAEA96tsQkihp6Y53kt7fF5IFdDfZK0kJxOBVZ3BN2JoTOn2gxG+EPBXayd0
- 1TwauGiZ+ZSWnFHxazRzYiuBm8Wp4/7b3LubTm90l5WpGZl8Em0bmA6eslfp46oUzy
- YonBZifAugCbrq9EgfOvRT9SQtNkdIyKqODPRRa0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.176.6]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryXN-1nRjkI0V9B-00nyNC; Sat, 28
- May 2022 19:28:23 +0200
-Message-ID: <90a293d4-698f-5c9a-9435-3a26ea0ae97f@gmx.de>
-Date: Sat, 28 May 2022 19:28:08 +0200
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77D4910E2F9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 17:41:20 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id me2so982703ejb.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 10:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pP5sQR3QwXNtypqdUBNCTZlpu49d035rXCG+jxDoA2s=;
+ b=Z70GBvzBscFi3wczPp/1gBU54OJpVhVtHdRLTSfj2K/6zYlVoev9uCuNVqs5HUSD6f
+ AxHO+J2LAuG3MqxfhY3/pQ1sdLe7lXw7Q1xxXU6eXyGm/7Xyqf/1CmirEGCn6tq8hsj1
+ FuIAAeHZ2rF1M229MhVKggd35Tg9CBjRlQDRo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pP5sQR3QwXNtypqdUBNCTZlpu49d035rXCG+jxDoA2s=;
+ b=vdtMCGNVFx2+Mz37px+oyWB42rkWSl4wBcExilnCeUB6XuUi1x+X/nSUoK3sroMsLR
+ /jMPV/1U523C+Nvvx24sHlFVcJXeJcFtIUQ79B9+YUhiUOp1hAfykFim4P35UJ/c+cB3
+ ZpMT6NkJx6a0XFAvuykZI3+LiF9i0EBb8EyqLEtmbhgxBu0Cv4OueMv4U/JIC4/Vcz15
+ i8jp5kVsYkimzElalxzS3/ZOoqoK4Lm74xrRW6O9f3Tbsm2pKCBa+aW5QyfS2frI5NYi
+ 5HQgXjilaA9kEl9aKIo7kF+c5JRW2BrIrLQlE3nMj7llqLZFlFsIYQkrNdTSfPI4cNHF
+ rqqA==
+X-Gm-Message-State: AOAM533bqEu41wyDWzjslHIf16vQTLIfOPAVNeqSovGKZhy/fp6naaYy
+ rqiia1zxDKCw9et6134K1VYAoYxX6sHydMVe
+X-Google-Smtp-Source: ABdhPJx31oKXIQ5DNgRhgGR/alLwHjoz1YKqSFvSrRd2OaUQ/3s27ZII1/DHf1J5oUiUREFB/oSNTg==
+X-Received: by 2002:a17:907:7246:b0:6ff:241f:200a with SMTP id
+ ds6-20020a170907724600b006ff241f200amr11873498ejc.543.1653759678782; 
+ Sat, 28 May 2022 10:41:18 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54]) by smtp.gmail.com with ESMTPSA id
+ i20-20020a17090639d400b006fec1a73e48sm2510635eje.64.2022.05.28.10.41.16
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 28 May 2022 10:41:16 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id v17so5436634wrv.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 10:41:16 -0700 (PDT)
+X-Received: by 2002:adf:dcc5:0:b0:210:1f95:c5d0 with SMTP id
+ x5-20020adfdcc5000000b002101f95c5d0mr5490672wrm.97.1653759675983; Sat, 28 May
+ 2022 10:41:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] fbdev: vesafb: Fix a use-after-free due early fb_info
- cleanup
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20220526194752.307192-1-javierm@redhat.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220526194752.307192-1-javierm@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Q/afMmrV6TEcA8Ald4h2sa2uBYvXhgfWAKP3dhZtZKDXuX7L5bR
- 7U8+ZHdeYUwdMiakb0VwOYuClbKKl+haWFBSOYmF+SHHED0qpI0GIqLlrUB0RXSFWtrqhTb
- AkERe7Q+TtAfR5JiIGY4CIOfm1wpUd4Ipilwn4bw331ESA1gn2Hyv3EYZgRMgmYDnN0B/kz
- dL+IkvX24bMKe5Hhl+kdQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XqlM8cU89UE=:eTOTT44CHSOooba+fOdkyo
- y1MrLZk9ZF2hFIn2zAV64IipZRcch4TDAmcOQt1UnVDoWfg8AlPW7kQyvq5Mb0gcIb7YTmMb+
- Ln6ECUlnPq6IjylwUES9rrADlRUQrT8TxSUSTLlfppRpi/I1tEWt1UIgPkQj3qKiyBDp0T2cW
- pVPFSD+DWm3PhsvpO1MKsvFNuQyNzj5SE9NYvrhnZMTSXCWEREmugIRmXUXV5N8HXsgFx+1by
- 0vLeeaxz1f9yPwz8CNloOIkA8JGoGYDg0nc3ih94KY2nQqw99TwbRy5Qv8iL6wqu6C2gRFaqg
- g5U3IMGg/uDbjSmr+IMTOU6PB22HmuyLFAjMPTfCNKOYfXUjX7Iq50hAN+LYQhPunEIwxK+qr
- fmqigX0CR00JfCnzuQYt+EFZo7Kt00ocWT2prVauDK4heXV4gwJtzcSVkyy4tKIwYs1LXTIHy
- NBMByrSq6ZBIYXVmCyvzobNlk8yQ8Edznm5TG19y+B7C3W/mogQAdbSvpl2rWLhuaZMIvnzZQ
- d90hIfQeIHW3iU4UUwfQxkTvmKBQSaHgIeAfYG9fqWPL3qC1pHnNNIdc0QQ/EWXTdoxz2O/cA
- vwJHUPPsHbBHNbZ14vv1OAOPZEoSHnawhbLrQDkbAEL43nM0ZWeoSd7MjsgSbxe33DhVDPfcA
- FVwFhff+sw0KW9pyjcLj2n2bssGVitMJ/8PnASUnAaS4uW6DPyLCBBziIRhexGjAx6+r90zfJ
- BPW1qpm6QsDSDLMA5k7eZ30AWoWbJAPFPnZW/Z84HZ5TKNN2LvsF48abqc7EdxxFlbo2v1psQ
- qLU8Pv+vleI3K0geCzXBa33Y/nQK1T8UmMfPLpun4LWaH9J66oMwuSMOO1JmUrLp5+5u7lAY5
- dszI+2Z36wvyMgor8SOD2QfU2JvAh3jYYFkdDNtjy/RMFuaGcDCEkJQaQxVvMl26N3jMBGAyn
- xAI7dWt09WCE7bmZPWqmXRjZ4RGnBPKrTjIMSpIgk40wdhpLe9Z3fr32/HAsOs9q8X9Ga7siv
- NNUnlntJml8yv33RX450oCMkteJrBGzYkUvSqFnKSllLwHNuPpGc1JF8Ahn1iw1HXDlB6jkQe
- dk+elHRX383UtQQk6OeBRavSUqvawhcFUufJ7Htlgz07/c9V6b5L258Zw==
+References: <YpCUzStDnSgQLNFN@debian>
+ <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
+ <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
+ <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
+ <YpIR67FMtTGCwARZ@debian>
+In-Reply-To: <YpIR67FMtTGCwARZ@debian>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 28 May 2022 10:40:59 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjuyHE=1wLgHncub8FfgeyYqfWYsy4-YrhAvq9991h_Aw@mail.gmail.com>
+Message-ID: <CAHk-=wjuyHE=1wLgHncub8FfgeyYqfWYsy4-YrhAvq9991h_Aw@mail.gmail.com>
+Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
+ block count and size helpers")
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,73 +77,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Pascal Ernster <dri-devel@hardfalcon.net>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/26/22 21:47, Javier Martinez Canillas wrote:
-> Commit b3c9a924aab6 ("fbdev: vesafb: Cleanup fb_info in .fb_destroy rath=
-er
-> than .remove") fixed a use-after-free error due the vesafb driver freein=
-g
-> the fb_info in the .remove handler instead of doing it in .fb_destroy.
+On Sat, May 28, 2022 at 5:13 AM Sudip Mukherjee
+<sudipm.mukherjee@gmail.com> wrote:
 >
-> This can happen if the .fb_destroy callback is executed after the .remov=
-e
-> callback, since the former tries to access a pointer freed by the latter=
-.
+> just tried this with
+> make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- drivers/gpu/drm/drm_edid.s
 >
-> But that change didn't take into account that another possible scenario =
-is
-> that .fb_destroy is called before the .remove callback. For example, if =
-no
-> process has the fbdev chardev opened by the time the driver is removed.
->
-> If that's the case, fb_info will be freed when unregister_framebuffer() =
-is
-> called, making the fb_info pointer accessed in vesafb_remove() after tha=
-t
-> to no longer be valid.
->
-> To prevent that, move the expression containing the info->par to happen
-> before the unregister_framebuffer() function call.
->
-> Fixes: b3c9a924aab6 ("fbdev: vesafb: Cleanup fb_info in .fb_destroy rath=
-er than .remove")
-> Reported-by: Pascal Ernster <dri-devel@hardfalcon.net>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> size_of_edid:
+>         mov     r0, #144        @,
+>         ldmfd   sp, {fp, sp, pc}        @
 
-applied to the fbdev git tree.
+So digging a bit deeper - since I have am arm compiler after all - I
+note that 'sizeof(detailed_timings)' is 88.
 
-Thanks!
-Helge
+Which is completely wrong. It should be 72 bytes (an array of 4
+structures, each 18 bytes in size).
 
+I have not dug deeper, but that is clearly the issue.
 
-> ---
->
->  drivers/video/fbdev/vesafb.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
-> index e25e8de5ff67..929d4775cb4b 100644
-> --- a/drivers/video/fbdev/vesafb.c
-> +++ b/drivers/video/fbdev/vesafb.c
-> @@ -490,11 +490,12 @@ static int vesafb_remove(struct platform_device *p=
-dev)
->  {
->  	struct fb_info *info =3D platform_get_drvdata(pdev);
->
-> -	/* vesafb_destroy takes care of info cleanup */
-> -	unregister_framebuffer(info);
->  	if (((struct vesafb_par *)(info->par))->region)
->  		release_region(0x3c0, 32);
->
-> +	/* vesafb_destroy takes care of info cleanup */
-> +	unregister_framebuffer(info);
-> +
->  	return 0;
->  }
->
+Now, why that only happens on that spear3xx_defconfig, I have no idea.
 
+             Linus
