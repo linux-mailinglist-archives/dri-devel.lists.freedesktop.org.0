@@ -1,51 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926AD536E97
-	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 23:29:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 079C8536ED6
+	for <lists+dri-devel@lfdr.de>; Sun, 29 May 2022 01:52:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E21F10F6B4;
-	Sat, 28 May 2022 21:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3776C10E1FC;
+	Sat, 28 May 2022 23:52:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0621410F6B4;
- Sat, 28 May 2022 21:29:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653773345; x=1685309345;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=rNpCc7WSe3ferawQYDypuSLt/chEhlgLqj2SCSPJvd8=;
- b=al6crfqN1St5MDdGLKp6yF9gPu6cJUeplNUEKSssoeDh7DvVKIECEeuN
- TyV8hs9iZG1y2xXAdsqo81e0YC8xCzmo5X25K28IhF3i9v0YMRgeuKp9m
- eTDFy+s4Nudvaa41KCWtD96vQSHJS2eCfcHindRqG1DN8sOOKFhKqrbX4
- L1/WvZCCw/tVlx1MIimw46uS61dyEJGZEzV3FpGOpR613oxfd1r5BrUgX
- IatPwOMeXLwbORz1DCbVSZeqV6feePc7iGwo6uWNxUaO/3KD3bVWdqnlG
- iFhxbATfAWYqwDqQAdOQeteCbwZj5MZQW+mtoV2LwHvW8ZZwM1+2ieIoX Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10361"; a="256784263"
-X-IronPort-AV: E=Sophos;i="5.91,259,1647327600"; d="scan'208";a="256784263"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2022 14:29:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,259,1647327600"; d="scan'208";a="561419741"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 28 May 2022 14:28:59 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nv3zW-0000Xw-UY;
- Sat, 28 May 2022 21:28:58 +0000
-Date: Sun, 29 May 2022 05:28:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- d3fde8ff50ab265749704bd7fbcf70d35235421f
-Message-ID: <62929407.W5RRq61c3EX0H7F2%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A49410E418
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 23:52:21 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id p8so7468304pfh.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 16:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fireburn-co-uk.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Nufpgj4WrVDOY3pDZhjA4ff1zW3gqCcbtHnisr85ZyY=;
+ b=s0JQFCLPbNMyIAn/e51czi5dJtQ+dUeQ2gvMOdGi6tS2NgbI49v0VsbB+PAc82PIw4
+ nQgco7a3P8lLmLsPJVHQB9E71kRVsqug5ma+EM8qIxBCmqM5oXD0la1ELVD8Ulz9yzYD
+ VnKBV+KJK4jypCIAVWQzOmVG3LmFDIfNR0MMDEAYR08xOW2QMX5qesJKm+Uf7E+hDduJ
+ Pcq6QlB4Uf3I3qy3ztboQvxZyfMrKJlj5Wkqq0ktf4k6Tb6JaWrwXSkA7p1mhDXONON0
+ BKFL3A0ImJ/Y1TRYh8tL8JqKGqc4ToS/epezYxWCjZbGqwgXt9zYfGPYU3c0uyilt+qo
+ 9ZfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Nufpgj4WrVDOY3pDZhjA4ff1zW3gqCcbtHnisr85ZyY=;
+ b=vpSPSwTS5QvaMEtIEV2bn5Qr2ym2kKtWT9nNdL1ohWgrOTA5ZQPIi0Viz5UN11h1Pr
+ LFZIsy0NeA+5SBjTFhKQt6NlPRn1gewXi7uazviRD6u1PK/ZIvzZpJAdRiqqOwTilGMI
+ m3rzkJMGcYfG0f1xsBVRCLFINL9oUopr6yZi4tNOi3jJ3Ces6Ffie/ihlMCYSKGg/C3M
+ z2OMk1mMLGgB1+YeWP4vjS2+X69Bl3Tu+PyGYpVyLBYjqWx4y8R9c6myNGOQKMtqCTKE
+ 2V9cWNnECv8pujDyE2hHD4M6sONg9pA5LTaAQzWpOSiW2R6YNIaoTLeBvCUAeU6oCTZC
+ SHtw==
+X-Gm-Message-State: AOAM532HU+0wNzKhGiZ1U/vP6ghKhPeFRkWFbz9TBjSml6dHwLZD4HS0
+ aVJ6BnYtQs1HmIsQ2fE0KwRfpAQwkjjVkez9JEuAqQ==
+X-Google-Smtp-Source: ABdhPJyUehceXYDZKshl8AFUK3x2Dnnl2LNGICbZeEaV/YzFZUoSDJRYF36aS3WgW9cUC8wLZHJcUOJztjxi9ebdfEw=
+X-Received: by 2002:a63:d747:0:b0:3db:74a9:ff92 with SMTP id
+ w7-20020a63d747000000b003db74a9ff92mr43048483pgi.293.1653781940899; Sat, 28
+ May 2022 16:52:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20220407054651.3924-1-Arunpravin.PaneerSelvam@amd.com>
+ <CAHbf0-H5uE4RtZwY0L8Wz0VG6QnU1+E3yhg3fDFVc3n__=nrNQ@mail.gmail.com>
+ <c0facbf4-0e14-fde5-4334-499135a36f0c@amd.com>
+ <CAHbf0-FMqAA3vWx_uRDYG_vr=FX+tFoLAL6BZLDe5upv7KJqrg@mail.gmail.com>
+ <CAHbf0-En606VT_HYDyeo6TtsfSZmR_+wsZaVgS4XiedLO9ndiA@mail.gmail.com>
+ <8b99ca20-f711-ec32-0cd2-16fc52846ce0@amd.com>
+ <CAHbf0-EzPP5gAyZQmxeAo3Ep0g-rO4XbDgEB_SdsR84xY+at9A@mail.gmail.com>
+ <CAHbf0-G-rnvNXaXxMzkPerW6h=9vkxJyysUUV-oJV5UGD67KqA@mail.gmail.com>
+ <CADnq5_PTRPTsCvGwKFzNA_k7diAVqYEv1xV1yJszRD1K-v2FfQ@mail.gmail.com>
+ <MN2PR12MB43425B6EC07A7F6877B884C7E4DB9@MN2PR12MB4342.namprd12.prod.outlook.com>
+In-Reply-To: <MN2PR12MB43425B6EC07A7F6877B884C7E4DB9@MN2PR12MB4342.namprd12.prod.outlook.com>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Sun, 29 May 2022 00:52:09 +0100
+Message-ID: <CAHbf0-G8Qgv-uKHBYxhv=SLUv7-z4gzjMziN_x+oAobTrqW0PQ@mail.gmail.com>
+Subject: Re: [PATCH v12] drm/amdgpu: add drm buddy support to amdgpu
+To: "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,558 +74,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-input@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-parport@lists.infradead.org, kvm@vger.kernel.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
- bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: d3fde8ff50ab265749704bd7fbcf70d35235421f  Add linux-next specific files for 20220527
+On Sat, 28 May 2022 at 08:44, Paneer Selvam, Arunpravin
+<Arunpravin.PaneerSelvam@amd.com> wrote:
+>
+> [Public]
+>
+> Hi,
+>
+> After investigating quite some time on this issue, found freeze problem i=
+s not with the amdgpu part of buddy allocator patch as the patch doesn=E2=
+=80=99t throw any issues when applied separately on top of the stable base =
+of drm-next. After digging more into this issue, the below patch seems to b=
+e the cause of this problem,
+>
+> drm/ttm: rework bulk move handling v5
+> https://cgit.freedesktop.org/drm/drm/commit/?id=3Dfee2ede155423b0f7a55905=
+0a39750b98fe9db69
+>
+> when this patch applied on top of the stable (working version) of drm-nex=
+t without buddy allocator patch, we can see multiple issues listed below, e=
+ach thrown randomly at every GravityMark run, 1. general protection fault a=
+t ttm_lru_bulk_move_tail() 2. NULL pointer deference at ttm_lru_bulk_move_t=
+ail() 3. NULL pointer deference at ttm_resource_init().
+>
+> Regards,
+> Arun.
 
-Error/Warning reports:
+Thanks for tracking it down, fee2ede155423b0f7a559050a39750b98fe9db69
+isn't trivial to revert
 
-https://lore.kernel.org/linux-mm/202205031017.4TwMan3l-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205150051.3RzuooAG-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205150117.sd6HzBVm-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205211550.ifuEnz5n-lkp@intel.com
-https://lore.kernel.org/linux-mm/202205281607.E8GoKzmW-lkp@intel.com
-https://lore.kernel.org/lkml/202205100617.5UUm3Uet-lkp@intel.com
-https://lore.kernel.org/llvm/202205060132.uhqyUx1l-lkp@intel.com
-https://lore.kernel.org/llvm/202205110148.mrGBBmTn-lkp@intel.com
-https://lore.kernel.org/llvm/202205141122.qihFGUem-lkp@intel.com
-https://lore.kernel.org/llvm/202205280829.utNOVd5s-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-WARNING: modpost: vmlinux.o(.text.unlikely+0x11f90): Section mismatch in reference from the function find_next_bit() to the variable .init.rodata:__setup_str_initcall_blacklist
-drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:130:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_7_ppt.c:1407:12: warning: stack frame size (1040) exceeds limit (1024) in 'smu_v13_0_7_get_power_profile_mode' [-Wframe-larger-than]
-drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:1986:6: warning: no previous prototype for function 'gfx_v11_0_rlc_stop' [-Wmissing-prototypes]
-drivers/gpu/drm/solomon/ssd130x-spi.c:154:35: warning: 'ssd130x_spi_table' defined but not used [-Wunused-const-variable=]
-drivers/video/fbdev/omap/hwa742.c:492:5: warning: no previous prototype for 'hwa742_update_window_async' [-Wmissing-prototypes]
-fs/buffer.c:2254:5: warning: stack frame size (2144) exceeds limit (1024) in 'block_read_full_folio' [-Wframe-larger-than]
-fs/ntfs/aops.c:378:12: warning: stack frame size (2216) exceeds limit (1024) in 'ntfs_read_folio' [-Wframe-larger-than]
-kernel/trace/fgraph.c:37:12: warning: no previous prototype for 'ftrace_enable_ftrace_graph_caller' [-Wmissing-prototypes]
-kernel/trace/fgraph.c:46:12: warning: no previous prototype for 'ftrace_disable_ftrace_graph_caller' [-Wmissing-prototypes]
-llvm-objcopy: error: invalid output format: 'elf64-s390'
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-.__mulsi3.o.cmd: No such file or directory
-<inline asm>:27:6: error: expected assembly-time absolute expression
-Makefile:686: arch/h8300/Makefile: No such file or directory
-arch/Kconfig:10: can't open file "arch/h8300/Kconfig"
-arch/riscv/include/asm/pgtable-64.h:109:2: error: expected assembly-time absolute expression
-arch/riscv/kernel/cpufeature.c:292:6: warning: variable 'cpu_apply_feature' set but not used [-Wunused-but-set-variable]
-arch/riscv/purgatory/kexec-purgatory.c:1860:9: sparse: sparse: trying to concatenate 29720-character string (8191 bytes max)
-drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1133 amdgpu_discovery_reg_base_init() error: testing array offset 'adev->vcn.num_vcn_inst' after use.
-drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c:129:6: warning: no previous prototype for function 'amdgpu_ucode_print_imu_hdr' [-Wmissing-prototypes]
-drivers/gpu/drm/bridge/adv7511/adv7511.h:229:17: warning: 'ADV7511_REG_CEC_RX_FRAME_HDR' defined but not used [-Wunused-const-variable=]
-drivers/gpu/drm/bridge/adv7511/adv7511.h:235:17: warning: 'ADV7511_REG_CEC_RX_FRAME_LEN' defined but not used [-Wunused-const-variable=]
-drivers/iio/accel/bma400_core.c:1056:3: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubious: x & !y
-drivers/input/joystick/sensehat-joystick.c:102:2-9: line 102 is redundant because platform_get_irq() already prints an error
-drivers/input/misc/iqs7222.c:2418:9-34: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
-drivers/misc/cardreader/rts5261.c:406:13: warning: variable 'setting_reg2' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-drivers/pinctrl/stm32/pinctrl-stm32.c:294:24: warning: Value stored to 'pctl' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-drivers/rpmsg/rpmsg_core.c:607:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-drivers/staging/rtl8723bs/hal/hal_btcoex.c:1182:30: warning: variable 'pHalData' set but not used [-Wunused-but-set-variable]
-drivers/staging/vt6655/card.c:758:16: sparse: sparse: cast to restricted __le64
-drivers/ufs/host/tc-dwc-g210-pltfrm.c:36:34: warning: unused variable 'tc_dwc_g210_pltfm_match' [-Wunused-const-variable]
-include/linux/workqueue.h:610:2: warning: call to __warn_flushing_systemwide_wq declared with 'warning' attribute: Please avoid flushing system-wide workqueues. [-Wattribute-warning]
-include/linux/workqueue.h:610:9: warning: call to '__warn_flushing_systemwide_wq' declared with attribute warning: Please avoid flushing system-wide workqueues. [-Wattribute-warning]
-kernel/bpf/helpers.c:1490:29: sparse: sparse: symbol 'bpf_dynptr_from_mem_proto' was not declared. Should it be static?
-kernel/bpf/helpers.c:1516:29: sparse: sparse: symbol 'bpf_dynptr_read_proto' was not declared. Should it be static?
-kernel/bpf/helpers.c:1542:29: sparse: sparse: symbol 'bpf_dynptr_write_proto' was not declared. Should it be static?
-kernel/bpf/helpers.c:1569:29: sparse: sparse: symbol 'bpf_dynptr_data_proto' was not declared. Should it be static?
-ld.lld: warning: call to __warn_flushing_systemwide_wq marked "dontcall-warn": Please avoid flushing system-wide workqueues.
-make[1]: *** No rule to make target 'arch/h8300/Makefile'.
-powerpc64-linux-ld: drivers/gpu/drm/display/drm_dp_helper.o:arch/powerpc/include/asm/paca.h:286: multiple definition of `____cacheline_aligned'; drivers/gpu/drm/display/drm_dp_dual_mode_helper.o:arch/powerpc/include/asm/paca.h:286: first defined here
-powerpc64-linux-ld: drivers/ufs/core/ufs-sysfs.o:arch/powerpc/include/asm/paca.h:286: multiple definition of `____cacheline_aligned'; drivers/ufs/core/ufshcd.o:arch/powerpc/include/asm/paca.h:286: first defined here
-riscv64-linux-ld: arch/riscv/kernel/compat_syscall_table.o:(.rodata+0x6f8): undefined reference to `compat_sys_fadvise64_64'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arc-randconfig-m031-20220524
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c-amdgpu_discovery_reg_base_init()-error:testing-array-offset-adev-vcn.num_vcn_inst-after-use.
-|-- arc-randconfig-s031-20220527
-|   `-- drivers-misc-lkdtm-cfi.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
-|-- arm-allmodconfig
-|   |-- arch-arm-mach-omap2-dma.c:Unneeded-variable:errata-Return-on-line
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- arm-allyesconfig
-|   |-- arch-arm-mach-omap2-dma.c:Unneeded-variable:errata-Return-on-line
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- arm64-allmodconfig
-|   |-- arch-arm64-kernel-signal.c:sparse:sparse:dereference-of-noderef-expression
-|   |-- arch-arm64-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-user_ctxs-noderef-__user-user-got-struct-user_ctxs
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-stackleak.c:sparse:sparse:symbol-stackleak_erase_off_task_stack-was-not-declared.-Should-it-be-static
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kernel-signal.c:sparse:sparse:dereference-of-noderef-expression
-|   |-- arch-arm64-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-user_ctxs-noderef-__user-user-got-struct-user_ctxs
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-stackleak.c:sparse:sparse:symbol-stackleak_erase_off_task_stack-was-not-declared.-Should-it-be-static
-|-- arm64-randconfig-r012-20220526
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- arm64-randconfig-r016-20220524
-|   |-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_disable_ftrace_graph_caller
-|   `-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_enable_ftrace_graph_caller
-|-- csky-allyesconfig
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- csky-randconfig-r013-20220524
-|   |-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_disable_ftrace_graph_caller
-|   `-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_enable_ftrace_graph_caller
-|-- csky-randconfig-s032-20220524
-|   `-- drivers-vfio-pci-vfio_pci_config.c:sparse:sparse:restricted-pci_power_t-degrades-to-integer
-|-- h8300-allmodconfig
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-allyesconfig
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-buildonly-randconfig-r004-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-p002-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r005-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r006-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r011-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r012-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r015-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r015-20220526
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- h8300-randconfig-r025-20220524
-|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
-|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
-|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
-|-- i386-allmodconfig
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   |-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- i386-debian-10.3-kselftests
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- i386-randconfig-a005
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- i386-randconfig-a012
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-a014
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-a016
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-c001
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- i386-randconfig-c021
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|-- i386-randconfig-s001
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|-- i386-randconfig-s002
-|   `-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|-- ia64-allyesconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- m68k-allmodconfig
-|   |-- drivers-block-paride-bpck.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-comm.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-dstr.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-epat.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-epia.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-friq.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-frpw.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-kbic.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-on26.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-block-paride-ppc6lnx.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-aio_aio12_8.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-das16m1.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-ni_at_ao.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-comedi-drivers-ni_daq_700.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-net-ethernet-apne.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-net-ethernet-xircom-xirc2ps_cs.c:sparse:sparse:cast-to-restricted-__le16
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- drivers-tty-ipwireless-hardware.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le16-usertype-raw_data-got-int
-|   |-- drivers-tty-ipwireless-hardware.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-unsigned-short-unused-usertype-__v-got-restricted-__le16-assigned-usertype-raw_data
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- microblaze-randconfig-r011-20220526
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- microblaze-randconfig-r013-20220529
-|   |-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_disable_ftrace_graph_caller
-|   `-- kernel-trace-fgraph.c:warning:no-previous-prototype-for-ftrace_enable_ftrace_graph_caller
-|-- mips-allmodconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- mips-allyesconfig
-|   |-- drivers-input-joystick-sensehat-joystick.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
-|   |-- drivers-input-misc-iqs7222.c:WARNING:Threaded-IRQ-with-no-primary-handler-requested-without-IRQF_ONESHOT-(unless-it-is-nested-IRQ)
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- nios2-allmodconfig
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- nios2-allyesconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- openrisc-randconfig-r015-20220524
-|   `-- __mulsi3.o.cmd:No-such-file-or-directory
-|-- openrisc-randconfig-r015-20220529
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- powerpc-allmodconfig
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- powerpc-allyesconfig
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- powerpc-randconfig-r015-20220524
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- powerpc64-randconfig-r011-20220526
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- powerpc64-randconfig-r023-20220526
-|   |-- multiple-definition-of-____cacheline_aligned-drivers-gpu-drm-display-drm_dp_dual_mode_helper.o:arch-powerpc-include-asm-paca.h:first-defined-here
-|   `-- multiple-definition-of-____cacheline_aligned-drivers-ufs-core-ufshcd.o:arch-powerpc-include-asm-paca.h:first-defined-here
-|-- riscv-allmodconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- riscv-allyesconfig
-|   |-- arch-riscv-kernel-machine_kexec.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-got-void-noderef-__user-buf
-|   |-- arch-riscv-purgatory-kexec-purgatory.c:sparse:sparse:trying-to-concatenate-character-string-(-bytes-max)
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-fork.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-atomic_t-usertype-lock-got-struct-atomic_t-noderef-__rcu
-|   `-- kernel-seccomp.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-atomic_t-usertype-lock-got-struct-atomic_t-noderef-__rcu
-|-- riscv-randconfig-r013-20220524
-|   `-- riscv64-linux-ld:arch-riscv-kernel-compat_syscall_table.o:(.rodata):undefined-reference-to-compat_sys_fadvise64_64
-|-- riscv-randconfig-r016-20220524
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- s390-allmodconfig
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- s390-allyesconfig
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- sh-allmodconfig
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- sparc-allmodconfig
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- sparc-allyesconfig
-|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
-|   |-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- x86_64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- x86_64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   |-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- x86_64-randconfig-a011
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- x86_64-randconfig-s021
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
-|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-lockdep_map-const-lock-got-struct-lockdep_map-noderef-__rcu
-|   `-- lib-iov_iter.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-p-got-void-noderef-__user-assigned-base
-|-- x86_64-randconfig-s022
-|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
-|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
-|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
-|-- x86_64-rhel-8.3-kselftests
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-|-- xtensa-randconfig-r016-20220526
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-attribute-warning:Please-avoid-flushing-system-wide-workqueues.
-`-- xtensa-randconfig-r036-20220524
-    `-- Section-mismatch-in-reference-from-the-function-find_next_bit()-to-the-variable-.init.rodata:str_initcall_blacklist
-
-clang_recent_errors
-|-- arm-randconfig-c002-20220524
-|   |-- drivers-iio-accel-bma400_core.c:warning:Assigned-value-is-garbage-or-undefined-clang-analyzer-core.uninitialized.Assign
-|   `-- drivers-pinctrl-stm32-pinctrl-stm32.c:warning:Value-stored-to-pctl-during-its-initialization-is-never-read-clang-analyzer-deadcode.DeadStores
-|-- arm-randconfig-c002-20220527
-|   `-- drivers-rpmsg-rpmsg_core.c:warning:Call-to-function-strcpy-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer.-Replace-unbounded-copy-functions-with-analogous-functions-that-support-leng
-|-- arm-randconfig-r013-20220524
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-warning-attribute:Please-avoid-flushing-system-wide-workqueues.
-|-- hexagon-randconfig-r033-20220529
-|   `-- drivers-ufs-host-tc-dwc-g210-pltfrm.c:warning:unused-variable-tc_dwc_g210_pltfm_match
-|-- hexagon-randconfig-r034-20220524
-|   |-- fs-buffer.c:warning:stack-frame-size-()-exceeds-limit-()-in-block_read_full_folio
-|   `-- fs-ntfs-aops.c:warning:stack-frame-size-()-exceeds-limit-()-in-ntfs_read_folio
-|-- i386-randconfig-a013
-|   |-- drivers-misc-cardreader-rts5261.c:warning:variable-setting_reg2-is-used-uninitialized-whenever-if-condition-is-false
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-warning-attribute:Please-avoid-flushing-system-wide-workqueues.
-|-- powerpc-randconfig-r033-20220526
-|   |-- drivers-gpu-drm-amd-amdgpu-..-pm-swsmu-smu13-smu_v13_0_7_ppt.c:warning:stack-frame-size-()-exceeds-limit-()-in-smu_v13_0_7_get_power_profile_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ucode.c:warning:no-previous-prototype-for-function-amdgpu_ucode_print_imu_hdr
-|   `-- drivers-gpu-drm-amd-amdgpu-gfx_v11_0.c:warning:no-previous-prototype-for-function-gfx_v11_0_rlc_stop
-|-- riscv-randconfig-c006-20220524
-|   |-- arch-riscv-include-asm-pgtable-.h:error:expected-assembly-time-absolute-expression
-|   `-- inline-asm:error:expected-assembly-time-absolute-expression
-|-- riscv-randconfig-r016-20220527
-|   `-- arch-riscv-kernel-cpufeature.c:warning:variable-cpu_apply_feature-set-but-not-used
-|-- riscv-randconfig-r042-20220527
-|   |-- arch-riscv-kernel-cpufeature.c:warning:variable-cpu_apply_feature-set-but-not-used
-|   |-- ld.lld:error:kernel-built-in.a(kallsyms.o):(function-get_symbol_offset:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_markers
-|   |-- ld.lld:error:kernel-built-in.a(kallsyms.o):(function-get_symbol_offset:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_names
-|   |-- ld.lld:error:kernel-built-in.a(kallsyms.o):(function-kallsyms_on_each_symbol:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_num_syms
-|   |-- ld.lld:error:kernel-built-in.a(kallsyms.o):(function-kallsyms_on_each_symbol:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_offsets
-|   `-- ld.lld:error:kernel-built-in.a(kallsyms.o):(function-kallsyms_on_each_symbol:.text):relocation-R_RISCV_PCREL_HI20-out-of-range:is-not-in-references-kallsyms_relative_base
-|-- s390-randconfig-r012-20220529
-|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ucode.c:warning:no-previous-prototype-for-function-amdgpu_ucode_print_imu_hdr
-|   |-- drivers-gpu-drm-amd-amdgpu-gfx_v11_0.c:warning:no-previous-prototype-for-function-gfx_v11_0_rlc_stop
-|   `-- llvm-objcopy:error:invalid-output-format:elf64-s390
-|-- s390-randconfig-r036-20220524
-|   `-- llvm-objcopy:error:invalid-output-format:elf64-s390
-|-- x86_64-randconfig-a014
-|   |-- drivers-misc-cardreader-rts5261.c:warning:variable-setting_reg2-is-used-uninitialized-whenever-if-condition-is-false
-|   `-- include-linux-workqueue.h:warning:call-to-__warn_flushing_systemwide_wq-declared-with-warning-attribute:Please-avoid-flushing-system-wide-workqueues.
-`-- x86_64-randconfig-c007
-    `-- ld.lld:warning:call-to-__warn_flushing_systemwide_wq-marked-dontcall-warn:Please-avoid-flushing-system-wide-workqueues.
-
-elapsed time: 2237m
-
-configs tested: 114
-configs skipped: 3
-
-gcc tested configs:
-arm                              allmodconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-ia64                             allmodconfig
-x86_64                           allyesconfig
-i386                             allyesconfig
-ia64                             allyesconfig
-riscv                            allyesconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-mips                             allmodconfig
-mips                             allyesconfig
-riscv                            allmodconfig
-m68k                             allyesconfig
-s390                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-m68k                             allmodconfig
-s390                             allyesconfig
-i386                          randconfig-c001
-sparc                            allyesconfig
-parisc                           allyesconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-nios2                            allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-mips                         db1xxx_defconfig
-arm                            mps2_defconfig
-arm                         assabet_defconfig
-sh                          polaris_defconfig
-powerpc                      pcm030_defconfig
-powerpc                     rainier_defconfig
-sh                           sh2007_defconfig
-openrisc                         alldefconfig
-sh                            titan_defconfig
-sh                           se7712_defconfig
-powerpc                   motionpro_defconfig
-nios2                         10m50_defconfig
-arm                            zeus_defconfig
-arm                          pxa910_defconfig
-sh                           se7780_defconfig
-mips                 decstation_r4k_defconfig
-arm                        trizeps4_defconfig
-s390                       zfcpdump_defconfig
-sh                            hp6xx_defconfig
-arm                  randconfig-c002-20220524
-ia64                                defconfig
-m68k                                defconfig
-nios2                               defconfig
-alpha                               defconfig
-csky                                defconfig
-arc                                 defconfig
-parisc                              defconfig
-parisc64                            defconfig
-s390                                defconfig
-sparc                               defconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                   debian-10.3-kselftests
-powerpc                           allnoconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-arc                  randconfig-r043-20220527
-riscv                randconfig-r042-20220524
-arc                  randconfig-r043-20220524
-s390                 randconfig-r044-20220524
-riscv                             allnoconfig
-riscv                    nommu_k210_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
-
-clang tested configs:
-powerpc                  mpc885_ads_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                      walnut_defconfig
-mips                           ip28_defconfig
-arm                     am200epdkit_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-a012
-i386                          randconfig-a013
-i386                          randconfig-a015
-i386                          randconfig-a011
-x86_64                        randconfig-a005
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-hexagon              randconfig-r045-20220524
-hexagon              randconfig-r041-20220527
-riscv                randconfig-r042-20220527
-hexagon              randconfig-r041-20220524
-s390                 randconfig-r044-20220527
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Hopefully Christian can figure it out
