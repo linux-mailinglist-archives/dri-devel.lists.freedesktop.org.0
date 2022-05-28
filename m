@@ -1,67 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BB0536CC7
-	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 14:13:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA85536D4E
+	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 16:35:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20F6310E039;
-	Sat, 28 May 2022 12:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45EEA10E07D;
+	Sat, 28 May 2022 14:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 344BB10E039
- for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 12:13:35 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- v4-20020a1cac04000000b00397001398c0so5913528wme.5
- for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 05:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=mNWkEQxztGAhGpLE9wPG3tVmhXvaKJfP7n8Uzm8Bfkw=;
- b=o9WofFj3GcLbd+k+AYKA1UTxb45ypSG2boO+2oiAK7SNNOQ/Ty0npbI0vcWkhRLHdb
- GjhopuD9/iRAftrX/lu1dQBlnkoTu8UKJJHc4Qf3IZ0j22MmsmA146pzgWNTi4VCgJAo
- FivfWqDdOjsjKfbTRNIuYtG4YjavKDSRP6LBjYxThm8Hxhly5mzKnmbabDoSb0RbGuvy
- 7L7j9LApPKZkQJUpgxuq1ZSW2d/pEvjhmNgUYWPO6FdEOn5gl8dOxZhniC45akGfvC5v
- 6ArW94J3e6eiq8+91roYXcGCC3XIJM940Ik03ScgLa4XkAv9nN4wInUA9vmuc0T0OSd5
- V+eQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D8D10E07D
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 14:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653748502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XE622bwRFQLXoWlWGwkx558rDBHwnMuHGZROqrwvbw4=;
+ b=DtQOkWwWVgh5By12XGOM70kcMF97uvxnCDuiQdatjTPipcPA0Y1BV1XSNX9J0SHxBt4sB6
+ kX0wN5pzPT3DULg0jqcuM34luY4EwwPd7i2eCyLwPKiMUZWAObUjJLJDhcTouxmEd+BBz4
+ 5DST17TSVOFVOhB3iDXwJ3SXS+aUIIc=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-152-bTxykjxsOYyY5EcVwpECyQ-1; Sat, 28 May 2022 10:34:48 -0400
+X-MC-Unique: bTxykjxsOYyY5EcVwpECyQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ c8-20020a05620a268800b0069c0f1b3206so5825567qkp.18
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 07:34:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mNWkEQxztGAhGpLE9wPG3tVmhXvaKJfP7n8Uzm8Bfkw=;
- b=3b3IsH4wvhTX0uXhfks9Sr3fWiFaPhWsM+ZLAR0iw3aAFB6mV0rAIQQ3E3kjHrEzap
- XFV2zN+xTJyF2539k8isWrT4vsG+jvw0y/5+UUadOaRpSuNekwAlRY+QwkrUnJ+2Mfop
- 5izbN77hQlK+I3mHOexmd6aKkjUs92UdH2mwms4kkRwBPgM+6Et5gCwPld5juaJS9puS
- e5XebCMA5gHIbUTyOFSZO23hcTnNXoCSgdMP1FT4YafuJjo+78T0MeXFsksj7nvhKvnz
- 2PP6bUHnjOG4uLPaKiQSD8TKZ4BcLRKsUuFnlEqDAipQlcAYZOf9htDanPog8GGRBg+t
- d6Zg==
-X-Gm-Message-State: AOAM532TxaJefX/oRhnTgA1SKWQAaE3Bi70G6IMopaJ7vTEfLsBo4cck
- CdoP9pQIyflMfRCeQmm8bgw=
-X-Google-Smtp-Source: ABdhPJwSesuiohtxkUoHbYH8eErO2XjkbMpb70PMEusTxdlGejP/SYYtqgq55+BC7kt8MImi3WSkog==
-X-Received: by 2002:a05:600c:4e4d:b0:397:5009:bcf1 with SMTP id
- e13-20020a05600c4e4d00b003975009bcf1mr11091743wmq.66.1653740013611; 
- Sat, 28 May 2022 05:13:33 -0700 (PDT)
-Received: from debian (host-2-98-37-191.as13285.net. [2.98.37.191])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XE622bwRFQLXoWlWGwkx558rDBHwnMuHGZROqrwvbw4=;
+ b=ajJQv4QTZrtz64G6lrPN9wEg5aukXoOjcVoZv/B3pDjTLK+mZ1y9nnYOVuQOppOWAR
+ wiBOPHWcNTylBZsyvuhHsrDTIsXRh5yPymwlrTmTRL1K9E+L+8sszQ9GONYA3zcBrUtR
+ 7vXoVLvEx6bsWlKdr75OpO9VucOhEWnNoKKC+fENrIH+KXvVeAj0QgIJj4cC2CLhRBjZ
+ 2dpluhzsPVOrk2s2KFstgNQgNh+B/HRBrHPrEZ0ty25vibNly7EB2o9jI89ogyDHYnJX
+ ccs5Ix9Lkdm91iN6BCxpzjHtFtMis+3Lmu9yLcXdCcXmach8LWWAMlgqC0m0OGeeD9BR
+ xZow==
+X-Gm-Message-State: AOAM531QL0KBcxyKcoP8T9J3uYPyi65aNyDIYfST74XOuvYKIeMPTkIL
+ NIvgDC/QhjMVd8PowRviSnas2TL62yi3BigM94NFJoct6F4FYfyj9+Lr4yX9eF4D28R5GKIzAbn
+ 9mA2HwIfrwLD24jEQlWDf+AM6s2rG
+X-Received: by 2002:a05:622a:186:b0:2f3:b5e1:8f2c with SMTP id
+ s6-20020a05622a018600b002f3b5e18f2cmr37699917qtw.99.1653748487880; 
+ Sat, 28 May 2022 07:34:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfw+zDbPoW1PujPqrT77plf9K/dqh5eJc8Y+lAMBwBf227Q8xlr2ZkX6Cc6T3ziRTt2IzQLA==
+X-Received: by 2002:a05:622a:186:b0:2f3:b5e1:8f2c with SMTP id
+ s6-20020a05622a018600b002f3b5e18f2cmr37699895qtw.99.1653748487608; 
+ Sat, 28 May 2022 07:34:47 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
  by smtp.gmail.com with ESMTPSA id
- az18-20020adfe192000000b0021020517639sm1420829wrb.102.2022.05.28.05.13.32
+ c131-20020a379a89000000b006a098381abcsm4541947qke.114.2022.05.28.07.34.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 May 2022 05:13:33 -0700 (PDT)
-Date: Sat, 28 May 2022 13:13:31 +0100
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
- block count and size helpers")
-Message-ID: <YpIR67FMtTGCwARZ@debian>
-References: <YpCUzStDnSgQLNFN@debian>
- <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
- <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
- <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
+ Sat, 28 May 2022 07:34:46 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/nouveau/fifo/gv100-: set gv100_fifo_runlist storage-class
+ to static
+Date: Sat, 28 May 2022 10:18:36 -0400
+Message-Id: <20220528141836.4155970-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,68 +84,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 27, 2022 at 06:04:14PM -0700, Linus Torvalds wrote:
-> On Fri, May 27, 2022 at 4:41 PM Sudip Mukherjee
-> <sudipm.mukherjee@gmail.com> wrote:
-> >
-> > I just tested with various values, sizeof(*edid) is 144 bytes at that place.
-> 
-> Hmm. What compiler do you have? Because it seems very broken.
-> 
-> You don't actually have to try with various sizes, you could have just
-> done something like
-> 
->  int size_of_edid(const struct edid *edid)
->  {
->         return sizeof(*edid);
->  }
-> 
-> and then "make drivers/gpu/drm/drm_edid.s" to generate assembly and
-> see what it looks like (obviously removing the BUG_ON() in order to
-> build).
+sparse reports
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gv100.c:56:1: warning: symbol 'gv100_fifo_runlist' was not declared. Should it be static?
 
-just tried this with
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- drivers/gpu/drm/drm_edid.s
+gv100_fifo_runlist is only used in gv100.c, so change it to static.
 
-> 
-> That obviously generates code like
-> 
->         movl    $128, %eax
->         ret
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gv100.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-and for me it looks like:
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gv100.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gv100.c
+index 70e16a91ac12..faf0fe9f704c 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gv100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gv100.c
+@@ -52,7 +52,7 @@ gv100_fifo_runlist_cgrp(struct nvkm_fifo_cgrp *cgrp,
+ 	nvkm_wo32(memory, offset + 0xc, 0x00000000);
+ }
+ 
+-const struct gk104_fifo_runlist_func
++static const struct gk104_fifo_runlist_func
+ gv100_fifo_runlist = {
+ 	.size = 16,
+ 	.cgrp = gv100_fifo_runlist_cgrp,
+-- 
+2.27.0
 
-.L1030: 
-        .word   .LC40
-        .word   .LC41
-        .word   -1431655765
-        .word   .LC39
-        .size   drm_edid_to_sad, .-drm_edid_to_sad
-        .align  2
-        .global size_of_edid
-        .syntax unified
-        .arm
-        .type   size_of_edid, %function
-size_of_edid:
-        @ args = 0, pretend = 0, frame = 0
-        @ frame_needed = 1, uses_anonymous_args = 0
-        mov     ip, sp  @,
-        push    {fp, ip, lr, pc}        @
-        sub     fp, ip, #4      @,,
-@ drivers/gpu/drm/drm_edid.c:1573: }
-        mov     r0, #144        @,
-        ldmfd   sp, {fp, sp, pc}        @
-        .size   size_of_edid, .-size_of_edid
-
-
-
---
-Regards
-Sudip
