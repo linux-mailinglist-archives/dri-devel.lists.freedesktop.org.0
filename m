@@ -2,55 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4540536932
-	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 01:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787C453698C
+	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 03:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9EA310E108;
-	Fri, 27 May 2022 23:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD45910E1E9;
+	Sat, 28 May 2022 01:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE2010E15B
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 23:41:15 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id i187so10256653ybg.6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 16:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62D810E1E9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 01:04:34 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id q21so11587634ejm.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 18:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i6fxNe1Yr6PM7bPFKoIRTPqlhmZN8j/BfeWdZm7S+GE=;
- b=kh+ddXudedr/FfFvhJB31s60mRvJ61namZkEwazfz5hKURIbMiIzy59PZfFNwztdbo
- EuA/8/g2Shr45xriJg7oTsLTLYol/pLhi6xS3K45Uwp/CPioC9tIHhBUMrOyN+cmRHAH
- 4louErDjJjimWMfZiJTYRLUZCH86PxlLRpYaaTln4aUHrNM1/dCz1C0ERRQf4MEFxvay
- +3vZmR8YG5zewoq7jQKqY/jdprEpklh8LIdX9/B7mmyT+/SgFPrUIqpzU2Hix5xAWJHw
- H4ePD6ixeJJApDOVfWgW2mw0r/coqR1QswjYnLY0bJGcyi3+cZunR8QzaELqxi/8c1C0
- 8FWg==
+ :cc; bh=/a8ecIYHg7QlH35fGGSVeTBLl6RR/RV9nck1HQAe+N8=;
+ b=SsVTwOnhWJT6nMnX54zeDkwThE54QCBhjL5oOAtESV+ElK1rhuZi4yfjiIkJid5QVn
+ oPRMlhPY9Ha+TivafeKHuoBSIFj52kqDM9s2LYRerxU1+rtPdhzC1Z11bpZ1PJ4rVfpk
+ f8tVQQp7rCAJPhDmpX2a9i4lP3pbTSoBarH80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=i6fxNe1Yr6PM7bPFKoIRTPqlhmZN8j/BfeWdZm7S+GE=;
- b=21XmwDgynzvjN75a4NSXCuLT7tnowmLrck7DNF5+zBlZmYzi8EA4eNuMbEADLYXpj1
- ELrw/ZZLr0bQFslYBLX1nQPYByeUxdtp996+Ae8Q7/Qk4LzyKC8T52B1H+/HjkO8ksy7
- FL1hO0X78jSmdk0k8hUsVD59VZCWi8boBq72bmJgyaYeceNmGG+wh38uyfWOSmJuLoP3
- cy5CwswXkvRv0YRMIeawQUpUTS3oEnTz3HPNO4muLFJ04JTmjf4RHYSMOyTx9NtPsxXu
- Bwp+tWZtv73vdDaSzI86QCmd2O0xkdrIw7tQWAyQS0WMG6ayxzczdfay9XTNmsQ8/YFG
- 8EXg==
-X-Gm-Message-State: AOAM533wzl70fVW4LqJS+DsM39E6PHayzrJk+Mkbn6eIj6SgcOIiAb2j
- xt6TDDBUv66LNCAffDRW7wEXftKkvEs1slAn82w=
-X-Google-Smtp-Source: ABdhPJxXE8RcGKITbfw6RqG9GXDU78NhnsekVk7tM1yeTVB7yk+R8s15LGau3IhaA6ubVznIFuJUNbFyDrBtslEK9qc=
-X-Received: by 2002:a25:bccb:0:b0:655:879e:e1b2 with SMTP id
- l11-20020a25bccb000000b00655879ee1b2mr15636924ybm.364.1653694875094; Fri, 27
- May 2022 16:41:15 -0700 (PDT)
+ bh=/a8ecIYHg7QlH35fGGSVeTBLl6RR/RV9nck1HQAe+N8=;
+ b=Zzf2rEfdttcgYUhGDFVR25wH7ZC0GW0wCoZ/RtTs6Jr2iq9EP49WnJbSwuZEwlXONR
+ 6QM0Fs/XI6nOgzaEuybt50pr8Cq337meAGTbE2AWm8RMHtC4+FiMqSG+OpGX8CcClkVl
+ pPVSVgJN04Sp3jdtb/8tK6/+Xh7mK2W5KV3IvB8d9P/ubqm3OETZ892kQM1fYbFGpNjL
+ FIFortHE8SBVfYXYih3FuEF4A0iW8MWWwhAmZaPsT9wZRz7tPdraTU5UntjyWgDnOZrJ
+ R1uw6UAJiwS8WxdS8nR6UOWInTi/N2h2FysOaSv304whwL49sVzZke7S52Z5MGmGMwGa
+ 2osg==
+X-Gm-Message-State: AOAM533/WR21eWboVvn8dWYNeDjq/ZwYy+FjG9y4FW24jySqpLPbiicD
+ /z1feI9hCm2h8TJY7WgnYq4+EjNTxo3ec/5T
+X-Google-Smtp-Source: ABdhPJxlVeoLfWW1Qdm/ijVOJUhVGVbnFRM6AWwL2ha2xyz46efBgGIKFvF8NEqFWHwaUSeszjj1lw==
+X-Received: by 2002:a17:906:5251:b0:6fe:98cb:d1 with SMTP id
+ y17-20020a170906525100b006fe98cb00d1mr39654361ejm.156.1653699872689; 
+ Fri, 27 May 2022 18:04:32 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
+ [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
+ r15-20020a05640251cf00b0042ab02e3485sm1320837edd.44.2022.05.27.18.04.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 May 2022 18:04:31 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id
+ i9-20020a1c3b09000000b00397345f2c6fso1051022wma.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 May 2022 18:04:31 -0700 (PDT)
+X-Received: by 2002:a7b:c4ca:0:b0:397:3bac:9b2a with SMTP id
+ g10-20020a7bc4ca000000b003973bac9b2amr9089329wmk.154.1653699870656; Fri, 27
+ May 2022 18:04:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <YpCUzStDnSgQLNFN@debian>
  <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
-In-Reply-To: <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Sat, 28 May 2022 00:40:38 +0100
-Message-ID: <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
+ <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
+In-Reply-To: <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 27 May 2022 18:04:14 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
+Message-ID: <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
 Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
  block count and size helpers")
-To: Linus Torvalds <torvalds@linux-foundation.org>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,34 +83,41 @@ Cc: Jani Nikula <jani.nikula@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 27, 2022 at 7:56 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Fri, May 27, 2022 at 4:41 PM Sudip Mukherjee
+<sudipm.mukherjee@gmail.com> wrote:
 >
-> On Fri, May 27, 2022 at 2:07 AM Sudip Mukherjee
-> <sudipm.mukherjee@gmail.com> wrote:
-> >
-> >         declared with attribute error: BUILD_BUG_ON failed: sizeof(*edid) != EDID_LENGTH
-> >
-> > And, reverting it on top of mainline branch has fixed the build failure.
->
-> Hmm. That BUILD_BUG_ON() looks entirely correct, and if that sizeof()
-> doesn't work, then the code doesn't work.
+> I just tested with various values, sizeof(*edid) is 144 bytes at that place.
 
-<snip>
+Hmm. What compiler do you have? Because it seems very broken.
 
->
-> Very strange. It would be interesting to know where that sizeof goes
-> wrong, but it would seem to be something very peculiar to your build
-> environment (either that config, or your compiler).
+You don't actually have to try with various sizes, you could have just
+done something like
 
-I just tested with various values, sizeof(*edid) is 144 bytes at that place.
+ int size_of_edid(const struct edid *edid)
+ {
+        return sizeof(*edid);
+ }
 
-My last good build was with fdaf9a5840ac ("Merge tag 'folio-5.19' of
-git://git.infradead.org/users/willy/pagecache")
-And my setup has not changed in anyway since then. Also verified the
-build failure on my laptop.
+and then "make drivers/gpu/drm/drm_edid.s" to generate assembly and
+see what it looks like (obviously removing the BUG_ON() in order to
+build).
 
+That obviously generates code like
 
--- 
-Regards
-Sudip
+        movl    $128, %eax
+        ret
+
+for me, and looking at the definition of that type I really can't see
+how it would ever generate anything else. But it's apparently not even
+close for you.
+
+I suspect some of the structs inside of that 'struct edid' end up
+getting aligned, despite the '__attribute__((packed))'. For example,
+'struct est_timings' is supposed to be just 3 bytes, and it's at an
+odd offset too (byte offset 35 in the 'struct edid' if I did the math
+correctly).
+
+But it obviously doesn't happen for me or for most other people, so
+it's something in your setup. Unusual compiler?
+
+                  Linus
