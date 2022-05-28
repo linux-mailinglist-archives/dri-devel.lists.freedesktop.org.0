@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AD1536C3E
-	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 12:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BB0536CC7
+	for <lists+dri-devel@lfdr.de>; Sat, 28 May 2022 14:13:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D690210F375;
-	Sat, 28 May 2022 10:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20F6310E039;
+	Sat, 28 May 2022 12:13:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F81010F375
- for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 10:08:04 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id h5so626434wrb.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 03:08:04 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 344BB10E039
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 12:13:35 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ v4-20020a1cac04000000b00397001398c0so5913528wme.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 05:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=+ld2qp0qk5nXcYqBUMPdBbYoV5PQ+Ec1SRfmrADsZqo=;
- b=aCwSqd9Klz71oU62cK3Hou0JutUcuA0XlTeD12lNZNtex7w7vIaWDeC8XBl292UfmE
- lNiLmHU9ZRT0PCwpBeBc/+quSVrd/PpqnNrJ0uvRY6JbH1WHBPXRfIR9Xge8QGcfxONA
- s/IzBkMKJ0+UzcoF8RM2HuyqBg7l13/DVI6sDJcDBiL83ofxpJ1VoQ7k/4SqoHC5Ft+6
- Qy+Ly7xE4s7wCWTM105qTQnVdaWhFH8dW1PLHw4EtYQXR2Q3jKolUWwYULVDjbc6tpuZ
- +62q3vyYhPgFRg7hinh8wvpJEBeYnw+P27Wbsflq8D6qvz/V8SKuQqH9Xztsi51PcSpM
- CzMA==
+ bh=mNWkEQxztGAhGpLE9wPG3tVmhXvaKJfP7n8Uzm8Bfkw=;
+ b=o9WofFj3GcLbd+k+AYKA1UTxb45ypSG2boO+2oiAK7SNNOQ/Ty0npbI0vcWkhRLHdb
+ GjhopuD9/iRAftrX/lu1dQBlnkoTu8UKJJHc4Qf3IZ0j22MmsmA146pzgWNTi4VCgJAo
+ FivfWqDdOjsjKfbTRNIuYtG4YjavKDSRP6LBjYxThm8Hxhly5mzKnmbabDoSb0RbGuvy
+ 7L7j9LApPKZkQJUpgxuq1ZSW2d/pEvjhmNgUYWPO6FdEOn5gl8dOxZhniC45akGfvC5v
+ 6ArW94J3e6eiq8+91roYXcGCC3XIJM940Ik03ScgLa4XkAv9nN4wInUA9vmuc0T0OSd5
+ V+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=+ld2qp0qk5nXcYqBUMPdBbYoV5PQ+Ec1SRfmrADsZqo=;
- b=5+dAhl45AQraMqcrO+ogdppgEGVBLJM7gdeNcDSv8k2yhomfrq5dMFqLNAXgTpwT0N
- L0sBSYfcRLB4EZXShuvekm8T3Nd21PEboArEb6oOAfZ3CMxvqpeaEdnxhR22eGML9Bq0
- k29Nqp36DRwg2/51y9F6MpA+JWHzB8Y1rFR7fN5+OR4Mpm5N4OnIRFMTjgf0mfzjK/Yd
- TYnLNHyxXa2/yJ4UoHzsXei3lQ/BxsGtZC62udXBHYiLYHbFaxKQyuUTJjzwr2ECf0tR
- xeMpYvvp0MjUFtcKmn4ovfOoPA9FytGaQ9tjA/Xqtr46BHkFf3IoFaOfIaBqAJ/r3oit
- wV/w==
-X-Gm-Message-State: AOAM532xGW4MFIp6ymm7BDgjdzQT9/qURk7rVHCFysr/UAh4nPn08Sgt
- d7PuihLbFTTz8ofMI2rPWcE=
-X-Google-Smtp-Source: ABdhPJxOB6yFEiXhzFOOjFz046H9QL3g3S+5T05O9gwDyfPHjShlEzJ0SzLSElgPFRh5szncHmDj7A==
-X-Received: by 2002:adf:fb4c:0:b0:20f:d4e7:b84f with SMTP id
- c12-20020adffb4c000000b0020fd4e7b84fmr25264715wrs.406.1653732482611; 
- Sat, 28 May 2022 03:08:02 -0700 (PDT)
+ bh=mNWkEQxztGAhGpLE9wPG3tVmhXvaKJfP7n8Uzm8Bfkw=;
+ b=3b3IsH4wvhTX0uXhfks9Sr3fWiFaPhWsM+ZLAR0iw3aAFB6mV0rAIQQ3E3kjHrEzap
+ XFV2zN+xTJyF2539k8isWrT4vsG+jvw0y/5+UUadOaRpSuNekwAlRY+QwkrUnJ+2Mfop
+ 5izbN77hQlK+I3mHOexmd6aKkjUs92UdH2mwms4kkRwBPgM+6Et5gCwPld5juaJS9puS
+ e5XebCMA5gHIbUTyOFSZO23hcTnNXoCSgdMP1FT4YafuJjo+78T0MeXFsksj7nvhKvnz
+ 2PP6bUHnjOG4uLPaKiQSD8TKZ4BcLRKsUuFnlEqDAipQlcAYZOf9htDanPog8GGRBg+t
+ d6Zg==
+X-Gm-Message-State: AOAM532TxaJefX/oRhnTgA1SKWQAaE3Bi70G6IMopaJ7vTEfLsBo4cck
+ CdoP9pQIyflMfRCeQmm8bgw=
+X-Google-Smtp-Source: ABdhPJwSesuiohtxkUoHbYH8eErO2XjkbMpb70PMEusTxdlGejP/SYYtqgq55+BC7kt8MImi3WSkog==
+X-Received: by 2002:a05:600c:4e4d:b0:397:5009:bcf1 with SMTP id
+ e13-20020a05600c4e4d00b003975009bcf1mr11091743wmq.66.1653740013611; 
+ Sat, 28 May 2022 05:13:33 -0700 (PDT)
 Received: from debian (host-2-98-37-191.as13285.net. [2.98.37.191])
  by smtp.gmail.com with ESMTPSA id
- v1-20020a5d4b01000000b0020d0435c97bsm3816915wrq.92.2022.05.28.03.08.01
+ az18-20020adfe192000000b0021020517639sm1420829wrb.102.2022.05.28.05.13.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 May 2022 03:08:02 -0700 (PDT)
-Date: Sat, 28 May 2022 11:07:59 +0100
+ Sat, 28 May 2022 05:13:33 -0700 (PDT)
+Date: Sat, 28 May 2022 13:13:31 +0100
 From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
  block count and size helpers")
-Message-ID: <YpH0f4BaWxmlxwYp@debian>
+Message-ID: <YpIR67FMtTGCwARZ@debian>
 References: <YpCUzStDnSgQLNFN@debian>
  <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
  <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
  <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="7fp69rSQSZSnEaKc"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,13 +81,6 @@ Cc: Jani Nikula <jani.nikula@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---7fp69rSQSZSnEaKc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Linus,
-
 On Fri, May 27, 2022 at 06:04:14PM -0700, Linus Torvalds wrote:
 > On Fri, May 27, 2022 at 4:41 PM Sudip Mukherjee
 > <sudipm.mukherjee@gmail.com> wrote:
@@ -94,136 +88,54 @@ On Fri, May 27, 2022 at 06:04:14PM -0700, Linus Torvalds wrote:
 > > I just tested with various values, sizeof(*edid) is 144 bytes at that place.
 > 
 > Hmm. What compiler do you have? Because it seems very broken.
+> 
+> You don't actually have to try with various sizes, you could have just
+> done something like
+> 
+>  int size_of_edid(const struct edid *edid)
+>  {
+>         return sizeof(*edid);
+>  }
+> 
+> and then "make drivers/gpu/drm/drm_edid.s" to generate assembly and
+> see what it looks like (obviously removing the BUG_ON() in order to
+> build).
 
-I am using gcc version 11.3.1 20220517 (GCC). And I am not just building
-spear3xx_defconfig, I am building all the arm configs with the same
-compiler in the same setup and only spear3xx_defconfig started failing.
-I am attaching a build summary report generated on 26th May, all arm builds
-passed, even allmodconfig.
+just tried this with
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- drivers/gpu/drm/drm_edid.s
 
 > 
-
-<snip>
-
+> That obviously generates code like
 > 
-> But it obviously doesn't happen for me or for most other people, so
-> it's something in your setup. Unusual compiler?
+>         movl    $128, %eax
+>         ret
 
-And, just to verify its not my setup or the compiler I use, I took a fresh
-Debian Bullseye docker, installed 'gcc-arm-linux-gnueabi' from Debian and I see
-the same build failure with spear3xx_defconfig. This gcc from Debian Bullseye
-is: gcc version 10.2.1 20210110 (Debian 10.2.1-6).
+and for me it looks like:
+
+.L1030: 
+        .word   .LC40
+        .word   .LC41
+        .word   -1431655765
+        .word   .LC39
+        .size   drm_edid_to_sad, .-drm_edid_to_sad
+        .align  2
+        .global size_of_edid
+        .syntax unified
+        .arm
+        .type   size_of_edid, %function
+size_of_edid:
+        @ args = 0, pretend = 0, frame = 0
+        @ frame_needed = 1, uses_anonymous_args = 0
+        mov     ip, sp  @,
+        push    {fp, ip, lr, pc}        @
+        sub     fp, ip, #4      @,,
+@ drivers/gpu/drm/drm_edid.c:1573: }
+        mov     r0, #144        @,
+        ldmfd   sp, {fp, sp, pc}        @
+        .size   size_of_edid, .-size_of_edid
+
 
 
 --
 Regards
 Sudip
-
---7fp69rSQSZSnEaKc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="report_babf0bb978e3.log"
-
-HEAD -> babf0bb978e3 ("Merge tag 'xfs-5.19-for-linus' of git://git.kernel.org/pub/scm/fs/xfs/xfs-linux")
-
-allmodconfig -> pass
-am200epdkit_defconfig -> pass
-aspeed_g4_defconfig -> pass
-aspeed_g5_defconfig -> pass
-assabet_defconfig -> pass
-at91_dt_defconfig -> pass
-axm55xx_defconfig -> pass
-badge4_defconfig -> pass
-bcm2835_defconfig -> pass
-cerfcube_defconfig -> pass
-clps711x_defconfig -> pass
-cm_x300_defconfig -> pass
-cns3420vb_defconfig -> pass
-colibri_pxa270_defconfig -> pass
-colibri_pxa300_defconfig -> pass
-collie_defconfig -> pass
-corgi_defconfig -> pass
-davinci_all_defconfig -> pass
-dove_defconfig -> pass
-ep93xx_defconfig -> pass
-eseries_pxa_defconfig -> pass
-exynos_defconfig -> pass
-ezx_defconfig -> pass
-footbridge_defconfig -> pass
-gemini_defconfig -> pass
-h3600_defconfig -> pass
-h5000_defconfig -> pass
-hackkit_defconfig -> pass
-hisi_defconfig -> pass
-imx_v4_v5_defconfig -> pass
-imx_v6_v7_defconfig -> pass
-imxrt_defconfig -> pass
-integrator_defconfig -> pass
-iop32x_defconfig -> pass
-ixp4xx_defconfig -> pass
-jornada720_defconfig -> pass
-keystone_defconfig -> pass
-lart_defconfig -> pass
-lpc18xx_defconfig -> pass
-lpc32xx_defconfig -> pass
-lpd270_defconfig -> pass
-lubbock_defconfig -> pass
-magician_defconfig -> pass
-mainstone_defconfig -> pass
-milbeaut_m10v_defconfig -> pass
-mini2440_defconfig -> pass
-mmp2_defconfig -> pass
-moxart_defconfig -> pass
-mps2_defconfig -> pass
-multi_v4t_defconfig -> pass
-multi_v5_defconfig -> pass
-multi_v7_defconfig -> pass
-mv78xx0_defconfig -> pass
-mvebu_v5_defconfig -> pass
-mvebu_v7_defconfig -> pass
-mxs_defconfig -> pass
-neponset_defconfig -> pass
-netwinder_defconfig -> pass
-nhk8815_defconfig -> pass
-omap1_defconfig -> pass
-omap2plus_defconfig -> pass
-orion5x_defconfig -> pass
-oxnas_v6_defconfig -> pass
-palmz72_defconfig -> pass
-pcm027_defconfig -> pass
-pleb_defconfig -> pass
-pxa168_defconfig -> pass
-pxa255-idp_defconfig -> pass
-pxa3xx_defconfig -> pass
-pxa910_defconfig -> pass
-pxa_defconfig -> pass
-qcom_defconfig -> pass
-realview_defconfig -> pass
-rpc_defconfig -> pass
-s3c2410_defconfig -> pass
-s3c6400_defconfig -> pass
-s5pv210_defconfig -> pass
-sama5_defconfig -> pass
-sama7_defconfig -> pass
-shannon_defconfig -> pass
-shmobile_defconfig -> pass
-simpad_defconfig -> pass
-socfpga_defconfig -> pass
-spear13xx_defconfig -> pass
-spear3xx_defconfig -> failed
-spear6xx_defconfig -> pass
-spitz_defconfig -> pass
-stm32_defconfig -> pass
-sunxi_defconfig -> pass
-tct_hammer_defconfig -> pass
-tegra_defconfig -> pass
-trizeps4_defconfig -> pass
-u8500_defconfig -> pass
-versatile_defconfig -> pass
-vexpress_defconfig -> pass
-vf610m4_defconfig -> pass
-viper_defconfig -> pass
-vt8500_v6_v7_defconfig -> pass
-xcep_defconfig -> pass
-zeus_defconfig -> pass
-
---7fp69rSQSZSnEaKc--
