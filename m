@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7547E5371FA
-	for <lists+dri-devel@lfdr.de>; Sun, 29 May 2022 20:02:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2DA537209
+	for <lists+dri-devel@lfdr.de>; Sun, 29 May 2022 20:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D4410F4B1;
-	Sun, 29 May 2022 18:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6EC10E3EE;
+	Sun, 29 May 2022 18:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFD4310F4AB;
- Sun, 29 May 2022 18:02:33 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id u18so2273203plb.3;
- Sun, 29 May 2022 11:02:33 -0700 (PDT)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A9810E3EE;
+ Sun, 29 May 2022 18:04:23 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id gd1so791252pjb.2;
+ Sun, 29 May 2022 11:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=zzGOFoijegI6bs3FEJJIbalqohkJ7YI9mVcD9clwKWU=;
- b=nOnixLnoLQGUvPL5RyUQZOlPY6YE6sNEMHjYjB2IaYUrtzPoYguiyrl1YUq+Lsm927
- 3EBZmxu4bAYfcWvSMuAlCYHftz433enDWNht0945TEX570r/w4uGZcaiKfU4ftm/cC4k
- X4xk50R+bxzTE6Hw7drKMu4JMci4MbvUyZL0dDer18d+WLPO7wxvuMM8IU5jraCPSOXH
- AWrwrCnl8DAxkxXrJc/+e+G8suJ5PFdL9F4Mks90Gbxs0MFal9IIERTRNIkjirUSgl/l
- qti86avstvKCwFK9ZxRE9FhIx/81oGc9m+klckALxDY553SU3F83RRqgoggrrzi4OAdj
- nQgA==
+ bh=b5qx+pVGY2AgizlZabnmHPGmRzUWPgfS4YN8x6bBJwA=;
+ b=jRdc7r1EDXy1ZDU+swfWq3BXpeFni65EXnItTebIJe2K4+KmFReH97TIyPkztBm7JH
+ C+yOUq+DOISNXM7fhRFYunW3IFHhvrg86yV9VVaMyCEcz7Cen5Ws6G0SeHkGVQUGJGl+
+ 9obKy7fvwx8SfkwgJkkuay+3so8vVVAiOLh/0YtkhzBday8panVIf0ESXAtbLX1D8OTg
+ wZABfKBA6y1FGkOLlisEAIU3Tve3Y9/OYuPVWPfjDm+sQUE357Hy0pC2ZSNb6FCXELxE
+ TJ+pQRRZGslxsH0rLmekKr513xUXesULnKZXSNlTCJcV2QrHhuo+R7z+mcNeSqc2IF1R
+ LKWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=zzGOFoijegI6bs3FEJJIbalqohkJ7YI9mVcD9clwKWU=;
- b=Ebfy/mCraLCascU/YbclyOomVAsol3m1a6pCMMxFzvMw/dVOKKLiiX3CNX11lqBVBO
- 1/3B7ZjN1zHNPcYVDvhD9jo59VQwnmWPACqbcO6ELmuz/ol5ggajq3NUJ6QDrlCpdjiF
- ZwGRB8G4DM/N/HR82/67N53yrjfeDA/0QPcOoneq+7384BloBmSXEMpnIWZUqIk/jAjA
- VEUr4EsTPXJ8X5BbuGx4Oy+INRFNyjw/U3aSGrVCLv4nxXuHUgGRrZHUt7+Inui8vTdA
- i+Mz/0F/SPytjmquSxSDEtT6HOJsgb+K/7eICFTLdj6458vwu4wWJVhvwfSdH5bDfwqf
- +w5A==
-X-Gm-Message-State: AOAM5300Xl57t9UvcsYXtZS+JBMlnOXtd0cgVpmXpvY81IWX1xsDF4cC
- mimj8HrCkFSx4QZj7gzQw/RjQAKcIWE=
-X-Google-Smtp-Source: ABdhPJwbxNlyttp4stVGRr/0qeiqK75I0bN48Jv5EpwxMjf2d4saFqSUqUJ4ZWtAGhl4CfHyPk5ouQ==
-X-Received: by 2002:a17:902:b413:b0:15e:e6a8:b3e with SMTP id
- x19-20020a170902b41300b0015ee6a80b3emr52707916plr.24.1653847352869; 
- Sun, 29 May 2022 11:02:32 -0700 (PDT)
+ bh=b5qx+pVGY2AgizlZabnmHPGmRzUWPgfS4YN8x6bBJwA=;
+ b=pqcD/F7ilsEdwiBF2i5z5AMtSOrqjZObk3oA59LSX0xvgQAAaMrmJZ6HijkbbvpwJi
+ 1O0Y+ows2Q0Dj9HHn462xE1O9hR+2gVculNjMxtdasf3yZTEhLe4JsZRtAbnecZuWwEe
+ nQCH53DMnKcXJqzTxUdJclVKcRYEDyfbP6cUqnkDEqR8stuSR6dptrpgec3U6NBp5ttt
+ +sTk3ik8gf1E+61dUjTVCctLgYwgI8K0y7x3JAZoAut9h8yQqmx1/fgX4RpqaVCrO12J
+ dFDdV+YcdIJzpCJ/ZkoWpRd0MGsBEsIKzIKuKeLbyUmKwKCaDXcwYXw/AragyF3PuD1F
+ r0eA==
+X-Gm-Message-State: AOAM532BykgQGTDuC5h7Bn3HXGqvmyp0ev331oenOFzONtWxNHwekz6R
+ OfIqgTxRCasU+Q3DthQohWJIZJXMmok=
+X-Google-Smtp-Source: ABdhPJxx8AwOCgmabpZSFVPzG7ycEcpG3xkuaN7+b45R+BYVaVarA8IwDTIISC4yM0SeICK1uHuA7g==
+X-Received: by 2002:a17:902:b90b:b0:15f:bd0:18b5 with SMTP id
+ bf11-20020a170902b90b00b0015f0bd018b5mr54152190plb.97.1653847462045; 
+ Sun, 29 May 2022 11:04:22 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a17090301d000b0016370e1af6bsm7622714plh.128.2022.05.29.11.02.31
+ z9-20020a1709028f8900b0015e8d4eb2casm7439442plo.276.2022.05.29.11.04.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 May 2022 11:02:31 -0700 (PDT)
+ Sun, 29 May 2022 11:04:20 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/adreno: Allow larger address space size
-Date: Sun, 29 May 2022 11:02:25 -0700
-Message-Id: <20220529180232.2576720-1-robdclark@gmail.com>
+Subject: [PATCH v2] drm/msm/adreno: Allow larger address space size
+Date: Sun, 29 May 2022 11:04:23 -0700
+Message-Id: <20220529180428.2577832-1-robdclark@gmail.com>
 X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -75,7 +75,6 @@ Cc: Rob Clark <robdclark@chromium.org>, Connor Abbott <cwabbott0@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dmitry Osipenko <digetx@gmail.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org,
  Dan Carpenter <dan.carpenter@oracle.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
@@ -89,6 +88,9 @@ versions of SQE firmware.  This appears to be fixed in a650+ SQE fw, so
 allow a larger address space size on these devices.
 
 Also, add a modparam override for debugging and igt.
+
+v2: Send the right version of the patch (ie. the one that actually
+    compiles)
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
@@ -141,7 +143,7 @@ index 89cfd84760d7..f3685130ce9b 100644
  		.rev = ADRENO_REV(6, 8, 0, ANY_ID),
  		.revn = 680,
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 4e665c806a14..7bc96cbe6e95 100644
+index 4e665c806a14..7b5f30881eee 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
 @@ -21,6 +21,10 @@
@@ -150,7 +152,7 @@ index 4e665c806a14..7bc96cbe6e95 100644
  
 +static u64 address_space_size = 0;
 +MODULE_PARM_DESC(address_space_size, "Override for size of processes private GPU address space");
-+module_param(address_space_size, u64, 0600);
++module_param(address_space_size, ullong, 0600);
 +
  static bool zap_available = true;
  
