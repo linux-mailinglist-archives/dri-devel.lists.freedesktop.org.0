@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079C8536ED6
-	for <lists+dri-devel@lfdr.de>; Sun, 29 May 2022 01:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92EE35370DB
+	for <lists+dri-devel@lfdr.de>; Sun, 29 May 2022 13:50:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3776C10E1FC;
-	Sat, 28 May 2022 23:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C1710E8F8;
+	Sun, 29 May 2022 11:50:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A49410E418
- for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 23:52:21 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id p8so7468304pfh.8
- for <dri-devel@lists.freedesktop.org>; Sat, 28 May 2022 16:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Nufpgj4WrVDOY3pDZhjA4ff1zW3gqCcbtHnisr85ZyY=;
- b=s0JQFCLPbNMyIAn/e51czi5dJtQ+dUeQ2gvMOdGi6tS2NgbI49v0VsbB+PAc82PIw4
- nQgco7a3P8lLmLsPJVHQB9E71kRVsqug5ma+EM8qIxBCmqM5oXD0la1ELVD8Ulz9yzYD
- VnKBV+KJK4jypCIAVWQzOmVG3LmFDIfNR0MMDEAYR08xOW2QMX5qesJKm+Uf7E+hDduJ
- Pcq6QlB4Uf3I3qy3ztboQvxZyfMrKJlj5Wkqq0ktf4k6Tb6JaWrwXSkA7p1mhDXONON0
- BKFL3A0ImJ/Y1TRYh8tL8JqKGqc4ToS/epezYxWCjZbGqwgXt9zYfGPYU3c0uyilt+qo
- 9ZfA==
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C0210FF41;
+ Sun, 29 May 2022 06:26:41 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id
+ m14-20020a17090a414e00b001df77d29587so10601760pjg.2; 
+ Sat, 28 May 2022 23:26:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Nufpgj4WrVDOY3pDZhjA4ff1zW3gqCcbtHnisr85ZyY=;
- b=vpSPSwTS5QvaMEtIEV2bn5Qr2ym2kKtWT9nNdL1ohWgrOTA5ZQPIi0Viz5UN11h1Pr
- LFZIsy0NeA+5SBjTFhKQt6NlPRn1gewXi7uazviRD6u1PK/ZIvzZpJAdRiqqOwTilGMI
- m3rzkJMGcYfG0f1xsBVRCLFINL9oUopr6yZi4tNOi3jJ3Ces6Ffie/ihlMCYSKGg/C3M
- z2OMk1mMLGgB1+YeWP4vjS2+X69Bl3Tu+PyGYpVyLBYjqWx4y8R9c6myNGOQKMtqCTKE
- 2V9cWNnECv8pujDyE2hHD4M6sONg9pA5LTaAQzWpOSiW2R6YNIaoTLeBvCUAeU6oCTZC
- SHtw==
-X-Gm-Message-State: AOAM532HU+0wNzKhGiZ1U/vP6ghKhPeFRkWFbz9TBjSml6dHwLZD4HS0
- aVJ6BnYtQs1HmIsQ2fE0KwRfpAQwkjjVkez9JEuAqQ==
-X-Google-Smtp-Source: ABdhPJyUehceXYDZKshl8AFUK3x2Dnnl2LNGICbZeEaV/YzFZUoSDJRYF36aS3WgW9cUC8wLZHJcUOJztjxi9ebdfEw=
-X-Received: by 2002:a63:d747:0:b0:3db:74a9:ff92 with SMTP id
- w7-20020a63d747000000b003db74a9ff92mr43048483pgi.293.1653781940899; Sat, 28
- May 2022 16:52:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nAodg8IpCf1YlPCwEY/9oZB3Kk0d9gb9lVermXkWYgQ=;
+ b=YGmcs7iemsWVptnFX27h+C259jnRis5eLefJAq/dIbSZDjLwQlHJ/g/isq2ittR4P1
+ DK1u9bMGp28VXOsSFUFa0og0XVEwfpEKMomIu/9Az/C2KuBt18oN5AwZS1lqjbK6koX/
+ IZ4J9cdZg11LWVrlFiWFK506unGfJpCjRs7VFngFAsXBXMfN+xrnjf58Hi5/ytiLAXeF
+ I6CQL+kOp1DbYAsXhxhQ6svuohbtF28/VwRADbXNrli6R7vlY6IqpCtGI9bR5XBpJxpq
+ XhUvzMTJqXJ0e1RZY3rbAQTOxY2NmuLNtMpFObCLe3qnD6YfbXvLstwz0/k0vNIZ5E9S
+ AGvg==
+X-Gm-Message-State: AOAM530OEx7JIB0UCt5+uLCrgFC+DgghgiiYk7wJ6C6ynOF/UaxBjhCc
+ uZDl7wHj/JkK8VYeaRPgDbbLbLBTeQ==
+X-Google-Smtp-Source: ABdhPJzlemj8sWhGGFITlnMkOA8aFFrOc3HF39ff43T9ebwbkrJKKloZRH00669Xb65j2g2+PtbrOg==
+X-Received: by 2002:a17:903:2c7:b0:158:2f26:6016 with SMTP id
+ s7-20020a17090302c700b001582f266016mr50903382plk.154.1653805601094; 
+ Sat, 28 May 2022 23:26:41 -0700 (PDT)
+Received: from localhost.localdomain (ns1003916.ip-51-81-154.us.
+ [51.81.154.37]) by smtp.gmail.com with ESMTPSA id
+ x12-20020a170902ec8c00b00161955fe0d5sm6761554plg.274.2022.05.28.23.26.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 May 2022 23:26:40 -0700 (PDT)
+From: sunliming <sunliming@kylinos.cn>
+To: alexander.deucher@amd.com, hristian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, Hawking.Zhang@amd.com,
+ mike@fireburn.co.uk, Xiaojian.Du@amd.com, evan.quan@amd.com
+Subject: [PATCH] drm/amdgpu: make gfx_v11_0_rlc_stop static
+Date: Sun, 29 May 2022 14:26:31 +0800
+Message-Id: <20220529062631.304316-1-sunliming@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220407054651.3924-1-Arunpravin.PaneerSelvam@amd.com>
- <CAHbf0-H5uE4RtZwY0L8Wz0VG6QnU1+E3yhg3fDFVc3n__=nrNQ@mail.gmail.com>
- <c0facbf4-0e14-fde5-4334-499135a36f0c@amd.com>
- <CAHbf0-FMqAA3vWx_uRDYG_vr=FX+tFoLAL6BZLDe5upv7KJqrg@mail.gmail.com>
- <CAHbf0-En606VT_HYDyeo6TtsfSZmR_+wsZaVgS4XiedLO9ndiA@mail.gmail.com>
- <8b99ca20-f711-ec32-0cd2-16fc52846ce0@amd.com>
- <CAHbf0-EzPP5gAyZQmxeAo3Ep0g-rO4XbDgEB_SdsR84xY+at9A@mail.gmail.com>
- <CAHbf0-G-rnvNXaXxMzkPerW6h=9vkxJyysUUV-oJV5UGD67KqA@mail.gmail.com>
- <CADnq5_PTRPTsCvGwKFzNA_k7diAVqYEv1xV1yJszRD1K-v2FfQ@mail.gmail.com>
- <MN2PR12MB43425B6EC07A7F6877B884C7E4DB9@MN2PR12MB4342.namprd12.prod.outlook.com>
-In-Reply-To: <MN2PR12MB43425B6EC07A7F6877B884C7E4DB9@MN2PR12MB4342.namprd12.prod.outlook.com>
-From: Mike Lothian <mike@fireburn.co.uk>
-Date: Sun, 29 May 2022 00:52:09 +0100
-Message-ID: <CAHbf0-G8Qgv-uKHBYxhv=SLUv7-z4gzjMziN_x+oAobTrqW0PQ@mail.gmail.com>
-Subject: Re: [PATCH v12] drm/amdgpu: add drm buddy support to amdgpu
-To: "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 29 May 2022 11:50:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,41 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, Matthew Auld <matthew.auld@intel.com>
+Cc: kernel test robot <lkp@intel.com>, kelulanainsley@gmail.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ sunliming@kylinos.cn, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 28 May 2022 at 08:44, Paneer Selvam, Arunpravin
-<Arunpravin.PaneerSelvam@amd.com> wrote:
->
-> [Public]
->
-> Hi,
->
-> After investigating quite some time on this issue, found freeze problem i=
-s not with the amdgpu part of buddy allocator patch as the patch doesn=E2=
-=80=99t throw any issues when applied separately on top of the stable base =
-of drm-next. After digging more into this issue, the below patch seems to b=
-e the cause of this problem,
->
-> drm/ttm: rework bulk move handling v5
-> https://cgit.freedesktop.org/drm/drm/commit/?id=3Dfee2ede155423b0f7a55905=
-0a39750b98fe9db69
->
-> when this patch applied on top of the stable (working version) of drm-nex=
-t without buddy allocator patch, we can see multiple issues listed below, e=
-ach thrown randomly at every GravityMark run, 1. general protection fault a=
-t ttm_lru_bulk_move_tail() 2. NULL pointer deference at ttm_lru_bulk_move_t=
-ail() 3. NULL pointer deference at ttm_resource_init().
->
-> Regards,
-> Arun.
+This symbol is not used outside of gfx_v11_0.c, so marks it static.
 
-Thanks for tracking it down, fee2ede155423b0f7a559050a39750b98fe9db69
-isn't trivial to revert
+Fixes the following w1 warning:
 
-Hopefully Christian can figure it out
+drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c:1945:6: warning: no previous
+prototype for function 'gfx_v11_0_rlc_stop' [-Wmissing-prototypes].
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: sunliming <sunliming@kylinos.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+index 8c0a3fc7aaa6..cb581cfc7464 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+@@ -1983,7 +1983,7 @@ static int gfx_v11_0_init_csb(struct amdgpu_device *adev)
+ 	return 0;
+ }
+ 
+-void gfx_v11_0_rlc_stop(struct amdgpu_device *adev)
++static void gfx_v11_0_rlc_stop(struct amdgpu_device *adev)
+ {
+ 	u32 tmp = RREG32_SOC15(GC, 0, regRLC_CNTL);
+ 
+-- 
+2.25.1
+
