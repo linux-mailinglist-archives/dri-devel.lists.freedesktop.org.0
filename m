@@ -1,60 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFCE5377B0
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 11:33:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 081D95377B6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 11:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2537A10E4AC;
-	Mon, 30 May 2022 09:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E88DE10E474;
+	Mon, 30 May 2022 09:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A2D10E497
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 09:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653903206; x=1685439206;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=TBSc0KNGpzSlLLY6lieGvmYQxKAskO2xitesyVYh6/0=;
- b=ey8caMeDwYoSoZtw4NejGYvh84IqetFz8weWxvVDsGM7VoEuRgjLqo/V
- VPFMJM0WIOdl0XjxHHBaFMm0sesCvqfvGjcpr37QATsWUSKjp9P+yhZeg
- BTKToGmrP9DUVYKo2k1WAShYS5ZKMh6sZYaiBDevSjKbswyQ+bhts9+J5
- YgeHWID6aNRJojmzJyKDgSBFTkLuqinErlGxByvyK9yV3ioAhIS2W4y4+
- 7QHAqLQ/3A+YzKTfi7nDPBWXMMg55yCQZKZg6U4IALVnB4Qv9/fF1ejei
- 4sn25HxKoamYwEaorVd8cZAJU/WivtiMAKtBHCUDO9JikOA/9SILTMyXU A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="254827236"
-X-IronPort-AV: E=Sophos;i="5.91,262,1647327600"; d="scan'208";a="254827236"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 02:33:26 -0700
-X-IronPort-AV: E=Sophos;i="5.91,262,1647327600"; d="scan'208";a="529103807"
-Received: from jkuna-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.150.228])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 02:33:20 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>, Arnd Bergmann
- <arnd@arndb.de>
-Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
- block count and size helpers")
-In-Reply-To: <87a6aztli2.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <YpCUzStDnSgQLNFN@debian>
- <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
- <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
- <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
- <YpIR67FMtTGCwARZ@debian>
- <CAHk-=wjuyHE=1wLgHncub8FfgeyYqfWYsy4-YrhAvq9991h_Aw@mail.gmail.com>
- <CAHk-=wi_hJV0V=Ecg2dzbe2P_H1XKTu6VP_AtCH6u=tis31ayg@mail.gmail.com>
- <CAK8P3a0-QyOQiieEvM0yQb43XbCtPmeao8UvoAsdFnjCxYPz7Q@mail.gmail.com>
- <CAHk-=whfmwzjF4eBPYS6pHFqHVzJF3m=2h=gRWSRyHks8V=ABA@mail.gmail.com>
- <87a6aztli2.fsf@intel.com>
-Date: Mon, 30 May 2022 12:33:17 +0300
-Message-ID: <877d63tleq.fsf@intel.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EABFE10E474
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 09:34:52 +0000 (UTC)
+X-UUID: 12292876a63e4114832784e67ff5dc24-20220530
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:c1a25a89-c40b-4e19-b549-b12d22ec7966, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.5, REQID:c1a25a89-c40b-4e19-b549-b12d22ec7966, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:2a19b09, CLOUDID:c6600148-4fb1-496b-8f1d-39e733fed1ea,
+ C
+ OID:c54cc7f13249,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:0,BEC:nil
+X-UUID: 12292876a63e4114832784e67ff5dc24-20220530
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 468274590; Mon, 30 May 2022 17:34:47 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 30 May 2022 17:34:46 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 30 May 2022 17:34:46 +0800
+Message-ID: <719320a455d4dc5d142cea48577c3a1b0317bb9a.camel@mediatek.com>
+Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
+ Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
+ Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
+ Deller" <deller@gmx.de>, Jitao shi <jitao.shi@mediatek.com>
+Date: Mon, 30 May 2022 17:34:46 +0800
+In-Reply-To: <20220523104758.29531-19-granquet@baylibre.com>
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <20220523104758.29531-19-granquet@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +73,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- David Airlie <airlied@linux.ie>, Viresh Kumar <vireshk@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- SoC Team <soc@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 May 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Sat, 28 May 2022, Linus Torvalds <torvalds@linux-foundation.org> wrote:
->> On Sat, May 28, 2022 at 11:59 AM Arnd Bergmann <arnd@arndb.de> wrote:
->>>
->>> It's CONFIG_ARM_AEABI, which is normally set everywhere. Without this
->>> option, you the kernel is built for the old 'OABI' that forces all non-packed
->>> struct members to be at least 16-bit aligned.
->>
->> Looks like forced word (32 bit) alignment to me.
->>
->> I wonder how many other structures that messes up, but I committed the
->> EDID fix for now.
->
-> Thanks for the fix, and the thorough commit message!
->
->> This has presumably been broken for a long time, but maybe the
->> affected targets don't typically use EDID and kernel modesetting, and
->> only use some fixed display setup instead.
->>
->> Those structure definitions go back a _loong_ time (from a quick 'git
->> blame' I see November 2008).
->>
->> But despite that, I did not mark my fix 'cc:stable' because I don't
->> know if any of those machines affected by this bad arm ABI issue could
->> possibly care.
->>
->> At least my tree hopefully now builds on them, with the BUILD_BUG_ON()
->> that uncovered this.
->
-> Indeed the bug is ancient. I just threw in the BUILD_BUG_ON() on a whim
-> as an extra sanity check when doing pointer arithmetics on struct edid
-> *.
->
-> If there are affected machines, buffer overflows are the real danger due
-> to edid->extensions indicating the number of extensions.
+Hi, Guillaume:
 
-That is, for EDID. Makes you wonder about all the other packed structs
-with enum members across the kernel.
+On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
+> 
+> It supports the mt8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> 
 
-BR,
-Jani.
+[snip]
 
+> +
+> +static void mtk_dp_read_link_status(struct mtk_dp *mtk_dp,
+> +				    u8
+> link_status[DP_LINK_STATUS_SIZE])
+> +{
+> +	drm_dp_dpcd_read(&mtk_dp->aux, DP_LANE0_1_STATUS, link_status,
+> +			 DP_LINK_STATUS_SIZE);
+> +}
+> +
+> +static int mtk_dp_train_tps_1(struct mtk_dp *mtk_dp,
+> +			      u8 target_lane_count, int
+> *iteration_count, u8 *lane_adjust,  int *status_control, u8
+> *prev_lane_adjust)
+> +{
+> +	int ret;
+> +	u8 val;
+> +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
+> +
+> +	ret = mtk_dp_training_set_scramble(mtk_dp, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (*status_control == 0) {
+> +		ret = mtk_dp_train_set_pattern(mtk_dp, 1);
+> +		if (ret)
+> +			return ret;
+> +
+> +		val = DP_LINK_SCRAMBLING_DISABLE |
+> +			DP_TRAINING_PATTERN_1;
+> +		drm_dp_dpcd_writeb(&mtk_dp->aux,
+> +				   DP_TRAINING_PATTERN_SET,
+> +				DP_LINK_SCRAMBLING_DISABLE |
+> +				DP_TRAINING_PATTERN_1);
+> +		drm_dp_dpcd_read(&mtk_dp->aux,
+> +				 DP_ADJUST_REQUEST_LANE0_1,
+> +				lane_adjust,
+> +				sizeof(*lane_adjust) * 2);
+> +
+> +		mtk_dp_train_update_swing_pre(mtk_dp,
+> +					      target_lane_count,
+> lane_adjust);
+> +		*status_control = 1;
+> +		(*iteration_count)++;
+> +	}
+> +
+> +	drm_dp_link_train_clock_recovery_delay(&mtk_dp->aux,
+> +					       mtk_dp->rx_cap);
+> +	mtk_dp_read_link_status(mtk_dp, link_status);
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+drm_dp_dpcd_read_link_status(&mtk_dp->aux, link_status);
+
+> +
+> +	if (drm_dp_clock_recovery_ok(link_status,
+> +				     target_lane_count)) {
+> +		mtk_dp->train_info.cr_done = true;
+> +		*iteration_count = 1;
+> +		dev_dbg(mtk_dp->dev, "Link train CR pass\n");
+> +		return 0;
+> +	} else if (*prev_lane_adjust == link_status[4]) {
+> +		(*iteration_count)++;
+> +		if (*prev_lane_adjust &
+> DP_ADJUST_VOLTAGE_SWING_LANE0_MASK) {
+> +			dev_dbg(mtk_dp->dev, "Link train CQ fail\n");
+> +			return -EINVAL;
+> +		}
+> +	} else {
+> +		*prev_lane_adjust = link_status[4];
+> +	}
+> +	return -EAGAIN;
+> +}
+> +
+> +static int mtk_dp_train_tps_2_3(struct mtk_dp *mtk_dp, u8
+> target_linkrate,
+> +				u8 target_lane_count, int
+> *iteration_count, u8 *lane_adjust,  int *status_control, u8
+> *prev_lane_adjust)
+> +{
+> +	int ret;
+> +	u8 val;
+> +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
+> +
+> +	if (*status_control == 1) {
+> +		if (mtk_dp->train_info.tps4) {
+> +			ret = mtk_dp_train_set_pattern(mtk_dp, 4);
+> +			if (ret)
+> +				return -EINVAL;
+> +
+> +			val = DP_TRAINING_PATTERN_4;
+> +		} else if (mtk_dp->train_info.tps3) {
+> +			ret = mtk_dp_train_set_pattern(mtk_dp, 3);
+> +			if (ret)
+> +				return -EINVAL;
+> +
+> +			val = DP_LINK_SCRAMBLING_DISABLE |
+> +				DP_TRAINING_PATTERN_3;
+> +		} else {
+> +			ret = mtk_dp_train_set_pattern(mtk_dp, 2);
+> +			if (ret)
+> +				return -EINVAL;
+> +
+> +			val = DP_LINK_SCRAMBLING_DISABLE |
+> +				DP_TRAINING_PATTERN_2;
+> +		}
+> +		drm_dp_dpcd_writeb(&mtk_dp->aux,
+> +				   DP_TRAINING_PATTERN_SET,
+> +				val);
+> +
+> +		drm_dp_dpcd_read(&mtk_dp->aux,
+> +				 DP_ADJUST_REQUEST_LANE0_1,
+> +				lane_adjust,
+> +				sizeof(*lane_adjust) * 2);
+> +
+> +		mtk_dp_train_update_swing_pre(mtk_dp,
+> +					      target_lane_count,
+> lane_adjust);
+> +		*status_control = 2;
+> +		(*iteration_count)++;
+> +	}
+> +
+> +	drm_dp_link_train_channel_eq_delay(&mtk_dp->aux,
+> +					   mtk_dp->rx_cap);
+> +
+> +	mtk_dp_read_link_status(mtk_dp, link_status);
+
+drm_dp_dpcd_read_link_status(&mtk_dp->aux, link_status);
+
+Regards,
+CK
+
+> +
+> +	if (!drm_dp_clock_recovery_ok(link_status,
+> +				      target_lane_count)) {
+> +		mtk_dp->train_info.cr_done = false;
+> +		mtk_dp->train_info.eq_done = false;
+> +		dev_dbg(mtk_dp->dev, "Link train EQ fail\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (drm_dp_channel_eq_ok(link_status,
+> +				 target_lane_count)) {
+> +		mtk_dp->train_info.eq_done = true;
+> +		dev_dbg(mtk_dp->dev, "Link train EQ pass\n");
+> +		return 0;
+> +	}
+> +
+> +	if (*prev_lane_adjust == link_status[4])
+> +		(*iteration_count)++;
+> +	else
+> +		*prev_lane_adjust = link_status[4];
+> +
+> +	return -EAGAIN;
+> +}
+> +
+> 
+
