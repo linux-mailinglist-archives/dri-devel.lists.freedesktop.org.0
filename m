@@ -1,47 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C96537CB3
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:38:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC529537B86
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C42788427;
-	Mon, 30 May 2022 13:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AB210E877;
+	Mon, 30 May 2022 13:27:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (unknown [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE03510E979;
- Mon, 30 May 2022 13:38:28 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 153C160EDF;
- Mon, 30 May 2022 13:30:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA59C385B8;
- Mon, 30 May 2022 13:30:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653917428;
- bh=hPUbUC3wFDCP8aithaZ5HvATm1athO3Gq5+G/6a2wHU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PUn+qb925lrCw+BQTGsxEMQEe66h1V/7FnR/jyKP8m+Mm9ytSoM6E8ChHKUdDaZ0b
- yQDMq9IjNaMLkLBPCqXv8S8L9KNG3h662gUCBQ/+8FpSdzWK2SUgkl7x3sN86PLWM8
- aPK7wegWXa50xKwILHnfvl/6lmrmanMH9ZShD2h6modV2Rut0RSkyaYnNuf/xK6T5K
- 6xEcsWL1ipeIlOqsYqThqUU9DtubuUt1U39hRxKa6n0jfMEMOkenYv4VJYJAK/JoRS
- BbpjjL7C+6l6YbWabkHqS4Fm8ivXnbEuwa/km49ihTWQeQPp4jCeWV+62QR6PJmKyg
- BCeKsYEli4gUw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 131/159] drm/amdgpu: Move
- mutex_init(&smu->message_lock) to smu_early_init()
-Date: Mon, 30 May 2022 09:23:56 -0400
-Message-Id: <20220530132425.1929512-131-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
-References: <20220530132425.1929512-1-sashal@kernel.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0D510E865;
+ Mon, 30 May 2022 13:26:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id B1F391F42E89
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1653917216;
+ bh=y8CpXrtP+c6Qf6iu5Rkh+8kR5t7I7EuM/mXJ3s9H5Zs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CZBBpXpJJByM/6l1wreC73qyaYOtUyAY912FO23xX9hwne0P8DnGHVfuPN4nMsGCT
+ 8SkJMvb9QBciZR6HQOm2m0Pv+tBSMrQzbTJhWEU/RA9xCdqbSQHUQ/nV0EfPj5Fh0g
+ /Bz633BDtP5oWyr2aY9l9/qknO9qze9TgXSMV4ZjAyn/uZyDn95jjXsxnqKUHAFUYj
+ Xl1HS7BN4ZwJ0JAX6Azh2TmYj2i3WjRR80SU/1ps37ciW04RwtS6XWFaZAru9NCxqG
+ jz7LyKVTcMBV9YNtk3fQE7sBherW3XwtioZyr1RjqcTCj2d+TQiehKVmn3qh2wdHis
+ oxYI+SRObIGUA==
+Message-ID: <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
+Date: Mon, 30 May 2022 16:26:49 +0300
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+ <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,137 +74,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, guchun.chen@amd.com,
- airlied@linux.ie, Xinhui.Pan@amd.com, aaron.liu@amd.com,
- amd-gfx@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- dri-devel@lists.freedesktop.org, darren.powell@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
- christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans de Goede <hdegoede@redhat.com>
+Hello Christian,
 
-[ Upstream commit 4b9caaa0281972ca5ea4e1cdac2e12b9df1ae00b ]
+On 5/30/22 09:50, Christian König wrote:
+> Hi Dmitry,
+> 
+> First of all please separate out this patch from the rest of the series,
+> since this is a complex separate structural change.
 
-Lockdep complains about the smu->message_lock mutex being used before
-it is initialized through the following call path:
+I assume all the patches will go via the DRM tree in the end since the
+rest of the DRM patches in this series depend on this dma-buf change.
+But I see that separation may ease reviewing of the dma-buf changes, so
+let's try it.
 
-amdgpu_device_init()
- amdgpu_dpm_mode2_reset()
-  smu_mode2_reset()
-   smu_v12_0_mode2_reset()
-    smu_cmn_send_smc_msg_with_param()
+> Am 27.05.22 um 01:50 schrieb Dmitry Osipenko:
+>> All dma-bufs have dma-reservation lock that allows drivers to perform
+>> exclusive operations over shared dma-bufs. Today's dma-buf API has
+>> incomplete locking specification, which creates dead lock situation
+>> for dma-buf importers and exporters that don't coordinate theirs locks.
+> 
+> Well please drop that sentence. The locking specifications are actually
+> very well defined, it's just that some drivers are a bit broken
+> regarding them.
+> 
+> What you do here is rather moving all the non-dynamic drivers over to
+> the dynamic locking specification (which is really nice to have).
 
-Move the mutex_init() call to smu_early_init() to fix the mutex being
-used before it is initialized.
+Indeed, this will be a better description, thank you! I'll update it.
 
-This fixes the following lockdep splat:
+> I have tried this before and failed because catching all the locks in
+> the right code paths are very tricky. So expect some fallout from this
+> and make sure the kernel test robot and CI systems are clean.
 
-[    3.867331] ------------[ cut here ]------------
-[    3.867335] fbcon: Taking over console
-[    3.867338] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-[    3.867340] WARNING: CPU: 14 PID: 491 at kernel/locking/mutex.c:579 __mutex_lock+0x44c/0x830
-[    3.867349] Modules linked in: amdgpu(+) crct10dif_pclmul drm_ttm_helper crc32_pclmul ttm crc32c_intel ghash_clmulni_intel hid_lg_g15 iommu_v2 sp5100_tco nvme gpu_sched drm_dp_helper nvme_core ccp wmi video hid_logitech_dj ip6_tables ip_tables ipmi_devintf ipmi_msghandler fuse i2c_dev
-[    3.867363] CPU: 14 PID: 491 Comm: systemd-udevd Tainted: G          I       5.18.0-rc5+ #33
-[    3.867366] Hardware name: Micro-Star International Co., Ltd. MS-7C95/B550M PRO-VDH WIFI (MS-7C95), BIOS 2.90 12/23/2021
-[    3.867369] RIP: 0010:__mutex_lock+0x44c/0x830
-[    3.867372] Code: ff 85 c0 0f 84 33 fc ff ff 8b 0d b7 50 25 01 85 c9 0f 85 25 fc ff ff 48 c7 c6 fb 41 82 99 48 c7 c7 6b 63 80 99 e8 88 2a f8 ff <0f> 0b e9 0b fc ff ff f6 83 b9 0c 00 00 01 0f 85 64 ff ff ff 4c 89
-[    3.867377] RSP: 0018:ffffaef8c0fc79f0 EFLAGS: 00010286
-[    3.867380] RAX: 0000000000000028 RBX: 0000000000000000 RCX: 0000000000000027
-[    3.867382] RDX: ffff9ccc0dda0928 RSI: 0000000000000001 RDI: ffff9ccc0dda0920
-[    3.867384] RBP: ffffaef8c0fc7a80 R08: 0000000000000000 R09: ffffaef8c0fc7820
-[    3.867386] R10: 0000000000000003 R11: ffff9ccc2a2fffe8 R12: 0000000000000002
-[    3.867388] R13: ffff9cc990808058 R14: 0000000000000000 R15: ffff9cc98bfc0000
-[    3.867390] FS:  00007fc4d830f580(0000) GS:ffff9ccc0dd80000(0000) knlGS:0000000000000000
-[    3.867394] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    3.867396] CR2: 0000560a77031410 CR3: 000000010f522000 CR4: 0000000000750ee0
-[    3.867398] PKRU: 55555554
-[    3.867399] Call Trace:
-[    3.867401]  <TASK>
-[    3.867403]  ? smu_cmn_send_smc_msg_with_param+0x98/0x240 [amdgpu]
-[    3.867533]  ? __mutex_lock+0x90/0x830
-[    3.867535]  ? amdgpu_dpm_mode2_reset+0x37/0x60 [amdgpu]
-[    3.867653]  ? smu_cmn_send_smc_msg_with_param+0x98/0x240 [amdgpu]
-[    3.867758]  smu_cmn_send_smc_msg_with_param+0x98/0x240 [amdgpu]
-[    3.867857]  smu_mode2_reset+0x2b/0x50 [amdgpu]
-[    3.867953]  amdgpu_dpm_mode2_reset+0x46/0x60 [amdgpu]
-[    3.868096]  amdgpu_device_init.cold+0x1069/0x1e78 [amdgpu]
-[    3.868219]  ? _raw_spin_unlock_irqrestore+0x30/0x50
-[    3.868222]  ? pci_conf1_read+0x9b/0xf0
-[    3.868226]  amdgpu_driver_load_kms+0x15/0x110 [amdgpu]
-[    3.868314]  amdgpu_pci_probe+0x1a9/0x3c0 [amdgpu]
-[    3.868398]  local_pci_probe+0x41/0x80
-[    3.868401]  pci_device_probe+0xab/0x200
-[    3.868404]  really_probe+0x1a1/0x370
-[    3.868407]  __driver_probe_device+0xfc/0x170
-[    3.868410]  driver_probe_device+0x1f/0x90
-[    3.868412]  __driver_attach+0xbf/0x1a0
-[    3.868414]  ? __device_attach_driver+0xe0/0xe0
-[    3.868416]  bus_for_each_dev+0x65/0x90
-[    3.868419]  bus_add_driver+0x151/0x1f0
-[    3.868421]  driver_register+0x89/0xd0
-[    3.868423]  ? 0xffffffffc0bd4000
-[    3.868425]  do_one_initcall+0x5d/0x300
-[    3.868428]  ? do_init_module+0x22/0x240
-[    3.868431]  ? rcu_read_lock_sched_held+0x3c/0x70
-[    3.868434]  ? trace_kmalloc+0x30/0xe0
-[    3.868437]  ? kmem_cache_alloc_trace+0x1e6/0x3a0
-[    3.868440]  do_init_module+0x4a/0x240
-[    3.868442]  __do_sys_finit_module+0x93/0xf0
-[    3.868446]  do_syscall_64+0x5b/0x80
-[    3.868449]  ? rcu_read_lock_sched_held+0x3c/0x70
-[    3.868451]  ? lockdep_hardirqs_on_prepare+0xd9/0x180
-[    3.868454]  ? do_syscall_64+0x67/0x80
-[    3.868456]  ? do_syscall_64+0x67/0x80
-[    3.868458]  ? do_syscall_64+0x67/0x80
-[    3.868460]  ? do_syscall_64+0x67/0x80
-[    3.868462]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[    3.868465] RIP: 0033:0x7fc4d8ec1ced
-[    3.868467] Code: 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d fb 70 0e 00 f7 d8 64 89 01 48
-[    3.868472] RSP: 002b:00007fff687ae6b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-[    3.868475] RAX: ffffffffffffffda RBX: 0000560a76fbca60 RCX: 00007fc4d8ec1ced
-[    3.868477] RDX: 0000000000000000 RSI: 00007fc4d902343c RDI: 0000000000000011
-[    3.868479] RBP: 00007fc4d902343c R08: 0000000000000000 R09: 0000560a76fb59c0
-[    3.868481] R10: 0000000000000011 R11: 0000000000000246 R12: 0000000000020000
-[    3.868484] R13: 0000560a76f8bfd0 R14: 0000000000000000 R15: 0000560a76fc2d10
-[    3.868487]  </TASK>
-[    3.868489] irq event stamp: 120617
-[    3.868490] hardirqs last  enabled at (120617): [<ffffffff9817169e>] __up_console_sem+0x5e/0x70
-[    3.868494] hardirqs last disabled at (120616): [<ffffffff98171683>] __up_console_sem+0x43/0x70
-[    3.868497] softirqs last  enabled at (119684): [<ffffffff980ee83a>] __irq_exit_rcu+0xca/0x100
-[    3.868501] softirqs last disabled at (119679): [<ffffffff980ee83a>] __irq_exit_rcu+0xca/0x100
-[    3.868504] ---[ end trace 0000000000000000 ]---
+Sure, I'll fix up all the reported things in the next iteration.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+BTW, have you ever posted yours version of the patch? Will be great if
+we could compare the changed code paths.
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-index f10a0256413e..32cff21f261c 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
-@@ -576,6 +576,8 @@ static int smu_early_init(void *handle)
- 	smu->smu_baco.platform_support = false;
- 	smu->user_dpm_profile.fan_mode = -1;
- 
-+	mutex_init(&smu->message_lock);
-+
- 	adev->powerplay.pp_handle = smu;
- 	adev->powerplay.pp_funcs = &swsmu_pm_funcs;
- 
-@@ -975,8 +977,6 @@ static int smu_sw_init(void *handle)
- 	bitmap_zero(smu->smu_feature.supported, SMU_FEATURE_MAX);
- 	bitmap_zero(smu->smu_feature.allowed, SMU_FEATURE_MAX);
- 
--	mutex_init(&smu->message_lock);
--
- 	INIT_WORK(&smu->throttling_logging_work, smu_throttling_logging_work_fn);
- 	INIT_WORK(&smu->interrupt_work, smu_interrupt_work_fn);
- 	atomic64_set(&smu->throttle_int_counter, 0);
+>> This patch introduces new locking convention for dma-buf users. From now
+>> on all dma-buf importers are responsible for holding dma-buf reservation
+>> lock around operations performed over dma-bufs.
+>>
+>> This patch implements the new dma-buf locking convention by:
+>>
+>>    1. Making dma-buf API functions to take the reservation lock.
+>>
+>>    2. Adding new locked variants of the dma-buf API functions for drivers
+>>       that need to manage imported dma-bufs under the held lock.
+> 
+> Instead of adding new locked variants please mark all variants which
+> expect to be called without a lock with an _unlocked postfix.
+> 
+> This should make it easier to remove those in a follow up patch set and
+> then fully move the locking into the importer.
+
+Do we really want to move all the locks to the importers? Seems the
+majority of drivers should be happy with the dma-buf helpers handling
+the locking for them.
+
+>>    3. Converting all drivers to the new locking scheme.
+> 
+> I have strong doubts that you got all of them. At least radeon and
+> nouveau should grab the reservation lock in their ->attach callbacks
+> somehow.
+
+Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
+lock already, seems they should be okay (?)
+
+I assume all the basics should covered in this v6. At minimum Intel,
+Tegra, Panfrost, Lima and Rockchip drivers should be good. If I missed
+something, then please let me know and I'll correct it.
+
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>   drivers/dma-buf/dma-buf.c                     | 270 +++++++++++-------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   6 +-
+>>   drivers/gpu/drm/drm_client.c                  |   4 +-
+>>   drivers/gpu/drm/drm_gem.c                     |  33 +++
+>>   drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  10 +-
+>>   drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
+>>   drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+>>   .../common/videobuf2/videobuf2-dma-contig.c   |  11 +-
+>>   .../media/common/videobuf2/videobuf2-dma-sg.c |  11 +-
+>>   .../common/videobuf2/videobuf2-vmalloc.c      |  11 +-
+>>   include/drm/drm_gem.h                         |   3 +
+>>   include/linux/dma-buf.h                       |  14 +-
+>>   13 files changed, 241 insertions(+), 159 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index 32f55640890c..64a9909ccfa2 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -552,7 +552,6 @@ struct dma_buf *dma_buf_export(const struct
+>> dma_buf_export_info *exp_info)
+>>       file->f_mode |= FMODE_LSEEK;
+>>       dmabuf->file = file;
+>>   -    mutex_init(&dmabuf->lock);
+> 
+> Please make removing dmabuf->lock a separate change.
+
+Alright
+
 -- 
-2.35.1
-
+Best regards,
+Dmitry
