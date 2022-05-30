@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7791537E50
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:58:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B131537E67
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 16:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A634810ED5D;
-	Mon, 30 May 2022 13:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4341F10E98A;
+	Mon, 30 May 2022 14:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8D0B10ED3E;
- Mon, 30 May 2022 13:58:28 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F2210EB2D
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:50:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F1DC660EDF;
- Mon, 30 May 2022 13:49:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8E0C385B8;
- Mon, 30 May 2022 13:49:52 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9CEFDB80DE4;
+ Mon, 30 May 2022 13:50:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20B50C341C5;
+ Mon, 30 May 2022 13:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653918593;
- bh=aLylDdqT0NTqM4D2n1JKqFVOODdcHs+kgtWOg5yMgK4=;
+ s=k20201202; t=1653918610;
+ bh=NhQIeyPX25gsV3OUwC5lhjgviB0f5JW/jJAS23Jt5uw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Tva/PpC+kOrXkJzgFbpo1HvW37ZFUyZgRZdD6kmnrPs8E2ccmPCaSIqakK1fjKir9
- hUmAmgFDBGXOX6+RGG3upGUZ70oawOunIG7VwJ4sjU3qE1NR4OZiQeykQfLRXmyx3t
- K2Xir4MjUqKEgEU4NzoWPcBHGWS3Zi8bualXqVL//HwPZVMIKmjaV4/KHXVZR/7eWY
- QlNo/OTbC5xjbPXm+S0PSWDbXpHg0RUNM76uYt9xYvQkHFtyIDcm0Gzv3yZV/Bh3Fb
- YyQ9I4eh4CXH0QgzcFHnLV78LU9kE1R3tCu5ieZzHVCi270GcFk80CZT/IVV3CueaK
- UuLtjv70iOr3A==
+ b=Ng0Sr++9zWzu9kmLIKsFCL3EQQ/QXRE4HdWCpIO6PztAs6hSgTdaHx4wD40hj514d
+ VtTBy2FkmKYinKliE0YQr0cz0zcKJzLRblU6Wq9IhqB1XPehP7irP3t7/ebgAhmpzT
+ BtEt9Ux72pyc08LGF5ASFEk0MY3ks1AQDvI0Fzn1luRB+atbS+qo433kCIzzdSM70z
+ lva+B1qraVL+vH7fY4p6EkOV0IoggevRMYX6q4NQZSEEo6BbGidQvCwtYbVJSc/xUF
+ dD51tEOzX7oAa0F8klW7ZkJ4QJo/SVuxbjsc2h9Pe2m7IW3nWq4L5zBzJDgvO0yMgH
+ 40ZegXMaI2vIw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/38] drm/amd/pm: fix double free in
- si_parse_power_table()
-Date: Mon, 30 May 2022 09:48:56 -0400
-Message-Id: <20220530134924.1936816-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 18/38] drm/plane: Move range check for
+ format_count earlier
+Date: Mon, 30 May 2022 09:49:04 -0400
+Message-Id: <20220530134924.1936816-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530134924.1936816-1-sashal@kernel.org>
 References: <20220530134924.1936816-1-sashal@kernel.org>
@@ -55,75 +55,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
+From: Steven Price <steven.price@arm.com>
 
-[ Upstream commit f3fa2becf2fc25b6ac7cf8d8b1a2e4a86b3b72bd ]
+[ Upstream commit 4b674dd69701c2e22e8e7770c1706a69f3b17269 ]
 
-In function si_parse_power_table(), array adev->pm.dpm.ps and its member
-is allocated. If the allocation of each member fails, the array itself
-is freed and returned with an error code. However, the array is later
-freed again in si_dpm_fini() function which is called when the function
-returns an error.
+While the check for format_count > 64 in __drm_universal_plane_init()
+shouldn't be hit (it's a WARN_ON), in its current position it will then
+leak the plane->format_types array and fail to call
+drm_mode_object_unregister() leaking the modeset identifier. Move it to
+the start of the function to avoid allocating those resources in the
+first place.
 
-This leads to potential double free of the array adev->pm.dpm.ps, as
-well as leak of its array members, since the members are not freed in
-the allocation function and the array is not nulled when freed.
-In addition adev->pm.dpm.num_ps, which keeps track of the allocated
-array member, is not updated until the member allocation is
-successfully finished, this could also lead to either use after free,
-or uninitialized variable access in si_dpm_fini().
-
-Fix this by postponing the free of the array until si_dpm_fini() and
-increment adev->pm.dpm.num_ps everytime the array member is allocated.
-
-Signed-off-by: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+Link: https://lore.kernel.org/dri-devel/20211203102815.38624-1-steven.price@arm.com/
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/si_dpm.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_plane.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/si_dpm.c b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
-index 1de96995e690..9f811051ceb0 100644
---- a/drivers/gpu/drm/amd/amdgpu/si_dpm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
-@@ -7247,17 +7247,15 @@ static int si_parse_power_table(struct amdgpu_device *adev)
- 	if (!adev->pm.dpm.ps)
- 		return -ENOMEM;
- 	power_state_offset = (u8 *)state_array->states;
--	for (i = 0; i < state_array->ucNumEntries; i++) {
-+	for (adev->pm.dpm.num_ps = 0, i = 0; i < state_array->ucNumEntries; i++) {
- 		u8 *idx;
- 		power_state = (union pplib_power_state *)power_state_offset;
- 		non_clock_array_index = power_state->v2.nonClockInfoIndex;
- 		non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
- 			&non_clock_info_array->nonClockInfo[non_clock_array_index];
- 		ps = kzalloc(sizeof(struct  si_ps), GFP_KERNEL);
--		if (ps == NULL) {
--			kfree(adev->pm.dpm.ps);
-+		if (ps == NULL)
- 			return -ENOMEM;
--		}
- 		adev->pm.dpm.ps[i].ps_priv = ps;
- 		si_parse_pplib_non_clock_info(adev, &adev->pm.dpm.ps[i],
- 					      non_clock_info,
-@@ -7279,8 +7277,8 @@ static int si_parse_power_table(struct amdgpu_device *adev)
- 			k++;
- 		}
- 		power_state_offset += 2 + power_state->v2.ucNumDPMLevels;
-+		adev->pm.dpm.num_ps++;
- 	}
--	adev->pm.dpm.num_ps = state_array->ucNumEntries;
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 2411b6de055e..425e76e39b3b 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -177,6 +177,13 @@ int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 	if (WARN_ON(config->num_total_plane >= 32))
+ 		return -EINVAL;
  
- 	/* fill in the vce power states */
- 	for (i = 0; i < adev->pm.dpm.num_of_vce_states; i++) {
++	/*
++	 * First driver to need more than 64 formats needs to fix this. Each
++	 * format is encoded as a bit and the current code only supports a u64.
++	 */
++	if (WARN_ON(format_count > 64))
++		return -EINVAL;
++
+ 	WARN_ON(drm_drv_uses_atomic_modeset(dev) &&
+ 		(!funcs->atomic_destroy_state ||
+ 		 !funcs->atomic_duplicate_state));
+@@ -198,13 +205,6 @@ int drm_universal_plane_init(struct drm_device *dev, struct drm_plane *plane,
+ 		return -ENOMEM;
+ 	}
+ 
+-	/*
+-	 * First driver to need more than 64 formats needs to fix this. Each
+-	 * format is encoded as a bit and the current code only supports a u64.
+-	 */
+-	if (WARN_ON(format_count > 64))
+-		return -EINVAL;
+-
+ 	if (format_modifiers) {
+ 		const uint64_t *temp_modifiers = format_modifiers;
+ 		while (*temp_modifiers++ != DRM_FORMAT_MOD_INVALID)
 -- 
 2.35.1
 
