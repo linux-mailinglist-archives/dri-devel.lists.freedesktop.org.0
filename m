@@ -2,78 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F62D537B1C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE85E537B5E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 848D810E273;
-	Mon, 30 May 2022 13:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9A7C10E027;
+	Mon, 30 May 2022 13:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E05710E273
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:12:05 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id D21E25C0053;
- Mon, 30 May 2022 09:12:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 30 May 2022 09:12:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1653916321; x=
- 1654002721; bh=HUT5YSA0RJcKsWMT2WGJiiWtnO6QuCOi5gIB32Sx+LE=; b=W
- srzmFFC2nG2ACXrgigNjV+Vff6y5F3Uvpe5W7XXGJaRusOfKDo/o2qVVdfvdKrF2
- eG/qBJ2jk1e+/ISErAQ1nCffWdUiTqDb3Lq+ovt4OZIv3LXEeOiVEEqEkJoyGqrU
- 72oTRjOy06P2szX5xn8Y00WG+NHDJKVbE9SnDphO8KjN4kdCiKrmwHLvReAg6x4C
- 1lvgQtTIkk0EiuvsEssfcZ5vsBRiPni8r5y5E5THPbv3hoNM5+0BqrsNviCULJV8
- j79EdvYbpm67GV+0AO5vOeEwG+B7Gp8hyjLmcfBPNk/1tBGZqtJA3HqSVZYb1p/P
- uTcofsaXtX3JeN3LtBMAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653916321; x=
- 1654002721; bh=HUT5YSA0RJcKsWMT2WGJiiWtnO6QuCOi5gIB32Sx+LE=; b=Y
- wmGfhxw4tXrnr6zanebuNDFDcbJSXQvIfBX/I2lNgNFuawqz9WkOn+fM6ljWxjbP
- Kt2jIrdHL7a/Ivdxy8dup+noB42RvWQ2/mQQql4ToBeeoucI9kxBCib1ydeIha8F
- cI2mvQT7n5rrKU2bittNd1GuaQIVl9riv5cVoeHwKHz3k3BTR4FYLn6bU3d4VQWZ
- 5dyCEtEwCINFiFyhEnMylO9Wuf/+iSA9moKY6QxlQl9n9ltyksrvRfKs6/hG1RNK
- 0iZ/rIFKxuOdN8cU/FHi9+9o6USC6Xm2v47jvWVI1age6cR+rWRZUBXpfk3WfBB4
- f2hvZ9hEjtU/Ik/hFXz0A==
-X-ME-Sender: <xms:ocKUYq7Pu_P-hqQQKRi1qnkpCH9HVO6daeqR4dQ8TmAYwnWCZPgMdA>
- <xme:ocKUYj7d6yOWlcK45F5z1Y9DRLu4V3epgsYV2GPdXlxiwSpnk6hfe-LwrZuCWgXkc
- tquqX-gejoySAJfGjg>
-X-ME-Received: <xmr:ocKUYpc_u-Trp4fF2wD3AYkWb5bUTmWJX0VwnRtauukm8vUYRtFlDE2IVw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigdehkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelteehtefgffehteduhfeiuddtffeivdegffejteffteffvdekiedvheel
- jeettdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ocKUYnIp83RyDI9wUHn89taCd3dXrHKSObLEg76kIC11AnG1JVHerw>
- <xmx:ocKUYuLVIJAHRozl7Hu7hb-NMrx2VJzEbvK0LK5h9hQZWmtTj7K8ww>
- <xmx:ocKUYoy5YodBwKrmJRQjdDLic6tY_FRKzrV40wbTvN_kK0AXI3WQDA>
- <xmx:ocKUYm98lGA1yaarZeFtCE92Pf_8PWoxDnlomMAJjLAX4hG8Hh_QbQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 May 2022 09:12:00 -0400 (EDT)
-Date: Mon, 30 May 2022 15:11:58 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-Message-ID: <20220530131158.kqq2mohxoh52xpeg@penduick>
-References: <20220530102017.471865-1-jose.exposito89@gmail.com>
- <20220530102017.471865-2-jose.exposito89@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E374D10E027
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:24:35 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2A7ED60DD5;
+ Mon, 30 May 2022 13:24:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66562C385B8;
+ Mon, 30 May 2022 13:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653917074;
+ bh=m8OgePpjLaw3vqTYFrtd4bJ7YgU/xYB3M8CWzOMVcdc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=bX11V3oMN+/wnYPlL0/UAMWBEEmOveKuwZ82Wee9Mvbuw/IGBTjuL4Z+eUJbvkWOM
+ hyhl4xzFyrhnPVAuk0Nx5gKXgE9lk2j3UI78EajiXZtVKCOYSHp9j7DHSlE8Vdr681
+ m1rfjeEMBfCVq22gA6uABRrEYpO+9oHVx2gYzt4YSrCir1cPQZE4sI1NorY7mo9yCA
+ vYJ9h875kxRYoTrZqUq2LWL4tiqT8apHzrGXb1VurPxT15XTfzbGn4cg3KiKJmUL61
+ pIfgYeV5ijGa3S4C6Bp/FpMbiC+EHteTC3ATR46cdNMfm/i/CnMDZNycHif/4zj1s7
+ kKuaSfc3Ssziw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 002/159] drm/selftests: fix a shift-out-of-bounds
+ bug
+Date: Mon, 30 May 2022 09:21:47 -0400
+Message-Id: <20220530132425.1929512-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
+References: <20220530132425.1929512-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220530102017.471865-2-jose.exposito89@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,61 +57,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ Arunpravin <Arunpravin.PaneerSelvam@amd.com>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, kernel test robot <oliver.sang@intel.com>,
+ matthew.auld@intel.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
 
-Hi,
+[ Upstream commit fc3785fb56a27304c769af730d079f4337d4dc76 ]
 
-On Mon, May 30, 2022 at 12:20:17PM +0200, José Expósito wrote:
-> Test the conversion from XRGB8888 to RGB332.
-> 
-> What is tested?
-> 
->  - Different values for the X in XRGB8888 to make sure it is ignored
->  - Different clip values: Single pixel and full and partial buffer
->  - Well know colors: White, black, red, green, blue, magenta, yellow
->    and cyan
->  - Other colors: Randomly picked
->  - Destination pitch
-> 
-> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+pass the correct size value computed using the max_order.
 
-It looks mostly good to me, but I think we should Cc
-kunit-dev@googlegroups.com to have their feedback.
+<log snip>
 
-> ---
->  drivers/gpu/drm/Kconfig                  |  12 ++
->  drivers/gpu/drm/Makefile                 |   3 +
->  drivers/gpu/drm/drm_format_helper_test.c | 166 +++++++++++++++++++++++
->  3 files changed, 181 insertions(+)
->  create mode 100644 drivers/gpu/drm/drm_format_helper_test.c
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index e88c497fa010..d92be6faef15 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -76,6 +76,18 @@ config DRM_KMS_HELPER
->  	help
->  	  CRTC helpers for KMS drivers. 
->  
-> +config DRM_FORMAR_HELPER_TEST
-> +	bool "drm_format_helper tests" if !KUNIT_ALL_TESTS
-> +	depends on DRM && KUNIT=y
-> +	select DRM_KMS_HELPER
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  KUnit tests for the drm_format_helper APIs. This option is not
-> +	  useful for distributions or general kernels, but only for kernel
-> +	  developers working on DRM and associated drivers.
-> +
-> +	  If in doubt, say "N".
-> +
+[ 68.124177][ T1] UBSAN: shift-out-of-bounds in include/linux/log2.h:67:13
+[ 68.125333][ T1] shift exponent 4294967295 is too large for 32-bit type 'long
+unsigned int'
+[ 68.126563][ T1] CPU: 0 PID: 1 Comm: swapper Not tainted
+5.17.0-rc2-00311-g39ec47bbfd5d #2
+[ 68.127758][ T1] Call Trace:
+[ 68.128187][ T1] dump_stack_lvl (lib/dump_stack.c:108)
+[ 68.128793][ T1] dump_stack (lib/dump_stack.c:114)
+[ 68.129331][ T1] ubsan_epilogue (lib/ubsan.c:152)
+[ 68.129958][ T1] __ubsan_handle_shift_out_of_bounds.cold (arch/x86/include/asm/smap.h:85)
 
-AFAIK, kunit test cases are supposed to have a .kunitconfig too to
-enable the kunit tests easily.
+[ 68.130791][ T1] ? drm_block_alloc+0x28/0x80
+[ 68.131582][ T1] ? rcu_read_lock_sched_held (kernel/rcu/update.c:125)
+[ 68.132215][ T1] ? kmem_cache_alloc (include/trace/events/kmem.h:54 mm/slab.c:3501)
+[ 68.132878][ T1] ? mark_free+0x2e/0x80
+[ 68.133524][ T1] drm_buddy_init.cold (include/linux/log2.h:67
+drivers/gpu/drm/drm_buddy.c:131)
+[ 68.134145][ T1] ? test_drm_cmdline_init (drivers/gpu/drm/selftests/test-drm_buddy.c:87)
 
-Maxime
+[ 68.134770][ T1] igt_buddy_alloc_limit (drivers/gpu/drm/selftests/test-drm_buddy.c:30)
+[ 68.135472][ T1] ? vprintk_default (kernel/printk/printk.c:2257)
+[ 68.136057][ T1] ? test_drm_cmdline_init (drivers/gpu/drm/selftests/test-drm_buddy.c:87)
+
+[ 68.136812][ T1] test_drm_buddy_init (drivers/gpu/drm/selftests/drm_selftest.c:77
+drivers/gpu/drm/selftests/test-drm_buddy.c:95)
+[ 68.137475][ T1] do_one_initcall (init/main.c:1300)
+[ 68.138111][ T1] ? parse_args (kernel/params.c:609 kernel/params.c:146
+kernel/params.c:188)
+[ 68.138717][ T1] do_basic_setup (init/main.c:1372 init/main.c:1389 init/main.c:1408)
+[ 68.139366][ T1] kernel_init_freeable (init/main.c:1617)
+[ 68.140040][ T1] ? rest_init (init/main.c:1494)
+[ 68.140634][ T1] kernel_init (init/main.c:1504)
+[ 68.141155][ T1] ret_from_fork (arch/x86/entry/entry_32.S:772)
+[ 68.141607][ T1]
+================================================================================
+[ 68.146730][ T1] ------------[ cut here ]------------
+[ 68.147460][ T1] kernel BUG at drivers/gpu/drm/drm_buddy.c:140!
+[ 68.148280][ T1] invalid opcode: 0000 [#1]
+[ 68.148895][ T1] CPU: 0 PID: 1 Comm: swapper Not tainted
+5.17.0-rc2-00311-g39ec47bbfd5d #2
+[ 68.149896][ T1] EIP: drm_buddy_init (drivers/gpu/drm/drm_buddy.c:140 (discriminator 1))
+
+For more details: https://lists.01.org/hyperkitty/list/lkp@lists.01.org/thread/FDIF3HCILZNN5UQAZMOR7E3MQSMHHKWU/
+
+Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Acked-by: Christian KÃ¶nig <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220303201602.2365-1-Arunpravin.PaneerSelvam@amd.com
+Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/selftests/test-drm_buddy.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/selftests/test-drm_buddy.c b/drivers/gpu/drm/selftests/test-drm_buddy.c
+index fa997f89522b..913cbd7eae04 100644
+--- a/drivers/gpu/drm/selftests/test-drm_buddy.c
++++ b/drivers/gpu/drm/selftests/test-drm_buddy.c
+@@ -902,14 +902,13 @@ static int igt_buddy_alloc_range(void *arg)
+ 
+ static int igt_buddy_alloc_limit(void *arg)
+ {
+-	u64 end, size = U64_MAX, start = 0;
++	u64 size = U64_MAX, start = 0;
+ 	struct drm_buddy_block *block;
+ 	unsigned long flags = 0;
+ 	LIST_HEAD(allocated);
+ 	struct drm_buddy mm;
+ 	int err;
+ 
+-	size = end = round_down(size, 4096);
+ 	err = drm_buddy_init(&mm, size, PAGE_SIZE);
+ 	if (err)
+ 		return err;
+@@ -921,7 +920,8 @@ static int igt_buddy_alloc_limit(void *arg)
+ 		goto out_fini;
+ 	}
+ 
+-	err = drm_buddy_alloc_blocks(&mm, start, end, size,
++	size = mm.chunk_size << mm.max_order;
++	err = drm_buddy_alloc_blocks(&mm, start, size, size,
+ 				     PAGE_SIZE, &allocated, flags);
+ 
+ 	if (unlikely(err))
+-- 
+2.35.1
+
