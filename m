@@ -1,64 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F387F538C14
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 09:41:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D065380D8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 16:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6DE810F465;
-	Tue, 31 May 2022 07:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A494210E53E;
+	Mon, 30 May 2022 14:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F25410E53E
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 14:24:18 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id t6so14887938wra.4
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 07:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rUAWdJ1Rf6hO8ecNBUpnATX0ltMJMJR8PSAH4KO8bJM=;
- b=LXAGdGTLAayi/VD6RlJh8cDSac2FGSYcJt/uGESSMobfyQL1XbIq81Ywa+yllK/x2E
- sJAS1Rtf5zCjVFmHW4pfy9Tm5dcA5ZVlkEAgvw2NGpz9WZyyL1fOivsSvW9ytr3I57tI
- +6fjo5tQhXgr2qaexjNggNiuq6T69aTHW9odw2YHwZzw+W6m95HcY+q9sBmorz9c0xYk
- bA0W/CuhgZRg2uQS5Mkr9/Y/bZpmCfybLP6mrXZw7koQ3b+VufvplHhXB5NVUCdaMUoW
- TCkVYinu9AA7khJHktcQJTHSDsPEUzbWColgtl13bs4lm9K4PQIRKfICpI7XOPwBSQPj
- 1kIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rUAWdJ1Rf6hO8ecNBUpnATX0ltMJMJR8PSAH4KO8bJM=;
- b=b1gZZVKdXdEpNRQHlB/ddjOwC2QwgCMOTfos1W5ghBPjuYBbRyvwyhPlCV2U+bljFj
- lcGe+Z6XRfg9ISfpww8cXMVe78KojkaSXgsDOmIABeCbbZO4PT0TPaAPbt2cO+aOkSDo
- LB7bjpBFFj3Tw+GBnu4oEulFULcQ2h9y/Z9TzkEtTQP7zbJx4c9L6NYZ8c6qELCHm6w3
- kp1GRSRmjyskQNNtUBaPjrgceD4F/8Lmr8U4MShCWO0Bh5dtT/bcOPYJxcopknQg6Uzn
- l5zVWMHND5GBxTLrUPEE7hvi14UnxGaP67claR8qwiCdRTDoJNb2mCMFRTZp4iKu3fh1
- qOxQ==
-X-Gm-Message-State: AOAM530Ekb/Gd7LpSb4FBUKNJzKxLp8kOFmcdIII7eE6GhQfkOWIKsTz
- Y6rxQlN0IC29JwGqNovv5q77+Q==
-X-Google-Smtp-Source: ABdhPJwUdn2UEohzLhlkvTp89uivSBFAQcrCfQrdg/myp0CdGWHmaAJLOG8f0NAC612sXpmZ9kB+sw==
-X-Received: by 2002:a05:6000:1288:b0:210:154:ea50 with SMTP id
- f8-20020a056000128800b002100154ea50mr21132673wrx.213.1653920656629; 
- Mon, 30 May 2022 07:24:16 -0700 (PDT)
-Received: from localhost.localdomain ([88.160.162.107])
- by smtp.gmail.com with ESMTPSA id
- y4-20020a056000168400b0020d10a249eesm9134310wrd.13.2022.05.30.07.24.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 07:24:15 -0700 (PDT)
-From: Fabien Parent <fparent@baylibre.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH] drm/mediatek: fix crtc index computation
-Date: Mon, 30 May 2022 16:24:07 +0200
-Message-Id: <20220530142407.781187-1-fparent@baylibre.com>
-X-Mailer: git-send-email 2.36.1
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E88DE10E909
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 14:27:03 +0000 (UTC)
+Received: from mail-yb1-f171.google.com ([209.85.219.171]) by
+ mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MZAvp-1oHuC42KTh-00V6aj for <dri-devel@lists.freedesktop.org>; Mon, 30 May
+ 2022 16:27:01 +0200
+Received: by mail-yb1-f171.google.com with SMTP id i11so19266463ybq.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 07:27:01 -0700 (PDT)
+X-Gm-Message-State: AOAM532EVd41xH1hQm+V6vfnv2S0CaW9lc0bmIdqJJNHMYP0KOVONNAZ
+ XqbFEoFGYRCNzMH0VXnELNXcMVRzvSJTa3NSDHM=
+X-Google-Smtp-Source: ABdhPJx5T8sAy2mpNYpXUMEEXXq3paGLe37RJlBPWUL37w/VrSqmqA+dX26yPRFsA+fHHAhbaULTIG1qF0gAbTdb1Dw=
+X-Received: by 2002:a25:4f0a:0:b0:64f:6a76:3d8f with SMTP id
+ d10-20020a254f0a000000b0064f6a763d8fmr43544693ybb.134.1653920820404; Mon, 30
+ May 2022 07:27:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 31 May 2022 07:41:20 +0000
+References: <YpCUzStDnSgQLNFN@debian>
+ <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
+ <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
+ <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
+ <YpIR67FMtTGCwARZ@debian>
+ <CAHk-=wjuyHE=1wLgHncub8FfgeyYqfWYsy4-YrhAvq9991h_Aw@mail.gmail.com>
+ <CAHk-=wi_hJV0V=Ecg2dzbe2P_H1XKTu6VP_AtCH6u=tis31ayg@mail.gmail.com>
+ <CAK8P3a0-QyOQiieEvM0yQb43XbCtPmeao8UvoAsdFnjCxYPz7Q@mail.gmail.com>
+ <CAHk-=whfmwzjF4eBPYS6pHFqHVzJF3m=2h=gRWSRyHks8V=ABA@mail.gmail.com>
+ <87a6aztli2.fsf@intel.com> <877d63tleq.fsf@intel.com>
+ <CAK8P3a0-S77QLR1dK3NT6ot7JTAD5AdojAZJr-Xi112-v5EOdw@mail.gmail.com>
+ <87czfvrwsv.fsf@intel.com>
+ <CAK8P3a0HNOCOSx9UONw6gf1UUU8J4iAOmMFP8-DtJ3O7XAACsQ@mail.gmail.com>
+ <874k17ru44.fsf@intel.com>
+In-Reply-To: <874k17ru44.fsf@intel.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 30 May 2022 16:26:43 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
+Message-ID: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
+Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
+ block count and size helpers")
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:8kje5LZFzyB57RWUJEda4bC96HfeRKt4sLNkSXUnHL0XQ6kkJo4
+ zTnVc++pKpp4HE/bo8KaIAH/6Xiz0Vn9zifeu6kkBvzCA2VXdWYUNgv0tUYwSkvD5aHCMdM
+ Eef037+jJYHG//AfCrIvCbp6g8aP113MNFbgYMLkSw0Z7SXrV+cVzXbXNMElapunpy2UDBH
+ t0ygniIedT/POYqp46YLw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SR41uckSuR8=:lWMKvmZZLiD8exF/Rr1Cl4
+ DWJj/9+bXhbjx/qk78JAUIqIVLL8NHtj2/x9KKm0MWOvPafcCzt9vkhy3GnbO35v2kBUizs4+
+ zIWMf0eikgVBbOnljxQ6LLM31irAi+RD/KOcWJnb09fMPOou1DiWbCZu7nM5MFHlCVJVe+bc+
+ NJeNBaPfeyzMfTX+F3NxcbZFZIJoWMt2pftQmh+TstC5/fTHTMSBLFO0nCtqfLncgacL52nQg
+ 5tgio41w/CvsdFfrOIlSlFLZTHBfC4DjxDUcBeqfZhGUFPa4+mfBKEmLg8beQZ9GkFp1IHKS4
+ EItJG2A3K8KF/CENECVA9Mm/03gx05/jPsGTjl/OVQWlcBz9ZAfb3u3wk1/xuYVZ936LrAuK+
+ IlHjU2Koh0joV5Yw01VkklbsajNV5qlEAULDulyksVsF+fcuofl65386a3fIq23vg++k3OpFL
+ u6/FEX9eyscgw6gEPD6w6OGCWUS0vDoeNU6Cz2EVyymel9GCdKLf8h3t6r5wwvVfRqnQAczbW
+ KtvY1VzLPMDr7fwSCwM3ywtmQrUqOLd7GWY3IIdC4BMSz9Jvj66Mkfy8kCpUWbDmTosZ7v72S
+ CzHdTZOzWUEEOttZ9iC5ZA5hTkeLQP2PCKCOEfJJ/4xPJuVHZs8NvS2cp+pdoiVt1yL76TgS8
+ aQLF/9Z3voTkjHEEh92IE3tEGhLlOlptVxPRyIDK73xLLsjf3VjccXQPnd9aKOl2L2gi7o6UK
+ DksXDjj4mKqSK4bazQ6MxmUuYfeWYoAMzOvwDbumtjmSygHs9G6AVFGBmOt+wIdjJhAN2Ne2T
+ I/x0Q3jDBY6O3VKgILsC6110zToOJCth1t0HJd3X0+dYVVtFar290cLBCofh0OV0KKfJHz9gU
+ 5An6CGgtL81FHEzE4+lizRbbZhip8m6+I4bXRhJjI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +79,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabien Parent <fparent@baylibre.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <vireshk@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Julia Lawall <Julia.Lawall@inria.fr>,
+ Linus Torvalds <torvalds@linux-foundation.org>, SoC Team <soc@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code always assume that the main path is enabled, which is not
-always the case. When the main path is not enabled, the CRTC index
-of the ext path is incorrect which makes the secondary path
-not usable. Fix the CRTC index calculation.
+On Mon, May 30, 2022 at 4:08 PM Jani Nikula <jani.nikula@intel.com> wrote:
+> On Mon, 30 May 2022, Arnd Bergmann <arnd@arndb.de> wrote:
+> > struct my_driver_priv {
+> >        struct device dev;
+> >        u8 causes_misalignment;
+> >        spinlock_t lock;
+> >        atomic_t counter;
+> > } __packed; /* this annotation is harmful because it breaks the atomics */
+>
+> I wonder if this is something that could be caught with coccinelle. Or
+> sparse. Are there any cases where this combo is necessary? (I can't
+> think of any, but it's a low bar. ;)
+>
+> Cc: Julia.
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 46 +++++++++++++++------
- 1 file changed, 34 insertions(+), 12 deletions(-)
+I think one would first have to make a list of data types that are not
+meant to be in a packed structure. It could be a good start to
+search for any packed aggregates with a pointer, atomic_t or spinlock_t
+in them, but there are of course many more types that you won't
+find in hardware structures.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 5d7504a72b11..6f2abfc608fb 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -430,25 +430,47 @@ int mtk_ddp_comp_get_id(struct device_node *node,
- 	return -EINVAL;
- }
- 
-+static bool mtk_drm_comp_is_enabled(struct drm_device *drm,
-+				    const enum mtk_ddp_comp_id *path,
-+				    unsigned int path_len)
-+{
-+	struct mtk_drm_private *priv = drm->dev_private;
-+
-+	return path && path_len && !!priv->comp_node[path[path_len - 1]];
-+}
-+
- unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
- 						struct device *dev)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
--	unsigned int ret = 0;
-+	unsigned int index = 0;
- 
--	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, private->data->main_len,
-+	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path,
-+				     private->data->main_len,
- 				     private->ddp_comp))
--		ret = BIT(0);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
--					  private->data->ext_len, private->ddp_comp))
--		ret = BIT(1);
--	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
--					  private->data->third_len, private->ddp_comp))
--		ret = BIT(2);
--	else
--		DRM_INFO("Failed to find comp in ddp table\n");
-+		return BIT(index);
-+
-+	if (mtk_drm_comp_is_enabled(drm, private->data->main_path,
-+				    private->data->main_len))
-+		index++;
- 
--	return ret;
-+	if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
-+				     private->data->ext_len,
-+				     private->ddp_comp))
-+		return BIT(index);
-+
-+	if (mtk_drm_comp_is_enabled(drm, private->data->ext_path,
-+				    private->data->ext_len))
-+		index++;
-+
-+	if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
-+					  private->data->third_len,
-+					  private->ddp_comp))
-+		return BIT(index);
-+
-+	DRM_INFO("Failed to find comp in ddp table\n");
-+
-+	return 0;
- }
- 
- int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
--- 
-2.36.1
+> > or if the annotation does not change the layout like
+> >
+> > struct my_dma_descriptor {
+> >      __le64 address;
+> >      __le64 length;
+> > } __packed; /* does not change layout but makes access slow on some
+> > architectures */
+>
+> Why is this the case, though? I'd imagine the compiler could figure this
+> out.
 
+When you annotate the entire structure as __packed without an
+extra __aligned() annotation, the compiler has to assume that the
+structure itself is unaligned as well. On many of the older architectures,
+this will result in accessing the values one byte at a time. Marking
+the structure as "__packed __aligned(8)" instead would be harmless.
+
+When I have a structure with a few misaligned members, I generally
+prefer to only annotate the members that are not naturally aligned,
+but this approach is not very common.
+
+         Arnd
