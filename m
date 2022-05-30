@@ -1,38 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776145383D2
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:06:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9F15383D3
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:06:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 449D010EE09;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 893DD10EE1C;
 	Mon, 30 May 2022 15:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C50AA10EDEE
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:06:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4268710EE02
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:06:11 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mfe@pengutronix.de>)
- id 1nvgy4-0005Kh-Bh; Mon, 30 May 2022 17:06:04 +0200
+ id 1nvgy4-0005Kn-Bi; Mon, 30 May 2022 17:06:04 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <mfe@pengutronix.de>)
- id 1nvgy3-005THt-Hy; Mon, 30 May 2022 17:06:02 +0200
+ id 1nvgy4-005THz-2i; Mon, 30 May 2022 17:06:02 +0200
 Received: from mfe by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <mfe@pengutronix.de>)
- id 1nvgy1-005Bdu-C5; Mon, 30 May 2022 17:06:01 +0200
+ id 1nvgy1-005Bdw-Cg; Mon, 30 May 2022 17:06:01 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
 To: robert.foss@linaro.org, laurent.pinchart@ideasonboard.com,
  jernej.skrabec@gmail.com, jonas@kwiboo.se, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org, maxime@cerno.tech
-Subject: [PATCH 0/6] TI SN65DSI83 Features
-Date: Mon, 30 May 2022 17:05:43 +0200
-Message-Id: <20220530150548.1236307-1-m.felsch@pengutronix.de>
+Subject: [PATCH 1/6] drm/bridge: ti-sn65dsi83: make lvds lane register setup
+ more readable
+Date: Mon, 30 May 2022 17:05:44 +0200
+Message-Id: <20220530150548.1236307-2-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220530150548.1236307-1-m.felsch@pengutronix.de>
+References: <20220530150548.1236307-1-m.felsch@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -57,29 +60,38 @@ Cc: devicetree@vger.kernel.org, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+No functional change. Just reuse the already existing val variable to
+setup the register. This is in preparation for adding the new feature to
+reverse the CHA/CHB lane orders. Without this change this call gets very
+unreadable.
 
-the purpose of this small series is to enable the support for the reverse
-lane feature and to add support for reset controllers which can drive
-the enable pin.
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Regards,
-  Marco
-
-Marco Felsch (6):
-  drm/bridge: ti-sn65dsi83: make lvds lane register setup more readable
-  dt-bindings: drm/bridge: ti-sn65dsi83: add documentation for reverse
-    lvds lanes
-  drm/bridge: ti-sn65dsi83: add support to swap the LVDS data lanes
-  drm/bridge: ti-sn65dsi83: make use of dev_err_probe
-  dt-bindings: drm/bridge: ti-sn65dsi83: Add reset controller
-    documentation
-  drm/bridge: ti-sn65dsi83: add support for a external reset controller
-
- .../bindings/display/bridge/ti,sn65dsi83.yaml | 64 ++++++++++++-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 89 +++++++++++++++++--
- 2 files changed, 145 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 2831f0813c3a..112fea004c8e 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -437,11 +437,12 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
+ 	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
+-	regmap_write(ctx->regmap, REG_LVDS_LANE,
+-		     (ctx->lvds_dual_link_even_odd_swap ?
+-		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
+-		     REG_LVDS_LANE_CHA_LVDS_TERM |
+-		     REG_LVDS_LANE_CHB_LVDS_TERM);
++
++	val = REG_LVDS_LANE_CHA_LVDS_TERM | REG_LVDS_LANE_CHB_LVDS_TERM;
++	if (ctx->lvds_dual_link_even_odd_swap)
++		val |= REG_LVDS_LANE_EVEN_ODD_SWAP;
++
++	regmap_write(ctx->regmap, REG_LVDS_LANE, val);
+ 	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+ 
+ 	le16val = cpu_to_le16(mode->hdisplay);
 -- 
 2.30.2
 
