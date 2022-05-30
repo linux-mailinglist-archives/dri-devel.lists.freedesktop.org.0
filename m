@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27211537E2C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:52:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BA0537E30
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:52:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F00E910EC49;
-	Mon, 30 May 2022 13:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEDB410EC6E;
+	Mon, 30 May 2022 13:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB2F910EC49
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:52:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (unknown [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73F3210EC5F;
+ Mon, 30 May 2022 13:52:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2FB3060EC3;
- Mon, 30 May 2022 13:52:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99750C385B8;
- Mon, 30 May 2022 13:52:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EC6C961001;
+ Mon, 30 May 2022 13:52:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99612C3411C;
+ Mon, 30 May 2022 13:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653918734;
- bh=+Zw83mbhprbhnSOioWOEg4ncO5kSDXaueMFhlxbMSE8=;
- h=From:To:Cc:Subject:Date:From;
- b=ARTSGrvwGtjiVxnP0jamSJ3cct60LgvkH+Hw644OTE62YGmG3JUVn/KjELRKx1/kn
- je0678pgrXWER48aEFWicZDdEyevR/hGldlO01CDkQXqJ4AKdht5d3bPX086FuuaO8
- PPvXJ7NCofGLaagu0ULq4nzUu7V6Mg8vbDZ2Vw5Y/qgrE1DzLRK1I6AmidbqrGJ94m
- 0tbcfEPvM+hQ8MWabUx9cygxqEHYJXqC4xw6LyMh+Pm7Cx9RAJr14VFjUEbHuoxo3W
- RWXzkq2V4c0N9WbmTZsJIrAIHJBVi86nFBOdcYuFc80XUgt9Wh0UgRd1SlnpJzpjJr
- zHrJyOGjARGDg==
+ s=k20201202; t=1653918753;
+ bh=XGv+7aoh72FCsShC+ms9MTYM67DoQgj7qCjNXrgPKvg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dxOuXeJA/m/fCHVhBJBukmaokoWtBGO6jnk4dV0LruS2Qumau7Q50m8FJACLWGilk
+ H44BsLi0qZlEqsYFsrCSI7Y0Vb0Lwy00hdXlQ090JWEIhOJmL5SkR8WODZjkAptG6e
+ qIaM08ICImTXg1uvdrQD5GZU+1lrVPbVvgTyzSzv7sU0RnE8kmXDGP+2FqBMpIv7dZ
+ uf2OY1Ry/XssA3JMRxx0Nyky/fxsPP0ntKwZmYrnzdWccXm5iTTorIqRIF8ZGKhSjc
+ mFosVZwGUkMw7zU7yyWMKL5dOnwbnWf23X5wwulJahc5iG5JB51CIO2yfIoQlOdduT
+ KAVorWtLiKyFQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 01/24] drm/virtio: fix NULL pointer dereference in
- virtio_gpu_conn_get_modes
-Date: Mon, 30 May 2022 09:51:48 -0400
-Message-Id: <20220530135211.1937674-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 08/24] drm/amd/pm: fix double free in
+ si_parse_power_table()
+Date: Mon, 30 May 2022 09:51:55 -0400
+Message-Id: <20220530135211.1937674-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220530135211.1937674-1-sashal@kernel.org>
+References: <20220530135211.1937674-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,92 +55,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Liu Zixian <liuzixian4@huawei.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Liu Zixian <liuzixian4@huawei.com>
+From: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
 
-[ Upstream commit 194d250cdc4a40ccbd179afd522a9e9846957402 ]
+[ Upstream commit f3fa2becf2fc25b6ac7cf8d8b1a2e4a86b3b72bd ]
 
-drm_cvt_mode may return NULL and we should check it.
+In function si_parse_power_table(), array adev->pm.dpm.ps and its member
+is allocated. If the allocation of each member fails, the array itself
+is freed and returned with an error code. However, the array is later
+freed again in si_dpm_fini() function which is called when the function
+returns an error.
 
-This bug is found by syzkaller:
+This leads to potential double free of the array adev->pm.dpm.ps, as
+well as leak of its array members, since the members are not freed in
+the allocation function and the array is not nulled when freed.
+In addition adev->pm.dpm.num_ps, which keeps track of the allocated
+array member, is not updated until the member allocation is
+successfully finished, this could also lead to either use after free,
+or uninitialized variable access in si_dpm_fini().
 
-FAULT_INJECTION stacktrace:
-[  168.567394] FAULT_INJECTION: forcing a failure.
-name failslab, interval 1, probability 0, space 0, times 1
-[  168.567403] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
-[  168.567406] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
-[  168.567408] Call trace:
-[  168.567414]  dump_backtrace+0x0/0x310
-[  168.567418]  show_stack+0x28/0x38
-[  168.567423]  dump_stack+0xec/0x15c
-[  168.567427]  should_fail+0x3ac/0x3d0
-[  168.567437]  __should_failslab+0xb8/0x120
-[  168.567441]  should_failslab+0x28/0xc0
-[  168.567445]  kmem_cache_alloc_trace+0x50/0x640
-[  168.567454]  drm_mode_create+0x40/0x90
-[  168.567458]  drm_cvt_mode+0x48/0xc78
-[  168.567477]  virtio_gpu_conn_get_modes+0xa8/0x140 [virtio_gpu]
-[  168.567485]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
-[  168.567492]  drm_mode_getconnector+0x2e0/0xa70
-[  168.567496]  drm_ioctl_kernel+0x11c/0x1d8
-[  168.567514]  drm_ioctl+0x558/0x6d0
-[  168.567522]  do_vfs_ioctl+0x160/0xf30
-[  168.567525]  ksys_ioctl+0x98/0xd8
-[  168.567530]  __arm64_sys_ioctl+0x50/0xc8
-[  168.567536]  el0_svc_common+0xc8/0x320
-[  168.567540]  el0_svc_handler+0xf8/0x160
-[  168.567544]  el0_svc+0x10/0x218
+Fix this by postponing the free of the array until si_dpm_fini() and
+increment adev->pm.dpm.num_ps everytime the array member is allocated.
 
-KASAN stacktrace:
-[  168.567561] BUG: KASAN: null-ptr-deref in virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
-[  168.567565] Read of size 4 at addr 0000000000000054 by task syz/6425
-[  168.567566]
-[  168.567571] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
-[  168.567573] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
-[  168.567575] Call trace:
-[  168.567578]  dump_backtrace+0x0/0x310
-[  168.567582]  show_stack+0x28/0x38
-[  168.567586]  dump_stack+0xec/0x15c
-[  168.567591]  kasan_report+0x244/0x2f0
-[  168.567594]  __asan_load4+0x58/0xb0
-[  168.567607]  virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
-[  168.567612]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
-[  168.567617]  drm_mode_getconnector+0x2e0/0xa70
-[  168.567621]  drm_ioctl_kernel+0x11c/0x1d8
-[  168.567624]  drm_ioctl+0x558/0x6d0
-[  168.567628]  do_vfs_ioctl+0x160/0xf30
-[  168.567632]  ksys_ioctl+0x98/0xd8
-[  168.567636]  __arm64_sys_ioctl+0x50/0xc8
-[  168.567641]  el0_svc_common+0xc8/0x320
-[  168.567645]  el0_svc_handler+0xf8/0x160
-[  168.567649]  el0_svc+0x10/0x218
-
-Signed-off-by: Liu Zixian <liuzixian4@huawei.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20220322091730.1653-1-liuzixian4@huawei.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_display.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/si_dpm.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index 58048709c34e..1e528f13959d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -184,6 +184,8 @@ static int virtio_gpu_conn_get_modes(struct drm_connector *connector)
- 		DRM_DEBUG("add mode: %dx%d\n", width, height);
- 		mode = drm_cvt_mode(connector->dev, width, height, 60,
- 				    false, false, false);
-+		if (!mode)
-+			return count;
- 		mode->type |= DRM_MODE_TYPE_PREFERRED;
- 		drm_mode_probed_add(connector, mode);
- 		count++;
+diff --git a/drivers/gpu/drm/amd/amdgpu/si_dpm.c b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+index 4826befc1bc3..fe6fda42fde8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/si_dpm.c
++++ b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+@@ -7313,17 +7313,15 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+ 	if (!adev->pm.dpm.ps)
+ 		return -ENOMEM;
+ 	power_state_offset = (u8 *)state_array->states;
+-	for (i = 0; i < state_array->ucNumEntries; i++) {
++	for (adev->pm.dpm.num_ps = 0, i = 0; i < state_array->ucNumEntries; i++) {
+ 		u8 *idx;
+ 		power_state = (union pplib_power_state *)power_state_offset;
+ 		non_clock_array_index = power_state->v2.nonClockInfoIndex;
+ 		non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
+ 			&non_clock_info_array->nonClockInfo[non_clock_array_index];
+ 		ps = kzalloc(sizeof(struct  si_ps), GFP_KERNEL);
+-		if (ps == NULL) {
+-			kfree(adev->pm.dpm.ps);
++		if (ps == NULL)
+ 			return -ENOMEM;
+-		}
+ 		adev->pm.dpm.ps[i].ps_priv = ps;
+ 		si_parse_pplib_non_clock_info(adev, &adev->pm.dpm.ps[i],
+ 					      non_clock_info,
+@@ -7345,8 +7343,8 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+ 			k++;
+ 		}
+ 		power_state_offset += 2 + power_state->v2.ucNumDPMLevels;
++		adev->pm.dpm.num_ps++;
+ 	}
+-	adev->pm.dpm.num_ps = state_array->ucNumEntries;
+ 
+ 	/* fill in the vce power states */
+ 	for (i = 0; i < AMDGPU_MAX_VCE_LEVELS; i++) {
 -- 
 2.35.1
 
