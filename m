@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4223B537B16
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F62D537B1C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:12:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E08910E608;
-	Mon, 30 May 2022 13:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 848D810E273;
+	Mon, 30 May 2022 13:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51AD10E3A2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653916217; x=1685452217;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=yR4CvAYEHnhJy9L0L3rshOUShjBlml110o6x0DwIo1A=;
- b=bNJnMaN128o2MDfFBoSJHSHSkB7Bkc0rDOCb0YBD4XB4pM2+PomCkTFV
- RVW3RR0qhQzoWU4GxO8ih2qlYGWtX/ZWjouTSHNF5rhnpx0n6jPJ80LQ3
- kjE+IiVGrjcRGVUSs7iVBUrBpEM2KBhFYycStnunNt1bW23OyhfPiPX3h
- 55Zye64RkL1KIs6miznd/+t4ktu9twZq1BzbS+Lg+PXa05Q0I9NV68DQx
- AUMg8HhlMEfRTkCXh20CKUS336bE8kR473MFxoPkWJ7qHR/zn+S4mh6dF
- xAbhJMpFdd63dWz2mvZ+L60Xv5gL9rl3IdnSQRPRmUhAngzdVjKJu0oKe A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="361374142"
-X-IronPort-AV: E=Sophos;i="5.91,262,1647327600"; d="scan'208";a="361374142"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 06:10:16 -0700
-X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; d="scan'208";a="605183061"
-Received: from jkuna-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.150.228])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 06:10:10 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
- block count and size helpers")
-In-Reply-To: <CAK8P3a0-S77QLR1dK3NT6ot7JTAD5AdojAZJr-Xi112-v5EOdw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <YpCUzStDnSgQLNFN@debian>
- <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
- <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
- <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
- <YpIR67FMtTGCwARZ@debian>
- <CAHk-=wjuyHE=1wLgHncub8FfgeyYqfWYsy4-YrhAvq9991h_Aw@mail.gmail.com>
- <CAHk-=wi_hJV0V=Ecg2dzbe2P_H1XKTu6VP_AtCH6u=tis31ayg@mail.gmail.com>
- <CAK8P3a0-QyOQiieEvM0yQb43XbCtPmeao8UvoAsdFnjCxYPz7Q@mail.gmail.com>
- <CAHk-=whfmwzjF4eBPYS6pHFqHVzJF3m=2h=gRWSRyHks8V=ABA@mail.gmail.com>
- <87a6aztli2.fsf@intel.com> <877d63tleq.fsf@intel.com>
- <CAK8P3a0-S77QLR1dK3NT6ot7JTAD5AdojAZJr-Xi112-v5EOdw@mail.gmail.com>
-Date: Mon, 30 May 2022 16:10:08 +0300
-Message-ID: <87czfvrwsv.fsf@intel.com>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E05710E273
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:12:05 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id D21E25C0053;
+ Mon, 30 May 2022 09:12:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 30 May 2022 09:12:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1653916321; x=
+ 1654002721; bh=HUT5YSA0RJcKsWMT2WGJiiWtnO6QuCOi5gIB32Sx+LE=; b=W
+ srzmFFC2nG2ACXrgigNjV+Vff6y5F3Uvpe5W7XXGJaRusOfKDo/o2qVVdfvdKrF2
+ eG/qBJ2jk1e+/ISErAQ1nCffWdUiTqDb3Lq+ovt4OZIv3LXEeOiVEEqEkJoyGqrU
+ 72oTRjOy06P2szX5xn8Y00WG+NHDJKVbE9SnDphO8KjN4kdCiKrmwHLvReAg6x4C
+ 1lvgQtTIkk0EiuvsEssfcZ5vsBRiPni8r5y5E5THPbv3hoNM5+0BqrsNviCULJV8
+ j79EdvYbpm67GV+0AO5vOeEwG+B7Gp8hyjLmcfBPNk/1tBGZqtJA3HqSVZYb1p/P
+ uTcofsaXtX3JeN3LtBMAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653916321; x=
+ 1654002721; bh=HUT5YSA0RJcKsWMT2WGJiiWtnO6QuCOi5gIB32Sx+LE=; b=Y
+ wmGfhxw4tXrnr6zanebuNDFDcbJSXQvIfBX/I2lNgNFuawqz9WkOn+fM6ljWxjbP
+ Kt2jIrdHL7a/Ivdxy8dup+noB42RvWQ2/mQQql4ToBeeoucI9kxBCib1ydeIha8F
+ cI2mvQT7n5rrKU2bittNd1GuaQIVl9riv5cVoeHwKHz3k3BTR4FYLn6bU3d4VQWZ
+ 5dyCEtEwCINFiFyhEnMylO9Wuf/+iSA9moKY6QxlQl9n9ltyksrvRfKs6/hG1RNK
+ 0iZ/rIFKxuOdN8cU/FHi9+9o6USC6Xm2v47jvWVI1age6cR+rWRZUBXpfk3WfBB4
+ f2hvZ9hEjtU/Ik/hFXz0A==
+X-ME-Sender: <xms:ocKUYq7Pu_P-hqQQKRi1qnkpCH9HVO6daeqR4dQ8TmAYwnWCZPgMdA>
+ <xme:ocKUYj7d6yOWlcK45F5z1Y9DRLu4V3epgsYV2GPdXlxiwSpnk6hfe-LwrZuCWgXkc
+ tquqX-gejoySAJfGjg>
+X-ME-Received: <xmr:ocKUYpc_u-Trp4fF2wD3AYkWb5bUTmWJX0VwnRtauukm8vUYRtFlDE2IVw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigdehkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelteehtefgffehteduhfeiuddtffeivdegffejteffteffvdekiedvheel
+ jeettdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ocKUYnIp83RyDI9wUHn89taCd3dXrHKSObLEg76kIC11AnG1JVHerw>
+ <xmx:ocKUYuLVIJAHRozl7Hu7hb-NMrx2VJzEbvK0LK5h9hQZWmtTj7K8ww>
+ <xmx:ocKUYoy5YodBwKrmJRQjdDLic6tY_FRKzrV40wbTvN_kK0AXI3WQDA>
+ <xmx:ocKUYm98lGA1yaarZeFtCE92Pf_8PWoxDnlomMAJjLAX4hG8Hh_QbQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 May 2022 09:12:00 -0400 (EDT)
+Date: Mon, 30 May 2022 15:11:58 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb332()
+Message-ID: <20220530131158.kqq2mohxoh52xpeg@penduick>
+References: <20220530102017.471865-1-jose.exposito89@gmail.com>
+ <20220530102017.471865-2-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220530102017.471865-2-jose.exposito89@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,64 +86,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Viresh Kumar <vireshk@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, SoC Team <soc@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: tzimmermann@suse.de, airlied@linux.ie, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 May 2022, Arnd Bergmann <arnd@arndb.de> wrote:
-> On Mon, May 30, 2022 at 11:33 AM Jani Nikula <jani.nikula@intel.com> wrote:
->>
->> That is, for EDID. Makes you wonder about all the other packed structs
->> with enum members across the kernel.
->
-> It is not the 'enum' that is special here, it's the 'union' having
-> unpacked members,
 
-Obviously meant union not enum, that was just a -ENOCOFFEE on my part.
+Hi,
 
-> and the same thing happens when you have nested structs: both the inner
-> and the outer aggregate need to be packed, either with __packed at the
-> end, or on each individual member that is not fully aligned to
-> max(sizeof(member), 4)).
->
-> I think in general, most __packed annotations we have in the kernel are
-> completely pointless because they do not change the structure layout on
-> any architecture but instead just make member access slower on
+On Mon, May 30, 2022 at 12:20:17PM +0200, José Expósito wrote:
+> Test the conversion from XRGB8888 to RGB332.
+> 
+> What is tested?
+> 
+>  - Different values for the X in XRGB8888 to make sure it is ignored
+>  - Different clip values: Single pixel and full and partial buffer
+>  - Well know colors: White, black, red, green, blue, magenta, yellow
+>    and cyan
+>  - Other colors: Randomly picked
+>  - Destination pitch
+> 
+> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
-Please explain.
+It looks mostly good to me, but I think we should Cc
+kunit-dev@googlegroups.com to have their feedback.
 
-They are used quite a bit for parsing blob data, or
-serialization/deserialization, like in the EDID case at hand. Try
-removing __attribute__((packed)) from include/drm/drm_edid.h and see the
-sizeof(struct edid) on any architecture.
+> ---
+>  drivers/gpu/drm/Kconfig                  |  12 ++
+>  drivers/gpu/drm/Makefile                 |   3 +
+>  drivers/gpu/drm/drm_format_helper_test.c | 166 +++++++++++++++++++++++
+>  3 files changed, 181 insertions(+)
+>  create mode 100644 drivers/gpu/drm/drm_format_helper_test.c
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index e88c497fa010..d92be6faef15 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -76,6 +76,18 @@ config DRM_KMS_HELPER
+>  	help
+>  	  CRTC helpers for KMS drivers. 
+>  
+> +config DRM_FORMAR_HELPER_TEST
+> +	bool "drm_format_helper tests" if !KUNIT_ALL_TESTS
+> +	depends on DRM && KUNIT=y
+> +	select DRM_KMS_HELPER
+> +	default KUNIT_ALL_TESTS
+> +	help
+> +	  KUnit tests for the drm_format_helper APIs. This option is not
+> +	  useful for distributions or general kernels, but only for kernel
+> +	  developers working on DRM and associated drivers.
+> +
+> +	  If in doubt, say "N".
+> +
 
-BR,
-Jani.
+AFAIK, kunit test cases are supposed to have a .kunitconfig too to
+enable the kunit tests easily.
 
-> architectures that lack unaligned load/store instructions. There have
-> definitely been other cases though where a __packed annotation is
-> not needed on any sane architecture but is needed for OABI ARM.
->
-> Overall I'm not that worried because the only machines running OABI
-> kernels would be on really old hardware that runs a limited set of
-> driver code.
->
-> A completely different matter are the extraneous __packed annotations
-> that lead to possible problems when accessed through a misaligned
-> pointer. We ignore -Waddress-of-packed-member and -Wcast-align
-> in the kernel, so these never get caught at build time, but we have
-> seen bugs from gcc making incorrect assumptions about alignment
-> even on architectures that have unaligned load/store instructions.
->
->       Arnd
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Maxime
