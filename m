@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FD75383D8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:10:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B6553851C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA5010EE6F;
-	Mon, 30 May 2022 15:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6544510F264;
+	Mon, 30 May 2022 15:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E55210EE75
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:09:56 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id f18so10588925plg.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 08:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=MDPsVzr9oRyPkDpdSrgjcqTfOM2U/KUUhbX2zAPuMn4=;
- b=Rmu2aX+sVAwyRRIb8uJtLMJIpDvhcNVejEF5IBcJ3h5yqmi2cUtdDqcTOA0ypkJTh9
- rhLj41dl6/tr/MmFpmgayS8Gul644Tp/xjjxNjBbGlmtLqch9E5HhTB+O6upwO04lJHd
- PkmajRsVMECLRiDKXkEGJYdRGRsAgw7uGeooI=
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1DD10F263;
+ Mon, 30 May 2022 15:41:09 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id q7so4211848wrg.5;
+ Mon, 30 May 2022 08:41:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HVYE9hD3JrlMP+VW+LXUcgvWsAPOc0+ADO1o4rrMIPE=;
+ b=cOfon/AQdRZHUtaWUXSrjOLVbe/SaIrsAT1iSjEE4S2pJaqFJrshFUwG7CuV8zJNBE
+ YjxmI7Z3mPwwK4lp3hdexT3bc0rF6YjTKT87FQZsXEyYd0fJ/8Q/TsNxV0cTPPGA76pZ
+ nHewp/PRdVsYuBvd70KIDsjutHnHc10KAtPkI0wY1EzigLuqLSNoeNkxXcODBbrbD0Ha
+ Pk+Im4A+VrBL5j49XDhHZICFI3ZuHCP0+11fTJXS+eUUcwTjVEepR4g9YZkv8WvGTUcU
+ O6U+aB3ugr4S0gMR2kam5UEAjXrQ4bFO5XgrX9K2VRJSWWTTVGwvGTe5RMdc5mJOaZrW
+ K8Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=MDPsVzr9oRyPkDpdSrgjcqTfOM2U/KUUhbX2zAPuMn4=;
- b=HuBXKOjR6lMmr+FIsSN0S9QMi+gqWfbetEIoMkbnyFtP4VWUMG8Yl9x6txdrhgcadh
- 8twBxaE/a79jZG2NgxHgnk3bEMe+kVWbQ7jxtRxBob5WTzlI5eXT+3hrrjB6cRVssJfW
- 8ZmhiTW2NZHCVChxc1/j77JzzFZzplcTbIAJFNBYYifDILEyox69Hbj7LJlfO2Sg/aCo
- +xP3WGj6UgblpmGst51Dp4HpxTrKcYj6WAX83KumpS6ulcY3tt0k9DygKAloTQOOHypG
- d8K1fJEyS3rCroyuVWcnZ0ufz4KcY0jiZdc3iwokqlxPFqE6AM3u3hYZTQ6F4KNEGGC7
- 88Ww==
-X-Gm-Message-State: AOAM533AHcMu4MNBszte/qi/Z5xEzihH2t3kmDf8wjXWBLqCv91yMO4o
- Ncn6Yy050EQ2KLB3r/t6t1iahQ==
-X-Google-Smtp-Source: ABdhPJwq3IbiSe+zl8GbAUwRzcQ8OUxiTgD7YBetwDEH+LuBXltBpWmdQNeyJempTdQIRVtLo9dQ9Q==
-X-Received: by 2002:a17:90a:6390:b0:1e0:a47b:a57a with SMTP id
- f16-20020a17090a639000b001e0a47ba57amr23275881pjj.115.1653923396152; 
- Mon, 30 May 2022 08:09:56 -0700 (PDT)
-Received: from google.com ([240f:75:7537:3187:7d2a:ad1f:afa1:7770])
- by smtp.gmail.com with ESMTPSA id
- u11-20020a170902bf4b00b0016392bd5060sm7274738pls.142.2022.05.30.08.09.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 08:09:55 -0700 (PDT)
-Date: Tue, 31 May 2022 00:09:49 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] dma-fence: allow dma fence to have their own lock
-Message-ID: <YpTePTj6rrHYN0QT@google.com>
-References: <20220530142232.2871634-1-senozhatsky@chromium.org>
- <7eee4274-bd69-df8d-9067-771366217804@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HVYE9hD3JrlMP+VW+LXUcgvWsAPOc0+ADO1o4rrMIPE=;
+ b=xI+yGq4ZmwJbYEPnS9/4dK76IQO60Tg6clCaIQOXjaIUoO04gIq2AWC8TFzhCFkEA1
+ 88adQD3bom47S1bA73cE4bJQibA9RsCRAy9xo0HQ15L23nwN/EYzAT2U24nuPA1aeFbq
+ tsuQ1bWmickJttQ0pD4TmlgqGEgOSntnyBNS4qoVOrSh20TTetcdcZhCIsJ3bDKEniz/
+ aPectbsXJBlPj+jCRLpEnVUUC6hwMMhFkSI37leZZZX8I4OWk8mgSHfFN8cZpVSPF6xE
+ PrA2IJOEpBhLuK9nE3EU/EVqnLBa3I8QH2rcT0RUmkr+mKTj/vd7hdSj0GoMsHGy1wnP
+ rr5Q==
+X-Gm-Message-State: AOAM531epPcNGReXAm0AXVZjJoyDUrwgYuFbXjoCLTOqSKh+47GYvILv
+ lOjRtSNFwEYVqr+gF2tB+qktxAU+rGaSzA7rMyE=
+X-Google-Smtp-Source: ABdhPJwZAdTGyIwawuuNR1GgsN3ZUEq8rIP+BodHV6Uu26K2LWerRbcastuQYCbyWx1CE0THq9R0WpkDkQENKunHmT8=
+X-Received: by 2002:adf:f645:0:b0:20e:652d:2a4e with SMTP id
+ x5-20020adff645000000b0020e652d2a4emr47995950wrp.344.1653925267454; Mon, 30
+ May 2022 08:41:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7eee4274-bd69-df8d-9067-771366217804@amd.com>
+References: <20220529162936.2539901-1-robdclark@gmail.com>
+ <0bf230f4-c888-b9c9-f061-7450406baa4a@suse.de>
+ <CAF6AEGthAfWyAvbuE4EP+u52LEKS2Fs6X=gG8qUjc7gci6oh-A@mail.gmail.com>
+ <CAKMK7uG9=EcmD4hPqm4zYsDHiS9Mr=y_5tUa_R1veDxSSK-P-Q@mail.gmail.com>
+In-Reply-To: <CAKMK7uG9=EcmD4hPqm4zYsDHiS9Mr=y_5tUa_R1veDxSSK-P-Q@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 30 May 2022 08:41:09 -0700
+Message-ID: <CAF6AEGuLeLmD4m+yi5csGdb0XZbnAOfYOKx6c-wEgMGt6rj7Cw@mail.gmail.com>
+Subject: Re: [PATCH] drm/prime: Ensure mmap offset is initialized
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +67,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Gustavo Padovan <gustavo@padovan.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Ricardo Ribalda <ribalda@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On (22/05/30 16:55), Christian König wrote:
-> Hi Sergey,
-> 
-> I'm removing most of the mail because you have a very fundamental
-> misunderstanding about what this dma_fence lock is all about.
-
-Happy to learn.
-
-> Am 30.05.22 um 16:22 schrieb Sergey Senozhatsky:
-> > [SNIP]
-> > So the `lock` should have at least same lifespan as the DMA fence
-> > that borrows it, which is impossible to guarantee in our case.
+On Mon, May 30, 2022 at 7:49 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> Nope, that's not correct. The lock should have at least same lifespan as the
-> context of the DMA fence.
+> On Mon, 30 May 2022 at 15:54, Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Mon, May 30, 2022 at 12:26 AM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
+> > >
+> > > Hi
+> > >
+> > > Am 29.05.22 um 18:29 schrieb Rob Clark:
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > If a GEM object is allocated, and then exported as a dma-buf fd whi=
+ch is
+> > > > mmap'd before or without the GEM buffer being directly mmap'd, the
+> > > > vma_node could be unitialized.  This leads to a situation where the=
+ CPU
+> > > > mapping is not correctly torn down in drm_vma_node_unmap().
+> > >
+> > > Which drivers are affected by this problem?
+> > >
+> > > I checked several drivers and most appear to be initializing the offs=
+et
+> > > during object construction, such as GEM SHMEM. [1] TTM-based drivers
+> > > also seem unaffected. [2]
+> > >
+> > >  From a quick grep, only etnaviv, msm and omapdrm appear to be affect=
+ed?
+> > > They only seem to run drm_gem_create_mmap_offset() from their
+> > > ioctl-handling code.
+> > >
+> > > If so, I'd say it's preferable to fix these drivers and put a
+> > > drm_WARN_ONCE() into drm_gem_prime_mmap().
+> >
+> > That is good if fewer drivers are affected, however I disagree with
+> > your proposal.  At least for freedreno userspace, a lot of bo's never
+> > get mmap'd (either directly of via dmabuf), so we should not be
+> > allocating a mmap offset unnecessarily.
+>
+> Does this actually matter in the grand scheme of things? We originally
+> allocated mmap offset only on demand because userspace only had 32bit
+> loff_t support and so simply couldn't mmap anything if the offset
+> ended up above 32bit (even if there was still va space available).
+>
+> But those days are long gone (about 10 years or so) and the allocation
+> overhead for an mmap offset is tiny. So I think unless you can
+> benchmark an impact allocating it at bo alloc seems like the simplest
+> design overall, and hence what we should be doing. And if the vma
+> offset allocation every gets too slow due to fragmentation we can lift
+> the hole tree from i915 into drm_mm and the job should be done. At
+> that point we could also allocate the offset unconditionally in the
+> gem_init function and be done with it.
+>
+> Iow I concur with Thomas here, unless there's hard data contrary
+> simplicity imo trumps here.
 
-In our case we have one context and it lives as long as the module is loaded.
-Does this mean that all DMA fences within that context should be serialized
-by a single spinlock? We can have a number of "active" fences so the lock
-can become a bit congested. But each operation creates, exports and signals
-just once fence.
+32b userspace is still alive and well, at least on arm chromebooks ;-)
 
-> The idea here is that DMA fence signaling and callback calling serializes.
-> E.g. when you have fence a,b,c,d... they must signal in the order a,b,c,d...
-> and that's what this lock is good for.
+BR,
+-R
 
-Hmm, OK. So that borrowed ->lock is in fact something like
-context_lock_irqsave() and context_unlock_irqrestore().
-
-> If you just want to create a single dma_fence which is also only bound to a
-> single context you can embed the lock into the fence without much problem.
-
-Aha, I guess this is what we need then. I'll take a look. Thanks.
+> -Daniel
+>
+> >
+> > BR,
+> > -R
+> >
+> > > Best regards
+> > > Thomas
+> > >
+> > > [1]
+> > > https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/drm_gem=
+_shmem_helper.c#L85
+> > > [2]
+> > > https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/ttm/ttm=
+_bo.c#L1002
+> > >
+> > > >
+> > > > Fixes: e5516553999f ("drm: call drm_gem_object_funcs.mmap with fake=
+ offset")
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > ---
+> > > > Note, it's possible the issue existed in some related form prior to=
+ the
+> > > > commit tagged with Fixes.
+> > > >
+> > > >   drivers/gpu/drm/drm_prime.c | 5 +++++
+> > > >   1 file changed, 5 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prim=
+e.c
+> > > > index e3f09f18110c..849eea154dfc 100644
+> > > > --- a/drivers/gpu/drm/drm_prime.c
+> > > > +++ b/drivers/gpu/drm/drm_prime.c
+> > > > @@ -716,6 +716,11 @@ int drm_gem_prime_mmap(struct drm_gem_object *=
+obj, struct vm_area_struct *vma)
+> > > >       struct file *fil;
+> > > >       int ret;
+> > > >
+> > > > +     /* Ensure that the vma_node is initialized: */
+> > > > +     ret =3D drm_gem_create_mmap_offset(obj);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > >       /* Add the fake offset */
+> > > >       vma->vm_pgoff +=3D drm_vma_node_start(&obj->vma_node);
+> > > >
+> > >
+> > > --
+> > > Thomas Zimmermann
+> > > Graphics Driver Developer
+> > > SUSE Software Solutions Germany GmbH
+> > > Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> > > (HRB 36809, AG N=C3=BCrnberg)
+> > > Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
