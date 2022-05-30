@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FFA5383D4
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:06:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 932385383D6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CE810EE02;
-	Mon, 30 May 2022 15:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D6B10EE1A;
+	Mon, 30 May 2022 15:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296E310EDEE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0034910EE02
  for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:06:11 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mfe@pengutronix.de>)
- id 1nvgy4-0005Kr-Bl; Mon, 30 May 2022 17:06:04 +0200
+ id 1nvgy4-0005Kt-Bh; Mon, 30 May 2022 17:06:04 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <mfe@pengutronix.de>)
- id 1nvgy4-005TI5-CP; Mon, 30 May 2022 17:06:03 +0200
+ id 1nvgy4-005TI8-HS; Mon, 30 May 2022 17:06:03 +0200
 Received: from mfe by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <mfe@pengutronix.de>)
- id 1nvgy1-005Be8-Ey; Mon, 30 May 2022 17:06:01 +0200
+ id 1nvgy1-005BeB-FQ; Mon, 30 May 2022 17:06:01 +0200
 From: Marco Felsch <m.felsch@pengutronix.de>
 To: robert.foss@linaro.org, laurent.pinchart@ideasonboard.com,
  jernej.skrabec@gmail.com, jonas@kwiboo.se, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org, maxime@cerno.tech
-Subject: [PATCH 5/6] dt-bindings: drm/bridge: ti-sn65dsi83: Add reset
- controller documentation
-Date: Mon, 30 May 2022 17:05:48 +0200
-Message-Id: <20220530150548.1236307-6-m.felsch@pengutronix.de>
+Subject: [PATCH 6/6] drm/bridge: ti-sn65dsi83: add support for a external
+ reset controller
+Date: Mon, 30 May 2022 17:05:49 +0200
+Message-Id: <20220530150548.1236307-7-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220530150548.1236307-1-m.felsch@pengutronix.de>
 References: <20220530150548.1236307-1-m.felsch@pengutronix.de>
@@ -60,32 +60,72 @@ Cc: devicetree@vger.kernel.org, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bridge device can now also be enabled/disabled by an external reset
-controller. So the device now supports either enable/disable by simple
-GPIO or by an Reset-Controller.
+The bridge chip has an enable gpio which of course can enable/disable
+the bridge. Most the time this gpio is connected directly to the host
+but sometimes it is connected to a reset controller chip and the host
+controlls the reset controller chip instead. This commit adds the
+support to handle that.
+
+Therefore we need either the reset controller or a gpio to be present
+and valid. The behaviour is changed in that way that a gpio or a reset
+controller have to be successfully requested else the driver probe
+fails, like the current behaviour.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml    | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-index 7306b9874dc3..eff8360c184e 100644
---- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-@@ -35,6 +35,12 @@ properties:
-   vcc-supply:
-     description: A 1.8V power supply (see regulator/regulator.yaml).
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index 3c1dc16985b5..7b232a4f8bcb 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -35,6 +35,7 @@
+ #include <linux/property.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/reset.h>
  
-+  resets:
-+    maxItems: 1
-+    description: |
-+      Reset specifier for bridge_en pin. This is required only if the brdige_en
-+      pin is connected to a reset controller.
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+@@ -146,6 +147,7 @@ struct sn65dsi83 {
+ 	struct drm_bridge		*panel_bridge;
+ 	struct gpio_desc		*enable_gpio;
+ 	struct regulator		*vcc;
++	struct reset_control		*reset;
+ 	int				dsi_lanes;
+ 	bool				lvds_dual_link;
+ 	bool				lvds_dual_link_even_odd_swap;
+@@ -350,6 +352,7 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	/* Deassert reset */
+ 	gpiod_set_value(ctx->enable_gpio, 1);
++	reset_control_deassert(ctx->reset);
+ 	usleep_range(1000, 1100);
+ 
+ 	/* Get the LVDS format from the bridge state. */
+@@ -511,6 +514,7 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+ 
+ 	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
+ 	gpiod_set_value(ctx->enable_gpio, 0);
++	reset_control_assert(ctx->reset);
+ 	usleep_range(10000, 11000);
+ 
+ 	ret = regulator_disable(ctx->vcc);
+@@ -760,6 +764,13 @@ static int sn65dsi83_probe(struct i2c_client *client,
+ 		return dev_err_probe(ctx->dev, PTR_ERR(ctx->enable_gpio),
+ 				     "Failed to get GPIO\n");
+ 
++	/* Or use a external reset chip to do so */
++	ctx->reset = devm_reset_control_get_optional(ctx->dev, NULL);
++	if (IS_ERR(ctx->reset))
++		return dev_err_probe(ctx->dev, PTR_ERR(ctx->reset),
++				     "Failed to get reset\n");
++	reset_control_assert(ctx->reset);
 +
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
+ 	usleep_range(10000, 11000);
  
+ 	ret = sn65dsi83_parse_dt(ctx, model);
 -- 
 2.30.2
 
