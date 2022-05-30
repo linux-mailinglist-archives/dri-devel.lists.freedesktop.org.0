@@ -2,59 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2925381BF
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 16:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3567C5383B6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 16:42:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C1110E3C9;
-	Mon, 30 May 2022 14:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC2589D79;
+	Mon, 30 May 2022 14:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46DBA10E3C9;
- Mon, 30 May 2022 14:32:48 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id q7so3939705wrg.5;
- Mon, 30 May 2022 07:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gSTJ1X2wuqX0lNp5B2IPR5UrMFLMFHeOCXzMZ0hn2b4=;
- b=OsFLSUzvyABeW29XWfSvKzCGNQnyj+ADgKauQh4p9sWs1MaqIZbckKyZTwq6O9poQn
- C74ES4SMcuigLnfMiVRuygm6ZTO0pkcwYbkLuBBCHKMpRuYnjNsNn+GfhmqVs6U7vamO
- xcEdrZOejon5nwrtb5Zm07ZriInzEsvdyRNMP1UrtLa+3i8Ad+n/B0L/v7+4yddZg0eU
- zdJ1Yml71RFWuHRuPr5Y2IMz2pcCXbZlE8rkotGQyGj8NmCD3dJKC1Gs6eoSZCvhJp+U
- kLV/muHTMpSb08fAG82Yetymgk6+YNCKDvaLbnIWBRQGdkVfo+bmBzedobhJQKGhbj29
- fT9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gSTJ1X2wuqX0lNp5B2IPR5UrMFLMFHeOCXzMZ0hn2b4=;
- b=GHL9VrKW1jOYdVvtvuwNWjbn6ujB6EmfuNgdyWy/G+6nAlT+tws0QHD/IiMRxG6bUq
- JqvQ0UtPjtxWcTA1n9H/RO7iU/QH3kvMfc5vnlhF48Aa90WehH7xmMRfgZ/N06M4AxIq
- EqMir3BdtOXGCr9Re4BzIfVqGLW9FXF4p200a8t2KcabFEI+etWiYw5g0Cn0ObaD33Zo
- nYf2Vesxqt5v10ZxOYo44KfNl/sKizgOXb2rH6hvshQmKQ/NA7bkBKmWvY3TzZVC17YE
- O9pfEr863k4qvjOvqXj1cDHoIDJcqNWk26ubGvH+EzkA0ebcplFHvdIuqYhxLbjLhzDq
- R4mQ==
-X-Gm-Message-State: AOAM53337J4r+Cjb0kyZQJKj0LL6KI0PTE8BywkLX/v/WDpLm+xjuhPW
- OTQuOa/D9iyt+pAmxue11cIP4r6y9M97SEAwV/I=
-X-Google-Smtp-Source: ABdhPJzn3Xi0lceSImCJ9R+jP77+VllF+ZZP4ZhztUgDtItqbVmUaA9faRS23xFdbwO4BeGKAXv8o3o8lRcMS3aMsDU=
-X-Received: by 2002:a05:6000:547:b0:20f:ca41:cc51 with SMTP id
- b7-20020a056000054700b0020fca41cc51mr36432204wrf.221.1653921166691; Mon, 30
- May 2022 07:32:46 -0700 (PDT)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 535AA89D79
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 14:42:06 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 903513200645;
+ Mon, 30 May 2022 10:42:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 30 May 2022 10:42:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1653921722; x=
+ 1654008122; bh=I5n0iZMhvRYtVlqNaE5gXodeWKpPzOtBBF09/N8SYdo=; b=u
+ nCiFpukoiLLGljwmlJqGAHNyALbBXAsnzoSGPWQlTQ1fB+Glsl54gEspnxjnffNm
+ 76aH6MNrNn1KPUtIyVwdUlsWXByhi041izCSeA3m34cGnsYOTF+jaYOx8Pl+0YZt
+ WkIOEkjK5IP+ui3p0arns2qGz0tKXyGjbdwDJ2PTu/i6KpQbsLJwpmcT+ln4oGKD
+ PNMKdfOJq1py85vL8rUaMbsc1CoO5jlgdnZhdd1mLELn/iMaGctEwdmsMpH5yS0v
+ acUh4v49x0WL4q/1H6GG1fqKVxH/AkpFowg3HlXKgp1tM9mK3CArwWUh8KIcM3yD
+ MAiuipejo7nGrc4fX1Ssg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653921722; x=
+ 1654008122; bh=I5n0iZMhvRYtVlqNaE5gXodeWKpPzOtBBF09/N8SYdo=; b=S
+ h/4vnGUiQadEwLFHt+V4mM8ql7zAOxHwJZOyk0d4Wa1PtM/lYQYN3XbvF2ScpM4N
+ 0ko1X02PK9LbKwqAAugDY3Iwp0nR8iFn3NxJWN20VkfhJJGNLDjdTV/orSmysjeL
+ ECodXYQwAKfAk/x8SFQsnhwEORtLDdJ8ZFIZWkcu1XceYMbk4ekqoTKKDhwAWbjt
+ ZeGIeG+1stwpm3QPQeJT/gRN7153pbfZ1oSxIQhDw8DS1643CfiltPR5OjMWMEap
+ b97iw5VF8zWOAIogcfT1nMJEfwOrLyOeyumC55aDj7HTYctHH8tsfBk0Q+KtDp1D
+ Ro6/uPKdu1Yn0VeLV7xng==
+X-ME-Sender: <xms:udeUYollbMzrIHtLnAUvc5LBky07XH1VNo-4-3xb0hciP04jf_reVg>
+ <xme:udeUYn1toh2_-fbCxqgYD_nQGIOTfpDCWRyJQcxYgUMzoQ6cULMh7_lQ6keoNeFQC
+ aqpbS5ku922f2PLUQ>
+X-ME-Received: <xmr:udeUYmpEI9nXImBOVz1j26DT8Quxeb9y9Yz2bQYek4wEEL_i7DGvW64nUh9Mvzx3-WGCtZGk3Pylt7e7Bk7B5V2gEbhViuew9KR6HBbbAcjasQUt0KLG0Tg33A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigdejiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+ vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+ ftrfgrthhtvghrnhepkeeiteejuedttdehgfelveevjedtkeehuedtteeiiefggffffefh
+ ueegudekkeffnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluh
+ hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehs
+ hhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:udeUYknJFmbBs5-2XgJHL_PjLU_QvUeT9aowu62Em_GW_PrqT5WHmQ>
+ <xmx:udeUYm0OGwq0Pc4vbfUJZKYiQXby3BptIr62O3UjADtDrBR8bolV2g>
+ <xmx:udeUYruu3e9BvxDfjBO0QbWfjXUmwAyeLIbgJ_qa6z2U-qym0E7BOw>
+ <xmx:uteUYvsVxsDDmQ5WyR-Mus3vOsM482qZhWDWeQNBHAqORY0cAz4EsA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 May 2022 10:42:00 -0400 (EDT)
+Subject: Re: [PATCH AUTOSEL 4.19 16/38] drm/sun4i: Add support for D1 TCONs
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20220530134924.1936816-1-sashal@kernel.org>
+ <20220530134924.1936816-16-sashal@kernel.org>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <0f81cfb5-de3c-02eb-8d6d-e5aa1b69c439@sholland.org>
+Date: Mon, 30 May 2022 09:41:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20220529162936.2539901-1-robdclark@gmail.com>
- <0bf230f4-c888-b9c9-f061-7450406baa4a@suse.de>
- <CAF6AEGthAfWyAvbuE4EP+u52LEKS2Fs6X=gG8qUjc7gci6oh-A@mail.gmail.com>
- <6169ea6b-7452-e8e3-f253-1329f4924a67@suse.de>
-In-Reply-To: <6169ea6b-7452-e8e3-f253-1329f4924a67@suse.de>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 30 May 2022 07:32:45 -0700
-Message-ID: <CAF6AEGt2GOTgwqdfLJXbMcMcSpA=cuZ=kiaOcLWVg905JM_caA@mail.gmail.com>
-Subject: Re: [PATCH] drm/prime: Ensure mmap offset is initialized
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220530134924.1936816-16-sashal@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,148 +89,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, wens@csie.org,
+ Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 30, 2022 at 7:16 AM Thomas Zimmermann <tzimmermann@suse.de> wro=
-te:
->
-> Hi
->
-> Am 30.05.22 um 15:47 schrieb Rob Clark:
-> > On Mon, May 30, 2022 at 12:26 AM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
-> >>
-> >> Hi
-> >>
-> >> Am 29.05.22 um 18:29 schrieb Rob Clark:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> If a GEM object is allocated, and then exported as a dma-buf fd which=
- is
-> >>> mmap'd before or without the GEM buffer being directly mmap'd, the
-> >>> vma_node could be unitialized.  This leads to a situation where the C=
-PU
-> >>> mapping is not correctly torn down in drm_vma_node_unmap().
-> >>
-> >> Which drivers are affected by this problem?
-> >>
-> >> I checked several drivers and most appear to be initializing the offse=
-t
-> >> during object construction, such as GEM SHMEM. [1] TTM-based drivers
-> >> also seem unaffected. [2]
-> >>
-> >>   From a quick grep, only etnaviv, msm and omapdrm appear to be affect=
-ed?
-> >> They only seem to run drm_gem_create_mmap_offset() from their
-> >> ioctl-handling code.
-> >>
-> >> If so, I'd say it's preferable to fix these drivers and put a
-> >> drm_WARN_ONCE() into drm_gem_prime_mmap().
-> >
-> > That is good if fewer drivers are affected, however I disagree with
-> > your proposal.  At least for freedreno userspace, a lot of bo's never
-> > get mmap'd (either directly of via dmabuf), so we should not be
-> > allocating a mmap offset unnecessarily.
->
-> I see.
->
-> I the reason I'm arguing against the current patch is that the fix
-> appears like a workaround and 6 months from now, few will remember why
-> it's there. Especially since most drivers initialize the offset
-> correctly. (Not too long ago, I refactored the handling of these mmap
-> calls throughout DRM drivers and it was confusing at times.)
+Hi Sasha,
 
-I dispute the "correctly" part.. and that this is a workaround ;-)
+On 5/30/22 8:49 AM, Sasha Levin wrote:
+> From: Samuel Holland <samuel@sholland.org>
+> 
+> [ Upstream commit b9b52d2f4aafa2bd637ace0f24615bdad8e49f01 ]
+> 
+> D1 has a TCON TOP, so its quirks are similar to those for the R40 TCONs.
+> While there are some register changes, the part of the TCON TV supported
+> by the driver matches the R40 quirks, so that quirks structure can be
+> reused. D1 has the first supported TCON LCD with a TCON TOP, so the TCON
+> LCD needs a new quirks structure.
+> 
+> D1's TCON LCD hardware supports LVDS; in fact it provides dual-link LVDS
+> from a single TCON. However, it comes with a brand new LVDS PHY. Since
+> this PHY has not been tested, leave out LVDS driver support for now.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20220424162633.12369-14-samuel@sholland.org
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-But I can send a v2 with the addition of a comment explaining the
-reason, so git-blame archeology isn't required to understand the
-reasoning
+This patch adds support for hardware in a SoC that will not boot on earlier
+kernel releases, so there is no benefit to backporting the patch (to any
+previous release).
 
-BR,
--R
+Regards,
+Samuel
 
-> So here's another suggestion:  I further looked at the 3 drivers that I
-> mentioned. etnaviv and msm can easily wrap the call to
-> drm_gem_prime_mmap() and init the offset first. [1][2]  omapdrm doesn't
-> actually use drm_gem_prime_mmap(). The offset can instead be initialized
-> at the top of the driver's dmabuf mmap function. [3]
->
-> Best regards
-> Thomas
->
-> [1]
-> https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/etnaviv/etn=
-aviv_drv.c#L480
-> [2]
-> https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/msm/msm_drv=
-.c#L961
-> [3]
-> https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/omapdrm/oma=
-p_gem_dmabuf.c#L66
->
-> >
-> > BR,
-> > -R
-> >
-> >> Best regards
-> >> Thomas
-> >>
-> >> [1]
-> >> https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/drm_gem_=
-shmem_helper.c#L85
-> >> [2]
-> >> https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/ttm/ttm_=
-bo.c#L1002
-> >>
-> >>>
-> >>> Fixes: e5516553999f ("drm: call drm_gem_object_funcs.mmap with fake o=
-ffset")
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> ---
-> >>> Note, it's possible the issue existed in some related form prior to t=
-he
-> >>> commit tagged with Fixes.
-> >>>
-> >>>    drivers/gpu/drm/drm_prime.c | 5 +++++
-> >>>    1 file changed, 5 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.=
-c
-> >>> index e3f09f18110c..849eea154dfc 100644
-> >>> --- a/drivers/gpu/drm/drm_prime.c
-> >>> +++ b/drivers/gpu/drm/drm_prime.c
-> >>> @@ -716,6 +716,11 @@ int drm_gem_prime_mmap(struct drm_gem_object *ob=
-j, struct vm_area_struct *vma)
-> >>>        struct file *fil;
-> >>>        int ret;
-> >>>
-> >>> +     /* Ensure that the vma_node is initialized: */
-> >>> +     ret =3D drm_gem_create_mmap_offset(obj);
-> >>> +     if (ret)
-> >>> +             return ret;
-> >>> +
-> >>>        /* Add the fake offset */
-> >>>        vma->vm_pgoff +=3D drm_vma_node_start(&obj->vma_node);
-> >>>
-> >>
-> >> --
-> >> Thomas Zimmermann
-> >> Graphics Driver Developer
-> >> SUSE Software Solutions Germany GmbH
-> >> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> >> (HRB 36809, AG N=C3=BCrnberg)
-> >> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> index 113c032a2720..0ebb7c1dfee6 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> @@ -1316,6 +1316,12 @@ static const struct sun4i_tcon_quirks sun9i_a80_tcon_tv_quirks = {
+>  	.needs_edp_reset = true,
+>  };
+>  
+> +static const struct sun4i_tcon_quirks sun20i_d1_lcd_quirks = {
+> +	.has_channel_0		= true,
+> +	.dclk_min_div		= 1,
+> +	.set_mux		= sun8i_r40_tcon_tv_set_mux,
+> +};
+> +
+>  /* sun4i_drv uses this list to check if a device node is a TCON */
+>  const struct of_device_id sun4i_tcon_of_table[] = {
+>  	{ .compatible = "allwinner,sun4i-a10-tcon", .data = &sun4i_a10_quirks },
+> @@ -1329,6 +1335,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
+>  	{ .compatible = "allwinner,sun8i-v3s-tcon", .data = &sun8i_v3s_quirks },
+>  	{ .compatible = "allwinner,sun9i-a80-tcon-lcd", .data = &sun9i_a80_tcon_lcd_quirks },
+>  	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
+> +	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
+> +	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
+> 
+
