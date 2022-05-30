@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67EB538683
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 19:05:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F5B5386B3
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 19:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1319B10F177;
-	Mon, 30 May 2022 17:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7706410F3DA;
+	Mon, 30 May 2022 17:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB2810F16D;
- Mon, 30 May 2022 17:05:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653930311; x=1685466311;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=zIXjxULTglrK6wOg8sEfr+qLEcpHGeXA7PkcPJbOx1Q=;
- b=TAlxxceD1nbBKsPN6hPPvNh353F8H6RSDIwWGxQQH2E8talgvEIPxl+d
- T7wtyW26sOsgqpC1dUqO9G4BV2NomNwkDcssDqqxKx1ukfTYXx9wpXdSN
- wu8PUt31Ne4wJeoGBHH3HDeLthxJh9omR/eIX8LXlmrsfbsyZdGOa7mW/
- PHJ4mhyYz+aNsp8kzriIthkZQzVve5Qgw94SM7JSuUR0bU/c+QUJ7SpBx
- D1xwPj0i+PNbUGiOrk6ddQ/GXTterwnFZih0t7/s6BFoquh2F8y3V6OWn
- zoBKKhlm01+KgnnMSjTbcgA6fe9AUlNSfjDwOyyO6WMaiacFPO/xxCaxC A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10363"; a="361422467"
-X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; d="scan'208";a="361422467"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 10:05:10 -0700
-X-IronPort-AV: E=Sophos;i="5.91,263,1647327600"; d="scan'208";a="632686971"
-Received: from dairecol-mobl2.ger.corp.intel.com (HELO [10.213.233.68])
- ([10.213.233.68])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 10:05:08 -0700
-Message-ID: <9bc69924-1da1-d756-40d4-d88aaab689c1@intel.com>
-Date: Mon, 30 May 2022 18:05:06 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4B1510F3D6;
+ Mon, 30 May 2022 17:20:56 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8199121B8D;
+ Mon, 30 May 2022 17:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1653931255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CJyIwtAg/jNa1Bodfbo+azB/rtZUEVRWLEsBdgvem4o=;
+ b=eN/Aw00vrTRgT2BOLWw/JDT1z2FMyBqFCvkxqN047x6wpYqerwESI2flL/xN7tDuLPvq06
+ LpvkVgYaCzMu+IeE48wBpFcfGNOlQ4jzxcVVTJ6wY+kAiLBH4boQq4buyH8h8rZuy48lnC
+ 1gHRYmoblI3jrbHuqMkEmFm5yfVeXw8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1653931255;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CJyIwtAg/jNa1Bodfbo+azB/rtZUEVRWLEsBdgvem4o=;
+ b=jm5Dgvsqv9X8LG2KtQkUe8+T4CEetvyfUp60KRcgK+WUlrWPWdY3gsxs+oxXspCckBf9e5
+ dTkQnlswuSkNQJCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5115F13AFD;
+ Mon, 30 May 2022 17:20:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8KXREvf8lGIbKAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 30 May 2022 17:20:55 +0000
+Message-ID: <df7de69a-47b3-1a28-f673-8f9a94f70a97@suse.de>
+Date: Mon, 30 May 2022 19:20:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.9.1
-Subject: Re: [PATCH 03/10] drm/i915/uapi: expose the avail tracking
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220525184337.491763-1-matthew.auld@intel.com>
- <20220525184337.491763-4-matthew.auld@intel.com>
- <db5b82b1-4eb0-0d26-eaa8-b814b0de4dc0@linux.intel.com>
- <4acbf57d-fe19-8e6a-2521-5557bf842e54@intel.com>
- <c9affa00-1d47-094a-4b21-bdd1522c02c7@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <c9affa00-1d47-094a-4b21-bdd1522c02c7@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drm/prime: Ensure mmap offset is initialized
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220529162936.2539901-1-robdclark@gmail.com>
+ <0bf230f4-c888-b9c9-f061-7450406baa4a@suse.de>
+ <CAF6AEGthAfWyAvbuE4EP+u52LEKS2Fs6X=gG8qUjc7gci6oh-A@mail.gmail.com>
+ <CAKMK7uG9=EcmD4hPqm4zYsDHiS9Mr=y_5tUa_R1veDxSSK-P-Q@mail.gmail.com>
+ <CAF6AEGuLeLmD4m+yi5csGdb0XZbnAOfYOKx6c-wEgMGt6rj7Cw@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAF6AEGuLeLmD4m+yi5csGdb0XZbnAOfYOKx6c-wEgMGt6rj7Cw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------F0cE3sBzn3h7KklEgauifnUx"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,276 +73,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/05/2022 09:33, Tvrtko Ursulin wrote:
-> 
-> On 26/05/2022 09:10, Matthew Auld wrote:
->> On 26/05/2022 08:58, Tvrtko Ursulin wrote:
->>>
->>> On 25/05/2022 19:43, Matthew Auld wrote:
->>>> Vulkan would like to have a rough measure of how much device memory can
->>>> in theory be allocated. Also add unallocated_cpu_visible_size to track
->>>> the visible portion, in case the device is using small BAR.
->>>
->>> I have concerns here that it isn't useful and could even be 
->>> counter-productive. If we give unprivileged access it may be 
->>> considered a side channel, but if we "lie" (report total region size) 
->>> to unprivileged clients (like in this patch), then they don't 
->>> co-operate well and end trashing.
->>>
->>> Is Vulkan really sure it wants this and why?
->>
->> Lionel pointed out: 
->> https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/VK_EXT_memory_budget.html 
-> 
-> 
-> So this query would provide 
-> VkPhysicalDeviceMemoryBudgetPropertiesEXT::heapBudget. Apart that it 
-> wouldn't since we thought to lie. And apart that it's text says:
-> 
-> """
-> ...how much total memory from each heap the current process can use at 
-> any given time, before allocations may start failing or causing 
-> performance degradation. The values may change based on other activity 
-> in the system that is outside the scope and control of the Vulkan 
-> implementation.
-> """
-> 
-> It acknowledges itself in the second sentence that the first sentence is 
-> questionable.
-> 
-> And VkPhysicalDeviceMemoryBudgetPropertiesEXT::heapUsage would be still 
-> missing and would maybe come via fdinfo? Or you plan to add it to this 
-> same query later?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------F0cE3sBzn3h7KklEgauifnUx
+Content-Type: multipart/mixed; boundary="------------VCCzzrsxShmwjk0tRjIOQdtW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ freedreno <freedreno@lists.freedesktop.org>
+Message-ID: <df7de69a-47b3-1a28-f673-8f9a94f70a97@suse.de>
+Subject: Re: [PATCH] drm/prime: Ensure mmap offset is initialized
+References: <20220529162936.2539901-1-robdclark@gmail.com>
+ <0bf230f4-c888-b9c9-f061-7450406baa4a@suse.de>
+ <CAF6AEGthAfWyAvbuE4EP+u52LEKS2Fs6X=gG8qUjc7gci6oh-A@mail.gmail.com>
+ <CAKMK7uG9=EcmD4hPqm4zYsDHiS9Mr=y_5tUa_R1veDxSSK-P-Q@mail.gmail.com>
+ <CAF6AEGuLeLmD4m+yi5csGdb0XZbnAOfYOKx6c-wEgMGt6rj7Cw@mail.gmail.com>
+In-Reply-To: <CAF6AEGuLeLmD4m+yi5csGdb0XZbnAOfYOKx6c-wEgMGt6rj7Cw@mail.gmail.com>
 
-IIUC the heapUsage is something like per app usage, which already looks 
-to be tracked in anv, although I don't think it knows if stuff is 
-actually resident or not. The heapBudget looks to then be roughly the 
-heapUsage + info.unallocated.
+--------------VCCzzrsxShmwjk0tRjIOQdtW
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
-> I like to source knowledge of best practices from the long established 
-> world of CPU scheduling and process memory management. Is anyone aware 
-> of this kind of techniques there - applications actively looking at free 
-> memory data from /proc/meminfo and dynamically adjusting their runtime 
-> behaviour based on it? And that they are not single application on a 
-> dedicated system type of things.
-> 
-> Or perhaps this Vk extension is envisaged for exactly those kind of 
-> scenarios? However if so then userspace can know all this data from 
-> probed size and the data set it created.
-> 
->> Also note that the existing behaviour was to lie. I'm not sure what's 
->> the best option here.
-> 
-> Uapi reserved -1 for unknown so we could do that?
+SGkNCg0KQW0gMzAuMDUuMjIgdW0gMTc6NDEgc2NocmllYiBSb2IgQ2xhcms6DQo+IE9uIE1v
+biwgTWF5IDMwLCAyMDIyIGF0IDc6NDkgQU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
+LmNoPiB3cm90ZToNCj4+DQo+PiBPbiBNb24sIDMwIE1heSAyMDIyIGF0IDE1OjU0LCBSb2Ig
+Q2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+IHdyb3RlOg0KPj4+DQo+Pj4gT24gTW9uLCBN
+YXkgMzAsIDIwMjIgYXQgMTI6MjYgQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5u
+QHN1c2UuZGU+IHdyb3RlOg0KPj4+Pg0KPj4+PiBIaQ0KPj4+Pg0KPj4+PiBBbSAyOS4wNS4y
+MiB1bSAxODoyOSBzY2hyaWViIFJvYiBDbGFyazoNCj4+Pj4+IEZyb206IFJvYiBDbGFyayA8
+cm9iZGNsYXJrQGNocm9taXVtLm9yZz4NCj4+Pj4+DQo+Pj4+PiBJZiBhIEdFTSBvYmplY3Qg
+aXMgYWxsb2NhdGVkLCBhbmQgdGhlbiBleHBvcnRlZCBhcyBhIGRtYS1idWYgZmQgd2hpY2gg
+aXMNCj4+Pj4+IG1tYXAnZCBiZWZvcmUgb3Igd2l0aG91dCB0aGUgR0VNIGJ1ZmZlciBiZWlu
+ZyBkaXJlY3RseSBtbWFwJ2QsIHRoZQ0KPj4+Pj4gdm1hX25vZGUgY291bGQgYmUgdW5pdGlh
+bGl6ZWQuICBUaGlzIGxlYWRzIHRvIGEgc2l0dWF0aW9uIHdoZXJlIHRoZSBDUFUNCj4+Pj4+
+IG1hcHBpbmcgaXMgbm90IGNvcnJlY3RseSB0b3JuIGRvd24gaW4gZHJtX3ZtYV9ub2RlX3Vu
+bWFwKCkuDQo+Pj4+DQo+Pj4+IFdoaWNoIGRyaXZlcnMgYXJlIGFmZmVjdGVkIGJ5IHRoaXMg
+cHJvYmxlbT8NCj4+Pj4NCj4+Pj4gSSBjaGVja2VkIHNldmVyYWwgZHJpdmVycyBhbmQgbW9z
+dCBhcHBlYXIgdG8gYmUgaW5pdGlhbGl6aW5nIHRoZSBvZmZzZXQNCj4+Pj4gZHVyaW5nIG9i
+amVjdCBjb25zdHJ1Y3Rpb24sIHN1Y2ggYXMgR0VNIFNITUVNLiBbMV0gVFRNLWJhc2VkIGRy
+aXZlcnMNCj4+Pj4gYWxzbyBzZWVtIHVuYWZmZWN0ZWQuIFsyXQ0KPj4+Pg0KPj4+PiAgIEZy
+b20gYSBxdWljayBncmVwLCBvbmx5IGV0bmF2aXYsIG1zbSBhbmQgb21hcGRybSBhcHBlYXIg
+dG8gYmUgYWZmZWN0ZWQ/DQo+Pj4+IFRoZXkgb25seSBzZWVtIHRvIHJ1biBkcm1fZ2VtX2Ny
+ZWF0ZV9tbWFwX29mZnNldCgpIGZyb20gdGhlaXINCj4+Pj4gaW9jdGwtaGFuZGxpbmcgY29k
+ZS4NCj4+Pj4NCj4+Pj4gSWYgc28sIEknZCBzYXkgaXQncyBwcmVmZXJhYmxlIHRvIGZpeCB0
+aGVzZSBkcml2ZXJzIGFuZCBwdXQgYQ0KPj4+PiBkcm1fV0FSTl9PTkNFKCkgaW50byBkcm1f
+Z2VtX3ByaW1lX21tYXAoKS4NCj4+Pg0KPj4+IFRoYXQgaXMgZ29vZCBpZiBmZXdlciBkcml2
+ZXJzIGFyZSBhZmZlY3RlZCwgaG93ZXZlciBJIGRpc2FncmVlIHdpdGgNCj4+PiB5b3VyIHBy
+b3Bvc2FsLiAgQXQgbGVhc3QgZm9yIGZyZWVkcmVubyB1c2Vyc3BhY2UsIGEgbG90IG9mIGJv
+J3MgbmV2ZXINCj4+PiBnZXQgbW1hcCdkIChlaXRoZXIgZGlyZWN0bHkgb2YgdmlhIGRtYWJ1
+ZiksIHNvIHdlIHNob3VsZCBub3QgYmUNCj4+PiBhbGxvY2F0aW5nIGEgbW1hcCBvZmZzZXQg
+dW5uZWNlc3NhcmlseS4NCj4+DQo+PiBEb2VzIHRoaXMgYWN0dWFsbHkgbWF0dGVyIGluIHRo
+ZSBncmFuZCBzY2hlbWUgb2YgdGhpbmdzPyBXZSBvcmlnaW5hbGx5DQo+PiBhbGxvY2F0ZWQg
+bW1hcCBvZmZzZXQgb25seSBvbiBkZW1hbmQgYmVjYXVzZSB1c2Vyc3BhY2Ugb25seSBoYWQg
+MzJiaXQNCj4+IGxvZmZfdCBzdXBwb3J0IGFuZCBzbyBzaW1wbHkgY291bGRuJ3QgbW1hcCBh
+bnl0aGluZyBpZiB0aGUgb2Zmc2V0DQo+PiBlbmRlZCB1cCBhYm92ZSAzMmJpdCAoZXZlbiBp
+ZiB0aGVyZSB3YXMgc3RpbGwgdmEgc3BhY2UgYXZhaWxhYmxlKS4NCj4+DQo+PiBCdXQgdGhv
+c2UgZGF5cyBhcmUgbG9uZyBnb25lIChhYm91dCAxMCB5ZWFycyBvciBzbykgYW5kIHRoZSBh
+bGxvY2F0aW9uDQo+PiBvdmVyaGVhZCBmb3IgYW4gbW1hcCBvZmZzZXQgaXMgdGlueS4gU28g
+SSB0aGluayB1bmxlc3MgeW91IGNhbg0KPj4gYmVuY2htYXJrIGFuIGltcGFjdCBhbGxvY2F0
+aW5nIGl0IGF0IGJvIGFsbG9jIHNlZW1zIGxpa2UgdGhlIHNpbXBsZXN0DQo+PiBkZXNpZ24g
+b3ZlcmFsbCwgYW5kIGhlbmNlIHdoYXQgd2Ugc2hvdWxkIGJlIGRvaW5nLiBBbmQgaWYgdGhl
+IHZtYQ0KPj4gb2Zmc2V0IGFsbG9jYXRpb24gZXZlcnkgZ2V0cyB0b28gc2xvdyBkdWUgdG8g
+ZnJhZ21lbnRhdGlvbiB3ZSBjYW4gbGlmdA0KPj4gdGhlIGhvbGUgdHJlZSBmcm9tIGk5MTUg
+aW50byBkcm1fbW0gYW5kIHRoZSBqb2Igc2hvdWxkIGJlIGRvbmUuIEF0DQo+PiB0aGF0IHBv
+aW50IHdlIGNvdWxkIGFsc28gYWxsb2NhdGUgdGhlIG9mZnNldCB1bmNvbmRpdGlvbmFsbHkg
+aW4gdGhlDQo+PiBnZW1faW5pdCBmdW5jdGlvbiBhbmQgYmUgZG9uZSB3aXRoIGl0Lg0KPj4N
+Cj4+IElvdyBJIGNvbmN1ciB3aXRoIFRob21hcyBoZXJlLCB1bmxlc3MgdGhlcmUncyBoYXJk
+IGRhdGEgY29udHJhcnkNCj4+IHNpbXBsaWNpdHkgaW1vIHRydW1wcyBoZXJlLg0KPiANCj4g
+MzJiIHVzZXJzcGFjZSBpcyBzdGlsbCBhbGl2ZSBhbmQgd2VsbCwgYXQgbGVhc3Qgb24gYXJt
+IGNocm9tZWJvb2tzIDstKQ0KDQpJIG1vc3RseSBkaXNsaWtlIHRoZSBpbmNvbnNpc3RlbmN5
+IGFtb25nIGRyaXZlcnMuIElmIHdlIHdhbnQgdG8gY3JlYXRlIA0KdGhlIG9mZnNldCBvbi1k
+ZW1hbmQgaW4gdGhlIERSTSBoZWxwZXJzLCB3ZSBzaG91bGQgZG8gc28gZm9yIGFsbCANCmRy
+aXZlcnMuIEF0IGxlYXN0IG91ciBnZW5lcmljIEdFTSBoZWxwZXJzIGFuZCBUVE0gc2hvdWxk
+IGltcGxlbWVudCB0aGlzIA0KcGF0dGVybi4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0K
+PiANCj4gQlIsDQo+IC1SDQo+IA0KPj4gLURhbmllbA0KPj4NCj4+Pg0KPj4+IEJSLA0KPj4+
+IC1SDQo+Pj4NCj4+Pj4gQmVzdCByZWdhcmRzDQo+Pj4+IFRob21hcw0KPj4+Pg0KPj4+PiBb
+MV0NCj4+Pj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTgvc291cmNl
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jI0w4NQ0KPj4+PiBbMl0N
+Cj4+Pj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTgvc291cmNlL2Ry
+aXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMjTDEwMDINCj4+Pj4NCj4+Pj4+DQo+Pj4+PiBG
+aXhlczogZTU1MTY1NTM5OTlmICgiZHJtOiBjYWxsIGRybV9nZW1fb2JqZWN0X2Z1bmNzLm1t
+YXAgd2l0aCBmYWtlIG9mZnNldCIpDQo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBSb2IgQ2xhcmsg
+PHJvYmRjbGFya0BjaHJvbWl1bS5vcmc+DQo+Pj4+PiAtLS0NCj4+Pj4+IE5vdGUsIGl0J3Mg
+cG9zc2libGUgdGhlIGlzc3VlIGV4aXN0ZWQgaW4gc29tZSByZWxhdGVkIGZvcm0gcHJpb3Ig
+dG8gdGhlDQo+Pj4+PiBjb21taXQgdGFnZ2VkIHdpdGggRml4ZXMuDQo+Pj4+Pg0KPj4+Pj4g
+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jIHwgNSArKysrKw0KPj4+Pj4gICAgMSBm
+aWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQ0KPj4+Pj4NCj4+Pj4+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3By
+aW1lLmMNCj4+Pj4+IGluZGV4IGUzZjA5ZjE4MTEwYy4uODQ5ZWVhMTU0ZGZjIDEwMDY0NA0K
+Pj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jDQo+Pj4+PiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMNCj4+Pj4+IEBAIC03MTYsNiArNzE2LDExIEBA
+IGludCBkcm1fZ2VtX3ByaW1lX21tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0
+cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQ0KPj4+Pj4gICAgICAgIHN0cnVjdCBmaWxlICpm
+aWw7DQo+Pj4+PiAgICAgICAgaW50IHJldDsNCj4+Pj4+DQo+Pj4+PiArICAgICAvKiBFbnN1
+cmUgdGhhdCB0aGUgdm1hX25vZGUgaXMgaW5pdGlhbGl6ZWQ6ICovDQo+Pj4+PiArICAgICBy
+ZXQgPSBkcm1fZ2VtX2NyZWF0ZV9tbWFwX29mZnNldChvYmopOw0KPj4+Pj4gKyAgICAgaWYg
+KHJldCkNCj4+Pj4+ICsgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4+Pj4+ICsNCj4+Pj4+
+ICAgICAgICAvKiBBZGQgdGhlIGZha2Ugb2Zmc2V0ICovDQo+Pj4+PiAgICAgICAgdm1hLT52
+bV9wZ29mZiArPSBkcm1fdm1hX25vZGVfc3RhcnQoJm9iai0+dm1hX25vZGUpOw0KPj4+Pj4N
+Cj4+Pj4NCj4+Pj4gLS0NCj4+Pj4gVGhvbWFzIFppbW1lcm1hbm4NCj4+Pj4gR3JhcGhpY3Mg
+RHJpdmVyIERldmVsb3Blcg0KPj4+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
+IEdtYkgNCj4+Pj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQo+
+Pj4+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCj4+Pj4gR2VzY2jDpGZ0c2bDvGhyZXI6
+IEl2byBUb3Rldg0KPj4NCj4+DQo+Pg0KPj4gLS0NCj4+IERhbmllbCBWZXR0ZXINCj4+IFNv
+ZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbg0KPj4gaHR0cDovL2Jsb2cuZmZ3
+bGwuY2gNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
+LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
+ZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-AFAICT we can do that for the info.unallocated_cpu_visible, but not for 
-the existing info.unallocated without maybe breaking something?
+--------------VCCzzrsxShmwjk0tRjIOQdtW--
 
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>> Testcase: igt@i915_query@query-regions-unallocated
->>>> Testcase: igt@i915_query@query-regions-sanity-check
->>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/i915_query.c             | 10 +++++-
->>>>   drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 20 ++++++++++++
->>>>   drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |  3 ++
->>>>   drivers/gpu/drm/i915/intel_memory_region.c    | 14 +++++++++
->>>>   drivers/gpu/drm/i915/intel_memory_region.h    |  3 ++
->>>>   include/uapi/drm/i915_drm.h                   | 31 
->>>> ++++++++++++++++++-
->>>>   6 files changed, 79 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/i915_query.c 
->>>> b/drivers/gpu/drm/i915/i915_query.c
->>>> index 9aa0b28aa6ee..e095c55f4d4b 100644
->>>> --- a/drivers/gpu/drm/i915/i915_query.c
->>>> +++ b/drivers/gpu/drm/i915/i915_query.c
->>>> @@ -502,7 +502,15 @@ static int query_memregion_info(struct 
->>>> drm_i915_private *i915,
->>>>           else
->>>>               info.probed_cpu_visible_size = mr->total;
->>>> -        info.unallocated_size = mr->avail;
->>>> +        if (perfmon_capable()) {
->>>> +            intel_memory_region_avail(mr,
->>>> +                          &info.unallocated_size,
->>>> +                          &info.unallocated_cpu_visible_size);
->>>> +        } else {
->>>> +            info.unallocated_size = info.probed_size;
->>>> +            info.unallocated_cpu_visible_size =
->>>> +                info.probed_cpu_visible_size;
->>>> +        }
->>>>           if (__copy_to_user(info_ptr, &info, sizeof(info)))
->>>>               return -EFAULT;
->>>> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c 
->>>> b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->>>> index a5109548abc0..aa5c91e44438 100644
->>>> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->>>> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
->>>> @@ -365,6 +365,26 @@ u64 i915_ttm_buddy_man_visible_size(struct 
->>>> ttm_resource_manager *man)
->>>>       return bman->visible_size;
->>>>   }
->>>> +/**
->>>> + * i915_ttm_buddy_man_visible_size - Query the avail tracking for 
->>>> the manager.
->>>> + *
->>>> + * @man: The buddy allocator ttm manager
->>>> + * @avail: The total available memory in pages for the entire manager.
->>>> + * @visible_avail: The total available memory in pages for the CPU 
->>>> visible
->>>> + * portion. Note that this will always give the same value as 
->>>> @avail on
->>>> + * configurations that don't have a small BAR.
->>>> + */
->>>> +void i915_ttm_buddy_man_avail(struct ttm_resource_manager *man,
->>>> +                 u64 *avail, u64 *visible_avail)
->>>> +{
->>>> +    struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
->>>> +
->>>> +    mutex_lock(&bman->lock);
->>>> +    *avail = bman->mm.avail >> PAGE_SHIFT;
->>>> +    *visible_avail = bman->visible_avail;
->>>> +    mutex_unlock(&bman->lock);
->>>> +}
->>>> +
->>>>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->>>>   void i915_ttm_buddy_man_force_visible_size(struct 
->>>> ttm_resource_manager *man,
->>>>                          u64 size)
->>>> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h 
->>>> b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
->>>> index 52d9586d242c..d64620712830 100644
->>>> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
->>>> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
->>>> @@ -61,6 +61,9 @@ int i915_ttm_buddy_man_reserve(struct 
->>>> ttm_resource_manager *man,
->>>>   u64 i915_ttm_buddy_man_visible_size(struct ttm_resource_manager 
->>>> *man);
->>>> +void i915_ttm_buddy_man_avail(struct ttm_resource_manager *man,
->>>> +                  u64 *avail, u64 *avail_visible);
->>>> +
->>>>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->>>>   void i915_ttm_buddy_man_force_visible_size(struct 
->>>> ttm_resource_manager *man,
->>>>                          u64 size);
->>>> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c 
->>>> b/drivers/gpu/drm/i915/intel_memory_region.c
->>>> index e38d2db1c3e3..94ee26e99549 100644
->>>> --- a/drivers/gpu/drm/i915/intel_memory_region.c
->>>> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
->>>> @@ -279,6 +279,20 @@ void intel_memory_region_set_name(struct 
->>>> intel_memory_region *mem,
->>>>       va_end(ap);
->>>>   }
->>>> +void intel_memory_region_avail(struct intel_memory_region *mr,
->>>> +                   u64 *avail, u64 *visible_avail)
->>>> +{
->>>> +    if (mr->type == INTEL_MEMORY_LOCAL) {
->>>> +        i915_ttm_buddy_man_avail(mr->region_private,
->>>> +                     avail, visible_avail);
->>>> +        *avail <<= PAGE_SHIFT;
->>>> +        *visible_avail <<= PAGE_SHIFT;
->>>> +    } else {
->>>> +        *avail = mr->total;
->>>> +        *visible_avail = mr->total;
->>>> +    }
->>>> +}
->>>> +
->>>>   void intel_memory_region_destroy(struct intel_memory_region *mem)
->>>>   {
->>>>       int ret = 0;
->>>> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h 
->>>> b/drivers/gpu/drm/i915/intel_memory_region.h
->>>> index 3d8378c1b447..2214f251bec3 100644
->>>> --- a/drivers/gpu/drm/i915/intel_memory_region.h
->>>> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
->>>> @@ -127,6 +127,9 @@ int intel_memory_region_reserve(struct 
->>>> intel_memory_region *mem,
->>>>   void intel_memory_region_debug(struct intel_memory_region *mr,
->>>>                      struct drm_printer *printer);
->>>> +void intel_memory_region_avail(struct intel_memory_region *mr,
->>>> +                   u64 *avail, u64 *visible_avail);
->>>> +
->>>>   struct intel_memory_region *
->>>>   i915_gem_ttm_system_setup(struct drm_i915_private *i915,
->>>>                 u16 type, u16 instance);
->>>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->>>> index 9df419a45244..e30f31a440b3 100644
->>>> --- a/include/uapi/drm/i915_drm.h
->>>> +++ b/include/uapi/drm/i915_drm.h
->>>> @@ -3228,7 +3228,15 @@ struct drm_i915_memory_region_info {
->>>>        */
->>>>       __u64 probed_size;
->>>> -    /** @unallocated_size: Estimate of memory remaining (-1 = 
->>>> unknown) */
->>>> +    /**
->>>> +     * @unallocated_size: Estimate of memory remaining (-1 = unknown)
->>>> +     *
->>>> +     * Requires CAP_PERFMON or CAP_SYS_ADMIN to get reliable 
->>>> accounting.
->>>> +     * Without this (or if this is an older kernel) the value here 
->>>> will
->>>> +     * always equal the @probed_size. Note this is only currently 
->>>> tracked
->>>> +     * for I915_MEMORY_CLASS_DEVICE regions (for other types the 
->>>> value here
->>>> +     * will always equal the @probed_size).
->>>> +     */
->>>>       __u64 unallocated_size;
->>>>       union {
->>>> @@ -3262,6 +3270,27 @@ struct drm_i915_memory_region_info {
->>>>                * @probed_size.
->>>>                */
->>>>               __u64 probed_cpu_visible_size;
->>>> +
->>>> +            /**
->>>> +             * @unallocated_cpu_visible_size: Estimate of CPU
->>>> +             * visible memory remaining (-1 = unknown).
->>>> +             *
->>>> +             * Note this is only tracked for
->>>> +             * I915_MEMORY_CLASS_DEVICE regions (for other types the
->>>> +             * value here will always equal the
->>>> +             * @probed_cpu_visible_size).
->>>> +             *
->>>> +             * Requires CAP_PERFMON or CAP_SYS_ADMIN to get reliable
->>>> +             * accounting.  Without this the value here will always
->>>> +             * equal the @probed_cpu_visible_size. Note this is only
->>>> +             * currently tracked for I915_MEMORY_CLASS_DEVICE
->>>> +             * regions (for other types the value here will also
->>>> +             * always equal the @probed_cpu_visible_size).
->>>> +             *
->>>> +             * If this is an older kernel the value here will be
->>>> +             * zero, see also @probed_cpu_visible_size.
->>>> +             */
->>>> +            __u64 unallocated_cpu_visible_size;
->>>>           };
->>>>       };
->>>>   };
+--------------F0cE3sBzn3h7KklEgauifnUx
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKU/PYFAwAAAAAACgkQlh/E3EQov+BE
+VRAAhMnp4FXmobeRVKi/auHmYMhzxIXd3wN5GCgKn9X/yYQXI4LxaY9OPl6We/kvgmNu7y4AW0Jt
+w4S7ciT3sZH18lqVwmJyv9AbUiL2w9toGAkMClmiiOTIvU0hbaHIaNfG6Z5CCFXAlhy4xbA/MNjH
+XFA/lcstS35eZX7iyP/0KPReQYlh8wPLONP0VoWx7nI3WOt9JhTyrF4I6zrvl774E3pSEE4NwpOG
+l6KE20g0qJrNaETInfLswBwOC6rO++x6Kd10DWC8DiTwV1Hw8BocS52LrDKS6KTaV0z9purJvvKP
+GFOv3vOANT3xZTSe+DbgMEZLWSEMZjwl3MDBsGBLMaU1jsuljo+iE6RfceVxQHmTUAKrFssFJ2rm
+JcvjgetAJj+8Osaf4lNy2kaj0N4cxDr2IEsSSxn/RBOdTCBn7IpB/Ws+X4dXzZ+uqhM9Jd77oKTu
+tepsbP4UybbFaLAGxOttXIkWLPl4BBVB+/Mp9VYZARugG0CbmfXCbjiuGB6OqIXucGxov5QKQYbw
+kYllsVq1wh5aM7CQv6H8zpc/ZNpe6HBEpwiYydI3S/Iti6J3rg0si9cC7VlsrIxFr04p7yUclFNZ
+Ceza+TQTE2ixDK7qYxG/rZtp4fe6l1Q4XDWcb21lN9IJUpQ5KhLxyY4cbDrjZ0Q6IkYdrmyh+J0I
+wxs=
+=eWIu
+-----END PGP SIGNATURE-----
+
+--------------F0cE3sBzn3h7KklEgauifnUx--
