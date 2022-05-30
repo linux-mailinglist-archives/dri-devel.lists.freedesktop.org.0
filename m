@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6DA537DE8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C385537DEA
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:44:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23BD210E83E;
-	Mon, 30 May 2022 13:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112F510E967;
+	Mon, 30 May 2022 13:44:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1F7310E83E
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:44:36 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 981B810E967;
+ Mon, 30 May 2022 13:44:50 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 23B6B60FA3;
- Mon, 30 May 2022 13:44:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69DD5C3411C;
- Mon, 30 May 2022 13:44:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0B51E60F32;
+ Mon, 30 May 2022 13:44:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF13C36AE3;
+ Mon, 30 May 2022 13:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653918275;
- bh=2LFwGuCsKCuYENEjOsRcLSDeb9bv9mIq1XjW2w4MUhI=;
+ s=k20201202; t=1653918289;
+ bh=QBOKpU9FLpN80m8mad13Ydk7s0gfGAfX4dnPlkXcfts=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=igp3cOtb4Jw2neGZdTK8k/HnXt+jvH+U/oJ+eLQvdD4Ug0rkbNNzZ4stFJWV5JMs2
- pQC8K0gS9Z18my8OEvWwRfH1L2UsrEg0Ghh2DI1dMPsh7on+2c+8SYgVTMNzxM5lnp
- gKBDOuELFFFZx/NG8YlXEin3BNIv8n3k3CjmdNj5T1jYER/uehelIbvD5i2Kk8gGpw
- rhvXAkqroZ0p3sm0gxfd4BtmNrhJILotKGxXAzyMFQ9tEuZsGcCPY+FTE1Aw+y/16V
- M306FxMmpg7Gyu70h/T5yZc+usiH/rO/U7/WsoS3xhuq7v4k+QCZIOpCfr285RBApT
- hG4EkNbQkaq9A==
+ b=RSY+NFyalWTeySP3D+q+zsvVk4+z9vCuvY5ItBzHE4ihiGtY6dEDdsdeFWTV7J+cK
+ tC0wGUn0UDFrm7IZBIJ9Khkdtz0PQ9uRnU1yQPPgwy27GlLiz048PGJgO3Dc/lioi4
+ zQ/noekdushFOevdpne1gb6rYIdhEjGgC1Tw23+KmKwI0smIr2a2hezIKYc9/HFHtf
+ UQaFVSRA/A5kieBF8RIfBLzB0KFgKJKB6YF0bpi+J32ghyi/Tfa/84dtPYGzMNRVHG
+ HAVRZzrLVnSQvHKyoMuUzSI9dYBLMbKwb4eMWHcIc21yVzgz6X3ofrAGGtjq76oK0R
+ crZGhGD5NDU+g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 12/76] drm/komeda: return early if
- drm_universal_plane_init() fails.
-Date: Mon, 30 May 2022 09:43:02 -0400
-Message-Id: <20220530134406.1934928-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 19/76] drm/amd/pm: fix double free in
+ si_parse_power_table()
+Date: Mon, 30 May 2022 09:43:09 -0400
+Message-Id: <20220530134406.1934928-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530134406.1934928-1-sashal@kernel.org>
 References: <20220530134406.1934928-1-sashal@kernel.org>
@@ -55,48 +56,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, james.qian.wang@arm.com,
- mihail.atanassov@arm.com
+Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, airlied@linux.ie,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ evan.quan@amd.com, christian.koenig@amd.com,
+ Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Liviu Dudau <liviu.dudau@arm.com>
+From: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
 
-[ Upstream commit c8f76c37cc3668ee45e081e76a15f24a352ebbdd ]
+[ Upstream commit f3fa2becf2fc25b6ac7cf8d8b1a2e4a86b3b72bd ]
 
-If drm_universal_plane_init() fails early we jump to the common cleanup code
-that calls komeda_plane_destroy() which in turn could access the uninitalised
-drm_plane and crash. Return early if an error is detected without going through
-the common code.
+In function si_parse_power_table(), array adev->pm.dpm.ps and its member
+is allocated. If the allocation of each member fails, the array itself
+is freed and returned with an error code. However, the array is later
+freed again in si_dpm_fini() function which is called when the function
+returns an error.
 
-Reported-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
-Link: https://lore.kernel.org/dri-devel/20211203100946.2706922-1-liviu.dudau@arm.com
+This leads to potential double free of the array adev->pm.dpm.ps, as
+well as leak of its array members, since the members are not freed in
+the allocation function and the array is not nulled when freed.
+In addition adev->pm.dpm.num_ps, which keeps track of the allocated
+array member, is not updated until the member allocation is
+successfully finished, this could also lead to either use after free,
+or uninitialized variable access in si_dpm_fini().
+
+Fix this by postponing the free of the array until si_dpm_fini() and
+increment adev->pm.dpm.num_ps everytime the array member is allocated.
+
+Signed-off-by: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_plane.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/pm/powerplay/si_dpm.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-index 98e915e325dd..a5f57b38d193 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
-@@ -274,8 +274,10 @@ static int komeda_plane_add(struct komeda_kms_dev *kms,
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/si_dpm.c b/drivers/gpu/drm/amd/pm/powerplay/si_dpm.c
+index a1e7ba5995c5..d6544a6dabc7 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/si_dpm.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/si_dpm.c
+@@ -7250,17 +7250,15 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+ 	if (!adev->pm.dpm.ps)
+ 		return -ENOMEM;
+ 	power_state_offset = (u8 *)state_array->states;
+-	for (i = 0; i < state_array->ucNumEntries; i++) {
++	for (adev->pm.dpm.num_ps = 0, i = 0; i < state_array->ucNumEntries; i++) {
+ 		u8 *idx;
+ 		power_state = (union pplib_power_state *)power_state_offset;
+ 		non_clock_array_index = power_state->v2.nonClockInfoIndex;
+ 		non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
+ 			&non_clock_info_array->nonClockInfo[non_clock_array_index];
+ 		ps = kzalloc(sizeof(struct  si_ps), GFP_KERNEL);
+-		if (ps == NULL) {
+-			kfree(adev->pm.dpm.ps);
++		if (ps == NULL)
+ 			return -ENOMEM;
+-		}
+ 		adev->pm.dpm.ps[i].ps_priv = ps;
+ 		si_parse_pplib_non_clock_info(adev, &adev->pm.dpm.ps[i],
+ 					      non_clock_info,
+@@ -7282,8 +7280,8 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+ 			k++;
+ 		}
+ 		power_state_offset += 2 + power_state->v2.ucNumDPMLevels;
++		adev->pm.dpm.num_ps++;
+ 	}
+-	adev->pm.dpm.num_ps = state_array->ucNumEntries;
  
- 	komeda_put_fourcc_list(formats);
- 
--	if (err)
--		goto cleanup;
-+	if (err) {
-+		kfree(kplane);
-+		return err;
-+	}
- 
- 	drm_plane_helper_add(plane, &komeda_plane_helper_funcs);
- 
+ 	/* fill in the vce power states */
+ 	for (i = 0; i < adev->pm.dpm.num_of_vce_states; i++) {
 -- 
 2.35.1
 
