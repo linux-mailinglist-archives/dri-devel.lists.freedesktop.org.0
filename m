@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD557537E40
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7791537E50
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:58:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0998B10ECE9;
-	Mon, 30 May 2022 13:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A634810ED5D;
+	Mon, 30 May 2022 13:58:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76EF510ECAC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:56:02 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D0B10ED3E;
+ Mon, 30 May 2022 13:58:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CA886B80DAA;
- Mon, 30 May 2022 13:49:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD7CC385B8;
- Mon, 30 May 2022 13:49:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F1DC660EDF;
+ Mon, 30 May 2022 13:49:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8E0C385B8;
+ Mon, 30 May 2022 13:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653918583;
- bh=nCcNByXWT/diSi/kX4pWjohsR1ESAZBLN/o8dTNP/Qo=;
+ s=k20201202; t=1653918593;
+ bh=aLylDdqT0NTqM4D2n1JKqFVOODdcHs+kgtWOg5yMgK4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jef57TBEHeqhpfx7toOpn8puAImfUAJIyWrEoCKkv0bo7PaBBFu44SHjTw3dqUPhT
- /Tskl12YqYDSiYHDyC1fWd53ZBS4SDeIq8vuvMbCQz25+IbWfp6E5uKoyom9bW6vqO
- I1POBY+dBEs0t+3LiGPK4csIpIvYFv7klSM20HzLSncd219HTf4nUnk0eLrQSt72le
- BlLjbBWsmepQpSxlTw3dsQpa8egL02j6STE5aJkBT57fffZsvw6455fdFnCDuTFOZI
- y7UHvBBqgIXJaYmpbIrAgqjOm0AniWHq8atSGRMHe30UJz0a4ghEi4EEjCtCMX0Jhp
- osy4ZhfhttVlg==
+ b=Tva/PpC+kOrXkJzgFbpo1HvW37ZFUyZgRZdD6kmnrPs8E2ccmPCaSIqakK1fjKir9
+ hUmAmgFDBGXOX6+RGG3upGUZ70oawOunIG7VwJ4sjU3qE1NR4OZiQeykQfLRXmyx3t
+ K2Xir4MjUqKEgEU4NzoWPcBHGWS3Zi8bualXqVL//HwPZVMIKmjaV4/KHXVZR/7eWY
+ QlNo/OTbC5xjbPXm+S0PSWDbXpHg0RUNM76uYt9xYvQkHFtyIDcm0Gzv3yZV/Bh3Fb
+ YyQ9I4eh4CXH0QgzcFHnLV78LU9kE1R3tCu5ieZzHVCi270GcFk80CZT/IVV3CueaK
+ UuLtjv70iOr3A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 07/38] fbcon: Consistently protect
- deferred_takeover with console_lock()
-Date: Mon, 30 May 2022 09:48:53 -0400
-Message-Id: <20220530134924.1936816-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 10/38] drm/amd/pm: fix double free in
+ si_parse_power_table()
+Date: Mon, 30 May 2022 09:48:56 -0400
+Message-Id: <20220530134924.1936816-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530134924.1936816-1-sashal@kernel.org>
 References: <20220530134924.1936816-1-sashal@kernel.org>
@@ -55,62 +55,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
- dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
- Claudio Suarez <cssk@net-c.es>, Daniel Vetter <daniel.vetter@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+From: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
 
-[ Upstream commit 43553559121ca90965b572cf8a1d6d0fd618b449 ]
+[ Upstream commit f3fa2becf2fc25b6ac7cf8d8b1a2e4a86b3b72bd ]
 
-This shouldn't be a problem in practice since until we've actually
-taken over the console there's nothing we've registered with the
-console/vt subsystem, so the exit/unbind path that check this can't
-do the wrong thing. But it's confusing, so fix it by moving it a tad
-later.
+In function si_parse_power_table(), array adev->pm.dpm.ps and its member
+is allocated. If the allocation of each member fails, the array itself
+is freed and returned with an error code. However, the array is later
+freed again in si_dpm_fini() function which is called when the function
+returns an error.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Du Cheng <ducheng2@gmail.com>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Claudio Suarez <cssk@net-c.es>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220405210335.3434130-14-daniel.vetter@ffwll.ch
+This leads to potential double free of the array adev->pm.dpm.ps, as
+well as leak of its array members, since the members are not freed in
+the allocation function and the array is not nulled when freed.
+In addition adev->pm.dpm.num_ps, which keeps track of the allocated
+array member, is not updated until the member allocation is
+successfully finished, this could also lead to either use after free,
+or uninitialized variable access in si_dpm_fini().
+
+Fix this by postponing the free of the array until si_dpm_fini() and
+increment adev->pm.dpm.num_ps everytime the array member is allocated.
+
+Signed-off-by: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/core/fbcon.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/si_dpm.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index bf7959fdf9f4..7c2582892eab 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -3314,6 +3314,9 @@ static void fbcon_register_existing_fbs(struct work_struct *work)
+diff --git a/drivers/gpu/drm/amd/amdgpu/si_dpm.c b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+index 1de96995e690..9f811051ceb0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/si_dpm.c
++++ b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+@@ -7247,17 +7247,15 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+ 	if (!adev->pm.dpm.ps)
+ 		return -ENOMEM;
+ 	power_state_offset = (u8 *)state_array->states;
+-	for (i = 0; i < state_array->ucNumEntries; i++) {
++	for (adev->pm.dpm.num_ps = 0, i = 0; i < state_array->ucNumEntries; i++) {
+ 		u8 *idx;
+ 		power_state = (union pplib_power_state *)power_state_offset;
+ 		non_clock_array_index = power_state->v2.nonClockInfoIndex;
+ 		non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
+ 			&non_clock_info_array->nonClockInfo[non_clock_array_index];
+ 		ps = kzalloc(sizeof(struct  si_ps), GFP_KERNEL);
+-		if (ps == NULL) {
+-			kfree(adev->pm.dpm.ps);
++		if (ps == NULL)
+ 			return -ENOMEM;
+-		}
+ 		adev->pm.dpm.ps[i].ps_priv = ps;
+ 		si_parse_pplib_non_clock_info(adev, &adev->pm.dpm.ps[i],
+ 					      non_clock_info,
+@@ -7279,8 +7277,8 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+ 			k++;
+ 		}
+ 		power_state_offset += 2 + power_state->v2.ucNumDPMLevels;
++		adev->pm.dpm.num_ps++;
+ 	}
+-	adev->pm.dpm.num_ps = state_array->ucNumEntries;
  
- 	console_lock();
- 
-+	deferred_takeover = false;
-+	logo_shown = FBCON_LOGO_DONTSHOW;
-+
- 	for_each_registered_fb(i)
- 		fbcon_fb_registered(registered_fb[i]);
- 
-@@ -3331,8 +3334,6 @@ static int fbcon_output_notifier(struct notifier_block *nb,
- 	pr_info("fbcon: Taking over console\n");
- 
- 	dummycon_unregister_output_notifier(&fbcon_output_nb);
--	deferred_takeover = false;
--	logo_shown = FBCON_LOGO_DONTSHOW;
- 
- 	/* We may get called in atomic context */
- 	schedule_work(&fbcon_deferred_takeover_work);
+ 	/* fill in the vce power states */
+ 	for (i = 0; i < adev->pm.dpm.num_of_vce_states; i++) {
 -- 
 2.35.1
 
