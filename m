@@ -1,69 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD59E5377A8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 11:28:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B285379A7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 13:17:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7F010E375;
-	Mon, 30 May 2022 09:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27F7010E55A;
+	Mon, 30 May 2022 11:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4331D10E375
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 09:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1653902877; x=1685438877;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=155NhGdnraZCFqCt2JHHnwo5L4WmighXUjo6xDOg0Co=;
- b=OzlTLE+uYTTc0gOuOmQ+vhcosCYaCHM3kHL/rMiNg+OWsQJwfbdO9I1G
- AuQFo6moemkI0wa3ohW04ukUli8Sffqo4E8lCxWVlg7Wk+/T2GZZSzWwH
- ccSLDP9Eia1HZFB4Hu8awWB4HdoOyX5Z4We3d+LvZOXb2i00WYGOA/vNS
- XVcsJFfJypnEJUYkPZT55ppxXdE7cDwSXIc3tLRv3LzpxOrjmTk9jfVRk
- gfXmbP24cIlfbDbeWq8RcVxq0qeQWav6zgRhnvnyIqb1FIQvDI8utcQvT
- hWc/GFf3bHPYoBUPZaWuPt28fdF9l79qzFBfP30LIh6YarnpIXMkei7IG w==;
-X-IronPort-AV: E=Sophos;i="5.91,262,1647298800"; d="scan'208";a="24143582"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 30 May 2022 11:27:55 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Mon, 30 May 2022 11:27:55 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Mon, 30 May 2022 11:27:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1653902875; x=1685438875;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=155NhGdnraZCFqCt2JHHnwo5L4WmighXUjo6xDOg0Co=;
- b=cGE7yptHUx/CPoDER/YcXY2GgRB0Ijh6JZT4tlayIFBYucam+VAPLq25
- MjKrrypomXJ0vMFwvKNPoYQsxYbg5B3hVSkyPDwsqbYAV1wVzPMAk0jOE
- VkxXDGQjWZYZ9GPikHuY4MGUylBG1/ocUq1ifmZFGCEREUZbBLc2qVUNb
- feMqcOxrce1F7e/QvNON9V7tU4BAxoKnw26LsBZsWU5mpvEjgPVRrvwHn
- keK2Z/OhLB2p88vEzcVdIxrXsqfbiBlLOfQLwpnvUZOKUDNSjnb+WQ+uP
- DdNGoBEtUMD7fpa/IN5k3JMh2G+YS9xMmMcm5oFYXs/tmyXZICMWFeu4H Q==;
-X-IronPort-AV: E=Sophos;i="5.91,262,1647298800"; d="scan'208";a="24143581"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 30 May 2022 11:27:54 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id A160B280004;
- Mon, 30 May 2022 11:27:54 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v4 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
-Date: Mon, 30 May 2022 11:27:52 +0200
-Message-ID: <2893424.e9J7NaK4W3@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <0bf5532b-f4d9-fbf5-0037-61887fc8512e@denx.de>
-References: <20220519114849.69918-1-marex@denx.de>
- <4403432.LvFx2qVVIh@steina-w> <0bf5532b-f4d9-fbf5-0037-61887fc8512e@denx.de>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4061810E3E3;
+ Mon, 30 May 2022 11:17:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KtsaNEjfdmczm/NVytNKjbrtotoxHBGZi0ik7Ly42SSEF+HS4pUWNfOf6xL5vjzFkCYqQRh4/VDCBKWEDNgBfeUEVs9opdxOp31flJ9DqMcrUkunxxYnAAqovovbjqYyLhtcfyS+S2U69iIPGrtivmZjrJ/id1VpheqzGSDWXvr+Tvr3qTMEsBd+ebjRvNL6r2rK0Pg1VETSyrfLqfR6yeWGCBfTgvucLOOkzd2upvTXyDBMWoj92Q80Wr09ODBOn9bw43S6XaE+0+2a/76qXN2PlBBMpiZE4MR9erqiPTlYVXaGxFKiyOKrhkMTWjz3NO0IDC2SQ+1kFIWzu+bMSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c1HqXc6ZUQUfeVE9nPrbhhSXTzga2Uc3FbMfu0n3ncE=;
+ b=JMAyopKdXCrKQNervchD1yZrvUGw40HiD2dBp/Jh0DOnMhpYWpYTID3uTYR0AmygkSQN5uGuBbHeFYP0ge061LSRTAsEv63TdKORJ6jjSUBj+W4kBI1puUM78vUljhxSK6q/KITM3zrt5nvjGddy01jA29tNUtn6PMu4oFzsp4gEHYlFObtHMyNg0tr8wj9wX1i0IH1I5pFvuFSOr4GPEhe6Uxae3MXIUQFEnvOtCoko6c86sidlaYtVmGFDlxxxAcj8b5p7ePvxD/uDmCEReDTo948udw14aQRWyB4QkDiH8XSPgiiqu0acxXrFFXchDy2Kr07kXQfX1JRY7x4CyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c1HqXc6ZUQUfeVE9nPrbhhSXTzga2Uc3FbMfu0n3ncE=;
+ b=gNrR/2bye0KrehEc/pzmaChsbHqX0ShZgbVckTu9UjxAtYpU0KqJ+Dc2JqSEfb9OaGxCQNNutuCd+Skz+s5wad4enJDXRv16MFGIClTVhnyBWGuTG+LV9fAS5zRfOB3TZA5pePcDGKOLW3nRjQOpnmx1pLNquKQO6P+V5JgAPZk=
+Received: from BN0PR03CA0028.namprd03.prod.outlook.com (2603:10b6:408:e6::33)
+ by DM6PR12MB4028.namprd12.prod.outlook.com (2603:10b6:5:1ce::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.16; Mon, 30 May
+ 2022 11:17:14 +0000
+Received: from BN8NAM11FT022.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e6:cafe::27) by BN0PR03CA0028.outlook.office365.com
+ (2603:10b6:408:e6::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13 via Frontend
+ Transport; Mon, 30 May 2022 11:17:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN8NAM11FT022.mail.protection.outlook.com (10.13.176.112) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5293.13 via Frontend Transport; Mon, 30 May 2022 11:17:13 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 30 May
+ 2022 06:17:13 -0500
+Received: from Ryan-AMD.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
+ Transport; Mon, 30 May 2022 06:16:44 -0500
+From: Ryan Lin <tsung-hua.lin@amd.com>
+To: 
+Subject: [PATCH] BACKPORT: drm/amdgpu/disply: set num_crtc earlier
+Date: Mon, 30 May 2022 17:29:02 +0800
+Message-ID: <20220530092902.810336-1-tsung-hua.lin@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5741dfe9-c5db-4581-b1b5-08da422df2ba
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4028:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4028F45A2810DBCBF835D158B2DD9@DM6PR12MB4028.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GLIgqRbzsCtNrKttQ1bNiwZ+9hYzWbwRrNnwYAhBNIOrLieUYpAHHjberQT/j38Pgsui0eH3NS/l0iWURU+TBglkOkTuDlo/htxGtg0IU48vXHfzkPlRP5Pq3eokUzZ7oPKZxkcQnLUhFz4fLKSqno0R/9Du6ZBf3kMsLEVcYGhSEIdYxnGBorjS7X2+N/OPiGKWya57jjg+b5PlFHAwOjor1xXvprXtJl4FI1KsxJ86aOAIGF1Az1NR+9a4523SAwfjWY0FVwnoPPtZxKYaZCsnwvd2l9V0RizU6wKN6coK3LQR8084g6+ew5T8nRvb/gL2ndkcW3uoS0TEsOb/T5UHIEVedJL+g9AHHNWtCHQoWtny3Hxx3iMCRRQ0o7HsS8VP7n6J6sRKATpagHt7de9MjGTEx+P26aaGb9ia3ZaAwUjl4lnn6ebPxycX/E2hfQnQUZahbiXQuLRVgjeG/eqkEBIn2bVxC17dp7tJ4f86dMZ3onnBWQZAMddNDSxEvpIqhv0Rb3FCuhU7gm+zlWTSrO4+iYg67hD+RsQyWBZ6L+Lfx6v7pqHCGmOGoGGa3DBDF0jy/LPGOk9p7l4/hK1DjpjGDV5oandU6BCf4WR4M2AzTwsko1Qp52xAXNyg8+C3xYCFsy+Dr5eexz/LZrP+vk+dxJ7AJA62Af/svqVztNDUi8eHTVY4jlsD/h8BH5KSjikn3Cp1rY8I5/f3JIlOBJ95vygI+PPWo7HedvKAGoAw+dAkHYlJOiELlmR61vFZHM4Va4/oMW2n4b7r9NSjGZRFuFkNyoK+Ke8jMZUUsUAGkY2wdgv63pn8W3Zb
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(316002)(47076005)(8936002)(54906003)(966005)(426003)(36756003)(336012)(508600001)(86362001)(40460700003)(5660300002)(7416002)(4326008)(82310400005)(70586007)(70206006)(8676002)(26005)(2906002)(6666004)(7696005)(109986005)(186003)(1076003)(2616005)(356005)(83380400001)(81166007)(36860700001)(266003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2022 11:17:13.9004 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5741dfe9-c5db-4581-b1b5-08da422df2ba
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT022.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4028
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,109 +99,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- martyn.welch@collabora.com, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, Robby Cai <robby.cai@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, leon.li@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Ikshwaku Chauhan <ikshwaku.chauhan@amd.corp-partner.google.com>,
+ Sasha Levin <sashal@kernel.org>,
+ "David \(ChunMing\) Zhou" <David1.Zhou@amd.com>, amd-gfx@lists.freedesktop.org,
+ praful.swarnakar@amd.com, Leo Li <sunpeng.li@amd.com>,
+ Sean Paul <seanpaul@chromium.org>, ching-shih.li@amd.com,
+ Roman Li <Roman.Li@amd.com>, stable@vger.kernel.org, shirish.s@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Mark
+ Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+From: Alex Deucher <alexander.deucher@amd.com>
 
-Am Dienstag, 24. Mai 2022, 09:29:43 CEST schrieb Marek Vasut:
-> On 5/24/22 09:09, Alexander Stein wrote:
-> > Hi Marek,
-> 
-> Hi,
-> 
-> > Am Donnerstag, 19. Mai 2022, 13:48:49 CEST schrieb Marek Vasut:
-> >> Add support for i.MX8MP LCDIF variant. This is called LCDIFv3 and is
-> >> completely different from the LCDIFv3 found in i.MX23 in that it has
-> >> a completely scrambled register layout compared to all previous LCDIF
-> >> variants. The new LCDIFv3 also supports 36bit address space.
-> >> 
-> >> Add a separate driver which is really a fork of MXSFB driver with the
-> >> i.MX8MP LCDIF variant handling filled in.
-> >> 
-> >> Signed-off-by: Marek Vasut <marex@denx.de>
-> >> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> >> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Cc: Lucas Stach <l.stach@pengutronix.de>
-> >> Cc: Peng Fan <peng.fan@nxp.com>
-> >> Cc: Robby Cai <robby.cai@nxp.com>
-> >> Cc: Sam Ravnborg <sam@ravnborg.org>
-> >> Cc: Stefan Agner <stefan@agner.ch>
-> >> ---
-> >> V2: - Drop the pitch check from lcdif_fb_create()
-> >> 
-> >>      - Drop connector caching
-> >>      - Wait for shadow load bit to be cleared in IRQ handler
-> >>      - Make all clock mandatory and grab them all by name
-> >>      - Wait for EN to be cleared in lcdif_disable_controller
-> >>      - Rename to imx-lcdif
-> >>      - Move shadow load to atomic_flush
-> >> 
-> >> V3: - Invert DE polarity to match MX8MPRM datasheet
-> >> 
-> >>      - Enable CSC in RGB to YUV mode for MEDIA_BUS_FMT_UYVY8_1X16
-> >> 
-> >> V4: - Drop lcdif_overlay_plane_formats, it is unused
-> > 
-> > Thanks for the update. With your change in V3 my HDMI output works now
-> > without that hack mentioned. weston screen as well as 'fb-test -p 5'
-> > output seems sensible.
-> > Unfortunately this isn't the case for LVDS output on LCDIF2. I somehow
-> > managed to get the DT nodes for LCDIF and LDB done. Also the necessary
-> > addition to imx8m-blk-ctl. So eventually I can see some output. But the
-> > screen is cutoff on the right side of about 15-20% and the screen is
-> > flickering slighty. This is especially visible in 'fb-test -p 5'. The red
-> > bars are only visible to less than 1/3 and the text as well as the
-> > diagonal lines are flickering. Colors are correct though.
-> > For the record: I am using a 'tianma,tm070jvhg33' panel.
-> 
-> Does LDB start working if you apply:
-> 
->   static const struct drm_bridge_funcs funcs = {
->          .attach = fsl_ldb_attach,
-> -       .atomic_check = fsl_ldb_atomic_check,
->          .atomic_enable = fsl_ldb_atomic_enable,
->          .atomic_disable = fsl_ldb_atomic_disable,
->          .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> 
-> to
-> 
-> drivers/gpu/drm/bridge/fsl-ldb.c
+To avoid a recently added warning:
+ Bogus possible_crtcs: [ENCODER:65:TMDS-65] possible_crtcs=0xf (full crtc mask=0x7)
+ WARNING: CPU: 3 PID: 439 at drivers/gpu/drm/drm_mode_config.c:617 drm_mode_config_validate+0x178/0x200 [drm]
+In this case the warning is harmless, but confusing to users.
 
-I got this working, somehow. The root cause was that the LDB clock was not the 
-media_disp2_pix_root_clk clock * 7, which is mandatory for LVDS (single link).
+Fixes: 0df108237433 ("drm: Validate encoder->possible_crtcs")
+Bug: https://bugzilla.kernel.org/show_bug.cgi?id=209123
+Reviewed-by: Daniel Vetter <daniel@ffwll.ch>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
 
-excerpt from clk_summary:
-video_pll1_out     2 2 0   594000000          0     0  50000         Y
-   media_ldb       1 1 0   594000000          0     0  50000         Y
-   media_disp2_pix 1 1 0    66000000          0     0  50000         Y
+Conflicts:
+	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+	[Ryan Lin: Fixed the conflict, remove the non-main changed part
+	of this patch]
 
-media_ldb is too high (should be 462000000). I wonder why media_ldb is not a 
-child from media_disp2_pix (or vice versa) when there is a hard dependency.
-There are several solutions:
-1.
-Set video_pll1 to 1039500000 and adjust requested pixel clock of the panel 
-(74250000 in this case). Now the dividers match hit the clock rates exactly.
-But this renders the display list in panel-simple a bit useless.
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-2.
-Adjust video_pll1_out only (e.g. 478757145). Now the calculated clocks comply 
-to their mandated ratio. But this might affect other users, e.g. DSI displays
-
-3.
-Improve fsl_ldb_atomic_check to set adjusted_mode.clock to an achievable 
-clock. This way lcdif will pick the new pixelclock to match their ratio.
-But there is more work necessary, e.g. ensure the new pixelclock is in the
-valid range of the display.
-
-To summarize:
-For both HDMI and LVDS using changes unrelated to this lcdif driver:
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index fb918b7890ac..5ef88a2d2161 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -766,9 +766,6 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+ 		goto error;
+ 	}
+ 
+-	/* Update the actual used number of crtc */
+-	adev->mode_info.num_crtc = adev->dm.display_indexes_num;
+-
+ 	/* TODO: Add_display_info? */
+ 
+ 	/* TODO use dynamic cursor width */
+@@ -2448,6 +2445,10 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
+ 	enum dc_connection_type new_connection_type = dc_connection_none;
+ 	const struct dc_plane_cap *plane;
+ 
++	dm->display_indexes_num = dm->dc->caps.max_streams;
++	/* Update the actual used number of crtc */
++	adev->mode_info.num_crtc = adev->dm.display_indexes_num;
++
+ 	link_cnt = dm->dc->caps.max_links;
+ 	if (amdgpu_dm_mode_config_init(dm->adev)) {
+ 		DRM_ERROR("DM: Failed to initialize mode config\n");
+@@ -2509,8 +2510,6 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
+ 			goto fail;
+ 		}
+ 
+-	dm->display_indexes_num = dm->dc->caps.max_streams;
+-
+ 	/* loops over all connectors on the board */
+ 	for (i = 0; i < link_cnt; i++) {
+ 		struct dc_link *link = NULL;
+-- 
+2.25.1
 
