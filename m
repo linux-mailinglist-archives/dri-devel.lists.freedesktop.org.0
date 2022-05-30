@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAB15378E6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 12:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2422C5379E5
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 13:30:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E42610E51A;
-	Mon, 30 May 2022 10:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18B6410E581;
+	Mon, 30 May 2022 11:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1F810E50D
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 10:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1653906110; x=1685442110;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=dYVHeIWN8WVuHvLRderCgM3pu/MLqIHVS5BHSz2DUvc=;
- b=PG0piEamFoJmVgnXJauvNpMU6791V+8Q3qXJdb94aihSNq67QAGjCILI
- KNM4wsHFVRbWKfiEERSFn1HBr2Ml+hJMzXrSzwKAls+H5AwgWTcCnsujL
- FxmDaQLmAeFugCTeKubg2VZ3MVtvzuYC/VG50nD83lLBcAmIrvNiUQpAH
- MXMiEhwKKDw6Iyiom9umyPcUBxkdwk4CUSftDVWy5yt340UKBrOtk+Akc
- FbDGl8Kntir0ZJe0ChUkOvQKsCW95fSKJay1i8nF9AuiHismLwEqx11i4
- NUTF7cgNnFMj3Po+0Xwxhrg5dRNHwPJ5Y+FbtX8P3kcabC4WeKjFgCadz w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="361339488"
-X-IronPort-AV: E=Sophos;i="5.91,262,1647327600"; d="scan'208";a="361339488"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 03:21:50 -0700
-X-IronPort-AV: E=Sophos;i="5.91,262,1647327600"; d="scan'208";a="605118579"
-Received: from jkuna-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.150.228])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2022 03:21:46 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>, Simon Ser <contact@emersion.fr>
-Subject: Re: How should "max bpc" KMS property work?
-In-Reply-To: <20220525133647.052d09da@eldfell>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
- <57d16ed5-8bfc-ce29-9250-14e2de18710a@redhat.com>
- <20220523112246.056ddc99@eldfell>
- <CA+hFU4wTHR9kLrFY3XkbeROZgxWamiZ6yGYL4jH+wpe8MzLvMw@mail.gmail.com>
- <20220525102850.5a70e58f@eldfell>
- <80798931-dbe7-54d7-8e1a-aaebfc39780c@mailbox.org>
- <U2A3FifHdFH9yDVrigaioxCTNx60MgkND7jcyIeKP2S4Ghu-BmmRaODqBDp6K0Q-aPBjPcqa2zUGuJNkGmRWZyQx2FjRJe9dVtJhQG9ZNCk=@emersion.fr>
- <20220525133647.052d09da@eldfell>
-Date: Mon, 30 May 2022 13:21:44 +0300
-Message-ID: <874k17tj5z.fsf@intel.com>
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6780610E581
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 11:30:40 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id cx11so2396620pjb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 04:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1LR1Tu5dH4Zqx/bEdD15yjr+iCH9O5A3630Rxdr7ufM=;
+ b=iq8hfF07jpOTw9vnza7dhu2R3VgXuYuWFbQJXvXUywAg2a7FwiOA9DZqik/AY+Iw9c
+ dc/xqzKTnSpkG4Gh/1+wb2Uql6MKGJ0DAAuxrH9DZ4Da2i1MSSRBR+OHp1JrCV9OcEq4
+ Ow/85pl2hxvu+EJ2Ie5FMtST8Go1YBa+6Npvo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1LR1Tu5dH4Zqx/bEdD15yjr+iCH9O5A3630Rxdr7ufM=;
+ b=5m1ls2Ktc2S6qAxew6ZSt+V4tDgh91/tDjUmQ/vOUvm56fT5FVRwXIlH7U+pxd/jLX
+ 30eyWInvpeaQHtimSLZ7c8XlvhhZIckx63NvmR7JY0lwWHzw9fKTL7GzGodLaSLuPG0p
+ 4pRRmiVRo/11HpZVEQSbBQxVquMcn72IsQj96mZ30TBZsoU0R4dsCkQ+rQNmA2UQv7VE
+ CxYVtd41QDHFu0wxKybT7PUckHiTjXGgPAXx7jFtQgeTA03mjx7FTGaCjdvr9R0c6hoH
+ ul84F/1/u8xPsbn4RcKwLIgrDv+avwri1P9zqN5RDpEH2SeZqmJ3HkGjVLz5uwAREz9F
+ CK9Q==
+X-Gm-Message-State: AOAM533N2oyVqQEaKD9pgVRLCQ1Ra/R+cEAQxbalk2EgJtewdoEqqGK1
+ 7EHTJVjvEpyXlKIPR0qiIMvSGQ==
+X-Google-Smtp-Source: ABdhPJyNeD8LmDCsvC/XVQPkRq4HOHV0lgFLmaOFAz25EFxhZMA8/4iMeqygIHLdjPqRtFlwHfwzuQ==
+X-Received: by 2002:a17:902:b688:b0:162:3124:cde2 with SMTP id
+ c8-20020a170902b68800b001623124cde2mr36157868pls.166.1653910239861; 
+ Mon, 30 May 2022 04:30:39 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:ae1c:3d63:abec:1097])
+ by smtp.gmail.com with ESMTPSA id
+ o3-20020a654583000000b003fa5b550303sm8384222pgq.68.2022.05.30.04.30.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 04:30:39 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH 1/2] drm/mediatek: Config orientation property if panel
+ provides it
+Date: Mon, 30 May 2022 19:30:32 +0800
+Message-Id: <20220530113033.124072-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,27 +66,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Michel =?utf-8?Q?D=C3=A4nz?= =?utf-8?Q?er?= <michel.daenzer@mailbox.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Jonas =?utf-8?Q?=C3=85dahl?= <jadahl@redhat.com>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 25 May 2022, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> Use two separate KMS properties for reporting current vs.
-> programming desired. The KMS property reporting the current value
-> must be read-only (immutable). This preserves the difference between
-> what userspace wanted and what it got, making it possible to read
-> back both without confusing them. It also allows preserving driver behaviour
+Panel orientation property should be set before drm_dev_register().
+Mediatek drm driver calls drm_dev_register() in .bind(). However, most
+panels sets orientation property relatively late, mostly in .get_modes()
+callback, since this is when they are able to get the connector and
+binds the orientation property to it, though the value should be known
+when the panel is probed.
 
-This seems like a common theme. Wondering if we should evolve helpers to
-create a property pair like this in one go.
+Let the drm driver check if the remote end point is a panel and if it
+contains the orientation property. If it does, set it before
+drm_dev_register() is called.
 
-BR,
-Jani.
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+This patch is to solve the same problem as [1]
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index d9f10a33e6fa..091107f97ccc 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -198,6 +198,7 @@ struct mtk_dsi {
+ 
+ 	unsigned long mode_flags;
+ 	enum mipi_dsi_pixel_format format;
++	enum drm_panel_orientation orientation;
+ 	unsigned int lanes;
+ 	struct videomode vm;
+ 	struct mtk_phy_timing phy_timing;
+@@ -822,6 +823,10 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+ 		ret = PTR_ERR(dsi->connector);
+ 		goto err_cleanup_encoder;
+ 	}
++
++	if (dsi->orientation != DRM_MODE_PANEL_ORIENTATION_UNKNOWN)
++		drm_connector_set_panel_orientation(dsi->connector, dsi->orientation);
++
+ 	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+ 
+ 	return 0;
+@@ -836,6 +841,14 @@ static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
+ 	int ret;
+ 	struct drm_device *drm = data;
+ 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
++	struct drm_panel *panel;
++
++	/* Read panel orientation if existed */
++	dsi->orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
++	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, NULL);
++	if (!ret && panel && panel->dev) {
++		of_drm_get_panel_orientation(panel->dev->of_node, &dsi->orientation);
++	}
+ 
+ 	ret = mtk_dsi_encoder_init(drm, dsi);
+ 	if (ret)
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.36.1.124.g0e6072fb45-goog
+
