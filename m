@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B6553851C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:41:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A95F53852E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:45:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6544510F264;
-	Mon, 30 May 2022 15:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86C9210F214;
+	Mon, 30 May 2022 15:45:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1DD10F263;
- Mon, 30 May 2022 15:41:09 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id q7so4211848wrg.5;
- Mon, 30 May 2022 08:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HVYE9hD3JrlMP+VW+LXUcgvWsAPOc0+ADO1o4rrMIPE=;
- b=cOfon/AQdRZHUtaWUXSrjOLVbe/SaIrsAT1iSjEE4S2pJaqFJrshFUwG7CuV8zJNBE
- YjxmI7Z3mPwwK4lp3hdexT3bc0rF6YjTKT87FQZsXEyYd0fJ/8Q/TsNxV0cTPPGA76pZ
- nHewp/PRdVsYuBvd70KIDsjutHnHc10KAtPkI0wY1EzigLuqLSNoeNkxXcODBbrbD0Ha
- Pk+Im4A+VrBL5j49XDhHZICFI3ZuHCP0+11fTJXS+eUUcwTjVEepR4g9YZkv8WvGTUcU
- O6U+aB3ugr4S0gMR2kam5UEAjXrQ4bFO5XgrX9K2VRJSWWTTVGwvGTe5RMdc5mJOaZrW
- K8Mw==
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5E2310F2A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:45:16 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id r71so10511490pgr.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 08:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=UzXLXm8vq0opPbH6M8k2y8y+ok1gbqPBfw980V3Tkyk=;
+ b=OC//hEgQZz5hudScLXcI+3NIXxxiRgV/eBvm2OMmnz0Z8udrwsrpuPPA72m7d0+4ad
+ YH8xRKqUWhJqk6c2VBbCRt1rsr3umJ9xr10B6r+YoN88npTj2HUNhET6FKAGQ9FpP5sa
+ grwNjNYIahG7tnWRMWx/Fv5XTCPwE9/Gvf/AU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HVYE9hD3JrlMP+VW+LXUcgvWsAPOc0+ADO1o4rrMIPE=;
- b=xI+yGq4ZmwJbYEPnS9/4dK76IQO60Tg6clCaIQOXjaIUoO04gIq2AWC8TFzhCFkEA1
- 88adQD3bom47S1bA73cE4bJQibA9RsCRAy9xo0HQ15L23nwN/EYzAT2U24nuPA1aeFbq
- tsuQ1bWmickJttQ0pD4TmlgqGEgOSntnyBNS4qoVOrSh20TTetcdcZhCIsJ3bDKEniz/
- aPectbsXJBlPj+jCRLpEnVUUC6hwMMhFkSI37leZZZX8I4OWk8mgSHfFN8cZpVSPF6xE
- PrA2IJOEpBhLuK9nE3EU/EVqnLBa3I8QH2rcT0RUmkr+mKTj/vd7hdSj0GoMsHGy1wnP
- rr5Q==
-X-Gm-Message-State: AOAM531epPcNGReXAm0AXVZjJoyDUrwgYuFbXjoCLTOqSKh+47GYvILv
- lOjRtSNFwEYVqr+gF2tB+qktxAU+rGaSzA7rMyE=
-X-Google-Smtp-Source: ABdhPJwZAdTGyIwawuuNR1GgsN3ZUEq8rIP+BodHV6Uu26K2LWerRbcastuQYCbyWx1CE0THq9R0WpkDkQENKunHmT8=
-X-Received: by 2002:adf:f645:0:b0:20e:652d:2a4e with SMTP id
- x5-20020adff645000000b0020e652d2a4emr47995950wrp.344.1653925267454; Mon, 30
- May 2022 08:41:07 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=UzXLXm8vq0opPbH6M8k2y8y+ok1gbqPBfw980V3Tkyk=;
+ b=J5kIvSBXQU/2m9dPoByg2a15590wO2DODNn2xfK2UOOIbCNlk0eark8TVSB6nRn2g4
+ I5YEyXfFvATJtzhwJzeyEXi8Gzc2yuyC42byVpRo6DIUt5UQKVzcFuo+WfUALZU7xoWo
+ BmgOc9+xRpjKLiyYFF7ugcgI89AVfX8g3RhuHiI+wNaY8xXdvsYcdD1MfC+TxxIKnz5u
+ qCLaB8pZQgPTBves/2GQf0Q3tA/jLQjMXnKRjf9UYXD5R87s06ubtDbOYeBye3vCvU2e
+ jN5bTCauxtaDHoMqMHzpLqZZkR1hRVBbLVp6+ScM3rpKJMcbqMAYjwbCGOpd2EAd3q07
+ kcKA==
+X-Gm-Message-State: AOAM533TgZoSlVgGmb0sZe+uGjzGAWnKp46kIrNOgOzxELE4PjiVKCZg
+ 0ftU5or6YR96bEGArn535rRi4w==
+X-Google-Smtp-Source: ABdhPJyzRn6dpzJxAThZJd/mUWBZTsKavBYdkXkPO7g2uyd2aZ+PyHCjdemggRcBDIURpiq1V2iudg==
+X-Received: by 2002:a63:1163:0:b0:3fa:5e1c:f86f with SMTP id
+ 35-20020a631163000000b003fa5e1cf86fmr32724131pgr.543.1653925516458; 
+ Mon, 30 May 2022 08:45:16 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:7d2a:ad1f:afa1:7770])
+ by smtp.gmail.com with ESMTPSA id
+ 65-20020a620644000000b0050dc7628166sm8935262pfg.64.2022.05.30.08.45.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 08:45:15 -0700 (PDT)
+Date: Tue, 31 May 2022 00:45:10 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-fence: allow dma fence to have their own lock
+Message-ID: <YpTmhixkV7+yh6wo@google.com>
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com>
 MIME-Version: 1.0
-References: <20220529162936.2539901-1-robdclark@gmail.com>
- <0bf230f4-c888-b9c9-f061-7450406baa4a@suse.de>
- <CAF6AEGthAfWyAvbuE4EP+u52LEKS2Fs6X=gG8qUjc7gci6oh-A@mail.gmail.com>
- <CAKMK7uG9=EcmD4hPqm4zYsDHiS9Mr=y_5tUa_R1veDxSSK-P-Q@mail.gmail.com>
-In-Reply-To: <CAKMK7uG9=EcmD4hPqm4zYsDHiS9Mr=y_5tUa_R1veDxSSK-P-Q@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 30 May 2022 08:41:09 -0700
-Message-ID: <CAF6AEGuLeLmD4m+yi5csGdb0XZbnAOfYOKx6c-wEgMGt6rj7Cw@mail.gmail.com>
-Subject: Re: [PATCH] drm/prime: Ensure mmap offset is initialized
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7eee4274-bd69-df8d-9067-771366217804@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,134 +69,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linaro-mm-sig@lists.linaro.org, Gustavo Padovan <gustavo@padovan.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Ricardo Ribalda <ribalda@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 30, 2022 at 7:49 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, 30 May 2022 at 15:54, Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Mon, May 30, 2022 at 12:26 AM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
-> > >
-> > > Hi
-> > >
-> > > Am 29.05.22 um 18:29 schrieb Rob Clark:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > If a GEM object is allocated, and then exported as a dma-buf fd whi=
-ch is
-> > > > mmap'd before or without the GEM buffer being directly mmap'd, the
-> > > > vma_node could be unitialized.  This leads to a situation where the=
- CPU
-> > > > mapping is not correctly torn down in drm_vma_node_unmap().
-> > >
-> > > Which drivers are affected by this problem?
-> > >
-> > > I checked several drivers and most appear to be initializing the offs=
-et
-> > > during object construction, such as GEM SHMEM. [1] TTM-based drivers
-> > > also seem unaffected. [2]
-> > >
-> > >  From a quick grep, only etnaviv, msm and omapdrm appear to be affect=
-ed?
-> > > They only seem to run drm_gem_create_mmap_offset() from their
-> > > ioctl-handling code.
-> > >
-> > > If so, I'd say it's preferable to fix these drivers and put a
-> > > drm_WARN_ONCE() into drm_gem_prime_mmap().
-> >
-> > That is good if fewer drivers are affected, however I disagree with
-> > your proposal.  At least for freedreno userspace, a lot of bo's never
-> > get mmap'd (either directly of via dmabuf), so we should not be
-> > allocating a mmap offset unnecessarily.
->
-> Does this actually matter in the grand scheme of things? We originally
-> allocated mmap offset only on demand because userspace only had 32bit
-> loff_t support and so simply couldn't mmap anything if the offset
-> ended up above 32bit (even if there was still va space available).
->
-> But those days are long gone (about 10 years or so) and the allocation
-> overhead for an mmap offset is tiny. So I think unless you can
-> benchmark an impact allocating it at bo alloc seems like the simplest
-> design overall, and hence what we should be doing. And if the vma
-> offset allocation every gets too slow due to fragmentation we can lift
-> the hole tree from i915 into drm_mm and the job should be done. At
-> that point we could also allocate the offset unconditionally in the
-> gem_init function and be done with it.
->
-> Iow I concur with Thomas here, unless there's hard data contrary
-> simplicity imo trumps here.
+On (22/05/30 16:55), Christian König wrote:
+> 
+> If you just want to create a single dma_fence which is also only bound to a
+> single context you can embed the lock into the fence without much problem.
+> 
+> See how the dma_fence_array does that for example: https://elixir.bootlin.com/linux/latest/source/include/linux/dma-fence-array.h#L37
 
-32b userspace is still alive and well, at least on arm chromebooks ;-)
+Christian, I'm not sure I'm following you on the "embed the lock into the
+fence without much problem" part. If I understand it correctly this should
+be something like:
 
-BR,
--R
+	fences = kmalloc_array(1, sizeof(*fences), GFP_KERNEL);
+	for_each_fence(...) {
 
-> -Daniel
->
-> >
-> > BR,
-> > -R
-> >
-> > > Best regards
-> > > Thomas
-> > >
-> > > [1]
-> > > https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/drm_gem=
-_shmem_helper.c#L85
-> > > [2]
-> > > https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/ttm/ttm=
-_bo.c#L1002
-> > >
-> > > >
-> > > > Fixes: e5516553999f ("drm: call drm_gem_object_funcs.mmap with fake=
- offset")
-> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > ---
-> > > > Note, it's possible the issue existed in some related form prior to=
- the
-> > > > commit tagged with Fixes.
-> > > >
-> > > >   drivers/gpu/drm/drm_prime.c | 5 +++++
-> > > >   1 file changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prim=
-e.c
-> > > > index e3f09f18110c..849eea154dfc 100644
-> > > > --- a/drivers/gpu/drm/drm_prime.c
-> > > > +++ b/drivers/gpu/drm/drm_prime.c
-> > > > @@ -716,6 +716,11 @@ int drm_gem_prime_mmap(struct drm_gem_object *=
-obj, struct vm_area_struct *vma)
-> > > >       struct file *fil;
-> > > >       int ret;
-> > > >
-> > > > +     /* Ensure that the vma_node is initialized: */
-> > > > +     ret =3D drm_gem_create_mmap_offset(obj);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > >       /* Add the fake offset */
-> > > >       vma->vm_pgoff +=3D drm_vma_node_start(&obj->vma_node);
-> > > >
-> > >
-> > > --
-> > > Thomas Zimmermann
-> > > Graphics Driver Developer
-> > > SUSE Software Solutions Germany GmbH
-> > > Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> > > (HRB 36809, AG N=C3=BCrnberg)
-> > > Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+		// what spinlock should I use here?
+
+		dma_fence_init(&fences[i], .. &lock ..);
+		dma_fence_get(&fences[i]);
+	}
+	fence_array = dma_fence_array_create(1, fences, ....);
+	sync_file_create(&fence_array->base);
