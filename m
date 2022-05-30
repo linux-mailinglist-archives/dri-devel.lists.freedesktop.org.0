@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C419537B91
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:27:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FCA537C04
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:30:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6CFF10E886;
-	Mon, 30 May 2022 13:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2805010E93C;
+	Mon, 30 May 2022 13:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 055AD10E886;
- Mon, 30 May 2022 13:27:28 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 275BB10E8D6;
+ Mon, 30 May 2022 13:29:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7263960F09;
- Mon, 30 May 2022 13:27:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3218FC385B8;
- Mon, 30 May 2022 13:27:26 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3BB85B80B3A;
+ Mon, 30 May 2022 13:28:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C628C385B8;
+ Mon, 30 May 2022 13:28:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653917247;
- bh=dMH/huRRqAdoiUb0Rl7RxxXYfjvxgvx+UaGWVg1/P4w=;
+ s=k20201202; t=1653917284;
+ bh=yZVqEBLc3U5iliDZjfXNJejculO0HrUD/c4t8ogteQg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H2bPr5GGIwESpH86icOZLx1s4YgU/0/L/hZxnwwycC31y4wQNps/MRog5x9tNyRXN
- VRQgw2237BjA4MO9TQfmroVF8kTQzG9CciALAfcApwF8Wxb9duNclw54fXOeLOP1lD
- lzDpQiS0L4hklBbxRVP+yvP49jOsDv6Ice8RFwbKmZyZzDbS/AxljMfgdCa25eUO4L
- sseaC5Ns+LAF/3MW1MAUkh4/OcDkrhY0yToGK9TIgg0CbGYZqmjUNErUrikG/3Buj9
- wmUrCl/qh9LSt+BhSWMVylLcP49d1PVmUBp696nxY/ZUuwLYehy3G0VW92Q/eIe+Rr
- eAEPzcQ5ln6KQ==
+ b=lOD89Zsf6fZXIEHXmImKRNmEvYnVjo3pcpSPsvRLFr0hpJnzYg/1ZpAlEpmbh7E6D
+ I7ISWXVIAXaLwJj2OdQmZ+R0O2dhs8cH8aET5e99BVm3juyixw5MXuW8birmKdBHIY
+ liHwASTXJtl2nr8Pn3b83iBrdgWhHbpA6PBpK7R3epEuDs5ZjMTJelgInFehkcZy5T
+ VCnZjCU3BW7eAZttAI4mAldjapZ8IZqwMgoPybaIPuccRNoJtuLKOcQaaaIrrVXMTB
+ q6EiwEpbCxuahW47Vn5khWzZSP8rAuusXAZhTmYs2rn0BdE9Sd9GOk0wK60Pbls9FA
+ qdzERa2vxQIdQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 070/159] drm: msm: fix error check return value
- of irq_of_parse_and_map()
-Date: Mon, 30 May 2022 09:22:55 -0400
-Message-Id: <20220530132425.1929512-70-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 082/159] drm/amdgpu/psp: move PSP memory alloc
+ from hw_init to sw_init
+Date: Mon, 30 May 2022 09:23:07 -0400
+Message-Id: <20220530132425.1929512-82-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
 References: <20220530132425.1929512-1-sashal@kernel.org>
@@ -55,50 +55,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, Lv Ruyi <lv.ruyi@zte.com.cn>,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, vulab@iscas.ac.cn,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Zeal Robot <zealci@zte.com.cn>,
- angelogioacchino.delregno@collabora.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Lang.Yu@amd.com,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Likun.Gao@amd.com, candice.li@amd.com, john.clements@amd.com,
+ christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit b9e4f1d2b505df8e2439b63e67afaa287c1c43e2 ]
+[ Upstream commit b95b5391684b39695887afb4a13cccee7820f5d6 ]
 
-The irq_of_parse_and_map() function returns 0 on failure, and does not
-return an negative value.
+Memory allocations should be done in sw_init.  hw_init should
+just be hardware programming needed to initialize the IP block.
+This is how most other IP blocks work.  Move the GPU memory
+allocations from psp hw_init to psp sw_init and move the memory
+free to sw_fini.  This also fixes a potential GPU memory leak
+if psp hw_init fails.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Patchwork: https://patchwork.freedesktop.org/patch/483175/
-Link: https://lore.kernel.org/r/20220424031959.3172406-1-lv.ruyi@zte.com.cn
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 95 ++++++++++++-------------
+ 1 file changed, 47 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 3b92372e7bdf..1d4bbde29320 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -570,9 +570,9 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index a6acec1a6155..21aa556a6bef 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -357,7 +357,39 @@ static int psp_sw_init(void *handle)
+ 		}
  	}
  
- 	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
--	if (irq < 0) {
--		ret = irq;
--		DRM_DEV_ERROR(&pdev->dev, "failed to get irq: %d\n", ret);
-+	if (!irq) {
-+		ret = -EINVAL;
-+		DRM_DEV_ERROR(&pdev->dev, "failed to get irq\n");
- 		goto fail;
++	ret = amdgpu_bo_create_kernel(adev, PSP_1_MEG, PSP_1_MEG,
++				      amdgpu_sriov_vf(adev) ?
++				      AMDGPU_GEM_DOMAIN_VRAM : AMDGPU_GEM_DOMAIN_GTT,
++				      &psp->fw_pri_bo,
++				      &psp->fw_pri_mc_addr,
++				      &psp->fw_pri_buf);
++	if (ret)
++		return ret;
++
++	ret = amdgpu_bo_create_kernel(adev, PSP_FENCE_BUFFER_SIZE, PAGE_SIZE,
++				      AMDGPU_GEM_DOMAIN_VRAM,
++				      &psp->fence_buf_bo,
++				      &psp->fence_buf_mc_addr,
++				      &psp->fence_buf);
++	if (ret)
++		goto failed1;
++
++	ret = amdgpu_bo_create_kernel(adev, PSP_CMD_BUFFER_SIZE, PAGE_SIZE,
++				      AMDGPU_GEM_DOMAIN_VRAM,
++				      &psp->cmd_buf_bo, &psp->cmd_buf_mc_addr,
++				      (void **)&psp->cmd_buf_mem);
++	if (ret)
++		goto failed2;
++
+ 	return 0;
++
++failed2:
++	amdgpu_bo_free_kernel(&psp->fw_pri_bo,
++			      &psp->fw_pri_mc_addr, &psp->fw_pri_buf);
++failed1:
++	amdgpu_bo_free_kernel(&psp->fence_buf_bo,
++			      &psp->fence_buf_mc_addr, &psp->fence_buf);
++	return ret;
+ }
+ 
+ static int psp_sw_fini(void *handle)
+@@ -391,6 +423,13 @@ static int psp_sw_fini(void *handle)
+ 	kfree(cmd);
+ 	cmd = NULL;
+ 
++	amdgpu_bo_free_kernel(&psp->fw_pri_bo,
++			      &psp->fw_pri_mc_addr, &psp->fw_pri_buf);
++	amdgpu_bo_free_kernel(&psp->fence_buf_bo,
++			      &psp->fence_buf_mc_addr, &psp->fence_buf);
++	amdgpu_bo_free_kernel(&psp->cmd_buf_bo, &psp->cmd_buf_mc_addr,
++			      (void **)&psp->cmd_buf_mem);
++
+ 	return 0;
+ }
+ 
+@@ -2430,51 +2469,18 @@ static int psp_load_fw(struct amdgpu_device *adev)
+ 	struct psp_context *psp = &adev->psp;
+ 
+ 	if (amdgpu_sriov_vf(adev) && amdgpu_in_reset(adev)) {
+-		psp_ring_stop(psp, PSP_RING_TYPE__KM); /* should not destroy ring, only stop */
+-		goto skip_memalloc;
+-	}
+-
+-	if (amdgpu_sriov_vf(adev)) {
+-		ret = amdgpu_bo_create_kernel(adev, PSP_1_MEG, PSP_1_MEG,
+-						AMDGPU_GEM_DOMAIN_VRAM,
+-						&psp->fw_pri_bo,
+-						&psp->fw_pri_mc_addr,
+-						&psp->fw_pri_buf);
++		/* should not destroy ring, only stop */
++		psp_ring_stop(psp, PSP_RING_TYPE__KM);
+ 	} else {
+-		ret = amdgpu_bo_create_kernel(adev, PSP_1_MEG, PSP_1_MEG,
+-						AMDGPU_GEM_DOMAIN_GTT,
+-						&psp->fw_pri_bo,
+-						&psp->fw_pri_mc_addr,
+-						&psp->fw_pri_buf);
+-	}
+-
+-	if (ret)
+-		goto failed;
+-
+-	ret = amdgpu_bo_create_kernel(adev, PSP_FENCE_BUFFER_SIZE, PAGE_SIZE,
+-					AMDGPU_GEM_DOMAIN_VRAM,
+-					&psp->fence_buf_bo,
+-					&psp->fence_buf_mc_addr,
+-					&psp->fence_buf);
+-	if (ret)
+-		goto failed;
+-
+-	ret = amdgpu_bo_create_kernel(adev, PSP_CMD_BUFFER_SIZE, PAGE_SIZE,
+-				      AMDGPU_GEM_DOMAIN_VRAM,
+-				      &psp->cmd_buf_bo, &psp->cmd_buf_mc_addr,
+-				      (void **)&psp->cmd_buf_mem);
+-	if (ret)
+-		goto failed;
++		memset(psp->fence_buf, 0, PSP_FENCE_BUFFER_SIZE);
+ 
+-	memset(psp->fence_buf, 0, PSP_FENCE_BUFFER_SIZE);
+-
+-	ret = psp_ring_init(psp, PSP_RING_TYPE__KM);
+-	if (ret) {
+-		DRM_ERROR("PSP ring init failed!\n");
+-		goto failed;
++		ret = psp_ring_init(psp, PSP_RING_TYPE__KM);
++		if (ret) {
++			DRM_ERROR("PSP ring init failed!\n");
++			goto failed;
++		}
  	}
+ 
+-skip_memalloc:
+ 	ret = psp_hw_start(psp);
+ 	if (ret)
+ 		goto failed;
+@@ -2592,13 +2598,6 @@ static int psp_hw_fini(void *handle)
+ 	psp_tmr_terminate(psp);
+ 	psp_ring_destroy(psp, PSP_RING_TYPE__KM);
+ 
+-	amdgpu_bo_free_kernel(&psp->fw_pri_bo,
+-			      &psp->fw_pri_mc_addr, &psp->fw_pri_buf);
+-	amdgpu_bo_free_kernel(&psp->fence_buf_bo,
+-			      &psp->fence_buf_mc_addr, &psp->fence_buf);
+-	amdgpu_bo_free_kernel(&psp->cmd_buf_bo, &psp->cmd_buf_mc_addr,
+-			      (void **)&psp->cmd_buf_mem);
+-
+ 	return 0;
+ }
  
 -- 
 2.35.1
