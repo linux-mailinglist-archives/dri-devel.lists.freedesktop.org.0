@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BB85388AD
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 23:49:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201B053890C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 00:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9AA410E1F2;
-	Mon, 30 May 2022 21:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BEBA10E112;
+	Mon, 30 May 2022 22:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F10E10E1F2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 21:49:54 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id 190so11968204qkj.8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 14:49:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43A5810E2AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 22:58:09 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id n10so23363443ejk.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oyIZLMpN8yM0C+zjTwxWjwcZ2QrcKF6IgeGKdgmBFJY=;
- b=gHcxRtGDoYeO+1kAyP6pFVBMMe0X3RvUE1GAgq20de6KB30VN8KNhd8+GPYpjxwIY5
- KALbPX55/RvHg8AeuuBUC4el4dBrfSm5QYa8H2uW/dP1D7PigbqIlrl084fYKQlgJ10E
- rjdcV65g8ZK0vPIc/mvl+B3HbQbtfCD3+f8RqOH5FB0hd2DyFYG6EPD3ZckOXOjtf6ql
- pUU6rLqd+YbMNhBb6sy1J6kxHWO1pUtOc14aHifvdD+NFbpEZh2DjDpvVP8GBhEoaBya
- 6uhd0jw2PLnFaW5RpzLveGX/SVZd+SWgUM/MWyw4FuAuAxlXPXxk3x9gXFrlIWW27Z5x
- HguA==
+ :cc:content-transfer-encoding;
+ bh=93b76ZHbZcuHCfscxd3Lk2d9Wx/yBWaIajc4fFNKsBY=;
+ b=KCNnBbaZtRLRoY3MVGmEaI+oOj68q4mGW3ulnyBw04EH4w9DzxWhvCRj6surNXd8CS
+ fuvEHexXKjIqHTvvN3ZoulQQHSq0xCM25YCFhkqcpATO3cfAwJ9XdmOp8vsbSk60rIoX
+ ACOTcJFXi+Q02vZwlN1nc1GvU+Pltqyfxs1CgDWE2hPQIviYaGqdCf9SlYUaIFhfV99R
+ RhOBpWVW63h2VJb5hnKPSFw5j5S10V2knTtJ+PMQykdhK07awXOOzPvcINh6JfX4ckUS
+ X4TMdYwN9Vsz2tgWnocs8Lp1qj5oEloCgZNB1xE/VKtK1vrkCexEQHTRRQ6OELY89TS0
+ NZiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oyIZLMpN8yM0C+zjTwxWjwcZ2QrcKF6IgeGKdgmBFJY=;
- b=30A9pfUw6yL9JtIbsPte9cIEmHu8u+lZup4NF7h5493cQXs0y88BR3BrTxEHVPbqgA
- viSHWICArRUffknUEqVVYcqWk6YmNiQF9Q7+MH9lfz4khYraYpnrV3TSD2sneRaVq5EF
- +rVuy9ZvYFLk9zWU/ch42VoxwC6A/68B3hUgvHzGIUBLZr5FSqp+1eaBQ+V0vipqLjhF
- U0bpBBTxPp4Nemxdz4FSAKkLNZ0CbhlznYbE3lpgFexD8J9e1Q/LTyW+VzEKnryErZRe
- n7MNDXKD0Exd3f638GuXtd/ifDU9qG/2GXOT+tAaQL1FJRTHqqudRUWUsT2WTjVemOuQ
- 0+lQ==
-X-Gm-Message-State: AOAM531knJ7TIqUZ5LQ18iTDZ2gMJAAo9dZoxTgdQjCHYRyELa4/pAGz
- ITb6hphSIBrgEapn4ZU725qK7xPp2IoPqSoH9gRt4A==
-X-Google-Smtp-Source: ABdhPJwsqssNs4WAxkzWklQmjHdnCgJ3D8qJrLr2CI/UtjeDrebRWydyU53sBgITCNcpLLIKJKP3und/snBq/5zczLM=
-X-Received: by 2002:a37:6883:0:b0:6a3:42ae:e17b with SMTP id
- d125-20020a376883000000b006a342aee17bmr36933263qkc.59.1653947393598; Mon, 30
- May 2022 14:49:53 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=93b76ZHbZcuHCfscxd3Lk2d9Wx/yBWaIajc4fFNKsBY=;
+ b=5yhzlBU/epKRS4l2d+jhFZ3SX3w6kbHBoM8sHLUxsQl6ofTZ3Ba8jAyPovckcwVdFo
+ pXw7Bzq9DALTf5XsuCGtLA310LamHh+vq84qTZQ0bGbzdXTgTPVmSIjHkk+ZHeP+uyEk
+ LTB5L5qIFaY97Tpyl8AfyhlQ2NCQmAV1EZHqPU7fzfKPzRHjt2I1lKFjVhFGctMrZH9G
+ lX3u6YJaM5Zbg5hZwU5fSY8gmX2w9kYo0xTUHSCyYZwXYwDkC8wZi0l+WQot6cCpsU8f
+ z4v3qms7a3cOUpoRsQjnrRTcBZZMTpIrKqgF5RRSXjFQG5tLSq+kvz6kgRCQY46CBho6
+ c3Jg==
+X-Gm-Message-State: AOAM5309UfmfT5rwPW/Jb9WBE3hZCvuV1zclt8mCB5dvK8hBTyXS0nLN
+ H+POuEyHQn/hswpxM4hFc63PFddUdaQPdqjjcskeDA==
+X-Google-Smtp-Source: ABdhPJwZ6vkc2aa9sZyVGj16xAXXu9l6zE8Gc+5vtwdxy87CFX8L2LO8+BmGDLTdugZNPYrKkOn+f1cBxRdBcQ97f4s=
+X-Received: by 2002:a17:907:2cc7:b0:6fa:7356:f411 with SMTP id
+ hg7-20020a1709072cc700b006fa7356f411mr49703826ejc.369.1653951487392; Mon, 30
+ May 2022 15:58:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <1653877196-23114-1-git-send-email-baihaowen@meizu.com>
-In-Reply-To: <1653877196-23114-1-git-send-email-baihaowen@meizu.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 31 May 2022 00:49:42 +0300
-Message-ID: <CAA8EJpqfvMPZza=J-TKxNtP2L1GPsy+va_dJ9EWuCAYtZWQrjA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Fix pointer dereferenced before checking
-To: Haowen Bai <baihaowen@meizu.com>
+References: <20220530102017.471865-1-jose.exposito89@gmail.com>
+ <20220530102017.471865-2-jose.exposito89@gmail.com>
+ <20220530131158.kqq2mohxoh52xpeg@penduick>
+ <20220530162903.GA6546@elementary>
+In-Reply-To: <20220530162903.GA6546@elementary>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Mon, 30 May 2022 15:57:56 -0700
+Message-ID: <CAGS_qxpV2SsihEdgXZ6+7N0dxLmdRANq+qE4iUZ2aNrf6vuLYg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb332()
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,25 +68,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>
+Cc: airlied@linux.ie, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+ tzimmermann@suse.de, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 May 2022 at 05:20, Haowen Bai <baihaowen@meizu.com> wrote:
+On Mon, May 30, 2022 at 9:29 AM Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gm=
+ail.com> wrote:
+> I just cc'ed kunit-dev@googlegroups.com. For anyone joining the
+> conversation, here is the link to the patch and the cover letter with
+> some questions:
 >
-> The phys_enc->wb_idx is dereferencing before null checking, so move
-> it after checking.
+> https://lore.kernel.org/dri-devel/20220530102017.471865-1-jose.exposito89=
+@gmail.com/T/
+
+Thanks for the link.
+A few initial notes:
+a) normally, `select`ing other kconfigs is discouraged. It's not
+explicitly called out in
+https://www.kernel.org/doc/html/latest/dev-tools/kunit/style.html#test-kcon=
+fig-entries
+but this was the conclusion after  some debate on the mailing lists
+earlier.
+b) I see `dst` is allocated with kzalloc but not freed. Should we use
+`kunit_kzalloc()` instead so it does get automatically freed?
+
 >
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > > ---
+> > >  drivers/gpu/drm/Kconfig                  |  12 ++
+> > >  drivers/gpu/drm/Makefile                 |   3 +
+> > >  drivers/gpu/drm/drm_format_helper_test.c | 166 +++++++++++++++++++++=
+++
+> > >  3 files changed, 181 insertions(+)
+> > >  create mode 100644 drivers/gpu/drm/drm_format_helper_test.c
+> > >
+> > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > > index e88c497fa010..d92be6faef15 100644
+> > > --- a/drivers/gpu/drm/Kconfig
+> > > +++ b/drivers/gpu/drm/Kconfig
+> > > @@ -76,6 +76,18 @@ config DRM_KMS_HELPER
+> > >     help
+> > >       CRTC helpers for KMS drivers.
+> > >
+> > > +config DRM_FORMAR_HELPER_TEST
+> > > +   bool "drm_format_helper tests" if !KUNIT_ALL_TESTS
+> > > +   depends on DRM && KUNIT=3Dy
+> > > +   select DRM_KMS_HELPER
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From above, a)
+Specifically here, it'd be encouraged to instead do
+  depends on DRM && KUNIT=3Dy && DRM_KMS_HELPER
 
--- 
-With best wishes
-Dmitry
+Ideally, using a .kunitconfig file would make it so having to select
+DRM_KMS_HELPER manually isn't that annoying.
+
+> > AFAIK, kunit test cases are supposed to have a .kunitconfig too to
+> > enable the kunit tests easily.
+> >
+> > Maxime
+>
+> A .kuniconfig example is present in the cover letter. My understanding
+> from the docs:
+>
+> https://docs.kernel.org/dev-tools/kunit/run_wrapper.html#create-a-kunitco=
+nfig-file
+
+The bit of the documentation you're looking for is
+https://www.kernel.org/doc/html/latest/dev-tools/kunit/running_tips.html#de=
+fining-a-set-of-tests
+You can create a drivers/gpu/drm/.kunitconfig file and run with
+$ ./tools/testing/kunit/kunit.py run --kunitconfig=3Ddrivers/gpu/drm --arch=
+=3Dx86_86
+
+The contents of that file would be just like
+  CONFIG_KUNIT=3Dy
+  CONFIG_DRM=3Dy
+  CONFIG_DRM_KMS_HELPER=3Dy  # if no `select`
+  CONFIG_DRM_FORMAR_HELPER_TEST=3Dy
+
+Re "kunit test cases are supposed to have a .kunitconfig too"
+As I noted in the docs:
+  This is a relatively new feature (5.12+) so we don=E2=80=99t have any
+conventions yet about on what files should be checked in versus just
+kept around locally. It=E2=80=99s up to you and your maintainer to decide i=
+f a
+config is useful enough to submit (and therefore have to maintain).
+
+So it's up to whatever people think works best/is worth it.
+I think in this case, it makes sense to add the file.
+
+> Is that, like the .config file, the .kunitconfig file is not meant to
+> be included in git, but I'm sure someone else will clarify this point.
+
+That bit of the docs needs to be rewritten.
+You're recommended to check in a drivers/gpu/drm/.kunitconfig file into git=
+.
+
+Context: `kunit.py` used to use the "<root>/.kunitconfig" file.
+Anytime you wanted to run more tests, you'd append to that file.
+So we agreed that no one should check in that file specifically.
+
+Now kunit.py
+* uses "<build-dir>/.kunitconfig", by default: ".kunit/.kunitconfig"
+* has the --kunitconfig flag so you can use different files
+so it's no longer as relevant.
+
+Hope that helps,
+Daniel
