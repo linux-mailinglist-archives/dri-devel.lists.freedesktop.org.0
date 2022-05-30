@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E38653861F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 18:29:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CD3538664
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 18:54:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB7A210E082;
-	Mon, 30 May 2022 16:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE1F310EEDB;
+	Mon, 30 May 2022 16:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3E3010E082
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 16:29:13 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id s24so8038561wrb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 09:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=d2wgBSa8Lbmv0viBPypHgxSRAxsqN3YuIRD/sWT3Efw=;
- b=VTG5Rtx1pu5/K8zxudbVTVPr871gAZKM1HMw85OTdN4fDw4NksG+BEPCaWKZbYLJj8
- cJEzOGReRoVZiLWzk5EaM2QMtmyF2RNAwJl9ux8ffhP9/5+Jzdtv1Fcg+lhmYlWtqBnB
- 0Pq0lMwOa5Re02sYaxw5b6w9pDd1F7EYSZ08ibLI/BdhOSeVk3BY1HMmhMtZ6C3AoKs9
- 0QCtMSA2sCB8eJ14Fiekya+uCkkZew+iTrGUMc+ETbjhNLgLB9ZsuV9cvfHhtTr+TBW0
- pSWaEXvCmR/KOneM79k0zMrgT6aO/GC4nNyFwxN7Igi3gfM3tPfeN3Q5BPdFCuurUDO5
- PhhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=d2wgBSa8Lbmv0viBPypHgxSRAxsqN3YuIRD/sWT3Efw=;
- b=177fmnwq3d9JGQrjid4Vb4Q1K5L8pRF1LjHkyrn9Lu2jVjsKGfK0oKBl19EZkVsInK
- +ndDS2lP6mtPSvTpXzAkSxJ5DVYOCK1vfdyAz6fL88AI/q3cLlA8cKHw7peNjo1qF5fn
- izj1OinRQiDt5ma66ceoODjFb8vGglIg+/CbJfPFfZ6PupOzxdKekIWqycY2LkP+ZgEa
- aDoyOt99ThoXzKlpsCO3XGiBAoK3c5ullU2xh2h08436irC4caVqOF1JB/PT+h6XBhcE
- 3O5aLGzNqm5lJXix3dZ9K8rJ3TPs97Ziv2wvs2EngUSlRETn0OZCjGPDDMTXyzj5wwxZ
- Kuuw==
-X-Gm-Message-State: AOAM533FY4xjAmdI7cExfH+OBcHke7b7Qbx0FSMzEjNVt5RccKmqW39n
- myZt5NYiypZpkXz37876ojm/lilyVARcZQ==
-X-Google-Smtp-Source: ABdhPJxXr6D1y9WcvLOIG5HzbCi0laSctJfbyP+mtsivl2dIFGdIgZEFI9LJ+xdYYS/dPJZ8+FpsOA==
-X-Received: by 2002:a05:6000:1acd:b0:20f:dae8:569d with SMTP id
- i13-20020a0560001acd00b0020fdae8569dmr32575590wry.491.1653928152314; 
- Mon, 30 May 2022 09:29:12 -0700 (PDT)
-Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
- y4-20020a056000168400b0020d10a249eesm9376195wrd.13.2022.05.30.09.29.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 May 2022 09:29:11 -0700 (PDT)
-Date: Mon, 30 May 2022 18:29:03 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>, kunit-dev@googlegroups.com
-Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-Message-ID: <20220530162903.GA6546@elementary>
-References: <20220530102017.471865-1-jose.exposito89@gmail.com>
- <20220530102017.471865-2-jose.exposito89@gmail.com>
- <20220530131158.kqq2mohxoh52xpeg@penduick>
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EDE10EEDB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 16:54:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=MgAIfXuZbnO66UplqyXtbnNG1M1uphwmPAPlMZl/NsM=; b=tSh9PSln6DPu8EU2UgGJUTJM7k
+ M9mcUReU4aaRVJosOtdMc3v5aI9sfFmp1rEG6L2u3E7wDYf4yTINLVhRhXVN/EqYlfaid9d7MEO8t
+ xXMWRQmLev64HwjQ6W0X5Y65b66Z2MGU8EQxvD+Zap2oMEARGlqnSc/PfOy6QHglj/tadSYTvVniP
+ AO4yP505lrU+L21yItjbZX64YqiJWOejR0Nsh8qobpuSMtwDybfi3gkkXOKwVuU8PJ3NwIMDkHBNK
+ sjUWVQwNuk3+i5NgulP5F54Q4R0CFOfj3tLSSJrCtiq8L3R4nCCkZru8Zxm2xrsD3JQv379w5s5yl
+ b3AdTxTA==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60884)
+ by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1nvieX-00045f-Ar; Mon, 30 May 2022 17:54:01 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1nvieL-0001ZQ-Um; Mon, 30 May 2022 17:53:49 +0100
+Date: Mon, 30 May 2022 17:53:49 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
+ block count and size helpers")
+Message-ID: <YpT2neim6b49Shky@shell.armlinux.org.uk>
+References: <CAHk-=wg0uGAX5DYZq+tY2KeUAR8DtR91YE1y9CkPMKkKOyE4jg@mail.gmail.com>
+ <CADVatmNGPbSdRNQuwJEWAaPtqb3vBYRjvsuBpoRUnhEHj=X5GQ@mail.gmail.com>
+ <CAHk-=wisQd8yiPX=SsK3eFiakKo713hq4SyqPWsJ-oyAmLFefQ@mail.gmail.com>
+ <YpIR67FMtTGCwARZ@debian>
+ <CAHk-=wjuyHE=1wLgHncub8FfgeyYqfWYsy4-YrhAvq9991h_Aw@mail.gmail.com>
+ <CAHk-=wi_hJV0V=Ecg2dzbe2P_H1XKTu6VP_AtCH6u=tis31ayg@mail.gmail.com>
+ <CAK8P3a0-QyOQiieEvM0yQb43XbCtPmeao8UvoAsdFnjCxYPz7Q@mail.gmail.com>
+ <CAHk-=whfmwzjF4eBPYS6pHFqHVzJF3m=2h=gRWSRyHks8V=ABA@mail.gmail.com>
+ <87a6aztli2.fsf@intel.com> <877d63tleq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220530131158.kqq2mohxoh52xpeg@penduick>
+In-Reply-To: <877d63tleq.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +65,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Viresh Kumar <vireshk@kernel.org>,
+ Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, SoC Team <soc@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Mon, May 30, 2022 at 03:11:58PM +0200, Maxime Ripard wrote:
+On Mon, May 30, 2022 at 12:33:17PM +0300, Jani Nikula wrote:
+> On Mon, 30 May 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> > On Sat, 28 May 2022, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> >> On Sat, May 28, 2022 at 11:59 AM Arnd Bergmann <arnd@arndb.de> wrote:
+> >>>
+> >>> It's CONFIG_ARM_AEABI, which is normally set everywhere. Without this
+> >>> option, you the kernel is built for the old 'OABI' that forces all non-packed
+> >>> struct members to be at least 16-bit aligned.
+> >>
+> >> Looks like forced word (32 bit) alignment to me.
+> >>
+> >> I wonder how many other structures that messes up, but I committed the
+> >> EDID fix for now.
+> >
+> > Thanks for the fix, and the thorough commit message!
+> >
+> >> This has presumably been broken for a long time, but maybe the
+> >> affected targets don't typically use EDID and kernel modesetting, and
+> >> only use some fixed display setup instead.
+> >>
+> >> Those structure definitions go back a _loong_ time (from a quick 'git
+> >> blame' I see November 2008).
+> >>
+> >> But despite that, I did not mark my fix 'cc:stable' because I don't
+> >> know if any of those machines affected by this bad arm ABI issue could
+> >> possibly care.
+> >>
+> >> At least my tree hopefully now builds on them, with the BUILD_BUG_ON()
+> >> that uncovered this.
+> >
+> > Indeed the bug is ancient. I just threw in the BUILD_BUG_ON() on a whim
+> > as an extra sanity check when doing pointer arithmetics on struct edid
+> > *.
+> >
+> > If there are affected machines, buffer overflows are the real danger due
+> > to edid->extensions indicating the number of extensions.
 > 
-> Hi,
-> 
-> On Mon, May 30, 2022 at 12:20:17PM +0200, José Expósito wrote:
-> > Test the conversion from XRGB8888 to RGB332.
-> > 
-> > What is tested?
-> > 
-> >  - Different values for the X in XRGB8888 to make sure it is ignored
-> >  - Different clip values: Single pixel and full and partial buffer
-> >  - Well know colors: White, black, red, green, blue, magenta, yellow
-> >    and cyan
-> >  - Other colors: Randomly picked
-> >  - Destination pitch
-> > 
-> > Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> It looks mostly good to me, but I think we should Cc
-> kunit-dev@googlegroups.com to have their feedback.
+> That is, for EDID. Makes you wonder about all the other packed structs
+> with enum members across the kernel.
 
-Thanks a lot for the quick feedback.
+enum should not be used in structures if the layout of the struct
+matters. ISTR there was a proposal for EABI to make enums just about
+big enough to hold their enumerated constants - so you'd end up with
+8-bit, 16-bit etc according to the largest enumerated value that the
+compiler thinks it could hold.
 
-I just cc'ed kunit-dev@googlegroups.com. For anyone joining the
-conversation, here is the link to the patch and the cover letter with
-some questions:
+That's a latent disaster when enums get used in structs where the
+layout matters, __packed or not.
 
-https://lore.kernel.org/dri-devel/20220530102017.471865-1-jose.exposito89@gmail.com/T/
-
-> 
-> > ---
-> >  drivers/gpu/drm/Kconfig                  |  12 ++
-> >  drivers/gpu/drm/Makefile                 |   3 +
-> >  drivers/gpu/drm/drm_format_helper_test.c | 166 +++++++++++++++++++++++
-> >  3 files changed, 181 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/drm_format_helper_test.c
-> > 
-> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > index e88c497fa010..d92be6faef15 100644
-> > --- a/drivers/gpu/drm/Kconfig
-> > +++ b/drivers/gpu/drm/Kconfig
-> > @@ -76,6 +76,18 @@ config DRM_KMS_HELPER
-> >  	help
-> >  	  CRTC helpers for KMS drivers. 
-> >  
-> > +config DRM_FORMAR_HELPER_TEST
-> > +	bool "drm_format_helper tests" if !KUNIT_ALL_TESTS
-> > +	depends on DRM && KUNIT=y
-> > +	select DRM_KMS_HELPER
-> > +	default KUNIT_ALL_TESTS
-> > +	help
-> > +	  KUnit tests for the drm_format_helper APIs. This option is not
-> > +	  useful for distributions or general kernels, but only for kernel
-> > +	  developers working on DRM and associated drivers.
-> > +
-> > +	  If in doubt, say "N".
-> > +
-> 
-> AFAIK, kunit test cases are supposed to have a .kunitconfig too to
-> enable the kunit tests easily.
-> 
-> Maxime
-
-A .kuniconfig example is present in the cover letter. My understanding
-from the docs:
-
-https://docs.kernel.org/dev-tools/kunit/run_wrapper.html#create-a-kunitconfig-file
-
-Is that, like the .config file, the .kunitconfig file is not meant to
-be included in git, but I'm sure someone else will clarify this point.
-
-Thanks again,
-José Expósito
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
