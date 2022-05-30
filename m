@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43ACC537B75
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:25:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F580537B77
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:25:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD98310E851;
-	Mon, 30 May 2022 13:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AECDC10E83F;
+	Mon, 30 May 2022 13:25:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B85310E851
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:25:08 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5A4410E83F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:25:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6716960EE9;
- Mon, 30 May 2022 13:25:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A61C385B8;
- Mon, 30 May 2022 13:25:05 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A8CB4B80DA7;
+ Mon, 30 May 2022 13:25:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7578C36AE7;
+ Mon, 30 May 2022 13:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653917107;
- bh=+ehzoZ1+4/6eIf04m+qPZ2eANMxYBdwQHqalydfBe80=;
+ s=k20201202; t=1653917116;
+ bh=Aoq/ZnXVcKk+p7VdfH7dk2D2Y56VczJQo9MgI9eHjA8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cWBeJeGAcIH5Vom7aZ33vnn7uOSqcEoDHdP1JCizha21+kwdFBmpv/fUe6kAKD7Yt
- LbbKVMzNg9dbdZmiG69YyHkYXIWsKJpisZYGeVtN04at78fBgXfhLz+ZPzEIZcGzwX
- oiO/RR01KngI2FFXu/wEZ4mP47VzLAJcgyLmMpzimxQxOGOjxa2TQy8Oh58f02DZ1K
- nCEDUp2Z8tNdk4u81S5HESvWCFpoBX7SHh7p/AXu4t+/0wzmI6PPNPjYi2ZEOJcJLl
- HVU2QdPfXRnZUvCsKateqkPTwlpscffvQ8xX1ablK+wdyTtc2bBIheGvcfdoV38H9s
- GoovVqSR37kHw==
+ b=PSDx1dpO0ytd9PdZR6lrDeLETu2aEjqNEZplrbWEkouDB7hHDkr9L2hSF/WLA0z3k
+ MZDY2CkUr2YeN6eU5pR+RedOBFx5UJDIphuFG6EHLfBHjDEhUglaVbhcsKTjq16Ryt
+ kd2Q4co45UOJDNItSrwRcODZRnOppeh8C2pzFPkSBoUMlWVZONDoU1En2G0Oh86APA
+ 3GwC5tx2CkuEdrE86WfGb+foh4CSOupBCXBqQg0OUP7mFiss2WO70QYOVWmkrmBVYc
+ 0QJ4XH1Natv9AnWUt6Qx3RG2edbiRzoJanVJyE7WXc7u3HTghsYwt4o/JobTYzqyBR
+ LZX/66obdHeZQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 017/159] fbcon: Consistently protect
- deferred_takeover with console_lock()
-Date: Mon, 30 May 2022 09:22:02 -0400
-Message-Id: <20220530132425.1929512-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 022/159] drm/komeda: return early if
+ drm_universal_plane_init() fails.
+Date: Mon, 30 May 2022 09:22:07 -0400
+Message-Id: <20220530132425.1929512-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
 References: <20220530132425.1929512-1-sashal@kernel.org>
@@ -56,62 +56,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
- dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
- Claudio Suarez <cssk@net-c.es>, Daniel Vetter <daniel.vetter@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, james.qian.wang@arm.com,
+ mihail.atanassov@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+From: Liviu Dudau <liviu.dudau@arm.com>
 
-[ Upstream commit 43553559121ca90965b572cf8a1d6d0fd618b449 ]
+[ Upstream commit c8f76c37cc3668ee45e081e76a15f24a352ebbdd ]
 
-This shouldn't be a problem in practice since until we've actually
-taken over the console there's nothing we've registered with the
-console/vt subsystem, so the exit/unbind path that check this can't
-do the wrong thing. But it's confusing, so fix it by moving it a tad
-later.
+If drm_universal_plane_init() fails early we jump to the common cleanup code
+that calls komeda_plane_destroy() which in turn could access the uninitalised
+drm_plane and crash. Return early if an error is detected without going through
+the common code.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Du Cheng <ducheng2@gmail.com>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Claudio Suarez <cssk@net-c.es>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220405210335.3434130-14-daniel.vetter@ffwll.ch
+Reported-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+Link: https://lore.kernel.org/dri-devel/20211203100946.2706922-1-liviu.dudau@arm.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/core/fbcon.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_plane.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 2fc1b80a26ad..9a8ae6fa6ecb 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -3265,6 +3265,9 @@ static void fbcon_register_existing_fbs(struct work_struct *work)
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+index d63d83800a8a..d646e3ae1a23 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+@@ -275,8 +275,10 @@ static int komeda_plane_add(struct komeda_kms_dev *kms,
  
- 	console_lock();
+ 	komeda_put_fourcc_list(formats);
  
-+	deferred_takeover = false;
-+	logo_shown = FBCON_LOGO_DONTSHOW;
-+
- 	for_each_registered_fb(i)
- 		fbcon_fb_registered(registered_fb[i]);
+-	if (err)
+-		goto cleanup;
++	if (err) {
++		kfree(kplane);
++		return err;
++	}
  
-@@ -3282,8 +3285,6 @@ static int fbcon_output_notifier(struct notifier_block *nb,
- 	pr_info("fbcon: Taking over console\n");
+ 	drm_plane_helper_add(plane, &komeda_plane_helper_funcs);
  
- 	dummycon_unregister_output_notifier(&fbcon_output_nb);
--	deferred_takeover = false;
--	logo_shown = FBCON_LOGO_DONTSHOW;
- 
- 	/* We may get called in atomic context */
- 	schedule_work(&fbcon_deferred_takeover_work);
 -- 
 2.35.1
 
