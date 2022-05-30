@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1DE537CE2
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:41:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2968537DCA
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:43:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FDA910E9B0;
-	Mon, 30 May 2022 13:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD27C10E9CA;
+	Mon, 30 May 2022 13:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (unknown [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C86110E9B5;
- Mon, 30 May 2022 13:41:37 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E5D610E9CA;
+ Mon, 30 May 2022 13:43:05 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2A16960FC6;
- Mon, 30 May 2022 13:41:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F123C36AEA;
- Mon, 30 May 2022 13:41:35 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3CF94B80DB7;
+ Mon, 30 May 2022 13:43:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082CDC385B8;
+ Mon, 30 May 2022 13:43:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653918097;
- bh=hNsuAn+9pufZEh6kmLrx7j6VD2duSU6sqeBA0OR8Qe0=;
+ s=k20201202; t=1653918183;
+ bh=BrmU2q/cxigeabEKhzsjzIcdbxKZm27SnJIADA1gcgo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lLtdw+4BRN9Qhfcve6zk4lpTlCEnXNBR2FCjtowFDKLOwlyRaO69gPKvAjYPufdRl
- L297KtZQcCps61tYpjb1m/i2KbjYNFWEjJo4k5klwZoD5kC1f3A1xFaV1JhWwOCp7X
- NEOSWJXQ0diwCMfQ45K//lnOJaaEd0fm1GVyh09n1wNzO3a3ytWiXC1dGryFpP84bL
- pPq3pie3nLD5HOI1KmSjdgCZMO8W5ER23CvbMl/vbNg2TXTBYpRQXi2nql6TBObE2f
- bNPCzUBzPCv6ffZe4+mVHqk3j1c2/prggmQ3Bk4dLJDpODeTWfUGoD0go8czs1fqLB
- QHjyEBfbAeRHg==
+ b=m1m/j+yuON3RBIq+33ajHmhBE64fEPkKP3ATqNCXVlEOX3qp0CLRIRUIsHS8IiBU7
+ emmkARxEwOdTK9HzpMG2RYTtKhm08i75g1HQigdwiEgjti6gLp5jmslDcKB1rykMPA
+ RnbZfKIf30B0n3syqdyF0u192AjmxBGn3hc+HloWn0Cn1nqUjAw0PINz0V1aDE9IkO
+ pMKueeSmyV5ktgXQ3EaB9WUQMap4+XUIjhCkpjs0rhOsG3V9lwg2+/T35xzMknxb2C
+ PWpbvpzqZSp6qtwegtzLPiP+e2aV+d4mCX/JvTd6ORCmms/YJeIpzJJ+tSeXPuxKAq
+ KS6aXlLYrkDmg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 058/109] drm/amdgpu/ucode: Remove firmware load
- type check in amdgpu_ucode_free_bo
-Date: Mon, 30 May 2022 09:37:34 -0400
-Message-Id: <20220530133825.1933431-58-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 088/109] drm/amd/pm: update smartshift powerboost
+ calc for smu12
+Date: Mon, 30 May 2022 09:38:04 -0400
+Message-Id: <20220530133825.1933431-88-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530133825.1933431-1-sashal@kernel.org>
 References: <20220530133825.1933431-1-sashal@kernel.org>
@@ -55,46 +55,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, lang.yu@amd.com,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- Alice Wong <shiwei.wong@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Likun.Gao@amd.com,
- candice.li@amd.com, john.clements@amd.com, christian.koenig@amd.com,
- Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>,
+ Sathishkumar S <sathishkumar.sundararaju@amd.com>, Xinhui.Pan@amd.com,
+ airlied@linux.ie, Lijo Lazar <lijo.lazar@amd.com>,
+ amd-gfx@lists.freedesktop.org, Prike.Liang@amd.com,
+ dri-devel@lists.freedesktop.org, darren.powell@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com, lang.yu@amd.com,
+ christian.koenig@amd.com, Graham.Sider@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alice Wong <shiwei.wong@amd.com>
+From: Sathishkumar S <sathishkumar.sundararaju@amd.com>
 
-[ Upstream commit ab0cd4a9ae5b4679b714d8dbfedc0901fecdce9f ]
+[ Upstream commit 138292f1dc00e7e0724f44769f9da39cf2f3bf0b ]
 
-When psp_hw_init failed, it will set the load_type to AMDGPU_FW_LOAD_DIRECT.
-During amdgpu_device_ip_fini, amdgpu_ucode_free_bo checks that load_type is
-AMDGPU_FW_LOAD_DIRECT and skips deallocating fw_buf causing memory leak.
-Remove load_type check in amdgpu_ucode_free_bo.
+smartshift apu and dgpu power boost are reported as percentage with
+respect to their power limits. This value[0-100] reflects the boost
+for the respective device.
 
-Signed-off-by: Alice Wong <shiwei.wong@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sathishkumar S <sathishkumar.sundararaju@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c   | 60 ++++++++++++++-----
+ 1 file changed, 44 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-index abd8469380e5..0ed0736d515a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-@@ -723,8 +723,7 @@ int amdgpu_ucode_create_bo(struct amdgpu_device *adev)
- 
- void amdgpu_ucode_free_bo(struct amdgpu_device *adev)
- {
--	if (adev->firmware.load_type != AMDGPU_FW_LOAD_DIRECT)
--		amdgpu_bo_free_kernel(&adev->firmware.fw_buf,
-+	amdgpu_bo_free_kernel(&adev->firmware.fw_buf,
- 		&adev->firmware.fw_buf_mc,
- 		&adev->firmware.fw_buf_ptr);
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
+index 145f13b8c977..138466081875 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c
+@@ -1127,6 +1127,39 @@ static int renoir_get_power_profile_mode(struct smu_context *smu,
+ 	return size;
  }
+ 
++static void renoir_get_ss_power_percent(SmuMetrics_t *metrics,
++					uint32_t *apu_percent, uint32_t *dgpu_percent)
++{
++	uint32_t apu_boost = 0;
++	uint32_t dgpu_boost = 0;
++	uint16_t apu_limit = 0;
++	uint16_t dgpu_limit = 0;
++	uint16_t apu_power = 0;
++	uint16_t dgpu_power = 0;
++
++	apu_power = metrics->ApuPower;
++	apu_limit = metrics->StapmOriginalLimit;
++	if (apu_power > apu_limit && apu_limit != 0)
++		apu_boost =  ((apu_power - apu_limit) * 100) / apu_limit;
++	apu_boost = (apu_boost > 100) ? 100 : apu_boost;
++
++	dgpu_power = metrics->dGpuPower;
++	if (metrics->StapmCurrentLimit > metrics->StapmOriginalLimit)
++		dgpu_limit = metrics->StapmCurrentLimit - metrics->StapmOriginalLimit;
++	if (dgpu_power > dgpu_limit && dgpu_limit != 0)
++		dgpu_boost = ((dgpu_power - dgpu_limit) * 100) / dgpu_limit;
++	dgpu_boost = (dgpu_boost > 100) ? 100 : dgpu_boost;
++
++	if (dgpu_boost >= apu_boost)
++		apu_boost = 0;
++	else
++		dgpu_boost = 0;
++
++	*apu_percent = apu_boost;
++	*dgpu_percent = dgpu_boost;
++}
++
++
+ static int renoir_get_smu_metrics_data(struct smu_context *smu,
+ 				       MetricsMember_t member,
+ 				       uint32_t *value)
+@@ -1135,6 +1168,9 @@ static int renoir_get_smu_metrics_data(struct smu_context *smu,
+ 
+ 	SmuMetrics_t *metrics = (SmuMetrics_t *)smu_table->metrics_table;
+ 	int ret = 0;
++	uint32_t apu_percent = 0;
++	uint32_t dgpu_percent = 0;
++
+ 
+ 	mutex_lock(&smu->metrics_lock);
+ 
+@@ -1183,26 +1219,18 @@ static int renoir_get_smu_metrics_data(struct smu_context *smu,
+ 		*value = metrics->Voltage[1];
+ 		break;
+ 	case METRICS_SS_APU_SHARE:
+-		/* return the percentage of APU power with respect to APU's power limit.
+-		 * percentage is reported, this isn't boost value. Smartshift power
+-		 * boost/shift is only when the percentage is more than 100.
++		/* return the percentage of APU power boost
++		 * with respect to APU's power limit.
+ 		 */
+-		if (metrics->StapmOriginalLimit > 0)
+-			*value =  (metrics->ApuPower * 100) / metrics->StapmOriginalLimit;
+-		else
+-			*value = 0;
++		renoir_get_ss_power_percent(metrics, &apu_percent, &dgpu_percent);
++		*value = apu_percent;
+ 		break;
+ 	case METRICS_SS_DGPU_SHARE:
+-		/* return the percentage of dGPU power with respect to dGPU's power limit.
+-		 * percentage is reported, this isn't boost value. Smartshift power
+-		 * boost/shift is only when the percentage is more than 100.
++		/* return the percentage of dGPU power boost
++		 * with respect to dGPU's power limit.
+ 		 */
+-		if ((metrics->dGpuPower > 0) &&
+-		    (metrics->StapmCurrentLimit > metrics->StapmOriginalLimit))
+-			*value = (metrics->dGpuPower * 100) /
+-				  (metrics->StapmCurrentLimit - metrics->StapmOriginalLimit);
+-		else
+-			*value = 0;
++		renoir_get_ss_power_percent(metrics, &apu_percent, &dgpu_percent);
++		*value = dgpu_percent;
+ 		break;
+ 	default:
+ 		*value = UINT_MAX;
 -- 
 2.35.1
 
