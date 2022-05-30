@@ -2,66 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43AD537E4B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758DE537E5F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 16:03:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A230210ECFA;
-	Mon, 30 May 2022 13:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B740310EDA4;
+	Mon, 30 May 2022 14:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3B310ECFA;
- Mon, 30 May 2022 13:57:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id B98F41F417FE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1653919049;
- bh=2XRBuky6ctLBMkVpHH42tRbnrHaVzoRJDfOS/8wLl/E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mPwSP+W1lUR0EdMvCliWfZoiylZ8CVpOpjwgflCUTZaI9WHJh5tJXhk8DyguPhNeN
- HogdCkNBgtGD2G8U9Ep2K49/vmqE56g1BgD7MA21xGk1ZVBj+VJcIxxm08FCLdNgVK
- RmZOwzc+caJBzV5axbiwKDrCGcHjZmvJd24egZXw9xLh3XfQFPhTT3EpgfN70g8mqC
- 9sjT+smifz0WHNiGEqr7+RZqCI9QQehNyQ19Mpiv9LWCOB9wzR78FM0tska4e7lqKe
- 50oVtOr/eGMjVeh2uPvpXIVZhL/NQ2LFQ3MNEmBcidBDh44gsd28fmmYzNC+2ue0aj
- H9xWHCkQ7dKmg==
-Message-ID: <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
-Date: Mon, 30 May 2022 16:57:22 +0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8AD910EDA4
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 14:03:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1653919399;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rC0eN7t3z6ODekS0ZqenuKqbnlhAc460c9vZw1utlEU=;
+ b=RETIWVj6VUy1+TCXRtlPcQnp2oxjwcRN7269H3SxczoO45fZshjc22YZHjbjdy7I4zshj+
+ yrH985sATdIG1O5LuPwy8lm/eXLO4lMDk0G3NyvjopZG4GxT/L7RnEzbPhu896Oi40b6Hh
+ RHdvlEoygEJk0jfLR/aTrqH8ZDS2NMI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-572-ySF2SHkSMOavIbm2gUB-6A-1; Mon, 30 May 2022 10:03:14 -0400
+X-MC-Unique: ySF2SHkSMOavIbm2gUB-6A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c125-20020a1c3583000000b003978decffedso5689413wma.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 07:03:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rC0eN7t3z6ODekS0ZqenuKqbnlhAc460c9vZw1utlEU=;
+ b=P1P3dZ+A47bJ0jXTqMrMGGEezjayFxaH4hjJ150Ruldmwgb+OwXfVbbVcvl3HWzBdh
+ ycJQ+GL96n2h/u+D7pTAZiBREmnIpIsI2xx0udlAGICUMClGdpX/i7rR6TVfc779CV/z
+ YMHNzrbY2xbOc8xUd03q6FkotrGAb9EDxySy4I+SqRPzqsTsBvdBsFaDKyZucO2cVwTE
+ P4WRQ9BldXeJ1FOtuvhKt8wt5xyDoGyWVZshy68O31X3HPraa3tf2NA+oW6twJQpVdq8
+ QlweepryPvtpjbuDYZTyV1iVxtvLio4A5dRCmF6zI75J0FR7SyofiqFsq7uI0l5/jTYu
+ sYBA==
+X-Gm-Message-State: AOAM5309QU79BVZmBqRKHgiXQ0uDChbAHw68g1uTbko0Km4bOO8l5NdX
+ zLS6dlYmhsJ8R4PZ18NTiQ0ATC17yUBFd71gh7RBsJVgRsEqPorI9KiI9UXEKgAerxAFT3twVua
+ 1+1hwGMysO2yORfTNIk42I5610+Xa
+X-Received: by 2002:a05:6000:15c1:b0:20f:c1d3:8a89 with SMTP id
+ y1-20020a05600015c100b0020fc1d38a89mr40174117wry.287.1653919392615; 
+ Mon, 30 May 2022 07:03:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygJwMi3I5Al7M7Nn7GvI6xqupt54m+kg76DqqOBO1hzb2Izc3i81He1uttnWN3YXnrWy+hgw==
+X-Received: by 2002:a05:6000:15c1:b0:20f:c1d3:8a89 with SMTP id
+ y1-20020a05600015c100b0020fc1d38a89mr40174093wry.287.1653919392345; 
+ Mon, 30 May 2022 07:03:12 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ ay5-20020a05600c1e0500b0039765a7add4sm10539109wmb.29.2022.05.30.07.03.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 07:03:12 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ssd130x: Only define a SPI device ID table when built as
+ a module
+Date: Mon, 30 May 2022 16:02:46 +0200
+Message-Id: <20220530140246.742469-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Thierry Reding <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <20220526235040.678984-15-dmitry.osipenko@collabora.com>
- <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
- <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
- <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,93 +82,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, linux-media@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/30/22 16:41, Christian König wrote:
-> Hi Dmitry,
-> 
-> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
->> Hello Christian,
->>
->> On 5/30/22 09:50, Christian König wrote:
->>> Hi Dmitry,
->>>
->>> First of all please separate out this patch from the rest of the series,
->>> since this is a complex separate structural change.
->> I assume all the patches will go via the DRM tree in the end since the
->> rest of the DRM patches in this series depend on this dma-buf change.
->> But I see that separation may ease reviewing of the dma-buf changes, so
->> let's try it.
-> 
-> That sounds like you are underestimating a bit how much trouble this
-> will be.
-> 
->>> I have tried this before and failed because catching all the locks in
->>> the right code paths are very tricky. So expect some fallout from this
->>> and make sure the kernel test robot and CI systems are clean.
->> Sure, I'll fix up all the reported things in the next iteration.
->>
->> BTW, have you ever posted yours version of the patch? Will be great if
->> we could compare the changed code paths.
-> 
-> No, I never even finished creating it after realizing how much work it
-> would be.
-> 
->>>> This patch introduces new locking convention for dma-buf users. From
->>>> now
->>>> on all dma-buf importers are responsible for holding dma-buf
->>>> reservation
->>>> lock around operations performed over dma-bufs.
->>>>
->>>> This patch implements the new dma-buf locking convention by:
->>>>
->>>>     1. Making dma-buf API functions to take the reservation lock.
->>>>
->>>>     2. Adding new locked variants of the dma-buf API functions for
->>>> drivers
->>>>        that need to manage imported dma-bufs under the held lock.
->>> Instead of adding new locked variants please mark all variants which
->>> expect to be called without a lock with an _unlocked postfix.
->>>
->>> This should make it easier to remove those in a follow up patch set and
->>> then fully move the locking into the importer.
->> Do we really want to move all the locks to the importers? Seems the
->> majority of drivers should be happy with the dma-buf helpers handling
->> the locking for them.
-> 
-> Yes, I clearly think so.
-> 
->>
->>>>     3. Converting all drivers to the new locking scheme.
->>> I have strong doubts that you got all of them. At least radeon and
->>> nouveau should grab the reservation lock in their ->attach callbacks
->>> somehow.
->> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
->> lock already, seems they should be okay (?)
-> 
-> You are looking at the wrong side. You need to fix the export code path,
-> not the import ones.
-> 
-> See for example attach on radeon works like this
-> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
+The kernel test robot reports a compile warning due the ssd130x_spi_table
+variable being defined but not used. This happen when ssd130x-spi driver
+is built-in instead of being built as a module, i.e:
 
-Yeah, I was looking at the both sides, but missed this one.
+  CC      drivers/gpu/drm/solomon/ssd130x-spi.o
+  AR      drivers/base/firmware_loader/built-in.a
+  AR      drivers/base/built-in.a
+  CC      kernel/trace/trace.o
+drivers/gpu/drm/solomon/ssd130x-spi.c:155:35: warning: ‘ssd130x_spi_table’ defined but not used [-Wunused-const-variable=]
+  155 | static const struct spi_device_id ssd130x_spi_table[] = {
+      |                                   ^~~~~~~~~~~~~~~~~
 
-> Same for nouveau and probably a few other exporters as well. That will
-> certainly cause a deadlock if you don't fix it.
-> 
-> I strongly suggest to do this step by step, first attach/detach and then
-> the rest.
+The driver shouldn't need a SPI device ID table and only have an OF device
+ID table, but the former is needed to workaround an issue in the SPI core.
+This always reports a MODALIAS of the form "spi:<device>" even for devices
+registered through Device Trees.
 
-Thank you very much for the suggestions. I'll implement them in the next
-version.
+But the table is only needed when the driver built as a module to populate
+the .ko alias info. It's not needed when the driver is built-in the kernel.
 
+Fixes: 74373977d2ca ("drm/solomon: Add SSD130x OLED displays SPI support")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+
+ drivers/gpu/drm/solomon/ssd130x-spi.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
+index 43722adab1f8..07802907e39a 100644
+--- a/drivers/gpu/drm/solomon/ssd130x-spi.c
++++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
+@@ -143,6 +143,7 @@ static const struct of_device_id ssd130x_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, ssd130x_of_match);
+ 
++#if IS_MODULE(CONFIG_DRM_SSD130X_SPI)
+ /*
+  * The SPI core always reports a MODALIAS uevent of the form "spi:<dev>", even
+  * if the device was registered via OF. This means that the module will not be
+@@ -160,6 +161,7 @@ static const struct spi_device_id ssd130x_spi_table[] = {
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(spi, ssd130x_spi_table);
++#endif
+ 
+ static struct spi_driver ssd130x_spi_driver = {
+ 	.driver = {
 -- 
-Best regards,
-Dmitry
+2.36.1
+
