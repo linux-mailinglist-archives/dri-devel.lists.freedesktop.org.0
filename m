@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6043E53766A
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 10:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8842D53766C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 10:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD73F10E0F4;
-	Mon, 30 May 2022 08:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59EE710E0E5;
+	Mon, 30 May 2022 08:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A73A10E2C6
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 08:15:09 +0000 (UTC)
-Date: Mon, 30 May 2022 08:15:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1653898507; x=1654157707;
- bh=lqX7WjwqqQ+R/XaVh0cGUEjmNZ8aRljFXvzY1q85z6Y=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=icMEmJyWVVkCwMFTDND2hYHTlPETZ+0ZHA1cFqWdYCSy7H4pxc0BBx/bk/qqpc12Z
- 01EiAEpHC0BcFEJx182OiJ2HL8gAHlyFP/sWGDz0+sdfJJkhc5V1TXqzBwSJ7uzN29
- bEpasxmxOFYYbZewoMmO/qLVppi+0Key56jQi9Xjc+ykqQyCi52OEIFWcypwHH85sD
- rhc9ktkLCQkkzug09dBaItEg+NWKrwPH+T9rFH2/2R2mKPni9OXKGRdtybkpUmpZ2o
- 3Req+y8f68CFcp1c+A8eqOBMfJfGHlSqJGW1p7brKha1s8Pqu6BpprLmP1ZqEVihkt
- G9ZkT1w1SLiXw==
-To: Greg KH <gregkh@linuxfoundation.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3] dma-buf: Add a capabilities directory
-Message-ID: <y8_aHkQfpnkFGxtmlPCl1oeVug9pmGRyNP3JadMxYgQBfR0bnNo84pdtiMu3VptPHmcHlqwh0u8ntE7tZ6TWCzCMSLnBK_71fbLUY-ykN40=@emersion.fr>
-In-Reply-To: <YpRwI7xm5Wtxyiz8@kroah.com>
-References: <20220527073422.367910-1-contact@emersion.fr>
- <dbee55fd-37ac-d7cd-dc78-d72776dfdfac@amd.com> <YpRwI7xm5Wtxyiz8@kroah.com>
-Feedback-ID: 1358184:user:proton
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13F7B10E12C
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 08:19:22 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id a10so1075495pju.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 01:19:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pBLLK5jVhwbNway5d1jcnH/mwgI9yxE1r2VmUrlYtDU=;
+ b=LLgjKgp2+ro4rOIKxUWfMFimQjfxFWRvVWoMjpqWUvgtX/IIENmwdkMHUIq88hcolf
+ ROFZ7vAAUlY+NJsshhvUkkommU11wX7sGxpjL1CjmCeZgVV/zkVhk3p7u/ZyNujeoi9J
+ QxRXyXc9nqN8qIybleH4/7N9FDZp9fBXbaLPk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pBLLK5jVhwbNway5d1jcnH/mwgI9yxE1r2VmUrlYtDU=;
+ b=55GnP2PlQ3V65DQncp8jZxhyyR14Kk41OjdgxJeujK9smfDvPxIt2OfLPKW6+rPAsk
+ L1ZyU+mU0nrRk4DBu+2DVizR8PwTiP1AnCZrDp0GEcdsOBe1RhmAsTT55C+e2ZrCU/1J
+ Crvwhtxu1m9rqfJdT4lMdW7bHSvU94WVPk07gH48AbzHWOyL11eaelizh0ZTVQBYgcwQ
+ jroZ54p7/fLBd9zBW8kmlHkM9w/qoafufm9RL/hiVar4v4Pe3H8EVr6KGL5tGkfRZNmG
+ OnOpOVdZqmnHsQ7KR9sdTwg9JsT5ultL31iqxp73GvENgytIgQH4NefOA5xH3iSRJtlw
+ DHVQ==
+X-Gm-Message-State: AOAM533jd1glnAKvCv342FgueCHmDzflaC/l3ajUotmJ02Z2y//Bbtux
+ C2RDa50r6FTnAF07U6PK8toyEkyLkG9MBw==
+X-Google-Smtp-Source: ABdhPJz+H5PQ1/wn0WMWpccN62eOSMQ6CsdGl2YYPW6OhEKjBgqYnlaum+TZJlp8G3W0bq500UZXIw==
+X-Received: by 2002:a17:903:124a:b0:154:c860:6d52 with SMTP id
+ u10-20020a170903124a00b00154c8606d52mr55869147plh.159.1653898761542; 
+ Mon, 30 May 2022 01:19:21 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:ae1c:3d63:abec:1097])
+ by smtp.gmail.com with ESMTPSA id
+ m1-20020a170902f64100b001618b70dcc9sm8537900plg.101.2022.05.30.01.19.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 01:19:21 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v10 0/4] Separate panel orientation property creating and
+ value setting
+Date: Mon, 30 May 2022 16:19:06 +0800
+Message-Id: <20220530081910.3947168-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.36.1.124.g0e6072fb45-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,53 +68,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Jason Ekstrand <jason.ekstrand@collabora.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ Hans de Goede <hdegoede@redhat.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, May 30th, 2022 at 09:20, Greg KH <gregkh@linuxfoundation.org> wr=
-ote:
+Some drivers, eg. mtk_drm and msm_drm, rely on the panel to set the
+orientation. Panel calls drm_connector_set_panel_orientation() to create
+orientation property and sets the value. However, connector properties
+can't be created after drm_dev_register() is called. The goal is to
+separate the orientation property creation, so drm drivers can create it
+earlier before drm_dev_register().
 
-> > > +static struct attribute *dma_buf_caps_attrs[] =3D {
-> > > +=09&dma_buf_sync_file_import_export_attr.attr,
-> > > +=09NULL,
-> > > +};
-> > > +
-> > > +static const struct attribute_group dma_buf_caps_attr_group =3D {
-> > > +=09.attrs =3D dma_buf_caps_attrs,
-> > > +};
-> >
-> > Didn't we had macros for those? I think I have seen something for that.
->
-> Yes, please use ATTRIBUTE_GROUPS()
+After this series, drm_connector_set_panel_orientation() works like
+before. It won't affect existing callers of
+drm_connector_set_panel_orientation(). The only difference is that
+some drm drivers can call drm_connector_init_panel_orientation_property()
+earlier.
 
-This doesn't allow the user to set a group name, and creates an unused
-"_groups" variable, causing warnings.
+Hsin-Yi Wang (4):
+  gpu: drm: separate panel orientation property creating and value
+    setting
+  drm/mediatek: init panel orientation property
+  drm/msm: init panel orientation property
+  arm64: dts: mt8183: Add panel rotation
 
-> > > +
-> > > +static struct kobject *dma_buf_caps_kobj;
-> > > +
-> > > +int dma_buf_init_sysfs_capabilities(struct kset *kset)
-> > > +{
-> > > +=09int ret;
-> > > +
-> > > +=09dma_buf_caps_kobj =3D kobject_create_and_add("caps", &kset->kobj)=
-;
-> > > +=09if (!dma_buf_caps_kobj)
-> > > +=09=09return -ENOMEM;
-> > > +
-> > > +=09ret =3D sysfs_create_group(dma_buf_caps_kobj, &dma_buf_caps_attr_=
-group);
->
-> Why do we have "raw" kobjects here?
->
-> A group can have a name, which puts it in the subdirectory of the object
-> it is attached to.  Please do that and do not create a new kobject.
+ .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
+ drivers/gpu/drm/drm_connector.c               | 58 ++++++++++++++-----
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |  7 +++
+ drivers/gpu/drm/msm/dsi/dsi_manager.c         |  4 ++
+ include/drm/drm_connector.h                   |  2 +
+ 5 files changed, 59 insertions(+), 13 deletions(-)
 
-I see, I'll switch to sysfs_create_group with a group name in the next vers=
-ion.
+-- 
+2.36.1.124.g0e6072fb45-goog
 
-Thanks for the pointers!
