@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381EB537B62
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D9F537B63
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09BD10E7E9;
-	Mon, 30 May 2022 13:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5004010E84E;
+	Mon, 30 May 2022 13:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E755910E6E3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:24:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A93D10E7E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:24:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 60C85B80AE8;
- Mon, 30 May 2022 13:24:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45D14C3411C;
- Mon, 30 May 2022 13:24:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0556B60E9B;
+ Mon, 30 May 2022 13:24:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E3EC385B8;
+ Mon, 30 May 2022 13:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653917076;
- bh=s3qNkoIYVWMpejiHT67UNIh/odgE/06E//y1wED6l1c=;
+ s=k20201202; t=1653917079;
+ bh=9KHMSISyzzpbZ2PU0Ypgnuo/zuKW0vT9ok+Fw3ha3Ag=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oEi3QpzvTN0D3kbvTJCtNVR5N/xh+pJrO9HVq0Dxr4lfkiNEj8MF8dw2KfZbifTnB
- 1dRyYoWzL0cTDQew6wtgd/kfYUfeomvVC4rp7p6rfhdQ/yHq7+ePB3GRO4vU8c6SlH
- KkqYPVp4Psumwb4J7C9nKVdtiGFE3jmotgOxB2RAq9rjxnDCI3w+g9SG5m+gsceZKJ
- c8h2MBW3q/kC6JMdn+RdyuxJ1CMFWhFusZCitJ4iqoDotTEGmbc4shpYRJBFPnP/8Q
- 2PLRYxiAmMTh7LSgrDMaP6UpxRuHKodiTMbHBoViehXOJbQ7XnAEygbApSqbU8yG5g
- gcyOCTl+/e4Zg==
+ b=hCgvcOrKqI1biV6i4Fb3cecPGlr6K5q6C9/ADKxe7mHxnwt725MMp0lF+B48CTzpT
+ p5o3hOtTR7eezUh15JaRaWRuhoia1mT3mxtnqXQnOKYhqVAgd6T15xPIsUqdXGI0bC
+ icCGYLPqtLS8zcKiHbmB0ER0m4zC+r9r0dDlUtMr6VWKjYwvlxJP7DbncuxDLGsHpv
+ n1buvMV29IS7i8ufENHK/o/h3zI4GRgZOhBr0Jfn3rZMq3338BDW4XB9j2FK4hYSYJ
+ ow9udW7Zfha1pfyQUmHJov1YQZsc3spjPcZrvG9OolIyKqj+hQ4lNotBg2miQugTdl
+ xsBvb3jM2OaUQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 003/159] drm/vmwgfx: validate the screen formats
-Date: Mon, 30 May 2022 09:21:48 -0400
-Message-Id: <20220530132425.1929512-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 005/159] drm/virtio: fix NULL pointer dereference
+ in virtio_gpu_conn_get_modes
+Date: Mon, 30 May 2022 09:21:50 -0400
+Message-Id: <20220530132425.1929512-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
 References: <20220530132425.1929512-1-sashal@kernel.org>
@@ -55,88 +56,91 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Martin Krastev <krastevm@vmware.com>
+ Liu Zixian <liuzixian4@huawei.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+From: Liu Zixian <liuzixian4@huawei.com>
 
-[ Upstream commit 8bb75aeb58bd688d70827ae179bd3da57b6d975b ]
+[ Upstream commit 194d250cdc4a40ccbd179afd522a9e9846957402 ]
 
-The kms code wasn't validating the modifiers and was letting through
-unsupported formats. rgb8 was never properly supported and has no
-matching svga screen target format so remove it.
-This fixes format/modifier failures in kms_addfb_basic from IGT.
+drm_cvt_mode may return NULL and we should check it.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220318174332.440068-4-zack@kde.org
+This bug is found by syzkaller:
+
+FAULT_INJECTION stacktrace:
+[  168.567394] FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 1
+[  168.567403] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
+[  168.567406] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
+[  168.567408] Call trace:
+[  168.567414]  dump_backtrace+0x0/0x310
+[  168.567418]  show_stack+0x28/0x38
+[  168.567423]  dump_stack+0xec/0x15c
+[  168.567427]  should_fail+0x3ac/0x3d0
+[  168.567437]  __should_failslab+0xb8/0x120
+[  168.567441]  should_failslab+0x28/0xc0
+[  168.567445]  kmem_cache_alloc_trace+0x50/0x640
+[  168.567454]  drm_mode_create+0x40/0x90
+[  168.567458]  drm_cvt_mode+0x48/0xc78
+[  168.567477]  virtio_gpu_conn_get_modes+0xa8/0x140 [virtio_gpu]
+[  168.567485]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
+[  168.567492]  drm_mode_getconnector+0x2e0/0xa70
+[  168.567496]  drm_ioctl_kernel+0x11c/0x1d8
+[  168.567514]  drm_ioctl+0x558/0x6d0
+[  168.567522]  do_vfs_ioctl+0x160/0xf30
+[  168.567525]  ksys_ioctl+0x98/0xd8
+[  168.567530]  __arm64_sys_ioctl+0x50/0xc8
+[  168.567536]  el0_svc_common+0xc8/0x320
+[  168.567540]  el0_svc_handler+0xf8/0x160
+[  168.567544]  el0_svc+0x10/0x218
+
+KASAN stacktrace:
+[  168.567561] BUG: KASAN: null-ptr-deref in virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
+[  168.567565] Read of size 4 at addr 0000000000000054 by task syz/6425
+[  168.567566]
+[  168.567571] CPU: 1 PID: 6425 Comm: syz Kdump: loaded Not tainted 4.19.90-vhulk2201.1.0.h1035.kasan.eulerosv2r10.aarch64 #1
+[  168.567573] Hardware name: QEMU KVM Virtual Machine, BIOS 0.0.0 02/06/2015
+[  168.567575] Call trace:
+[  168.567578]  dump_backtrace+0x0/0x310
+[  168.567582]  show_stack+0x28/0x38
+[  168.567586]  dump_stack+0xec/0x15c
+[  168.567591]  kasan_report+0x244/0x2f0
+[  168.567594]  __asan_load4+0x58/0xb0
+[  168.567607]  virtio_gpu_conn_get_modes+0xb4/0x140 [virtio_gpu]
+[  168.567612]  drm_helper_probe_single_connector_modes+0x3a4/0xd80
+[  168.567617]  drm_mode_getconnector+0x2e0/0xa70
+[  168.567621]  drm_ioctl_kernel+0x11c/0x1d8
+[  168.567624]  drm_ioctl+0x558/0x6d0
+[  168.567628]  do_vfs_ioctl+0x160/0xf30
+[  168.567632]  ksys_ioctl+0x98/0xd8
+[  168.567636]  __arm64_sys_ioctl+0x50/0xc8
+[  168.567641]  el0_svc_common+0xc8/0x320
+[  168.567645]  el0_svc_handler+0xf8/0x160
+[  168.567649]  el0_svc+0x10/0x218
+
+Signed-off-by: Liu Zixian <liuzixian4@huawei.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/20220322091730.1653-1-liuzixian4@huawei.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 30 +++++++++++++++--------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  1 -
- 2 files changed, 16 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 93431e8f6606..9410152f9d6f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -914,6 +914,15 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
- 	 * Sanity checks.
- 	 */
- 
-+	if (!drm_any_plane_has_format(&dev_priv->drm,
-+				      mode_cmd->pixel_format,
-+				      mode_cmd->modifier[0])) {
-+		drm_dbg(&dev_priv->drm,
-+			"unsupported pixel format %p4cc / modifier 0x%llx\n",
-+			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
-+		return -EINVAL;
-+	}
-+
- 	/* Surface must be marked as a scanout. */
- 	if (unlikely(!surface->metadata.scanout))
- 		return -EINVAL;
-@@ -1236,20 +1245,13 @@ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
- 		return -EINVAL;
- 	}
- 
--	/* Limited framebuffer color depth support for screen objects */
--	if (dev_priv->active_display_unit == vmw_du_screen_object) {
--		switch (mode_cmd->pixel_format) {
--		case DRM_FORMAT_XRGB8888:
--		case DRM_FORMAT_ARGB8888:
--			break;
--		case DRM_FORMAT_XRGB1555:
--		case DRM_FORMAT_RGB565:
--			break;
--		default:
--			DRM_ERROR("Invalid pixel format: %p4cc\n",
--				  &mode_cmd->pixel_format);
--			return -EINVAL;
--		}
-+	if (!drm_any_plane_has_format(&dev_priv->drm,
-+				      mode_cmd->pixel_format,
-+				      mode_cmd->modifier[0])) {
-+		drm_dbg(&dev_priv->drm,
-+			"unsupported pixel format %p4cc / modifier 0x%llx\n",
-+			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
-+		return -EINVAL;
- 	}
- 
- 	vfbd = kzalloc(sizeof(*vfbd), GFP_KERNEL);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 4d36e8507380..d9ebd02099a6 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -247,7 +247,6 @@ struct vmw_framebuffer_bo {
- static const uint32_t __maybe_unused vmw_primary_plane_formats[] = {
- 	DRM_FORMAT_XRGB1555,
- 	DRM_FORMAT_RGB565,
--	DRM_FORMAT_RGB888,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ARGB8888,
- };
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 5b00310ac4cd..f73352e7b832 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -179,6 +179,8 @@ static int virtio_gpu_conn_get_modes(struct drm_connector *connector)
+ 		DRM_DEBUG("add mode: %dx%d\n", width, height);
+ 		mode = drm_cvt_mode(connector->dev, width, height, 60,
+ 				    false, false, false);
++		if (!mode)
++			return count;
+ 		mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 		drm_mode_probed_add(connector, mode);
+ 		count++;
 -- 
 2.35.1
 
