@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B55537B88
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5136D537B89
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29B0E10E869;
-	Mon, 30 May 2022 13:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0A1910E865;
+	Mon, 30 May 2022 13:27:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E41610E869;
- Mon, 30 May 2022 13:26:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C761710E865
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:27:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9B6E860EC3;
- Mon, 30 May 2022 13:26:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C78C385B8;
- Mon, 30 May 2022 13:26:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 492E560ED0;
+ Mon, 30 May 2022 13:27:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E812C385B8;
+ Mon, 30 May 2022 13:27:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653917217;
- bh=uGxBakii2rIG+iogD6UuanWdzvcp4zMwBqkxmY5yAyg=;
+ s=k20201202; t=1653917232;
+ bh=2u3HzTx97D8KukJGqGjYi4/l3+1TkIRnHr/uNhU+Aow=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m9BZltpesy5bDsFmY/Kc1/2xMZDDDGwNvn7ChI0HJJPV9IeQ0iK2gOZhjMv+Y5VrZ
- qfvERYTlGn38ibw9Kai16gR7tTNULRo+4nX7xsjSLOL3DuVO//tzADIAz6ryRs/pDD
- jJ7doSZPaj/R+hGKIegilFgVeXvBMCRVXka5BCxrjHIqrYA5QqTYDMAy+vSlHYNDRM
- ViC9D8xkSh+aSdIvIUV2TIH5+1tXR6CvymtMh8hq9pbaivgQOSEBq8BixwS+JdmB5D
- K29cME7Yym+VNxUL3N6DRCBuEHSb2B1BnsTZ4+1WGkaBqsAtJfv2YXrSYuwmlu8ATU
- HEV3EHNO8xRng==
+ b=An07GC5zuYpqavJCDPhpEQnvg4rXj3wWMKFtv4YZfbIe+k0iWyZfRzlxGElMa0x/p
+ MjwkOiW82/h4xpjQW4zPsQ3jDPCsQl/FinSL3wPgqHkJy6aUhz25UXx4s/BqoZNl0o
+ MRbAFhQqlFqkA3ywW7AYNztObXCkp8sjONmsLQRsn3HhUnx79QcFMXWs+tsLD/qFY7
+ xTpxcXC+f+TekjSygLF7JRGsCLqmDc+oies1QdOdP4x+79ygpqwEX5yL3eKsYNU7G5
+ aQC5sqqttXr1r26Obg0vWO+Ws7jKmS3Hh84akJeu8JFdfTwI2+GnpfUTleSKFSOvaD
+ M1HNMldDFPhDw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 059/159] drm/amdgpu/sdma: Fix incorrect
- calculations of the wptr of the doorbells
-Date: Mon, 30 May 2022 09:22:44 -0400
-Message-Id: <20220530132425.1929512-59-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 065/159] drm/plane: Move range check for
+ format_count earlier
+Date: Mon, 30 May 2022 09:22:50 -0400
+Message-Id: <20220530132425.1929512-65-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530132425.1929512-1-sashal@kernel.org>
 References: <20220530132425.1929512-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -57,108 +55,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jack.Xiao@amd.com, tao.zhou1@amd.com,
- airlied@linux.ie, Bokun.Zhang@amd.com, dri-devel@lists.freedesktop.org,
- Xinhui.Pan@amd.com, Haohui Mai <ricetons@gmail.com>,
- amd-gfx@lists.freedesktop.org, rajib.mahapatra@amd.com, Prike.Liang@amd.com,
- YiPeng.Chai@amd.com, rohit.khaire@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com, Lang.Yu@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Haohui Mai <ricetons@gmail.com>
+From: Steven Price <steven.price@arm.com>
 
-[ Upstream commit 7dba6e838e741caadcf27ef717b6dcb561e77f89 ]
+[ Upstream commit 4b674dd69701c2e22e8e7770c1706a69f3b17269 ]
 
-This patch fixes the issue where the driver miscomputes the 64-bit
-values of the wptr of the SDMA doorbell when initializing the
-hardware. SDMA engines v4 and later on have full 64-bit registers for
-wptr thus they should be set properly.
+While the check for format_count > 64 in __drm_universal_plane_init()
+shouldn't be hit (it's a WARN_ON), in its current position it will then
+leak the plane->format_types array and fail to call
+drm_mode_object_unregister() leaking the modeset identifier. Move it to
+the start of the function to avoid allocating those resources in the
+first place.
 
-Older generation hardwares like CIK / SI have only 16 / 20 / 24bits
-for the WPTR, where the calls of lower_32_bits() will be removed in a
-following patch.
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Haohui Mai <ricetons@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+Link: https://lore.kernel.org/dri-devel/20211203102815.38624-1-steven.price@arm.com/
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c | 4 ++--
- drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c | 8 ++++----
- drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 8 ++++----
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_plane.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-index d7e8f7232364..ff86c43b63d1 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
-@@ -772,8 +772,8 @@ static void sdma_v4_0_ring_set_wptr(struct amdgpu_ring *ring)
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index bf0daa8d9bbd..726f2f163c26 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -247,6 +247,13 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+ 	if (WARN_ON(config->num_total_plane >= 32))
+ 		return -EINVAL;
  
- 		DRM_DEBUG("Using doorbell -- "
- 				"wptr_offs == 0x%08x "
--				"lower_32_bits(ring->wptr) << 2 == 0x%08x "
--				"upper_32_bits(ring->wptr) << 2 == 0x%08x\n",
-+				"lower_32_bits(ring->wptr << 2) == 0x%08x "
-+				"upper_32_bits(ring->wptr << 2) == 0x%08x\n",
- 				ring->wptr_offs,
- 				lower_32_bits(ring->wptr << 2),
- 				upper_32_bits(ring->wptr << 2));
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-index a8d49c005f73..627eb1f147c2 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-@@ -394,8 +394,8 @@ static void sdma_v5_0_ring_set_wptr(struct amdgpu_ring *ring)
- 	if (ring->use_doorbell) {
- 		DRM_DEBUG("Using doorbell -- "
- 				"wptr_offs == 0x%08x "
--				"lower_32_bits(ring->wptr) << 2 == 0x%08x "
--				"upper_32_bits(ring->wptr) << 2 == 0x%08x\n",
-+				"lower_32_bits(ring->wptr << 2) == 0x%08x "
-+				"upper_32_bits(ring->wptr << 2) == 0x%08x\n",
- 				ring->wptr_offs,
- 				lower_32_bits(ring->wptr << 2),
- 				upper_32_bits(ring->wptr << 2));
-@@ -774,9 +774,9 @@ static int sdma_v5_0_gfx_resume(struct amdgpu_device *adev)
++	/*
++	 * First driver to need more than 64 formats needs to fix this. Each
++	 * format is encoded as a bit and the current code only supports a u64.
++	 */
++	if (WARN_ON(format_count > 64))
++		return -EINVAL;
++
+ 	WARN_ON(drm_drv_uses_atomic_modeset(dev) &&
+ 		(!funcs->atomic_destroy_state ||
+ 		 !funcs->atomic_duplicate_state));
+@@ -268,13 +275,6 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+ 		return -ENOMEM;
+ 	}
  
- 		if (!amdgpu_sriov_vf(adev)) { /* only bare-metal use register write for wptr */
- 			WREG32(sdma_v5_0_get_reg_offset(adev, i, mmSDMA0_GFX_RB_WPTR),
--			       lower_32_bits(ring->wptr) << 2);
-+			       lower_32_bits(ring->wptr << 2));
- 			WREG32(sdma_v5_0_get_reg_offset(adev, i, mmSDMA0_GFX_RB_WPTR_HI),
--			       upper_32_bits(ring->wptr) << 2);
-+			       upper_32_bits(ring->wptr << 2));
- 		}
+-	/*
+-	 * First driver to need more than 64 formats needs to fix this. Each
+-	 * format is encoded as a bit and the current code only supports a u64.
+-	 */
+-	if (WARN_ON(format_count > 64))
+-		return -EINVAL;
+-
+ 	if (format_modifiers) {
+ 		const uint64_t *temp_modifiers = format_modifiers;
  
- 		doorbell = RREG32_SOC15_IP(GC, sdma_v5_0_get_reg_offset(adev, i, mmSDMA0_GFX_DOORBELL));
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-index 824eace69884..a5eb82bfeaa8 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-@@ -295,8 +295,8 @@ static void sdma_v5_2_ring_set_wptr(struct amdgpu_ring *ring)
- 	if (ring->use_doorbell) {
- 		DRM_DEBUG("Using doorbell -- "
- 				"wptr_offs == 0x%08x "
--				"lower_32_bits(ring->wptr) << 2 == 0x%08x "
--				"upper_32_bits(ring->wptr) << 2 == 0x%08x\n",
-+				"lower_32_bits(ring->wptr << 2) == 0x%08x "
-+				"upper_32_bits(ring->wptr << 2) == 0x%08x\n",
- 				ring->wptr_offs,
- 				lower_32_bits(ring->wptr << 2),
- 				upper_32_bits(ring->wptr << 2));
-@@ -672,8 +672,8 @@ static int sdma_v5_2_gfx_resume(struct amdgpu_device *adev)
- 		WREG32_SOC15_IP(GC, sdma_v5_2_get_reg_offset(adev, i, mmSDMA0_GFX_MINOR_PTR_UPDATE), 1);
- 
- 		if (!amdgpu_sriov_vf(adev)) { /* only bare-metal use register write for wptr */
--			WREG32(sdma_v5_2_get_reg_offset(adev, i, mmSDMA0_GFX_RB_WPTR), lower_32_bits(ring->wptr) << 2);
--			WREG32(sdma_v5_2_get_reg_offset(adev, i, mmSDMA0_GFX_RB_WPTR_HI), upper_32_bits(ring->wptr) << 2);
-+			WREG32(sdma_v5_2_get_reg_offset(adev, i, mmSDMA0_GFX_RB_WPTR), lower_32_bits(ring->wptr << 2));
-+			WREG32(sdma_v5_2_get_reg_offset(adev, i, mmSDMA0_GFX_RB_WPTR_HI), upper_32_bits(ring->wptr << 2));
- 		}
- 
- 		doorbell = RREG32_SOC15_IP(GC, sdma_v5_2_get_reg_offset(adev, i, mmSDMA0_GFX_DOORBELL));
 -- 
 2.35.1
 
