@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB94537CAB
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244CC537CBA
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 15:38:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFE610E94F;
-	Mon, 30 May 2022 13:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806D210E8CE;
+	Mon, 30 May 2022 13:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 604B310E92F;
- Mon, 30 May 2022 13:37:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9888A10E74D
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 13:38:31 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D8A6260F9C;
- Mon, 30 May 2022 13:37:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4EC0C3411A;
- Mon, 30 May 2022 13:37:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C30BB60EE0;
+ Mon, 30 May 2022 13:38:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AF97C3411F;
+ Mon, 30 May 2022 13:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1653917832;
- bh=1SgiK37DEyvhrj6XEktO4Xg9hiQ9neVLoDKVwZ0AdRk=;
+ s=k20201202; t=1653917910;
+ bh=Oi8ynjuCy12/rKuZoMa+tK0Cg4GnEu3gJj9p6v5n/ic=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f0BoaAp2ckLN92PEjLFJN00ANGaMcpNOX1hHSQRiwv2VAXg4/ALC3TmuKKJIeovtZ
- iFRsYfITcu5e2zjIiQBKqHtY7zHXunPsdxrNdnRFnfbAUFOCciC9pSPIOH5m5W6A6Y
- O+k3161yQPkywEhCBNqS/CUeN5BKHsXzx+/T5t1YrZBwHVzx42GdF5fucZgJcrGjVY
- g/tImYxwfXS2kTLUXy4z7WhMcMyrjq5VhFZJFX9xdWNOzBmkudKBNZSepBA7IKIZy1
- 6XI+w70kd8Uw6Gh7Rn8LD55H4kIrH4mcBxC6RY05eXk+WWRXKwpZLLe0w16Wx+NpEE
- 6WS4ZeP7h2Zdw==
+ b=F1xAUvFey6KlRgEex7IP7Tgh0EI+MtT/pQBTFGtMQcPGYYyrbuY+/5kNZJV53N7O1
+ aJIvc2v+cDR5uxhnKcfy9nTHVmzjfS23zB/chBpNL+AFBRSAPCeUIUvbPRp53BQWeF
+ IMX3NVGx1yRYZzj0XJHq2f1alo9Dum2zbf0Xc/Av6J1aJhmPhpD+N/kmM2vfDn/WO0
+ wGJFBhMg459GFIiiZarLbTb2VeqWo5Lr0TusAqeFDtwSlZZo+JpkgtxdNcVAP7OGYt
+ CYBMEO/AKrRUfY79qN4z5MuLE3OhQF9ptLs9pw3LPN9GfmVnRTIxM4lo7HGu1Ikjbp
+ ixtBOWcbLhAVw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 109/135] drm/amd/pm: update smartshift powerboost
- calc for smu13
-Date: Mon, 30 May 2022 09:31:07 -0400
-Message-Id: <20220530133133.1931716-109-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 002/109] drm/vmwgfx: validate the screen formats
+Date: Mon, 30 May 2022 09:36:38 -0400
+Message-Id: <20220530133825.1933431-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530133133.1931716-1-sashal@kernel.org>
-References: <20220530133133.1931716-1-sashal@kernel.org>
+In-Reply-To: <20220530133825.1933431-1-sashal@kernel.org>
+References: <20220530133825.1933431-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,123 +54,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>, Xinhui.Pan@amd.com,
- Xiaomeng.Hou@amd.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Lijo Lazar <lijo.lazar@amd.com>, aaron.liu@amd.com,
- amd-gfx@lists.freedesktop.org, ray.huang@amd.com, mario.limonciello@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sathishkumar S <sathishkumar.sundararaju@amd.com>
+From: Zack Rusin <zackr@vmware.com>
 
-[ Upstream commit cdf4c8ec39872a61a58d62f19b4db80f0f7bc586 ]
+[ Upstream commit 8bb75aeb58bd688d70827ae179bd3da57b6d975b ]
 
-smartshift apu and dgpu power boost are reported as percentage
-with respect to their power limits. adjust the units of power before
-calculating the percentage of boost.
+The kms code wasn't validating the modifiers and was letting through
+unsupported formats. rgb8 was never properly supported and has no
+matching svga screen target format so remove it.
+This fixes format/modifier failures in kms_addfb_basic from IGT.
 
-Signed-off-by: Sathishkumar S <sathishkumar.sundararaju@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220318174332.440068-4-zack@kde.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c  | 62 ++++++++++++++-----
- 1 file changed, 46 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 30 +++++++++++++++--------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  1 -
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c
-index 0bc84b709a93..d0715927b07f 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c
-@@ -296,6 +296,42 @@ static int yellow_carp_mode2_reset(struct smu_context *smu)
- 	return yellow_carp_mode_reset(smu, SMU_RESET_MODE_2);
- }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 50c64e7813be..171e90c4b9f3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -916,6 +916,15 @@ static int vmw_kms_new_framebuffer_surface(struct vmw_private *dev_priv,
+ 	 * Sanity checks.
+ 	 */
  
++	if (!drm_any_plane_has_format(&dev_priv->drm,
++				      mode_cmd->pixel_format,
++				      mode_cmd->modifier[0])) {
++		drm_dbg(&dev_priv->drm,
++			"unsupported pixel format %p4cc / modifier 0x%llx\n",
++			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
++		return -EINVAL;
++	}
 +
-+static void yellow_carp_get_ss_power_percent(SmuMetrics_t *metrics,
-+					uint32_t *apu_percent, uint32_t *dgpu_percent)
-+{
-+	uint32_t apu_boost = 0;
-+	uint32_t dgpu_boost = 0;
-+	uint16_t apu_limit = 0;
-+	uint16_t dgpu_limit = 0;
-+	uint16_t apu_power = 0;
-+	uint16_t dgpu_power = 0;
-+
-+	/* APU and dGPU power values are reported in milli Watts
-+	 * and STAPM power limits are in Watts */
-+	apu_power = metrics->ApuPower/1000;
-+	apu_limit = metrics->StapmOpnLimit;
-+	if (apu_power > apu_limit && apu_limit != 0)
-+		apu_boost =  ((apu_power - apu_limit) * 100) / apu_limit;
-+	apu_boost = (apu_boost > 100) ? 100 : apu_boost;
-+
-+	dgpu_power = metrics->dGpuPower/1000;
-+	if (metrics->StapmCurrentLimit > metrics->StapmOpnLimit)
-+		dgpu_limit = metrics->StapmCurrentLimit - metrics->StapmOpnLimit;
-+	if (dgpu_power > dgpu_limit && dgpu_limit != 0)
-+		dgpu_boost = ((dgpu_power - dgpu_limit) * 100) / dgpu_limit;
-+	dgpu_boost = (dgpu_boost > 100) ? 100 : dgpu_boost;
-+
-+	if (dgpu_boost >= apu_boost)
-+		apu_boost = 0;
-+	else
-+		dgpu_boost = 0;
-+
-+	*apu_percent = apu_boost;
-+	*dgpu_percent = dgpu_boost;
-+
-+}
-+
- static int yellow_carp_get_smu_metrics_data(struct smu_context *smu,
- 							MetricsMember_t member,
- 							uint32_t *value)
-@@ -304,6 +340,8 @@ static int yellow_carp_get_smu_metrics_data(struct smu_context *smu,
+ 	/* Surface must be marked as a scanout. */
+ 	if (unlikely(!surface->metadata.scanout))
+ 		return -EINVAL;
+@@ -1229,20 +1238,13 @@ static int vmw_kms_new_framebuffer_bo(struct vmw_private *dev_priv,
+ 		return -EINVAL;
+ 	}
  
- 	SmuMetrics_t *metrics = (SmuMetrics_t *)smu_table->metrics_table;
- 	int ret = 0;
-+	uint32_t apu_percent = 0;
-+	uint32_t dgpu_percent = 0;
+-	/* Limited framebuffer color depth support for screen objects */
+-	if (dev_priv->active_display_unit == vmw_du_screen_object) {
+-		switch (mode_cmd->pixel_format) {
+-		case DRM_FORMAT_XRGB8888:
+-		case DRM_FORMAT_ARGB8888:
+-			break;
+-		case DRM_FORMAT_XRGB1555:
+-		case DRM_FORMAT_RGB565:
+-			break;
+-		default:
+-			DRM_ERROR("Invalid pixel format: %p4cc\n",
+-				  &mode_cmd->pixel_format);
+-			return -EINVAL;
+-		}
++	if (!drm_any_plane_has_format(&dev_priv->drm,
++				      mode_cmd->pixel_format,
++				      mode_cmd->modifier[0])) {
++		drm_dbg(&dev_priv->drm,
++			"unsupported pixel format %p4cc / modifier 0x%llx\n",
++			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
++		return -EINVAL;
+ 	}
  
- 	mutex_lock(&smu->metrics_lock);
- 
-@@ -356,26 +394,18 @@ static int yellow_carp_get_smu_metrics_data(struct smu_context *smu,
- 		*value = metrics->Voltage[1];
- 		break;
- 	case METRICS_SS_APU_SHARE:
--		/* return the percentage of APU power with respect to APU's power limit.
--		 * percentage is reported, this isn't boost value. Smartshift power
--		 * boost/shift is only when the percentage is more than 100.
-+		/* return the percentage of APU power boost
-+		 * with respect to APU's power limit.
- 		 */
--		if (metrics->StapmOpnLimit > 0)
--			*value =  (metrics->ApuPower * 100) / metrics->StapmOpnLimit;
--		else
--			*value = 0;
-+		yellow_carp_get_ss_power_percent(metrics, &apu_percent, &dgpu_percent);
-+		*value = apu_percent;
- 		break;
- 	case METRICS_SS_DGPU_SHARE:
--		/* return the percentage of dGPU power with respect to dGPU's power limit.
--		 * percentage is reported, this isn't boost value. Smartshift power
--		 * boost/shift is only when the percentage is more than 100.
-+		/* return the percentage of dGPU power boost
-+		 * with respect to dGPU's power limit.
- 		 */
--		if ((metrics->dGpuPower > 0) &&
--		    (metrics->StapmCurrentLimit > metrics->StapmOpnLimit))
--			*value = (metrics->dGpuPower * 100) /
--				  (metrics->StapmCurrentLimit - metrics->StapmOpnLimit);
--		else
--			*value = 0;
-+		yellow_carp_get_ss_power_percent(metrics, &apu_percent, &dgpu_percent);
-+		*value = dgpu_percent;
- 		break;
- 	default:
- 		*value = UINT_MAX;
+ 	vfbd = kzalloc(sizeof(*vfbd), GFP_KERNEL);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+index bbc809f7bd8a..8c8ee87fd3ac 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -248,7 +248,6 @@ struct vmw_framebuffer_bo {
+ static const uint32_t __maybe_unused vmw_primary_plane_formats[] = {
+ 	DRM_FORMAT_XRGB1555,
+ 	DRM_FORMAT_RGB565,
+-	DRM_FORMAT_RGB888,
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_ARGB8888,
+ };
 -- 
 2.35.1
 
