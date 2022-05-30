@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932385383D6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FD75383D8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 17:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D6B10EE1A;
-	Mon, 30 May 2022 15:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA5010EE6F;
+	Mon, 30 May 2022 15:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0034910EE02
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:06:11 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1nvgy4-0005Kt-Bh; Mon, 30 May 2022 17:06:04 +0200
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <mfe@pengutronix.de>)
- id 1nvgy4-005TI8-HS; Mon, 30 May 2022 17:06:03 +0200
-Received: from mfe by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <mfe@pengutronix.de>)
- id 1nvgy1-005BeB-FQ; Mon, 30 May 2022 17:06:01 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: robert.foss@linaro.org, laurent.pinchart@ideasonboard.com,
- jernej.skrabec@gmail.com, jonas@kwiboo.se, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org, maxime@cerno.tech
-Subject: [PATCH 6/6] drm/bridge: ti-sn65dsi83: add support for a external
- reset controller
-Date: Mon, 30 May 2022 17:05:49 +0200
-Message-Id: <20220530150548.1236307-7-m.felsch@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220530150548.1236307-1-m.felsch@pengutronix.de>
-References: <20220530150548.1236307-1-m.felsch@pengutronix.de>
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E55210EE75
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 15:09:56 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id f18so10588925plg.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 08:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=MDPsVzr9oRyPkDpdSrgjcqTfOM2U/KUUhbX2zAPuMn4=;
+ b=Rmu2aX+sVAwyRRIb8uJtLMJIpDvhcNVejEF5IBcJ3h5yqmi2cUtdDqcTOA0ypkJTh9
+ rhLj41dl6/tr/MmFpmgayS8Gul644Tp/xjjxNjBbGlmtLqch9E5HhTB+O6upwO04lJHd
+ PkmajRsVMECLRiDKXkEGJYdRGRsAgw7uGeooI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=MDPsVzr9oRyPkDpdSrgjcqTfOM2U/KUUhbX2zAPuMn4=;
+ b=HuBXKOjR6lMmr+FIsSN0S9QMi+gqWfbetEIoMkbnyFtP4VWUMG8Yl9x6txdrhgcadh
+ 8twBxaE/a79jZG2NgxHgnk3bEMe+kVWbQ7jxtRxBob5WTzlI5eXT+3hrrjB6cRVssJfW
+ 8ZmhiTW2NZHCVChxc1/j77JzzFZzplcTbIAJFNBYYifDILEyox69Hbj7LJlfO2Sg/aCo
+ +xP3WGj6UgblpmGst51Dp4HpxTrKcYj6WAX83KumpS6ulcY3tt0k9DygKAloTQOOHypG
+ d8K1fJEyS3rCroyuVWcnZ0ufz4KcY0jiZdc3iwokqlxPFqE6AM3u3hYZTQ6F4KNEGGC7
+ 88Ww==
+X-Gm-Message-State: AOAM533AHcMu4MNBszte/qi/Z5xEzihH2t3kmDf8wjXWBLqCv91yMO4o
+ Ncn6Yy050EQ2KLB3r/t6t1iahQ==
+X-Google-Smtp-Source: ABdhPJwq3IbiSe+zl8GbAUwRzcQ8OUxiTgD7YBetwDEH+LuBXltBpWmdQNeyJempTdQIRVtLo9dQ9Q==
+X-Received: by 2002:a17:90a:6390:b0:1e0:a47b:a57a with SMTP id
+ f16-20020a17090a639000b001e0a47ba57amr23275881pjj.115.1653923396152; 
+ Mon, 30 May 2022 08:09:56 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:7d2a:ad1f:afa1:7770])
+ by smtp.gmail.com with ESMTPSA id
+ u11-20020a170902bf4b00b0016392bd5060sm7274738pls.142.2022.05.30.08.09.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 08:09:55 -0700 (PDT)
+Date: Tue, 31 May 2022 00:09:49 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-fence: allow dma fence to have their own lock
+Message-ID: <YpTePTj6rrHYN0QT@google.com>
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <7eee4274-bd69-df8d-9067-771366217804@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,77 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, Gustavo Padovan <gustavo@padovan.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Ricardo Ribalda <ribalda@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bridge chip has an enable gpio which of course can enable/disable
-the bridge. Most the time this gpio is connected directly to the host
-but sometimes it is connected to a reset controller chip and the host
-controlls the reset controller chip instead. This commit adds the
-support to handle that.
+Hi Christian,
 
-Therefore we need either the reset controller or a gpio to be present
-and valid. The behaviour is changed in that way that a gpio or a reset
-controller have to be successfully requested else the driver probe
-fails, like the current behaviour.
+On (22/05/30 16:55), Christian König wrote:
+> Hi Sergey,
+> 
+> I'm removing most of the mail because you have a very fundamental
+> misunderstanding about what this dma_fence lock is all about.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Happy to learn.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 3c1dc16985b5..7b232a4f8bcb 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -35,6 +35,7 @@
- #include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-@@ -146,6 +147,7 @@ struct sn65dsi83 {
- 	struct drm_bridge		*panel_bridge;
- 	struct gpio_desc		*enable_gpio;
- 	struct regulator		*vcc;
-+	struct reset_control		*reset;
- 	int				dsi_lanes;
- 	bool				lvds_dual_link;
- 	bool				lvds_dual_link_even_odd_swap;
-@@ -350,6 +352,7 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 
- 	/* Deassert reset */
- 	gpiod_set_value(ctx->enable_gpio, 1);
-+	reset_control_deassert(ctx->reset);
- 	usleep_range(1000, 1100);
- 
- 	/* Get the LVDS format from the bridge state. */
-@@ -511,6 +514,7 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
- 
- 	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
- 	gpiod_set_value(ctx->enable_gpio, 0);
-+	reset_control_assert(ctx->reset);
- 	usleep_range(10000, 11000);
- 
- 	ret = regulator_disable(ctx->vcc);
-@@ -760,6 +764,13 @@ static int sn65dsi83_probe(struct i2c_client *client,
- 		return dev_err_probe(ctx->dev, PTR_ERR(ctx->enable_gpio),
- 				     "Failed to get GPIO\n");
- 
-+	/* Or use a external reset chip to do so */
-+	ctx->reset = devm_reset_control_get_optional(ctx->dev, NULL);
-+	if (IS_ERR(ctx->reset))
-+		return dev_err_probe(ctx->dev, PTR_ERR(ctx->reset),
-+				     "Failed to get reset\n");
-+	reset_control_assert(ctx->reset);
-+
- 	usleep_range(10000, 11000);
- 
- 	ret = sn65dsi83_parse_dt(ctx, model);
--- 
-2.30.2
+> Am 30.05.22 um 16:22 schrieb Sergey Senozhatsky:
+> > [SNIP]
+> > So the `lock` should have at least same lifespan as the DMA fence
+> > that borrows it, which is impossible to guarantee in our case.
+>
+> Nope, that's not correct. The lock should have at least same lifespan as the
+> context of the DMA fence.
 
+In our case we have one context and it lives as long as the module is loaded.
+Does this mean that all DMA fences within that context should be serialized
+by a single spinlock? We can have a number of "active" fences so the lock
+can become a bit congested. But each operation creates, exports and signals
+just once fence.
+
+> The idea here is that DMA fence signaling and callback calling serializes.
+> E.g. when you have fence a,b,c,d... they must signal in the order a,b,c,d...
+> and that's what this lock is good for.
+
+Hmm, OK. So that borrowed ->lock is in fact something like
+context_lock_irqsave() and context_unlock_irqrestore().
+
+> If you just want to create a single dma_fence which is also only bound to a
+> single context you can embed the lock into the fence without much problem.
+
+Aha, I guess this is what we need then. I'll take a look. Thanks.
