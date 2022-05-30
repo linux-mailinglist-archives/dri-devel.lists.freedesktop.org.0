@@ -1,85 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F190653775D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 10:53:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D3F537760
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 10:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A98E710E35D;
-	Mon, 30 May 2022 08:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCA710E1F6;
+	Mon, 30 May 2022 08:55:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 792AA10E1F6
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 08:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653900798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RhvgJCFXfv5RG+0oVTAct7gmCCzDguggkQSBJ+VAo/A=;
- b=DIf4hkIPDoc76M9wFf/ZVGXp+/1cgRjuUTHYY1DGmkSjBLojRtz+fxkAqO61otVdxcmfWz
- dXZtQb9K0xzW8nvRRzpdp2pbcIVZThfM+MGGYpKio/g8QB4cyeueJVlwHmGVi2doO/5S2J
- nXRrqSWpDT9Ggs4fwLH5AV+76TBdCMw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-fMC_ncrXOaO0gQp-_WtokA-1; Mon, 30 May 2022 04:53:15 -0400
-X-MC-Unique: fMC_ncrXOaO0gQp-_WtokA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- q12-20020a056402040c00b0042a84f9939dso7769639edv.7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 01:53:14 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E57510E1F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 08:55:06 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ v5-20020a17090a7c0500b001df84fa82f8so10108844pjf.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 01:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0H0zQuhfwBWace/gM3VoJC+BnbGdiHLKJagjl3jEq3M=;
+ b=EF62q7Q3oMoO+z+5RDfg5gzwDGy+5Mgc/CpZLLiKi1NmzSAIj9SUkUvNAi21n+ZC9S
+ wWWwckJXijLwzTsX8uhvvVGKmJh35ObrgG7uVpZS1dh5ICCLGZx2b3juck9uVa/WyUv+
+ r2FENoYuRXuzLnhZTGF2X1Dqhdoq2/YbhZJPMf0p0gWI4mf06Wjia6n1PPtFuvRGW1ZJ
+ jK+EfuDmO7YrxPj1zk4iP+4qu6UAMLJ8OUR4AIWH6u7FTPZvc6RTH00cCF9cqZ83p3UZ
+ JAZSlmOQ3JOkaxjHgdS1lF/E5ja19txVvaJI0JOYr/OYpxDzuZClmCfe/soEsca1mqqo
+ 3Now==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=RhvgJCFXfv5RG+0oVTAct7gmCCzDguggkQSBJ+VAo/A=;
- b=V2DCmi9OJk2l5eKcWD5FdVGYinYueMrjEDfqGWUwNux39yxTyl3ua/c06JRks0h4cH
- 7cBZ/wuCKGf8BmEHYxRqKpsG+NoNwHapcmm0P+nR67MDQVEo8phLgGMeXu97r/dOtZf1
- AOXmXSnNGny7YeOCC07/jPZtGUqjZbXhxR0XxZDBKyny04Z+2L4WE8grFjADolcJM0iE
- fUVNBHodh9s3KOizdqb4o3tEhNIjAS8kmuiA+h6p/ZcnI9HKNWETl5Gr+ZS9uZQKCph7
- Klkan9gBPK6OmQpDZqgbL/poZjgTK3Z8I28CZMpzMY6tB7bNGolxVw/B/fYQiM50mS+Z
- MYLg==
-X-Gm-Message-State: AOAM530RPKBJtV5uNKJLgxdRNNM+18H/jmUUTCdy7mbiSjH7L2F7+lEB
- VD0yiiTaOXrjX6UzMVKOMO/FAEaRSzZq3iFsWiV8iWh+dBUP9U4zliep41Xa/ADsAHPgAoe9psA
- 4ZGDJDsIDZZHGZyHO6NEjyaU0n9qm
-X-Received: by 2002:a17:907:6e20:b0:6ff:1541:8d34 with SMTP id
- sd32-20020a1709076e2000b006ff15418d34mr20498814ejc.447.1653900793065; 
- Mon, 30 May 2022 01:53:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLS9X1+J2YlCZd50xUKza5F2TAaKjqsoBWgZZta9P6P5hLJgXAWFm13+BAHE9yuTPrdLSHXw==
-X-Received: by 2002:a17:907:6e20:b0:6ff:1541:8d34 with SMTP id
- sd32-20020a1709076e2000b006ff15418d34mr20498786ejc.447.1653900792873; 
- Mon, 30 May 2022 01:53:12 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- v16-20020a1709062f1000b006fea2705d18sm3807438eji.210.2022.05.30.01.53.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 01:53:12 -0700 (PDT)
-Message-ID: <a8d1fe13-e747-016a-2d45-bfb50f23f2d9@redhat.com>
-Date: Mon, 30 May 2022 10:53:11 +0200
+ bh=0H0zQuhfwBWace/gM3VoJC+BnbGdiHLKJagjl3jEq3M=;
+ b=PKScoalsyQqDkZKfZk6zK5eXZgTguBGGp/lcbU+Ml4I6PuykHjQrq2YCGnTg2LpKUQ
+ hcGyii6QIkXWfyPG3gQr4wQtjM9kDy9vzPBlcU8PSYlWzT5fMDI/w3iya5iSlEkK8DlJ
+ iGeOHy9r9mzYuuBt/c96BEN+mSeCtkwE4nm69EnBuGzyyW+vuqpVF6lLIA/CGN2jT42V
+ DBetC2MhoK5rRwBKTIPbofVfK0M+JjpLKlOe1AssiJA2SulsLTjaUs+02kr4tXQ6Q49m
+ 08R72gDtAkJhKm/BA9seJvsXJFUOpBXf6UGa8909mupjtjyzsfHsMI1/LkTpLoV5v4Vm
+ tpxg==
+X-Gm-Message-State: AOAM532y0to/TnxsUfQNhtRfoiI6rN8Fw2jYTX2uanWEOd524dzZWipJ
+ BkwOAxBo3V2/dQ3lF3/429I=
+X-Google-Smtp-Source: ABdhPJxrSACZi1MuyKXlNpU+Vh3dNJjQEQRDTaVFDuE5Gs9VXiolOOXmJWa12DeQhlyIbREinPT43Q==
+X-Received: by 2002:a17:90b:2782:b0:1e2:97d4:53d7 with SMTP id
+ pw2-20020a17090b278200b001e297d453d7mr13009781pjb.53.1653900905911; 
+ Mon, 30 May 2022 01:55:05 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+ by smtp.googlemail.com with ESMTPSA id
+ 71-20020a17090a09cd00b001e25e3ba05csm9977319pjo.2.2022.05.30.01.55.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 01:55:05 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Alexey Brodkin <abrodkin@synopsys.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/arc: Fix refcount leak in arcpgu_load
+Date: Mon, 30 May 2022 12:54:57 +0400
+Message-Id: <20220530085458.44265-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v10 0/4] Separate panel orientation property creating and
- value setting
-To: Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20220530081910.3947168-1-hsinyi@chromium.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220530081910.3947168-1-hsinyi@chromium.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,69 +70,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
+Cc: linmq006@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+of_graph_get_remote_port_parent() returns a node pointer with refcount
+incremented, we should use of_node_put() on it when done.
+Add missing of_node_put() to avoid refcount leak.
 
-On 5/30/22 10:19, Hsin-Yi Wang wrote:
-> Some drivers, eg. mtk_drm and msm_drm, rely on the panel to set the
-> orientation. Panel calls drm_connector_set_panel_orientation() to create
-> orientation property and sets the value. However, connector properties
-> can't be created after drm_dev_register() is called. The goal is to
-> separate the orientation property creation, so drm drivers can create it
-> earlier before drm_dev_register().
+Fixes: 3ea66a794fdc ("drm/arc: Inline arcpgu_drm_hdmi_init")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/tiny/arcpgu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Sorry for jumping in pretty late in the discussion (based on the v10
-I seem to have missed this before).
-
-This sounds to me like the real issue here is that drm_dev_register()
-is getting called too early?
-
-To me it seems sensible to delay calling drm_dev_register() and
-thus allowing userspace to start detecting available displays +
-features until after the panel has been probed.
-
-I see a devicetree patch in this series, so I guess that the panel
-is described in devicetree. Especially in the case of devicetree
-I would expect the kernel to have enough info to do the right
-thing and make sure the panel is probed before calling
-drm_dev_register() ?
-
-Regards,
-
-Hans
-
-
-
-
-> 
-> After this series, drm_connector_set_panel_orientation() works like
-> before. It won't affect existing callers of
-> drm_connector_set_panel_orientation(). The only difference is that
-> some drm drivers can call drm_connector_init_panel_orientation_property()
-> earlier.
-> 
-> Hsin-Yi Wang (4):
->   gpu: drm: separate panel orientation property creating and value
->     setting
->   drm/mediatek: init panel orientation property
->   drm/msm: init panel orientation property
->   arm64: dts: mt8183: Add panel rotation
-> 
->  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
->  drivers/gpu/drm/drm_connector.c               | 58 ++++++++++++++-----
->  drivers/gpu/drm/mediatek/mtk_dsi.c            |  7 +++
->  drivers/gpu/drm/msm/dsi/dsi_manager.c         |  4 ++
->  include/drm/drm_connector.h                   |  2 +
->  5 files changed, 59 insertions(+), 13 deletions(-)
-> 
+diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+index f0fa3b15c341..6cbc4e9d382e 100644
+--- a/drivers/gpu/drm/tiny/arcpgu.c
++++ b/drivers/gpu/drm/tiny/arcpgu.c
+@@ -310,6 +310,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
+ 
+ 		/* Locate drm bridge from the hdmi encoder DT node */
+ 		bridge = of_drm_find_bridge(encoder_node);
++		of_node_put(encoder_node);
+ 		if (!bridge)
+ 			return -EPROBE_DEFER;
+ 
+-- 
+2.25.1
 
