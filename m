@@ -2,86 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80F153776B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 11:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD59E5377A8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 May 2022 11:28:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C207C10E3BF;
-	Mon, 30 May 2022 09:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7F010E375;
+	Mon, 30 May 2022 09:27:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D0A10E3BF
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 09:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653901273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j8JZgcij+gKnMYf8fKHUKx+imL3jnW+UtIPfMaKpnr0=;
- b=excobCexiXKpMfMOg1ncSjNIU4LBlNVVX3Yjt9eIAng3uT+uUXaOEx9RwT8tXnQlVtYJpy
- Tp0o920zywcgBKvPHlQu6/CBXYdIZvy1VZbVqWlczZH+X3ccLtddbe8f+ctj8S52Kdjf18
- dPRjw9YJplOe32kP5s9X5p2oejU0M6E=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-LPnCzaY7OUy9Dfg9tfpaOQ-1; Mon, 30 May 2022 05:01:12 -0400
-X-MC-Unique: LPnCzaY7OUy9Dfg9tfpaOQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- v13-20020a170906b00d00b006f51e289f7cso3787481ejy.19
- for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 02:01:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=j8JZgcij+gKnMYf8fKHUKx+imL3jnW+UtIPfMaKpnr0=;
- b=jYl00gzGPGrp2HvjUeQyVOKCi98Vtya5MTPBLYmFfXGawvTGwHqbcbc3EByBguBvTc
- KdBdfXwwrmC3pcjxiq87WevHIHviRzlC3aZtXGPYgjbGyfYYt65z1BKdjSTTxkJ67OWV
- R2ouCtBBc2k7DdQWzgmd3JZlJ9Kn3S2UvZK+4iJhexD52VK1U7tZfTfnbg5b2BIhjYA5
- 1TOwLameE94jXWm9j7qJ+7th893/IPlzYvtR42/0OIUlCXtobzsODLzsZwujyUoPCIPC
- 1QJH+BDWQag65+q8g3Mpu8VkVqYNEf0wstt7K/yGUviQ3atUSl2/KQpRsVWKxSEnAsU8
- B58Q==
-X-Gm-Message-State: AOAM533MSwVL7LA5f7JQPjNqUEJO1TI+wzoHAChNGu8CGhDgUCpBPYV4
- YAx1bZ//WGiMLYZiiyjBA+Us8/kM1Y+EqV4XkH5ucWbzEB7ltifXsbmO9slSiJyVvGzSRHYJX4c
- PSuCtg/LiSKOinTU1hcI0AxdpUt5E
-X-Received: by 2002:a17:906:f88f:b0:6fe:f872:f3af with SMTP id
- lg15-20020a170906f88f00b006fef872f3afmr29691614ejb.627.1653901270905; 
- Mon, 30 May 2022 02:01:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw5DlWNOsVX1VM8ucBtn1pO6Mh+8c28hLgjehjeqRui77jXCNk66Axf0S6mekQOhS/6hZ/F4w==
-X-Received: by 2002:a17:906:f88f:b0:6fe:f872:f3af with SMTP id
- lg15-20020a170906f88f00b006fef872f3afmr29691553ejb.627.1653901270378; 
- Mon, 30 May 2022 02:01:10 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- e21-20020a1709061e9500b006fee27d471csm3808574ejj.150.2022.05.30.02.01.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 May 2022 02:01:09 -0700 (PDT)
-Message-ID: <09c12a48-534f-e6b8-eaef-f05874087d35@redhat.com>
-Date: Mon, 30 May 2022 11:01:09 +0200
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4331D10E375
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 09:27:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1653902877; x=1685438877;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=155NhGdnraZCFqCt2JHHnwo5L4WmighXUjo6xDOg0Co=;
+ b=OzlTLE+uYTTc0gOuOmQ+vhcosCYaCHM3kHL/rMiNg+OWsQJwfbdO9I1G
+ AuQFo6moemkI0wa3ohW04ukUli8Sffqo4E8lCxWVlg7Wk+/T2GZZSzWwH
+ ccSLDP9Eia1HZFB4Hu8awWB4HdoOyX5Z4We3d+LvZOXb2i00WYGOA/vNS
+ XVcsJFfJypnEJUYkPZT55ppxXdE7cDwSXIc3tLRv3LzpxOrjmTk9jfVRk
+ gfXmbP24cIlfbDbeWq8RcVxq0qeQWav6zgRhnvnyIqb1FIQvDI8utcQvT
+ hWc/GFf3bHPYoBUPZaWuPt28fdF9l79qzFBfP30LIh6YarnpIXMkei7IG w==;
+X-IronPort-AV: E=Sophos;i="5.91,262,1647298800"; d="scan'208";a="24143582"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 30 May 2022 11:27:55 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Mon, 30 May 2022 11:27:55 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Mon, 30 May 2022 11:27:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1653902875; x=1685438875;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=155NhGdnraZCFqCt2JHHnwo5L4WmighXUjo6xDOg0Co=;
+ b=cGE7yptHUx/CPoDER/YcXY2GgRB0Ijh6JZT4tlayIFBYucam+VAPLq25
+ MjKrrypomXJ0vMFwvKNPoYQsxYbg5B3hVSkyPDwsqbYAV1wVzPMAk0jOE
+ VkxXDGQjWZYZ9GPikHuY4MGUylBG1/ocUq1ifmZFGCEREUZbBLc2qVUNb
+ feMqcOxrce1F7e/QvNON9V7tU4BAxoKnw26LsBZsWU5mpvEjgPVRrvwHn
+ keK2Z/OhLB2p88vEzcVdIxrXsqfbiBlLOfQLwpnvUZOKUDNSjnb+WQ+uP
+ DdNGoBEtUMD7fpa/IN5k3JMh2G+YS9xMmMcm5oFYXs/tmyXZICMWFeu4H Q==;
+X-IronPort-AV: E=Sophos;i="5.91,262,1647298800"; d="scan'208";a="24143581"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 30 May 2022 11:27:54 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id A160B280004;
+ Mon, 30 May 2022 11:27:54 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v4 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
+Date: Mon, 30 May 2022 11:27:52 +0200
+Message-ID: <2893424.e9J7NaK4W3@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <0bf5532b-f4d9-fbf5-0037-61887fc8512e@denx.de>
+References: <20220519114849.69918-1-marex@denx.de>
+ <4403432.LvFx2qVVIh@steina-w> <0bf5532b-f4d9-fbf5-0037-61887fc8512e@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v10 1/4] gpu: drm: separate panel orientation property
- creating and value setting
-From: Hans de Goede <hdegoede@redhat.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20220530081910.3947168-1-hsinyi@chromium.org>
- <20220530081910.3947168-2-hsinyi@chromium.org>
- <3ae6d7d1-fcf2-a769-5e4d-f80328ae06fe@redhat.com>
-In-Reply-To: <3ae6d7d1-fcf2-a769-5e4d-f80328ae06fe@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,226 +76,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, Alex Deucher <alexander.deucher@amd.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ martyn.welch@collabora.com, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, Robby Cai <robby.cai@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Marek,
 
-On 5/30/22 10:57, Hans de Goede wrote:
+Am Dienstag, 24. Mai 2022, 09:29:43 CEST schrieb Marek Vasut:
+> On 5/24/22 09:09, Alexander Stein wrote:
+> > Hi Marek,
+> 
 > Hi,
 > 
-> On 5/30/22 10:19, Hsin-Yi Wang wrote:
->> drm_dev_register() sets connector->registration_state to
->> DRM_CONNECTOR_REGISTERED and dev->registered to true. If
->> drm_connector_set_panel_orientation() is first called after
->> drm_dev_register(), it will fail several checks and results in following
->> warning.
->>
->> Add a function to create panel orientation property and set default value
->> to UNKNOWN, so drivers can call this function to init the property earlier
->> , and let the panel set the real value later.
->>
->> [    4.480976] ------------[ cut here ]------------
->> [    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:45 __drm_mode_object_add+0xb4/0xbc
->> <snip>
->> [    4.609772] Call trace:
->> [    4.612208]  __drm_mode_object_add+0xb4/0xbc
->> [    4.616466]  drm_mode_object_add+0x20/0x2c
->> [    4.620552]  drm_property_create+0xdc/0x174
->> [    4.624723]  drm_property_create_enum+0x34/0x98
->> [    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
->> [    4.634716]  boe_panel_get_modes+0x88/0xd8
->> [    4.638802]  drm_panel_get_modes+0x2c/0x48
->> [    4.642887]  panel_bridge_get_modes+0x1c/0x28
->> [    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
->> [    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
->> [    4.658266]  drm_mode_getconnector+0x1b4/0x45c
->> [    4.662699]  drm_ioctl_kernel+0xac/0x128
->> [    4.666611]  drm_ioctl+0x268/0x410
->> [    4.670002]  drm_compat_ioctl+0xdc/0xf0
->> [    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
->> [    4.678436]  el0_svc_common+0xf4/0x1c0
->> [    4.682174]  do_el0_svc_compat+0x28/0x3c
->> [    4.686088]  el0_svc_compat+0x10/0x1c
->> [    4.689738]  el0_sync_compat_handler+0xa8/0xcc
->> [    4.694171]  el0_sync_compat+0x178/0x180
->> [    4.698082] ---[ end trace b4f2db9d9c88610b ]---
->> [    4.702721] ------------[ cut here ]------------
->> [    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:243 drm_object_attach_property+0x48/0xb8
->> <snip>
->> [    4.833830] Call trace:
->> [    4.836266]  drm_object_attach_property+0x48/0xb8
->> [    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
->> [    4.846432]  boe_panel_get_modes+0x88/0xd8
->> [    4.850516]  drm_panel_get_modes+0x2c/0x48
->> [    4.854600]  panel_bridge_get_modes+0x1c/0x28
->> [    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
->> [    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
->> [    4.869978]  drm_mode_getconnector+0x1b4/0x45c
->> [    4.874410]  drm_ioctl_kernel+0xac/0x128
->> [    4.878320]  drm_ioctl+0x268/0x410
->> [    4.881711]  drm_compat_ioctl+0xdc/0xf0
->> [    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
->> [    4.890142]  el0_svc_common+0xf4/0x1c0
->> [    4.893879]  do_el0_svc_compat+0x28/0x3c
->> [    4.897791]  el0_svc_compat+0x10/0x1c
->> [    4.901441]  el0_sync_compat_handler+0xa8/0xcc
->> [    4.905873]  el0_sync_compat+0x178/0x180
->> [    4.909783] ---[ end trace b4f2db9d9c88610c ]---
->>
->> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
->> Reviewed-by: Sean Paul <seanpaul@chromium.org>
->> ---
->> v9->v10: rebase to latest linux-next.
->> v9: https://patchwork.kernel.org/project/linux-mediatek/patch/20220318074825.3359978-2-hsinyi@chromium.org/
->> v8: https://patchwork.kernel.org/project/linux-mediatek/patch/20220208084234.1684930-1-hsinyi@chromium.org/
->> v7: https://patchwork.kernel.org/project/linux-mediatek/patch/20220208073714.1540390-1-hsinyi@chromium.org/
->> ---
->>  drivers/gpu/drm/drm_connector.c | 58 +++++++++++++++++++++++++--------
->>  include/drm/drm_connector.h     |  2 ++
->>  2 files changed, 47 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index 1c48d162c77e..d68cc78f6684 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -1252,7 +1252,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
->>   *	INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
->>   *	coordinates, so if userspace rotates the picture to adjust for
->>   *	the orientation it must also apply the same transformation to the
->> - *	touchscreen input coordinates. This property is initialized by calling
->> + *	touchscreen input coordinates. This property value is set by calling
->>   *	drm_connector_set_panel_orientation() or
->>   *	drm_connector_set_panel_orientation_with_quirk()
->>   *
->> @@ -2310,8 +2310,8 @@ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
->>   * @connector: connector for which to set the panel-orientation property.
->>   * @panel_orientation: drm_panel_orientation value to set
->>   *
->> - * This function sets the connector's panel_orientation and attaches
->> - * a "panel orientation" property to the connector.
->> + * This function sets the connector's panel_orientation value. If the property
->> + * doesn't exist, it will try to create one.
->>   *
->>   * Calling this function on a connector where the panel_orientation has
->>   * already been set is a no-op (e.g. the orientation has been overridden with
->> @@ -2343,18 +2343,13 @@ int drm_connector_set_panel_orientation(
->>  
->>  	prop = dev->mode_config.panel_orientation_property;
->>  	if (!prop) {
->> -		prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
->> -				"panel orientation",
->> -				drm_panel_orientation_enum_list,
->> -				ARRAY_SIZE(drm_panel_orientation_enum_list));
->> -		if (!prop)
->> +		if (drm_connector_init_panel_orientation_property(connector) < 0)
->>  			return -ENOMEM;
->> -
->> -		dev->mode_config.panel_orientation_property = prop;
->> +		prop = dev->mode_config.panel_orientation_property;
->>  	}
->>  
->> -	drm_object_attach_property(&connector->base, prop,
->> -				   info->panel_orientation);
->> +	drm_object_property_set_value(&connector->base, prop,
->> +				      info->panel_orientation);
->>  	return 0;
->>  }
->>  EXPORT_SYMBOL(drm_connector_set_panel_orientation);
->> @@ -2362,7 +2357,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
->>  /**
->>   * drm_connector_set_panel_orientation_with_quirk - set the
->>   *	connector's panel_orientation after checking for quirks
->> - * @connector: connector for which to init the panel-orientation property.
->> + * @connector: connector for which to set the panel-orientation property.
->>   * @panel_orientation: drm_panel_orientation value to set
->>   * @width: width in pixels of the panel, used for panel quirk detection
->>   * @height: height in pixels of the panel, used for panel quirk detection
->> @@ -2389,6 +2384,43 @@ int drm_connector_set_panel_orientation_with_quirk(
->>  }
->>  EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
->>  
->> +/**
->> + * drm_connector_init_panel_orientation_property -
->> + * 	create the connector's panel orientation property
->> + *
->> + * This function attaches a "panel orientation" property to the connector
->> + * and initializes its value to DRM_MODE_PANEL_ORIENTATION_UNKNOWN.
->> + *
->> + * The value of the property can be set by drm_connector_set_panel_orientation()
->> + * or drm_connector_set_panel_orientation_with_quirk() later.
->> + *
->> + * Returns:
->> + * Zero on success, negative errno on failure.
->> + */
->> +int drm_connector_init_panel_orientation_property(
->> +	struct drm_connector *connector)
->> +{
->> +	struct drm_device *dev = connector->dev;
->> +	struct drm_property *prop;
->> +
->> +	if(dev->mode_config.panel_orientation_property)
->> +		return 0;
->> +
->> +	prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
->> +			"panel orientation",
->> +			drm_panel_orientation_enum_list,
->> +			ARRAY_SIZE(drm_panel_orientation_enum_list));
->> +	if (!prop)
->> +		return -ENOMEM;
->> +
->> +	dev->mode_config.panel_orientation_property = prop;
->> +	drm_object_attach_property(&connector->base, prop,
->> +				   DRM_MODE_PANEL_ORIENTATION_UNKNOWN);
+> > Am Donnerstag, 19. Mai 2022, 13:48:49 CEST schrieb Marek Vasut:
+> >> Add support for i.MX8MP LCDIF variant. This is called LCDIFv3 and is
+> >> completely different from the LCDIFv3 found in i.MX23 in that it has
+> >> a completely scrambled register layout compared to all previous LCDIF
+> >> variants. The new LCDIFv3 also supports 36bit address space.
+> >> 
+> >> Add a separate driver which is really a fork of MXSFB driver with the
+> >> i.MX8MP LCDIF variant handling filled in.
+> >> 
+> >> Signed-off-by: Marek Vasut <marex@denx.de>
+> >> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> >> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> Cc: Lucas Stach <l.stach@pengutronix.de>
+> >> Cc: Peng Fan <peng.fan@nxp.com>
+> >> Cc: Robby Cai <robby.cai@nxp.com>
+> >> Cc: Sam Ravnborg <sam@ravnborg.org>
+> >> Cc: Stefan Agner <stefan@agner.ch>
+> >> ---
+> >> V2: - Drop the pitch check from lcdif_fb_create()
+> >> 
+> >>      - Drop connector caching
+> >>      - Wait for shadow load bit to be cleared in IRQ handler
+> >>      - Make all clock mandatory and grab them all by name
+> >>      - Wait for EN to be cleared in lcdif_disable_controller
+> >>      - Rename to imx-lcdif
+> >>      - Move shadow load to atomic_flush
+> >> 
+> >> V3: - Invert DE polarity to match MX8MPRM datasheet
+> >> 
+> >>      - Enable CSC in RGB to YUV mode for MEDIA_BUS_FMT_UYVY8_1X16
+> >> 
+> >> V4: - Drop lcdif_overlay_plane_formats, it is unused
+> > 
+> > Thanks for the update. With your change in V3 my HDMI output works now
+> > without that hack mentioned. weston screen as well as 'fb-test -p 5'
+> > output seems sensible.
+> > Unfortunately this isn't the case for LVDS output on LCDIF2. I somehow
+> > managed to get the DT nodes for LCDIF and LDB done. Also the necessary
+> > addition to imx8m-blk-ctl. So eventually I can see some output. But the
+> > screen is cutoff on the right side of about 15-20% and the screen is
+> > flickering slighty. This is especially visible in 'fb-test -p 5'. The red
+> > bars are only visible to less than 1/3 and the text as well as the
+> > diagonal lines are flickering. Colors are correct though.
+> > For the record: I am using a 'tianma,tm070jvhg33' panel.
 > 
-> DRM_MODE_PANEL_ORIENTATION_UNKNOWN is -1 which is not a valid value
-> for an enum. IOW when the panel-orientation is DRM_MODE_PANEL_ORIENTATION_UNKNOWN
-> then the property should not be created on the drm-connector object at all.
+> Does LDB start working if you apply:
+> 
+>   static const struct drm_bridge_funcs funcs = {
+>          .attach = fsl_ldb_attach,
+> -       .atomic_check = fsl_ldb_atomic_check,
+>          .atomic_enable = fsl_ldb_atomic_enable,
+>          .atomic_disable = fsl_ldb_atomic_disable,
+>          .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> 
+> to
+> 
+> drivers/gpu/drm/bridge/fsl-ldb.c
 
-p.s. note that the original drm_connector_set_panel_orientation() avoids
-ever creating the property when the orientation is unknown because of
-this bit of code near the top of the function:
+I got this working, somehow. The root cause was that the LDB clock was not the 
+media_disp2_pix_root_clk clock * 7, which is mandatory for LVDS (single link).
 
-        /* Don't attach the property if the orientation is unknown */
-        if (panel_orientation == DRM_MODE_PANEL_ORIENTATION_UNKNOWN)
-                return 0;
+excerpt from clk_summary:
+video_pll1_out     2 2 0   594000000          0     0  50000         Y
+   media_ldb       1 1 0   594000000          0     0  50000         Y
+   media_disp2_pix 1 1 0    66000000          0     0  50000         Y
 
-> Which brings us back to what I said in reply to the coverletter,
-> it seems that you have a probe ordering problem here; and fixing that
-> issue would make this patch-set unnecessary.
+media_ldb is too high (should be 462000000). I wonder why media_ldb is not a 
+child from media_disp2_pix (or vice versa) when there is a hard dependency.
+There are several solutions:
+1.
+Set video_pll1 to 1039500000 and adjust requested pixel clock of the panel 
+(74250000 in this case). Now the dividers match hit the clock rates exactly.
+But this renders the display list in panel-simple a bit useless.
 
-Regards,
+2.
+Adjust video_pll1_out only (e.g. 478757145). Now the calculated clocks comply 
+to their mandated ratio. But this might affect other users, e.g. DSI displays
 
-Hans
+3.
+Improve fsl_ldb_atomic_check to set adjusted_mode.clock to an achievable 
+clock. This way lcdif will pick the new pixelclock to match their ratio.
+But there is more work necessary, e.g. ensure the new pixelclock is in the
+valid range of the display.
+
+To summarize:
+For both HDMI and LVDS using changes unrelated to this lcdif driver:
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
 
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_connector_init_panel_orientation_property);
->> +
->>  static const struct drm_prop_enum_list privacy_screen_enum[] = {
->>  	{ PRIVACY_SCREEN_DISABLED,		"Disabled" },
->>  	{ PRIVACY_SCREEN_ENABLED,		"Enabled" },
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 3ac4bf87f257..f0681091c617 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -1802,6 +1802,8 @@ int drm_connector_set_panel_orientation_with_quirk(
->>  	struct drm_connector *connector,
->>  	enum drm_panel_orientation panel_orientation,
->>  	int width, int height);
->> +int drm_connector_init_panel_orientation_property(
->> +	struct drm_connector *connector);
->>  int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
->>  					  int min, int max);
->>  void drm_connector_create_privacy_screen_properties(struct drm_connector *conn);
 
