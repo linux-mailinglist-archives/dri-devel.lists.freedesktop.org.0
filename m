@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB635395B9
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 19:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918155395B4
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 19:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C39911281F;
-	Tue, 31 May 2022 17:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEC1112831;
+	Tue, 31 May 2022 17:57:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F97C112AAB
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 11:20:08 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id h1so3350779plf.11
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 04:20:08 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCB3112AAC
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 11:20:14 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id gd1so5286201pjb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 04:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SkB25f3Zqc7wiMdR8YRJzsTcyth+4OQXoMwAgvK1QoA=;
- b=NuhOZvlfGiUZpSCuZu3LgpOfjTmTb1xgF6pQsbJmP69cAqEoMMSZZemcWt1Q2REQ/m
- Aaf9qRz4i0UG/6zH1BR0PMzQJiiZL+9OvAaoEIACZ0U1X/hYNUaYPJqEeCTh7fNmW0ej
- DTRFSKyINYsq52FcDqxfoZrB0eKv5Y+DgiXJhEOI/LciAHL7U+f035JGr0jmHKdDq3zE
- ykBKaAR+YcPjoiWs80HwDzV6srpiHM6FtCvC4WdkY+Q/wZz2kl3mNAOi0bSgVkjuWwhR
- boCmjAkgmPBn0sEkE0eYObxegUxyMkECYbb79R0M0byygcjkMdkCP8cXaIn4t+BU6fcj
- hx7w==
+ bh=7rETQ+FkwMIdlpu81TFS0C/5rmkhteGjy6EXUj0C1Zk=;
+ b=IV/oiPf/r0RP4fuoF69BFx4fmYN4dhvxrHReuDehru46c/+qtopEaXan0dZ1sXIdIN
+ QBS9YfOuGa98+0FLT8qB47GzjyGYBx5mc15wMZXkDaucPzU/IzOLuzEayzt6rQcpmo1E
+ 64sTRw13OlH9VwJ+/kwzfnEGnVrNGpTwlUvnIjtmlqRc/JocEWjkPMS7r92lmS04flnF
+ 61zHpIHbrNNIKT3G+V7FEyOSzwT1YQK7Mnd7ExzDCIRg+TzjYrvcGZzsNNLKrnTXYvcQ
+ EAQsDgmeb5l2kgXRSiz1wFv9A171nXYHQuf7cJeKXQbeGdhlfWYL5dd5vELXKdUh2Jqn
+ CrBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SkB25f3Zqc7wiMdR8YRJzsTcyth+4OQXoMwAgvK1QoA=;
- b=BfFGQ8VTwX+hiQWutAcSBnBH2IT6WnDPB2+ApA/V0QIYBgtWQdSLdkI96F/jX1e1q/
- iWRDfIYQ6P09CW6+mESfIybEsndBrregga3K+RgFTTXgsdUNBLsAQwr+2zmRUWsyiZos
- wC44OPFt0nfGLGhH+4PrcKccUnWfUGQwpRQGAUk7BSPmsN0eUtERvPmE0CYohqA3aZDj
- QW6jrIrsaDJGxlq10W9mpHNCe/j0MeSig3mJgor69viJJLAlHGQzM+hEkx7adHUb6pZv
- 8Y2QRBIs0MbkS7IHEhMd462JbeDNbqLBRagB9Vqzn9T+4L5J8KgUoGycsqgyba1EZgyT
- /MwQ==
-X-Gm-Message-State: AOAM533H4gJTI779BhPNOuz3l9BU2bktZf/slYh2fxdITSf8zQZvMd+X
- ffKThiaEwL+huGc0LuuuxVY=
-X-Google-Smtp-Source: ABdhPJxkcgE7hjPhSnCEnACKJC9S8UsI5VkS1wzDN0T2a2DfJ8k9aNnwhxffmczd9cDbFvFjdKD3cA==
-X-Received: by 2002:a17:902:a988:b0:158:9877:6c2c with SMTP id
- bh8-20020a170902a98800b0015898776c2cmr61035260plb.80.1653996007859; 
- Tue, 31 May 2022 04:20:07 -0700 (PDT)
+ bh=7rETQ+FkwMIdlpu81TFS0C/5rmkhteGjy6EXUj0C1Zk=;
+ b=JBFlMZxVA7VBWq7Qf52mXBVlvda9p3oClFeYDdYd02cdJzISf39bzxnZ3bacsyhLy3
+ vcN2t5w7RAQDZkEeIiIf1IHdUsMIMH0LXyjKCt7lhZbpBVaRhVpO9DNSxiMzvD7ZwVTI
+ zwrrzvIMPLDad2+IOQViK7WQ9z2H8EZPL2KsDRnkSo4Efp/6tSSTJ+HasTJbRda+djyk
+ ZrXx9F2Rj2uk8khyJWfmGWpuY+6zW+nLt4XGAZuRg+v1ZKYEX0Zk4j/3wkqcQGdYtQSO
+ MfjANM9BMRmHip3werlJB7uOKvcsEyrWeYvR/lMMSGZyVsldU4sgOCYXBURU6RzMVsUT
+ CbrA==
+X-Gm-Message-State: AOAM532RUe8k0I7e3nkBCWI+1Meb6ttQirOOYwkOUjsnIasCCSMUvhn6
+ Bl31H9ovjDk2TcwAtCQ/deo=
+X-Google-Smtp-Source: ABdhPJyw3pnx0NX0S8Il3x4kszw8LgD3t3buJRPTxq0pGYYyhyQjNyoihJveL2zRbRuYHqsDedoyRg==
+X-Received: by 2002:a17:90b:380b:b0:1e0:2639:6e2d with SMTP id
+ mq11-20020a17090b380b00b001e026396e2dmr27930830pjb.203.1653996013736; 
+ Tue, 31 May 2022 04:20:13 -0700 (PDT)
 Received: from RD-3580-24288.rt.l (42-72-220-172.emome-ip.hinet.net.
  [42.72.220.172]) by smtp.gmail.com with ESMTPSA id
- cm24-20020a056a00339800b00518142f8c37sm10751608pfb.171.2022.05.31.04.20.02
+ cm24-20020a056a00339800b00518142f8c37sm10751608pfb.171.2022.05.31.04.20.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 04:20:07 -0700 (PDT)
+ Tue, 31 May 2022 04:20:13 -0700 (PDT)
 From: ChiaEn Wu <peterwu.pub@gmail.com>
 To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -54,9 +54,10 @@ To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
  lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
  heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: [RESEND 10/14] iio: adc: mt6370: Add Mediatek MT6370 support
-Date: Tue, 31 May 2022 19:18:56 +0800
-Message-Id: <20220531111900.19422-11-peterwu.pub@gmail.com>
+Subject: [RESEND 11/14] power: supply: mt6370: Add Mediatek MT6370 charger
+ driver
+Date: Tue, 31 May 2022 19:18:57 +0800
+Message-Id: <20220531111900.19422-12-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220531111900.19422-1-peterwu.pub@gmail.com>
 References: <20220531111900.19422-1-peterwu.pub@gmail.com>
@@ -86,310 +87,1187 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: ChiaEn Wu <chiaen_wu@richtek.com>
 
-Add Mediatek MT6370 ADC support.
+Add Mediatek MT6370 charger driver
 
 Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 ---
- drivers/iio/adc/Kconfig      |   9 ++
- drivers/iio/adc/Makefile     |   1 +
- drivers/iio/adc/mt6370-adc.c | 257 +++++++++++++++++++++++++++++++++++
- 3 files changed, 267 insertions(+)
- create mode 100644 drivers/iio/adc/mt6370-adc.c
+ drivers/power/supply/Kconfig          |   11 +
+ drivers/power/supply/Makefile         |    1 +
+ drivers/power/supply/mt6370-charger.c | 1132 +++++++++++++++++++++++++
+ 3 files changed, 1144 insertions(+)
+ create mode 100644 drivers/power/supply/mt6370-charger.c
 
-diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-index 71ab0a06aa82..d7932dd9b773 100644
---- a/drivers/iio/adc/Kconfig
-+++ b/drivers/iio/adc/Kconfig
-@@ -737,6 +737,15 @@ config MEDIATEK_MT6360_ADC
- 	  is used in smartphones and tablets and supports a 11 channel
- 	  general purpose ADC.
+diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
+index 1aa8323ad9f6..54d8c3ab01cc 100644
+--- a/drivers/power/supply/Kconfig
++++ b/drivers/power/supply/Kconfig
+@@ -619,6 +619,17 @@ config CHARGER_MT6360
+ 	  Average Input Current Regulation, Battery Temperature Sensing,
+ 	  Over-Temperature Protection, DPDM Detection for BC1.2.
  
-+config MEDIATEK_MT6370_ADC
-+	tristate "Mediatek MT6370 ADC driver"
++config CHARGER_MT6370
++	tristate "Mediatek MT6370 Charger Driver"
 +	depends on MFD_MT6370
++	depends on REGULATOR
++	select LINEAR_RANGES
 +	help
-+	  Say Y here to enable MT6370 ADC support.
-+	  Integrated for System Monitoring includes
-+	  is used in smartphones and tablets and supports a 9 channel
-+	  general purpose ADC.
++	  Say Y here to enable MT6370 Charger Part.
++	  The device supports High-Accuracy Voltage/Current Regulation,
++	  Average Input Current Regulation, Battery Temperature Sensing,
++	  Over-Temperature Protection, DPDM Detection for BC1.2.
 +
- config MEDIATEK_MT6577_AUXADC
- 	tristate "MediaTek AUXADC driver"
- 	depends on ARCH_MEDIATEK || COMPILE_TEST
-diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
-index 39d806f6d457..0ce285c7e2d0 100644
---- a/drivers/iio/adc/Makefile
-+++ b/drivers/iio/adc/Makefile
-@@ -68,6 +68,7 @@ obj-$(CONFIG_MCP320X) += mcp320x.o
- obj-$(CONFIG_MCP3422) += mcp3422.o
- obj-$(CONFIG_MCP3911) += mcp3911.o
- obj-$(CONFIG_MEDIATEK_MT6360_ADC) += mt6360-adc.o
-+obj-$(CONFIG_MEDIATEK_MT6370_ADC) += mt6370-adc.o
- obj-$(CONFIG_MEDIATEK_MT6577_AUXADC) += mt6577_auxadc.o
- obj-$(CONFIG_MEN_Z188_ADC) += men_z188_adc.o
- obj-$(CONFIG_MESON_SARADC) += meson_saradc.o
-diff --git a/drivers/iio/adc/mt6370-adc.c b/drivers/iio/adc/mt6370-adc.c
+ config CHARGER_QCOM_SMBB
+ 	tristate "Qualcomm Switch-Mode Battery Charger and Boost"
+ 	depends on MFD_SPMI_PMIC || COMPILE_TEST
+diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
+index 7f02f36aea55..8c9527643c86 100644
+--- a/drivers/power/supply/Makefile
++++ b/drivers/power/supply/Makefile
+@@ -82,6 +82,7 @@ obj-$(CONFIG_CHARGER_MAX8997)	+= max8997_charger.o
+ obj-$(CONFIG_CHARGER_MAX8998)	+= max8998_charger.o
+ obj-$(CONFIG_CHARGER_MP2629)	+= mp2629_charger.o
+ obj-$(CONFIG_CHARGER_MT6360)	+= mt6360_charger.o
++obj-$(CONFIG_CHARGER_MT6370)	+= mt6370-charger.o
+ obj-$(CONFIG_CHARGER_QCOM_SMBB)	+= qcom_smbb.o
+ obj-$(CONFIG_CHARGER_BQ2415X)	+= bq2415x_charger.o
+ obj-$(CONFIG_CHARGER_BQ24190)	+= bq24190_charger.o
+diff --git a/drivers/power/supply/mt6370-charger.c b/drivers/power/supply/mt6370-charger.c
 new file mode 100644
-index 000000000000..3320ebca17ad
+index 000000000000..1cfa4deeb28e
 --- /dev/null
-+++ b/drivers/iio/adc/mt6370-adc.c
-@@ -0,0 +1,257 @@
++++ b/drivers/power/supply/mt6370-charger.c
+@@ -0,0 +1,1132 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
 +#include <dt-bindings/iio/adc/mediatek,mt6370_adc.h>
-+#include <linux/bits.h>
++#include <linux/atomic.h>
 +#include <linux/bitfield.h>
-+#include <linux/iio/iio.h>
-+#include <linux/irq.h>
++#include <linux/bits.h>
++#include <linux/gpio/consumer.h>
++#include <linux/iio/consumer.h>
++#include <linux/init.h>
++#include <linux/interrupt.h>
 +#include <linux/kernel.h>
 +#include <linux/module.h>
-+#include <linux/mutex.h>
++#include <linux/of.h>
 +#include <linux/platform_device.h>
++#include <linux/power_supply.h>
 +#include <linux/regmap.h>
++#include <linux/regulator/driver.h>
++#include <linux/workqueue.h>
 +
-+#define MT6370_REG_CHG_CTRL3		0x113 /* AICR */
-+#define MT6370_REG_CHG_CTRL7		0x117 /* ICHG */
-+#define MT6370_REG_CHG_ADC		0x121
-+#define MT6370_REG_ADC_DATA_H		0x14C
++#define MT6370_REG_CHG_CTRL1		0x111
++#define MT6370_REG_CHG_CTRL2		0x112
++#define MT6370_REG_CHG_CTRL3		0x113
++#define MT6370_REG_CHG_CTRL4		0x114
++#define MT6370_REG_CHG_CTRL5		0x115
++#define MT6370_REG_CHG_CTRL6		0x116
++#define MT6370_REG_CHG_CTRL7		0x117
++#define MT6370_REG_CHG_CTRL8		0x118
++#define MT6370_REG_CHG_CTRL9		0x119
++#define MT6370_REG_CHG_CTRL10		0x11A
++#define MT6370_REG_DEVICE_TYPE		0x122
++#define MT6370_REG_USB_STATUS1		0x127
++#define MT6370_REG_CHG_STAT		0x14A
++#define MT6370_REG_FLED_EN		0x17E
++#define MT6370_REG_CHG_STAT1		0X1D0
++#define MT6370_REG_OVPCTRL_STAT		0x1D8
 +
-+#define MT6370_ADC_START_MASK		BIT(0)
-+#define MT6370_ADC_IN_SEL_MASK		GENMASK(7, 4)
-+#define MT6370_AICR_ICHG_MASK		GENMASK(7, 2)
++#define MT6370_VOBST_MASK		GENMASK(7, 2)
++#define MT6370_OTG_PIN_EN_MASK		BIT(1)
++#define MT6370_OPA_MODE_MASK		BIT(0)
++#define MT6370_OTG_OC_MASK		GENMASK(2, 0)
 +
-+#define MT6370_ADC_CHAN_SHIFT		4
++#define MT6370_MIVR_IBUS_TH		100000		/* 100 mA */
 +
-+#define MT6370_AICR_400MA		0x6
-+#define MT6370_ICHG_500MA		0x4
-+#define MT6370_ICHG_900MA		0x8
-+
-+#define ADC_CONV_TIME_US		35000
-+#define ADC_CONV_POLLING_TIME		1000
-+
-+struct mt6370_adc_data {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct mutex lock;
++enum mt6370_chg_reg_field {
++	/* MT6370_REG_CHG_CTRL2 */
++	F_IINLMTSEL, F_CFO_EN, F_CHG_EN,
++	/* MT6370_REG_CHG_CTRL3 */
++	F_IAICR, F_AICR_EN, F_ILIM_EN,
++	/* MT6370_REG_CHG_CTRL4 */
++	F_VOREG,
++	/* MT6370_REG_CHG_CTRL5 */
++	F_VOBST,
++	/* MT6370_REG_CHG_CTRL6 */
++	F_VMIVR,
++	/* MT6370_REG_CHG_CTRL7 */
++	F_ICHG,
++	/* MT6370_REG_CHG_CTRL8 */
++	F_IPREC,
++	/* MT6370_REG_CHG_CTRL9 */
++	F_IEOC,
++	/* MT6370_REG_DEVICE_TYPE */
++	F_USBCHGEN,
++	/* MT6370_REG_USB_STATUS1 */
++	F_USB_STAT, F_CHGDET,
++	/* MT6370_REG_CHG_STAT */
++	F_CHG_STAT, F_BOOST_STAT, F_VBAT_LVL,
++	/* MT6370_REG_FLED_EN */
++	F_FL_STROBE,
++	/* MT6370_REG_CHG_STAT1 */
++	F_CHG_MIVR_STAT,
++	/* MT6370_REG_OVPCTRL_STAT */
++	F_UVP_D_STAT,
++	F_MAX,
 +};
 +
-+static int mt6370_adc_read_channel(struct mt6370_adc_data *priv, int chan,
-+				   unsigned long addr, int *val)
++struct mt6370_priv {
++	struct device *dev;
++	struct iio_channel *iio_adcs;
++	struct mutex attach_lock;
++	struct power_supply *psy;
++	struct power_supply_desc *psy_desc;
++	struct regmap *regmap;
++	struct regmap_field *rmap_fields[F_MAX];
++	struct regulator_dev *rdev;
++	struct workqueue_struct *wq;
++	struct work_struct bc12_work;
++	struct delayed_work mivr_dwork;
++	atomic_t attach;
++	int psy_usb_type;
++	bool pwr_rdy;
++};
++
++enum mt6370_usb_status {
++	MT6370_USB_STAT_NO_VBUS = 0,
++	MT6370_USB_STAT_VBUS_FLOW_IS_UNDER_GOING,
++	MT6370_USB_STAT_SDP,
++	MT6370_USB_STAT_SDP_NSTD,
++	MT6370_USB_STAT_DCP,
++	MT6370_USB_STAT_CDP,
++	MT6370_USB_STAT_MAX,
++};
++
++struct mt6370_chg_range {
++	u32 min;
++	u32 max;
++	u16 step;
++	u8 offset;
++	const u32 *table;
++	u16 num_table;
++	bool round_up;
++};
++
++struct mt6370_chg_field {
++	const char *name;
++	const struct mt6370_chg_range *range;
++	struct reg_field field;
++};
++
++static const u32 mt6370_chg_otg_oc_ma[] = {
++	500000, 700000, 1100000, 1300000, 1800000, 2100000, 2400000,
++};
++
++#define MT6370_CHG_RANGE(_min, _max, _step, _offset, _ru)		\
++{									\
++	.min = _min,							\
++	.max = _max,							\
++	.step = _step,							\
++	.offset = _offset,						\
++	.round_up = _ru,						\
++}
++
++#define MT6370_CHG_RANGE_T(_table, _ru)					\
++{									\
++	.table = _table,						\
++	.num_table = ARRAY_SIZE(_table),				\
++	.round_up = _ru,						\
++}
++
++static const struct mt6370_chg_range mt6370_chg_ranges[F_MAX] = {
++	[F_IAICR] = MT6370_CHG_RANGE(100, 3250, 50, 0, false),
++	[F_VOREG] = MT6370_CHG_RANGE(3900, 4710, 10, 0, false),
++	[F_VOBST] = MT6370_CHG_RANGE(4425, 5825, 25, 0, false),
++	[F_VMIVR] = MT6370_CHG_RANGE(3900, 13400, 100, 0, true),
++	[F_ICHG] = MT6370_CHG_RANGE(900, 5000, 100, 8, false),
++	[F_IPREC] = MT6370_CHG_RANGE(100, 850, 50, 0, false),
++	[F_IEOC] = MT6370_CHG_RANGE(100, 850, 50, 0, false),
++};
++
++#define MT6370_CHG_FIELD_RANGE(_fd, _reg, _lsb, _msb, _range)		\
++[_fd] = {								\
++	.name = #_fd,							\
++	.range = _range ? &mt6370_chg_ranges[_fd] : NULL,		\
++	.field = REG_FIELD(_reg, _lsb, _msb),				\
++}
++
++#define MT6370_CHG_FIELD(_fd, _reg, _lsb, _msb)				\
++	MT6370_CHG_FIELD_RANGE(_fd, _reg, _lsb, _msb, (_msb > _lsb))
++
++static const struct mt6370_chg_field mt6370_chg_fields[F_MAX] = {
++	MT6370_CHG_FIELD_RANGE(F_IINLMTSEL, MT6370_REG_CHG_CTRL2, 2, 3, false),
++	MT6370_CHG_FIELD(F_CFO_EN, MT6370_REG_CHG_CTRL2, 1, 1),
++	MT6370_CHG_FIELD(F_CHG_EN, MT6370_REG_CHG_CTRL2, 0, 0),
++	MT6370_CHG_FIELD(F_IAICR, MT6370_REG_CHG_CTRL3, 2, 7),
++	MT6370_CHG_FIELD(F_AICR_EN, MT6370_REG_CHG_CTRL3, 1, 1),
++	MT6370_CHG_FIELD(F_ILIM_EN, MT6370_REG_CHG_CTRL3, 0, 0),
++	MT6370_CHG_FIELD(F_VOREG, MT6370_REG_CHG_CTRL4, 1, 7),
++	MT6370_CHG_FIELD(F_VOBST, MT6370_REG_CHG_CTRL5, 2, 7),
++	MT6370_CHG_FIELD(F_VMIVR, MT6370_REG_CHG_CTRL6, 1, 7),
++	MT6370_CHG_FIELD(F_ICHG, MT6370_REG_CHG_CTRL7, 2, 7),
++	MT6370_CHG_FIELD(F_IPREC, MT6370_REG_CHG_CTRL8, 0, 3),
++	MT6370_CHG_FIELD(F_IEOC, MT6370_REG_CHG_CTRL9, 4, 7),
++	MT6370_CHG_FIELD(F_USBCHGEN, MT6370_REG_DEVICE_TYPE, 7, 7),
++	MT6370_CHG_FIELD_RANGE(F_USB_STAT, MT6370_REG_USB_STATUS1, 4, 6, false),
++	MT6370_CHG_FIELD(F_CHGDET, MT6370_REG_USB_STATUS1, 3, 3),
++	MT6370_CHG_FIELD_RANGE(F_CHG_STAT, MT6370_REG_CHG_STAT, 6, 7, false),
++	MT6370_CHG_FIELD(F_BOOST_STAT, MT6370_REG_CHG_STAT, 3, 3),
++	MT6370_CHG_FIELD(F_VBAT_LVL, MT6370_REG_CHG_STAT, 5, 5),
++	MT6370_CHG_FIELD(F_FL_STROBE, MT6370_REG_FLED_EN, 2, 2),
++	MT6370_CHG_FIELD(F_CHG_MIVR_STAT, MT6370_REG_CHG_STAT1, 6, 6),
++	MT6370_CHG_FIELD(F_UVP_D_STAT, MT6370_REG_OVPCTRL_STAT, 4, 4),
++};
++
++static inline u32 mt6370_chg_val_to_reg(const struct mt6370_chg_range *range,
++					u32 val)
 +{
-+	__be16 be_val;
-+	unsigned int reg_val;
-+	int ret;
++	int i;
++	u8 reg;
 +
-+	mutex_lock(&priv->lock);
++	if (!range)
++		return val;
 +
-+	reg_val = MT6370_ADC_START_MASK | (addr << MT6370_ADC_CHAN_SHIFT);
-+	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, reg_val);
-+	if (ret)
-+		goto adc_unlock;
++	if (range->table) {
++		if (val <= range->table[0])
++			return 0;
 +
-+	msleep(ADC_CONV_TIME_US / 1000);
++		for (i = 1; i < range->num_table - 1; i++) {
++			if (val == range->table[i])
++				return i;
++			if (val > range->table[i] &&
++			    val < range->table[i + 1])
++				return range->round_up ? i + 1 : i;
++		}
 +
-+	ret = regmap_read_poll_timeout(priv->regmap,
-+				       MT6370_REG_CHG_ADC, reg_val,
-+				       !(reg_val & MT6370_ADC_START_MASK),
-+				       ADC_CONV_POLLING_TIME,
-+				       ADC_CONV_TIME_US * 3);
-+	if (ret) {
-+		if (ret == -ETIMEDOUT)
-+			dev_err(priv->dev, "Failed to wait adc conversion\n");
-+		goto adc_unlock;
++		return range->num_table - 1;
 +	}
 +
-+	ret = regmap_raw_read(priv->regmap, MT6370_REG_ADC_DATA_H,
-+			      &be_val, sizeof(be_val));
-+	if (ret)
-+		goto adc_unlock;
++	if (val <= range->min)
++		reg = 0;
++	else if (val >= range->max)
++		reg = (range->max - range->min) / range->step;
++	else if (range->round_up)
++		reg = DIV_ROUND_UP(val - range->min, range->step);
++	else
++		reg = (val - range->min) / range->step;
 +
-+	*val = be16_to_cpu(be_val);
-+	ret = IIO_VAL_INT;
++	return reg + range->offset;
++}
 +
-+adc_unlock:
-+	mutex_unlock(&priv->lock);
++static inline u32 mt6370_chg_reg_to_val(const struct mt6370_chg_range *range,
++					u8 reg)
++{
++	if (!range)
++		return reg;
++
++	return range->table ? range->table[reg] :
++			      range->min + range->step * (reg - range->offset);
++}
++
++static inline int mt6370_chg_field_get(struct mt6370_priv *priv,
++				       enum mt6370_chg_reg_field fd, u32 *val)
++{
++	int ret;
++	u32 reg_val;
++
++	ret = regmap_field_read(priv->rmap_fields[fd], &reg_val);
++	if (ret < 0)
++		return ret;
++
++	*val = mt6370_chg_reg_to_val(mt6370_chg_fields[fd].range, reg_val);
++
++	return 0;
++}
++
++static inline int mt6370_chg_field_set(struct mt6370_priv *priv,
++				       enum mt6370_chg_reg_field fd, u32 val)
++{
++	val = mt6370_chg_val_to_reg(mt6370_chg_fields[fd].range, val);
++
++	return regmap_field_write(priv->rmap_fields[fd], val);
++}
++
++enum {
++	MT6370_CHG_STAT_READY = 0,
++	MT6370_CHG_STAT_CHARGE_IN_PROGRESS,
++	MT6370_CHG_STAT_DONE,
++	MT6370_CHG_STAT_FAULT,
++	MT6370_CHG_STAT_MAX,
++};
++
++enum {
++	MT6370_ATTACH_STAT_DETACH = 0,
++	MT6370_ATTACH_STAT_ATTACH_BC12_NOT_DONE,
++	MT6370_ATTACH_STAT_ATTACH_BC12_DONE,
++	MT6370_ATTACH_STAT_ATTACH_MAX,
++};
++
++static int mt6370_chg_otg_of_parse_cb(struct device_node *of,
++				      const struct regulator_desc *rdesc,
++				      struct regulator_config *rcfg)
++{
++	struct mt6370_priv *priv = rcfg->driver_data;
++	unsigned int val;
++	int ret = 0;
++
++	rcfg->ena_gpiod = fwnode_gpiod_get_index(of_fwnode_handle(of),
++						 "enable", 0,
++						 GPIOD_OUT_LOW |
++						 GPIOD_FLAGS_BIT_NONEXCLUSIVE,
++						 rdesc->name);
++	if (IS_ERR(rcfg->ena_gpiod)) {
++		dev_err(priv->dev, "Failed to requeset OTG EN Pin\n");
++		rcfg->ena_gpiod = NULL;
++	} else {
++		val = MT6370_OPA_MODE_MASK | MT6370_OTG_PIN_EN_MASK;
++		ret = regmap_update_bits(priv->regmap, MT6370_REG_CHG_CTRL1,
++					 val, val);
++		if (ret)
++			dev_err(priv->dev, "Failed to set otg bits\n");
++	}
 +
 +	return ret;
 +}
 +
-+static int mt6370_adc_read_scale(struct mt6370_adc_data *priv,
-+				 int chan, int *val1, int *val2)
++static void mt6370_chg_bc12_work_func(struct work_struct *work)
 +{
-+	unsigned int reg_val;
-+	int ret;
++	struct mt6370_priv *priv = container_of(work, struct mt6370_priv,
++						bc12_work);
++	int ret, attach;
++	bool rpt_psy = false;
++	u32 usb_stat;
 +
-+	switch (chan) {
-+	case MT6370_CHAN_VBAT:
-+	case MT6370_CHAN_VSYS:
-+	case MT6370_CHAN_CHG_VDDP:
-+		*val1 = 5000;
-+		return IIO_VAL_INT;
-+	case MT6370_CHAN_IBUS:
-+		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL3, &reg_val);
-+		if (ret)
-+			return ret;
++	mutex_lock(&priv->attach_lock);
++	attach = atomic_read(&priv->attach);
 +
-+		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
-+		if (reg_val < MT6370_AICR_400MA)
-+			*val1 = 33500;
-+		else
-+			*val1 = 50000;
-+
-+		return IIO_VAL_INT;
-+	case MT6370_CHAN_IBAT:
-+		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL7, &reg_val);
-+		if (ret)
-+			return ret;
-+
-+		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
-+		if (reg_val < MT6370_ICHG_500MA)
-+			*val1 = 23750;
-+		else if (reg_val >= MT6370_ICHG_500MA &&
-+			 reg_val < MT6370_ICHG_900MA)
-+			*val1 = 26800;
-+		else
-+			*val1 = 50000;
-+
-+		return IIO_VAL_INT;
-+	case MT6370_CHAN_VBUSDIV5:
-+		*val1 = 25000;
-+		return IIO_VAL_INT;
-+	case MT6370_CHAN_VBUSDIV2:
-+		*val1 = 50000;
-+		return IIO_VAL_INT;
-+	case MT6370_CHAN_TS_BAT:
-+		*val1 = 25;
-+		*val2 = 10000;
-+		return IIO_VAL_FRACTIONAL;
-+	case MT6370_CHAN_TEMP_JC:
-+		*val1 = 2;
-+		return IIO_VAL_INT;
++	switch (attach) {
++	case MT6370_ATTACH_STAT_DETACH:
++		usb_stat = 0;
++		break;
++	case MT6370_ATTACH_STAT_ATTACH_BC12_DONE:
++		ret = mt6370_chg_field_get(priv, F_USB_STAT, &usb_stat);
++		if (ret < 0) {
++			dev_err(priv->dev, "Failed to get USB status\n");
++			goto bc12_work_func_out;
++		}
++		break;
++	case MT6370_ATTACH_STAT_ATTACH_BC12_NOT_DONE:
++		ret = mt6370_chg_field_set(priv, F_USBCHGEN, attach);
++		if (ret < 0)
++			dev_err(priv->dev, "Failed to enable USB CHG EN\n");
++		goto bc12_work_func_out;
++	default:
++		dev_err(priv->dev, "Invalid attach state\n");
++		goto bc12_work_func_out;
 +	}
 +
-+	return -EINVAL;
-+}
++	rpt_psy = true;
 +
-+static int mt6370_adc_read_offset(struct mt6370_adc_data *priv,
-+				  int chan, int *val)
-+{
-+	*val = (chan == MT6370_CHAN_TEMP_JC) ? -20 : 0;
-+	return IIO_VAL_INT;
-+}
-+
-+static int mt6370_adc_read_raw(struct iio_dev *iio_dev,
-+			       const struct iio_chan_spec *chan,
-+			       int *val, int *val2, long mask)
-+{
-+	struct mt6370_adc_data *priv = iio_priv(iio_dev);
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		return mt6370_adc_read_channel(priv, chan->channel,
-+					       chan->address, val);
-+	case IIO_CHAN_INFO_SCALE:
-+		return mt6370_adc_read_scale(priv, chan->channel, val, val2);
-+	case IIO_CHAN_INFO_OFFSET:
-+		return mt6370_adc_read_offset(priv, chan->channel, val);
++	switch (usb_stat) {
++	case MT6370_USB_STAT_SDP:
++		priv->psy_desc->type = POWER_SUPPLY_TYPE_USB;
++		priv->psy_usb_type = POWER_SUPPLY_USB_TYPE_SDP;
++		break;
++	case MT6370_USB_STAT_SDP_NSTD:
++		priv->psy_desc->type = POWER_SUPPLY_TYPE_USB;
++		priv->psy_usb_type = POWER_SUPPLY_USB_TYPE_DCP;
++		break;
++	case MT6370_USB_STAT_DCP:
++		priv->psy_desc->type = POWER_SUPPLY_TYPE_USB_DCP;
++		priv->psy_usb_type = POWER_SUPPLY_USB_TYPE_DCP;
++		break;
++	case MT6370_USB_STAT_CDP:
++		priv->psy_desc->type = POWER_SUPPLY_TYPE_USB_CDP;
++		priv->psy_usb_type = POWER_SUPPLY_USB_TYPE_CDP;
++		break;
++	case MT6370_USB_STAT_NO_VBUS:
++	case MT6370_USB_STAT_VBUS_FLOW_IS_UNDER_GOING:
++	default:
++		priv->psy_desc->type = POWER_SUPPLY_TYPE_USB;
++		priv->psy_usb_type = POWER_SUPPLY_USB_TYPE_UNKNOWN;
++		break;
 +	}
 +
-+	return -EINVAL;
++bc12_work_func_out:
++	mutex_unlock(&priv->attach_lock);
++
++	if (rpt_psy)
++		power_supply_changed(priv->psy);
 +}
 +
-+static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {
-+	"vbusdiv5", "vbusdiv2", "vsys", "vbat",
-+	"ts_bat", "ibus", "ibat", "chg_vddp",
-+	"temp_jc",
-+};
-+
-+static int mt6370_adc_read_label(struct iio_dev *iio_dev,
-+				 struct iio_chan_spec const *chan, char *label)
++static inline void mt6370_chg_enable_irq(struct mt6370_priv *priv,
++					 const char *irq_name, bool en)
 +{
-+	return snprintf(label, PAGE_SIZE, "%s\n",
-+			mt6370_channel_labels[chan->channel]);
++	int irq_num;
++	struct platform_device *pdev = to_platform_device(priv->dev);
++
++	irq_num = platform_get_irq_byname(pdev, irq_name);
++
++	if (irq_num < 0) {
++		dev_err(priv->dev, "Failed to get platform resource\n");
++	} else {
++		if (en)
++			enable_irq(irq_num);
++		else
++			disable_irq_nosync(irq_num);
++	}
 +}
 +
-+static const struct iio_info mt6370_adc_iio_info = {
-+	.read_raw = mt6370_adc_read_raw,
-+	.read_label = mt6370_adc_read_label,
-+};
-+
-+#define MT6370_ADC_CHAN(_idx, _type, _addr) {			\
-+	.type = _type,						\
-+	.channel = MT6370_CHAN_##_idx,				\
-+	.address = _addr,					\
-+	.scan_index = MT6370_CHAN_##_idx,			\
-+	.indexed = 1,						\
-+	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |		\
-+			      BIT(IIO_CHAN_INFO_SCALE) |	\
-+			      BIT(IIO_CHAN_INFO_OFFSET),	\
-+}
-+
-+static const struct iio_chan_spec mt6370_adc_channels[] = {
-+	MT6370_ADC_CHAN(VBUSDIV5, IIO_VOLTAGE, 1),
-+	MT6370_ADC_CHAN(VBUSDIV2, IIO_VOLTAGE, 2),
-+	MT6370_ADC_CHAN(VSYS, IIO_VOLTAGE, 3),
-+	MT6370_ADC_CHAN(VBAT, IIO_VOLTAGE, 4),
-+	MT6370_ADC_CHAN(TS_BAT, IIO_VOLTAGE, 6),
-+	MT6370_ADC_CHAN(IBUS, IIO_CURRENT, 8),
-+	MT6370_ADC_CHAN(IBAT, IIO_CURRENT, 9),
-+	MT6370_ADC_CHAN(CHG_VDDP, IIO_VOLTAGE, 11),
-+	MT6370_ADC_CHAN(TEMP_JC, IIO_TEMP, 12),
-+};
-+
-+static int mt6370_adc_probe(struct platform_device *pdev)
++static int mt6370_chg_toggle_cfo(struct mt6370_priv *priv)
 +{
 +	int ret;
-+	struct mt6370_adc_data *priv;
-+	struct regmap *regmap;
-+	struct iio_dev *indio_dev;
++	u32 fl_strobe;
 +
-+	regmap = dev_get_regmap(pdev->dev.parent, NULL);
-+	if (!regmap) {
++	/* check if flash led in strobe mode */
++	ret = mt6370_chg_field_get(priv, F_FL_STROBE, &fl_strobe);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to get FL_STROBE_EN\n");
++		goto toggle_cfo_exit;
++	}
++
++	if (fl_strobe) {
++		dev_err(priv->dev, "Flash led is still in strobe mode\n");
++		goto toggle_cfo_exit;
++	}
++
++	/* cfo off */
++	ret = mt6370_chg_field_set(priv, F_CFO_EN, 0);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to disable CFO_EN\n");
++		goto toggle_cfo_exit;
++	}
++
++	/* cfo on */
++	ret = mt6370_chg_field_set(priv, F_CFO_EN, 1);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to enable CFO_EN\n");
++		goto toggle_cfo_exit;
++	}
++
++toggle_cfo_exit:
++	return ret;
++}
++
++static int mt6370_chg_read_adc_chan(struct mt6370_priv *priv, unsigned int chan,
++				    int *val)
++{
++	int ret;
++
++	if (chan >= MT6370_CHAN_MAX)
++		return -EINVAL;
++
++	ret = iio_read_channel_processed(&priv->iio_adcs[chan], val);
++	if (ret)
++		dev_err(priv->dev, "Failed to read adc\n");
++
++	return ret;
++}
++
++static void mt6370_chg_mivr_dwork_func(struct work_struct *work)
++{
++	struct mt6370_priv *priv = container_of(work, struct mt6370_priv,
++						mivr_dwork.work);
++	int ret;
++	u32 mivr_stat;
++	unsigned int ibus;
++
++	ret = mt6370_chg_field_get(priv, F_CHG_MIVR_STAT, &mivr_stat);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to get mivr state\n");
++		goto mivr_handler_out;
++	}
++
++	if (!mivr_stat)
++		goto mivr_handler_out;
++
++	ret = mt6370_chg_read_adc_chan(priv, MT6370_CHAN_IBUS, &ibus);
++	if (ret) {
++		dev_err(priv->dev, "Failed to get ibus\n");
++		goto mivr_handler_out;
++	}
++
++	if (ibus < MT6370_MIVR_IBUS_TH) {
++		ret = mt6370_chg_toggle_cfo(priv);
++		if (ret)
++			dev_err(priv->dev, "Failed to toggle cfo\n");
++	}
++
++mivr_handler_out:
++	mt6370_chg_enable_irq(priv, "mivr", true);
++	pm_relax(priv->dev);
++}
++
++static void mt6370_chg_pwr_rdy_check(struct mt6370_priv *priv)
++{
++	int ret;
++	u32 pwr_rdy, otg_en;
++	union power_supply_propval val;
++
++	/* Check in otg mode or not */
++	ret = mt6370_chg_field_get(priv, F_BOOST_STAT, &otg_en);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to get otg state\n");
++		return;
++	}
++
++	if (otg_en)
++		return;
++
++	ret = mt6370_chg_field_get(priv, F_UVP_D_STAT, &pwr_rdy);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to get pwr_rdy state reg\n");
++		return;
++	}
++
++	val.intval = !pwr_rdy;
++
++	ret = power_supply_set_property(priv->psy, POWER_SUPPLY_PROP_ONLINE,
++					&val);
++	if (ret)
++		dev_err(priv->dev, "Failed to start attach/detach flow\n");
++}
++
++static int mt6370_chg_get_online(struct mt6370_priv *priv,
++				 union power_supply_propval *val)
++{
++	mutex_lock(&priv->attach_lock);
++	val->intval = !!atomic_read(&priv->attach);
++	mutex_unlock(&priv->attach_lock);
++
++	return 0;
++}
++
++static int mt6370_chg_get_status(struct mt6370_priv *priv,
++				 union power_supply_propval *val)
++{
++	int ret;
++	u32 chg_stat;
++
++	ret = mt6370_chg_get_online(priv, val);
++	if (!val->intval) {
++		val->intval = POWER_SUPPLY_STATUS_DISCHARGING;
++		return 0;
++	}
++
++	ret = mt6370_chg_field_get(priv, F_CHG_STAT, &chg_stat);
++	if (ret < 0)
++		return ret;
++
++	switch (chg_stat) {
++	case MT6370_CHG_STAT_READY:
++	case MT6370_CHG_STAT_FAULT:
++		val->intval = POWER_SUPPLY_STATUS_NOT_CHARGING;
++		break;
++	case MT6370_CHG_STAT_CHARGE_IN_PROGRESS:
++		val->intval = POWER_SUPPLY_STATUS_CHARGING;
++		break;
++	case MT6370_CHG_STAT_DONE:
++		val->intval = POWER_SUPPLY_STATUS_FULL;
++		break;
++	default:
++		val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
++		break;
++	}
++
++	return ret;
++}
++
++static int mt6370_chg_get_charge_type(struct mt6370_priv *priv,
++				      union power_supply_propval *val)
++{
++	int type, ret;
++	u32 chg_stat, vbat_lvl;
++
++	ret = mt6370_chg_field_get(priv, F_CHG_STAT, &chg_stat);
++	if (ret < 0)
++		return ret;
++
++	ret = mt6370_chg_field_get(priv, F_VBAT_LVL, &vbat_lvl);
++	if (ret < 0)
++		return ret;
++
++	switch (chg_stat) {
++	case MT6370_CHG_STAT_CHARGE_IN_PROGRESS:
++		if (vbat_lvl)
++			type = POWER_SUPPLY_CHARGE_TYPE_FAST;
++		else
++			type = POWER_SUPPLY_CHARGE_TYPE_TRICKLE;
++		break;
++	case MT6370_CHG_STAT_READY:
++	case MT6370_CHG_STAT_DONE:
++	case MT6370_CHG_STAT_FAULT:
++	default:
++		type = POWER_SUPPLY_CHARGE_TYPE_NONE;
++		break;
++	}
++
++	val->intval = type;
++
++	return 0;
++}
++
++static int mt6370_chg_get_ichg(struct mt6370_priv *priv,
++			       union power_supply_propval *val)
++{
++	return mt6370_chg_field_get(priv, F_ICHG, &val->intval);
++}
++
++static int mt6370_chg_get_max_ichg(struct mt6370_priv *priv,
++				   union power_supply_propval *val)
++{
++	return mt6370_chg_ranges[F_ICHG].max;
++}
++
++static int mt6370_chg_get_cv(struct mt6370_priv *priv,
++			     union power_supply_propval *val)
++{
++	return mt6370_chg_field_get(priv, F_VOREG, &val->intval);
++}
++
++static int mt6370_chg_get_max_cv(struct mt6370_priv *priv,
++				 union power_supply_propval *val)
++{
++	return mt6370_chg_ranges[F_VOREG].max;
++}
++
++static int mt6370_chg_get_aicr(struct mt6370_priv *priv,
++			       union power_supply_propval *val)
++{
++	return mt6370_chg_field_get(priv, F_IAICR, &val->intval);
++}
++
++static int mt6370_chg_get_mivr(struct mt6370_priv *priv,
++			       union power_supply_propval *val)
++{
++	return mt6370_chg_field_get(priv, F_VMIVR, &val->intval);
++}
++
++static int mt6370_chg_get_iprechg(struct mt6370_priv *priv,
++				  union power_supply_propval *val)
++{
++	return mt6370_chg_field_get(priv, F_IPREC, &val->intval);
++}
++
++static int mt6370_chg_get_ieoc(struct mt6370_priv *priv,
++			       union power_supply_propval *val)
++{
++	return mt6370_chg_field_get(priv, F_IEOC, &val->intval);
++}
++
++static int mt6370_chg_set_online(struct mt6370_priv *priv,
++				 const union power_supply_propval *val)
++{
++	int attach;
++	u32 pwr_rdy = !!val->intval;
++
++	mutex_lock(&priv->attach_lock);
++	attach = atomic_read(&priv->attach);
++	if (pwr_rdy == !!attach) {
++		dev_err(priv->dev, "pwr_rdy is same(%d)\n", pwr_rdy);
++		mutex_unlock(&priv->attach_lock);
++		return 0;
++	}
++
++	atomic_set(&priv->attach, pwr_rdy);
++	mutex_unlock(&priv->attach_lock);
++
++	if (!queue_work(priv->wq, &priv->bc12_work))
++		dev_err(priv->dev, "bc12 work has already queued\n");
++
++	return 0;
++
++}
++
++static int mt6370_chg_set_ichg(struct mt6370_priv *priv,
++			       const union power_supply_propval *val)
++{
++	return mt6370_chg_field_set(priv, F_ICHG, val->intval);
++}
++
++static int mt6370_chg_set_cv(struct mt6370_priv *priv,
++			     const union power_supply_propval *val)
++{
++	return mt6370_chg_field_set(priv, F_VOREG, val->intval);
++}
++
++static int mt6370_chg_set_aicr(struct mt6370_priv *priv,
++			       const union power_supply_propval *val)
++{
++	return mt6370_chg_field_set(priv, F_IAICR, val->intval);
++}
++
++static int mt6370_chg_set_mivr(struct mt6370_priv *priv,
++			       const union power_supply_propval *val)
++{
++	return mt6370_chg_field_set(priv, F_VMIVR, val->intval);
++}
++
++static int mt6370_chg_set_iprechg(struct mt6370_priv *priv,
++				  const union power_supply_propval *val)
++{
++	return mt6370_chg_field_set(priv, F_IPREC, val->intval);
++}
++
++static int mt6370_chg_set_ieoc(struct mt6370_priv *priv,
++			       const union power_supply_propval *val)
++{
++	return mt6370_chg_field_set(priv, F_IEOC, val->intval);
++}
++
++static int mt6370_chg_get_property(struct power_supply *psy,
++				   enum power_supply_property psp,
++				   union power_supply_propval *val)
++{
++	struct mt6370_priv *priv = power_supply_get_drvdata(psy);
++	int ret = 0;
++
++	switch (psp) {
++	case POWER_SUPPLY_PROP_ONLINE:
++		ret = mt6370_chg_get_online(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_STATUS:
++		ret = mt6370_chg_get_status(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CHARGE_TYPE:
++		ret = mt6370_chg_get_charge_type(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
++		ret = mt6370_chg_get_ichg(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX:
++		ret = mt6370_chg_get_max_ichg(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
++		ret = mt6370_chg_get_cv(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE_MAX:
++		ret = mt6370_chg_get_max_cv(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
++		ret = mt6370_chg_get_aicr(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT:
++		ret = mt6370_chg_get_mivr(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_PRECHARGE_CURRENT:
++		ret = mt6370_chg_get_iprechg(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT:
++		ret = mt6370_chg_get_ieoc(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_TYPE:
++		val->intval = priv->psy_desc->type;
++		break;
++	case POWER_SUPPLY_PROP_USB_TYPE:
++		val->intval = priv->psy_usb_type;
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	return ret;
++}
++
++static int mt6370_chg_set_property(struct power_supply *psy,
++				   enum power_supply_property psp,
++				   const union power_supply_propval *val)
++{
++	struct mt6370_priv *priv = power_supply_get_drvdata(psy);
++	int ret;
++
++	switch (psp) {
++	case POWER_SUPPLY_PROP_ONLINE:
++		ret = mt6370_chg_set_online(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
++		ret = mt6370_chg_set_ichg(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
++		ret = mt6370_chg_set_cv(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
++		ret = mt6370_chg_set_aicr(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT:
++		ret = mt6370_chg_set_mivr(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_PRECHARGE_CURRENT:
++		ret = mt6370_chg_set_iprechg(priv, val);
++		break;
++	case POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT:
++		ret = mt6370_chg_set_ieoc(priv, val);
++		break;
++	default:
++		ret = -EINVAL;
++	}
++	return ret;
++}
++
++static int mt6370_chg_property_is_writeable(struct power_supply *psy,
++					    enum power_supply_property psp)
++{
++	switch (psp) {
++	case POWER_SUPPLY_PROP_ONLINE:
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT:
++	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
++	case POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT:
++	case POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT:
++	case POWER_SUPPLY_PROP_PRECHARGE_CURRENT:
++	case POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT:
++		return 1;
++	default:
++		return 0;
++	}
++}
++
++static enum power_supply_property mt6370_chg_properties[] = {
++	POWER_SUPPLY_PROP_ONLINE,
++	POWER_SUPPLY_PROP_STATUS,
++	POWER_SUPPLY_PROP_CHARGE_TYPE,
++	POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT,
++	POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
++	POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE,
++	POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE_MAX,
++	POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT,
++	POWER_SUPPLY_PROP_INPUT_VOLTAGE_LIMIT,
++	POWER_SUPPLY_PROP_PRECHARGE_CURRENT,
++	POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT,
++	POWER_SUPPLY_PROP_TYPE,
++	POWER_SUPPLY_PROP_USB_TYPE,
++};
++
++static enum power_supply_usb_type mt6370_chg_usb_types[] = {
++	POWER_SUPPLY_USB_TYPE_UNKNOWN,
++	POWER_SUPPLY_USB_TYPE_SDP,
++	POWER_SUPPLY_USB_TYPE_CDP,
++	POWER_SUPPLY_USB_TYPE_DCP,
++};
++
++static struct power_supply_desc mt6370_chg_psy_desc = {
++	.type = POWER_SUPPLY_TYPE_USB,
++	.properties = mt6370_chg_properties,
++	.num_properties = ARRAY_SIZE(mt6370_chg_properties),
++	.get_property = mt6370_chg_get_property,
++	.set_property = mt6370_chg_set_property,
++	.property_is_writeable = mt6370_chg_property_is_writeable,
++	.usb_types = mt6370_chg_usb_types,
++	.num_usb_types = ARRAY_SIZE(mt6370_chg_usb_types),
++};
++
++static const struct regulator_ops mt6370_chg_otg_ops = {
++	.list_voltage = regulator_list_voltage_linear,
++	.enable = regulator_enable_regmap,
++	.disable = regulator_disable_regmap,
++	.is_enabled = regulator_is_enabled_regmap,
++	.set_voltage_sel = regulator_set_voltage_sel_regmap,
++	.get_voltage_sel = regulator_get_voltage_sel_regmap,
++	.set_current_limit = regulator_set_current_limit_regmap,
++	.get_current_limit = regulator_get_current_limit_regmap,
++};
++
++static const struct regulator_desc mt6370_chg_otg_rdesc = {
++	.of_match = "mt6370,otg-vbus",
++	.of_parse_cb = mt6370_chg_otg_of_parse_cb,
++	.name = "mt6370,otg-vbus",
++	.ops = &mt6370_chg_otg_ops,
++	.owner = THIS_MODULE,
++	.type = REGULATOR_VOLTAGE,
++	.min_uV = 4425000,
++	.uV_step = 25000,
++	.n_voltages = 57,
++	.vsel_reg = MT6370_REG_CHG_CTRL5,
++	.vsel_mask = MT6370_VOBST_MASK,
++	.enable_reg = MT6370_REG_CHG_CTRL1,
++	.enable_mask = MT6370_OPA_MODE_MASK,
++	.curr_table = mt6370_chg_otg_oc_ma,
++	.n_current_limits = ARRAY_SIZE(mt6370_chg_otg_oc_ma),
++	.csel_reg = MT6370_REG_CHG_CTRL10,
++	.csel_mask = MT6370_OTG_OC_MASK,
++};
++
++static int mt6370_chg_init_rmap_fields(struct mt6370_priv *priv)
++{
++	int i;
++	const struct mt6370_chg_field *fds = mt6370_chg_fields;
++
++	for (i = 0; i < F_MAX; i++) {
++		priv->rmap_fields[i] = devm_regmap_field_alloc(priv->dev,
++							       priv->regmap,
++							       fds[i].field);
++		if (IS_ERR(priv->rmap_fields[i])) {
++			dev_err(priv->dev,
++				"Failed to allocate regmap field [%s]\n",
++				fds[i].name);
++			return PTR_ERR(priv->rmap_fields[i]);
++		}
++	}
++
++	return 0;
++}
++
++static int mt6370_chg_init_setting(struct mt6370_priv *priv)
++{
++	int ret;
++
++	priv->wq = create_singlethread_workqueue(dev_name(priv->dev));
++	if (IS_ERR(priv->wq)) {
++		dev_err(priv->dev, "Failed to create workqueue\n");
++		return PTR_ERR(priv->wq);
++	}
++
++	INIT_WORK(&priv->bc12_work, mt6370_chg_bc12_work_func);
++	INIT_DELAYED_WORK(&priv->mivr_dwork, mt6370_chg_mivr_dwork_func);
++	mutex_init(&priv->attach_lock);
++	atomic_set(&priv->attach, 0);
++
++	/* Disable usb_chg_en */
++	ret = mt6370_chg_field_set(priv, F_USBCHGEN, 0);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to disable usb_chg_en\n");
++		return ret;
++	}
++
++	/* ICHG/IEOC Workaroud, ICHG can not be set less than 900mA */
++	ret = mt6370_chg_field_set(priv, F_ICHG, 900);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to set ICHG to 900mA");
++		return ret;
++	}
++
++	/* Change input current limit selection to using IAICR results */
++	ret = mt6370_chg_field_set(priv, F_IINLMTSEL, 3);
++	if (ret < 0) {
++		dev_err(priv->dev, "Failed to set IINLMTSEL\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++#define MT6370_CHG_DT_PROP_DECL(_name, _type, _field)	\
++{							\
++	.name = "mediatek,chg-" #_name,			\
++	.type = MT6370_PARSE_TYPE_##_type,		\
++	.fd = _field,					\
++}
++
++static int mt6370_chg_init_otg_regulator(struct mt6370_priv *priv)
++{
++	struct regulator_config rcfg = {
++		.dev = priv->dev,
++		.regmap = priv->regmap,
++		.driver_data = priv,
++	};
++
++	priv->rdev = devm_regulator_register(priv->dev, &mt6370_chg_otg_rdesc,
++					     &rcfg);
++
++	return IS_ERR(priv->rdev) ? PTR_ERR(priv->rdev) : 0;
++}
++
++static int mt6370_chg_init_psy(struct mt6370_priv *priv)
++{
++	struct power_supply_config cfg = {
++		.drv_data = priv,
++		.of_node = priv->dev->of_node,
++	};
++
++	priv->psy_desc = &mt6370_chg_psy_desc;
++	priv->psy_desc->name = dev_name(priv->dev);
++	priv->psy = devm_power_supply_register(priv->dev, priv->psy_desc, &cfg);
++
++	return IS_ERR(priv->psy) ? PTR_ERR(priv->psy) : 0;
++}
++
++static irqreturn_t mt6370_attach_i_handler(int irq, void *data)
++{
++	struct mt6370_priv *priv = data;
++	u32 otg_en;
++	int ret;
++
++	/* Check in otg mode or not */
++	ret = mt6370_chg_field_get(priv, F_BOOST_STAT, &otg_en);
++	if (ret < 0) {
++		dev_err(priv->dev, "failed to get otg state\n");
++		return IRQ_HANDLED;
++	}
++
++	if (otg_en)
++		return IRQ_HANDLED;
++
++	mutex_lock(&priv->attach_lock);
++	atomic_set(&priv->attach, MT6370_ATTACH_STAT_ATTACH_BC12_DONE);
++	mutex_unlock(&priv->attach_lock);
++
++	if (!queue_work(priv->wq, &priv->bc12_work))
++		dev_err(priv->dev, "bc12 work has already queued\n");
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t mt6370_uvp_d_evt_handler(int irq, void *data)
++{
++	struct mt6370_priv *priv = data;
++
++	mt6370_chg_pwr_rdy_check(priv);
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t mt6370_mivr_handler(int irq, void *data)
++{
++	struct mt6370_priv *priv = data;
++
++	pm_stay_awake(priv->dev);
++	mt6370_chg_enable_irq(priv, "mivr", false);
++	schedule_delayed_work(&priv->mivr_dwork, msecs_to_jiffies(200));
++
++	return IRQ_HANDLED;
++}
++
++#define MT6370_CHG_IRQ(_name)						\
++{									\
++	.name = #_name,							\
++	.handler = mt6370_##_name##_handler,				\
++}
++
++static int mt6370_chg_init_irq(struct mt6370_priv *priv)
++{
++	int i, ret;
++	const struct {
++		char *name;
++		irq_handler_t handler;
++	} mt6370_chg_irqs[] = {
++		MT6370_CHG_IRQ(attach_i),
++		MT6370_CHG_IRQ(uvp_d_evt),
++		MT6370_CHG_IRQ(mivr),
++	};
++
++	for (i = 0; i < ARRAY_SIZE(mt6370_chg_irqs); i++) {
++		ret = platform_get_irq_byname(to_platform_device(priv->dev),
++					      mt6370_chg_irqs[i].name);
++		if (ret < 0) {
++			dev_err(priv->dev, "Failed to get irq %s\n",
++				mt6370_chg_irqs[i].name);
++			return ret;
++		}
++
++		ret = devm_request_threaded_irq(priv->dev, ret, NULL,
++						mt6370_chg_irqs[i].handler,
++						IRQF_TRIGGER_FALLING,
++						dev_name(priv->dev),
++						priv);
++
++		if (ret < 0) {
++			dev_err(priv->dev, "Failed to request irq %s\n",
++				mt6370_chg_irqs[i].name);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int mt6370_chg_probe(struct platform_device *pdev)
++{
++	int ret;
++	struct mt6370_priv *priv;
++
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->dev = &pdev->dev;
++
++	priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!priv->regmap) {
 +		dev_err(&pdev->dev, "Failed to get regmap\n");
 +		return -ENODEV;
 +	}
 +
-+	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*priv));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	priv = iio_priv(indio_dev);
-+	priv->dev = &pdev->dev;
-+	priv->regmap = regmap;
-+	mutex_init(&priv->lock);
-+
-+	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, 0);
++	ret = mt6370_chg_init_rmap_fields(priv);
 +	if (ret) {
-+		dev_err(&pdev->dev, "Failed to reset adc\n");
++		dev_err(&pdev->dev, "Failed to init regmap fields\n");
 +		return ret;
 +	}
 +
-+	indio_dev->name = dev_name(&pdev->dev);
-+	indio_dev->info = &mt6370_adc_iio_info;
-+	indio_dev->modes = INDIO_DIRECT_MODE;
-+	indio_dev->channels = mt6370_adc_channels;
-+	indio_dev->num_channels = ARRAY_SIZE(mt6370_adc_channels);
++	platform_set_drvdata(pdev, priv);
 +
-+	return devm_iio_device_register(&pdev->dev, indio_dev);
++	priv->iio_adcs = devm_iio_channel_get_all(priv->dev);
++	if (IS_ERR(priv->iio_adcs)) {
++		dev_err(&pdev->dev, "Failed to get iio adc\n");
++		return PTR_ERR(priv->iio_adcs);
++	}
++
++	ret = mt6370_chg_init_otg_regulator(priv);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to init otg regulator\n");
++		return ret;
++	}
++
++	ret = mt6370_chg_init_psy(priv);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to init psy\n");
++		return ret;
++	}
++
++	ret = mt6370_chg_init_setting(priv);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to init mt6370 private data\n");
++		goto probe_out;
++	}
++
++	ret = mt6370_chg_init_irq(priv);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to init irq\n");
++		goto probe_out;
++	}
++
++	mt6370_chg_pwr_rdy_check(priv);
++
++	return 0;
++
++probe_out:
++	destroy_workqueue(priv->wq);
++	mutex_destroy(&priv->attach_lock);
++
++	return ret;
 +}
 +
-+static const struct of_device_id mt6370_adc_of_id[] = {
-+	{ .compatible = "mediatek,mt6370-adc", },
++static int mt6370_chg_remove(struct platform_device *pdev)
++{
++	struct mt6370_priv *priv = platform_get_drvdata(pdev);
++
++	if (priv) {
++		mt6370_chg_enable_irq(priv, "mivr", false);
++		cancel_delayed_work_sync(&priv->mivr_dwork);
++		destroy_workqueue(priv->wq);
++		mutex_destroy(&priv->attach_lock);
++	}
++
++	return 0;
++}
++
++static const struct of_device_id mt6370_chg_of_match[] = {
++	{ .compatible = "mediatek,mt6370-charger", },
 +	{}
 +};
-+MODULE_DEVICE_TABLE(of, mt6370_adc_of_id);
++MODULE_DEVICE_TABLE(of, mt6370_chg_of_match);
 +
-+static struct platform_driver mt6370_adc_driver = {
++static struct platform_driver mt6370_chg_driver = {
++	.probe = mt6370_chg_probe,
++	.remove = mt6370_chg_remove,
 +	.driver = {
-+		.name = "mt6370-adc",
-+		.of_match_table = mt6370_adc_of_id,
++		.name = "mt6370-charger",
++		.of_match_table = of_match_ptr(mt6370_chg_of_match),
 +	},
-+	.probe = mt6370_adc_probe,
 +};
-+module_platform_driver(mt6370_adc_driver);
++module_platform_driver(mt6370_chg_driver);
 +
 +MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
-+MODULE_DESCRIPTION("MT6370 ADC Drvier");
++MODULE_DESCRIPTION("Mediatek MT6370 Charger Driver");
 +MODULE_LICENSE("GPL v2");
 -- 
 2.25.1
