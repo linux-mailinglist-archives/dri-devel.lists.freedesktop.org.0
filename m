@@ -2,55 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86692538DE4
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 11:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595B9538DE5
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 11:40:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE2510F3EB;
-	Tue, 31 May 2022 09:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E01410F619;
+	Tue, 31 May 2022 09:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5635510F3EB
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 09:39:50 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id i11so22911161ybq.9
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 02:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=owik/ERIKQ/Xn0y08fcg1q8jOY8cbMmZRyuaUyU18sA=;
- b=lQQ96cMxOA4G9iVLjQ4z6e2m7ZJQpJFgBxCrdGn/ioTtmBrwPLWuH5n8fDoP8/GAlq
- WrFsT2wBmih+5WcNUVwYVfUuC3xdE/uwnVd7D9zQybSFIJu8Yn+KkYCM9mOfy5e2WHit
- 7YyYNk6XvJpPs7ZcV/IJHCWxPpXQ+vP7mBOAe8jIu6TneEQW0ha6Z4LKRQ0dSXpWZPno
- Sx42g/lk+HqSaAAeF9geGAOlGAA/i8HoBxIUZH9O37RvveMM9nozLDC4p8bMfbS1+8Is
- ILFHFv1n18ekK70DyNN4VL8spINVIQ/A4NZWL+0C49tdaEDoVVkpOznurGQzq4Wzgr93
- 11bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=owik/ERIKQ/Xn0y08fcg1q8jOY8cbMmZRyuaUyU18sA=;
- b=cF1XLV5cPSsc4Dcws3eNWTpe5gaa5uM6SDjBGst1r2VFhkk2+abWrWNr195d2gSFZE
- 6Y5cJE2jJ52AAWINu0bpLbBplKmXvEVJRy4rLQcBKwB5bgzJHcAsQe1oqz85orAYPhkL
- XRopr/6GV3ZA0CHx3B88D4Jv1x6iZkPifLQH0Xn2KhWrN+ZV4ZfdKdxk+t5jkB8FRqfM
- duK3cPqR0n9JfxFiLEQteA4Wt4roXi7s6MvScvF9FCpnsPXoQySisL+erKw7DAZznXYW
- hf15HkWKnEtu2yjGRaUi0aY66BTedf7tprPDEpm18U08z8RForbNMbE53rYLw3IXiv1m
- REZQ==
-X-Gm-Message-State: AOAM532PKDSQqvrZi3bNm31wa0CAoO7FjabNTfzTEhPbvlTM6oOQYg8l
- yYYf/fSIxT0KuGP3w7pPVrOboLVaDJiHseN5NikuCQ==
-X-Google-Smtp-Source: ABdhPJzJ5ytNhC9HvdgLcAnnUu0XWT4XYNnYlfIbRfnZZFTub5PI7q+eBt5ywXskTbAQnXYM+BDjueQa7AkpkbKiHvQ=
-X-Received: by 2002:a25:df50:0:b0:65c:e053:3449 with SMTP id
- w77-20020a25df50000000b0065ce0533449mr9534101ybg.291.1653989989529; Tue, 31
- May 2022 02:39:49 -0700 (PDT)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0985F10F5EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 09:40:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 686BB5C0114;
+ Tue, 31 May 2022 05:40:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 31 May 2022 05:40:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1653990014; x=
+ 1654076414; bh=u4zEnhboDSeP51AyldaWO4MlerqqIGwbqEy3LDx4WY0=; b=U
+ 9jo/IQewrmwkHvbZ6ydG3imiPyhKXUaQ8HkiPN/lA375Q/McScOyViGhLRRvsUgK
+ bNhPBhspY04DlKLZMPuxBhW4/uCfl27+HGQmmdVVNQR2usoDVs2c84mhJhk/MPCt
+ d+X5WZjsMXG8GPBSPtLHxFoIAo6ATNgcyoKcVfGOXDvEo1MCAft7+PyMja+IdsqE
+ 6610TdeKJtyZ31HebQbUvyxnVyXiVvuutMhFrONusVf7OlhhUUwvhyXiL4UZ/RvA
+ SUvDsKKTI+nGZf+EyF/kAXQQTEjEDEwd3GJkrfBBrTaq8PZb3rIiScbaOuzVZw6E
+ NcIPLaCO/dXXQaaSLonog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653990014; x=
+ 1654076414; bh=u4zEnhboDSeP51AyldaWO4MlerqqIGwbqEy3LDx4WY0=; b=J
+ t7I5ZECwa5sSbvYlOzwefAGwazTFDekq0P/vmxXYQD9nsmPj+9pCbIjB6e0rVH7i
+ O68R+RgteRY7Ikj3URmzTXiMT9wWfCGpdC2tB1tUCzeQeS2d9gGhe5JZvdsz6Xhy
+ 3NGg4m0wc4SMUZo5n9E31zUoulPRvErPjW64dS/DOXp0D93ypq0hUazjAw7N+4MR
+ VdLHESFV+3+AZlzYp1SNbTF7hfoMcsNJyhi19v0s8HdVuMuTdXtdC6MRdlQW0qH/
+ qEUq/Rl2N4BwD43Tej6pYPFLJnTeEqRgWGHEdDi1HBdiYMUGMpZPCmPHxfIBFZ4u
+ 5+aWRg8NNv1r5DowRFHxg==
+X-ME-Sender: <xms:feKVYhr73uzfoFzeDR8r3GdzftWfjr0DnjDK8s4VkXFH2a-I45ZPkw>
+ <xme:feKVYjpieIC8OeTquLWESMlCireN9uc_HBpe12_Fpo01oj-TGFGMVS9KtWnq3pyio
+ 04MtZ12z3ekJxzlxDY>
+X-ME-Received: <xmr:feKVYuNGWqyrp6SAA0wxOti35TBxDLhW6hR14oM3Yzy3b_b17LeBSyYf7kU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgddukecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeuteef
+ teefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:feKVYs6MR_bEdpIQt2a1Ti7R667qVsr1bsll5HKSsxdOgF5HYJwDVw>
+ <xmx:feKVYg7MI9NRYzxYfirkQvp2FV1L70cpwX1pbhr5wGxnOrP-AE3MTQ>
+ <xmx:feKVYkgSYdEjptbZ6EzDTjph6HR8JuQKjn4Bv_kb0Bow1Lc_dwkeRA>
+ <xmx:fuKVYr1wiljD2cOba9zdl9E2xYVntTn43A4x-35qAYb_Pby_XC-WBg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 31 May 2022 05:40:13 -0400 (EDT)
+Date: Tue, 31 May 2022 11:40:11 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Melissa Wen <mwen@igalia.com>
+Subject: Re: [PATCH 14/14] drm/vc4: Warn if some v3d code is run on BCM2711
+Message-ID: <20220531094011.f7i2rb36fxt3o4ao@penduick>
+References: <20220503121341.983842-1-maxime@cerno.tech>
+ <20220503121341.983842-15-maxime@cerno.tech>
+ <20220509165134.dilly2kelknk3iz3@mail.igalia.com>
 MIME-Version: 1.0
-References: <20220530160753.100892-1-jo@jsfamily.in>
- <BY5PR02MB7009301398881E89033F1DF0D9DD9@BY5PR02MB7009.namprd02.prod.outlook.com>
-In-Reply-To: <BY5PR02MB7009301398881E89033F1DF0D9DD9@BY5PR02MB7009.namprd02.prod.outlook.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 31 May 2022 11:39:38 +0200
-Message-ID: <CACRpkdZO6yB4SZzMgORv=1LCxbiaabfv=UyOQksn6F_WxgGa=w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] drm/panel: introduce ebbg,ft8719 panel
-To: Joel Selvaraj <jo@jsfamily.in>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220509165134.dilly2kelknk3iz3@mail.igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,39 +86,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Hao Fang <fanghao11@huawei.com>,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Corentin Labbe <clabbe@baylibre.com>, phone-devel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Stanislav Jakubek <stano.jakubek@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joel,
+Hi Melissa,
 
-On Mon, May 30, 2022 at 6:08 PM Joel Selvaraj <jo@jsfamily.in> wrote:
+On Mon, May 09, 2022 at 03:52:04PM -0100, Melissa Wen wrote:
+> > @@ -915,10 +954,14 @@ int vc4_set_tiling_ioctl(struct drm_device *dev, =
+void *data,
+> >  int vc4_get_tiling_ioctl(struct drm_device *dev, void *data,
+> >  			 struct drm_file *file_priv)
+> >  {
+> > +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
+> >  	struct drm_vc4_get_tiling *args =3D data;
+> >  	struct drm_gem_object *gem_obj;
+> >  	struct vc4_bo *bo;
+> > =20
+> > +	if (WARN_ON_ONCE(vc4->is_vc5))
+> > +		return -ENODEV;
+> > +
+>=20
+> Just to confirm: as none of these ioctls were wired up in
+> vc5_drm_driver, is there any situation where this path can be taken
+> wrongly?
 
-> +#define dsi_dcs_write_seq(dsi, cmd, seq...) do {                               \
+For this particular function, no, it wasn't reachable before since the
+ioctl were only exposed for devices with the render capability, and we
+were not using it.
 
-Please name it mipi_dsi_dcs_write_seq() and...
+Other functions in that patch however are called prior to this series,
+especially in the BO/GEM related path.
 
-> +               static const u8 d[] = { cmd, seq };                             \
-> +               struct device *dev = &dsi->dev; \
-> +               int ret;                                                \
-> +               ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d)); \
-> +               if (ret < 0) {                                          \
-> +                       dev_err_ratelimited(dev, "sending command %#02x failed: %d\n", cmd, ret); \
-> +                       return ret;                                             \
-> +               }                                               \
-> +       } while (0)
-
-My suggestion was to add this macro to include/drm/drm_mipi_dsi.h, just patch it
-in there under the other mipi_dsi_dcs_* functions.
-
-I think a few other drivers could make good use of this macro.
-
-Yours,
-Linus Walleij
+Maxime
