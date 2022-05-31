@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5894C5399A7
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 00:47:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BFD5399A6
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 00:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDB510E720;
-	Tue, 31 May 2022 22:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA4CC10E711;
+	Tue, 31 May 2022 22:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
- [209.85.160.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAEC410E720
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 22:46:58 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-f314077115so405130fac.1
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 15:46:58 -0700 (PDT)
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+ [209.85.167.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD82B10E720
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 22:46:56 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id v9so362576oie.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 15:46:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
  :message-id;
- bh=AE9Fbrj6BPIXSH+6mmzzM5HJbPbBIVW+lbxzy622FhY=;
- b=KlzBhEZJc6Y1Q5z9Eqa6IkNkhNTA0PY3dHIJyjpfKV5VyQf7GFto7mL27Hf5TTLL4W
- xsp5SRCAemoBKlZXavaBkm7bvpShpJNpTEOG3IYqT6aTiPhzQ1rQt5mTaaL/J/ey534G
- PQXQYfrgPkwRMBjC+AzEAzillI5ErdtlcOC7/ZTG4F9wj5olKNqWt7XKdKBvSyUR+nor
- iGe+MeJ+WvgUFEm0Il0c5tpSqO+TPVYctQmSvCyQLAMniy72scdqjQPCvJMP2Se06BR8
- SUPEfohoLJR/25RTk2a3lXzIYUM9WSZERlyBs/+Dk8a9DepDVB8sUCnkO3JwibAjaywy
- ZAyg==
-X-Gm-Message-State: AOAM533+2/GhUiHjkfmQ4tAIssm5zC+hsuJNkYnbL4kQtLl8PKPz9x2M
- SJdsz46uFupslSnruLbVJA==
-X-Google-Smtp-Source: ABdhPJz9hzTJNp12uYZ4vHIk6ZhMev4DpgOt2zBvhqRIr7g1l5auyN0vlOttAqh+FCiKDf2dw2zOIw==
-X-Received: by 2002:a05:6870:b254:b0:ec:6ca4:c89f with SMTP id
- b20-20020a056870b25400b000ec6ca4c89fmr15083367oam.272.1654037217725; 
- Tue, 31 May 2022 15:46:57 -0700 (PDT)
+ bh=2Z7nZCZCrp6yDZohpwqv7FuEhmrYv7mpBJYl13nUGZE=;
+ b=XTqL3wzeGDLA+o8UeGS74RkJzWKBFREECRL5IbFqME04/8MA9IAbHRKwbGQE/4J9a+
+ Slqsg5uLQ6EFF231PtJ+X1ynMyxYX0aI2cZwuYVEDqxQRJv98LNVbjntj+VLeufh7cn9
+ qrlFSETds42HbCWEP1MQggynE6p/BWG8kf4Ckp3v1hgGIJmeiTM5lPc8WvK4357Dbk8o
+ tjil2t+zzMcTQSx0VRzdPjcnHIVgsHL61aIj6kFb5fdVBaS1LSeA/naAqyiOffIX8WXD
+ K9E7smLL734v2xvFdDxbZfh+MFftvS+8dk37VjIjAGtQ28NUiAzdSNuj8L9UgJvL6JKz
+ nIkw==
+X-Gm-Message-State: AOAM53082+c0DTxSraqr7FckS33jfFecrU9ilcNtJSq/QGDnhs9eZOYk
+ km7GbCebsuQx6H2SKEOVzw==
+X-Google-Smtp-Source: ABdhPJyCt/w64P3Qhbl9BTehgfuVFmuXiRTTi5iJf9VTUqZA4lc6Tq78gjAB18eUT2wVhb7SnkTfDA==
+X-Received: by 2002:a05:6808:1454:b0:328:82a9:cb08 with SMTP id
+ x20-20020a056808145400b0032882a9cb08mr13482779oiv.106.1654037216107; 
+ Tue, 31 May 2022 15:46:56 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- u3-20020a056830248300b0060603221247sm7000503ots.23.2022.05.31.15.46.56
+ m19-20020a056820051300b0035eb4e5a6b0sm128663ooj.6.2022.05.31.15.46.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 15:46:57 -0700 (PDT)
-Received: (nullmailer pid 2476555 invoked by uid 1000);
+ Tue, 31 May 2022 15:46:55 -0700 (PDT)
+Received: (nullmailer pid 2476551 invoked by uid 1000);
  Tue, 31 May 2022 22:46:54 -0000
 From: Rob Herring <robh@kernel.org>
 To: ChiaEn Wu <peterwu.pub@gmail.com>
-In-Reply-To: <20220531111900.19422-5-peterwu.pub@gmail.com>
+In-Reply-To: <20220531111900.19422-4-peterwu.pub@gmail.com>
 References: <20220531111900.19422-1-peterwu.pub@gmail.com>
- <20220531111900.19422-5-peterwu.pub@gmail.com>
-Subject: Re: [RESEND 04/14] dt-bindings: leds: Add Mediatek MT6370 flashlight
- binding
+ <20220531111900.19422-4-peterwu.pub@gmail.com>
+Subject: Re: [RESEND 03/14] dt-bindings: leds: mt6370: Add Mediatek mt6370
+ indicator
 Date: Tue, 31 May 2022 17:46:54 -0500
-Message-Id: <1654037214.468113.2476554.nullmailer@robh.at.kernel.org>
+Message-Id: <1654037214.458913.2476550.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,30 +60,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com, pavel@ucw.cz,
- alice_chen@richtek.com, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- cy_huang@richtek.com, krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com, lgirdwood@gmail.com,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org, sre@kernel.org,
+ cy_huang@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
  linux-leds@vger.kernel.org, daniel.thompson@linaro.org, chiaen_wu@richtek.com,
  chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
  linux-pm@vger.kernel.org, broonie@kernel.org,
  linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, lgirdwood@gmail.com,
- robh+dt@kernel.org, sre@kernel.org, deller@gmx.de, jic23@kernel.org
+ linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ jingoohan1@gmail.com, deller@gmx.de, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 31 May 2022 19:18:50 +0800, ChiaEn Wu wrote:
-> From: Alice Chen <alice_chen@richtek.com>
+On Tue, 31 May 2022 19:18:49 +0800, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
 > 
-> Add Mediatek MT6370 flashlight binding documentation
+> Add Mediatek mt6370 indicator documentation.
 > 
-> Signed-off-by: Alice Chen <alice_chen@richtek.com>
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 > ---
->  .../leds/mediatek,mt6370-flashlight.yaml      | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
+>  .../leds/mediatek,mt6370-indicator.yaml       | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
@@ -93,12 +92,11 @@ on your patch (DT_CHECKER_FLAGS is new in v5.13):
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/leds/mediatek,mt6370-flashlight.yaml#
+
 
 doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/mt6370.yaml
-Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml: Documentation/devicetree/bindings/mfd/mt6370.yaml
+Warning: Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml: Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
 
 See https://patchwork.ozlabs.org/patch/
 
