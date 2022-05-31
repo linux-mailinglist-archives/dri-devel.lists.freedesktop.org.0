@@ -1,94 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A00539799
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 22:01:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B855397B7
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 22:03:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE2710E512;
-	Tue, 31 May 2022 20:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79C1210E0A7;
+	Tue, 31 May 2022 20:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08on2083.outbound.protection.outlook.com [40.107.100.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B402E10E512;
- Tue, 31 May 2022 20:01:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RKa5ezAysuEbZar9iOYpt4YLcjUcNWpseiLHqdzJgreXe8Hnzn5yD3HgREyXF6rYsv7WJ6is05h/wOaH1EqIjhKFwsYzyajfMYtzwGBYhROQDACLCRWTv/9Lpjyhi+zuilQPdaFFShkW4J09Q0emq4cVz7TM6cVhGNfFLith8770VZ/b3D1cdi0hYb/AULPMfmTNP/L0u7r9vlUVNag6QooGj/QAncWqeXUthznpd4NqNe1rBRk3TEGZ1M+ko9X9ekqWp0xpACNg13hTmnsKeAMDzyHKkCzyPjitf8QU23/rALSxeMWS3SRCaZAG/DkJnvN5ARsQLjcWAxHTMZ1Ayg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RGFoeMuycSLm0T3Ola5avl2Wy7hr3oRWaQlczxEFybc=;
- b=I8KWR9oOMsxXFeY2W2lw1Fx2bl4WJOIfzAa1hIsXw5/twDV5szF1f08sqMs9cAFsAyyJa3DaHXM1xfG1z/3E0kGJi2erFXOvQLVDaRZNLY4lcgNuT9uS+So064R4YmFXA8RVXkuIIyMwOK+BsatNa+eNoxJA1LLMixgXQSmly64PpiL9NRSBHyoNAvSyddD5oDfjJvJqCcmL3VIQpglRsLX6DJx5yNIumlpO045EA6aB4OV7NVo/QcAjnu/5qrpSpSL8wytc744rmHOomoB0R4Z5M5QblOu85aV3zJY2lufBbPf9FdMzHEi5CxJTp2Q61U/9mi1P8lGw4y34EevpxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RGFoeMuycSLm0T3Ola5avl2Wy7hr3oRWaQlczxEFybc=;
- b=IZMOOOpxwDYm1Wzbfjbkbe5XtbUUGJ+tdu2AyNDuwbLBwO3F5w+kTBNsbqKqpiekWbJFHO3ePZQv9Q1Xg4k7oM93PiLP6d5AgN0Y1zTaHyzyuv094/0fCnI0X5uW7SPMuWbkZG3QaWb1VSdkOfuh/QapJLywio3oWz51fRqNXZQ=
-Received: from BN9PR03CA0392.namprd03.prod.outlook.com (2603:10b6:408:111::7)
- by CH2PR12MB3654.namprd12.prod.outlook.com (2603:10b6:610:22::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.16; Tue, 31 May
- 2022 20:01:05 +0000
-Received: from BN8NAM11FT027.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:111:cafe::bf) by BN9PR03CA0392.outlook.office365.com
- (2603:10b6:408:111::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13 via Frontend
- Transport; Tue, 31 May 2022 20:01:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT027.mail.protection.outlook.com (10.13.177.96) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5293.13 via Frontend Transport; Tue, 31 May 2022 20:01:05 +0000
-Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 31 May
- 2022 15:01:03 -0500
-From: Alex Sierra <alex.sierra@amd.com>
-To: <jgg@nvidia.com>
-Subject: [PATCH v5 13/13] tools: add selftests to hmm for COW in device memory
-Date: Tue, 31 May 2022 15:00:41 -0500
-Message-ID: <20220531200041.24904-14-alex.sierra@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220531200041.24904-1-alex.sierra@amd.com>
-References: <20220531200041.24904-1-alex.sierra@amd.com>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 508F910E692
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 20:03:35 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id x62so7165589ede.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 13:03:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VeXRYquwBdQ1dOZMflf5nsQE+opZ3d34q51TacEF7HA=;
+ b=XuZGseWjCdQCUpLS7SWx2X04gT9YVCZqwuF0O3a7BrK7scNXHX2Pml9WwshUdl5VkY
+ aIC0pGpDEEEg1XCkAz3YScYnYGWVcrZhAa01mvHgfLyWtgES/O8bj8YwxPaWHWiFG5RH
+ JpfoXo7eKL8C7fYzSGLdyfQp7ZXU7EO+3Qd3+Z+mUzaTeCxZNVZ4STp0XazAq2aZ5ohY
+ 8u51PbmoCd8sbikiANJVhCKkhLhIxyNjPxg4H4aFnAekHmz0TwaXFs22aOt5vetk5pEb
+ a7KzE6z0jh43w3F2gnNfMAdv4T/h5fE54520BL7miy3XFym4oBBaf/qG/H8NOhsThB9A
+ e1Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VeXRYquwBdQ1dOZMflf5nsQE+opZ3d34q51TacEF7HA=;
+ b=6mbzaSalpPNQDU72IjoR8GgqQ6+N1HyT3bvN/uUIdEA951QeoFceYTcudk+nFw75q3
+ 9vostoL62dmy7sIrlSQph9m37ZBKlOn+Jg1zFJhRNjHJe7tkdG+zE51oVrS0wuoqhZvJ
+ yYpL7r1ryJBPEVxjwvdT1BeAwuqRbcxOGYSxtaB6YYu4n/bfLXT99GzTPPXtNlJr/mwn
+ woGJaraM/XP1SoByvZDeKiarmYvAvr0kzqRcKDIR6FapDsR27uRy5fSCxB0ujyytxMXo
+ VPRSK3urfU5P4aCyGAGvTe7uv1MZYikWY0R2nEZ/1k7Ou67Hdq2ll7/rdGfTrS8jqGO8
+ atlA==
+X-Gm-Message-State: AOAM533E+XN0ySLweqPrOn5msNiYaOb83zggRhB/lDAw31oCN4gMJTWF
+ 1uHOIjAnS3oxfwZcGasHceuKazpyl/HkIJ3UOas=
+X-Google-Smtp-Source: ABdhPJwjVOUsvRdeo5FK73NryLg6a7micfi5ToPTE2Sq7rMy5xFF/f8eN3aQLibNcx6ds/c/F7VnYcaMymS5mq+P96A=
+X-Received: by 2002:a05:6402:254a:b0:42b:6c9a:c06c with SMTP id
+ l10-20020a056402254a00b0042b6c9ac06cmr47415245edb.199.1654027413836; Tue, 31
+ May 2022 13:03:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c2c9df9a-bc52-4466-e8e1-08da43404b8d
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3654:EE_
-X-Microsoft-Antispam-PRVS: <CH2PR12MB3654A197BD41BC433CF237AFFDDC9@CH2PR12MB3654.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EzoQ7MLxyDuO69NzGWKIK8gAuHeSzqrQrO6Wq4xw0Ssw+DbNLSj8IH63ScxQrg59p3yAA3u+lhqgi0Xpu/4RpC7ijNKtSZNaN0VGj37EiHXERm13/oLp1RGbc4VzJnndPSkWdZ3yneJ5eKTMYKYtplS56Kmq69e034xqUmB2OcSNS+Frbrn7nEtFH+AWlOr3Dyiv1zwSPRgAQeAnRWINcSUfwTzWG4QSv5z1iKX6WEvSZTh3p3BFaH1qD3CkxVNgAdtpTzSsHCbh39wF8QWVQT6+sX9Ehs4E6brTGz8A1eLQOFIfOL4vf9t+QwwlB2+Z9R8HAxiRMWvaNyWFsexrhe5ZOW3IckAiKfPenaksxHV+4F5GsugKIWsrDXvyZminGgo8t8cHWPS4P6MzSyfZB+mjKgUIAK5W7aw7pnTa2+NSVMURgVuxFnrR01/kUGfX5fyqptuU7nAiEWyIjD3PpK3utkmzWOjrgdgDWiUPqZ56w/lJ1bxSzomwC6G+n4daX+zabkd78bqJV7EjUJL8xOJcDEMWlpYKy5a/6NVjaToIdm66423FOmU3XYf1iuue4Q95yY2zM+8pVgsCkJyvBhl0/OgTN4zYMqhTCSoqOj6cFnDyo9DVXSpDeuMXTxr7pOsvAEqiJJvtuk30QjBASZyg0QkY40DU8zsElf8nF3yb2EOlOOvCFcHdXSdPk+BFFAST15Ck9VDxB+763fywPw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(316002)(86362001)(7416002)(356005)(6916009)(81166007)(54906003)(5660300002)(36860700001)(2906002)(83380400001)(44832011)(47076005)(4326008)(8676002)(82310400005)(2616005)(70586007)(1076003)(70206006)(186003)(426003)(16526019)(336012)(8936002)(6666004)(40460700003)(508600001)(36756003)(7696005)(26005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2022 20:01:05.0280 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2c9df9a-bc52-4466-e8e1-08da43404b8d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT027.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3654
+References: <20220531144818.26943-1-linmq006@gmail.com>
+ <20220531144818.26943-2-linmq006@gmail.com>
+In-Reply-To: <20220531144818.26943-2-linmq006@gmail.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Tue, 31 May 2022 22:03:23 +0200
+Message-ID: <CAFBinCANaU4Tk42j-GDBWwUDk39_XiCfeu4D9vGFjFc_G4PZGQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/meson: encoder_hdmi: Fix refcount leak in
+ meson_encoder_hdmi_init
+To: Miaoqian Lin <linmq006@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,116 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
- Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The objective is to test device migration mechanism in pages marked
-as COW, for private and coherent device type. In case of writing to
-COW private page(s), a page fault will migrate pages back to system
-memory first. Then, these pages will be duplicated. In case of COW
-device coherent type, pages are duplicated directly from device
-memory.
+Hello,
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- tools/testing/selftests/vm/hmm-tests.c | 80 ++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+first of all: thank you for spotting this and sending a patch!
 
-diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
-index 3295c8bf6c63..2da9d5baf339 100644
---- a/tools/testing/selftests/vm/hmm-tests.c
-+++ b/tools/testing/selftests/vm/hmm-tests.c
-@@ -1869,4 +1869,84 @@ TEST_F(hmm, hmm_gup_test)
- 	close(gup_fd);
- 	hmm_buffer_free(buffer);
- }
-+
-+/*
-+ * Test copy-on-write in device pages.
-+ * In case of writing to COW private page(s), a page fault will migrate pages
-+ * back to system memory first. Then, these pages will be duplicated. In case
-+ * of COW device coherent type, pages are duplicated directly from device
-+ * memory.
-+ */
-+TEST_F(hmm, hmm_cow_in_device)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+	unsigned char *m;
-+	pid_t pid;
-+	int status;
-+
-+	npages = 4;
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Migrate memory to device. */
-+
-+	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	pid = fork();
-+	if (pid == -1)
-+		ASSERT_EQ(pid, 0);
-+	if (!pid) {
-+		/* Child process waitd for SIGTERM from the parent. */
-+		while (1) {
-+		}
-+		perror("Should not reach this\n");
-+		exit(0);
-+	}
-+	/* Parent process writes to COW pages(s) and gets a
-+	 * new copy in system. In case of device private pages,
-+	 * this write causes a migration to system mem first.
-+	 */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Terminate child and wait */
-+	EXPECT_EQ(0, kill(pid, SIGTERM));
-+	EXPECT_EQ(pid, waitpid(pid, &status, 0));
-+	EXPECT_NE(0, WIFSIGNALED(status));
-+	EXPECT_EQ(SIGTERM, WTERMSIG(status));
-+
-+	/* Take snapshot to CPU pagetables */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+	m = buffer->mirror;
-+	for (i = 0; i < npages; i++)
-+		ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[i]);
-+
-+	hmm_buffer_free(buffer);
-+}
- TEST_HARNESS_MAIN
--- 
-2.32.0
+On Tue, May 31, 2022 at 4:49 PM Miaoqian Lin <linmq006@gmail.com> wrote:
+[...]
+> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> index 5e306de6f485..f3341458f8b7 100644
+> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+> @@ -363,6 +363,7 @@ int meson_encoder_hdmi_init(struct meson_drm *priv)
+>         }
+>
+>         meson_encoder_hdmi->next_bridge = of_drm_find_bridge(remote);
+> +       of_node_put(remote);
+further down in the same function remote is used again:
+  pdev = of_find_device_by_node(remote);
 
+My understanding is that we should only use of_node_put() once we
+don't need to access the node (in this case the variable is "remote")
+anymore.
+
+
+Best regards,
+Martin
