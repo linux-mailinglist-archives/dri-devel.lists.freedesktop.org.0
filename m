@@ -1,79 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595B9538DE5
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 11:40:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B89A538F1A
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 12:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E01410F619;
-	Tue, 31 May 2022 09:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B98C2112281;
+	Tue, 31 May 2022 10:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0985F10F5EC
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 09:40:15 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 686BB5C0114;
- Tue, 31 May 2022 05:40:14 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 31 May 2022 05:40:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1653990014; x=
- 1654076414; bh=u4zEnhboDSeP51AyldaWO4MlerqqIGwbqEy3LDx4WY0=; b=U
- 9jo/IQewrmwkHvbZ6ydG3imiPyhKXUaQ8HkiPN/lA375Q/McScOyViGhLRRvsUgK
- bNhPBhspY04DlKLZMPuxBhW4/uCfl27+HGQmmdVVNQR2usoDVs2c84mhJhk/MPCt
- d+X5WZjsMXG8GPBSPtLHxFoIAo6ATNgcyoKcVfGOXDvEo1MCAft7+PyMja+IdsqE
- 6610TdeKJtyZ31HebQbUvyxnVyXiVvuutMhFrONusVf7OlhhUUwvhyXiL4UZ/RvA
- SUvDsKKTI+nGZf+EyF/kAXQQTEjEDEwd3GJkrfBBrTaq8PZb3rIiScbaOuzVZw6E
- NcIPLaCO/dXXQaaSLonog==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653990014; x=
- 1654076414; bh=u4zEnhboDSeP51AyldaWO4MlerqqIGwbqEy3LDx4WY0=; b=J
- t7I5ZECwa5sSbvYlOzwefAGwazTFDekq0P/vmxXYQD9nsmPj+9pCbIjB6e0rVH7i
- O68R+RgteRY7Ikj3URmzTXiMT9wWfCGpdC2tB1tUCzeQeS2d9gGhe5JZvdsz6Xhy
- 3NGg4m0wc4SMUZo5n9E31zUoulPRvErPjW64dS/DOXp0D93ypq0hUazjAw7N+4MR
- VdLHESFV+3+AZlzYp1SNbTF7hfoMcsNJyhi19v0s8HdVuMuTdXtdC6MRdlQW0qH/
- qEUq/Rl2N4BwD43Tej6pYPFLJnTeEqRgWGHEdDi1HBdiYMUGMpZPCmPHxfIBFZ4u
- 5+aWRg8NNv1r5DowRFHxg==
-X-ME-Sender: <xms:feKVYhr73uzfoFzeDR8r3GdzftWfjr0DnjDK8s4VkXFH2a-I45ZPkw>
- <xme:feKVYjpieIC8OeTquLWESMlCireN9uc_HBpe12_Fpo01oj-TGFGMVS9KtWnq3pyio
- 04MtZ12z3ekJxzlxDY>
-X-ME-Received: <xmr:feKVYuNGWqyrp6SAA0wxOti35TBxDLhW6hR14oM3Yzy3b_b17LeBSyYf7kU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgddukecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeuteef
- teefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:feKVYs6MR_bEdpIQt2a1Ti7R667qVsr1bsll5HKSsxdOgF5HYJwDVw>
- <xmx:feKVYg7MI9NRYzxYfirkQvp2FV1L70cpwX1pbhr5wGxnOrP-AE3MTQ>
- <xmx:feKVYkgSYdEjptbZ6EzDTjph6HR8JuQKjn4Bv_kb0Bow1Lc_dwkeRA>
- <xmx:fuKVYr1wiljD2cOba9zdl9E2xYVntTn43A4x-35qAYb_Pby_XC-WBg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 May 2022 05:40:13 -0400 (EDT)
-Date: Tue, 31 May 2022 11:40:11 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Melissa Wen <mwen@igalia.com>
-Subject: Re: [PATCH 14/14] drm/vc4: Warn if some v3d code is run on BCM2711
-Message-ID: <20220531094011.f7i2rb36fxt3o4ao@penduick>
-References: <20220503121341.983842-1-maxime@cerno.tech>
- <20220503121341.983842-15-maxime@cerno.tech>
- <20220509165134.dilly2kelknk3iz3@mail.igalia.com>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0B70112281
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 10:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653993266; x=1685529266;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3YpK8LtcPE0677n75/BRy4Ia8657/+94hBHBaUlN9TY=;
+ b=LuB4oSFmuqpnv8qwCmU/5ycl2236Fc9jao4QIxwUhxBvAx69vx81mz+m
+ jYwA4NKv2ha7WiL7qBzcNHLjzxQuIh13qnqwouO9WgJSHEsFt1i0TpAyh
+ ItjJLfcRBZ9kDKBLASFbJyt5XEClv+kHdCt65vrCkpUNzjKgh3dC5S1Ml
+ 4dCcHMdplWzs2k+inXdYC4wYnrV9FnXnmjzCMRvYwvLjD5XLZ1Anjx50L
+ bb60/Fg7rWxSb/pqqRcuyaRpJFh/52opbnvT4pHvNIoGXHfdpnt85VfwF
+ X7DVsHs2G+Ijc0qjk+B2EYOU796/eYHtCLIUJ2iSu0iHe/XdNuXXbQ96L g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10363"; a="335873662"
+X-IronPort-AV: E=Sophos;i="5.91,264,1647327600"; d="scan'208";a="335873662"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2022 03:34:26 -0700
+X-IronPort-AV: E=Sophos;i="5.91,264,1647327600"; d="scan'208";a="605606218"
+Received: from tsengwil-desk1.itwn.intel.com (HELO gar) ([10.5.231.22])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2022 03:34:25 -0700
+From: William Tseng <william.tseng@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/edid: ignore the CEA modes not defined in CEA-861-D
+Date: Tue, 31 May 2022 18:34:21 +0800
+Message-Id: <20220531103421.11363-1-william.tseng@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220509165134.dilly2kelknk3iz3@mail.igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,37 +54,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lee Shawn C <shawn.c.lee@intel.com>, Wayne Lin <waynelin@amd.com>,
+ William Tseng <william.tseng@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Melissa,
+This is a workaround for HDMI 1.4 sink which has a CEA mode with higher vic
+than what is defined in CEA-861-D.
 
-On Mon, May 09, 2022 at 03:52:04PM -0100, Melissa Wen wrote:
-> > @@ -915,10 +954,14 @@ int vc4_set_tiling_ioctl(struct drm_device *dev, =
-void *data,
-> >  int vc4_get_tiling_ioctl(struct drm_device *dev, void *data,
-> >  			 struct drm_file *file_priv)
-> >  {
-> > +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
-> >  	struct drm_vc4_get_tiling *args =3D data;
-> >  	struct drm_gem_object *gem_obj;
-> >  	struct vc4_bo *bo;
-> > =20
-> > +	if (WARN_ON_ONCE(vc4->is_vc5))
-> > +		return -ENODEV;
-> > +
->=20
-> Just to confirm: as none of these ioctls were wired up in
-> vc5_drm_driver, is there any situation where this path can be taken
-> wrongly?
+As an example, a HDMI 1.4 sink has the video format 2560x1080p to be
+displayed and the video format is indicated by both SVD (with vic 90 and
+pictuure aspect ratio 64:27) and DTD.  When connecting to such sink,
+source can't output the video format in SVD because an error is returned by
+drm_hdmi_avi_infoframe_from_display_mode(), which can't fill the infoframe
+with pictuure aspect ratio 64:27 and the vic, which is originally 90 and is
+changed to 0 by drm_mode_cea_vic().
 
-For this particular function, no, it wasn't reachable before since the
-ioctl were only exposed for devices with the render capability, and we
-were not using it.
+To work around it, this patch ignores such CEA modes in do_cea_modes() so
+the modes won't be processed in drm_hdmi_avi_infoframe_from_display_mode().
+And only the video format in DTD can be dispalyed.
 
-Other functions in that patch however are called prior to this series,
-especially in the BO/GEM related path.
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Wayne Lin <waynelin@amd.com>
+Cc: Lee Shawn C <shawn.c.lee@intel.com>
+Signed-off-by: William Tseng <william.tseng@intel.com>
+---
+ drivers/gpu/drm/drm_edid.c | 39 +++++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
 
-Maxime
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index bc43e1b32092..a93f68878bfd 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -3982,6 +3982,19 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_display_mode_from_cea_vic);
+ 
++static bool is_hdmi2_sink(const struct drm_connector *connector)
++{
++	/*
++	 * FIXME: sil-sii8620 doesn't have a connector around when
++	 * we need one, so we have to be prepared for a NULL connector.
++	 */
++	if (!connector)
++		return true;
++
++	return connector->display_info.hdmi.scdc.supported ||
++		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
++}
++
+ static int
+ do_cea_modes(struct drm_connector *connector, const u8 *db, u8 len)
+ {
+@@ -3993,6 +4006,19 @@ do_cea_modes(struct drm_connector *connector, const u8 *db, u8 len)
+ 
+ 		mode = drm_display_mode_from_vic_index(connector, db, len, i);
+ 		if (mode) {
++			u8 vic = svd_to_vic(db[i]);
++
++			if (!drm_valid_cea_vic(vic))
++				continue;
++
++			/*
++			 * HDMI 1.4 VIC range: 1 <= VIC <= 64 (CEA-861-D) but
++			 * HDMI 2.0 VIC range: 1 <= VIC <= 107 (CEA-861-F). So we
++			 * have to make sure we dont break HDMI 1.4 sinks.
++			 */
++			if (!is_hdmi2_sink(connector) && vic > 64)
++				continue;
++
+ 			/*
+ 			 * YCBCR420 capability block contains a bitmap which
+ 			 * gives the index of CEA modes from CEA VDB, which
+@@ -5846,19 +5872,6 @@ void drm_set_preferred_mode(struct drm_connector *connector,
+ }
+ EXPORT_SYMBOL(drm_set_preferred_mode);
+ 
+-static bool is_hdmi2_sink(const struct drm_connector *connector)
+-{
+-	/*
+-	 * FIXME: sil-sii8620 doesn't have a connector around when
+-	 * we need one, so we have to be prepared for a NULL connector.
+-	 */
+-	if (!connector)
+-		return true;
+-
+-	return connector->display_info.hdmi.scdc.supported ||
+-		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
+-}
+-
+ static u8 drm_mode_hdmi_vic(const struct drm_connector *connector,
+ 			    const struct drm_display_mode *mode)
+ {
+-- 
+2.17.1
+
