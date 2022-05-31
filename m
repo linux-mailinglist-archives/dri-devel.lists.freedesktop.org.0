@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645F7539484
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 17:57:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB0D539482
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 17:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 662BB10F5EF;
-	Tue, 31 May 2022 15:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3C9E10F5C2;
+	Tue, 31 May 2022 15:56:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4534510F48F;
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2065.outbound.protection.outlook.com [40.107.96.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 484EF10F494;
  Tue, 31 May 2022 15:56:53 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KcMahLub3cTHr+W0xDtkaHAjnDzxNF08M3PxhZBHHtlBV1ffJyGloZ8VDtItFuQhBsKEeil5sDH1x2BTZxd974OtntVQ1/mqUg782XMYZzdr8nRaSopiEB2IwcWAiWxtjMScv9pL79Ku8KQj0UyYNHgz/YXr9ViWnafEv7Y7oMj9JrYySyognFSwMjBsvpll6vpmkUah5ZzMKv4Gk2CzOFgpIQu+EBzk170a0zFgDEFbVKeb64ztaC92wfRLMUkjG4EtBZ+4Ej8LZ4lRrwONCJWSL+r6UrySnd0gyAJmSz3AZWWhvNzFtR8JTRNW5f7L3ZodumRaRqBsan4vAA0zAA==
+ b=FEdhJh+YbQkJNbauKeInVRmvehrSvJnqSPwLKAfiuMJCyeWLjbh7RKUkQZl3Od8ES9GP/bZFHtqozsaxc7qLBlaAumPcUaLig3I7A35+p4bbhzt6M42IFWR7ZIvtabNneH1dKbNZOzkL+4MnbesiV4QogvRNqFR9LXLFPpSaMCjc5JE3euT8s925xs9Pniv06PmlH2N6pwIE11RzsUJz84UTsiAtF16x310WJg+3VD5zGeSPfzKEiRboMPV3UCJynEvb21rTNb/PjNuMyG1w0lwoP+BMQgwVj9eOFgWcF3unt1K78xYvAw4wOIcPrGGvY9880gJ1djz8U0I40s3gjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ds2C6hKBCPm3LMFGvWFrTQmYNyEijOJ3/DIUhvifx8M=;
- b=hBOBOGLc7FXO7a70ljNHtNd62KezrSPqmdl5a/pYRwexVeVrTSh/rOoqV4WJFijdNMlUDu99bmZIirNCiPAZHi8ANWb5Ean8zUxBac0Th+qhCTbmQ5hLkwR3gIxsjv9bYa57M8s3McUnz9DwhHyPxy8Z3/FOpRBd+qQX1GkmGVd6dUmKeSW5JC2LJ0g1cc8LBnIDhn5uOsO97zzlDjD41uIWkdb64dD3yw3kgHou5ak70+DSvKtqDOG/z1QIkdjY3QV4bS+JHkTX3k8FNBTcgmEFz3iGPP1JcUzvLCsX/ECaF/LP79yt9glgF7Y/7OlPUbq07u6MrhGY/N2HnO3sSQ==
+ bh=FDtE0UiWruDuhx3PGoXdolkeW/K0qLVDBaC3nvm9Xp8=;
+ b=NhE45xSnkb5THISN6QaW6n4gbcJIelRf+hW2hYHTANQHcR0f/UG1KGHgfZkKAS1AC3dGdf8AIfLQXfUARQcUbSPzkvroHXRs6cybzsRTXSX8pzh8sDyOoqL2wYe4ywHxAkjYSwxleSg3xBJwlGNTHRp4pLH6vF0h0QahATllgxzFW76ofly5slFw8CrSyBT4zy0gWew9vPLAJ7ARuphMBayGl9u3yMJDf4Vt7f+jA5N1VNCqKIVnQNZOobvCDW4CO8ACNpAhto930S0q0jxu0S3ca3C8PCB+wKvIdwZOz8NUdr9HYlJHEv3Kk6jS88Yp6KPY7QAQWhJuehkY0L0ooQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ds2C6hKBCPm3LMFGvWFrTQmYNyEijOJ3/DIUhvifx8M=;
- b=UueEJ3++IYF0CYoQmWmv41n7xnT8GEa7eiIp1rrYVCQ6Y1VNEsMybwWIOYbYsXNFYPtINLeOsO553PfBXf3WMSB8XHYEHzUZGa8PCmV6BvtcebtiKgTDuA70ScEA6Rvxomfmp0/FeIv5koiNl2djwzzMG7xU+qGqGIj2k29L7Z0=
+ bh=FDtE0UiWruDuhx3PGoXdolkeW/K0qLVDBaC3nvm9Xp8=;
+ b=SSax7oDA62xW/e9NQFJRleMw/sU87CoI6TtTeUE6NjOH3i14CnJqhF4X0iieoPcizRWNeNQmoV1+Jona9V8eudZ0Ct+G9rd8gz08hNdXq0xc+YVYJV3JJLcbiO0ix9Fl32JLCPCyp0rtVbgYGhVlOgHL2Gid0PwfNaDaZeO7y84=
 Received: from BN6PR16CA0037.namprd16.prod.outlook.com (2603:10b6:405:14::23)
- by BYAPR12MB2680.namprd12.prod.outlook.com (2603:10b6:a03:63::18)
+ by BY5PR12MB4918.namprd12.prod.outlook.com (2603:10b6:a03:1df::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Tue, 31 May
- 2022 15:56:50 +0000
+ 2022 15:56:51 +0000
 Received: from BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:14:cafe::2f) by BN6PR16CA0037.outlook.office365.com
+ (2603:10b6:405:14:cafe::5e) by BN6PR16CA0037.outlook.office365.com
  (2603:10b6:405:14::23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.17 via Frontend
  Transport; Tue, 31 May 2022 15:56:50 +0000
@@ -51,12 +51,12 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 31 May
- 2022 10:56:48 -0500
+ 2022 10:56:49 -0500
 From: Alex Sierra <alex.sierra@amd.com>
 To: <jgg@nvidia.com>
-Subject: [PATCH v4 11/13] tools: update test_hmm script to support SP config
-Date: Tue, 31 May 2022 10:56:27 -0500
-Message-ID: <20220531155629.20057-12-alex.sierra@amd.com>
+Subject: [PATCH v4 12/13] tools: add hmm gup tests for device coherent type
+Date: Tue, 31 May 2022 10:56:28 -0500
+Message-ID: <20220531155629.20057-13-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220531155629.20057-1-alex.sierra@amd.com>
 References: <20220531155629.20057-1-alex.sierra@amd.com>
@@ -68,27 +68,27 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cbeb1d61-d8a7-4ef3-cb70-08da431e2c8a
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2680:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB26803A0EA077C9AAD3D1D213FDDC9@BYAPR12MB2680.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 34ad03e8-c247-4160-4eae-08da431e2cf1
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4918:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB49189E030380E938D359AEBFFDDC9@BY5PR12MB4918.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LOVtzuzA7FJMUR5sxibnCJa+h0N0bvyriMitz9gnsemgHDAdFfGsy/RD3clPRB7FLFgTg4L39CEOpqq7DU9IzStdcivzPTEdHhJ/FkodCfbC6uyXU/bMyWQyt0iX2TIBCJuIK4dGse7B0nnT2zYETAY7+Aycd3Mige2ECU90g5xzNAA7jyStzaW/kIycwgKIRluc+dUEOJFBQ3h+dJvnzIEKYeMgnyjjR6hi4n3MEinQyHLv/+ycV4hbWLOQVrP1r5X3mdo00xon5JSIVPEKIQwoCfG5KGY9COh3lgngymSkaqPvzLZKuEAzdfZs5wgkTrxwkXAwhPEGuqWpvZ0zum4S8YaLfjuWbrn7c9ImzxxZVthWXz8U4M1OOcfzRDeGPuk6TYR28m7/gy//asKv7laWbz1tQw/Y8fSU6XGBhllfsJ3QjwEGbegRqd7cj5hhFuBVNsJaNGyS1Myc1MpPctrmBS10UuA5gOqDNKh0s1YoPQqepkiZ8K6YZQ/GfdVd8S2r202z3N8L6QjmneNmaZbPNq6eU1mOV58zxzt9k6+9zBMxUoCyP11PiEvmuZ4Xsc4PBkGIrCVcmiIAOY512gerwZzaWAOrDBGSkNU4SZe1MCvhy/cpFquR9m4nu6IYWWDK/vzQ4pW9t/Nwyb7XPn3tB2KB5bweNsZYPA1ZhQRDd7F780anQypQzcOxxA7Wp/SRx/b3OEeV6vwGz/44/A==
+X-Microsoft-Antispam-Message-Info: B0eWRaL/wwwCabOBauV8xiSw+psx69pzgR3Nyd8iTiW4ZluIv0cVZHp93p/87kHIGW+VTbRoZFvTG/NuHBEI84Y8/rT2qHFRM5PH9zLbcE3fcl9L6de9JpcDqqvcrIs+RgTgCJv9medTL3Lbv1XNLebnavYzCyS5C9aD70BCOYb3BgZiSoSefwJfJABwGmB5DBvbF7R6mg3iDTMkkLzm5h4HagvK8CY+ZRxzS/wXJwUW4TxrhGJbDXmrlwulZobfvni/mltAAlXfHf/QHU6c/ck+kC9pbg+8i/+YL+jHAP7Mx99pCNIubYbXwEc3c77dvI91Rm7BZ5gopPIbxzKvDaG21+NYR34+VlGGlY1eiowdfM56+nlp5xIEJwkHr6Q0BNFt/DR5s8buBR9kZ276MAFJfgtyjCqsTmnVoHVi6GTsAQ1yud4dqGNQzOj3U3aGtlAww/6X/jiGI7s6Dojuqh0yHByL7e2ScA3CX7Y0pDB8/k6Om0xTNnutwqUXhJS7ByYxfWc17IpNZFqYOOEvfKJsjcVKiiiTD6CiLahp/LivhwNNAuWsMpB4/rB/FdrOuUQPvtnyXpuQVw599J81fRaVAarEQ1xQPSQiWfcxcNEZSoqvonwCAjA3DMym/Fyb6HSN10TjM9bMxKsZ5PwnthZxuTX4BVODcu1VulobBoa/idrELTy1vbq8Mdv94bQO6uwHrsHmLhSQfTSQZeyFcg==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(82310400005)(83380400001)(4326008)(81166007)(8676002)(36756003)(6916009)(36860700001)(316002)(336012)(16526019)(47076005)(426003)(186003)(1076003)(2616005)(26005)(7416002)(70586007)(54906003)(70206006)(6666004)(7696005)(40460700003)(356005)(2906002)(5660300002)(86362001)(508600001)(8936002)(44832011)(36900700001);
+ SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(54906003)(316002)(81166007)(2906002)(26005)(7696005)(6916009)(36756003)(356005)(47076005)(336012)(426003)(83380400001)(16526019)(4326008)(8936002)(2616005)(7416002)(70206006)(82310400005)(70586007)(86362001)(5660300002)(8676002)(44832011)(40460700003)(508600001)(1076003)(186003)(36860700001)(6666004)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2022 15:56:50.1094 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbeb1d61-d8a7-4ef3-cb70-08da431e2c8a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2022 15:56:50.7813 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34ad03e8-c247-4160-4eae-08da431e2cf1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2680
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4918
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,79 +109,145 @@ Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add two more parameters to set spm_addr_dev0 & spm_addr_dev1
-addresses. These two parameters configure the start SP
-addresses for each device in test_hmm driver.
-Consequently, this configures zone device type as coherent.
+The intention is to test hmm device coherent type under different get
+user pages paths. Also, test gup with FOLL_LONGTERM flag set in
+device coherent pages. These pages should get migrated back to system
+memory.
 
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Reviewed-by: Alistair Popple <apopple@nvidia.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- tools/testing/selftests/vm/test_hmm.sh | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ tools/testing/selftests/vm/hmm-tests.c | 105 +++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-diff --git a/tools/testing/selftests/vm/test_hmm.sh b/tools/testing/selftests/vm/test_hmm.sh
-index 0647b525a625..539c9371e592 100755
---- a/tools/testing/selftests/vm/test_hmm.sh
-+++ b/tools/testing/selftests/vm/test_hmm.sh
-@@ -40,11 +40,26 @@ check_test_requirements()
+diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
+index 84ec8c4a1dc7..61a02a6a3dea 100644
+--- a/tools/testing/selftests/vm/hmm-tests.c
++++ b/tools/testing/selftests/vm/hmm-tests.c
+@@ -36,6 +36,7 @@
+  * in the usual include/uapi/... directory.
+  */
+ #include "../../../../lib/test_hmm_uapi.h"
++#include "../../../../mm/gup_test.h"
  
- load_driver()
+ struct hmm_buffer {
+ 	void		*ptr;
+@@ -60,6 +61,8 @@ enum {
+ #define NTIMES		10
+ 
+ #define ALIGN(x, a) (((x) + (a - 1)) & (~((a) - 1)))
++/* Just the flags we need, copied from mm.h: */
++#define FOLL_WRITE	0x01	/* check pte is writable */
+ 
+ FIXTURE(hmm)
  {
--	modprobe $DRIVER > /dev/null 2>&1
-+	if [ $# -eq 0 ]; then
-+		modprobe $DRIVER > /dev/null 2>&1
-+	else
-+		if [ $# -eq 2 ]; then
-+			modprobe $DRIVER spm_addr_dev0=$1 spm_addr_dev1=$2
-+				> /dev/null 2>&1
-+		else
-+			echo "Missing module parameters. Make sure pass"\
-+			"spm_addr_dev0 and spm_addr_dev1"
-+			usage
-+		fi
-+	fi
- 	if [ $? == 0 ]; then
- 		major=$(awk "\$2==\"HMM_DMIRROR\" {print \$1}" /proc/devices)
- 		mknod /dev/hmm_dmirror0 c $major 0
- 		mknod /dev/hmm_dmirror1 c $major 1
-+		if [ $# -eq 2 ]; then
-+			mknod /dev/hmm_dmirror2 c $major 2
-+			mknod /dev/hmm_dmirror3 c $major 3
-+		fi
- 	fi
+@@ -1766,4 +1769,106 @@ TEST_F(hmm, exclusive_cow)
+ 	hmm_buffer_free(buffer);
  }
  
-@@ -58,7 +73,7 @@ run_smoke()
- {
- 	echo "Running smoke test. Note, this test provides basic coverage."
- 
--	load_driver
-+	load_driver $1 $2
- 	$(dirname "${BASH_SOURCE[0]}")/hmm-tests
- 	unload_driver
- }
-@@ -75,6 +90,9 @@ usage()
- 	echo "# Smoke testing"
- 	echo "./${TEST_NAME}.sh smoke"
- 	echo
-+	echo "# Smoke testing with SPM enabled"
-+	echo "./${TEST_NAME}.sh smoke <spm_addr_dev0> <spm_addr_dev1>"
-+	echo
- 	exit 0
- }
- 
-@@ -84,7 +102,7 @@ function run_test()
- 		usage
- 	else
- 		if [ "$1" = "smoke" ]; then
--			run_smoke
-+			run_smoke $2 $3
- 		else
- 			usage
- 		fi
++static int gup_test_exec(int gup_fd, unsigned long addr,
++			 int cmd, int npages, int size)
++{
++	struct gup_test gup = {
++		.nr_pages_per_call	= npages,
++		.addr			= addr,
++		.gup_flags		= FOLL_WRITE,
++		.size			= size,
++	};
++
++	if (ioctl(gup_fd, cmd, &gup)) {
++		perror("ioctl on error\n");
++		return errno;
++	}
++
++	return 0;
++}
++
++/*
++ * Test get user device pages through gup_test. Setting PIN_LONGTERM flag.
++ * This should trigger a migration back to system memory for both, private
++ * and coherent type pages.
++ * This test makes use of gup_test module. Make sure GUP_TEST_CONFIG is added
++ * to your configuration before you run it.
++ */
++TEST_F(hmm, hmm_gup_test)
++{
++	struct hmm_buffer *buffer;
++	int gup_fd;
++	unsigned long npages;
++	unsigned long size;
++	unsigned long i;
++	int *ptr;
++	int ret;
++	unsigned char *m;
++
++	gup_fd = open("/sys/kernel/debug/gup_test", O_RDWR);
++	if (gup_fd == -1)
++		SKIP(return, "Skipping test, could not find gup_test driver");
++
++	npages = 3;
++	size = npages << self->page_shift;
++
++	buffer = malloc(sizeof(*buffer));
++	ASSERT_NE(buffer, NULL);
++
++	buffer->fd = -1;
++	buffer->size = size;
++	buffer->mirror = malloc(size);
++	ASSERT_NE(buffer->mirror, NULL);
++
++	buffer->ptr = mmap(NULL, size,
++			   PROT_READ | PROT_WRITE,
++			   MAP_PRIVATE | MAP_ANONYMOUS,
++			   buffer->fd, 0);
++	ASSERT_NE(buffer->ptr, MAP_FAILED);
++
++	/* Initialize buffer in system memory. */
++	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
++		ptr[i] = i;
++
++	/* Migrate memory to device. */
++	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
++	ASSERT_EQ(ret, 0);
++	ASSERT_EQ(buffer->cpages, npages);
++	/* Check what the device read. */
++	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
++		ASSERT_EQ(ptr[i], i);
++
++	ASSERT_EQ(gup_test_exec(gup_fd,
++				(unsigned long)buffer->ptr,
++				GUP_BASIC_TEST, 1, self->page_size), 0);
++	ASSERT_EQ(gup_test_exec(gup_fd,
++				(unsigned long)buffer->ptr + 1 * self->page_size,
++				GUP_FAST_BENCHMARK, 1, self->page_size), 0);
++	ASSERT_EQ(gup_test_exec(gup_fd,
++				(unsigned long)buffer->ptr + 2 * self->page_size,
++				PIN_LONGTERM_BENCHMARK, 1, self->page_size), 0);
++
++	/* Take snapshot to CPU pagetables */
++	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT, buffer, npages);
++	ASSERT_EQ(ret, 0);
++	ASSERT_EQ(buffer->cpages, npages);
++	m = buffer->mirror;
++	if (hmm_is_coherent_type(variant->device_number)) {
++		ASSERT_EQ(HMM_DMIRROR_PROT_DEV_COHERENT_LOCAL | HMM_DMIRROR_PROT_WRITE, m[0]);
++		ASSERT_EQ(HMM_DMIRROR_PROT_DEV_COHERENT_LOCAL | HMM_DMIRROR_PROT_WRITE, m[1]);
++	} else {
++		ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[0]);
++		ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[1]);
++	}
++	ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[2]);
++	/*
++	 * Check again the content on the pages. Make sure there's no
++	 * corrupted data.
++	 */
++	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
++		ASSERT_EQ(ptr[i], i);
++
++	close(gup_fd);
++	hmm_buffer_free(buffer);
++}
+ TEST_HARNESS_MAIN
 -- 
 2.32.0
 
