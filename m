@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3622539864
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 23:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2687539869
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 23:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D31C10E028;
-	Tue, 31 May 2022 21:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC3D310E262;
+	Tue, 31 May 2022 21:06:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F040E10E028
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 21:04:13 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id z7so8344262edm.13
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 14:04:13 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1645310E262
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 21:06:50 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id f21so28945469ejh.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 14:06:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KHYrrg1OiYZowD6aPazdTTV7Ju3sH7vUcubOYj24fu4=;
- b=UtRwpwucfDR8gD3L7SaGmezgIA5eG73xQodHXxNq0JxfaLvad7Zzy+Lt8+nRFoDSEz
- cDnX8R6alvDMA8xggJQdl89Yyl40Pi+iiv/q9jVII2cMZt/1qu/TD1lCliPIdELSeYqP
- 7hpayhSqZL9lkCIf9aX7v909SxUuQrV+NkdbU=
+ :cc; bh=2D0n0MD9FVM5CduT1NCFZoyK1Wf+YfR32ZwltpKGpW0=;
+ b=ZQT68xf2h4yPB1aO3z6MMCxjgrGQxzK6GsAwKC4AbtmM7jt7hPu9NP/5/38W/CoGs4
+ /U426ZyODXRJ/hIK1zizXSQUiCeTA65NiXm2tba9pIlaxq1ArpOmj55sVibamQlHpil1
+ HXArJ8lpnCJ5gJjSUw7JSWNWLGFhmor2Mb+W4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KHYrrg1OiYZowD6aPazdTTV7Ju3sH7vUcubOYj24fu4=;
- b=KICK8lvKQnBXujWoKbnxll48X8959BNDqNBO9uoFkUF8cU0O2p8N37lKCvYBAISBMz
- diCSDw9NGR+GnMS2E7qwUYcDLY9UDiSyqvH+0HWIcnNk3cZLfkD49pxk+Ivq5EzxcEwP
- gio9Tnlvn9K5BerufLw86366AQdqYBg1IIyCShIMYzqk/+Wgo133ID9BzzvwtTjWBY4+
- ub2ayxyEhZLa+kf4a0fyjeFENVz0+ZaAZg92wwNTXXAwZpgIxpqbPx33uP+GMlLwx98a
- rBTwl6vNlpoCtbLSYkcKgg9/4iVRWDeMlgTFjdabVM634ZJtx9EDT68vP0TNklpLFNGl
- d2OA==
-X-Gm-Message-State: AOAM532Fiq8kPW8SA0Gp0rj/uVO+59w0KhGbH3S51gg21HamolRZw1FK
- R8ikNm9F1kLDPm3vOJJh9++a6uDLFJlLOz08
-X-Google-Smtp-Source: ABdhPJyIT9Y/x0id6n9oKmokYtCBJunvAgFYKn0voVki3hMcvUUrSV+mF/DN3W8Xi5GulmPqGc47ug==
-X-Received: by 2002:a05:6402:84c:b0:428:4cc4:8212 with SMTP id
- b12-20020a056402084c00b004284cc48212mr7969411edz.171.1654031052114; 
- Tue, 31 May 2022 14:04:12 -0700 (PDT)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- y10-20020a50bb0a000000b00428bb4c952bsm9111753ede.31.2022.05.31.14.04.09
+ bh=2D0n0MD9FVM5CduT1NCFZoyK1Wf+YfR32ZwltpKGpW0=;
+ b=ApAUXujSL6Wc7GbpHWaV1BBm4iN0dNjM926XPIRPh9py6IpKOLs36iVdKuoHjeWwg2
+ a9Ue7dwSqCVNNFH3clnWdcW3jLBtheVTlz6nRAsfzUvCmQ6ZB63dxh+miLu0d5ptzsnb
+ Tvw0ZQCL3Z275cfda3jY1wd24V0TCI5BZtZDKLyAsGD6GD07B9Ud2KxiLLrDlWoy5wzk
+ pEj5wB8fT1uPpaYFiWqEEvJ85KQWfVT+cy7lrFCGM2ZrlunbRFgd47i60uDeiiJQbnbo
+ D9b3hGjWAp5mA69dczYyRLhWc5IsQwuD8kNaPCPjvvM7pUsdAiGk/UW4DMYsNP7Ah1q4
+ ojAg==
+X-Gm-Message-State: AOAM531AcDYUhZMsyjtPAJ+8e8bQYNOOJYIVQucLg1M7+05cnWfn7eGL
+ oAmvOR05kY5jdydvn5fzTPGS6XXs+SUTunYG
+X-Google-Smtp-Source: ABdhPJxu4LfS8R3yBK/Xa+27jLXvaBBQZqsmDf9kqZlenFN2daJfmwlbZrP7aQQicQ0+bOb8+WN8xA==
+X-Received: by 2002:a17:907:3f98:b0:6fe:e28c:472c with SMTP id
+ hr24-20020a1709073f9800b006fee28c472cmr40426860ejc.519.1654031208428; 
+ Tue, 31 May 2022 14:06:48 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
+ [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
+ f20-20020a056402355400b0042aca5edba7sm9219717edd.57.2022.05.31.14.06.46
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 14:04:10 -0700 (PDT)
-Received: by mail-wm1-f41.google.com with SMTP id
- m32-20020a05600c3b2000b0039756bb41f2so1980wms.3
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 14:04:09 -0700 (PDT)
-X-Received: by 2002:a05:600c:acf:b0:397:345f:fe10 with SMTP id
- c15-20020a05600c0acf00b00397345ffe10mr25847322wmr.15.1654031047944; Tue, 31
- May 2022 14:04:07 -0700 (PDT)
+ Tue, 31 May 2022 14:06:47 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id
+ c5-20020a1c3505000000b0038e37907b5bso1942753wma.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 14:06:46 -0700 (PDT)
+X-Received: by 2002:a05:600c:3d8e:b0:397:73e3:8c83 with SMTP id
+ bi14-20020a05600c3d8e00b0039773e38c83mr25043368wmb.29.1654031205884; Tue, 31
+ May 2022 14:06:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220510192944.2408515-1-dianders@chromium.org>
-In-Reply-To: <20220510192944.2408515-1-dianders@chromium.org>
+ <20220510122726.v3.3.Iba4b9bf6c7a1ee5ea2835ad7bd5eaf84d7688520@changeid>
+ <20220521091751.opeiqbmc5c2okdq6@houat>
+ <CAD=FV=Wea0LT5umK4Xg87cDikim+dSuyLndfydO3_DnTujZr9Q@mail.gmail.com>
+In-Reply-To: <CAD=FV=Wea0LT5umK4Xg87cDikim+dSuyLndfydO3_DnTujZr9Q@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 31 May 2022 14:03:56 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W-gW_TMKKJA-5bCETp+KB4sAUDnMuGJMMTwAixb7Ho6w@mail.gmail.com>
-Message-ID: <CAD=FV=W-gW_TMKKJA-5bCETp+KB4sAUDnMuGJMMTwAixb7Ho6w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] drm/dp: Make DP AUX bus usage easier;
- use it on ps8640
-To: dri-devel <dri-devel@lists.freedesktop.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 31 May 2022 14:06:34 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XqJuPHxm7HYMvyHBL_zC-BBA_f0MBsZX-jHt7Pk9ngsQ@mail.gmail.com>
+Message-ID: <CAD=FV=XqJuPHxm7HYMvyHBL_zC-BBA_f0MBsZX-jHt7Pk9ngsQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] drm/bridge: Add devm_drm_bridge_add()
+To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,83 +76,54 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Philip Chen <philipchen@chromium.org>,
- LKML <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- freedreno <freedreno@lists.freedesktop.org>
+ Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Maxime,
 
-On Tue, May 10, 2022 at 12:30 PM Douglas Anderson <dianders@chromium.org> wrote:
+On Mon, May 23, 2022 at 10:00 AM Doug Anderson <dianders@chromium.org> wrote:
 >
-> This patch is v3 of the first 2 patches from my RFC series ("drm/dp: Improvements
-> for DP AUX channel") [1]. I've broken the series in two so we can make
-> progress on the two halves separately.
+> Hi,
 >
-> v2 of this series tries to incorporate all the feedback from v1. Hopefully
-> things are less confusing and simpler this time around. The one thing that got
-> slightly more confusing is that the done_probing() callback can't return
-> -EPROBE_DEFER in most cases so we have to adjust drivers a little more.
+> On Sat, May 21, 2022 at 2:17 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > Hi,
+> >
+> > On Tue, May 10, 2022 at 12:29:43PM -0700, Douglas Anderson wrote:
+> > > This adds a devm managed version of drm_bridge_add(). Like other
+> > > "devm" function listed in drm_bridge.h, this function takes an
+> > > explicit "dev" to use for the lifetime management. A few notes:
+> > > * In general we have a "struct device" for bridges that makes a good
+> > >   candidate for where the lifetime matches exactly what we want.
+> > > * The "bridge->dev->dev" device appears to be the encoder
+> > >   device. That's not the right device to use for lifetime management.
+> > >
+> > > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >
+> > If we are to introduce more managed helpers, I think it'd be wiser to
+> > introduce them as DRM-managed, and not device managed.
+> >
+> > Otherwise, you'll end up in a weird state when a device has been removed
+> > but the DRM device is still around.
 >
-> v3 takes Dmitry's advice on v2. This now introduces
-> devm_drm_bridge_add() (in an extra patch), splits some fixups into
-> their own patch, uses a new name for functions, and requires an
-> explicit call to done_probing if you have no children.
->
-> The idea for this series came up during the review process of
-> Sankeerth's series trying to add eDP for Qualcomm SoCs [2].
->
-> This _doesn't_ attempt to fix the Analogix driver. If this works out,
-> ideally someone can post a patch up to do that.
->
-> NOTE: I don't have any ps8640 devices that _don't_ use the aux panel
-> underneath them, so I'm relying on code inspection to make sure I
-> didn't break those. If someone sees that I did something wrong for
-> that case then please yell!
->
-> [1] https://lore.kernel.org/r/20220409023628.2104952-1-dianders@chromium.org/
-> [2] https://lore.kernel.org/r/1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com/
->
-> Changes in v3:
-> - Adapt to v3 changes in aux bus.
-> - Don't call done_probing() if there are no children; return -ENODEV.
-> - Patch ("drm/bridge: Add devm_drm_bridge_add()") new for v3.
-> - Patch ("drm/dp: Export symbol / kerneldoc fixes...") split for v3.
-> - Split out EXPORT_SYMBOL and kerneldoc fixes to its own patch.
-> - Use devm_drm_bridge_add() to simplify.
-> - Used Dmitry's proposed name: of_dp_aux_populate_bus()
->
-> Changes in v2:
-> - Change to assume exactly one device.
-> - Have a probe callback instead of an extra sub device.
-> - Rewrote atop new method introduced by patch #1.
->
-> Douglas Anderson (4):
->   drm/dp: Export symbol / kerneldoc fixes for DP AUX bus
->   drm/dp: Add callbacks to make using DP AUX bus properly easier
->   drm/bridge: Add devm_drm_bridge_add()
->   drm/bridge: parade-ps8640: Handle DP AUX more properly
->
->  drivers/gpu/drm/bridge/parade-ps8640.c   |  74 +++++---
->  drivers/gpu/drm/display/drm_dp_aux_bus.c | 211 +++++++++++++++--------
->  drivers/gpu/drm/drm_bridge.c             |  23 +++
->  include/drm/display/drm_dp_aux_bus.h     |  34 +++-
->  include/drm/drm_bridge.h                 |   1 +
->  5 files changed, 238 insertions(+), 105 deletions(-)
+> I'm kinda confused. In this case there is no DRM device for the bridge
+> and, as per my CL description, "bridge-dev->dev" appears to be the
+> encoder device. I wasn't personally involved in discussions about it,
+> but I was under the impression that this was expected / normal. Thus
+> we can't make this DRM-managed.
 
-I'm hoping to get some review for this series. Anyone? Dmitry: I know
-you looked at earlier versions of this series. I guess you're happy
-enough with it now but don't feel enough ownership to give a full
-Reviewed-by?
+Since I didn't hear a reply, I'll assume that my response addressed
+your concerns. Assuming I get reviews for the other two patches in
+this series I'll plan to land this with Dmitry's review.
 
 -Doug
