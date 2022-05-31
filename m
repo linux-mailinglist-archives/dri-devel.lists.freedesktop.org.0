@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59838539656
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 20:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FB953965B
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 20:37:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFB310E3A6;
-	Tue, 31 May 2022 18:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F064F10E176;
+	Tue, 31 May 2022 18:37:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37DD210E29E
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 18:34:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8035910E176
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 18:37:42 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 37E15611C0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 18:34:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D7DA7C3411F
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 18:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654022071;
- bh=ONnWqv5Y9kWnlBjejivz/N5keZiz0QmzzTBGz7LKJ0Q=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NVQt07BVjlqOg+o/RIFyF20FjWbrTDxgcusPCOMwrNEmCAa0Lz4U+/nDIxadw3ieh
- /TSYK9D7OeMDa45kC4xwDovwRVy3AmajowWgA3Ri3xfTX9ESjg4a2ShbkA2ijtbKks
- +2AamhyW42CJlgN8Tn5/3bNDOS/Iu3BZ30Y7WFKjmOanOVt87g8vZjib23gLrZxv/V
- DCr5MmlNJz0oUxKFlFgP+bLfh0jNcebGbxptQOqValTwlfE+gyva5BXPFp9E3agH9x
- e2GYlJh/QpXFj8XMtPUeCemD3DPy1/L9St3rY99oA74E/DYvNg/H3F0vvlRgESmY7l
- 7kn0hNm3RVNaA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C3943C05FD2; Tue, 31 May 2022 18:34:31 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Tue, 31 May 2022 18:34:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: laguest@archeia.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205089-2300-QB6f1IFMVE@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D92706100A;
+ Tue, 31 May 2022 18:37:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6E51C385A9;
+ Tue, 31 May 2022 18:37:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1654022261;
+ bh=FmT3hKzK66TRO4Aq8HCWNAbGUt1xsVUL71rKu+JU8Ls=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SpGAAc9Rf5CznobihOXAONrqDxNUg8DoPlUW1jLZa3eY1FF3HfrHLKRi0c55mottH
+ CzCdAdwK09B+XObZZDQMhHv1OusQnQv1OJPGK+43X17OrQwnuuDFkj2GNC2soeuUsl
+ O+/Ri74j4HStKC4N523xCwajpjZaDqUcAw6+ETuE=
+Date: Tue, 31 May 2022 20:37:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jason Ekstrand <jason.ekstrand@collabora.com>
+Subject: Re: [PATCH v3] dma-buf: Add a capabilities directory
+Message-ID: <YpZgcbor2ZmbMDZq@kroah.com>
+References: <20220527073422.367910-1-contact@emersion.fr>
+ <dbee55fd-37ac-d7cd-dc78-d72776dfdfac@amd.com>
+ <YpRwI7xm5Wtxyiz8@kroah.com>
+ <y8_aHkQfpnkFGxtmlPCl1oeVug9pmGRyNP3JadMxYgQBfR0bnNo84pdtiMu3VptPHmcHlqwh0u8ntE7tZ6TWCzCMSLnBK_71fbLUY-ykN40=@emersion.fr>
+ <YpR/oRRWmzQZU1kI@kroah.com>
+ <35f5f6228207da2f91aa6930772a43c3cf7db979.camel@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <35f5f6228207da2f91aa6930772a43c3cf7db979.camel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,17 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+On Tue, May 31, 2022 at 07:53:50AM -0500, Jason Ekstrand wrote:
+> On Mon, 2022-05-30 at 10:26 +0200, Greg KH wrote:
+> > On Mon, May 30, 2022 at 08:15:04AM +0000, Simon Ser wrote:
+> > > On Monday, May 30th, 2022 at 09:20, Greg KH
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > 
+> > > > > > +static struct attribute *dma_buf_caps_attrs[] = {
+> > > > > > +       &dma_buf_sync_file_import_export_attr.attr,
+> > > > > > +       NULL,
+> > > > > > +};
+> > > > > > +
+> > > > > > +static const struct attribute_group dma_buf_caps_attr_group
+> > > > > > = {
+> > > > > > +       .attrs = dma_buf_caps_attrs,
+> > > > > > +};
+> > > > > 
+> > > > > Didn't we had macros for those? I think I have seen something
+> > > > > for that.
+> > > > 
+> > > > Yes, please use ATTRIBUTE_GROUPS()
+> > > 
+> > > This doesn't allow the user to set a group name, and creates an
+> > > unused
+> > > "_groups" variable, causing warnings.
+> > 
+> > Then set a group name.
+> > 
+> > But you really want to almost always be using lists of groups, which
+> > is
+> > why that macro works that way.
+> 
+> I think I see the confusion here.  The ATTRIBUTE_GROUPS() macro is
+> intended for device drivers and to be used with add_device().  However,
+> this is dma-buf so there is no device and no add_device() call to hook.
+> Unless there are other magic macros to use in this case, I think we're
+> stuck doing it manually.
 
---- Comment #46 from Luke A. Guest (laguest@archeia.com) ---
-Can confirm, for my case, emerge -av @mesa (where @mesa is libdrm, mes and
-mesa-tools from git HEAD) fixes it.
+Have a list of attribute groups and add it to the kobject when you
+create it so they all get created at the same time.
 
---=20
-You may reply to this email to add a comment.
+Don't do piece-meal "add one, and then another, and then another" as
+that just gets messy and complex and impossible to unwind the error
+conditions from.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+sysfs_create_groups() is what you need to use here.  I need to drop
+sysfs_create_group() one day...
+
+thanks,
+
+greg k-h
