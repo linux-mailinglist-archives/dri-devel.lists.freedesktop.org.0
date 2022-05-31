@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3385394AC
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 18:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F63C539508
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 18:41:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09D510E55B;
-	Tue, 31 May 2022 16:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B90810E68D;
+	Tue, 31 May 2022 16:41:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 885DC10E55B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 16:03:58 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D4C7A61445
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 16:03:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B063C341CE
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 16:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654013036;
- bh=x/lEj2UuXTkCcMQn8GkMRLvZi8vA5IHnG5wLT4CKX8Y=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=m1nGqVvaPRzVR09sDuluHDaXHxjaPdKJAfWbbqPNOSHYLjAlWjA1GQoqnXa6Wkul3
- sV0dwCqac+PxM5ejbhrzwYsEIO/SD93D9Gv6sJsXz6dUVXP3JWlb6WqgCo8lwwdaHV
- TuA11KQT9d8M3ngF4LPRtJmaZr0kb7TS7JjX7ScvRDlhx9jGIlKOeOSNYMXZ3Mo2fZ
- 5vMr7GY2kKIzkSDFRWkg0ia1Wg1cTZc9oU0+HcaGaoBm3pTQzQqH682XITSriGSxh8
- zgjV7S2ijD7krUnzHg3TfI6RY2ZTiHy3MJf13Hi6tvxgj+stswqYjvn+rwzbrQOUAR
- FYviQzzjLlAJQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 6AA84C05FD2; Tue, 31 May 2022 16:03:56 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Tue, 31 May 2022 16:03:55 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205089-2300-YtayY5cfmm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3D6710E64A
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 16:41:44 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id t5so18337014edc.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 09:41:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=h2w/DuMKGkCId0IhL+87Rlw/4m47o1ovVQT6DsHSgIE=;
+ b=CjjCxMkG9BjYxKYLC9ComQadGerm0pG7maothy8LMYDfIBQ12DEXm8VahwPd0mZNx8
+ v3YImB6YIt4mYYLyzpggxjSKvsKNJF/G32PfqlVOhn2iPGRIukb0lSsOPrkKTbno6a2F
+ NHCRaxjzPZuwuhN/j0E7W+vBxTRDLSGYdAdCk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=h2w/DuMKGkCId0IhL+87Rlw/4m47o1ovVQT6DsHSgIE=;
+ b=b40u3Yt5OdqPzocx5qx+NohCy4tzGd1wglZHJ+/cj+Lo/5LxQEnXYSi/PxakYSa9rm
+ ZaEUCu0m6qSV3zNyqO1UaeX90bAfLouyneoOEVJfAhQZr4K06iJHWRNy8oNHVSBvjpKo
+ HCSrDoCUdi1a2V0Cy4rpSgI9k1ItJtmf5gki2oeeKK62d5eNkoGYPkdBL8rpR5CtwQbx
+ c2hErboEujucrdWx/uEc3hwq9EZ4Av7aKZXggBmbvgCxZiBeL2iHrFUA63wNrGJPnRj7
+ xUxpPM0/xpwF89v/OqowUXHksj93iGUEEo+pfpCCDeXjsC52THJFFEd3tdsi1ziOECct
+ O9Og==
+X-Gm-Message-State: AOAM5308eC3i8lkETjmNnhqexCxkP5V2yhBVieg/VFP0AsVxUN9lv5Sy
+ sxu1JJz1AADfaYr1h4JFsQLf9RPntCVr+B6n
+X-Google-Smtp-Source: ABdhPJx/Sg2ki0Ohw4ObXxuniUujYvIIFO6nFo1b3dzONs6Mn2xuPiTAcfCk7c3HrZWu5Wx/JqN4pQ==
+X-Received: by 2002:a50:d7c6:0:b0:42d:5065:568d with SMTP id
+ m6-20020a50d7c6000000b0042d5065568dmr22247966edj.116.1654015303109; 
+ Tue, 31 May 2022 09:41:43 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
+ [209.85.128.44]) by smtp.gmail.com with ESMTPSA id
+ m14-20020a056402510e00b0042dd792b3e8sm3069503edd.50.2022.05.31.09.41.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 May 2022 09:41:41 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id o9so8366271wmd.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 09:41:40 -0700 (PDT)
+X-Received: by 2002:a1c:7207:0:b0:397:66ee:9d71 with SMTP id
+ n7-20020a1c7207000000b0039766ee9d71mr24513934wmc.8.1654015300146; Tue, 31 May
+ 2022 09:41:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
+ <91E67F46-A3C7-4159-9E0C-C6C6306F3669@inria.fr>
+ <CAK8P3a2iAsemAQdbTZ_E7GGGCXAOeWbjSjLgXEsd5sg_buZWhw@mail.gmail.com>
+In-Reply-To: <CAK8P3a2iAsemAQdbTZ_E7GGGCXAOeWbjSjLgXEsd5sg_buZWhw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 31 May 2022 09:41:24 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgO0V9OdY+DFm-f0qZYMyFSm0ptReO+_qgSTEpBLtFV7Q@mail.gmail.com>
+Message-ID: <CAHk-=wgO0V9OdY+DFm-f0qZYMyFSm0ptReO+_qgSTEpBLtFV7Q@mail.gmail.com>
+Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
+ block count and size helpers")
+To: Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +75,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Jani Nikula <jani.nikula@intel.com>, Viresh Kumar <vireshk@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Julia Lawall <Julia.Lawall@inria.fr>, David Airlie <airlied@linux.ie>,
+ SoC Team <soc@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
+On Tue, May 31, 2022 at 1:04 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> As an experiment: what kind of results would we get when looking
+> for packed structures and unions that contain any of these:
 
---- Comment #45 from Alex Deucher (alexdeucher@gmail.com) ---
-The "Failed to initialize parser -125!" error message is a generic symptom =
-of a
-GPU hang and reset.  The actual cause of the GPU hang is very likely differ=
-ent
-for everyone.  The issue is mostly likely in mesa (which handles the user m=
-ode
-side of graphics and video acceleration).  An improperly set up command buf=
-fer
-from the user mode driver could cause a GPU hang.  In that case the kernel =
-is
-just the messenger.  I would suggest trying a newer or older mesa release to
-see if you can narrow down the issue.  If there is a specific application t=
-hat
-causes the issue consistently, I would suggest opening a mesa bug report
-(https://gitlab.freedesktop.org/groups/mesa/-/issues?sort=3Dupdated_desc&st=
-ate=3Dopened).
+Yeah, any atomics or locks should always be aligned, and won't even
+work (or might be *very* slow) on multiple architectures. Even x86 -
+which does very well on unaligned data - reacts badly to sufficiently
+unaligned atomics (ie cacheline crossing).
 
---=20
-You may reply to this email to add a comment.
+I don't think we have that. Not only because it would already cause
+breakage, but simply because the kinds of structures that people pack
+aren't generally the kind that contain these kinds of things.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+That said, you might have a struct that is packed, but that
+intentionally aligns parts of itself, so it *could* be valid.
+
+But it would probably not be a bad idea to check that packed
+structures/unions don't have atomic types or locks in them. I _think_
+we're all good, but who knows..
+
+            Linus
