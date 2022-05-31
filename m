@@ -1,74 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80D1539814
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 22:40:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B690F53982C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 22:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B288910E250;
-	Tue, 31 May 2022 20:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3EF110E44A;
+	Tue, 31 May 2022 20:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4DD10E250
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 20:40:16 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id h11so19087082eda.8
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 13:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Alpwe54um/pAMi391V2OXK5ebcRXESWz/C1BKY6Vx2U=;
- b=bpXiaXVheIuoXS4qYPJJkBRiRLc0xdm8fJsiezzNxaSbqbM0HnHijdjFweVTNkO5Bt
- OZqNy/x48s3aknETcJSY51qRmtTvaefEriEEJgQKisgFjaP183xCgKHWGQMMuAEHM6iq
- Tc3YKXQYkPZ94qbC96FiM34BqIpNNbIw3S8bJFm37gUnEIpXhZlKzpuEHXf1T8hzTbUW
- Du1P41pKola5rfLIqjTtayOOX87K1DlGcQtFT+ikof7IHHBi0DGNf1t+EUD7xcGMBNpZ
- EvT5U5w/Mdqm9rktSC9cQ0mZie8pKoeXyPlTqMEFXnEeubuvBemuKrU2SexCdF1YgbDO
- BdSA==
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9E910E42B
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 20:42:49 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id wh22so28973045ejb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 13:42:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fCWWt9NpzsBTceHg7wJgmyAh2h0yT9EdXCCTllStCtg=;
+ b=MkEbHZFZ0NblSs3QWDSw8yOZv5ORx1gmf/KDKGn6K5nkQxKKOjIR7us0wQHilrzRX9
+ grHVLJaT/od38Kt5I5Cb9WmJgxRb+wKWa4TEUD+2i+E2IkvN1cgvQVyXBEohFGNBaNRM
+ pB5I0rZJd44GHQTSU8vlaivXM+ETC6D0dkS6lOUSRe1KyTNLHUFvzH7Q6fSWruFE0bqs
+ 4W/bnwx8LfVENwmcUSE7X9RMDrCPrhBzFbk2n0huORQstBAlr0Pu3XZgw9p8F1rlQZjb
+ vBD0vsG5065kj7hHL3znTmC9z2bgIzWiYcEf14ljM/XodCuH6l3f6xCkT1MtBBzCOVsO
+ w+oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Alpwe54um/pAMi391V2OXK5ebcRXESWz/C1BKY6Vx2U=;
- b=dR3GCfTecWYoVtvneuHuaiZZkmuBiUGXmqKbA/ICDqkzg7BEVUcyJtX0k+thv9Kl3q
- fVcZWfxOWin5AcvQb/7Z22JFzkkPS0gHkva0mmCar9qCP0WvKvJEygQstnb+lhIMUkc5
- l9nNHRxX+qe3rXiXZc9MJFcYfHi47uc1cQfRXdEb8CUWSqm0e5QhRgTH4eZhAI/hcrmw
- wy2ZquQ3q0mxv6G/uNV5oK9XtQpo5EEqJzbAvW98F+1ETlNlZY+JSDfNPkl7PbgisTgO
- NcppoiObXB5e1s3mG4SPtBHCsTT5ECKCrkUAu3qS07A335eVUlU6qfhFYQFr3E5gPC+j
- OBHA==
-X-Gm-Message-State: AOAM531pLoVbVHbX9rnqWk7gME8weX3KnUZCEBELKPo3USxBBr/WW7SZ
- PbMg6Bq850IE3idt/XDg4PxnfA==
-X-Google-Smtp-Source: ABdhPJzdZx04tPobjk6aL2VQPYwY9rAKwfMAkoP+ACgtkB/OwGTdsTuE3oT/JNLygYdZnn9MWjUmsw==
-X-Received: by 2002:a05:6402:c1:b0:42a:b8a5:8d5e with SMTP id
- i1-20020a05640200c100b0042ab8a58d5emr67401586edu.266.1654029614622; 
- Tue, 31 May 2022 13:40:14 -0700 (PDT)
-Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- gt2-20020a170906f20200b006ff01fbb7ccsm5299610ejb.40.2022.05.31.13.40.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 13:40:14 -0700 (PDT)
-Message-ID: <3ab7892e-cee0-f5d6-7b58-1a9bfc803ea9@linaro.org>
-Date: Tue, 31 May 2022 22:40:12 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fCWWt9NpzsBTceHg7wJgmyAh2h0yT9EdXCCTllStCtg=;
+ b=DYo6bJ7Xutb0yGEa4PPJvVJk09uIJkvCZTGYJqRML9CmJm2i/v8DZwfSsloXF2y9x5
+ iF8krxOOnLrAw2nR3A/QseUZ2M4ciDEBQUS+vctngCMLgHfThZLhC4U7LMlnHKk+zlXK
+ T8PT3aBPhPIg+mUZw1P5HnpE3/Obpq2tdpDy9Bi5jvmEj9OmOmOYCCpxgFQcnUpOdL3K
+ Bh+G1IQk6ov2qhIWOputAtW581NCyFlKJm0LhA9/gu7C9v02TfzhNIRxoUohvR5cahNS
+ 362qX21Ur0ef2It5GoyAUtM5+yIcMTnAMwMLg/+UlPsd6flMYez7SP3VzZMjXh540tpU
+ jzRg==
+X-Gm-Message-State: AOAM531rqsrLlXsqMDPe6ryR1CVHaW/0tbcGQakENyz6vG1a1jKtNxGy
+ u5KljWuT79NGoZpTJRRuTdtMBy1/n8TgW1L2zIKLqQ==
+X-Google-Smtp-Source: ABdhPJx+3GZDgCxy/32q1dZuv7jmnDJRmuqzUZT0z+QaQEW56wRTTMSPz1xgCSYUF0gqRtMIcV6JYVOYxerltPLSBlI=
+X-Received: by 2002:a17:907:1c8c:b0:6ff:144d:e7da with SMTP id
+ nb12-20020a1709071c8c00b006ff144de7damr27188397ejc.542.1654029767912; Tue, 31
+ May 2022 13:42:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 12/14] dt-bindings: leds: Add Mediatek MT6370 flashlight
- binding documentation
-Content-Language: en-US
-To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
- lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
- heikki.krogerus@linux.intel.com, deller@gmx.de
-References: <20220531104211.17106-1-peterwu.pub@gmail.com>
- <20220531104211.17106-4-peterwu.pub@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220531104211.17106-4-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220530102017.471865-1-jose.exposito89@gmail.com>
+ <20220530102017.471865-2-jose.exposito89@gmail.com>
+ <20220530131158.kqq2mohxoh52xpeg@penduick>
+ <20220530162903.GA6546@elementary>
+ <CAGS_qxpV2SsihEdgXZ6+7N0dxLmdRANq+qE4iUZ2aNrf6vuLYg@mail.gmail.com>
+ <20220531184454.GA237621@elementary>
+In-Reply-To: <20220531184454.GA237621@elementary>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Tue, 31 May 2022 13:42:36 -0700
+Message-ID: <CAGS_qxoWTo+TqAMOaoD=XEQhFp0K0QN4LS4XRQxFR9aTv=XmfA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb332()
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,93 +70,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- alice_chen@richtek.com, linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cy_huang@richtek.com, chiaen_wu@richtek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-leds@vger.kernel.org
+Cc: airlied@linux.ie, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+ tzimmermann@suse.de, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/05/2022 12:42, ChiaEn Wu wrote:
-> From: Alice Chen <alice_chen@richtek.com>
-> 
+On Tue, May 31, 2022 at 11:45 AM Jos=C3=A9 Exp=C3=B3sito
+<jose.exposito89@gmail.com> wrote:
+> >
+> > From above, a)
+> > Specifically here, it'd be encouraged to instead do
+> >   depends on DRM && KUNIT=3Dy && DRM_KMS_HELPER
+>
+> My first attempt was to go with:
+>
+>         depends on KUNIT=3Dy && DRM && DRM_KMS_HELPER
+>
+> However, when I try to run the tests I get this error:
+>
+>         $ ./tools/testing/kunit/kunit.py run --kunitconfig=3Ddrivers/gpu/=
+drm --arch=3Dx86_64
+>         Regenerating .config ...
+>         Populating config with:
+>         $ make ARCH=3Dx86_64 olddefconfig O=3D.kunit
+>         ERROR:root:Not all Kconfig options selected in kunitconfig were i=
+n the generated .config.
+>         This is probably due to unsatisfied dependencies.
+>         Missing: CONFIG_DRM_KMS_HELPER=3Dy, CONFIG_DRM_FORMAR_HELPER_TEST=
+=3Dy
+>
+> I wasn't able to figure out why that was happening, so I decided to use
+> "select", which seems to solve the problem.
+>
+> Do you know why this could be happening?
 
-Subject - same comment as previous #10 patch.
+Ah, you should probably ignore my suggestion then.
 
-> Add Mediatek MT6370 flashlight binding documentation
-> 
-> Signed-off-by: Alice Chen <alice_chen@richtek.com>
-> ---
->  .../leds/mediatek,mt6370-flashlight.yaml      | 48 +++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml b/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
-> new file mode 100644
-> index 000000000000..b1b11bd3d410
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
-> @@ -0,0 +1,48 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/leds-mt6370-flashlight.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Flash LED driver for MT6370 PMIC from MediaTek Integrated.
-> +
-> +maintainers:
-> +  - Alice Chen <alice_chen@richtek.com>
-> +
-> +description: |
-> +  This module is part of the MT6370 MFD device.
-> +  see Documentation/devicetree/bindings/mfd/mt6370.yaml
-> +  Add MT6370 flash LED driver include 2-channel flash LED support Torch/Strobe Mode.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt6370-flashlight
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^led@[0-1]$":
-> +    type: object
-> +    $ref: common.yaml#
-> +    description:
-> +      Properties for a single flash LED.
+Looking at the Kconfig file, it's defined as
+  config DRM_KMS_HELPER
+  tristate
+  depends on DRM
+  help
+    CRTC helpers for KMS drivers.
 
-Same as patch #11.
+Notably, the config lacks a description string.
+IIUC, this makes it a "hidden" kconfig option, i.e. you can't directly
+select it yourself in a .config, it must be selected by another
+kconfig option.
 
-> +
-> +    properties:
-> +      reg:
-> +        description: Index of the flash LED.
+E.g. you can try selecting it manually and see it fail via:
+$ ./tools/testing/kunit/kunit.py config --arch=3Dx86_64
+--kconfig_add=3DCONFIG_DRM=3Dy --kconfig_add=3DCONFIG_DRM_KMS_HELPER=3Dy
+...
+Missing: CONFIG_DRM_KMS_HELPER=3Dy
 
-As well.
+So having the test select it makes the most sense, unless there's a
+better kconfig option to automatically select it (I have no idea,
+someone with knowledge of the DRM code might though).
 
-> +        enum:
-> +          - 0 #Address of LED1
-> +          - 1 #Address of LED2
-
-'#' starts a comment, so there is always a space after '#'
-
-> +
-> +    unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties: false
-
-
-Best regards,
-Krzysztof
+Daniel
