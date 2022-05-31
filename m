@@ -2,56 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7273F53980B
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 22:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DC4539812
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 22:38:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBD110E402;
-	Tue, 31 May 2022 20:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B3810E41F;
+	Tue, 31 May 2022 20:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4EB10E210;
- Tue, 31 May 2022 20:37:05 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 67-20020a1c1946000000b00397382b44f4so1818964wmz.2; 
- Tue, 31 May 2022 13:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ap8m9GW6rAa6FZVs5048yDYtztGlnW9Y5d2Yo2CbjgY=;
- b=MhMws38eXka+O52jLnLm8q+Wjy6g6ctFIJSRrS4P3fqNdLoGPTGyNWIGJBeVXhIXAS
- 6q59iITeoE0wBzx4s0L08OnvWNsbxj11UyIKL0uy2EEVY4bVay9Ge3mccuiAwc4VFk0I
- dzq0OH22r01suBOytI2EPYFmaDuIDzlNfRvYPF8DdYzzoMuoxWBEcjpVukXydhYUGA4s
- YbxBFEcZ9SQkGdRRgIg1wzjB3YfGH6aoJ0IexUTqW3uI90Ua+iM5dc5mU40y+KpHsWh2
- AHImQtdgvgNMLWQeLUXRVEp72SPRpOUTZKkT3qwjhGUuBr2W9rms3b07CWz437/Gvxe0
- 9XoA==
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE15A10E41F
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 20:38:35 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id w27so12412343edl.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 13:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=LnHG31HXQfKnbhGg7cjs5q5dHO7sV+EO7splsWy9LeQ=;
+ b=G4bpmdn50HXz387vl8R3y2JvcN1BMO8J4TnlELbvBC3hch09KoDJys8Gb1VxVKVfMp
+ WF4/5Bl7r3o0N8kDIFXar10RdRAF2ERfMar+yaboTm27MUMOFUcQYMywTvJn4plszWu8
+ Ezu6XeSDZVZvjILJcLyo9KEkUpJBiujNlQNxKeqylfN4Z1m0gwC/cw2quZMAy9Tl2zNe
+ 8VT/AW2zGVespv4TQu1Zz7OhJPEKNhKrS9X+3H43j6OKle3lQ4bHS3gfG7NjX7SzzA4Y
+ 6dd+Ty88BqnmRjplgHfH6NgwyQ/L5t4nymBrZrAKk05FYWSm/8zJsHLfWc7dmq7YPoJ5
+ 1mTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ap8m9GW6rAa6FZVs5048yDYtztGlnW9Y5d2Yo2CbjgY=;
- b=GOz+UpsnXvUg9e3YOc/56HGMR9o6GiiY/siXqET8yg0GtJX6Gz/9Ydje5jdz5XNfJ4
- s/Cb5yuogPVdZuDp2y9ygOJvq2SrSAOf1xLLD+I9kl44Eyiu6exYRffV+NeBFrJpxMkC
- YrwNz8hawizUr2dBJ3KDDEA5Zmx1hOEq2saDWlmUsCmeQRvhtsRettO/bEcqf1H0RZ9i
- tyy3JvU1LTqAyu3cjAh42iZaAxPPRMnC7PhuRQ+TPybZ7pvfvCeKB6LPGFadbfNQoUtq
- 8732V7yKXVjlaMAnYDn9HAmHjD3Zmg2cYXw9riEkpD/GUlRZS2PgAzpsVyWdO0CHhBjy
- PLAw==
-X-Gm-Message-State: AOAM532/dQDX96xj7qQltO0czA9MwbG1pLC5ueB9AfJtS025G4IAKiFe
- l7yqSdXIQuZS8F1sqffMvZLt85HtsDMDGJMozoA=
-X-Google-Smtp-Source: ABdhPJza8TMPJl7YmHaRa8ELdim5OJhwHJcIXOn4Oa6n4zw0BF1RI6V8kAR6bGQG/etPfRXLzk9xEO6wXj4h6myFzZc=
-X-Received: by 2002:a05:600c:4f95:b0:397:82a5:dcf8 with SMTP id
- n21-20020a05600c4f9500b0039782a5dcf8mr24907365wmq.84.1654029423839; Tue, 31
- May 2022 13:37:03 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LnHG31HXQfKnbhGg7cjs5q5dHO7sV+EO7splsWy9LeQ=;
+ b=sjvbBjT29PZfTJFXGRh0P+iyCojeMN7qCZXGNe6tqnfTcDKgslzLb2y/CbjoAcSL51
+ cIaytssu/q1SKo1Z3DqhMcQFVh0BCfqcm2hqT3COc2vPz99pkYVNfVWmajYw28oQq9KM
+ jan6iH3aN+BeY+MYcx0m9DPmdGuRHpXVuBs3zQ6WA29GrzlEKbnaZRFeRFPRvNt0DqwR
+ Lpe4dCeYmIrDbMWbcX20ZtZtXtS2tjFW4H0n1NemvG+BxiC/AHF7qWvmWFuMwGRXkYOU
+ oWES1WDgd5vas4J8g/uKlTHlUSbjpLqAIP9EJq3+hzUtmmF4m9P/VmTpXzkqiBbEqVof
+ aAAA==
+X-Gm-Message-State: AOAM533suZSAsMagMWrZLDZH1TQIe5prnc2BtHHWl6U+4fcz6B2dXkLQ
+ qY3VnVBWUMBVSsyJuQA562cM0isVog2iFoUD
+X-Google-Smtp-Source: ABdhPJxkgTOHGDh/+1ZlJUDIpeS1F3D633+ql1GnhfBUpZG6Av5LP8dRbdIOBf6rA5kXSNJ0tE0G7w==
+X-Received: by 2002:a05:6402:1f0f:b0:42d:d4a5:a38c with SMTP id
+ b15-20020a0564021f0f00b0042dd4a5a38cmr10987637edb.140.1654029514252; 
+ Tue, 31 May 2022 13:38:34 -0700 (PDT)
+Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ 12-20020a50874c000000b0042bc5a536edsm9094727edv.28.2022.05.31.13.38.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 May 2022 13:38:33 -0700 (PDT)
+Message-ID: <0036b3f3-fdf8-4635-18e9-461b93a87f19@linaro.org>
+Date: Tue, 31 May 2022 22:38:31 +0200
 MIME-Version: 1.0
-References: <20220531200857.136547-1-robdclark@gmail.com>
- <CAA8EJpouqO9KfhAQSqEHP8MUGTkntx7iARRRqrvx3uMFQd4-dQ@mail.gmail.com>
-In-Reply-To: <CAA8EJpouqO9KfhAQSqEHP8MUGTkntx7iARRRqrvx3uMFQd4-dQ@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 31 May 2022 13:37:04 -0700
-Message-ID: <CAF6AEGtauTPR5Gp8Sjy1_W4yHfYgTahRzJU=9A8XkY1RMZBwyA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Ensure mmap offset is initialized
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 11/14] dt-bindings: leds: mt6370: Add Mediatek mt6370
+ indicator documentation
+Content-Language: en-US
+To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+ gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+ lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+ heikki.krogerus@linux.intel.com, deller@gmx.de
+References: <20220531104211.17106-1-peterwu.pub@gmail.com>
+ <20220531104211.17106-3-peterwu.pub@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220531104211.17106-3-peterwu.pub@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,107 +81,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Sean Paul <sean@poorly.run>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ alice_chen@richtek.com, linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cy_huang@richtek.com, chiaen_wu@richtek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 31, 2022 at 1:34 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Tue, 31 May 2022 at 23:08, Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > If a GEM object is allocated, and then exported as a dma-buf fd which is
-> > mmap'd before or without the GEM buffer being directly mmap'd, the
-> > vma_node could be unitialized.  This leads to a situation where the CPU
-> > mapping is not correctly torn down in drm_vma_node_unmap().
-> >
-> > Fixes: e5516553999f ("drm: call drm_gem_object_funcs.mmap with fake offset")
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/msm/msm_drv.c       |  2 +-
-> >  drivers/gpu/drm/msm/msm_drv.h       |  1 +
-> >  drivers/gpu/drm/msm/msm_gem_prime.c | 15 +++++++++++++++
-> >  3 files changed, 17 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > index 44485363f37a..14ab9a627d8b 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > @@ -964,7 +964,7 @@ static const struct drm_driver msm_driver = {
-> >         .prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-> >         .prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> >         .gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
-> > -       .gem_prime_mmap     = drm_gem_prime_mmap,
-> > +       .gem_prime_mmap     = msm_gem_prime_mmap,
-> >  #ifdef CONFIG_DEBUG_FS
-> >         .debugfs_init       = msm_debugfs_init,
-> >  #endif
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> > index bb052071b16d..090b8074fec7 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.h
-> > +++ b/drivers/gpu/drm/msm/msm_drv.h
-> > @@ -275,6 +275,7 @@ unsigned long msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_t
-> >  void msm_gem_shrinker_init(struct drm_device *dev);
-> >  void msm_gem_shrinker_cleanup(struct drm_device *dev);
-> >
-> > +int msm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
-> >  struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj);
-> >  int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map);
-> >  void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
-> > diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
-> > index 94ab705e9b8a..dcc8a573bc76 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem_prime.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem_prime.c
-> > @@ -11,6 +11,21 @@
-> >  #include "msm_drv.h"
-> >  #include "msm_gem.h"
-> >
-> > +int msm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-> > +{
-> > +       int ret;
-> > +
-> > +       /* Ensure the mmap offset is initialized.  We lazily initialize it,
-> > +        * so if it has not been first mmap'd directly as a GEM object, the
-> > +        * mmap offset will not be already initialized.
-> > +        */
-> > +       ret = drm_gem_create_mmap_offset(obj);
-> > +       if (ret)
-> > +               return ret;
->
-> Wouldn't it be better to have this call directly in the
-> drm_gem_prime_mmap() ? This way all drivers can be lazy.
->
+On 31/05/2022 12:42, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add Mediatek mt6370 indicator documentation.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+>  .../leds/mediatek,mt6370-indicator.yaml       | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml b/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+> new file mode 100644
+> index 000000000000..823be3add097
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+> @@ -0,0 +1,57 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/mediatek,mt6370-indicator.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: LED driver for MT6370 PMIC from MediaTek Integrated.
+> +
+> +maintainers:
+> +  - Alice Chen <alice_chen@richtek.com>
+> +
+> +description: |
+> +  This module is part of the MT6370 MFD device.
+> +  see Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+> +  Add MT6370 LED driver include 4-channel RGB LED support Register/PWM/Breath Mode
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt6370-indicator
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^(multi-)?led@[0-3]$":
+> +    description: |
+> +      Properties for a single LED.
 
-yes.. that was my first[1] proposal.  But there are differences of
-opinion, and in the mean time I want to get this particular issue
-fixed ;-)
+Not useful description. Just skip it, I think schema allows it.
 
-BR,
--R
+> +    $ref: common.yaml#
+> +    type: object
+> +
+> +    properties:
+> +      reg:
+> +        description: |
+> +          Index of the LED.
 
-[1] https://patchwork.freedesktop.org/patch/487597/
+The same, regs are usually not described.
 
->
-> > +
-> > +       return drm_gem_prime_mmap(obj, vma);
-> > +}
-> > +
-> >  struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj)
-> >  {
-> >         struct msm_gem_object *msm_obj = to_msm_bo(obj);
-> > --
-> > 2.36.1
-> >
->
->
-> --
-> With best wishes
-> Dmitry
+> +        enum:
+> +          - 0 # LED output ISINK1
+> +          - 1 # LED output ISINK2
+> +          - 2 # LED output ISINK3
+> +          - 3 # LED output ISINK4
+> +
+> +      mediatek,soft-start:
+> +        description: |
+> +          soft start step control, support /0.5ms/1ms/1.5ms/2ms.
+
+Why here you start sentence lower-case?
+
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [0, 1, 2, 3]
+
+This has to be in logical values, so in ms, not in some register values.
+Use proper unit suffix and enumerate the actual values.
+
+> +
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +additionalProperties: false
+
+
+Best regards,
+Krzysztof
