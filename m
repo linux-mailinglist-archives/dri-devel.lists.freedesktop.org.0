@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8550B538A0D
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 04:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E3D538B61
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 08:27:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D90C10E037;
-	Tue, 31 May 2022 02:56:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF5971129B2;
+	Tue, 31 May 2022 06:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B810A10E1F0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 02:56:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=Iki+vUqxCzZFZz+MEnp3w8RvTEkALE2JfdH+6mCRn+I=; b=jNjYFRrIMfh6rFL5PCCpcHmFmv
- tIHKVXIkNZQQXt8i1bHhVcBjYJxvvFZJWc2ZdD5g+jbEl7t2J8hdC40E/ZsfAVtGWIv4SPTuVGo/H
- BulZUWPUiOnHkNGjVqduntBc7/ENks8G9W+kDsCT2javp8eTv9MppRYe+Z7OgWW3adiX7fcaQRLdG
- Yflj87wp2Hr9E0BmER043RUhGWf7nv95S3Ma8pXj9dsNQapEL0ISEJoHG16RZQUKEhtb+gHyitj7W
- ZMtFwjxwbZWIImD/OTgAQtaMGaZ0N9bNP3xtvDyhdmatf4ue+BfTmYzRBMqwiV/Cz7dWpm6E5jiyj
- k9rbgv+A==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=casper.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nvs3B-004zuf-Al; Tue, 31 May 2022 02:56:05 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: hisilicon: depends on MMU
-Date: Mon, 30 May 2022 19:55:57 -0700
-Message-Id: <20220531025557.29593-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.35.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail2-relais-roc.national.inria.fr
+ (mail2-relais-roc.national.inria.fr [192.134.164.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 365441129B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 06:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
+ h=content-transfer-encoding:from:mime-version:subject:date:
+ message-id:references:cc:in-reply-to:to;
+ bh=q0Ly3VYEbjYqQhjsAGdFo317POmXxxJct8nswHWSNRc=;
+ b=Crq9x9JaUkBocQegHBPU2uNvvPdzl7EqK4zJYsHxWYYL5HcLcVQKBQhr
+ 9tKuFo4YEJfEvBXWsmN1GfpzCc9ktKDJvTauHuIUpWxwmBLsgMis++m5C
+ Ba6RU42SUSSqvNgQInV27Hpf6StFB0/GJyvwCR0C7IBQj6mFE9YtEzGyK c=;
+Authentication-Results: mail2-relais-roc.national.inria.fr;
+ dkim=none (message not signed) header.i=none;
+ spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr;
+ dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.91,264,1647298800"; d="scan'208";a="38688098"
+Received: from 193.92-254-62.static.virginmediabusiness.co.uk (HELO
+ [172.16.3.59]) ([62.254.92.193])
+ by mail2-relais-roc.national.inria.fr with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 08:26:55 +0200
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Julia Lawall <Julia.Lawall@inria.fr>
+Mime-Version: 1.0 (1.0)
+Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
+ block count and size helpers")
+Date: Tue, 31 May 2022 07:26:53 +0100
+Message-Id: <91E67F46-A3C7-4159-9E0C-C6C6306F3669@inria.fr>
+References: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
+In-Reply-To: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+X-Mailer: iPhone Mail (17A860)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,48 +53,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
- Randy Dunlap <rdunlap@infradead.org>, patches@lists.linux.dev,
- David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Huang Rui <ray.huang@amd.com>, John Stultz <jstultz@google.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tian Tao <tiantao6@hisilicon.com>, Christian Koenig <christian.koenig@amd.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Jani Nikula <jani.nikula@intel.com>, Viresh Kumar <vireshk@kernel.org>,
+ Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, SoC Team <soc@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prevent a kconfig warning when MMU is not enabled by making
-DRM_HISI_HIBMC depend on MMU.
 
-WARNING: unmet direct dependencies detected for DRM_TTM
-  Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && MMU [=n]
-  Selected by [m]:
-  - DRM_TTM_HELPER [=m] && HAS_IOMEM [=y] && DRM [=m]
-  - DRM_HISI_HIBMC [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && (ARM64 || COMPILE_TEST [=y])
 
-Fixes: 4f7f1973b0c8 ("drm/vram: fix Kconfig")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>
-Cc: Tian Tao  <tiantao6@hisilicon.com>
-Cc: John Stultz <jstultz@google.com>
-Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-Cc: Chen Feng <puck.chen@hisilicon.com>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- drivers/gpu/drm/hisilicon/hibmc/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+> On 30 May 2022, at 15:27, Arnd Bergmann <arnd@arndb.de> wrote:
+>=20
+> =EF=BB=BFOn Mon, May 30, 2022 at 4:08 PM Jani Nikula <jani.nikula@intel.co=
+m> wrote:
+>>> On Mon, 30 May 2022, Arnd Bergmann <arnd@arndb.de> wrote:
+>>> struct my_driver_priv {
+>>>       struct device dev;
+>>>       u8 causes_misalignment;
+>>>       spinlock_t lock;
+>>>       atomic_t counter;
+>>> } __packed; /* this annotation is harmful because it breaks the atomics *=
+/
+>>=20
+>> I wonder if this is something that could be caught with coccinelle. Or
+>> sparse. Are there any cases where this combo is necessary? (I can't
+>> think of any, but it's a low bar. ;)
+>>=20
+>> Cc: Julia.
+>=20
+> I think one would first have to make a list of data types that are not
+> meant to be in a packed structure. It could be a good start to
+> search for any packed aggregates with a pointer, atomic_t or spinlock_t
+> in them, but there are of course many more types that you won't
+> find in hardware structures.
+>=20
+>>> or if the annotation does not change the layout like
+>>>=20
+>>> struct my_dma_descriptor {
+>>>     __le64 address;
+>>>     __le64 length;
+>>> } __packed; /* does not change layout but makes access slow on some
+>>> architectures */
+>>=20
+>> Why is this the case, though? I'd imagine the compiler could figure this
+>> out.
+>=20
+> When you annotate the entire structure as __packed without an
+> extra __aligned() annotation, the compiler has to assume that the
+> structure itself is unaligned as well. On many of the older architectures,=
 
---- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
-@@ -2,6 +2,7 @@
- config DRM_HISI_HIBMC
- 	tristate "DRM Support for Hisilicon Hibmc"
- 	depends on DRM && PCI && (ARM64 || COMPILE_TEST)
-+	depends on MMU
- 	select DRM_KMS_HELPER
- 	select DRM_VRAM_HELPER
- 	select DRM_TTM
+> this will result in accessing the values one byte at a time. Marking
+> the structure as "__packed __aligned(8)" instead would be harmless.
+>=20
+> When I have a structure with a few misaligned members, I generally
+> prefer to only annotate the members that are not naturally aligned,
+> but this approach is not very common.
+
+Searching for specific types in a packed structure would be easy.
+
+Coccinelle could duplicate the structure without the packed and see if any o=
+ffsets change, using build bug on, but that would be architecture specific s=
+o maybe not useful.
+
+Julia
+
+
+
+>         Arnd
+
