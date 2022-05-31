@@ -1,72 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34D1538CE8
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 10:31:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09661538D4E
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 10:58:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F2E10F906;
-	Tue, 31 May 2022 08:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA5A10FB04;
+	Tue, 31 May 2022 08:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB3A910F90A
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 08:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1653985916; x=1685521916;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=n0MlSyv4m4NqUi7kCGI4FwLhvb140adLuDksFUetojk=;
- b=X3jl9UeEC4wqWxlkU7LccsvJYebhFvcHHsRgj+QGFN7tIUKXOslu5V0p
- lXjeJ7cQhOhaL4H5LMft0tzmjT0vjD35lE/Z9g3e/svP52kgVnhqv7Dle
- X05nayHjrl7RyCfoUNI3fmdU7vHZOwWefxab27I8SnVVgjTV26MCcR9vD
- DIdaDv0ZxuV708S+ydXNkgPir/Oup4JCUmrel6Cab8EN7RlUu1vPMFEGi
- 9Vgbvhj2aH5k12TEGncf+5lrdAR2SkFv3XhJUJtuMbHZqwfMWQChzdlzp
- DmAlaU62ZjvNoCA5SnMqhkHBlkKqhzh+9O+TxYUHQMTFop3FWbD9mIq1e Q==;
-X-IronPort-AV: E=Sophos;i="5.91,264,1647298800"; d="scan'208";a="24167931"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 31 May 2022 10:31:52 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 31 May 2022 10:31:54 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 31 May 2022 10:31:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1653985914; x=1685521914;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=n0MlSyv4m4NqUi7kCGI4FwLhvb140adLuDksFUetojk=;
- b=RNT8yAIgsGLbU6F6nUKqGTon7paoihwhkYZhEmbkIO/+YmPDguraMzzs
- klHluJLGnLPoiE+2Lp9eECxfCxgQ59kwhbRj5qrKG8Ig3E5TEwo0Oj8Pz
- b0VbT+sN3kiUNV+kl0RZ53DeN1OTqqxKCMdaHbu107FDUfeBLIUcr8ToJ
- YaSwhIf0To2yQXMGN0zAxAEeFkie4OzRYFu2hMVr7PlfE4hR9E1Mj6cFU
- pPsHSuPXxpQIODM3N5c3Uc6gmxXChLNAlASEX69cnyeoboNnOblH82Q9s
- mvKn7rN4CpbMfZGf5uxy6xDaT+8S802LsbNM3OU7FRV/kTpmKVzL6FJgi A==;
-X-IronPort-AV: E=Sophos;i="5.91,264,1647298800"; d="scan'208";a="24167929"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 31 May 2022 10:31:51 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7AD06280004;
- Tue, 31 May 2022 10:31:51 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, linux-arm-kernel@lists.infradead.org
-Subject: Re: (EXT) [PATCH v0 09/10] arm64: dts: imx8mp: add HDMI display
- pipeline
-Date: Tue, 31 May 2022 10:31:49 +0200
-Message-ID: <8174014.NyiUUSuA9g@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220406160123.1272911-10-l.stach@pengutronix.de>
-References: <20220406160123.1272911-1-l.stach@pengutronix.de>
- <20220406160123.1272911-10-l.stach@pengutronix.de>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACDD10E6F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 08:58:41 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 163C25C0178;
+ Tue, 31 May 2022 04:58:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 31 May 2022 04:58:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1653987521; x=
+ 1654073921; bh=oo43um3ROPuCPfC/KF7MzWcIrCP9C5yRfhjmYx4w5Bk=; b=N
+ hhpvJx3+mrLCx5kBTPw04hgqsM8qeNe20J/ISTHZzSyOiKLuOFtJ8JJOZWZqLw/e
+ g3BfrWbGhC+7dX0J4FszaINTCshzB56lFdN/WFLhJucJ9lZj3g01n6i+JzkHhenF
+ bk6aPcyhNwMmCa+r5DGUG+uMVhih5L0ouOJaN73VUjhNHIshT+IdAK0h30Cu2pD7
+ thubFBdmtTYAxGZUq2QpRvBsXYyJAsmjc0JTsJZxRnpoM/wGD1BEaE2S+4i5WViF
+ gDEKgP6Vawu+Q6GXH/1JQbi2/QWr4aBu09Lm22pYnHAs0WnToWko/fUXWIjZlrhe
+ X1Nb8XpYLkqoDzAUZSSrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:date:feedback-id:feedback-id:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; t=1653987521; x=1654073921; bh=o
+ o43um3ROPuCPfC/KF7MzWcIrCP9C5yRfhjmYx4w5Bk=; b=iH35DW97Ah1NSmTkb
+ tVz2iBYatAt4nAvefd9g/wzaBT3wtQ5MMi+4dFUm7NzpR6MYCHUJl6qvPS1pYLCK
+ hq0hyiLO+YeIbUv3p4113AzEMc/4UUeDuybshE6UO7lrkHDTw8EhliDO7BIt1685
+ cm8U2/f7vWlGFggl1pjvKsH3zzxwdfIn7RBhJHVpbANY4D5iBP2Rb6sYzaRTV7D8
+ rbkgdnN5Ytherw5mWfOPpLcIPAmINdEBW2CksTkcbf/K9H1GVtAo8THWZo31/Msj
+ 78Pwui8jvgAVRwVFny1oG9vMLMTc9IXT4qetkgObXQEREAiMcq6Hrhlvl6Ccj9UV
+ W+CjA==
+X-ME-Sender: <xms:v9iVYm9brSS65NNHeTKa2aSAGuMhNuV_q02NqitHKIflWnyskPm93Q>
+ <xme:v9iVYmvEPzIa6t8R0DpvIt20T_x2F-CuvHUh5PhWnDzhF2bxhd3KZmVzY2jSFMPHc
+ rVf6sZAi_bHYy9zAN0>
+X-ME-Received: <xmr:v9iVYsAbo4OglaOhlIdmxiDh4TkGUQLy0JQ-DnyspWLuS2cSVjWUV6VEFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgddutdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
+ vddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:v9iVYue8RPFp1z-n5TDYcwmL08SVETCWBoiOkGM0Sj6DVf0ap9EGoQ>
+ <xmx:v9iVYrO8My_Z2Um84Ljo0zAf5qBuSDu7j1Yhzm_MSrHcpsLPN30f3Q>
+ <xmx:v9iVYonGekT-cC8ZcFo5elxoAmfC0a5p63TnPymE-i5SQLIN4aRP-Q>
+ <xmx:wdiVYl0RpjWOCUCQSxgWM6t29uxM_f_xUVVu5CeL80V0FPNXRfX-7A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 31 May 2022 04:58:38 -0400 (EDT)
+Date: Tue, 31 May 2022 10:58:35 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Alistair Francis <alistair@alistair23.me>,
+ =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xff.cz>,
+ Andreas Kemnade <andreas@kemnade.info>, David Airlie <airlied@linux.ie>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Liang Chen <cl@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Peter Geis <pgwipeout@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 00/16] drm/rockchip: Rockchip EBC ("E-Book
+ Controller") display driver
+Message-ID: <20220531085835.grw5nt4vyofis3po@penduick>
+References: <20220413221916.50995-1-samuel@sholland.org>
+ <20220414085018.ayjvscgdkoen5nw5@houat>
+ <Yo5kz/9cSd6ewC5f@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Yo5kz/9cSd6ewC5f@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,158 +102,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- linux-phy@lists.infradead.org, patchwork-lst@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Hi Daniel,
 
-Am Mittwoch, 6. April 2022, 18:01:22 CEST schrieb Lucas Stach:
-> This adds the DT nodes for all the peripherals that make up the
-> HDMI display pipeline.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 80 +++++++++++++++++++++++
->  1 file changed, 80 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> b/arch/arm64/boot/dts/freescale/imx8mp.dtsi index
-> 6b7b5ba32b48..a41da99e9537 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1087,6 +1087,86 @@ irqsteer_hdmi: interrupt-controller@32fc2000 {
->  				clock-names = "ipg";
->  				power-domains = <&hdmi_blk_ctrl 
-IMX8MP_HDMIBLK_PD_IRQSTEER>;
->  			};
-> +
-> +			hdmi_pvi: display-bridge@32fc4000 {
-> +				compatible = "fsl,imx8mp-hdmi-
-pvi";
-> +				reg = <0x32fc4000 0x40>;
-> +				power-domains = <&hdmi_blk_ctrl 
-IMX8MP_HDMIBLK_PD_PVI>;
+Thanks for your feedback
 
-This should be disabled by default as well. Unless 'hdmi_tx: hdmi@32fd8000' is 
-enabled, this results in the warning:
-imx-hdmi-pvi: probe of 32fc4000.display-bridge failed with error -22
+On Wed, May 25, 2022 at 07:18:07PM +0200, Daniel Vetter wrote:
+> > > VBLANK Events and Asynchronous Commits
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > When should the VBLANK event complete? When the pixels have been blit=
+ted
+> > > to the kernel's shadow buffer? When the first frame of the waveform is
+> > > sent to the panel? When the last frame is sent to the panel?
+> > >=20
+> > > Currently, the driver is taking the first option, letting
+> > > drm_atomic_helper_fake_vblank() send the VBLANK event without waiting=
+ on
+> > > the refresh thread. This is the only way I was able to get good
+> > > performance with existing userspace.
+> >=20
+> > I've been having the same kind of discussions in private lately, so I'm
+> > interested by the answer as well :)
+> >=20
+> > It would be worth looking into the SPI/I2C panels for this, since it's
+> > basically the same case.
+>=20
+> So it's maybe a bit misnamed and maybe kerneldocs aren't super clear (pls
+> help improve them), but there's two modes:
+>=20
+> - drivers which have vblank, which might be somewhat variable (VRR) or
+>   become simulated (self-refresh panels), but otherwise is a more-or-less
+>   regular clock. For this case the atomic commit event must match the
+>   vblank events exactly (frame count and timestamp)
 
-Best regards
-Alexander
+Part of my interrogation there is do we have any kind of expectation
+on whether or not, when we commit, the next vblank is going to be the
+one matching that commit or we're allowed to defer it by an arbitrary
+number of frames (provided that the frame count and timestamps are
+correct) ?
 
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +						
-pvi_from_lcdif3: endpoint {
-> +							
-remote-endpoint = <&lcdif3_to_pvi>;
-> +						};
-> +					};
-> +
-> +					port@1 {
-> +						reg = <1>;
-> +						
-pvi_to_hdmi_tx: endpoint {
-> +							
-remote-endpoint = <&hdmi_tx_from_pvi>;
-> +						};
-> +					};
-> +				};
-> +			};
-> +
-> +			lcdif3: display-controller@32fc6000 {
-> +				compatible = "fsl,imx8mp-lcdif";
-> +				reg = <0x32fc6000 0x238>;
-> +				interrupts = <8 
-IRQ_TYPE_LEVEL_HIGH>;
-> +				interrupt-parent = 
-<&irqsteer_hdmi>;
-> +				clocks = <&hdmi_tx_phy>,
-> +					 <&clk 
-IMX8MP_CLK_HDMI_APB>,
-> +					 <&clk 
-IMX8MP_CLK_HDMI_ROOT>;
-> +				clock-names = "pix", "axi", 
-"disp_axi";
-> +				power-domains = <&hdmi_blk_ctrl 
-IMX8MP_HDMIBLK_PD_LCDIF>;
-> +
-> +				port {
-> +					lcdif3_to_pvi: endpoint 
-{
-> +						remote-
-endpoint = <&pvi_from_lcdif3>;
-> +					};
-> +				};
-> +			};
-> +
-> +			hdmi_tx: hdmi@32fd8000 {
-> +				compatible = "fsl,imx8mp-hdmi";
-> +				reg = <0x32fd8000 0x7eff>;
-> +				interrupts = <0 
-IRQ_TYPE_LEVEL_HIGH>;
-> +				interrupt-parent = 
-<&irqsteer_hdmi>;
-> +				clocks = <&clk 
-IMX8MP_CLK_HDMI_APB>,
-> +					 <&clk 
-IMX8MP_CLK_HDMI_REF_266M>,
-> +					 <&clk IMX8MP_CLK_32K>,
-> +					 <&hdmi_tx_phy>;
-> +				clock-names = "iahb", "isfr", 
-"cec", "pix";
-> +				assigned-clocks = <&clk 
-IMX8MP_CLK_HDMI_REF_266M>;
-> +				assigned-clock-parents = <&clk 
-IMX8MP_SYS_PLL1_266M>;
-> +				power-domains = <&hdmi_blk_ctrl 
-IMX8MP_HDMIBLK_PD_HDMI_TX>;
-> +				reg-io-width = <1>;
-> +				status = "disabled";
-> +
-> +				port {
-> +					hdmi_tx_from_pvi: 
-endpoint {
-> +						remote-
-endpoint = <&pvi_to_hdmi_tx>;
-> +					};
-> +				};
-> +			};
-> +
-> +			hdmi_tx_phy: phy@32fdff00 {
-> +				compatible = "fsl,imx8mp-hdmi-
-phy";
-> +				reg = <0x32fdff00 0x100>;
-> +				clocks = <&clk 
-IMX8MP_CLK_HDMI_APB>,
-> +					 <&clk 
-IMX8MP_CLK_HDMI_24M>;
-> +				clock-names = "apb", "ref";
-> +				assigned-clocks = <&clk 
-IMX8MP_CLK_HDMI_24M>;
-> +				assigned-clock-parents = <&clk 
-IMX8MP_CLK_24M>;
-> +				power-domains = <&hdmi_blk_ctrl 
-IMX8MP_HDMIBLK_PD_HDMI_TX_PHY>;
-> +				#clock-cells = <0>;
-> +				#phy-cells = <0>;
-> +				status = "disabled";
-> +			};
->  		};
-> 
->  		gpu3d: gpu@38000000 {
+> - drivers which don't have vblank at all, mostly these are i2c/spi panels
+>   or virtual hw and stuff like that. In this case the event simply happens
+>   when the driver is done with refresh/upload, and the frame count should
+>   be zero (since it's meaningless).
+>=20
+> Unfortuantely the helper to dtrt has fake_vblank in it's name, maybe
+> should be renamed to no_vblank or so (the various flags that control it
+> are a bit better named).
+>=20
+> Again the docs should explain it all, but maybe we should clarify them or
+> perhaps rename that helper to be more meaningful.
+>=20
+> > > Blitting/Blending in Software
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > > There are multiple layers to this topic (pun slightly intended):
+> > >  1) Today's userspace does not expect a grayscale framebuffer.
+> > >     Currently, the driver advertises XRGB8888 and converts to Y4
+> > >     in software. This seems to match other drivers (e.g. repaper).
+> > >
+> > >  2) Ignoring what userspace "wants", the closest existing format is
+> > >     DRM_FORMAT_R8. Geert sent a series[4] adding DRM_FORMAT_R1 through
+> > >     DRM_FORMAT_R4 (patch 9), which I believe are the "correct" formats
+> > >     to use.
+> > >=20
+> > >  3) The RK356x SoCs have an "RGA" hardware block that can do the
+> > >     RGB-to-grayscale conversion, and also RGB-to-dithered-monochrome
+> > >     which is needed for animation/video. Currently this is exposed wi=
+th
+> > >     a V4L2 platform driver. Can this be inserted into the pipeline in=
+ a
+> > >     way that is transparent to userspace? Or must some userspace libr=
+ary
+> > >     be responsible for setting up the RGA =3D> EBC pipeline?
+> >=20
+> > I'm very interested in this answer as well :)
+> >=20
+> > I think the current consensus is that it's up to userspace to set this
+> > up though.
+>=20
+> Yeah I think v4l mem2mem device is the answer for these, and then
+> userspace gets to set it all up.
 
+I think the question wasn't really about where that driver should be,
+but more about who gets to set it up, and if the kernel could have
+some component to expose the formats supported by the converter, but
+whenever a commit is being done pipe that to the v4l2 device before
+doing a page flip.
 
+We have a similar use-case for the RaspberryPi where the hardware
+codec will produce a framebuffer format that isn't standard. That
+format is understood by the display pipeline, and it can do
+writeback.
 
+However, some people are using a separate display (like a SPI display
+supported by tinydrm) and we would still like to be able to output the
+decoded frames there.
 
+Is there some way we could plumb things to "route" that buffer through
+the writeback engine to perform a format conversion before sending it
+over to the SPI display automatically?
+
+Maxime
