@@ -1,83 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DD5538F5C
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 12:56:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D03BC538F6F
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 13:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC0AE112870;
-	Tue, 31 May 2022 10:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABA0810FEC2;
+	Tue, 31 May 2022 11:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BF711286E
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 10:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1653994608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5AMEdZHq6r8jK1K5fClop/kDp2DOnuh5RSKQmQhnlmo=;
- b=G/Bmg0NqVkfGsahoyDoGdhfuSemLjTbR8NbNHmWL59sxwbxrBUuyCj6x4xRJcXWgXczXk8
- xEHNjF+fiVIc/5u27Rs7y8NW7mVM/2KTd6ola75f/2hgEfz9Vm5BPMsXyoeQ1r/hpH+eHT
- gkZ3d7qm1nE+O/iIDP/hn/Anr/9GoU4=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-7-RXpsDfXAMiaufrzaKW_knQ-1; Tue, 31 May 2022 06:56:45 -0400
-X-MC-Unique: RXpsDfXAMiaufrzaKW_knQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- n3-20020ac242c3000000b00473d8af3a0cso6570032lfl.21
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 03:56:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5AMEdZHq6r8jK1K5fClop/kDp2DOnuh5RSKQmQhnlmo=;
- b=o5n6M1c1C7z3PdIleoKGxwHMxMJD0P2KVEBSSjKTaRQ9SuETAE8WDh+NJdeTBVmNur
- a249p1wlefVqAjuWV8EE/l/vBSScE+w1XV9V+Hwogi9ps+S/zf+q4R069fwazD/f3jRa
- K6RsrLHTjhxQmsCxA2T4BM6JBVatkLv0MbmfZ7kFwoROJ7elhrjdvlQJqCGa79WgfO3w
- fK5UwMrrQxdT9Xxhl+2Jk1/Ilxe5RaDezm2mIbZ3O3YCJxymOz/m5bYNFYk1LOegkkzI
- Ufzc88R3y87TTzE0SwXk2Rse1kdJFJf3mgBv2oJzKte1NdBW8MeX4EPTYXa5fCzHCNUw
- mqqw==
-X-Gm-Message-State: AOAM530afLME2wh6EusAPZGhP+FlVPNEJykWsiu1ftsPpqEfNxUnMMSj
- HvJOWLdZQewe8Rzr9n4vwFbW7rvhZ2Vi5AooGHvzTfOnOSVgRprYSs6RMzE6U1YXtXBJrRbPRUv
- NhD2lGri2+Ke45/JW6ZVAHAt2yEp9
-X-Received: by 2002:a2e:8958:0:b0:255:48a6:b34f with SMTP id
- b24-20020a2e8958000000b0025548a6b34fmr9086925ljk.32.1653994603707; 
- Tue, 31 May 2022 03:56:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzT/kJtZFCGg6vVnaOEu+TAnTzoEpR9/PyP/37VarQ8+j7ln571wRc5ni+laLwliCYrgww7xA==
-X-Received: by 2002:a2e:8958:0:b0:255:48a6:b34f with SMTP id
- b24-20020a2e8958000000b0025548a6b34fmr9086904ljk.32.1653994603496; 
- Tue, 31 May 2022 03:56:43 -0700 (PDT)
-Received: from [10.101.1.23] (ip-185-104-137-32.ptr.icomera.net.
- [185.104.137.32]) by smtp.gmail.com with ESMTPSA id
- s22-20020a2e9c16000000b0025567cf8633sm16866lji.85.2022.05.31.03.56.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 03:56:42 -0700 (PDT)
-Message-ID: <5ba0b86a-fa9c-ed97-3b43-7814599deab5@redhat.com>
-Date: Tue, 31 May 2022 12:56:18 +0200
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8A410FEC2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 11:06:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1653995195; x=1685531195;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=YXDcSYnLS76U7hYsIeYu6Q7o0oFcGm6+5LGSb2lxc6M=;
+ b=ImlRFL9wsV4jwOC9PW+eNsWvfBrDzmjsq/+Bc3RXr4Mq8JbxO3HYMQ4S
+ SgMcfapTJPqwREWJfuhEPfVzN86IgGFOyhR4HblsmD5TEqX6xNu84H7JB
+ Ud6u6MglpiB9oyCLu0zX0tG+9NaGZ7y8rQUaR8CE7WN6i/3E08oKCI1W8
+ lswxCzSdkNb/zKTLYq83OYTAYNNiyUpPhXrn2wmbIh+meU5jQf4EoSEWl
+ Lk3thL7y7puLo5fDPHhqihud/XSjo458OX0F1Yk+4KRvUpH8gAvFfbi5v
+ 1U1iSyiFMGskoY6b8aG/tE2gr6SEzWGhhNOENYAnHOmK8xy+KW1IMrp+M w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10363"; a="338263416"
+X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; d="scan'208";a="338263416"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2022 04:06:34 -0700
+X-IronPort-AV: E=Sophos;i="5.91,265,1647327600"; d="scan'208";a="754924740"
+Received: from rrudnick-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.138.37])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2022 04:06:32 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: William Tseng <william.tseng@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/edid: ignore the CEA modes not defined in CEA-861-D
+In-Reply-To: <87y1yiq8ce.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220531103421.11363-1-william.tseng@intel.com>
+ <87y1yiq8ce.fsf@intel.com>
+Date: Tue, 31 May 2022 14:06:30 +0300
+Message-ID: <87r14aq7ux.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v10 0/4] Separate panel orientation property creating and
- value setting
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-References: <20220530081910.3947168-1-hsinyi@chromium.org>
- <a8d1fe13-e747-016a-2d45-bfb50f23f2d9@redhat.com>
- <CAJMQK-iM-ip7edA2mBOhp-8maWKG5+kTceZUM5U6BOLLBq1H4Q@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAJMQK-iM-ip7edA2mBOhp-8maWKG5+kTceZUM5U6BOLLBq1H4Q@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,134 +58,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, amd-gfx@lists.freedesktop.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, intel-gfx@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Wayne Lin <waynelin@amd.com>, Lee Shawn C <shawn.c.lee@intel.com>,
+ William Tseng <william.tseng@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 5/30/22 13:34, Hsin-Yi Wang wrote:
-> On Mon, May 30, 2022 at 4:53 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Tue, 31 May 2022, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Tue, 31 May 2022, William Tseng <william.tseng@intel.com> wrote:
+>> This is a workaround for HDMI 1.4 sink which has a CEA mode with higher =
+vic
+>> than what is defined in CEA-861-D.
 >>
->> Hi,
+>> As an example, a HDMI 1.4 sink has the video format 2560x1080p to be
+>> displayed and the video format is indicated by both SVD (with vic 90 and
+>> pictuure aspect ratio 64:27) and DTD.  When connecting to such sink,
+>> source can't output the video format in SVD because an error is returned=
+ by
+>> drm_hdmi_avi_infoframe_from_display_mode(), which can't fill the infofra=
+me
+>> with pictuure aspect ratio 64:27 and the vic, which is originally 90 and=
+ is
+>> changed to 0 by drm_mode_cea_vic().
 >>
->> On 5/30/22 10:19, Hsin-Yi Wang wrote:
->>> Some drivers, eg. mtk_drm and msm_drm, rely on the panel to set the
->>> orientation. Panel calls drm_connector_set_panel_orientation() to create
->>> orientation property and sets the value. However, connector properties
->>> can't be created after drm_dev_register() is called. The goal is to
->>> separate the orientation property creation, so drm drivers can create it
->>> earlier before drm_dev_register().
+>> To work around it, this patch ignores such CEA modes in do_cea_modes() so
+>> the modes won't be processed in drm_hdmi_avi_infoframe_from_display_mode=
+().
+>> And only the video format in DTD can be dispalyed.
+
+I think we should also have a bug filed on this, with the offending EDID
+attached for posterity.
+
+BR,
+Jani.
+
+
 >>
->> Sorry for jumping in pretty late in the discussion (based on the v10
->> I seem to have missed this before).
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Cc: Wayne Lin <waynelin@amd.com>
+>> Cc: Lee Shawn C <shawn.c.lee@intel.com>
+>> Signed-off-by: William Tseng <william.tseng@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 39 +++++++++++++++++++++++++-------------
+>>  1 file changed, 26 insertions(+), 13 deletions(-)
 >>
->> This sounds to me like the real issue here is that drm_dev_register()
->> is getting called too early?
->>
-> Right.
-> 
->> To me it seems sensible to delay calling drm_dev_register() and
->> thus allowing userspace to start detecting available displays +
->> features until after the panel has been probed.
->>
-> 
-> Most panels set this value very late, in .get_modes callback (since it
-> is when the connector is known), though the value was known during
-> panel probe.
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index bc43e1b32092..a93f68878bfd 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -3982,6 +3982,19 @@ drm_display_mode_from_cea_vic(struct drm_device *=
+dev,
+>>  }
+>>  EXPORT_SYMBOL(drm_display_mode_from_cea_vic);
+>>=20=20
+>> +static bool is_hdmi2_sink(const struct drm_connector *connector)
+>> +{
+>> +	/*
+>> +	 * FIXME: sil-sii8620 doesn't have a connector around when
+>> +	 * we need one, so we have to be prepared for a NULL connector.
+>> +	 */
+>> +	if (!connector)
+>> +		return true;
+>> +
+>> +	return connector->display_info.hdmi.scdc.supported ||
+>> +		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
+>> +}
+>> +
+>>  static int
+>>  do_cea_modes(struct drm_connector *connector, const u8 *db, u8 len)
+>>  {
+>> @@ -3993,6 +4006,19 @@ do_cea_modes(struct drm_connector *connector, con=
+st u8 *db, u8 len)
+>>=20=20
+>>  		mode =3D drm_display_mode_from_vic_index(connector, db, len, i);
+>>  		if (mode) {
+>> +			u8 vic =3D svd_to_vic(db[i]);
+>> +
+>> +			if (!drm_valid_cea_vic(vic))
+>> +				continue;
+>
+> drm_display_mode_from_vic_index() returns NULL in this case.
+>
+>> +
+>> +			/*
+>> +			 * HDMI 1.4 VIC range: 1 <=3D VIC <=3D 64 (CEA-861-D) but
+>> +			 * HDMI 2.0 VIC range: 1 <=3D VIC <=3D 107 (CEA-861-F). So we
+>> +			 * have to make sure we dont break HDMI 1.4 sinks.
+>> +			 */
+>> +			if (!is_hdmi2_sink(connector) && vic > 64)
+>> +				continue;
+>
+> I'll need to double check if this is the right thing to do... but I
+> guess the question becomes if this shouldn't be within
+> drm_display_mode_from_vic_index().
+>
+> Duplicating the condition from drm_mode_cea_vic() is probably not a good
+> idea.
+>
+> The continues in both above branches leak the mode.
+>
+>
+> BR,
+> Jani.
+>
+>
+>> +
+>>  			/*
+>>  			 * YCBCR420 capability block contains a bitmap which
+>>  			 * gives the index of CEA modes from CEA VDB, which
+>> @@ -5846,19 +5872,6 @@ void drm_set_preferred_mode(struct drm_connector =
+*connector,
+>>  }
+>>  EXPORT_SYMBOL(drm_set_preferred_mode);
+>>=20=20
+>> -static bool is_hdmi2_sink(const struct drm_connector *connector)
+>> -{
+>> -	/*
+>> -	 * FIXME: sil-sii8620 doesn't have a connector around when
+>> -	 * we need one, so we have to be prepared for a NULL connector.
+>> -	 */
+>> -	if (!connector)
+>> -		return true;
+>> -
+>> -	return connector->display_info.hdmi.scdc.supported ||
+>> -		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
+>> -}
+>> -
+>>  static u8 drm_mode_hdmi_vic(const struct drm_connector *connector,
+>>  			    const struct drm_display_mode *mode)
+>>  {
 
-Hmm I would expect the main drm/kms driver to register the drm_connector
-object after probing the panel, right ?
-
-So maybe this is a problem with the panel API? How about adding 
-separate callback to the panel API to get the orientation, which the
-main drm/kms driver can then call before registering the connector ?
-
-And then have the main drm/kms driver call
-drm_connector_set_panel_orientation() with the returned orientation
-on the connecter before registering it.
-
-The new get_orientation callback for the panel should of course
-be optional (IOW amy be NULL), so we probably want a small
-helper for drivers using panel (sub)drivers to take care of
-the process of getting the panel orientation from the panel
-(if supported) and then setting it on the connector.
-
-
-> I think we can also let drm check if they have remote panel nodes: If
-> there is a panel and the panel sets the orientation, let the drm read
-> this value and set the property. Does this workflow sound reasonable?
-> 
-> The corresponding patch to implement this:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20220530113033.124072-1-hsinyi@chromium.org/
-
-That is a suprisingly small patch (which is good). I guess that
-my suggestion to add a new panel driver callback to get
-the orientation would be a bit bigget then this. Still I think
-that that would be a bit cleaner, as it would also solve this
-for cases where the orientation comes from the panel itself
-(through say some EDID extenstion) rather then from devicetree.
-
-Still I think either way should be acceptable upstream.
-
-Opinions from other drm devs on the above are very much welcome!
-
-Your small patch nicely avoids the probe ordering problem,
-so it is much better then this patch series.
-
-Regards,
-
-Hans
-
-
-
-> 
-> Thanks
-> 
->> I see a devicetree patch in this series, so I guess that the panel
->> is described in devicetree. Especially in the case of devicetree
->> I would expect the kernel to have enough info to do the right
->> thing and make sure the panel is probed before calling
->> drm_dev_register() ?
->>
->> Regards,
->>
->> Hans
->>
->>
->>
->>
->>>
->>> After this series, drm_connector_set_panel_orientation() works like
->>> before. It won't affect existing callers of
->>> drm_connector_set_panel_orientation(). The only difference is that
->>> some drm drivers can call drm_connector_init_panel_orientation_property()
->>> earlier.
->>>
->>> Hsin-Yi Wang (4):
->>>   gpu: drm: separate panel orientation property creating and value
->>>     setting
->>>   drm/mediatek: init panel orientation property
->>>   drm/msm: init panel orientation property
->>>   arm64: dts: mt8183: Add panel rotation
->>>
->>>  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  1 +
->>>  drivers/gpu/drm/drm_connector.c               | 58 ++++++++++++++-----
->>>  drivers/gpu/drm/mediatek/mtk_dsi.c            |  7 +++
->>>  drivers/gpu/drm/msm/dsi/dsi_manager.c         |  4 ++
->>>  include/drm/drm_connector.h                   |  2 +
->>>  5 files changed, 59 insertions(+), 13 deletions(-)
->>>
->>
-> 
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
