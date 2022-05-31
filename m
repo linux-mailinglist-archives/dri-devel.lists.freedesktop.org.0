@@ -2,41 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F332C538A3B
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 05:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAB5538A02
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 04:51:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 335CA10F83A;
-	Tue, 31 May 2022 03:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63F6610E2B8;
+	Tue, 31 May 2022 02:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id F3E8310F83A
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 03:43:22 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 31 May
- 2022 09:38:04 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 31 May
- 2022 09:38:03 +0800
-Message-ID: <45fce6db-2e9d-0e0e-3a71-97575d7bb722@meizu.com>
-Date: Tue, 31 May 2022 09:38:03 +0800
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDDC710E2B8
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 02:51:48 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ n13-20020a17090a394d00b001e30a60f82dso1075865pjf.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 May 2022 19:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=xcpbx9Lt9Owdlm64rePa6qexHLWiyypbRMgxN1JLv/M=;
+ b=CyYXFkxhZiXQiu14RxVExNHuXRW0mFlO3k3+vtcoaKX56jC5Ba1StMa8qKRpw1gBRQ
+ m2pdXOpOXP5yoNapy24x4BR7MDFAg/xRghRxTbuu49cw3iyj+gWoa8iNtf8UAns32Wob
+ fQmMqbHWuHhV5B4vVeGxYjmDjsojaHhPcIBeQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xcpbx9Lt9Owdlm64rePa6qexHLWiyypbRMgxN1JLv/M=;
+ b=l7nkNGzKu8KgbkPD2Imm7F/P/8lz8cVQx8ozaowg4pKHfoGMAZ/90UMFsVsfbx3IT8
+ 0d/qyTuieOCaegFKuIxqYoEnHj4Hh/THcEwVBuomVInI+g+ws+tMGN/Kr4cQ5L+bG8x6
+ vkOZ+D94ftcbLEZ/Wqr7b81xa7wl+p7e9qklzEDEBUoP4g3lCpdn0z6GiaI62NoDSkck
+ RgrbDoQseiJsAQTH7c8Zwrzgst2lNS+/pokYMPNmCNnT2QGo7s+jYuAJQmilIlOuIG0G
+ fjwJC5STIrMBxkzb4crs+7m270UDrmI/THKgZIhyuiRTdYmK6sdZLdXTYRQV/N/uG/8w
+ DNTQ==
+X-Gm-Message-State: AOAM532RFpFLO7F0kivS7wZvW4WZ0LZUQ5UvkIlq2ACS9PoIF7xVID2h
+ bl32C3GiM1bOfw4avQMSOP+PJg==
+X-Google-Smtp-Source: ABdhPJylou6Lhk/REVZIpM88w/Cw5uS6g71yGFXefOXkdi3IddUox11VUsoNOmO40/Smst1WUN/3KA==
+X-Received: by 2002:a17:90a:de01:b0:1df:cda5:8332 with SMTP id
+ m1-20020a17090ade0100b001dfcda58332mr26157122pjv.123.1653965508382; 
+ Mon, 30 May 2022 19:51:48 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:7d2a:ad1f:afa1:7770])
+ by smtp.gmail.com with ESMTPSA id
+ i16-20020a056a00005000b00518382bceaesm9479310pfk.57.2022.05.30.19.51.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 May 2022 19:51:47 -0700 (PDT)
+Date: Tue, 31 May 2022 11:51:42 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-fence: allow dma fence to have their own lock
+Message-ID: <YpWCvniLzJfcp684@google.com>
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] drm/nouveau/therm: Fix pointer dereferenced before
- checking
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- "Lyude Paul" <lyude@redhat.com>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>
-References: <1653880246-23670-1-git-send-email-baihaowen@meizu.com>
-From: baihaowen <baihaowen@meizu.com>
-In-Reply-To: <1653880246-23670-1-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+In-Reply-To: <7eee4274-bd69-df8d-9067-771366217804@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,43 +70,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, Gustavo Padovan <gustavo@padovan.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Ricardo Ribalda <ribalda@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On (22/05/30 16:55), Christian K�nig wrote:
+> Am 30.05.22 um 16:22 schrieb Sergey Senozhatsky:
+> > [SNIP]
+> > So the `lock` should have at least same lifespan as the DMA fence
+> > that borrows it, which is impossible to guarantee in our case.
+> 
+> Nope, that's not correct. The lock should have at least same lifespan as the
+> context of the DMA fence.
 
-在 2022/5/30 上午11:10, Haowen Bai 写道:
-> The fan->base is dereferencing before null checking, so move
-> it after checking.
->
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c
-> index 340f37a299dc..b13ba9b2f6be 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/therm/fanpwm.c
-> @@ -98,10 +98,10 @@ nvkm_fanpwm_create(struct nvkm_therm *therm, struct dcb_gpio_func *func)
->  		return -ENODEV;
->  
->  	fan = kzalloc(sizeof(*fan), GFP_KERNEL);
-> -	therm->fan = &fan->base;
->  	if (!fan)
->  		return -ENOMEM;
->  
-> +	therm->fan = &fan->base;
->  	fan->base.type = "PWM";
->  	fan->base.get = nvkm_fanpwm_get;
->  	fan->base.set = nvkm_fanpwm_set;
-Sorry, plz ignore this patch.
-
-fan->base is dereferenced, &fan->base is just a pointer math for pointer address offset, so it would not cause a bug(dereferencing null pointer).
-
- 
-
--- 
-Haowen Bai
-
+How does one know when it's safe to release the context? DMA fence
+objects are still transparently refcount-ed and "live their own lives",
+how does one synchronize lifespans?
