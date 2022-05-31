@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D686953997F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 00:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA09D5399AE
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 00:47:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30C2A10E160;
-	Tue, 31 May 2022 22:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9EFB10E738;
+	Tue, 31 May 2022 22:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 261FD10E160
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 22:30:27 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- c5-20020a1c3505000000b0038e37907b5bso2031445wma.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 15:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SEu3gHBtY6LLTOMN3MmTdHskW6p1TLc/vNEFmAzpufM=;
- b=Z/vr9xTfUXH4PiY9DvzHip/pwNhMr9h68esOIlIO56GV4apnXgFyOZ4UUCWBHKFYZ7
- bSlO6x88S/K07DYuXkhEDgxkak3mbCuynYvmAvAXkkyu9RUknWNtE/ln6j2mrNyLuTc5
- y2kXWbMYjjOt+3x4sRE1U/gdB5r5O5Tfo14sEXjhUruqZuTEWkC4yAUCH3NE/pXzFUPw
- fcm8OZUg5G1rNEGvLnnU212WcSUCBkBl8R2z71Jf6L3TOaXmoObbqn+VpxmBdRFwyFh3
- 8+oZxQh7463u1FSg/43DMFwRTz9sD8ddsOzS8PXnl1bbUa8T5cgUAub2gGrw3E4Ub6pl
- LfiQ==
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com
+ [209.85.160.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD4BB10E72A
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 22:47:02 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so355684fac.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 15:47:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SEu3gHBtY6LLTOMN3MmTdHskW6p1TLc/vNEFmAzpufM=;
- b=UMsj5LnTRwUQ9R/GB6+sefZe+KX7JMUcM3Eyw1rCMbGenI5xLmvJ9R9qTXfmIXa7CG
- t4x8bAAlxCoPuVDHI0efoev3Da7tle4NhUFTj7feeXcQlTisDnH92HTEDGEP4025p0cH
- +EkHQ7cO4S2jb4kXcJ5yNz3ESEj7coRxwXH5Sh+Wg0yX3VE6nsGiJiUdSPtKzTZ0iwLC
- kXDEwDvZNBt9k3Hz92syfgGktFMry8sCs9uonK6fETvIvB5rVkMfyz9fwp3cG/NnOPhF
- fBMQiOaeAuUWVWmTnqMbPchNyAv9rziwjoglG9Y6vD+NCoG4xhEmSw/K5lmktM4v3HpS
- 8kpw==
-X-Gm-Message-State: AOAM531aUVOgesUFF70F9/AcAkXdhHHgduhFIu6m1LCzk0AGbvBhiIv0
- oZNaZiH784GEKGJ12AEgEP4+7mcdPfiJAcn6O2v5aQ==
-X-Google-Smtp-Source: ABdhPJxFW3EN2npyN6sNyZol7XaWaELo+D3IYfrKRqzNhGnITUwP8Auj/XlGTdtQdX23iRAndR1ltYZz0vpFCwYSIZg=
-X-Received: by 2002:a05:600c:4f90:b0:394:970a:71bd with SMTP id
- n16-20020a05600c4f9000b00394970a71bdmr26110197wmq.158.1654036225336; Tue, 31
- May 2022 15:30:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220531212521.1231133-1-kaleshsingh@google.com>
- <20220531212521.1231133-3-kaleshsingh@google.com>
- <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
-In-Reply-To: <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Tue, 31 May 2022 15:30:14 -0700
-Message-ID: <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] procfs: Add 'path' to /proc/<pid>/fdinfo/
-To: Stephen Brennan <stephen.s.brennan@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=aprzOwmeu9ofv4NArUYUbqpCw1+7K1N79lDMatDRSxY=;
+ b=QAXzQ0vB03FcFT/zhgZGAWO4zN3MYHpKC2y+twtcCYb8b7vNmB07TkZ1+lagMpNIsQ
+ KHbIgqrVx+sYwG+rRpQxBPVyyvSCLqToKfLF5xofpUU6J6rIDZVE6BRMbeDth+3nCnjG
+ 9OJB8xZKeXHJiP4wO3X3bdxqIT8qJL5E7gmYPElEwHJj1cgNlck1X9va8JcmGB55y7QW
+ TUItJ4J24CzahNupqmI2yppR4n3r+E9B579DihMEDWU6zNQb8ABWBxYWz3hFreGqFA0T
+ rEDiqAYkBKh+iYr9mvegdBVqHJKmVu8fnmpg9PXZVENs5no0WtRV4g7WlWHxYYBOdD41
+ FYIg==
+X-Gm-Message-State: AOAM530nrr+FtO7DjfLI1lBZBfCmt2Pxk9lewea41zQiPth65V9lOg+q
+ 4yKpBiaV7odGiohsRmP4fgTSax56cQ==
+X-Google-Smtp-Source: ABdhPJzrxihBjK98eUTkfRJDT5Ew9e/c5AjwMgz/IhfhSleaQEJbbkcrawGZcg5v4oRO3DRzsYRYvw==
+X-Received: by 2002:a05:6870:8985:b0:da:b3f:3253 with SMTP id
+ f5-20020a056870898500b000da0b3f3253mr14896611oaq.259.1654037221882; 
+ Tue, 31 May 2022 15:47:01 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ bo44-20020a05680822ac00b0032af1c6bf02sm84725oib.45.2022.05.31.15.47.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 May 2022 15:47:01 -0700 (PDT)
+Received: (nullmailer pid 2476562 invoked by uid 1000);
+ Tue, 31 May 2022 22:46:54 -0000
+From: Rob Herring <robh@kernel.org>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+In-Reply-To: <20220531111900.19422-7-peterwu.pub@gmail.com>
+References: <20220531111900.19422-1-peterwu.pub@gmail.com>
+ <20220531111900.19422-7-peterwu.pub@gmail.com>
+Subject: Re: [RESEND 06/14] dt-bindings: mfd: Add Mediatek MT6370 binding
+Date: Tue, 31 May 2022 17:46:54 -0500
+Message-Id: <1654037214.477381.2476559.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,192 +60,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- "Cc: Android Kernel" <kernel-team@android.com>,
- David Hildenbrand <david@redhat.com>, Ioannis Ilkos <ilkos@google.com>,
- LKML <linux-kernel@vger.kernel.org>, Colin Cross <ccross@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Paul Gortmaker <paul.gortmaker@windriver.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Johannes Weiner <hannes@cmpxchg.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Suren Baghdasaryan <surenb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mike Rapoport <rppt@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com, pavel@ucw.cz,
+ alice_chen@richtek.com, lgirdwood@gmail.com, linux-iio@vger.kernel.org,
+ broonie@kernel.org, dri-devel@lists.freedesktop.org, sre@kernel.org,
+ cy_huang@richtek.com, krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
+ chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, chiaen_wu@richtek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ jingoohan1@gmail.com, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
-<stephen.s.brennan@oracle.com> wrote:
->
-> On 5/31/22 14:25, Kalesh Singh wrote:
-> > In order to identify the type of memory a process has pinned through
-> > its open fds, add the file path to fdinfo output. This allows
-> > identifying memory types based on common prefixes. e.g. "/memfd...",
-> > "/dmabuf...", "/dev/ashmem...".
-> >
-> > Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
-> > the same as /proc/<pid>/maps which also exposes the file path of
-> > mappings; so the security permissions for accessing path is consistent
-> > with that of /proc/<pid>/maps.
->
-> Hi Kalesh,
+On Tue, 31 May 2022 19:18:52 +0800, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add Mediatek MT6370 binding documentation.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+>  .../bindings/mfd/mediatek,mt6370.yaml         | 282 ++++++++++++++++++
+>  .../dt-bindings/iio/adc/mediatek,mt6370_adc.h |  18 ++
+>  include/dt-bindings/mfd/mediatek,mt6370.h     |  83 ++++++
+>  3 files changed, 383 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+>  create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+>  create mode 100644 include/dt-bindings/mfd/mediatek,mt6370.h
+> 
 
-Hi Stephen,
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Thanks for taking a look.
+yamllint warnings/errors:
 
->
-> I think I see the value in the size field, but I'm curious about path,
-> which is available via readlink /proc/<pid>/fd/<n>, since those are
-> symlinks to the file themselves.
+dtschema/dtc warnings/errors:
+./Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml: Unable to find schema file matching $id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: charger: False schema does not allow {'compatible': ['mediatek,mt6370-charger'], 'interrupts': [[48], [68], [6]], 'interrupt-names': ['attach_i', 'uvp_d_evt', 'mivr'], 'io-channels': [[1, 5]], 'usb-otg-vbus': {'regulator-compatible': ['mt6370,otg-vbus'], 'regulator-name': ['usb-otg-vbus'], 'regulator-min-microvolt': [[4350000]], 'regulator-max-microvolt': [[5800000]], 'regulator-min-microamp': [[500000]], 'regulator-max-microamp': [[3000000]], 'phandle': [[2]]}}
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: tcpc: False schema does not allow {'compatible': ['mediatek,mt6370-tcpc'], 'interrupts-extended': [[4294967295, 4, 8]], 'connector': {'compatible': ['usb-c-connector'], 'label': ['USB-C'], 'vbus-supply': [[2]], 'data-role': ['dual'], 'power-role': ['dual'], 'try-power-role': ['sink'], 'source-pdos': [[570527844]], 'sink-pdos': [[570527944]], 'op-sink-microwatt': [[10000000]], 'ports': {'#address-cells': [[1]], '#size-cells': [[0]], 'port@0': {'reg': [[0]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@1': {'reg': [[1]], 'endpoint': {'remote-endpoint': [[4294967295]]}}, 'port@2': {'reg': [[2]], 'endpoint': {'remote-endpoint': [[4294967295]]}}}}}
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: indicator: False schema does not allow {'compatible': ['mediatek,mt6370-indicator'], '#address-cells': [[1]], '#size-cells': [[0]], 'multi-led@0': {'reg': [[0]], 'function': ['indicator'], 'color': [[9]], 'led-max-microamp': [[24000]], '#address-cells': [[1]], '#size-cells': [[0]], 'mediatek,soft-start': [[3]], 'led@0': {'reg': [[0]], 'color': [[1]]}, 'led@1': {'reg': [[1]], 'color': [[2]]}, 'led@2': {'reg': [[2]], 'color': [[3]]}}, 'led@3': {'reg': [[3]], 'function': ['indicator'], 'color': [[0]], 'led-max-microamp': [[6000]]}}
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb: mt6370@34: flashlight: False schema does not allow {'compatible': ['mediatek,mt6370-flashlight'], '#address-cells': [[1]], '#size-cells': [[0]], 'led@0': {'reg': [[0]], 'led-sources': [[0]], 'function': ['flash'], 'color': [[0]], 'function-enumerator': [[1]], 'led-max-microamp': [[200000]], 'flash-max-microamp': [[500000]], 'flash-max-timeout-us': [[1248000]]}, 'led@1': {'reg': [[1]], 'led-sources': [[1]], 'function': ['flash'], 'color': [[0]], 'function-enumerator': [[2]], 'led-max-microamp': [[200000]], 'flash-max-microamp': [[500000]], 'flash-max-timeout-us': [[1248000]]}}
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/charger: failed to match any schema with compatible: ['mediatek,mt6370-charger']
+Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/indicator: failed to match any schema with compatible: ['mediatek,mt6370-indicator']
+Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/flashlight: failed to match any schema with compatible: ['mediatek,mt6370-flashlight']
+Documentation/devicetree/bindings/mfd/mediatek,mt6370.example.dtb:0:0: /example-0/i2c/mt6370@34/tcpc: failed to match any schema with compatible: ['mediatek,mt6370-tcpc']
 
-This could work if we are root, but the file permissions wouldn't
-allow us to do the readlink on other processes otherwise. We want to
-be able to capture the system state in production environments from
-some trusted process with ptrace read capability.
+doc reference errors (make refcheckdocs):
 
->
-> File paths can contain fun characters like newlines or colons, which
-> could make parsing out filenames in this text file... fun. How would your
-> userspace parsing logic handle "/home/stephen/filename\nsize:\t4096"? The
-> readlink(2) API makes that easy already.
+See https://patchwork.ozlabs.org/patch/
 
-I think since we have escaped the "\n" (seq_file_path(m, file, "\n")),
-then user space might parse this line like:
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-if (strncmp(line, "path:\t", 6) == 0)
-        char* path = line + 6;
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
+pip3 install dtschema --upgrade
 
-Thanks,
-Kalesh
+Please check and re-submit.
 
->
-> Is the goal avoiding races (e.g. file descriptor 3 is closed and reopened
-> to a different path between reading fdinfo and stating the fd)?
->
-> Stephen
->
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > ---
-> >
-> > Changes from rfc:
-> >   - Split adding 'size' and 'path' into a separate patches, per Christian
-> >   - Fix indentation (use tabs) in documentaion, per Randy
-> >
-> >  Documentation/filesystems/proc.rst | 14 ++++++++++++--
-> >  fs/proc/fd.c                       |  4 ++++
-> >  2 files changed, 16 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > index 779c05528e87..591f12d30d97 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -1886,14 +1886,16 @@ if precise results are needed.
-> >  3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
-> >  ---------------------------------------------------------------
-> >  This file provides information associated with an opened file. The regular
-> > -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino', and 'size'.
-> > +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', 'size',
-> > +and 'path'.
-> >
-> >  The 'pos' represents the current offset of the opened file in decimal
-> >  form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
-> >  file has been created with [see open(2) for details] and 'mnt_id' represents
-> >  mount ID of the file system containing the opened file [see 3.5
-> >  /proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
-> > -the file, and 'size' represents the size of the file in bytes.
-> > +the file, 'size' represents the size of the file in bytes, and 'path'
-> > +represents the file path.
-> >
-> >  A typical output is::
-> >
-> > @@ -1902,6 +1904,7 @@ A typical output is::
-> >       mnt_id: 19
-> >       ino:    63107
-> >       size:   0
-> > +     path:   /dev/null
-> >
-> >  All locks associated with a file descriptor are shown in its fdinfo too::
-> >
-> > @@ -1920,6 +1923,7 @@ Eventfd files
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   0
-> > +     path:   anon_inode:[eventfd]
-> >       eventfd-count:  5a
-> >
-> >  where 'eventfd-count' is hex value of a counter.
-> > @@ -1934,6 +1938,7 @@ Signalfd files
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   0
-> > +     path:   anon_inode:[signalfd]
-> >       sigmask:        0000000000000200
-> >
-> >  where 'sigmask' is hex value of the signal mask associated
-> > @@ -1949,6 +1954,7 @@ Epoll files
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   0
-> > +     path:   anon_inode:[eventpoll]
-> >       tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
-> >
-> >  where 'tfd' is a target file descriptor number in decimal form,
-> > @@ -1968,6 +1974,7 @@ For inotify files the format is the following::
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   0
-> > +     path:   anon_inode:inotify
-> >       inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
-> >
-> >  where 'wd' is a watch descriptor in decimal form, i.e. a target file
-> > @@ -1992,6 +1999,7 @@ For fanotify files the format is::
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   0
-> > +     path:   anon_inode:[fanotify]
-> >       fanotify flags:10 event-flags:0
-> >       fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
-> >       fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> > @@ -2018,6 +2026,7 @@ Timerfd files
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   0
-> > +     path:   anon_inode:[timerfd]
-> >       clockid: 0
-> >       ticks: 0
-> >       settime flags: 01
-> > @@ -2042,6 +2051,7 @@ DMA Buffer files
-> >       mnt_id: 9
-> >       ino:    63107
-> >       size:   32768
-> > +     path:   /dmabuf:
-> >       count:  2
-> >       exp_name:  system-heap
-> >
-> > diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> > index 464bc3f55759..8889a8ba09d4 100644
-> > --- a/fs/proc/fd.c
-> > +++ b/fs/proc/fd.c
-> > @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v)
-> >       seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
-> >       seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i_size);
-> >
-> > +     seq_puts(m, "path:\t");
-> > +     seq_file_path(m, file, "\n");
-> > +     seq_putc(m, '\n');
-> > +
-> >       /* show_fd_locks() never deferences files so a stale value is safe */
-> >       show_fd_locks(m, file, files);
-> >       if (seq_has_overflowed(m))
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
