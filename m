@@ -2,45 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E3D538B61
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 08:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B86538BFE
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 09:33:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF5971129B2;
-	Tue, 31 May 2022 06:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0AF210F035;
+	Tue, 31 May 2022 07:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 365441129B2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 06:26:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=content-transfer-encoding:from:mime-version:subject:date:
- message-id:references:cc:in-reply-to:to;
- bh=q0Ly3VYEbjYqQhjsAGdFo317POmXxxJct8nswHWSNRc=;
- b=Crq9x9JaUkBocQegHBPU2uNvvPdzl7EqK4zJYsHxWYYL5HcLcVQKBQhr
- 9tKuFo4YEJfEvBXWsmN1GfpzCc9ktKDJvTauHuIUpWxwmBLsgMis++m5C
- Ba6RU42SUSSqvNgQInV27Hpf6StFB0/GJyvwCR0C7IBQj6mFE9YtEzGyK c=;
-Authentication-Results: mail2-relais-roc.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.91,264,1647298800"; d="scan'208";a="38688098"
-Received: from 193.92-254-62.static.virginmediabusiness.co.uk (HELO
- [172.16.3.59]) ([62.254.92.193])
- by mail2-relais-roc.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2022 08:26:55 +0200
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Julia Lawall <Julia.Lawall@inria.fr>
-Mime-Version: 1.0 (1.0)
-Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
- block count and size helpers")
-Date: Tue, 31 May 2022 07:26:53 +0100
-Message-Id: <91E67F46-A3C7-4159-9E0C-C6C6306F3669@inria.fr>
-References: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
-In-Reply-To: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-X-Mailer: iPhone Mail (17A860)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 375A910F035
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 07:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1653982389; x=1685518389;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=yaL7tj+bNCaojD7dpIfu0rRMv3VVPjyGM5oOqum92Nk=;
+ b=QVnyyghcNkaMOppQwnCSp0rnBQEMkTk6fWmJHgA52IghXyc6ygALY0Bn
+ 0Q48HHiI/sCtg0XqoIKnIyXmqb9hS17ktLT8jrADYP5X3k+MsD9UYuASK
+ U1lFWy+OU3XScixfcnDHCPaG6YNqH31F1GZCrdKBGi7y8gBXh+86d075g
+ sKvRv8YgU2TVny3FBNAW0apj19iPH3vpGqBYYpOsp6DlMuuz7WWUm0/gB
+ b8f9jrA3sLdLEtEu7KFmAZVbIpNIDwLTsbGdPUA9P7W3d3mdGjhSBQ4gZ
+ 5pEBoERHB3eJiA1GDzVeOnsUWj+bynbIXmiV+QmezqRU8qPsnhuprY/eu g==;
+X-IronPort-AV: E=Sophos;i="5.91,264,1647298800"; d="scan'208";a="24165816"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 31 May 2022 09:33:06 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Tue, 31 May 2022 09:33:06 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Tue, 31 May 2022 09:33:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1653982386; x=1685518386;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=yaL7tj+bNCaojD7dpIfu0rRMv3VVPjyGM5oOqum92Nk=;
+ b=kIF8WOJbl0kUb0M2Uh4HREaUF/WrhIUkRXV+0aGI2mYYBq1O5Ls7uVKw
+ qI5naLN2PexiqoopcZbWu6cd3jaD1nf4YsFJZcvYbgU6sZ1Pnrjx9B5kY
+ x69E49UZb9eggz6jRKvoP/hrkds6cY70ApY356XdTy9xbLYSEw1MNaVAV
+ WQG+zFXQaBFCvAnKJYufZgGi2/qX/ftZV96cWHEfvU3eI7xtRKbuuSLT/
+ piKhSySc7FLLencgSxGgR3Llxt+wFYB/4vNSJah2hIDfPmM+F5rjwWVKa
+ xv8iFbqqMC/G8RCThG3c/F8QK82lqc2fpCeYyn0Y+H1ZkrXC43pMqSh1x w==;
+X-IronPort-AV: E=Sophos;i="5.91,264,1647298800"; d="scan'208";a="24165815"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 31 May 2022 09:33:06 +0200
+Received: from steina-w.localnet (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8564A280004;
+ Tue, 31 May 2022 09:33:06 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: (EXT) [PATCH 5/6] dt-bindings: drm/bridge: ti-sn65dsi83: Add
+ reset controller documentation
+Date: Tue, 31 May 2022 09:33:04 +0200
+Message-ID: <5789362.MhkbZ0Pkbq@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220530150548.1236307-6-m.felsch@pengutronix.de>
+References: <20220530150548.1236307-1-m.felsch@pengutronix.de>
+ <20220530150548.1236307-6-m.felsch@pengutronix.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,77 +77,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Jani Nikula <jani.nikula@intel.com>, Viresh Kumar <vireshk@kernel.org>,
- Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, SoC Team <soc@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: devicetree@vger.kernel.org, kernel@pengutronix.de, jonas@kwiboo.se,
+ robert.foss@linaro.org, dri-devel@lists.freedesktop.org,
+ jernej.skrabec@gmail.com, robh+dt@kernel.org,
+ laurent.pinchart@ideasonboard.com, krzysztof.kozlowski+dt@linaro.org,
+ sam@ravnborg.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marco,
 
+Am Montag, 30. Mai 2022, 17:05:48 CEST schrieb Marco Felsch:
+> The bridge device can now also be enabled/disabled by an external reset
+> controller. So the device now supports either enable/disable by simple
+> GPIO or by an Reset-Controller.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+>  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml    | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git
+> a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml index
+> 7306b9874dc3..eff8360c184e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+> @@ -35,6 +35,12 @@ properties:
+>    vcc-supply:
+>      description: A 1.8V power supply (see regulator/regulator.yaml).
+> 
+> +  resets:
+> +    maxItems: 1
+> +    description: |
+> +      Reset specifier for bridge_en pin. This is required only if the
+> brdige_en +      pin is connected to a reset controller.
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
 
-> On 30 May 2022, at 15:27, Arnd Bergmann <arnd@arndb.de> wrote:
->=20
-> =EF=BB=BFOn Mon, May 30, 2022 at 4:08 PM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
->>> On Mon, 30 May 2022, Arnd Bergmann <arnd@arndb.de> wrote:
->>> struct my_driver_priv {
->>>       struct device dev;
->>>       u8 causes_misalignment;
->>>       spinlock_t lock;
->>>       atomic_t counter;
->>> } __packed; /* this annotation is harmful because it breaks the atomics *=
-/
->>=20
->> I wonder if this is something that could be caught with coccinelle. Or
->> sparse. Are there any cases where this combo is necessary? (I can't
->> think of any, but it's a low bar. ;)
->>=20
->> Cc: Julia.
->=20
-> I think one would first have to make a list of data types that are not
-> meant to be in a packed structure. It could be a good start to
-> search for any packed aggregates with a pointer, atomic_t or spinlock_t
-> in them, but there are of course many more types that you won't
-> find in hardware structures.
->=20
->>> or if the annotation does not change the layout like
->>>=20
->>> struct my_dma_descriptor {
->>>     __le64 address;
->>>     __le64 length;
->>> } __packed; /* does not change layout but makes access slow on some
->>> architectures */
->>=20
->> Why is this the case, though? I'd imagine the compiler could figure this
->> out.
->=20
-> When you annotate the entire structure as __packed without an
-> extra __aligned() annotation, the compiler has to assume that the
-> structure itself is unaligned as well. On many of the older architectures,=
+Maybe it should be added here, that 'resets' is an alternative to 'enable-
+gpios' as both are essentially controlling the same pin from the bridge.
 
-> this will result in accessing the values one byte at a time. Marking
-> the structure as "__packed __aligned(8)" instead would be harmless.
->=20
-> When I have a structure with a few misaligned members, I generally
-> prefer to only annotate the members that are not naturally aligned,
-> but this approach is not very common.
+Best regards
+Alexander
 
-Searching for specific types in a packed structure would be easy.
-
-Coccinelle could duplicate the structure without the packed and see if any o=
-ffsets change, using build bug on, but that would be architecture specific s=
-o maybe not useful.
-
-Julia
-
-
-
->         Arnd
 
