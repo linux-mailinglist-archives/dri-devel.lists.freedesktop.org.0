@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D495398D3
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 23:34:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD915398DA
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 23:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E64010E46F;
-	Tue, 31 May 2022 21:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 756F210E652;
+	Tue, 31 May 2022 21:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B419310E28D;
- Tue, 31 May 2022 21:34:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C11B10E651;
+ Tue, 31 May 2022 21:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654032840; x=1685568840;
+ t=1654032968; x=1685568968;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=xmTQGlNpRI+hYF3aWcsTWS2ZdLerNBet8acdMFdZJZM=;
- b=MHw6lQWYgYDqj6GOcnVJ3zPWBx+N1TM0tbADkXdO+2kzMCSIxliWzaa4
- dvEAWZOl3iXpIIG42PPjxxhvuURgngKYvsl0rXtwvRm9IqKAxU4pyWY03
- Ec4WZx14xK6Px8VkTQtsaFlFveLORkiYT3mVYv+qDllgrS/Y7rWy8hi1W
- gLofiIki/PoijPOVbucWuMSAMYPPEsafnHEpzvvdcir5imQSxI+qwzIrt
- 4B0oNac8oHHuneoNipytJyPIQeED42yA5XE0TQZhhEmruKEV3cI8aO3lQ
- sz59ke6m7ilI2/DKzVY1AmqZiDRsHi5cHaEvkFGn9rMJuyNw5hmHu3YgJ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="255262232"
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="255262232"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ bh=6s/1W/iXQcXPXqBfMav6iBo2sGUTqoVyQc1YGi6Yz+0=;
+ b=Kj/M7+33fLc3ATdFLGzF/7tjHNdf/WrKUbW4jZD2m5HFirg1z+PiPfU3
+ QpiLcy0iMZOYB/APQ/14gwf/nKroLGgCsKvDNhvsNONl/1I0FgTzw4rXJ
+ HDJMjnIKrDBC0V8EvG8WAMUBgfFTNx5MGKZ6yP757BJE8m0YqbRMf0etq
+ 5q61fepLdTtLggBnACvHjZ4AYiy5Ccg4Yv3+i8qNNQbUzKXvDA9pL2226
+ 09Ffk+T91Kh9K2Q1/l75sa6QC6PhA76g0kFCfQbdQfsoO0CpEnKmqbOIv
+ YWQQVfC1Udp8Gc+thMXmxZIQFUL3PU91sXNB/vglkDOxiFhvHviCaHMFm A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="255262635"
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="255262635"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2022 14:34:00 -0700
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="633234907"
+ 31 May 2022 14:36:07 -0700
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="755292156"
 Received: from msatwood-mobl.jf.intel.com (HELO msatwood-mobl)
  ([10.241.232.75])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2022 14:34:00 -0700
-Date: Tue, 31 May 2022 14:33:54 -0700
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2022 14:36:07 -0700
+Date: Tue, 31 May 2022 14:36:06 -0700
 From: Matt Atwood <matthew.s.atwood@intel.com>
 To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/pvc: Extract stepping
- information from PCI revid
-Message-ID: <YpaJwnd+nWwbFwZY@msatwood-mobl>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/pvc: Add initial PVC workarounds
+Message-ID: <YpaKRqQrSc+wmHu7@msatwood-mobl>
 References: <20220527163348.1936146-1-matthew.d.roper@intel.com>
- <20220527163348.1936146-2-matthew.d.roper@intel.com>
+ <20220527163348.1936146-3-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220527163348.1936146-2-matthew.d.roper@intel.com>
+In-Reply-To: <20220527163348.1936146-3-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,182 +62,220 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 27, 2022 at 09:33:47AM -0700, Matt Roper wrote:
-> For PVC, the base die and compute tile have separate stepping values
-> that we need to track; we'll use the existing graphics_step field to
-> represent the compute tile stepping and add a new 'basedie_step' field.
+On Fri, May 27, 2022 at 09:33:48AM -0700, Matt Roper wrote:
+> From: Stuart Summers <stuart.summers@intel.com>
 > 
-> Unlike past platforms, steppings for these components are represented by
-> specific bitfields within the PCI revision ID, and we shouldn't make
-> assumptions about the non-CT, non-BD bits staying 0.  Let's update our
-> stepping code accordingly.
-> 
-> Bspec: 44484
+> Bspec: 64027
 Reviewed-by: Matt Atwood <matthew.s.atwood@intel.com>
+> Signed-off-by: Stuart Summers <stuart.summers@intel.com>
 > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 > ---
->  drivers/gpu/drm/i915/i915_drv.h   | 13 ++++++
->  drivers/gpu/drm/i915/intel_step.c | 70 ++++++++++++++++++++++++++++++-
->  drivers/gpu/drm/i915/intel_step.h |  4 +-
->  3 files changed, 85 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/i915/gt/intel_engine_regs.h |  5 +-
+>  drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  3 +-
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c | 61 ++++++++++++++++++---
+>  drivers/gpu/drm/i915/intel_pm.c             | 16 +++++-
+>  4 files changed, 73 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 74b3caccd839..ec1b3484fdaf 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -943,6 +943,7 @@ static inline struct intel_gt *to_gt(struct drm_i915_private *i915)
->  #define INTEL_DISPLAY_STEP(__i915) (RUNTIME_INFO(__i915)->step.display_step)
->  #define INTEL_GRAPHICS_STEP(__i915) (RUNTIME_INFO(__i915)->step.graphics_step)
->  #define INTEL_MEDIA_STEP(__i915) (RUNTIME_INFO(__i915)->step.media_step)
-> +#define INTEL_BASEDIE_STEP(__i915) (RUNTIME_INFO(__i915)->step.basedie_step)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_regs.h b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
+> index 75a0c55c5aa5..44de10cf7837 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_regs.h
+> @@ -196,6 +196,7 @@
+>  #define RING_CTX_TIMESTAMP(base)		_MMIO((base) + 0x3a8) /* gen8+ */
+>  #define RING_PREDICATE_RESULT(base)		_MMIO((base) + 0x3b8)
+>  #define RING_FORCE_TO_NONPRIV(base, i)		_MMIO(((base) + 0x4D0) + (i) * 4)
+> +#define   RING_FORCE_TO_NONPRIV_DENY		REG_BIT(30)
+>  #define   RING_FORCE_TO_NONPRIV_ADDRESS_MASK	REG_GENMASK(25, 2)
+>  #define   RING_FORCE_TO_NONPRIV_ACCESS_RW	(0 << 28)    /* CFL+ & Gen11+ */
+>  #define   RING_FORCE_TO_NONPRIV_ACCESS_RD	(1 << 28)
+> @@ -208,7 +209,9 @@
+>  #define   RING_FORCE_TO_NONPRIV_RANGE_64	(3 << 0)
+>  #define   RING_FORCE_TO_NONPRIV_RANGE_MASK	(3 << 0)
+>  #define   RING_FORCE_TO_NONPRIV_MASK_VALID	\
+> -	(RING_FORCE_TO_NONPRIV_RANGE_MASK | RING_FORCE_TO_NONPRIV_ACCESS_MASK)
+> +	(RING_FORCE_TO_NONPRIV_RANGE_MASK | \
+> +	 RING_FORCE_TO_NONPRIV_ACCESS_MASK | \
+> +	 RING_FORCE_TO_NONPRIV_DENY)
+>  #define   RING_MAX_NONPRIV_SLOTS  12
 >  
->  #define IS_DISPLAY_STEP(__i915, since, until) \
->  	(drm_WARN_ON(&(__i915)->drm, INTEL_DISPLAY_STEP(__i915) == STEP_NONE), \
-> @@ -956,6 +957,10 @@ static inline struct intel_gt *to_gt(struct drm_i915_private *i915)
->  	(drm_WARN_ON(&(__i915)->drm, INTEL_MEDIA_STEP(__i915) == STEP_NONE), \
->  	 INTEL_MEDIA_STEP(__i915) >= (since) && INTEL_MEDIA_STEP(__i915) < (until))
+>  #define RING_EXECLIST_SQ_CONTENTS(base)		_MMIO((base) + 0x510)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index b4642dcc192f..58e9b464d564 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -1070,8 +1070,9 @@
 >  
-> +#define IS_BASEDIE_STEP(__i915, since, until) \
-> +	(drm_WARN_ON(&(__i915)->drm, INTEL_BASEDIE_STEP(__i915) == STEP_NONE), \
-> +	 INTEL_BASEDIE_STEP(__i915) >= (since) && INTEL_BASEDIE_STEP(__i915) < (until))
-> +
->  static __always_inline unsigned int
->  __platform_mask_index(const struct intel_runtime_info *info,
->  		      enum intel_platform p)
-> @@ -1208,6 +1213,14 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  	(IS_DG2(__i915) && \
->  	 IS_DISPLAY_STEP(__i915, since, until))
+>  #define GEN10_CACHE_MODE_SS			_MMIO(0xe420)
+>  #define   ENABLE_EU_COUNT_FOR_TDL_FLUSH		REG_BIT(10)
+> -#define   ENABLE_PREFETCH_INTO_IC		REG_BIT(3)
+> +#define   DISABLE_ECC				REG_BIT(5)
+>  #define   FLOAT_BLEND_OPTIMIZATION_ENABLE	REG_BIT(4)
+> +#define   ENABLE_PREFETCH_INTO_IC		REG_BIT(3)
 >  
-> +#define IS_PVC_BD_STEP(__i915, since, until) \
-> +	(IS_PONTEVECCHIO(__i915) && \
-> +	 IS_BASEDIE_STEP(__i915, since, until))
-> +
-> +#define IS_PVC_CT_STEP(__i915, since, until) \
-> +	(IS_PONTEVECCHIO(__i915) && \
-> +	 IS_GRAPHICS_STEP(__i915, since, until))
-> +
->  #define IS_LP(dev_priv)		(INTEL_INFO(dev_priv)->is_lp)
->  #define IS_GEN9_LP(dev_priv)	(GRAPHICS_VER(dev_priv) == 9 && IS_LP(dev_priv))
->  #define IS_GEN9_BC(dev_priv)	(GRAPHICS_VER(dev_priv) == 9 && !IS_LP(dev_priv))
-> diff --git a/drivers/gpu/drm/i915/intel_step.c b/drivers/gpu/drm/i915/intel_step.c
-> index 74e8e4680028..42b3133d8387 100644
-> --- a/drivers/gpu/drm/i915/intel_step.c
-> +++ b/drivers/gpu/drm/i915/intel_step.c
-> @@ -135,6 +135,8 @@ static const struct intel_step_info adlp_n_revids[] = {
->  	[0x0] = { COMMON_GT_MEDIA_STEP(A0), .display_step = STEP_D0 },
->  };
+>  #define EU_PERF_CNTL0				_MMIO(0xe458)
+>  #define EU_PERF_CNTL4				_MMIO(0xe45c)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 73b59ea6fd3b..a604bc7c0701 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -776,7 +776,9 @@ __intel_engine_init_ctx_wa(struct intel_engine_cs *engine,
+>  	if (engine->class != RENDER_CLASS)
+>  		goto done;
 >  
-> +static void pvc_step_init(struct drm_i915_private *i915, int pci_revid);
-> +
->  void intel_step_init(struct drm_i915_private *i915)
+> -	if (IS_DG2(i915))
+> +	if (IS_PONTEVECCHIO(i915))
+> +		; /* noop; none at this time */
+> +	else if (IS_DG2(i915))
+>  		dg2_ctx_workarounds_init(engine, wal);
+>  	else if (IS_XEHPSDV(i915))
+>  		; /* noop; none at this time */
+> @@ -1494,7 +1496,9 @@ gt_init_workarounds(struct intel_gt *gt, struct i915_wa_list *wal)
 >  {
->  	const struct intel_step_info *revids = NULL;
-> @@ -142,7 +144,10 @@ void intel_step_init(struct drm_i915_private *i915)
->  	int revid = INTEL_REVID(i915);
->  	struct intel_step_info step = {};
+>  	struct drm_i915_private *i915 = gt->i915;
 >  
-> -	if (IS_DG2_G10(i915)) {
-> +	if (IS_PONTEVECCHIO(i915)) {
-> +		pvc_step_init(i915, revid);
-> +		return;
-> +	} else if (IS_DG2_G10(i915)) {
->  		revids = dg2_g10_revid_step_tbl;
->  		size = ARRAY_SIZE(dg2_g10_revid_step_tbl);
->  	} else if (IS_DG2_G11(i915)) {
-> @@ -235,6 +240,69 @@ void intel_step_init(struct drm_i915_private *i915)
->  	RUNTIME_INFO(i915)->step = step;
+> -	if (IS_DG2(i915))
+> +	if (IS_PONTEVECCHIO(i915))
+> +		; /* none yet */
+> +	else if (IS_DG2(i915))
+>  		dg2_gt_workarounds_init(gt, wal);
+>  	else if (IS_XEHPSDV(i915))
+>  		xehpsdv_gt_workarounds_init(gt, wal);
+> @@ -1924,6 +1928,32 @@ static void dg2_whitelist_build(struct intel_engine_cs *engine)
+>  	}
 >  }
 >  
-> +#define PVC_BD_REVID	GENMASK(5, 3)
-> +#define PVC_CT_REVID	GENMASK(2, 0)
-> +
-> +static const int pvc_bd_subids[] = {
-> +	[0x0] = STEP_A0,
-> +	[0x3] = STEP_B0,
-> +	[0x4] = STEP_B1,
-> +	[0x5] = STEP_B3,
-> +};
-> +
-> +static const int pvc_ct_subids[] = {
-> +	[0x3] = STEP_A0,
-> +	[0x5] = STEP_B0,
-> +	[0x6] = STEP_B1,
-> +	[0x7] = STEP_C0,
-> +};
-> +
-> +static int
-> +pvc_step_lookup(struct drm_i915_private *i915, const char *type,
-> +		const int *table, int size, int subid)
+> +static void blacklist_trtt(struct intel_engine_cs *engine)
 > +{
-> +	if (subid < size && table[subid] != STEP_NONE)
-> +		return table[subid];
-> +
-> +	drm_warn(&i915->drm, "Unknown %s id 0x%02x\n", type, subid);
+> +	struct i915_wa_list *w = &engine->whitelist;
 > +
 > +	/*
-> +	 * As on other platforms, try to use the next higher ID if we land on a
-> +	 * gap in the table.
+> +	 * Prevent read/write access to [0x4400, 0x4600) which covers
+> +	 * the TRTT range across all engines. Note that normally userspace
+> +	 * cannot access the other engines' trtt control, but for simplicity
+> +	 * we cover the entire range on each engine.
 > +	 */
-> +	while (subid < size && table[subid] == STEP_NONE)
-> +		subid++;
-> +
-> +	if (subid < size) {
-> +		drm_dbg(&i915->drm, "Using steppings for %s id 0x%02x\n",
-> +			type, subid);
-> +		return table[subid];
-> +	}
-> +
-> +	drm_dbg(&i915->drm, "Using future steppings\n");
-> +	return STEP_FUTURE;
+> +	whitelist_reg_ext(w, _MMIO(0x4400),
+> +			  RING_FORCE_TO_NONPRIV_DENY |
+> +			  RING_FORCE_TO_NONPRIV_RANGE_64);
+> +	whitelist_reg_ext(w, _MMIO(0x4500),
+> +			  RING_FORCE_TO_NONPRIV_DENY |
+> +			  RING_FORCE_TO_NONPRIV_RANGE_64);
 > +}
 > +
-> +/*
-> + * PVC needs special handling since we don't lookup the
-> + * revid in a table, but rather specific bitfields within
-> + * the revid for various components.
-> + */
-> +static void pvc_step_init(struct drm_i915_private *i915, int pci_revid)
+> +static void pvc_whitelist_build(struct intel_engine_cs *engine)
 > +{
-> +	int ct_subid, bd_subid;
+> +	allow_read_ctx_timestamp(engine);
 > +
-> +	bd_subid = FIELD_GET(PVC_BD_REVID, pci_revid);
-> +	ct_subid = FIELD_GET(PVC_CT_REVID, pci_revid);
-> +
-> +	RUNTIME_INFO(i915)->step.basedie_step =
-> +		pvc_step_lookup(i915, "Base Die", pvc_bd_subids,
-> +				ARRAY_SIZE(pvc_bd_subids), bd_subid);
-> +	RUNTIME_INFO(i915)->step.graphics_step =
-> +		pvc_step_lookup(i915, "Compute Tile", pvc_ct_subids,
-> +				ARRAY_SIZE(pvc_ct_subids), ct_subid);
+> +	/* Wa_16014440446:pvc */
+> +	blacklist_trtt(engine);
 > +}
 > +
->  #define STEP_NAME_CASE(name)	\
->  	case STEP_##name:	\
->  		return #name;
-> diff --git a/drivers/gpu/drm/i915/intel_step.h b/drivers/gpu/drm/i915/intel_step.h
-> index d71a99bd5179..a6b12bfa9744 100644
-> --- a/drivers/gpu/drm/i915/intel_step.h
-> +++ b/drivers/gpu/drm/i915/intel_step.h
-> @@ -11,9 +11,10 @@
->  struct drm_i915_private;
+>  void intel_engine_init_whitelist(struct intel_engine_cs *engine)
+>  {
+>  	struct drm_i915_private *i915 = engine->i915;
+> @@ -1931,7 +1961,9 @@ void intel_engine_init_whitelist(struct intel_engine_cs *engine)
 >  
->  struct intel_step_info {
-> -	u8 graphics_step;
-> +	u8 graphics_step;	/* Represents the compute tile on Xe_HPC */
->  	u8 display_step;
->  	u8 media_step;
-> +	u8 basedie_step;
->  };
+>  	wa_init_start(w, "whitelist", engine->name);
 >  
->  #define STEP_ENUM_VAL(name)  STEP_##name,
-> @@ -25,6 +26,7 @@ struct intel_step_info {
->  	func(B0)			\
->  	func(B1)			\
->  	func(B2)			\
-> +	func(B3)			\
->  	func(C0)			\
->  	func(C1)			\
->  	func(D0)			\
+> -	if (IS_DG2(i915))
+> +	if (IS_PONTEVECCHIO(i915))
+> +		pvc_whitelist_build(engine);
+> +	else if (IS_DG2(i915))
+>  		dg2_whitelist_build(engine);
+>  	else if (IS_XEHPSDV(i915))
+>  		xehpsdv_whitelist_build(engine);
+> @@ -2041,9 +2073,6 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+>  	struct drm_i915_private *i915 = engine->i915;
+>  
+>  	if (IS_DG2(i915)) {
+> -		/* Wa_14015227452:dg2 */
+> -		wa_masked_en(wal, GEN9_ROW_CHICKEN4, XEHP_DIS_BBL_SYSPIPE);
+> -
+>  		/* Wa_1509235366:dg2 */
+>  		wa_write_or(wal, GEN12_GAMCNTRL_CTRL, INVALIDATION_BROADCAST_MODE_DIS |
+>  			    GLOBAL_INVALIDATION_MODE);
+> @@ -2611,6 +2640,15 @@ xcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+>  	}
+>  }
+>  
+> +static void
+> +ccs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+> +{
+> +	if (IS_PVC_CT_STEP(engine->i915, STEP_A0, STEP_C0)) {
+> +		/* Wa_14014999345:pvc */
+> +		wa_masked_en(wal, GEN10_CACHE_MODE_SS, DISABLE_ECC);
+> +	}
+> +}
+> +
+>  /*
+>   * The workarounds in this function apply to shared registers in
+>   * the general render reset domain that aren't tied to a
+> @@ -2657,8 +2695,11 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+>  				GLOBAL_INVALIDATION_MODE);
+>  	}
+>  
+> -	if (IS_DG2(i915)) {
+> -		/* Wa_22014226127:dg2 */
+> +	if (IS_DG2(i915) || IS_PONTEVECCHIO(i915)) {
+> +		/* Wa_14015227452:dg2,pvc */
+> +		wa_masked_en(wal, GEN9_ROW_CHICKEN4, XEHP_DIS_BBL_SYSPIPE);
+> +
+> +		/* Wa_22014226127:dg2,pvc */
+>  		wa_write_or(wal, LSC_CHICKEN_BIT_0, DISABLE_D8_D16_COASLESCE);
+>  	}
+>  }
+> @@ -2679,7 +2720,9 @@ engine_init_workarounds(struct intel_engine_cs *engine, struct i915_wa_list *wal
+>  	if (engine->flags & I915_ENGINE_FIRST_RENDER_COMPUTE)
+>  		general_render_compute_wa_init(engine, wal);
+>  
+> -	if (engine->class == RENDER_CLASS)
+> +	if (engine->class == COMPUTE_CLASS)
+> +		ccs_engine_wa_init(engine, wal);
+> +	else if (engine->class == RENDER_CLASS)
+>  		rcs_engine_wa_init(engine, wal);
+>  	else
+>  		xcs_engine_wa_init(engine, wal);
+> diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+> index 42db41c8e3b3..7a3f023d39e9 100644
+> --- a/drivers/gpu/drm/i915/intel_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_pm.c
+> @@ -7526,6 +7526,17 @@ static void dg2_init_clock_gating(struct drm_i915_private *i915)
+>  				 SGR_DIS | SGGI_DIS);
+>  }
+>  
+> +static void pvc_init_clock_gating(struct drm_i915_private *dev_priv)
+> +{
+> +	/* Wa_14012385139:pvc */
+> +	if (IS_PVC_BD_STEP(dev_priv, STEP_A0, STEP_B0))
+> +		intel_uncore_rmw(&dev_priv->uncore, XEHP_CLOCK_GATE_DIS, 0, SGR_DIS);
+> +
+> +	/* Wa_22010954014:pvc */
+> +	if (IS_PVC_BD_STEP(dev_priv, STEP_A0, STEP_B0))
+> +		intel_uncore_rmw(&dev_priv->uncore, XEHP_CLOCK_GATE_DIS, 0, SGSI_SIDECLK_DIS);
+> +}
+> +
+>  static void cnp_init_clock_gating(struct drm_i915_private *dev_priv)
+>  {
+>  	if (!HAS_PCH_CNP(dev_priv))
+> @@ -7942,6 +7953,7 @@ static const struct drm_i915_clock_gating_funcs platform##_clock_gating_funcs =
+>  	.init_clock_gating = platform##_init_clock_gating,		\
+>  }
+>  
+> +CG_FUNCS(pvc);
+>  CG_FUNCS(dg2);
+>  CG_FUNCS(xehpsdv);
+>  CG_FUNCS(adlp);
+> @@ -7980,7 +7992,9 @@ CG_FUNCS(nop);
+>   */
+>  void intel_init_clock_gating_hooks(struct drm_i915_private *dev_priv)
+>  {
+> -	if (IS_DG2(dev_priv))
+> +	if (IS_PONTEVECCHIO(dev_priv))
+> +		dev_priv->clock_gating_funcs = &pvc_clock_gating_funcs;
+> +	else if (IS_DG2(dev_priv))
+>  		dev_priv->clock_gating_funcs = &dg2_clock_gating_funcs;
+>  	else if (IS_XEHPSDV(dev_priv))
+>  		dev_priv->clock_gating_funcs = &xehpsdv_clock_gating_funcs;
 > -- 
 > 2.35.3
 > 
