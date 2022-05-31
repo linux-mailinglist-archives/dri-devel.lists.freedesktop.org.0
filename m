@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11FC5398DB
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 23:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CEF553993C
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 00:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8CC110E6FE;
-	Tue, 31 May 2022 21:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3BA810ED0F;
+	Tue, 31 May 2022 22:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 638F510E6FE
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 21:39:10 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id y13so25593eje.2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 14:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0507310ECFF;
+ Tue, 31 May 2022 22:01:04 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ h9-20020a056830400900b0060b03bfe792so10482433ots.12; 
+ Tue, 31 May 2022 15:01:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZSLV3GBQBnlAV5yFp3A4v28u1Gnmik85ogLelASJBlM=;
- b=G6+2ri/VlQ8yFwFXj74MfREI3aG4EAj3Tv4RTyXriFCkuNZgqqsE6YEb+RI1MiiG6u
- jUrvLmn+pmyEOMkFGPDQlwvGDysPypwMJAL+4flzyKzCAEFIQRRucXeADWRCWhYR2I6f
- ciei005AA9QQiQXNIDi8ojvPdlBRv+7S4gA7I=
+ :cc:content-transfer-encoding;
+ bh=1kcpHZfon90bWFf3C0opWYOsOsDgVYWIWfKF1sbIHOg=;
+ b=PzDb+I+odIVJv+v3SJAjJiieVhfK9TLxSG7HEepT0URrxw1QQp7kRmiwJBPWRRavIc
+ 4OMfjNbouVwJ9QQpQgLBXk6+QrfrsPci7ETu9MqS7ke/cmB5AaDwyt0mTTrETEI0nla8
+ ZoLP0cqrGh6Dw6Q5ps0yJtVdbye1Xjh4O23j3NOeVtWJfStBz4VKNrCPsD2YUn78wnbi
+ Ukl+m69RJ4e1Q6zPLsNeTDpLPDG05ZQrka2NfxXfSb0vOdwt0Bvb0jIKeCOCB3zfJalh
+ 4mvF/uQXHPN8cAyYKnxmvof/pxdnJb1AtX2kW5llJ/84g0tUGQEq+0RBuVEWhFw0MnUm
+ /27Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZSLV3GBQBnlAV5yFp3A4v28u1Gnmik85ogLelASJBlM=;
- b=jQGxIYizQW/4PGWf81bb53dGwjIrx4s+oee3zT39ATVh6sFlnB9+y6QL5kBfiKdys+
- PsxyFmRSQG9DQDlRenoZk1Y1nbA9XNwyLqPEB7B+fWnJ5B/4SzznQrsHqGozRpnVNvdW
- 6vWCr2G+6RugEQEnG686or99ZNCBYk4Cxu0P3QtBlREdAm4ZyfBp0NwTPu4cycsptyJs
- DSWFKTRfNJJDWrvrf+vjOsmzOAuBCk+tGVo90hSV1G9xohXXAyyyA7sAH0SyFuCHTypP
- v3/IgKf+VfZ3FKQIlZp8m5meH5D9pJTY88S8MtAgkqZnYVRSv1XT4LU2LoERpCQGtWcj
- VGZA==
-X-Gm-Message-State: AOAM531/0I1IMmYbkE7EIUzdjdkJI/nJcu+tA806naoA71sMz+v8B5M2
- W7lDZlIw+EWkwxdpa+WhIKnvWiy6fnV4+3s3
-X-Google-Smtp-Source: ABdhPJxAUXAysSCuRumGEGZXSFJo5wG1eldXOHn1MqAo5UlPq1H5mE1/8kxn3GzeQzQ32XkSv1BGdg==
-X-Received: by 2002:a17:907:72d2:b0:703:9177:7d1f with SMTP id
- du18-20020a17090772d200b0070391777d1fmr3308793ejc.144.1654033149023; 
- Tue, 31 May 2022 14:39:09 -0700 (PDT)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com.
- [209.85.221.42]) by smtp.gmail.com with ESMTPSA id
- h17-20020a1709060f5100b006f3ef214da6sm5435085ejj.12.2022.05.31.14.39.07
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 May 2022 14:39:08 -0700 (PDT)
-Received: by mail-wr1-f42.google.com with SMTP id h5so12248939wrb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 14:39:07 -0700 (PDT)
-X-Received: by 2002:a05:6000:1548:b0:20f:c4e3:637a with SMTP id
- 8-20020a056000154800b0020fc4e3637amr41857017wry.513.1654033146812; Tue, 31
- May 2022 14:39:06 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1kcpHZfon90bWFf3C0opWYOsOsDgVYWIWfKF1sbIHOg=;
+ b=Uhwi9Kw0W/1aDFPqx1IPUjm8W2iiObrgojU01KCTrf/O2GHSK6+dRGmXlo7t46uSsy
+ NImPT7WlF1RzxIc/9qhWezQwGVjEPDyNTOanOlc1W2jyPYzCCxjZFtigYFwLNpF3w2ei
+ Z5cgdcYGd2ByUb0szQ4rtmwW4zIzqZHgGPIt27qrDtzF6ZIGeC/qhiHDFJQdGPAGNmkO
+ R6NCZiGVDK6RlJHHF9rK52gWWaEQVunCixSRM49rl+Afk+v/6LDtAggpuqzmFD2vR8/E
+ iPmRDeav2vn6cX8vNLZ+JV3zB+EKnzna62EuUy3yyk9vTSvm3PQbqIuUF7AuVZneKb2q
+ jlbA==
+X-Gm-Message-State: AOAM533LMvJArGMLfnGVAXbdUOHkg3g8YCfl1VyIV/Pm86w8SETH+Zxh
+ gciPAcLUgiiGr3QlTsDW/gWbdngrLGjMoi77jbs=
+X-Google-Smtp-Source: ABdhPJyKVYOkJ1d9Y7SW5ELtHTlhTKMcjbccQa1ILmaqZpJll1OzACOy0Pf6i7ZX6i42bY3GxbQOusF+tYcIkZKsQbg=
+X-Received: by 2002:a9d:6b98:0:b0:60b:c54:e22b with SMTP id
+ b24-20020a9d6b98000000b0060b0c54e22bmr18226057otq.357.1654034462389; Tue, 31
+ May 2022 15:01:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531072757.1.Ie7f6d4bf8cce28131da31a43354727e417cae98d@changeid>
- <1ce24f74-3c9e-60ed-46ad-3ba714fb7c61@quicinc.com>
-In-Reply-To: <1ce24f74-3c9e-60ed-46ad-3ba714fb7c61@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 31 May 2022 14:38:54 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WP9-W-_rQMNbCb6JYrz9FT3wG1J1irwMZB_0ug4-jK9Q@mail.gmail.com>
-Message-ID: <CAD=FV=WP9-W-_rQMNbCb6JYrz9FT3wG1J1irwMZB_0ug4-jK9Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Move min BW request and full BW disable back
- to mdss
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220531100007.174649-1-christian.koenig@amd.com>
+In-Reply-To: <20220531100007.174649-1-christian.koenig@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 31 May 2022 18:00:51 -0400
+Message-ID: <CADnq5_Ng7oe_NMSb6GdL=_T_zw22Gk0B6ePDXRiU7Ljind6Gww@mail.gmail.com>
+Subject: Re: Per file OOM badness
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,75 +66,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, David Airlie <airlied@linux.ie>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: linux-mm <linux-mm@kvack.org>, nouveau <nouveau@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Hugh Dickens <hughd@google.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, linux-tegra@vger.kernel.org,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
++ dri-devel
 
-On Tue, May 31, 2022 at 2:29 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Tue, May 31, 2022 at 6:00 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> > @@ -136,6 +178,13 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
-> >   {
-> >       int ret;
-> >
-> > +     /*
-> > +      * Several components have AXI clocks that can only be turned on if
-> > +      * the interconnect is enabled (non-zero bandwidth). Let's make sure
-> > +      * that the interconnects are at least at a minimum amount.
-> > +      */
-> > +     msm_mdss_icc_request_bw(msm_mdss, MIN_IB_BW);
-> > +
+> Hello everyone,
 >
-> This patch does two things :
+> To summarize the issue I'm trying to address here: Processes can allocate
+> resources through a file descriptor without being held responsible for it=
+.
 >
-> 1) Move the min icc vote from the dpu_runtime_resume() path to the
-> msm_mdss_enable() so that while resuming, we add the min vote to the
-> parent device. We do need a min vote before turning on the AXI clk as
-> per this comment mentioned in c33b7c0389e1 (drm/msm/dpu: add support for
-> clk and bw scaling for display)
+> Especially for the DRM graphics driver subsystem this is rather
+> problematic. Modern games tend to allocate huge amounts of system memory
+> through the DRM drivers to make it accessible to GPU rendering.
+>
+> But even outside of the DRM subsystem this problem exists and it is
+> trivial to exploit. See the following simple example of
+> using memfd_create():
+>
+>          fd =3D memfd_create("test", 0);
+>          while (1)
+>                  write(fd, page, 4096);
+>
+> Compile this and you can bring down any standard desktop system within
+> seconds.
+>
+> The background is that the OOM killer will kill every processes in the
+> system, but just not the one which holds the only reference to the memory
+> allocated by the memfd.
+>
+> Those problems where brought up on the mailing list multiple times now
+> [1][2][3], but without any final conclusion how to address them. Since
+> file descriptors are considered shared the process can not directly held
+> accountable for allocations made through them. Additional to that file
+> descriptors can also easily move between processes as well.
+>
+> So what this patch set does is to instead of trying to account the
+> allocated memory to a specific process it adds a callback to struct
+> file_operations which the OOM killer can use to query the specific OOM
+> badness of this file reference. This badness is then divided by the
+> file_count, so that every process using a shmem file, DMA-buf or DRM
+> driver will get it's equal amount of OOM badness.
+>
+> Callbacks are then implemented for the two core users (memfd and DMA-buf)
+> as well as 72 DRM based graphics drivers.
+>
+> The result is that the OOM killer can now much better judge if a process
+> is worth killing to free up memory. Resulting a quite a bit better system
+> stability in OOM situations, especially while running games.
+>
+> The only other possibility I can see would be to change the accounting of
+> resources whenever references to the file structure change, but this woul=
+d
+> mean quite some additional overhead for a rather common operation.
+>
+> Additionally I think trying to limit device driver allocations using
+> cgroups is orthogonal to this effort. While cgroups is very useful, it
+> works on per process limits and tries to enforce a collaborative model on
+> memory management while the OOM killer enforces a competitive model.
+>
+> Please comment and/or review, we have that problem flying around for year=
+s
+> now and are not at a point where we finally need to find a solution for
+> this.
+>
+> Regards,
+> Christian.
+>
+> [1] https://lists.freedesktop.org/archives/dri-devel/2015-September/08977=
+8.html
+> [2] https://lkml.org/lkml/2018/1/18/543
+> [3] https://lkml.org/lkml/2021/2/4/799
 >
 >
-> @@ -1101,8 +1129,15 @@ static int __maybe_unused
-> dpu_runtime_resume(struct device *dev)
->          struct drm_encoder *encoder;
->          struct drm_device *ddev;
->          struct dss_module_power *mp = &dpu_kms->mp;
-> +       int i;
->
->          ddev = dpu_kms->dev;
-> +
-> +       /* Min vote of BW is required before turning on AXI clk */
-> +       for (i = 0; i < dpu_kms->num_paths; i++)
-> +               icc_set_bw(dpu_kms->path[i], 0,
-> +                       dpu_kms->catalog->perf.min_dram_ib);
->
-> So I understand and I am fine with this part.
->
-> 2) Add a min vote in msm_mdss_init().
->
-> This is the part I am not able to fully follow.
->
-> If we only need to add the min vote before voting for the clocks, adding
-> it in mdss_mdss_enable() should be enough.
->
-> Do we need this part of adding the min vote to the msm_mdss_init()?
->
-> If so, why?
-
-Ah, good question. Mostly I was matching how things were done before
-commit a670ff578f1f ("drm/msm/dpu: always use mdp device to scale
-bandwidth"). Before that commit we used to put the min vote in the
-init path.
-
-...but you're right, I don't see any good reason for it. I'll send a
-v2 removing that line from msm_mdss_init().
-
--Doug
