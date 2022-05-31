@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356AA538F80
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 13:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 242A1538F81
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 13:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC13A112A14;
-	Tue, 31 May 2022 11:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4FB6112A12;
+	Tue, 31 May 2022 11:15:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0E8112A12
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 11:15:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21090112A0F
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 11:15:08 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8B9F21F986;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B538A1F98F;
  Tue, 31 May 2022 11:15:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1653995706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/s46aVhD1puDC1Oly250RouaSy7qXH5FCOC3NkzC3Rs=;
- b=J9O4Z5RkV733vbE1sjsQqriZJHg2b+kNJ+t4OEEMIhUdNIhebQ3OYqUsL13sJuzjYQrWMO
- SJWeVz7V7UX+kFmL93CYTbOG4yJQBJWC7CmBlrHbf9aOmnbfe77yzq9o8GVTzhipQ3DFAE
- IzeuUwDMDKq1j9M0gTnZXsm3j8isJig=
+ bh=6nbVEjfF6PCPlHW4ayCiKZsgKA89/JsJc1oggKFJHq8=;
+ b=0IguvXbC3xn4qOC4bs+Ibjfyyo7MyJN50X7k/KFwp2MxQ9pJsg1Q/oyGAfs9kFZkve74UG
+ DTbklwQ2hz9V8r0kbR3vFzvq07FhOQh7ErFkszmt7DVV9cG5/ZO7pXMR/43Xx6eGvvmjQH
+ iQ5+zISIpOGSHgbztXMG6y7+xe72yqM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1653995706;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/s46aVhD1puDC1Oly250RouaSy7qXH5FCOC3NkzC3Rs=;
- b=szM+7wvcBDFnY2aPDO3q/at22Nbu09tyZaiXJcyhCL6wffWX+73PK1xxR2UXNF20GUZ39y
- 2sGFGtFN2mPrcEDQ==
+ bh=6nbVEjfF6PCPlHW4ayCiKZsgKA89/JsJc1oggKFJHq8=;
+ b=eaL9yXijp1G7ChRp/mM/PdFNtx9pBBpW/oNX8k7KommHJq+v6bZdfT6xUzM7/9wNYduW8+
+ 2b3lvOIXaBUW+0BA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5CFFE13B06;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C22C13AA2;
  Tue, 31 May 2022 11:15:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +OXFFbr4lWKZSAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id GAZcIbr4lWKZSAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 31 May 2022 11:15:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, kuohsiang_chou@aspeedtech.com, airlied@linux.ie,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: [PATCH v2 1/5] drm/ast: Support multiple outputs
-Date: Tue, 31 May 2022 13:14:58 +0200
-Message-Id: <20220531111502.4470-2-tzimmermann@suse.de>
+Subject: [PATCH v2 2/5] drm/ast: Fix updating the connector's EDID property
+Date: Tue, 31 May 2022 13:14:59 +0200
+Message-Id: <20220531111502.4470-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220531111502.4470-1-tzimmermann@suse.de>
 References: <20220531111502.4470-1-tzimmermann@suse.de>
@@ -68,251 +68,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Systems with AST graphics can have multiple output; typically VGA
-plus some other port. Record detected output chips in a bitmask and
-initialize each output on its own.
-
-Assume a VGA output by default and use SIL164 and DP501 if available.
-For ASTDP assume that it can run in parallel with VGA.
-
-Tested on AST2100.
-
-v2:
-	* make VGA/SIL164/DP501 mutually exclusive
+Read the display modes from the connectors DDC helper, which also
+updates the connector's EDID property. The code for the connector's
+.get_modes helper is now shared between VGA and SIL164.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: a59b026419f3 ("drm/ast: Initialize encoder and connector for VGA in helper function")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/ast/ast_dp.c    |  5 ++---
- drivers/gpu/drm/ast/ast_dp501.c |  2 +-
- drivers/gpu/drm/ast/ast_drv.h   |  4 ++--
- drivers/gpu/drm/ast/ast_main.c  | 21 ++++++++----------
- drivers/gpu/drm/ast/ast_mode.c  | 38 ++++++++++++++++++---------------
- drivers/gpu/drm/ast/ast_post.c  |  2 +-
- 6 files changed, 36 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 57 ++--------------------------------
+ 1 file changed, 2 insertions(+), 55 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 4551bc8a3ecf..f573d582407e 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -160,13 +160,12 @@ void ast_dp_launch(struct drm_device *dev, u8 bPower)
- 		}
- 
- 		if (bDPExecute)
--			ast->tx_chip_type = AST_TX_ASTDP;
-+			ast->tx_chip_types |= BIT(AST_TX_ASTDP);
- 
- 		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
- 							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
- 							ASTDP_HOST_EDID_READ_DONE);
--	} else
--		ast->tx_chip_type = AST_TX_NONE;
-+	}
- }
- 
- 
-diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-index 204c926a18ea..4f75a9efb610 100644
---- a/drivers/gpu/drm/ast/ast_dp501.c
-+++ b/drivers/gpu/drm/ast/ast_dp501.c
-@@ -450,7 +450,7 @@ void ast_init_3rdtx(struct drm_device *dev)
- 			ast_init_dvo(dev);
- 			break;
- 		default:
--			if (ast->tx_chip_type == AST_TX_SIL164)
-+			if (ast->tx_chip_types & BIT(AST_TX_SIL164))
- 				ast_init_dvo(dev);
- 			else
- 				ast_init_analog(dev);
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index afebe35f205e..3055b0be7b67 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -173,7 +173,7 @@ struct ast_private {
- 	struct drm_plane primary_plane;
- 	struct ast_cursor_plane cursor_plane;
- 	struct drm_crtc crtc;
--	union {
-+	struct {
- 		struct {
- 			struct drm_encoder encoder;
- 			struct ast_vga_connector vga_connector;
-@@ -199,7 +199,7 @@ struct ast_private {
- 		ast_use_defaults
- 	} config_mode;
- 
--	enum ast_tx_chip tx_chip_type;
-+	unsigned long tx_chip_types;		/* bitfield of enum ast_chip_type */
- 	u8 *dp501_fw_addr;
- 	const struct firmware *dp501_fw;	/* dp501 fw */
- };
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index d770d5a23c1a..50b8d51382c7 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -216,7 +216,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 	}
- 
- 	/* Check 3rd Tx option (digital output afaik) */
--	ast->tx_chip_type = AST_TX_NONE;
-+	ast->tx_chip_types |= BIT(AST_TX_NONE);
- 
- 	/*
- 	 * VGACRA3 Enhanced Color Mode Register, check if DVO is already
-@@ -229,7 +229,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 	if (!*need_post) {
- 		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xff);
- 		if (jreg & 0x80)
--			ast->tx_chip_type = AST_TX_SIL164;
-+			ast->tx_chip_types = BIT(AST_TX_SIL164);
- 	}
- 
- 	if ((ast->chip == AST2300) || (ast->chip == AST2400) || (ast->chip == AST2500)) {
-@@ -241,7 +241,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
- 		switch (jreg) {
- 		case 0x04:
--			ast->tx_chip_type = AST_TX_SIL164;
-+			ast->tx_chip_types = BIT(AST_TX_SIL164);
- 			break;
- 		case 0x08:
- 			ast->dp501_fw_addr = drmm_kzalloc(dev, 32*1024, GFP_KERNEL);
-@@ -254,22 +254,19 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 			}
- 			fallthrough;
- 		case 0x0c:
--			ast->tx_chip_type = AST_TX_DP501;
-+			ast->tx_chip_types = BIT(AST_TX_DP501);
- 		}
- 	} else if (ast->chip == AST2600)
- 		ast_dp_launch(&ast->base, 0);
- 
- 	/* Print stuff for diagnostic purposes */
--	switch(ast->tx_chip_type) {
--	case AST_TX_SIL164:
-+	if (ast->tx_chip_types & BIT(AST_TX_NONE))
-+		drm_info(dev, "Using analog VGA\n");
-+	if (ast->tx_chip_types & BIT(AST_TX_SIL164))
- 		drm_info(dev, "Using Sil164 TMDS transmitter\n");
--		break;
--	case AST_TX_DP501:
-+	if (ast->tx_chip_types & BIT(AST_TX_DP501))
- 		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
--		break;
--	default:
--		drm_info(dev, "Analog VGA only\n");
--	}
-+
- 	return 0;
- }
- 
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 323af2746aa9..e19dd2f9b3ce 100644
+index e19dd2f9b3ce..4ff8ec1c8931 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -997,10 +997,10 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- 	case DRM_MODE_DPMS_ON:
- 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0);
- 		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, 0);
--		if (ast->tx_chip_type == AST_TX_DP501)
-+		if (ast->tx_chip_types & BIT(AST_TX_DP501))
- 			ast_set_dp501_video_output(crtc->dev, 1);
+@@ -1302,37 +1302,19 @@ static int ast_crtc_init(struct drm_device *dev)
  
--		if (ast->tx_chip_type == AST_TX_ASTDP) {
-+		if (ast->tx_chip_types & BIT(AST_TX_ASTDP)) {
- 			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_ON);
- 			ast_wait_for_vretrace(ast);
- 			ast_dp_set_on_off(crtc->dev, 1);
-@@ -1012,17 +1012,17 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- 	case DRM_MODE_DPMS_SUSPEND:
- 	case DRM_MODE_DPMS_OFF:
- 		ch = mode;
--		if (ast->tx_chip_type == AST_TX_DP501)
-+		if (ast->tx_chip_types & BIT(AST_TX_DP501))
- 			ast_set_dp501_video_output(crtc->dev, 0);
--		break;
+ static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
+ {
+-	struct ast_vga_connector *ast_vga_connector = to_ast_vga_connector(connector);
+ 	struct drm_device *dev = connector->dev;
+ 	struct ast_private *ast = to_ast_private(dev);
+-	struct edid *edid;
+ 	int count;
  
--		if (ast->tx_chip_type == AST_TX_ASTDP) {
-+		if (ast->tx_chip_types & BIT(AST_TX_ASTDP)) {
- 			ast_dp_set_on_off(crtc->dev, 0);
- 			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_OFF);
- 		}
- 
- 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0x20);
- 		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, ch);
-+		break;
- 	}
- }
- 
-@@ -1155,7 +1155,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- 		ast_crtc_load_lut(ast, crtc);
- 
- 	//Set Aspeed Display-Port
--	if (ast->tx_chip_type == AST_TX_ASTDP)
-+	if (ast->tx_chip_types & BIT(AST_TX_ASTDP))
- 		ast_dp_set_mode(crtc, vbios_mode_info);
- 
+-	if (!ast_vga_connector->i2c)
+-		goto err_drm_connector_update_edid_property;
+-
+ 	/*
+ 	 * Protect access to I/O registers from concurrent modesetting
+ 	 * by acquiring the I/O-register lock.
+ 	 */
+ 	mutex_lock(&ast->ioregs_lock);
+-
+-	edid = drm_get_edid(connector, &ast_vga_connector->i2c->adapter);
+-	if (!edid)
+-		goto err_mutex_unlock;
+-
++	count = drm_connector_helper_get_modes_from_ddc(connector);
  	mutex_unlock(&ast->ioregs_lock);
-@@ -1739,22 +1739,26 @@ int ast_mode_config_init(struct ast_private *ast)
  
- 	ast_crtc_init(dev);
- 
--	switch (ast->tx_chip_type) {
--	case AST_TX_NONE:
-+	if (ast->tx_chip_types & BIT(AST_TX_NONE)) {
- 		ret = ast_vga_output_init(ast);
--		break;
--	case AST_TX_SIL164:
-+		if (ret)
-+			return ret;
-+	}
-+	if (ast->tx_chip_types & BIT(AST_TX_SIL164)) {
- 		ret = ast_sil164_output_init(ast);
--		break;
--	case AST_TX_DP501:
-+		if (ret)
-+			return ret;
-+	}
-+	if (ast->tx_chip_types & BIT(AST_TX_DP501)) {
- 		ret = ast_dp501_output_init(ast);
--		break;
--	case AST_TX_ASTDP:
-+		if (ret)
-+			return ret;
-+	}
-+	if (ast->tx_chip_types & BIT(AST_TX_ASTDP)) {
- 		ret = ast_astdp_output_init(ast);
--		break;
-+		if (ret)
-+			return ret;
- 	}
--	if (ret)
--		return ret;
- 
- 	drm_mode_config_reset(dev);
- 
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 0aa9cf0fb5c3..2e1c343b70a3 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -391,7 +391,7 @@ void ast_post_gpu(struct drm_device *dev)
- 
- 		ast_init_3rdtx(dev);
- 	} else {
--		if (ast->tx_chip_type != AST_TX_NONE)
-+		if (ast->tx_chip_types & BIT(AST_TX_SIL164))
- 			ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xa3, 0xcf, 0x80);	/* Enable DVO */
- 	}
+-	count = drm_add_edid_modes(connector, edid);
+-	kfree(edid);
+-
+ 	return count;
+-
+-err_mutex_unlock:
+-	mutex_unlock(&ast->ioregs_lock);
+-err_drm_connector_update_edid_property:
+-	drm_connector_update_edid_property(connector, NULL);
+-	return 0;
  }
+ 
+ static const struct drm_connector_helper_funcs ast_vga_connector_helper_funcs = {
+@@ -1406,43 +1388,8 @@ static int ast_vga_output_init(struct ast_private *ast)
+  * SIL164 Connector
+  */
+ 
+-static int ast_sil164_connector_helper_get_modes(struct drm_connector *connector)
+-{
+-	struct ast_sil164_connector *ast_sil164_connector = to_ast_sil164_connector(connector);
+-	struct drm_device *dev = connector->dev;
+-	struct ast_private *ast = to_ast_private(dev);
+-	struct edid *edid;
+-	int count;
+-
+-	if (!ast_sil164_connector->i2c)
+-		goto err_drm_connector_update_edid_property;
+-
+-	/*
+-	 * Protect access to I/O registers from concurrent modesetting
+-	 * by acquiring the I/O-register lock.
+-	 */
+-	mutex_lock(&ast->ioregs_lock);
+-
+-	edid = drm_get_edid(connector, &ast_sil164_connector->i2c->adapter);
+-	if (!edid)
+-		goto err_mutex_unlock;
+-
+-	mutex_unlock(&ast->ioregs_lock);
+-
+-	count = drm_add_edid_modes(connector, edid);
+-	kfree(edid);
+-
+-	return count;
+-
+-err_mutex_unlock:
+-	mutex_unlock(&ast->ioregs_lock);
+-err_drm_connector_update_edid_property:
+-	drm_connector_update_edid_property(connector, NULL);
+-	return 0;
+-}
+-
+ static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
+-	.get_modes = ast_sil164_connector_helper_get_modes,
++	.get_modes = ast_vga_connector_helper_get_modes, // same as VGA connector
+ };
+ 
+ static const struct drm_connector_funcs ast_sil164_connector_funcs = {
 -- 
 2.36.1
 
