@@ -2,67 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BAD5395B7
-	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 19:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94314538FB9
+	for <lists+dri-devel@lfdr.de>; Tue, 31 May 2022 13:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF7B11283F;
-	Tue, 31 May 2022 17:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2043112ABA;
+	Tue, 31 May 2022 11:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7224112AB6
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 11:20:31 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id 129so8269694pgc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 04:20:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gSHJ8cU7Tk4Hdo/isRqfWUjlGNskb5R2AVQxrPbbCvI=;
- b=BAwE+FQYcm+QAHZOVYkrf1nJgkUejNVR41Y0KW3Z9RYjFyVS44A5/iQucDrf6PObF+
- Dj2Bn7e7NSSXExIVfJPqPKOyb3QFSqleH97sXuhEEMXdOoako0WiPecFNlqdu2fcuLEb
- vbylEsHv+QpXjytqQ41XjANm1w34AID2kHRhIsM/LGh01dDw223buOMMLMNZvfgdPuRn
- 9yT0uTRtSzOoJ+3RJjvqlIk6HUeYxt/sSfVIG1CuoO536TPUZem+tBqzKS1kD45jQ2sn
- YsHio3ALB3X3a3Rrr5Lnu9fJtsdjlTwxQqtMVuuIae3rE+X+9j/sEN8NQy4cqSTYcLz4
- 28Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gSHJ8cU7Tk4Hdo/isRqfWUjlGNskb5R2AVQxrPbbCvI=;
- b=ou/h1EIhihqOpKbMEsLgf89SkhtigWT4zQ77OWlGHhvtsEW7g4oeGWTj1m+Tago11C
- EicNvVGQASN1AdpX8/Nj/POMG+VMwexg7CdQvihJTFRSKQp9Mzefrr/AXXTly2KlcXZd
- PAwGGomUfZTG0sED5MKNV7RpwRW3C5Mb0U/BFK4XO4VopX2MLJOYhNFtSD/9T1fnojbH
- BB10Rq3Leuu9G+jM1MHS9tRPXN/cpBBSUZ3MIX84VgcI6CwDF/1AoY/zqC2RkpFN+X0k
- ZcqBEg07EP3cSJ13Ab2gNRaPr3hiywrEb9NxSyyuxBUJsE2hNE7IS0YZRQFLOnncA02W
- L8xQ==
-X-Gm-Message-State: AOAM530X0rVcypVN3G/o2BkIgi2wYsNG+p5Khg1kFs3IP4k+7Ryh3m3Y
- ERKzQBkr9B8lEsODvLqnpZ8=
-X-Google-Smtp-Source: ABdhPJxq4e3rx0PBYsn6k0kwujhUVNgwq1gpO37ByimBz2DIkgl7BDjHmSLvQJwi+DoDr7CHhAPbvA==
-X-Received: by 2002:a05:6a00:2287:b0:518:85ee:9992 with SMTP id
- f7-20020a056a00228700b0051885ee9992mr47584234pfe.62.1653996031463; 
- Tue, 31 May 2022 04:20:31 -0700 (PDT)
-Received: from RD-3580-24288.rt.l (42-72-220-172.emome-ip.hinet.net.
- [42.72.220.172]) by smtp.gmail.com with ESMTPSA id
- cm24-20020a056a00339800b00518142f8c37sm10751608pfb.171.2022.05.31.04.20.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 04:20:31 -0700 (PDT)
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
- lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
- heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: [RESEND 14/14] video: backlight: mt6370: Add Mediatek MT6370 support
-Date: Tue, 31 May 2022 19:19:00 +0800
-Message-Id: <20220531111900.19422-15-peterwu.pub@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220531111900.19422-1-peterwu.pub@gmail.com>
-References: <20220531111900.19422-1-peterwu.pub@gmail.com>
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com
+ (mail-os0jpn01on2130.outbound.protection.outlook.com [40.107.113.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA5C6112AB7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 11:20:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LN8Md7ytNlXQQ1QeUF/Sx9V8RYzulPoTWdl5ZBXKA5CKrw+JOy8SNErboyZlPYszIOoJ2IzLvmp5s3lHFc2cPHAHNqvsBjIdrByZQnevoUxPPSZseYLi8lZvob1lmPEayOeUgd3tISC8QkSBrAwszqHpSzUGbQc3OukvYmoOzGlj+GjtN7+IY27rL9NbW62xAH3NN4pNR4MwhiFvvKCMF+/uSv/2vVCk+/+THdWBJOFvUt2IJJyKJo9cSzNhhpsdQdUHFMa7unBixP8M7QVaLf3dNK3gC9w45aF33maN4kOfI3QA95nzoS01tOkTAv4TqRskgdZTHJ09ge3BiTJuBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WvlpUI1hPJL0aPbSRzbtn+3RtBg26hG8mCQDwGiNZgI=;
+ b=i2rO3GGLHeEneSA65NOnKi7zLtLLcww7/js7tNo0tfNIlRMKfd1yA+YcoN4HCG4ylqejX2ERPPqcOzZt5TYIRJYQ2d5DbmihEzKZVbQ7N3TOX6AXYl4AeoUEo1yQjoDNrPKduTc2123JxjArrAthvfpWjh2vqHQXVd9Y4MXnGcll4Qd0y7ryJRKHDT6gGJu4HNtiNKnNPPPrNo82K2SEdxLyVJ5mi2RhvYYkKNLQivXiQhkZB/fhfYSx8Zgy49O4rDjvetX8gznUWsB5ymlkd3uvPBrsgcikFfZfD6n+TidCvnbqjGuUqwBkomgqZwlKjFJxCDkz0bzkc7K1nGSMTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WvlpUI1hPJL0aPbSRzbtn+3RtBg26hG8mCQDwGiNZgI=;
+ b=U5D/GlSgxHMcC7xcLcAGDWt3NkAthaCXn/71p9Y/xvPxNLMOrwV2SCj4iPS33nBdqzjv+hjEEUW5HBc913eUAKTAmHeTkDiwlAJyNSXlaqOsNUs5o/f+r2eKHwQdDPpMf40Fi+4aaAlsIONMbuRIs8pUXuRN5/ZZF+Dz5EumEbc=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYAPR01MB4205.jpnprd01.prod.outlook.com (2603:1096:404:cb::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Tue, 31 May
+ 2022 11:20:31 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3e:970b:c238:f57]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::3e:970b:c238:f57%9]) with mapi id 15.20.5293.019; Tue, 31 May 2022
+ 11:20:31 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>
+Subject: RE: [PATCH v3 0/2] Add RZ/G2L DSI driver
+Thread-Topic: [PATCH v3 0/2] Add RZ/G2L DSI driver
+Thread-Index: AQHYVO/ektwqmqRzhkKFqrG5S+EPsa05FpTw
+Date: Tue, 31 May 2022 11:20:31 +0000
+Message-ID: <OS0PR01MB5922227434DC5FE5921F9B2D86DC9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220420195011.73617-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220420195011.73617-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4cd0162e-d088-46cc-0d8d-08da42f792f2
+x-ms-traffictypediagnostic: TYAPR01MB4205:EE_
+x-microsoft-antispam-prvs: <TYAPR01MB4205E0F322A35ABD2D7F17E186DC9@TYAPR01MB4205.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ACv0vAWqEuExF0RyyEsy9R7687WTSGAmayStKAP1fHkyh244CPz25CqGIJBfpHXqUcZZjEAWG95TCYoQqcZOfA4FZ8drX5ysn2nV9HxDUZbIqO/j37vb9fGWSenIZ9lndFkcGCYGH0epnIUTVrq+m5rmnz+aNXQiBFmxjUZ2waP+QfXhK31czs3lzPmV7fHVAdg7cA9YxlwJ+KsEShERlO3DYGJWt258wiKrBYPOCgNQPosIu4wMHmpyFkQmR/VGxuls/n9HFO+UTc1a58VyYMNQLGn/91RpvfoO9CY2GJ5uq+IWB2ZerqjYn5YC1pQV2MgCT1EGSd5FOecocbow5CmpHOdeQxiSPERrnC4WnjyP1cdMoZNvTkJsfUD9UCCHv1WhIVJMJzdVSUvRWqR/OCKJRHtUDeWQSPVIzWReloy9oOaZIQT4y+uhlV6rlhhSKVJy3oZtW9Jl3eWXmAP/wDKhxPl+xGHQ2wTmqf+7VlG9uzF8hfioCCFk2AkNWhyGcqL/eqxNi5BVb7Nb1jyHrHC0bY0Z462zYxgfIDYzIUhn9yYCZ1YXnMZLz4qnZ+V2ZbuiTMHLHy2vrjC4UF0sjMvBr9XQDgFli1htaHiSIvfa/NdRltFpJpJm7+Ih2FOTPsPTx2YkUtJxh8OgtI3m6K5Bft0mMvJ5s2swGodUzGP0LmFdIECO7tINiIuwaEmeAqSHyiCFFFH52dEchpdGVg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(26005)(6506007)(55016003)(316002)(38070700005)(2906002)(110136005)(54906003)(33656002)(9686003)(508600001)(7696005)(71200400001)(122000001)(86362001)(186003)(38100700002)(52536014)(83380400001)(8936002)(107886003)(76116006)(64756008)(66446008)(4326008)(66946007)(66476007)(5660300002)(66556008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?maMh8bI/eNPQTZh7pOggc5fdQ09hK/zWQWnv0OUJgmJQfEPmaLj2epqqph?=
+ =?iso-8859-1?Q?crrJhYRpT7nPg1a6oKElvhFSyyUOIy8Qe6QrEUSCCtDo88wlaHRqbGvQfU?=
+ =?iso-8859-1?Q?kaTveH0j0NJAJ7Q2coismyeZ/ojeJY55LiybNQ4Xt3kp0NDGY+9TNbZVOy?=
+ =?iso-8859-1?Q?EgCLSWRGVJRdgPqVfPrpecE5qwKlK9qRCMnc2XLJCdQlSwIFuGlNSI3bkQ?=
+ =?iso-8859-1?Q?V1cYidRI7aUZF5K+EcWvpTYxrs4Na7VavZ3UKvuz3J5KtYVNRxCS3Y2u9H?=
+ =?iso-8859-1?Q?5ePJ7+Dt3RTj97OGnGxO1Mz+WihnEo1Yx8FphQEmpJCp9jQNma8uPbAT0/?=
+ =?iso-8859-1?Q?GzQueyjVnToJJuXu9JapLWLd6WcvjFipprvHW+d02j5T3u9j/6ksXoSleL?=
+ =?iso-8859-1?Q?Gn5c0FgrHoAzUyhCyJ57gacsss1Lo758oux6BXw465ceeiWrjwXuI5/AvC?=
+ =?iso-8859-1?Q?tDcINOdpdQWomZKgpcd+//e6qV5383WDE55sDnJ/uL+6rCgxwfycJkmlgf?=
+ =?iso-8859-1?Q?6x8+YUIvLrpr15+1mgOxPfQ3el/5odR3aUfMdNUdwg4X6cFmrR1UWff0hp?=
+ =?iso-8859-1?Q?wFKizz3SoPnNSWvFWRGR5T7k1IqPcEMbg//wIjVqoElqpy5elBbv+zQxDK?=
+ =?iso-8859-1?Q?EH6ZPkmTiud+ZREnueLsAhcmY5NH0jXN12/edGXn9s39NqIw2XHsWoK2on?=
+ =?iso-8859-1?Q?W9bKUWTch2wofgGaCTJ8uZKvgWEzglTkMC5lDEszfBlXdeugYjqSIOlgNg?=
+ =?iso-8859-1?Q?u40cfwO5zwuDCD48yEYg/5tB2AUFEGIeW9lCDa3WQMGgaN/NhmC+LpwzHm?=
+ =?iso-8859-1?Q?jwPFC/xGvCYi0lhtuN6CJTurcgMDwm0lPJmauS6pxSE6VDm23qGHzW/4mi?=
+ =?iso-8859-1?Q?L9zO+g/U8oKIcsOrJ+3CNd/xWllcir9jHf3BK6lPzYPde9cuhCujlkzHx+?=
+ =?iso-8859-1?Q?69vKEKioSR/YoXg9PNwWWFwzG/B8OViyHgMA9MO4KFziAMFqALoIhF57+i?=
+ =?iso-8859-1?Q?pU/2UhzJIuDq6Dgme24EFoNZcII2T0vTBC0HbP6ulAA4FLLwi1yf3zHZUw?=
+ =?iso-8859-1?Q?7fWCfL4VRnKn9vyyPYZE3qc5mhDsiE4xwG8SjiPfR4LCNHVaj0gRKPkaG2?=
+ =?iso-8859-1?Q?sHlPehCrXrJ1WpPOKS7ctUlFeLg0Gkujh1daLJGobaEWxARZl9/CZ4BkSl?=
+ =?iso-8859-1?Q?KvNIYuozfeIjfXsVv8BznmXGcgamCCJS6Sw5Z4/upMSAzBIDbm8wYiW2t7?=
+ =?iso-8859-1?Q?qcTprwVDPZXvwkJbBR/8uQqJfPF0GgmA7lA1RWNbUX+66kc7v/ntfEDVXF?=
+ =?iso-8859-1?Q?dRivc9Zs195MNeD4T4IpCLWGg4HKfMy/p5ELMyiODE0TETm9UutwhY2ww8?=
+ =?iso-8859-1?Q?qG0g+xNiYK1fHVey5yA3RCUlIDBMGfSlTK2Qo8ZbygvNA5ChBbmr55PTxx?=
+ =?iso-8859-1?Q?ExVl1Mcqje7EZ1AKbNvlUEybTbSgE9kAEXC+gSCTv7R6GeBETGJTeXC7lR?=
+ =?iso-8859-1?Q?6HcMbNBc6UMLZjSoeMkJNPoHNtOtKroOEQpaV1lw4tqOpNO0eWLeppfbMp?=
+ =?iso-8859-1?Q?c9Ji/2ic7ADNQrFIWZkFGtt0eDdJeDOoyYnWv4pK5uF4z34dlrexKRMYJv?=
+ =?iso-8859-1?Q?Gc9D5c0kihKY6LOZrYjiat8WCH0iFtGL/hWoMd0IxmgN3N5/BZKN04T/4y?=
+ =?iso-8859-1?Q?kNlnVADrk66JoaC8BZIib9STRECXR0qHj+t6aL4i+rH26Pw0bFerg2ag8F?=
+ =?iso-8859-1?Q?rhwd6adEVn3OkQ2pnl3mAet1tomP/aoZtih1994oPeiYlikv+WVDnGwD2Z?=
+ =?iso-8859-1?Q?gAM7slciBWxuHfodMIUQriYAU2Ti+kc=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 31 May 2022 17:57:56 +0000
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cd0162e-d088-46cc-0d8d-08da42f792f2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2022 11:20:31.5882 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nrDEWF1p6MaSzPeF0btTkmHx0zSVpa2aDgA6U15iQk2Zli+WrP/5TNcuZ/6rzZ/gmvGgEd9FpdFU2nGDu+45u91/8ZIL5DNWduniMSMinqk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4205
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,402 +122,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- alice_chen@richtek.com, linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cy_huang@richtek.com, chiaen_wu@richtek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- peterwu.pub@gmail.com, linux-leds@vger.kernel.org
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das@bp.renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ChiaEn Wu <chiaen_wu@richtek.com>
+Hi All,
 
-Add Mediatek MT6370 Backlight support.
+Gentle ping.
 
-Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
----
- drivers/video/backlight/Kconfig            |   8 +
- drivers/video/backlight/Makefile           |   1 +
- drivers/video/backlight/mt6370-backlight.c | 338 +++++++++++++++++++++
- 3 files changed, 347 insertions(+)
- create mode 100644 drivers/video/backlight/mt6370-backlight.c
+Are you ok with this patch series? Please let me know.
 
-diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
-index a003e02e13ce..d9868fbe7488 100644
---- a/drivers/video/backlight/Kconfig
-+++ b/drivers/video/backlight/Kconfig
-@@ -268,6 +268,14 @@ config BACKLIGHT_MAX8925
- 	  If you have a LCD backlight connected to the WLED output of MAX8925
- 	  WLED output, say Y here to enable this driver.
- 
-+config BACKLIGHT_MT6370
-+	tristate "Mediatek MT6370 Backlight Driver"
-+	depends on MFD_MT6370
-+	help
-+	  Say Y here to enable MT6370 Backlight support.
-+	  It's commonly used to drive the display WLED. There're 4 channels
-+	  inisde, and each channel can provide up to 30mA current.
-+
- config BACKLIGHT_APPLE
- 	tristate "Apple Backlight Driver"
- 	depends on X86 && ACPI
-diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
-index cae2c83422ae..e815f3f1deff 100644
---- a/drivers/video/backlight/Makefile
-+++ b/drivers/video/backlight/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
- obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
- obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
- obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
-+obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
- obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
- obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
- obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
-diff --git a/drivers/video/backlight/mt6370-backlight.c b/drivers/video/backlight/mt6370-backlight.c
-new file mode 100644
-index 000000000000..f8a8d33203ed
---- /dev/null
-+++ b/drivers/video/backlight/mt6370-backlight.c
-@@ -0,0 +1,338 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/backlight.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define MT6370_REG_DEV_INFO		0x100
-+#define MT6370_REG_BL_EN		0x1A0
-+#define MT6370_REG_BL_BSTCTRL		0x1A1
-+#define MT6370_REG_BL_PWM		0x1A2
-+#define MT6370_REG_BL_DIM2		0x1A4
-+
-+#define MT6370_VENID_MASK		GENMASK(7, 4)
-+#define MT6370_BL_EXT_EN_MASK		BIT(7)
-+#define MT6370_BL_EN_MASK		BIT(6)
-+#define MT6370_BL_CONFIG_MASK		BIT(0)
-+#define MT6370_BL_CH_MASK		GENMASK(5, 2)
-+#define MT6370_BL_DIM2_MASK		GENMASK(2, 0)
-+#define MT6370_BL_DUMMY_6372_MASK	GENMASK(2, 0)
-+#define MT6370_BL_DIM2_6372_SHIFT	3
-+#define MT6370_BL_PWM_EN_MASK		BIT(7)
-+#define MT6370_BL_PWM_HYS_EN_MASK	BIT(2)
-+#define MT6370_BL_PWM_HYS_SEL_MASK	GENMASK(1, 0)
-+#define MT6370_BL_OVP_EN_MASK		BIT(7)
-+#define MT6370_BL_OVP_SEL_MASK		GENMASK(6, 5)
-+#define MT6370_BL_OC_EN_MASK		BIT(3)
-+#define MT6370_BL_OC_SEL_MASK		GENMASK(2, 1)
-+
-+#define MT6370_BL_MAX_BRIGHTNESS	2048
-+
-+enum {
-+	MT6370_VID_COMMON = 0,
-+	MT6370_VID_6372,
-+	MT6370_VID_MAX,
-+};
-+
-+enum mt6370_prop_type {
-+	MT6370_PARSE_TYPE_BOOL = 0,
-+	MT6370_PARSE_TYPE_U8,
-+	MT6370_PARSE_TYPE_MAX,
-+};
-+
-+struct mt6370_priv {
-+	int vid_type;
-+	struct backlight_device *bl;
-+	struct device *dev;
-+	struct gpio_desc *enable_gpio;
-+	struct regmap *regmap;
-+};
-+
-+static int mt6370_bl_update_status(struct backlight_device *bl_dev)
-+{
-+	struct mt6370_priv *priv = bl_get_data(bl_dev);
-+	int brightness = backlight_get_brightness(bl_dev);
-+	unsigned int enable_val;
-+	u8 brightness_val[2];
-+	int ret;
-+
-+	if (brightness) {
-+		brightness_val[0] = (brightness - 1) & MT6370_BL_DIM2_MASK;
-+		brightness_val[1] = (brightness - 1)
-+					>> fls(MT6370_BL_DIM2_MASK);
-+
-+		if (priv->vid_type == MT6370_VID_6372) {
-+			brightness_val[0] <<= MT6370_BL_DIM2_6372_SHIFT;
-+			brightness_val[0] |= MT6370_BL_DUMMY_6372_MASK;
-+		}
-+
-+		ret = regmap_raw_write(priv->regmap, MT6370_REG_BL_DIM2,
-+				       brightness_val, sizeof(brightness_val));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (priv->enable_gpio)
-+		gpiod_set_value(priv->enable_gpio, brightness ? 1 : 0);
-+
-+	enable_val = brightness ? MT6370_BL_EN_MASK : 0;
-+	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN,
-+				  MT6370_BL_EN_MASK, enable_val);
-+}
-+
-+static int mt6370_bl_get_brightness(struct backlight_device *bl_dev)
-+{
-+	struct mt6370_priv *priv = bl_get_data(bl_dev);
-+	unsigned int enable;
-+	u8 brightness_val[2];
-+	int brightness, ret;
-+
-+	ret = regmap_read(priv->regmap, MT6370_REG_BL_EN, &enable);
-+	if (ret)
-+		return ret;
-+
-+	if (!(enable & MT6370_BL_EN_MASK))
-+		return 0;
-+
-+	ret = regmap_raw_read(priv->regmap, MT6370_REG_BL_DIM2,
-+			      brightness_val, sizeof(brightness_val));
-+	if (ret)
-+		return ret;
-+
-+	if (priv->vid_type == MT6370_VID_6372)
-+		brightness_val[0] >>= MT6370_BL_DIM2_6372_SHIFT;
-+
-+	brightness = brightness_val[1] << fls(MT6370_BL_DIM2_MASK);
-+	brightness += (brightness_val[0] & MT6370_BL_DIM2_MASK);
-+
-+	return brightness + 1;
-+}
-+
-+static const struct backlight_ops mt6370_bl_ops = {
-+	.options = BL_CORE_SUSPENDRESUME,
-+	.update_status = mt6370_bl_update_status,
-+	.get_brightness = mt6370_bl_get_brightness,
-+};
-+
-+#define MT6370_DT_PROP_DECL(_name, _type, _reg, _mask, _max, _inv)	\
-+{									\
-+	.name = "mediatek,bled-" #_name,				\
-+	.type = MT6370_PARSE_TYPE_##_type,				\
-+	.reg = _reg,							\
-+	.mask = _mask,							\
-+	.max_val = _max,						\
-+	.invert = _inv,							\
-+}
-+
-+static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
-+					    struct backlight_properties *props)
-+{
-+	struct device *dev = priv->dev;
-+	u8 prop_val;
-+	u32 brightness;
-+	unsigned int mask, val;
-+	static const struct {
-+		char *name;
-+		enum mt6370_prop_type type;
-+		unsigned int reg;
-+		unsigned int mask;
-+		u8 max_val;
-+		bool invert;
-+	} vendor_opt_props[] = {
-+		MT6370_DT_PROP_DECL(pwm-enable, BOOL, MT6370_REG_BL_PWM,
-+				    MT6370_BL_PWM_EN_MASK, 1, false),
-+		MT6370_DT_PROP_DECL(pwm-hys-enable, BOOL, MT6370_REG_BL_PWM,
-+				    MT6370_BL_PWM_HYS_EN_MASK, 1, false),
-+		MT6370_DT_PROP_DECL(pwm-hys-sel, U8, MT6370_REG_BL_PWM,
-+				    MT6370_BL_PWM_HYS_SEL_MASK, 3, false),
-+		MT6370_DT_PROP_DECL(ovp-level-sel, U8, MT6370_REG_BL_BSTCTRL,
-+				    MT6370_BL_OVP_SEL_MASK, 3, false),
-+		MT6370_DT_PROP_DECL(ovp-shutdown, BOOL, MT6370_REG_BL_BSTCTRL,
-+				    MT6370_BL_OVP_EN_MASK, 1, true),
-+		MT6370_DT_PROP_DECL(ocp-level-sel, U8, MT6370_REG_BL_BSTCTRL,
-+				    MT6370_BL_OC_SEL_MASK, 3, false),
-+		MT6370_DT_PROP_DECL(ocp-shutdown, BOOL, MT6370_REG_BL_BSTCTRL,
-+				    MT6370_BL_OC_EN_MASK, 1, true),
-+	}, *prop_now;
-+	int i, ret;
-+
-+	/* vendor optional properties */
-+	for (i = 0; i < ARRAY_SIZE(vendor_opt_props); i++) {
-+		prop_now = vendor_opt_props + i;
-+
-+		switch (prop_now->type) {
-+		case MT6370_PARSE_TYPE_BOOL:
-+			if (device_property_read_bool(dev, prop_now->name))
-+				val = 1;
-+			else
-+				val = 0;
-+			break;
-+		case MT6370_PARSE_TYPE_U8:
-+			ret = device_property_read_u8(dev, prop_now->name,
-+						      &prop_val);
-+			/* Property not exist, keep value in default */
-+			if (ret)
-+				continue;
-+
-+			val = min_t(u8, prop_val, prop_now->max_val);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		if (prop_now->invert)
-+			val = prop_now->max_val - val;
-+
-+		val <<= ffs(prop_now->mask) - 1;
-+
-+		ret = regmap_update_bits(priv->regmap, prop_now->reg,
-+					 prop_now->mask, val);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* common properties */
-+	ret = device_property_read_u32(dev, "max-brightness", &brightness);
-+	if (ret)
-+		brightness = MT6370_BL_MAX_BRIGHTNESS;
-+
-+	props->max_brightness = min_t(u32, brightness,
-+				      MT6370_BL_MAX_BRIGHTNESS);
-+
-+	ret = device_property_read_u32(dev, "default-brightness", &brightness);
-+	if (ret)
-+		brightness = props->max_brightness;
-+
-+	props->brightness = min_t(u32, brightness, props->max_brightness);
-+
-+
-+	ret = device_property_read_u8(dev, "mediatek,bled-channel-use",
-+				      &prop_val);
-+	if (ret) {
-+		dev_err(dev, "mediatek,bled-channel-use DT property missing\n");
-+		return ret;
-+	}
-+
-+	if (!prop_val) {
-+		dev_err(dev, "No channel specified\n");
-+		return -EINVAL;
-+	}
-+
-+	mask = MT6370_BL_EXT_EN_MASK | MT6370_BL_CH_MASK;
-+	val = prop_val << (ffs(MT6370_BL_CH_MASK) - 1);
-+
-+	if (priv->enable_gpio)
-+		val |= MT6370_BL_EXT_EN_MASK;
-+
-+	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN, mask, val);
-+}
-+
-+static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-+{
-+	unsigned int dev_info, vid;
-+	int ret;
-+
-+	ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &dev_info);
-+	if (ret)
-+		return ret;
-+
-+	vid = FIELD_GET(MT6370_VENID_MASK, dev_info);
-+	if (vid == 0x9 || vid == 0xb)
-+		priv->vid_type = MT6370_VID_6372;
-+	else
-+		priv->vid_type = MT6370_VID_COMMON;
-+
-+	return 0;
-+}
-+
-+static int mt6370_bl_probe(struct platform_device *pdev)
-+{
-+	struct mt6370_priv *priv;
-+	struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+		.scale = BACKLIGHT_SCALE_LINEAR,
-+	};
-+	int ret;
-+
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dev = &pdev->dev;
-+
-+	priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-+	if (!priv->regmap) {
-+		dev_err(&pdev->dev, "Failed to get regmap\n");
-+		return -ENODEV;
-+	}
-+
-+	ret = mt6370_check_vendor_info(priv);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to check vendor info (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	priv->enable_gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
-+						    GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->enable_gpio)) {
-+		dev_err(&pdev->dev, "Failed to get 'enable' gpio\n");
-+		return PTR_ERR(priv->enable_gpio);
-+	}
-+
-+	ret = mt6370_init_backlight_properties(priv, &props);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to init backlight properties\n");
-+		return ret;
-+	}
-+
-+	priv->bl = devm_backlight_device_register(&pdev->dev, pdev->name,
-+						  &pdev->dev, priv,
-+						  &mt6370_bl_ops, &props);
-+	if (IS_ERR(priv->bl)) {
-+		dev_err(&pdev->dev, "Failed to register backlight\n");
-+		return PTR_ERR(priv->bl);
-+	}
-+
-+	backlight_update_status(priv->bl);
-+	platform_set_drvdata(pdev, priv);
-+
-+	return 0;
-+}
-+
-+static int mt6370_bl_remove(struct platform_device *pdev)
-+{
-+	struct mt6370_priv *priv = platform_get_drvdata(pdev);
-+	struct backlight_device *bl_dev = priv->bl;
-+
-+	bl_dev->props.brightness = 0;
-+	backlight_update_status(priv->bl);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id __maybe_unused mt6370_bl_of_match[] = {
-+	{ .compatible = "mediatek,mt6370-backlight", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mt6370_bl_of_match);
-+
-+static struct platform_driver mt6370_bl_driver = {
-+	.driver = {
-+		.name = "mt6370-backlight",
-+		.of_match_table = mt6370_bl_of_match,
-+	},
-+	.probe = mt6370_bl_probe,
-+	.remove = mt6370_bl_remove,
-+};
-+module_platform_driver(mt6370_bl_driver);
-+
-+MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
-+MODULE_DESCRIPTION("Mediatek MT6370 Backlight Driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.25.1
+Cheers,
+Biju
+
+> Subject: [PATCH v3 0/2] Add RZ/G2L DSI driver
+>=20
+> This patch series aims to support the MIPI DSI encoder found in the RZ/G2=
+L
+> SoC. It currently supports DSI mode only.
+>=20
+> This unit supports MIPI Alliance Specification for Display Serial Interfa=
+ce
+> (DSI) Specification. This unit provides a solution for transmitting MIPI
+> DSI compliant digital video and packets. Normative References are below.
+> * MIPI Alliance Specification for Display Serial Interface Version 1.3.1
+> * MIPI Alliance Specification for D-PHY Version 2.1
+>=20
+> The following are key features of this unit.
+>=20
+> * 1 channel
+> * The number of Lane: 4-lane
+> * Support up to Full HD (1920 =D7 1080), 60 fps (RGB888)
+> * Maximum Bandwidth: 1.5 Gbps per lane
+> * Support Output Data Format: RGB666 / RGB888
+>=20
+> v2->v3:
+>  * Added Rb tag from Geert and Laurent for the binding patch.
+>  * Fixed the typo "Receive" -> "transmit"
+>  * Added accepible values for data-lanes
+>  * Sorted Header file in the example
+>  * Added SoC specific compaible along with generic one.
+>  * pass rzg2l_mipi_dsi pointer to {Link,Phy} register rd/wr function
+> instead
+>    of the memory pointer
+>  * Fixed the comment in rzg2l_mipi_dsi_startup()
+>  * Removed unnecessary dbg message from rzg2l_mipi_dsi_start_video()
+>  * DRM bridge parameter initialization moved to probe
+>  * Replaced dev_dbg->dev_err in rzg2l_mipi_dsi_parse_dt()
+>  * Inserted the missing blank lane after return in probe()
+>  * Added missing MODULE_DEVICE_TABLE
+>  * Added include linux/bits.h in header file
+>  * Fixed various macros in header file.
+>  * Reorder the make file for DSI, so that it is no more dependent
+>    on RZ/G2L DU patch series.
+> v1->v2:
+>  * Added full path for dsi-controller.yaml
+>  * Modeled DSI + D-PHY as single block and updated reg property
+>  * Fixed typo D_PHY->D-PHY
+>  * Updated description
+>  * Added interrupts and interrupt-names and updated the example
+>  * Driver rework based on dt-binding changes (DSI + D-PHY) as single bloc=
+k
+>  * Replaced link_mmio and phy_mmio with mmio in struct rzg2l_mipi_dsi
+>  * Replaced rzg2l_mipi_phy_write with rzg2l_mipi_dsi_phy_write
+>    and rzg2l_mipi_dsi_link_write
+>  * Replaced rzg2l_mipi_phy_read->rzg2l_mipi_dsi_link_read
+> RFC->v1:
+>  * Added a ref to dsi-controller.yaml.
+>  * Added "depends on ARCH_RENESAS || COMPILE_TEST" on KCONFIG
+>    and dropped DRM as it is implied by DRM_BRIDGE
+>  * Used devm_reset_control_get_exclusive() for reset handle
+>  * Removed bool hsclkmode from struct rzg2l_mipi_dsi
+>  * Added error check for pm, using pm_runtime_resume_and_get() instead of
+>    pm_runtime_get_sync()
+>  * Added check for unsupported formats in rzg2l_mipi_dsi_host_attach()
+>  * Avoided read-modify-write stopping hsclock
+>  * Used devm_platform_ioremap_resource for resource allocation
+>  * Removed unnecessary assert call from probe and remove.
+>  * wrap the line after the PTR_ERR() in probe()
+>  * Updated reset failure messages in probe
+>  * Fixed the typo arstc->prstc
+>  * Made hex constants to lower case.
+> RFC:
+>  *
+>=20
+> Biju Das (2):
+>   dt-bindings: display: bridge: Document RZ/G2L MIPI DSI TX bindings
+>   drm: rcar-du: Add RZ/G2L DSI driver
+>=20
+>  .../bindings/display/bridge/renesas,dsi.yaml  | 182 +++++
+>  drivers/gpu/drm/rcar-du/Kconfig               |   8 +
+>  drivers/gpu/drm/rcar-du/Makefile              |   2 +
+>  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c      | 690 ++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h | 151 ++++
+>  5 files changed, 1033 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi_regs.h
+>=20
+> --
+> 2.25.1
 
