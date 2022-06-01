@@ -1,71 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCF753A373
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA3B53A3A8
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:13:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9993E10E9FA;
-	Wed,  1 Jun 2022 11:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C129E10E03D;
+	Wed,  1 Jun 2022 11:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE4010E9F3
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:03:18 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- n124-20020a1c2782000000b003972dfca96cso855329wmn.4
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 04:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Fjf9xNl/MqQB/RPimZ4g9EOKQN/z4oldIhLZb2IukiM=;
- b=GmRxTPwPYrNCwNSsPIu1VTrOgW9rsJIJqoYWE4IOkuZ4c1KU1fjaWO3S7JlcvALdT3
- PQ6v+2FD4F2rTJIRpXHez2tm6Ok/46+QfPEIbKpicsHk9ds9NpEtvsTA1IzIRInKxVu3
- 3Puq9O3ByF7gOdBoQFayvf7L4zYBfYCnNIMZll7JQIyNtlaUDif8ncgulQNGN5ad6jak
- TB/7zdZODU5L4c+FnZ5bvMdsdKQg4vbEAdD7tbhufVZiU2EHLqvT5rsA2FQfPZYWmDe3
- KBycG0rnMSLAuP4HJe66kQBVfxZvY89v9R8qFdv9DqupseZIFKbvOvqp143sRxHI1ba1
- sgbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Fjf9xNl/MqQB/RPimZ4g9EOKQN/z4oldIhLZb2IukiM=;
- b=wn6LG7RM4z3BZM9MZZPqIYsd+3siEaQaR17MPTgMA1MmLIoQaS6Jq5L0/+X/YCT8nx
- ONF/Gu8QfGb+fzA3ieHMS3UkhIrSVZLfv4P5VKCegJMNM4eq12D+ckHB07Lnk/uQ8I7t
- nKGpadd10pjabHmLhrJS6Kz+G47F/awRKPAIxiVrfHxZKu25w2TOjI72LYvromd1ztHt
- +OACYzgw5fSZf96IJwmOXse28t9jTPAyHadtlICJCaKWXZcBXh9QXa5ZV4tqICo8Y24x
- JnFeJS4b47LeW9lQFep/81XjehvLupPDSPEsBSMhUpNOio8ckboEeZA3sOYIBb8jCCW9
- ipkg==
-X-Gm-Message-State: AOAM532cQon5wzF91PQ41ZPek8k7GLyQath8hNLXkgLNGeGg4MrdW65n
- eqnFJ5QPzeZPd6G5r6IcfU8=
-X-Google-Smtp-Source: ABdhPJx5kYUlDNbTHYglJRLhh4T2fvS8bPm1arsI4PnjL43uMY6XoeM9y5jmJxz/v4fy8dIbqmmqSg==
-X-Received: by 2002:a7b:cc12:0:b0:37c:1ae:100a with SMTP id
- f18-20020a7bcc12000000b0037c01ae100amr27692085wmh.54.1654081396592; 
- Wed, 01 Jun 2022 04:03:16 -0700 (PDT)
-Received: from morpheus.home.roving-it.com (82-132-215-116.dab.02.net.
- [82.132.215.116]) by smtp.googlemail.com with ESMTPSA id
- j14-20020a05600c190e00b00397381a7ae8sm6074559wmq.30.2022.06.01.04.03.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 04:03:16 -0700 (PDT)
-From: Peter Robinson <pbrobinson@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>, bcm-kernel-feedback-list@broadcom.com,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>, Florian Fainelli <f.fainelli@gmail.com>,
- javierm@redhat.com, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, maxime@cerno.tech,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v5 6/6] arm64: config: Enable DRM_V3D
-Date: Wed,  1 Jun 2022 12:02:49 +0100
-Message-Id: <20220601110249.569540-7-pbrobinson@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220601110249.569540-1-pbrobinson@gmail.com>
-References: <20220601110249.569540-1-pbrobinson@gmail.com>
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 83DB810E03D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:13:49 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.126])
+ by APP-05 (Coremail) with SMTP id zQCowAB3f5O4SZdigY5ADA--.48384S2;
+ Wed, 01 Jun 2022 19:12:56 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: laurent.pinchart@ideasonboard.com
+Subject: Re: Re: [PATCH] drm: bridge: adv7511: Add check for
+ mipi_dsi_driver_register
+Date: Wed,  1 Jun 2022 19:12:55 +0800
+Message-Id: <20220601111255.2911012-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAB3f5O4SZdigY5ADA--.48384S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYh7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E
+ 6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+ kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8I
+ cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2js
+ IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
+ 5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
+ CFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l
+ FIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK67AK6r4kMxAIw28IcxkI7VAKI48JMxC20s
+ 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+ JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+ v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xva
+ j40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
+ 4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUe_-BDUUUU
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,34 +53,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Robinson <pbrobinson@gmail.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: jagan@amarulasolutions.com, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, robert.foss@linaro.org, andrzej.hajda@intel.com,
+ alsi@bang-olufsen.dk, biju.das.jz@bp.renesas.com, sam@ravnborg.org,
+ maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+On Wed, Jun 01, 2022 at 05:15:37PM +0800, Laurent Pinchart wrote:
+>> Well, as far as I am concerned, the adv7511_exit() in the same file has already dealt with the issue.
+>> Therefore, it might not be necessary to add another mipi_dsi_driver_unregister().
+> 
+> The issue is that adv7511_exit() is not called if adv7511_init() fails.
 
-BCM2711, the SoC used on the Raspberry Pi 4 has a different GPU than its
-predecessors. Enable it.
+Sorry, I can not find the caller of adv7511_init().
+Please give me more detail.
 
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 50aa3d75ab4f..446bac1ef774 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -738,6 +738,7 @@ CONFIG_DRM_I2C_ADV7511_AUDIO=y
- CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
- CONFIG_DRM_DW_HDMI_CEC=m
- CONFIG_DRM_IMX_DCSS=m
-+CONFIG_DRM_V3D=m
- CONFIG_DRM_VC4=m
- CONFIG_DRM_ETNAVIV=m
- CONFIG_DRM_HISI_HIBMC=m
--- 
-2.36.1
+Thanks,
+Jiang
 
