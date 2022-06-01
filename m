@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72EC3539E5F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFA5539E60
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E308810EF67;
-	Wed,  1 Jun 2022 07:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A027E10F66A;
+	Wed,  1 Jun 2022 07:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89CDF10EF67
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 07:36:27 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id u12so1924798eja.8
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 00:36:27 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C152112B4C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 07:36:35 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id n28so962902edb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 00:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1NLbj63p78gaZ8WaajEU8PUTCmU7WPY2qFfR3aIc2H8=;
- b=gqBcGcAkA8yHXLTni7MKZcgZpIkQHVSVTHhr/karxr9ZXi7QXpOby0C1PSZ+CxEZHD
- evRMSrT6rKpG0jp6FBf4/F3CtsD6yYFKugM2+mCp9sxULDIupq2sV2HELbPhFFrDdKKG
- /VGVXv3DC8CNS2Qw3WoAsYRy75CVYWNW6iOIREj8ldQTYzWrJpxg0ayoLYYT6jwf22ok
- ZobxHbs9TcZh+0Glo6CkNmSg+6C/msfP1yuxPMVsnlj7w1XFRuq/lxp3KCYGxaMEtUWE
- bGMsEcGgoiyKOp6LUmB9IWp43dbJtxGQypSvfWhG013S0VgyBqar2nl8/XQxPEiQEFHr
- mt4Q==
+ bh=8rVL+zCqV2ClaM1IvMumDzQRQgddNQZVClfHLs1uusg=;
+ b=sKQZ120R1iNb1rrMlm+ciOWFgz2PLWOBBf6zbwbmdaEX01gTOn/F5DMc8O+KkNCiHw
+ T0m20IjcUP0Eo8mLj+H/3+5syyMtRoDVL/qxR1hMbk+xqkOdvJyxyp/NmQntmgb9I/Yc
+ qYzkVKnMibnBSzM81g/9+4tzNkOx2Da1ZcTaPbH07baNz3cxSOkhLHJwBjFq5Py8hrNF
+ AxIj5Viuqo8Ew+VWIw8UYTSegDJPEe5MD3lpJPzUcbL+pHlyLXh2VZD9lfolWyqGBOSS
+ DBHhSAi3rsjvnaRJKZxp8eOnMKiFDzetWvlMI+m3lx+rqJpy/8zmCVrvhXwrimuVrJdW
+ INYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1NLbj63p78gaZ8WaajEU8PUTCmU7WPY2qFfR3aIc2H8=;
- b=iwbA+Id8KHxcK4Rsy70P5A44+Ht8c/yhVI6li/5Fdf0o/iWWxuWhNH0XRPN6DliMUh
- cFH6qX5EP0G63UDcWt9bv5cVv2RJgGaaAHoQhhjMAX/mK4Wu8herRGEmYUngAhhYZDpb
- 07KRZXJ9Kl2sz2oHOR8fD6wdiMwX70LD1bSU4QUlF3aftD/8ziy5ARdhD+21DwT655xN
- el+8/EoYlKg6TzYp8ZXZH/tpu4AkO7rBLQ/ZO10ymfLfcBya6/5uh9lb4lUk9PQA1WlL
- 8YQcvLBXLeS7Wcw17XYGGmBHmjOtp7fh51UiWgBzOojFw81PP8UaBY33wz0UIyckN4L+
- JXnQ==
-X-Gm-Message-State: AOAM5328nqlqOCsh2MNuRtxOHX3BVab7w672vIs8bkt73AbDCA1CZAb+
- OYPe0z6zh8RzqFf8nRk307GsOg==
-X-Google-Smtp-Source: ABdhPJxg0SzgI+t9GI5poUsf996ZK2hzQvgWSQYGKBMZk4wcTKUZeLadLadxYiaP5JO/Z+O8cYDoXw==
-X-Received: by 2002:a17:907:d13:b0:6fe:ece3:64e1 with SMTP id
- gn19-20020a1709070d1300b006feece364e1mr40377450ejc.584.1654068986057; 
- Wed, 01 Jun 2022 00:36:26 -0700 (PDT)
+ bh=8rVL+zCqV2ClaM1IvMumDzQRQgddNQZVClfHLs1uusg=;
+ b=EE8jXF9/fIPxFDaNTUcC93KC1imSlZWUJT6uWVcZ1lA070tLtRH8RNObhTyQrU+2M8
+ 4q9MSIpROAEYVmFFDLEhM0GiM7IFSqZO0vjq8I1BL8zHiKqfMIWoiaKujVO2L/x6nySS
+ mKRUXuFgYcryAJw4rADYAE5aYnjRtsc1JuvZmkrCjV65RkYdSM3ScUBlE/6FN6fD2jfY
+ jM/gPeKPLnGcBYDnTH5ygRDCwlvKwPhSklWk5106TpoePlyV6U85Fhli0bjac3Tu0snZ
+ vLe4LOJ1ekRAc/doJCPpMmi9yh8w+5WSwVdtGovsSMwnb9ul8ocCaa1e+C5OJnnBcmnx
+ iz1Q==
+X-Gm-Message-State: AOAM533lK+J0cNSFUcHyVReWQCUvHmVK40Ko8vnC6wB5lINQu9KcSVP+
+ dsZVAY3v81lR5NOzlfbM1qmd8w==
+X-Google-Smtp-Source: ABdhPJxXmZbLT6U4B5wdKbc3qaM3fx5m6yRjmA3N01Sc1bKs2gwCTbf0eEckNJ1b2uUmeUtTa2N70g==
+X-Received: by 2002:aa7:db02:0:b0:42d:c3ba:9c86 with SMTP id
+ t2-20020aa7db02000000b0042dc3ba9c86mr20256525eds.337.1654068993673; 
+ Wed, 01 Jun 2022 00:36:33 -0700 (PDT)
 Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch.
  [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- bv3-20020a170906b1c300b006f3ef214ddesm374169ejb.68.2022.06.01.00.36.24
+ f8-20020a170906824800b006fe7725ed7dsm372355ejx.34.2022.06.01.00.36.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 00:36:25 -0700 (PDT)
-Message-ID: <92708b65-231a-68db-f624-02a6e76cb49d@linaro.org>
-Date: Wed, 1 Jun 2022 09:36:23 +0200
+ Wed, 01 Jun 2022 00:36:33 -0700 (PDT)
+Message-ID: <2f292066-4cf0-165e-c4cd-fbba9c548b6b@linaro.org>
+Date: Wed, 1 Jun 2022 09:36:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [RESEND 02/14] dt-bindings: power: supply: Add Mediatek MT6370
- Charger binding
+Subject: Re: [RESEND 03/14] dt-bindings: leds: mt6370: Add Mediatek mt6370
+ indicator
 Content-Language: en-US
 To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
  daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
@@ -64,9 +64,9 @@ To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
  lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
  heikki.krogerus@linux.intel.com, deller@gmx.de
 References: <20220531111900.19422-1-peterwu.pub@gmail.com>
- <20220531111900.19422-3-peterwu.pub@gmail.com>
+ <20220531111900.19422-4-peterwu.pub@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220531111900.19422-3-peterwu.pub@gmail.com>
+In-Reply-To: <20220531111900.19422-4-peterwu.pub@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,10 +91,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 31/05/2022 13:18, ChiaEn Wu wrote:
-> From: ChiaEn Wu <chiaen_wu@richtek.com>
+> From: ChiYuan Huang <cy_huang@richtek.com>
 > 
-> Add Mediatek MT6370 Charger binding documentation.
-> 
+> Add Mediatek mt6370 indicator documentation.
 
 Please apply my previous comments.
 
