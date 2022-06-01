@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFF453A70A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 15:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9EC053A731
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 15:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB45710ED09;
-	Wed,  1 Jun 2022 13:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4EEA10E5EC;
+	Wed,  1 Jun 2022 13:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4ABB10ED09
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 13:57:59 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C0110E667
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 13:59:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 15C6D6155E;
- Wed,  1 Jun 2022 13:57:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40456C3411F;
- Wed,  1 Jun 2022 13:57:57 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 60AE9CE1A20;
+ Wed,  1 Jun 2022 13:59:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34FC5C3411E;
+ Wed,  1 Jun 2022 13:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654091878;
- bh=4EVzbzWqHyf7kWhin1yXV+6G6KJBC9n2werDa8N1hEU=;
+ s=k20201202; t=1654091941;
+ bh=yWMSUE+b2ncX5czDCiPQY7bzf6YbCvDYDvxWq7W5yjY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gZn5LCSz+6/saPTnrPifzciwmeX1XrEkcz4901L1S+pAo4JNRhhVAHJIkbCqdM+Tn
- UyuxEDcq5a8Id5ajvpTIV9k0OW/gnaCDGohyAaxVPIsS17PZ7URPKnxoF96Ya8ocsN
- veVoab92x6FvozmwTUuBRJ7t/3KDZu0pVK3KCNcN2ErvABDVEq/J2D3frXTvf11DtJ
- WsrSzbDiI4j+wU/fazD/UE6K+ahsgausi1v2vAOklfoCSkVN2/p74fV2gcaQp0iBi+
- 9GuzNQ14502PX8ETxL+UsSlk+6jmrBiGIFBMSfqIchrxLSqQrTi/xeHBBy6vFs8Z/p
- F9bHNgfSBc5HA==
+ b=hIIMRS9D64cB1vlLWcpkLsZPaaprp0iBHeGxvm72VWmAwQU8BP9D1Z22aMV4N8inZ
+ FEbARQ1NB6p+wStLH0Whh44S7FXwh6m8yG65X7FNMZe97qN4O7zRraFxlvmsNkaEqa
+ 4vpYYqT99VjPgKhth2C5s6VM9mup5RB7ij6/Ob4XkqB5FcY40D+pPitrWiXbBK2Nby
+ xqvEPcjudHRy5jloEnsIdjrYPSMMg5xGfYm+gwNvWn7jkC5tEZz4Ez/2UKlSdcr0AR
+ ZfgnJELMaXWuXUakF+WzAJWAeBVzdDz4GUwW78usDDYMZuQkwyxFDoSiIoQPZ6Mwq7
+ YCUvNo93OPEIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 37/37] drm: fix EDID struct for old ARM OABI
+Subject: [PATCH AUTOSEL 5.10 26/26] drm: fix EDID struct for old ARM OABI
  format
-Date: Wed,  1 Jun 2022 09:56:22 -0400
-Message-Id: <20220601135622.2003939-37-sashal@kernel.org>
+Date: Wed,  1 Jun 2022 09:57:59 -0400
+Message-Id: <20220601135759.2004435-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220601135622.2003939-1-sashal@kernel.org>
-References: <20220601135622.2003939-1-sashal@kernel.org>
+In-Reply-To: <20220601135759.2004435-1-sashal@kernel.org>
+References: <20220601135759.2004435-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -140,7 +139,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index deccfd39e6db..c24559f5329d 100644
+index e97daf6ffbb1..4526b6a1e583 100644
 --- a/include/drm/drm_edid.h
 +++ b/include/drm/drm_edid.h
 @@ -121,7 +121,7 @@ struct detailed_data_monitor_range {
