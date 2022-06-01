@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF8653A403
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611F553A3FD
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C8310E8C4;
-	Wed,  1 Jun 2022 11:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C25A710E808;
+	Wed,  1 Jun 2022 11:25:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7361F10E7A7
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC5410E79E
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:25:26 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 14C051F942;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3BAA421B0F;
  Wed,  1 Jun 2022 11:25:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1654082725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b9YnJ2jqrZPzjPqtiKNCPzcv+BIwe6n3aEAru588pWU=;
- b=GCg8KwfNQ1jdg/8v0zW0mX+zMTN+UwAohnDHRH3e942Gvm8N9yxImV1KzKaidfJXeqBWBc
- xU6b9uqWE/P8IeGO+gUKkVM+4UUUaaZimMv1dMtymVvIhzzK9vjAKbMhOnTTAjEGoJvebW
- fTryeghKlRvf2HLc2YXZ/cuTfBP751E=
+ bh=nEwl25VW03++YLjquyLHld++yUa4TNuY28Q0GdQ/+EQ=;
+ b=BJtLSC6n8tW1ORKUJ+yG8A0X6jHXt4bJdsxr9sxC7t8rxxILm9W0pJkq6OyN+0JOM2rP12
+ mNWhfhRA8+UBkSFv27sO+SACI/CvtsoGCKl+LkAEVMsHdJaNydTNW2VrgiisyJggauTkkl
+ h3xllMStBT3+q2+krzizSP3PokVSk60=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1654082725;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b9YnJ2jqrZPzjPqtiKNCPzcv+BIwe6n3aEAru588pWU=;
- b=xo1XDiW9hvt5ADJIs69nI7heUazHlEyzcuh4niiCuMNiaYv98aTmB3LG0IAZXRZCoHWqV0
- /9M8OK/ccoaNHLBQ==
+ bh=nEwl25VW03++YLjquyLHld++yUa4TNuY28Q0GdQ/+EQ=;
+ b=HWrT3hjuYzqkiIq0dQoL6AeMjOamUpGkLrEADGsN8OQUIIDPHjsPZX1W+Rn3nNSqo0UAtD
+ f/XTX4+jjJ0K7rBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E2A7213B2D;
- Wed,  1 Jun 2022 11:25:24 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 164511330F;
+ Wed,  1 Jun 2022 11:25:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WE1+NqRMl2JqMQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 01 Jun 2022 11:25:24 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id WKKNBKVMl2JqMQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 01 Jun 2022 11:25:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 07/10] drm/mgag200: Store HW_BUG_NO_STARTADD flag in device
- info
-Date: Wed,  1 Jun 2022 13:25:19 +0200
-Message-Id: <20220601112522.5774-8-tzimmermann@suse.de>
+Subject: [PATCH 08/10] drm/mgag200: Store maximum resolution and memory
+ bandwith in device info
+Date: Wed,  1 Jun 2022 13:25:20 +0200
+Message-Id: <20220601112522.5774-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601112522.5774-1-tzimmermann@suse.de>
 References: <20220601112522.5774-1-tzimmermann@suse.de>
@@ -72,446 +72,320 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Flag devices with broken handling of the startadd field in
-struct mgag200_device_info, instead of PCI driver data. This
-reduces the driver data to a simple type constant.
+The maximum resolution and memory bandwidth are model-specific limits.
+Both are used during display-mode validation. Store the values in struct
+mgag200_device_info and simplify the validation code.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.c     | 36 +++++++----------------
- drivers/gpu/drm/mgag200/mgag200_drv.h     | 35 +++++++++++-----------
- drivers/gpu/drm/mgag200/mgag200_g200.c    |  6 ++--
- drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  6 ++--
- drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  6 ++--
- drivers/gpu/drm/mgag200/mgag200_g200er.c  |  6 ++--
- drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  6 ++--
- drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  6 ++--
- drivers/gpu/drm/mgag200/mgag200_g200se.c  | 23 ++++++++++++---
- drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  6 ++--
- drivers/gpu/drm/mgag200/mgag200_mode.c    |  2 +-
- 11 files changed, 69 insertions(+), 69 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.h     | 15 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200.c    |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c  |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c  | 44 ++++++++++++---
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c    | 69 +++++++----------------
+ 10 files changed, 77 insertions(+), 65 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 90ed7770ff72..361eb7dffda1 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -162,14 +162,13 @@ int mgag200_device_preinit(struct mga_device *mdev)
- 	return 0;
- }
- 
--int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags,
-+int mgag200_device_init(struct mga_device *mdev, enum mga_type type,
- 			const struct mgag200_device_info *info)
- {
- 	struct drm_device *dev = &mdev->base;
- 	u8 crtcext3, misc;
- 	int ret;
- 
--	mdev->flags = flags;
- 	mdev->info = info;
- 	mdev->type = type;
- 
-@@ -202,8 +201,7 @@ int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned lo
- static const struct pci_device_id mgag200_pciidlist[] = {
- 	{ PCI_VENDOR_ID_MATROX, 0x520, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_PCI },
- 	{ PCI_VENDOR_ID_MATROX, 0x521, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_AGP },
--	{ PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--		G200_SE_A | MGAG200_FLAG_HW_BUG_NO_STARTADD},
-+	{ PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_SE_A },
- 	{ PCI_VENDOR_ID_MATROX, 0x524, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_SE_B },
- 	{ PCI_VENDOR_ID_MATROX, 0x530, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EV },
- 	{ PCI_VENDOR_ID_MATROX, 0x532, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_WB },
-@@ -216,22 +214,10 @@ static const struct pci_device_id mgag200_pciidlist[] = {
- 
- MODULE_DEVICE_TABLE(pci, mgag200_pciidlist);
- 
--static enum mga_type mgag200_type_from_driver_data(kernel_ulong_t driver_data)
--{
--	return (enum mga_type)(driver_data & MGAG200_TYPE_MASK);
--}
--
--static unsigned long mgag200_flags_from_driver_data(kernel_ulong_t driver_data)
--{
--	return driver_data & MGAG200_FLAG_MASK;
--}
--
- static int
- mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- {
--	kernel_ulong_t driver_data = ent->driver_data;
--	enum mga_type type = mgag200_type_from_driver_data(driver_data);
--	unsigned long flags = mgag200_flags_from_driver_data(driver_data);
-+	enum mga_type type = (enum mga_type)ent->driver_data;
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
- 	int ret;
-@@ -247,29 +233,29 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	switch (type) {
- 	case G200_PCI:
- 	case G200_AGP:
--		mdev = mgag200_g200_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	case G200_SE_A:
- 	case G200_SE_B:
--		mdev = mgag200_g200se_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200se_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	case G200_WB:
--		mdev = mgag200_g200wb_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200wb_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	case G200_EV:
--		mdev = mgag200_g200ev_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200ev_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	case G200_EH:
--		mdev = mgag200_g200eh_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200eh_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	case G200_EH3:
--		mdev = mgag200_g200eh3_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200eh3_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	case G200_ER:
--		mdev = mgag200_g200er_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200er_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	case G200_EW3:
--		mdev = mgag200_g200ew3_device_create(pdev, &mgag200_driver, type, flags);
-+		mdev = mgag200_g200ew3_device_create(pdev, &mgag200_driver, type);
- 		break;
- 	default:
- 		dev_err(&pdev->dev, "Device type %d is unsupported\n", type);
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 89cb4e476119..b05becb3d4b7 100644
+index b05becb3d4b7..f0fb13238f4f 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -188,24 +188,23 @@ enum mga_type {
- 	G200_EW3,
- };
- 
--/* HW does not handle 'startadd' field correct. */
--#define MGAG200_FLAG_HW_BUG_NO_STARTADD	(1ul << 8)
--
--#define MGAG200_TYPE_MASK	(0x000000ff)
--#define MGAG200_FLAG_MASK	(0x00ffff00)
--
+@@ -191,6 +191,15 @@ enum mga_type {
  #define IS_G200_SE(mdev) (mdev->type == G200_SE_A || mdev->type == G200_SE_B)
  
  struct mgag200_device_info {
++	u16 max_hdisplay;
++	u16 max_vdisplay;
++
 +	/*
-+	 * HW does not handle 'startadd' register correctly. Always set
-+	 * it's value to 0.
++	 * Maximum memory bandwidth (MiB/sec). Setting this to zero disables
++	 * the rsp test during mode validation.
 +	 */
-+	bool bug_no_startadd:1;
++	unsigned long max_mem_bandwidth;
++
+ 	/*
+ 	 * HW does not handle 'startadd' register correctly. Always set
+ 	 * it's value to 0.
+@@ -198,8 +207,12 @@ struct mgag200_device_info {
+ 	bool bug_no_startadd:1;
  };
  
--#define MGAG200_DEVICE_INFO_INIT() \
-+#define MGAG200_DEVICE_INFO_INIT(_bug_no_startadd) \
+-#define MGAG200_DEVICE_INFO_INIT(_bug_no_startadd) \
++#define MGAG200_DEVICE_INFO_INIT(_max_hdisplay, _max_vdisplay, _max_mem_bandwidth, \
++				 _bug_no_startadd) \
  	{ \
-+		.bug_no_startadd = (_bug_no_startadd), \
++		.max_hdisplay = (_max_hdisplay), \
++		.max_vdisplay = (_max_vdisplay), \
++		.max_mem_bandwidth = (_max_mem_bandwidth), \
+ 		.bug_no_startadd = (_bug_no_startadd), \
  	}
  
- struct mga_device {
--	struct drm_device		base;
--	unsigned long			flags;
-+	struct drm_device base;
- 
- 	const struct mgag200_device_info *info;
- 
-@@ -261,26 +260,26 @@ int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2);
- resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size);
- resource_size_t mgag200_device_probe_vram(struct mga_device *mdev);
- int mgag200_device_preinit(struct mga_device *mdev);
--int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags,
-+int mgag200_device_init(struct mga_device *mdev, enum mga_type type,
- 			const struct mgag200_device_info *info);
- 
- 				/* mgag200_<device type>.c */
- struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--					      enum mga_type type, unsigned long flags);
-+					      enum mga_type type);
- struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags);
-+						enum mga_type type);
- struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags);
-+						enum mga_type type);
- struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags);
-+						enum mga_type type);
- struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags);
-+						enum mga_type type);
- struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						 enum mga_type type, unsigned long flags);
-+						 enum mga_type type);
- struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags);
-+						enum mga_type type);
- struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						 enum mga_type type, unsigned long flags);
-+						 enum mga_type type);
- 
- 				/* mgag200_mode.c */
- resource_size_t mgag200_device_probe_vram(struct mga_device *mdev);
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
-index b2969a1f1e0b..90b33a7352e5 100644
+index 90b33a7352e5..4ec1b18ab170 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
 @@ -34,7 +34,7 @@ static int mgag200_g200_init_pci_options(struct pci_dev *pdev)
   */
  
  static const struct mgag200_device_info mgag200_g200_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+	MGAG200_DEVICE_INFO_INIT(false);
+-	MGAG200_DEVICE_INFO_INIT(false);
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, false);
  
  static void mgag200_g200_interpret_bios(struct mgag200_g200_device *g200,
  					const unsigned char *bios, size_t size)
-@@ -160,7 +160,7 @@ static void mgag200_g200_init_refclk(struct mgag200_g200_device *g200)
- }
- 
- struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--					      enum mga_type type, unsigned long flags)
-+					      enum mga_type type)
- {
- 	struct mgag200_g200_device *g200;
- 	struct mga_device *mdev;
-@@ -186,7 +186,7 @@ struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct
- 
- 	mgag200_g200_init_refclk(g200);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200_device_info);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-index 6284fedc1b8a..14bec513e441 100644
+index 14bec513e441..a35ba2fdfc0e 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-@@ -11,10 +11,10 @@
+@@ -11,7 +11,7 @@
   */
  
  static const struct mgag200_device_info mgag200_g200eh_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+	MGAG200_DEVICE_INFO_INIT(false);
+-	MGAG200_DEVICE_INFO_INIT(false);
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 37500, false);
  
  struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags)
-+						enum mga_type type)
- {
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
-@@ -36,7 +36,7 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200eh_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200eh_device_info);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
+ 						enum mga_type type)
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-index c8e46b89286f..c982533de9e7 100644
+index c982533de9e7..649559be1482 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-@@ -11,11 +11,11 @@
+@@ -11,7 +11,7 @@
   */
  
  static const struct mgag200_device_info mgag200_g200eh3_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+	MGAG200_DEVICE_INFO_INIT(false);
+-	MGAG200_DEVICE_INFO_INIT(false);
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, false);
  
  struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
  						 const struct drm_driver *drv,
--						 enum mga_type type, unsigned long flags)
-+						 enum mga_type type)
- {
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
-@@ -37,7 +37,7 @@ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200eh3_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200eh3_device_info);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-index ef16ce4adecd..d84039eef982 100644
+index d84039eef982..e661fad2f8b2 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-@@ -11,10 +11,10 @@
+@@ -11,7 +11,7 @@
   */
  
  static const struct mgag200_device_info mgag200_g200er_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+	MGAG200_DEVICE_INFO_INIT(false);
+-	MGAG200_DEVICE_INFO_INIT(false);
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 55000, false);
  
  struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags)
-+						enum mga_type type)
- {
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
-@@ -32,7 +32,7 @@ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200er_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200er_device_info);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
+ 						enum mga_type type)
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-index 75d08fb503bb..14a891d47270 100644
+index 14a891d47270..07a3862d69de 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-@@ -11,10 +11,10 @@
+@@ -11,7 +11,7 @@
   */
  
  static const struct mgag200_device_info mgag200_g200ev_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+	MGAG200_DEVICE_INFO_INIT(false);
+-	MGAG200_DEVICE_INFO_INIT(false);
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 32700, false);
  
  struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags)
-+						enum mga_type type)
- {
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
-@@ -36,7 +36,7 @@ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200ev_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200ev_device_info);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
+ 						enum mga_type type)
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-index 7cb18685b98d..b09f345ba29b 100644
+index b09f345ba29b..7f3987435085 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
 @@ -11,7 +11,7 @@
   */
  
  static const struct mgag200_device_info mgag200_g200ew3_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+	MGAG200_DEVICE_INFO_INIT(false);
+-	MGAG200_DEVICE_INFO_INIT(false);
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, false);
  
  static resource_size_t mgag200_g200ew3_device_probe_vram(struct mga_device *mdev)
  {
-@@ -24,7 +24,7 @@ static resource_size_t mgag200_g200ew3_device_probe_vram(struct mga_device *mdev
- 
- struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
- 						 const struct drm_driver *drv,
--						 enum mga_type type, unsigned long flags)
-+						 enum mga_type type)
- {
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
-@@ -46,7 +46,7 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200ew3_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200ew3_device_info);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-index 69a17f057b32..9c0fc57366f2 100644
+index 9c0fc57366f2..78120470b7be 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-@@ -32,8 +32,11 @@ static int mgag200_g200se_init_pci_options(struct pci_dev *pdev)
+@@ -32,21 +32,37 @@ static int mgag200_g200se_init_pci_options(struct pci_dev *pdev)
   * DRM device
   */
  
--static const struct mgag200_device_info mgag200_g200se_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+static const struct mgag200_device_info mgag200_g200se_a_device_info =
-+	MGAG200_DEVICE_INFO_INIT(true);
-+
-+static const struct mgag200_device_info mgag200_g200se_b_device_info =
-+	MGAG200_DEVICE_INFO_INIT(false);
+-static const struct mgag200_device_info mgag200_g200se_a_device_info =
+-	MGAG200_DEVICE_INFO_INIT(true);
++static const struct mgag200_device_info mgag200_g200se_a_01_device_info =
++	MGAG200_DEVICE_INFO_INIT(1600, 1200, 24400, true);
  
- static void mgag200_g200se_init_unique_id(struct mgag200_g200se_device *g200se)
+-static const struct mgag200_device_info mgag200_g200se_b_device_info =
+-	MGAG200_DEVICE_INFO_INIT(false);
++static const struct mgag200_device_info mgag200_g200se_a_02_device_info =
++	MGAG200_DEVICE_INFO_INIT(1920, 1200, 30100, true);
+ 
+-static void mgag200_g200se_init_unique_id(struct mgag200_g200se_device *g200se)
++static const struct mgag200_device_info mgag200_g200se_a_03_device_info =
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 55000, false);
++
++static const struct mgag200_device_info mgag200_g200se_b_01_device_info =
++	MGAG200_DEVICE_INFO_INIT(1600, 1200, 24400, false);
++
++static const struct mgag200_device_info mgag200_g200se_b_02_device_info =
++	MGAG200_DEVICE_INFO_INIT(1920, 1200, 30100, false);
++
++static const struct mgag200_device_info mgag200_g200se_b_03_device_info =
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 55000, false);
++
++static int mgag200_g200se_init_unique_rev_id(struct mgag200_g200se_device *g200se)
  {
-@@ -47,9 +50,10 @@ static void mgag200_g200se_init_unique_id(struct mgag200_g200se_device *g200se)
+ 	struct mga_device *mdev = &g200se->base;
+ 	struct drm_device *dev = &mdev->base;
+ 
+ 	/* stash G200 SE model number for later use */
+ 	g200se->unique_rev_id = RREG32(0x1e24);
++	if (!g200se->unique_rev_id)
++		return -ENODEV;
+ 
+ 	drm_dbg(dev, "G200 SE unique revision id is 0x%x\n", g200se->unique_rev_id);
++
++	return 0;
  }
  
  struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags)
-+						enum mga_type type)
- {
- 	struct mgag200_g200se_device *g200se;
-+	const struct mgag200_device_info *info;
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
- 	resource_size_t vram_available;
-@@ -73,7 +77,18 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
- 
- 	mgag200_g200se_init_unique_id(g200se);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200se_device_info);
-+	switch (type) {
-+	case G200_SE_A:
-+		info = &mgag200_g200se_a_device_info;
-+		break;
-+	case G200_SE_B:
-+		info = &mgag200_g200se_b_device_info;
-+		break;
-+	default:
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	ret = mgag200_device_init(mdev, type, info);
+@@ -75,14 +91,26 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
  	if (ret)
  		return ERR_PTR(ret);
  
+-	mgag200_g200se_init_unique_id(g200se);
++	ret = mgag200_g200se_init_unique_rev_id(g200se);
++	if (ret)
++		return ERR_PTR(ret);
+ 
+ 	switch (type) {
+ 	case G200_SE_A:
+-		info = &mgag200_g200se_a_device_info;
++		if (g200se->unique_rev_id >= 0x03)
++			info = &mgag200_g200se_a_03_device_info;
++		else if (g200se->unique_rev_id >= 0x02)
++			info = &mgag200_g200se_a_02_device_info;
++		else
++			info = &mgag200_g200se_a_01_device_info;
+ 		break;
+ 	case G200_SE_B:
+-		info = &mgag200_g200se_b_device_info;
++		if (g200se->unique_rev_id >= 0x03)
++			info = &mgag200_g200se_b_03_device_info;
++		else if (g200se->unique_rev_id >= 0x02)
++			info = &mgag200_g200se_b_02_device_info;
++		else
++			info = &mgag200_g200se_b_01_device_info;
+ 		break;
+ 	default:
+ 		return ERR_PTR(-EINVAL);
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-index 921c55ec309e..c9bf2176726e 100644
+index c9bf2176726e..0943ad2a9999 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-@@ -11,10 +11,10 @@
+@@ -11,7 +11,7 @@
   */
  
  static const struct mgag200_device_info mgag200_g200wb_device_info =
--	MGAG200_DEVICE_INFO_INIT();
-+	MGAG200_DEVICE_INFO_INIT(false);
+-	MGAG200_DEVICE_INFO_INIT(false);
++	MGAG200_DEVICE_INFO_INIT(1280, 1024, 31877, false);
  
  struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
--						enum mga_type type, unsigned long flags)
-+						enum mga_type type)
- {
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
-@@ -36,7 +36,7 @@ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200wb_device_info);
-+	ret = mgag200_device_init(mdev, type, &mgag200_g200wb_device_info);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
+ 						enum mga_type type)
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index effe5160bb79..f5e1a89e0bfe 100644
+index f5e1a89e0bfe..aa85558faa1b 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -245,7 +245,7 @@ static void mgag200_set_startadd(struct mga_device *mdev,
- 	startadd = offset / 8;
+@@ -725,30 +725,17 @@ static enum drm_mode_status
+ mgag200_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
+ 				       const struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = pipe->crtc.dev;
+-	struct mga_device *mdev = to_mga_device(dev);
+-	struct mgag200_g200se_device *g200se;
+-
+-	if (IS_G200_SE(mdev)) {
+-		g200se = to_mgag200_g200se_device(dev);
+-
+-		if (g200se->unique_rev_id == 0x01) {
+-			if (mode->hdisplay > 1600)
+-				return MODE_VIRTUAL_X;
+-			if (mode->vdisplay > 1200)
+-				return MODE_VIRTUAL_Y;
+-		} else if (g200se->unique_rev_id == 0x02) {
+-			if (mode->hdisplay > 1920)
+-				return MODE_VIRTUAL_X;
+-			if (mode->vdisplay > 1200)
+-				return MODE_VIRTUAL_Y;
+-		}
+-	} else if (mdev->type == G200_WB) {
+-		if (mode->hdisplay > 1280)
+-			return MODE_VIRTUAL_X;
+-		if (mode->vdisplay > 1024)
+-			return MODE_VIRTUAL_Y;
+-	}
++	struct mga_device *mdev = to_mga_device(pipe->crtc.dev);
++	const struct mgag200_device_info *info = mdev->info;
++
++	/*
++	 * Some devices have additional limits on the size of the
++	 * display mode.
++	 */
++	if (mode->hdisplay > info->max_hdisplay)
++		return MODE_VIRTUAL_X;
++	if (mode->vdisplay > info->max_vdisplay)
++		return MODE_VIRTUAL_Y;
  
- 	if (startadd > 0)
--		drm_WARN_ON_ONCE(dev, mdev->flags & MGAG200_FLAG_HW_BUG_NO_STARTADD);
-+		drm_WARN_ON_ONCE(dev, mdev->info->bug_no_startadd);
+ 	if ((mode->hdisplay % 8) != 0 || (mode->hsync_start % 8) != 0 ||
+ 	    (mode->hsync_end % 8) != 0 || (mode->htotal % 8) != 0) {
+@@ -1028,7 +1015,7 @@ static enum drm_mode_status mgag200_mode_config_mode_valid(struct drm_device *de
+ 	static const unsigned int max_bpp = 4; // DRM_FORMAT_XRGB8888
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	unsigned long fbsize, fbpages, max_fbpages;
+-	struct mgag200_g200se_device *g200se;
++	const struct mgag200_device_info *info = mdev->info;
  
- 	/*
- 	 * Can't store addresses any higher than that, but we also
+ 	max_fbpages = mdev->vram_available >> PAGE_SHIFT;
+ 
+@@ -1038,30 +1025,14 @@ static enum drm_mode_status mgag200_mode_config_mode_valid(struct drm_device *de
+ 	if (fbpages > max_fbpages)
+ 		return MODE_MEM;
+ 
+-	if (IS_G200_SE(mdev)) {
+-		g200se = to_mgag200_g200se_device(dev);
+-
+-		if (g200se->unique_rev_id == 0x01) {
+-			if (mgag200_calculate_mode_bandwidth(mode, max_bpp * 8) > (24400 * 1024))
+-				return MODE_BAD;
+-		} else if (g200se->unique_rev_id == 0x02) {
+-			if (mgag200_calculate_mode_bandwidth(mode, max_bpp * 8) > (30100 * 1024))
+-				return MODE_BAD;
+-		} else {
+-			if (mgag200_calculate_mode_bandwidth(mode, max_bpp * 8) > (55000 * 1024))
+-				return MODE_BAD;
+-		}
+-	} else if (mdev->type == G200_WB) {
+-		if (mgag200_calculate_mode_bandwidth(mode, max_bpp * 8) > (31877 * 1024))
+-			return MODE_BAD;
+-	} else if (mdev->type == G200_EV) {
+-		if (mgag200_calculate_mode_bandwidth(mode, max_bpp * 8) > (32700 * 1024))
+-			return MODE_BAD;
+-	} else if (mdev->type == G200_EH) {
+-		if (mgag200_calculate_mode_bandwidth(mode, max_bpp * 8) > (37500 * 1024))
+-			return MODE_BAD;
+-	} else if (mdev->type == G200_ER) {
+-		if (mgag200_calculate_mode_bandwidth(mode, max_bpp * 8) > (55000 * 1024))
++	/*
++	 * Test the mode's required memory bandwidth if the device
++	 * specifies a maximum. Not all devices do though.
++	 */
++	if (info->max_mem_bandwidth) {
++		uint32_t mode_bandwidth = mgag200_calculate_mode_bandwidth(mode, max_bpp * 8);
++
++		if (mode_bandwidth > (info->max_mem_bandwidth * 1024))
+ 			return MODE_BAD;
+ 	}
+ 
 -- 
 2.36.1
 
