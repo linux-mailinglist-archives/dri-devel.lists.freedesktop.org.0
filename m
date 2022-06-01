@@ -2,70 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B51A539E05
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F61C539E04
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF73E113003;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA447112FE0;
 	Wed,  1 Jun 2022 07:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D92B112F1A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A048C112F1B
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 05:18:20 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 282175C0278;
- Wed,  1 Jun 2022 01:18:18 -0400 (EDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7545F5C0274;
+ Wed,  1 Jun 2022 01:18:19 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 01 Jun 2022 01:18:18 -0400
+ by compute2.internal (MEProxy); Wed, 01 Jun 2022 01:18:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxfierke.com;
  h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1654060698; x=1654147098; bh=x7Bv3nxmlu
- u9ym4u+VJToMmOYHpwt1RgkySeJ5pY4X0=; b=NyrBY6aNyHHEvgDamyn6O4dfCn
- q0w6drK5iTehWoI3RJSAT/Vx/Tivw5ceWUZ2HnDO4gL48suCbb9yCeTeIAqz7DG7
- tueFuyb8/9R/CxHIZB8oLxzmeCGkzbad2CrkUmp55aN2mt9dRqrdQgOuONX2rc9y
- HJYScCsrSnTYjfbs1fnMza597sQlROOEKn7JvZoBypxki72AbWoNRqjktdjtx63z
- 57mEOJ35qIM8sDG3N/43MhelmfrLhm/o7jczWxqecLvl068ROo6NLZVK1rHxtg5g
- gImWSvpsDxKZ5Cbd9XWr+23m8ZmvmdpSXBuUGHJ8ugH3HN11ByTXwREwKp3Q==
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1654060699; x=
+ 1654147099; bh=pI2TcS/GmuulEBu78AzfEuLsiwDtXdWOlXoLgPUsA54=; b=G
+ NAtkN2cM02tzTOF992U9jXAj5RzKGaT1ZXjHmxxVFdoKHpt3iSNQWSafX47b14OX
+ zEg5GWISs96nwnigNb7UHovnziOBiQ6wWqE9iolYozKn5TXHt0ALv6r8J8QlKfgK
+ Jt8vQh+MT9LPOfqVa5ix/L9NgcS/fnRb5H+QECIJw52iyGlgl54IlgeHdA1cXXzm
+ JFwPOMb/st2eEuZYNXOq5dqsXl+CchiDg9dTwN8Rh4L9ZDgLJOl31EcmGRb1mSsy
+ y0bEO/SdP3vd6qcZMjq2XUE3YXrPztsy/XErkTBJxj3GzRh1qI+de1tv1xhTZ+SH
+ 2uGPoT0y/3qeLxqJoT6Ug==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1654060698; x=1654147098; bh=x7Bv3nxmluu9ym4u+VJToMmOYHpwt1RgkyS
- eJ5pY4X0=; b=cNVnOWIVK7w7qXsuSJV6bvG4o/hLzH2YBkaLjOPt1oDcXbBpFTr
- V4eGg8XXr64FfT5FNmY3WUws6T1z79hDDfqbzG05dj6F8HMtP5/1/NfM/4O3ZXMj
- quU7df+lz0nbigKimrwthW/3bSjaUTwUIESaWPG+78OLXuW5QfnA8Svhk9K8eCi5
- lXlLuGMMXSqjXwu9WkNXCU6MM+tnO4pmElT7Nbc1meMGqOHDsTNsZx75eJrfxYyz
- FLjsAzYuFBk+f4Q+49prjdDM4FKv5CBQnWwMziRRcfJtpn8dDl5XS+NAjzQ+GR7d
- t+0bF/LnjqY55EUxggzFpV72bN02EOZyyFw==
-X-ME-Sender: <xms:mfaWYrfoF_qYw0KBoAOR2KOjjlAnrsSD5Zw8wMjriq_vxQ9baOTrTw>
- <xme:mfaWYhOc7HlrUKvLp8BpambgKFsY3XUT-s2FHmt0ragx-nAuKyzCcgaSilSaPId0o
- sG0Usxrt33pbUK1Xpc>
-X-ME-Received: <xmr:mfaWYkje29Dx7ThTkReg1oCXzNoA5RY_A9wgi6CHt4dYiX9SMQwpwNjs-3cwOjXBH5icUP06FTaQDubojpJwFgaPi66zSwNTSzSB5MHg0k19U0NY>
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1654060699; x=1654147099; bh=pI2TcS/GmuulE
+ Bu78AzfEuLsiwDtXdWOlXoLgPUsA54=; b=Lwc6Xw0wuN0U2+7pOqgxv06xZjuzQ
+ wmwsYGcyOGdIQkkvTz+ap8txuUwgtBEP4Qjs1itV+l/BzDjPFVpiqEHQEyU0HTLV
+ jakzLPqhE1IfP/RUy0UNNGL2id+Tzsa3YkeC4/HnjeeoCXDrNhzGdfRNK5rLiP4S
+ YCt1pmW3SZYI+9DcM4gCyxejiNclJRFiJMM2z+7oahMAorCBkH4i7AwLjdDko0Jr
+ ZqrAUcU11W7nxPIitwyXFT9mqtKpSTXaJtEFSCVxHo6b5OCfXeinV6F74RxWISv1
+ OvHRF7O3hali3y+kcXdEOorvMeIjAf7t7WOktYyw0LHcHVULEQTTdXHMQ==
+X-ME-Sender: <xms:m_aWYtG346RN6GWfXkGF7TPLtY9lLRgwwOSCBq2tlNdjT6ZFDXPvhw>
+ <xme:m_aWYiUmvcbq7-gCkiNu9bJzuhCtE0szi5-d_6Q-dL66OVcaU-zE1Y7IKXIhSxdjp
+ U39VLJirNmxrLOBldw>
+X-ME-Received: <xmr:m_aWYvLTSsbxB5ZOljD7fvU0NWDVBYY7ptMG42qYwIlg5s0LPp0uI87kqsQM_P2V37TcuNUtgZ-wObibhR22fq28ix1Vbddf-1n9OMRMI0vB2QE6>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeelgdeludcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
- dttdenucfhrhhomhepofgrgicuhfhivghrkhgvuceomhgrgiesmhgrgihfihgvrhhkvgdr
- tghomheqnecuggftrfgrthhtvghrnhepvddtffffgedvjeehhedugeekfefggffggfegud
- dtieehudehhefhfeegkefgkedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucev
- lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigsehmrg
- igfhhivghrkhgvrdgtohhm
-X-ME-Proxy: <xmx:mfaWYs_AlRYAwlznRkQsZWPPedRZfVwOSy3Jlw4xhDi0gypPh0Ro4Q>
- <xmx:mfaWYnvWFKY96fpgFXtSf05yuk3X4YwwOOZhWkRqGzevBFDewl1zxg>
- <xmx:mfaWYrFw3FOjmINJFR99hrHqJy_Auf6cTwECVHnY4F65t0CNo3wIaQ>
- <xmx:mvaWYgESty2l--ca0Ahdyr2ekZuj6z7CkjmlpvLSFUUKB4vW1DRz-w>
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhgggfestdekre
+ dtredttdenucfhrhhomhepofgrgicuhfhivghrkhgvuceomhgrgiesmhgrgihfihgvrhhk
+ vgdrtghomheqnecuggftrfgrthhtvghrnhepudelvedvtdffhfeugfelieevvedvhefgve
+ dtteefkeevvdfhieekudeuteefgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+ rghmpehmrghilhhfrhhomhepmhgrgiesmhgrgihfihgvrhhkvgdrtghomh
+X-ME-Proxy: <xmx:m_aWYjEWQyxdn5tKe62J1UoIpOpwpsSt7Muu8NOWtzjSDeLa4w9ZQA>
+ <xmx:m_aWYjU98E2rYgn-RfdFCM13GbizdUmqZTS9MW1Tx_oxHxYIvDT8xQ>
+ <xmx:m_aWYuNJCuo1kfQzTaS3Nv6PEvOOgMQGRSrhuB8gpdh8Gdyk5qrM-Q>
+ <xmx:m_aWYsue5bC_RwBlE0vVSZTr0MV6eAYQVWnFyc66q-sC7auaTR9dGQ>
 Feedback-ID: idee9475d:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jun 2022 01:18:16 -0400 (EDT)
+ 1 Jun 2022 01:18:18 -0400 (EDT)
 From: Max Fierke <max@maxfierke.com>
 To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
  daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Subject: [PATCH 0/3] Introduce ClockworkPi CWD686 DRM panel driver
-Date: Wed,  1 Jun 2022 00:17:45 -0500
-Message-Id: <20220601051748.1305450-1-max@maxfierke.com>
+Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: Add prefix for ClockworkPi
+Date: Wed,  1 Jun 2022 00:17:46 -0500
+Message-Id: <20220601051748.1305450-2-max@maxfierke.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220601051748.1305450-1-max@maxfierke.com>
+References: <20220601051748.1305450-1-max@maxfierke.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 01 Jun 2022 07:19:08 +0000
@@ -86,35 +88,28 @@ Cc: devicetree@vger.kernel.org, Max Fierke <max@maxfierke.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ClockworkPi DevTerm (all models) uses a 6.86" IPS display
-of unknown provenance, which uses the Chipone ICNL9707 IC driver[1].
-
-The display panel I have has two model numbers: TXW686001 and WTL068601G,
-but cannot find any manufacturer associated with either, so opting for the
-ClockworkPi model number.
-
-This driver is based on the GPL-licensed driver released by ClockworkPi[1],
-authored by Pinfan Zhu, with some additional cleanup, rotation support,
-and display sleep re-enabling done by me.
-
-[1] https://github.com/clockworkpi/DevTerm/blob/main/Schematics/ICNL9707_Datasheet.pdf
-[2] https://github.com/clockworkpi/DevTerm/blob/main/Code/patch/armbian_build_a06/patch/kernel-004-panel.patch
+Add a prefix for Clockwork Tech LLC, known as ClockworkPi. They
+produce a number of hobbyist devices, including the ClockworkPi
+DevTerm and GameShell.
 
 Signed-off-by: Max Fierke <max@maxfierke.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Max Fierke (3):
-  dt-bindings: vendor-prefixes: Add prefix for ClockworkPi
-  dt-bindings: display: Add bindings for ClockworkPi CWD686
-  drm: panel: Add driver for ClockworkPi cwd686 panel
-
- .../display/panel/clockworkpi,cwd686.yaml     |  60 +++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- drivers/gpu/drm/panel/Kconfig                 |  12 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-clockworkpi-cwd686.c  | 458 ++++++++++++++++++
- 5 files changed, 533 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-clockworkpi-cwd686.c
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 79b72e370ade..9546d8320224 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -251,6 +251,8 @@ patternProperties:
+     description: Cirrus Logic, Inc.
+   "^cisco,.*":
+     description: Cisco Systems, Inc.
++  "^clockworkpi,.*":
++    description: Clockwork Tech LLC
+   "^cloudengines,.*":
+     description: Cloud Engines, Inc.
+   "^cnm,.*":
 -- 
 2.36.1
+
