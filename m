@@ -2,52 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B4453ADA9
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 22:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225F153ADA7
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 22:29:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE4C10E20A;
-	Wed,  1 Jun 2022 20:35:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A271210FA82;
+	Wed,  1 Jun 2022 20:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F67C10E20A;
- Wed,  1 Jun 2022 20:35:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654115701; x=1685651701;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jnUHBzgfXUi4/uKEbszKU8+nNWapNef6UnYTisusHgM=;
- b=G7DzTAgrKTcGcuJ5KS3RQ02jV4dG2mf1y/HlLjbZpk/1ByaY5f9o4Ew7
- Ep/1BlF0aOGxerRUqUC54W3BCjjvH1EfUdHkLU4kejsf5P7fFWWzBP55Z
- aM67bT3RFmOZwyF3KGdqOXBDjNYqBNpJ/UKQv8R8g5cMY7D11LLIUSKE8
- raVh3SywTdfI88id7DID/CO1TX9vWlWQkZNV4TUxpw72OUhF+oj4NFD7y
- coQGotidBZ+cTunOp4OrxsDAIOnTUZ4QGPZVF8GGtRsxLfzUVP8AJzsUP
- ocnarrOb7RBJn+yz0MWiZxjIKy3cSpvCQVHT7F9izeEwyz7edUW0J/43s Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="274523759"
-X-IronPort-AV: E=Sophos;i="5.91,269,1647327600"; d="scan'208";a="274523759"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 13:35:00 -0700
-X-IronPort-AV: E=Sophos;i="5.91,269,1647327600"; d="scan'208";a="606463092"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 13:34:59 -0700
-Date: Wed, 1 Jun 2022 13:28:36 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
- document
-Message-ID: <20220601202836.GA15346@jons-linux-dev-box>
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
- <43746609-4f60-f347-5934-6680516297dd@intel.com>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE7710FC0B
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 20:29:09 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id h23so4616961lfe.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 13:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DcSjpVSz5kBdKttL/qibmuyG6zf/I/eEkUNKVypzm4Y=;
+ b=LeXZCfDwi2JzAKvy4kHtOnltGKxqKYskF08v+UIdsvEtOxxkwoK78b2BOKkHrkgRfW
+ Y+8VuwFXMA22RggbMXr8BqJP8G9jxw4NnRbS5rJ+Hlm7fSLvPjIgZFIY3mCYuRhB7AwR
+ TDIq6/uCsckrZ4MnKi3K5jPuGZNp+R5ffvuOnJlAukZOGyMaOXN+e+lddOkZneNNJNBr
+ KwAPb0MnVnY+5+izFAW7GUFLx7j2b7w7PBm9XR71icRTloDMuybxUTteLsrK5SaaUyO/
+ N0nALzFMvqA0DKYCugRlIBeZSBKbPu6/Dkk/jBaJJJ1YQoQIpWnIz7fBd9gMiYKhkysR
+ s9CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DcSjpVSz5kBdKttL/qibmuyG6zf/I/eEkUNKVypzm4Y=;
+ b=aEpMBPxYvpd/FFN4ZWFplRV+sHfUU86ixpRE7rg+LefGpZj7YUX1iQFktXWGfzYiUA
+ fRG4IblFd5Ak4GAx5bePzPbmgbyw4uiOvu9ri/OsQQIRbdcIiSbs09Ws2AE/JvvRwPLx
+ Pa8IScMeWZlkf+KNY7jS4lRgXmI5FVY9fSfKlYPGsnuaG4GqnBJeJjTn1UfW9XgN2B0A
+ frBEIllnDtb5l/VylMaE/78y9apUT7swa5vPq9VTSC068XciapcSye9uqMJKx/RN/NKz
+ ImgIN+MnGRNgWpPPKFGoKeyGg5AnUFP8lAgH3zvWuerowuQTWKGC3H/o7qlLm1DiOlmB
+ 47WA==
+X-Gm-Message-State: AOAM531q11DsfV/AgY35MR6mBxvufXMiXC7xwWvCzXX5Oc1CkAgiCkFa
+ hqV+/VI0k6PRzRP30itqFlaZLA==
+X-Google-Smtp-Source: ABdhPJyo80JtJC9EIe0BPck/BKbot5NFyz0n8b5/KWlTwdKmU8JYQYlgeVZ7FO9/zTX8ShzY5j01dg==
+X-Received: by 2002:ac2:4289:0:b0:477:b3eb:f2f with SMTP id
+ m9-20020ac24289000000b00477b3eb0f2fmr916181lfh.386.1654115347986; 
+ Wed, 01 Jun 2022 13:29:07 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ z8-20020a0565120c0800b00478e5ef1ee5sm550811lfu.245.2022.06.01.13.29.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 13:29:07 -0700 (PDT)
+Message-ID: <846ef8f5-230e-4e52-f67c-d2fc2530fcc0@linaro.org>
+Date: Wed, 1 Jun 2022 23:29:06 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <43746609-4f60-f347-5934-6680516297dd@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 1/4] drm/dp: Export symbol / kerneldoc fixes for DP AUX
+ bus
+Content-Language: en-GB
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20220510192944.2408515-1-dianders@chromium.org>
+ <20220510122726.v3.1.Ia91f4849adfc5eb9da1eb37ba79aa65fb3c95a0f@changeid>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220510122726.v3.1.Ia91f4849adfc5eb9da1eb37ba79aa65fb3c95a0f@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,93 +75,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, chris.p.wilson@intel.com, daniel.vetter@intel.com,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- christian.koenig@amd.com
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
-> On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
-> > +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
-> > +async worker. The binding and unbinding will work like a special GPU engine.
-> > +The binding and unbinding operations are serialized and will wait on specified
-> > +input fences before the operation and will signal the output fences upon the
-> > +completion of the operation. Due to serialization, completion of an operation
-> > +will also indicate that all previous operations are also complete.
+On 10/05/2022 22:29, Douglas Anderson wrote:
+> While working on the DP AUX bus code I found a few small things that
+> should be fixed. Namely the non-devm version of
+> of_dp_aux_populate_ep_devices() was missing an export. There was also
+> an extra blank line in a kerneldoc and a kerneldoc that incorrectly
+> documented a return value. Fix these.
 > 
-> I guess we should avoid saying "will immediately start binding/unbinding" if
-> there are fences involved.
-> 
-> And the fact that it's happening in an async worker seem to imply it's not
-> immediate.
-> 
-> 
-> I have a question on the behavior of the bind operation when no input fence
-> is provided. Let say I do :
-> 
-> VM_BIND (out_fence=fence1)
-> 
-> VM_BIND (out_fence=fence2)
-> 
-> VM_BIND (out_fence=fence3)
-> 
-> 
-> In what order are the fences going to be signaled?
-> 
-> In the order of VM_BIND ioctls? Or out of order?
-> 
-> Because you wrote "serialized I assume it's : in order
-> 
-> 
-> One thing I didn't realize is that because we only get one "VM_BIND" engine,
-> there is a disconnect from the Vulkan specification.
-> 
-> In Vulkan VM_BIND operations are serialized but per engine.
-> 
-> So you could have something like this :
-> 
-> VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
-> 
-> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
-> 
-> 
-> fence1 is not signaled
-> 
-> fence3 is signaled
-> 
-> So the second VM_BIND will proceed before the first VM_BIND.
-> 
-> 
-> I guess we can deal with that scenario in userspace by doing the wait
-> ourselves in one thread per engines.
-> 
-> But then it makes the VM_BIND input fences useless.
-> 
-> 
-> Daniel : what do you think? Should be rework this or just deal with wait
-> fences in userspace?
-> 
+> Fixes: aeb33699fc2c ("drm: Introduce the DP AUX bus")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-My opinion is rework this but make the ordering via an engine param optional.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-e.g. A VM can be configured so all binds are ordered within the VM
+> ---
+> None of these seem critical, so my plan is to land this in
+> drm-misc-next and not drm-misc-fixes. This will avoid merge conflicts
+> with future patches.
+> 
+> Changes in v3:
+> - Patch ("drm/dp: Export symbol / kerneldoc fixes...") split for v3.
+> 
+>   drivers/gpu/drm/display/drm_dp_aux_bus.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+> index dccf3e2ea323..552f949cff59 100644
+> --- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
+> +++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
+> @@ -66,7 +66,6 @@ static int dp_aux_ep_probe(struct device *dev)
+>    * @dev: The device to remove.
+>    *
+>    * Calls through to the endpoint driver remove.
+> - *
+>    */
+>   static void dp_aux_ep_remove(struct device *dev)
+>   {
+> @@ -120,8 +119,6 @@ ATTRIBUTE_GROUPS(dp_aux_ep_dev);
+>   /**
+>    * dp_aux_ep_dev_release() - Free memory for the dp_aux_ep device
+>    * @dev: The device to free.
+> - *
+> - * Return: 0 if no error or negative error code.
+>    */
+>   static void dp_aux_ep_dev_release(struct device *dev)
+>   {
+> @@ -256,6 +253,7 @@ int of_dp_aux_populate_ep_devices(struct drm_dp_aux *aux)
+>   
+>   	return 0;
+>   }
+> +EXPORT_SYMBOL_GPL(of_dp_aux_populate_ep_devices);
+>   
+>   static void of_dp_aux_depopulate_ep_devices_void(void *data)
+>   {
 
-e.g. A VM can be configured so all binds accept an engine argument (in
-the case of the i915 likely this is a gem context handle) and binds
-ordered with respect to that engine.
 
-This gives UMDs options as the later likely consumes more KMD resources
-so if a different UMD can live with binds being ordered within the VM
-they can use a mode consuming less resources.
-
-Matt
-
-> 
-> Sorry I noticed this late.
-> 
-> 
-> -Lionel
-> 
-> 
+-- 
+With best wishes
+Dmitry
