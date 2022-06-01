@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A1053A5EA
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 15:26:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DB953A625
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 15:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96DE10E5DF;
-	Wed,  1 Jun 2022 13:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A1210EAF4;
+	Wed,  1 Jun 2022 13:49:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A558E10E68A
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 13:26:37 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id z17so978486wmf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 06:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=noaGYaAS2ngUF9rHVIdsqxhgMZ5al5C5XajbVIc9isw=;
- b=U9Q37OOk4NWi1lfVMCL5nxB3ANIs4vKn/tkhmKrp4ANPiZCL7MccGApGO1NslW5urV
- VY3DyS4a3zVHfSl+H82ZxVMr5vz+nBIuGEx2a6jX0pacMGcibgvLq0wxWDSXydyynAFC
- W/hDJDd57aiuvLD+4bvNQXITPUzouz0cAir9Y=
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C54D10EAF4
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 13:49:49 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id y19so3906028ejq.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 06:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=QvjPKiOfGImvDjhqugo/v+WDsPZmegSZEn/73m+BNHo=;
+ b=VsofI4krUYAalrek0vVuj2G9lgL2zB+ayRPc7dvQb0yrZjALbFncxV8nYffevYTxWD
+ TsA2xUICUHHYTmxZvIY1ybVpQt7DbsU4O3CQmn8je1Mviid+N9Zp1KoxurVwFck1eQ8Z
+ WRgkPY2drl74uhFbroh2Cm8DTaBqnvOyXudavdV/npNJtq+ramamNFRkcZASucsm9Yt/
+ m4OB3EzPDMyYS0jLKXHekVkK0NW6aSUyVh47+3Mxk46w858Dv1QSKPrSPdUeqwnJNYIP
+ qW9vpc7tVgEw+XLtUalL7v/Ezb1f0svDUE8KsqS4TcbP124qgGlqjyskpKP/2+JrPZu/
+ jSew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=noaGYaAS2ngUF9rHVIdsqxhgMZ5al5C5XajbVIc9isw=;
- b=U/KjWp8I+C3zzsVowBQyxargn4nzA8+71FXO8gmIV7J9ljL5/u5OhDsWd2js9n4zMF
- Yyu4KFM5BXFyheb1Ayc1Okw7ebYLRRI8ZZI6RwLDVDYVKHI/LuNFuqXf+P3kWuRkBJnX
- HvlS0OoZ3diyUtD9IyGZCyFMgZwYpbx1ki7ZBQOK0inVSCibMQ5W0t9lEd6t9345Ea1k
- u9hklJpLM4/bxrhogfVjFsebMPbPa9bIA15wVzA38gzfzvKLFB7elgBJ5e3N5poLKZzc
- 95dve6R4My5SBNiDJhZVRxzzSUYAwP13IZnBWAFHqycO/NcbAdEwc2cHv+u+lKdVtU22
- 1hMQ==
-X-Gm-Message-State: AOAM531xv95dvnWLwUCcsyDKLiIWd6q8NryG1xS+zHkRErd8obNZ8d0Q
- A3zwFuYN5OESJ41nln+sMgSW3Q==
-X-Google-Smtp-Source: ABdhPJxmblSP3nC88vFqaAjKJ7iAz+rr7pZAeiJzY+x4Fx1vknqCtD2WNZKbvxTL/xgpNn9A/fjafg==
-X-Received: by 2002:a05:600c:1f18:b0:39c:2360:d824 with SMTP id
- bd24-20020a05600c1f1800b0039c2360d824mr2178484wmb.75.1654089996195; 
- Wed, 01 Jun 2022 06:26:36 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- m30-20020a05600c3b1e00b00395f15d993fsm5809686wms.5.2022.06.01.06.26.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=QvjPKiOfGImvDjhqugo/v+WDsPZmegSZEn/73m+BNHo=;
+ b=2CJTsgOA9l2jpM59Pe2hctGE3jxFvKY/r1+tvmiVj8Sn5UL0xfvz2+nvNh6CJ3BDuY
+ gH1FX64Yx/QwINVq8sqtQ77ML74fa/PEzSPCStAt6TT2sgZaN74rzmaci819G5xcmSaq
+ sBxf9dqj91n+9CEQb9cVkHjzyBHiONIOBdPEQXeYaKS7kT6FMXFlkJ1cZZU5gjOU3JKl
+ 4wHQY9Y3YldafaRAMp03y14FzXy/phUHRDd/dTpwGViDHK6m6d6NKZcIhjGb2rQsTir6
+ vW9P+ktn7xlbQ4GHIfC9n4MiDPDolHj94XWsD1lmeIfXx/c7LZGEhkeOQf6Iy4L/mXMQ
+ TUFQ==
+X-Gm-Message-State: AOAM530hR8vzpadCo1/KuZUVbrJpqZOODtg3kP+/qldKgfq+dd3/rAbG
+ m8R+Zt7Pa7t0viU5s5gkuLk=
+X-Google-Smtp-Source: ABdhPJz72ws/249EpRhr/3T5VKr7XNwzK/fi5VqwXYdvozLbMKmkovHMYPXoxGWRi3rpw5aHQ1Zg3A==
+X-Received: by 2002:a17:907:97c7:b0:6fe:f7eb:be67 with SMTP id
+ js7-20020a17090797c700b006fef7ebbe67mr41353162ejc.559.1654091387355; 
+ Wed, 01 Jun 2022 06:49:47 -0700 (PDT)
+Received: from orome ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
+ fi26-20020a170906da1a00b00707d11fd421sm579899ejb.107.2022.06.01.06.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 06:26:35 -0700 (PDT)
-Date: Wed, 1 Jun 2022 15:26:33 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Miaoqian Lin <linmq006@gmail.com>
-Subject: Re: [PATCH v3] drm/v3d/v3d_drv: Fix PM disable depth imbalance
-Message-ID: <YpdpCWW9+igsVydr@phenom.ffwll.local>
-Mail-Followup-To: Miaoqian Lin <linmq006@gmail.com>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Eric Anholt <eric@anholt.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20220601122050.1822-1-linmq006@gmail.com>
+ Wed, 01 Jun 2022 06:49:46 -0700 (PDT)
+Date: Wed, 1 Jun 2022 15:49:44 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [GIT PULL] drm/tegra: Preparatory work for v5.19
+Message-ID: <YpdueBx4Dd5jRqxU@orome>
+References: <20220601100335.3841301-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FgGGDq7yl7JL732T"
 Content-Disposition: inline
-In-Reply-To: <20220601122050.1822-1-linmq006@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20220601100335.3841301-1-thierry.reding@gmail.com>
+User-Agent: Mutt/2.2.4 (c3baa83e) (2022-04-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,76 +70,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Anholt <eric@anholt.net>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 01, 2022 at 04:20:50PM +0400, Miaoqian Lin wrote:
-> The pm_runtime_enable will increase power disable depth.
-> If the probe fails, we should use pm_runtime_disable() to balance
-> pm_runtime_enable().
-> Also call disable function in remove function.
-> 
-> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-> ---
-> Changes in v3:
-> - call pm_runtime_disable() in v3d_platform_drm_remove
-> - update commit message
-> 
-> Changes in v2
-> - put pm_runtime_disable before dma_free_wc
-> - rename dma_free to pm_disable
-> 
-> v1: https://lore.kernel.org/r/20220105120442.14418-1-linmq006@gmail.com
-> v2: https://lore.kernel.org/r/20220106124657.32737-1-linmq006@gmail.com
 
-Maybe a bit late since we're at v3 already, but are there no devm_
-functions here that would dtrt automatically? Or is there another reason
-we can't use them?
--Daniel
-> ---
->  drivers/gpu/drm/v3d/v3d_drv.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index 1afcd54fbbd5..f3380399fe17 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -286,7 +286,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->  
->  	ret = v3d_gem_init(drm);
->  	if (ret)
-> -		goto dma_free;
-> +		goto pm_disable;
->  
->  	ret = v3d_irq_init(v3d);
->  	if (ret)
-> @@ -302,7 +302,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->  	v3d_irq_disable(v3d);
->  gem_destroy:
->  	v3d_gem_destroy(drm);
-> -dma_free:
-> +pm_disable:
-> +	pm_runtime_disable(dev);
->  	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
->  	return ret;
->  }
-> @@ -316,6 +317,7 @@ static int v3d_platform_drm_remove(struct platform_device *pdev)
->  
->  	v3d_gem_destroy(drm);
->  
-> +	pm_runtime_disable(&pdev->dev);
->  	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
->  		    v3d->mmu_scratch_paddr);
->  
-> -- 
-> 2.25.1
-> 
+--FgGGDq7yl7JL732T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Wed, Jun 01, 2022 at 12:03:35PM +0200, Thierry Reding wrote:
+> Hi Dave, Daniel,
+>=20
+> The following changes since commit cb7e1abc2c73633e1eefa168ab2dad6e838899=
+c9:
+>=20
+>   drm/tegra: gem: Do not try to dereference ERR_PTR() (2022-05-06 15:52:4=
+9 +0200)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.19-pr=
+ep-work
+>=20
+> for you to fetch changes up to 597b89d30b42dcc8e6b262e6876b42dde66f97f0:
+>=20
+>   gpu: host1x: Add context bus (2022-06-01 11:50:42 +0200)
+>=20
+> I realize that this is quite late, but as mentioned in the tag
+> description, this doesn't actually add anything new and is only
+> to simplify dependency handling for a new feature that we have
+> planned for v5.20, so it'd be great if we can still get this
+> in.
+
+I meant to send along this link for reference:
+
+	https://patchwork.ozlabs.org/project/linux-tegra/patch/20220516085258.1227=
+691-6-cyndis@kapsi.fi/
+
+Thierry
+
+--FgGGDq7yl7JL732T
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmKXbnUACgkQ3SOs138+
+s6FVQQ//VSSv2vgMgEmNhaI1F+gkKSB9H6aXVDbdWOR0wXU88y8uuc2LyzOGjyb1
+rQoc/aaVqDOxFPx7inPKIPleITI/0ubeoaMqkBuNoC/rumE4BN2hmyk1J6lj79ZL
+pUA+YAByEBlcH0axu7lmVtkl2HCpJGkzJIgyr0Lt207TA13uPe6SXsrkzeSE2M0p
+k2lbSUu7dHKN8cTO+1cHQaR9KE2PceDLfsv95P/iNNvDFjfZyuXtfCj1O3mQS9RT
+oQUh4uUwmFBe30hnJzxCCL2t+GDiNztZn5LQzk7nvt+iWn1xAyWNRtr85SUxLCqp
+9TQMSgxWxXawoOrbJg2ODaxc6ZKJHPfBws6joPb4Q+SuxLGq4r7FkiFx1YZB5osn
+uqCl+env+w8B+JFbQkSrufMHfQT4IpkZOEYgPUFkAFsUglpPYmmzCdnM6AD+wsqE
+KMx8dBCmnwPg0VZehY+yQ60FHxFrLtTeqlVn7cS+JMLThGczT6mCGk6cLAb57Vp2
+PGC0aDWA6OhfLofojM2vE0b74BjrGKzApHzSFSWJbmND4cf/3OQnPwcCj9vI5hOU
+V19W1XCk4TLpYmhX7jEyHFXiaqnYo0ufnIPRhpgwZ4EOBUFs47xD1rNR66Vk+7nj
+3t+pvMtUHLvaWpqUzX4CBfHCHnsSRAGbcMq+6k6SOTk+bpTH5ls=
+=xNsD
+-----END PGP SIGNATURE-----
+
+--FgGGDq7yl7JL732T--
