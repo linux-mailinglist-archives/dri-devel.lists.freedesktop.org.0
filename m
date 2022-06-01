@@ -1,68 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D7F539E1E
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:21:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4219539E29
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A01EE1130D9;
-	Wed,  1 Jun 2022 07:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0D11131AC;
+	Wed,  1 Jun 2022 07:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C6C1130D7
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 07:21:38 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id m26so1051724ljb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 00:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=R0IMS+Qt4mqr4NHtcqGr3xQYaR4k0FJwELEdeLG6jKI=;
- b=PcDpvn0jE90tfviSgNnmKTgm3iMaAN5XtnxU84SwjbW72xizTc9zW33bH+avOyKxfe
- fxBcJ9tLbfyu6f/3qmU1+yVulWEiNQfepFTMaVn+YhSIUaCyOXBVavm+nCf22D6+36Sk
- BP3irxiElq5MdWTjao3uwRNbE2z1zpDXjwDKa1T7PjSQS4LBjEJsoMBtJYHVb4EyNXYZ
- 7K+nYKS6Cfcxwl1D7hv71ADVG4njfDBTOeee3A/2BfgL+/66v3kJXYYeEtuFRSYMhCWP
- O2vBAWao4Kjfr0TRsqWnxVEn1zCf+w17ydvR6pxkrS437NgsWmeNEpbWTXJkBLYlxAc4
- kw+A==
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB0F1131AC
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 07:26:17 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id 25so680187edw.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 00:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=yFS3Rnzfb0unp6UI0nuTf8G/mfgDKJWNbf+GB8d9uhI=;
+ b=yzkX1bG3uR7Qmo+F7Qn+hD60uiQC931MBqEyL6CGfUOrTBWOWU+fSEZRlHsxL+o36H
+ DaqBipXoh9uvBx5bddczFUvjkjeXBBibFH//xj8nkC6+BldNDlqO97uoNDCMjCR2tpbh
+ iXPv3e4OV0sFLNf+AQh/N2HDdJtQ+bcBqcEhEHrumECnJcXgYb0c9sI5pRHJ8gOZ+I4j
+ RKTmx02GpCBTx63+I8GebWfp/M1OilGCQSjE68nmPHe2DS2B4ln1SMWm5hTC543D1aM4
+ c1kvAk/OltrRUqX0oU3syh9MOBrJ4FDVR9It+1wYbKDr/j4x1mN/vt4gTx3gFDbEUdsS
+ MqPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=R0IMS+Qt4mqr4NHtcqGr3xQYaR4k0FJwELEdeLG6jKI=;
- b=PaOyfU9aWA3LI1FD9IgXIq6xMNDXZSGZ/lgiQ8IwRIhCSut+CEGUnSLjfLqFdAK5Rm
- rgqb3CcU8Zr2PB0qBUgMzmClFT9rD7fyjaIZpnUpSby68BYmx8utMEXKtjw28LfXAFvJ
- 5k1jqJMNjYPn6jtHyybcLIxzSLBQ3AXIVvXy01QCZuWF2U+n7YCWVEN97I3uzCg3myHm
- KWtBrshEnQwRVJSrOGsnLvWvTvghvN0EkUEXRv1/615raqSaH3tkVQT7q6ghx0Zdv9Ed
- cQbojmd0Cj2KS7hfzR6zxrY79D+HrOIjfqRNv1zzlfGsD4432hQ5vJE2dN1C7Sp8ik7N
- ITug==
-X-Gm-Message-State: AOAM531WU2Q9IYVo0j6SZ/E+2EFdow6M9V5i86BFAoG9nCtG0pKnjMGD
- JqvTrBbYHdFw//PcFRPGEvc=
-X-Google-Smtp-Source: ABdhPJyi7p6/1IrWOp05L70k7S4njPTBIMezJmKb6LfZQ6pktrpgbKwecm7HORYi7Day6rWLq6tdGQ==
-X-Received: by 2002:a2e:8955:0:b0:255:481e:cb27 with SMTP id
- b21-20020a2e8955000000b00255481ecb27mr12057707ljk.362.1654068096717; 
- Wed, 01 Jun 2022 00:21:36 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- v28-20020a2e505c000000b00253deeaeb3dsm158345ljd.131.2022.06.01.00.21.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 00:21:36 -0700 (PDT)
-Date: Wed, 1 Jun 2022 10:21:26 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: How should "max bpc" and "Colorspace" KMS property work?
-Message-ID: <20220601102126.4f3602fd@eldfell>
-In-Reply-To: <YpZSWwVkhJOalM4M@intel.com>
-References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
- <57d16ed5-8bfc-ce29-9250-14e2de18710a@redhat.com>
- <20220523112246.056ddc99@eldfell>
- <CA+hFU4wTHR9kLrFY3XkbeROZgxWamiZ6yGYL4jH+wpe8MzLvMw@mail.gmail.com>
- <20220525102850.5a70e58f@eldfell>
- <80798931-dbe7-54d7-8e1a-aaebfc39780c@mailbox.org>
- <U2A3FifHdFH9yDVrigaioxCTNx60MgkND7jcyIeKP2S4Ghu-BmmRaODqBDp6K0Q-aPBjPcqa2zUGuJNkGmRWZyQx2FjRJe9dVtJhQG9ZNCk=@emersion.fr>
- <20220525133647.052d09da@eldfell> <YpZSWwVkhJOalM4M@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yFS3Rnzfb0unp6UI0nuTf8G/mfgDKJWNbf+GB8d9uhI=;
+ b=Wj82xYPeDfDteEeGNRABQ/j22laBbYUO4vpsipynlR9/Df0jfto6aOjPJ92IAQWmYj
+ z4XL65S04hV0xKzfSjF64TER9hblnPzceymy3I4qMOrLfhD8GEHDrHrYpJbLY9exPIpC
+ XlsiConLpkn0r5Ax3r8w90EblXuc9qbVZG/CvQqGYk3HXmEvjPKw15ohkYqKB20vA1Rc
+ onDCL5jQu2jHVAj0ecAngdg4XoQj5E+xFr2SzjF79SUHS2rCy3cXQ0GmStPq1fyBlx2P
+ LTqS1qa87cJG7ZwnAMJjsggKjdwly8K6FcbhVDKaQdeE2wte0ZW/xHASfIxX+YKxe6+O
+ dw/Q==
+X-Gm-Message-State: AOAM532SnQZkVRrIyWELGHa990d+IHA2TxjMCWCCMeay6wQdlDV0oOrA
+ 88BX651MVtfJ3bE+VrjQyOh9QA==
+X-Google-Smtp-Source: ABdhPJyfhUlStTcZTz+Ssrs2TvVIfO4c18Qt7HTJuB/uTfvjqG5vQ05BQvumt+AGIXmDE9LMcb26HA==
+X-Received: by 2002:a05:6402:40ce:b0:42b:9d1:96e6 with SMTP id
+ z14-20020a05640240ce00b0042b09d196e6mr66557011edb.262.1654068374634; 
+ Wed, 01 Jun 2022 00:26:14 -0700 (PDT)
+Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ h15-20020a170906110f00b006fe98c7c7a9sm359838eja.85.2022.06.01.00.26.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 00:26:14 -0700 (PDT)
+Message-ID: <1f349852-34a7-ff27-3c34-462128802340@linaro.org>
+Date: Wed, 1 Jun 2022 09:26:12 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/mzn2dvYQ0vE9/GO5bvtUrS0";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 09/14] dt-bindings: usb: Add Mediatek MT6370 TCPC binding
+ documentation
+Content-Language: en-US
+To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+ gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+ lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+ heikki.krogerus@linux.intel.com, deller@gmx.de
+References: <20220531102809.11976-1-peterwu.pub@gmail.com>
+ <20220531102809.11976-10-peterwu.pub@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220531102809.11976-10-peterwu.pub@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,163 +81,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ alice_chen@richtek.com, linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cy_huang@richtek.com, chiaen_wu@richtek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/mzn2dvYQ0vE9/GO5bvtUrS0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 31/05/2022 12:28, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add Mediatek MT6370 TCPC binding documentation.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+>  .../bindings/usb/mediatek,mt6370-tcpc.yaml    | 35 +++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml b/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
+> new file mode 100644
+> index 000000000000..49316633f92f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
+> @@ -0,0 +1,35 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/usb/mediatek,mt6370-tcpc.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Mediatek MT6370 Type-C Port Switch and Power Delivery controller DT bindings
 
-On Tue, 31 May 2022 20:37:31 +0300
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+s/DT bindings//
 
-> On Wed, May 25, 2022 at 01:36:47PM +0300, Pekka Paalanen wrote:
-> > On Wed, 25 May 2022 09:23:51 +0000
-> > Simon Ser <contact@emersion.fr> wrote:
-> >  =20
-> > > On Wednesday, May 25th, 2022 at 10:35, Michel D=C3=A4nzer <michel.dae=
-nzer@mailbox.org> wrote:
-> > >  =20
-> > > > > Mind that "max bpc" is always in auto. It's only an upper limit, =
-with
-> > > > > the assumption that the driver can choose less.   =20
-> > > >
-> > > > It seems to me like the "max bpc" property is just kind of bad API,
-> > > > and trying to tweak it to cater to more use cases as we discover th=
-em
-> > > > will take us down a rabbit hole. It seems better to replace it with
-> > > > new properties which allow user space to determine the current
-> > > > effective bpc and to explicitly control it.   =20
-> > >=20
-> > > +1, this sounds much more robust, and allows better control by user-s=
-pace.
-> > > User-space needs to have fallback logic for other state as well anywa=
-ys.
-> > > If the combinatorial explosion is too much, we should think about opt=
-imizing
-> > > the KMS implementation, or improve the uAPI. =20
-> >=20
-> > +1 as well, with some recommendations added and the running off to the
-> > sunset:
-> >=20
-> > Use two separate KMS properties for reporting current vs.
-> > programming desired. The KMS property reporting the current value
-> > must be read-only (immutable). This preserves the difference between
-> > what userspace wanted and what it got, making it possible to read
-> > back both without confusing them. It also allows preserving driver beha=
-viour =20
->=20
-> I don't see much real point in a property to report the current bpc.
-> That can't be used to do anything atomically. So I suppose plymouth
-> would be the only user.
+> +
+> +maintainers:
+> +  - ChiYuan Huang <cy_huang@richtek.com>
+> +
+> +description: |
+> +  Mediatek MT6370 is a multi-functional device. It integrates charger, ADC, flash, RGB indicators,
+> +  regulators (DSV/VIBLDO), and TypeC Port Switch with Power Delivery controller.
+> +  This document only describes MT6370 Type-C Port Switch and Power Delivery controller.
 
-Hi Ville,
+These lines do not look like wrapped at 80.
 
-I think also professional color managed display servers would need it.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt6370-tcpc
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  connector:
+> +    type: object
+> +    $ref: /schemas/connector/usb-connector.yaml#
 
-If they detect that the link bpc is no longer the same as it was when
-the monitor was profiled, the profile will need to be re-verified by
-measuring the monitor again.
+You need unevaluatedProperties:false within connector.
 
-See "Color calibration auditing system" notes in
-https://gitlab.freedesktop.org/wayland/weston/-/issues/467 description.
+> +    description:
+> +      Properties for usb c connector.
 
-> So IMO if someone really need explicit control over this then we=20
-> should just expose properties to set things explicitly. So we'd
-> need at least props for the actual bpc and some kind of color=20
-> encoding property (RGB/YCbCr 4:4:4/4:2:2:/4:2:0, etc.). And someone
-> would really need to figure out how DSC would interact with those.
+Skip description, it's not helpful.
 
-I believe there still must be "auto" setting for bpc, and a separate
-feedback property, so that userspace can use "auto" to see what it can
-get without doing thousands of TEST_ONLY commits plus a few "link
-status" failure handlings in order to find a working configuration (I'm
-assuming we have many more properties than just "max bpc" to figure
-out). After "auto" has told userspace what actually works without blind
-trial and error, then userspace can program than value explicitly to
-make sure it doesn't change accidentally in the future.
-
-What's DSC?
-
-Now that you mentioned some kind of color encoding property (I assume
-you referred mostly to the sub-sampling aspect), how does the connector
-property "Colorspace" factor in?
-
-The enum values (which are not documented in KMS docs, btw.) are tuples
-of color space + color model, e.g. on Intel:
-
-"Colorspace": enum {Default, SMPTE_170M_YCC, BT709_YCC, XVYCC_601,
-XVYCC_709, SYCC_601, opYCC_601, opRGB, BT2020_CYCC, BT2020_RGB,
-BT2020_YCC, DCI-P3_RGB_D65, DCI-P3_RGB_Theater}
-
-Reading the KMS docs from
-https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#standard-connector-=
-properties
-they say:
-
-> Basically the expectation from userspace is:
->=20
->         Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
-> colorspace
->=20
->         Set this new property to let the sink know what it converted
-> the CRTC output to.
->=20
->         This property is just to inform sink what colorspace source
-> is trying to drive.=20
-
-However, where does userspace program the actual conversion from RGB to
-NNN? Is it expected to be embedded in CTM?
-
-Or does setting "Colorspace" imply some additional automatic
-conversion? If so, where does it happen and how is it chosen?
-
-> For just the plymouth case I guess the easiest thing would be to
-> just clamp "max bpc" to the current value. The problem with that
-> is that we'd potentially break existing userspace. Eg. I don't think
-> the modesetting ddx or perhaps even most of the wayland compositors
-> set "max bpc" at all. So we'd need to roll out a bunch of userspace
-> updates first. And the "current bpc" prop idea would also have this
-> same problem since plymouth would just clamp "max bpc" based on the
-> current bpc before the real userspace starts.
-
-True, but I believe once color management spreads through Wayland, so
-will KMS clients also learn to set it.
-
-Besides, any KMS client that does not set absolutely all KMS properties
-will be at the mercy of any other KMS client they temporarily switch
-with. So every KMS client should learn to program all possible KMS
-properties anyway.
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - interrupts
 
 
-Thanks,
-pq
-
---Sig_/mzn2dvYQ0vE9/GO5bvtUrS0
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmKXE3YACgkQI1/ltBGq
-qqcIEw//UlnX7s9CkKtPxePpYTFgm8vmEwGnJ/ub3NjRdP0Z7mnFZRjb43cadgH4
-KeLupKYeNUb1qfinQ3FTUzllHp8CdNXeRETUKDyd6YD7kGzt3ciXsZpoElDdmX5l
-j5yo4uluCqIkdicg7lDhtH39tcyBBR6OJNuqHKIq7+Z1MSqz1Vq5vFP18EN4i2uy
-C+wTDHW10Z64iyo2YzHhjSWceKer8jhAIb9maW42lRJ71jET4Wi/0++fzAONBvF7
-qJxYVIs+ETVdRZ+Os4i+KeS0AxrHAd0hnl0EqFc4wrPwt+mUt6CllbI3LtxjNieJ
-7uMM+oG0Y8FaCWrhb0X7aCRdXcJ3tjVkriNlcqPoeQU57HziW6CSgw195ISbWF37
-x9BKY00Yc3+CBgknHdkTm5zLNYEZXMkwDMvI2710Hfgjm9kEhosRC1XL3eFQ1SBR
-IZu65hkM/MosPeESGa2gxie+ITWsL0NDoL69cQILqRkhJGirgiN7iDN6WSt9JteI
-MCiqhPqxKFsoYqVYxtTkZI2t4NWoOCbe6x9IiuaWxOpnf+a0OX9b6u/fW7er9kPp
-ROFj/Sb+tSdO68MLUN6x5Slpih67pLTJrcMHhI0UxHtOBYSBpK7R/Jrjvv1c4iSg
-mR+wA5lVPpBSn+7y8L/78JhHgQ0ZsPXmoVRLzm0l2/YdjW3+gAU=
-=shic
------END PGP SIGNATURE-----
-
---Sig_/mzn2dvYQ0vE9/GO5bvtUrS0--
+Best regards,
+Krzysztof
