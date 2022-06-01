@@ -1,72 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDC4539E78
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:37:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1021539EAD
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:46:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4912911331D;
-	Wed,  1 Jun 2022 07:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A755C113394;
+	Wed,  1 Jun 2022 07:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A108E11331D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 07:37:07 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id er5so947703edb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 00:37:07 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9636C113394
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 07:46:30 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id b8so983560edf.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 00:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VGujkgTLGJjJ+UW8ObqRqsyAB4WEAUQn5faiR07jbVk=;
- b=eyS+I6FEnnSZ8vn2minglzX0RsZyoF9Qj5V8Mh43eR015TdUWXV4qkKWOZX2lZeySE
- t7BZBTp+ir4baIug9pll2zWzvszfRqc0r5vLzK1maxAcIdwZ/iaA1Isq4KwlmslVPRYh
- MIoVcBzLyZGyCFwXmKgLxcLRCyyiq88Xgxjiq3FFvEx5MmyZx+OASqZcPLHCKnw0JUjU
- 7A2ayEZqWCb7MgWHsnp8p8rpoMQoKD4IyvQ73+Lcsl9Mj4iotCbbp0u3KSqjjZacai+Q
- /bXpn9G0c8CDLyqR79vDzIVBrNyJ35XAvFM05cJlklgGTzza55YihjFCrxtX/6ii/mNt
- whSA==
+ bh=T6fxYgINWBY11Dni0RdPgNMNlUUQKxzxAv4RKjFNoh8=;
+ b=ssAjHW1BeAwXHaBfJEtFzqK3YHHy2KjzIBif5IWHtpiL1VbzWcaVUh4js9Djhqmali
+ u4KB8OezdhL1Zo+ygWK8iiZcby1EM6gpkv7MPuTiSE7VfNe7FpM6e5oRIN0Pf/4kcoUJ
+ 4YEuKryEr+wQPbii/Di3yMa7YA4EGzhLX4n+v5FcL64flYBaHTN+PiK2ffwiNoNEdvXJ
+ Rhs9MPPwL6YmubnygHTzCrLbWudSIXTcnGD8ptwWMjfJIb6L+TOcuR36XmCZVbMcvWay
+ gNMmR82Cj7wt7REuYXgffWhE04Y4cDkX3G4IfHNI0QelpgKhf59ckWEbgXP6vkdngc14
+ xW3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VGujkgTLGJjJ+UW8ObqRqsyAB4WEAUQn5faiR07jbVk=;
- b=aMtq2LHtRSoY1d3cE1woXLrVwW1M7MLnxx/R8fD7T1IuKqIi+UXl8UL3f8PjTnQ6mP
- FHCBXoa86XypjH6g74m9EisIMC00WMtt4mCUaudforXmC4H66Su1weWg0zvWJM32I+Hv
- FjcCY36Qyzi8kjyYuLAw3DXd0257FWmeaqFwZMNk+tk9GcVsTpOMkBDuB8Fv5g/2XmS+
- XJr7w3T8DRowG6BLp/oKVFWxpixl0YPlVrnKC9Tk+ZAg3Ze8onaT6Gw/u6APiSW8Z/UV
- pUmP7EHplljiDx1GAIHa2fP3dAjwO5TtgIfOGbgusy6ZbO2/Id5hvDitz6W7jzCCyvjN
- soPw==
-X-Gm-Message-State: AOAM531ZKPzjBoUN+IusPeXWU0JGoqcxCmpSjJiqmCLjpcFAat4Sny2v
- ppt82oxhPfkqPL0WQjpJD2tb8w==
-X-Google-Smtp-Source: ABdhPJxcXWYO+A4vQR4Q7Xl2APBu8dwgsKRiYU4keddDiGzFAh3Q4PYTBvmzIZbnnxHwvAbJiIod1w==
-X-Received: by 2002:a05:6402:48c:b0:42a:e585:103 with SMTP id
- k12-20020a056402048c00b0042ae5850103mr68634819edv.375.1654069026243; 
- Wed, 01 Jun 2022 00:37:06 -0700 (PDT)
+ bh=T6fxYgINWBY11Dni0RdPgNMNlUUQKxzxAv4RKjFNoh8=;
+ b=k8GCUaE+rrpufEMsCeE6rPvyHcXpKRU6cHJkcNNme7EjxHQfotPLfFxiNU/FqfZCvg
+ TkWIML1jVVDsn8TK7j7YTAlp3AOLYEagZ/K/ymhmRqAsTC9tBGNIo8NzwzWEjzMnt9EV
+ XOh/dVxUPCy1tND+hDu/eC0bN4ufsMpkNDXjMlzJDk+gqlGu01FgULxQwPKc/GtuBmDY
+ CqBQ2G3QpSpS5mdEYLHGvhsTpTd49K0ONKBnOCMzqErNck0h93nLZgM3oQngpb43lyGa
+ 4UZh5qHzIuqnQbtgGabNsZV8UtSztdH7j1+YHfH8NngVw6GwGAzleDz7h1AMbSJ+W2UT
+ BfGw==
+X-Gm-Message-State: AOAM531aLrsL2T1OUtjKV7ZlE0eG1sQhIIINc1hVenhAavnaWG8jkRm0
+ v1FUp6+XXFILlItalVTyuMeXWw==
+X-Google-Smtp-Source: ABdhPJx674EkevDvreeBjkA9QX9V23D5lA0OtNhSm7nrHja+xIv/fZuP1EBU8ne7sB2l4OcKJzSTBg==
+X-Received: by 2002:aa7:ca1a:0:b0:42d:e1b0:2dd2 with SMTP id
+ y26-20020aa7ca1a000000b0042de1b02dd2mr8295939eds.157.1654069589129; 
+ Wed, 01 Jun 2022 00:46:29 -0700 (PDT)
 Received: from [192.168.0.179] (xdsl-188-155-176-92.adslplus.ch.
  [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- a22-20020aa7d916000000b0042dd4f9c464sm495356edr.84.2022.06.01.00.37.04
+ ec2-20020a0564020d4200b0042aaaf3f41csm532956edb.4.2022.06.01.00.46.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 00:37:05 -0700 (PDT)
-Message-ID: <dcb8c59e-243f-11c8-f10f-e037f9bd2e8f@linaro.org>
-Date: Wed, 1 Jun 2022 09:37:04 +0200
+ Wed, 01 Jun 2022 00:46:28 -0700 (PDT)
+Message-ID: <903f926c-4977-9e0f-0e40-53cdc164e9b2@linaro.org>
+Date: Wed, 1 Jun 2022 09:46:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [RESEND 05/14] dt-bindings: backlight: Add Mediatek MT6370
- backlight binding
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add prefix for
+ ClockworkPi
 Content-Language: en-US
-To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
- lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
- heikki.krogerus@linux.intel.com, deller@gmx.de
-References: <20220531111900.19422-1-peterwu.pub@gmail.com>
- <20220531111900.19422-6-peterwu.pub@gmail.com>
+To: Max Fierke <max@maxfierke.com>, thierry.reding@gmail.com,
+ sam@ravnborg.org, airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
+References: <20220601051748.1305450-1-max@maxfierke.com>
+ <20220601051748.1305450-2-max@maxfierke.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220531111900.19422-6-peterwu.pub@gmail.com>
+In-Reply-To: <20220601051748.1305450-2-max@maxfierke.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,21 +77,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- alice_chen@richtek.com, linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cy_huang@richtek.com, chiaen_wu@richtek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-leds@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/05/2022 13:18, ChiaEn Wu wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
+On 01/06/2022 07:17, Max Fierke wrote:
+> Add a prefix for Clockwork Tech LLC, known as ClockworkPi. They
+> produce a number of hobbyist devices, including the ClockworkPi
+> DevTerm and GameShell.
 > 
-> Add mt6370 backlight binding documentation.
+> Signed-off-by: Max Fierke <max@maxfierke.com>
 
-Please apply my previous comments.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
 Best regards,
