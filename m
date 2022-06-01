@@ -1,153 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098A453A29D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 12:32:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6836253A2A5
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 12:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1A6D10EEB3;
-	Wed,  1 Jun 2022 10:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6821D10EF20;
+	Wed,  1 Jun 2022 10:33:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 368F710EE8F;
- Wed,  1 Jun 2022 10:32:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654079528; x=1685615528;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=vPJbioeuF4/qtd+aV+Azf7CQNJ//HsV7LxmwJbnPkj4=;
- b=FLlLP/Yrd2PdAhum+8r/anuwJYX96RzM9fEzLizlj/+kymWhiUoTibiY
- fnMLp4t4sAwVhwntgx5ajPRP7DBuA8GHeKaExf0P3lGXsudaWhiu5aYFs
- 9TCCBEyZiBSIGBpnDo783xmQhtiPpLyqiQtvrLccJ0IxTNjh+NY7wcr22
- JN8c3DTgG1ys/kcGDBr2wHD6xdTn+TE+OtmAK5RbZG4ZtQgZM/q5d3SEl
- zC9h1utAKWsdcVivEP/OtDkdjuQYwvzf5du3QJcb2IXvpKMEiIf+0x6nc
- I1ce9RTD4NyEEco9bmkjnlBuxkNI6OStk6/gnzCELlciOP71pmIW5lH+L g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="255415329"
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; d="scan'208";a="255415329"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 03:32:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; d="scan'208";a="552246162"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by orsmga006.jf.intel.com with ESMTP; 01 Jun 2022 03:32:07 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 1 Jun 2022 03:32:06 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Wed, 1 Jun 2022 03:32:06 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Wed, 1 Jun 2022 03:32:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iKgSOLZRkOhmxzkdDdmMgQrxVCJ14Y/i9YjL8GK8YNTkebdZNEN6virCWEDS8zhCj/t+HYMJkwFADp84SQXYSBWSu6zVb2f41+HWbs2OW5CosU9qSB+Lf80vZRxwx9yHWhow/zBcpOuvMQxZa5SXMIRFTfa+1DeC+rELq4d3yDMLEO1fZQlolb/3DGgPq4l3GrDfLgSAqKbbHEQCBv6CyeVuClzsrCvAgYHg/UEXp5MsOeny0qSoKpR3KRdYcBb+p/VQ6Wloi8DqFVGB7BMLlYHxVoZ3A1Oy6QZ6k66PraJO89B1lHZW5YD8aYf2IeIMK7ycpIymSsUGK0R60GQnzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3HiPPHvfqfxGpDi+waj7aqicP3zVOD7PLoBK/5m44gI=;
- b=kwZxrtFJFtlkP9AIrbvHwDJekb5ta9nxHPV43gTxnMnr9LUw/XuMH57hZlzSEF/T5VvUaCBdOhgBHs71ToAuAgDqqVY5xvWzG5Y0Gp4qzQNX5oCjminnwUKZGo7lACifNJVo4wsIZdAFTahmq+1XDWD4qeut6AGY+h+Mpc7q0fYyrrSN0Jy6j8xI1uNiL9+1afWoeiUzkCFJhQ6blppR1YDrDLQ9+cawuo1LHd/YrxKV9npnJc+RIilJZHmTFpa91Cf+OyN35A4Q5pbNLP63PCU1OfL8NC4zV/ZSVI6M7SOHgW3lbGaDEFkVVlYRHZyvt9TU8L6LDnsZ2rcH4z6ZQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM8PR11MB5719.namprd11.prod.outlook.com (2603:10b6:8:10::6) by
- CH2PR11MB4487.namprd11.prod.outlook.com (2603:10b6:610:44::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5293.13; Wed, 1 Jun 2022 10:32:04 +0000
-Received: from DM8PR11MB5719.namprd11.prod.outlook.com
- ([fe80::4165:e33d:ade7:9ba4]) by DM8PR11MB5719.namprd11.prod.outlook.com
- ([fe80::4165:e33d:ade7:9ba4%6]) with mapi id 15.20.5293.019; Wed, 1 Jun 2022
- 10:32:04 +0000
-Message-ID: <822934c0-59e0-9622-3b38-774cded176b6@intel.com>
-Date: Wed, 1 Jun 2022 16:01:47 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC V3 0/2] Attach and Set vrr_enabled property
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20220517072636.3516381-1-bhanuprakash.modem@intel.com>
- <YpYeotF27wVJbAhJ@phenom.ffwll.local>
-From: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>
-Organization: Intel
-In-Reply-To: <YpYeotF27wVJbAhJ@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0106.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:9b::14) To DM8PR11MB5719.namprd11.prod.outlook.com
- (2603:10b6:8:10::6)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20C4A10EF20
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 10:33:48 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B7DC61F8C6;
+ Wed,  1 Jun 2022 10:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1654079626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LTh5ATYU++zqMeYunecFwsJt3zReEUPuinehpFDM0oo=;
+ b=OF1CIKIJp4DkGEKxLE4TTgZbY1vj4qT0nuTyLeAlFhp15dXCVRXzBaOnJQwUPFwCbQRB8m
+ 2jo0IwxxS8F7dg8TZFHF/oRImkaHGnlbsrYPNt+bhR1oG0hVCZmqI0IjW9RjOjH/zQUbAb
+ pcFC5KUc2wG6wr1E5dDML04N5lVjTOE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1654079626;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LTh5ATYU++zqMeYunecFwsJt3zReEUPuinehpFDM0oo=;
+ b=LlxosNjzGW+ZB8mymHFZIGQM4LMGQeVqPmOA7BcvIbkn25MHd6HKHK+qxdjiH3N3b2ewB/
+ Wp+E56wzjZSsxQDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95B881330F;
+ Wed,  1 Jun 2022 10:33:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id GVh5I4pAl2L7EwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 01 Jun 2022 10:33:46 +0000
+Message-ID: <6e9f84f9-dc97-9ff4-57c8-97fbffd3a996@suse.de>
+Date: Wed, 1 Jun 2022 12:33:46 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 53c72831-2e68-4a4a-80ad-08da43b9f86f
-X-MS-TrafficTypeDiagnostic: CH2PR11MB4487:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <CH2PR11MB4487F53F002D542F9683959E8DDF9@CH2PR11MB4487.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: itxYd4TXoHRv1KDK/hUttWuQf1ZAsBEEVG9+vgZhRbLuZv+yI1QAVWqlHs6yL8kGhFq8Np/rjFOhnAptrwfmPigd8vfBySHFI/ENzEU7JeczC8Zm/O67/00v28ldN+Zr9ucjnj7YVJvTQjZQLEzmrIrcxSVWesj9Ys1kTMKs/nUib/XNFuZqIYPlnHVhX90W/t8U7VSPgsUStogz9g39CwcY8TEh5C4l8Xdmy11OfkNjPixflBNhuW5iTCfT1+p7VHaUZUapymDmIeKb31T3aP/Nzi9GKfHW8Jo6b9jF0ich+F8UVqlaIgmmaL2KX9+vcMVO2eJfhqFtPuIq5H/WpAVXMba38jzDcBxMIszZjk3V0MN8p5t19hapNUiDx2WNuAFJyiEGv8cyetDTtQjN7ijQPLZxjMRuNOS5umT5pHYPt2R8nuLfo+Bi51MABrkSMgNdL38ssggLimTpOWaNTGN6KqzMUVVle4pyENAZxRlxMbh/skrpboZU4Li4EG4DfPYpxCu3wDhrJtY2C7expTa79MvbFeTfNCn+wa2SDomw3Ogz4b6SzYMAJDyp+9xhueLdC1tMFBAcQv6dVM+Np9JE5MKSuX7GZAn5/L/FbZqZdbfU8eT2thQclN+OZn8v1HcMrMTuOcFR1MMltlZqjkR/RWVZapGeyaEJ2PRHXTgSZh38pMMTvp98hx0D0C9Lqs4xeL7OfsfBoElSpLrsvSO2EdsKD1wJd7NRTiWAQEU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5719.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6512007)(966005)(6486002)(66476007)(316002)(26005)(82960400001)(8676002)(6666004)(36916002)(4326008)(31696002)(6916009)(6506007)(83380400001)(86362001)(186003)(66946007)(66556008)(2616005)(508600001)(2906002)(8936002)(5660300002)(31686004)(38100700002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHpzKzJqUlErVGdGWU5WWTV0eGRXZmdhQ3ZzWmN6RlhKUUtneFdHRjBBUm5X?=
- =?utf-8?B?TDFpTDZsLzlVaXBUbWZRb3U2L0ljL09XdklLRFJYSEtDZ1M3dmltQ0ZvU2Jj?=
- =?utf-8?B?eXpTVkloT3loRUZJaThKN2QrNXNlODRhaWxrUFB4TTVhNUtjczd4MHRURGVY?=
- =?utf-8?B?NVFielMzVVZsWWdHUDI5Uk9sbVBKL2V0aWNhL2tiZXVrYVFlNmRUNFRwVVpF?=
- =?utf-8?B?ZitlK2c4M3RoeStORDlFS2RwZ1ZIM0dDSWJVWVFzVG43Tk1TVUluZ1RxYW5B?=
- =?utf-8?B?V0xoQ2Y4cGI3dkhON1dwNGY1dzF3NitKZG1jVlMxN3JCRS9QU3RXajN6N2hL?=
- =?utf-8?B?dG95RTdjRGdydVhhaXFLSXdFdU9WNmFXOU10elRhWjBSMWN2MUdWb1c4eTRM?=
- =?utf-8?B?bkltaWJXMEFSUFpUaUFNR0QxY1UvTXl6Tm9oS2gzZnVYRzJyYU5iK01kc0lV?=
- =?utf-8?B?VnUzYmMxUVB3dzUvNUpKcDhCbjVXRURTclFoMTNiUjV2Uk0vMzJFVkNMZ1V4?=
- =?utf-8?B?US9qbUgvcktNNy84SW1tM1pHSldZUTNJbFpVRjZlK244cVVqZmIrb1dDWEZ4?=
- =?utf-8?B?eVV4L0phTHFXWDhBMDJVRm5uV1NMZ3EwQW1BQXRyd0dtUUpxSkptNnVzK014?=
- =?utf-8?B?R1ZsSVZSR1JEMk1DNzhIdVFsT2E2WVd1M0Z0ZDV3TmRvOU03bmo2Ui82Y0hi?=
- =?utf-8?B?c084aU9La3ArRjcwcExvcy82U2dpbEg3V3ZiYmZPbVlTTWtzNUJNMkF0WGtw?=
- =?utf-8?B?d1RGS0V0a1lsZ0lwRENIODZaYVlqS2ZsOU5xUlowY0ZWMkZJZEgzcWpjNjFB?=
- =?utf-8?B?WjI1aFpDYURXTHV4UUIrcGtLVFhycW4rcmUrbk04R25yVldiQXgrejZSVUZM?=
- =?utf-8?B?ZE9BbjRFQ1M5L28wVTBkelE2RVVvbFgyUUgrYU9lUFhKRVBpSFZlNURkWVBu?=
- =?utf-8?B?RC9LZlozamhxUU15NlFVRFVyd2F4OC9rY2tOYVRKbCtkeU51V1kyd1Bub1dO?=
- =?utf-8?B?TXAxakhJL3VEVktwSFZNczc0b1kvb29pd2N3VzFGNVZpWEVWOUhVRHl5UTY2?=
- =?utf-8?B?amtyaGhaL0tCZjdJZ3N5SFJuWkxuelkrZHp5ZFpwZlVXWVhDeHN3ODhYRzJp?=
- =?utf-8?B?RGx3Q05RT1hYZUlZSmhTWjRBaVREUndUbS9aUDNXS3haMnVQSU1IdnNxdlUv?=
- =?utf-8?B?YnhDUDdINjRJTEthOS93OVBUTUR3eFBacUVDVml2VnRMV3c4a0ZrMDRJVXpj?=
- =?utf-8?B?Sjd6bTlwcTJZMmZ0RUhEemtEOHpoUGNFc1BxV0lQL2p5d1NiLzlKVVlNVkk1?=
- =?utf-8?B?V2RtOWlhWUVLTlBFNEUxZVBOZzRlNnZndjJreVFmend6dnJGcHNiYjJ1bFFz?=
- =?utf-8?B?eFNmNGpWRUFlaWVsSHRvNFdOdHMwWm5YRVRMN3ZlS3NHSlBOTEhHVkg0ZjVm?=
- =?utf-8?B?cjJmVGlIL1o5TE9nZUpnNm5QK2VBb0lFbEE4RUw1M0dxdzhuUUR4ODVtMzZp?=
- =?utf-8?B?ZkpjZkRBN0NqWlVMczVXVjNpSTlGZ3BTUTV1U29RSENxaXVvWUNhbFovMlFl?=
- =?utf-8?B?T2FRVmZ6YjdXZ2cvekdZcDNsQkZzVFZEYkxZNDVtc2RUUkRQblRsQTV0TGtz?=
- =?utf-8?B?ekZvcHJ0bmpBaXNleFp0MUVyVldYNUZlaUcveUZtdUZQdVdFdkhTUnFYaUo2?=
- =?utf-8?B?S01wNm5FVHBhUnNma3ZWMDNqZm5lck9zS2RHOXFTZkEwSnBnVkVTY3dDTDd5?=
- =?utf-8?B?TFBUenVpTUhlNkU3TTY5QUZTam9WLzhNdmJIWThvZGNqYkU5S0NETkZMNTZy?=
- =?utf-8?B?akZsRzhadWFkVmRpbGRENDZzcS95enFKNnlUcjd0R2NwMEFGNG5LNGE5SkNN?=
- =?utf-8?B?Y3Y4alB0WW5PdGpRTkxTYUtFZ2dzV2F4VGEva1RIbithZnFGWU0vNnA5UnBx?=
- =?utf-8?B?eW9PRmJPY0haYTJSYmpaM29zc29sc213enZwWkM2KzluUnZBV3dvUDhGcGxO?=
- =?utf-8?B?ZVRtRFRwOFNybWJ6VU5xRWpXTG9vaHZIeXcvME8zeGRYK2F5R1pCc3A3UEV6?=
- =?utf-8?B?WHNOTjh6U2JZc3lFb2lwR1h1OUViQ1V6YXdyMFllcHFzYWNsMHBXZlIzWGxM?=
- =?utf-8?B?UHFRbjBvU204NzJPSldVZHcvMGdRRXVaWVl2eFM3VnJYVVd0ak5wTU4yQ25H?=
- =?utf-8?B?YXNzUTVFL2xrZGhwcWFOdlJRNXE3T2JUV3dER0Z6R1FndEJjK0FGcUZKVzY4?=
- =?utf-8?B?bWVJUTdTdjFudmhtOUNuYmhzVGFhWjIvR0IxcXAwSVdFcXB5Yi9MQ2NyNXhY?=
- =?utf-8?B?aHBkUi9CUjFrcFlQeEowYXk1NGMzZ0hPay82UVpHYm4wMGw2TE0wNk5iRlI3?=
- =?utf-8?Q?xUZ+tmO6O22qMi1s=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53c72831-2e68-4a4a-80ad-08da43b9f86f
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5719.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2022 10:32:04.5852 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qZB7olPwapW6/qUktqqVmAbumUm3gi9pbRbwd/o+oPKI5IDsCakKtbDFS56pWEdRSsEiYNcqkfS5pYSYtaQX9n+CwVlnjz5+oP+RwAcCy9M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB4487
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [REGRESSION] VGA output with AST 2600 graphics.
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ kuohsiang_chou@aspeedtech.com, David Airlie <airlied@redhat.com>
+References: <d84ba981-d907-f942-6b05-67c836580542@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <d84ba981-d907-f942-6b05-67c836580542@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------rs0qKD0lZDFSRDxuai27ujQX"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,80 +70,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: manasi.d.navare@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: regressions@lists.linux.dev, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue-31-05-2022 07:26 pm, Daniel Vetter wrote:
-> On Tue, May 17, 2022 at 12:56:34PM +0530, Bhanuprakash Modem wrote:
->> This series will add a support to set the vrr_enabled property for
->> crtc based on the platform support and the request from userspace.
->> And userspace can also query to get the status of "vrr_enabled".
->>
->> Test-with: 20220422075223.2792586-2-bhanuprakash.modem@intel.com
->>
->> Bhanuprakash Modem (2):
->>    drm/vrr: Attach vrr_enabled property to the drm crtc
->>    drm/i915/vrr: Set drm crtc vrr_enabled property
-> 
-> I'm rather confused by this patch set >
-> - This seems to move the property from connector to crtc without any
->    justification. For uapi that we want to have standardized (anything
->    around kms really) that's no good, unless there's really a mandatory
->    semantic reason pls stick to existing uapi.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------rs0qKD0lZDFSRDxuai27ujQX
+Content-Type: multipart/mixed; boundary="------------OBMFmimlMR3yrMffjWCIcytN";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ kuohsiang_chou@aspeedtech.com, David Airlie <airlied@redhat.com>
+Cc: regressions@lists.linux.dev, stable@vger.kernel.org
+Message-ID: <6e9f84f9-dc97-9ff4-57c8-97fbffd3a996@suse.de>
+Subject: Re: [REGRESSION] VGA output with AST 2600 graphics.
+References: <d84ba981-d907-f942-6b05-67c836580542@redhat.com>
+In-Reply-To: <d84ba981-d907-f942-6b05-67c836580542@redhat.com>
 
-Thanks for the reply.
+--------------OBMFmimlMR3yrMffjWCIcytN
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-No, we are not moving any property from connector to crtc.
-"vrr_capable" belongs to connector & "vrr_enabled" belongs to crtc.
+SGkgSm9jZWx5biwNCg0KdGhhbmtzIGZvciByZXBvcnRpbmcgdGhpcyBidWcuDQoNCkFtIDAx
+LjA2LjIyIHVtIDExOjMzIHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0KPiBIaSwNCj4gDQo+
+IEkndmUgZm91bmQgYSByZWdyZXNzaW9uIGluIHRoZSBhc3QgZHJpdmVyLCBmb3IgQVNUMjYw
+MCBoYXJkd2FyZS4NCj4gDQo+IGJlZm9yZSB0aGUgdXBzdHJlYW0gY29tbWl0IGY5YmQwMGUw
+ZWE5ZA0KPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
+dC9zdGFibGUvbGludXguZ2l0L2NvbW1pdC8/aWQ9ZjliZDAwZTBlYTlkOWIwNDE0MGFhOTY5
+YTlhMTNhZDM1OTdhMWU0ZSANCj4gDQo+IA0KPiBUaGUgYXN0IGRyaXZlciBoYW5kbGVkIEFT
+VCAyNjAwIGNoaXAgbGlrZSBhbiBBU1QgMjUwMC4NCj4gDQo+IEFmdGVyIHRoaXMgY29tbWl0
+LCBpdCB1c2VzIHNvbWUgZGVmYXVsdCB2YWx1ZXMsIG1vcmUgbGlrZSB0aGUgb2xkZXIgQVNU
+IA0KPiBjaGlwLg0KPiANCj4gVGhlcmUgYXJlIGEgbG90IG9mIHBsYWNlcyBpbiB0aGUgZHJp
+dmVyIGxpa2UgdGhpczoNCj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUu
+MTguMS9zb3VyY2UvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfcG9zdC5jI0w4MiANCj4gDQo+
+IHdoZXJlIGl0IGNoZWNrcyBmb3IgKEFTVDIzMDAgfHwgQVNUMjQwMCB8fCBBU1QyNTAwKSBi
+dXQgbm90IGZvciBBU1QyNjAwLg0KPiANCj4gVGhpcyBtYWtlcyB0aGUgVkdBIG91dHB1dCwg
+dG8gYmUgYmx1cnJlZCBhbmQgZmxpY2tlcmVkIHdpdGggd2hpdGVzIGxpbmVzIA0KPiBvbiBB
+U1QyNjAwLg0KPiANCj4gVGhlIGlzc3VlIGlzIHByZXNlbnQgc2luY2UgdjUuMTENCj4gDQo+
+IEZvciB2NS4xMX52NS4xNyBJIHByb3Bvc2UgYSBzaW1wbGUgd29ya2Fyb3VuZCAoYXMgdGhl
+cmUgYXJlIG5vIG90aGVyIA0KPiByZWZlcmVuY2UgdG8gQVNUMjYwMCBpbiB0aGUgZHJpdmVy
+KToNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jDQo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYw0KPiBAQCAtMTQ2LDcgKzE0Niw4IEBAIHN0
+YXRpYyBpbnQgYXN0X2RldGVjdF9jaGlwKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIA0KPiBi
+b29sICpuZWVkX3Bvc3QpDQo+IA0KPiAgwqDCoMKgwqAgLyogSWRlbnRpZnkgY2hpcHNldCAq
+Lw0KPiAgwqDCoMKgwqAgaWYgKHBkZXYtPnJldmlzaW9uID49IDB4NTApIHsNCj4gLcKgwqDC
+oMKgwqDCoMKgIGFzdC0+Y2hpcCA9IEFTVDI2MDA7DQo+ICvCoMKgwqDCoMKgwqDCoCAvKiBX
+b3JrYXJvdW5kIHRvIHVzZSB0aGUgc2FtZSBjb2RlcGF0aCBmb3IgQVNUMjYwMCAqLw0KPiAr
+wqDCoMKgwqDCoMKgwqAgYXN0LT5jaGlwID0gQVNUMjUwMDsNCg0KVGhlIHdob2xlIGhhbmRs
+aW5nIG9mIGRpZmZlcmVudCBtb2RlbHMgaW4gdGhpcyBkcml2ZXIgaXMgYnJva2VuIGJ5IA0K
+ZGVzaWduIGFuZCBuZWVkcyB0byBiZSByZXBsYWNlZC4gIEkgZG9uJ3QgaGF2ZSBtdWNoIG9m
+IHRoZSBhZmZlY3RlZCANCmhhcmR3YXJlLCBzbyBzdWNoIHRoaW5ncyBhcmUgZ29pbmcgc2xv
+d2x5LiA6KA0KDQpGb3IgYW4gaW50ZXJtZWRpYXRlIGZpeCwgaXQgd291bGQgYmUgYmV0dGVy
+IHRvIGNoYW5nZSBhbGwgdGVzdHMgZm9yIA0KQVNUMjUwMCB0byBpbmNsdWRlIEFTVDI2MDAg
+YXMgd2VsbC4gVGhlcmUgYXJlbid0IHRvbyBtYW55IElJUkMuDQoNCkJlc3QgcmVnYXJkcw0K
+VGhvbWFzDQoNCj4gIMKgwqDCoMKgwqDCoMKgwqAgZHJtX2luZm8oZGV2LCAiQVNUIDI2MDAg
+ZGV0ZWN0ZWRcbiIpOw0KPiAgwqDCoMKgwqAgfSBlbHNlIGlmIChwZGV2LT5yZXZpc2lvbiA+
+PSAweDQwKSB7DQo+ICDCoMKgwqDCoMKgwqDCoMKgIGFzdC0+Y2hpcCA9IEFTVDI1MDA7DQo+
+IA0KPiBzdGFydGluZyBmcm9tIHY1LjE4LCB0aGVyZSBpcyBhbm90aGVyIHJlZmVyZW5jZSB0
+byBBU1QyNjAwIGluIHRoZSBjb2RlDQo+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xp
+bnV4L3Y1LjE4L3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMjTDIxMiAN
+Cj4gDQo+IA0KPiBTbyBJIHRoaW5rIHNvbWVvbmUgd2l0aCBnb29kIGFzcGVlZCBrbm93bGVk
+Z2Ugc2hvdWxkIHJldmlldyBhbGwgDQo+IGxvY2F0aW9ucyB3aGVyZSB0aGVyZSBpcyBhIHRl
+c3QgZm9yIEFTVDI1MDAsIGFuZCBmaWd1cmUgb3V0IHdoYXQgc2hvdWxkIA0KPiBiZSBkb25l
+IGZvciBBU1QyNjAwDQo+IA0KPiBUaGFua3MsDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
+b3Rldg0K
 
-I am trying to manipulate this "vrr_enabled" property.
+--------------OBMFmimlMR3yrMffjWCIcytN--
 
-> 
-> - If the driver interface doesn't fit (maybe the helper should be on the
->    crtc and adjust the property for all connector) pls roll that change out
->    to all drivers.
-> 
-> - This is uapi, so needs igt tests and userspace. For igts we should make
->    sure they're generic so that they apply across all drivers which already
->    support this property, and not just create new intel-only testcases.
+--------------rs0qKD0lZDFSRDxuai27ujQX
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Yeah, IGT patches are already in ML:
-https://patchwork.freedesktop.org/series/100539/
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> - Finally the property is set up, but not wired through. Or at least I'm
->    not seeing how this can even work.
-> 
-> So no idea what exactly you're aiming for here and what kind of comments
-> you want, but this doesn't look like it's on the right path at all.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKXQIoFAwAAAAAACgkQlh/E3EQov+BV
+Zg//bEkLNw9E9Tz8bxTCi29rWi9JLUdjtY7nuxLM3D64T7WEwOdFpslQYe0YQ/7H+q4j4wwR/Pk1
+ImF834b5/MJ8CVosP7wRtQPWRUoPE+wOO/tBL949FZbTSzp0fGfSl+rGllBHkMLS9w9QPMr11rSV
+fDldbNAPC7L1voO7xWvhlA2TtC9h33lGo31PozA1A3Czn611/WGsqeVzC4EuTTUuBguRXO10ZfWL
+dSc9yZZEU5BC/PvV2cAbIhc1S0VLQZcWFsScWVKSRXBipCZ+RgJx96WYR/Q8XHX/iNnuWvq/8DiK
+rYQIpM5hvKTwBHmxCQviKWaze7qG/GhG0BjpsYhLIDN7Sq22tJkp/8rPOodiEwFYCyNi/2vSnimL
+P+aSN6mK1WjO6DZLpH0xkYbnfOsOHsJTl0d0Hb+QZA7vGxu3MKKlaGnYhKOEzd751JCdqAGDWMsw
+dpwjqmS5bI3uzzvYX5DfPiNXNAmt8lJBmJ8XdDFlUNmPBPX1J7UA/X71e4m9Fx94YV7ymGyrIv7A
+wfgn9tkRc+UuuIIFBhIu4ikB86VlDNLvBZqDyxIjVAlKucd1oU7vlJob1UT4992S5/0X0kmTxB7q
+Sm3i9zHjFovvb8LsPxlVRUZdm/bjsNjQ+n0GUDfSmflIS2+hdE5bcqpIEQIRUekoBGJxxDrDFnt1
+6GE=
+=q6Sa
+-----END PGP SIGNATURE-----
 
-This "vrr_enabled" prop was userspace write only & driver read only prop 
-which would be used by the userspace to request to enable the VRR on 
-that CRTC.
-
-Now I would like to modify this prop to be used as a bidirectional 
-property. So, that userspace can request to enable the VRR and also to 
-get the status of VRR on that CRTC.
-
-Manasi is already replied to the Patch [1/2] in this series.
-
-- Bhanu
-
-> 
-> Cheers, Daniel
-> 
-> 
->>
->>   drivers/gpu/drm/drm_crtc.c               | 26 ++++++++++++++++++++++++
->>   drivers/gpu/drm/drm_mode_config.c        |  2 +-
->>   drivers/gpu/drm/i915/display/intel_vrr.c |  8 ++++++++
->>   include/drm/drm_crtc.h                   |  3 +++
->>   4 files changed, 38 insertions(+), 1 deletion(-)
->>
->> --
->> 2.35.1
->>
-> 
-
+--------------rs0qKD0lZDFSRDxuai27ujQX--
