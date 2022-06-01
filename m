@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A52153A91D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 16:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E5B53A924
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 16:27:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5825910E1E8;
-	Wed,  1 Jun 2022 14:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA9010E358;
+	Wed,  1 Jun 2022 14:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF1310E0A2;
- Wed,  1 Jun 2022 14:25:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654093553; x=1685629553;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Ok9XCk80NNrThXBexGr1H8fx2eF3kbnPs/42iX0qct4=;
- b=SG6ej8qx21OZsHr7lil3MAGDHl6sOd4Og/D63BsdYLS9AODZnOrP2cDe
- oaTJZccu94lSq5nR7lnKhHF/B+Qs2UZocVZJ/3nfSibRLi7Vd9Ptvnmza
- VrtQza2AplFds0Ki2uR6fJZ59leMF9KSrZwkCxkvLvIvDlj+ukilfQK8/
- 9HOcLhp16alhiJvQ+u7yJTOnqFzhXn+VhRIFnuZhJ/t73k+WJ8h/gTWek
- 4jlJcXE9bv907u56cXyGhlHwkxq4hhAl0rkYQVr58sH5OX6vL4fGOpB0S
- eQ1wg580qBD8cSGUHIlBONrEIZUkXK6OtDXJJBiYYfIUgUoYMmvw5iFis w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="274406445"
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; d="scan'208";a="274406445"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 07:25:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; d="scan'208";a="612342020"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga001.jf.intel.com with ESMTP; 01 Jun 2022 07:25:52 -0700
-Received: from [10.249.151.195] (unknown [10.249.151.195])
- by linux.intel.com (Postfix) with ESMTP id D39A6580514;
- Wed,  1 Jun 2022 07:25:50 -0700 (PDT)
-Message-ID: <43746609-4f60-f347-5934-6680516297dd@intel.com>
-Date: Wed, 1 Jun 2022 17:25:49 +0300
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFD7010E358
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 14:27:36 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id y187so2074014pgd.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 07:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=1kEmR6X4i/nh+b6VMavBDubG9LMGPY4F+6d16NUM+gg=;
+ b=mzH/QSAKngGq4V8ihQYKENupPuzAZLcXExKUCzkD7wVNpc9ZhtZ9SHvU7A/Wtsjk5p
+ u8kr0G8Dxjuyhpjuqw3LG5uYEJBVyjeqJdOgUCIYXBdjvv7C4kZJqrt481urixeIGVCQ
+ 6Bk5quC5jGzL+SmIzDU43ncWqQdAVI/I0jUgQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=1kEmR6X4i/nh+b6VMavBDubG9LMGPY4F+6d16NUM+gg=;
+ b=MI0LbbHLJDk4PsPLcXFYKfeghFSMBnOiBiv7PemKlNXbc+hKCLdnKnKXznGV2jYYGH
+ wwjkBySqhLtg+F5jAepFo565YIzDXzvLkW1mRI0Rk8YH6jXWvcnjEST+bjG/QWv/PYu9
+ xxZ8wvJLK09wsiLkTyHURXkbUo6tyKbKj//ikoC3ST3XVa8L0H4X4BctBOnpB0JBmB+W
+ FrpwQBFHz72/gEUWY+dy4fU5T+AZA5k2w6hNrd4DvvkBN/EAKJ7Fn0GBjZDEKrj9jgky
+ En8ZeODEV3mv1WTCzC/+5MnOo/ODbMLdbsvPN4Rt1n09F4wZ8IVoUDDOJgFMHYRRgAox
+ K83g==
+X-Gm-Message-State: AOAM533LuHjzYg8nJ3dKSXpT0ADx/8J2i6/vkjYDNOaB/kIUMYJAFgu4
+ HUDbQwhj3rcTFvCydgzWpG29Ig==
+X-Google-Smtp-Source: ABdhPJx1bs4rZIm3ygpokZwXwCX7e324N+HICM85x+DBIaCNTNO14kwZs2t/7lNxNBCdLuDn6WabZQ==
+X-Received: by 2002:a05:6a00:a01:b0:51b:51d8:3c2a with SMTP id
+ p1-20020a056a000a0100b0051b51d83c2amr152799pfh.68.1654093656292; 
+ Wed, 01 Jun 2022 07:27:36 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:ec3a:4b49:34bc:e5b4])
+ by smtp.gmail.com with ESMTPSA id
+ 2-20020a170902c24200b00162523fdb8fsm1589163plg.252.2022.06.01.07.27.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jun 2022 07:27:35 -0700 (PDT)
+Date: Wed, 1 Jun 2022 23:27:30 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-fence: allow dma fence to have
+ their own lock
+Message-ID: <Ypd3Us3a93aLonqT@google.com>
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com>
+ <YpWCvniLzJfcp684@google.com>
+ <33aba213-b6ad-4a15-9272-c62f5dfb1fb7@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
- document
-Content-Language: en-US
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@intel.com
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <33aba213-b6ad-4a15-9272-c62f5dfb1fb7@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,75 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@intel.com, christian.koenig@amd.com,
- chris.p.wilson@intel.com
+Cc: linaro-mm-sig@lists.linaro.org, Gustavo Padovan <gustavo@padovan.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Ricardo Ribalda <ribalda@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
-> +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
-> +async worker. The binding and unbinding will work like a special GPU engine.
-> +The binding and unbinding operations are serialized and will wait on specified
-> +input fences before the operation and will signal the output fences upon the
-> +completion of the operation. Due to serialization, completion of an operation
-> +will also indicate that all previous operations are also complete.
+On (22/06/01 14:45), Christian König wrote:
+> Am 31.05.22 um 04:51 schrieb Sergey Senozhatsky:
+> > On (22/05/30 16:55), Christian König wrote:
+> > > Am 30.05.22 um 16:22 schrieb Sergey Senozhatsky:
+> > > > [SNIP]
+> > > > So the `lock` should have at least same lifespan as the DMA fence
+> > > > that borrows it, which is impossible to guarantee in our case.
+> > > Nope, that's not correct. The lock should have at least same lifespan as the
+> > > context of the DMA fence.
+> > How does one know when it's safe to release the context? DMA fence
+> > objects are still transparently refcount-ed and "live their own lives",
+> > how does one synchronize lifespans?
+> 
+> Well, you don't.
+> 
+> If you have a dynamic context structure you need to reference count that as
+> well. In other words every time you create a fence in your context you need
+> to increment the reference count and every time a fence is release you
+> decrement it.
 
-I guess we should avoid saying "will immediately start 
-binding/unbinding" if there are fences involved.
+OK then fence release should be able to point back to its "context"
+structure. Either a "private" data in dma fence or we need to "embed"
+fence into another object (refcounted) that owns the lock and provide
+dma fence ops->release callback, which can container_of() to the object
+that dma fence is embedded into.
 
-And the fact that it's happening in an async worker seem to imply it's 
-not immediate.
+I think you are suggesting the latter. Thanks for clarifications.
 
+The limiting factor of this approach is that now our ops->release() is
+under the same "pressure" as dma_fence_put()->dma_fence_release() are.
+dma_fence_put() and dma_fence_release() can be called from any context,
+as far as I understand, e.g. IRQ, however our normal object ->release
+can schedule, we do things like synchronize_rcu() and so on. Nothing is
+impossible, just saying that even this approach is not 100% perfect and
+may need additional workarounds.
 
-I have a question on the behavior of the bind operation when no input 
-fence is provided. Let say I do :
+> If you have a static context structure like most drivers have then you must
+> make sure that all fences at least signal before you unload your driver. We
+> still somewhat have a race when you try to unload a driver and the fence_ops
+> structure suddenly disappear, but we currently live with that.
 
-VM_BIND (out_fence=fence1)
+Hmm, indeed... I didn't consider fence_ops case.
 
-VM_BIND (out_fence=fence2)
+> Apart from that you are right, fences can live forever and we need to deal
+> with that.
 
-VM_BIND (out_fence=fence3)
-
-
-In what order are the fences going to be signaled?
-
-In the order of VM_BIND ioctls? Or out of order?
-
-Because you wrote "serialized I assume it's : in order
-
-
-One thing I didn't realize is that because we only get one "VM_BIND" 
-engine, there is a disconnect from the Vulkan specification.
-
-In Vulkan VM_BIND operations are serialized but per engine.
-
-So you could have something like this :
-
-VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
-
-VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
-
-
-fence1 is not signaled
-
-fence3 is signaled
-
-So the second VM_BIND will proceed before the first VM_BIND.
-
-
-I guess we can deal with that scenario in userspace by doing the wait 
-ourselves in one thread per engines.
-
-But then it makes the VM_BIND input fences useless.
-
-
-Daniel : what do you think? Should be rework this or just deal with wait 
-fences in userspace?
-
-
-Sorry I noticed this late.
-
-
--Lionel
-
-
+OK. I see.
