@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB7D53A371
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E19E53A372
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFD4010E368;
-	Wed,  1 Jun 2022 11:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B46810E9C9;
+	Wed,  1 Jun 2022 11:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33C310E368
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:03:14 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id e25so1808597wra.11
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 04:03:14 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84CB210E404
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:03:16 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id h5so1869093wrb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 04:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=q6tthIMoT4ruD6JHwzSQMleekGF9Zk9WpAchytaiYTM=;
- b=BVlIGd7DGxhP3kteQYVstjWADi5+sAeQTjsydIO0PG6YOts2TQa26BbXpRjb2JHqxV
- TaFgM5zKcMlO1QaUscfhF9C/IRbqGI3kGajtRGKvEBzLHXYBuMKORcxviEV9GAKFtMQM
- eNrf6HYo6jHiuXlHzeNbIc13VM9JneZ/DWSfU1PjZ6KmlcgfVMmX4juFE4k2GL01Go/Q
- j2TJoJNvvz/XUB2hADLuwSzac4/HC6uy8cLqjhBJ/YzQp4pAvs/RMJW2WCnBhQPhHIq/
- fVvydLYJP1CwGb8lBIEZJwQ1JWjSJLPibrhMjV4MAjbD2gLLzGy78M3+fexCvOe6Bxnc
- 4WMg==
+ bh=MY3KdiWHdb5CQcuaqFb688MwfgTh9jY8AmMC7tDgzHo=;
+ b=B2HuTJfwnmOl4WdDoe7QPpkKb8j7BGWs2EhsQWktyoz2XAO0Neg5LZruqZ3XjcjThw
+ Baq/ZVfjZ6dyh4cjdJDP7JrMr5FjF6gVNIbyzvz6GAXpr0Nx3xjUfIhWO2if1GMk2YlJ
+ UadttVAbvqYnrSjhuiWUtB6useEV1VvdexIJe8OnoLamOjTuD1qn3zj7SxIUzF37ijee
+ gz1z/lxM9RFCnPIcT3RdN0DmlsI+FkuFvDY7MfS4294hD8JtcoJjm8cFbrLUrS9rH6H5
+ sirXjmM4sN2AJnlWIdYPoN+I84bMebZ8pHCErDg9l8gNcY0fjf6+4o/ljcgOjrJnnXsH
+ zpBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=q6tthIMoT4ruD6JHwzSQMleekGF9Zk9WpAchytaiYTM=;
- b=z2jb0PRueLx6dBReHLP55jlumubOqZ8NIEDyGGOV00Iy8t+mA89Zg2mACMiDKsxaro
- T2TOnzaL9Zo3GL3qJGcA/TSdJsXqZwBzvHCyRrCIVr4YL5IJgHsMjMzW4/NkhiavWvYL
- WZ/xIsv7Er+jA6J8DCudpI94J8B46hP8o9jiRqvwhHuxr61FRYGqlFzAQUoZ4JO1MlXU
- CoIuP6yyhxiHq+ElBYgFxOkVZ+D/HXtt5BpMkguofPiNDe1zdvDLZ45jK9GyK52zyrPA
- CwcFPBvJP2ZmBkGRrOlD4Vm3liqwDul645Ez90c+Dcf2POh7mfeby7LZsbkRQ/ar273e
- xwHw==
-X-Gm-Message-State: AOAM5317qYOzSbicW0KbDA+8XaIoMZVbatXWQJpnBakiz3/a3abGSxHk
- 2tx9paHfM+yPY+FSaNY7R0o=
-X-Google-Smtp-Source: ABdhPJzLmmoS2dYg0CT3V1aVAnpDEFMEScwN3Ds9lW57/lngszZOr8vkmalkfzvnB1GkITDhJ2zlLQ==
-X-Received: by 2002:a5d:5888:0:b0:20d:270f:6b61 with SMTP id
- n8-20020a5d5888000000b0020d270f6b61mr52883493wrf.211.1654081393257; 
- Wed, 01 Jun 2022 04:03:13 -0700 (PDT)
+ bh=MY3KdiWHdb5CQcuaqFb688MwfgTh9jY8AmMC7tDgzHo=;
+ b=nmcVatMOA3EJ0I40sbuM+sYSd6CLxWQwBM32n117lWkmniXM+UIAE6Jycx3UYcoOS+
+ BcT4SbNr2OrJJqLzieJobnGXd8imHEfIQsZU6feYE54KYGZCbHJrYma09/qZ7z8aQMeR
+ MeLQPfCQyXx/UveGhsEF6806Krqc5tmB6rA/9xe2Amiaxt7ta+0S9g7m5eOXzn4r/BC6
+ MdS2T0wy/IfqXU77QeMX/0IjlkllHWnydtYcSSavy2wH5upG+tn8LcrqxrRGAoVX0/IW
+ MKTJrPqjYmbeVYkFH7CCWETlskCHV6Nnxjc68b7H3XjbORQs/kf4sDyaaWKYnHDV1lLE
+ dajg==
+X-Gm-Message-State: AOAM530WqxUEDLEjbVh23VOsSA+MEzCqNOzgm80yLHlRJ7HLMv7QniwP
+ WtTDWT7+EqxFAfGdIZqCsMU=
+X-Google-Smtp-Source: ABdhPJyl7yv52MHioSjrQGG4AmhNAc90V9U32+IUh88qp//uyW424QckWORdAFdD9y/kIMs8k5Icjg==
+X-Received: by 2002:a05:6000:1d84:b0:20e:5fae:6e71 with SMTP id
+ bk4-20020a0560001d8400b0020e5fae6e71mr54637691wrb.224.1654081395032; 
+ Wed, 01 Jun 2022 04:03:15 -0700 (PDT)
 Received: from morpheus.home.roving-it.com (82-132-215-116.dab.02.net.
  [82.132.215.116]) by smtp.googlemail.com with ESMTPSA id
- j14-20020a05600c190e00b00397381a7ae8sm6074559wmq.30.2022.06.01.04.03.11
+ j14-20020a05600c190e00b00397381a7ae8sm6074559wmq.30.2022.06.01.04.03.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 04:03:12 -0700 (PDT)
+ Wed, 01 Jun 2022 04:03:14 -0700 (PDT)
 From: Peter Robinson <pbrobinson@gmail.com>
 To: Arnd Bergmann <arnd@arndb.de>, bcm-kernel-feedback-list@broadcom.com,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
@@ -57,9 +57,9 @@ To: Arnd Bergmann <arnd@arndb.de>, bcm-kernel-feedback-list@broadcom.com,
  Nicolas Saenz Julienne <nsaenz@kernel.org>,
  Rob Herring <robh+dt@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v5 4/6] ARM: dts: bcm2711: Enable V3D
-Date: Wed,  1 Jun 2022 12:02:47 +0100
-Message-Id: <20220601110249.569540-5-pbrobinson@gmail.com>
+Subject: [PATCH v5 5/6] ARM: configs: Enable DRM_V3D
+Date: Wed,  1 Jun 2022 12:02:48 +0100
+Message-Id: <20220601110249.569540-6-pbrobinson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601110249.569540-1-pbrobinson@gmail.com>
 References: <20220601110249.569540-1-pbrobinson@gmail.com>
@@ -82,56 +82,44 @@ Cc: Peter Robinson <pbrobinson@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the entry for V3D for bcm2711 (used in the Raspberry Pi 4)
-and the associated firmware clock entry.
+BCM2711, the SoC used on the Raspberry Pi 4 has a different 3D
+render GPU IP than its predecessors. Enable it it on multi v7
+and bcm2835 configs.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 ---
 Changes since v5:
-- Move the firmware clock to bcm2711-rpi.dtsi
+- Added to bcm2835_defconfig
 
- arch/arm/boot/dts/bcm2711-rpi.dtsi |  4 ++++
- arch/arm/boot/dts/bcm2711.dtsi     | 11 +++++++++++
- 2 files changed, 15 insertions(+)
+ arch/arm/configs/bcm2835_defconfig  | 1 +
+ arch/arm/configs/multi_v7_defconfig | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/bcm2711-rpi.dtsi b/arch/arm/boot/dts/bcm2711-rpi.dtsi
-index ca266c5d9f9b..98817a6675b9 100644
---- a/arch/arm/boot/dts/bcm2711-rpi.dtsi
-+++ b/arch/arm/boot/dts/bcm2711-rpi.dtsi
-@@ -69,6 +69,10 @@ blconfig: nvram@0 {
- 	};
- };
- 
-+&v3d {
-+	clocks = <&firmware_clocks 5>;
-+};
-+
- &vchiq {
- 	interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
- };
-diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-index 89af57482bc8..177662257b16 100644
---- a/arch/arm/boot/dts/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/bcm2711.dtsi
-@@ -601,6 +601,17 @@ genet_mdio: mdio@e14 {
- 				#size-cells = <0x0>;
- 			};
- 		};
-+
-+		v3d: gpu@7ec00000 {
-+			compatible = "brcm,bcm2711-v3d";
-+			reg = <0x0 0x7ec00000 0x4000>,
-+			      <0x0 0x7ec04000 0x4000>;
-+			reg-names = "hub", "core0";
-+
-+			power-domains = <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
-+			resets = <&pm BCM2835_RESET_V3D>;
-+			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
-+		};
- 	};
- };
- 
+diff --git a/arch/arm/configs/bcm2835_defconfig b/arch/arm/configs/bcm2835_defconfig
+index a9ed79b7f871..9270512c14ea 100644
+--- a/arch/arm/configs/bcm2835_defconfig
++++ b/arch/arm/configs/bcm2835_defconfig
+@@ -106,6 +106,7 @@ CONFIG_REGULATOR_GPIO=y
+ CONFIG_MEDIA_SUPPORT=y
+ CONFIG_MEDIA_CAMERA_SUPPORT=y
+ CONFIG_DRM=y
++CONFIG_DRM_V3D=y
+ CONFIG_DRM_VC4=y
+ CONFIG_FB_SIMPLE=y
+ CONFIG_FRAMEBUFFER_CONSOLE=y
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index d6a6811f0539..e2db5cdc66b7 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -731,6 +731,7 @@ CONFIG_DRM_IMX_PARALLEL_DISPLAY=m
+ CONFIG_DRM_IMX_TVE=m
+ CONFIG_DRM_IMX_LDB=m
+ CONFIG_DRM_IMX_HDMI=m
++CONFIG_DRM_V3D=m
+ CONFIG_DRM_VC4=m
+ CONFIG_DRM_ETNAVIV=m
+ CONFIG_DRM_MXSFB=m
 -- 
 2.36.1
 
