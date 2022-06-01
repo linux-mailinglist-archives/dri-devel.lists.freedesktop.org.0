@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540B9539A6C
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 02:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CD4539A69
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 02:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A477310FC7C;
-	Wed,  1 Jun 2022 00:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2C310FC80;
+	Wed,  1 Jun 2022 00:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C38B410FC79
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 00:39:54 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id jx22so549095ejb.12
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 17:39:54 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC6210FC79
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 00:39:55 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id q1so571159ejz.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 17:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=basnieuwenhuizen.nl; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I5V72J0EO/W5B16iFZ0NQLs9JOmZbygqYCb0phH8njs=;
- b=ZfNi4fhKfYVsTPhuCi7oDCSqLFBQm+6MwvGezVOV1JJE5QU4cBQqNdEi6Cf+Pvf3MB
- uyT1miYoZAEC5zMhV71Bm1t2tBdZkafm3ThKyQA087abIbwDxDcFDdSTwpWR8v4FNn5V
- xyIw9TENFv0Hs6runYlXJGrmYKRTBZyGdCFOzxshVcqMvOKmdKIG6U86s6u2j2IwLYCt
- SNqJG31YzPQpKUrbOOY3cP2T2lT3KZcJJbtKiAMfw23SjiELtxfQ2oFP+LAUmNajmc5S
- rnBA3CpmbBwnt23pX8O8oAuKTRsswxOqwWIe2TEdpfZDC2VseV/GTK4EnfpdmC66KZOk
- XU6g==
+ bh=QMJOKD5XNzIEyQoolp8ecqdgQU8Pb+KC8yrhuJ5T9II=;
+ b=Lhg22AxDioU050RzqPyAjIYFUgPvUvQ+u8Lrcye7+cjj5JsDUWcvtslOfuenv8ADyM
+ 4STxwRglbYKpvnD4bEgTM0PwZFpS0a9AQ3CX+upGqudse+hOLR5+1WV8g7afiLPs4Cyg
+ r7wpeLzjlsSBX+2y1EwJiIHhezCYFLvTwnl5Hp4pRQ+zmVfD0+tbEAmmJCL67iNVG1da
+ xo6hVrO90eFXGbmjOTR5RlA+8xee7M54fpFv+JfP+HPp8oHAWMc13UDP2uSDvtEWQepo
+ si38k6j0ozHggWfKa+HDIko3L+72ib6ZqQf+pGcuJxygwVcXDt5WSx10Quk8VpIeFr1q
+ hu5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I5V72J0EO/W5B16iFZ0NQLs9JOmZbygqYCb0phH8njs=;
- b=uMKSq54dyAUsJjVxDMPsE5qKBCjK6V6iqvT9prxkQTgl8lKWlk7NdXveQjezQbEeS0
- kws2t/rjhoxwNxEUYBrYnpeR9GCWwhnbKeIPP9CaDJVY1ivokhBwsPePUb1oa+XGyaNm
- /vx4TeARuk75kps1TliRLhIPUHOOHM0CqGYD9s+/yyCRqA1xQqtHZYc+0wrt8tBuu15v
- t4x6A+vpT5g0p4/+M84t5w7Az84obOa7DTp3Iz7UFQTu+Ti8InqZMnaQ4RWqjsx/cNJp
- FbmCK2NkxM6/iJL4ta95AlJtzPgVUnEN2GoE+dVd6DOAImJWSsvFeZ5hCSyeOdO9p+3n
- 2d8g==
-X-Gm-Message-State: AOAM5339Zlz/moZx3JGTSlIYMFV3JPLSjyYIrmI4DxiTxhjLcOUHSbo+
- FAJfqOiblHATSqpE2Ju4itQkJ5goOcfnFw==
-X-Google-Smtp-Source: ABdhPJzfDVFLgbIurO4TMYzSu1NiqdkwxASnZO9pcnQDJFtncCm5n+oOA0IhDY+xAVLfTh+Kn6O4kA==
-X-Received: by 2002:a17:907:2d1e:b0:6fe:c5a3:4874 with SMTP id
- gs30-20020a1709072d1e00b006fec5a34874mr44209152ejc.61.1654043992997; 
- Tue, 31 May 2022 17:39:52 -0700 (PDT)
+ bh=QMJOKD5XNzIEyQoolp8ecqdgQU8Pb+KC8yrhuJ5T9II=;
+ b=N8kRn2rjTbKr8MMpn44ZikII8DexMJDsKTIK9rckbDk+sFWSn/kpd+Pm+em8O7A1hM
+ WCGwk2y+E1TlRNdWybA7q5Vnh8ijwY8FG5YI/55Y90xXXi6wf8+U+RdAtFcI0zcpb8Fy
+ XQNyVPPEwMqE67nEaygY6oLzpc1SomhCXDyu/yvarDnyESsEZZsIHZCbxRiDr1KS0QTu
+ sXp9X/O/6Dh68C7zO9nENvUIuSQMM5leJUIunmlK2IrtNrnRfXrJjlb8hDdzO3bMXH/w
+ MQwt40cAqwzstULzw4TuTe3dCwxP+EX2DGaU9luiznpZprzIKGrtq+wtqyKuy9YFb/rB
+ uTXw==
+X-Gm-Message-State: AOAM531Uw39QnkGXrC8a8bJk13XsppND3LM3p2NkrBVDJe8c0DPaKwvL
+ v6buOyA0FjNhQQmUCO658UC1PJ3dgjBQww==
+X-Google-Smtp-Source: ABdhPJykdt1Bo+Xy83vK/IJQ0whSdk/eRcGF+9H/wG7DMQ4ZO8R6XL+B/f5um4l32k+MuckfvdJFlQ==
+X-Received: by 2002:a17:906:482:b0:6fe:86fa:a5c5 with SMTP id
+ f2-20020a170906048200b006fe86faa5c5mr55205375eja.28.1654043993736; 
+ Tue, 31 May 2022 17:39:53 -0700 (PDT)
 Received: from bas-workstation.. ([2a02:aa12:a77f:2000:7285:c2ff:fe67:a82f])
  by smtp.gmail.com with ESMTPSA id
- d21-20020a056402001500b0042aa23fa93bsm106182edu.20.2022.05.31.17.39.52
+ d21-20020a056402001500b0042aa23fa93bsm106182edu.20.2022.05.31.17.39.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 17:39:52 -0700 (PDT)
+ Tue, 31 May 2022 17:39:53 -0700 (PDT)
 From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 1/5] drm/ttm: Refactor num_shared into usage.
-Date: Wed,  1 Jun 2022 02:40:10 +0200
-Message-Id: <20220601004014.158247-2-bas@basnieuwenhuizen.nl>
+Subject: [RFC PATCH 2/5] drm/amdgpu: Add separate mode for syncing
+ DMA_RESV_USAGE_BOOKKEEP.
+Date: Wed,  1 Jun 2022 02:40:11 +0200
+Message-Id: <20220601004014.158247-3-bas@basnieuwenhuizen.nl>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
 References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
@@ -74,379 +75,202 @@ Cc: christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So that the driver can set some BOOKKEEP for explicit sync. Maybe
-some of the existing places would already make sense for that, but
-I targeted this for no functional changes.
+To prep for allowing different sync modes in a follow-up patch.
 
 Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 10 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c            |  8 +++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c           |  6 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c          |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c            |  3 +--
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c              |  2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
- drivers/gpu/drm/qxl/qxl_release.c                 |  2 +-
- drivers/gpu/drm/radeon/radeon_cs.c                |  5 +++--
- drivers/gpu/drm/radeon/radeon_gem.c               |  2 +-
- drivers/gpu/drm/radeon/radeon_vm.c                |  4 ++--
- drivers/gpu/drm/ttm/ttm_execbuf_util.c            |  5 ++---
- drivers/gpu/drm/vmwgfx/vmwgfx_resource.c          | 10 +++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_validation.c        |  2 +-
- include/drm/ttm/ttm_execbuf_util.h                |  3 ++-
- 16 files changed, 33 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c           |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c       | 11 +++++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h       |  3 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c         | 11 ++++++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h         |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c          |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c      |  2 +-
+ 10 files changed, 25 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index a4955ef76cfc..a790a089e829 100644
+index a790a089e829..92a1b08b3bbc 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -774,7 +774,7 @@ static void add_kgd_mem_to_kfd_bo_list(struct kgd_mem *mem,
- 	struct amdgpu_bo *bo = mem->bo;
+@@ -1157,7 +1157,7 @@ static int process_sync_pds_resv(struct amdkfd_process_info *process_info,
+ 		struct amdgpu_bo *pd = peer_vm->root.bo;
  
- 	INIT_LIST_HEAD(&entry->head);
--	entry->num_shared = 1;
-+	entry->usage = DMA_RESV_USAGE_READ;
- 	entry->bo = &bo->tbo;
- 	mutex_lock(&process_info->lock);
- 	if (userptr)
-@@ -918,7 +918,7 @@ static int reserve_bo_and_vm(struct kgd_mem *mem,
- 
- 	ctx->kfd_bo.priority = 0;
- 	ctx->kfd_bo.tv.bo = &bo->tbo;
--	ctx->kfd_bo.tv.num_shared = 1;
-+	ctx->kfd_bo.tv.usage = DMA_RESV_USAGE_READ;
- 	list_add(&ctx->kfd_bo.tv.head, &ctx->list);
- 
- 	amdgpu_vm_get_pd_bo(vm, &ctx->list, &ctx->vm_pd[0]);
-@@ -981,7 +981,7 @@ static int reserve_bo_and_cond_vms(struct kgd_mem *mem,
- 
- 	ctx->kfd_bo.priority = 0;
- 	ctx->kfd_bo.tv.bo = &bo->tbo;
--	ctx->kfd_bo.tv.num_shared = 1;
-+	ctx->kfd_bo.tv.usage = DMA_RESV_USAGE_READ;
- 	list_add(&ctx->kfd_bo.tv.head, &ctx->list);
- 
- 	i = 0;
-@@ -2218,7 +2218,7 @@ static int validate_invalid_user_pages(struct amdkfd_process_info *process_info)
- 			    validate_list.head) {
- 		list_add_tail(&mem->resv_list.head, &resv_list);
- 		mem->resv_list.bo = mem->validate_list.bo;
--		mem->resv_list.num_shared = mem->validate_list.num_shared;
-+		mem->resv_list.usage = mem->validate_list.usage;
- 	}
- 
- 	/* Reserve all BOs and page tables for validation */
-@@ -2417,7 +2417,7 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
- 
- 		list_add_tail(&mem->resv_list.head, &ctx.list);
- 		mem->resv_list.bo = mem->validate_list.bo;
--		mem->resv_list.num_shared = mem->validate_list.num_shared;
-+		mem->resv_list.usage = mem->validate_list.usage;
- 	}
- 
- 	ret = ttm_eu_reserve_buffers(&ctx.ticket, &ctx.list,
+ 		ret = amdgpu_sync_resv(NULL, sync, pd->tbo.base.resv,
+-				       AMDGPU_SYNC_NE_OWNER,
++				       AMDGPU_SYNC_NE_OWNER, AMDGPU_SYNC_NE_OWNER,
+ 				       AMDGPU_FENCE_OWNER_KFD);
+ 		if (ret)
+ 			return ret;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 60ca14afb879..2ae1c0d9d33a 100644
+index 2ae1c0d9d33a..0318a6d46a41 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -55,8 +55,7 @@ static int amdgpu_cs_user_fence_chunk(struct amdgpu_cs_parser *p,
- 	bo = amdgpu_bo_ref(gem_to_amdgpu_bo(gobj));
- 	p->uf_entry.priority = 0;
- 	p->uf_entry.tv.bo = &bo->tbo;
--	/* One for TTM and two for the CS job */
--	p->uf_entry.tv.num_shared = 3;
-+	p->uf_entry.tv.usage = DMA_RESV_USAGE_READ;
- 
- 	drm_gem_object_put(gobj);
- 
-@@ -519,9 +518,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
- 			return r;
- 	}
- 
--	/* One for TTM and one for the CS job */
- 	amdgpu_bo_list_for_each_entry(e, p->bo_list)
--		e->tv.num_shared = 2;
-+		e->tv.usage = DMA_RESV_USAGE_READ;
- 
- 	amdgpu_bo_list_get_list(p->bo_list, &p->validated);
- 
-@@ -1261,7 +1259,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 
- 	/* Make sure all BOs are remembered as writers */
- 	amdgpu_bo_list_for_each_entry(e, p->bo_list)
--		e->tv.num_shared = 0;
-+		e->tv.usage = DMA_RESV_USAGE_WRITE;
- 
- 	ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
- 	mutex_unlock(&p->adev->notifier_lock);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c
-index c6d4d41c4393..71277257d94d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c
-@@ -74,7 +74,7 @@ int amdgpu_map_static_csa(struct amdgpu_device *adev, struct amdgpu_vm *vm,
- 	INIT_LIST_HEAD(&list);
- 	INIT_LIST_HEAD(&csa_tv.head);
- 	csa_tv.bo = &bo->tbo;
--	csa_tv.num_shared = 1;
-+	csa_tv.usage = DMA_RESV_USAGE_READ;
- 
- 	list_add(&csa_tv.head, &list);
- 	amdgpu_vm_get_pd_bo(vm, &list, &pd);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index 84a53758e18e..7483411229f4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -207,7 +207,7 @@ static void amdgpu_gem_object_close(struct drm_gem_object *obj,
- 	INIT_LIST_HEAD(&duplicates);
- 
- 	tv.bo = &bo->tbo;
--	tv.num_shared = 2;
-+	tv.usage = DMA_RESV_USAGE_READ;
- 	list_add(&tv.head, &list);
- 
- 	amdgpu_vm_get_pd_bo(vm, &list, &vm_pd);
-@@ -731,9 +731,9 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 		abo = gem_to_amdgpu_bo(gobj);
- 		tv.bo = &abo->tbo;
- 		if (abo->flags & AMDGPU_GEM_CREATE_VM_ALWAYS_VALID)
--			tv.num_shared = 1;
-+			tv.usage = DMA_RESV_USAGE_READ;
- 		else
--			tv.num_shared = 0;
-+			tv.usage = DMA_RESV_USAGE_WRITE;
- 		list_add(&tv.head, &list);
- 	} else {
- 		gobj = NULL;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-index 5224d9a39737..f670d8473993 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-@@ -319,7 +319,7 @@ static int amdgpu_vkms_prepare_fb(struct drm_plane *plane,
- 	INIT_LIST_HEAD(&list);
- 
- 	tv.bo = &rbo->tbo;
--	tv.num_shared = 1;
-+	tv.usage = DMA_RESV_USAGE_READ;
- 	list_add(&tv.head, &list);
- 
- 	r = ttm_eu_reserve_buffers(&ticket, &list, false, NULL);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 15184153e2b9..515be19ab279 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -633,8 +633,7 @@ void amdgpu_vm_get_pd_bo(struct amdgpu_vm *vm,
- {
- 	entry->priority = 0;
- 	entry->tv.bo = &vm->root.bo->tbo;
--	/* Two for VM updates, one for TTM and one for the CS job */
--	entry->tv.num_shared = 4;
-+	entry->tv.usage = DMA_RESV_USAGE_READ;
- 	entry->user_pages = NULL;
- 	list_add(&entry->tv.head, validated);
- }
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index b3fc3e958227..af844b636778 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -1395,7 +1395,7 @@ static int svm_range_reserve_bos(struct svm_validate_context *ctx)
- 		vm = drm_priv_to_vm(pdd->drm_priv);
- 
- 		ctx->tv[gpuidx].bo = &vm->root.bo->tbo;
--		ctx->tv[gpuidx].num_shared = 4;
-+		ctx->tv[gpuidx].usage = DMA_RESV_USAGE_READ;
- 		list_add(&ctx->tv[gpuidx].head, &ctx->validate_list);
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 73423b805b54..851b7844b084 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7601,7 +7601,7 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
- 	INIT_LIST_HEAD(&list);
- 
- 	tv.bo = &rbo->tbo;
--	tv.num_shared = 1;
-+	tv.usage = DMA_RESV_USAGE_READ;
- 	list_add(&tv.head, &list);
- 
- 	r = ttm_eu_reserve_buffers(&ticket, &list, false, NULL);
-diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
-index 368d26da0d6a..689e35192070 100644
---- a/drivers/gpu/drm/qxl/qxl_release.c
-+++ b/drivers/gpu/drm/qxl/qxl_release.c
-@@ -183,7 +183,7 @@ int qxl_release_list_add(struct qxl_release *release, struct qxl_bo *bo)
- 
- 	qxl_bo_ref(bo);
- 	entry->tv.bo = &bo->tbo;
--	entry->tv.num_shared = 0;
-+	entry->tv.usage = DMA_RESV_USAGE_WRITE;
- 	list_add_tail(&entry->tv.head, &release->bos);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
-index 446f7bae54c4..30afe0c62dd9 100644
---- a/drivers/gpu/drm/radeon/radeon_cs.c
-+++ b/drivers/gpu/drm/radeon/radeon_cs.c
-@@ -183,7 +183,8 @@ static int radeon_cs_parser_relocs(struct radeon_cs_parser *p)
- 		}
- 
- 		p->relocs[i].tv.bo = &p->relocs[i].robj->tbo;
--		p->relocs[i].tv.num_shared = !r->write_domain;
-+		p->relocs[i].tv.usage =
-+			r->write_domain ? DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_READ;
- 
- 		radeon_cs_buckets_add(&buckets, &p->relocs[i].tv.head,
- 				      priority);
-@@ -258,7 +259,7 @@ static int radeon_cs_sync_rings(struct radeon_cs_parser *p)
- 
- 		resv = reloc->robj->tbo.base.resv;
- 		r = radeon_sync_resv(p->rdev, &p->ib.sync, resv,
--				     reloc->tv.num_shared);
-+				     reloc->tv.usage != DMA_RESV_USAGE_WRITE);
+@@ -654,7 +654,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
+ 		sync_mode = amdgpu_bo_explicit_sync(bo) ?
+ 			AMDGPU_SYNC_EXPLICIT : AMDGPU_SYNC_NE_OWNER;
+ 		r = amdgpu_sync_resv(p->adev, &p->job->sync, resv, sync_mode,
+-				     &fpriv->vm);
++				     AMDGPU_SYNC_EXPLICIT, &fpriv->vm);
  		if (r)
  			return r;
  	}
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 8c01a7f0e027..eae47c709f5d 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -635,7 +635,7 @@ static void radeon_gem_va_update_vm(struct radeon_device *rdev,
- 	INIT_LIST_HEAD(&list);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 91b99eb7dc35..63e6f7b8b522 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1407,7 +1407,8 @@ void amdgpu_bo_fence(struct amdgpu_bo *bo, struct dma_fence *fence,
+  *
+  * @adev: amdgpu device pointer
+  * @resv: reservation object to sync to
+- * @sync_mode: synchronization mode
++ * @implicit_sync_mode: synchronization mode for usage <= DMA_RESV_USAGE_READ
++ * @explicit_sync_mode: synchronization mode for usage DMA_RESV_USAGE_BOOKKEEP
+  * @owner: fence owner
+  * @intr: Whether the wait is interruptible
+  *
+@@ -1417,14 +1418,15 @@ void amdgpu_bo_fence(struct amdgpu_bo *bo, struct dma_fence *fence,
+  * 0 on success, errno otherwise.
+  */
+ int amdgpu_bo_sync_wait_resv(struct amdgpu_device *adev, struct dma_resv *resv,
+-			     enum amdgpu_sync_mode sync_mode, void *owner,
++			     enum amdgpu_sync_mode implicit_sync_mode,
++			     enum amdgpu_sync_mode explicit_sync_mode, void *owner,
+ 			     bool intr)
+ {
+ 	struct amdgpu_sync sync;
+ 	int r;
  
- 	tv.bo = &bo_va->bo->tbo;
--	tv.num_shared = 1;
-+	tv.usage = DMA_RESV_USAGE_READ;
- 	list_add(&tv.head, &list);
+ 	amdgpu_sync_create(&sync);
+-	amdgpu_sync_resv(adev, &sync, resv, sync_mode, owner);
++	amdgpu_sync_resv(adev, &sync, resv, implicit_sync_mode, explicit_sync_mode, owner);
+ 	r = amdgpu_sync_wait(&sync, intr);
+ 	amdgpu_sync_free(&sync);
+ 	return r;
+@@ -1445,7 +1447,8 @@ int amdgpu_bo_sync_wait(struct amdgpu_bo *bo, void *owner, bool intr)
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
  
- 	vm_bos = radeon_vm_get_bos(rdev, bo_va->vm, &list);
-diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
-index 987cabbf1318..702627b48dae 100644
---- a/drivers/gpu/drm/radeon/radeon_vm.c
-+++ b/drivers/gpu/drm/radeon/radeon_vm.c
-@@ -143,7 +143,7 @@ struct radeon_bo_list *radeon_vm_get_bos(struct radeon_device *rdev,
- 	list[0].preferred_domains = RADEON_GEM_DOMAIN_VRAM;
- 	list[0].allowed_domains = RADEON_GEM_DOMAIN_VRAM;
- 	list[0].tv.bo = &vm->page_directory->tbo;
--	list[0].tv.num_shared = 1;
-+	list[0].tv.usage = DMA_RESV_USAGE_READ;
- 	list[0].tiling_flags = 0;
- 	list_add(&list[0].tv.head, head);
+ 	return amdgpu_bo_sync_wait_resv(adev, bo->tbo.base.resv,
+-					AMDGPU_SYNC_NE_OWNER, owner, intr);
++					AMDGPU_SYNC_NE_OWNER, AMDGPU_SYNC_EXPLICIT,
++					owner, intr);
+ }
  
-@@ -155,7 +155,7 @@ struct radeon_bo_list *radeon_vm_get_bos(struct radeon_device *rdev,
- 		list[idx].preferred_domains = RADEON_GEM_DOMAIN_VRAM;
- 		list[idx].allowed_domains = RADEON_GEM_DOMAIN_VRAM;
- 		list[idx].tv.bo = &list[idx].robj->tbo;
--		list[idx].tv.num_shared = 1;
-+		list[idx].tv.usage = DMA_RESV_USAGE_READ;
- 		list[idx].tiling_flags = 0;
- 		list_add(&list[idx++].tv.head, head);
- 	}
-diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
-index 0eb995d25df1..c39d8e5ac271 100644
---- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
-@@ -101,7 +101,7 @@ int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
- 			continue;
- 		}
+ /**
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+index 4c9cbdc66995..9540ee1102ad 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+@@ -321,7 +321,8 @@ vm_fault_t amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
+ void amdgpu_bo_fence(struct amdgpu_bo *bo, struct dma_fence *fence,
+ 		     bool shared);
+ int amdgpu_bo_sync_wait_resv(struct amdgpu_device *adev, struct dma_resv *resv,
+-			     enum amdgpu_sync_mode sync_mode, void *owner,
++			     enum amdgpu_sync_mode implicit_sync_mode,
++			     enum amdgpu_sync_mode explicit_sync_mode, void *owner,
+ 			     bool intr);
+ int amdgpu_bo_sync_wait(struct amdgpu_bo *bo, void *owner, bool intr);
+ u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+index 11c46b3e4c60..b40cd4eff6a3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
+@@ -243,14 +243,15 @@ static bool amdgpu_sync_test_fence(struct amdgpu_device *adev,
+  * @adev: amdgpu device
+  * @sync: sync object to add fences from reservation object to
+  * @resv: reservation object with embedded fence
+- * @mode: how owner affects which fences we sync to
++ * @implicit_mode: how owner affects which fences with usage <= DMA_RESV_USAGE_READ we sync to
++ * @explicit_mode: how owner affects which fences with usage DMA_RESV_USAGE_BOOKKEEP we sync to
+  * @owner: owner of the planned job submission
+  *
+  * Sync to the fence
+  */
+ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+-		     struct dma_resv *resv, enum amdgpu_sync_mode mode,
+-		     void *owner)
++		     struct dma_resv *resv, enum amdgpu_sync_mode implicit_mode,
++		     enum amdgpu_sync_mode explicit_mode, void *owner)
+ {
+ 	struct dma_resv_iter cursor;
+ 	struct dma_fence *f;
+@@ -263,6 +264,10 @@ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+ 	dma_resv_for_each_fence(&cursor, resv, DMA_RESV_USAGE_BOOKKEEP, f) {
+ 		dma_fence_chain_for_each(f, f) {
+ 			struct dma_fence *tmp = dma_fence_chain_contained(f);
++			enum amdgpu_sync_mode mode = implicit_mode;
++
++			if (dma_resv_iter_usage(&cursor) >= DMA_RESV_USAGE_BOOKKEEP)
++				mode = explicit_mode;
  
--		num_fences = min(entry->num_shared, 1u);
-+		num_fences = entry->usage <= DMA_RESV_USAGE_WRITE ? 0u : 1u;
- 		if (!ret) {
- 			ret = dma_resv_reserve_fences(bo->base.resv,
- 						      num_fences);
-@@ -154,8 +154,7 @@ void ttm_eu_fence_buffer_objects(struct ww_acquire_ctx *ticket,
- 	list_for_each_entry(entry, list, head) {
- 		struct ttm_buffer_object *bo = entry->bo;
- 
--		dma_resv_add_fence(bo->base.resv, fence, entry->num_shared ?
--				   DMA_RESV_USAGE_READ : DMA_RESV_USAGE_WRITE);
-+		dma_resv_add_fence(bo->base.resv, fence, entry->usage);
- 		ttm_bo_move_to_lru_tail_unlocked(bo);
- 		dma_resv_unlock(bo->base.resv);
- 	}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-index c6d02c98a19a..58dfff7d6c76 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
-@@ -130,7 +130,7 @@ static void vmw_resource_release(struct kref *kref)
- 			struct ttm_validate_buffer val_buf;
- 
- 			val_buf.bo = bo;
--			val_buf.num_shared = 0;
-+			val_buf.usage = DMA_RESV_USAGE_WRITE;
- 			res->func->unbind(res, false, &val_buf);
- 		}
- 		res->backup_dirty = false;
-@@ -552,7 +552,7 @@ vmw_resource_check_buffer(struct ww_acquire_ctx *ticket,
- 	INIT_LIST_HEAD(&val_list);
- 	ttm_bo_get(&res->backup->base);
- 	val_buf->bo = &res->backup->base;
--	val_buf->num_shared = 0;
-+	val_buf->usage = DMA_RESV_USAGE_WRITE;
- 	list_add_tail(&val_buf->head, &val_list);
- 	ret = ttm_eu_reserve_buffers(ticket, &val_list, interruptible, NULL);
- 	if (unlikely(ret != 0))
-@@ -657,7 +657,7 @@ static int vmw_resource_do_evict(struct ww_acquire_ctx *ticket,
- 	BUG_ON(!func->may_evict);
- 
- 	val_buf.bo = NULL;
--	val_buf.num_shared = 0;
-+	val_buf.usage = DMA_RESV_USAGE_WRITE;
- 	ret = vmw_resource_check_buffer(ticket, res, interruptible, &val_buf);
- 	if (unlikely(ret != 0))
- 		return ret;
-@@ -708,7 +708,7 @@ int vmw_resource_validate(struct vmw_resource *res, bool intr,
+ 			if (amdgpu_sync_test_fence(adev, mode, owner, tmp)) {
+ 				r = amdgpu_sync_fence(sync, f);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
+index 7c0fe20c470d..f786e30eb0a3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.h
+@@ -50,8 +50,8 @@ void amdgpu_sync_create(struct amdgpu_sync *sync);
+ int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f);
+ int amdgpu_sync_vm_fence(struct amdgpu_sync *sync, struct dma_fence *fence);
+ int amdgpu_sync_resv(struct amdgpu_device *adev, struct amdgpu_sync *sync,
+-		     struct dma_resv *resv, enum amdgpu_sync_mode mode,
+-		     void *owner);
++		     struct dma_resv *resv, enum amdgpu_sync_mode implicit_mode,
++		     enum amdgpu_sync_mode explicit_mode, void *owner);
+ struct dma_fence *amdgpu_sync_peek_fence(struct amdgpu_sync *sync,
+ 				     struct amdgpu_ring *ring);
+ struct dma_fence *amdgpu_sync_get_fence(struct amdgpu_sync *sync);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 48a635864a92..00a749016b6d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1971,6 +1971,7 @@ static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
+ 	if (resv) {
+ 		r = amdgpu_sync_resv(adev, &(*job)->sync, resv,
+ 				     AMDGPU_SYNC_ALWAYS,
++				     AMDGPU_SYNC_EXPLICIT,
+ 				     AMDGPU_FENCE_OWNER_UNDEFINED);
+ 		if (r) {
+ 			DRM_ERROR("sync failed (%d).\n", r);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+index 6eac649499d3..de08bab400d5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+@@ -1176,7 +1176,7 @@ static int amdgpu_uvd_send_msg(struct amdgpu_ring *ring, struct amdgpu_bo *bo,
+ 			goto err_free;
+ 	} else {
+ 		r = amdgpu_sync_resv(adev, &job->sync, bo->tbo.base.resv,
+-				     AMDGPU_SYNC_ALWAYS,
++				     AMDGPU_SYNC_ALWAYS, AMDGPU_SYNC_ALWAYS,
+ 				     AMDGPU_FENCE_OWNER_UNDEFINED);
+ 		if (r)
+ 			goto err_free;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
+index 31913ae86de6..f10332e1c6c0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
+@@ -51,7 +51,7 @@ static int amdgpu_vm_cpu_prepare(struct amdgpu_vm_update_params *p,
+ 	if (!resv)
  		return 0;
  
- 	val_buf.bo = NULL;
--	val_buf.num_shared = 0;
-+	val_buf.usage = DMA_RESV_USAGE_WRITE;
- 	if (res->backup)
- 		val_buf.bo = &res->backup->base;
- 	do {
-@@ -777,7 +777,7 @@ void vmw_resource_unbind_list(struct vmw_buffer_object *vbo)
- {
- 	struct ttm_validate_buffer val_buf = {
- 		.bo = &vbo->base,
--		.num_shared = 0
-+		.usage = DMA_RESV_USAGE_WRITE
- 	};
+-	return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode, p->vm, true);
++	return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode, sync_mode, p->vm, true);
+ }
  
- 	dma_resv_assert_held(vbo->base.base.resv);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-index f46891012be3..0476ba498321 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-@@ -288,7 +288,7 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
- 		val_buf->bo = ttm_bo_get_unless_zero(&vbo->base);
- 		if (!val_buf->bo)
- 			return -ESRCH;
--		val_buf->num_shared = 0;
-+		val_buf->usage = DMA_RESV_USAGE_WRITE;
- 		list_add_tail(&val_buf->head, &ctx->bo_list);
- 		bo_node->as_mob = as_mob;
- 		bo_node->cpu_blit = cpu_blit;
-diff --git a/include/drm/ttm/ttm_execbuf_util.h b/include/drm/ttm/ttm_execbuf_util.h
-index a99d7fdf2964..851961a06c27 100644
---- a/include/drm/ttm/ttm_execbuf_util.h
-+++ b/include/drm/ttm/ttm_execbuf_util.h
-@@ -31,6 +31,7 @@
- #ifndef _TTM_EXECBUF_UTIL_H_
- #define _TTM_EXECBUF_UTIL_H_
+ /**
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+index bdb44cee19d3..63b484dc76c5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
+@@ -75,7 +75,7 @@ static int amdgpu_vm_sdma_prepare(struct amdgpu_vm_update_params *p,
+ 	if (!resv)
+ 		return 0;
  
-+#include <linux/dma-resv.h>
- #include <linux/list.h>
- 
- #include "ttm_bo_api.h"
-@@ -46,7 +47,7 @@
- struct ttm_validate_buffer {
- 	struct list_head head;
- 	struct ttm_buffer_object *bo;
--	unsigned int num_shared;
-+	enum dma_resv_usage usage;
- };
+-	return amdgpu_sync_resv(p->adev, &p->job->sync, resv, sync_mode, p->vm);
++	return amdgpu_sync_resv(p->adev, &p->job->sync, resv, sync_mode, sync_mode, p->vm);
+ }
  
  /**
 -- 
