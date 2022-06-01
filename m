@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CBA53A370
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB7D53A371
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A41A10E644;
-	Wed,  1 Jun 2022 11:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFD4010E368;
+	Wed,  1 Jun 2022 11:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 001BA10E404
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:03:12 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id q21so1844388wra.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 04:03:12 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A33C310E368
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:03:14 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id e25so1808597wra.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 04:03:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Oj0UTyy0MLszvmn9VYRtyrJ5EUtyanW7B83YKGtREoY=;
- b=q8JG6nQAxFI6QCloZp2Q4pXzLo3shCoqdhGDgiA2pBrA10VCaqcbmuAJsb25aI4/H/
- uWFzuufhljnvhDTL+e3wGS7WRicznv36my3NbbggPbQkLXYfT+OZlRxNvXEfFZEof2+r
- tM26WAClQnO5mpxQpVckBTlaC4smj5qjrg9SQp3VvX1ezXtQLMy79HZbbjRzGyCdgTyg
- L2ZSMTCRNm6aJYXxX2OHDaap/pXi+yN9Ch5f1QA2UZEB5rYML1oO+bGfydSDlsGIHemX
- 5WH+AykVi/J2hNdYa9Zbr5ziLDTuPRpkLn5vLPCh6SWGn3ATpN5zkmHzP/sxM0sdTDH3
- +4FQ==
+ bh=q6tthIMoT4ruD6JHwzSQMleekGF9Zk9WpAchytaiYTM=;
+ b=BVlIGd7DGxhP3kteQYVstjWADi5+sAeQTjsydIO0PG6YOts2TQa26BbXpRjb2JHqxV
+ TaFgM5zKcMlO1QaUscfhF9C/IRbqGI3kGajtRGKvEBzLHXYBuMKORcxviEV9GAKFtMQM
+ eNrf6HYo6jHiuXlHzeNbIc13VM9JneZ/DWSfU1PjZ6KmlcgfVMmX4juFE4k2GL01Go/Q
+ j2TJoJNvvz/XUB2hADLuwSzac4/HC6uy8cLqjhBJ/YzQp4pAvs/RMJW2WCnBhQPhHIq/
+ fVvydLYJP1CwGb8lBIEZJwQ1JWjSJLPibrhMjV4MAjbD2gLLzGy78M3+fexCvOe6Bxnc
+ 4WMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Oj0UTyy0MLszvmn9VYRtyrJ5EUtyanW7B83YKGtREoY=;
- b=BIpmsxuncX7NplFg+LSIDZPESn3LabBWf+2rn9/J5pyxEWZHUWSqLyGWsDX8iXOziD
- FMyTMwJsw1m1CobkkYcJOUZbuMoZzO+QdAUzU3Z7h0Wsae0flvRPG9Amr5/ToBZRoWvf
- b+4gn6R/Mfl2xyZi6lLufEf0lIlIPXdHCNxttlxUjwf3EQtRqcB/VhR8LU7kLeJPVM8a
- 29a3X55ltpq0y5BbfB/VJPehcLUSGJJbdOQp5zAgEu+CqIuQEkRQFAjz2WQtGvnP7Va0
- C0XN/SsqRsWhENpa/j05s0purK2EbnXVm4fDrU0/S0kc43YXT24lPFfkupHKKfCzQaBh
- fDng==
-X-Gm-Message-State: AOAM532auUZvsptf+oXhaXxB8Dzz5GQsEcQawU3W2PLsl/JBDBnhXHo1
- N45zaSdbY103+oKUUFYhUwk=
-X-Google-Smtp-Source: ABdhPJwDgJrEi99r+BoWVWJzPxWCtq5FeXvDr8rhpjp+LVsx1gRELhK179bEcDAWDnqDCwJUwzpCcQ==
-X-Received: by 2002:adf:fa81:0:b0:20e:69df:5f06 with SMTP id
- h1-20020adffa81000000b0020e69df5f06mr54912093wrr.188.1654081391561; 
- Wed, 01 Jun 2022 04:03:11 -0700 (PDT)
+ bh=q6tthIMoT4ruD6JHwzSQMleekGF9Zk9WpAchytaiYTM=;
+ b=z2jb0PRueLx6dBReHLP55jlumubOqZ8NIEDyGGOV00Iy8t+mA89Zg2mACMiDKsxaro
+ T2TOnzaL9Zo3GL3qJGcA/TSdJsXqZwBzvHCyRrCIVr4YL5IJgHsMjMzW4/NkhiavWvYL
+ WZ/xIsv7Er+jA6J8DCudpI94J8B46hP8o9jiRqvwhHuxr61FRYGqlFzAQUoZ4JO1MlXU
+ CoIuP6yyhxiHq+ElBYgFxOkVZ+D/HXtt5BpMkguofPiNDe1zdvDLZ45jK9GyK52zyrPA
+ CwcFPBvJP2ZmBkGRrOlD4Vm3liqwDul645Ez90c+Dcf2POh7mfeby7LZsbkRQ/ar273e
+ xwHw==
+X-Gm-Message-State: AOAM5317qYOzSbicW0KbDA+8XaIoMZVbatXWQJpnBakiz3/a3abGSxHk
+ 2tx9paHfM+yPY+FSaNY7R0o=
+X-Google-Smtp-Source: ABdhPJzLmmoS2dYg0CT3V1aVAnpDEFMEScwN3Ds9lW57/lngszZOr8vkmalkfzvnB1GkITDhJ2zlLQ==
+X-Received: by 2002:a5d:5888:0:b0:20d:270f:6b61 with SMTP id
+ n8-20020a5d5888000000b0020d270f6b61mr52883493wrf.211.1654081393257; 
+ Wed, 01 Jun 2022 04:03:13 -0700 (PDT)
 Received: from morpheus.home.roving-it.com (82-132-215-116.dab.02.net.
  [82.132.215.116]) by smtp.googlemail.com with ESMTPSA id
- j14-20020a05600c190e00b00397381a7ae8sm6074559wmq.30.2022.06.01.04.03.09
+ j14-20020a05600c190e00b00397381a7ae8sm6074559wmq.30.2022.06.01.04.03.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 04:03:11 -0700 (PDT)
+ Wed, 01 Jun 2022 04:03:12 -0700 (PDT)
 From: Peter Robinson <pbrobinson@gmail.com>
 To: Arnd Bergmann <arnd@arndb.de>, bcm-kernel-feedback-list@broadcom.com,
  Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
@@ -57,9 +57,9 @@ To: Arnd Bergmann <arnd@arndb.de>, bcm-kernel-feedback-list@broadcom.com,
  Nicolas Saenz Julienne <nsaenz@kernel.org>,
  Rob Herring <robh+dt@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v5 3/6] drm/v3d: Add support for bcm2711
-Date: Wed,  1 Jun 2022 12:02:46 +0100
-Message-Id: <20220601110249.569540-4-pbrobinson@gmail.com>
+Subject: [PATCH v5 4/6] ARM: dts: bcm2711: Enable V3D
+Date: Wed,  1 Jun 2022 12:02:47 +0100
+Message-Id: <20220601110249.569540-5-pbrobinson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601110249.569540-1-pbrobinson@gmail.com>
 References: <20220601110249.569540-1-pbrobinson@gmail.com>
@@ -82,43 +82,56 @@ Cc: Peter Robinson <pbrobinson@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible string and Kconfig options for bcm2711.
+This adds the entry for V3D for bcm2711 (used in the Raspberry Pi 4)
+and the associated firmware clock entry.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 ---
 Changes since v5:
-- Change compatible to align downstream and othee HW, reorder to suit
+- Move the firmware clock to bcm2711-rpi.dtsi
 
- drivers/gpu/drm/v3d/Kconfig   | 2 +-
- drivers/gpu/drm/v3d/v3d_drv.c | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/bcm2711-rpi.dtsi |  4 ++++
+ arch/arm/boot/dts/bcm2711.dtsi     | 11 +++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/v3d/Kconfig b/drivers/gpu/drm/v3d/Kconfig
-index e973ec487484..01d91c829107 100644
---- a/drivers/gpu/drm/v3d/Kconfig
-+++ b/drivers/gpu/drm/v3d/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_V3D
- 	tristate "Broadcom V3D 3.x and newer"
--	depends on ARCH_BCM || ARCH_BRCMSTB || COMPILE_TEST
-+	depends on ARCH_BCM || ARCH_BRCMSTB || ARCH_BCM2835 || COMPILE_TEST
- 	depends on DRM
- 	depends on COMMON_CLK
- 	depends on MMU
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 56d5f831e48b..8c7f910daa28 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -191,6 +191,7 @@ static const struct drm_driver v3d_drm_driver = {
+diff --git a/arch/arm/boot/dts/bcm2711-rpi.dtsi b/arch/arm/boot/dts/bcm2711-rpi.dtsi
+index ca266c5d9f9b..98817a6675b9 100644
+--- a/arch/arm/boot/dts/bcm2711-rpi.dtsi
++++ b/arch/arm/boot/dts/bcm2711-rpi.dtsi
+@@ -69,6 +69,10 @@ blconfig: nvram@0 {
+ 	};
  };
  
- static const struct of_device_id v3d_of_match[] = {
-+	{ .compatible = "brcm,2711-v3d" },
- 	{ .compatible = "brcm,7268-v3d" },
- 	{ .compatible = "brcm,7278-v3d" },
- 	{},
++&v3d {
++	clocks = <&firmware_clocks 5>;
++};
++
+ &vchiq {
+ 	interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+ };
+diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
+index 89af57482bc8..177662257b16 100644
+--- a/arch/arm/boot/dts/bcm2711.dtsi
++++ b/arch/arm/boot/dts/bcm2711.dtsi
+@@ -601,6 +601,17 @@ genet_mdio: mdio@e14 {
+ 				#size-cells = <0x0>;
+ 			};
+ 		};
++
++		v3d: gpu@7ec00000 {
++			compatible = "brcm,bcm2711-v3d";
++			reg = <0x0 0x7ec00000 0x4000>,
++			      <0x0 0x7ec04000 0x4000>;
++			reg-names = "hub", "core0";
++
++			power-domains = <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
++			resets = <&pm BCM2835_RESET_V3D>;
++			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
++		};
+ 	};
+ };
+ 
 -- 
 2.36.1
 
