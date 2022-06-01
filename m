@@ -1,53 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC6D53AE80
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 23:25:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5DF53AE9B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 00:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CCC310F894;
-	Wed,  1 Jun 2022 21:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6512F10F406;
+	Wed,  1 Jun 2022 22:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C501710F74A;
- Wed,  1 Jun 2022 21:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654118718; x=1685654718;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=NcLBO901OtRF8vqUzbCUOSaO4TqbKWFE+hNLqU+5gcY=;
- b=Ta0Wilr+JNBOnbUDHoaOy2+9Muck+zUZgZEKwON/AgB3AG27n3g+PDKm
- xxW8/xG5Y0cd4jzPQbLh3HZkLGnfp+xVasJ6uZmduWnWjmWz1U4lIYT0G
- gxxnG8zQtCqLNJQ0qz+n44VcvkTHbv4oURJ2vWvu3K3BMn7hju6zVNz+t
- LpngzxobMxk5jh0gRifN4oLksNJtCngfMZS5ZkQHvdb4CKeOpLT4/JPa9
- xVDOss/vs0shgTDinuh7QDJFUuZKqBzM5brrbVJVLuvQzbYd4P5GP9RYf
- a8LvzvbPhdOMzlmy1w7GDjRTwplI1tBbjSxJFItsxgfWsoYyQRAoCL2Dj w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="255604696"
-X-IronPort-AV: E=Sophos;i="5.91,269,1647327600"; d="scan'208";a="255604696"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 14:25:18 -0700
-X-IronPort-AV: E=Sophos;i="5.91,269,1647327600"; d="scan'208";a="756640880"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 14:25:12 -0700
-Date: Wed, 1 Jun 2022 14:18:49 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
- document
-Message-ID: <20220601211849.GA30517@jons-linux-dev-box>
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
- <43746609-4f60-f347-5934-6680516297dd@intel.com>
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE89210F021
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 22:07:53 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 9D52B20603;
+ Thu,  2 Jun 2022 00:07:49 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 00/11] drm/msm/dsi_phy: Replace parent names with clk_hw
+ pointers
+Date: Thu,  2 Jun 2022 00:07:36 +0200
+Message-Id: <20220601220747.1145095-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <43746609-4f60-f347-5934-6680516297dd@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +42,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, chris.p.wilson@intel.com, daniel.vetter@intel.com,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- christian.koenig@amd.com
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Arnd Bergmann <arnd@arndb.de>, Jami Kettunen <jami.kettunen@somainline.org>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
-> On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
-> > +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
-> > +async worker. The binding and unbinding will work like a special GPU engine.
-> > +The binding and unbinding operations are serialized and will wait on specified
-> > +input fences before the operation and will signal the output fences upon the
-> > +completion of the operation. Due to serialization, completion of an operation
-> > +will also indicate that all previous operations are also complete.
-> 
-> I guess we should avoid saying "will immediately start binding/unbinding" if
-> there are fences involved.
-> 
-> And the fact that it's happening in an async worker seem to imply it's not
-> immediate.
-> 
-> 
-> I have a question on the behavior of the bind operation when no input fence
-> is provided. Let say I do :
-> 
-> VM_BIND (out_fence=fence1)
-> 
-> VM_BIND (out_fence=fence2)
-> 
-> VM_BIND (out_fence=fence3)
-> 
-> 
-> In what order are the fences going to be signaled?
-> 
-> In the order of VM_BIND ioctls? Or out of order?
-> 
-> Because you wrote "serialized I assume it's : in order
-> 
-> 
-> One thing I didn't realize is that because we only get one "VM_BIND" engine,
-> there is a disconnect from the Vulkan specification.
-> 
-> In Vulkan VM_BIND operations are serialized but per engine.
-> 
-> So you could have something like this :
-> 
-> VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
-> 
-> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
-> 
+As stated in [1] I promised to tackle and send this series.
 
-Question - let's say this done after the above operations:
+parent_hw pointers are easier to manage and cheaper to use than
+repeatedly formatting the parent name and subsequently leaving the clk
+framework to perform lookups based on that name.
 
-EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
+This series starts out by adding extra constructors for divider, mux and
+fixed-factor clocks that have parent_hw(s) pointer argument(s) instead
+of some DT index or name.  Followed by individual patches performing the
+conversion, one DSI PHY at a time.
 
-Is the exec ordered with respected to bind (i.e. would fence3 & 4 be
-signaled before the exec starts)?
+dsi_phy_28nm_8960 includes an extra fixup to replace "eternal"
+devm_kzalloc allocations (for the lifetime of the device) with
+stack-local char arrays, like all the other DSI PHY drivers.
 
-Matt
+(Questions from v1 cover letter regarding the future of these drivers
+ is omitted for brevity.)
 
-> 
-> fence1 is not signaled
-> 
-> fence3 is signaled
-> 
-> So the second VM_BIND will proceed before the first VM_BIND.
-> 
-> 
-> I guess we can deal with that scenario in userspace by doing the wait
-> ourselves in one thread per engines.
-> 
-> But then it makes the VM_BIND input fences useless.
-> 
-> 
-> Daniel : what do you think? Should be rework this or just deal with wait
-> fences in userspace?
-> 
-> 
-> Sorry I noticed this late.
-> 
-> 
-> -Lionel
-> 
-> 
+And with enough future improvements out of the way, let's round out this
+patch-series by stating that it has been successfully tested on:
+
+- Sony Nile Discovery (Xperia XA2 Ultra): 14nm;
+- Sony Seine PDX201 (Xperia 10II): 14nm;
+- Sony Loire Suzu (Xperia X): 28nm.
+
+And no diff is observed in debugfs's clk_summary.
+
+Unfortunately all other devices in my collection with a 7/10nm DSI PHY
+have a DSC panel which we have yet to get working.
+
+[1]: https://lore.kernel.org/linux-arm-msm/20220502214235.s5plebunh4ttjhge@SoMainline.org/
+
+Changes since v1:
+
+- Moved indentation changes to separate patch (Dmitry);
+- dsi_phy_28nm_8960: move clock name allocation removal prior to
+  parent_hw refactor;
+- Remove vco_name stack-local char array in favour of reusing clk_name
+  (Dmitry);
+- Inserted additional patch to replace hardcoded char-array length
+  constant 32 with sizeof(clk_name).
+
+v1: https://lore.kernel.org/linux-arm-msm/20220523213837.1016542-1-marijn.suijten@somainline.org/T/#u
+
+Marijn Suijten (11):
+  clk: divider: Introduce devm_clk_hw_register_divider_parent_hw()
+  clk: mux: Introduce devm_clk_hw_register_mux_parent_hws()
+  clk: fixed-factor: Introduce *clk_hw_register_fixed_factor_parent_hw()
+  drm/msm/dsi/phy: Reindent and reflow multiline function calls
+  drm/msm/dsi_phy_28nm_8960: Use stack memory for temporary clock names
+  drm/msm/dsi/phy: Replace hardcoded char-array length with sizeof()
+  drm/msm/dsi_phy_28nm_8960: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_28nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_14nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_10nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_7nm: Replace parent names with clk_hw pointers
+
+ drivers/clk/clk-fixed-factor.c                |  57 ++++--
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c    | 165 +++++++++---------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    |  55 +++---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    | 117 ++++++-------
+ .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   |  90 +++++-----
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 156 ++++++++---------
+ include/linux/clk-provider.h                  |  34 ++++
+ 7 files changed, 358 insertions(+), 316 deletions(-)
+
+-- 
+2.36.1
+
