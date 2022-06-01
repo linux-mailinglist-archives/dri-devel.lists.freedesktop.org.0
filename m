@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF7753A753
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 16:01:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C00253A755
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 16:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2027810E667;
-	Wed,  1 Jun 2022 14:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A92010EBAB;
+	Wed,  1 Jun 2022 14:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B3110E667
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 14:01:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFA910ED2C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 14:01:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 590DE615B2;
- Wed,  1 Jun 2022 14:01:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80D4BC385B8;
- Wed,  1 Jun 2022 14:00:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E42A2615AA;
+ Wed,  1 Jun 2022 14:01:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFFE1C3411D;
+ Wed,  1 Jun 2022 14:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654092059;
- bh=ZFNXhbHfbocFCUSfvXMVgWSinwDEA9oa7M4fSnZ4Qwg=;
+ s=k20201202; t=1654092088;
+ bh=Bf5QOHaJpiVUqhHBRSN35OBw5iZVamMzadF9hlHiv/U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jyI9y5q9WJBng//2EWtxX09EZxnxvNJ4ktkSNqnRwY/2EZQlYhUGgXSrDXjNk6JGM
- 5hZmT/dgXbx7VVS/sPv3ALPRVHEz/q48Yu/JXO7IQzwGFRhx5BIBupdzB2XBqw3Ab2
- 76AEmS2ECX6syBH45/f/Cv1/o9GN7emLhBFoXKh0Qp1pPCAiSBblLqD6Z7tXYGeJy9
- ye2gY0zoyEmQzxfs6kI5zf3Dw06mVr+8XX2GcvkLRm87rEGLUqpvpgvv1dZOkDVleo
- /+y1M/qktk6Fzf3UWoUczGK7RVx9i1o1YatxQBw7xRBs/zikMeSeGR1NFjQdngrnAz
- 8kJ/ZIibfeHhQ==
+ b=Cpf7T/vUb1d4hvMoZxdKAUVcD5z+daL9PaQrq3n59KP52Ah0AVVs15A2Dc8HP95Qj
+ MdhL3McM3oQQwWWLDXr/0EbPebL+fapUJzrBBylw0jUALOUZb9pti8ijOAFzz0y/vr
+ LedDlpx4IjuH7bgxbMeUTGaxzHOi434cphgx2K/DHy+dAVh4pwnZtAc/1KmSndqYk4
+ Tmz4jRLl6zS9mfANuEO2QiNEG/zG2Wqf1fsZ8vbHHJ1hoVx3pM/XQRm9+Bqr43Kyzr
+ HUuXzSmWjVliSjceG2GTkb7R0+dh/h7WturgdyrQbMUr2T3K96LdIzK9wME7hxxbk9
+ jQCTd7ao28YEg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 14/14] drm: fix EDID struct for old ARM OABI
- format
-Date: Wed,  1 Jun 2022 10:00:27 -0400
-Message-Id: <20220601140027.2005280-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 11/11] drm: fix EDID struct for old ARM OABI format
+Date: Wed,  1 Jun 2022 10:01:00 -0400
+Message-Id: <20220601140100.2005469-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220601140027.2005280-1-sashal@kernel.org>
-References: <20220601140027.2005280-1-sashal@kernel.org>
+In-Reply-To: <20220601140100.2005469-1-sashal@kernel.org>
+References: <20220601140100.2005469-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -139,10 +138,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index 267e0426c479..0262e32ab59e 100644
+index c3a7d440bc11..514a02095983 100644
 --- a/include/drm/drm_edid.h
 +++ b/include/drm/drm_edid.h
-@@ -115,7 +115,7 @@ struct detailed_data_monitor_range {
+@@ -114,7 +114,7 @@ struct detailed_data_monitor_range {
  			u8 supported_scalings;
  			u8 preferred_refresh;
  		} __attribute__((packed)) cvt;
@@ -151,7 +150,7 @@ index 267e0426c479..0262e32ab59e 100644
  } __attribute__((packed));
  
  struct detailed_data_wpindex {
-@@ -148,7 +148,7 @@ struct detailed_non_pixel {
+@@ -147,7 +147,7 @@ struct detailed_non_pixel {
  		struct detailed_data_wpindex color;
  		struct std_timing timings[6];
  		struct cvt_timing cvt[4];
@@ -160,7 +159,7 @@ index 267e0426c479..0262e32ab59e 100644
  } __attribute__((packed));
  
  #define EDID_DETAIL_EST_TIMINGS 0xf7
-@@ -166,7 +166,7 @@ struct detailed_timing {
+@@ -165,7 +165,7 @@ struct detailed_timing {
  	union {
  		struct detailed_pixel_timing pixel_data;
  		struct detailed_non_pixel other_data;
