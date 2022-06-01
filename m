@@ -1,53 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF61053AB6D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 18:58:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD8D53ABAD
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 19:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0454710EF58;
-	Wed,  1 Jun 2022 16:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B75010EDC1;
+	Wed,  1 Jun 2022 17:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 292FC10EF60
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 16:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654102718; x=1685638718;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gwfhI1oZGrbLaBNHLPYsrYeVXkiVePA59FrgD/UWM4k=;
- b=WfQrFsXIuwh3vOlOvR1GdBiWYxR4RW/0im2x0Rytm6Z0yJ7P+w6+kyHx
- XIfUebUgdg41U/oaUfRHVEhPcqNfuCBqKuCpCSyK783eySWST85Z2mgfu
- P7iCwTU8p7+kRppYGqnC75q/bQ4Id4w9VlT3F6A5InPc7Tg3sOtKOUCwB
- 72iyd3RbPvyr6yQEjHU8zSOjBGR36dUDUZ7F2aLUFi78oQQ4Z393vvwxg
- jrincNwa5pFhY1mUklXrWrz0hWqH1Z1NyTtz5/OkGy3e+fVdw8psUanY8
- 1tq6IN/2OTAGaEOWkahLrx5k2HyNO5a0jaqULo28o+C7m4Giw/FGFyDGd A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="273224401"
-X-IronPort-AV: E=Sophos;i="5.91,269,1647327600"; d="scan'208";a="273224401"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 09:58:29 -0700
-X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; d="scan'208";a="530150781"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 09:58:24 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nwRfm-000QqW-EX; Wed, 01 Jun 2022 19:58:18 +0300
-Date: Wed, 1 Jun 2022 19:58:18 +0300
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
-Message-ID: <Ypeaqgc9r7TOiSbn@smile.fi.intel.com>
-References: <5d817ea54144414aa7865a72694b5811@dh-electronics.com>
- <536d4700-6f28-176d-7883-5793f5cd7c8e@redhat.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F1F10ED64;
+ Wed,  1 Jun 2022 17:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654103898; x=1685639898;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lHtueAT33ZEVRFIBxGRY7qeK9s/pR03WpxOoLQiugeA=;
+ b=ex7U7x9lVU7M6oCfECPOiPzBbB09LnK3ErAI4tfgxYlPvRPBgpdbfETv
+ mtJYMWWxMnaEstUKJW3/Wx2gZbMuJjdmgMREODiQWqbQ62xcvk4u1E3uG
+ beYzE5JwK7+9sHYGAXNHgwfMTMLQJfliPceyqFJEnosRqUspbqiyN/Bhc Y=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 01 Jun 2022 10:18:16 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2022 10:18:16 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 1 Jun 2022 10:18:15 -0700
+Received: from [10.38.242.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 1 Jun 2022
+ 10:18:13 -0700
+Message-ID: <f8d5e4a7-bba8-ca51-41f7-885ce14a55fe@quicinc.com>
+Date: Wed, 1 Jun 2022 10:18:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <536d4700-6f28-176d-7883-5793f5cd7c8e@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2] drm/msm/dpu: Move min BW request and full BW disable
+ back to mdss
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Douglas Anderson
+ <dianders@chromium.org>
+References: <20220531160059.v2.1.Ie7f6d4bf8cce28131da31a43354727e417cae98d@changeid>
+ <CAA8EJpqp64eDmXPN1qMTZ78My8BKPUcu7zKunZV1SJpzjSRDuQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpqp64eDmXPN1qMTZ78My8BKPUcu7zKunZV1SJpzjSRDuQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,62 +67,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "sam@ravnborg.org" <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Dominik Kierner <dkierner@dh-electronics.com>,
- "noralf@tronnes.org" <noralf@tronnes.org>,
- "geert@linux-m68k.org" <geert@linux-m68k.org>,
- "maxime@cerno.tech" <maxime@cerno.tech>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 25, 2022 at 09:46:24PM +0200, Javier Martinez Canillas wrote:
-> On 3/10/22 14:11, Dominik Kierner wrote:
 
-...
 
-> > # DRM Mode Configuration via Device Tree
-> > 
-> > In the old fbdev driver, the display modes are hard-coded, which means
-> > for every new display configuration, a new patch needs to be mainlined,
-> > which slows down official Kernel support and
-> > puts burden on the maintainers.
-> > Additionally, with the DRM-subsystem supporting height and length
-> > information, for scaling, this opens up a lot of new combinations.
-> > The SSD1306 for example, is available in multiple resolutions like
-> > 128x64 and 96x16 and comes in different sizes per resolution as well.
-> > Just to name a few:
-> > * 128x64 0.96" (22x11mm)
-> > * 128x64 1.3" (30x15mm)
-> > * 96x16 0.69" (18x3mm)
-> >> Instead of hard-coding, I would suggest something along the lines of
-> > of_get_drm_display_mode().
-> > The displays won't need to support multiple modes at the same time,
-> > let alone support for switching between them,
-> > so the one-time invocation of this expensive function might be worth it. 
-> > maybe a new and simpler function that could be named:
-> > of_get_drm_display_mode_simple()
+On 6/1/2022 3:04 AM, Dmitry Baryshkov wrote:
+> On Wed, 1 Jun 2022 at 02:01, Douglas Anderson <dianders@chromium.org> wrote:
+>>
+>> In commit a670ff578f1f ("drm/msm/dpu: always use mdp device to scale
+>> bandwidth") we fully moved interconnect stuff to the DPU driver. This
+>> had no change for sc7180 but _did_ have an impact for other SoCs. It
+>> made them match the sc7180 scheme.
 > 
-> This makes sense to me as well.
+> [skipped the description]
+> 
+>>
+>> Changes in v2:
+>> - Don't set bandwidth in init.
+>>
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  8 ----
+>>   drivers/gpu/drm/msm/msm_mdss.c          | 57 +++++++++++++++++++++++++
+>>   2 files changed, 57 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> index 2b9d931474e0..3025184053e0 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> @@ -49,8 +49,6 @@
+>>   #define DPU_DEBUGFS_DIR "msm_dpu"
+>>   #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
+>>
+>> -#define MIN_IB_BW      400000000ULL /* Min ib vote 400MB */
+>> -
+>>   static int dpu_kms_hw_init(struct msm_kms *kms);
+>>   static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
+>>
+> 
+> [skipped]
+> 
+>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+>> index 0454a571adf7..e13c5c12b775 100644
+>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+>> @@ -5,6 +5,7 @@
+>>
+>>   #include <linux/clk.h>
+>>   #include <linux/delay.h>
+>> +#include <linux/interconnect.h>
+>>   #include <linux/irq.h>
+>>   #include <linux/irqchip.h>
+>>   #include <linux/irqdesc.h>
+>> @@ -25,6 +26,8 @@
+>>   #define UBWC_CTRL_2                    0x150
+>>   #define UBWC_PREDICTION_MODE           0x154
+>>
+>> +#define MIN_IB_BW      400000000UL /* Min ib vote 400MB */
+> 
+> As msm_mdss is now used for both DPU and MDP5 devices, could you
+> please confirm that this value is valid for older devices too? E.g.
+> db410c or 8974
+> 
+I need to check with Kalyan on this value (400MB) as I am unable to find 
+documentation on this. Will update this thread when I do.
 
-What about non-OF platforms? Please, do not spread OF-only interfaces,
-and use fwnode instead.
+So prior to this change 627dc55c273da ("drm/msm/disp/dpu1: icc path 
+needs to be set before dpu runtime resume"), this value was coming from 
+the hw catalog
 
-> > Providing a mode could later prove useful for a conversion to
-> > drm_panel, if that is feasible.
-> > 
-> > But for a function like this, I have to chicken out.
+@@ -1191,10 +1193,10 @@ static int __maybe_unused 
+dpu_runtime_resume(struct device *dev)
 
--- 
-With Best Regards,
-Andy Shevchenko
+         ddev = dpu_kms->dev;
 
++       WARN_ON(!(dpu_kms->num_paths));
+         /* Min vote of BW is required before turning on AXI clk */
+         for (i = 0; i < dpu_kms->num_paths; i++)
+-               icc_set_bw(dpu_kms->path[i], 0,
+-                       dpu_kms->catalog->perf.min_dram_ib);
++               icc_set_bw(dpu_kms->path[i], 0, Bps_to_icc(MIN_IB_BW));
 
+After this, we moved to a hard-coded value, I am not sure why.
+
+So nothing wrong with this change as such, the only question is whether 
+this value is correct for older chips.
+
+But the question here is, are older chips even using icc.
+
+It seems like only sc7180, RB3/RB5 are unless i am mistaken.
+
+So is there really any impact to the older chips with this change.
+
+If not, we should probably let this one go ahead and move back to 
+catalog based approach while extending ICC for older chips.
+
+Thanks
+
+Abhinav
+
+>> +
+>>   struct msm_mdss {
+>>          struct device *dev;
+>>
+> 
