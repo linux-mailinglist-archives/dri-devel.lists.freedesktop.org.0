@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B3253AD8A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 21:56:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC6A53AD8C
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 21:58:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5390810FBCA;
-	Wed,  1 Jun 2022 19:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0E210FBCB;
+	Wed,  1 Jun 2022 19:58:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B94D10FBCA
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 19:56:48 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8B54B21B10;
- Wed,  1 Jun 2022 19:56:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1654113406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=E6eLw934xOTLTw01EZ1tOfHaU8TmXmkxJ76cU5Spyrw=;
- b=Ov1g7+s7kFMRvhc0W7AC1vfidfgwphFLrT6nxAWej90cC/lIq5PWh18zdoSRUBfJD44bkw
- 3EzWtW1gkHOZ7fv2AYZFHbZptvrkrsgd7AbpQWqsI9gKK2tvigp2SmmiX263CSO6no7Af2
- mxsMBo7ZnzSYS1xkHO/24Bp6AensVTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1654113406;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=E6eLw934xOTLTw01EZ1tOfHaU8TmXmkxJ76cU5Spyrw=;
- b=IRnxrgIM2fzqSStZtcsetVVdKvU4qlpOC/q1Sw08zLmvj/SfiEiegWLlDs0YCRm6+mtgT8
- FnODv3NT4aizKGDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 72B491330F;
- Wed,  1 Jun 2022 19:56:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ge/YGn7El2LdHAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 01 Jun 2022 19:56:46 +0000
-Message-ID: <49d7203c-6640-60a9-f269-a7d19b0b8412@suse.de>
-Date: Wed, 1 Jun 2022 21:56:45 +0200
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
+ [IPv6:2607:f8b0:4864:20::735])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEF6310FBCE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 19:58:21 +0000 (UTC)
+Received: by mail-qk1-x735.google.com with SMTP id br33so443345qkb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 12:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WqzzjZ/+YoAfsOt70hJSK1v4NOwUp//67c0gdA4z8gE=;
+ b=o+8DoKQbuB6vo34q94PbCmoOZ1E42JHaRrsMzhV2F/ynt8Q+VdQtnDeWLT592DvZ7t
+ AeMy3LYefWHmvgfCUohLgLa0KCbaal0aw7qMTAwwLRq6xfqCUug5WfT+u86M35AjoI91
+ Emy6jxRdlsMSGIG6vRz8kwjnFKa3jFTpW1+pvaVa/+/LwfGm1MYRZQ/+BK+yeUtO5WUL
+ mEQMcYZVBuDTpS2uWVEdGM6Xk19p34D75EanhUz/tcJ6SHYj4qcW5her+JqRSnS93jQC
+ Baxr0ZA84v+AOXMoYiwB2Zcw7cV3bhjrdqtXX+iJaz0V12UJ4K8O75k0rjJOOUi9AFs7
+ x/TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WqzzjZ/+YoAfsOt70hJSK1v4NOwUp//67c0gdA4z8gE=;
+ b=UI3gA+61uOzmrBr3HlEF7nxTZ3KaFpSSi1YVPmyeOcRIb0Ne1KfreyFErh0JYfEkdN
+ bFMelJBuPNTd/atMMngaCAzScb41/ChqBrDq94beYwshYFtu+IM3QbB16i7iYgCNtTmm
+ gjoozvzHhnz0a0y7WxPjA49EFfQp+uxwUWlNbB+eYy+ygxvuphW3oI2SdW7Xx+ETkZso
+ qkTMu3sIZzJhdR49AOzicSVbCUAAdFFLD6IS0yaq0OHR4UGaMoWZaeBF3iuMg/1UGvGG
+ r4S8nsjx1tqkX3AtA+TPRts9cbgg3hW297B3wFS4ofJVq7P1hpfvpp2MIxSRFvaWcVJ0
+ E0Iw==
+X-Gm-Message-State: AOAM531c2BQ+se3IsBxgp4CIrJR6aON+skXl/Iqj2vyGGxN6bKhuhvha
+ sV+X6GzqdHHH5fGAeyd4fOIQSK34e1aUQsNOmyQ//A==
+X-Google-Smtp-Source: ABdhPJx4nAJPu/OXd+0EBsy6h9EWGrczLq7bqqCKi8jtBPrQeHOAUACKV0KVNp25KQQV9tdKC24tm1njoXJQNx7sc1A=
+X-Received: by 2002:a37:582:0:b0:6a3:2ce4:3c72 with SMTP id
+ 124-20020a370582000000b006a32ce43c72mr913331qkf.203.1654113500549; Wed, 01
+ Jun 2022 12:58:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 0/8] Cleanup use of ddc i2c buses
-Content-Language: en-US
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------5WklyhiLKT7HBGDxvrWiL3Kd"
+References: <20220531160059.v2.1.Ie7f6d4bf8cce28131da31a43354727e417cae98d@changeid>
+ <CAA8EJpqp64eDmXPN1qMTZ78My8BKPUcu7zKunZV1SJpzjSRDuQ@mail.gmail.com>
+ <f8d5e4a7-bba8-ca51-41f7-885ce14a55fe@quicinc.com>
+In-Reply-To: <f8d5e4a7-bba8-ca51-41f7-885ce14a55fe@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 1 Jun 2022 22:58:09 +0300
+Message-ID: <CAA8EJpp5v3qR2M-6Jms=3GgrzUeMOiMzQtgvQc_LPVE78aE=aw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dpu: Move min BW request and full BW disable
+ back to mdss
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +65,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------5WklyhiLKT7HBGDxvrWiL3Kd
-Content-Type: multipart/mixed; boundary="------------ZsGV7FDJUGSCoNwlAZgv9Ei3";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- dri-devel@lists.freedesktop.org
-Cc: daniel@ffwll.ch
-Message-ID: <49d7203c-6640-60a9-f269-a7d19b0b8412@suse.de>
-Subject: Re: [PATCH 0/8] Cleanup use of ddc i2c buses
-References: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
-In-Reply-To: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
+On Wed, 1 Jun 2022 at 20:18, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> On 6/1/2022 3:04 AM, Dmitry Baryshkov wrote:
+> > On Wed, 1 Jun 2022 at 02:01, Douglas Anderson <dianders@chromium.org> wrote:
+> >>
+> >> In commit a670ff578f1f ("drm/msm/dpu: always use mdp device to scale
+> >> bandwidth") we fully moved interconnect stuff to the DPU driver. This
+> >> had no change for sc7180 but _did_ have an impact for other SoCs. It
+> >> made them match the sc7180 scheme.
+> >
+> > [skipped the description]
+> >
+> >>
+> >> Changes in v2:
+> >> - Don't set bandwidth in init.
+> >>
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  8 ----
+> >>   drivers/gpu/drm/msm/msm_mdss.c          | 57 +++++++++++++++++++++++++
+> >>   2 files changed, 57 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> >> index 2b9d931474e0..3025184053e0 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> >> @@ -49,8 +49,6 @@
+> >>   #define DPU_DEBUGFS_DIR "msm_dpu"
+> >>   #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
+> >>
+> >> -#define MIN_IB_BW      400000000ULL /* Min ib vote 400MB */
+> >> -
+> >>   static int dpu_kms_hw_init(struct msm_kms *kms);
+> >>   static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
+> >>
+> >
+> > [skipped]
+> >
+> >> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> >> index 0454a571adf7..e13c5c12b775 100644
+> >> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> >> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> >> @@ -5,6 +5,7 @@
+> >>
+> >>   #include <linux/clk.h>
+> >>   #include <linux/delay.h>
+> >> +#include <linux/interconnect.h>
+> >>   #include <linux/irq.h>
+> >>   #include <linux/irqchip.h>
+> >>   #include <linux/irqdesc.h>
+> >> @@ -25,6 +26,8 @@
+> >>   #define UBWC_CTRL_2                    0x150
+> >>   #define UBWC_PREDICTION_MODE           0x154
+> >>
+> >> +#define MIN_IB_BW      400000000UL /* Min ib vote 400MB */
+> >
+> > As msm_mdss is now used for both DPU and MDP5 devices, could you
+> > please confirm that this value is valid for older devices too? E.g.
+> > db410c or 8974
+> >
+> I need to check with Kalyan on this value (400MB) as I am unable to find
+> documentation on this. Will update this thread when I do.
+>
+> So prior to this change 627dc55c273da ("drm/msm/disp/dpu1: icc path
+> needs to be set before dpu runtime resume"), this value was coming from
+> the hw catalog
+>
+> @@ -1191,10 +1193,10 @@ static int __maybe_unused
+> dpu_runtime_resume(struct device *dev)
+>
+>          ddev = dpu_kms->dev;
+>
+> +       WARN_ON(!(dpu_kms->num_paths));
+>          /* Min vote of BW is required before turning on AXI clk */
+>          for (i = 0; i < dpu_kms->num_paths; i++)
+> -               icc_set_bw(dpu_kms->path[i], 0,
+> -                       dpu_kms->catalog->perf.min_dram_ib);
+> +               icc_set_bw(dpu_kms->path[i], 0, Bps_to_icc(MIN_IB_BW));
+>
+> After this, we moved to a hard-coded value, I am not sure why.
+>
+> So nothing wrong with this change as such, the only question is whether
+> this value is correct for older chips.
+>
+> But the question here is, are older chips even using icc.
+>
+> It seems like only sc7180, RB3/RB5 are unless i am mistaken.
 
---------------ZsGV7FDJUGSCoNwlAZgv9Ei3
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+We are not using it for msm8916 (but we should most probably). And for
+the msm8996 the icc patches were by Yassine.
 
-SGkgUGF0cmlrDQoNCkFtIDAxLjA2LjIyIHVtIDExOjIzIHNjaHJpZWIgUGF0cmlrIEpha29i
-c3NvbjoNCj4gVGhlIHZhcmlvdXMgY2hpcHMgaGF2ZSBzbGlnaHQgZGlmZmVyZW5jZXMgaW4g
-aG93IHRoZXkgaGFuZGxlIGFuZCBzdG9yZQ0KPiBkZGMgaTJjIGJ1c2VzLiBUaGlzIHNlcmll
-cyB0cmllcyB0byBwdXQgdGhlIG1haW4gaTJjIGFkYXB0ZXIgZm9yIGRkYw0KPiBpbnRvIHRo
-ZSBkcm1fY29ubmVjdG9yLT5kZGMgcG9pbnRlci4gVGhpcyBtYWtlcyBpdCBlYXNpZXIgdG8g
-dW5pZnkgdGhlDQo+IGNvZGUgZm9yIHRoZSBkaWZmZXJlbnQgZW5jb2RlcnMgaW4gdXBjb21p
-bmcgc2VyaWVzLiBPYWt0cmFpbCBIRE1JIGFuZA0KPiBQU0IgU0RWTyBhcmUgbm90IGluY2x1
-ZGVkLg0KDQpGb3IgdGhlIHNlcmllczoNCg0KQWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpJIHJlY2VudGx5IHBvc3RlZCB0d28gcGF0Y2hl
-cyBmb3Igc2ltcGxpZnlpbmcgRURJRCBoYW5kaW5nLiBUaGUgbmV3IERSTSANCmhlbHBlciBm
-b3IgLmdldF9tb2RlcyBmZXRjaGVzIHRoZSBFRElEIGZyb20gY29uZW5jdG9yLT5kZGMuIFsx
-XSBUaGUgDQpoZWxwZXIgZm9yIC5kZXRlY3RfY3R4IHVzZXMgLmdldF9tb2RlcyBhbmQgdGhl
-IEVESUQgZGF0YSB0byBwb2xsIHRoZSANCmNvbm5lY3RvciBzdGF0dXMuIFsyXSAgZ21hNTAw
-IGlzIG9uZSBvZiB0aGUgY2FuZGlkYXRlcyBmb3IgdXNpbmcgdGhlc2UgDQpoZWxwZXJzLiBJ
-ZiB5b3UgbGlrZSB0aGUgaWRlYSwgSSdkIHdlbGNvbWUgYSBmb2xsb3ctdXAgcGF0Y2hzZXQu
-DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL2RyaS1kZXZlbC8yMDIyMDUxNjEzNDM0My42MDg1LTQtdHppbW1lcm1hbm5Ac3VzZS5k
-ZS8NClsyXSANCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIyMDUzMTEx
-MTUwMi40NDcwLTQtdHppbW1lcm1hbm5Ac3VzZS5kZS8NCg0KPiANCj4gUGF0cmlrIEpha29i
-c3NvbiAoOCk6DQo+ICAgIGRybS9nbWE1MDA6IFVzZSBnbWFfIHByZWZpeCBmb3Igb3VyIGky
-YyBhYnN0cmFjdGlvbg0KPiAgICBkcm0vZ21hNTAwOiBNYWtlIGdtYV9pMmNfY2hhbiBhIHN1
-YmNsYXNzIG9mIGkyY19hZGFwdGVyDQo+ICAgIGRybS9nbWE1MDA6IE1ha2UgY2R2IGx2ZHMg
-dXNlIGRkYyBhZGFwdGVyIGZyb20gZHJtX2Nvbm5lY3Rvcg0KPiAgICBkcm0vZ21hNTAwOiBN
-YWtlIGNkdiBoZG1pIHVzZSBkZGMgYWRhcHRlciBmcm9tIGRybV9jb25uZWN0b3INCj4gICAg
-ZHJtL2dtYTUwMDogTWFrZSBwc2IgbHZkcyB1c2UgZGRjIGFkYXB0ZXIgZnJvbSBkcm1fY29u
-bmVjdG9yDQo+ICAgIGRybS9nbWE1MDA6IE1ha2UgY2R2IGNydCB1c2UgZGRjIGFkYXB0ZXIg
-ZnJvbSBkcm1fY29ubmVjdG9yDQo+ICAgIGRybS9nbWE1MDA6IE1ha2Ugb2FrdHJhaWwgbHZk
-cyB1c2UgZGRjIGFkYXB0ZXIgZnJvbSBkcm1fY29ubmVjdG9yDQo+ICAgIGRybS9nbWE1MDA6
-IFJlYWQgRURJRCBmcm9tIHRoZSBjb3JyZWN0IGkyYyBhZGFwdGVyDQo+IA0KPiAgIGRyaXZl
-cnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2NydC5jICAgICB8IDQ3ICsrKysrKy0tLS0t
-DQo+ICAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfaGRtaS5jICAgIHwgOTgg
-KysrKysrKysrKystLS0tLS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2
-X2ludGVsX2x2ZHMuYyAgICB8IDgwICsrKysrKysrLS0tLS0tLS0tLQ0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS9nbWE1MDAvaW50ZWxfaTJjLmMgICAgICAgICB8IDM2ICsrKystLS0tDQo+ICAg
-ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9sdmRzLmMgICAgIHwgNTAgKysrKysr
-LS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL29ha3RyYWlsX2x2ZHNfaTJjLmMg
-fCAzNiArKysrLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5oICAg
-ICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfaW50ZWxf
-ZHJ2LmggICAgIHwgMjQgKysrLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2Jf
-aW50ZWxfbHZkcy5jICAgIHwgODYgKysrKysrKysrLS0tLS0tLS0tLQ0KPiAgIDkgZmlsZXMg
-Y2hhbmdlZCwgMjM3IGluc2VydGlvbnMoKyksIDIyMiBkZWxldGlvbnMoLSkNCj4gDQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkg
-TsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOk
-ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> So is there really any impact to the older chips with this change.
+>
+> If not, we should probably let this one go ahead and move back to
+> catalog based approach while extending ICC for older chips.
 
---------------ZsGV7FDJUGSCoNwlAZgv9Ei3--
+Let's get this sorted out. I'm fine with 400 MBps, if that works for
+all chipsets.
 
---------------5WklyhiLKT7HBGDxvrWiL3Kd
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKXxH0FAwAAAAAACgkQlh/E3EQov+Dq
-QA/+KrdQZ2MxoQcKmV2r+qHBpwHGtJ0KfwJ+JMK9aKR3jJ9UxS1dHkLoMbBW+42tgf9FOpMC8NVP
-lgpd/vh0ErxU7SPHQUw/FH2mFP0L/t5FLH9dMro2MjZnqJL4WMbb3gHAbnxMzjNSGWT9c1Q55zp3
-r5k7NTi2+aGUuMDnHXxqmWWku9J0QCYZr5rjLTtFD6FBpv89A80gVvIYEBCsg61ZFKvLL4Ra7/Cg
-BXP/roLNO1uugfnFO3dvqO78K43kuNxd+ZUiqpaQxV4vXRG/gj3NGXEEa0WKN/2IILODgHeqK41j
-jRVOHhWLQotZ8CyqaFJ+z/MZYW0+0rC81pmbNqRcNtTDmN4BaylRN5RqvCEiP4qOA0pcb8omfjSL
-Kv01PgGvjnk2WbDBYvmVXHddCUqo9SlEZdOF5N81J+0t29UnJt/skSaLPpZPugkbNs3TPKzEJmAa
-gXOWZ9qasZtL7r0h4x3DX15wcOxBjl5yj54wAEDuK3ZD/fglepwuiPeHMT+N7WAE6Kk2sIYweM0o
-6DNOvJVY2IvVqLs/Qb4TZij7EGqOqbPBImjCocEW+TxMUq6btDRVPaqisiKOEqWJy1hQCAl2a5A5
-5deZT8Cf6foYzi5XDBDAQ7dASLCzBCUgfXcurv6kqO2xMrHavKb02fyskubKVNwtfKWVCVF3CjFo
-2Bw=
-=gVR/
------END PGP SIGNATURE-----
-
---------------5WklyhiLKT7HBGDxvrWiL3Kd--
+-- 
+With best wishes
+Dmitry
