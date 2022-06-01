@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F01A53A1AA
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 12:03:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AE553A1C2
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 12:04:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8B8310E1A2;
-	Wed,  1 Jun 2022 10:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B18110E9F6;
+	Wed,  1 Jun 2022 10:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2D610E1A2
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 10:03:40 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id r129so672268wmr.3
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 03:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fDESduiqeDUdczoJ6Fv4btIu6tiSoUo0J3rQKZ/xYis=;
- b=T6oTt7BEdJaAcew2vNrT8re+CQk0A5bt+/rhexe3HE9dNR/NgMZnKKxZK9L58bcihk
- U/hWeND0gykKQhflEguBdI4c9B2GMbHYZ3sESMZPKT/99KB+5UUREHB+RhH9G0SBnjYH
- KFWmyj2bStU0GcDsLsBTzKFSIrXGT0g59scazBhSaUmGIhYcXriDIbw4jxkVZIEwLoxA
- xpNUgZrL7AVY0sD2nIOa4pu7D/qc+xZqP8zOPExeYUxHraIn7+YqZmveDcb6+0qZDoF+
- s9WCBfG0Qtbw1rRAWQemZLxhHqxGcPpznO4Olbyz1+p293Kg7Xnjw73/Z3JjgrHALq6t
- lnTQ==
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62BB110E9F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 10:04:49 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id i68so895807qke.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 03:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lHSPQr2cIR/ntw9mchA0Qp1Mf6n70DWLKdFta7FA2i8=;
+ b=rf0on8d64kNqqEPTSKDTeJLGi5mhx/w+LSPJtQsnkQKzerFRuh98mE1mlZVoerdEdB
+ nilWximLlUxpwJOs6aAz4ko74Qc9SI1fC0RMONIZ9o6NiK4xAhDC905SK2U7UgYVPaTj
+ 39HnnlavGu7ksAvSci1lRnC1b6W/qVV7Lvsn892uJV3Z3R20E63iaxso4k8FTMBFdRCY
+ 1I2NERWc8n/ZlpGPw9fQnlfCPLBEdGUcbAXi+7ckTakLT2rvM4VyDnQwIZoSlf7TsSqj
+ GWmnEf3wePEtp1Za+lfRaKXAM5SoA+GXn1A0hgDcQEob8ruq43wLLx4r+NgtiKwX2TQf
+ SNLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fDESduiqeDUdczoJ6Fv4btIu6tiSoUo0J3rQKZ/xYis=;
- b=EU/TEiaTIWLCisrrRdXsdEt9oCoy7w9AHzGqGWl++HK+a454O8YJQDLdPvSPGSYJUe
- ayex48zIkXktp0lOVYnSd+F+c53uyC5jppnKcTWWxhENbLMusWewirVgtHJpH1Q4fvLs
- no8cI5D7XS5Ii8PofhS0dz6zIwFut3zpbxVJ1v/okx3lm5EeuFH3ty6a+ISMjQovrwyz
- h4P4auUotIAXpjxRPXph1NONusnaCWGnaM4RplxaMd+WnR4ivQyuIJ6gEJkBlSfAfdBD
- kix/yi6PKcFCUz7tHBsm598udjkpXjyuMExNES8SH7TrAxfC7USxzP6dbugTzx0iuhVr
- PewA==
-X-Gm-Message-State: AOAM530Y8W/muxb6P1tGUYwQw8OTdwvZw7XwVyU8soA8C+mOnhmpu/nj
- 9fSAQijbIy3u+Gih1soIhcY=
-X-Google-Smtp-Source: ABdhPJw6JdSDeKJqxdfa0rmKW4BlLHfkEJjPchGzUVGCCSNxDOG8c2PaUjb+3Nr2MUNurvvVI5PWKw==
-X-Received: by 2002:a05:600c:384c:b0:398:e5d2:bfc9 with SMTP id
- s12-20020a05600c384c00b00398e5d2bfc9mr19734446wmr.180.1654077818694; 
- Wed, 01 Jun 2022 03:03:38 -0700 (PDT)
-Received: from localhost ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- k12-20020adfd84c000000b0021126891b05sm863013wrl.61.2022.06.01.03.03.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 03:03:36 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL] drm/tegra: Preparatory work for v5.19
-Date: Wed,  1 Jun 2022 12:03:35 +0200
-Message-Id: <20220601100335.3841301-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lHSPQr2cIR/ntw9mchA0Qp1Mf6n70DWLKdFta7FA2i8=;
+ b=aE1u9qmNtWn5vva/uFuOCpeYrH8ZSno89cbf6xRBDaFky7/TydtJkYgy7V/oJZV0lP
+ 4kS1fz/PoOfvgRyxyk55qGRrmHvf1QdcfvCbFd6k0UVeriJSpWBo2QQ1co6RG87KB+Oj
+ EswQk8Vw7dk/2+8XdUYYCaJUtVuTEQRPhVmx4ni5yH/L1sqQSqy6JXkUL+s5byARwWQt
+ ERSw63YZ0dprdG32h86wZF+X3NtTxmaf3z9EfAd23Xp/vXnF0+73TMq88eEL9Y9z/SCN
+ aY4V7MZFpCXFb1YBfYhChEz5MBm+hw/t93/aw91dJ9HAWsRWoeRI/Z+hLxv4fVVc0o0x
+ kBDA==
+X-Gm-Message-State: AOAM533PwnxRJSBCJCaGVHkqdeWLtJhAwHu5kPt1yiRcfXNT8xTxuMto
+ JaNg2nAvd2lMbp47dYA4DpJmYLD4Rh2PXIOqaWDiCw==
+X-Google-Smtp-Source: ABdhPJzAahRdMs1ggkVHLtcwa0pM08LnUkdsm3uZvqJc3UZYhpPnwH+rgos7SIKGM+mWOnxRi1I1hPNAfmBomXzhN+c=
+X-Received: by 2002:a05:620a:4311:b0:67e:8a0f:4cd5 with SMTP id
+ u17-20020a05620a431100b0067e8a0f4cd5mr44362828qko.363.1654077888548; Wed, 01
+ Jun 2022 03:04:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220531160059.v2.1.Ie7f6d4bf8cce28131da31a43354727e417cae98d@changeid>
+In-Reply-To: <20220531160059.v2.1.Ie7f6d4bf8cce28131da31a43354727e417cae98d@changeid>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 1 Jun 2022 13:04:37 +0300
+Message-ID: <CAA8EJpqp64eDmXPN1qMTZ78My8BKPUcu7zKunZV1SJpzjSRDuQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dpu: Move min BW request and full BW disable
+ back to mdss
+To: Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,51 +63,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed, 1 Jun 2022 at 02:01, Douglas Anderson <dianders@chromium.org> wrote:
+>
+> In commit a670ff578f1f ("drm/msm/dpu: always use mdp device to scale
+> bandwidth") we fully moved interconnect stuff to the DPU driver. This
+> had no change for sc7180 but _did_ have an impact for other SoCs. It
+> made them match the sc7180 scheme.
 
-The following changes since commit cb7e1abc2c73633e1eefa168ab2dad6e838899c9:
+[skipped the description]
 
-  drm/tegra: gem: Do not try to dereference ERR_PTR() (2022-05-06 15:52:49 +0200)
+>
+> Changes in v2:
+> - Don't set bandwidth in init.
+>
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  8 ----
+>  drivers/gpu/drm/msm/msm_mdss.c          | 57 +++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 2b9d931474e0..3025184053e0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -49,8 +49,6 @@
+>  #define DPU_DEBUGFS_DIR "msm_dpu"
+>  #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
+>
+> -#define MIN_IB_BW      400000000ULL /* Min ib vote 400MB */
+> -
+>  static int dpu_kms_hw_init(struct msm_kms *kms);
+>  static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
+>
 
-are available in the Git repository at:
+[skipped]
 
-  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.19-prep-work
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index 0454a571adf7..e13c5c12b775 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -5,6 +5,7 @@
+>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+> +#include <linux/interconnect.h>
+>  #include <linux/irq.h>
+>  #include <linux/irqchip.h>
+>  #include <linux/irqdesc.h>
+> @@ -25,6 +26,8 @@
+>  #define UBWC_CTRL_2                    0x150
+>  #define UBWC_PREDICTION_MODE           0x154
+>
+> +#define MIN_IB_BW      400000000UL /* Min ib vote 400MB */
 
-for you to fetch changes up to 597b89d30b42dcc8e6b262e6876b42dde66f97f0:
+As msm_mdss is now used for both DPU and MDP5 devices, could you
+please confirm that this value is valid for older devices too? E.g.
+db410c or 8974
 
-  gpu: host1x: Add context bus (2022-06-01 11:50:42 +0200)
+> +
+>  struct msm_mdss {
+>         struct device *dev;
+>
 
-I realize that this is quite late, but as mentioned in the tag
-description, this doesn't actually add anything new and is only
-to simplify dependency handling for a new feature that we have
-planned for v5.20, so it'd be great if we can still get this
-in.
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-drm/tegra: Preparatory work for v5.19
-
-This contains a single patch from a series that's ready to go for v5.10
-but is also a shared build-time dependency for an IOMMU series that is
-planned for v5.20. The idea is to take this into v5.19 to fulfill that
-dependency and remove the need for close coordination for the two
-series.
-
-----------------------------------------------------------------
-Mikko Perttunen (1):
-      gpu: host1x: Add context bus
-
- drivers/gpu/Makefile               |  3 +--
- drivers/gpu/host1x/Kconfig         |  5 +++++
- drivers/gpu/host1x/Makefile        |  1 +
- drivers/gpu/host1x/context_bus.c   | 31 +++++++++++++++++++++++++++++++
- include/linux/host1x_context_bus.h | 15 +++++++++++++++
- 5 files changed, 53 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/host1x/context_bus.c
- create mode 100644 include/linux/host1x_context_bus.h
+-- 
+With best wishes
+Dmitry
