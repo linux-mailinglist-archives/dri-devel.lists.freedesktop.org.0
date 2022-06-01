@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FED053ADB0
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 22:38:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A733153ADBF
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 22:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C677E10E24D;
-	Wed,  1 Jun 2022 20:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C92FA10FC73;
+	Wed,  1 Jun 2022 20:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1CD10E24D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 20:38:44 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id l13so4616558lfp.11
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 13:38:44 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55AF010FC73
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 20:46:57 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id o15so3242571ljp.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 13:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Rli81qT3aY9grG7I0Zdsvr0TJJcjGf6V8Lsp1mBXU0I=;
- b=a5fplg21+zkFG8cnfxhUnkrPIaRdaxJHnKXMotITglu3xFma5QXQf2oXi9oIXPXPbT
- zCFhd2QpvvPUg1jgKn1Orbp9FBlELi65AtS/cRgFD8+zSMlx4+iD1H4DySkoQn3EA+VG
- KPN6wS8VSOrMdKxO+9a2jxgJrr23x/6dZ6wvzziVklDLXKlpWe1Bhj6c6oMz9JTnI441
- /hBeR1SNQHIuVi5iP6jO+QBQr48oAlPKgVM3ZOmhP2Plw5Qu42tx2YluaYtxw5Y5ko6d
- KXbINJHHHcl0fhpYpvynhUdtbnCBbxeRcNr7Ogo/an/Igtupztsw2jxOqykEWffy33LR
- lp8w==
+ bh=fj9HtRIX4+M0EdDnghqxhr6GHQmpAm8s/XdenW9yup0=;
+ b=WjRHLkgwCSWAlphNr9xuVVKYEGPDefIDXa8vtmj6h2K4iVHM8CaH0cyKh8/b2pU7oL
+ 04g6nvj+ijgHp8BUpa+zZhO+h0wje7fT5ZpxGla7N/gc9nSxuemkwDTZm2sU+E8gheIl
+ lcSwrUkHewNgnVDmX8xCnqI66SEdC8AV+cvo+s8gm6i5cIHRjzh0iwboTcCSzSrb4UkS
+ qh84i8eQatdMSnl44dhsjqBB9rQCgxlwKxlXRi2a1ajTT13maFRIUyRQoIAV9USm5xEF
+ CItZYLYEb9drifjhDbJHByDwfMd0WwusljT+rG/4pmJVL1F26KP5vuH+t929KHSGunBB
+ 0kfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Rli81qT3aY9grG7I0Zdsvr0TJJcjGf6V8Lsp1mBXU0I=;
- b=xrqcHZZztf3BhPWHl3FPgZ0+VEGaFQllSJi7KqgWREMDPAZzmCvLhkVo8pXxcsVV+q
- Ol+IEkiiXrgBEcB6NZ8O79cmE63fmzc2i0nmKqCuB4KQqohS6nBlm/mwqnMIcFd5KDuq
- jT+4nCFHfMfTNzcOPeRiFOAEZtM+z7NRXwiOJDveqrY88BbizBqsiBuFzOpAGPgiakQJ
- EpQjnqLkTAWiFyNLHQd1K7DtKcYAUwqpGdWfBJ+9K/O9qxZ9qQCdj0kWkfHgQgO4/LPZ
- L7hNtIHAd15d1LPjg4miAM2R56Nah8JzxEQ+YIp8ju6j4TqWr95amMbPHuKytKcES195
- mjDQ==
-X-Gm-Message-State: AOAM532vwiFdJYOZSAatTEA4CGf38/I8tQbxswdmN2ZjVzF8p6pn5Kug
- XRCpM/sSz9+esEXML0NDADQp/g==
-X-Google-Smtp-Source: ABdhPJyf67M4a459Gk7ua+s+fVv1OXZeLfmT3T/mpL6Je/8FI/kzjQ+76g+lY+ihfqCubA0XCYTsiA==
-X-Received: by 2002:ac2:58e3:0:b0:479:2a5:6fed with SMTP id
- v3-20020ac258e3000000b0047902a56fedmr914026lfo.326.1654115922821; 
- Wed, 01 Jun 2022 13:38:42 -0700 (PDT)
+ bh=fj9HtRIX4+M0EdDnghqxhr6GHQmpAm8s/XdenW9yup0=;
+ b=3yOwtkfipcYtaDhKU8elWwcItPGXew7oYjRSKhYaTb2qQqYsTShPLGI4vyRym+TN0V
+ hBxOqWHLP8jLA/OcmXt8mu1B3MoLsui7yIfBeHvOUl28OjI/xDoqUeM/LTLNf7g/RKR5
+ FAGi10R/QQnuV7cPWQJ3cuvtphwR1wtUGYpzQVFTdoDQaRwqNmLwm956146xM803MZIL
+ GDyLayglHGjM9zDGrFJeMaXwmkTxD5vKK3UOttM+0T1xBGcf52BugH6qb+iCOu9Wq6J4
+ N1xCz1f7jUeF4qSRm4CzbUQlngFUmvYQD1n1LUTfcpo3E8G7KXjpLj2kWaLpKaeWLX00
+ 53Bw==
+X-Gm-Message-State: AOAM532E9kt42lKEiHo669xlHfazmTJ0U5ooHaBEPIbddz+LW4Z1M2lC
+ KIJAVppC/PmC8D2pQRa4PiGz3A==
+X-Google-Smtp-Source: ABdhPJxaKLcEkkU4GB/4Q1C4XrI6PGY70nBZOBslqQa/9byzq+gv3CmXYlcwJG2qlo5+RfiL+/eYJg==
+X-Received: by 2002:a2e:9e41:0:b0:253:c37c:378b with SMTP id
+ g1-20020a2e9e41000000b00253c37c378bmr39695585ljk.202.1654116415632; 
+ Wed, 01 Jun 2022 13:46:55 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- w41-20020a0565120b2900b00477a51842aasm555425lfu.211.2022.06.01.13.38.41
+ k8-20020a2ea288000000b0024f3d1dae99sm509610lja.33.2022.06.01.13.46.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 13:38:42 -0700 (PDT)
-Message-ID: <f5aca17d-dd97-8805-08ab-f28cbe06ce57@linaro.org>
-Date: Wed, 1 Jun 2022 23:38:41 +0300
+ Wed, 01 Jun 2022 13:46:54 -0700 (PDT)
+Message-ID: <f415aa0c-edf8-94de-bde8-faf151f5f530@linaro.org>
+Date: Wed, 1 Jun 2022 23:46:54 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v4] drm/probe-helper: Default to 640x480 if no EDID on DP
+Subject: Re: [PATCH v3 4/4] drm/bridge: parade-ps8640: Handle DP AUX more
+ properly
 Content-Language: en-GB
-To: Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
-References: <20220601112302.v4.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20220510192944.2408515-1-dianders@chromium.org>
+ <20220510122726.v3.4.Ia6324ebc848cd40b4dbd3ad3289a7ffb5c197779@changeid>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220601112302.v4.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
+In-Reply-To: <20220510122726.v3.4.Ia6324ebc848cd40b4dbd3ad3289a7ffb5c197779@changeid>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,101 +75,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-kernel@vger.kernel.org,
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
  David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, quic_khsieh@quicinc.com, tzimmermann@suse.de,
- quic_aravindh@quicinc.com, swboyd@chromium.org,
- freedreno@lists.freedesktop.org
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/06/2022 21:23, Douglas Anderson wrote:
-> If we're unable to read the EDID for a display because it's corrupt /
-> bogus / invalid then we'll add a set of standard modes for the
-> display. Since we have no true information about the connected
-> display, these modes are essentially guesses but better than nothing.
-> At the moment, none of the modes returned is marked as preferred, but
-> the modes are sorted such that the higher resolution modes are listed
-> first.
+On 10/05/2022 22:29, Douglas Anderson wrote:
+> While it works, for the most part, to assume that the panel has
+> finished probing when devm_of_dp_aux_populate_ep_devices() returns,
+> it's a bit fragile. This is talked about at length in commit
+> a1e3667a9835 ("drm/bridge: ti-sn65dsi86: Promote the AUX channel to
+> its own sub-dev").
 > 
-> When userspace sees these modes presented by the kernel it needs to
-> figure out which one to pick. At least one userspace, ChromeOS [1]
-> seems to use the rules (which seem pretty reasonable):
-> 1. Try to pick the first mode marked as preferred.
-> 2. Try to pick the mode which matches the first detailed timing
->     descriptor in the EDID.
-> 3. If no modes were marked as preferred then pick the first mode.
+> When reviewing the ps8640 code, I managed to convince myself that it
+> was OK not to worry about it there and that maybe it wasn't really
+> _that_ fragile. However, it turns out that it really is. Simply
+> hardcoding panel_edp_probe() to return -EPROBE_DEFER was enough to put
+> the boot process into an infinite loop. I believe this manages to trip
+> the same issues that we used to trip with the main MSM code where
+> something about our actions trigger Linux to re-probe previously
+> deferred devices right away and each time we try again we re-trigger
+> Linux to re-probe.
 > 
-> Unfortunately, userspace's rules combined with what the kernel is
-> doing causes us to fail section 4.2.2.6 (EDID Corruption Detection) of
-> the DP 1.4a Link CTS. That test case says that, while it's OK to allow
-> some implementation-specific fall-back modes if the EDID is bad that
-> userspace should _default_ to 640x480.
+> Let's fix this using the callback introduced in the patch ("drm/dp:
+> Callbacks to make it easier for drivers to use DP AUX bus properly").
+> When using the new callback, we have to be a little careful. The
+> probe_done() callback is no longer always called in the context of
+> our probe routine. That means we can't rely on being able to return
+> -EPROBE_DEFER from it. We re-jigger the order of things a bit to
+> account for that.
 > 
-> Let's fix this by marking 640x480 as default for DP in the no-EDID
-> case.
-> 
-> NOTES:
-> - In the discussion around v3 of this patch [2] there was talk about
->    solving this in userspace and I even implemented a patch that would
->    have solved this for ChromeOS, but then the discussion turned back
->    to solving this in the kernel.
-> - Also in the discussion of v3 [2] it was requested to limit this
-> 83;40900;0c  change to just DP since folks were worried that it would break some
-
-Nit: this line seems broken
-
->    subtle corner case on VGA or HDMI.
-> 
-> [1] https://source.chromium.org/chromium/chromium/src/+/a051f741d0a15caff2251301efe081c30e0f4a96:ui/ozone/platform/drm/common/drm_util.cc;l=488
-> [2] https://lore.kernel.org/r/20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid
+> With this change, the device still boots (though obviously the panel
+> doesn't come up) if I force panel-edp to always return
+> -EPROBE_DEFER. If I fake it and make the panel probe exactly once it
+> also works.
 > 
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
-> I put Abhinav's Reviewed-by tag from v2 here since this is nearly the
-> same as v2. Hope this is OK.
-> 
-> Changes in v4:
-> - Code is back to v2, but limit to just DP.
-> - Beefed up the commit message.
 > 
 > Changes in v3:
-> - Don't set preferred, just disable the sort.
+> - Adapt to v3 changes in aux bus.
+> - Use devm_drm_bridge_add() to simplify.
 > 
 > Changes in v2:
-> - Don't modify drm_add_modes_noedid() 'cause that'll break others
-> - Set 640x480 as preferred in drm_helper_probe_single_connector_modes()
+> - Rewrote atop new method introduced by patch #1.
 > 
->   drivers/gpu/drm/drm_probe_helper.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/bridge/parade-ps8640.c | 74 ++++++++++++++++----------
+>   1 file changed, 46 insertions(+), 28 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 425f56280d51..75a71649b64d 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -569,8 +569,17 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
->   		count = drm_add_override_edid_modes(connector);
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index e2467e58b5b7..ff4227f6d800 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -537,7 +537,7 @@ static const struct drm_bridge_funcs ps8640_bridge_funcs = {
+>   	.pre_enable = ps8640_pre_enable,
+>   };
 >   
->   	if (count == 0 && (connector->status == connector_status_connected ||
-> -			   connector->status == connector_status_unknown))
-> +			   connector->status == connector_status_unknown)) {
->   		count = drm_add_modes_noedid(connector, 1024, 768);
+> -static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridge)
+> +static int ps8640_bridge_get_dsi_resources(struct device *dev, struct ps8640 *ps_bridge)
+>   {
+>   	struct device_node *in_ep, *dsi_node;
+>   	struct mipi_dsi_device *dsi;
+> @@ -576,13 +576,40 @@ static int ps8640_bridge_host_attach(struct device *dev, struct ps8640 *ps_bridg
+>   	dsi->format = MIPI_DSI_FMT_RGB888;
+>   	dsi->lanes = NUM_MIPI_LANES;
+>   
+> -	return devm_mipi_dsi_attach(dev, dsi);
+> +	return 0;
+> +}
 > +
-> +		/*
-> +		 * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
-> +		 * Link CTS specifies that 640x480 (the official "failsafe"
-> +		 * mode) needs to be the default if there's no EDID.
-> +		 */
-> +		if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-> +			drm_set_preferred_mode(connector, 640, 480);
-> +	}
->   	count += drm_helper_probe_add_cmdline_mode(connector);
->   	if (count != 0) {
->   		ret = __drm_helper_update_and_validate(connector, maxX, maxY, &ctx);
+> +static int ps8640_bridge_link_panel(struct drm_dp_aux *aux)
+> +{
+> +	struct ps8640 *ps_bridge = aux_to_ps8640(aux);
+> +	struct device *dev = aux->dev;
+> +	struct device_node *np = dev->of_node;
+> +	int ret;
+> +
+> +	/*
+> +	 * NOTE about returning -EPROBE_DEFER from this function: if we
+> +	 * return an error (most relevant to -EPROBE_DEFER) it will only
+> +	 * be passed out to ps8640_probe() if it called this directly (AKA the
+> +	 * panel isn't under the "aux-bus" node). That should be fine because
+> +	 * if the panel is under "aux-bus" it's guaranteed to have probed by
+> +	 * the time this function has been called.
+> +	 */
+> +
+> +	/* port@1 is ps8640 output port */
+> +	ps_bridge->panel_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
+> +	if (IS_ERR(ps_bridge->panel_bridge))
+> +		return PTR_ERR(ps_bridge->panel_bridge);
+> +
+> +	ret = devm_drm_bridge_add(dev, &ps_bridge->bridge);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return devm_mipi_dsi_attach(dev, ps_bridge->dsi);
+>   }
+>   
+>   static int ps8640_probe(struct i2c_client *client)
+>   {
+>   	struct device *dev = &client->dev;
+> -	struct device_node *np = dev->of_node;
+>   	struct ps8640 *ps_bridge;
+>   	int ret;
+>   	u32 i;
+> @@ -623,6 +650,14 @@ static int ps8640_probe(struct i2c_client *client)
+>   	if (!ps8640_of_panel_on_aux_bus(&client->dev))
+>   		ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
+>   
+> +	/*
+> +	 * Get MIPI DSI resources early. These can return -EPROBE_DEFER so
+> +	 * we want to get them out of the way sooner.
+> +	 */
+> +	ret = ps8640_bridge_get_dsi_resources(&client->dev, ps_bridge);
+> +	if (ret)
+> +		return ret;
+> +
+>   	ps_bridge->page[PAGE0_DP_CNTL] = client;
+>   
+>   	ps_bridge->regmap[PAGE0_DP_CNTL] = devm_regmap_init_i2c(client, ps8640_regmap_config);
+> @@ -665,35 +700,19 @@ static int ps8640_probe(struct i2c_client *client)
+>   	if (ret)
+>   		return ret;
+>   
+> -	devm_of_dp_aux_populate_ep_devices(&ps_bridge->aux);
+> +	ret = devm_of_dp_aux_populate_bus(&ps_bridge->aux, ps8640_bridge_link_panel);
+>   
+> -	/* port@1 is ps8640 output port */
+> -	ps_bridge->panel_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
+> -	if (IS_ERR(ps_bridge->panel_bridge))
+> -		return PTR_ERR(ps_bridge->panel_bridge);
+> -
+> -	drm_bridge_add(&ps_bridge->bridge);
+> -
+> -	ret = ps8640_bridge_host_attach(dev, ps_bridge);
+> -	if (ret)
+> -		goto err_bridge_remove;
+> -
+> -	return 0;
+> +	/*
+> +	 * If devm_of_dp_aux_populate_bus() returns -ENODEV then it's up to
+> +	 * usa to call ps8640_bridge_link_panel() directly. NOTE: in this case
+> +	 * the function is allowed to -EPROBE_DEFER.
+> +	 */
+> +	if (ret == -ENODEV)
+> +		return ps8640_bridge_link_panel(&ps_bridge->aux);
+>   
+> -err_bridge_remove:
+> -	drm_bridge_remove(&ps_bridge->bridge);
+>   	return ret;
+>   }
+>   
+> -static int ps8640_remove(struct i2c_client *client)
+> -{
+> -	struct ps8640 *ps_bridge = i2c_get_clientdata(client);
+> -
+> -	drm_bridge_remove(&ps_bridge->bridge);
+> -
+> -	return 0;
+> -}
+> -
+>   static const struct of_device_id ps8640_match[] = {
+>   	{ .compatible = "parade,ps8640" },
+>   	{ }
+> @@ -702,7 +721,6 @@ MODULE_DEVICE_TABLE(of, ps8640_match);
+>   
+>   static struct i2c_driver ps8640_driver = {
+>   	.probe_new = ps8640_probe,
+> -	.remove = ps8640_remove,
+>   	.driver = {
+>   		.name = "ps8640",
+>   		.of_match_table = ps8640_match,
 
 
 -- 
