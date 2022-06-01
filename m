@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163AB53A036
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:23:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BAB53A037
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:23:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1DC610E986;
-	Wed,  1 Jun 2022 09:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBCA10E99E;
+	Wed,  1 Jun 2022 09:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D3E010E95E
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:23:17 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id y29so1310652ljd.7
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:23:17 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFB910E97D
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:23:18 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id l30so1734696lfj.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7azJM45SL/Q3qWDcQfpnV0v+091eG9XqVPjE0cyc92I=;
- b=clV6rLrNVctGw6fjD2UL0JQy5qvexBYWTxk5quYTQySnDp/VapDmHBa+++usbXtr99
- A3xWXzSL5k6F60cAGUlPqbFWJ1J6TOeeWxP/BetzZZm6cvIAyFRDckkmf8ajved/e1AM
- UWUGVEXq7BOrHF/J/vmsN8r44qnzyoIQGtg8RFUaZRlDwE5vtz3ZSCk4B0EKvC+tsEuQ
- TXpJElW5tHmvS/RD7TWHcv0NPJxSfJJMshMs6yCYAKn6ND0rc1jsVISlHeBLxGO0AFM6
- kt2wrC1+TQwEKg59LALZ6bGG2jNiOBREycWvlofiNmeDE8jvy7/OD02KWWhjqnxjWrMy
- LBIA==
+ bh=K6Ae9vGYAWngrRXmarItqL5ftbFrETC6GaMuHnW6nDA=;
+ b=P/dDGZYdHJUDuPcGz30S/uRScIrmdesCYQaSKxIEwbG+BE+3EwIOy34nIQNf4JS31f
+ xdGuHDNq/vM15KMRlw1lMWGC7ZxWy/M+QVAezBonIxqewYeY0mFdyEffmH/4Z6EAhXgE
+ QEZsnnAJRi9s7wB+pJanX8SEviQ8EW6eVIhm2QOmf0n+se0HN5X0A5nozw0p9/NhVOo2
+ efIC7fM9lvOiQ6gO34imJp8i8uRsBuUI96zG1R26rbxR4rWrR1GDooRQUFFdTkmKyGtL
+ dVHDEp24vVxWPjTI87CZlL5Pjj4DdgC+yHi0G+HNclSiN80XsoXX/n6xVchGzaovqx86
+ JAfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7azJM45SL/Q3qWDcQfpnV0v+091eG9XqVPjE0cyc92I=;
- b=PANaGcxuBjrowrQXFtrFGQYe/tOT7RlqdIMPv9NO21aS5n6h9EonfFRBZAy0t/mmOH
- EUZUbmOxawLuK+fLOUcHfK+/U+C7OXxWXKJe6YX+9mn/bJ8DCOE9F3hReZfpjFdfh6Xb
- 3dHZtsGG8YDynFG3cm6vnrsEqq/oBCyCtEiy/Gd5qMxuPW8KmylRZs6Uu+Rg/hxWo16l
- CgW/ScX9LiXYybQgv/pLCBMiOq5lkJDctBrEiGHrEVcLhapWziwm0TZbQsMFILIb3Guk
- a2qpAoL86HitaEYg1y6I9F8Y6YS7a6DDHHR2+swORF0gDety4P++UjT5AIB4mwRjLKuE
- INCg==
-X-Gm-Message-State: AOAM531ulKfeu8AMQEAKCjhJimen7+CC5irj6S21YrYUJFRrqnPfeU3i
- nsF0FQn6se366LdexjFoSCSAF28XFf0=
-X-Google-Smtp-Source: ABdhPJwTs9Mjz6sKH7s7CUdCGNFTg5bOCL+qhW+FMejtoLrviECrAawNnHmn1jRzkp1PdiyigQ4byQ==
-X-Received: by 2002:a2e:87c8:0:b0:255:6d59:ebce with SMTP id
- v8-20020a2e87c8000000b002556d59ebcemr815250ljj.455.1654075394977; 
- Wed, 01 Jun 2022 02:23:14 -0700 (PDT)
+ bh=K6Ae9vGYAWngrRXmarItqL5ftbFrETC6GaMuHnW6nDA=;
+ b=KkBMrUMYAidh+L6rpfDBFbApvKZj8pePMsRmqY5oehFhrue88VTYI97XgekMmaMR4k
+ u2sAMmJzdfsjDazIe0GIa+xmvIwc8Qj2X6CA1VVzgxoThL+fp/bxxZjtu5yNt9cVsJPN
+ 0PKlXtdzsqCElUUm6PZA8cplSec9AqwF6fLaQ1i3e/HUob5CIdsmLwbpTtmzwbbiaDmx
+ h2es9ruC1A3k3auGAt0xGYZTkj4QkXkrTMY9Whhgq9Cr09QqFEbBk0EoqeOmbjhh8v5b
+ jiqnZZ/ewOaTom66jtxnRpIGyIbI/+LNM3p0wCb72saDYaG5CCviJ1uFJzJOH4oirO4c
+ BZQA==
+X-Gm-Message-State: AOAM531d9GwSO3Z1/D5mQptGNdn/h7MxwfQDYr9zTdXAnZBRLZTT8A/N
+ n+bABHPDdtdCNF5jbWM7qwvN1ZgCix8=
+X-Google-Smtp-Source: ABdhPJwaOMFoGuQxHQcN56c3pCHyDaroU6lT8+yNTKkl9HryEuIXfdqPAxpW1ExZ4szP7oCbHEGhHw==
+X-Received: by 2002:a19:501d:0:b0:479:46c:2917 with SMTP id
+ e29-20020a19501d000000b00479046c2917mr1299679lfb.160.1654075396111; 
+ Wed, 01 Jun 2022 02:23:16 -0700 (PDT)
 Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
  [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- z14-20020a056512308e00b00478f60ca3a4sm257065lfd.56.2022.06.01.02.23.14
+ z14-20020a056512308e00b00478f60ca3a4sm257065lfd.56.2022.06.01.02.23.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 02:23:14 -0700 (PDT)
+ Wed, 01 Jun 2022 02:23:15 -0700 (PDT)
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/8] drm/gma500: Make gma_i2c_chan a subclass of i2c_adapter
-Date: Wed,  1 Jun 2022 11:23:05 +0200
-Message-Id: <20220601092311.22648-3-patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 3/8] drm/gma500: Make cdv lvds use ddc adapter from
+ drm_connector
+Date: Wed,  1 Jun 2022 11:23:06 +0200
+Message-Id: <20220601092311.22648-4-patrik.r.jakobsson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
 References: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
@@ -73,236 +74,164 @@ Cc: tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This makes it easier to get at the full gma_i2c_chan when having an
-i2c_adapter from eg. drm_connector->ddc.
+We're moving all uses of ddc_bus to drm_connector where they belong.
+Also, add missing call to destroy ddc bus when destroying the connector
+and cleanup the error handling in cdv_intel_lvds_init().
 
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_crt.c     |  2 +-
- drivers/gpu/drm/gma500/cdv_intel_hdmi.c    |  6 +++---
- drivers/gpu/drm/gma500/cdv_intel_lvds.c    |  4 ++--
- drivers/gpu/drm/gma500/intel_i2c.c         | 14 +++++++-------
- drivers/gpu/drm/gma500/oaktrail_lvds.c     |  2 +-
- drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c | 12 ++++++------
- drivers/gpu/drm/gma500/psb_intel_drv.h     | 11 +++++++----
- drivers/gpu/drm/gma500/psb_intel_lvds.c    |  6 +++---
- 8 files changed, 30 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 67 ++++++++++++-------------
+ 1 file changed, 33 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_crt.c b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-index 36c72a379d9f..be0d6a4591bf 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_crt.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-@@ -203,7 +203,7 @@ static int cdv_intel_crt_get_modes(struct drm_connector *connector)
- {
- 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
- 	return psb_intel_ddc_get_modes(connector,
--				       &gma_encoder->ddc_bus->adapter);
-+				       &gma_encoder->ddc_bus->base);
- }
- 
- static int cdv_intel_crt_set_property(struct drm_connector *connector,
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-index e87272c9d358..bd6791522160 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-@@ -130,7 +130,7 @@ static enum drm_connector_status cdv_hdmi_detect(
- 	struct edid *edid = NULL;
- 	enum drm_connector_status status = connector_status_disconnected;
- 
--	edid = drm_get_edid(connector, &gma_encoder->i2c_bus->adapter);
-+	edid = drm_get_edid(connector, &gma_encoder->i2c_bus->base);
- 
- 	hdmi_priv->has_hdmi_sink = false;
- 	hdmi_priv->has_hdmi_audio = false;
-@@ -212,7 +212,7 @@ static int cdv_hdmi_get_modes(struct drm_connector *connector)
- 	struct edid *edid = NULL;
- 	int ret = 0;
- 
--	edid = drm_get_edid(connector, &gma_encoder->i2c_bus->adapter);
-+	edid = drm_get_edid(connector, &gma_encoder->i2c_bus->base);
- 	if (edid) {
- 		drm_connector_update_edid_property(connector, edid);
- 		ret = drm_add_edid_modes(connector, edid);
-@@ -350,7 +350,7 @@ void cdv_hdmi_init(struct drm_device *dev,
- 		goto failed_ddc;
- 	}
- 
--	hdmi_priv->hdmi_i2c_adapter = &(gma_encoder->i2c_bus->adapter);
-+	hdmi_priv->hdmi_i2c_adapter = &gma_encoder->i2c_bus->base;
- 	hdmi_priv->dev = dev;
- 	return;
- 
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index 02dedf5dfa62..d76c3ecc951c 100644
+index d76c3ecc951c..846ce1546030 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -302,7 +302,7 @@ static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
- 	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
- 	int ret;
- 
--	ret = psb_intel_ddc_get_modes(connector, &gma_encoder->i2c_bus->adapter);
-+	ret = psb_intel_ddc_get_modes(connector, &gma_encoder->i2c_bus->base);
- 
- 	if (ret)
- 		return ret;
-@@ -583,7 +583,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
- 	 */
- 	mutex_lock(&dev->mode_config.mutex);
- 	psb_intel_ddc_get_modes(connector,
--				&gma_encoder->ddc_bus->adapter);
-+				&gma_encoder->ddc_bus->base);
- 	list_for_each_entry(scan, &connector->probed_modes, head) {
- 		if (scan->type & DRM_MODE_TYPE_PREFERRED) {
- 			mode_dev->panel_fixed_mode =
-diff --git a/drivers/gpu/drm/gma500/intel_i2c.c b/drivers/gpu/drm/gma500/intel_i2c.c
-index 6e9e2061ff3b..9d02a7b6d9a3 100644
---- a/drivers/gpu/drm/gma500/intel_i2c.c
-+++ b/drivers/gpu/drm/gma500/intel_i2c.c
-@@ -113,10 +113,10 @@ struct gma_i2c_chan *gma_i2c_create(struct drm_device *dev, const u32 reg,
- 
- 	chan->drm_dev = dev;
- 	chan->reg = reg;
--	snprintf(chan->adapter.name, I2C_NAME_SIZE, "intel drm %s", name);
--	chan->adapter.owner = THIS_MODULE;
--	chan->adapter.algo_data = &chan->algo;
--	chan->adapter.dev.parent = dev->dev;
-+	snprintf(chan->base.name, I2C_NAME_SIZE, "intel drm %s", name);
-+	chan->base.owner = THIS_MODULE;
-+	chan->base.algo_data = &chan->algo;
-+	chan->base.dev.parent = dev->dev;
- 	chan->algo.setsda = set_data;
- 	chan->algo.setscl = set_clock;
- 	chan->algo.getsda = get_data;
-@@ -125,9 +125,9 @@ struct gma_i2c_chan *gma_i2c_create(struct drm_device *dev, const u32 reg,
- 	chan->algo.timeout = usecs_to_jiffies(2200);
- 	chan->algo.data = chan;
- 
--	i2c_set_adapdata(&chan->adapter, chan);
-+	i2c_set_adapdata(&chan->base, chan);
- 
--	if (i2c_bit_add_bus(&chan->adapter))
-+	if (i2c_bit_add_bus(&chan->base))
- 		goto out_free;
- 
- 	/* JJJ:  raise SCL and SDA? */
-@@ -153,6 +153,6 @@ void gma_i2c_destroy(struct gma_i2c_chan *chan)
- 	if (!chan)
- 		return;
- 
--	i2c_del_adapter(&chan->adapter);
-+	i2c_del_adapter(&chan->base);
- 	kfree(chan);
+@@ -317,18 +317,12 @@ static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
+ 	return 0;
  }
-diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-index 58b38e359098..8609f6249c4c 100644
---- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-@@ -359,7 +359,7 @@ void oaktrail_lvds_init(struct drm_device *dev,
- 	if (edid == NULL && dev_priv->lpc_gpio_base) {
- 		oaktrail_lvds_i2c_init(encoder);
- 		if (gma_encoder->ddc_bus != NULL) {
--			i2c_adap = &gma_encoder->ddc_bus->adapter;
-+			i2c_adap = &gma_encoder->ddc_bus->base;
- 			edid = drm_get_edid(connector, i2c_adap);
- 		}
+ 
+-/**
+- * cdv_intel_lvds_destroy - unregister and free LVDS structures
+- * @connector: connector to free
+- *
+- * Unregister the DDC bus for this connector then free the driver private
+- * structure.
+- */
+ static void cdv_intel_lvds_destroy(struct drm_connector *connector)
+ {
+ 	struct gma_connector *gma_connector = to_gma_connector(connector);
+ 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
+ 
++	gma_i2c_destroy(to_gma_i2c_chan(connector->ddc));
+ 	gma_i2c_destroy(gma_encoder->i2c_bus);
+ 	drm_connector_cleanup(connector);
+ 	kfree(gma_connector);
+@@ -487,8 +481,10 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	struct drm_display_mode *scan;
+ 	struct drm_crtc *crtc;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
++	struct gma_i2c_chan *ddc_bus;
+ 	u32 lvds;
+ 	int pipe;
++	int ret;
+ 	u8 pin;
+ 
+ 	if (!dev_priv->lvds_enabled_in_vbt)
+@@ -508,11 +504,11 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	gma_connector = kzalloc(sizeof(struct gma_connector),
+ 				      GFP_KERNEL);
+ 	if (!gma_connector)
+-		goto failed_connector;
++		goto err_free_encoder;
+ 
+ 	lvds_priv = kzalloc(sizeof(struct cdv_intel_lvds_priv), GFP_KERNEL);
+ 	if (!lvds_priv)
+-		goto failed_lvds_priv;
++		goto err_free_connector;
+ 
+ 	gma_encoder->dev_priv = lvds_priv;
+ 
+@@ -521,12 +517,24 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	gma_connector->restore = cdv_intel_lvds_restore;
+ 	encoder = &gma_encoder->base;
+ 
++	/* Set up the DDC bus. */
++	ddc_bus = gma_i2c_create(dev, GPIOC, "LVDSDDC_C");
++	if (!ddc_bus) {
++		dev_printk(KERN_ERR, dev->dev,
++			   "DDC bus registration " "failed.\n");
++		goto err_free_lvds_priv;
++	}
+ 
+-	drm_connector_init(dev, connector,
+-			   &cdv_intel_lvds_connector_funcs,
+-			   DRM_MODE_CONNECTOR_LVDS);
++	ret = drm_connector_init_with_ddc(dev, connector,
++					  &cdv_intel_lvds_connector_funcs,
++					  DRM_MODE_CONNECTOR_LVDS,
++					  &ddc_bus->base);
++	if (ret)
++		goto err_destroy_ddc;
+ 
+-	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
++	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
++	if (ret)
++		goto err_connector_cleanup;
+ 
+ 	gma_connector_attach_encoder(gma_connector, gma_encoder);
+ 	gma_encoder->type = INTEL_OUTPUT_LVDS;
+@@ -554,7 +562,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	if (!gma_encoder->i2c_bus) {
+ 		dev_printk(KERN_ERR,
+ 			dev->dev, "I2C bus registration failed.\n");
+-		goto failed_blc_i2c;
++		goto err_encoder_cleanup;
  	}
-diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c b/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
-index 9a6de6ff8b0c..ee163fb972d9 100644
---- a/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
-@@ -142,10 +142,10 @@ void oaktrail_lvds_i2c_init(struct drm_encoder *encoder)
+ 	gma_encoder->i2c_bus->slave_addr = 0x2C;
+ 	dev_priv->lvds_i2c_bus = gma_encoder->i2c_bus;
+@@ -569,21 +577,13 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	 *    if closed, act like it's not there for now
+ 	 */
  
- 	chan->drm_dev = dev;
- 	chan->reg = dev_priv->lpc_gpio_base;
--	strncpy(chan->adapter.name, "gma500 LPC",  I2C_NAME_SIZE - 1);
--	chan->adapter.owner = THIS_MODULE;
--	chan->adapter.algo_data = &chan->algo;
--	chan->adapter.dev.parent = dev->dev;
-+	strncpy(chan->base.name, "gma500 LPC",  I2C_NAME_SIZE - 1);
-+	chan->base.owner = THIS_MODULE;
-+	chan->base.algo_data = &chan->algo;
-+	chan->base.dev.parent = dev->dev;
- 	chan->algo.setsda = set_data;
- 	chan->algo.setscl = set_clock;
- 	chan->algo.getsda = get_data;
-@@ -154,13 +154,13 @@ void oaktrail_lvds_i2c_init(struct drm_encoder *encoder)
- 	chan->algo.timeout = usecs_to_jiffies(2200);
- 	chan->algo.data = chan;
- 
--	i2c_set_adapdata(&chan->adapter, chan);
-+	i2c_set_adapdata(&chan->base, chan);
- 
- 	set_data(chan, 1);
- 	set_clock(chan, 1);
- 	udelay(50);
- 
--	if (i2c_bit_add_bus(&chan->adapter)) {
-+	if (i2c_bit_add_bus(&chan->base)) {
- 		kfree(chan);
- 		return;
- 	}
-diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
-index 72585a3df25d..1c28288f36a0 100644
---- a/drivers/gpu/drm/gma500/psb_intel_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
-@@ -79,12 +79,13 @@ struct psb_intel_mode_device {
- };
- 
- struct gma_i2c_chan {
--	/* for getting at dev. private (mmio etc.) */
--	struct drm_device *drm_dev;
--	u32 reg;		/* GPIO reg */
--	struct i2c_adapter adapter;
-+	struct i2c_adapter base;
- 	struct i2c_algo_bit_data algo;
- 	u8 slave_addr;
-+
-+	/* for getting at dev. private (mmio etc.) */
-+	struct drm_device *drm_dev;
-+	u32 reg; /* GPIO reg */
- };
- 
- struct gma_encoder {
-@@ -175,6 +176,8 @@ struct gma_crtc {
- 		container_of(x, struct gma_encoder, base)
- #define to_psb_intel_framebuffer(x)	\
- 		container_of(x, struct psb_intel_framebuffer, base)
-+#define to_gma_i2c_chan(x)	\
-+		container_of(x, struct gma_i2c_chan, base)
- 
- struct gma_i2c_chan *gma_i2c_create(struct drm_device *dev, const u32 reg,
- 				    const char *name);
-diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-index 07631891531a..c28fabdcfd73 100644
---- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-@@ -113,7 +113,7 @@ static int psb_lvds_i2c_set_brightness(struct drm_device *dev,
- 	out_buf[0] = dev_priv->lvds_bl->brightnesscmd;
- 	out_buf[1] = (u8)blc_i2c_brightness;
- 
--	if (i2c_transfer(&lvds_i2c_bus->adapter, msgs, 1) == 1) {
-+	if (i2c_transfer(&lvds_i2c_bus->base, msgs, 1) == 1) {
- 		dev_dbg(dev->dev, "I2C set brightness.(command, value) (%d, %d)\n",
- 			dev_priv->lvds_bl->brightnesscmd,
- 			blc_i2c_brightness);
-@@ -497,7 +497,7 @@ static int psb_intel_lvds_get_modes(struct drm_connector *connector)
- 	int ret = 0;
- 
- 	if (!IS_MRST(dev))
--		ret = psb_intel_ddc_get_modes(connector, &lvds_priv->i2c_bus->adapter);
-+		ret = psb_intel_ddc_get_modes(connector, &lvds_priv->i2c_bus->base);
- 
- 	if (ret)
- 		return ret;
-@@ -727,7 +727,7 @@ void psb_intel_lvds_init(struct drm_device *dev,
+-	/* Set up the DDC bus. */
+-	gma_encoder->ddc_bus = gma_i2c_create(dev, GPIOC, "LVDSDDC_C");
+-	if (!gma_encoder->ddc_bus) {
+-		dev_printk(KERN_ERR, dev->dev,
+-			   "DDC bus registration " "failed.\n");
+-		goto failed_ddc;
+-	}
+-
+ 	/*
+ 	 * Attempt to get the fixed panel mode from DDC.  Assume that the
  	 * preferred mode is the right one.
  	 */
  	mutex_lock(&dev->mode_config.mutex);
--	psb_intel_ddc_get_modes(connector, &lvds_priv->ddc_bus->adapter);
-+	psb_intel_ddc_get_modes(connector, &lvds_priv->ddc_bus->base);
+-	psb_intel_ddc_get_modes(connector,
+-				&gma_encoder->ddc_bus->base);
++	psb_intel_ddc_get_modes(connector, &ddc_bus->base);
++
  	list_for_each_entry(scan, &connector->probed_modes, head) {
  		if (scan->type & DRM_MODE_TYPE_PREFERRED) {
  			mode_dev->panel_fixed_mode =
+@@ -625,7 +625,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	if (!mode_dev->panel_fixed_mode) {
+ 		DRM_DEBUG
+ 			("Found no modes on the lvds, ignoring the LVDS\n");
+-		goto failed_find;
++		goto err_unlock;
+ 	}
+ 
+ 	/* setup PWM */
+@@ -645,20 +645,19 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	mutex_unlock(&dev->mode_config.mutex);
+ 	return;
+ 
+-failed_find:
++err_unlock:
+ 	mutex_unlock(&dev->mode_config.mutex);
+-	pr_err("Failed find\n");
+-	gma_i2c_destroy(gma_encoder->ddc_bus);
+-failed_ddc:
+-	pr_err("Failed DDC\n");
+ 	gma_i2c_destroy(gma_encoder->i2c_bus);
+-failed_blc_i2c:
+-	pr_err("Failed BLC\n");
++err_encoder_cleanup:
+ 	drm_encoder_cleanup(encoder);
++err_connector_cleanup:
+ 	drm_connector_cleanup(connector);
++err_destroy_ddc:
++	gma_i2c_destroy(ddc_bus);
++err_free_lvds_priv:
+ 	kfree(lvds_priv);
+-failed_lvds_priv:
++err_free_connector:
+ 	kfree(gma_connector);
+-failed_connector:
++err_free_encoder:
+ 	kfree(gma_encoder);
+ }
 -- 
 2.36.1
 
