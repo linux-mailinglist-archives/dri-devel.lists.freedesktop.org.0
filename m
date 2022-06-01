@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F6053A402
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:25:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A04353A404
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 13:25:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7903F10E80B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12D710E8C6;
 	Wed,  1 Jun 2022 11:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2327D10E743
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0B310E737
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 11:25:26 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BBAA921B08;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E3FFE21B0E;
  Wed,  1 Jun 2022 11:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1654082724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KoErqtMpkgzuHSsZ9f8R04TuUbLtnu0EPJJGbMwAhm0=;
- b=ppoYVJxadBtNsqQdR7kkvvY/dJRVVZAG3S93ECeEKXmPDf96VXvc0Udq8/Q5JYrtOPof9V
- 8+wpg8NrnP8xAtyRjxMx6qjNeIcVbQ27db5y76jCV58uJzm8/YnK5akIlvsT4Ov7aeCs5M
- mwRw+nwDLzxnpTW6iOmE7/lE7+xG9vM=
+ bh=ojY0OzSexkd0WimK5ROCSos9vNqjm5U1wGl6WRUmpr4=;
+ b=g3juchyaTuzRJalxgpk9xfjJh0916dqe1jXtsj2mixwbFpl4uOY7ZkIyeRQRligl38Dj9+
+ 0bhVuQ+aP57sNcGmw81A8NgeNmmoqjEztTTgW5kYYdmL1VEO1JLmf5wLCZibpWcxFV3p52
+ lqxEP4jVenSeltD87r6iv/xGwMrA1PQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1654082724;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KoErqtMpkgzuHSsZ9f8R04TuUbLtnu0EPJJGbMwAhm0=;
- b=biFWkFkXpXTwHog4dQv/ii8BLpdbP0NlMA5ypoX230QhU9sMk5QozADg5qgaiXGZkbFNHa
- nXuRnL0Rgh6itgDA==
+ bh=ojY0OzSexkd0WimK5ROCSos9vNqjm5U1wGl6WRUmpr4=;
+ b=punDNvA2tpVQfg9fXuW9UheJUoKs1GSwa5/v/D0FiVjaMbWvfkj5PR8iZTY10asO7nx8Ql
+ NweJew91fGSUvvBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 978B413B2D;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BEC4B1330F;
  Wed,  1 Jun 2022 11:25:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kNYkJKRMl2JqMQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id GKu0LaRMl2JqMQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 01 Jun 2022 11:25:24 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 05/10] drm/mgag200: Implement new init logic
-Date: Wed,  1 Jun 2022 13:25:17 +0200
-Message-Id: <20220601112522.5774-6-tzimmermann@suse.de>
+Subject: [PATCH 06/10] drm/mgag200: Add struct mgag200_device_info
+Date: Wed,  1 Jun 2022 13:25:18 +0200
+Message-Id: <20220601112522.5774-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601112522.5774-1-tzimmermann@suse.de>
 References: <20220601112522.5774-1-tzimmermann@suse.de>
@@ -71,494 +71,262 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework mgag200_regs_init() and mgag200_mm_init() into device preinit
-and init functions. The preinit function, mgag200_device_preinit(),
-requests and maps a device's I/O and video memory. The init function,
-mgag200_device_init() initializes the state of struct mga_device.
-Splitting the initialization between the two functions is necessary
-to perform per-model operations between the two calls, such as reading
-the unique revision ID on G200SEs.
+While currently empty, struct mgag200_device_info, will provide static,
+constant information on each device model.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/Makefile          |  1 -
- drivers/gpu/drm/mgag200/mgag200_drv.c     | 78 +++++++++++++++++++----
- drivers/gpu/drm/mgag200/mgag200_drv.h     | 21 ++----
- drivers/gpu/drm/mgag200/mgag200_g200.c    |  7 +-
- drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  7 +-
- drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  7 +-
- drivers/gpu/drm/mgag200/mgag200_g200er.c  |  7 +-
- drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  7 +-
- drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  9 +--
- drivers/gpu/drm/mgag200/mgag200_g200se.c  |  7 +-
- drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  7 +-
- drivers/gpu/drm/mgag200/mgag200_mm.c      | 71 ---------------------
- drivers/gpu/drm/mgag200/mgag200_mode.c    |  7 +-
- 13 files changed, 88 insertions(+), 148 deletions(-)
- delete mode 100644 drivers/gpu/drm/mgag200/mgag200_mm.c
+ drivers/gpu/drm/mgag200/mgag200_drv.c     |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_drv.h     | 12 +++++++++++-
+ drivers/gpu/drm/mgag200/mgag200_g200.c    |  5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c  |  5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c |  5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c  |  5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c  |  5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c |  5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c  |  5 ++++-
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c  |  5 ++++-
+ 10 files changed, 46 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
-index 0c515a3b073d..89558549c3af 100644
---- a/drivers/gpu/drm/mgag200/Makefile
-+++ b/drivers/gpu/drm/mgag200/Makefile
-@@ -10,7 +10,6 @@ mgag200-y := \
- 	mgag200_g200se.o \
- 	mgag200_g200wb.o \
- 	mgag200_i2c.o \
--	mgag200_mm.o \
- 	mgag200_mode.o \
- 	mgag200_pll.o
- 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 1d53ddcc00df..8f636db4a723 100644
+index 8f636db4a723..90ed7770ff72 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -111,35 +111,85 @@ static const struct drm_driver mgag200_driver = {
-  * DRM device
-  */
- 
--int mgag200_regs_init(struct mga_device *mdev)
-+resource_size_t mgag200_device_probe_vram(struct mga_device *mdev)
-+{
-+	return mgag200_probe_vram(mdev->vram, resource_size(mdev->vram_res));
-+}
-+
-+int mgag200_device_preinit(struct mga_device *mdev)
- {
- 	struct drm_device *dev = &mdev->base;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	u8 crtcext3;
--	int ret;
--
--	ret = drmm_mutex_init(dev, &mdev->rmmio_lock);
--	if (ret)
--		return ret;
-+	resource_size_t start, len;
-+	struct resource *res;
- 
- 	/* BAR 1 contains registers */
--	mdev->rmmio_base = pci_resource_start(pdev, 1);
--	mdev->rmmio_size = pci_resource_len(pdev, 1);
- 
--	if (!devm_request_mem_region(dev->dev, mdev->rmmio_base,
--				     mdev->rmmio_size, "mgadrmfb_mmio")) {
--		drm_err(dev, "can't reserve mmio registers\n");
--		return -ENOMEM;
-+	start = pci_resource_start(pdev, 1);
-+	len = pci_resource_len(pdev, 1);
-+
-+	res = devm_request_mem_region(dev->dev, start, len, "mgadrmfb_mmio");
-+	if (!res) {
-+		drm_err(dev, "devm_request_mem_region(MMIO) failed\n");
-+		return -ENXIO;
- 	}
-+	mdev->rmmio_res = res;
- 
- 	mdev->rmmio = pcim_iomap(pdev, 1, 0);
--	if (mdev->rmmio == NULL)
-+	if (!mdev->rmmio)
-+		return -ENOMEM;
-+
-+	/* BAR 0 is VRAM */
-+
-+	start = pci_resource_start(pdev, 0);
-+	len = pci_resource_len(pdev, 0);
-+
-+	res = devm_request_mem_region(dev->dev, start, len, "mgadrmfb_vram");
-+	if (!res) {
-+		drm_err(dev, "devm_request_mem_region(VRAM) failed\n");
-+		return -ENXIO;
-+	}
-+	mdev->vram_res = res;
-+
-+	/* Don't fail on errors, but performance might be reduced. */
-+	devm_arch_io_reserve_memtype_wc(dev->dev, res->start, resource_size(res));
-+	devm_arch_phys_wc_add(dev->dev, res->start, resource_size(res));
-+
-+	mdev->vram = devm_ioremap(dev->dev, res->start, resource_size(res));
-+	if (!mdev->vram)
- 		return -ENOMEM;
- 
-+	return 0;
-+}
-+
-+int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags)
-+{
-+	struct drm_device *dev = &mdev->base;
-+	u8 crtcext3, misc;
-+	int ret;
-+
-+	mdev->flags = flags;
-+	mdev->type = type;
-+
-+	ret = drmm_mutex_init(dev, &mdev->rmmio_lock);
-+	if (ret)
-+		return ret;
-+
-+	mutex_lock(&mdev->rmmio_lock);
-+
- 	RREG_ECRT(0x03, crtcext3);
- 	crtcext3 |= MGAREG_CRTCEXT3_MGAMODE;
- 	WREG_ECRT(0x03, crtcext3);
- 
-+	WREG_ECRT(0x04, 0x00);
-+
-+	misc = RREG8(MGA_MISC_IN);
-+	misc |= MGAREG_MISC_RAMMAPEN |
-+		MGAREG_MISC_HIGH_PG_SEL;
-+	WREG8(MGA_MISC_OUT, misc);
-+
-+	mutex_unlock(&mdev->rmmio_lock);
-+
+@@ -162,13 +162,15 @@ int mgag200_device_preinit(struct mga_device *mdev)
  	return 0;
  }
  
+-int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags)
++int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags,
++			const struct mgag200_device_info *info)
+ {
+ 	struct drm_device *dev = &mdev->base;
+ 	u8 crtcext3, misc;
+ 	int ret;
+ 
+ 	mdev->flags = flags;
++	mdev->info = info;
+ 	mdev->type = type;
+ 
+ 	ret = drmm_mutex_init(dev, &mdev->rmmio_lock);
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 21c7a689ed33..9abecf366268 100644
+index 9abecf366268..89cb4e476119 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -175,12 +175,6 @@ struct mga_i2c_chan {
- 	int data, clock;
- };
+@@ -196,10 +196,19 @@ enum mga_type {
  
--struct mga_mc {
--	resource_size_t			vram_size;
--	resource_size_t			vram_base;
--	resource_size_t			vram_window;
--};
--
- enum mga_type {
- 	G200_PCI,
- 	G200_AGP,
-@@ -206,13 +200,11 @@ struct mga_device {
+ #define IS_G200_SE(mdev) (mdev->type == G200_SE_A || mdev->type == G200_SE_B)
+ 
++struct mgag200_device_info {
++};
++
++#define MGAG200_DEVICE_INFO_INIT() \
++	{ \
++	}
++
+ struct mga_device {
  	struct drm_device		base;
  	unsigned long			flags;
  
--	struct mutex			rmmio_lock; /* Protects access to rmmio */
--	resource_size_t			rmmio_base;
--	resource_size_t			rmmio_size;
-+	struct resource			*rmmio_res;
++	const struct mgag200_device_info *info;
++
+ 	struct resource			*rmmio_res;
  	void __iomem			*rmmio;
-+	struct mutex			rmmio_lock; /* Protects access to rmmio */
- 
--	struct mga_mc			mc;
--
-+	struct resource			*vram_res;
- 	void __iomem			*vram;
- 	resource_size_t			vram_available;
- 
-@@ -258,7 +250,9 @@ static inline struct mgag200_g200se_device *to_mgag200_g200se_device(struct drm_
- 				/* mgag200_drv.c */
- int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2);
+ 	struct mutex			rmmio_lock; /* Protects access to rmmio */
+@@ -252,7 +261,8 @@ int mgag200_init_pci_options(struct pci_dev *pdev, u32 option, u32 option2);
  resource_size_t mgag200_probe_vram(void __iomem *mem, resource_size_t size);
--int mgag200_regs_init(struct mga_device *mdev);
-+resource_size_t mgag200_device_probe_vram(struct mga_device *mdev);
-+int mgag200_device_preinit(struct mga_device *mdev);
-+int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags);
+ resource_size_t mgag200_device_probe_vram(struct mga_device *mdev);
+ int mgag200_device_preinit(struct mga_device *mdev);
+-int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags);
++int mgag200_device_init(struct mga_device *mdev, enum mga_type type, unsigned long flags,
++			const struct mgag200_device_info *info);
  
  				/* mgag200_<device type>.c */
  struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
-@@ -285,9 +279,6 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_fb_availa
- 				/* mgag200_i2c.c */
- int mgag200_i2c_init(struct mga_device *mdev, struct mga_i2c_chan *i2c);
- 
--				/* mgag200_mm.c */
--int mgag200_mm_init(struct mga_device *mdev);
--
- 				/* mgag200_pll.c */
- int mgag200_pixpll_init(struct mgag200_pll *pixpll, struct mga_device *mdev);
- 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
-index 4e30b54a2677..4300a472c0a3 100644
+index 4300a472c0a3..b2969a1f1e0b 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
-@@ -177,16 +177,13 @@ struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct
- 	if (ret)
- 		return ERR_PTR(ret);
+@@ -33,6 +33,9 @@ static int mgag200_g200_init_pci_options(struct pci_dev *pdev)
+  * DRM Device
+  */
  
--	mdev->flags = flags;
--	mdev->type = type;
--
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
- 	if (ret)
- 		return ERR_PTR(ret);
++static const struct mgag200_device_info mgag200_g200_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
+ static void mgag200_g200_interpret_bios(struct mgag200_g200_device *g200,
+ 					const unsigned char *bios, size_t size)
+ {
+@@ -183,7 +186,7 @@ struct mga_device *mgag200_g200_device_create(struct pci_dev *pdev, const struct
  
  	mgag200_g200_init_refclk(g200);
  
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200_device_info);
  	if (ret)
  		return ERR_PTR(ret);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-index a16493db0512..7af9bdfb03c7 100644
+index 7af9bdfb03c7..6284fedc1b8a 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
-@@ -25,18 +25,15 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
+@@ -10,6 +10,9 @@
+  * DRM device
+  */
  
- 	pci_set_drvdata(pdev, dev);
- 
--	mdev->flags = flags;
--	mdev->type = type;
--
- 	ret = mgag200_init_pci_options(pdev, 0x00000120, 0x0000b000);
++static const struct mgag200_device_info mgag200_g200eh_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
+ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
+ 						enum mga_type type, unsigned long flags)
+ {
+@@ -33,7 +36,7 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev, const stru
  	if (ret)
  		return ERR_PTR(ret);
  
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200eh_device_info);
  	if (ret)
  		return ERR_PTR(ret);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-index 478ca578b839..c0695d5c4f68 100644
+index c0695d5c4f68..c8e46b89286f 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200eh3.c
-@@ -26,18 +26,15 @@ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
+@@ -10,6 +10,9 @@
+  * DRM device
+  */
  
- 	pci_set_drvdata(pdev, dev);
- 
--	mdev->flags = flags;
--	mdev->type = type;
--
- 	ret = mgag200_init_pci_options(pdev, 0x00000120, 0x0000b000);
++static const struct mgag200_device_info mgag200_g200eh3_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
+ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
+ 						 const struct drm_driver *drv,
+ 						 enum mga_type type, unsigned long flags)
+@@ -34,7 +37,7 @@ struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
  	if (ret)
  		return ERR_PTR(ret);
  
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200eh3_device_info);
  	if (ret)
  		return ERR_PTR(ret);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-index 2f38fb470f4e..281317450fad 100644
+index 281317450fad..ef16ce4adecd 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
-@@ -25,14 +25,11 @@ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
+@@ -10,6 +10,9 @@
+  * DRM device
+  */
  
- 	pci_set_drvdata(pdev, dev);
- 
--	mdev->flags = flags;
--	mdev->type = type;
--
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
++static const struct mgag200_device_info mgag200_g200er_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
+ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
+ 						enum mga_type type, unsigned long flags)
+ {
+@@ -29,7 +32,7 @@ struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev, const stru
  	if (ret)
  		return ERR_PTR(ret);
  
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200er_device_info);
  	if (ret)
  		return ERR_PTR(ret);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-index ff3c7b17ac44..41f948962b93 100644
+index 41f948962b93..75d08fb503bb 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
-@@ -29,14 +29,11 @@ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
+@@ -10,6 +10,9 @@
+  * DRM device
+  */
+ 
++static const struct mgag200_device_info mgag200_g200ev_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
+ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
+ 						enum mga_type type, unsigned long flags)
+ {
+@@ -33,7 +36,7 @@ struct mga_device *mgag200_g200ev_device_create(struct pci_dev *pdev, const stru
  	if (ret)
  		return ERR_PTR(ret);
  
--	mdev->flags = flags;
--	mdev->type = type;
--
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200ev_device_info);
  	if (ret)
  		return ERR_PTR(ret);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-index 971d40874cf3..89346815e107 100644
+index 89346815e107..7cb18685b98d 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200ew3.c
-@@ -12,7 +12,7 @@
+@@ -10,6 +10,9 @@
+  * DRM device
+  */
  
++static const struct mgag200_device_info mgag200_g200ew3_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
  static resource_size_t mgag200_g200ew3_device_probe_vram(struct mga_device *mdev)
  {
--	resource_size_t vram_size = mdev->mc.vram_size;
-+	resource_size_t vram_size = resource_size(mdev->vram_res);
- 
- 	if (vram_size >= 0x1000000)
- 		vram_size = vram_size - 0x400000;
-@@ -39,14 +39,11 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
+ 	resource_size_t vram_size = resource_size(mdev->vram_res);
+@@ -43,7 +46,7 @@ struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
  	if (ret)
  		return ERR_PTR(ret);
  
--	mdev->flags = flags;
--	mdev->type = type;
--
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200ew3_device_info);
  	if (ret)
  		return ERR_PTR(ret);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-index cd2987b58fcb..b23459710372 100644
+index b23459710372..69a17f057b32 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
-@@ -64,16 +64,13 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
+@@ -32,6 +32,9 @@ static int mgag200_g200se_init_pci_options(struct pci_dev *pdev)
+  * DRM device
+  */
  
--	mdev->flags = flags;
--	mdev->type = type;
--
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
- 	if (ret)
- 		return ERR_PTR(ret);
++static const struct mgag200_device_info mgag200_g200se_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
+ static void mgag200_g200se_init_unique_id(struct mgag200_g200se_device *g200se)
+ {
+ 	struct mga_device *mdev = &g200se->base;
+@@ -70,7 +73,7 @@ struct mga_device *mgag200_g200se_device_create(struct pci_dev *pdev, const stru
  
  	mgag200_g200se_init_unique_id(g200se);
  
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200se_device_info);
  	if (ret)
  		return ERR_PTR(ret);
  
 diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-index 38e374c00419..776bad867b4d 100644
+index 776bad867b4d..921c55ec309e 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
-@@ -29,14 +29,11 @@ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	mdev->flags = flags;
--	mdev->type = type;
--
--	ret = mgag200_regs_init(mdev);
-+	ret = mgag200_device_preinit(mdev);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	ret = mgag200_mm_init(mdev);
-+	ret = mgag200_device_init(mdev, type, flags);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mm.c b/drivers/gpu/drm/mgag200/mgag200_mm.c
-deleted file mode 100644
-index fc19c2369641..000000000000
---- a/drivers/gpu/drm/mgag200/mgag200_mm.c
-+++ /dev/null
-@@ -1,71 +0,0 @@
--/*
-- * Copyright 2012 Red Hat Inc.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the
-- * "Software"), to deal in the Software without restriction, including
-- * without limitation the rights to use, copy, modify, merge, publish,
-- * distribute, sub license, and/or sell copies of the Software, and to
-- * permit persons to whom the Software is furnished to do so, subject to
-- * the following conditions:
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-- * USE OR OTHER DEALINGS IN THE SOFTWARE.
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- */
--/*
-- * Authors: Dave Airlie <airlied@redhat.com>
-- */
--
--#include <linux/pci.h>
--
--#include <drm/drm_managed.h>
--
--#include "mgag200_drv.h"
--
--int mgag200_mm_init(struct mga_device *mdev)
--{
--	struct drm_device *dev = &mdev->base;
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	u8 misc;
--	resource_size_t start, len;
--
--	WREG_ECRT(0x04, 0x00);
--
--	misc = RREG8(MGA_MISC_IN);
--	misc |= MGAREG_MISC_RAMMAPEN |
--		MGAREG_MISC_HIGH_PG_SEL;
--	WREG8(MGA_MISC_OUT, misc);
--
--	/* BAR 0 is VRAM */
--	start = pci_resource_start(pdev, 0);
--	len = pci_resource_len(pdev, 0);
--
--	if (!devm_request_mem_region(dev->dev, start, len, "mgadrmfb_vram")) {
--		drm_err(dev, "can't reserve VRAM\n");
--		return -ENXIO;
--	}
--
--	/* Don't fail on errors, but performance might be reduced. */
--	devm_arch_io_reserve_memtype_wc(dev->dev, start, len);
--	devm_arch_phys_wc_add(dev->dev, start, len);
--
--	mdev->vram = devm_ioremap(dev->dev, start, len);
--	if (!mdev->vram)
--		return -ENOMEM;
--
--	mdev->mc.vram_size = len;
--	mdev->mc.vram_base = start;
--	mdev->mc.vram_window = len;
--
--	return 0;
--}
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index c254988e5bcb..effe5160bb79 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -32,11 +32,6 @@
-  * This file contains setup code for the CRTC.
+@@ -10,6 +10,9 @@
+  * DRM device
   */
  
--resource_size_t mgag200_device_probe_vram(struct mga_device *mdev)
--{
--	return mgag200_probe_vram(mdev->vram, mdev->mc.vram_size);
--}
--
- static void mgag200_crtc_set_gamma_linear(struct mga_device *mdev,
- 					  const struct drm_format_info *format)
++static const struct mgag200_device_info mgag200_g200wb_device_info =
++	MGAG200_DEVICE_INFO_INIT();
++
+ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const struct drm_driver *drv,
+ 						enum mga_type type, unsigned long flags)
  {
-@@ -1103,7 +1098,7 @@ int mgag200_modeset_init(struct mga_device *mdev, resource_size_t vram_available
- 	dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
- 	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
- 	dev->mode_config.preferred_depth = 24;
--	dev->mode_config.fb_base = mdev->mc.vram_base;
-+	dev->mode_config.fb_base = mdev->vram_res->start;
- 	dev->mode_config.funcs = &mgag200_mode_config_funcs;
+@@ -33,7 +36,7 @@ struct mga_device *mgag200_g200wb_device_create(struct pci_dev *pdev, const stru
+ 	if (ret)
+ 		return ERR_PTR(ret);
  
- 	ret = mgag200_i2c_init(mdev, i2c);
+-	ret = mgag200_device_init(mdev, type, flags);
++	ret = mgag200_device_init(mdev, type, flags, &mgag200_g200wb_device_info);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
 -- 
 2.36.1
 
