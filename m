@@ -2,80 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BC653A4F7
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 14:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9411053A4FA
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 14:30:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5CC310E364;
-	Wed,  1 Jun 2022 12:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8EF10E16D;
+	Wed,  1 Jun 2022 12:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60A1310E2E8
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 12:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654086558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+VBIBuP9XH5+e4gdIzNU2MNtABdrYAbgVzv2JZq6v4g=;
- b=PTVErXkoqGc4tQDhr1u6dNb1GDRg8yEPMIMxmSa8NKGHhkoOgvnTgwFYsEFwtKa0eavAmV
- SzIcz1wQODwfu92LsLj6r/Ms8TtWCby+ND6uHJ777Sny6LWxaT3/HKSSOpUZRd/aipMqMY
- p6diE7/JzNK9lrfA8nN6wyp0YfA19uY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-151-Jpi2T2d0MxeEc24IRXpljA-1; Wed, 01 Jun 2022 08:29:16 -0400
-X-MC-Unique: Jpi2T2d0MxeEc24IRXpljA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- u12-20020a05600c19cc00b0038ec265155fso3277539wmq.6
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 05:29:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+VBIBuP9XH5+e4gdIzNU2MNtABdrYAbgVzv2JZq6v4g=;
- b=d98OVGvY3uDUmcC02UDLfsFmohvVkTMmYuG0Tn//BZ5nOfxQ6/mWsSIM8lnLigF4MY
- 5Ngif3IniGMuDrH5fnzfhjmYyMgsVJsU8DaGzO5qDCk0oJE7/h8nIqJPYoS5M5cnujiC
- ynQhcFopdFaoo9LGD+CJQlooc8bxFXsTWNU0Ce/jHZ4MXRraXdgVq+1hY1riBRfx3GZb
- ItaU7RhgPb13gxcenwyk6rWZFA68FY4JnfYKdEXajrOFGxaqtmfkgQ5O+DsVUNd2rTxs
- lusU/0aVqR+D6V0xPLq6vWv80EnvY27wesFYafqd6/O8/RFtakuFf9flsFlDmHXMl+3A
- Yx5Q==
-X-Gm-Message-State: AOAM533c/R4iHIYTjc/Chwj709ChC07jHrm2vRJ+FbNalAfK60Xag+Z5
- 7iPvMdf3i+HVelr6DpWmRIP4ZpIomPaKqIpLQICpIQa/LUSvv573+JJVSQezve5nmUM/vAmzIWP
- O+DpxcAq5L62hxqQwqlkn7NVFO3Ao
-X-Received: by 2002:a05:600c:21d0:b0:397:33e6:fd42 with SMTP id
- x16-20020a05600c21d000b0039733e6fd42mr28453949wmj.179.1654086555697; 
- Wed, 01 Jun 2022 05:29:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkz1Y8pjn1ricjS6peAGoSHjCadpq4kbMUdRVXVI5Te6LpiY9GuLx6Lm3WXA+ZVVnsqQzwpQ==
-X-Received: by 2002:a05:600c:21d0:b0:397:33e6:fd42 with SMTP id
- x16-20020a05600c21d000b0039733e6fd42mr28453932wmj.179.1654086555454; 
- Wed, 01 Jun 2022 05:29:15 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id
- t67-20020a1c4646000000b003942a244f33sm5189360wma.12.2022.06.01.05.29.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 05:29:15 -0700 (PDT)
-Message-ID: <66419e2f-8a68-0e0c-334b-96b211a96e50@redhat.com>
-Date: Wed, 1 Jun 2022 14:29:14 +0200
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90CA510E2E8;
+ Wed,  1 Jun 2022 12:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654086617; x=1685622617;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lGj1AD0mBETr8eVn06GPE/82cfs7g+EbDCQL1mvPf1c=;
+ b=cM3LnfFTDhOGZgKYROzrGp9ar0k71mZfpy5d9YOe5bnC0UMxojMzS3dx
+ 4uXjhCo1FrovO1xwfozrAn+6OvjAAguYavb5uRL44iReBthhY5gNduVKZ
+ Zh9LH2mF9V/MSDLkxssN5P6U7HCwOKVdW73klFUUVDmK+pIkSNUz0qurq
+ jEMHx/8PL1IgXvGM45S0+WCVxmnHAzjTQoLpKWYJSnfBZX7R0dLxv2kpB
+ bLdm0bd3PrkP5dsSmEIYqyQjttBdb2BMNqe3+cJLTleXFL0N+rdverOBk
+ TFiEq7ZMqj8M0Fs8p/lCZ0u/BrnxgCPf32P6mofO7QO+DVr68B4baMG4u Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="338614517"
+X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; d="scan'208";a="338614517"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2022 05:30:17 -0700
+X-IronPort-AV: E=Sophos;i="5.91,268,1647327600"; d="scan'208";a="576912086"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.213.124])
+ ([10.251.213.124])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2022 05:30:15 -0700
+Message-ID: <9a37b6f6-b540-7b5e-ce07-25e358016231@linux.intel.com>
+Date: Wed, 1 Jun 2022 14:30:13 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [REGRESSION] VGA output with AST 2600 graphics.
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- kuohsiang_chou@aspeedtech.com, David Airlie <airlied@redhat.com>
-References: <d84ba981-d907-f942-6b05-67c836580542@redhat.com>
- <6e9f84f9-dc97-9ff4-57c8-97fbffd3a996@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <6e9f84f9-dc97-9ff4-57c8-97fbffd3a996@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [Intel-gfx] [PATCH 06/10] drm/i915/uapi: add NEEDS_CPU_ACCESS hint
 Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220525184337.491763-1-matthew.auld@intel.com>
+ <20220525184337.491763-7-matthew.auld@intel.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20220525184337.491763-7-matthew.auld@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,92 +60,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: regressions@lists.linux.dev, stable@vger.kernel.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/06/2022 12:33, Thomas Zimmermann wrote:
-> Hi Jocelyn,
-> 
-> thanks for reporting this bug.
-> 
-> Am 01.06.22 um 11:33 schrieb Jocelyn Falempe:
->> Hi,
->>
->> I've found a regression in the ast driver, for AST2600 hardware.
->>
->> before the upstream commit f9bd00e0ea9d
->> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=f9bd00e0ea9d9b04140aa969a9a13ad3597a1e4e 
->>
->>
->> The ast driver handled AST 2600 chip like an AST 2500.
->>
->> After this commit, it uses some default values, more like the older 
->> AST chip.
->>
->> There are a lot of places in the driver like this:
->> https://elixir.bootlin.com/linux/v5.18.1/source/drivers/gpu/drm/ast/ast_post.c#L82 
->>
->> where it checks for (AST2300 || AST2400 || AST2500) but not for AST2600.
->>
->> This makes the VGA output, to be blurred and flickered with whites 
->> lines on AST2600.
->>
->> The issue is present since v5.11
->>
->> For v5.11~v5.17 I propose a simple workaround (as there are no other 
->> reference to AST2600 in the driver):
->> --- a/drivers/gpu/drm/ast/ast_main.c
->> +++ b/drivers/gpu/drm/ast/ast_main.c
->> @@ -146,7 +146,8 @@ static int ast_detect_chip(struct drm_device *dev, 
->> bool *need_post)
->>
->>       /* Identify chipset */
->>       if (pdev->revision >= 0x50) {
->> -        ast->chip = AST2600;
->> +        /* Workaround to use the same codepath for AST2600 */
->> +        ast->chip = AST2500;
-> 
-> The whole handling of different models in this driver is broken by 
-> design and needs to be replaced.  I don't have much of the affected 
-> hardware, so such things are going slowly. :(
-> 
-> For an intermediate fix, it would be better to change all tests for 
-> AST2500 to include AST2600 as well. There aren't too many IIRC.
+LGTM Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
-I feel a bit uncomfortable doing this, because I don't know if this 
-settings are good for AST2600 or not. I just know that AST2500 settings 
-are better than the "default".
-
-Also it may not apply cleanly up to v5.11
-
-I will do a test patch and see what it gives.
-
-Another solution would be to just revert f9bd00e0ea9d for v5.11 to v5.17 ?
-
-Best regards,
-
--- 
-
-Jocelyn
-
-> 
-> Best regards
-> Thomas
-> 
->>           drm_info(dev, "AST 2600 detected\n");
->>       } else if (pdev->revision >= 0x40) {
->>           ast->chip = AST2500;
->>
->> starting from v5.18, there is another reference to AST2600 in the code
->> https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/ast/ast_main.c#L212 
->>
->>
->> So I think someone with good aspeed knowledge should review all 
->> locations where there is a test for AST2500, and figure out what 
->> should be done for AST2600
->>
->> Thanks,
->>
-> 
-
+On 5/25/2022 8:43 PM, Matthew Auld wrote:
+> If set, force the allocation to be placed in the mappable portion of
+> I915_MEMORY_CLASS_DEVICE. One big restriction here is that system memory
+> (i.e I915_MEMORY_CLASS_SYSTEM) must be given as a potential placement for the
+> object, that way we can always spill the object into system memory if we
+> can't make space.
+>
+> Testcase: igt@gem-create@create-ext-cpu-access-sanity-check
+> Testcase: igt@gem-create@create-ext-cpu-access-big
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_create.c | 26 ++++++---
+>   include/uapi/drm/i915_drm.h                | 61 +++++++++++++++++++---
+>   2 files changed, 71 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> index d094cae0ddf1..33673fe7ee0a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> @@ -241,6 +241,7 @@ struct create_ext {
+>   	struct drm_i915_private *i915;
+>   	struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+>   	unsigned int n_placements;
+> +	unsigned int placement_mask;
+>   	unsigned long flags;
+>   };
+>   
+> @@ -337,6 +338,7 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+>   	for (i = 0; i < args->num_regions; i++)
+>   		ext_data->placements[i] = placements[i];
+>   
+> +	ext_data->placement_mask = mask;
+>   	return 0;
+>   
+>   out_dump:
+> @@ -411,7 +413,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   	struct drm_i915_gem_object *obj;
+>   	int ret;
+>   
+> -	if (args->flags)
+> +	if (args->flags & ~I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS)
+>   		return -EINVAL;
+>   
+>   	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
+> @@ -427,13 +429,21 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+>   		ext_data.n_placements = 1;
+>   	}
+>   
+> -	/*
+> -	 * TODO: add a userspace hint to force CPU_ACCESS for the object, which
+> -	 * can override this.
+> -	 */
+> -	if (ext_data.n_placements > 1 ||
+> -	    ext_data.placements[0]->type != INTEL_MEMORY_SYSTEM)
+> -		ext_data.flags |= I915_BO_ALLOC_GPU_ONLY;
+> +	if (args->flags & I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS) {
+> +		if (ext_data.n_placements == 1)
+> +			return -EINVAL;
+> +
+> +		/*
+> +		 * We always need to be able to spill to system memory, if we
+> +		 * can't place in the mappable part of LMEM.
+> +		 */
+> +		if (!(ext_data.placement_mask & BIT(INTEL_REGION_SMEM)))
+> +			return -EINVAL;
+> +	} else {
+> +		if (ext_data.n_placements > 1 ||
+> +		    ext_data.placements[0]->type != INTEL_MEMORY_SYSTEM)
+> +			ext_data.flags |= I915_BO_ALLOC_GPU_ONLY;
+> +	}
+>   
+>   	obj = __i915_gem_object_create_user_ext(i915, args->size,
+>   						ext_data.placements,
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index e30f31a440b3..5b0a10e6a1b8 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -3366,11 +3366,11 @@ struct drm_i915_query_memory_regions {
+>    * struct drm_i915_gem_create_ext - Existing gem_create behaviour, with added
+>    * extension support using struct i915_user_extension.
+>    *
+> - * Note that in the future we want to have our buffer flags here, at least for
+> - * the stuff that is immutable. Previously we would have two ioctls, one to
+> - * create the object with gem_create, and another to apply various parameters,
+> - * however this creates some ambiguity for the params which are considered
+> - * immutable. Also in general we're phasing out the various SET/GET ioctls.
+> + * Note that new buffer flags should be added here, at least for the stuff that
+> + * is immutable. Previously we would have two ioctls, one to create the object
+> + * with gem_create, and another to apply various parameters, however this
+> + * creates some ambiguity for the params which are considered immutable. Also in
+> + * general we're phasing out the various SET/GET ioctls.
+>    */
+>   struct drm_i915_gem_create_ext {
+>   	/**
+> @@ -3378,7 +3378,6 @@ struct drm_i915_gem_create_ext {
+>   	 *
+>   	 * The (page-aligned) allocated size for the object will be returned.
+>   	 *
+> -	 *
+>   	 * DG2 64K min page size implications:
+>   	 *
+>   	 * On discrete platforms, starting from DG2, we have to contend with GTT
+> @@ -3390,7 +3389,9 @@ struct drm_i915_gem_create_ext {
+>   	 *
+>   	 * Note that the returned size here will always reflect any required
+>   	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
+> -	 * such as DG2.
+> +	 * such as DG2. The kernel will always select the largest minimum
+> +	 * page-size for the set of possible placements as the value to use when
+> +	 * rounding up the @size.
+>   	 *
+>   	 * Special DG2 GTT address alignment requirement:
+>   	 *
+> @@ -3414,14 +3415,58 @@ struct drm_i915_gem_create_ext {
+>   	 * is deemed to be a good compromise.
+>   	 */
+>   	__u64 size;
+> +
+>   	/**
+>   	 * @handle: Returned handle for the object.
+>   	 *
+>   	 * Object handles are nonzero.
+>   	 */
+>   	__u32 handle;
+> -	/** @flags: MBZ */
+> +
+> +	/**
+> +	 * @flags: Optional flags.
+> +	 *
+> +	 * Supported values:
+> +	 *
+> +	 * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the kernel that
+> +	 * the object will need to be accessed via the CPU.
+> +	 *
+> +	 * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, and only
+> +	 * strictly required on configurations where some subset of the device
+> +	 * memory is directly visible/mappable through the CPU (which we also
+> +	 * call small BAR), like on some DG2+ systems. Note that this is quite
+> +	 * undesirable, but due to various factors like the client CPU, BIOS etc
+> +	 * it's something we can expect to see in the wild. See
+> +	 * &drm_i915_memory_region_info.probed_cpu_visible_size for how to
+> +	 * determine if this system applies.
+> +	 *
+> +	 * Note that one of the placements MUST be I915_MEMORY_CLASS_SYSTEM, to
+> +	 * ensure the kernel can always spill the allocation to system memory,
+> +	 * if the object can't be allocated in the mappable part of
+> +	 * I915_MEMORY_CLASS_DEVICE.
+> +	 *
+> +	 * Also note that since the kernel only supports flat-CCS on objects
+> +	 * that can *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore
+> +	 * don't support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
+> +	 * flat-CCS.
+> +	 *
+> +	 * Without this hint, the kernel will assume that non-mappable
+> +	 * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note that the
+> +	 * kernel can still migrate the object to the mappable part, as a last
+> +	 * resort, if userspace ever CPU faults this object, but this might be
+> +	 * expensive, and so ideally should be avoided.
+> +	 *
+> +	 * On older kernels which lack the relevant small-bar uAPI support (see
+> +	 * also &drm_i915_memory_region_info.probed_cpu_visible_size),
+> +	 * usage of the flag will result in an error, but it should NEVER be
+> +	 * possible to end up with a small BAR configuration, assuming we can
+> +	 * also successfully load the i915 kernel module. In such cases the
+> +	 * entire I915_MEMORY_CLASS_DEVICE region will be CPU accessible, and as
+> +	 * such there are zero restrictions on where the object can be placed.
+> +	 */
+> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
+>   	__u32 flags;
+> +
+>   	/**
+>   	 * @extensions: The chain of extensions to apply to this object.
+>   	 *
