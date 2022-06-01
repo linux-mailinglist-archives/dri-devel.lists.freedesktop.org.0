@@ -2,61 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A8A539FD1
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 10:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AABE539FD5
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 10:51:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73E9610E042;
-	Wed,  1 Jun 2022 08:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0BDA10E25C;
+	Wed,  1 Jun 2022 08:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 189FD10E042
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 08:49:22 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id p13so1731369ybm.1
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 01:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=twyQpYkLzDtTksIi+fqqpTWAsHeL0BdUZqIZPaQc3rU=;
- b=CWCWAv+0K/4frBtytvKDbDvPqIqnFgUK+U8Cg6Ezymzf6wyuIV+ICvHkpUmyPqp6hz
- HA+kumChdJMrvPbrVSRfciprhxBS9C5iiYCJXCrIMXiYFDFL+uwXGAnH5ET9vJEuUBma
- FvqCyMbGisu0hNm6XgY18TjsiSQB/aqqLdUYoCQDRwqZLWxJ1PZuUKpxzE146zvnH6tP
- OeMv8SfhSGbQwxNhJNV4UsaBQPCRBii1BWyH87WRlLbPxdc7Op03ojJO7Ay6YX0odoAf
- 51kJGkJcBlpYZ+CMWPNImtkOtEBIq+07Uprjd0vyo+YIEnojGV96UB4xp4Ayq2qPcj3E
- bpcA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E170910E25C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 08:51:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654073469;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HBHQYgVvAGQCOdoDn9ARukR15hBNns7Yswk58R28Ni4=;
+ b=bAYf5CnuVZN+2DfB22clC0NFG3vxRYedfdpREoWxnlYdvAQz9gmQ5/lk6JlR+BqZNRkEdn
+ ztgBwQ/VqqF9+oRj80PzvCvjfHKsJMgoafp4g2FOU00dHgPPtChTWP9ZxoXA/G2wbcvY14
+ vYvLlWoo3YJcISn1Iv71ekkr/h1KBYw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-zQSFqVfHPB6pEsXmsARR6w-1; Wed, 01 Jun 2022 04:51:08 -0400
+X-MC-Unique: zQSFqVfHPB6pEsXmsARR6w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ z20-20020a05640235d400b0042dfc1c0e80so354902edc.21
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 01:51:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=twyQpYkLzDtTksIi+fqqpTWAsHeL0BdUZqIZPaQc3rU=;
- b=p89YcTmnM8vi6PC2uobugIMQAwFFUiZtQUottOBD4NnEi7t8arzAhZAhFmMEL2QRtt
- Yve6QDtjyW1/+LA8sOoKCS1T+3R+nEang+b5YIsXGKWudbT31CeHrv6ICExEQ82MPina
- 5437rTNcS0wr50ylIN+noFAQYh9Na75DSCWptrVtetd3EGfHUev3DYy83ZwvYkFtfi21
- oMU5FVm0lwa6/I3QragnklcIP/1RokW8uxQI+hgvbRSq83aaIaYDMfK0z0voimVrLQ/+
- JsQOhZ5HJxqttoAOfVhfJDqOH1aKcrKe/JSdbJKoF0ez5jRjWA2OQdgrH4WrzJ6OZNXT
- eo0w==
-X-Gm-Message-State: AOAM532JGDCfIkB8QlHk6AHt5tKs9n3ao/EvPCcdpplpWupOUig7GkSz
- 6t+IOqmlKDG63f4qpR6fTfJF+y+LQ2DYYDNgidlWwQ==
-X-Google-Smtp-Source: ABdhPJyBrAdMdzoy8FQYuUJ1VdPPYaem4g7Gzgs0FDeWLry4/9fp86NbFABW/e8o7Cu7ClcQcM7h8LHfR2n9o469g38=
-X-Received: by 2002:a05:6902:124a:b0:65d:3798:202f with SMTP id
- t10-20020a056902124a00b0065d3798202fmr8461477ybu.368.1654073361296; Wed, 01
- Jun 2022 01:49:21 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HBHQYgVvAGQCOdoDn9ARukR15hBNns7Yswk58R28Ni4=;
+ b=kNAlMSnBaVWggLjlbkmeoHfHqlbsBnKXqkguxZBwLAX6nenqPX9tCcWdeQkkvZoxc3
+ iNOc30A3i9z3lqd1ooT+vUxKU4aD6KS7M1H4FD5AGgOg908j5b0toB/xkx+MrFkcW9LD
+ EQMhhbM/OPABJH32pFiSp30y5ayEmJTWswimk/5tHjQCKaoOyPwoOz8Nhl4bTGbSgCyN
+ esMoq1qEttuIlg7gNb0THpnqmRRcxf95urWQ6wMkldigoD+SktPgJiiYLsUH3BNPGLaf
+ C8+b2/rApMbDxIksI7iiocy4xLSZZbQom2khcLbyHNPYNgdpdliDVslP21HTHUOTUkCY
+ bk/g==
+X-Gm-Message-State: AOAM530qo49BP4PPTij5f9rHF3UoQpfQbYxtGBf/0etVtqk8WC4MO8pm
+ UAonwcrAADNnfOb5MYBzrtu5j/B6iUGUqabBSqaPZy2qzMdk9ZOt8BiOrWBG7ekCif9bLusayKY
+ v8T8VvmAUXtcGfVP4YKOdKdIZ8u6t
+X-Received: by 2002:a17:907:8a19:b0:6fe:e146:d107 with SMTP id
+ sc25-20020a1709078a1900b006fee146d107mr41841297ejc.763.1654073467612; 
+ Wed, 01 Jun 2022 01:51:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxz8yVDyEKGplWHg06AJJJSo0c8yw6I0zgv0YRyM+Fjpk6u4VdWfLi5qC40pTYsTW3vPqqmA==
+X-Received: by 2002:a17:907:8a19:b0:6fe:e146:d107 with SMTP id
+ sc25-20020a1709078a1900b006fee146d107mr41841278ejc.763.1654073467428; 
+ Wed, 01 Jun 2022 01:51:07 -0700 (PDT)
+Received: from [192.168.43.127] ([109.36.130.134])
+ by smtp.gmail.com with ESMTPSA id
+ 12-20020a170906058c00b006fed787478asm444046ejn.92.2022.06.01.01.51.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 01:51:06 -0700 (PDT)
+Message-ID: <6072f500-30fd-c0a4-29dc-4fde7072018a@redhat.com>
+Date: Wed, 1 Jun 2022 10:51:02 +0200
 MIME-Version: 1.0
-References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
- <20220601004014.158247-4-bas@basnieuwenhuizen.nl>
- <e4d8ea99-ceb5-b0dc-362f-94e37b9ddc6b@amd.com>
- <CAP+8YyEy8R3nbJVFkqHnh=3VsmfWKsQyY45tcWTQhm3hujBRbg@mail.gmail.com>
- <e502a4b7-e927-2abf-9014-0b23d15d401b@amd.com>
-In-Reply-To: <e502a4b7-e927-2abf-9014-0b23d15d401b@amd.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Wed, 1 Jun 2022 10:48:06 +0200
-Message-ID: <CAP+8YyHdbrvA-sJ=VZccmLkyZ9WCO7CnOp5K0pMoXA=MrHLCsw@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/8] Add a panel API to return panel orientation
+To: Hsin-Yi Wang <hsinyi@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20220601081823.1038797-1-hsinyi@chromium.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220601081823.1038797-1-hsinyi@chromium.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,106 +87,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 1, 2022 at 10:40 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 01.06.22 um 10:16 schrieb Bas Nieuwenhuizen:
-> > On Wed, Jun 1, 2022 at 10:03 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 01.06.22 um 02:40 schrieb Bas Nieuwenhuizen:
-> >>> This should be okay because moves themselves use KERNEL usage and
-> >>> hence still sync with BOOKKEEP usage. Then any later submits still
-> >>> wait on any pending VM operations.
-> >>>
-> >>> (i.e. we only made VM ops not wait on BOOKKEEP submits, not the other
-> >>>    way around)
-> >> Well NAK again. This allows access to freed up memory and is a complet=
-e
-> >> no-go.
-> > How does this allow access to freed memory? Worst I can see is that
-> > the unmap happens earlier if the app/drivers gets the waits wrong,
-> > which wouldn't give access after the underlying BO is freed?
->
-> To free up memory we need to update the PTEs and then flush those out by
-> invalidating the TLB.
->
-> On gfx6, gfx7 and gfx8 and some broken gfx10 hw invalidating the TLB can
-> only be done while the VMID is idle.
->
-> Only gfx9 can reliable invalidate the TLB while it is in use and even
-> there it comes with quite some performance penalty (at TLB invalidation
-> can take multiple seconds).
->
-> Because of this what we do in the kernel driver is to sync to everything
-> when we unmap entries:
->
->          if (!(flags & AMDGPU_PTE_VALID))
->                  sync_mode =3D AMDGPU_SYNC_EQ_OWNER;
->          else
->                  sync_mode =3D AMDGPU_SYNC_EXPLICIT;
->
-> This acts as a barrier for freeing the memory. In other words we
-> intentionally add a bubble which syncs everything.
->
-> I'm working for month on a concept how to do all this without causing
-> the stalls you observer, but so far didn't came to much of a conclusion.
+Hi,
 
-That might cause an unmap operation too early, but for freeing up the
-actual backing memory we still wait for all fences on the BO to finish
-first, no? In that case, since BOOKKEEP fences are still added for
-explicit sync, that should not be a problem, no?
+On 6/1/22 10:18, Hsin-Yi Wang wrote:
+> Panels usually call drm_connector_set_panel_orientation(), which is
+> later than drm/kms driver calling drm_dev_register(). This leads to a
+> WARN()[1].
+> 
+> The orientation property is known earlier. For example, some panels
+> parse the property through device tree during probe.
+> 
+> The series add a panel API drm_panel_get_orientation() for drm/kms
+> drivers. The drivers can use the API to get panel's orientation, so they
+> can call drm_connector_set_panel_orientation() before drm_dev_register().
+> 
+> Panel needs to implement .get_orientation callback to return the property.
+> 
+> [1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
 
-(If not, that sounds like the obvious fix for making this work?)
->
-> Regards,
-> Christian.
->
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> >>> ---
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c  | 2 +-
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 2 +-
-> >>>    2 files changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_vm_cpu.c
-> >>> index f10332e1c6c0..31bc73fd1fae 100644
-> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-> >>> @@ -51,7 +51,7 @@ static int amdgpu_vm_cpu_prepare(struct amdgpu_vm_u=
-pdate_params *p,
-> >>>        if (!resv)
-> >>>                return 0;
-> >>>
-> >>> -     return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode, sync_=
-mode, p->vm, true);
-> >>> +     return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode, AMDGP=
-U_SYNC_EXPLICIT, p->vm, true);
-> >>>    }
-> >>>
-> >>>    /**
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_vm_sdma.c
-> >>> index 63b484dc76c5..c8d5898bea11 100644
-> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-> >>> @@ -75,7 +75,7 @@ static int amdgpu_vm_sdma_prepare(struct amdgpu_vm_=
-update_params *p,
-> >>>        if (!resv)
-> >>>                return 0;
-> >>>
-> >>> -     return amdgpu_sync_resv(p->adev, &p->job->sync, resv, sync_mode=
-, sync_mode, p->vm);
-> >>> +     return amdgpu_sync_resv(p->adev, &p->job->sync, resv, sync_mode=
-, AMDGPU_SYNC_EXPLICIT, p->vm);
-> >>>    }
-> >>>
-> >>>    /**
->
+Thank you for implementing this.
+
+Patches 1-7 look good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+I've a few small remarks on patch 8, see my reply
+to that patch.
+
+Regards,
+
+Hans
+
+
+> 
+> Hsin-Yi Wang (8):
+>   drm/panel: Add an API drm_panel_get_orientation() to return panel
+>     orientation
+>   drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
+>   drm/panel: panel-edp: Implement .get_orientation callback
+>   drm/panel: lvds: Implement .get_orientation callback
+>   drm/panel: panel-simple: Implement .get_orientation callback
+>   drm/panel: ili9881c: Implement .get_orientation callback
+>   drm/panel: elida-kd35t133: Implement .get_orientation callback
+>   drm/mediatek: Config orientation property if panel provides it
+> 
+>  drivers/gpu/drm/drm_panel.c                    |  8 ++++++++
+>  drivers/gpu/drm/mediatek/mtk_dsi.c             | 14 ++++++++++++++
+>  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c |  8 ++++++++
+>  drivers/gpu/drm/panel/panel-edp.c              |  8 ++++++++
+>  drivers/gpu/drm/panel/panel-elida-kd35t133.c   |  8 ++++++++
+>  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c  |  8 ++++++++
+>  drivers/gpu/drm/panel/panel-lvds.c             |  8 ++++++++
+>  drivers/gpu/drm/panel/panel-simple.c           |  9 +++++++++
+>  include/drm/drm_panel.h                        | 10 ++++++++++
+>  9 files changed, 81 insertions(+)
+> 
+
