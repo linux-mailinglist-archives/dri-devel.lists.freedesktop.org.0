@@ -1,61 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AD353A4C1
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 14:21:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BC653A4F7
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 14:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A524E10E932;
-	Wed,  1 Jun 2022 12:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5CC310E364;
+	Wed,  1 Jun 2022 12:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2576010E9E0
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 12:21:19 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id d129so1737580pgc.9
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 05:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YRYIF8QGPIv5YHK53kC4fYQBl0fPKRwkGLrQ86KpzLw=;
- b=KIidLJO1jlLoHuWi7Xpq7ZoYA102fCruSZsHK0gjeMktUqediZPb7K7OsGR5exNPPQ
- CRF5tUuHhsVWZkOPJkperWHmc1AVcoo9HCWYfbGf17b1fAy2Cw26jf//RarzxKnbc3Ao
- Zi4cDm5dP/b8PsGSFKOkhxz1FONT4ubKFh5yEv4Tzgnzc6gM6tonJldeQm2anqY58EMw
- l2SP/I3ebw8CPvRtHk1V42lU7CHV690cHiWkk82LoFX/agd0xHGwrIC0DCk1WfEgt75p
- 6fGVFlL9oYQBCQ/QHdkaVT+PHTS5IQI+Mjw+GrW9H4FXuROQeYNxqGK/d+eKFo8C9Ymv
- qJLw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60A1310E2E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 12:29:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654086558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+VBIBuP9XH5+e4gdIzNU2MNtABdrYAbgVzv2JZq6v4g=;
+ b=PTVErXkoqGc4tQDhr1u6dNb1GDRg8yEPMIMxmSa8NKGHhkoOgvnTgwFYsEFwtKa0eavAmV
+ SzIcz1wQODwfu92LsLj6r/Ms8TtWCby+ND6uHJ777Sny6LWxaT3/HKSSOpUZRd/aipMqMY
+ p6diE7/JzNK9lrfA8nN6wyp0YfA19uY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-151-Jpi2T2d0MxeEc24IRXpljA-1; Wed, 01 Jun 2022 08:29:16 -0400
+X-MC-Unique: Jpi2T2d0MxeEc24IRXpljA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ u12-20020a05600c19cc00b0038ec265155fso3277539wmq.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 05:29:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=YRYIF8QGPIv5YHK53kC4fYQBl0fPKRwkGLrQ86KpzLw=;
- b=yFx8xcnqaAzCGF4rpLFIwgU66ZIpaKDNgMNRs2gMTsshceqdF1Il6APBc6G7KTxl5K
- 64a/xeXMQN4msH+Dup3+9VGsYgsEtw110hfjdEKytdkbYV3Uj3zcvfWIPfD6xg/SUwQl
- pf9poWO7n1znYvO6v4Ow0CE4hJU7BYgOCgLx5TLCveujDyJ8PDp6uqZaFBdNZnCcwt1r
- T9znhZDTcO9DzN6SbR7ASu2XzJne4fDWe4Q6gdS0W8xlvZ2JoRxvPSth3bLLl0GF7+qN
- atqBK8PMk1RHf+WtN2HU/QfyYSuza5oewTlNML9fbhNliVYQmE36CYrI0WlZ+sUQ4a1H
- GAcw==
-X-Gm-Message-State: AOAM533lqapnZnGnzRsqT6qlbyjTHkigufxsvJMp8nyh3yrLlCyvijmb
- jCHYiBm2hObZQRX9h0pqcPs=
-X-Google-Smtp-Source: ABdhPJwEGUcWk05+Q+/42FuszAiCUpUTMZmNg1kuYE7udK5vGUfGNYe8xk136ciYcqQORE265Z/GPQ==
-X-Received: by 2002:a05:6a00:24c1:b0:50d:33cf:811f with SMTP id
- d1-20020a056a0024c100b0050d33cf811fmr66275730pfv.78.1654086078691; 
- Wed, 01 Jun 2022 05:21:18 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- t2-20020a62d142000000b0051868418b06sm1370811pfl.35.2022.06.01.05.21.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 05:21:18 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Eric Anholt <eric@anholt.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/v3d/v3d_drv: Fix PM disable depth imbalance
-Date: Wed,  1 Jun 2022 16:20:50 +0400
-Message-Id: <20220601122050.1822-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ bh=+VBIBuP9XH5+e4gdIzNU2MNtABdrYAbgVzv2JZq6v4g=;
+ b=d98OVGvY3uDUmcC02UDLfsFmohvVkTMmYuG0Tn//BZ5nOfxQ6/mWsSIM8lnLigF4MY
+ 5Ngif3IniGMuDrH5fnzfhjmYyMgsVJsU8DaGzO5qDCk0oJE7/h8nIqJPYoS5M5cnujiC
+ ynQhcFopdFaoo9LGD+CJQlooc8bxFXsTWNU0Ce/jHZ4MXRraXdgVq+1hY1riBRfx3GZb
+ ItaU7RhgPb13gxcenwyk6rWZFA68FY4JnfYKdEXajrOFGxaqtmfkgQ5O+DsVUNd2rTxs
+ lusU/0aVqR+D6V0xPLq6vWv80EnvY27wesFYafqd6/O8/RFtakuFf9flsFlDmHXMl+3A
+ Yx5Q==
+X-Gm-Message-State: AOAM533c/R4iHIYTjc/Chwj709ChC07jHrm2vRJ+FbNalAfK60Xag+Z5
+ 7iPvMdf3i+HVelr6DpWmRIP4ZpIomPaKqIpLQICpIQa/LUSvv573+JJVSQezve5nmUM/vAmzIWP
+ O+DpxcAq5L62hxqQwqlkn7NVFO3Ao
+X-Received: by 2002:a05:600c:21d0:b0:397:33e6:fd42 with SMTP id
+ x16-20020a05600c21d000b0039733e6fd42mr28453949wmj.179.1654086555697; 
+ Wed, 01 Jun 2022 05:29:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkz1Y8pjn1ricjS6peAGoSHjCadpq4kbMUdRVXVI5Te6LpiY9GuLx6Lm3WXA+ZVVnsqQzwpQ==
+X-Received: by 2002:a05:600c:21d0:b0:397:33e6:fd42 with SMTP id
+ x16-20020a05600c21d000b0039733e6fd42mr28453932wmj.179.1654086555454; 
+ Wed, 01 Jun 2022 05:29:15 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
+ by smtp.gmail.com with ESMTPSA id
+ t67-20020a1c4646000000b003942a244f33sm5189360wma.12.2022.06.01.05.29.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 05:29:15 -0700 (PDT)
+Message-ID: <66419e2f-8a68-0e0c-334b-96b211a96e50@redhat.com>
+Date: Wed, 1 Jun 2022 14:29:14 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [REGRESSION] VGA output with AST 2600 graphics.
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ kuohsiang_chou@aspeedtech.com, David Airlie <airlied@redhat.com>
+References: <d84ba981-d907-f942-6b05-67c836580542@redhat.com>
+ <6e9f84f9-dc97-9ff4-57c8-97fbffd3a996@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <6e9f84f9-dc97-9ff4-57c8-97fbffd3a996@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,63 +90,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com
+Cc: regressions@lists.linux.dev, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pm_runtime_enable will increase power disable depth.
-If the probe fails, we should use pm_runtime_disable() to balance
-pm_runtime_enable().
-Also call disable function in remove function.
+On 01/06/2022 12:33, Thomas Zimmermann wrote:
+> Hi Jocelyn,
+> 
+> thanks for reporting this bug.
+> 
+> Am 01.06.22 um 11:33 schrieb Jocelyn Falempe:
+>> Hi,
+>>
+>> I've found a regression in the ast driver, for AST2600 hardware.
+>>
+>> before the upstream commit f9bd00e0ea9d
+>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=f9bd00e0ea9d9b04140aa969a9a13ad3597a1e4e 
+>>
+>>
+>> The ast driver handled AST 2600 chip like an AST 2500.
+>>
+>> After this commit, it uses some default values, more like the older 
+>> AST chip.
+>>
+>> There are a lot of places in the driver like this:
+>> https://elixir.bootlin.com/linux/v5.18.1/source/drivers/gpu/drm/ast/ast_post.c#L82 
+>>
+>> where it checks for (AST2300 || AST2400 || AST2500) but not for AST2600.
+>>
+>> This makes the VGA output, to be blurred and flickered with whites 
+>> lines on AST2600.
+>>
+>> The issue is present since v5.11
+>>
+>> For v5.11~v5.17 I propose a simple workaround (as there are no other 
+>> reference to AST2600 in the driver):
+>> --- a/drivers/gpu/drm/ast/ast_main.c
+>> +++ b/drivers/gpu/drm/ast/ast_main.c
+>> @@ -146,7 +146,8 @@ static int ast_detect_chip(struct drm_device *dev, 
+>> bool *need_post)
+>>
+>>       /* Identify chipset */
+>>       if (pdev->revision >= 0x50) {
+>> -        ast->chip = AST2600;
+>> +        /* Workaround to use the same codepath for AST2600 */
+>> +        ast->chip = AST2500;
+> 
+> The whole handling of different models in this driver is broken by 
+> design and needs to be replaced.  I don't have much of the affected 
+> hardware, so such things are going slowly. :(
+> 
+> For an intermediate fix, it would be better to change all tests for 
+> AST2500 to include AST2600 as well. There aren't too many IIRC.
 
-Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
-Changes in v3:
-- call pm_runtime_disable() in v3d_platform_drm_remove
-- update commit message
+I feel a bit uncomfortable doing this, because I don't know if this 
+settings are good for AST2600 or not. I just know that AST2500 settings 
+are better than the "default".
 
-Changes in v2
-- put pm_runtime_disable before dma_free_wc
-- rename dma_free to pm_disable
+Also it may not apply cleanly up to v5.11
 
-v1: https://lore.kernel.org/r/20220105120442.14418-1-linmq006@gmail.com
-v2: https://lore.kernel.org/r/20220106124657.32737-1-linmq006@gmail.com
----
- drivers/gpu/drm/v3d/v3d_drv.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I will do a test patch and see what it gives.
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 1afcd54fbbd5..f3380399fe17 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -286,7 +286,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 
- 	ret = v3d_gem_init(drm);
- 	if (ret)
--		goto dma_free;
-+		goto pm_disable;
- 
- 	ret = v3d_irq_init(v3d);
- 	if (ret)
-@@ -302,7 +302,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	v3d_irq_disable(v3d);
- gem_destroy:
- 	v3d_gem_destroy(drm);
--dma_free:
-+pm_disable:
-+	pm_runtime_disable(dev);
- 	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
- 	return ret;
- }
-@@ -316,6 +317,7 @@ static int v3d_platform_drm_remove(struct platform_device *pdev)
- 
- 	v3d_gem_destroy(drm);
- 
-+	pm_runtime_disable(&pdev->dev);
- 	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
- 		    v3d->mmu_scratch_paddr);
- 
+Another solution would be to just revert f9bd00e0ea9d for v5.11 to v5.17 ?
+
+Best regards,
+
 -- 
-2.25.1
+
+Jocelyn
+
+> 
+> Best regards
+> Thomas
+> 
+>>           drm_info(dev, "AST 2600 detected\n");
+>>       } else if (pdev->revision >= 0x40) {
+>>           ast->chip = AST2500;
+>>
+>> starting from v5.18, there is another reference to AST2600 in the code
+>> https://elixir.bootlin.com/linux/v5.18/source/drivers/gpu/drm/ast/ast_main.c#L212 
+>>
+>>
+>> So I think someone with good aspeed knowledge should review all 
+>> locations where there is a test for AST2500, and figure out what 
+>> should be done for AST2600
+>>
+>> Thanks,
+>>
+> 
 
