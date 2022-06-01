@@ -1,60 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5952539C0A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 06:18:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B51A539E05
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 09:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BBD6112D20;
-	Wed,  1 Jun 2022 04:18:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF73E113003;
+	Wed,  1 Jun 2022 07:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3D0112D20
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 04:18:28 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id f9so1305587ejc.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 May 2022 21:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=RSw8k1d0PMD6wj66n+1hU8B9FRDPkW1CFpjiF9rIWpo=;
- b=TrjwgnTl3ploNX8zp6ORq5aPD3FqDvLo44Q/ZISeWjgM9LzKROEkGRYve2Aw1eG9i0
- bSsVkwTt3Q/6UxVCLBY3LvzMdzxs7gGQBwE8zZx4/g5BcYgS1tZNun5uhrmI+J/rGAsY
- Hpgcezyg6qs7qwlyvuf5l8c0UaJdiN9e+YItj1Z7MvD1UOVjQY1ZQbTqk5YlFvMulQai
- cQRtbuvXCwZZTYBpJ8cpL24BqRqj2flVyj6FgcEjJdpoyam20SSW0WqWT4RXOxsOGqsi
- gfYoTo45CiLzohoTeFnVcEzE9/YlcnSjis36EqgKLPvQmgDzXKtYGPDGg2w48IlD9OGq
- CvRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=RSw8k1d0PMD6wj66n+1hU8B9FRDPkW1CFpjiF9rIWpo=;
- b=bwRxoapZBh3AOKijOXqBfJ3kgJG+XEfaAJljbOP2w1WsYZMXoyqejX55Cn9k5zDOM/
- ufyxlr5nGA2aoUt2IpZJNvDPrnp5tMWcgK9v0HzwvZczS/vIDmbe9dvyugmktfFBX/k8
- bQ/hxnuvAgGHr+TYxAmehPtll+On6cwEDdIdOUpe5tnYUT+mgFWODuhKAbJcIR0xkRrM
- IS/yPL6ZcYIQgAQbQtpWCsG+FeBDCNYkO+qnpCbVaQpT2U777vJ0Xv+plOIz+q1ozWhg
- 4m/8GO77M6M9xBJ6Sj0Sb4oEwN8uq7kcT9aUUHF/uWez3x657hzfiGNXmD9b9CxGjZ6Q
- xAfA==
-X-Gm-Message-State: AOAM531jme1sSnRNZ21KZRCaVBLqMxBx1LddWO2ajW6JPJ1sp8nvEQjL
- BBedgvr3a5fllE+jDOitH+M=
-X-Google-Smtp-Source: ABdhPJwgyhU+ZXDOZckYUwEphewTltQH7fIGAK729jV57SMSjG84XZZdUm4VashgG42xtDimZYYf/A==
-X-Received: by 2002:a17:906:9749:b0:6f5:38d:d4d8 with SMTP id
- o9-20020a170906974900b006f5038dd4d8mr57000119ejy.405.1654057106397; 
- Tue, 31 May 2022 21:18:26 -0700 (PDT)
-Received: from felia.fritz.box
- (200116b82620c00028af88788fa7d286.dip.versatel-1u1.de.
- [2001:16b8:2620:c000:28af:8878:8fa7:d286])
- by smtp.gmail.com with ESMTPSA id
- t4-20020a056402020400b0042ab1735552sm279952edv.66.2022.05.31.21.18.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 May 2022 21:18:25 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH] MAINTAINERS: rectify entries for ARM DRM DRIVERS after dt
- conversion
-Date: Wed,  1 Jun 2022 06:17:46 +0200
-Message-Id: <20220601041746.22986-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D92B112F1A
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 05:18:20 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 282175C0278;
+ Wed,  1 Jun 2022 01:18:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 01 Jun 2022 01:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxfierke.com;
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1654060698; x=1654147098; bh=x7Bv3nxmlu
+ u9ym4u+VJToMmOYHpwt1RgkySeJ5pY4X0=; b=NyrBY6aNyHHEvgDamyn6O4dfCn
+ q0w6drK5iTehWoI3RJSAT/Vx/Tivw5ceWUZ2HnDO4gL48suCbb9yCeTeIAqz7DG7
+ tueFuyb8/9R/CxHIZB8oLxzmeCGkzbad2CrkUmp55aN2mt9dRqrdQgOuONX2rc9y
+ HJYScCsrSnTYjfbs1fnMza597sQlROOEKn7JvZoBypxki72AbWoNRqjktdjtx63z
+ 57mEOJ35qIM8sDG3N/43MhelmfrLhm/o7jczWxqecLvl068ROo6NLZVK1rHxtg5g
+ gImWSvpsDxKZ5Cbd9XWr+23m8ZmvmdpSXBuUGHJ8ugH3HN11ByTXwREwKp3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1654060698; x=1654147098; bh=x7Bv3nxmluu9ym4u+VJToMmOYHpwt1RgkyS
+ eJ5pY4X0=; b=cNVnOWIVK7w7qXsuSJV6bvG4o/hLzH2YBkaLjOPt1oDcXbBpFTr
+ V4eGg8XXr64FfT5FNmY3WUws6T1z79hDDfqbzG05dj6F8HMtP5/1/NfM/4O3ZXMj
+ quU7df+lz0nbigKimrwthW/3bSjaUTwUIESaWPG+78OLXuW5QfnA8Svhk9K8eCi5
+ lXlLuGMMXSqjXwu9WkNXCU6MM+tnO4pmElT7Nbc1meMGqOHDsTNsZx75eJrfxYyz
+ FLjsAzYuFBk+f4Q+49prjdDM4FKv5CBQnWwMziRRcfJtpn8dDl5XS+NAjzQ+GR7d
+ t+0bF/LnjqY55EUxggzFpV72bN02EOZyyFw==
+X-ME-Sender: <xms:mfaWYrfoF_qYw0KBoAOR2KOjjlAnrsSD5Zw8wMjriq_vxQ9baOTrTw>
+ <xme:mfaWYhOc7HlrUKvLp8BpambgKFsY3XUT-s2FHmt0ragx-nAuKyzCcgaSilSaPId0o
+ sG0Usxrt33pbUK1Xpc>
+X-ME-Received: <xmr:mfaWYkje29Dx7ThTkReg1oCXzNoA5RY_A9wgi6CHt4dYiX9SMQwpwNjs-3cwOjXBH5icUP06FTaQDubojpJwFgaPi66zSwNTSzSB5MHg0k19U0NY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeelgdeludcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+ dttdenucfhrhhomhepofgrgicuhfhivghrkhgvuceomhgrgiesmhgrgihfihgvrhhkvgdr
+ tghomheqnecuggftrfgrthhtvghrnhepvddtffffgedvjeehhedugeekfefggffggfegud
+ dtieehudehhefhfeegkefgkedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucev
+ lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigsehmrg
+ igfhhivghrkhgvrdgtohhm
+X-ME-Proxy: <xmx:mfaWYs_AlRYAwlznRkQsZWPPedRZfVwOSy3Jlw4xhDi0gypPh0Ro4Q>
+ <xmx:mfaWYnvWFKY96fpgFXtSf05yuk3X4YwwOOZhWkRqGzevBFDewl1zxg>
+ <xmx:mfaWYrFw3FOjmINJFR99hrHqJy_Auf6cTwECVHnY4F65t0CNo3wIaQ>
+ <xmx:mvaWYgESty2l--ca0Ahdyr2ekZuj6z7CkjmlpvLSFUUKB4vW1DRz-w>
+Feedback-ID: idee9475d:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Jun 2022 01:18:16 -0400 (EDT)
+From: Max Fierke <max@maxfierke.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Subject: [PATCH 0/3] Introduce ClockworkPi CWD686 DRM panel driver
+Date: Wed,  1 Jun 2022 00:17:45 -0500
+Message-Id: <20220601051748.1305450-1-max@maxfierke.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 01 Jun 2022 07:19:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,69 +81,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- James Wang <james.qian.wang@arm.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- malidp@foss.arm.com, Mihail Atanassov <mihail.atanassov@arm.com>
+Cc: devicetree@vger.kernel.org, Max Fierke <max@maxfierke.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The three commits:
+The ClockworkPi DevTerm (all models) uses a 6.86" IPS display
+of unknown provenance, which uses the Chipone ICNL9707 IC driver[1].
 
-  36fd2a65bcaf ("dt-bindings: display: convert Arm HDLCD to DT schema")
-  0f6983509ea1 ("dt-bindings: display: convert Arm Komeda to DT schema")
-  2c8b082a3ab1 ("dt-bindings: display: convert Arm Mali-DP to DT schema")
+The display panel I have has two model numbers: TXW686001 and WTL068601G,
+but cannot find any manufacturer associated with either, so opting for the
+ClockworkPi model number.
 
-convert the arm display dt-bindings, arm,*.txt to arm,*.yaml, but miss to
-adjust its reference in MAINTAINERS.
+This driver is based on the GPL-licensed driver released by ClockworkPi[1],
+authored by Pinfan Zhu, with some additional cleanup, rotation support,
+and display sleep re-enabling done by me.
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about
-broken references.
+[1] https://github.com/clockworkpi/DevTerm/blob/main/Schematics/ICNL9707_Datasheet.pdf
+[2] https://github.com/clockworkpi/DevTerm/blob/main/Code/patch/armbian_build_a06/patch/kernel-004-panel.patch
 
-Repair these file references in ARM HDLCD DRM DRIVER, ARM KOMEDA DRM-KMS
-DRIVER and ARM MALI-DP DRM DRIVER.
+Signed-off-by: Max Fierke <max@maxfierke.com>
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Andre, please ack.
-Rob, Krzysztof, please pick this minor non-urgent clean-up patch in
-your -next dt tree.
+Max Fierke (3):
+  dt-bindings: vendor-prefixes: Add prefix for ClockworkPi
+  dt-bindings: display: Add bindings for ClockworkPi CWD686
+  drm: panel: Add driver for ClockworkPi cwd686 panel
 
- MAINTAINERS | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../display/panel/clockworkpi,cwd686.yaml     |  60 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-clockworkpi-cwd686.c  | 458 ++++++++++++++++++
+ 5 files changed, 533 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/clockworkpi,cwd686.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-clockworkpi-cwd686.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ae685aaf8850..58e751b9346e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1510,7 +1510,7 @@ F:	drivers/clocksource/arm_arch_timer.c
- ARM HDLCD DRM DRIVER
- M:	Liviu Dudau <liviu.dudau@arm.com>
- S:	Supported
--F:	Documentation/devicetree/bindings/display/arm,hdlcd.txt
-+F:	Documentation/devicetree/bindings/display/arm,hdlcd.yaml
- F:	drivers/gpu/drm/arm/hdlcd_*
- 
- ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
-@@ -1545,7 +1545,7 @@ M:	Mihail Atanassov <mihail.atanassov@arm.com>
- L:	Mali DP Maintainers <malidp@foss.arm.com>
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
--F:	Documentation/devicetree/bindings/display/arm,komeda.txt
-+F:	Documentation/devicetree/bindings/display/arm,komeda.yaml
- F:	Documentation/gpu/komeda-kms.rst
- F:	drivers/gpu/drm/arm/display/include/
- F:	drivers/gpu/drm/arm/display/komeda/
-@@ -1567,7 +1567,7 @@ M:	Brian Starkey <brian.starkey@arm.com>
- L:	Mali DP Maintainers <malidp@foss.arm.com>
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
--F:	Documentation/devicetree/bindings/display/arm,malidp.txt
-+F:	Documentation/devicetree/bindings/display/arm,malidp.yaml
- F:	Documentation/gpu/afbc.rst
- F:	drivers/gpu/drm/arm/
- 
 -- 
-2.17.1
-
+2.36.1
