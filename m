@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C2D53AAD0
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 18:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0263153AAC3
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 18:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2557D10EE6C;
-	Wed,  1 Jun 2022 16:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80CE210EEBA;
+	Wed,  1 Jun 2022 16:13:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8765710EECC
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 16:13:53 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id y29so2533840ljd.7
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 09:13:53 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDBC010EEBA
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 16:13:52 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id z13so2523414ljn.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 09:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j9xbAye+km4e1PFapdp7FfBArJEJLR0pC6Qj/2+Uu54=;
- b=P7c8bft7rzjQmuIK3eBPro9p+e63zwRCElPjHnhF9iB7WH41V0omjYi3+HJMoY3xoR
- MOrT3j2gYj2ueX/pl397yjMwen+IKdat+8lI3MMBAp+bJPvuxVorswttzrWQQpnd5Y1F
- X3E/jdWGJyTvQNwYgrncj38RZ/Qa90YlnpQGVedR70DXYU3OiSRDyOEywl1gLf27NDuM
- 8W7b5S9JHUhnZOdpP8rd4tdMyXJzawK6DrUVP5wQgSJT4YX/q4fRsxMJznhS7wUxtzho
- N4WTuu8/6hBS/AdEXefMcSm23fML1u8BAVKT6Jqdw3vPc0L1UyYVsWiwrH62TpSa+OCt
- /B4g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+I+UyB3gaDAOBGduxnIltchs6IwUUwLGZ1KorhAXgf8=;
+ b=YC59mP93jx3kqFL6TDmwE41jd6r7Wr9Duz81GvIgZ5xjLK1EmcKx3ajfJCQnHpnlmM
+ 0SiEZvngmNOOZKaf7ujE/L49RQrw8JgpQZbspnUvl+wvL0/Ie0SEbP0k7eJV2q4RZsiR
+ 6UuVRKeh53CNgLO4OjGWqegvYGe3XaELbwRznVIGHK8SPu47x2kh0IFrPqtDTRIspnNs
+ MRL28KwGagb3zgFpjaTrT2shbK6uZiEdcp+2SeBxBPl8BFOe7hW77bx+KtCIKmv02juW
+ K62BAQ2IQAVOTKwqA/xy00st1A/Iik1KNomcU9eT8AE4Ax0UIZUy7L0GKqrR3Tl4tqdu
+ QYyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j9xbAye+km4e1PFapdp7FfBArJEJLR0pC6Qj/2+Uu54=;
- b=B5MO4NPyVC6Oc1W8g9tKrLLaAgsiPRv9Cr6mWiPCOp2V5D/Rp1D6UDlKYlzh+GoqGv
- R09DLPsqr1xSPzDzRSpx8PUfyayIjW3ERDpRHQZ42IwHUN2yT/7HJx10U354xVXKys6I
- grBRtd2R8Afrj8l7gGFBuAZT90wn3cGfTKPXRRxNrGD/1oKUBMcJwkYW2X5cdGmS9JYf
- oDl6clLA71ZZnJFsRSFRMiyAYhzAlPsAYwc6mAY8fvUP3HAeY7FGgD4l1hE1xufAJZ+y
- nkaf13JGMG0Ev4gTKlDNbb921dtbVHeMOaIMMnGO1CyScpgIIgPX5kOt5VlteoUCmMKs
- 4JOA==
-X-Gm-Message-State: AOAM533K2x0l9m6We22O8oJBRhva/v1RiyOAnOlhrv/+7IZtJZQD4HES
- Ii7hm34kOViGceYlYPgrgfh0zyZJcchHBA==
-X-Google-Smtp-Source: ABdhPJxS0sYSzLqJcAZ0oz42b/ywmKG4qFCHR1ER0yMVDC7xpxE4M2h2VUeS01TFjENuq/NLzDiuoA==
-X-Received: by 2002:a2e:b812:0:b0:253:e6c7:259 with SMTP id
- u18-20020a2eb812000000b00253e6c70259mr31169131ljo.487.1654100030380; 
- Wed, 01 Jun 2022 09:13:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+I+UyB3gaDAOBGduxnIltchs6IwUUwLGZ1KorhAXgf8=;
+ b=fuLBgooEXZCWAOHsqYCsx26+zYi8Ni5LDwdLQpWXL99rJUxWoJmrIAX9oY1l3q1MQj
+ y+y5Vpvd2J7y+P0fm3frS0yGV1wLWCZpBfxAji1LPjpxjOj3jONL34rkjJFSfHbXJ2tr
+ IXHFM3eRTcgJmqvIHFELlFGZnw2EsHfxpHIwpm4ViB33bmCHE7pLsRkWNVTbXWm0DjWz
+ wXwB8k8IcnWjixQLfXbPiEUqQtMO8ewXGwpeWw+RbxLpB9pejAixUH/nMiZc1n29wCGG
+ 4p+voDYPglAn2cHE/T4UGmW/fsyx+pKZcPiFDq14Uf7YEC7ugmLNTqZTjQaPg/OoEMVW
+ fsBA==
+X-Gm-Message-State: AOAM5334zVdfVGmdBEl7aEJC5bEEiVedZUhd0xDwWysKCJLg3DWap0mN
+ 1S7U0hBlc/sgHdpTaj5fj6SzYg==
+X-Google-Smtp-Source: ABdhPJzR1vk7pIRkoF1uACdua+p+j7XZ6aU5L+tQ75c8TMnbvNO2GpfgyqyC1WznfffN1nTrncxZ/Q==
+X-Received: by 2002:a2e:9b97:0:b0:253:eb92:3440 with SMTP id
+ z23-20020a2e9b97000000b00253eb923440mr28964723lji.316.1654100031072; 
+ Wed, 01 Jun 2022 09:13:51 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- k2-20020a05651239c200b00479066d45bcsm339545lfu.214.2022.06.01.09.13.49
+ k2-20020a05651239c200b00479066d45bcsm339545lfu.214.2022.06.01.09.13.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 09:13:49 -0700 (PDT)
+ Wed, 01 Jun 2022 09:13:50 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v1 0/4] drm/msm/dpu: cleanup struct dpu_hw_blk_reg_map
-Date: Wed,  1 Jun 2022 19:13:45 +0300
-Message-Id: <20220601161349.1517667-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v1 1/4] drm/msm/dpu: drop xin_id from struct dpu_hw_blk_reg_map
+Date: Wed,  1 Jun 2022 19:13:46 +0300
+Message-Id: <20220601161349.1517667-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220601161349.1517667-1-dmitry.baryshkov@linaro.org>
+References: <20220601161349.1517667-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,47 +75,31 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cleanup the fields of struct dpu_hw_blk_reg_map, remove unused fields,
-merge base_off with blk_off into blk_addr. This patch series depends on
-the patch [1].
+Drop the unused field xin_id.
 
-[1] https://patchwork.freedesktop.org/patch/488001/?series=104613&rev=1
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-Dmitry Baryshkov (4):
-  drm/msm/dpu: drop xin_id from struct dpu_hw_blk_reg_map
-  drm/msm/dpu: drop length from struct dpu_hw_blk_reg_map
-  drm/msm/dpu: merge base_off with blk_off in struct dpu_hw_blk_reg_map
-  drm/msm/dpu: move struct dpu_hw_blk definition to dpu_hw_utils.h
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h      |  1 -
- .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h    | 25 -------------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h   |  2 --
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c |  3 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h     |  1 -
- .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    |  4 +--
- .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    |  1 -
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  6 ++---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  6 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   | 18 +++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c   |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  4 +--
- 26 files changed, 28 insertions(+), 85 deletions(-)
- delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+index 550b2e2b3e34..e8adb118fa85 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+@@ -20,13 +20,11 @@
+  * @base_off:     mdp register mapped offset
+  * @blk_off:      pipe offset relative to mdss offset
+  * @length        length of register block offset
+- * @xin_id        xin id
+  */
+ struct dpu_hw_blk_reg_map {
+ 	void __iomem *base_off;
+ 	u32 blk_off;
+ 	u32 length;
+-	u32 xin_id;
+ 	u32 log_mask;
+ };
+ 
 -- 
 2.35.1
 
