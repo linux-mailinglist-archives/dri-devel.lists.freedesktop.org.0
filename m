@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DD353A03A
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C27153A03C
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F87D10E97D;
-	Wed,  1 Jun 2022 09:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7380B10E9AE;
+	Wed,  1 Jun 2022 09:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE7C10E97D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:23:21 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id l13so1694269lfp.11
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:23:21 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9915D10E97E
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:23:22 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id u26so1016377lfd.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a7A+mZsxmo75QXf97kG0BxS3odf33y0CUhZnMAM+Das=;
- b=jQK7mRTDxT3YiRRW1PtL6CjuMeo6BBHqqjAnlUyrp5PFu1M9VtizsmHJMeGfk3BV5B
- wsP5S9dLVsndNchYdSXESqUcWdP7ONxlM1t57b2nrALP8OJHJ3PgguE2tKSMe8bLM8Nw
- 7BM3A1+inDvD3y2t8b5TnufzBs4xVixU+QQ28DUpwIYtwyVK+KBU0Pnof9QOwI0/8jE5
- A2iJ1EaDPybN6wdRvhHZ95majy711yxCi19YT35U0vRbOXL17jeOmRl3h5WgV+gLOPyR
- Q4VrYzhWRKgZapR+CQQsSy1Ad76InrXGmiqUPQFMWDXdf7EO1HbMjj2VpMQCBC44BRm3
- aiag==
+ bh=+DaxXNPexqLOJcjaXRNMEpEJGoHmbQc8dtYSnL+X+RE=;
+ b=gasSJ3d3Qot2jqMMmBnEYmgNDMamzpcbNftw1XKPWE/OzL2QemmU6+0EUjE4Qi6OSl
+ 2mCJqEs8fbjaDugMRwDLUWrI7Xmp7FTsNKQntnYTlTW//Lrbn7pr8ljeXbXPuCJJ3WnV
+ 2nrdllnb6tbpm3GJ2+aPn+4Fhsh+odki2hsZNGUO/p4e5fPFPr4n+2NhyLnsTQNeM6BL
+ U5VGT2ABcH54p8MID2NMu3TsbvWUZ4znc/qOLJaaB9Ir58j2Y3YIGzteM1BF8lCjfTH5
+ 7zdBLQMfE+W71ahavkjrZ9fFUTz3fFDUKGfCSuCAqdmmQZHkLDWwpc4binzQ8OmH7LL9
+ 9kjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a7A+mZsxmo75QXf97kG0BxS3odf33y0CUhZnMAM+Das=;
- b=x+PHZ3DWWXbNf4SGhoDMckuSAIwl+HjeEdmctz/+G0KWHvm0oiF2Q1jspowem2ooJE
- 1HcDO3hLxnaLQI3JSpl5EqQqLYwjYOa+6LWUIRctUc+w1YbjCdHIQtZN7v6ieZrsvPCU
- rZcKhR052dTnkOBzhbNNL35lHTyBqW2tF5FBpDDkTZCtX+gLLWVQgJ3OWQZtYOJ3FpW5
- aXpsf5eWNKnlQY9LksOKWmBNY5eJzPQcZR9JSylRwqvno15xiIXhwQ4fM6zaU1qNJyc2
- Tyfgwr/XGrnYf/HEs2yVLJQdhGGjxjJxuMtgTFRPZ9AW99ImcHseIzUZznLLbScXXNYj
- L7cA==
-X-Gm-Message-State: AOAM531K/ijYY1kAtNZZA6pBk5AJ6vtQJTXyOD9c/ioYi01sXnO18+Uc
- 8WX9I75u3fYaxxrV9iaV0ZPxmb8nDi0=
-X-Google-Smtp-Source: ABdhPJyLKEu98+ERBg6qS3bJIjF6hQRJ9xtwYfrAY/O3HlgooCju+fKTA2czkVQUDxgojxhh3BLp9Q==
-X-Received: by 2002:a05:6512:1191:b0:473:c7c3:f6ff with SMTP id
- g17-20020a056512119100b00473c7c3f6ffmr44938534lfr.39.1654075399342; 
- Wed, 01 Jun 2022 02:23:19 -0700 (PDT)
+ bh=+DaxXNPexqLOJcjaXRNMEpEJGoHmbQc8dtYSnL+X+RE=;
+ b=HJT+vWN4E1vekEquRCuonAwp6IGkwawbxhTUxa4vUaycJKI7FvzMtBTem/SPB5a53Q
+ bWBA1OrseA/WE/8Z3LjnG6/eLrFqLEf8ORowJ8X4wGEWkfwCboDqHhSTxXEBH1AzHdUb
+ VNbaph3tC2JqskLu3z3WwhmYz1g9cD0KzLMF30rkfM0xjbUehQx0ZRUkNL7XxQy//BZ6
+ rbEl/j5P3kOzel5A4byPp2GhWme30917x0nhVo5fjKhsj2RT3nYm3Lqf/J5RBkXZDDXY
+ pRBOHDdQiNB+j+KcmzbSebJENrscO1jbe1UiruwHrQiH9GTRn8qBRdUdrf+qUjLrQrjM
+ ZYbQ==
+X-Gm-Message-State: AOAM533R79ud79ynItFPaOYwcbkxr3s2+1L0+UQbpH4EDmOZsRCLb2k+
+ PDlWdt0iRPgfJkbAFQqqTIMYaz6Jdm4=
+X-Google-Smtp-Source: ABdhPJxg2ZgoZkGaf4Dh5YcC1Z/s6XB6ncBRflEHronE0L+N+dqToF9YhEEW6xPsbwmdtAlSELaEag==
+X-Received: by 2002:a19:650f:0:b0:478:fe97:f761 with SMTP id
+ z15-20020a19650f000000b00478fe97f761mr3044575lfb.673.1654075400547; 
+ Wed, 01 Jun 2022 02:23:20 -0700 (PDT)
 Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
  [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- z14-20020a056512308e00b00478f60ca3a4sm257065lfd.56.2022.06.01.02.23.18
+ z14-20020a056512308e00b00478f60ca3a4sm257065lfd.56.2022.06.01.02.23.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 02:23:18 -0700 (PDT)
+ Wed, 01 Jun 2022 02:23:20 -0700 (PDT)
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/8] drm/gma500: Make cdv crt use ddc adapter from
+Subject: [PATCH 7/8] drm/gma500: Make oaktrail lvds use ddc adapter from
  drm_connector
-Date: Wed,  1 Jun 2022 11:23:09 +0200
-Message-Id: <20220601092311.22648-7-patrik.r.jakobsson@gmail.com>
+Date: Wed,  1 Jun 2022 11:23:10 +0200
+Message-Id: <20220601092311.22648-8-patrik.r.jakobsson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
 References: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
@@ -75,111 +75,189 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 We're moving all uses of ddc_bus to drm_connector where they belong.
-Also cleanup the error handling in cdv_intel_crt_init().
+The initialization of the gma_i2c_chan for Oaktrail is a bit backwards
+so it required improvements. Also cleanup the error handling in
+oaktrail_lvds_init(). Since this is the last user of
+gma_encoder->ddc_bus we can remove it.
 
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_crt.c | 47 +++++++++++++++-----------
- 1 file changed, 28 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/gma500/oaktrail_lvds.c     | 50 +++++++++++++---------
+ drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c | 14 +++---
+ drivers/gpu/drm/gma500/psb_intel_drv.h     |  3 +-
+ 3 files changed, 38 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_crt.c b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-index be0d6a4591bf..7ff1e5141150 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_crt.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-@@ -192,18 +192,16 @@ static enum drm_connector_status cdv_intel_crt_detect(
- static void cdv_intel_crt_destroy(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+index 8609f6249c4c..9c9ebf8e29c4 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
++++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+@@ -293,12 +293,14 @@ void oaktrail_lvds_init(struct drm_device *dev,
  {
- 	struct gma_connector *gma_connector = to_gma_connector(connector);
--	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
-+	struct gma_i2c_chan *ddc_bus = to_gma_i2c_chan(connector->ddc);
- 
--	gma_i2c_destroy(gma_encoder->ddc_bus);
-+	gma_i2c_destroy(ddc_bus);
- 	drm_connector_cleanup(connector);
- 	kfree(gma_connector);
- }
- 
- static int cdv_intel_crt_get_modes(struct drm_connector *connector)
- {
--	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
--	return psb_intel_ddc_get_modes(connector,
--				       &gma_encoder->ddc_bus->base);
-+	return psb_intel_ddc_get_modes(connector, connector->ddc);
- }
- 
- static int cdv_intel_crt_set_property(struct drm_connector *connector,
-@@ -245,8 +243,10 @@ void cdv_intel_crt_init(struct drm_device *dev,
- 
- 	struct gma_connector *gma_connector;
  	struct gma_encoder *gma_encoder;
+ 	struct gma_connector *gma_connector;
 +	struct gma_i2c_chan *ddc_bus;
  	struct drm_connector *connector;
  	struct drm_encoder *encoder;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct edid *edid;
+ 	struct i2c_adapter *i2c_adap;
+ 	struct drm_display_mode *scan;	/* *modes, *bios_mode; */
 +	int ret;
  
  	gma_encoder = kzalloc(sizeof(struct gma_encoder), GFP_KERNEL);
  	if (!gma_encoder)
-@@ -254,25 +254,31 @@ void cdv_intel_crt_init(struct drm_device *dev,
+@@ -306,16 +308,20 @@ void oaktrail_lvds_init(struct drm_device *dev,
  
  	gma_connector = kzalloc(sizeof(struct gma_connector), GFP_KERNEL);
  	if (!gma_connector)
 -		goto failed_connector;
 +		goto err_free_encoder;
-+
-+	/* Set up the DDC bus. */
-+	ddc_bus = gma_i2c_create(dev, GPIOA, "CRTDDC_A");
-+	if (!ddc_bus) {
-+		dev_printk(KERN_ERR, dev->dev, "DDC bus registration failed.\n");
-+		goto err_free_connector;
-+	}
  
  	connector = &gma_connector->base;
- 	connector->polled = DRM_CONNECTOR_POLL_HPD;
--	drm_connector_init(dev, connector,
--		&cdv_intel_crt_connector_funcs, DRM_MODE_CONNECTOR_VGA);
-+	ret = drm_connector_init_with_ddc(dev, connector,
-+					  &cdv_intel_crt_connector_funcs,
-+					  DRM_MODE_CONNECTOR_VGA,
-+					  &ddc_bus->base);
-+	if (ret)
-+		goto err_ddc_destroy;
- 
  	encoder = &gma_encoder->base;
--	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
-+	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
+ 	dev_priv->is_lvds_on = true;
+-	drm_connector_init(dev, connector,
+-			   &psb_intel_lvds_connector_funcs,
+-			   DRM_MODE_CONNECTOR_LVDS);
++	ret = drm_connector_init(dev, connector,
++				 &psb_intel_lvds_connector_funcs,
++				 DRM_MODE_CONNECTOR_LVDS);
++	if (ret)
++		goto err_free_connector;
+ 
+-	drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
++	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_LVDS);
 +	if (ret)
 +		goto err_connector_cleanup;
  
  	gma_connector_attach_encoder(gma_connector, gma_encoder);
+ 	gma_encoder->type = INTEL_OUTPUT_LVDS;
+@@ -353,16 +359,26 @@ void oaktrail_lvds_init(struct drm_device *dev,
  
--	/* Set up the DDC bus. */
--	gma_encoder->ddc_bus = gma_i2c_create(dev, GPIOA, "CRTDDC_A");
--	if (!gma_encoder->ddc_bus) {
--		dev_printk(KERN_ERR, dev->dev, "DDC bus registration failed.\n");
--		goto failed_ddc;
--	}
--
- 	gma_encoder->type = INTEL_OUTPUT_ANALOG;
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
-@@ -282,11 +288,14 @@ void cdv_intel_crt_init(struct drm_device *dev,
- 					&cdv_intel_crt_connector_helper_funcs);
+ 	edid = NULL;
+ 	mutex_lock(&dev->mode_config.mutex);
++
+ 	i2c_adap = i2c_get_adapter(dev_priv->ops->i2c_bus);
+ 	if (i2c_adap)
+ 		edid = drm_get_edid(connector, i2c_adap);
++
+ 	if (edid == NULL && dev_priv->lpc_gpio_base) {
+-		oaktrail_lvds_i2c_init(encoder);
+-		if (gma_encoder->ddc_bus != NULL) {
+-			i2c_adap = &gma_encoder->ddc_bus->base;
++		ddc_bus = oaktrail_lvds_i2c_init(dev);
++		if (!IS_ERR(ddc_bus)) {
++			i2c_adap = &ddc_bus->base;
+ 			edid = drm_get_edid(connector, i2c_adap);
+ 		}
+ 	}
++
++	/*
++	 * Due to the logic in probing for i2c buses above we do not know the
++	 * i2c_adap until now. Hence we cannot use drm_connector_init_with_ddc()
++	 * but must instead set connector->ddc manually here.
++	 */
++	connector->ddc = i2c_adap;
++
+ 	/*
+ 	 * Attempt to get the fixed panel mode from DDC.  Assume that the
+ 	 * preferred mode is the right one.
+@@ -395,7 +411,7 @@ void oaktrail_lvds_init(struct drm_device *dev,
+ 	/* If we still don't have a mode after all that, give up. */
+ 	if (!mode_dev->panel_fixed_mode) {
+ 		dev_err(dev->dev, "Found no modes on the lvds, ignoring the LVDS\n");
+-		goto failed_find;
++		goto err_unlock;
+ 	}
+ 
+ out:
+@@ -403,21 +419,15 @@ void oaktrail_lvds_init(struct drm_device *dev,
  
  	return;
--failed_ddc:
--	drm_encoder_cleanup(&gma_encoder->base);
-+
+ 
+-failed_find:
++err_unlock:
+ 	mutex_unlock(&dev->mode_config.mutex);
+-
+-	dev_dbg(dev->dev, "No LVDS modes found, disabling.\n");
+-	if (gma_encoder->ddc_bus) {
+-		gma_i2c_destroy(gma_encoder->ddc_bus);
+-		gma_encoder->ddc_bus = NULL;
+-	}
+-
+-/* failed_ddc: */
+-
++	gma_i2c_destroy(to_gma_i2c_chan(connector->ddc));
+ 	drm_encoder_cleanup(encoder);
 +err_connector_cleanup:
- 	drm_connector_cleanup(&gma_connector->base);
-+err_ddc_destroy:
-+	gma_i2c_destroy(ddc_bus);
+ 	drm_connector_cleanup(connector);
 +err_free_connector:
  	kfree(gma_connector);
 -failed_connector:
 +err_free_encoder:
  	kfree(gma_encoder);
- 	return;
  }
+ 
+diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c b/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
+index ee163fb972d9..06b5b2d70d48 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
++++ b/drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c
+@@ -129,16 +129,15 @@ static void set_data(void *data, int state_high)
+ 	}
+ }
+ 
+-void oaktrail_lvds_i2c_init(struct drm_encoder *encoder)
++struct gma_i2c_chan *oaktrail_lvds_i2c_init(struct drm_device *dev)
+ {
+-	struct drm_device *dev = encoder->dev;
+-	struct gma_encoder *gma_encoder = to_gma_encoder(encoder);
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_i2c_chan *chan;
++	int ret;
+ 
+ 	chan = kzalloc(sizeof(struct gma_i2c_chan), GFP_KERNEL);
+ 	if (!chan)
+-		return;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	chan->drm_dev = dev;
+ 	chan->reg = dev_priv->lpc_gpio_base;
+@@ -160,10 +159,11 @@ void oaktrail_lvds_i2c_init(struct drm_encoder *encoder)
+ 	set_clock(chan, 1);
+ 	udelay(50);
+ 
+-	if (i2c_bit_add_bus(&chan->base)) {
++	ret = i2c_bit_add_bus(&chan->base);
++	if (ret < 0) {
+ 		kfree(chan);
+-		return;
++		return ERR_PTR(ret);
+ 	}
+ 
+-	gma_encoder->ddc_bus = chan;
++	return chan;
+ }
+diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
+index 1c28288f36a0..8ccba116821b 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_drv.h
++++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
+@@ -105,7 +105,6 @@ struct gma_encoder {
+ 	/* FIXME: Either make SDVO and LVDS store it's i2c here or give CDV it's
+ 	   own set of output privates */
+ 	struct gma_i2c_chan *i2c_bus;
+-	struct gma_i2c_chan *ddc_bus;
+ };
+ 
+ struct gma_connector {
+@@ -200,7 +199,7 @@ extern void oaktrail_lvds_init(struct drm_device *dev,
+ extern void oaktrail_wait_for_INTR_PKT_SENT(struct drm_device *dev);
+ extern void oaktrail_dsi_init(struct drm_device *dev,
+ 			   struct psb_intel_mode_device *mode_dev);
+-extern void oaktrail_lvds_i2c_init(struct drm_encoder *encoder);
++struct gma_i2c_chan *oaktrail_lvds_i2c_init(struct drm_device *dev);
+ extern void mid_dsi_init(struct drm_device *dev,
+ 		    struct psb_intel_mode_device *mode_dev, int dsi_num);
+ 
 -- 
 2.36.1
 
