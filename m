@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7534A53A158
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:57:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 579D953A160
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:57:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13C4E10EE79;
-	Wed,  1 Jun 2022 09:56:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34E8110EEBF;
+	Wed,  1 Jun 2022 09:57:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD9D510EE5F
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:56:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654077415; x=1685613415;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=0IbEW4K9pP+YowLX2NUsvdcAgVMFQiGlo270UeuDJtk=;
- b=KElneCPdU7SO9S5Z0OCqNKN5NQFDdBrK9CnU1GDj65/tO/gM4XBMerOR
- s/hWgWKpJ5QSrooohf1xegj2WloNrLfEShRugU2iVrcdmjOYhPe9W7eBs
- q5M8Dh1Y4/0OkJc2cyOM18t1ijkDEeFRPm4Dgg3stCjj7J0IgjshVnWhu
- 2xyhWf1VFPxWKTLQbW6PaR4QdtuXE3CRspJuAyAYKfonzXGEkwaC5+vJd
- OLCCLeREQx+/QcZ3A7qqYfDwkqaEQV1laX93l9wNYphcsh5jRsoP+sRE2
- SfpyvMOFALAl9RNkxIWlqlGLEzaho+hMZpkdQfJXhk72wfv48q9nFN1so w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="361908725"
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="361908725"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 02:56:55 -0700
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="606180537"
-Received: from hlipiec-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.45.79])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 02:56:53 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Tseng, William" <william.tseng@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/edid: ignore the CEA modes not defined in CEA-861-D
-In-Reply-To: <SJ0PR11MB5894EA0FF4363714AE3BC029F1DF9@SJ0PR11MB5894.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220531103421.11363-1-william.tseng@intel.com>
- <87y1yiq8ce.fsf@intel.com> <87r14aq7ux.fsf@intel.com>
- <SJ0PR11MB5894EA0FF4363714AE3BC029F1DF9@SJ0PR11MB5894.namprd11.prod.outlook.com>
-Date: Wed, 01 Jun 2022 12:56:50 +0300
-Message-ID: <87ee08r9jx.fsf@intel.com>
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD8310EEA5
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:57:52 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id z7so1404643edm.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8PCo0X+pMIpsY2Uf1dnrZhLPPiwDltwA+NDnzoDspis=;
+ b=XhPAQhUfhBI91dCm0a95O3zad9USLtdiUcVt34raOi5ptwRCbqGza/NaTDd4EyaLX1
+ v+lU4+0Cpv23sZE0fOO2N2HTBcIFXG/TrXkhJtsD7CDwNqGJypEeR7+wpAAfxQ1X488D
+ dE+CRh6Hkq089m6paqTZCvDHckNRC4IMxltEdMIcZKV16VY0YAbxtda5vGAtZ+29jWIB
+ wsP4WOukuw86fxqUt+VuAO/be5ZLtm8pPCExUs4n6YACXBrBBZ59DeQ84G1qh+H99nN5
+ aOtK25kj0UzNDeF/Trja2mohLceUsbRjs3gvT+99D2KTbrfsm8sfvH805b8ESjdWyxOW
+ REyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8PCo0X+pMIpsY2Uf1dnrZhLPPiwDltwA+NDnzoDspis=;
+ b=jaMNsHbbVMm3wqJiuld55bUXiGnx84R+1rsuBJfCCQlgBTzTHZjBSv5K6n0ajxKDym
+ PGUJWDBeYtE/5gcYYiaY7XWyCub6lb220txRegmleXnuZ+8XxRw2iNGkjZ4ygmWNkUIH
+ ZSCYQB0CqY/bCAnhEfLAek9M9d0VYbr2iq44OQ7yvyh6ZkYqNGMfXsrVNAoM4FRlltzj
+ 8cOjsREACO/k1sa/hGsa5jl7Ui254rWXpcz6gmwvPecORtgsjVM8NUKVr12MtT9DaooD
+ pcJJC8vwina4nhI2yT3VzuPypddU7GL+YiUPMMq7I3ZCZhcHl5Wtkij2JVE1iFyczfre
+ fSVg==
+X-Gm-Message-State: AOAM530N3ivgCo2zz85gycgnBzfIXYNkFhSRfEEhAuRX7S1Dh1NpPIjN
+ F42hs/PvF8RHqRhYxMRsTjj3wby3vf+s11NMBMc=
+X-Google-Smtp-Source: ABdhPJx5UwB9OK6uoDWwzcHechvusyUFa0L+DRuEojeZ5rXjdN4Kqx2DmQl8OM9CHARC3CjwaOQOEOHl8iMseiJla1c=
+X-Received: by 2002:a05:6402:249e:b0:42d:bb88:865b with SMTP id
+ q30-20020a056402249e00b0042dbb88865bmr21507509eda.141.1654077471168; Wed, 01
+ Jun 2022 02:57:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220531102809.11976-1-peterwu.pub@gmail.com>
+ <20220531102809.11976-8-peterwu.pub@gmail.com>
+In-Reply-To: <20220531102809.11976-8-peterwu.pub@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 1 Jun 2022 11:57:15 +0200
+Message-ID: <CAHp75VdUQqihr=AX-wEUD05jY1ReL63hMCL+eaqmjkN8CsS_Vg@mail.gmail.com>
+Subject: Re: [PATCH 07/14] leds: flashlight: mt6370: Add Mediatek MT6370
+ flashlight support
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,160 +64,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wayne Lin <waynelin@amd.com>, "Lee, Shawn C" <shawn.c.lee@intel.com>
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ alice_chen@richtek.com, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang@richtek.com,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ chiaen_wu@richtek.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 01 Jun 2022, "Tseng, William" <william.tseng@intel.com> wrote:
-> Thanks, Jani.
-> This is the issue ticket. https://gitlab.freedesktop.org/drm/intel/-/issu=
-es/6087#note_1400843
-
-Copy-paste fail? Does not seem right.
-
-BR,
-Jani.
-
-
-PS. Also, for some reason you added this in your mail:
-
-Reply-To: "20220531103421.11363-1-william.tseng@intel.com"
-	<20220531103421.11363-1-william.tseng@intel.com>
-
-
-
-
+On Tue, May 31, 2022 at 1:32 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
 >
+> From: Alice Chen <alice_chen@richtek.com>
 >
-> Regards
-> William
->
-> -----Original Message-----
-> From: Jani Nikula <jani.nikula@linux.intel.com>=20
-> Sent: Tuesday, May 31, 2022 7:07 PM
-> To: Tseng, William <william.tseng@intel.com>; dri-devel@lists.freedesktop=
-.org
-> Cc: Lee, Shawn C <shawn.c.lee@intel.com>; Wayne Lin <waynelin@amd.com>; T=
-seng, William <william.tseng@intel.com>
-> Subject: Re: [PATCH] drm/edid: ignore the CEA modes not defined in CEA-86=
-1-D
->
-> On Tue, 31 May 2022, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->> On Tue, 31 May 2022, William Tseng <william.tseng@intel.com> wrote:
->>> This is a workaround for HDMI 1.4 sink which has a CEA mode with=20
->>> higher vic than what is defined in CEA-861-D.
->>>
->>> As an example, a HDMI 1.4 sink has the video format 2560x1080p to be=20
->>> displayed and the video format is indicated by both SVD (with vic 90=20
->>> and pictuure aspect ratio 64:27) and DTD.  When connecting to such=20
->>> sink, source can't output the video format in SVD because an error is=20
->>> returned by drm_hdmi_avi_infoframe_from_display_mode(), which can't=20
->>> fill the infoframe with pictuure aspect ratio 64:27 and the vic,=20
->>> which is originally 90 and is changed to 0 by drm_mode_cea_vic().
->>>
->>> To work around it, this patch ignores such CEA modes in=20
->>> do_cea_modes() so the modes won't be processed in drm_hdmi_avi_infofram=
-e_from_display_mode().
->>> And only the video format in DTD can be dispalyed.
->
-> I think we should also have a bug filed on this, with the offending EDID =
-attached for posterity.
->
-> BR,
-> Jani.
->
->
->>>
->>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>> Cc: Wayne Lin <waynelin@amd.com>
->>> Cc: Lee Shawn C <shawn.c.lee@intel.com>
->>> Signed-off-by: William Tseng <william.tseng@intel.com>
->>> ---
->>>  drivers/gpu/drm/drm_edid.c | 39=20
->>> +++++++++++++++++++++++++-------------
->>>  1 file changed, 26 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c=20
->>> index bc43e1b32092..a93f68878bfd 100644
->>> --- a/drivers/gpu/drm/drm_edid.c
->>> +++ b/drivers/gpu/drm/drm_edid.c
->>> @@ -3982,6 +3982,19 @@ drm_display_mode_from_cea_vic(struct=20
->>> drm_device *dev,  }  EXPORT_SYMBOL(drm_display_mode_from_cea_vic);
->>>=20=20
->>> +static bool is_hdmi2_sink(const struct drm_connector *connector) {
->>> +	/*
->>> +	 * FIXME: sil-sii8620 doesn't have a connector around when
->>> +	 * we need one, so we have to be prepared for a NULL connector.
->>> +	 */
->>> +	if (!connector)
->>> +		return true;
->>> +
->>> +	return connector->display_info.hdmi.scdc.supported ||
->>> +		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;=20
->>> +}
->>> +
->>>  static int
->>>  do_cea_modes(struct drm_connector *connector, const u8 *db, u8 len)=20=
-=20
->>> { @@ -3993,6 +4006,19 @@ do_cea_modes(struct drm_connector=20
->>> *connector, const u8 *db, u8 len)
->>>=20=20
->>>  		mode =3D drm_display_mode_from_vic_index(connector, db, len, i);
->>>  		if (mode) {
->>> +			u8 vic =3D svd_to_vic(db[i]);
->>> +
->>> +			if (!drm_valid_cea_vic(vic))
->>> +				continue;
->>
->> drm_display_mode_from_vic_index() returns NULL in this case.
->>
->>> +
->>> +			/*
->>> +			 * HDMI 1.4 VIC range: 1 <=3D VIC <=3D 64 (CEA-861-D) but
->>> +			 * HDMI 2.0 VIC range: 1 <=3D VIC <=3D 107 (CEA-861-F). So we
->>> +			 * have to make sure we dont break HDMI 1.4 sinks.
->>> +			 */
->>> +			if (!is_hdmi2_sink(connector) && vic > 64)
->>> +				continue;
->>
->> I'll need to double check if this is the right thing to do... but I=20
->> guess the question becomes if this shouldn't be within=20
->> drm_display_mode_from_vic_index().
->>
->> Duplicating the condition from drm_mode_cea_vic() is probably not a=20
->> good idea.
->>
->> The continues in both above branches leak the mode.
->>
->>
->> BR,
->> Jani.
->>
->>
->>> +
->>>  			/*
->>>  			 * YCBCR420 capability block contains a bitmap which
->>>  			 * gives the index of CEA modes from CEA VDB, which @@ -5846,19=20
->>> +5872,6 @@ void drm_set_preferred_mode(struct drm_connector=20
->>> *connector,  }  EXPORT_SYMBOL(drm_set_preferred_mode);
->>>=20=20
->>> -static bool is_hdmi2_sink(const struct drm_connector *connector) -{
->>> -	/*
->>> -	 * FIXME: sil-sii8620 doesn't have a connector around when
->>> -	 * we need one, so we have to be prepared for a NULL connector.
->>> -	 */
->>> -	if (!connector)
->>> -		return true;
->>> -
->>> -	return connector->display_info.hdmi.scdc.supported ||
->>> -		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
->>> -}
->>> -
->>>  static u8 drm_mode_hdmi_vic(const struct drm_connector *connector,
->>>  			    const struct drm_display_mode *mode)  {
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+> Add Mediatek MT6370 flashlight support
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Same comments about the commit message.
+
+...
+
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+
++ blank line?
+
+> +#include <media/v4l2-flash-led-class.h>
+
++ blank line
+
+> +enum {
+> +       MT6370_LED_FLASH1,
+> +       MT6370_LED_FLASH2,
+> +       MT6370_MAX_LEDS
+> +};
+
+...
+
+> +       struct mt6370_led *led = container_of(fl_cdev, struct mt6370_led,
+> +                                             flash);
+
+> +       struct mt6370_led *led = container_of(fl_cdev, struct mt6370_led,
+> +                                             flash);
+
+Make a helper out of this
+
+  #define to_mt637_led()  container_of()
+
+and reuse.
+
+...
+
+> +       /*
+> +        * For the flash turn on/off, HW rampping up/down time is 5ms/500us,
+
+ramping
+
+> +        * respectively
+
+Period!
+
+> +        */
+
+...
+
+> +       const char * const states[] = { "off", "keep", "on" };
+> +       const char *str;
+> +       int ret;
+> +
+> +       if (!fwnode_property_read_string(init_data->fwnode,
+> +                                        "default-state", &str)) {
+> +               ret = match_string(states, ARRAY_SIZE(states), str);
+> +               if (ret < 0)
+> +                       ret = STATE_OFF;
+> +
+> +               led->default_state = ret;
+> +       }
+
+fwnode_property_match_string()?
+
+...
+
+> +       if (!count || count > MT6370_MAX_LEDS) {
+> +               dev_err(&pdev->dev,
+> +               "No child node or node count over max led number %lu\n", count);
+> +               return -EINVAL;
+
+return dev_err_probe(...);
+
+> +       }
+
+
+--
+With Best Regards,
+Andy Shevchenko
