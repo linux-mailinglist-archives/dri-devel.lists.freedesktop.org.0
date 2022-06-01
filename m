@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC6A53AD8C
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 21:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E493C53AD98
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 22:04:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0E210FBCB;
-	Wed,  1 Jun 2022 19:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1C1610E212;
+	Wed,  1 Jun 2022 20:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF6310FBCE
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 19:58:21 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id br33so443345qkb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 12:58:21 -0700 (PDT)
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 873DC10E275
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 20:04:31 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id r84so2180031qke.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 13:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WqzzjZ/+YoAfsOt70hJSK1v4NOwUp//67c0gdA4z8gE=;
- b=o+8DoKQbuB6vo34q94PbCmoOZ1E42JHaRrsMzhV2F/ynt8Q+VdQtnDeWLT592DvZ7t
- AeMy3LYefWHmvgfCUohLgLa0KCbaal0aw7qMTAwwLRq6xfqCUug5WfT+u86M35AjoI91
- Emy6jxRdlsMSGIG6vRz8kwjnFKa3jFTpW1+pvaVa/+/LwfGm1MYRZQ/+BK+yeUtO5WUL
- mEQMcYZVBuDTpS2uWVEdGM6Xk19p34D75EanhUz/tcJ6SHYj4qcW5her+JqRSnS93jQC
- Baxr0ZA84v+AOXMoYiwB2Zcw7cV3bhjrdqtXX+iJaz0V12UJ4K8O75k0rjJOOUi9AFs7
- x/TA==
+ :cc; bh=wYNuNXNSLm4a9YDMTwQ6NWLpMiqlsZjvS3Cd6WOktXY=;
+ b=mtcA3/0EQbykbUI+YRUuulVYVoSWIysxzKASBul1+Et0Qy6DxVRsVU98YEIbna/Hox
+ AAEj9In3Gswn7r7reNthepdjYhn5nybjuzKooCuNZhckSL5H4JS6/l2f2kiZF9phZ39Z
+ biASHY1FcFlEm6IIAblAC7ljvDSfM4e68GAqxmAb5G9jdK44GAgQsxuvWlALj9aAbd83
+ qL8SNvwF1SOda3/QrksFJMApaE1U5iSG2FqPLYV2ZRTqO7RAKpiUMD+eLIlzalLZCPbx
+ uSgpSP7PyiyfJzC7OJjyP3HsqrFxPYLsMv6irhlTbMJDcIYCNEacttmLwd66SkJ5/CDF
+ Svwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WqzzjZ/+YoAfsOt70hJSK1v4NOwUp//67c0gdA4z8gE=;
- b=UI3gA+61uOzmrBr3HlEF7nxTZ3KaFpSSi1YVPmyeOcRIb0Ne1KfreyFErh0JYfEkdN
- bFMelJBuPNTd/atMMngaCAzScb41/ChqBrDq94beYwshYFtu+IM3QbB16i7iYgCNtTmm
- gjoozvzHhnz0a0y7WxPjA49EFfQp+uxwUWlNbB+eYy+ygxvuphW3oI2SdW7Xx+ETkZso
- qkTMu3sIZzJhdR49AOzicSVbCUAAdFFLD6IS0yaq0OHR4UGaMoWZaeBF3iuMg/1UGvGG
- r4S8nsjx1tqkX3AtA+TPRts9cbgg3hW297B3wFS4ofJVq7P1hpfvpp2MIxSRFvaWcVJ0
- E0Iw==
-X-Gm-Message-State: AOAM531c2BQ+se3IsBxgp4CIrJR6aON+skXl/Iqj2vyGGxN6bKhuhvha
- sV+X6GzqdHHH5fGAeyd4fOIQSK34e1aUQsNOmyQ//A==
-X-Google-Smtp-Source: ABdhPJx4nAJPu/OXd+0EBsy6h9EWGrczLq7bqqCKi8jtBPrQeHOAUACKV0KVNp25KQQV9tdKC24tm1njoXJQNx7sc1A=
-X-Received: by 2002:a37:582:0:b0:6a3:2ce4:3c72 with SMTP id
- 124-20020a370582000000b006a32ce43c72mr913331qkf.203.1654113500549; Wed, 01
- Jun 2022 12:58:20 -0700 (PDT)
+ bh=wYNuNXNSLm4a9YDMTwQ6NWLpMiqlsZjvS3Cd6WOktXY=;
+ b=IleUL5z3RcsxmvhDIhXVfpMroHQakmbIaf4c6EQe4Y2cACvzZoHGxDEarXovZH6w59
+ wMAt1VgDG/B1yMa35FQQ9dtNLFyQqyqJjNcsEBPg5kr1LDmCesSOvfwm1CBniiQdWMpD
+ plptaUNP0WEPF88tSa2BiJ1nPngrK4sLZdiFFC+tBaxzFvALJHHFwlY4oTqhbAshnBi3
+ 9zc4KJ8idK/J+p4JeNHk7tq53l/sg0mkb80I6+4tRZy91CKta7bubb4SbWMrgjTzEafS
+ Ht7pon6adqNDx0ONGpRtogLAEAM49BjIyEU4V1csZtURJiuUaWUH7CxO+VfzEkoQ9ayG
+ m5Cg==
+X-Gm-Message-State: AOAM532/IgN2W9Ncqvq9NKf4EaQeNJAFGFDl/jbDmRIQUtcF8p8mVn85
+ yY7/mctHrP7Mv19xyUpS16HFTo/Tpw1dY4j7kHsDXQ==
+X-Google-Smtp-Source: ABdhPJwXrDV7EE2w8rCYSP/IuwLbchfMJP881o5RFwBO7GJw15zyzsvrLxiMcU6oacEs2fUpE+EikPKRth5gVR8eSIM=
+X-Received: by 2002:a05:620a:2a06:b0:6a5:b090:65c0 with SMTP id
+ o6-20020a05620a2a0600b006a5b09065c0mr908330qkp.593.1654113870552; Wed, 01 Jun
+ 2022 13:04:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531160059.v2.1.Ie7f6d4bf8cce28131da31a43354727e417cae98d@changeid>
- <CAA8EJpqp64eDmXPN1qMTZ78My8BKPUcu7zKunZV1SJpzjSRDuQ@mail.gmail.com>
- <f8d5e4a7-bba8-ca51-41f7-885ce14a55fe@quicinc.com>
-In-Reply-To: <f8d5e4a7-bba8-ca51-41f7-885ce14a55fe@quicinc.com>
+References: <20220531121825.1126204-1-dmitry.baryshkov@linaro.org>
+ <d7084452-ea90-3a8b-d39a-b09d9f45f839@quicinc.com>
+ <CAA8EJprW7xnYJaeqh4vozSTx04DcQ20MMRrzLaEJPJTC3dV30w@mail.gmail.com>
+ <80c1da0f-0006-6602-ec86-ebdf71c3037a@quicinc.com>
+In-Reply-To: <80c1da0f-0006-6602-ec86-ebdf71c3037a@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 1 Jun 2022 22:58:09 +0300
-Message-ID: <CAA8EJpp5v3qR2M-6Jms=3GgrzUeMOiMzQtgvQc_LPVE78aE=aw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/dpu: Move min BW request and full BW disable
- back to mdss
+Date: Wed, 1 Jun 2022 23:04:19 +0300
+Message-ID: <CAA8EJppfWfP-bZLOYF8QBe6kW6gBBw5eXpzzDA6GFo8U7g=jRQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm: less magic numbers in msm_mdss_enable
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,111 +65,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>, linux-kernel@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Jun 2022 at 20:18, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> On 6/1/2022 3:04 AM, Dmitry Baryshkov wrote:
-> > On Wed, 1 Jun 2022 at 02:01, Douglas Anderson <dianders@chromium.org> wrote:
+On Wed, 1 Jun 2022 at 20:38, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 6/1/2022 2:46 AM, Dmitry Baryshkov wrote:
+> > On Wed, 1 Jun 2022 at 01:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >> On 5/31/2022 5:18 AM, Dmitry Baryshkov wrote:
+> >>> Replace magic register writes in msm_mdss_enable() with version that
+> >>> contains less magic and more variable names that can be traced back to
+> >>> the dpu_hw_catalog or the downstream dtsi files.
+> >>>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> ---
+> >>>    drivers/gpu/drm/msm/msm_mdss.c | 79 ++++++++++++++++++++++++++++++----
+> >>>    1 file changed, 71 insertions(+), 8 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> >>> index 0454a571adf7..2a48263cd1b5 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> >>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> >>> @@ -21,6 +21,7 @@
+> >>>    #define HW_REV                              0x0
+> >>>    #define HW_INTR_STATUS                      0x0010
+> >>>
+> >>> +#define UBWC_DEC_HW_VERSION          0x58
+> >>>    #define UBWC_STATIC                 0x144
+> >>>    #define UBWC_CTRL_2                 0x150
+> >>>    #define UBWC_PREDICTION_MODE                0x154
+> >>> @@ -132,9 +133,63 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
+> >>>        return 0;
+> >>>    }
+> >>>
+> >>> +#define UBWC_1_0 0x10000000
+> >>> +#define UBWC_2_0 0x20000000
+> >>> +#define UBWC_3_0 0x30000000
+> >>> +#define UBWC_4_0 0x40000000
+> >>> +
+> >>> +static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss,
+> >>> +                                    u32 ubwc_static)
+> >>> +{
+> >>> +     writel_relaxed(ubwc_static, msm_mdss->mmio + UBWC_STATIC);
+> >>> +}
+> >>> +
+> >>> +static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss,
+> >>> +                                    unsigned int ubwc_version,
+> >>> +                                    u32 ubwc_swizzle,
+> >>> +                                    u32 highest_bank_bit,
+> >>> +                                    u32 macrotile_mode)
+> >>> +{
+> >>> +     u32 value = (ubwc_swizzle & 0x1) |
+> >>> +                 (highest_bank_bit & 0x3) << 4 |
+> >>> +                 (macrotile_mode & 0x1) << 12;
+> >>> +
+> >>> +     if (ubwc_version == UBWC_3_0)
+> >>> +             value |= BIT(10);
+> >>> +
+> >>> +     if (ubwc_version == UBWC_1_0)
+> >>> +             value |= BIT(8);
+> >>> +
+> >>> +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+> >>> +}
+> >>> +
+> >>> +static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
+> >>> +                                    unsigned int ubwc_version,
+> >>> +                                    u32 ubwc_swizzle,
+> >>> +                                    u32 ubwc_static,
+> >>> +                                    u32 highest_bank_bit,
+> >>> +                                    u32 macrotile_mode)
+> >>> +{
+> >>> +     u32 value = (ubwc_swizzle & 0x7) |
+> >>> +                 (ubwc_static & 0x1) << 3 |
+> >>> +                 (highest_bank_bit & 0x7) << 4 |
+> >>> +                 (macrotile_mode & 0x1) << 12;
+> >>> +
+> >>> +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+> >>> +
+> >>> +     if (ubwc_version == UBWC_3_0) {
+> >>> +             writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
+> >>> +             writel_relaxed(0, msm_mdss->mmio + UBWC_PREDICTION_MODE);
+> >>> +     } else {
+> >>> +             writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
+> >>> +             writel_relaxed(1, msm_mdss->mmio + UBWC_PREDICTION_MODE);
+> >>> +     }
+> >>> +}
+> >>> +
 > >>
-> >> In commit a670ff578f1f ("drm/msm/dpu: always use mdp device to scale
-> >> bandwidth") we fully moved interconnect stuff to the DPU driver. This
-> >> had no change for sc7180 but _did_ have an impact for other SoCs. It
-> >> made them match the sc7180 scheme.
+> >> Is it possible to unify the above functions by having the internal
+> >> ubwc_version checks?
 > >
-> > [skipped the description]
+> > Note, it's not the ubwc_version, it is the ubwc_dec_hw_version. And
+> > also different functions take different sets of arguments.
 > >
+> >> It seems like msm_mdss_setup_ubwc_dec_xxx can keep growing.
 > >>
-> >> Changes in v2:
-> >> - Don't set bandwidth in init.
+> >> I have not looked into each bit programming but from the top level so
+> >> feel free to correct if wrong but it seems both do write UBWC_STATIC
+> >> (different values based on different UBWC versions) and write some extra
+> >> registers based on version
+> >
+> > This is what both the current code and the downstream do. See
+> > https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/zeus-s-oss/techpack/display-drivers/msm/sde/sde_hw_top.c#L312
+> >
+>
+> Thanks for pointing to the downstream method for this,
+>
+> This is exactly what i was also suggesting to do when I mentioned
+> unifying the above functions.
+>
+> So instead of having a separate function for each version why not handle
+> all the versions in the same function like what the link you have shown
+> does.
+
+I wouldn't like that. The downstream uses hw_catalog to pass all
+possible parameters. We do not, so we'd have a whole set of artificial
+values.
+
+>
 > >>
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  8 ----
-> >>   drivers/gpu/drm/msm/msm_mdss.c          | 57 +++++++++++++++++++++++++
-> >>   2 files changed, 57 insertions(+), 8 deletions(-)
+> >>>    static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+> >>>    {
+> >>>        int ret;
+> >>> +     u32 hw_rev;
+> >>>
+> >>>        ret = clk_bulk_prepare_enable(msm_mdss->num_clocks, msm_mdss->clocks);
+> >>>        if (ret) {
+> >>> @@ -149,26 +204,34 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+> >>>        if (msm_mdss->is_mdp5)
+> >>>                return 0;
+> >>>
+> >>> +     hw_rev = readl_relaxed(msm_mdss->mmio + HW_REV);
+> >>> +     dev_info(msm_mdss->dev, "HW_REV: 0x%x\n", hw_rev);
+> >>> +     dev_info(msm_mdss->dev, "UBWC_DEC_HW_VERSION: 0x%x\n",
+> >>> +             readl_relaxed(msm_mdss->mmio + UBWC_DEC_HW_VERSION));
 > >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >> index 2b9d931474e0..3025184053e0 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> >> @@ -49,8 +49,6 @@
-> >>   #define DPU_DEBUGFS_DIR "msm_dpu"
-> >>   #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
+> >> we are already printing the HW version here
 > >>
-> >> -#define MIN_IB_BW      400000000ULL /* Min ib vote 400MB */
-> >> -
-> >>   static int dpu_kms_hw_init(struct msm_kms *kms);
-> >>   static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
+> >> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c#L1096
 > >>
+> >> Do you want to remove that print then? May be. Let me take a look.
 > >
 > > [skipped]
 > >
-> >> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> >> index 0454a571adf7..e13c5c12b775 100644
-> >> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> >> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> >> @@ -5,6 +5,7 @@
-> >>
-> >>   #include <linux/clk.h>
-> >>   #include <linux/delay.h>
-> >> +#include <linux/interconnect.h>
-> >>   #include <linux/irq.h>
-> >>   #include <linux/irqchip.h>
-> >>   #include <linux/irqdesc.h>
-> >> @@ -25,6 +26,8 @@
-> >>   #define UBWC_CTRL_2                    0x150
-> >>   #define UBWC_PREDICTION_MODE           0x154
-> >>
-> >> +#define MIN_IB_BW      400000000UL /* Min ib vote 400MB */
-> >
-> > As msm_mdss is now used for both DPU and MDP5 devices, could you
-> > please confirm that this value is valid for older devices too? E.g.
-> > db410c or 8974
-> >
-> I need to check with Kalyan on this value (400MB) as I am unable to find
-> documentation on this. Will update this thread when I do.
->
-> So prior to this change 627dc55c273da ("drm/msm/disp/dpu1: icc path
-> needs to be set before dpu runtime resume"), this value was coming from
-> the hw catalog
->
-> @@ -1191,10 +1193,10 @@ static int __maybe_unused
-> dpu_runtime_resume(struct device *dev)
->
->          ddev = dpu_kms->dev;
->
-> +       WARN_ON(!(dpu_kms->num_paths));
->          /* Min vote of BW is required before turning on AXI clk */
->          for (i = 0; i < dpu_kms->num_paths; i++)
-> -               icc_set_bw(dpu_kms->path[i], 0,
-> -                       dpu_kms->catalog->perf.min_dram_ib);
-> +               icc_set_bw(dpu_kms->path[i], 0, Bps_to_icc(MIN_IB_BW));
->
-> After this, we moved to a hard-coded value, I am not sure why.
->
-> So nothing wrong with this change as such, the only question is whether
-> this value is correct for older chips.
->
-> But the question here is, are older chips even using icc.
->
-> It seems like only sc7180, RB3/RB5 are unless i am mistaken.
 
-We are not using it for msm8916 (but we should most probably). And for
-the msm8996 the icc patches were by Yassine.
 
-> So is there really any impact to the older chips with this change.
->
-> If not, we should probably let this one go ahead and move back to
-> catalog based approach while extending ICC for older chips.
-
-Let's get this sorted out. I'm fine with 400 MBps, if that works for
-all chipsets.
 
 -- 
 With best wishes
