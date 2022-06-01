@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5716753AD9D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 22:17:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B4453ADA9
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 22:35:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3694F10EF1B;
-	Wed,  1 Jun 2022 20:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE4C10E20A;
+	Wed,  1 Jun 2022 20:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
- [209.85.167.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E73A310EF1B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 20:17:00 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id l84so4068193oif.10
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 13:17:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KWGUC4uO5PZbQJw1t/pJ6JrU01XaVoUwRy9nGcZRULo=;
- b=qh1BAAMDSwgoImbb6g5u5uvEntW0J0yYatCwXcfYl6VE9PmUPvG0J5AifxLW9StC6v
- JK9+1iQytCdYaC4t6/4XYZAL0SuARTrfGKqfwZVosVNs5BwoXygObHpeYtRserRgRmBp
- 3Ue3fnTKq9zmtDFJFgXIXxJYubEJTF4hi60TrM1jpwK35H7hYf5EP2TZSq9Nb3xDZfpb
- n8Rq6eif50WQBv1kmvTGLSGciTqw1xMkC2M/2TJAwVZklGidDyHpicaRaAy52rT5jou7
- A+XYnmgt5ubWWy0JgeckG9fIV5r9gMw/ZrSrw6IcjNQex7Edcw2W5RWyxvcj+fZ/HnGZ
- Oo5w==
-X-Gm-Message-State: AOAM530mZXu6ZzUbTMaleLJXQk2cX3r23o4kEVmaY3WlL7ehVzyo3OQd
- 70v7u1hj08uc6n3hVhf4BA==
-X-Google-Smtp-Source: ABdhPJy46FwaV+/CuAdl76b9QW0BOahsGYFHA8hMlljpnhRVmZB5/xAKRzNhgVlrdw6+EL1l8OAIEg==
-X-Received: by 2002:a05:6808:1a8c:b0:32b:df97:b1fa with SMTP id
- bm12-20020a0568081a8c00b0032bdf97b1famr767976oib.184.1654114620054; 
- Wed, 01 Jun 2022 13:17:00 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- r10-20020a4aa2ca000000b0035eb4e5a6cfsm1336181ool.37.2022.06.01.13.16.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 13:16:59 -0700 (PDT)
-Received: (nullmailer pid 365044 invoked by uid 1000);
- Wed, 01 Jun 2022 20:16:58 -0000
-Date: Wed, 1 Jun 2022 15:16:58 -0500
-From: Rob Herring <robh@kernel.org>
-To: Max Krummenacher <max.oss.09@gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: add new bus-format property
- for panel-dpi
-Message-ID: <20220601201658.GA342879-robh@kernel.org>
-References: <20220518115541.38407-1-max.oss.09@gmail.com>
- <20220518115541.38407-2-max.oss.09@gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F67C10E20A;
+ Wed,  1 Jun 2022 20:35:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654115701; x=1685651701;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=jnUHBzgfXUi4/uKEbszKU8+nNWapNef6UnYTisusHgM=;
+ b=G7DzTAgrKTcGcuJ5KS3RQ02jV4dG2mf1y/HlLjbZpk/1ByaY5f9o4Ew7
+ Ep/1BlF0aOGxerRUqUC54W3BCjjvH1EfUdHkLU4kejsf5P7fFWWzBP55Z
+ aM67bT3RFmOZwyF3KGdqOXBDjNYqBNpJ/UKQv8R8g5cMY7D11LLIUSKE8
+ raVh3SywTdfI88id7DID/CO1TX9vWlWQkZNV4TUxpw72OUhF+oj4NFD7y
+ coQGotidBZ+cTunOp4OrxsDAIOnTUZ4QGPZVF8GGtRsxLfzUVP8AJzsUP
+ ocnarrOb7RBJn+yz0MWiZxjIKy3cSpvCQVHT7F9izeEwyz7edUW0J/43s Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="274523759"
+X-IronPort-AV: E=Sophos;i="5.91,269,1647327600"; d="scan'208";a="274523759"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2022 13:35:00 -0700
+X-IronPort-AV: E=Sophos;i="5.91,269,1647327600"; d="scan'208";a="606463092"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2022 13:34:59 -0700
+Date: Wed, 1 Jun 2022 13:28:36 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
+ document
+Message-ID: <20220601202836.GA15346@jons-linux-dev-box>
+References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
+ <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
+ <43746609-4f60-f347-5934-6680516297dd@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220518115541.38407-2-max.oss.09@gmail.com>
+In-Reply-To: <43746609-4f60-f347-5934-6680516297dd@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,118 +60,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- max.krummenacher@toradex.com,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, chris.p.wilson@intel.com, daniel.vetter@intel.com,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 18, 2022 at 01:55:38PM +0200, Max Krummenacher wrote:
-> From: Max Krummenacher <max.krummenacher@toradex.com>
+On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
+> On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
+> > +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
+> > +async worker. The binding and unbinding will work like a special GPU engine.
+> > +The binding and unbinding operations are serialized and will wait on specified
+> > +input fences before the operation and will signal the output fences upon the
+> > +completion of the operation. Due to serialization, completion of an operation
+> > +will also indicate that all previous operations are also complete.
 > 
-> The property is used to set the enum bus_format and infer the bpc
-> for a panel defined by 'panel-dpi'.
-> This specifies how the panel is connected to the display interface.
+> I guess we should avoid saying "will immediately start binding/unbinding" if
+> there are fences involved.
 > 
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> And the fact that it's happening in an async worker seem to imply it's not
+> immediate.
 > 
-> ---
 > 
-> Changes in v2:
->     - Fix errors found by dt_binding_check
+> I have a question on the behavior of the bind operation when no input fence
+> is provided. Let say I do :
 > 
->  .../bindings/display/panel/panel-dpi.yaml     | 11 +++++++++
->  .../dt-bindings/display/dt-media-bus-format.h | 23 +++++++++++++++++++
->  2 files changed, 34 insertions(+)
->  create mode 100644 include/dt-bindings/display/dt-media-bus-format.h
+> VM_BIND (out_fence=fence1)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> index dae0676b5c6e..a20b5898941e 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> @@ -21,6 +21,14 @@ properties:
->        - {}
->        - const: panel-dpi
->  
-> +  bus-format:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+> VM_BIND (out_fence=fence2)
+> 
+> VM_BIND (out_fence=fence3)
+> 
+> 
+> In what order are the fences going to be signaled?
+> 
+> In the order of VM_BIND ioctls? Or out of order?
+> 
+> Because you wrote "serialized I assume it's : in order
+> 
+> 
+> One thing I didn't realize is that because we only get one "VM_BIND" engine,
+> there is a disconnect from the Vulkan specification.
+> 
+> In Vulkan VM_BIND operations are serialized but per engine.
+> 
+> So you could have something like this :
+> 
+> VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
+> 
+> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+> 
+> 
+> fence1 is not signaled
+> 
+> fence3 is signaled
+> 
+> So the second VM_BIND will proceed before the first VM_BIND.
+> 
+> 
+> I guess we can deal with that scenario in userspace by doing the wait
+> ourselves in one thread per engines.
+> 
+> But then it makes the VM_BIND input fences useless.
+> 
+> 
+> Daniel : what do you think? Should be rework this or just deal with wait
+> fences in userspace?
+> 
 
-Constraints?
+My opinion is rework this but make the ordering via an engine param optional.
 
-> +    description: |
-> +      Describes how the display panel is connected to the display interface.
-> +      Valid values are defined in <dt-bindings/display/dt-media-bus-format.h>.
-> +      The mapping between the color/significance of the panel lines to the
-> +      parallel data lines are defined in [1].
+e.g. A VM can be configured so all binds are ordered within the VM
 
-Just drop the [1] and use a colon.
+e.g. A VM can be configured so all binds accept an engine argument (in
+the case of the i915 likely this is a gem context handle) and binds
+ordered with respect to that engine.
 
-> +      [1] https://www.kernel.org/doc/html/v5.17/userspace-api/media/v4l/subdev-formats.html#packed-rgb-formats
+This gives UMDs options as the later likely consumes more KMD resources
+so if a different UMD can live with binds being ordered within the VM
+they can use a mode consuming less resources.
 
-Why not just use the V4L number space rather than invent yet another 
-number space?
+Matt
 
-Need a blank line here too.
-
->    backlight: true
->    enable-gpios: true
->    height-mm: true
-> @@ -39,11 +47,14 @@ additionalProperties: false
->  
->  examples:
->    - |
-> +    #include <dt-bindings/display/dt-media-bus-format.h>
-> +
->      panel {
->          compatible = "startek,startek-kd050c", "panel-dpi";
->          label = "osddisplay";
->          power-supply = <&vcc_supply>;
->          backlight = <&backlight>;
-> +        bus-format = <DT_MEDIA_BUS_FMT_RGB888_1X24>;
-
-Other properties describing the interface have been put in the endpoint 
-node. This should too I think.
-
->  
->          port {
->              lcd_in: endpoint {
-> diff --git a/include/dt-bindings/display/dt-media-bus-format.h b/include/dt-bindings/display/dt-media-bus-format.h
-> new file mode 100644
-> index 000000000000..c0f2a7b59aa1
-> --- /dev/null
-> +++ b/include/dt-bindings/display/dt-media-bus-format.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-> +/*
-> + * Copyright 2022 Max Krummenacher <max.krummenacher@toradex.com>
-> + */
-> +
-> +#ifndef __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H
-> +#define __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H
-> +
-> +/*
-> + * Attention: Keep these macro names in sync with
-> + * include/uapi/linux/media-bus-format.h
-> + */
-> +
-> +#define DT_MEDIA_BUS_FMT_RGB565_1X16		1
-> +#define DT_MEDIA_BUS_FMT_RGB666_1X18		2
-> +#define DT_MEDIA_BUS_FMT_RBG888_1X24		3
-> +#define DT_MEDIA_BUS_FMT_RGB666_1X24_CPADHI	4
-> +#define DT_MEDIA_BUS_FMT_BGR888_1X24		5
-> +#define DT_MEDIA_BUS_FMT_GBR888_1X24		6
-> +#define DT_MEDIA_BUS_FMT_RGB888_1X24		7
-> +#define DT_MEDIA_BUS_FMT_RGB888_1X32_PADHI	8
-> +
-> +#endif /* __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H */
-> -- 
-> 2.20.1
+> 
+> Sorry I noticed this late.
+> 
+> 
+> -Lionel
 > 
 > 
