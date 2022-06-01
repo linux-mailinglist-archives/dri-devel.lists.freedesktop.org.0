@@ -1,48 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F41539FC5
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 10:46:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4320C539FC9
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 10:47:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F0C010E13B;
-	Wed,  1 Jun 2022 08:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D16110E3D4;
+	Wed,  1 Jun 2022 08:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTP id A3B2910E13B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 08:46:07 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
- by APP-05 (Coremail) with SMTP id zQCowAC3vHwQJ5diSvI3DA--.11078S2;
- Wed, 01 Jun 2022 16:45:19 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: laurent.pinchart@ideasonboard.com
-Subject: Re: Re: [PATCH] drm: bridge: adv7511: Add check for
- mipi_dsi_driver_register
-Date: Wed,  1 Jun 2022 16:45:01 +0800
-Message-Id: <20220601084501.2900380-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8AD3B10E26A
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 08:47:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6709ED1;
+ Wed,  1 Jun 2022 01:47:36 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F6DC3F73D;
+ Wed,  1 Jun 2022 01:47:34 -0700 (PDT)
+Date: Wed, 1 Jun 2022 09:47:30 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: rectify entries for ARM DRM DRIVERS after
+ dt conversion
+Message-ID: <20220601094730.1fca69c1@donnerap.cambridge.arm.com>
+In-Reply-To: <20220601041746.22986-1-lukas.bulwahn@gmail.com>
+References: <20220601041746.22986-1-lukas.bulwahn@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAC3vHwQJ5diSvI3DA--.11078S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKFyxtF43WFW8tF15tr1DWrg_yoWxKrbE9r
- WjqF17uw4DGa9xGF1fCr1ruFy2kFWUArs3Xr1SyFyaywn3tr40gw4UJF92yF1DGr4Iya9x
- KFWUXryfAwnFvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbxkFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_Wryl
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
- Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
- QVy7UUUUU==
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,36 +44,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jagan@amarulasolutions.com, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, robert.foss@linaro.org, andrzej.hajda@intel.com,
- alsi@bang-olufsen.dk, biju.das.jz@bp.renesas.com, sam@ravnborg.org,
- maxime@cerno.tech
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ James Wang <james.qian.wang@arm.com>, malidp@foss.arm.com,
+ Mihail Atanassov <mihail.atanassov@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 01, 2022 at 02:52:00PM +0800, Laurent Pinchart wrote:
->>  static int __init adv7511_init(void)
->>  {
->> -	if (IS_ENABLED(CONFIG_DRM_MIPI_DSI))
->> -		mipi_dsi_driver_register(&adv7533_dsi_driver);
->> +	int ret;
->> +
->> +	if (IS_ENABLED(CONFIG_DRM_MIPI_DSI)) {
->> +		ret = mipi_dsi_driver_register(&adv7533_dsi_driver);
->> +		if (ret)
->> +			return ret;
->> +	}
->>  
->>  	return i2c_add_driver(&adv7511_driver);
+On Wed,  1 Jun 2022 06:17:46 +0200
+Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+
+Hi Lukas,
+
+> The three commits:
 > 
-> While at it, should this then call mipi_dsi_driver_unregister() on
-> failure ?
+>   36fd2a65bcaf ("dt-bindings: display: convert Arm HDLCD to DT schema")
+>   0f6983509ea1 ("dt-bindings: display: convert Arm Komeda to DT schema")
+>   2c8b082a3ab1 ("dt-bindings: display: convert Arm Mali-DP to DT schema")
+> 
+> convert the arm display dt-bindings, arm,*.txt to arm,*.yaml, but miss to
+> adjust its reference in MAINTAINERS.
+> 
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about
+> broken references.
+> 
+> Repair these file references in ARM HDLCD DRM DRIVER, ARM KOMEDA DRM-KMS
+> DRIVER and ARM MALI-DP DRM DRIVER.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Well, as far as I am concerned, the adv7511_exit() in the same file has already dealt with the issue.
-Therefore, it might not be necessary to add another mipi_dsi_driver_unregister().
+Thanks for taking care!
 
-Thanks,
-Jiang
+Acked-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+> Andre, please ack.
+> Rob, Krzysztof, please pick this minor non-urgent clean-up patch in
+> your -next dt tree.
+> 
+>  MAINTAINERS | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ae685aaf8850..58e751b9346e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1510,7 +1510,7 @@ F:	drivers/clocksource/arm_arch_timer.c
+>  ARM HDLCD DRM DRIVER
+>  M:	Liviu Dudau <liviu.dudau@arm.com>
+>  S:	Supported
+> -F:	Documentation/devicetree/bindings/display/arm,hdlcd.txt
+> +F:	Documentation/devicetree/bindings/display/arm,hdlcd.yaml
+>  F:	drivers/gpu/drm/arm/hdlcd_*
+>  
+>  ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
+> @@ -1545,7 +1545,7 @@ M:	Mihail Atanassov <mihail.atanassov@arm.com>
+>  L:	Mali DP Maintainers <malidp@foss.arm.com>
+>  S:	Supported
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> -F:	Documentation/devicetree/bindings/display/arm,komeda.txt
+> +F:	Documentation/devicetree/bindings/display/arm,komeda.yaml
+>  F:	Documentation/gpu/komeda-kms.rst
+>  F:	drivers/gpu/drm/arm/display/include/
+>  F:	drivers/gpu/drm/arm/display/komeda/
+> @@ -1567,7 +1567,7 @@ M:	Brian Starkey <brian.starkey@arm.com>
+>  L:	Mali DP Maintainers <malidp@foss.arm.com>
+>  S:	Supported
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> -F:	Documentation/devicetree/bindings/display/arm,malidp.txt
+> +F:	Documentation/devicetree/bindings/display/arm,malidp.yaml
+>  F:	Documentation/gpu/afbc.rst
+>  F:	drivers/gpu/drm/arm/
+>  
 
