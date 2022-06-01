@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F15539F1F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 10:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812B8539F21
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 10:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD0011345E;
-	Wed,  1 Jun 2022 08:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0ED1134AF;
+	Wed,  1 Jun 2022 08:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF2911345E
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 08:16:35 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id g4so1543178ybf.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 01:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NrP/pzA5WOVP0Wg0VcGyRa1uc8hY9vBliJwWxUn/ZdI=;
- b=H8kPVUsh+T/eQPEaJvpxZ1XQzh1BTeOT/LmCLT5UWCTxlpSV52TDdbUT1jIXpI97l+
- s5YP54D8V+XsHB8j1T2Z7rjumkaOrZSnEZn0RsnFUQvcSOTN715FM8RZW4sQpvDczhfI
- vWqqZWghpw7rMg7I7PQglTpFWteNDiQ2drHScR7egX9w57UUTxiikqD69K1IYfkYNSL/
- aP21ZA3Mgn7wzMwH78p5A/JSMXcKlqsO7lH9fxqxwo4L0oiwSMJatHVj8iNGmZYVm6yk
- H+/rWwaQljit4+E08Vj1s88ZVP4hRjF2lK9j8pp3zGZyEb1eHrjQujfZQhyqdRHBbYLp
- D2/g==
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 608761134AF
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 08:18:31 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ 3-20020a17090a174300b001e426a02ac5so2311424pjm.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 01:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GemiEwLCjqeqzreRXrlIOTn/YyLsal6nhhhXl7NXlqk=;
+ b=fUCScFzCpuzwgyHn7xrFQ7LGQY1FA++dCWMbhVb83r3eKHVpLa283g3v7wU3WUEKzm
+ JGCGzFjgej+HQwWcdTNenFSje7ses1XT25cOmGt+ACU0UKCpvDLhllWBp1y2kuWuZGLT
+ jy0QT+usJUmu/D0p+bU7o518zh0ElhfJMicpk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NrP/pzA5WOVP0Wg0VcGyRa1uc8hY9vBliJwWxUn/ZdI=;
- b=L67vS/lh8mLYTCyRud19uNFd/9fFX5ANRVQBw/Ed9pmpLoLjaQYTrTqLzTjxNaxYxS
- 2KQsdMCp9YnnaNsBToVjc2oekY43LtZEJMQdNp89CaUOZzLd0/1CwCXXw0iPD0HKj9Pf
- w2ogiSc4acqyLNu+6W43xoxrKMY5tDm7ik/ACafcwjyBcbDiVZQHbyQul7HYjUzgz0AR
- TVKE5L0Ef3N/FtV2yCfglGRuQe/KbN/vdYWfrHvwrF+ownc/7UkxWm6Td21rC6ErJl99
- ep+9u92Re/DJFnZVoSS4oMjSGUiqRjqTREncSejoU7msCbCFg5aLbhr/pzZU/InFPY92
- kzsQ==
-X-Gm-Message-State: AOAM531AeclmlYwv+nNpJYqPg2gY28rOfMCSI88r+zum+1x3K95kBmm0
- kYrM7hf6maw2ByRmqiPWQpnnjV2RVHOvTGsZ4HF+gw==
-X-Google-Smtp-Source: ABdhPJxYC/MKF3wPmyfMcnEhXb5Xio21NEFIsx6BTwACTXo0vYaW9KVN9lh4kDiMKKO9AE0mt0OelB9nSvGiEje18Kk=
-X-Received: by 2002:a25:cb8a:0:b0:65c:a718:475c with SMTP id
- b132-20020a25cb8a000000b0065ca718475cmr20084600ybg.352.1654071394260; Wed, 01
- Jun 2022 01:16:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GemiEwLCjqeqzreRXrlIOTn/YyLsal6nhhhXl7NXlqk=;
+ b=6Ou6P5g/pi+bqoyiBNfdUH98lfaW9k8PdC78lxTL+YaA+lXLjEg/Ay9OI2welUxG02
+ O3FumfrLgxX3SMi5nrZXprfDZ28CjbaWbCl+NoPbuR/mQ2zdpH+U8geenlsv9vU7pZ7U
+ 3sGfqiq1sR+SSDOVE106Fx9lu9NUBPtM/2aXehALsUlTxZjQpR53Tf34r+64qj6yDaNs
+ 2r8OKi/oGG8t+nehy+VDGWJ6Qe9QltalTZEdxq8fHvfDFqq8hGVNVc1GoDbnjl6PHQrm
+ +bCjn5OXghSLixQMFx72F9dT1H6ejlBTONu6kxtjZMk8dIRSrQAQeS3Dk17IA5oms+T4
+ tlOA==
+X-Gm-Message-State: AOAM532uoGAuXsGzLYyddOLfHtKHjsM95tZmkbsV2tnlrWwFkctUXHAA
+ XC1qwOx4xCu1UwBNQfHy/UfwRQ==
+X-Google-Smtp-Source: ABdhPJyLFVUlLgJ+84lYTY5lEbCVVe3v3IQgMn9ywuY3YaByw8oDrtX0EITnzMoe+Ibd0yBMOKH7fA==
+X-Received: by 2002:a17:902:a705:b0:156:9cc5:1d6f with SMTP id
+ w5-20020a170902a70500b001569cc51d6fmr64614112plq.66.1654071510782; 
+ Wed, 01 Jun 2022 01:18:30 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:dc30:e75c:ae95:f2d6])
+ by smtp.gmail.com with ESMTPSA id
+ c3-20020aa78803000000b0050dc7628182sm824680pfo.92.2022.06.01.01.18.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jun 2022 01:18:30 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH 0/8] Add a panel API to return panel orientation
+Date: Wed,  1 Jun 2022 16:18:15 +0800
+Message-Id: <20220601081823.1038797-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 MIME-Version: 1.0
-References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
- <20220601004014.158247-4-bas@basnieuwenhuizen.nl>
- <e4d8ea99-ceb5-b0dc-362f-94e37b9ddc6b@amd.com>
-In-Reply-To: <e4d8ea99-ceb5-b0dc-362f-94e37b9ddc6b@amd.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Wed, 1 Jun 2022 10:16:47 +0200
-Message-ID: <CAP+8YyEy8R3nbJVFkqHnh=3VsmfWKsQyY45tcWTQhm3hujBRbg@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,71 +66,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 1, 2022 at 10:03 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 01.06.22 um 02:40 schrieb Bas Nieuwenhuizen:
-> > This should be okay because moves themselves use KERNEL usage and
-> > hence still sync with BOOKKEEP usage. Then any later submits still
-> > wait on any pending VM operations.
-> >
-> > (i.e. we only made VM ops not wait on BOOKKEEP submits, not the other
-> >   way around)
->
-> Well NAK again. This allows access to freed up memory and is a complete
-> no-go.
+Panels usually call drm_connector_set_panel_orientation(), which is
+later than drm/kms driver calling drm_dev_register(). This leads to a
+WARN()[1].
 
-How does this allow access to freed memory? Worst I can see is that
-the unmap happens earlier if the app/drivers gets the waits wrong,
-which wouldn't give access after the underlying BO is freed?
+The orientation property is known earlier. For example, some panels
+parse the property through device tree during probe.
 
->
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c  | 2 +-
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 2 +-
-> >   2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_vm_cpu.c
-> > index f10332e1c6c0..31bc73fd1fae 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c
-> > @@ -51,7 +51,7 @@ static int amdgpu_vm_cpu_prepare(struct amdgpu_vm_upd=
-ate_params *p,
-> >       if (!resv)
-> >               return 0;
-> >
-> > -     return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode, sync_mo=
-de, p->vm, true);
-> > +     return amdgpu_bo_sync_wait_resv(p->adev, resv, sync_mode, AMDGPU_=
-SYNC_EXPLICIT, p->vm, true);
-> >   }
-> >
-> >   /**
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_vm_sdma.c
-> > index 63b484dc76c5..c8d5898bea11 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-> > @@ -75,7 +75,7 @@ static int amdgpu_vm_sdma_prepare(struct amdgpu_vm_up=
-date_params *p,
-> >       if (!resv)
-> >               return 0;
-> >
-> > -     return amdgpu_sync_resv(p->adev, &p->job->sync, resv, sync_mode, =
-sync_mode, p->vm);
-> > +     return amdgpu_sync_resv(p->adev, &p->job->sync, resv, sync_mode, =
-AMDGPU_SYNC_EXPLICIT, p->vm);
-> >   }
-> >
-> >   /**
->
+The series add a panel API drm_panel_get_orientation() for drm/kms
+drivers. The drivers can use the API to get panel's orientation, so they
+can call drm_connector_set_panel_orientation() before drm_dev_register().
+
+Panel needs to implement .get_orientation callback to return the property.
+
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
+
+Hsin-Yi Wang (8):
+  drm/panel: Add an API drm_panel_get_orientation() to return panel
+    orientation
+  drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
+  drm/panel: panel-edp: Implement .get_orientation callback
+  drm/panel: lvds: Implement .get_orientation callback
+  drm/panel: panel-simple: Implement .get_orientation callback
+  drm/panel: ili9881c: Implement .get_orientation callback
+  drm/panel: elida-kd35t133: Implement .get_orientation callback
+  drm/mediatek: Config orientation property if panel provides it
+
+ drivers/gpu/drm/drm_panel.c                    |  8 ++++++++
+ drivers/gpu/drm/mediatek/mtk_dsi.c             | 14 ++++++++++++++
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c |  8 ++++++++
+ drivers/gpu/drm/panel/panel-edp.c              |  8 ++++++++
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c   |  8 ++++++++
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c  |  8 ++++++++
+ drivers/gpu/drm/panel/panel-lvds.c             |  8 ++++++++
+ drivers/gpu/drm/panel/panel-simple.c           |  9 +++++++++
+ include/drm/drm_panel.h                        | 10 ++++++++++
+ 9 files changed, 81 insertions(+)
+
+-- 
+2.36.1.255.ge46751e96f-goog
+
