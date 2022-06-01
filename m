@@ -1,146 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583AC53A0EC
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:43:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C317153A10E
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:46:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 392FC10EAA1;
-	Wed,  1 Jun 2022 09:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2234710EB08;
+	Wed,  1 Jun 2022 09:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3559E10EAA2
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654076599; x=1685612599;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:reply-to:content-transfer-encoding: mime-version;
- bh=Z/FdQpw5P9vmSmahdOEZjt40065DspPMonB3+B5Og+Y=;
- b=iUmpXghBh5WSBu3FJux+zBW+2rbsCIvM0YKk6F0z/aG42sYYFMXPIZEI
- YpHm/aQBuZ9oB69hLigohthkF7no8Klg60p0RqtauCqPfkiC4iulp06j5
- FUVxwXX+0KHjDNNtg9zBipUo8ejpLQ38s62jUz3uPZeSw+GueMcvMONBe
- drgPgf6c9+rRvjxkiEFSTCg0Qlul6dh434x8fvyPZ+OHnav8b6KXiUGSi
- u/lBe/iggruJiy3yan8VxwIxR5TIbFm2AhKciMuTzs+YlajrSsuRqpKhE
- FfKQBIyOUqmY1a5t42qjpgUhutXK8mPp9B+XXYw0z0QBn4Vee6LNq1/QA g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="338578714"
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="338578714"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 02:43:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600"; d="scan'208";a="562726522"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga002.jf.intel.com with ESMTP; 01 Jun 2022 02:43:16 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 1 Jun 2022 02:43:15 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Wed, 1 Jun 2022 02:43:15 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Wed, 1 Jun 2022 02:43:15 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iXJE+JX+NBVKy3Ji7EnC7120Z89ZTRoHwSV833DPF7HMMtW/9VgCx5jS+lVyZuhSYr1sTX+GH1zgzWGzdcYwJ1cUlhvOdSvuJ4cQjlC3d0rRl71DOMaYHACfK7eo9thrpseZO7PO7GwF4yphDe6H6sRC5B+Pz8X2rcZZMReLA4SrJVbelCZMe0HDE6qzwqVoypHB27iir3VEM3oXjGaaZLOnAfOU/LNdSrNQbavtB8JvRtkk8z4nZSRjz4AJfWqVT2E4JCtUh9jro665DsN2Xmz53iAdYcJtCh4NBmW9HZDDocj6q9PaOy7HRCraCnzL+fFSHPlbWAeGfAZHyDaw9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gSI5rbtJaJhYJpJJ55UR8n+p4/f0yysoPceBInpA+b8=;
- b=ab7x3b8M/GgAHNvqRBjq1jGlgnbyro4L0hEjZnhuzj29Zg/Cq3BudF2rMjHZIwxxQhv5hi3VR/vkGFr/rA8Yss9C8Ta17+ZZeYIqVoptKfm0R7zG6uogl/mZNYgpis7yhg7Re7gU5T9bqyMG7zph04DRaR7K/9B7YnAwytSRaI/U/mA/HW4YBPfxArLTRlche84iTcn88FON0adK4O3DTXs83AMkYAXogeebaAWL4XkdlZv71SVq0hqLM+QzQgyJOzCMfBuXmPr3nJD+NI2yGMSvnumtHpMRsK1KE3zTvuHePZSl13nTsc8Kjx7BVyGN+Nh1XPzmzmRq+en6dpk3Rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB5894.namprd11.prod.outlook.com (2603:10b6:a03:42a::19)
- by BN6PR11MB1492.namprd11.prod.outlook.com (2603:10b6:405:b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Wed, 1 Jun
- 2022 09:43:09 +0000
-Received: from SJ0PR11MB5894.namprd11.prod.outlook.com
- ([fe80::9151:e836:1a4c:a04b]) by SJ0PR11MB5894.namprd11.prod.outlook.com
- ([fe80::9151:e836:1a4c:a04b%7]) with mapi id 15.20.5314.012; Wed, 1 Jun 2022
- 09:43:09 +0000
-From: "Tseng, William" <william.tseng@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/edid: ignore the CEA modes not defined in CEA-861-D
-Thread-Topic: [PATCH] drm/edid: ignore the CEA modes not defined in CEA-861-D
-Thread-Index: AQHYdNoDFbj7+FwOkEGNuWjZxEpXuK040FOAgAAC7gCAAXOfoA==
-Date: Wed, 1 Jun 2022 09:43:08 +0000
-Message-ID: <SJ0PR11MB5894EA0FF4363714AE3BC029F1DF9@SJ0PR11MB5894.namprd11.prod.outlook.com>
-References: <20220531103421.11363-1-william.tseng@intel.com>
- <87y1yiq8ce.fsf@intel.com> <87r14aq7ux.fsf@intel.com>
-In-Reply-To: <87r14aq7ux.fsf@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-dlp-product: dlpe-windows
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4a889112-dc68-4740-1242-08da43b322e8
-x-ms-traffictypediagnostic: BN6PR11MB1492:EE_
-x-microsoft-antispam-prvs: <BN6PR11MB1492DD33B0C8B7789C3821A7F1DF9@BN6PR11MB1492.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DS68eoixkDrOoSLaO11iopQXIuXUjVSbFTRLnNt4REUAQlyBgkOjPZSdCm0G4+e6tGEtvNkc9XFBRKN8JCqhdAK4ElK14xRCz5WhN+YxC1XkfmUftwpAiQ2SNhkAgg/nKKyvSB4BKB66DjJtYLZ8Rm6fUt2bUAhIXCfy9dzadldjpnGyJCRb81cGlm0Cl1OWmU0UNRe3JubYf1TrjyOPeibTS72jWAIV3C03pTMMfP/lPUsEa9KLzDUBLB5+Lv4pmr7/HedsgmcNrtPC2WR2fT83BGzeBDOD2DXXGlRsB6GE5B6pd+E0wChuUWL5pJLX/YyMeiqAw6hqNhuh1gVeQICJo77eXrL+7FmgptK54LjgCgr8iIpAX2Zy1UK/+JTpgv7dDC6zkXmUbuyzEdW6pegC6qLafPsl2B+RgY2m+0vn75l5LA2iLO930odACnvU0cbnSSuQSZYFRbs2kfad63tPvp8yOpJlAZuyfEgbmpwZ06mRQ79dyMDv3z0Nrve9jZ+oNvkwHC4QwRIrtCo9/NyqsX1wAYJk2n+/wbZy+1bEKWDIx1Uhf2fXLgUtkrG5N5D74AyKUrhshD1R6GW7+cHJejaFO7KzTsum962EHgzc6stpnf8qWaRMoNqAohDiEqKN7xMoSeJr/RBYcmerEQ45vJl3z+m2mphVZzFNuVQPd6EWyeqxJQMsz0vSh+GX0YWuQTfzQWs41R8cZX50kw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB5894.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(508600001)(5660300002)(7696005)(86362001)(6506007)(53546011)(2906002)(71200400001)(54906003)(110136005)(38100700002)(38070700005)(966005)(316002)(52536014)(8936002)(4326008)(8796002)(8676002)(76116006)(66946007)(66556008)(82960400001)(64756008)(66446008)(66476007)(122000001)(66574015)(9686003)(26005)(33656002)(186003)(55016003)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?zbOmxWdxvALNQLerQa6GQStJP+f+EsUmiGBXLDbZ+OqRGqVhG2oW05ckyN?=
- =?iso-8859-1?Q?LTXjnJZUaOMHR27T6B14g2BVWJvU3YBGYUZo6gmupc+9zfkIeHZfAkfGNe?=
- =?iso-8859-1?Q?Q/fCeNNdxif/ngdh/ccVK44lYzoLexEeiE0Pv+RrMQkF7h8GamefeUzK2Y?=
- =?iso-8859-1?Q?pjPqY277VTAeAjZT18zWYHYf1PMbzjCbtv+20Xy7+bQuCuWw/EHAqg8aOE?=
- =?iso-8859-1?Q?F+AOAxC3P3XtC0PktAw7XZ66Q3Afv6QBsnZaaLT3Gtb4zlTshjz8x8A4F9?=
- =?iso-8859-1?Q?TGpD5wV8fDK2HQTgZJZfpLGlqoShzRtr+20vl+jj5XEG0XTlj+FXSXpYnH?=
- =?iso-8859-1?Q?mmUuos1QPvnvBNbwUON94N45whMvbFGf4VldGOUGkZVaU4JXssNVgVgym6?=
- =?iso-8859-1?Q?YjUo2Kft2BIVv0DxDeeE13E8JLiE5d5YquFtDhQxon5arxqz0QpJZR+8UW?=
- =?iso-8859-1?Q?R6QnF3VPnkupBHmEPFHMepEU3gbx5xX21tPds8FELamDlquQYGLPlUdykG?=
- =?iso-8859-1?Q?3dK4MoXnEekFe2HUuJ+rAnRJwiHCchN4TzpDG0SxVVMYPSN1ttpW4OmF6l?=
- =?iso-8859-1?Q?weCEwM16XarFY482E8pDxkZV9pFRyHe3XExmZZKYKqmGWvmQz8YGwVtwNU?=
- =?iso-8859-1?Q?aqH5ZCuvoDSnSxrsknN+WmSFp1+kxNKFLHtM7cfsGOUGrsIZ9XiiwMkwle?=
- =?iso-8859-1?Q?XlFYatYuliHMv+gxbmYM0fOU4NzhBeesaIQtjLyZuyWVDLhxSWHzcpkSdd?=
- =?iso-8859-1?Q?CPX+Rm1qxGS7zhsIVNw4YtDaFsBaSBuscYl9ul16n7d8oG56yHHoA2lzTD?=
- =?iso-8859-1?Q?VEtTopEUShj2OQ78cDe2gxS6txSUwO/+41t/h+Z7hzJ/9fl9yeao5NilN0?=
- =?iso-8859-1?Q?1M5N/lfF7Uzoq9uzjEggw2ZDZsF1PVEB/nyJR9/43pMC0HUwzi6FLTd8kq?=
- =?iso-8859-1?Q?8yBWahw5c0zUKhAAYQOSJP0bd4R9FvnNs73O5btbKdiKF/7Zdl46pqVTuz?=
- =?iso-8859-1?Q?/DgeOxW5hHg3nu7abB2tPHXslkpZJ+7bRJbra12o/tRkYQTdneEMhSUual?=
- =?iso-8859-1?Q?Ny4Onfvu0Z0mrlBiW2QACXDiP1cFdlG0HjahGmJffODzB66JKTw9EHrQBO?=
- =?iso-8859-1?Q?GAi4syinZHGStdQ4DFVN9Ll5Ekb/QabLdipC3LjHF1YeefnpYxYb57DxbT?=
- =?iso-8859-1?Q?TudjsdpOwchrxXcFVi2KG/5rRU1lODw2kqBpbVWj0Z6bNu4tDW1pqNI86s?=
- =?iso-8859-1?Q?foX4aU9d3Re32Z9z3xZGgNvNyueKVkV8BLrOhVSM4nb3B9UT3XyuZTL3j9?=
- =?iso-8859-1?Q?FfA6XRMr4yc5QWryR9KBllCKkwBA6G6QoxAn4F0ODszFrDvQr6RFlYJBYA?=
- =?iso-8859-1?Q?Vaq3KXValmRonW0HHDk3pwGgXd8OGfCYFmmF1ydL6BsJLGKHspKgrUiD5O?=
- =?iso-8859-1?Q?7/LlLamS5VZFgAWbS3RkuOLhbNlW3TrC+Ufpv4ugFEqOeOClyMRTclkLr0?=
- =?iso-8859-1?Q?X6PBE0tsr3/Vy4tCEiJj3OrOsmtaculO96+fmqidDSR/oZGRd29W0aeie6?=
- =?iso-8859-1?Q?U5THimuJSXyqI+rIb/DyJOYv7YiF8R3pDD1+OGFZoWWtI1IvZvxsr+hZlc?=
- =?iso-8859-1?Q?0GJnwM5ynR9n4TQKFT47Kh+lm8EBS4E4mkMwIBLUbTTMIai7Imum5MicbA?=
- =?iso-8859-1?Q?Sz5jhnNVFLA6GsfgjRHkiRosCS+6YompyZlAijbGc90cMYnfd+c1spayYK?=
- =?iso-8859-1?Q?PE6hTj0trx1W5PaLi8E6FMUhw7zNK64rkCPBDWF648yJQxmKmgtd5Vmzqt?=
- =?iso-8859-1?Q?b4PEVE16kw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA0D10EB08
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:46:28 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id e2so1565909wrc.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Og6FPm4sRa8uBiwJMQ4UeYWy3rDVm5W0tUEfClTWPxE=;
+ b=gZvVSMzlksdRRWkClbiKbVMJ9XTEssLAgwE8fZ//ZlvSg2el0nXOb8vwKKb4QjjKGd
+ b0Mvq3t07Ze4UOAwJ7OUGeogoi50GCQePaG/JhB0N68gQ4SXN2o0AV+0V4tnlbDKjWN9
+ FfdFyLSjSWpSG7OvnoeYLA0oHcGOmPJOanodt2aOSrQ3ftqidDbnDh0EU7RHwZrMjD/e
+ wZ3ReN+aVZIe5oTKgs6Ov8vIR2DOnJgiD5xxgjrc7naFHHDbSyssszDj3wx/6MRLV91M
+ kKSP/0cTvVes7C67yNg7qnfRqaJRtVFoBiN5NubZNXrIHgrNcNr7dTF2BFUicHHOZcJc
+ c6ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Og6FPm4sRa8uBiwJMQ4UeYWy3rDVm5W0tUEfClTWPxE=;
+ b=glsVJeGT4zK5hzz30dGWJcbMLSIuq/hMOzOd2tirlC8TR+pRGlCGGtxX4tPJCIEBo9
+ 4aXAhAOgVaiXsDgxRIJNpQITo/odzCLQZ/E9rXpV+s/lnvDvWttxwFLr+ffK6VEPx53N
+ f8kNQ+nW3EY70UW/YVbD44qEFK4c93f5Z/PCTHlgWET0HKvRQqDOCichuubnJZc03mKz
+ GK6CL6N9YxPeMwQ6kwQulp6TkH0gKwlwoO/sQyWsULt6r6I2/97NIk1Z7wGQ3eiN6rCS
+ Y+kbrPvYrAe7zRBW86t4UA8oeTLD5QXjfATNlIO5mTYclxv92U9chbe3klDIF4VkccS0
+ iS4Q==
+X-Gm-Message-State: AOAM532/8bgaC/hw1AIPzazPelzfkdO80X1DiKi4al7i0OnunYMa18Uy
+ h3bE8Id+nisdFPy4E5ovoxG1Pw==
+X-Google-Smtp-Source: ABdhPJzZB7kdzKNqkGXawocBomBN1LXxN/TJFSKFbeKmnRK3bttFBwdbDOqE9RxtXkI+73YmA/Yabw==
+X-Received: by 2002:a5d:5342:0:b0:210:c508:956d with SMTP id
+ t2-20020a5d5342000000b00210c508956dmr1423246wrv.205.1654076786432; 
+ Wed, 01 Jun 2022 02:46:26 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ l24-20020a05600c1d1800b00397342bcfb7sm1575251wms.46.2022.06.01.02.46.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Jun 2022 02:46:25 -0700 (PDT)
+Date: Wed, 1 Jun 2022 10:46:23 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Subject: Re: [RESEND 14/14] video: backlight: mt6370: Add Mediatek MT6370
+ support
+Message-ID: <20220601094623.jnwh2fgsqepy72tc@maple.lan>
+References: <20220531111900.19422-1-peterwu.pub@gmail.com>
+ <20220531111900.19422-15-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5894.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a889112-dc68-4740-1242-08da43b322e8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2022 09:43:08.9862 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XgKNxZSi/si4Mv8hIXMbkZrP0WGE1kj6BtfE/uVtPd+VLyij3oNaCsxRq8URN9td+xrpD9/QE4Da29Nvhx2BCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1492
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531111900.19422-15-peterwu.pub@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,142 +71,353 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: "20220531103421.11363-1-william.tseng@intel.com"
- <20220531103421.11363-1-william.tseng@intel.com>
-Cc: Wayne Lin <waynelin@amd.com>, "Lee, Shawn C" <shawn.c.lee@intel.com>
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, deller@gmx.de, robh+dt@kernel.org,
+ chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, broonie@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
+ linux-usb@vger.kernel.org, sre@kernel.org, linux-kernel@vger.kernel.org,
+ chiaen_wu@richtek.com, gregkh@linuxfoundation.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks, Jani.
-This is the issue ticket. https://gitlab.freedesktop.org/drm/intel/-/issues=
-/6087#note_1400843
+On Tue, May 31, 2022 at 07:19:00PM +0800, ChiaEn Wu wrote:
+> From: ChiaEn Wu <chiaen_wu@richtek.com>
+> 
+> Add Mediatek MT6370 Backlight support.
+> 
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> ---
+>  drivers/video/backlight/Kconfig            |   8 +
+>  drivers/video/backlight/Makefile           |   1 +
+>  drivers/video/backlight/mt6370-backlight.c | 338 +++++++++++++++++++++
+>  3 files changed, 347 insertions(+)
+>  create mode 100644 drivers/video/backlight/mt6370-backlight.c
+> 
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index a003e02e13ce..d9868fbe7488 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -268,6 +268,14 @@ config BACKLIGHT_MAX8925
+>  	  If you have a LCD backlight connected to the WLED output of MAX8925
+>  	  WLED output, say Y here to enable this driver.
+>  
+> +config BACKLIGHT_MT6370
+
+Is MT6370 really the best name for this driver? In other words, you
+don't expect there to be any family resemblance between this backlight
+and the backlight in the *next* Mediatak PMIC?
+
+Moreover, 
 
 
-Regards
-William
+> +	tristate "Mediatek MT6370 Backlight Driver"
+> +	depends on MFD_MT6370
+> +	help
+> +	  Say Y here to enable MT6370 Backlight support.
+> +	  It's commonly used to drive the display WLED. There're 4 channels
+> +	  inisde, and each channel can provide up to 30mA current.
 
------Original Message-----
-From: Jani Nikula <jani.nikula@linux.intel.com>=20
-Sent: Tuesday, May 31, 2022 7:07 PM
-To: Tseng, William <william.tseng@intel.com>; dri-devel@lists.freedesktop.o=
-rg
-Cc: Lee, Shawn C <shawn.c.lee@intel.com>; Wayne Lin <waynelin@amd.com>; Tse=
-ng, William <william.tseng@intel.com>
-Subject: Re: [PATCH] drm/edid: ignore the CEA modes not defined in CEA-861-=
-D
-
-On Tue, 31 May 2022, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Tue, 31 May 2022, William Tseng <william.tseng@intel.com> wrote:
->> This is a workaround for HDMI 1.4 sink which has a CEA mode with=20
->> higher vic than what is defined in CEA-861-D.
->>
->> As an example, a HDMI 1.4 sink has the video format 2560x1080p to be=20
->> displayed and the video format is indicated by both SVD (with vic 90=20
->> and pictuure aspect ratio 64:27) and DTD.  When connecting to such=20
->> sink, source can't output the video format in SVD because an error is=20
->> returned by drm_hdmi_avi_infoframe_from_display_mode(), which can't=20
->> fill the infoframe with pictuure aspect ratio 64:27 and the vic,=20
->> which is originally 90 and is changed to 0 by drm_mode_cea_vic().
->>
->> To work around it, this patch ignores such CEA modes in=20
->> do_cea_modes() so the modes won't be processed in drm_hdmi_avi_infoframe=
-_from_display_mode().
->> And only the video format in DTD can be dispalyed.
-
-I think we should also have a bug filed on this, with the offending EDID at=
-tached for posterity.
-
-BR,
-Jani.
+Nitpicking but this doesn't align well with other help texts in this
+file.
 
 
->>
->> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
->> Cc: Wayne Lin <waynelin@amd.com>
->> Cc: Lee Shawn C <shawn.c.lee@intel.com>
->> Signed-off-by: William Tseng <william.tseng@intel.com>
->> ---
->>  drivers/gpu/drm/drm_edid.c | 39=20
->> +++++++++++++++++++++++++-------------
->>  1 file changed, 26 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c=20
->> index bc43e1b32092..a93f68878bfd 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -3982,6 +3982,19 @@ drm_display_mode_from_cea_vic(struct=20
->> drm_device *dev,  }  EXPORT_SYMBOL(drm_display_mode_from_cea_vic);
->> =20
->> +static bool is_hdmi2_sink(const struct drm_connector *connector) {
->> +	/*
->> +	 * FIXME: sil-sii8620 doesn't have a connector around when
->> +	 * we need one, so we have to be prepared for a NULL connector.
->> +	 */
->> +	if (!connector)
->> +		return true;
->> +
->> +	return connector->display_info.hdmi.scdc.supported ||
->> +		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;=20
->> +}
->> +
->>  static int
->>  do_cea_modes(struct drm_connector *connector, const u8 *db, u8 len) =20
->> { @@ -3993,6 +4006,19 @@ do_cea_modes(struct drm_connector=20
->> *connector, const u8 *db, u8 len)
->> =20
->>  		mode =3D drm_display_mode_from_vic_index(connector, db, len, i);
->>  		if (mode) {
->> +			u8 vic =3D svd_to_vic(db[i]);
->> +
->> +			if (!drm_valid_cea_vic(vic))
->> +				continue;
->
-> drm_display_mode_from_vic_index() returns NULL in this case.
->
->> +
->> +			/*
->> +			 * HDMI 1.4 VIC range: 1 <=3D VIC <=3D 64 (CEA-861-D) but
->> +			 * HDMI 2.0 VIC range: 1 <=3D VIC <=3D 107 (CEA-861-F). So we
->> +			 * have to make sure we dont break HDMI 1.4 sinks.
->> +			 */
->> +			if (!is_hdmi2_sink(connector) && vic > 64)
->> +				continue;
->
-> I'll need to double check if this is the right thing to do... but I=20
-> guess the question becomes if this shouldn't be within=20
-> drm_display_mode_from_vic_index().
->
-> Duplicating the condition from drm_mode_cea_vic() is probably not a=20
-> good idea.
->
-> The continues in both above branches leak the mode.
->
->
-> BR,
-> Jani.
->
->
->> +
->>  			/*
->>  			 * YCBCR420 capability block contains a bitmap which
->>  			 * gives the index of CEA modes from CEA VDB, which @@ -5846,19=20
->> +5872,6 @@ void drm_set_preferred_mode(struct drm_connector=20
->> *connector,  }  EXPORT_SYMBOL(drm_set_preferred_mode);
->> =20
->> -static bool is_hdmi2_sink(const struct drm_connector *connector) -{
->> -	/*
->> -	 * FIXME: sil-sii8620 doesn't have a connector around when
->> -	 * we need one, so we have to be prepared for a NULL connector.
->> -	 */
->> -	if (!connector)
->> -		return true;
->> -
->> -	return connector->display_info.hdmi.scdc.supported ||
->> -		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
->> -}
->> -
->>  static u8 drm_mode_hdmi_vic(const struct drm_connector *connector,
->>  			    const struct drm_display_mode *mode)  {
+> +
+>  config BACKLIGHT_APPLE
+>  	tristate "Apple Backlight Driver"
+>  	depends on X86 && ACPI
+> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+> index cae2c83422ae..e815f3f1deff 100644
+> --- a/drivers/video/backlight/Makefile
+> +++ b/drivers/video/backlight/Makefile
+> @@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
+>  obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
+>  obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
+> +obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
+>  obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
+>  obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
+>  obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
+> diff --git a/drivers/video/backlight/mt6370-backlight.c b/drivers/video/backlight/mt6370-backlight.c
+> new file mode 100644
+> index 000000000000..f8a8d33203ed
+> --- /dev/null
+> +++ b/drivers/video/backlight/mt6370-backlight.c
+> @@ -0,0 +1,338 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/bits.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +#define MT6370_REG_DEV_INFO		0x100
+> +#define MT6370_REG_BL_EN		0x1A0
+> +#define MT6370_REG_BL_BSTCTRL		0x1A1
+> +#define MT6370_REG_BL_PWM		0x1A2
+> +#define MT6370_REG_BL_DIM2		0x1A4
+> +
+> +#define MT6370_VENID_MASK		GENMASK(7, 4)
+> +#define MT6370_BL_EXT_EN_MASK		BIT(7)
+> +#define MT6370_BL_EN_MASK		BIT(6)
+> +#define MT6370_BL_CONFIG_MASK		BIT(0)
+> +#define MT6370_BL_CH_MASK		GENMASK(5, 2)
+> +#define MT6370_BL_DIM2_MASK		GENMASK(2, 0)
+> +#define MT6370_BL_DUMMY_6372_MASK	GENMASK(2, 0)
+> +#define MT6370_BL_DIM2_6372_SHIFT	3
+> +#define MT6370_BL_PWM_EN_MASK		BIT(7)
+> +#define MT6370_BL_PWM_HYS_EN_MASK	BIT(2)
+> +#define MT6370_BL_PWM_HYS_SEL_MASK	GENMASK(1, 0)
+> +#define MT6370_BL_OVP_EN_MASK		BIT(7)
+> +#define MT6370_BL_OVP_SEL_MASK		GENMASK(6, 5)
+> +#define MT6370_BL_OC_EN_MASK		BIT(3)
+> +#define MT6370_BL_OC_SEL_MASK		GENMASK(2, 1)
+> +
+> +#define MT6370_BL_MAX_BRIGHTNESS	2048
+> +
+> +enum {
+> +	MT6370_VID_COMMON = 0,
+> +	MT6370_VID_6372,
+> +	MT6370_VID_MAX,
 
---
-Jani Nikula, Intel Open Source Graphics Center
+Unused.
+
+> +};
+> +
+> +enum mt6370_prop_type {
+> +	MT6370_PARSE_TYPE_BOOL = 0,
+> +	MT6370_PARSE_TYPE_U8,
+> +	MT6370_PARSE_TYPE_MAX,
+
+Unused.
+
+> +};
+> +
+> +struct mt6370_priv {
+> +	int vid_type;
+> +	struct backlight_device *bl;
+> +	struct device *dev;
+> +	struct gpio_desc *enable_gpio;
+> +	struct regmap *regmap;
+> +};
+> +
+> +static int mt6370_bl_update_status(struct backlight_device *bl_dev)
+> +{
+> +	struct mt6370_priv *priv = bl_get_data(bl_dev);
+> +	int brightness = backlight_get_brightness(bl_dev);
+> +	unsigned int enable_val;
+> +	u8 brightness_val[2];
+> +	int ret;
+> +
+> +	if (brightness) {
+> +		brightness_val[0] = (brightness - 1) & MT6370_BL_DIM2_MASK;
+> +		brightness_val[1] = (brightness - 1)
+> +					>> fls(MT6370_BL_DIM2_MASK);
+> +
+> +		if (priv->vid_type == MT6370_VID_6372) {
+> +			brightness_val[0] <<= MT6370_BL_DIM2_6372_SHIFT;
+> +			brightness_val[0] |= MT6370_BL_DUMMY_6372_MASK;
+
+Comment explaining why we have to set these bits would be useful.
+
+
+> +		}
+> +
+> +		ret = regmap_raw_write(priv->regmap, MT6370_REG_BL_DIM2,
+> +				       brightness_val, sizeof(brightness_val));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (priv->enable_gpio)
+> +		gpiod_set_value(priv->enable_gpio, brightness ? 1 : 0);
+> +
+> +	enable_val = brightness ? MT6370_BL_EN_MASK : 0;
+> +	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN,
+> +				  MT6370_BL_EN_MASK, enable_val);
+> +}
+> +
+
+<snip>
+
+> +#define MT6370_DT_PROP_DECL(_name, _type, _reg, _mask, _max, _inv)	\
+> +{									\
+> +	.name = "mediatek,bled-" #_name,				\
+
+I'd rather have the whole DT property in the macro (because it helps
+with grepability).
+
+
+> +	.type = MT6370_PARSE_TYPE_##_type,				\
+> +	.reg = _reg,							\
+> +	.mask = _mask,							\
+> +	.max_val = _max,						\
+> +	.invert = _inv,							\
+> +}
+> +
+> +static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
+> +					    struct backlight_properties *props)
+> +{
+> +	struct device *dev = priv->dev;
+> +	u8 prop_val;
+> +	u32 brightness;
+> +	unsigned int mask, val;
+> +	static const struct {
+> +		char *name;
+> +		enum mt6370_prop_type type;
+> +		unsigned int reg;
+> +		unsigned int mask;
+> +		u8 max_val;
+> +		bool invert;
+> +	} vendor_opt_props[] = {
+> +		MT6370_DT_PROP_DECL(pwm-enable, BOOL, MT6370_REG_BL_PWM,
+> +				    MT6370_BL_PWM_EN_MASK, 1, false),
+> +		MT6370_DT_PROP_DECL(pwm-hys-enable, BOOL, MT6370_REG_BL_PWM,
+> +				    MT6370_BL_PWM_HYS_EN_MASK, 1, false),
+> +		MT6370_DT_PROP_DECL(pwm-hys-sel, U8, MT6370_REG_BL_PWM,
+> +				    MT6370_BL_PWM_HYS_SEL_MASK, 3, false),
+> +		MT6370_DT_PROP_DECL(ovp-level-sel, U8, MT6370_REG_BL_BSTCTRL,
+> +				    MT6370_BL_OVP_SEL_MASK, 3, false),
+> +		MT6370_DT_PROP_DECL(ovp-shutdown, BOOL, MT6370_REG_BL_BSTCTRL,
+> +				    MT6370_BL_OVP_EN_MASK, 1, true),
+> +		MT6370_DT_PROP_DECL(ocp-level-sel, U8, MT6370_REG_BL_BSTCTRL,
+> +				    MT6370_BL_OC_SEL_MASK, 3, false),
+> +		MT6370_DT_PROP_DECL(ocp-shutdown, BOOL, MT6370_REG_BL_BSTCTRL,
+> +				    MT6370_BL_OC_EN_MASK, 1, true),
+> +	}, *prop_now;
+> +	int i, ret;
+> +
+> +	/* vendor optional properties */
+> +	for (i = 0; i < ARRAY_SIZE(vendor_opt_props); i++) {
+> +		prop_now = vendor_opt_props + i;
+> +
+> +		switch (prop_now->type) {
+> +		case MT6370_PARSE_TYPE_BOOL:
+> +			if (device_property_read_bool(dev, prop_now->name))
+> +				val = 1;
+> +			else
+> +				val = 0;
+> +			break;
+> +		case MT6370_PARSE_TYPE_U8:
+> +			ret = device_property_read_u8(dev, prop_now->name,
+> +						      &prop_val);
+> +			/* Property not exist, keep value in default */
+> +			if (ret)
+> +				continue;
+> +
+> +			val = min_t(u8, prop_val, prop_now->max_val);
+> +			break;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +
+> +		if (prop_now->invert)
+> +			val = prop_now->max_val - val;
+> +
+> +		val <<= ffs(prop_now->mask) - 1;
+> +
+> +		ret = regmap_update_bits(priv->regmap, prop_now->reg,
+> +					 prop_now->mask, val);
+> +		if (ret)
+> +			return ret;
+> +	}
+
+Is it really worth all this tricky code for 7 properties?
+
+The code would be much easier to read and maintain if it were coded
+directly. For example, the inverted boolean code is hard to read and
+can be written directly as:
+
+
+        val = device_property_read_bool(dev, "mediatek,bled-ovp_shutdown");
+	ret = regmap_update_bits(priv->regmap, MT6370_REG_BL_BST_CTRL,
+	                         MT6370_BL_OVP_EN_MASK,
+				 MT6370_BL_OVP_EN_MASK * !val);
+	if (ret)
+		return ret;
+
+The direct coded approach will probably also pay off if you switch
+the bindings over to microvolts/microamps since it becomes much more
+natural to call out to a lookup function to convert it into a register
+value.
+
+> +
+> +	/* common properties */
+> +	ret = device_property_read_u32(dev, "max-brightness", &brightness);
+> +	if (ret)
+> +		brightness = MT6370_BL_MAX_BRIGHTNESS;
+> +
+> +	props->max_brightness = min_t(u32, brightness,
+> +				      MT6370_BL_MAX_BRIGHTNESS);
+> +
+> +	ret = device_property_read_u32(dev, "default-brightness", &brightness);
+> +	if (ret)
+> +		brightness = props->max_brightness;
+> +
+> +	props->brightness = min_t(u32, brightness, props->max_brightness);
+> +
+> +
+> +	ret = device_property_read_u8(dev, "mediatek,bled-channel-use",
+> +				      &prop_val);
+> +	if (ret) {
+> +		dev_err(dev, "mediatek,bled-channel-use DT property missing\n");
+> +		return ret;
+> +	}
+> +
+> +	if (!prop_val) {
+> +		dev_err(dev, "No channel specified\n");
+> +		return -EINVAL;
+> +	}
+
+If we are going to validity check this property then it needs an upper
+bounds check to (e.g. consider if property is set to 64).
+
+
+> +
+> +	mask = MT6370_BL_EXT_EN_MASK | MT6370_BL_CH_MASK;
+> +	val = prop_val << (ffs(MT6370_BL_CH_MASK) - 1);
+> +
+> +	if (priv->enable_gpio)
+> +		val |= MT6370_BL_EXT_EN_MASK;
+> +
+> +	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN, mask, val);
+> +}
+> +
+> +static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+
+A comment explaining what variants this function is intended to
+supported here would be good here.
+
+
+> +{
+> +	unsigned int dev_info, vid;
+> +	int ret;
+> +
+> +	ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &dev_info);
+> +	if (ret)
+> +		return ret;
+> +
+> +	vid = FIELD_GET(MT6370_VENID_MASK, dev_info);
+> +	if (vid == 0x9 || vid == 0xb)
+> +		priv->vid_type = MT6370_VID_6372;
+> +	else
+> +		priv->vid_type = MT6370_VID_COMMON;
+> +
+> +	return 0;
+> +}
+
+
+No furthers comments so I trimmed the rest.
+
+
+Daniel.
