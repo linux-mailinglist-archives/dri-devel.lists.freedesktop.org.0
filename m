@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1B453A121
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60B853A132
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DF510EB3B;
-	Wed,  1 Jun 2022 09:47:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0AC910EC28;
+	Wed,  1 Jun 2022 09:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9702C10EB55
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:47:11 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id r84so876578qke.10
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE48C10EC28
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:49:35 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id y19so2598027ejq.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:49:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kIz59c+baaDvx06RFDWodUgWj9cBhAddosfcxlDJ0UE=;
- b=BCrlL+z5bniTAK5GCt/y7tJUrGs04CEaFtfMKy/X2OvVx0PxbEB6uRXsS+Aaxwxqsq
- Li6lN1HMVdvt5++eoMgWtm/YBaONKvgHCNCZWxVSRNNz7lhKoQ1FCMQd148QY3Vb6C0v
- 7hVk9uYDs/D0ss/NLHqjpTj0PVsfQVLzbKCkJctrSz5SIi4G0UDByTN8IiEVXK9ST2UD
- grjL3ZYvAunbQj2rDpDhYPqEvgU09vCGxoHRQQXIRkNJkxia43kAlmwEkWvWK4SfZSgI
- gjO4NOVXA7LDGH5+vcLyrYrz5yUpJ//qthiFs7mtX3FVyAf1V8ULtlQU1Ese5GWtlTM/
- zeRg==
+ :cc; bh=27PUTNb2UH1CaFlaB6o+qtISHhMqVYpnRcYCFuMiVv4=;
+ b=RLZe4nVv/Ic2Sv7cEK7VnKNh8dqoPXLpxnLc7UHjGVmmaOPOdprU9K/lDH3Kr6SBBs
+ 6QDIiqyi6WSTTNbbOkaJZQxy8YW00WXStF0ZngoQO8N9wcquuUTE85nb3APbRA0XivHe
+ pRiLCDAis4jbIvybxugAxhkZlTL8NK/7VRcrLnDf0uEQG2evVEh8fmhzHI46goYAy/Rj
+ q8Bbbjx+gKvOdjejX68tjSajQP70rVeZpFFv49Ib8lN+kErMrJya6+9vsV7cGjxOYuDc
+ 3XgnvxTdqukRyUlMaSwf9b5Yn8Xatlmpk1zSwUk3glp21S87SI0Q0DdcTQbIgVdEgv4s
+ sXUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kIz59c+baaDvx06RFDWodUgWj9cBhAddosfcxlDJ0UE=;
- b=s9RmyW/PLhx44rYc7+XElRhXrIiNWNgBBRavaH6NJ+YaDjQYx7WJR49a5fgqXNlKKy
- YVqwNxuNdRu7+MfEhpUi0sAWmH4JUGCVtgVZQ0Za0aL5PSRkSjnbUhnK4XjtTUnbuGyy
- n6v/4SgHtE2jCPN1+BADkP0fLj8mXtuX2vLycf6Yc2GVf2CSn9ElVbWjphccJF6syaLH
- dASB7SnmDigDTH8uaQP4lZtnYYq+64xQKPtcyhTmmbsi+WfSLypvRNxIfjnH3Ym8nh0h
- JIXF3oHnkV3nU6ixJvQBXvlJ2NhPeE+8eYAoax/N1vE2SERd/XUZrzbn3F+rkeCNLLqx
- MhqQ==
-X-Gm-Message-State: AOAM532eFvIKqWsWqI4LR0UBskRkBD+pW6R2EmCunVyol4PSdlf5x1dg
- Py/j05VThceA54lmgV1wJOX2nEHZ2+Gg0GeM65v2OQ==
-X-Google-Smtp-Source: ABdhPJzpJ19BVsF3gVFUbCRm2W54JFRIgN/cNpclZjaO5CcKaUq2Y3AFR2wPED/OypMCWDhP2AIMKBAANfbN13Rgjt8=
-X-Received: by 2002:a05:620a:4311:b0:67e:8a0f:4cd5 with SMTP id
- u17-20020a05620a431100b0067e8a0f4cd5mr44323514qko.363.1654076830580; Wed, 01
- Jun 2022 02:47:10 -0700 (PDT)
+ bh=27PUTNb2UH1CaFlaB6o+qtISHhMqVYpnRcYCFuMiVv4=;
+ b=rUmznsHblD9EsPuQnVjcv23AnjxWA8ff3OWtJh/yuAtD/PO4ls9RsnN7kyZpZI4bhL
+ ethqp5e/uRZ2yZRfhbxRy8fRI/8Q42QXUdqZBOGqyEV//7CEzuoM9s05j4c865P+lJrK
+ dO+5djZ2w5FWyNQq/gVjHJG/2LQ2LWS7+c8/QH0lzwTXvBp2PJbFakxvG+7IhIRoQjzK
+ r9V7jFe8V2N/0NKlU2gxs2SLunVrM/14wd9xRJKcdkAb7JWru8sK4DevRqavLp6knVN9
+ DIYpCMioiec45jBPiNJNybUmZD5AbpiBMwAjvnzRoLxklsAF/pPfuzDfP3Nj+T4Ib8j0
+ +edw==
+X-Gm-Message-State: AOAM533pQBk9hfx6j9craEV+RHGw6Oe0FUSC2Vqpg5WqPEFRqSzRYheo
+ Nvt4+ruvje/9AF14m1mrAKqKnSDqUYQTZHGOTgw=
+X-Google-Smtp-Source: ABdhPJyRwbLQFMmfl3jzbmPNjvUrFSOgiS+i5wMk8MNJphpsSnNZ8UtMTX/OTZ0ronnNTUPtL2vf7d9XmnEYugvrfuk=
+X-Received: by 2002:a17:907:6e1a:b0:6fe:f357:3837 with SMTP id
+ sd26-20020a1709076e1a00b006fef3573837mr40896205ejc.44.1654076974098; Wed, 01
+ Jun 2022 02:49:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531121825.1126204-1-dmitry.baryshkov@linaro.org>
- <d7084452-ea90-3a8b-d39a-b09d9f45f839@quicinc.com>
-In-Reply-To: <d7084452-ea90-3a8b-d39a-b09d9f45f839@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 1 Jun 2022 12:46:59 +0300
-Message-ID: <CAA8EJprW7xnYJaeqh4vozSTx04DcQ20MMRrzLaEJPJTC3dV30w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: less magic numbers in msm_mdss_enable
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220531102809.11976-1-peterwu.pub@gmail.com>
+ <20220531102809.11976-7-peterwu.pub@gmail.com>
+In-Reply-To: <20220531102809.11976-7-peterwu.pub@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 1 Jun 2022 11:48:58 +0200
+Message-ID: <CAHp75Vd8taco19vsDmBcCv8euV1SvwSiY5=P9oMkA6zWsjwXxg@mail.gmail.com>
+Subject: Re: [PATCH 06/14] leds: mt6370: Add Mediatek MT6370 Indicator support
+To: ChiaEn Wu <peterwu.pub@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,135 +63,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ alice_chen@richtek.com, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang@richtek.com,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ chiaen_wu@richtek.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Jun 2022 at 01:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> On 5/31/2022 5:18 AM, Dmitry Baryshkov wrote:
-> > Replace magic register writes in msm_mdss_enable() with version that
-> > contains less magic and more variable names that can be traced back to
-> > the dpu_hw_catalog or the downstream dtsi files.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/msm_mdss.c | 79 ++++++++++++++++++++++++++++++----
-> >   1 file changed, 71 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> > index 0454a571adf7..2a48263cd1b5 100644
-> > --- a/drivers/gpu/drm/msm/msm_mdss.c
-> > +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> > @@ -21,6 +21,7 @@
-> >   #define HW_REV                              0x0
-> >   #define HW_INTR_STATUS                      0x0010
-> >
-> > +#define UBWC_DEC_HW_VERSION          0x58
-> >   #define UBWC_STATIC                 0x144
-> >   #define UBWC_CTRL_2                 0x150
-> >   #define UBWC_PREDICTION_MODE                0x154
-> > @@ -132,9 +133,63 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
-> >       return 0;
-> >   }
-> >
-> > +#define UBWC_1_0 0x10000000
-> > +#define UBWC_2_0 0x20000000
-> > +#define UBWC_3_0 0x30000000
-> > +#define UBWC_4_0 0x40000000
-> > +
-> > +static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss,
-> > +                                    u32 ubwc_static)
-> > +{
-> > +     writel_relaxed(ubwc_static, msm_mdss->mmio + UBWC_STATIC);
-> > +}
-> > +
-> > +static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss,
-> > +                                    unsigned int ubwc_version,
-> > +                                    u32 ubwc_swizzle,
-> > +                                    u32 highest_bank_bit,
-> > +                                    u32 macrotile_mode)
-> > +{
-> > +     u32 value = (ubwc_swizzle & 0x1) |
-> > +                 (highest_bank_bit & 0x3) << 4 |
-> > +                 (macrotile_mode & 0x1) << 12;
-> > +
-> > +     if (ubwc_version == UBWC_3_0)
-> > +             value |= BIT(10);
-> > +
-> > +     if (ubwc_version == UBWC_1_0)
-> > +             value |= BIT(8);
-> > +
-> > +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
-> > +}
-> > +
-> > +static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
-> > +                                    unsigned int ubwc_version,
-> > +                                    u32 ubwc_swizzle,
-> > +                                    u32 ubwc_static,
-> > +                                    u32 highest_bank_bit,
-> > +                                    u32 macrotile_mode)
-> > +{
-> > +     u32 value = (ubwc_swizzle & 0x7) |
-> > +                 (ubwc_static & 0x1) << 3 |
-> > +                 (highest_bank_bit & 0x7) << 4 |
-> > +                 (macrotile_mode & 0x1) << 12;
-> > +
-> > +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
-> > +
-> > +     if (ubwc_version == UBWC_3_0) {
-> > +             writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
-> > +             writel_relaxed(0, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-> > +     } else {
-> > +             writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
-> > +             writel_relaxed(1, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-> > +     }
-> > +}
-> > +
+On Tue, May 31, 2022 at 1:16 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
 >
-> Is it possible to unify the above functions by having the internal
-> ubwc_version checks?
+> From: Alice Chen <alice_chen@richtek.com>
 
-Note, it's not the ubwc_version, it is the ubwc_dec_hw_version. And
-also different functions take different sets of arguments.
-
-> It seems like msm_mdss_setup_ubwc_dec_xxx can keep growing.
->
-> I have not looked into each bit programming but from the top level so
-> feel free to correct if wrong but it seems both do write UBWC_STATIC
-> (different values based on different UBWC versions) and write some extra
-> registers based on version
-
-This is what both the current code and the downstream do. See
-https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/zeus-s-oss/techpack/display-drivers/msm/sde/sde_hw_top.c#L312
+All below comments are applicable to the rest of the series as well
+(one way or another), so please fix all your patches where it's
+appropriate.
 
 >
-> >   static int msm_mdss_enable(struct msm_mdss *msm_mdss)
-> >   {
-> >       int ret;
-> > +     u32 hw_rev;
-> >
-> >       ret = clk_bulk_prepare_enable(msm_mdss->num_clocks, msm_mdss->clocks);
-> >       if (ret) {
-> > @@ -149,26 +204,34 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
-> >       if (msm_mdss->is_mdp5)
-> >               return 0;
-> >
-> > +     hw_rev = readl_relaxed(msm_mdss->mmio + HW_REV);
-> > +     dev_info(msm_mdss->dev, "HW_REV: 0x%x\n", hw_rev);
-> > +     dev_info(msm_mdss->dev, "UBWC_DEC_HW_VERSION: 0x%x\n",
-> > +             readl_relaxed(msm_mdss->mmio + UBWC_DEC_HW_VERSION));
->
-> we are already printing the HW version here
->
-> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c#L1096
->
-> Do you want to remove that print then? May be. Let me take a look.
+> Add Mediatek MT6370 Indicator support
 
-[skipped]
+What indicator?
+Please also keep attention on English punctuation (missed period).
+
+...
+
+> +       help
+> +         Support 4 channels and reg/pwm/breath mode.
+> +         Isink4 can also use as a CHG_VIN power good Indicator.
+
+be used
+
+> +         Say Y here to enable support for
+> +         MT6370_RGB_LED device.
+
+...
+
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+
+> +#include <linux/of.h>
+
+Are you sure this is the correct header? Seems you need
+mod_devicetable.h instead.
+
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+
+...
+
+> +struct mt6370_priv {
+> +       struct mutex lock;
+
+Do you use regmap locking?
+
+> +       struct device *dev;
+
+> +       struct regmap *regmap;
+
+> +       struct regmap_field *fields[F_MAX_FIELDS];
+> +       const struct reg_field *reg_fields;
+> +       const struct linear_range *ranges;
+> +       struct reg_cfg *reg_cfgs;
+> +       unsigned int leds_count;
+> +       unsigned int leds_active;
+> +       bool is_mt6372;
+> +       struct mt6370_led leds[];
+> +};
+
+...
+
+> +static const unsigned int common_tfreqs[] = {
+> +       10000, 5000, 2000, 1000, 500, 200, 5, 1
+
+Leave a comma at the end.
+
+> +};
+> +
+> +static const unsigned int mt6372_tfreqs[] = {
+> +       8000, 4000, 2000, 1000, 500, 250, 8, 4
+
+Ditto.
+
+> +};
+
 
 -- 
-With best wishes
-Dmitry
+With Best Regards,
+Andy Shevchenko
