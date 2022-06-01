@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEB353A122
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:47:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1B453A121
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 11:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8DB10EB5F;
-	Wed,  1 Jun 2022 09:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2DF510EB3B;
+	Wed,  1 Jun 2022 09:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBFE810EB5F
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9702C10EB55
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 09:47:11 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- u12-20020a17090a1d4c00b001df78c7c209so5679922pju.1
+Received: by mail-qk1-x730.google.com with SMTP id r84so876578qke.10
  for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 02:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kFnswbSxGwrRy/NQADQjmmMBaytsFgRzRtZUq2P5fVw=;
- b=ErjYVzHSMtL2UomTsVi7tibDCfhMwLbxBslThaP44wqh4DHChnKrN++NI5RhSZPYfC
- Gm3RRstEdhV4L3kxlolN40Nsg9TYKbIF6sbCjvLhWMacNHii7EhOCl8zF8PssLNTP/fS
- YGFNj0OxIkbV3RMUocdQHadyiWO87CoS4BxS8=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kIz59c+baaDvx06RFDWodUgWj9cBhAddosfcxlDJ0UE=;
+ b=BCrlL+z5bniTAK5GCt/y7tJUrGs04CEaFtfMKy/X2OvVx0PxbEB6uRXsS+Aaxwxqsq
+ Li6lN1HMVdvt5++eoMgWtm/YBaONKvgHCNCZWxVSRNNz7lhKoQ1FCMQd148QY3Vb6C0v
+ 7hVk9uYDs/D0ss/NLHqjpTj0PVsfQVLzbKCkJctrSz5SIi4G0UDByTN8IiEVXK9ST2UD
+ grjL3ZYvAunbQj2rDpDhYPqEvgU09vCGxoHRQQXIRkNJkxia43kAlmwEkWvWK4SfZSgI
+ gjO4NOVXA7LDGH5+vcLyrYrz5yUpJ//qthiFs7mtX3FVyAf1V8ULtlQU1Ese5GWtlTM/
+ zeRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kFnswbSxGwrRy/NQADQjmmMBaytsFgRzRtZUq2P5fVw=;
- b=CrRm06xqT8ZZN6poPKgj59zzT9Eh1wO/G6Uq6b0NvayPtF/qyQ18fsEe+/wc+69DMK
- 33emhwvSUE2k9iRVh533DnwtrDpGJHfK/1fNrA1AROsLToA4af2uK+7rasXta1ziuk1Z
- ckwhgZJi7I2NwvEK5pqP1JcwvVXFOySfQKkpoiAvd3xXz5nOHkkMdOP2TAXn0jR+e2fX
- m1ZoptHo7RkkUiz4imn8FfBEALlBzsXyPbP8tCQzPhvVg76LvRl2Vy0PwDo72zhMMvxg
- BX4RGaYyED+AT2KYGkD2kgrrNiOnn7+eRCWSrICr3v5635SpQW7r59ddEg+T6hAjn58U
- ggtA==
-X-Gm-Message-State: AOAM531U3XQ/GGSQSvlnbLoo70/xz8u9KQmme+K4mJJjD6t5IBBRJKPZ
- o5KffXPvG08YztFim70/h9kUUw==
-X-Google-Smtp-Source: ABdhPJxrRTUbKi5bPBa/fX0MOFI2Wb3mwKyCfpA3888E4QDVRu2YuRIzrg8baKhCW1q9srQYrEq3/w==
-X-Received: by 2002:a17:902:aa04:b0:163:c204:f41 with SMTP id
- be4-20020a170902aa0400b00163c2040f41mr17751950plb.172.1654076831401; 
- Wed, 01 Jun 2022 02:47:11 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:dc30:e75c:ae95:f2d6])
- by smtp.gmail.com with ESMTPSA id
- x42-20020a056a0018aa00b0050dc762815esm1039494pfh.56.2022.06.01.02.47.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 02:47:11 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v2 8/8] drm/mediatek: Config orientation property if panel
- provides it
-Date: Wed,  1 Jun 2022 17:46:37 +0800
-Message-Id: <20220601094637.1200634-9-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-In-Reply-To: <20220601094637.1200634-1-hsinyi@chromium.org>
-References: <20220601094637.1200634-1-hsinyi@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kIz59c+baaDvx06RFDWodUgWj9cBhAddosfcxlDJ0UE=;
+ b=s9RmyW/PLhx44rYc7+XElRhXrIiNWNgBBRavaH6NJ+YaDjQYx7WJR49a5fgqXNlKKy
+ YVqwNxuNdRu7+MfEhpUi0sAWmH4JUGCVtgVZQ0Za0aL5PSRkSjnbUhnK4XjtTUnbuGyy
+ n6v/4SgHtE2jCPN1+BADkP0fLj8mXtuX2vLycf6Yc2GVf2CSn9ElVbWjphccJF6syaLH
+ dASB7SnmDigDTH8uaQP4lZtnYYq+64xQKPtcyhTmmbsi+WfSLypvRNxIfjnH3Ym8nh0h
+ JIXF3oHnkV3nU6ixJvQBXvlJ2NhPeE+8eYAoax/N1vE2SERd/XUZrzbn3F+rkeCNLLqx
+ MhqQ==
+X-Gm-Message-State: AOAM532eFvIKqWsWqI4LR0UBskRkBD+pW6R2EmCunVyol4PSdlf5x1dg
+ Py/j05VThceA54lmgV1wJOX2nEHZ2+Gg0GeM65v2OQ==
+X-Google-Smtp-Source: ABdhPJzpJ19BVsF3gVFUbCRm2W54JFRIgN/cNpclZjaO5CcKaUq2Y3AFR2wPED/OypMCWDhP2AIMKBAANfbN13Rgjt8=
+X-Received: by 2002:a05:620a:4311:b0:67e:8a0f:4cd5 with SMTP id
+ u17-20020a05620a431100b0067e8a0f4cd5mr44323514qko.363.1654076830580; Wed, 01
+ Jun 2022 02:47:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220531121825.1126204-1-dmitry.baryshkov@linaro.org>
+ <d7084452-ea90-3a8b-d39a-b09d9f45f839@quicinc.com>
+In-Reply-To: <d7084452-ea90-3a8b-d39a-b09d9f45f839@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 1 Jun 2022 12:46:59 +0300
+Message-ID: <CAA8EJprW7xnYJaeqh4vozSTx04DcQ20MMRrzLaEJPJTC3dV30w@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: less magic numbers in msm_mdss_enable
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,70 +63,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Panel orientation property should be set before drm_dev_register().
-Mediatek drm driver calls drm_dev_register() in .bind(). However, most
-panels sets orientation property relatively late, mostly in .get_modes()
-callback, since this is when they are able to get the connector and
-binds the orientation property to it, though the value should be known
-when the panel is probed.
+On Wed, 1 Jun 2022 at 01:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> On 5/31/2022 5:18 AM, Dmitry Baryshkov wrote:
+> > Replace magic register writes in msm_mdss_enable() with version that
+> > contains less magic and more variable names that can be traced back to
+> > the dpu_hw_catalog or the downstream dtsi files.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/msm_mdss.c | 79 ++++++++++++++++++++++++++++++----
+> >   1 file changed, 71 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> > index 0454a571adf7..2a48263cd1b5 100644
+> > --- a/drivers/gpu/drm/msm/msm_mdss.c
+> > +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> > @@ -21,6 +21,7 @@
+> >   #define HW_REV                              0x0
+> >   #define HW_INTR_STATUS                      0x0010
+> >
+> > +#define UBWC_DEC_HW_VERSION          0x58
+> >   #define UBWC_STATIC                 0x144
+> >   #define UBWC_CTRL_2                 0x150
+> >   #define UBWC_PREDICTION_MODE                0x154
+> > @@ -132,9 +133,63 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
+> >       return 0;
+> >   }
+> >
+> > +#define UBWC_1_0 0x10000000
+> > +#define UBWC_2_0 0x20000000
+> > +#define UBWC_3_0 0x30000000
+> > +#define UBWC_4_0 0x40000000
+> > +
+> > +static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss,
+> > +                                    u32 ubwc_static)
+> > +{
+> > +     writel_relaxed(ubwc_static, msm_mdss->mmio + UBWC_STATIC);
+> > +}
+> > +
+> > +static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss,
+> > +                                    unsigned int ubwc_version,
+> > +                                    u32 ubwc_swizzle,
+> > +                                    u32 highest_bank_bit,
+> > +                                    u32 macrotile_mode)
+> > +{
+> > +     u32 value = (ubwc_swizzle & 0x1) |
+> > +                 (highest_bank_bit & 0x3) << 4 |
+> > +                 (macrotile_mode & 0x1) << 12;
+> > +
+> > +     if (ubwc_version == UBWC_3_0)
+> > +             value |= BIT(10);
+> > +
+> > +     if (ubwc_version == UBWC_1_0)
+> > +             value |= BIT(8);
+> > +
+> > +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+> > +}
+> > +
+> > +static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
+> > +                                    unsigned int ubwc_version,
+> > +                                    u32 ubwc_swizzle,
+> > +                                    u32 ubwc_static,
+> > +                                    u32 highest_bank_bit,
+> > +                                    u32 macrotile_mode)
+> > +{
+> > +     u32 value = (ubwc_swizzle & 0x7) |
+> > +                 (ubwc_static & 0x1) << 3 |
+> > +                 (highest_bank_bit & 0x7) << 4 |
+> > +                 (macrotile_mode & 0x1) << 12;
+> > +
+> > +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+> > +
+> > +     if (ubwc_version == UBWC_3_0) {
+> > +             writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
+> > +             writel_relaxed(0, msm_mdss->mmio + UBWC_PREDICTION_MODE);
+> > +     } else {
+> > +             writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
+> > +             writel_relaxed(1, msm_mdss->mmio + UBWC_PREDICTION_MODE);
+> > +     }
+> > +}
+> > +
+>
+> Is it possible to unify the above functions by having the internal
+> ubwc_version checks?
 
-Let the drm driver check if the remote end point is a panel and if it
-contains the orientation property. If it does, set it before
-drm_dev_register() is called.
+Note, it's not the ubwc_version, it is the ubwc_dec_hw_version. And
+also different functions take different sets of arguments.
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
-v1->v2: remove unused checks.
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> It seems like msm_mdss_setup_ubwc_dec_xxx can keep growing.
+>
+> I have not looked into each bit programming but from the top level so
+> feel free to correct if wrong but it seems both do write UBWC_STATIC
+> (different values based on different UBWC versions) and write some extra
+> registers based on version
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index bd3f5b485085..86613360d2d9 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -185,6 +185,7 @@ struct mtk_dsi {
- 	struct drm_encoder encoder;
- 	struct drm_bridge bridge;
- 	struct drm_bridge *next_bridge;
-+	struct drm_panel *panel;
- 	struct drm_connector *connector;
- 	struct phy *phy;
- 
-@@ -822,6 +823,12 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		ret = PTR_ERR(dsi->connector);
- 		goto err_cleanup_encoder;
- 	}
-+
-+	/* Read panel orientation */
-+	if (dsi->panel)
-+		drm_connector_set_panel_orientation(dsi->connector,
-+				drm_panel_get_orientation(dsi->panel));
-+
- 	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
- 
- 	return 0;
-@@ -837,6 +844,9 @@ static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
- 	struct drm_device *drm = data;
- 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
- 
-+	/* Get panel if existed */
-+	drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &dsi->panel, NULL);
-+
- 	ret = mtk_dsi_encoder_init(drm, dsi);
- 	if (ret)
- 		return ret;
+This is what both the current code and the downstream do. See
+https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/zeus-s-oss/techpack/display-drivers/msm/sde/sde_hw_top.c#L312
+
+>
+> >   static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+> >   {
+> >       int ret;
+> > +     u32 hw_rev;
+> >
+> >       ret = clk_bulk_prepare_enable(msm_mdss->num_clocks, msm_mdss->clocks);
+> >       if (ret) {
+> > @@ -149,26 +204,34 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+> >       if (msm_mdss->is_mdp5)
+> >               return 0;
+> >
+> > +     hw_rev = readl_relaxed(msm_mdss->mmio + HW_REV);
+> > +     dev_info(msm_mdss->dev, "HW_REV: 0x%x\n", hw_rev);
+> > +     dev_info(msm_mdss->dev, "UBWC_DEC_HW_VERSION: 0x%x\n",
+> > +             readl_relaxed(msm_mdss->mmio + UBWC_DEC_HW_VERSION));
+>
+> we are already printing the HW version here
+>
+> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c#L1096
+>
+> Do you want to remove that print then? May be. Let me take a look.
+
+[skipped]
+
 -- 
-2.36.1.255.ge46751e96f-goog
-
+With best wishes
+Dmitry
