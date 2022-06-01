@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C89153A95C
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 16:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD1853A968
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jun 2022 16:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EDEB10E779;
-	Wed,  1 Jun 2022 14:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651EB10EB03;
+	Wed,  1 Jun 2022 14:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3589310E779
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 14:47:13 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id fu3so2784543ejc.7
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 07:47:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A134B10EC4E
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Jun 2022 14:52:48 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ n13-20020a17090a394d00b001e30a60f82dso6483107pjf.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 07:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ib+2pdINzY13tkdFt/33K5unpLr9MXTZJAeLRoX/j+g=;
- b=DROnEQr99X22rbQ1+IN6Bd2hcrecLS98ZlfjXGQrYLXsPHAZUnfNxO3bKavaeYm/ZM
- 610HvsocXO9035hSJFF8uSJuRvuvgGENggHH9tC9Bj09gd5Ydr11Nh+sWirHDw4khkhe
- atbL+YCXqWBIkNlbk4xTJ/aQZXq+c7gCOyBcqDygeciNN7ItISmi1Hmkax3WjbEHVHwJ
- 1QiEO7qb56NkSbk3RO/cDojFxMjFbv5VJ0xxGm10zeprHsTf+YSNZLCF8CO7GLdT4z42
- K1CCn4IhdxUOsfSuRJYu25If481vgebF7Pyd9/FZdO4tyw87/VBadxSrGryXJ09M3bYv
- 1HGw==
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=f+l3Hk+6FFyk8vfmjX/U6HXz2Y13gVkjD8RbjyOHnBg=;
+ b=T5QqxGoUWNlBhCvVCWar98KbLBlFh2IAuojNaK8vvjKwgDeliiAt4f3t71WOdr8+Py
+ HHMOe73t4gfkGJiwHy+Hm70Yy7VauFSTuriqV7I5dLMxENsXS5NHU703r5zm8sGzuyvW
+ ERZjD24VHVXiLLmqN1EGXjLw6PBs9QKqmrdhw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ib+2pdINzY13tkdFt/33K5unpLr9MXTZJAeLRoX/j+g=;
- b=lGYevuNDa4LUEVHS93OqNFqImQyk0+VIOEWwxVtpI4lduXOBVo41EQSU+9JEt+oK/f
- 9dwG1Aor+SFgGx2+Fr8aX6a5cFTmpUqjNb6ctFlBD4pgGvmmWKG6++bUOBYYhD3u5yjw
- eYVo+7JCkp3okDgG8/02J7sfRs156+A2IxiXrGiTSgINFFEQWyl+FZ8M4YlVkR2KTGJa
- PnF9GeQJjBjbCB+YjZ/e82Ogp5UTSFZIX6x40JWzkPQV35NDjjKsdQSyMatL9OW39evA
- sc1W6aYOHbjMqlJP9zkOcZcFfhefFgVLFLThDwURQtK1UWv9KewFztRP0qPp891v5mHj
- v+1Q==
-X-Gm-Message-State: AOAM531bBxj7yHtsyiX8SeOFqvMrxC4YD6M0T5lnAbi2ckprRNVsUaVN
- /rMDlk4BDbV0Z8aIRQKUBVM=
-X-Google-Smtp-Source: ABdhPJzTh2kzz8vuZag+D3UadxCCSgbVs/EirqIqMjSCoVPYcUiRIijpnuh+g+g7f7kDT3+EpLmv0A==
-X-Received: by 2002:a17:907:97d5:b0:706:76ba:f28f with SMTP id
- js21-20020a17090797d500b0070676baf28fmr203512ejc.367.1654094830518; 
- Wed, 01 Jun 2022 07:47:10 -0700 (PDT)
-Received: from orome ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- qw8-20020a170906fca800b006fed40e5564sm783328ejb.83.2022.06.01.07.47.08
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=f+l3Hk+6FFyk8vfmjX/U6HXz2Y13gVkjD8RbjyOHnBg=;
+ b=snT2nEhZuls3bU2NDHQ7HsQ+p0kNCjYfc97G9M4WeZT9Nz1x/uoEiiZdFOM8fbZ7xW
+ FFyOJpV+CehX6H+jXZV5vnHVy2nm2uPFhUmmhHsCadCYYpGBJm4kBsoOh/tDjCGMppqk
+ gSR057mIHpmVsSCKSYndvl0OJJ3P/deWrqBdUGWtUKQXvTZdgbFt1gEB63k+yuT24p68
+ JTh18a4rm1qqK6HDJc4Wtz0K0Lx1tRyyLXtKw809LORDlF6txzxZC+fqTH/dkqkocVvj
+ TR0fkElVx31thRAT6EAFiRTHXV2dD2W8GzXPIJmMFTRKSQmTiv9WhAzMslpZLV2WKuu7
+ vniA==
+X-Gm-Message-State: AOAM531hsQgIIFbsbrka1jdXEbQ2PkCcaPJho3XugUc9uH3dj91R8VLO
+ /beepMZCocdAJATPk1faiJpQkA==
+X-Google-Smtp-Source: ABdhPJzKbPPwilL4Mlo2lBLeWQY4KScURQiGlR+yz2oCKIOnCppVLjpaiJcEObTKUBj8vtB6Oz8esg==
+X-Received: by 2002:a17:902:d2c1:b0:165:d4cd:e118 with SMTP id
+ n1-20020a170902d2c100b00165d4cde118mr125029plc.4.1654095168205; 
+ Wed, 01 Jun 2022 07:52:48 -0700 (PDT)
+Received: from google.com ([240f:75:7537:3187:ec3a:4b49:34bc:e5b4])
+ by smtp.gmail.com with ESMTPSA id
+ u79-20020a627952000000b0051ba7515e0dsm1629431pfc.54.2022.06.01.07.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 07:47:09 -0700 (PDT)
-Date: Wed, 1 Jun 2022 16:47:07 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Miaoqian Lin <linmq006@gmail.com>
-Subject: Re: [PATCH v3] drm/v3d/v3d_drv: Fix PM disable depth imbalance
-Message-ID: <Ypd76wmrBsIgeE3O@orome>
-References: <20220601122050.1822-1-linmq006@gmail.com>
- <YpdpCWW9+igsVydr@phenom.ffwll.local>
- <55d99105-8492-e020-bed6-82e52b5fc8a1@gmail.com>
+ Wed, 01 Jun 2022 07:52:47 -0700 (PDT)
+Date: Wed, 1 Jun 2022 23:52:41 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-fence: allow dma fence to have
+ their own lock
+Message-ID: <Ypd9OSqMtGMVKYZ0@google.com>
+References: <20220530142232.2871634-1-senozhatsky@chromium.org>
+ <7eee4274-bd69-df8d-9067-771366217804@amd.com>
+ <YpWCvniLzJfcp684@google.com>
+ <33aba213-b6ad-4a15-9272-c62f5dfb1fb7@gmail.com>
+ <Ypd3Us3a93aLonqT@google.com>
+ <a009c207-a5fa-af1e-b961-8083b48360bf@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UFHMz0lUhc2lO5hB"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <55d99105-8492-e020-bed6-82e52b5fc8a1@gmail.com>
-User-Agent: Mutt/2.2.4 (c3baa83e) (2022-04-30)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a009c207-a5fa-af1e-b961-8083b48360bf@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,78 +75,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Eric Anholt <eric@anholt.net>,
- dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
- linux-kernel@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org, Gustavo Padovan <gustavo@padovan.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Ricardo Ribalda <ribalda@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On (22/06/01 16:38), Christian König wrote:
+> > > Well, you don't.
+> > > 
+> > > If you have a dynamic context structure you need to reference count that as
+> > > well. In other words every time you create a fence in your context you need
+> > > to increment the reference count and every time a fence is release you
+> > > decrement it.
+> > OK then fence release should be able to point back to its "context"
+> > structure. Either a "private" data in dma fence or we need to "embed"
+> > fence into another object (refcounted) that owns the lock and provide
+> > dma fence ops->release callback, which can container_of() to the object
+> > that dma fence is embedded into.
+> > 
+> > I think you are suggesting the latter. Thanks for clarifications.
+> 
+> Daniel might hurt me for this, but if you really only need a pointer to your
+> context then we could say that using a pointer value for the context field
+> is ok as well.
+> 
+> That should be fine as well as long as you can guarantee that it will be
+> unique during the lifetime of all it's fences.
 
---UFHMz0lUhc2lO5hB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think we can guarantee that. Object that creates fence is kmalloc-ed and
+it sticks around until dma_fence_release() calls ops->release() and kfree-s
+it. We *probably* can even do something like it now, by re-purposing dma_fence
+context member:
 
-On Wed, Jun 01, 2022 at 09:55:02PM +0800, Miaoqian Lin wrote:
-> Hi, Daniel
->=20
-> On 2022/6/1 21:26, Daniel Vetter wrote:
-> > On Wed, Jun 01, 2022 at 04:20:50PM +0400, Miaoqian Lin wrote:
-> >> The pm_runtime_enable will increase power disable depth.
-> >> If the probe fails, we should use pm_runtime_disable() to balance
-> >> pm_runtime_enable().
-> >> Also call disable function in remove function.
-> >>
-> >> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom=
- V3D V3.x+")
-> >> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-> >> ---
-> >> Changes in v3:
-> >> - call pm_runtime_disable() in v3d_platform_drm_remove
-> >> - update commit message
-> >>
-> >> Changes in v2
-> >> - put pm_runtime_disable before dma_free_wc
-> >> - rename dma_free to pm_disable
-> >>
-> >> v1: https://lore.kernel.org/r/20220105120442.14418-1-linmq006@gmail.com
-> >> v2: https://lore.kernel.org/r/20220106124657.32737-1-linmq006@gmail.com
-> > Maybe a bit late since we're at v3 already, but are there no devm_
-> > functions here that would dtrt automatically?=20
->=20
-> Sorry I don't see one, or we can use devm_add_action_or_reset() to add ha=
-ndling
->=20
-> action. something like disp_cc_sm8250_probe() in drivers/clk/qcom/dispcc-=
-sm8250.c
->=20
-> How do you think?
+        dma_fence_init(obj->fence,
+                       &fence_ops,
+                       &obj->fence_lock,
+                       (u64)obj,                             <<   :/
+                       atomic64_inc_return(&obj->seqno));
 
-Looks like there's a devm_pm_runtime_enable() helper that does exactly
-that. See commit b3636a3a2c51 ("PM: runtime: add devm_pm_runtime_enable
-helper"). I haven't seen any large janitorial series yet for that, so
-perhaps it's just not widely known yet.
+I'd certainly refrain from being creative here and doing things that
+are not documented/common. DMA fence embedding should work for us.
 
-Thierry
+> > The limiting factor of this approach is that now our ops->release() is
+> > under the same "pressure" as dma_fence_put()->dma_fence_release() are.
+> > dma_fence_put() and dma_fence_release() can be called from any context,
+> > as far as I understand, e.g. IRQ, however our normal object ->release
+> > can schedule, we do things like synchronize_rcu() and so on. Nothing is
+> > impossible, just saying that even this approach is not 100% perfect and
+> > may need additional workarounds.
+> 
+> Well just use a work item for release.
 
---UFHMz0lUhc2lO5hB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmKXe+sACgkQ3SOs138+
-s6G5NRAAm+7+JLpQwcbmQEA9ILZ74xJkjZz+/ZlHJU1BF/IDWqOJWT2fWdrNKS3H
-JOYpuq+LENvxoU91xe3d3yXMADFU0/v97apTBB0UJbZZTD9Af5xwhGGziAIMmPdD
-6ZMO5Jzq9x/udiLjEdLV1+kNt0RE40MSD/ZmrhxRnFPjrLY/AKN6rsT87BbXCd0j
-w0thsxX7OtqSv1ovYD9+aEaKU4ap4ukib0dwwkkyX4pAg2p0O7D+pRk66/BDU4Nd
-3iQ3NcuwOQj5ErJ2QysygElOHzk+lhJG4BkLI3IJwFrSqFWNRjrZ1TpHlo2Nt2xO
-grlAni/O8erj+EnHk1VabGGmdAEGxtL4dUZmxpZV8w7VQz5ehh/OTpl0JEUJIOCp
-U9bAQCqz/9D/xE906HQj2yyCYK0lofORQ8PgASntx4uvte7CD2SorS+9Tp0L//Wd
-TlmzW+idcF8/ELfHvhRfyhp/DqGuUh4UI946qmEqEYkW/YWAMXgYm1h4jGwY/HCn
-ATw3HDq8IzOuKkBji3ClrsFPw7F8kFSgi5ysouAUeMAz1itZX67TQSPhrw1VporY
-zTatyEfZo5aesC5d+E6/d0IdvgidiPVdTDn5mOLL1ceme5umt9zX0Fg5+Avq0M4o
-MPnGHIgZR8U72nAqdWQq/c7BsgFJm7SGgIGUIIOmViOn3FN0IVk=
-=5P+q
------END PGP SIGNATURE-----
-
---UFHMz0lUhc2lO5hB--
+Yup, that's the plan.
