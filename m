@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDA653BBF0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F08253BC81
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 18:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E35112ABE;
-	Thu,  2 Jun 2022 15:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E30112B51;
+	Thu,  2 Jun 2022 16:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB35112ABE
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:56:25 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id c196so5117846pfb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 08:56:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Tu7jo/PyJIG6BDHX/FMNU8mRbHE8qx0k2AbAIgv/aSw=;
- b=G4jo1+hJKSw+rgStl1RDyAKlzn6sdzcOvMqZYnRb8VwJFHqt9vu6FxzP5RWkU9flVa
- POSqy3npwwMgIp5CSWeCDD1msIdEE0UJjR37Kg9yk/7pXH7VhI0kAHk/vXVFVy9GnNUI
- 7Ra/AA/R/y67VxnW+DDlOf2xtVdkxCiN+0ATosFJ6EvK/2SeZVEujPT0cCnykHN0NBo3
- 5BgOwix0MqKOxrPNLprkQVdYsSeIRIywIv8Bq2NGzFpCOZUp8FGQ1iFf4Z+JZAO9jnpY
- WaV40vB+3QAwC94rW6xWVbh2i/NAqfm04HyesLf1jqelyBmJXGDRRXDPlTbh/y7gc5zF
- Uguw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Tu7jo/PyJIG6BDHX/FMNU8mRbHE8qx0k2AbAIgv/aSw=;
- b=S6dxLMurzFsfWmiflnATPAHXJxnOY0i9ug/9t/4FuLnQ3mOuFBgQSlZ8P5UryB0Uij
- OtxsmyNKsShu9bYiFYxKwhhMsXhrxGjTLU6aYhABDaBhKoOgybv8grVFvFq1x43IWqMV
- Pks0g/Z8G42qtHnLjZVPST0YKe9eVWxkJvUXSdik7b8vH6tDTInug8Czdl+AdOF+4JQX
- UKF0kgzAzj5p6aRkYJZ1LeAdp6fQHYzT3DWkYRsKsNpxo8mkEtRvofSg89fZyLDfvhhg
- YaGmqRF2bMH/3+cMTKj30AD3JTMYIvOb2mhIi/W227EYO5ArxiOi1SHEgXptTbHYEFGS
- BLNQ==
-X-Gm-Message-State: AOAM5311DIDnLZHOF3F82jzQws9c4mmidyG6bBDST033F1BUqp6I1dLZ
- tBPKjxnqvvQirBQwVcdBKdo=
-X-Google-Smtp-Source: ABdhPJwDRdxm8qjdYFCIqC2XRn1Qg5sgd/UC1C6tDrjH0A1hr+j6rW5IwdSM13nzTycWCfPhVjncMQ==
-X-Received: by 2002:a05:6a00:815:b0:518:9905:de06 with SMTP id
- m21-20020a056a00081500b005189905de06mr5854249pfk.76.1654185384781; 
- Thu, 02 Jun 2022 08:56:24 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- z15-20020a63b90f000000b003fc95548840sm3548205pge.36.2022.06.02.08.56.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 08:56:23 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tegra: dc: rgb: Fix refcount leak in tegra_dc_rgb_probe
-Date: Thu,  2 Jun 2022 19:56:15 +0400
-Message-Id: <20220602155615.43277-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8D5112B51;
+ Thu,  2 Jun 2022 16:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654187348; x=1685723348;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=FUWjMY5QvrqnD4HnOuLPz0sb4eawYoYBq2yq6dyYae0=;
+ b=WgW+QwHntj0n9up3H5waOARvPJjnXKE9w3fW1sczXtDPnnqk8fsu5THP
+ riKXc6wfUJaUxmUQ+F/heROynDLlWYmcOxpZoBzD5+HuIfwuB28zVaRiK
+ 8HiY5glTxcrSeiUKAd1FuOvF5mE2onkiGRN1xFCYjTnVzJ9B8ohcB1cR5
+ qLonwe8V1gme5BQqQymumm4qIEBYFFiGUYCeSclCPeS9Pf3W1uox+e2Lr
+ T8V0FBFieaIr+YT3hci01ZWN8eDUSGNvM5U5AubC10xv+HRiUDS92nILl
+ BVuixF37bl7mq0Z3pKYBymTedsLkhDWT2D8HCKELWvnuvJ0BNybY05W+4 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10366"; a="276074814"
+X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="276074814"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 09:29:08 -0700
+X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="668055100"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 09:29:08 -0700
+Date: Thu, 2 Jun 2022 09:22:46 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
+ document
+Message-ID: <20220602162245.GA15751@jons-linux-dev-box>
+References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
+ <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
+ <43746609-4f60-f347-5934-6680516297dd@intel.com>
+ <20220601211849.GA30517@jons-linux-dev-box>
+ <2508922c-dae7-af05-0feb-9c4b63411a8c@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2508922c-dae7-af05-0feb-9c4b63411a8c@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,104 +62,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, chris.p.wilson@intel.com, daniel.vetter@intel.com,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_get_child_by_name() returns a node pointer with refcount
-incremented, we should use of_node_put() on it when not need anymore.
-So add of_node_put() in error paths.
+On Thu, Jun 02, 2022 at 08:42:13AM +0300, Lionel Landwerlin wrote:
+> On 02/06/2022 00:18, Matthew Brost wrote:
+> > On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
+> > > On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
+> > > > +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
+> > > > +async worker. The binding and unbinding will work like a special GPU engine.
+> > > > +The binding and unbinding operations are serialized and will wait on specified
+> > > > +input fences before the operation and will signal the output fences upon the
+> > > > +completion of the operation. Due to serialization, completion of an operation
+> > > > +will also indicate that all previous operations are also complete.
+> > > I guess we should avoid saying "will immediately start binding/unbinding" if
+> > > there are fences involved.
+> > > 
+> > > And the fact that it's happening in an async worker seem to imply it's not
+> > > immediate.
+> > > 
+> > > 
+> > > I have a question on the behavior of the bind operation when no input fence
+> > > is provided. Let say I do :
+> > > 
+> > > VM_BIND (out_fence=fence1)
+> > > 
+> > > VM_BIND (out_fence=fence2)
+> > > 
+> > > VM_BIND (out_fence=fence3)
+> > > 
+> > > 
+> > > In what order are the fences going to be signaled?
+> > > 
+> > > In the order of VM_BIND ioctls? Or out of order?
+> > > 
+> > > Because you wrote "serialized I assume it's : in order
+> > > 
+> > > 
+> > > One thing I didn't realize is that because we only get one "VM_BIND" engine,
+> > > there is a disconnect from the Vulkan specification.
+> > > 
+> > > In Vulkan VM_BIND operations are serialized but per engine.
+> > > 
+> > > So you could have something like this :
+> > > 
+> > > VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
+> > > 
+> > > VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+> > > 
+> > Question - let's say this done after the above operations:
+> > 
+> > EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
+> > 
+> > Is the exec ordered with respected to bind (i.e. would fence3 & 4 be
+> > signaled before the exec starts)?
+> > 
+> > Matt
+> 
+> 
+> Hi Matt,
+> 
+> From the vulkan point of view, everything is serialized within an engine (we
+> map that to a VkQueue).
+> 
+> So with :
+> 
+> EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
+> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+> 
+> EXEC completes first then VM_BIND executes.
+> 
+> 
+> To be even clearer :
+> 
+> EXEC (engine=ccs0, in_fence=fence2, out_fence=NULL)
+> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+> 
+> 
+> EXEC will wait until fence2 is signaled.
+> Once fence2 is signaled, EXEC proceeds, finishes and only after it is done, VM_BIND executes.
+> 
+> It would kind of like having the VM_BIND operation be another batch executed from the ringbuffer buffer.
+> 
 
-Fixes: format:d8f4a9eda006 ("drm: Add NVIDIA Tegra20 support")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/tegra/rgb.c | 31 +++++++++++++++++++++----------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+Yea this makes sense. I think of VM_BINDs as more or less just another
+version of an EXEC and this fits with that.
 
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index ff8fce36d2aa..cef2b1b72385 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
-@@ -196,12 +196,16 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
- 	int err;
- 
- 	np = of_get_child_by_name(dc->dev->of_node, "rgb");
--	if (!np || !of_device_is_available(np))
--		return -ENODEV;
-+	if (!np || !of_device_is_available(np)) {
-+		err = -ENODEV;
-+		goto err_put_node;
-+	}
- 
- 	rgb = devm_kzalloc(dc->dev, sizeof(*rgb), GFP_KERNEL);
--	if (!rgb)
--		return -ENOMEM;
-+	if (!rgb) {
-+		err = -ENOMEM;
-+		goto err_put_node;
-+	}
- 
- 	rgb->output.dev = dc->dev;
- 	rgb->output.of_node = np;
-@@ -209,31 +213,34 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
- 
- 	err = tegra_output_probe(&rgb->output);
- 	if (err < 0)
--		return err;
-+		goto err_put_node;
-+
- 
- 	rgb->clk = devm_clk_get(dc->dev, NULL);
- 	if (IS_ERR(rgb->clk)) {
- 		dev_err(dc->dev, "failed to get clock\n");
--		return PTR_ERR(rgb->clk);
-+		err =  PTR_ERR(rgb->clk);
-+		goto err_put_node;
- 	}
- 
- 	rgb->clk_parent = devm_clk_get(dc->dev, "parent");
- 	if (IS_ERR(rgb->clk_parent)) {
- 		dev_err(dc->dev, "failed to get parent clock\n");
--		return PTR_ERR(rgb->clk_parent);
-+		err = PTR_ERR(rgb->clk_parent);
-+		goto err_put_node;
- 	}
- 
- 	err = clk_set_parent(rgb->clk, rgb->clk_parent);
- 	if (err < 0) {
- 		dev_err(dc->dev, "failed to set parent clock: %d\n", err);
--		return err;
-+		goto err_put_node;
- 	}
- 
- 	rgb->pll_d_out0 = clk_get_sys(NULL, "pll_d_out0");
- 	if (IS_ERR(rgb->pll_d_out0)) {
- 		err = PTR_ERR(rgb->pll_d_out0);
- 		dev_err(dc->dev, "failed to get pll_d_out0: %d\n", err);
--		return err;
-+		goto err_put_node;
- 	}
- 
- 	if (dc->soc->has_pll_d2_out0) {
-@@ -241,13 +248,17 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
- 		if (IS_ERR(rgb->pll_d2_out0)) {
- 			err = PTR_ERR(rgb->pll_d2_out0);
- 			dev_err(dc->dev, "failed to get pll_d2_out0: %d\n", err);
--			return err;
-+			goto err_put_node;
- 		}
- 	}
- 
- 	dc->rgb = &rgb->output;
- 
- 	return 0;
-+
-+err_put_node:
-+	of_node_put(np);
-+	return err;
- }
- 
- int tegra_dc_rgb_remove(struct tegra_dc *dc)
--- 
-2.25.1
+In practice I don't think we can share a ring but we should be able to
+present an engine (again likely a gem context in i915) to the user that
+orders VM_BINDs / EXECs if that is what Vulkan expects, at least I think.
 
+Hopefully Niranjana + Daniel agree.
+
+Matt
+
+> -Lionel
+> 
+> 
+> > 
+> > > fence1 is not signaled
+> > > 
+> > > fence3 is signaled
+> > > 
+> > > So the second VM_BIND will proceed before the first VM_BIND.
+> > > 
+> > > 
+> > > I guess we can deal with that scenario in userspace by doing the wait
+> > > ourselves in one thread per engines.
+> > > 
+> > > But then it makes the VM_BIND input fences useless.
+> > > 
+> > > 
+> > > Daniel : what do you think? Should be rework this or just deal with wait
+> > > fences in userspace?
+> > > 
+> > > 
+> > > Sorry I noticed this late.
+> > > 
+> > > 
+> > > -Lionel
+> > > 
+> > > 
+> 
