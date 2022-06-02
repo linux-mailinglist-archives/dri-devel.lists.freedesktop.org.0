@@ -1,68 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DAB53B6F2
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 12:22:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED9053B737
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 12:31:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6F49112D73;
-	Thu,  2 Jun 2022 10:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9472C112DFF;
+	Thu,  2 Jun 2022 10:31:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E294A112D73
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 10:22:38 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id r8so4186855ljp.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 03:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mhke0saUmUh/aB/di9/WbB1JwcFcgftrzK7UikGh97E=;
- b=bFvw+MLHVt+ArFBhnhxD4VGaWyar1Iw3Ys0oV4R9sP/bLgk9xK9kxzaaTZalR0EZcs
- DYSWd3KPnS2lKOJh8kuqKmbP0WytCHCLGP6f8aTF+7KR6jaPf/5c6UWfEtDMiLmKuYvu
- nSRNVsYr30Wy9XsFQjKkTsSelPDRlDAzdaouzM8KqVJC1FgwxXkJQKq2hqYkt76XSiQB
- zVCYTPHReYyktuzPNOEHoZK7KUZiiTF95MfsA6Lj40AukNe97nQ2ovR44xX/dekLSSVa
- TxXYFlcJ7uFbdFw6GvMxus+wXABsmy51VnApOpbnLGuauTZdeDtz6FXQ0PgkF3PwHF3w
- mrAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mhke0saUmUh/aB/di9/WbB1JwcFcgftrzK7UikGh97E=;
- b=4DHOY/pzj2XuB0YnCISMLziJlxJ5cuq4sbEo8RfSEZseWdrQ4968o3dlBTMk2qG71S
- dSoHML5GSY6tOLq68ri4i9MDpE1+Likd2u2h4e3J/zlJy0Qma7/2DbBmrwtJ6QU+ZL3T
- yzKB0qowjpBkkDJilIC+xKPgdBCIQmSY6BeksDe9rAsJjQePJF5JvgOnmN3twIcEpINO
- pEaNStFrjOZI3+d94G2ZHLwb1buXw8c2sGHPaKFHI1mZXegDK7xr+Bib72x5jba2S2zE
- GQmT0/WtCX2P6KhdLM3dR5B95/ythl6XSBszUSZ5Ew2xwSPcAxJQVW/Lwhlpc/GXuwcc
- t26A==
-X-Gm-Message-State: AOAM530LFMe6J8TRsVTrQPyXTToVp+RoO8s37EQwDfN7SCh8An39mzc8
- 5+jlPiQX5bDR0mHjhj1UrAMiQg==
-X-Google-Smtp-Source: ABdhPJxBmqiSkec8TbeMYs+RFw+Rm4q/emiOOaTWMfi/pJk8O6t7jgcEYLMBlu3LcQem9bMjd/eBbg==
-X-Received: by 2002:a2e:8881:0:b0:255:7790:25e6 with SMTP id
- k1-20020a2e8881000000b00255779025e6mr964729lji.525.1654165357162; 
- Thu, 02 Jun 2022 03:22:37 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- d16-20020a0565123d1000b0047255d21132sm961705lfv.97.2022.06.02.03.22.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jun 2022 03:22:36 -0700 (PDT)
-Message-ID: <b157ebf3-9846-1235-c8e7-693abe4569d3@linaro.org>
-Date: Thu, 2 Jun 2022 13:22:35 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43079112DFF
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 10:31:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DB2F5615C7;
+ Thu,  2 Jun 2022 10:31:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CBF2C385A5;
+ Thu,  2 Jun 2022 10:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1654165865;
+ bh=+xjiJhmCyJSXO3D1bZ+ifnto2dlV06bjvs8tuO5RbCs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ozqqnFWNHUlj/+abXBwP96OpyVcDvsqhZvtumvaoj4kgT+PmCGFClhpToI4PqTD0l
+ JZ1J18qe8fu87EUrGHFX5nILiUaSKz7EDO+KIYHfy6swQZUh+4MyW57Ha9CPnIHIJS
+ F6dtl+7ytdDfsnEvsVebSz5Wk/SBZaGfS9ZZwPPTWrZz18KTKFPzCt6D4qegrH2mwU
+ unA7SAP2fyvhr883Eg24rsY5HHnRYDSgZqutdFwUD6uXqtUsmSVPw3WNHWc4XJ6G6m
+ /Zuc3MlL/+gVDwmb8vFqjbAv5G2UhPJ9K1F1Lzuupei10eGSG/xLyrAY3Ns4nDnSUZ
+ ZmLsCKRI+G6Sw==
+From: Mark Brown <broonie@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Inki Dae <inki.dae@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Russell King <linux@armlinux.org.uk>, Liam Girdwood <lgirdwood@gmail.com>
+Subject: [PATCH] ASoC: hdmi-codec: Update to modern DAI terminology
+Date: Thu,  2 Jun 2022 12:30:29 +0200
+Message-Id: <20220602103029.3498791-1-broonie@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 1/4] drm/dp: Add wait_hpd_asserted() callback to struct
- drm_dp_aux
-Content-Language: en-GB
-To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
-References: <20220418171757.2282651-1-dianders@chromium.org>
- <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6407; h=from:subject;
+ bh=+xjiJhmCyJSXO3D1bZ+ifnto2dlV06bjvs8tuO5RbCs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBimJBbPr2F/iGON8Bp/xtXObpjb+ZzfkH4OpUOqoj2
+ B8Z5NcaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYpiQWwAKCRAk1otyXVSH0MzwB/
+ 4lRO/4xm5W3+hynHMEo9ICEPPreAMk5qE4LaTOTFyvtETIKe1WGE6Df1mOecr6oU+gGdBwbgo4qrVe
+ ZQgTTSC0cZtCCRnG3IY7n+23w3SS5PzX+D3onq8bumqinV/hOkhjlsdrR+nEmREkm9NE+8STbdpFnT
+ YY5aLB6baZcdovbROMz0U5wGHbTsR4FgTJIwcY1amVD87yQKmbj/dEDE6bKwwaKWwjBMPDXb5g/3bN
+ Dtw0ZfooSOejuksYBjgvfjXGOD1kW3KEDpqrCaITNNOl21pc+RT6ls3AUpIbeA3MfAtG7/Jx807ONc
+ seq5P46tBNsy+E8Ed6oZc4e0yNRcc0
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,77 +69,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Kees Cook <keescook@chromium.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/04/2022 20:17, Douglas Anderson wrote:
-> Sometimes it's useful for users of the DP AUX bus (like panels) to be
-> able to poll HPD. Let's add a callback that allows DP AUX busses
-> drivers to provide this.
-> 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+As part of retiring the old defines used to specify DAI formats update the
+hdmi_codec driver to use the modern names, including the variables in the
+struct hdmi_codec_daifmt exported to the DRM drivers.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In updating this I did note that the only use of this information in DRM
+drivers is to reject clock provider settings, thinking about what this
+hardware is doing I rather suspect that there might not be any hardware
+out there which needs the configuration so it may be worth considering
+just having hdmi-codec support only clock consumer.
 
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/gpu/drm/bridge/sii902x.c               |  5 +++--
+ .../drm/bridge/synopsys/dw-hdmi-i2s-audio.c    |  2 +-
+ drivers/gpu/drm/exynos/exynos_hdmi.c           |  8 ++++----
+ drivers/gpu/drm/i2c/tda998x_drv.c              |  6 +++---
+ drivers/gpu/drm/sti/sti_hdmi.c                 |  8 ++++----
+ include/sound/hdmi-codec.h                     |  4 ++--
+ sound/soc/codecs/hdmi-codec.c                  | 18 +++++++++---------
+ 7 files changed, 26 insertions(+), 25 deletions(-)
 
-> ---
-> Left Dmitry's Reviewed-by tag off since patch changed enough.
-> 
-> (no changes since v2)
-> 
-> Changes in v2:
-> - Change is_hpd_asserted() to wait_hpd_asserted()
-> 
->   include/drm/dp/drm_dp_helper.h | 26 ++++++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
-> 
-> diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/dp/drm_dp_helper.h
-> index 53d1e722f4de..0940c415db8c 100644
-> --- a/include/drm/dp/drm_dp_helper.h
-> +++ b/include/drm/dp/drm_dp_helper.h
-> @@ -2035,6 +2035,32 @@ struct drm_dp_aux {
->   	ssize_t (*transfer)(struct drm_dp_aux *aux,
->   			    struct drm_dp_aux_msg *msg);
->   
-> +	/**
-> +	 * @wait_hpd_asserted: wait for HPD to be asserted
-> +	 *
-> +	 * This is mainly useful for eDP panels drivers to wait for an eDP
-> +	 * panel to finish powering on. This is an optional function.
-> +	 *
-> +	 * This function will efficiently wait for up to `wait_us` microseconds
-> +	 * for HPD to be asserted and might sleep.
-> +	 *
-> +	 * This function returns 0 if HPD was asserted or -ETIMEDOUT if time
-> +	 * expired and HPD wasn't asserted. This function should not print
-> +	 * timeout errors to the log.
-> +	 *
-> +	 * The semantics of this function are designed to match the
-> +	 * readx_poll_timeout() function. That means a `wait_us` of 0 means
-> +	 * to wait forever. If you want to do a quick poll you could pass 1
-> +	 * for `wait_us`.
-> +	 *
-> +	 * NOTE: this function specifically reports the state of the HPD pin
-> +	 * that's associated with the DP AUX channel. This is different from
-> +	 * the HPD concept in much of the rest of DRM which is more about
-> +	 * physical presence of a display. For eDP, for instance, a display is
-> +	 * assumed always present even if the HPD pin is deasserted.
-> +	 */
-> +	int (*wait_hpd_asserted)(struct drm_dp_aux *aux, unsigned long wait_us);
-> +
->   	/**
->   	 * @i2c_nack_count: Counts I2C NACKs, used for DP validation.
->   	 */
-
-
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+index 65549fbfdc87..be9736f67542 100644
+--- a/drivers/gpu/drm/bridge/sii902x.c
++++ b/drivers/gpu/drm/bridge/sii902x.c
+@@ -549,8 +549,9 @@ static int sii902x_audio_hw_params(struct device *dev, void *data,
+ 	unsigned long mclk_rate;
+ 	int i, ret;
+ 
+-	if (daifmt->bit_clk_master || daifmt->frame_clk_master) {
+-		dev_dbg(dev, "%s: I2S master mode not supported\n", __func__);
++	if (daifmt->bit_clk_provider || daifmt->frame_clk_provider) {
++		dev_dbg(dev, "%s: I2S clock provider mode not supported\n",
++			__func__);
+ 		return -EINVAL;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+index f50b47ac11a8..a2f0860b20bb 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+@@ -45,7 +45,7 @@ static int dw_hdmi_i2s_hw_params(struct device *dev, void *data,
+ 	u8 inputclkfs = 0;
+ 
+ 	/* it cares I2S only */
+-	if (fmt->bit_clk_master | fmt->frame_clk_master) {
++	if (fmt->bit_clk_provider | fmt->frame_clk_provider) {
+ 		dev_err(dev, "unsupported clock settings\n");
+ 		return -EINVAL;
+ 	}
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 7655142a4651..10b0036f8a2e 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -1594,12 +1594,12 @@ static int hdmi_audio_hw_params(struct device *dev, void *data,
+ 	struct hdmi_context *hdata = dev_get_drvdata(dev);
+ 
+ 	if (daifmt->fmt != HDMI_I2S || daifmt->bit_clk_inv ||
+-	    daifmt->frame_clk_inv || daifmt->bit_clk_master ||
+-	    daifmt->frame_clk_master) {
++	    daifmt->frame_clk_inv || daifmt->bit_clk_provider ||
++	    daifmt->frame_clk_provider) {
+ 		dev_err(dev, "%s: Bad flags %d %d %d %d\n", __func__,
+ 			daifmt->bit_clk_inv, daifmt->frame_clk_inv,
+-			daifmt->bit_clk_master,
+-			daifmt->frame_clk_master);
++			daifmt->bit_clk_provider,
++			daifmt->frame_clk_provider);
+ 		return -EINVAL;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+index b7ec6c374fbd..c4fadaecbb2d 100644
+--- a/drivers/gpu/drm/i2c/tda998x_drv.c
++++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+@@ -1095,11 +1095,11 @@ static int tda998x_audio_hw_params(struct device *dev, void *data,
+ 
+ 	if (!spdif &&
+ 	    (daifmt->bit_clk_inv || daifmt->frame_clk_inv ||
+-	     daifmt->bit_clk_master || daifmt->frame_clk_master)) {
++	     daifmt->bit_clk_provider || daifmt->frame_clk_provider)) {
+ 		dev_err(dev, "%s: Bad flags %d %d %d %d\n", __func__,
+ 			daifmt->bit_clk_inv, daifmt->frame_clk_inv,
+-			daifmt->bit_clk_master,
+-			daifmt->frame_clk_master);
++			daifmt->bit_clk_provider,
++			daifmt->frame_clk_provider);
+ 		return -EINVAL;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+index b3fbee7eac11..622d0dfe7bb9 100644
+--- a/drivers/gpu/drm/sti/sti_hdmi.c
++++ b/drivers/gpu/drm/sti/sti_hdmi.c
+@@ -1175,12 +1175,12 @@ static int hdmi_audio_hw_params(struct device *dev,
+ 	DRM_DEBUG_DRIVER("\n");
+ 
+ 	if ((daifmt->fmt != HDMI_I2S) || daifmt->bit_clk_inv ||
+-	    daifmt->frame_clk_inv || daifmt->bit_clk_master ||
+-	    daifmt->frame_clk_master) {
++	    daifmt->frame_clk_inv || daifmt->bit_clk_providre ||
++	    daifmt->frame_clk_provider) {
+ 		dev_err(dev, "%s: Bad flags %d %d %d %d\n", __func__,
+ 			daifmt->bit_clk_inv, daifmt->frame_clk_inv,
+-			daifmt->bit_clk_master,
+-			daifmt->frame_clk_master);
++			daifmt->bit_clk_provider,
++			daifmt->frame_clk_provider);
+ 		return -EINVAL;
+ 	}
+ 
+diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+index 4fc733c8c570..48ad33aba393 100644
+--- a/include/sound/hdmi-codec.h
++++ b/include/sound/hdmi-codec.h
+@@ -32,8 +32,8 @@ struct hdmi_codec_daifmt {
+ 	} fmt;
+ 	unsigned int bit_clk_inv:1;
+ 	unsigned int frame_clk_inv:1;
+-	unsigned int bit_clk_master:1;
+-	unsigned int frame_clk_master:1;
++	unsigned int bit_clk_provider:1;
++	unsigned int frame_clk_provider:1;
+ 	/* bit_fmt could be standard PCM format or
+ 	 * IEC958 encoded format. ALSA IEC958 plugin will pass
+ 	 * IEC958_SUBFRAME format to the underneath driver.
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index b773466619b2..7d1e351f863a 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -606,18 +606,18 @@ static int hdmi_codec_i2s_set_fmt(struct snd_soc_dai *dai,
+ 	/* Reset daifmt */
+ 	memset(cf, 0, sizeof(*cf));
+ 
+-	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+-	case SND_SOC_DAIFMT_CBM_CFM:
+-		cf->bit_clk_master = 1;
+-		cf->frame_clk_master = 1;
++	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
++	case SND_SOC_DAIFMT_CBP_CFP:
++		cf->bit_clk_provider = 1;
++		cf->frame_clk_provider = 1;
+ 		break;
+-	case SND_SOC_DAIFMT_CBS_CFM:
+-		cf->frame_clk_master = 1;
++	case SND_SOC_DAIFMT_CBC_CFP:
++		cf->frame_clk_provider = 1;
+ 		break;
+-	case SND_SOC_DAIFMT_CBM_CFS:
+-		cf->bit_clk_master = 1;
++	case SND_SOC_DAIFMT_CBP_CFC:
++		cf->bit_clk_provider = 1;
+ 		break;
+-	case SND_SOC_DAIFMT_CBS_CFS:
++	case SND_SOC_DAIFMT_CBC_CFC:
+ 		break;
+ 	default:
+ 		return -EINVAL;
 -- 
-With best wishes
-Dmitry
+2.30.2
+
