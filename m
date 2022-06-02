@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893F953BF75
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1525C53BF80
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:16:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4905F112EEB;
-	Thu,  2 Jun 2022 20:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A64112F6B;
+	Thu,  2 Jun 2022 20:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F34DB112E59
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:15:46 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id v1so4206105qtx.5
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B50112F6B
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:16:15 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-30c1b401711so63315397b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=11/VXJZ5+PDAg8KiVoWPiVtmrogeqL0Gtp9raI/dmQU=;
- b=nXh2N0Rs852FwUUicJzJ7XNHCXWGI80DlhTnFd1XWsETQPrf/DPbrLStBIKQQxecnL
- g3oYUHF3jaaUMk8RsQDbUBpWcg09qr+2KziKLZbxNke0gd1eIj9SjrpkCAkOLFituZnd
- fE+acn9LO52kryL1qohpGRI63Kr2qhWTUVTzPUoCS4MF4PwcoorxUpOowvQDndaPN9rt
- z7XXINFXrQu2SXSjcXaRrH4dD8Bw3LjxbcD9/4ITI5FR2fCXSiHQFpc4ufpzHej9+RJ9
- JBOVM5YvovdqwrycStcqnsfh4Pqt1ADOn5UwI1mLbuSWXm8QlwBAX8w7MnA4+hZ6Pzp8
- FWPg==
+ :cc; bh=cJ940/0/K4n2fKUmdFFf8fsiiQHFai4rJTUsu0zNYkE=;
+ b=F/P9XQemjYr+YrbHycFNEy9KzFfyj1tfd59+rBMY5qSQdMzUxwqAKrZAgMpA9MsYhf
+ L3Dj1fWCumnouDVJgloakAQaoH09jEudR9cDpVD52Yzxj8Ga//5dYZ5tU8TDq3B9RAK6
+ ibIZOz+F+V4nB0ghIW7nEJz2+axacdioANJKeIffOqch61jQMkzcN9ubVRv51WJPTd0C
+ anw7UuZgeUxyW4OJS+RkfDxf/XtwuZ83uk0g3vo2K+oMysXzTjwEpO1gjwd794ixHl8u
+ t/LCt3WUScQJdbe7gMCz02WOggs/YwMyAp4f3gVw4bJZ2YwhpHitvt6NignOilcrEoQK
+ Gt5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=11/VXJZ5+PDAg8KiVoWPiVtmrogeqL0Gtp9raI/dmQU=;
- b=5v8TOvUAkwydpywaS0vZgiLsK/D/9t62wnHykAEbaysUjekXOyC6YQgHUzkusNl4Bc
- pM8xV8Xzx9dl3p5CLdbMQ9ACsUYmwebGxyCi1nfuJI3NKNMFBdywSapzI/NlCRZGKyor
- rcJm79ipi04s4yFWFw1k4m4v7y1d7SxEUKY832LdwsOLz7/9rdmMFdJCAl3ZsFm7CHvf
- pXji/0L+iui90fjo+beB03Nqzrs8VdH08afotrnHzlKjkj8X+0VgWRKHSCnPOMz3WCfR
- CreQ/xctxHN1KxZhqTLiowYRQ7IbtkyBRBp9D73eM5s3e4/1wVdxnlfWb7/ZbzN+241u
- 8y/A==
-X-Gm-Message-State: AOAM532hlcgTkopxuMw+nabtCm1CFj37sjLPQCrQZeCfrIplNvHU9zLf
- QCgHuEHlHT33CGO6+FiQgqBBqrw8ztLN8YNpQ4oHvQ==
-X-Google-Smtp-Source: ABdhPJwQC5oj1uGwjMqP/kuSzWwv05cDEC3cFG0gRivQN3Jgs6a2Ro5rNvB0MBm8nFlPUsljBXwb5LY8OBq9jsBP2Q0=
-X-Received: by 2002:a05:622a:4e:b0:301:8a1f:b89b with SMTP id
- y14-20020a05622a004e00b003018a1fb89bmr5067697qtw.62.1654200946063; Thu, 02
- Jun 2022 13:15:46 -0700 (PDT)
+ bh=cJ940/0/K4n2fKUmdFFf8fsiiQHFai4rJTUsu0zNYkE=;
+ b=oO0W33svPLNdM5QCFzgH0CD83XWJkyL55p8f5kokC+aVHMA1nrPEm53g+mFse5zQHP
+ ++s46pFMnhPoYudOWdH1MV+uB1dao7Zn8GG4gPTsiejbkqdiHfJa8GSTGeRv4gj11thR
+ s9I9eRKbiC2DWVsqOO27r5bleCX2h2Q33orvDnD9tiiizLlVPZK0exTh7q8RPnjHkTj/
+ Y1EVfFDE64itBhahtNvlZpuxp7zzQgZWVuisKhf03C0RCCyxN3jWEkyaOdBOxWNZIbBm
+ 4noRRx1v+KGWlVXiWk3wptzfZ+NRzNtF1MLFg0stViu4j9TssFx/MImOEIvWeZlYE5E8
+ RgCQ==
+X-Gm-Message-State: AOAM5336+6KvHYjVQMAb7Jq63F5jvCZNYyNGDSJT9t3R9TMmQ2m9gjCY
+ vJavlBq6SYuC42pCfn3QvxuuV/pRdx3yT9qGASffjQ==
+X-Google-Smtp-Source: ABdhPJycWKG6zll7r7Fa85IbZRsjfj2Tq2j0eOyGWFqpb+gsDzWPLLngXZwQR7Erb8seoleHmP3Tv5OOXoEaTYn+vME=
+X-Received: by 2002:a81:881:0:b0:2f8:46f4:7c6d with SMTP id
+ 123-20020a810881000000b002f846f47c6dmr8218179ywi.444.1654200974670; Thu, 02
+ Jun 2022 13:16:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220602133039.1739490-1-dmitry.baryshkov@linaro.org>
- <20220602133039.1739490-2-dmitry.baryshkov@linaro.org>
- <4a041600-5ff2-9f95-52c9-ebd5f1f10a81@quicinc.com>
-In-Reply-To: <4a041600-5ff2-9f95-52c9-ebd5f1f10a81@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 2 Jun 2022 23:15:35 +0300
-Message-ID: <CAA8EJpp0McfrrHL0zrLTt0vn4J1RYYnHMVfdoH+FkXvLWWGm9A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] drm/msm/dpu: use feature bit for LM combined alpha
- check
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
+ <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
+ <43746609-4f60-f347-5934-6680516297dd@intel.com>
+ <20220601211849.GA30517@jons-linux-dev-box>
+ <2508922c-dae7-af05-0feb-9c4b63411a8c@intel.com>
+In-Reply-To: <2508922c-dae7-af05-0feb-9c4b63411a8c@intel.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Thu, 2 Jun 2022 22:16:26 +0200
+Message-ID: <CAP+8YyHO8DWcNc9sUZ87KS+i9owOGNTvmUFtjtWexeuWwgFigg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
+ document
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,136 +69,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ chris.p.wilson@intel.com,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>, "Koenig,
+ Christian" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2 Jun 2022 at 21:37, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Thu, Jun 2, 2022 at 7:42 AM Lionel Landwerlin
+<lionel.g.landwerlin@intel.com> wrote:
 >
->
->
-> On 6/2/2022 6:30 AM, Dmitry Baryshkov wrote:
-> > Rather than checking hwversion, follow the usual patter and add special
-> > bit to the lm->features to check whether the LM has combined or separate
-> > alpha registers. While we are at it, rename
-> > dpu_hw_lm_setup_blend_config_sdm845() to
-> > dpu_hw_lm_setup_blend_config_combined_alpha().
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 17 ++++++++++-------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  2 ++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c      |  6 +++---
-> >   3 files changed, 15 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > index 400ebceb56bb..78c7d987c2ca 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > @@ -50,9 +50,12 @@
-> >   #define DMA_CURSOR_MSM8998_MASK \
-> >       (DMA_MSM8998_MASK | BIT(DPU_SSPP_CURSOR))
-> >
-> > -#define MIXER_SDM845_MASK \
-> > +#define MIXER_MSM8998_MASK \
-> >       (BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER))
-> >
-> > +#define MIXER_SDM845_MASK \
-> > +     (BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
-> > +
-> >   #define MIXER_SC7180_MASK \
-> >       (BIT(DPU_DIM_LAYER))
-> >
-> > @@ -936,17 +939,17 @@ static const struct dpu_lm_sub_blks msm8998_lm_sblk = {
-> >   };
-> >
-> >   static const struct dpu_lm_cfg msm8998_lm[] = {
-> > -     LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
-> > +     LM_BLK("lm_0", LM_0, 0x44000, MIXER_MSM8998_MASK,
-> >               &msm8998_lm_sblk, PINGPONG_0, LM_2, DSPP_0),
-> > -     LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
-> > +     LM_BLK("lm_1", LM_1, 0x45000, MIXER_MSM8998_MASK,
-> >               &msm8998_lm_sblk, PINGPONG_1, LM_5, DSPP_1),
-> > -     LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
-> > +     LM_BLK("lm_2", LM_2, 0x46000, MIXER_MSM8998_MASK,
-> >               &msm8998_lm_sblk, PINGPONG_2, LM_0, 0),
-> > -     LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
-> > +     LM_BLK("lm_3", LM_3, 0x47000, MIXER_MSM8998_MASK,
-> >               &msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
-> > -     LM_BLK("lm_4", LM_4, 0x48000, MIXER_SDM845_MASK,
-> > +     LM_BLK("lm_4", LM_4, 0x48000, MIXER_MSM8998_MASK,
-> >               &msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
-> > -     LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK,
-> > +     LM_BLK("lm_5", LM_5, 0x49000, MIXER_MSM8998_MASK,
-> >               &msm8998_lm_sblk, PINGPONG_3, LM_1, 0),
-> >   };
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > index 8cb6d1f25bf9..80bc09b1f1b3 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > @@ -145,6 +145,7 @@ enum {
-> >    * @DPU_MIXER_SOURCESPLIT     Layer mixer supports source-split configuration
-> >    * @DPU_MIXER_GC              Gamma correction block
-> >    * @DPU_DIM_LAYER             Layer mixer supports dim layer
-> > + * @DPU_MIXER_COMBINED_ALPHA  Layer mixer has combined alpha register
-> >    * @DPU_MIXER_MAX             maximum value
-> >    */
-> >   enum {
-> > @@ -152,6 +153,7 @@ enum {
-> >       DPU_MIXER_SOURCESPLIT,
-> >       DPU_MIXER_GC,
-> >       DPU_DIM_LAYER,
-> > +     DPU_MIXER_COMBINED_ALPHA,
-> >       DPU_MIXER_MAX
-> >   };
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> > index 462f5082099e..25d2eba28e71 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-> > @@ -148,7 +148,7 @@ static int dpu_hw_lm_collect_misr(struct dpu_hw_mixer *ctx, u32 *misr_value)
-> >       return 0;
-> >   }
-> >
-> > -static void dpu_hw_lm_setup_blend_config_sdm845(struct dpu_hw_mixer *ctx,
-> > +static void dpu_hw_lm_setup_blend_config_combined_alpha(struct dpu_hw_mixer *ctx,
-> >       u32 stage, u32 fg_alpha, u32 bg_alpha, u32 blend_op)
-> >   {
-> >       struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> > @@ -204,8 +204,8 @@ static void _setup_mixer_ops(const struct dpu_mdss_cfg *m,
-> >               unsigned long features)
-> >   {
-> >       ops->setup_mixer_out = dpu_hw_lm_setup_out;
-> > -     if (m->hwversion >= DPU_HW_VER_400)
-> > -             ops->setup_blend_config = dpu_hw_lm_setup_blend_config_sdm845;
-> > +     if (test_bit(DPU_MIXER_COMBINED_ALPHA, &features))
-> > +             ops->setup_blend_config = dpu_hw_lm_setup_blend_config_combined_alpha;
->
-> This will not work for all chipsets.
->
-> In the catalog you have added BIT(DPU_MIXER_COMBINED_ALPHA) only for
-> MIXER_SDM845_MASK but MIXER_SC7180_MASK is not updated.
->
-> HW version of sc7180 is > DPU_HW_VER_400 so this would break both sc7180
-> and sc7280.
->
-> Please update all the relevant chipset masks.
+> On 02/06/2022 00:18, Matthew Brost wrote:
+> > On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
+> >> On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
+> >>> +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
+> >>> +async worker. The binding and unbinding will work like a special GPU engine.
+> >>> +The binding and unbinding operations are serialized and will wait on specified
+> >>> +input fences before the operation and will signal the output fences upon the
+> >>> +completion of the operation. Due to serialization, completion of an operation
+> >>> +will also indicate that all previous operations are also complete.
+> >> I guess we should avoid saying "will immediately start binding/unbinding" if
+> >> there are fences involved.
+> >>
+> >> And the fact that it's happening in an async worker seem to imply it's not
+> >> immediate.
+> >>
+> >>
+> >> I have a question on the behavior of the bind operation when no input fence
+> >> is provided. Let say I do :
+> >>
+> >> VM_BIND (out_fence=fence1)
+> >>
+> >> VM_BIND (out_fence=fence2)
+> >>
+> >> VM_BIND (out_fence=fence3)
+> >>
+> >>
+> >> In what order are the fences going to be signaled?
+> >>
+> >> In the order of VM_BIND ioctls? Or out of order?
+> >>
+> >> Because you wrote "serialized I assume it's : in order
+> >>
+> >>
+> >> One thing I didn't realize is that because we only get one "VM_BIND" engine,
+> >> there is a disconnect from the Vulkan specification.
 
-Argh, I missed the fact that the sc7180 mixer mask doesn't inherit the
-sdm845 one.
-BTW: I see that atoll-sde declares support for src-split. Is there any
-reason why it is omitted from sc7180's mixer mask?
-If there is one, could you please send a patch adding a short comment there?
+Note that in Vulkan not every queue has to support sparse binding, so
+one could consider a dedicated sparse binding only queue family.
 
+> >>
+> >> In Vulkan VM_BIND operations are serialized but per engine.
+> >>
+> >> So you could have something like this :
+> >>
+> >> VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
+> >>
+> >> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+> >>
+> > Question - let's say this done after the above operations:
+> >
+> > EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
+> >
+> > Is the exec ordered with respected to bind (i.e. would fence3 & 4 be
+> > signaled before the exec starts)?
+> >
+> > Matt
 >
-> >       else
-> >               ops->setup_blend_config = dpu_hw_lm_setup_blend_config;
-> >       ops->setup_alpha_out = dpu_hw_lm_setup_color3;
+>
+> Hi Matt,
+>
+>  From the vulkan point of view, everything is serialized within an
+> engine (we map that to a VkQueue).
+>
+> So with :
+>
+> EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
+> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+>
+> EXEC completes first then VM_BIND executes.
+>
+>
+> To be even clearer :
+>
+> EXEC (engine=ccs0, in_fence=fence2, out_fence=NULL)
+> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+>
+>
+> EXEC will wait until fence2 is signaled.
+> Once fence2 is signaled, EXEC proceeds, finishes and only after it is done, VM_BIND executes.
+>
+> It would kind of like having the VM_BIND operation be another batch executed from the ringbuffer buffer.
+>
+> -Lionel
+>
+>
+> >
+> >> fence1 is not signaled
+> >>
+> >> fence3 is signaled
+> >>
+> >> So the second VM_BIND will proceed before the first VM_BIND.
+> >>
+> >>
+> >> I guess we can deal with that scenario in userspace by doing the wait
+> >> ourselves in one thread per engines.
+> >>
+> >> But then it makes the VM_BIND input fences useless.
 
--- 
-With best wishes
-Dmitry
+I posed the same question on my series for AMD
+(https://patchwork.freedesktop.org/series/104578/), albeit for
+slightly different reasons.: if one creates a new VkMemory object, you
+generally want that mapped ASAP, as you can't track (in a
+VK_KHR_descriptor_indexing world) whether the next submit is going to
+use this VkMemory object and hence have to assume the worst (i.e. wait
+till the map/bind is complete before executing the next submission).
+If all binds/unbinds (or maps/unmaps) happen in-order that means an
+operation with input fences could delay stuff we want ASAP.
+
+Of course waiting in userspace does have disadvantages:
+
+1) more overhead between fence signalling and the operation,
+potentially causing slightly bigger GPU bubbles.
+2) You can't get an out fence early. Within the driver we can mostly
+work around this but sync_fd exports, WSI and such will be messy.
+3) moving the queue to a thread might make things slightly less ideal
+due to scheduling delays.
+
+Removing the in-order working in the kernel generally seems like
+madness to me as it is very hard to keep track of the state of the
+virtual address space (to e.g. track umapping stuff before freeing
+memory or moving memory around)
+
+the one game I tried (FH5 over vkd3d-proton) does sparse mapping as follows:
+
+separate queue:
+1) 0 cmdbuffer submit with 0 input semaphores and 1 output semaphore
+2) sparse bind with input semaphore from 1 and 1 output semaphore
+3) 0 cmdbuffer submit with input semaphore from 2 and 1 output fence
+4) wait on that fence on the CPU
+
+which works very well if we just wait for the sparse bind input
+semaphore in userspace, but I'm still working on seeing if this is the
+common usecase or an outlier.
+
+
+
+> >>
+> >>
+> >> Daniel : what do you think? Should be rework this or just deal with wait
+> >> fences in userspace?
+> >>
+> >>
+> >> Sorry I noticed this late.
+> >>
+> >>
+> >> -Lionel
+> >>
+> >>
+>
