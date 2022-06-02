@@ -2,75 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5EA53B0E3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 03:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8293753B16C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 04:05:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED4310E15B;
-	Thu,  2 Jun 2022 01:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0195F10E4F5;
+	Thu,  2 Jun 2022 02:05:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC96B10E1E7
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 01:08:33 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id rs12so6989937ejb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 18:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AMLk7uMNCtOe4gy9/LZgkLZRBX0ALCzfWfzDBXHnFo8=;
- b=OYbmFRcqjOukBt1QgTghY6i5XSE1P4Lt88ABmn7yr1figRBOYiE95+mswItMYHSdNG
- lviOuM27J5QIIeBwiLSJpAbPnwuY91jc54iyDcuCVAnICvUgcOifKGuJEsuhq8aGrj2A
- h1gTJ/7WWYaX/+zmQRNAu0O5nZCrZo4IJc/ww=
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6C1810E2A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 02:05:28 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id e11so3514667pfj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 19:05:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=URF0KJqcnQJdafYkmvxoqi27tjApzf9mIKrv77oxeQo=;
+ b=HWmRbjlLQ1At9RTtfbPnIPFy0hNqycG0lZrF5Ak3Q8KUkiDskbb/KLuehLJU5avohJ
+ 2p/OABhcbIbLJdV+CMAiuBhLA+Ch9qTwHloA0p6mTIibuELCUQ52Xl3ZSaljSTWuELY6
+ dmp+zoDPUJLlPQJyp4fIjWHBwIBIDClveK8BJpCnO/Op4Vt7jQ8Qh2Nz6Pxc6/CWUXmC
+ 4pzg3qbAyFSzi7oINSo85H8buI8nAH47PBAtoJdGbsqzs670sJJAy0c3pOmtIgVtd/yy
+ 7upHoZiA8/RsTkTLvpXPQzEmdK8+8LzVX2yPaTdv2pc1quLQ9/Ff4seFydguwHsam9fn
+ qjAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AMLk7uMNCtOe4gy9/LZgkLZRBX0ALCzfWfzDBXHnFo8=;
- b=0o7xVr8/mO8SbvsfNt9nvop+5UAq5nC/hf5RfkvsVqSnmYXFU9xsVEdiW1ZPboSBmd
- uLS3FmzSZiLQaJ028OGGP2SPc5Z9fOq38QIo8iHn6Dx1uyhR8JtGOqRoQ69usCZFQNcz
- REeFSjRkeYu/asAMBcXQx0USaFXHta1UUdqEBtzMEe0qze0wUjc/ojem7jRHq2BOx6fx
- /S+8m5hH+p94MxbYF5VaaQRzV8lagpviOyMDBqpksAabzEg9sV/b7IQt4xbBjwnS3fjb
- iAC+eRy1ta509lAcCec2OaTm0WmDqqi3s8erTHiSc90VwLUDRwqTlFuYOD8Siyayd5Vy
- Jc6Q==
-X-Gm-Message-State: AOAM531YI1X6NmpiZRtLJQ7yXnoaqAMBy1vevJFvy6aeiDhxFFBwX2yk
- Si1JXw79WWFHRb1jdudQgA1LUB/B+gt6nSqk
-X-Google-Smtp-Source: ABdhPJzUmnJ+eN02wXnc5YwaechYFrJQ7zT9ZtInFFjVGz450pECtBfJ6Gai0G67ZS8hdPCu/ULeAw==
-X-Received: by 2002:a17:907:1b1a:b0:703:a290:98f1 with SMTP id
- mp26-20020a1709071b1a00b00703a29098f1mr2039251ejc.418.1654132112095; 
- Wed, 01 Jun 2022 18:08:32 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
- [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
- w2-20020a056402268200b0042ddd08d5f8sm1870607edd.2.2022.06.01.18.08.29
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=URF0KJqcnQJdafYkmvxoqi27tjApzf9mIKrv77oxeQo=;
+ b=TGL6Gdw3gmkHPzAU0uXOAkxcIZr8iGsrRSfamkX9pjozOPcbRSYVrkY8zsB5wWoeGZ
+ RHLgKNfEjnK9k7ymA0mhVkG/k+EBp1Q7u9UYl45q0GK8wdRdVfNcqFy2LHb3Zv6BEptk
+ BCZXAUmq0/XUF4wI0WR6AUzJTEFOtmUhkkquhtum0oU4H+bPs2HUid7z3+90rrNs73D/
+ NEVIstWr4GjUahCzJA6eVcIxOUssi2/W1p64UCpUQvI7J8H9o6rdj8irc2vn2HzxTmKN
+ H+CS5zT7UFKluexCipszcqerNbqKNriCyoTc0dHDspQHql3ni+wtshg8iioQMr9fcAlA
+ gSxA==
+X-Gm-Message-State: AOAM531LkQt+4iwQWaAPt2AlAo3r4UH9Cl7t9G2WscFP0CtwGtCm6DbR
+ r4DzL+erjvcH3V/jbQGmJ9wAgfBY6skodYjn
+X-Google-Smtp-Source: ABdhPJwQEE3C13gQMFEFQ5DJFjmLka2jZUHIOR9JwKjObBQkkgDiO/DDLTm3pxoQH3/DS7QZ8dty2g==
+X-Received: by 2002:a63:104a:0:b0:3fa:d1ea:54d7 with SMTP id
+ 10-20020a63104a000000b003fad1ea54d7mr2081134pgq.124.1654135528265; 
+ Wed, 01 Jun 2022 19:05:28 -0700 (PDT)
+Received: from [172.16.4.4] ([219.142.146.177])
+ by smtp.gmail.com with ESMTPSA id
+ a12-20020a17090a740c00b001e2b19e6cfesm4613629pjg.12.2022.06.01.19.05.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Jun 2022 18:08:30 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id
- r123-20020a1c2b81000000b0039c1439c33cso1966036wmr.5
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 18:08:29 -0700 (PDT)
-X-Received: by 2002:a7b:cb91:0:b0:397:3225:244 with SMTP id
- m17-20020a7bcb91000000b0039732250244mr30980346wmi.68.1654132109585; Wed, 01
- Jun 2022 18:08:29 -0700 (PDT)
+ Wed, 01 Jun 2022 19:05:27 -0700 (PDT)
+Message-ID: <59ea53d6-2856-fedd-3a5e-6ad5bdcd4a20@gmail.com>
+Date: Thu, 2 Jun 2022 10:05:20 +0800
 MIME-Version: 1.0
-References: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
- <91E67F46-A3C7-4159-9E0C-C6C6306F3669@inria.fr>
- <CAK8P3a2iAsemAQdbTZ_E7GGGCXAOeWbjSjLgXEsd5sg_buZWhw@mail.gmail.com>
- <CAHk-=wgO0V9OdY+DFm-f0qZYMyFSm0ptReO+_qgSTEpBLtFV7Q@mail.gmail.com>
- <d971a684-ccd9-3839-1e30-c166fd55cf49@inria.fr>
-In-Reply-To: <d971a684-ccd9-3839-1e30-c166fd55cf49@inria.fr>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 1 Jun 2022 18:08:13 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiViikY0szsJGipSxFmMwdsvxjm7SwDfwNfMHYvQ64kAA@mail.gmail.com>
-Message-ID: <CAHk-=wiViikY0szsJGipSxFmMwdsvxjm7SwDfwNfMHYvQ64kAA@mail.gmail.com>
-Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
- block count and size helpers")
-To: Keisuke Nishimura <keisuke.nishimura@inria.fr>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, 
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Ayush Sawal <ayush.sawal@chelsio.com>, 
- Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
- Rohit Maheshwari <rohitm@chelsio.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3] drm/v3d/v3d_drv: Fix PM disable depth imbalance
+Content-Language: en-US
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20220601122050.1822-1-linmq006@gmail.com>
+ <YpdpCWW9+igsVydr@phenom.ffwll.local>
+ <55d99105-8492-e020-bed6-82e52b5fc8a1@gmail.com> <Ypd76wmrBsIgeE3O@orome>
+From: Miaoqian Lin <linmq006@gmail.com>
+In-Reply-To: <Ypd76wmrBsIgeE3O@orome>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,60 +75,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Jani Nikula <jani.nikula@intel.com>,
- Viresh Kumar <vireshk@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Julia Lawall <Julia.Lawall@inria.fr>, David Airlie <airlied@linux.ie>,
- SoC Team <soc@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Eric Anholt <eric@anholt.net>,
+ dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 1, 2022 at 3:28 PM Keisuke Nishimura
-<keisuke.nishimura@inria.fr> wrote:
->
->
-> I found 13 definitions of packed structure that contains:
->  > - spinlock_t
->  > - atomic_t
->  > - dma_addr_t
->  > - phys_addr_t
->  > - size_t
->  > - struct mutex
->  > - struct device
->
-> - raw_spinlock_t
+Hi, Thierry
 
-Ok, so I don't think dma_addr_t/phys_addr_t/size_t are problematic,
-they are just regular integers.
+On 2022/6/1 22:47, Thierry Reding wrote:
+> On Wed, Jun 01, 2022 at 09:55:02PM +0800, Miaoqian Lin wrote:
+>> Hi, Daniel
+>>
+>> On 2022/6/1 21:26, Daniel Vetter wrote:
+>>> On Wed, Jun 01, 2022 at 04:20:50PM +0400, Miaoqian Lin wrote:
+>>>> The pm_runtime_enable will increase power disable depth.
+>>>> If the probe fails, we should use pm_runtime_disable() to balance
+>>>> pm_runtime_enable().
+>>>> Also call disable function in remove function.
+>>>>
+>>>> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
+>>>> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+>>>> ---
+>>>> Changes in v3:
+>>>> - call pm_runtime_disable() in v3d_platform_drm_remove
+>>>> - update commit message
+>>>>
+>>>> Changes in v2
+>>>> - put pm_runtime_disable before dma_free_wc
+>>>> - rename dma_free to pm_disable
+>>>>
+>>>> v1: https://lore.kernel.org/r/20220105120442.14418-1-linmq006@gmail.com
+>>>> v2: https://lore.kernel.org/r/20220106124657.32737-1-linmq006@gmail.com
+>>> Maybe a bit late since we're at v3 already, but are there no devm_
+>>> functions here that would dtrt automatically? 
+>> Sorry I don't see one, or we can use devm_add_action_or_reset() to add handling
+>>
+>> action. something like disp_cc_sm8250_probe() in drivers/clk/qcom/dispcc-sm8250.c
+>>
+>> How do you think?
+> Looks like there's a devm_pm_runtime_enable() helper that does exactly
+> that. See commit b3636a3a2c51 ("PM: runtime: add devm_pm_runtime_enable
+> helper"). I haven't seen any large janitorial series yet for that, so
+> perhaps it's just not widely known yet.
 
-And 'struct device' is problematic only as it then contains any of the
-atomic types (which it does)
+Great, very helpful. Thanks for your kind reminder.
 
-> security/tomoyo/common.h: atomic_t in tomoyo_shared_acl_head
-> drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls.h: spinlock_t in key_map
-> arch/s390/include/asm/kvm_host.h: atomic_t in kvm_s390_sie_block
-
-So these do look problematic.
-
-I'm not actually clear on why tomoyo_shared_acl_head would be packed.
-That makes no sense to me.
-
-Same goes for key_map, it's not clear what the reason for that
-__packed is, and it's clearly bogus. It might work, almost by mistake,
-but it's wrong to try to pack that spinlock_t.
-
-The s390 kvm use actually looks fine: the structure is packed, but
-it's also aligned, and the spin-lock is at the beginning, so the
-"packing" part is about the other members, not the first one.
-
-The two that look wrong look like they will probably work anyway
-(they'll presumably be effectively word-aligned, and that's sufficient
-for spinlocks in practice).
-
-But let's cc the tomoyo and chelsio people.
-
-                 Linus
+> Thierry
