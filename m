@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5178853B303
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 07:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C3C53B31A
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 07:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E3310F1ED;
-	Thu,  2 Jun 2022 05:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8CA81133BE;
+	Thu,  2 Jun 2022 05:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D3D10F1ED
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 05:31:45 +0000 (UTC)
-X-UUID: 1a33ec1c412c4d6c88542977ecfa93ce-20220602
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:6a7536f1-e1b3-4f14-999b-7b2c5bf2504a, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.5, REQID:6a7536f1-e1b3-4f14-999b-7b2c5bf2504a, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:2a19b09, CLOUDID:2a53900d-3a0d-4bbe-9d72-0e5d26d57423,
- C
- OID:953b5f299f8e,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:0,BEC:nil
-X-UUID: 1a33ec1c412c4d6c88542977ecfa93ce-20220602
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1182987510; Thu, 02 Jun 2022 13:31:39 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Thu, 2 Jun 2022 13:31:37 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 2 Jun 2022 13:31:37 +0800
-Message-ID: <a903bdb73b93c4e61bbe9e62231347632445c2af.camel@mediatek.com>
-Subject: Re: [PATCH v10 00/21] drm/mediatek: Add mt8195 DisplayPort driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun
- =?UTF-8?Q?=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= <Chunfeng.Yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
- Deller" <deller@gmx.de>, CK Hu =?UTF-8?Q?=28=E8=83=A1=E4=BF=8A=E5=85=89=29?=
- <ck.hu@mediatek.com>, Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
- <jitao.shi@mediatek.com>, "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, "maxime@cerno.tech"
- <maxime@cerno.tech>
-Date: Thu, 2 Jun 2022 13:31:37 +0800
-In-Reply-To: <358b183faed73672e8fa4f6eb0d48fb067aec87d.camel@mediatek.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <358b183faed73672e8fa4f6eb0d48fb067aec87d.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1870F1133BE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 05:41:03 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4B8675C00F7;
+ Thu,  2 Jun 2022 01:41:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 02 Jun 2022 01:41:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1654148462; x=1654234862; bh=okT/wK74HG
+ j2Zt3jawMlNMBrXagDcLm9t4AJ79DfOfg=; b=V9d0PVS5Hosn/JHdyumKDayhkj
+ I44ACViwIG+LxQNjJB1S+45z4Sy4SGM1gJxJTw2h6taVwoNhAGnj8fz6SwAmXzCY
+ 0tsPHthz7eQ081vNvlhP2g8VcP1iToLy3SKB43VATxXroh3nzQvEPJd3En/qW9R5
+ cuuFYO1QTuO8rf9Rm81wnFnW3cW+qIWqghSjNADkVGM6WJ+TBBxJ2jffbe1RNwQS
+ ClNJFgq3Osig5zKsYVQaCUFR5kzKIVTs4ZMXJqUKuLeaZ0m1SKkXhhVh89W/SnPy
+ BaCiU1R+JXQXWwwp3bueZlaBnNcNDKURIoPvblqmnMMBmxOH/TpZu8O+fywQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1654148462; x=1654234862; bh=okT/wK74HGj2Zt3jawMlNMBrXagD
+ cLm9t4AJ79DfOfg=; b=XKQrPwK4ImgePhv5SIYsjVcnNGZt3YVBvExi0w/m9/1D
+ S0k9tfFmrUIQT7/NqmQKWVxt9PoXbH2LhlP0ECE5DdAVEIzdE1wb20M2NRPU8+LO
+ s3hTciqF4N3I1eV51UkI4T3PDPVVanxP+i8hp4Eaf6eYSiBN8XOtaGc4a31hnHfR
+ f0HlFRY28SuXrFHB/rLBRQwJHNGSrv/qsyGiI8VWzfZRisla98pNiwzWWbfRU8m5
+ kbtDwleDfXODzXx7QjVWfjSHtA+q88zEUt+0l6NCSVRVAcLkBt7QAnbnP2L+boHw
+ 41G0Y1TlAigudtfFR0niTR1S/cn3O+qjMXONwmtfeQ==
+X-ME-Sender: <xms:bU2YYpJr6SbaxqY8aFsE29R7QKdlJPYbJCW5FKBacVFW5Wk043eOtg>
+ <xme:bU2YYlIVllZBsn4rT4QMhKC753l5fnJ6wTMJpyzQ10TruMZGMrqBgkqVDZHR_OMqh
+ m0Plj1Uw-05ZQ>
+X-ME-Received: <xmr:bU2YYhsYB3D3MjwSD2dW5ksnM4PAkSIijsh1LzTPURtEcNOcEvTG4P46f73zCBnjZg8pO8wptI0oXooltZ1KVj4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledugdelfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+ mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehgedvve
+ dvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhushht
+ vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+ drtghomh
+X-ME-Proxy: <xmx:bU2YYqbxdPq2JDwUWoQS7iiZ9udZ1JL6FiYP8j3T__lP8Rr1tSJ2UA>
+ <xmx:bU2YYgbMMarc5SkeVttTrr4moHDWrW_S6Dgi0m7mmG0pRqcaMDVZZA>
+ <xmx:bU2YYuDe7_5FsDGIOBKFjF0wmZ-TExMtmEE01sUtGogpqzrmxNuSzw>
+ <xmx:bk2YYtRrW91BMoN8G28mSI63Jt4n2Ch7ZLFrtA9_fg0dDor8I51Wtw>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jun 2022 01:41:01 -0400 (EDT)
+Date: Thu, 2 Jun 2022 07:40:58 +0200
+From: Greg KH <greg@kroah.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v4] dma-buf: Add a capabilities directory
+Message-ID: <YphNaq/JZdlTW8S7@kroah.com>
+References: <20220601161303.64797-1-contact@emersion.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220601161303.64797-1-contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,189 +81,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Jason Ekstrand <jason.ekstrand@collabora.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-06-02 at 11:50 +0800, Rex-BC Chen wrote:
-> On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
-> > this series is built around the DisplayPort driver. The dpi/dpintf
-> > driver and the added helper functions are required for the
-> > DisplayPort
-> > driver to work.
-> > 
-> > This v10 still has some un-answered comments and TODOs for v11.
-> > 
-> > This has been tested sucessfully on a 5.18-next based "vendor
-> > branch".
-> > 
-> > There's a missing dependency in the mediatek clock framework to
-> > allow
-> > a
-> > mux clock to change it's parent automatically on rate change.
-> > Without this change, the dpi driver won't properly set the clocks
-> > on
-> > mode change and thus nothing will be displayed on screen.
-> > 
-> > Changes from v9:
-> > - The DP-Phy is back to being a child device of the DP driver (as
-> > in
-> > v8)
-> > - hot plug detection has been added back to Embedded Display
-> > Port...
-> > as
-> >   after discussing with mediatek experts, this is needed eventhough
-> > the
-> >   Embedded Display port is not un-pluggable
-> > - rebased on linux-next
-> > - simplified/split train_handler function, as suggested by Rex
-> > - added comments on the sleep/delays present in the code
-> > - removed previous patch introducing retries when receiving
-> > AUX_DEFER
-> > as
-> >   this is already handled in the dp_aux framework
-> > - added max-lane and max-linkrate device tree u8 properties instead
-> > of
-> >   hardcoded #defines
-> > 
-> > Things that are in my todolist for v11:
-> > - retrieve CK/DE support from panel driver instead of hardcoding it
-> > into
-> >   the dpi driver
-> > - refcount the dp driver "enabled" status for "future proofing"
-> > - review the drm_dp_helpers for features/functions that have been
-> >   re-implemented in the mediatek dp drivers
-> > 
-> > Older revisions:
-> > RFC - 
-> > 
-https://lore.kernel.org/linux-mediatek/20210816192523.1739365-1-msp@baylibre.com/
-> > v1  - 
-> > 
-https://lore.kernel.org/linux-mediatek/20210906193529.718845-1-msp@baylibre.com/
-> > v2  - 
-> > 
-https://lore.kernel.org/linux-mediatek/20210920084424.231825-1-msp@baylibre.com/
-> > v3  - 
-> > 
-https://lore.kernel.org/linux-mediatek/20211001094443.2770169-1-msp@baylibre.com/
-> > v4  - 
-> > 
-https://lore.kernel.org/linux-mediatek/20211011094624.3416029-1-msp@baylibre.com/
-> > v5  - 
-> > 
-https://lore.kernel.org/all/20211021092707.3562523-1-msp@baylibre.com/
-> > v6  - 
-> > 
-https://lore.kernel.org/linux-mediatek/20211110130623.20553-1-granquet@baylibre.com/
-> > v7  - 
-> > 
-https://lore.kernel.org/linux-mediatek/20211217150854.2081-1-granquet@baylibre.com/
-> > v8  - 
-> > 
-https://lore.kernel.org/linux-mediatek/20220218145437.18563-1-granquet@baylibre.com/
-> > v9  - 
-> > 
-https://lore.kernel.org/all/20220327223927.20848-1-granquet@baylibre.com/
-> > 
-> > Functional dependencies are:
-> > - Add Mediatek Soc DRM (vdosys0) support for mt8195
-> >   
-> > 
-https://lore.kernel.org/linux-mediatek/20220419094143.9561-2-jason-jh.lin@mediatek.com/
-> > - Add MediaTek SoC DRM (vdosys1) support for mt8195
-> >   
-> > 
-https://lore.kernel.org/linux-mediatek/20220512053128.31415-1-nancy.lin@mediatek.com/
-> > 
-> > 
-> > Guillaume Ranquet (15):
-> >   drm/edid: Convert cea_sad helper struct to kernelDoc
-> >   drm/edid: Add cea_sad helpers for freq/length
-> >   drm/mediatek: dpi: move dpi limits to SoC config
-> >   drm/mediatek: dpi: implement a CK/DE pol toggle in SoC config
-> >   drm/mediatek: dpi: implement a swap_input toggle in SoC config
-> >   drm/mediatek: dpi: move dimension mask to SoC config
-> >   drm/mediatek: dpi: move hvsize_mask to SoC config
-> >   drm/mediatek: dpi: move swap_shift to SoC config
-> >   drm/mediatek: dpi: move the yuv422_en_bit to SoC config
-> >   drm/mediatek: dpi: move the csc_enable bit to SoC config
-> >   drm/mediatek: dpi: Add dpintf support
-> >   drm/mediatek: dpi: Only enable dpi after the bridge is enabled
-> >   drm/meditek: dpi: Add matrix_sel helper
-> >   drm/mediatek: Add mt8195 External DisplayPort support
-> >   drm/mediatek: DP audio support for mt8195
-> > 
-> > Jitao Shi (1):
-> >   drm/mediatek: add hpd debounce
-> > 
-> > Markus Schneider-Pargmann (5):
-> >   dt-bindings: mediatek,dpi: Add DPINTF compatible
-> >   dt-bindings: mediatek,dp: Add Display Port binding
-> >   video/hdmi: Add audio_infoframe packing for DP
-> >   phy: phy-mtk-dp: Add driver for DP phy
-> >   drm/mediatek: Add mt8195 Embedded DisplayPort driver
-> > 
-> >  .../display/mediatek/mediatek,dp.yaml         |   99 +
-> >  .../display/mediatek/mediatek,dpi.yaml        |   13 +-
-> >  MAINTAINERS                                   |    1 +
-> >  drivers/gpu/drm/drm_edid.c                    |   74 +
-> >  drivers/gpu/drm/mediatek/Kconfig              |    8 +
-> >  drivers/gpu/drm/mediatek/Makefile             |    2 +
-> >  drivers/gpu/drm/mediatek/mtk_dp.c             | 3419
-> > +++++++++++++++++
-> >  drivers/gpu/drm/mediatek/mtk_dp_reg.h         |  570 +++
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c            |  272 +-
-> >  drivers/gpu/drm/mediatek/mtk_dpi_regs.h       |   38 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |    8 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |    1 +
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    8 +-
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |    3 +
-> >  drivers/phy/mediatek/Kconfig                  |    8 +
-> >  drivers/phy/mediatek/Makefile                 |    1 +
-> >  drivers/phy/mediatek/phy-mtk-dp.c             |  200 +
-> >  drivers/video/hdmi.c                          |   82 +-
-> >  include/drm/dp/drm_dp_helper.h                |    2 +
-> >  include/drm/drm_edid.h                        |   26 +-
-> >  include/linux/hdmi.h                          |    7 +-
-> >  include/linux/soc/mediatek/mtk-mmsys.h        |    4 +-
-> >  22 files changed, 4765 insertions(+), 81 deletions(-)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
-> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> >  create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
-> 
-> Hello all,
-> 
-> Due to the resource issue, I will keep upstreaming Guillaume's MT8195
-> dp/edp series.
-> 
-> I will check the comments for v8/v9/v10 and have some discussion with
-> you.
-> 
-> Thanks for your all comments.
-> 
-> BRs,
-> Bo-Chen
-> 
+On Wed, Jun 01, 2022 at 04:13:14PM +0000, Simon Ser wrote:
+> To discover support for new DMA-BUF IOCTLs, user-space has no
+> choice but to try to perform the IOCTL on an existing DMA-BUF.
 
-Hello all,
+Which is correct and how all kernel features work (sorry I missed the
+main goal of this patch earlier and focused only on the sysfs stuff).
 
-Because the patches of dp_intf seem to be almost completed, I want to
-split this series into two series:
-dp_intf and edp/dp.
+> However, user-space may want to figure out whether or not the
+> IOCTL is available before it has a DMA-BUF at hand, e.g. at
+> initialization time in a Wayland compositor.
 
-It will be easier to review and maintain this series.
+Why not just do the ioctl in a test way?  That's how we determine kernel
+features, we do not poke around in sysfs to determine what is, or is
+not, present at runtime.
 
-Thanks!
+> Add a /sys/kernel/dmabuf/caps directory which allows the DMA-BUF
+> subsystem to advertise supported features. Add a
+> sync_file_import_export entry which indicates that importing and
+> exporting sync_files from/to DMA-BUFs is supported.
 
-BRs,
-Bo-Chen
+No, sorry, this is not a sustainable thing to do for all kernel features
+over time.  Please just do the ioctl and go from there.  sysfs is not
+for advertising what is and is not enabled/present in a kernel with
+regards to functionality or capabilities of the system.
 
+If sysfs were to export this type of thing, it would have to do it for
+everything, not just some random tiny thing of one kernel driver.
+
+So no, sorry, this is not ok to be merged.
+
+greg k-h
