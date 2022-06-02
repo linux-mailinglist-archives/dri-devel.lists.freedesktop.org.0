@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EDD53B46F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 09:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF18853B47F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 09:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D6310E1BB;
-	Thu,  2 Jun 2022 07:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED11210E1E4;
+	Thu,  2 Jun 2022 07:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9A9F10E1BB
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 07:39:17 +0000 (UTC)
-Received: from mail-yb1-f180.google.com ([209.85.219.180]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1N9MlG-1nkcmV0wKq-015GnD for <dri-devel@lists.freedesktop.org>; Thu, 02
- Jun 2022 09:39:15 +0200
-Received: by mail-yb1-f180.google.com with SMTP id p13so6939404ybm.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 00:39:14 -0700 (PDT)
-X-Gm-Message-State: AOAM531xjxaKxgjsSqAL1kzBCj75V4t7CKut3IYA/0Yv6tW8TMPPHg9e
- rWhSqu43jbiezdoKHFxULqavOVIIqJzTIDrCh8o=
-X-Google-Smtp-Source: ABdhPJxVfhxEh2sV1U0/oHXedOW7Ij9SWgaqXnw+k1hmmKvq9A8gu2wmdTH5eNlILVHHm3z97S0Z2Co5/rXDXyJX6t0=
-X-Received: by 2002:a25:1209:0:b0:65d:63f9:e10a with SMTP id
- 9-20020a251209000000b0065d63f9e10amr3777324ybs.480.1654155553742; Thu, 02 Jun
- 2022 00:39:13 -0700 (PDT)
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D323F10E1E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 07:43:11 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id 129so4093161pgc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 00:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OThWHN0EYYEZSEUp0BQ5BonhRD6mun5pn/B9FKoFiOo=;
+ b=Ki3wRoJC0DB/W4iahhKYcIExwfcbZVsDMShN3Hxj8nzxTKOjXYIwwUcKAZcgFyHN9Q
+ mfDY53/w2slYeBSE7vxFm6iv508fnYzLFnQyCiiBKZE9ho0X1KaXvtBpb/Rcmeqtc+xc
+ 2FwMsuc4Vxj4j46e3pGr2eROuP5BpWls818Sm8AjU0KB9zzJdmORCETR/5T4FEg9IBSL
+ 298/MxR7Yk9HUhxH93P9O4/4E7wMDoWs113a+fgWbBcHBlxH9IoTp25YuKUBwTC5sUCq
+ p3AzdOpvyw1x8vlWMdsgx0t1Gz5fNlTXBPnXGJQlmbmXrWbWXo8k5bgHNY83t15i9Oxk
+ DBOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OThWHN0EYYEZSEUp0BQ5BonhRD6mun5pn/B9FKoFiOo=;
+ b=yWXK3moG/PAntZEZzcO+DcRd0KDuF1XE5M1xk7UV7/6q/YCGLizxf/PR2poosYKsLj
+ Oggc75ue4EhJf7IUD6cHO+VEx09iXGmH/X9v5mHj+q3Y/394044NSbfXmy4wBCrdzFrF
+ +8Ojgl6Hq9dCMs8QHhQ4B2PdbmoMm027KmkhEV9vySLhTk6w42DSj5oS7eMGpdWS6iSB
+ Xdvk45II0MR51TtII62gBlpNxgm13rOmu8EwNYG9FhnQNWb5ORBVIzVpLn+8sXa6zhO3
+ vwtyZRmnEeSNc7ukRioUgZVD7A5EobERclP3cVeMD+LgnDO/0NtYk+d+EGriBA/YQ1XX
+ biPg==
+X-Gm-Message-State: AOAM530fwZ7MIuOanOYJBuJ07b8j1o5yM8rEy5gjRWSgxV6sAsXEHliB
+ Y1zq1J2/tVnTFHuYq8rzNbj8VPpqt272URVJZd4=
+X-Google-Smtp-Source: ABdhPJzw+kjy+xk2U7D3cAvzAIwe3zyKa0mHwiICJwvaXKxzJ/Ci25uF0g1X9TJSpWplc7mLsLWl2H4US6/QHyTkItE=
+X-Received: by 2002:a63:8749:0:b0:3fc:9fd7:1e20 with SMTP id
+ i70-20020a638749000000b003fc9fd71e20mr3145016pge.619.1654155791439; Thu, 02
+ Jun 2022 00:43:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
- <91E67F46-A3C7-4159-9E0C-C6C6306F3669@inria.fr>
- <CAK8P3a2iAsemAQdbTZ_E7GGGCXAOeWbjSjLgXEsd5sg_buZWhw@mail.gmail.com>
- <CAHk-=wgO0V9OdY+DFm-f0qZYMyFSm0ptReO+_qgSTEpBLtFV7Q@mail.gmail.com>
- <d971a684-ccd9-3839-1e30-c166fd55cf49@inria.fr>
- <CAHk-=wiViikY0szsJGipSxFmMwdsvxjm7SwDfwNfMHYvQ64kAA@mail.gmail.com>
-In-Reply-To: <CAHk-=wiViikY0szsJGipSxFmMwdsvxjm7SwDfwNfMHYvQ64kAA@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 2 Jun 2022 09:38:56 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1m80u+eVnoSJ-APihjNQ1se9=FG+E6tKBb-hRJx5FAVg@mail.gmail.com>
-Message-ID: <CAK8P3a1m80u+eVnoSJ-APihjNQ1se9=FG+E6tKBb-hRJx5FAVg@mail.gmail.com>
-Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
- block count and size helpers")
-To: Linus Torvalds <torvalds@linux-foundation.org>
+References: <20220531111502.4470-1-tzimmermann@suse.de>
+ <20220531111502.4470-5-tzimmermann@suse.de>
+ <CAMeQTsZHH0XOwXrogeWpeHjFHNeHCnwZT6aYR7G2dv1bM6F=kA@mail.gmail.com>
+In-Reply-To: <CAMeQTsZHH0XOwXrogeWpeHjFHNeHCnwZT6aYR7G2dv1bM6F=kA@mail.gmail.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Thu, 2 Jun 2022 09:42:59 +0200
+Message-ID: <CAMeQTsaFg4Rq=WCv=GFuc2+fp-ePuuQQpJvgE3V3N9s+tps0sQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] drm/ast: Fail probing if DCC channel could not be
+ initialized
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:USHdp1G/HTKRqrUuJ17Ed1jtH/95+cEiuz9Erh/7Dbc9r63Ucab
- PCVW0BiZ/OkgMUdrjAJdUbZ3qzwjmgnUS3b39eA9aSDAQgHEfFlLFPH/aDRKgrzMciwV/d7
- 9u4wdIBym3Bx2IsD8VvyEWNuOrTAZ+J1cKTQocjkSZRgV687W0gisHD3WbzCr3ad/DZHbDv
- TKhJuoW6taw7wXns3I4tw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:e6Q+e+5i+co=:cEl0u7hTreP6V5tw5zo4C/
- wpLjMnZhTYJO1KfHF7ZcfzaGUGeql+DVmuEjEziu85IrRxJhz5nL7tRSNKkTrIi2ZGp4L29FM
- 4xBKVqoXAv7omf9av5pbZZoT6zAvxaA1Te1SO1NHxjZsNQahRlHE4xQ7gxUcObAUdR77Rc2kp
- eE5IQ6z6gCvR533adiHg745t5y2//AN9zZZ71mKPKuquYIrx+yPop+rGdeQSOs0JFO+4TVkHT
- iPCa2rxjDNQgMbFeXemNZEmcmpIcP5uoCXFnoK8AvYwF5m1nTOFRxS6LNCUdwZvekmqd532Ov
- KwFGwwYuR/sQJcfqOYjoeMNX4Yigh7PtPlmSjEJhrXW9TASTHGYB7rM5UA1O7AhEv/ZVSv7uy
- 9ZudR825jkgli532MLigIBPdkHSy2PP7yGVP+kkPSGb4ZBit6pallNlMqxtKNJWDA2z//7B+1
- TO0j9iw7Fgd/CU3kkfiUkMXNN4FV76n+9EaF9Nf0rKV3WJm29IzQbQeJgfkDl7W/5qkCU8ZWK
- JBPkjVpxIbPuo5uiyIu8+aBk+9UwbrpU0uynPwh0j+GiPZCl+mhx1M/85aMMorKQnCeLxUX/Z
- uXt/yzwOgHjnCEcr2jBQzhAXRDnIn47UpnFTC2CgKC/MbDd/WECyFTVHfNyOVYztdCpTTSMe6
- CcxaCYCDE4QS8wCgu7tPlUO6wftkd64lQiHU7fSbxfEcNXdq86ucOssf0hUkdvzVo0GCcXow+
- FDMQAapqJ5PC0hSJ+4NnAXTPJ7CraZGJ8noNcnhxXxSLSJaeIrsy3Z5oAXfY0rgqnj68FI/J6
- IPDRvhZmqMNlLQJ++Pk0ZQGsEiuEcTD5V1GGPWZ4ElYmv5pF2xPId8ZbMMimvnWyTYr7Jhu5h
- E/pffZJfHd/5anXoDWDA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,159 +65,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ayush Sawal <ayush.sawal@chelsio.com>, Kentaro Takeda <takedakn@nttdata.co.jp>,
- Keisuke Nishimura <keisuke.nishimura@inria.fr>,
- Rohit Maheshwari <rohitm@chelsio.com>, Viresh Kumar <vireshk@kernel.org>,
- Russell King <linux@armlinux.org.uk>, David Airlie <airlied@linux.ie>,
- Arnd Bergmann <arnd@arndb.de>, Jani Nikula <jani.nikula@intel.com>,
- Vinay Kumar Yadav <vinay.yadav@chelsio.com>, SoC Team <soc@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Julia Lawall <Julia.Lawall@inria.fr>, Thomas Zimmermann <tzimmermann@suse.de>,
- Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 2, 2022 at 3:08 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Thu, Jun 2, 2022 at 9:25 AM Patrik Jakobsson
+<patrik.r.jakobsson@gmail.com> wrote:
 >
-> On Wed, Jun 1, 2022 at 3:28 PM Keisuke Nishimura
-> <keisuke.nishimura@inria.fr> wrote:
+> On Tue, May 31, 2022 at 1:15 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 > >
+> > Expect the hardware to provide a DDC channel. Fail probing if its
+> > initialization fails.
 > >
-> > I found 13 definitions of packed structure that contains:
-> >  > - spinlock_t
-> >  > - atomic_t
-> >  > - dma_addr_t
-> >  > - phys_addr_t
-> >  > - size_t
-> >  > - struct mutex
-> >  > - struct device
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> It's funny how I just did the same thing to gma500. Great minds think alike ;)
+>
+> Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+
+I just realized that the ast_i2c_chan is never freed. Could be fixed
+in a follow-up patch?
+
+>
+>
+> > ---
+> >  drivers/gpu/drm/ast/ast_drv.h  |  2 --
+> >  drivers/gpu/drm/ast/ast_i2c.c  |  7 ++++---
+> >  drivers/gpu/drm/ast/ast_mode.c | 38 ++++++++++++++++------------------
+> >  3 files changed, 22 insertions(+), 25 deletions(-)
 > >
-> > - raw_spinlock_t
->
-> Ok, so I don't think dma_addr_t/phys_addr_t/size_t are problematic,
-> they are just regular integers.
->
-> And 'struct device' is problematic only as it then contains any of the
-> atomic types (which it does)
-is
-I suggested this list because they are problematic for different reasons:
-
-- any atomics are clearly broken here
-
-- dma_addr_t/phys_addr_t are sometimes put into hardware data
-  structures in coherent DMA allocations. This is broken because these
-  types are variably-sized depending on the architecture, and annotating
-  structures in uncached memory as __packed is also broken on
-  architectures that have neither coherent DMA nor unaligned access
-  (most 32-bit mips and armv5), where this will result in a series of
-  expensive one-byte uncached load/store instructions.
-
-- having any complex kernel data structure embedded in a __packed
-  struct is a red flag, because there should not be a need to mark
-  it packed for compatibility with either hardware or user space.
-  If the structure is actually misaligned, passing a pointer for the
-  embedded struct into an interface that expects an aligned pointer
-  is undefined behavior in C, and gcc may decide to do something
-  bad here even on architectures that can access unaligned
-  pointers.
-
-> > security/tomoyo/common.h: atomic_t in tomoyo_shared_acl_head
-> > drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls.h: spinlock_t in key_map
-> > arch/s390/include/asm/kvm_host.h: atomic_t in kvm_s390_sie_block
->
-> So these do look problematic.
->
-> I'm not actually clear on why tomoyo_shared_acl_head would be packed.
-> That makes no sense to me.
->
-> Same goes for key_map, it's not clear what the reason for that
-> __packed is, and it's clearly bogus. It might work, almost by mistake,
-> but it's wrong to try to pack that spinlock_t.
->
-> The s390 kvm use actually looks fine: the structure is packed, but
-> it's also aligned, and the spin-lock is at the beginning, so the
-> "packing" part is about the other members, not the first one.
-
-Right, I think the coccinelle script should nor report structures
-that are both packed and aligned.
-
-> The two that look wrong look like they will probably work anyway
-> (they'll presumably be effectively word-aligned, and that's sufficient
-> for spinlocks in practice).
->
-> But let's cc the tomoyo and chelsio people.
-
-I think both of them work because the structures are always
-embedded inside of larger structures that have at least word
-alignment. This is the thing I was looking for, and the
-__packed attribute was added in error, most likely copied
-from somewhere else.
-
-Looking at the other ones:
-
-include/linux/ti-emif-sram.h: phys_addr_t in ti_emif_pm_data
-
-No misalignment because of the __aligned(8), but this
-might go wrong if the emif firmware relies on the structure
-layout to have a 32-bit phys_addr_t.
-
-drivers/scsi/wd719x.h: dma_addr_t in wd719x_scb
-
-This one is correct, as the structure has 64 bytes of
-hardware data and a few members that are only accessed
-by the kernel. There should still be an __aligned(8)
-for efficiency.
-
-drivers/net/wireless/intel/ipw2x00/ipw2200.h: dma_addr_t in clx2_queue
-
-Al marked the incorrect __packed annotations in 2008,
-see 83f7d57c37e8 ("ipw2200 annotations and fixes").
-Mostly harmless but the __packed should just get removed here.
-
-> drivers/infiniband/hw/irdma/osdep.h: dma_addr_t in irdma_dma_mem
-> drivers/infiniband/core/mad_priv.h: size_t in ib_mad_private
-
-Same here: harmless but __packed should be removed, possibly
-while reordering members by size.
-
-> drivers/crypto/qat/qat_common/qat_asym_algs.c:
-> - dma_addr_t in qat_rsa_ctx
-> - dma_addr_t in qat_dh_ctx
-
-Probably harmless because the structure is __aligned(64), but I'm
-completely puzzled by what the author was actually trying to
-achieve here. There are also 'bool' members in the packed struct,
-which is probably something we want to look for as well.
-
-> drivers/atm/idt77252.h: dma_addr_t in idt77252_skb_prv
-
-This is a bug on architectures with 64-bit dma_addr_t, it should
-be an __le32, and the structure should be __aligned() as a DMA
-descriptor.
-
-> drivers/net/wireless/ath/ath10k/core.h: dma_addr_t in ath10k_skb_cb
-> drivers/net/wireless/ath/ath11k/core.h: dma_addr_t in ath10k_skb_cb
-
-Should almost certainly not be __packed, fixing these will
-likely improve performance on mips32 routers using ath10k
-
-> drivers/crypto/ccp/ccp-dev.h: dma_addr_t in ccp_dma_info
-
-This looks ok, the "__packed __aligned(4)" here can save
-a bit of stack space as intended.
-
-I think that SmPL script worked great, almost every instance is
-something that ought to be changed, as long as it stops reporting
-those structures that are also __aligned(). I would extend it to
-also report structures with 'bool', 'enum', or any pointer, but that
-could give more false-positives. Maybe have a separate script
-for those instances embedding atomics or spinlocks (very broken)
-vs the other members (causes more harm than good or might
-need alignment).
-
-       Arnd
+> > diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> > index 3055b0be7b67..2a55fc7303b9 100644
+> > --- a/drivers/gpu/drm/ast/ast_drv.h
+> > +++ b/drivers/gpu/drm/ast/ast_drv.h
+> > @@ -132,7 +132,6 @@ struct ast_i2c_chan {
+> >
+> >  struct ast_vga_connector {
+> >         struct drm_connector base;
+> > -       struct ast_i2c_chan *i2c;
+> >  };
+> >
+> >  static inline struct ast_vga_connector *
+> > @@ -143,7 +142,6 @@ to_ast_vga_connector(struct drm_connector *connector)
+> >
+> >  struct ast_sil164_connector {
+> >         struct drm_connector base;
+> > -       struct ast_i2c_chan *i2c;
+> >  };
+> >
+> >  static inline struct ast_sil164_connector *
+> > diff --git a/drivers/gpu/drm/ast/ast_i2c.c b/drivers/gpu/drm/ast/ast_i2c.c
+> > index 93e91c36d649..1d039ff1396e 100644
+> > --- a/drivers/gpu/drm/ast/ast_i2c.c
+> > +++ b/drivers/gpu/drm/ast/ast_i2c.c
+> > @@ -117,7 +117,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
+> >
+> >         i2c = kzalloc(sizeof(struct ast_i2c_chan), GFP_KERNEL);
+> >         if (!i2c)
+> > -               return NULL;
+> > +               return ERR_PTR(-ENOMEM);
+> >
+> >         i2c->adapter.owner = THIS_MODULE;
+> >         i2c->adapter.class = I2C_CLASS_DDC;
+> > @@ -143,10 +143,11 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
+> >
+> >         ret = drmm_add_action_or_reset(dev, ast_i2c_release, i2c);
+> >         if (ret)
+> > -               return NULL;
+> > +               return ERR_PTR(ret);
+> > +
+> >         return i2c;
+> >
+> >  out_kfree:
+> >         kfree(i2c);
+> > -       return NULL;
+> > +       return ERR_PTR(ret);
+> >  }
+> > diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> > index bbc566c4c768..5f273b5dd769 100644
+> > --- a/drivers/gpu/drm/ast/ast_mode.c
+> > +++ b/drivers/gpu/drm/ast/ast_mode.c
+> > @@ -1334,19 +1334,18 @@ static int ast_vga_connector_init(struct drm_device *dev,
+> >                                   struct ast_vga_connector *ast_vga_connector)
+> >  {
+> >         struct drm_connector *connector = &ast_vga_connector->base;
+> > +       struct ast_i2c_chan *i2c;
+> >         int ret;
+> >
+> > -       ast_vga_connector->i2c = ast_i2c_create(dev);
+> > -       if (!ast_vga_connector->i2c)
+> > -               drm_err(dev, "failed to add ddc bus for connector\n");
+> > +       i2c = ast_i2c_create(dev);
+> > +       if (IS_ERR(i2c)) {
+> > +               ret = PTR_ERR(i2c);
+> > +               drm_err(dev, "failed to add ddc bus for connector; ret=%d\n", ret);
+> > +               return ret;
+> > +       }
+> >
+> > -       if (ast_vga_connector->i2c)
+> > -               ret = drm_connector_init_with_ddc(dev, connector, &ast_vga_connector_funcs,
+> > -                                                 DRM_MODE_CONNECTOR_VGA,
+> > -                                                 &ast_vga_connector->i2c->adapter);
+> > -       else
+> > -               ret = drm_connector_init(dev, connector, &ast_vga_connector_funcs,
+> > -                                        DRM_MODE_CONNECTOR_VGA);
+> > +       ret = drm_connector_init_with_ddc(dev, connector, &ast_vga_connector_funcs,
+> > +                                         DRM_MODE_CONNECTOR_VGA, &i2c->adapter);
+> >         if (ret)
+> >                 return ret;
+> >
+> > @@ -1406,19 +1405,18 @@ static int ast_sil164_connector_init(struct drm_device *dev,
+> >                                      struct ast_sil164_connector *ast_sil164_connector)
+> >  {
+> >         struct drm_connector *connector = &ast_sil164_connector->base;
+> > +       struct ast_i2c_chan *i2c;
+> >         int ret;
+> >
+> > -       ast_sil164_connector->i2c = ast_i2c_create(dev);
+> > -       if (!ast_sil164_connector->i2c)
+> > -               drm_err(dev, "failed to add ddc bus for connector\n");
+> > +       i2c = ast_i2c_create(dev);
+> > +       if (IS_ERR(i2c)) {
+> > +               ret = PTR_ERR(i2c);
+> > +               drm_err(dev, "failed to add ddc bus for connector; ret=%d\n", ret);
+> > +               return ret;
+> > +       }
+> >
+> > -       if (ast_sil164_connector->i2c)
+> > -               ret = drm_connector_init_with_ddc(dev, connector, &ast_sil164_connector_funcs,
+> > -                                                 DRM_MODE_CONNECTOR_DVII,
+> > -                                                 &ast_sil164_connector->i2c->adapter);
+> > -       else
+> > -               ret = drm_connector_init(dev, connector, &ast_sil164_connector_funcs,
+> > -                                        DRM_MODE_CONNECTOR_DVII);
+> > +       ret = drm_connector_init_with_ddc(dev, connector, &ast_sil164_connector_funcs,
+> > +                                         DRM_MODE_CONNECTOR_DVII, &i2c->adapter);
+> >         if (ret)
+> >                 return ret;
+> >
+> > --
+> > 2.36.1
+> >
