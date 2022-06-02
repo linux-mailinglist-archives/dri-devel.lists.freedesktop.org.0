@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2186D53BBBE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1384453BBC0
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68845112FF5;
-	Thu,  2 Jun 2022 15:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B79111300B;
+	Thu,  2 Jun 2022 15:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF606112FEF
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:43:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 134D9112FFD
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:43:03 +0000 (UTC)
 Received: from vertex.vmware.com (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id DD0C0335F74;
- Thu,  2 Jun 2022 16:42:59 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 1064A336236;
+ Thu,  2 Jun 2022 16:43:00 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1654184580; bh=aNgM1bG6gCYOguM+hclLWxnZEtUIWi3csatRAcJHk0o=;
+ t=1654184581; bh=2lOsG5BLWBrjVaDErYVDr5MrOpEG4h5enw4rCk2Qp3s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mbIq/2kuW9Ub7uwGeC1bZvG9o/yLdeC46um51EhFApSbrtUV04GdA3TiJLl3Cs4g3
- ePIjHdRT0U3I3bsp9onL8taoe6N2wWjWSJUwaBZKcY2M1nBzvlztn3lFDt+a1arXN5
- ygXvtRfMjWlGpSmiFpgzli9xnJ622PKisRFpkbDQ9OyPNNUBGdFo0gL969nigTSWei
- Yeejz0aUN1sGKj38K1TMFhaJHnzaiq0h0iZUwhVbmifaJdMpFRhj2d3Ji5IlltKZPf
- 7eR658sd/n3/GMF5o1ZtrrKzDYbRAiz3t+ulY9UcYO5h3pTP47Z8Ulh7Kon9qwXJf1
- OxzhbbWt5913Q==
+ b=inGyS8AzNjvEM0c0ZOAB3IX0STz5Ihau9wpgT+oApBYnQXWyRssUOyEg7MMzpNeLl
+ j5kX5gINR7haquzDKF9N2Na7Y2hMHyfJ57SwvrTfKTS/OFSn9ju9DajcHIU9ZHgrSH
+ j4EuiQXBQIQUpIJYKJim7Ni81s4FYIPu9ZGpAallEQ8wpXgdgEgGaLIWnIA9nLKbav
+ Y0b7SFt3SOsp3npojDwhNTT9qJ0U7llzNth//4xqO4wqMOb8gdr4iSoGuUggsFcuJk
+ kwZsC2yBpWzt1K46K6noD/0a+YXap0gbwOpouitznbbvI2xwZyw2nvL0HITvuy5VBr
+ D3nAprnPw85VQ==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/6] drm/virtio: Create mouse hotspot properties on cursor
- planes
-Date: Thu,  2 Jun 2022 11:42:42 -0400
-Message-Id: <20220602154243.1015688-6-zack@kde.org>
+Subject: [PATCH 6/6] drm: Remove legacy cursor hotspot code
+Date: Thu,  2 Jun 2022 11:42:43 -0400
+Message-Id: <20220602154243.1015688-7-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602154243.1015688-1-zack@kde.org>
 References: <20220602154243.1015688-1-zack@kde.org>
@@ -49,73 +48,69 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: David Airlie <airlied@linux.ie>,
- Gurchetan Singh <gurchetansingh@chromium.org>, krastevm@vmware.com,
- mombasawalam@vmware.com, virtualization@lists.linux-foundation.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, krastevm@vmware.com,
+ mombasawalam@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-Atomic modesetting got support for mouse hotspots via the hotspot
-properties. Drivers need to create those properties on cursor planes
-which require the mouse hotspot coordinates.
+Atomic modesetting support mouse cursor offsets via the hotspot
+properties that are creates on cursor planes. All drivers which
+support hotspot are atomic and the legacy code has been implemented
+in terms of the atomic properties as well.
 
-Add the code creating hotspot properties and port away from old legacy
-hotspot API. The legacy hotspot paths have an implementation that works
-with new atomic properties so there's no reason to keep them and it
-makes sense to unify both paths.
+Due to the above the lagacy cursor hotspot code is no longer used or
+needed and can be removed.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: Chia-I Wu <olvaffe@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: virtualization@lists.linux-foundation.org
 ---
- drivers/gpu/drm/virtio/virtgpu_display.c | 1 +
- drivers/gpu/drm/virtio/virtgpu_plane.c   | 8 ++++----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_plane.c   |  3 ---
+ include/drm/drm_framebuffer.h | 12 ------------
+ 2 files changed, 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index f73352e7b832..848ac2314399 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -288,6 +288,7 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index bb28d1eaf985..d38b5301b5dd 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -1041,9 +1041,6 @@ static int drm_mode_cursor_universal(struct drm_crtc *crtc,
+ 				return PTR_ERR(fb);
+ 			}
  
- 	drm_connector_attach_encoder(connector, encoder);
- 	drm_connector_register(connector);
-+	drm_plane_create_hotspot_properties(cursor);
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 6d3cc9e238a4..21c8adf51c6c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -331,16 +331,16 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 		DRM_DEBUG("update, handle %d, pos +%d+%d, hot %d,%d\n", handle,
- 			  plane->state->crtc_x,
- 			  plane->state->crtc_y,
--			  plane->state->fb ? plane->state->fb->hot_x : 0,
--			  plane->state->fb ? plane->state->fb->hot_y : 0);
-+			  plane->state->hotspot_x,
-+			  plane->state->hotspot_y);
- 		output->cursor.hdr.type =
- 			cpu_to_le32(VIRTIO_GPU_CMD_UPDATE_CURSOR);
- 		output->cursor.resource_id = cpu_to_le32(handle);
- 		if (plane->state->fb) {
- 			output->cursor.hot_x =
--				cpu_to_le32(plane->state->fb->hot_x);
-+				cpu_to_le32(plane->state->hotspot_x);
- 			output->cursor.hot_y =
--				cpu_to_le32(plane->state->fb->hot_y);
-+				cpu_to_le32(plane->state->hotspot_y);
- 		} else {
- 			output->cursor.hot_x = cpu_to_le32(0);
- 			output->cursor.hot_y = cpu_to_le32(0);
+-			fb->hot_x = req->hot_x;
+-			fb->hot_y = req->hot_y;
+-
+ 			if (plane->hotspot_x_property && plane->state)
+ 				plane->state->hotspot_x = req->hot_x;
+ 			if (plane->hotspot_y_property && plane->state)
+diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
+index f67c5b7bcb68..c306ae2e2d47 100644
+--- a/include/drm/drm_framebuffer.h
++++ b/include/drm/drm_framebuffer.h
+@@ -188,18 +188,6 @@ struct drm_framebuffer {
+ 	 * DRM_MODE_FB_MODIFIERS.
+ 	 */
+ 	int flags;
+-	/**
+-	 * @hot_x: X coordinate of the cursor hotspot. Used by the legacy cursor
+-	 * IOCTL when the driver supports cursor through a DRM_PLANE_TYPE_CURSOR
+-	 * universal plane.
+-	 */
+-	int hot_x;
+-	/**
+-	 * @hot_y: Y coordinate of the cursor hotspot. Used by the legacy cursor
+-	 * IOCTL when the driver supports cursor through a DRM_PLANE_TYPE_CURSOR
+-	 * universal plane.
+-	 */
+-	int hot_y;
+ 	/**
+ 	 * @filp_head: Placed on &drm_file.fbs, protected by &drm_file.fbs_lock.
+ 	 */
 -- 
 2.34.1
 
