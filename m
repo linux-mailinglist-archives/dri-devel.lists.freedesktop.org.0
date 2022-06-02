@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D2B53BD81
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 19:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0A553BDB4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 20:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61DF911331F;
-	Thu,  2 Jun 2022 17:45:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF59113477;
+	Thu,  2 Jun 2022 18:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
  [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E18711331C
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 17:45:36 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id v19so7212361edd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 10:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O/j8ff/empoIVzIPqKgRJrZ1yf+Uabh8CB6phARQHw8=;
- b=pjj97zVwrM2CrMZNQ3YkjATsb+hGhtkoV0IpDJjgCaefeTLDdnSoin2KLI9/QKKmxO
- oA3TdT7FkZz2tbI4HStW8JyPCbfhVf0FHFBe6OppQ77QKTNmsKLy/hQckjF20VRrgdna
- WwLC6aH/+MnQQ7yWyEgjSOj1N779suPF85G7D73rEpHEoJwWe38490e8Ul2h9EviJOzQ
- dZsuwxUIzJbucpc5J+ygfZ8y4wx580vg1bv3nY1mJ+Ger3GGq95WzFb6ykyto88yD8av
- OchcgEkqmZiP0Sys7Ju/I+lMSWVVA4zu+08fZAJUvuParWjBk3U901h2VCPqXupCrG07
- 4+Ew==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C39A5113476
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 18:01:28 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id b8so7236756edf.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 11:01:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CBkaCoK6wuMtRbb6NmA5F8dDDK95iOEjJpqmo1bo7RU=;
+ b=ZpoxLgXU602v2G/Xd3ivQRZ3M5INDPN8DNhTpEgbihmrZIwuUIQqjuMUHGGYehz9i3
+ BfZBBrYZOWM6IaNyFU6E+00dNVzVwDW6xwpedw6ki5XAVrDxxGz2ed6hU/XGmtytfyPB
+ 4zRcXaWVMFaa35F65YMuli1Y3LV03vybRbLGb6zXrnspwuyBUo/70qIA6d6VZEpWVDaw
+ l94LfOOUOoIYIOS/OQSX7/VXgosmyXrdT6pwhA+QRqMG2BP3Gv4kVP52VonZiD0z357m
+ h79lWxSqNiv4A/PCv3ur4CfXuyDHDvBA0ZB3GOQMI2VmT6CDzqlAIFXnoECb4Q5VjLrW
+ BCzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O/j8ff/empoIVzIPqKgRJrZ1yf+Uabh8CB6phARQHw8=;
- b=zH7XJ6GezSGjoK578FtxyQSaXmiP4dbf2blfD92PwR8/6DdpeaSK3hycm6P3tCXC0A
- l3Ir4fyunkmJbmIXBDv0T4R1DjBViCEVVUyKcXBqFhbcXrfOwc9G84GM/m9monD0HNb5
- G2j5ZN7amnOfYjMJdO3eDwhSAhDuP1fGA8bloge5yrk+T1MIoeDjzjhilJgr9anDtT45
- sNOWzuezEW/jbNKP/DSkzmFYGFscDZhiS/BfJgBVfPTJ4eok7wwNJF3TvUm3CK7tCbXD
- NH4EigN85Mcu9SZp8tJYIiqdvDKdcDv1ny67odyBGnLEb6jMoc9z+SxsW0HsxAPv/+y9
- 10rg==
-X-Gm-Message-State: AOAM531NgGbIqMterTWhT6vN2VAsN6l5P4Jx60Jw8gVeOZjUG2ID4y/k
- pHU5HOBT5N8tNBLfJ31W9Nsd6pad12i+Ks1LudoTeg==
-X-Google-Smtp-Source: ABdhPJzvUvlqNLSSWFHR1VOLU0xd2hgNWjjf5TY1pOrfxuPXl16DBLKRH8bOnbtdyu7oiCDTr/0gmfUg7LVZaOjTtN0=
-X-Received: by 2002:a05:6402:2806:b0:42b:67fc:8565 with SMTP id
- h6-20020a056402280600b0042b67fc8565mr6689418ede.230.1654191934879; Thu, 02
- Jun 2022 10:45:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CBkaCoK6wuMtRbb6NmA5F8dDDK95iOEjJpqmo1bo7RU=;
+ b=NoGyMLnj1JT2NMb5ea30HL9xJboMf8ev/6vExCbKHuiK6l1okQo+JMfBQEXJuTg/3t
+ 1pjoShGHG0la/XrGL2YGR/rM4AguZPSNz+KwT6rOnPLtLPAsTebgX+jtD+wjipUKjW+W
+ 9p9CjM6WC8PHTvyWqgvXFN4dfH6O2bQ4mlu1LC1L8feRua/X3C4ueadxs7RT5dDT5fwl
+ ymosRnFAaUlEAbaV5AhQ5HlFv28RXr4Nzc7JmvwuA4PrgoIj+ijvJOb5qVNtGD92MCd7
+ Lwo/Dz82mlADmcS8cOgebwomREv49lYLcRyvCunTUAXSqvg8AyuaXI0Jud3lCHJxY/W7
+ iffA==
+X-Gm-Message-State: AOAM533hqCD0Bwv2Vs8iTxC5Uu+rU35mn2RLS3S8sQ2UmGvkHH7F4fXW
+ RSZMk+8zTNMv2CZPNIfzD6I=
+X-Google-Smtp-Source: ABdhPJzDb6Kdk0KW4bBqFxqLDw7MsjqgvypVVZTxyU0DlHbSHwe3R6lMclgq9JGCWeJgyKNpDQ/LrA==
+X-Received: by 2002:a05:6402:1007:b0:428:beb6:f483 with SMTP id
+ c7-20020a056402100700b00428beb6f483mr6742760edu.391.1654192887279; 
+ Thu, 02 Jun 2022 11:01:27 -0700 (PDT)
+Received: from orangepi3.mydomain.example ([195.234.74.2])
+ by smtp.gmail.com with ESMTPSA id
+ kx16-20020a170907775000b00706e8ac43b8sm1972348ejc.199.2022.06.02.11.01.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jun 2022 11:01:24 -0700 (PDT)
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+To: mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch, samuel@sholland.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, megi@xff.cz
+Subject: [PATCH] drm/sun4i: sun8i: Add the ability to keep scaler enabled for
+ VI layer
+Date: Thu,  2 Jun 2022 18:01:18 +0000
+Message-Id: <20220602180118.66170-1-r.stratiienko@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220530102017.471865-1-jose.exposito89@gmail.com>
- <20220530102017.471865-2-jose.exposito89@gmail.com>
- <20220530131158.kqq2mohxoh52xpeg@penduick>
- <20220530162903.GA6546@elementary>
- <CABVgOSn8i=LO5p7830h2XU1Jgg0KrN0qTnxkOMhf1oTgxjaKKw@mail.gmail.com>
- <fea8f80a-939b-2c73-d94b-5179d1e65be9@redhat.com>
-In-Reply-To: <fea8f80a-939b-2c73-d94b-5179d1e65be9@redhat.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Thu, 2 Jun 2022 10:45:23 -0700
-Message-ID: <CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uNFTGM=T7ydk-dYcEw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +71,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- tzimmermann@suse.de,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- KUnit Development <kunit-dev@googlegroups.com>
+Cc: Roman Stratiienko <r.stratiienko@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 2, 2022 at 10:29 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> > Or, without the .kunitconfig:
-> > ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_DRM=y
-> > --kconfig_add CONFIG_DRM_FORMAR_HELPER_TEST=y --kconfig_add
-> > CONFIG_VIRTIO_UML=y  --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-> > 'drm-*'
-> >
->
-> I wonder if would make sense to have for example an arch/um/.kunitconfig
-> with those symbols and maybe others and then the tests could also be run
-> with something like:
->
-> ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/.kunitconfig \
-> --kunitconfig=arch/um/.kunitconfig
+According to DE2.0/DE3.0 manual VI scaler enable register is double
+buffered, but de facto it doesn't, or the hardware has the shadow
+register latching issues which causes single-frame picture corruption
+after changing the state of scaler enable register.
 
-Yeah, this came up before.
-It'd be nice to have
-* --kunitconfig be repeatable (it isn't right now)
-* a "uml_pci.config" with the magic needed to set CONFIG_PCI=y on UML
+Allow the user to keep the scaler always enabled, preventing the UI
+glitches on the transition from scaled to unscaled state.
 
-Another example where this would be useful, coverage on UML
-CONFIG_DEBUG_KERNEL=y
-CONFIG_DEBUG_INFO=y
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
-CONFIG_GCOV=y
+NOTE:
+UI layer scaler has more registers with double-buffering issue and can't
+be workarounded in the same manner.
 
-I did prototype the changes to support this but never sent anything
-out since I had some concerns, namely:
-1. we'd be blindly appending them, but that won't always work. Would
-users be ok with that?
-2. people are already confused about .kunitconfig. It seems like the
-most confusing part to new people, especially those new to kernel
-development. Would adding this make them even more lost? Perhaps
-making the docs clearer on this would a good pre-req.
-3. What conventions should there be around these partial configs? I
-think the idea should be more generic than just kunit.
-4. --kconfig_add now makes this possible, even if in a noisier way
-than another --kunitconfig
-5. we didn't have a good way of reporting options set to different
-values. https://lore.kernel.org/linux-kselftest/20220520224200.3764027-1-dlatypov@google.com/
-would help by giving us an easier way to give clearer error messages.
+You may find a python test and a demo video for this issue at [1]
 
-That said, I'm willing to whip up another version based on the patch in #5.
-I think we need a docs rewrite for #2, which I can take a stab at.
-But I think we'll need some bikeshedding about naming (#3).
+[1]: https://github.com/GloDroid/glodroid_tests/issues/4
+Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 ++++++++++++
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  4 +++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-Daniel
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 71ab0a00b4de..15cad0330f66 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -27,6 +27,18 @@
+ #include "sun8i_vi_layer.h"
+ #include "sunxi_engine.h"
+ 
++/* According to DE2.0/DE3.0 manual VI scaler enable register is double
++ * buffered, but de facto it doesn't, or the hardware has the shadow
++ * register latching issues which causes single-frame picture corruption
++ * after changing the state of scaler enable register.
++ * Allow the user to keep the scaler always enabled, preventing the UI
++ * glitches on the transition from scaled to unscaled state.
++ */
++int sun8i_vi_keep_scaler_enabled;
++MODULE_PARM_DESC(keep_vi_scaler_enabled,
++		 "Keep VI scaler enabled (1 = enabled, 0 = disabled (default))");
++module_param_named(keep_vi_scaler_enabled, sun8i_vi_keep_scaler_enabled, int, 0644);
++
+ struct de2_fmt_info {
+ 	u32	drm_fmt;
+ 	u32	de2_fmt;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index 662ba1018cc4..f005ab883503 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -17,6 +17,8 @@
+ #include "sun8i_vi_layer.h"
+ #include "sun8i_vi_scaler.h"
+ 
++extern int sun8i_vi_keep_scaler_enabled;
++
+ static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+ 				  int overlay, bool enable, unsigned int zpos)
+ {
+@@ -149,7 +151,7 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+ 	 */
+ 	subsampled = format->hsub > 1 || format->vsub > 1;
+ 
+-	if (insize != outsize || subsampled || hphase || vphase) {
++	if (insize != outsize || subsampled || hphase || vphase || sun8i_vi_keep_scaler_enabled) {
+ 		unsigned int scanline, required;
+ 		struct drm_display_mode *mode;
+ 		u32 hscale, vscale, fps;
+-- 
+2.30.2
+
