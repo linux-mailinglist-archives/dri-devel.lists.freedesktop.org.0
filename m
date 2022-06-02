@@ -1,55 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0994653B2D6
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 07:09:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5178853B303
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 07:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90761113026;
-	Thu,  2 Jun 2022 05:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E3310F1ED;
+	Thu,  2 Jun 2022 05:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CB9113028;
- Thu,  2 Jun 2022 05:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654146534; x=1685682534;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=rUSAd39O1ueJesfDxku/j9RNqWsu3LjdUQUzvEC3LVs=;
- b=bUlMnLhuIyXw3Vj2xwxw6y1vOd7B3w6Htx/nqYm6GRfCJnby85vqNnAA
- QMMJa679huGEUHL/hNAFhv8vcTaxR69ib9FCc0e+DH4JD1JdmQGnxhMA6
- JVO9fPSBpfJMqSGgHnczvV9ch3n26JFpIto8D9ybukUE1/f6bjEYwV0MI
- O05c4a0EyVVe/9hlVrM4cPSqI0jRZGPW3JD4VPreSBH8VvhZ1wKGEe6Wg
- KwBfaYk0Fs5YqOCwaFdAxcFIMFcMSw9tZgXqSnihAL9KjDkI7z5Qq4MQ9
- U8fDSR13G+eP/+Uf9ROnX6msq3ocH8rWvHO19SJNke4WoOxgUYM7grk0M g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="301187888"
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="301187888"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 22:08:53 -0700
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="577311530"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 22:08:52 -0700
-Date: Wed, 1 Jun 2022 22:08:35 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [RFC v3 3/3] drm/doc/rfc: VM_BIND uapi definition
-Message-ID: <20220602050833.GP4461@nvishwa1-DESK>
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
- <e4e1989c314d3958d58010431515ea371935d0c3.camel@intel.com>
- <20220523191943.GH4461@nvishwa1-DESK>
- <CAPM=9tzcYL5kwv18cfq5NzE00jwHuwTj_L73NVgE8vdcBgrQww@mail.gmail.com>
- <CAKMK7uFt23yZxGJfuZ71ngNw-46yvyed8LaQCQ1ksq73MLGEug@mail.gmail.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79D3D10F1ED
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 05:31:45 +0000 (UTC)
+X-UUID: 1a33ec1c412c4d6c88542977ecfa93ce-20220602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:6a7536f1-e1b3-4f14-999b-7b2c5bf2504a, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.5, REQID:6a7536f1-e1b3-4f14-999b-7b2c5bf2504a, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:2a19b09, CLOUDID:2a53900d-3a0d-4bbe-9d72-0e5d26d57423,
+ C
+ OID:953b5f299f8e,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:0,BEC:nil
+X-UUID: 1a33ec1c412c4d6c88542977ecfa93ce-20220602
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1182987510; Thu, 02 Jun 2022 13:31:39 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 2 Jun 2022 13:31:37 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 2 Jun 2022 13:31:37 +0800
+Message-ID: <a903bdb73b93c4e61bbe9e62231347632445c2af.camel@mediatek.com>
+Subject: Re: [PATCH v10 00/21] drm/mediatek: Add mt8195 DisplayPort driver
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
+ Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chunfeng Yun
+ =?UTF-8?Q?=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= <Chunfeng.Yun@mediatek.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
+ Deller" <deller@gmx.de>, CK Hu =?UTF-8?Q?=28=E8=83=A1=E4=BF=8A=E5=85=89=29?=
+ <ck.hu@mediatek.com>, Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
+ <jitao.shi@mediatek.com>, "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, "maxime@cerno.tech"
+ <maxime@cerno.tech>
+Date: Thu, 2 Jun 2022 13:31:37 +0800
+In-Reply-To: <358b183faed73672e8fa4f6eb0d48fb067aec87d.camel@mediatek.com>
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <358b183faed73672e8fa4f6eb0d48fb067aec87d.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKMK7uFt23yZxGJfuZ71ngNw-46yvyed8LaQCQ1ksq73MLGEug@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,161 +79,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
- Chris P" <chris.p.wilson@intel.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 01, 2022 at 11:27:17AM +0200, Daniel Vetter wrote:
->On Wed, 1 Jun 2022 at 11:03, Dave Airlie <airlied@gmail.com> wrote:
->>
->> On Tue, 24 May 2022 at 05:20, Niranjana Vishwanathapura
->> <niranjana.vishwanathapura@intel.com> wrote:
->> >
->> > On Thu, May 19, 2022 at 04:07:30PM -0700, Zanoni, Paulo R wrote:
->> > >On Tue, 2022-05-17 at 11:32 -0700, Niranjana Vishwanathapura wrote:
->> > >> VM_BIND and related uapi definitions
->> > >>
->> > >> v2: Ensure proper kernel-doc formatting with cross references.
->> > >>     Also add new uapi and documentation as per review comments
->> > >>     from Daniel.
->> > >>
->> > >> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->> > >> ---
->> > >>  Documentation/gpu/rfc/i915_vm_bind.h | 399 +++++++++++++++++++++++++++
->> > >>  1 file changed, 399 insertions(+)
->> > >>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
->> > >>
->> > >> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
->> > >> new file mode 100644
->> > >> index 000000000000..589c0a009107
->> > >> --- /dev/null
->> > >> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
->> > >> @@ -0,0 +1,399 @@
->> > >> +/* SPDX-License-Identifier: MIT */
->> > >> +/*
->> > >> + * Copyright © 2022 Intel Corporation
->> > >> + */
->> > >> +
->> > >> +/**
->> > >> + * DOC: I915_PARAM_HAS_VM_BIND
->> > >> + *
->> > >> + * VM_BIND feature availability.
->> > >> + * See typedef drm_i915_getparam_t param.
->> > >> + */
->> > >> +#define I915_PARAM_HAS_VM_BIND               57
->> > >> +
->> > >> +/**
->> > >> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
->> > >> + *
->> > >> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
->> > >> + * See struct drm_i915_gem_vm_control flags.
->> > >> + *
->> > >> + * A VM in VM_BIND mode will not support the older execbuff mode of binding.
->> > >> + * In VM_BIND mode, execbuff ioctl will not accept any execlist (ie., the
->> > >> + * &drm_i915_gem_execbuffer2.buffer_count must be 0).
->> > >> + * Also, &drm_i915_gem_execbuffer2.batch_start_offset and
->> > >> + * &drm_i915_gem_execbuffer2.batch_len must be 0.
->> > >> + * DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES extension must be provided
->> > >> + * to pass in the batch buffer addresses.
->> > >> + *
->> > >> + * Additionally, I915_EXEC_NO_RELOC, I915_EXEC_HANDLE_LUT and
->> > >> + * I915_EXEC_BATCH_FIRST of &drm_i915_gem_execbuffer2.flags must be 0
->> > >> + * (not used) in VM_BIND mode. I915_EXEC_USE_EXTENSIONS flag must always be
->> > >> + * set (See struct drm_i915_gem_execbuffer_ext_batch_addresses).
->> > >> + * The buffers_ptr, buffer_count, batch_start_offset and batch_len fields
->> > >> + * of struct drm_i915_gem_execbuffer2 are also not used and must be 0.
->> > >> + */
->> > >
->> > >From that description, it seems we have:
->> > >
->> > >struct drm_i915_gem_execbuffer2 {
->> > >        __u64 buffers_ptr;              -> must be 0 (new)
->> > >        __u32 buffer_count;             -> must be 0 (new)
->> > >        __u32 batch_start_offset;       -> must be 0 (new)
->> > >        __u32 batch_len;                -> must be 0 (new)
->> > >        __u32 DR1;                      -> must be 0 (old)
->> > >        __u32 DR4;                      -> must be 0 (old)
->> > >        __u32 num_cliprects; (fences)   -> must be 0 since using extensions
->> > >        __u64 cliprects_ptr; (fences, extensions) -> contains an actual pointer!
->> > >        __u64 flags;                    -> some flags must be 0 (new)
->> > >        __u64 rsvd1; (context info)     -> repurposed field (old)
->> > >        __u64 rsvd2;                    -> unused
->> > >};
->> > >
->> > >Based on that, why can't we just get drm_i915_gem_execbuffer3 instead
->> > >of adding even more complexity to an already abused interface? While
->> > >the Vulkan-like extension thing is really nice, I don't think what
->> > >we're doing here is extending the ioctl usage, we're completely
->> > >changing how the base struct should be interpreted based on how the VM
->> > >was created (which is an entirely different ioctl).
->> > >
->> > >From Rusty Russel's API Design grading, drm_i915_gem_execbuffer2 is
->> > >already at -6 without these changes. I think after vm_bind we'll need
->> > >to create a -11 entry just to deal with this ioctl.
->> > >
->> >
->> > The only change here is removing the execlist support for VM_BIND
->> > mode (other than natual extensions).
->> > Adding a new execbuffer3 was considered, but I think we need to be careful
->> > with that as that goes beyond the VM_BIND support, including any future
->> > requirements (as we don't want an execbuffer4 after VM_BIND).
->>
->> Why not? it's not like adding extensions here is really that different
->> than adding new ioctls.
->>
->> I definitely think this deserves an execbuffer3 without even
->> considering future requirements. Just  to burn down the old
->> requirements and pointless fields.
->>
->> Make execbuffer3 be vm bind only, no relocs, no legacy bits, leave the
->> older sw on execbuf2 for ever.
->
->I guess another point in favour of execbuf3 would be that it's less
->midlayer. If we share the entry point then there's quite a few vfuncs
->needed to cleanly split out the vm_bind paths from the legacy
->reloc/softping paths.
->
->If we invert this and do execbuf3, then there's the existing ioctl
->vfunc, and then we share code (where it even makes sense, probably
->request setup/submit need to be shared, anything else is probably
->cleaner to just copypaste) with the usual helper approach.
->
->Also that would guarantee that really none of the old concepts like
->i915_active on the vma or vma open counts and all that stuff leaks
->into the new vm_bind execbuf.
->
->Finally I also think that copypasting would make backporting easier,
->or at least more flexible, since it should make it easier to have the
->upstream vm_bind co-exist with all the other things we have. Without
->huge amounts of conflicts (or at least much less) that pushing a pile
->of vfuncs into the existing code would cause.
->
->So maybe we should do this?
+On Thu, 2022-06-02 at 11:50 +0800, Rex-BC Chen wrote:
+> On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
+> > this series is built around the DisplayPort driver. The dpi/dpintf
+> > driver and the added helper functions are required for the
+> > DisplayPort
+> > driver to work.
+> > 
+> > This v10 still has some un-answered comments and TODOs for v11.
+> > 
+> > This has been tested sucessfully on a 5.18-next based "vendor
+> > branch".
+> > 
+> > There's a missing dependency in the mediatek clock framework to
+> > allow
+> > a
+> > mux clock to change it's parent automatically on rate change.
+> > Without this change, the dpi driver won't properly set the clocks
+> > on
+> > mode change and thus nothing will be displayed on screen.
+> > 
+> > Changes from v9:
+> > - The DP-Phy is back to being a child device of the DP driver (as
+> > in
+> > v8)
+> > - hot plug detection has been added back to Embedded Display
+> > Port...
+> > as
+> >   after discussing with mediatek experts, this is needed eventhough
+> > the
+> >   Embedded Display port is not un-pluggable
+> > - rebased on linux-next
+> > - simplified/split train_handler function, as suggested by Rex
+> > - added comments on the sleep/delays present in the code
+> > - removed previous patch introducing retries when receiving
+> > AUX_DEFER
+> > as
+> >   this is already handled in the dp_aux framework
+> > - added max-lane and max-linkrate device tree u8 properties instead
+> > of
+> >   hardcoded #defines
+> > 
+> > Things that are in my todolist for v11:
+> > - retrieve CK/DE support from panel driver instead of hardcoding it
+> > into
+> >   the dpi driver
+> > - refcount the dp driver "enabled" status for "future proofing"
+> > - review the drm_dp_helpers for features/functions that have been
+> >   re-implemented in the mediatek dp drivers
+> > 
+> > Older revisions:
+> > RFC - 
+> > 
+https://lore.kernel.org/linux-mediatek/20210816192523.1739365-1-msp@baylibre.com/
+> > v1  - 
+> > 
+https://lore.kernel.org/linux-mediatek/20210906193529.718845-1-msp@baylibre.com/
+> > v2  - 
+> > 
+https://lore.kernel.org/linux-mediatek/20210920084424.231825-1-msp@baylibre.com/
+> > v3  - 
+> > 
+https://lore.kernel.org/linux-mediatek/20211001094443.2770169-1-msp@baylibre.com/
+> > v4  - 
+> > 
+https://lore.kernel.org/linux-mediatek/20211011094624.3416029-1-msp@baylibre.com/
+> > v5  - 
+> > 
+https://lore.kernel.org/all/20211021092707.3562523-1-msp@baylibre.com/
+> > v6  - 
+> > 
+https://lore.kernel.org/linux-mediatek/20211110130623.20553-1-granquet@baylibre.com/
+> > v7  - 
+> > 
+https://lore.kernel.org/linux-mediatek/20211217150854.2081-1-granquet@baylibre.com/
+> > v8  - 
+> > 
+https://lore.kernel.org/linux-mediatek/20220218145437.18563-1-granquet@baylibre.com/
+> > v9  - 
+> > 
+https://lore.kernel.org/all/20220327223927.20848-1-granquet@baylibre.com/
+> > 
+> > Functional dependencies are:
+> > - Add Mediatek Soc DRM (vdosys0) support for mt8195
+> >   
+> > 
+https://lore.kernel.org/linux-mediatek/20220419094143.9561-2-jason-jh.lin@mediatek.com/
+> > - Add MediaTek SoC DRM (vdosys1) support for mt8195
+> >   
+> > 
+https://lore.kernel.org/linux-mediatek/20220512053128.31415-1-nancy.lin@mediatek.com/
+> > 
+> > 
+> > Guillaume Ranquet (15):
+> >   drm/edid: Convert cea_sad helper struct to kernelDoc
+> >   drm/edid: Add cea_sad helpers for freq/length
+> >   drm/mediatek: dpi: move dpi limits to SoC config
+> >   drm/mediatek: dpi: implement a CK/DE pol toggle in SoC config
+> >   drm/mediatek: dpi: implement a swap_input toggle in SoC config
+> >   drm/mediatek: dpi: move dimension mask to SoC config
+> >   drm/mediatek: dpi: move hvsize_mask to SoC config
+> >   drm/mediatek: dpi: move swap_shift to SoC config
+> >   drm/mediatek: dpi: move the yuv422_en_bit to SoC config
+> >   drm/mediatek: dpi: move the csc_enable bit to SoC config
+> >   drm/mediatek: dpi: Add dpintf support
+> >   drm/mediatek: dpi: Only enable dpi after the bridge is enabled
+> >   drm/meditek: dpi: Add matrix_sel helper
+> >   drm/mediatek: Add mt8195 External DisplayPort support
+> >   drm/mediatek: DP audio support for mt8195
+> > 
+> > Jitao Shi (1):
+> >   drm/mediatek: add hpd debounce
+> > 
+> > Markus Schneider-Pargmann (5):
+> >   dt-bindings: mediatek,dpi: Add DPINTF compatible
+> >   dt-bindings: mediatek,dp: Add Display Port binding
+> >   video/hdmi: Add audio_infoframe packing for DP
+> >   phy: phy-mtk-dp: Add driver for DP phy
+> >   drm/mediatek: Add mt8195 Embedded DisplayPort driver
+> > 
+> >  .../display/mediatek/mediatek,dp.yaml         |   99 +
+> >  .../display/mediatek/mediatek,dpi.yaml        |   13 +-
+> >  MAINTAINERS                                   |    1 +
+> >  drivers/gpu/drm/drm_edid.c                    |   74 +
+> >  drivers/gpu/drm/mediatek/Kconfig              |    8 +
+> >  drivers/gpu/drm/mediatek/Makefile             |    2 +
+> >  drivers/gpu/drm/mediatek/mtk_dp.c             | 3419
+> > +++++++++++++++++
+> >  drivers/gpu/drm/mediatek/mtk_dp_reg.h         |  570 +++
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c            |  272 +-
+> >  drivers/gpu/drm/mediatek/mtk_dpi_regs.h       |   38 +
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |    8 +
+> >  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |    1 +
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    8 +-
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |    3 +
+> >  drivers/phy/mediatek/Kconfig                  |    8 +
+> >  drivers/phy/mediatek/Makefile                 |    1 +
+> >  drivers/phy/mediatek/phy-mtk-dp.c             |  200 +
+> >  drivers/video/hdmi.c                          |   82 +-
+> >  include/drm/dp/drm_dp_helper.h                |    2 +
+> >  include/drm/drm_edid.h                        |   26 +-
+> >  include/linux/hdmi.h                          |    7 +-
+> >  include/linux/soc/mediatek/mtk-mmsys.h        |    4 +-
+> >  22 files changed, 4765 insertions(+), 81 deletions(-)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
+> >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> >  create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
+> 
+> Hello all,
+> 
+> Due to the resource issue, I will keep upstreaming Guillaume's MT8195
+> dp/edp series.
+> 
+> I will check the comments for v8/v9/v10 and have some discussion with
+> you.
+> 
+> Thanks for your all comments.
+> 
+> BRs,
+> Bo-Chen
+> 
 
-Thanks Dave, Daniel.
-There are a few things that will be common between execbuf2 and
-execbuf3, like request setup/submit (as you said), fence handling 
-(timeline fences, fence array, composite fences), engine selection,
-etc. Also, many of the 'flags' will be there in execbuf3 also (but
-bit position will differ).
-But I guess these should be fine as the suggestion here is to
-copy-paste the execbuff code and having a shared code where possible.
-Besides, we can stop supporting some older feature in execbuff3
-(like fence array in favor of newer timeline fences), which will
-further reduce common code.
+Hello all,
 
-Ok, I will update this series by adding execbuf3 and send out soon.
+Because the patches of dp_intf seem to be almost completed, I want to
+split this series into two series:
+dp_intf and edp/dp.
 
-Niranjana
+It will be easier to review and maintain this series.
 
->-Daniel
->-- 
->Daniel Vetter
->Software Engineer, Intel Corporation
->http://blog.ffwll.ch
+Thanks!
+
+BRs,
+Bo-Chen
+
