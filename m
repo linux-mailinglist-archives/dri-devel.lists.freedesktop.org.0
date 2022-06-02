@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920F553B6B7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 12:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F111D53B6BC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 12:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C763112D57;
-	Thu,  2 Jun 2022 10:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE138112D58;
+	Thu,  2 Jun 2022 10:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D670112D85
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 10:15:05 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id m68so3287095qkb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 03:15:05 -0700 (PDT)
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
+ [IPv6:2607:f8b0:4864:20::f2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58C33112D58
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 10:15:21 +0000 (UTC)
+Received: by mail-qv1-xf2d.google.com with SMTP id j3so3287185qvn.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 03:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fOHitFVtUhQxQeGoTHoG0OzFq0ZzrGiczbq+UxLc2qw=;
- b=JWryxprqeUxNU1XZR95MlHVGT7qDBnT1Ot3ZVtcYjVhIAQGizQ4cLaxHFqn92wHQdR
- eA3+lrQlnmvH3tLvzz3gKCMHBYSa0XUYOP1v8m+fWNANYgzmckyp9Xgiy5aVFbX47zIq
- x6NRqvlWDNLibNbKuwKmcZ4ofxZlW7tP0VnbmlDx30GfjrZgQkSNKNokN8lEYLyqdrk8
- kStDk6tMe5YgSu0FwDg7iUFg7VejnB9qXCKwXo132VZs4XqeSjyNnkD4k4Gyw0fR4SD+
- qdOg+UWMF+y75RBbC5BTWTgwaoELK0hVrRkyr1Tw8oFOFOFNXFkr22r0yeNj2rKXoSw9
- vO8Q==
+ :cc; bh=iGK0zPU93j8Ge2AzP1KbQCzIzb8femdDnLBXlrSmAF4=;
+ b=rGExpiOaZ1dgPz/IIE7N5VFS9CKXCNxc1uESwdH+rJIsRxPqcrxLlunbdvz9yDCtDJ
+ voN25Ke98eRyOfhycMhlE6/BhgKy9kGqk0aVat6o8LmN+Dvtjo+t62ITp+NdHdJ8DaZp
+ ZK1f4mTGjjBMuaKsCEJuIAl4s/rcnw8J1EsiMHkl+n5vTmEsXXhs/HU2YbrLab9gd73W
+ iO3SqhvP749pR96qrqOJg0OsiHYyZEd0RhLMp5fjNgjRvmKi2oDsFTp7dnlJPyIfNnhF
+ ozhd2EusWxJT1KgDiXtn64VqP2yLPhmHegWOXpJfg3beGU/wXASf74PTlh8Zrta1jYLL
+ E8ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fOHitFVtUhQxQeGoTHoG0OzFq0ZzrGiczbq+UxLc2qw=;
- b=C6LCwsZw4szwEsybvncN4Qlb1Zwk8CJ14wvU4LramCkOTmeAHx1jxIZjbh66VchxLY
- TT+rLBwk8CRPITVG15sR6vHaGmq2DzcRR6ZEuEoXHXys8b6CgPtyhDVvBPIN7CNmHVav
- rH0+ztXsgHfCr5k2m2uZkaxBHGDt9oP7c9AKC0JN3IYY4a1prfWzGoKc9ED6M4/IkRTN
- D0hwN5hpFyv/aMtA0QB/cSH7oZmNaIIZhgqo6vnF61eQa19QM4puBwtUmDmvMR1xqinZ
- BSNGV1nuqVRjI4oZa94gCfuRNBNGXBvt396k5/y4w3Si6maWH9GGLAgylfVLG0Vpt8uH
- fcHQ==
-X-Gm-Message-State: AOAM530FhXwQzazxch1b8CMSSKJsvRaLkmu10YTFWsIz7RiSwYnkFX73
- KvxxmRpcsG8gwLm4kEL+k7QROdl3XH56POOE+DAXMA==
-X-Google-Smtp-Source: ABdhPJw2bRmHzQbnAYbZakDLi24fc4qCFs5O5K0MkvKDsfdY7N70JVb+c0+aHohWoM0U4fwyizCr+zLCSn4np4A52Z4=
-X-Received: by 2002:a05:620a:2a06:b0:6a5:b090:65c0 with SMTP id
- o6-20020a05620a2a0600b006a5b09065c0mr2438054qkp.593.1654164904535; Thu, 02
- Jun 2022 03:15:04 -0700 (PDT)
+ bh=iGK0zPU93j8Ge2AzP1KbQCzIzb8femdDnLBXlrSmAF4=;
+ b=jPkjbrmogDAtYAayzpksaf/wcq4xn2AX2c8zf+E5/5JCQ9ZhjFVcBZ7T5+3hU3kHfL
+ tH+W5ZAF1Q85wVm+1uCI1O9f4oHSiQSA5STcBZyC+F0F2vEApTokaV4riO89xNcf9BV0
+ 8XeWw/b+9Zw9sHUxasw+7TJ+Ym826lwevzvdMuGvwnRre9xqOW7OjK6+TIAs2EjtkEvm
+ PyPU4pECqcU7Vx5Bc+Llsh6tj+pcvJSqSgx9xqzzSKTAJ4IFJ1X3EGF+Q6iGpAquETNW
+ HBMXy5dQygWtPhMjwSsO8vObN1slYP5yNtwhezBvLqaupn3vMf6/E49Ko34iYQLvjL8o
+ f5jA==
+X-Gm-Message-State: AOAM532bHZMo5dx9312MkT28rigCk7U6c9e6r0WQPFIe82hclu9xasQS
+ yHGuVOCMIWeKAQb/TPt1B/LTHNbQ86h3KvcfImynVw==
+X-Google-Smtp-Source: ABdhPJwZVrgPJE/PLNJFp4EqWodbfWB4zXOatz/ZqouAf8UAnlORn21DQ04M5d/rYnMf/jo5weyIf8kqSfgKMKENP48=
+X-Received: by 2002:ad4:5b81:0:b0:465:ded8:780 with SMTP id
+ 1-20020ad45b81000000b00465ded80780mr4768269qvp.119.1654164920448; Thu, 02 Jun
+ 2022 03:15:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220601220747.1145095-1-marijn.suijten@somainline.org>
- <20220601220747.1145095-2-marijn.suijten@somainline.org>
-In-Reply-To: <20220601220747.1145095-2-marijn.suijten@somainline.org>
+ <20220601220747.1145095-3-marijn.suijten@somainline.org>
+In-Reply-To: <20220601220747.1145095-3-marijn.suijten@somainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 2 Jun 2022 13:14:53 +0300
-Message-ID: <CAA8EJprRhoE+MMWSx69O+s=Zvoq=HKtaoe7xx+kCmtZas1woCw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/11] clk: divider: Introduce
- devm_clk_hw_register_divider_parent_hw()
+Date: Thu, 2 Jun 2022 13:15:09 +0300
+Message-ID: <CAA8EJpp0Nv=H3Xm-PQyr0__KA_tP1p6LeSkDwGSMBx0X8kpZ8g@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] clk: mux: Introduce
+ devm_clk_hw_register_mux_parent_hws()
 To: Marijn Suijten <marijn.suijten@somainline.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,48 +83,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, 2 Jun 2022 at 01:07, Marijn Suijten
 <marijn.suijten@somainline.org> wrote:
 >
-> Add the devres variant of clk_hw_register_divider_parent_hw() for
-> registering a divider clock with clk_hw parent pointer instead of parent
-> name.
+> Add the devres variant of clk_hw_register_mux_hws() for registering a
+> mux clock with clk_hw parent pointers instead of parent names.
 >
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
->  include/linux/clk-provider.h | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+>  include/linux/clk-provider.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
 > diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-> index c10dc4c659e2..4e07621849e6 100644
+> index 4e07621849e6..316c7e082934 100644
 > --- a/include/linux/clk-provider.h
 > +++ b/include/linux/clk-provider.h
-> @@ -831,6 +831,25 @@ struct clk *clk_register_divider_table(struct device *dev, const char *name,
->         __devm_clk_hw_register_divider((dev), NULL, (name), (parent_name), NULL,   \
->                                   NULL, (flags), (reg), (shift), (width),     \
->                                   (clk_divider_flags), NULL, (lock))
-> +/**
-> + * devm_clk_hw_register_divider_parent_hw - register a divider clock with the clock framework
-> + * @dev: device registering this clock
-> + * @name: name of this clock
-> + * @parent_hw: pointer to parent clk
-> + * @flags: framework-specific flags
-> + * @reg: register address to adjust divider
-> + * @shift: number of bits to shift the bitfield
-> + * @width: width of the bitfield
-> + * @clk_divider_flags: divider-specific flags for this clock
-> + * @lock: shared register lock for this clock
-> + */
-> +#define devm_clk_hw_register_divider_parent_hw(dev, name, parent_hw, flags,   \
-> +                                              reg, shift, width,             \
-> +                                              clk_divider_flags, lock)       \
-> +       __devm_clk_hw_register_divider((dev), NULL, (name), NULL,             \
-> +                                      (parent_hw), NULL, (flags), (reg),     \
-> +                                      (shift), (width), (clk_divider_flags), \
-> +                                      NULL, (lock))
->  /**
->   * devm_clk_hw_register_divider_table - register a table based divider clock
->   * with the clock framework (devres variant)
+> @@ -980,6 +980,13 @@ struct clk *clk_register_mux_table(struct device *dev, const char *name,
+>                               (parent_names), NULL, NULL, (flags), (reg),     \
+>                               (shift), BIT((width)) - 1, (clk_mux_flags),     \
+>                               NULL, (lock))
+> +#define devm_clk_hw_register_mux_parent_hws(dev, name, parent_hws,           \
+> +                                           num_parents, flags, reg, shift,   \
+> +                                           width, clk_mux_flags, lock)       \
+> +       __devm_clk_hw_register_mux((dev), NULL, (name), (num_parents), NULL,  \
+> +                                  (parent_hws), NULL, (flags), (reg),        \
+> +                                  (shift), BIT((width)) - 1,                 \
+> +                                  (clk_mux_flags), NULL, (lock))
+>
+>  int clk_mux_val_to_index(struct clk_hw *hw, const u32 *table, unsigned int flags,
+>                          unsigned int val);
 > --
 > 2.36.1
 >
