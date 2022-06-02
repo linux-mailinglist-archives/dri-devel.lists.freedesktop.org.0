@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB74853C429
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 07:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D631353BE92
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 21:20:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0363E11379C;
-	Fri,  3 Jun 2022 05:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95B2710FEF7;
+	Thu,  2 Jun 2022 19:20:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB79F10E8A8
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 19:15:09 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id f4so5741351iov.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 12:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+JW6e6kAbkN1t97wxNKn9trDaaZcj41ptIda8qj3Wss=;
- b=Mp3yYAlO9Imkq6jnVsv97Ohy+jxga/lb1MU6H8gTFzB/XiqAYsmgs7+AerjK52IbOX
- Z5ku3ZZAU1yZx0zQJsUoh5Cmfrkh5hNHSUKsZOvomVQ9lrjHsoSPpfnIX0jzAaabG5s/
- kFzIklrdpFad1HMH4lSIsFYRm4z5uggz270Jh6qRBeNIgjFO9VqU0j3BuvbbEsMcLSlN
- q2qK1+2iYRJBbHvyYbnil6/I78AzdEYB5imRqiIR4NgBPnOmyvSnIT2iXsSIukvxkJb3
- FQoW1mECkuo+5XRlZT61kIS5j+umTbCjmUwXjTKSaxFMHBBSl+6BwUf8yF+RBuQt44O8
- WkqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+JW6e6kAbkN1t97wxNKn9trDaaZcj41ptIda8qj3Wss=;
- b=eQD4q563KhINBsqdJMwf7IO3yDByH4jo2Dip0x6SZktUattR/Iik2LYaBYIk3QEDz/
- H6V5YIGxir9Bag+R2/Q4FaZq+ZOBk32xSkEHeZZVYVv5PQJHVHZZrkaKrmmSkNYOAeGW
- GtlZHAxeShnCuCK/C1GOFSF9W3DnwPJASXrNOji8vWSSFa2a2PLGU2dqnV1EZPwDH3Zs
- XgdpIEZkZZ5WakVcN6+yqSabkBr/R5z7xRGJwz50E4mugjQBgfb7keZcja8bhIl54R/a
- hRktt2iNXwhwqvzY+IiW2pJ8kgFm9vEnJjfkLZr7+6fqutRylGWj6MeIC76SB1CdzZAv
- ftOQ==
-X-Gm-Message-State: AOAM532K70O8uUsDxf9rEtdUJjfQ478XPbscBVt4V6tFIyG7F/fvZh4b
- hQv9zfpPNvMt7Ei+HMdBoR/1bUBEUgxcfLfNM3g=
-X-Google-Smtp-Source: ABdhPJy7VatPndTmM5OUVDGmxQ+LUCJY+DzYiarB1n+6ksvOyD1yaNE9MZIu+T8TyIiNppF3Bd3F4stuMBR0VTMVw/s=
-X-Received: by 2002:a05:6602:1355:b0:63d:a9ab:7e30 with SMTP id
- i21-20020a056602135500b0063da9ab7e30mr3336043iov.119.1654197307956; Thu, 02
- Jun 2022 12:15:07 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1740710F106;
+ Thu,  2 Jun 2022 19:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654197651; x=1685733651;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DrQS+858xXoE8wF527YNH/p5k/bZpRmxcHl2RXfH/so=;
+ b=IpHD9/5jYnUDFWfLKRMiRb3stWCRIhBiH/CZDZ6Lp1m2nsVYwN6yiZ93
+ ndmaKI+a7DtWbe2UTrmwFFMH3CXQpMDwdq/JmsEM5jNOFzG9RC4iWsIPe
+ 3BXvrKu8dm3qXaPhqk7+LuEPvH4woxc5zlZrGh22bJOgVWP/ZjbdjhzKX Y=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 02 Jun 2022 12:20:50 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 12:20:50 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 2 Jun 2022 12:20:49 -0700
+Received: from [10.38.242.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 2 Jun 2022
+ 12:20:47 -0700
+Message-ID: <f91d4f3b-e09f-ecd0-a674-827fce71e294@quicinc.com>
+Date: Thu, 2 Jun 2022 12:20:45 -0700
 MIME-Version: 1.0
-References: <20220531111900.19422-1-peterwu.pub@gmail.com>
- <20220531111900.19422-15-peterwu.pub@gmail.com>
- <20220601094623.jnwh2fgsqepy72tc@maple.lan>
-In-Reply-To: <20220601094623.jnwh2fgsqepy72tc@maple.lan>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Fri, 3 Jun 2022 03:14:56 +0800
-Message-ID: <CABtFH5+-o=cML_VCSY9frJwEU_TnZt0+myJebi8J7BpP+BOqOw@mail.gmail.com>
-Subject: Re: [RESEND 14/14] video: backlight: mt6370: Add Mediatek MT6370
- support
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 03 Jun 2022 05:26:38 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 4/7] drm/msm/dpu: change catalog->perf to be a const
+ pointer
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220602133039.1739490-1-dmitry.baryshkov@linaro.org>
+ <20220602133039.1739490-5-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220602133039.1739490-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,429 +67,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
- krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
- linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lgirdwood@gmail.com, ChiYuan Huang <cy_huang@richtek.com>, pavel@ucw.cz,
- lee.jones@linaro.org, linux-leds@vger.kernel.org, deller@gmx.de,
- robh+dt@kernel.org, chunfeng.yun@mediatek.com, linux@roeck-us.net,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org, broonie@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
- linux-usb@vger.kernel.org, sre@kernel.org, linux-kernel@vger.kernel.org,
- chiaen_wu@richtek.com, gregkh@linuxfoundation.org, jic23@kernel.org
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
 
-Thanks for your valuable feedback!
 
-Daniel Thompson <daniel.thompson@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=
-=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:46=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> On Tue, May 31, 2022 at 07:19:00PM +0800, ChiaEn Wu wrote:
-> > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> >
-> > Add Mediatek MT6370 Backlight support.
-> >
-> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > ---
-> >  drivers/video/backlight/Kconfig            |   8 +
-> >  drivers/video/backlight/Makefile           |   1 +
-> >  drivers/video/backlight/mt6370-backlight.c | 338 +++++++++++++++++++++
-> >  3 files changed, 347 insertions(+)
-> >  create mode 100644 drivers/video/backlight/mt6370-backlight.c
-> >
-> > diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/=
-Kconfig
-> > index a003e02e13ce..d9868fbe7488 100644
-> > --- a/drivers/video/backlight/Kconfig
-> > +++ b/drivers/video/backlight/Kconfig
-> > @@ -268,6 +268,14 @@ config BACKLIGHT_MAX8925
-> >         If you have a LCD backlight connected to the WLED output of MAX=
-8925
-> >         WLED output, say Y here to enable this driver.
-> >
-> > +config BACKLIGHT_MT6370
->
-> Is MT6370 really the best name for this driver? In other words, you
-> don't expect there to be any family resemblance between this backlight
-> and the backlight in the *next* Mediatak PMIC?
->
-> Moreover,
-
-MT6370, MT6371, MT6372 are very similar, their hardware design and
-features are almost the same and this driver can be compatible with
-them.
-But, MT6374 is not the same serials PMIC as MT6370, but the name is
-very similar. And It has no backlight feature, so I think MT6370 is
-the best name for this driver now.
-
->
->
-> > +     tristate "Mediatek MT6370 Backlight Driver"
-> > +     depends on MFD_MT6370
-> > +     help
-> > +       Say Y here to enable MT6370 Backlight support.
-> > +       It's commonly used to drive the display WLED. There're 4 channe=
-ls
-> > +       inisde, and each channel can provide up to 30mA current.
->
-> Nitpicking but this doesn't align well with other help texts in this
-> file.
->
-
-OK! I will try to align well in the next patch.
-
->
-> > +
-> >  config BACKLIGHT_APPLE
-> >       tristate "Apple Backlight Driver"
-> >       depends on X86 && ACPI
-> > diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight=
-/Makefile
-> > index cae2c83422ae..e815f3f1deff 100644
-> > --- a/drivers/video/backlight/Makefile
-> > +++ b/drivers/video/backlight/Makefile
-> > @@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)              +=3D lp85=
-5x_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_LP8788)               +=3D lp8788_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_LV5207LP)     +=3D lv5207lp.o
-> >  obj-$(CONFIG_BACKLIGHT_MAX8925)              +=3D max8925_bl.o
-> > +obj-$(CONFIG_BACKLIGHT_MT6370)               +=3D mt6370-backlight.o
-> >  obj-$(CONFIG_BACKLIGHT_OMAP1)                +=3D omap1_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_PANDORA)              +=3D pandora_bl.o
-> >  obj-$(CONFIG_BACKLIGHT_PCF50633)     +=3D pcf50633-backlight.o
-> > diff --git a/drivers/video/backlight/mt6370-backlight.c b/drivers/video=
-/backlight/mt6370-backlight.c
-> > new file mode 100644
-> > index 000000000000..f8a8d33203ed
-> > --- /dev/null
-> > +++ b/drivers/video/backlight/mt6370-backlight.c
-> > @@ -0,0 +1,338 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +#include <linux/backlight.h>
-> > +#include <linux/bitfield.h>
-> > +#include <linux/bits.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/gpio/driver.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#define MT6370_REG_DEV_INFO          0x100
-> > +#define MT6370_REG_BL_EN             0x1A0
-> > +#define MT6370_REG_BL_BSTCTRL                0x1A1
-> > +#define MT6370_REG_BL_PWM            0x1A2
-> > +#define MT6370_REG_BL_DIM2           0x1A4
-> > +
-> > +#define MT6370_VENID_MASK            GENMASK(7, 4)
-> > +#define MT6370_BL_EXT_EN_MASK                BIT(7)
-> > +#define MT6370_BL_EN_MASK            BIT(6)
-> > +#define MT6370_BL_CONFIG_MASK                BIT(0)
-> > +#define MT6370_BL_CH_MASK            GENMASK(5, 2)
-> > +#define MT6370_BL_DIM2_MASK          GENMASK(2, 0)
-> > +#define MT6370_BL_DUMMY_6372_MASK    GENMASK(2, 0)
-> > +#define MT6370_BL_DIM2_6372_SHIFT    3
-> > +#define MT6370_BL_PWM_EN_MASK                BIT(7)
-> > +#define MT6370_BL_PWM_HYS_EN_MASK    BIT(2)
-> > +#define MT6370_BL_PWM_HYS_SEL_MASK   GENMASK(1, 0)
-> > +#define MT6370_BL_OVP_EN_MASK                BIT(7)
-> > +#define MT6370_BL_OVP_SEL_MASK               GENMASK(6, 5)
-> > +#define MT6370_BL_OC_EN_MASK         BIT(3)
-> > +#define MT6370_BL_OC_SEL_MASK                GENMASK(2, 1)
-> > +
-> > +#define MT6370_BL_MAX_BRIGHTNESS     2048
-> > +
-> > +enum {
-> > +     MT6370_VID_COMMON =3D 0,
-> > +     MT6370_VID_6372,
-> > +     MT6370_VID_MAX,
->
-> Unused.
->
-> > +};
-> > +
-> > +enum mt6370_prop_type {
-> > +     MT6370_PARSE_TYPE_BOOL =3D 0,
-> > +     MT6370_PARSE_TYPE_U8,
-> > +     MT6370_PARSE_TYPE_MAX,
->
-> Unused.
->
-> > +};
-> > +
-> > +struct mt6370_priv {
-> > +     int vid_type;
-> > +     struct backlight_device *bl;
-> > +     struct device *dev;
-> > +     struct gpio_desc *enable_gpio;
-> > +     struct regmap *regmap;
-> > +};
-> > +
-> > +static int mt6370_bl_update_status(struct backlight_device *bl_dev)
-> > +{
-> > +     struct mt6370_priv *priv =3D bl_get_data(bl_dev);
-> > +     int brightness =3D backlight_get_brightness(bl_dev);
-> > +     unsigned int enable_val;
-> > +     u8 brightness_val[2];
-> > +     int ret;
-> > +
-> > +     if (brightness) {
-> > +             brightness_val[0] =3D (brightness - 1) & MT6370_BL_DIM2_M=
-ASK;
-> > +             brightness_val[1] =3D (brightness - 1)
-> > +                                     >> fls(MT6370_BL_DIM2_MASK);
-> > +
-> > +             if (priv->vid_type =3D=3D MT6370_VID_6372) {
-> > +                     brightness_val[0] <<=3D MT6370_BL_DIM2_6372_SHIFT=
-;
-> > +                     brightness_val[0] |=3D MT6370_BL_DUMMY_6372_MASK;
->
-> Comment explaining why we have to set these bits would be useful.
-
-I got it, I will add the comment in the next patch.
-
->
->
-> > +             }
-> > +
-> > +             ret =3D regmap_raw_write(priv->regmap, MT6370_REG_BL_DIM2=
-,
-> > +                                    brightness_val, sizeof(brightness_=
-val));
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
-> > +
-> > +     if (priv->enable_gpio)
-> > +             gpiod_set_value(priv->enable_gpio, brightness ? 1 : 0);
-> > +
-> > +     enable_val =3D brightness ? MT6370_BL_EN_MASK : 0;
-> > +     return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN,
-> > +                               MT6370_BL_EN_MASK, enable_val);
-> > +}
-> > +
->
-> <snip>
->
-> > +#define MT6370_DT_PROP_DECL(_name, _type, _reg, _mask, _max, _inv)   \
-> > +{                                                                    \
-> > +     .name =3D "mediatek,bled-" #_name,                               =
- \
->
-> I'd rather have the whole DT property in the macro (because it helps
-> with grepability).
-
-Do you mean the _name parameter must be the full name of the DT
-property and do not use "#" to concat like following example?
-
-// in declare
-            .name =3D _name,
-// in use
-            MT6370_DT_PROP_DECL(mediatek,bled-pwm-enable, ......)
-
->
->
-> > +     .type =3D MT6370_PARSE_TYPE_##_type,                             =
- \
-> > +     .reg =3D _reg,                                                   =
- \
-> > +     .mask =3D _mask,                                                 =
- \
-> > +     .max_val =3D _max,                                               =
- \
-> > +     .invert =3D _inv,                                                =
- \
-> > +}
-> > +
-> > +static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
-> > +                                         struct backlight_properties *=
-props)
-> > +{
-> > +     struct device *dev =3D priv->dev;
-> > +     u8 prop_val;
-> > +     u32 brightness;
-> > +     unsigned int mask, val;
-> > +     static const struct {
-> > +             char *name;
-> > +             enum mt6370_prop_type type;
-> > +             unsigned int reg;
-> > +             unsigned int mask;
-> > +             u8 max_val;
-> > +             bool invert;
-> > +     } vendor_opt_props[] =3D {
-> > +             MT6370_DT_PROP_DECL(pwm-enable, BOOL, MT6370_REG_BL_PWM,
-> > +                                 MT6370_BL_PWM_EN_MASK, 1, false),
-> > +             MT6370_DT_PROP_DECL(pwm-hys-enable, BOOL, MT6370_REG_BL_P=
-WM,
-> > +                                 MT6370_BL_PWM_HYS_EN_MASK, 1, false),
-> > +             MT6370_DT_PROP_DECL(pwm-hys-sel, U8, MT6370_REG_BL_PWM,
-> > +                                 MT6370_BL_PWM_HYS_SEL_MASK, 3, false)=
-,
-> > +             MT6370_DT_PROP_DECL(ovp-level-sel, U8, MT6370_REG_BL_BSTC=
-TRL,
-> > +                                 MT6370_BL_OVP_SEL_MASK, 3, false),
-> > +             MT6370_DT_PROP_DECL(ovp-shutdown, BOOL, MT6370_REG_BL_BST=
-CTRL,
-> > +                                 MT6370_BL_OVP_EN_MASK, 1, true),
-> > +             MT6370_DT_PROP_DECL(ocp-level-sel, U8, MT6370_REG_BL_BSTC=
-TRL,
-> > +                                 MT6370_BL_OC_SEL_MASK, 3, false),
-> > +             MT6370_DT_PROP_DECL(ocp-shutdown, BOOL, MT6370_REG_BL_BST=
-CTRL,
-> > +                                 MT6370_BL_OC_EN_MASK, 1, true),
-> > +     }, *prop_now;
-> > +     int i, ret;
-> > +
-> > +     /* vendor optional properties */
-> > +     for (i =3D 0; i < ARRAY_SIZE(vendor_opt_props); i++) {
-> > +             prop_now =3D vendor_opt_props + i;
-> > +
-> > +             switch (prop_now->type) {
-> > +             case MT6370_PARSE_TYPE_BOOL:
-> > +                     if (device_property_read_bool(dev, prop_now->name=
-))
-> > +                             val =3D 1;
-> > +                     else
-> > +                             val =3D 0;
-> > +                     break;
-> > +             case MT6370_PARSE_TYPE_U8:
-> > +                     ret =3D device_property_read_u8(dev, prop_now->na=
-me,
-> > +                                                   &prop_val);
-> > +                     /* Property not exist, keep value in default */
-> > +                     if (ret)
-> > +                             continue;
-> > +
-> > +                     val =3D min_t(u8, prop_val, prop_now->max_val);
-> > +                     break;
-> > +             default:
-> > +                     return -EINVAL;
-> > +             }
-> > +
-> > +             if (prop_now->invert)
-> > +                     val =3D prop_now->max_val - val;
-> > +
-> > +             val <<=3D ffs(prop_now->mask) - 1;
-> > +
-> > +             ret =3D regmap_update_bits(priv->regmap, prop_now->reg,
-> > +                                      prop_now->mask, val);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
->
-> Is it really worth all this tricky code for 7 properties?
->
-> The code would be much easier to read and maintain if it were coded
-> directly. For example, the inverted boolean code is hard to read and
-> can be written directly as:
->
->
->         val =3D device_property_read_bool(dev, "mediatek,bled-ovp_shutdow=
-n");
->         ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BST_CTRL,
->                                  MT6370_BL_OVP_EN_MASK,
->                                  MT6370_BL_OVP_EN_MASK * !val);
->         if (ret)
->                 return ret;
->
-> The direct coded approach will probably also pay off if you switch
-> the bindings over to microvolts/microamps since it becomes much more
-> natural to call out to a lookup function to convert it into a register
-> value.
->
-
-The purpose of my code is trying to avoid the repeat code in this
-function. And for loop can help to decrease the lines of code
-effectively, that's why I use these code to parse the DT properties.
-
-> > +
-> > +     /* common properties */
-> > +     ret =3D device_property_read_u32(dev, "max-brightness", &brightne=
-ss);
-> > +     if (ret)
-> > +             brightness =3D MT6370_BL_MAX_BRIGHTNESS;
-> > +
-> > +     props->max_brightness =3D min_t(u32, brightness,
-> > +                                   MT6370_BL_MAX_BRIGHTNESS);
-> > +
-> > +     ret =3D device_property_read_u32(dev, "default-brightness", &brig=
-htness);
-> > +     if (ret)
-> > +             brightness =3D props->max_brightness;
-> > +
-> > +     props->brightness =3D min_t(u32, brightness, props->max_brightnes=
-s);
-> > +
-> > +
-> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-channel-use",
-> > +                                   &prop_val);
-> > +     if (ret) {
-> > +             dev_err(dev, "mediatek,bled-channel-use DT property missi=
-ng\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     if (!prop_val) {
-> > +             dev_err(dev, "No channel specified\n");
-> > +             return -EINVAL;
-> > +     }
->
-> If we are going to validity check this property then it needs an upper
-> bounds check to (e.g. consider if property is set to 64).
->
-OK, I will add the validation in the next patch.
-
->
-> > +
-> > +     mask =3D MT6370_BL_EXT_EN_MASK | MT6370_BL_CH_MASK;
-> > +     val =3D prop_val << (ffs(MT6370_BL_CH_MASK) - 1);
-> > +
-> > +     if (priv->enable_gpio)
-> > +             val |=3D MT6370_BL_EXT_EN_MASK;
-> > +
-> > +     return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN, mask, v=
-al);
-> > +}
-> > +
-> > +static int mt6370_check_vendor_info(struct mt6370_priv *priv)
->
-> A comment explaining what variants this function is intended to
-> supported here would be good here.
-
-Ok, I got it! I'll add the comment in the next patch.
-
->
->
-> > +{
-> > +     unsigned int dev_info, vid;
-> > +     int ret;
-> > +
-> > +     ret =3D regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &dev_info)=
-;
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     vid =3D FIELD_GET(MT6370_VENID_MASK, dev_info);
-> > +     if (vid =3D=3D 0x9 || vid =3D=3D 0xb)
-> > +             priv->vid_type =3D MT6370_VID_6372;
-> > +     else
-> > +             priv->vid_type =3D MT6370_VID_COMMON;
-> > +
-> > +     return 0;
-> > +}
->
->
-> No furthers comments so I trimmed the rest.
->
->
-> Daniel.
-
-Best regards,
-ChiaEn Wu
+On 6/2/2022 6:30 AM, Dmitry Baryshkov wrote:
+> Change dpu_mdss_cfg::perf to be a const pointer rather than embedding
+> the dpu_perf_cfg struct into the struct dpu_mdss_cfg.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 20 +++++++++----------
+>   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 10 +++++-----
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 16 +++++++--------
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 18 ++++++++---------
+>   5 files changed, 33 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> index a7492dd6ed65..31767d0f7353 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> @@ -53,7 +53,7 @@ static u64 _dpu_core_perf_calc_bw(struct dpu_kms *kms,
+>   		crtc_plane_bw += pstate->plane_fetch_bw;
+>   	}
+>   
+> -	bw_factor = kms->catalog->perf.bw_inefficiency_factor;
+> +	bw_factor = kms->catalog->perf->bw_inefficiency_factor;
+>   	if (bw_factor) {
+>   		crtc_plane_bw *= bw_factor;
+>   		do_div(crtc_plane_bw, 100);
+> @@ -90,7 +90,7 @@ static u64 _dpu_core_perf_calc_clk(struct dpu_kms *kms,
+>   		crtc_clk = max(pstate->plane_clk, crtc_clk);
+>   	}
+>   
+> -	clk_factor = kms->catalog->perf.clk_inefficiency_factor;
+> +	clk_factor = kms->catalog->perf->clk_inefficiency_factor;
+>   	if (clk_factor) {
+>   		crtc_clk *= clk_factor;
+>   		do_div(crtc_clk, 100);
+> @@ -128,7 +128,7 @@ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
+>   		perf->core_clk_rate = kms->perf.fix_core_clk_rate;
+>   	} else {
+>   		perf->bw_ctl = _dpu_core_perf_calc_bw(kms, crtc);
+> -		perf->max_per_pipe_ib = kms->catalog->perf.min_dram_ib;
+> +		perf->max_per_pipe_ib = kms->catalog->perf->min_dram_ib;
+>   		perf->core_clk_rate = _dpu_core_perf_calc_clk(kms, crtc, state);
+>   	}
+>   
+> @@ -189,7 +189,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+>   		bw = DIV_ROUND_UP_ULL(bw_sum_of_intfs, 1000);
+>   		DRM_DEBUG_ATOMIC("calculated bandwidth=%uk\n", bw);
+>   
+> -		threshold = kms->catalog->perf.max_bw_high;
+> +		threshold = kms->catalog->perf->max_bw_high;
+>   
+>   		DRM_DEBUG_ATOMIC("final threshold bw limit = %d\n", threshold);
+>   
+> @@ -413,7 +413,7 @@ static ssize_t _dpu_core_perf_mode_write(struct file *file,
+>   		    const char __user *user_buf, size_t count, loff_t *ppos)
+>   {
+>   	struct dpu_core_perf *perf = file->private_data;
+> -	struct dpu_perf_cfg *cfg = &perf->catalog->perf;
+> +	const struct dpu_perf_cfg *cfg = perf->catalog->perf;
+>   	u32 perf_mode = 0;
+>   	int ret;
+>   
+> @@ -480,15 +480,15 @@ int dpu_core_perf_debugfs_init(struct dpu_kms *dpu_kms, struct dentry *parent)
+>   	debugfs_create_u32("enable_bw_release", 0600, entry,
+>   			(u32 *)&perf->enable_bw_release);
+>   	debugfs_create_u32("threshold_low", 0600, entry,
+> -			(u32 *)&catalog->perf.max_bw_low);
+> +			(u32 *)&catalog->perf->max_bw_low);
+>   	debugfs_create_u32("threshold_high", 0600, entry,
+> -			(u32 *)&catalog->perf.max_bw_high);
+> +			(u32 *)&catalog->perf->max_bw_high);
+>   	debugfs_create_u32("min_core_ib", 0600, entry,
+> -			(u32 *)&catalog->perf.min_core_ib);
+> +			(u32 *)&catalog->perf->min_core_ib);
+>   	debugfs_create_u32("min_llcc_ib", 0600, entry,
+> -			(u32 *)&catalog->perf.min_llcc_ib);
+> +			(u32 *)&catalog->perf->min_llcc_ib);
+>   	debugfs_create_u32("min_dram_ib", 0600, entry,
+> -			(u32 *)&catalog->perf.min_dram_ib);
+> +			(u32 *)&catalog->perf->min_dram_ib);
+>   	debugfs_create_file("perf_mode", 0600, entry,
+>   			(u32 *)perf, &dpu_core_perf_mode_fops);
+>   	debugfs_create_u64("fix_core_clk_rate", 0600, entry,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> index 4829d1ce0cf8..1e4a4822fbf4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> @@ -104,7 +104,7 @@ static void dpu_encoder_phys_wb_set_qos(struct dpu_encoder_phys *phys_enc)
+>   	struct dpu_hw_wb *hw_wb;
+>   	struct dpu_hw_wb_qos_cfg qos_cfg;
+>   	struct dpu_mdss_cfg *catalog;
+> -	struct dpu_qos_lut_tbl *qos_lut_tb;
+> +	const struct dpu_qos_lut_tbl *qos_lut_tb;
+>   
+>   	if (!phys_enc || !phys_enc->dpu_kms || !phys_enc->dpu_kms->catalog) {
+>   		DPU_ERROR("invalid parameter(s)\n");
+> @@ -118,11 +118,11 @@ static void dpu_encoder_phys_wb_set_qos(struct dpu_encoder_phys *phys_enc)
+>   	memset(&qos_cfg, 0, sizeof(struct dpu_hw_wb_qos_cfg));
+>   	qos_cfg.danger_safe_en = true;
+>   	qos_cfg.danger_lut =
+> -		catalog->perf.danger_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
+> +		catalog->perf->danger_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
+>   
+> -	qos_cfg.safe_lut = catalog->perf.safe_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
+> +	qos_cfg.safe_lut = catalog->perf->safe_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
+>   
+> -	qos_lut_tb = &catalog->perf.qos_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
+> +	qos_lut_tb = &catalog->perf->qos_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
+>   	qos_cfg.creq_lut = _dpu_hw_get_qos_lut(qos_lut_tb, 0);
+>   
+>   	if (hw_wb->ops.setup_qos_lut)
+> @@ -166,7 +166,7 @@ static void dpu_encoder_phys_wb_setup_fb(struct dpu_encoder_phys *phys_enc,
+>   	if (hw_wb->ops.setup_cdp) {
+>   		memset(&cdp_cfg, 0, sizeof(struct dpu_hw_cdp_cfg));
+>   
+> -		cdp_cfg.enable = phys_enc->dpu_kms->catalog->perf.cdp_cfg
+> +		cdp_cfg.enable = phys_enc->dpu_kms->catalog->perf->cdp_cfg
+>   				[DPU_PERF_CDP_USAGE_NRT].wr_enable;
+>   		cdp_cfg.ubwc_meta_enable =
+>   				DPU_FORMAT_IS_UBWC(wb_cfg->dest.format);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 367279371e8d..a7040ca5da72 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -1750,7 +1750,7 @@ static void msm8998_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.vbif_count = ARRAY_SIZE(msm8998_vbif),
+>   		.vbif = msm8998_vbif,
+>   		.reg_dma_count = 0,
+> -		.perf = msm8998_perf_data,
+> +		.perf = &msm8998_perf_data,
+>   		.mdss_irqs = IRQ_SM8250_MASK,
+>   	};
+>   }
+> @@ -1781,7 +1781,7 @@ static void sdm845_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.vbif = sdm845_vbif,
+>   		.reg_dma_count = 1,
+>   		.dma_cfg = sdm845_regdma,
+> -		.perf = sdm845_perf_data,
+> +		.perf = &sdm845_perf_data,
+>   		.mdss_irqs = IRQ_SDM845_MASK,
+>   	};
+>   }
+> @@ -1812,7 +1812,7 @@ static void sc7180_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.vbif = sdm845_vbif,
+>   		.reg_dma_count = 1,
+>   		.dma_cfg = sdm845_regdma,
+> -		.perf = sc7180_perf_data,
+> +		.perf = &sc7180_perf_data,
+>   		.mdss_irqs = IRQ_SC7180_MASK,
+>   	};
+>   }
+> @@ -1845,7 +1845,7 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.vbif = sdm845_vbif,
+>   		.reg_dma_count = 1,
+>   		.dma_cfg = sm8150_regdma,
+> -		.perf = sm8150_perf_data,
+> +		.perf = &sm8150_perf_data,
+>   		.mdss_irqs = IRQ_SDM845_MASK,
+>   	};
+>   }
+> @@ -1876,7 +1876,7 @@ static void sc8180x_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.vbif = sdm845_vbif,
+>   		.reg_dma_count = 1,
+>   		.dma_cfg = sm8150_regdma,
+> -		.perf = sc8180x_perf_data,
+> +		.perf = &sc8180x_perf_data,
+>   		.mdss_irqs = IRQ_SC8180X_MASK,
+>   	};
+>   }
+> @@ -1911,7 +1911,7 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.wb = sm8250_wb,
+>   		.reg_dma_count = 1,
+>   		.dma_cfg = sm8250_regdma,
+> -		.perf = sm8250_perf_data,
+> +		.perf = &sm8250_perf_data,
+>   		.mdss_irqs = IRQ_SM8250_MASK,
+>   	};
+>   }
+> @@ -1934,7 +1934,7 @@ static void sc7280_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.intf = sc7280_intf,
+>   		.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>   		.vbif = sdm845_vbif,
+> -		.perf = sc7280_perf_data,
+> +		.perf = &sc7280_perf_data,
+>   		.mdss_irqs = IRQ_SC7280_MASK,
+>   	};
+>   }
+> @@ -1966,7 +1966,7 @@ static void qcm2290_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>   		.vbif = sdm845_vbif,
+>   		.reg_dma_count = 1,
+>   		.dma_cfg = sdm845_regdma,
+> -		.perf = qcm2290_perf_data,
+> +		.perf = &qcm2290_perf_data,
+>   		.mdss_irqs = IRQ_SC7180_MASK,
+>   	};
+>   }
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 4225f58d8f97..64ed96b2fa3d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -868,7 +868,7 @@ struct dpu_mdss_cfg {
+>   
+>   	/* Add additional block data structures here */
+>   
+> -	struct dpu_perf_cfg perf;
+> +	const struct dpu_perf_cfg *perf;
+>   	const struct dpu_format_extended *dma_formats;
+>   	const struct dpu_format_extended *cursor_formats;
+>   	const struct dpu_format_extended *vig_formats;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 9d2f0364d2c7..d8048b6862f9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -160,7 +160,7 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
+>   	vbp = mode->vtotal - mode->vsync_end;
+>   	vpw = mode->vsync_end - mode->vsync_start;
+>   	vfp = mode->vsync_start - mode->vdisplay;
+> -	hw_latency_lines =  dpu_kms->catalog->perf.min_prefill_lines;
+> +	hw_latency_lines =  dpu_kms->catalog->perf->min_prefill_lines;
+>   	scale_factor = src_height > dst_height ?
+>   		mult_frac(src_height, 1, dst_height) : 1;
+>   
+> @@ -309,7 +309,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
+>   	}
+>   
+>   	qos_lut = _dpu_hw_get_qos_lut(
+> -			&pdpu->catalog->perf.qos_lut_tbl[lut_usage], total_fl);
+> +			&pdpu->catalog->perf->qos_lut_tbl[lut_usage], total_fl);
+>   
+>   	trace_dpu_perf_set_qos_luts(pdpu->pipe - SSPP_VIG0,
+>   			(fmt) ? fmt->base.pixel_format : 0,
+> @@ -336,9 +336,9 @@ static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
+>   	u32 danger_lut, safe_lut;
+>   
+>   	if (!pdpu->is_rt_pipe) {
+> -		danger_lut = pdpu->catalog->perf.danger_lut_tbl
+> +		danger_lut = pdpu->catalog->perf->danger_lut_tbl
+>   				[DPU_QOS_LUT_USAGE_NRT];
+> -		safe_lut = pdpu->catalog->perf.safe_lut_tbl
+> +		safe_lut = pdpu->catalog->perf->safe_lut_tbl
+>   				[DPU_QOS_LUT_USAGE_NRT];
+>   	} else {
+>   		fmt = dpu_get_dpu_format_ext(
+> @@ -346,14 +346,14 @@ static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
+>   				fb->modifier);
+>   
+>   		if (fmt && DPU_FORMAT_IS_LINEAR(fmt)) {
+> -			danger_lut = pdpu->catalog->perf.danger_lut_tbl
+> +			danger_lut = pdpu->catalog->perf->danger_lut_tbl
+>   					[DPU_QOS_LUT_USAGE_LINEAR];
+> -			safe_lut = pdpu->catalog->perf.safe_lut_tbl
+> +			safe_lut = pdpu->catalog->perf->safe_lut_tbl
+>   					[DPU_QOS_LUT_USAGE_LINEAR];
+>   		} else {
+> -			danger_lut = pdpu->catalog->perf.danger_lut_tbl
+> +			danger_lut = pdpu->catalog->perf->danger_lut_tbl
+>   					[DPU_QOS_LUT_USAGE_MACROTILE];
+> -			safe_lut = pdpu->catalog->perf.safe_lut_tbl
+> +			safe_lut = pdpu->catalog->perf->safe_lut_tbl
+>   					[DPU_QOS_LUT_USAGE_MACROTILE];
+>   		}
+>   	}
+> @@ -1225,7 +1225,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   
+>   			memset(&cdp_cfg, 0, sizeof(struct dpu_hw_cdp_cfg));
+>   
+> -			cdp_cfg.enable = pdpu->catalog->perf.cdp_cfg
+> +			cdp_cfg.enable = pdpu->catalog->perf->cdp_cfg
+>   					[DPU_PERF_CDP_USAGE_RT].rd_enable;
+>   			cdp_cfg.ubwc_meta_enable =
+>   					DPU_FORMAT_IS_UBWC(fmt);
