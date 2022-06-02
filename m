@@ -1,50 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD2A53B5AB
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 11:05:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E5253B5D8
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 11:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D79112315;
-	Thu,  2 Jun 2022 09:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B06610E734;
+	Thu,  2 Jun 2022 09:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97DA4112315;
- Thu,  2 Jun 2022 09:05:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654160740; x=1685696740;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=4oEeBotuaVj/tAGV+5gO0EXVh2xbVUIWuPkd2EPJER8=;
- b=LYAg96dGJQKETJXIVOXlcbhOAugoBQ4eT/PcEG+NOOmCGoPyRIkEO5Tm
- zkD3vB3JjI3kCTf0ipR+y3GXybf5UvCOLzSOlq1icVLRTeqdItVB3geul
- XMa44pK4SeJWrs4Ax498XZexuESIFvgQ+5NY9eJG5qr+XEjy7mE2EUY5L
- lvSJGzkA2ZXzEsk1FvN1tfsE2ZEOsRVGeFhZMGTOiMjHYwdF6qHgM/Kxl
- BM3aU49GpXwbIThwvcF8N+Bf3pPVbbEhwqx9syEKfSQM1l/v4C3bcUvwe
- QGUoyNaxH6HR5yB8P8hsID8/lSYX/yG4wRXOhDJZ0aG1sYk0uo60EA0tb w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="301250596"
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="301250596"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 02:05:38 -0700
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="552747058"
-Received: from fbackhou-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.46.4])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 02:05:32 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v4] drm/probe-helper: Default to 640x480 if no EDID on DP
-In-Reply-To: <20220601112302.v4.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220601112302.v4.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid>
-Date: Thu, 02 Jun 2022 12:05:29 +0300
-Message-ID: <87v8tjph9i.fsf@intel.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B6E10E734
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 09:18:18 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id f9so8847041ejc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 02:18:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0d9LPcPl2z82dxOAeBz8oaTNCeFfF1mrJ8xfIO9HyHE=;
+ b=lfLh9e2Zec+kRfUbieDqxaSJGfE2gK5tVDQL4/AlpgVcAAIBNipxqiaQ9KaF31NRoL
+ p4XLfqqfzJDaVnItedh+uY7WOZo9GWfO9EDs7Kwtb9g1ep7F/2s8jmC8C+5HKoB8mmqm
+ 5+MnNkvj0n3QFu1KLRgu4qmE4FZpPqT/FxCabwWRio16T/tBO5n8YQs39umvhQZU1izc
+ kmND1i4pFf63FZslDTQd5TX2paKc+iavMXEEIfxzCgFARk5C9xBN1i2j5XO5tazLpbL3
+ wIlyYfmxX1H8YiEs73O3/gKRJfzGSjM99weIY/3wRiXAWXYqSVXb5yR9RaF0dJyLJck3
+ HKTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0d9LPcPl2z82dxOAeBz8oaTNCeFfF1mrJ8xfIO9HyHE=;
+ b=DIeA82b5wCZ1PnD4eVt6TV4RtHUYaQMVL12LmxZcS9nyBRATguPZFMBMahfeQOapkU
+ v7XW4fbYctRhNHzOyXlwUOqXIuxYxuUHc4gmyFZa4c8fAF1ugGz4uF5H1Onir37U6wQp
+ ZT1sUWo55AXKrkzVDdtAvAMNq1RpUTbv6dQLBy0NpI9J4Q3evSzxz6tIPC8jOnqw7umH
+ 9wUXUqy2R7CrKVbilWXEyZfsJlrUx3aXXUyArcKDHoJZgL828C54ziDzQ7X5biSIDeLD
+ +wqgwLUfeyLTYlJGb9S0sEW0cUMqqgehv6w0ixUuMO70zT9QrAiIwV4oJ/JUZ9oTvGep
+ BAaw==
+X-Gm-Message-State: AOAM533efyV5nEEWI978Btgb7JcQ3wIYl/rk82ryh9sFwYdRYSJCJuwX
+ xRVVzXR1g6LMSuDEPO5t/1bGKY/AcjDZ5k5jFuKj0sG8bN3ixCjd
+X-Google-Smtp-Source: ABdhPJxRg1MZXl/SkbIUuNBrRuGNQldHFdLPZxE+GhC/BiCEKh8oflGlAj5dFnKQFyQ9Ns7hxKjhAhvcKy/fq3rTsjo=
+X-Received: by 2002:a17:907:6e04:b0:6f4:d6f3:c72a with SMTP id
+ sd4-20020a1709076e0400b006f4d6f3c72amr3415411ejc.636.1654161497069; Thu, 02
+ Jun 2022 02:18:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220531102809.11976-1-peterwu.pub@gmail.com>
+ <20220531102809.11976-7-peterwu.pub@gmail.com>
+ <CAHp75Vd8taco19vsDmBcCv8euV1SvwSiY5=P9oMkA6zWsjwXxg@mail.gmail.com>
+ <20220602062643.GA13824@cyhuang-hp-elitebook-840-g3.rt>
+In-Reply-To: <20220602062643.GA13824@cyhuang-hp-elitebook-840-g3.rt>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 2 Jun 2022 11:17:40 +0200
+Message-ID: <CAHp75Vd-n=oLnhRCK=pR5ybOZbC6BKXrE2jRdwDbH90E4KYFGA@mail.gmail.com>
+Subject: Re: [PATCH 06/14] leds: mt6370: Add Mediatek MT6370 Indicator support
+To: ChiYuan Huang <u0084500@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,106 +65,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, swboyd@chromium.org,
- tzimmermann@suse.de, dmitry.baryshkov@linaro.org, quic_aravindh@quicinc.com,
- quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
+ alice_chen@richtek.com, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang@richtek.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ chiaen_wu@richtek.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 01 Jun 2022, Douglas Anderson <dianders@chromium.org> wrote:
-> If we're unable to read the EDID for a display because it's corrupt /
-> bogus / invalid then we'll add a set of standard modes for the
-> display. Since we have no true information about the connected
-> display, these modes are essentially guesses but better than nothing.
-> At the moment, none of the modes returned is marked as preferred, but
-> the modes are sorted such that the higher resolution modes are listed
-> first.
->
-> When userspace sees these modes presented by the kernel it needs to
-> figure out which one to pick. At least one userspace, ChromeOS [1]
-> seems to use the rules (which seem pretty reasonable):
-> 1. Try to pick the first mode marked as preferred.
-> 2. Try to pick the mode which matches the first detailed timing
->    descriptor in the EDID.
-> 3. If no modes were marked as preferred then pick the first mode.
->
-> Unfortunately, userspace's rules combined with what the kernel is
-> doing causes us to fail section 4.2.2.6 (EDID Corruption Detection) of
-> the DP 1.4a Link CTS. That test case says that, while it's OK to allow
-> some implementation-specific fall-back modes if the EDID is bad that
-> userspace should _default_ to 640x480.
->
-> Let's fix this by marking 640x480 as default for DP in the no-EDID
-> case.
->
-> NOTES:
-> - In the discussion around v3 of this patch [2] there was talk about
->   solving this in userspace and I even implemented a patch that would
->   have solved this for ChromeOS, but then the discussion turned back
->   to solving this in the kernel.
-> - Also in the discussion of v3 [2] it was requested to limit this
-> 83;40900;0c  change to just DP since folks were worried that it would break some
->   subtle corner case on VGA or HDMI.
->
-> [1] https://source.chromium.org/chromium/chromium/src/+/a051f741d0a15caff2251301efe081c30e0f4a96:ui/ozone/platform/drm/common/drm_util.cc;l=488
-> [2] https://lore.kernel.org/r/20220513130533.v3.1.I31ec454f8d4ffce51a7708a8092f8a6f9c929092@changeid
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
-> I put Abhinav's Reviewed-by tag from v2 here since this is nearly the
-> same as v2. Hope this is OK.
->
-> Changes in v4:
-> - Code is back to v2, but limit to just DP.
-> - Beefed up the commit message.
->
-> Changes in v3:
-> - Don't set preferred, just disable the sort.
->
-> Changes in v2:
-> - Don't modify drm_add_modes_noedid() 'cause that'll break others
-> - Set 640x480 as preferred in drm_helper_probe_single_connector_modes()
->
->  drivers/gpu/drm/drm_probe_helper.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 425f56280d51..75a71649b64d 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -569,8 +569,17 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
->  		count = drm_add_override_edid_modes(connector);
->  
->  	if (count == 0 && (connector->status == connector_status_connected ||
-> -			   connector->status == connector_status_unknown))
-> +			   connector->status == connector_status_unknown)) {
->  		count = drm_add_modes_noedid(connector, 1024, 768);
-> +
-> +		/*
-> +		 * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
-> +		 * Link CTS specifies that 640x480 (the official "failsafe"
-> +		 * mode) needs to be the default if there's no EDID.
-> +		 */
-> +		if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
+On Thu, Jun 2, 2022 at 8:27 AM ChiYuan Huang <u0084500@gmail.com> wrote:
+> On Wed, Jun 01, 2022 at 11:48:58AM +0200, Andy Shevchenko wrote:
+> > On Tue, May 31, 2022 at 1:16 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
 
-If we're doing this primarily to appease the CTS, this is fine.
+...
 
-If we think this is a functional improvement for regular use, I suppose
-we should consider doing this also for DRM_MODE_CONNECTOR_eDP. Which is
-irrelevant for the CTS.
+> > What indicator?
+> It's RGB curent sink type LED driver (maximum supported current is only 24mA).
 
-Either way,
+Make your commit messages a slightly more verbose.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+...
 
-> +			drm_set_preferred_mode(connector, 640, 480);
-> +	}
->  	count += drm_helper_probe_add_cmdline_mode(connector);
->  	if (count != 0) {
->  		ret = __drm_helper_update_and_validate(connector, maxX, maxY, &ctx);
+> > > +#include <linux/of.h>
+> >
+> > Are you sure this is the correct header? Seems you need
+> > mod_devicetable.h instead.
+> >
+> It's the correct header and be used for the struct 'of_device_id'.
+
+Nope. Run the following command
+$ git grep -n 'struct of_device_id {' -- include/linux/
+
+...
+
+> > > +struct mt6370_priv {
+> > > +       struct mutex lock;
+> >
+> > Do you use regmap locking?
+> >
+> MFD regmap register already the access lock.
+>
+> This lock is just to guarantee only one user can access the RGB register
+> part.
+>
+> Sorry, from the comment, do you want us to rename or remove this lock?
+
+My point is, since you have two locks, explain why you need each of them.
+
+> > > +       struct device *dev;
+> >
+> > > +       struct regmap *regmap;
+> >
+> > > +       struct regmap_field *fields[F_MAX_FIELDS];
+> > > +       const struct reg_field *reg_fields;
+> > > +       const struct linear_range *ranges;
+> > > +       struct reg_cfg *reg_cfgs;
+> > > +       unsigned int leds_count;
+> > > +       unsigned int leds_active;
+> > > +       bool is_mt6372;
+> > > +       struct mt6370_led leds[];
+> > > +};
+
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+With Best Regards,
+Andy Shevchenko
