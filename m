@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6968753C14F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 01:27:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B9E53C14E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 01:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFA3113CDF;
-	Thu,  2 Jun 2022 23:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE855113CD8;
+	Thu,  2 Jun 2022 23:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2701A113CDD;
- Thu,  2 Jun 2022 23:26:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654212419; x=1685748419;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=GRhPAQ2CU2PMb7oMPFXlMaxADdhIAO/5kxDqAOm3iB0=;
- b=j170YE8dLFLzJxzXhKuYYb3iSeSZLaC5ef0dWbutWaE3wyaCN4WoiiY8
- L92cpzGXfGfE5hODcI5Wrhzr/CS2o+pq8Zviy9Ya0SdWOo1NoHPksUyro
- KnqBUgUXmshmXOCWsXnyXLP49ycgB564l5ce6YPvLOqym/DuJnFCl6K7v
- e/ANb7biJuyh3xbKfkLjj4ccgZf6iRTGWqAtHgdfqQqCxOkthoE6iQKgM
- +GpQl48ZSC3+2XvPZ/EmvuoadLB4giXeumsysxnLb7Ncb6gzi6B5i+Bql
- aKa+ZSAgEI2Bk9QRKUjbmDvL+EQbRmEyod1+YXEnR2cQFjzDvGISmlRZB w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10366"; a="301482842"
-X-IronPort-AV: E=Sophos;i="5.91,272,1647327600"; d="scan'208";a="301482842"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 16:26:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,272,1647327600"; d="scan'208";a="563544713"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 02 Jun 2022 16:26:54 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nwuDN-0005WF-L0;
- Thu, 02 Jun 2022 23:26:53 +0000
-Date: Fri, 3 Jun 2022 07:26:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zack@kde.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/6] drm/qxl: Create mouse hotspot properties on cursor
- planes
-Message-ID: <202206030750.8hv8vdBA-lkp@intel.com>
-References: <20220602154243.1015688-4-zack@kde.org>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4F2113CD4;
+ Thu,  2 Jun 2022 23:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654212412; x=1685748412;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ivezjXpweXckUKpAvrheexSbMjYk3O5ebUbCjNb52/c=;
+ b=cr4PVYWr6rMFbp3k8LmuWDXgorrje4qw2Y580ec+ByHhK/Iv4TF1Enaq
+ tExihs+JH39F6bt2MfEXfZRSGdQfYh+6kDfN1ZsMVN+c9aItkNmZ64Aaw
+ qY5Z8d9Hv/XMaDGXHsX9UQanCpk978Gqt0owZa7RhojLddU+bTGVe5ZGm s=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 02 Jun 2022 16:26:51 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 16:26:51 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 2 Jun 2022 16:26:51 -0700
+Received: from [10.38.242.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 2 Jun 2022
+ 16:26:48 -0700
+Message-ID: <0824b797-0547-eb5a-f901-025b34d3e295@quicinc.com>
+Date: Thu, 2 Jun 2022 16:26:46 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220602154243.1015688-4-zack@kde.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v4 1/7] drm/msm/dpu: use feature bit for LM
+ combined alpha check
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220602202447.1755115-1-dmitry.baryshkov@linaro.org>
+ <20220602202447.1755115-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220602202447.1755115-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,103 +67,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, llvm@lists.linux.dev,
- virtualization@lists.linux-foundation.org, krastevm@vmware.com,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- spice-devel@lists.freedesktop.org, mombasawalam@vmware.com
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zack,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip v5.18 next-20220602]
-[cannot apply to airlied/drm-next tegra-drm/drm/tegra/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zack-Rusin/drm-Add-mouse-cursor-hotspot-support-to-atomic-KMS/20220602-234633
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20220603/202206030750.8hv8vdBA-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b364c76683f8ef241025a9556300778c07b590c2)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0bf2395ee17bd25ae6411c560de883496256195d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zack-Rusin/drm-Add-mouse-cursor-hotspot-support-to-atomic-KMS/20220602-234633
-        git checkout 0bf2395ee17bd25ae6411c560de883496256195d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/qxl/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/qxl/qxl_display.c:486:26: warning: unused variable 'fb' [-Wunused-variable]
-           struct drm_framebuffer *fb = plane_state->fb;
-                                   ^
-   drivers/gpu/drm/qxl/qxl_display.c:532:26: warning: unused variable 'fb' [-Wunused-variable]
-           struct drm_framebuffer *fb = plane_state->fb;
-                                   ^
-   2 warnings generated.
 
 
-vim +/fb +486 drivers/gpu/drm/qxl/qxl_display.c
+On 6/2/2022 1:24 PM, Dmitry Baryshkov wrote:
+> Rather than checking hwversion, follow the usual patter and add special
+> bit to the lm->features to check whether the LM has combined or separate
+> alpha registers. While we are at it, rename
+> dpu_hw_lm_setup_blend_config_sdm845() to
+> dpu_hw_lm_setup_blend_config_combined_alpha().
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-c2ff663260fee3 Gabriel Krisman Bertazi 2017-02-27  482  
-b4b27f08f9f96d Gerd Hoffmann           2021-02-17  483  static int qxl_primary_apply_cursor(struct qxl_device *qdev,
-b4b27f08f9f96d Gerd Hoffmann           2021-02-17  484  				    struct drm_plane_state *plane_state)
-9428088c90b6f7 Ray Strode              2017-11-27  485  {
-b4b27f08f9f96d Gerd Hoffmann           2021-02-17 @486  	struct drm_framebuffer *fb = plane_state->fb;
-b4b27f08f9f96d Gerd Hoffmann           2021-02-17  487  	struct qxl_crtc *qcrtc = to_qxl_crtc(plane_state->crtc);
-9428088c90b6f7 Ray Strode              2017-11-27  488  	struct qxl_cursor_cmd *cmd;
-9428088c90b6f7 Ray Strode              2017-11-27  489  	struct qxl_release *release;
-9428088c90b6f7 Ray Strode              2017-11-27  490  	int ret = 0;
-9428088c90b6f7 Ray Strode              2017-11-27  491  
-9428088c90b6f7 Ray Strode              2017-11-27  492  	if (!qcrtc->cursor_bo)
-9428088c90b6f7 Ray Strode              2017-11-27  493  		return 0;
-9428088c90b6f7 Ray Strode              2017-11-27  494  
-9428088c90b6f7 Ray Strode              2017-11-27  495  	ret = qxl_alloc_release_reserved(qdev, sizeof(*cmd),
-9428088c90b6f7 Ray Strode              2017-11-27  496  					 QXL_RELEASE_CURSOR_CMD,
-9428088c90b6f7 Ray Strode              2017-11-27  497  					 &release, NULL);
-9428088c90b6f7 Ray Strode              2017-11-27  498  	if (ret)
-9428088c90b6f7 Ray Strode              2017-11-27  499  		return ret;
-9428088c90b6f7 Ray Strode              2017-11-27  500  
-9428088c90b6f7 Ray Strode              2017-11-27  501  	ret = qxl_release_list_add(release, qcrtc->cursor_bo);
-9428088c90b6f7 Ray Strode              2017-11-27  502  	if (ret)
-9428088c90b6f7 Ray Strode              2017-11-27  503  		goto out_free_release;
-9428088c90b6f7 Ray Strode              2017-11-27  504  
-9428088c90b6f7 Ray Strode              2017-11-27  505  	ret = qxl_release_reserve_list(release, false);
-9428088c90b6f7 Ray Strode              2017-11-27  506  	if (ret)
-9428088c90b6f7 Ray Strode              2017-11-27  507  		goto out_free_release;
-9428088c90b6f7 Ray Strode              2017-11-27  508  
-9428088c90b6f7 Ray Strode              2017-11-27  509  	cmd = (struct qxl_cursor_cmd *)qxl_release_map(qdev, release);
-9428088c90b6f7 Ray Strode              2017-11-27  510  	cmd->type = QXL_CURSOR_SET;
-0bf2395ee17bd2 Zack Rusin              2022-06-02  511  	cmd->u.set.position.x = plane_state->crtc_x + plane_state->hotspot_x;
-0bf2395ee17bd2 Zack Rusin              2022-06-02  512  	cmd->u.set.position.y = plane_state->crtc_y + plane_state->hotspot_y;
-9428088c90b6f7 Ray Strode              2017-11-27  513  
-9428088c90b6f7 Ray Strode              2017-11-27  514  	cmd->u.set.shape = qxl_bo_physical_address(qdev, qcrtc->cursor_bo, 0);
-9428088c90b6f7 Ray Strode              2017-11-27  515  
-9428088c90b6f7 Ray Strode              2017-11-27  516  	cmd->u.set.visible = 1;
-9428088c90b6f7 Ray Strode              2017-11-27  517  	qxl_release_unmap(qdev, release, &cmd->release_info);
-9428088c90b6f7 Ray Strode              2017-11-27  518  
-9428088c90b6f7 Ray Strode              2017-11-27  519  	qxl_release_fence_buffer_objects(release);
-933db73351d359 Vasily Averin           2020-04-29  520  	qxl_push_cursor_ring_release(qdev, release, QXL_CMD_CURSOR, false);
-9428088c90b6f7 Ray Strode              2017-11-27  521  
-9428088c90b6f7 Ray Strode              2017-11-27  522  	return ret;
-9428088c90b6f7 Ray Strode              2017-11-27  523  
-9428088c90b6f7 Ray Strode              2017-11-27  524  out_free_release:
-9428088c90b6f7 Ray Strode              2017-11-27  525  	qxl_release_free(qdev, release);
-9428088c90b6f7 Ray Strode              2017-11-27  526  	return ret;
-9428088c90b6f7 Ray Strode              2017-11-27  527  }
-9428088c90b6f7 Ray Strode              2017-11-27  528  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 19 +++++++++++--------
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 ++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |  6 +++---
+>   3 files changed, 16 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 400ebceb56bb..c3759fc4b154 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -50,11 +50,14 @@
+>   #define DMA_CURSOR_MSM8998_MASK \
+>   	(DMA_MSM8998_MASK | BIT(DPU_SSPP_CURSOR))
+>   
+> -#define MIXER_SDM845_MASK \
+> +#define MIXER_MSM8998_MASK \
+>   	(BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER))
+>   
+> +#define MIXER_SDM845_MASK \
+> +	(BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
+> +
+>   #define MIXER_SC7180_MASK \
+> -	(BIT(DPU_DIM_LAYER))
+> +	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
+>   
+>   #define PINGPONG_SDM845_MASK BIT(DPU_PINGPONG_DITHER)
+>   
+> @@ -936,17 +939,17 @@ static const struct dpu_lm_sub_blks msm8998_lm_sblk = {
+>   };
+>   
+>   static const struct dpu_lm_cfg msm8998_lm[] = {
+> -	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+> +	LM_BLK("lm_0", LM_0, 0x44000, MIXER_MSM8998_MASK,
+>   		&msm8998_lm_sblk, PINGPONG_0, LM_2, DSPP_0),
+> -	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
+> +	LM_BLK("lm_1", LM_1, 0x45000, MIXER_MSM8998_MASK,
+>   		&msm8998_lm_sblk, PINGPONG_1, LM_5, DSPP_1),
+> -	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
+> +	LM_BLK("lm_2", LM_2, 0x46000, MIXER_MSM8998_MASK,
+>   		&msm8998_lm_sblk, PINGPONG_2, LM_0, 0),
+> -	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
+> +	LM_BLK("lm_3", LM_3, 0x47000, MIXER_MSM8998_MASK,
+>   		&msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
+> -	LM_BLK("lm_4", LM_4, 0x48000, MIXER_SDM845_MASK,
+> +	LM_BLK("lm_4", LM_4, 0x48000, MIXER_MSM8998_MASK,
+>   		&msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
+> -	LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK,
+> +	LM_BLK("lm_5", LM_5, 0x49000, MIXER_MSM8998_MASK,
+>   		&msm8998_lm_sblk, PINGPONG_3, LM_1, 0),
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 8cb6d1f25bf9..80bc09b1f1b3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -145,6 +145,7 @@ enum {
+>    * @DPU_MIXER_SOURCESPLIT     Layer mixer supports source-split configuration
+>    * @DPU_MIXER_GC              Gamma correction block
+>    * @DPU_DIM_LAYER             Layer mixer supports dim layer
+> + * @DPU_MIXER_COMBINED_ALPHA  Layer mixer has combined alpha register
+>    * @DPU_MIXER_MAX             maximum value
+>    */
+>   enum {
+> @@ -152,6 +153,7 @@ enum {
+>   	DPU_MIXER_SOURCESPLIT,
+>   	DPU_MIXER_GC,
+>   	DPU_DIM_LAYER,
+> +	DPU_MIXER_COMBINED_ALPHA,
+>   	DPU_MIXER_MAX
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> index 462f5082099e..25d2eba28e71 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> @@ -148,7 +148,7 @@ static int dpu_hw_lm_collect_misr(struct dpu_hw_mixer *ctx, u32 *misr_value)
+>   	return 0;
+>   }
+>   
+> -static void dpu_hw_lm_setup_blend_config_sdm845(struct dpu_hw_mixer *ctx,
+> +static void dpu_hw_lm_setup_blend_config_combined_alpha(struct dpu_hw_mixer *ctx,
+>   	u32 stage, u32 fg_alpha, u32 bg_alpha, u32 blend_op)
+>   {
+>   	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> @@ -204,8 +204,8 @@ static void _setup_mixer_ops(const struct dpu_mdss_cfg *m,
+>   		unsigned long features)
+>   {
+>   	ops->setup_mixer_out = dpu_hw_lm_setup_out;
+> -	if (m->hwversion >= DPU_HW_VER_400)
+> -		ops->setup_blend_config = dpu_hw_lm_setup_blend_config_sdm845;
+> +	if (test_bit(DPU_MIXER_COMBINED_ALPHA, &features))
+> +		ops->setup_blend_config = dpu_hw_lm_setup_blend_config_combined_alpha;
+>   	else
+>   		ops->setup_blend_config = dpu_hw_lm_setup_blend_config;
+>   	ops->setup_alpha_out = dpu_hw_lm_setup_color3;
