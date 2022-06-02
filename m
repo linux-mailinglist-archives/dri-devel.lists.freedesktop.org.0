@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A0453BBBD
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A978E53BBBF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 176E1112FF4;
-	Thu,  2 Jun 2022 15:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCDAC112FF8;
+	Thu,  2 Jun 2022 15:43:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D97F7112FEE;
- Thu,  2 Jun 2022 15:42:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFF59112FEE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:43:00 +0000 (UTC)
 Received: from vertex.vmware.com (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id D6490335FF4;
- Thu,  2 Jun 2022 16:42:57 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id F162A335FFD;
+ Thu,  2 Jun 2022 16:42:58 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1654184578; bh=/2nOGYCqYZn6MDWS8jS8EFfA23N2p+fn+QlogboYpGY=;
+ t=1654184579; bh=6Spq6A9vTFFpAGEl1r7KhZu71nqVqrnjZ1RnnEFGgd4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O1dRAS4x1uCt2dvb5s5Raft8p5+7kZi48REZDM+7mccQLroVLl10bycdSF3ctx4rf
- NBNcm8Wq8hWcUgQ+80dq4yn1g/U7GJq3voGRhyX3RqVpmanPcqqihbbc977RYW14A4
- n8h/YeabBcWZTXPcIDO90anOenjBFcT0ecFGQZ1xONi5EjBM+2PlvavhoEG2I65ORw
- 8zRZGaFVpCD96AyI3stKswLFrzIuXJXtmvQ8QnxelXROzAN7JsOYAtoMqoSIrxLdW5
- Byyf6Tsio0RPT/MD+zLQlNp9e4fl8E0ahWZLXY7a6wd9Nq9cQ0HvNrgRYRiEpkhQSn
- JTnh8FvX1D7ag==
+ b=Lca3oDYWKLtU6F6Vx53geZ6kdDpEJ8zvvQe9SWvKrBAq3a5gK12QQ28nSQ/waSET7
+ YtvbvuTQ0IMAc6sV/vSXviGir3yU5RaK3tTS6mzTrGBloFBxX9oI7jZvDFrVlO8nZ8
+ rtQp20sTm9z4NlfNIXsQxV9x0aQNOHMeuJPjYHbYQcTUPc3r+ZGvrcWi2hwaoIr5K2
+ Did1BQ6YwfuyVFn26UBh3RvCOV/P2bg1XUSKUaHdz7Hk5XQ+y1DZ5mnnSGImzm3bqv
+ UioV2pu6i1xR9ErqiGC5Ljo0YyS17Zt3uGncUj1Z3STE4HyfnzyHsWN7wSRdLJGDwA
+ gepyioMePHPQw==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/6] drm/qxl: Create mouse hotspot properties on cursor planes
-Date: Thu,  2 Jun 2022 11:42:40 -0400
-Message-Id: <20220602154243.1015688-4-zack@kde.org>
+Subject: [PATCH 4/6] drm/vboxvideo: Create mouse hotspot properties on cursor
+ planes
+Date: Thu,  2 Jun 2022 11:42:41 -0400
+Message-Id: <20220602154243.1015688-5-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602154243.1015688-1-zack@kde.org>
 References: <20220602154243.1015688-1-zack@kde.org>
@@ -48,9 +49,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: mombasawalam@vmware.com, virtualization@lists.linux-foundation.org,
- krastevm@vmware.com, Gerd Hoffmann <kraxel@redhat.com>,
- spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
+ krastevm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -66,60 +66,36 @@ with new atomic properties so there's no reason to keep them and it
 makes sense to unify both paths.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: virtualization@lists.linux-foundation.org
-Cc: spice-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/qxl/qxl_display.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vboxvideo/vbox_mode.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 9a64fa4c7530..4b578f9960cd 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -508,8 +508,8 @@ static int qxl_primary_apply_cursor(struct qxl_device *qdev,
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+index 4017b0a621fc..4c0a01a18f5a 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+@@ -427,8 +427,8 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
+ 	flags = VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
+ 		VBOX_MOUSE_POINTER_ALPHA;
+ 	hgsmi_update_pointer_shape(vbox->guest_pool, flags,
+-				   min_t(u32, max(fb->hot_x, 0), width),
+-				   min_t(u32, max(fb->hot_y, 0), height),
++				   min_t(u32, max(new_state->hotspot_x, 0), width),
++				   min_t(u32, max(new_state->hotspot_y, 0), height),
+ 				   width, height, vbox->cursor_data, data_size);
  
- 	cmd = (struct qxl_cursor_cmd *)qxl_release_map(qdev, release);
- 	cmd->type = QXL_CURSOR_SET;
--	cmd->u.set.position.x = plane_state->crtc_x + fb->hot_x;
--	cmd->u.set.position.y = plane_state->crtc_y + fb->hot_y;
-+	cmd->u.set.position.x = plane_state->crtc_x + plane_state->hotspot_x;
-+	cmd->u.set.position.y = plane_state->crtc_y + plane_state->hotspot_y;
- 
- 	cmd->u.set.shape = qxl_bo_physical_address(qdev, qcrtc->cursor_bo, 0);
- 
-@@ -552,8 +552,8 @@ static int qxl_primary_move_cursor(struct qxl_device *qdev,
- 
- 	cmd = (struct qxl_cursor_cmd *)qxl_release_map(qdev, release);
- 	cmd->type = QXL_CURSOR_MOVE;
--	cmd->u.position.x = plane_state->crtc_x + fb->hot_x;
--	cmd->u.position.y = plane_state->crtc_y + fb->hot_y;
-+	cmd->u.position.x = plane_state->crtc_x + plane_state->hotspot_x;
-+	cmd->u.position.y = plane_state->crtc_y + plane_state->hotspot_y;
- 	qxl_release_unmap(qdev, release, &cmd->release_info);
- 
- 	qxl_release_fence_buffer_objects(release);
-@@ -849,8 +849,8 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
- 		struct qxl_bo *old_cursor_bo = qcrtc->cursor_bo;
- 
- 		qcrtc->cursor_bo = qxl_create_cursor(qdev, user_bo,
--						     new_state->fb->hot_x,
--						     new_state->fb->hot_y);
-+						     new_state->hotspot_x,
-+						     new_state->hotspot_y);
- 		qxl_free_cursor(old_cursor_bo);
+ 	mutex_unlock(&vbox->hw_mutex);
+@@ -575,6 +575,7 @@ static struct vbox_crtc *vbox_crtc_init(struct drm_device *dev, unsigned int i)
+ 			ret = PTR_ERR(cursor);
+ 			goto clean_primary;
+ 		}
++		drm_plane_create_hotspot_properties(cursor);
+ 	} else {
+ 		DRM_WARN("VirtualBox host is too old, no cursor support\n");
  	}
- 
-@@ -1002,6 +1002,7 @@ static int qdev_crtc_init(struct drm_device *dev, int crtc_id)
- 
- 	qxl_crtc->index = crtc_id;
- 	drm_crtc_helper_add(&qxl_crtc->base, &qxl_crtc_helper_funcs);
-+	drm_plane_create_hotspot_properties(cursor);
- 	return 0;
- 
- clean_cursor:
 -- 
 2.34.1
 
