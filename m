@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221D053B4C5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 10:07:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1FB53B4DC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 10:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2A73112B50;
-	Thu,  2 Jun 2022 08:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D653F10E5F4;
+	Thu,  2 Jun 2022 08:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F694112B4E
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 08:07:42 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id n28so5227980edb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 01:07:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4180C10E5F4
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 08:18:53 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id q123so4148211pgq.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 01:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6vMm0s7j0BfbtfCeMoENN6g/p67B/T0t3t4wSxuqZsM=;
- b=DI8Qpx5MUleXyJ2zO6eq3/ipbnYwVyicYJxvtCHB4bW/NNet9TE+jNgXo7Te/Aq2I2
- c22ngnKAO/z05MJNo7ip81+yZNAoAljWGXdJ/0HnFmQKM8d79/N/jHiXev8FO/bOcD2s
- I+T6C2nlL6+p975fZBs+A8JYFVY5lgarzQQr8=
+ :cc; bh=9x70fvT7190YbXzYteL9ewuvFT6uvelNfhT9PEGH0Jo=;
+ b=l3pImPs02AnbeW4PG6d/LLREKZDDPuOgmTR7BZEc8TFrQLuOHeR5H7dBdjLTSUIMJq
+ MW2ss1m0nACsyV8pT5yo14DvK6odeFduMzd+hFmR1X1ymeFIqUba+q7gQJTR0O5fx8GV
+ YM+SaHyioTlula8sifqJ+/RZtFC0G12A0gP5mvZWZaf/WAJR34YssAkGLHRRsmeEBkDo
+ DA28WTc89C+tVtCBx00I3whLNqR7i/sRfb8gQXMJVJUy0Ph/565BWG+474XPruA6OGrO
+ awIKjmmKhQn/Psondu1fRyAWE4+XSImuJR99/VLdvbNnq1+DjQTBL7rkbtEuN5joZi8D
+ 2W0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6vMm0s7j0BfbtfCeMoENN6g/p67B/T0t3t4wSxuqZsM=;
- b=Awt7VarEbSyU34O8tt1lPpw4LBhYwPfT9AnxfudfSrfELqTPyOQgC6pEO2T3itJqht
- s2DgiuYcELo8l+9G6YIqeE5jzDWv3a8Tbi81xxs8qgUmvN+Zgcb6PHKRttoNikWWyF32
- AyBXq0VcGZENicXaU28rOl9DHht+DhS9u+dJ/IfQkfx0glBDoSHyYR67uFtPwbvT4hgo
- tbfxF2fEmPonV3n62ERb78+5eJAQuDrYyYUBdM1dd3G52nmqJPqYO1F7W32L9IGBzLfo
- BfRngKdzfG8IKFfv2AtRpCIcB/vcH6KGPKwBrwZOFqY0osqoksIsXfi7aks6x8ReFP2y
- ZDnQ==
-X-Gm-Message-State: AOAM5321PWKr1rhOBWyVvLDh1es57NgJ2V3TfweLpUsKE4u2hmIVQz9x
- iZlWF8UWLh3lKIxCIX/E38EfE+N1oMjyToUdYpFgDA==
-X-Google-Smtp-Source: ABdhPJwYzmq6Zn5Gn969SIbPrVPQEWs30Q+k4IKGlmSfcZd8DLQuZbom06x50wb0uWfPTopTH5Z9bOVJGvu44uXetIM=
-X-Received: by 2002:a05:6402:1d50:b0:42b:6da9:ed34 with SMTP id
- dz16-20020a0564021d5000b0042b6da9ed34mr3934330edb.333.1654157260875; Thu, 02
- Jun 2022 01:07:40 -0700 (PDT)
+ bh=9x70fvT7190YbXzYteL9ewuvFT6uvelNfhT9PEGH0Jo=;
+ b=h5uJx87YKblENgbV7M/P88ZzaKZVrP37QrP9eSJEkOt1H1Lbo3Yjd96yA7ukd4/W+e
+ M+nJSpby6PNABEAhb3hf9CigzVLXmVE0/L1+e568z78PobATI/IwEWyKmDc2F/aFZRA9
+ a97pLt8sjUXH12Iyr9pHAfVVX8YAmLmR6kJOEkbwLJv/b/Jb7xVfoZpGLRgLfCNpFJry
+ Utec9NYGNEuMusRPdLDG7Cedpgv9kl+b4x3BhYFpWJjvIZHua9NVSIp/QmyV+AzoY7ka
+ z3m+E3DFC9HQkzdgtRluDD0M7NtjxSpfTgjzacM+xfFJTOG2qi2BhlKXjoy0XRQN1UoV
+ zyKg==
+X-Gm-Message-State: AOAM531/PSLGVWtFxuIG5Uzdjs+CPwxZ2r8D+lU2qoDv8b1UIdMgKR3I
+ dJghiXtmaATlHIrh6B6drK9UTy2VmXznrwHj+/A=
+X-Google-Smtp-Source: ABdhPJyG4+cUsja7ESmtAXhM7XYcDz7HxGU78eyY7PjZw8CmobXFOmEGx/kKArbjttnCiuftnEG8a5gfQ6QWrpsd1JI=
+X-Received: by 2002:a63:8749:0:b0:3fc:9fd7:1e20 with SMTP id
+ i70-20020a638749000000b003fc9fd71e20mr3253985pge.619.1654157932832; Thu, 02
+ Jun 2022 01:18:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220601094637.1200634-1-hsinyi@chromium.org>
- <044158674aab0b40d8edcac920855a37fca58cf0.camel@mediatek.com>
-In-Reply-To: <044158674aab0b40d8edcac920855a37fca58cf0.camel@mediatek.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 2 Jun 2022 16:07:14 +0800
-Message-ID: <CAJMQK-gyJbNBgot3NqSQP5xEb5LtFrk5A9mPQOcntEvxncsmRg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] Add a panel API to return panel orientation
-To: CK Hu <ck.hu@mediatek.com>
+References: <20220505080954.84416-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20220505080954.84416-1-jiapeng.chong@linux.alibaba.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Thu, 2 Jun 2022 10:18:41 +0200
+Message-ID: <CAMeQTsZVaqw8oj+Ovk+jbKK83XJ10e4XdE7=ibHBRs=BcE_v0g@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Clean up some inconsistent indenting
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,87 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- Stephen Boyd <swboyd@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, Abaci Robot <abaci@linux.alibaba.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 2, 2022 at 4:03 PM CK Hu <ck.hu@mediatek.com> wrote:
+On Thu, May 5, 2022 at 10:10 AM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
 >
-> Hi, Hsin-Yi:
+> Eliminate the follow smatch warning:
 >
-> I'm curious that panel driver setting orientation in get_modes() would
-> work or not. It it works, why not just set orientation in get_modes()?
-> I find that exynos dsi driver has implement the get_modes() [1] but
-> Mediatek dsi does not implement. Would you try this?
+> drivers/gpu/drm/gma500/cdv_device.c:250 cdv_errata() warn:
+> inconsistent indenting.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-It's explained in the cover letter:
-```
-Panels usually call drm_connector_set_panel_orientation(), which is
-later than drm/kms driver calling drm_dev_register(). This leads to a
-WARN()[1].
-```
-If the get_modes() in dsi is still being called later than bind(),
-then the same issue still appears.
-The purpose is to set the property before drm_dev_register().
+Hi Jiapeng,
+One entire patch to remove a single whitespace seems a bit excessive.
+Would you mind fixing a few more of the code style issues in
+cdv_device.c while you're at it?
 
+Checkpatch can give you a few hints:
+./scripts/checkpatch.pl -f drivers/gpu/drm/gma500/cdv_device.c
 
+Thanks
+Patrik
 
+> ---
+>  drivers/gpu/drm/gma500/cdv_device.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/exynos/exynos_drm_dsi.c?h=v5.18#n1483
+> diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
+> index dd32b484dd82..09684c42cbf6 100644
+> --- a/drivers/gpu/drm/gma500/cdv_device.c
+> +++ b/drivers/gpu/drm/gma500/cdv_device.c
+> @@ -247,7 +247,7 @@ static void cdv_errata(struct drm_device *dev)
+>          *      Bonus Launch to work around the issue, by degrading
+>          *      performance.
+>          */
+> -        CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
+> +       CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
+>  }
 >
-> Regards,
-> CK
->
-> On Wed, 2022-06-01 at 17:46 +0800, Hsin-Yi Wang wrote:
-> > Panels usually call drm_connector_set_panel_orientation(), which is
-> > later than drm/kms driver calling drm_dev_register(). This leads to a
-> > WARN()[1].
-> >
-> > The orientation property is known earlier. For example, some panels
-> > parse the property through device tree during probe.
-> >
-> > The series add a panel API drm_panel_get_orientation() for drm/kms
-> > drivers. The drivers can use the API to get panel's orientation, so
-> > they
-> > can call drm_connector_set_panel_orientation() before
-> > drm_dev_register().
-> >
-> > Panel needs to implement .get_orientation callback to return the
-> > property.
-> >
-> > [1]
-> > https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/__;!!CTRNKA9wMg0ARbw!0ytf4wPxKANnYbw_fgq-eqQARnAXIHv4jwu04ZW6X6dAxZDFsJ0CltY_PvCBAQ$
-> >
-> >
-> > Hsin-Yi Wang (8):
-> >   drm/panel: Add an API drm_panel_get_orientation() to return panel
-> >     orientation
-> >   drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
-> >   drm/panel: panel-edp: Implement .get_orientation callback
-> >   drm/panel: lvds: Implement .get_orientation callback
-> >   drm/panel: panel-simple: Implement .get_orientation callback
-> >   drm/panel: ili9881c: Implement .get_orientation callback
-> >   drm/panel: elida-kd35t133: Implement .get_orientation callback
-> >   drm/mediatek: Config orientation property if panel provides it
-> >
-> >  drivers/gpu/drm/drm_panel.c                    |  8 ++++++++
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c             | 10 ++++++++++
-> >  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c |  8 ++++++++
-> >  drivers/gpu/drm/panel/panel-edp.c              |  8 ++++++++
-> >  drivers/gpu/drm/panel/panel-elida-kd35t133.c   |  8 ++++++++
-> >  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c  |  8 ++++++++
-> >  drivers/gpu/drm/panel/panel-lvds.c             |  8 ++++++++
-> >  drivers/gpu/drm/panel/panel-simple.c           |  9 +++++++++
-> >  include/drm/drm_panel.h                        | 10 ++++++++++
-> >  9 files changed, 77 insertions(+)
-> >
+>  /**
+> --
+> 2.20.1.7.g153144c
 >
