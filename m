@@ -2,61 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264D153BA5D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 16:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F7953BA92
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 16:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31DCD112B3F;
-	Thu,  2 Jun 2022 14:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DECF112D5A;
+	Thu,  2 Jun 2022 14:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25E5E112B3C
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 14:00:26 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id s12so2936811ejx.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 07:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AYxq+mMduPBX5NXqRBF2+5IJjnwegK5vDcEeTyInUPU=;
- b=auP1KW3KeSmMw7VIZ62/gbLMAnB923JIROgeNcNM60iNfs70SRXGH9Oh+PqNAIdl95
- sF3KgLrJAdhJvNL5E/yTCatacqFZTuJwNSgnwpd8r3nWCcjRXQOJQGh/LEv8L8WGwDHn
- GRMckxbpngc/1zSMfnGGQOEbWW1vqQbIAf/Fr7XQHihGGmhAIL+CXKz/Sx20mLoDFvK2
- Mrq/lvN37tLRQTJChv3fW11X7HfKADxJn3lW1n7mcgkdAUHAPKZhMEZRqOIIvJS+CQJo
- E9+wli3/tU0/Qxnp7IRGppAp11D6KG1QpREaRpW+RGISetT3kVGuRq7qeRk42Hciw7Be
- LYwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AYxq+mMduPBX5NXqRBF2+5IJjnwegK5vDcEeTyInUPU=;
- b=XszSyv6al3QOFe/ORwmOKBGYlW1DAEmM5Hkp24unA61kjIVPjcDxJ91ABG9cU8i+Mk
- /yQOeaH37yNJYfIiWitMJF9H69D3+yFJ7q+XXVKuPCyUQR4J6Zc0wgsXDcJrnO3G/q8K
- 5BhPQda3H6SUOAklrYZ5pmWbfrb1A0xon/uDwM4EBqppNcTLiaHKFYMJEb7pJyHFW5Ln
- XOitryJHoLTx+6yo5f3e5tknt1azSzHtljxsAePAFINNsjU2m4+UT8/GT1sIQ3eSpzNd
- dg6jRtfvk1BVSfguQ+/0RujxwXY0Xl9GhWbn6SOw20RtISHnkvpCLDrQX9EA50K/9Em6
- gkXQ==
-X-Gm-Message-State: AOAM533RozvbHprqivHoYtm2w/4hkb59saOO8N8J3QLNxf0kVplw6mOH
- vuQl3wtXCS025pSoGhbl1E57cDEjDxPwCGowz5VNPu1r6qRUKw==
-X-Google-Smtp-Source: ABdhPJxtpuBCKEOrj7yi3ocCsJZ0ETA3Lw0fV9RaebX5CwbyumoNpdxxmykaJXm5oH5aPRnpODJs/24H5iu7FWYfbjE=
-X-Received: by 2002:a17:907:8a27:b0:707:cc50:e790 with SMTP id
- sc39-20020a1709078a2700b00707cc50e790mr4462180ejc.77.1654178424506; Thu, 02
- Jun 2022 07:00:24 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB8E6112D43
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 14:20:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (lmontsouris-659-1-41-236.w92-154.abo.wanadoo.fr [92.154.76.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2CE2474;
+ Thu,  2 Jun 2022 16:20:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1654179632;
+ bh=cW56JNy1YMzo/+mpBUCnE11x7qyE/FsTuFp/vI0Hu4g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pSmlqs942oDdUxWYEtAWQyZeoYuxBbiqIcUaMg+PU49W8Fy2PlrU8NmzkLykZe7Rj
+ LZ1SZF6IWyHuyeh0d6ITrTYFnwci5K99VDcPSqLQNTB1qpRM4vOAA1DClGJ5HjgcxS
+ 2cAFkflFQRCeeo7i9PpMk5sbYWfjaG/fOK8cAZ+w=
+Date: Thu, 2 Jun 2022 17:20:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: Re: [PATCH v2] drm: bridge: adv7511: Add check for
+ mipi_dsi_driver_register
+Message-ID: <YpjHLN2U8DOh9NLH@pendragon.ideasonboard.com>
+References: <20220602103401.2980938-1-jiasheng@iscas.ac.cn>
 MIME-Version: 1.0
-References: <20220531102809.11976-1-peterwu.pub@gmail.com>
- <20220531102809.11976-8-peterwu.pub@gmail.com>
- <CAHp75VdUQqihr=AX-wEUD05jY1ReL63hMCL+eaqmjkN8CsS_Vg@mail.gmail.com>
- <CA+hk2fasiriGHepNjsnPCqTMJOgAEbVHACmWrDRZY7cHPcOQqA@mail.gmail.com>
- <CAHp75Vf=ATRfaaaGFuuPHuQj6wTjnRPBw4W5WYfgYuUP-A-L=g@mail.gmail.com>
-In-Reply-To: <CAHp75Vf=ATRfaaaGFuuPHuQj6wTjnRPBw4W5WYfgYuUP-A-L=g@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 2 Jun 2022 15:59:48 +0200
-Message-ID: <CAHp75VdDLnisODLCpTEHdGcxCFATdJHfJWf+=GdGtYV2U_o9+g@mail.gmail.com>
-Subject: Re: [PATCH 07/14] leds: flashlight: mt6370: Add Mediatek MT6370
- flashlight support
-To: szuni chen <szunichen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220602103401.2980938-1-jiasheng@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,78 +47,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- alice_chen@richtek.com, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, cy_huang@richtek.com,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- chiaen_wu@richtek.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: jagan@amarulasolutions.com, jonas@kwiboo.se, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, robert.foss@linaro.org,
+ andrzej.hajda@intel.com, alsi@bang-olufsen.dk, biju.das.jz@bp.renesas.com,
+ sam@ravnborg.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 2, 2022 at 3:57 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Thu, Jun 2, 2022 at 2:07 PM szuni chen <szunichen@gmail.com> wrote:
-> > Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=
-=9C=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:57=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > > On Tue, May 31, 2022 at 1:32 PM ChiaEn Wu <peterwu.pub@gmail.com> wro=
-te:
-...
+Hi Jiasheng,
 
-> > > > +       const char * const states[] =3D { "off", "keep", "on" };
-> > > > +       const char *str;
-> > > > +       int ret;
-> > > > +
-> > > > +       if (!fwnode_property_read_string(init_data->fwnode,
-> > > > +                                        "default-state", &str)) {
-> > > > +               ret =3D match_string(states, ARRAY_SIZE(states), st=
-r);
-> > > > +               if (ret < 0)
-> > > > +                       ret =3D STATE_OFF;
-> > > > +
-> > > > +               led->default_state =3D ret;
-> > > > +       }
-> > >
-> > > fwnode_property_match_string()?
-> > Sorry, but I think the use of this function is different from my target=
-.
-> > I want to read the string of the "default-state" property and figure
-> > out if the string is in the states array.
-> > But the fwnode_property_match_string aimed to figure out if the state
-> > in the property array.
-> > One is a property array and another one is a state array.
->
-> Ah, indeed. Nevertheless you may reduce the code base by doing like
-> the following (I wonder what your code do if there is no default-state
-> property):
->
->   led->default_state =3D STATE_OFF; // it's by default off since
-> kzalloc(), so I don't see why we need this line at all.
->
->   fwnode_property_read_string(init_data->fwnode, "default-state", &str);
->   ret =3D match_string(states, ARRAY_SIZE(states), str);
->   if (ret >=3D 0)
->     led->default_state =3D ret;
+Thank you for the patch.
 
-Missed change
+On Thu, Jun 02, 2022 at 06:34:01PM +0800, Jiasheng Jiang wrote:
+> As mipi_dsi_driver_register could return error if fails,
+> it should be better to check the return value and return error
+> if fails.
+> Moreover, if i2c_add_driver fails,  mipi_dsi_driver_register
+> should be reverted.
+> 
+> Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 
-  const char *str =3D states[STATE_OFF];
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
---=20
-With Best Regards,
-Andy Shevchenko
+> ---
+> Changelog:
+> 
+> v1 -> v2
+> 
+> *Change 1. Add the mipi_dsi_driver_unregister if i2c_add_driver fails.
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> index 5bb9300040dd..2275d15d4a8b 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -1392,10 +1392,21 @@ static struct i2c_driver adv7511_driver = {
+>  
+>  static int __init adv7511_init(void)
+>  {
+> -	if (IS_ENABLED(CONFIG_DRM_MIPI_DSI))
+> -		mipi_dsi_driver_register(&adv7533_dsi_driver);
+> +	int ret;
+> +
+> +	if (IS_ENABLED(CONFIG_DRM_MIPI_DSI)) {
+> +		ret = mipi_dsi_driver_register(&adv7533_dsi_driver);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  
+> -	return i2c_add_driver(&adv7511_driver);
+> +	ret = i2c_add_driver(&adv7511_driver);
+> +	if (ret) {
+> +		if (IS_ENABLED(CONFIG_DRM_MIPI_DSI))
+> +			mipi_dsi_driver_unregister(&adv7533_dsi_driver);
+> +	}
+> +
+> +	return ret;
+>  }
+>  module_init(adv7511_init);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
