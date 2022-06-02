@@ -2,78 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CE553B4A0
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 09:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEA953B24C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 05:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A58E112A7E;
-	Thu,  2 Jun 2022 07:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E838110EC2D;
+	Thu,  2 Jun 2022 03:53:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541C310E591
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 03:51:51 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id D6983320090F;
- Wed,  1 Jun 2022 23:51:47 -0400 (EDT)
-Received: from imap43 ([10.202.2.93])
- by compute3.internal (MEProxy); Wed, 01 Jun 2022 23:51:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxfierke.com;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654141907; x=1654228307; bh=+6
- v4s6bg78Q7jGgIkXGLe9dp2dwdRCZ7vAwWjbLTElY=; b=odpKzszHpmRqVVkw1L
- rqUCc1I2lie3iu1ZByYnN291sCB4EWq4hPL/Xyh4dJR7Jq/YGsD7lOVrzYFGbu8k
- mZB9hpdZvRDtmAxFcNrTmlXHrAg0dOts9TzXc3eaedd5PCnTJiFhDtvaWqihjcym
- QH1GATdHBn0MI8d622r2GhXgch7NPSh0R2+l4kSATt+2wSR+zzr4+gZb81jAn5XY
- 7krB8dKNhd77cWv/H6ejAachtPj+aknb9cbB89lx40RmwkcJK8qZey0y0gK9ZHqs
- NtgcIdbl0/sL5UC/mxNg1XM9Rj6pkpqaX741ypLP0R0vKhySSlX5jUAbjoReeJJj
- c1HA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1654141907; x=1654228307; bh=+6v4s6bg78Q7jGgIkXGLe9dp2dwd
- RCZ7vAwWjbLTElY=; b=Sx5+DejUbHQMUPIm4dLkf7Wfg4zrUR1VO3RipTmO1Jce
- xccZ9nJ2siVUHUfaOU1MYMI2iUrKpjwiPLzCtlAXcideof+dp1/sfXMnKDol4GNH
- EFO1y+pss6l5jlgRfFMwStRDPq/CHX8bFxPURLXUxbkqSB46jGHGzl6DbgT+g5qb
- iLAs3lGuIUsjb7VKOIWbIklcmfUuPglxGxxi/PWq4g8kjpFjS51wykXezJxmeHje
- qN6P3bHPCY7/J4qn6CSRIa8GICuiQpqPoQpsgm2IE6wxfSU85IZ+9Aj7UCfHwl8O
- t5i+Amulj1KEycTIpZI7WD/Rs4z+YUiOkFavHLzklQ==
-X-ME-Sender: <xms:0jOYYlRjZBZt61BV3xNzjF9yB4AVRRPKUmTPD_6BsyyEBNJu06iBvQ>
- <xme:0jOYYuzeYWumD3xucPPIbfPmh2-TaUfet8bY5wId2j_caiIdOnvfSce5FOlFHkbyW
- YtCyxrjaDnxHe4FvHw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledugdejvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdforgig
- ucfhihgvrhhkvgdfuceomhgrgiesmhgrgihfihgvrhhkvgdrtghomheqnecuggftrfgrth
- htvghrnhepledtffegueehfefftddvudefvdekhfevhfeufeehhfevkedufedtleekgeek
- feehnecuffhomhgrihhnpeihrghmlhdrihhtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgiesmhgrgihfihgvrhhkvgdrtghomh
-X-ME-Proxy: <xmx:0jOYYq1K5MdTnZkrjDgaXvnO9zO-geSOYR4E0qTtDgRr4Mj9dwr1tw>
- <xmx:0jOYYtClqln69qVKQxyBet_Oa5ilgce1w1oyGKHD356_r9LDtiEJAw>
- <xmx:0jOYYug9pfYoy1hR5fNai9L9KY2nKYtVlOH27vfNoWYT7hz3R7QZrg>
- <xmx:0zOYYjYa94ePK_1RKNrMmodXE5YnJmtTIBWjNnMc7E3uQfqCv9wr6Q>
-Feedback-ID: idee9475d:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C46942D4006D; Wed,  1 Jun 2022 23:51:46 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-591-gfe6c3a2700-fm-20220427.001-gfe6c3a27
-Mime-Version: 1.0
-Message-Id: <0d2c60d7-9fe9-4bd5-b8a1-972e50717e08@www.fastmail.com>
-In-Reply-To: <20220601184711.GA201654-robh@kernel.org>
-References: <20220601051748.1305450-1-max@maxfierke.com>
- <20220601051748.1305450-3-max@maxfierke.com>
- <20220601184711.GA201654-robh@kernel.org>
-Date: Wed, 01 Jun 2022 22:51:26 -0500
-From: "Max Fierke" <max@maxfierke.com>
-To: "Rob Herring" <robh@kernel.org>
-Subject: Re: [PATCH 2/3] dt-bindings: display: Add bindings for ClockworkPi
- CWD686
-Content-Type: text/plain
-X-Mailman-Approved-At: Thu, 02 Jun 2022 07:54:05 +0000
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25DC210E6E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 03:53:14 +0000 (UTC)
+X-UUID: 52803397a9114282911d667d2341b7eb-20220602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:daf369c0-4726-441c-8d6a-edeb9b49cef8, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:45df0015-b515-4766-a72d-4514488fe823,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 52803397a9114282911d667d2341b7eb-20220602
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1855159040; Thu, 02 Jun 2022 11:53:09 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 2 Jun 2022 11:53:08 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 2 Jun 2022 11:53:08 +0800
+Message-ID: <e5810ed88646f700b157ac7c8d499a61db105617.camel@mediatek.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: mediatek: add vdosys1 RDMA
+ definition for mt8195
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Pavel Machek <pavel@ucw.cz>
+Date: Thu, 2 Jun 2022 11:53:08 +0800
+In-Reply-To: <20220530070641.GE1363@bug>
+References: <20220509044302.27878-1-rex-bc.chen@mediatek.com>
+ <20220509044302.27878-2-rex-bc.chen@mediatek.com>
+ <20220530070641.GE1363@bug>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,19 +61,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org
+Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ Jason-JH Lin =?UTF-8?Q?=28=E6=9E=97=E7=9D=BF=E7=A5=A5=29?=
+ <Jason-JH.Lin@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ Nancy Lin =?UTF-8?Q?=28=E6=9E=97=E6=AC=A3=E8=9E=A2=29?=
+ <Nancy.Lin@mediatek.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 1, 2022, at 1:47 PM, Rob Herring wrote:
->
-> You probably can simply add this to panel-simple-dsi.yaml. It mainly 
-> depends on how many power supplies this panel has.
->
+On Mon, 2022-05-30 at 15:06 +0800, Pavel Machek wrote:
+> On Mon 2022-05-09 12:43:00, Rex-BC Chen wrote:
+> > From: "Nancy.Lin" <nancy.lin@mediatek.com>
+> > 
+> > Add vdosys1 RDMA definition.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> 
+> Your signoff will be needed, too.
+> 
+> Best regards,
+> 								Pavel
 
-Unfortunately, it does have two, a 1.8v and a 3.3v, so panel-simple-dsi.yml won't work here. On the devices on which the panel is present, they're both always on so they were left out here, but this is a good reminder that they probably should be added anyway.
+Hello Pavel,
 
-Thanks,
-Max
+ok, I will add it in next version.
+Thanks.
+
+BRs,
+Bo-Chen
+
