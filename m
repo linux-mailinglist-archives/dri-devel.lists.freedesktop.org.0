@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069AC53BCE2
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 18:53:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A0953BCE7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 18:55:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066731131D5;
-	Thu,  2 Jun 2022 16:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E7D1131DC;
+	Thu,  2 Jun 2022 16:55:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7C81131D0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 16:53:24 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id q1so11088690ejz.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 09:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JZ8UPU6ugki+PkwkthIYbz7oUO9hdXo6b9SQ7nkdwtM=;
- b=L/0QynMd8+v88ZZU+c9xvsS2+4IBAk0qnvPWUUmgZAkop0TG4KZxd99dk7jRpG2xjP
- KUc2tplVKuDgLdfIaBZhtckFNJvUhIHInGndmo36fHngmE8m6jBeiLD0zmlU+8/OdXH8
- 9Mhv3pV/nWVpkGYnhijstSeCiN20370swxDcIslOPlNz0qlzwWzr80kwtbP2UAzr+X5t
- bT2vvDe3PqbnmNaxHJbmazQRDsxxA4Yh8PekOBHYmvau5bphFYS+zjlSYH/aafxUQ8Vo
- hECS/upWIjnqQOS5ZSqLfaFOUr/hiOcHh2H6Rf5rblMMuM7gC2MEZPcSyYtpMgzVgJI9
- 7g8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JZ8UPU6ugki+PkwkthIYbz7oUO9hdXo6b9SQ7nkdwtM=;
- b=5YFl423OOKoUJUacQlal2E9hqAV6uP9OY/zInPum++C/rDwXGovDMqs2H1Qa+hEv+h
- Ckoa2ja+JPeomhxKNErFD9Glgr6w6J089dQpxoXX7qmR1fOlBZyQHtGwGGx92AybEdN8
- 1eMeA/OkUa6RlGttdwBMB3669iOCACkGOm9gCLKScI4Nob/TKmRoWKwlcFo+P3lmzDK6
- PwGwUQ0Wyt4lE2VZM4xudY3BlbSMGheZwUotnBm56BERWyG0D0B6LN3/8vl4nqd3UqHl
- OckATP7nbzp/Jl4CoNKaAWR+skYW+fNLaiIR3t3BfJ+JC43ic+WEYlA+KExb0f3538l0
- 4BTQ==
-X-Gm-Message-State: AOAM530VlfwramzkgdysW3TQ5rC7WoYIB0vQRr8rxbJ2w0mFtv5MLvDZ
- pE2MCsKSQZvl8ZV/1sMesq+xqg1Az1kOB7GTH7zYPA==
-X-Google-Smtp-Source: ABdhPJye4s8o1On+/9V61ouTi9MALoHFgmdsjmdC8JHeouR+fU7woYtXknF+evLqmso/PBYsaCxmbQR4cCcPLIhgO8M=
-X-Received: by 2002:a17:906:308f:b0:709:af33:9fa7 with SMTP id
- 15-20020a170906308f00b00709af339fa7mr4961024ejv.369.1654188802902; Thu, 02
- Jun 2022 09:53:22 -0700 (PDT)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 956BD1131DA;
+ Thu,  2 Jun 2022 16:55:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654188903; x=1685724903;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=iyThZ2RE5TwDQxms0c58y2qP+P2qE/Rx94W3sVuQMq0=;
+ b=R/4Dii2cPCW9N2MiH79gBI/fNfiKO12ShL+EHMlsS0L4Uqhi3BrlAlPr
+ RaEFK+8x6EbLsb8JIezlEvP4lyD3OYtKiup6Pb54yG8l6cNYWkVrQdTwB
+ 6mZVRsnlFuOaE0ddZysx4iw6bh7RFsOUuY8azwMqIHa1IzAaMSD3c3mye
+ vUP5hG0eOQnNWTvLmQuEIluiecnZVltPpLxXLvjJugSFz/+CKdZiQZB/3
+ 5UVRGFP8SKEGUK92IeQTkcL1zCXWXYE6WF7Vc7uYsJc9YdIRl8pkpQ68Y
+ b5voqUDnBGhhyFoyLHLsiRRvlK2ssQLvN8iUo4SBNVfvB2MfCP1IJl5xo A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10366"; a="336665923"
+X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="336665923"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 09:55:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="577596142"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.163])
+ by orsmga007.jf.intel.com with SMTP; 02 Jun 2022 09:55:00 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 02 Jun 2022 19:54:59 +0300
+Date: Thu, 2 Jun 2022 19:54:59 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v1 01/13] drm/edid: add block count and data helper
+ functions for drm_edid
+Message-ID: <YpjrYx13Bh6Gwj68@intel.com>
+References: <cover.1653381821.git.jani.nikula@intel.com>
+ <a08352924ad49a32213d8979d43d480f3f7b4a11.1653381821.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-References: <20220530102017.471865-1-jose.exposito89@gmail.com>
- <20220530102017.471865-2-jose.exposito89@gmail.com>
- <e26de140-afb7-7b1b-4826-6ac4f3a4fe02@redhat.com>
-In-Reply-To: <e26de140-afb7-7b1b-4826-6ac4f3a4fe02@redhat.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Thu, 2 Jun 2022 09:53:10 -0700
-Message-ID: <CAGS_qxpFO4ixW=08ZcdcD9J1kU=B3mwoBJkPW8AKu0sKs8aKfA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a08352924ad49a32213d8979d43d480f3f7b4a11.1653381821.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,32 +61,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- kunit-dev@googlegroups.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 2, 2022 at 9:27 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> > +CFLAGS_drm_format_helper_test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
-> >
->
-> A comment on why this is needed would useful.
+On Tue, May 24, 2022 at 01:39:23PM +0300, Jani Nikula wrote:
+> Add drm_edid based block count and data access helper functions that
+> take the EDID allocated size into account.
+> 
+> At the moment, the allocated size should always match the EDID size
+> indicated by the extension count, but this will change in the future.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 42 +++++++++++++++++++++++++++++++-------
+>  1 file changed, 35 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 929fc0e46751..682d954a9e42 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1613,6 +1613,35 @@ static const void *edid_extension_block_data(const struct edid *edid, int index)
+>  	return edid_block_data(edid, index + 1);
+>  }
+>  
+> +static int drm_edid_block_count(const struct drm_edid *drm_edid)
+> +{
+> +	int num_blocks;
+> +
+> +	/* Starting point */
+> +	num_blocks = edid_block_count(drm_edid->edid);
+> +
+> +	/* Limit by allocated size */
+> +	num_blocks = min(num_blocks, (int)drm_edid->size / EDID_LENGTH);
 
-Ah, I think that should not be necessary anymore.
-We added this to some tests to mitigate against compilers that didn't
-optimize away stack-local structs used internally in KUNIT_EXPECT*.
-Functions with ~30 or so EXPECTs could get flagged for excessively
-large stack frames.
+Hmm. Is there a particular reason we couldn't just always
+return drm_edid->size/EDID_LENGTH here? That is, why would we not
+set drm_edid->size to always reflect the actual size of the EDID?
 
-But in 5.18, I had some patches to reduce the naive stack usage from
-[48..88] => [8..32] bytes per EXPECT.
-I also have some RFC patches out to get it down to [0, 24] bytes.
+> +
+> +	return num_blocks;
+> +}
+> +
+> +static int drm_edid_extension_block_count(const struct drm_edid *drm_edid)
+> +{
+> +	return drm_edid_block_count(drm_edid) - 1;
+> +}
+> +
+> +static const void *drm_edid_block_data(const struct drm_edid *drm_edid, int index)
+> +{
+> +	return edid_block_data(drm_edid->edid, index);
+> +}
+> +
+> +static const void *drm_edid_extension_block_data(const struct drm_edid *drm_edid,
+> +						 int index)
+> +{
+> +	return edid_extension_block_data(drm_edid->edid, index);
+> +}
+> +
+>  /*
+>   * Initializer helper for legacy interfaces, where we have no choice but to
+>   * trust edid size. Not for general purpose use.
+> @@ -1665,8 +1694,8 @@ static const void *__drm_edid_iter_next(struct drm_edid_iter *iter)
+>  	if (!iter->drm_edid)
+>  		return NULL;
+>  
+> -	if (iter->index < edid_block_count(iter->drm_edid->edid))
+> -		block = edid_block_data(iter->drm_edid->edid, iter->index++);
+> +	if (iter->index < drm_edid_block_count(iter->drm_edid))
+> +		block = drm_edid_block_data(iter->drm_edid, iter->index++);
+>  
+>  	return block;
+>  }
+> @@ -3574,22 +3603,21 @@ static int add_detailed_modes(struct drm_connector *connector,
+>  const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
+>  				  int ext_id, int *ext_index)
+>  {
+> -	const struct edid *edid = drm_edid ? drm_edid->edid : NULL;
+>  	const u8 *edid_ext = NULL;
+>  	int i;
+>  
+>  	/* No EDID or EDID extensions */
+> -	if (!edid || !edid_extension_block_count(edid))
+> +	if (!drm_edid || !drm_edid_extension_block_count(drm_edid))
+>  		return NULL;
+>  
+>  	/* Find CEA extension */
+> -	for (i = *ext_index; i < edid_extension_block_count(edid); i++) {
+> -		edid_ext = edid_extension_block_data(edid, i);
+> +	for (i = *ext_index; i < drm_edid_extension_block_count(drm_edid); i++) {
+> +		edid_ext = drm_edid_extension_block_data(drm_edid, i);
+>  		if (edid_block_tag(edid_ext) == ext_id)
+>  			break;
+>  	}
+>  
+> -	if (i >= edid_extension_block_count(edid))
+> +	if (i >= drm_edid_extension_block_count(drm_edid))
+>  		return NULL;
+>  
+>  	*ext_index = i + 1;
+> -- 
+> 2.30.2
 
-So going forward, this should only be necessary if you have something
-like 100s of EXPECTs in a single function (in which case you should
-also consider splitting that function up).
-
-Daniel
+-- 
+Ville Syrjälä
+Intel
