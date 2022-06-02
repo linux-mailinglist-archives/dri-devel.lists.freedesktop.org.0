@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B36053B215
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 05:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439BD53B240
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 05:50:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E252710FD32;
-	Thu,  2 Jun 2022 03:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA2FD10E429;
+	Thu,  2 Jun 2022 03:50:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCE710FD32
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 03:31:18 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id p19so1930767wmg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 20:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NtKZM7ZzL0kZiBk9fCkTs8IIiGvurk+lCaFLvy6F9KM=;
- b=raUrDavqbUtfHUyTsuvpI3JJKenCcbQI1C91oKXMoIo0hS6fi+YXCZvOeeg2MEQNX1
- dJ6bd3Ce4GTPVs0QEn79KZs2VPt6QKmzQP0Nwiu/KPgJO8R4RFx7GRPptekvllGm36QP
- H1pTmzWRB1hHlS2eYOLCpjjFjyKzuVbWEWizG0E7Rh1GH62aQKt6rMy5q1V0iSdjlXRg
- oTlWVwC1Vm733kv5iBJpVdPKqQ7NyLd0YOcyeLw1ZfsP2dkqPLzYSAtFTezRtt9x1fyy
- WIXyado7VheTdhisXzaAk8sUkFbrRcuVKr0JJs9M+ijZAS3yhpw2MvnhzE+WK3dWox07
- Y6Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NtKZM7ZzL0kZiBk9fCkTs8IIiGvurk+lCaFLvy6F9KM=;
- b=IjTKgmQQg3UmGwY6w/oR6XhTZyBpZHTjDdhdEZIf3bulM3XxrkhyCizjueVBBc9k6B
- FyqTyVlTdxK69b5ygS7F92El7B2c9VusIWFJG/0XNTrwpeqXgq858klEaFcqe54kGcBN
- /fzUou48rHNtvY22G15VINY0pTynxABuQzh68z/8e0kMRX0Ij+mAnZtGh3qdAjxAwneq
- eXnpFRqX+Sj0lEyn+uCGr4zmf3VI0AVOXzJj8LhIoHeujL7NxQjdzh0fPk8GiYmqWXPw
- I1caWgvlqaPmEuSVT828lUlt9L7nIJu1dgTlCtzM2joisA53Iq49Mji81c9owUzwrluG
- nuqQ==
-X-Gm-Message-State: AOAM531bpqte+hzWcjok9/aaatO2aEznfcyJZGhHiB8ViueZsius8faR
- YCWg2D+HIDlAU6XTTvmqoEwLtNnp075j1eR+lls+Sw==
-X-Google-Smtp-Source: ABdhPJwr9ksMbCqrYTe/BLeOa2HUtPjrOYz7Ly9AqSwbBXJ4IHGSxO1O40n+EYK78Sm55YfS5gAcIIlyabDnSvyGU9g=
-X-Received: by 2002:a05:600c:3547:b0:39c:1606:17c5 with SMTP id
- i7-20020a05600c354700b0039c160617c5mr2125479wmq.61.1654140676586; Wed, 01 Jun
- 2022 20:31:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220531212521.1231133-1-kaleshsingh@google.com>
- <20220531212521.1231133-3-kaleshsingh@google.com>
- <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
- <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
- <875yll1fp1.fsf@stepbren-lnx.us.oracle.com>
- <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
-In-Reply-To: <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Wed, 1 Jun 2022 20:31:05 -0700
-Message-ID: <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH 2/2] procfs: Add 'path' to
- /proc/<pid>/fdinfo/
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB68010E436
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 03:50:14 +0000 (UTC)
+X-UUID: e362700a8d8d4b6ea2f942f28d9e6338-20220602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:f76b4cdc-e8fa-4f57-9431-097f5be524d7, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:7b998c0d-3a0d-4bbe-9d72-0e5d26d57423,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: e362700a8d8d4b6ea2f942f28d9e6338-20220602
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1420575617; Thu, 02 Jun 2022 11:50:02 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 2 Jun 2022 11:50:00 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 2 Jun 2022 11:50:00 +0800
+Message-ID: <358b183faed73672e8fa4f6eb0d48fb067aec87d.camel@mediatek.com>
+Subject: Re: [PATCH v10 00/21] drm/mediatek: Add mt8195 DisplayPort driver
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
+ Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
+ Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
+ Deller" <deller@gmx.de>, CK Hu <ck.hu@mediatek.com>, Jitao shi
+ <jitao.shi@mediatek.com>, <angelogioacchino.delregno@collabora.com>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, <maxime@cerno.tech>
+Date: Thu, 2 Jun 2022 11:50:00 +0800
+In-Reply-To: <20220523104758.29531-1-granquet@baylibre.com>
+References: <20220523104758.29531-1-granquet@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,265 +69,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Stephen Brennan <stephen.s.brennan@oracle.com>,
- Paul Gortmaker <paul.gortmaker@windriver.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- David Hildenbrand <david@redhat.com>,
- "Cc: Android Kernel" <kernel-team@android.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
- LKML <linux-kernel@vger.kernel.org>, Colin Cross <ccross@google.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 1, 2022 at 8:02 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 01.06.22 um 00:48 schrieb Stephen Brennan:
-> > Kalesh Singh <kaleshsingh@google.com> writes:
-> >> On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
-> >> <stephen.s.brennan@oracle.com> wrote:
-> >>> On 5/31/22 14:25, Kalesh Singh wrote:
-> >>>> In order to identify the type of memory a process has pinned through
-> >>>> its open fds, add the file path to fdinfo output. This allows
-> >>>> identifying memory types based on common prefixes. e.g. "/memfd...",
-> >>>> "/dmabuf...", "/dev/ashmem...".
-> >>>>
-> >>>> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
-> >>>> the same as /proc/<pid>/maps which also exposes the file path of
-> >>>> mappings; so the security permissions for accessing path is consiste=
-nt
-> >>>> with that of /proc/<pid>/maps.
-> >>> Hi Kalesh,
-> >> Hi Stephen,
-> >>
-> >> Thanks for taking a look.
-> >>
-> >>> I think I see the value in the size field, but I'm curious about path=
-,
-> >>> which is available via readlink /proc/<pid>/fd/<n>, since those are
-> >>> symlinks to the file themselves.
-> >> This could work if we are root, but the file permissions wouldn't
-> >> allow us to do the readlink on other processes otherwise. We want to
-> >> be able to capture the system state in production environments from
-> >> some trusted process with ptrace read capability.
-> > Interesting, thanks for explaining. It seems weird to have a duplicate
-> > interface for the same information but such is life.
->
-> Yeah, the size change is really straight forward but for this one I'm
-> not 100% sure either.
+On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
+> this series is built around the DisplayPort driver. The dpi/dpintf
+> driver and the added helper functions are required for the
+> DisplayPort
+> driver to work.
+> 
+> This v10 still has some un-answered comments and TODOs for v11.
+> 
+> This has been tested sucessfully on a 5.18-next based "vendor
+> branch".
+> 
+> There's a missing dependency in the mediatek clock framework to allow
+> a
+> mux clock to change it's parent automatically on rate change.
+> Without this change, the dpi driver won't properly set the clocks on
+> mode change and thus nothing will be displayed on screen.
+> 
+> Changes from v9:
+> - The DP-Phy is back to being a child device of the DP driver (as in
+> v8)
+> - hot plug detection has been added back to Embedded Display Port...
+> as
+>   after discussing with mediatek experts, this is needed eventhough
+> the
+>   Embedded Display port is not un-pluggable
+> - rebased on linux-next
+> - simplified/split train_handler function, as suggested by Rex
+> - added comments on the sleep/delays present in the code
+> - removed previous patch introducing retries when receiving AUX_DEFER
+> as
+>   this is already handled in the dp_aux framework
+> - added max-lane and max-linkrate device tree u8 properties instead
+> of
+>   hardcoded #defines
+> 
+> Things that are in my todolist for v11:
+> - retrieve CK/DE support from panel driver instead of hardcoding it
+> into
+>   the dpi driver
+> - refcount the dp driver "enabled" status for "future proofing"
+> - review the drm_dp_helpers for features/functions that have been
+>   re-implemented in the mediatek dp drivers
+> 
+> Older revisions:
+> RFC - 
+> https://lore.kernel.org/linux-mediatek/20210816192523.1739365-1-msp@baylibre.com/
+> v1  - 
+> https://lore.kernel.org/linux-mediatek/20210906193529.718845-1-msp@baylibre.com/
+> v2  - 
+> https://lore.kernel.org/linux-mediatek/20210920084424.231825-1-msp@baylibre.com/
+> v3  - 
+> https://lore.kernel.org/linux-mediatek/20211001094443.2770169-1-msp@baylibre.com/
+> v4  - 
+> https://lore.kernel.org/linux-mediatek/20211011094624.3416029-1-msp@baylibre.com/
+> v5  - 
+> https://lore.kernel.org/all/20211021092707.3562523-1-msp@baylibre.com/
+> v6  - 
+> https://lore.kernel.org/linux-mediatek/20211110130623.20553-1-granquet@baylibre.com/
+> v7  - 
+> https://lore.kernel.org/linux-mediatek/20211217150854.2081-1-granquet@baylibre.com/
+> v8  - 
+> https://lore.kernel.org/linux-mediatek/20220218145437.18563-1-granquet@baylibre.com/
+> v9  - 
+> https://lore.kernel.org/all/20220327223927.20848-1-granquet@baylibre.com/
+> 
+> Functional dependencies are:
+> - Add Mediatek Soc DRM (vdosys0) support for mt8195
+>   
+> https://lore.kernel.org/linux-mediatek/20220419094143.9561-2-jason-jh.lin@mediatek.com/
+> - Add MediaTek SoC DRM (vdosys1) support for mt8195
+>   
+> https://lore.kernel.org/linux-mediatek/20220512053128.31415-1-nancy.lin@mediatek.com/
+> 
+> 
+> Guillaume Ranquet (15):
+>   drm/edid: Convert cea_sad helper struct to kernelDoc
+>   drm/edid: Add cea_sad helpers for freq/length
+>   drm/mediatek: dpi: move dpi limits to SoC config
+>   drm/mediatek: dpi: implement a CK/DE pol toggle in SoC config
+>   drm/mediatek: dpi: implement a swap_input toggle in SoC config
+>   drm/mediatek: dpi: move dimension mask to SoC config
+>   drm/mediatek: dpi: move hvsize_mask to SoC config
+>   drm/mediatek: dpi: move swap_shift to SoC config
+>   drm/mediatek: dpi: move the yuv422_en_bit to SoC config
+>   drm/mediatek: dpi: move the csc_enable bit to SoC config
+>   drm/mediatek: dpi: Add dpintf support
+>   drm/mediatek: dpi: Only enable dpi after the bridge is enabled
+>   drm/meditek: dpi: Add matrix_sel helper
+>   drm/mediatek: Add mt8195 External DisplayPort support
+>   drm/mediatek: DP audio support for mt8195
+> 
+> Jitao Shi (1):
+>   drm/mediatek: add hpd debounce
+> 
+> Markus Schneider-Pargmann (5):
+>   dt-bindings: mediatek,dpi: Add DPINTF compatible
+>   dt-bindings: mediatek,dp: Add Display Port binding
+>   video/hdmi: Add audio_infoframe packing for DP
+>   phy: phy-mtk-dp: Add driver for DP phy
+>   drm/mediatek: Add mt8195 Embedded DisplayPort driver
+> 
+>  .../display/mediatek/mediatek,dp.yaml         |   99 +
+>  .../display/mediatek/mediatek,dpi.yaml        |   13 +-
+>  MAINTAINERS                                   |    1 +
+>  drivers/gpu/drm/drm_edid.c                    |   74 +
+>  drivers/gpu/drm/mediatek/Kconfig              |    8 +
+>  drivers/gpu/drm/mediatek/Makefile             |    2 +
+>  drivers/gpu/drm/mediatek/mtk_dp.c             | 3419
+> +++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_dp_reg.h         |  570 +++
+>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  272 +-
+>  drivers/gpu/drm/mediatek/mtk_dpi_regs.h       |   38 +
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |    8 +
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |    1 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    8 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |    3 +
+>  drivers/phy/mediatek/Kconfig                  |    8 +
+>  drivers/phy/mediatek/Makefile                 |    1 +
+>  drivers/phy/mediatek/phy-mtk-dp.c             |  200 +
+>  drivers/video/hdmi.c                          |   82 +-
+>  include/drm/dp/drm_dp_helper.h                |    2 +
+>  include/drm/drm_edid.h                        |   26 +-
+>  include/linux/hdmi.h                          |    7 +-
+>  include/linux/soc/mediatek/mtk-mmsys.h        |    4 +-
+>  22 files changed, 4765 insertions(+), 81 deletions(-)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+>  create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
 
-The 2 concerns I think are:
-  1. Fun characters in the path names
-  2. If exposing the path is appropriate to begin with.
+Hello all,
 
-One way I think we can address both is to only expose the path for
-anon inodes. Then we have well-known path formats and we don't expose
-much about which files a process is accessing since these aren't real
-paths.
+Due to the resource issue, I will keep upstreaming Guillaume's MT8195
+dp/edp series.
 
-+       if (is_anon_inode(inode)) {
-+               seq_puts(m, "path:\t");
-+               seq_file_path(m, file, "\n");
-+               seq_putc(m, '\n');
-+       }
+I will check the comments for v8/v9/v10 and have some discussion with
+you.
 
-Interested to hear thoughts on it.
+Thanks for your all comments.
 
->
-> Probably best to ping some core fs developer before going further with it=
-.
+BRs,
+Bo-Chen
 
-linux-fsdevel is cc'd here. Adding Al Vrio as well. Please let me know
-if there are other parties I should include.
-
->
-> BTW: Any preferred branch to push this upstream? If not I can take it
-> through drm-misc-next.
-
-No other dependencies for this, so drm-misc-next is good.
-
-Thanks,
-Kalesh
-
->
-> Regards,
-> Christian.
->
-> >
-> >>> File paths can contain fun characters like newlines or colons, which
-> >>> could make parsing out filenames in this text file... fun. How would =
-your
-> >>> userspace parsing logic handle "/home/stephen/filename\nsize:\t4096"?=
- The
-> >>> readlink(2) API makes that easy already.
-> >> I think since we have escaped the "\n" (seq_file_path(m, file, "\n")),
-> > I really should have read through that function before commenting,
-> > thanks for teaching me something new :)
-> >
-> > Stephen
-> >
-> >> then user space might parse this line like:
-> >>
-> >> if (strncmp(line, "path:\t", 6) =3D=3D 0)
-> >>          char* path =3D line + 6;
-> >>
-> >>
-> >> Thanks,
-> >> Kalesh
-> >>
-> >>> Is the goal avoiding races (e.g. file descriptor 3 is closed and reop=
-ened
-> >>> to a different path between reading fdinfo and stating the fd)?
-> >>>
-> >>> Stephen
-> >>>
-> >>>> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> >>>> ---
-> >>>>
-> >>>> Changes from rfc:
-> >>>>    - Split adding 'size' and 'path' into a separate patches, per Chr=
-istian
-> >>>>    - Fix indentation (use tabs) in documentaion, per Randy
-> >>>>
-> >>>>   Documentation/filesystems/proc.rst | 14 ++++++++++++--
-> >>>>   fs/proc/fd.c                       |  4 ++++
-> >>>>   2 files changed, 16 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/file=
-systems/proc.rst
-> >>>> index 779c05528e87..591f12d30d97 100644
-> >>>> --- a/Documentation/filesystems/proc.rst
-> >>>> +++ b/Documentation/filesystems/proc.rst
-> >>>> @@ -1886,14 +1886,16 @@ if precise results are needed.
-> >>>>   3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
-> >>>>   ---------------------------------------------------------------
-> >>>>   This file provides information associated with an opened file. The=
- regular
-> >>>> -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino',=
- and 'size'.
-> >>>> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', =
-'size',
-> >>>> +and 'path'.
-> >>>>
-> >>>>   The 'pos' represents the current offset of the opened file in deci=
-mal
-> >>>>   form [see lseek(2) for details], 'flags' denotes the octal O_xxx m=
-ask the
-> >>>>   file has been created with [see open(2) for details] and 'mnt_id' =
-represents
-> >>>>   mount ID of the file system containing the opened file [see 3.5
-> >>>>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode num=
-ber of
-> >>>> -the file, and 'size' represents the size of the file in bytes.
-> >>>> +the file, 'size' represents the size of the file in bytes, and 'pat=
-h'
-> >>>> +represents the file path.
-> >>>>
-> >>>>   A typical output is::
-> >>>>
-> >>>> @@ -1902,6 +1904,7 @@ A typical output is::
-> >>>>        mnt_id: 19
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   /dev/null
-> >>>>
-> >>>>   All locks associated with a file descriptor are shown in its fdinf=
-o too::
-> >>>>
-> >>>> @@ -1920,6 +1923,7 @@ Eventfd files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[eventfd]
-> >>>>        eventfd-count:  5a
-> >>>>
-> >>>>   where 'eventfd-count' is hex value of a counter.
-> >>>> @@ -1934,6 +1938,7 @@ Signalfd files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[signalfd]
-> >>>>        sigmask:        0000000000000200
-> >>>>
-> >>>>   where 'sigmask' is hex value of the signal mask associated
-> >>>> @@ -1949,6 +1954,7 @@ Epoll files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[eventpoll]
-> >>>>        tfd:        5 events:       1d data: ffffffffffffffff pos:0 i=
-no:61af sdev:7
-> >>>>
-> >>>>   where 'tfd' is a target file descriptor number in decimal form,
-> >>>> @@ -1968,6 +1974,7 @@ For inotify files the format is the following:=
-:
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:inotify
-> >>>>        inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0=
- fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
-> >>>>
-> >>>>   where 'wd' is a watch descriptor in decimal form, i.e. a target fi=
-le
-> >>>> @@ -1992,6 +1999,7 @@ For fanotify files the format is::
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[fanotify]
-> >>>>        fanotify flags:10 event-flags:0
-> >>>>        fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
-> >>>>        fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:=
-40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> >>>> @@ -2018,6 +2026,7 @@ Timerfd files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   0
-> >>>> +     path:   anon_inode:[timerfd]
-> >>>>        clockid: 0
-> >>>>        ticks: 0
-> >>>>        settime flags: 01
-> >>>> @@ -2042,6 +2051,7 @@ DMA Buffer files
-> >>>>        mnt_id: 9
-> >>>>        ino:    63107
-> >>>>        size:   32768
-> >>>> +     path:   /dmabuf:
-> >>>>        count:  2
-> >>>>        exp_name:  system-heap
-> >>>>
-> >>>> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> >>>> index 464bc3f55759..8889a8ba09d4 100644
-> >>>> --- a/fs/proc/fd.c
-> >>>> +++ b/fs/proc/fd.c
-> >>>> @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v)
-> >>>>        seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
-> >>>>        seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i=
-_size);
-> >>>>
-> >>>> +     seq_puts(m, "path:\t");
-> >>>> +     seq_file_path(m, file, "\n");
-> >>>> +     seq_putc(m, '\n');
-> >>>> +
-> >>>>        /* show_fd_locks() never deferences files so a stale value is=
- safe */
-> >>>>        show_fd_locks(m, file, files);
-> >>>>        if (seq_has_overflowed(m))
-> >>> --
-> >>> To unsubscribe from this group and stop receiving emails from it, sen=
-d an email to kernel-team+unsubscribe@android.com.
-> >>>
-> > _______________________________________________
-> > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
->
