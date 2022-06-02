@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3041D53BFC1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E8C53BFC5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1059311349D;
-	Thu,  2 Jun 2022 20:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD341134CF;
+	Thu,  2 Jun 2022 20:24:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05213113450
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:24:53 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id u26so8827184lfd.8
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:24:53 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A69B11347F
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:24:55 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id a17so2597862lfs.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:24:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IqFJZ/7GohOX09xTkIMZacL1cgn1/g+j7eNRD6/0cXo=;
- b=kgp1zqfAhCh0hYSgzmMpfTVj8Vv+k4+ZMnCRe/Y8dRj64MFcyXWWyyzYwwFj0Rlkmg
- aWp+Xnvp+0+bhWnY9iwTls1JK4RzXn4DV3Olcj5+iCi29/fSParb8pZ7VV7fPNH07Gg0
- owlseuMGcCzV5LtgSWqsmf8HaiZ+mSwI1heoKrupUnjIAB5EQvO7bjwywQbXSq1XCPSi
- BzBBEK3LIEzNTxRgUfzEVKVfTWH8jxd3e02vMgZrihL7+9MOf3c+PeVEwDF1QAiCDWDN
- Uh88vltrn3RRLo5H+u5tvSLOLWApkVuTHXXI9wsMiN7YSB/YEqHxPzq8xrG22aJTfRF1
- g0+Q==
+ bh=zXcWpyM12/XTJO1D+wftn1uACAJMBoWXplEL60iENeY=;
+ b=t4MFNIhPI1Z8Cg82GYttXGFyhUqxaVmdx6jXXDQiJWnaEk2D1KteGQHPjVeDDTMX7p
+ OfJA6NoyVR7KIOcM48i4NjlI0LHNvMVgJ+x6yq326TvFjP6F2GCHGZ280T2Non08s63x
+ UtZvLTBSQRBBAe0r/EFjh9ChDAxBRbj7hoOEkp5oY6CpASWA0ieueoEnVQr+JNXWInkI
+ vKjKGXyqnsQdQtodxGwpARYKnrN5GRFI8OCGme7/wKJ1nfyL98aw7APbyYPI5bg5oXsr
+ JgTpJfFEt26N6y1SlkxiKmcdUwefOEtjXP+ut95Ag0qV64LJwod3W7gHqf5K3TN89WA5
+ OJIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IqFJZ/7GohOX09xTkIMZacL1cgn1/g+j7eNRD6/0cXo=;
- b=B2anKbiCpMzlA9Cx8tmWoBzx3jDf29RiUNgFDqA7cB4R/X72FOK2FMJXG45TJJeTam
- aTIArlPN+MRHollJkR2p8NWA5aWm/fdt7mg3cYY8MQ+/+40qreM5k54HGoz59Yme2ZOf
- ITKdgTOEDp++BcNHPBc4XdUbe1c8g6bSnilhxpqOIrIibPfFa/hHMfGmnijvci5ozicL
- 9owfA3LvV6qq0msdlP3v4yKnWSisG/gAAA0DoT9ctyt5yLG90dYsoTFiUzSnpBlSCqbp
- HEz6f8teJ+7vOTwuVkfn/bNsph27CjAVuB2e9O22yUNfh7b7hv95xy2T/866ZqjpkwGS
- ti2A==
-X-Gm-Message-State: AOAM532waTjxowH+UPXdgdf7K4bmZ4rKO0epc9XYqCp4D7tC198NrdeB
- j0w/97mzB7tN33gxbWeodMGH9ZHVDCUKUQ==
-X-Google-Smtp-Source: ABdhPJwz91ahL/8seWf9iuUB0IFsTHkXSlKIJhO763lHGSDKV4NnFishDOFWhHZ+9BwMTMaq0ZjbLA==
-X-Received: by 2002:a05:6512:1051:b0:478:8351:6665 with SMTP id
- c17-20020a056512105100b0047883516665mr4555640lfb.390.1654201492342; 
- Thu, 02 Jun 2022 13:24:52 -0700 (PDT)
+ bh=zXcWpyM12/XTJO1D+wftn1uACAJMBoWXplEL60iENeY=;
+ b=GgnSxLq90XwQ5QM6PCDAKRm4FMCczUFSpOLtJpgDfyY1RUMrrYq67Y2lhvFRbv8jH3
+ Nb17b6CK0iok4XEfsY++UF9pD4LzpB3iuwDKcye43P2mx31nMRus1KLaDXlzIcnHYEmL
+ J922s/fVApRyMr9dHIyA6Nlk9IcQb3Txnj6HsHWG6XzkMjhspcLIu9F+UhoIukN0mUHJ
+ YtYGYR+qodl4UiWFZ1kY70H/lk8mVDDeaWELk5shEX4/0kGYJVgtYXdmNuEXcbNTKm5v
+ InkO0HgJjpOE7XrZLzp83WQuKxg5x2OP1aeRzNMPYQ93OZMFWs3CVnB0OoDZwghvfne7
+ Oxhg==
+X-Gm-Message-State: AOAM533inJ6bMHGFv5yRki9rptZUuoMBpJGp8l2xdLsezENXH3RgcFD8
+ Sl+GG2z8lntUVZbNC0nJIs7nsg==
+X-Google-Smtp-Source: ABdhPJyQ+cqabZc+dwnVU9zPdumZjOK+ztaggYU72hoOL8tBTflPmtlUf2IZXah/tVMTeFCAH9wIGA==
+X-Received: by 2002:ac2:58e3:0:b0:479:2a5:6fed with SMTP id
+ v3-20020ac258e3000000b0047902a56fedmr4809625lfo.326.1654201493648; 
+ Thu, 02 Jun 2022 13:24:53 -0700 (PDT)
 Received: from eriador.lumag.spb.ru ([188.162.64.241])
  by smtp.gmail.com with ESMTPSA id
- d25-20020a056512369900b0047255d21114sm1205718lfs.67.2022.06.02.13.24.51
+ d25-20020a056512369900b0047255d21114sm1205718lfs.67.2022.06.02.13.24.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 13:24:51 -0700 (PDT)
+ Thu, 02 Jun 2022 13:24:53 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v4 2/7] drm/msm/dpu: move VBIF_XINL_QOS_LVL_REMAP size to
- hw_catalog
-Date: Thu,  2 Jun 2022 23:24:42 +0300
-Message-Id: <20220602202447.1755115-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 3/7] drm/msm/dpu: remove hwversion field from data
+ structures
+Date: Thu,  2 Jun 2022 23:24:43 +0300
+Message-Id: <20220602202447.1755115-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220602202447.1755115-1-dmitry.baryshkov@linaro.org>
 References: <20220602202447.1755115-1-dmitry.baryshkov@linaro.org>
@@ -77,79 +77,218 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rather than detecting VBIF_XINL_QOS_LVL_REMAP_000 based on the
-hwversion, push the offset to the hw_catalog.
+The driver should not depend on hw revision for detecting features.
+Instead it should use features from the hw catalog. Drop the hwversion
+field from struct dpu_mdss_cfg and struct dpu_hw_blk_reg_map.
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c    | 4 ++--
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 2 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c        | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c        | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c       | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c       | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c         | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c       | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c        | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h       | 2 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c       | 1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c         | 1 -
+ 15 files changed, 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index c3759fc4b154..101d9abe652b 100644
+index 101d9abe652b..355c7aa82582 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -1339,6 +1339,7 @@ static const struct dpu_vbif_cfg msm8998_vbif[] = {
- 	.default_ot_wr_limit = 32,
- 	.features = BIT(DPU_VBIF_QOS_REMAP) | BIT(DPU_VBIF_QOS_OTLIM),
- 	.xin_halt_timeout = 0x4000,
-+	.qos_rp_remap_size = 0x20,
- 	.dynamic_ot_rd_tbl = {
- 		.count = ARRAY_SIZE(msm8998_ot_rdwr_cfg),
- 		.cfg = msm8998_ot_rdwr_cfg,
-@@ -1366,6 +1367,7 @@ static const struct dpu_vbif_cfg sdm845_vbif[] = {
- 	.base = 0, .len = 0x1040,
- 	.features = BIT(DPU_VBIF_QOS_REMAP),
- 	.xin_halt_timeout = 0x4000,
-+	.qos_rp_remap_size = 0x40,
- 	.qos_rt_tbl = {
- 		.npriority_lvl = ARRAY_SIZE(sdm845_rt_pri_lvl),
- 		.priority_lvl = sdm845_rt_pri_lvl,
+@@ -2002,7 +2002,6 @@ struct dpu_mdss_cfg *dpu_hw_catalog_init(u32 hw_rev)
+ 	for (i = 0; i < ARRAY_SIZE(cfg_handler); i++) {
+ 		if (cfg_handler[i].hw_rev == hw_rev) {
+ 			cfg_handler[i].cfg_init(dpu_cfg);
+-			dpu_cfg->hwversion = hw_rev;
+ 			return dpu_cfg;
+ 		}
+ 	}
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 80bc09b1f1b3..f70de97f492a 100644
+index f70de97f492a..4225f58d8f97 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -709,6 +709,7 @@ struct dpu_vbif_qos_tbl {
-  * @ot_rd_limit        default OT read limit
-  * @ot_wr_limit        default OT write limit
-  * @xin_halt_timeout   maximum time (in usec) for xin to halt
-+ * @qos_rp_remap_size  size of VBIF_XINL_QOS_RP_REMAP register space
-  * @dynamic_ot_rd_tbl  dynamic OT read configuration table
-  * @dynamic_ot_wr_tbl  dynamic OT write configuration table
-  * @qos_rt_tbl         real-time QoS priority table
-@@ -721,6 +722,7 @@ struct dpu_vbif_cfg {
- 	u32 default_ot_rd_limit;
- 	u32 default_ot_wr_limit;
- 	u32 xin_halt_timeout;
-+	u32 qos_rp_remap_size;
- 	struct dpu_vbif_dynamic_ot_tbl dynamic_ot_rd_tbl;
- 	struct dpu_vbif_dynamic_ot_tbl dynamic_ot_wr_tbl;
- 	struct dpu_vbif_qos_tbl qos_rt_tbl;
+@@ -826,8 +826,6 @@ struct dpu_perf_cfg {
+  * @mdss_irqs:         Bitmap with the irqs supported by the target
+  */
+ struct dpu_mdss_cfg {
+-	u32 hwversion;
+-
+ 	const struct dpu_caps *caps;
+ 
+ 	u32 mdp_count;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index c33e7ef611a6..7d416bf4ae91 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -61,7 +61,6 @@ static const struct dpu_ctl_cfg *_ctl_offset(enum dpu_ctl ctl,
+ 			b->base_off = addr;
+ 			b->blk_off = m->ctl[i].base;
+ 			b->length = m->ctl[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_CTL;
+ 			return &m->ctl[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+index 4ad8991fc7d9..6f20d6b6dddd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+@@ -169,7 +169,6 @@ static struct dpu_dsc_cfg *_dsc_offset(enum dpu_dsc dsc,
+ 			b->base_off = addr;
+ 			b->blk_off = m->dsc[i].base;
+ 			b->length = m->dsc[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_DSC;
+ 			return &m->dsc[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+index 355894a3b48c..3e63bf4fa64e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+@@ -83,7 +83,6 @@ static const struct dpu_dspp_cfg *_dspp_offset(enum dpu_dspp dspp,
+ 			b->base_off = addr;
+ 			b->blk_off = m->dspp[i].base;
+ 			b->length = m->dspp[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_DSPP;
+ 			return &m->dspp[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+index 61284e6c313d..01bb2d84c3a0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+@@ -403,7 +403,6 @@ static void __intr_offset(struct dpu_mdss_cfg *m,
+ {
+ 	hw->base_off = addr;
+ 	hw->blk_off = m->mdp[0].base;
+-	hw->hwversion = m->hwversion;
+ }
+ 
+ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index 3f4d2c6e1b45..b2ca8d19fdd7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -80,7 +80,6 @@ static const struct dpu_intf_cfg *_intf_offset(enum dpu_intf intf,
+ 			b->base_off = addr;
+ 			b->blk_off = m->intf[i].base;
+ 			b->length = m->intf[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_INTF;
+ 			return &m->intf[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+index 25d2eba28e71..b41993269d09 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+@@ -46,7 +46,6 @@ static const struct dpu_lm_cfg *_lm_offset(enum dpu_lm mixer,
+ 			b->base_off = addr;
+ 			b->blk_off = m->mixer[i].base;
+ 			b->length = m->mixer[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_LM;
+ 			return &m->mixer[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+index c06d595d5df0..b053d68d38da 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+@@ -26,7 +26,6 @@ static const struct dpu_merge_3d_cfg *_merge_3d_offset(enum dpu_merge_3d idx,
+ 			b->base_off = addr;
+ 			b->blk_off = m->merge_3d[i].base;
+ 			b->length = m->merge_3d[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_PINGPONG;
+ 			return &m->merge_3d[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+index 47c6ab6caf95..6538e195cfe9 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+@@ -54,7 +54,6 @@ static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
+ 			b->base_off = addr;
+ 			b->blk_off = m->pingpong[i].base;
+ 			b->length = m->pingpong[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_PINGPONG;
+ 			return &m->pingpong[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 0a0864dff783..ab7f1a4cc578 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -772,7 +772,6 @@ static const struct dpu_sspp_cfg *_sspp_offset(enum dpu_sspp sspp,
+ 				b->base_off = addr;
+ 				b->blk_off = catalog->sspp[i].base;
+ 				b->length = catalog->sspp[i].len;
+-				b->hwversion = catalog->hwversion;
+ 				b->log_mask = DPU_DBG_MASK_SSPP;
+ 				return &catalog->sspp[i];
+ 			}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+index ab3ef162b666..12d3b0067275 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+@@ -288,7 +288,6 @@ static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
+ 			b->base_off = addr;
+ 			b->blk_off = m->mdp[i].base;
+ 			b->length = m->mdp[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_TOP;
+ 			return &m->mdp[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+index e4a65eb4f769..550b2e2b3e34 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+@@ -21,14 +21,12 @@
+  * @blk_off:      pipe offset relative to mdss offset
+  * @length        length of register block offset
+  * @xin_id        xin id
+- * @hwversion     mdss hw version number
+  */
+ struct dpu_hw_blk_reg_map {
+ 	void __iomem *base_off;
+ 	u32 blk_off;
+ 	u32 length;
+ 	u32 xin_id;
+-	u32 hwversion;
+ 	u32 log_mask;
+ };
+ 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
-index b757054e1c23..046854c3fbed 100644
+index 046854c3fbed..789ecc531b43 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
-@@ -30,7 +30,7 @@
- #define VBIF_XIN_HALT_CTRL0		0x0200
- #define VBIF_XIN_HALT_CTRL1		0x0204
- #define VBIF_XINL_QOS_RP_REMAP_000	0x0550
--#define VBIF_XINL_QOS_LVL_REMAP_000(v)	(v < DPU_HW_VER_400 ? 0x570 : 0x0590)
-+#define VBIF_XINL_QOS_LVL_REMAP_000(vbif)	(VBIF_XINL_QOS_RP_REMAP_000 + (vbif)->cap->qos_rp_remap_size)
- 
- static void dpu_hw_clear_errors(struct dpu_hw_vbif *vbif,
- 		u32 *pnd_errors, u32 *src_errors)
-@@ -163,7 +163,7 @@ static void dpu_hw_set_qos_remap(struct dpu_hw_vbif *vbif,
- 
- 	c = &vbif->hw;
- 
--	reg_lvl = VBIF_XINL_QOS_LVL_REMAP_000(c->hwversion);
-+	reg_lvl = VBIF_XINL_QOS_LVL_REMAP_000(vbif);
- 	reg_high = ((xin_id & 0x8) >> 3) * 4 + (level * 8);
- 	reg_shift = (xin_id & 0x7) * 4;
- 
+@@ -223,7 +223,6 @@ static const struct dpu_vbif_cfg *_top_offset(enum dpu_vbif vbif,
+ 			b->base_off = addr;
+ 			b->blk_off = m->vbif[i].base;
+ 			b->length = m->vbif[i].len;
+-			b->hwversion = m->hwversion;
+ 			b->log_mask = DPU_DBG_MASK_VBIF;
+ 			return &m->vbif[i];
+ 		}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+index bcccce292937..084439fdd3a0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+@@ -63,7 +63,6 @@ static const struct dpu_wb_cfg *_wb_offset(enum dpu_wb wb,
+ 			b->base_off = addr;
+ 			b->blk_off = m->wb[i].base;
+ 			b->length = m->wb[i].len;
+-			b->hwversion = m->hwversion;
+ 			return &m->wb[i];
+ 		}
+ 	}
 -- 
 2.35.1
 
