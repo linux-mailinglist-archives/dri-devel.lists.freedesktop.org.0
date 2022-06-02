@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2E053C42A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 07:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BFA53C428
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 07:26:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29EF41137A2;
-	Fri,  3 Jun 2022 05:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53EFD11378D;
+	Fri,  3 Jun 2022 05:26:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0775810F171
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 18:22:28 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id a10so5580031ioe.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 11:22:27 -0700 (PDT)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 682EA11354E
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:26:55 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id c196so5673253pfb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:26:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=rb78/Si50YHRG3/zeIdBErQ6GzrBGzyMy6c/2Qru9iA=;
- b=TIwX3QBFC7A8jcA1/ieNV9CVbcphYpQaITGJkvXqeR9RjVRF0E0XsBODPKVouqudI1
- yot70cL06RMduvm13bd1wse+JGt21OYGX1ZwbrLxqEZQh0mu6KVD3iaqZ8qv9a2YBkco
- ItLjawD46ESPW3i7QNZXxgrDi3eE85JW400V1a+iwg9wSk7C6O3JggKToM89pIsyQ039
- ng72vAyGicyCDZuW8AvVBYDp2NdNzOWTvKH7N0iRR2rniHvsAWP8MXOjKVDsd98puJ55
- KhfXup5QcNrvuCl717Jj+2EHY1H3vtZvLvcXCBS9WbFnt1sT1zQgQPo0O03yN/wLzoh1
- n/Fw==
+ bh=Kb/EgUnEl+66ubR0OBdnZBhP1OFKsT5B/tkrmGF5yWM=;
+ b=NkE0Ee2nKeVG01X4TGf7Tds/HpDebAAGIAaGwKYQebrpvg7ak4oaNFBWIPs3Xdbx/6
+ /ueM/g2UgL33WPhvSE1L6JXOWT5chkMdkpBYr1/zYN99/wpvyMYpmPhA1oytFSuRvYuV
+ PNVqn/U5agKa+qIWBAIGEorsNvVDKBWugZg900PvAoG9Qmtwztu7xfeAcVkvqkOl0WYL
+ cOZn4F9+0NeUducPaMA2Z6OZ8Mng1gwTUzPg03BP8mG4yWhRQRsi/9O5/gtaqrHqD4Bg
+ 4OA13xXtBNtUEnlW2r45PUnCTtuMdwsf1kr3gPJWnFj4wDmdBPTRZoNV0p1ETDx5FzvG
+ 2rSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=rb78/Si50YHRG3/zeIdBErQ6GzrBGzyMy6c/2Qru9iA=;
- b=ZlfitEaUkMfvE/CkeFqYnPNE7xIn6NYH3DiCh8ynxXPaQ2C1KNYCWQZAZItNbRE1GJ
- jy0Ey5cfglR/9SQRye06dWw+Cp1p0/QwsOMeVf5PBRt96GYnuyCZB60WlWW55bOoYA6S
- CUV/i8JOUYg9SU9Ij8HDK4RaKOcwTU2zxCKbYb5mxGqhHVb34MPckZAJceL/GlnZMQX6
- QX+eeCiJ25tiK8mxkGKUCJmaYZqP2cGOQl/Uuq76FK86rQmJwZa5GX2M9B2BC5fJRXrD
- 0ReQA12i7u8BMbrIJQms6fX6zOoaVNWjVfuAOi47KppXKPMs6OsNFoPFkurf3Ib+77WJ
- PSTQ==
-X-Gm-Message-State: AOAM5330S3ebs//dRzRVSkyCbN7yShAPF2CmSgzLMdsuoJNzNjENxqUV
- B1KsjOvRyiPWU/W3DajqtJmiQMBZIel0huSva/E=
-X-Google-Smtp-Source: ABdhPJw51uQn0pORopjOrTQMyfowxa8ppaT964Ws3gi+VH3fwPVU+uI88kAqWAWAwXt9H4A6qWF+EC6yIFJQKSG86OU=
-X-Received: by 2002:a02:9f8b:0:b0:32e:7bf1:bd with SMTP id
- a11-20020a029f8b000000b0032e7bf100bdmr3866136jam.2.1654194147191; 
- Thu, 02 Jun 2022 11:22:27 -0700 (PDT)
+ bh=Kb/EgUnEl+66ubR0OBdnZBhP1OFKsT5B/tkrmGF5yWM=;
+ b=Gs/jyVoV2u9weN+qrOu0RGoTuO7ztX9ImgQuxsxVECDxCnXt6KPgdM0ImcsJwuClst
+ +Iox5xxdYvPbjPw12Ba5on/VQQhuv6kKptmId/pBUq2tkrnXl3JXuljJ4MsYWgm/LlMp
+ AYSvHaaVFwV+i13KaSvS2VrBIbRAa0djbbxEJ6ez4WePu3cxIXW2gs5Nqv8azKCTW0WT
+ tQu/lZmUTzDq7j4FC5NicY/aDQO4y56cAGBjrTgIeiyCpZdP6rMKlWRXDhrfAi08Wjwq
+ rRugXfY3c6+es5M8o9NLB1ubUrlsoZauRqn9lq/1YqOFfyD+wFVdAJScgL+4KxXrKkVY
+ FupQ==
+X-Gm-Message-State: AOAM5305l9LAJAP8WcDFOJI1YCYWLphmhFS5hK1NwmQt0crdN6gGUOHX
+ N484nuYXkN1YVX+DMM4IgKLha33AbvJC8XSPGlNhRQNDdjo=
+X-Google-Smtp-Source: ABdhPJys4WOb9urNyLdt4aeuOqGuCZdLw80FNC5PvFsBXte5r8ULYu9Wjjuq4Wzf+sPQ6VLvykCW8T4PAgm77gNu2zY=
+X-Received: by 2002:a05:6e02:4a1:b0:2d3:a778:f0f1 with SMTP id
+ e1-20020a056e0204a100b002d3a778f0f1mr3986818ils.212.1654194896902; Thu, 02
+ Jun 2022 11:34:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531111900.19422-1-peterwu.pub@gmail.com>
- <20220531111900.19422-11-peterwu.pub@gmail.com>
- <20220531142102.00007df0@Huawei.com>
-In-Reply-To: <20220531142102.00007df0@Huawei.com>
+References: <20220531104211.17106-1-peterwu.pub@gmail.com>
+ <20220531104211.17106-2-peterwu.pub@gmail.com>
+ <33a797d7-ca60-5153-2ba1-3a909fcc5965@linaro.org>
+In-Reply-To: <33a797d7-ca60-5153-2ba1-3a909fcc5965@linaro.org>
 From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Fri, 3 Jun 2022 02:22:16 +0800
-Message-ID: <CABtFH5Lg43EXS7juhXQ2wQFZzkpD7YB8rM6UFT=U9BDOKcbaNw@mail.gmail.com>
-Subject: Re: [RESEND 10/14] iio: adc: mt6370: Add Mediatek MT6370 support
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Date: Fri, 3 Jun 2022 02:34:45 +0800
+Message-ID: <CABtFH5+nNRn4azfniKCNc=S2Z2Y0jji_beA_16_UYzAvkak-VA@mail.gmail.com>
+Subject: Re: [PATCH 10/14] dt-bindings: power: supply: Add Mediatek MT6370
+ Charger binding documentation
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Fri, 03 Jun 2022 05:26:38 +0000
@@ -81,439 +82,140 @@ Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+Hi Krzysztof,
 
-Sorry for sending the same email again. I miss to reply all in the last ema=
-il..
+Thank you for the valuable suggestion.
+Sorry for sending the same email again. I forgot to reply to everyone
+in my last email..
 
-Thanks for your valuable suggestions!
-
-Jonathan Cameron <Jonathan.Cameron@huawei.com> =E6=96=BC 2022=E5=B9=B45=E6=
-=9C=8831=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=889:21=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2022=E5=B9=
+=B46=E6=9C=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=884:15=E5=AF=AB=
+=E9=81=93=EF=BC=9A
 >
-> On Tue, 31 May 2022 19:18:56 +0800
-> ChiaEn Wu <peterwu.pub@gmail.com> wrote:
->
+> On 31/05/2022 12:42, ChiaEn Wu wrote:
 > > From: ChiaEn Wu <chiaen_wu@richtek.com>
 > >
-> > Add Mediatek MT6370 ADC support.
+>
+> Subject - remove "binding documentation". It's already implied by prefix.
+>
+> > Add Mediatek MT6370 Charger binding documentation.
 > >
 > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
->
-> Hi ChiaEn,
->
-> A few comments inline.
->
-> Thanks,
->
-> Jonathan
->
 > > ---
-> >  drivers/iio/adc/Kconfig      |   9 ++
-> >  drivers/iio/adc/Makefile     |   1 +
-> >  drivers/iio/adc/mt6370-adc.c | 257 +++++++++++++++++++++++++++++++++++
-> >  3 files changed, 267 insertions(+)
-> >  create mode 100644 drivers/iio/adc/mt6370-adc.c
+> >  .../power/supply/mediatek,mt6370-charger.yaml | 60 +++++++++++++++++++
+> >  1 file changed, 60 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/power/supply/medi=
+atek,mt6370-charger.yaml
 > >
-> > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> > index 71ab0a06aa82..d7932dd9b773 100644
-> > --- a/drivers/iio/adc/Kconfig
-> > +++ b/drivers/iio/adc/Kconfig
-> > @@ -737,6 +737,15 @@ config MEDIATEK_MT6360_ADC
-> >         is used in smartphones and tablets and supports a 11 channel
-> >         general purpose ADC.
-> >
-> > +config MEDIATEK_MT6370_ADC
-> > +     tristate "Mediatek MT6370 ADC driver"
-> > +     depends on MFD_MT6370
-> > +     help
-> > +       Say Y here to enable MT6370 ADC support.
-> > +       Integrated for System Monitoring includes
->
-> The wrapping of this text needs cleaning up.
->
-> > +       is used in smartphones and tablets and supports a 9 channel
-> > +       general purpose ADC.
-> > +
-> >  config MEDIATEK_MT6577_AUXADC
-> >       tristate "MediaTek AUXADC driver"
-> >       depends on ARCH_MEDIATEK || COMPILE_TEST
-> > diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
-> > index 39d806f6d457..0ce285c7e2d0 100644
-> > --- a/drivers/iio/adc/Makefile
-> > +++ b/drivers/iio/adc/Makefile
-> > @@ -68,6 +68,7 @@ obj-$(CONFIG_MCP320X) +=3D mcp320x.o
-> >  obj-$(CONFIG_MCP3422) +=3D mcp3422.o
-> >  obj-$(CONFIG_MCP3911) +=3D mcp3911.o
-> >  obj-$(CONFIG_MEDIATEK_MT6360_ADC) +=3D mt6360-adc.o
-> > +obj-$(CONFIG_MEDIATEK_MT6370_ADC) +=3D mt6370-adc.o
-> >  obj-$(CONFIG_MEDIATEK_MT6577_AUXADC) +=3D mt6577_auxadc.o
-> >  obj-$(CONFIG_MEN_Z188_ADC) +=3D men_z188_adc.o
-> >  obj-$(CONFIG_MESON_SARADC) +=3D meson_saradc.o
-> > diff --git a/drivers/iio/adc/mt6370-adc.c b/drivers/iio/adc/mt6370-adc.=
-c
+> > diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt=
+6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek=
+,mt6370-charger.yaml
 > > new file mode 100644
-> > index 000000000000..3320ebca17ad
+> > index 000000000000..9d5c4487ca9c
 > > --- /dev/null
-> > +++ b/drivers/iio/adc/mt6370-adc.c
-> > @@ -0,0 +1,257 @@
-> > +// SPDX-License-Identifier: GPL-2.0
+> > +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-ch=
+arger.yaml
+> > @@ -0,0 +1,60 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charge=
+r.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +#include <dt-bindings/iio/adc/mediatek,mt6370_adc.h>
-> > +#include <linux/bits.h>
-> > +#include <linux/bitfield.h>
-> > +#include <linux/iio/iio.h>
-> > +#include <linux/irq.h>
+> > +title: Mediatek MT6370 Battery Charger
+> > +
+> > +maintainers:
+> > +  - ChiaEn Wu <chiaen_wu@richtek.com>
+> > +
+> > +description: |
+> > +  This module is part of the MT6370 MFD device.
+> > +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mediatek,mt6370-charger
+> > +
+> > +  interrupts:
+> > +    description: |
+> > +      Specify what irqs are needed to be handled by MT6370 Charger dri=
+ver. IRQ
+> > +      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCT=
+RL_UVP_D"
+> > +      are required.
+> > +    items:
+> > +      - description: BC1.2 done irq for mt6370 charger
+> > +      - description: usb plug in irq for mt6370 charger
+> > +      - description: mivr irq for mt6370 charger
 >
-> Not seeing any interrupt support in here.
+> s/for mt6370 charger//
+> in each item
 
-Sorry for that I forgot remove this line, I'll refine it in the next patch.
-
->
->
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#define MT6370_REG_CHG_CTRL3         0x113 /* AICR */
-> > +#define MT6370_REG_CHG_CTRL7         0x117 /* ICHG */
-> > +#define MT6370_REG_CHG_ADC           0x121
-> > +#define MT6370_REG_ADC_DATA_H                0x14C
-> > +
-> > +#define MT6370_ADC_START_MASK                BIT(0)
-> > +#define MT6370_ADC_IN_SEL_MASK               GENMASK(7, 4)
-> > +#define MT6370_AICR_ICHG_MASK                GENMASK(7, 2)
-> > +
-> > +#define MT6370_ADC_CHAN_SHIFT                4
->
-> Prefer using a mask and then FIELD_PREP
-
-OK, I got it!
-
->
-> > +
-> > +#define MT6370_AICR_400MA            0x6
-> > +#define MT6370_ICHG_500MA            0x4
-> > +#define MT6370_ICHG_900MA            0x8
-> > +
-> > +#define ADC_CONV_TIME_US             35000
-> > +#define ADC_CONV_POLLING_TIME                1000
-> > +
-> > +struct mt6370_adc_data {
-> > +     struct device *dev;
-> > +     struct regmap *regmap;
-> > +     struct mutex lock;
->
-> All locks need documentation.  What is the scope of the lock?
-> Looks like it protects device state when doing setup, wait for read, read
-> cycles.
-
-This mutex lock is for preventing the different adc channel from being
-read at the same time.
-So, if I just change its name to adc_chan_lock or adc_lock and add the
-comment for this mutex lock, does this change meet your requirement?
+I got it, this will be refined in the next version. Thanks!
 
 >
-> > +};
 > > +
-> > +static int mt6370_adc_read_channel(struct mt6370_adc_data *priv, int c=
-han,
-> > +                                unsigned long addr, int *val)
-> > +{
-> > +     __be16 be_val;
-> > +     unsigned int reg_val;
-> > +     int ret;
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: attach_i
+> > +      - const: uvp_d_evt
+> > +      - const: mivr
 > > +
-> > +     mutex_lock(&priv->lock);
-> > +
-> > +     reg_val =3D MT6370_ADC_START_MASK | (addr << MT6370_ADC_CHAN_SHIF=
-T);
+> > +  io-channels:
+> > +    description: |
+> > +      Use ADC channel to read vbus, ibus, ibat, etc., info. Ibus ADC c=
+hannel
+> > +      is required.
 >
-> FIELD_PREP for that shift?
+> Constraints (e.g. maxItems) are needed.
 
-I got it! I'll refine it in the next patch.
-
+OK, I will add them in the new version!
 
 >
-> > +     ret =3D regmap_write(priv->regmap, MT6370_REG_CHG_ADC, reg_val);
-> > +     if (ret)
-> > +             goto adc_unlock;
 > > +
-> > +     msleep(ADC_CONV_TIME_US / 1000);
-> > +
-> > +     ret =3D regmap_read_poll_timeout(priv->regmap,
-> > +                                    MT6370_REG_CHG_ADC, reg_val,
-> > +                                    !(reg_val & MT6370_ADC_START_MASK)=
-,
-> > +                                    ADC_CONV_POLLING_TIME,
-> > +                                    ADC_CONV_TIME_US * 3);
-> > +     if (ret) {
-> > +             if (ret =3D=3D -ETIMEDOUT)
-> > +                     dev_err(priv->dev, "Failed to wait adc conversion=
-\n");
-> > +             goto adc_unlock;
-> > +     }
-> > +
-> > +     ret =3D regmap_raw_read(priv->regmap, MT6370_REG_ADC_DATA_H,
-> > +                           &be_val, sizeof(be_val));
-> > +     if (ret)
-> > +             goto adc_unlock;
-> > +
-> > +     *val =3D be16_to_cpu(be_val);
-> > +     ret =3D IIO_VAL_INT;
-> > +
-> > +adc_unlock:
-> > +     mutex_unlock(&priv->lock);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int mt6370_adc_read_scale(struct mt6370_adc_data *priv,
-> > +                              int chan, int *val1, int *val2)
-> > +{
-> > +     unsigned int reg_val;
-> > +     int ret;
-> > +
-> > +     switch (chan) {
-> > +     case MT6370_CHAN_VBAT:
-> > +     case MT6370_CHAN_VSYS:
-> > +     case MT6370_CHAN_CHG_VDDP:
-> > +             *val1 =3D 5000;
+> > +  usb-otg-vbus:
 >
-> This seems very large.  Voltages are in millivolts
-> as per Documentation/ABI/testing/sysfs-bus-iio
-> and this means each step is 5 volts.
+> Let's keep the same name as in MT6360:
 >
-> So value in mv is currently 5 * _raw
->
+> usb-otg-vbus-regulator
 
-OK, I got it. Also, I will add the ABI file in the next version. Thanks!
+I'll change the name to correspond with MT6360 in the next patch, thanks!
 
+> > +    type: object
+> > +    description: OTG boost regulator.
+> > +    $ref: /schemas/regulator/regulator.yaml#
+> > +
+> > +    properties:
+> > +      enable-gpio:
+> > +        maxItems: 1
+> > +        description: |
+> > +          Specify a valid 'enable' gpio for the regulator and it's opt=
+ional
+>
+> This description is pointless - does not bring any more information. You
+> repeat the schema. Please, avoid such descriptions.
+
+I got it, I will remove them in the next patch.
+
+>
+> > +
+> > +required:
+> > +  - compatible
+> > +  - interrupts
+> > +  - interrupt-names
+> > +  - io-channels
+> > +
+> > +additionalProperties: false
+>
+>
+> How about example? Or is it going to be in MFD schema?
+
+All of MT6370 binding documentation examples are in the MFD schema! Thanks.
 
 >
 >
-> > +             return IIO_VAL_INT;
-> > +     case MT6370_CHAN_IBUS:
-> > +             ret =3D regmap_read(priv->regmap, MT6370_REG_CHG_CTRL3, &=
-reg_val);
-> > +             if (ret)
-> > +                     return ret;
-> > +
-> > +             reg_val =3D FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
-> > +             if (reg_val < MT6370_AICR_400MA)
-> > +                     *val1 =3D 33500;
-> > +             else
-> > +                     *val1 =3D 50000;
-> > +
-> > +             return IIO_VAL_INT;
-> > +     case MT6370_CHAN_IBAT:
-> > +             ret =3D regmap_read(priv->regmap, MT6370_REG_CHG_CTRL7, &=
-reg_val);
-> > +             if (ret)
-> > +                     return ret;
-> > +
-> > +             reg_val =3D FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
-> > +             if (reg_val < MT6370_ICHG_500MA)
-> > +                     *val1 =3D 23750;
-> > +             else if (reg_val >=3D MT6370_ICHG_500MA &&
-> > +                      reg_val < MT6370_ICHG_900MA)
-> > +                     *val1 =3D 26800;
-> > +             else
-> > +                     *val1 =3D 50000;
-> > +
-> > +             return IIO_VAL_INT;
-> > +     case MT6370_CHAN_VBUSDIV5:
-> > +             *val1 =3D 25000;
-> > +             return IIO_VAL_INT;
-> > +     case MT6370_CHAN_VBUSDIV2:
-> > +             *val1 =3D 50000;
-> > +             return IIO_VAL_INT;
-> > +     case MT6370_CHAN_TS_BAT:
-> > +             *val1 =3D 25;
-> > +             *val2 =3D 10000;
-> > +             return IIO_VAL_FRACTIONAL;
-> > +     case MT6370_CHAN_TEMP_JC:
-> > +             *val1 =3D 2;
-> > +             return IIO_VAL_INT;
-> > +     }
-> > +
-> > +     return -EINVAL;
-> > +}
-> > +
-> > +static int mt6370_adc_read_offset(struct mt6370_adc_data *priv,
-> > +                               int chan, int *val)
-> > +{
-> > +     *val =3D (chan =3D=3D MT6370_CHAN_TEMP_JC) ? -20 : 0;
->
-> Offset default is 0, so for channels where it doesn't apply don't
-> provide the offset attribute at all.
->
-
-OK!
-
-
-> > +     return IIO_VAL_INT;
-> > +}
-> > +
-> > +static int mt6370_adc_read_raw(struct iio_dev *iio_dev,
-> > +                            const struct iio_chan_spec *chan,
-> > +                            int *val, int *val2, long mask)
-> > +{
-> > +     struct mt6370_adc_data *priv =3D iio_priv(iio_dev);
-> > +
-> > +     switch (mask) {
-> > +     case IIO_CHAN_INFO_RAW:
-> > +             return mt6370_adc_read_channel(priv, chan->channel,
-> > +                                            chan->address, val);
-> > +     case IIO_CHAN_INFO_SCALE:
-> > +             return mt6370_adc_read_scale(priv, chan->channel, val, va=
-l2);
-> > +     case IIO_CHAN_INFO_OFFSET:
-> > +             return mt6370_adc_read_offset(priv, chan->channel, val);
-> > +     }
-> > +
-> > +     return -EINVAL;
-> > +}
-> > +
-> > +static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] =3D {
->
-> Perhaps define an enum with which to index this and the chan spec
-> and hence ensure they end up matching.
->  [vbusdiv5] =3D "vbusdiv5", etc
->
-
-Do you mean that I can refine this const char array to the following array?=
-?
-
-static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] =3D {
-    [MT6370_CHAN_VBUSDIV5] =3D  "vbusdiv5",
-    [MT6370_CHAN_VBUSDIV2] =3D  "vbusdiv2",
-    ...
-    ...
-    [MT6370_CHAN_TEMP_JC] =3D  "temp_jc",
-};
-
-
-
-> > +     "vbusdiv5", "vbusdiv2", "vsys", "vbat",
-> > +     "ts_bat", "ibus", "ibat", "chg_vddp",
-> > +     "temp_jc",
-> > +};
-> > +
-> > +static int mt6370_adc_read_label(struct iio_dev *iio_dev,
-> > +                              struct iio_chan_spec const *chan, char *=
-label)
-> > +{
-> > +     return snprintf(label, PAGE_SIZE, "%s\n",
-> > +                     mt6370_channel_labels[chan->channel]);
-> > +}
-> > +
-> > +static const struct iio_info mt6370_adc_iio_info =3D {
-> > +     .read_raw =3D mt6370_adc_read_raw,
-> > +     .read_label =3D mt6370_adc_read_label,
-> > +};
-> > +
-> > +#define MT6370_ADC_CHAN(_idx, _type, _addr) {                        \
-> > +     .type =3D _type,                                          \
-> > +     .channel =3D MT6370_CHAN_##_idx,                          \
-> > +     .address =3D _addr,                                       \
-> > +     .scan_index =3D MT6370_CHAN_##_idx,                       \
-> > +     .indexed =3D 1,                                           \
-> > +     .info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW) |          \
-> > +                           BIT(IIO_CHAN_INFO_SCALE) |        \
-> > +                           BIT(IIO_CHAN_INFO_OFFSET),        \
->
-> See above. Only temp_jc channel should hav an offset.
->
-OK!
-
-
-> > +}
-> > +
-> > +static const struct iio_chan_spec mt6370_adc_channels[] =3D {
-> > +     MT6370_ADC_CHAN(VBUSDIV5, IIO_VOLTAGE, 1),
-> > +     MT6370_ADC_CHAN(VBUSDIV2, IIO_VOLTAGE, 2),
-> > +     MT6370_ADC_CHAN(VSYS, IIO_VOLTAGE, 3),
-> > +     MT6370_ADC_CHAN(VBAT, IIO_VOLTAGE, 4),
-> > +     MT6370_ADC_CHAN(TS_BAT, IIO_VOLTAGE, 6),
-> > +     MT6370_ADC_CHAN(IBUS, IIO_CURRENT, 8),
-> > +     MT6370_ADC_CHAN(IBAT, IIO_CURRENT, 9),
-> > +     MT6370_ADC_CHAN(CHG_VDDP, IIO_VOLTAGE, 11),
-> > +     MT6370_ADC_CHAN(TEMP_JC, IIO_TEMP, 12),
-> > +};
-> > +
-> > +static int mt6370_adc_probe(struct platform_device *pdev)
-> > +{
-> > +     int ret;
-> > +     struct mt6370_adc_data *priv;
-> > +     struct regmap *regmap;
-> > +     struct iio_dev *indio_dev;
-> > +
-> > +     regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
-> > +     if (!regmap) {
-> > +             dev_err(&pdev->dev, "Failed to get regmap\n");
-> > +             return -ENODEV;
-> > +     }
-> > +
-> > +     indio_dev =3D devm_iio_device_alloc(&pdev->dev, sizeof(*priv));
-> > +     if (!indio_dev)
-> > +             return -ENOMEM;
-> > +
-> > +     priv =3D iio_priv(indio_dev);
-> > +     priv->dev =3D &pdev->dev;
-> > +     priv->regmap =3D regmap;
-> > +     mutex_init(&priv->lock);
-> > +
-> > +     ret =3D regmap_write(priv->regmap, MT6370_REG_CHG_ADC, 0);
-> > +     if (ret) {
-> > +             dev_err(&pdev->dev, "Failed to reset adc\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     indio_dev->name =3D dev_name(&pdev->dev);
->
-> What does this end up as?  It's used for userspace ABI and should
-> correspond to the part number, "mt6370-adc" probably
-> appropriate in this case (I think it'll end up as simply "adc.x"
-> currently?)  Normally we just hard code this in the driver for
-> whatever devices the driver supports.
-
-I got it, I will change this name to "mt6370-adc" in the next version! Than=
-ks!
-
-
->
-> > +     indio_dev->info =3D &mt6370_adc_iio_info;
-> > +     indio_dev->modes =3D INDIO_DIRECT_MODE;
-> > +     indio_dev->channels =3D mt6370_adc_channels;
-> > +     indio_dev->num_channels =3D ARRAY_SIZE(mt6370_adc_channels);
-> > +
-> > +     return devm_iio_device_register(&pdev->dev, indio_dev);
-> > +}
-> > +
-> > +static const struct of_device_id mt6370_adc_of_id[] =3D {
-> > +     { .compatible =3D "mediatek,mt6370-adc", },
-> > +     {}
-> > +};
-> > +MODULE_DEVICE_TABLE(of, mt6370_adc_of_id);
-> > +
-> > +static struct platform_driver mt6370_adc_driver =3D {
-> > +     .driver =3D {
-> > +             .name =3D "mt6370-adc",
-> > +             .of_match_table =3D mt6370_adc_of_id,
-> > +     },
-> > +     .probe =3D mt6370_adc_probe,
-> > +};
-> > +module_platform_driver(mt6370_adc_driver);
-> > +
-> > +MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
-> > +MODULE_DESCRIPTION("MT6370 ADC Drvier");
-> > +MODULE_LICENSE("GPL v2");
->
+> Best regards,
+> Krzysztof
 
 Best regards,
 ChiaEn Wu
