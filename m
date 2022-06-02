@@ -2,56 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7201F53B6DF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 12:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DAB53B6F2
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 12:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C110112D67;
-	Thu,  2 Jun 2022 10:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F49112D73;
+	Thu,  2 Jun 2022 10:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCB6112D67
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 10:20:31 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id i19so3220525qvu.13
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 03:20:31 -0700 (PDT)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E294A112D73
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 10:22:38 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id r8so4186855ljp.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 03:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7xoHOj1xulzu3SD29GS2YKQ7gqDLAbM1bPx44xbkClg=;
- b=DSUMru50+KeenCQPQGfny1v3Ey5MgeseAd9dW+EgqLIhT5Gun0C2qi5V6HvzJ5dfK5
- 9oH3esl6la/adwnvP6zQTXAtyI6MeB5Vn3s4G9c7nfdnvmZU68JdsXs9eSrgfZN0ARmr
- OH4fJBOSBRFdAoQUTC0UmFlnZdJeWfANDij0q8ZYbmsIjvCYD37WNd6KvnWCjQg1Pcmm
- yQzaVJUapywWsiOmrpKJKcU3NmpijxcNaQfuPopeCPySTuVY/EP8jp4kJP3frZm4sYID
- wyF6YnL3J4kBLP8rFV9NzS+iiQmy/DR3I5kP+NpDI82a5eisygvFLfkpj5YCyOMUSffL
- mvEA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=mhke0saUmUh/aB/di9/WbB1JwcFcgftrzK7UikGh97E=;
+ b=bFvw+MLHVt+ArFBhnhxD4VGaWyar1Iw3Ys0oV4R9sP/bLgk9xK9kxzaaTZalR0EZcs
+ DYSWd3KPnS2lKOJh8kuqKmbP0WytCHCLGP6f8aTF+7KR6jaPf/5c6UWfEtDMiLmKuYvu
+ nSRNVsYr30Wy9XsFQjKkTsSelPDRlDAzdaouzM8KqVJC1FgwxXkJQKq2hqYkt76XSiQB
+ zVCYTPHReYyktuzPNOEHoZK7KUZiiTF95MfsA6Lj40AukNe97nQ2ovR44xX/dekLSSVa
+ TxXYFlcJ7uFbdFw6GvMxus+wXABsmy51VnApOpbnLGuauTZdeDtz6FXQ0PgkF3PwHF3w
+ mrAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7xoHOj1xulzu3SD29GS2YKQ7gqDLAbM1bPx44xbkClg=;
- b=ikB39wh1cbyMIw8kZb1jJogFv9eYE8sVXaGgttB+L4jIPfPhwmncQU7ckn6+aRuXBw
- hIqWL/JWQCwrz+7QX5nj+zr+uelrcydEcW4PX7RyJhanA3gK81C+KlReHfefJlZu9GJN
- MVo+TUapaerniudT8fyt1NicxoUEJzW1PTu1W79jPc/YzwEeqsZ1zYVNamUC/P3U2yHx
- 0DeyYz1gmPiSJ94QxdqO+DjNajFuQWjl5G1VXmGrUsD6M/RPkjuyuFyw1KlSDacm+5Hs
- AZIY680u0Mt2+HRM59vN71b3XG77scWsAHOd4rXKa473y22+m4EU7VlJ7bWim9UTCiUj
- WtJA==
-X-Gm-Message-State: AOAM532hjz28nkxD8cYPUCy6QNlss0R9G+efjAyXMYsAC2qRnPLWdILO
- zAOq6zDCRFO6SIl93uLBVr/Jnc+geBkaJw7SZSZehw==
-X-Google-Smtp-Source: ABdhPJw1Rch5C49/vloTHmi2dY/GNe+3O0wK53nKBS9fZMA13PpgfQcEMtkcYegIIDx2qb2wp1k+tGsQ77F5VsPPLIo=
-X-Received: by 2002:ad4:5aa4:0:b0:465:2b11:cfd with SMTP id
- u4-20020ad45aa4000000b004652b110cfdmr5204455qvg.55.1654165230535; Thu, 02 Jun
- 2022 03:20:30 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mhke0saUmUh/aB/di9/WbB1JwcFcgftrzK7UikGh97E=;
+ b=4DHOY/pzj2XuB0YnCISMLziJlxJ5cuq4sbEo8RfSEZseWdrQ4968o3dlBTMk2qG71S
+ dSoHML5GSY6tOLq68ri4i9MDpE1+Likd2u2h4e3J/zlJy0Qma7/2DbBmrwtJ6QU+ZL3T
+ yzKB0qowjpBkkDJilIC+xKPgdBCIQmSY6BeksDe9rAsJjQePJF5JvgOnmN3twIcEpINO
+ pEaNStFrjOZI3+d94G2ZHLwb1buXw8c2sGHPaKFHI1mZXegDK7xr+Bib72x5jba2S2zE
+ GQmT0/WtCX2P6KhdLM3dR5B95/ythl6XSBszUSZ5Ew2xwSPcAxJQVW/Lwhlpc/GXuwcc
+ t26A==
+X-Gm-Message-State: AOAM530LFMe6J8TRsVTrQPyXTToVp+RoO8s37EQwDfN7SCh8An39mzc8
+ 5+jlPiQX5bDR0mHjhj1UrAMiQg==
+X-Google-Smtp-Source: ABdhPJxBmqiSkec8TbeMYs+RFw+Rm4q/emiOOaTWMfi/pJk8O6t7jgcEYLMBlu3LcQem9bMjd/eBbg==
+X-Received: by 2002:a2e:8881:0:b0:255:7790:25e6 with SMTP id
+ k1-20020a2e8881000000b00255779025e6mr964729lji.525.1654165357162; 
+ Thu, 02 Jun 2022 03:22:37 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ d16-20020a0565123d1000b0047255d21132sm961705lfv.97.2022.06.02.03.22.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jun 2022 03:22:36 -0700 (PDT)
+Message-ID: <b157ebf3-9846-1235-c8e7-693abe4569d3@linaro.org>
+Date: Thu, 2 Jun 2022 13:22:35 +0300
 MIME-Version: 1.0
-References: <20220601220747.1145095-1-marijn.suijten@somainline.org>
- <20220601220747.1145095-4-marijn.suijten@somainline.org>
-In-Reply-To: <20220601220747.1145095-4-marijn.suijten@somainline.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 1/4] drm/dp: Add wait_hpd_asserted() callback to struct
+ drm_dp_aux
+Content-Language: en-GB
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20220418171757.2282651-1-dianders@chromium.org>
+ <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 2 Jun 2022 13:20:19 +0300
-Message-ID: <CAA8EJpomtbN0+ocD2pRbkYriUY4D9OnjgoFzL9qNHhPm3Uz5cQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] clk: fixed-factor: Introduce
- *clk_hw_register_fixed_factor_parent_hw()
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220418101725.v3.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,174 +75,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, linux-clk@vger.kernel.org,
- Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Rajeev Nandan <quic_rajeevny@quicinc.com>,
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Kees Cook <keescook@chromium.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- Stephen Boyd <sboyd@kernel.org>, Vladimir Lypak <vladimir.lypak@gmail.com>,
- linux-kernel@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
- freedreno@lists.freedesktop.org
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2 Jun 2022 at 01:07, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
->
-> Add the devres and non-devres variant of
-> clk_hw_register_fixed_factor_parent_hw() for registering a fixed factor
-> clock with clk_hw parent pointer instead of parent name.
->
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+On 18/04/2022 20:17, Douglas Anderson wrote:
+> Sometimes it's useful for users of the DP AUX bus (like panels) to be
+> able to poll HPD. Let's add a callback that allows DP AUX busses
+> drivers to provide this.
+> 
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-Two minor comments below. It's up to Stephen to check if they are
-correct or not.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 > ---
->  drivers/clk/clk-fixed-factor.c | 57 ++++++++++++++++++++++++++++------
->  include/linux/clk-provider.h   |  8 +++++
->  2 files changed, 55 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/clk/clk-fixed-factor.c b/drivers/clk/clk-fixed-factor.c
-> index 54942d758ee6..fabb98d0cdb2 100644
-> --- a/drivers/clk/clk-fixed-factor.c
-> +++ b/drivers/clk/clk-fixed-factor.c
-> @@ -78,7 +78,8 @@ static void devm_clk_hw_register_fixed_factor_release(struct device *dev, void *
->
->  static struct clk_hw *
->  __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
-> -               const char *name, const char *parent_name, int index,
-> +               const char *name, const char *parent_name,
-> +               const struct clk_hw *parent_hw, int index,
->                 unsigned long flags, unsigned int mult, unsigned int div,
->                 bool devm)
->  {
-> @@ -108,7 +109,9 @@ __clk_hw_register_fixed_factor(struct device *dev, struct device_node *np,
->         init.name = name;
->         init.ops = &clk_fixed_factor_ops;
->         init.flags = flags;
-> -       if (parent_name)
-> +       if (parent_hw)
-> +               init.parent_hws = &parent_hw;
-> +       else if (parent_name)
->                 init.parent_names = &parent_name;
-
-If you change the order of if clauses, you won't have to introduce
-unnecessary changes.
-
->         else
->                 init.parent_data = &pdata;
-> @@ -148,17 +151,50 @@ struct clk_hw *devm_clk_hw_register_fixed_factor_index(struct device *dev,
->                 const char *name, unsigned int index, unsigned long flags,
->                 unsigned int mult, unsigned int div)
->  {
-> -       return __clk_hw_register_fixed_factor(dev, NULL, name, NULL, index,
-> -                                             flags, mult, div, true);
-> +       return __clk_hw_register_fixed_factor(dev, NULL, name, NULL, NULL,
-> +                                             index, flags, mult, div, true);
-
-Here (and several times later) you are inserting an argument and then
-moving arguments to the next line. My slight preference would be to
-just insert the arg (and maybe break the line if it gets too long) w/o
-touching the next lines.
-
->  }
->  EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor_index);
->
-> +/**
-> + * devm_clk_hw_register_fixed_factor_parent_hw - Register a fixed factor clock with
-> + * pointer to parent clock
-> + * @dev: device that is registering this clock
-> + * @name: name of this clock
-> + * @parent_hw: pointer to parent clk
-> + * @flags: fixed factor flags
-> + * @mult: multiplier
-> + * @div: divider
-> + *
-> + * Return: Pointer to fixed factor clk_hw structure that was registered or
-> + * an error pointer.
-> + */
-> +struct clk_hw *devm_clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-> +               const char *name, const struct clk_hw *parent_hw,
-> +               unsigned long flags, unsigned int mult, unsigned int div)
-> +{
-> +       return __clk_hw_register_fixed_factor(dev, NULL, name, NULL, parent_hw,
-> +                                             -1, flags, mult, div, true);
-> +}
-> +EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor_parent_hw);
+> Left Dmitry's Reviewed-by tag off since patch changed enough.
+> 
+> (no changes since v2)
+> 
+> Changes in v2:
+> - Change is_hpd_asserted() to wait_hpd_asserted()
+> 
+>   include/drm/dp/drm_dp_helper.h | 26 ++++++++++++++++++++++++++
+>   1 file changed, 26 insertions(+)
+> 
+> diff --git a/include/drm/dp/drm_dp_helper.h b/include/drm/dp/drm_dp_helper.h
+> index 53d1e722f4de..0940c415db8c 100644
+> --- a/include/drm/dp/drm_dp_helper.h
+> +++ b/include/drm/dp/drm_dp_helper.h
+> @@ -2035,6 +2035,32 @@ struct drm_dp_aux {
+>   	ssize_t (*transfer)(struct drm_dp_aux *aux,
+>   			    struct drm_dp_aux_msg *msg);
+>   
+> +	/**
+> +	 * @wait_hpd_asserted: wait for HPD to be asserted
+> +	 *
+> +	 * This is mainly useful for eDP panels drivers to wait for an eDP
+> +	 * panel to finish powering on. This is an optional function.
+> +	 *
+> +	 * This function will efficiently wait for up to `wait_us` microseconds
+> +	 * for HPD to be asserted and might sleep.
+> +	 *
+> +	 * This function returns 0 if HPD was asserted or -ETIMEDOUT if time
+> +	 * expired and HPD wasn't asserted. This function should not print
+> +	 * timeout errors to the log.
+> +	 *
+> +	 * The semantics of this function are designed to match the
+> +	 * readx_poll_timeout() function. That means a `wait_us` of 0 means
+> +	 * to wait forever. If you want to do a quick poll you could pass 1
+> +	 * for `wait_us`.
+> +	 *
+> +	 * NOTE: this function specifically reports the state of the HPD pin
+> +	 * that's associated with the DP AUX channel. This is different from
+> +	 * the HPD concept in much of the rest of DRM which is more about
+> +	 * physical presence of a display. For eDP, for instance, a display is
+> +	 * assumed always present even if the HPD pin is deasserted.
+> +	 */
+> +	int (*wait_hpd_asserted)(struct drm_dp_aux *aux, unsigned long wait_us);
 > +
-> +struct clk_hw *clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-> +               const char *name, const struct clk_hw *parent_hw,
-> +               unsigned long flags, unsigned int mult, unsigned int div)
-> +{
-> +       return __clk_hw_register_fixed_factor(dev, NULL, name, NULL,
-> +                                             parent_hw, -1, flags, mult, div,
-> +                                             false);
-> +}
-> +EXPORT_SYMBOL_GPL(clk_hw_register_fixed_factor_parent_hw);
-> +
->  struct clk_hw *clk_hw_register_fixed_factor(struct device *dev,
->                 const char *name, const char *parent_name, unsigned long flags,
->                 unsigned int mult, unsigned int div)
->  {
-> -       return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name, -1,
-> -                                             flags, mult, div, false);
-> +       return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name,
-> +                                             NULL, -1, flags, mult, div,
-> +                                             false);
->  }
->  EXPORT_SYMBOL_GPL(clk_hw_register_fixed_factor);
->
-> @@ -204,8 +240,9 @@ struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
->                 const char *name, const char *parent_name, unsigned long flags,
->                 unsigned int mult, unsigned int div)
->  {
-> -       return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name, -1,
-> -                       flags, mult, div, true);
-> +       return __clk_hw_register_fixed_factor(dev, NULL, name, parent_name,
-> +                                             NULL, -1, flags, mult, div,
-> +                                             true);
->  }
->  EXPORT_SYMBOL_GPL(devm_clk_hw_register_fixed_factor);
->
-> @@ -240,8 +277,8 @@ static struct clk_hw *_of_fixed_factor_clk_setup(struct device_node *node)
->         if (of_match_node(set_rate_parent_matches, node))
->                 flags |= CLK_SET_RATE_PARENT;
->
-> -       hw = __clk_hw_register_fixed_factor(NULL, node, clk_name, NULL, 0,
-> -                                           flags, mult, div, false);
-> +       hw = __clk_hw_register_fixed_factor(NULL, node, clk_name, NULL, NULL,
-> +                                           0, flags, mult, div, false);
->         if (IS_ERR(hw)) {
->                 /*
->                  * Clear OF_POPULATED flag so that clock registration can be
-> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-> index 316c7e082934..94458cb669f0 100644
-> --- a/include/linux/clk-provider.h
-> +++ b/include/linux/clk-provider.h
-> @@ -1032,6 +1032,14 @@ struct clk_hw *devm_clk_hw_register_fixed_factor(struct device *dev,
->  struct clk_hw *devm_clk_hw_register_fixed_factor_index(struct device *dev,
->                 const char *name, unsigned int index, unsigned long flags,
->                 unsigned int mult, unsigned int div);
-> +
-> +struct clk_hw *devm_clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-> +               const char *name, const struct clk_hw *parent_hw,
-> +               unsigned long flags, unsigned int mult, unsigned int div);
-> +
-> +struct clk_hw *clk_hw_register_fixed_factor_parent_hw(struct device *dev,
-> +               const char *name, const struct clk_hw *parent_hw,
-> +               unsigned long flags, unsigned int mult, unsigned int div);
->  /**
->   * struct clk_fractional_divider - adjustable fractional divider clock
->   *
-> --
-> 2.36.1
->
+>   	/**
+>   	 * @i2c_nack_count: Counts I2C NACKs, used for DP validation.
+>   	 */
 
 
 -- 
