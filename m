@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A978E53BBBF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2186D53BBBE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCDAC112FF8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68845112FF5;
 	Thu,  2 Jun 2022 15:43:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF59112FEE
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:43:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF606112FEF
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:43:01 +0000 (UTC)
 Received: from vertex.vmware.com (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id F162A335FFD;
- Thu,  2 Jun 2022 16:42:58 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id DD0C0335F74;
+ Thu,  2 Jun 2022 16:42:59 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1654184579; bh=6Spq6A9vTFFpAGEl1r7KhZu71nqVqrnjZ1RnnEFGgd4=;
+ t=1654184580; bh=aNgM1bG6gCYOguM+hclLWxnZEtUIWi3csatRAcJHk0o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Lca3oDYWKLtU6F6Vx53geZ6kdDpEJ8zvvQe9SWvKrBAq3a5gK12QQ28nSQ/waSET7
- YtvbvuTQ0IMAc6sV/vSXviGir3yU5RaK3tTS6mzTrGBloFBxX9oI7jZvDFrVlO8nZ8
- rtQp20sTm9z4NlfNIXsQxV9x0aQNOHMeuJPjYHbYQcTUPc3r+ZGvrcWi2hwaoIr5K2
- Did1BQ6YwfuyVFn26UBh3RvCOV/P2bg1XUSKUaHdz7Hk5XQ+y1DZ5mnnSGImzm3bqv
- UioV2pu6i1xR9ErqiGC5Ljo0YyS17Zt3uGncUj1Z3STE4HyfnzyHsWN7wSRdLJGDwA
- gepyioMePHPQw==
+ b=mbIq/2kuW9Ub7uwGeC1bZvG9o/yLdeC46um51EhFApSbrtUV04GdA3TiJLl3Cs4g3
+ ePIjHdRT0U3I3bsp9onL8taoe6N2wWjWSJUwaBZKcY2M1nBzvlztn3lFDt+a1arXN5
+ ygXvtRfMjWlGpSmiFpgzli9xnJ622PKisRFpkbDQ9OyPNNUBGdFo0gL969nigTSWei
+ Yeejz0aUN1sGKj38K1TMFhaJHnzaiq0h0iZUwhVbmifaJdMpFRhj2d3Ji5IlltKZPf
+ 7eR658sd/n3/GMF5o1ZtrrKzDYbRAiz3t+ulY9UcYO5h3pTP47Z8Ulh7Kon9qwXJf1
+ OxzhbbWt5913Q==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/6] drm/vboxvideo: Create mouse hotspot properties on cursor
+Subject: [PATCH 5/6] drm/virtio: Create mouse hotspot properties on cursor
  planes
-Date: Thu,  2 Jun 2022 11:42:41 -0400
-Message-Id: <20220602154243.1015688-5-zack@kde.org>
+Date: Thu,  2 Jun 2022 11:42:42 -0400
+Message-Id: <20220602154243.1015688-6-zack@kde.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220602154243.1015688-1-zack@kde.org>
 References: <20220602154243.1015688-1-zack@kde.org>
@@ -49,8 +49,10 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
- krastevm@vmware.com, mombasawalam@vmware.com
+Cc: David Airlie <airlied@linux.ie>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, krastevm@vmware.com,
+ mombasawalam@vmware.com, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -66,36 +68,54 @@ with new atomic properties so there's no reason to keep them and it
 makes sense to unify both paths.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
 Cc: David Airlie <airlied@linux.ie>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Chia-I Wu <olvaffe@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: virtualization@lists.linux-foundation.org
 ---
- drivers/gpu/drm/vboxvideo/vbox_mode.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_display.c | 1 +
+ drivers/gpu/drm/virtio/virtgpu_plane.c   | 8 ++++----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-index 4017b0a621fc..4c0a01a18f5a 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-@@ -427,8 +427,8 @@ static void vbox_cursor_atomic_update(struct drm_plane *plane,
- 	flags = VBOX_MOUSE_POINTER_VISIBLE | VBOX_MOUSE_POINTER_SHAPE |
- 		VBOX_MOUSE_POINTER_ALPHA;
- 	hgsmi_update_pointer_shape(vbox->guest_pool, flags,
--				   min_t(u32, max(fb->hot_x, 0), width),
--				   min_t(u32, max(fb->hot_y, 0), height),
-+				   min_t(u32, max(new_state->hotspot_x, 0), width),
-+				   min_t(u32, max(new_state->hotspot_y, 0), height),
- 				   width, height, vbox->cursor_data, data_size);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index f73352e7b832..848ac2314399 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -288,6 +288,7 @@ static int vgdev_output_init(struct virtio_gpu_device *vgdev, int index)
  
- 	mutex_unlock(&vbox->hw_mutex);
-@@ -575,6 +575,7 @@ static struct vbox_crtc *vbox_crtc_init(struct drm_device *dev, unsigned int i)
- 			ret = PTR_ERR(cursor);
- 			goto clean_primary;
- 		}
-+		drm_plane_create_hotspot_properties(cursor);
- 	} else {
- 		DRM_WARN("VirtualBox host is too old, no cursor support\n");
- 	}
+ 	drm_connector_attach_encoder(connector, encoder);
+ 	drm_connector_register(connector);
++	drm_plane_create_hotspot_properties(cursor);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 6d3cc9e238a4..21c8adf51c6c 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -331,16 +331,16 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 		DRM_DEBUG("update, handle %d, pos +%d+%d, hot %d,%d\n", handle,
+ 			  plane->state->crtc_x,
+ 			  plane->state->crtc_y,
+-			  plane->state->fb ? plane->state->fb->hot_x : 0,
+-			  plane->state->fb ? plane->state->fb->hot_y : 0);
++			  plane->state->hotspot_x,
++			  plane->state->hotspot_y);
+ 		output->cursor.hdr.type =
+ 			cpu_to_le32(VIRTIO_GPU_CMD_UPDATE_CURSOR);
+ 		output->cursor.resource_id = cpu_to_le32(handle);
+ 		if (plane->state->fb) {
+ 			output->cursor.hot_x =
+-				cpu_to_le32(plane->state->fb->hot_x);
++				cpu_to_le32(plane->state->hotspot_x);
+ 			output->cursor.hot_y =
+-				cpu_to_le32(plane->state->fb->hot_y);
++				cpu_to_le32(plane->state->hotspot_y);
+ 		} else {
+ 			output->cursor.hot_x = cpu_to_le32(0);
+ 			output->cursor.hot_y = cpu_to_le32(0);
 -- 
 2.34.1
 
