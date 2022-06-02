@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E09D53BCA7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 18:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 069AC53BCE2
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 18:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05F8F1130AC;
-	Thu,  2 Jun 2022 16:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066731131D5;
+	Thu,  2 Jun 2022 16:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80DD01130AC
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 16:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654188008; x=1685724008;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=kzMqFjqnmdCwzqsUBrRPIsTc74WiGw8Kp1wd6otavk0=;
- b=UomNNaTnSH8H2+l4xK6MCBAn7bE0hF4yJRC/mcV9J9QhaEnXLwsH0mcT
- 6+Px18B0snO+GoPsYWmmahvljsuvOcn93xwNXrlsguuJc5cA/6GhjbKh0
- Wu9JbRSW1l90V882O5jTShZQhcqCx2MK+s5aA1CJ0ZmedBg1D24K5z9SO
- BP7Vcn1SKVMYjq6D/9F8iTJBs3U2jZCrnX4mkR7IPCCccSBVq+Zc64fSe
- aJRqfB1wBn/bHK1N5AxsrFpKJ64QodofWZklmvcyujxC4kjcH77sPTyUw
- 86C2mnlat0eY9p6mAkwt3tRyNN3T2IegCj0g9050KhaBmtLv06moRAu37 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10366"; a="274807687"
-X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="274807687"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 09:40:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="606932564"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.163])
- by orsmga008.jf.intel.com with SMTP; 02 Jun 2022 09:40:02 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 02 Jun 2022 19:40:02 +0300
-Date: Thu, 2 Jun 2022 19:40:01 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: How should "max bpc" and "Colorspace" KMS property work?
-Message-ID: <Ypjn4YZWUY5Vi0Xj@intel.com>
-References: <20220523112246.056ddc99@eldfell>
- <CA+hFU4wTHR9kLrFY3XkbeROZgxWamiZ6yGYL4jH+wpe8MzLvMw@mail.gmail.com>
- <20220525102850.5a70e58f@eldfell>
- <80798931-dbe7-54d7-8e1a-aaebfc39780c@mailbox.org>
- <U2A3FifHdFH9yDVrigaioxCTNx60MgkND7jcyIeKP2S4Ghu-BmmRaODqBDp6K0Q-aPBjPcqa2zUGuJNkGmRWZyQx2FjRJe9dVtJhQG9ZNCk=@emersion.fr>
- <20220525133647.052d09da@eldfell> <YpZSWwVkhJOalM4M@intel.com>
- <20220601102126.4f3602fd@eldfell> <YpdyYbRZP2fdG9Fz@intel.com>
- <20220602104759.60f5a68f@eldfell>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7C81131D0
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 16:53:24 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id q1so11088690ejz.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 09:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JZ8UPU6ugki+PkwkthIYbz7oUO9hdXo6b9SQ7nkdwtM=;
+ b=L/0QynMd8+v88ZZU+c9xvsS2+4IBAk0qnvPWUUmgZAkop0TG4KZxd99dk7jRpG2xjP
+ KUc2tplVKuDgLdfIaBZhtckFNJvUhIHInGndmo36fHngmE8m6jBeiLD0zmlU+8/OdXH8
+ 9Mhv3pV/nWVpkGYnhijstSeCiN20370swxDcIslOPlNz0qlzwWzr80kwtbP2UAzr+X5t
+ bT2vvDe3PqbnmNaxHJbmazQRDsxxA4Yh8PekOBHYmvau5bphFYS+zjlSYH/aafxUQ8Vo
+ hECS/upWIjnqQOS5ZSqLfaFOUr/hiOcHh2H6Rf5rblMMuM7gC2MEZPcSyYtpMgzVgJI9
+ 7g8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JZ8UPU6ugki+PkwkthIYbz7oUO9hdXo6b9SQ7nkdwtM=;
+ b=5YFl423OOKoUJUacQlal2E9hqAV6uP9OY/zInPum++C/rDwXGovDMqs2H1Qa+hEv+h
+ Ckoa2ja+JPeomhxKNErFD9Glgr6w6J089dQpxoXX7qmR1fOlBZyQHtGwGGx92AybEdN8
+ 1eMeA/OkUa6RlGttdwBMB3669iOCACkGOm9gCLKScI4Nob/TKmRoWKwlcFo+P3lmzDK6
+ PwGwUQ0Wyt4lE2VZM4xudY3BlbSMGheZwUotnBm56BERWyG0D0B6LN3/8vl4nqd3UqHl
+ OckATP7nbzp/Jl4CoNKaAWR+skYW+fNLaiIR3t3BfJ+JC43ic+WEYlA+KExb0f3538l0
+ 4BTQ==
+X-Gm-Message-State: AOAM530VlfwramzkgdysW3TQ5rC7WoYIB0vQRr8rxbJ2w0mFtv5MLvDZ
+ pE2MCsKSQZvl8ZV/1sMesq+xqg1Az1kOB7GTH7zYPA==
+X-Google-Smtp-Source: ABdhPJye4s8o1On+/9V61ouTi9MALoHFgmdsjmdC8JHeouR+fU7woYtXknF+evLqmso/PBYsaCxmbQR4cCcPLIhgO8M=
+X-Received: by 2002:a17:906:308f:b0:709:af33:9fa7 with SMTP id
+ 15-20020a170906308f00b00709af339fa7mr4961024ejv.369.1654188802902; Thu, 02
+ Jun 2022 09:53:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220602104759.60f5a68f@eldfell>
-X-Patchwork-Hint: comment
+References: <20220530102017.471865-1-jose.exposito89@gmail.com>
+ <20220530102017.471865-2-jose.exposito89@gmail.com>
+ <e26de140-afb7-7b1b-4826-6ac4f3a4fe02@redhat.com>
+In-Reply-To: <e26de140-afb7-7b1b-4826-6ac4f3a4fe02@redhat.com>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Thu, 2 Jun 2022 09:53:10 -0700
+Message-ID: <CAGS_qxpFO4ixW=08ZcdcD9J1kU=B3mwoBJkPW8AKu0sKs8aKfA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb332()
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,216 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 02, 2022 at 10:47:59AM +0300, Pekka Paalanen wrote:
-> On Wed, 1 Jun 2022 17:06:25 +0300
-> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> 
-> > On Wed, Jun 01, 2022 at 10:21:26AM +0300, Pekka Paalanen wrote:
-> > > On Tue, 31 May 2022 20:37:31 +0300
-> > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > >   
-> > > > On Wed, May 25, 2022 at 01:36:47PM +0300, Pekka Paalanen wrote:  
-> > > > > On Wed, 25 May 2022 09:23:51 +0000
-> > > > > Simon Ser <contact@emersion.fr> wrote:
-> > > > >     
-> > > > > > On Wednesday, May 25th, 2022 at 10:35, Michel Dänzer <michel.daenzer@mailbox.org> wrote:
-> > > > > >     
-> > > > > > > > Mind that "max bpc" is always in auto. It's only an upper limit, with
-> > > > > > > > the assumption that the driver can choose less.      
-> > > > > > >
-> > > > > > > It seems to me like the "max bpc" property is just kind of bad API,
-> > > > > > > and trying to tweak it to cater to more use cases as we discover them
-> > > > > > > will take us down a rabbit hole. It seems better to replace it with
-> > > > > > > new properties which allow user space to determine the current
-> > > > > > > effective bpc and to explicitly control it.      
-> > > > > > 
-> > > > > > +1, this sounds much more robust, and allows better control by user-space.
-> > > > > > User-space needs to have fallback logic for other state as well anyways.
-> > > > > > If the combinatorial explosion is too much, we should think about optimizing
-> > > > > > the KMS implementation, or improve the uAPI.    
-> > > > > 
-> > > > > +1 as well, with some recommendations added and the running off to the
-> > > > > sunset:
-> > > > > 
-> > > > > Use two separate KMS properties for reporting current vs.
-> > > > > programming desired. The KMS property reporting the current value
-> > > > > must be read-only (immutable). This preserves the difference between
-> > > > > what userspace wanted and what it got, making it possible to read
-> > > > > back both without confusing them. It also allows preserving driver behaviour    
-> > > > 
-> > > > I don't see much real point in a property to report the current bpc.
-> > > > That can't be used to do anything atomically. So I suppose plymouth
-> > > > would be the only user.  
-> > > 
-> > > Hi Ville,
-> > > 
-> > > I think also professional color managed display servers would need it.
-> > > 
-> > > If they detect that the link bpc is no longer the same as it was when
-> > > the monitor was profiled, the profile will need to be re-verified by
-> > > measuring the monitor again.
-> > > 
-> > > See "Color calibration auditing system" notes in
-> > > https://gitlab.freedesktop.org/wayland/weston/-/issues/467 description.
-> > >   
-> > > > So IMO if someone really need explicit control over this then we 
-> > > > should just expose properties to set things explicitly. So we'd
-> > > > need at least props for the actual bpc and some kind of color 
-> > > > encoding property (RGB/YCbCr 4:4:4/4:2:2:/4:2:0, etc.). And someone
-> > > > would really need to figure out how DSC would interact with those.  
-> > > 
-> > > I believe there still must be "auto" setting for bpc, and a separate
-> > > feedback property, so that userspace can use "auto" to see what it can
-> > > get without doing thousands of TEST_ONLY commits plus a few "link
-> > > status" failure handlings in order to find a working configuration (I'm
-> > > assuming we have many more properties than just "max bpc" to figure
-> > > out). After "auto" has told userspace what actually works without blind
-> > > trial and error, then userspace can program than value explicitly to
-> > > make sure it doesn't change accidentally in the future.  
-> > 
-> > Yeah we need "auto", but IMO mainly just to keep the current userspace
-> > working. Using that to probe what's possible doesn't sound particularly
-> > workable since you can't use it with TEST_ONLY commits. Also change to
-> > some other property could still cause the whole thing to fail after the
-> > max bpc has been probed so not sure it really buys you anything.
-> 
-> Hi Ville,
-> 
-> earlier in this thread I drafted how the property-pair with "auto"
-> could be made useful also with TEST_ONLY commits:
-> 
-> > Thinking even further, about the problem of TEST_ONLY commits not
-> > telling you what "auto" settings would actually give you; there could
-> > be a new/extended KMS ioctl that would be the same as commit now, but
-> > allow the kernel to return another set of KMS state back with
-> > TEST_ONLY. Like reading back all KMS state after commit was done for
-> > real. The "current" KMS properties would be part of that set, and tell
-> > userspace what would happen in a real commit.
-> 
-> I do believe the combinatorial explosion of the KMS state search space
-> to find a working configuration is going to be a very real problem
-> sooner or later.
+On Thu, Jun 2, 2022 at 9:27 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> > +CFLAGS_drm_format_helper_test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+> >
+>
+> A comment on why this is needed would useful.
 
-That's seems like an orthogonal issue that would need some kind of
-new uapi approach that let's you get some state back out from
-TEST_ONLY commits.
+Ah, I think that should not be necessary anymore.
+We added this to some tests to mitigate against compilers that didn't
+optimize away stack-local structs used internally in KUNIT_EXPECT*.
+Functions with ~30 or so EXPECTs could get flagged for excessively
+large stack frames.
 
-> > > Now that you mentioned some kind of color encoding property (I assume
-> > > you referred mostly to the sub-sampling aspect), how does the connector
-> > > property "Colorspace" factor in?  
-> > 
-> > The "Colorspace" property just changes what we report to the display
-> > via infoframes/MSA/SDP. It does not cause the display hardware to do
-> > any colorspace conversion/etc.
-> 
-> Good.
-> 
-> > To actually force the display hardware to do the desired conversion
-> > we need some new properties. ATM the only automagic conversion that
-> > can happen (at least with i915) is the RGB 4:4:4->YCbCr 4:2:0 fallback,
-> > which is needed on some displays to get 4k+ modes to work at all.
-> 
-> When "Colorspace" says RGB, and the automatic fallback would kick in to
-> create a conflict, what happens?
+But in 5.18, I had some patches to reduce the naive stack usage from
+[48..88] => [8..32] bytes per EXPECT.
+I also have some RFC patches out to get it down to [0, 24] bytes.
 
-I would put that in the "Doctor, it hurts when I..." category.
+So going forward, this should only be necessary if you have something
+like 100s of EXPECTs in a single function (in which case you should
+also consider splitting that function up).
 
-> 
-> > > 
-> > > The enum values (which are not documented in KMS docs, btw.) are tuples
-> > > of color space + color model, e.g. on Intel:
-> > > 
-> > > "Colorspace": enum {Default, SMPTE_170M_YCC, BT709_YCC, XVYCC_601,
-> > > XVYCC_709, SYCC_601, opYCC_601, opRGB, BT2020_CYCC, BT2020_RGB,
-> > > BT2020_YCC, DCI-P3_RGB_D65, DCI-P3_RGB_Theater}  
-> > 
-> > The accepted values are just what the CTA-861/DP specs
-> > allow us to transmit in he infoframe/SDP/MSA.
-> 
-> Sure, but I mean the KMS doc a) does not refer to any standard, and b)
-> does not even list what the possible values could be.
-
-Seems like something that can be remedied with a patch.
-
-> 
-> 
-> > > 
-> > > Reading the KMS docs from
-> > > https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#standard-connector-properties
-> > > they say:
-> > >   
-> > > > Basically the expectation from userspace is:
-> > > > 
-> > > >         Set up CRTC DEGAMMA/CTM/GAMMA to convert to some sink
-> > > > colorspace
-> > > > 
-> > > >         Set this new property to let the sink know what it converted
-> > > > the CRTC output to.
-> > > > 
-> > > >         This property is just to inform sink what colorspace source
-> > > > is trying to drive.   
-> > > 
-> > > However, where does userspace program the actual conversion from RGB to
-> > > NNN? Is it expected to be embedded in CTM?
-> > > 
-> > > Or does setting "Colorspace" imply some additional automatic
-> > > conversion? If so, where does it happen and how is it chosen?
-> > >   
-> > > > For just the plymouth case I guess the easiest thing would be to
-> > > > just clamp "max bpc" to the current value. The problem with that
-> > > > is that we'd potentially break existing userspace. Eg. I don't think
-> > > > the modesetting ddx or perhaps even most of the wayland compositors
-> > > > set "max bpc" at all. So we'd need to roll out a bunch of userspace
-> > > > updates first. And the "current bpc" prop idea would also have this
-> > > > same problem since plymouth would just clamp "max bpc" based on the
-> > > > current bpc before the real userspace starts.  
-> > > 
-> > > True, but I believe once color management spreads through Wayland, so
-> > > will KMS clients also learn to set it.  
-> > 
-> > Sure. But my point is that if we want to change how the "max bpc"
-> > works I think we need to roll out the userspace stuff first so that
-> > we at least can tell the user "please update you userspace to release x"
-> > when they hit the regression.
-> 
-> Sorry, I lost track on who is suggesting to change what.
-> 
-> I thought we agreed that "max bpc" means limiting link bpc to at most
-> that value, but the driver will automatically pick a lower value if
-> that makes the requested video mode work (and in lack of new KMS
-> properties).
-> 
-> I have no desire that change that. I also think the Plymouth issue is
-> not fully fixable without some new KMS property, and until then the
-> only thing Plymouth could do is to smash "max bpc" always to 8 - which
-> mostly stops being a problem once display servers learn to handle "max
-> bpc".
-
-There's no real differene between the kernel automagically clamping
-"max bpc" to the current BIOS programmed value vs. plymouth doing it.
-Either approach will break deep color support for current userspace
-which doesn't reset "max bpc" back to the max.
-
-> 
-> However, when new KMS properties are introduced, I very much like to
-> promote the two property setup for anything that could be a) set to
-> "auto", or b) be changed by the kernel *and* userspace.
-> 
-> 
-> Thanks,
-> pq
-
-
-
--- 
-Ville Syrjälä
-Intel
+Daniel
