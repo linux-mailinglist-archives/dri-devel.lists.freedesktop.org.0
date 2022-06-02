@@ -1,59 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CD153B31B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 07:42:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 181FE53B31F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 07:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33771133D8;
-	Thu,  2 Jun 2022 05:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102A610FE5F;
+	Thu,  2 Jun 2022 05:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 615E61133D4;
- Thu,  2 Jun 2022 05:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654148538; x=1685684538;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=cAigtFrYpjM8aiEGkIP9ue5YoGZzqzs6qR3NKEHgUcM=;
- b=Gm/Vd0WIki4f7EmQFtSvyYJPYyNX3V9vuSymK5K6AwgA2dz7Oz2mFcEB
- rM8+aCVb5sun/OpD8IWw880Ns8Bn/bri7AIkHInzx46vxP3XDGTmvVkTB
- lBP0d1cWZ4hqPQqTL7yR8Syr+WLiy54qqopesyeoEovtcJ8J/zC0mtNpV
- tooyU1f7FZTbzaK0Z3m9QcGR/qXK/aRIOUBC+aK6HJLctotxN7bK2OM0S
- ZQcDyU837bm7oCMEWndYWlapUyMRhgpZAHPw0GMl8QUU7wPHTszvFHw2t
- 1hONia9tAnOWW3TIRk8LrZKI4aZLN2eA8n5Bzm6gxZnrcQQq0AK5hYQKu w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="273397985"
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="273397985"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 22:42:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="606659316"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga008.jf.intel.com with ESMTP; 01 Jun 2022 22:42:16 -0700
-Received: from [10.249.138.186] (aakhrem-mobl.ger.corp.intel.com
- [10.249.138.186])
- by linux.intel.com (Postfix) with ESMTP id 2C20D580931;
- Wed,  1 Jun 2022 22:42:13 -0700 (PDT)
-Message-ID: <2508922c-dae7-af05-0feb-9c4b63411a8c@intel.com>
-Date: Thu, 2 Jun 2022 08:42:13 +0300
+Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr
+ [80.12.242.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFECD10FE5F
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 05:48:59 +0000 (UTC)
+Received: from [192.168.1.18] ([90.11.190.129]) by smtp.orange.fr with ESMTPA
+ id wdhSn51g6QKuawdhSnS6n8; Thu, 02 Jun 2022 07:48:57 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 02 Jun 2022 07:48:57 +0200
+X-ME-IP: 90.11.190.129
+Message-ID: <60d33448-1cc9-c662-167b-10c1f9660545@wanadoo.fr>
+Date: Thu, 2 Jun 2022 07:48:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
- document
-Content-Language: en-US
-To: Matthew Brost <matthew.brost@intel.com>
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
- <43746609-4f60-f347-5934-6680516297dd@intel.com>
- <20220601211849.GA30517@jons-linux-dev-box>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <20220601211849.GA30517@jons-linux-dev-box>
+Subject: Re: [PATCH v10 14/21] drm/mediatek: dpi: Add dpintf support
+Content-Language: fr
+To: granquet@baylibre.com
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <20220523104758.29531-15-granquet@baylibre.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220523104758.29531-15-granquet@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +45,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, chris.p.wilson@intel.com, daniel.vetter@intel.com,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- christian.koenig@amd.com
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, deller@gmx.de, kishon@ti.com,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, msp@baylibre.com,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/06/2022 00:18, Matthew Brost wrote:
-> On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
->> On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
->>> +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
->>> +async worker. The binding and unbinding will work like a special GPU engine.
->>> +The binding and unbinding operations are serialized and will wait on specified
->>> +input fences before the operation and will signal the output fences upon the
->>> +completion of the operation. Due to serialization, completion of an operation
->>> +will also indicate that all previous operations are also complete.
->> I guess we should avoid saying "will immediately start binding/unbinding" if
->> there are fences involved.
->>
->> And the fact that it's happening in an async worker seem to imply it's not
->> immediate.
->>
->>
->> I have a question on the behavior of the bind operation when no input fence
->> is provided. Let say I do :
->>
->> VM_BIND (out_fence=fence1)
->>
->> VM_BIND (out_fence=fence2)
->>
->> VM_BIND (out_fence=fence3)
->>
->>
->> In what order are the fences going to be signaled?
->>
->> In the order of VM_BIND ioctls? Or out of order?
->>
->> Because you wrote "serialized I assume it's : in order
->>
->>
->> One thing I didn't realize is that because we only get one "VM_BIND" engine,
->> there is a disconnect from the Vulkan specification.
->>
->> In Vulkan VM_BIND operations are serialized but per engine.
->>
->> So you could have something like this :
->>
->> VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
->>
->> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
->>
-> Question - let's say this done after the above operations:
->
-> EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
->
-> Is the exec ordered with respected to bind (i.e. would fence3 & 4 be
-> signaled before the exec starts)?
->
-> Matt
+Le 23/05/2022 à 12:47, Guillaume Ranquet a écrit :
+> dpintf is the displayport interface hardware unit. This unit is similar
+> to dpi and can reuse most of the code.
+> 
+> This patch adds support for mt8195-dpintf to this dpi driver. Main
+> differences are:
+>   - Some features/functional components are not available for dpintf
+>     which are now excluded from code execution once is_dpintf is set
+>   - dpintf can and needs to choose between different clockdividers based
+>     on the clockspeed. This is done by choosing a different clock parent.
+>   - There are two additional clocks that need to be managed. These are
+>     only set for dpintf and will be set to NULL if not supplied. The
+>     clk_* calls handle these as normal clocks then.
+>   - Some register contents differ slightly between the two components. To
+>     work around this I added register bits/masks with a DPINTF_ prefix
+>     and use them where different.
+> 
+> Based on a separate driver for dpintf created by
+> Jason-JH.Lin <jason-jh.lin-NuS5LvNUpcJWk0Htik3J/w@public.gmane.org>.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp-rdvid1DuHRBWk0Htik3J/w@public.gmane.org>
+> Signed-off-by: Guillaume Ranquet <granquet-rdvid1DuHRBWk0Htik3J/w@public.gmane.org>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dpi.c          | 126 +++++++++++++++++---
+>   drivers/gpu/drm/mediatek/mtk_dpi_regs.h     |  35 ++++++
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   8 ++
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   5 +-
+>   include/linux/soc/mediatek/mtk-mmsys.h      |   4 +-
+>   6 files changed, 159 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index eb969c5c5c2e..763bfb700135 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -71,6 +71,7 @@ struct mtk_dpi {
+>   	void __iomem *regs;
+>   	struct device *dev;
+>   	struct clk *engine_clk;
+> +	struct clk *dpi_ck_cg;
+>   	struct clk *pixel_clk;
+>   	struct clk *tvd_clk;
+>   	int irq;
+> @@ -126,6 +127,7 @@ struct mtk_dpi_conf {
+>   	const u32 *output_fmts;
+>   	u32 num_output_fmts;
+>   	bool is_ck_de_pol;
+> +	bool is_dpintf;
+>   	bool swap_input_support;
+>   	/* Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH (no shift) */
+>   	u32 dimension_mask;
+> @@ -438,6 +440,8 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
+>   	mtk_dpi_disable(dpi);
+>   	clk_disable_unprepare(dpi->pixel_clk);
+>   	clk_disable_unprepare(dpi->engine_clk);
+> +	clk_disable_unprepare(dpi->dpi_ck_cg);
+> +	clk_disable_unprepare(dpi->tvd_clk);
+>   }
+>   
+>   static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+> @@ -447,12 +451,24 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+>   	if (++dpi->refcount != 1)
+>   		return 0;
+>   
 
+Hi,
 
-Hi Matt,
+belwo the error handling path looks odd. (both where we goto, and the 
+order of the clk_disable_unprepare() in the error handling path.
 
- From the vulkan point of view, everything is serialized within an 
-engine (we map that to a VkQueue).
+just my 2c,
 
-So with :
+CJ
 
-EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
-VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+> +	ret = clk_prepare_enable(dpi->tvd_clk);
+> +	if (ret) {
+> +		dev_err(dpi->dev, "Failed to enable tvd pll: %d\n", ret);
+> +		goto err_pixel;
+> +	}
+> +
+>   	ret = clk_prepare_enable(dpi->engine_clk);
+>   	if (ret) {
+>   		dev_err(dpi->dev, "Failed to enable engine clock: %d\n", ret);
+>   		goto err_refcount;
+>   	}
+>   
+> +	ret = clk_prepare_enable(dpi->dpi_ck_cg);
+> +	if (ret) {
+> +		dev_err(dpi->dev, "Failed to enable dpi_ck_cg clock: %d\n", ret);
+> +		goto err_ck_cg;
+> +	}
+> +
+>   	ret = clk_prepare_enable(dpi->pixel_clk);
+>   	if (ret) {
+>   		dev_err(dpi->dev, "Failed to enable pixel clock: %d\n", ret);
+> @@ -466,6 +482,8 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+>   	return 0;
+>   
+>   err_pixel:
+> +	clk_disable_unprepare(dpi->dpi_ck_cg);
+> +err_ck_cg:
+>   	clk_disable_unprepare(dpi->engine_clk);
+>   err_refcount:
+>   	dpi->refcount--;
 
-EXEC completes first then VM_BIND executes.
-
-
-To be even clearer :
-
-EXEC (engine=ccs0, in_fence=fence2, out_fence=NULL)
-VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
-
-
-EXEC will wait until fence2 is signaled.
-Once fence2 is signaled, EXEC proceeds, finishes and only after it is done, VM_BIND executes.
-
-It would kind of like having the VM_BIND operation be another batch executed from the ringbuffer buffer.
-
--Lionel
-
-
->
->> fence1 is not signaled
->>
->> fence3 is signaled
->>
->> So the second VM_BIND will proceed before the first VM_BIND.
->>
->>
->> I guess we can deal with that scenario in userspace by doing the wait
->> ourselves in one thread per engines.
->>
->> But then it makes the VM_BIND input fences useless.
->>
->>
->> Daniel : what do you think? Should be rework this or just deal with wait
->> fences in userspace?
->>
->>
->> Sorry I noticed this late.
->>
->>
->> -Lionel
->>
->>
-
+[...]
