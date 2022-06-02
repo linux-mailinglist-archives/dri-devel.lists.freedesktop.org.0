@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEE053B8CF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 14:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8639253B8DE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 14:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D423D10EA8F;
-	Thu,  2 Jun 2022 12:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4102810F0F7;
+	Thu,  2 Jun 2022 12:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F20A110EA8F
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 12:11:33 +0000 (UTC)
-Received: from mail-yb1-f180.google.com ([209.85.219.180]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MXHBo-1oIEWb2Ksg-00YgsC for <dri-devel@lists.freedesktop.org>; Thu, 02
- Jun 2022 14:11:31 +0200
-Received: by mail-yb1-f180.google.com with SMTP id w2so7933470ybi.7
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 05:11:31 -0700 (PDT)
-X-Gm-Message-State: AOAM531SkaVRFhx9Ya3Vq6dxLM5eX6BzSh79xItmpkoyF9JlVRQ3vo72
- buTNEodQTbbB5MtSajP0glVjAlAgt5IWRPKmtN4=
-X-Google-Smtp-Source: ABdhPJxdzkEsdk/cr6/xiJljnwPhNiCbf+6LHxcrbl85hSAm1vRzepzJQWXT9pLy21Z0VxV9G2hS1yUr8gN67lDPmso=
-X-Received: by 2002:a25:db8a:0:b0:65c:b04a:f612 with SMTP id
- g132-20020a25db8a000000b0065cb04af612mr4808103ybf.106.1654171890125; Thu, 02
- Jun 2022 05:11:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
- <91E67F46-A3C7-4159-9E0C-C6C6306F3669@inria.fr>
- <CAK8P3a2iAsemAQdbTZ_E7GGGCXAOeWbjSjLgXEsd5sg_buZWhw@mail.gmail.com>
- <CAHk-=wgO0V9OdY+DFm-f0qZYMyFSm0ptReO+_qgSTEpBLtFV7Q@mail.gmail.com>
- <d971a684-ccd9-3839-1e30-c166fd55cf49@inria.fr>
- <CAHk-=wiViikY0szsJGipSxFmMwdsvxjm7SwDfwNfMHYvQ64kAA@mail.gmail.com>
- <CAK8P3a1m80u+eVnoSJ-APihjNQ1se9=FG+E6tKBb-hRJx5FAVg@mail.gmail.com>
- <74bed19a-713f-1a25-8142-cf32984beada@I-love.SAKURA.ne.jp>
-In-Reply-To: <74bed19a-713f-1a25-8142-cf32984beada@I-love.SAKURA.ne.jp>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 2 Jun 2022 14:11:13 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a02fpOPkXSEEd2eDoryVN2zZcRvzJ2qRceAQmCqB8ghag@mail.gmail.com>
-Message-ID: <CAK8P3a02fpOPkXSEEd2eDoryVN2zZcRvzJ2qRceAQmCqB8ghag@mail.gmail.com>
-Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
- block count and size helpers")
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E062D10F0F7
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 12:19:11 +0000 (UTC)
+X-UUID: ac781e92043f40c1900f3c7729d24e1b-20220602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:c68abee3-bff2-47ae-89ee-baf275569339, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:6de0b26e-b02c-4af4-b838-5c14aaa063c7,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: ac781e92043f40c1900f3c7729d24e1b-20220602
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 185878044; Thu, 02 Jun 2022 20:19:06 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 2 Jun 2022 20:19:05 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 2 Jun 2022 20:19:05 +0800
+Message-ID: <1b2c534c189944b388ff7ca9adc013e8878fe37e.camel@mediatek.com>
+Subject: Re: [PATCH v10 11/21] drm/mediatek: dpi: move swap_shift to SoC config
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Guillaume Ranquet <granquet@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
+ Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
+ Deller" <deller@gmx.de>, Jitao shi <jitao.shi@mediatek.com>
+Date: Thu, 2 Jun 2022 20:19:05 +0800
+In-Reply-To: <76ddd49bb2bb46923900b085056ce22d7bfa0b0a.camel@mediatek.com>
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <20220523104758.29531-12-granquet@baylibre.com>
+ <76ddd49bb2bb46923900b085056ce22d7bfa0b0a.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:dbEwKl4pWnmihYgYg41TayBRKilyUtCB7zi+OU3c9KhYHEGPHFr
- q0diTw9i4ArT7cdH5mqWANmHgvfb/5vG53AgeKu015u3Eg9Y5KKI0SLJFaaMqVAjNsSuESc
- erncvCrRazEJc/4h90ifnuNtL4MB2f5i1IpZEHr7Zd0s4Kx2GaDm9hXGQEEtmfHOgwsZPjG
- WJPMpx+P22BVv9gVqrbkg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZKWlkqty+m0=:sEWSlj0n9++PESWNNYtqaY
- gderFzTVWbvHizxzv81qqL5SO3aUy9h4sHw6mip4DcPYnmtGOH6/1pfLQdNaY/IBnzN/YqcAz
- pxefj9/MREH3OpFWvVeo2hSwHys62wmEQ/hOl/OzrH3930C2YjN6dTgiYeenpvtJ9gW3OW2GQ
- L0EoJ7g2NN5qvTXCgI/OgSV7lpAWulfTB2eBv6M0EkACHi+zbE8rV7t6Aju3Ukz2AwBLMO+eV
- /n88wcNxUISYWYx3LFsEVp+3Gl7CrZStC1SKaU3fq0kWj/A+o2g82FV9uwgIkzD1zg/IVZh9K
- ZD2HLubtVcTsRhqojlUd/YRQT6cD4vH1FWvV1i0khOUe7iPRa8IW6DI2WxjyHlNTG9XMmNceR
- ke/WuEVW0fw//oKum6CQ/m0Zswqtsx4E1QmcgH6qwQ7LjMhABgL6npV4Ru3N3BhfZwAcGl/n5
- Qa3kHgVNoU3R0j5hkc9GV+Ob9esLVkKOTQJybk3U8aoiN5Akp7vVecUAIQIL9OGrJ8oH6oPqj
- G5H1d5S2oL+wvcqFzNAk0dV70gXCGtwPLHKtg14gL0CfxXLnqZLIki8aw9VQwR6ht61Ut/Zgj
- yFlF1ciRXa55cnHobIE8cThIeMNZIWjE/srXTWsA06lKWU6ZvTO2kz5caDEt+59RrmWEJmaHN
- PF4BbOqOhgdOCqtCCdUsF4p735m5keXUns/7sbAXGmhlnLJzEvPgV3T/drr2CfvDm6E1yhQR3
- YMA+0kT+f/zJg3dmDTd+0nm8DwRKzTm3FLBdDz7XNpD/LABrOZwyThNkX+ElNEF0F+2iUGYeG
- USmRLP3U1dZMHuw++YWc29l6vgKh9QLaH40K74+rM7FVwBSwu3hnGM+7KN/u0ltqe0A/YdOYx
- vN9Zqnf5YtZV7IJRrX4w==
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,59 +69,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ayush Sawal <ayush.sawal@chelsio.com>, Kentaro Takeda <takedakn@nttdata.co.jp>,
- Keisuke Nishimura <keisuke.nishimura@inria.fr>,
- Rohit Maheshwari <rohitm@chelsio.com>, Viresh Kumar <vireshk@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
- Jani Nikula <jani.nikula@intel.com>,
- Vinay Kumar Yadav <vinay.yadav@chelsio.com>, SoC Team <soc@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Julia Lawall <Julia.Lawall@inria.fr>, Thomas Zimmermann <tzimmermann@suse.de>,
- Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 2, 2022 at 1:21 PM Tetsuo Handa
-<penguin-kernel@i-love.sakura.ne.jp> wrote:
-> On 2022/06/02 16:38, Arnd Bergmann wrote:
-> >> But let's cc the tomoyo and chelsio people.
-> >
-> > I think both of them work because the structures are always
-> > embedded inside of larger structures that have at least word
-> > alignment. This is the thing I was looking for, and the
-> > __packed attribute was added in error, most likely copied
-> > from somewhere else.
->
-> The __packed in "struct tomoyo_shared_acl_head" is to embed next
-> naturally-aligned member of a larger struct into the bytes that
-> would have been wasted if __packed is not specified. For example,
->
-> struct tomoyo_shared_acl_head {
->         struct list_head list;
->         atomic_t users;
-> } __packed;
->
-> struct tomoyo_condition {
->         struct tomoyo_shared_acl_head head;
->         u32 size; /* Memory size allocated for this entry. */
->         (...snipped...)
-> };
->
-> saves 4 bytes on 64 bits build.
->
-> If the next naturally-aligned member of a larger struct is larger than
-> the bytes that was saved by __packed, the saved bytes will be unused.
+On Mon, 2022-05-30 at 16:38 +0800, CK Hu wrote:
+> Hi, Guillaume:
+> 
+> On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
+> > Add flexibility by moving the swap shift value to SoC specific
+> > config
+> > 
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 8 +++++++-
+> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index 6eeda222a973..6d4d8c6ec47d 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -131,6 +131,7 @@ struct mtk_dpi_conf {
+> >  	u32 dimension_mask;
+> >  	/* HSIZE and VSIZE mask (no shift) */
+> >  	u32 hvsize_mask;
+> > +	u32 channel_swap_shift;
+> >  	const struct mtk_dpi_yc_limit *limit;
+> >  };
+> >  
+> > @@ -349,7 +350,8 @@ static void mtk_dpi_config_channel_swap(struct
+> > mtk_dpi *dpi,
+> >  		break;
+> >  	}
+> >  
+> > -	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, val << CH_SWAP,
+> > CH_SWAP_MASK);
+> > +	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, val << dpi->conf-
+> > > channel_swap_shift,
+> > 
+> > +		     CH_SWAP_MASK);
+> > From the definiton:
+> 
+>  #define CH_SWAP				0
+> +#define DPINTF_CH_SWAP			BIT(1)
+>  #define CH_SWAP_MASK			(0x7 << 0)
+> +#define DPINTF_CH_SWAP_MASK		(0x7 << 1)
+> 
+> This statement should be:
+> 
+> mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, val << dpi->conf-
+> > channel_swap_shift, CH_SWAP_MASK << dpi->conf->channel_swap_shift);
+> 
+> dpi->conf->channel_swap_shift is 1 for MT8195-DP_INTF and 0 for
+> others.
+> And drop the definition of DPINTF_CH_SWAP and DPINTF_CH_SWAP_MASK,
+> 
+> Regards,
+> CK
+> 
 
-Ok, got it. I think as gcc should still be able to always figure out the
-alignment when accessing the atomic, without ever falling back
-to byte access on an atomic_get() or atomic_set().
+Hello CK,
 
-To be on the safe side, I would still either move the __packed attribute
-to the 'list' member, or make the structure '__aligned(4)'.
+I have checked this with Jitao,
+it's all shift 1 bit including mask and value.
 
-       Arnd
+I will modify like this:
+#define DPINTF_CH_SWAP 1
+
+mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING,
+val << dpi->conf-> channel_swap_shift,
+CH_SWAP_MASK << dpi->conf->channel_swap_shift);
+
+
+BR,
+Bo-Chen
+> 
+> >  }
+> >  
+> >  static void mtk_dpi_config_yuv422_enable(struct mtk_dpi *dpi, bool
+> > enable)
+> > @@ -821,6 +823,7 @@ static const struct mtk_dpi_conf mt8173_conf =
+> > {
+> >  	.swap_input_support = true,
+> >  	.dimension_mask = HPW_MASK,
+> >  	.hvsize_mask = HSIZE_MASK,
+> > +	.channel_swap_shift = CH_SWAP,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> > @@ -835,6 +838,7 @@ static const struct mtk_dpi_conf mt2701_conf =
+> > {
+> >  	.swap_input_support = true,
+> >  	.dimension_mask = HPW_MASK,
+> >  	.hvsize_mask = HSIZE_MASK,
+> > +	.channel_swap_shift = CH_SWAP,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> > @@ -848,6 +852,7 @@ static const struct mtk_dpi_conf mt8183_conf =
+> > {
+> >  	.swap_input_support = true,
+> >  	.dimension_mask = HPW_MASK,
+> >  	.hvsize_mask = HSIZE_MASK,
+> > +	.channel_swap_shift = CH_SWAP,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> > @@ -861,6 +866,7 @@ static const struct mtk_dpi_conf mt8192_conf =
+> > {
+> >  	.swap_input_support = true,
+> >  	.dimension_mask = HPW_MASK,
+> >  	.hvsize_mask = HSIZE_MASK,
+> > +	.channel_swap_shift = CH_SWAP,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
