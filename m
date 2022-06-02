@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9861E53BF92
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F6953BF94
 	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:22:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C30F8113355;
-	Thu,  2 Jun 2022 20:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6CB113380;
+	Thu,  2 Jun 2022 20:22:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEA4111337C
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:22:12 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id a2so3417377lfg.5
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:22:12 -0700 (PDT)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFD2113355
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:22:14 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id e4so6380118ljb.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IzLd/7PKjR1s72VRbpZnnb20njOIXn644FvbXu0Em5Y=;
- b=ruspFBPqhD3B/wwEdiTnRF7DIDP20/hPWTh1wGFHKTbWxX243JIMkGdeJsfS7+OvJy
- qFWcJo2wd3plg18eyGxu71fB7JL5H7O2Fy87C9toL35W3CJ8CLHUQPwnwejNJcbP2FBN
- 6l2TG3KJrkzCBhSwz+aqmBx9g7kN8j/04welyj55RNlMNnIi2x+aVE7qAClk5aX4YREs
- FznPb6060EcgqatW6/wLMh7RtEtuG8LPMjoNk83ssV0uVEPvXRb3TeeOFqJGTlA4tqaz
- orjfrbqxuHjdK1CfrfSOMaUakk2ThYVraoBj99HHix9pVA/CUfgsUWsGXVyJNGxcE3ng
- SdHw==
+ bh=s7eYavTJ2IyfY9jHDXu2jRuPLiG7aDtXQT+NSfu50tk=;
+ b=yR0aoDnqE76J39THxc5tWWVKoYfcVpqBPsinZ+jS4QgmrI0l5C3h2sFlVbXzPIWHZ3
+ 3pdiH75a0ctDJvbOR4ItRTj0gyj/p7OgSP5f1OWzrbnv7TWGhuh302xBokOk+NheFYbt
+ mWv2Mzj63VaRwFP1JQCAVp2IanYHyR9a10240QeaEwDk2sNqLjZjT+iE6xS5ZOsEv/S+
+ Fqza8j/wPBETQV6n7ZjzdIUwLQS5cgGvYjMjVJ66RCD6JQfLnAxn6xCO2Rb3Flut0Q/q
+ hjDQG5/F3S2XXeTKakcnO8CJF66ZwwUbnmyGbfFBFJwtOouJpJ35yPfkaG2Jv3iYUJTj
+ O1Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IzLd/7PKjR1s72VRbpZnnb20njOIXn644FvbXu0Em5Y=;
- b=XJE4V8aUBVaejUazHjHmZ4mUx3o6BQqsCGgkgNRip33BqriW1phkIMNRn+/d6COF6G
- iAjmZxXMUgcPUYOnPHOZVErv9K2wXYiEpf/M99A1dSX0CrdEsdgWPAT9dQyY9HoE5wy1
- Q8zdhT7Xr7XCaclNxs/wV1NzbIqkaZPL7kq1zr+xprz3XwhT+TICwYjf8hjOJPETJaVm
- 4I0kq2SrGAd0UC5wwIQLz2p9V2QsI4kM5Nbtgoiq/C59kcgfewxxYoHZAnPBZOQ3Ljl8
- Bho3MNN5F3rjPYRSq6O+QTtscXc5GcKaZBTHdGZzVUh3rDWrH7NXFHr1C0GyO2EOUBvf
- sJbQ==
-X-Gm-Message-State: AOAM533uyOhZCoDvHFUTGAMvO/v9e23xYsg4jNfvMFAf4pF0UnCFYCpV
- mdJnx8AEQYcfIIzmtK6hzOztyw==
-X-Google-Smtp-Source: ABdhPJw0CULyjlamTxjCq53wN2vyh0X5m785J+FSWeSf+Wqz/PqjlBZ4bAYgkVQvno3I8utIid6Nag==
-X-Received: by 2002:a05:6512:138b:b0:478:c684:4313 with SMTP id
- p11-20020a056512138b00b00478c6844313mr4537426lfa.426.1654201331289; 
- Thu, 02 Jun 2022 13:22:11 -0700 (PDT)
+ bh=s7eYavTJ2IyfY9jHDXu2jRuPLiG7aDtXQT+NSfu50tk=;
+ b=Rq+xbluzh46AuantyvtLdTSKZVx9y7YTEj68UoZKKON/kpRihcYAoz2TSPfB9DRsv5
+ S3OC4uFMbI9COQKhFO7/zb5R0H6H3gom4qrSqiNvyuzwf8jzm1tokqkI4M5VfW51HMve
+ CU/gwsEX9KLrjfLeHsGnI9ncCGPsup54QeQ3uKjdFZ+V0VVBWAUvvWZ4Gzz+ZjrYWlFO
+ aecju3VWfRYI6P5BpS75eGG7KQslKNyo7LZWpDsztL+qBrrUHe41vVyyKv+RU0AlKa6z
+ laEmoChEWOHAN0bcNm3jewcbsnQUzR5RK5xrBjH13/+M0t7TSwmAMn3lswA6O7tZRiz7
+ M3oA==
+X-Gm-Message-State: AOAM533HUoawhQLfaZYth7Cf/p3tl2p/nDL+FAlsTAuSUidGXOWQdWYH
+ nsLYNSNBuDIRGQctyrA/oQlFfg==
+X-Google-Smtp-Source: ABdhPJzA5y5WSZ/dTFlmKU8pwm+/oNhTAhk8C9hBhtMWxx4aU0yi+41UqVtSdthzn1UJeNPyg6MeqQ==
+X-Received: by 2002:a2e:93c8:0:b0:24e:eabd:bf6e with SMTP id
+ p8-20020a2e93c8000000b0024eeabdbf6emr41152420ljh.347.1654201332483; 
+ Thu, 02 Jun 2022 13:22:12 -0700 (PDT)
 Received: from eriador.lumag.spb.ru ([94.25.229.139])
  by smtp.gmail.com with ESMTPSA id
- p12-20020a2e740c000000b0024f3d1daef5sm992451ljc.125.2022.06.02.13.22.10
+ p12-20020a2e740c000000b0024f3d1daef5sm992451ljc.125.2022.06.02.13.22.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 13:22:10 -0700 (PDT)
+ Thu, 02 Jun 2022 13:22:12 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3 1/7] drm/msm/dpu: use feature bit for LM combined alpha
- check
-Date: Thu,  2 Jun 2022 23:22:01 +0300
-Message-Id: <20220602202207.1754351-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 2/7] drm/msm/dpu: move VBIF_XINL_QOS_LVL_REMAP size to
+ hw_catalog
+Date: Thu,  2 Jun 2022 23:22:02 +0300
+Message-Id: <20220602202207.1754351-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220602202207.1754351-1-dmitry.baryshkov@linaro.org>
 References: <20220602202207.1754351-1-dmitry.baryshkov@linaro.org>
@@ -77,108 +77,78 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rather than checking hwversion, follow the usual patter and add special
-bit to the lm->features to check whether the LM has combined or separate
-alpha registers. While we are at it, rename
-dpu_hw_lm_setup_blend_config_sdm845() to
-dpu_hw_lm_setup_blend_config_combined_alpha().
+Rather than detecting VBIF_XINL_QOS_LVL_REMAP_000 based on the
+hwversion, push the offset to the hw_catalog.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 19 +++++++++++--------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |  6 +++---
- 3 files changed, 16 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c    | 4 ++--
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 400ebceb56bb..c3759fc4b154 100644
+index c3759fc4b154..101d9abe652b 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -50,11 +50,14 @@
- #define DMA_CURSOR_MSM8998_MASK \
- 	(DMA_MSM8998_MASK | BIT(DPU_SSPP_CURSOR))
- 
--#define MIXER_SDM845_MASK \
-+#define MIXER_MSM8998_MASK \
- 	(BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER))
- 
-+#define MIXER_SDM845_MASK \
-+	(BIT(DPU_MIXER_SOURCESPLIT) | BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
-+
- #define MIXER_SC7180_MASK \
--	(BIT(DPU_DIM_LAYER))
-+	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
- 
- #define PINGPONG_SDM845_MASK BIT(DPU_PINGPONG_DITHER)
- 
-@@ -936,17 +939,17 @@ static const struct dpu_lm_sub_blks msm8998_lm_sblk = {
- };
- 
- static const struct dpu_lm_cfg msm8998_lm[] = {
--	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
-+	LM_BLK("lm_0", LM_0, 0x44000, MIXER_MSM8998_MASK,
- 		&msm8998_lm_sblk, PINGPONG_0, LM_2, DSPP_0),
--	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
-+	LM_BLK("lm_1", LM_1, 0x45000, MIXER_MSM8998_MASK,
- 		&msm8998_lm_sblk, PINGPONG_1, LM_5, DSPP_1),
--	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
-+	LM_BLK("lm_2", LM_2, 0x46000, MIXER_MSM8998_MASK,
- 		&msm8998_lm_sblk, PINGPONG_2, LM_0, 0),
--	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
-+	LM_BLK("lm_3", LM_3, 0x47000, MIXER_MSM8998_MASK,
- 		&msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
--	LM_BLK("lm_4", LM_4, 0x48000, MIXER_SDM845_MASK,
-+	LM_BLK("lm_4", LM_4, 0x48000, MIXER_MSM8998_MASK,
- 		&msm8998_lm_sblk, PINGPONG_MAX, 0, 0),
--	LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK,
-+	LM_BLK("lm_5", LM_5, 0x49000, MIXER_MSM8998_MASK,
- 		&msm8998_lm_sblk, PINGPONG_3, LM_1, 0),
- };
- 
+@@ -1339,6 +1339,7 @@ static const struct dpu_vbif_cfg msm8998_vbif[] = {
+ 	.default_ot_wr_limit = 32,
+ 	.features = BIT(DPU_VBIF_QOS_REMAP) | BIT(DPU_VBIF_QOS_OTLIM),
+ 	.xin_halt_timeout = 0x4000,
++	.qos_rp_remap_size = 0x20,
+ 	.dynamic_ot_rd_tbl = {
+ 		.count = ARRAY_SIZE(msm8998_ot_rdwr_cfg),
+ 		.cfg = msm8998_ot_rdwr_cfg,
+@@ -1366,6 +1367,7 @@ static const struct dpu_vbif_cfg sdm845_vbif[] = {
+ 	.base = 0, .len = 0x1040,
+ 	.features = BIT(DPU_VBIF_QOS_REMAP),
+ 	.xin_halt_timeout = 0x4000,
++	.qos_rp_remap_size = 0x40,
+ 	.qos_rt_tbl = {
+ 		.npriority_lvl = ARRAY_SIZE(sdm845_rt_pri_lvl),
+ 		.priority_lvl = sdm845_rt_pri_lvl,
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 8cb6d1f25bf9..80bc09b1f1b3 100644
+index 80bc09b1f1b3..f70de97f492a 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -145,6 +145,7 @@ enum {
-  * @DPU_MIXER_SOURCESPLIT     Layer mixer supports source-split configuration
-  * @DPU_MIXER_GC              Gamma correction block
-  * @DPU_DIM_LAYER             Layer mixer supports dim layer
-+ * @DPU_MIXER_COMBINED_ALPHA  Layer mixer has combined alpha register
-  * @DPU_MIXER_MAX             maximum value
-  */
- enum {
-@@ -152,6 +153,7 @@ enum {
- 	DPU_MIXER_SOURCESPLIT,
- 	DPU_MIXER_GC,
- 	DPU_DIM_LAYER,
-+	DPU_MIXER_COMBINED_ALPHA,
- 	DPU_MIXER_MAX
- };
+@@ -709,6 +709,7 @@ struct dpu_vbif_qos_tbl {
+  * @ot_rd_limit        default OT read limit
+  * @ot_wr_limit        default OT write limit
+  * @xin_halt_timeout   maximum time (in usec) for xin to halt
++ * @qos_rp_remap_size  size of VBIF_XINL_QOS_RP_REMAP register space
+  * @dynamic_ot_rd_tbl  dynamic OT read configuration table
+  * @dynamic_ot_wr_tbl  dynamic OT write configuration table
+  * @qos_rt_tbl         real-time QoS priority table
+@@ -721,6 +722,7 @@ struct dpu_vbif_cfg {
+ 	u32 default_ot_rd_limit;
+ 	u32 default_ot_wr_limit;
+ 	u32 xin_halt_timeout;
++	u32 qos_rp_remap_size;
+ 	struct dpu_vbif_dynamic_ot_tbl dynamic_ot_rd_tbl;
+ 	struct dpu_vbif_dynamic_ot_tbl dynamic_ot_wr_tbl;
+ 	struct dpu_vbif_qos_tbl qos_rt_tbl;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
+index b757054e1c23..046854c3fbed 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
+@@ -30,7 +30,7 @@
+ #define VBIF_XIN_HALT_CTRL0		0x0200
+ #define VBIF_XIN_HALT_CTRL1		0x0204
+ #define VBIF_XINL_QOS_RP_REMAP_000	0x0550
+-#define VBIF_XINL_QOS_LVL_REMAP_000(v)	(v < DPU_HW_VER_400 ? 0x570 : 0x0590)
++#define VBIF_XINL_QOS_LVL_REMAP_000(vbif)	(VBIF_XINL_QOS_RP_REMAP_000 + (vbif)->cap->qos_rp_remap_size)
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-index 462f5082099e..25d2eba28e71 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-@@ -148,7 +148,7 @@ static int dpu_hw_lm_collect_misr(struct dpu_hw_mixer *ctx, u32 *misr_value)
- 	return 0;
- }
+ static void dpu_hw_clear_errors(struct dpu_hw_vbif *vbif,
+ 		u32 *pnd_errors, u32 *src_errors)
+@@ -163,7 +163,7 @@ static void dpu_hw_set_qos_remap(struct dpu_hw_vbif *vbif,
  
--static void dpu_hw_lm_setup_blend_config_sdm845(struct dpu_hw_mixer *ctx,
-+static void dpu_hw_lm_setup_blend_config_combined_alpha(struct dpu_hw_mixer *ctx,
- 	u32 stage, u32 fg_alpha, u32 bg_alpha, u32 blend_op)
- {
- 	struct dpu_hw_blk_reg_map *c = &ctx->hw;
-@@ -204,8 +204,8 @@ static void _setup_mixer_ops(const struct dpu_mdss_cfg *m,
- 		unsigned long features)
- {
- 	ops->setup_mixer_out = dpu_hw_lm_setup_out;
--	if (m->hwversion >= DPU_HW_VER_400)
--		ops->setup_blend_config = dpu_hw_lm_setup_blend_config_sdm845;
-+	if (test_bit(DPU_MIXER_COMBINED_ALPHA, &features))
-+		ops->setup_blend_config = dpu_hw_lm_setup_blend_config_combined_alpha;
- 	else
- 		ops->setup_blend_config = dpu_hw_lm_setup_blend_config;
- 	ops->setup_alpha_out = dpu_hw_lm_setup_color3;
+ 	c = &vbif->hw;
+ 
+-	reg_lvl = VBIF_XINL_QOS_LVL_REMAP_000(c->hwversion);
++	reg_lvl = VBIF_XINL_QOS_LVL_REMAP_000(vbif);
+ 	reg_high = ((xin_id & 0x8) >> 3) * 4 + (level * 8);
+ 	reg_shift = (xin_id & 0x7) * 4;
+ 
 -- 
 2.35.1
 
