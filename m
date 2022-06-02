@@ -1,53 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6575C53B0D4
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 02:40:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5EA53B0E3
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 03:08:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2828310E1C5;
-	Thu,  2 Jun 2022 00:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED4310E15B;
+	Thu,  2 Jun 2022 01:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B1AC10E108;
- Thu,  2 Jun 2022 00:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654130400; x=1685666400;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rgg9lrRoTbyGUqBXjkt3vAJoPX0NgN9jHGqc3UmmXnw=;
- b=MNomT42BRfWOtFjs6ViFz+uAEdAPaRq5Z9jsvUb2w6dtB8Pw81hxJkjg
- 2QUcbPMrz+1Jn4XXcamd46MIijmca9TBdqoJbNqN2OM5kGyKYXoyRKpBq
- ELMpJcqercD9zhgcnukkhsL0IIRSRVJA6dK4WNHRbp56kPkgyUuav0m0o
- w6SmCGHkR/3z2yOqwxXsVAQXWKeju3RPGKLiNVAputIElETh1w1S/zuoo
- O7gDWIx/vIRAmlDLO/OSJDvl7qFcZUxu5lKMEnzFuH+FXsYUSAP7AJ+Pc
- cHRQOc2JfoDr45nK6GALqDe9xo6bi/l9xUgvNLGpWRIu9F+zLFZKdb2eI Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10365"; a="301137993"
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="301137993"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2022 17:39:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,270,1647327600"; d="scan'208";a="606557433"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 01 Jun 2022 17:39:56 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nwYsW-0004aH-2c;
- Thu, 02 Jun 2022 00:39:56 +0000
-Date: Thu, 2 Jun 2022 08:39:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v1 5/5] drm/msm/dpu: make dpu hardware catalog static const
-Message-ID: <202206020857.GD3c79od-lkp@intel.com>
-References: <20220601151613.1513554-6-dmitry.baryshkov@linaro.org>
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC96B10E1E7
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 01:08:33 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id rs12so6989937ejb.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 18:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AMLk7uMNCtOe4gy9/LZgkLZRBX0ALCzfWfzDBXHnFo8=;
+ b=OYbmFRcqjOukBt1QgTghY6i5XSE1P4Lt88ABmn7yr1figRBOYiE95+mswItMYHSdNG
+ lviOuM27J5QIIeBwiLSJpAbPnwuY91jc54iyDcuCVAnICvUgcOifKGuJEsuhq8aGrj2A
+ h1gTJ/7WWYaX/+zmQRNAu0O5nZCrZo4IJc/ww=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AMLk7uMNCtOe4gy9/LZgkLZRBX0ALCzfWfzDBXHnFo8=;
+ b=0o7xVr8/mO8SbvsfNt9nvop+5UAq5nC/hf5RfkvsVqSnmYXFU9xsVEdiW1ZPboSBmd
+ uLS3FmzSZiLQaJ028OGGP2SPc5Z9fOq38QIo8iHn6Dx1uyhR8JtGOqRoQ69usCZFQNcz
+ REeFSjRkeYu/asAMBcXQx0USaFXHta1UUdqEBtzMEe0qze0wUjc/ojem7jRHq2BOx6fx
+ /S+8m5hH+p94MxbYF5VaaQRzV8lagpviOyMDBqpksAabzEg9sV/b7IQt4xbBjwnS3fjb
+ iAC+eRy1ta509lAcCec2OaTm0WmDqqi3s8erTHiSc90VwLUDRwqTlFuYOD8Siyayd5Vy
+ Jc6Q==
+X-Gm-Message-State: AOAM531YI1X6NmpiZRtLJQ7yXnoaqAMBy1vevJFvy6aeiDhxFFBwX2yk
+ Si1JXw79WWFHRb1jdudQgA1LUB/B+gt6nSqk
+X-Google-Smtp-Source: ABdhPJzUmnJ+eN02wXnc5YwaechYFrJQ7zT9ZtInFFjVGz450pECtBfJ6Gai0G67ZS8hdPCu/ULeAw==
+X-Received: by 2002:a17:907:1b1a:b0:703:a290:98f1 with SMTP id
+ mp26-20020a1709071b1a00b00703a29098f1mr2039251ejc.418.1654132112095; 
+ Wed, 01 Jun 2022 18:08:32 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
+ [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
+ w2-20020a056402268200b0042ddd08d5f8sm1870607edd.2.2022.06.01.18.08.29
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Jun 2022 18:08:30 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id
+ r123-20020a1c2b81000000b0039c1439c33cso1966036wmr.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 18:08:29 -0700 (PDT)
+X-Received: by 2002:a7b:cb91:0:b0:397:3225:244 with SMTP id
+ m17-20020a7bcb91000000b0039732250244mr30980346wmi.68.1654132109585; Wed, 01
+ Jun 2022 18:08:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220601151613.1513554-6-dmitry.baryshkov@linaro.org>
+References: <CAK8P3a2Zg2QDS1_Ysn8-Zqqd+K7bbTFS7JV7gPabp6nvPiKaog@mail.gmail.com>
+ <91E67F46-A3C7-4159-9E0C-C6C6306F3669@inria.fr>
+ <CAK8P3a2iAsemAQdbTZ_E7GGGCXAOeWbjSjLgXEsd5sg_buZWhw@mail.gmail.com>
+ <CAHk-=wgO0V9OdY+DFm-f0qZYMyFSm0ptReO+_qgSTEpBLtFV7Q@mail.gmail.com>
+ <d971a684-ccd9-3839-1e30-c166fd55cf49@inria.fr>
+In-Reply-To: <d971a684-ccd9-3839-1e30-c166fd55cf49@inria.fr>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 1 Jun 2022 18:08:13 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiViikY0szsJGipSxFmMwdsvxjm7SwDfwNfMHYvQ64kAA@mail.gmail.com>
+Message-ID: <CAHk-=wiViikY0szsJGipSxFmMwdsvxjm7SwDfwNfMHYvQ64kAA@mail.gmail.com>
+Subject: Re: mainline build failure due to f1e4c916f97f ("drm/edid: add EDID
+ block count and size helpers")
+To: Keisuke Nishimura <keisuke.nishimura@inria.fr>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>, 
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Ayush Sawal <ayush.sawal@chelsio.com>, 
+ Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+ Rohit Maheshwari <rohitm@chelsio.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,125 +83,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jani Nikula <jani.nikula@intel.com>,
+ Viresh Kumar <vireshk@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Julia Lawall <Julia.Lawall@inria.fr>, David Airlie <airlied@linux.ie>,
+ SoC Team <soc@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Shiraz Hashim <shiraz.linux.kernel@gmail.com>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+On Wed, Jun 1, 2022 at 3:28 PM Keisuke Nishimura
+<keisuke.nishimura@inria.fr> wrote:
+>
+>
+> I found 13 definitions of packed structure that contains:
+>  > - spinlock_t
+>  > - atomic_t
+>  > - dma_addr_t
+>  > - phys_addr_t
+>  > - size_t
+>  > - struct mutex
+>  > - struct device
+>
+> - raw_spinlock_t
 
-I love your patch! Yet something to improve:
+Ok, so I don't think dma_addr_t/phys_addr_t/size_t are problematic,
+they are just regular integers.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on next-20220601]
-[cannot apply to v5.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+And 'struct device' is problematic only as it then contains any of the
+atomic types (which it does)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-clean-up-the-hw-catalog-init/20220601-231925
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: arm64-randconfig-r003-20220531 (https://download.01.org/0day-ci/archive/20220602/202206020857.GD3c79od-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c825abd6b0198fb088d9752f556a70705bc99dfd)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/ae9332859e2098bf10e3c915aa912fc851b7541c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-clean-up-the-hw-catalog-init/20220601-231925
-        git checkout ae9332859e2098bf10e3c915aa912fc851b7541c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/msm/
+> security/tomoyo/common.h: atomic_t in tomoyo_shared_acl_head
+> drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls.h: spinlock_t in key_map
+> arch/s390/include/asm/kvm_host.h: atomic_t in kvm_s390_sie_block
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+So these do look problematic.
 
-All errors (new ones prefixed by >>):
+I'm not actually clear on why tomoyo_shared_acl_head would be packed.
+That makes no sense to me.
 
->> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1747:10: error: initializer element is not a compile-time constant
-           .perf = msm8998_perf_data,
-                   ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1770:13: error: initializer element is not a compile-time constant
-           .dma_cfg = sdm845_regdma,
-                      ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1794:13: error: initializer element is not a compile-time constant
-           .dma_cfg = sdm845_regdma,
-                      ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1820:13: error: initializer element is not a compile-time constant
-           .dma_cfg = sm8150_regdma,
-                      ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1844:13: error: initializer element is not a compile-time constant
-           .dma_cfg = sm8150_regdma,
-                      ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1872:13: error: initializer element is not a compile-time constant
-           .dma_cfg = sm8250_regdma,
-                      ^~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1893:10: error: initializer element is not a compile-time constant
-           .perf = sc7280_perf_data,
-                   ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:1916:13: error: initializer element is not a compile-time constant
-           .dma_cfg = sdm845_regdma,
-                      ^~~~~~~~~~~~~
-   8 errors generated.
+Same goes for key_map, it's not clear what the reason for that
+__packed is, and it's clearly bogus. It might work, almost by mistake,
+but it's wrong to try to pack that spinlock_t.
 
+The s390 kvm use actually looks fine: the structure is packed, but
+it's also aligned, and the spin-lock is at the beginning, so the
+"packing" part is about the other members, not the first one.
 
-vim +1747 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+The two that look wrong look like they will probably work anyway
+(they'll presumably be effectively word-aligned, and that's sufficient
+for spinlocks in practice).
 
-591e34a091d17df Krishna Manikandan         2021-04-06  1702  
-5334087ee7438fa Loic Poulain               2022-02-14  1703  static const struct dpu_perf_cfg qcm2290_perf_data = {
-5334087ee7438fa Loic Poulain               2022-02-14  1704  	.max_bw_low = 2700000,
-5334087ee7438fa Loic Poulain               2022-02-14  1705  	.max_bw_high = 2700000,
-5334087ee7438fa Loic Poulain               2022-02-14  1706  	.min_core_ib = 1300000,
-5334087ee7438fa Loic Poulain               2022-02-14  1707  	.min_llcc_ib = 0,
-5334087ee7438fa Loic Poulain               2022-02-14  1708  	.min_dram_ib = 1600000,
-5334087ee7438fa Loic Poulain               2022-02-14  1709  	.min_prefill_lines = 24,
-5334087ee7438fa Loic Poulain               2022-02-14  1710  	.danger_lut_tbl = {0xff, 0x0, 0x0},
-5334087ee7438fa Loic Poulain               2022-02-14  1711  	.safe_lut_tbl = {0xfff0, 0x0, 0x0},
-5334087ee7438fa Loic Poulain               2022-02-14  1712  	.qos_lut_tbl = {
-5334087ee7438fa Loic Poulain               2022-02-14  1713  		{.nentry = ARRAY_SIZE(qcm2290_qos_linear),
-5334087ee7438fa Loic Poulain               2022-02-14  1714  		.entries = qcm2290_qos_linear
-5334087ee7438fa Loic Poulain               2022-02-14  1715  		},
-5334087ee7438fa Loic Poulain               2022-02-14  1716  	},
-5334087ee7438fa Loic Poulain               2022-02-14  1717  	.cdp_cfg = {
-5334087ee7438fa Loic Poulain               2022-02-14  1718  		{.rd_enable = 1, .wr_enable = 1},
-5334087ee7438fa Loic Poulain               2022-02-14  1719  		{.rd_enable = 1, .wr_enable = 0}
-5334087ee7438fa Loic Poulain               2022-02-14  1720  	},
-5334087ee7438fa Loic Poulain               2022-02-14  1721  	.clk_inefficiency_factor = 105,
-5334087ee7438fa Loic Poulain               2022-02-14  1722  	.bw_inefficiency_factor = 120,
-5334087ee7438fa Loic Poulain               2022-02-14  1723  };
-25fdd5933e4c0f5 Jeykumar Sankaran          2018-06-27  1724  /*************************************************************
-ae9332859e2098b Dmitry Baryshkov           2022-06-01  1725   * Hardware catalog
-25fdd5933e4c0f5 Jeykumar Sankaran          2018-06-27  1726   *************************************************************/
-25fdd5933e4c0f5 Jeykumar Sankaran          2018-06-27  1727  
-ae9332859e2098b Dmitry Baryshkov           2022-06-01  1728  static const struct dpu_mdss_cfg msm8998_dpu_cfg = {
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1729  	.caps = &msm8998_dpu_caps,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1730  	.mdp_count = ARRAY_SIZE(msm8998_mdp),
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1731  	.mdp = msm8998_mdp,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1732  	.ctl_count = ARRAY_SIZE(msm8998_ctl),
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1733  	.ctl = msm8998_ctl,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1734  	.sspp_count = ARRAY_SIZE(msm8998_sspp),
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1735  	.sspp = msm8998_sspp,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1736  	.mixer_count = ARRAY_SIZE(msm8998_lm),
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1737  	.mixer = msm8998_lm,
-6452cbd6f04cd57 Dmitry Baryshkov           2022-02-22  1738  	.dspp_count = ARRAY_SIZE(msm8998_dspp),
-6452cbd6f04cd57 Dmitry Baryshkov           2022-02-22  1739  	.dspp = msm8998_dspp,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1740  	.pingpong_count = ARRAY_SIZE(sdm845_pp),
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1741  	.pingpong = sdm845_pp,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1742  	.intf_count = ARRAY_SIZE(msm8998_intf),
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1743  	.intf = msm8998_intf,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1744  	.vbif_count = ARRAY_SIZE(msm8998_vbif),
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1745  	.vbif = msm8998_vbif,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1746  	.reg_dma_count = 0,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13 @1747  	.perf = msm8998_perf_data,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1748  	.mdss_irqs = IRQ_SM8250_MASK,
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1749  };
-94391a14fc27383 AngeloGioacchino Del Regno 2022-01-13  1750  
+But let's cc the tomoyo and chelsio people.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+                 Linus
