@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 179E453B9C3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 15:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAF453BA2F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 15:56:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CDB1112201;
-	Thu,  2 Jun 2022 13:32:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EACC5112B05;
+	Thu,  2 Jun 2022 13:56:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com
- [IPv6:2607:f8b0:4864:20::a30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20356112201
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 13:32:47 +0000 (UTC)
-Received: by mail-vk1-xa30.google.com with SMTP id n20so2172249vkl.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 06:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1jE3omidoDC8ojZ7FhHr9+lAZVHzqEYQnyQPLqfzIME=;
- b=HGoExsnJpq0YlopdoXx3Ur0MkhNtgva2ncdnsR+rNjt09dPOSbt4ytiXjL7GtoiH3V
- ZNw4pZ/17rxW9YpwocHj+6JSMghqJpjZQ1Poaoi35fjgDfSrBVOonnq+wSazLOA/xti1
- rsNMgpf+vM8vs3yCJvQcvW6EPWyLmhWzjm485pgoTOKYC/7OMsPw/Oo13+A2Mx4xQ8EU
- lkm6zw06FY6YoAIY8y6m+cUHn0GC1RQKZuMf4/06VptAOHE51McCLhE+Ctpfzm2Xsg1D
- q5TJC8KQl8vzywMa4o57iERT/Dnn+M/ULj+ctcoH1i1E5K4xpraZwa7zeNLMHMbRMFOL
- Bsyg==
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
+ [209.85.160.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29005112B05
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 13:56:06 +0000 (UTC)
+Received: by mail-oa1-f45.google.com with SMTP id
+ 586e51a60fabf-f2bb84f9edso6792235fac.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 06:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1jE3omidoDC8ojZ7FhHr9+lAZVHzqEYQnyQPLqfzIME=;
- b=GESV4yHz9jzGfu3YE8amEk8PjCBOvragHrraWS76puO4kIaPiXhAmQbYXZAhe5qBbj
- N4Hx8MkaKzyPcNfw/Xc2txiqcvu1iMej5lQmQtkoAwNvH6QViL0MZrsI2QR7RSfUZAO/
- d1m5jZBuF+3BcwNXe8jbBIz6Yg0I+bGFxyGDAJLJ0bjdz2G0MgQiwE+AhbylTu1Ugi6v
- hKSn+tG/C8VemhoomLW1CoIkL9Sh/vo+vrQjybv9ykadGWOJ04KXJRXctEopSy5TBqHv
- DriG5ft7lc2A483fqCgJ6AQdz0UxWQMEPADh5kW7iCioYX3nbncBlIAGdr8gI1Xrai26
- E9dA==
-X-Gm-Message-State: AOAM530FI8fvDHt3Mt3SiGPtGX/xjAOrsYPzKDQoI/LfPg6F7qhWPqKw
- CuMYMB9KhN9AKRx64KrRnQb0AaBGn1+giGKxLJs=
-X-Google-Smtp-Source: ABdhPJxyDg4FcSw8NEXcWUSdUhwwVo8AlVpTqXszNu4D6lbF6AnIF6xzUiFKSyVTsdaFcNQCGowgnKX4sgRzBmmqapQ=
-X-Received: by 2002:a05:6122:981:b0:359:1e72:bfbb with SMTP id
- g1-20020a056122098100b003591e72bfbbmr13892004vkd.2.1654176766134; Thu, 02 Jun
- 2022 06:32:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ItU4+oZlqrhVsTFDZffq1bHsfD8LPaRiGahfhp8yC6g=;
+ b=tz1tebyEGI/yneBVBasv+TmxrqX50fgEd2fVimnd9mWRHNSyhUpAVsCMtpcP7PLKOR
+ zCYBZGhN4D0VJTSOySqjlE3xmIQ0jd4Am0SrCz4KNThzmXOhuyOUIQgjXsAKgN65Xeeb
+ sv2QWD02D4IjWZjsCpdSA55NtAwpxroczqaQtXs30AFFvW+OMkAs05fz2Dox9mE9JF/i
+ sQcTW8/aQMkplM0opm9VPEfkVR8F1WD3FTqyqAMcJGQyQSuRYk7l+Fa0uqpdaocZUhGP
+ 6eb+nlibomjR76CEB9K9rVDcQGBOArxkX7V4lkGL168BeaV/+x129R9PNBT9qyNaJJj8
+ s+pA==
+X-Gm-Message-State: AOAM530ma5AoHAMHCC8Xkhn5SQ2s1LECAUGpLGUxtj3LpA2QSP+MdbAC
+ kEjRD+rHtyKK1abDVW24fw==
+X-Google-Smtp-Source: ABdhPJxg9znekohzZ8yCO9gbFG1TwRG0wCp2dzp7Q9YlFVk8Z/w1M4q2XVJue+i1UtPEKiJWdkNyqA==
+X-Received: by 2002:a05:6870:4799:b0:f1:46f8:6ea4 with SMTP id
+ c25-20020a056870479900b000f146f86ea4mr2783044oaq.223.1654178165323; 
+ Thu, 02 Jun 2022 06:56:05 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ f3-20020a05680807c300b00325cda1ffa8sm2212823oij.39.2022.06.02.06.56.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jun 2022 06:56:04 -0700 (PDT)
+Received: (nullmailer pid 2197386 invoked by uid 1000);
+ Thu, 02 Jun 2022 13:56:04 -0000
+Date: Thu, 2 Jun 2022 08:56:04 -0500
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: rt4831: Add the new property
+ for ocp level selection
+Message-ID: <20220602135604.GA2194286-robh@kernel.org>
+References: <1653534995-30794-1-git-send-email-u0084500@gmail.com>
+ <1653534995-30794-2-git-send-email-u0084500@gmail.com>
+ <1c7ab94c-a736-c629-bd8c-8a974803e2b9@linaro.org>
+ <CADiBU39jZ6TdYZoH80m4R-X2_fUXZOvDA4yUd_TQdPzBJLE+JA@mail.gmail.com>
+ <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
 MIME-Version: 1.0
-References: <20220601110249.569540-1-pbrobinson@gmail.com>
- <20220601110249.569540-5-pbrobinson@gmail.com>
- <9e096f63-2c8e-b4b7-6d27-79282ecc4e1b@i2se.com>
-In-Reply-To: <9e096f63-2c8e-b4b7-6d27-79282ecc4e1b@i2se.com>
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Thu, 2 Jun 2022 14:32:35 +0100
-Message-ID: <CALeDE9O8jorjuJQAAUy_bnCnRiq+fWWv+p=K+kM7n6mRHAZb5Q@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] ARM: dts: bcm2711: Enable V3D
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <076d53d3-6062-686f-8e45-14c5f936bbf6@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,79 +69,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Emma Anholt <emma@anholt.net>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- maxime@cerno.tech
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ ChiYuan Huang <u0084500@gmail.com>, jingoohan1@gmail.com, deller@gmx.de,
+ lucas_tsai@richtek.com, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>,
+ cy_huang <cy_huang@richtek.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+On Thu, May 26, 2022 at 12:32:12PM +0200, Krzysztof Kozlowski wrote:
+> On 26/05/2022 10:13, ChiYuan Huang wrote:
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年5月26日 週四 下午4:06寫道：
+> >>
+> >> On 26/05/2022 05:16, cy_huang wrote:
+> >>> From: ChiYuan Huang <cy_huang@richtek.com>
+> >>>
+> >>> Add the new property for ocp level selection.
+> >>>
+> >>> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> >>> ---
+> >>>  .../bindings/leds/backlight/richtek,rt4831-backlight.yaml         | 8 ++++++++
+> >>>  include/dt-bindings/leds/rt4831-backlight.h                       | 5 +++++
+> >>>  2 files changed, 13 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+> >>> index e0ac686..c1c59de 100644
+> >>> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+> >>> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
+> >>> @@ -47,6 +47,14 @@ properties:
+> >>>      minimum: 0
+> >>>      maximum: 3
+> >>>
+> >>> +  richtek,bled-ocp-sel:
+> >>
+> >> Skip "sel" as it is a shortcut of selection. Name instead:
+> >> "richtek,backlight-ocp"
+> >>
+> > OK, if so, do I need to rename all properties from 'bled' to 'backlight' ?
+> > If  only this property is naming as 'backlight'. it may conflict with
+> > the others like as "richtek,bled-ovp-sel".
+> 
+> Ah, no, no need.
+> 
+> >>
+> >>> +    description: |
+> >>> +      Backlight OCP level selection, currently support 0.9A/1.2A/1.5A/1.8A
+> >>
+> >> Could you explain here what is OCP (unfold the acronym)?
+> > Yes. And the full name is 'over current protection'.
+> 
+> Thanks and this leads to second thing - you encode register value
+> instead of logical value. This must be a logical value in mA, so
+> "richtek,bled-ocp-microamp".
 
-> Am 01.06.22 um 13:02 schrieb Peter Robinson:
-> > This adds the entry for V3D for bcm2711 (used in the Raspberry Pi 4)
-> > and the associated firmware clock entry.
-> >
-> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
-> > ---
-> > Changes since v5:
-> > - Move the firmware clock to bcm2711-rpi.dtsi
-> >
-> >   arch/arm/boot/dts/bcm2711-rpi.dtsi |  4 ++++
-> >   arch/arm/boot/dts/bcm2711.dtsi     | 11 +++++++++++
-> >   2 files changed, 15 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/bcm2711-rpi.dtsi b/arch/arm/boot/dts/bcm2711-rpi.dtsi
-> > index ca266c5d9f9b..98817a6675b9 100644
-> > --- a/arch/arm/boot/dts/bcm2711-rpi.dtsi
-> > +++ b/arch/arm/boot/dts/bcm2711-rpi.dtsi
-> > @@ -69,6 +69,10 @@ blconfig: nvram@0 {
-> >       };
-> >   };
-> >
-> > +&v3d {
-> > +     clocks = <&firmware_clocks 5>;
-> > +};
-> > +
-> >   &vchiq {
-> >       interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
-> >   };
-> > diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-> > index 89af57482bc8..177662257b16 100644
-> > --- a/arch/arm/boot/dts/bcm2711.dtsi
-> > +++ b/arch/arm/boot/dts/bcm2711.dtsi
-> > @@ -601,6 +601,17 @@ genet_mdio: mdio@e14 {
-> >                               #size-cells = <0x0>;
-> >                       };
-> >               };
-> > +
-> > +             v3d: gpu@7ec00000 {
-> > +                     compatible = "brcm,bcm2711-v3d";
->
-> unfortunately this doesn't match with patch #3 anymore. Except of this
-> everything looks good here.
+We already have common properties for setting current of LEDs. We should 
+use that here I think.
 
-Good catch, have updated locally, I'll send out a new rev tomorrow,
-will give it a day to see if there's other feedback,
-
-P
-
-> Stefan
->
-> > +                     reg = <0x0 0x7ec00000 0x4000>,
-> > +                           <0x0 0x7ec04000 0x4000>;
-> > +                     reg-names = "hub", "core0";
-> > +
-> > +                     power-domains = <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
-> > +                     resets = <&pm BCM2835_RESET_V3D>;
-> > +                     interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
-> > +             };
-> >       };
-> >   };
-> >
+Rob
