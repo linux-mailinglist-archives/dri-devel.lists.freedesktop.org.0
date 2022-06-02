@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1FB53B4DC
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 10:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACEF53B4F0
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 10:25:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D653F10E5F4;
-	Thu,  2 Jun 2022 08:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5457A112BDE;
+	Thu,  2 Jun 2022 08:25:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4180C10E5F4
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 08:18:53 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id q123so4148211pgq.6
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 01:18:53 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5A6112BDE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 08:25:13 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id x12so4150304pgj.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 01:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9x70fvT7190YbXzYteL9ewuvFT6uvelNfhT9PEGH0Jo=;
- b=l3pImPs02AnbeW4PG6d/LLREKZDDPuOgmTR7BZEc8TFrQLuOHeR5H7dBdjLTSUIMJq
- MW2ss1m0nACsyV8pT5yo14DvK6odeFduMzd+hFmR1X1ymeFIqUba+q7gQJTR0O5fx8GV
- YM+SaHyioTlula8sifqJ+/RZtFC0G12A0gP5mvZWZaf/WAJR34YssAkGLHRRsmeEBkDo
- DA28WTc89C+tVtCBx00I3whLNqR7i/sRfb8gQXMJVJUy0Ph/565BWG+474XPruA6OGrO
- awIKjmmKhQn/Psondu1fRyAWE4+XSImuJR99/VLdvbNnq1+DjQTBL7rkbtEuN5joZi8D
- 2W0Q==
+ :cc; bh=x2NGVK3ecMQmaSm/x/Ltq/st8dTSwNqY+rsrQ93ARxg=;
+ b=jc6TkZPdF34qvkPaOsthSV7mmEZvVf2sOSBCZE0TIrNEZQ0qLy0uFRR2GN0uwmVGKM
+ Y9FSd486m0gUl7cG6gJiMTxfjpzF5gLQe03S2ni4wyQN11A4eqqG53a3F5PxR8CMun5E
+ XiBcFzESnMdpb8EiQ8S3z72pu4lz122VAyWoC7CoBKJTSP373LAotX5OH0EQeFRt9LdZ
+ Bx1n/fLCgBzSw9DHz/Jd5fxq8CLkZRYIof8CA3lq870EXSdQzUf+hPjPcqFiIrzB5RvZ
+ Z2uFpZwT1zOREgraxUWrtCFiiGqfwyAfSRqdpl1asAS+n2xKgL8QWVG4c3uO9izlCsl9
+ pDFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9x70fvT7190YbXzYteL9ewuvFT6uvelNfhT9PEGH0Jo=;
- b=h5uJx87YKblENgbV7M/P88ZzaKZVrP37QrP9eSJEkOt1H1Lbo3Yjd96yA7ukd4/W+e
- M+nJSpby6PNABEAhb3hf9CigzVLXmVE0/L1+e568z78PobATI/IwEWyKmDc2F/aFZRA9
- a97pLt8sjUXH12Iyr9pHAfVVX8YAmLmR6kJOEkbwLJv/b/Jb7xVfoZpGLRgLfCNpFJry
- Utec9NYGNEuMusRPdLDG7Cedpgv9kl+b4x3BhYFpWJjvIZHua9NVSIp/QmyV+AzoY7ka
- z3m+E3DFC9HQkzdgtRluDD0M7NtjxSpfTgjzacM+xfFJTOG2qi2BhlKXjoy0XRQN1UoV
- zyKg==
-X-Gm-Message-State: AOAM531/PSLGVWtFxuIG5Uzdjs+CPwxZ2r8D+lU2qoDv8b1UIdMgKR3I
- dJghiXtmaATlHIrh6B6drK9UTy2VmXznrwHj+/A=
-X-Google-Smtp-Source: ABdhPJyG4+cUsja7ESmtAXhM7XYcDz7HxGU78eyY7PjZw8CmobXFOmEGx/kKArbjttnCiuftnEG8a5gfQ6QWrpsd1JI=
-X-Received: by 2002:a63:8749:0:b0:3fc:9fd7:1e20 with SMTP id
- i70-20020a638749000000b003fc9fd71e20mr3253985pge.619.1654157932832; Thu, 02
- Jun 2022 01:18:52 -0700 (PDT)
+ bh=x2NGVK3ecMQmaSm/x/Ltq/st8dTSwNqY+rsrQ93ARxg=;
+ b=y/VTOIHKuUFOTH5q080RBXvOzITzs3OETdc0jaiPA/40mA8wclQhhQ5jtX/NGzuG7Z
+ 6MnMSLR+4XX6dBJ62Gsgw9aL6vNChf2PCktJhCkUiHeHlbJ48tjGULNKwm9G2AqQ1yfc
+ 1w4Gu+wBYNMv+7312JSQm7twC6F6DqRvz/LzL+XpxLEyztvbREf9NtBVgE66GJKEPkN6
+ PG55LzgsDIwNOYfVX6q/GO1D55gSVMgSrs+vNQdxn7jewtXVl9MpzazVIfY12a/NQp8+
+ ZodVRBDl9Iteh1YoxxTbizFRyHp62ZDusSpsdsHChJ2QsHYDL4QMFyL47vs/jdQlk6/6
+ M8UA==
+X-Gm-Message-State: AOAM531AUZzvc7lk8xypQGCOEbz33vw1bRtmanx1YpWrpBsMHxEVhA3+
+ 3L96LWSLth/wFDRRfEaFsgkli7aOhFg96naMxbk=
+X-Google-Smtp-Source: ABdhPJxdaxZfVyttIyFl2Xtrm0P2nA2t98lJywz/DUY7UhvNHVye505VrOw5VIzkRXBl6bMh8PTdM2L7cWgK0/xxPWQ=
+X-Received: by 2002:a63:8449:0:b0:3fc:85a5:5b69 with SMTP id
+ k70-20020a638449000000b003fc85a55b69mr3191172pgd.261.1654158313021; Thu, 02
+ Jun 2022 01:25:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220505080954.84416-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220505080954.84416-1-jiapeng.chong@linux.alibaba.com>
+References: <tencent_E15665F62AAE22B108A00645874D3F53CF07@qq.com>
+In-Reply-To: <tencent_E15665F62AAE22B108A00645874D3F53CF07@qq.com>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 2 Jun 2022 10:18:41 +0200
-Message-ID: <CAMeQTsZVaqw8oj+Ovk+jbKK83XJ10e4XdE7=ibHBRs=BcE_v0g@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500: Clean up some inconsistent indenting
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Date: Thu, 2 Jun 2022 10:25:01 +0200
+Message-ID: <CAMeQTsYNQ6_zfVKLS5pdA2q4s6UnHVWNmyG2ijGDnmDnzzetqw@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/gma500: Fix spelling typo in comment
+To: 1064094935@qq.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,51 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Abaci Robot <abaci@linux.alibaba.com>,
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+ pengfuyuan <pengfuyuan@kylinos.cn>, k2ci <kernel-bot@kylinos.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 5, 2022 at 10:10 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+On Fri, May 27, 2022 at 5:42 AM <1064094935@qq.com> wrote:
 >
-> Eliminate the follow smatch warning:
+> From: pengfuyuan <pengfuyuan@kylinos.cn>
 >
-> drivers/gpu/drm/gma500/cdv_device.c:250 cdv_errata() warn:
-> inconsistent indenting.
+> Fix spelling typo in comment.
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-
-Hi Jiapeng,
-One entire patch to remove a single whitespace seems a bit excessive.
-Would you mind fixing a few more of the code style issues in
-cdv_device.c while you're at it?
-
-Checkpatch can give you a few hints:
-./scripts/checkpatch.pl -f drivers/gpu/drm/gma500/cdv_device.c
-
-Thanks
-Patrik
-
+> Reported-by: k2ci <kernel-bot@kylinos.cn>
+> Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
 > ---
->  drivers/gpu/drm/gma500/cdv_device.c | 2 +-
+>  drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
-> index dd32b484dd82..09684c42cbf6 100644
-> --- a/drivers/gpu/drm/gma500/cdv_device.c
-> +++ b/drivers/gpu/drm/gma500/cdv_device.c
-> @@ -247,7 +247,7 @@ static void cdv_errata(struct drm_device *dev)
->          *      Bonus Launch to work around the issue, by degrading
->          *      performance.
->          */
-> -        CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
-> +       CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
->  }
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h b/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h
+> index 600e79744d68..7efbd7c45c90 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h
+> +++ b/drivers/gpu/drm/gma500/psb_intel_sdvo_regs.h
+> @@ -371,7 +371,7 @@ struct psb_intel_sdvo_tv_format {
 >
->  /**
+>  #define SDVO_CMD_SET_TV_FORMAT                         0x29
+>
+> -/** Returns the resolutiosn that can be used with the given TV format */
+> +/** Returns the resolution that can be used with the given TV format */
+
+Hi,
+Can you also fix the /** at the start of the comment. One patch for
+both changes is fine.
+
+-Patrik
+
+>  #define SDVO_CMD_GET_SDTV_RESOLUTION_SUPPORT           0x83
+>  struct psb_intel_sdvo_sdtv_resolution_request {
+>      unsigned int ntsc_m:1;
 > --
-> 2.20.1.7.g153144c
+> 2.25.1
 >
+>
+> No virus found
+>                 Checked by Hillstone Network AntiVirus
