@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867F853BBC1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDA653BBF0
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 17:56:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8667E112FEF;
-	Thu,  2 Jun 2022 15:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38E35112ABE;
+	Thu,  2 Jun 2022 15:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0006F113002
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:43:15 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id er5so6766781edb.12
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 08:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tItmpBNcK9FHXPIJEMXrfEZtJRiIUh3AoklAxkdlT84=;
- b=j+bgVan19qa0f7G5dGdMjVDWGzWuxihjG+DEuTddfYGwjEZLnIKyKDDcDHJFqJ5ol1
- sv+Stvk/IYFv+eaWoXBboYmgeB10jpJHm1SWSSOi7cu8x9qYwAC+EWsN+JPeLTIVw6rW
- IqdLXFxCD31+4Xu+4LUjGXNiImtm4a+iTPByE=
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB35112ABE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 15:56:25 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id c196so5117846pfb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 08:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Tu7jo/PyJIG6BDHX/FMNU8mRbHE8qx0k2AbAIgv/aSw=;
+ b=G4jo1+hJKSw+rgStl1RDyAKlzn6sdzcOvMqZYnRb8VwJFHqt9vu6FxzP5RWkU9flVa
+ POSqy3npwwMgIp5CSWeCDD1msIdEE0UJjR37Kg9yk/7pXH7VhI0kAHk/vXVFVy9GnNUI
+ 7Ra/AA/R/y67VxnW+DDlOf2xtVdkxCiN+0ATosFJ6EvK/2SeZVEujPT0cCnykHN0NBo3
+ 5BgOwix0MqKOxrPNLprkQVdYsSeIRIywIv8Bq2NGzFpCOZUp8FGQ1iFf4Z+JZAO9jnpY
+ WaV40vB+3QAwC94rW6xWVbh2i/NAqfm04HyesLf1jqelyBmJXGDRRXDPlTbh/y7gc5zF
+ Uguw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tItmpBNcK9FHXPIJEMXrfEZtJRiIUh3AoklAxkdlT84=;
- b=d0AfQxB0jqcFSDLK7k+9B6QhqwkaAAt6tnkHR50c+kFPQBYezKkQCeRyIMF3K1rUCl
- hhagqZ4OuTjf1yJm7KDYMzluxx649D4tDT91+OOS41GMIwCNYxpDLsm4PN2QCOoNK8Cl
- laqPZqIN10UaL05ir7SZ7ZUAMGmfadVtWRkeog2UJqbh//dXnS0USp1521lDiyjQ+/jH
- wPz7JLgzQoVV16rAlnOACkuYRmnc+ISip7dQXfWNdtwudH21+U7tVBExFyh7ApMN3Sdr
- m9kKudf610fImDcrJJmHOaTXqldt3cq4xtGr+nSBkaF6vCj/wkMFVuOKMxIbPCIbgqAm
- VNOA==
-X-Gm-Message-State: AOAM533H9uZHeeG1+YcmTEr1NhSv0SOmfULFufPXDHh+pOsybTJsWAX2
- kohbG9cqGzoCd3N/tpKZog+VCHUDIA4X7zEqywb5Cg==
-X-Google-Smtp-Source: ABdhPJwnvDO585gvcUh+LWlmAkorI+qc9TXY6HwKEbbxGn+yo0tVFWGiXWI6fMlEVcfGgakrfZHzDMQtzLA9G33H7IY=
-X-Received: by 2002:aa7:cacb:0:b0:428:b435:dc43 with SMTP id
- l11-20020aa7cacb000000b00428b435dc43mr5961225edt.123.1654184594501; Thu, 02
- Jun 2022 08:43:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Tu7jo/PyJIG6BDHX/FMNU8mRbHE8qx0k2AbAIgv/aSw=;
+ b=S6dxLMurzFsfWmiflnATPAHXJxnOY0i9ug/9t/4FuLnQ3mOuFBgQSlZ8P5UryB0Uij
+ OtxsmyNKsShu9bYiFYxKwhhMsXhrxGjTLU6aYhABDaBhKoOgybv8grVFvFq1x43IWqMV
+ Pks0g/Z8G42qtHnLjZVPST0YKe9eVWxkJvUXSdik7b8vH6tDTInug8Czdl+AdOF+4JQX
+ UKF0kgzAzj5p6aRkYJZ1LeAdp6fQHYzT3DWkYRsKsNpxo8mkEtRvofSg89fZyLDfvhhg
+ YaGmqRF2bMH/3+cMTKj30AD3JTMYIvOb2mhIi/W227EYO5ArxiOi1SHEgXptTbHYEFGS
+ BLNQ==
+X-Gm-Message-State: AOAM5311DIDnLZHOF3F82jzQws9c4mmidyG6bBDST033F1BUqp6I1dLZ
+ tBPKjxnqvvQirBQwVcdBKdo=
+X-Google-Smtp-Source: ABdhPJwDRdxm8qjdYFCIqC2XRn1Qg5sgd/UC1C6tDrjH0A1hr+j6rW5IwdSM13nzTycWCfPhVjncMQ==
+X-Received: by 2002:a05:6a00:815:b0:518:9905:de06 with SMTP id
+ m21-20020a056a00081500b005189905de06mr5854249pfk.76.1654185384781; 
+ Thu, 02 Jun 2022 08:56:24 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+ by smtp.googlemail.com with ESMTPSA id
+ z15-20020a63b90f000000b003fc95548840sm3548205pge.36.2022.06.02.08.56.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Jun 2022 08:56:23 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/tegra: dc: rgb: Fix refcount leak in tegra_dc_rgb_probe
+Date: Thu,  2 Jun 2022 19:56:15 +0400
+Message-Id: <20220602155615.43277-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
- <20220330085254.yow3w4frr56wllou@houat> <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
-In-Reply-To: <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 2 Jun 2022 21:13:03 +0530
-Message-ID: <CAMty3ZAKGVNBFPcFdnVORbmzKUk_qYZjEkfBmx8PKxH-1CpSwA@mail.gmail.com>
-Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,120 +70,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linmq006@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+of_get_child_by_name() returns a node pointer with refcount
+incremented, we should use of_node_put() on it when not need anymore.
+So add of_node_put() in error paths.
 
-On Wed, Mar 30, 2022 at 3:27 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Mar 30, 2022 at 10:52:54AM +0200, Maxime Ripard wrote:
-> > On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
-> > > Hi all,
-> > >
-> > > I have implemented runtime display switching in the MIPI switch design
-> > > where LVDS and HDMI bridges are selected with the help of runtime
-> > > GPIO.
-> > >
-> > > Initial discussion on the same can be found here,
-> > > https://www.spinics.net/lists/dri-devel/msg318524.html
-> > >
-> > > The implementation has been done by creating each connector at
-> > > runtime. The default boot will create the LVDS connector and based on
-> > > the HDMI plug-in the ISR.
-> > >
-> > > 1. forcing the LVDS to disconnect
-> > > 2. call drm_kms_helper_hotplug_event
-> > > 3. detach the bridge chain
-> > > 4. attach the new bridge chain (HDMI)
-> > > 5. call drm_kms_helper_hotplug_event
-> > >
-> > > do the reverse when we unplug the HDMI cable.
-> > >
-> > > So, the bridge chains are attached and detached based on GPIO
-> > > Interrupt which is indeed identified based on the physical HDMIA
-> > > connector.
-> > >
-> > > Pipeline for LVDS,
-> > > mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
-> > >
-> > > Pipeline for HDMI,
-> > > mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
-> > >
-> > > With this, implementation and I can able switch the displays with
-> > > default DRM (without specific DRM applications) where the LVDS is ON
-> > > by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
-> > > unplug the HDMI OFF/LVDS ON.
-> > >
-> > > However, with QT5 I can see the DRM Master ignoring hotplug event by
-> > > returning 0 on drm_master_internal_acquire in
-> > > drm_fb_helper_hotplug_event. With this the hotplug returned early so
-> > > it cannot able to disconnect and connect the new switching connector.
-> > >
-> > > Any help?
-> >
-> > I'm not sure why you started another discussion with pretty much the
-> > same content, but you can't rely on userspace handling the hotplug
-> > event. You'll have to deal with the case where it just doesn't.
->
-> Well I missed the old thread, so I'm replying here.
->
-> You should not handle this at all from a hotplug.
->
-> The way kms works is roughly as follows:
->
-> 1. hw output state changes
-> 2. driver detects this (either through hpd interrupt or polling)
-> 3. driver sends out hotplug uevent
->
-> That's it. Nothing else, no bridge rebinding, no link retaining is
-> required.
->
-> Then either userspace or fbcon emulation reacts to this hotplug event by
-> doing an atomic modeset, where it hopefully disables the old output and
-> re-enables the new output. Your atomic_check needs to validate that
-> everything is all right (i.e. not enabling both at the same time).
->
-> Note that if you change stuff underneath, then that tends to seriously
-> upset atomic users. Also you should try to continue supporting at least
-> page flips with the wrong config, compositors otherwise tend to crash.
->
-> This also means that if userspace doesn't handle hotplug events, then you
-> might end up with a black screen. That's ok. We try to avoid that when
-> it's practical (e.g. dp sst link retraining), but not when it's too hard
-> (dp mst hot-replug relies on userspace restoring everything).
->
-> Finally exchanging the bridge chain isn't supported, there's no locking
-> for that since it's assumed to be invariant over the lifetim of the
-> drm_device instance. The simplest way to make that happen right now is to
-> have 2 drm_encoder instances, one with the lvds bridge chain, the other
-> with the hdmi bridge chain, and select the right encoder/bridge chain
-> depending upon which output userspace picks.
+Fixes: format:d8f4a9eda006 ("drm: Add NVIDIA Tegra20 support")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/tegra/rgb.c | 31 +++++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-I've created 2 instances of encoders. endpoint 0 for HDMI bridge chain
-and endpoint 1 for LVDS bridge chain. Each bridge chain uses a
-respective encoder instance in order to start attaching the bridge
-like below.
+diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
+index ff8fce36d2aa..cef2b1b72385 100644
+--- a/drivers/gpu/drm/tegra/rgb.c
++++ b/drivers/gpu/drm/tegra/rgb.c
+@@ -196,12 +196,16 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
+ 	int err;
+ 
+ 	np = of_get_child_by_name(dc->dev->of_node, "rgb");
+-	if (!np || !of_device_is_available(np))
+-		return -ENODEV;
++	if (!np || !of_device_is_available(np)) {
++		err = -ENODEV;
++		goto err_put_node;
++	}
+ 
+ 	rgb = devm_kzalloc(dc->dev, sizeof(*rgb), GFP_KERNEL);
+-	if (!rgb)
+-		return -ENOMEM;
++	if (!rgb) {
++		err = -ENOMEM;
++		goto err_put_node;
++	}
+ 
+ 	rgb->output.dev = dc->dev;
+ 	rgb->output.of_node = np;
+@@ -209,31 +213,34 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
+ 
+ 	err = tegra_output_probe(&rgb->output);
+ 	if (err < 0)
+-		return err;
++		goto err_put_node;
++
+ 
+ 	rgb->clk = devm_clk_get(dc->dev, NULL);
+ 	if (IS_ERR(rgb->clk)) {
+ 		dev_err(dc->dev, "failed to get clock\n");
+-		return PTR_ERR(rgb->clk);
++		err =  PTR_ERR(rgb->clk);
++		goto err_put_node;
+ 	}
+ 
+ 	rgb->clk_parent = devm_clk_get(dc->dev, "parent");
+ 	if (IS_ERR(rgb->clk_parent)) {
+ 		dev_err(dc->dev, "failed to get parent clock\n");
+-		return PTR_ERR(rgb->clk_parent);
++		err = PTR_ERR(rgb->clk_parent);
++		goto err_put_node;
+ 	}
+ 
+ 	err = clk_set_parent(rgb->clk, rgb->clk_parent);
+ 	if (err < 0) {
+ 		dev_err(dc->dev, "failed to set parent clock: %d\n", err);
+-		return err;
++		goto err_put_node;
+ 	}
+ 
+ 	rgb->pll_d_out0 = clk_get_sys(NULL, "pll_d_out0");
+ 	if (IS_ERR(rgb->pll_d_out0)) {
+ 		err = PTR_ERR(rgb->pll_d_out0);
+ 		dev_err(dc->dev, "failed to get pll_d_out0: %d\n", err);
+-		return err;
++		goto err_put_node;
+ 	}
+ 
+ 	if (dc->soc->has_pll_d2_out0) {
+@@ -241,13 +248,17 @@ int tegra_dc_rgb_probe(struct tegra_dc *dc)
+ 		if (IS_ERR(rgb->pll_d2_out0)) {
+ 			err = PTR_ERR(rgb->pll_d2_out0);
+ 			dev_err(dc->dev, "failed to get pll_d2_out0: %d\n", err);
+-			return err;
++			goto err_put_node;
+ 		}
+ 	}
+ 
+ 	dc->rgb = &rgb->output;
+ 
+ 	return 0;
++
++err_put_node:
++	of_node_put(np);
++	return err;
+ }
+ 
+ int tegra_dc_rgb_remove(struct tegra_dc *dc)
+-- 
+2.25.1
 
-1. find the bridge at endpoint 0
-2. drm_bridge_attach(&mxsfb->encoder[0], mxsfb->bridge[0], NULL, 0)
-
-and repeat for endpoint 1
-
-The bridge chain established fine for endpoint 0 but returned -EBUSY
-while the bridge chain attached for endpoint 1. looks like bridge->dev
-is still being used in endpoint 0 even though we have a separate
-bridge point from mxsfb.
-
-Any thought on how to establish the dual bridge chain here?
-
-Thanks,
-Jagan.
