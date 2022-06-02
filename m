@@ -1,85 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B1753BD59
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 19:29:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D2B53BD81
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 19:45:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0573E112ED0;
-	Thu,  2 Jun 2022 17:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61DF911331F;
+	Thu,  2 Jun 2022 17:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7F90112ED0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 17:29:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654190988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dBTeWiiYW/rW3MZsHyTxu/jl9RRbd9h3yH+yLfy453k=;
- b=FDJwOtEuouwephBXnUZRVS9dQ6eem8AKvcrZbCNJ87HsjqdqciypVKimtRIxnFzi9umx8q
- AUwvSSo+/OYQnKOsqcPSJjjSau+jdp8bGgv6V4IyLUUHlxDKZel8mAlGtYI+i+mr++oZx8
- Gr5RIttOrRr0LE058Ka/s1s58lqAVRs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-161-ronQJ6bmPeGH3smiBMYxfA-1; Thu, 02 Jun 2022 13:29:47 -0400
-X-MC-Unique: ronQJ6bmPeGH3smiBMYxfA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m19-20020a05600c4f5300b003974eba88c0so3126173wmq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 10:29:47 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E18711331C
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 17:45:36 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id v19so7212361edd.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 10:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=O/j8ff/empoIVzIPqKgRJrZ1yf+Uabh8CB6phARQHw8=;
+ b=pjj97zVwrM2CrMZNQ3YkjATsb+hGhtkoV0IpDJjgCaefeTLDdnSoin2KLI9/QKKmxO
+ oA3TdT7FkZz2tbI4HStW8JyPCbfhVf0FHFBe6OppQ77QKTNmsKLy/hQckjF20VRrgdna
+ WwLC6aH/+MnQQ7yWyEgjSOj1N779suPF85G7D73rEpHEoJwWe38490e8Ul2h9EviJOzQ
+ dZsuwxUIzJbucpc5J+ygfZ8y4wx580vg1bv3nY1mJ+Ger3GGq95WzFb6ykyto88yD8av
+ OchcgEkqmZiP0Sys7Ju/I+lMSWVVA4zu+08fZAJUvuParWjBk3U901h2VCPqXupCrG07
+ 4+Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dBTeWiiYW/rW3MZsHyTxu/jl9RRbd9h3yH+yLfy453k=;
- b=kAU3FlaCH8mPMgPu/Obb6mGKLJaeu6M+MMn8Iel6SqdInUVhAeu8C1gHmYHeqFoUXh
- SFLv4gRq3Ykrs149Dlnbi31VnC4wcAjhViF4WuSXtoNtt86JPB2bX32bnu35ksftrs1t
- DXG4w0uG5+vIaeGZAx8WpA4D78cvkQ7E2Jx6ic0GrJp6G6N3gvgZoQ/rlL0VQ+HbJvZN
- a6pPcsel6Ru/2+WgZGEq51Zb02nsM1Del47Q/bzX3e5wlHPASJyNWxv61e44HuT/jY2T
- HWDrw/wypt4mx/jHI8pNx7K40bJnsKhh9HG4zOm/L6joqXS5cwyatsHdJ0jMrkxnPKSQ
- yKoA==
-X-Gm-Message-State: AOAM533FawQofHsqMLfE3byHNJxTXQMUIJUpCi/wt5QoVWM1Ov+n/3w9
- v6/bzvDB+7ROKUeaYQhrPZq8Mm3RuZTm9QfdHIGHi4bJ48z5Cv4eL6seN9X4qAg2I1HW798VIqo
- SLJQ5ikDF5m4foAJolkG6k1+4ggzu
-X-Received: by 2002:a05:6000:1d9e:b0:20f:fb42:4b38 with SMTP id
- bk30-20020a0560001d9e00b0020ffb424b38mr4547016wrb.268.1654190986236; 
- Thu, 02 Jun 2022 10:29:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3RaBnbtgePjQfMXYRB7quw1mFYOf0GfERhyY4/DG9GKach7FhKYe8GN4LYEptHWxBQRhgmQ==
-X-Received: by 2002:a05:6000:1d9e:b0:20f:fb42:4b38 with SMTP id
- bk30-20020a0560001d9e00b0020ffb424b38mr4546999wrb.268.1654190986044; 
- Thu, 02 Jun 2022 10:29:46 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c7-20020a05600c0a4700b003973c54bd69sm10976449wmq.1.2022.06.02.10.29.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jun 2022 10:29:45 -0700 (PDT)
-Message-ID: <fea8f80a-939b-2c73-d94b-5179d1e65be9@redhat.com>
-Date: Thu, 2 Jun 2022 19:29:44 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=O/j8ff/empoIVzIPqKgRJrZ1yf+Uabh8CB6phARQHw8=;
+ b=zH7XJ6GezSGjoK578FtxyQSaXmiP4dbf2blfD92PwR8/6DdpeaSK3hycm6P3tCXC0A
+ l3Ir4fyunkmJbmIXBDv0T4R1DjBViCEVVUyKcXBqFhbcXrfOwc9G84GM/m9monD0HNb5
+ G2j5ZN7amnOfYjMJdO3eDwhSAhDuP1fGA8bloge5yrk+T1MIoeDjzjhilJgr9anDtT45
+ sNOWzuezEW/jbNKP/DSkzmFYGFscDZhiS/BfJgBVfPTJ4eok7wwNJF3TvUm3CK7tCbXD
+ NH4EigN85Mcu9SZp8tJYIiqdvDKdcDv1ny67odyBGnLEb6jMoc9z+SxsW0HsxAPv/+y9
+ 10rg==
+X-Gm-Message-State: AOAM531NgGbIqMterTWhT6vN2VAsN6l5P4Jx60Jw8gVeOZjUG2ID4y/k
+ pHU5HOBT5N8tNBLfJ31W9Nsd6pad12i+Ks1LudoTeg==
+X-Google-Smtp-Source: ABdhPJzvUvlqNLSSWFHR1VOLU0xd2hgNWjjf5TY1pOrfxuPXl16DBLKRH8bOnbtdyu7oiCDTr/0gmfUg7LVZaOjTtN0=
+X-Received: by 2002:a05:6402:2806:b0:42b:67fc:8565 with SMTP id
+ h6-20020a056402280600b0042b67fc8565mr6689418ede.230.1654191934879; Thu, 02
+ Jun 2022 10:45:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-To: David Gow <davidgow@google.com>, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?=
- <jose.exposito89@gmail.com>
 References: <20220530102017.471865-1-jose.exposito89@gmail.com>
  <20220530102017.471865-2-jose.exposito89@gmail.com>
- <20220530131158.kqq2mohxoh52xpeg@penduick> <20220530162903.GA6546@elementary>
+ <20220530131158.kqq2mohxoh52xpeg@penduick>
+ <20220530162903.GA6546@elementary>
  <CABVgOSn8i=LO5p7830h2XU1Jgg0KrN0qTnxkOMhf1oTgxjaKKw@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CABVgOSn8i=LO5p7830h2XU1Jgg0KrN0qTnxkOMhf1oTgxjaKKw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <fea8f80a-939b-2c73-d94b-5179d1e65be9@redhat.com>
+In-Reply-To: <fea8f80a-939b-2c73-d94b-5179d1e65be9@redhat.com>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Thu, 2 Jun 2022 10:45:23 -0700
+Message-ID: <CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uNFTGM=T7ydk-dYcEw@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb332()
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,54 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
+Cc: David Gow <davidgow@google.com>, David Airlie <airlied@linux.ie>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ tzimmermann@suse.de,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
  KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/2/22 19:12, David Gow wrote:
-> On Mon, May 30, 2022 at 9:29 AM José Expósito <jose.exposito89@gmail.com> wrote:
-
-[snip]
-
->>
->> A .kuniconfig example is present in the cover letter. (...)
+On Thu, Jun 2, 2022 at 10:29 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> > Or, without the .kunitconfig:
+> > ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_DRM=y
+> > --kconfig_add CONFIG_DRM_FORMAR_HELPER_TEST=y --kconfig_add
+> > CONFIG_VIRTIO_UML=y  --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
+> > 'drm-*'
+> >
 >
-> FYI: it's also possible to run these tests under UML with the extra options:
-> CONFIG_VIRTIO_UML=y
-> CONFIG_UML_PCI_OVER_VIRTIO=y
+> I wonder if would make sense to have for example an arch/um/.kunitconfig
+> with those symbols and maybe others and then the tests could also be run
+> with something like:
 >
+> ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/.kunitconfig \
+> --kunitconfig=arch/um/.kunitconfig
 
-Oh, very interesting. I didn't notice before that his example had --arch=x86_64
+Yeah, this came up before.
+It'd be nice to have
+* --kunitconfig be repeatable (it isn't right now)
+* a "uml_pci.config" with the magic needed to set CONFIG_PCI=y on UML
 
-> I suspect it's probably better not to add those to your .kunitconfig,
-> as they're UML-specific and will therefore break other architectures,
-> but it does mean the tests can be run with, for example:
-> 
-> ./tools/testing/kunit/kunit.py run --kunitconfig
-> drivers/gpu/drm/.kunitconfig --kconfig_add CONFIG_VIRTIO_UML=y
-> --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-> 
-> Or, without the .kunitconfig:
-> ./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_DRM=y
-> --kconfig_add CONFIG_DRM_FORMAR_HELPER_TEST=y --kconfig_add
-> CONFIG_VIRTIO_UML=y  --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-> 'drm-*'
->
+Another example where this would be useful, coverage on UML
+CONFIG_DEBUG_KERNEL=y
+CONFIG_DEBUG_INFO=y
+CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
+CONFIG_GCOV=y
 
-I wonder if would make sense to have for example an arch/um/.kunitconfig
-with those symbols and maybe others and then the tests could also be run
-with something like:
+I did prototype the changes to support this but never sent anything
+out since I had some concerns, namely:
+1. we'd be blindly appending them, but that won't always work. Would
+users be ok with that?
+2. people are already confused about .kunitconfig. It seems like the
+most confusing part to new people, especially those new to kernel
+development. Would adding this make them even more lost? Perhaps
+making the docs clearer on this would a good pre-req.
+3. What conventions should there be around these partial configs? I
+think the idea should be more generic than just kunit.
+4. --kconfig_add now makes this possible, even if in a noisier way
+than another --kunitconfig
+5. we didn't have a good way of reporting options set to different
+values. https://lore.kernel.org/linux-kselftest/20220520224200.3764027-1-dlatypov@google.com/
+would help by giving us an easier way to give clearer error messages.
 
-./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/.kunitconfig \
---kunitconfig=arch/um/.kunitconfig
+That said, I'm willing to whip up another version based on the patch in #5.
+I think we need a docs rewrite for #2, which I can take a stab at.
+But I think we'll need some bikeshedding about naming (#3).
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Daniel
