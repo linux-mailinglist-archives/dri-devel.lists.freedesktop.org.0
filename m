@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A7853BF52
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:08:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA4053BF5B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE0610E405;
-	Thu,  2 Jun 2022 20:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F15C10E263;
+	Thu,  2 Jun 2022 20:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F160B10E263
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1654200520;
- bh=MWdsFO0Da7lpg/6VkR6yrv6S008xzfO8/q3kNEiYJGM=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=giIqeTa0rELXJlbOGCzv2gUnTIWLop8tmTvxkzDq4u+Gw1uFD55zOUPMCVwPoaF5F
- eu+R5WEm/ioaiHPas2d6DN/ce9E2qqymjwFPcfdC9Sj8EWFcoPJNZanZ4n3HxI/imN
- NctUZSEyuAMjVMUErWLGuNnbqt5P8YOJP6Faoq6g=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.181.14]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N33Il-1nmuzF0Ttd-013MdC; Thu, 02
- Jun 2022 22:08:40 +0200
-Date: Thu, 2 Jun 2022 22:08:38 +0200
-From: Helge Deller <deller@gmx.de>
-To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbcon: Fix accelerated fbdev scrolling while logo is still
- shown
-Message-ID: <YpkYxk7wsBPx3po+@p100>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A52710E263;
+ Thu,  2 Jun 2022 20:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654200693; x=1685736693;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=kPiWNX+rq1y1Am3VtCAsGRaes1pPOtJ7FDRSUTVhK98=;
+ b=LnH/8u1qGcnjwx9wpfRQmU1m4Rw5YVtDLBobZFsZoJfxAvZ06FRSM5iq
+ H6jB/WDLDeNudb3Y/3OS+Rdu3hNzJzgH+qKKeWuJbhz1IehI3tQ9m5bD0
+ Bmpbwl+apwF7AIGI7OSfPKIjRwukoIxcN+HNdvbUsop0YYcjqr1WAxgol
+ h9ijtyEK7LXpLoGAgvR0LD4zugiuvyi1oa4jws1ouTZlIb0O0OdH7dUdG
+ YjsnRn6YYTws1Q8mmbR+/ufVrJkGTCYl8ErbmBM5w7btaoUo3ErfzGvMJ
+ d55BNPYKP7h2hXP5FIfJ6iAMTzFZt2mg6tIYLdu6lwCLObOyzGfSs+QuL g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10366"; a="273636119"
+X-IronPort-AV: E=Sophos;i="5.91,272,1647327600"; d="scan'208";a="273636119"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 13:11:32 -0700
+X-IronPort-AV: E=Sophos;i="5.91,272,1647327600"; d="scan'208";a="607027827"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2022 13:11:32 -0700
+Date: Thu, 2 Jun 2022 13:11:14 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
+ document
+Message-ID: <20220602201112.GQ4461@nvishwa1-DESK>
+References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
+ <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
+ <43746609-4f60-f347-5934-6680516297dd@intel.com>
+ <20220601202836.GA15346@jons-linux-dev-box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-X-Provags-ID: V03:K1:hVfaPk/9jZny26PcD/WxhWiObtc1MLuJNdonRgwBiVzzDnIV7SK
- UoSuD0ggVXDDKP2Tn2USwM7ZrUl6zb88GkTZERFK4sKl+i0SlUq2Py5WnNfrt4Carg1hroW
- N/dyy4J9X5IsA39mp767lUk9hKA9Tgf3hBKpXsMjOFJAaq751L2toavGTqHStSHi4QjhqDr
- c5Xb8j0z5+edI4jeE9EYg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0WOHpmXwUx0=:5r2dFs4uvkyMP/n1t9ledo
- veQcGH68JUzpjkanLCv8ZStH//t4BBPvILVjqoTEMtxp5RqPzUbhXrYx3UcMCms12XZCrS5CQ
- S+8DwEYGA3fARlRS6rIdJD1eq5231Tvomd6GHGvmzz0ffFEfOZ+74PkidF98qgOrGypnhTMh7
- WjuyN6RYx5k/4N0KY43oXLBIkf7pxmDpbXoQusgfuHJz6zXsLV+pA60e/VpwPIDVQJ7aZjodA
- bGAPH/DyLU8ZQyVbP20UZzytE+AmO+3uetxL4RCacOB5FFI+WqpymH/F7cLVlXtRYOoNpTus/
- HFjLllfxN8Ec6nBDtTIZR9Sw9GvoOAZIl5V8Ifk3VVkMo3RFyVeEzbP2Oc0DikBv4pdKstNpL
- oHC8mqhdk2WyXcii6QC6dSrNJZqwqMbN8Q0B4PI+9Gc7UnDkts8vP0RP8vwLsBJq4UlOJ983g
- JHssvAkUxLX+d57PMhle9eLKG2XZukfZ/o5o0P1B9AJFBdsv4/hZaSbGrW/Tg55qvd300kSsk
- 5fgkmHhqJQD/n4CFMZADVA9RpuBV5IVe8SOhJPFUd2fuL1eVx2Y0lYQZ40umoMNl0mcUqMTD1
- /kL6vwCObiZIj+4sV4JkLq0HQIlzezuo0zjB2HfhbE4i0v2ypmsUXcdRMSCCmbZ1hfwAtdon5
- SPsfEpkIj5BRRx/F+n3vU0DXmZJgTQHVV3OJUO+zx7C0OtEt5YToW8VYYNg37PwKFvh78MG8Z
- DjVy3YTctp5AguJqXoQitvze1SFIMZvvujtIddCzI7b7ih1gPO5tUralw1DU2g15YUiBUw2ef
- Sa6g2im3la33Ye3RImdlSnKRyvSEbU1OpCP2OAbSWQism4vWkAlryJqPnQYU8qSZHEUPXWp2q
- mmS3XUp7A5Pa2QfpklKRNXGhYzDO1ztJTsaQ8k+tOee4RnByW8DQCIfvwUX3M3iY12w9BAx/9
- hgigysppmkJ+SnsEfkEPfTGP80SLm0LxZs0rrF/R9mcRm8PSysd42nHLXznAXaXcB+ZLkbTy8
- VpLZlzseQint1oZBZ4icKKI3uxwW4y1CXGKOjKqMNLNG7GHqJAAIjO60JAGDCFPeRG0mwVipp
- iWT1r0eaZGh/9gd4BQauhI63poMviL9SXrZ
+In-Reply-To: <20220601202836.GA15346@jons-linux-dev-box>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +60,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: chris.p.wilson@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>, daniel.vetter@intel.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no need to directly skip over to the SCROLL_REDRAW case while
-the logo is still shown.
+On Wed, Jun 01, 2022 at 01:28:36PM -0700, Matthew Brost wrote:
+>On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
+>> On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
+>> > +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
+>> > +async worker. The binding and unbinding will work like a special GPU engine.
+>> > +The binding and unbinding operations are serialized and will wait on specified
+>> > +input fences before the operation and will signal the output fences upon the
+>> > +completion of the operation. Due to serialization, completion of an operation
+>> > +will also indicate that all previous operations are also complete.
+>>
+>> I guess we should avoid saying "will immediately start binding/unbinding" if
+>> there are fences involved.
+>>
+>> And the fact that it's happening in an async worker seem to imply it's not
+>> immediate.
+>>
 
-When using DRM, this change has no effect because the code will reach
-the SCROLL_REDRAW case immediately anyway.
+Ok, will fix.
+This was added because in earlier design binding was deferred until next execbuff.
+But now it is non-deferred (immediate in that sense). But yah, this is confusing
+and will fix it.
 
-But if you run an accelerated fbdev driver and have
-FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION enabled, console scrolling is
-slowed down by factors so that it feels as if you use a 9600 baud
-terminal.
+>>
+>> I have a question on the behavior of the bind operation when no input fence
+>> is provided. Let say I do :
+>>
+>> VM_BIND (out_fence=fence1)
+>>
+>> VM_BIND (out_fence=fence2)
+>>
+>> VM_BIND (out_fence=fence3)
+>>
+>>
+>> In what order are the fences going to be signaled?
+>>
+>> In the order of VM_BIND ioctls? Or out of order?
+>>
+>> Because you wrote "serialized I assume it's : in order
+>>
 
-So, drop those unnecessary checks and speed up fbdev console
-acceleration during bootup.
+Yes, in the order of VM_BIND/UNBIND ioctls. Note that bind and unbind will use
+the same queue and hence are ordered.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Cc: stable@vger.kernel.org
+>>
+>> One thing I didn't realize is that because we only get one "VM_BIND" engine,
+>> there is a disconnect from the Vulkan specification.
+>>
+>> In Vulkan VM_BIND operations are serialized but per engine.
+>>
+>> So you could have something like this :
+>>
+>> VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
+>>
+>> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
+>>
+>>
+>> fence1 is not signaled
+>>
+>> fence3 is signaled
+>>
+>> So the second VM_BIND will proceed before the first VM_BIND.
+>>
+>>
+>> I guess we can deal with that scenario in userspace by doing the wait
+>> ourselves in one thread per engines.
+>>
+>> But then it makes the VM_BIND input fences useless.
+>>
+>>
+>> Daniel : what do you think? Should be rework this or just deal with wait
+>> fences in userspace?
+>>
+>
+>My opinion is rework this but make the ordering via an engine param optional.
+>
+>e.g. A VM can be configured so all binds are ordered within the VM
+>
+>e.g. A VM can be configured so all binds accept an engine argument (in
+>the case of the i915 likely this is a gem context handle) and binds
+>ordered with respect to that engine.
+>
+>This gives UMDs options as the later likely consumes more KMD resources
+>so if a different UMD can live with binds being ordered within the VM
+>they can use a mode consuming less resources.
+>
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index c2f9e5711c39..8eb5b73e98bc 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -1706,8 +1706,6 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
- 	case SM_UP:
- 		if (count > vc->vc_rows)	/* Maximum realistic size */
- 			count = vc->vc_rows;
--		if (logo_shown >= 0)
--			goto redraw_up;
- 		switch (fb_scrollmode(p)) {
- 		case SCROLL_MOVE:
- 			fbcon_redraw_blit(vc, info, p, t, b - t - count,
-@@ -1796,8 +1794,6 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
- 	case SM_DOWN:
- 		if (count > vc->vc_rows)	/* Maximum realistic size */
- 			count = vc->vc_rows;
--		if (logo_shown >= 0)
--			goto redraw_down;
- 		switch (fb_scrollmode(p)) {
- 		case SCROLL_MOVE:
- 			fbcon_redraw_blit(vc, info, p, b - 1, b - t - count,
+I think we need to be careful here if we are looking for some out of
+(submission) order completion of vm_bind/unbind.
+In-order completion means, in a batch of binds and unbinds to be
+completed in-order, user only needs to specify in-fence for the
+first bind/unbind call and the our-fence for the last bind/unbind
+call. Also, the VA released by an unbind call can be re-used by
+any subsequent bind call in that in-order batch.
+
+These things will break if binding/unbinding were to be allowed to
+go out of order (of submission) and user need to be extra careful
+not to run into pre-mature triggereing of out-fence and bind failing
+as VA is still in use etc.
+
+Also, VM_BIND binds the provided mapping on the specified address space
+(VM). So, the uapi is not engine/context specific.
+
+We can however add a 'queue' to the uapi which can be one from the
+pre-defined queues,
+I915_VM_BIND_QUEUE_0
+I915_VM_BIND_QUEUE_1
+...
+I915_VM_BIND_QUEUE_(N-1)
+
+KMD will spawn an async work queue for each queue which will only
+bind the mappings on that queue in the order of submission.
+User can assign the queue to per engine or anything like that.
+
+But again here, user need to be careful and not deadlock these
+queues with circular dependency of fences.
+
+I prefer adding this later an as extension based on whether it
+is really helping with the implementation.
+
+Daniel, any thoughts?
+
+Niranjana
+
+>Matt
+>
+>>
+>> Sorry I noticed this late.
+>>
+>>
+>> -Lionel
+>>
+>>
