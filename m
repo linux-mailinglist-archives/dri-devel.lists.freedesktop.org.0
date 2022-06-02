@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2FD53BF9C
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:22:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C617453BFBA
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 22:24:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB5171133A7;
-	Thu,  2 Jun 2022 20:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E47311343D;
+	Thu,  2 Jun 2022 20:24:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B91113389
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:22:20 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id a17so2588519lfs.11
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:22:20 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75074113449
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 20:24:51 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id a15so9532579lfb.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 13:24:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RIGJIwArSC/1guIMHoejC3FjRXti8+YYUXthpv+fFGE=;
- b=zm91Iw3N+H2xggGGkPcjeK7GIlh621z36Paj9KpCcRtJwqNcD6Ue+magByP+QvpBQh
- oH3OK26ge6ufxeKTTE7vAR2IgO9vDOenh2j7w92SYfbiWFoxmpmegN6lS5VHuRdpv//d
- 5AjmsRQlUTMxXz+5OtY/fzy6Onp8aPMROtgkRCEVEge+iaAeWpkk6F2oo3tKvA5qJCSO
- opqMHL1aq6oIS8ZS2gvQaXTGS7/oedNTIDeiJl75S8pDGI3vBYWGVf8pEC4gOPXFYypH
- mUfXA/KLQm40TIol4cJUcNh/Px7hSCm3KiAtq9GT7+GTepgQfkBmJp7AXT+mp6l5cHU8
- xtgA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QnpqY7uSZkIjcnvWBh5WX4NtB+14lkn/cDIY5XypWiU=;
+ b=V8x9UugTi+NUAHS7VIDD+H8ooMJX0nFbVGf5CFVBC/YX7hJJITDrtgOR4CZG3y9y/7
+ YKvZmhezTevnQjudZ3Jl0cc6mRqya7HtCnnA9H5eLMu7VDuapKcSpNfEqwNCG/9ZPFL+
+ 4NNk0VrDpClVhig4K/qLV+xWfJjfErBZEzQ6r4oiwd6SmuvNC32GQpS4MQjZKQEKmI2x
+ 9wzqq1ZUlFu7KJhmf9wM17Ees03xTBUHUrWdbwayeN3W8i54nBp1ZWU9V9OTCXhrNl92
+ qitVMI6lBcZROcRfUuS2TWQE+UH3OZYDs1mnwj7JmY0DfJDtT1GYLpz+3d5JivWeu/Da
+ K2/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RIGJIwArSC/1guIMHoejC3FjRXti8+YYUXthpv+fFGE=;
- b=KuXZUotFKvSSTnn4CCH3dk4C/faLx+ElNGrzyfNq9xD6kctFBEsSh5xFTYoxpD8SWU
- OIlk4Pjct79H3GGC96wH8YhyHd+Bv0uqqmO1YS7RAUyOU32ciEiUdcwz1PvSRctWMuwP
- lvSm53TusHvOj70x6MAn0raXS0urzQcdcOMbWR0gNw46pG0qo/VRlXVnTTEEr1Igo0GF
- CYtLMY/x/Fz5dDz+G9/FF02CkCBy7dQ0g43V2ulP3ViyacviZ3adxcaPEkWmJt97F9l5
- MsgBUUsmsp93C3Z7aAdKLwOJrHk1szqF00+MADtkPP82Pig2RythFgZBoCGuC/xRMrkA
- lhFg==
-X-Gm-Message-State: AOAM533eJwmlDigYuKetN9vDd89QPU6K1T9R2AraywQYB0hclGZnj3jp
- RQokWOCpAiYa9mLlVr++wDGF5Q==
-X-Google-Smtp-Source: ABdhPJytA4noDiPNZZ2LxlawRIJqfmcThBLxBCHzmxZAJPFXvSUqjSaBT9JZSqWr9BH8iFMs3pQRtg==
-X-Received: by 2002:a05:6512:3a81:b0:44a:616f:f75b with SMTP id
- q1-20020a0565123a8100b0044a616ff75bmr4624843lfu.2.1654201339162; 
- Thu, 02 Jun 2022 13:22:19 -0700 (PDT)
-Received: from eriador.lumag.spb.ru ([94.25.229.139])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QnpqY7uSZkIjcnvWBh5WX4NtB+14lkn/cDIY5XypWiU=;
+ b=IitZMJbtugwX2Bt8GhBo72B3nz5a+i+XsCFK8RChzDyQHy9BZHVh1KOLTDRIp0Sx91
+ ogxGd3/Slebnx4rXbyOz6d7ELS8h+crZkrblwD3WUr3bL9/EJgSTOVVaWki1k2e5UJQq
+ rjQPbcRsllBSDDMQ7uYmD/ZW9Z28OQnmNtcAGIvtesBBIYbbJysRtTc6ET+CxIqNCxqx
+ QxUkvPxCDVMbEixDQ9h5+aiIk3/NLRI0daslOZk/hvhosqmArKEcIWaG7X5gi4kQQ2SW
+ vCAOow+yNc6qsGOmoNd0oA6Ypba8Ra9MVjOaQiQyaBgg1hQG4nKRCo8yYFos1bh9moyy
+ TxVw==
+X-Gm-Message-State: AOAM531uhkapfGgn4a3cZ6iSoTz7uE2cTH6+A+7nsYjrsJESeIk/+zv+
+ OjGPK5Zks9FV3FDMfvmrFk3U5g==
+X-Google-Smtp-Source: ABdhPJzwnbItBXkAB/92vlcFEICxkkfN0YzB9bqgMnE4WzQKRCLbxMnmck7dZ67mcbKAhXHrIY596g==
+X-Received: by 2002:a05:6512:3c93:b0:44b:4ba:c334 with SMTP id
+ h19-20020a0565123c9300b0044b04bac334mr4723285lfv.27.1654201489800; 
+ Thu, 02 Jun 2022 13:24:49 -0700 (PDT)
+Received: from eriador.lumag.spb.ru ([188.162.64.241])
  by smtp.gmail.com with ESMTPSA id
- p12-20020a2e740c000000b0024f3d1daef5sm992451ljc.125.2022.06.02.13.22.17
+ d25-20020a056512369900b0047255d21114sm1205718lfs.67.2022.06.02.13.24.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jun 2022 13:22:18 -0700 (PDT)
+ Thu, 02 Jun 2022 13:24:49 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3 7/7] drm/msm/dpu: make dpu hardware catalog static const
-Date: Thu,  2 Jun 2022 23:22:07 +0300
-Message-Id: <20220602202207.1754351-8-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 0/7] drm/msm: clean up the hw catalog init
+Date: Thu,  2 Jun 2022 23:24:40 +0300
+Message-Id: <20220602202447.1755115-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220602202207.1754351-1-dmitry.baryshkov@linaro.org>
-References: <20220602202207.1754351-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,548 +78,55 @@ Replace superfluous cfg_init functions, which just assign a static
 config to the struct dpu_mdss_cfg, with static instances of struct
 dpu_mdss_cfg.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 475 ++++++++----------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   5 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
- 3 files changed, 213 insertions(+), 269 deletions(-)
+Changes since v3:
+ - Add missed Reviewed-by tags by Abhinav.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 1c40307af0ec..6d52db450e42 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -1722,283 +1722,228 @@ static const struct dpu_perf_cfg qcm2290_perf_data = {
- 	.bw_inefficiency_factor = 120,
- };
- /*************************************************************
-- * Hardware catalog init
-+ * Hardware catalog
-  *************************************************************/
- 
--/*
-- * msm8998_cfg_init(): populate sdm845 dpu sub-blocks reg offsets
-- * and instance counts.
-- */
--static void msm8998_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &msm8998_dpu_caps,
--		.mdp_count = ARRAY_SIZE(msm8998_mdp),
--		.mdp = msm8998_mdp,
--		.ctl_count = ARRAY_SIZE(msm8998_ctl),
--		.ctl = msm8998_ctl,
--		.sspp_count = ARRAY_SIZE(msm8998_sspp),
--		.sspp = msm8998_sspp,
--		.mixer_count = ARRAY_SIZE(msm8998_lm),
--		.mixer = msm8998_lm,
--		.dspp_count = ARRAY_SIZE(msm8998_dspp),
--		.dspp = msm8998_dspp,
--		.pingpong_count = ARRAY_SIZE(sdm845_pp),
--		.pingpong = sdm845_pp,
--		.intf_count = ARRAY_SIZE(msm8998_intf),
--		.intf = msm8998_intf,
--		.vbif_count = ARRAY_SIZE(msm8998_vbif),
--		.vbif = msm8998_vbif,
--		.reg_dma_count = 0,
--		.perf = &msm8998_perf_data,
--		.mdss_irqs = IRQ_SM8250_MASK,
--	};
--}
--
--/*
-- * sdm845_cfg_init(): populate sdm845 dpu sub-blocks reg offsets
-- * and instance counts.
-- */
--static void sdm845_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &sdm845_dpu_caps,
--		.mdp_count = ARRAY_SIZE(sdm845_mdp),
--		.mdp = sdm845_mdp,
--		.ctl_count = ARRAY_SIZE(sdm845_ctl),
--		.ctl = sdm845_ctl,
--		.sspp_count = ARRAY_SIZE(sdm845_sspp),
--		.sspp = sdm845_sspp,
--		.mixer_count = ARRAY_SIZE(sdm845_lm),
--		.mixer = sdm845_lm,
--		.pingpong_count = ARRAY_SIZE(sdm845_pp),
--		.pingpong = sdm845_pp,
--		.dsc_count = ARRAY_SIZE(sdm845_dsc),
--		.dsc = sdm845_dsc,
--		.intf_count = ARRAY_SIZE(sdm845_intf),
--		.intf = sdm845_intf,
--		.vbif_count = ARRAY_SIZE(sdm845_vbif),
--		.vbif = sdm845_vbif,
--		.reg_dma_count = 1,
--		.dma_cfg = &sdm845_regdma,
--		.perf = &sdm845_perf_data,
--		.mdss_irqs = IRQ_SDM845_MASK,
--	};
--}
--
--/*
-- * sc7180_cfg_init(): populate sc7180 dpu sub-blocks reg offsets
-- * and instance counts.
-- */
--static void sc7180_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &sc7180_dpu_caps,
--		.mdp_count = ARRAY_SIZE(sc7180_mdp),
--		.mdp = sc7180_mdp,
--		.ctl_count = ARRAY_SIZE(sc7180_ctl),
--		.ctl = sc7180_ctl,
--		.sspp_count = ARRAY_SIZE(sc7180_sspp),
--		.sspp = sc7180_sspp,
--		.mixer_count = ARRAY_SIZE(sc7180_lm),
--		.mixer = sc7180_lm,
--		.dspp_count = ARRAY_SIZE(sc7180_dspp),
--		.dspp = sc7180_dspp,
--		.pingpong_count = ARRAY_SIZE(sc7180_pp),
--		.pingpong = sc7180_pp,
--		.intf_count = ARRAY_SIZE(sc7180_intf),
--		.intf = sc7180_intf,
--		.vbif_count = ARRAY_SIZE(sdm845_vbif),
--		.vbif = sdm845_vbif,
--		.reg_dma_count = 1,
--		.dma_cfg = &sdm845_regdma,
--		.perf = &sc7180_perf_data,
--		.mdss_irqs = IRQ_SC7180_MASK,
--	};
--}
--
--/*
-- * sm8150_cfg_init(): populate sm8150 dpu sub-blocks reg offsets
-- * and instance counts.
-- */
--static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &sm8150_dpu_caps,
--		.mdp_count = ARRAY_SIZE(sdm845_mdp),
--		.mdp = sdm845_mdp,
--		.ctl_count = ARRAY_SIZE(sm8150_ctl),
--		.ctl = sm8150_ctl,
--		.sspp_count = ARRAY_SIZE(sdm845_sspp),
--		.sspp = sdm845_sspp,
--		.mixer_count = ARRAY_SIZE(sm8150_lm),
--		.mixer = sm8150_lm,
--		.dspp_count = ARRAY_SIZE(sm8150_dspp),
--		.dspp = sm8150_dspp,
--		.pingpong_count = ARRAY_SIZE(sm8150_pp),
--		.pingpong = sm8150_pp,
--		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
--		.merge_3d = sm8150_merge_3d,
--		.intf_count = ARRAY_SIZE(sm8150_intf),
--		.intf = sm8150_intf,
--		.vbif_count = ARRAY_SIZE(sdm845_vbif),
--		.vbif = sdm845_vbif,
--		.reg_dma_count = 1,
--		.dma_cfg = &sm8150_regdma,
--		.perf = &sm8150_perf_data,
--		.mdss_irqs = IRQ_SDM845_MASK,
--	};
--}
--
--/*
-- * sc8180x_cfg_init(): populate sc8180 dpu sub-blocks reg offsets
-- * and instance counts.
-- */
--static void sc8180x_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &sc8180x_dpu_caps,
--		.mdp_count = ARRAY_SIZE(sc8180x_mdp),
--		.mdp = sc8180x_mdp,
--		.ctl_count = ARRAY_SIZE(sm8150_ctl),
--		.ctl = sm8150_ctl,
--		.sspp_count = ARRAY_SIZE(sdm845_sspp),
--		.sspp = sdm845_sspp,
--		.mixer_count = ARRAY_SIZE(sm8150_lm),
--		.mixer = sm8150_lm,
--		.pingpong_count = ARRAY_SIZE(sm8150_pp),
--		.pingpong = sm8150_pp,
--		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
--		.merge_3d = sm8150_merge_3d,
--		.intf_count = ARRAY_SIZE(sc8180x_intf),
--		.intf = sc8180x_intf,
--		.vbif_count = ARRAY_SIZE(sdm845_vbif),
--		.vbif = sdm845_vbif,
--		.reg_dma_count = 1,
--		.dma_cfg = &sm8150_regdma,
--		.perf = &sc8180x_perf_data,
--		.mdss_irqs = IRQ_SC8180X_MASK,
--	};
--}
--
--/*
-- * sm8250_cfg_init(): populate sm8250 dpu sub-blocks reg offsets
-- * and instance counts.
-- */
--static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &sm8250_dpu_caps,
--		.mdp_count = ARRAY_SIZE(sm8250_mdp),
--		.mdp = sm8250_mdp,
--		.ctl_count = ARRAY_SIZE(sm8150_ctl),
--		.ctl = sm8150_ctl,
--		.sspp_count = ARRAY_SIZE(sm8250_sspp),
--		.sspp = sm8250_sspp,
--		.mixer_count = ARRAY_SIZE(sm8150_lm),
--		.mixer = sm8150_lm,
--		.dspp_count = ARRAY_SIZE(sm8150_dspp),
--		.dspp = sm8150_dspp,
--		.pingpong_count = ARRAY_SIZE(sm8150_pp),
--		.pingpong = sm8150_pp,
--		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
--		.merge_3d = sm8150_merge_3d,
--		.intf_count = ARRAY_SIZE(sm8150_intf),
--		.intf = sm8150_intf,
--		.vbif_count = ARRAY_SIZE(sdm845_vbif),
--		.vbif = sdm845_vbif,
--		.wb_count = ARRAY_SIZE(sm8250_wb),
--		.wb = sm8250_wb,
--		.reg_dma_count = 1,
--		.dma_cfg = &sm8250_regdma,
--		.perf = &sm8250_perf_data,
--		.mdss_irqs = IRQ_SM8250_MASK,
--	};
--}
--
--static void sc7280_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &sc7280_dpu_caps,
--		.mdp_count = ARRAY_SIZE(sc7280_mdp),
--		.mdp = sc7280_mdp,
--		.ctl_count = ARRAY_SIZE(sc7280_ctl),
--		.ctl = sc7280_ctl,
--		.sspp_count = ARRAY_SIZE(sc7280_sspp),
--		.sspp = sc7280_sspp,
--		.mixer_count = ARRAY_SIZE(sc7280_lm),
--		.mixer = sc7280_lm,
--		.pingpong_count = ARRAY_SIZE(sc7280_pp),
--		.pingpong = sc7280_pp,
--		.intf_count = ARRAY_SIZE(sc7280_intf),
--		.intf = sc7280_intf,
--		.vbif_count = ARRAY_SIZE(sdm845_vbif),
--		.vbif = sdm845_vbif,
--		.perf = &sc7280_perf_data,
--		.mdss_irqs = IRQ_SC7280_MASK,
--	};
--}
--
--
--/*
-- * qcm2290_cfg_init(): populate qcm2290 dpu sub-blocks reg offsets
-- * and instance counts.
-- */
--static void qcm2290_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
--{
--	*dpu_cfg = (struct dpu_mdss_cfg){
--		.caps = &qcm2290_dpu_caps,
--		.mdp_count = ARRAY_SIZE(qcm2290_mdp),
--		.mdp = qcm2290_mdp,
--		.ctl_count = ARRAY_SIZE(qcm2290_ctl),
--		.ctl = qcm2290_ctl,
--		.sspp_count = ARRAY_SIZE(qcm2290_sspp),
--		.sspp = qcm2290_sspp,
--		.mixer_count = ARRAY_SIZE(qcm2290_lm),
--		.mixer = qcm2290_lm,
--		.dspp_count = ARRAY_SIZE(qcm2290_dspp),
--		.dspp = qcm2290_dspp,
--		.pingpong_count = ARRAY_SIZE(qcm2290_pp),
--		.pingpong = qcm2290_pp,
--		.intf_count = ARRAY_SIZE(qcm2290_intf),
--		.intf = qcm2290_intf,
--		.vbif_count = ARRAY_SIZE(sdm845_vbif),
--		.vbif = sdm845_vbif,
--		.reg_dma_count = 1,
--		.dma_cfg = &sdm845_regdma,
--		.perf = &qcm2290_perf_data,
--		.mdss_irqs = IRQ_SC7180_MASK,
--	};
--}
-+static const struct dpu_mdss_cfg msm8998_dpu_cfg = {
-+	.caps = &msm8998_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(msm8998_mdp),
-+	.mdp = msm8998_mdp,
-+	.ctl_count = ARRAY_SIZE(msm8998_ctl),
-+	.ctl = msm8998_ctl,
-+	.sspp_count = ARRAY_SIZE(msm8998_sspp),
-+	.sspp = msm8998_sspp,
-+	.mixer_count = ARRAY_SIZE(msm8998_lm),
-+	.mixer = msm8998_lm,
-+	.dspp_count = ARRAY_SIZE(msm8998_dspp),
-+	.dspp = msm8998_dspp,
-+	.pingpong_count = ARRAY_SIZE(sdm845_pp),
-+	.pingpong = sdm845_pp,
-+	.intf_count = ARRAY_SIZE(msm8998_intf),
-+	.intf = msm8998_intf,
-+	.vbif_count = ARRAY_SIZE(msm8998_vbif),
-+	.vbif = msm8998_vbif,
-+	.reg_dma_count = 0,
-+	.perf = &msm8998_perf_data,
-+	.mdss_irqs = IRQ_SM8250_MASK,
-+};
-+
-+static const struct dpu_mdss_cfg sdm845_dpu_cfg = {
-+	.caps = &sdm845_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(sdm845_mdp),
-+	.mdp = sdm845_mdp,
-+	.ctl_count = ARRAY_SIZE(sdm845_ctl),
-+	.ctl = sdm845_ctl,
-+	.sspp_count = ARRAY_SIZE(sdm845_sspp),
-+	.sspp = sdm845_sspp,
-+	.mixer_count = ARRAY_SIZE(sdm845_lm),
-+	.mixer = sdm845_lm,
-+	.pingpong_count = ARRAY_SIZE(sdm845_pp),
-+	.pingpong = sdm845_pp,
-+	.dsc_count = ARRAY_SIZE(sdm845_dsc),
-+	.dsc = sdm845_dsc,
-+	.intf_count = ARRAY_SIZE(sdm845_intf),
-+	.intf = sdm845_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sdm845_regdma,
-+	.perf = &sdm845_perf_data,
-+	.mdss_irqs = IRQ_SDM845_MASK,
-+};
-+
-+static const struct dpu_mdss_cfg sc7180_dpu_cfg = {
-+	.caps = &sc7180_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(sc7180_mdp),
-+	.mdp = sc7180_mdp,
-+	.ctl_count = ARRAY_SIZE(sc7180_ctl),
-+	.ctl = sc7180_ctl,
-+	.sspp_count = ARRAY_SIZE(sc7180_sspp),
-+	.sspp = sc7180_sspp,
-+	.mixer_count = ARRAY_SIZE(sc7180_lm),
-+	.mixer = sc7180_lm,
-+	.dspp_count = ARRAY_SIZE(sc7180_dspp),
-+	.dspp = sc7180_dspp,
-+	.pingpong_count = ARRAY_SIZE(sc7180_pp),
-+	.pingpong = sc7180_pp,
-+	.intf_count = ARRAY_SIZE(sc7180_intf),
-+	.intf = sc7180_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sdm845_regdma,
-+	.perf = &sc7180_perf_data,
-+	.mdss_irqs = IRQ_SC7180_MASK,
-+};
-+
-+static const struct dpu_mdss_cfg sm8150_dpu_cfg = {
-+	.caps = &sm8150_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(sdm845_mdp),
-+	.mdp = sdm845_mdp,
-+	.ctl_count = ARRAY_SIZE(sm8150_ctl),
-+	.ctl = sm8150_ctl,
-+	.sspp_count = ARRAY_SIZE(sdm845_sspp),
-+	.sspp = sdm845_sspp,
-+	.mixer_count = ARRAY_SIZE(sm8150_lm),
-+	.mixer = sm8150_lm,
-+	.dspp_count = ARRAY_SIZE(sm8150_dspp),
-+	.dspp = sm8150_dspp,
-+	.pingpong_count = ARRAY_SIZE(sm8150_pp),
-+	.pingpong = sm8150_pp,
-+	.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-+	.merge_3d = sm8150_merge_3d,
-+	.intf_count = ARRAY_SIZE(sm8150_intf),
-+	.intf = sm8150_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sm8150_regdma,
-+	.perf = &sm8150_perf_data,
-+	.mdss_irqs = IRQ_SDM845_MASK,
-+};
-+
-+static const struct dpu_mdss_cfg sc8180x_dpu_cfg = {
-+	.caps = &sc8180x_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(sc8180x_mdp),
-+	.mdp = sc8180x_mdp,
-+	.ctl_count = ARRAY_SIZE(sm8150_ctl),
-+	.ctl = sm8150_ctl,
-+	.sspp_count = ARRAY_SIZE(sdm845_sspp),
-+	.sspp = sdm845_sspp,
-+	.mixer_count = ARRAY_SIZE(sm8150_lm),
-+	.mixer = sm8150_lm,
-+	.pingpong_count = ARRAY_SIZE(sm8150_pp),
-+	.pingpong = sm8150_pp,
-+	.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-+	.merge_3d = sm8150_merge_3d,
-+	.intf_count = ARRAY_SIZE(sc8180x_intf),
-+	.intf = sc8180x_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sm8150_regdma,
-+	.perf = &sc8180x_perf_data,
-+	.mdss_irqs = IRQ_SC8180X_MASK,
-+};
-+
-+static const struct dpu_mdss_cfg sm8250_dpu_cfg = {
-+	.caps = &sm8250_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(sm8250_mdp),
-+	.mdp = sm8250_mdp,
-+	.ctl_count = ARRAY_SIZE(sm8150_ctl),
-+	.ctl = sm8150_ctl,
-+	.sspp_count = ARRAY_SIZE(sm8250_sspp),
-+	.sspp = sm8250_sspp,
-+	.mixer_count = ARRAY_SIZE(sm8150_lm),
-+	.mixer = sm8150_lm,
-+	.dspp_count = ARRAY_SIZE(sm8150_dspp),
-+	.dspp = sm8150_dspp,
-+	.pingpong_count = ARRAY_SIZE(sm8150_pp),
-+	.pingpong = sm8150_pp,
-+	.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-+	.merge_3d = sm8150_merge_3d,
-+	.intf_count = ARRAY_SIZE(sm8150_intf),
-+	.intf = sm8150_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.wb_count = ARRAY_SIZE(sm8250_wb),
-+	.wb = sm8250_wb,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sm8250_regdma,
-+	.perf = &sm8250_perf_data,
-+	.mdss_irqs = IRQ_SM8250_MASK,
-+};
-+
-+static const struct dpu_mdss_cfg sc7280_dpu_cfg = {
-+	.caps = &sc7280_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(sc7280_mdp),
-+	.mdp = sc7280_mdp,
-+	.ctl_count = ARRAY_SIZE(sc7280_ctl),
-+	.ctl = sc7280_ctl,
-+	.sspp_count = ARRAY_SIZE(sc7280_sspp),
-+	.sspp = sc7280_sspp,
-+	.mixer_count = ARRAY_SIZE(sc7280_lm),
-+	.mixer = sc7280_lm,
-+	.pingpong_count = ARRAY_SIZE(sc7280_pp),
-+	.pingpong = sc7280_pp,
-+	.intf_count = ARRAY_SIZE(sc7280_intf),
-+	.intf = sc7280_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.perf = &sc7280_perf_data,
-+	.mdss_irqs = IRQ_SC7280_MASK,
-+};
-+
-+static const struct dpu_mdss_cfg qcm2290_dpu_cfg = {
-+	.caps = &qcm2290_dpu_caps,
-+	.mdp_count = ARRAY_SIZE(qcm2290_mdp),
-+	.mdp = qcm2290_mdp,
-+	.ctl_count = ARRAY_SIZE(qcm2290_ctl),
-+	.ctl = qcm2290_ctl,
-+	.sspp_count = ARRAY_SIZE(qcm2290_sspp),
-+	.sspp = qcm2290_sspp,
-+	.mixer_count = ARRAY_SIZE(qcm2290_lm),
-+	.mixer = qcm2290_lm,
-+	.dspp_count = ARRAY_SIZE(qcm2290_dspp),
-+	.dspp = qcm2290_dspp,
-+	.pingpong_count = ARRAY_SIZE(qcm2290_pp),
-+	.pingpong = qcm2290_pp,
-+	.intf_count = ARRAY_SIZE(qcm2290_intf),
-+	.intf = qcm2290_intf,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.reg_dma_count = 1,
-+	.dma_cfg = &sdm845_regdma,
-+	.perf = &qcm2290_perf_data,
-+	.mdss_irqs = IRQ_SC7180_MASK,
-+};
- 
- static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
--	{ .hw_rev = DPU_HW_VER_300, .cfg_init = msm8998_cfg_init},
--	{ .hw_rev = DPU_HW_VER_301, .cfg_init = msm8998_cfg_init},
--	{ .hw_rev = DPU_HW_VER_400, .cfg_init = sdm845_cfg_init},
--	{ .hw_rev = DPU_HW_VER_401, .cfg_init = sdm845_cfg_init},
--	{ .hw_rev = DPU_HW_VER_500, .cfg_init = sm8150_cfg_init},
--	{ .hw_rev = DPU_HW_VER_501, .cfg_init = sm8150_cfg_init},
--	{ .hw_rev = DPU_HW_VER_510, .cfg_init = sc8180x_cfg_init},
--	{ .hw_rev = DPU_HW_VER_600, .cfg_init = sm8250_cfg_init},
--	{ .hw_rev = DPU_HW_VER_620, .cfg_init = sc7180_cfg_init},
--	{ .hw_rev = DPU_HW_VER_650, .cfg_init = qcm2290_cfg_init},
--	{ .hw_rev = DPU_HW_VER_720, .cfg_init = sc7280_cfg_init},
--};
--
--const struct dpu_mdss_cfg *dpu_hw_catalog_init(struct device *dev, u32 hw_rev)
-+	{ .hw_rev = DPU_HW_VER_300, .dpu_cfg = &msm8998_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_301, .dpu_cfg = &msm8998_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_400, .dpu_cfg = &sdm845_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_401, .dpu_cfg = &sdm845_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_500, .dpu_cfg = &sm8150_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_501, .dpu_cfg = &sm8150_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_510, .dpu_cfg = &sc8180x_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_600, .dpu_cfg = &sm8250_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_620, .dpu_cfg = &sc7180_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_650, .dpu_cfg = &qcm2290_dpu_cfg},
-+	{ .hw_rev = DPU_HW_VER_720, .dpu_cfg = &sc7280_dpu_cfg},
-+};
-+
-+const struct dpu_mdss_cfg *dpu_hw_catalog_init(u32 hw_rev)
- {
- 	int i;
- 	struct dpu_mdss_cfg *dpu_cfg;
- 
--	dpu_cfg = devm_kzalloc(dev, sizeof(*dpu_cfg), GFP_KERNEL);
-+	dpu_cfg = kzalloc(sizeof(*dpu_cfg), GFP_KERNEL);
- 	if (!dpu_cfg)
- 		return ERR_PTR(-ENOMEM);
- 
- 	for (i = 0; i < ARRAY_SIZE(cfg_handler); i++) {
--		if (cfg_handler[i].hw_rev == hw_rev) {
--			cfg_handler[i].cfg_init(dpu_cfg);
--			return dpu_cfg;
--		}
-+		if (cfg_handler[i].hw_rev == hw_rev)
-+			return cfg_handler[i].dpu_cfg;
- 	}
- 
- 	DPU_ERROR("unsupported chipset id:%X\n", hw_rev);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index c317fa27daa0..71fe4c505f5b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -878,17 +878,16 @@ struct dpu_mdss_cfg {
- 
- struct dpu_mdss_hw_cfg_handler {
- 	u32 hw_rev;
--	void (*cfg_init)(struct dpu_mdss_cfg *dpu_cfg);
-+	const struct dpu_mdss_cfg *dpu_cfg;
- };
- 
- /**
-  * dpu_hw_catalog_init - dpu hardware catalog init API retrieves
-  * hardcoded target specific catalog information in config structure
-- * @dev:          DPU device
-  * @hw_rev:       caller needs provide the hardware revision.
-  *
-  * Return: dpu config structure
-  */
--const struct dpu_mdss_cfg *dpu_hw_catalog_init(struct device *dev, u32 hw_rev);
-+const struct dpu_mdss_cfg *dpu_hw_catalog_init(u32 hw_rev);
- 
- #endif /* _DPU_HW_CATALOG_H */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index bba29c31f843..688dc4409af6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1093,7 +1093,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 
- 	pr_info("dpu hardware revision:0x%x\n", dpu_kms->core_rev);
- 
--	dpu_kms->catalog = dpu_hw_catalog_init(dev->dev, dpu_kms->core_rev);
-+	dpu_kms->catalog = dpu_hw_catalog_init(dpu_kms->core_rev);
- 	if (IS_ERR_OR_NULL(dpu_kms->catalog)) {
- 		rc = PTR_ERR(dpu_kms->catalog);
- 		if (!dpu_kms->catalog)
+Changes since v2:
+ - Add DPU_MIXER_COMBINED_ALPHA to sc7180's mixer features mask (noted
+   by Abhinav).
+
+Changes since v1:
+ - Turn catalog->perf and catalog->dma_cfg to be pointers, otherwise
+   clang complains that they are not constant.
+
+Dmitry Baryshkov (7):
+  drm/msm/dpu: use feature bit for LM combined alpha check
+  drm/msm/dpu: move VBIF_XINL_QOS_LVL_REMAP size to hw_catalog
+  drm/msm/dpu: remove hwversion field from data structures
+  drm/msm/dpu: change catalog->perf to be a const pointer
+  drm/msm/dpu: change catalog->dma_cfg to be a const pointer
+  drm/msm/dpu: constify struct dpu_mdss_cfg
+  drm/msm/dpu: make dpu hardware catalog static const
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |  24 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   4 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  12 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 502 ++++++++----------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  20 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |   1 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c |   5 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |   7 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    |   1 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   2 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c   |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  20 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   2 +-
+ 27 files changed, 283 insertions(+), 359 deletions(-)
+
 -- 
 2.35.1
 
