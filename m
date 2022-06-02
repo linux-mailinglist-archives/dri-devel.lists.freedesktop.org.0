@@ -2,54 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F08253BC81
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 18:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426F553BC7D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 18:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E30112B51;
-	Thu,  2 Jun 2022 16:29:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1E05112B15;
+	Thu,  2 Jun 2022 16:27:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8D5112B51;
- Thu,  2 Jun 2022 16:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654187348; x=1685723348;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=FUWjMY5QvrqnD4HnOuLPz0sb4eawYoYBq2yq6dyYae0=;
- b=WgW+QwHntj0n9up3H5waOARvPJjnXKE9w3fW1sczXtDPnnqk8fsu5THP
- riKXc6wfUJaUxmUQ+F/heROynDLlWYmcOxpZoBzD5+HuIfwuB28zVaRiK
- 8HiY5glTxcrSeiUKAd1FuOvF5mE2onkiGRN1xFCYjTnVzJ9B8ohcB1cR5
- qLonwe8V1gme5BQqQymumm4qIEBYFFiGUYCeSclCPeS9Pf3W1uox+e2Lr
- T8V0FBFieaIr+YT3hci01ZWN8eDUSGNvM5U5AubC10xv+HRiUDS92nILl
- BVuixF37bl7mq0Z3pKYBymTedsLkhDWT2D8HCKELWvnuvJ0BNybY05W+4 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10366"; a="276074814"
-X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="276074814"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 09:29:08 -0700
-X-IronPort-AV: E=Sophos;i="5.91,271,1647327600"; d="scan'208";a="668055100"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2022 09:29:08 -0700
-Date: Thu, 2 Jun 2022 09:22:46 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
- document
-Message-ID: <20220602162245.GA15751@jons-linux-dev-box>
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-2-niranjana.vishwanathapura@intel.com>
- <43746609-4f60-f347-5934-6680516297dd@intel.com>
- <20220601211849.GA30517@jons-linux-dev-box>
- <2508922c-dae7-af05-0feb-9c4b63411a8c@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20209112B15
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 16:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654187224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mygmPhKiJi7o/hltZa2N+7CYRMGUR5v63WXlkfkXj6Q=;
+ b=Pe0Cu6hU+M37nyL8McHSuFcXxjvOH/ZV1t+5XrCsbQhOjqaJG12dFzHchFnI8Vc8V9WvIr
+ R7r65bSCAaucnaCc5qmddhlETZqk4LVw0hpLTjA9sTTKWMBHklFTqcEKgo0cRE8QHqxB/k
+ JNITVwaz1PRg24fsk9Ko/J0WsgDSmMI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-GuCbEzyKPpajKkBB12scgA-1; Thu, 02 Jun 2022 12:27:00 -0400
+X-MC-Unique: GuCbEzyKPpajKkBB12scgA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n18-20020a05600c3b9200b0039746f3d9faso2635374wms.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 09:27:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mygmPhKiJi7o/hltZa2N+7CYRMGUR5v63WXlkfkXj6Q=;
+ b=KDB3YEMDRQ/ukPs1rOlTd5+W8RVbBIHazZgk3p1k3gY4ep4YrZcNV5FKHv3C6Jcn7p
+ Tm2khc+VhVoTnqgemSESy90EFzUw929T5zsKutVMAkd5ZwCQMKPusVkydFOx/N7SxSBC
+ BWpx04FIo3fDKSaQ5fU2WmjtteqSjMYw34Klw4UfiI6ozIDaVMT4cLd6wFPMFB1ryO7J
+ BdOuyTU55ZNy6nsqjRXCdTnG8e/3lHfXi8xQiSsLN8m5ov5UGNZpy/7F6LvoqVb0zn4P
+ 4QItZjy3tpsCeM950IEC2o9XZfbsXnPo+1xgh5pPXNxTnjM9ERxu5pEpIQRB3kjltW2w
+ b2Xg==
+X-Gm-Message-State: AOAM533wtPoCoIn4l+l3zVFqZG4ovMx292GkwfKn339kskaOxzFuv43i
+ u7389QQ6j/L/CzwTbUKBknyhSzVxPy1rqbGpqzlV6KUZq6ZQ3rnovS6LZ9btVZIaVk/LsIljMoq
+ GY1oxS5GLA4X0a9e83S+snzmp0ALA
+X-Received: by 2002:a05:6000:1887:b0:20f:e155:9db4 with SMTP id
+ a7-20020a056000188700b0020fe1559db4mr4296982wri.243.1654187219640; 
+ Thu, 02 Jun 2022 09:26:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyz3mxXpaL3a1n46/Ak3TghAtlxNB5xnz5LUKaE7clzJo3LROi83rBH+pU6l0xxChUwQLHFIg==
+X-Received: by 2002:a05:6000:1887:b0:20f:e155:9db4 with SMTP id
+ a7-20020a056000188700b0020fe1559db4mr4296961wri.243.1654187219328; 
+ Thu, 02 Jun 2022 09:26:59 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l65-20020a1c2544000000b00397393419e3sm8948736wml.28.2022.06.02.09.26.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jun 2022 09:26:59 -0700 (PDT)
+Message-ID: <e26de140-afb7-7b1b-4826-6ac4f3a4fe02@redhat.com>
+Date: Thu, 2 Jun 2022 18:26:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2508922c-dae7-af05-0feb-9c4b63411a8c@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb332()
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+References: <20220530102017.471865-1-jose.exposito89@gmail.com>
+ <20220530102017.471865-2-jose.exposito89@gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220530102017.471865-2-jose.exposito89@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,129 +89,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- thomas.hellstrom@intel.com, chris.p.wilson@intel.com, daniel.vetter@intel.com,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- christian.koenig@amd.com
+Cc: tzimmermann@suse.de, airlied@linux.ie, Daniel Latypov <dlatypov@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 02, 2022 at 08:42:13AM +0300, Lionel Landwerlin wrote:
-> On 02/06/2022 00:18, Matthew Brost wrote:
-> > On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel Landwerlin wrote:
-> > > On 17/05/2022 21:32, Niranjana Vishwanathapura wrote:
-> > > > +VM_BIND/UNBIND ioctl will immediately start binding/unbinding the mapping in an
-> > > > +async worker. The binding and unbinding will work like a special GPU engine.
-> > > > +The binding and unbinding operations are serialized and will wait on specified
-> > > > +input fences before the operation and will signal the output fences upon the
-> > > > +completion of the operation. Due to serialization, completion of an operation
-> > > > +will also indicate that all previous operations are also complete.
-> > > I guess we should avoid saying "will immediately start binding/unbinding" if
-> > > there are fences involved.
-> > > 
-> > > And the fact that it's happening in an async worker seem to imply it's not
-> > > immediate.
-> > > 
-> > > 
-> > > I have a question on the behavior of the bind operation when no input fence
-> > > is provided. Let say I do :
-> > > 
-> > > VM_BIND (out_fence=fence1)
-> > > 
-> > > VM_BIND (out_fence=fence2)
-> > > 
-> > > VM_BIND (out_fence=fence3)
-> > > 
-> > > 
-> > > In what order are the fences going to be signaled?
-> > > 
-> > > In the order of VM_BIND ioctls? Or out of order?
-> > > 
-> > > Because you wrote "serialized I assume it's : in order
-> > > 
-> > > 
-> > > One thing I didn't realize is that because we only get one "VM_BIND" engine,
-> > > there is a disconnect from the Vulkan specification.
-> > > 
-> > > In Vulkan VM_BIND operations are serialized but per engine.
-> > > 
-> > > So you could have something like this :
-> > > 
-> > > VM_BIND (engine=rcs0, in_fence=fence1, out_fence=fence2)
-> > > 
-> > > VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
-> > > 
-> > Question - let's say this done after the above operations:
-> > 
-> > EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
-> > 
-> > Is the exec ordered with respected to bind (i.e. would fence3 & 4 be
-> > signaled before the exec starts)?
-> > 
-> > Matt
-> 
-> 
-> Hi Matt,
-> 
-> From the vulkan point of view, everything is serialized within an engine (we
-> map that to a VkQueue).
-> 
-> So with :
-> 
-> EXEC (engine=ccs0, in_fence=NULL, out_fence=NULL)
-> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
-> 
-> EXEC completes first then VM_BIND executes.
-> 
-> 
-> To be even clearer :
-> 
-> EXEC (engine=ccs0, in_fence=fence2, out_fence=NULL)
-> VM_BIND (engine=ccs0, in_fence=fence3, out_fence=fence4)
-> 
-> 
-> EXEC will wait until fence2 is signaled.
-> Once fence2 is signaled, EXEC proceeds, finishes and only after it is done, VM_BIND executes.
-> 
-> It would kind of like having the VM_BIND operation be another batch executed from the ringbuffer buffer.
-> 
+Hello José,
 
-Yea this makes sense. I think of VM_BINDs as more or less just another
-version of an EXEC and this fits with that.
-
-In practice I don't think we can share a ring but we should be able to
-present an engine (again likely a gem context in i915) to the user that
-orders VM_BINDs / EXECs if that is what Vulkan expects, at least I think.
-
-Hopefully Niranjana + Daniel agree.
-
-Matt
-
-> -Lionel
+On 5/30/22 12:20, José Expósito wrote:
+> Test the conversion from XRGB8888 to RGB332.
 > 
+> What is tested?
 > 
-> > 
-> > > fence1 is not signaled
-> > > 
-> > > fence3 is signaled
-> > > 
-> > > So the second VM_BIND will proceed before the first VM_BIND.
-> > > 
-> > > 
-> > > I guess we can deal with that scenario in userspace by doing the wait
-> > > ourselves in one thread per engines.
-> > > 
-> > > But then it makes the VM_BIND input fences useless.
-> > > 
-> > > 
-> > > Daniel : what do you think? Should be rework this or just deal with wait
-> > > fences in userspace?
-> > > 
-> > > 
-> > > Sorry I noticed this late.
-> > > 
-> > > 
-> > > -Lionel
-> > > 
-> > > 
+>  - Different values for the X in XRGB8888 to make sure it is ignored
+>  - Different clip values: Single pixel and full and partial buffer
+>  - Well know colors: White, black, red, green, blue, magenta, yellow
+>    and cyan
+>  - Other colors: Randomly picked
+>  - Destination pitch
 > 
+> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> ---
+
+Thanks a lot for working on this! It's very cool to see the first KUnit
+tests added to DRM :)
+
+>  drivers/gpu/drm/Kconfig                  |  12 ++
+>  drivers/gpu/drm/Makefile                 |   3 +
+>  drivers/gpu/drm/drm_format_helper_test.c | 166 +++++++++++++++++++++++
+>  3 files changed, 181 insertions(+)
+>  create mode 100644 drivers/gpu/drm/drm_format_helper_test.c
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index e88c497fa010..d92be6faef15 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -76,6 +76,18 @@ config DRM_KMS_HELPER
+>  	help
+>  	  CRTC helpers for KMS drivers.
+>  
+> +config DRM_FORMAR_HELPER_TEST
+
+I wonder if we want this level of detail for the test Kconfig symbols.
+Maybe we could just have a DRM_KUNIT_TEST symbol that will enable all
+the KUnit test suites for DRM ?
+
+> +	bool "drm_format_helper tests" if !KUNIT_ALL_TESTS
+> +	depends on DRM && KUNIT=y
+> +	select DRM_KMS_HELPER
+
+Daniel didn't like this `select DRM_KMS_HELPER` and I think that we can avoid
+it if instead drm_format_helper_test.c is included in drm_format_helper.c, i.e:
+
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index a3ccd8bc966f..d63e02da528f 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -692,3 +692,7 @@ void drm_fb_xrgb8888_to_mono(void *dst, unsigned int dst_pitch, const void *vadd
+        kfree(src32);
+ }
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_mono);
++
++#ifdef DRM_KUNIT_TEST
++#include "drm_format_helper_test.c"
++#endif
+
+This also has the advantage that will allow to have KUnit tests for the static
+functions that are only available in the drm_format_helper.c compilation unit.
+
+>  obj-$(CONFIG_DRM_DEBUG_SELFTEST) += selftests/
+> +obj-$(CONFIG_DRM_FORMAR_HELPER_TEST) += drm_kms_helper.o \
+> +		drm_format_helper_test.o
+
+And doing that will also allow you to get rid of this, since just selecting
+CONFIG_DRM_KUNIT_TEST=y would be enough for the tests built and run by KUnit.
+
+> +CFLAGS_drm_format_helper_test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+>
+
+A comment on why this is needed would useful.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
