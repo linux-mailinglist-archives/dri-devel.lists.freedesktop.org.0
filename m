@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A4A53B1B1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 04:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B36053B215
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 05:31:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A401129BC;
-	Thu,  2 Jun 2022 02:44:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E252710FD32;
+	Thu,  2 Jun 2022 03:31:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7428A112914
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 02:44:17 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id q123so3565589pgq.6
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 19:44:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HbupgAkmVR1GYm3il4PytB0cVYenSOe+g7j17XkI4d4=;
- b=fiQbviVV7NONRimAi0Ctaq/RDSxgHCrya9Q/2+k+U8fhlYYHFuDQBk/tSbFZ1fx5Im
- GTbau0ekaRCChwa0jE4epT8v+rnupS7lwj7ZNrItTPZA8Q+94zKfN0aDAwGMmJODHL00
- GqL3iGIrLQeU8a4KLi5s9jUt4pt8BiUTJFc7kVIkY/L05xH/MSaAQV9SAgBpvtZAQYew
- gKZolAh5E/gQ2YLrLgFSKis9V88NSX4ZIoNcXiPZnNnEDsuk/rCo+rBQ6RKcK2TlOUL0
- cWD8WxU8v0cKLb/Vfp4h4BNKeIsC6Z7hXnRdNYiEhoQxt1n9PAjeHpRhcSwU3jb7tert
- yEXA==
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCE710FD32
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 03:31:18 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id p19so1930767wmg.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Jun 2022 20:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NtKZM7ZzL0kZiBk9fCkTs8IIiGvurk+lCaFLvy6F9KM=;
+ b=raUrDavqbUtfHUyTsuvpI3JJKenCcbQI1C91oKXMoIo0hS6fi+YXCZvOeeg2MEQNX1
+ dJ6bd3Ce4GTPVs0QEn79KZs2VPt6QKmzQP0Nwiu/KPgJO8R4RFx7GRPptekvllGm36QP
+ H1pTmzWRB1hHlS2eYOLCpjjFjyKzuVbWEWizG0E7Rh1GH62aQKt6rMy5q1V0iSdjlXRg
+ oTlWVwC1Vm733kv5iBJpVdPKqQ7NyLd0YOcyeLw1ZfsP2dkqPLzYSAtFTezRtt9x1fyy
+ WIXyado7VheTdhisXzaAk8sUkFbrRcuVKr0JJs9M+ijZAS3yhpw2MvnhzE+WK3dWox07
+ Y6Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HbupgAkmVR1GYm3il4PytB0cVYenSOe+g7j17XkI4d4=;
- b=UFo+zmaPNPW6FMEWEjkXr6srE9MVLconWGZZuOCISyrNm5WlXAfl/QXGgyjEgHPmRU
- +MYLHI38yl81+kRPBIxpRdcCD++/Y1HOgiwNkbycJMl7p1eDrWiBfUqcyAijrTZIm1qD
- yp2vyBmdFPf/q51+EH0gAATzlbUsddXYsfFYXaqe8Xg/jYmwDB16KHR1B9OgZ0VdmHk0
- FtYM9Ny9v6wVBs2JX/6G6lz3MmW/RzbVYSkE5+OEaqRejGkQpVXA2WqhbvoQWdeAz+wD
- nmrRorDK3PaNbIfzopAL+L8qAa14C6fwuhoP/9BFvJPlbs6U0I/nqhVjmGYHzpXeuH9b
- Xhhw==
-X-Gm-Message-State: AOAM531R7/6mPR16R9KFic2lLXkSGGMBuFoUQy7AyyEmtCuy4HeRE8TR
- lUzjh/LutjFP3PADoXQ7DhE=
-X-Google-Smtp-Source: ABdhPJxTF2ECTA8cM8yplQy/idwVYTfY2GW0aaQ29KadG3GJLzrn5lLiXgz9B3rxdlpt/qdnJ/wjkQ==
-X-Received: by 2002:a63:441f:0:b0:3fc:8bd2:f828 with SMTP id
- r31-20020a63441f000000b003fc8bd2f828mr2134422pga.579.1654137857033; 
- Wed, 01 Jun 2022 19:44:17 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- d62-20020a623641000000b0051baaa40028sm2208273pfa.11.2022.06.01.19.44.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Jun 2022 19:44:16 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Eric Anholt <eric@anholt.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4] drm/v3d/v3d_drv: Fix PM disable depth imbalance
-Date: Thu,  2 Jun 2022 06:44:07 +0400
-Message-Id: <20220602024408.43070-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NtKZM7ZzL0kZiBk9fCkTs8IIiGvurk+lCaFLvy6F9KM=;
+ b=IjTKgmQQg3UmGwY6w/oR6XhTZyBpZHTjDdhdEZIf3bulM3XxrkhyCizjueVBBc9k6B
+ FyqTyVlTdxK69b5ygS7F92El7B2c9VusIWFJG/0XNTrwpeqXgq858klEaFcqe54kGcBN
+ /fzUou48rHNtvY22G15VINY0pTynxABuQzh68z/8e0kMRX0Ij+mAnZtGh3qdAjxAwneq
+ eXnpFRqX+Sj0lEyn+uCGr4zmf3VI0AVOXzJj8LhIoHeujL7NxQjdzh0fPk8GiYmqWXPw
+ I1caWgvlqaPmEuSVT828lUlt9L7nIJu1dgTlCtzM2joisA53Iq49Mji81c9owUzwrluG
+ nuqQ==
+X-Gm-Message-State: AOAM531bpqte+hzWcjok9/aaatO2aEznfcyJZGhHiB8ViueZsius8faR
+ YCWg2D+HIDlAU6XTTvmqoEwLtNnp075j1eR+lls+Sw==
+X-Google-Smtp-Source: ABdhPJwr9ksMbCqrYTe/BLeOa2HUtPjrOYz7Ly9AqSwbBXJ4IHGSxO1O40n+EYK78Sm55YfS5gAcIIlyabDnSvyGU9g=
+X-Received: by 2002:a05:600c:3547:b0:39c:1606:17c5 with SMTP id
+ i7-20020a05600c354700b0039c160617c5mr2125479wmq.61.1654140676586; Wed, 01 Jun
+ 2022 20:31:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220531212521.1231133-1-kaleshsingh@google.com>
+ <20220531212521.1231133-3-kaleshsingh@google.com>
+ <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
+ <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
+ <875yll1fp1.fsf@stepbren-lnx.us.oracle.com>
+ <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
+In-Reply-To: <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Wed, 1 Jun 2022 20:31:05 -0700
+Message-ID: <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH 2/2] procfs: Add 'path' to
+ /proc/<pid>/fdinfo/
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,50 +71,265 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Stephen Brennan <stephen.s.brennan@oracle.com>,
+ Paul Gortmaker <paul.gortmaker@windriver.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ David Hildenbrand <david@redhat.com>,
+ "Cc: Android Kernel" <kernel-team@android.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, Colin Cross <ccross@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pm_runtime_enable will increase power disable depth.
-We need to call pm_runtime_disable() to balance it when needed
-use devm_pm_runtime_enable() and handle it automatically/
+On Wed, Jun 1, 2022 at 8:02 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 01.06.22 um 00:48 schrieb Stephen Brennan:
+> > Kalesh Singh <kaleshsingh@google.com> writes:
+> >> On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
+> >> <stephen.s.brennan@oracle.com> wrote:
+> >>> On 5/31/22 14:25, Kalesh Singh wrote:
+> >>>> In order to identify the type of memory a process has pinned through
+> >>>> its open fds, add the file path to fdinfo output. This allows
+> >>>> identifying memory types based on common prefixes. e.g. "/memfd...",
+> >>>> "/dmabuf...", "/dev/ashmem...".
+> >>>>
+> >>>> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCREDS
+> >>>> the same as /proc/<pid>/maps which also exposes the file path of
+> >>>> mappings; so the security permissions for accessing path is consiste=
+nt
+> >>>> with that of /proc/<pid>/maps.
+> >>> Hi Kalesh,
+> >> Hi Stephen,
+> >>
+> >> Thanks for taking a look.
+> >>
+> >>> I think I see the value in the size field, but I'm curious about path=
+,
+> >>> which is available via readlink /proc/<pid>/fd/<n>, since those are
+> >>> symlinks to the file themselves.
+> >> This could work if we are root, but the file permissions wouldn't
+> >> allow us to do the readlink on other processes otherwise. We want to
+> >> be able to capture the system state in production environments from
+> >> some trusted process with ptrace read capability.
+> > Interesting, thanks for explaining. It seems weird to have a duplicate
+> > interface for the same information but such is life.
+>
+> Yeah, the size change is really straight forward but for this one I'm
+> not 100% sure either.
 
-Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
-Changes in v4:
-- use devm_pm_runtime_enable()
+The 2 concerns I think are:
+  1. Fun characters in the path names
+  2. If exposing the path is appropriate to begin with.
 
-Changes in v3:
-- call pm_runtime_disable() in v3d_platform_drm_remove
-- update commit message
+One way I think we can address both is to only expose the path for
+anon inodes. Then we have well-known path formats and we don't expose
+much about which files a process is accessing since these aren't real
+paths.
 
-Changes in v2
-- put pm_runtime_disable before dma_free_wc
-- rename dma_free to pm_disable
++       if (is_anon_inode(inode)) {
++               seq_puts(m, "path:\t");
++               seq_file_path(m, file, "\n");
++               seq_putc(m, '\n');
++       }
 
-v1: https://lore.kernel.org/r/20220105120442.14418-1-linmq006@gmail.com
-v2: https://lore.kernel.org/r/20220106124657.32737-1-linmq006@gmail.com
-v3: https://lore.kernel.org/all/20220601122050.1822-1-linmq006@gmail.com
----
- drivers/gpu/drm/v3d/v3d_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Interested to hear thoughts on it.
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 1afcd54fbbd5..563ad4b9c2e8 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -282,7 +282,9 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 
- 	pm_runtime_use_autosuspend(dev);
- 	pm_runtime_set_autosuspend_delay(dev, 50);
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		goto dma_free;
- 
- 	ret = v3d_gem_init(drm);
- 	if (ret)
--- 
-2.25.1
+>
+> Probably best to ping some core fs developer before going further with it=
+.
 
+linux-fsdevel is cc'd here. Adding Al Vrio as well. Please let me know
+if there are other parties I should include.
+
+>
+> BTW: Any preferred branch to push this upstream? If not I can take it
+> through drm-misc-next.
+
+No other dependencies for this, so drm-misc-next is good.
+
+Thanks,
+Kalesh
+
+>
+> Regards,
+> Christian.
+>
+> >
+> >>> File paths can contain fun characters like newlines or colons, which
+> >>> could make parsing out filenames in this text file... fun. How would =
+your
+> >>> userspace parsing logic handle "/home/stephen/filename\nsize:\t4096"?=
+ The
+> >>> readlink(2) API makes that easy already.
+> >> I think since we have escaped the "\n" (seq_file_path(m, file, "\n")),
+> > I really should have read through that function before commenting,
+> > thanks for teaching me something new :)
+> >
+> > Stephen
+> >
+> >> then user space might parse this line like:
+> >>
+> >> if (strncmp(line, "path:\t", 6) =3D=3D 0)
+> >>          char* path =3D line + 6;
+> >>
+> >>
+> >> Thanks,
+> >> Kalesh
+> >>
+> >>> Is the goal avoiding races (e.g. file descriptor 3 is closed and reop=
+ened
+> >>> to a different path between reading fdinfo and stating the fd)?
+> >>>
+> >>> Stephen
+> >>>
+> >>>> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> >>>> ---
+> >>>>
+> >>>> Changes from rfc:
+> >>>>    - Split adding 'size' and 'path' into a separate patches, per Chr=
+istian
+> >>>>    - Fix indentation (use tabs) in documentaion, per Randy
+> >>>>
+> >>>>   Documentation/filesystems/proc.rst | 14 ++++++++++++--
+> >>>>   fs/proc/fd.c                       |  4 ++++
+> >>>>   2 files changed, 16 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/file=
+systems/proc.rst
+> >>>> index 779c05528e87..591f12d30d97 100644
+> >>>> --- a/Documentation/filesystems/proc.rst
+> >>>> +++ b/Documentation/filesystems/proc.rst
+> >>>> @@ -1886,14 +1886,16 @@ if precise results are needed.
+> >>>>   3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
+> >>>>   ---------------------------------------------------------------
+> >>>>   This file provides information associated with an opened file. The=
+ regular
+> >>>> -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino',=
+ and 'size'.
+> >>>> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino', =
+'size',
+> >>>> +and 'path'.
+> >>>>
+> >>>>   The 'pos' represents the current offset of the opened file in deci=
+mal
+> >>>>   form [see lseek(2) for details], 'flags' denotes the octal O_xxx m=
+ask the
+> >>>>   file has been created with [see open(2) for details] and 'mnt_id' =
+represents
+> >>>>   mount ID of the file system containing the opened file [see 3.5
+> >>>>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode num=
+ber of
+> >>>> -the file, and 'size' represents the size of the file in bytes.
+> >>>> +the file, 'size' represents the size of the file in bytes, and 'pat=
+h'
+> >>>> +represents the file path.
+> >>>>
+> >>>>   A typical output is::
+> >>>>
+> >>>> @@ -1902,6 +1904,7 @@ A typical output is::
+> >>>>        mnt_id: 19
+> >>>>        ino:    63107
+> >>>>        size:   0
+> >>>> +     path:   /dev/null
+> >>>>
+> >>>>   All locks associated with a file descriptor are shown in its fdinf=
+o too::
+> >>>>
+> >>>> @@ -1920,6 +1923,7 @@ Eventfd files
+> >>>>        mnt_id: 9
+> >>>>        ino:    63107
+> >>>>        size:   0
+> >>>> +     path:   anon_inode:[eventfd]
+> >>>>        eventfd-count:  5a
+> >>>>
+> >>>>   where 'eventfd-count' is hex value of a counter.
+> >>>> @@ -1934,6 +1938,7 @@ Signalfd files
+> >>>>        mnt_id: 9
+> >>>>        ino:    63107
+> >>>>        size:   0
+> >>>> +     path:   anon_inode:[signalfd]
+> >>>>        sigmask:        0000000000000200
+> >>>>
+> >>>>   where 'sigmask' is hex value of the signal mask associated
+> >>>> @@ -1949,6 +1954,7 @@ Epoll files
+> >>>>        mnt_id: 9
+> >>>>        ino:    63107
+> >>>>        size:   0
+> >>>> +     path:   anon_inode:[eventpoll]
+> >>>>        tfd:        5 events:       1d data: ffffffffffffffff pos:0 i=
+no:61af sdev:7
+> >>>>
+> >>>>   where 'tfd' is a target file descriptor number in decimal form,
+> >>>> @@ -1968,6 +1974,7 @@ For inotify files the format is the following:=
+:
+> >>>>        mnt_id: 9
+> >>>>        ino:    63107
+> >>>>        size:   0
+> >>>> +     path:   anon_inode:inotify
+> >>>>        inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0=
+ fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+> >>>>
+> >>>>   where 'wd' is a watch descriptor in decimal form, i.e. a target fi=
+le
+> >>>> @@ -1992,6 +1999,7 @@ For fanotify files the format is::
+> >>>>        mnt_id: 9
+> >>>>        ino:    63107
+> >>>>        size:   0
+> >>>> +     path:   anon_inode:[fanotify]
+> >>>>        fanotify flags:10 event-flags:0
+> >>>>        fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+> >>>>        fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:=
+40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+> >>>> @@ -2018,6 +2026,7 @@ Timerfd files
+> >>>>        mnt_id: 9
+> >>>>        ino:    63107
+> >>>>        size:   0
+> >>>> +     path:   anon_inode:[timerfd]
+> >>>>        clockid: 0
+> >>>>        ticks: 0
+> >>>>        settime flags: 01
+> >>>> @@ -2042,6 +2051,7 @@ DMA Buffer files
+> >>>>        mnt_id: 9
+> >>>>        ino:    63107
+> >>>>        size:   32768
+> >>>> +     path:   /dmabuf:
+> >>>>        count:  2
+> >>>>        exp_name:  system-heap
+> >>>>
+> >>>> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+> >>>> index 464bc3f55759..8889a8ba09d4 100644
+> >>>> --- a/fs/proc/fd.c
+> >>>> +++ b/fs/proc/fd.c
+> >>>> @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v)
+> >>>>        seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
+> >>>>        seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i=
+_size);
+> >>>>
+> >>>> +     seq_puts(m, "path:\t");
+> >>>> +     seq_file_path(m, file, "\n");
+> >>>> +     seq_putc(m, '\n');
+> >>>> +
+> >>>>        /* show_fd_locks() never deferences files so a stale value is=
+ safe */
+> >>>>        show_fd_locks(m, file, files);
+> >>>>        if (seq_has_overflowed(m))
+> >>> --
+> >>> To unsubscribe from this group and stop receiving emails from it, sen=
+d an email to kernel-team+unsubscribe@android.com.
+> >>>
+> > _______________________________________________
+> > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+>
