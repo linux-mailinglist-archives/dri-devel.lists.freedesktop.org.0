@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129E653B44D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 09:25:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA51953B453
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jun 2022 09:28:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2845F10F867;
-	Thu,  2 Jun 2022 07:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2F921127BE;
+	Thu,  2 Jun 2022 07:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9605F10F612
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 07:25:34 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id j7so4160469pjn.4
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 00:25:34 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBAB1127BE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jun 2022 07:28:12 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id e24so4217738pjt.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 00:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=koMXpc2rmrfLXTYMm1SPN0tA+ViraozppC8muJXqL0E=;
- b=i1YuAyYvelaUnawkHb1VTmDlDig697lO2w7y7mfDe/0qyt0W66VpYXgTAKGzvraFsq
- pAUeK3fn9JTek8b9P6L8cQTsNuF/Rp9EZfhMAEHXBZxQVvJgaK3lF8e1GlnpC1eDnpyt
- 4efZnfamagCtj0pVAUChBzcHI3/TELqeSQ+6N6NTnYeTpjzB5aXsJe5TarE5IttLOAjY
- kElVA0ePcT9B9PQCScZE34fk6JlAC5KfBsOcNxBe8mnLj1HK1lJ380Fi2zxGOATxpskd
- 5a3Upk50OBZz+GmMLVSQBrgkN7CWw1VjHzFgklRWvdlC5rku7WWPk5Z712+GDwtOE3Kg
- DJcg==
+ :cc:content-transfer-encoding;
+ bh=nB4RpqHzrf2dzscMYpBZ0hckoppigDCESfuHf56Z8Xw=;
+ b=HXfO3qGk49p3NrxMUx+iu3k7WEs+39mzQEbjL0YBJPLzi0TYNkKxFF/9P/sbuZ3npg
+ oVx4DAKBQaq6ERkm7bmamqXriLsJ68easllhJXx2Ib4ujKXY/fwzewUqRzcp0d091b64
+ K6nIdn9LOwYhBg073hDN7l9SmLG6W+fwoERldf7SBNi66jDbFXJNRua5/LV3grZ/2gx8
+ HWlReKhFENIAKbs29dRusIt1xzcet04vgMMmUQxMJUTmK8uEi7fH1sl7w09S7sRM7qCq
+ fnIHMG3zAIuc2gj7naSWPtk/+EF5wGGRQYZRcB5tECSvXI6Ztwjfd0CcfcmkKW6X7iBj
+ YuNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=koMXpc2rmrfLXTYMm1SPN0tA+ViraozppC8muJXqL0E=;
- b=R0h1chjz/nPnPzL9lRn1zoL2kgsNmML/Pq8YIIP5tCb1peJbo2/7jN4SMpUTWQu/Aa
- 4DQAUYZl1Cokh47qI6QmUOfZk86G0CnJimwfoZfipxJCtRUQLc0rHuAOz1Bw5nzCxK8U
- v6ZqcqwhF4w80KPWKQ1lrn7ljpoxblF95CBuJLl89lXNUpp+quVGLFusTacYBi+jUvjL
- TdD/px1GxNLBY5mYruClmFCZJI97x+jRMOI09oq7YH0PGcM/10EOCZ9TuL8omLeIsKff
- 679cxV+hpt/FEpqfTDZIvuLV99HzBxx9/4AqnitjKHe++IuO5ZlszVLtAMSSHwqZLlY+
- SvGw==
-X-Gm-Message-State: AOAM533VEG0tNqo9kclcBI5+gIyjq4zZRMNdBzdgIqLfoSeXjTkyM8VQ
- W091Lxp4bdzaT9zI0jDP0qOOQMLS2/Pobz3M5rk=
-X-Google-Smtp-Source: ABdhPJzaBDLr37n1pHgiNjqZiGzqGWbixMEyLBZGFwSJ55fDc9WmeMjvppc10qC2I+Xnqo2A4D0Y4RfiPz0a3RhA1y4=
-X-Received: by 2002:a17:90b:503:b0:1e2:f129:5135 with SMTP id
- r3-20020a17090b050300b001e2f1295135mr3779053pjz.22.1654154734205; Thu, 02 Jun
- 2022 00:25:34 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nB4RpqHzrf2dzscMYpBZ0hckoppigDCESfuHf56Z8Xw=;
+ b=lK30frFGoM/2l7hI9ncDZEiO4JffpRdJcmQlKWuc9z1xvjyIb/Do1MzcBCmfqbUN4H
+ /GvHnf/PIizMQX9TOO1e4h92zJUJ0lxDbNXQOvFJOIgel94kCchc3HTz9+ucnV1/0ufG
+ bx73CmaQyeIKe1rgbVSLB9VIBVuWZ/P03dfaL8EOa2USJ8ov7/u8XYaKyZVSpCRkIuFW
+ INPeLFXcX9wJ3dLwWzoT0p5W60Z9jJt19xyZ2o5uV5ZnAQm1KyqgCutHrHXMhnRSnbCN
+ WboblJfvlcmpF3k2Y/tQFCgBKYC4XoUDrn6bXIm2Ot6HJ7p8DxN2a6lfi60CfNfv264u
+ kscw==
+X-Gm-Message-State: AOAM530h5PbhzeM+n2VbqtQPSc2/PTVsrCHQO6ZfSdLXtQYk3qXtLQvT
+ KZVP/ApyJ0N/NKaeYF/OfndOvvxA2gb+89cRDUwi+1GB
+X-Google-Smtp-Source: ABdhPJxyKUhVsINhif+ywx6SfVB8JN4BHwkM41vcShLyNEyEtPuz0jlYw2Txrno2p+S19UsY3nq7I17NNuKx+2eonU4=
+X-Received: by 2002:a17:90a:c981:b0:1e6:75f0:d4f1 with SMTP id
+ w1-20020a17090ac98100b001e675f0d4f1mr3864135pjt.62.1654154892078; Thu, 02 Jun
+ 2022 00:28:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531111502.4470-1-tzimmermann@suse.de>
- <20220531111502.4470-6-tzimmermann@suse.de>
-In-Reply-To: <20220531111502.4470-6-tzimmermann@suse.de>
+References: <20220601092311.22648-1-patrik.r.jakobsson@gmail.com>
+ <49d7203c-6640-60a9-f269-a7d19b0b8412@suse.de>
+In-Reply-To: <49d7203c-6640-60a9-f269-a7d19b0b8412@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 2 Jun 2022 09:25:22 +0200
-Message-ID: <CAMeQTsbVRwJfTF75phOuH+joQS_wdpcomxrDUYCJr7eY-JVxWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm/ast: Remove struct ast_{vga,sil164}_connector
+Date: Thu, 2 Jun 2022 09:28:00 +0200
+Message-ID: <CAMeQTsZdzGj1hKoefacROUzz6=6iSW3-X_aCO0WfBQGFMbx+aQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Cleanup use of ddc i2c buses
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,137 +65,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 31, 2022 at 1:15 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Wed, Jun 1, 2022 at 9:56 PM Thomas Zimmermann <tzimmermann@suse.de> wrot=
+e:
 >
-> Both, struct ast_vga_connector and struct ast_sil164_connector, are
-> now wrappers around struct drm_connector. Remove them.
+> Hi Patrik
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Am 01.06.22 um 11:23 schrieb Patrik Jakobsson:
+> > The various chips have slight differences in how they handle and store
+> > ddc i2c buses. This series tries to put the main i2c adapter for ddc
+> > into the drm_connector->ddc pointer. This makes it easier to unify the
+> > code for the different encoders in upcoming series. Oaktrail HDMI and
+> > PSB SDVO are not included.
+>
+> For the series:
+>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> I recently posted two patches for simplifying EDID handing. The new DRM
+> helper for .get_modes fetches the EDID from conenctor->ddc. [1] The
+> helper for .detect_ctx uses .get_modes and the EDID data to poll the
+> connector status. [2]  gma500 is one of the candidates for using these
+> helpers. If you like the idea, I'd welcome a follow-up patchset.
 
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Hi Thomas, thanks for having a look.
 
+I'll check to see if it applies to gma500. I have some encoder
+cleanups coming up for gma500 so I might do that first.
 
-> ---
->  drivers/gpu/drm/ast/ast_drv.h  | 24 ++----------------------
->  drivers/gpu/drm/ast/ast_mode.c | 18 ++++++------------
->  2 files changed, 8 insertions(+), 34 deletions(-)
+Cheers
+Patrik
+
 >
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 2a55fc7303b9..d456f6bc4b2c 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -130,26 +130,6 @@ struct ast_i2c_chan {
->         struct i2c_algo_bit_data bit;
->  };
+> Best regards
+> Thomas
 >
-> -struct ast_vga_connector {
-> -       struct drm_connector base;
-> -};
-> -
-> -static inline struct ast_vga_connector *
-> -to_ast_vga_connector(struct drm_connector *connector)
-> -{
-> -       return container_of(connector, struct ast_vga_connector, base);
-> -}
-> -
-> -struct ast_sil164_connector {
-> -       struct drm_connector base;
-> -};
-> -
-> -static inline struct ast_sil164_connector *
-> -to_ast_sil164_connector(struct drm_connector *connector)
-> -{
-> -       return container_of(connector, struct ast_sil164_connector, base);
-> -}
-> -
->  /*
->   * Device
->   */
-> @@ -174,11 +154,11 @@ struct ast_private {
->         struct {
->                 struct {
->                         struct drm_encoder encoder;
-> -                       struct ast_vga_connector vga_connector;
-> +                       struct drm_connector connector;
->                 } vga;
->                 struct {
->                         struct drm_encoder encoder;
-> -                       struct ast_sil164_connector sil164_connector;
-> +                       struct drm_connector connector;
->                 } sil164;
->                 struct {
->                         struct drm_encoder encoder;
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 5f273b5dd769..326f29dae844 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -1330,10 +1330,8 @@ static const struct drm_connector_funcs ast_vga_connector_funcs = {
->         .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->  };
+> [1]
+> https://lore.kernel.org/dri-devel/20220516134343.6085-4-tzimmermann@suse.=
+de/
+> [2]
+> https://lore.kernel.org/dri-devel/20220531111502.4470-4-tzimmermann@suse.=
+de/
 >
-> -static int ast_vga_connector_init(struct drm_device *dev,
-> -                                 struct ast_vga_connector *ast_vga_connector)
-> +static int ast_vga_connector_init(struct drm_device *dev, struct drm_connector *connector)
->  {
-> -       struct drm_connector *connector = &ast_vga_connector->base;
->         struct ast_i2c_chan *i2c;
->         int ret;
->
-> @@ -1364,8 +1362,7 @@ static int ast_vga_output_init(struct ast_private *ast)
->         struct drm_device *dev = &ast->base;
->         struct drm_crtc *crtc = &ast->crtc;
->         struct drm_encoder *encoder = &ast->output.vga.encoder;
-> -       struct ast_vga_connector *ast_vga_connector = &ast->output.vga.vga_connector;
-> -       struct drm_connector *connector = &ast_vga_connector->base;
-> +       struct drm_connector *connector = &ast->output.vga.connector;
->         int ret;
->
->         ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
-> @@ -1373,7 +1370,7 @@ static int ast_vga_output_init(struct ast_private *ast)
->                 return ret;
->         encoder->possible_crtcs = drm_crtc_mask(crtc);
->
-> -       ret = ast_vga_connector_init(dev, ast_vga_connector);
-> +       ret = ast_vga_connector_init(dev, connector);
->         if (ret)
->                 return ret;
->
-> @@ -1401,10 +1398,8 @@ static const struct drm_connector_funcs ast_sil164_connector_funcs = {
->         .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->  };
->
-> -static int ast_sil164_connector_init(struct drm_device *dev,
-> -                                    struct ast_sil164_connector *ast_sil164_connector)
-> +static int ast_sil164_connector_init(struct drm_device *dev, struct drm_connector *connector)
->  {
-> -       struct drm_connector *connector = &ast_sil164_connector->base;
->         struct ast_i2c_chan *i2c;
->         int ret;
->
-> @@ -1435,8 +1430,7 @@ static int ast_sil164_output_init(struct ast_private *ast)
->         struct drm_device *dev = &ast->base;
->         struct drm_crtc *crtc = &ast->crtc;
->         struct drm_encoder *encoder = &ast->output.sil164.encoder;
-> -       struct ast_sil164_connector *ast_sil164_connector = &ast->output.sil164.sil164_connector;
-> -       struct drm_connector *connector = &ast_sil164_connector->base;
-> +       struct drm_connector *connector = &ast->output.sil164.connector;
->         int ret;
->
->         ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
-> @@ -1444,7 +1438,7 @@ static int ast_sil164_output_init(struct ast_private *ast)
->                 return ret;
->         encoder->possible_crtcs = drm_crtc_mask(crtc);
->
-> -       ret = ast_sil164_connector_init(dev, ast_sil164_connector);
-> +       ret = ast_sil164_connector_init(dev, connector);
->         if (ret)
->                 return ret;
+> >
+> > Patrik Jakobsson (8):
+> >    drm/gma500: Use gma_ prefix for our i2c abstraction
+> >    drm/gma500: Make gma_i2c_chan a subclass of i2c_adapter
+> >    drm/gma500: Make cdv lvds use ddc adapter from drm_connector
+> >    drm/gma500: Make cdv hdmi use ddc adapter from drm_connector
+> >    drm/gma500: Make psb lvds use ddc adapter from drm_connector
+> >    drm/gma500: Make cdv crt use ddc adapter from drm_connector
+> >    drm/gma500: Make oaktrail lvds use ddc adapter from drm_connector
+> >    drm/gma500: Read EDID from the correct i2c adapter
+> >
+> >   drivers/gpu/drm/gma500/cdv_intel_crt.c     | 47 ++++++-----
+> >   drivers/gpu/drm/gma500/cdv_intel_hdmi.c    | 98 +++++++++++----------=
+-
+> >   drivers/gpu/drm/gma500/cdv_intel_lvds.c    | 80 ++++++++----------
+> >   drivers/gpu/drm/gma500/intel_i2c.c         | 36 ++++----
+> >   drivers/gpu/drm/gma500/oaktrail_lvds.c     | 50 ++++++-----
+> >   drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c | 36 ++++----
+> >   drivers/gpu/drm/gma500/psb_drv.h           |  2 +-
+> >   drivers/gpu/drm/gma500/psb_intel_drv.h     | 24 +++---
+> >   drivers/gpu/drm/gma500/psb_intel_lvds.c    | 86 +++++++++----------
+> >   9 files changed, 237 insertions(+), 222 deletions(-)
+> >
 >
 > --
-> 2.36.1
->
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
