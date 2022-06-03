@@ -2,74 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C5D53D23A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 21:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFF653D26D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 21:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80AD911247B;
-	Fri,  3 Jun 2022 19:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739811120AD;
+	Fri,  3 Jun 2022 19:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7695D112466
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 19:10:54 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id a64so15308733ybg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 12:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=v4/4RaINbmEsZz4okj/RSzGWOttYmq8LPOh8zO7SvxE=;
- b=c/5kVzRCQezJUMWANjHdugBC97izq4x59Q3l0vSNil9p3uYH08TeKDwGV+KhtNqO9j
- 3Knx9pPWRwmraS43yFHLgD+H2cu8YH17pa+uoFbKNe+IjzRDt8xHDPLXOL7KRdwg/fxg
- W38zJ10B+z1hIsD42c9hsgoH7B94EInshps/CGtSYjwO4bQTn6XmLgOv5On0riRQgqHv
- iuTZN8KCj9KeTHnFUOZA8lYKVhJB0uNqmrTeDxy0LDOfRZwuX+G1oxdHtQUr+4t1mX8q
- EdlJd7FfYsilnrG/Oz+cMb+Son5c2SyqkKYPxulAuSOkxSSGV/DFtfpcXyBaqwf20Hw5
- FgEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=v4/4RaINbmEsZz4okj/RSzGWOttYmq8LPOh8zO7SvxE=;
- b=Rl8Pnhq2iFNgWDvNFIluE7sTrUITqWdhJmkDA25Xs/oO7pPWad+mDbmaB4hk8SCKuh
- bJA65eM2eh96z127rWOwUy37XTf6ZI/reuWQXg+DSU4cwW/wJSmbC3h7eS6rBu6MvFrh
- oST++LeZhedjScpXTMH8cq1VCGClVHPnAl9uNGvy5IoZiZhptBH0vNPrWEp6a4xzATcw
- KL7J5wEDNG2o4/spXGjrH1zOwQxoq5Tl1RbisdhTY3XToQX6YT7agI+h/3aiHgRFTGMT
- ike+vlzBsGSzZQy51OPY3SLSKSSLoHq8uNd1njd/uuzULm2dncUBKqzKxh4LNg+QR8BZ
- 2ysA==
-X-Gm-Message-State: AOAM531HSQkNdieKoo24nh4LGrx0avJI9UE0NdiabHKyvh54zxyC/uRJ
- eUZ5H9KdSYZrgSVm2xizE6NcBHYLYDTtCmDS/jxdhg==
-X-Google-Smtp-Source: ABdhPJxsEfZKpox3Dxi+EZpeJtNShEEn1JEO2ryduUjBw7+9JvOI5KfsxKSfB5mrbfwqmOJH2mieGuh6nyF9i+XSG3Q=
-X-Received: by 2002:a25:6144:0:b0:663:386e:ca12 with SMTP id
- v65-20020a256144000000b00663386eca12mr775869ybb.555.1654283453604; Fri, 03
- Jun 2022 12:10:53 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2048.outbound.protection.outlook.com [40.107.243.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880321120AF
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 19:37:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oZVKopFMDl1ri3NoGDZYTspEXd6BV7aKJG3u7IkT/6ShyCAgiN6mIfbQ8IYH6Xj81HOIhV87VwmR52EDvk6C5iknuMwVhArlzePu2573bBFSqP6YwY3KKU6OI3x9B7QiNlJI5jJrVpRxcGIhUeJvSSqN6jgpTYRVF++OH63zyWvZ901KVPO+T+p5vXswRaBorGGapyuEiPTh6+zJMxO1aKQs4q3A03F06eZVEQsRAGlTHAOsRBgw6XhT/+60N0oWbQ/OhrP8hlUUbW+E1dmCuY6zXbUdVkYlMvNrXVJIag1WKMojnJQ7BdoqKXXDK/PXDyfaifWd014wf82rErL7rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n1MzmhVEwTAWOlhHpW8Njq5O60Ln7UrdkVLf09kAEfU=;
+ b=Ss6Rxb4gTwOKsw6/X+fvg+qBuz/Gr0fXp2PUUHb/E/VDdU/86b3t3EJXaZkHgUH9A6fbV8B8kHZ7285WxFYKOXJJG1kZ1Hicy/rE0/4z1YUA5vv5mgdpkzSaa9wX1S/6X4v3vUfRMXgI79iBcod6TlcVC6hqtXhBOy/4GMbMoK7qo9lgn3vGBLvo1T+ZpPkbWU013r/5zNGmK3H9cPZrVKIuqtiDWBd+pL1dFPTtodECRex0zQ4xTmujEObAJN4+7iXo86IXc7s37np+zpnFLDFGfjXsRzEnlxPkZyZPg2Nny07QJXlyagnMqjPxx5B31yK/aED8zgCwubT2XrzPmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n1MzmhVEwTAWOlhHpW8Njq5O60Ln7UrdkVLf09kAEfU=;
+ b=3Vrod7QzapW8FskNSuFCEuNk7xWUlEI1aDv7x3QLco7/BBXnRot4Vn0mIxtR2mpJPUM8eDYpxVyhiqUI+Vx7Y9WO4L30u1JbqHnMPCkdPekzc+Z6V9LExPUCKLgo7JgKWSpe59dQB0frek1egZ24HjO0x+3J+FnRcfWWz89DU38=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by BY5PR12MB4004.namprd12.prod.outlook.com (2603:10b6:a03:1a8::26)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.17; Fri, 3 Jun
+ 2022 19:37:45 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::1cf6:2a9d:41d6:e8c3]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::1cf6:2a9d:41d6:e8c3%4]) with mapi id 15.20.5314.016; Fri, 3 Jun 2022
+ 19:37:44 +0000
+Message-ID: <c9b23cac-6bf0-e8ad-d6b1-f59c1ee1569f@amd.com>
+Date: Fri, 3 Jun 2022 15:37:43 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drm/ttm: fix missing NULL check in ttm_device_swapout
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ mike@fireburn.co.uk, dri-devel@lists.freedesktop.org
+References: <20220603104604.456991-1-christian.koenig@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <20220603104604.456991-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BLAPR03CA0143.namprd03.prod.outlook.com
+ (2603:10b6:208:32e::28) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
- <e4d8ea99-ceb5-b0dc-362f-94e37b9ddc6b@amd.com>
- <CAP+8YyEy8R3nbJVFkqHnh=3VsmfWKsQyY45tcWTQhm3hujBRbg@mail.gmail.com>
- <e502a4b7-e927-2abf-9014-0b23d15d401b@amd.com>
- <CAP+8YyHdbrvA-sJ=VZccmLkyZ9WCO7CnOp5K0pMoXA=MrHLCsw@mail.gmail.com>
- <bd850268-8324-79cb-854f-b0c843f9581b@amd.com>
- <CAP+8YyGuU_fBMLkSuqBMk7uy-F=BAaopWS-Vxi=-E0P5LGbsRQ@mail.gmail.com>
- <ea49dfd3-3c20-c330-3412-5b48481331cd@amd.com>
- <CAP+8YyGgam6Hr40PS_Rc7Dg=S2dLJdce=87=wNt2B0yAyPEPOw@mail.gmail.com>
- <237f28b7-258e-8b6c-f7b3-93f0db9676d3@amd.com>
- <CAP+8YyHnR=eQZMkxn=RpdzYF69y-54ri2pFrTj8DJuRTtwrDaA@mail.gmail.com>
- <7cba4b1d-724a-3c32-2546-015fa069342d@amd.com>
- <CAP+8YyEMDNR_5=uGf8BEV5DCovr-Z_ZDWS2E7-7zqSFGG7bdKg@mail.gmail.com>
- <6c7e8167-fd72-ef7f-c390-8750c61bc411@amd.com>
- <CAP+8YyGRf2XRoaw9aZhwFBryxccYTRrpSLVh8X6WG02zO5ed0A@mail.gmail.com>
- <4d30fb54-be88-7913-74f5-fa998c28f033@amd.com>
- <CAP+8YyFKOM1qztPBNGk4nzsaX7Dq8-cwg0h_GUgz6sUxBZLhEw@mail.gmail.com>
- <98c1ea95-2b1e-36dd-6706-b3667f0f5f47@amd.com>
-In-Reply-To: <98c1ea95-2b1e-36dd-6706-b3667f0f5f47@amd.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Fri, 3 Jun 2022 21:11:04 +0200
-Message-ID: <CAP+8YyEWE9KCmo2pGOHMyT3fSEXskTG-tfymwQmmy7d1c9CuRQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b66bc5ba-dffa-4f8a-03b4-08da45988820
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4004:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB4004F7F4E9E58D34E4DE726292A19@BY5PR12MB4004.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EMvZP1XNVkj+cYKD1cyXyGSo5d29rA2GAJA+Kd7puW5j0ClpS2EKxwh8picVyhaggrjoHlRrJa2nsh1ZkbwhVc8Ll+pqWn4qoiOoWO5CSZS8NaYJY9ZqOpuvc3tJvI9CkP/6zRFlMhvEzm33uV/rrRYyvV0dK5cD7wXFC2Kf3BalRl2xOTWWxRKa5efTpa84zicnLUedBaEzhb1jwptVOCtL7mKABudp00xJ0dyMy0Ph1zr1bPNEuMPDPI6OegRLCaaeoMyID2A6D7rCQnJZdTthWm6SKECPFWbE4YiM+AENmx+F1024yDeoEHLAGTwKOIQexvxxSobBLuORE1O/WroUxFDV4HunGtIfxpf8awXH9nxcZShWLdJRPxeYa8QK8HnbsA5+oEYVS1ZAdKi9hsJM9inaQzhh44Fzq/8DZ+bkJ7+6EAupiQCqr7rY9HZJYKM3+QNpxHxR6MBM31yZYTn2PGXBGCJYDuoW32dJ9wf53d3ePg1+k8KKFjyqWnQb/ILVqqUv0q4RFhM1ajgjqg73GOqx3I+GzwXEK0HH4yMRniN1uxrSbtzIzOoJdDzIWGBw+Q+m4/cBbVMEGFMhSBZ/qnkAEDjRCC39aaLlP5rBW/83e3bVYjaFw7iJSknFoQQfbK7lMr6v8Y97cS0reIpbdp9o7PgZ3/lAkYsrhNeY9yNQ6NG7ryoABppBfH9/jtmniF9m4gm/R2p9RzRggrYamJT4xVzzgRFA5QICkeljZ4D89cyUEmuPvwTE3oru
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(5660300002)(4326008)(66556008)(66946007)(6486002)(66476007)(316002)(86362001)(36756003)(44832011)(8936002)(2906002)(31696002)(38100700002)(186003)(2616005)(66574015)(6506007)(26005)(508600001)(36916002)(6512007)(83380400001)(53546011)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L2t1emhXU3FCT3E0c1dlbUtpcFhXMlE0WjFkTzJOSXh0WVJWb0sxOHB5ZXYy?=
+ =?utf-8?B?M1ltcVlkeEJuMDZ4WExSOHZRdHBCYzVvVmtRL2dBWTVIK1NQUng0QVRLQkJX?=
+ =?utf-8?B?TUpncjVQNE5sdmFOYTBGQnB3V3JiTTVOZ1VPbzNEdGZvRzZiY0FBcFJiVmZI?=
+ =?utf-8?B?Z01wd2xDRFVLVUt3UzR6SkNQRFFCNVlBa1kyQ1dhaUNrdXRGM1ozM2FGclJm?=
+ =?utf-8?B?WG0zVGtTN2FLeVVxNGhMQ3U2dGxBdElUSFNkU3BqejlVV251dGJpNjY4Smlq?=
+ =?utf-8?B?Tk1hZkc4ajZyNzBSZUpaRm5sa0UrN1VyQ1hTVW1HdURkNEtUQ3kvaERqaDBi?=
+ =?utf-8?B?YXplamdSakFlOXM3Ky9PQUtMdXJDYjRXQXAyZndzd2xGVGFBOFg4b2RNMVRH?=
+ =?utf-8?B?RTlkU3gzN0l4UTRZbmlWQ3Z6aVhCeXdWNGY1aTMvNjhsRWtSc1BISW4zV3Fu?=
+ =?utf-8?B?KzhSRStCVWk3b0JPT1BiNFJYcWExazR0ZHdYV2JsRVkvRmNiSC9Qc09OOUVa?=
+ =?utf-8?B?YjZ5bDlpQVJWWmdsYzRTV1ZGeStqK3J6TERHSGEvM2JQS1YzSThmT2VvaE11?=
+ =?utf-8?B?dlU0VStkN1RROXlUbGhGL2dqb0kwK2E4Z25SUWNycE5TNmZOL3RINXdWZ0lM?=
+ =?utf-8?B?Um1QMndRdldTSmVQQXg5S0doQncrSTgyR2NKeGk0ekZLWGZiY0xsMGNNZUxv?=
+ =?utf-8?B?ZW9HUkNZRW5Eamw4TkI4L3JHZzB4aGZ2VHZMZ1h5M0hjRm00NE4vS2E5LzRr?=
+ =?utf-8?B?amVFQzFNOHV2RkF0b04zNHFzSWw4SVpIcGYwQWhoRmJRNHJ5aEFKMzJYTVNx?=
+ =?utf-8?B?RUNEVk9KRUY4S2dFMFRRSG56aTZnNGU0ZU40LzRvU2IwWEd4dWYvbCt3eXNF?=
+ =?utf-8?B?VmFvUE5RdEozVDNpQjFCTTJPMHRXT2NCKytOQ3JQL2hjMDc3Q0xUYVRYN3pL?=
+ =?utf-8?B?QlVodTl1V25rc1hXdGlhZFp3OEwySjBqUDhmbDJ3UTJlTVpnclJJa09mY05J?=
+ =?utf-8?B?ZWlZR2pqdDlxY2toTzladWJaTFFZaUlmSmZ4YkgyblozTExJYVEyeFBMV2lL?=
+ =?utf-8?B?ZHJPWmgzVVpaTWd5c1B4ZlV3SkFoUndSbTBTWWhIaVV4WkEwRTVPV0YyY2U2?=
+ =?utf-8?B?OXo3OTdQL0lZT1g2WUtIaHdSVjFqN21jS3VTTmM1ZU1aNElXZzNubGs0V1BI?=
+ =?utf-8?B?Qm40QzdqY0JnUk5MZDk0SFB0NXpoTFhXMVBhdUxHZTRQK0syYkdjQTYxaWJW?=
+ =?utf-8?B?SjhobDhOVFdYWVBHUnRCY1ljdDY5cldSTVhZZmduQVNxcmhXbDdpNU1qcW9C?=
+ =?utf-8?B?ejk2Rklod0xrcW8rQi9LVkwxRlhPU3VEVHFqa3FjS0M2RVBWZS9tb0c1V2VZ?=
+ =?utf-8?B?MmVzQmNNZ2ZwN2FncmdVZnd1eW4xRTcvQkZXb1dPeFUzTk5VbHRnSFF2M1Ja?=
+ =?utf-8?B?aWxSa0VHNXZSTkd4SW5HZ3BQTjQ2cE9pR2VLZUFsWVNNenkwZ2NkY0lHdWxi?=
+ =?utf-8?B?WU9RcHJEbFpSUlhSTUJGV2dxTTZHend6REJYM2ppbDdtdnFtSHhqZVVVUExD?=
+ =?utf-8?B?YzJwK040bzFXdkprNU8vMzl1RzcvTWNmbENSOTZWVlBDSTNSbHhocTVaL25l?=
+ =?utf-8?B?WWVibmNEbStQaE93NldWdFdxUy82TVp5YXdHNmZyekhZRkU1UmFrakI3eGJy?=
+ =?utf-8?B?ODhlZjRZT00xczM5S1JNQm5HTmRRVEFMbGhPc0N4QVRYY0hrcnN1d0piZ3lC?=
+ =?utf-8?B?Yy9KaHZKTUlGK0hlWFk2SkdyU3NiQVFLN3F6TmxMTTZzaXJXV3hTL3ZEZ2tu?=
+ =?utf-8?B?a3VyczVxV0FmeDZRM0xmS1FKcW5xQUwyNGV0bzdtUGRqK3gzQk1SdTlnaGtV?=
+ =?utf-8?B?aHZDYm05MThHTXJoT1BiYm5VTTdoNUlDdnl0M2Zkajd5ajR6VGtVTHlrVGlu?=
+ =?utf-8?B?VGl5cVNpY1lJckhpNUpnZGc5czNudWZOb0diUVBuM25pblpRMU5sSVJCbThM?=
+ =?utf-8?B?ZlI3K0xlSjhmSnFXeWVMb3B5VXczZzhudzNpQ3EyOXBqZFdsOS9BdHpEM1lH?=
+ =?utf-8?B?MkxQbEhXeVRiL1RDK01Td0FubUlkOGZRQy9jdnZkbm9MMy9VajBSdEtsTzlU?=
+ =?utf-8?B?N1c4czVYUm1MTTZaSnhEMGFYdTYzQ3FDT2t0YjhhWGdYczVtbG03dlluU0RQ?=
+ =?utf-8?B?UEQyMk5ZWTkzWVVJa0QrY2FhbjQ1YllTNE1WWXdkYkVMbTJQV1BFUnlzQVE0?=
+ =?utf-8?B?M0VSV2VTOWZ6cThvelQ3cFAxNk8zVkVxR2hJMENQOC9KZUI4MFhialg0SEFT?=
+ =?utf-8?B?cXc4NzB6TGtadUw5RnBibEdmTlZPOXdnUzlRTFlPbStRZ2pzYkwvZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b66bc5ba-dffa-4f8a-03b4-08da45988820
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2022 19:37:44.9053 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rfifg1MzVb/oSo3A42ILrZhYgFB4jbS8Z6ckypA/zlF3eIlTRHNaKuSQqC7/hld+LXDP0LOAbcpybCKPKY14KA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,123 +130,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 3, 2022 at 8:41 PM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
->
-> Am 03.06.22 um 19:50 schrieb Bas Nieuwenhuizen:
-> > [SNIP]
-> >>>> Yeah, but that's exactly the bubble we try to avoid. Isn't it?
-> >>> For this series, not really.  To clarify there are two sides for
-> >>> getting GPU bubbles and no overlap:
-> >>>
-> >>> (1) VM operations implicitly wait for earlier CS submissions
-> >>> (2) CS submissions implicitly wait for earlier VM operations
-> >>>
-> >>> Together, these combine to ensure that you get a (potentially small)
-> >>> bubble any time VM work happens.
-> >>>
-> >>> Your series (and further ideas) tackles (2), and is a worthwhile thin=
-g
-> >>> to do. However, while writing the userspace for this I noticed this
-> >>> isn't enough to get rid of all our GPU bubbles. In particular when
-> >>> doing a non-sparse map of a new BO, that tends to need to be waited o=
-n
-> >>> for the next CS anyway for API semantics. Due to VM operations
-> >>> happening on a single timeline that means this high priority map can
-> >>> end up being blocked by earlier sparse maps and hence the bubble in
-> >>> that case still exists.
-> >>>
-> >>> So in this series I try to tackle (1) instead. Since GPU work
-> >>> typically lags behind CPU submissions and VM operations aren't that
-> >>> slow, we can typically execute VM operations early enough that any
-> >>> implicit syncs from (2) are less/no issue.
-> >> Ok, once more since you don't seem to understand what I want to say: I=
-t
-> >> isn't possible to fix #1 before you have fixed #2.
-> >>
-> >> The VM unmap operation here is a barrier which divides the CS operatio=
-ns
-> >> in a before and after. This is intentional design.
-> > Why is that barrier needed? The two barriers I got and understood and
-> > I think we can deal with:
-> >
-> > 1) the VM unmap is a barrier between prior CS and later memory free.
-> > 2) The TLB flush need to happen between a VM unmap and later CS.
-> >
-> > But why do we need the VM unmap to be a strict barrier between prior
-> > CS and later CS?
->
-> Exactly because of the two reasons you mentioned.
 
-This is the part I'm not seeing. I get that removing #2 is a
-nightmare, which is why I did something that doesn't violate that
-constraint.
+On 2022-06-03 06:46, Christian König wrote:
+> Resources about to be destructed are not tied to BOs any more.
+I've been seeing a backtrace in that area with a patch series I'm 
+working on, but didn't have enough time to track it down yet. I'll try 
+if this patch fixes it.
 
-Like if an explicit CS that was running before the VM operation  runs
-till after the VM operation (and hence possibly till after the TLB
-flush, or otherwise have the TLB flush not apply due to lack of async
-TLB flush support), that is not an issue. It might see the state from
-before the unmap, or after the unmap, or some intermediate state and
-all of those would be okay.
+Regards,
+   Felix
 
-We still get the constraint that the TLB flush happens between the VM
-unmap and later CS and hence the unmap is certainly visible to them.
 
 >
-> #1 Is rather easy to fix, you just need to copy all dma_fences from the
-> page table dma_resv object over to the BOs dma_resv object in the gem
-> close handler. E.g. exactly what you suggested with the dma_resv_copy
-> function.
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_device.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> #2 is a nightmare.
->
-> We can't move the TLB flush at the end of the unmap operation because on
-> async TLB flushes are either a bit complicated (double flushes etc..) or
-> don't even work at all because of hw bugs. So to have a reliable TLB
-> flush we must make sure that nothing else is ongoing and that means
-> CS->VM->CS barrier.
->
-> We try very hard to circumvent that already on maps by (for example)
-> using a completely new VMID for CS after the VM map operation.
->
-> But for the unmap operation we would need some kind special dma_fence
-> implementation which would not only wait for all existing dma_fence but
-> also for the one added until the unmap operation is completed. Cause
-> otherwise our operation we do at #1 would simply not catch all
-> dma_fences which have access to the memory.
->
-> That's certainly doable, but I think just using the drm_exec stuff I
-> already came up with is easier.
->
-> When we can grab locks for all the BOs involved amdgpu_vm_clear_freed()
-> goes away and we can keep track of the unmap operations in the bo_va
-> structure.
->
-> With that done you can make the explicit sync you noted in the bo_va
-> structure and implicit sync when the bo_va structure goes away.
->
-> Then the only reason I can see why we would need a CS->VM dependency is
-> implicit synchronization, and that's what we are trying to avoid here in
-> the first place.
->
-> Regards,
-> Christian.
->
-> >
-> >> To get rid of this barrier you must first fix the part where CS
-> >> submissions wait for the VM operation to complete, e.g. the necessity =
-of
-> >> the barrier.
-> >>
-> >> I'm working on this for a couple of years now and I'm really running o=
-ut
-> >> of idea how to explain this restriction.
-> >>
-> >> Regards,
-> >> Christian.
-> >>
->
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index a0562ab386f5..e7147e304637 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -156,8 +156,12 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+>   
+>   		ttm_resource_manager_for_each_res(man, &cursor, res) {
+>   			struct ttm_buffer_object *bo = res->bo;
+> -			uint32_t num_pages = PFN_UP(bo->base.size);
+> +			uint32_t num_pages;
+>   
+> +			if (!bo)
+> +				continue;
+> +
+> +			num_pages = PFN_UP(bo->base.size);
+>   			ret = ttm_bo_swapout(bo, ctx, gfp_flags);
+>   			/* ttm_bo_swapout has dropped the lru_lock */
+>   			if (!ret)
