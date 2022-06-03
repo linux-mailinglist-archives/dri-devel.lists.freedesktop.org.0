@@ -1,69 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FF153C7D2
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 11:46:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3ABC53C81B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 12:08:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B9B113029;
-	Fri,  3 Jun 2022 09:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E93A10E252;
+	Fri,  3 Jun 2022 10:08:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D53B113016
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 09:46:07 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id a17so4819366lfs.11
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 02:46:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=PV8WqoUGxOFZRKshOw3NOc1zZVTzDgewpvw4AU5r3QI=;
- b=BIVLMG0D76swp19/yzM/9m9y5tcb/zqi8QgQHU8OHU+N7zKnrWGzE/UPZ7F1osfRLb
- ZcMjIjpm5ZUVaPoi6qZRqJXCO7uUehgc+tnpxeL7oHTqGz2ap2+FXBln0iiQ9M3Lxeur
- JcoaKi5uTlaA2YptWUqLtQYnfDRww/UVr62SMpaFlfPePlYiFOAL6ozldiOvOyULvbWT
- awYIp4833HuLklWK4EIyVTwr9pnoi5ZhaZx9hIQUdNwpLU0GOLjGRWpq5+KCJnsH59Bg
- 2MD/aH+ZV3yRdZv0KFJD8D/ZwXZOV805tYETCqiP0qivXU3rwg9/aos4kDMt+J/+i+k6
- VQyw==
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A26510E252
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 10:08:35 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id t31so12906860ybi.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 03:08:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dj6pd1F7ebtF7vxC+sIBTfCQWfkigtaU6Dwml32wtig=;
+ b=UhGJOTVLyW0SsrOt+FCwa3NU60YcyPDrwv2hKBmcElZAB5v5tIJxI5Wa6hHB2X5n6V
+ 1cUZQVsKoAejC/6fivIRnlcnFN0b0tqJ8DDnRCPjobedtk4xjcjQF3zSueC2KqUU+JEj
+ eC1gNnLdZwwxPjVXO28JBKhCcWDFgUALZLUyXh0t3NSfG5Z3241YZg7vLtrG01NLTJDC
+ lk4PviAnQ1GUROclXZJGGAE85URoXb89YGiIEpUL9K7yDtF4jAO4uZVTDDd7gZrWgGQ2
+ smftkCmX0omFzOfu3Obvs/CVvsJQIDWuZu+uOjseRlpJIiC2XE+JRPTf/Y75emn6VAtx
+ XDNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=PV8WqoUGxOFZRKshOw3NOc1zZVTzDgewpvw4AU5r3QI=;
- b=ZJgJLsSoU3ZYi7wNIKkeT7nE2dI0xEcoBmVOqfqCZnDEUGKlzf8kDshTY8gPwU1rlR
- dSrbo9ccfQRucj+n2i4KeANC9n9dZw9sjCrwxxj8q2kw+OQJIXWcr3EMATCFFduHck6o
- rfuUr5hj/noAfE5XdyRWZoJA/q4M/9hZhckjQZadKN9eZZ5hLYWA2L8lsTXBxrg79sh2
- PYt6g5tt4EQkHy1+6M2zpmJrPKeN27cIHCt+PL7PWs7ZSMLTL8hzgY1+VZQBJsx+fxL2
- lfJdi0zJ5UIKLLhd2FZcneAVfDdH//a6/Qe4qBU7SPcbGtHzcft4JT5xoHOVg3b/Obwy
- HFzA==
-X-Gm-Message-State: AOAM5308vJYmypf5RziXIzqERO8h8fFk/TaGxwFik/Rwqavs47ruTmI7
- zo+j604HOgLQxJXqIer3fpYb4A==
-X-Google-Smtp-Source: ABdhPJyZSV21gNOrhCLTgOfOurM3xrgrxWRV/usdiINVAJc+n5B5QGzanddUNnKj+NV3L96tC+R3fA==
-X-Received: by 2002:a05:6512:3e11:b0:473:9f5f:feda with SMTP id
- i17-20020a0565123e1100b004739f5ffedamr6358550lfv.244.1654249565460; 
- Fri, 03 Jun 2022 02:46:05 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a2e6a09000000b00254319f8e63sm1223352ljc.91.2022.06.03.02.46.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 02:46:05 -0700 (PDT)
-Message-ID: <be1d59c3-049f-b9f0-3281-9875a0102aaf@linaro.org>
-Date: Fri, 3 Jun 2022 12:46:04 +0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dj6pd1F7ebtF7vxC+sIBTfCQWfkigtaU6Dwml32wtig=;
+ b=15xe64dyTCkxZwXNddANXeuQgv4rjbn9us2Z0gCXjOZQZUha6V756BVQ+b0qFTTPAy
+ E38WsLrHTm2/upv5dZAnfU74sVI4Yq9QKgow9V5cVvjnLbOW3wYDbLHChekWj8Cdm7/e
+ fRaFDL8veeqjMG1mWXEUxANNI8kyjqYZqU2wkBfQDPC9o7UiitAsGz4bk5w+5hQzZWli
+ 8zd0yMQmhGNf1AABb4r7k+VkApvCNdTjS9kOIO7966FLCUz7ASdEkwmGJjazRdqti9pA
+ wfvbXOdqq7Sv2BO/0h18Yb0UUfS8nMDj2aKwFTLyf5gvUi9ZZ+Y/hzICdTnHvznBSVkE
+ k8iQ==
+X-Gm-Message-State: AOAM533MxNXmLnv/7VKTYx6HxgCmCk3XFnjBrhsuu0faSzkvvWOoPmI6
+ 9t29E2n+iUdCuV3ZRFKtvuMV9IryIRRiZLFJhon2eg==
+X-Google-Smtp-Source: ABdhPJxt2sVQrvFBU5KCkLratJIUjgQLLPOPqrPIuCg/LMDUqF5GnS+0ZJS5M98cWBAc80G9N5kCC6NlS+XtLKiMrfI=
+X-Received: by 2002:a25:d044:0:b0:65c:b987:d884 with SMTP id
+ h65-20020a25d044000000b0065cb987d884mr10176567ybg.399.1654250914216; Fri, 03
+ Jun 2022 03:08:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [v2] drm/msm: add null checks for drm device to avoid crash
- during probe defer
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1654249343-24959-1-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1654249343-24959-1-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
+ <20220601004014.158247-4-bas@basnieuwenhuizen.nl>
+ <e4d8ea99-ceb5-b0dc-362f-94e37b9ddc6b@amd.com>
+ <CAP+8YyEy8R3nbJVFkqHnh=3VsmfWKsQyY45tcWTQhm3hujBRbg@mail.gmail.com>
+ <e502a4b7-e927-2abf-9014-0b23d15d401b@amd.com>
+ <CAP+8YyHdbrvA-sJ=VZccmLkyZ9WCO7CnOp5K0pMoXA=MrHLCsw@mail.gmail.com>
+ <bd850268-8324-79cb-854f-b0c843f9581b@amd.com>
+ <CAP+8YyGuU_fBMLkSuqBMk7uy-F=BAaopWS-Vxi=-E0P5LGbsRQ@mail.gmail.com>
+ <ea49dfd3-3c20-c330-3412-5b48481331cd@amd.com>
+In-Reply-To: <ea49dfd3-3c20-c330-3412-5b48481331cd@amd.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Fri, 3 Jun 2022 12:08:45 +0200
+Message-ID: <CAP+8YyGgam6Hr40PS_Rc7Dg=S2dLJdce=87=wNt2B0yAyPEPOw@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,79 +73,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: swboyd@chromium.org, linux-kernel@vger.kernel.org, dianders@chromium.org
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/06/2022 12:42, Vinod Polimera wrote:
-> During probe defer, drm device is not initialized and an external
-> trigger to shutdown is trying to clean up drm device leading to crash.
-> Add checks to avoid drm device cleanup in such cases.
-> 
-> BUG: unable to handle kernel NULL pointer dereference at virtual
-> address 00000000000000b8
-> 
-> Call trace:
-> 
-> drm_atomic_helper_shutdown+0x44/0x144
-> msm_pdev_shutdown+0x2c/0x38
-> platform_shutdown+0x2c/0x38
-> device_shutdown+0x158/0x210
-> kernel_restart_prepare+0x40/0x4c
-> kernel_restart+0x20/0x6c
-> __arm64_sys_reboot+0x194/0x23c
-> invoke_syscall+0x50/0x13c
-> el0_svc_common+0xa0/0x17c
-> do_el0_svc_compat+0x28/0x34
-> el0_svc_compat+0x20/0x70
-> el0t_32_sync_handler+0xa8/0xcc
-> el0t_32_sync+0x1a8/0x1ac
-> 
-> Changes in v2:
-> - Add fixes tag.
-> 
-> Fixes: 623f279c778 ("drm/msm: fix shutdown hook in case GPU components failed to bind")
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+On Fri, Jun 3, 2022 at 10:11 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 03.06.22 um 03:21 schrieb Bas Nieuwenhuizen:
+> > [SNIP]
+> >> The problem is we need to wait on fences *not* added to the buffer obj=
+ect.
+> > What fences wouldn't be added to the buffer object that we need here?
+>
+> Basically all still running submissions from the VM which could
+> potentially access the BO.
+>
+> That's why we have the AMDGPU_SYNC_EQ_OWNER in amdgpu_vm_update_range().
+>
+> >> E.g. what we currently do here while freeing memory is:
+> >> 1. Update the PTEs and make that update wait for everything!
+> >> 2. Add the fence of that update to the freed up BO so that this BO isn=
+'t
+> >> freed before the next CS.
+> >>
+> >> We might be able to fix this by adding the fences to the BO before
+> >> freeing it manually, but I'm not 100% sure we can actually allocate
+> >> memory for the fences in that moment.
+> > I think we don't need to be able to. We're already adding the unmap
+> > fence to the BO in the gem close ioctl, and that has the fallback that
+> > if we can't allocate space for the fence in the BO, we wait on the
+> > fence manually on the CPU. I think that is a reasonable fallback for
+> > this as well?
+>
+> Yes, just blocking might work in an OOM situation as well.
+>
+> > For the TTM move path amdgpu_copy_buffer will wait on the BO resv and
+> > then following submissions will trigger VM updates that will wait on
+> > the amdgpu_copy_buffer jobs (and hence transitively) will wait on the
+> > work.  AFAICT the amdgpu_bo_move does not trigger any VM updates by
+> > itself, and the amdgpu_bo_move_notify is way after the move (and after
+> > the ttm_bo_move_accel_cleanup which would free the old resource), so
+> > any VM changes triggered by that would see the TTM copy and sync to
+> > it.
+> >
+> > I do have to fix some stuff indeed, especially for the GEM close but
+> > with that we should be able to keep the same basic approach?
+>
+> Nope, not even remotely.
+>
+> What we need is the following:
+> 1. Rolling out my drm_exec patch set, so that we can lock buffers as need=
+ed.
+> 2. When we get a VM operation we not only lock the VM page tables, but
+> also all buffers we potentially need to unmap.
+> 3. Nuking the freed list in the amdgpu_vm structure by updating freed
+> areas directly when they are unmapped.
+> 4. Tracking those updates inside the bo_va structure for the BO+VM
+> combination.
+> 5. When the bo_va structure is destroy because of closing the handle
+> move the last clear operation over to the VM as implicit sync.
+>
 
-Also please remove bouncing quicinc.com emails from cc list
+Hi Christian, isn't that a different problem though (that we're also
+trying to solve, but in your series)?
 
-> ---
->   drivers/gpu/drm/msm/msm_drv.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 4448536..d62ac66 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -142,6 +142,9 @@ static void msm_irq_uninstall(struct drm_device *dev)
->   	struct msm_drm_private *priv = dev->dev_private;
->   	struct msm_kms *kms = priv->kms;
->   
-> +	if (!irq_has_action(kms->irq))
-> +		return;
-> +
->   	kms->funcs->irq_uninstall(kms);
->   	if (kms->irq_requested)
->   		free_irq(kms->irq, dev);
-> @@ -259,6 +262,7 @@ static int msm_drm_uninit(struct device *dev)
->   
->   	ddev->dev_private = NULL;
->   	drm_dev_put(ddev);
-> +	priv->dev = NULL;
->   
->   	destroy_workqueue(priv->wq);
->   
-> @@ -1167,7 +1171,7 @@ void msm_drv_shutdown(struct platform_device *pdev)
->   	struct msm_drm_private *priv = platform_get_drvdata(pdev);
->   	struct drm_device *drm = priv ? priv->dev : NULL;
->   
-> -	if (!priv || !priv->kms)
-> +	if (!priv || !priv->kms || !drm)
->   		return;
->   
->   	drm_atomic_helper_shutdown(drm);
+What this patch tries to achieve:
+
+(t+0) CS submission setting BOOKKEEP fences (i.e. no implicit sync)
+(t+1) a VM operation on a BO/VM accessed by the CS.
+
+to run concurrently. What it *doesn't* try is
+
+(t+0) a VM operation on a BO/VM accessed by the CS.
+(t+1) CS submission setting BOOKKEEP fences (i.e. no implicit sync)
+
+to run concurrently. When you write
+
+> Only when all this is done we then can resolve the dependency that the
+> CS currently must wait for any clear operation on the VM.
+
+isn't that all about the second problem?
 
 
--- 
-With best wishes
-Dmitry
+>
+> Regards,
+> Christian.
+>
+>
