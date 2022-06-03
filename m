@@ -2,66 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D3353CAF8
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 15:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007B653CAEE
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 15:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02D7410E039;
-	Fri,  3 Jun 2022 13:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0435110EE86;
+	Fri,  3 Jun 2022 13:52:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F001710E039
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 13:56:35 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2539FhGn004989;
- Fri, 3 Jun 2022 15:56:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=from : to : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=selector1;
- bh=zxXBZIxiiFU9jTGOLwVu6wmqjFEBW5aoI6bWAI0F5LU=;
- b=MoK2Uli10VlY7rIqB4YzbPWTkoD9tZ9ClcT5R/bUlHWehXQIseiP4S6eOGuwY580t3f9
- jvIa4aSRwQUI8znXxhh4LIHWR6UCOf5KeQU4Kou66QN0ySWhssXBFk0gNJYDJrDGHSjA
- Lz2+X/52dK1Fs1RMYy6DN9W6nD3FSnANB+t2VQLPR/CIwPjwHhJi6roPtMgXpSAnSuik
- /lTVKOrOwUK1BnPhdEoOlo+Lge6zum27A5yudTo2retXFcnDGm0hrT27nbU1Phs5M6kp
- uB2lpmLmtx7dqeOLrpLIAm6vzSN/LDxyihKmI+hRAVv8e9iX+1yIcTsCfzE56zwnKYMQ yg== 
-Received: from beta.dmz-eu.st.com ([164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3gbc516e9c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Jun 2022 15:56:25 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2831410007C;
- Fri,  3 Jun 2022 15:47:03 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9DF8B226FB3;
- Fri,  3 Jun 2022 15:46:57 +0200 (CEST)
-Received: from localhost (10.75.127.48) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Fri, 3 Jun
- 2022 15:46:57 +0200
-From: Yannick Fertre <yannick.fertre@foss.st.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/stm: ltdc: update hardware error management
-Date: Fri, 3 Jun 2022 15:46:54 +0200
-Message-ID: <20220603134654.594373-1-yannick.fertre@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9C510EF94
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 13:52:24 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id n10so16085470ejk.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 06:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gajDGmkvC2i3Ff4SviEDlcrNM6kzJNoz/iyt65+315Y=;
+ b=eDSmHJzELH0S6QTvHboEKyR16A+cBjPfBvAYV78iQgUBNNHcaYPar8UZLVO/HJ0i09
+ tW3fiKxZHCPvFZ86iaJyAw4k/YMoAX46+WSt0a3AOzX1T3a5SuX7q1wTGJSjYWuelllw
+ eB80uxVO6jKFhXX+6HA5TbaapYdpRcmr+GPt4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gajDGmkvC2i3Ff4SviEDlcrNM6kzJNoz/iyt65+315Y=;
+ b=xmxbG29pLR3lCEs7RPLa04r80OZZlzECHLECK0AdYoDTThaX5NsY+chjI6dxbRDOdt
+ ivV7ylkYVy709RRjsffmbaLUKtAZj93N7icspDVmfzpPExbk90pRhLa+DFoYVczhfM4l
+ Tk/Nf1KrIcD/C1Jtrie7ua70f4r31fSvhH0JMbuDTYRj8/bh5I2696HN0qB36wMIlVou
+ FrhSx1G4D/pcax0lo5jCr1DiJOZ0mlBWMdbdp63H8o9oGy2Wia6aSzeCicHYnLcCEJsY
+ FdYEDXyg9yKF+dxMA6TXQA/3sDsavKsacjCenfwIMbuQSItkjBLapZzwOoIKkHrJ7gsr
+ KQWw==
+X-Gm-Message-State: AOAM530kqba2A4x5pnNbD4amTLVeWRaInxk/TNGxeTjoZLFSEIW4fHFg
+ 4T6qCwna/f1q+Pix0iFSZ93HqAcFhAahL29Brk0=
+X-Google-Smtp-Source: ABdhPJw8CjwmgNpMX4uhUxRNIwoi164lvjtUF2HzRl2MQp4cCfoID+gw2wLEt9qlpEwLuNzhjBc5oA==
+X-Received: by 2002:a17:906:1193:b0:70d:cf39:a4db with SMTP id
+ n19-20020a170906119300b0070dcf39a4dbmr3507007eja.44.1654264342794; 
+ Fri, 03 Jun 2022 06:52:22 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
+ [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
+ x18-20020a170906805200b0070b7875aa6asm1566977ejw.166.2022.06.03.06.52.18
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jun 2022 06:52:19 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id
+ r123-20020a1c2b81000000b0039c1439c33cso4365708wmr.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 06:52:18 -0700 (PDT)
+X-Received: by 2002:a05:600c:2e53:b0:397:4730:ee7a with SMTP id
+ q19-20020a05600c2e5300b003974730ee7amr37492988wmf.118.1654264337977; Fri, 03
+ Jun 2022 06:52:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-03_04,2022-06-03_01,2022-02-23_01
+References: <20220510192944.2408515-1-dianders@chromium.org>
+ <20220510122726.v3.3.Iba4b9bf6c7a1ee5ea2835ad7bd5eaf84d7688520@changeid>
+ <20220521091751.opeiqbmc5c2okdq6@houat>
+ <CAD=FV=Wea0LT5umK4Xg87cDikim+dSuyLndfydO3_DnTujZr9Q@mail.gmail.com>
+ <CAD=FV=XqJuPHxm7HYMvyHBL_zC-BBA_f0MBsZX-jHt7Pk9ngsQ@mail.gmail.com>
+ <20220603082139.sfdxb5ndwpvlhklh@penduick>
+ <CAA8EJpqrw63K_xxJjawLjEqP-05eUD-k6dy21162hcq7q07jgQ@mail.gmail.com>
+In-Reply-To: <CAA8EJpqrw63K_xxJjawLjEqP-05eUD-k6dy21162hcq7q07jgQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 3 Jun 2022 06:52:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XbNe+9Cf-jWwFPAR0a1qqjdKaQdtiREKLB8sHYTh_4OQ@mail.gmail.com>
+Message-ID: <CAD=FV=XbNe+9Cf-jWwFPAR0a1qqjdKaQdtiREKLB8sHYTh_4OQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] drm/bridge: Add devm_drm_bridge_add()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,262 +78,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The latest hardware version (0x40100) supports a hardware threshold
-register (aka FUTR) to trigger a fifo underrun interrupt.
-A software threshold has been implemented for other hardware versions.
-The threshold is set to 128 by default.
+Hi,
 
-Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
----
- drivers/gpu/drm/stm/ltdc.c | 90 ++++++++++++++++++++++++++++++--------
- drivers/gpu/drm/stm/ltdc.h |  6 ++-
- 2 files changed, 77 insertions(+), 19 deletions(-)
+On Fri, Jun 3, 2022 at 3:19 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Fri, 3 Jun 2022 at 11:21, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Tue, May 31, 2022 at 02:06:34PM -0700, Doug Anderson wrote:
+> > > On Mon, May 23, 2022 at 10:00 AM Doug Anderson <dianders@chromium.org> wrote:
+> > > > On Sat, May 21, 2022 at 2:17 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > On Tue, May 10, 2022 at 12:29:43PM -0700, Douglas Anderson wrote:
+> > > > > > This adds a devm managed version of drm_bridge_add(). Like other
+> > > > > > "devm" function listed in drm_bridge.h, this function takes an
+> > > > > > explicit "dev" to use for the lifetime management. A few notes:
+> > > > > > * In general we have a "struct device" for bridges that makes a good
+> > > > > >   candidate for where the lifetime matches exactly what we want.
+> > > > > > * The "bridge->dev->dev" device appears to be the encoder
+> > > > > >   device. That's not the right device to use for lifetime management.
+> > > > > >
+> > > > > > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > > >
+> > > > > If we are to introduce more managed helpers, I think it'd be wiser to
+> > > > > introduce them as DRM-managed, and not device managed.
+> > > > >
+> > > > > Otherwise, you'll end up in a weird state when a device has been removed
+> > > > > but the DRM device is still around.
+> > > >
+> > > > I'm kinda confused. In this case there is no DRM device for the bridge
+> > > > and, as per my CL description, "bridge-dev->dev" appears to be the
+> > > > encoder device. I wasn't personally involved in discussions about it,
+> > > > but I was under the impression that this was expected / normal. Thus
+> > > > we can't make this DRM-managed.
+> > >
+> > > Since I didn't hear a reply,
+> >
+> > Gah, I replied but it looks like somehow it never reached the ML...
+> >
+> > Here was my original reply:
+> >
+> > > > > This adds a devm managed version of drm_bridge_add(). Like other
+> > > > > "devm" function listed in drm_bridge.h, this function takes an
+> > > > > explicit "dev" to use for the lifetime management. A few notes:
+> > > > > * In general we have a "struct device" for bridges that makes a good
+> > > > >   candidate for where the lifetime matches exactly what we want.
+> > > > > * The "bridge->dev->dev" device appears to be the encoder
+> > > > >   device. That's not the right device to use for lifetime management.
+> > > > >
+> > > > > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > >
+> > > > If we are to introduce more managed helpers, I think it'd be wiser to
+> > > > introduce them as DRM-managed, and not device managed.
+> > > >
+> > > > Otherwise, you'll end up in a weird state when a device has been removed
+> > > > but the DRM device is still around.
+> > >=20
+> > > I'm kinda confused. In this case there is no DRM device for the bridge
+> > > and, as per my CL description, "bridge-dev->dev" appears to be the
+> > > encoder device.
+> >
+> > bridge->dev seems right though?
+> >
+> > > I wasn't personally involved in discussions about it, but I was under
+> > > the impression that this was expected / normal. Thus we can't make
+> > > this DRM-managed.
+> >
+> > Still, I don't think devm is the right solution to this either.
+> >
+> > The underlying issue is two-fold:
+> >
+> >   - Encoders can have a pointer to a bridge through of_drm_find_bridge
+> >     or similar. However, bridges are traditionally tied to their device
+> >     lifetime (by calling drm_bridge_add in probe, and drm_bridge_remove
+> >     in remove). Encoders will typically be tied to the DRM device
+> >     however, and that one sticks around until the last application
+> >     closes it. We can thus very easily end up with a dangling pointer,
+> >     and a use-after-free.
+> >
+> >   - It's not the case yet, but it doesn't seem far fetch to expose
+> >     properties of bridges to the userspace. In that case, the userspace
+> >     would be likely to still hold references to objects that aren't
+> >     there anymore when the bridge is gone.
+> >
+> > The first is obviously a larger concern, but if we can find a solution
+> > that would accomodate the second it would be great.
+> >
+> > As far as I can see, we should fix in two steps:
+> >
+> >   - in drm_bridge_attach, we should add a device-managed call that will
+> >     unregister the main DRM device. We don't allow to probe the main DRM
+> >     device when the bridge isn't there yet in most case, so it makes
+> >     sense to remove it once the bridge is no longer there as well.
+>
+> The problem is that I do not see a good way to unregister the main DRM
+> device outside of it's driver code.
+>
+> >
+> >   - When the DRM device is removed, have the core cleanup any bridge
+> >     registered. That will remove the need to have drm_bridge_remove in
+> >     the first place.
+> >
+> > > I'll assume that my response addressed your concerns. Assuming I get
+> > > reviews for the other two patches in this series I'll plan to land
+> > > this with Dmitry's review.
+> >
+> > I still don't think it's a good idea to merge it. It gives an illusion
+> > of being safe, but it's really far from it.
+>
+> It is more of removing the boilerplate code spread over all the
+> drivers rather than about particular safety.
+>
+> I'd propose to land devm_drm_bridge_add (and deprecate calling
+> drm_bridge_remove from the bridge driver at some point) and work on
+> the whole drm_device <-> drm_bridge problem in the meantime.
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index ff2075dd9474..42a3bd515477 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -162,16 +162,20 @@
- #define BCCR_BCWHITE	GENMASK(23, 0)	/* Background Color WHITE */
- 
- #define IER_LIE		BIT(0)		/* Line Interrupt Enable */
--#define IER_FUIE	BIT(1)		/* Fifo Underrun Interrupt Enable */
-+#define IER_FUWIE	BIT(1)		/* Fifo Underrun Warning Interrupt Enable */
- #define IER_TERRIE	BIT(2)		/* Transfer ERRor Interrupt Enable */
--#define IER_RRIE	BIT(3)		/* Register Reload Interrupt enable */
-+#define IER_RRIE	BIT(3)		/* Register Reload Interrupt Enable */
-+#define IER_FUEIE	BIT(6)		/* Fifo Underrun Error Interrupt Enable */
-+#define IER_CRCIE	BIT(7)		/* CRC Error Interrupt Enable */
- 
- #define CPSR_CYPOS	GENMASK(15, 0)	/* Current Y position */
- 
- #define ISR_LIF		BIT(0)		/* Line Interrupt Flag */
--#define ISR_FUIF	BIT(1)		/* Fifo Underrun Interrupt Flag */
-+#define ISR_FUWIF	BIT(1)		/* Fifo Underrun Warning Interrupt Flag */
- #define ISR_TERRIF	BIT(2)		/* Transfer ERRor Interrupt Flag */
- #define ISR_RRIF	BIT(3)		/* Register Reload Interrupt Flag */
-+#define ISR_FUEIF	BIT(6)		/* Fifo Underrun Error Interrupt Flag */
-+#define ISR_CRCIF	BIT(7)		/* CRC Error Interrupt Flag */
- 
- #define EDCR_OCYEN	BIT(25)		/* Output Conversion to YCbCr 422: ENable */
- #define EDCR_OCYSEL	BIT(26)		/* Output Conversion to YCbCr 422: SELection of the CCIR */
-@@ -231,6 +235,8 @@
- 
- #define NB_PF		8		/* Max nb of HW pixel format */
- 
-+#define FUT_DFT		128		/* Default value of fifo underrun threshold */
-+
- /*
-  * Skip the first value and the second in case CRC was enabled during
-  * the thread irq. This is to be sure CRC value is relevant for the
-@@ -711,12 +717,13 @@ static irqreturn_t ltdc_irq_thread(int irq, void *arg)
- 			ltdc_irq_crc_handle(ldev, crtc);
- 	}
- 
--	/* Save FIFO Underrun & Transfer Error status */
- 	mutex_lock(&ldev->err_lock);
--	if (ldev->irq_status & ISR_FUIF)
--		ldev->error_status |= ISR_FUIF;
- 	if (ldev->irq_status & ISR_TERRIF)
--		ldev->error_status |= ISR_TERRIF;
-+		ldev->transfer_err++;
-+	if (ldev->irq_status & ISR_FUEIF)
-+		ldev->fifo_err++;
-+	if (ldev->irq_status & ISR_FUWIF)
-+		ldev->fifo_warn++;
- 	mutex_unlock(&ldev->err_lock);
- 
- 	return IRQ_HANDLED;
-@@ -775,7 +782,7 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
- 	regmap_write(ldev->regmap, LTDC_BCCR, BCCR_BCBLACK);
- 
- 	/* Enable IRQ */
--	regmap_set_bits(ldev->regmap, LTDC_IER, IER_RRIE | IER_FUIE | IER_TERRIE);
-+	regmap_set_bits(ldev->regmap, LTDC_IER, IER_FUWIE | IER_FUEIE | IER_RRIE | IER_TERRIE);
- 
- 	/* Commit shadow registers = update planes at next vblank */
- 	if (!ldev->caps.plane_reg_shadow)
-@@ -801,13 +808,20 @@ static void ltdc_crtc_atomic_disable(struct drm_crtc *crtc,
- 				  LXCR_CLUTEN | LXCR_LEN, 0);
- 
- 	/* disable IRQ */
--	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_RRIE | IER_FUIE | IER_TERRIE);
-+	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_FUWIE | IER_FUEIE | IER_RRIE | IER_TERRIE);
- 
- 	/* immediately commit disable of layers before switching off LTDC */
- 	if (!ldev->caps.plane_reg_shadow)
- 		regmap_set_bits(ldev->regmap, LTDC_SRCR, SRCR_IMR);
- 
- 	pm_runtime_put_sync(ddev->dev);
-+
-+	/*  clear interrupt error counters */
-+	mutex_lock(&ldev->err_lock);
-+	ldev->transfer_err = 0;
-+	ldev->fifo_err = 0;
-+	ldev->fifo_warn = 0;
-+	mutex_unlock(&ldev->err_lock);
- }
- 
- #define CLK_TOLERANCE_HZ 50
-@@ -1168,6 +1182,18 @@ static int ltdc_crtc_verify_crc_source(struct drm_crtc *crtc,
- 	return 0;
- }
- 
-+static void ltdc_crtc_atomic_print_state(struct drm_printer *p,
-+					 const struct drm_crtc_state *state)
-+{
-+	struct drm_crtc *crtc = state->crtc;
-+	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
-+
-+	drm_printf(p, "\ttransfer_error=%d\n", ldev->transfer_err);
-+	drm_printf(p, "\tfifo_underrun_error=%d\n", ldev->fifo_err);
-+	drm_printf(p, "\tfifo_underrun_warning=%d\n", ldev->fifo_warn);
-+	drm_printf(p, "\tfifo_underrun_threshold=%d\n", ldev->fifo_threshold);
-+}
-+
- static const struct drm_crtc_funcs ltdc_crtc_funcs = {
- 	.destroy = drm_crtc_cleanup,
- 	.set_config = drm_atomic_helper_set_config,
-@@ -1178,6 +1204,7 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
- 	.enable_vblank = ltdc_crtc_enable_vblank,
- 	.disable_vblank = ltdc_crtc_disable_vblank,
- 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-+	.atomic_print_state = ltdc_crtc_atomic_print_state,
- };
- 
- static const struct drm_crtc_funcs ltdc_crtc_with_crc_support_funcs = {
-@@ -1192,6 +1219,7 @@ static const struct drm_crtc_funcs ltdc_crtc_with_crc_support_funcs = {
- 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
- 	.set_crc_source = ltdc_crtc_set_crc_source,
- 	.verify_crc_source = ltdc_crtc_verify_crc_source,
-+	.atomic_print_state = ltdc_crtc_atomic_print_state,
- };
- 
- /*
-@@ -1452,13 +1480,21 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
- 	ldev->plane_fpsi[plane->index].counter++;
- 
- 	mutex_lock(&ldev->err_lock);
--	if (ldev->error_status & ISR_FUIF) {
--		DRM_WARN("ltdc fifo underrun: please verify display mode\n");
--		ldev->error_status &= ~ISR_FUIF;
-+	if (ldev->transfer_err) {
-+		DRM_WARN("ltdc transfer error: %d\n", ldev->transfer_err);
-+		ldev->transfer_err = 0;
- 	}
--	if (ldev->error_status & ISR_TERRIF) {
--		DRM_WARN("ltdc transfer error\n");
--		ldev->error_status &= ~ISR_TERRIF;
-+
-+	if (ldev->caps.fifo_threshold) {
-+		if (ldev->fifo_err) {
-+			DRM_WARN("ltdc fifo underrun: please verify display mode\n");
-+			ldev->fifo_err = 0;
-+		}
-+	} else {
-+		if (ldev->fifo_warn >= ldev->fifo_threshold) {
-+			DRM_WARN("ltdc fifo underrun: please verify display mode\n");
-+			ldev->fifo_warn = 0;
-+		}
- 	}
- 	mutex_unlock(&ldev->err_lock);
- }
-@@ -1700,6 +1736,10 @@ static void ltdc_encoder_enable(struct drm_encoder *encoder)
- 
- 	DRM_DEBUG_DRIVER("\n");
- 
-+	/* set fifo underrun threshold register */
-+	if (ldev->caps.fifo_threshold)
-+		regmap_write(ldev->regmap, LTDC_FUT, ldev->fifo_threshold);
-+
- 	/* Enable LTDC */
- 	regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_LTDCEN);
- }
-@@ -1801,6 +1841,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
- 		ldev->caps.crc = false;
- 		ldev->caps.dynamic_zorder = false;
- 		ldev->caps.plane_rotation = false;
-+		ldev->caps.fifo_threshold = false;
- 		break;
- 	case HWVER_20101:
- 		ldev->caps.layer_ofs = LAY_OFS_0;
-@@ -1818,6 +1859,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
- 		ldev->caps.crc = false;
- 		ldev->caps.dynamic_zorder = false;
- 		ldev->caps.plane_rotation = false;
-+		ldev->caps.fifo_threshold = false;
- 		break;
- 	case HWVER_40100:
- 		ldev->caps.layer_ofs = LAY_OFS_1;
-@@ -1835,6 +1877,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
- 		ldev->caps.crc = true;
- 		ldev->caps.dynamic_zorder = true;
- 		ldev->caps.plane_rotation = true;
-+		ldev->caps.fifo_threshold = true;
- 		break;
- 	default:
- 		return -ENODEV;
-@@ -1959,9 +2002,6 @@ int ltdc_load(struct drm_device *ddev)
- 		goto err;
- 	}
- 
--	/* Disable interrupts */
--	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE | IER_RRIE | IER_FUIE | IER_TERRIE);
--
- 	ret = ltdc_get_caps(ddev);
- 	if (ret) {
- 		DRM_ERROR("hardware identifier (0x%08x) not supported!\n",
-@@ -1969,8 +2009,22 @@ int ltdc_load(struct drm_device *ddev)
- 		goto err;
- 	}
- 
-+	/* Disable interrupts */
-+	if (ldev->caps.fifo_threshold)
-+		regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE | IER_RRIE | IER_FUWIE |
-+				  IER_TERRIE);
-+	else
-+		regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE | IER_RRIE | IER_FUWIE |
-+				  IER_TERRIE | IER_FUEIE);
-+
- 	DRM_DEBUG_DRIVER("ltdc hw version 0x%08x\n", ldev->caps.hw_version);
- 
-+	/* initialize default value for fifo underrun threshold & clear interrupt error counters */
-+	ldev->transfer_err = 0;
-+	ldev->fifo_err = 0;
-+	ldev->fifo_warn = 0;
-+	ldev->fifo_threshold = FUT_DFT;
-+
- 	for (i = 0; i < ldev->caps.nb_irq; i++) {
- 		irq = platform_get_irq(pdev, i);
- 		if (irq < 0) {
-diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
-index 15139980d8ea..9d488043ffdb 100644
---- a/drivers/gpu/drm/stm/ltdc.h
-+++ b/drivers/gpu/drm/stm/ltdc.h
-@@ -30,6 +30,7 @@ struct ltdc_caps {
- 	bool crc;		/* cyclic redundancy check supported */
- 	bool dynamic_zorder;	/* dynamic z-order */
- 	bool plane_rotation;	/* plane rotation */
-+	bool fifo_threshold;	/* fifo underrun threshold supported */
- };
- 
- #define LTDC_MAX_LAYER	4
-@@ -45,8 +46,11 @@ struct ltdc_device {
- 	struct clk *pixel_clk;	/* lcd pixel clock */
- 	struct mutex err_lock;	/* protecting error_status */
- 	struct ltdc_caps caps;
--	u32 error_status;
- 	u32 irq_status;
-+	u32 fifo_err;		/* fifo underrun error counter */
-+	u32 fifo_warn;		/* fifo underrun warning counter */
-+	u32 fifo_threshold;	/* fifo underrun threshold */
-+	u32 transfer_err;	/* transfer error counter */
- 	struct fps_info plane_fpsi[LTDC_MAX_LAYER];
- 	struct drm_atomic_state *suspend_state;
- 	int crc_skip_count;
--- 
-2.25.1
+At this point it has been landed in drm-misc-next as per my response
+to the cover letter. If need be we can revert it and rework the ps8640
+driver to stop using it but it wouldn't change the lifetime of the
+bridge. I'm not going to rework the bridge lifetime rules here. If
+nothing else it seems like having the devm function at least would
+make it obvious which drivers need to be fixed whenever the bridge
+lifetime problem gets solved.
 
+-Doug
