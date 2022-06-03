@@ -1,62 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E15F53CA16
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 14:37:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 509C153CA18
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 14:38:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD7D511220A;
-	Fri,  3 Jun 2022 12:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E398D10E1CB;
+	Fri,  3 Jun 2022 12:38:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7769410E2CD;
- Fri,  3 Jun 2022 12:37:49 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id c2so9964955edf.5;
- Fri, 03 Jun 2022 05:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YrBwkRdvXLz7+jm3aOsGJs/0ErMfrv6pPp4W4cTpnsc=;
- b=lU6T2dV5ri5pmTMT6Mbiz1EQgTQhwZGxrRXAYVWfB5NmV8ZqAZj9v9QPOohoodr0b1
- 79uyw1nq5zUmUdfya6dlH9RnoKW5316fqsCHXRZO4YgZM0zFDcwgyKdQzdl/fpMQkI9d
- eKjXAUS92LFIE+J0QlN+0m9sz2DLQsgM/tEGCa4Dfx/qwcVBRhtpue7pTyxslSjB/A1w
- o8jvBKpdYsQrusdrRo48AuRFgCFS+SPbyht3s+oOM+tQtiduLwZYb6rFFPEnzOI8Bg5B
- tFcIl99IE0mJ1/e6i1Fc562Zznby3G/gTt4XNAGyJTWbwernPIWzLeNRSi8H8U+1FHoc
- JrJQ==
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D885310E1CB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 12:38:55 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-30c1c9b9b6cso80525257b3.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 05:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LQ9LbAf9wXAmGn/O8980DbDJtMR66Tj4Vl4MoT61m6k=;
+ b=DkB/GKnpnJBrFnTNDsyVVhLBkZfNijtKEeCge6KZXu9kaQR41nBfAya3Jcy9IUpICA
+ B6TfjkjZonQBwMyz22Yy7eWRjOuGA6ux9GSMyhcjoO1rkNkVfkNPQPjq2Vjq8EXLXVnK
+ VgqdcVmi8v6R9zNku04i89NxigDum1tG98H1V8N5Jh66xGhZTowAiUhBiRE3Sa/V8nmH
+ +GEEn94z0mbUfkRDez/WK8EJcArXZnrabFcmxwCiwumYbJ/jVBw/Qy1TlXyKFnnQj3yw
+ ipH2KIbA9mVI2K7evb/+YMlA32OZC/oc9XG+PI4Fmi1A9muSkQ3Xo4Fq2J3NL+btf+pJ
+ TEqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YrBwkRdvXLz7+jm3aOsGJs/0ErMfrv6pPp4W4cTpnsc=;
- b=WOcoml6zwVgAlZzviF6Opd+wjIqXmfRHLeJDmJPcCvVx1RpqWSIPakSHW71WrWAWQz
- SafeV3ysBcvD2yfe8PZF7rspstcRkLX1VOOdIEKQDN+oaavJM0Z4JfGIahcg+faVD/BA
- sMPY4MYcxKvcov/EYTJfqgGOmlqHwMzKFDOAaS0tkzjhDkJPYVMQDDRO9TIhofd2BqqU
- DVdzBis+WhfFusL04kheGOmxPfjDitsucH16G4LPGL+ZFY78LheRQoP46QcunQ0SudQ1
- u9AaXA7B5TbOxRvfbenbq9OwMQrxMkjYRntd3es2V7QIV72GDau0Q8sd/dsM95RwZI88
- f3JQ==
-X-Gm-Message-State: AOAM5316JSGF1xO/1BEx8WUOTjv8ClDLDJ/cal2XpzHC2BlzKeRvrOhB
- xPHDv1rDbhHO490NNaHLdrBhx1mSOMg=
-X-Google-Smtp-Source: ABdhPJxeCabJNbfYESsSsGF42ubf1R5Slv0JDKE/9PlNrQtqy1GE4Zsa18k3wAnt2ZmtPBrmuSNsjA==
-X-Received: by 2002:a05:6402:4410:b0:427:ab6f:a39a with SMTP id
- y16-20020a056402441000b00427ab6fa39amr10621435eda.120.1654259867780; 
- Fri, 03 Jun 2022 05:37:47 -0700 (PDT)
-Received: from localhost.localdomain.info
- (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
- by smtp.gmail.com with ESMTPSA id
- b12-20020a170906660c00b0070e3f58ed5csm716120ejp.48.2022.06.03.05.37.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jun 2022 05:37:47 -0700 (PDT)
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/etnaviv: print offender task information on hangcheck
- recovery
-Date: Fri,  3 Jun 2022 14:37:05 +0200
-Message-Id: <20220603123706.678320-1-christian.gmeiner@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LQ9LbAf9wXAmGn/O8980DbDJtMR66Tj4Vl4MoT61m6k=;
+ b=3R97uooi916AwdpfA9CN3j2gJCj4KJ2wy8S9ctXytg87lA/bY0QgJHxjbMx0ocBWcG
+ MUZ+r78dL17BndSfv4ABSkY65MniGF5gv39KnXMPBFhEIF+hK4IncokNP391roYw6CuV
+ W06XIGDfVNz7aUI2gkQRH/gNUH6D8SLn3PmD+ToiUMWifK9Zxm8OXEfw6usaJ/+MNki4
+ Blsk3W2xdGbxbiimn1d6O1EuMZyISX1RyHREQ/rOV6iBX/8wDi6AiuD4IpPmI2u+pToD
+ zGwBkwAiOdRVVCb1NM3yvgThEFw3QEbqOOyUVGny3XGkskXWurV/O/PszSr32EytQuGj
+ lNnA==
+X-Gm-Message-State: AOAM531CjrUTmuv00TrpUCSvjracKiQrAy3U9uv87p657D8PLZHKl85D
+ WnKJWU4k6c8MpbaiVhEIzbvRSelJ3HKAN9Jm4uUORw==
+X-Google-Smtp-Source: ABdhPJySwlROwAfGq791PwBCtelHedMj23hyGwnzErBFrerJpvhojZF08hUFaXP2/C8/DyYm0aZfS41nx889tfYmo/Q=
+X-Received: by 2002:a0d:f541:0:b0:2fe:ca9a:dbbe with SMTP id
+ e62-20020a0df541000000b002feca9adbbemr11188985ywf.254.1654259934984; Fri, 03
+ Jun 2022 05:38:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
+ <20220601004014.158247-4-bas@basnieuwenhuizen.nl>
+ <e4d8ea99-ceb5-b0dc-362f-94e37b9ddc6b@amd.com>
+ <CAP+8YyEy8R3nbJVFkqHnh=3VsmfWKsQyY45tcWTQhm3hujBRbg@mail.gmail.com>
+ <e502a4b7-e927-2abf-9014-0b23d15d401b@amd.com>
+ <CAP+8YyHdbrvA-sJ=VZccmLkyZ9WCO7CnOp5K0pMoXA=MrHLCsw@mail.gmail.com>
+ <bd850268-8324-79cb-854f-b0c843f9581b@amd.com>
+ <CAP+8YyGuU_fBMLkSuqBMk7uy-F=BAaopWS-Vxi=-E0P5LGbsRQ@mail.gmail.com>
+ <ea49dfd3-3c20-c330-3412-5b48481331cd@amd.com>
+ <CAP+8YyGgam6Hr40PS_Rc7Dg=S2dLJdce=87=wNt2B0yAyPEPOw@mail.gmail.com>
+ <237f28b7-258e-8b6c-f7b3-93f0db9676d3@amd.com>
+ <CAP+8YyHnR=eQZMkxn=RpdzYF69y-54ri2pFrTj8DJuRTtwrDaA@mail.gmail.com>
+ <7cba4b1d-724a-3c32-2546-015fa069342d@amd.com>
+In-Reply-To: <7cba4b1d-724a-3c32-2546-015fa069342d@amd.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Fri, 3 Jun 2022 14:39:05 +0200
+Message-ID: <CAP+8YyEMDNR_5=uGf8BEV5DCovr-Z_ZDWS2E7-7zqSFGG7bdKg@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,129 +78,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Track the pid per submit, so we can print the name and cmdline of
-the task which submitted the batch that caused the gpu to hang.
+On Fri, Jun 3, 2022 at 2:08 PM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+>
+> Am 03.06.22 um 13:07 schrieb Bas Nieuwenhuizen:
+> > On Fri, Jun 3, 2022 at 12:16 PM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Am 03.06.22 um 12:08 schrieb Bas Nieuwenhuizen:
+> >>> [SNIP]
+> >>>>> I do have to fix some stuff indeed, especially for the GEM close bu=
+t
+> >>>>> with that we should be able to keep the same basic approach?
+> >>>> Nope, not even remotely.
+> >>>>
+> >>>> What we need is the following:
+> >>>> 1. Rolling out my drm_exec patch set, so that we can lock buffers as=
+ needed.
+> >>>> 2. When we get a VM operation we not only lock the VM page tables, b=
+ut
+> >>>> also all buffers we potentially need to unmap.
+> >>>> 3. Nuking the freed list in the amdgpu_vm structure by updating free=
+d
+> >>>> areas directly when they are unmapped.
+> >>>> 4. Tracking those updates inside the bo_va structure for the BO+VM
+> >>>> combination.
+> >>>> 5. When the bo_va structure is destroy because of closing the handle
+> >>>> move the last clear operation over to the VM as implicit sync.
+> >>>>
+> >>> Hi Christian, isn't that a different problem though (that we're also
+> >>> trying to solve, but in your series)?
+> >>>
+> >>> What this patch tries to achieve:
+> >>>
+> >>> (t+0) CS submission setting BOOKKEEP fences (i.e. no implicit sync)
+> >>> (t+1) a VM operation on a BO/VM accessed by the CS.
+> >>>
+> >>> to run concurrently. What it *doesn't* try is
+> >>>
+> >>> (t+0) a VM operation on a BO/VM accessed by the CS.
+> >>> (t+1) CS submission setting BOOKKEEP fences (i.e. no implicit sync)
+> >>>
+> >>> to run concurrently. When you write
+> >>>
+> >>>> Only when all this is done we then can resolve the dependency that t=
+he
+> >>>> CS currently must wait for any clear operation on the VM.
+> >>> isn't that all about the second problem?
+> >> No, it's the same.
+> >>
+> >> See what we do in the VM code is to artificially insert a bubble so th=
+at
+> >> all VM clear operations wait for all CS operations and then use the
+> >> clear fence to indicate when the backing store of the BO can be freed.
+> > Isn't that remediated with something like the code below? At least the
+> > gem_close case should be handled with this, and the move case was
+> > already handled by the copy operation.
+>
+> That is one necessary puzzle piece, yes. But you need more than that.
+>
+> Especially the explicit unmap operation needs to be converted into an
+> implicit unmap to get the TLB flush right.
 
-Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 18 +++++++++++++++++-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
- 5 files changed, 26 insertions(+), 3 deletions(-)
+This doesn't change anything about the TLB flush though? Since all
+unmap -> later jobs dependencies are still implicit.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-index 63688e6e4580..baa81cbf701a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-@@ -96,6 +96,7 @@ struct etnaviv_gem_submit {
- 	int out_fence_id;
- 	struct list_head node; /* GPU active submit list */
- 	struct etnaviv_cmdbuf cmdbuf;
-+	struct pid *pid;       /* submitting process */
- 	bool runtime_resumed;
- 	u32 exec_state;
- 	u32 flags;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 1ac916b24891..1491159d0d20 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -399,6 +399,9 @@ static void submit_cleanup(struct kref *kref)
- 		mutex_unlock(&submit->gpu->fence_lock);
- 		dma_fence_put(submit->out_fence);
- 	}
-+
-+	put_pid(submit->pid);
-+
- 	kfree(submit->pmrs);
- 	kfree(submit);
- }
-@@ -422,6 +425,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	struct sync_file *sync_file = NULL;
- 	struct ww_acquire_ctx ticket;
- 	int out_fence_fd = -1;
-+	struct pid *pid = get_pid(task_pid(current));
- 	void *stream;
- 	int ret;
- 
-@@ -519,6 +523,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		goto err_submit_ww_acquire;
- 	}
- 
-+	submit->pid = pid;
-+
- 	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
- 				  ALIGN(args->stream_size, 8) + 8);
- 	if (ret)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 37018bc55810..7d9bf4673e2d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1045,12 +1045,28 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- }
- #endif
- 
--void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
-+void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit)
- {
-+	struct etnaviv_gpu *gpu = submit->gpu;
-+	char *comm = NULL, *cmd = NULL;
-+	struct task_struct *task;
- 	unsigned int i;
- 
- 	dev_err(gpu->dev, "recover hung GPU!\n");
- 
-+	task = get_pid_task(submit->pid, PIDTYPE_PID);
-+	if (task) {
-+		comm = kstrdup(task->comm, GFP_KERNEL);
-+		cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
-+		put_task_struct(task);
-+	}
-+
-+	if (comm && cmd)
-+		dev_err(gpu->dev, "offending task: %s (%s)\n", comm, cmd);
-+
-+	kfree(cmd);
-+	kfree(comm);
-+
- 	if (pm_runtime_get_sync(gpu->dev) < 0)
- 		goto pm_put;
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 85eddd492774..b3a0941d56fd 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -168,7 +168,7 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
- int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m);
- #endif
- 
--void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu);
-+void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit);
- void etnaviv_gpu_retire(struct etnaviv_gpu *gpu);
- int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
- 	u32 fence, struct drm_etnaviv_timespec *timeout);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index 72e2553fbc98..d29f467eee13 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -67,7 +67,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 
- 	/* get the GPU back into the init state */
- 	etnaviv_core_dump(submit);
--	etnaviv_gpu_recover_hang(gpu);
-+	etnaviv_gpu_recover_hang(submit);
- 
- 	drm_sched_resubmit_jobs(&gpu->sched);
- 
--- 
-2.36.1
+So the worst what could happen (i.f. e.g. userspace gets the
+waits/dependencies wrong) is
 
+1) non-implicit CS gets submitted that touches a BO
+2)  VM unmap on that BO happens
+2.5) the CS from 1 is still active due to missing dependencies
+2.6) but any CS submission after 2 will trigger a TLB flush
+3) A TLB flush happens for a new CS
+4) All CS submissions here see the TLB flush and hence the unmap
+
+So the main problem would be the CS from step 1, but (a) if that
+VMFaults that is the apps own fault and (b) because we don't free the
+memory until (1) finishes it is not a security issue kernel-wise.
+
+>
+> I think I know all the necessary steps now, it's just tons of work to do.
+>
+> Regards,
+> Christian.
+>
+> >
+> >
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > @@ -187,6 +187,39 @@ static int amdgpu_gem_object_open(struct
+> > drm_gem_object *obj,
+> >         return 0;
+> > }
+> >
+> > +static void dma_resv_copy(struct dma_resv *src, struct dma_resv *dst)
+> > +{
+> > +       struct dma_resv_iter cursor;
+> > +       struct dma_fence *f;
+> > +       int r;
+> > +       unsigned num_fences =3D 0;
+> > +
+> > +       if (src =3D=3D dst)
+> > +               return;
+> > +
+> > +       /* We assume the later loops get the same fences as the caller =
+should
+> > +        * lock the resv. */
+> > +       dma_resv_for_each_fence(&cursor, src, DMA_RESV_USAGE_BOOKKEEP, =
+f) {
+> > +               ++num_fences;
+> > +               dma_fence_put(f);
+> > +       }
+> > +
+> > +       r =3D dma_resv_reserve_fences(dst, num_fences);
+> > +       if (r) {
+> > +               /* As last resort on OOM we block for the fence */
+> > +               dma_resv_for_each_fence(&cursor, src,
+> > DMA_RESV_USAGE_BOOKKEEP, f) {
+> > +                       dma_fence_wait(f, false);
+> > +                       dma_fence_put(f);
+> > +               }
+> > +       }
+> > +
+> > +       dma_resv_for_each_fence(&cursor, src, DMA_RESV_USAGE_BOOKKEEP, =
+f) {
+> > +               dma_resv_add_fence(dst, f, dma_resv_iter_usage(&cursor)=
+);
+> > +               dma_fence_put(f);
+> > +       }
+> > +}
+> > +
+> > +
+> > static void amdgpu_gem_object_close(struct drm_gem_object *obj,
+> >                                     struct drm_file *file_priv)
+> > {
+> > @@ -233,6 +266,8 @@ static void amdgpu_gem_object_close(struct
+> > drm_gem_object *obj,
+> >         amdgpu_bo_fence(bo, fence, true);
+> >         dma_fence_put(fence);
+> >
+> > +       dma_resv_copy(vm->root.bo->tbo.base.resv, bo->tbo.base.resv);
+> > +
+> > out_unlock:
+> >         if (unlikely(r < 0))
+> >                 dev_err(adev->dev, "failed to clear page "
+> >
+> >> When you want to remove this bubble (which is certainly a good idea) y=
+ou
+> >> need to first come up with a different approach to handle the clear
+> >> operations.
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>
+>
