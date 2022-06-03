@@ -1,77 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6172953D27B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 21:48:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4E353D2A1
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 22:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C70110FD8E;
-	Fri,  3 Jun 2022 19:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1BDF112245;
+	Fri,  3 Jun 2022 20:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9B710FD8E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 19:48:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654285681;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qhN+6H64TiG7vRtiCb0Q48wOxyAX3Dt/H1qpOXDv8ac=;
- b=eMVd6FSI84aL8ptC+7dlYbjoF9DEzRZ57cYCrXhoy5jB6epi0HTnOevr0RU/gwAwL+NwYW
- vGQBnEOnGs7GBfBNiJoBcGfYUwIfAFExESKV8nWE0uBi5aL6qHWkP/ZbkqXXqwjn3MUTzn
- NcrKRPBZDtt62JbM4AN3PIMzmcJacyk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-7wgT12oiOQqowpqvwPmaAQ-1; Fri, 03 Jun 2022 15:48:00 -0400
-X-MC-Unique: 7wgT12oiOQqowpqvwPmaAQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay1-20020a05600c1e0100b0039c3a3fc6a4so1853220wmb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 12:48:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:date:organization
- :user-agent:mime-version:content-transfer-encoding;
- bh=qhN+6H64TiG7vRtiCb0Q48wOxyAX3Dt/H1qpOXDv8ac=;
- b=Mwh0c5Jb2VKIrRJSnx/Vn5RbS9Cd7YZpKPtTuk/REF3k6uVSnQRtQYpfffJAZx2V0n
- MSkFgctNsmFp4me69BjgC4emervRfa7PZmkClxd2eI+KvNSEcurLFi06cGLF41J0zqxk
- Gd/YSJbwZqQx1KDRa1AzZ/Y6VT2kvdUIWbbkVcDl97QHtQwTrvUNJoyuOQ98vsPFFWdj
- FAXl9FiuI9O+DAhiEZFy9unItnZam2ktbLMph7NyDDMlqJQJzqgN8YSPmQXAFlc7RbPQ
- RIjjS2yDmiZ9T/VRuc49IZSEYeECC3tPE3CViv3rHUIG75I4kjng9PY6y59CaY3rxZzj
- SlLw==
-X-Gm-Message-State: AOAM531UMnRHQlvjMiPLm+P0B3zLQY1V6Zu0vzlNAeU5R9kGqbD3TC9w
- MtwzPX4pINquvkSAphAcW6jSHBXNGj9CZiKsI+LQKk9Glq/ZgKI17PbsudfSZn25Uxxk5RwxgeD
- 3PqLhBwOCIZOreZpFxAdhDgobljexDM+WZ15/2akZCnjiBxBGTEvtfZk9R+P2d5mQwTbA4dzOon
- 19
-X-Received: by 2002:a7b:c449:0:b0:397:4714:bf56 with SMTP id
- l9-20020a7bc449000000b003974714bf56mr38851794wmi.108.1654285679261; 
- Fri, 03 Jun 2022 12:47:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz1BNgqTOAgWqBs6VG56jctRYwLY5R3XSOioCkfuC/jBibcy5VgrCaBa7bXTrOSkImO7Qii5g==
-X-Received: by 2002:a7b:c449:0:b0:397:4714:bf56 with SMTP id
- l9-20020a7bc449000000b003974714bf56mr38851775wmi.108.1654285678886; 
- Fri, 03 Jun 2022 12:47:58 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- h13-20020a05600c2cad00b00397623ff335sm10270282wmc.10.2022.06.03.12.47.57
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jun 2022 12:47:58 -0700 (PDT)
-Message-ID: <04817f51dc284f3347c53002601783b96ef0cb90.camel@redhat.com>
-Subject: XDC 2022: Registration & Call for Presentations still open!
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Date: Fri, 03 Jun 2022 15:47:56 -0400
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A591121F8;
+ Fri,  3 Jun 2022 20:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654286990; x=1685822990;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=M7Cq64BAkE+eEl9rbT26JfvPDx/MbnC1na+zs5QYfBw=;
+ b=ceWWOtkrG9x4ZCVT7+ny10bkme7AZsY8c/hGV1brduxA4BL85p27Xe4T
+ tAwOOc9S64GnduOYAv7Cy5+V+X+PAQ+vO91qMnCQ+7MfIGp9n5oAmMFhV
+ xOx7DVXRF8BoCbYl4Kv7yZ8vFSoCJM9K3enbv4pKnVXtBEQxjEL+7969r E=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 03 Jun 2022 13:09:50 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2022 13:09:49 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 3 Jun 2022 13:09:49 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 3 Jun 2022 13:09:48 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH] dt-bindings: msm: update maintainers list with proper id
+Date: Fri, 3 Jun 2022 13:09:39 -0700
+Message-ID: <1654286979-11072-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,68 +61,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello! This is just a reminder that the CFP for XDC in 2022 is still open!
+Use quic id instead of codeaurora id in maintainers list
+for display devicetree bindings.
 
-The 2022 X.Org Developers Conference is being held in conjunction with
-the 2022 Wine Developers Conference.  This is a meeting to bring
-together developers working on all things open graphics (Linux kernel,
-Mesa, DRM, Wayland, X11, etc.) as well as developers for the Wine
-Project, a key consumer of open graphics.
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Registration & Call for Proposals are now open for both XDC 2022 and
-WineConf 2022, which will take place on October 4-6, 2022 in
-Minneapolis, Minnesota, USA. 
-
-https://xdc2022.x.org
- 
-As usual, the conference is free of charge and open to the general
-public. If you plan on attending, please make sure to register as early
-as possible!
- 
-In order to register as attendee, you will therefore need to do it via
-the XDC website:
- 
-https://indico.freedesktop.org/event/2/registrations/2/
- 
-In addition to registration, the CfP is now open for talks, workshops
-and demos at XDC 2022. While any serious proposal will be gratefully
-considered, topics of interest to X.Org and freedesktop.org developers
-are encouraged. The program focus is on new development, ongoing
-challenges and anything else that will spark discussions among
-attendees in the hallway track.
- 
-We are open to talks across all layers of the graphics stack, from the
-kernel to desktop environments / graphical applications and about how
-to make things better for the developers who build them. Head to the
-CfP page to learn more: 
- 
-https://indico.freedesktop.org/event/2/abstracts/
- 
-The deadline for submissions is Monday July 4th, 2022.
- 
-Check out our Reimbursement Policy to accept speaker
-expenses for X.Org events like XDC 2022:
- 
-https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
-
-If you have any questions, please send me an email to
-xdc@codeweavers.com, adding on CC the X.org board (board
-at foundation.x.org).
- 
-And don't forget, you can follow us on Twitter for all the latest
-updates and to stay connected:
- 
-https://twitter.com/XOrgDevConf
-
-Best regards,
-Lyude Paul, on behalf of X.org
-
-
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index cd05cfd..c950710 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: MSM Display Port Controller
+ 
+ maintainers:
+-  - Kuogee Hsieh <khsieh@codeaurora.org>
++  - Kuogee Hsieh <quic_khsieh@quicinc.com>
+ 
+ description: |
+   Device tree bindings for DisplayPort host controller for MSM targets
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
