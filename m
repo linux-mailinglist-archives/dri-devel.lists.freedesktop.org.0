@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0264253C72F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 10:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0575453C767
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 11:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258E510E2B9;
-	Fri,  3 Jun 2022 08:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84F87112039;
+	Fri,  3 Jun 2022 09:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8FF710E2B9
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 08:57:47 +0000 (UTC)
-Received: by mail-qt1-x836.google.com with SMTP id ew15so5109299qtb.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 01:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7zhHII/DS4QRjgxHtKGpmTA0qCxEvYRa7d6vBVg1/3I=;
- b=THwBYsq46Go8yRw7Wlg7M90twt/p83YwtRg3qL/1JSR0F0T37iyEUM00c8QdBcsznG
- F8IuFGaDjeC1Z4+BSm7HnHXkuhwZvrj0ymkj03rHZF6ZOqi4nt1yNgWyu/x5HC8tpPEM
- Qlq7rERMDHI23AVBflNh4oDOQCY8ZsjZeg0CN5GL6+qkpxaXow/UenFc4rSfYfe9cvwi
- 6IAliYt1FzAzZGD1mFWSYNw9SxUfk2MtK2ffcXDIBEsUyIIPTv5aW+HLNemTlBSMbOQk
- 7Tjn5zPedMx7yhaSebSseH8l1dEFx29eDx0dNpaJLfDGrgY1FQn/aSU5eTYSAy5iJcUX
- CMxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7zhHII/DS4QRjgxHtKGpmTA0qCxEvYRa7d6vBVg1/3I=;
- b=p7XZS6f4nUkd7BxCGCzumBt8B9nThFNGNLTRLbm/1XPgbKsT1fI78OouiIPgwZM2se
- iQawwjSytMv3SiSiNUvldgB81qmSv/ZLmLLhqRsCKMwrKD/TstJUQ2HahxQA7MzWS0M2
- Lww5aE5msTDILz1sU/uIzpWx75u0QfvcYMMa/zkslZATQ02O00GrOYPPcCByCqJE+k7Y
- f/8Er+CqVg4Sw09deCFgM5R9E02gVxIF5jeYN+1+dnWGKVMHr6KOYr3pPYEv6Jixv8dk
- MMDIu1ILw0Pue2yBiyBjpLQu7MZ09eXFfC80li1lP3HDV1rTg8EHanQs9M6T6fxZpINY
- 3DJg==
-X-Gm-Message-State: AOAM532PlB2TF6+gqiu9uFrI3Y5fdyRmH09d4pVq6/fq4j+43tH8oaWc
- 2pKGL7vyL+zIcsQosXP6fy7Kk3nxFsiahtwS7vI=
-X-Google-Smtp-Source: ABdhPJy16OoYcLy5R6zXDdyw9O3WXdWXOFOwTUrT9zCMmhkGZeY0qh8vg7dtsB9fpa1i/GTJSVWKf/DI3dB7vtkuJk8=
-X-Received: by 2002:ac8:5896:0:b0:2f3:d231:58a9 with SMTP id
- t22-20020ac85896000000b002f3d23158a9mr6574470qta.131.1654246666777; Fri, 03
- Jun 2022 01:57:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220602180118.66170-1-r.stratiienko@gmail.com>
- <20220603082416.ukohug3mwzu43csu@penduick>
-In-Reply-To: <20220603082416.ukohug3mwzu43csu@penduick>
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-Date: Fri, 3 Jun 2022 11:57:35 +0300
-Message-ID: <CAGphcdkPJ57bkw4nxuSnk0TD1RGW5j9M-A0ek6t1rDnMY2PS8Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/sun4i: sun8i: Add the ability to keep scaler enabled
- for VI layer
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFA410FE8A;
+ Fri,  3 Jun 2022 09:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654248186; x=1685784186;
+ h=from:to:cc:subject:date:message-id;
+ bh=V2lKivc9M3T8itEYOlhL4nuspF06rOXNkuFJ8fsnkqw=;
+ b=gMt1+Lm3LQ7HJ52SklO0bT/NRxHF5XuKVY0XCWvymT9ASTV1NZYggf/y
+ QLv/OzR5i8by7ag4xtGr7exJxA8zRr0ZuJPmfmfW94Se9ouzgyanLkOP6
+ T+r+mELWOUSxuqjNzb4DYLkM4W54PuqkvKKw6eFz8sFH+aXmu+qYLkyWW Y=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 03 Jun 2022 02:23:05 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 03 Jun 2022 02:23:03 -0700
+X-QCInternal: smtphost
+Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 03 Jun 2022 14:52:50 +0530
+Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
+ id 680753A0D; Fri,  3 Jun 2022 14:52:49 +0530 (IST)
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] drm/msm: add null checks for drm device to avoid crash during
+ probe defer
+Date: Fri,  3 Jun 2022 14:52:47 +0530
+Message-Id: <1654248167-10594-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,99 +51,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- megi@xff.cz, =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: vpolimer@quicinc.com, dianders@chromium.org, linux-kernel@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org, kalyant@quicinc.com,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+During probe defer, drm device is not initialized and an external
+trigger to shutdown is trying to clean up drm device leading to crash.
+Add checks to avoid drm device cleanup in such cases.
 
-=D0=BF=D1=82, 3 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 11:24, Maxime Ripar=
-d <maxime@cerno.tech>:
->
-> Hi,
->
-> On Thu, Jun 02, 2022 at 06:01:18PM +0000, Roman Stratiienko wrote:
-> > According to DE2.0/DE3.0 manual VI scaler enable register is double
-> > buffered, but de facto it doesn't, or the hardware has the shadow
-> > register latching issues which causes single-frame picture corruption
-> > after changing the state of scaler enable register.
-> >
-> > Allow the user to keep the scaler always enabled, preventing the UI
-> > glitches on the transition from scaled to unscaled state.
-> >
-> > NOTE:
-> > UI layer scaler has more registers with double-buffering issue and can'=
-t
-> > be workarounded in the same manner.
-> >
-> > You may find a python test and a demo video for this issue at [1]
-> >
-> > [1]: https://github.com/GloDroid/glodroid_tests/issues/4
->
-> Please describe the issue entirely here. The commit log must be self-suff=
-icient.
+BUG: unable to handle kernel NULL pointer dereference at virtual
+address 00000000000000b8
 
-Commit message already states "single-frame picture corruption after
-changing the state of scaler enable register", therefore I find it
-already self-sufficient
+Call trace:
 
-Also I find demo videos and link to tests useful for the followers to
-go further with investigation.
+drm_atomic_helper_shutdown+0x44/0x144
+msm_pdev_shutdown+0x2c/0x38
+platform_shutdown+0x2c/0x38
+device_shutdown+0x158/0x210
+kernel_restart_prepare+0x40/0x4c
+kernel_restart+0x20/0x6c
+__arm64_sys_reboot+0x194/0x23c
+invoke_syscall+0x50/0x13c
+el0_svc_common+0xa0/0x17c
+do_el0_svc_compat+0x28/0x34
+el0_svc_compat+0x20/0x70
+el0t_32_sync_handler+0xa8/0xcc
+el0t_32_sync+0x1a8/0x1ac
 
-If you have something specific in mind when asking to enhance the
-commit message please say it.
+Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+---
+ drivers/gpu/drm/msm/msm_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
->
-> > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> > ---
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 ++++++++++++
-> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  4 +++-
-> >  2 files changed, 15 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4=
-i/sun8i_mixer.c
-> > index 71ab0a00b4de..15cad0330f66 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > @@ -27,6 +27,18 @@
-> >  #include "sun8i_vi_layer.h"
-> >  #include "sunxi_engine.h"
-> >
-> > +/* According to DE2.0/DE3.0 manual VI scaler enable register is double
-> > + * buffered, but de facto it doesn't, or the hardware has the shadow
-> > + * register latching issues which causes single-frame picture corrupti=
-on
-> > + * after changing the state of scaler enable register.
-> > + * Allow the user to keep the scaler always enabled, preventing the UI
-> > + * glitches on the transition from scaled to unscaled state.
-> > + */
-> > +int sun8i_vi_keep_scaler_enabled;
-> > +MODULE_PARM_DESC(keep_vi_scaler_enabled,
-> > +              "Keep VI scaler enabled (1 =3D enabled, 0 =3D disabled (=
-default))");
-> > +module_param_named(keep_vi_scaler_enabled, sun8i_vi_keep_scaler_enable=
-d, int, 0644);
-> > +
->
-> It's not clear to me why we would want to make that a parameter?
->
->1 If it never works, we should fix it once and for all and not allow a bro=
-ken setup at all.
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 4448536..d62ac66 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -142,6 +142,9 @@ static void msm_irq_uninstall(struct drm_device *dev)
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct msm_kms *kms = priv->kms;
+ 
++	if (!irq_has_action(kms->irq))
++		return;
++
+ 	kms->funcs->irq_uninstall(kms);
+ 	if (kms->irq_requested)
+ 		free_irq(kms->irq, dev);
+@@ -259,6 +262,7 @@ static int msm_drm_uninit(struct device *dev)
+ 
+ 	ddev->dev_private = NULL;
+ 	drm_dev_put(ddev);
++	priv->dev = NULL;
+ 
+ 	destroy_workqueue(priv->wq);
+ 
+@@ -1167,7 +1171,7 @@ void msm_drv_shutdown(struct platform_device *pdev)
+ 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+ 	struct drm_device *drm = priv ? priv->dev : NULL;
+ 
+-	if (!priv || !priv->kms)
++	if (!priv || !priv->kms || !drm)
+ 		return;
+ 
+ 	drm_atomic_helper_shutdown(drm);
+-- 
+2.7.4
 
-It's a hardware issue and can be fixed only within the hardware.
-
-Current patch is a workaround that if enabled can cause increased
-power consumption
-for existing users. Therefore I think it is better to give existing
-distro-maintainers a chance to test it prior to delivery.
-
-Also I do not have all the sunxi SOCs to test it. My tests were
-limited only by A64 and H6 SOCs.
-
-> Maxime
-
-Best regards,
-Roman
