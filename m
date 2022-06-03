@@ -2,55 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACF453CBA5
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 16:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDA153CBA7
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 16:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E395D10EB92;
-	Fri,  3 Jun 2022 14:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC1B10E63E;
+	Fri,  3 Jun 2022 14:38:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BAA110EB92
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 14:38:02 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id n18so6972401plg.5
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 07:38:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M7kFzGv/t7HjroKZ7y5t6k7BMqvelVbtrmn23rrpIpw=;
- b=Tjsa9zTvgO5ir++UbH5lWgLLCfSZnWd4rBvqOUcDLeMlUordik1RalGOSq9d2g6ITn
- IeUNQefTTdpbLkAd/9yMSi7f2V1mxa5um+g56db+vkupA1c+rlwn2DWaja/62G3yE/te
- pQOlLdqlE2vrInLZiBv6h93P0WCg8vABJ1nsPZiLVMyvEJ747rB963R4ES+FXzIVLg95
- jiMBbEE7ZNS9+5YAWQ2VNhfMoxl3nu3GEEmsTT7Wp92UY+yakwSMg7SQPOMofA5IXhcw
- Hy4ApbQy3WdsbUCJyMROvgqsQu2jwStEW7aRUwfv0X6UZJDapasWFUumDA43TihnrWJz
- yKuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M7kFzGv/t7HjroKZ7y5t6k7BMqvelVbtrmn23rrpIpw=;
- b=fbgeJXqucGUwu2zzEP+rW+c7atgjtzxSePfWHAZC0mjcPQ2YYjk5yaNJO1efjeIG9+
- ghk2IXBweeW9mTQDCKF1/02ZCJKkTNrP7jR8TrfAGnUO/NMV80bGydxMimK50QNckfMO
- sVIqDQT4Hssd0LUowImDxl2gPIRQreOLe2djmjVxwTFlwCNEeQmvTVbwRxMEihK1nYjB
- gFHdJQkdosdm7NdP7Kz+fC43xotLRJHo23KD+SepY7IX0/5NgUJUHa3orQgkdmnZPR/L
- 8qBiGMXN5chMlg3XCRQNU0DFsEl63J2majc9FvYxmqj7kasErMzOVqIsb1GOFcP7MlRm
- M4yg==
-X-Gm-Message-State: AOAM531izJaWxat2ts3j7gY3xPEuMYCUEKHA+3S5nhYaxY0nHpxrkslC
- 6UEwZUddeW/s9mNvH2W65hIB+9gCYdIn8uec3CxLFA==
-X-Google-Smtp-Source: ABdhPJxkAnMx1Dyp+vfMArYLL3A1PA96nNVfHJjwi/75pLkPaygGliYkVlX7HsjGm03PJQy4Tgzh1UH0uxR/fV9HRA0=
-X-Received: by 2002:a17:902:8f81:b0:161:f4a7:f2fc with SMTP id
- z1-20020a1709028f8100b00161f4a7f2fcmr10528760plo.117.1654267082064; Fri, 03
- Jun 2022 07:38:02 -0700 (PDT)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2052.outbound.protection.outlook.com [40.107.236.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4F510E63E;
+ Fri,  3 Jun 2022 14:38:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EFO9p0dXeSW7mW/Y18gyZp/Eph3QDn+yUu+kdsuB1rV5tEgaI2W7NFwVgwiIL7gcEvRmYh7GqcIFU4GMY976/n1F8Z0rGjbETyQCgACDaLWKXoUwbX4/KZVbH5wvKFgZow9Eja4j3SS60a99ZzewqXu7NbCgGmyN3GWRVFzyO9HcOvGFdb8gqySKStqq0bHXcSl8XvfoNZpMQEDVszxN/6zA1dff3CVnVuOekLN07VYTfiAf82P6yidGaSzJ3SCdXFCY1duPHg36tj4YMIxLwpj++f6JnU5eLmz1iM2VCgRamaibARIoDYA0OrRvsYoBn17NBCugqjfQ2T30l8D+9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LabBx+GRxEVhbEXOsKZXXKUUd23j2IfijlmHsRnF/EM=;
+ b=nHASZY0860mnk57nT3wsvPFjsdlz8r/z+eFEhOlD7bo6NQXKWCt8oPoVG3Nmyv/A9wPIM3mcJNahv45WWTWOaPwwEOxmrXBsUK7V/mtGaSLYo8yVtFG4+gXU0HxfsUhCZE6DUcI+gKvQRxstmnzoK1vYfl1M1h1awI/FNyFSY6K+L/QQJMZuzMWPU7kPvVjZGvArl0rx1X782Gyyx0HKkTIlIVArcx5nHgh5fxl61kvJ2rUpCz4wMDgaNbX0xisvEyQVnJiX2enY2jtVI7bKGFzzCGlRd82mJNTEaGnNcK4ASTkEVeT2KZqS7gSUGjewxt4qco8Nilh8RfKmySJYog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LabBx+GRxEVhbEXOsKZXXKUUd23j2IfijlmHsRnF/EM=;
+ b=zraoB29GYlpPjdswIL9TEbhec6YFR6Aru4Ok/Ni9K/CuLBPCT2UBinB6DDNB/5vhI1SCJK/rxXHYLYb1bs+KaK5oXJio4+uAdXLS7sKuPT9k4NWWfdgtJeI7eHrfV39ng18F76wlujtfcOCgw2bmGCzX5JG3a3OU39VZ/w8hPv0=
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
+ by CH2PR05MB7174.namprd05.prod.outlook.com (2603:10b6:610:45::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.4; Fri, 3 Jun
+ 2022 14:38:54 +0000
+Received: from CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::10c6:987:f526:83aa]) by CY4PR05MB3047.namprd05.prod.outlook.com
+ ([fe80::10c6:987:f526:83aa%3]) with mapi id 15.20.5332.006; Fri, 3 Jun 2022
+ 14:38:54 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
+Thread-Topic: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
+Thread-Index: AQHYdpeKjA+fIeSl9UGD1Oezsoj+Fa09u26AgAADaYCAAAGbAIAAAasA
+Date: Fri, 3 Jun 2022 14:38:54 +0000
+Message-ID: <06E05345-758E-456A-803D-B50978A935CA@vmware.com>
+References: <20220602154243.1015688-1-zack@kde.org>
+ <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
+ <0F911D96-1C9B-4EF1-84D7-F5335B3FFEB7@vmware.com>
+ <5Et1VowGX_0a0i5weC4YVMX7bhGDU45hQyiv4CjqyxQStY1CSUJs-xamBowRO8go8yCk1l_jgKmM_OrMB0Fdx166545AX5nL09NGsEYaBs0=@emersion.fr>
+In-Reply-To: <5Et1VowGX_0a0i5weC4YVMX7bhGDU45hQyiv4CjqyxQStY1CSUJs-xamBowRO8go8yCk1l_jgKmM_OrMB0Fdx166545AX5nL09NGsEYaBs0=@emersion.fr>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.80.82.1.1)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 31b0d19b-e7dc-4dec-cbe4-08da456ec8fa
+x-ms-traffictypediagnostic: CH2PR05MB7174:EE_
+x-microsoft-antispam-prvs: <CH2PR05MB717415C7D368F597CE93CA2DCEA19@CH2PR05MB7174.namprd05.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: by5w6/hdhN3IqTMxndIMn7HWU0k8YMniw95hXXh8dYmGuMbZ4+YFW8F4R+ml7rj72DMD+qcQ7obb6yq68Ka3r2pIN4qh00fICLR8werCMHopnqiktUnJATGa2HK5ulxBTm1gJL3R8PLS2eu7O7VwroYBVLGo4FvKrZGX1fHS3SQ4kX3vB/IEdpXDV9baQ9HVXo74WCNTiInQqECIIAeyVEyvOOxDN0i7EPdNSPFg4GtM/kqaoi7xHBk8UOoM4sJR3KQFa2Rve9V/IIOM78C59anPZJNhaTint1+Qdn2ffQpEr5/EVMMQhRtstBHOyty2cvSYq+jDf1BbWs5cFL60IOR46+YY+AlqpidzPqFWWzYjIv/7Q2bxvHbnMvmN/1Fmz6FQXQ675mIzN+rGGznB2eTTSzdVhLu7axnSlSVX1B8vORGWVE5BHZ+KGQWTZleI7qH/B4wBrA1yx/NKuz+Bw3v5gE01C+BbByl0WQ6tklBcNqLDUJTUp6sTnztxkjSuu7eWvPzxzNttmggFNT0OnRFJ5MGwo3Mjrx/h/WI9zPWuEvH1Cjs3azb0wZUuQc/3iATc0OtErjQBMOKTX/2wgZ0kOc8li+qO+W8MgFuxhEDy6vYZpEXU0mTvPoTCcjZK8BId9wf3WUm6W8cq8+gcz8o+h/ja7ZoLataJWt8c3mP14A2kyVSqh2M6vciWw6MKas2E3L2ZG4ot25YOfCEnuNbvzl/tzhsL/gQ6YRKOJLsouof8wKboXjxFdIMG8w9poyJkcIYF2pu6+8RYsfNnx8QS6b2TPP+MNZfsq/Uxm70=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(26005)(6512007)(186003)(53546011)(508600001)(6506007)(2616005)(86362001)(66946007)(91956017)(66446008)(33656002)(8936002)(36756003)(66556008)(66476007)(5660300002)(64756008)(38070700005)(122000001)(8676002)(4326008)(316002)(2906002)(76116006)(71200400001)(6486002)(54906003)(6916009)(38100700002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?N1RwNnM3aEMxZHZDVEZQT3cxMDNjSHc1aDVLaWJDTkcySkFzbTdtRjdjT2gx?=
+ =?utf-8?B?ZTFYMk1kSm56NENHQXUxUzVleHFMbThONUc4MVRqNmdwNGRVZlFTb2srSHVJ?=
+ =?utf-8?B?MmFOTjhDNncwaXVxeGdwbmd4MEJ6dkhReHdVZkVkeW9TQ3EzK25kWUNzT3N1?=
+ =?utf-8?B?Tk03SlNZSTc3SStnVDVmM3ZCcDhzcmxtVkgvMmw2Y1hTSy91TXlMYUhUQkJu?=
+ =?utf-8?B?c2s4OW1SQjF2YUZDelprclNndkN2TFEzSTB4eEhJNDZKSElSUzQzM3RQNUpt?=
+ =?utf-8?B?TXJzajZQUDN2KzBxRW9TTmZUYno5MDBGMXlCbzVaTkdGMWtwR1JsVGNqdUpL?=
+ =?utf-8?B?bVgzZHhJanR1c05oMFRSNE0wN3g4aHNoaWp2UXZpc2dhem5BSWFaSDllQ0hv?=
+ =?utf-8?B?RURJTW9vazlRdXlxT0dIK09wclQ5OGxOc1NiQVJOTUpNUHNET3B1emlRTzU2?=
+ =?utf-8?B?TjdDT3ZvKytzTCtscGw1eGZZbnBHZkRVODQxT29jZFNhRG5YOCtuSk4zS2pw?=
+ =?utf-8?B?VStxUXpoK3VtOUtPSytWbGkyUjJZUUJiRllFTkxBUHNkOXF6Sm9CQXNKMXdB?=
+ =?utf-8?B?RXAwZzNLZGkzSkdMSy9FRURIbDNNbzVTN3VJNDJxWUNHMG04cmZ5d3dUVjBm?=
+ =?utf-8?B?alo2R1VKYTRoV1c0VVZzRm9TYTdQNmNMMGZ1ZEphWnAxc05aTk4xMGlHZXpG?=
+ =?utf-8?B?bHh6OGVCcG5NKzFTOVBWRy9Sa0dXUi81ZjJEYXEzRXpqd09tZkNtcUtzVzUy?=
+ =?utf-8?B?L1N1MDBMOXVCRVBJQURaRlZibzFnSGVZTU1nOGpPYURLeXNjb21NaFFIT2hT?=
+ =?utf-8?B?UHdEQm1pa0ZyM1RkV0xoY0wwU0NBbVhNLzhkMFVEcVhDN3dLekxuaTFSY3NZ?=
+ =?utf-8?B?aVBQOVcrUTc2ekxvNWhvWGJjSEkxNDM4SzVaNnh3Rll2Vy9oSzhLdjZ5VnRa?=
+ =?utf-8?B?NEp4S1NJNUtKaXVGYnBTVXB4emV2UEFPZlMvbUVQazJ4cUpwNnR1RXBXaFI1?=
+ =?utf-8?B?aW1mQUVVSWpLTjR1ZHRZd2pXWGhocHFzRXFhYys5NkQ2aDdnck5ucTBnVWRW?=
+ =?utf-8?B?TGovSmRoM1FteUdHbG9ycDk3K3pwNlBKSmcram1LNHFmdllkV3N5emJhSlNk?=
+ =?utf-8?B?NVdNLzBoelFRUGp0bjlpdHpjaElYS1FwTk1pUDhDQnoxVFd5VHhlSHd0YnFh?=
+ =?utf-8?B?bzM5WWs3R0RGaFNWK2taaWRzRUxYZDIrWFJxaXo1SVFBdkcvVWJZRmY1em1l?=
+ =?utf-8?B?SXBFY0hPbDc2a3YrQ3dlRmNFcEFnOWE4TFJOUzJiT3BnMmF0Ry9FOTNBT2k0?=
+ =?utf-8?B?bEVKZmNXdmtldnNrakhUcElncm9Od0pOU1M4S0RPbnJCN1lBREF0VVFEQ1Qr?=
+ =?utf-8?B?MHlpV0txTWx4d3FCOEQwR2dHNER6L2xuU3BDd1hodFNiYjI3TUh5eWlSTEhM?=
+ =?utf-8?B?cEhnWWxVVWNnRUFRc0xuWnkyR3JQZm5aZlNoeDZsZHg2d1ZjcHR5YngyZFlR?=
+ =?utf-8?B?ekJhSnYxbUtJZGU0THRHREZiRTFaR1dBNnlWM3ZiSGgvUGg5S202cG5PeUc4?=
+ =?utf-8?B?ZnMwZ0RZUDVhVCtINkF2RXdlZ3pUOU9QRGZaS01SNlNxR0FISlRYOExYSFls?=
+ =?utf-8?B?cmxCdG9RNVFxM2hmeDY0OXNzYUEyUUlhUW1FU252eXlzMHRiOEdDaWdRMjR5?=
+ =?utf-8?B?Mit2QTRqR3NQK25kSkVkaUFJRE9YV2lvYlN4Vmx6U0FyRWRZeERHYXpkYnpu?=
+ =?utf-8?B?N2RnUEowMldmNmlwZnBlZnpYbDY1R1BwN3B6MGtvbE81MnVlWFJ2cDRLWHo3?=
+ =?utf-8?B?d3FKeVJORkJwLyt4Ykh4YTRJVGRWSlNxNnZZNVhkd05Oc0pQU1ozQ1AvU2t1?=
+ =?utf-8?B?UGxDMWRSMlA1YUtGdEVtUVJoRmsrNWs5MEFtekp2L0FGMHB0dDhYTE16NVBs?=
+ =?utf-8?B?NFh3N1lyYkpTODIvanVHKzJNQnlyTEhHcjNudXJiRHl1Y01NNmVSaUlINU82?=
+ =?utf-8?B?N1F3eEltdGg2NEFWYUN3cFZjaC93bFQ5Y0JERFBWN2l0Q0NTWXliM3d3N1NQ?=
+ =?utf-8?B?cEtlN2JuZTJRcEQ0YTZyZDJRZVkxeWRtV3ozQi85MkJoajhIdEYvQ09EOUFh?=
+ =?utf-8?B?Rnp2VndiQkEvQjJWU2o3YXVSd1FiR20vZVVNb1FRSUVkSmNuWFVBc2tHRFp1?=
+ =?utf-8?B?N3Y1TVA2NGt6VCtZZENIRGl3OFN3QVBPMU5CUlpjRCt0SXNnOUFZNjh4TGNF?=
+ =?utf-8?B?Um9PYjlLUFU0aEx2UUhIUG5HRDVKNGF1ODVUZFd6M0MrUUxISHR3dmN4d3E3?=
+ =?utf-8?B?STBUSTBqbUlmRkMwN1ZwYUxUZjNLd0VLSEJJczA4QXQwamVHd3NOdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F85440DB2456C6498C7C5F4747691A15@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220603140349.3563612-1-jagan@amarulasolutions.com>
- <20220603140349.3563612-2-jagan@amarulasolutions.com>
-In-Reply-To: <20220603140349.3563612-2-jagan@amarulasolutions.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Fri, 3 Jun 2022 16:37:51 +0200
-Message-ID: <CAG3jFyt3TwirBUbf+Zu0xuc7z+CBV8nqin0SVxVzZ7_2Qwx-vg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm: bridge: Add TI DLPC3433 DSI to DMD bridge
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31b0d19b-e7dc-4dec-cbe4-08da456ec8fa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2022 14:38:54.6632 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Idxcp6zaqRG/A/NJB3Rm8+lnhCIrsbT/eMu5WYSbK6Ct5SC0RZPYrDBKYfMzGGXgb6zWyAxSb90/ArkYVzL1Mw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR05MB7174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,522 +134,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Christopher Vollo <chris@renewoutreach.org>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-amarula@amarulasolutions.com,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Martin Krastev <krastevm@vmware.com>, David Airlie <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 3 Jun 2022 at 16:04, Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> TI DLPC3433 is a MIPI DSI based display controller bridge
-> for processing high resolution DMD based projectors.
->
-> It has a flexible configuration of MIPI DSI and DPI signal
-> input that produces a DMD output in RGB565, RGB666, RGB888
-> formats.
->
-> It supports upto 720p resolution with 60 and 120 Hz refresh
-> rates.
->
-> Add bridge driver for it.
->
-> Signed-off-by: Christopher Vollo <chris@renewoutreach.org>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v3:
-> - none
-> Changes for v2:
-> - fixed license
-> - filled display size buffer
-> - fixed power off
-> - fixed dev_err_probe
->
->  MAINTAINERS                          |   1 +
->  drivers/gpu/drm/bridge/Kconfig       |  16 +
->  drivers/gpu/drm/bridge/Makefile      |   1 +
->  drivers/gpu/drm/bridge/ti-dlpc3433.c | 417 +++++++++++++++++++++++++++
->  4 files changed, 435 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/ti-dlpc3433.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aea0fe5156af..ede21cc48708 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6435,6 +6435,7 @@ DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
->  M:     Jagan Teki <jagan@amarulasolutions.com>
->  S:     Maintained
->  F:     Documentation/devicetree/bindings/display/bridge/ti,dlpc3433.yaml
-> +F:     drivers/gpu/drm/bridge/ti-dlpc3433.c
->
->  DRM DRIVER FOR TI SN65DSI86 BRIDGE CHIP
->  R:     Douglas Anderson <dianders@chromium.org>
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 146ab069838f..4b28f939fff6 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -321,6 +321,22 @@ config DRM_TOSHIBA_TC358775
->         help
->           Toshiba TC358775 DSI/LVDS bridge chip driver.
->
-> +config DRM_TI_DLPC3433
-> +       tristate "TI DLPC3433 Display controller"
-> +       depends on DRM && DRM_PANEL
-> +       depends on OF
-> +       select DRM_MIPI_DSI
-> +       help
-> +         TI DLPC3433 is a MIPI DSI based display controller bridge
-> +         for processing high resolution DMD based projectors.
-> +
-> +         It has a flexible configuration of MIPI DSI and DPI signal
-> +         input that produces a DMD output in RGB565, RGB666, RGB888
-> +         formats.
-> +
-> +         It supports upto 720p resolution with 60 and 120 Hz refresh
-> +         rates.
-> +
->  config DRM_TI_TFP410
->         tristate "TI TFP410 DVI/HDMI bridge"
->         depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index f6c0a95de549..043b499545e3 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -26,6 +26,7 @@ obj-$(CONFIG_DRM_TOSHIBA_TC358767) += tc358767.o
->  obj-$(CONFIG_DRM_TOSHIBA_TC358768) += tc358768.o
->  obj-$(CONFIG_DRM_TOSHIBA_TC358775) += tc358775.o
->  obj-$(CONFIG_DRM_I2C_ADV7511) += adv7511/
-> +obj-$(CONFIG_DRM_TI_DLPC3433) += ti-dlpc3433.o
->  obj-$(CONFIG_DRM_TI_SN65DSI83) += ti-sn65dsi83.o
->  obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
->  obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
-> diff --git a/drivers/gpu/drm/bridge/ti-dlpc3433.c b/drivers/gpu/drm/bridge/ti-dlpc3433.c
-> new file mode 100644
-> index 000000000000..06e519798ac5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/ti-dlpc3433.c
-> @@ -0,0 +1,417 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2021 RenewOutReach
-> + * Copyright (C) 2021 Amarula Solutions(India)
-> + *
-> + * Author:
-> + * Jagan Teki <jagan@amarulasolutions.com>
-> + * Christopher Vollo <chris@renewoutreach.org>
-> + */
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +enum cmd_registers {
-> +       WR_INPUT_SOURCE         = 0x05, /* Write Input Source Select */
-> +       WR_EXT_SOURCE_FMT       = 0x07, /* Write External Video Source Format */
-> +       WR_IMAGE_CROP           = 0x10, /* Write Image Crop */
-> +       WR_DISPLAY_SIZE         = 0x12, /* Write Display Size */
-> +       WR_IMAGE_FREEZE         = 0x1A, /* Write Image Freeze */
-> +       WR_INPUT_IMAGE_SIZE     = 0x2E, /* Write External Input Image Size */
-> +       WR_RGB_LED_EN           = 0x52, /* Write RGB LED Enable */
-> +       WR_RGB_LED_CURRENT      = 0x54, /* Write RGB LED Current */
-> +       WR_RGB_LED_MAX_CURRENT  = 0x5C, /* Write RGB LED Max Current */
-> +       WR_DSI_HS_CLK           = 0xBD, /* Write DSI HS Clock */
-> +       RD_DEVICE_ID            = 0xD4, /* Read Controller Device ID */
-> +       WR_DSI_PORT_EN          = 0xD7, /* Write DSI Port Enable */
-> +};
-> +
-> +enum input_source {
-> +       INPUT_EXTERNAL_VIDEO    = 0,
-> +       INPUT_TEST_PATTERN,
-> +       INPUT_SPLASH_SCREEN,
-> +};
-> +
-> +#define DEV_ID_MASK            GENMASK(3, 0)
-> +#define IMAGE_FREESE_EN                BIT(0)
-> +#define DSI_PORT_EN            0
-> +#define EXT_SOURCE_FMT_DSI     0
-> +#define RED_LED_EN             BIT(0)
-> +#define GREEN_LED_EN           BIT(1)
-> +#define BLUE_LED_EN            BIT(2)
-> +#define LED_MASK               GENMASK(2, 0)
-> +#define MAX_BYTE_SIZE          8
-> +
-> +struct dlpc {
-> +       struct device           *dev;
-> +       struct drm_bridge       bridge;
-> +       struct drm_bridge       *next_bridge;
-> +       struct device_node      *host_node;
-> +       struct mipi_dsi_device  *dsi;
-> +       struct drm_display_mode mode;
-> +
-> +       struct gpio_desc        *enable_gpio;
-> +       struct regulator        *vcc_intf;
-> +       struct regulator        *vcc_flsh;
-> +       struct regmap           *regmap;
-> +       unsigned int            dsi_lanes;
-> +};
-> +
-> +static inline struct dlpc *bridge_to_dlpc(struct drm_bridge *bridge)
-> +{
-> +       return container_of(bridge, struct dlpc, bridge);
-> +}
-> +
-> +static bool dlpc_writeable_noinc_reg(struct device *dev, unsigned int reg)
-> +{
-> +       switch (reg) {
-> +       case WR_IMAGE_CROP:
-> +       case WR_DISPLAY_SIZE:
-> +       case WR_INPUT_IMAGE_SIZE:
-> +       case WR_DSI_HS_CLK:
-> +               return true;
-> +       default:
-> +               return false;
-> +       }
-> +}
-> +
-> +static const struct regmap_range dlpc_volatile_ranges[] = {
-> +       { .range_min = 0x10, .range_max = 0xBF },
-> +};
-> +
-> +static const struct regmap_access_table dlpc_volatile_table = {
-> +       .yes_ranges = dlpc_volatile_ranges,
-> +       .n_yes_ranges = ARRAY_SIZE(dlpc_volatile_ranges),
-> +};
-> +
-> +static struct regmap_config dlpc_regmap_config = {
-> +       .reg_bits               = 8,
-> +       .val_bits               = 8,
-> +       .max_register           = WR_DSI_PORT_EN,
-> +       .writeable_noinc_reg    = dlpc_writeable_noinc_reg,
-> +       .volatile_table         = &dlpc_volatile_table,
-> +       .cache_type             = REGCACHE_RBTREE,
-> +       .name                   = "dlpc3433",
-> +};
-> +
-> +static void dlpc_atomic_enable(struct drm_bridge *bridge,
-> +                              struct drm_bridge_state *old_bridge_state)
-> +{
-> +       struct dlpc *dlpc = bridge_to_dlpc(bridge);
-> +       struct device *dev = dlpc->dev;
-> +       struct drm_display_mode *mode = &dlpc->mode;
-> +       struct regmap *regmap = dlpc->regmap;
-> +       char buf[MAX_BYTE_SIZE];
-> +       unsigned int devid;
-> +
-> +       regmap_read(regmap, RD_DEVICE_ID, &devid);
-> +       devid &= DEV_ID_MASK;
-> +
-> +       DRM_DEV_DEBUG(dev, "DLPC3433 device id: 0x%02x\n", devid);
-> +
-> +       if (devid != 0x01) {
-> +               DRM_DEV_ERROR(dev, "Unsupported DLPC device id: 0x%02x\n", devid);
-> +               return;
-> +       }
-> +
-> +       /* disable image freeze */
-> +       regmap_write(regmap, WR_IMAGE_FREEZE, IMAGE_FREESE_EN);
-> +
-> +       /* enable DSI port */
-> +       regmap_write(regmap, WR_DSI_PORT_EN, DSI_PORT_EN);
-> +
-> +       memset(buf, 0, MAX_BYTE_SIZE);
-> +
-> +       /* set image crop */
-> +       buf[4] = mode->hdisplay & 0xff;
-> +       buf[5] = (mode->hdisplay & 0xff00) >> 8;
-> +       buf[6] = mode->vdisplay & 0xff;
-> +       buf[7] = (mode->vdisplay & 0xff00) >> 8;
-> +       regmap_noinc_write(regmap, WR_IMAGE_CROP, buf, MAX_BYTE_SIZE);
-> +
-> +       /* set display size */
-> +       buf[4] = mode->hdisplay & 0xff;
-> +       buf[5] = (mode->hdisplay & 0xff00) >> 8;
-> +       buf[6] = mode->vdisplay & 0xff;
-> +       buf[7] = (mode->vdisplay & 0xff00) >> 8;
-> +       regmap_noinc_write(regmap, WR_DISPLAY_SIZE, buf, MAX_BYTE_SIZE);
-> +
-> +       /* set input image size */
-> +       buf[0] = mode->hdisplay & 0xff;
-> +       buf[1] = (mode->hdisplay & 0xff00) >> 8;
-> +       buf[2] = mode->vdisplay & 0xff;
-> +       buf[3] = (mode->vdisplay & 0xff00) >> 8;
-> +       regmap_noinc_write(regmap, WR_INPUT_IMAGE_SIZE, buf, 4);
-> +
-> +       /* set external video port */
-> +       regmap_write(regmap, WR_INPUT_SOURCE, INPUT_EXTERNAL_VIDEO);
-> +
-> +       /* set external video format select as DSI */
-> +       regmap_write(regmap, WR_EXT_SOURCE_FMT, EXT_SOURCE_FMT_DSI);
-> +
-> +       /* disable image freeze */
-> +       regmap_write(regmap, WR_IMAGE_FREEZE, 0x00);
-> +
-> +       /* enable RGB led */
-> +       regmap_update_bits(regmap, WR_RGB_LED_EN, LED_MASK,
-> +                          RED_LED_EN | GREEN_LED_EN | BLUE_LED_EN);
-> +
-> +       msleep(10);
-> +}
-> +
-> +static void dlpc_atomic_pre_enable(struct drm_bridge *bridge,
-> +                                  struct drm_bridge_state *old_bridge_state)
-> +{
-> +       struct dlpc *dlpc = bridge_to_dlpc(bridge);
-> +       int ret;
-> +
-> +       gpiod_set_value(dlpc->enable_gpio, 1);
-> +
-> +       msleep(500);
-> +
-> +       ret = regulator_enable(dlpc->vcc_intf);
-> +       if (ret)
-> +               DRM_DEV_ERROR(dlpc->dev,
-> +                             "failed to enable VCC_INTF regulator: %d\n", ret);
-> +
-> +       ret = regulator_enable(dlpc->vcc_flsh);
-> +       if (ret)
-> +               DRM_DEV_ERROR(dlpc->dev,
-> +                             "failed to enable VCC_FLSH regulator: %d\n", ret);
-> +
-> +       msleep(10);
-> +}
-> +
-> +static void dlpc_atomic_post_disable(struct drm_bridge *bridge,
-> +                                    struct drm_bridge_state *old_bridge_state)
-> +{
-> +       struct dlpc *dlpc = bridge_to_dlpc(bridge);
-> +
-> +       regulator_disable(dlpc->vcc_flsh);
-> +       regulator_disable(dlpc->vcc_intf);
-> +
-> +       msleep(10);
-> +
-> +       gpiod_set_value(dlpc->enable_gpio, 0);
-> +
-> +       msleep(500);
-> +}
-> +
-> +#define MAX_INPUT_SEL_FORMATS  1
-> +
-> +static u32 *
-> +dlpc_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +                              struct drm_bridge_state *bridge_state,
-> +                              struct drm_crtc_state *crtc_state,
-> +                              struct drm_connector_state *conn_state,
-> +                              u32 output_fmt,
-> +                              unsigned int *num_input_fmts)
-> +{
-> +       u32 *input_fmts;
-> +
-> +       *num_input_fmts = 0;
-> +
-> +       input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> +                            GFP_KERNEL);
-> +       if (!input_fmts)
-> +               return NULL;
-> +
-> +       /* This is the DSI-end bus format */
-> +       input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> +       *num_input_fmts = 1;
-> +
-> +       return input_fmts;
-> +}
-> +
-> +static void dlpc_mode_set(struct drm_bridge *bridge,
-> +                         const struct drm_display_mode *mode,
-> +                         const struct drm_display_mode *adjusted_mode)
-> +{
-> +       struct dlpc *dlpc = bridge_to_dlpc(bridge);
-> +
-> +       drm_mode_copy(&dlpc->mode, adjusted_mode);
-> +}
-> +
-> +static int dlpc_attach(struct drm_bridge *bridge,
-> +                      enum drm_bridge_attach_flags flags)
-> +{
-> +       struct dlpc *dlpc = bridge_to_dlpc(bridge);
-> +
-> +       return drm_bridge_attach(bridge->encoder, dlpc->next_bridge, bridge, flags);
-> +}
-> +
-> +static const struct drm_bridge_funcs dlpc_bridge_funcs = {
-> +       .atomic_duplicate_state         = drm_atomic_helper_bridge_duplicate_state,
-> +       .atomic_destroy_state           = drm_atomic_helper_bridge_destroy_state,
-> +       .atomic_get_input_bus_fmts      = dlpc_atomic_get_input_bus_fmts,
-> +       .atomic_reset                   = drm_atomic_helper_bridge_reset,
-> +       .atomic_pre_enable              = dlpc_atomic_pre_enable,
-> +       .atomic_enable                  = dlpc_atomic_enable,
-> +       .atomic_post_disable            = dlpc_atomic_post_disable,
-> +       .mode_set                       = dlpc_mode_set,
-> +       .attach                         = dlpc_attach,
-> +};
-> +
-> +static int dlpc3433_parse_dt(struct dlpc *dlpc)
-> +{
-> +       struct device *dev = dlpc->dev;
-> +       struct device_node *endpoint;
-> +       int ret;
-> +
-> +       dlpc->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-> +       if (IS_ERR(dlpc->enable_gpio))
-> +               return PTR_ERR(dlpc->enable_gpio);
-> +
-> +       dlpc->vcc_intf = devm_regulator_get(dlpc->dev, "vcc_intf");
-> +       if (IS_ERR(dlpc->vcc_intf))
-> +               return dev_err_probe(dev, PTR_ERR(dlpc->vcc_intf),
-> +                                    "failed to get VCC_INTF supply\n");
-> +
-> +       dlpc->vcc_flsh = devm_regulator_get(dlpc->dev, "vcc_flsh");
-> +       if (IS_ERR(dlpc->vcc_flsh))
-> +               return dev_err_probe(dev, PTR_ERR(dlpc->vcc_flsh),
-> +                                    "failed to get VCC_FLSH supply\n");
-> +
-> +       dlpc->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> +       if (IS_ERR(dlpc->next_bridge))
-> +               return PTR_ERR(dlpc->next_bridge);
-> +
-> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> +       dlpc->dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-> +       if (dlpc->dsi_lanes < 0 || dlpc->dsi_lanes > 4) {
-> +               ret = -EINVAL;
-> +               goto err_put_endpoint;
-> +       }
-> +
-> +       dlpc->host_node = of_graph_get_remote_port_parent(endpoint);
-> +       if (!dlpc->host_node) {
-> +               ret = -ENODEV;
-> +               goto err_put_host;
-> +       }
-> +
-> +       of_node_put(endpoint);
-> +
-> +       return 0;
-> +
-> +err_put_host:
-> +       of_node_put(dlpc->host_node);
-> +err_put_endpoint:
-> +       of_node_put(endpoint);
-> +       return ret;
-> +}
-> +
-> +static int dlpc_host_attach(struct dlpc *dlpc)
-> +{
-> +       struct device *dev = dlpc->dev;
-> +       struct mipi_dsi_host *host;
-> +       struct mipi_dsi_device_info info = {
-> +               .type = "dlpc3433",
-> +               .channel = 0,
-> +               .node = NULL,
-> +       };
-> +
-> +       host = of_find_mipi_dsi_host_by_node(dlpc->host_node);
-> +       if (!host) {
-> +               DRM_DEV_ERROR(dev, "failed to find dsi host\n");
-> +               return -EPROBE_DEFER;
-> +       }
-> +
-> +       dlpc->dsi = mipi_dsi_device_register_full(host, &info);
-> +       if (IS_ERR(dlpc->dsi)) {
-> +               DRM_DEV_ERROR(dev, "failed to create dsi device\n");
-> +               return PTR_ERR(dlpc->dsi);
-> +       }
-> +
-> +       dlpc->dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST;
-> +       dlpc->dsi->format = MIPI_DSI_FMT_RGB565;
-> +       dlpc->dsi->lanes = dlpc->dsi_lanes;
-> +
-> +       return devm_mipi_dsi_attach(dev, dlpc->dsi);
-> +}
-> +
-> +static int dlpc3433_probe(struct i2c_client *client)
-> +{
-> +       struct device *dev = &client->dev;
-> +       struct dlpc *dlpc;
-> +       int ret;
-> +
-> +       dlpc = devm_kzalloc(dev, sizeof(*dlpc), GFP_KERNEL);
-> +       if (!dlpc)
-> +               return -ENOMEM;
-> +
-> +       dlpc->dev = dev;
-> +
-> +       dlpc->regmap = devm_regmap_init_i2c(client, &dlpc_regmap_config);
-> +       if (IS_ERR(dlpc->regmap))
-> +               return PTR_ERR(dlpc->regmap);
-> +
-> +       ret = dlpc3433_parse_dt(dlpc);
-> +       if (ret)
-> +               return ret;
-> +
-> +       dev_set_drvdata(dev, dlpc);
-> +       i2c_set_clientdata(client, dlpc);
-> +
-> +       dlpc->bridge.funcs = &dlpc_bridge_funcs;
-> +       dlpc->bridge.of_node = dev->of_node;
-> +       drm_bridge_add(&dlpc->bridge);
-> +
-> +       ret = dlpc_host_attach(dlpc);
-> +       if (ret) {
-> +               DRM_DEV_ERROR(dev, "failed to attach dsi host\n");
-> +               goto err_remove_bridge;
-> +       }
-> +
-> +       return 0;
-> +
-> +err_remove_bridge:
-> +       drm_bridge_remove(&dlpc->bridge);
-> +       return ret;
-> +}
-> +
-> +static int dlpc3433_remove(struct i2c_client *client)
-> +{
-> +       struct dlpc *dlpc = i2c_get_clientdata(client);
-> +
-> +       drm_bridge_remove(&dlpc->bridge);
-> +       of_node_put(dlpc->host_node);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct i2c_device_id dlpc3433_id[] = {
-> +       { "ti,dlpc3433", 0 },
-> +       { /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, dlpc3433_id);
-> +
-> +static const struct of_device_id dlpc3433_match_table[] = {
-> +       { .compatible = "ti,dlpc3433" },
-> +       { /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, dlpc3433_match_table);
-> +
-> +static struct i2c_driver dlpc3433_driver = {
-> +       .probe_new = dlpc3433_probe,
-> +       .remove = dlpc3433_remove,
-> +       .id_table = dlpc3433_id,
-> +       .driver = {
-> +               .name = "ti-dlpc3433",
-> +               .of_match_table = dlpc3433_match_table,
-> +       },
-> +};
-> +module_i2c_driver(dlpc3433_driver);
-> +
-> +MODULE_AUTHOR("Jagan Teki <jagan@amarulasolutions.com>");
-> +MODULE_AUTHOR("Christopher Vollo <chris@renewoutreach.org>");
-> +MODULE_DESCRIPTION("TI DLPC3433 MIPI DSI Display Controller Bridge");
-> +MODULE_LICENSE("GPL");
-> --
-> 2.25.1
->
-
-Applied to drm-misc-next.
+DQoNCj4gT24gSnVuIDMsIDIwMjIsIGF0IDEwOjMyIEFNLCBTaW1vbiBTZXIgPGNvbnRhY3RAZW1l
+cnNpb24uZnI+IHdyb3RlOg0KPiANCj4g4pqgIEV4dGVybmFsIEVtYWlsDQo+IA0KPiBPbiBGcmlk
+YXksIEp1bmUgM3JkLCAyMDIyIGF0IDE2OjI3LCBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29t
+PiB3cm90ZToNCj4gDQo+Pj4gSW4gcGFydGljdWxhcjogc2luY2UgdGhlIGRyaXZlciB3aWxsIGln
+bm9yZSB0aGUgS01TIGN1cnNvciBwbGFuZQ0KPj4+IHBvc2l0aW9uIHNldCBieSB1c2VyLXNwYWNl
+LCBJIGRvbid0IHRoaW5rIGl0J3Mgb2theSB0byBqdXN0IGV4cG9zZQ0KPj4+IHdpdGhvdXQgb3B0
+LWluIGZyb20gdXNlci1zcGFjZSAoZS5nLiB3aXRoIGEgRFJNX0NMSUVOVF9DQVApLg0KPj4+IA0K
+Pj4+IGNjIHdheWxhbmQtZGV2ZWwgYW5kIFBla2thIGZvciB1c2VyLXNwYWNlIGZlZWRiYWNrLg0K
+Pj4gDQo+PiBJIHRoaW5rIFRob21hcyBleHByZXNzZWQgb3VyIGNvbmNlcm5zIGFuZCByZWFzb25z
+IHdoeSB0aG9zZSB3b3VsZG7igJl0DQo+PiB3b3JrIGZvciB1cyBiYWNrIHRoZW4uIElzIHRoZXJl
+IHNvbWV0aGluZyBlbHNlIHlvdeKAmWQgbGlrZSB0byBhZGQ/DQo+IA0KPiBJIGRpc2FncmVlZCwg
+YW5kIEkgZG9uJ3QgdW5kZXJzdGFuZCBUaG9tYXMnIHJlYXNvbmluZy4NCj4gDQo+IEtNUyBjbGll
+bnRzIHdpbGwgbmVlZCBhbiB1cGRhdGUgdG8gd29yayBjb3JyZWN0bHkuIEFkZGluZyBhIG5ldyBw
+cm9wDQo+IHdpdGhvdXQgYSBjYXAgbGVhdmVzIGV4aXN0aW5nIEtNUyBjbGllbnRzIGJyb2tlbi4g
+QWRkaW5nIGEgY2FwIGFsbG93cw0KPiBib3RoIGV4aXN0aW5nIEtNUyBjbGllbnRzIGFuZCB1cGRh
+dGVkIEtNUyBjbGllbnRzIHRvIHdvcmsgY29ycmVjdGx5Lg0KDQpJ4oCZbSBub3Qgc3VyZSB3aGF0
+IHlvdSBtZWFuIGhlcmUuIFRoZXkgYXJlIGJyb2tlbiByaWdodCBub3cuIFRoYXTigJlzIHdoYXQg
+d2XigJlyZSBmaXhpbmcuIFRoYXTigJlzIHRoZSByZWFzb24gd2h5IHRoZSB2aXJ0dWFsaXplZCBk
+cml2ZXJzIGFyZSBvbiBkZW55LWxpc3RzIGZvciBhbGwgYXRvbWljIGttcy4gU28gbm90aGluZyBu
+ZWVkcyB0byBiZSB1cGRhdGVkLiBJZiB5b3UgaGF2ZSBhIGttcyBjbGllbnQgdGhhdCB3YXMgdXNp
+bmcgdmlydHVhbGl6ZWQgZHJpdmVycyB3aXRoIGF0b21pYyBrbXMgdGhlbiBtb3VzZSBjbGlja3Mg
+bmV2ZXIgd29ya2VkIGNvcnJlY3RseS4NClNvLCB5ZXMsIGNsaWVudHMgbmVlZCB0byBzZXQgY3Vy
+c29yIGhvdHNwb3QgaWYgdGhleSB3YW50IG1vdXNlIHRvIHdvcmsgY29ycmVjdGx5IHdpdGggdmly
+dHVhbGl6ZWQgZHJpdmVycy4NCg0KDQo+Pj4gT24gVGh1cnNkYXksIEp1bmUgMm5kLCAyMDIyIGF0
+IDE3OjQyLCBaYWNrIFJ1c2luIHphY2tAa2RlLm9yZyB3cm90ZToNCj4+PiANCj4+Pj4gLSBhbGwg
+dXNlcnNwYWNlIGNvZGUgbmVlZHMgdG8gaGFyZGNvcmUgYSBsaXN0IG9mIGRyaXZlcnMgd2hpY2gg
+cmVxdWlyZQ0KPj4+PiBob3RzcG90cyBiZWNhdXNlIHRoZXJlJ3Mgbm8gd2F5IHRvIHF1ZXJ5IGZy
+b20gZHJtICJkb2VzIHRoaXMgZHJpdmVyDQo+Pj4+IHJlcXVpcmUgaG90c3BvdCINCj4+PiANCj4+
+PiBDYW4geW91IGVsYWJvcmF0ZT8gSSdtIG5vdCBzdXJlIEkgdW5kZXJzdGFuZCB3aGF0IHlvdSBt
+ZWFuIGhlcmUuDQo+PiANCj4+IE9ubHkgc29tZSBkcml2ZXJzIHJlcXVpcmUgaW5mb3JtYXRpb25z
+IGFib3V0IGN1cnNvciBob3RzcG90LCB1c2VyIHNwYWNlDQo+PiBjdXJyZW50bHkgaGFzIG5vIHdh
+eSBvZiBmaWd1cmluZyBvdXQgd2hpY2ggb25lcyBhcmUgdGhvc2UsIGkuZS4gYW1kZ3B1DQo+PiBk
+b2VzbuKAmXQgY2FyZSBhYm91dCBob3RzcG90cywgcXhsIGRvZXMgc28gd2hlbiBydW5uaW5nIG9u
+IHF4bCB3aXRob3V0DQo+PiBwcm9wZXJseSBzZXQgY3Vyc29yIGhvdHNwb3QgYXRvbWljIGttcyB3
+aWxsIHJlc3VsdCBpbiBhIGRlc2t0b3Agd2hlcmUNCj4+IG1vdXNlIGNsaWNrcyBoYXZlIGluY29y
+cmVjdCBjb29yZGluYXRlcy4NCj4+IA0KPj4gVGhlcmXigJlzIG5vIHdheSB0byBkaWZmZXJlbnRp
+YXRlIGJldHdlZW4gZHJpdmVycyB0aGF0IGRvIG5vdCBjYXJlIGFib3V0DQo+PiBjdXJzb3IgaG90
+c3BvdHMgYW5kIG9uZXMgdGhhdCBhYnNvbHV0ZWx5IHJlcXVpcmUgaXQuDQo+IA0KPiBPbmx5IFZN
+IGRyaXZlcnMgc2hvdWxkIGV4cG9zZSB0aGUgaG90c3BvdCBwcm9wZXJ0aWVzLiBSZWFsIGRyaXZl
+cnMgbGlrZQ0KPiBhbWRncHUgbXVzdCBub3QgZXhwb3NlIGl0Lg0KDQpZZXMsIHRoYXTigJlzIHdo
+YXQgSSBzYWlkLiBUaGVyZeKAmXMgbm8gd2F5IHRvIGRpZmZlcmVudGlhdGUgYmV0d2VlbiBhbWRn
+cHUgdGhhdCBkb2VzbuKAmXQgaGF2ZSB0aG9zZSBwcm9wZXJ0aWVzIGFuZCB2aXJ0aW9fZ3B1IGRy
+aXZlciBmcm9tIGEga2VybmVsIGJlZm9yZSBob3RzcG90IHByb3BlcnRpZXMgd2VyZSBhZGRlZC4N
+Cg0Keg==
