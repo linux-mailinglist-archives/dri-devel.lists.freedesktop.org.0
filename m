@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DD353C7C9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 11:44:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FF153C7D2
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 11:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9E4113000;
-	Fri,  3 Jun 2022 09:44:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B9B113029;
+	Fri,  3 Jun 2022 09:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BEAD113000
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 09:44:42 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id a2so11779627lfc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 02:44:42 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D53B113016
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 09:46:07 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id a17so4819366lfs.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 02:46:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8jvPxXIiogQWZXupdX922CHoFednIGVLXVXf4QrHgiY=;
- b=O+UOlhaU1GPM2ffiLXlaOOMPGwOgfFKeYFBHms9Z8euUAUJMN780YC1U5nRTDDWGQ3
- 4P1TMXkIg2nzQtv6Tp1TuxJ/QINIw9PazrWgt5IE0uzXCGT4o6iBDE+S1po2vLqoq3r4
- 7ApFEsva8AT52NIR0mH/mDjoj+t6A9cC9bVtOjeWL6jZQXMk0IhxlpxdKx5PaBA9AFAB
- WHHcjMLbejA1cwApeH1b+djfmVvnhn54wv07zDj3HIt/13AEeHqWo9v3tIUpfATBwWhR
- M0ZzrA69wATnpkeRmnXLyhcvM72dUyL3htH+LN21JM2qsIchR9JbZpJZa9JUBMgfsbD7
- a/xw==
+ bh=PV8WqoUGxOFZRKshOw3NOc1zZVTzDgewpvw4AU5r3QI=;
+ b=BIVLMG0D76swp19/yzM/9m9y5tcb/zqi8QgQHU8OHU+N7zKnrWGzE/UPZ7F1osfRLb
+ ZcMjIjpm5ZUVaPoi6qZRqJXCO7uUehgc+tnpxeL7oHTqGz2ap2+FXBln0iiQ9M3Lxeur
+ JcoaKi5uTlaA2YptWUqLtQYnfDRww/UVr62SMpaFlfPePlYiFOAL6ozldiOvOyULvbWT
+ awYIp4833HuLklWK4EIyVTwr9pnoi5ZhaZx9hIQUdNwpLU0GOLjGRWpq5+KCJnsH59Bg
+ 2MD/aH+ZV3yRdZv0KFJD8D/ZwXZOV805tYETCqiP0qivXU3rwg9/aos4kDMt+J/+i+k6
+ VQyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8jvPxXIiogQWZXupdX922CHoFednIGVLXVXf4QrHgiY=;
- b=Jpe0Db1tBzGx1fLpHJpuAtymjtOA1Fbuqdu+fRuw6GqDKbdXT6bSYzOZjXEjNdWRol
- AqCzkrSX5MGKL5IrXk74pRYeHVFxrC5x/s4DzVaIjlZLQpROrQz/FBpKYNUb7EKmfGw2
- MfXwawQj4UOr/nj4lM2rHwsT6kB2zNz7O3CPjj2AorR5xWy/4KJoodLfPujcr01+jHBx
- 3bCSRkbNM1pUFOpP3qPcYKGyThPiZShXpsRwgkxCnOP3zfZtcRaC6HvumN1dfgjX1uDl
- 72qGUkfPpAs6oJK9nrbcGJnve0+bDi46MLhEH7zDiZcyxeEMp6Jg1y5CxNmPXTM0iyPN
- xXGQ==
-X-Gm-Message-State: AOAM530k/sa3wl97Zbis52eyi/4fu11XpXIxRD2UKJomNvr0VD5X2JUp
- V0PLMFgTr6ozKMFcnCnxIiDVpg==
-X-Google-Smtp-Source: ABdhPJyZegfaWSTXswsrJxcn+pcCQNNZ/clp5ept6GyUSg+T+X/U1x6nsEJb4dwGWdJLV5++QVgCPw==
-X-Received: by 2002:a05:6512:2115:b0:479:ba9:25c1 with SMTP id
- q21-20020a056512211500b004790ba925c1mr6124265lfr.591.1654249480917; 
- Fri, 03 Jun 2022 02:44:40 -0700 (PDT)
+ bh=PV8WqoUGxOFZRKshOw3NOc1zZVTzDgewpvw4AU5r3QI=;
+ b=ZJgJLsSoU3ZYi7wNIKkeT7nE2dI0xEcoBmVOqfqCZnDEUGKlzf8kDshTY8gPwU1rlR
+ dSrbo9ccfQRucj+n2i4KeANC9n9dZw9sjCrwxxj8q2kw+OQJIXWcr3EMATCFFduHck6o
+ rfuUr5hj/noAfE5XdyRWZoJA/q4M/9hZhckjQZadKN9eZZ5hLYWA2L8lsTXBxrg79sh2
+ PYt6g5tt4EQkHy1+6M2zpmJrPKeN27cIHCt+PL7PWs7ZSMLTL8hzgY1+VZQBJsx+fxL2
+ lfJdi0zJ5UIKLLhd2FZcneAVfDdH//a6/Qe4qBU7SPcbGtHzcft4JT5xoHOVg3b/Obwy
+ HFzA==
+X-Gm-Message-State: AOAM5308vJYmypf5RziXIzqERO8h8fFk/TaGxwFik/Rwqavs47ruTmI7
+ zo+j604HOgLQxJXqIer3fpYb4A==
+X-Google-Smtp-Source: ABdhPJyZSV21gNOrhCLTgOfOurM3xrgrxWRV/usdiINVAJc+n5B5QGzanddUNnKj+NV3L96tC+R3fA==
+X-Received: by 2002:a05:6512:3e11:b0:473:9f5f:feda with SMTP id
+ i17-20020a0565123e1100b004739f5ffedamr6358550lfv.244.1654249565460; 
+ Fri, 03 Jun 2022 02:46:05 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- e29-20020a19691d000000b0047255d21202sm1397159lfc.305.2022.06.03.02.44.40
+ f9-20020a2e6a09000000b00254319f8e63sm1223352ljc.91.2022.06.03.02.46.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jun 2022 02:44:40 -0700 (PDT)
-Message-ID: <9e398930-6918-e95e-e15d-f8901047b9b7@linaro.org>
-Date: Fri, 3 Jun 2022 12:44:39 +0300
+ Fri, 03 Jun 2022 02:46:05 -0700 (PDT)
+Message-ID: <be1d59c3-049f-b9f0-3281-9875a0102aaf@linaro.org>
+Date: Fri, 3 Jun 2022 12:46:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
@@ -76,8 +76,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dianders@chromium.org, vpolimer@quicinc.com, linux-kernel@vger.kernel.org,
- swboyd@chromium.org, kalyant@quicinc.com
+Cc: swboyd@chromium.org, linux-kernel@vger.kernel.org, dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -107,12 +106,12 @@ On 03/06/2022 12:42, Vinod Polimera wrote:
 > 
 > Changes in v2:
 > - Add fixes tag.
-
-I'm still waiting for an answer to the questions raised in v1 review.
-
 > 
 > Fixes: 623f279c778 ("drm/msm: fix shutdown hook in case GPU components failed to bind")
 > Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+
+Also please remove bouncing quicinc.com emails from cc list
+
 > ---
 >   drivers/gpu/drm/msm/msm_drv.c | 6 +++++-
 >   1 file changed, 5 insertions(+), 1 deletion(-)
