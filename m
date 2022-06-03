@@ -1,54 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A48F53CBE0
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 16:58:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E548353CC0C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 17:11:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67EB011231E;
-	Fri,  3 Jun 2022 14:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5881139A2;
+	Fri,  3 Jun 2022 15:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D825811231E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 14:58:13 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id x17so10736372wrg.6
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 07:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
+ [IPv6:2607:f8b0:4864:20::e30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F367B113996
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 15:11:51 +0000 (UTC)
+Received: by mail-vs1-xe30.google.com with SMTP id i186so7613831vsc.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 08:11:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/R/4ToixurdvYBbWBR8c1EK1LIIPY8prRBRCCAJql14=;
- b=L89/jjviPQbdDtiZaCn6CI2qnSZbvNAjCSTKxAXOYk0u+j4nl+51icI4jgGLXmEunr
- mU9ErCTPBea39/n0UZdGXHlkC28VQs7BJVKWNUROGluAz0M9NhW65LfVv66HpWp55viK
- SQP+z2shn97ZcZggMVy476j+O4xufb6UqE6E8O1Q5p7I6l4GhK94680PbODhY6lBNlP4
- 4WTsOIN9CJfYf/Mn3GT6HAMIS3/tF/kYTKphowxHKV87r/2pX+kyOyLyRzfYe0n2fw0p
- rNyVeDaBeHfGMmfXFBFji9ePerTaWaRoAnXCSQYBRM1bDQrh3Tg6SOHGP6PcQ5ILeiYr
- B6ow==
+ :cc; bh=GRR3/ZPTVsG03kPxvHaCWj5GOU1Fozuljr/KxjIdd24=;
+ b=RvB2Z7RxhhPnXx6cxqPf+5ToILBl1dmnnSMkH527a7AvoICiiK3yGW8rJlUAXElMtF
+ odcWYwMywrpaROkPhfs+3fa39YFpPOISBqdq7dp8syv+gDfGk60i4/WIVVIcULQGrEUh
+ qJ5YEbPabkqRpq3WMTljLMnruA9/2frjVJzQc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/R/4ToixurdvYBbWBR8c1EK1LIIPY8prRBRCCAJql14=;
- b=igHaq0DMJR1Jeggrg4wK174N//pz0JwqcRruzsTQAj8AG7cBnuZA82FYzKZ60Jx3sh
- ROrixycLwgvAAVKZhOZ2rJRpnOoi/1j9Z/qQ1DXcrL9NWikasndhSUXKXtLZ3t1qsdhV
- pCEhWweYENwj0qf1PIvPXe7/Y7JLw1wVP5bHy0fhtL9EjzxGnFvHMHs+PVuyrkx1b90W
- CUBio5zfVQx8BQBQ/R6UmQUyq6oGjd8mR0eSseU8fW4NmrN4SqJKPUobqEcqOnh8JFIy
- 44AkKxpwdQHjlAjQPrJuQq+9aoQS5xYODCjMoVfZmwgSi9NVBbuZbVXgFg88mNdFVQeU
- ZLYw==
-X-Gm-Message-State: AOAM532/7j6cJnLgXOyxTOWKDHmr3y0Qj8q4BFm5YZInZAlbC4wdfg9g
- qTpQwN1w7dxhBIKS+0zRYEhSWlihufAWZrAWJ1A=
-X-Google-Smtp-Source: ABdhPJwLkLEf+cqEIWjgsz9My/14MKmdEsJ2CQwAp3vAoyWObhmuS6Arp6/K91rdmeLKIRwQ8ndqit+2uQwKakVcnu0=
-X-Received: by 2002:a5d:68d2:0:b0:210:31cc:64a6 with SMTP id
- p18-20020a5d68d2000000b0021031cc64a6mr8289615wrw.679.1654268292227; Fri, 03
- Jun 2022 07:58:12 -0700 (PDT)
+ bh=GRR3/ZPTVsG03kPxvHaCWj5GOU1Fozuljr/KxjIdd24=;
+ b=N6ujQ2ry47eCsIAmCrKCk2GFCJZ3dKBcc+pzivbmpqhE24aVGkFsJhpOPX2mepL201
+ 3lyjLHqFkCjjO/wEI1lY03rwHoGVVWzAxzgvm4MznMQMUywQbm75cEYOAdvf3Xve0tM9
+ FnktuZjtZXfBDPV5BYr9g+SrQImDuZajk2vpNkWfxZfHU4WLYPM9aZj9bryvJI5X+UzO
+ CJ0EaVbOxTKp7wspDZ1HDW+f4Kk3jOMNmS4IBQPuDhz4ia2pARMyHB8liZ/vzpWguR1E
+ GsUbi8ZsUGHFUBUF68iwBrKg6Q36avGYd0HO63S6kW5w6/ceM9bByS9YwjOpDxgYfjp/
+ ZvOg==
+X-Gm-Message-State: AOAM530ATC+/chDL5dJOF2redHYgICkPo9XUwbjnqLVh4BSW404AAbSK
+ VULZiP7wfECW6Q38d6AhOQ2EPCRBTL76PQ==
+X-Google-Smtp-Source: ABdhPJzP0hO8L05x+EkRJKtYc5zPdpcUSKL6he6OFJ77pLJp2t1CVIPWNKwcrdZCdX+a/TtGnAiz2g==
+X-Received: by 2002:a67:e90a:0:b0:34a:468c:841e with SMTP id
+ c10-20020a67e90a000000b0034a468c841emr3657423vso.13.1654269110751; 
+ Fri, 03 Jun 2022 08:11:50 -0700 (PDT)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
+ [209.85.222.52]) by smtp.gmail.com with ESMTPSA id
+ h1-20020ab02341000000b003626f894decsm1094442uao.26.2022.06.03.08.11.47
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jun 2022 08:11:48 -0700 (PDT)
+Received: by mail-ua1-f52.google.com with SMTP id k13so2629201uad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 08:11:47 -0700 (PDT)
+X-Received: by 2002:ab0:3311:0:b0:369:1d82:99a5 with SMTP id
+ r17-20020ab03311000000b003691d8299a5mr17684734uao.33.1654269106779; Fri, 03
+ Jun 2022 08:11:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220603151600.19cfa617@canb.auug.org.au>
-In-Reply-To: <20220603151600.19cfa617@canb.auug.org.au>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 3 Jun 2022 07:58:14 -0700
-Message-ID: <CAF6AEGtYS1LYowjf-OiN-C1+4JFTWwOOpP__4iDLo-dFy0t0Tg@mail.gmail.com>
-Subject: Re: linux-next: Fixes tag needs some work in the drm tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20220228202532.869740-1-briannorris@chromium.org>
+ <CA+ASDXNSThy7usMKkN22VBq2iyej7sCJ8CAmgnNvxDgZiMbukA@mail.gmail.com>
+ <CA+ASDXMW14GqJUAogQ0=dVdamhTTGDzcMRv-8Cx-TaXShHxj+A@mail.gmail.com>
+In-Reply-To: <CA+ASDXMW14GqJUAogQ0=dVdamhTTGDzcMRv-8Cx-TaXShHxj+A@mail.gmail.com>
+From: Sean Paul <seanpaul@chromium.org>
+Date: Fri, 3 Jun 2022 11:11:09 -0400
+X-Gmail-Original-Message-ID: <CAOw6vb+myB0gB1kPvwuL+T1Ka10gDN5rGS2hW+UG+-+K2NGz_w@mail.gmail.com>
+Message-ID: <CAOw6vb+myB0gB1kPvwuL+T1Ka10gDN5rGS2hW+UG+-+K2NGz_w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm/bridge: analogix_dp: Self-refresh state
+ machine fixes
+To: Brian Norris <briannorris@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,41 +74,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Haowen Bai <baihaowen@meizu.com>,
- Dave Airlie <airlied@linux.ie>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Doug Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Linux Kernel <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Liu Ying <victor.liu@oss.nxp.com>,
+ Sean Paul <sean@poorly.run>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 2, 2022 at 10:16 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+On Mon, May 23, 2022 at 5:51 PM Brian Norris <briannorris@chromium.org> wrote:
 >
-> Hi all,
+> On Thu, Mar 10, 2022 at 3:50 PM Brian Norris <briannorris@chromium.org> wrote:
+> > On Mon, Feb 28, 2022 at 12:25 PM Brian Norris <briannorris@chromium.org> wrote:
 >
-> In commit
+> > Ping for review? Sean, perhaps? (You already reviewed this on the
+> > Chromium tracker.)
 >
->   8caad14e7224 ("drm/msm/dpu: Fix pointer dereferenced before checking")
->
-> Fixes tag
->
->   Fixes: d7d0e73f7de33 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for
->
-> has these problem(s):
->
->   - Subject has leading but no trailing parentheses
->   - Subject has leading but no trailing quotes
->
-> Fixes tags should not be truncated or split across more than 1 line.   So:
->
-> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+> Ping
 
-Hmm, checkpatch seems to not catch this (unless it was a recent
-addition that landed after what msm-fixes is based on.
+Apologies for the delay. Please in future ping on irc/chat if you're
+waiting for review from me, my inbox is often neglected.
 
-will the truncated subject confuse the scripts that look for patches
-to backport to stable, ie. do we *really* have to rewrite history to
-fix this?
+The set still looks good to me,
 
-BR,
--R
+Reviewed-by: Sean Paul <seanpaul@chromium.org>
+
+
+Sean
