@@ -1,84 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4921853CB6E
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 16:16:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D836053CB74
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 16:19:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC87210E462;
-	Fri,  3 Jun 2022 14:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B47CA10E4F4;
+	Fri,  3 Jun 2022 14:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566EF10E3AF;
- Fri,  3 Jun 2022 14:16:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3B7710E4F4
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 14:19:48 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 4A8AE3200913;
- Fri,  3 Jun 2022 10:16:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Fri, 03 Jun 2022 10:16:11 -0400
+ by mailout.west.internal (Postfix) with ESMTP id 5F3913200903;
+ Fri,  3 Jun 2022 10:19:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 03 Jun 2022 10:19:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1654265769; x=
- 1654352169; bh=fk3KX5eSyLHN90n0U5LITdHGtIoEddiGyI/EAYeYiBU=; b=G
- Y9BwdDOeLIcpH2chXWkgAUEKKo1tZ13DzfKkoJv9KQ+BGpE3U4V1LdKo+bbCRdFy
- ApSud+sXjgDyje8bHqlEy/bO582UkIvySO/g5BkaNlJqvlmspV1EMLnw/KFAXRS7
- v3dlZW8ScytrPJzDHAIx6tjzMA8SxvqWa/HP/V6bGz1i54L58ifSautV/AlkN5C9
- EKhW3Y8jq4jbbNeYHetQuw//PlnRMY1wnSKJ8UcPI2Cjlo74Z0CZ2b2OuT/RoO8X
- nXCxuAPbXq+LFW0LtugExbXDCrv4FV6VlwYdJRuvcCoU1UmWI4x/kycdnroJFBTd
- rIXfQzYdU626Bl5b6RN4g==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1654265986; x=
+ 1654352386; bh=pgoZiSnqzAty0gGUl5sg2b1gr+4y+ok52CSZUbELnhs=; b=s
+ aD5VBvbWjH/db2z8oHPTUNAOcujnTSV9jgaaQCTKU/lI6S9I8nGS9VkV0uriJb3H
+ lU5B8QwFz75okTIFfUu8b6CqrR3QOIKas0Ie/gtJae5KlPn4H+GLmz3f2KettEhC
+ U0TTOmiBYWN7r/dygmyWbENX/Re+u5cjoKt8t4Y+XoyulAlJgW6QmCo2bsWW01kk
+ f4rOUgbxyIn8FCmbYPYin0N2i9daK7X3P4qDtfg4QrhVMHiaOJlwxay9sHpJKP97
+ n6tz4Q4CvIK+JKvzWzG7hiF9Eu5itQrJj7K4QKALyVTqTqE7InhxxxxoRUI6btj+
+ SVyPrXh05MF2+RKm8m7wA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654265769; x=
- 1654352169; bh=fk3KX5eSyLHN90n0U5LITdHGtIoEddiGyI/EAYeYiBU=; b=j
- dH41LTNHJ5KwV22Kwf+k1jUA/bAMwYnctp+JuaJ3VcnAUQIT0G8cYeD+MIk9zEm/
- +raGeo7KA7rpBuG+fU886W1leyQm+xkvYFCcsfwBSzmbBk5dGm6eqar3n3/R7ANC
- GLNpm4IvFK/Bh0z7S3gQiZvG7pTjaR5F+1sIxIZtYsbzyZS3Poe65EWD7OVvy19u
- PGyTbKTpeQ7xvCTya2bRnMiYTLC6BPJL7VR/shJzOqFSlJ6JjgkWOcvl/hPBp0Mv
- PERo+q/bDe/vF70CIOXwpnKyye+WYsFxcXQMqBcAY0UplUDYonmCm5UU4fgC2W3u
- YDceXm35zxpMk4eiTVGbg==
-X-ME-Sender: <xms:qBeaYq58L_DeEqQay66g6TW9QIuCXtCxG2cKhIg7X3oqysYKQcqZ1Q>
- <xme:qBeaYj6GmgoZ_yBjDjOC7NI1g_JScgZW2CoPGfvjsT3Z4vuirYHqDIw9z5ivBpAoJ
- 6zevkFSn93jAzLbp9A>
-X-ME-Received: <xmr:qBeaYpc079RBM1yuOidLe5q0VbVgjGrGFl0XkZPZlg-7onHWXUrFJCj6S4Ct>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigdejvdcutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654265986; x=
+ 1654352386; bh=pgoZiSnqzAty0gGUl5sg2b1gr+4y+ok52CSZUbELnhs=; b=m
+ STwklVkTq53ZdBXcFpxGYQlAzb7GEIkGYNgU1g/iSlmXfqHRidn1wOUIu50qzC8r
+ z+MzGukeeIgtz8xTuK8aicpnkhOFy3SFYa1Q3/5BXdesp0i2M/cdI6art1c39dFC
+ s0TgI/1/p+A4Zp/2yeEv35XF25NbySOQ+bnzNxwQ3ml6sM81AZxEyvrYfA2XDj2T
+ TOcZbB4f5oLUo78+nEQ9lVEBFD1h7fQS4vzkc/Maj6kUQYgFnPK5NOU8vaYBjLSK
+ KzeCK9yIsukI1EnKGaQ6UqMZiQZdF/iyE4ndGwHj378EfKisifvPvx9on4/OwLAU
+ gWig2cWfKn7cOwgpKn7uQ==
+X-ME-Sender: <xms:gRiaYqz2b-6jK6fVgUAFH5tYyZoLAZ1Qa7lCN2jMc_L6xM9hV3sj5A>
+ <xme:gRiaYmSr0PPrPQxIIoUvGfWb5zTKGuYOrRVGrc0-5PdINBk9oBgbh39_VEAW94VYV
+ tNZBsZDiUUwTdT7kR4>
+X-ME-Received: <xmr:gRiaYsUpZfkLy95TMBHlV_kGTZkQXlx245HgZDNPdXoJP76cxADc81sJfy-x>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigdejfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeuteef
- teefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:qBeaYnJ6MEVrz3t6Ho1T1PT0lQ52_zqXEMOzntbikcrMocls6DXBdA>
- <xmx:qBeaYuJSAv3hVBs7qN2s4pzzd5vgbHRRyIldiBnhGWLkiqiHuvnXXw>
- <xmx:qBeaYozysrWZnD2m1ZZKWvSMxVLtoJLMaC32wmhukaZ-XFElPQqTBg>
- <xmx:qReaYghwdN-8LNUgsvnZgSa8g1wdQKEm1aVKd93Dnr7-7FtgPYXjeg>
+ htthgvrhhnpeefhfejveejfefgfedtudetvdfgleethefgvdevueelhedtheejteeuheeh
+ geeikeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:gRiaYggzGbB8-kfUsokcQrt3Iq4tg2npzWMmna9lRrXJwfLegnaiRA>
+ <xmx:gRiaYsCuN9a1lOnv0bnzn-PfJx5-JQutnJ_pxBONZ4CiwkxPvXMyCA>
+ <xmx:gRiaYhKEnFaVUIxDYykDH7nqOEbuHdHk2S2BHb2KHhWbJiJfDo85EQ>
+ <xmx:ghiaYsslgSXOzPaQBvGXUzAjIygdybVm31i7lgAVX1RoWY9-lMCuCA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 10:16:08 -0400 (EDT)
-Date: Fri, 3 Jun 2022 16:16:06 +0200
+ 3 Jun 2022 10:19:45 -0400 (EDT)
+Date: Fri, 3 Jun 2022 16:19:37 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3 3/4] drm/bridge: Add devm_drm_bridge_add()
-Message-ID: <20220603141606.vapkfwfj7ixefmev@penduick>
-References: <20220510192944.2408515-1-dianders@chromium.org>
- <20220510122726.v3.3.Iba4b9bf6c7a1ee5ea2835ad7bd5eaf84d7688520@changeid>
- <20220521091751.opeiqbmc5c2okdq6@houat>
- <CAD=FV=Wea0LT5umK4Xg87cDikim+dSuyLndfydO3_DnTujZr9Q@mail.gmail.com>
- <CAD=FV=XqJuPHxm7HYMvyHBL_zC-BBA_f0MBsZX-jHt7Pk9ngsQ@mail.gmail.com>
- <20220603082139.sfdxb5ndwpvlhklh@penduick>
- <CAA8EJpqrw63K_xxJjawLjEqP-05eUD-k6dy21162hcq7q07jgQ@mail.gmail.com>
- <CAD=FV=XbNe+9Cf-jWwFPAR0a1qqjdKaQdtiREKLB8sHYTh_4OQ@mail.gmail.com>
+To: Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: Re: [PATCH] drm/sun4i: sun8i: Add the ability to keep scaler enabled
+ for VI layer
+Message-ID: <20220603141937.modhvsqa3urmpcxr@penduick>
+References: <20220602180118.66170-1-r.stratiienko@gmail.com>
+ <20220603082416.ukohug3mwzu43csu@penduick>
+ <CAGphcdkPJ57bkw4nxuSnk0TD1RGW5j9M-A0ek6t1rDnMY2PS8Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=XbNe+9Cf-jWwFPAR0a1qqjdKaQdtiREKLB8sHYTh_4OQ@mail.gmail.com>
+In-Reply-To: <CAGphcdkPJ57bkw4nxuSnk0TD1RGW5j9M-A0ek6t1rDnMY2PS8Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,169 +88,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ megi@xff.cz, Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 03, 2022 at 06:52:05AM -0700, Doug Anderson wrote:
-> On Fri, Jun 3, 2022 at 3:19 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> > On Fri, 3 Jun 2022 at 11:21, Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > On Tue, May 31, 2022 at 02:06:34PM -0700, Doug Anderson wrote:
-> > > > On Mon, May 23, 2022 at 10:00 AM Doug Anderson <dianders@chromium.o=
-rg> wrote:
-> > > > > On Sat, May 21, 2022 at 2:17 AM Maxime Ripard <maxime@cerno.tech>=
- wrote:
-> > > > > > On Tue, May 10, 2022 at 12:29:43PM -0700, Douglas Anderson wrot=
-e:
-> > > > > > > This adds a devm managed version of drm_bridge_add(). Like ot=
-her
-> > > > > > > "devm" function listed in drm_bridge.h, this function takes an
-> > > > > > > explicit "dev" to use for the lifetime management. A few note=
-s:
-> > > > > > > * In general we have a "struct device" for bridges that makes=
- a good
-> > > > > > >   candidate for where the lifetime matches exactly what we wa=
-nt.
-> > > > > > > * The "bridge->dev->dev" device appears to be the encoder
-> > > > > > >   device. That's not the right device to use for lifetime man=
-agement.
-> > > > > > >
-> > > > > > > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > > > >
-> > > > > > If we are to introduce more managed helpers, I think it'd be wi=
-ser to
-> > > > > > introduce them as DRM-managed, and not device managed.
-> > > > > >
-> > > > > > Otherwise, you'll end up in a weird state when a device has bee=
-n removed
-> > > > > > but the DRM device is still around.
-> > > > >
-> > > > > I'm kinda confused. In this case there is no DRM device for the b=
-ridge
-> > > > > and, as per my CL description, "bridge-dev->dev" appears to be the
-> > > > > encoder device. I wasn't personally involved in discussions about=
- it,
-> > > > > but I was under the impression that this was expected / normal. T=
-hus
-> > > > > we can't make this DRM-managed.
-> > > >
-> > > > Since I didn't hear a reply,
-> > >
-> > > Gah, I replied but it looks like somehow it never reached the ML...
-> > >
-> > > Here was my original reply:
-> > >
-> > > > > > This adds a devm managed version of drm_bridge_add(). Like other
-> > > > > > "devm" function listed in drm_bridge.h, this function takes an
-> > > > > > explicit "dev" to use for the lifetime management. A few notes:
-> > > > > > * In general we have a "struct device" for bridges that makes a=
- good
-> > > > > >   candidate for where the lifetime matches exactly what we want.
-> > > > > > * The "bridge->dev->dev" device appears to be the encoder
-> > > > > >   device. That's not the right device to use for lifetime manag=
-ement.
-> > > > > >
-> > > > > > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > > >
-> > > > > If we are to introduce more managed helpers, I think it'd be wise=
-r to
-> > > > > introduce them as DRM-managed, and not device managed.
-> > > > >
-> > > > > Otherwise, you'll end up in a weird state when a device has been =
-removed
-> > > > > but the DRM device is still around.
-> > > >=3D20
-> > > > I'm kinda confused. In this case there is no DRM device for the bri=
-dge
-> > > > and, as per my CL description, "bridge-dev->dev" appears to be the
-> > > > encoder device.
-> > >
-> > > bridge->dev seems right though?
-> > >
-> > > > I wasn't personally involved in discussions about it, but I was und=
-er
-> > > > the impression that this was expected / normal. Thus we can't make
-> > > > this DRM-managed.
-> > >
-> > > Still, I don't think devm is the right solution to this either.
-> > >
-> > > The underlying issue is two-fold:
-> > >
-> > >   - Encoders can have a pointer to a bridge through of_drm_find_bridge
-> > >     or similar. However, bridges are traditionally tied to their devi=
-ce
-> > >     lifetime (by calling drm_bridge_add in probe, and drm_bridge_remo=
-ve
-> > >     in remove). Encoders will typically be tied to the DRM device
-> > >     however, and that one sticks around until the last application
-> > >     closes it. We can thus very easily end up with a dangling pointer,
-> > >     and a use-after-free.
-> > >
-> > >   - It's not the case yet, but it doesn't seem far fetch to expose
-> > >     properties of bridges to the userspace. In that case, the userspa=
-ce
-> > >     would be likely to still hold references to objects that aren't
-> > >     there anymore when the bridge is gone.
-> > >
-> > > The first is obviously a larger concern, but if we can find a solution
-> > > that would accomodate the second it would be great.
-> > >
-> > > As far as I can see, we should fix in two steps:
-> > >
-> > >   - in drm_bridge_attach, we should add a device-managed call that wi=
-ll
-> > >     unregister the main DRM device. We don't allow to probe the main =
-DRM
-> > >     device when the bridge isn't there yet in most case, so it makes
-> > >     sense to remove it once the bridge is no longer there as well.
-> >
-> > The problem is that I do not see a good way to unregister the main DRM
-> > device outside of it's driver code.
-> >
-> > >
-> > >   - When the DRM device is removed, have the core cleanup any bridge
-> > >     registered. That will remove the need to have drm_bridge_remove in
-> > >     the first place.
-> > >
-> > > > I'll assume that my response addressed your concerns. Assuming I get
-> > > > reviews for the other two patches in this series I'll plan to land
-> > > > this with Dmitry's review.
-> > >
-> > > I still don't think it's a good idea to merge it. It gives an illusion
-> > > of being safe, but it's really far from it.
-> >
-> > It is more of removing the boilerplate code spread over all the
-> > drivers rather than about particular safety.
-> >
-> > I'd propose to land devm_drm_bridge_add (and deprecate calling
-> > drm_bridge_remove from the bridge driver at some point) and work on
-> > the whole drm_device <-> drm_bridge problem in the meantime.
+On Fri, Jun 03, 2022 at 11:57:35AM +0300, Roman Stratiienko wrote:
+> Hi Maxime,
 >=20
-> At this point it has been landed in drm-misc-next as per my response
-> to the cover letter. If need be we can revert it and rework the ps8640
-> driver to stop using it but it wouldn't change the lifetime of the
-> bridge. I'm not going to rework the bridge lifetime rules here. If
-> nothing else it seems like having the devm function at least would
-> make it obvious which drivers need to be fixed whenever the bridge
-> lifetime problem gets solved.
+> =D0=BF=D1=82, 3 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 11:24, Maxime Rip=
+ard <maxime@cerno.tech>:
+> >
+> > Hi,
+> >
+> > On Thu, Jun 02, 2022 at 06:01:18PM +0000, Roman Stratiienko wrote:
+> > > According to DE2.0/DE3.0 manual VI scaler enable register is double
+> > > buffered, but de facto it doesn't, or the hardware has the shadow
+> > > register latching issues which causes single-frame picture corruption
+> > > after changing the state of scaler enable register.
+> > >
+> > > Allow the user to keep the scaler always enabled, preventing the UI
+> > > glitches on the transition from scaled to unscaled state.
+> > >
+> > > NOTE:
+> > > UI layer scaler has more registers with double-buffering issue and ca=
+n't
+> > > be workarounded in the same manner.
+> > >
+> > > You may find a python test and a demo video for this issue at [1]
+> > >
+> > > [1]: https://github.com/GloDroid/glodroid_tests/issues/4
+> >
+> > Please describe the issue entirely here. The commit log must be self-su=
+fficient.
+>=20
+> Commit message already states "single-frame picture corruption after
+> changing the state of scaler enable register", therefore I find it
+> already self-sufficient
+>=20
+> Also I find demo videos and link to tests useful for the followers to
+> go further with investigation.
 
-Not really, no. The issue exists whether or not the driver would be
-using devm. Anyway, what's done is done.
+Until a couple of years, where that URL isn't valid anymore and it's just u=
+seless.
 
-Could you please ping earlier than a few minutes before applying the
-patch next time though? We could have easily prevented that situation.
+> If you have something specific in mind when asking to enhance the
+> commit message please say it.
+
+What sequence of events trigger the issue, what issue it triggers and
+why your solution addresses it would be nice
+
+> > > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 ++++++++++++
+> > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  4 +++-
+> > >  2 files changed, 15 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/su=
+n4i/sun8i_mixer.c
+> > > index 71ab0a00b4de..15cad0330f66 100644
+> > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > > @@ -27,6 +27,18 @@
+> > >  #include "sun8i_vi_layer.h"
+> > >  #include "sunxi_engine.h"
+> > >
+> > > +/* According to DE2.0/DE3.0 manual VI scaler enable register is doub=
+le
+> > > + * buffered, but de facto it doesn't, or the hardware has the shadow
+> > > + * register latching issues which causes single-frame picture corrup=
+tion
+> > > + * after changing the state of scaler enable register.
+> > > + * Allow the user to keep the scaler always enabled, preventing the =
+UI
+> > > + * glitches on the transition from scaled to unscaled state.
+> > > + */
+> > > +int sun8i_vi_keep_scaler_enabled;
+> > > +MODULE_PARM_DESC(keep_vi_scaler_enabled,
+> > > +              "Keep VI scaler enabled (1 =3D enabled, 0 =3D disabled=
+ (default))");
+> > > +module_param_named(keep_vi_scaler_enabled, sun8i_vi_keep_scaler_enab=
+led, int, 0644);
+> > > +
+> >
+> > It's not clear to me why we would want to make that a parameter?
+> >
+> >1 If it never works, we should fix it once and for all and not allow a b=
+roken setup at all.
+>=20
+> It's a hardware issue and can be fixed only within the hardware.
+>=20
+> Current patch is a workaround that if enabled can cause increased
+> power consumption for existing users. Therefore I think it is better
+> to give existing distro-maintainers a chance to test it prior to
+> delivery.
+
+Except distro-maintainers are likely never going to notice that flag
+exists in the first place, won't be using it and thus the issue will
+remain.
 
 Maxime
