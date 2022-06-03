@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F13B53D277
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 21:46:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6172953D27B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 21:48:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4FD210FB10;
-	Fri,  3 Jun 2022 19:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C70110FD8E;
+	Fri,  3 Jun 2022 19:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47CA910FB10
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 19:46:51 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9B710FD8E
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 19:48:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654285609;
+ s=mimecast20190719; t=1654285681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
  bh=qhN+6H64TiG7vRtiCb0Q48wOxyAX3Dt/H1qpOXDv8ac=;
- b=Hq25o+PktCFaeavHWlNkH9FYwMGTA4ivaCkxriCVYyRHByTzZ65QMxwLvPAxi5zUiXgtjp
- ++OlsUowWCy+67zbsspWMoIduwM1qGmynSG0DhsGWmgnvSngfGSzBhWUx+XX+1kRG4qYrQ
- j5FIzd5oK2jfGFXO1GW6J+GrMX04ZpU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=eMVd6FSI84aL8ptC+7dlYbjoF9DEzRZ57cYCrXhoy5jB6epi0HTnOevr0RU/gwAwL+NwYW
+ vGQBnEOnGs7GBfBNiJoBcGfYUwIfAFExESKV8nWE0uBi5aL6qHWkP/ZbkqXXqwjn3MUTzn
+ NcrKRPBZDtt62JbM4AN3PIMzmcJacyk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-349-LFF-mbD9NBywTVPd8Bal_w-1; Fri, 03 Jun 2022 15:46:48 -0400
-X-MC-Unique: LFF-mbD9NBywTVPd8Bal_w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o3-20020a05600c4fc300b003946a9764baso7227388wmq.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 12:46:48 -0700 (PDT)
+ us-mta-332-7wgT12oiOQqowpqvwPmaAQ-1; Fri, 03 Jun 2022 15:48:00 -0400
+X-MC-Unique: 7wgT12oiOQqowpqvwPmaAQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay1-20020a05600c1e0100b0039c3a3fc6a4so1853220wmb.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 12:48:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:subject:from:to:date:organization
  :user-agent:mime-version:content-transfer-encoding;
  bh=qhN+6H64TiG7vRtiCb0Q48wOxyAX3Dt/H1qpOXDv8ac=;
- b=DNJmHJhU7hjG4Gr1NByrlisXSJz+55qfVSXF/lnrjimtra/uwmBux1bz7iooUKcDPE
- lJaNhNzvL5NANRzi6qGDf4fUUpBo2ixK3GsSwOzOCDemv+mGaQpwTH9udrvKOuiFyLj3
- 7y6881WrkV1TzAg2e6mNJ4/Sm8XRKDm0s4eFC1B9mu0ZoLzN+T6z47//+AwG4C/VAK9j
- 1g9b9AN1FWvxhyuTM3elrblHXvdCDAKVLCfD12NymhNL9rMPGiXuHmvhy5G9Prar0jOa
- b3Rb+yxATh9DqWWA12knV4c+i+PXBCvvftpDvD/n11UphFJp2BeqZH9zIKPR0lStxBYJ
- rhxA==
-X-Gm-Message-State: AOAM5311M/wXfAZVytbEbjSiUzkAJAAwSIga2GblfN5Bj8tv+x9l3BUV
- T8677HGLhyU316oT4rmzC4RmsYLvb+e8MNM5rdn+3rlNrd6YgmzPYBZqU7Su9Q7GUmVSSWSfY/R
- 3NSjmCgB3fwpUxLpfxoch+LSFXDJsU6QxNKlBKYrIMAdu+JCdhBe2mBStx27MQB5VlGa24Q5FC/
- PX
-X-Received: by 2002:a5d:64ab:0:b0:20f:ef37:a9d1 with SMTP id
- m11-20020a5d64ab000000b0020fef37a9d1mr9369033wrp.197.1654285607007; 
- Fri, 03 Jun 2022 12:46:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuvnIhOurong7vtvezP3kWkZPxDTxbauSSoQ5rlg3d2XUzp2CQf4hVdV08oPcz7h6b0HgiXQ==
-X-Received: by 2002:a5d:64ab:0:b0:20f:ef37:a9d1 with SMTP id
- m11-20020a5d64ab000000b0020fef37a9d1mr9369014wrp.197.1654285606546; 
- Fri, 03 Jun 2022 12:46:46 -0700 (PDT)
+ b=Mwh0c5Jb2VKIrRJSnx/Vn5RbS9Cd7YZpKPtTuk/REF3k6uVSnQRtQYpfffJAZx2V0n
+ MSkFgctNsmFp4me69BjgC4emervRfa7PZmkClxd2eI+KvNSEcurLFi06cGLF41J0zqxk
+ Gd/YSJbwZqQx1KDRa1AzZ/Y6VT2kvdUIWbbkVcDl97QHtQwTrvUNJoyuOQ98vsPFFWdj
+ FAXl9FiuI9O+DAhiEZFy9unItnZam2ktbLMph7NyDDMlqJQJzqgN8YSPmQXAFlc7RbPQ
+ RIjjS2yDmiZ9T/VRuc49IZSEYeECC3tPE3CViv3rHUIG75I4kjng9PY6y59CaY3rxZzj
+ SlLw==
+X-Gm-Message-State: AOAM531UMnRHQlvjMiPLm+P0B3zLQY1V6Zu0vzlNAeU5R9kGqbD3TC9w
+ MtwzPX4pINquvkSAphAcW6jSHBXNGj9CZiKsI+LQKk9Glq/ZgKI17PbsudfSZn25Uxxk5RwxgeD
+ 3PqLhBwOCIZOreZpFxAdhDgobljexDM+WZ15/2akZCnjiBxBGTEvtfZk9R+P2d5mQwTbA4dzOon
+ 19
+X-Received: by 2002:a7b:c449:0:b0:397:4714:bf56 with SMTP id
+ l9-20020a7bc449000000b003974714bf56mr38851794wmi.108.1654285679261; 
+ Fri, 03 Jun 2022 12:47:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1BNgqTOAgWqBs6VG56jctRYwLY5R3XSOioCkfuC/jBibcy5VgrCaBa7bXTrOSkImO7Qii5g==
+X-Received: by 2002:a7b:c449:0:b0:397:4714:bf56 with SMTP id
+ l9-20020a7bc449000000b003974714bf56mr38851775wmi.108.1654285678886; 
+ Fri, 03 Jun 2022 12:47:58 -0700 (PDT)
 Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
  [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- l19-20020a1ced13000000b0039c1396b495sm9218184wmh.9.2022.06.03.12.46.45
+ h13-20020a05600c2cad00b00397623ff335sm10270282wmc.10.2022.06.03.12.47.57
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jun 2022 12:46:45 -0700 (PDT)
-Message-ID: <7a4a4117f65ae5a5cc7c8ea1882f538526fc2aaf.camel@redhat.com>
+ Fri, 03 Jun 2022 12:47:58 -0700 (PDT)
+Message-ID: <04817f51dc284f3347c53002601783b96ef0cb90.camel@redhat.com>
 Subject: XDC 2022: Registration & Call for Presentations still open!
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Date: Fri, 03 Jun 2022 15:46:42 -0400
+Date: Fri, 03 Jun 2022 15:47:56 -0400
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
