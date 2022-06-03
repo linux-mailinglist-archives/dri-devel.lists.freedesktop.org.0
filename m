@@ -2,54 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE1C53C37C
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 06:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AAA53C38C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 06:19:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAC010E5DB;
-	Fri,  3 Jun 2022 04:01:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5032111332D;
+	Fri,  3 Jun 2022 04:19:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8638110E5DB
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 04:01:34 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id kq6so589599ejb.11
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jun 2022 21:01:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W8bVxKeCs+luEXxpnTLIbgpg19GNEZEh9tmWHWEe4S4=;
- b=fD7kHLPGCLB6BwqWqEUYpaRcFdRj6SfBXhNT8BN4I9zVIbzLaLp78HxuCGvWRZQMTi
- uyG/1hzIApR7fvPr0IySLfmaArCFTCp8JebyXa3+LDLDErePMizdjtRfFzLMYQpXcFiQ
- DZ2TCHIo3llis01Zupghoa06ycO+92zWx1r+s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W8bVxKeCs+luEXxpnTLIbgpg19GNEZEh9tmWHWEe4S4=;
- b=muFnz7dx4mqQIzZRl+8spEGLPyOfXGo/YJXnmowgdjgYIEvQrmvZOcinIhgt/c4NPQ
- weKMSj8rPHGeM3Eh7tA8bGnL8Ws1seG0VHN7n69PvWYbWA/krEMCXvbM8noux7WCC+bd
- aRY4vd/Mg9NIEyTVqMcpE41H6KUa0rgpL9ROiDWRUHChR4Xkt+aDQfaLEWjSmqKqbsjY
- JSglSuTkONz+ieXZhaaypviPrN6Q0gLcJ+TXITrHbjZNDSfNSB4OBVbBBONDqyPUjBER
- nQ5lVhQNaiKUOvKHnBMI+Bz/0MkNJ4nJEkUeW2GxInAS0JXFIQmEH01nZ1PSYlkbxa47
- oEJw==
-X-Gm-Message-State: AOAM531l02AX+1kxIFa4ZyXQW4m6wrlA3jUvGqKgmK6dhoovzYVaGnuJ
- szg0jtaHRAOhwlt/9n9/a6YNb8GifzcxWzOvyAzn7Q==
-X-Google-Smtp-Source: ABdhPJyw/i2NBojqg3RSMKZ6XZsX0ph8P35ta717/u7cXFNMwFYFBna4UYDnpqAg0IP9EfLOD4BvkdnYqa5fefRVriI=
-X-Received: by 2002:a17:907:2ce2:b0:6ff:30e2:25c3 with SMTP id
- hz2-20020a1709072ce200b006ff30e225c3mr6928613ejc.494.1654228892918; Thu, 02
- Jun 2022 21:01:32 -0700 (PDT)
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Fri, 03 Jun 2022 04:19:04 UTC
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B174E10EB65
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 04:19:04 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-333-ofhbuD8MPamn3GX1ggr6aA-1; Fri, 03 Jun 2022 00:12:08 -0400
+X-MC-Unique: ofhbuD8MPamn3GX1ggr6aA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCDDD3C0F74D;
+ Fri,  3 Jun 2022 04:12:07 +0000 (UTC)
+Received: from dreadlord.bne.redhat.com (fdacunha.bne.redhat.com [10.64.0.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C64AB40E80E0;
+ Fri,  3 Jun 2022 04:12:06 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	xorg-announce@lists.x.org
+Subject: [ANNOUNCE] libdrm 2.4.111
+Date: Fri,  3 Jun 2022 14:11:55 +1000
+Message-Id: <20220603041155.861860-1-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20220601094637.1200634-1-hsinyi@chromium.org>
- <20220601094637.1200634-4-hsinyi@chromium.org>
- <CAD=FV=XnA80P7BoaAX6JD9Q4ggnk4g4M3wmJFEDNij3+10aL4g@mail.gmail.com>
-In-Reply-To: <CAD=FV=XnA80P7BoaAX6JD9Q4ggnk4g4M3wmJFEDNij3+10aL4g@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Fri, 3 Jun 2022 12:01:06 +0800
-Message-ID: <CAJMQK-g7CdR8sgVssGGYPCaeGz3dKwqsWBnCRCdMvsh1Mtph6g@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] drm/panel: panel-edp: Implement .get_orientation
- callback
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,77 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 3, 2022 at 5:51 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Wed, Jun 1, 2022 at 2:46 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> >
-> > To return the orientation property to drm/kms driver.
-> >
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> > index 1732b4f56e38..a2133581a72d 100644
-> > --- a/drivers/gpu/drm/panel/panel-edp.c
-> > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> > @@ -609,6 +609,13 @@ static int panel_edp_get_timings(struct drm_panel *panel,
-> >         return p->desc->num_timings;
-> >  }
-> >
-> > +static enum drm_panel_orientation panel_edp_get_orientation(struct drm_panel *panel)
-> > +{
-> > +       struct panel_edp *p = to_panel_edp(panel);
-> > +
-> > +       return p->orientation;
-> > +}
-> > +
-> >  static int detected_panel_show(struct seq_file *s, void *data)
-> >  {
-> >         struct drm_panel *panel = s->private;
-> > @@ -637,6 +644,7 @@ static const struct drm_panel_funcs panel_edp_funcs = {
-> >         .prepare = panel_edp_prepare,
-> >         .enable = panel_edp_enable,
-> >         .get_modes = panel_edp_get_modes,
-> > +       .get_orientation = panel_edp_get_orientation,
-> >         .get_timings = panel_edp_get_timings,
-> >         .debugfs_init = panel_edp_debugfs_init,
-> >  };
->
-> I'm curious: should we be removing the old
-> drm_connector_set_panel_orientation() from panel_edp_get_modes()?
-> ...or maybe you want to keep it for now because you're only adding
-> support to the mediatek driver and for other drivers the WARN_ON is
-> better than no orientation support at all?
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
 
-Right, for the drm/kms drivers that calls
-drm_connector_set_panel_orientation(), the
-drm_connector_set_panel_orientation() called in panels is no-op, but
-others they still need this to be called in the panel.
->
-> Maybe you could put a comment next to the old
-> drm_connector_set_panel_orientation() saying that it's deprecated and
-> that drm drivers are expected to add a call to get_orientation()? Then
-> when people see the WARN_ON splat they'll quickly figure out how to
-> fix it. ...and eventually we can probably remove all the old calls
-> from get_modes() ?
-Sure, sounds good to me. I will add this.
 
->
-> -Doug
+libdrm 2.4.111, just a few things built up, and drop libkms.
+
+Alex Deucher (3):
+      test/amdgpu: only disable deadlock tests on asics without GPU reset
+      amdgpu: add marketing names from 21.50
+      amdgpu: add marketing names from 22.10
+
+Andrey Grodzovsky (1):
+      tests/amdgpu/hotunplu: Enable hotunplug tests.
+
+Daniel Stone (2):
+      drm/atomic: Stable sort for atomic request de-duplication
+      libkms: Remove libkms completely
+
+Dave Airlie (1):
+      build: bump version to 2.4.111
+
+Dylan Baker (9):
+      meson: use dictionary kwargs
+      meson: add override_dependency when possible
+      meson: switch the meson builtin for symbol visiblity
+      meson: switch to cc.get_supported_arguments
+      meson: use more standard formatting for better readability
+      meson: use cc.check_header instead of open coding
+      meson: use cc.has_function_attribute instead of open coding
+      meson: use the modern interface for pkg.generate
+      meson: use summary() instead of message
+
+Eleni Maria Stea (3):
+      xf86drm.c: fix C99 warning
+      modeprint, modetest, proptest: cast __u64 to uint64_t
+      tests/modeprint: fix argument type
+
+Eric Engestrom (1):
+      use standard `__typeof__()` instead of GNU extension `typeof()`
+
+Flora Cui (2):
+      tests/amdgpu: add draw test for gfx10
+      tests/amdgpu: add dispatch test for gfx10
+
+Guchun Chen (2):
+      tests/amdgpu: Add VCN test support for Biege Goby
+      tests/amdgpu: use appropriate ring for different asics
+
+Karol Herbst (1):
+      nouveau: add ioctl wrapper to check for dead channels
+
+Lu Jiacheng (1):
+      tests/amdgpu: Add test suite CP DMA
+
+Matt Turner (2):
+      man: Fix some typos
+      man: Add formatting to drmModeGetConnector reference
+
+Raviteja Goud Talla (1):
+      intel: sync i915_pciids.h with kernel
+
+Samuel Pitoiset (4):
+      amdgpu: update_drm.h for new CTX OP to set/get stable pstates
+      amdgpu: implement new CTX OP to set/get stable pstates
+      tests/amdgpu: add a test for new CTX OP to get/set stable pstates
+      build: bump version to 2.4.110
+
+Sathishkumar S (3):
+      tests/amdgpu: add jpeg tests support
+      tests/amdgpu: enable jpeg test based on ip query
+      tests/amdgpu: enable vcn test based on ip query
+
+Simon Ser (1):
+      releasing: s/master/main/
+
+Tejas Upadhyay (2):
+      intel: Add support for ADL-N
+      intel: Add support for RPLP
+
+Thierry Reding (25):
+      tegra: Indent according to .editorconfig
+      tegra: Remove unused IOCTL implementations
+      tegra: Extract common buffer object allocation code
+      tegra: Fix mmap() of GEM buffer objects
+      tegra: Add flink helpers
+      tegra: Add PRIME support helpers
+      tegra: Make API more consistent
+      tegra: Install tegra-openclose test
+      tegra: Update for new UABI
+      tegra: Include private.h in list of source files
+      tegra: Add channel APIs
+      tegra: Add job and push buffer APIs
+      tegra: Add syncpoint APIs
+      tests: tegra: Add helper library for tests
+      tests: tegra: Add gr2d-fill test
+      tests: tegra: Add syncpt-wait test
+      tests: tegra: Add syncpoint timeout test
+      tests: tegra: Add VIC support
+      tests: tegra: Add VIC 3.0 support
+      tests: tegra: Add VIC 4.0 support
+      tests: tegra: Add VIC 4.1 support
+      tests: tegra: Add VIC 4.2 support
+      tests: tegra: Add VIC clear test
+      tests: tegra: Add VIC blit test
+      tests: tegra: Add VIC flip test
+
+ravitejax (1):
+      intel: Add support for RPLS platform
+
+git tag: libdrm-2.4.111
+
+https://dri.freedesktop.org/libdrm/libdrm-2.4.111.tar.xz
+SHA256: 1ad7164f77424de6f4ecba7c262bde196a214c6e19a6fbf497f0815f4d7ab2a9  l=
+ibdrm-2.4.111.tar.xz
+SHA512: 17e92e9e4ded8031ac222764bed7e9ff430a1a377f5e435f6b62b4a7f45cb4c4b76=
+9b3b79fbcba11512c1ac973abf8cdcca8e0b9659ae095e915d3d5efcf5516  libdrm-2.4.1=
+11.tar.xz
+PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.111.tar.xz.sig
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEKbZHaGwW9KfbeusDHTzWXnEhr4FAmKZicgACgkQDHTzWXnE
+hr6CrA//duEhO2bu78TAcOfZ4NaSghV00jYQOblkcOFgfjmrCdSuqG2k2raPif4t
+AwWb1ZgYLDwmkMVEXytFwVkzRsdU8QQrofvML1Q7t3Q8opLNV/8kESqLnelOLmZp
+8fVpPiETVZIqEwKFASb1nzTdUmD2R8tV++BX5w/zUeErFIu/4nqEdVJPgOh337ko
+VUKvvMb3+ockbJcRud4DjC6P/3WNkYJHz/uJe2UcaB4+SCg2M7HtofQplj/c3bLv
+NDEoxliRUDKj7+agpHS9RkJYfnIOT2jf6O9eAxxexrqS2p801Vb97uHFwjbxrmJK
+XteXbk4v4k/TnkmJkr8xQs0miDCSVSuSMg4orRXyfCcbPajTUDRWrEWaYWkZz5Z2
+8pYHrijpEL/ISLmZkiviYLO/61NsGqOtDB+kCpagH/qw4/xa6FyfM7kvo4f9uM8A
+PKqXd4dqUyJ5FgM3LODwbInf1G8VnHcTvxQLSZzwk8w3HezQqBmyN86C2y1mGN91
+RyhYTynXugigoqlrCn2p2/Yf8ld73jR16HBXpvx8kTtY+/i5UoCsNd+QiyvmJpXF
+E6AkdUS6zgUyTSbYo1wkSOwXvTEAcqJpI9FUOd90KHiOww7NFu6be0wYZb/FsQ+B
+iP+oPmUG7L0D0I8WEcbgjkXeuV35nQT70kG0rSPbfrGcYo0FcKA=3D
+=3DcVIr
+-----END PGP SIGNATURE-----
+
